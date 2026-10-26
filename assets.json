@@ -1,0 +1,8 @@
+{
+  "_comment": "Provenance manifest. Every binary file under public/ and src/ needs an entry. license must be one of own, CC0, OFL-1.1.",
+  "assets": [
+    { "path": "public/icons/icon-192.png", "license": "own", "source": "tools/make-icons.mjs", "note": "Procedurally generated app icon" },
+    { "path": "public/icons/icon-512.png", "license": "own", "source": "tools/make-icons.mjs", "note": "Procedurally generated app icon" },
+    { "path": "public/icons/apple-touch-icon.png", "license": "own", "source": "tools/make-icons.mjs", "note": "Procedurally generated app icon" }
+  ]
+}

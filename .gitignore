@@ -1,5 +1,11 @@
 node_modules/
 dist/
+dev-dist/
+# Local-only reference material; never commit originals
+/research/
+/extract/
+/original/
 *.res
 *.alm
 *.smk
+*.256
