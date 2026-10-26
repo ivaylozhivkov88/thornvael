@@ -63,3 +63,24 @@ Play the default test fight (12 against five monster packs) with touch only, the
 | 7 | Monsters guard their camp, the whole pack joins when one is attacked, and the pack walks back after you leave. Dead monsters leave a sack; Pickup adds gold. | | |
 | 8 | Win by killing every monster, or lose when the hero dies: the Victory or Defeat panel shows and "Play again" restarts. | | |
 | 9 | Open `?battle` (150 against 150). Write fps, "draw" ms and "sim" ms per step after 1 minute and after 10 minutes. Write the quality level that ends up selected (the game lowers it by itself below about 28 fps) and whether the phone warms up or the page reloads. | | |
+
+## Phase 5 additions (spells, aiming, statuses, toolbar, sound)
+
+Select the hero and the two mages first (the "All" button). The quick row sits above the group buttons: nine spell slots, "Spells" and "Auto".
+
+| # | Check | iPhone | Android |
+|---|-------|--------|---------|
+| 1 | Tap "Spells": the sheet lists 24 spells in five schools; tap Fire Bolt: the banner shows the spell and "tap an enemy". | | |
+| 2 | Single-target aiming: arm Fire Bolt, put a finger on the screen: the reticle sits well above the fingertip and the target stays visible; drag onto a monster, lift: the spell flies. Lift in the bottom strip: "Cast cancelled". | | |
+| 3 | Area aiming: arm Fireball: a circle shows the blast radius at the reticle; lift on a pack: all monsters in the circle are hit, your units are not. Ice Storm and Healing Rain behave the same. | | |
+| 4 | Chain and caster-only: Chain Lightning on a monster hits it and up to three neighbours; Wind Ward and Meditation cast at once (no aiming). | | |
+| 5 | Fallen body: kill a monster, arm Corpse Burst, aim at the body marker: it blows up. Kill a friend, arm Resurrect on the body: it stands up with 40% health. | | |
+| 6 | Statuses: Frost Bolt slows (blue pip over the unit), Stone Curse turns a unit grey and freezes it, Poison Cloud poisons (green pip, stacks to 3), Blessing, Haste and Stone Skin show pips and a shield ring. They wear off. | | |
+| 7 | Quick slots: tap a slot to arm it; "Spells", then a slot number, then a spell, assigns it (kept after a reload). Press and hold a slot: its info shows. Slots dim for units that do not know the spell. | | |
+| 8 | "Auto" with Fire Bolt current: the casters shoot enemies in range by themselves, mana drains and refills; tap "Auto" again to stop. | | |
+| 9 | The 9 group buttons, the quick row and the command bar all fit on the screen with the thumbs free, in landscape on a small phone. | | |
+| 10 | Sound after the first tap: hits, casts per school, footsteps, wind ambience; "Music" starts calm music and it changes to battle music when monsters come into view. "Sound" mutes effects. | | |
+| 11 | Flip the iPhone silent switch: sound still plays. Switch to another app for a minute and come back: sound resumes (music too). | | |
+| 12 | Open `?battle`, select all, arm "Auto" with Fireball on the mages: write fps, "draw" ms, "sim" ms per step and the voices count in the overlay after 1 minute; sound must not stutter or drop out. | | |
+
+Desktop (not a phone check): F4 to F12 cast the nine quick slots, Ctrl+A toggles autocast of the current spell, C arms the current spell, Q selects everything, B opens the spellbook.

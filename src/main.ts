@@ -1,13 +1,16 @@
 import { registerSW } from 'virtual:pwa-register';
-import { audioState, blip, resumeAudio, setMusic, suspendAudio, unlock } from './audio';
+import { audioState, blip, play, resumeAudio, setAmbience, setMusic, setSfx, suspendAudio, unlock } from './audio';
+import { MusicDirector, cueFor } from './audiologic';
 import { ControlGroups, GROUP_COUNT } from './groups';
-import { GestureRecognizer, pickUnit, unitsInBox, type Intent } from './input';
+import { GestureRecognizer, pickUnit, reticle, unitsInBox, type Intent } from './input';
 import { TILE, generateMap } from './map';
 import { Minimap } from './minimap';
 import { QUALITY_NAMES, Renderer, type View } from './render';
 import { Bot, MonsterAi, battleScenario, fightScenario, placeScenario, setupCrowd, setupSquads, type Scenario } from './sim/bot';
-import { DEFS, Kind, SPELL, nearestSack } from './sim/combat';
+import { DEFS, Kind, nearestSack } from './sim/combat';
 import { DAY_TICKS, clockText } from './sim/daynight';
+import { SPELLS, Tk } from './sim/spelldata';
+import { validTarget } from './sim/spells';
 import { FP, Sim, TICKS_PER_SECOND, type Command, type OrderName } from './sim/sim';
 import { S } from './strings';
 import './style.css';
@@ -65,7 +68,21 @@ let ping: { x: number; y: number; t: number } | null = null;
 let hover: View['hover'] = null;
 const mods = { alt: false, ctrl: false };
 
-type ArmKind = 'move' | 'attack' | 'guard' | 'defend' | 'cast' | 'pickup';
+type ArmKind = 'move' | 'attack' | 'guard' | 'defend' | 'spell' | 'pickup';
+
+// --- spells: the current spell, nine quick slots (F4 to F12) and the aim reticle ---
+let armedSpell = 0;
+let curSpell = 0; // the spell the Cast button, C key and Auto act on
+const DEFAULT_SLOTS = [0, 1, 4, 7, 9, 19, 11, 15, 17]; // Fire Bolt, Fireball, Frost Bolt, Healing, Lightning, Blessing, Haste, Stone Curse, Poison Cloud
+let slots: number[] = [...DEFAULT_SLOTS];
+let slotAssign = -1;
+let aimView: View['aim'] = null;
+try {
+  const raw = JSON.parse(localStorage.getItem('thornvael.slots') ?? 'null') as unknown;
+  if (Array.isArray(raw) && raw.length === 9 && raw.every((v) => Number.isInteger(v) && v >= -1 && v < SPELLS.length)) slots = raw as number[];
+} catch {
+  // storage may be blocked or hold junk; keep the defaults
+}
 
 const renderer = new Renderer($('game') as HTMLCanvasElement, map);
 try {
@@ -85,7 +102,7 @@ const selectedIds = (): number[] => [...selected].filter((i) => alive(i) && sim.
 const forced = (): number => (mods.alt ? 1 : mods.ctrl ? 2 : forceState);
 
 // --- intents ---
-const rec = new GestureRecognizer({ boxMode: () => boxMode, additive: () => addMode });
+const rec = new GestureRecognizer({ boxMode: () => boxMode, additive: () => addMode, aimMode: () => armed === 'spell' });
 
 function notePing(sx: number, sy: number): void {
   const [x, y] = renderer.toTile(sx, sy);
@@ -125,15 +142,8 @@ function execute(kind: ArmKind, sx: number, sy: number): boolean {
       queue({ type: 'order', order: 'defend', ids, target: w });
       break;
     }
-    case 'cast': {
-      if (!ids.some((i) => DEFS[sim.cb.kind[i]].caster)) {
-        toast(S.noCaster);
-        return false;
-      }
-      if (enemy < 0) return false;
-      queue({ type: 'order', order: 'cast', ids, target: enemy });
-      break;
-    }
+    case 'spell':
+      return castAt(armedSpell, sx, sy, PICK);
     case 'pickup':
       if (nearestSack(sim, Math.round(x * FP), Math.round(y * FP), 2 * FP) < 0) return false;
       queue({ type: 'order', order: 'pickup', ids, x, y });
@@ -141,6 +151,93 @@ function execute(kind: ArmKind, sx: number, sy: number): boolean {
   }
   notePing(sx, sy);
   return true;
+}
+
+const casters = (sid: number): number[] => selectedIds().filter((i) => ((DEFS[sim.cb.kind[i]].known >> sid) & 1) === 1);
+
+/** The unit (or body) a spell would take as its target at a screen point, or -1. */
+function spellTargetAt(sid: number, sx: number, sy: number, snap: number): number {
+  const who = casters(sid);
+  if (who.length === 0) return -1;
+  switch (SPELLS[sid].tk) {
+    case Tk.Foe:
+    case Tk.Multi:
+      return pickUnit(sim.count, posEnemy, sx, sy, snap);
+    case Tk.Ally:
+      return pickUnit(sim.count, posMine, sx, sy, snap);
+    case Tk.Corpse:
+      return pickUnit(sim.count, (i) => (validTarget(sim, who[0], sid, i) ? renderer.pointScreen(sim.x[i], sim.y[i]) : null), sx, sy, snap);
+    default:
+      return -1;
+  }
+}
+
+/** Order the selected casters to cast spell `sid` at a screen point. Returns false (and says why) when nothing valid is there. */
+function castAt(sid: number, sx: number, sy: number, snap: number): boolean {
+  const who = casters(sid);
+  if (who.length === 0) {
+    toast(S.noKnown);
+    return false;
+  }
+  const tk = SPELLS[sid].tk;
+  const [x, y] = renderer.toTile(sx, sy);
+  const target = spellTargetAt(sid, sx, sy, snap);
+  if (tk !== Tk.Ground && tk !== Tk.Self && target < 0) return false;
+  queue({ type: 'order', order: 'cast', ids: who, spell: sid, target: target >= 0 ? target : undefined, x, y });
+  notePing(sx, sy);
+  return true;
+}
+
+/** Reticle data for the renderer. `cancel` marks the touch cancel zone. */
+function aimInfo(sid: number, sx: number, sy: number, cancel = false): View['aim'] {
+  const sp = SPELLS[sid];
+  const target = spellTargetAt(sid, sx, sy, 30);
+  const ok = !cancel && (sp.tk === Tk.Ground || sp.tk === Tk.Self || target >= 0) && casters(sid).length > 0;
+  return { x: sx, y: sy, r: sp.tk === Tk.Ground ? sp.radius * TILE * renderer.zoom : 0, ok, target };
+}
+
+function spellBanner(sid: number): string {
+  const sp = SPELLS[sid];
+  return `${sp.name} (${S.cost} ${sp.cost}): ${S.targetHint[sp.tk]}`;
+}
+
+/** Arm a spell, or cast it at once when it needs no target. */
+function armSpell(sid: number): void {
+  if (outcome) return;
+  const who = casters(sid);
+  if (who.length === 0) {
+    toast(selectedIds().length === 0 ? S.selectFirst : S.noKnown);
+    return;
+  }
+  curSpell = sid;
+  if (SPELLS[sid].tk === Tk.Self) {
+    queue({ type: 'order', order: 'cast', ids: who, spell: sid });
+    blip();
+    arm(null);
+    return;
+  }
+  armedSpell = sid;
+  arm('spell');
+}
+
+function castSlot(n: number): void {
+  const sid = slots[n];
+  if (sid < 0) {
+    openBook(n);
+    return;
+  }
+  armSpell(sid);
+}
+
+function toggleAuto(): void {
+  const who = casters(curSpell);
+  if (who.length === 0) {
+    toast(selectedIds().length === 0 ? S.selectFirst : S.noKnown);
+    return;
+  }
+  const on = who.every((i) => sim.cb.auto[i] === curSpell + 1);
+  queue({ type: 'autocast', ids: who, spell: on ? -1 : curSpell });
+  toast(`${SPELLS[curSpell].name}: ${on ? S.autoOff : S.autoOn}`);
 }
 
 /** The order a plain click or tap means: forced move, forced attack, attack when an enemy is under the pointer, else move. */
@@ -153,10 +250,12 @@ function smart(sx: number, sy: number): void {
 
 function arm(kind: ArmKind | null): void {
   armed = kind;
-  for (const b of document.querySelectorAll<HTMLButtonElement>('#cmds button')) b.classList.toggle('on', b.dataset.ord === kind);
+  const lit = kind === 'spell' ? 'cast' : kind;
+  for (const b of document.querySelectorAll<HTMLButtonElement>('#cmds button')) b.classList.toggle('on', b.dataset.ord === lit);
+  if (kind !== 'spell') aimView = null;
   const banner = $('armed');
   banner.hidden = kind === null;
-  if (kind) banner.textContent = S.armed[kind];
+  if (kind) banner.textContent = kind === 'spell' ? spellBanner(armedSpell) : S.armed[kind];
   canvas.style.cursor = kind ? 'crosshair' : '';
 }
 
@@ -197,6 +296,20 @@ function handle(intents: Intent[]): void {
       case 'box':
         select(unitsInBox(sim.count, posMine, it), it.additive);
         break;
+      case 'aim': {
+        if (armed !== 'spell') break;
+        const r = reticle(it.x, it.y, canvas.clientHeight);
+        if (it.phase === 'cancel') aimView = null;
+        else if (it.phase === 'end') {
+          aimView = null;
+          if (r.cancel) {
+            arm(null);
+            toast(S.castCancelled);
+          } else if (castAt(armedSpell, r.x, r.y, 30)) arm(null);
+          else toast(S.noTarget);
+        } else aimView = aimInfo(armedSpell, r.x, r.y, r.cancel);
+        break;
+      }
       case 'pan':
         renderer.pan(it.dx, it.dy);
         break;
@@ -286,7 +399,7 @@ canvas.addEventListener('pointerup', (e) => {
   }
 });
 canvas.addEventListener('pointercancel', () => {
-  rec.cancel();
+  handle(rec.cancel());
   boxDrag = null;
   downAt = null;
   clearTimeout(tipTimer);
@@ -316,9 +429,12 @@ function updateHover(x: number, y: number): void {
   const haveSel = selectedIds().length > 0;
   let ok = false;
   let cursor = '';
-  if (armed) {
-    if (armed === 'cast') ok = enemy >= 0;
-    else if (armed === 'defend') ok = mine >= 0;
+  if (armed === 'spell') {
+    aimView = aimInfo(armedSpell, x, y);
+    ok = aimView!.ok;
+    cursor = ok ? 'crosshair' : 'not-allowed';
+  } else if (armed) {
+    if (armed === 'defend') ok = mine >= 0;
     else if (armed === 'pickup') {
       const [tx, ty] = renderer.toTile(x, y);
       ok = nearestSack(sim, Math.round(tx * FP), Math.round(ty * FP), 2 * FP) >= 0;
@@ -330,7 +446,7 @@ function updateHover(x: number, y: number): void {
   } else if (mine >= 0) cursor = 'pointer';
   canvas.style.cursor = cursor;
   const shown = enemy >= 0 ? enemy : mine;
-  hover = enemy >= 0 && (armed === null || armed === 'attack' || armed === 'cast') ? { id: enemy, ok } : null;
+  hover = enemy >= 0 && (armed === null || armed === 'attack') ? { id: enemy, ok } : null;
   if (shown >= 0) showTip(unitInfo(shown), x + 120, y + 100);
   else hideTip();
 }
@@ -341,6 +457,7 @@ window.addEventListener('keydown', (e) => {
   if (e.target instanceof HTMLButtonElement && e.key === ' ') return;
   mods.alt = e.altKey;
   mods.ctrl = e.ctrlKey || e.metaKey;
+  unlock();
   const digit = /^(?:Digit|Numpad)([1-9])$/.exec(e.code);
   if (digit) {
     // Ctrl or Alt + number saves the group, Shift + number adds to it, a plain number recalls it
@@ -349,11 +466,17 @@ window.addEventListener('keydown', (e) => {
     groupKey(Number(digit[1]), e.ctrlKey || e.altKey ? 'set' : e.shiftKey ? 'add' : 'recall');
   } else if (e.ctrlKey && e.key.toLowerCase() === 'a') {
     e.preventDefault();
-    selectAll();
+    toggleAuto();
+  } else if (/^F(?:[4-9]|1[0-2])$/.test(e.key)) {
+    e.preventDefault();
+    castSlot(Number(e.key.slice(1)) - 4);
   } else if (e.key === 'Escape') {
-    if (armed) arm(null);
+    if (!$('book').hidden) closeBook();
+    else if (armed) arm(null);
     else selected.clear();
   } else if (e.key === ' ') togglePause();
+  else if (e.key.toLowerCase() === 'q' && !e.ctrlKey && !e.altKey) selectAll();
+  else if (e.key.toLowerCase() === 'b' && !e.ctrlKey && !e.altKey) openBook(-1);
   else if (e.key.toLowerCase() === 'f' && !e.ctrlKey && !e.altKey) toggleLoose();
   else if (!e.ctrlKey && !e.altKey && !e.metaKey && ORDER_KEYS[e.key.toLowerCase()]) orderButton(ORDER_KEYS[e.key.toLowerCase()]);
   else keys.add(e.key.toLowerCase());
@@ -377,6 +500,11 @@ function orderButton(ord: string): void {
     queue({ type: 'order', order: ord as OrderName, ids });
     blip();
     arm(null);
+    return;
+  }
+  if (ord === 'cast') {
+    if (armed === 'spell') arm(null);
+    else armSpell(curSpell);
     return;
   }
   if (selectedIds().length === 0) {
@@ -464,6 +592,149 @@ function setQuality(q: number, auto = false): void {
     }
   }
 }
+
+// --- quick row (spells now, items in a later phase) and the spellbook sheet ---
+const SCHOOL_BORDER = ['', '#e0802a', '#4aa8e0', '#c8e0f0', '#a88a4a', '#c07ae0'];
+const slotButtons: HTMLButtonElement[] = [];
+function saveSlots(): void {
+  try {
+    localStorage.setItem('thornvael.slots', JSON.stringify(slots));
+  } catch {
+    // storage may be blocked
+  }
+}
+function spellTip(sid: number): string {
+  const sp = SPELLS[sid];
+  const parts = [`${sp.name} (${S.schools[sp.school]}, ${S.targeting[sp.tk]})`, `${S.cost} ${sp.cost}${sp.reach ? `, ${S.range} ${sp.reach} ${S.tiles}` : ''}`];
+  if (sp.max > 0) parts.push(`${sp.heal ? 'Heals' : 'Damage'} ${sp.min}-${sp.max}${sp.radius ? `, radius ${sp.radius}` : ''}${sp.count > 1 ? `, up to ${sp.count} targets` : ''}`);
+  if (sp.st >= 0) parts.push(S.statusTips[sp.st]);
+  if (sp.tk === Tk.Corpse) parts.push(sid === 21 ? 'Raises a fallen friend with 40% hit points.' : 'Consumes a body and hurts enemies around it.');
+  if (sid === 23) parts.push('Restores 12 mana.');
+  return parts.join('\n');
+}
+function buildQuick(): void {
+  for (let n = 0; n < 9; n++) {
+    const b = slotButtons[n];
+    const sid = slots[n];
+    b.replaceChildren();
+    const name = document.createElement('span');
+    const small = document.createElement('small');
+    if (sid < 0) {
+      name.textContent = '+';
+      small.textContent = `F${n + 4}`;
+      b.title = S.slotEmpty;
+      b.style.borderColor = '';
+    } else {
+      name.textContent = SPELLS[sid].name;
+      small.textContent = `F${n + 4} \u00b7 ${SPELLS[sid].cost}`;
+      b.title = spellTip(sid);
+      b.style.borderColor = SCHOOL_BORDER[SPELLS[sid].school];
+    }
+    b.append(name, small);
+  }
+}
+function refreshQuick(): void {
+  for (let n = 0; n < 9; n++) {
+    const sid = slots[n];
+    const b = slotButtons[n];
+    const who = sid >= 0 ? casters(sid) : [];
+    const best = who.reduce((m, i) => Math.max(m, sim.cb.mana[i]), 0);
+    b.classList.toggle('on', sid >= 0 && armed === 'spell' && armedSpell === sid);
+    b.classList.toggle('dim', sid >= 0 && who.length === 0);
+    b.classList.toggle('low', sid >= 0 && who.length > 0 && best < SPELLS[sid].cost);
+  }
+  const who = casters(curSpell);
+  $('btn-auto').classList.toggle('on', who.length > 0 && who.every((i) => sim.cb.auto[i] === curSpell + 1));
+  $('btn-auto').textContent = `${S.autoBtn}: ${SPELLS[curSpell].name}`;
+}
+for (let n = 0; n < 9; n++) {
+  const b = document.createElement('button');
+  b.onclick = () => castSlot(n);
+  const sid = (): number => slots[n];
+  b.addEventListener('pointerdown', (e) => {
+    if (e.pointerType === 'mouse') return;
+    const t = window.setTimeout(() => {
+      if (sid() >= 0) showTip(spellTip(sid()), b.getBoundingClientRect().left + 120, b.getBoundingClientRect().top + 60);
+    }, 450);
+    const stop = (): void => clearTimeout(t);
+    b.addEventListener('pointerup', stop, { once: true });
+    b.addEventListener('pointerleave', stop, { once: true });
+  });
+  slotButtons.push(b);
+  $('quick').append(b);
+}
+$('btn-spells').onclick = () => openBook(-1);
+$('btn-auto').onclick = toggleAuto;
+tipOn($('btn-auto'), S.autoTip);
+buildQuick();
+
+const bookEl = $('book');
+function openBook(slot: number): void {
+  slotAssign = slot;
+  renderBook();
+  bookEl.hidden = false;
+}
+function closeBook(): void {
+  bookEl.hidden = true;
+  slotAssign = -1;
+}
+function renderBook(): void {
+  const body = $('book-body');
+  body.replaceChildren();
+  const row = document.createElement('div');
+  row.className = 'book-slots';
+  for (let n = 0; n < 9; n++) {
+    const b = document.createElement('button');
+    b.textContent = `F${n + 4}`;
+    const small = document.createElement('small');
+    small.textContent = slots[n] >= 0 ? SPELLS[slots[n]].name : '-';
+    b.append(small);
+    b.classList.toggle('on', slotAssign === n);
+    b.onclick = () => {
+      slotAssign = slotAssign === n ? -1 : n;
+      renderBook();
+    };
+    row.append(b);
+  }
+  body.append(row);
+  for (let school = 1; school <= 5; school++) {
+    const h = document.createElement('h3');
+    h.textContent = S.schools[school];
+    h.style.color = SCHOOL_BORDER[school];
+    const grid = document.createElement('div');
+    grid.className = 'book-grid';
+    SPELLS.forEach((sp, sid) => {
+      if (sp.school !== school) return;
+      const b = document.createElement('button');
+      b.textContent = sp.name;
+      const small = document.createElement('small');
+      small.textContent = `${S.cost} ${sp.cost} \u00b7 ${S.targeting[sp.tk]}`;
+      b.append(small);
+      b.style.borderColor = SCHOOL_BORDER[school];
+      b.classList.toggle('dim', selectedIds().length > 0 && casters(sid).length === 0);
+      b.dataset.spell = String(sid);
+      tipOn(b, spellTip(sid));
+      b.onclick = () => {
+        if (slotAssign >= 0) {
+          slots[slotAssign] = sid;
+          saveSlots();
+          buildQuick();
+          slotAssign = -1;
+          toast(S.slotSet);
+          renderBook();
+        } else {
+          closeBook();
+          armSpell(sid);
+        }
+      };
+      grid.append(b);
+    });
+    body.append(h, grid);
+  }
+}
+$('book-close').onclick = closeBook;
+$('book-help').textContent = S.bookHelp;
+$('book-title').textContent = S.bookTitle;
 
 // --- control groups ---
 const groupButtons: HTMLButtonElement[] = [];
@@ -561,13 +832,74 @@ miniCanvas.addEventListener('pointerdown', (e) => {
 miniCanvas.addEventListener('pointermove', (e) => miniDown && miniJump(e));
 miniCanvas.addEventListener('pointerup', () => (miniDown = false));
 miniCanvas.addEventListener('pointercancel', () => (miniDown = false));
-$('btn-sound').onclick = blip;
+let sfxOn = true;
+$('btn-sound').onclick = () => {
+  unlock();
+  sfxOn = !sfxOn;
+  setSfx(sfxOn);
+  setAmbience(sfxOn);
+  $('btn-sound').textContent = sfxOn ? S.sfxOn : S.sfxOff;
+  toggle('btn-sound', !sfxOn);
+  if (sfxOn) blip();
+};
 let musicOn = false;
+let musicMode: 'explore' | 'battle' = 'explore';
+const musicDir = new MusicDirector();
 $('btn-music').onclick = () => {
+  unlock();
   musicOn = !musicOn;
-  setMusic(musicOn);
+  setMusic(musicOn, musicMode);
+  $('btn-music').textContent = musicOn ? S.musicOn : S.musicOff;
   toggle('btn-music', musicOn);
 };
+
+/** Sound effects for this frame's combat events, panned and faded by where they happen on screen. */
+function playFx(): void {
+  const w = renderer.viewW;
+  const h = renderer.viewH;
+  for (const e of sim.cb.fx) {
+    const c = cueFor(e);
+    if (!c) continue;
+    if (!sim.visible[Math.floor(e.y / FP) * map.w + Math.floor(e.x / FP)]) continue;
+    const [sx, sy] = renderer.pointScreen(e.x, e.y);
+    play(c.name, c.priority, { x: sx, y: sy, w, h });
+  }
+}
+let lastStep = 0;
+let stepFlip = false;
+/** A few soft footsteps from walking units in view, a handful per second so a crowd does not turn into noise. */
+function playSteps(now: number): void {
+  if (now - lastStep < 380) return;
+  lastStep = now;
+  stepFlip = !stepFlip;
+  const w = renderer.viewW;
+  const h = renderer.viewH;
+  let n = 0;
+  for (let k = 0; k < sim.count && n < 3; k++) {
+    const i = (k * 7 + sim.tick) % sim.count;
+    if (!sim.moving[i] || !alive(i)) continue;
+    const p = renderer.unitScreen(i);
+    if (!p) continue;
+    play(stepFlip ? 'step1' : 'step2', 0, { x: p[0], y: p[1], w, h });
+    n++;
+  }
+}
+let lastMusicCheck = 0;
+function updateMusic(now: number): void {
+  if (now - lastMusicCheck < 500) return;
+  lastMusicCheck = now;
+  let seen = false;
+  if (combatMode) {
+    for (let i = 0; i < sim.count && !seen; i++) {
+      if (sim.team[i] !== 0 && alive(i) && sim.visible[Math.floor(sim.y[i] / FP) * map.w + Math.floor(sim.x[i] / FP)]) seen = true;
+    }
+  }
+  const mode = musicDir.update(seen, now);
+  if (mode !== musicMode) {
+    musicMode = mode;
+    if (musicOn) setMusic(true, mode);
+  }
+}
 document.addEventListener('visibilitychange', () => {
   hidden = document.hidden;
   if (hidden) suspendAudio();
@@ -598,7 +930,9 @@ function updateStats(): void {
   for (const id of [...selected]) if (!alive(id)) selected.delete(id);
   refreshGroupButtons();
   if (combatMode) {
-    $('stats').textContent = `${S.army} ${sim.cb.alive[0]}/${heroTeamSize}  ${S.foes} ${sim.cb.alive[1]}  ${S.gold} ${sim.cb.gold[0]}`;
+    const heroMana = sim.cb.kind[0] === Kind.Hero ? `  ${S.mana} ${sim.cb.mana[0]}/${DEFS[Kind.Hero].mana}` : '';
+    $('stats').textContent = `${S.army} ${sim.cb.alive[0]}/${heroTeamSize}  ${S.foes} ${sim.cb.alive[1]}  ${S.gold} ${sim.cb.gold[0]}${heroMana}`;
+    refreshQuick();
     if (!outcome) {
       if (sim.cb.hp[0] <= 0 && sim.cb.kind[0] === Kind.Hero) finish('lose');
       else if (sim.cb.alive[1] === 0 && !battle) finish('win');
@@ -643,11 +977,15 @@ function frame(): void {
   const age = ping ? (now - ping.t) / 600 : 2;
   if (age >= 1) ping = null;
   const t0 = performance.now();
+  playFx();
+  if (!hidden && !userPause) playSteps(now);
+  updateMusic(now);
   renderer.draw(sim, prevX, prevY, hidden || userPause ? 1 : acc / STEP_MS, {
     selected,
     box: boxDrag,
     ping: ping ? { x: ping.x, y: ping.y, age } : null,
     hover,
+    aim: armed === 'spell' ? aimView : null,
   });
   if (now - lastMini >= 125) {
     lastMini = now;
@@ -737,6 +1075,7 @@ void nav.storage?.persist?.().then(
 document.title = S.title;
 $('hint').textContent = combatMode ? S.hintCombat : S.hint;
 $('cmds').hidden = !combatMode;
+$('quick').hidden = !combatMode;
 $('stats').hidden = !combatMode;
 for (const [id, text] of Object.entries(S.buttons)) {
   if (!id.endsWith('-on')) $(id).textContent = text;
@@ -768,6 +1107,13 @@ void renderer.init(sim).then(() => {
     paused: () => hidden || userPause,
     armed: () => armed,
     order: orderButton,
-    spell: SPELL,
+    spells: SPELLS,
+    slots: () => slots,
+    castSlot,
+    armSpell,
+    curSpell: () => curSpell,
+    aim: () => aimView,
+    openBook,
+    toggleAuto,
   };
 });

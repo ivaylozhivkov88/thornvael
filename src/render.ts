@@ -1,7 +1,9 @@
 import { Application, Container, Graphics, Sprite, Text, Texture } from 'pixi.js';
 import { ObjectKind, TILE, Terrain, type GameMap } from './map';
-import { Kind } from './sim/combat';
+import { DEFS, Kind } from './sim/combat';
 import { FP, type Sim } from './sim/sim';
+import { SPELLS, St, Tk } from './sim/spelldata';
+import { S } from './strings';
 
 const CHUNK = 16; // tiles per chunk side, so each baked texture is 512 px
 const BASE: Record<number, [number, number, number]> = {
@@ -29,6 +31,9 @@ const KIND_LOOK: Record<number, { tint?: number; scale: number }> = {
   [Kind.Imp]: { tint: 0xff7a3a, scale: 0.8 },
 };
 const ELEM_COLOR = [0xffffff, 0xff9a3a, 0x6ac8ff, 0xd8f0ff, 0xb59a6a, 0xd48aff];
+/** Colours of the status pips drawn over a unit, indexed by status id. */
+export const STATUS_COLORS = [0xffe070, 0x70c8ff, 0xffffff, 0x6a8cff, 0x7cd14a, 0xff7a2a, 0x9a9a9a, 0xb070c0];
+const BUFF_COLOR = 0x7affa0;
 export const QUALITY_NAMES = ['Low', 'Medium', 'High'] as const;
 const FLOATERS = [0, 10, 24];
 const FLOAT_MS = 900;
@@ -118,6 +123,18 @@ export interface View {
   selected: ReadonlySet<number>;
   box: { x0: number; y0: number; x1: number; y1: number } | null;
   ping: { x: number; y: number; age: number } | null; // world tile coords, age 0..1
+  /** Spell reticle in screen pixels: radius in pixels for an area spell (0 otherwise), whether a cast here would work, the unit it would hit. */
+  aim: { x: number; y: number; r: number; ok: boolean; target: number } | null;
+}
+
+interface Burst {
+  x: number; // world pixels
+  y: number;
+  born: number;
+  r: number; // end radius in world pixels
+  ms: number;
+  color: number;
+  fill: boolean;
 }
 
 export class Renderer {
@@ -129,6 +146,8 @@ export class Renderer {
   private readonly shots = new Graphics();
   private readonly floaterLayer = new Container();
   private floaters: Floater[] = [];
+  private bursts: Burst[] = [];
+  private baseTint: number[] = [];
   private freeText: Text[] = [];
   private fogTick = 0;
   quality = 2;
@@ -187,6 +206,7 @@ export class Renderer {
       // Your units keep the team colour (the hero stays gold); monsters use the colour of their kind.
       if (sim.team[i] === 0) s.tint = kind === Kind.Hero || kind === Kind.Mage ? look.tint! : TEAM_TINT[0];
       else s.tint = kind === Kind.Archer ? TEAM_TINT[1] : look.tint ?? TEAM_TINT[1];
+      this.baseTint.push(s.tint as number);
       this.sprites.push(s);
       this.world.addChild(s);
     }
@@ -227,6 +247,16 @@ export class Renderer {
     this.floaters.push({ t, x: wx, y: wy, born: now });
   }
 
+  private burst(x: number, y: number, r: number, ms: number, color: number, fill: boolean, now: number): void {
+    if (this.bursts.length < 40) this.bursts.push({ x, y, born: now, r, ms, color, fill });
+  }
+
+  /** Screen position of a fixed-point world point. */
+  pointScreen(fx: number, fy: number): [number, number] {
+    const k = TILE / FP;
+    return [fx * k * this.zoom - this.camX, fy * k * this.zoom - this.camY];
+  }
+
   private runFx(sim: Sim, now: number): void {
     const fx = sim.cb.fx;
     if (this.quality > 0) {
@@ -243,6 +273,12 @@ export class Renderer {
         else if (e.type === 1) this.floater('miss', 0xbbbbbb, wx, wy, now);
         else if (e.type === 3) this.floater(`+${e.v} gold`, 0xffd84a, wx, wy, now);
         else if (e.type === 4) this.floater('no mana', 0x6a8cff, wx, wy, now);
+        else if (e.type === 7 && e.v > 0) this.floater(`+${e.v}`, BUFF_COLOR, wx, wy, now);
+        else if (e.type === 8 && e.v < 16) this.floater(S.statuses[e.v], STATUS_COLORS[e.v], wx, wy, now);
+        else if (e.type === 11) this.floater('blocked', 0x70c8ff, wx, wy, now);
+        else if (e.type === 5) this.burst(e.x * k, e.y * k, (e.v / 10) * TILE, 480, ELEM_COLOR[e.el], true, now);
+        else if (e.type === 9) this.burst(e.x * k, e.y * k - 8, 14, 260, ELEM_COLOR[e.el], false, now);
+        else if (e.type === 10) this.burst(e.x * k, e.y * k - 6, 22, 420, e.v === 1 ? BUFF_COLOR : ELEM_COLOR[5], e.v !== 2, now);
       }
     }
     fx.length = 0;
@@ -366,12 +402,25 @@ export class Renderer {
       r.circle(sx, sy - 3, 6).fill(0xa8803c).stroke({ color: 0x4a3414, width: 1 });
       r.rect(sx - 2, sy - 10, 4, 3).fill(0xe0c060);
     }
+    // Bodies stay for a minute so a corpse spell has something to aim at; they sink into the ground at the end.
+    for (let i = 0; i < sim.count; i++) {
+      if (cb.hp[i] > 0 || cb.corp[i] <= 0) continue;
+      const tile = Math.floor(sim.y[i] / FP) * mw + Math.floor(sim.x[i] / FP);
+      if (!sim.explored[tile]) continue;
+      const cx = sim.x[i] * k;
+      const cy = sim.y[i] * k;
+      const a = Math.min(1, cb.corp[i] / 200);
+      r.ellipse(cx, cy + 1, 9, 4).fill({ color: 0x3a1a14, alpha: 0.7 * a });
+      r.moveTo(cx - 5, cy - 2).lineTo(cx + 5, cy + 3).moveTo(cx + 5, cy - 2).lineTo(cx - 5, cy + 3).stroke({ color: 0xd8cdb0, width: 2, alpha: a });
+    }
     for (let i = 0; i < sim.count; i++) {
       const s = this.sprites[i];
       if (cb.hp[i] <= 0) {
         s.visible = false;
         continue;
       }
+      const want = cb.stMask[i] & (1 << St.Stone) ? 0x8a8a8a : this.baseTint[i];
+      if (s.tint !== want) s.tint = want;
       s.x = Math.round((px[i] + (sim.x[i] - px[i]) * alpha) * k);
       s.y = Math.round((py[i] + (sim.y[i] - py[i]) * alpha) * k);
       const sx = s.x * z - this.camX;
@@ -394,6 +443,26 @@ export class Renderer {
       sh.rect(s.x - w / 2 - 1, y - 1, w + 2, 5).fill(0x000000);
       sh.rect(s.x - w / 2, y, w * f, 3).fill(sim.team[i] === 0 ? (f > 0.35 ? 0x5fd35f : 0xe0b030) : 0xe05a4a);
     }
+    // Status pips above the bar, a ring for a live shield, and a mana bar under the hit-point bar of selected casters.
+    for (let i = 0; i < sim.count; i++) {
+      const s = this.sprites[i];
+      if (!s.visible) continue;
+      const m = cb.stMask[i];
+      const y = s.y - 36 * s.scale.y;
+      if (m) {
+        let n = 0;
+        for (let st = 0; st < 8; st++) {
+          if (!(m & (1 << st))) continue;
+          sh.rect(s.x - 12 + n * 5, y - 7, 4, 4).fill(STATUS_COLORS[st]).stroke({ color: 0x000000, width: 1 });
+          n++;
+        }
+        if (m & (1 << St.Shield)) sh.ellipse(s.x, s.y - 12 * s.scale.y, 12, 15 * s.scale.y).stroke({ color: 0x70c8ff, width: 1.5, alpha: 0.8 });
+      }
+      if (v.selected.has(i) && cb.mana[i] > 0) {
+        const w = 20 * (s.scale.x > 1.2 ? 1.4 : 1);
+        sh.rect(s.x - w / 2, y + 4, w * Math.min(1, cb.mana[i] / DEFS[cb.kind[i]].mana), 2).fill(0x5a8cff);
+      }
+    }
     for (const id of v.selected) {
       const s = this.sprites[id];
       if (!s.visible) continue;
@@ -413,7 +482,10 @@ export class Renderer {
       const wx = cb.pX[p] * k;
       const wy = cb.pY[p] * k - 14;
       const el = cb.pEl[p];
-      if (el === 0) {
+      const spell = cb.pS[p] > 0 ? SPELLS[cb.pS[p] - 1] : null;
+      if (spell && (spell.tk === Tk.Ally || spell.heal)) sh.circle(wx, wy, 4).fill(BUFF_COLOR).stroke({ color: 0xffffff, width: 1 });
+      else if (spell) sh.circle(wx, wy, 5).fill(ELEM_COLOR[el]).stroke({ color: 0xffffff, width: 1, alpha: 0.7 });
+      else if (el === 0) {
         const t = cb.pT[p];
         const dx = sim.x[t] - cb.pX[p];
         const dy = sim.y[t] - cb.pY[p];
@@ -421,8 +493,30 @@ export class Renderer {
         sh.moveTo(wx, wy).lineTo(wx - (dx / len) * 9, wy - (dy / len) * 9).stroke({ color: 0xe8d8a0, width: 2 });
       } else sh.circle(wx, wy, 4).fill(ELEM_COLOR[el]);
     }
+    for (let n = this.bursts.length - 1; n >= 0; n--) {
+      const b = this.bursts[n];
+      const age = (now - b.born) / b.ms;
+      if (age >= 1) {
+        this.bursts.splice(n, 1);
+        continue;
+      }
+      const rad = b.r * (0.35 + 0.65 * age);
+      if (b.fill) sh.circle(b.x, b.y, rad).fill({ color: b.color, alpha: 0.28 * (1 - age) }).stroke({ color: b.color, width: 2, alpha: 1 - age });
+      else sh.circle(b.x, b.y, rad).stroke({ color: b.color, width: 2, alpha: 1 - age });
+    }
     const o = this.overlay;
     o.clear();
+    if (v.aim) {
+      const a = v.aim;
+      const c = a.ok ? 0xffe070 : 0xff6a5a;
+      if (a.r > 0) o.circle(a.x, a.y, a.r).fill({ color: c, alpha: 0.12 }).stroke({ color: c, width: 2 });
+      o.circle(a.x, a.y, 13).stroke({ color: c, width: 2 });
+      o.moveTo(a.x - 20, a.y).lineTo(a.x - 6, a.y).moveTo(a.x + 6, a.y).lineTo(a.x + 20, a.y).moveTo(a.x, a.y - 20).lineTo(a.x, a.y - 6).moveTo(a.x, a.y + 6).lineTo(a.x, a.y + 20).stroke({ color: c, width: 2 });
+      if (a.target >= 0 && this.sprites[a.target]?.visible) {
+        const t = this.sprites[a.target];
+        o.ellipse(t.x * z - this.camX, (t.y - 4) * z - this.camY, 16 * z, 8 * z).stroke({ color: c, width: 3 });
+      }
+    }
     if (v.box) {
       const { x0, y0, x1, y1 } = v.box;
       o.rect(Math.min(x0, x1), Math.min(y0, y1), Math.abs(x1 - x0), Math.abs(y1 - y0))

@@ -1,6 +1,8 @@
 import { isBlockedAt, type GameMap } from '../map';
 import { dayLight } from './daynight';
 import { CombatState, DEFS, Ord, enemyNear, nearestSack, think, toGuard, type CombatSnap } from './combat';
+import { SPELLS, Tk } from './spelldata';
+import { knows, resolveTarget, statusSpeed } from './spells';
 import { FP, Pather, dir16, lineClear, regionsOf, speedPct } from './path';
 import { Rng } from './rng';
 
@@ -29,7 +31,9 @@ export type Command =
       x?: number; // point in tiles
       y?: number;
       target?: number; // unit id (attack, defend, cast)
-    };
+      spell?: number; // cast: spell id, default 0 (Fire Bolt)
+    }
+  | { type: 'autocast'; ids: number[]; spell: number }; // spell id, or -1 to switch autocast off
 export interface LoggedCommand {
   tick: number;
   cmd: Command;
@@ -203,6 +207,7 @@ export class Sim {
     for (const cmd of cmds) {
       this.log.push({ tick: this.tick, cmd });
       if (cmd.type === 'move') this.apply(cmd);
+      else if (cmd.type === 'autocast') this.applyAutocast(cmd);
       else this.applyOrder(cmd);
     }
     this.ox.set(this.x);
@@ -223,6 +228,15 @@ export class Sim {
   private liveIds(raw: readonly number[]): number[] {
     const seen = new Set<number>();
     return raw.filter((id) => id >= 0 && id < this.count && this.cb.hp[id] > 0 && !seen.has(id) && seen.add(id));
+  }
+
+  /** Switch autocast of one spell on (or off with -1) for every listed caster that knows it. */
+  private applyAutocast(cmd: Extract<Command, { type: 'autocast' }>): void {
+    if (!this.combat) return;
+    for (const id of this.liveIds(cmd.ids)) {
+      if (cmd.spell < 0) this.cb.auto[id] = 0;
+      else if (knows(this, id, cmd.spell)) this.cb.auto[id] = cmd.spell + 1;
+    }
   }
 
   /** Orders other than a plain move. A point makes the group walk there in formation first, then the order is set. */
@@ -287,22 +301,23 @@ export class Sim {
         }
         return;
       case 'cast': {
-        let tt = t;
-        if ((tt < 0 || cb.hp[tt] <= 0) && hasPoint) {
-          const probe = ids[0];
-          const ox = this.x[probe];
-          const oy = this.y[probe];
-          this.x[probe] = Math.round(cmd.x! * FP);
-          this.y[probe] = Math.round(cmd.y! * FP);
-          tt = enemyNear(this, probe, 2 * FP, 0, 0, 0);
-          this.x[probe] = ox;
-          this.y[probe] = oy;
-        }
-        if (tt < 0 || cb.hp[tt] <= 0) return;
+        const sid = cmd.spell ?? 0;
+        if (sid < 0 || sid >= SPELLS.length) return;
+        const pxf = hasPoint ? Math.round(cmd.x! * FP) : 0;
+        const pyf = hasPoint ? Math.round(cmd.y! * FP) : 0;
+        const tk = SPELLS[sid].tk;
         for (const id of ids) {
-          if (!DEFS[cb.kind[id]].caster) continue;
+          if (!knows(this, id, sid)) continue;
+          let tt = -1;
+          if (tk !== Tk.Ground && tk !== Tk.Self) {
+            tt = resolveTarget(this, id, sid, t, pxf, pyf, hasPoint);
+            if (tt < 0) continue;
+          } else if (tk === Tk.Ground && !hasPoint) continue;
           cb.ord[id] = Ord.Cast;
           cb.tgt[id] = tt;
+          cb.aux[id] = sid;
+          cb.px[id] = pxf;
+          cb.py[id] = pyf;
         }
         return;
       }
@@ -552,7 +567,8 @@ export class Sim {
     const x = this.x[i];
     const y = this.y[i];
     const pct = Math.max(25, speedPct(map, Math.floor(x / FP), Math.floor(y / FP)));
-    const spd = Math.floor((UNIT_SPEED * pct * DEFS[this.cb.kind[i]].speed) / 10000);
+    const st = this.cb.stMask[i] === 0 ? 100 : statusSpeed(this.cb.stMask[i]);
+    const spd = Math.floor((UNIT_SPEED * pct * DEFS[this.cb.kind[i]].speed * st) / 1000000);
     let tgx = this.tx[i];
     let tgy = this.ty[i];
     const pid = this.pathId[i];

@@ -1,5 +1,7 @@
 import { FP, dir16 } from './path';
 import type { Sim } from './sim';
+import { ALL_SPELLS, CORPSE_TICKS, MAGE_SPELLS, NST, SPELLS, St, Tk } from './spelldata';
+import { autoCast, castSpell, clearAllStatuses, knows, spellHit, statusTick, validTarget } from './spells';
 
 /** Orders. Guard is the default stance. */
 export const Ord = { Guard: 0, Move: 1, Attack: 2, Defend: 3, Cast: 4, Swarm: 5, Hold: 6, Retreat: 7, Still: 8, Pickup: 9 } as const;
@@ -23,21 +25,21 @@ export interface KindDef {
   cd: number; // ticks between attacks
   speed: number; // percent of base walking speed
   caster: boolean;
+  known: number; // bit mask of spell ids
+  auto: number; // default autocast: spell id + 1, or 0
 }
 
 const MELEE = Math.round(0.95 * FP);
 const T = FP; // one tile
 export const DEFS: readonly KindDef[] = [
-  { name: 'Warrior', hp: 60, mana: 0, acc: 8, def: 6, absorb: 2, res: [0, 0, 0, 0, 0], min: 6, max: 10, elem: 0, reach: MELEE, ranged: false, cd: 20, speed: 100, caster: false },
-  { name: 'Archer', hp: 40, mana: 0, acc: 9, def: 3, absorb: 0, res: [0, 0, 0, 0, 0], min: 5, max: 8, elem: 0, reach: 7 * T, ranged: true, cd: 30, speed: 100, caster: false },
-  { name: 'Hero', hp: 140, mana: 60, acc: 11, def: 9, absorb: 3, res: [20, 10, 10, 10, 10], min: 9, max: 14, elem: 0, reach: MELEE, ranged: false, cd: 18, speed: 105, caster: true },
-  { name: 'Mage', hp: 35, mana: 50, acc: 8, def: 2, absorb: 0, res: [10, 10, 10, 10, 30], min: 7, max: 11, elem: Elem.Water, reach: 6 * T, ranged: true, cd: 40, speed: 100, caster: true },
-  { name: 'Gnoll', hp: 45, mana: 0, acc: 6, def: 4, absorb: 1, res: [-25, 0, 0, 0, 0], min: 4, max: 8, elem: 0, reach: MELEE, ranged: false, cd: 25, speed: 100, caster: false },
-  { name: 'Golem', hp: 130, mana: 0, acc: 7, def: 10, absorb: 5, res: [20, 0, 30, 60, 0], min: 10, max: 16, elem: 0, reach: MELEE, ranged: false, cd: 32, speed: 70, caster: false },
-  { name: 'Imp', hp: 30, mana: 0, acc: 7, def: 5, absorb: 0, res: [80, -30, 0, 0, 0], min: 6, max: 9, elem: Elem.Fire, reach: 6 * T, ranged: true, cd: 35, speed: 110, caster: false },
+  { name: 'Warrior', hp: 60, mana: 0, acc: 8, def: 6, absorb: 2, res: [0, 0, 0, 0, 0], min: 6, max: 10, elem: 0, reach: MELEE, ranged: false, cd: 20, speed: 100, caster: false, known: 0, auto: 0 },
+  { name: 'Archer', hp: 40, mana: 0, acc: 9, def: 3, absorb: 0, res: [0, 0, 0, 0, 0], min: 5, max: 8, elem: 0, reach: 7 * T, ranged: true, cd: 30, speed: 100, caster: false, known: 0, auto: 0 },
+  { name: 'Hero', hp: 140, mana: 100, acc: 11, def: 9, absorb: 3, res: [20, 10, 10, 10, 10], min: 9, max: 14, elem: 0, reach: MELEE, ranged: false, cd: 18, speed: 105, caster: true, known: ALL_SPELLS, auto: 0 },
+  { name: 'Mage', hp: 35, mana: 70, acc: 8, def: 2, absorb: 0, res: [10, 10, 10, 10, 30], min: 7, max: 11, elem: Elem.Water, reach: 6 * T, ranged: true, cd: 40, speed: 100, caster: true, known: MAGE_SPELLS, auto: 0 },
+  { name: 'Gnoll', hp: 45, mana: 0, acc: 6, def: 4, absorb: 1, res: [-25, 0, 0, 0, 0], min: 4, max: 8, elem: 0, reach: MELEE, ranged: false, cd: 25, speed: 100, caster: false, known: 0, auto: 0 },
+  { name: 'Golem', hp: 130, mana: 0, acc: 7, def: 10, absorb: 5, res: [20, 0, 30, 60, 0], min: 10, max: 16, elem: 0, reach: MELEE, ranged: false, cd: 32, speed: 70, caster: false, known: 0, auto: 0 },
+  { name: 'Imp', hp: 30, mana: 30, acc: 7, def: 5, absorb: 0, res: [80, -30, 0, 0, 0], min: 6, max: 9, elem: Elem.Fire, reach: 6 * T, ranged: true, cd: 35, speed: 110, caster: true, known: 1 << 3, auto: 4 },
 ];
-
-export const SPELL = { cost: 8, min: 16, max: 24, elem: Elem.Fire, reach: 7 * T, cd: 30 };
 const AGGRO = 7 * T;
 const SWARM_SIGHT = 14 * T;
 const ATTACK_SIGHT = 8 * T;
@@ -52,7 +54,8 @@ const PSPEED = Math.round((9 * FP) / 25);
 const PROJ_SCAN = 4; // monsters and allies look for a new target every 4th tick
 
 export interface Fx {
-  type: number; // 0 hit, 1 miss, 2 death, 3 gold, 4 no mana
+  /** 0 hit, 1 miss, 2 death, 3 gold, 4 no mana, 5 area ring (v = radius x10 tiles), 6 spare, 7 heal, 8 status (v = id, +16 when it ends), 9 cast (v = spell), 10 corpse event (v: 0 burst, 1 raised, 2 mana), 11 blocked */
+  type: number;
   x: number; // fixed point
   y: number;
   v: number;
@@ -80,6 +83,12 @@ export interface CombatSnap {
   sY: Int32Array;
   sG: Int32Array;
   gold: Int32Array;
+  pS: Uint8Array;
+  stMask: Uint16Array;
+  stT: Int16Array;
+  stV: Int16Array;
+  corp: Int16Array;
+  auto: Uint8Array;
 }
 
 /** All combat state: structure of arrays, no objects, so it snapshots and hashes cheaply. */
@@ -102,6 +111,12 @@ export class CombatState {
   pMax = new Int16Array(MAXP);
   pEl = new Uint8Array(MAXP);
   pAcc = new Int8Array(MAXP);
+  pS = new Uint8Array(MAXP); // spell id + 1 carried by the projectile, 0 for a plain attack
+  stMask: Uint16Array; // bit per active status; a unit with 0 costs nothing per tick
+  stT: Int16Array; // ticks left, NST slots per unit
+  stV: Int16Array; // shield points, poison stacks, burn damage
+  corp: Int16Array; // ticks a dead unit's body can still be targeted
+  auto: Uint8Array; // autocast spell id + 1, or 0
   sX = new Int32Array(MAXS);
   sY = new Int32Array(MAXS);
   sG = new Int32Array(MAXS); // gold in the sack; 0 = free slot
@@ -129,6 +144,12 @@ export class CombatState {
     this.px = new Int32Array(count);
     this.py = new Int32Array(count);
     this.cd = new Uint8Array(count);
+    this.stMask = new Uint16Array(count);
+    this.stT = new Int16Array(count * NST);
+    this.stV = new Int16Array(count * NST);
+    this.corp = new Int16Array(count);
+    this.auto = new Uint8Array(count);
+    for (let i = 0; i < count; i++) this.auto[i] = DEFS[this.kind[i]].auto;
     this.recount(team);
   }
 
@@ -151,6 +172,13 @@ export class CombatState {
       mix(this.px[i]);
       mix(this.py[i]);
       mix(this.cd[i]);
+      mix(this.corp[i]);
+      mix(this.auto[i]);
+      const m = this.stMask[i];
+      if (m) {
+        mix(m);
+        for (let s = 0; s < NST; s++) if (m & (1 << s)) mix(this.stT[i * NST + s] * 31 + this.stV[i * NST + s]);
+      }
     }
     for (let p = 0; p < MAXP; p++) {
       if (!this.pAlive[p]) continue;
@@ -158,6 +186,7 @@ export class CombatState {
       mix(this.pX[p]);
       mix(this.pY[p]);
       mix(this.pT[p]);
+      mix(this.pS[p]);
     }
     for (let s = 0; s < MAXS; s++) if (this.sG[s]) mix(this.sG[s] + s * 977);
     mix(this.gold[0]);
@@ -171,6 +200,7 @@ export class CombatState {
       pAlive: this.pAlive.slice(), pX: this.pX.slice(), pY: this.pY.slice(), pT: this.pT.slice(),
       pMin: this.pMin.slice(), pMax: this.pMax.slice(), pEl: this.pEl.slice(), pAcc: this.pAcc.slice(),
       sX: this.sX.slice(), sY: this.sY.slice(), sG: this.sG.slice(), gold: this.gold.slice(),
+      pS: this.pS.slice(), stMask: this.stMask.slice(), stT: this.stT.slice(), stV: this.stV.slice(), corp: this.corp.slice(), auto: this.auto.slice(),
     };
   }
 
@@ -180,6 +210,7 @@ export class CombatState {
     this.pAlive = s.pAlive.slice(); this.pX = s.pX.slice(); this.pY = s.pY.slice(); this.pT = s.pT.slice();
     this.pMin = s.pMin.slice(); this.pMax = s.pMax.slice(); this.pEl = s.pEl.slice(); this.pAcc = s.pAcc.slice();
     this.sX = s.sX.slice(); this.sY = s.sY.slice(); this.sG = s.sG.slice(); this.gold = s.gold.slice();
+    this.pS = s.pS.slice(); this.stMask = s.stMask.slice(); this.stT = s.stT.slice(); this.stV = s.stV.slice(); this.corp = s.corp.slice(); this.auto = s.auto.slice();
     this.recount(team);
   }
 }
@@ -270,11 +301,24 @@ export function strike(sim: Sim, t: number, min: number, max: number, elem: numb
       return;
     }
     dmg = Math.max(1, dmg - d.absorb);
+    if (cb.stMask[t] & (1 << St.Stone)) dmg = Math.max(1, dmg >> 1); // stone halves blows
   } else {
     dmg = Math.max(0, Math.floor((dmg * (100 - d.res[elem - 1])) / 100));
   }
+  if (cb.stMask[t] & (1 << St.Shield)) {
+    const k = t * NST + St.Shield;
+    const soak = Math.min(cb.stV[k], dmg);
+    cb.stV[k] -= soak;
+    dmg -= soak;
+    if (cb.stV[k] <= 0) {
+      cb.stMask[t] &= ~(1 << St.Shield);
+      cb.stT[k] = 0;
+      cb.emit(8, sim.x[t], sim.y[t], St.Shield + 16, 0);
+    }
+    if (dmg === 0) cb.emit(11, sim.x[t], sim.y[t], soak, 0);
+  }
   cb.hp[t] -= dmg;
-  cb.emit(0, sim.x[t], sim.y[t], dmg, elem);
+  if (dmg > 0 || !(cb.stMask[t] & (1 << St.Shield))) cb.emit(0, sim.x[t], sim.y[t], dmg, elem);
   if (cb.hp[t] <= 0) die(sim, t);
 }
 
@@ -284,6 +328,8 @@ function die(sim: Sim, t: number): void {
   cb.alive[sim.team[t] & 3]--;
   cb.ord[t] = Ord.Still;
   cb.tgt[t] = -1;
+  cb.corp[t] = CORPSE_TICKS;
+  clearAllStatuses(sim, t);
   sim.stop(t);
   cb.emit(2, sim.x[t], sim.y[t], 0, 0);
   if (sim.team[t] !== 0) {
@@ -297,28 +343,53 @@ function die(sim: Sim, t: number): void {
   }
 }
 
-function launch(sim: Sim, from: number, t: number, min: number, max: number, elem: number, acc: number): void {
+/** Start a projectile at a fixed-point point. `sid` >= 0 makes it a spell: it casts that spell's effect on arrival. */
+export function launch(sim: Sim, ox: number, oy: number, t: number, min: number, max: number, elem: number, acc: number, sid = -1): void {
   const cb = sim.cb;
   for (let p = 0; p < MAXP; p++) {
     if (cb.pAlive[p]) continue;
     cb.pAlive[p] = 1;
-    cb.pX[p] = sim.x[from];
-    cb.pY[p] = sim.y[from];
+    cb.pX[p] = ox;
+    cb.pY[p] = oy;
     cb.pT[p] = t;
     cb.pMin[p] = min;
     cb.pMax[p] = max;
     cb.pEl[p] = elem;
     cb.pAcc[p] = acc;
+    cb.pS[p] = sid + 1;
     return;
   }
-  strike(sim, t, min, max, elem, acc); // pool full: hit at once
+  if (sid >= 0) spellHit(sim, t, sid);
+  else strike(sim, t, min, max, elem, acc); // pool full: hit at once
 }
 
 function attack(sim: Sim, i: number, t: number): void {
-  const d = DEFS[sim.cb.kind[i]];
-  sim.cb.cd[i] = d.cd;
-  if (d.ranged) launch(sim, i, t, d.min, d.max, d.elem, d.acc);
-  else strike(sim, t, d.min, d.max, d.elem, d.acc);
+  const cb = sim.cb;
+  const d = DEFS[cb.kind[i]];
+  const m = cb.stMask[i];
+  let cd = d.cd;
+  let min = d.min;
+  let max = d.max;
+  let acc = d.acc;
+  if (m) {
+    if (m & (1 << St.Haste)) cd = Math.round(cd * 0.7);
+    else if (m & (1 << St.Slow)) cd = Math.round(cd * 1.4);
+    if (m & (1 << St.Bless)) {
+      min = Math.floor((min * 125) / 100);
+      max = Math.floor((max * 125) / 100);
+      acc += 3;
+    }
+    if (m & (1 << St.Weaken)) {
+      min = Math.max(1, Math.floor((min * 70) / 100));
+      max = Math.max(1, Math.floor((max * 70) / 100));
+    }
+  }
+  cb.cd[i] = cd;
+  if (d.ranged) {
+    if (d.elem === 0) cb.emit(12, sim.x[i], sim.y[i], 0, 0);
+    launch(sim, sim.x[i], sim.y[i], t, min, max, d.elem, acc);
+  }
+  else strike(sim, t, min, max, d.elem, acc);
 }
 
 function stepProjectiles(sim: Sim): void {
@@ -335,7 +406,8 @@ function stepProjectiles(sim: Sim): void {
     const d = Math.sqrt(dx * dx + dy * dy);
     if (d <= PSPEED + 40) {
       cb.pAlive[p] = 0;
-      strike(sim, t, cb.pMin[p], cb.pMax[p], cb.pEl[p], cb.pAcc[p]);
+      if (cb.pS[p] > 0) spellHit(sim, t, cb.pS[p] - 1);
+      else strike(sim, t, cb.pMin[p], cb.pMax[p], cb.pEl[p], cb.pAcc[p]);
     } else {
       cb.pX[p] += Math.round((dx * PSPEED) / d);
       cb.pY[p] += Math.round((dy * PSPEED) / d);
@@ -374,7 +446,9 @@ function unitThink(sim: Sim, i: number): void {
   const d = DEFS[cb.kind[i]];
   const scan = ((sim.tick + i) & (PROJ_SCAN - 1)) === 0;
   let t = cb.tgt[i];
-  switch (cb.ord[i]) {
+  const o = cb.ord[i];
+  if (scan && cb.auto[i] && (o === Ord.Guard || o === Ord.Hold || o === Ord.Swarm || o === Ord.Attack || o === Ord.Defend) && autoCast(sim, i)) return;
+  switch (o) {
     case Ord.Still:
       return;
     case Ord.Move:
@@ -436,26 +510,38 @@ function unitThink(sim: Sim, i: number): void {
       return;
     }
     case Ord.Cast: {
-      if (!d.caster || !valid(sim, t)) {
+      const sid = cb.aux[i];
+      if (!d.caster || !knows(sim, i, sid)) {
         toGuard(sim, i);
         return;
       }
-      const dd = dist(sim, i, sim.x[t], sim.y[t]);
-      if (dd > SPELL.reach) {
-        if (!sim.moving[i] || ((sim.tick + i) & 7) === 0) sim.goTo(i, sim.x[t], sim.y[t]);
+      const sp = SPELLS[sid];
+      let gx = sim.x[i];
+      let gy = sim.y[i];
+      if (sp.tk === Tk.Ground) {
+        gx = cb.px[i];
+        gy = cb.py[i];
+      } else if (sp.tk !== Tk.Self) {
+        if (!validTarget(sim, i, sid, t)) {
+          toGuard(sim, i);
+          return;
+        }
+        gx = sim.x[t];
+        gy = sim.y[t];
+      }
+      if (sp.tk !== Tk.Self && dist(sim, i, gx, gy) > sp.reach * FP) {
+        if (!sim.moving[i] || ((sim.tick + i) & 7) === 0) sim.goTo(i, gx, gy);
         return;
       }
       if (sim.moving[i]) sim.stop(i);
-      sim.dir[i] = dir16(sim.x[t] - sim.x[i], sim.y[t] - sim.y[i]);
+      if (sp.tk !== Tk.Self) sim.dir[i] = dir16(gx - sim.x[i], gy - sim.y[i]);
       if (cb.cd[i] > 0) return;
-      if (cb.mana[i] < SPELL.cost) {
+      if (cb.mana[i] < sp.cost) {
         cb.emit(4, sim.x[i], sim.y[i], 0, 0);
         toGuard(sim, i);
         return;
       }
-      cb.mana[i] -= SPELL.cost;
-      cb.cd[i] = SPELL.cd;
-      launch(sim, i, t, SPELL.min, SPELL.max, SPELL.elem, 99);
+      castSpell(sim, i, sid, t, gx, gy);
       toGuard(sim, i);
       return;
     }
@@ -482,9 +568,21 @@ export function think(sim: Sim): void {
   const cb = sim.cb;
   const regen = sim.tick % 25 === 0;
   for (let i = 0; i < sim.count; i++) {
-    if (cb.hp[i] <= 0) continue;
+    if (cb.hp[i] <= 0) {
+      if (cb.corp[i] > 0) cb.corp[i]--;
+      continue;
+    }
     if (regen && cb.mana[i] < DEFS[cb.kind[i]].mana) cb.mana[i]++;
     if (cb.cd[i] > 0) cb.cd[i]--;
+    const m = cb.stMask[i];
+    if (m) {
+      statusTick(sim, i);
+      if (cb.hp[i] <= 0) continue;
+      if (cb.stMask[i] & (1 << St.Stone)) {
+        if (sim.moving[i]) sim.stop(i);
+        continue;
+      }
+    }
     unitThink(sim, i);
   }
   stepProjectiles(sim);

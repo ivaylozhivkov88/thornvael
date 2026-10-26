@@ -6,9 +6,21 @@ export type Intent =
   | { type: 'box-preview'; x0: number; y0: number; x1: number; y1: number }
   | { type: 'box'; x0: number; y0: number; x1: number; y1: number; additive: boolean }
   | { type: 'pan'; dx: number; dy: number }
-  | { type: 'zoom'; dir: 1 | -1; x: number; y: number };
+  | { type: 'zoom'; dir: 1 | -1; x: number; y: number }
+  | { type: 'aim'; phase: 'start' | 'move' | 'end' | 'cancel'; x: number; y: number }; // touch spell aiming: x, y is the fingertip
+
+/** The aiming reticle sits this far above the fingertip so the finger never hides the target. */
+export const AIM_OFFSET = 72;
+/** Lifting the finger this close to the bottom edge cancels the cast. */
+export const AIM_CANCEL_ZONE = 70;
+
+/** Reticle point for a fingertip in a view of height `viewH`, and whether lifting here cancels. */
+export function reticle(x: number, y: number, viewH: number): { x: number; y: number; cancel: boolean } {
+  return { x, y: Math.max(0, y - AIM_OFFSET), cancel: y > viewH - AIM_CANCEL_ZONE };
+}
 
 export interface GestureOptions {
+  aimMode?: () => boolean; // touch: a spell is armed, so a finger aims a reticle instead of selecting or panning
   boxMode: () => boolean; // touch: one-finger drag draws a select box instead of panning
   additive: () => boolean; // touch: the Add toggle
 }
@@ -26,6 +38,7 @@ interface P {
   button: number;
   shift: boolean;
   dragging: boolean;
+  aim: boolean;
 }
 
 export class GestureRecognizer {
@@ -36,9 +49,18 @@ export class GestureRecognizer {
   constructor(private readonly opt: GestureOptions) {}
 
   down(id: number, x: number, y: number, touch: boolean, button = 0, shift = false): Intent[] {
-    this.ptr.set(id, { x0: x, y0: y, x, y, touch, button, shift, dragging: false });
+    const aiming = touch && this.ptr.size === 0 && (this.opt.aimMode?.() ?? false);
+    this.ptr.set(id, { x0: x, y0: y, x, y, touch, button, shift, dragging: false, aim: aiming });
     if (!touch && button === 2) return [{ type: 'move-to', x, y }];
+    if (aiming) return [{ type: 'aim', phase: 'start', x, y }];
     if (touch && this.ptr.size === 2) {
+      const first = [...this.ptr.values()][0];
+      if (first.aim) {
+        first.aim = false;
+        this.pinchBase = this.dist();
+        this.pinched = true;
+        return [{ type: 'aim', phase: 'cancel', x: first.x, y: first.y }, ...this.endDrag()];
+      }
       this.pinchBase = this.dist();
       this.pinched = true;
       return this.endDrag();
@@ -53,6 +75,7 @@ export class GestureRecognizer {
     const dy = y - p.y;
     p.x = x;
     p.y = y;
+    if (p.aim) return [{ type: 'aim', phase: 'move', x, y }];
     if (p.touch && this.ptr.size >= 2) return this.pinch();
     if (this.pinched || (!p.touch && p.button !== 0)) return [];
     const slop = p.touch ? TOUCH_SLOP : MOUSE_SLOP;
@@ -65,6 +88,7 @@ export class GestureRecognizer {
   up(id: number): Intent[] {
     const p = this.ptr.get(id);
     this.ptr.delete(id);
+    if (p?.aim) return [{ type: 'aim', phase: 'end', x: p.x, y: p.y }];
     if (this.ptr.size === 0) {
       const wasPinch = this.pinched;
       this.pinched = false;
@@ -83,9 +107,11 @@ export class GestureRecognizer {
       : [{ type: 'click', x: p.x, y: p.y, additive: p.shift }];
   }
 
-  cancel(): void {
+  cancel(): Intent[] {
+    const aiming = [...this.ptr.values()].find((p) => p.aim);
     this.ptr.clear();
     this.pinched = false;
+    return aiming ? [{ type: 'aim', phase: 'cancel', x: aiming.x, y: aiming.y }] : [];
   }
 
   wheel(dy: number, x: number, y: number): Intent[] {
