@@ -9,3 +9,5 @@ dev-dist/
 *.alm
 *.smk
 *.256
+test-results/
+playwright-report/

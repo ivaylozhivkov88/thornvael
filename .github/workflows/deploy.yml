@@ -30,6 +30,8 @@ jobs:
       - run: npm run build
         env:
           SITE_BASE: /thornvael/
+      - run: npx playwright install --with-deps chromium
+      - run: npm run e2e
       - uses: actions/upload-pages-artifact@v3
         with:
           path: dist
