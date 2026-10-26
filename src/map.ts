@@ -3,7 +3,9 @@ import { Rng } from './sim/rng';
 export const MAP_W = 64;
 export const MAP_H = 48;
 export const TILE = 32; // source pixels per tile
-export const Terrain = { Grass: 0, Dirt: 1, Water: 2, Rock: 3 } as const;
+export const Terrain = { Grass: 0, Dirt: 1, Water: 2, Rock: 3, Marsh: 4 } as const;
+/** Walking speed in percent per terrain; Marsh is the rough ground that slows units. */
+export const TERRAIN_SPEED_PCT = [100, 100, 0, 0, 55] as const;
 export const ObjectKind = { Tree: 0, House: 1 } as const;
 
 export interface MapObject {
@@ -57,6 +59,7 @@ export function generateMap(seed = 7): GameMap {
       const e = noise(seed, x, y, 12) * 0.75 + noise(seed + 1, x, y, 5) * 0.25;
       height[i] = e < 0.4 ? 0 : e < 0.55 ? 1 : e < 0.68 ? 2 : 3;
       if (e < 0.3) terrain[i] = Terrain.Water;
+      else if (e < 0.36) terrain[i] = Terrain.Marsh;
       else if (e > 0.72) terrain[i] = Terrain.Rock;
       else terrain[i] = noise(seed + 2, x, y, 4) > 0.62 ? Terrain.Dirt : Terrain.Grass;
       if (terrain[i] === Terrain.Water || terrain[i] === Terrain.Rock) blocked[i] = 1;

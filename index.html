@@ -13,9 +13,11 @@
 </head>
 <body>
 <canvas id="game"></canvas>
-<div class="bar"><span id="hint"></span><button id="btn-install">Install</button><button id="btn-credits">Credits</button></div>
+<div class="bar"><span id="hint"></span><span id="clock"></span><button id="btn-install">Install</button><button id="btn-credits">Credits</button></div>
+<canvas id="minimap" aria-label="Minimap"></canvas>
+<div class="groups" id="groups"></div>
 <div class="tools">
-  <button id="btn-box" aria-pressed="false"></button><button id="btn-add" aria-pressed="false"></button><button id="btn-all"></button><button id="btn-pause"></button><button id="btn-sound"></button><button id="btn-music" aria-pressed="false"></button>
+  <button id="btn-box" aria-pressed="false"></button><button id="btn-add" aria-pressed="false"></button><button id="btn-set" aria-pressed="false"></button><button id="btn-all"></button><button id="btn-pause"></button><button id="btn-speed"></button><button id="btn-sound"></button><button id="btn-music" aria-pressed="false"></button>
 </div>
 <pre id="debug" hidden></pre>
 <div id="rotate">Rotate your device to landscape for the best view.</div>

@@ -8,7 +8,11 @@ const BASE: Record<number, [number, number, number]> = {
   [Terrain.Dirt]: [122, 100, 70],
   [Terrain.Water]: [44, 79, 120],
   [Terrain.Rock]: [96, 96, 100],
+  [Terrain.Marsh]: [70, 84, 52],
 };
+const DIR_COS = Array.from({ length: 16 }, (_, k) => Math.cos((k * Math.PI) / 8));
+const DIR_SIN = Array.from({ length: 16 }, (_, k) => Math.sin((k * Math.PI) / 8));
+const NIGHT = [0x5a, 0x6a, 0xa6];
 export const MIN_ZOOM = 1;
 export const MAX_ZOOM = 3;
 const TEAM_TINT = [0x7ab8ff, 0xff6a5a];
@@ -98,7 +102,14 @@ export class Renderer {
   readonly world = new Container();
   private readonly rings = new Graphics();
   private readonly overlay = new Graphics();
+  private readonly light = new Graphics();
   private sprites: Sprite[] = [];
+  private fogCv!: HTMLCanvasElement;
+  private fogTex!: Texture;
+  private fogImg!: ImageData;
+  private fogSeen = -1;
+  private lightKey = '';
+  private fog!: Sprite;
   zoom = 1;
   camX = 0;
   camY = 0;
@@ -126,7 +137,17 @@ export class Renderer {
         chunks.addChild(s);
       }
     }
+    // Fog: one pixel per tile, stretched over the map with linear filtering for soft edges.
+    this.fogCv = document.createElement('canvas');
+    this.fogCv.width = this.map.w;
+    this.fogCv.height = this.map.h;
+    this.fogImg = this.fogCv.getContext('2d')!.createImageData(this.map.w, this.map.h);
+    this.fogTex = Texture.from(this.fogCv);
+    const fog = new Sprite(this.fogTex);
+    fog.width = this.map.w * TILE;
+    fog.height = this.map.h * TILE;
     this.world.addChild(chunks, this.rings);
+    this.fog = fog;
     const tex = unitTexture();
     for (let i = 0; i < sim.count; i++) {
       const s = new Sprite(tex);
@@ -135,7 +156,9 @@ export class Renderer {
       this.sprites.push(s);
       this.world.addChild(s);
     }
-    this.app.stage.addChild(this.world, this.overlay);
+    this.world.addChild(fog);
+    this.light.blendMode = 'multiply';
+    this.app.stage.addChild(this.world, this.light, this.overlay);
     this.centerOn(sim.x[0] / FP, sim.y[0] / FP);
   }
 
@@ -190,22 +213,61 @@ export class Renderer {
     return x < -40 || y < -40 || x > this.viewW + 40 || y > this.viewH + 40 ? null : [x, y];
   }
 
+  /** Camera rectangle in tiles. */
+  viewTiles(): { x0: number; y0: number; x1: number; y1: number } {
+    const s = TILE * this.zoom;
+    return { x0: this.camX / s, y0: this.camY / s, x1: (this.camX + this.viewW) / s, y1: (this.camY + this.viewH) / s };
+  }
+
+  private updateFog(sim: Sim): void {
+    if (sim.fogVersion === this.fogSeen) return;
+    this.fogSeen = sim.fogVersion;
+    const d = this.fogImg.data;
+    for (let i = 0; i < this.map.w * this.map.h; i++) {
+      d[4 * i] = 8;
+      d[4 * i + 1] = 6;
+      d[4 * i + 2] = 12;
+      d[4 * i + 3] = sim.visible[i] ? 0 : sim.explored[i] ? 130 : 245;
+    }
+    this.fogCv.getContext('2d')!.putImageData(this.fogImg, 0, 0);
+    this.fogTex.source.update();
+  }
+
+  /** Day and night: one full-screen multiply layer, white at noon and blue-grey at night. */
+  private updateLight(daylight: number): void {
+    const t = Math.max(0, Math.min(1, (255 - daylight) / 180));
+    const key = `${t.toFixed(3)}:${this.viewW}x${this.viewH}`;
+    if (key === this.lightKey) return;
+    this.lightKey = key;
+    const c = NIGHT.map((n) => Math.round(255 + (n - 255) * t));
+    this.light.clear().rect(0, 0, this.viewW, this.viewH).fill((c[0] << 16) | (c[1] << 8) | c[2]);
+  }
+
   draw(sim: Sim, px: Int32Array, py: Int32Array, alpha: number, v: View): void {
     this.world.scale.set(this.zoom);
     this.world.position.set(-this.camX, -this.camY);
+    this.updateFog(sim);
+    this.updateLight(sim.daylight);
     const k = TILE / FP;
+    const mw = this.map.w;
     for (let i = 0; i < sim.count; i++) {
       const s = this.sprites[i];
       s.x = Math.round((px[i] + (sim.x[i] - px[i]) * alpha) * k);
       s.y = Math.round((py[i] + (sim.y[i] - py[i]) * alpha) * k);
       s.zIndex = s.y;
+      if (sim.team[i] !== 0) s.visible = sim.visible[Math.floor(sim.y[i] / FP) * mw + Math.floor(sim.x[i] / FP)] === 1;
     }
     this.world.sortableChildren = false;
     const r = this.rings;
     r.clear();
     for (const id of v.selected) {
       const s = this.sprites[id];
-      r.ellipse(s.x, s.y, 11, 5).stroke({ color: 0x9dff7a, width: 2 });
+      const dir = sim.dir[id];
+      r.ellipse(s.x, s.y, 11, 5)
+        .stroke({ color: 0x9dff7a, width: 2 })
+        .moveTo(s.x, s.y)
+        .lineTo(s.x + DIR_COS[dir] * 15, s.y + DIR_SIN[dir] * 7)
+        .stroke({ color: 0xffffff, width: 2 });
     }
     const o = this.overlay;
     o.clear();

@@ -1,25 +1,36 @@
 import { registerSW } from 'virtual:pwa-register';
 import { audioState, blip, resumeAudio, setMusic, suspendAudio, unlock } from './audio';
+import { ControlGroups, GROUP_COUNT } from './groups';
 import { GestureRecognizer, pickUnit, unitsInBox, type Intent } from './input';
 import { TILE, generateMap } from './map';
+import { Minimap } from './minimap';
 import { Renderer, type View } from './render';
-import { Bot, setupSquads } from './sim/bot';
+import { Bot, setupCrowd, setupSquads } from './sim/bot';
+import { DAY_TICKS, clockText } from './sim/daynight';
 import { FP, Sim, TICKS_PER_SECOND, type Command } from './sim/sim';
 import { S } from './strings';
 import './style.css';
 
 const $ = (id: string): HTMLElement => document.getElementById(id)!;
 const params = new URLSearchParams(location.search);
+const crowd = params.has('crowd'); // 300 units, all yours: the crowd-movement benchmark
 const stress = params.has('stress');
-const debug = params.has('debug') || stress;
+const debug = params.has('debug') || stress || crowd;
 
 // --- world ---
 const map = generateMap(7);
-const mine = stress ? 24 : 12;
-const total = stress ? 300 : 48;
-const sim = new Sim(map, 1, [...Array(mine).fill(0), ...Array(total - mine).fill(1)]);
-setupSquads(sim);
+const mine = crowd ? 300 : stress ? 24 : 12;
+const total = crowd || stress ? 300 : 48;
+const sim = new Sim(map, 1, [...Array(mine).fill(0), ...Array(total - mine).fill(1)], {
+  dayOffset: params.get('time') === 'night' ? Math.floor(DAY_TICKS * 0.7) : 0,
+});
+if (crowd) setupCrowd(sim, 300);
+else setupSquads(sim);
+sim.updateFog();
 const bot = new Bot(1, 12, 5);
+const groups = new ControlGroups();
+const SPEEDS = [1, 0.5, 0.25];
+let speedIdx = 0;
 const pending: Command[] = [];
 const selected = new Set<number>();
 const prevX = sim.x.slice();
@@ -27,10 +38,12 @@ const prevY = sim.y.slice();
 const STEP_MS = 1000 / TICKS_PER_SECOND;
 
 let userPause = false;
+let pausedToast = false;
 let hidden = document.hidden;
 let acc = 0;
 let boxMode = false;
 let addMode = false;
+let setMode = false;
 let boxDrag: View['box'] = null;
 let ping: { x: number; y: number; t: number } | null = null;
 
@@ -46,6 +59,10 @@ function order(sx: number, sy: number): void {
   pending.push({ type: 'move', ids: [...selected].sort((a, b) => a - b), x, y });
   ping = { x, y, t: performance.now() };
   blip();
+  if (userPause && !pausedToast) {
+    pausedToast = true;
+    toast(S.queued);
+  }
 }
 
 function select(ids: number[], additive: boolean): void {
@@ -125,7 +142,13 @@ document.addEventListener('contextmenu', (e) => e.preventDefault());
 const keys = new Set<string>();
 window.addEventListener('keydown', (e) => {
   if (e.target instanceof HTMLButtonElement && e.key === ' ') return;
-  if (e.ctrlKey && e.key.toLowerCase() === 'a') {
+  const digit = /^(?:Digit|Numpad)([1-9])$/.exec(e.code);
+  if (digit) {
+    // Ctrl or Alt + number saves the group, Shift + number adds to it, a plain number recalls it
+    // (twice quickly: centre the camera). Browsers keep Ctrl+number for tab switching, hence Alt too.
+    e.preventDefault();
+    groupKey(Number(digit[1]), e.ctrlKey || e.altKey ? 'set' : e.shiftKey ? 'add' : 'recall');
+  } else if (e.ctrlKey && e.key.toLowerCase() === 'a') {
     e.preventDefault();
     selectAll();
   } else if (e.key === 'Escape') selected.clear();
@@ -141,16 +164,104 @@ function selectAll(): void {
 }
 function togglePause(): void {
   userPause = !userPause;
+  pausedToast = false;
   $('btn-pause').classList.toggle('on', userPause);
 }
+function cycleSpeed(): void {
+  speedIdx = (speedIdx + 1) % SPEEDS.length;
+  $('btn-speed').textContent = S.speed[speedIdx];
+  $('btn-speed').classList.toggle('on', speedIdx > 0);
+}
+
+// --- control groups ---
+const groupButtons: HTMLButtonElement[] = [];
+function refreshGroupButtons(): void {
+  for (let n = 1; n <= GROUP_COUNT; n++) {
+    const b = groupButtons[n - 1];
+    const size = groups.size(n);
+    b.replaceChildren(String(n));
+    if (size > 0) {
+      const small = document.createElement('small');
+      small.textContent = String(size);
+      b.append(small);
+    }
+    b.classList.toggle('has', size > 0);
+  }
+}
+function centerOnGroup(ids: readonly number[]): void {
+  if (ids.length === 0) return;
+  let sx = 0;
+  let sy = 0;
+  for (const id of ids) {
+    sx += sim.x[id];
+    sy += sim.y[id];
+  }
+  renderer.centerOn(sx / ids.length / FP, sy / ids.length / FP);
+}
+/** One entry for keys and buttons: save, add to, or recall a group. */
+function groupKey(n: number, how: 'set' | 'add' | 'recall'): void {
+  if (how === 'recall') {
+    const ids = groups.get(n);
+    if (ids.length === 0) return;
+    if (groups.press(n, performance.now()) === 'center') centerOnGroup(ids);
+    else if (addMode) for (const id of ids) selected.add(id);
+    else {
+      selected.clear();
+      for (const id of ids) selected.add(id);
+    }
+    return;
+  }
+  if (selected.size === 0) {
+    toast(S.groupEmpty);
+    return;
+  }
+  if (how === 'set') groups.set(n, selected);
+  else groups.add(n, selected);
+  refreshGroupButtons();
+  toast(how === 'set' ? S.groupSet : S.groupAdded);
+}
+for (let n = 1; n <= GROUP_COUNT; n++) {
+  const b = document.createElement('button');
+  b.setAttribute('aria-label', `Group ${n}`);
+  // On a phone: Set + number saves, Add + number adds to the group, a number alone recalls it.
+  b.onclick = () => groupKey(n, setMode ? (addMode ? 'add' : 'set') : 'recall');
+  groupButtons.push(b);
+  $('groups').append(b);
+}
+refreshGroupButtons();
 function toggle(id: string, on: boolean): void {
   $(id).classList.toggle('on', on);
   $(id).setAttribute('aria-pressed', String(on));
 }
 $('btn-box').onclick = () => toggle('btn-box', (boxMode = !boxMode));
 $('btn-add').onclick = () => toggle('btn-add', (addMode = !addMode));
+$('btn-set').onclick = () => toggle('btn-set', (setMode = !setMode));
 $('btn-all').onclick = selectAll;
 $('btn-pause').onclick = togglePause;
+$('btn-speed').onclick = cycleSpeed;
+$('btn-speed').textContent = S.speed[0];
+
+// --- minimap: tap or drag to move the camera ---
+const miniCanvas = $('minimap') as HTMLCanvasElement;
+const minimap = new Minimap(miniCanvas, map);
+let miniDown = false;
+const miniJump = (e: PointerEvent): void => {
+  const [tx, ty] = minimap.tileAt(e.clientX, e.clientY);
+  renderer.centerOn(tx, ty);
+};
+miniCanvas.addEventListener('pointerdown', (e) => {
+  unlock();
+  miniDown = true;
+  try {
+    miniCanvas.setPointerCapture(e.pointerId);
+  } catch {
+    // synthetic pointer ids (tests) cannot be captured
+  }
+  miniJump(e);
+});
+miniCanvas.addEventListener('pointermove', (e) => miniDown && miniJump(e));
+miniCanvas.addEventListener('pointerup', () => (miniDown = false));
+miniCanvas.addEventListener('pointercancel', () => (miniDown = false));
 $('btn-sound').onclick = blip;
 let musicOn = false;
 $('btn-music').onclick = () => {
@@ -175,6 +286,7 @@ let worst = 0;
 let sumMs = 0;
 let fpsText = '';
 let lastReport = lastNow;
+let lastMini = 0;
 const dbg = $('debug');
 dbg.hidden = !debug;
 let persisted: boolean | string = '?';
@@ -184,7 +296,7 @@ function frame(): void {
   const dt = Math.min(250, now - lastNow);
   lastNow = now;
   if (!hidden && !userPause) {
-    acc += dt;
+    acc += dt * SPEEDS[speedIdx];
     let n = 0;
     while (acc >= STEP_MS && n < 5) {
       prevX.set(sim.x);
@@ -196,7 +308,7 @@ function frame(): void {
       n++;
     }
     if (n === 5) acc = 0;
-  } else pending.length = 0;
+  } else if (hidden) pending.length = 0; // a user pause keeps orders queued for the resume
   const speed = 10;
   const dx = (keys.has('arrowleft') || keys.has('a') ? 1 : 0) - (keys.has('arrowright') || keys.has('d') ? 1 : 0);
   const dy = (keys.has('arrowup') || keys.has('w') ? 1 : 0) - (keys.has('arrowdown') || keys.has('s') ? 1 : 0);
@@ -209,6 +321,11 @@ function frame(): void {
     box: boxDrag,
     ping: ping ? { x: ping.x, y: ping.y, age } : null,
   });
+  if (now - lastMini >= 125) {
+    lastMini = now;
+    minimap.draw(sim, renderer.viewTiles(), selected);
+    $('clock').textContent = clockText(sim.tick + sim.dayOffset);
+  }
   const cost = performance.now() - t0;
   frames++;
   sumMs += cost;
@@ -222,7 +339,7 @@ function frame(): void {
     lastReport = now;
   }
   if (debug) {
-    dbg.textContent = `${fpsText}\nunits ${sim.count}, tick ${sim.tick}, hash ${sim.hash().toString(16)}\nzoom ${renderer.zoom}, audio ${audioState()}, persisted ${persisted}`;
+    dbg.textContent = `${fpsText}\nunits ${sim.count}, tick ${sim.tick}, hash ${sim.hash().toString(16)}\nzoom ${renderer.zoom}, light ${sim.daylight}, moving ${sim.moving.reduce((a, b) => a + b, 0)}, audio ${audioState()}, persisted ${persisted}`;
   }
   requestAnimationFrame(frame);
 }
@@ -288,6 +405,9 @@ void renderer.init(sim).then(() => {
     tile: (x: number, y: number) => [Math.round(x * TILE * renderer.zoom - renderer.camX), Math.round(y * TILE * renderer.zoom - renderer.camY)],
     posTiles: (i: number) => [sim.x[i] / FP, sim.y[i] / FP],
     zoom: () => renderer.zoom,
+    groups,
+    speed: () => SPEEDS[speedIdx],
+    centerOn: (x: number, y: number) => renderer.centerOn(x, y),
     paused: () => hidden || userPause,
   };
 });

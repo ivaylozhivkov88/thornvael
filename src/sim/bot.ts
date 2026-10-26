@@ -35,6 +35,16 @@ export class Bot {
   }
 }
 
+/** Pack `count` units shoulder to shoulder into the start meadow (0.55 tile apart) for crowd tests. */
+export function setupCrowd(sim: Sim, count: number): void {
+  for (let i = 0; i < count; i++) {
+    const x = 2.3 + (i % 21) * 0.55;
+    const y = sim.map.h - 11.7 + Math.floor(i / 21) * 0.55;
+    sim.x[i] = sim.tx[i] = Math.round(x * FP);
+    sim.y[i] = sim.ty[i] = Math.round(y * FP);
+  }
+}
+
 /** Place units: team 0 in the start meadow and the rest spread over open ground. */
 export function setupSquads(sim: Sim): void {
   let b = 0;

@@ -1,7 +1,11 @@
 // All user-visible text lives here (string tables; English first).
 export const S = {
   title: 'Thornvael',
-  hint: 'Tap a unit to select it, tap the ground to move. Drag to pan, pinch to zoom.',
+  hint: 'Tap a unit to select it, tap the ground to move. Drag to pan, pinch to zoom. Tap the minimap to jump.',
+  queued: 'Paused: the order will run when you resume.',
+  groupSet: 'Group saved.',
+  groupAdded: 'Added to group.',
+  groupEmpty: 'Select units first, then press Set and a group number.',
   credits: 'Credits',
   creditsBody:
     'Thornvael is an original work. All art, sound, text and maps are made by the project author or come from sources listed in THIRD_PARTY.md. Currently shipped: generated placeholder graphics, synthesised test sounds and the app icon (own work, no third-party assets).',
@@ -11,9 +15,11 @@ export const S = {
   updateReady: 'A new version is ready.',
   updateApply: 'Update',
   offlineReady: 'Ready to play offline.',
+  speed: ['Speed x1', 'Speed x1/2', 'Speed x1/4'],
   buttons: {
     'btn-box': 'Box',
     'btn-add': 'Add',
+    'btn-set': 'Set',
     'btn-all': 'All',
     'btn-pause': 'Pause',
     'btn-sound': 'Sound',
