@@ -1,3 +1,5 @@
+import { isBlockedAt, type GameMap } from '../map';
+import { Kind } from './combat';
 import { FP, type Command, type Sim } from './sim';
 import { Rng } from './rng';
 
@@ -33,6 +35,128 @@ export class Bot {
     }
     return out;
   }
+}
+
+interface Pack {
+  ids: number[];
+  x: number; // post in tiles
+  y: number;
+  hunting: boolean;
+  calm: number;
+}
+
+/**
+ * Monster packs. Packs think every 10 ticks and act only through the shared order commands:
+ * a pack guards its post; when a member engages an intruder the whole pack attack-moves on it;
+ * after four calm seconds, or when it strays 22 tiles, it guards its post again.
+ */
+export class MonsterAi {
+  constructor(private readonly packs: Pack[]) {}
+
+  commands(sim: Sim): Command[] {
+    const out: Command[] = [];
+    if (sim.tick % 10 !== 3) return out;
+    const cb = sim.cb;
+    for (const p of this.packs) {
+      const alive = p.ids.filter((id) => cb.hp[id] > 0);
+      if (alive.length === 0) continue;
+      const engaged = alive.find((id) => cb.tgt[id] >= 0 && cb.hp[cb.tgt[id]] > 0);
+      if (!p.hunting) {
+        if (engaged === undefined) continue;
+        const t = cb.tgt[engaged];
+        p.hunting = true;
+        p.calm = 0;
+        out.push({ type: 'order', order: 'attack', ids: alive, x: sim.x[t] / FP, y: sim.y[t] / FP });
+        continue;
+      }
+      p.calm = engaged === undefined ? p.calm + 10 : 0;
+      let cx = 0;
+      let cy = 0;
+      for (const id of alive) {
+        cx += sim.x[id];
+        cy += sim.y[id];
+      }
+      const far = Math.hypot(cx / alive.length / FP - p.x, cy / alive.length / FP - p.y) > 22;
+      if (p.calm >= 100 || far) {
+        p.hunting = false;
+        out.push({ type: 'order', order: 'guard', ids: alive, x: p.x, y: p.y });
+      }
+    }
+    return out;
+  }
+}
+
+export interface Scenario {
+  teams: number[];
+  kinds: number[];
+  /** Start tile per unit. */
+  tiles: [number, number][];
+  packs: Pack[];
+}
+
+/** Nearest open tile (spiral) to (x, y) that no earlier unit took. */
+function freeTile(map: GameMap, taken: Set<number>, x: number, y: number): [number, number] {
+  for (let r = 0; r < 30; r++) {
+    for (let dy = -r; dy <= r; dy++) {
+      for (let dx = -r; dx <= r; dx++) {
+        if (Math.max(Math.abs(dx), Math.abs(dy)) !== r) continue;
+        const px = x + dx;
+        const py = y + dy;
+        if (isBlockedAt(map, px, py) || taken.has(py * map.w + px)) continue;
+        taken.add(py * map.w + px);
+        return [px, py];
+      }
+    }
+  }
+  return [x, y];
+}
+
+/** The test fight: a hero's squad of 12 in the start meadow against five monster packs. */
+export function fightScenario(map: GameMap): Scenario {
+  const sc: Scenario = { teams: [], kinds: [], tiles: [], packs: [] };
+  const taken = new Set<number>();
+  const add = (team: number, kind: number, x: number, y: number): number => {
+    sc.teams.push(team);
+    sc.kinds.push(kind);
+    sc.tiles.push(freeTile(map, taken, x, y));
+    return sc.teams.length - 1;
+  };
+  const mine = [Kind.Hero, Kind.Warrior, Kind.Warrior, Kind.Warrior, Kind.Warrior, Kind.Warrior, Kind.Archer, Kind.Archer, Kind.Archer, Kind.Archer, Kind.Mage, Kind.Mage];
+  mine.forEach((k, n) => add(0, k, 6 + (n % 4), map.h - 8 + Math.floor(n / 4)));
+  const pack = (x: number, y: number, kinds: number[]): void => {
+    const ids = kinds.map((k, n) => add(1, k, x + (n % 3), y + Math.floor(n / 3)));
+    const [px, py] = sc.tiles[ids[0]]; // the post is a tile the pack really stands on
+    sc.packs.push({ ids, x: px + 0.5, y: py + 0.5, hunting: false, calm: 0 });
+  };
+  pack(24, map.h - 14, [Kind.Gnoll, Kind.Gnoll, Kind.Gnoll]);
+  pack(34, 30, [Kind.Gnoll, Kind.Gnoll, Kind.Imp]);
+  pack(28, 10, [Kind.Imp, Kind.Imp, Kind.Gnoll]);
+  pack(46, 14, [Kind.Golem, Kind.Imp, Kind.Imp]);
+  pack(56, 36, [Kind.Gnoll, Kind.Gnoll, Kind.Gnoll, Kind.Archer]);
+  return sc;
+}
+
+/** 150 against 150 in the open, for the combat frame-rate benchmark. Both sides get a swarm order. */
+export function battleScenario(map: GameMap): Scenario {
+  const sc: Scenario = { teams: [], kinds: [], tiles: [], packs: [] };
+  const taken = new Set<number>();
+  const mix = [Kind.Warrior, Kind.Warrior, Kind.Archer, Kind.Gnoll, Kind.Gnoll, Kind.Imp];
+  for (let i = 0; i < 300; i++) {
+    const team = i < 150 ? 0 : 1;
+    const n = i % 150;
+    const kind = team === 0 ? [Kind.Warrior, Kind.Warrior, Kind.Archer, Kind.Mage][n % 4] : mix[n % mix.length];
+    const col = n % 15;
+    const row = Math.floor(n / 15);
+    const cx = team === 0 ? 5 + col : 32 + col;
+    sc.teams.push(team);
+    sc.kinds.push(kind);
+    sc.tiles.push(freeTile(map, taken, cx, map.h - 12 + row));
+  }
+  return sc;
+}
+
+export function placeScenario(sim: Sim, sc: Scenario): void {
+  sc.tiles.forEach(([x, y], i) => sim.place(i, x, y));
 }
 
 /** Pack `count` units shoulder to shoulder into the start meadow (0.55 tile apart) for crowd tests. */

@@ -1,5 +1,6 @@
-import { Application, Container, Graphics, Sprite, Texture } from 'pixi.js';
+import { Application, Container, Graphics, Sprite, Text, Texture } from 'pixi.js';
 import { ObjectKind, TILE, Terrain, type GameMap } from './map';
+import { Kind } from './sim/combat';
 import { FP, type Sim } from './sim/sim';
 
 const CHUNK = 16; // tiles per chunk side, so each baked texture is 512 px
@@ -17,6 +18,20 @@ export const MIN_ZOOM = 1;
 export const MAX_ZOOM = 3;
 const TEAM_TINT = [0x7ab8ff, 0xff6a5a];
 const HERO_TINT = 0xffd86a;
+/** Tint and size per unit kind; monsters are told apart by colour and size until the art pipeline arrives. */
+const KIND_LOOK: Record<number, { tint?: number; scale: number }> = {
+  [Kind.Warrior]: { scale: 1 },
+  [Kind.Archer]: { scale: 0.92 },
+  [Kind.Hero]: { tint: HERO_TINT, scale: 1.15 },
+  [Kind.Mage]: { tint: 0xc9a0ff, scale: 0.95 },
+  [Kind.Gnoll]: { tint: 0xc4a35a, scale: 1 },
+  [Kind.Golem]: { tint: 0xa8a8b0, scale: 1.5 },
+  [Kind.Imp]: { tint: 0xff7a3a, scale: 0.8 },
+};
+const ELEM_COLOR = [0xffffff, 0xff9a3a, 0x6ac8ff, 0xd8f0ff, 0xb59a6a, 0xd48aff];
+export const QUALITY_NAMES = ['Low', 'Medium', 'High'] as const;
+const FLOATERS = [0, 10, 24];
+const FLOAT_MS = 900;
 
 function shade(c: [number, number, number], l: number, extra = 0): string {
   const k = l / 255;
@@ -91,7 +106,15 @@ function unitTexture(): Texture {
   return Texture.from(cv);
 }
 
+interface Floater {
+  t: Text;
+  x: number;
+  y: number;
+  born: number;
+}
+
 export interface View {
+  hover: { id: number; ok: boolean } | null; // unit under the pointer and whether the armed order may target it
   selected: ReadonlySet<number>;
   box: { x0: number; y0: number; x1: number; y1: number } | null;
   ping: { x: number; y: number; age: number } | null; // world tile coords, age 0..1
@@ -103,6 +126,12 @@ export class Renderer {
   private readonly rings = new Graphics();
   private readonly overlay = new Graphics();
   private readonly light = new Graphics();
+  private readonly shots = new Graphics();
+  private readonly floaterLayer = new Container();
+  private floaters: Floater[] = [];
+  private freeText: Text[] = [];
+  private fogTick = 0;
+  quality = 2;
   private sprites: Sprite[] = [];
   private fogCv!: HTMLCanvasElement;
   private fogTex!: Texture;
@@ -152,14 +181,84 @@ export class Renderer {
     for (let i = 0; i < sim.count; i++) {
       const s = new Sprite(tex);
       s.anchor.set(0.5, 0.88);
-      s.tint = i === 0 && sim.team[i] === 0 ? HERO_TINT : TEAM_TINT[sim.team[i]] ?? 0xffffff;
+      const kind = sim.cb.kind[i];
+      const look = KIND_LOOK[kind] ?? { scale: 1 };
+      s.scale.set(look.scale);
+      // Your units keep the team colour (the hero stays gold); monsters use the colour of their kind.
+      if (sim.team[i] === 0) s.tint = kind === Kind.Hero || kind === Kind.Mage ? look.tint! : TEAM_TINT[0];
+      else s.tint = kind === Kind.Archer ? TEAM_TINT[1] : look.tint ?? TEAM_TINT[1];
       this.sprites.push(s);
       this.world.addChild(s);
     }
-    this.world.addChild(fog);
+    this.world.addChild(this.shots, fog);
     this.light.blendMode = 'multiply';
-    this.app.stage.addChild(this.world, this.light, this.overlay);
+    this.app.stage.addChild(this.world, this.light, this.floaterLayer, this.overlay);
     this.centerOn(sim.x[0] / FP, sim.y[0] / FP);
+    this.setQuality(this.quality);
+  }
+
+  /** 0 Low, 1 Medium, 2 High: resolution, lighting, hit-point bars and floating numbers. */
+  setQuality(q: number): void {
+    this.quality = Math.max(0, Math.min(2, q));
+    const dpr = window.devicePixelRatio || 1;
+    const res = [1, Math.min(dpr, 1.5), Math.min(dpr, 2)][this.quality];
+    try {
+      if (this.app.renderer.resolution !== res) {
+        this.app.renderer.resolution = res;
+        this.app.renderer.resize(window.innerWidth, window.innerHeight);
+      }
+    } catch {
+      // a renderer that cannot change resolution keeps the old one
+    }
+    this.light.visible = this.quality > 0;
+    this.lightKey = '';
+  }
+
+  private floater(text: string, color: number, wx: number, wy: number, now: number): void {
+    if (this.floaters.length >= FLOATERS[this.quality]) return;
+    const t =
+      this.freeText.pop() ??
+      new Text({ text, style: { fontFamily: 'Georgia, serif', fontSize: 12, fontWeight: 'bold', fill: 0xffffff, stroke: { color: 0x000000, width: 3 } } });
+    t.text = text;
+    t.style.fill = color;
+    t.anchor.set(0.5, 1);
+    t.visible = true;
+    this.floaterLayer.addChild(t);
+    this.floaters.push({ t, x: wx, y: wy, born: now });
+  }
+
+  private runFx(sim: Sim, now: number): void {
+    const fx = sim.cb.fx;
+    if (this.quality > 0) {
+      const k = TILE / FP;
+      for (const e of fx) {
+        const tile = Math.floor(e.y / FP) * this.map.w + Math.floor(e.x / FP);
+        if (!sim.visible[tile]) continue;
+        const wx = e.x * k;
+        const wy = e.y * k - 22;
+        const sx = wx * this.zoom - this.camX;
+        const sy = wy * this.zoom - this.camY;
+        if (sx < -20 || sy < -20 || sx > this.viewW + 20 || sy > this.viewH + 20) continue;
+        if (e.type === 0) this.floater(String(e.v), ELEM_COLOR[e.el], wx, wy, now);
+        else if (e.type === 1) this.floater('miss', 0xbbbbbb, wx, wy, now);
+        else if (e.type === 3) this.floater(`+${e.v} gold`, 0xffd84a, wx, wy, now);
+        else if (e.type === 4) this.floater('no mana', 0x6a8cff, wx, wy, now);
+      }
+    }
+    fx.length = 0;
+    for (let n = this.floaters.length - 1; n >= 0; n--) {
+      const f = this.floaters[n];
+      const age = (now - f.born) / FLOAT_MS;
+      if (age >= 1) {
+        this.floaterLayer.removeChild(f.t);
+        f.t.visible = false;
+        this.freeText.push(f.t);
+        this.floaters.splice(n, 1);
+        continue;
+      }
+      f.t.alpha = 1 - age * age;
+      f.t.position.set(Math.round(f.x * this.zoom - this.camX), Math.round((f.y - age * 18) * this.zoom - this.camY));
+    }
   }
 
   centerOn(tx: number, ty: number): void {
@@ -208,6 +307,7 @@ export class Renderer {
   /** Screen position of unit i using the last drawn interpolated position, or null when off-screen. */
   unitScreen(i: number): [number, number] | null {
     const s = this.sprites[i];
+    if (!s.visible) return null;
     const x = s.x * this.zoom - this.camX;
     const y = (s.y - 6) * this.zoom - this.camY;
     return x < -40 || y < -40 || x > this.viewW + 40 || y > this.viewH + 40 ? null : [x, y];
@@ -246,28 +346,80 @@ export class Renderer {
   draw(sim: Sim, px: Int32Array, py: Int32Array, alpha: number, v: View): void {
     this.world.scale.set(this.zoom);
     this.world.position.set(-this.camX, -this.camY);
-    this.updateFog(sim);
+    if (this.quality > 0 || (this.fogTick++ & 1) === 0) this.updateFog(sim);
     this.updateLight(sim.daylight);
+    const now = performance.now();
+    this.runFx(sim, now);
     const k = TILE / FP;
     const mw = this.map.w;
-    for (let i = 0; i < sim.count; i++) {
-      const s = this.sprites[i];
-      s.x = Math.round((px[i] + (sim.x[i] - px[i]) * alpha) * k);
-      s.y = Math.round((py[i] + (sim.y[i] - py[i]) * alpha) * k);
-      s.zIndex = s.y;
-      if (sim.team[i] !== 0) s.visible = sim.visible[Math.floor(sim.y[i] / FP) * mw + Math.floor(sim.x[i] / FP)] === 1;
-    }
-    this.world.sortableChildren = false;
+    const cb = sim.cb;
+    const z = this.zoom;
     const r = this.rings;
     r.clear();
+    // Loot sacks under the units, only on ground the player has seen.
+    for (let n = 0; n < cb.sG.length; n++) {
+      if (!cb.sG[n]) continue;
+      if (!sim.explored[Math.floor(cb.sY[n] / FP) * mw + Math.floor(cb.sX[n] / FP)]) continue;
+      const sx = cb.sX[n] * k;
+      const sy = cb.sY[n] * k;
+      r.ellipse(sx, sy + 2, 7, 3).fill({ color: 0x000000, alpha: 0.35 });
+      r.circle(sx, sy - 3, 6).fill(0xa8803c).stroke({ color: 0x4a3414, width: 1 });
+      r.rect(sx - 2, sy - 10, 4, 3).fill(0xe0c060);
+    }
+    for (let i = 0; i < sim.count; i++) {
+      const s = this.sprites[i];
+      if (cb.hp[i] <= 0) {
+        s.visible = false;
+        continue;
+      }
+      s.x = Math.round((px[i] + (sim.x[i] - px[i]) * alpha) * k);
+      s.y = Math.round((py[i] + (sim.y[i] - py[i]) * alpha) * k);
+      const sx = s.x * z - this.camX;
+      const sy = s.y * z - this.camY;
+      const onScreen = sx > -40 && sy > -40 && sx < this.viewW + 40 && sy < this.viewH + 40;
+      s.visible = onScreen && (sim.team[i] === 0 || sim.visible[Math.floor(sim.y[i] / FP) * mw + Math.floor(sim.x[i] / FP)] === 1);
+    }
+    const sh = this.shots;
+    sh.clear();
+    // Hit-point bars: Low draws them only for selected units, Medium adds hurt units, High draws every hurt unit in view.
+    for (let i = 0; i < sim.count; i++) {
+      const s = this.sprites[i];
+      if (!s.visible) continue;
+      const hurt = cb.hp[i] < cb.hpMax[i];
+      const sel = v.selected.has(i);
+      if (!(sel || (hurt && this.quality > 0))) continue;
+      const f = cb.hp[i] / cb.hpMax[i];
+      const w = 20 * (s.scale.x > 1.2 ? 1.4 : 1);
+      const y = s.y - 36 * s.scale.y;
+      sh.rect(s.x - w / 2 - 1, y - 1, w + 2, 5).fill(0x000000);
+      sh.rect(s.x - w / 2, y, w * f, 3).fill(sim.team[i] === 0 ? (f > 0.35 ? 0x5fd35f : 0xe0b030) : 0xe05a4a);
+    }
     for (const id of v.selected) {
       const s = this.sprites[id];
+      if (!s.visible) continue;
       const dir = sim.dir[id];
       r.ellipse(s.x, s.y, 11, 5)
         .stroke({ color: 0x9dff7a, width: 2 })
         .moveTo(s.x, s.y)
         .lineTo(s.x + DIR_COS[dir] * 15, s.y + DIR_SIN[dir] * 7)
         .stroke({ color: 0xffffff, width: 2 });
+    }
+    if (v.hover) {
+      const s = this.sprites[v.hover.id];
+      if (s.visible) r.ellipse(s.x, s.y, 13, 6).stroke({ color: v.hover.ok ? 0xff5a4a : 0x999999, width: 2 });
+    }
+    for (let p = 0; p < cb.pAlive.length; p++) {
+      if (!cb.pAlive[p]) continue;
+      const wx = cb.pX[p] * k;
+      const wy = cb.pY[p] * k - 14;
+      const el = cb.pEl[p];
+      if (el === 0) {
+        const t = cb.pT[p];
+        const dx = sim.x[t] - cb.pX[p];
+        const dy = sim.y[t] - cb.pY[p];
+        const len = Math.max(1, Math.hypot(dx, dy));
+        sh.moveTo(wx, wy).lineTo(wx - (dx / len) * 9, wy - (dy / len) * 9).stroke({ color: 0xe8d8a0, width: 2 });
+      } else sh.circle(wx, wy, 4).fill(ELEM_COLOR[el]);
     }
     const o = this.overlay;
     o.clear();

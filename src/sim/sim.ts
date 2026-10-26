@@ -1,5 +1,6 @@
 import { isBlockedAt, type GameMap } from '../map';
 import { dayLight } from './daynight';
+import { CombatState, DEFS, Ord, enemyNear, nearestSack, think, toGuard, type CombatSnap } from './combat';
 import { FP, Pather, dir16, lineClear, regionsOf, speedPct } from './path';
 import { Rng } from './rng';
 
@@ -16,7 +17,19 @@ const STUCK_GIVE_UP = 200; // 8 seconds of no progress after all repaths
 const PATHS_PER_TICK = 3; // time-slice: at most this many A* searches during unit steering
 const PATHS_PER_ORDER = 6; // extra individual searches a single order may start
 
-export type Command = { type: 'move'; ids: number[]; x: number; y: number }; // x, y in tiles (may be fractional)
+/** Order verbs of the `order` command. */
+export type OrderName = 'attack' | 'guard' | 'defend' | 'cast' | 'swarm' | 'hold' | 'retreat' | 'still' | 'pickup';
+
+export type Command =
+  | { type: 'move'; ids: number[]; x: number; y: number; loose?: boolean } // x, y in tiles (may be fractional)
+  | {
+      type: 'order';
+      order: OrderName;
+      ids: number[];
+      x?: number; // point in tiles
+      y?: number;
+      target?: number; // unit id (attack, defend, cast)
+    };
 export interface LoggedCommand {
   tick: number;
   cmd: Command;
@@ -44,11 +57,18 @@ export interface Snapshot {
   explored: Uint8Array;
   paths: [number, Int32Array, number][];
   nextPath: number;
+  cb: CombatSnap;
 }
 
 export interface SimOptions {
   /** Ticks added to the day clock so a game can start at any time of day. */
   dayOffset?: number;
+  /** Unit kinds (index into the combat table). Default: all warriors. */
+  kinds?: number[];
+  /** Turn on combat and orders. Off by default so movement-only sims stay peaceful. */
+  combat?: boolean;
+  /** Multiplier on every unit's hit points (benchmark battles). */
+  hpMul?: number;
 }
 
 // Tile offsets around a point, nearest first, used to find the closest valid tile.
@@ -78,6 +98,11 @@ export class Sim {
   fogVersion = 0;
   readonly log: LoggedCommand[] = [];
   readonly dayOffset: number;
+  readonly combat: boolean;
+  readonly cb: CombatState;
+  /** Uniform grid of living units, rebuilt every tick; used for collision and target search. */
+  readonly cellStart: Int32Array;
+  readonly cellItems: Int32Array;
 
   private paths = new Map<number, PathRec>();
   private nextPath = 1;
@@ -88,8 +113,6 @@ export class Sim {
   private readonly oy: Int32Array;
   private readonly ax: Int32Array;
   private readonly ay: Int32Array;
-  private readonly cellStart: Int32Array;
-  private readonly cellItems: Int32Array;
   private readonly cursor: Int32Array;
 
   constructor(
@@ -124,12 +147,47 @@ export class Sim {
     this.cellStart = new Int32Array(map.w * map.h + 1);
     this.cellItems = new Int32Array(n);
     this.cursor = new Int32Array(map.w * map.h);
+    this.combat = opts.combat ?? false;
+    this.cb = new CombatState(n, opts.kinds ?? Array(n).fill(0), this.team, opts.hpMul ?? 1);
   }
 
   /** Place unit `id` at a tile centre. Only for setup before the first tick. */
   place(id: number, tileX: number, tileY: number): void {
-    this.x[id] = this.tx[id] = Math.round((tileX + 0.5) * FP);
-    this.y[id] = this.ty[id] = Math.round((tileY + 0.5) * FP);
+    this.x[id] = this.tx[id] = this.cb.px[id] = Math.round((tileX + 0.5) * FP);
+    this.y[id] = this.ty[id] = this.cb.py[id] = Math.round((tileY + 0.5) * FP);
+  }
+
+  /** Set the guard post of every unit to where it stands. Call after custom placement. */
+  settle(): void {
+    for (let i = 0; i < this.count; i++) {
+      this.cb.px[i] = this.x[i];
+      this.cb.py[i] = this.y[i];
+    }
+  }
+
+  alive(i: number): boolean {
+    return this.cb.hp[i] > 0;
+  }
+
+  /** Stop a unit where it is. */
+  stop(i: number): void {
+    if (this.moving[i]) this.finish(i);
+  }
+
+  /** Send one unit towards a fixed-point position on its own path. Time-sliced like every other search. */
+  goTo(i: number, gx: number, gy: number): void {
+    this.release(i);
+    this.tx[i] = gx;
+    this.ty[i] = gy;
+    this.moving[i] = 1;
+    this.stuck[i] = 0;
+    this.repaths[i] = 0;
+    this.wp[i] = 0;
+    if (!lineClear(this.map, this.x[i], this.y[i], gx, gy) && this.budget > 0) {
+      this.budget--;
+      const pts = this.pather.find(Math.floor(this.x[i] / FP), Math.floor(this.y[i] / FP), Math.floor(gx / FP), Math.floor(gy / FP));
+      if (pts) this.pathId[i] = this.addPath(pts, 1);
+    }
   }
 
   /** Daylight 0..255 right now. */
@@ -140,13 +198,16 @@ export class Sim {
   /** Advance one tick. Commands are applied first, in order, and appended to the log. */
   step(cmds: readonly Command[] = []): void {
     this.tick++;
+    this.budget = PATHS_PER_TICK;
+    if (this.combat) this.buildGrid();
     for (const cmd of cmds) {
       this.log.push({ tick: this.tick, cmd });
-      this.apply(cmd);
+      if (cmd.type === 'move') this.apply(cmd);
+      else this.applyOrder(cmd);
     }
-    this.budget = PATHS_PER_TICK;
     this.ox.set(this.x);
     this.oy.set(this.y);
+    if (this.combat) think(this);
     for (let i = 0; i < this.count; i++) if (this.moving[i]) this.steer(i);
     this.separate();
     for (let i = 0; i < this.count; i++) if (this.moving[i]) this.progress(i);
@@ -159,11 +220,145 @@ export class Sim {
     return Math.floor(this.y[i] / FP) * this.map.w + Math.floor(this.x[i] / FP);
   }
 
-  private apply(cmd: Command): void {
+  private liveIds(raw: readonly number[]): number[] {
+    const seen = new Set<number>();
+    return raw.filter((id) => id >= 0 && id < this.count && this.cb.hp[id] > 0 && !seen.has(id) && seen.add(id));
+  }
+
+  /** Orders other than a plain move. A point makes the group walk there in formation first, then the order is set. */
+  private applyOrder(cmd: Extract<Command, { type: 'order' }>): void {
+    if (!this.combat) return;
+    const cb = this.cb;
+    const ids = this.liveIds(cmd.ids);
+    if (ids.length === 0) return;
+    const hasPoint = cmd.x !== undefined && cmd.y !== undefined;
+    const withPoint = (ord: number): void => {
+      this.apply({ type: 'move', ids, x: cmd.x!, y: cmd.y! });
+      for (const id of ids) {
+        cb.ord[id] = ord;
+        cb.tgt[id] = -1;
+        cb.aux[id] = 0;
+        cb.px[id] = this.tx[id];
+        cb.py[id] = this.ty[id];
+      }
+    };
+    const t = cmd.target ?? -1;
+    switch (cmd.order) {
+      case 'still':
+      case 'hold':
+        for (const id of ids) {
+          this.stop(id);
+          cb.ord[id] = cmd.order === 'still' ? Ord.Still : Ord.Hold;
+          cb.tgt[id] = -1;
+        }
+        return;
+      case 'guard':
+        if (hasPoint) withPoint(Ord.Guard);
+        else for (const id of ids) toGuard(this, id);
+        return;
+      case 'swarm':
+        if (hasPoint) withPoint(Ord.Swarm);
+        else
+          for (const id of ids) {
+            cb.ord[id] = Ord.Swarm;
+            cb.tgt[id] = -1;
+            cb.px[id] = this.x[id];
+            cb.py[id] = this.y[id];
+          }
+        return;
+      case 'attack':
+        if (t >= 0 && t < this.count && cb.hp[t] > 0) {
+          for (const id of ids) {
+            if (id === t) continue;
+            cb.ord[id] = Ord.Attack;
+            cb.tgt[id] = t;
+            cb.aux[id] = 1;
+          }
+        } else if (hasPoint) withPoint(Ord.Attack);
+        return;
+      case 'defend':
+        if (t >= 0 && t < this.count && cb.hp[t] > 0 && this.team[t] === this.team[ids[0]]) {
+          for (const id of ids) {
+            if (id === t) continue;
+            cb.ord[id] = Ord.Defend;
+            cb.aux[id] = t;
+            cb.tgt[id] = -1;
+          }
+        }
+        return;
+      case 'cast': {
+        let tt = t;
+        if ((tt < 0 || cb.hp[tt] <= 0) && hasPoint) {
+          const probe = ids[0];
+          const ox = this.x[probe];
+          const oy = this.y[probe];
+          this.x[probe] = Math.round(cmd.x! * FP);
+          this.y[probe] = Math.round(cmd.y! * FP);
+          tt = enemyNear(this, probe, 2 * FP, 0, 0, 0);
+          this.x[probe] = ox;
+          this.y[probe] = oy;
+        }
+        if (tt < 0 || cb.hp[tt] <= 0) return;
+        for (const id of ids) {
+          if (!DEFS[cb.kind[id]].caster) continue;
+          cb.ord[id] = Ord.Cast;
+          cb.tgt[id] = tt;
+        }
+        return;
+      }
+      case 'retreat': {
+        let gx = cmd.x;
+        let gy = cmd.y;
+        if (!hasPoint) {
+          // fall back: 12 tiles directly away from the enemy nearest to the group
+          let cx = 0;
+          let cy = 0;
+          for (const id of ids) {
+            cx += this.x[id];
+            cy += this.y[id];
+          }
+          cx = Math.floor(cx / ids.length);
+          cy = Math.floor(cy / ids.length);
+          const probe = ids[0];
+          const ox = this.x[probe];
+          const oy = this.y[probe];
+          this.x[probe] = cx;
+          this.y[probe] = cy;
+          const e = enemyNear(this, probe, 14 * FP, 0, 0, 0);
+          this.x[probe] = ox;
+          this.y[probe] = oy;
+          if (e < 0) return;
+          const dx = cx - this.x[e];
+          const dy = cy - this.y[e];
+          const len = Math.max(1, Math.sqrt(dx * dx + dy * dy));
+          gx = Math.max(1, Math.min(this.map.w - 2, (cx + (dx / len) * 12 * FP) / FP));
+          gy = Math.max(1, Math.min(this.map.h - 2, (cy + (dy / len) * 12 * FP) / FP));
+        }
+        this.apply({ type: 'move', ids, x: gx!, y: gy!, loose: true });
+        for (const id of ids) {
+          cb.ord[id] = Ord.Retreat;
+          cb.tgt[id] = -1;
+        }
+        return;
+      }
+      case 'pickup': {
+        if (!hasPoint) return;
+        const s = nearestSack(this, Math.round(cmd.x! * FP), Math.round(cmd.y! * FP), 2 * FP);
+        if (s < 0) return;
+        for (const id of ids) {
+          cb.ord[id] = Ord.Pickup;
+          cb.aux[id] = s;
+          cb.tgt[id] = -1;
+          this.goTo(id, cb.sX[s], cb.sY[s]);
+        }
+      }
+    }
+  }
+
+  private apply(cmd: Extract<Command, { type: 'move' }>): void {
     const { map, region } = this;
     const w = map.w;
-    const seen = new Set<number>();
-    let ids = cmd.ids.filter((id) => id >= 0 && id < this.count && !seen.has(id) && seen.add(id));
+    let ids = this.liveIds(cmd.ids);
     if (ids.length === 0) return;
     const cxp = Math.round(cmd.x * FP);
     const cyp = Math.round(cmd.y * FP);
@@ -204,8 +399,9 @@ export class Sim {
     else shared = this.pather.find(Math.floor(lx / FP), Math.floor(ly / FP), gx, gy);
     if (!shared) return;
 
-    const slots = n === 1 ? [[goalX, goalY]] : this.formation(ids, leadReg, goalX, goalY, goalCx, goalCy);
-    const order = n === 1 ? ids : this.assign(ids, goalX, goalY);
+    const loose = n === 1 || cmd.loose === true;
+    const slots = n === 1 ? [[goalX, goalY]] : loose ? ids.map(() => [goalX, goalY]) : this.formation(ids, leadReg, goalX, goalY, goalCx, goalCy);
+    const order = loose ? ids : this.assign(ids, goalX, goalY);
     const sharedId = this.addPath(shared, 0);
     let own = PATHS_PER_ORDER;
     for (let k = 0; k < n; k++) {
@@ -214,6 +410,8 @@ export class Sim {
       this.tx[id] = slots[k][0];
       this.ty[id] = slots[k][1];
       this.moving[id] = 1;
+      this.cb.ord[id] = Ord.Move;
+      this.cb.tgt[id] = -1;
       this.stuck[id] = 0;
       this.repaths[id] = 0;
       this.wp[id] = 0;
@@ -354,7 +552,7 @@ export class Sim {
     const x = this.x[i];
     const y = this.y[i];
     const pct = Math.max(25, speedPct(map, Math.floor(x / FP), Math.floor(y / FP)));
-    const spd = Math.floor((UNIT_SPEED * pct) / 100);
+    const spd = Math.floor((UNIT_SPEED * pct * DEFS[this.cb.kind[i]].speed) / 10000);
     let tgx = this.tx[i];
     let tgy = this.ty[i];
     const pid = this.pathId[i];
@@ -438,24 +636,38 @@ export class Sim {
   }
 
   /** Soft collision: overlapping units push each other apart. Idle units yield more than walkers. */
+  private cellOf(i: number): number {
+    const { w, h } = this.map;
+    return Math.min(h - 1, Math.max(0, Math.floor(this.y[i] / FP))) * w + Math.min(w - 1, Math.max(0, Math.floor(this.x[i] / FP)));
+  }
+
+  /** Bucket the living units by tile (counting sort). */
+  private buildGrid(): void {
+    const { map, count } = this;
+    const cs = this.cellStart;
+    const hp = this.cb.hp;
+    cs.fill(0);
+    for (let i = 0; i < count; i++) if (hp[i] > 0) cs[this.cellOf(i) + 1]++;
+    for (let c = 0; c < map.w * map.h; c++) cs[c + 1] += cs[c];
+    const cursor = this.cursor;
+    cursor.fill(0);
+    for (let i = 0; i < count; i++) {
+      if (hp[i] <= 0) continue;
+      const c = this.cellOf(i);
+      this.cellItems[cs[c] + cursor[c]++] = i;
+    }
+  }
+
   private separate(): void {
     const { map, count } = this;
     const w = map.w;
     const cs = this.cellStart;
-    cs.fill(0);
-    const cell = (i: number): number =>
-      Math.min(map.h - 1, Math.max(0, Math.floor(this.y[i] / FP))) * w + Math.min(w - 1, Math.max(0, Math.floor(this.x[i] / FP)));
-    for (let i = 0; i < count; i++) cs[cell(i) + 1]++;
-    for (let c = 0; c < w * map.h; c++) cs[c + 1] += cs[c];
-    const cursor = this.cursor;
-    cursor.fill(0);
-    for (let i = 0; i < count; i++) {
-      const c = cell(i);
-      this.cellItems[cs[c] + cursor[c]++] = i;
-    }
+    this.buildGrid();
+    const cell = (i: number): number => this.cellOf(i);
     this.ax.fill(0);
     this.ay.fill(0);
     for (let i = 0; i < count; i++) {
+      if (this.cb.hp[i] <= 0) continue;
       const xi = this.x[i];
       const yi = this.y[i];
       const c = cell(i);
@@ -540,7 +752,7 @@ export class Sim {
     const r = this.daylight > 120 ? VISION_DAY : VISION_NIGHT;
     const r2 = r * r + r;
     for (let i = 0; i < this.count; i++) {
-      if (this.team[i] !== 0) continue;
+      if (this.team[i] !== 0 || this.cb.hp[i] <= 0) continue;
       const ux = Math.floor(this.x[i] / FP);
       const uy = Math.floor(this.y[i] / FP);
       for (let dy = -r; dy <= r; dy++) {
@@ -580,6 +792,7 @@ export class Sim {
       mix(this.dir[i]);
     }
     for (let t = 0; t < this.explored.length; t++) if (this.explored[t]) mix(t);
+    this.cb.hashInto(mix);
     return h >>> 0;
   }
 
@@ -601,6 +814,7 @@ export class Sim {
       explored: this.explored.slice(),
       paths: [...this.paths].map(([id, p]) => [id, p.pts.slice(), p.refs]),
       nextPath: this.nextPath,
+      cb: this.cb.snapshot(),
     };
   }
 
@@ -621,6 +835,7 @@ export class Sim {
     this.explored = s.explored.slice();
     this.paths = new Map(s.paths.map(([id, pts, refs]) => [id, { pts: pts.slice(), refs }]));
     this.nextPath = s.nextPath;
+    this.cb.restore(s.cb, this.team);
     this.fogVersion++;
   }
 }

@@ -47,3 +47,19 @@ Run on the live URL on a real iPhone and a real Android phone. `?debug` shows th
 | 6 | Select some units, tap "Set", tap group button 1, tap "Set" again to leave. Tap another selection, tap button 1: the first selection returns. Tap 1 twice quickly: the camera jumps to the group. "Set" + "Add" + button adds to the group. | | |
 | 7 | Tap "Pause", give an order, tap "Pause" again: the order runs after resume. Tap "Speed": x1, x1/2, x1/4. | | |
 | 8 | Open `?crowd`, select all, send the 300-unit group across the map: write the lowest fps seen and whether any hitch is visible. | | |
+
+## Phase 4 additions (combat, orders, monster packs, 300-unit battle)
+
+Play the default test fight (12 against five monster packs) with touch only, then the benchmark at `?battle`.
+
+| # | Check | iPhone | Android |
+|---|-------|--------|---------|
+| 1 | The command bar (10 buttons, left side) is reachable with a thumb and does not hide the hero squad. | | |
+| 2 | Tap "Attack", the banner appears; tap a monster: the squad walks up and fights. Tap "Attack" then the ground: attack-move. Hit chance, damage numbers and "miss" float over units. | | |
+| 3 | Tap a monster directly (no order armed): the selected units attack it. Tap the ground: they walk. | | |
+| 4 | "Guard", "Defend" (tap a friendly unit), "Cast" (select the hero, tap a monster: fire bolt, mana drops), "Swarm", "Stand", "Retreat", "Still", "Pickup" (tap a loot sack): each does what its tooltip says. | | |
+| 5 | Press and hold a button for half a second: its info appears and the order is not triggered. Press and hold a unit: HP, hit, defence, absorb and resistances show. | | |
+| 6 | "Force" cycles off, move, attack: forced move walks past monsters without fighting; forced attack on a friendly unit attacks it. "Formation" toggles loose mode. | | |
+| 7 | Monsters guard their camp, the whole pack joins when one is attacked, and the pack walks back after you leave. Dead monsters leave a sack; Pickup adds gold. | | |
+| 8 | Win by killing every monster, or lose when the hero dies: the Victory or Defeat panel shows and "Play again" restarts. | | |
+| 9 | Open `?battle` (150 against 150). Write fps, "draw" ms and "sim" ms per step after 1 minute and after 10 minutes. Write the quality level that ends up selected (the game lowers it by itself below about 28 fps) and whether the phone warms up or the page reloads. | | |
