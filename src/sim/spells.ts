@@ -1,4 +1,5 @@
-import { DEFS, Elem, enemyNear, launch, strike } from './combat';
+import { Elem, M, MODN, enemyNear, launch, strike } from './combat';
+import { heroUse } from './hero';
 import { FP } from './path';
 import type { Sim } from './sim';
 import { CORPSE_TICKS, CURSES, NST, POISON_STACKS, SPELLS, St, Tk } from './spelldata';
@@ -9,7 +10,7 @@ const bit = (s: number): number => 1 << s;
 const TICKS = 25;
 
 export function knows(sim: Sim, i: number, sid: number): boolean {
-  return sid >= 0 && sid < SPELLS.length && ((DEFS[sim.cb.kind[i]].known >> sid) & 1) === 1;
+  return sid >= 0 && sid < SPELLS.length && ((sim.cb.known[i] >>> sid) & 1) === 1;
 }
 
 export function isCorpse(sim: Sim, t: number): boolean {
@@ -120,19 +121,19 @@ export function healUnit(sim: Sim, t: number, amount: number): void {
 }
 
 /** A homing spell lands on `t` (or an area or multi spell picks `t` as one of its victims). */
-export function spellHit(sim: Sim, t: number, sid: number): void {
+export function spellHit(sim: Sim, t: number, sid: number, pow = 100): void {
   const sp = SPELLS[sid];
   const cb = sim.cb;
   if (cb.hp[t] <= 0) return;
   if (sp.heal) {
-    healUnit(sim, t, roll(sim, sp.min, sp.max));
+    healUnit(sim, t, Math.floor((roll(sim, sp.min, sp.max) * pow) / 100));
     return;
   }
-  if (sp.max > 0) strike(sim, t, sp.min, sp.max, sp.school, 99);
+  if (sp.max > 0) strike(sim, t, Math.floor((sp.min * pow) / 100), Math.floor((sp.max * pow) / 100), sp.school, 99);
   if (sp.st >= 0 && cb.hp[t] > 0) addStatus(sim, t, sp.st, sp.dur * TICKS, sp.val);
 }
 
-function area(sim: Sim, caster: number, sid: number, px: number, py: number): void {
+function area(sim: Sim, caster: number, sid: number, px: number, py: number, pow: number): void {
   const sp = SPELLS[sid];
   const r2 = (sp.radius * FP) ** 2;
   const team = sim.team[caster];
@@ -140,7 +141,7 @@ function area(sim: Sim, caster: number, sid: number, px: number, py: number): vo
   for (let j = 0; j < sim.count; j++) {
     if (sim.cb.hp[j] <= 0) continue;
     if ((sim.team[j] === team) !== sp.heal) continue;
-    if (dist2(sim, j, px, py) <= r2) spellHit(sim, j, sid);
+    if (dist2(sim, j, px, py) <= r2) spellHit(sim, j, sid, pow);
   }
 }
 
@@ -181,23 +182,25 @@ export function castSpell(sim: Sim, i: number, sid: number, t: number, px: numbe
   cb.mana[i] -= sp.cost;
   cb.cd[i] = sp.cd;
   cb.emit(9, sim.x[i], sim.y[i], sid, sp.school);
+  const pow = Math.max(0, 100 + cb.mod[i * MODN + M.Pow]);
+  if (sim.hero !== null && i === sim.hero.id) heroUse(sim, 2); // Sorcery grows with casting
   switch (sp.tk) {
     case Tk.Foe:
     case Tk.Ally:
-      launch(sim, sim.x[i], sim.y[i], t, sp.min, sp.max, sp.school, 99, sid);
+      launch(sim, sim.x[i], sim.y[i], t, sp.min, sp.max, sp.school, 99, sid, pow);
       return;
     case Tk.Multi: {
       const ids = chain(sim, t, sid, sim.team[i]);
-      ids.forEach((id, n) => launch(sim, n === 0 ? sim.x[i] : sim.x[t], n === 0 ? sim.y[i] : sim.y[t], id, sp.min, sp.max, sp.school, 99, sid));
+      ids.forEach((id, n) => launch(sim, n === 0 ? sim.x[i] : sim.x[t], n === 0 ? sim.y[i] : sim.y[t], id, sp.min, sp.max, sp.school, 99, sid, pow));
       return;
     }
     case Tk.Ground:
-      area(sim, i, sid, px, py);
+      area(sim, i, sid, px, py, pow);
       return;
     case Tk.Self:
       if (sp.st >= 0) addStatus(sim, i, sp.st, sp.dur * TICKS, sp.val);
       else {
-        cb.mana[i] = Math.min(DEFS[cb.kind[i]].mana, cb.mana[i] + sp.val);
+        cb.mana[i] = Math.min(cb.manaMax[i], cb.mana[i] + sp.val);
         cb.emit(10, sim.x[i], sim.y[i], 2, 5);
       }
       return;
@@ -206,7 +209,7 @@ export function castSpell(sim: Sim, i: number, sid: number, t: number, px: numbe
       else {
         cb.corp[t] = 0;
         cb.emit(10, sim.x[t], sim.y[t], 0, 5);
-        area(sim, i, sid, sim.x[t], sim.y[t]);
+        area(sim, i, sid, sim.x[t], sim.y[t], pow);
       }
   }
 }
@@ -307,7 +310,7 @@ export function autoCast(sim: Sim, i: number): boolean {
     case Tk.Self: {
       if (sp.st >= 0) {
         if (hasStatus(sim, i, sp.st) || enemyNear(sim, i, 9 * FP, 0, 0, 0) < 0) return false;
-      } else if (cb.mana[i] * 2 >= DEFS[cb.kind[i]].mana) return false;
+      } else if (cb.mana[i] * 2 >= cb.manaMax[i]) return false;
       castSpell(sim, i, sid, -1, 0, 0);
       return true;
     }

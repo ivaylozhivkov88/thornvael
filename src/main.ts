@@ -7,8 +7,11 @@ import { TILE, generateMap } from './map';
 import { Minimap } from './minimap';
 import { QUALITY_NAMES, Renderer, type View } from './render';
 import { Bot, MonsterAi, battleScenario, fightScenario, placeScenario, setupCrowd, setupSquads, type Scenario } from './sim/bot';
-import { DEFS, Kind, nearestSack } from './sim/combat';
+import { DEFS, Kind, M, MODN, nearestLoot } from './sim/combat';
 import { DAY_TICKS, clockText } from './sim/daynight';
+import { HeroUi, tabStrip } from './heroui';
+import { SKILL_NAMES, WHY_TEXT, createHero } from './sim/hero';
+import { ITEMS, ITEM_COUNT, itemText } from './sim/items';
 import { SPELLS, Tk } from './sim/spelldata';
 import { validTarget } from './sim/spells';
 import { FP, Sim, TICKS_PER_SECOND, type Command, type OrderName } from './sim/sim';
@@ -74,12 +77,19 @@ type ArmKind = 'move' | 'attack' | 'guard' | 'defend' | 'spell' | 'pickup';
 let armedSpell = 0;
 let curSpell = 0; // the spell the Cast button, C key and Auto act on
 const DEFAULT_SLOTS = [0, 1, 4, 7, 9, 19, 11, 15, 17]; // Fire Bolt, Fireball, Frost Bolt, Healing, Lightning, Blessing, Haste, Stone Curse, Poison Cloud
+/** A quick slot holds a spell id (0..23), an item (100 + item id) or -1 for empty. */
+const ITEM_BASE = 100;
+const validSlot = (v: unknown): boolean => Number.isInteger(v) && (v as number) >= -1 && ((v as number) < SPELLS.length || ((v as number) >= ITEM_BASE && (v as number) - ITEM_BASE < ITEM_COUNT));
 let slots: number[] = [...DEFAULT_SLOTS];
+let savedSlots = false; // slots the player has already arranged (kept across games)
 let slotAssign = -1;
 let aimView: View['aim'] = null;
 try {
   const raw = JSON.parse(localStorage.getItem('thornvael.slots') ?? 'null') as unknown;
-  if (Array.isArray(raw) && raw.length === 9 && raw.every((v) => Number.isInteger(v) && v >= -1 && v < SPELLS.length)) slots = raw as number[];
+  if (Array.isArray(raw) && raw.length === 9 && raw.every(validSlot)) {
+    slots = raw as number[];
+    savedSlots = true;
+  }
 } catch {
   // storage may be blocked or hold junk; keep the defaults
 }
@@ -145,7 +155,7 @@ function execute(kind: ArmKind, sx: number, sy: number): boolean {
     case 'spell':
       return castAt(armedSpell, sx, sy, PICK);
     case 'pickup':
-      if (nearestSack(sim, Math.round(x * FP), Math.round(y * FP), 2 * FP) < 0) return false;
+      if (nearestLoot(sim, Math.round(x * FP), Math.round(y * FP), 2 * FP) < 0) return false;
       queue({ type: 'order', order: 'pickup', ids, x, y });
       break;
   }
@@ -153,7 +163,7 @@ function execute(kind: ArmKind, sx: number, sy: number): boolean {
   return true;
 }
 
-const casters = (sid: number): number[] => selectedIds().filter((i) => ((DEFS[sim.cb.kind[i]].known >> sid) & 1) === 1);
+const casters = (sid: number): number[] => selectedIds().filter((i) => ((sim.cb.known[i] >>> sid) & 1) === 1);
 
 /** The unit (or body) a spell would take as its target at a screen point, or -1. */
 function spellTargetAt(sid: number, sx: number, sy: number, snap: number): number {
@@ -220,13 +230,30 @@ function armSpell(sid: number): void {
   arm('spell');
 }
 
+const itemCount = (id: number): number => sim.hero?.inv.find((s) => s.item === id)?.n ?? 0;
+
+/** Use an item from the quick row: potions drink, scrolls are read, gear is put on. */
+function useItemSlot(id: number): void {
+  if (outcome) return;
+  if (sim.hero === null) {
+    toast(S.hero.noHero);
+    return;
+  }
+  if (itemCount(id) === 0) {
+    toast(S.hero.noItem);
+    return;
+  }
+  queue({ type: 'hero', op: 'use', item: id });
+}
+
 function castSlot(n: number): void {
   const sid = slots[n];
   if (sid < 0) {
     openBook(n);
     return;
   }
-  armSpell(sid);
+  if (sid >= ITEM_BASE) useItemSlot(sid - ITEM_BASE);
+  else armSpell(sid);
 }
 
 function toggleAuto(): void {
@@ -337,10 +364,11 @@ function hideTip(): void {
 function unitInfo(i: number): string {
   const d = DEFS[sim.cb.kind[i]];
   const cb = sim.cb;
-  const r = d.res.map((v, n) => `${S.elements[n + 1]} ${v}%`).join(', ');
+  const mo = i * MODN;
+  const r = d.res.map((v, n) => `${S.elements[n + 1]} ${Math.min(90, v + cb.mod[mo + M.Res + n])}%`).join(', ');
   const side = sim.team[i] === 0 ? S.yours : S.enemy;
-  const mana = d.mana > 0 ? `, ${S.mana} ${cb.mana[i]}/${d.mana}` : '';
-  return `${S.kinds[cb.kind[i]]} (${side}): ${S.hp} ${cb.hp[i]}/${cb.hpMax[i]}${mana}\n${S.hit} ${d.acc}, ${S.defence} ${d.def}, ${S.absorb} ${d.absorb}\n${S.resist}: ${r}`;
+  const mana = cb.manaMax[i] > 0 ? `, ${S.mana} ${cb.mana[i]}/${cb.manaMax[i]}` : '';
+  return `${S.kinds[cb.kind[i]]} (${side}): ${S.hp} ${cb.hp[i]}/${cb.hpMax[i]}${mana}\n${S.hit} ${d.acc + cb.mod[mo + M.Acc]}, ${S.defence} ${d.def + cb.mod[mo + M.Def]}, ${S.absorb} ${d.absorb + cb.mod[mo + M.Abs]}\n${S.resist}: ${r}`;
 }
 function unitAt(x: number, y: number, r: number): number {
   return pickUnit(sim.count, posAny, x, y, r);
@@ -437,7 +465,7 @@ function updateHover(x: number, y: number): void {
     if (armed === 'defend') ok = mine >= 0;
     else if (armed === 'pickup') {
       const [tx, ty] = renderer.toTile(x, y);
-      ok = nearestSack(sim, Math.round(tx * FP), Math.round(ty * FP), 2 * FP) >= 0;
+      ok = nearestLoot(sim, Math.round(tx * FP), Math.round(ty * FP), 2 * FP) >= 0;
     } else ok = true;
     cursor = ok ? 'crosshair' : 'not-allowed';
   } else if (enemy >= 0 && haveSel && forced() !== 1) {
@@ -455,6 +483,10 @@ const keys = new Set<string>();
 const ORDER_KEYS: Record<string, string> = { m: 'move', a: 'attack', g: 'guard', d: 'defend', c: 'cast', w: 'swarm', h: 'hold', r: 'retreat', s: 'still', p: 'pickup' };
 window.addEventListener('keydown', (e) => {
   if (e.target instanceof HTMLButtonElement && e.key === ' ') return;
+  // Inside a sheet the keys belong to the sheet (Tab, Enter, arrows), except Esc and I which close it.
+  const inSheet = e.target instanceof Element && e.target.closest('.sheet') !== null;
+  if (inSheet && e.key !== 'Escape' && e.key.toLowerCase() !== 'i') return;
+  if (heroUi.creating) return;
   mods.alt = e.altKey;
   mods.ctrl = e.ctrlKey || e.metaKey;
   unlock();
@@ -472,11 +504,13 @@ window.addEventListener('keydown', (e) => {
     castSlot(Number(e.key.slice(1)) - 4);
   } else if (e.key === 'Escape') {
     if (!$('book').hidden) closeBook();
+    else if (heroUi.isOpen) heroUi.close();
     else if (armed) arm(null);
     else selected.clear();
   } else if (e.key === ' ') togglePause();
   else if (e.key.toLowerCase() === 'q' && !e.ctrlKey && !e.altKey) selectAll();
   else if (e.key.toLowerCase() === 'b' && !e.ctrlKey && !e.altKey) openBook(-1);
+  else if (e.key.toLowerCase() === 'i' && !e.ctrlKey && !e.altKey && !e.metaKey) heroUi.toggle();
   else if (e.key.toLowerCase() === 'f' && !e.ctrlKey && !e.altKey) toggleLoose();
   else if (!e.ctrlKey && !e.altKey && !e.metaKey && ORDER_KEYS[e.key.toLowerCase()]) orderButton(ORDER_KEYS[e.key.toLowerCase()]);
   else keys.add(e.key.toLowerCase());
@@ -612,6 +646,8 @@ function spellTip(sid: number): string {
   if (sid === 23) parts.push('Restores 12 mana.');
   return parts.join('\n');
 }
+const slotTip = (v: number): string => (v >= ITEM_BASE ? itemText(v - ITEM_BASE) : spellTip(v));
+const slotCount = (v: number): string => `x${itemCount(v - ITEM_BASE)}`;
 function buildQuick(): void {
   for (let n = 0; n < 9; n++) {
     const b = slotButtons[n];
@@ -624,6 +660,11 @@ function buildQuick(): void {
       small.textContent = `F${n + 4}`;
       b.title = S.slotEmpty;
       b.style.borderColor = '';
+    } else if (sid >= ITEM_BASE) {
+      name.textContent = ITEMS[sid - ITEM_BASE].name;
+      small.textContent = `F${n + 4} · ${slotCount(sid)}`;
+      b.title = itemText(sid - ITEM_BASE);
+      b.style.borderColor = '#7ab4ff';
     } else {
       name.textContent = SPELLS[sid].name;
       small.textContent = `F${n + 4} \u00b7 ${SPELLS[sid].cost}`;
@@ -637,6 +678,15 @@ function refreshQuick(): void {
   for (let n = 0; n < 9; n++) {
     const sid = slots[n];
     const b = slotButtons[n];
+    if (sid >= ITEM_BASE) {
+      const have = itemCount(sid - ITEM_BASE);
+      const label = `F${n + 4} · ${slotCount(sid)}`;
+      if (b.lastElementChild && b.lastElementChild.textContent !== label) b.lastElementChild.textContent = label;
+      b.classList.toggle('on', false);
+      b.classList.toggle('dim', have === 0);
+      b.classList.toggle('low', false);
+      continue;
+    }
     const who = sid >= 0 ? casters(sid) : [];
     const best = who.reduce((m, i) => Math.max(m, sim.cb.mana[i]), 0);
     b.classList.toggle('on', sid >= 0 && armed === 'spell' && armedSpell === sid);
@@ -654,7 +704,7 @@ for (let n = 0; n < 9; n++) {
   b.addEventListener('pointerdown', (e) => {
     if (e.pointerType === 'mouse') return;
     const t = window.setTimeout(() => {
-      if (sid() >= 0) showTip(spellTip(sid()), b.getBoundingClientRect().left + 120, b.getBoundingClientRect().top + 60);
+      if (sid() >= 0) showTip(slotTip(sid()), b.getBoundingClientRect().left + 120, b.getBoundingClientRect().top + 60);
     }, 450);
     const stop = (): void => clearTimeout(t);
     b.addEventListener('pointerup', stop, { once: true });
@@ -670,6 +720,7 @@ buildQuick();
 
 const bookEl = $('book');
 function openBook(slot: number): void {
+  heroUi.close();
   slotAssign = slot;
   renderBook();
   bookEl.hidden = false;
@@ -678,16 +729,29 @@ function closeBook(): void {
   bookEl.hidden = true;
   slotAssign = -1;
 }
+const heroKnows = (sid: number): boolean => sim.hero === null || ((sim.cb.known[sim.hero.id] >>> sid) & 1) === 1;
 function renderBook(): void {
   const body = $('book-body');
   body.replaceChildren();
+  const head = bookEl.querySelector('.book-head')!;
+  head.querySelector('.tabs')?.remove();
+  if (sim.hero !== null) {
+    head.insertBefore(
+      tabStrip(2, (n) => {
+        if (n === 2) return;
+        closeBook();
+        heroUi.open(n === 0 ? 'hero' : 'pack');
+      }),
+      $('book-close'),
+    );
+  }
   const row = document.createElement('div');
   row.className = 'book-slots';
   for (let n = 0; n < 9; n++) {
     const b = document.createElement('button');
     b.textContent = `F${n + 4}`;
     const small = document.createElement('small');
-    small.textContent = slots[n] >= 0 ? SPELLS[slots[n]].name : '-';
+    small.textContent = slots[n] >= ITEM_BASE ? ITEMS[slots[n] - ITEM_BASE].name : slots[n] >= 0 ? SPELLS[slots[n]].name : '-';
     b.append(small);
     b.classList.toggle('on', slotAssign === n);
     b.onclick = () => {
@@ -708,10 +772,10 @@ function renderBook(): void {
       const b = document.createElement('button');
       b.textContent = sp.name;
       const small = document.createElement('small');
-      small.textContent = `${S.cost} ${sp.cost} \u00b7 ${S.targeting[sp.tk]}`;
+      small.textContent = heroKnows(sid) ? `${S.cost} ${sp.cost} \u00b7 ${S.targeting[sp.tk]}` : S.notLearned;
       b.append(small);
       b.style.borderColor = SCHOOL_BORDER[school];
-      b.classList.toggle('dim', selectedIds().length > 0 && casters(sid).length === 0);
+      b.classList.toggle('dim', !heroKnows(sid) || (selectedIds().length > 0 && casters(sid).length === 0));
       b.dataset.spell = String(sid);
       tipOn(b, spellTip(sid));
       b.onclick = () => {
@@ -735,6 +799,48 @@ function renderBook(): void {
 $('book-close').onclick = closeBook;
 $('book-help').textContent = S.bookHelp;
 $('book-title').textContent = S.bookTitle;
+
+// --- hero sheets: creation, attributes, equipment, pack ---
+const heroUi = new HeroUi({
+  sim: () => sim,
+  queue,
+  toast,
+  tipOn,
+  setSlot: (n, v) => {
+    slots[n] = v;
+    saveSlots();
+    buildQuick();
+  },
+  openBook: () => openBook(-1),
+  onOpen: () => {
+    if (!bookEl.hidden) closeBook();
+  },
+});
+$('btn-hero').onclick = () => heroUi.toggle();
+const heroPresent = combatMode && !battle && sim.cb.kind[0] === Kind.Hero;
+
+/** Toast text and refresh for the hero events of this frame (bags picked up, gear worn, spells learned, refusals, skills). */
+function heroEvents(): void {
+  if (!heroPresent) return;
+  let touched = false;
+  for (const e of sim.cb.fx) {
+    if (e.type === 14) {
+      const d = ITEMS[e.v];
+      const verbs = [S.hero.picked, S.hero.equipped, S.hero.used, S.hero.learned, S.hero.dropped, S.hero.unequipped];
+      toast(`${verbs[e.el]}: ${e.el === 3 && d.spell >= 0 ? SPELLS[d.spell].name : d.name}`);
+      touched = true;
+    } else if (e.type === 15) {
+      toast(WHY_TEXT[e.v]);
+    } else if (e.type === 6) {
+      toast(`${S.hero.skillUp}: ${SKILL_NAMES[e.v]} ${e.el}`);
+      touched = true;
+    }
+  }
+  if (touched) {
+    buildQuick();
+    heroUi.refresh(true);
+  }
+}
 
 // --- control groups ---
 const groupButtons: HTMLButtonElement[] = [];
@@ -855,6 +961,7 @@ $('btn-music').onclick = () => {
 
 /** Sound effects for this frame's combat events, panned and faded by where they happen on screen. */
 function playFx(): void {
+  heroEvents();
   const w = renderer.viewW;
   const h = renderer.viewH;
   for (const e of sim.cb.fx) {
@@ -930,9 +1037,10 @@ function updateStats(): void {
   for (const id of [...selected]) if (!alive(id)) selected.delete(id);
   refreshGroupButtons();
   if (combatMode) {
-    const heroMana = sim.cb.kind[0] === Kind.Hero ? `  ${S.mana} ${sim.cb.mana[0]}/${DEFS[Kind.Hero].mana}` : '';
+    const heroMana = sim.cb.kind[0] === Kind.Hero ? `  ${S.hp} ${sim.cb.hp[0]}/${sim.cb.hpMax[0]}  ${S.mana} ${sim.cb.mana[0]}/${sim.cb.manaMax[0]}` : '';
     $('stats').textContent = `${S.army} ${sim.cb.alive[0]}/${heroTeamSize}  ${S.foes} ${sim.cb.alive[1]}  ${S.gold} ${sim.cb.gold[0]}${heroMana}`;
     refreshQuick();
+    heroUi.refresh();
     if (!outcome) {
       if (sim.cb.hp[0] <= 0 && sim.cb.kind[0] === Kind.Hero) finish('lose');
       else if (sim.cb.alive[1] === 0 && !battle) finish('win');
@@ -1082,10 +1190,37 @@ for (const [id, text] of Object.entries(S.buttons)) {
 }
 $('btn-force').textContent = S.force[0];
 if (!combatMode) for (const id of ['btn-loose', 'btn-force']) $(id).hidden = true;
+$('btn-hero').hidden = !heroPresent;
+tipOn($('btn-hero'), S.tips['btn-hero']);
+
+/** `?hero=mage,f,hard` skips the creation sheet (tests, links); otherwise the game waits on it. */
+function startHero(): void {
+  const begin = (cls: number, female: boolean, diff: number): void => {
+    createHero(sim, 0, cls, female, diff);
+    if (!savedSlots) {
+      const heal = ITEM_BASE + ITEMS.findIndex((d) => d.name === 'Healing Draught');
+      const mana = ITEM_BASE + ITEMS.findIndex((d) => d.name === 'Mana Draught');
+      slots = cls === 1 ? [0, 4, 7, 1, 19, 20, 11, mana, heal] : [7, 19, 11, 15, 17, -1, -1, -1, heal];
+      buildQuick();
+    }
+    userPause = false;
+    selectAll();
+  };
+  const raw = params.get('hero');
+  if (raw !== null) {
+    const p = raw.split(',').map((s) => s.trim().toLowerCase());
+    const d = ['easy', 'medium', 'hard'].indexOf(p[2] ?? 'medium');
+    begin(p[0] === 'mage' ? 1 : 0, p[1] === 'f' || p[1] === 'female', d < 0 ? 1 : d);
+    return;
+  }
+  userPause = true;
+  heroUi.showCreate(begin);
+}
 
 void renderer.init(sim).then(() => {
   setQuality(renderer.quality, true);
   if (combatMode) selectAll();
+  if (heroPresent) startHero();
   if (battle) {
     const a = [...Array(150).keys()];
     pending.push({ type: 'order', order: 'swarm', ids: a, x: 38, y: map.h - 9 });
@@ -1115,5 +1250,7 @@ void renderer.init(sim).then(() => {
     aim: () => aimView,
     openBook,
     toggleAuto,
+    heroUi,
+    useItemSlot,
   };
 });

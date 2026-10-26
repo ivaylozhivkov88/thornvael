@@ -2,6 +2,11 @@ import { FP, dir16 } from './path';
 import type { Sim } from './sim';
 import { ALL_SPELLS, CORPSE_TICKS, MAGE_SPELLS, NST, SPELLS, St, Tk } from './spelldata';
 import { autoCast, castSpell, clearAllStatuses, knows, spellHit, statusTick, validTarget } from './spells';
+import { dropLoot, heroUse, pickBag } from './hero';
+
+/** Per-unit stat bonuses (hero gear, attributes, skills), MODN entries per unit. */
+export const M = { Min: 0, Max: 1, Acc: 2, Def: 3, Abs: 4, Res: 5, Pow: 10, Regen: 11 } as const;
+export const MODN = 12;
 
 /** Orders. Guard is the default stance. */
 export const Ord = { Guard: 0, Move: 1, Attack: 2, Defend: 3, Cast: 4, Swarm: 5, Hold: 6, Retreat: 7, Still: 8, Pickup: 9 } as const;
@@ -50,6 +55,7 @@ const FOLLOW = 3 * T;
 const NEAR_POST = Math.round(1.5 * T);
 const MAXP = 256;
 const MAXS = 128;
+const MAXB = 64;
 const PSPEED = Math.round((9 * FP) / 25);
 const PROJ_SCAN = 4; // monsters and allies look for a new target every 4th tick
 
@@ -89,13 +95,28 @@ export interface CombatSnap {
   stV: Int16Array;
   corp: Int16Array;
   auto: Uint8Array;
+  pPow: Int16Array;
+  known: Uint32Array;
+  manaMax: Int16Array;
+  hpMax: Int16Array;
+  mod: Int16Array;
+  bX: Int32Array;
+  bY: Int32Array;
+  bI: Int16Array;
 }
 
 /** All combat state: structure of arrays, no objects, so it snapshots and hashes cheaply. */
 export class CombatState {
   readonly kind: Uint8Array;
-  readonly hpMax: Int16Array;
+  hpMax: Int16Array;
   hp: Int16Array;
+  manaMax: Int16Array;
+  known: Uint32Array; // spell ids known, one bit each
+  mod: Int16Array; // stat bonuses, see M
+  pPow = new Int16Array(MAXP).fill(100); // spell power percent carried by a spell projectile
+  bX = new Int32Array(MAXB); // item bags: position and item id + 1 (0 = free slot)
+  bY = new Int32Array(MAXB);
+  bI = new Int16Array(MAXB);
   mana: Int16Array;
   ord: Uint8Array;
   tgt: Int32Array;
@@ -138,6 +159,10 @@ export class CombatState {
     this.hp = this.hpMax.slice();
     this.mana = new Int16Array(count);
     for (let i = 0; i < count; i++) this.mana[i] = DEFS[this.kind[i]].mana;
+    this.manaMax = this.mana.slice();
+    this.known = new Uint32Array(count);
+    for (let i = 0; i < count; i++) this.known[i] = DEFS[this.kind[i]].known;
+    this.mod = new Int16Array(count * MODN);
     this.ord = new Uint8Array(count);
     this.tgt = new Int32Array(count).fill(-1);
     this.aux = new Int32Array(count);
@@ -174,6 +199,9 @@ export class CombatState {
       mix(this.cd[i]);
       mix(this.corp[i]);
       mix(this.auto[i]);
+      mix(this.hpMax[i]);
+      mix(this.manaMax[i]);
+      mix(this.known[i]);
       const m = this.stMask[i];
       if (m) {
         mix(m);
@@ -187,8 +215,10 @@ export class CombatState {
       mix(this.pY[p]);
       mix(this.pT[p]);
       mix(this.pS[p]);
+      mix(this.pPow[p]);
     }
     for (let s = 0; s < MAXS; s++) if (this.sG[s]) mix(this.sG[s] + s * 977);
+    for (let b = 0; b < MAXB; b++) if (this.bI[b]) mix(this.bI[b] + b * 983);
     mix(this.gold[0]);
     mix(this.gold[1]);
   }
@@ -201,6 +231,8 @@ export class CombatState {
       pMin: this.pMin.slice(), pMax: this.pMax.slice(), pEl: this.pEl.slice(), pAcc: this.pAcc.slice(),
       sX: this.sX.slice(), sY: this.sY.slice(), sG: this.sG.slice(), gold: this.gold.slice(),
       pS: this.pS.slice(), stMask: this.stMask.slice(), stT: this.stT.slice(), stV: this.stV.slice(), corp: this.corp.slice(), auto: this.auto.slice(),
+      pPow: this.pPow.slice(), known: this.known.slice(), manaMax: this.manaMax.slice(), hpMax: this.hpMax.slice(), mod: this.mod.slice(),
+      bX: this.bX.slice(), bY: this.bY.slice(), bI: this.bI.slice(),
     };
   }
 
@@ -211,6 +243,8 @@ export class CombatState {
     this.pMin = s.pMin.slice(); this.pMax = s.pMax.slice(); this.pEl = s.pEl.slice(); this.pAcc = s.pAcc.slice();
     this.sX = s.sX.slice(); this.sY = s.sY.slice(); this.sG = s.sG.slice(); this.gold = s.gold.slice();
     this.pS = s.pS.slice(); this.stMask = s.stMask.slice(); this.stT = s.stT.slice(); this.stV = s.stV.slice(); this.corp = s.corp.slice(); this.auto = s.auto.slice();
+    this.pPow = s.pPow.slice(); this.known = s.known.slice(); this.manaMax = s.manaMax.slice(); this.hpMax = s.hpMax.slice(); this.mod = s.mod.slice();
+    this.bX = s.bX.slice(); this.bY = s.bY.slice(); this.bI = s.bI.slice();
     this.recount(team);
   }
 }
@@ -276,6 +310,29 @@ export function nearestSack(sim: Sim, x: number, y: number, maxDist: number): nu
   return best;
 }
 
+/** Nearest loot within maxDist of a fixed-point point: a gold sack gives its index, an item bag gives MAXS + index; -1 when none. */
+export function nearestLoot(sim: Sim, x: number, y: number, maxDist: number): number {
+  const cb = sim.cb;
+  const s = nearestSack(sim, x, y, maxDist);
+  let best = -1;
+  let bd = maxDist * maxDist;
+  if (s >= 0) bd = (cb.sX[s] - x) ** 2 + (cb.sY[s] - y) ** 2;
+  for (let b = 0; b < MAXB; b++) {
+    if (!cb.bI[b]) continue;
+    const d2 = (cb.bX[b] - x) ** 2 + (cb.bY[b] - y) ** 2;
+    if (d2 <= bd && (s < 0 || d2 < bd)) {
+      bd = d2;
+      best = b;
+    }
+  }
+  return best >= 0 ? MAXS + best : s;
+}
+
+export function lootPos(sim: Sim, code: number): [number, number] {
+  const cb = sim.cb;
+  return code >= MAXS ? [cb.bX[code - MAXS], cb.bY[code - MAXS]] : [cb.sX[code], cb.sY[code]];
+}
+
 export function toGuard(sim: Sim, i: number): void {
   const cb = sim.cb;
   cb.ord[i] = Ord.Guard;
@@ -293,17 +350,20 @@ export function strike(sim: Sim, t: number, min: number, max: number, elem: numb
   const cb = sim.cb;
   if (cb.hp[t] <= 0) return;
   const d = DEFS[cb.kind[t]];
+  const mo = t * MODN;
   let dmg = min + sim.rng.int(max - min + 1);
   if (elem === Elem.Physical) {
-    const chance = Math.max(15, Math.min(95, 70 + (acc - d.def) * 3));
+    const chance = Math.max(15, Math.min(95, 70 + (acc - d.def - cb.mod[mo + M.Def]) * 3));
     if (sim.rng.int(100) >= chance) {
       cb.emit(1, sim.x[t], sim.y[t], 0, 0);
       return;
     }
-    dmg = Math.max(1, dmg - d.absorb);
+    dmg = Math.max(1, dmg - d.absorb - cb.mod[mo + M.Abs]);
     if (cb.stMask[t] & (1 << St.Stone)) dmg = Math.max(1, dmg >> 1); // stone halves blows
+    if (sim.hero !== null && t === sim.hero.id) heroUse(sim, 1); // Guard grows with blows taken
   } else {
-    dmg = Math.max(0, Math.floor((dmg * (100 - d.res[elem - 1])) / 100));
+    const res = Math.min(90, d.res[elem - 1] + cb.mod[mo + M.Res + elem - 1]);
+    dmg = Math.max(0, Math.floor((dmg * (100 - res)) / 100));
   }
   if (cb.stMask[t] & (1 << St.Shield)) {
     const k = t * NST + St.Shield;
@@ -323,6 +383,7 @@ export function strike(sim: Sim, t: number, min: number, max: number, elem: numb
 }
 
 function die(sim: Sim, t: number): void {
+  dropLoot(sim, t);
   const cb = sim.cb;
   cb.hp[t] = 0;
   cb.alive[sim.team[t] & 3]--;
@@ -344,11 +405,12 @@ function die(sim: Sim, t: number): void {
 }
 
 /** Start a projectile at a fixed-point point. `sid` >= 0 makes it a spell: it casts that spell's effect on arrival. */
-export function launch(sim: Sim, ox: number, oy: number, t: number, min: number, max: number, elem: number, acc: number, sid = -1): void {
+export function launch(sim: Sim, ox: number, oy: number, t: number, min: number, max: number, elem: number, acc: number, sid = -1, pow = 100): void {
   const cb = sim.cb;
   for (let p = 0; p < MAXP; p++) {
     if (cb.pAlive[p]) continue;
     cb.pAlive[p] = 1;
+    cb.pPow[p] = pow;
     cb.pX[p] = ox;
     cb.pY[p] = oy;
     cb.pT[p] = t;
@@ -359,7 +421,7 @@ export function launch(sim: Sim, ox: number, oy: number, t: number, min: number,
     cb.pS[p] = sid + 1;
     return;
   }
-  if (sid >= 0) spellHit(sim, t, sid);
+  if (sid >= 0) spellHit(sim, t, sid, pow);
   else strike(sim, t, min, max, elem, acc); // pool full: hit at once
 }
 
@@ -368,9 +430,11 @@ function attack(sim: Sim, i: number, t: number): void {
   const d = DEFS[cb.kind[i]];
   const m = cb.stMask[i];
   let cd = d.cd;
-  let min = d.min;
-  let max = d.max;
-  let acc = d.acc;
+  const mo = i * MODN;
+  let min = d.min + cb.mod[mo + M.Min];
+  let max = d.max + cb.mod[mo + M.Max];
+  let acc = d.acc + cb.mod[mo + M.Acc];
+  if (sim.hero !== null && i === sim.hero.id) heroUse(sim, 0); // Blade grows with blows struck
   if (m) {
     if (m & (1 << St.Haste)) cd = Math.round(cd * 0.7);
     else if (m & (1 << St.Slow)) cd = Math.round(cd * 1.4);
@@ -406,7 +470,7 @@ function stepProjectiles(sim: Sim): void {
     const d = Math.sqrt(dx * dx + dy * dy);
     if (d <= PSPEED + 40) {
       cb.pAlive[p] = 0;
-      if (cb.pS[p] > 0) spellHit(sim, t, cb.pS[p] - 1);
+      if (cb.pS[p] > 0) spellHit(sim, t, cb.pS[p] - 1, cb.pPow[p]);
       else strike(sim, t, cb.pMin[p], cb.pMax[p], cb.pEl[p], cb.pAcc[p]);
     } else {
       cb.pX[p] += Math.round((dx * PSPEED) / d);
@@ -547,7 +611,21 @@ function unitThink(sim: Sim, i: number): void {
     }
     case Ord.Pickup: {
       const s = cb.aux[i];
-      if (s < 0 || s >= MAXS || !cb.sG[s]) {
+      if (s >= MAXS) {
+        const b = s - MAXS;
+        if (b >= MAXB || !cb.bI[b] || sim.hero === null || sim.hero.id !== i) {
+          toGuard(sim, i);
+          return;
+        }
+        if (dist(sim, i, cb.bX[b], cb.bY[b]) <= Math.round(0.8 * FP)) {
+          pickBag(sim, b);
+          toGuard(sim, i);
+          return;
+        }
+        if (!sim.moving[i]) sim.goTo(i, cb.bX[b], cb.bY[b]);
+        return;
+      }
+      if (s < 0 || !cb.sG[s] || s >= MAXS) {
         toGuard(sim, i);
         return;
       }
@@ -572,7 +650,7 @@ export function think(sim: Sim): void {
       if (cb.corp[i] > 0) cb.corp[i]--;
       continue;
     }
-    if (regen && cb.mana[i] < DEFS[cb.kind[i]].mana) cb.mana[i]++;
+    if (regen && cb.mana[i] < cb.manaMax[i]) cb.mana[i] = Math.min(cb.manaMax[i], cb.mana[i] + 1 + cb.mod[i * MODN + M.Regen]);
     if (cb.cd[i] > 0) cb.cd[i]--;
     const m = cb.stMask[i];
     if (m) {
@@ -588,4 +666,4 @@ export function think(sim: Sim): void {
   stepProjectiles(sim);
 }
 
-export const POOLS = { projectiles: MAXP, sacks: MAXS };
+export const POOLS = { projectiles: MAXP, sacks: MAXS, bags: MAXB };

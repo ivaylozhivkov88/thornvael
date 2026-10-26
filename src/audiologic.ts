@@ -41,6 +41,12 @@ export function cueFor(e: Pick<Fx, 'type' | 'v' | 'el'>): SoundCue | null {
       return { name: 'hit', priority: 1 };
     case 12:
       return { name: 'bow', priority: 1 };
+    case 14:
+      return { name: e.el === 0 ? 'gold' : e.el === 3 ? 'revive' : 'buff', priority: 4 }; // item picked up, worn, used or learned
+    case 15:
+      return { name: 'nomana', priority: 5 }; // an item action was refused
+    case 6:
+      return { name: 'buff', priority: 3 }; // a skill rose
     default:
       return null;
   }

@@ -84,3 +84,31 @@ Select the hero and the two mages first (the "All" button). The quick row sits a
 | 12 | Open `?battle`, select all, arm "Auto" with Fireball on the mages: write fps, "draw" ms, "sim" ms per step and the voices count in the overlay after 1 minute; sound must not stutter or drop out. | | |
 
 Desktop (not a phone check): F4 to F12 cast the nine quick slots, Ctrl+A toggles autocast of the current spell, C arms the current spell, Q selects everything, B opens the spellbook.
+
+## Phase 6 additions (hero, pack, spellbook, parity)
+
+Open the game without `?hero=...` so the creation sheet shows.
+
+| # | Check | iPhone | Android |
+|---|-------|--------|---------|
+| 1 | The creation sheet opens as a bottom sheet inside the safe areas. Class, sex and difficulty buttons are easy to hit; the stats on the right change with the class. "Start" begins the game. | | |
+| 2 | "Hero" button: attributes (Body, Agility, Mind, Spirit), skills, combat numbers and seven equipment slots fit in the sheet and scroll with one finger. Tabs Hero, Pack, Spells switch. | | |
+| 3 | Kill monsters: some leave a blue bag. Select the hero, "Pickup", tap the bag: the hero walks over and "Picked up ..." shows. The pack shows it. | | |
+| 4 | Pack: tap an item for details. "Equip" puts gear on and the Hero sheet numbers change; a wrong class or too low an attribute greys the button and says why. | | |
+| 5 | Weight: the weight bar fills; picking up something too heavy says "Too heavy to carry" and leaves the bag. | | |
+| 6 | A potion from the pack heals; put it in a quick slot (F4 to F12 buttons under the details) and tap the slot in battle: it is used. The slot shows the count and dims at zero. | | |
+| 7 | A scroll or tome: "Learn" teaches the spell when Mind is high enough ("Spells" then shows it normal, not "Not learned"). An Elixir adds one attribute point for good. | | |
+| 8 | Skills rise with use: after a few fights "Blade 1" or "Guard 1" floats up and the Hero sheet shows the level. | | |
+| 9 | Every target in the sheets is at least 44 px; no sheet button is hidden behind the home bar. | | |
+
+Touch and desktop parity (QA-03): every action below must be doable both ways.
+
+| Action | Touch | Mouse and keyboard |
+|--------|-------|--------------------|
+| Select, box select, all | tap, Box button, All button | click, drag, Q |
+| Move, attack, guard, defend | command bar or tap | command bar, M A G D, right click |
+| Cast, aim, autocast | quick row, reticle, Auto | F4 to F12, C, Ctrl+A |
+| Control groups | Set/Add then number | Ctrl or Alt + number, Shift + number |
+| Pickup (gold and bags) | Pickup button, tap | P, click |
+| Hero, pack, spellbook | Hero button, tabs | I, B, Tab and arrows in tabs, Esc closes |
+| Equip, use, drop, quick slot | buttons in the details panel | the same buttons by Tab and Enter |

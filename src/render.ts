@@ -1,6 +1,7 @@
 import { Application, Container, Graphics, Sprite, Text, Texture } from 'pixi.js';
 import { ObjectKind, TILE, Terrain, type GameMap } from './map';
-import { DEFS, Kind } from './sim/combat';
+import { Kind } from './sim/combat';
+import { SKILL_NAMES } from './sim/hero';
 import { FP, type Sim } from './sim/sim';
 import { SPELLS, St, Tk } from './sim/spelldata';
 import { S } from './strings';
@@ -276,6 +277,7 @@ export class Renderer {
         else if (e.type === 7 && e.v > 0) this.floater(`+${e.v}`, BUFF_COLOR, wx, wy, now);
         else if (e.type === 8 && e.v < 16) this.floater(S.statuses[e.v], STATUS_COLORS[e.v], wx, wy, now);
         else if (e.type === 11) this.floater('blocked', 0x70c8ff, wx, wy, now);
+        else if (e.type === 6) this.floater(`${SKILL_NAMES[e.v]} ${e.el}`, 0xffd84a, wx, wy, now);
         else if (e.type === 5) this.burst(e.x * k, e.y * k, (e.v / 10) * TILE, 480, ELEM_COLOR[e.el], true, now);
         else if (e.type === 9) this.burst(e.x * k, e.y * k - 8, 14, 260, ELEM_COLOR[e.el], false, now);
         else if (e.type === 10) this.burst(e.x * k, e.y * k - 6, 22, 420, e.v === 1 ? BUFF_COLOR : ELEM_COLOR[5], e.v !== 2, now);
@@ -402,6 +404,16 @@ export class Renderer {
       r.circle(sx, sy - 3, 6).fill(0xa8803c).stroke({ color: 0x4a3414, width: 1 });
       r.rect(sx - 2, sy - 10, 4, 3).fill(0xe0c060);
     }
+    // Item bags: a small blue satchel with a pale clasp, so loot reads differently from gold.
+    for (let n = 0; n < cb.bI.length; n++) {
+      if (!cb.bI[n]) continue;
+      if (!sim.explored[Math.floor(cb.bY[n] / FP) * mw + Math.floor(cb.bX[n] / FP)]) continue;
+      const bx = cb.bX[n] * k;
+      const by = cb.bY[n] * k;
+      r.ellipse(bx, by + 2, 7, 3).fill({ color: 0x000000, alpha: 0.35 });
+      r.roundRect(bx - 6, by - 9, 12, 10, 3).fill(0x3c5a8c).stroke({ color: 0x1a2a48, width: 1 });
+      r.rect(bx - 2, by - 6, 4, 3).fill(0xd8e4f4);
+    }
     // Bodies stay for a minute so a corpse spell has something to aim at; they sink into the ground at the end.
     for (let i = 0; i < sim.count; i++) {
       if (cb.hp[i] > 0 || cb.corp[i] <= 0) continue;
@@ -460,7 +472,7 @@ export class Renderer {
       }
       if (v.selected.has(i) && cb.mana[i] > 0) {
         const w = 20 * (s.scale.x > 1.2 ? 1.4 : 1);
-        sh.rect(s.x - w / 2, y + 4, w * Math.min(1, cb.mana[i] / DEFS[cb.kind[i]].mana), 2).fill(0x5a8cff);
+        sh.rect(s.x - w / 2, y + 4, w * Math.min(1, cb.mana[i] / Math.max(1, cb.manaMax[i])), 2).fill(0x5a8cff);
       }
     }
     for (const id of v.selected) {

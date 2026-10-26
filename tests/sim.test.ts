@@ -47,7 +47,7 @@ describe('sim', () => {
   });
   it('bot and player commands end up in one log', () => {
     const a = play(400);
-    const sizes = new Set(a.log.map((l) => l.cmd.ids.length));
+    const sizes = new Set(a.log.map((l) => ('ids' in l.cmd ? l.cmd.ids.length : 0)));
     expect(sizes.has(20)).toBe(true); // player order
     expect(sizes.has(10)).toBe(true); // bot squad order
   });

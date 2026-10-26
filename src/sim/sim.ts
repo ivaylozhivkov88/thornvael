@@ -1,6 +1,7 @@
 import { isBlockedAt, type GameMap } from '../map';
 import { dayLight } from './daynight';
-import { CombatState, DEFS, Ord, enemyNear, nearestSack, think, toGuard, type CombatSnap } from './combat';
+import { CombatState, DEFS, Ord, POOLS, enemyNear, lootPos, nearestLoot, think, toGuard, type CombatSnap } from './combat';
+import { cloneHero, hashHero, heroCommand, type HeroCommand, type HeroState } from './hero';
 import { SPELLS, Tk } from './spelldata';
 import { knows, resolveTarget, statusSpeed } from './spells';
 import { FP, Pather, dir16, lineClear, regionsOf, speedPct } from './path';
@@ -33,7 +34,8 @@ export type Command =
       target?: number; // unit id (attack, defend, cast)
       spell?: number; // cast: spell id, default 0 (Fire Bolt)
     }
-  | { type: 'autocast'; ids: number[]; spell: number }; // spell id, or -1 to switch autocast off
+  | { type: 'autocast'; ids: number[]; spell: number } // spell id, or -1 to switch autocast off
+  | HeroCommand;
 export interface LoggedCommand {
   tick: number;
   cmd: Command;
@@ -62,6 +64,7 @@ export interface Snapshot {
   paths: [number, Int32Array, number][];
   nextPath: number;
   cb: CombatSnap;
+  hero: HeroState | null;
 }
 
 export interface SimOptions {
@@ -104,6 +107,8 @@ export class Sim {
   readonly dayOffset: number;
   readonly combat: boolean;
   readonly cb: CombatState;
+  /** The player's hero (attributes, pack, gear), or null in games without one. Set up with createHero before the first tick. */
+  hero: HeroState | null = null;
   /** Uniform grid of living units, rebuilt every tick; used for collision and target search. */
   readonly cellStart: Int32Array;
   readonly cellItems: Int32Array;
@@ -208,6 +213,7 @@ export class Sim {
       this.log.push({ tick: this.tick, cmd });
       if (cmd.type === 'move') this.apply(cmd);
       else if (cmd.type === 'autocast') this.applyAutocast(cmd);
+      else if (cmd.type === 'hero') heroCommand(this, cmd);
       else this.applyOrder(cmd);
     }
     this.ox.set(this.x);
@@ -358,13 +364,16 @@ export class Sim {
       }
       case 'pickup': {
         if (!hasPoint) return;
-        const s = nearestSack(this, Math.round(cmd.x! * FP), Math.round(cmd.y! * FP), 2 * FP);
+        const s = nearestLoot(this, Math.round(cmd.x! * FP), Math.round(cmd.y! * FP), 2 * FP);
         if (s < 0) return;
-        for (const id of ids) {
+        const [lx, ly] = lootPos(this, s);
+        // only the hero can carry an item bag
+        const who = s >= POOLS.sacks ? ids.filter((id) => this.hero !== null && id === this.hero.id) : ids;
+        for (const id of who) {
           cb.ord[id] = Ord.Pickup;
           cb.aux[id] = s;
           cb.tgt[id] = -1;
-          this.goTo(id, cb.sX[s], cb.sY[s]);
+          this.goTo(id, lx, ly);
         }
       }
     }
@@ -809,6 +818,7 @@ export class Sim {
     }
     for (let t = 0; t < this.explored.length; t++) if (this.explored[t]) mix(t);
     this.cb.hashInto(mix);
+    hashHero(this.hero, mix);
     return h >>> 0;
   }
 
@@ -831,6 +841,7 @@ export class Sim {
       paths: [...this.paths].map(([id, p]) => [id, p.pts.slice(), p.refs]),
       nextPath: this.nextPath,
       cb: this.cb.snapshot(),
+      hero: cloneHero(this.hero),
     };
   }
 
@@ -852,6 +863,7 @@ export class Sim {
     this.paths = new Map(s.paths.map(([id, pts, refs]) => [id, { pts: pts.slice(), refs }]));
     this.nextPath = s.nextPath;
     this.cb.restore(s.cb, this.team);
+    this.hero = cloneHero(s.hero);
     this.fogVersion++;
   }
 }

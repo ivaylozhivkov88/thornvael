@@ -12,7 +12,7 @@ declare global {
 }
 
 test('load, select, move, offline reload', async ({ page, context }) => {
-  await page.goto('/thornvael/');
+  await page.goto('/thornvael/?hero=warrior,m,medium');
   await page.waitForFunction(() => window.__game);
 
   // select the hero by clicking it
