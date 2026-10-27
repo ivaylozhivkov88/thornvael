@@ -18,7 +18,7 @@ for (const name of ['ford', 'market', 'fen', 'ravenwatch', 'sanctum']) {
     await page.goto(`/thornvael/?mission=${name}&hero=warrior,m,medium`);
     await page.waitForFunction(() => window.__game);
     const begin = page.getByRole('button', { name: /begin the mission/i });
-    if (await begin.isVisible()) await begin.click(); // the briefing pauses the clock
+    await begin.click({ timeout: 15000 }); // the briefing pauses the clock
     const t0 = await page.evaluate(() => window.__game!.sim.tick);
     await page.waitForFunction((t) => window.__game!.sim.tick > t + 10, t0);
     expect(errors).toEqual([]);
