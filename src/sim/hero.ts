@@ -1,4 +1,5 @@
 import { DEFS, M, MODN } from './combat';
+import { rulesOf } from './difficulty';
 import { ATTR_NAMES, CLS_MAGE, CLS_WARRIOR, Cls, ITEMS, Ik, LOOT_RULES, PART_COUNT, SLOT_COUNT, Slot, itemId, rollLoot } from './items';
 import type { Sim } from './sim';
 
@@ -199,6 +200,7 @@ export function createHero(sim: Sim, id: number, cls: number, female: boolean, d
   recalc(sim);
   cb.hp[id] = cb.hpMax[id];
   cb.mana[id] = cb.manaMax[id];
+  cb.gold[0] = Math.floor((cb.gold[0] * rulesOf(sim).goldPct) / 100); // easy starts richer
   return h;
 }
 

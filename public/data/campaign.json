@@ -1,0 +1,56 @@
+{
+  "version": 1,
+  "chapter": "chapter1",
+  "start": "m01-blood-at-the-ford",
+  "nodes": [
+    {
+      "id": "m01-blood-at-the-ford",
+      "kind": "mission",
+      "map": "ford",
+      "title": "Blood at the Ford",
+      "pos": [18, 70],
+      "unlocksOnVictory": ["town-thornwick", "m02-whispers-in-the-fen"],
+      "briefing": "Raiders have crossed the ford and burned the toll house. Gather your squad, push them back across the water and find out who sent them.",
+      "result": { "win": "The ford is clear. A scout swears the raiders came from the fen to the north.", "lose": "The raiders hold the ford. Your squad falls back to the road." }
+    },
+    {
+      "id": "town-thornwick",
+      "kind": "town",
+      "map": "market",
+      "title": "Thornwick Market",
+      "pos": [34, 58],
+      "unlocksOnVictory": [],
+      "briefing": "Trade gear, learn spells at the school, hire soldiers at the tavern and read the quest board between missions."
+    },
+    {
+      "id": "m02-whispers-in-the-fen",
+      "kind": "mission",
+      "map": "fen",
+      "title": "Whispers in the Fen",
+      "pos": [48, 40],
+      "unlocksOnVictory": ["m03-nightfall-at-ravenwatch"],
+      "briefing": "Escort the surviving scout through the marsh to the old watch post. Ridge archers will pick at a slow column; swamp nests lie on the western hill.",
+      "result": { "win": "The watch post is held and its ledgers point to a ruined border fort.", "lose": "The fen swallows the column." }
+    },
+    {
+      "id": "m03-nightfall-at-ravenwatch",
+      "kind": "mission",
+      "map": "ravenwatch",
+      "title": "Nightfall at Ravenwatch",
+      "pos": [66, 28],
+      "unlocksOnVictory": ["m04-the-sunken-sanctum"],
+      "briefing": "Hold the courtyard of the ruined fort through the night, then break the three bone totems in the woods at dawn.",
+      "result": { "win": "The totems fall and the night packs scatter. A hidden stair leads down.", "lose": "The fort is overrun before dawn." }
+    },
+    {
+      "id": "m04-the-sunken-sanctum",
+      "kind": "mission",
+      "map": "sanctum",
+      "title": "The Sunken Sanctum",
+      "pos": [84, 14],
+      "unlocksOnVictory": [],
+      "briefing": "Cross the narrow bridges and defeat Mordred the Ashen and his guard. He will fall back when wounded, and help will come from behind.",
+      "result": { "win": "Mordred the Ashen is dead. The first chapter of the road ends here.", "lose": "The sanctum keeps its master." }
+    }
+  ]
+}

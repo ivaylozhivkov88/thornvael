@@ -1,3 +1,4 @@
+import type { CarryoverState } from './carryover';
 import { loadDoc, type MapDoc } from './mapdoc';
 import { createMission, type MissionGame } from './mission';
 import type { Snapshot } from './sim/sim';
@@ -11,7 +12,7 @@ import type { Snapshot } from './sim/sim';
  * Versions: 1 had sim snapshots without `team` and `town` (Phase 7 sims). 2 (current) has both.
  */
 export const SAVE_FORMAT = 'thornvael-save';
-export const SAVE_VERSION = 2;
+export const SAVE_VERSION = 3;
 export const GAME_VERSION = '0.8.0';
 
 export interface SaveUi {
@@ -26,6 +27,7 @@ export interface SaveState {
   snap: Snapshot;
   ai: [boolean, number][];
   ui: SaveUi;
+  carry?: CarryoverState; // campaign progress and what the hero takes along; absent in skirmish and test saves
 }
 export interface SaveFile {
   format: typeof SAVE_FORMAT;
@@ -101,6 +103,7 @@ export function migrateSave(raw: unknown): SaveFile {
     s.state.snap.team ??= Uint8Array.from(s.state.doc.units.map((u) => u.team));
     s.saveVersion = 2;
   }
+  if (s.saveVersion < 3) s.saveVersion = 3; // version 3 only adds the optional `carry` field
   return s;
 }
 

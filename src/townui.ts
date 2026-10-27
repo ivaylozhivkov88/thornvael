@@ -1,4 +1,5 @@
 import { DEFS } from './sim/combat';
+import { mercPrice } from './sim/difficulty';
 import { INV_MAX, SKILL_MAX, SKILL_NAMES } from './sim/hero';
 import { ITEMS, itemText } from './sim/items';
 import type { Sim } from './sim/sim';
@@ -256,9 +257,9 @@ export class TownUi {
         this.cmd('hire', k);
         this.ctx.changed();
         this.render();
-      }, free ? `${S.town.hire}: ${m.price} ${S.town.gold.toLowerCase()}` : S.town.hired);
+      }, free ? `${S.town.hire}: ${mercPrice(sim, m.price)} ${S.town.gold.toLowerCase()}` : S.town.hired);
       b.disabled = !free;
-      if (free && m.price > sim.cb.gold[0]) b.classList.add('no');
+      if (free && mercPrice(sim, m.price) > sim.cb.gold[0]) b.classList.add('no');
       ml.append(b);
     }
     this.root.append(def.mercs?.length ? ml : el('p', 'note', S.town.noMercs));
