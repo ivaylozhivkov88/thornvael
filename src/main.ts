@@ -1,4 +1,4 @@
-import { registerSW } from 'virtual:pwa-register';
+import { registerWorker } from './updategate';
 import { audioState, blip, play, resumeAudio, setAmbience, setMusic, setSfx, suspendAudio, unlock } from './audio';
 import { MusicDirector, cueFor } from './audiologic';
 import { ControlGroups, GROUP_COUNT } from './groups';
@@ -44,7 +44,7 @@ const debug = params.has('debug') || stress || crowd || battle;
 // A bare address (or ?menu) opens the campaign shell: main menu, hero creation, global map. Nodes start through ?mission=..&campaign=..
 if (params.size === 0 || params.has('menu')) {
   const { runShell } = await import('./shell');
-  await runShell(() => void registerSW({ onOfflineReady: () => {}, onNeedRefresh: () => {} }));
+  await runShell(registerWorker);
 }
 
 // --- world ---
@@ -1396,10 +1396,8 @@ $('btn-install').onclick = () => {
   else openPanel(S.installTitle, isIos ? S.installIos : S.installOther);
 };
 
-const updateSW = registerSW({
-  onOfflineReady: () => toast(S.offlineReady),
-  onNeedRefresh: () => toast(S.updateReady, { label: S.updateApply, run: () => void updateSW(true) }),
-});
+// Inside a mission an update is never offered or applied: the new worker waits until the menu or map banner is pressed.
+registerWorker();
 void nav.storage?.persist?.().then(
   (ok) => void nav.storage?.estimate?.().then((q) => (persisted = `${ok} (${Math.round((q.usage ?? 0) / 1024)} KB of ${Math.round((q.quota ?? 0) / 1048576)} MB)`)),
   () => (persisted = 'error'),

@@ -10,6 +10,10 @@ export default defineConfig({
   plugins: [
     VitePWA({
       registerType: 'prompt',
+      strategies: 'injectManifest',
+      srcDir: 'src',
+      filename: 'sw.ts',
+      injectManifest: { globPatterns: ['**/*.{js,css,html,png,svg,json}'], globIgnores: ['chapter1-manifest.json'] },
       includeAssets: ['icons/*.png'],
       manifest: {
         name: 'Thornvael',
@@ -27,8 +31,6 @@ export default defineConfig({
           { src: 'icons/icon-512.png', sizes: '512x512', type: 'image/png', purpose: 'maskable' },
         ],
       },
-      // The editor is its own page, so offline navigation to it must not fall back to the game.
-      workbox: { globPatterns: ['**/*.{js,css,html,png,svg,json,m4a}'], navigateFallbackDenylist: [/editor\.html$/] },
     }),
   ],
   test: { include: ['tests/**/*.test.ts'], setupFiles: ['tests/setup.ts'] },

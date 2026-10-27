@@ -147,3 +147,11 @@ Open `https://ivaylozhivkov88.github.io/thornvael/?diag=1&battle` (or `&stress`)
 3. Tap "Persist": write `persist()` and the storage line (covers the "persisted" rows).
 4. Read fps avg/min, draw ms, sim ms/step and worst frame (covers the fps rows of every phase).
 5. Tap "Copy JSON", paste it into the Results table notes or send it to the developer.
+
+## Slice 9.3 (offline and safe update)
+| # | Check | Result |
+|---|---|---|
+| 1 | Menu, Storage & Offline: numbers shown, press "Download Chapter 1 for Offline Play", bar fills, status says "Ready for Airplane Mode" | |
+| 2 | Turn on airplane mode, close and reopen the app: the menu loads, a mission starts, sound plays | |
+| 3 | "Export all saves" gives one file; "Import a save file" in the Saves sheet restores the slots | |
+| 4 | After a new version is deployed: no prompt during a mission; the menu or map shows "Update Available", Apply Now reloads into the new version | |

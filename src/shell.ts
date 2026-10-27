@@ -2,7 +2,10 @@ import { nodeOf, type CampaignNode } from './campaign';
 import { loadCampaign, readRecord, writeRecord } from './campaignstore';
 import { canEnter, newRecord, nodeUrl, RECORD_KEY, clearLast, type CampaignRecord, type HeroPick } from './flow';
 import { BUILT_IN } from './mission';
+import { downloadChapter, loadManifest, verifyChapter, type ChapterCheck, type Env, type Manifest } from './offline';
 import { encodeSave } from './save';
+import { encodeBundle, type BundleEntry } from './savebundle';
+import { applyUpdate, onUpdateWaiting, updateWaiting } from './updategate';
 import { AUTO, deleteRecord, deleteSave, getSave, listSaves } from './savedb';
 import { S } from './strings';
 
@@ -42,9 +45,17 @@ export async function runShell(startWorker: () => void): Promise<never> {
   const go = (url: string): void => location.assign(url);
   const screen = (...kids: HTMLElement[]): void => root.replaceChildren(...kids);
   const back = (): HTMLButtonElement => btn(T.back, menu, 'sh-small');
+  // The update banner shows only on the menu and the map, never in a mission or while a sub-screen is open.
+  let mode: 'menu' | 'map' | 'other' = 'other';
+  const banner = (): HTMLElement[] => (updateWaiting() ? [el('p', 'sh-update', `${T.updateBanner}`), btn(T.updateNow, applyUpdate)] : []);
+  onUpdateWaiting(() => {
+    if (mode === 'menu') menu();
+    else if (mode === 'map') map();
+  });
 
   // ---- main menu ----
   function menu(): void {
+    mode = 'menu';
     const canContinue = rec !== null || auto !== null;
     const cont = btn(T.continue, () => {
       if (auto && (!rec || auto.state.node)) go(`./?load=${AUTO}`);
@@ -54,6 +65,7 @@ export async function runShell(startWorker: () => void): Promise<never> {
     const col = el('div', 'sh-col');
     col.append(
       el('h1', '', S.title),
+      ...banner(),
       btn(T.newGame, create),
       cont,
       btn(T.saves, slots),
@@ -67,6 +79,7 @@ export async function runShell(startWorker: () => void): Promise<never> {
 
   // ---- hero creation: class, sex, difficulty ----
   function create(): void {
+    mode = 'other';
     const pick: HeroPick = { cls: 0, female: false };
     let diff = 1;
     const info = el('p', 'note');
@@ -99,6 +112,7 @@ export async function runShell(startWorker: () => void): Promise<never> {
   // ---- global map ----
   function map(): void {
     if (!rec) return menu();
+    mode = 'map';
     const r = rec;
     const stage = el('div', 'sh-map');
     const svg = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
@@ -128,7 +142,7 @@ export async function runShell(startWorker: () => void): Promise<never> {
       stage.append(b);
     }
     const bar = el('div', 'sh-bar');
-    bar.append(el('b', '', `${T.mapTitle} · ${T.diff[r.progress.difficulty]}`), btn(T.back, menu, 'sh-small'));
+    bar.append(el('b', '', `${T.mapTitle} · ${T.diff[r.progress.difficulty]}`), ...banner(), btn(T.back, menu, 'sh-small'));
     screen(bar, stage);
     if (r.last) result(r.last);
   }
@@ -169,6 +183,7 @@ export async function runShell(startWorker: () => void): Promise<never> {
 
   // ---- saves: load or export a slot ----
   async function slots(): Promise<void> {
+    mode = 'other';
     const col = el('div', 'sh-col');
     col.append(el('h2', '', T.saves));
     const list = await listSaves().catch(() => []);
@@ -193,18 +208,69 @@ export async function runShell(startWorker: () => void): Promise<never> {
     screen(col);
   }
 
-  // ---- storage: what the game uses; chapter downloads come in the offline slice ----
+  // ---- export every slot in one file (the iOS safety net) ----
+  async function exportAll(): Promise<boolean> {
+    const list = await listSaves().catch(() => []);
+    const entries: BundleEntry[] = [];
+    for (const s of list) {
+      const file = await getSave(s.id).catch(() => undefined);
+      if (file) entries.push({ id: s.id, file });
+    }
+    if (!entries.length) return false;
+    const a = el('a');
+    a.href = URL.createObjectURL(new Blob([encodeBundle(entries)], { type: 'application/json' }));
+    a.download = 'thornvael-all-saves.json';
+    a.click();
+    setTimeout(() => URL.revokeObjectURL(a.href), 4000);
+    return true;
+  }
+
+  // ---- storage: real numbers, the Chapter 1 download and the all-saves export ----
   async function storage(): Promise<void> {
+    mode = 'other';
     const col = el('div', 'sh-col');
     const info = el('p', 'note', '…');
-    col.append(el('h2', '', T.storage), info, back());
+    const status = el('p', 'note');
+    const bar = el('progress');
+    bar.hidden = true;
+    bar.max = 1;
+    const env: Env = { caches, fetchFn: (u, i) => fetch(u, i), base: import.meta.env.BASE_URL };
+    let man: Manifest | null = null;
+    const show = (r: ChapterCheck): void => {
+      status.textContent = r.ok ? T.ready : r.have ? T.partial.replace('{n}', String(r.missing.length)) : '';
+    };
+    const dl = btn(T.download, async () => {
+      if (!man) return;
+      dl.disabled = true;
+      bar.hidden = false;
+      status.textContent = T.downloading;
+      const r = await downloadChapter(env, man, (d, t) => (bar.value = t ? d / t : 1));
+      bar.hidden = true;
+      dl.disabled = false;
+      if (r.ok) show(r);
+      else status.textContent = `${T.dlFailed}\n${T.partial.replace('{n}', String(r.missing.length))}`;
+    });
+    dl.disabled = true;
+    const exp = btn(T.exportAll, async () => {
+      if (!(await exportAll())) status.textContent = T.noneToExport;
+    });
+    col.append(el('h2', '', T.storage), info, el('h3', '', T.chapter1), status, bar, dl, exp, back());
     screen(col);
     const est = await navigator.storage?.estimate?.().catch(() => undefined);
     const keep = await navigator.storage?.persisted?.().catch(() => false);
-    info.textContent = `${T.used}: ${est ? Math.round((est.usage ?? 0) / 1048576) : '?'} MB / ${est ? Math.round((est.quota ?? 0) / 1048576) : '?'} MB\n${T.persisted}: ${keep ? 'yes' : 'no'}`;
+    const count = (await listSaves().catch(() => [])).length + (rec ? 1 : 0);
+    info.textContent = `${T.used}: ${est ? Math.round((est.usage ?? 0) / 1048576) : '?'} MB / ${est ? Math.round((est.quota ?? 0) / 1048576) : '?'} MB\n${T.records}: ${count}\n${T.persisted}: ${keep ? 'yes' : 'no'}`;
+    try {
+      man = await loadManifest(env);
+      show(await verifyChapter(env, man));
+      dl.disabled = false;
+    } catch {
+      status.textContent = T.dlFailed;
+    }
   }
 
   function settings(): void {
+    mode = 'other';
     const col = el('div', 'sh-col');
     col.append(el('h2', '', T.settings), el('p', 'note', T.soundInfo));
     const ask = btn(T.reset, () => {
@@ -220,6 +286,7 @@ export async function runShell(startWorker: () => void): Promise<never> {
   }
 
   function credits(): void {
+    mode = 'other';
     const col = el('div', 'sh-col');
     col.append(el('h2', '', S.credits), el('p', 'note', S.creditsBody), back());
     screen(col);

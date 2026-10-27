@@ -1,0 +1,107 @@
+{
+ "id": "ch1",
+ "cache": "thornvael-ch1-v1",
+ "total": 641169,
+ "files": [
+  {
+   "path": "data/campaign.json",
+   "size": 2480
+  },
+  {
+   "path": "data/items.json",
+   "size": 10135
+  },
+  {
+   "path": "data/spells.json",
+   "size": 2900
+  },
+  {
+   "path": "audio/ambience.m4a",
+   "size": 42526
+  },
+  {
+   "path": "audio/boom.m4a",
+   "size": 5491
+  },
+  {
+   "path": "audio/bow.m4a",
+   "size": 2188
+  },
+  {
+   "path": "audio/buff.m4a",
+   "size": 3769
+  },
+  {
+   "path": "audio/cast_air.m4a",
+   "size": 3836
+  },
+  {
+   "path": "audio/cast_astral.m4a",
+   "size": 5445
+  },
+  {
+   "path": "audio/cast_earth.m4a",
+   "size": 4259
+  },
+  {
+   "path": "audio/cast_fire.m4a",
+   "size": 4109
+  },
+  {
+   "path": "audio/cast_water.m4a",
+   "size": 3657
+  },
+  {
+   "path": "audio/click.m4a",
+   "size": 1527
+  },
+  {
+   "path": "audio/curse.m4a",
+   "size": 4416
+  },
+  {
+   "path": "audio/death.m4a",
+   "size": 5295
+  },
+  {
+   "path": "audio/gold.m4a",
+   "size": 3301
+  },
+  {
+   "path": "audio/heal.m4a",
+   "size": 5322
+  },
+  {
+   "path": "audio/hit.m4a",
+   "size": 1948
+  },
+  {
+   "path": "audio/miss.m4a",
+   "size": 2496
+  },
+  {
+   "path": "audio/music_battle.m4a",
+   "size": 182922
+  },
+  {
+   "path": "audio/music_explore.m4a",
+   "size": 329234
+  },
+  {
+   "path": "audio/nomana.m4a",
+   "size": 3740
+  },
+  {
+   "path": "audio/revive.m4a",
+   "size": 7040
+  },
+  {
+   "path": "audio/step1.m4a",
+   "size": 1547
+  },
+  {
+   "path": "audio/step2.m4a",
+   "size": 1586
+  }
+ ]
+}
