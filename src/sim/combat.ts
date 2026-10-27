@@ -426,7 +426,10 @@ export function strike(sim: Sim, t: number, min: number, max: number, elem: numb
     raw = Math.floor((dmg * PART_DMG[part]) / 100);
     dmg = Math.max(1, raw - partAbs(sim, t, part));
     if (cb.stMask[t] & (1 << St.Stone)) dmg = Math.max(1, dmg >> 1); // stone halves blows
-    if (sim.hero !== null && t === sim.hero.id) heroUse(sim, 1); // Guard grows with blows taken
+    if (sim.hero !== null && t === sim.hero.id) {
+      heroUse(sim, 1); // Guard grows with blows taken
+      sim.hero.hits[part]++; // wear on the armour, paid as upkeep after the mission
+    }
   } else {
     const res = Math.min(90, d.res[elem - 1] + cb.mod[mo + M.Res + elem - 1]);
     dmg = Math.max(0, Math.floor((dmg * (100 - res)) / 100));

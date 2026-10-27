@@ -1,6 +1,7 @@
 import type { CampaignProgress } from './campaign';
 import { FP, type Sim } from './sim/sim';
 import { cloneHero, recalc, type HeroState } from './sim/hero';
+import { upkeepFee } from './sim/town';
 
 /**
  * What a hero takes from one mission or town to the next. Plain JSON, so it goes into saves and exported files unchanged.
@@ -17,17 +18,21 @@ export interface CarryoverState {
   gold: number;
   shopSeed: number;
   progress: CampaignProgress;
+  slots?: number[]; // quick-row layout, kept from node to node (older records lack it)
+  upkeep?: number; // armour upkeep already taken out of `gold` at this hand-over
 }
 
-export function extractCarryover(sim: Sim, progress: CampaignProgress, shopSeed: number): CarryoverState {
+export function extractCarryover(sim: Sim, progress: CampaignProgress, shopSeed: number, slots?: readonly number[]): CarryoverState {
   const h = cloneHero(sim.hero);
   if (!h) throw new Error('There is no hero to carry over.');
+  const upkeep = Math.min(sim.cb.gold[0], upkeepFee(h.hits, h.eq));
+  h.hits = [0, 0, 0, 0];
   const mercs: Merc[] = [];
   for (let j = 0; j < sim.count; j++) {
     if (j === h.id || sim.team[j] !== 0 || sim.hidden[j] || sim.cb.hp[j] <= 0) continue;
     mercs.push({ kind: sim.cb.kind[j], hpPct: Math.max(1, Math.floor((sim.cb.hp[j] * 100) / Math.max(1, sim.cb.hpMax[j]))) });
   }
-  return { hero: h, mercs, gold: sim.cb.gold[0], shopSeed, progress: structuredClone(progress) };
+  return { hero: h, mercs, gold: sim.cb.gold[0] - upkeep, shopSeed, progress: structuredClone(progress), slots: slots ? [...slots] : undefined, upkeep };
 }
 
 /**

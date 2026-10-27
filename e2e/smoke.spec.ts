@@ -25,6 +25,29 @@ for (const name of ['ford', 'market', 'fen', 'ravenwatch', 'sanctum']) {
   });
 }
 
+test('touch: hold on open ground opens the radial menu with 44 px buttons; portraits are listed', async ({ page }) => {
+  const errors: string[] = [];
+  page.on('pageerror', (e) => errors.push(e.message));
+  await page.goto('/thornvael/?hero=warrior,m,medium');
+  await page.waitForFunction(() => window.__game);
+  const [sx, sy] = (await page.evaluate(() => window.__game!.unitScreen(0)))!;
+  await page.mouse.click(sx, sy); // select the hero
+  const x = sx + 160;
+  const y = sy + 120;
+  await page.evaluate(([px, py]) => {
+    const c = document.getElementById('game')!;
+    c.dispatchEvent(new PointerEvent('pointerdown', { pointerId: 7, pointerType: 'touch', clientX: px, clientY: py, bubbles: true }));
+  }, [x, y]);
+  await page.waitForTimeout(700);
+  const boxes = await page.locator('.radial > button').evaluateAll((els) => els.map((e) => [e.getBoundingClientRect().width, e.getBoundingClientRect().height]));
+  expect(boxes.length).toBe(4);
+  for (const [w, h] of boxes) expect(Math.min(w, h)).toBeGreaterThanOrEqual(44);
+  const chips = await page.locator('.portraits > button').evaluateAll((els) => els.map((e) => e.getBoundingClientRect().width));
+  expect(chips.length).toBeGreaterThan(0);
+  for (const w of chips) expect(w).toBeGreaterThanOrEqual(44);
+  expect(errors).toEqual([]);
+});
+
 test('the menu shell opens on a bare address with the campaign map reachable', async ({ page }) => {
   const errors: string[] = [];
   page.on('pageerror', (e) => errors.push(e.message));

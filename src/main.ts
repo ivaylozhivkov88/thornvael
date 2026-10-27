@@ -30,6 +30,7 @@ import { SPELLS, Tk } from './sim/spelldata';
 import { validTarget } from './sim/spells';
 import { FP, Sim, TICKS_PER_SECOND, type Command, type OrderName } from './sim/sim';
 import { S } from './strings';
+import { DoubleTap, PortraitStrip, RadialMenu, portraitIds, unitsOfKind, type RadialOrder } from './touchx';
 import './style.css';
 
 await loadGameData(); // item and spell tables, before any sim or mission is built
@@ -372,6 +373,7 @@ function select(ids: number[], additive: boolean): void {
 }
 
 let holdShown = false;
+const dtap = new DoubleTap();
 
 function handle(intents: Intent[]): void {
   for (const it of intents) {
@@ -385,6 +387,12 @@ function handle(intents: Intent[]): void {
           break;
         }
         const hit = pickUnit(sim.count, posMine, it.x, it.y, PICK);
+        if (hit >= 0 && it.type === 'tap' && dtap.hit(performance.now(), it.x, it.y, hit)) {
+          // Double tap: every living unit of the same kind (the whole map, not just the screen)
+          select(unitsOfKind(sim.count, (i) => sim.cb.kind[i], (i) => sim.team[i] === 0 && alive(i) && !sim.hidden[i], sim.cb.kind[hit]), it.additive);
+          toast(S.touch.sameKind);
+          break;
+        }
         if (hit >= 0 && !(forced() === 2 && it.type === 'tap')) select([hit], it.additive);
         else if (townTap(it.x, it.y)) break;
         else if (it.type === 'tap') smart(it.x, it.y);
@@ -459,6 +467,11 @@ const local = (e: PointerEvent | WheelEvent): [number, number] => {
   return [e.clientX - r.left, e.clientY - r.top];
 };
 let downAt: [number, number] | null = null;
+let holdPoint: [number, number] = [0, 0];
+const radial = new RadialMenu(document.body, (o: RadialOrder) => {
+  if (o === 'hold' || o === 'retreat') orderButton(o);
+  else execute(o, holdPoint[0], holdPoint[1]);
+});
 canvas.addEventListener('pointerdown', (e) => {
   unlock();
   try {
@@ -477,7 +490,14 @@ canvas.addEventListener('pointerdown', (e) => {
     tipTimer = window.setTimeout(() => {
       if (!downAt) return;
       const i = unitAt(downAt[0], downAt[1], 28);
-      if (i < 0) return;
+      if (i < 0) {
+        // Hold on open ground with a squad selected: the radial order menu
+        if (selectedIds().length === 0 || armed || outcome) return;
+        holdShown = true;
+        holdPoint = [downAt[0], downAt[1]];
+        radial.show(downAt[0], downAt[1], canvas.clientWidth, canvas.clientHeight, S.touch.radial);
+        return;
+      }
       holdShown = true;
       showTip(unitInfo(i), downAt[0], downAt[1]);
       tipHide = window.setTimeout(hideTip, 2500);
@@ -783,9 +803,71 @@ function refreshQuick(): void {
   $('btn-auto').classList.toggle('on', who.length > 0 && who.every((i) => sim.cb.auto[i] === curSpell + 1));
   $('btn-auto').textContent = `${S.autoBtn}: ${SPELLS[curSpell].name}`;
 }
+// --- portraits: your units as 48 px chips; drag an ally spell from the quick row onto one to cast on that unit ---
+const portraits = new PortraitStrip(document.body, (id) => select([id], addMode));
+function refreshPortraits(): void {
+  const mine: number[] = [];
+  for (let i = 0; i < sim.count && mine.length < 64; i++) if (sim.team[i] === 0 && alive(i) && !sim.hidden[i]) mine.push(i);
+  const heroId = sim.hero?.id ?? -1;
+  portraits.update(
+    portraitIds(mine, heroId).map((id) => ({
+      id,
+      label: id === heroId ? 'H' : S.kinds[sim.cb.kind[id]].slice(0, 2),
+      hpPct: Math.max(1, Math.min(100, Math.floor((sim.cb.hp[id] * 100) / Math.max(1, sim.cb.hpMax[id])))),
+      hero: id === heroId,
+      selected: selected.has(id),
+    })),
+  );
+}
+let dragSlot = -1;
+let dragClick = false; // swallow the click that ends a drag
+function dropSpell(n: number, cx: number, cy: number): void {
+  const sid = slots[n];
+  const unit = portraits.unitAt(cx, cy);
+  if (unit < 0 || sid < 0 || sid >= ITEM_BASE) return;
+  if (SPELLS[sid].tk !== Tk.Ally) return void toast(S.touch.notAlly);
+  const who = casters(sid);
+  if (who.length === 0) return void toast(selectedIds().length === 0 ? S.selectFirst : S.noKnown);
+  queue({ type: 'order', order: 'cast', ids: who, spell: sid, target: unit });
+  blip();
+}
+
 for (let n = 0; n < 9; n++) {
   const b = document.createElement('button');
-  b.onclick = () => castSlot(n);
+  b.onclick = () => {
+    if (dragClick) {
+      dragClick = false;
+      return;
+    }
+    castSlot(n);
+  };
+  let start: [number, number] | null = null;
+  b.addEventListener('pointerdown', (e) => {
+    start = [e.clientX, e.clientY];
+    dragSlot = -1;
+  });
+  b.addEventListener('pointermove', (e) => {
+    if (start && dragSlot < 0 && Math.hypot(e.clientX - start[0], e.clientY - start[1]) > 14 && slots[n] >= 0 && slots[n] < ITEM_BASE) {
+      dragSlot = n;
+      toast(S.touch.dropHere);
+      // Window-level, so a mouse drop onto a portrait (which is not this button) also lands.
+      window.addEventListener(
+        'pointerup',
+        (u) => {
+          dragClick = u.target === b || b.contains(u.target as Node);
+          dropSpell(n, u.clientX, u.clientY);
+          window.setTimeout(() => (dragClick = false), 0);
+          start = null;
+          dragSlot = -1;
+        },
+        { once: true },
+      );
+    }
+  });
+  b.addEventListener('pointercancel', () => {
+    start = null;
+    dragSlot = -1;
+  });
   const sid = (): number => slots[n];
   b.addEventListener('pointerdown', (e) => {
     if (e.pointerType === 'mouse') return;
@@ -1230,6 +1312,7 @@ function updateStats(): void {
     const [up, size] = army();
     $('stats').textContent = `${S.army} ${up}/${size}  ${S.foes} ${sim.cb.alive[1]}  ${S.gold} ${sim.cb.gold[0]}${heroMana}`;
     refreshQuick();
+    refreshPortraits();
     heroUi.refresh();
     if (missionUi) missionUi.update(sim);
     if (missionUi && sim.script) {
@@ -1254,7 +1337,8 @@ function finish(kind: 'win' | 'lose', text?: string): void {
 /** Campaign: a mission is over. Record the result (a win also keeps the hero's new state) and send the player back to the map. */
 async function endNode(win: boolean, text: string): Promise<void> {
   const [up, size] = army();
-  const carry = win && sim.hero ? extractCarryover(sim, crec!.progress, townSeed(1, crec!.progress.townVisits)) : null;
+  const carry = win && sim.hero ? extractCarryover(sim, crec!.progress, townSeed(1, crec!.progress.townVisits), slots) : null;
+  if (carry?.upkeep) toast(`${S.touch.upkeep}: -${carry.upkeep} ${S.gold}`);
   crec = afterMission(campaign!, crec!, campaignId!, win, carry, { text, up, size, gold: sim.cb.gold[0] });
   await writeRecord(crec);
   await deleteSave(AUTO).catch(() => undefined); // the mid-mission autosave is obsolete
@@ -1267,7 +1351,7 @@ async function endNode(win: boolean, text: string): Promise<void> {
 async function toMap(): Promise<void> {
   if (campaign && crec && campaignId && nodeOf(campaign, campaignId).kind === 'town' && !outcome) {
     townUi.close();
-    const carry = sim.hero ? extractCarryover(sim, crec.progress, townSeed(1, crec.progress.townVisits + 1)) : null;
+    const carry = sim.hero ? extractCarryover(sim, crec.progress, townSeed(1, crec.progress.townVisits + 1), slots) : null;
     crec = afterTown(campaign, crec, campaignId, carry);
     await writeRecord(crec);
     await deleteSave(AUTO).catch(() => undefined);
@@ -1438,6 +1522,8 @@ function startHero(): void {
     begin(crec.hero.cls, crec.hero.female, crec.progress.difficulty);
     waivePurse(sim, crec.progress.townVisits);
     if (crec.carry && applyCarryover(sim, crec.carry) >= 0) {
+      const kept = crec.carry.slots;
+      if (kept && kept.length === slots.length && kept.every(validSlot)) slots = kept.slice(); // the quick row follows the hero from node to node
       buildQuick();
       heroUi.refresh(true);
       updateStats();

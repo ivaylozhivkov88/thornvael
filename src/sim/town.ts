@@ -109,6 +109,22 @@ export function spellPrice(s: number): number {
 }
 export const trainPrice = (level: number): number => 60 * (level + 1) * (level + 1);
 
+/**
+ * Armour upkeep after a mission: every blow the hero took wears each piece that covers the part it landed on,
+ * at 1/40 of the piece's price (at least 1 gold). Bare parts cost nothing.
+ */
+export function upkeepFee(hits: readonly number[], eq: readonly number[]): number {
+  let fee = 0;
+  for (const id of eq) {
+    if (id < 0) continue;
+    const d = ITEMS[id];
+    if (d.cover === 0) continue;
+    const wear = Math.max(1, Math.floor(priceOf(id) / 40));
+    for (let k = 0; k < hits.length; k++) if ((d.cover >> k) & 1) fee += hits[k] * wear;
+  }
+  return fee;
+}
+
 // ---- setup ----
 
 /** Resolve the towns of a map: building centres and a free tile in front of each. */

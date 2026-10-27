@@ -177,3 +177,11 @@ button:focus-visible { outline: 2px solid #9dff7a; outline-offset: 1px; }
 #shell .sh-update { margin: 4px 0; color: #d8b24a; font-weight: bold; }
 #shell progress { width: 100%; height: 16px; }
 #shell h3 { margin: 8px 0 0; font-size: 16px; }
+/* Radial order menu and portrait strip (touch) */
+.radial { position: fixed; inset: 0; z-index: 12; pointer-events: none; }
+.radial > button { position: absolute; width: 56px; height: 56px; padding: 0; border-radius: 50%; font-size: 11px; line-height: 1.05; pointer-events: auto; border: 2px solid #d8b24a; background: #3a2c16f2; }
+.portraits { position: fixed; z-index: 5; right: calc(8px + env(safe-area-inset-right)); top: calc(64px + clamp(90px, 18vw, 144px) + 12px + env(safe-area-inset-top)); display: grid; grid-template-columns: repeat(2, 48px); gap: 6px; }
+.portraits > button { position: relative; width: 48px; height: 48px; min-width: 48px; padding: 0; font-size: 13px; overflow: hidden; border-width: 2px; opacity: .92; }
+.portraits > button.hero { border-color: #d8b24a; }
+.portraits > button.sel { background: #5a4a22; opacity: 1; }
+.portraits > button > i { position: absolute; left: 0; bottom: 0; height: 5px; background: #6fd16f; }

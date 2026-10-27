@@ -33,7 +33,11 @@ export interface HeroState {
   inv: Stack[];
   eq: number[]; // item id per slot, -1 when empty
   known: number; // spells learned (bit mask)
+  hits: number[]; // blows taken on head, torso, arms, legs since the last upkeep; old saves lack it
 }
+
+/** Gold to copy a spell from a scroll or tome into the spellbook. */
+export const scribeFee = (tier: number): number => 15 * tier;
 
 /** Hero commands go through the command log. */
 export type HeroCommand = { type: 'hero'; op: 'equip' | 'unequip' | 'use' | 'drop'; item?: number; slot?: number };
@@ -178,6 +182,7 @@ export function startState(id: number, cls: number, female: boolean, diff: numbe
     inv: [],
     eq: Array<number>(SLOT_COUNT).fill(-1),
     known: cls === Cls.Mage ? (1 << 0) | (1 << 4) | (1 << 7) : 1 << 7, // Fire Bolt, Frost Bolt, Healing; the warrior knows Healing
+    hits: [0, 0, 0, 0],
   };
   h.eq[Slot.Weapon] = itemId(cls === Cls.Mage ? 'Oak Staff' : 'Rusty Sword');
   h.eq[Slot.Armor] = itemId(cls === Cls.Mage ? 'Cloth Robe' : 'Padded Jerkin');
@@ -291,6 +296,9 @@ function useItem(sim: Sim, item: number): void {
     h.attr[d.grow - 1]++;
     recalc(sim);
   } else if (d.spell >= 0) {
+    const fee = scribeFee(d.tier);
+    if (cb.gold[0] < fee) return refuse(sim, Why.Gold);
+    cb.gold[0] -= fee;
     h.known |= 1 << d.spell;
     recalc(sim);
   }
@@ -376,7 +384,7 @@ export function dropLoot(sim: Sim, t: number): void {
 }
 
 export function cloneHero(h: HeroState | null): HeroState | null {
-  return h === null ? null : { ...h, attr: h.attr.slice(), skill: h.skill.slice(), use: h.use.slice(), inv: h.inv.map((s) => ({ ...s })), eq: h.eq.slice() };
+  return h === null ? null : { ...h, attr: h.attr.slice(), skill: h.skill.slice(), use: h.use.slice(), inv: h.inv.map((s) => ({ ...s })), eq: h.eq.slice(), hits: (h.hits ?? [0, 0, 0, 0]).slice() };
 }
 
 export function hashHero(h: HeroState | null, mix: (v: number) => void): void {
@@ -390,6 +398,7 @@ export function hashHero(h: HeroState | null, mix: (v: number) => void): void {
     mix(s.n);
   }
   mix(h.known);
+  if (h.hits.some((v) => v > 0)) for (const v of h.hits) mix(v); // zero keeps older hashes unchanged
 }
 
 export { ATTR_NAMES };

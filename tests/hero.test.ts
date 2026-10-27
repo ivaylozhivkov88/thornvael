@@ -141,6 +141,9 @@ describe('potions, elixirs and spells from scrolls', () => {
     expect((sim.cb.known[0] >>> fireball) & 1).toBe(0);
     give(sim, 'Scroll of Fireball', 2);
     cmd(sim, { type: 'hero', op: 'use', item: itemId('Scroll of Fireball') });
+    expect((sim.cb.known[0] >>> fireball) & 1).toBe(0); // copying a spell costs gold, and the purse is empty
+    sim.cb.gold[0] = 100;
+    cmd(sim, { type: 'hero', op: 'use', item: itemId('Scroll of Fireball') });
     expect((sim.cb.known[0] >>> fireball) & 1).toBe(1);
     cmd(sim, { type: 'hero', op: 'use', item: itemId('Scroll of Fireball') }); // already known: kept
     expect(sim.hero!.inv.find((s) => s.item === itemId('Scroll of Fireball'))?.n).toBe(1);

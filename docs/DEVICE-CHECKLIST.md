@@ -167,3 +167,14 @@ Run each with the hero from a new campaign (menu, New Game) so the squad comes a
 | 3 | Sanctum: bridges are one file; below a third of its health the boss runs north and units appear behind you | |
 | 4 | Thornwick second visit: no second 300 gold, and the whole squad is still with you | |
 | 5 | Open `?diag=1` at the start of each mission: fps and step ms noted | |
+
+## Slice 9.5 (touch and economy)
+
+| # | Check | Result |
+|---|-------|--------|
+| 1 | Double tap one of your warriors: every warrior is selected | |
+| 2 | Hold a finger on open ground with a squad selected: four round buttons appear (Attack-Move, Hold, Retreat, Guard), each easy to hit | |
+| 3 | Drag Healing (or Blessing) from the quick row onto a portrait on the right: that unit is healed or blessed | |
+| 4 | Win a mission after taking hits: a toast shows the armour upkeep and gold drops by that amount | |
+| 5 | Read a scroll: the scribing fee is taken; with no gold it is refused | |
+| 6 | Rearrange the quick row, finish a mission, start the next: the row is unchanged | |
