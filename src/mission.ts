@@ -3,10 +3,13 @@ import { MonsterAi, placeScenario } from './sim/bot';
 import { ScriptRuntime } from './sim/script';
 import { Sim } from './sim/sim';
 import blood from './missions/blood-at-the-ford.map.json';
+import fen from './missions/whispers-in-the-fen.map.json';
 import market from './missions/thornwick-market.map.json';
+import ravenwatch from './missions/nightfall-at-ravenwatch.map.json';
+import sanctum from './missions/the-sunken-sanctum.map.json';
 
 /** Missions that ship with the game, by the name used in `?mission=`. */
-export const BUILT_IN: Record<string, unknown> = { ford: blood, market };
+export const BUILT_IN: Record<string, unknown> = { ford: blood, market, fen, ravenwatch, sanctum };
 
 export const TEST_KEY = 'thornvael.testmap';
 

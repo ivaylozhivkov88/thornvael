@@ -11,6 +11,28 @@ declare global {
   }
 }
 
+for (const name of ['ford', 'market', 'fen', 'ravenwatch', 'sanctum']) {
+  test(`mission ${name} opens and ticks`, async ({ page }) => {
+    const errors: string[] = [];
+    page.on('pageerror', (e) => errors.push(e.message));
+    await page.goto(`/thornvael/?mission=${name}&hero=warrior,m,medium`);
+    await page.waitForFunction(() => window.__game);
+    const begin = page.getByRole('button', { name: /begin the mission/i });
+    if (await begin.isVisible()) await begin.click(); // the briefing pauses the clock
+    const t0 = await page.evaluate(() => window.__game!.sim.tick);
+    await page.waitForFunction((t) => window.__game!.sim.tick > t + 10, t0);
+    expect(errors).toEqual([]);
+  });
+}
+
+test('the menu shell opens on a bare address with the campaign map reachable', async ({ page }) => {
+  const errors: string[] = [];
+  page.on('pageerror', (e) => errors.push(e.message));
+  await page.goto('/thornvael/');
+  await expect(page.getByRole('button', { name: /new game/i })).toBeVisible();
+  expect(errors).toEqual([]);
+});
+
 test('load, select, move, offline reload', async ({ page, context }) => {
   await page.goto('/thornvael/?hero=warrior,m,medium');
   await page.waitForFunction(() => window.__game);

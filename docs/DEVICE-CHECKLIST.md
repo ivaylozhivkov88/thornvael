@@ -155,3 +155,15 @@ Open `https://ivaylozhivkov88.github.io/thornvael/?diag=1&battle` (or `&stress`)
 | 2 | Turn on airplane mode, close and reopen the app: the menu loads, a mission starts, sound plays | |
 | 3 | "Export all saves" gives one file; "Import a save file" in the Saves sheet restores the slots | |
 | 4 | After a new version is deployed: no prompt during a mission; the menu or map shows "Update Available", Apply Now reloads into the new version | |
+
+## Slice 9.4 (missions 2 to 4)
+
+Run each with the hero from a new campaign (menu, New Game) so the squad comes along.
+
+| # | Check | Result |
+|---|-------|--------|
+| 1 | Fen: the marsh visibly slows the column; the scout can be selected and moved; reaching the post with hero and scout shows the result screen | |
+| 2 | Ravenwatch: it starts at dusk; three waves arrive from north, west and east; dawn message; three totems break; win | |
+| 3 | Sanctum: bridges are one file; below a third of its health the boss runs north and units appear behind you | |
+| 4 | Thornwick second visit: no second 300 gold, and the whole squad is still with you | |
+| 5 | Open `?diag=1` at the start of each mission: fps and step ms noted | |

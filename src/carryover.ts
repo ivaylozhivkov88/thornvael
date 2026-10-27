@@ -35,14 +35,23 @@ export function extractCarryover(sim: Sim, progress: CampaignProgress, shopSeed:
  * Mercenaries fill the mission's reserved team-0 units of the same kind, in unit order; each one is placed beside the hero.
  * Reserved units that nobody fills stay hidden. Returns how many mercenaries came along.
  */
+/** The town's opening purse is a first-visit gift: from the second visit on its trigger stays off. */
+export function waivePurse(sim: Sim, townVisits: number): void {
+  const rt = sim.script;
+  if (townVisits <= 0 || !rt) return;
+  const i = rt.def.triggers.findIndex((t) => t.id === 'purse');
+  if (i >= 0) rt.st.on[i] = 0;
+}
+
 export function applyCarryover(sim: Sim, co: CarryoverState): number {
   const hero = cloneHero(co.hero)!;
   const id = sim.hero?.id ?? hero.id;
   hero.id = id;
   sim.hero = hero;
   sim.cb.gold[0] = co.gold;
+  const forHire = new Set(sim.towns.flatMap((t) => (t.def.mercs ?? []).map((m) => m.unit)));
   const reserve: number[] = [];
-  for (let j = 0; j < sim.count; j++) if (j !== id && sim.team[j] === 0 && sim.hidden[j]) reserve.push(j);
+  for (let j = 0; j < sim.count; j++) if (j !== id && sim.team[j] === 0 && sim.hidden[j] && !forHire.has(j)) reserve.push(j);
   let placed = 0;
   for (const m of co.mercs) {
     const at = reserve.findIndex((j) => sim.cb.kind[j] === m.kind);

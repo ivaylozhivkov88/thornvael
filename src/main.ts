@@ -8,7 +8,7 @@ import type { LoadedMission } from './mapdoc';
 import { createMission, missionFromName, type MissionGame } from './mission';
 import { nodeOf, townSeed, type Campaign } from './campaign';
 import { loadCampaign, readRecord, writeRecord } from './campaignstore';
-import { applyCarryover, extractCarryover } from './carryover';
+import { applyCarryover, extractCarryover, waivePurse } from './carryover';
 import { afterMission, afterTown, type CampaignRecord } from './flow';
 import { resumeSave, type SaveFile, type SaveState } from './save';
 import { AUTO, deleteSave, getSave } from './savedb';
@@ -1436,6 +1436,7 @@ function startHero(): void {
   if (campaign && crec) {
     // The hero was picked on the shell; later nodes bring the hero along (applied before the first tick).
     begin(crec.hero.cls, crec.hero.female, crec.progress.difficulty);
+    waivePurse(sim, crec.progress.townVisits);
     if (crec.carry && applyCarryover(sim, crec.carry) >= 0) {
       buildQuick();
       heroUi.refresh(true);
