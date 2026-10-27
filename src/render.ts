@@ -171,6 +171,26 @@ export class Renderer {
     private readonly map: GameMap,
   ) {}
 
+  /** Static world labels: town buildings and people to talk to (x, y in tiles). Call after init. */
+  setMarks(marks: readonly { x: number; y: number; label: string; npc: boolean }[]): void {
+    const layer = new Container();
+    const g = new Graphics();
+    layer.addChild(g);
+    for (const m of marks) {
+      const px = m.x * TILE;
+      const py = m.y * TILE;
+      if (m.npc) {
+        g.circle(px, py - 6, 7).fill(0xe8c860).stroke({ color: 0x2a1a0e, width: 2 });
+        g.rect(px - 5, py, 10, 12).fill(0x7a5a9a);
+      }
+      const t = new Text({ text: m.label, style: { fontFamily: 'Georgia, serif', fontSize: 12, fontWeight: 'bold', fill: m.npc ? 0xf0e2bd : 0xffd870, stroke: { color: 0x000000, width: 3 } } });
+      t.anchor.set(0.5, 1);
+      t.position.set(px, py - (m.npc ? 14 : 0));
+      layer.addChild(t);
+    }
+    this.world.addChildAt(layer, 2);
+  }
+
   async init(sim: Sim): Promise<void> {
     await this.app.init({
       canvas: this.canvas,

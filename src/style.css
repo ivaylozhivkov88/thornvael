@@ -105,3 +105,45 @@ button:focus-visible { outline: 2px solid #9dff7a; outline-offset: 1px; }
 #mission p { line-height: 1.45; margin: 0 0 10px; }
 #mission ul { margin: 0 0 12px; padding-left: 22px; line-height: 1.6; }
 .menu-link { display: block; padding: 12px 8px; margin: 4px 0; background: #3a2c1c; border: 1px solid #8a6b3a; border-radius: 6px; color: #f0e2bd; text-decoration: none; }
+/* Town screens: shop shelf 4 x 3, pack 6 x 4, the bill and the shopkeeper. */
+.town { z-index: 17; }
+.town .gold { color: #ffd870; }
+.town .grid { display: grid; gap: 4px; }
+.town .grid.shelf { grid-template-columns: repeat(4, 1fr); }
+.town .grid.pack { grid-template-columns: repeat(6, 1fr); }
+.town .cell { min-height: 48px; min-width: 0; padding: 2px 4px; font-size: 11px; line-height: 1.1; display: flex; flex-direction: column; align-items: center; justify-content: center; overflow: hidden; }
+.town .cell small { font-size: 10px; color: #ffd870; }
+.town .cell.empty { background: #1a130c; border: 1px dashed #4a3a24; border-radius: 6px; }
+.town .cell.sel { border-color: #d8b24a; background: #4a3a1c; }
+.town .cell.no, .town .items > button.no { opacity: .5; }
+.town .neg { color: #e05a4a; }
+.town .acts { display: grid; grid-template-columns: repeat(4, 1fr); gap: 6px; margin-top: 10px; }
+.town .acts > button { min-height: 48px; }
+.shop-top { display: grid; grid-template-columns: 150px 1fr; gap: 10px; align-items: center; }
+.keeper { display: flex; flex-direction: column; align-items: center; gap: 4px; }
+.keeper .say { font-size: 12px; text-align: center; min-height: 30px; color: #f0e2bd; }
+.keeper .figure { position: relative; width: 64px; height: 72px; animation: bob 2.4s ease-in-out infinite; }
+.keeper .figure > i { position: absolute; display: block; }
+.keeper .head { left: 16px; top: 0; width: 32px; height: 32px; border-radius: 50%; background: #e0b88a; border: 2px solid #3a2414; }
+.keeper .eyes { left: 25px; top: 12px; width: 14px; height: 4px; border-left: 4px solid #2a1a0e; border-right: 4px solid #2a1a0e; box-sizing: border-box; }
+.keeper .mouth { left: 25px; top: 20px; width: 14px; height: 6px; border: 2px solid #2a1a0e; border-top: 0; border-radius: 0 0 8px 8px; }
+.keeper .body { left: 10px; top: 34px; width: 44px; height: 38px; border-radius: 12px 12px 4px 4px; background: #7a3a2a; border: 2px solid #3a2414; }
+.keeper .arm { left: 50px; top: 38px; width: 8px; height: 26px; border-radius: 4px; background: #e0b88a; transform-origin: 4px 2px; }
+.keeper.pleased .mouth { height: 9px; background: #5a1a10; }
+.keeper.pleased .figure { animation: hop .4s ease-out 2; }
+.keeper.sorry .mouth { top: 23px; border: 2px solid #2a1a0e; border-bottom: 0; border-radius: 8px 8px 0 0; }
+.keeper.sorry .head { transform: rotate(-8deg); }
+.keeper.greet .arm, .keeper.farewell .arm { animation: wave .5s ease-in-out 3 alternate; }
+.keeper.thinking .eyes { top: 10px; }
+.keeper.thinking .arm { transform: rotate(150deg); top: 30px; }
+@keyframes bob { 50% { transform: translateY(-2px); } }
+@keyframes hop { 50% { transform: translateY(-8px); } }
+@keyframes wave { from { transform: rotate(160deg); } to { transform: rotate(110deg); } }
+@media (max-width: 520px) {
+  .shop-top { grid-template-columns: 110px 1fr; }
+  .town .grid.pack { grid-template-columns: repeat(4, 1fr); }
+}
+.saves .slot { display: flex; gap: 6px; align-items: center; flex-wrap: wrap; }
+.saves .slot > .grow { flex: 1; min-width: 160px; }
+.saves .row { display: flex; gap: 6px; flex-wrap: wrap; margin: 8px 0; }
+.saves input[type="text"] { flex: 1; min-width: 140px; min-height: 40px; background: #14100c; color: #f0e2bd; border: 1px solid #8a6b3a; border-radius: 6px; padding: 0 8px; font-size: 16px; }

@@ -112,6 +112,20 @@ Open the game without `?hero=...` so the creation sheet shows.
 | 5 | Frame rate with the whole company in battle stays near the Phase 5 number. | | |
 | 6 | Missions menu: the four links open; the editor link is for desktop. | | |
 
+## Phase 8: towns and saves (open `?mission=market`, or Missions then "Town: Thornwick Market")
+
+| # | Check | iPhone | Android |
+|---|-------|--------|---------|
+| 1 | Tap the Shop: the hero walks to the door and the shop opens. Shelf 4 x 3, pack below, bill with Buying / Selling / Balance / Gold after; the shopkeeper waves and reacts. | | |
+| 2 | Pick two shelf items and one pack item, Undo once, Buy, Sell: gold and pack change, Exit leaves. Re-enter: the shelf is new. | | |
+| 3 | Tavern: hire a warrior (appears at the door and takes orders), take a quest, finish it, see "Quest done! Paid". | | |
+| 4 | School: learn a spell (it shows in the spellbook) and train a skill. | | |
+| 5 | Tap Reeve Marlow: walk there, his line shows. | | |
+| 6 | Saves: save a named slot, play on, Load it: same place, gold, mercenaries and quests. | | |
+| 7 | EXIT GATE: install to the home screen, play a minute, kill the app from the app switcher, relaunch: "Continue" resumes where you were. | | |
+| 8 | EXIT GATE: in Safari, Saves, Export a slot to Files; in the installed app, Import it and Load it. | | |
+| 9 | The Saves sheet shows the note about separate Safari and app storage on iPhone. | | |
+
 Touch and desktop parity (QA-03): every action below must be doable both ways.
 
 | Action | Touch | Mouse and keyboard |

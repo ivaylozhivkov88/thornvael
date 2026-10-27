@@ -3,9 +3,10 @@ import { MonsterAi, placeScenario } from './sim/bot';
 import { ScriptRuntime } from './sim/script';
 import { Sim } from './sim/sim';
 import blood from './missions/blood-at-the-ford.map.json';
+import market from './missions/thornwick-market.map.json';
 
 /** Missions that ship with the game, by the name used in `?mission=`. */
-export const BUILT_IN: Record<string, unknown> = { ford: blood };
+export const BUILT_IN: Record<string, unknown> = { ford: blood, market };
 
 export const TEST_KEY = 'thornvael.testmap';
 
@@ -21,6 +22,7 @@ export function createMission(loaded: LoadedMission, seed = 1): MissionGame {
   const sim = new Sim(map, seed, scenario.teams, { combat: true, kinds: scenario.kinds, dayOffset: doc.day ?? 0 });
   placeScenario(sim, scenario);
   sim.settle();
+  sim.attachTowns(doc.towns ?? []);
   sim.attachScript(new ScriptRuntime(structuredClone(def)));
   return { loaded, sim, ai: new MonsterAi(structuredClone(scenario.packs)) };
 }

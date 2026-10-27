@@ -38,8 +38,8 @@ export interface HeroState {
 export type HeroCommand = { type: 'hero'; op: 'equip' | 'unequip' | 'use' | 'drop'; item?: number; slot?: number };
 
 /** Why an action was refused (fx type 15, v = reason). */
-export const Why = { Class: 1, Need: 2, Known: 3, Full: 4, Heavy: 5, Dead: 6, None: 7, NoEffect: 8 } as const;
-export const WHY_TEXT = ['', 'Wrong class for this item.', 'Attribute too low for this item.', 'You already know that spell.', 'The pack is full.', 'Too heavy to carry.', 'The hero has fallen.', 'You do not have that.', 'It would have no effect now.'] as const;
+export const Why = { Class: 1, Need: 2, Known: 3, Full: 4, Heavy: 5, Dead: 6, None: 7, NoEffect: 8, Gold: 9, Far: 10, Busy: 11 } as const;
+export const WHY_TEXT = ['', 'Wrong class for this item.', 'Attribute too low for this item.', 'You already know that spell.', 'The pack is full.', 'Too heavy to carry.', 'The hero has fallen.', 'You do not have that.', 'It would have no effect now.', 'Not enough gold.', 'Walk closer to go in.', 'You already carry three quests.'] as const;
 /** Item events (fx type 14, v = item id, el = what happened). */
 export const Did = { Pick: 0, Equip: 1, Use: 2, Learn: 3, Drop: 4, Unequip: 5 } as const;
 
@@ -239,7 +239,7 @@ export function addItem(h: HeroState, item: number): number {
   return 0;
 }
 
-function takeItem(h: HeroState, item: number): boolean {
+export function takeItem(h: HeroState, item: number): boolean {
   const k = h.inv.findIndex((x) => x.item === item);
   if (k < 0) return false;
   if (--h.inv[k].n <= 0) h.inv.splice(k, 1);

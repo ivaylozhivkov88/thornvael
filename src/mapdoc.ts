@@ -3,6 +3,7 @@ import type { Scenario } from './sim/bot';
 import { DEFS, Kind } from './sim/combat';
 import { ITEMS } from './sim/items';
 import { SPELLS } from './sim/spelldata';
+import type { TownDef } from './sim/town';
 import { actionDef, checkDef, type MissionDef, type Param, type Ref, type Trigger } from './sim/script';
 
 /**
@@ -52,6 +53,8 @@ export interface MapDoc {
   text: Record<string, string>;
   /** Starting day offset in ticks; 0 is morning. */
   day?: number;
+  /** Towns: buildings by House index, shop tiers, school spells, mercenaries, NPCs (see docs/MAP-FORMAT.md). */
+  towns?: TownDef[];
 }
 
 export function rleEncode(a: ArrayLike<number>): number[] {
@@ -128,6 +131,31 @@ function paramError(p: Param, v: unknown, doc: MapDoc, groups: Set<number>): str
   }
 }
 
+function townErrors(doc: MapDoc): string[] {
+  const errs: string[] = [];
+  const houses = doc.objects.filter((o) => o.kind === ObjectKind.House).length;
+  (doc.towns ?? []).forEach((t, i) => {
+    const where = `Town ${t.name || i}`;
+    for (const role of ['tavern', 'shop', 'school'] as const) {
+      const b = t[role];
+      if (b !== undefined && (!isInt(b) || b < 0 || b >= houses)) errs.push(`${where}: the ${role} is not a building.`);
+    }
+    if (t.tiers && !(isInt(t.tiers[0]) && isInt(t.tiers[1]) && t.tiers[0] >= 1 && t.tiers[1] <= 5 && t.tiers[0] <= t.tiers[1])) errs.push(`${where}: shop tiers must be 1 to 5.`);
+    for (const s of t.spells ?? []) if (!isInt(s) || s < 0 || s >= SPELLS.length) errs.push(`${where}: no such spell ${s}.`);
+    for (const m of t.mercs ?? []) {
+      const u = doc.units[m.unit];
+      if (!u || u.team !== 0 || !u.dormant || m.unit === 0) errs.push(`${where}: mercenary ${m.unit} must be a dormant unit of yours.`);
+      if (!isInt(m.price) || m.price < 0) errs.push(`${where}: mercenary ${m.unit} needs a price.`);
+    }
+    for (const n of t.npcs ?? []) {
+      if (!isInt(n.x) || !isInt(n.y) || n.x < 0 || n.y < 0 || n.x >= doc.w || n.y >= doc.h) errs.push(`${where}: ${n.name} stands outside the map.`);
+      if (!doc.text[n.text]) errs.push(`${where}: ${n.name} has no text "${n.text}".`);
+    }
+    if (t.mercs?.length && t.tavern === undefined) errs.push(`${where}: mercenaries need a tavern.`);
+  });
+  return errs;
+}
+
 /** Every problem found in a map, as readable lines. An empty list means the map can be played. */
 export function validate(doc: MapDoc): string[] {
   const errs: string[] = [];
@@ -170,6 +198,7 @@ export function validate(doc: MapDoc): string[] {
     }
     for (const c of t.conds) if (!isInt(c.op) || c.op < 0 || c.op > 5) errs.push(`${where}: bad comparison.`);
   });
+  errs.push(...townErrors(doc));
   return errs;
 }
 

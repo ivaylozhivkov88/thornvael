@@ -5,7 +5,12 @@ import { ControlGroups, GROUP_COUNT } from './groups';
 import { GestureRecognizer, pickUnit, reticle, unitsInBox, type Intent } from './input';
 import { TILE, generateMap } from './map';
 import type { LoadedMission } from './mapdoc';
-import { createMission, missionFromName } from './mission';
+import { createMission, missionFromName, type MissionGame } from './mission';
+import { resumeSave, type SaveFile, type SaveState } from './save';
+import { getSave } from './savedb';
+import { SaveUi } from './saveui';
+import { TownUi } from './townui';
+import { ROLE_COUNT, Tfx } from './sim/town';
 import { MissionUi, showMissionMenu } from './missionui';
 import { Minimap } from './minimap';
 import { QUALITY_NAMES, Renderer, type View } from './render';
@@ -36,7 +41,20 @@ const debug = params.has('debug') || stress || crowd || battle;
 const missionName = params.get('mission');
 let loadedMission: LoadedMission | null = null;
 let missionError = '';
-if (missionName && !crowd && !stress && !battle) {
+// `?load=<slot>` resumes a save (the autosave is slot `auto`): the save carries its own map.
+const loadId = params.get('load');
+let resumed: { save: SaveFile; game: MissionGame } | null = null;
+if (loadId && !crowd && !stress && !battle) {
+  try {
+    const save = await getSave(loadId);
+    if (!save) throw new Error(`"${loadId}" is empty.`);
+    resumed = { save, game: resumeSave(save) };
+    loadedMission = resumed.game.loaded;
+  } catch (e) {
+    missionError = (e as Error).message;
+  }
+}
+if (!resumed && missionName && !crowd && !stress && !battle) {
   try {
     loadedMission = missionFromName(missionName);
   } catch (e) {
@@ -54,7 +72,7 @@ if (crowd || stress) {
   if (crowd) setupCrowd(sim, 300);
   else setupSquads(sim);
 } else if (loadedMission) {
-  const g = createMission(loadedMission);
+  const g = resumed?.game ?? createMission(loadedMission);
   sim = g.sim;
   scenario = loadedMission.scenario;
   missionAi = g.ai;
@@ -76,7 +94,17 @@ const selected = new Set<number>();
 const prevX = sim.x.slice();
 const prevY = sim.y.slice();
 const STEP_MS = 1000 / TICKS_PER_SECOND;
-const heroTeamSize = sim.team.reduce((n, t) => n + (t === 0 ? 1 : 0), 0);
+/** Your army: units on team 0 that are on the map (mercenaries still waiting in a tavern are hidden). */
+function army(): [number, number] {
+  let size = 0;
+  let up = 0;
+  for (let i = 0; i < sim.count; i++) {
+    if (sim.team[i] !== 0 || sim.hidden[i]) continue;
+    size++;
+    if (sim.cb.hp[i] > 0) up++;
+  }
+  return [up, size];
+}
 
 let userPause = false;
 let pausedToast = false;
@@ -332,6 +360,7 @@ function handle(intents: Intent[]): void {
         }
         const hit = pickUnit(sim.count, posMine, it.x, it.y, PICK);
         if (hit >= 0 && !(forced() === 2 && it.type === 'tap')) select([hit], it.additive);
+        else if (townTap(it.x, it.y)) break;
         else if (it.type === 'tap') smart(it.x, it.y);
         else if (!it.additive) selected.clear();
         break;
@@ -532,7 +561,9 @@ window.addEventListener('keydown', (e) => {
     e.preventDefault();
     castSlot(Number(e.key.slice(1)) - 4);
   } else if (e.key === 'Escape') {
-    if (!$('book').hidden) closeBook();
+    if (townUi.open) townUi.close();
+    else if (saveUi.open) saveUi.close();
+    else if (!$('book').hidden) closeBook();
     else if (heroUi.isOpen) heroUi.close();
     else if (armed) arm(null);
     else selected.clear();
@@ -849,6 +880,96 @@ $('btn-hero').onclick = () => heroUi.toggle();
 const heroPresent = combatMode && !battle && sim.cb.kind[0] === Kind.Hero;
 const missionUi = loadedMission ? new MissionUi(loadedMission.doc, { pause: (on) => (userPause = on || outcome !== null) }) : null;
 
+// --- towns: tap a building to walk there and go in, tap a person to talk ---
+const townUi = new TownUi({
+  sim: () => sim,
+  pause: (on) => (userPause = on || outcome !== null),
+  changed: () => {
+    buildQuick();
+    heroUi.refresh(true);
+    updateStats();
+  },
+  tipOn,
+  onOpen: () => {
+    if (!bookEl.hidden) closeBook();
+    if (heroUi.isOpen) heroUi.close();
+  },
+});
+let visit: { town: number; role: number; npc: number; until: number } | null = null;
+const TALK_REACH = 3;
+const heroNear = (x: number, y: number, r: number): boolean => sim.hero !== null && alive(0) && Math.abs(sim.x[0] / FP - x) <= r && Math.abs(sim.y[0] / FP - y) <= r;
+
+/** Try to go in or talk now; true when the screen opened or the line was shown. */
+function arrive(town: number, role: number, npc: number): boolean {
+  const t = sim.towns[town];
+  if (npc >= 0) {
+    const n = t.def.npcs![npc];
+    if (!heroNear(n.x + 0.5, n.y + 0.5, TALK_REACH)) return false;
+    openPanel(n.name, loadedMission?.doc.text[n.text] ?? '');
+    return true;
+  }
+  const c = t.centre[role]!;
+  return heroNear(c[0], c[1], 4.5) && townUi.enter(town, role);
+}
+
+/** A tap on the map: true when it hit a town building or a person (then the hero walks there). */
+function townTap(sx: number, sy: number): boolean {
+  if (!heroPresent || sim.towns.length === 0 || outcome) return false;
+  const [tx, ty] = renderer.toTile(sx, sy);
+  for (const [ti, t] of sim.towns.entries()) {
+    const npc = (t.def.npcs ?? []).findIndex((n) => Math.abs(tx - n.x - 0.5) <= 0.8 && Math.abs(ty - n.y - 0.3) <= 1);
+    const role = npc >= 0 ? -1 : t.centre.findIndex((c) => c !== null && tx >= c[0] - 1 && tx < c[0] + 1 && ty >= c[1] - 1.6 && ty < c[1] + 1);
+    if (npc < 0 && role < 0) continue;
+    if (arrive(ti, role, npc)) return true;
+    if (!alive(0)) return true;
+    const [gx, gy] = npc >= 0 ? [t.def.npcs![npc].x, t.def.npcs![npc].y + 1] : t.door[role]!;
+    queue({ type: 'move', ids: [0], x: gx + 0.5, y: gy + 0.5 });
+    visit = { town: ti, role, npc, until: sim.tick + 40 * TICKS_PER_SECOND };
+    toast(`${S.town.walking} ${npc >= 0 ? t.def.npcs![npc].name : S.town.roles[role].toLowerCase()}`);
+    return true;
+  }
+  return false;
+}
+
+function checkVisit(): void {
+  if (!visit || townUi.open) return;
+  if (sim.tick > visit.until || !alive(0)) visit = null;
+  else if (arrive(visit.town, visit.role, visit.npc)) visit = null;
+}
+
+// --- saves: slots sheet, autosave, continue on start ---
+const saveUi = new SaveUi({
+  capture: (): SaveState | null => {
+    if (!loadedMission || !heroPresent || sim.hero === null || outcome) return null;
+    return {
+      doc: loadedMission.doc,
+      seed: resumed?.save.state.seed ?? 1,
+      snap: sim.snapshot(),
+      ai: missionAi?.snapshot() ?? [],
+      ui: { cam: [renderer.camX, renderer.camY, renderer.zoom], groups: Array.from({ length: GROUP_COUNT + 1 }, (_, n) => [...groups.get(n)]), slots: [...slots], selected: [...selected] },
+    };
+  },
+  label: () => `${loadedMission?.doc.name ?? S.title}, ${sim.hero ? S.hero.classes[sim.hero.cls] : ''}, ${Math.floor(sim.tick / TICKS_PER_SECOND / 60)} min`,
+  toast,
+  onOpen: () => {
+    if (!bookEl.hidden) closeBook();
+    if (heroUi.isOpen) heroUi.close();
+    townUi.close();
+  },
+  standalone: window.matchMedia('(display-mode: standalone)').matches || (navigator as Navigator & { standalone?: boolean }).standalone === true,
+  ios: /iphone|ipad|ipod/i.test(navigator.userAgent) || (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1),
+});
+let lastAutosave = 0;
+function autosave(): void {
+  if (townUi.open || heroUi.creating || sim.tick === lastAutosave) return;
+  lastAutosave = sim.tick;
+  void saveUi.autosave();
+}
+setInterval(() => {
+  if (!hidden && !userPause && sim.tick - lastAutosave >= 60 * TICKS_PER_SECOND) autosave();
+}, 5000);
+window.addEventListener('pagehide', autosave);
+
 /** Toast text and refresh for the hero events of this frame (bags picked up, gear worn, spells learned, refusals, skills). */
 function heroEvents(): void {
   if (!heroPresent) return;
@@ -861,6 +982,13 @@ function heroEvents(): void {
       touched = true;
     } else if (e.type === 15) {
       toast(WHY_TEXT[e.v]);
+    } else if (e.type === Tfx.Paid) {
+      toast(`${S.town.paid} ${e.v}`);
+      touched = true;
+    } else if (e.type === Tfx.Failed) {
+      toast(S.town.failed);
+    } else if (e.type === Tfx.Hired) {
+      toast(S.town.hiredToast);
     } else if (e.type === 6) {
       toast(`${S.hero.skillUp}: ${SKILL_NAMES[e.v]} ${e.el}`);
       touched = true;
@@ -1039,6 +1167,7 @@ function updateMusic(now: number): void {
 }
 document.addEventListener('visibilitychange', () => {
   hidden = document.hidden;
+  if (hidden) autosave();
   if (hidden) suspendAudio();
   else {
     resumeAudio();
@@ -1069,7 +1198,8 @@ function updateStats(): void {
   refreshGroupButtons();
   if (combatMode) {
     const heroMana = sim.cb.kind[0] === Kind.Hero ? `  ${S.hp} ${sim.cb.hp[0]}/${sim.cb.hpMax[0]}  ${S.mana} ${sim.cb.mana[0]}/${sim.cb.manaMax[0]}` : '';
-    $('stats').textContent = `${S.army} ${sim.cb.alive[0]}/${heroTeamSize}  ${S.foes} ${sim.cb.alive[1]}  ${S.gold} ${sim.cb.gold[0]}${heroMana}`;
+    const [up, size] = army();
+    $('stats').textContent = `${S.army} ${up}/${size}  ${S.foes} ${sim.cb.alive[1]}  ${S.gold} ${sim.cb.gold[0]}${heroMana}`;
     refreshQuick();
     heroUi.refresh();
     if (missionUi) missionUi.update(sim);
@@ -1087,8 +1217,8 @@ function finish(kind: 'win' | 'lose', text?: string): void {
   outcome = kind;
   arm(null);
   userPause = true;
-  const lost = heroTeamSize - sim.cb.alive[0];
-  openPanel(kind === 'win' ? S.victory : S.defeat, `${text ?? (kind === 'win' ? S.victoryBody : S.defeatBody)}\n${S.army}: ${sim.cb.alive[0]}/${heroTeamSize} (${lost} ${S.fallen}). ${S.gold}: ${sim.cb.gold[0]}.`, true);
+  const [up, size] = army();
+  openPanel(kind === 'win' ? S.victory : S.defeat, `${text ?? (kind === 'win' ? S.victoryBody : S.defeatBody)}\n${S.army}: ${up}/${size} (${size - up} ${S.fallen}). ${S.gold}: ${sim.cb.gold[0]}.`, true);
 }
 
 function frame(): void {
@@ -1134,6 +1264,7 @@ function frame(): void {
     minimap.draw(sim, renderer.viewTiles(), selected);
     $('clock').textContent = clockText(sim.tick + sim.dayOffset);
     updateStats();
+    checkVisit();
   }
   const cost = performance.now() - t0;
   frames++;
@@ -1231,6 +1362,8 @@ $('btn-force').textContent = S.force[0];
 if (!combatMode) for (const id of ['btn-loose', 'btn-force']) $(id).hidden = true;
 $('btn-missions').textContent = S.mission.open;
 $('btn-missions').onclick = showMissionMenu;
+$('btn-saves').textContent = S.save.open;
+$('btn-saves').onclick = () => saveUi.toggle();
 $('btn-hero').hidden = !heroPresent;
 tipOn($('btn-hero'), S.tips['btn-hero']);
 
@@ -1262,10 +1395,33 @@ void renderer.init(sim).then(() => {
   setQuality(renderer.quality, true);
   if (combatMode) selectAll();
   if (missionError) toast(`${S.mission.loadFailed} ${missionError}`);
-  if (missionUi) {
+  const marks: { x: number; y: number; label: string; npc: boolean }[] = [];
+  for (const t of sim.towns) {
+    t.centre.forEach((c, role) => c && marks.push({ x: c[0], y: c[1] - 1.1, label: S.town.roles[role], npc: false }));
+    for (const n of t.def.npcs ?? []) marks.push({ x: n.x + 0.5, y: n.y + 0.5, label: n.name, npc: true });
+  }
+  if (marks.length) renderer.setMarks(marks);
+  if (resumed) {
+    // Back exactly where the save was taken: no briefing, no hero creation, the same view.
+    const ui = resumed.save.state.ui;
+    if (sim.town.inside >= 0) sim.now({ type: 'town', op: 'leave', town: Math.floor(sim.town.inside / ROLE_COUNT) });
+    missionUi?.resync(sim);
+    renderer.zoom = ui.cam[2];
+    renderer.camX = ui.cam[0];
+    renderer.camY = ui.cam[1];
+    renderer.clamp();
+    ui.groups.forEach((g, n) => n > 0 && n <= GROUP_COUNT && groups.set(n, g));
+    if (ui.slots.length === slots.length && ui.slots.every(validSlot)) slots = ui.slots.slice();
+    buildQuick();
+    selected.clear();
+    for (const i of ui.selected) selected.add(i);
+    userPause = false;
+    lastAutosave = sim.tick;
+  } else if (missionUi) {
     userPause = true;
     missionUi.briefing(() => (heroPresent ? startHero() : (userPause = false)));
   } else if (heroPresent) startHero();
+  void saveUi.greet(resumed !== null);
   if (battle) {
     const a = [...Array(150).keys()];
     pending.push({ type: 'order', order: 'swarm', ids: a, x: 38, y: map.h - 9 });
@@ -1298,5 +1454,8 @@ void renderer.init(sim).then(() => {
     heroUi,
     useItemSlot,
     mission: missionUi,
+    townUi,
+    saveUi,
+    townTap,
   };
 });

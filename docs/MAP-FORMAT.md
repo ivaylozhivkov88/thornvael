@@ -12,6 +12,19 @@ A mission is one JSON file: `*.map.json`. Open it in the editor at `editor.html`
 | `regions` | Named rectangles for the author's reference (the editor copies tiles from them). |
 | `triggers` | `{id, once, enabled, conds[], acts[]}`: up to 3 comparisons that must all hold, up to 4 actions. A comparison is `{a, op, b}` with `a` and `b` checks and `op` an index into `= ≠ > < ≥ ≤`. Checks and actions are `{k, a}`: registry key and arguments in the order of the registry parameters (`src/sim/script.ts`). |
 | `text` | Mission text by key: `title`, `body`, `obj.N`, `msg.N`, `msg.N.who`, `win`, `fail.N`. |
+| `towns` | Optional. Towns of the map, see below. |
+
+## Towns
+
+`towns` is a list of `{name, tavern?, shop?, school?, tiers?, spells?, mercs?, npcs?}`:
+
+- `tavern`, `shop`, `school`: index of a building among the map's buildings (objects of kind 1, in order). The player taps the building, the hero walks to its door and the screen opens; the game pauses inside.
+- `tiers`: `[lowest, highest]` item level (1 to 5) for the shop stock and fetch quests. Default `[1, 2]`. Stock is rolled again on every visit; healing and mana draughts are always on the shelf.
+- `spells`: spell ids the school teaches. The school also trains the three skills.
+- `mercs`: `{unit, price}`. The unit must be a `dormant` unit of yours (team 0); it appears at the tavern door when hired.
+- `npcs`: `{name, x, y, text}`: a person drawn on the map who says `text` (a key into `text`) when the hero is near.
+
+The tavern board offers three quests per visit, rolled from 13 types (slay, cull, clear, hunt, timed hunt, scout, patrol, deliver, fetch, gold, gather, practice, guard). The hero can carry three at a time; the reward is paid when the quest is done (fetch quests at the tavern). Everything a town does goes through `town` commands in the sim, so it is replayed and saved exactly.
 
 ## Script registry
 

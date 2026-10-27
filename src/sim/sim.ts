@@ -7,6 +7,7 @@ import { knows, resolveTarget, statusSpeed } from './spells';
 import { FP, Pather, dir16, lineClear, regionsOf, speedPct } from './path';
 import { Rng } from './rng';
 import type { ScriptRuntime, ScriptState } from './script';
+import { buildTowns, checkQuests, cloneTown, hashTown, newTownState, townCommand, type TownCommand, type TownDef, type TownRt, type TownState } from './town';
 
 export { FP };
 export const TICKS_PER_SECOND = 25;
@@ -36,7 +37,8 @@ export type Command =
       spell?: number; // cast: spell id, default 0 (Fire Bolt)
     }
   | { type: 'autocast'; ids: number[]; spell: number } // spell id, or -1 to switch autocast off
-  | HeroCommand;
+  | HeroCommand
+  | TownCommand;
 export interface LoggedCommand {
   tick: number;
   cmd: Command;
@@ -69,6 +71,8 @@ export interface Snapshot {
   hidden: Uint8Array;
   peace: Uint8Array;
   script: ScriptState | null;
+  team?: Uint8Array; // added in save version 2
+  town?: TownState;
 }
 
 export interface SimOptions {
@@ -119,6 +123,9 @@ export class Sim {
   peace = new Uint8Array(16);
   /** Mission script, or null for free play. Attach with attachScript before the first tick. */
   script: ScriptRuntime | null = null;
+  /** Towns of the map (static), and their changing state (stock, quests), which is saved. */
+  towns: TownRt[] = [];
+  town: TownState = newTownState(0);
   /** Uniform grid of living units, rebuilt every tick; used for collision and target search. */
   readonly cellStart: Int32Array;
   readonly cellItems: Int32Array;
@@ -169,6 +176,23 @@ export class Sim {
     this.cursor = new Int32Array(map.w * map.h);
     this.combat = opts.combat ?? false;
     this.cb = new CombatState(n, opts.kinds ?? Array(n).fill(0), this.team, opts.hpMul ?? 1);
+  }
+
+  /** Set up the map's towns. Before the first tick. */
+  attachTowns(defs: readonly TownDef[]): void {
+    this.towns = buildTowns(this, defs);
+    this.town = newTownState(defs.length);
+  }
+
+  /**
+   * Apply a town command at once (the game is paused inside a building). It is logged for the next
+   * tick, and step runs town commands before anything else, so a replay gets the same result.
+   */
+  now(cmd: TownCommand): void {
+    this.log.push({ tick: this.tick + 1, cmd });
+    this.tick++;
+    townCommand(this, cmd);
+    this.tick--;
   }
 
   attachScript(rt: ScriptRuntime): void {
@@ -223,9 +247,15 @@ export class Sim {
   /** Advance one tick. Commands are applied first, in order, and appended to the log. */
   step(cmds: readonly Command[] = []): void {
     this.tick++;
+    for (const cmd of cmds) {
+      if (cmd.type !== 'town') continue;
+      this.log.push({ tick: this.tick, cmd });
+      townCommand(this, cmd);
+    }
     this.budget = PATHS_PER_TICK;
     if (this.combat) this.buildGrid();
     for (const cmd of cmds) {
+      if (cmd.type === 'town') continue;
       this.log.push({ tick: this.tick, cmd });
       this.dispatch(cmd);
     }
@@ -238,12 +268,14 @@ export class Sim {
     this.separate();
     for (let i = 0; i < this.count; i++) if (this.moving[i]) this.progress(i);
     if (this.tick === 1 || this.tick % 5 === 0) this.updateFog();
+    if (this.towns.length) checkQuests(this);
   }
 
   private dispatch(cmd: Command): void {
     if (cmd.type === 'move') this.apply(cmd);
     else if (cmd.type === 'autocast') this.applyAutocast(cmd);
     else if (cmd.type === 'hero') heroCommand(this, cmd);
+    else if (cmd.type === 'town') townCommand(this, cmd);
     else this.applyOrder(cmd);
   }
 
@@ -851,6 +883,8 @@ export class Sim {
     for (let i = 0; i < this.count; i++) if (this.hidden[i]) mix(i + 1);
     for (let i = 0; i < 16; i++) if (this.peace[i]) mix(100 + i);
     this.script?.hashInto(mix);
+    for (let i = 0; i < this.count; i++) mix(this.team[i]);
+    hashTown(this.town, mix);
     return h >>> 0;
   }
 
@@ -877,6 +911,8 @@ export class Sim {
       hidden: this.hidden.slice(),
       peace: this.peace.slice(),
       script: this.script ? this.script.snapshot() : null,
+      team: this.team.slice(),
+      town: cloneTown(this.town),
     };
   }
 
@@ -902,6 +938,9 @@ export class Sim {
     this.hidden = s.hidden.slice();
     this.peace = s.peace.slice();
     if (this.script && s.script) this.script.restore(s.script);
+    if (s.team) this.team.set(s.team);
+    this.town = s.town ? cloneTown(s.town) : newTownState(this.towns.length);
+    this.cb.recount(this.team);
     this.fogVersion++;
   }
 }

@@ -136,6 +136,7 @@ export function showMissionMenu(): void {
   const links: [string, string][] = [
     [S.mission.free, './'],
     [S.mission.ford, './?mission=ford'],
+    [S.mission.market, './?mission=market'],
     [S.mission.test, './?mission=test'],
     [S.mission.editor, './editor.html'],
   ];
