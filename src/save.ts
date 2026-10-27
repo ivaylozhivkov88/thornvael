@@ -27,6 +27,7 @@ export interface SaveState {
   snap: Snapshot;
   ai: [boolean, number][];
   ui: SaveUi;
+  node?: string; // campaign node this save belongs to; Continue and ?load return to that node's flow
   carry?: CarryoverState; // campaign progress and what the hero takes along; absent in skirmish and test saves
 }
 export interface SaveFile {

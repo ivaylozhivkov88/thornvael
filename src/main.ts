@@ -6,8 +6,12 @@ import { GestureRecognizer, pickUnit, reticle, unitsInBox, type Intent } from '.
 import { TILE, generateMap } from './map';
 import type { LoadedMission } from './mapdoc';
 import { createMission, missionFromName, type MissionGame } from './mission';
+import { nodeOf, townSeed, type Campaign } from './campaign';
+import { loadCampaign, readRecord, writeRecord } from './campaignstore';
+import { applyCarryover, extractCarryover } from './carryover';
+import { afterMission, afterTown, type CampaignRecord } from './flow';
 import { resumeSave, type SaveFile, type SaveState } from './save';
-import { getSave } from './savedb';
+import { AUTO, deleteSave, getSave } from './savedb';
 import { SaveUi } from './saveui';
 import { TownUi } from './townui';
 import { ROLE_COUNT, Tfx } from './sim/town';
@@ -37,6 +41,11 @@ const stress = params.has('stress');
 const battle = params.has('battle'); // 150 against 150, both sides swarm: the combat benchmark
 const diag = params.has('diag'); // self-test panel for phones
 const debug = params.has('debug') || stress || crowd || battle;
+// A bare address (or ?menu) opens the campaign shell: main menu, hero creation, global map. Nodes start through ?mission=..&campaign=..
+if (params.size === 0 || params.has('menu')) {
+  const { runShell } = await import('./shell');
+  await runShell(() => void registerSW({ onOfflineReady: () => {}, onNeedRefresh: () => {} }));
+}
 
 // --- world ---
 const missionName = params.get('mission');
@@ -62,6 +71,22 @@ if (!resumed && missionName && !crowd && !stress && !battle) {
     missionError = (e as Error).message;
   }
 }
+// Campaign node: the record holds the hero pick, difficulty and what the hero carries in.
+const campaignId = params.get('campaign') ?? resumed?.save.state.node ?? null;
+let campaign: Campaign | null = null;
+let crec: CampaignRecord | null = null;
+if (campaignId && loadedMission) {
+  try {
+    campaign = await loadCampaign();
+    nodeOf(campaign, campaignId);
+    crec = await readRecord();
+    if (!crec) campaign = null;
+  } catch (e) {
+    campaign = null;
+    missionError = (e as Error).message;
+  }
+}
+const missionSeed = resumed?.save.state.seed ?? (campaign && crec ? townSeed(1, crec.progress.townVisits) : 1);
 const map = loadedMission ? loadedMission.map : generateMap(7);
 let missionAi: MonsterAi | null = null;
 const dayOffset = params.get('time') === 'night' ? Math.floor(DAY_TICKS * 0.7) : 0;
@@ -73,7 +98,7 @@ if (crowd || stress) {
   if (crowd) setupCrowd(sim, 300);
   else setupSquads(sim);
 } else if (loadedMission) {
-  const g = resumed?.game ?? createMission(loadedMission);
+  const g = resumed?.game ?? createMission(loadedMission, missionSeed);
   sim = g.sim;
   scenario = loadedMission.scenario;
   missionAi = g.ai;
@@ -944,7 +969,8 @@ const saveUi = new SaveUi({
     if (!loadedMission || !heroPresent || sim.hero === null || outcome) return null;
     return {
       doc: loadedMission.doc,
-      seed: resumed?.save.state.seed ?? 1,
+      seed: missionSeed,
+      node: campaign ? campaignId ?? undefined : undefined,
       snap: sim.snapshot(),
       ai: missionAi?.snapshot() ?? [],
       ui: { cam: [renderer.camX, renderer.camY, renderer.zoom], groups: Array.from({ length: GROUP_COUNT + 1 }, (_, n) => [...groups.get(n)]), slots: [...slots], selected: [...selected] },
@@ -1222,6 +1248,31 @@ function finish(kind: 'win' | 'lose', text?: string): void {
   userPause = true;
   const [up, size] = army();
   openPanel(kind === 'win' ? S.victory : S.defeat, `${text ?? (kind === 'win' ? S.victoryBody : S.defeatBody)}\n${S.army}: ${up}/${size} (${size - up} ${S.fallen}). ${S.gold}: ${sim.cb.gold[0]}.`, true);
+  if (campaign && crec && campaignId) void endNode(kind === 'win', text ?? '');
+}
+
+/** Campaign: a mission is over. Record the result (a win also keeps the hero's new state) and send the player back to the map. */
+async function endNode(win: boolean, text: string): Promise<void> {
+  const [up, size] = army();
+  const carry = win && sim.hero ? extractCarryover(sim, crec!.progress, townSeed(1, crec!.progress.townVisits)) : null;
+  crec = afterMission(campaign!, crec!, campaignId!, win, carry, { text, up, size, gold: sim.cb.gold[0] });
+  await writeRecord(crec);
+  await deleteSave(AUTO).catch(() => undefined); // the mid-mission autosave is obsolete
+  const b = $('panel-restart');
+  b.textContent = S.shell.toMap;
+  b.onclick = () => location.assign('./');
+}
+
+/** Campaign: the Map button. In a town it keeps what was bought, learned or hired; in a mission it just walks away (the autosave stays). */
+async function toMap(): Promise<void> {
+  if (campaign && crec && campaignId && nodeOf(campaign, campaignId).kind === 'town' && !outcome) {
+    townUi.close();
+    const carry = sim.hero ? extractCarryover(sim, crec.progress, townSeed(1, crec.progress.townVisits + 1)) : null;
+    crec = afterTown(campaign, crec, campaignId, carry);
+    await writeRecord(crec);
+    await deleteSave(AUTO).catch(() => undefined);
+  }
+  location.assign('./');
 }
 
 function frame(): void {
@@ -1364,8 +1415,8 @@ for (const [id, text] of Object.entries(S.buttons)) {
 }
 $('btn-force').textContent = S.force[0];
 if (!combatMode) for (const id of ['btn-loose', 'btn-force']) $(id).hidden = true;
-$('btn-missions').textContent = S.mission.open;
-$('btn-missions').onclick = showMissionMenu;
+$('btn-missions').textContent = campaign ? S.shell.toMap : S.mission.open;
+$('btn-missions').onclick = campaign ? () => void toMap() : showMissionMenu;
 $('btn-saves').textContent = S.save.open;
 $('btn-saves').onclick = () => saveUi.toggle();
 $('btn-hero').hidden = !heroPresent;
@@ -1384,6 +1435,16 @@ function startHero(): void {
     userPause = false;
     selectAll();
   };
+  if (campaign && crec) {
+    // The hero was picked on the shell; later nodes bring the hero along (applied before the first tick).
+    begin(crec.hero.cls, crec.hero.female, crec.progress.difficulty);
+    if (crec.carry && applyCarryover(sim, crec.carry) >= 0) {
+      buildQuick();
+      heroUi.refresh(true);
+      updateStats();
+    }
+    return;
+  }
   const raw = params.get('hero');
   if (raw !== null) {
     const p = raw.split(',').map((s) => s.trim().toLowerCase());

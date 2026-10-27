@@ -37,7 +37,13 @@ async function run<T>(mode: IDBTransactionMode, body: (s: IDBObjectStore) => IDB
   });
 }
 
-export const putSave = (id: string, save: SaveFile): Promise<unknown> => run('readwrite', (s) => s.put(save, id));
+/** Non-save records (the campaign progress) live in the same store under their own key; they never show in the slot list. */
+export const RECORD_KEYS = ['campaign'];
+export const putRecord = (key: string, value: unknown): Promise<unknown> => run('readwrite', (s) => s.put(value, key));
+export const getRecord = (key: string): Promise<unknown> => run('readonly', (s) => s.get(key));
+export const deleteRecord = (key: string): Promise<unknown> => run('readwrite', (s) => s.delete(key));
+
+export const putSave =(id: string, save: SaveFile): Promise<unknown> => run('readwrite', (s) => s.put(save, id));
 export const deleteSave = (id: string): Promise<unknown> => run('readwrite', (s) => s.delete(id));
 
 export async function getSave(id: string): Promise<SaveFile | null> {
@@ -58,6 +64,10 @@ export async function listSaves(): Promise<SlotInfo[]> {
         return;
       }
       const v = c.value as SaveFile;
+      if (RECORD_KEYS.includes(String(c.key))) {
+        c.continue();
+        return;
+      }
       out.push({ id: String(c.key), name: v.name, label: v.label, createdAt: v.createdAt });
       c.continue();
     };
