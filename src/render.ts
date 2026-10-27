@@ -427,7 +427,7 @@ export class Renderer {
     }
     for (let i = 0; i < sim.count; i++) {
       const s = this.sprites[i];
-      if (cb.hp[i] <= 0) {
+      if (cb.hp[i] <= 0 || sim.hidden[i]) {
         s.visible = false;
         continue;
       }

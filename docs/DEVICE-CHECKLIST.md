@@ -101,6 +101,17 @@ Open the game without `?hero=...` so the creation sheet shows.
 | 8 | Skills rise with use: after a few fights "Blade 1" or "Guard 1" floats up and the Hero sheet shows the level. | | |
 | 9 | Every target in the sheets is at least 44 px; no sheet button is hidden behind the home bar. | | |
 
+## Phase 7: missions (open `?mission=ford`, or Missions then "Mission: Blood at the Ford")
+
+| # | Check | iPhone | Android |
+|---|-------|--------|---------|
+| 1 | The briefing sheet shows the title, text and two objectives; "Begin the mission" is easy to hit and the hero sheet follows. | | |
+| 2 | A message sheet from Warden Hale appears at the start; "Continue" resumes play. The objective list shows "Cross the ford" under the top bar and does not cover the controls. | | |
+| 3 | Walk the company over the ford: an ambush message shows, gnolls appear from the reeds, the first objective gets a tick and the second one appears. | | |
+| 4 | Kill the chief (the big golem in the east camp): the last message shows, then the victory sheet with the mission text. Losing the hero shows the defeat sheet. | | |
+| 5 | Frame rate with the whole company in battle stays near the Phase 5 number. | | |
+| 6 | Missions menu: the four links open; the editor link is for desktop. | | |
+
 Touch and desktop parity (QA-03): every action below must be doable both ways.
 
 | Action | Touch | Mouse and keyboard |

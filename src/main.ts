@@ -4,6 +4,9 @@ import { MusicDirector, cueFor } from './audiologic';
 import { ControlGroups, GROUP_COUNT } from './groups';
 import { GestureRecognizer, pickUnit, reticle, unitsInBox, type Intent } from './input';
 import { TILE, generateMap } from './map';
+import type { LoadedMission } from './mapdoc';
+import { createMission, missionFromName } from './mission';
+import { MissionUi, showMissionMenu } from './missionui';
 import { Minimap } from './minimap';
 import { QUALITY_NAMES, Renderer, type View } from './render';
 import { Bot, MonsterAi, battleScenario, fightScenario, placeScenario, setupCrowd, setupSquads, type Scenario } from './sim/bot';
@@ -26,7 +29,18 @@ const battle = params.has('battle'); // 150 against 150, both sides swarm: the c
 const debug = params.has('debug') || stress || crowd || battle;
 
 // --- world ---
-const map = generateMap(7);
+const missionName = params.get('mission');
+let loadedMission: LoadedMission | null = null;
+let missionError = '';
+if (missionName && !crowd && !stress && !battle) {
+  try {
+    loadedMission = missionFromName(missionName);
+  } catch (e) {
+    missionError = (e as Error).message;
+  }
+}
+const map = loadedMission ? loadedMission.map : generateMap(7);
+let missionAi: MonsterAi | null = null;
 const dayOffset = params.get('time') === 'night' ? Math.floor(DAY_TICKS * 0.7) : 0;
 let scenario: Scenario | null = null;
 let sim: Sim;
@@ -35,6 +49,11 @@ if (crowd || stress) {
   sim = new Sim(map, 1, [...Array(mine).fill(0), ...Array(300 - mine).fill(1)], { dayOffset });
   if (crowd) setupCrowd(sim, 300);
   else setupSquads(sim);
+} else if (loadedMission) {
+  const g = createMission(loadedMission);
+  sim = g.sim;
+  scenario = loadedMission.scenario;
+  missionAi = g.ai;
 } else {
   scenario = battle ? battleScenario(map) : fightScenario(map);
   sim = new Sim(map, 1, scenario.teams, { dayOffset, kinds: scenario.kinds, combat: true, hpMul: battle ? 8 : 1 });
@@ -43,7 +62,7 @@ if (crowd || stress) {
 sim.cb.recordFx = true;
 sim.updateFog();
 const combatMode = scenario !== null;
-const ai = scenario && !battle ? new MonsterAi(scenario.packs) : null;
+const ai = scenario && !battle ? missionAi ?? new MonsterAi(scenario.packs) : null;
 const bot = combatMode ? null : new Bot(1, 12, 5);
 const groups = new ControlGroups();
 const SPEEDS = [1, 0.5, 0.25];
@@ -818,6 +837,7 @@ const heroUi = new HeroUi({
 });
 $('btn-hero').onclick = () => heroUi.toggle();
 const heroPresent = combatMode && !battle && sim.cb.kind[0] === Kind.Hero;
+const missionUi = loadedMission ? new MissionUi(loadedMission.doc, { pause: (on) => (userPause = on || outcome !== null) }) : null;
 
 /** Toast text and refresh for the hero events of this frame (bags picked up, gear worn, spells learned, refusals, skills). */
 function heroEvents(): void {
@@ -1041,7 +1061,10 @@ function updateStats(): void {
     $('stats').textContent = `${S.army} ${sim.cb.alive[0]}/${heroTeamSize}  ${S.foes} ${sim.cb.alive[1]}  ${S.gold} ${sim.cb.gold[0]}${heroMana}`;
     refreshQuick();
     heroUi.refresh();
-    if (!outcome) {
+    if (missionUi) missionUi.update(sim);
+    if (missionUi && sim.script) {
+      if (!outcome && !missionUi.busy && sim.script.st.status !== 0) finish(sim.script.st.status === 1 ? 'win' : 'lose', missionUi.resultText(sim));
+    } else if (!outcome) {
       if (sim.cb.hp[0] <= 0 && sim.cb.kind[0] === Kind.Hero) finish('lose');
       else if (sim.cb.alive[1] === 0 && !battle) finish('win');
       else if (battle && (sim.cb.alive[0] === 0 || sim.cb.alive[1] === 0)) finish(sim.cb.alive[1] === 0 ? 'win' : 'lose');
@@ -1049,12 +1072,12 @@ function updateStats(): void {
   }
 }
 
-function finish(kind: 'win' | 'lose'): void {
+function finish(kind: 'win' | 'lose', text?: string): void {
   outcome = kind;
   arm(null);
   userPause = true;
   const lost = heroTeamSize - sim.cb.alive[0];
-  openPanel(kind === 'win' ? S.victory : S.defeat, `${kind === 'win' ? S.victoryBody : S.defeatBody}\n${S.army}: ${sim.cb.alive[0]}/${heroTeamSize} (${lost} ${S.fallen}). ${S.gold}: ${sim.cb.gold[0]}.`, true);
+  openPanel(kind === 'win' ? S.victory : S.defeat, `${text ?? (kind === 'win' ? S.victoryBody : S.defeatBody)}\n${S.army}: ${sim.cb.alive[0]}/${heroTeamSize} (${lost} ${S.fallen}). ${S.gold}: ${sim.cb.gold[0]}.`, true);
 }
 
 function frame(): void {
@@ -1190,6 +1213,8 @@ for (const [id, text] of Object.entries(S.buttons)) {
 }
 $('btn-force').textContent = S.force[0];
 if (!combatMode) for (const id of ['btn-loose', 'btn-force']) $(id).hidden = true;
+$('btn-missions').textContent = S.mission.open;
+$('btn-missions').onclick = showMissionMenu;
 $('btn-hero').hidden = !heroPresent;
 tipOn($('btn-hero'), S.tips['btn-hero']);
 
@@ -1220,7 +1245,11 @@ function startHero(): void {
 void renderer.init(sim).then(() => {
   setQuality(renderer.quality, true);
   if (combatMode) selectAll();
-  if (heroPresent) startHero();
+  if (missionError) toast(`${S.mission.loadFailed} ${missionError}`);
+  if (missionUi) {
+    userPause = true;
+    missionUi.briefing(() => (heroPresent ? startHero() : (userPause = false)));
+  } else if (heroPresent) startHero();
   if (battle) {
     const a = [...Array(150).keys()];
     pending.push({ type: 'order', order: 'swarm', ids: a, x: 38, y: map.h - 9 });
@@ -1252,5 +1281,6 @@ void renderer.init(sim).then(() => {
     toggleAuto,
     heroUi,
     useItemSlot,
+    mission: missionUi,
   };
 });

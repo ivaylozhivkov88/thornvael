@@ -53,6 +53,18 @@ interface Pack {
 export class MonsterAi {
   constructor(private readonly packs: Pack[]) {}
 
+  /** The only changing state: whether each pack is hunting and how long it has been calm. */
+  snapshot(): [boolean, number][] {
+    return this.packs.map((p) => [p.hunting, p.calm]);
+  }
+
+  restore(s: readonly [boolean, number][]): void {
+    s.forEach(([hunting, calm], i) => {
+      this.packs[i].hunting = hunting;
+      this.packs[i].calm = calm;
+    });
+  }
+
   commands(sim: Sim): Command[] {
     const out: Command[] = [];
     if (sim.tick % 10 !== 3) return out;

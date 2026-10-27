@@ -6,6 +6,7 @@ import { SPELLS, Tk } from './spelldata';
 import { knows, resolveTarget, statusSpeed } from './spells';
 import { FP, Pather, dir16, lineClear, regionsOf, speedPct } from './path';
 import { Rng } from './rng';
+import type { ScriptRuntime, ScriptState } from './script';
 
 export { FP };
 export const TICKS_PER_SECOND = 25;
@@ -65,6 +66,9 @@ export interface Snapshot {
   nextPath: number;
   cb: CombatSnap;
   hero: HeroState | null;
+  hidden: Uint8Array;
+  peace: Uint8Array;
+  script: ScriptState | null;
 }
 
 export interface SimOptions {
@@ -109,6 +113,12 @@ export class Sim {
   readonly cb: CombatState;
   /** The player's hero (attributes, pack, gear), or null in games without one. Set up with createHero before the first tick. */
   hero: HeroState | null = null;
+  /** 1 for a unit that is phased out by a mission script: not drawn, not targeted, not simulated. */
+  hidden: Uint8Array;
+  /** peace[a * 4 + b] = 1 when team a does not attack team b (set by mission scripts). */
+  peace = new Uint8Array(16);
+  /** Mission script, or null for free play. Attach with attachScript before the first tick. */
+  script: ScriptRuntime | null = null;
   /** Uniform grid of living units, rebuilt every tick; used for collision and target search. */
   readonly cellStart: Int32Array;
   readonly cellItems: Int32Array;
@@ -135,6 +145,7 @@ export class Sim {
     this.count = teams.length;
     const n = this.count;
     this.team = Uint8Array.from(teams);
+    this.hidden = new Uint8Array(n);
     this.x = new Int32Array(n);
     this.y = new Int32Array(n);
     this.tx = new Int32Array(n);
@@ -158,6 +169,11 @@ export class Sim {
     this.cursor = new Int32Array(map.w * map.h);
     this.combat = opts.combat ?? false;
     this.cb = new CombatState(n, opts.kinds ?? Array(n).fill(0), this.team, opts.hpMul ?? 1);
+  }
+
+  attachScript(rt: ScriptRuntime): void {
+    this.script = rt;
+    rt.setup(this);
   }
 
   /** Place unit `id` at a tile centre. Only for setup before the first tick. */
@@ -211,11 +227,10 @@ export class Sim {
     if (this.combat) this.buildGrid();
     for (const cmd of cmds) {
       this.log.push({ tick: this.tick, cmd });
-      if (cmd.type === 'move') this.apply(cmd);
-      else if (cmd.type === 'autocast') this.applyAutocast(cmd);
-      else if (cmd.type === 'hero') heroCommand(this, cmd);
-      else this.applyOrder(cmd);
+      this.dispatch(cmd);
     }
+    // Script commands are not logged: a replay runs the same script and produces them again.
+    if (this.script) for (const cmd of this.script.run(this)) this.dispatch(cmd);
     this.ox.set(this.x);
     this.oy.set(this.y);
     if (this.combat) think(this);
@@ -223,6 +238,13 @@ export class Sim {
     this.separate();
     for (let i = 0; i < this.count; i++) if (this.moving[i]) this.progress(i);
     if (this.tick === 1 || this.tick % 5 === 0) this.updateFog();
+  }
+
+  private dispatch(cmd: Command): void {
+    if (cmd.type === 'move') this.apply(cmd);
+    else if (cmd.type === 'autocast') this.applyAutocast(cmd);
+    else if (cmd.type === 'hero') heroCommand(this, cmd);
+    else this.applyOrder(cmd);
   }
 
   // ---- orders: goal, formation, shared path ----
@@ -672,12 +694,13 @@ export class Sim {
     const cs = this.cellStart;
     const hp = this.cb.hp;
     cs.fill(0);
-    for (let i = 0; i < count; i++) if (hp[i] > 0) cs[this.cellOf(i) + 1]++;
+    const hid = this.hidden;
+    for (let i = 0; i < count; i++) if (hp[i] > 0 && !hid[i]) cs[this.cellOf(i) + 1]++;
     for (let c = 0; c < map.w * map.h; c++) cs[c + 1] += cs[c];
     const cursor = this.cursor;
     cursor.fill(0);
     for (let i = 0; i < count; i++) {
-      if (hp[i] <= 0) continue;
+      if (hp[i] <= 0 || hid[i]) continue;
       const c = this.cellOf(i);
       this.cellItems[cs[c] + cursor[c]++] = i;
     }
@@ -819,6 +842,9 @@ export class Sim {
     for (let t = 0; t < this.explored.length; t++) if (this.explored[t]) mix(t);
     this.cb.hashInto(mix);
     hashHero(this.hero, mix);
+    for (let i = 0; i < this.count; i++) if (this.hidden[i]) mix(i + 1);
+    for (let i = 0; i < 16; i++) if (this.peace[i]) mix(100 + i);
+    this.script?.hashInto(mix);
     return h >>> 0;
   }
 
@@ -842,6 +868,9 @@ export class Sim {
       nextPath: this.nextPath,
       cb: this.cb.snapshot(),
       hero: cloneHero(this.hero),
+      hidden: this.hidden.slice(),
+      peace: this.peace.slice(),
+      script: this.script ? this.script.snapshot() : null,
     };
   }
 
@@ -864,6 +893,9 @@ export class Sim {
     this.nextPath = s.nextPath;
     this.cb.restore(s.cb, this.team);
     this.hero = cloneHero(s.hero);
+    this.hidden = s.hidden.slice();
+    this.peace = s.peace.slice();
+    if (this.script && s.script) this.script.restore(s.script);
     this.fogVersion++;
   }
 }

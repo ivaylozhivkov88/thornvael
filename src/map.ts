@@ -92,6 +92,13 @@ export function generateMap(seed = 7): GameMap {
     objects.push({ kind: ObjectKind.Tree, x, y });
     blocked[i] = 1;
   }
+  light.set(bakeLight(w, h, height));
+  return { w, h, terrain, height, blocked, objects, light };
+}
+
+/** Brightness from the height step towards the north-west neighbour. */
+export function bakeLight(w: number, h: number, height: Uint8Array): Uint8Array {
+  const light = new Uint8Array(w * h);
   for (let y = 0; y < h; y++) {
     for (let x = 0; x < w; x++) {
       const here = height[y * w + x];
@@ -99,7 +106,18 @@ export function generateMap(seed = 7): GameMap {
       light[y * w + x] = Math.max(110, Math.min(255, 190 + (here - nw) * 36));
     }
   }
-  return { w, h, terrain, height, blocked, objects, light };
+  return light;
+}
+
+/** Blocked tiles from terrain and objects: water and rock, one tile per tree, a 2 by 2 footprint per house. */
+export function bakeBlocked(w: number, h: number, terrain: Uint8Array, objects: readonly MapObject[]): Uint8Array {
+  const blocked = new Uint8Array(w * h);
+  for (let i = 0; i < w * h; i++) if (terrain[i] === Terrain.Water || terrain[i] === Terrain.Rock) blocked[i] = 1;
+  for (const o of objects) {
+    const size = o.kind === ObjectKind.House ? 2 : 1;
+    for (let dy = 0; dy < size; dy++) for (let dx = 0; dx < size; dx++) if (o.x + dx < w && o.y + dy < h) blocked[(o.y + dy) * w + o.x + dx] = 1;
+  }
+  return blocked;
 }
 
 export function isBlockedAt(map: GameMap, tx: number, ty: number): boolean {

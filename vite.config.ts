@@ -6,7 +6,7 @@ const base = process.env.SITE_BASE ?? '/thornvael/';
 
 export default defineConfig({
   base,
-  build: { target: 'safari16' },
+  build: { target: 'safari16', rollupOptions: { input: { main: 'index.html', editor: 'editor.html' } } },
   plugins: [
     VitePWA({
       registerType: 'prompt',
@@ -27,7 +27,8 @@ export default defineConfig({
           { src: 'icons/icon-512.png', sizes: '512x512', type: 'image/png', purpose: 'maskable' },
         ],
       },
-      workbox: { globPatterns: ['**/*.{js,css,html,png,svg,json,m4a}'] },
+      // The editor is its own page, so offline navigation to it must not fall back to the game.
+      workbox: { globPatterns: ['**/*.{js,css,html,png,svg,json,m4a}'], navigateFallbackDenylist: [/editor\.html$/] },
     }),
   ],
   test: { include: ['tests/**/*.test.ts'] },

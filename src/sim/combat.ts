@@ -281,7 +281,7 @@ export function enemyNear(sim: Sim, i: number, range: number, cx: number, cy: nu
       const c = gy * w + gx;
       for (let q = cs[c]; q < cs[c + 1]; q++) {
         const j = ci[q];
-        if (sim.team[j] === me || hp[j] <= 0) continue;
+        if (sim.team[j] === me || hp[j] <= 0 || sim.peace[me * 4 + sim.team[j]]) continue;
         const dx = sim.x[j] - x;
         const dy = sim.y[j] - y;
         const d2 = dx * dx + dy * dy;
@@ -650,6 +650,7 @@ export function think(sim: Sim): void {
       if (cb.corp[i] > 0) cb.corp[i]--;
       continue;
     }
+    if (sim.hidden[i]) continue;
     if (regen && cb.mana[i] < cb.manaMax[i]) cb.mana[i] = Math.min(cb.manaMax[i], cb.mana[i] + 1 + cb.mod[i * MODN + M.Regen]);
     if (cb.cd[i] > 0) cb.cd[i]--;
     const m = cb.stMask[i];

@@ -98,3 +98,9 @@ button:focus-visible { outline: 2px solid #9dff7a; outline-offset: 1px; }
   .quick > button { min-width: 50px; }
   #book h3 { margin: 6px 0 2px; }
 }
+#objectives { position: fixed; left: 50%; transform: translateX(-50%); text-align: center; top: calc(64px + env(safe-area-inset-top)); z-index: 5; font-size: 13px; white-space: pre-line; line-height: 1.5; text-shadow: 0 1px 2px #000; pointer-events: none; max-width: 40vw; }
+#mission, #missions { z-index: 30; }
+#mission .who { color: #d8b24a; font-weight: bold; margin-bottom: 6px; }
+#mission p { line-height: 1.45; margin: 0 0 10px; }
+#mission ul { margin: 0 0 12px; padding-left: 22px; line-height: 1.6; }
+.menu-link { display: block; padding: 12px 8px; margin: 4px 0; background: #3a2c1c; border: 1px solid #8a6b3a; border-radius: 6px; color: #f0e2bd; text-decoration: none; }
