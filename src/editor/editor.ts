@@ -5,6 +5,9 @@ import { DEFS } from '../sim/combat';
 import { ITEMS } from '../sim/items';
 import { ACTIONS, CHECKS, OPS, actionDef, checkDef, type Param, type Ref, type Trigger } from '../sim/script';
 import { SPELLS } from '../sim/spelldata';
+import { loadGameData } from '../loaddata';
+
+await loadGameData(); // item and spell names for the trigger forms
 
 /** Browser map editor: paint terrain and height, place objects, units and regions, build triggers from forms, test-play. */
 

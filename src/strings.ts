@@ -135,6 +135,8 @@ export const S = {
   hit: 'Hit',
   defence: 'Defence',
   absorb: 'Absorb',
+  parts: ['Head', 'Torso', 'Arms', 'Legs'],
+  armourHint: 'Defence / absorb on each body part. A blow lands on the torso 45% of the time, arms 20%, legs 20%, head 15% (head blows deal +50%).',
   resist: 'Resist',
   army: 'Army',
   foes: 'Foes',

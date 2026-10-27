@@ -473,6 +473,12 @@ export class Sim {
     if (this.paths.get(sharedId)!.refs === 0) this.paths.delete(sharedId);
   }
 
+  /** Waypoints (x0,y0,x1,y1,... fixed point) of unit i's current path, or null. Read-only view for the debug overlay. */
+  pathOf(i: number): Int32Array | null {
+    const pid = this.pathId[i];
+    return pid >= 0 ? (this.paths.get(pid)?.pts ?? null) : null;
+  }
+
   private addPath(pts: Int32Array, refs: number): number {
     const id = this.nextPath++;
     this.paths.set(id, { pts, refs });

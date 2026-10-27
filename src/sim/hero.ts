@@ -1,5 +1,5 @@
 import { DEFS, M, MODN } from './combat';
-import { ATTR_NAMES, CLS_MAGE, CLS_WARRIOR, Cls, ITEMS, Ik, LOOT_RULES, SLOT_COUNT, Slot, itemId, rollLoot } from './items';
+import { ATTR_NAMES, CLS_MAGE, CLS_WARRIOR, Cls, ITEMS, Ik, LOOT_RULES, PART_COUNT, SLOT_COUNT, Slot, itemId, rollLoot } from './items';
 import type { Sim } from './sim';
 
 /** The hero: attributes, skills that grow with use, pack and equipment. All integer, all inside the sim, all changed through commands. */
@@ -71,8 +71,10 @@ export interface Derived {
   min: number;
   max: number;
   acc: number;
-  def: number;
-  abs: number;
+  def: number; // dodge, on every part
+  abs: number; // absorb on every part (Guard skill)
+  pdef: number[]; // armour per body part: head, torso, arms, legs
+  pabs: number[];
   res: number[];
   pow: number;
   regen: number;
@@ -87,20 +89,23 @@ export function derive(h: HeroState): Derived {
   let min = 0;
   let max = 0;
   let acc = 0;
-  let def = 0;
-  let abs = 0;
   let pow = 0;
   let hp = 0;
   let mana = 0;
   const res = [0, 0, 0, 0, 0];
+  const pdef = [0, 0, 0, 0];
+  const pabs = [0, 0, 0, 0];
   for (const id of h.eq) {
     if (id < 0) continue;
     const d = ITEMS[id];
     min += d.min;
     max += d.max;
     acc += d.acc;
-    def += d.def;
-    abs += d.abs;
+    for (let k = 0; k < PART_COUNT; k++) {
+      if (((d.cover >> k) & 1) === 0) continue;
+      pdef[k] += d.def;
+      pabs[k] += d.abs;
+    }
     pow += d.pow;
     hp += d.hp;
     mana += d.mana;
@@ -117,8 +122,10 @@ export function derive(h: HeroState): Derived {
     min: Math.max(1 - base.min, dmgMin),
     max: Math.max(1 - base.max, dmgMax),
     acc: acc + (t[1] >> 1),
-    def: def + (t[1] >> 1),
-    abs: abs + Math.floor(guard / 3),
+    def: t[1] >> 1,
+    abs: Math.floor(guard / 3),
+    pdef,
+    pabs,
     res: res.map((v) => Math.min(80, v + (t[3] >> 1))),
     pow: Math.max(0, (t[2] - 3) * 3 + sorc * 4 + pow),
     regen: t[3] >> 2,
@@ -140,6 +147,10 @@ export function recalc(sim: Sim): void {
   cb.mod[o + M.Acc] = d.acc;
   cb.mod[o + M.Def] = d.def;
   cb.mod[o + M.Abs] = d.abs;
+  for (let k = 0; k < PART_COUNT; k++) {
+    cb.mod[o + M.PDef + k] = d.pdef[k];
+    cb.mod[o + M.PAbs + k] = d.pabs[k];
+  }
   for (let k = 0; k < 5; k++) cb.mod[o + M.Res + k] = d.res[k];
   cb.mod[o + M.Pow] = d.pow;
   cb.mod[o + M.Regen] = d.regen;

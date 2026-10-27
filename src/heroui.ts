@@ -200,8 +200,13 @@ export class HeroUi {
     cl.append(
       line(S.hero.blowDamage, `${base.min + cb.mod[o + M.Min]}-${base.max + cb.mod[o + M.Max]}`),
       line(S.hit, String(base.acc + cb.mod[o + M.Acc])),
-      line(S.defence, String(base.def + cb.mod[o + M.Def])),
-      line(S.absorb, String(base.absorb + cb.mod[o + M.Abs])),
+      ...S.parts.map((name, k) =>
+        line(
+          name,
+          `${base.def + cb.mod[o + M.Def] + base.pdef[k] + cb.mod[o + M.PDef + k]} / ${cb.mod[o + M.Abs] + base.pabs[k] + cb.mod[o + M.PAbs + k]}`,
+          S.armourHint,
+        ),
+      ),
       line(S.hero.spellPower, `+${cb.mod[o + M.Pow]}%`),
       line(S.hero.regen, `${1 + cb.mod[o + M.Regen]} ${S.hero.perSecond}`),
     );

@@ -31,5 +31,5 @@ export default defineConfig({
       workbox: { globPatterns: ['**/*.{js,css,html,png,svg,json,m4a}'], navigateFallbackDenylist: [/editor\.html$/] },
     }),
   ],
-  test: { include: ['tests/**/*.test.ts'] },
+  test: { include: ['tests/**/*.test.ts'], setupFiles: ['tests/setup.ts'] },
 });

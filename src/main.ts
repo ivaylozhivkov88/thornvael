@@ -10,16 +10,20 @@ import { MissionUi, showMissionMenu } from './missionui';
 import { Minimap } from './minimap';
 import { QUALITY_NAMES, Renderer, type View } from './render';
 import { Bot, MonsterAi, battleScenario, fightScenario, placeScenario, setupCrowd, setupSquads, type Scenario } from './sim/bot';
-import { DEFS, Kind, M, MODN, nearestLoot } from './sim/combat';
+import { DEFS, Kind, M, MODN, nearestLoot, partAbs, partDef } from './sim/combat';
 import { DAY_TICKS, clockText } from './sim/daynight';
 import { HeroUi, tabStrip } from './heroui';
 import { SKILL_NAMES, WHY_TEXT, createHero } from './sim/hero';
-import { ITEMS, ITEM_COUNT, itemText } from './sim/items';
+import { ITEMS, itemText } from './sim/items';
+import { loadGameData } from './loaddata';
+import { DebugPanel } from './debugpanel';
 import { SPELLS, Tk } from './sim/spelldata';
 import { validTarget } from './sim/spells';
 import { FP, Sim, TICKS_PER_SECOND, type Command, type OrderName } from './sim/sim';
 import { S } from './strings';
 import './style.css';
+
+await loadGameData(); // item and spell tables, before any sim or mission is built
 
 const $ = (id: string): HTMLElement => document.getElementById(id)!;
 const params = new URLSearchParams(location.search);
@@ -98,7 +102,7 @@ let curSpell = 0; // the spell the Cast button, C key and Auto act on
 const DEFAULT_SLOTS = [0, 1, 4, 7, 9, 19, 11, 15, 17]; // Fire Bolt, Fireball, Frost Bolt, Healing, Lightning, Blessing, Haste, Stone Curse, Poison Cloud
 /** A quick slot holds a spell id (0..23), an item (100 + item id) or -1 for empty. */
 const ITEM_BASE = 100;
-const validSlot = (v: unknown): boolean => Number.isInteger(v) && (v as number) >= -1 && ((v as number) < SPELLS.length || ((v as number) >= ITEM_BASE && (v as number) - ITEM_BASE < ITEM_COUNT));
+const validSlot = (v: unknown): boolean => Number.isInteger(v) && (v as number) >= -1 && ((v as number) < SPELLS.length || ((v as number) >= ITEM_BASE && (v as number) - ITEM_BASE < ITEMS.length));
 let slots: number[] = [...DEFAULT_SLOTS];
 let savedSlots = false; // slots the player has already arranged (kept across games)
 let slotAssign = -1;
@@ -387,7 +391,8 @@ function unitInfo(i: number): string {
   const r = d.res.map((v, n) => `${S.elements[n + 1]} ${Math.min(90, v + cb.mod[mo + M.Res + n])}%`).join(', ');
   const side = sim.team[i] === 0 ? S.yours : S.enemy;
   const mana = cb.manaMax[i] > 0 ? `, ${S.mana} ${cb.mana[i]}/${cb.manaMax[i]}` : '';
-  return `${S.kinds[cb.kind[i]]} (${side}): ${S.hp} ${cb.hp[i]}/${cb.hpMax[i]}${mana}\n${S.hit} ${d.acc + cb.mod[mo + M.Acc]}, ${S.defence} ${d.def + cb.mod[mo + M.Def]}, ${S.absorb} ${d.absorb + cb.mod[mo + M.Abs]}\n${S.resist}: ${r}`;
+  const armour = S.parts.map((p, k) => `${p} ${partDef(sim, i, k)}/${partAbs(sim, i, k)}`).join(', ');
+  return `${S.kinds[cb.kind[i]]} (${side}): ${S.hp} ${cb.hp[i]}/${cb.hpMax[i]}${mana}\n${S.hit} ${d.acc + cb.mod[mo + M.Acc]}, ${S.defence}/${S.absorb}: ${armour}\n${S.resist}: ${r}`;
 }
 function unitAt(x: number, y: number, r: number): number {
   return pickUnit(sim.count, posAny, x, y, r);
@@ -470,7 +475,9 @@ document.addEventListener('gesturestart', (e) => e.preventDefault());
 document.addEventListener('contextmenu', (e) => e.preventDefault());
 
 /** Mouse hover: show the cursor for the order that a click would give, and the unit info. */
+let pointerAt: [number, number] | null = null; // last mouse position, for the F3 tile readout
 function updateHover(x: number, y: number): void {
+  pointerAt = [x, y];
   const enemy = pickUnit(sim.count, posEnemy, x, y, PICK);
   const mine = pickUnit(sim.count, posMine, x, y, PICK);
   const haveSel = selectedIds().length > 0;
@@ -515,6 +522,9 @@ window.addEventListener('keydown', (e) => {
     // (twice quickly: centre the camera). Browsers keep Ctrl+number for tab switching, hence Alt too.
     e.preventDefault();
     groupKey(Number(digit[1]), e.ctrlKey || e.altKey ? 'set' : e.shiftKey ? 'add' : 'recall');
+  } else if (e.key === 'F3') {
+    e.preventDefault();
+    renderer.setDebug(f3.toggle(sim));
   } else if (e.ctrlKey && e.key.toLowerCase() === 'a') {
     e.preventDefault();
     toggleAuto();
@@ -1051,6 +1061,7 @@ let slowSince = 0;
 let emaDt = 16; // smoothed frame time in ms; quality drops when it stays above 36 (under about 28 fps)
 const dbg = $('debug');
 dbg.hidden = !debug;
+const f3 = new DebugPanel(document.body); // F3: tiles, paths, hit log
 let persisted: boolean | string = '?';
 
 function updateStats(): void {
@@ -1148,6 +1159,11 @@ function frame(): void {
     simSteps = 0;
     worst = 0;
     lastReport = now;
+  }
+  if (f3.on) {
+    const sel = selectedIds();
+    renderer.drawDebugPaths(sim, sel);
+    f3.update(sim, map, pointerAt ? renderer.toTile(pointerAt[0], pointerAt[1]) : null, sel, now);
   }
   if (debug) {
     dbg.textContent = `${fpsText}\nunits ${sim.count} (alive ${sim.cb.alive[0]}+${sim.cb.alive[1]}), tick ${sim.tick}, hash ${sim.hash().toString(16)}\nzoom ${renderer.zoom}, quality ${QUALITY_NAMES[renderer.quality]}, light ${sim.daylight}, moving ${sim.moving.reduce((a, b) => a + b, 0)}, audio ${audioState()}, persisted ${persisted}`;

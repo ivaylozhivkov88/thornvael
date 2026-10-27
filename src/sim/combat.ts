@@ -3,10 +3,25 @@ import type { Sim } from './sim';
 import { ALL_SPELLS, CORPSE_TICKS, MAGE_SPELLS, NST, SPELLS, St, Tk } from './spelldata';
 import { autoCast, castSpell, clearAllStatuses, knows, spellHit, statusTick, validTarget } from './spells';
 import { dropLoot, heroUse, pickBag } from './hero';
+import { PART_COUNT, PART_DMG, PART_WEIGHT } from './items';
 
-/** Per-unit stat bonuses (hero gear, attributes, skills), MODN entries per unit. */
-export const M = { Min: 0, Max: 1, Acc: 2, Def: 3, Abs: 4, Res: 5, Pow: 10, Regen: 11 } as const;
-export const MODN = 12;
+/** Per-unit stat bonuses (hero gear, attributes, skills), MODN entries per unit. Def and Abs count on every part; PDef and PAbs are four entries, one per body part. */
+export const M = { Min: 0, Max: 1, Acc: 2, Def: 3, Abs: 4, Res: 5, Pow: 10, Regen: 11, PDef: 12, PAbs: 16 } as const;
+export const MODN = 20;
+
+/** One resolved blow or spell hit, for the debug overlay. Recorded only while `CombatState.log` is set; never part of sim state. */
+export interface HitRec {
+  tick: number;
+  src: number; // attacker, or -1 (spell area, status, script)
+  t: number;
+  elem: number;
+  part: number; // body part, or -1 for school damage
+  chance: number; // percent to hit, 100 for school damage
+  roll: number;
+  raw: number; // damage rolled, after the head bonus
+  cut: number; // absorbed or resisted
+  dmg: number; // taken (after shields), -1 on a miss
+}
 
 /** Orders. Guard is the default stance. */
 export const Ord = { Guard: 0, Move: 1, Attack: 2, Defend: 3, Cast: 4, Swarm: 5, Hold: 6, Retreat: 7, Still: 8, Pickup: 9 } as const;
@@ -19,8 +34,9 @@ export interface KindDef {
   hp: number;
   mana: number;
   acc: number;
-  def: number;
-  absorb: number;
+  def: number; // dodge, the same on every body part
+  pdef: readonly [number, number, number, number]; // natural armour per part: head, torso, arms, legs
+  pabs: readonly [number, number, number, number];
   res: readonly [number, number, number, number, number]; // percent: fire, water, air, earth, astral
   min: number;
   max: number;
@@ -37,13 +53,13 @@ export interface KindDef {
 const MELEE = Math.round(0.95 * FP);
 const T = FP; // one tile
 export const DEFS: readonly KindDef[] = [
-  { name: 'Warrior', hp: 60, mana: 0, acc: 8, def: 6, absorb: 2, res: [0, 0, 0, 0, 0], min: 6, max: 10, elem: 0, reach: MELEE, ranged: false, cd: 20, speed: 100, caster: false, known: 0, auto: 0 },
-  { name: 'Archer', hp: 40, mana: 0, acc: 9, def: 3, absorb: 0, res: [0, 0, 0, 0, 0], min: 5, max: 8, elem: 0, reach: 7 * T, ranged: true, cd: 30, speed: 100, caster: false, known: 0, auto: 0 },
-  { name: 'Hero', hp: 140, mana: 100, acc: 11, def: 9, absorb: 3, res: [20, 10, 10, 10, 10], min: 9, max: 14, elem: 0, reach: MELEE, ranged: false, cd: 18, speed: 105, caster: true, known: ALL_SPELLS, auto: 0 },
-  { name: 'Mage', hp: 35, mana: 70, acc: 8, def: 2, absorb: 0, res: [10, 10, 10, 10, 30], min: 7, max: 11, elem: Elem.Water, reach: 6 * T, ranged: true, cd: 40, speed: 100, caster: true, known: MAGE_SPELLS, auto: 0 },
-  { name: 'Gnoll', hp: 45, mana: 0, acc: 6, def: 4, absorb: 1, res: [-25, 0, 0, 0, 0], min: 4, max: 8, elem: 0, reach: MELEE, ranged: false, cd: 25, speed: 100, caster: false, known: 0, auto: 0 },
-  { name: 'Golem', hp: 130, mana: 0, acc: 7, def: 10, absorb: 5, res: [20, 0, 30, 60, 0], min: 10, max: 16, elem: 0, reach: MELEE, ranged: false, cd: 32, speed: 70, caster: false, known: 0, auto: 0 },
-  { name: 'Imp', hp: 30, mana: 30, acc: 7, def: 5, absorb: 0, res: [80, -30, 0, 0, 0], min: 6, max: 9, elem: Elem.Fire, reach: 6 * T, ranged: true, cd: 35, speed: 110, caster: true, known: 1 << 3, auto: 4 },
+  { name: 'Warrior', hp: 60, mana: 0, acc: 8, def: 4, pdef: [2, 3, 1, 1], pabs: [2, 3, 1, 1], res: [0, 0, 0, 0, 0], min: 6, max: 10, elem: 0, reach: MELEE, ranged: false, cd: 20, speed: 100, caster: false, known: 0, auto: 0 },
+  { name: 'Archer', hp: 40, mana: 0, acc: 9, def: 2, pdef: [1, 1, 1, 1], pabs: [0, 0, 0, 0], res: [0, 0, 0, 0, 0], min: 5, max: 8, elem: 0, reach: 7 * T, ranged: true, cd: 30, speed: 100, caster: false, known: 0, auto: 0 },
+  { name: 'Hero', hp: 140, mana: 100, acc: 11, def: 6, pdef: [3, 4, 2, 2], pabs: [3, 4, 2, 2], res: [20, 10, 10, 10, 10], min: 9, max: 14, elem: 0, reach: MELEE, ranged: false, cd: 18, speed: 105, caster: true, known: ALL_SPELLS, auto: 0 },
+  { name: 'Mage', hp: 35, mana: 70, acc: 8, def: 2, pdef: [0, 0, 0, 0], pabs: [0, 0, 0, 0], res: [10, 10, 10, 10, 30], min: 7, max: 11, elem: Elem.Water, reach: 6 * T, ranged: true, cd: 40, speed: 100, caster: true, known: MAGE_SPELLS, auto: 0 },
+  { name: 'Gnoll', hp: 45, mana: 0, acc: 6, def: 3, pdef: [1, 1, 1, 1], pabs: [1, 2, 0, 0], res: [-25, 0, 0, 0, 0], min: 4, max: 8, elem: 0, reach: MELEE, ranged: false, cd: 25, speed: 100, caster: false, known: 0, auto: 0 },
+  { name: 'Golem', hp: 130, mana: 0, acc: 7, def: 7, pdef: [3, 4, 2, 2], pabs: [5, 6, 4, 4], res: [20, 0, 30, 60, 0], min: 10, max: 16, elem: 0, reach: MELEE, ranged: false, cd: 32, speed: 70, caster: false, known: 0, auto: 0 },
+  { name: 'Imp', hp: 30, mana: 30, acc: 7, def: 5, pdef: [0, 0, 0, 0], pabs: [0, 0, 0, 0], res: [80, -30, 0, 0, 0], min: 6, max: 9, elem: Elem.Fire, reach: 6 * T, ranged: true, cd: 35, speed: 110, caster: true, known: 1 << 3, auto: 4 },
 ];
 const AGGRO = 7 * T;
 const SWARM_SIGHT = 14 * T;
@@ -90,6 +106,7 @@ export interface CombatSnap {
   sG: Int32Array;
   gold: Int32Array;
   pS: Uint8Array;
+  pSrc: Int32Array;
   stMask: Uint16Array;
   stT: Int16Array;
   stV: Int16Array;
@@ -133,6 +150,7 @@ export class CombatState {
   pEl = new Uint8Array(MAXP);
   pAcc = new Int8Array(MAXP);
   pS = new Uint8Array(MAXP); // spell id + 1 carried by the projectile, 0 for a plain attack
+  pSrc = new Int32Array(MAXP).fill(-1); // who shot it
   stMask: Uint16Array; // bit per active status; a unit with 0 costs nothing per tick
   stT: Int16Array; // ticks left, NST slots per unit
   stV: Int16Array; // shield points, poison stacks, burn damage
@@ -146,6 +164,8 @@ export class CombatState {
   /** Visual events for the renderer; not part of sim state. */
   fx: Fx[] = [];
   recordFx = false;
+  /** Hit log for the debug overlay (newest last, at most LOG_MAX); null when off, so it costs nothing in play. */
+  log: HitRec[] | null = null;
 
   constructor(
     readonly count: number,
@@ -230,7 +250,7 @@ export class CombatState {
       pAlive: this.pAlive.slice(), pX: this.pX.slice(), pY: this.pY.slice(), pT: this.pT.slice(),
       pMin: this.pMin.slice(), pMax: this.pMax.slice(), pEl: this.pEl.slice(), pAcc: this.pAcc.slice(),
       sX: this.sX.slice(), sY: this.sY.slice(), sG: this.sG.slice(), gold: this.gold.slice(),
-      pS: this.pS.slice(), stMask: this.stMask.slice(), stT: this.stT.slice(), stV: this.stV.slice(), corp: this.corp.slice(), auto: this.auto.slice(),
+      pS: this.pS.slice(), pSrc: this.pSrc.slice(), stMask: this.stMask.slice(), stT: this.stT.slice(), stV: this.stV.slice(), corp: this.corp.slice(), auto: this.auto.slice(),
       pPow: this.pPow.slice(), known: this.known.slice(), manaMax: this.manaMax.slice(), hpMax: this.hpMax.slice(), mod: this.mod.slice(),
       bX: this.bX.slice(), bY: this.bY.slice(), bI: this.bI.slice(),
     };
@@ -242,7 +262,7 @@ export class CombatState {
     this.pAlive = s.pAlive.slice(); this.pX = s.pX.slice(); this.pY = s.pY.slice(); this.pT = s.pT.slice();
     this.pMin = s.pMin.slice(); this.pMax = s.pMax.slice(); this.pEl = s.pEl.slice(); this.pAcc = s.pAcc.slice();
     this.sX = s.sX.slice(); this.sY = s.sY.slice(); this.sG = s.sG.slice(); this.gold = s.gold.slice();
-    this.pS = s.pS.slice(); this.stMask = s.stMask.slice(); this.stT = s.stT.slice(); this.stV = s.stV.slice(); this.corp = s.corp.slice(); this.auto = s.auto.slice();
+    this.pS = s.pS.slice(); this.pSrc = s.pSrc.slice(); this.stMask = s.stMask.slice(); this.stT = s.stT.slice(); this.stV = s.stV.slice(); this.corp = s.corp.slice(); this.auto = s.auto.slice();
     this.pPow = s.pPow.slice(); this.known = s.known.slice(); this.manaMax = s.manaMax.slice(); this.hpMax = s.hpMax.slice(); this.mod = s.mod.slice();
     this.bX = s.bX.slice(); this.bY = s.bY.slice(); this.bI = s.bI.slice();
     this.recount(team);
@@ -345,26 +365,67 @@ export function toGuard(sim: Sim, i: number): void {
 
 // ---- damage ----
 
-/** Resolve one attack or spell on `t`. Physical rolls to hit and loses flat absorption; schools cannot miss but are scaled by resistance. */
-export function strike(sim: Sim, t: number, min: number, max: number, elem: number, acc: number): void {
+/** Defence of unit i on body part k: dodge plus the armour on that part. */
+export function partDef(sim: Sim, i: number, k: number): number {
+  const mo = i * MODN;
+  return DEFS[sim.cb.kind[i]].def + sim.cb.mod[mo + M.Def] + DEFS[sim.cb.kind[i]].pdef[k] + sim.cb.mod[mo + M.PDef + k];
+}
+
+/** Absorption of unit i on body part k. */
+export function partAbs(sim: Sim, i: number, k: number): number {
+  const mo = i * MODN;
+  return sim.cb.mod[mo + M.Abs] + DEFS[sim.cb.kind[i]].pabs[k] + sim.cb.mod[mo + M.PAbs + k];
+}
+
+/** Which body part a roll in 0..99 lands on. */
+export function partOf(roll: number): number {
+  for (let k = 0; k < PART_COUNT - 1; k++) {
+    if (roll < PART_WEIGHT[k]) return k;
+    roll -= PART_WEIGHT[k];
+  }
+  return PART_COUNT - 1;
+}
+
+const LOG_MAX = 200;
+function logHit(sim: Sim, src: number, t: number, elem: number, part: number, chance: number, roll: number, raw: number, cut: number, dmg: number): void {
+  const log = sim.cb.log!;
+  if (log.length >= LOG_MAX) log.shift();
+  log.push({ tick: sim.tick, src, t, elem, part, chance, roll, raw, cut, dmg });
+}
+
+/**
+ * Resolve one attack or spell on `t`. A physical blow lands on a body part (head, torso, arms, legs), rolls to hit
+ * against that part's defence and loses that part's absorption; the head takes half again. Schools cannot miss but are
+ * scaled by resistance.
+ */
+export function strike(sim: Sim, t: number, min: number, max: number, elem: number, acc: number, src = -1): void {
   const cb = sim.cb;
   if (cb.hp[t] <= 0) return;
   const d = DEFS[cb.kind[t]];
   const mo = t * MODN;
   let dmg = min + sim.rng.int(max - min + 1);
+  let part = -1;
+  let chance = 100;
+  let roll = 0;
+  let raw = dmg;
   if (elem === Elem.Physical) {
-    const chance = Math.max(15, Math.min(95, 70 + (acc - d.def - cb.mod[mo + M.Def]) * 3));
-    if (sim.rng.int(100) >= chance) {
+    part = partOf(sim.rng.int(100));
+    chance = Math.max(15, Math.min(95, 70 + (acc - partDef(sim, t, part)) * 3));
+    roll = sim.rng.int(100);
+    if (roll >= chance) {
+      if (cb.log) logHit(sim, src, t, elem, part, chance, roll, raw, 0, -1);
       cb.emit(1, sim.x[t], sim.y[t], 0, 0);
       return;
     }
-    dmg = Math.max(1, dmg - d.absorb - cb.mod[mo + M.Abs]);
+    raw = Math.floor((dmg * PART_DMG[part]) / 100);
+    dmg = Math.max(1, raw - partAbs(sim, t, part));
     if (cb.stMask[t] & (1 << St.Stone)) dmg = Math.max(1, dmg >> 1); // stone halves blows
     if (sim.hero !== null && t === sim.hero.id) heroUse(sim, 1); // Guard grows with blows taken
   } else {
     const res = Math.min(90, d.res[elem - 1] + cb.mod[mo + M.Res + elem - 1]);
     dmg = Math.max(0, Math.floor((dmg * (100 - res)) / 100));
   }
+  const cut = raw - dmg;
   if (cb.stMask[t] & (1 << St.Shield)) {
     const k = t * NST + St.Shield;
     const soak = Math.min(cb.stV[k], dmg);
@@ -378,6 +439,7 @@ export function strike(sim: Sim, t: number, min: number, max: number, elem: numb
     if (dmg === 0) cb.emit(11, sim.x[t], sim.y[t], soak, 0);
   }
   cb.hp[t] -= dmg;
+  if (cb.log) logHit(sim, src, t, elem, part, chance, roll, raw, cut, dmg);
   if (dmg > 0 || !(cb.stMask[t] & (1 << St.Shield))) cb.emit(0, sim.x[t], sim.y[t], dmg, elem);
   if (cb.hp[t] <= 0) die(sim, t);
 }
@@ -405,11 +467,12 @@ function die(sim: Sim, t: number): void {
 }
 
 /** Start a projectile at a fixed-point point. `sid` >= 0 makes it a spell: it casts that spell's effect on arrival. */
-export function launch(sim: Sim, ox: number, oy: number, t: number, min: number, max: number, elem: number, acc: number, sid = -1, pow = 100): void {
+export function launch(sim: Sim, ox: number, oy: number, t: number, min: number, max: number, elem: number, acc: number, sid = -1, pow = 100, src = -1): void {
   const cb = sim.cb;
   for (let p = 0; p < MAXP; p++) {
     if (cb.pAlive[p]) continue;
     cb.pAlive[p] = 1;
+    cb.pSrc[p] = src;
     cb.pPow[p] = pow;
     cb.pX[p] = ox;
     cb.pY[p] = oy;
@@ -422,7 +485,7 @@ export function launch(sim: Sim, ox: number, oy: number, t: number, min: number,
     return;
   }
   if (sid >= 0) spellHit(sim, t, sid, pow);
-  else strike(sim, t, min, max, elem, acc); // pool full: hit at once
+  else strike(sim, t, min, max, elem, acc, src); // pool full: hit at once
 }
 
 function attack(sim: Sim, i: number, t: number): void {
@@ -451,9 +514,9 @@ function attack(sim: Sim, i: number, t: number): void {
   cb.cd[i] = cd;
   if (d.ranged) {
     if (d.elem === 0) cb.emit(12, sim.x[i], sim.y[i], 0, 0);
-    launch(sim, sim.x[i], sim.y[i], t, min, max, d.elem, acc);
+    launch(sim, sim.x[i], sim.y[i], t, min, max, d.elem, acc, -1, 100, i);
   }
-  else strike(sim, t, min, max, d.elem, acc);
+  else strike(sim, t, min, max, d.elem, acc, i);
 }
 
 function stepProjectiles(sim: Sim): void {
@@ -471,7 +534,7 @@ function stepProjectiles(sim: Sim): void {
     if (d <= PSPEED + 40) {
       cb.pAlive[p] = 0;
       if (cb.pS[p] > 0) spellHit(sim, t, cb.pS[p] - 1, cb.pPow[p]);
-      else strike(sim, t, cb.pMin[p], cb.pMax[p], cb.pEl[p], cb.pAcc[p]);
+      else strike(sim, t, cb.pMin[p], cb.pMax[p], cb.pEl[p], cb.pAcc[p], cb.pSrc[p]);
     } else {
       cb.pX[p] += Math.round((dx * PSPEED) / d);
       cb.pY[p] += Math.round((dy * PSPEED) / d);

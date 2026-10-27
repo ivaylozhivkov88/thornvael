@@ -2,7 +2,7 @@ import { describe, expect, it } from 'vitest';
 import type { GameMap } from '../src/map';
 import { Kind, M, MODN, POOLS } from '../src/sim/combat';
 import { INV_MAX, addItem, createHero, derive, skillNeed, weightOf, capacityOf } from '../src/sim/hero';
-import { Cls, ITEMS, ITEM_COUNT, Ik, Slot, itemId, rollLoot } from '../src/sim/items';
+import { Cls, ITEMS, Ik, Slot, itemId, rollLoot } from '../src/sim/items';
 import { SPELLS } from '../src/sim/spelldata';
 import { FP, Sim, replay, type Command } from '../src/sim/sim';
 import { Rng } from '../src/sim/rng';
@@ -30,8 +30,8 @@ describe('item table', () => {
   it('has gear for every slot, potions and a learn item per spell', () => {
     for (let s = 0; s < 7; s++) expect(ITEMS.some((d) => d.kind === Ik.Gear && d.slot === s)).toBe(true);
     SPELLS.forEach((_, sid) => expect(ITEMS.some((d) => d.kind === Ik.Learn && d.spell === sid)).toBe(true));
-    expect(ITEM_COUNT).toBeGreaterThan(60);
-    expect(new Set(ITEMS.map((d) => d.name)).size).toBe(ITEM_COUNT);
+    expect(ITEMS.length).toBeGreaterThan(60);
+    expect(new Set(ITEMS.map((d) => d.name)).size).toBe(ITEMS.length);
     for (const d of ITEMS) expect(d.tier).toBeGreaterThanOrEqual(1);
   });
   it('loot rolls stay inside the tier range', () => {
@@ -238,6 +238,6 @@ describe('determinism', () => {
       c.step();
     }
     expect(c.hash()).toBe(a.hash());
-    expect(MODN).toBe(12);
+    expect(MODN).toBe(20);
   });
 });

@@ -145,6 +145,9 @@ export class Renderer {
   private readonly overlay = new Graphics();
   private readonly light = new Graphics();
   private readonly shots = new Graphics();
+  private readonly dbgGrid = new Graphics();
+  private readonly dbgPath = new Graphics();
+  private dbgBuilt = false;
   private readonly floaterLayer = new Container();
   private floaters: Floater[] = [];
   private bursts: Burst[] = [];
@@ -211,7 +214,9 @@ export class Renderer {
       this.sprites.push(s);
       this.world.addChild(s);
     }
-    this.world.addChild(this.shots, fog);
+    this.dbgGrid.visible = false;
+    this.dbgPath.visible = false;
+    this.world.addChild(this.shots, fog, this.dbgGrid, this.dbgPath);
     this.light.blendMode = 'multiply';
     this.app.stage.addChild(this.world, this.light, this.floaterLayer, this.overlay);
     this.centerOn(sim.x[0] / FP, sim.y[0] / FP);
@@ -335,6 +340,42 @@ export class Renderer {
     this.camX = wx * z - sx;
     this.camY = wy * z - sy;
     this.clamp();
+  }
+
+  /** F3 overlay: tile grid with blocked tiles (built once) and the A* paths of the given units (redrawn per frame). */
+  setDebug(on: boolean): void {
+    this.dbgGrid.visible = on;
+    this.dbgPath.visible = on;
+    if (!on || this.dbgBuilt) return;
+    this.dbgBuilt = true;
+    const g = this.dbgGrid;
+    const { w, h, blocked, height } = this.map;
+    for (let y = 0; y < h; y++) {
+      for (let x = 0; x < w; x++) {
+        const i = y * w + x;
+        if (blocked[i]) g.rect(x * TILE + 1, y * TILE + 1, TILE - 2, TILE - 2).fill({ color: 0xff3030, alpha: 0.35 });
+        else if (height[i]) g.rect(x * TILE + 1, y * TILE + 1, TILE - 2, TILE - 2).fill({ color: 0xffffff, alpha: 0.05 * height[i] });
+      }
+    }
+    for (let x = 0; x <= w; x++) g.moveTo(x * TILE, 0).lineTo(x * TILE, h * TILE);
+    for (let y = 0; y <= h; y++) g.moveTo(0, y * TILE).lineTo(w * TILE, y * TILE);
+    g.stroke({ color: 0x000000, width: 1, alpha: 0.25 });
+  }
+
+  drawDebugPaths(sim: Sim, ids: readonly number[]): void {
+    const g = this.dbgPath;
+    g.clear();
+    const k = TILE / FP;
+    for (const i of ids) {
+      const pts = sim.pathOf(i);
+      g.moveTo(sim.x[i] * k, sim.y[i] * k);
+      if (pts) {
+        for (let n = sim.wp[i]; n < pts.length / 2; n++) g.lineTo(pts[2 * n] * k, pts[2 * n + 1] * k);
+      }
+      g.lineTo(sim.tx[i] * k, sim.ty[i] * k);
+      g.stroke({ color: 0x40ffff, width: 2, alpha: 0.8 });
+      if (pts) for (let n = sim.wp[i]; n < pts.length / 2; n++) g.circle(pts[2 * n] * k, pts[2 * n + 1] * k, 3).fill(0x40ffff);
+    }
   }
 
   /** World point in tiles for a screen point. */

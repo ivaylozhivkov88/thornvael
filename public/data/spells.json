@@ -1,0 +1,29 @@
+{
+  "version": 1,
+  "spells": [
+    {"name":"Fire Bolt","school":"fire","target":"foe","cost":8,"cd":30,"reach":7,"min":16,"max":24},
+    {"name":"Fireball","school":"fire","target":"ground","cost":14,"cd":40,"reach":8,"min":18,"max":28,"radius":2},
+    {"name":"Flame Burst","school":"fire","target":"multi","cost":12,"cd":35,"reach":7,"min":12,"max":18,"radius":3.5,"count":3},
+    {"name":"Ignite","school":"fire","target":"foe","cost":8,"cd":30,"reach":6,"status":"burn","dur":6,"val":2},
+    {"name":"Frost Bolt","school":"water","target":"foe","cost":8,"cd":30,"reach":7,"min":12,"max":18,"status":"slow","dur":8},
+    {"name":"Ice Storm","school":"water","target":"ground","cost":16,"cd":45,"reach":8,"min":10,"max":16,"radius":2.5,"status":"slow","dur":6},
+    {"name":"Chain Frost","school":"water","target":"multi","cost":14,"cd":40,"reach":7,"min":9,"max":14,"radius":3.5,"count":4,"status":"slow","dur":4},
+    {"name":"Healing","school":"water","target":"ally","cost":10,"cd":30,"reach":7,"min":30,"max":45,"heal":true},
+    {"name":"Healing Rain","school":"water","target":"ground","cost":18,"cd":50,"reach":8,"min":14,"max":22,"radius":3,"heal":true},
+    {"name":"Lightning","school":"air","target":"foe","cost":12,"cd":35,"reach":8,"min":24,"max":34},
+    {"name":"Chain Lightning","school":"air","target":"multi","cost":16,"cd":40,"reach":7,"min":14,"max":22,"radius":3.5,"count":4},
+    {"name":"Haste","school":"air","target":"ally","cost":12,"cd":30,"reach":7,"status":"haste","dur":25},
+    {"name":"Gale","school":"air","target":"ground","cost":12,"cd":40,"reach":8,"min":8,"max":12,"radius":3,"status":"slow","dur":5},
+    {"name":"Wind Ward","school":"air","target":"self","cost":8,"cd":30,"reach":0,"status":"shield","dur":45,"val":35},
+    {"name":"Rock Throw","school":"earth","target":"foe","cost":9,"cd":32,"reach":7,"min":18,"max":26},
+    {"name":"Stone Curse","school":"earth","target":"foe","cost":16,"cd":40,"reach":6,"status":"stone","dur":5},
+    {"name":"Stone Skin","school":"earth","target":"ally","cost":10,"cd":30,"reach":7,"status":"shield","dur":45,"val":50},
+    {"name":"Poison Cloud","school":"earth","target":"ground","cost":12,"cd":40,"reach":8,"radius":2.5,"status":"poison","dur":12,"val":1},
+    {"name":"Quake","school":"earth","target":"ground","cost":22,"cd":60,"reach":7,"min":20,"max":30,"radius":3.5},
+    {"name":"Blessing","school":"astral","target":"ally","cost":10,"cd":30,"reach":7,"status":"bless","dur":60},
+    {"name":"Weaken","school":"astral","target":"foe","cost":8,"cd":30,"reach":7,"status":"weaken","dur":30},
+    {"name":"Resurrect","school":"astral","target":"corpse","cost":30,"cd":75,"reach":6},
+    {"name":"Corpse Burst","school":"astral","target":"corpse","cost":14,"cd":50,"reach":7,"min":18,"max":26,"radius":2.5},
+    {"name":"Meditation","school":"astral","target":"self","cost":0,"cd":250,"reach":0,"val":12}
+  ]
+}
