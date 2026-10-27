@@ -35,6 +35,7 @@ const params = new URLSearchParams(location.search);
 const crowd = params.has('crowd'); // 300 units, all yours, no combat: the crowd-movement benchmark
 const stress = params.has('stress');
 const battle = params.has('battle'); // 150 against 150, both sides swarm: the combat benchmark
+const diag = params.has('diag'); // self-test panel for phones
 const debug = params.has('debug') || stress || crowd || battle;
 
 // --- world ---
@@ -1192,6 +1193,8 @@ const dbg = $('debug');
 dbg.hidden = !debug;
 const f3 = new DebugPanel(document.body); // F3: tiles, paths, hit log
 let persisted: boolean | string = '?';
+let live = { fps: 0, drawMs: 0, stepMs: 0, worstMs: 0 };
+if (diag) void import('./diag').then((m) => m.startDiag(document.body, () => live));
 
 function updateStats(): void {
   for (const id of [...selected]) if (!alive(id)) selected.delete(id);
@@ -1281,8 +1284,9 @@ function frame(): void {
       emaDt = 16;
     }
   } else slowSince = 0;
-  if (debug && now - lastReport >= 1000) {
+  if ((debug || diag) && now - lastReport >= 1000) {
     const secs = (now - lastReport) / 1000;
+    live = { fps: frames / secs, drawMs: sumMs / frames, stepMs: simMs / Math.max(1, simSteps), worstMs: worst };
     fpsText = `${(frames / secs).toFixed(0)} fps, draw ${(sumMs / frames).toFixed(2)} ms, sim ${(simMs / Math.max(1, simSteps)).toFixed(2)} ms/step, worst frame ${worst.toFixed(0)} ms`;
     frames = 0;
     sumMs = 0;

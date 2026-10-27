@@ -137,3 +137,13 @@ Touch and desktop parity (QA-03): every action below must be doable both ways.
 | Pickup (gold and bags) | Pickup button, tap | P, click |
 | Hero, pack, spellbook | Hero button, tabs | I, B, Tab and arrows in tabs, Esc closes |
 | Equip, use, drop, quick slot | buttons in the details panel | the same buttons by Tab and Enter |
+
+## Quick run with `?diag=1` (5 minutes, covers the automatable rows)
+
+Open `https://ivaylozhivkov88.github.io/thornvael/?diag=1&battle` (or `&stress`). A yellow panel shows live numbers. Wait one minute, then:
+
+1. Tap "Audio test": a blip plays and the state reads `running`. (Mute switch: flip it and tap again, write what you hear.)
+2. Tap "WebGL loss test": the result must read `ok: lost and restored`, and the game must draw again.
+3. Tap "Persist": write `persist()` and the storage line (covers the "persisted" rows).
+4. Read fps avg/min, draw ms, sim ms/step and worst frame (covers the fps rows of every phase).
+5. Tap "Copy JSON", paste it into the Results table notes or send it to the developer.

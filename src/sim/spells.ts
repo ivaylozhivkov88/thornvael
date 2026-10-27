@@ -2,6 +2,7 @@ import { Elem, M, MODN, enemyNear, launch, strike } from './combat';
 import { heroUse } from './hero';
 import { FP } from './path';
 import type { Sim } from './sim';
+import { rulesOf } from './difficulty';
 import { CORPSE_TICKS, CURSES, NST, POISON_STACKS, SPELLS, St, Tk } from './spelldata';
 
 /** Spell effects, statuses and autocast. Runs inside the sim, so everything here is integer and deterministic. */
@@ -138,9 +139,14 @@ function area(sim: Sim, caster: number, sid: number, px: number, py: number, pow
   const r2 = (sp.radius * FP) ** 2;
   const team = sim.team[caster];
   sim.cb.emit(5, px, py, Math.round(sp.radius * 10), sp.school);
+  const fire = team === 0 && !sp.heal ? rulesOf(sim).friendlyPct : 0; // hard: your own area spells hurt your side too
   for (let j = 0; j < sim.count; j++) {
     if (sim.cb.hp[j] <= 0) continue;
-    if ((sim.team[j] === team) !== sp.heal) continue;
+    const own = sim.team[j] === team;
+    if (own !== sp.heal) {
+      if (fire && own && j !== caster && !sim.hidden[j] && dist2(sim, j, px, py) <= r2) spellHit(sim, j, sid, Math.floor((pow * fire) / 100));
+      continue;
+    }
     if (dist2(sim, j, px, py) <= r2) spellHit(sim, j, sid, pow);
   }
 }

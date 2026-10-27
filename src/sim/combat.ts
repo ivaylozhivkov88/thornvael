@@ -1,6 +1,7 @@
 import { FP, dir16 } from './path';
 import type { Sim } from './sim';
-import { ALL_SPELLS, CORPSE_TICKS, MAGE_SPELLS, NST, SPELLS, St, Tk } from './spelldata';
+import { rulesOf } from './difficulty';
+import { ALL_SPELLS, MAGE_SPELLS, NST, SPELLS, St, Tk } from './spelldata';
 import { autoCast, castSpell, clearAllStatuses, knows, spellHit, statusTick, validTarget } from './spells';
 import { dropLoot, heroUse, pickBag } from './hero';
 import { PART_COUNT, PART_DMG, PART_WEIGHT } from './items';
@@ -295,6 +296,8 @@ export function enemyNear(sim: Sim, i: number, range: number, cx: number, cy: nu
   const hp = sim.cb.hp;
   let best = -1;
   let bd = range * range + 1;
+  let bw = 1 << 30; // armour score of the best pick; only foes on hard hunt the weakest armour
+  const hunt = me !== 0 && rulesOf(sim).hunt;
   const l2 = leash * leash;
   for (let gy = Math.max(0, ty - r); gy <= Math.min(h - 1, ty + r); gy++) {
     for (let gx = Math.max(0, tx - r); gx <= Math.min(w - 1, tx + r); gx++) {
@@ -305,8 +308,11 @@ export function enemyNear(sim: Sim, i: number, range: number, cx: number, cy: nu
         const dx = sim.x[j] - x;
         const dy = sim.y[j] - y;
         const d2 = dx * dx + dy * dy;
-        if (d2 > bd || (d2 === bd && j > best && best >= 0)) continue;
+        if (d2 > range * range) continue;
         if (leash > 0 && (sim.x[j] - cx) ** 2 + (sim.y[j] - cy) ** 2 > l2) continue;
+        const w = hunt ? partAbs(sim, j, 0) + partAbs(sim, j, 1) : 0;
+        if (w > bw || (w === bw && (d2 > bd || (d2 === bd && j > best && best >= 0)))) continue;
+        bw = w;
         bd = d2;
         best = j;
       }
@@ -425,6 +431,10 @@ export function strike(sim: Sim, t: number, min: number, max: number, elem: numb
     const res = Math.min(90, d.res[elem - 1] + cb.mod[mo + M.Res + elem - 1]);
     dmg = Math.max(0, Math.floor((dmg * (100 - res)) / 100));
   }
+  if (src >= 0 && sim.team[t] === 0 && sim.team[src] !== 0) {
+    const pct = rulesOf(sim).foeHitPct;
+    if (pct !== 100 && dmg > 0) dmg = Math.max(1, Math.floor((dmg * pct) / 100));
+  }
   const cut = raw - dmg;
   if (cb.stMask[t] & (1 << St.Shield)) {
     const k = t * NST + St.Shield;
@@ -451,7 +461,7 @@ function die(sim: Sim, t: number): void {
   cb.alive[sim.team[t] & 3]--;
   cb.ord[t] = Ord.Still;
   cb.tgt[t] = -1;
-  cb.corp[t] = CORPSE_TICKS;
+  cb.corp[t] = rulesOf(sim).corpse;
   clearAllStatuses(sim, t);
   sim.stop(t);
   cb.emit(2, sim.x[t], sim.y[t], 0, 0);
