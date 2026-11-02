@@ -11,3 +11,5 @@ dev-dist/
 *.256
 test-results/
 playwright-report/
+.art-build/
+.art-*.log

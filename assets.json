@@ -155,13 +155,55 @@
       "path": "public/sprites/hero.png",
       "license": "own",
       "source": "tools/render-unit.py + tools/pack-atlas.py",
-      "note": "Placeholder unit rendered in Blender 5.2.3 LTS from primitives, packed by our own MaxRects script"
+      "note": "Original hero model authored from primitives; Blender 5.2.3 LTS, 64px, 16 directions, stand 4/walk 8, RGB region masks. Reproduce: docs/UNIT-ART.md"
     },
     {
       "path": "public/sprites/hero-mask.png",
       "license": "own",
       "source": "tools/render-unit.py + tools/pack-atlas.py",
-      "note": "Placeholder unit rendered in Blender 5.2.3 LTS from primitives, packed by our own MaxRects script"
+      "note": "Original hero model authored from primitives; Blender 5.2.3 LTS, 64px, 16 directions, stand 4/walk 8, RGB region masks. Reproduce: docs/UNIT-ART.md"
+    },
+    {
+      "path": "public/sprites/hero.json",
+      "license": "own",
+      "source": "tools/render-unit.py + tools/pack-atlas.py",
+      "note": "Original hero model authored from primitives; Blender 5.2.3 LTS, 64px, 16 directions, stand 4/walk 8, RGB region masks. Reproduce: docs/UNIT-ART.md"
+    },
+    {
+      "path": "public/sprites/archer.png",
+      "license": "own",
+      "source": "tools/render-unit.py + tools/pack-atlas.py",
+      "note": "Original archer model authored from primitives; Blender 5.2.3 LTS, 64px, 16 directions, stand 4/walk 8, RGB region masks. Reproduce: docs/UNIT-ART.md"
+    },
+    {
+      "path": "public/sprites/archer-mask.png",
+      "license": "own",
+      "source": "tools/render-unit.py + tools/pack-atlas.py",
+      "note": "Original archer model authored from primitives; Blender 5.2.3 LTS, 64px, 16 directions, stand 4/walk 8, RGB region masks. Reproduce: docs/UNIT-ART.md"
+    },
+    {
+      "path": "public/sprites/archer.json",
+      "license": "own",
+      "source": "tools/render-unit.py + tools/pack-atlas.py",
+      "note": "Original archer model authored from primitives; Blender 5.2.3 LTS, 64px, 16 directions, stand 4/walk 8, RGB region masks. Reproduce: docs/UNIT-ART.md"
+    },
+    {
+      "path": "public/sprites/golem.png",
+      "license": "own",
+      "source": "tools/render-unit.py + tools/pack-atlas.py",
+      "note": "Original golem model authored from primitives; Blender 5.2.3 LTS, 64px, 16 directions, stand 4/walk 8, RGB region masks. Reproduce: docs/UNIT-ART.md"
+    },
+    {
+      "path": "public/sprites/golem-mask.png",
+      "license": "own",
+      "source": "tools/render-unit.py + tools/pack-atlas.py",
+      "note": "Original golem model authored from primitives; Blender 5.2.3 LTS, 64px, 16 directions, stand 4/walk 8, RGB region masks. Reproduce: docs/UNIT-ART.md"
+    },
+    {
+      "path": "public/sprites/golem.json",
+      "license": "own",
+      "source": "tools/render-unit.py + tools/pack-atlas.py",
+      "note": "Original golem model authored from primitives; Blender 5.2.3 LTS, 64px, 16 directions, stand 4/walk 8, RGB region masks. Reproduce: docs/UNIT-ART.md"
     }
   ]
 }

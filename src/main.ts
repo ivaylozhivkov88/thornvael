@@ -1584,6 +1584,8 @@ void renderer.init(sim).then(() => {
     sim,
     selected: () => [...selected],
     unitScreen: (i: number) => renderer.unitScreen(i),
+    unitArt: (i: number) => renderer.unitArt(i),
+    previewArt: () => renderer.previewArt(),
     tile: (x: number, y: number) => [Math.round(x * TILE * renderer.zoom - renderer.camX), Math.round(y * TILE * renderer.zoom - renderer.camY)],
     posTiles: (i: number) => [sim.x[i] / FP, sim.y[i] / FP],
     zoom: () => renderer.zoom,

@@ -1,6 +1,6 @@
 # Sprite contract (version 1)
 
-Every unit sprite set in Thornvael follows this contract. It is produced by `tools/render-unit.py` (Blender, headless), packed by `tools/pack-atlas.py` and checked by `src/sprites/contract.ts` (used by Vitest now and by the CI atlas check in slice 10.2).
+Every unit sprite set in Thornvael follows this contract. It is produced by `tools/render-unit.py` (Blender, headless), packed by `tools/pack-atlas.py` and checked by `src/sprites/contract.ts` (runtime, Vitest and `tools/check-atlases.mjs`, included in the CI repo check). Runtime palette details and reproduction are in `UNIT-ART.md`.
 
 ## Layout
 

@@ -5,6 +5,9 @@ import { SKILL_NAMES } from './sim/hero';
 import { FP, type Sim } from './sim/sim';
 import { SPELLS, St, Tk } from './sim/spelldata';
 import { S } from './strings';
+import { ITEMS, Slot } from './sim/items';
+import { UnitAtlas, UnitSprite, UNIT_ART } from './sprites/units';
+import { ArtPreview } from './sprites/preview';
 
 const CHUNK = 16; // tiles per chunk side, so each baked texture is 512 px
 const BASE: Record<number, [number, number, number]> = {
@@ -155,7 +158,8 @@ export class Renderer {
   private freeText: Text[] = [];
   private fogTick = 0;
   quality = 2;
-  private sprites: Sprite[] = [];
+  private sprites: (Sprite | UnitSprite)[] = [];
+  private artPreview?: ArtPreview;
   private fogCv!: HTMLCanvasElement;
   private fogTex!: Texture;
   private fogImg!: ImageData;
@@ -221,15 +225,19 @@ export class Renderer {
     this.world.addChild(chunks, this.rings);
     this.fog = fog;
     const tex = unitTexture();
+    const atlases = await Promise.all(UNIT_ART.map((unit) => UnitAtlas.load(unit)));
     for (let i = 0; i < sim.count; i++) {
-      const s = new Sprite(tex);
-      s.anchor.set(0.5, 0.88);
       const kind = sim.cb.kind[i];
+      const atlas = kind === Kind.Hero ? atlases[0] : kind === Kind.Archer ? atlases[1] : kind === Kind.Golem ? atlases[2] : null;
+      const s = atlas ? new UnitSprite(atlas) : new Sprite(tex);
+      if (s instanceof Sprite) s.anchor.set(0.5, 0.88);
       const look = KIND_LOOK[kind] ?? { scale: 1 };
       s.scale.set(look.scale);
       // Your units keep the team colour (the hero stays gold); monsters use the colour of their kind.
-      if (sim.team[i] === 0) s.tint = kind === Kind.Hero || kind === Kind.Mage ? look.tint! : TEAM_TINT[0];
-      else s.tint = kind === Kind.Archer ? TEAM_TINT[1] : look.tint ?? TEAM_TINT[1];
+      if (s instanceof Sprite) {
+        if (sim.team[i] === 0) s.tint = kind === Kind.Hero || kind === Kind.Mage ? look.tint! : TEAM_TINT[0];
+        else s.tint = kind === Kind.Archer ? TEAM_TINT[1] : look.tint ?? TEAM_TINT[1];
+      }
       this.baseTint.push(s.tint as number);
       this.sprites.push(s);
       this.world.addChild(s);
@@ -239,6 +247,10 @@ export class Renderer {
     this.world.addChild(this.shots, fog, this.dbgGrid, this.dbgPath);
     this.light.blendMode = 'multiply';
     this.app.stage.addChild(this.world, this.light, this.floaterLayer, this.overlay);
+    if (new URLSearchParams(location.search).get('art') === '1') {
+      this.artPreview = new ArtPreview(atlases);
+      this.app.stage.addChild(this.artPreview.layer);
+    }
     this.centerOn(sim.x[0] / FP, sim.y[0] / FP);
     this.setQuality(this.quality);
   }
@@ -412,6 +424,13 @@ export class Renderer {
     return x < -40 || y < -40 || x > this.viewW + 40 || y > this.viewH + 40 ? null : [x, y];
   }
 
+  unitArt(i: number) {
+    const sprite = this.sprites[i];
+    return sprite instanceof UnitSprite ? sprite.inspect() : null;
+  }
+
+  previewArt() { return this.artPreview?.inspect() ?? null; }
+
   /** Camera rectangle in tiles. */
   viewTiles(): { x0: number; y0: number; x1: number; y1: number } {
     const s = TILE * this.zoom;
@@ -443,6 +462,7 @@ export class Renderer {
   }
 
   draw(sim: Sim, px: Int32Array, py: Int32Array, alpha: number, v: View): void {
+    this.artPreview?.draw(sim.tick);
     this.world.scale.set(this.zoom);
     this.world.position.set(-this.camX, -this.camY);
     if (this.quality > 0 || (this.fogTick++ & 1) === 0) this.updateFog(sim);
@@ -492,14 +512,21 @@ export class Renderer {
         s.visible = false;
         continue;
       }
-      const want = cb.stMask[i] & (1 << St.Stone) ? 0x8a8a8a : this.baseTint[i];
-      if (s.tint !== want) s.tint = want;
+      if (s instanceof Sprite) {
+        const want = cb.stMask[i] & (1 << St.Stone) ? 0x8a8a8a : this.baseTint[i];
+        if (s.tint !== want) s.tint = want;
+      }
       s.x = Math.round((px[i] + (sim.x[i] - px[i]) * alpha) * k);
       s.y = Math.round((py[i] + (sim.y[i] - py[i]) * alpha) * k);
       const sx = s.x * z - this.camX;
       const sy = s.y * z - this.camY;
       const onScreen = sx > -40 && sy > -40 && sx < this.viewW + 40 && sy < this.viewH + 40;
       s.visible = onScreen && (sim.team[i] === 0 || sim.visible[Math.floor(sim.y[i] / FP) * mw + Math.floor(sim.x[i] / FP)] === 1);
+      if (s.visible && s instanceof UnitSprite) {
+        const armour = sim.hero?.id === i ? ITEMS[sim.hero.eq[Slot.Armor]]?.tier ?? 0 : 1;
+        // Levelled monsters arrive with the roster; existing golems are level 1.
+        s.update(sim.tick, !!sim.moving[i], sim.dir[i], sim.team[i], armour, 1, !!(cb.stMask[i] & (1 << St.Stone)));
+      }
     }
     const sh = this.shots;
     sh.clear();
@@ -512,7 +539,7 @@ export class Renderer {
       if (!(sel || (hurt && this.quality > 0))) continue;
       const f = cb.hp[i] / cb.hpMax[i];
       const w = 20 * (s.scale.x > 1.2 ? 1.4 : 1);
-      const y = s.y - 36 * s.scale.y;
+      const y = s.y - (s instanceof UnitSprite ? 48 : 36) * s.scale.y;
       sh.rect(s.x - w / 2 - 1, y - 1, w + 2, 5).fill(0x000000);
       sh.rect(s.x - w / 2, y, w * f, 3).fill(sim.team[i] === 0 ? (f > 0.35 ? 0x5fd35f : 0xe0b030) : 0xe05a4a);
     }
@@ -521,7 +548,7 @@ export class Renderer {
       const s = this.sprites[i];
       if (!s.visible) continue;
       const m = cb.stMask[i];
-      const y = s.y - 36 * s.scale.y;
+      const y = s.y - (s instanceof UnitSprite ? 48 : 36) * s.scale.y;
       if (m) {
         let n = 0;
         for (let st = 0; st < 8; st++) {
