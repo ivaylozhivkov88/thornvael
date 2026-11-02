@@ -1,5 +1,6 @@
 import { Application, Container, Graphics, Sprite, Text, Texture } from 'pixi.js';
-import { ObjectKind, TILE, Terrain, type GameMap } from './map';
+import { TILE, type GameMap } from './map';
+import { loadTerrainArt, paintTerrainChunk, prepareScenery, type SceneryPlacement } from './terrain';
 import { Kind } from './sim/combat';
 import { SKILL_NAMES } from './sim/hero';
 import { FP, type Sim } from './sim/sim';
@@ -10,13 +11,6 @@ import { UnitAtlas, UnitSprite, UNIT_ART } from './sprites/units';
 import { ArtPreview } from './sprites/preview';
 
 const CHUNK = 16; // tiles per chunk side, so each baked texture is 512 px
-const BASE: Record<number, [number, number, number]> = {
-  [Terrain.Grass]: [63, 90, 46],
-  [Terrain.Dirt]: [122, 100, 70],
-  [Terrain.Water]: [44, 79, 120],
-  [Terrain.Rock]: [96, 96, 100],
-  [Terrain.Marsh]: [70, 84, 52],
-};
 const DIR_COS = Array.from({ length: 16 }, (_, k) => Math.cos((k * Math.PI) / 8));
 const DIR_SIN = Array.from({ length: 16 }, (_, k) => Math.sin((k * Math.PI) / 8));
 const NIGHT = [0x5a, 0x6a, 0xa6];
@@ -42,58 +36,11 @@ export const QUALITY_NAMES = ['Low', 'Medium', 'High'] as const;
 const FLOATERS = [0, 10, 24];
 const FLOAT_MS = 900;
 
-function shade(c: [number, number, number], l: number, extra = 0): string {
-  const k = l / 255;
-  return `rgb(${Math.min(255, Math.round(c[0] * k + extra))},${Math.min(255, Math.round(c[1] * k + extra))},${Math.min(255, Math.round(c[2] * k + extra))})`;
-}
-
-function bakeChunk(map: GameMap, cx: number, cy: number): HTMLCanvasElement {
+function bakeChunk(map: GameMap, cx: number, cy: number, art: HTMLImageElement, scenery: readonly SceneryPlacement[]): HTMLCanvasElement {
   const cv = document.createElement('canvas');
   cv.width = cv.height = CHUNK * TILE;
   const g = cv.getContext('2d')!;
-  for (let ty = 0; ty < CHUNK; ty++) {
-    for (let tx = 0; tx < CHUNK; tx++) {
-      const x = cx * CHUNK + tx;
-      const y = cy * CHUNK + ty;
-      if (x >= map.w || y >= map.h) continue;
-      const i = y * map.w + x;
-      g.fillStyle = shade(BASE[map.terrain[i]], map.light[i], map.height[i] * 4);
-      g.fillRect(tx * TILE, ty * TILE, TILE, TILE);
-      // Cliff edge where the tile to the south is lower: a dark band reads as a height step.
-      if (y + 1 < map.h && map.height[(y + 1) * map.w + x] < map.height[i] && map.terrain[i] !== Terrain.Water) {
-        g.fillStyle = 'rgba(0,0,0,.35)';
-        g.fillRect(tx * TILE, ty * TILE + TILE - 5, TILE, 5);
-      }
-    }
-  }
-  for (const o of map.objects) {
-    const px = (o.x - cx * CHUNK) * TILE;
-    const py = (o.y - cy * CHUNK) * TILE;
-    if (px < -TILE * 2 || py < -TILE * 2 || px > CHUNK * TILE || py > CHUNK * TILE) continue;
-    if (o.kind === ObjectKind.Tree) {
-      g.fillStyle = '#4a3220';
-      g.fillRect(px + 13, py + 18, 6, 12);
-      g.fillStyle = '#1f4a1c';
-      g.beginPath();
-      g.arc(px + 16, py + 14, 12, 0, Math.PI * 2);
-      g.fill();
-      g.fillStyle = '#2d6428';
-      g.beginPath();
-      g.arc(px + 13, py + 11, 7, 0, Math.PI * 2);
-      g.fill();
-    } else {
-      g.fillStyle = '#6b4a2b';
-      g.fillRect(px + 2, py + 14, 60, 48);
-      g.fillStyle = '#8c2f27';
-      g.beginPath();
-      g.moveTo(px - 2, py + 18);
-      g.lineTo(px + 32, py - 4);
-      g.lineTo(px + 66, py + 18);
-      g.fill();
-      g.fillStyle = '#2a1a0e';
-      g.fillRect(px + 26, py + 36, 12, 26);
-    }
-  }
+  paintTerrainChunk(g, map, cx, cy, art, scenery, CHUNK);
   return cv;
 }
 
@@ -205,10 +152,12 @@ export class Renderer {
       resolution: Math.min(window.devicePixelRatio || 1, 2),
     });
     this.app.ticker.stop(); // main.ts drives frames
+    const terrain = await loadTerrainArt();
+    const scenery = prepareScenery(this.map);
     const chunks = new Container();
     for (let cy = 0; cy * CHUNK < this.map.h; cy++) {
       for (let cx = 0; cx * CHUNK < this.map.w; cx++) {
-        const s = new Sprite(Texture.from(bakeChunk(this.map, cx, cy)));
+        const s = new Sprite(Texture.from(bakeChunk(this.map, cx, cy, terrain, scenery)));
         s.position.set(cx * CHUNK * TILE, cy * CHUNK * TILE);
         chunks.addChild(s);
       }

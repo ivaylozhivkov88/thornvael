@@ -204,6 +204,18 @@
       "license": "own",
       "source": "tools/render-unit.py + tools/pack-atlas.py",
       "note": "Original golem model authored from primitives; Blender 5.2.3 LTS, 64px, 16 directions, stand 4/walk 8, RGB region masks. Reproduce: docs/UNIT-ART.md"
+    },
+    {
+      "path": "public/terrain/terrain-e732fd5fcaf8.png",
+      "license": "own",
+      "source": "tools/make-terrain.py",
+      "note": "Original procedural terrain, edge feathers, trees, cottages and ruins; seed 1032026, Pillow 12.3.0. No source images. Reproduce: docs/TERRAIN-ART.md"
+    },
+    {
+      "path": "public/terrain/terrain.json",
+      "license": "own",
+      "source": "tools/make-terrain.py",
+      "note": "Generated frame bounds, anchors and SHA-256 hashes for our original terrain atlas. Snow and ruins are unused art variants, without new map semantics."
     }
   ]
 }
