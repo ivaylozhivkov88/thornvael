@@ -30,6 +30,7 @@ import { SPELLS, Tk } from './sim/spelldata';
 import { validTarget } from './sim/spells';
 import { FP, Sim, TICKS_PER_SECOND, type Command, type OrderName } from './sim/sim';
 import { S } from './strings';
+import { readPreferences, writePreference } from './preferences';
 import { DoubleTap, PortraitStrip, RadialMenu, portraitIds, unitsOfKind, type RadialOrder } from './touchx';
 import './style.css';
 
@@ -174,12 +175,8 @@ try {
 }
 
 const renderer = new Renderer($('game') as HTMLCanvasElement, map);
-try {
-  const q = Number(localStorage.getItem('thornvael.quality'));
-  if (q >= 0 && q <= 2 && localStorage.getItem('thornvael.quality') !== null) renderer.quality = q;
-} catch {
-  // storage may be blocked; keep the default
-}
+const preferences = readPreferences();
+renderer.quality = preferences.quality;
 
 // --- helpers ---
 const alive = (i: number): boolean => sim.cb.hp[i] > 0;
@@ -1229,22 +1226,30 @@ miniCanvas.addEventListener('pointerdown', (e) => {
 miniCanvas.addEventListener('pointermove', (e) => miniDown && miniJump(e));
 miniCanvas.addEventListener('pointerup', () => (miniDown = false));
 miniCanvas.addEventListener('pointercancel', () => (miniDown = false));
-let sfxOn = true;
+let sfxOn = preferences.sound;
+setSfx(sfxOn);
+setAmbience(sfxOn);
 $('btn-sound').onclick = () => {
   unlock();
   sfxOn = !sfxOn;
+  writePreference('sound', sfxOn);
   setSfx(sfxOn);
   setAmbience(sfxOn);
   $('btn-sound').textContent = sfxOn ? S.sfxOn : S.sfxOff;
   toggle('btn-sound', !sfxOn);
   if (sfxOn) blip();
 };
-let musicOn = false;
+let musicOn = preferences.music;
 let musicMode: 'explore' | 'battle' = 'explore';
 const musicDir = new MusicDirector();
+// Restore intent, but start audio only inside a real player gesture (mobile autoplay).
+const startPreferredMusic = (): void => { if (musicOn) setMusic(true, musicMode); };
+window.addEventListener('pointerdown', startPreferredMusic, { once: true });
+window.addEventListener('keydown', startPreferredMusic, { once: true });
 $('btn-music').onclick = () => {
   unlock();
   musicOn = !musicOn;
+  writePreference('music', musicOn);
   setMusic(musicOn, musicMode);
   $('btn-music').textContent = musicOn ? S.musicOn : S.musicOff;
   toggle('btn-music', musicOn);
@@ -1512,13 +1517,17 @@ void nav.storage?.persist?.().then(
 );
 
 document.title = S.title;
-$('hint').textContent = combatMode ? S.hintCombat : S.hint;
+$('hint').textContent = matchMedia('(pointer: fine)').matches ? (combatMode ? S.desktopHintCombat : S.desktopHint) : (combatMode ? S.hintCombat : S.hint);
 $('cmds').hidden = !combatMode;
 $('quick').hidden = !combatMode;
 $('stats').hidden = !combatMode;
 for (const [id, text] of Object.entries(S.buttons)) {
   if (!id.endsWith('-on')) $(id).textContent = text;
 }
+$('btn-sound').textContent = sfxOn ? S.sfxOn : S.sfxOff;
+toggle('btn-sound', !sfxOn);
+$('btn-music').textContent = musicOn ? S.musicOn : S.musicOff;
+toggle('btn-music', musicOn);
 $('btn-force').textContent = S.force[0];
 if (!combatMode) for (const id of ['btn-loose', 'btn-force']) $(id).hidden = true;
 $('btn-missions').textContent = campaign ? S.shell.toMap : S.mission.open;

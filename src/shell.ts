@@ -7,6 +7,7 @@ import { encodeSave } from './save';
 import { applyUpdate, onUpdateWaiting, updateWaiting } from './updategate';
 import { AUTO, deleteRecord, deleteSave, exportAllSaves, getSave, importSaveText, listSaves } from './savedb';
 import { S } from './strings';
+import { readPreferences, writePreference } from './preferences';
 
 /**
  * The screens around the game: main menu, hero creation, global map, briefing and result.
@@ -289,6 +290,28 @@ export async function runShell(startWorker: () => void): Promise<never> {
     mode = 'other';
     const col = el('div', 'sh-col');
     col.append(el('h2', '', T.settings), el('p', 'note', T.soundInfo));
+    const prefs = readPreferences();
+    const notice = el('p', 'note');
+    for (const key of ['sound', 'music'] as const) {
+      const control = btn('', () => {
+        prefs[key] = !prefs[key];
+        if (!writePreference(key, prefs[key])) notice.textContent = T.preferenceStorage;
+        refresh();
+      });
+      const refresh = (): void => {
+        control.textContent = `${T.preferenceLabels[key]}: ${prefs[key] ? T.preferenceOn : T.preferenceOff}`;
+        control.setAttribute('aria-pressed', String(prefs[key]));
+      };
+      refresh();
+      col.append(control);
+    }
+    const quality = btn('', () => {
+      prefs.quality = (prefs.quality + 1) % 3;
+      if (!writePreference('quality', prefs.quality)) notice.textContent = T.preferenceStorage;
+      quality.textContent = `${S.quality}: ${T.preferenceQuality[prefs.quality]}`;
+    });
+    quality.textContent = `${S.quality}: ${T.preferenceQuality[prefs.quality]}`;
+    col.append(quality, notice);
     const ask = btn(T.reset, () => {
       const sure = btn(T.resetSure, async () => {
         await deleteRecord(RECORD_KEY);
