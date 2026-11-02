@@ -106,6 +106,7 @@ export class Renderer {
   private fogTick = 0;
   quality = 2;
   private sprites: (Sprite | UnitSprite)[] = [];
+  private artStress = false;
   private artPreview?: ArtPreview;
   private fogCv!: HTMLCanvasElement;
   private fogTex!: Texture;
@@ -175,9 +176,13 @@ export class Renderer {
     this.fog = fog;
     const tex = unitTexture();
     const atlases = await Promise.all(UNIT_ART.map((unit) => UnitAtlas.load(unit)));
+    const params = new URLSearchParams(location.search);
+    this.artStress = params.get('artstress') === '1' && (params.has('crowd') || params.has('battle'));
     for (let i = 0; i < sim.count; i++) {
       const kind = sim.cb.kind[i];
-      const atlas = kind === Kind.Hero ? atlases[0] : kind === Kind.Archer ? atlases[1] : kind === Kind.Golem ? atlases[2] : null;
+      // Diagnostic presentation override only: retain the original sim kind and update path.
+      const atlas = this.artStress ? atlases[i % atlases.length]
+        : kind === Kind.Hero ? atlases[0] : kind === Kind.Archer ? atlases[1] : kind === Kind.Golem ? atlases[2] : null;
       const s = atlas ? new UnitSprite(atlas) : new Sprite(tex);
       if (s instanceof Sprite) s.anchor.set(0.5, 0.88);
       const look = KIND_LOOK[kind] ?? { scale: 1 };
@@ -379,6 +384,38 @@ export class Renderer {
   }
 
   previewArt() { return this.artPreview?.inspect() ?? null; }
+
+  /** On-demand snapshot only; atlas bytes estimate RGBA storage, not total GPU/process memory. */
+  artMetrics() {
+    const families: Record<string, number> = { hero: 0, archer: 0, golem: 0 };
+    const sources = new Set<number>();
+    let artSprites = 0;
+    let visibleArtSprites = 0;
+    let onScreenArtSprites = 0;
+    let filteredArtSprites = 0;
+    let approxAtlasBytes = 0;
+    for (const s of this.sprites) {
+      if (!(s instanceof UnitSprite)) continue;
+      artSprites++;
+      families[s.atlas.unit]++;
+      const info = s.inspect();
+      if (info.filters || s.filters) filteredArtSprites++;
+      if (s.visible) {
+        visibleArtSprites++;
+        const x = s.x * this.zoom - this.camX;
+        const y = s.y * this.zoom - this.camY;
+        if (x >= 0 && y >= 0 && x < this.viewW && y < this.viewH) onScreenArtSprites++;
+      }
+      const source = s.atlas.source.source;
+      if (!sources.has(source.uid)) {
+        sources.add(source.uid);
+        approxAtlasBytes += source.pixelWidth * source.pixelHeight * 4;
+      }
+    }
+    return { stress: this.artStress, totalSprites: this.sprites.length, artSprites, visibleArtSprites,
+      onScreenArtSprites, families, uniqueGpuSources: sources.size, approxAtlasBytes,
+      filteredArtSprites, layersPerArtSprite: 4, quality: this.quality, resolution: this.app.renderer.resolution };
+  }
 
   /** Camera rectangle in tiles. */
   viewTiles(): { x0: number; y0: number; x1: number; y1: number } {
