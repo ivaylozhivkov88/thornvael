@@ -1,4 +1,6 @@
 import type { CarryoverState } from './carryover';
+import type { Campaign, CampaignProgress } from './campaign';
+import { parseRecord, type CampaignRecord } from './flow';
 import { loadDoc, type MapDoc } from './mapdoc';
 import { createMission, type MissionGame } from './mission';
 import type { Snapshot } from './sim/sim';
@@ -9,10 +11,10 @@ import type { Snapshot } from './sim/sim';
  * the game ships with. The same envelope goes into IndexedDB (typed arrays as they are) and into an
  * exported file (JSON, typed arrays as base64). See docs/SAVE-FORMAT.md.
  *
- * Versions: 1 had sim snapshots without `team` and `town` (Phase 7 sims). 2 (current) has both.
+ * Versions: 1 lacked teams/towns, 2 added both, 3 added carryover, 4 adds campaign snapshots.
  */
 export const SAVE_FORMAT = 'thornvael-save';
-export const SAVE_VERSION = 3;
+export const SAVE_VERSION = 4;
 export const GAME_VERSION = '0.8.0';
 
 export interface SaveUi {
@@ -28,7 +30,8 @@ export interface SaveState {
   ai: [boolean, number][];
   ui: SaveUi;
   node?: string; // campaign node this save belongs to; Continue and ?load return to that node's flow
-  carry?: CarryoverState; // campaign progress and what the hero takes along; absent in skirmish and test saves
+  carry?: CarryoverState; // legacy carryover; alone it cannot identify a campaign
+  campaign?: CampaignRecord; // versioned (v: 1), independent snapshot of the campaign at capture time
 }
 export interface SaveFile {
   format: typeof SAVE_FORMAT;
@@ -41,7 +44,49 @@ export interface SaveFile {
 }
 
 export function makeSave(name: string, label: string, state: SaveState, now = Date.now()): SaveFile {
-  return { format: SAVE_FORMAT, saveVersion: SAVE_VERSION, gameVersion: GAME_VERSION, createdAt: now, name, label, state };
+  return { format: SAVE_FORMAT, saveVersion: SAVE_VERSION, gameVersion: GAME_VERSION, createdAt: now, name, label, state: { ...state, ...(state.campaign ? { campaign: campaignSnapshot(state.campaign) } : {}) } };
+}
+
+const strings = (a: unknown): a is string[] => Array.isArray(a) && a.every((x) => typeof x === 'string' && x.length > 0);
+const integers = (a: unknown): a is number[] => Array.isArray(a) && a.every(Number.isSafeInteger);
+const uint = (n: unknown): boolean => Number.isSafeInteger(n) && (n as number) >= 0;
+function validProgress(p: CampaignProgress | undefined): boolean {
+  return !!p && uint(p.difficulty) && p.difficulty <= 2 && strings(p.unlocked) && strings(p.completed)
+    && typeof p.node === 'string' && p.unlocked.includes(p.node) && p.completed.every((id) => p.unlocked.includes(id)) && uint(p.townVisits);
+}
+
+/** Validate at the file/storage boundary and detach every nested field from the live record. */
+export function campaignSnapshot(raw: unknown): CampaignRecord {
+  const r = parseRecord(raw);
+  const bad = (): never => { throw new Error('This campaign snapshot is damaged or from an unsupported version.'); };
+  if (!r || !validProgress(r.progress) || ![0, 1].includes(r.hero.cls) || typeof r.hero.female !== 'boolean') return bad();
+  if (r.last !== null && (!r.last || typeof r.last.node !== 'string' || !r.progress.unlocked.includes(r.last.node)
+    || typeof r.last.win !== 'boolean' || typeof r.last.text !== 'string' || ![r.last.up, r.last.size, r.last.gold].every(uint))) return bad();
+  if (r.carry !== null) {
+    const co = r.carry;
+    const h = co?.hero;
+    if (!co || !h || !validProgress(co.progress) || !uint(co.gold) || !uint(co.shopSeed)
+      || !Array.isArray(co.mercs) || !co.mercs.every((m) => m && uint(m.kind) && uint(m.hpPct) && m.hpPct >= 1 && m.hpPct <= 100)
+      || !uint(h.id) || ![0, 1].includes(h.cls) || typeof h.female !== 'boolean' || ![0, 1, 2].includes(h.diff)
+      || !integers(h.attr) || h.attr.length !== 4 || !integers(h.skill) || h.skill.length !== 3
+      || !integers(h.use) || h.use.length !== 3 || !integers(h.eq) || h.eq.length !== 8 || !uint(h.known)
+      || !Array.isArray(h.inv) || !h.inv.every((s) => s && uint(s.item) && uint(s.n) && s.n > 0)
+      || (h.hits !== undefined && (!integers(h.hits) || h.hits.length !== 4))
+      || (co.slots !== undefined && !integers(co.slots)) || (co.upkeep !== undefined && !uint(co.upkeep))) return bad();
+  }
+  return structuredClone(r);
+}
+
+/** A legacy node/carryover is not proof of identity. Never consult the device's current record. */
+export function campaignForSave(save: SaveFile, campaign: Campaign): CampaignRecord | null {
+  if (!save.state.campaign) return null;
+  const rec = campaignSnapshot(save.state.campaign);
+  const ids = new Set(campaign.nodes.map((n) => n.id));
+  const p = rec.progress;
+  if (!save.state.node || !p.unlocked.includes(save.state.node) || [...p.unlocked, ...p.completed, p.node].some((id) => !ids.has(id))) {
+    throw new Error('This save does not match its campaign.');
+  }
+  return rec;
 }
 
 // ---- file encoding ----
@@ -105,6 +150,15 @@ export function migrateSave(raw: unknown): SaveFile {
     s.saveVersion = 2;
   }
   if (s.saveVersion < 3) s.saveVersion = 3; // version 3 only adds the optional `carry` field
+  if (s.saveVersion < 4) {
+    // Old formats never captured a campaign. Do not manufacture one from node/carry/current storage.
+    delete s.state.campaign;
+    s.saveVersion = 4;
+  }
+  if (s.state.campaign !== undefined) {
+    s.state.campaign = campaignSnapshot(s.state.campaign);
+    if (!s.state.node || !s.state.campaign.progress.unlocked.includes(s.state.node)) throw new Error('This save does not match its campaign.');
+  }
   return s;
 }
 

@@ -4,9 +4,8 @@ import { canEnter, newRecord, nodeUrl, RECORD_KEY, clearLast, type CampaignRecor
 import { BUILT_IN } from './mission';
 import { downloadChapter, loadManifest, verifyChapter, type ChapterCheck, type Env, type Manifest } from './offline';
 import { encodeSave } from './save';
-import { encodeBundle, type BundleEntry } from './savebundle';
 import { applyUpdate, onUpdateWaiting, updateWaiting } from './updategate';
-import { AUTO, deleteRecord, deleteSave, getSave, listSaves } from './savedb';
+import { AUTO, deleteRecord, deleteSave, exportAllSaves, getSave, importSaveText, listSaves } from './savedb';
 import { S } from './strings';
 
 /**
@@ -186,6 +185,24 @@ export async function runShell(startWorker: () => void): Promise<never> {
     mode = 'other';
     const col = el('div', 'sh-col');
     col.append(el('h2', '', T.saves));
+    const status = el('p', 'note');
+    col.append(btn(S.save.importFile, () => {
+      const input = el('input');
+      input.type = 'file';
+      input.accept = '.json,application/json';
+      input.onchange = async () => {
+        const file = input.files?.[0];
+        if (!file) return;
+        try {
+          await importSaveText(await file.text());
+          rec = await readRecord();
+          await slots();
+        } catch (e) {
+          status.textContent = `${S.save.loadFailed} ${(e as Error).message}`;
+        }
+      };
+      input.click();
+    }), status);
     const list = await listSaves().catch(() => []);
     if (!list.length) col.append(el('p', 'note', T.noSaves));
     for (const s of list) {
@@ -210,15 +227,10 @@ export async function runShell(startWorker: () => void): Promise<never> {
 
   // ---- export every slot in one file (the iOS safety net) ----
   async function exportAll(): Promise<boolean> {
-    const list = await listSaves().catch(() => []);
-    const entries: BundleEntry[] = [];
-    for (const s of list) {
-      const file = await getSave(s.id).catch(() => undefined);
-      if (file) entries.push({ id: s.id, file });
-    }
-    if (!entries.length) return false;
+    const text = await exportAllSaves();
+    if (text === null) return false;
     const a = el('a');
-    a.href = URL.createObjectURL(new Blob([encodeBundle(entries)], { type: 'application/json' }));
+    a.href = URL.createObjectURL(new Blob([text], { type: 'application/json' }));
     a.download = 'thornvael-all-saves.json';
     a.click();
     setTimeout(() => URL.revokeObjectURL(a.href), 4000);
@@ -252,7 +264,11 @@ export async function runShell(startWorker: () => void): Promise<never> {
     });
     dl.disabled = true;
     const exp = btn(T.exportAll, async () => {
-      if (!(await exportAll())) status.textContent = T.noneToExport;
+      try {
+        if (!(await exportAll())) status.textContent = T.noneToExport;
+      } catch (e) {
+        status.textContent = (e as Error).message;
+      }
     });
     col.append(el('h2', '', T.storage), info, el('h3', '', T.chapter1), status, bar, dl, exp, back());
     screen(col);

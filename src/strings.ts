@@ -339,6 +339,7 @@ export const S = {
     resume: 'Resume where you left off?',
     resumeBtn: 'Continue',
     loadFailed: 'Could not load the save:',
+    legacyCampaign: 'This older save has no campaign snapshot. The mission is playable, but its result will not change campaign progress.',
     imported: 'Save imported',
     confirmDel: 'Delete this save?',
     noteSafari: 'On iPhone the home-screen app keeps its own saves, apart from Safari. Before you install, Export your save to a file, then Import it in the app.',

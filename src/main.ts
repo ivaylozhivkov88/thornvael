@@ -11,7 +11,7 @@ import { loadCampaign, readRecord, writeRecord } from './campaignstore';
 import { applyCarryover, extractCarryover, waivePurse } from './carryover';
 import { afterMission, afterTown, type CampaignRecord } from './flow';
 import { resumeSave, type SaveFile, type SaveState } from './save';
-import { AUTO, deleteSave, getSave } from './savedb';
+import { AUTO, deleteSave, getSave, restoreSaveCampaign } from './savedb';
 import { SaveUi } from './saveui';
 import { TownUi } from './townui';
 import { ROLE_COUNT, Tfx } from './sim/town';
@@ -73,15 +73,16 @@ if (!resumed && missionName && !crowd && !stress && !battle) {
   }
 }
 // Campaign node: the record holds the hero pick, difficulty and what the hero carries in.
-const campaignId = params.get('campaign') ?? resumed?.save.state.node ?? null;
+const campaignId = resumed ? resumed.save.state.node ?? null : params.get('campaign');
 let campaign: Campaign | null = null;
 let crec: CampaignRecord | null = null;
 if (campaignId && loadedMission) {
   try {
     campaign = await loadCampaign();
     nodeOf(campaign, campaignId);
-    crec = await readRecord();
+    crec = resumed ? await restoreSaveCampaign(resumed.save, campaign) : await readRecord();
     if (!crec) campaign = null;
+    if (resumed && !crec) missionError = S.save.legacyCampaign;
   } catch (e) {
     campaign = null;
     missionError = (e as Error).message;
@@ -1075,6 +1076,7 @@ const saveUi = new SaveUi({
       doc: loadedMission.doc,
       seed: missionSeed,
       node: campaign ? campaignId ?? undefined : undefined,
+      campaign: campaign && crec ? structuredClone(crec) : undefined,
       snap: sim.snapshot(),
       ai: missionAi?.snapshot() ?? [],
       ui: { cam: [renderer.camX, renderer.camY, renderer.zoom], groups: Array.from({ length: GROUP_COUNT + 1 }, (_, n) => [...groups.get(n)]), slots: [...slots], selected: [...selected] },
