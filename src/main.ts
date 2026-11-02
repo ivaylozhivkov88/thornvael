@@ -581,8 +581,25 @@ function updateHover(x: number, y: number): void {
 }
 
 const keys = new Set<string>();
+function resetDesktopInput(): void {
+  keys.clear();
+  mods.alt = false;
+  mods.ctrl = false;
+  handle(rec.cancel());
+  boxDrag = null;
+  downAt = null;
+  clearTimeout(tipTimer);
+  hideTip();
+  radial.hide();
+}
+window.addEventListener('blur', resetDesktopInput);
+document.addEventListener('visibilitychange', () => {
+  if (document.hidden) resetDesktopInput();
+});
 const ORDER_KEYS: Record<string, string> = { m: 'move', a: 'attack', g: 'guard', d: 'defend', c: 'cast', w: 'swarm', h: 'hold', r: 'retreat', s: 'still', p: 'pickup' };
 window.addEventListener('keydown', (e) => {
+  // Editors own all their keys, including sheet shortcuts such as I and Escape.
+  if (e.target instanceof Element && (e.target.closest('input, textarea, select') || (e.target instanceof HTMLElement && e.target.isContentEditable))) return;
   if (e.target instanceof HTMLButtonElement && e.key === ' ') return;
   // Inside a sheet the keys belong to the sheet (Tab, Enter, arrows), except Esc and I which close it.
   const inSheet = e.target instanceof Element && e.target.closest('.sheet') !== null;
@@ -590,6 +607,11 @@ window.addEventListener('keydown', (e) => {
   if (heroUi.creating) return;
   mods.alt = e.altKey;
   mods.ctrl = e.ctrlKey || e.metaKey;
+  // Movement is sampled each frame; all other shortcuts are one action per press.
+  if (e.repeat && !/^Arrow(?:Left|Right|Up|Down)$/.test(e.key)) {
+    e.preventDefault();
+    return;
+  }
   unlock();
   const digit = /^(?:Digit|Numpad)([1-9])$/.exec(e.code);
   if (digit) {
