@@ -780,6 +780,7 @@ function buildQuick(): void {
     const sid = slots[n];
     b.replaceChildren();
     const name = document.createElement('span');
+    name.className = 'quick-label';
     const small = document.createElement('small');
     if (sid < 0) {
       name.textContent = '+';
