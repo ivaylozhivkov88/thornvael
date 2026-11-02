@@ -41,3 +41,11 @@ describe('sprite contract', () => {
     expect(checkSheet({ frames: {}, meta: { image: 'x', size: { w: 8, h: 8 } } })).toEqual(['meta.thornvael is missing']);
   });
 });
+
+describe('rendered hero atlas', () => {
+  it('conforms to the contract', async () => {
+    const { readFileSync } = await import('node:fs');
+    const sheet = JSON.parse(readFileSync('public/sprites/hero.json', 'utf8')) as UnitSheet;
+    expect(checkSheet(sheet)).toEqual([]);
+  });
+});

@@ -3,7 +3,7 @@
 Run:  blender -b -P tools/render-unit.py -- <out_dir> [cell_px]
 Then: python tools/pack-atlas.py <out_dir> public/sprites <unit>
 Contract: docs/SPRITE-CONTRACT.md.  The model is built from primitives here, so no outside files are used.
-STATUS: written in slice 10.1, NOT yet run (Blender 5.2 not installed on the dev machine); first run in 10.1b.
+STATUS: run in slice 10.1b with Blender 5.2.3 LTS: 384 frame files in about 15 s at 64 px.
 """
 import math
 import os
@@ -31,7 +31,8 @@ scene.view_settings.view_transform = "Standard"
 
 cam_data = bpy.data.cameras.new("cam")
 cam_data.type = "ORTHO"
-cam_data.ortho_scale = 2.6
+cam_data.ortho_scale = 3.0
+cam_data.shift_y = 0.12
 cam = bpy.data.objects.new("cam", cam_data)
 scene.collection.objects.link(cam)
 cam.location = (0, -6.0, 5.2)
