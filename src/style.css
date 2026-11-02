@@ -1,3 +1,5 @@
+@import "./townstyle.css";
+
 :root {
   color-scheme: dark;
   --slate: #182027;
@@ -284,7 +286,7 @@ button:focus-visible { outline: 2px solid #9dff7a; outline-offset: 1px; }
 #debug { left: 8px; top: calc(var(--hud-top) + 44px + env(safe-area-inset-top)); }
 
 /* The same materials carry through the shell, shop and existing sheets. */
-:is(.sheet, #panel, #toast, #tip, #shell .sh-box) { color: var(--text); background: linear-gradient(140deg, #29343cfa, #151d24fa); border-color: var(--bronze); box-shadow: 0 8px 32px #0008, inset 0 1px #fff1; }
+.sheet, #panel, #toast, #tip, #shell .sh-box { color: var(--text); background: linear-gradient(140deg, #29343cfa, #151d24fa); border-color: var(--bronze); box-shadow: 0 8px 32px #0008, inset 0 1px #fff1; }
 .sheet { border-radius: 6px 6px 0 0; scrollbar-width: thin; scrollbar-color: var(--bronze) var(--ink); }
 .sheet-head, .book-head { border-bottom: 1px solid #95755066; padding-bottom: 8px; }
 :is(h1, h2) { font-family: Georgia, "Times New Roman", serif; font-weight: normal; letter-spacing: .035em; }
