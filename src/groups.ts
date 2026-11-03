@@ -9,11 +9,13 @@ export class ControlGroups {
   /** Replace group `n` (1..9) with these ids. An empty selection clears the group. */
   set(n: number, ids: Iterable<number>): void {
     this.groups[n] = [...new Set(ids)].sort((a, b) => a - b);
+    this.lastPress[n] = -Infinity;
   }
 
   /** Add ids to group `n`, keeping what is already in it. */
   add(n: number, ids: Iterable<number>): void {
     this.groups[n] = [...new Set([...this.groups[n], ...ids])].sort((a, b) => a - b);
+    this.lastPress[n] = -Infinity;
   }
 
   get(n: number): readonly number[] {

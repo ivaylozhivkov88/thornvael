@@ -362,10 +362,10 @@ function arm(kind: ArmKind | null): void {
   canvas.style.cursor = kind ? 'crosshair' : '';
 }
 
-function select(ids: number[], additive: boolean): void {
+function select(ids: number[], additive: boolean, toggleSingle = true): void {
   if (!additive) selected.clear();
   for (const id of ids) {
-    if (additive && ids.length === 1 && selected.has(id)) selected.delete(id);
+    if (additive && toggleSingle && ids.length === 1 && selected.has(id)) selected.delete(id);
     else selected.add(id);
   }
 }
@@ -387,7 +387,7 @@ function handle(intents: Intent[]): void {
         const hit = pickUnit(sim.count, posMine, it.x, it.y, PICK);
         if (hit >= 0 && it.type === 'tap' && dtap.hit(performance.now(), it.x, it.y, hit)) {
           // Double tap: every living unit of the same kind (the whole map, not just the screen)
-          select(unitsOfKind(sim.count, (i) => sim.cb.kind[i], (i) => sim.team[i] === 0 && alive(i) && !sim.hidden[i], sim.cb.kind[hit]), it.additive);
+          select(unitsOfKind(sim.count, (i) => sim.cb.kind[i], (i) => sim.team[i] === 0 && alive(i) && !sim.hidden[i], sim.cb.kind[hit]), it.additive, false);
           toast(S.touch.sameKind);
           break;
         }
@@ -405,7 +405,8 @@ function handle(intents: Intent[]): void {
         boxDrag = it.x0 === it.x1 && it.y0 === it.y1 ? null : { x0: it.x0, y0: it.y0, x1: it.x1, y1: it.y1 };
         break;
       case 'box':
-        select(unitsInBox(sim.count, posMine, it), it.additive);
+        // Additive area selection unions membership, even when the box holds one unit.
+        select(unitsInBox(sim.count, posMine, it), it.additive, false);
         break;
       case 'aim': {
         if (armed !== 'spell') break;
