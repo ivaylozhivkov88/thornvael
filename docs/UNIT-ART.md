@@ -94,5 +94,11 @@ and the existing offline reload smoke test. Use `PW_CHANNEL=chrome`; `PW_PORT`
 can select a separate loopback port for concurrent runs (default 4173).
 
 Real Android/iPhone GPU memory, FPS, art readability, context restoration and
-visual acceptance remain the phase 10.5 device gate. Attack/cast/death sheets
-and the full roster are outside this slice; existing combat effects remain.
+visual acceptance remain the phase 10.5 device gate. The three pilot families
+now include attack/cast/hurt/death sheets; the full roster remains outside this slice.
+
+## Isolated hero look development
+
+`tools/hero-lookdev.py` is a separate, original procedural model study. It does not replace the shipped pilot atlases. For a new review, run Blender from the outer project root with `--out-dir .planning/art-concepts/hero-lookdev-v2 --stage-dir .planning/tooling/hero-lookdev-v2 --game-proof`. The script's normal portrait and four direct 48×48 cardinal renders serve different purposes: the portrait shows construction/materials, while the small renders show the actual production camera and silhouette. Enlarging the portrait is not evidence of readability in the game.
+
+From `game/`, run `node tools/check-lookdev.mjs ../.planning/art-concepts/hero-lookdev-v2`. It rejects missing proof metadata, wrong camera/cell/anchor conventions, border contact, empty or undersized silhouettes and duplicated cardinal images; successful output includes bounding boxes and SHA-256 values. This is a static image geometry check. It does not approve visual quality, animation, palette masks, rigging, runtime integration or phone performance. Those remain separate gates before publishing a replacement atlas.

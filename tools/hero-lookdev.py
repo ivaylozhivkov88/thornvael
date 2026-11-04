@@ -2,12 +2,16 @@
 
 Run from repository root (Blender 5.2.3, no external assets or dependencies):
   blender -b -t 8 -P game/tools/hero-lookdev.py -- [--samples 48] [--size 1100]
-Outputs stay in .planning/art-concepts/hero-lookdev; blend/cache in tooling.
+Legacy output paths/defaults are retained. To preserve the first study, use:
+  --out-dir .planning/art-concepts/hero-lookdev-v2
+  --stage-dir .planning/tooling/hero-lookdev-v2 --game-proof
 Not an atlas generator, animation rig, or replacement for render-unit.py.
 """
 import argparse
+import hashlib
 import json
 import math
+import os
 from pathlib import Path
 import random
 import sys
@@ -22,12 +26,42 @@ STAGE = ROOT / '.planning/tooling/hero-lookdev'
 parser = argparse.ArgumentParser()
 parser.add_argument('--samples', type=int, default=48)
 parser.add_argument('--size', type=int, default=1100)
+parser.add_argument('--out-dir', default=str(OUT))
+parser.add_argument('--stage-dir', default=str(STAGE))
+parser.add_argument('--game-proof', action='store_true')
 args = parser.parse_args(sys.argv[sys.argv.index('--') + 1:] if '--' in sys.argv else [])
+
+
+def workspace_dir(value):
+    path = Path(value)
+    path = (ROOT / path).resolve() if not path.is_absolute() else path.resolve()
+    if path == ROOT or not path.is_relative_to(ROOT):
+        parser.error('output/cache directory must be a descendant of the workspace')
+    return path
+
+
+OUT, STAGE = workspace_dir(args.out_dir), workspace_dir(args.stage_dir)
+if OUT == STAGE or OUT.is_relative_to(STAGE) or STAGE.is_relative_to(OUT):
+    parser.error('output and stage directories must be separate')
+if args.samples < 1 or args.size < 64:
+    parser.error('samples must be positive and portrait width at least 64')
 OUT.mkdir(parents=True, exist_ok=True)
 STAGE.mkdir(parents=True, exist_ok=True)
+# Blender extension discovery also writes on shutdown; keep its user cache local.
+for variable, leaf in (('BLENDER_USER_RESOURCES','blender-user'),
+                       ('BLENDER_USER_CONFIG','blender-user/config'),
+                       ('BLENDER_USER_SCRIPTS','blender-user/scripts'),
+                       ('BLENDER_USER_EXTENSIONS','blender-user/extensions'),
+                       ('BLENDER_USER_DATAFILES','blender-user/datafiles')):
+    folder=STAGE/leaf
+    folder.mkdir(parents=True,exist_ok=True)
+    os.environ[variable]=str(folder)
+os.environ['TEMP']=os.environ['TMP']=str(STAGE)
 random.seed(31103)
 start = time.monotonic()
 bpy.ops.wm.read_factory_settings(use_empty=True)
+bpy.context.preferences.filepaths.temporary_directory = str(STAGE)
+bpy.context.preferences.filepaths.save_version = 0
 scene = bpy.context.scene
 scene.render.engine = 'CYCLES'
 scene.cycles.samples = args.samples
@@ -47,6 +81,9 @@ scene.world.node_tree.nodes['Background'].inputs['Color'].default_value = (.19,.
 scene.world.node_tree.nodes['Background'].inputs['Strength'].default_value = .35
 
 
+material_recipe = []
+
+
 def material(name, base, metal=0, rough=.6, grain=100):
     m = bpy.data.materials.new(name)
     m.diffuse_color = (*base, 1)
@@ -61,26 +98,43 @@ def material(name, base, metal=0, rough=.6, grain=100):
     l.new(coord.outputs['Generated'], noise.inputs['Vector'])
     ramp = n.new('ShaderNodeValToRGB')
     ramp.color_ramp.elements[0].position = .15
-    ramp.color_ramp.elements[0].color = (*(c * .43 for c in base), 1)
+    ramp.color_ramp.elements[0].color = (*(c * .72 for c in base), 1)
     ramp.color_ramp.elements[1].position = .85
-    ramp.color_ramp.elements[1].color = (*(min(1, c * 1.35) for c in base), 1)
+    ramp.color_ramp.elements[1].color = (*(min(1, c * 1.12) for c in base), 1)
     l.new(noise.outputs['Fac'], ramp.inputs[0])
     l.new(ramp.outputs[0], bs.inputs['Base Color'])
     remap = n.new('ShaderNodeMapRange')
-    remap.inputs['To Min'].default_value = rough - .12
-    remap.inputs['To Max'].default_value = min(.95, rough + .12)
+    remap.inputs['To Min'].default_value = rough - .055
+    remap.inputs['To Max'].default_value = min(.98, rough + .07)
     l.new(noise.outputs['Fac'], remap.inputs['Value'])
     l.new(remap.outputs['Result'], bs.inputs['Roughness'])
     bump = n.new('ShaderNodeBump')
-    bump.inputs['Strength'].default_value = .24
-    bump.inputs['Distance'].default_value = .0009 if metal else .0013
-    l.new(noise.outputs['Fac'], bump.inputs['Height'])
+    # Object-space stretched grain: fine directional abrasion, not cast pebbling.
+    stretch = n.new('ShaderNodeVectorMath')
+    stretch.operation = 'MULTIPLY'
+    stretch.inputs[1].default_value = (1, 1, .075) if metal else (1, 1, .6)
+    l.new(coord.outputs['Object'], stretch.inputs[0])
+    fine = n.new('ShaderNodeTexNoise')
+    fine.inputs['Scale'].default_value = 420 if metal else 260
+    fine.inputs['Detail'].default_value = 2
+    l.new(stretch.outputs['Vector'], fine.inputs['Vector'])
+    bump.inputs['Strength'].default_value = .14 if metal else .22
+    bump.inputs['Distance'].default_value = .00035 if metal else .0007
+    l.new(fine.outputs['Fac'], bump.inputs['Height'])
     l.new(bump.outputs['Normal'], bs.inputs['Normal'])
+    material_recipe.append({'name': name, 'base_linear': list(base), 'metallic': metal,
+                            'roughness': rough, 'macro_noise_scale': grain,
+                            'color_multipliers': [.72, 1.12],
+                            'roughness_range': [rough-.055, min(.98, rough+.07)],
+                            'grain_space': 'Object', 'grain_scale': fine.inputs['Scale'].default_value,
+                            'grain_stretch': list(stretch.inputs[1].default_value),
+                            'bump_distance': bump.inputs['Distance'].default_value,
+                            'bump_strength': bump.inputs['Strength'].default_value})
     return m
 
 
-steel = material('01 / mottled forged steel', (.24, .275, .29), 1, .44, 85)
-edge = material('02 / rubbed warm bronze', (.29, .205, .105), .88, .43, 110)
+steel = material('01 / abraded forged steel', (.19, .218, .232), .92, .59, 9)
+edge = material('02 / aged bronze narrow edges', (.18, .135, .079), .8, .57, 18)
 mail = material('03 / dark iron mail', (.095, .108, .113), .9, .52, 40)
 leather = material('04 / worn oxhide', (.055, .031, .022), 0, .77, 125)
 cloth = material('05 / charcoal olive wool', (.045, .052, .041), 0, .9, 180)
@@ -135,7 +189,7 @@ def plate(name, outline, mat=steel, bulge=.025):
     vs = [*outline, (center[0], center[1]-bulge, center[2])]
     n = len(outline)
     fs = [(i, (i+1)%n, n) for i in range(n)]
-    o = mesh(name, vs, fs, mat, .002)
+    o = mesh(name, vs, fs, mat, .002, smooth=False)
     mod = o.modifiers.new('real plate thickness', 'SOLIDIFY')
     mod.thickness = .006
     return o
@@ -174,18 +228,25 @@ for i in range(3):
            for t in [j*math.tau/48 for j in range(49)]]
     tube('fauld rolled bronze hem', pts, .0025, edge)
 
-# Flexible split wool skirt; individual folds retain the long adult leg silhouette.
-for s in (-1,1):
+# Separate hanging wool panels, with weighted vertical folds and staggered hems.
+# The open front exposes mail, tassets and knees instead of a rigid bell skirt.
+for panel, (a0,a1,hem) in enumerate(((.72,2.35,.48),(-2.35,-.72,.54),
+                                   (2.15,4.13,.43))):
     vs=[]
-    for j,z in enumerate((1.065,.86,.65,.48)):
-        for i in range(15):
-            t = -.1 + i/14*2.8
-            flare = .18+j*.032
-            vs.append((s*(.033+flare*math.sin(t)), -.02-flare*.78*math.cos(t),
-                       z + (.018*math.sin(i*1.4) if j==3 else 0)))
-    fs=[(j*15+i,j*15+i+1,(j+1)*15+i+1,(j+1)*15+i) for j in range(3) for i in range(14)]
-    o=mesh('split wool skirt',vs,fs,cloth)
-    mod=o.modifiers.new('wool thickness','SOLIDIFY'); mod.thickness=.005
+    rows, cols = 9, 23
+    for j in range(rows):
+        q=j/(rows-1)
+        for i in range(cols):
+            t=a0+(a1-a0)*i/(cols-1)
+            fold=math.sin(i/(cols-1)*math.pi*7+panel*.7)
+            radius=.19+q*.055+fold*(.006+.018*q)
+            z=1.07*(1-q)+hem*q+.014*math.sin(i*.8)*q*q
+            vs.append((radius*math.sin(t),-radius*.82*math.cos(t)+q*q*.025,z))
+    fs=[(j*cols+i,j*cols+i+1,(j+1)*cols+i+1,(j+1)*cols+i)
+        for j in range(rows-1) for i in range(cols-1)]
+    o=mesh('weighted split wool panel %d'%panel,vs,fs,cloth)
+    mod=o.modifiers.new('wool thickness','SOLIDIFY'); mod.thickness=.004
+    tube('subtle leather-bound uneven hem',vs[-cols:],.002,leather)
 
 # Thousands of real interlocked wire rings, combined into one mesh (no textures).
 mail_v,mail_f=[],[]
@@ -250,14 +311,22 @@ for s in (-1,1):
         band('forearm leather securing strap',s*x,-.025,z,.076 if z>1.1 else .061,.083 if z>1.1 else .071,.022)
         rivet('strap stud',(s*x,-.11,z),.006)
     loft('gauntlet cuff',[(s*.455,-.049,1.035,.068,.072),(s*.465,-.055,.99,.053,.055)],steel,20,.002)
-    loft('closed gauntlet',[(s*.47,-.06,1.0,.047,.054),(s*.47,-.066,.9,.05,.048),
-         (s*.467,-.06,.875,.039,.04)],leather,16)
+    loft('curled leather palm',[(s*.47,-.06,1.0,.043,.049),(s*.47,-.066,.92,.045,.043),
+         (s*.467,-.06,.89,.035,.034)],leather,16)
+    plate('gauntlet metacarpal shield',[(s*.47-.045,-.113,.994),
+          (s*.47+.045,-.113,.994),(s*.47+.041,-.12,.949),
+          (s*.47,-.13,.936),(s*.47-.041,-.12,.949)],bulge=.009)
     for finger in range(4):
         xx=s*.47+(finger-1.5)*.021
+        rivet('individual knuckle boss',(xx,-.123,.946),.009,steel)
         for seg in range(3):
-            plate('finger plate',[(xx-.009,-.111,.982-seg*.024),
-                (xx+.009,-.111,.982-seg*.024),(xx+.009,-.117,.958-seg*.024),
-                (xx-.009,-.117,.958-seg*.024)],bulge=.004)
+            yy=-.123+seg*.008
+            z=.939-seg*.015
+            plate('overlapping curled finger lame',[(xx-.009,yy,z),
+                (xx+.009,yy,z),(xx+.008,yy-.002,z-.014),
+                (xx-.008,yy-.002,z-.014)],bulge=.003)
+    loft('opposed articulated thumb',[(s*.421,-.073,.969,.018,.024),
+         (s*.415,-.096,.94,.02,.021),(s*.428,-.11,.916,.017,.017)],steel,12,.001)
     # Leg: cuisse, shield-like poleyn, long greave, leather ankle, articulated foot.
     lx=s*.125
     loft('quilted trouser',[(lx,0,.17,.062,.067),(lx,0,.60,.085,.085),
@@ -278,14 +347,48 @@ for s in (-1,1):
         (lx,0,.51,.071,.078)],steel,24,.002)
     tube('greave medial ridge',[(lx,-.068,.19),(lx,-.087,.37),(lx,-.084,.51)],.003,edge)
     band('ankle leather',lx,0,.145,.058,.065,.095)
-    # Foot points toward -Y and sits flat, with a low sole rather than a sphere.
-    loft('broad leather boot',[(lx,-.049,.047,.071,.145),(lx,-.05,.079,.073,.142),
-        (lx,-.035,.125,.066,.123),(lx,.015,.19,.053,.058)],leather,28,.003)
-    for i in range(4):
-        y=-.15+i*.041
-        plate('sabatons / articulated instep',[(lx-.06,y-.021,.086+i*.016),
-            (lx+.06,y-.021,.086+i*.016),(lx+.057,y+.025,.105+i*.016),
-            (lx-.057,y+.025,.105+i*.016)],bulge=.008)
+    # Boot lasts have a flat outsole, distinct heel, narrow ankle and forward toe.
+    footprint=[(-.041,-.218),(.041,-.218),(.059,-.18),(.058,-.05),
+               (.047,.06),(-.047,.06),(-.058,-.05),(-.059,-.18)]
+    vs=[(lx+x,y,z) for z in (.012,.027) for x,y in footprint]
+    fs=[tuple(range(7,-1,-1)),tuple(range(8,16))]
+    fs += [(i,(i+1)%8,(i+1)%8+8,i+8) for i in range(8)]
+    mesh('flat stitched boot outsole',vs,fs,leather,.003,False)
+    loft('fitted leather ankle and vamp',[(lx,-.062,.04,.06,.131),
+        (lx,-.058,.08,.06,.128),(lx,-.018,.12,.054,.079),
+        (lx,.008,.19,.049,.055)],leather,24,.002)
+    # Continuous closed steel toe/vamp beneath the moving lames: no toe aperture,
+    # no leather showing between instep segments, no wide projecting sandal sole.
+    rows=[(-.225,.018,.049),(-.211,.044,.079),(-.188,.056,.095),
+          (-.151,.062,.113),(-.114,.062,.137),(-.077,.059,.158),
+          (-.04,.055,.182),(.006,.051,.188),(.05,.049,.14)]
+    vs=[]
+    segments=13
+    for y,w,h in rows:
+        for k in range(segments):
+            a=-math.pi/2+k*math.pi/(segments-1)
+            vs.append((lx+w*math.sin(a),y,.029+(h-.029)*math.cos(a)))
+    fs=[(j*segments+k,j*segments+k+1,(j+1)*segments+k+1,(j+1)*segments+k)
+        for j in range(len(rows)-1) for k in range(segments-1)]
+    fs += [tuple(range(segments-1,-1,-1)),
+           tuple((len(rows)-1)*segments+k for k in range(segments))]
+    fs += [(j*segments,(j+1)*segments,(j+2)*segments-1,(j+1)*segments-1)
+           for j in range(len(rows)-1)]
+    mesh('closed steel toe cap and continuous underlapping vamp',vs,fs,steel,.001)
+    # These are horizontal curved shells, not vertical plates buried in leather.
+    for i,(y,w,h) in enumerate(((-.19,.052,.082),(-.153,.061,.105),
+                               (-.116,.061,.129),(-.079,.058,.151),
+                               (-.042,.054,.174))):
+        vs=[]
+        for q in (0,1):
+            for k in range(9):
+                a=-math.pi/2+k*math.pi/8
+                vs.append((lx+(w+.003)*math.sin(a),y+q*.05,
+                           .033+(h+.009-.033)*math.cos(a)+q*.016))
+        fs=[(k,k+1,10+k,9+k) for k in range(8)]
+        o=mesh('raised sabaton articulated shell %d'%i,vs,fs,steel,.001)
+        sol=o.modifiers.new('sabatons steel gauge','SOLIDIFY');sol.thickness=.004
+        tube('sabatons narrow rolled steel leading edge',vs[:9],.0014,steel)
 
 # Belt, buckle, a practical hanging pouch; no borrowed heraldic motifs.
 band('waist oxhide belt',0,0,1.123,.186,.145,.044)
@@ -300,29 +403,57 @@ plate('pouch flap',[(-.29,-.072,1.057),(-.16,-.072,1.057),
 rivet('pouch bronze button',(-.225,-.092,.995),.008)
 
 # Original closed helm: separately forged skull, brow, folded visor, breathing slots.
-loft('black recessed helm lining',[(0,0,1.75,.105,.10),(0,0,1.97,.105,.10)],black)
-loft('domed helmet skull',[(0,.008,1.888,.119,.118),(0,.011,1.935,.119,.116),
-    (0,.012,1.99,.096,.098),(0,.012,2.026,.058,.065),(0,.012,2.04,.009,.016)],steel,40,.002)
+loft('black recessed helm lining',[(0,0,1.75,.073,.085),(0,0,1.90,.09,.09)],black)
+loft('continuous ogival helmet dome',[(0,.018,1.895,.123,.119),
+    (0,.018,1.915,.122,.12),(0,.022,1.95,.113,.114),
+    (0,.022,2.003,.078,.083),(0,.017,2.04,.025,.035),
+    (0,.014,2.047,.006,.009)],steel,48,.001)
+# Rear and side cheek shell joins the dome without crossing the front eye slit.
+vs=[]
+for z,rx,ry in ((1.755,.085,.09),(1.82,.108,.105),(1.897,.123,.119)):
+    for k in range(33):
+        a=1.36+k/32*(math.tau-2*1.36)
+        vs.append((rx*math.sin(a),.018-ry*math.cos(a),z))
+fs=[(j*33+k,j*33+k+1,(j+1)*33+k+1,(j+1)*33+k)
+    for j in range(2) for k in range(32)]
+o=mesh('connected helmet rear and cheek shell',vs,fs,steel,.001)
+sol=o.modifiers.new('helmet shell thickness','SOLIDIFY');sol.thickness=.004
 # Visor is a partial elliptical shell; two true open vertical ventilation gaps per side.
 vs=[]; fs=[]
-N=28
-for row,z in enumerate((1.756,1.80,1.839,1.867)):
+N=40
+for row,z in enumerate((1.756,1.80,1.839,1.878)):
     for i in range(N+1):
         a=-1.58+i/N*3.16
-        rx=(.102,.115,.122,.122)[row]
-        ry=(.107,.132,.14,.137)[row]
-        vs.append((rx*math.sin(a),.002-ry*math.cos(a),z+(.009*abs(math.sin(a)) if row==0 else 0)))
+        rx=(.077,.097,.115,.122)[row]
+        ry=(.122,.166,.165,.148)[row]
+        # Two folded cheeks converge on an angular prow and a tapered chin.
+        vs.append((rx*math.sin(a),.002-ry*max(0,math.cos(a))**.62,
+                   z+(.019*abs(math.sin(a)) if row==0 else 0)))
 for row in range(3):
     for i in range(N):
-        if row==1 and i in (5,8,19,22):
+        if row==1 and i in (8,12,27,31):
             continue
         fs.append((row*(N+1)+i,row*(N+1)+i+1,(row+1)*(N+1)+i+1,(row+1)*(N+1)+i))
-o=mesh('closed folded visor / actual ventilation slots',vs,fs,steel,.0015)
+o=mesh('continuous tapered visor / actual ventilation slots',vs,fs,steel,.0007)
 mod=o.modifiers.new('visor sheet thickness','SOLIDIFY'); mod.thickness=.004
-tube('visor central keel',[(0,-.107,1.756),(0,-.132,1.8),(0,-.14,1.84),(0,-.137,1.867)],.0027,edge)
+tube('visor central keel',[(0,-.12,1.756),(0,-.164,1.8),
+    (0,-.163,1.839),(0,-.146,1.878)],.0012,steel)
 for row in (0,3):
-    tube('visor rolled rim',vs[row*(N+1):(row+1)*(N+1)],.003,edge)
-# Horizontal sight slit remains empty between 1.867 and 1.888.
+    tube('visor narrow rolled steel rim',vs[row*(N+1):(row+1)*(N+1)],.0012,steel)
+# One continuous curved brow with a level lower edge. The actual empty sight slit
+# is 1.8792..1.889, backed by recessed black lining, never a jagged split plate.
+vs=[]
+for z in (1.889,1.904):
+    for k in range(N+1):
+        a=-1.58+k/N*3.16
+        vs.append((.124*math.sin(a),.002-.153*max(0,math.cos(a))**.62,z))
+fs=[(k,k+1,N+2+k,N+1+k) for k in range(N)]
+for k in range(N+1):
+    a=-1.58+k/N*3.16
+    vs.append((.122*math.sin(a),.018-.12*math.cos(a),1.915))
+fs += [(N+1+k,N+2+k,2*(N+1)+k+1,2*(N+1)+k) for k in range(N)]
+o=mesh('single continuous steel brow above narrow sight slit',vs,fs,steel,.0005)
+sol=o.modifiers.new('brow forged thickness','SOLIDIFY');sol.thickness=.005
 for s in (-1,1):
     rivet('visor bronze hinge',(s*.12,-.012,1.877),.014)
     tube('skull reinforcing strip',[(s*.014,.115,1.91),(s*.014,.084,2.008),
@@ -332,7 +463,13 @@ for s in (-1,1):
 loft('gorget / flared steel neck protection',[(0,0,1.64,.143,.124),
      (0,0,1.705,.113,.099),(0,0,1.75,.101,.092)],steel,32,.002)
 for i in range(2):
-    band('wool collar fold',0,-.003,1.714+i*.026,.112-i*.005,.105-i*.004,.027,cloth)
+    # Slung collar folds sag asymmetrically; avoid stacked rigid neck cylinders.
+    pts=[]
+    for j in range(49):
+        a=j*math.tau/48
+        pts.append(((.12-i*.006)*math.sin(a),-(.112-i*.005)*math.cos(a),
+                    1.715+i*.025-.025*math.cos(a)+.008*math.sin(a*2)))
+    tube('soft draped wool collar fold',pts,.016,cloth)
 
 # A leaf-point sword held low in the right gauntlet; diamond blade section.
 sx,sy=-.472,-.069
@@ -389,14 +526,114 @@ o.rotation_euler=(Vector((0,0,1.05))-o.location).to_track_quat('-Z','Y').to_eule
 scene.camera=o
 scene['provenance']='Original procedural mesh and shaders; no external models/textures. Seed 31103.'
 scene['scope']='Single-pose lookdev only. Not rigged, not an atlas or P03 acceptance.'
-bpy.ops.wm.save_as_mainfile(filepath=str(STAGE/'thornvael-heavy-knight.blend'))
+portrait_camera=o
+model=[obj for obj in scene.objects if obj.type in ('MESH','CURVE')]
+root=bpy.data.objects.new('lookdev orientation root',None)
+scene.collection.objects.link(root)
+for obj in model:
+    obj.parent=root  # identity parent; keep every mesh, ring and curve together
+bpy.context.view_layer.update()
+blend_path=STAGE/'thornvael-heavy-knight.blend'
+bpy.ops.wm.save_as_mainfile(filepath=str(blend_path))
 scene.render.filepath=str(OUT/'hero-lookdev.png')
 bpy.ops.render.render(write_still=True)
+
+
+def camera_record(camera):
+    return {'location':list(camera.location),'rotation_euler':list(camera.rotation_euler),
+            'type':camera.data.type,'shift_y':camera.data.shift_y,
+            'shift_x':camera.data.shift_x,'ortho_scale':camera.data.ortho_scale}
+
+
+def image_record(path):
+    # Decode the written PNG with Blender itself: no image package or resize step.
+    img=bpy.data.images.load(str(path),check_existing=False)
+    w,h=img.size
+    pixels=list(img.pixels)
+    occupied=[(i%w,h-1-i//w) for i,a in enumerate(pixels[3::4]) if a>0]
+    box=([min(p[0] for p in occupied),min(p[1] for p in occupied),
+          max(p[0] for p in occupied)+1,max(p[1] for p in occupied)+1]
+         if occupied else None)
+    raw=path.read_bytes()
+    result={'file':path.name,'resolution':[w,h],'bytes':len(raw),
+            'sha256':hashlib.sha256(raw).hexdigest(),'alpha_bbox':box,
+            'nonzero_alpha_pixels':len(occupied),
+            'alpha_range':[min(pixels[3::4]),max(pixels[3::4])]}
+    bpy.data.images.remove(img)
+    return result
+
+
 report={'blender':bpy.app.version_string,'seed':31103,'samples':args.samples,
         'resolution':[scene.render.resolution_x,scene.render.resolution_y],
         'objects':len(scene.objects),'mail_rings':len(mail_v)//40,
         'mesh_vertices':sum(len(o.data.vertices) for o in scene.objects if o.type=='MESH'),
-        'elapsed_seconds':round(time.monotonic()-start,2),
-        'image':str(scene.render.filepath),'blend':str(STAGE/'thornvael-heavy-knight.blend')}
+        'image':str(scene.render.filepath),'blend':str(blend_path),
+        'scope':'Single-pose procedural study; no atlas, rig, animation or final visual acceptance.',
+        'geometry_revision':'Closed steel toe/vamp under continuous overlapping lames; contained sole; connected dome/brow and narrow level sight slit.',
+        'generation':'Original Python meshes, real mail rings and node materials; no external assets.',
+        'model_scale':1.0,'model_height':2.047,
+        'scale_note':'Unscaled adult model, fixed pilot camera. No per-facing fitting or portrait resize.',
+        'stage_dir':str(STAGE),'blender_user_resources':os.environ['BLENDER_USER_RESOURCES'],
+        'materials':material_recipe,'engine':scene.render.engine,'view_transform':scene.view_settings.view_transform,
+        'cycles':{'seed':scene.cycles.seed,'samples':scene.cycles.samples,
+                  'denoising':scene.cycles.use_denoising,
+                  'adaptive_threshold':scene.cycles.adaptive_threshold},
+        'portrait_camera':camera_record(portrait_camera),
+        'lights':[{'name':obj.name,'location':list(obj.location),
+                   'rotation_euler':list(obj.rotation_euler),
+                   'energy':obj.data.energy,'color':list(obj.data.color),'size':obj.data.size}
+                  for obj in scene.objects if obj.type=='LIGHT'],
+        'world':{'color_linear':[.19,.19,.19,1],'strength':.35},
+        'outputs':[image_record(OUT/'hero-lookdev.png')]}
+if args.game_proof:
+    data=bpy.data.cameras.new('pilot-contract orthographic game camera')
+    data.type='ORTHO'
+    data.ortho_scale=3.0
+    data.shift_y=.35
+    camera=bpy.data.objects.new('game proof camera',data)
+    scene.collection.objects.link(camera)
+    camera.location=(0,-6,5.2)
+    camera.rotation_euler=(-camera.location).to_track_quat('-Z','Y').to_euler()
+    scene.camera=camera
+    scene.render.resolution_x=scene.render.resolution_y=48
+    names=[]
+    facings=[]
+    for direction,label in ((0,'S'),(4,'W'),(8,'N'),(12,'E')):
+        root.rotation_euler.z=math.radians(-direction*22.5)
+        bpy.context.view_layer.update()
+        name='game-%02d.png'%direction
+        scene.render.filepath=str(OUT/name)
+        bpy.ops.render.render(write_still=True)
+        info=image_record(OUT/name)
+        info.update({'direction':direction,'facing':label,
+                     'rotation_z_degrees':-direction*22.5})
+        names.append(name)
+        facings.append(info)
+    report['game_proof']={'cell':[48,48],'anchor':[.5,.85],
+        'directions':[0,4,8,12],
+        'camera':{'location':[0,-6,5.2],'shift_y':.35,'ortho_scale':3.0},
+        'camera_exact':camera_record(camera),
+        'files':names,'frames':facings,
+        'method':'Direct Cycles 48x48 RGBA renders, no resizing, same material/light rig as portrait.',
+        'direction_convention':'0 S, 4 W, 8 N, 12 E; root Z = -index * 22.5 degrees',
+        'anchor_origin':'Model ground origin (0,0,0) projects to (24,40.8), top-left pixel coordinates.',
+        'pilot_match':'render-unit.py camera pose/scale/anchor only; Cycles material study differs from pilot Workbench shading.'}
+    # Leave the saved study in the portrait pose, with both cameras available.
+    root.rotation_euler.z=0
+    scene.camera=portrait_camera
+    scene.render.resolution_x=args.size
+    scene.render.resolution_y=round(args.size*1.2)
+    scene.render.filepath=str(OUT/'hero-lookdev.png')
+    bpy.ops.wm.save_as_mainfile(filepath=str(blend_path))
+    for info in facings:
+        box=info['alpha_bbox']
+        if (not box or box[0]<=0 or box[1]<=0 or box[2]>=48 or box[3]>=48
+                or not 24<=box[3]-box[1]<=36):
+            raise RuntimeError('game proof empty, clipped or outside 24..36px height: '+str(info))
+    if len({info['sha256'] for info in facings})!=4:
+        raise RuntimeError('game proof directions must be distinct')
+report['blend_bytes']=blend_path.stat().st_size
+report['generator_sha256']=hashlib.sha256(Path(__file__).read_bytes()).hexdigest()
+report['elapsed_seconds']=round(time.monotonic()-start,2)
 (OUT/'render-report.json').write_text(json.dumps(report,indent=2)+'\n',encoding='utf-8')
 print('HERO_LOOKDEV_OK '+json.dumps(report))
