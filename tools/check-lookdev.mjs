@@ -5,7 +5,8 @@ import { fileURLToPath, pathToFileURL } from 'node:url';
 import { createHash } from 'node:crypto';
 import { decodePng } from './check-atlases.mjs';
 
-const workspace = resolve(fileURLToPath(new URL('../..', import.meta.url)));
+const gameRoot = resolve(fileURLToPath(new URL('..', import.meta.url)));
+const workspace = resolve(gameRoot, '..');
 const inside = (path) => {
   const rel = relative(workspace, path);
   if (rel === '..' || rel.startsWith('../') || rel.startsWith('..\\') || isAbsolute(rel))
@@ -49,7 +50,7 @@ export function checkLookdev(directory, comparePilot = false) {
   if (new Set(frames.map((frame) => frame.pixelHash)).size !== 4)
     throw Error('Cardinal views must contain distinct rendered pixels');
   if (comparePilot) {
-    const pilotRoot = resolve(workspace, 'game/public/sprites');
+    const pilotRoot = resolve(gameRoot, 'public/sprites');
     const sheet = JSON.parse(readFileSync(resolve(pilotRoot, 'hero.json'), 'utf8'));
     const pilotBytes = readFileSync(resolve(pilotRoot, 'hero.png'));
     const pilot = decodePng(pilotBytes);

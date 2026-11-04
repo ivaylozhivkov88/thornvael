@@ -31,6 +31,8 @@ parser.add_argument('--out-dir', default=str(OUT))
 parser.add_argument('--stage-dir', default=str(STAGE))
 parser.add_argument('--game-proof', action='store_true')
 parser.add_argument('--model-scale', type=float, default=1.0)
+parser.add_argument('--motion-build', action='store_true',
+                    help='Build explicit joint partitions for hero-motion.py; skip study renders')
 args = parser.parse_args(sys.argv[sys.argv.index('--') + 1:] if '--' in sys.argv else [])
 
 
@@ -86,6 +88,16 @@ scene.world.node_tree.nodes['Background'].inputs['Strength'].default_value = .35
 
 
 material_recipe = []
+attachment_owner = 'chest'
+attachment_role = ''
+
+
+def tag_geometry(obj):
+    # Authored before Blender chooses numeric name suffixes; never infer ownership.
+    obj['motion_owner'] = attachment_owner
+    if attachment_role:
+        obj['motion_role'] = attachment_role
+    return obj
 
 
 def material(name, base, metal=0, rough=.6, grain=100):
@@ -161,7 +173,7 @@ def mesh(name, vs, fs, mat, bevel=0, smooth=True):
         mod.width, mod.segments = bevel, 2
         norm = o.modifiers.new('weighted plate normals', 'WEIGHTED_NORMAL')
         norm.keep_sharp = True
-    return o
+    return tag_geometry(o)
 
 
 def tube(name, points, radius, mat):
@@ -175,7 +187,7 @@ def tube(name, points, radius, mat):
     o = bpy.data.objects.new(name, c)
     scene.collection.objects.link(o)
     o.data.materials.append(mat)
-    return o
+    return tag_geometry(o)
 
 
 def loft(name, rows, mat, n=32, bevel=0):
@@ -206,7 +218,7 @@ def rivet(name, xyz, radius=.006, mat=edge):
     o.name = name
     o.scale.y = .5
     o.data.materials.append(mat)
-    return o
+    return tag_geometry(o)
 
 
 def band(name, x, y, z, rx, ry, height, mat=leather):
@@ -216,7 +228,9 @@ def band(name, x, y, z, rx, ry, height, mat=leather):
 # Core anatomy: roughly 7.4 heads tall, narrow waist and planted weight.
 loft('padded torso under harness', [(0,0,1.04,.17,.115),(0,0,1.32,.195,.13),
      (0,.01,1.56,.24,.135),(0,.015,1.68,.19,.11)], cloth)
+attachment_owner = 'neck'
 loft('high mail collar', [(0,0,1.59,.095,.085),(0,0,1.81,.088,.08)], mail)
+attachment_owner = 'chest'
 loft('breastplate / tapered forged cuirass', [(0,-.006,1.12,.166,.126),
      (0,-.008,1.27,.18,.152),(0,-.008,1.46,.23,.174),(0,0,1.59,.235,.132),
      (0,0,1.65,.155,.095)], steel, 40, .003)
@@ -225,6 +239,7 @@ for s in (-1,1):
          (s*.15,-.161,1.44),(s*.10,-.157,1.29),(s*.01,-.135,1.17)], .0035, edge)
     for z in (1.2,1.28,1.36):
         rivet('harness side pin', (s*.167,-.08,z), .005)
+attachment_owner = 'pelvis'
 for i in range(3):
     z = 1.105 - i*.047
     loft('overlapping fauld %d' % i, [(0,0,z-.03,.18+i*.014,.132+i*.006),
@@ -255,7 +270,8 @@ for panel, (a0,a1,hem) in enumerate(((.72,2.35,.48),(-2.35,-.72,.54),
 
 # Thousands of real interlocked wire rings, combined into one mesh (no textures).
 mail_v,mail_f=[],[]
-def ring(center, radius=.009, tilt=0):
+mail_parts = {}
+def ring(center, radius=.009, tilt=0, owner='pelvis'):
     base=len(mail_v)
     for a in range(10):
         u=a*math.tau/10
@@ -269,6 +285,10 @@ def ring(center, radius=.009, tilt=0):
         for b in range(4):
             mail_f.append((base+a*4+b,base+((a+1)%10)*4+b,
                            base+((a+1)%10)*4+(b+1)%4,base+a*4+(b+1)%4))
+    vertices, faces = mail_parts.setdefault(owner, ([], []))
+    offset = len(vertices)
+    vertices.extend(mail_v[base:])
+    faces.extend(tuple(i-base+offset for i in face) for face in mail_f[-40:])
 for j in range(21):
     z=1.08-j*.013
     for i in range(28):
@@ -283,11 +303,33 @@ for s in (-1,1):
         x=s*(.286+(1.6-z)*.25)
         for k in range(11):
             t=-1.8+k*.33
-            ring((x+math.sin(t)*.07,-.008-.085*math.cos(t),z),.0085,.4*(-1 if j%2 else 1))
-mesh('hand-woven iron mail / exposed skirt and sleeves',mail_v,mail_f,mail)
+            ring((x+math.sin(t)*.07,-.008-.085*math.cos(t),z),.0085,
+                 .4*(-1 if j%2 else 1),
+                 ('upperarm.' if z >= 1.30 else 'forearm.')+('R' if s < 0 else 'L'))
+if args.motion_build:
+    for owner, (vertices, faces) in mail_parts.items():
+        attachment_owner = owner
+        mesh('hand-woven iron mail / '+owner,vertices,faces,mail)
+else:
+    attachment_owner = 'pelvis'
+    mesh('hand-woven iron mail / exposed skirt and sleeves',mail_v,mail_f,mail)
+
+
+def flexion_underlap(name, center, radii, mat):
+    # Buried closed anatomical gusset, using the existing cloth/leather material.
+    rows = []
+    for j in range(17):
+        a = -.499*math.pi + j/16*.998*math.pi
+        rows.append((center[0], center[1], center[2]+radii[2]*math.sin(a),
+                     radii[0]*math.cos(a), radii[1]*math.cos(a)))
+    obj = loft(name, rows, mat, 32)
+    obj['motion_coverage_joint'] = attachment_owner
+    return obj
 
 # Layered shoulder plates: curved saddle shells with overlapping scalloped hems.
 for s in (-1,1):
+    side = 'R' if s < 0 else 'L'
+    attachment_owner = 'upperarm.'+side
     for layer in range(4):
         vs=[]
         for j in range(5):
@@ -306,15 +348,26 @@ for s in (-1,1):
             rivet('pauldron pin',vs[-19+idx],.005)
     # Upper arms and articulated forearms are tapered, never exposed ball joints.
     x=s*.345
-    loft('upper leather sleeve',[(x,0,1.32,.073,.078),(s*.29,.005,1.57,.077,.08)],leather)
+    sleeve=loft('upper leather sleeve',[(x,0,1.32,.073,.078),(s*.29,.005,1.57,.077,.08)],leather)
+    sleeve['motion_span_joint'] = 'forearm.'+side
+    sleeve['motion_span_side'] = 'proximal'
+    sleeve['motion_seam_vertices'] = list(range(32))
     ex=s*.39
+    attachment_owner = 'forearm.'+side
+    if args.motion_build:
+        flexion_underlap('underlapping leather elbow gusset '+side,
+                         (s*.37,-.005,1.30),(.081,.085,.091),leather)
     plate('elbow wing',[(ex-.072,-.094,1.32),(ex,-.115,1.38),
           (ex+.075,-.09,1.30),(ex+.065,-.09,1.23),(ex-.058,-.096,1.24)],bulge=.018)
-    loft('tapered vambrace',[(s*.448,-.045,1.04,.056,.065),
+    sleeve=loft('tapered vambrace',[(s*.448,-.045,1.04,.056,.065),
          (s*.416,-.015,1.22,.073,.077),(s*.397,-.005,1.29,.075,.078)],steel,24,.002)
+    sleeve['motion_span_joint'] = 'forearm.'+side
+    sleeve['motion_span_side'] = 'distal'
+    sleeve['motion_seam_vertices'] = list(range(48,72))
     for z,x in ((1.23,.409),(1.07,.443)):
         band('forearm leather securing strap',s*x,-.025,z,.076 if z>1.1 else .061,.083 if z>1.1 else .071,.022)
         rivet('strap stud',(s*x,-.11,z),.006)
+    attachment_owner = 'hand.'+side
     loft('gauntlet cuff',[(s*.455,-.049,1.035,.068,.072),(s*.465,-.055,.99,.053,.055)],steel,20,.002)
     loft('curled leather palm',[(s*.47,-.06,1.0,.043,.049),(s*.47,-.066,.92,.045,.043),
          (s*.467,-.06,.89,.035,.034)],leather,16)
@@ -334,8 +387,26 @@ for s in (-1,1):
          (s*.415,-.096,.94,.02,.021),(s*.428,-.11,.916,.017,.017)],steel,12,.001)
     # Leg: cuisse, shield-like poleyn, long greave, leather ankle, articulated foot.
     lx=s*.125
-    loft('quilted trouser',[(lx,0,.17,.062,.067),(lx,0,.60,.085,.085),
-         (lx,0,.96,.095,.09)],cloth,24)
+    attachment_owner = 'thigh.'+side
+    if args.motion_build:
+        # Original linear taper with an 8cm overlap beneath the knee plate.
+        def trouser_row(z):
+            t=(z-.17)/.43 if z <= .60 else (z-.60)/.36
+            a,b=((.062,.067),(.085,.085)) if z <= .60 else ((.085,.085),(.095,.09))
+            return (lx,0,z,a[0]+(b[0]-a[0])*t,a[1]+(b[1]-a[1])*t)
+        trouser=loft('quilted trouser / thigh '+side,[trouser_row(z) for z in (.54,.60,.96)],cloth,24)
+        trouser['motion_span_joint'], trouser['motion_span_side'] = 'shin.'+side, 'proximal'
+        trouser['motion_seam_vertices'] = list(range(24))
+        attachment_owner = 'shin.'+side
+        trouser=loft('quilted trouser / shin '+side,[trouser_row(z) for z in (.17,.60,.62)],cloth,24)
+        trouser['motion_span_joint'], trouser['motion_span_side'] = 'shin.'+side, 'distal'
+        trouser['motion_seam_vertices'] = list(range(48,72))
+        flexion_underlap('underlapping quilted knee cuff '+side,
+                         (lx,0,.58),(.082,.084,.085),cloth)
+        attachment_owner = 'thigh.'+side
+    else:
+        loft('quilted trouser',[(lx,0,.17,.062,.067),(lx,0,.60,.085,.085),
+             (lx,0,.96,.095,.09)],cloth,24)
     plate('thigh cuisse',[(lx-.079,-.095,.94),(lx+.079,-.095,.94),
          (lx+.069,-.107,.65),(lx,-.13,.61),(lx-.069,-.107,.65)],bulge=.022)
     for i in range(3):
@@ -344,6 +415,7 @@ for s in (-1,1):
                  (s*.222,-.138,z-.047),(s*.045,-.17,z-.065)]
         plate('overlapping thigh tasset',outline,bulge=.012)
         tube('tasset warm rim',outline[2:],.0025,edge)
+    attachment_owner = 'shin.'+side
     plate('angular knee poleyn',[(lx-.072,-.09,.615),(lx,-.125,.65),
         (lx+.073,-.09,.61),(lx+.067,-.102,.546),(lx,-.132,.515),
         (lx-.067,-.102,.546)],bulge=.024)
@@ -352,6 +424,7 @@ for s in (-1,1):
         (lx,0,.51,.071,.078)],steel,24,.002)
     tube('greave medial ridge',[(lx,-.068,.19),(lx,-.087,.37),(lx,-.084,.51)],.003,edge)
     band('ankle leather',lx,0,.145,.058,.065,.095)
+    attachment_owner = 'foot.'+side
     # Boot lasts have a flat outsole, distinct heel, narrow ankle and forward toe.
     footprint=[(-.041,-.218),(.041,-.218),(.059,-.18),(.058,-.05),
                (.047,.06),(-.047,.06),(-.058,-.05),(-.059,-.18)]
@@ -396,6 +469,7 @@ for s in (-1,1):
         tube('sabatons narrow rolled steel leading edge',vs[:9],.0014,steel)
 
 # Belt, buckle, a practical hanging pouch; no borrowed heraldic motifs.
+attachment_owner = 'pelvis'
 band('waist oxhide belt',0,0,1.123,.186,.145,.044)
 tube('cast bronze buckle',[(-.038,-.157,1.148),(.035,-.157,1.148),
     (.035,-.157,1.1),(-.038,-.157,1.1),(-.038,-.157,1.148)],.006,edge)
@@ -408,6 +482,7 @@ plate('pouch flap',[(-.29,-.072,1.057),(-.16,-.072,1.057),
 rivet('pouch bronze button',(-.225,-.092,.995),.008)
 
 # Original closed helm: separately forged skull, brow, folded visor, breathing slots.
+attachment_owner = 'head'
 loft('black recessed helm lining',[(0,0,1.75,.073,.085),(0,0,1.90,.09,.09)],black)
 loft('continuous ogival helmet dome',[(0,.018,1.895,.123,.119),
     (0,.018,1.915,.122,.12),(0,.022,1.95,.113,.114),
@@ -465,6 +540,7 @@ for s in (-1,1):
         (s*.014,.012,2.044),(s*.014,-.071,2.008),(s*.014,-.105,1.944)],.0035,edge)
     for z in (1.78,1.85):
         rivet('visor cheek rivet',(s*.104,-.064,z),.0045)
+attachment_owner = 'neck'
 loft('gorget / flared steel neck protection',[(0,0,1.64,.143,.124),
      (0,0,1.705,.113,.099),(0,0,1.75,.101,.092)],steel,32,.002)
 for i in range(2):
@@ -477,6 +553,7 @@ for i in range(2):
     tube('soft draped wool collar fold',pts,.016,cloth)
 
 # A leaf-point sword held low in the right gauntlet; diamond blade section.
+attachment_owner, attachment_role = 'hand.R', 'sword'
 sx,sy=-.472,-.069
 loft('leather wrapped sword grip',[(sx,sy,.845,.018,.019),(sx,sy,.967,.018,.019)],leather,12)
 for i in range(9):
@@ -494,6 +571,7 @@ blade_f=[(r*4+i,r*4+(i+1)%4,(r+1)*4+(i+1)%4,(r+1)*4+i) for r in range(3) for i i
 mesh('forged diamond-section blade',blade_v,blade_f,steel,.0007,False)
 
 # Moderate heater shield, own split thorn-and-seed motif; bronze rim is geometry.
+attachment_owner, attachment_role = 'hand.L', 'shield'
 cx,cy,cz=.526,-.153,1.063
 shield_outline=[(-.198,.325),(.152,.35),(.224,.205),(.174,-.151),(.018,-.394),(-.159,-.196)]
 def shield_point(x,z,front=0):
@@ -540,127 +618,132 @@ for obj in model:
     obj.parent=root  # identity parent; keep every mesh, ring and curve together
 root.scale=(args.model_scale,)*3  # ground origin stays (0,0,0), including weapons
 bpy.context.view_layer.update()
-depsgraph=bpy.context.evaluated_depsgraph_get()
-world_z=[]
-for obj in model:
-    evaluated=obj.evaluated_get(depsgraph)
-    surface=evaluated.to_mesh()
-    try:
-        world_z.extend((evaluated.matrix_world @ vertex.co).z for vertex in surface.vertices)
-    finally:
-        evaluated.to_mesh_clear()
-model_z_bounds=[min(world_z),max(world_z)]
-blend_path=STAGE/'thornvael-heavy-knight.blend'
-bpy.ops.wm.save_as_mainfile(filepath=str(blend_path))
-scene.render.filepath=str(OUT/'hero-lookdev.png')
-bpy.ops.render.render(write_still=True)
-
-
-def camera_record(camera):
-    return {'location':list(camera.location),'rotation_euler':list(camera.rotation_euler),
-            'type':camera.data.type,'shift_y':camera.data.shift_y,
-            'shift_x':camera.data.shift_x,'ortho_scale':camera.data.ortho_scale}
-
-
-def image_record(path):
-    # Decode the written PNG with Blender itself: no image package or resize step.
-    img=bpy.data.images.load(str(path),check_existing=False)
-    w,h=img.size
-    pixels=list(img.pixels)
-    occupied=[(i%w,h-1-i//w) for i,a in enumerate(pixels[3::4]) if a>0]
-    box=([min(p[0] for p in occupied),min(p[1] for p in occupied),
-          max(p[0] for p in occupied)+1,max(p[1] for p in occupied)+1]
-         if occupied else None)
-    solid=[(i%w,h-1-i//w) for i,a in enumerate(pixels[3::4]) if a>128/255]
-    solid_box=([min(p[0] for p in solid),min(p[1] for p in solid),
-                max(p[0] for p in solid)+1,max(p[1] for p in solid)+1]
-               if solid else None)
-    raw=path.read_bytes()
-    result={'file':path.name,'resolution':[w,h],'bytes':len(raw),
-            'sha256':hashlib.sha256(raw).hexdigest(),'alpha_bbox':box,
-            'nonzero_alpha_pixels':len(occupied),
-            'solid_alpha_threshold':'alpha > 128/255 (8-bit alpha > 128)',
-            'solid_alpha_bbox':solid_box,
-            'solid_alpha_height':solid_box[3]-solid_box[1] if solid_box else 0,
-            'alpha_range':[min(pixels[3::4]),max(pixels[3::4])]}
-    bpy.data.images.remove(img)
-    return result
-
-
-report={'blender':bpy.app.version_string,'seed':31103,'samples':args.samples,
-        'resolution':[scene.render.resolution_x,scene.render.resolution_y],
-        'objects':len(scene.objects),'mail_rings':len(mail_v)//40,
-        'mesh_vertices':sum(len(o.data.vertices) for o in scene.objects if o.type=='MESH'),
-        'image':str(scene.render.filepath),'blend':str(blend_path),
-        'scope':'Single-pose procedural study; no atlas, rig, animation or final visual acceptance.',
-        'geometry_revision':'Closed steel toe/vamp under continuous overlapping lames; contained sole; connected dome/brow and narrow level sight slit.',
-        'generation':'Original Python meshes, real mail rings and node materials; no external assets.',
-        'model_scale':args.model_scale,'model_height':model_z_bounds[1]-model_z_bounds[0],
-        'model_z_bounds':model_z_bounds,'model_root_origin':list(root.location),
-        'model_root_scale':list(root.scale),'model_geometry_objects':len(model),
-        'scale_note':'Uniform complete-geometry root scale about unchanged ground origin, including weapons. Fixed pilot proof camera; portrait camera scales with model to retain framing. No per-facing fitting or image resize.',
-        'material_revision':'V4: raised muted olive wool value against unchanged dark rough mail; broad light steel / warm oxhide unchanged. No geometry, rig, camera or detail changes; closed boots and helm preserved.',
-        'stage_dir':str(STAGE),'blender_user_resources':os.environ['BLENDER_USER_RESOURCES'],
-        'materials':material_recipe,'engine':scene.render.engine,'view_transform':scene.view_settings.view_transform,
-        'cycles':{'seed':scene.cycles.seed,'samples':scene.cycles.samples,
-                  'denoising':scene.cycles.use_denoising,
-                  'adaptive_threshold':scene.cycles.adaptive_threshold},
-        'portrait_camera':camera_record(portrait_camera),
-        'lights':[{'name':obj.name,'location':list(obj.location),
-                   'rotation_euler':list(obj.rotation_euler),
-                   'energy':obj.data.energy,'color':list(obj.data.color),'size':obj.data.size}
-                  for obj in scene.objects if obj.type=='LIGHT'],
-        'world':{'color_linear':[.19,.19,.19,1],'strength':.35},
-        'outputs':[image_record(OUT/'hero-lookdev.png')]}
-if args.game_proof:
-    data=bpy.data.cameras.new('pilot-contract orthographic game camera')
-    data.type='ORTHO'
-    data.ortho_scale=3.0
-    data.shift_y=.35
-    camera=bpy.data.objects.new('game proof camera',data)
-    scene.collection.objects.link(camera)
-    camera.location=(0,-6,5.2)
-    camera.rotation_euler=(-camera.location).to_track_quat('-Z','Y').to_euler()
-    scene.camera=camera
-    scene.render.resolution_x=scene.render.resolution_y=48
-    names=[]
-    facings=[]
-    for direction,label in ((0,'S'),(4,'W'),(8,'N'),(12,'E')):
-        root.rotation_euler.z=math.radians(-direction*22.5)
-        bpy.context.view_layer.update()
-        name='game-%02d.png'%direction
-        scene.render.filepath=str(OUT/name)
-        bpy.ops.render.render(write_still=True)
-        info=image_record(OUT/name)
-        info.update({'direction':direction,'facing':label,
-                     'rotation_z_degrees':-direction*22.5})
-        names.append(name)
-        facings.append(info)
-    report['game_proof']={'cell':[48,48],'anchor':[.5,.85],
-        'directions':[0,4,8,12],
-        'camera':{'location':[0,-6,5.2],'shift_y':.35,'ortho_scale':3.0},
-        'camera_exact':camera_record(camera),
-        'files':names,'frames':facings,
-        'method':'Direct Cycles 48x48 RGBA renders, no resizing, same material/light rig as portrait.',
-        'direction_convention':'0 S, 4 W, 8 N, 12 E; root Z = -index * 22.5 degrees',
-        'anchor_origin':'Model ground origin (0,0,0) projects to (24,40.8), top-left pixel coordinates.',
-        'pilot_match':'render-unit.py camera pose/scale/anchor only; Cycles material study differs from pilot Workbench shading.'}
-    # Leave the saved study in the portrait pose, with both cameras available.
-    root.rotation_euler.z=0
-    scene.camera=portrait_camera
-    scene.render.resolution_x=args.size
-    scene.render.resolution_y=round(args.size*1.2)
-    scene.render.filepath=str(OUT/'hero-lookdev.png')
+def render_study():
+    depsgraph=bpy.context.evaluated_depsgraph_get()
+    world_z=[]
+    for obj in model:
+        evaluated=obj.evaluated_get(depsgraph)
+        surface=evaluated.to_mesh()
+        try:
+            world_z.extend((evaluated.matrix_world @ vertex.co).z for vertex in surface.vertices)
+        finally:
+            evaluated.to_mesh_clear()
+    model_z_bounds=[min(world_z),max(world_z)]
+    blend_path=STAGE/'thornvael-heavy-knight.blend'
     bpy.ops.wm.save_as_mainfile(filepath=str(blend_path))
-    for info in facings:
-        box=info['alpha_bbox']
-        if (not box or box[0]<=0 or box[1]<=0 or box[2]>=48 or box[3]>=48
-                or not 24<=box[3]-box[1]<=36):
-            raise RuntimeError('game proof empty, clipped or outside 24..36px height: '+str(info))
-    if len({info['sha256'] for info in facings})!=4:
-        raise RuntimeError('game proof directions must be distinct')
-report['blend_bytes']=blend_path.stat().st_size
-report['generator_sha256']=hashlib.sha256(Path(__file__).read_bytes()).hexdigest()
-report['elapsed_seconds']=round(time.monotonic()-start,2)
-(OUT/'render-report.json').write_text(json.dumps(report,indent=2)+'\n',encoding='utf-8')
-print('HERO_LOOKDEV_OK '+json.dumps(report))
+    scene.render.filepath=str(OUT/'hero-lookdev.png')
+    bpy.ops.render.render(write_still=True)
+
+
+    def camera_record(camera):
+        return {'location':list(camera.location),'rotation_euler':list(camera.rotation_euler),
+                'type':camera.data.type,'shift_y':camera.data.shift_y,
+                'shift_x':camera.data.shift_x,'ortho_scale':camera.data.ortho_scale}
+
+
+    def image_record(path):
+        # Decode the written PNG with Blender itself: no image package or resize step.
+        img=bpy.data.images.load(str(path),check_existing=False)
+        w,h=img.size
+        pixels=list(img.pixels)
+        occupied=[(i%w,h-1-i//w) for i,a in enumerate(pixels[3::4]) if a>0]
+        box=([min(p[0] for p in occupied),min(p[1] for p in occupied),
+              max(p[0] for p in occupied)+1,max(p[1] for p in occupied)+1]
+             if occupied else None)
+        solid=[(i%w,h-1-i//w) for i,a in enumerate(pixels[3::4]) if a>128/255]
+        solid_box=([min(p[0] for p in solid),min(p[1] for p in solid),
+                    max(p[0] for p in solid)+1,max(p[1] for p in solid)+1]
+                   if solid else None)
+        raw=path.read_bytes()
+        result={'file':path.name,'resolution':[w,h],'bytes':len(raw),
+                'sha256':hashlib.sha256(raw).hexdigest(),'alpha_bbox':box,
+                'nonzero_alpha_pixels':len(occupied),
+                'solid_alpha_threshold':'alpha > 128/255 (8-bit alpha > 128)',
+                'solid_alpha_bbox':solid_box,
+                'solid_alpha_height':solid_box[3]-solid_box[1] if solid_box else 0,
+                'alpha_range':[min(pixels[3::4]),max(pixels[3::4])]}
+        bpy.data.images.remove(img)
+        return result
+
+
+    report={'blender':bpy.app.version_string,'seed':31103,'samples':args.samples,
+            'resolution':[scene.render.resolution_x,scene.render.resolution_y],
+            'objects':len(scene.objects),'mail_rings':len(mail_v)//40,
+            'mesh_vertices':sum(len(o.data.vertices) for o in scene.objects if o.type=='MESH'),
+            'image':str(scene.render.filepath),'blend':str(blend_path),
+            'scope':'Single-pose procedural study; no atlas, rig, animation or final visual acceptance.',
+            'geometry_revision':'Closed steel toe/vamp under continuous overlapping lames; contained sole; connected dome/brow and narrow level sight slit.',
+            'generation':'Original Python meshes, real mail rings and node materials; no external assets.',
+            'model_scale':args.model_scale,'model_height':model_z_bounds[1]-model_z_bounds[0],
+            'model_z_bounds':model_z_bounds,'model_root_origin':list(root.location),
+            'model_root_scale':list(root.scale),'model_geometry_objects':len(model),
+            'scale_note':'Uniform complete-geometry root scale about unchanged ground origin, including weapons. Fixed pilot proof camera; portrait camera scales with model to retain framing. No per-facing fitting or image resize.',
+            'material_revision':'V4: raised muted olive wool value against unchanged dark rough mail; broad light steel / warm oxhide unchanged. No geometry, rig, camera or detail changes; closed boots and helm preserved.',
+            'stage_dir':str(STAGE),'blender_user_resources':os.environ['BLENDER_USER_RESOURCES'],
+            'materials':material_recipe,'engine':scene.render.engine,'view_transform':scene.view_settings.view_transform,
+            'cycles':{'seed':scene.cycles.seed,'samples':scene.cycles.samples,
+                      'denoising':scene.cycles.use_denoising,
+                      'adaptive_threshold':scene.cycles.adaptive_threshold},
+            'portrait_camera':camera_record(portrait_camera),
+            'lights':[{'name':obj.name,'location':list(obj.location),
+                       'rotation_euler':list(obj.rotation_euler),
+                       'energy':obj.data.energy,'color':list(obj.data.color),'size':obj.data.size}
+                      for obj in scene.objects if obj.type=='LIGHT'],
+            'world':{'color_linear':[.19,.19,.19,1],'strength':.35},
+            'outputs':[image_record(OUT/'hero-lookdev.png')]}
+    if args.game_proof:
+        data=bpy.data.cameras.new('pilot-contract orthographic game camera')
+        data.type='ORTHO'
+        data.ortho_scale=3.0
+        data.shift_y=.35
+        camera=bpy.data.objects.new('game proof camera',data)
+        scene.collection.objects.link(camera)
+        camera.location=(0,-6,5.2)
+        camera.rotation_euler=(-camera.location).to_track_quat('-Z','Y').to_euler()
+        scene.camera=camera
+        scene.render.resolution_x=scene.render.resolution_y=48
+        names=[]
+        facings=[]
+        for direction,label in ((0,'S'),(4,'W'),(8,'N'),(12,'E')):
+            root.rotation_euler.z=math.radians(-direction*22.5)
+            bpy.context.view_layer.update()
+            name='game-%02d.png'%direction
+            scene.render.filepath=str(OUT/name)
+            bpy.ops.render.render(write_still=True)
+            info=image_record(OUT/name)
+            info.update({'direction':direction,'facing':label,
+                         'rotation_z_degrees':-direction*22.5})
+            names.append(name)
+            facings.append(info)
+        report['game_proof']={'cell':[48,48],'anchor':[.5,.85],
+            'directions':[0,4,8,12],
+            'camera':{'location':[0,-6,5.2],'shift_y':.35,'ortho_scale':3.0},
+            'camera_exact':camera_record(camera),
+            'files':names,'frames':facings,
+            'method':'Direct Cycles 48x48 RGBA renders, no resizing, same material/light rig as portrait.',
+            'direction_convention':'0 S, 4 W, 8 N, 12 E; root Z = -index * 22.5 degrees',
+            'anchor_origin':'Model ground origin (0,0,0) projects to (24,40.8), top-left pixel coordinates.',
+            'pilot_match':'render-unit.py camera pose/scale/anchor only; Cycles material study differs from pilot Workbench shading.'}
+        # Leave the saved study in the portrait pose, with both cameras available.
+        root.rotation_euler.z=0
+        scene.camera=portrait_camera
+        scene.render.resolution_x=args.size
+        scene.render.resolution_y=round(args.size*1.2)
+        scene.render.filepath=str(OUT/'hero-lookdev.png')
+        bpy.ops.wm.save_as_mainfile(filepath=str(blend_path))
+        for info in facings:
+            box=info['alpha_bbox']
+            if (not box or box[0]<=0 or box[1]<=0 or box[2]>=48 or box[3]>=48
+                    or not 24<=box[3]-box[1]<=36):
+                raise RuntimeError('game proof empty, clipped or outside 24..36px height: '+str(info))
+        if len({info['sha256'] for info in facings})!=4:
+            raise RuntimeError('game proof directions must be distinct')
+    report['blend_bytes']=blend_path.stat().st_size
+    report['generator_sha256']=hashlib.sha256(Path(__file__).read_bytes()).hexdigest()
+    report['elapsed_seconds']=round(time.monotonic()-start,2)
+    (OUT/'render-report.json').write_text(json.dumps(report,indent=2)+'\n',encoding='utf-8')
+    print('HERO_LOOKDEV_OK '+json.dumps(report))
+
+
+if not args.motion_build:
+    render_study()
