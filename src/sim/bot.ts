@@ -19,7 +19,9 @@ export class Bot {
 
   commands(sim: Sim): Command[] {
     const ids: number[] = [];
-    for (let i = 0; i < sim.count; i++) if (sim.team[i] === this.team) ids.push(i);
+    for (let i = 0; i < sim.count; i++) {
+      if (sim.team[i] === this.team && sim.cb.hp[i] > 0 && !sim.hidden[i]) ids.push(i);
+    }
     const squads = Math.ceil(ids.length / this.squadSize);
     const out: Command[] = [];
     // Each squad re-targets every 5 seconds, staggered across squads.
