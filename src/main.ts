@@ -32,6 +32,7 @@ import { FP, Sim, TICKS_PER_SECOND, type Command, type OrderName } from './sim/s
 import { S } from './strings';
 import { readPreferences, writePreference } from './preferences';
 import { DoubleTap, PortraitStrip, RadialMenu, portraitIds, unitsOfKind, type RadialOrder } from './touchx';
+import { monsterInfo } from './monster-info';
 import './style.css';
 
 await loadGameData(); // item and spell tables, before any sim or mission is built
@@ -454,7 +455,9 @@ function unitInfo(i: number): string {
   const side = sim.team[i] === 0 ? S.yours : S.enemy;
   const mana = cb.manaMax[i] > 0 ? `, ${S.mana} ${cb.mana[i]}/${cb.manaMax[i]}` : '';
   const armour = S.parts.map((p, k) => `${p} ${partDef(sim, i, k)}/${partAbs(sim, i, k)}`).join(', ');
-  return `${S.kinds[cb.kind[i]]} (${side}): ${S.hp} ${cb.hp[i]}/${cb.hpMax[i]}${mana}\n${S.hit} ${d.acc + cb.mod[mo + M.Acc]}, ${S.defence}/${S.absorb}: ${armour}\n${S.resist}: ${r}`;
+  const family = sim.team[i] !== 0 ? monsterInfo(cb.kind[i]) : null;
+  const traits = family ? `\nBase family: ${family.base.ranged ? 'ranged' : 'melee'} ${S.elements[family.base.elem]}, range ${family.base.reach / FP} tiles, speed ${family.base.speed}%.` : '';
+  return `${S.kinds[cb.kind[i]]} (${side}): ${S.hp} ${cb.hp[i]}/${cb.hpMax[i]}${mana}\n${S.hit} ${d.acc + cb.mod[mo + M.Acc]}, ${S.defence}/${S.absorb}: ${armour}\n${S.resist}: ${r}${traits}`;
 }
 function unitAt(x: number, y: number, r: number): number {
   return pickUnit(sim.count, posAny, x, y, r);
@@ -1390,6 +1393,19 @@ async function toMap(): Promise<void> {
   location.assign('./');
 }
 
+/** Shared by the real-time loop and bounded paused-only browser diagnostics. */
+function advanceStep(): void {
+  prevX.set(sim.x);
+  prevY.set(sim.y);
+  const commands = ai ? ai.commands(sim) : bot ? bot.commands(sim) : [];
+  commands.push(...pending.splice(0));
+  const started = performance.now();
+  sim.step(commands);
+  simMs += performance.now() - started;
+  simSteps++;
+  renderer.observe(sim); // presentation timing is deliberately outside the sim budget
+}
+
 function frame(): void {
   const now = performance.now();
   const dt = Math.min(250, now - lastNow);
@@ -1398,14 +1414,7 @@ function frame(): void {
     acc += dt * SPEEDS[speedIdx];
     let n = 0;
     while (acc >= STEP_MS && n < 5) {
-      prevX.set(sim.x);
-      prevY.set(sim.y);
-      const cmdsNow = ai ? ai.commands(sim) : bot ? bot.commands(sim) : [];
-      cmdsNow.push(...pending.splice(0));
-      const s0 = performance.now();
-      sim.step(cmdsNow);
-      simMs += performance.now() - s0;
-      simSteps++;
+      advanceStep();
       acc -= STEP_MS;
       n++;
     }
@@ -1543,6 +1552,7 @@ tipOn($('btn-hero'), S.tips['btn-hero']);
 function startHero(): void {
   const begin = (cls: number, female: boolean, diff: number): void => {
     createHero(sim, 0, cls, female, diff);
+    renderer.resetAnimation(sim);
     if (!savedSlots) {
       const heal = ITEM_BASE + ITEMS.findIndex((d) => d.name === 'Healing Draught');
       const mana = ITEM_BASE + ITEMS.findIndex((d) => d.name === 'Mana Draught');
@@ -1563,6 +1573,7 @@ function startHero(): void {
       heroUi.refresh(true);
       updateStats();
     }
+    renderer.resetAnimation(sim);
     return;
   }
   const raw = params.get('hero');
@@ -1613,6 +1624,7 @@ void renderer.init(sim).then(() => {
     pending.push({ type: 'order', order: 'swarm', ids: a.map((i) => i + 150), x: 10, y: map.h - 9 });
   }
   lastNow = performance.now();
+  renderer.resetAnimation(sim);
   requestAnimationFrame(frame);
   // Test and debug hook: deterministic access for the Playwright smoke test and the device bench.
   (window as unknown as { __game: unknown }).__game = {
@@ -1620,6 +1632,13 @@ void renderer.init(sim).then(() => {
     selected: () => [...selected],
     unitScreen: (i: number) => renderer.unitScreen(i),
     unitArt: (i: number) => renderer.unitArt(i),
+    animation: (i: number) => renderer.animationPose(sim, i),
+    step: (n = 1): number => {
+      if (!userPause || hidden || !Number.isSafeInteger(n) || n < 1 || n > 125)
+        throw new Error('Diagnostic stepping requires an explicit pause and 1..125 steps');
+      for (let i = 0; i < n; i++) advanceStep();
+      return sim.tick;
+    },
     previewArt: () => renderer.previewArt(),
     artMetrics: () => renderer.artMetrics(),
     stats: () => ({ ...live, reportAtMs: lastReport, quality: renderer.quality,

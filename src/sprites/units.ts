@@ -1,6 +1,7 @@
 import { Container, Rectangle, Sprite, Texture } from 'pixi.js';
 import { checkSheet, frameName, type UnitSheet } from './contract';
 import { animationFrame, palette, sheetDirection, splitMask } from './palette';
+import type { AnimationPose } from './combat-animation';
 
 export const UNIT_ART = ['hero', 'archer', 'golem'] as const;
 export type UnitArt = typeof UNIT_ART[number];
@@ -18,7 +19,11 @@ async function pixels(url: string): Promise<ImageData> {
 
 export class UnitAtlas {
   private readonly frames = new Map<string, readonly Texture[]>();
+  readonly cell: readonly [number, number];
+  readonly animations: Readonly<Record<string, number>>;
   private constructor(readonly unit: UnitArt, readonly source: Texture, sheet: UnitSheet) {
+    this.cell = Object.freeze([...sheet.meta.thornvael!.cell]) as readonly [number, number];
+    this.animations = Object.freeze({ ...sheet.meta.thornvael!.anims });
     const { w, h } = sheet.meta.size;
     for (const [name, f] of Object.entries(sheet.frames)) {
       const r = f.frame;
@@ -59,19 +64,36 @@ export class UnitAtlas {
     if (!textures) throw new Error(`Missing unit frame ${name}`);
     return textures;
   }
+
+  hasClip(clip: string): boolean { return (this.animations[clip] ?? 0) > 0; }
 }
 
 export class UnitSprite extends Container {
   private readonly layers = Array.from({ length: 4 }, () => new Sprite());
   private frameKey = '';
   private paletteKey = '';
+  private requestedClip = 'stand';
+  private resolvedClip = 'stand';
+  private finished = false;
+  private unresolved = false;
   constructor(readonly atlas: UnitAtlas) {
     super();
-    for (const s of this.layers) { s.anchor.set(0.5, 0.85); this.addChild(s); }
+    for (const s of this.layers) {
+      s.anchor.set(0.5, 0.85);
+      s.scale.set(64 / atlas.cell[0], 64 / atlas.cell[1]);
+      this.addChild(s);
+    }
   }
 
-  update(tick: number, moving: boolean, dir: number, team: number, armour: number, level: number, stone: boolean): void {
-    const key = frameName(this.atlas.unit, moving ? 'walk' : 'stand', sheetDirection(dir), animationFrame(tick, moving));
+  update(tick: number, moving: boolean, dir: number, team: number, armour: number, level: number, stone: boolean, pose?: AnimationPose): void {
+    this.requestedClip = pose?.clip ?? (moving ? 'walk' : 'stand');
+    this.resolvedClip = this.atlas.hasClip(this.requestedClip) ? this.requestedClip : moving ? 'walk' : 'stand';
+    this.finished = pose?.finished ?? false;
+    this.unresolved = pose?.unresolved ?? false;
+    const n = pose && this.resolvedClip === this.requestedClip
+      ? Math.min(this.atlas.animations[this.resolvedClip] - 1, Math.max(0, pose.frame))
+      : animationFrame(tick, moving);
+    const key = frameName(this.atlas.unit, this.resolvedClip, sheetDirection(dir), n);
     if (key !== this.frameKey) {
       this.atlas.get(key).forEach((tex, i) => { this.layers[i].texture = tex; });
       this.frameKey = key;
@@ -86,6 +108,8 @@ export class UnitSprite extends Container {
   /** Read-only diagnostics for browser regression tests and the art budget spike. */
   inspect() {
     return { unit: this.atlas.unit, frame: this.frameKey, colors: this.layers.map((s) => s.tint),
+      requestedClip: this.requestedClip, resolvedClip: this.resolvedClip,
+      fallback: this.requestedClip !== this.resolvedClip, finished: this.finished, unresolved: this.unresolved,
       sources: new Set(this.layers.map((s) => s.texture.source.uid)).size,
       source: this.atlas.source.source.uid, filters: this.layers.some((s) => !!s.filters), visible: this.visible };
   }

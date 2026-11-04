@@ -81,6 +81,11 @@ test('actual campaign save capture → New Game B → load A restores A and exit
   await page.waitForURL((url) => url.searchParams.get('load') === id);
   await page.waitForFunction(() => window.__game);
   expect((await storage(page)).campaign).toEqual(a);
+  const restoredPose = await page.evaluate(() => (window as unknown as {
+    __game: { animation(id: number): { clip: string; unresolved: boolean } };
+  }).__game.animation(0));
+  expect(['stand', 'walk']).toContain(restoredPose.clip);
+  expect(restoredPose.unresolved).toBe(false);
   await expect(page.locator('#btn-missions')).toHaveText('To the map');
   // This uses the restored in-memory record too, proving the load did not just repair IndexedDB.
   await page.locator('#btn-missions').click();

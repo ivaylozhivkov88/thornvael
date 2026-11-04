@@ -9,6 +9,7 @@ import { S } from './strings';
 import { ITEMS, Slot } from './sim/items';
 import { UnitAtlas, UnitSprite, UNIT_ART } from './sprites/units';
 import { ArtPreview } from './sprites/preview';
+import { CombatAnimation, type AnimationPose } from './sprites/combat-animation';
 
 const CHUNK = 16; // tiles per chunk side, so each baked texture is 512 px
 const DIR_COS = Array.from({ length: 16 }, (_, k) => Math.cos((k * Math.PI) / 8));
@@ -108,6 +109,8 @@ export class Renderer {
   private sprites: (Sprite | UnitSprite)[] = [];
   private artStress = false;
   private artPreview?: ArtPreview;
+  private animation?: CombatAnimation;
+  private readonly pose: AnimationPose = { clip: 'stand', frame: 0, age: 0, finished: false, unresolved: false };
   private fogCv!: HTMLCanvasElement;
   private fogTex!: Texture;
   private fogImg!: ImageData;
@@ -144,6 +147,7 @@ export class Renderer {
   }
 
   async init(sim: Sim): Promise<void> {
+    this.animation = new CombatAnimation(sim);
     await this.app.init({
       canvas: this.canvas,
       resizeTo: window,
@@ -275,6 +279,7 @@ export class Renderer {
       }
     }
     fx.length = 0;
+    this.animation?.clearedFx();
     for (let n = this.floaters.length - 1; n >= 0; n--) {
       const f = this.floaters[n];
       const age = (now - f.born) / FLOAT_MS;
@@ -383,6 +388,15 @@ export class Renderer {
     return sprite instanceof UnitSprite ? sprite.inspect() : null;
   }
 
+  /** Observe each completed step, including catch-up steps that are never drawn. */
+  observe(sim: Sim): void { this.animation?.observe(sim); }
+  resetAnimation(sim: Sim): void { this.animation?.reset(sim); }
+  animationPose(sim: Sim, id: number): AnimationPose {
+    const out: AnimationPose = { clip: 'stand', frame: 0, age: 0, finished: false, unresolved: false };
+    this.animation?.sample(sim, id, out);
+    return out;
+  }
+
   previewArt() { return this.artPreview?.inspect() ?? null; }
 
   /** On-demand snapshot only; atlas bytes estimate RGBA storage, not total GPU/process memory. */
@@ -484,6 +498,8 @@ export class Renderer {
     // Bodies stay for a minute so a corpse spell has something to aim at; they sink into the ground at the end.
     for (let i = 0; i < sim.count; i++) {
       if (cb.hp[i] > 0 || cb.corp[i] <= 0) continue;
+      const body = this.sprites[i];
+      if (body instanceof UnitSprite && body.atlas.hasClip('die')) continue;
       const tile = Math.floor(sim.y[i] / FP) * mw + Math.floor(sim.x[i] / FP);
       if (!sim.explored[tile]) continue;
       const cx = sim.x[i] * k;
@@ -494,7 +510,8 @@ export class Renderer {
     }
     for (let i = 0; i < sim.count; i++) {
       const s = this.sprites[i];
-      if (cb.hp[i] <= 0 || sim.hidden[i]) {
+      const dead = cb.hp[i] <= 0;
+      if (sim.hidden[i] || (dead && (cb.corp[i] <= 0 || !(s instanceof UnitSprite) || !s.atlas.hasClip('die')))) {
         s.visible = false;
         continue;
       }
@@ -507,11 +524,14 @@ export class Renderer {
       const sx = s.x * z - this.camX;
       const sy = s.y * z - this.camY;
       const onScreen = sx > -40 && sy > -40 && sx < this.viewW + 40 && sy < this.viewH + 40;
-      s.visible = onScreen && (sim.team[i] === 0 || sim.visible[Math.floor(sim.y[i] / FP) * mw + Math.floor(sim.x[i] / FP)] === 1);
+      const tile = Math.floor(sim.y[i] / FP) * mw + Math.floor(sim.x[i] / FP);
+      s.visible = onScreen && (dead ? !!sim.explored[tile] : sim.team[i] === 0 || sim.visible[tile] === 1);
+      s.alpha = dead ? Math.min(1, cb.corp[i] / 200) : 1;
       if (s.visible && s instanceof UnitSprite) {
         const armour = sim.hero?.id === i ? ITEMS[sim.hero.eq[Slot.Armor]]?.tier ?? 0 : 1;
         // Levelled monsters arrive with the roster; existing golems are level 1.
-        s.update(sim.tick, !!sim.moving[i], sim.dir[i], sim.team[i], armour, 1, !!(cb.stMask[i] & (1 << St.Stone)));
+        this.animation?.sample(sim, i, this.pose);
+        s.update(sim.tick, !!sim.moving[i], sim.dir[i], sim.team[i], armour, 1, !!(cb.stMask[i] & (1 << St.Stone)), this.pose);
       }
     }
     const sh = this.shots;
@@ -519,7 +539,7 @@ export class Renderer {
     // Hit-point bars: Low draws them only for selected units, Medium adds hurt units, High draws every hurt unit in view.
     for (let i = 0; i < sim.count; i++) {
       const s = this.sprites[i];
-      if (!s.visible) continue;
+      if (!s.visible || cb.hp[i] <= 0) continue;
       const hurt = cb.hp[i] < cb.hpMax[i];
       const sel = v.selected.has(i);
       if (!(sel || (hurt && this.quality > 0))) continue;
@@ -532,7 +552,7 @@ export class Renderer {
     // Status pips above the bar, a ring for a live shield, and a mana bar under the hit-point bar of selected casters.
     for (let i = 0; i < sim.count; i++) {
       const s = this.sprites[i];
-      if (!s.visible) continue;
+      if (!s.visible || cb.hp[i] <= 0) continue;
       const m = cb.stMask[i];
       const y = s.y - (s instanceof UnitSprite ? 48 : 36) * s.scale.y;
       if (m) {
@@ -551,7 +571,7 @@ export class Renderer {
     }
     for (const id of v.selected) {
       const s = this.sprites[id];
-      if (!s.visible) continue;
+      if (!s.visible || cb.hp[id] <= 0) continue;
       const dir = sim.dir[id];
       r.ellipse(s.x, s.y, 11, 5)
         .stroke({ color: 0x9dff7a, width: 2 })
@@ -561,7 +581,7 @@ export class Renderer {
     }
     if (v.hover) {
       const s = this.sprites[v.hover.id];
-      if (s.visible) r.ellipse(s.x, s.y, 13, 6).stroke({ color: v.hover.ok ? 0xff5a4a : 0x999999, width: 2 });
+      if (s.visible && cb.hp[v.hover.id] > 0) r.ellipse(s.x, s.y, 13, 6).stroke({ color: v.hover.ok ? 0xff5a4a : 0x999999, width: 2 });
     }
     for (let p = 0; p < cb.pAlive.length; p++) {
       if (!cb.pAlive[p]) continue;

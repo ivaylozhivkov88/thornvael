@@ -36,6 +36,30 @@ Open `/thornvael/?hero=warrior,m,medium&art=1` to inspect all three in-game mode
 keyboard input while focused in the preview does not trigger gameplay hotkeys.
 The preview changes presentation only and is absent on ordinary URLs.
 
+## Combat presentation bridge (P02.1)
+
+The main loop observes every completed simulation step, including catch-up steps
+before a draw. A presentation-only typed-array tracker recognizes cooldown edges,
+fresh cast effects, net HP loss, death and revival. It never changes commands,
+simulation snapshots, hashes or saves. Missing/ambiguous cast attribution is marked
+unresolved instead of assigning the effect to a nearby unit. Capped/id-less effects
+and damage cancelled by same-step healing are disclosed limits, not lossless events.
+
+UnitSprite now dispatches optional attack/cast/hurt/die clips using atlas metadata.
+The currently shipped atlases STILL contain only stand/walk: diagnostics report
+requestedClip, resolvedClip and fallback rather than claiming combat artwork exists.
+Missing death art keeps the existing corpse marker. Complete in-memory clip fixtures
+test the dispatch, 16 facings, final death frame, palette sharing and stable 64px
+logical size for 48px cells; these fixtures are not shipped art or GPU screenshots.
+
+The preview offers all six clips and Replay animation. One-shots stop at their last
+frame; changing facing or palette preserves their phase. Its status explicitly
+discloses missing-clip fallback. In debug/browser tests, __game.animation(id) observes
+the tracker; __game.step(n) accepts only an explicit user pause and 1..125 steps,
+drains normal queued commands through the same production step helper, and refuses
+live/background stepping. Pause freezes clip time. Loading seeds a new baseline;
+an in-place restore is detected by array identity or explicit reset.
+
 At load time, CPU mask splitting places the unmasked pixels and the three
 greyscale regions into four quadrants of ONE shared texture per family. Regions
 are disjoint and preserve original alpha and shading. Four ordinary tinted Pixi
