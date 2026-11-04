@@ -1,4 +1,5 @@
 import { registerWorker } from './updategate';
+import { createInstallController, isInstallPrompt } from './pwa-install';
 import { audioState, blip, play, resumeAudio, setAmbience, setMusic, setSfx, suspendAudio, unlock } from './audio';
 import { MusicDirector, cueFor } from './audiologic';
 import { ControlGroups, GROUP_COUNT } from './groups';
@@ -1508,17 +1509,25 @@ $('btn-credits').onclick = () => openPanel(S.credits, S.creditsBody);
 
 const nav = navigator as Navigator & { standalone?: boolean };
 const isIos = /iphone|ipad|ipod/i.test(nav.userAgent) || (nav.platform === 'MacIntel' && nav.maxTouchPoints > 1);
-const standalone = window.matchMedia('(display-mode: standalone)').matches || nav.standalone === true;
-let deferred: (Event & { prompt: () => Promise<void> }) | null = null;
-window.addEventListener('beforeinstallprompt', (e) => {
-  e.preventDefault();
-  deferred = e as Event & { prompt: () => Promise<void> };
+const installMode = window.matchMedia('(display-mode: standalone)');
+const installButton = $('btn-install') as HTMLButtonElement;
+const install = createInstallController({
+  standalone: () => installMode.matches || nav.standalone === true,
+  render: ({ hidden, disabled }) => {
+    installButton.hidden = hidden;
+    installButton.disabled = disabled;
+    installButton.setAttribute('aria-busy', String(disabled));
+  },
+  instructions: () => openPanel(S.installTitle, isIos ? S.installIos : S.installOther),
 });
-if (standalone) $('btn-install').hidden = true;
-$('btn-install').onclick = () => {
-  if (deferred) void deferred.prompt();
-  else openPanel(S.installTitle, isIos ? S.installIos : S.installOther);
-};
+window.addEventListener('beforeinstallprompt', (e) => {
+  if (isInstallPrompt(e)) install.defer(e);
+});
+window.addEventListener('appinstalled', () => install.installed());
+installMode.addEventListener('change', install.refresh);
+window.addEventListener('pageshow', install.refresh);
+document.addEventListener('visibilitychange', install.refresh);
+installButton.onclick = () => void install.activate();
 
 // Inside a mission an update is never offered or applied: the new worker waits until the menu or map banner is pressed.
 registerWorker();
