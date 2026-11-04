@@ -18,6 +18,12 @@ interface ControlsGame {
   };
 }
 const sorted = (ids: readonly number[]) => [...ids].sort((a, b) => a - b);
+// Keep real frame-loop stepping, without rendering every intervening frame on a
+// CI software GPU. <=200ms jumps respect the loop's five-step catch-up budget.
+async function advanceClock(page: Page, ms: number) {
+  for (let elapsed = 0; elapsed < ms; elapsed += 200)
+    await page.clock.fastForward(Math.min(200, ms - elapsed));
+}
 const state = (page: Page) => page.evaluate(() => {
   const g = (window as unknown as { __game: ControlsGame }).__game;
   return { selected: [...g.selected()].sort((a, b) => a - b), tile: g.tile(12, 12),
@@ -105,7 +111,7 @@ async function tick(page: Page) {
   // command button instead of the game's pause shortcut. Use the real Pause UI.
   if (before.paused) await button(page, '#btn-pause');
   expect((await state(page)).paused).toBe(false);
-  await page.clock.runFor(160);
+  await page.clock.fastForward(160);
   expect((await state(page)).tick).toBeGreaterThan(before.tick);
 }
 async function targetTile(page: Page, p: [number, number]) {
@@ -180,7 +186,7 @@ test('groups 1–9 assign, replace, add, deduplicate, recall and center only on 
     await page.keyboard.press(String(n));
     expect((await state(page)).selected).toEqual(sorted([a.id, b.id]));
     expect((await state(page)).tile).toEqual(before);
-    await page.clock.runFor(100); await page.keyboard.press(String(n));
+    await page.clock.fastForward(100); await page.keyboard.press(String(n));
     const centroid = await page.evaluate((ids) => {
       const g = (window as unknown as { __game: ControlsGame }).__game;
       const ps = ids.map((i) => g.posTiles(i));
@@ -193,7 +199,7 @@ test('groups 1–9 assign, replace, add, deduplicate, recall and center only on 
         Math.round(y * scale - clamp(y * scale, g.sim.map.h * scale, innerHeight))] };
     }, [a.id, b.id]);
     expect(centroid.actual).toEqual(centroid.expected);
-    await page.clock.runFor(400);
+    await page.clock.fastForward(400);
     // Record a live first-press timestamp, then move away from the group. A
     // wrongly widened double-press window would visibly recenter the next press.
     await page.keyboard.press(String(n));
@@ -202,14 +208,14 @@ test('groups 1–9 assign, replace, add, deduplicate, recall and center only on 
       const g = (window as unknown as { __game: ControlsGame }).__game;
       return -g.tile(0, 0)[0] < g.sim.map.w * 32 * g.zoom() - innerWidth - 8 ? 'ArrowRight' : 'ArrowLeft';
     });
-    await page.keyboard.down(panKey); await page.clock.runFor(64); await page.keyboard.up(panKey);
+    await page.keyboard.down(panKey); await page.clock.fastForward(64); await page.keyboard.up(panKey);
     const after = (await state(page)).tile;
     expect(after).not.toEqual(centered);
-    await page.clock.runFor(400);
+    await page.clock.fastForward(400);
     await page.keyboard.press(String(n));
     expect((await state(page)).tile).toEqual(after);
     expect((await state(page)).selected).toEqual(sorted([a.id, b.id]));
-    await page.clock.runFor(400);
+    await page.clock.fastForward(400);
   }
 });
 
@@ -231,7 +237,7 @@ test('orders: right-click, M and Move button dispatch exactly one move; cancella
     expect(await playerDelta(page, before.log)).toEqual([{ type: 'move', ids: [a.id], ...tile, loose: false }]);
     expect((await state(page)).selected).toEqual([a.id]);
     if (via === 'right') {
-      await page.clock.runFor(1400);
+      await advanceClock(page, 1400);
       const now = await page.evaluate((id) => (window as unknown as { __game: ControlsGame }).__game.posTiles(id), a.id);
       expect(Math.hypot(now[0] - pos[0], now[1] - pos[1])).toBeGreaterThan(0.1);
     }
@@ -261,7 +267,7 @@ test('orders: smart enemy attack, Alt forced move and Ctrl friendly attack prese
   });
   await canvasPoint(page, approach); await page.mouse.click(...approach, { button: 'right' });
   await tick(page);
-  for (let i = 0; i < 6 && (await units(page, 1)).length === 0; i++) await page.clock.runFor(1000);
+  for (let i = 0; i < 6 && (await units(page, 1)).length === 0; i++) await advanceClock(page, 1000);
   await page.keyboard.press('Space');
   const enemies = await units(page, 1); expect(enemies.length).toBeGreaterThan(0);
   const enemy = enemies[0]; await canvasPoint(page, enemy.p);
@@ -347,8 +353,8 @@ test('touch (synthetic Pointer Events): tap, move, pan, Box+Add, same-kind doubl
   await canvasPoint(page, otherLo); await canvasPoint(page, otherHi);
   await touch(page, 'down', otherLo); await touch(page, 'move', otherHi); await touch(page, 'up', otherHi);
   expect((await state(page)).selected).toEqual(sorted([b.id, other.id]));
-  await button(page, '#btn-box'); await button(page, '#btn-add'); await page.clock.runFor(400);
-  await tap(page, b.p); await page.clock.runFor(100); await tap(page, b.p);
+  await button(page, '#btn-box'); await button(page, '#btn-add'); await page.clock.fastForward(400);
+  await tap(page, b.p); await page.clock.fastForward(100); await tap(page, b.p);
   const sameKind = await page.evaluate((kind) => {
     const g = (window as unknown as { __game: ControlsGame }).__game;
     return Array.from({ length: g.sim.count }, (_, id) => id)
@@ -356,7 +362,7 @@ test('touch (synthetic Pointer Events): tap, move, pan, Box+Add, same-kind doubl
   }, b.kind);
   expect((await state(page)).selected).toEqual(sameKind);
   const hold = await state(page), point = await emptyPoint(page);
-  await touch(page, 'down', point); await page.clock.runFor(500);
+  await touch(page, 'down', point); await page.clock.fastForward(500);
   await expect(page.locator('.radial')).toBeVisible();
   const radialBoxes = await page.locator('.radial > button').evaluateAll((els) => els.map((el) => {
     const r = el.getBoundingClientRect(); return [r.width, r.height];
@@ -385,7 +391,7 @@ test('group membership edits reset stale recall history for keyboard Set and but
   const [a, b] = await units(page); expect(a && b).toBeTruthy();
   for (const edit of ['set', 'add'] as const) {
     await clickUnit(page, a.id); await page.keyboard.press('Control+1');
-    await page.keyboard.press('1'); await page.clock.runFor(100);
+    await page.keyboard.press('1'); await page.clock.fastForward(100);
     await clickUnit(page, b.id);
     if (edit === 'set') await page.keyboard.press('Control+1');
     else {
@@ -397,6 +403,6 @@ test('group membership edits reset stale recall history for keyboard Set and but
     await page.keyboard.press('1');
     expect.soft((await state(page)).selected, `${edit}: first recall selects edited membership`).toEqual(edit === 'set' ? [b.id] : sorted([a.id, b.id]));
     expect.soft((await state(page)).tile, `${edit}: first recall must not center`).toEqual(before);
-    await page.clock.runFor(400);
+    await page.clock.fastForward(400);
   }
 });
