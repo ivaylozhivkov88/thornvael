@@ -116,14 +116,91 @@ def pixel_record(path):
 
 def previews():
     from PIL import Image, ImageDraw
+    if CLIPS['walk'] == 8 and not (OUT / 'motion-report.json').exists():
+        evidence = json.loads((STAGE / 'failed-pose.json').read_text())
+        require(evidence['sources'] == source_records(), 'Stale failure preview sources')
+        phase, direction = evidence['frame'], evidence['direction']
+        old = ROOT / '.planning/art-concepts/hero-motion' / f'walk-{direction:02}-{phase//2:02}.png'
+        sources = [('OLD v1 - four-key reference', old),
+                   ('NEW v2 - FAILED knee coverage', OUT / 'FAILED-diagnostic-pose.png')]
+        sheet = Image.new('RGB', (1000, 340), '#242a26')
+        draw = ImageDraw.Draw(sheet)
+        draw.text((12, 10), 'DIAGNOSTIC FAILURE COMPARISON - NOT IN-GAME - NOT PRODUCTION', fill='white')
+        draw.text((12, 28), f'Cardinal {direction:02}; new phase {phase}/8. Single failed pose; no approved new gait loop.', fill='#ffce80')
+        gif = []
+        for column, (label, path) in enumerate(sources):
+            original = Image.open(path).convert('RGBA')
+            enlarged = original.resize((192, 192), Image.Resampling.NEAREST)
+            x = 20+column*490
+            draw.text((x, 60), label, fill='white')
+            sheet.paste(enlarged, (x, 90), enlarged)
+            sheet.paste(original, (x+230, 200), original)
+            draw.text((x+225, 255), 'native 48px', fill='white')
+            panel = Image.new('RGB', (650, 320), '#242a26')
+            text = ImageDraw.Draw(panel)
+            text.text((12, 8), 'DIAGNOSTIC - NOT IN-GAME - NOT PRODUCTION', fill='white')
+            text.text((12, 28), label, fill='#ffce80')
+            text.text((12, 47), 'Alternating OLD/NEW stills, not a completed locomotion loop', fill='white')
+            panel.paste(enlarged, (220, 90), enlarged)
+            gif.append(panel)
+        draw.text((20, 306), '4x nearest preview; native PNGs unchanged. Actual scene failure preserved; no image alignment.', fill='white')
+        sheet.save(OUT / 'diagnostic-contact-sheet.png')
+        gif[0].save(OUT / 'diagnostic-loop.gif', save_all=True, append_images=gif[1:],
+                    duration=1000, loop=0, disposal=2)
+        print('PREVIEWS_NOT_READY single failed pose old/new comparison only')
+        return
     report = json.loads((OUT / 'motion-report.json').read_text())
     require(report['sources'] == source_records(), 'Stale sources: regenerate before previews')
+    if report['version'] == 2:
+        old = ROOT / '.planning/art-concepts/hero-motion'
+        sheet = Image.new('RGB', (1450, 1080), '#242a26')
+        draw = ImageDraw.Draw(sheet)
+        draw.text((12, 8), 'DIAGNOSTIC ONLY - NOT IN-GAME - NOT PRODUCTION | native 48px / nearest 2x | attack0 CONTACT', fill='white')
+        for block, (folder, title, count) in enumerate([(OUT, 'NEW v2 / 8 walk keys', 8), (old, 'OLD v1 / 4 walk keys', 4)]):
+            top = 35+block*520
+            draw.text((12, top), title, fill='#ffce80')
+            keys = [('stand', 0)]+[('walk', i) for i in range(count)]+[('attack', i) for i in range(4)]
+            for row, direction in enumerate(DIRECTIONS):
+                y = top+38+row*116
+                draw.text((5, y+30), f'{direction:02}', fill='white')
+                for column, (clip, key) in enumerate(keys):
+                    x = 34+column*107
+                    sprite = Image.open(folder / f'{clip}-{direction:02}-{key:02}.png').convert('RGBA')
+                    enlarged = sprite.resize((96, 96), Image.Resampling.NEAREST)
+                    sheet.paste(enlarged, (x, y), enlarged)
+                    if row == 0:
+                        draw.text((x, top+20), f'{clip} {key}', fill='white')
+                neutral = Image.open(folder / f'stand-{direction:02}-00.png').convert('RGBA')
+                sheet.paste(neutral, (1390, y+25), neutral)
+        sheet.save(OUT / 'diagnostic-contact-sheet.png')
+        frames = []
+        sequence = [('stand', 0)]*2+[('walk', i) for i in range(8)]*2+[('attack', i) for i in range(4)]+[('stand', 0)]*2
+        for clip, key in sequence:
+            canvas = Image.new('RGB', (650, 352), '#242a26')
+            text = ImageDraw.Draw(canvas)
+            text.text((10, 8), 'DIAGNOSTIC ONLY - NOT IN-GAME - NOT PRODUCTION', fill='white')
+            text.text((10, 26), f'{clip} / new key {key}' + (' CONTACT' if (clip, key) == ('attack', 0) else ''), fill='#ffce80')
+            for row, (folder, title) in enumerate([(old, 'OLD v1'), (OUT, 'NEW v2')]):
+                text.text((10, 90+row*140), title, fill='white')
+                source_key = key//2 if row == 0 and clip == 'walk' else key
+                for column, direction in enumerate(DIRECTIONS):
+                    x, y = 100+column*130, 63+row*140
+                    sprite = Image.open(folder / f'{clip}-{direction:02}-{source_key:02}.png').convert('RGBA')
+                    enlarged = sprite.resize((96, 96), Image.Resampling.NEAREST)
+                    canvas.paste(enlarged, (x, y), enlarged)
+                    text.text((x+35, y+100), f'{direction:02}', fill='white')
+            text.text((10, 330), '2x NEAREST; fixed camera/root; no image alignment. Old walk keys held twice.', fill='white')
+            frames.append(canvas)
+        frames[0].save(OUT / 'diagnostic-loop.gif', save_all=True, append_images=frames[1:], duration=150, loop=0, disposal=2)
+        print('PREVIEWS_OK new v2 vs old v1 direct-pose diagnostic')
+        return
     # Original native cells are retained; only this explicitly labelled diagnostic is magnified.
-    sheet = Image.new('RGB', (1064, 520), '#242a26')
+    walk_count = report['clips']['walk']
+    sheet = Image.new('RGB', (1064+(walk_count-4)*107, 520), '#242a26')
     draw = ImageDraw.Draw(sheet)
     draw.text((12, 8), 'DIAGNOSTIC ONLY - NOT IN-GAME | native 48px + nearest 2x | attack 0 = CONTACT', fill='white')
     draw.text((1008, 28), 'native', fill='#eee8cb')
-    keys = [('stand', 0)] + [('walk', i) for i in range(4)] + [('attack', i) for i in range(4)]
+    keys = [('stand', 0)] + [('walk', i) for i in range(walk_count)] + [('attack', i) for i in range(4)]
     for row, direction in enumerate(DIRECTIONS):
         y = 46+row*116
         draw.text((8, y+24), f'{direction:02}', fill='white')
@@ -136,10 +213,10 @@ def previews():
             if row == 0:
                 draw.text((x, 28), f'{clip} {frame}', fill='#eee8cb')
         native = Image.open(OUT / f'stand-{direction:02}-00.png').convert('RGBA')
-        sheet.paste(native, (1008, y+32), native)
+        sheet.paste(native, (1008+(walk_count-4)*107, y+32), native)
     sheet.save(OUT / 'diagnostic-contact-sheet.png')
     frames = []
-    sequence = [('stand', 0)]*2 + [('walk', i) for i in range(4)]*2 + [('attack', i) for i in range(4)] + [('stand', 0)]*2
+    sequence = [('stand', 0)]*2 + [('walk', i) for i in range(walk_count)]*2 + [('attack', i) for i in range(4)] + [('stand', 0)]*2
     for clip, frame in sequence:
         canvas = Image.new('RGB', (488, 180), '#242a26')
         text = ImageDraw.Draw(canvas)
@@ -162,11 +239,36 @@ def main():
     parser.add_argument('--preflight', action='store_true')
     parser.add_argument('--verify', action='store_true')
     parser.add_argument('--previews', action='store_true')
+    parser.add_argument('--profile', choices=['v1', 'v2'], default='v1')
+    parser.add_argument('--out-dir', help='Explicit workspace-only evidence directory; default profile paths retained')
+    parser.add_argument('--stage-dir', help='Explicit workspace-only cache/proof directory')
+    parser.add_argument('--probe-internal-caps', action='store_true',
+                        help='V2 negative: restore the former buried trouser cap endpoints in actual mesh')
+    parser.add_argument('--probe-stance', action='store_true',
+                        help='V2 evaluated-scene negative: translate the full R leg at stance phase 2')
     parser.add_argument('--probe-coverage', action='store_true',
                         help='Negative test: detach an actual elbow cuff mesh; must fail preflight')
     parser.add_argument('--probe-partial-seam', action='store_true',
                         help='Negative test: detach a quarter sleeve seam, retaining the closed cuff')
     options = parser.parse_args(argv)
+    global OUT, STAGE, CLIPS
+    if options.profile == 'v2':
+        OUT = ROOT / '.planning/art-concepts/hero-locomotion'
+        STAGE = ROOT / '.planning/tooling/hero-locomotion'
+        CLIPS = {'stand': 1, 'walk': 8, 'attack': 4}
+    def bounded_folder(value):
+        folder = Path(value)
+        folder = (ROOT / folder).resolve() if not folder.is_absolute() else folder.resolve()
+        require(folder != ROOT and folder.is_relative_to(ROOT), 'Evidence/cache must stay inside workspace')
+        return folder
+    if options.out_dir:
+        OUT = bounded_folder(options.out_dir)
+    if options.stage_dir:
+        STAGE = bounded_folder(options.stage_dir)
+    require(OUT != STAGE and not OUT.is_relative_to(STAGE) and not STAGE.is_relative_to(OUT),
+            'Evidence and cache directories must be separate')
+    require(not options.probe_internal_caps or options.profile == 'v2', '--probe-internal-caps requires v2')
+    require(not options.probe_stance or options.profile == 'v2', '--probe-stance requires v2')
     if options.previews:
         previews()
         return
@@ -182,6 +284,8 @@ def main():
     saved_argv = sys.argv[:]
     sys.argv = [str(GENERATOR), '--', '--motion-build', '--model-scale', '1.15',
                 '--samples', '32', '--size', '96', '--out-dir', str(OUT), '--stage-dir', str(STAGE)]
+    if options.profile == 'v2':
+        sys.argv.append('--locomotion-build')
     try:
         built = runpy.run_path(str(GENERATOR), run_name='hero_motion_builder')
     finally:
@@ -301,6 +405,143 @@ def main():
                    [max(v[i] for v in rest_points) for i in range(3)]]
     feet = {side: [o for o in geometry if o['motion_owner'] == 'foot.'+side] for side in ('L', 'R')}
     rest_sole = {side: min(v.z for v in evaluated_vertices(objects)) for side, objects in feet.items()}
+    v2 = options.profile == 'v2'
+    stride, lift, pelvis_drop = .24, .025, .012
+    rest_legs = [{'side': side, **{field: flatten(joints[prefix+side].evaluated_get(
+        bpy.context.evaluated_depsgraph_get()).matrix_world) for field, prefix in
+        [('hipWorld', 'thigh.'), ('kneeWorld', 'shin.'), ('ankleWorld', 'foot.')]}}
+        for side in ('L', 'R')]
+    lengths = {row['side']: tuple((Vector([row[b][i] for i in (3, 7, 11)])-
+                                  Vector([row[a][i] for i in (3, 7, 11)])).length
+                    for a, b in [('hipWorld', 'kneeWorld'), ('kneeWorld', 'ankleWorld')])
+               for row in rest_legs}
+    targets = {}
+
+    def locomotion_pose(index, direction):
+        # Analytic two-bone solution, forward knee branch. Rest geometry is vertical;
+        # solve its YZ plane using measured world lengths, then rotate by cardinal.
+        phase = index % 8
+        joints['pelvis'].location.z -= pelvis_drop/1.15
+        root.rotation_euler.z = math.radians(-direction*22.5)
+        bpy.context.view_layer.update()
+        for side in ('L', 'R'):
+            progress = phase/4 if side == 'R' else (phase-4)/4
+            if 0 <= progress <= 1:
+                y, height = stride*(progress-.5)/2, 0.0
+            else:
+                swing = (phase/4 if side == 'L' else (phase-4)/4)
+                # Smooth swing takes the rear foot forward; endpoints double support.
+                y = stride*(.5-swing)/2
+                height = lift*math.sin(math.pi*swing)**2
+            target_model = pivots['foot.'+side].copy()
+            target_model.y += y/1.15
+            target_model.z += height/1.15
+            targets[side] = root.matrix_world @ target_model
+            hip = joints['thigh.'+side].matrix_world.translation
+            diff = targets[side]-hip
+            distance = diff.length
+            l1, l2 = lengths[side]
+            require(abs(l1-l2) <= distance <= l1+l2, 'Unreachable IK target '+side)
+            # Back-rotate world displacement to the original sagittal plane.
+            local = root.matrix_world.to_3x3().normalized().inverted() @ diff
+            hip_angle = math.atan2(local.y, -local.z)-math.acos(
+                (l1*l1+distance*distance-l2*l2)/(2*l1*distance))
+            knee_angle = math.acos((distance*distance-l1*l1-l2*l2)/(2*l1*l2))
+            joints['thigh.'+side].rotation_euler.x = hip_angle
+            joints['shin.'+side].rotation_euler.x = knee_angle
+            joints['foot.'+side].rotation_euler.x = -hip_angle-knee_angle
+            rotate('upperarm.'+side, -math.degrees(hip_angle)*.35)
+        bpy.context.view_layer.update()
+        if options.probe_stance and direction == 0 and index == 2:
+            # Rigidly translate the ENTIRE actual leg and its requested target: segment
+            # lengths, target residual/reach, pole, sole and orientation stay normal.
+            # This cannot be caught just by JSON alteration or a length-only gate.
+            shift = Vector((.004, 0, 0))
+            joints['thigh.R'].location += shift/1.15
+            targets['R'] += shift
+            bpy.context.view_layer.update()
+
+    def sample_locomotion(direction, phase):
+        graph = bpy.context.evaluated_depsgraph_get()
+        rotation = Matrix.Rotation(math.radians(-direction*22.5), 3, 'Z')
+        pole = rotation @ Vector((0, -1, 0))
+        result = {'direction': direction, 'phase': phase,
+                  'virtualRoot': list(pole*(stride*phase/8)), 'feet': {}}
+        for side in ('L', 'R'):
+            foot = joints['foot.'+side].evaluated_get(graph).matrix_world
+            orientation = foot.to_3x3().normalized()
+            result['feet'][side] = {
+                'ankleWorld': list(foot.translation),
+                'hipWorld': list(joints['thigh.'+side].evaluated_get(graph).matrix_world.translation),
+                'kneeWorld': list(joints['shin.'+side].evaluated_get(graph).matrix_world.translation),
+                'targetWorld': list(targets[side]), 'poleWorld': list(pole),
+                'soleZ': min(v.z for v in evaluated_vertices(feet[side])),
+                'orientationWorld': [float(orientation[r][c]) for r in range(3) for c in range(3)]}
+        return result
+
+    def cycle_state():
+        # Read independently from the current dependency graph at each posed endpoint.
+        graph = bpy.context.evaluated_depsgraph_get()
+        matrices, vertices = {}, {}
+        for kind, objects in [('joint', list(joints.values())), ('geometry', geometry)]:
+            for obj in objects:
+                evaluated = obj.evaluated_get(graph)
+                local = (evaluated.parent.matrix_world.inverted() @ evaluated.matrix_world
+                         if evaluated.parent else evaluated.matrix_world)
+                key = obj['joint_id'] if kind == 'joint' else obj.name
+                matrices[(kind, key)] = flatten(local)
+                if kind == 'geometry':
+                    mesh = evaluated.to_mesh()
+                    try:
+                        raw = b''.join(struct.pack('<ddd', *vertex.co) for vertex in mesh.vertices)
+                        vertices[key] = (len(mesh.vertices), hashlib.sha256(raw).hexdigest())
+                    finally:
+                        evaluated.to_mesh_clear()
+        return matrices, vertices
+
+    def check_locomotion(samples):
+        maximum = {'length': 0., 'residual': 0., 'plant': 0., 'sole': 0., 'orientation': 0.}
+        for row in samples:
+            for side, foot in row['feet'].items():
+                hip, knee, ankle, target, pole = [Vector(foot[k]) for k in
+                    ('hipWorld', 'kneeWorld', 'ankleWorld', 'targetWorld', 'poleWorld')]
+                l1, l2 = lengths[side]
+                error = max(abs((hip-knee).length-l1), abs((knee-ankle).length-l2))
+                residual, reach = (ankle-target).length, (hip-target).length
+                maximum['length'] = max(maximum['length'], error)
+                maximum['residual'] = max(maximum['residual'], residual)
+                require(error <= EPSILON, 'Evaluated IK segment length failed')
+                require(residual <= EPSILON, 'Evaluated IK target residual failed')
+                require(abs(l1-l2)-EPSILON <= reach <= l1+l2+EPSILON, 'Evaluated IK reach failed')
+                axis = ankle-hip
+                require(axis.length > EPSILON, 'Folded IK singularity')
+                axis.normalize()
+                offset = knee-hip-axis*(knee-hip).dot(axis)
+                projected = pole-axis*pole.dot(axis)
+                if offset.length > EPSILON:
+                    require(projected.length > EPSILON, 'IK pole singularity')
+                    require(offset.dot(projected.normalized()) >= -EPSILON, 'Inverted evaluated knee bend')
+        lookup = {(row['direction'], row['phase']): row for row in samples}
+        for direction in DIRECTIONS:
+            for side, (start, end) in {'R': (0, 4), 'L': (4, 8)}.items():
+                base = lookup[(direction, start)]
+                def position(row):
+                    return Vector([row['feet'][side]['ankleWorld'][i]+row['virtualRoot'][i]
+                                   for i in range(2)])
+                for phase in range(start, end+1):
+                    row = lookup[(direction, phase)]
+                    drift = (position(row)-position(base)).length
+                    sole = abs(row['feet'][side]['soleZ']-base['feet'][side]['soleZ'])
+                    angular = max(abs(a-b) for a, b in zip(row['feet'][side]['orientationWorld'],
+                                                          base['feet'][side]['orientationWorld']))
+                    for key, value in [('plant', drift), ('sole', sole), ('orientation', angular)]:
+                        maximum[key] = max(maximum[key], value)
+                    require(drift <= EPSILON, f'Evaluated stance ankle drift {direction}/{phase}/{side}: {drift}')
+                    require(sole <= EPSILON and angular <= EPSILON, 'Stance sole/orientation drift')
+                swing = range(1, 4) if side == 'L' else range(5, 8)
+                require(max(lookup[(direction, p)]['feet'][side]['soleZ']-base['feet'][side]['soleZ']
+                            for p in swing) >= .01, 'Insufficient evaluated swing lift')
+        return maximum
 
     def rotate(name, x=0, y=0, z=0):
         joints[name].rotation_euler = tuple(math.radians(value) for value in (x, y, z))
@@ -308,7 +549,9 @@ def main():
     def pose(clip, index, direction):
         before = reset()
         support = None
-        if clip == 'walk':
+        if clip == 'walk' and v2:
+            locomotion_pose(index, direction)
+        elif clip == 'walk':
             # Four diagnostic phases, paired arms/hips; pelvis bobs over grounded support foot.
             hips = [(-14, 10), (-2, 2), (10, -14), (2, -2)][index]
             knees = [(22, 0), (8, 0), (0, 22), (0, 8)][index]
@@ -426,7 +669,10 @@ def main():
             rows.append({'joint': joint_id, 'radialHits': hits, 'expectedHits': 120,
                          'misses': misses, 'radiusRange': [min(radii), max(radii)] if radii else [],
                          'seams': seams, 'pass': passed})
-        require(all(row['pass'] for row in rows), 'Anatomical coverage failed: '+json.dumps(rows))
+        if not all(row['pass'] for row in rows):
+            (STAGE / 'coverage-failure.json').write_text(json.dumps(rows, indent=2)+'\n')
+            require(False, 'Anatomical coverage failed; raw evaluated boundaries in coverage-failure.json: '+
+                    ', '.join(row['joint'] for row in rows if not row['pass']))
         return rows
 
     def inspect_pose(clip, frame, direction):
@@ -440,12 +686,28 @@ def main():
                   max(v.x for v in projected)*48, (1-min(v.y for v in projected))*48]
         require(bounds[0] > 1.5 and bounds[1] > 1.5 and bounds[2] < 46.5 and bounds[3] < 46.5,
                 f'Preflight clipping {clip}/{direction}/{frame}: {bounds}; reduce pose, never fit camera')
+        try:
+            coverage_rows = coverage()
+        except RuntimeError as error:
+            if v2:
+                evidence = {'status': 'NOT READY', 'error': str(error), 'sources': sources,
+                            'clip': clip, 'frame': frame, 'direction': direction,
+                            'parameters': {'strideWorld': stride, 'pelvisDropWorld': pelvis_drop,
+                                           'swingHeightWorld': lift},
+                            'sample': sample_locomotion(direction, frame) if clip == 'walk' else None}
+                (STAGE / 'failed-pose.json').write_text(json.dumps(evidence, indent=2)+'\n')
+                scene['failed_pose_evidence'] = json.dumps(evidence)
+                bpy.ops.wm.save_as_mainfile(filepath=str(STAGE / 'failed-pose.blend'))
+                # One explicitly failed, unapproved pose for inspection; never a frame manifest.
+                scene.render.filepath = str(OUT / 'FAILED-diagnostic-pose.png')
+                bpy.ops.render.render(write_still=True)
+            raise
         return {'clip': clip, 'direction': direction, 'frame': frame,
                 'file': f'{clip}-{direction:02}-{frame:02}.png', 'resetMaxDelta': reset_delta,
                 'attachmentMatrices': attachment_rows(), 'projectedBounds': bounds,
                 'worldBounds': [[min(v[i] for v in points) for i in range(3)],
                                 [max(v[i] for v in points) for i in range(3)]],
-                'coverage': coverage(), 'supportContact': contact}
+                'coverage': coverage_rows, 'supportContact': contact}
 
     if options.probe_coverage:
         damaged = next(o for o in geometry if o.get('motion_coverage_joint') == 'forearm.L')
@@ -462,21 +724,72 @@ def main():
         for index in indices[:len(indices)//4]:
             damaged.data.vertices[index].co.x += .20
         damaged.data.update()
+    if options.probe_internal_caps:
+        for obj in geometry:
+            if obj.get('motion_span_joint') not in ('shin.L', 'shin.R'):
+                continue
+            z = .54 if obj['motion_span_side'] == 'proximal' else .62
+            t = (z-.17)/.43 if z <= .60 else (z-.60)/.36
+            a, b = ((.062,.067),(.085,.085)) if z <= .60 else ((.085,.085),(.095,.09))
+            rx, ry = [a[i]+(b[i]-a[i])*t for i in (0, 1)]
+            center_x = pivots['shin.'+obj['motion_span_joint'][-1]].x
+            # Restore the exact old ring, in original base-mesh vertex index order.
+            for j, index in enumerate(obj['motion_seam_vertices']):
+                theta = j*math.tau/24
+                obj.data.vertices[index].co = (center_x+rx*math.sin(theta), -ry*math.cos(theta), z)
+            obj.data.update()
 
     # Complete all evaluated-geometry preflight checks BEFORE the first expensive render.
     preflight = []
+    samples, cycles = [], []
+    if v2:
+        for direction in DIRECTIONS:
+            for phase in range(9):
+                pose('walk', phase, direction)
+                samples.append(sample_locomotion(direction, phase))
+                if phase == 0:
+                    start_matrices, start_vertices = cycle_state()
+            # End is a separate evaluated phase8, after eight other scene poses.
+            end_matrices, end_vertices = cycle_state()
+            pairs = [{'kind': kind, 'id': key, 'start': start_matrices[(kind, key)], 'end': values}
+                     for (kind, key), values in end_matrices.items()]
+            vertex_pairs = [{'object': key, 'startCount': start_vertices[key][0], 'endCount': value[0],
+                             'startHash': start_vertices[key][1], 'endHash': value[1]}
+                            for key, value in end_vertices.items()]
+            require(all(max(abs(a-b) for a, b in zip(pair['start'], pair['end'])) <= EPSILON
+                        for pair in pairs), 'Cycle evaluated local matrix mismatch')
+            require(all(pair['startCount'] == pair['endCount'] > 0 and pair['startHash'] == pair['endHash']
+                        for pair in vertex_pairs), 'Cycle evaluated local vertices mismatch')
+            cycles.append({'direction': direction, 'file': f'walk-cycle-{direction:02}.png',
+                           'matrices': pairs, 'vertices': vertex_pairs})
+    locomotion = None
+    if v2:
+        locomotion = {'mode': 'rigid', 'forward': [0, -1, 0], 'stride': stride,
+                      'liftThreshold': .01, 'stanceIntervals': {'R': [0, 4], 'L': [4, 8]},
+                      'restLegs': rest_legs, 'samples': samples}
+        probe_file = 'negative-stance-source-probe.json' if options.probe_stance else 'source-probe.json'
+        (STAGE / probe_file).write_text(json.dumps({'sources': sources, 'locomotion': locomotion,
+            'cycles': cycles, 'parameters': {'pelvisDropWorld': pelvis_drop, 'swingHeightWorld': lift},
+            'measurement': 'Evaluated dependency graph, world scaled units before virtual travel; row-major'}, indent=2)+'\n')
+        if options.probe_stance:
+            pose('walk', 2, 0)
+            scene['negative_probe'] = 'Actual thigh.R +0.004 world X, target shifted equally; other IK invariants preserved'
+            bpy.ops.wm.save_as_mainfile(filepath=str(STAGE / 'negative-stance-scene.blend'))
+        maxima = check_locomotion(samples)
     for direction in DIRECTIONS:
         for clip, count in CLIPS.items():
             for frame in range(count):
                 preflight.append(inspect_pose(clip, frame, direction))
+        if v2:
+            inspect_pose('walk', 8, direction)
     reset()
     require(source_records() == sources, 'Sources changed during preflight')
     (STAGE / 'preflight.json').write_text(json.dumps({'sources': sources, 'frames': preflight}, indent=2)+'\n')
-    print('MOTION_PREFLIGHT_OK 36 evaluated poses; all joint spans and projected bounds checked', flush=True)
+    print(f'MOTION_PREFLIGHT_OK {len(preflight)} evaluated poses; all joint spans and projected bounds checked', flush=True)
     if options.preflight:
         return
 
-    report = {'version': 1, 'cell': [48, 48], 'anchor': [.5, .85], 'directions': DIRECTIONS,
+    report = {'version': 2 if v2 else 1, 'cell': [48, 48], 'anchor': [.5, .85], 'directions': DIRECTIONS,
               'clips': CLIPS, 'camera': {'location': [0, -6, 5.2], 'shift_y': .35, 'ortho_scale': 3},
               'modelScale': 1.15, 'matrixOrder': 'row-major', 'jointIds': list(joints),
               'geometryOwners': [{'object': o.name, 'owner': o['motion_owner']} for o in geometry],
@@ -498,6 +811,11 @@ def main():
                               'Wool skirt panels are rigid pelvis children; full cloth deformation is outside this proof.',
                               'Visual acceptance, independent critic and parent Node checker remain separate.'],
               'preflight': preflight}
+    if v2:
+        report.update(locomotion=locomotion, cycles=cycles)
+        report['limitations'] = ['Rigid diagnostic locomotion, not production integration or artistic approval.',
+            'Virtual stride is synthetic; no gameplay speed/terrain acceptance.',
+            'Pelvis-owned rigid cloth; no deformation solver. Four cardinals only.']
 
     def render(name):
         require(source_records() == sources, 'Sources/schema changed: abort stale render')
@@ -525,6 +843,9 @@ def main():
                    'maxMatrixDelta': max(measured, reset_delta), 'attachmentMatrices': attachment_rows()}
             row['pixels'] = render(row['file'])
             report['resets'].append(row)
+            if v2:
+                pose('walk', 8, direction)
+                render(f'walk-cycle-{direction:02}.png')
         reset()
         scene['motion_verified_sources'] = json.dumps(sources)
         bpy.ops.wm.save_as_mainfile(filepath=str(STAGE / 'heavy-hero-motion.blend'))
@@ -561,7 +882,10 @@ def main():
     require(all(report['checks'].get(key) is True for key in ('binding', 'reset', 'attachments', 'coverage')), 'Failed report checks')
     expected = {(clip, direction, frame) for clip, count in CLIPS.items() for direction in DIRECTIONS for frame in range(count)}
     actual = [(r['clip'], r['direction'], r['frame']) for r in report['frames']]
-    require(len(actual) == 36 and set(actual) == expected, 'Wrong/duplicate/missing pose keys')
+    require(len(actual) == sum(CLIPS.values())*4 and set(actual) == expected, 'Wrong/duplicate/missing pose keys')
+    if v2:
+        require(report['locomotion'] == locomotion and report['cycles'] == cycles,
+                'Reported v2 evidence differs from freshly evaluated scene')
     require(len(report['resets']) == 4 and {r['direction'] for r in report['resets']} == set(DIRECTIONS), 'Wrong reset keys')
     for row in report['frames']+report['resets']:
         expected_name = (f"{row['clip']}-{row['direction']:02}-{row['frame']:02}.png" if 'clip' in row else f"reset-{row['direction']:02}.png")
@@ -579,19 +903,24 @@ def main():
                 'Reported reset delta failed')
         pixel_record(OUT / row['file'])
     for direction in DIRECTIONS:
+        if v2:
+            require(decode_rgba(OUT / f'walk-cycle-{direction:02}.png') ==
+                    decode_rgba(OUT / f'walk-{direction:02}-00.png'), 'Cycle decoded RGBA mismatch')
         require(decode_rgba(OUT / f'stand-{direction:02}-00.png') == decode_rgba(OUT / f'reset-{direction:02}.png'),
                 f'Exact stand/reset decoded RGBA differs in direction {direction}')
         for clip in ('walk', 'attack'):
-            hashes = {pixel_record(OUT / f'{clip}-{direction:02}-{frame:02}.png')['visibleRgbaSha256'] for frame in range(4)}
+            hashes = {pixel_record(OUT / f'{clip}-{direction:02}-{frame:02}.png')['visibleRgbaSha256'] for frame in range(CLIPS[clip])}
             require(len(hashes) >= 3, f'{clip}/{direction}: fewer than three visible distinct keys')
         info = pixel_record(OUT / f'game-{direction:02}.png')
         require(24 <= info['solid_alpha_height'] <= 36 and info['solidPixels'] >= 100,
                 'Neutral size/readability gate failed')
     result = {'status': 'PASS', 'scope': 'Blender scene invariants + decoded pixel proof only; critic/parent acceptance pending',
-              'sources': sources, 'poses': 36, 'resets': 4, 'geometry': len(geometry),
+              'sources': sources, 'poses': sum(CLIPS.values())*4, 'resets': 4, 'geometry': len(geometry),
               'bindingMaxDelta': max(binding_deltas), 'samples': 32,
               'exactDecodedRgbaReset': True, 'coverageRaysPerPose': 480,
               'elapsedSeconds': round(time.monotonic()-started, 2)}
+    if v2:
+        result.update(locomotionMaxima= maxima, cycleCount=4)
     (STAGE / 'verify-results.json').write_text(json.dumps(result, indent=2)+'\n')
     print('HERO_MOTION_OK '+json.dumps(result), flush=True)
 

@@ -33,6 +33,8 @@ parser.add_argument('--game-proof', action='store_true')
 parser.add_argument('--model-scale', type=float, default=1.0)
 parser.add_argument('--motion-build', action='store_true',
                     help='Build explicit joint partitions for hero-motion.py; skip study renders')
+parser.add_argument('--locomotion-build', action='store_true',
+                    help='Motion v2 only: extend buried knee underlap for solved forward flexion')
 args = parser.parse_args(sys.argv[sys.argv.index('--') + 1:] if '--' in sys.argv else [])
 
 
@@ -394,15 +396,19 @@ for s in (-1,1):
             t=(z-.17)/.43 if z <= .60 else (z-.60)/.36
             a,b=((.062,.067),(.085,.085)) if z <= .60 else ((.085,.085),(.095,.09))
             return (lx,0,z,a[0]+(b[0]-a[0])*t,a[1]+(b[1]-a[1])*t)
-        trouser=loft('quilted trouser / thigh '+side,[trouser_row(z) for z in (.54,.60,.96)],cloth,24)
+        # V2 only: push buried end caps past the flexion sampling origins. The
+        # original taper/material are evaluated at the new endpoint, not widened.
+        thigh_end = .52 if args.locomotion_build else .54
+        shin_end = .64 if args.locomotion_build else .62
+        trouser=loft('quilted trouser / thigh '+side,[trouser_row(z) for z in (thigh_end,.60,.96)],cloth,24)
         trouser['motion_span_joint'], trouser['motion_span_side'] = 'shin.'+side, 'proximal'
         trouser['motion_seam_vertices'] = list(range(24))
         attachment_owner = 'shin.'+side
-        trouser=loft('quilted trouser / shin '+side,[trouser_row(z) for z in (.17,.60,.62)],cloth,24)
+        trouser=loft('quilted trouser / shin '+side,[trouser_row(z) for z in (.17,.60,shin_end)],cloth,24)
         trouser['motion_span_joint'], trouser['motion_span_side'] = 'shin.'+side, 'distal'
         trouser['motion_seam_vertices'] = list(range(48,72))
         flexion_underlap('underlapping quilted knee cuff '+side,
-                         (lx,0,.58),(.082,.084,.085),cloth)
+                         (lx,0,.58),(.082,.084,.115 if args.locomotion_build else .085),cloth)
         attachment_owner = 'thigh.'+side
     else:
         loft('quilted trouser',[(lx,0,.17,.062,.067),(lx,0,.60,.085,.085),
