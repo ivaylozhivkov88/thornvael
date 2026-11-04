@@ -396,10 +396,9 @@ for s in (-1,1):
             t=(z-.17)/.43 if z <= .60 else (z-.60)/.36
             a,b=((.062,.067),(.085,.085)) if z <= .60 else ((.085,.085),(.095,.09))
             return (lx,0,z,a[0]+(b[0]-a[0])*t,a[1]+(b[1]-a[1])*t)
-        # V2 only: push buried end caps past the flexion sampling origins. The
-        # original taper/material are evaluated at the new endpoint, not widened.
-        thigh_end = .52 if args.locomotion_build else .54
-        shin_end = .64 if args.locomotion_build else .62
+        # Authored cap endpoints; buried surfaces are resolved by closed-solid union.
+        thigh_end = .54
+        shin_end = .62
         trouser=loft('quilted trouser / thigh '+side,[trouser_row(z) for z in (thigh_end,.60,.96)],cloth,24)
         trouser['motion_span_joint'], trouser['motion_span_side'] = 'shin.'+side, 'proximal'
         trouser['motion_seam_vertices'] = list(range(24))

@@ -23,6 +23,11 @@ import sys
 import time
 import zlib
 
+# Blender -P does not consistently add the script directory to sys.path.
+sys.dont_write_bytecode = True
+sys.path.insert(0, str(Path(__file__).resolve().parent))
+from hero_coverage import Budget, CoverageError, METHOD, Solid, coverage_ray, vec, dot, cross
+
 GAME = Path(__file__).resolve().parents[1]
 ROOT = GAME.parent
 OUT = ROOT / '.planning/art-concepts/hero-motion'
@@ -42,7 +47,8 @@ def require(test, message):
 def source_records():
     return [{'file': path.relative_to(ROOT).as_posix(),
              'sha256': hashlib.sha256(path.read_bytes()).hexdigest()}
-            for path in (GENERATOR, Path(__file__).resolve(), SCHEMA)]
+            for path in (GENERATOR, Path(__file__).resolve(), SCHEMA,
+                         GAME / 'tools/hero_coverage.py')]
 
 
 def decode_rgba(path):
@@ -242,8 +248,10 @@ def main():
     parser.add_argument('--profile', choices=['v1', 'v2'], default='v1')
     parser.add_argument('--out-dir', help='Explicit workspace-only evidence directory; default profile paths retained')
     parser.add_argument('--stage-dir', help='Explicit workspace-only cache/proof directory')
+    parser.add_argument('--coverage-budget-seconds', type=float, default=120,
+                        help='Finite process-wide exact geometry budget; exhaustion is diagnostic FAIL')
     parser.add_argument('--probe-internal-caps', action='store_true',
-                        help='V2 negative: restore the former buried trouser cap endpoints in actual mesh')
+                        help='V2 positive regression: reassert authored .54/.62 buried trouser caps')
     parser.add_argument('--probe-stance', action='store_true',
                         help='V2 evaluated-scene negative: translate the full R leg at stance phase 2')
     parser.add_argument('--probe-coverage', action='store_true',
@@ -251,6 +259,8 @@ def main():
     parser.add_argument('--probe-partial-seam', action='store_true',
                         help='Negative test: detach a quarter sleeve seam, retaining the closed cuff')
     options = parser.parse_args(argv)
+    require(math.isfinite(options.coverage_budget_seconds) and options.coverage_budget_seconds > 0,
+            'Coverage budget must be finite and positive')
     global OUT, STAGE, CLIPS
     if options.profile == 'v2':
         OUT = ROOT / '.planning/art-concepts/hero-locomotion'
@@ -277,6 +287,7 @@ def main():
     from mathutils import Matrix, Vector
     from mathutils.bvhtree import BVHTree
     started = time.monotonic()
+    coverage_budget = Budget(options.coverage_budget_seconds)
     sources = source_records()
     OUT.mkdir(parents=True, exist_ok=True)
     STAGE.mkdir(parents=True, exist_ok=True)
@@ -609,7 +620,28 @@ def main():
         return vertices, BVHTree.FromPolygons(vertices, faces)
 
     coverage_joints = ['forearm.L', 'forearm.R', 'shin.L', 'shin.R']
-    def coverage():
+    def evaluated_solids(objects):
+        graph = bpy.context.evaluated_depsgraph_get()
+        solids = []
+        for obj in objects:
+            evaluated = obj.evaluated_get(graph)
+            matrix = evaluated.matrix_world
+            columns = [vec(tuple(matrix[r][c] for r in range(3))) for c in range(3)]
+            if dot(columns[0], cross(columns[1], columns[2])) == 0:
+                raise CoverageError('INVALID_SOLID', object=obj.name, issue='singular object transform')
+            mesh = evaluated.to_mesh()
+            try:
+                mesh.calc_loop_triangles()
+                solids.append(Solid(obj.name,
+                                    [tuple(matrix @ v.co) for v in mesh.vertices],
+                                    [tuple(t.vertices) for t in mesh.loop_triangles],
+                                    [t.polygon_index for t in mesh.loop_triangles],
+                                    budget=coverage_budget))
+            finally:
+                evaluated.to_mesh_clear()
+        return solids
+
+    def coverage(clip, frame, direction):
         # Actual evaluated triangle surfaces, not a flag deduced from object ownership.
         # At each pivot: 5 axial cross-sections x 24 radial rays; require skin all around.
         # Independently check EVERY authored seam vertex around BOTH adjoining rings.
@@ -623,7 +655,14 @@ def main():
             require(len(cuff) == 1 and len(spans) == 2 and
                     {o.get('motion_span_side') for o in spans} == {'proximal', 'distal'},
                     'Missing coverage surfaces: '+joint_id)
-            _, tree = surface(cuff+spans)
+            context = {'joint': joint_id, 'clip': clip, 'frame': frame,
+                       'direction': direction, 'objects': [o.name for o in cuff+spans]}
+            try:
+                solids = evaluated_solids(cuff+spans)
+            except CoverageError as error:
+                failure = {**context, 'pass': False, 'diagnostic': error.details}
+                (STAGE / 'coverage-failure.json').write_text(json.dumps(failure, indent=2)+'\n')
+                raise RuntimeError('Closed-solid validation failed: '+str(failure)) from error
             _, cuff_tree = surface(cuff)
             center = joints[joint_id].matrix_world.translation
             child_axis = joints[joint_id].matrix_world.to_3x3().normalized()
@@ -635,12 +674,17 @@ def main():
                 for angle in range(24):
                     theta = angle*math.tau/24
                     ray = (axes @ Vector((math.cos(theta), math.sin(theta), 0))).normalized()
-                    location, normal, face, distance = tree.ray_cast(origin, ray, .14*1.15)
-                    if location is None or distance < .025*1.15:
-                        misses.append([offset, angle, distance])
-                    else:
+                    try:
+                        measured = coverage_ray(solids, tuple(origin), tuple(ray))
                         hits += 1
-                        radii.append(distance)
+                        radii.append(measured['radiusWorld'])
+                    except CoverageError as error:
+                        misses.append({**context, 'offset': offset, 'angle': angle,
+                                       'diagnostic': error.details})
+                        # Budget exhaustion is process-wide; stop immediately, never partial PASS.
+                        if error.details['reason'] == 'RESOURCE_EXHAUSTED':
+                            (STAGE / 'coverage-failure.json').write_text(json.dumps(misses, indent=2)+'\n')
+                            raise RuntimeError('Coverage budget exhausted; checkpoint in coverage-failure.json') from error
             seams = []
             for span in spans:
                 indices = list(span.get('motion_seam_vertices', []))
@@ -687,7 +731,7 @@ def main():
         require(bounds[0] > 1.5 and bounds[1] > 1.5 and bounds[2] < 46.5 and bounds[3] < 46.5,
                 f'Preflight clipping {clip}/{direction}/{frame}: {bounds}; reduce pose, never fit camera')
         try:
-            coverage_rows = coverage()
+            coverage_rows = coverage(clip, frame, direction)
         except RuntimeError as error:
             if v2:
                 evidence = {'status': 'NOT READY', 'error': str(error), 'sources': sources,
@@ -698,9 +742,7 @@ def main():
                 (STAGE / 'failed-pose.json').write_text(json.dumps(evidence, indent=2)+'\n')
                 scene['failed_pose_evidence'] = json.dumps(evidence)
                 bpy.ops.wm.save_as_mainfile(filepath=str(STAGE / 'failed-pose.blend'))
-                # One explicitly failed, unapproved pose for inspection; never a frame manifest.
-                scene.render.filepath = str(OUT / 'FAILED-diagnostic-pose.png')
-                bpy.ops.render.render(write_still=True)
+                # Numerical failure is terminal before rendering, including preflight probes.
             raise
         return {'clip': clip, 'direction': direction, 'frame': frame,
                 'file': f'{clip}-{direction:02}-{frame:02}.png', 'resetMaxDelta': reset_delta,
@@ -805,7 +847,7 @@ def main():
                          'denoising': scene.cycles.use_denoising, 'adaptiveThreshold': scene.cycles.adaptive_threshold,
                          'viewTransform': scene.view_settings.view_transform},
               'attackPhases': ['CONTACT / immediate hit', 'followthrough', 'recovery', 'ready'],
-              'coverageMethod': 'Evaluated skin/cuff triangles: 5 axial sections x 24 radial rays per elbow/knee. Independently, EVERY live authored seam-ring vertex of both adjoining segments must be inside the closed convex cuff or <= 0.025 model units outside its evaluated triangles; report signed distances, outside gaps and their maximum. Explicit seam indices authored during construction, never inferred from object suffixes. Does not replace critic inspection.',
+              'coverageMethod': METHOD + '. Actual evaluated tagged cuff and two spans, validated per pose; 5 axial sections x 24 directions per elbow/knee. Exact squared physical radius in [0.02875,0.161] world inclusive. Independently EVERY live authored seam vertex on BOTH rings retains signed cuff-distance gate <=0.025 model outside. Diagnostic FAIL on ambiguity or resource exhaustion. Does not replace critic/parent art acceptance.',
               'limitations': ['Four diagnostic keys per movement, not a production clip or all 16 directions.',
                               'Support sole height is enforced; horizontal foot motion is measured, not a claim of zero sliding.',
                               'Wool skirt panels are rigid pelvis children; full cloth deformation is outside this proof.',

@@ -78,6 +78,55 @@ the chain is straight with knee offset <=1e-6 and valid lengths/reach. Folded
 chains and nonstraight pole singularities fail. Scene/source review independently
 confirms these are evaluated measurements and coverage remains enforced.
 
+### Exact closed-solid radial coverage (v1 and v2)
+
+The source helper `game/tools/hero_coverage.py` is included in source hashes.
+Only the explicitly tagged cuff and proximal/distal spans of the tested joint
+participate, using evaluated triangulated world meshes, with separate object,
+original polygon and triangle identities. Each object is validated once per pose:
+nonzero triangles, no duplicates, one connected shell, opposite edge incidence,
+single-cycle vertex links, positive outward signed volume, and exact triangle-pair
+embedding checks (including coplanar overlap and extra self-contact). Singular
+transforms and nonfinite input fail. No repair, welding or rounding is permitted.
+
+Finite binary input coordinates become `Fraction.from_float(float(value))`.
+Point classification rejects boundary origins, then uses deterministic auxiliary
+rays `(1,k,k*k)`, k=1..32; only transverse face-interior crossings are accepted.
+Exhaustion is diagnostic FAIL. At least one object must strictly contain the
+origin, and no participating object may have the origin on its boundary.
+All primary-ray triangle intersections are collected without stepping, to exact
+`T=(W+1)/D`, where W is the maximum coordinate distance from origin across all
+participating vertices and D is the maximum absolute direction component.
+Equal rational event parameters retain all incident identities; unequal values
+remain distinct. Positive-length coplanar travel fails. Exact midpoint
+classification supplies occupied closed intervals and tangent singletons.
+
+Sort those intervals by start/end/object and return the end of the contiguous
+union component containing zero. Exact touching connects; every positive gap
+terminates the component. Neither the nearest triangle nor the furthest hit is
+the coverage radius. Compare `exit^2 * dot(direction,direction)` exactly against
+`(2875/100000)^2` and `(161/1000)^2`, inclusively, with no tolerance. Directions
+are not renormalized inside the exact kernel. Floating radius is report-only.
+
+Keep offsets [-.06,-.03,0,.03,.06], 24 directions, modelScale 1.15 and existing
+parent/child frames: **120/120 rays per joint per pose**, both elbows and knees.
+Every live authored vertex on BOTH seam rings retains the independent signed
+cuff-distance test and maximum outside distance .02875 world. All stance, IK,
+attachment, reset and cycle gates retain their existing 1e-6 tolerances.
+V2 trouser cap endpoints are .54/.62 model Z with the original taper; cuff axial
+radius remains .115. `--probe-internal-caps` is a positive regression.
+
+Failure reports retain joint/pose/offset/angle, exact origin/direction/T, origin
+classifications, event face identities, occupied intervals, reach/nextStart and
+reason where evaluation reached those stages. Invalid solid validation precedes
+ray construction and reports object/face IDs instead. Reasons distinguish
+INVALID_SOLID, ORIGIN_BOUNDARY, ORIGIN_OUTSIDE, COPLANAR_RAY,
+CLASSIFICATION_AMBIGUOUS, RADIUS_OUT_OF_RANGE and RESOURCE_EXHAUSTED.
+`--coverage-budget-seconds` defaults to 120 for the whole invocation; exhaustion
+fails with its checkpoint, never partial PASS. Numerical failures occur before
+any render. A preflight PASS does not certify visual/art acceptance; native 48px
+normal-zoom critic and parent review remain separate.
+
 Add `cycles`: exactly four rows, one per cardinal, with fields
 `{direction,file,matrices,vertices}`. `file` must be the exact walk-cycle filename
 above; decoded RGBA (including invisible RGB) equals walk frame00 exactly.
