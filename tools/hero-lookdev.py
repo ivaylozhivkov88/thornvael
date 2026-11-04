@@ -142,7 +142,7 @@ steel = material('01 / abraded forged steel', (.28, .32, .35), .82, .43, 9)
 edge = material('02 / aged bronze narrow edges', (.18, .135, .079), .8, .57, 18)
 mail = material('03 / dark iron mail', (.025, .033, .04), .65, .82, 40)
 leather = material('04 / worn oxhide', (.14, .055, .022), 0, .82, 125)
-cloth = material('05 / charcoal olive wool', (.028, .041, .014), 0, .91, 180)
+cloth = material('05 / muted olive wool', (.08, .12, .035), 0, .91, 180)
 black = material('06 / visor shadow', (.006, .007, .008), .1, .8)
 heraldry = material('07 / old ivory inlay', (.44, .39, .25), .55, .56)
 
@@ -599,7 +599,7 @@ report={'blender':bpy.app.version_string,'seed':31103,'samples':args.samples,
         'model_z_bounds':model_z_bounds,'model_root_origin':list(root.location),
         'model_root_scale':list(root.scale),'model_geometry_objects':len(model),
         'scale_note':'Uniform complete-geometry root scale about unchanged ground origin, including weapons. Fixed pilot proof camera; portrait camera scales with model to retain framing. No per-facing fitting or image resize.',
-        'material_revision':'Broad light steel / dark rough mail / warm oxhide / dark olive wool; reduced color mottling. No mesh detail added; closed v2 boots and clean helm unchanged.',
+        'material_revision':'V4: raised muted olive wool value against unchanged dark rough mail; broad light steel / warm oxhide unchanged. No geometry, rig, camera or detail changes; closed boots and helm preserved.',
         'stage_dir':str(STAGE),'blender_user_resources':os.environ['BLENDER_USER_RESOURCES'],
         'materials':material_recipe,'engine':scene.render.engine,'view_transform':scene.view_settings.view_transform,
         'cycles':{'seed':scene.cycles.seed,'samples':scene.cycles.samples,
