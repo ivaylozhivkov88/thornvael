@@ -4,7 +4,7 @@ import { readFileSync, readdirSync } from 'node:fs';
 import { inflateSync } from 'node:zlib';
 import { pathToFileURL } from 'node:url';
 import { createHash } from 'node:crypto';
-import { checkSheet } from '../src/sprites/contract.ts';
+import { checkCombatSheet } from '../src/sprites/contract.ts';
 
 export function decodePng(bytes) {
   if (!bytes.subarray(0, 8).equals(Buffer.from([137, 80, 78, 71, 13, 10, 26, 10]))) throw Error('invalid PNG signature');
@@ -46,7 +46,7 @@ export function checkAtlasFiles(root = 'public/sprites', provenance = 'assets.js
   for (const name of files.filter((f) => f.endsWith('.json'))) {
     try {
       const sheet = JSON.parse(readFileSync(`${root}/${name}`, 'utf8'));
-      const issues = checkSheet(sheet);
+      const issues = checkCombatSheet(sheet);
       if (issues.length) throw Error(issues.join('; '));
       const meta = sheet.meta, t = meta.thornvael;
       if (name !== `${t.unit}.json`) throw Error('filename does not match unit id');
@@ -62,7 +62,7 @@ export function checkAtlasFiles(root = 'public/sprites', provenance = 'assets.js
       const channels = [0, 0, 0];
       const animationHashes = new Map();
       for (const [key, { frame: r }] of Object.entries(sheet.frames)) {
-        let opaque = 0, marked = 0;
+        let opaque = 0, marked = 0, top = r.h, bottom = -1;
         const hash = createHash('sha256');
         for (let y = r.y; y < r.y + r.h; y++) hash.update(color.pixels.subarray((y * color.w + r.x) * 4, (y * color.w + r.x + r.w) * 4));
         const sequence = key.slice(0, key.lastIndexOf('/'));
@@ -70,7 +70,12 @@ export function checkAtlasFiles(root = 'public/sprites', provenance = 'assets.js
         animationHashes.get(sequence).add(hash.digest('hex'));
         for (let y = r.y; y < r.y + r.h; y++) for (let x = r.x; x < r.x + r.w; x++) {
           const p = (y * color.w + x) * 4;
-          if (color.pixels[p + 3]) opaque++;
+          if (color.pixels[p + 3]) {
+            opaque++;
+            if (x === r.x || y === r.y || x === r.x + r.w - 1 || y === r.y + r.h - 1)
+              throw Error(`${key}: silhouette touches the cell border (possible clipping)`);
+          }
+          if (color.pixels[p + 3] > 128) { top = Math.min(top, y - r.y); bottom = Math.max(bottom, y - r.y); }
           if (mask.pixels[p + 3] > 128) {
             marked++;
             if (!color.pixels[p + 3]) throw Error(`${key}: mask outside colour silhouette`);
@@ -78,6 +83,14 @@ export function checkAtlasFiles(root = 'public/sprites', provenance = 'assets.js
           }
         }
         if (!opaque || !marked) throw Error(`${key}: empty colour or mask frame`);
+        if (key.split('/')[1] === 'stand') {
+          // 64px logical cells must retain a readable subject, not silently
+          // shrink the whole model to fit an overextended combat pose.
+          const logicalHeight = (bottom - top + 1) * 64 / r.h;
+          const bounds = t.unit === 'hero' ? [36, 48] : t.unit === 'archer' ? [32, 46] : [32, 47];
+          if (logicalHeight < bounds[0] || logicalHeight > bounds[1])
+            throw Error(`${key}: neutral subject height ${logicalHeight.toFixed(2)}px outside ${bounds.join('..')} logical px`);
+        }
       }
       if (channels.some((n) => !n)) throw Error('RGB mask must contain all three palette regions');
       for (const [sequence, hashes] of animationHashes) if (hashes.size < 2) throw Error(`${sequence}: animation contains only repeated still frames`);

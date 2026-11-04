@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { ANIMS, DIRECTIONS, checkSheet, frameName, type UnitSheet } from '../src/sprites/contract';
+import { ANIMS, COMBAT_ANIMS, DIRECTIONS, checkSheet, checkCombatSheet, frameName, type UnitSheet } from '../src/sprites/contract';
 import { animationFrame, palette, sheetDirection, splitMask } from '../src/sprites/palette';
 import { execFileSync } from 'node:child_process';
 
@@ -41,6 +41,47 @@ describe('sprite contract', () => {
     s.frames[frameName('u', 'stand', 0, 1)].frame = { x: 0, y: 0, w: 32, h: 32 };
     expect(checkSheet(s).join()).toContain('overlap');
     expect(checkSheet({ frames: {}, meta: { image: 'x', size: { w: 8, h: 8 } } })).toEqual(['meta.thornvael is missing']);
+  });
+});
+
+describe('shipped combat profile', () => {
+  function combatSheet(counts = { ...COMBAT_ANIMS }): UnitSheet {
+    const sheet: UnitSheet = { frames: {}, animations: {}, meta: { image: 'u.png', size: { w: 1024, h: 1024 },
+      thornvael: { contract: 1, unit: 'u', directions: 16, cell: [48, 48], anims: counts, mask: 'u-mask.png' } } };
+    let k = 0;
+    for (const [clip, n] of Object.entries(counts)) {
+      sheet.animations![clip] = [];
+      for (let d = 0; d < 16; d++) for (let i = 0; i < n; i++, k++) {
+        const name = frameName('u', clip, d, i);
+        sheet.frames[name] = { frame: { x: k % 21 * 48, y: Math.floor(k / 21) * 48, w: 48, h: 48 },
+          sourceSize: { w: 48, h: 48 }, anchor: { x: 0.5, y: 0.85 } };
+        sheet.animations![clip].push(name);
+      }
+    }
+    return sheet;
+  }
+  it('accepts 416 complete frames while retaining generic legacy support', () => {
+    const sheet = combatSheet();
+    expect(Object.keys(sheet.frames)).toHaveLength(416);
+    expect(checkCombatSheet(sheet)).toEqual([]);
+    expect(checkSheet(goodSheet())).toEqual([]);
+    expect(checkCombatSheet(goodSheet()).length).toBeGreaterThan(0);
+  });
+  it('rejects a self-consistent but incomplete combat set and a shortened action', () => {
+    const counts = { ...COMBAT_ANIMS }; delete counts.die;
+    expect(checkSheet(combatSheet(counts))).toEqual([]);
+    expect(checkCombatSheet(combatSheet(counts)).join()).toContain('requires die=4');
+    expect(checkCombatSheet(combatSheet({ ...COMBAT_ANIMS, attack: 3 })).join()).toContain('requires attack=4');
+  });
+  it('requires explicit feet anchors, sequence declarations and the memory budget', () => {
+    const sheet = combatSheet();
+    delete sheet.frames['u/stand/00/00'].anchor;
+    delete sheet.animations;
+    sheet.meta.size.w = 2048;
+    const errors = checkCombatSheet(sheet).join();
+    expect(errors).toContain('feet anchor');
+    expect(errors).toContain('animation sequences');
+    expect(errors).toContain('1024px');
   });
 });
 

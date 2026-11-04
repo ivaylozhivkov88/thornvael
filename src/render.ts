@@ -109,6 +109,7 @@ export class Renderer {
   private sprites: (Sprite | UnitSprite)[] = [];
   private artStress = false;
   private artPreview?: ArtPreview;
+  private loadedAtlases: UnitAtlas[] = [];
   private animation?: CombatAnimation;
   private readonly pose: AnimationPose = { clip: 'stand', frame: 0, age: 0, finished: false, unresolved: false };
   private fogCv!: HTMLCanvasElement;
@@ -180,6 +181,7 @@ export class Renderer {
     this.fog = fog;
     const tex = unitTexture();
     const atlases = await Promise.all(UNIT_ART.map((unit) => UnitAtlas.load(unit)));
+    this.loadedAtlases = atlases;
     const params = new URLSearchParams(location.search);
     this.artStress = params.get('artstress') === '1' && (params.has('crowd') || params.has('battle'));
     for (let i = 0; i < sim.count; i++) {
@@ -426,7 +428,16 @@ export class Renderer {
         approxAtlasBytes += source.pixelWidth * source.pixelHeight * 4;
       }
     }
-    return { stress: this.artStress, totalSprites: this.sprites.length, artSprites, visibleArtSprites,
+    // Count every resident source, including families absent from this mission's
+    // current units. Downloaded/decoded families still occupy GPU memory.
+    for (const atlas of this.loadedAtlases) {
+      const source = atlas.source.source;
+      if (!sources.has(source.uid)) {
+        sources.add(source.uid);
+        approxAtlasBytes += source.pixelWidth * source.pixelHeight * 4;
+      }
+    }
+    return { loadedFamilies: this.loadedAtlases.map((a) => a.unit), stress: this.artStress, totalSprites: this.sprites.length, artSprites, visibleArtSprites,
       onScreenArtSprites, families, uniqueGpuSources: sources.size, approxAtlasBytes,
       filteredArtSprites, layersPerArtSprite: 4, quality: this.quality, resolution: this.app.renderer.resolution };
   }

@@ -38,9 +38,10 @@ test('three in-game models, all facings, independent palettes and shared batch s
     await page.getByLabel('Monster level', { exact: true }).selectOption({ value: String(level) });
     await expect.poll(async () => ({
       color: (await art())[2].colors[3],
+      heroColors: (await art())[0].colors.slice(0, 3),
       selected: await page.getByLabel('Monster level', { exact: true }).inputValue(),
       errors,
-    })).toEqual({ color: levelColors[level], selected: String(level), errors: [] });
+    })).toEqual({ color: levelColors[level], heroColors: [0xffffff, 0xf16b59, 0xe4bf69], selected: String(level), errors: [] });
     const current = await art();
     expect(current.map((a) => a.source)).toEqual(first.map((a) => a.source));
     expect(current[0].colors.slice(0, 3)).toEqual([0xffffff, 0xf16b59, 0xe4bf69]);

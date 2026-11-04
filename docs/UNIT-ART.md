@@ -2,7 +2,8 @@
 
 The hero (crested helmet, shield, sword), archer (hood, bow, quiver), and golem
 (wide stone body, faceted shoulders, fists) use original models built by our
-script. Each has 16 facings, four idle frames and eight walking frames. Other
+script. Each now has 16 facings and six clips: stand4, walk8, attack4, cast4,
+hurt2 and die4 (416 frames per family). Other
 unit kinds retain their previous rendering until the full roster slice.
 
 ## Reproduce
@@ -11,7 +12,7 @@ Blender 5.2.3 LTS and Python 3.12 with Pillow were used. From the game root,
 repeat for `hero`, `archer`, and `golem`:
 
 ```powershell
-& 'C:/Program Files/Blender Foundation/Blender 5.2/blender.exe' -b -P tools/render-unit.py -- .art-build/hero 64 hero
+& 'C:/Program Files/Blender Foundation/Blender 5.2/blender.exe' -b -P tools/render-unit.py -- .art-build/hero 48 hero
 python tools/pack-atlas.py .art-build/hero public/sprites hero
 npm run check:atlases
 ```
@@ -32,7 +33,7 @@ per-monster level field, so ordinary golems use level 1; the full roster will
 supply this value. No simulation state or save format changed.
 
 Open `/thornvael/?hero=warrior,m,medium&art=1` to inspect all three in-game models,
-16 directions, both animations and every palette. Controls have 44px targets;
+16 directions, all six animations and every palette. Controls have 44px targets;
 keyboard input while focused in the preview does not trigger gameplay hotkeys.
 The preview changes presentation only and is absent on ordinary URLs.
 
@@ -46,11 +47,22 @@ unresolved instead of assigning the effect to a nearby unit. Capped/id-less effe
 and damage cancelled by same-step healing are disclosed limits, not lossless events.
 
 UnitSprite now dispatches optional attack/cast/hurt/die clips using atlas metadata.
-The currently shipped atlases STILL contain only stand/walk: diagnostics report
-requestedClip, resolvedClip and fallback rather than claiming combat artwork exists.
+P02.2 now ships all six clips. Diagnostics report requestedClip, resolvedClip and
+fallback; generic older stand/walk-only packs retain the tested fallback path.
 Missing death art keeps the existing corpse marker. Complete in-memory clip fixtures
 test the dispatch, 16 facings, final death frame, palette sharing and stable 64px
 logical size for 48px cells; these fixtures are not shipped art or GPU screenshots.
+
+P02.2 uses one fixed camera3.0 and 48px cells in each1024px atlas. Weapons/bow/fists
+follow articulated limbs; action frame0 is contact/release, followed by recovery,
+matching the existing immediate combat resolution. Death clamps to a fallen pose.
+Cast art for noncasters is inspectable in the preview and grants no new abilities.
+The strict shipped profile checks all416 frames, explicit anchors/sequences, transparent
+cell borders, visible neutral-subject size, masks and provenance. The first camera4.8
+attempt was rejected for shrinking subjects; the corrected16-facing neutral heights
+retain93–104% of the original apparent height, with no packed-frame clipping.
+These remain original procedural PILOT models; final realistic visual acceptance
+and actual phone/active-combat performance gates are still open.
 
 The preview offers all six clips and Replay animation. One-shots stop at their last
 frame; changing facing or palette preserves their phase. Its status explicitly

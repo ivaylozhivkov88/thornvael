@@ -29,7 +29,7 @@ async function selectHero(page: Page) {
 }
 test.use({ viewport: { width: 1200, height: 700 } });
 
-test('real queued orders distinguish chase from strike; pause freezes phase and missing art is explicit', async ({ page }) => {
+test('real queued orders distinguish chase from strike; pause freezes the shipped attack clip', async ({ page }) => {
   await boot(page); await selectHero(page);
   const target = await page.evaluate(() => {
     const g = (window as unknown as { __game: Game }).__game;
@@ -48,7 +48,7 @@ test('real queued orders distinguish chase from strike; pause freezes phase and 
   for (let n = 0; n < 100 && state.pose.clip !== 'attack'; n++) { await step(page); state = await read(page); }
   expect(state.pose).toMatchObject({ clip: 'attack', age: 0, frame: 0 });
   await expect.poll(() => page.evaluate(() => (window as unknown as { __game: Game }).__game.unitArt(0)))
-    .toMatchObject({ requestedClip: 'attack', fallback: true });
+    .toMatchObject({ requestedClip: 'attack', resolvedClip: 'attack', fallback: false });
   const frozen = await read(page);
   await page.waitForTimeout(160);
   expect(await read(page)).toEqual(frozen);
@@ -93,7 +93,7 @@ test('spellbook casts drive the observer; a real insufficient-mana refusal creat
   expect(after.pose.clip).not.toBe('cast');
 });
 
-test('preview one-shots clamp, disclose absent artwork and replay without making more GPU sources', async ({ page }) => {
+test('preview shipped one-shots clamp and replay without making more GPU sources', async ({ page }) => {
   await boot(page, 'warrior', '&art=1');
   const art = () => page.evaluate(() => (window as unknown as { __game: Game }).__game.previewArt());
   const sources = (await art()).map((a) => a.source);
@@ -101,9 +101,9 @@ test('preview one-shots clamp, disclose absent artwork and replay without making
   await expect.poll(async () => (await art()).map((a) => a.requestedClip)).toEqual(['die', 'die', 'die']);
   await step(page, 20);
   await expect.poll(async () => (await art()).map((a) => a.finished)).toEqual([true, true, true]);
-  expect((await art()).every((a) => a.fallback)).toBe(true);
+  expect((await art()).every((a) => !a.fallback)).toBe(true);
   await expect(page.getByRole('complementary', { name: 'Unit art preview' }).getByRole('status'))
-    .toHaveText('die · finished · missing clip: locomotion fallback');
+    .toHaveText('die · finished');
   await page.getByLabel('Facing', { exact: true }).selectOption('4');
   expect((await art()).every((a) => a.finished)).toBe(true);
   await page.getByRole('button', { name: 'Replay animation', exact: true }).click();

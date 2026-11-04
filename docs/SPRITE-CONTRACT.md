@@ -5,8 +5,8 @@ Every unit sprite set in Thornvael follows this contract. It is produced by `too
 ## Layout
 
 - 16 directions, index 0 = facing the camera (south), then clockwise in 22.5 degree steps: 0 S, 4 W, 8 N, 12 E.
-- Animations: `stand` (4 frames, loop) and `walk` (8 frames, loop). Later slices may add `attack`, `cast`, `hurt`, `die`; the contract lists the allowed names.
-- All frames of one unit have the same cell size (default 64 x 64 px, large monsters 96 x 96). The anchor is the feet point, (0.5, 0.85) of the cell.
+- Generic v1 accepts `stand` (4 frames, loop) and `walk` (8 frames, loop), plus optional combat clips. The strict shipped combat profile requires `attack`4, `cast`4, `hurt`2 and `die`4 as well:416 frames per family across16 directions.
+- Shipped combat frames use48×48px cells in1024×1024 atlases; runtime child scaling preserves a64px logical cell. Generic older sets retain their recorded cell size. The explicit feet anchor is(0.5,0.85), identical across clips/facings.
 - Camera: orthographic, 3/4 view, fixed light from the top left, so shading is identical for every unit.
 
 ## Frame names
@@ -23,6 +23,7 @@ Every unit sprite set in Thornvael follows this contract. It is produced by `too
 
 - Atlas at most 2048 x 2048 px, one file at most 1 MB (repo guard), mask atlas the same size.
 - Cell size is a multiple of 8.
+- The strict combat profile fixes source dimensions to1024² so the four palette-layer quadrants produce one2048² RGBA GPU source per family (16MiB). Three loaded families remain48MiB, excluding CPU/decode/other textures. CI rejects border-touching silhouettes and gross neutral-subject shrink; a large pose must be corrected instead of shrinking all clips.
 
 ## Provenance
 

@@ -4,6 +4,7 @@ export const CONTRACT_VERSION = 1;
 export const DIRECTIONS = 16;
 export const ANIMS: Record<string, number> = { stand: 4, walk: 8 };
 export const OPTIONAL_ANIMS = ['attack', 'cast', 'hurt', 'die'];
+export const COMBAT_ANIMS: Readonly<Record<string, number>> = Object.freeze({ stand: 4, walk: 8, attack: 4, cast: 4, hurt: 2, die: 4 });
 export const MAX_ATLAS = 2048;
 
 export interface SheetFrame {
@@ -97,4 +98,24 @@ export function checkSheet(input: unknown): string[] {
       for (let j = i + 1; j < rs.length; j++) if (overlap(rs[i], rs[j])) { errs.push(`frames ${names[i]} and ${names[j]} overlap`); break; }
   }
   return errs;
+}
+
+/** Strict profile for shipped combat families. Generic v1 sheets remain readable
+ * for older packs, while CI rejects an incomplete or oversized production set. */
+export function checkCombatSheet(input: unknown): string[] {
+  const errors = checkSheet(input);
+  if (errors.length) return errors;
+  const sheet = input as UnitSheet, t = sheet.meta.thornvael!;
+  if (t.cell[0] !== 48 || t.cell[1] !== 48) errors.push('combat profile requires 48px cells');
+  if (sheet.meta.size.w !== 1024 || sheet.meta.size.h !== 1024) errors.push('combat profile requires a 1024px atlas');
+  if (Object.keys(t.anims).length !== Object.keys(COMBAT_ANIMS).length) errors.push('combat profile requires exactly six clips');
+  for (const [clip, count] of Object.entries(COMBAT_ANIMS))
+    if (t.anims[clip] !== count) errors.push(`combat profile requires ${clip}=${count}`);
+  if (!sheet.animations) errors.push('combat profile requires animation sequences');
+  for (const [name, f] of Object.entries(sheet.frames)) {
+    if (f.anchor?.x !== 0.5 || f.anchor?.y !== 0.85) errors.push(`${name}: combat feet anchor is required`);
+    if (f.sourceSize?.w !== 48 || f.sourceSize?.h !== 48) errors.push(`${name}: combat source size is required`);
+    if (errors.length > 12) break;
+  }
+  return errors;
 }
