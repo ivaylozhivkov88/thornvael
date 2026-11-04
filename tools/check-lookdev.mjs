@@ -13,7 +13,7 @@ const inside = (path) => {
   return path;
 };
 
-export function checkLookdev(directory) {
+export function checkLookdev(directory, comparePilot = false) {
   const root = inside(resolve(directory));
   const report = JSON.parse(readFileSync(resolve(root, 'render-report.json'), 'utf8'));
   const proof = report.game_proof;
@@ -48,12 +48,40 @@ export function checkLookdev(directory) {
   });
   if (new Set(frames.map((frame) => frame.pixelHash)).size !== 4)
     throw Error('Cardinal views must contain distinct rendered pixels');
+  if (comparePilot) {
+    const pilotRoot = resolve(workspace, 'game/public/sprites');
+    const sheet = JSON.parse(readFileSync(resolve(pilotRoot, 'hero.json'), 'utf8'));
+    const pilotBytes = readFileSync(resolve(pilotRoot, 'hero.png'));
+    const pilot = decodePng(pilotBytes);
+    const pilotHash = createHash('sha256').update(pilotBytes).digest('hex');
+    frames.forEach((frame, index) => {
+      const key = `hero/stand/${String(expectedDirections[index]).padStart(2, '0')}/00`;
+      const r = sheet.frames[key]?.frame;
+      if (!r || r.w !== 48 || r.h !== 48) throw Error(`Missing matching pilot cell ${key}`);
+      let top = r.h, bottom = -1;
+      for (let y = 0; y < r.h; y++) for (let x = 0; x < r.w; x++) {
+        if (pilot.pixels[((r.y + y) * pilot.w + r.x + x) * 4 + 3] > 128) {
+          top = Math.min(top, y); bottom = Math.max(bottom, y);
+        }
+      }
+      const height = bottom - top + 1;
+      if (height <= 0) throw Error(`${key}: empty reference silhouette`);
+      const ratio = (frame.bbox[3] - frame.bbox[1] + 1) / height;
+      frame.pilotComparison = { key, height, ratio, sourceSha256: pilotHash };
+      if (ratio < 0.9 || ratio > 1.1)
+        throw Error(`${frame.name}: height ratio ${ratio.toFixed(3)} outside 0.9..1.1 of shipped pilot`);
+    });
+  }
   return { status: 'PASS', scope: 'Four static game-size readability proofs; not rig/atlas/final-art acceptance', frames };
 }
 
 if (process.argv[1] && import.meta.url === pathToFileURL(resolve(process.argv[1])).href) {
   try {
-    console.log(JSON.stringify(checkLookdev(process.argv[2] ?? resolve(workspace, '.planning/art-concepts/hero-lookdev-v2')), null, 2));
+    const args = process.argv.slice(2);
+    const compare = args.includes('--compare-pilot');
+    const directory = args.find((arg) => !arg.startsWith('--'));
+    if (args.some((arg) => arg.startsWith('--') && arg !== '--compare-pilot')) throw Error('Unknown lookdev flag');
+    console.log(JSON.stringify(checkLookdev(directory ?? resolve(workspace, '.planning/art-concepts/hero-lookdev-v2'), compare), null, 2));
   } catch (error) {
     console.error(error.message); process.exitCode = 1;
   }

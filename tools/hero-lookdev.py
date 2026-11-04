@@ -5,6 +5,7 @@ Run from repository root (Blender 5.2.3, no external assets or dependencies):
 Legacy output paths/defaults are retained. To preserve the first study, use:
   --out-dir .planning/art-concepts/hero-lookdev-v2
   --stage-dir .planning/tooling/hero-lookdev-v2 --game-proof
+For the material/physical-scale study, use new v3 directories and --model-scale 1.15.
 Not an atlas generator, animation rig, or replacement for render-unit.py.
 """
 import argparse
@@ -29,6 +30,7 @@ parser.add_argument('--size', type=int, default=1100)
 parser.add_argument('--out-dir', default=str(OUT))
 parser.add_argument('--stage-dir', default=str(STAGE))
 parser.add_argument('--game-proof', action='store_true')
+parser.add_argument('--model-scale', type=float, default=1.0)
 args = parser.parse_args(sys.argv[sys.argv.index('--') + 1:] if '--' in sys.argv else [])
 
 
@@ -40,6 +42,8 @@ def workspace_dir(value):
     return path
 
 
+if not math.isfinite(args.model_scale) or not .5 <= args.model_scale <= 1.5:
+    parser.error('model-scale must be finite and between 0.5 and 1.5 inclusive')
 OUT, STAGE = workspace_dir(args.out_dir), workspace_dir(args.stage_dir)
 if OUT == STAGE or OUT.is_relative_to(STAGE) or STAGE.is_relative_to(OUT):
     parser.error('output and stage directories must be separate')
@@ -98,9 +102,9 @@ def material(name, base, metal=0, rough=.6, grain=100):
     l.new(coord.outputs['Generated'], noise.inputs['Vector'])
     ramp = n.new('ShaderNodeValToRGB')
     ramp.color_ramp.elements[0].position = .15
-    ramp.color_ramp.elements[0].color = (*(c * .72 for c in base), 1)
+    ramp.color_ramp.elements[0].color = (*(c * .88 for c in base), 1)
     ramp.color_ramp.elements[1].position = .85
-    ramp.color_ramp.elements[1].color = (*(min(1, c * 1.12) for c in base), 1)
+    ramp.color_ramp.elements[1].color = (*(min(1, c * 1.06) for c in base), 1)
     l.new(noise.outputs['Fac'], ramp.inputs[0])
     l.new(ramp.outputs[0], bs.inputs['Base Color'])
     remap = n.new('ShaderNodeMapRange')
@@ -124,7 +128,7 @@ def material(name, base, metal=0, rough=.6, grain=100):
     l.new(bump.outputs['Normal'], bs.inputs['Normal'])
     material_recipe.append({'name': name, 'base_linear': list(base), 'metallic': metal,
                             'roughness': rough, 'macro_noise_scale': grain,
-                            'color_multipliers': [.72, 1.12],
+                            'color_multipliers': [.88, 1.06],
                             'roughness_range': [rough-.055, min(.98, rough+.07)],
                             'grain_space': 'Object', 'grain_scale': fine.inputs['Scale'].default_value,
                             'grain_stretch': list(stretch.inputs[1].default_value),
@@ -133,11 +137,12 @@ def material(name, base, metal=0, rough=.6, grain=100):
     return m
 
 
-steel = material('01 / abraded forged steel', (.19, .218, .232), .92, .59, 9)
+# Broad value/hue blocks carry at 48px; reduce mottling instead of adding detail.
+steel = material('01 / abraded forged steel', (.28, .32, .35), .82, .43, 9)
 edge = material('02 / aged bronze narrow edges', (.18, .135, .079), .8, .57, 18)
-mail = material('03 / dark iron mail', (.095, .108, .113), .9, .52, 40)
-leather = material('04 / worn oxhide', (.055, .031, .022), 0, .77, 125)
-cloth = material('05 / charcoal olive wool', (.045, .052, .041), 0, .9, 180)
+mail = material('03 / dark iron mail', (.025, .033, .04), .65, .82, 40)
+leather = material('04 / worn oxhide', (.14, .055, .022), 0, .82, 125)
+cloth = material('05 / charcoal olive wool', (.028, .041, .014), 0, .91, 180)
 black = material('06 / visor shadow', (.006, .007, .008), .1, .8)
 heraldry = material('07 / old ivory inlay', (.44, .39, .25), .55, .56)
 
@@ -519,10 +524,11 @@ area('large warm key',(-3,-4,5),600,(1,.86,.70),3)
 area('cool soft fill',(3,-1,3),380,(.70,.82,1),2.5)
 area('warm rear edge',(-1,3,4),850,(1,.78,.51),2)
 cam=bpy.data.cameras.new('slightly elevated orthographic portrait')
-cam.type='ORTHO';cam.ortho_scale=2.46
+cam.type='ORTHO';cam.ortho_scale=2.46*args.model_scale
 o=bpy.data.objects.new('camera',cam);scene.collection.objects.link(o)
-o.location=(3.0,-6.5,3.15)
-o.rotation_euler=(Vector((0,0,1.05))-o.location).to_track_quat('-Z','Y').to_euler()
+# Keep the portrait composition; the separate 48px camera never scales or fits.
+o.location=Vector((3.0,-6.5,3.15))*args.model_scale
+o.rotation_euler=(Vector((0,0,1.05*args.model_scale))-o.location).to_track_quat('-Z','Y').to_euler()
 scene.camera=o
 scene['provenance']='Original procedural mesh and shaders; no external models/textures. Seed 31103.'
 scene['scope']='Single-pose lookdev only. Not rigged, not an atlas or P03 acceptance.'
@@ -532,7 +538,18 @@ root=bpy.data.objects.new('lookdev orientation root',None)
 scene.collection.objects.link(root)
 for obj in model:
     obj.parent=root  # identity parent; keep every mesh, ring and curve together
+root.scale=(args.model_scale,)*3  # ground origin stays (0,0,0), including weapons
 bpy.context.view_layer.update()
+depsgraph=bpy.context.evaluated_depsgraph_get()
+world_z=[]
+for obj in model:
+    evaluated=obj.evaluated_get(depsgraph)
+    surface=evaluated.to_mesh()
+    try:
+        world_z.extend((evaluated.matrix_world @ vertex.co).z for vertex in surface.vertices)
+    finally:
+        evaluated.to_mesh_clear()
+model_z_bounds=[min(world_z),max(world_z)]
 blend_path=STAGE/'thornvael-heavy-knight.blend'
 bpy.ops.wm.save_as_mainfile(filepath=str(blend_path))
 scene.render.filepath=str(OUT/'hero-lookdev.png')
@@ -554,10 +571,17 @@ def image_record(path):
     box=([min(p[0] for p in occupied),min(p[1] for p in occupied),
           max(p[0] for p in occupied)+1,max(p[1] for p in occupied)+1]
          if occupied else None)
+    solid=[(i%w,h-1-i//w) for i,a in enumerate(pixels[3::4]) if a>128/255]
+    solid_box=([min(p[0] for p in solid),min(p[1] for p in solid),
+                max(p[0] for p in solid)+1,max(p[1] for p in solid)+1]
+               if solid else None)
     raw=path.read_bytes()
     result={'file':path.name,'resolution':[w,h],'bytes':len(raw),
             'sha256':hashlib.sha256(raw).hexdigest(),'alpha_bbox':box,
             'nonzero_alpha_pixels':len(occupied),
+            'solid_alpha_threshold':'alpha > 128/255 (8-bit alpha > 128)',
+            'solid_alpha_bbox':solid_box,
+            'solid_alpha_height':solid_box[3]-solid_box[1] if solid_box else 0,
             'alpha_range':[min(pixels[3::4]),max(pixels[3::4])]}
     bpy.data.images.remove(img)
     return result
@@ -571,8 +595,11 @@ report={'blender':bpy.app.version_string,'seed':31103,'samples':args.samples,
         'scope':'Single-pose procedural study; no atlas, rig, animation or final visual acceptance.',
         'geometry_revision':'Closed steel toe/vamp under continuous overlapping lames; contained sole; connected dome/brow and narrow level sight slit.',
         'generation':'Original Python meshes, real mail rings and node materials; no external assets.',
-        'model_scale':1.0,'model_height':2.047,
-        'scale_note':'Unscaled adult model, fixed pilot camera. No per-facing fitting or portrait resize.',
+        'model_scale':args.model_scale,'model_height':model_z_bounds[1]-model_z_bounds[0],
+        'model_z_bounds':model_z_bounds,'model_root_origin':list(root.location),
+        'model_root_scale':list(root.scale),'model_geometry_objects':len(model),
+        'scale_note':'Uniform complete-geometry root scale about unchanged ground origin, including weapons. Fixed pilot proof camera; portrait camera scales with model to retain framing. No per-facing fitting or image resize.',
+        'material_revision':'Broad light steel / dark rough mail / warm oxhide / dark olive wool; reduced color mottling. No mesh detail added; closed v2 boots and clean helm unchanged.',
         'stage_dir':str(STAGE),'blender_user_resources':os.environ['BLENDER_USER_RESOURCES'],
         'materials':material_recipe,'engine':scene.render.engine,'view_transform':scene.view_settings.view_transform,
         'cycles':{'seed':scene.cycles.seed,'samples':scene.cycles.samples,
