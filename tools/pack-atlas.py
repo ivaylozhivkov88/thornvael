@@ -11,8 +11,8 @@ import sys
 from PIL import Image
 
 DIRECTIONS = 16
-ANIMS = {"stand": 4, "walk": 8}
-MAX_ATLAS = 2048
+ANIMS = {"stand": 4, "walk": 8, "attack": 4, "cast": 4, "hurt": 2, "die": 4}
+MAX_ATLAS = 1024
 
 
 class MaxRects:

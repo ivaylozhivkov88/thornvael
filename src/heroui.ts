@@ -1,9 +1,11 @@
 import { DEFS, Kind, M, MODN } from './sim/combat';
-import { DIFF_NAMES, INV_MAX, SKILL_MAX, SKILL_NAMES, SKILL_TIP, WHY_TEXT, blocker, derive, skillNeed, startState, type HeroState } from './sim/hero';
+import { DIFF_NAMES, INV_MAX, SKILL_NAMES, SKILL_TIP, WHY_TEXT, blocker, derive, startState, type HeroState } from './sim/hero';
+import { skillProgress } from './hero-presentation';
 import { ITEMS, Ik, SLOT_COUNT, SLOT_NAMES, itemText } from './sim/items';
 import type { Command, Sim } from './sim/sim';
 import { SPELLS } from './sim/spelldata';
 import { S } from './strings';
+import { itemIcon } from './townicons';
 
 /** Hero, pack and creation sheets. Plain DOM buttons only, so touch, mouse and keyboard (Tab, Enter, arrows) all work the same way. */
 
@@ -188,8 +190,18 @@ export class HeroUi {
     left.append(al, el('h3', '', S.hero.skills));
     const sl = el('div', 'lines');
     for (let k = 0; k < 3; k++) {
-      const lvl = h.skill[k];
-      sl.append(line(SKILL_NAMES[k], lvl >= SKILL_MAX ? `${S.hero.level} ${lvl} (max)` : `${S.hero.level} ${lvl}`, SKILL_TIP[k], meter('', lvl >= SKILL_MAX ? 1 : h.use[k], lvl >= SKILL_MAX ? 1 : skillNeed(lvl))));
+      const { level, used, needed, remaining } = skillProgress(h, k);
+      const row = el('div');
+      row.dataset.skill = String(k);
+      const progress = el('progress');
+      progress.max = needed ?? 1;
+      progress.value = needed === null ? 1 : used;
+      progress.style.width = '100%';
+      progress.setAttribute('aria-label', `${SKILL_NAMES[k]} progress`);
+      const summary = needed === null ? 'Maximum level reached.' : `${used} / ${needed} uses · ${remaining} to level ${level + 1}.`;
+      progress.setAttribute('aria-valuetext', summary);
+      row.append(line(SKILL_NAMES[k], `${S.hero.level} ${level}${needed === null ? ' (max)' : ''}`), progress, el('p', 'note', `${summary} ${SKILL_TIP[k]}`));
+      sl.append(row);
     }
     left.append(sl);
     const right = el('div');
@@ -222,6 +234,7 @@ export class HeroUi {
         this.sel = this.sel?.from === 'eq' && this.sel.slot === s ? null : { from: 'eq', item: id, slot: s };
         this.render(true);
       }, SLOT_NAMES[s]);
+      bt.prepend(itemIcon(id));
       bt.classList.toggle('sel', this.sel?.from === 'eq' && this.sel.slot === s);
       if (id >= 0) this.ctx.tipOn(bt, itemText(id));
       slots.append(bt);
@@ -242,6 +255,7 @@ export class HeroUi {
         this.sel = this.sel?.from === 'inv' && this.sel.item === st.item ? null : { from: 'inv', item: st.item, slot: -1 };
         this.render(true);
       }, `${S.hero.level} ${d.tier} · ${d.w * st.n} ${S.hero.weight.toLowerCase()}`);
+      bt.prepend(itemIcon(st.item));
       bt.classList.toggle('sel', this.sel?.from === 'inv' && this.sel.item === st.item);
       bt.classList.toggle('no', blocker(h, st.item) !== 0);
       this.ctx.tipOn(bt, itemText(st.item));

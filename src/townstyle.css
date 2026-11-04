@@ -1,0 +1,363 @@
+/* Town presentation only. School retains the shared sheet styles.
+ * Images are supplied by TownUi; no private reference assets are shipped here. */
+.sheet.town:is(.town--shop, .town--tavern) {
+  --town-brass: #a3824f;
+  --town-gold: #f1d69b;
+  --town-paper: #f0e6d0;
+  --town-dim: #c5b99f;
+  left: 50%;
+  top: calc(12px + env(safe-area-inset-top));
+  bottom: auto;
+  width: min(1000px, calc(100% - 24px - env(safe-area-inset-left) - env(safe-area-inset-right)));
+  max-height: min(760px, calc(100dvh - 24px - env(safe-area-inset-top) - env(safe-area-inset-bottom)));
+  padding: 12px;
+  border: 3px ridge var(--town-brass);
+  border-radius: 12px 12px 7px 7px;
+  color: var(--town-paper);
+  background:
+    repeating-linear-gradient(2deg, #160c0766 0 2px, transparent 3px 9px),
+    repeating-linear-gradient(91deg, #67422433 0 16px, #26170d55 18px 21px, transparent 23px 51px),
+    linear-gradient(100deg, #352315, #644326 48%, #302016);
+  box-shadow: inset 0 0 0 2px #1a100b, inset 0 0 0 4px #b18b494d, 0 12px 44px #000c;
+  overflow: auto;
+  overscroll-behavior: contain;
+  touch-action: pan-y pinch-zoom;
+  scrollbar-color: var(--town-brass) #21170f;
+  scrollbar-gutter: stable;
+  font-size: 14px;
+  line-height: 1.35;
+}
+
+.sheet:is(.town--shop, .town--tavern) *,
+.sheet:is(.town--shop, .town--tavern) *::before,
+.sheet:is(.town--shop, .town--tavern) *::after { box-sizing: border-box; }
+
+.sheet:is(.town--shop, .town--tavern) .sheet-head {
+  gap: 8px;
+  margin: 0 0 10px;
+  padding: 0 2px 8px;
+  border-bottom: 2px groove var(--town-brass);
+}
+.sheet:is(.town--shop, .town--tavern) .sheet-head h2 {
+  min-width: 0;
+  margin: 0;
+  font-size: clamp(18px, 2.3vw, 25px);
+  color: var(--town-gold);
+  text-shadow: 0 2px 2px #000;
+}
+.sheet:is(.town--shop, .town--tavern) :is(h3, p, figcaption) { overflow-wrap: anywhere; }
+.sheet:is(.town--shop, .town--tavern) h3 {
+  margin: 0 0 7px;
+  color: var(--town-gold);
+  font: 600 15px/1.3 Georgia, "Times New Roman", serif;
+  text-align: center;
+  letter-spacing: .035em;
+}
+.sheet:is(.town--shop, .town--tavern) :is(small, .note) { color: var(--town-dim); opacity: 1; }
+.sheet:is(.town--shop, .town--tavern) .gold { color: var(--town-gold); }
+.sheet:is(.town--shop, .town--tavern) .neg { color: #ffb4a3; }
+.sheet:is(.town--shop, .town--tavern) button {
+  min-width: 44px;
+  min-height: 44px;
+  max-width: 100%;
+  padding: 7px 10px;
+  border: 2px ridge var(--town-brass);
+  border-radius: 4px;
+  background: linear-gradient(#51402b, #261d14);
+  color: var(--town-paper);
+  box-shadow: inset 0 0 0 1px #100b08, inset 0 2px 3px #dfb86f26, 0 2px 3px #0008;
+  white-space: normal;
+  overflow-wrap: anywhere;
+  touch-action: manipulation;
+}
+.sheet:is(.town--shop, .town--tavern) button:focus-visible {
+  outline: 3px solid #fff0bc;
+  outline-offset: 2px;
+  position: relative;
+  z-index: 3;
+}
+.sheet:is(.town--shop, .town--tavern) button:not(:disabled):active {
+  background: #594329;
+  box-shadow: inset 0 2px 5px #000a;
+}
+.sheet:is(.town--shop, .town--tavern) button:disabled {
+  opacity: 1;
+  color: #b1a58e;
+  border-color: #6b5b43;
+  background: #2d261f;
+  box-shadow: none;
+  cursor: default;
+}
+
+.sheet.town--shop .trade-layout {
+  display: grid;
+  grid-template-columns: minmax(0, 1.05fr) minmax(0, 1.65fr) minmax(0, .85fr);
+  grid-template-areas: "stock scene actions" "pack pack portrait" "details details details";
+  gap: 10px;
+  align-items: stretch;
+}
+.sheet:is(.town--shop, .town--tavern) :is(.trade-layout, .tavern-layout) > * { min-width: 0; margin: 0; }
+.sheet:is(.town--shop, .town--tavern) :is(.stock-panel, .pack-panel, .merc-panel, .quest-panel, .trade-details, .tavern-controls, .trade-actions) {
+  padding: 8px;
+  border: 2px groove var(--town-brass);
+  border-radius: 3px;
+  background: linear-gradient(110deg, #191713d9, #302c22e8 52%, #191713e8);
+  box-shadow: inset 0 0 10px #0009, 0 1px #e5b76126;
+}
+.sheet.town--shop .stock-panel { grid-area: stock; }
+.sheet.town--shop .pack-panel {
+  grid-area: pack;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: 7px;
+  align-content: start;
+  align-items: center;
+}
+.sheet.town--shop .pack-panel h3 { margin: 0; text-align: left; }
+.sheet.town--shop .pack-panel .grid { grid-column: 1 / -1; grid-row: 2; }
+.sheet.town--shop .pack-panel .town-pages { grid-column: 2; grid-row: 1; margin: 0; }
+.sheet.town--shop .trade-actions { grid-area: actions; }
+.sheet.town--shop .hero-portrait { grid-area: portrait; }
+.sheet.town--shop .trade-details { grid-area: details; }
+.sheet:is(.town--shop, .town--tavern) .grid { gap: 6px; }
+.sheet.town--shop .grid.shelf { grid-template-columns: repeat(2, minmax(44px, 1fr)); }
+.sheet.town--shop .grid.pack { grid-template-columns: repeat(5, minmax(44px, 1fr)); }
+.sheet.town--shop .grid .cell {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 3px;
+  min-width: 44px;
+  min-height: 72px;
+  padding: 5px 4px;
+  overflow: visible;
+  background: radial-gradient(ellipse at 50% 40%, #47382a, #171412 85%);
+  border: 2px ridge #8e7855;
+  border-radius: 2px;
+  box-shadow: inset 0 0 9px #000b;
+  font-size: 11px;
+  line-height: 1.15;
+  text-align: center;
+}
+.sheet.town--shop .grid.shelf .cell { min-height: 84px; }
+.sheet.town--shop .cell .town-item-icon {
+  display: block;
+  flex: 0 0 auto;
+  width: 34px;
+  height: 34px;
+  max-width: 100%;
+  pointer-events: none;
+  filter: drop-shadow(0 2px 2px #000b);
+}
+.sheet.town--shop .cell .item-name { width: 100%; overflow-wrap: anywhere; }
+.sheet.town--shop .cell small {
+  position: absolute;
+  top: 2px;
+  right: 2px;
+  padding: 1px 2px;
+  border-radius: 2px;
+  background: #17120be8;
+  color: var(--town-gold);
+  font-size: 11px;
+  line-height: 1.2;
+}
+.sheet.town--shop .grid .cell.empty {
+  border-style: inset;
+  border-color: #665139;
+  background: repeating-linear-gradient(4deg, #24190f 0 5px, #302215 6px 8px);
+}
+.sheet:is(.town--shop, .town--tavern) :is(button.sel, button[aria-pressed="true"], button[aria-selected="true"]) {
+  border-color: #ffe2a4;
+  color: #fff4da;
+  background: radial-gradient(ellipse, #6d5330, #332617);
+  box-shadow: inset 0 0 0 2px #ffe2a4, inset 0 0 18px #be893d44;
+}
+.sheet.town--shop .cell.no { opacity: 1; border-style: dashed; color: var(--town-dim); }
+.sheet:is(.town--shop, .town--tavern) .town-pages {
+  display: grid;
+  grid-template-columns: 44px minmax(0, 1fr) 44px;
+  align-items: center;
+  gap: 6px;
+  margin-top: 8px;
+  text-align: center;
+  font-size: 12px;
+  overflow-wrap: anywhere;
+}
+.sheet:is(.town--shop, .town--tavern) .town-pages button { padding: 4px; }
+.sheet.town--shop .trade-actions {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 8px;
+}
+.sheet.town--shop .trade-actions button {
+  flex: 1 0 52px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: 17px;
+  color: var(--town-gold);
+}
+.sheet.town--shop .trade-actions button small { display: block; color: inherit; font: 13px/1.3 "Segoe UI", sans-serif; }
+.sheet.town--shop .trade-details { display: grid; grid-template-columns: minmax(0, 1.4fr) minmax(0, 1fr); gap: 12px; }
+.sheet.town--shop .trade-details > * { min-width: 0; margin: 0; overflow-wrap: anywhere; white-space: pre-line; }
+.sheet.town--shop .bill { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 3px; align-content: start; font-variant-numeric: tabular-nums; }
+.sheet:is(.town--shop, .town--tavern) .line {
+  min-width: 0;
+  height: auto;
+  padding: 5px 7px;
+  border-radius: 2px;
+  background: #0f0d0a66;
+  color: var(--town-paper);
+}
+.sheet:is(.town--shop, .town--tavern) .line > .grow { min-width: 0; overflow-wrap: anywhere; }
+.sheet.town--shop .bill .line { min-height: 24px; font-size: 12px; }
+.sheet:is(.town--shop, .town--tavern) .note { margin: 8px 0 0; line-height: 1.45; }
+
+/* Backdrop stays still; only the transparent actor reacts. */
+.sheet:is(.town--shop, .town--tavern) .keeper {
+  grid-area: scene;
+  position: relative;
+  display: block;
+  isolation: isolate;
+  min-height: 350px;
+  border: 3px ridge var(--town-brass);
+  border-radius: 3px;
+  background: radial-gradient(ellipse at 45% 35%, #65533a, #191713 80%);
+  box-shadow: inset 0 0 20px #000c;
+  overflow: hidden;
+}
+.sheet:is(.town--shop, .town--tavern) .town-backdrop {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+  pointer-events: none;
+}
+.sheet:is(.town--shop, .town--tavern) .merchant-actor {
+  position: absolute;
+  z-index: 1;
+  left: 12%;
+  bottom: 45px;
+  width: 76%;
+  height: 82%;
+  object-fit: contain;
+  object-position: center bottom;
+  transform-origin: 50% 88%;
+  pointer-events: none;
+  animation: town-breathe 4.8s ease-in-out infinite;
+}
+.sheet:is(.town--shop, .town--tavern) .keeper:is(.greet, .pleased, .farewell) .merchant-actor { animation: town-nod 1.1s ease-in-out 1, town-breathe 4.8s 1.1s ease-in-out infinite; }
+.sheet:is(.town--shop, .town--tavern) .keeper.sorry .merchant-actor { animation: town-no 1s ease-in-out 1, town-breathe 4.8s 1s ease-in-out infinite; }
+.sheet:is(.town--shop, .town--tavern) .keeper.thinking .merchant-actor { animation-duration: 6s; }
+.sheet:is(.town--shop, .town--tavern) .keeper .say {
+  position: absolute;
+  z-index: 2;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  min-height: 44px;
+  margin: 0;
+  padding: 9px 8px;
+  border-top: 1px solid var(--town-brass);
+  background: #17120bee;
+  color: #fff0cd;
+  font-size: 13px;
+  line-height: 1.35;
+  text-align: center;
+  overflow-wrap: anywhere;
+}
+.sheet:is(.town--shop, .town--tavern) .hero-portrait {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  min-width: 0;
+  padding: 8px;
+  border: 3px ridge var(--town-brass);
+  border-radius: 9px;
+  background: radial-gradient(ellipse at center, #4c3725, #170f0a 75%);
+  box-shadow: inset 0 0 0 2px #1c120a, inset 0 0 20px #000a;
+}
+.sheet:is(.town--shop, .town--tavern) .hero-portrait img {
+  display: block;
+  width: 100%;
+  height: 180px;
+  object-fit: contain;
+  object-position: center bottom;
+  border: 2px solid #b7995d;
+  border-radius: 50%;
+  background: radial-gradient(ellipse, #34291c, #100d0a);
+}
+.sheet:is(.town--shop, .town--tavern) .hero-portrait figcaption { color: var(--town-gold); text-align: center; font: 14px/1.3 Georgia, serif; }
+
+.sheet.town--tavern .tavern-layout {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1.6fr) minmax(0, .8fr);
+  grid-template-areas: "merc scene portrait" "merc scene controls" "quests quests quests";
+  gap: 10px;
+}
+.sheet.town--tavern .merc-panel { grid-area: merc; }
+.sheet.town--tavern .hero-portrait { grid-area: portrait; }
+.sheet.town--tavern .tavern-controls { grid-area: controls; display: grid; align-content: start; gap: 8px; }
+.sheet.town--tavern .quest-panel { grid-area: quests; }
+.sheet.town--tavern .merc-panel img { display: block; width: 100%; max-height: 170px; object-fit: contain; margin: 6px auto; }
+.sheet.town--tavern .merc-panel :is(.items, .choice) { display: grid; grid-template-columns: minmax(0, 1fr); gap: 6px; }
+.sheet.town--tavern .merc-panel button { width: 100%; }
+.sheet.town--tavern .merc-panel :is(p, dl) { margin: 6px 0; overflow-wrap: anywhere; }
+.sheet.town--tavern .merc-panel dl { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 3px 6px; font-variant-numeric: tabular-nums; }
+.sheet.town--tavern .merc-panel dd { margin: 0; }
+.sheet.town--tavern .quest-panel .line { flex-wrap: wrap; gap: 7px; }
+.sheet.town--tavern .quest-panel .grow { flex-basis: 55%; }
+.sheet.town--tavern .quest-panel h3:not(:first-child) { margin-top: 12px; }
+
+@keyframes town-breathe { 50% { transform: translateY(-1px) scaleY(1.006); } }
+@keyframes town-nod { 40%, 70% { transform: translateY(2px) rotate(.7deg); } }
+@keyframes town-no { 25%, 75% { transform: rotate(-1deg); } 50% { transform: rotate(1deg); } }
+
+@media (hover: hover) {
+  .sheet:is(.town--shop, .town--tavern) button:not(:disabled):hover { border-color: #ffe2a4; background: #56412a; color: #fff4d9; }
+}
+@media (max-height: 600px) and (min-width: 641px) {
+  .sheet:is(.town--shop, .town--tavern) .keeper { min-height: 320px; }
+}
+@media (max-width: 640px) {
+  .sheet.town:is(.town--shop, .town--tavern) { padding: 8px; }
+  .sheet.town--shop .trade-layout {
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1.15fr);
+    grid-template-areas: "stock scene" "actions actions" "pack pack" "portrait details";
+    gap: 8px;
+  }
+  .sheet.town--shop .trade-actions { display: grid; grid-template-columns: repeat(2, minmax(44px, 1fr)); }
+  .sheet.town--shop .trade-actions button { font-size: 15px; }
+  .sheet.town--shop .trade-details { grid-template-columns: minmax(0, 1fr); align-content: start; }
+  .sheet.town--shop .bill { grid-template-columns: minmax(0, 1fr); }
+  .sheet.town--shop .grid.pack .cell { min-height: 80px; padding-inline: 2px; }
+  .sheet.town--shop .grid.pack .town-item-icon { width: 32px; height: 32px; }
+  .sheet.town--tavern .tavern-layout {
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+    grid-template-areas: "scene scene" "merc portrait" "merc controls" "quests quests";
+    gap: 8px;
+  }
+  .sheet.town--tavern .keeper { min-height: 300px; }
+}
+@media (max-width: 360px) {
+  .sheet.town--shop .pack-panel { padding: 4px; }
+  .sheet.town--shop .grid.pack { gap: 4px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .sheet:is(.town--shop, .town--tavern) .keeper .merchant-actor { animation: none !important; transform: none; }
+}
+
+/* Background and transparent actor share the exact Blender camera and bounds. */
+.sheet.town:is(.town--shop, .town--tavern) .keeper { min-height: 0; align-self: start; }
+.sheet.town:is(.town--shop, .town--tavern) .scene-art { position: relative; width: 100%; aspect-ratio: 4 / 3; overflow: hidden; }
+.sheet.town:is(.town--shop, .town--tavern) .scene-art :is(.town-backdrop, .merchant-actor) { inset: 0; width: 100%; height: 100%; object-fit: contain; object-position: center; }
+.sheet.town:is(.town--shop, .town--tavern) .keeper .say { position: relative; inset: auto; }

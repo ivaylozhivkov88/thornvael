@@ -3,7 +3,7 @@ import { describe, expect, it } from 'vitest';
 import { completeNode, isOpen, newProgress, parseCampaign, townSeed, visitTown } from '../src/campaign';
 import { applyCarryover, extractCarryover } from '../src/carryover';
 import type { GameMap } from '../src/map';
-import { decodeSave, encodeSave, makeSave, migrateSave } from '../src/save';
+import { decodeSave, encodeSave, makeSave, migrateSave, SAVE_VERSION } from '../src/save';
 import { Kind, enemyNear } from '../src/sim/combat';
 import { RULES, mercPrice, rulesOf } from '../src/sim/difficulty';
 import { createHero } from '../src/sim/hero';
@@ -100,7 +100,7 @@ describe('carryover', () => {
     expect(back.state.carry?.progress.difficulty).toBe(2);
     const old = JSON.parse(JSON.stringify({ ...back, saveVersion: 2 }));
     old.state.snap = back.state.snap;
-    expect(migrateSave(old).saveVersion).toBe(3);
+    expect(migrateSave(old).saveVersion).toBe(SAVE_VERSION);
   });
 });
 

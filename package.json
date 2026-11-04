@@ -12,6 +12,7 @@
     "test": "vitest run",
     "e2e": "playwright test",
     "check:repo": "node tools/check-repo.mjs",
+    "check:atlases": "node tools/check-atlases.mjs",
     "icons": "node tools/make-icons.mjs"
   },
   "devDependencies": {

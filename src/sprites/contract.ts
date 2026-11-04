@@ -4,11 +4,15 @@ export const CONTRACT_VERSION = 1;
 export const DIRECTIONS = 16;
 export const ANIMS: Record<string, number> = { stand: 4, walk: 8 };
 export const OPTIONAL_ANIMS = ['attack', 'cast', 'hurt', 'die'];
+export const COMBAT_ANIMS: Readonly<Record<string, number>> = Object.freeze({ stand: 4, walk: 8, attack: 4, cast: 4, hurt: 2, die: 4 });
 export const MAX_ATLAS = 2048;
 
 export interface SheetFrame {
   frame: { x: number; y: number; w: number; h: number };
   sourceSize?: { w: number; h: number };
+  rotated?: boolean;
+  trimmed?: boolean;
+  anchor?: { x: number; y: number };
 }
 
 export interface UnitSheet {
@@ -35,10 +39,21 @@ const overlap = (a: SheetFrame['frame'], b: SheetFrame['frame']): boolean =>
   a.x < b.x + b.w && b.x < a.x + a.w && a.y < b.y + b.h && b.y < a.y + a.h;
 
 /** Returns a list of problems; an empty list means the sheet conforms. */
-export function checkSheet(sheet: UnitSheet): string[] {
+export function checkSheet(input: unknown): string[] {
   const errs: string[] = [];
+  const record = (v: unknown): v is Record<string, unknown> => !!v && typeof v === 'object' && !Array.isArray(v);
+  if (!record(input) || !record(input.meta)) return ['meta.thornvael is missing'];
+  const sheet = input as unknown as UnitSheet;
   const t = sheet.meta?.thornvael;
   if (!t) return ['meta.thornvael is missing'];
+  if (!record(t) || !Array.isArray(t.cell) || t.cell.length !== 2 || !record(t.anims) || !record(sheet.meta.size) || !record(sheet.frames))
+    return ['invalid atlas metadata shape'];
+  const positive = (v: unknown): v is number => typeof v === 'number' && Number.isSafeInteger(v) && v > 0;
+  const basename = (v: unknown): v is string => typeof v === 'string' && /^[a-z][a-z0-9-]*\.png$/.test(v);
+  if (typeof t.unit !== 'string' || !/^[a-z][a-z0-9-]*$/.test(t.unit)) errs.push('invalid unit id');
+  if (!basename(sheet.meta.image) || !basename(t.mask) || sheet.meta.image === t.mask) errs.push('image and mask must be distinct local PNG basenames');
+  if (!t.cell.every(positive) || !positive(sheet.meta.size.w) || !positive(sheet.meta.size.h)) return [...errs, 'invalid atlas dimensions'];
+  if (Object.values(t.anims).some((n) => !positive(n) || n > 64)) return [...errs, 'invalid animation frame count'];
   if (t.contract !== CONTRACT_VERSION) errs.push(`contract version ${t.contract}, expected ${CONTRACT_VERSION}`);
   if (t.directions !== DIRECTIONS) errs.push(`directions ${t.directions}, expected ${DIRECTIONS}`);
   const [cw, ch] = t.cell;
@@ -56,6 +71,12 @@ export function checkSheet(sheet: UnitSheet): string[] {
         const f = sheet.frames[name];
         if (!f) { errs.push(`missing frame ${name}`); continue; }
         const r = f.frame;
+        if (!r || !Number.isSafeInteger(r.x) || !Number.isSafeInteger(r.y) || !positive(r.w) || !positive(r.h)) {
+          errs.push(`${name} has invalid rectangle`); continue;
+        }
+        if (f.rotated || f.trimmed) errs.push(`${name} must be unrotated and untrimmed`);
+        if (f.sourceSize && (f.sourceSize.w !== cw || f.sourceSize.h !== ch)) errs.push(`${name} sourceSize differs from cell`);
+        if (f.anchor && (f.anchor.x !== 0.5 || f.anchor.y !== 0.85)) errs.push(`${name} has incorrect feet anchor`);
         if (r.w !== cw || r.h !== ch) errs.push(`${name} is ${r.w}x${r.h}, cell is ${cw}x${ch}`);
         if (r.x < 0 || r.y < 0 || r.x + r.w > w || r.y + r.h > h) errs.push(`${name} lies outside the atlas`);
       }
@@ -64,10 +85,37 @@ export function checkSheet(sheet: UnitSheet): string[] {
   const names = Object.keys(sheet.frames);
   const expected = Object.values(t.anims).reduce((s, n) => s + n * DIRECTIONS, 0);
   if (names.length !== expected) errs.push(`${names.length} frames in sheet, contract expects ${expected}`);
+  if (sheet.animations) {
+    for (const [anim, count] of Object.entries(t.anims)) {
+      const list = sheet.animations[anim];
+      const want = Array.from({ length: DIRECTIONS * count }, (_, i) => frameName(t.unit, anim, Math.floor(i / count), i % count));
+      if (!Array.isArray(list) || list.length !== want.length || list.some((name, i) => name !== want[i])) errs.push(`animation ${anim} has incorrect frame sequence`);
+    }
+  }
   if (errs.length === 0) {
     const rs = names.map((n) => sheet.frames[n].frame);
     for (let i = 0; i < rs.length && errs.length < 5; i++)
       for (let j = i + 1; j < rs.length; j++) if (overlap(rs[i], rs[j])) { errs.push(`frames ${names[i]} and ${names[j]} overlap`); break; }
   }
   return errs;
+}
+
+/** Strict profile for shipped combat families. Generic v1 sheets remain readable
+ * for older packs, while CI rejects an incomplete or oversized production set. */
+export function checkCombatSheet(input: unknown): string[] {
+  const errors = checkSheet(input);
+  if (errors.length) return errors;
+  const sheet = input as UnitSheet, t = sheet.meta.thornvael!;
+  if (t.cell[0] !== 48 || t.cell[1] !== 48) errors.push('combat profile requires 48px cells');
+  if (sheet.meta.size.w !== 1024 || sheet.meta.size.h !== 1024) errors.push('combat profile requires a 1024px atlas');
+  if (Object.keys(t.anims).length !== Object.keys(COMBAT_ANIMS).length) errors.push('combat profile requires exactly six clips');
+  for (const [clip, count] of Object.entries(COMBAT_ANIMS))
+    if (t.anims[clip] !== count) errors.push(`combat profile requires ${clip}=${count}`);
+  if (!sheet.animations) errors.push('combat profile requires animation sequences');
+  for (const [name, f] of Object.entries(sheet.frames)) {
+    if (f.anchor?.x !== 0.5 || f.anchor?.y !== 0.85) errors.push(`${name}: combat feet anchor is required`);
+    if (f.sourceSize?.w !== 48 || f.sourceSize?.h !== 48) errors.push(`${name}: combat source size is required`);
+    if (errors.length > 12) break;
+  }
+  return errors;
 }

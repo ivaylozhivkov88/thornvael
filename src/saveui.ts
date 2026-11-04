@@ -1,6 +1,5 @@
-import { decodeSave, encodeSave, makeSave, type SaveState } from './save';
-import { decodeBundle } from './savebundle';
-import { AUTO, deleteSave, getSave, listSaves, putSave } from './savedb';
+import { encodeSave, makeSave, type SaveState } from './save';
+import { AUTO, deleteSave, getSave, importSaveText, listSaves, putSave } from './savedb';
 import { S } from './strings';
 
 /**
@@ -120,12 +119,7 @@ export class SaveUi {
       const f = input.files?.[0];
       if (!f) return;
       try {
-        const text = await f.text();
-        const bundle = decodeBundle(text);
-        if (bundle) {
-          // The autosave comes back as a normal slot so it can never overwrite the one in use.
-          for (const [i, b] of bundle.entries()) await putSave(`slot-${Date.now()}-${i}`, b.file);
-        } else await putSave(`slot-${Date.now()}`, decodeSave(text));
+        await importSaveText(await f.text());
         await this.persist();
         this.ctx.toast(S.save.imported);
         await this.render();

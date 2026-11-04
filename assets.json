@@ -155,13 +155,115 @@
       "path": "public/sprites/hero.png",
       "license": "own",
       "source": "tools/render-unit.py + tools/pack-atlas.py",
-      "note": "Placeholder unit rendered in Blender 5.2.3 LTS from primitives, packed by our own MaxRects script"
+      "note": "Original articulated hero PILOT model; Blender 5.2.3 LTS, 48px, 16 directions, stand4/walk8/attack4/cast4/hurt2/die4, RGB masks, fixed camera3.0. Generated 2026-11-04; reproduce: docs/UNIT-ART.md"
     },
     {
       "path": "public/sprites/hero-mask.png",
       "license": "own",
       "source": "tools/render-unit.py + tools/pack-atlas.py",
-      "note": "Placeholder unit rendered in Blender 5.2.3 LTS from primitives, packed by our own MaxRects script"
+      "note": "Original articulated hero PILOT model; Blender 5.2.3 LTS, 48px, 16 directions, stand4/walk8/attack4/cast4/hurt2/die4, RGB masks, fixed camera3.0. Generated 2026-11-04; reproduce: docs/UNIT-ART.md"
+    },
+    {
+      "path": "public/sprites/hero.json",
+      "license": "own",
+      "source": "tools/render-unit.py + tools/pack-atlas.py",
+      "note": "Original articulated hero PILOT model; Blender 5.2.3 LTS, 48px, 16 directions, stand4/walk8/attack4/cast4/hurt2/die4, RGB masks, fixed camera3.0. Generated 2026-11-04; reproduce: docs/UNIT-ART.md"
+    },
+    {
+      "path": "public/sprites/archer.png",
+      "license": "own",
+      "source": "tools/render-unit.py + tools/pack-atlas.py",
+      "note": "Original articulated archer PILOT model; Blender 5.2.3 LTS, 48px, 16 directions, stand4/walk8/attack4/cast4/hurt2/die4, RGB masks, fixed camera3.0. Generated 2026-11-04; reproduce: docs/UNIT-ART.md"
+    },
+    {
+      "path": "public/sprites/archer-mask.png",
+      "license": "own",
+      "source": "tools/render-unit.py + tools/pack-atlas.py",
+      "note": "Original articulated archer PILOT model; Blender 5.2.3 LTS, 48px, 16 directions, stand4/walk8/attack4/cast4/hurt2/die4, RGB masks, fixed camera3.0. Generated 2026-11-04; reproduce: docs/UNIT-ART.md"
+    },
+    {
+      "path": "public/sprites/archer.json",
+      "license": "own",
+      "source": "tools/render-unit.py + tools/pack-atlas.py",
+      "note": "Original articulated archer PILOT model; Blender 5.2.3 LTS, 48px, 16 directions, stand4/walk8/attack4/cast4/hurt2/die4, RGB masks, fixed camera3.0. Generated 2026-11-04; reproduce: docs/UNIT-ART.md"
+    },
+    {
+      "path": "public/sprites/golem.png",
+      "license": "own",
+      "source": "tools/render-unit.py + tools/pack-atlas.py",
+      "note": "Original articulated golem PILOT model; Blender 5.2.3 LTS, 48px, 16 directions, stand4/walk8/attack4/cast4/hurt2/die4, RGB masks, fixed camera3.0. Generated 2026-11-04; reproduce: docs/UNIT-ART.md"
+    },
+    {
+      "path": "public/sprites/golem-mask.png",
+      "license": "own",
+      "source": "tools/render-unit.py + tools/pack-atlas.py",
+      "note": "Original articulated golem PILOT model; Blender 5.2.3 LTS, 48px, 16 directions, stand4/walk8/attack4/cast4/hurt2/die4, RGB masks, fixed camera3.0. Generated 2026-11-04; reproduce: docs/UNIT-ART.md"
+    },
+    {
+      "path": "public/sprites/golem.json",
+      "license": "own",
+      "source": "tools/render-unit.py + tools/pack-atlas.py",
+      "note": "Original articulated golem PILOT model; Blender 5.2.3 LTS, 48px, 16 directions, stand4/walk8/attack4/cast4/hurt2/die4, RGB masks, fixed camera3.0. Generated 2026-11-04; reproduce: docs/UNIT-ART.md"
+    },
+    {
+      "path": "public/terrain/terrain-e732fd5fcaf8.png",
+      "license": "own",
+      "source": "tools/make-terrain.py",
+      "note": "Original procedural terrain, edge feathers, trees, cottages and ruins; seed 1032026, Pillow 12.3.0. No source images. Reproduce: docs/TERRAIN-ART.md"
+    },
+    {
+      "path": "public/terrain/terrain.json",
+      "license": "own",
+      "source": "tools/make-terrain.py",
+      "note": "Generated frame bounds, anchors and SHA-256 hashes for our original terrain atlas. Snow and ruins are unused art variants, without new map semantics."
+    },
+    {
+      "path": "public/townart/shop.png",
+      "license": "own",
+      "source": "tools/render-town.py",
+      "note": "Original procedural shop interior; Blender 5.2.3 Cycles, 640x480. No external pixels or models. Reproduce: docs/TOWN-ART.md"
+    },
+    {
+      "path": "public/townart/tavern.png",
+      "license": "own",
+      "source": "tools/render-town.py",
+      "note": "Original procedural tavern interior; Blender 5.2.3 Cycles, 640x480. No external pixels or models. Reproduce: docs/TOWN-ART.md"
+    },
+    {
+      "path": "public/townart/merchant-shop.png",
+      "license": "own",
+      "source": "tools/render-town.py",
+      "note": "Original merchant RGBA overlay, 640x480, same shop camera and foreground holdout occlusion. Neutral pose; parent animates layer."
+    },
+    {
+      "path": "public/townart/merchant-tavern.png",
+      "license": "own",
+      "source": "tools/render-town.py",
+      "note": "Original innkeeper RGBA overlay, 640x480, same tavern camera and foreground holdout occlusion. Neutral pose; parent animates layer."
+    },
+    {
+      "path": "public/townart/portrait-warrior-m.png",
+      "license": "own",
+      "source": "tools/render-town.py",
+      "note": "Original full-body male warrior RGBA cutout, 160x256, authored primitive model, Blender 5.2.3. Reproduce: docs/TOWN-ART.md"
+    },
+    {
+      "path": "public/townart/portrait-warrior-f.png",
+      "license": "own",
+      "source": "tools/render-town.py",
+      "note": "Original full-body female warrior RGBA cutout, 160x256, authored primitive model, Blender 5.2.3. Reproduce: docs/TOWN-ART.md"
+    },
+    {
+      "path": "public/townart/portrait-mage-m.png",
+      "license": "own",
+      "source": "tools/render-town.py",
+      "note": "Original full-body male mage RGBA cutout, 160x256, authored primitive model, Blender 5.2.3. Reproduce: docs/TOWN-ART.md"
+    },
+    {
+      "path": "public/townart/portrait-mage-f.png",
+      "license": "own",
+      "source": "tools/render-town.py",
+      "note": "Original full-body female mage RGBA cutout, 160x256, authored primitive model, Blender 5.2.3. Reproduce: docs/TOWN-ART.md"
     }
   ]
 }

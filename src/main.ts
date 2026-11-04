@@ -1,4 +1,5 @@
 import { registerWorker } from './updategate';
+import { createInstallController, isInstallPrompt } from './pwa-install';
 import { audioState, blip, play, resumeAudio, setAmbience, setMusic, setSfx, suspendAudio, unlock } from './audio';
 import { MusicDirector, cueFor } from './audiologic';
 import { ControlGroups, GROUP_COUNT } from './groups';
@@ -11,7 +12,7 @@ import { loadCampaign, readRecord, writeRecord } from './campaignstore';
 import { applyCarryover, extractCarryover, waivePurse } from './carryover';
 import { afterMission, afterTown, type CampaignRecord } from './flow';
 import { resumeSave, type SaveFile, type SaveState } from './save';
-import { AUTO, deleteSave, getSave } from './savedb';
+import { AUTO, deleteSave, getSave, restoreSaveCampaign } from './savedb';
 import { SaveUi } from './saveui';
 import { TownUi } from './townui';
 import { ROLE_COUNT, Tfx } from './sim/town';
@@ -30,7 +31,9 @@ import { SPELLS, Tk } from './sim/spelldata';
 import { validTarget } from './sim/spells';
 import { FP, Sim, TICKS_PER_SECOND, type Command, type OrderName } from './sim/sim';
 import { S } from './strings';
+import { readPreferences, writePreference } from './preferences';
 import { DoubleTap, PortraitStrip, RadialMenu, portraitIds, unitsOfKind, type RadialOrder } from './touchx';
+import { monsterInfo } from './monster-info';
 import './style.css';
 
 await loadGameData(); // item and spell tables, before any sim or mission is built
@@ -73,15 +76,16 @@ if (!resumed && missionName && !crowd && !stress && !battle) {
   }
 }
 // Campaign node: the record holds the hero pick, difficulty and what the hero carries in.
-const campaignId = params.get('campaign') ?? resumed?.save.state.node ?? null;
+const campaignId = resumed ? resumed.save.state.node ?? null : params.get('campaign');
 let campaign: Campaign | null = null;
 let crec: CampaignRecord | null = null;
 if (campaignId && loadedMission) {
   try {
     campaign = await loadCampaign();
     nodeOf(campaign, campaignId);
-    crec = await readRecord();
+    crec = resumed ? await restoreSaveCampaign(resumed.save, campaign) : await readRecord();
     if (!crec) campaign = null;
+    if (resumed && !crec) missionError = S.save.legacyCampaign;
   } catch (e) {
     campaign = null;
     missionError = (e as Error).message;
@@ -173,12 +177,8 @@ try {
 }
 
 const renderer = new Renderer($('game') as HTMLCanvasElement, map);
-try {
-  const q = Number(localStorage.getItem('thornvael.quality'));
-  if (q >= 0 && q <= 2 && localStorage.getItem('thornvael.quality') !== null) renderer.quality = q;
-} catch {
-  // storage may be blocked; keep the default
-}
+const preferences = readPreferences();
+renderer.quality = preferences.quality;
 
 // --- helpers ---
 const alive = (i: number): boolean => sim.cb.hp[i] > 0;
@@ -364,10 +364,10 @@ function arm(kind: ArmKind | null): void {
   canvas.style.cursor = kind ? 'crosshair' : '';
 }
 
-function select(ids: number[], additive: boolean): void {
+function select(ids: number[], additive: boolean, toggleSingle = true): void {
   if (!additive) selected.clear();
   for (const id of ids) {
-    if (additive && ids.length === 1 && selected.has(id)) selected.delete(id);
+    if (additive && toggleSingle && ids.length === 1 && selected.has(id)) selected.delete(id);
     else selected.add(id);
   }
 }
@@ -389,7 +389,7 @@ function handle(intents: Intent[]): void {
         const hit = pickUnit(sim.count, posMine, it.x, it.y, PICK);
         if (hit >= 0 && it.type === 'tap' && dtap.hit(performance.now(), it.x, it.y, hit)) {
           // Double tap: every living unit of the same kind (the whole map, not just the screen)
-          select(unitsOfKind(sim.count, (i) => sim.cb.kind[i], (i) => sim.team[i] === 0 && alive(i) && !sim.hidden[i], sim.cb.kind[hit]), it.additive);
+          select(unitsOfKind(sim.count, (i) => sim.cb.kind[i], (i) => sim.team[i] === 0 && alive(i) && !sim.hidden[i], sim.cb.kind[hit]), it.additive, false);
           toast(S.touch.sameKind);
           break;
         }
@@ -407,7 +407,8 @@ function handle(intents: Intent[]): void {
         boxDrag = it.x0 === it.x1 && it.y0 === it.y1 ? null : { x0: it.x0, y0: it.y0, x1: it.x1, y1: it.y1 };
         break;
       case 'box':
-        select(unitsInBox(sim.count, posMine, it), it.additive);
+        // Additive area selection unions membership, even when the box holds one unit.
+        select(unitsInBox(sim.count, posMine, it), it.additive, false);
         break;
       case 'aim': {
         if (armed !== 'spell') break;
@@ -455,7 +456,9 @@ function unitInfo(i: number): string {
   const side = sim.team[i] === 0 ? S.yours : S.enemy;
   const mana = cb.manaMax[i] > 0 ? `, ${S.mana} ${cb.mana[i]}/${cb.manaMax[i]}` : '';
   const armour = S.parts.map((p, k) => `${p} ${partDef(sim, i, k)}/${partAbs(sim, i, k)}`).join(', ');
-  return `${S.kinds[cb.kind[i]]} (${side}): ${S.hp} ${cb.hp[i]}/${cb.hpMax[i]}${mana}\n${S.hit} ${d.acc + cb.mod[mo + M.Acc]}, ${S.defence}/${S.absorb}: ${armour}\n${S.resist}: ${r}`;
+  const family = sim.team[i] !== 0 ? monsterInfo(cb.kind[i]) : null;
+  const traits = family ? `\nBase family: ${family.base.ranged ? 'ranged' : 'melee'} ${S.elements[family.base.elem]}, range ${family.base.reach / FP} tiles, speed ${family.base.speed}%.` : '';
+  return `${S.kinds[cb.kind[i]]} (${side}): ${S.hp} ${cb.hp[i]}/${cb.hpMax[i]}${mana}\n${S.hit} ${d.acc + cb.mod[mo + M.Acc]}, ${S.defence}/${S.absorb}: ${armour}\n${S.resist}: ${r}${traits}`;
 }
 function unitAt(x: number, y: number, r: number): number {
   return pickUnit(sim.count, posAny, x, y, r);
@@ -581,8 +584,25 @@ function updateHover(x: number, y: number): void {
 }
 
 const keys = new Set<string>();
+function resetDesktopInput(): void {
+  keys.clear();
+  mods.alt = false;
+  mods.ctrl = false;
+  handle(rec.cancel());
+  boxDrag = null;
+  downAt = null;
+  clearTimeout(tipTimer);
+  hideTip();
+  radial.hide();
+}
+window.addEventListener('blur', resetDesktopInput);
+document.addEventListener('visibilitychange', () => {
+  if (document.hidden) resetDesktopInput();
+});
 const ORDER_KEYS: Record<string, string> = { m: 'move', a: 'attack', g: 'guard', d: 'defend', c: 'cast', w: 'swarm', h: 'hold', r: 'retreat', s: 'still', p: 'pickup' };
 window.addEventListener('keydown', (e) => {
+  // Editors own all their keys, including sheet shortcuts such as I and Escape.
+  if (e.target instanceof Element && (e.target.closest('input, textarea, select') || (e.target instanceof HTMLElement && e.target.isContentEditable))) return;
   if (e.target instanceof HTMLButtonElement && e.key === ' ') return;
   // Inside a sheet the keys belong to the sheet (Tab, Enter, arrows), except Esc and I which close it.
   const inSheet = e.target instanceof Element && e.target.closest('.sheet') !== null;
@@ -590,6 +610,11 @@ window.addEventListener('keydown', (e) => {
   if (heroUi.creating) return;
   mods.alt = e.altKey;
   mods.ctrl = e.ctrlKey || e.metaKey;
+  // Movement is sampled each frame; all other shortcuts are one action per press.
+  if (e.repeat && !/^Arrow(?:Left|Right|Up|Down)$/.test(e.key)) {
+    e.preventDefault();
+    return;
+  }
   unlock();
   const digit = /^(?:Digit|Numpad)([1-9])$/.exec(e.code);
   if (digit) {
@@ -760,6 +785,7 @@ function buildQuick(): void {
     const sid = slots[n];
     b.replaceChildren();
     const name = document.createElement('span');
+    name.className = 'quick-label';
     const small = document.createElement('small');
     if (sid < 0) {
       name.textContent = '+';
@@ -1053,6 +1079,7 @@ const saveUi = new SaveUi({
       doc: loadedMission.doc,
       seed: missionSeed,
       node: campaign ? campaignId ?? undefined : undefined,
+      campaign: campaign && crec ? structuredClone(crec) : undefined,
       snap: sim.snapshot(),
       ai: missionAi?.snapshot() ?? [],
       ui: { cam: [renderer.camX, renderer.camY, renderer.zoom], groups: Array.from({ length: GROUP_COUNT + 1 }, (_, n) => [...groups.get(n)]), slots: [...slots], selected: [...selected] },
@@ -1205,22 +1232,30 @@ miniCanvas.addEventListener('pointerdown', (e) => {
 miniCanvas.addEventListener('pointermove', (e) => miniDown && miniJump(e));
 miniCanvas.addEventListener('pointerup', () => (miniDown = false));
 miniCanvas.addEventListener('pointercancel', () => (miniDown = false));
-let sfxOn = true;
+let sfxOn = preferences.sound;
+setSfx(sfxOn);
+setAmbience(sfxOn);
 $('btn-sound').onclick = () => {
   unlock();
   sfxOn = !sfxOn;
+  writePreference('sound', sfxOn);
   setSfx(sfxOn);
   setAmbience(sfxOn);
   $('btn-sound').textContent = sfxOn ? S.sfxOn : S.sfxOff;
   toggle('btn-sound', !sfxOn);
   if (sfxOn) blip();
 };
-let musicOn = false;
+let musicOn = preferences.music;
 let musicMode: 'explore' | 'battle' = 'explore';
 const musicDir = new MusicDirector();
+// Restore intent, but start audio only inside a real player gesture (mobile autoplay).
+const startPreferredMusic = (): void => { if (musicOn) setMusic(true, musicMode); };
+window.addEventListener('pointerdown', startPreferredMusic, { once: true });
+window.addEventListener('keydown', startPreferredMusic, { once: true });
 $('btn-music').onclick = () => {
   unlock();
   musicOn = !musicOn;
+  writePreference('music', musicOn);
   setMusic(musicOn, musicMode);
   $('btn-music').textContent = musicOn ? S.musicOn : S.musicOff;
   toggle('btn-music', musicOn);
@@ -1359,6 +1394,19 @@ async function toMap(): Promise<void> {
   location.assign('./');
 }
 
+/** Shared by the real-time loop and bounded paused-only browser diagnostics. */
+function advanceStep(): void {
+  prevX.set(sim.x);
+  prevY.set(sim.y);
+  const commands = ai ? ai.commands(sim) : bot ? bot.commands(sim) : [];
+  commands.push(...pending.splice(0));
+  const started = performance.now();
+  sim.step(commands);
+  simMs += performance.now() - started;
+  simSteps++;
+  renderer.observe(sim); // presentation timing is deliberately outside the sim budget
+}
+
 function frame(): void {
   const now = performance.now();
   const dt = Math.min(250, now - lastNow);
@@ -1367,14 +1415,7 @@ function frame(): void {
     acc += dt * SPEEDS[speedIdx];
     let n = 0;
     while (acc >= STEP_MS && n < 5) {
-      prevX.set(sim.x);
-      prevY.set(sim.y);
-      const cmdsNow = ai ? ai.commands(sim) : bot ? bot.commands(sim) : [];
-      cmdsNow.push(...pending.splice(0));
-      const s0 = performance.now();
-      sim.step(cmdsNow);
-      simMs += performance.now() - s0;
-      simSteps++;
+      advanceStep();
       acc -= STEP_MS;
       n++;
     }
@@ -1468,17 +1509,25 @@ $('btn-credits').onclick = () => openPanel(S.credits, S.creditsBody);
 
 const nav = navigator as Navigator & { standalone?: boolean };
 const isIos = /iphone|ipad|ipod/i.test(nav.userAgent) || (nav.platform === 'MacIntel' && nav.maxTouchPoints > 1);
-const standalone = window.matchMedia('(display-mode: standalone)').matches || nav.standalone === true;
-let deferred: (Event & { prompt: () => Promise<void> }) | null = null;
-window.addEventListener('beforeinstallprompt', (e) => {
-  e.preventDefault();
-  deferred = e as Event & { prompt: () => Promise<void> };
+const installMode = window.matchMedia('(display-mode: standalone)');
+const installButton = $('btn-install') as HTMLButtonElement;
+const install = createInstallController({
+  standalone: () => installMode.matches || nav.standalone === true,
+  render: ({ hidden, disabled }) => {
+    installButton.hidden = hidden;
+    installButton.disabled = disabled;
+    installButton.setAttribute('aria-busy', String(disabled));
+  },
+  instructions: () => openPanel(S.installTitle, isIos ? S.installIos : S.installOther),
 });
-if (standalone) $('btn-install').hidden = true;
-$('btn-install').onclick = () => {
-  if (deferred) void deferred.prompt();
-  else openPanel(S.installTitle, isIos ? S.installIos : S.installOther);
-};
+window.addEventListener('beforeinstallprompt', (e) => {
+  if (isInstallPrompt(e)) install.defer(e);
+});
+window.addEventListener('appinstalled', () => install.installed());
+installMode.addEventListener('change', install.refresh);
+window.addEventListener('pageshow', install.refresh);
+document.addEventListener('visibilitychange', install.refresh);
+installButton.onclick = () => void install.activate();
 
 // Inside a mission an update is never offered or applied: the new worker waits until the menu or map banner is pressed.
 registerWorker();
@@ -1488,13 +1537,17 @@ void nav.storage?.persist?.().then(
 );
 
 document.title = S.title;
-$('hint').textContent = combatMode ? S.hintCombat : S.hint;
+$('hint').textContent = matchMedia('(pointer: fine)').matches ? (combatMode ? S.desktopHintCombat : S.desktopHint) : (combatMode ? S.hintCombat : S.hint);
 $('cmds').hidden = !combatMode;
 $('quick').hidden = !combatMode;
 $('stats').hidden = !combatMode;
 for (const [id, text] of Object.entries(S.buttons)) {
   if (!id.endsWith('-on')) $(id).textContent = text;
 }
+$('btn-sound').textContent = sfxOn ? S.sfxOn : S.sfxOff;
+toggle('btn-sound', !sfxOn);
+$('btn-music').textContent = musicOn ? S.musicOn : S.musicOff;
+toggle('btn-music', musicOn);
 $('btn-force').textContent = S.force[0];
 if (!combatMode) for (const id of ['btn-loose', 'btn-force']) $(id).hidden = true;
 $('btn-missions').textContent = campaign ? S.shell.toMap : S.mission.open;
@@ -1508,6 +1561,7 @@ tipOn($('btn-hero'), S.tips['btn-hero']);
 function startHero(): void {
   const begin = (cls: number, female: boolean, diff: number): void => {
     createHero(sim, 0, cls, female, diff);
+    renderer.resetAnimation(sim);
     if (!savedSlots) {
       const heal = ITEM_BASE + ITEMS.findIndex((d) => d.name === 'Healing Draught');
       const mana = ITEM_BASE + ITEMS.findIndex((d) => d.name === 'Mana Draught');
@@ -1528,6 +1582,7 @@ function startHero(): void {
       heroUi.refresh(true);
       updateStats();
     }
+    renderer.resetAnimation(sim);
     return;
   }
   const raw = params.get('hero');
@@ -1578,12 +1633,25 @@ void renderer.init(sim).then(() => {
     pending.push({ type: 'order', order: 'swarm', ids: a.map((i) => i + 150), x: 10, y: map.h - 9 });
   }
   lastNow = performance.now();
+  renderer.resetAnimation(sim);
   requestAnimationFrame(frame);
   // Test and debug hook: deterministic access for the Playwright smoke test and the device bench.
   (window as unknown as { __game: unknown }).__game = {
     sim,
     selected: () => [...selected],
     unitScreen: (i: number) => renderer.unitScreen(i),
+    unitArt: (i: number) => renderer.unitArt(i),
+    animation: (i: number) => renderer.animationPose(sim, i),
+    step: (n = 1): number => {
+      if (!userPause || hidden || !Number.isSafeInteger(n) || n < 1 || n > 125)
+        throw new Error('Diagnostic stepping requires an explicit pause and 1..125 steps');
+      for (let i = 0; i < n; i++) advanceStep();
+      return sim.tick;
+    },
+    previewArt: () => renderer.previewArt(),
+    artMetrics: () => renderer.artMetrics(),
+    stats: () => ({ ...live, reportAtMs: lastReport, quality: renderer.quality,
+      resolution: renderer.app.renderer.resolution, paused: hidden || userPause }),
     tile: (x: number, y: number) => [Math.round(x * TILE * renderer.zoom - renderer.camX), Math.round(y * TILE * renderer.zoom - renderer.camY)],
     posTiles: (i: number) => [sim.x[i] / FP, sim.y[i] / FP],
     zoom: () => renderer.zoom,

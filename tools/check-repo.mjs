@@ -2,6 +2,7 @@
 import { execFileSync } from 'node:child_process';
 import { existsSync, readFileSync, statSync } from 'node:fs';
 import { extname } from 'node:path';
+import { checkAtlasFiles } from './check-atlases.mjs';
 
 const errors = [];
 const fail = (m) => errors.push(m);
@@ -66,6 +67,7 @@ for (const f of files.filter((x) => /\.(html|css|ts|webmanifest)$/.test(x))) {
   }
 }
 
+errors.push(...checkAtlasFiles());
 if (errors.length) {
   console.error('Repo check FAILED:\n' + errors.map((e) => ' - ' + e).join('\n'));
   process.exit(1);
