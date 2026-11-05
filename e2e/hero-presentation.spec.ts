@@ -27,7 +27,7 @@ test('named equipment keeps its icon and command action when moved into the pack
   await expect.poll(() => page.evaluate(() => (window as unknown as { __game: HeroGame }).__game.sim.hero!.eq[0])).toBe(-1);
   await expect(equipped.locator('svg')).toHaveAttribute('data-icon', 'empty');
   await page.locator('#sheet [data-k="tab1"]').click();
-  const packed = page.locator('#sheet .items > button').filter({ hasText: name });
+  const packed = page.locator('#sheet .items .hero-gear-cell > button[data-k^="inv"]').filter({ hasText: name });
   await expect(packed).toHaveAccessibleName(new RegExp(name));
   await expect(packed.locator('svg[aria-hidden="true"]')).toHaveCount(1);
   await expect(packed).toBeVisible();

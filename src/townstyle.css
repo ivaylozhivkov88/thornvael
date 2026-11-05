@@ -361,3 +361,113 @@
 .sheet.town:is(.town--shop, .town--tavern) .scene-art { position: relative; width: 100%; aspect-ratio: 4 / 3; overflow: hidden; }
 .sheet.town:is(.town--shop, .town--tavern) .scene-art :is(.town-backdrop, .merchant-actor) { inset: 0; width: 100%; height: 100%; object-fit: contain; object-position: center; }
 .sheet.town:is(.town--shop, .town--tavern) .keeper .say { position: relative; inset: auto; }
+
+/* Hero sheet equipment workspace. */
+#sheet {
+  inset-inline: 0;
+  width: min(100%, 900px);
+  margin-inline: auto;
+  transform: none;
+  box-sizing: border-box;
+  touch-action: pan-y;
+  background: linear-gradient(145deg, #392c20, #1c1714);
+}
+#sheet button, #sheet .hero-stats > summary { min-width: 44px; min-height: 44px; }
+#sheet .hero-workspace {
+  display: grid;
+  grid-template-columns: minmax(0, 1.08fr) minmax(0, 1fr);
+  gap: 8px;
+}
+#sheet .hero-gear-panel {
+  min-width: 0;
+  padding: 6px;
+  border: 1px solid #8a6b3a;
+  background: #211810;
+}
+#sheet .hero-gear-panel h3 { margin: 0 0 4px; }
+#sheet .hero-gear-board {
+  position: relative;
+  display: grid;
+  grid-template: repeat(4, minmax(48px, auto)) / minmax(0, 1fr) minmax(48px, .75fr) minmax(0, 1fr);
+  gap: 4px;
+  background: radial-gradient(ellipse, #634a30, #231a14 70%);
+}
+#sheet .hero-figure {
+  grid-area: 1 / 2 / 5 / 3;
+  width: 100%;
+  height: 100%;
+  min-height: 0;
+  pointer-events: none;
+}
+#sheet [data-equipment-target="eq0"] { grid-area: 3 / 1; }
+#sheet [data-equipment-target="eq1"] { grid-area: 3 / 3; }
+#sheet [data-equipment-target="eq2"] { grid-area: 1 / 1; }
+#sheet [data-equipment-target="eq3"] { grid-area: 2 / 1; }
+#sheet [data-equipment-target="eq4"] { grid-area: 4 / 1; }
+#sheet [data-equipment-target="eq5"] { grid-area: 4 / 3; }
+#sheet [data-equipment-target="eq6"] { grid-area: 1 / 3; }
+#sheet [data-equipment-target="eq7"] { grid-area: 2 / 3; }
+#sheet .hero-gear-cell { display: flex; min-width: 0; }
+#sheet .hero-gear-cell > button:first-child {
+  flex: 1;
+  min-width: 44px;
+  padding: 2px;
+  font-size: 12px;
+  overflow-wrap: anywhere;
+  touch-action: pan-y;
+}
+#sheet .hero-gear-cell small { display: block; font-size: 10px; }
+#sheet .hero-gear-cell .town-item-icon { width: 20px; height: 20px; vertical-align: middle; }
+#sheet .hero-drag-handle { flex: 0 0 44px; padding: 0; touch-action: none; cursor: grab; }
+#sheet .hero-pack-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 4px; }
+#sheet :is(.hero-return, .hero-pack-empty) {
+  display: grid;
+  place-items: center;
+  min-height: 44px;
+  border: 1px dashed #9d8056;
+  color: #e6c994;
+  font-size: 12px;
+  box-sizing: border-box;
+}
+#sheet .hero-return { margin-block: 4px; }
+#sheet .hero-pack-pages { display: flex; align-items: center; justify-content: center; gap: 8px; }
+#sheet [data-drop-state="valid"] { outline: 2px solid #e9c47c; }
+#sheet [data-drop-state="invalid"] { outline: 2px dashed #f49a82; }
+#sheet [data-drop-state] { position: relative; }
+#sheet [data-drop-state]::after {
+  position: absolute;
+  inset: 0 0 auto auto;
+  background: #201813;
+  color: #fff3ce;
+  padding-inline: 4px;
+  pointer-events: none;
+}
+#sheet [data-drop-state="valid"]::after { content: '✓' / ''; }
+#sheet [data-drop-state="invalid"]::after { content: '×' / ''; }
+#sheet .hero-drag-help, #sheet .hero-equipment-feedback { margin: 0 0 4px; }
+#sheet .hero-equipment-feedback { min-height: 1.15em; color: #ffe0a1; font-size: 12px; }
+#sheet .hero-drag-ghost {
+  position: fixed;
+  z-index: 1;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  padding: 4px;
+  border: 1px solid #e9c47c;
+  background: #271d14;
+  color: #fff3ce;
+  pointer-events: none;
+}
+#sheet .hero-drag-ghost .town-item-icon { width: 28px; height: 28px; }
+#sheet .hero-stats > summary { display: list-item; align-content: center; cursor: pointer; }
+@media (max-width: 650px) {
+  #sheet .hero-workspace { grid-template-columns: minmax(0, 1fr); }
+}
+
+#sheet .hero-gear-cell button.sel {
+  background: linear-gradient(#594b35, #3c3327);
+  border-color: var(--gold);
+  color: #fff0ce;
+  box-shadow: inset 0 -2px var(--gold);
+}
+#sheet .hero-gear-cell button.no { border-style: dashed; }
