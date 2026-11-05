@@ -1,7 +1,7 @@
 {
  "id": "ch1",
  "cache": "thornvael-ch1-v1",
- "total": 641169,
+ "total": 644632,
  "files": [
   {
    "path": "data/campaign.json",
@@ -22,10 +22,6 @@
   {
    "path": "audio/boom.m4a",
    "size": 5491
-  },
-  {
-   "path": "audio/bow.m4a",
-   "size": 2188
   },
   {
    "path": "audio/buff.m4a",
@@ -102,6 +98,10 @@
   {
    "path": "audio/step2.m4a",
    "size": 1586
+  },
+  {
+   "path": "audio/yew_release_01.m4a",
+   "size": 5651
   }
  ]
 }

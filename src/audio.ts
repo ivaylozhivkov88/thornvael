@@ -66,7 +66,9 @@ function loadBuffer(name: string): Promise<void> {
   const context = ctx;
   const task = (async () => {
     try {
-      const res = await fetch(`${base()}audio/${name}.m4a`);
+      // A distinct URL keeps existing chapter caches from serving the previous bow cue.
+      const file = name === 'bow' ? 'yew_release_01' : name;
+      const res = await fetch(`${base()}audio/${file}.m4a`);
       const data = await res.arrayBuffer();
       if (ctx !== context || context.state === 'closed') return;
       const buffer = await context.decodeAudioData(data);

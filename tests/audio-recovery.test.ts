@@ -68,6 +68,14 @@ describe('audio public lifecycle recovery', () => {
     expect(audio.audioStats().state).toBe('locked');
   });
 
+  it('loads the workshop bow cue from its own cache URL', async () => {
+    audio.unlock();
+    await audio.whenLoaded();
+    const urls = vi.mocked(fetch).mock.calls.map(([url]) => String(url));
+    expect(urls).toContain(`${import.meta.env.BASE_URL}audio/yew_release_01.m4a`);
+    expect(urls).not.toContain(`${import.meta.env.BASE_URL}audio/bow.m4a`);
+  });
+
   it('handles a rejected resume and retries on a later gesture without recreating', async () => {
     audio.unlock();
     await audio.whenLoaded(); await settle();
