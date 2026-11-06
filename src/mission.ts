@@ -5,6 +5,7 @@ import { Sim } from './sim/sim';
 import blood from './missions/blood-at-the-ford.map.json';
 import fen from './missions/whispers-in-the-fen.map.json';
 import market from './missions/thornwick-market.map.json';
+import opening from './missions/kids-paradise-opening.map.json';
 import ravenwatch from './missions/nightfall-at-ravenwatch.map.json';
 import sanctum from './missions/the-sunken-sanctum.map.json';
 
@@ -37,7 +38,7 @@ export function missionFromName(name: string): LoadedMission {
     if (!raw) throw new Error('No test map found. Open the editor and press Test play.');
     return loadDoc(JSON.parse(raw));
   }
-  const doc = BUILT_IN[name];
+  const doc = name === 'kids-paradise-opening' ? opening : BUILT_IN[name];
   if (!doc) throw new Error(`Unknown mission "${name}".`);
   return loadDoc(doc);
 }

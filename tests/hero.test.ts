@@ -1,8 +1,8 @@
 import { describe, expect, it } from 'vitest';
 import type { GameMap } from '../src/map';
 import { Kind, M, MODN, POOLS } from '../src/sim/combat';
-import { INV_MAX, addItem, createHero, derive, skillNeed, weightOf, capacityOf } from '../src/sim/hero';
-import { Cls, ITEMS, Ik, Slot, itemId, rollLoot } from '../src/sim/items';
+import { INV_MAX, Why, addItem, createHero, derive, equipmentStamp, skillNeed, weightOf, capacityOf, type EquipmentAction, type HeroCommand, type HeroState } from '../src/sim/hero';
+import { Cls, ITEMS, Ik, LOOT_RULES, Slot, itemId, rollLoot } from '../src/sim/items';
 import { SPELLS } from '../src/sim/spelldata';
 import { FP, Sim, replay, type Command } from '../src/sim/sim';
 import { Rng } from '../src/sim/rng';
@@ -40,6 +40,30 @@ describe('item table', () => {
       const id = rollLoot((k) => r.int(k), 3, 5);
       expect(ITEMS[id].tier).toBeLessThanOrEqual(5);
       expect(ITEMS[id].tier).toBeGreaterThanOrEqual(1);
+    }
+  });
+
+  it('rare material gear is selectable through existing tiered monster loot pools', () => {
+    const cases = [
+      ['Mithril Gale Buckler', 3, [Kind.Mage, Kind.Golem, Kind.Imp]],
+      ['Adamantium Needle', 4, [Kind.Mage, Kind.Golem]],
+      ['Dragon Leather Mantle', 4, [Kind.Mage, Kind.Golem]],
+    ] as const;
+    for (const [name, tier, sources] of cases) {
+      const id = itemId(name);
+      expect(id, name).toBeGreaterThanOrEqual(0);
+      const pool = ITEMS.filter((item) => item.kind === Ik.Gear && item.tier === tier);
+      const poolIndex = pool.findIndex((item) => item.name === name);
+      expect(poolIndex, name).toBeGreaterThanOrEqual(0);
+      for (const source of sources) {
+        const [chance, lo, hi] = LOOT_RULES[source];
+        expect(chance, `${name} source ${source}`).toBeGreaterThan(0);
+        expect(lo).toBeLessThanOrEqual(tier);
+        expect(hi).toBeGreaterThanOrEqual(tier);
+        const draws = [0, tier - lo, poolIndex];
+        let draw = 0;
+        expect(rollLoot((n) => draws[draw++] % n, lo, hi), name).toBe(id);
+      }
     }
   });
 });
@@ -113,6 +137,170 @@ describe('equipment', () => {
     for (let n = 0; n < INV_MAX; n++) addItem(w.hero!, itemId('Wooden Buckler'));
     expect(w.hero!.inv.length).toBe(INV_MAX);
     expect(addItem(w.hero!, itemId('Wooden Buckler'))).toBe(4);
+  });
+});
+
+describe('queued equipment preconditions', () => {
+  const guarded = (h: HeroState, action: EquipmentAction): HeroCommand => ({ type: 'hero', ...action, expectedEquipment: equipmentStamp(h, action) });
+  const owned = (h: HeroState): number[] => {
+    const counts = Array<number>(ITEMS.length).fill(0);
+    for (const stack of h.inv) counts[stack.item] += stack.n;
+    for (const id of h.eq) if (id >= 0) counts[id]++;
+    return counts;
+  };
+  const armed = (): Sim => {
+    const sim = world(Cls.Warrior);
+    sim.hero!.attr[0] = 40;
+    give(sim, 'Steel Sword', 2);
+    give(sim, 'Iron Sword');
+    sim.cb.recordFx = true;
+    return sim;
+  };
+  const expectRefusal = (sim: Sim, why: number): void => {
+    expect(sim.cb.fx.some((f) => f.type === 15 && f.v === why)).toBe(true);
+  };
+
+  it.each(['equip', 'unequip'] as const)('rejects stale queued %s after an earlier command changes its slot, without partial mutation', (op) => {
+    const sim = armed(), control = armed();
+    const action: EquipmentAction = op === 'equip' ? { op, item: itemId('Steel Sword') } : { op, slot: Slot.Weapon };
+    const queued = guarded(sim.hero!, action);
+    const before = structuredClone(sim.hero!);
+    const first: HeroCommand = { type: 'hero', op: 'equip', item: itemId('Iron Sword') };
+    // Merely constructing/holding the pending command does nothing.
+    expect(sim.hero).toEqual(before);
+    expect(sim.log).toHaveLength(0);
+    sim.step([first, queued]);
+    control.step([first]);
+    expect(sim.hero).toEqual(control.hero);
+    expect(sim.hash()).toBe(control.hash()); // includes derived combat state, not just inventory
+    expect(owned(sim.hero!)).toEqual(owned(before));
+    expectRefusal(sim, Why.None);
+    expect(sim.log.map((entry) => entry.cmd)).toEqual([first, queued]);
+  });
+
+  it('rejects a stale incoming duplicate count and a repeated unequip from an emptied slot', () => {
+    const sim = armed(), control = armed();
+    const steel = itemId('Steel Sword');
+    const queued = guarded(sim.hero!, { op: 'equip', item: steel });
+    const first: HeroCommand = { type: 'hero', op: 'drop', item: steel };
+    sim.step([first, queued]);
+    control.step([first]);
+    expect(sim.hash()).toBe(control.hash());
+    expect(sim.hero!.inv.filter((s) => s.item === steel)).toEqual([{ item: steel, n: 1 }]);
+    expectRefusal(sim, Why.None);
+    const unequip = guarded(sim.hero!, { op: 'unequip', slot: Slot.Weapon });
+    const counts = owned(sim.hero!);
+    sim.step([unequip, unequip]);
+    expect(sim.hero!.eq[Slot.Weapon]).toBe(-1);
+    expect(owned(sim.hero!)).toEqual(counts);
+    expect(sim.cb.fx.filter((f) => f.type === 14 && f.el === 5)).toHaveLength(1);
+    expectRefusal(sim, Why.None);
+  });
+
+  it('ignores unrelated pack/slot changes and reordering, and conserves identical gear copies', () => {
+    const sim = armed();
+    const h = sim.hero!;
+    const steel = itemId('Steel Sword');
+    const action: EquipmentAction = { op: 'equip', item: steel };
+    const queued = guarded(h, action);
+    const before = structuredClone(h);
+    expect(equipmentStamp(h, action)).toBe(queued.expectedEquipment);
+    expect(h).toEqual(before); // the stamp is a pure read
+    give(sim, 'Wooden Buckler');
+    cmd(sim, { type: 'hero', op: 'equip', item: itemId('Wooden Buckler') });
+    h.inv.reverse();
+    const counts = owned(h);
+    expect(equipmentStamp(h, action)).toBe(queued.expectedEquipment);
+    cmd(sim, queued);
+    expect(h.eq[Slot.Weapon]).toBe(steel);
+    expect(h.inv.filter((s) => s.item === steel)).toEqual([{ item: steel, n: 1 }]);
+    expect(owned(h)).toEqual(counts);
+    const unwear = guarded(h, { op: 'unequip', slot: Slot.Weapon });
+    give(sim, 'Healing Draught');
+    const withPotion = owned(h);
+    cmd(sim, unwear);
+    expect(h.eq[Slot.Weapon]).toBe(-1);
+    expect(h.inv.filter((s) => s.item === steel)).toHaveLength(2);
+    expect(owned(h)).toEqual(withPotion);
+  });
+
+  it('replaces gear with a full 24-entry pack but refuses full-pack unequip without loss', () => {
+    const sim = armed();
+    const h = sim.hero!;
+    h.inv = [];
+    give(sim, 'Steel Sword');
+    give(sim, 'Wooden Buckler', INV_MAX - 1);
+    expect(h.inv).toHaveLength(INV_MAX);
+    const counts = owned(h);
+    cmd(sim, guarded(h, { op: 'equip', item: itemId('Steel Sword') }));
+    expect(h.eq[Slot.Weapon]).toBe(itemId('Steel Sword'));
+    expect(h.inv).toHaveLength(INV_MAX);
+    expect(owned(h)).toEqual(counts);
+    const before = structuredClone(h);
+    const stats = derive(h);
+    cmd(sim, guarded(h, { op: 'unequip', slot: Slot.Weapon }));
+    expect(h).toEqual(before);
+    expect(derive(h)).toEqual(stats);
+    expect(owned(h)).toEqual(counts);
+    expectRefusal(sim, Why.Full);
+  });
+
+  it.each(['class', 'attribute', 'dead'] as const)('still enforces live %s validation with a matching stamp', (reason) => {
+    const sim = world(reason === 'class' ? Cls.Mage : Cls.Warrior);
+    const item = itemId(reason === 'attribute' ? 'Plate Armor' : 'Iron Sword');
+    expect(addItem(sim.hero!, item)).toBe(0);
+    sim.cb.recordFx = true;
+    if (reason === 'attribute') sim.hero!.attr[0] = 14;
+    const queued = guarded(sim.hero!, { op: 'equip', item });
+    if (reason === 'attribute') sim.hero!.attr[0] = 8;
+    if (reason === 'dead') sim.cb.hp[0] = 0;
+    expect(equipmentStamp(sim.hero!, { op: 'equip', item })).toBe(queued.expectedEquipment);
+    const before = structuredClone(sim.hero!);
+    cmd(sim, queued);
+    expect(sim.hero).toEqual(before);
+    expectRefusal(sim, reason === 'class' ? Why.Class : reason === 'attribute' ? Why.Need : Why.Dead);
+  });
+
+  it('omitting the guard preserves legacy equip/use/unequip behavior after a slot change', () => {
+    const sim = armed();
+    const counts = owned(sim.hero!);
+    sim.step([
+      { type: 'hero', op: 'equip', item: itemId('Iron Sword') },
+      { type: 'hero', op: 'equip', item: itemId('Steel Sword') },
+      { type: 'hero', op: 'unequip', slot: Slot.Weapon },
+      { type: 'hero', op: 'use', item: itemId('Iron Sword') },
+    ]);
+    expect(sim.hero!.eq[Slot.Weapon]).toBe(itemId('Iron Sword'));
+    expect(owned(sim.hero!)).toEqual(counts);
+    expect(sim.cb.fx.filter((f) => f.type === 14)).toHaveLength(4);
+    expect(sim.cb.fx.some((f) => f.type === 15)).toBe(false);
+  });
+
+  it('replays serialized guarded commands and continues snapshots with identical hashes', () => {
+    const a = armed();
+    const steel = itemId('Steel Sword');
+    const stale = guarded(a.hero!, { op: 'unequip', slot: Slot.Weapon });
+    a.step([guarded(a.hero!, { op: 'equip', item: steel }), stale]);
+    const saved = a.snapshot();
+    const c = armed();
+    c.restore(saved);
+    expect(c.hash()).toBe(a.hash());
+    expect(equipmentStamp(c.hero!, { op: 'unequip', slot: Slot.Weapon })).toBe(equipmentStamp(a.hero!, { op: 'unequip', slot: Slot.Weapon }));
+    const counts = owned(a.hero!);
+    const unwear = guarded(a.hero!, { op: 'unequip', slot: Slot.Weapon });
+    const wear = guarded(a.hero!, { op: 'equip', item: steel });
+    // First command changes the second command's target and incoming count.
+    const continuation = JSON.parse(JSON.stringify([unwear, wear])) as Command[];
+    a.step(continuation);
+    c.step(continuation);
+    for (let tick = 0; tick < 100; tick++) { a.step(); c.step(); }
+    expect(c.hash()).toBe(a.hash());
+    expect(owned(a.hero!)).toEqual(counts);
+    const b = armed();
+    replay(b, JSON.parse(JSON.stringify(a.log)), a.tick);
+    expect(b.hash()).toBe(a.hash());
+    expect(b.hero).toEqual(a.hero);
+    expect(b.log).toEqual(a.log);
   });
 });
 

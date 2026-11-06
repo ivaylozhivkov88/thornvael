@@ -80,6 +80,9 @@
     {"name":"Leather Gloves","kind":"gear","slot":"gloves","cls":"both","tier":1,"w":1,"need":"agility","needv":3,"cover":["arms"],"def":1,"abs":1},
     {"name":"Iron Gauntlets","kind":"gear","slot":"gloves","cls":"warrior","tier":2,"w":3,"need":"body","needv":8,"cover":["arms"],"def":1,"abs":3},
     {"name":"Steel Gauntlets","kind":"gear","slot":"gloves","cls":"warrior","tier":4,"w":4,"need":"body","needv":13,"cover":["arms"],"def":2,"abs":5,"acc":1},
-    {"name":"Silk Gloves","kind":"gear","slot":"gloves","cls":"mage","tier":3,"w":0,"need":"mind","needv":9,"cover":["arms"],"pow":5,"mana":6}
+    {"name":"Silk Gloves","kind":"gear","slot":"gloves","cls":"mage","tier":3,"w":0,"need":"mind","needv":9,"cover":["arms"],"pow":5,"mana":6},
+    {"name":"Mithril Gale Buckler","kind":"gear","slot":"shield","cls":"warrior","tier":3,"w":4,"need":"body","needv":10,"cover":["arms"],"def":2,"abs":1,"res":[0,0,12,0,0],"attr":[0,1,0,0]},
+    {"name":"Adamantium Needle","kind":"gear","slot":"weapon","cls":"warrior","tier":4,"w":2,"need":"agility","needv":13,"min":6,"max":9,"acc":5,"attr":[0,1,0,0]},
+    {"name":"Dragon Leather Mantle","kind":"gear","slot":"armor","cls":"both","tier":4,"w":7,"need":"agility","needv":13,"cover":["torso","arms"],"def":1,"abs":3,"res":[18,0,0,0,0],"attr":[0,1,0,0]}
   ]
 }

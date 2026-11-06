@@ -40,7 +40,23 @@ export interface HeroState {
 export const scribeFee = (tier: number): number => 15 * tier;
 
 /** Hero commands go through the command log. */
-export type HeroCommand = { type: 'hero'; op: 'equip' | 'unequip' | 'use' | 'drop'; item?: number; slot?: number };
+export type HeroCommand = { type: 'hero'; op: 'equip' | 'unequip' | 'use' | 'drop'; item?: number; slot?: number; expectedEquipment?: string };
+
+export type EquipmentAction = { op: 'equip'; item: number } | { op: 'unequip'; slot: number };
+
+/**
+ * Optional queued equipment precondition, not persistent state or an item-copy UID.
+ * Equip observes the incoming type's pack count and destination; unequip observes only its source.
+ * Unrelated pack/slot changes and pack reordering stay valid. Requirements/capacity are checked live.
+ */
+export function equipmentStamp(h: HeroState, action: EquipmentAction): string {
+  const identity = [h.id, h.cls, h.female];
+  if (action.op === 'unequip') return JSON.stringify([identity, action.op, action.slot, h.eq[action.slot]]);
+  const slot = ITEMS[action.item]?.slot ?? -1;
+  let count = 0;
+  for (const stack of h.inv) if (stack.item === action.item) count += stack.n;
+  return JSON.stringify([identity, action.op, action.item, count, slot, h.eq[slot]]);
+}
 
 /** Why an action was refused (fx type 15, v = reason). */
 export const Why = { Class: 1, Need: 2, Known: 3, Full: 4, Heavy: 5, Dead: 6, None: 7, NoEffect: 8, Gold: 9, Far: 10, Busy: 11 } as const;
@@ -325,14 +341,19 @@ export function heroCommand(sim: Sim, cmd: HeroCommand): void {
   if (sim.cb.hp[h.id] <= 0) return refuse(sim, Why.Dead);
   switch (cmd.op) {
     case 'equip':
-      if (cmd.item !== undefined && cmd.item >= 0 && cmd.item < ITEMS.length && ITEMS[cmd.item].kind === Ik.Gear) equip(sim, cmd.item);
+      if (cmd.item !== undefined && cmd.item >= 0 && cmd.item < ITEMS.length && ITEMS[cmd.item].kind === Ik.Gear) {
+        if (cmd.expectedEquipment !== undefined && cmd.expectedEquipment !== equipmentStamp(h, { op: 'equip', item: cmd.item })) return refuse(sim, Why.None);
+        equip(sim, cmd.item);
+      }
       return;
     case 'use':
       if (cmd.item !== undefined && cmd.item >= 0 && cmd.item < ITEMS.length) useItem(sim, cmd.item);
       return;
     case 'unequip': {
       const s = cmd.slot ?? -1;
-      if (s < 0 || s >= SLOT_COUNT || h.eq[s] < 0) return;
+      if (s < 0 || s >= SLOT_COUNT) return;
+      if (cmd.expectedEquipment !== undefined && cmd.expectedEquipment !== equipmentStamp(h, { op: 'unequip', slot: s })) return refuse(sim, Why.None);
+      if (h.eq[s] < 0) return;
       if (h.inv.length >= INV_MAX) return refuse(sim, Why.Full);
       const item = h.eq[s];
       h.eq[s] = -1;

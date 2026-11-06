@@ -1,19 +1,17 @@
 import { Application, Container, Graphics, Sprite, Text, Texture } from 'pixi.js';
-import { ObjectKind, TILE, Terrain, type GameMap } from './map';
+import { TILE, type GameMap } from './map';
+import { loadTerrainArt, paintTerrainChunk, prepareScenery, type SceneryPlacement } from './terrain';
 import { Kind } from './sim/combat';
 import { SKILL_NAMES } from './sim/hero';
 import { FP, type Sim } from './sim/sim';
 import { SPELLS, St, Tk } from './sim/spelldata';
 import { S } from './strings';
+import { ITEMS, Slot } from './sim/items';
+import { UnitAtlas, UnitSprite, UNIT_ART } from './sprites/units';
+import { ArtPreview } from './sprites/preview';
+import { CombatAnimation, type AnimationPose } from './sprites/combat-animation';
 
 const CHUNK = 16; // tiles per chunk side, so each baked texture is 512 px
-const BASE: Record<number, [number, number, number]> = {
-  [Terrain.Grass]: [63, 90, 46],
-  [Terrain.Dirt]: [122, 100, 70],
-  [Terrain.Water]: [44, 79, 120],
-  [Terrain.Rock]: [96, 96, 100],
-  [Terrain.Marsh]: [70, 84, 52],
-};
 const DIR_COS = Array.from({ length: 16 }, (_, k) => Math.cos((k * Math.PI) / 8));
 const DIR_SIN = Array.from({ length: 16 }, (_, k) => Math.sin((k * Math.PI) / 8));
 const NIGHT = [0x5a, 0x6a, 0xa6];
@@ -39,58 +37,11 @@ export const QUALITY_NAMES = ['Low', 'Medium', 'High'] as const;
 const FLOATERS = [0, 10, 24];
 const FLOAT_MS = 900;
 
-function shade(c: [number, number, number], l: number, extra = 0): string {
-  const k = l / 255;
-  return `rgb(${Math.min(255, Math.round(c[0] * k + extra))},${Math.min(255, Math.round(c[1] * k + extra))},${Math.min(255, Math.round(c[2] * k + extra))})`;
-}
-
-function bakeChunk(map: GameMap, cx: number, cy: number): HTMLCanvasElement {
+function bakeChunk(map: GameMap, cx: number, cy: number, art: HTMLImageElement, scenery: readonly SceneryPlacement[]): HTMLCanvasElement {
   const cv = document.createElement('canvas');
   cv.width = cv.height = CHUNK * TILE;
   const g = cv.getContext('2d')!;
-  for (let ty = 0; ty < CHUNK; ty++) {
-    for (let tx = 0; tx < CHUNK; tx++) {
-      const x = cx * CHUNK + tx;
-      const y = cy * CHUNK + ty;
-      if (x >= map.w || y >= map.h) continue;
-      const i = y * map.w + x;
-      g.fillStyle = shade(BASE[map.terrain[i]], map.light[i], map.height[i] * 4);
-      g.fillRect(tx * TILE, ty * TILE, TILE, TILE);
-      // Cliff edge where the tile to the south is lower: a dark band reads as a height step.
-      if (y + 1 < map.h && map.height[(y + 1) * map.w + x] < map.height[i] && map.terrain[i] !== Terrain.Water) {
-        g.fillStyle = 'rgba(0,0,0,.35)';
-        g.fillRect(tx * TILE, ty * TILE + TILE - 5, TILE, 5);
-      }
-    }
-  }
-  for (const o of map.objects) {
-    const px = (o.x - cx * CHUNK) * TILE;
-    const py = (o.y - cy * CHUNK) * TILE;
-    if (px < -TILE * 2 || py < -TILE * 2 || px > CHUNK * TILE || py > CHUNK * TILE) continue;
-    if (o.kind === ObjectKind.Tree) {
-      g.fillStyle = '#4a3220';
-      g.fillRect(px + 13, py + 18, 6, 12);
-      g.fillStyle = '#1f4a1c';
-      g.beginPath();
-      g.arc(px + 16, py + 14, 12, 0, Math.PI * 2);
-      g.fill();
-      g.fillStyle = '#2d6428';
-      g.beginPath();
-      g.arc(px + 13, py + 11, 7, 0, Math.PI * 2);
-      g.fill();
-    } else {
-      g.fillStyle = '#6b4a2b';
-      g.fillRect(px + 2, py + 14, 60, 48);
-      g.fillStyle = '#8c2f27';
-      g.beginPath();
-      g.moveTo(px - 2, py + 18);
-      g.lineTo(px + 32, py - 4);
-      g.lineTo(px + 66, py + 18);
-      g.fill();
-      g.fillStyle = '#2a1a0e';
-      g.fillRect(px + 26, py + 36, 12, 26);
-    }
-  }
+  paintTerrainChunk(g, map, cx, cy, art, scenery, CHUNK);
   return cv;
 }
 
@@ -155,7 +106,12 @@ export class Renderer {
   private freeText: Text[] = [];
   private fogTick = 0;
   quality = 2;
-  private sprites: Sprite[] = [];
+  private sprites: (Sprite | UnitSprite)[] = [];
+  private artStress = false;
+  private artPreview?: ArtPreview;
+  private loadedAtlases: UnitAtlas[] = [];
+  private animation?: CombatAnimation;
+  private readonly pose: AnimationPose = { clip: 'stand', frame: 0, age: 0, finished: false, unresolved: false };
   private fogCv!: HTMLCanvasElement;
   private fogTex!: Texture;
   private fogImg!: ImageData;
@@ -192,6 +148,7 @@ export class Renderer {
   }
 
   async init(sim: Sim): Promise<void> {
+    this.animation = new CombatAnimation(sim);
     await this.app.init({
       canvas: this.canvas,
       resizeTo: window,
@@ -201,10 +158,12 @@ export class Renderer {
       resolution: Math.min(window.devicePixelRatio || 1, 2),
     });
     this.app.ticker.stop(); // main.ts drives frames
+    const terrain = await loadTerrainArt();
+    const scenery = prepareScenery(this.map);
     const chunks = new Container();
     for (let cy = 0; cy * CHUNK < this.map.h; cy++) {
       for (let cx = 0; cx * CHUNK < this.map.w; cx++) {
-        const s = new Sprite(Texture.from(bakeChunk(this.map, cx, cy)));
+        const s = new Sprite(Texture.from(bakeChunk(this.map, cx, cy, terrain, scenery)));
         s.position.set(cx * CHUNK * TILE, cy * CHUNK * TILE);
         chunks.addChild(s);
       }
@@ -221,15 +180,24 @@ export class Renderer {
     this.world.addChild(chunks, this.rings);
     this.fog = fog;
     const tex = unitTexture();
+    const atlases = await Promise.all(UNIT_ART.map((unit) => UnitAtlas.load(unit)));
+    this.loadedAtlases = atlases;
+    const params = new URLSearchParams(location.search);
+    this.artStress = params.get('artstress') === '1' && (params.has('crowd') || params.has('battle'));
     for (let i = 0; i < sim.count; i++) {
-      const s = new Sprite(tex);
-      s.anchor.set(0.5, 0.88);
       const kind = sim.cb.kind[i];
+      // Diagnostic presentation override only: retain the original sim kind and update path.
+      const atlas = this.artStress ? atlases[i % atlases.length]
+        : kind === Kind.Hero ? atlases[0] : kind === Kind.Archer ? atlases[1] : kind === Kind.Golem ? atlases[2] : null;
+      const s = atlas ? new UnitSprite(atlas) : new Sprite(tex);
+      if (s instanceof Sprite) s.anchor.set(0.5, 0.88);
       const look = KIND_LOOK[kind] ?? { scale: 1 };
       s.scale.set(look.scale);
       // Your units keep the team colour (the hero stays gold); monsters use the colour of their kind.
-      if (sim.team[i] === 0) s.tint = kind === Kind.Hero || kind === Kind.Mage ? look.tint! : TEAM_TINT[0];
-      else s.tint = kind === Kind.Archer ? TEAM_TINT[1] : look.tint ?? TEAM_TINT[1];
+      if (s instanceof Sprite) {
+        if (sim.team[i] === 0) s.tint = kind === Kind.Hero || kind === Kind.Mage ? look.tint! : TEAM_TINT[0];
+        else s.tint = kind === Kind.Archer ? TEAM_TINT[1] : look.tint ?? TEAM_TINT[1];
+      }
       this.baseTint.push(s.tint as number);
       this.sprites.push(s);
       this.world.addChild(s);
@@ -239,6 +207,10 @@ export class Renderer {
     this.world.addChild(this.shots, fog, this.dbgGrid, this.dbgPath);
     this.light.blendMode = 'multiply';
     this.app.stage.addChild(this.world, this.light, this.floaterLayer, this.overlay);
+    if (new URLSearchParams(location.search).get('art') === '1') {
+      this.artPreview = new ArtPreview(atlases);
+      this.app.stage.addChild(this.artPreview.layer);
+    }
     this.centerOn(sim.x[0] / FP, sim.y[0] / FP);
     this.setQuality(this.quality);
   }
@@ -309,6 +281,7 @@ export class Renderer {
       }
     }
     fx.length = 0;
+    this.animation?.clearedFx();
     for (let n = this.floaters.length - 1; n >= 0; n--) {
       const f = this.floaters[n];
       const age = (now - f.born) / FLOAT_MS;
@@ -412,6 +385,63 @@ export class Renderer {
     return x < -40 || y < -40 || x > this.viewW + 40 || y > this.viewH + 40 ? null : [x, y];
   }
 
+  unitArt(i: number) {
+    const sprite = this.sprites[i];
+    return sprite instanceof UnitSprite ? sprite.inspect() : null;
+  }
+
+  /** Observe each completed step, including catch-up steps that are never drawn. */
+  observe(sim: Sim): void { this.animation?.observe(sim); }
+  resetAnimation(sim: Sim): void { this.animation?.reset(sim); }
+  animationPose(sim: Sim, id: number): AnimationPose {
+    const out: AnimationPose = { clip: 'stand', frame: 0, age: 0, finished: false, unresolved: false };
+    this.animation?.sample(sim, id, out);
+    return out;
+  }
+
+  previewArt() { return this.artPreview?.inspect() ?? null; }
+
+  /** On-demand snapshot only; atlas bytes estimate RGBA storage, not total GPU/process memory. */
+  artMetrics() {
+    const families: Record<string, number> = { hero: 0, archer: 0, golem: 0 };
+    const sources = new Set<number>();
+    let artSprites = 0;
+    let visibleArtSprites = 0;
+    let onScreenArtSprites = 0;
+    let filteredArtSprites = 0;
+    let approxAtlasBytes = 0;
+    for (const s of this.sprites) {
+      if (!(s instanceof UnitSprite)) continue;
+      artSprites++;
+      families[s.atlas.unit]++;
+      const info = s.inspect();
+      if (info.filters || s.filters) filteredArtSprites++;
+      if (s.visible) {
+        visibleArtSprites++;
+        const x = s.x * this.zoom - this.camX;
+        const y = s.y * this.zoom - this.camY;
+        if (x >= 0 && y >= 0 && x < this.viewW && y < this.viewH) onScreenArtSprites++;
+      }
+      const source = s.atlas.source.source;
+      if (!sources.has(source.uid)) {
+        sources.add(source.uid);
+        approxAtlasBytes += source.pixelWidth * source.pixelHeight * 4;
+      }
+    }
+    // Count every resident source, including families absent from this mission's
+    // current units. Downloaded/decoded families still occupy GPU memory.
+    for (const atlas of this.loadedAtlases) {
+      const source = atlas.source.source;
+      if (!sources.has(source.uid)) {
+        sources.add(source.uid);
+        approxAtlasBytes += source.pixelWidth * source.pixelHeight * 4;
+      }
+    }
+    return { loadedFamilies: this.loadedAtlases.map((a) => a.unit), stress: this.artStress, totalSprites: this.sprites.length, artSprites, visibleArtSprites,
+      onScreenArtSprites, families, uniqueGpuSources: sources.size, approxAtlasBytes,
+      filteredArtSprites, layersPerArtSprite: 4, quality: this.quality, resolution: this.app.renderer.resolution };
+  }
+
   /** Camera rectangle in tiles. */
   viewTiles(): { x0: number; y0: number; x1: number; y1: number } {
     const s = TILE * this.zoom;
@@ -443,6 +473,7 @@ export class Renderer {
   }
 
   draw(sim: Sim, px: Int32Array, py: Int32Array, alpha: number, v: View): void {
+    this.artPreview?.draw(sim.tick);
     this.world.scale.set(this.zoom);
     this.world.position.set(-this.camX, -this.camY);
     if (this.quality > 0 || (this.fogTick++ & 1) === 0) this.updateFog(sim);
@@ -478,6 +509,8 @@ export class Renderer {
     // Bodies stay for a minute so a corpse spell has something to aim at; they sink into the ground at the end.
     for (let i = 0; i < sim.count; i++) {
       if (cb.hp[i] > 0 || cb.corp[i] <= 0) continue;
+      const body = this.sprites[i];
+      if (body instanceof UnitSprite && body.atlas.hasClip('die')) continue;
       const tile = Math.floor(sim.y[i] / FP) * mw + Math.floor(sim.x[i] / FP);
       if (!sim.explored[tile]) continue;
       const cx = sim.x[i] * k;
@@ -488,40 +521,51 @@ export class Renderer {
     }
     for (let i = 0; i < sim.count; i++) {
       const s = this.sprites[i];
-      if (cb.hp[i] <= 0 || sim.hidden[i]) {
+      const dead = cb.hp[i] <= 0;
+      if (sim.hidden[i] || (dead && (cb.corp[i] <= 0 || !(s instanceof UnitSprite) || !s.atlas.hasClip('die')))) {
         s.visible = false;
         continue;
       }
-      const want = cb.stMask[i] & (1 << St.Stone) ? 0x8a8a8a : this.baseTint[i];
-      if (s.tint !== want) s.tint = want;
+      if (s instanceof Sprite) {
+        const want = cb.stMask[i] & (1 << St.Stone) ? 0x8a8a8a : this.baseTint[i];
+        if (s.tint !== want) s.tint = want;
+      }
       s.x = Math.round((px[i] + (sim.x[i] - px[i]) * alpha) * k);
       s.y = Math.round((py[i] + (sim.y[i] - py[i]) * alpha) * k);
       const sx = s.x * z - this.camX;
       const sy = s.y * z - this.camY;
       const onScreen = sx > -40 && sy > -40 && sx < this.viewW + 40 && sy < this.viewH + 40;
-      s.visible = onScreen && (sim.team[i] === 0 || sim.visible[Math.floor(sim.y[i] / FP) * mw + Math.floor(sim.x[i] / FP)] === 1);
+      const tile = Math.floor(sim.y[i] / FP) * mw + Math.floor(sim.x[i] / FP);
+      s.visible = onScreen && (dead ? !!sim.explored[tile] : sim.team[i] === 0 || sim.visible[tile] === 1);
+      s.alpha = dead ? Math.min(1, cb.corp[i] / 200) : 1;
+      if (s.visible && s instanceof UnitSprite) {
+        const armour = sim.hero?.id === i ? ITEMS[sim.hero.eq[Slot.Armor]]?.tier ?? 0 : 1;
+        // Levelled monsters arrive with the roster; existing golems are level 1.
+        this.animation?.sample(sim, i, this.pose);
+        s.update(sim.tick, !!sim.moving[i], sim.dir[i], sim.team[i], armour, 1, !!(cb.stMask[i] & (1 << St.Stone)), this.pose);
+      }
     }
     const sh = this.shots;
     sh.clear();
     // Hit-point bars: Low draws them only for selected units, Medium adds hurt units, High draws every hurt unit in view.
     for (let i = 0; i < sim.count; i++) {
       const s = this.sprites[i];
-      if (!s.visible) continue;
+      if (!s.visible || cb.hp[i] <= 0) continue;
       const hurt = cb.hp[i] < cb.hpMax[i];
       const sel = v.selected.has(i);
       if (!(sel || (hurt && this.quality > 0))) continue;
       const f = cb.hp[i] / cb.hpMax[i];
       const w = 20 * (s.scale.x > 1.2 ? 1.4 : 1);
-      const y = s.y - 36 * s.scale.y;
+      const y = s.y - (s instanceof UnitSprite ? 48 : 36) * s.scale.y;
       sh.rect(s.x - w / 2 - 1, y - 1, w + 2, 5).fill(0x000000);
       sh.rect(s.x - w / 2, y, w * f, 3).fill(sim.team[i] === 0 ? (f > 0.35 ? 0x5fd35f : 0xe0b030) : 0xe05a4a);
     }
     // Status pips above the bar, a ring for a live shield, and a mana bar under the hit-point bar of selected casters.
     for (let i = 0; i < sim.count; i++) {
       const s = this.sprites[i];
-      if (!s.visible) continue;
+      if (!s.visible || cb.hp[i] <= 0) continue;
       const m = cb.stMask[i];
-      const y = s.y - 36 * s.scale.y;
+      const y = s.y - (s instanceof UnitSprite ? 48 : 36) * s.scale.y;
       if (m) {
         let n = 0;
         for (let st = 0; st < 8; st++) {
@@ -538,7 +582,7 @@ export class Renderer {
     }
     for (const id of v.selected) {
       const s = this.sprites[id];
-      if (!s.visible) continue;
+      if (!s.visible || cb.hp[id] <= 0) continue;
       const dir = sim.dir[id];
       r.ellipse(s.x, s.y, 11, 5)
         .stroke({ color: 0x9dff7a, width: 2 })
@@ -548,7 +592,7 @@ export class Renderer {
     }
     if (v.hover) {
       const s = this.sprites[v.hover.id];
-      if (s.visible) r.ellipse(s.x, s.y, 13, 6).stroke({ color: v.hover.ok ? 0xff5a4a : 0x999999, width: 2 });
+      if (s.visible && cb.hp[v.hover.id] > 0) r.ellipse(s.x, s.y, 13, 6).stroke({ color: v.hover.ok ? 0xff5a4a : 0x999999, width: 2 });
     }
     for (let p = 0; p < cb.pAlive.length; p++) {
       if (!cb.pAlive[p]) continue;

@@ -1,4 +1,4 @@
-// Generates every shipped sound from scratch (own synthesis, no samples) and encodes it as AAC .m4a with ffmpeg.
+// Generates the legacy sounds from scratch (own synthesis, no samples) and encodes them as AAC .m4a with ffmpeg.
 // Usage: node tools/make-audio.mjs    Output: public/audio/*.m4a    Listed in assets.json as own work.
 import { mkdirSync, mkdtempSync, rmSync, writeFileSync } from 'node:fs';
 import { spawnSync } from 'node:child_process';
@@ -220,7 +220,12 @@ function save(name, samples, kbps) {
   console.log(`${name}.m4a  ${(x.length / SR).toFixed(1)} s`);
 }
 
-for (const [name, fn] of Object.entries(SFX)) save(name, fn(), 48);
+for (const [name, fn] of Object.entries(SFX)) {
+  const samples = fn();
+  // Keep the legacy bow recipe's RNG consumption for subsequent sounds.
+  // The shipped bow cue is the workshop's yew_release_01.m4a.
+  if (name !== 'bow') save(name, samples, 48);
+}
 save('ambience', ambience(), 40);
 save('music_explore', exploreTrack(), 64);
 save('music_battle', battleTrack(), 64);

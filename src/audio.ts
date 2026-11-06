@@ -3,11 +3,13 @@ import { VoiceLimiter, spatial, type Voice } from './audiologic';
 /**
  * Web Audio engine: one context, three buses (sfx, music, ambience), a voice limit and pan by screen position.
  * Sound effects are short AAC files decoded once; music is streamed through an <audio> element so it never sits in memory as PCM.
- * Everything starts from a real user gesture (`unlock`) and survives the iOS mute switch with a looping silent element.
+ * Everything starts from a real user gesture (`unlock`). A silent media workaround needs real iOS verification.
  */
+const SHOP_ENTRY_CUE = 'ledger_latch_01';
+const SHOP_ENTRY_WINDOW_MS = 750;
 const SFX_NAMES = [
   'hit', 'miss', 'death', 'bow', 'gold', 'nomana', 'cast_fire', 'cast_water', 'cast_air', 'cast_earth', 'cast_astral',
-  'boom', 'heal', 'buff', 'curse', 'revive', 'click', 'step1', 'step2',
+  'boom', 'heal', 'buff', 'curse', 'revive', 'click', 'step1', 'step2', SHOP_ENTRY_CUE,
 ];
 const base = (): string => import.meta.env.BASE_URL;
 
@@ -18,8 +20,13 @@ let musicBus: GainNode | null = null;
 let ambBus: GainNode | null = null;
 let silent: HTMLAudioElement | null = null;
 const buffers = new Map<string, AudioBuffer>();
+const pendingBuffers = new Map<string, Promise<void>>();
 const running = new Map<Voice, AudioBufferSourceNode>();
-const limiter = new VoiceLimiter();
+let limiter = new VoiceLimiter();
+let backgrounded = false;
+let generation = 0;
+let resuming: Promise<void> | null = null;
+let suspending: Promise<void> | null = null;
 let loading: Promise<void> | null = null;
 let sfxOn = true;
 let musicWanted = false;
@@ -27,6 +34,7 @@ let musicMode: 'explore' | 'battle' = 'explore';
 let ambSource: AudioBufferSourceNode | null = null;
 let ambWanted = true;
 let played = 0;
+let pendingShopEntry: { deadline: number } | null = null;
 
 interface Track {
   el: HTMLAudioElement;
@@ -54,19 +62,51 @@ function silentWavUrl(): string {
   return URL.createObjectURL(new Blob([b], { type: 'audio/wav' }));
 }
 
-async function loadBuffer(name: string): Promise<void> {
-  if (!ctx || buffers.has(name)) return;
-  try {
-    const res = await fetch(`${base()}audio/${name}.m4a`);
-    const data = await res.arrayBuffer();
-    buffers.set(name, await ctx.decodeAudioData(data));
-  } catch {
-    // a missing or undecodable file only loses that sound
-  }
+function loadBuffer(name: string): Promise<void> {
+  if (!ctx || buffers.has(name)) return Promise.resolve();
+  const pending = pendingBuffers.get(name);
+  if (pending) return pending;
+  const context = ctx;
+  const task = (async () => {
+    try {
+      // A distinct URL keeps existing chapter caches from serving the previous bow cue.
+      const file = name === 'bow' ? 'yew_release_01' : name;
+      const res = await fetch(`${base()}audio/${file}.m4a`);
+      const data = await res.arrayBuffer();
+      if (ctx !== context || context.state === 'closed') return;
+      const buffer = await context.decodeAudioData(data);
+      if (ctx === context && (context.state as string) !== 'closed') buffers.set(name, buffer);
+    } catch {
+      // a missing or undecodable file only loses that sound
+    }
+  })().finally(() => { if (pendingBuffers.get(name) === task) pendingBuffers.delete(name); });
+  pendingBuffers.set(name, task);
+  return task;
 }
 
 /** Call from a real user gesture. Safe to call repeatedly. */
 export function unlock(): void {
+  if (backgrounded) return;
+  if (ctx?.state === 'closed') {
+    // MediaElementSourceNodes belong to their original context: rebuild their elements too.
+    generation++;
+    stopAmbience();
+    for (const source of running.values()) { try { source.stop(); } catch { /* ended */ } }
+    running.clear();
+    limiter = new VoiceLimiter();
+    tracks.explore?.el.pause();
+    tracks.battle?.el.pause();
+    tracks.explore = tracks.battle = null;
+    silent?.pause();
+    if (silent) URL.revokeObjectURL(silent.src);
+    silent = null;
+    buffers.clear();
+    pendingBuffers.clear();
+    loading = null;
+    resuming = suspending = null;
+    ctx = null;
+    master = sfxBus = musicBus = ambBus = null;
+  }
   if (!ctx) {
     const AC = window.AudioContext ?? (window as unknown as { webkitAudioContext: typeof AudioContext }).webkitAudioContext;
     if (!AC) return;
@@ -83,48 +123,83 @@ export function unlock(): void {
     ambBus = ctx.createGain();
     ambBus.gain.value = 0.25;
     ambBus.connect(master);
-    // A looping silent <audio> element moves iOS to the playback category so the mute switch does not silence Web Audio.
+    // Retain the existing iOS silent-media workaround; device behavior is not assumed.
     silent = new Audio(silentWavUrl());
     silent.loop = true;
-    void silent.play().catch(() => undefined);
     // Short buffer through the context inside the gesture: the iOS unlock trick.
     const s = ctx.createBufferSource();
     s.buffer = ctx.createBuffer(1, 1, 22050);
     s.connect(ctx.destination);
     s.start(0);
-    loading = Promise.all(SFX_NAMES.map(loadBuffer)).then(() => startAmbience());
+    const context = ctx;
+    loading = Promise.all(SFX_NAMES.map(loadBuffer)).then(() => { if (ctx === context) startAmbience(); });
   }
-  if (ctx.state !== 'running') void ctx.resume();
+  restorePlayback();
+  requestResume();
+}
+
+function stopAmbience(): void {
+  try { ambSource?.stop(); } catch { /* already stopped */ }
+  ambSource?.disconnect();
+  ambSource = null;
+}
+
+function playMedia(el: HTMLAudioElement, wanted: () => boolean): void {
+  if (backgrounded || !wanted()) return;
+  void el.play().then(() => {
+    if (backgrounded || !wanted()) el.pause();
+  }).catch(() => undefined);
+}
+
+function restorePlayback(): void {
+  if (!ctx || ctx.state === 'closed' || backgrounded) return;
+  if (silent) {
+    const current = silent;
+    playMedia(current, () => silent === current);
+  }
+  if (musicWanted) fadeTrack(trackFor(musicMode), 1, 0.15);
+  startAmbience();
+}
+
+function requestResume(): void {
+  const context = ctx;
+  if (!context || backgrounded || context.state === 'closed' || resuming || suspending) return;
+  if (context.state === 'running') return;
+  const attempt = context.resume().then(() => {
+    if (ctx !== context) return;
+    if (backgrounded) suspendAudio();
+    else if (context.state === 'running') restorePlayback();
+    // Interrupted/rejected contexts remain retryable on the next gesture; never close them here.
+  }).catch(() => undefined).finally(() => { if (resuming === attempt) resuming = null; });
+  resuming = attempt;
 }
 
 function startAmbience(): void {
-  if (!ctx || !ambBus || !ambWanted || ambSource) return;
+  if (!ctx || ctx.state !== 'running' || backgrounded || !ambBus || !ambWanted || ambSource) return;
+  const context = ctx;
+  const epoch = generation;
   void loadBuffer('ambience').then(() => {
     const b = buffers.get('ambience');
-    if (!ctx || !ambBus || !b || ambSource || !ambWanted) return;
+    if (ctx !== context || generation !== epoch || backgrounded || context.state !== 'running' || !ambBus || !b || ambSource || !ambWanted) return;
     ambSource = ctx.createBufferSource();
     ambSource.buffer = b;
     ambSource.loop = true;
     ambSource.connect(ambBus);
     ambSource.start();
-  });
+  }).catch(() => undefined);
 }
 
 export function setAmbience(on: boolean): void {
   ambWanted = on;
+  generation++;
   if (!on) {
-    try {
-      ambSource?.stop();
-    } catch {
-      // already stopped
-    }
-    ambSource = null;
+    stopAmbience();
   } else startAmbience();
 }
 
 /** Play a sound effect. `x`, `y` is the screen point of the source (omit for UI sounds); w, h the view size. */
 export function play(name: string, priority = 1, at?: { x: number; y: number; w: number; h: number }): void {
-  if (!ctx || !sfxBus || !sfxOn || ctx.state !== 'running') return;
+  if (!ctx || !sfxBus || !sfxOn || backgrounded || ctx.state !== 'running') return;
   const b = buffers.get(name);
   if (!b) return;
   let gain = 1;
@@ -169,6 +244,32 @@ export function play(name: string, priority = 1, at?: { x: number; y: number; w:
   played++;
 }
 
+/** Play once when the first gesture has unlocked audio and decoded the shop cue. */
+export function playShopEntry(): void {
+  cancelShopEntry();
+  const context = ctx;
+  if (!context || !sfxOn || backgrounded) return;
+  if (!suspending && context.state === 'running' && buffers.has(SHOP_ENTRY_CUE)) {
+    play(SHOP_ENTRY_CUE, 5);
+    return;
+  }
+
+  const request = { deadline: performance.now() + SHOP_ENTRY_WINDOW_MS };
+  pendingShopEntry = request;
+  requestResume();
+  // The suspend finalizer starts the foreground resume before this continuation runs.
+  const ready = suspending ? suspending.then(() => resuming) : resuming;
+  void Promise.all([loadBuffer(SHOP_ENTRY_CUE), ready]).then(() => {
+    if (pendingShopEntry !== request) return;
+    pendingShopEntry = null;
+    if (ctx === context && performance.now() < request.deadline) play(SHOP_ENTRY_CUE, 5);
+  });
+}
+
+export function cancelShopEntry(): void {
+  pendingShopEntry = null;
+}
+
 /** The UI click. */
 export function blip(): void {
   unlock();
@@ -177,10 +278,11 @@ export function blip(): void {
 
 export function setSfx(on: boolean): void {
   sfxOn = on;
+  if (!on) cancelShopEntry();
 }
 
 function trackFor(mode: 'explore' | 'battle'): Track | null {
-  if (!ctx || !musicBus) return null;
+  if (!ctx || ctx.state === 'closed' || !musicBus || backgrounded) return null;
   let t = tracks[mode];
   if (!t) {
     const el = new Audio(`${base()}audio/music_${mode}.m4a`);
@@ -204,13 +306,13 @@ function trackFor(mode: 'explore' | 'battle'): Track | null {
 }
 
 function fadeTrack(t: Track | null, to: number, sec: number): void {
-  if (!t || !ctx) return;
+  if (!t || !ctx || ctx.state === 'closed') return;
   if (t.gain) {
     t.gain.gain.cancelScheduledValues(ctx.currentTime);
     t.gain.gain.setValueAtTime(t.gain.gain.value, ctx.currentTime);
     t.gain.gain.linearRampToValueAtTime(to, ctx.currentTime + sec);
   } else t.el.volume = to;
-  if (to > 0) void t.el.play().catch(() => undefined);
+  if (to > 0) playMedia(t.el, () => musicWanted && tracks[musicMode] === t);
   else window.setTimeout(() => !musicWanted || tracks[musicMode] !== t ? t.el.pause() : undefined, sec * 1000 + 50);
 }
 
@@ -237,20 +339,28 @@ export function currentMusic(): 'off' | 'explore' | 'battle' {
 }
 
 export function suspendAudio(): void {
-  void ctx?.suspend();
+  cancelShopEntry();
+  backgrounded = true;
+  generation++;
+  stopAmbience();
   silent?.pause();
   tracks.explore?.el.pause();
   tracks.battle?.el.pause();
+  const context = ctx;
+  if (!context || context.state === 'closed' || suspending) return;
+  const attempt = context.suspend().catch(() => undefined).finally(() => {
+    if (suspending !== attempt) return;
+    suspending = null;
+    if (ctx === context && !backgrounded) { restorePlayback(); requestResume(); }
+  });
+  suspending = attempt;
 }
 
-/** Back from the background: resume the context, and if the browser lost it (iOS), build a fresh one. */
+/** Best-effort foreground recovery. A closed context is rebuilt only by the next unlock gesture. */
 export function resumeAudio(): void {
-  if (!ctx) return;
-  void ctx.resume().then(() => {
-    if (ctx && (ctx.state as string) === 'interrupted') void ctx.close();
-  });
-  void silent?.play().catch(() => undefined);
-  if (musicWanted) setMusic(true, musicMode);
+  backgrounded = false;
+  restorePlayback();
+  requestResume();
 }
 
 export function audioState(): string {
