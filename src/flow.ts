@@ -14,6 +14,7 @@ export interface LastResult {
   up: number; // soldiers standing at the end
   size: number; // soldiers at the start of the count
   gold: number;
+  branch?: number;
 }
 
 export interface CampaignRecord {
@@ -48,7 +49,7 @@ export function canEnter(rec: CampaignRecord, id: string, maps: ReadonlySet<stri
 export function afterMission(c: Campaign, rec: CampaignRecord, id: string, win: boolean, carry: CarryoverState | null, last: Omit<LastResult, 'node' | 'win'>): CampaignRecord {
   const result: LastResult = { node: id, win, ...last };
   if (!win) return { ...rec, last: result };
-  const progress = completeNode(c, rec.progress, id);
+  const progress = completeNode(c, rec.progress, id, last.branch);
   return { ...rec, progress, carry: carry ? { ...carry, progress } : rec.carry, last: result };
 }
 

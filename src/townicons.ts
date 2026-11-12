@@ -1,7 +1,7 @@
-import { CLS_MAGE, Ik, ITEMS, Slot } from './sim/items';
+import { CLS_MAGE, Ik, getItemDef, ItemDef, Slot } from './sim/items';
 import { SPELLS } from './sim/spelldata';
 
-export type ItemIconCategory = 'empty' | 'sword' | 'staff' | 'shield' | 'helm' | 'hat' | 'armor' | 'robe' | 'boots' | 'ring' | 'amulet' | 'gloves' | 'healing' | 'mana' | 'elixir' | 'scroll' | 'tome';
+export type ItemIconCategory = 'empty' | 'sword' | 'axe' | 'mace' | 'bow' | 'staff' | 'wand' | 'shield' | 'helm' | 'hat' | 'crown' | 'armor' | 'robe' | 'boots' | 'ring' | 'amulet' | 'gloves' | 'healing' | 'mana' | 'elixir' | 'scroll' | 'tome';
 export type ItemIconTone = 'neutral' | 'fire' | 'water' | 'air' | 'earth' | 'astral' | 'healing' | 'mana' | 'body' | 'agility' | 'mind' | 'spirit';
 export interface ItemIconDescriptor {
   category: ItemIconCategory;
@@ -14,10 +14,17 @@ const ATTRIBUTES: readonly ItemIconTone[] = ['body', 'agility', 'mind', 'spirit'
 const SLOT_ICONS: readonly ItemIconCategory[] = ['sword', 'shield', 'helm', 'armor', 'boots', 'ring', 'amulet', 'gloves'];
 
 /** Pure presentation lookup. Safe before data installation and in a Node test without a DOM. */
-export function classifyItemIcon(itemId: number): ItemIconDescriptor {
+export function classifyItemIcon(itemOrId: number | ItemDef): ItemIconDescriptor {
   const empty: ItemIconDescriptor = { category: 'empty', tier: 0, tone: 'neutral' };
-  if (!Number.isSafeInteger(itemId) || itemId < 0 || itemId >= ITEMS.length) return empty;
-  const item = ITEMS[itemId];
+  let item: ItemDef | undefined;
+  if (typeof itemOrId === 'object' && itemOrId !== null && typeof (itemOrId as ItemDef).name === 'string' && typeof (itemOrId as ItemDef).kind === 'number') {
+    item = itemOrId as ItemDef;
+  } else if (typeof itemOrId === 'number' && Number.isSafeInteger(itemOrId)) {
+    item = getItemDef(itemOrId);
+    if (!item) return empty;
+  } else {
+    return empty;
+  }
   if (!item) return empty;
   const tier = Number.isFinite(item.tier) ? Math.max(1, Math.min(5, Math.trunc(item.tier))) : 1;
   if (item.kind === Ik.Learn) {
@@ -36,6 +43,15 @@ export function classifyItemIcon(itemId: number): ItemIconDescriptor {
     if (item.slot === Slot.Weapon) category = 'staff';
     if (item.slot === Slot.Helm) category = 'hat';
     if (item.slot === Slot.Armor) category = 'robe';
+  }
+  const lower = item.name.toLowerCase();
+  if (item.slot === Slot.Weapon) {
+    if (lower.includes('axe')) category = 'axe';
+    else if (lower.includes('mace') || lower.includes('flail') || lower.includes('hammer') || lower.includes('club') || lower.includes('maul') || lower.includes('morningstar')) category = 'mace';
+    else if (lower.includes('bow')) category = 'bow';
+    else if (lower.includes('wand')) category = 'wand';
+  } else if (item.slot === Slot.Helm) {
+    if (lower.includes('crown') || lower.includes('circlet') || lower.includes('diadem')) category = 'crown';
   }
   let tone: ItemIconTone = item.cls === CLS_MAGE ? 'astral' : 'neutral';
   const bestResist = Math.max(...item.res);
@@ -59,8 +75,8 @@ const SVG_NS = 'http://www.w3.org/2000/svg';
 let nextIconId = 0;
 
 /** Original code-drawn ornament; the containing button supplies the accessible item name. */
-export function itemIcon(itemId: number): SVGSVGElement {
-  const { category, tier, tone } = classifyItemIcon(itemId);
+export function itemIcon(itemOrId: number | ItemDef): SVGSVGElement {
+  const { category, tier, tone } = classifyItemIcon(itemOrId);
   const svg = document.createElementNS(SVG_NS, 'svg');
   const make = <K extends keyof SVGElementTagNameMap>(tag: K, attributes: Record<string, string | number>, parent: SVGElement = svg): SVGElementTagNameMap[K] => {
     const node = document.createElementNS(SVG_NS, tag);
@@ -101,6 +117,47 @@ export function itemIcon(itemId: number): SVGSVGElement {
       path('M18 45 L23 49 L15 59 L10 55 Z', '#70503c');
       line('M15 49 l5 2 M12 53 l5 2', '#c89e62', 1.4);
       ellipse(11, 57, 3.5, 3, bronze);
+      break;
+    case 'axe':
+      path('M15 56 L18 58 L46 22 L43 20 Z', '#7a5232');
+      line('M17 54 L44 21', '#ba8a5b', 1.2);
+      path('M38 29 L48 18 L51 21 L41 32 Z', bronze);
+      path('M43 15 Q55 8 57 18 Q52 28 39 33 Q45 23 43 15 Z', metal);
+      line('M57 18 Q52 28 39 33', '#ffffff', 1.4);
+      ellipse(16, 57, 2.5, 2.5, bronze);
+      jewel(45, 22, 2.5);
+      break;
+    case 'mace':
+      path('M18 56 L22 58 L45 25 L41 23 Z', metal);
+      line('M20 54 L43 24', '#ffffff', 1.0);
+      path('M36 21 L48 10 L54 16 L42 27 Z', bronze);
+      path('M42 9 L46 5 L50 9 L46 13 Z', metal);
+      path('M33 22 L29 20 L35 14 L39 16 Z', metal);
+      path('M46 17 L56 25 L53 29 L43 21 Z', metal);
+      jewel(44, 18, 3);
+      break;
+    case 'bow':
+      path('M14 14 Q38 8 50 36 Q42 50 22 54 Q38 42 42 32 Q32 18 14 14 Z', '#7c4f30');
+      path('M13 13 L17 11 L19 16 L15 18 Z', bronze);
+      path('M21 53 L23 57 L28 55 L26 51 Z', bronze);
+      path('M38 28 L43 33 L40 37 L35 32 Z', '#3a271d');
+      line('M36 30 L41 35', '#d4b579', 1.0);
+      line('M15 15 L24 54', '#f5f3e6', 1.2);
+      break;
+    case 'wand':
+      path('M18 54 L15 51 L44 18 L47 21 Z', '#523424');
+      line('M17 52 L45 20', '#b58b65', 1.0);
+      line('M24 45 L28 47 M31 37 L35 39 M38 29 L42 31', bronze, 1.2);
+      path('M43 19 L49 13 L55 19 L49 25 Z', bronze);
+      jewel(49, 19, 4.5);
+      break;
+    case 'crown':
+      path('M12 40 Q32 46 52 40 L50 34 Q32 39 14 34 Z', bronze);
+      path('M14 34 L18 20 L24 33 L32 14 L40 33 L46 20 L50 34 Z', metal);
+      line('M18 20 L32 14 L46 20', '#ffffff', 1.2);
+      jewel(32, 28, 4);
+      jewel(22, 33, 2.5);
+      jewel(42, 33, 2.5);
       break;
     case 'staff':
       path('M23 58 L19 56 L37 19 L41 21 Z', '#886040');

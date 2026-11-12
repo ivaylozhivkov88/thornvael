@@ -239,4 +239,36 @@ describe('determinism', () => {
     expect(mean).toBeLessThan(1);
     expect(worst).toBeLessThan(8);
   });
+
+  it('boss with blessed_aura periodically radiates Bless status to nearby same-team minions', () => {
+    const map = field(20, 20);
+    // Unit 0: boss with blessed_aura on team 1 at (10, 10)
+    // Unit 1: minion on team 1 at (11, 10) (distance 1 tile)
+    // Unit 2: distant minion on team 1 at (18, 10) (distance 8 tiles - outside 6-tile radius)
+    // Unit 3: enemy on team 0 at (10, 11) (team 0 - should NOT receive buff)
+    const sim = new Sim(map, 42, [1, 1, 1, 0], {
+      kinds: [Kind.Golem, Kind.Gnoll, Kind.Gnoll, Kind.Warrior],
+      combat: true,
+      bossMods: [['blessed_aura'], [], [], []],
+    });
+    sim.place(0, 10, 10);
+    sim.place(1, 11, 10);
+    sim.place(2, 18, 10);
+    sim.place(3, 10, 11);
+
+    expect(sim.cb.stMask[1] & 1).toBe(0); // initially no Bless
+
+    // Step 25 ticks to trigger stepBossAuras
+    for (let t = 0; t < 26; t++) sim.step();
+
+    // Nearby minion (unit 1) received Bless
+    expect((sim.cb.stMask[1] & 1)).not.toBe(0);
+    expect(sim.cb.stT[1 * 8 + 0]).toBeGreaterThan(0);
+
+    // Distant minion (unit 2) did not receive Bless
+    expect((sim.cb.stMask[2] & 1)).toBe(0);
+
+    // Enemy unit 3 did not receive Bless
+    expect((sim.cb.stMask[3] & 1)).toBe(0);
+  });
 });

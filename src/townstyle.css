@@ -251,10 +251,10 @@
   object-position: center bottom;
   transform-origin: 50% 88%;
   pointer-events: none;
-  animation: town-breathe 4.8s ease-in-out infinite;
+  animation: var(--town-breathe, town-breathe) 4.8s ease-in-out infinite;
 }
-.sheet:is(.town--shop, .town--tavern) .keeper:is(.greet, .pleased, .farewell) .merchant-actor { animation: town-nod 1.1s ease-in-out 1, town-breathe 4.8s 1.1s ease-in-out infinite; }
-.sheet:is(.town--shop, .town--tavern) .keeper.sorry .merchant-actor { animation: town-no 1s ease-in-out 1, town-breathe 4.8s 1s ease-in-out infinite; }
+.sheet:is(.town--shop, .town--tavern) .keeper:is(.greet, .pleased, .farewell) .merchant-actor { animation: var(--town-nod, town-nod) 1.1s ease-in-out 1, var(--town-breathe, town-breathe) 4.8s 1.1s ease-in-out infinite; }
+.sheet:is(.town--shop, .town--tavern) .keeper.sorry .merchant-actor { animation: var(--town-no, town-no) 1s ease-in-out 1, var(--town-breathe, town-breathe) 4.8s 1s ease-in-out infinite; }
 .sheet:is(.town--shop, .town--tavern) .keeper.thinking .merchant-actor { animation-duration: 6s; }
 .sheet:is(.town--shop, .town--tavern) .keeper .say {
   position: absolute;
@@ -361,6 +361,20 @@
 .sheet.town:is(.town--shop, .town--tavern) .scene-art { position: relative; width: 100%; aspect-ratio: 4 / 3; overflow: hidden; }
 .sheet.town:is(.town--shop, .town--tavern) .scene-art :is(.town-backdrop, .merchant-actor) { inset: 0; width: 100%; height: 100%; object-fit: contain; object-position: center; }
 .sheet.town:is(.town--shop, .town--tavern) .keeper .say { position: relative; inset: auto; }
+
+/* Shop cutout placement and motion keep the hands in contact with the counter. */
+.sheet.town.town--shop .scene-art .merchant-actor {
+  --town-breathe: shop-breathe;
+  --town-nod: shop-nod;
+  --town-no: shop-no;
+  inset: 18.3% auto auto 23.25%;
+  width: 54%;
+  height: 54%;
+  transform-origin: 50% 83.7%;
+}
+@keyframes shop-breathe { 50% { transform: scaleY(1.006); } }
+@keyframes shop-nod { 40%, 70% { transform: translateY(.5px) rotate(.3deg); } }
+@keyframes shop-no { 25%, 75% { transform: rotate(-.35deg); } 50% { transform: rotate(.35deg); } }
 
 /* Hero sheet equipment workspace. */
 #sheet {
@@ -471,3 +485,303 @@
   box-shadow: inset 0 -2px var(--gold);
 }
 #sheet .hero-gear-cell button.no { border-style: dashed; }
+
+.sheet.town--school .school-banner {
+  display: grid;
+  grid-template-columns: 64px minmax(0, 1fr) 96px;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 12px;
+  padding: 10px 14px;
+  border: 2px ridge var(--town-brass);
+  border-radius: 6px;
+  background: radial-gradient(ellipse at 25% 50%, #2c3556, #141824 75%);
+  box-shadow: inset 0 0 18px #000a;
+}
+.sheet.town--school .school-crest {
+  display: grid;
+  place-items: center;
+  width: 56px;
+  height: 56px;
+  border: 2px solid #9ab4e8;
+  border-radius: 50%;
+  background: radial-gradient(circle, #3c548c, #172038);
+  color: #dce8ff;
+  font-size: 28px;
+  text-shadow: 0 0 8px #70a8ff;
+}
+.sheet.town--school .school-copy strong {
+  display: block;
+  color: var(--town-gold);
+  font: 16px/1.3 Georgia, serif;
+}
+.sheet.town--school .school-copy .note {
+  margin: 4px 0 0;
+  color: var(--town-paper);
+  font-size: 13px;
+}
+.sheet.town--school .hero-portrait {
+  margin: 0;
+  padding: 4px;
+  border: 2px ridge var(--town-brass);
+  border-radius: 6px;
+  background: radial-gradient(ellipse at center, #3b2c44, #14101c 80%);
+  text-align: center;
+}
+.sheet.town--school .hero-portrait img {
+  display: block;
+  width: 64px;
+  height: 64px;
+  margin: 0 auto;
+  object-fit: contain;
+  border: 1px solid #b7995d;
+  border-radius: 50%;
+}
+.sheet.town--school .hero-portrait figcaption {
+  color: var(--town-gold);
+  font-size: 11px;
+}
+
+/* ---- Item Rarities & Prestige Visuals (Diablo II & RoM2 aesthetic) ---- */
+:is(.sheet .cell, #sheet button, .sheet button)[data-rarity="magic"] {
+  border-color: #4ea8de !important;
+  color: #cbe3f7;
+  box-shadow: inset 0 0 10px #1d4e8955, 0 0 5px #4ea8de33;
+}
+:is(.sheet .cell, #sheet button, .sheet button)[data-rarity="magic"] .item-name {
+  color: #70b8ff;
+  text-shadow: 0 0 3px #1d4e89;
+}
+
+:is(.sheet .cell, #sheet button, .sheet button)[data-rarity="rare"] {
+  border-color: #f4b43a !important;
+  color: #fff1c5;
+  box-shadow: inset 0 0 12px #b2791755, 0 0 7px #f4b43a44;
+}
+:is(.sheet .cell, #sheet button, .sheet button)[data-rarity="rare"] .item-name {
+  color: #ffd166;
+  text-shadow: 0 0 4px #b27917;
+}
+
+:is(.sheet .cell, #sheet button, .sheet button)[data-rarity="unique"] {
+  border-color: #ff8c38 !important;
+  color: #ffe6cc;
+  box-shadow: inset 0 0 14px #993d0066, 0 0 9px #ff8c3855;
+}
+:is(.sheet .cell, #sheet button, .sheet button)[data-rarity="unique"] .item-name {
+  color: #ffaa5e;
+  font-weight: bold;
+  text-shadow: 0 0 5px #993d00;
+}
+:is(.sheet .cell, #sheet button, .sheet button)[data-rarity="unique"] .town-item-icon {
+  filter: drop-shadow(0 0 5px #ff9e00aa) drop-shadow(0 2px 2px #000b);
+}
+
+:is(.sheet .cell, #sheet button, .sheet button)[data-rarity="set"],
+.rarity-set {
+  border-color: #27ae60 !important;
+  color: #2ecc71;
+  box-shadow: inset 0 0 10px rgba(39, 174, 96, 0.35), 0 0 8px rgba(46, 204, 113, 0.4);
+}
+:is(.sheet .cell, #sheet button, .sheet button)[data-rarity="set"] .item-name,
+.rarity-set .item-name {
+  color: #2ecc71;
+  font-weight: bold;
+  text-shadow: 0 0 4px #1b7943;
+}
+:is(.sheet .cell, #sheet button, .sheet button)[data-rarity="set"] .town-item-icon,
+.rarity-set .town-item-icon {
+  filter: drop-shadow(0 0 6px rgba(46, 204, 113, 0.65)) drop-shadow(0 2px 2px #000b);
+}
+
+.set-name-header {
+  color: #ffd166;
+  background: linear-gradient(90deg, rgba(46, 204, 113, 0.3), rgba(212, 175, 55, 0.15) 60%, transparent);
+  border-left: 3px solid #2ecc71;
+  border-bottom: 1px solid rgba(46, 204, 113, 0.4);
+  padding: 3px 6px;
+  margin: 6px 0 4px;
+  font-weight: bold;
+  font-size: 13px;
+  letter-spacing: 0.03em;
+  text-shadow: 0 0 6px rgba(46, 204, 113, 0.6);
+}
+
+.set-pieces-list {
+  margin: 4px 0 6px;
+  padding: 0;
+  list-style: none;
+  font-size: 12px;
+  line-height: 1.4;
+}
+
+.set-pieces-list .set-piece {
+  padding: 1px 0;
+}
+
+.set-pieces-list .set-piece.equipped {
+  color: #2ecc71;
+  font-weight: bold;
+  text-shadow: 0 0 3px rgba(46, 204, 113, 0.6);
+}
+
+.set-pieces-list .set-piece.unequipped {
+  color: #7f8c8d;
+}
+
+.set-bonus-active {
+  color: #2ecc71;
+  font-weight: 600;
+  margin: 2px 0;
+  font-size: 12px;
+  text-shadow: 0 0 3px rgba(46, 204, 113, 0.4);
+}
+
+.set-bonus-inactive {
+  color: #7f8c8d;
+  opacity: 0.75;
+  margin: 2px 0;
+  font-size: 12px;
+}
+
+.class-warning-red {
+  color: #ff4d4d;
+  font-weight: bold;
+  margin: 3px 0;
+  font-size: 12px;
+  text-shadow: 0 0 4px rgba(255, 77, 77, 0.6);
+}
+
+.class-tag-gold {
+  color: #ffd166;
+  font-weight: 600;
+  margin: 3px 0;
+  font-size: 12px;
+}
+
+/* ---- Holy Grail Codex Modal & Grid ---- */
+.sheet.codex-sheet {
+  position: fixed;
+  inset: 5%;
+  z-index: 120;
+  max-width: 900px;
+  max-height: 85vh;
+  margin: auto;
+  padding: 16px;
+  overflow-y: auto;
+  background: radial-gradient(ellipse at 50% 30%, #2f251c, #110e0c 90%);
+  border: 3px ridge #cbb77a;
+  border-radius: 6px;
+  box-shadow: 0 0 35px #000f, inset 0 0 20px #000c;
+  color: #fff4da;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+.codex-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 2px solid #5a4632;
+  padding-bottom: 8px;
+}
+.codex-head h2 {
+  margin: 0;
+  font: 20px/1.2 Georgia, serif;
+  color: #ffd166;
+  text-shadow: 0 0 8px #b2791788;
+}
+.codex-progress-text {
+  margin: 4px 0 0;
+  font-size: 13px;
+  color: #cbb77a;
+}
+.codex-close {
+  background: #3b2a1a;
+  border: 1px solid #cbb77a;
+  color: #fff4da;
+  font-size: 18px;
+  width: 36px;
+  height: 36px;
+  border-radius: 4px;
+  cursor: pointer;
+}
+.codex-meter {
+  height: 8px;
+  background: #241a12;
+  border-radius: 4px;
+  overflow: hidden;
+  border: 1px solid #5a4632;
+}
+.codex-meter i {
+  display: block;
+  height: 100%;
+  background: linear-gradient(90deg, #b27917, #ffd166);
+  box-shadow: 0 0 8px #ffd166;
+}
+.codex-filters {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+.codex-tab {
+  background: #2b2016;
+  border: 1px solid #6b5338;
+  color: #d8c29d;
+  padding: 4px 10px;
+  border-radius: 3px;
+  font-size: 12px;
+  cursor: pointer;
+}
+.codex-tab.active {
+  background: #6d5330;
+  border-color: #ffd166;
+  color: #fff4da;
+  font-weight: bold;
+}
+.codex-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(130px, 1fr));
+  gap: 8px;
+  overflow-y: auto;
+  padding: 4px;
+}
+.codex-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 90px;
+  padding: 8px 4px;
+  border: 2px ridge #554432;
+  border-radius: 4px;
+  background: radial-gradient(ellipse at 50% 40%, #3a2c20, #14100c 90%);
+  text-align: center;
+  position: relative;
+  font-size: 11px;
+}
+.codex-card.undiscovered {
+  background: #15110d;
+  border-color: #382c20;
+  opacity: 0.65;
+}
+.codex-mystery-icon {
+  width: 34px;
+  height: 34px;
+  display: grid;
+  place-items: center;
+  font-size: 24px;
+  color: #554432;
+  font-weight: bold;
+}
+.codex-card small {
+  position: absolute;
+  top: 2px;
+  right: 2px;
+  padding: 1px 3px;
+  border-radius: 2px;
+  background: #000a;
+  color: #cbb77a;
+  font-size: 10px;
+}
+

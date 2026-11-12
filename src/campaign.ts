@@ -2,14 +2,18 @@
 
 export interface CampaignNode {
   id: string;
+  act?: 1 | 2 | 3 | 4;
   kind: 'mission' | 'town';
   map: string; // key in BUILT_IN (mission.ts)
   title: string;
   pos: [number, number]; // position on the global map, percent
   unlocksOnVictory: string[];
   briefing: string;
+  tiers?: [number, number]; // optional town shop/quest item tier range
   result?: { win: string; lose: string };
 }
+
+export const actOf = (n: CampaignNode): 1 | 2 | 3 | 4 => n.act ?? 1;
 
 export interface Campaign {
   version: number;
@@ -52,11 +56,17 @@ export const nodeOf = (c: Campaign, id: string): CampaignNode => {
 export const isOpen = (p: CampaignProgress, id: string): boolean => p.unlocked.includes(id);
 
 /** A won mission: mark it done and open what it unlocks. Returns a new progress object. */
-export function completeNode(c: Campaign, p: CampaignProgress, id: string): CampaignProgress {
+export function completeNode(c: Campaign, p: CampaignProgress, id: string, branch?: number): CampaignProgress {
   const n = nodeOf(c, id);
   if (!isOpen(p, id)) throw new Error(`Node ${id} is not unlocked.`);
   const unlocked = [...p.unlocked];
-  for (const u of n.unlocksOnVictory) if (!unlocked.includes(u)) unlocked.push(u);
+  const next =
+    id === 'm44-threshold-choice' && branch === 1
+      ? n.unlocksOnVictory.filter((u) => u === 'm45-crown-of-order')
+      : id === 'm44-threshold-choice' && branch === 2
+        ? n.unlocksOnVictory.filter((u) => u === 'm46-ember-reckoning')
+        : n.unlocksOnVictory;
+  for (const u of next) if (!unlocked.includes(u)) unlocked.push(u);
   const completed = p.completed.includes(id) ? p.completed : [...p.completed, id];
   return { ...p, unlocked, completed, node: id };
 }

@@ -1,85 +1,2472 @@
 {
   "version": 1,
   "items": [
-    {"name":"Rusty Sword","kind":"gear","slot":"weapon","cls":"warrior","tier":1,"w":4,"need":"body","needv":4,"min":2,"max":3},
-    {"name":"Iron Sword","kind":"gear","slot":"weapon","cls":"warrior","tier":2,"w":6,"need":"body","needv":8,"min":4,"max":6,"acc":1},
-    {"name":"Steel Sword","kind":"gear","slot":"weapon","cls":"warrior","tier":3,"w":7,"need":"body","needv":11,"min":7,"max":9,"acc":2},
-    {"name":"Knight Sword","kind":"gear","slot":"weapon","cls":"warrior","tier":4,"w":8,"need":"body","needv":14,"min":10,"max":13,"acc":3},
-    {"name":"Thorn Blade","kind":"gear","slot":"weapon","cls":"warrior","tier":5,"w":9,"need":"body","needv":17,"min":14,"max":18,"acc":4},
-    {"name":"Oak Staff","kind":"gear","slot":"weapon","cls":"mage","tier":1,"w":3,"need":"mind","needv":5,"min":0,"max":1,"mana":4,"pow":6},
-    {"name":"Ash Staff","kind":"gear","slot":"weapon","cls":"mage","tier":2,"w":3,"need":"mind","needv":8,"min":1,"max":2,"mana":8,"pow":12},
-    {"name":"Rune Staff","kind":"gear","slot":"weapon","cls":"mage","tier":3,"w":4,"need":"mind","needv":11,"min":1,"max":2,"mana":14,"pow":20},
-    {"name":"Star Staff","kind":"gear","slot":"weapon","cls":"mage","tier":4,"w":4,"need":"mind","needv":14,"min":2,"max":3,"mana":22,"pow":30},
-    {"name":"Thorn Staff","kind":"gear","slot":"weapon","cls":"mage","tier":5,"w":5,"need":"mind","needv":17,"min":2,"max":4,"mana":32,"pow":42},
-    {"name":"Wooden Buckler","kind":"gear","slot":"shield","cls":"warrior","tier":1,"w":3,"need":"body","needv":4,"cover":["head","torso","arms"],"def":1},
-    {"name":"Iron Shield","kind":"gear","slot":"shield","cls":"warrior","tier":2,"w":7,"need":"body","needv":8,"cover":["head","torso","arms"],"def":2,"abs":1},
-    {"name":"Tower Shield","kind":"gear","slot":"shield","cls":"warrior","tier":3,"w":12,"need":"body","needv":12,"cover":["head","torso","arms"],"def":3,"abs":2},
-    {"name":"Knight Shield","kind":"gear","slot":"shield","cls":"warrior","tier":4,"w":13,"need":"body","needv":15,"cover":["head","torso","arms"],"def":4,"abs":3},
-    {"name":"Leather Cap","kind":"gear","slot":"helm","cls":"both","tier":1,"w":1,"need":"body","needv":3,"cover":["head"],"def":1,"abs":1},
-    {"name":"Iron Helm","kind":"gear","slot":"helm","cls":"warrior","tier":2,"w":4,"need":"body","needv":7,"cover":["head"],"def":2,"abs":3},
-    {"name":"Steel Helm","kind":"gear","slot":"helm","cls":"warrior","tier":4,"w":5,"need":"body","needv":12,"cover":["head"],"def":3,"abs":5},
-    {"name":"Scholar Hat","kind":"gear","slot":"helm","cls":"mage","tier":2,"w":1,"need":"mind","needv":6,"cover":["head"],"mana":6},
-    {"name":"Wizard Hat","kind":"gear","slot":"helm","cls":"mage","tier":4,"w":2,"need":"mind","needv":12,"cover":["head"],"abs":1,"mana":16,"pow":6},
-    {"name":"Padded Jerkin","kind":"gear","slot":"armor","cls":"both","tier":1,"w":5,"need":"body","needv":4,"cover":["torso"],"abs":2},
-    {"name":"Chain Mail","kind":"gear","slot":"armor","cls":"warrior","tier":2,"w":14,"need":"body","needv":9,"cover":["torso","arms"],"def":1,"abs":3},
-    {"name":"Plate Armor","kind":"gear","slot":"armor","cls":"warrior","tier":4,"w":24,"need":"body","needv":14,"cover":["torso","arms"],"def":2,"abs":6},
-    {"name":"Cloth Robe","kind":"gear","slot":"armor","cls":"mage","tier":1,"w":2,"need":"mind","needv":4,"cover":["torso"],"mana":6},
-    {"name":"Mage Robe","kind":"gear","slot":"armor","cls":"mage","tier":3,"w":3,"need":"mind","needv":9,"cover":["torso","arms"],"abs":1,"res":[10,10,10,10,10],"mana":14},
-    {"name":"Star Robe","kind":"gear","slot":"armor","cls":"mage","tier":5,"w":4,"need":"mind","needv":15,"cover":["torso","arms"],"def":1,"abs":2,"res":[18,18,18,18,18],"mana":26,"pow":8},
-    {"name":"Sandals","kind":"gear","slot":"boots","cls":"both","tier":1,"w":1,"need":"agility","needv":3,"cover":["legs"]},
-    {"name":"Leather Boots","kind":"gear","slot":"boots","cls":"both","tier":2,"w":2,"need":"agility","needv":6,"cover":["legs"],"def":1,"abs":1},
-    {"name":"Iron Boots","kind":"gear","slot":"boots","cls":"warrior","tier":3,"w":5,"need":"body","needv":10,"cover":["legs"],"def":1,"abs":3},
-    {"name":"Swift Boots","kind":"gear","slot":"boots","cls":"both","tier":4,"w":2,"need":"agility","needv":12,"cover":["legs"],"def":1,"abs":1,"attr":[0,2,0,0]},
-    {"name":"Ring of Might","kind":"gear","slot":"ring","cls":"both","tier":2,"w":0,"need":"spirit","needv":6,"attr":[1,0,0,0]},
-    {"name":"Ring of Grace","kind":"gear","slot":"ring","cls":"both","tier":2,"w":0,"need":"spirit","needv":6,"attr":[0,1,0,0]},
-    {"name":"Ring of Insight","kind":"gear","slot":"ring","cls":"both","tier":2,"w":0,"need":"spirit","needv":6,"attr":[0,0,1,0]},
-    {"name":"Ring of Calm","kind":"gear","slot":"ring","cls":"both","tier":2,"w":0,"need":"spirit","needv":6,"attr":[0,0,0,1]},
-    {"name":"Great Ring of Might","kind":"gear","slot":"ring","cls":"both","tier":4,"w":0,"need":"spirit","needv":11,"attr":[2,0,0,0]},
-    {"name":"Great Ring of Grace","kind":"gear","slot":"ring","cls":"both","tier":4,"w":0,"need":"spirit","needv":11,"attr":[0,2,0,0]},
-    {"name":"Great Ring of Insight","kind":"gear","slot":"ring","cls":"both","tier":4,"w":0,"need":"spirit","needv":11,"attr":[0,0,2,0]},
-    {"name":"Great Ring of Calm","kind":"gear","slot":"ring","cls":"both","tier":4,"w":0,"need":"spirit","needv":11,"attr":[0,0,0,2]},
-    {"name":"Ember Charm","kind":"gear","slot":"amulet","cls":"both","tier":2,"w":1,"need":"spirit","needv":5,"res":[25,0,0,0,0]},
-    {"name":"Frost Charm","kind":"gear","slot":"amulet","cls":"both","tier":2,"w":1,"need":"spirit","needv":5,"res":[0,25,0,0,0]},
-    {"name":"Storm Charm","kind":"gear","slot":"amulet","cls":"both","tier":2,"w":1,"need":"spirit","needv":5,"res":[0,0,25,0,0]},
-    {"name":"Stone Charm","kind":"gear","slot":"amulet","cls":"both","tier":2,"w":1,"need":"spirit","needv":5,"res":[0,0,0,25,0]},
-    {"name":"Life Charm","kind":"gear","slot":"amulet","cls":"both","tier":3,"w":1,"need":"body","needv":8,"hp":30},
-    {"name":"Mind Charm","kind":"gear","slot":"amulet","cls":"both","tier":3,"w":1,"need":"mind","needv":8,"mana":25},
-    {"name":"Ward Charm","kind":"gear","slot":"amulet","cls":"both","tier":4,"w":1,"need":"spirit","needv":10,"res":[12,12,12,12,12]},
-    {"name":"Healing Draught","kind":"potion","tier":1,"w":1,"heal":50},
-    {"name":"Greater Healing Draught","kind":"potion","tier":3,"w":1,"heal":120},
-    {"name":"Mana Draught","kind":"potion","tier":1,"w":1,"restore":40},
-    {"name":"Greater Mana Draught","kind":"potion","tier":3,"w":1,"restore":90},
-    {"name":"Elixir of Body","kind":"potion","tier":4,"w":1,"grow":"body"},
-    {"name":"Elixir of Agility","kind":"potion","tier":4,"w":1,"grow":"agility"},
-    {"name":"Elixir of Mind","kind":"potion","tier":4,"w":1,"grow":"mind"},
-    {"name":"Elixir of Spirit","kind":"potion","tier":4,"w":1,"grow":"spirit"},
-    {"name":"Scroll of Fire Bolt","kind":"learn","tier":3,"w":1,"need":"mind","needv":4,"spell":"Fire Bolt"},
-    {"name":"Scroll of Fireball","kind":"learn","tier":4,"w":1,"need":"mind","needv":6,"spell":"Fireball"},
-    {"name":"Scroll of Flame Burst","kind":"learn","tier":3,"w":1,"need":"mind","needv":5,"spell":"Flame Burst"},
-    {"name":"Scroll of Ignite","kind":"learn","tier":3,"w":1,"need":"mind","needv":4,"spell":"Ignite"},
-    {"name":"Scroll of Frost Bolt","kind":"learn","tier":3,"w":1,"need":"mind","needv":4,"spell":"Frost Bolt"},
-    {"name":"Tome of Ice Storm","kind":"learn","tier":4,"w":2,"need":"mind","needv":9,"spell":"Ice Storm"},
-    {"name":"Scroll of Chain Frost","kind":"learn","tier":4,"w":1,"need":"mind","needv":6,"spell":"Chain Frost"},
-    {"name":"Scroll of Healing","kind":"learn","tier":3,"w":1,"need":"mind","needv":5,"spell":"Healing"},
-    {"name":"Tome of Healing Rain","kind":"learn","tier":4,"w":2,"need":"mind","needv":9,"spell":"Healing Rain"},
-    {"name":"Scroll of Lightning","kind":"learn","tier":3,"w":1,"need":"mind","needv":5,"spell":"Lightning"},
-    {"name":"Tome of Chain Lightning","kind":"learn","tier":4,"w":2,"need":"mind","needv":9,"spell":"Chain Lightning"},
-    {"name":"Scroll of Haste","kind":"learn","tier":3,"w":1,"need":"mind","needv":5,"spell":"Haste"},
-    {"name":"Scroll of Gale","kind":"learn","tier":3,"w":1,"need":"mind","needv":5,"spell":"Gale"},
-    {"name":"Scroll of Wind Ward","kind":"learn","tier":3,"w":1,"need":"mind","needv":4,"spell":"Wind Ward"},
-    {"name":"Scroll of Rock Throw","kind":"learn","tier":3,"w":1,"need":"mind","needv":4,"spell":"Rock Throw"},
-    {"name":"Tome of Stone Curse","kind":"learn","tier":4,"w":2,"need":"mind","needv":9,"spell":"Stone Curse"},
-    {"name":"Scroll of Stone Skin","kind":"learn","tier":3,"w":1,"need":"mind","needv":5,"spell":"Stone Skin"},
-    {"name":"Scroll of Poison Cloud","kind":"learn","tier":3,"w":1,"need":"mind","needv":5,"spell":"Poison Cloud"},
-    {"name":"Tome of Quake","kind":"learn","tier":5,"w":2,"need":"mind","needv":11,"spell":"Quake"},
-    {"name":"Scroll of Blessing","kind":"learn","tier":3,"w":1,"need":"mind","needv":5,"spell":"Blessing"},
-    {"name":"Scroll of Weaken","kind":"learn","tier":3,"w":1,"need":"mind","needv":4,"spell":"Weaken"},
-    {"name":"Tome of Resurrect","kind":"learn","tier":5,"w":2,"need":"mind","needv":13,"spell":"Resurrect"},
-    {"name":"Scroll of Corpse Burst","kind":"learn","tier":4,"w":1,"need":"mind","needv":6,"spell":"Corpse Burst"},
-    {"name":"Scroll of Meditation","kind":"learn","tier":2,"w":1,"need":"mind","needv":3,"spell":"Meditation"},
-    {"name":"Leather Gloves","kind":"gear","slot":"gloves","cls":"both","tier":1,"w":1,"need":"agility","needv":3,"cover":["arms"],"def":1,"abs":1},
-    {"name":"Iron Gauntlets","kind":"gear","slot":"gloves","cls":"warrior","tier":2,"w":3,"need":"body","needv":8,"cover":["arms"],"def":1,"abs":3},
-    {"name":"Steel Gauntlets","kind":"gear","slot":"gloves","cls":"warrior","tier":4,"w":4,"need":"body","needv":13,"cover":["arms"],"def":2,"abs":5,"acc":1},
-    {"name":"Silk Gloves","kind":"gear","slot":"gloves","cls":"mage","tier":3,"w":0,"need":"mind","needv":9,"cover":["arms"],"pow":5,"mana":6}
+    {
+      "name": "Rusty Sword",
+      "kind": "gear",
+      "slot": "weapon",
+      "cls": "warrior",
+      "tier": 1,
+      "w": 4,
+      "need": "body",
+      "needv": 4,
+      "min": 2,
+      "max": 3
+    },
+    {
+      "name": "Iron Sword",
+      "kind": "gear",
+      "slot": "weapon",
+      "cls": "warrior",
+      "tier": 2,
+      "w": 6,
+      "need": "body",
+      "needv": 8,
+      "min": 4,
+      "max": 6,
+      "acc": 1
+    },
+    {
+      "name": "Steel Sword",
+      "kind": "gear",
+      "slot": "weapon",
+      "cls": "warrior",
+      "tier": 3,
+      "w": 7,
+      "need": "body",
+      "needv": 11,
+      "min": 7,
+      "max": 9,
+      "acc": 2
+    },
+    {
+      "name": "Knight Sword",
+      "kind": "gear",
+      "slot": "weapon",
+      "cls": "warrior",
+      "tier": 4,
+      "w": 8,
+      "need": "body",
+      "needv": 14,
+      "min": 10,
+      "max": 13,
+      "acc": 3
+    },
+    {
+      "name": "Thorn Blade",
+      "kind": "gear",
+      "slot": "weapon",
+      "cls": "warrior",
+      "tier": 5,
+      "w": 9,
+      "need": "body",
+      "needv": 17,
+      "min": 14,
+      "max": 18,
+      "acc": 4
+    },
+    {
+      "name": "Oak Staff",
+      "kind": "gear",
+      "slot": "weapon",
+      "cls": "mage",
+      "tier": 1,
+      "w": 3,
+      "need": "mind",
+      "needv": 5,
+      "min": 0,
+      "max": 1,
+      "mana": 4,
+      "pow": 6
+    },
+    {
+      "name": "Ash Staff",
+      "kind": "gear",
+      "slot": "weapon",
+      "cls": "mage",
+      "tier": 2,
+      "w": 3,
+      "need": "mind",
+      "needv": 8,
+      "min": 1,
+      "max": 2,
+      "mana": 8,
+      "pow": 12
+    },
+    {
+      "name": "Rune Staff",
+      "kind": "gear",
+      "slot": "weapon",
+      "cls": "mage",
+      "tier": 3,
+      "w": 4,
+      "need": "mind",
+      "needv": 11,
+      "min": 1,
+      "max": 2,
+      "mana": 14,
+      "pow": 20
+    },
+    {
+      "name": "Star Staff",
+      "kind": "gear",
+      "slot": "weapon",
+      "cls": "mage",
+      "tier": 4,
+      "w": 4,
+      "need": "mind",
+      "needv": 14,
+      "min": 2,
+      "max": 3,
+      "mana": 22,
+      "pow": 30
+    },
+    {
+      "name": "Thorn Staff",
+      "kind": "gear",
+      "slot": "weapon",
+      "cls": "mage",
+      "tier": 5,
+      "w": 5,
+      "need": "mind",
+      "needv": 17,
+      "min": 2,
+      "max": 4,
+      "mana": 32,
+      "pow": 42
+    },
+    {
+      "name": "Wooden Buckler",
+      "kind": "gear",
+      "slot": "shield",
+      "cls": "warrior",
+      "tier": 1,
+      "w": 3,
+      "need": "body",
+      "needv": 4,
+      "cover": [
+        "head",
+        "torso",
+        "arms"
+      ],
+      "def": 1
+    },
+    {
+      "name": "Iron Shield",
+      "kind": "gear",
+      "slot": "shield",
+      "cls": "warrior",
+      "tier": 2,
+      "w": 7,
+      "need": "body",
+      "needv": 8,
+      "cover": [
+        "head",
+        "torso",
+        "arms"
+      ],
+      "def": 2,
+      "abs": 1
+    },
+    {
+      "name": "Tower Shield",
+      "kind": "gear",
+      "slot": "shield",
+      "cls": "warrior",
+      "tier": 3,
+      "w": 12,
+      "need": "body",
+      "needv": 12,
+      "cover": [
+        "head",
+        "torso",
+        "arms"
+      ],
+      "def": 3,
+      "abs": 2
+    },
+    {
+      "name": "Knight Shield",
+      "kind": "gear",
+      "slot": "shield",
+      "cls": "warrior",
+      "tier": 4,
+      "w": 13,
+      "need": "body",
+      "needv": 15,
+      "cover": [
+        "head",
+        "torso",
+        "arms"
+      ],
+      "def": 4,
+      "abs": 3
+    },
+    {
+      "name": "Leather Cap",
+      "kind": "gear",
+      "slot": "helm",
+      "cls": "both",
+      "tier": 1,
+      "w": 1,
+      "need": "body",
+      "needv": 3,
+      "cover": [
+        "head"
+      ],
+      "def": 1,
+      "abs": 1
+    },
+    {
+      "name": "Iron Helm",
+      "kind": "gear",
+      "slot": "helm",
+      "cls": "warrior",
+      "tier": 2,
+      "w": 4,
+      "need": "body",
+      "needv": 7,
+      "cover": [
+        "head"
+      ],
+      "def": 2,
+      "abs": 3
+    },
+    {
+      "name": "Steel Helm",
+      "kind": "gear",
+      "slot": "helm",
+      "cls": "warrior",
+      "tier": 4,
+      "w": 5,
+      "need": "body",
+      "needv": 12,
+      "cover": [
+        "head"
+      ],
+      "def": 3,
+      "abs": 5
+    },
+    {
+      "name": "Scholar Hat",
+      "kind": "gear",
+      "slot": "helm",
+      "cls": "mage",
+      "tier": 2,
+      "w": 1,
+      "need": "mind",
+      "needv": 6,
+      "cover": [
+        "head"
+      ],
+      "mana": 6
+    },
+    {
+      "name": "Wizard Hat",
+      "kind": "gear",
+      "slot": "helm",
+      "cls": "mage",
+      "tier": 4,
+      "w": 2,
+      "need": "mind",
+      "needv": 12,
+      "cover": [
+        "head"
+      ],
+      "abs": 1,
+      "mana": 16,
+      "pow": 6
+    },
+    {
+      "name": "Padded Jerkin",
+      "kind": "gear",
+      "slot": "armor",
+      "cls": "both",
+      "tier": 1,
+      "w": 5,
+      "need": "body",
+      "needv": 4,
+      "cover": [
+        "torso"
+      ],
+      "abs": 2
+    },
+    {
+      "name": "Chain Mail",
+      "kind": "gear",
+      "slot": "armor",
+      "cls": "warrior",
+      "tier": 2,
+      "w": 14,
+      "need": "body",
+      "needv": 9,
+      "cover": [
+        "torso",
+        "arms"
+      ],
+      "def": 1,
+      "abs": 3
+    },
+    {
+      "name": "Plate Armor",
+      "kind": "gear",
+      "slot": "armor",
+      "cls": "warrior",
+      "tier": 4,
+      "w": 24,
+      "need": "body",
+      "needv": 14,
+      "cover": [
+        "torso",
+        "arms"
+      ],
+      "def": 2,
+      "abs": 6
+    },
+    {
+      "name": "Cloth Robe",
+      "kind": "gear",
+      "slot": "armor",
+      "cls": "mage",
+      "tier": 1,
+      "w": 2,
+      "need": "mind",
+      "needv": 4,
+      "cover": [
+        "torso"
+      ],
+      "mana": 6
+    },
+    {
+      "name": "Mage Robe",
+      "kind": "gear",
+      "slot": "armor",
+      "cls": "mage",
+      "tier": 3,
+      "w": 3,
+      "need": "mind",
+      "needv": 9,
+      "cover": [
+        "torso",
+        "arms"
+      ],
+      "abs": 1,
+      "res": [
+        10,
+        10,
+        10,
+        10,
+        10
+      ],
+      "mana": 14
+    },
+    {
+      "name": "Star Robe",
+      "kind": "gear",
+      "slot": "armor",
+      "cls": "mage",
+      "tier": 5,
+      "w": 4,
+      "need": "mind",
+      "needv": 15,
+      "cover": [
+        "torso",
+        "arms"
+      ],
+      "def": 1,
+      "abs": 2,
+      "res": [
+        18,
+        18,
+        18,
+        18,
+        18
+      ],
+      "mana": 26,
+      "pow": 8
+    },
+    {
+      "name": "Sandals",
+      "kind": "gear",
+      "slot": "boots",
+      "cls": "both",
+      "tier": 1,
+      "w": 1,
+      "need": "agility",
+      "needv": 3,
+      "cover": [
+        "legs"
+      ]
+    },
+    {
+      "name": "Leather Boots",
+      "kind": "gear",
+      "slot": "boots",
+      "cls": "both",
+      "tier": 2,
+      "w": 2,
+      "need": "agility",
+      "needv": 6,
+      "cover": [
+        "legs"
+      ],
+      "def": 1,
+      "abs": 1
+    },
+    {
+      "name": "Iron Boots",
+      "kind": "gear",
+      "slot": "boots",
+      "cls": "warrior",
+      "tier": 3,
+      "w": 5,
+      "need": "body",
+      "needv": 10,
+      "cover": [
+        "legs"
+      ],
+      "def": 1,
+      "abs": 3
+    },
+    {
+      "name": "Swift Boots",
+      "kind": "gear",
+      "slot": "boots",
+      "cls": "both",
+      "tier": 4,
+      "w": 2,
+      "need": "agility",
+      "needv": 12,
+      "cover": [
+        "legs"
+      ],
+      "def": 1,
+      "abs": 1,
+      "attr": [
+        0,
+        2,
+        0,
+        0
+      ]
+    },
+    {
+      "name": "Ring of Might",
+      "kind": "gear",
+      "slot": "ring",
+      "cls": "both",
+      "tier": 2,
+      "w": 0,
+      "need": "spirit",
+      "needv": 6,
+      "attr": [
+        1,
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "name": "Ring of Grace",
+      "kind": "gear",
+      "slot": "ring",
+      "cls": "both",
+      "tier": 2,
+      "w": 0,
+      "need": "spirit",
+      "needv": 6,
+      "attr": [
+        0,
+        1,
+        0,
+        0
+      ]
+    },
+    {
+      "name": "Ring of Insight",
+      "kind": "gear",
+      "slot": "ring",
+      "cls": "both",
+      "tier": 2,
+      "w": 0,
+      "need": "spirit",
+      "needv": 6,
+      "attr": [
+        0,
+        0,
+        1,
+        0
+      ]
+    },
+    {
+      "name": "Ring of Calm",
+      "kind": "gear",
+      "slot": "ring",
+      "cls": "both",
+      "tier": 2,
+      "w": 0,
+      "need": "spirit",
+      "needv": 6,
+      "attr": [
+        0,
+        0,
+        0,
+        1
+      ]
+    },
+    {
+      "name": "Great Ring of Might",
+      "kind": "gear",
+      "slot": "ring",
+      "cls": "both",
+      "tier": 4,
+      "w": 0,
+      "need": "spirit",
+      "needv": 11,
+      "attr": [
+        2,
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "name": "Great Ring of Grace",
+      "kind": "gear",
+      "slot": "ring",
+      "cls": "both",
+      "tier": 4,
+      "w": 0,
+      "need": "spirit",
+      "needv": 11,
+      "attr": [
+        0,
+        2,
+        0,
+        0
+      ]
+    },
+    {
+      "name": "Great Ring of Insight",
+      "kind": "gear",
+      "slot": "ring",
+      "cls": "both",
+      "tier": 4,
+      "w": 0,
+      "need": "spirit",
+      "needv": 11,
+      "attr": [
+        0,
+        0,
+        2,
+        0
+      ]
+    },
+    {
+      "name": "Great Ring of Calm",
+      "kind": "gear",
+      "slot": "ring",
+      "cls": "both",
+      "tier": 4,
+      "w": 0,
+      "need": "spirit",
+      "needv": 11,
+      "attr": [
+        0,
+        0,
+        0,
+        2
+      ]
+    },
+    {
+      "name": "Ember Charm",
+      "kind": "gear",
+      "slot": "amulet",
+      "cls": "both",
+      "tier": 2,
+      "w": 1,
+      "need": "spirit",
+      "needv": 5,
+      "res": [
+        25,
+        0,
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "name": "Frost Charm",
+      "kind": "gear",
+      "slot": "amulet",
+      "cls": "both",
+      "tier": 2,
+      "w": 1,
+      "need": "spirit",
+      "needv": 5,
+      "res": [
+        0,
+        25,
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "name": "Storm Charm",
+      "kind": "gear",
+      "slot": "amulet",
+      "cls": "both",
+      "tier": 2,
+      "w": 1,
+      "need": "spirit",
+      "needv": 5,
+      "res": [
+        0,
+        0,
+        25,
+        0,
+        0
+      ]
+    },
+    {
+      "name": "Stone Charm",
+      "kind": "gear",
+      "slot": "amulet",
+      "cls": "both",
+      "tier": 2,
+      "w": 1,
+      "need": "spirit",
+      "needv": 5,
+      "res": [
+        0,
+        0,
+        0,
+        25,
+        0
+      ]
+    },
+    {
+      "name": "Life Charm",
+      "kind": "gear",
+      "slot": "amulet",
+      "cls": "both",
+      "tier": 3,
+      "w": 1,
+      "need": "body",
+      "needv": 8,
+      "hp": 30
+    },
+    {
+      "name": "Mind Charm",
+      "kind": "gear",
+      "slot": "amulet",
+      "cls": "both",
+      "tier": 3,
+      "w": 1,
+      "need": "mind",
+      "needv": 8,
+      "mana": 25
+    },
+    {
+      "name": "Ward Charm",
+      "kind": "gear",
+      "slot": "amulet",
+      "cls": "both",
+      "tier": 4,
+      "w": 1,
+      "need": "spirit",
+      "needv": 10,
+      "res": [
+        12,
+        12,
+        12,
+        12,
+        12
+      ]
+    },
+    {
+      "name": "Healing Draught",
+      "kind": "potion",
+      "tier": 1,
+      "w": 1,
+      "heal": 50
+    },
+    {
+      "name": "Greater Healing Draught",
+      "kind": "potion",
+      "tier": 3,
+      "w": 1,
+      "heal": 120
+    },
+    {
+      "name": "Mana Draught",
+      "kind": "potion",
+      "tier": 1,
+      "w": 1,
+      "restore": 40
+    },
+    {
+      "name": "Greater Mana Draught",
+      "kind": "potion",
+      "tier": 3,
+      "w": 1,
+      "restore": 90
+    },
+    {
+      "name": "Elixir of Body",
+      "kind": "potion",
+      "tier": 4,
+      "w": 1,
+      "grow": "body"
+    },
+    {
+      "name": "Elixir of Agility",
+      "kind": "potion",
+      "tier": 4,
+      "w": 1,
+      "grow": "agility"
+    },
+    {
+      "name": "Elixir of Mind",
+      "kind": "potion",
+      "tier": 4,
+      "w": 1,
+      "grow": "mind"
+    },
+    {
+      "name": "Elixir of Spirit",
+      "kind": "potion",
+      "tier": 4,
+      "w": 1,
+      "grow": "spirit"
+    },
+    {
+      "name": "Scroll of Fire Bolt",
+      "kind": "learn",
+      "tier": 3,
+      "w": 1,
+      "need": "mind",
+      "needv": 4,
+      "spell": "Fire Bolt"
+    },
+    {
+      "name": "Scroll of Fireball",
+      "kind": "learn",
+      "tier": 4,
+      "w": 1,
+      "need": "mind",
+      "needv": 6,
+      "spell": "Fireball"
+    },
+    {
+      "name": "Scroll of Flame Burst",
+      "kind": "learn",
+      "tier": 3,
+      "w": 1,
+      "need": "mind",
+      "needv": 5,
+      "spell": "Flame Burst"
+    },
+    {
+      "name": "Scroll of Ignite",
+      "kind": "learn",
+      "tier": 3,
+      "w": 1,
+      "need": "mind",
+      "needv": 4,
+      "spell": "Ignite"
+    },
+    {
+      "name": "Scroll of Frost Bolt",
+      "kind": "learn",
+      "tier": 3,
+      "w": 1,
+      "need": "mind",
+      "needv": 4,
+      "spell": "Frost Bolt"
+    },
+    {
+      "name": "Tome of Ice Storm",
+      "kind": "learn",
+      "tier": 4,
+      "w": 2,
+      "need": "mind",
+      "needv": 9,
+      "spell": "Ice Storm"
+    },
+    {
+      "name": "Scroll of Chain Frost",
+      "kind": "learn",
+      "tier": 4,
+      "w": 1,
+      "need": "mind",
+      "needv": 6,
+      "spell": "Chain Frost"
+    },
+    {
+      "name": "Scroll of Healing",
+      "kind": "learn",
+      "tier": 3,
+      "w": 1,
+      "need": "mind",
+      "needv": 5,
+      "spell": "Healing"
+    },
+    {
+      "name": "Tome of Healing Rain",
+      "kind": "learn",
+      "tier": 4,
+      "w": 2,
+      "need": "mind",
+      "needv": 9,
+      "spell": "Healing Rain"
+    },
+    {
+      "name": "Scroll of Lightning",
+      "kind": "learn",
+      "tier": 3,
+      "w": 1,
+      "need": "mind",
+      "needv": 5,
+      "spell": "Lightning"
+    },
+    {
+      "name": "Tome of Chain Lightning",
+      "kind": "learn",
+      "tier": 4,
+      "w": 2,
+      "need": "mind",
+      "needv": 9,
+      "spell": "Chain Lightning"
+    },
+    {
+      "name": "Scroll of Haste",
+      "kind": "learn",
+      "tier": 3,
+      "w": 1,
+      "need": "mind",
+      "needv": 5,
+      "spell": "Haste"
+    },
+    {
+      "name": "Scroll of Gale",
+      "kind": "learn",
+      "tier": 3,
+      "w": 1,
+      "need": "mind",
+      "needv": 5,
+      "spell": "Gale"
+    },
+    {
+      "name": "Scroll of Wind Ward",
+      "kind": "learn",
+      "tier": 3,
+      "w": 1,
+      "need": "mind",
+      "needv": 4,
+      "spell": "Wind Ward"
+    },
+    {
+      "name": "Scroll of Rock Throw",
+      "kind": "learn",
+      "tier": 3,
+      "w": 1,
+      "need": "mind",
+      "needv": 4,
+      "spell": "Rock Throw"
+    },
+    {
+      "name": "Tome of Stone Curse",
+      "kind": "learn",
+      "tier": 4,
+      "w": 2,
+      "need": "mind",
+      "needv": 9,
+      "spell": "Stone Curse"
+    },
+    {
+      "name": "Scroll of Stone Skin",
+      "kind": "learn",
+      "tier": 3,
+      "w": 1,
+      "need": "mind",
+      "needv": 5,
+      "spell": "Stone Skin"
+    },
+    {
+      "name": "Scroll of Poison Cloud",
+      "kind": "learn",
+      "tier": 3,
+      "w": 1,
+      "need": "mind",
+      "needv": 5,
+      "spell": "Poison Cloud"
+    },
+    {
+      "name": "Tome of Quake",
+      "kind": "learn",
+      "tier": 5,
+      "w": 2,
+      "need": "mind",
+      "needv": 11,
+      "spell": "Quake"
+    },
+    {
+      "name": "Scroll of Blessing",
+      "kind": "learn",
+      "tier": 3,
+      "w": 1,
+      "need": "mind",
+      "needv": 5,
+      "spell": "Blessing"
+    },
+    {
+      "name": "Scroll of Weaken",
+      "kind": "learn",
+      "tier": 3,
+      "w": 1,
+      "need": "mind",
+      "needv": 4,
+      "spell": "Weaken"
+    },
+    {
+      "name": "Tome of Resurrect",
+      "kind": "learn",
+      "tier": 5,
+      "w": 2,
+      "need": "mind",
+      "needv": 13,
+      "spell": "Resurrect"
+    },
+    {
+      "name": "Scroll of Corpse Burst",
+      "kind": "learn",
+      "tier": 4,
+      "w": 1,
+      "need": "mind",
+      "needv": 6,
+      "spell": "Corpse Burst"
+    },
+    {
+      "name": "Scroll of Meditation",
+      "kind": "learn",
+      "tier": 2,
+      "w": 1,
+      "need": "mind",
+      "needv": 3,
+      "spell": "Meditation"
+    },
+    {
+      "name": "Leather Gloves",
+      "kind": "gear",
+      "slot": "gloves",
+      "cls": "both",
+      "tier": 1,
+      "w": 1,
+      "need": "agility",
+      "needv": 3,
+      "cover": [
+        "arms"
+      ],
+      "def": 1,
+      "abs": 1
+    },
+    {
+      "name": "Iron Gauntlets",
+      "kind": "gear",
+      "slot": "gloves",
+      "cls": "warrior",
+      "tier": 2,
+      "w": 3,
+      "need": "body",
+      "needv": 8,
+      "cover": [
+        "arms"
+      ],
+      "def": 1,
+      "abs": 3
+    },
+    {
+      "name": "Steel Gauntlets",
+      "kind": "gear",
+      "slot": "gloves",
+      "cls": "warrior",
+      "tier": 4,
+      "w": 4,
+      "need": "body",
+      "needv": 13,
+      "cover": [
+        "arms"
+      ],
+      "def": 2,
+      "abs": 5,
+      "acc": 1
+    },
+    {
+      "name": "Silk Gloves",
+      "kind": "gear",
+      "slot": "gloves",
+      "cls": "mage",
+      "tier": 3,
+      "w": 0,
+      "need": "mind",
+      "needv": 9,
+      "cover": [
+        "arms"
+      ],
+      "pow": 5,
+      "mana": 6
+    },
+    {
+      "name": "Mithril Gale Buckler",
+      "kind": "gear",
+      "slot": "shield",
+      "cls": "warrior",
+      "tier": 3,
+      "w": 4,
+      "need": "body",
+      "needv": 10,
+      "cover": [
+        "arms"
+      ],
+      "def": 2,
+      "abs": 1,
+      "res": [
+        0,
+        0,
+        12,
+        0,
+        0
+      ],
+      "attr": [
+        0,
+        1,
+        0,
+        0
+      ]
+    },
+    {
+      "name": "Adamantium Needle",
+      "kind": "gear",
+      "slot": "weapon",
+      "cls": "warrior",
+      "tier": 4,
+      "w": 2,
+      "need": "agility",
+      "needv": 13,
+      "min": 6,
+      "max": 9,
+      "acc": 5,
+      "attr": [
+        0,
+        1,
+        0,
+        0
+      ]
+    },
+    {
+      "name": "Dragon Leather Mantle",
+      "kind": "gear",
+      "slot": "armor",
+      "cls": "both",
+      "tier": 4,
+      "w": 7,
+      "need": "agility",
+      "needv": 13,
+      "cover": [
+        "torso",
+        "arms"
+      ],
+      "def": 1,
+      "abs": 3,
+      "res": [
+        18,
+        0,
+        0,
+        0,
+        0
+      ],
+      "attr": [
+        0,
+        1,
+        0,
+        0
+      ]
+    },
+    {
+      "name": "Tome of Meteor",
+      "kind": "learn",
+      "tier": 5,
+      "w": 2,
+      "need": "mind",
+      "needv": 14,
+      "spell": "Meteor"
+    },
+    {
+      "name": "Scroll of Inferno",
+      "kind": "learn",
+      "tier": 4,
+      "w": 1,
+      "need": "mind",
+      "needv": 8,
+      "spell": "Inferno"
+    },
+    {
+      "name": "Tome of Blizzard",
+      "kind": "learn",
+      "tier": 5,
+      "w": 2,
+      "need": "mind",
+      "needv": 13,
+      "spell": "Blizzard"
+    },
+    {
+      "name": "Tome of Thunderstorm",
+      "kind": "learn",
+      "tier": 5,
+      "w": 2,
+      "need": "mind",
+      "needv": 12,
+      "spell": "Thunderstorm"
+    },
+    {
+      "name": "Scroll of Iron Skin",
+      "kind": "learn",
+      "tier": 4,
+      "w": 1,
+      "need": "mind",
+      "needv": 9,
+      "spell": "Iron Skin"
+    },
+    {
+      "name": "Scroll of Acid Rain",
+      "kind": "learn",
+      "tier": 4,
+      "w": 1,
+      "need": "mind",
+      "needv": 8,
+      "spell": "Acid Rain"
+    },
+    {
+      "name": "Scroll of Mana Burn",
+      "kind": "learn",
+      "tier": 4,
+      "w": 1,
+      "need": "mind",
+      "needv": 9,
+      "spell": "Mana Burn"
+    },
+    {
+      "name": "Tome of Time Warp",
+      "kind": "learn",
+      "tier": 5,
+      "w": 2,
+      "need": "mind",
+      "needv": 15,
+      "spell": "Time Warp"
+    },
+    {
+      "name": "Woodcutter Handaxe",
+      "kind": "gear",
+      "slot": "weapon",
+      "cls": "warrior",
+      "tier": 1,
+      "w": 4,
+      "need": "body",
+      "needv": 4,
+      "min": 1,
+      "max": 4,
+      "acc": 0
+    },
+    {
+      "name": "Bearded Battleaxe",
+      "kind": "gear",
+      "slot": "weapon",
+      "cls": "warrior",
+      "tier": 2,
+      "w": 6,
+      "need": "body",
+      "needv": 8,
+      "min": 3,
+      "max": 7,
+      "acc": 0
+    },
+    {
+      "name": "Tempered War Axe",
+      "kind": "gear",
+      "slot": "weapon",
+      "cls": "warrior",
+      "tier": 3,
+      "w": 8,
+      "need": "body",
+      "needv": 11,
+      "min": 5,
+      "max": 11,
+      "acc": 1
+    },
+    {
+      "name": "Crescent Broadaxe",
+      "kind": "gear",
+      "slot": "weapon",
+      "cls": "warrior",
+      "tier": 4,
+      "w": 10,
+      "need": "body",
+      "needv": 14,
+      "min": 8,
+      "max": 16,
+      "acc": 1
+    },
+    {
+      "name": "Berserker Decapitator",
+      "kind": "gear",
+      "slot": "weapon",
+      "cls": "warrior",
+      "tier": 5,
+      "w": 11,
+      "need": "body",
+      "needv": 17,
+      "min": 11,
+      "max": 22,
+      "acc": 2
+    },
+    {
+      "name": "Spiked Cudgel",
+      "kind": "gear",
+      "slot": "weapon",
+      "cls": "warrior",
+      "tier": 1,
+      "w": 5,
+      "need": "body",
+      "needv": 4,
+      "min": 3,
+      "max": 3,
+      "acc": 0
+    },
+    {
+      "name": "Flanged Mace",
+      "kind": "gear",
+      "slot": "weapon",
+      "cls": "warrior",
+      "tier": 2,
+      "w": 7,
+      "need": "body",
+      "needv": 8,
+      "min": 5,
+      "max": 6,
+      "acc": 0
+    },
+    {
+      "name": "Heavy Morningstar",
+      "kind": "gear",
+      "slot": "weapon",
+      "cls": "warrior",
+      "tier": 3,
+      "w": 9,
+      "need": "body",
+      "needv": 11,
+      "min": 8,
+      "max": 9,
+      "acc": 1
+    },
+    {
+      "name": "Steel Warhammer",
+      "kind": "gear",
+      "slot": "weapon",
+      "cls": "warrior",
+      "tier": 4,
+      "w": 12,
+      "need": "body",
+      "needv": 14,
+      "min": 12,
+      "max": 13,
+      "acc": 1
+    },
+    {
+      "name": "Obsidian Greatmaul",
+      "kind": "gear",
+      "slot": "weapon",
+      "cls": "warrior",
+      "tier": 5,
+      "w": 14,
+      "need": "body",
+      "needv": 17,
+      "min": 16,
+      "max": 18,
+      "acc": 2
+    },
+    {
+      "name": "Flint Stiletto",
+      "kind": "gear",
+      "slot": "weapon",
+      "cls": "both",
+      "tier": 1,
+      "w": 1,
+      "need": "agility",
+      "needv": 4,
+      "min": 1,
+      "max": 2,
+      "acc": 3
+    },
+    {
+      "name": "Steel Rondel",
+      "kind": "gear",
+      "slot": "weapon",
+      "cls": "both",
+      "tier": 2,
+      "w": 2,
+      "need": "agility",
+      "needv": 7,
+      "min": 3,
+      "max": 4,
+      "acc": 4
+    },
+    {
+      "name": "Duelist Poignard",
+      "kind": "gear",
+      "slot": "weapon",
+      "cls": "both",
+      "tier": 3,
+      "w": 2,
+      "need": "agility",
+      "needv": 10,
+      "min": 5,
+      "max": 7,
+      "acc": 5
+    },
+    {
+      "name": "Main-Gauche",
+      "kind": "gear",
+      "slot": "weapon",
+      "cls": "both",
+      "tier": 4,
+      "w": 2,
+      "need": "agility",
+      "needv": 13,
+      "min": 7,
+      "max": 10,
+      "acc": 4,
+      "def": 1
+    },
+    {
+      "name": "Shadow Dirk",
+      "kind": "gear",
+      "slot": "weapon",
+      "cls": "both",
+      "tier": 5,
+      "w": 2,
+      "need": "agility",
+      "needv": 16,
+      "min": 11,
+      "max": 14,
+      "acc": 6,
+      "attr": [
+        0,
+        2,
+        0,
+        0
+      ]
+    },
+    {
+      "name": "Two-Handed Claymore",
+      "kind": "gear",
+      "slot": "weapon",
+      "cls": "warrior",
+      "tier": 1,
+      "w": 8,
+      "need": "body",
+      "needv": 5,
+      "min": 3,
+      "max": 5,
+      "acc": 0
+    },
+    {
+      "name": "Bastard Greatsword",
+      "kind": "gear",
+      "slot": "weapon",
+      "cls": "warrior",
+      "tier": 2,
+      "w": 10,
+      "need": "body",
+      "needv": 9,
+      "min": 6,
+      "max": 8,
+      "acc": 0
+    },
+    {
+      "name": "Flamberge",
+      "kind": "gear",
+      "slot": "weapon",
+      "cls": "warrior",
+      "tier": 3,
+      "w": 12,
+      "need": "body",
+      "needv": 12,
+      "min": 9,
+      "max": 12,
+      "acc": 1
+    },
+    {
+      "name": "Executioner Blade",
+      "kind": "gear",
+      "slot": "weapon",
+      "cls": "warrior",
+      "tier": 4,
+      "w": 14,
+      "need": "body",
+      "needv": 15,
+      "min": 13,
+      "max": 17,
+      "acc": 2
+    },
+    {
+      "name": "Dreadnought Zweihander",
+      "kind": "gear",
+      "slot": "weapon",
+      "cls": "warrior",
+      "tier": 5,
+      "w": 16,
+      "need": "body",
+      "needv": 18,
+      "min": 18,
+      "max": 24,
+      "acc": 2
+    },
+    {
+      "name": "Willow Wand",
+      "kind": "gear",
+      "slot": "weapon",
+      "cls": "mage",
+      "tier": 1,
+      "w": 1,
+      "need": "mind",
+      "needv": 4,
+      "min": 0,
+      "max": 1,
+      "mana": 8,
+      "pow": 4
+    },
+    {
+      "name": "Yew Wand",
+      "kind": "gear",
+      "slot": "weapon",
+      "cls": "mage",
+      "tier": 2,
+      "w": 1,
+      "need": "mind",
+      "needv": 7,
+      "min": 0,
+      "max": 1,
+      "mana": 16,
+      "pow": 8
+    },
+    {
+      "name": "Amber Focus Wand",
+      "kind": "gear",
+      "slot": "weapon",
+      "cls": "mage",
+      "tier": 3,
+      "w": 1,
+      "need": "mind",
+      "needv": 10,
+      "min": 1,
+      "max": 1,
+      "mana": 24,
+      "pow": 14,
+      "res": [
+        4,
+        4,
+        4,
+        4,
+        4
+      ]
+    },
+    {
+      "name": "Crystal Siphon Wand",
+      "kind": "gear",
+      "slot": "weapon",
+      "cls": "mage",
+      "tier": 4,
+      "w": 2,
+      "need": "mind",
+      "needv": 13,
+      "min": 1,
+      "max": 2,
+      "mana": 36,
+      "pow": 22,
+      "res": [
+        8,
+        8,
+        8,
+        8,
+        8
+      ]
+    },
+    {
+      "name": "Astral Archon Wand",
+      "kind": "gear",
+      "slot": "weapon",
+      "cls": "mage",
+      "tier": 5,
+      "w": 2,
+      "need": "mind",
+      "needv": 16,
+      "min": 1,
+      "max": 2,
+      "mana": 50,
+      "pow": 32,
+      "attr": [
+        0,
+        0,
+        2,
+        0
+      ]
+    },
+    {
+      "name": "Ash Shortbow",
+      "kind": "gear",
+      "slot": "weapon",
+      "cls": "both",
+      "tier": 1,
+      "w": 2,
+      "need": "agility",
+      "needv": 4,
+      "min": 1,
+      "max": 3,
+      "acc": 2
+    },
+    {
+      "name": "Recurve Bow",
+      "kind": "gear",
+      "slot": "weapon",
+      "cls": "both",
+      "tier": 2,
+      "w": 3,
+      "need": "agility",
+      "needv": 7,
+      "min": 3,
+      "max": 6,
+      "acc": 3
+    },
+    {
+      "name": "Composite War Bow",
+      "kind": "gear",
+      "slot": "weapon",
+      "cls": "both",
+      "tier": 3,
+      "w": 4,
+      "need": "agility",
+      "needv": 10,
+      "min": 6,
+      "max": 9,
+      "acc": 4
+    },
+    {
+      "name": "Heavy Arbalest",
+      "kind": "gear",
+      "slot": "weapon",
+      "cls": "both",
+      "tier": 4,
+      "w": 7,
+      "need": "agility",
+      "needv": 13,
+      "min": 9,
+      "max": 14,
+      "acc": 3
+    },
+    {
+      "name": "Windpiercer Greatbow",
+      "kind": "gear",
+      "slot": "weapon",
+      "cls": "both",
+      "tier": 5,
+      "w": 5,
+      "need": "agility",
+      "needv": 16,
+      "min": 12,
+      "max": 17,
+      "acc": 5,
+      "attr": [
+        0,
+        2,
+        0,
+        0
+      ]
+    },
+    {
+      "name": "Steel Kite Shield",
+      "kind": "gear",
+      "slot": "shield",
+      "cls": "warrior",
+      "tier": 3,
+      "w": 9,
+      "need": "body",
+      "needv": 11,
+      "cover": [
+        "head",
+        "torso",
+        "arms"
+      ],
+      "def": 3,
+      "abs": 1,
+      "acc": 1
+    },
+    {
+      "name": "Aegis of the Citadel",
+      "kind": "gear",
+      "slot": "shield",
+      "cls": "warrior",
+      "tier": 5,
+      "w": 15,
+      "need": "body",
+      "needv": 17,
+      "cover": [
+        "head",
+        "torso",
+        "arms"
+      ],
+      "def": 5,
+      "abs": 4,
+      "hp": 30,
+      "res": [
+        8,
+        8,
+        8,
+        8,
+        8
+      ]
+    },
+    {
+      "name": "Novice Glass Focus",
+      "kind": "gear",
+      "slot": "shield",
+      "cls": "mage",
+      "tier": 1,
+      "w": 1,
+      "need": "mind",
+      "needv": 4,
+      "mana": 8,
+      "pow": 4
+    },
+    {
+      "name": "Chiseled Quartz Focus",
+      "kind": "gear",
+      "slot": "shield",
+      "cls": "mage",
+      "tier": 2,
+      "w": 1,
+      "need": "mind",
+      "needv": 7,
+      "mana": 16,
+      "pow": 8,
+      "res": [
+        5,
+        5,
+        5,
+        5,
+        5
+      ]
+    },
+    {
+      "name": "Astral Sphere",
+      "kind": "gear",
+      "slot": "shield",
+      "cls": "mage",
+      "tier": 3,
+      "w": 2,
+      "need": "mind",
+      "needv": 10,
+      "mana": 25,
+      "pow": 12,
+      "res": [
+        10,
+        10,
+        10,
+        10,
+        10
+      ]
+    },
+    {
+      "name": "Radiant Spell-Mirror",
+      "kind": "gear",
+      "slot": "shield",
+      "cls": "mage",
+      "tier": 4,
+      "w": 2,
+      "need": "mind",
+      "needv": 13,
+      "cover": [
+        "arms"
+      ],
+      "def": 1,
+      "abs": 1,
+      "mana": 36,
+      "pow": 18,
+      "res": [
+        15,
+        15,
+        15,
+        15,
+        15
+      ]
+    },
+    {
+      "name": "Eye of the Cosmos",
+      "kind": "gear",
+      "slot": "shield",
+      "cls": "mage",
+      "tier": 5,
+      "w": 2,
+      "need": "mind",
+      "needv": 16,
+      "cover": [
+        "arms"
+      ],
+      "def": 2,
+      "abs": 1,
+      "mana": 50,
+      "pow": 24,
+      "attr": [
+        0,
+        0,
+        1,
+        1
+      ],
+      "res": [
+        20,
+        20,
+        20,
+        20,
+        20
+      ]
+    },
+    {
+      "name": "Steel Basinet",
+      "kind": "gear",
+      "slot": "helm",
+      "cls": "warrior",
+      "tier": 3,
+      "w": 4,
+      "need": "body",
+      "needv": 10,
+      "cover": [
+        "head"
+      ],
+      "def": 2,
+      "abs": 4
+    },
+    {
+      "name": "Dread Crest Helm",
+      "kind": "gear",
+      "slot": "helm",
+      "cls": "warrior",
+      "tier": 5,
+      "w": 6,
+      "need": "body",
+      "needv": 16,
+      "cover": [
+        "head"
+      ],
+      "def": 4,
+      "abs": 6,
+      "hp": 25
+    },
+    {
+      "name": "Apprentice Circlet",
+      "kind": "gear",
+      "slot": "helm",
+      "cls": "mage",
+      "tier": 1,
+      "w": 1,
+      "need": "mind",
+      "needv": 4,
+      "cover": [
+        "head"
+      ],
+      "mana": 8,
+      "pow": 3
+    },
+    {
+      "name": "Sage Cowl",
+      "kind": "gear",
+      "slot": "helm",
+      "cls": "mage",
+      "tier": 3,
+      "w": 1,
+      "need": "mind",
+      "needv": 9,
+      "cover": [
+        "head"
+      ],
+      "abs": 1,
+      "mana": 16,
+      "pow": 8,
+      "res": [
+        5,
+        5,
+        5,
+        5,
+        5
+      ]
+    },
+    {
+      "name": "Archmage Diadem",
+      "kind": "gear",
+      "slot": "helm",
+      "cls": "mage",
+      "tier": 5,
+      "w": 2,
+      "need": "mind",
+      "needv": 15,
+      "cover": [
+        "head"
+      ],
+      "def": 1,
+      "abs": 2,
+      "mana": 32,
+      "pow": 16,
+      "attr": [
+        0,
+        0,
+        1,
+        1
+      ]
+    },
+    {
+      "name": "Stalker Hood",
+      "kind": "gear",
+      "slot": "helm",
+      "cls": "both",
+      "tier": 3,
+      "w": 1,
+      "need": "agility",
+      "needv": 9,
+      "cover": [
+        "head"
+      ],
+      "def": 2,
+      "abs": 2,
+      "acc": 2
+    },
+    {
+      "name": "Shadow Mask",
+      "kind": "gear",
+      "slot": "helm",
+      "cls": "both",
+      "tier": 5,
+      "w": 2,
+      "need": "agility",
+      "needv": 15,
+      "cover": [
+        "head"
+      ],
+      "def": 3,
+      "abs": 3,
+      "acc": 3,
+      "attr": [
+        0,
+        2,
+        0,
+        0
+      ]
+    },
+    {
+      "name": "Interlocking Ring Mail",
+      "kind": "gear",
+      "slot": "armor",
+      "cls": "warrior",
+      "tier": 3,
+      "w": 18,
+      "need": "body",
+      "needv": 11,
+      "cover": [
+        "torso",
+        "arms"
+      ],
+      "def": 1,
+      "abs": 4
+    },
+    {
+      "name": "Gothic Full Plate",
+      "kind": "gear",
+      "slot": "armor",
+      "cls": "warrior",
+      "tier": 5,
+      "w": 28,
+      "need": "body",
+      "needv": 17,
+      "cover": [
+        "torso",
+        "arms"
+      ],
+      "def": 3,
+      "abs": 8,
+      "hp": 40
+    },
+    {
+      "name": "Studded Leather Armor",
+      "kind": "gear",
+      "slot": "armor",
+      "cls": "both",
+      "tier": 2,
+      "w": 7,
+      "need": "agility",
+      "needv": 6,
+      "cover": [
+        "torso",
+        "arms"
+      ],
+      "def": 1,
+      "abs": 2
+    },
+    {
+      "name": "Hardened Brigandine",
+      "kind": "gear",
+      "slot": "armor",
+      "cls": "both",
+      "tier": 3,
+      "w": 10,
+      "need": "agility",
+      "needv": 10,
+      "cover": [
+        "torso",
+        "arms"
+      ],
+      "def": 2,
+      "abs": 3
+    },
+    {
+      "name": "Wyrmscale Cuirass",
+      "kind": "gear",
+      "slot": "armor",
+      "cls": "both",
+      "tier": 5,
+      "w": 11,
+      "need": "agility",
+      "needv": 15,
+      "cover": [
+        "torso",
+        "arms"
+      ],
+      "def": 3,
+      "abs": 5,
+      "attr": [
+        0,
+        1,
+        0,
+        0
+      ],
+      "res": [
+        12,
+        12,
+        12,
+        12,
+        12
+      ]
+    },
+    {
+      "name": "Weaver Robe",
+      "kind": "gear",
+      "slot": "armor",
+      "cls": "mage",
+      "tier": 2,
+      "w": 2,
+      "need": "mind",
+      "needv": 7,
+      "cover": [
+        "torso",
+        "arms"
+      ],
+      "mana": 12,
+      "pow": 4,
+      "res": [
+        6,
+        6,
+        6,
+        6,
+        6
+      ]
+    },
+    {
+      "name": "Mystic Velvet Mantle",
+      "kind": "gear",
+      "slot": "armor",
+      "cls": "mage",
+      "tier": 4,
+      "w": 3,
+      "need": "mind",
+      "needv": 12,
+      "cover": [
+        "torso",
+        "arms"
+      ],
+      "abs": 1,
+      "mana": 22,
+      "pow": 6,
+      "res": [
+        14,
+        14,
+        14,
+        14,
+        14
+      ]
+    },
+    {
+      "name": "Steel Greaves",
+      "kind": "gear",
+      "slot": "boots",
+      "cls": "warrior",
+      "tier": 4,
+      "w": 6,
+      "need": "body",
+      "needv": 13,
+      "cover": [
+        "legs"
+      ],
+      "def": 2,
+      "abs": 4
+    },
+    {
+      "name": "Juggernaut War Greaves",
+      "kind": "gear",
+      "slot": "boots",
+      "cls": "warrior",
+      "tier": 5,
+      "w": 8,
+      "need": "body",
+      "needv": 16,
+      "cover": [
+        "legs"
+      ],
+      "def": 2,
+      "abs": 5,
+      "hp": 25
+    },
+    {
+      "name": "Tracker Treads",
+      "kind": "gear",
+      "slot": "boots",
+      "cls": "both",
+      "tier": 3,
+      "w": 2,
+      "need": "agility",
+      "needv": 9,
+      "cover": [
+        "legs"
+      ],
+      "def": 2,
+      "abs": 1,
+      "acc": 1
+    },
+    {
+      "name": "Windrunner Striders",
+      "kind": "gear",
+      "slot": "boots",
+      "cls": "both",
+      "tier": 5,
+      "w": 2,
+      "need": "agility",
+      "needv": 15,
+      "cover": [
+        "legs"
+      ],
+      "def": 3,
+      "abs": 2,
+      "acc": 2,
+      "attr": [
+        0,
+        2,
+        0,
+        0
+      ]
+    },
+    {
+      "name": "Scholar Slippers",
+      "kind": "gear",
+      "slot": "boots",
+      "cls": "mage",
+      "tier": 2,
+      "w": 1,
+      "need": "mind",
+      "needv": 6,
+      "cover": [
+        "legs"
+      ],
+      "mana": 8
+    },
+    {
+      "name": "Astral Walkers",
+      "kind": "gear",
+      "slot": "boots",
+      "cls": "mage",
+      "tier": 5,
+      "w": 1,
+      "need": "mind",
+      "needv": 15,
+      "cover": [
+        "legs"
+      ],
+      "def": 1,
+      "abs": 1,
+      "mana": 24,
+      "pow": 6,
+      "res": [
+        10,
+        10,
+        10,
+        10,
+        10
+      ]
+    },
+    {
+      "name": "Titan War Gauntlets",
+      "kind": "gear",
+      "slot": "gloves",
+      "cls": "warrior",
+      "tier": 5,
+      "w": 5,
+      "need": "body",
+      "needv": 16,
+      "cover": [
+        "arms"
+      ],
+      "def": 2,
+      "abs": 6,
+      "acc": 2,
+      "attr": [
+        1,
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "name": "Studded Bracers",
+      "kind": "gear",
+      "slot": "gloves",
+      "cls": "both",
+      "tier": 2,
+      "w": 2,
+      "need": "agility",
+      "needv": 6,
+      "cover": [
+        "arms"
+      ],
+      "def": 1,
+      "abs": 2
+    },
+    {
+      "name": "Reinforced Vambraces",
+      "kind": "gear",
+      "slot": "gloves",
+      "cls": "both",
+      "tier": 3,
+      "w": 2,
+      "need": "agility",
+      "needv": 9,
+      "cover": [
+        "arms"
+      ],
+      "def": 2,
+      "abs": 2,
+      "acc": 1
+    },
+    {
+      "name": "Shadowstrike Grips",
+      "kind": "gear",
+      "slot": "gloves",
+      "cls": "both",
+      "tier": 5,
+      "w": 2,
+      "need": "agility",
+      "needv": 15,
+      "cover": [
+        "arms"
+      ],
+      "def": 3,
+      "abs": 3,
+      "acc": 3,
+      "attr": [
+        0,
+        1,
+        0,
+        0
+      ]
+    },
+    {
+      "name": "Novice Wraps",
+      "kind": "gear",
+      "slot": "gloves",
+      "cls": "mage",
+      "tier": 1,
+      "w": 0,
+      "need": "mind",
+      "needv": 4,
+      "cover": [
+        "arms"
+      ],
+      "mana": 6,
+      "pow": 2
+    },
+    {
+      "name": "Velvet Channelers",
+      "kind": "gear",
+      "slot": "gloves",
+      "cls": "mage",
+      "tier": 4,
+      "w": 1,
+      "need": "mind",
+      "needv": 12,
+      "cover": [
+        "arms"
+      ],
+      "abs": 1,
+      "mana": 16,
+      "pow": 8
+    },
+    {
+      "name": "Archon Handwraps",
+      "kind": "gear",
+      "slot": "gloves",
+      "cls": "mage",
+      "tier": 5,
+      "w": 1,
+      "need": "mind",
+      "needv": 16,
+      "cover": [
+        "arms"
+      ],
+      "def": 1,
+      "abs": 1,
+      "mana": 24,
+      "pow": 12,
+      "attr": [
+        0,
+        0,
+        1,
+        0
+      ]
+    },
+    {
+      "name": "Copper Band",
+      "kind": "gear",
+      "slot": "ring",
+      "cls": "both",
+      "tier": 1,
+      "w": 0,
+      "need": "spirit",
+      "needv": 3,
+      "hp": 12
+    },
+    {
+      "name": "Bone Ring",
+      "kind": "gear",
+      "slot": "ring",
+      "cls": "both",
+      "tier": 1,
+      "w": 0,
+      "need": "spirit",
+      "needv": 3,
+      "mana": 12
+    },
+    {
+      "name": "Ring of Valor",
+      "kind": "gear",
+      "slot": "ring",
+      "cls": "both",
+      "tier": 3,
+      "w": 0,
+      "need": "spirit",
+      "needv": 8,
+      "attr": [
+        1,
+        1,
+        0,
+        0
+      ]
+    },
+    {
+      "name": "Ring of the Scribe",
+      "kind": "gear",
+      "slot": "ring",
+      "cls": "both",
+      "tier": 3,
+      "w": 0,
+      "need": "spirit",
+      "needv": 8,
+      "attr": [
+        0,
+        0,
+        1,
+        1
+      ]
+    },
+    {
+      "name": "Ring of the Champions",
+      "kind": "gear",
+      "slot": "ring",
+      "cls": "warrior",
+      "tier": 5,
+      "w": 0,
+      "need": "spirit",
+      "needv": 14,
+      "attr": [
+        2,
+        1,
+        0,
+        0
+      ],
+      "hp": 35,
+      "acc": 2
+    },
+    {
+      "name": "Ring of the High Archon",
+      "kind": "gear",
+      "slot": "ring",
+      "cls": "mage",
+      "tier": 5,
+      "w": 0,
+      "need": "spirit",
+      "needv": 14,
+      "attr": [
+        0,
+        0,
+        2,
+        1
+      ],
+      "mana": 40,
+      "pow": 10
+    },
+    {
+      "name": "Signet of Unbroken Vigor",
+      "kind": "gear",
+      "slot": "ring",
+      "cls": "both",
+      "tier": 5,
+      "w": 0,
+      "need": "spirit",
+      "needv": 14,
+      "attr": [
+        1,
+        1,
+        1,
+        1
+      ],
+      "hp": 20,
+      "mana": 20
+    },
+    {
+      "name": "Clay Talisman",
+      "kind": "gear",
+      "slot": "amulet",
+      "cls": "both",
+      "tier": 1,
+      "w": 1,
+      "need": "spirit",
+      "needv": 3,
+      "res": [
+        6,
+        6,
+        6,
+        6,
+        6
+      ]
+    },
+    {
+      "name": "Bronze Locket",
+      "kind": "gear",
+      "slot": "amulet",
+      "cls": "both",
+      "tier": 1,
+      "w": 1,
+      "need": "spirit",
+      "needv": 3,
+      "hp": 15
+    },
+    {
+      "name": "Astral Medallion",
+      "kind": "gear",
+      "slot": "amulet",
+      "cls": "both",
+      "tier": 3,
+      "w": 1,
+      "need": "spirit",
+      "needv": 8,
+      "res": [
+        0,
+        0,
+        0,
+        0,
+        25
+      ],
+      "mana": 15,
+      "pow": 5
+    },
+    {
+      "name": "Bloodstone Pendant",
+      "kind": "gear",
+      "slot": "amulet",
+      "cls": "both",
+      "tier": 3,
+      "w": 1,
+      "need": "body",
+      "needv": 9,
+      "hp": 40,
+      "abs": 1
+    },
+    {
+      "name": "Prismatic Choker",
+      "kind": "gear",
+      "slot": "amulet",
+      "cls": "both",
+      "tier": 4,
+      "w": 1,
+      "need": "spirit",
+      "needv": 11,
+      "res": [
+        15,
+        15,
+        15,
+        15,
+        15
+      ],
+      "mana": 15
+    },
+    {
+      "name": "Heart of the Colossus",
+      "kind": "gear",
+      "slot": "amulet",
+      "cls": "warrior",
+      "tier": 5,
+      "w": 1,
+      "need": "body",
+      "needv": 16,
+      "hp": 60,
+      "abs": 2,
+      "attr": [
+        2,
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "name": "Medallion of the Celestial Spire",
+      "kind": "gear",
+      "slot": "amulet",
+      "cls": "mage",
+      "tier": 5,
+      "w": 1,
+      "need": "mind",
+      "needv": 16,
+      "mana": 50,
+      "pow": 16,
+      "attr": [
+        0,
+        0,
+        2,
+        0
+      ]
+    }
   ]
 }

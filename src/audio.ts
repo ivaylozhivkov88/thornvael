@@ -5,9 +5,14 @@ import { VoiceLimiter, spatial, type Voice } from './audiologic';
  * Sound effects are short AAC files decoded once; music is streamed through an <audio> element so it never sits in memory as PCM.
  * Everything starts from a real user gesture (`unlock`). A silent media workaround needs real iOS verification.
  */
+const SHOP_ENTRY_CUE = 'ledger_latch_01';
+const SHOP_ENTRY_WINDOW_MS = 750;
 const SFX_NAMES = [
   'hit', 'miss', 'death', 'bow', 'gold', 'nomana', 'cast_fire', 'cast_water', 'cast_air', 'cast_earth', 'cast_astral',
-  'boom', 'heal', 'buff', 'curse', 'revive', 'click', 'step1', 'step2',
+  'boom', 'heal', 'buff', 'curse', 'revive', 'click', 'step1', 'step2', SHOP_ENTRY_CUE,
+  'loot_normal', 'loot_magic', 'loot_rare', 'loot_set', 'loot_unique',
+  'spell_meteor', 'spell_inferno', 'spell_blizzard', 'spell_thunderstorm',
+  'spell_iron_skin', 'spell_acid_rain', 'spell_mana_burn', 'spell_time_warp',
 ];
 const base = (): string => import.meta.env.BASE_URL;
 
@@ -32,6 +37,7 @@ let musicMode: 'explore' | 'battle' = 'explore';
 let ambSource: AudioBufferSourceNode | null = null;
 let ambWanted = true;
 let played = 0;
+let pendingShopEntry: { deadline: number } | null = null;
 
 interface Track {
   el: HTMLAudioElement;
@@ -241,6 +247,32 @@ export function play(name: string, priority = 1, at?: { x: number; y: number; w:
   played++;
 }
 
+/** Play once when the first gesture has unlocked audio and decoded the shop cue. */
+export function playShopEntry(): void {
+  cancelShopEntry();
+  const context = ctx;
+  if (!context || !sfxOn || backgrounded) return;
+  if (!suspending && context.state === 'running' && buffers.has(SHOP_ENTRY_CUE)) {
+    play(SHOP_ENTRY_CUE, 5);
+    return;
+  }
+
+  const request = { deadline: performance.now() + SHOP_ENTRY_WINDOW_MS };
+  pendingShopEntry = request;
+  requestResume();
+  // The suspend finalizer starts the foreground resume before this continuation runs.
+  const ready = suspending ? suspending.then(() => resuming) : resuming;
+  void Promise.all([loadBuffer(SHOP_ENTRY_CUE), ready]).then(() => {
+    if (pendingShopEntry !== request) return;
+    pendingShopEntry = null;
+    if (ctx === context && performance.now() < request.deadline) play(SHOP_ENTRY_CUE, 5);
+  });
+}
+
+export function cancelShopEntry(): void {
+  pendingShopEntry = null;
+}
+
 /** The UI click. */
 export function blip(): void {
   unlock();
@@ -249,6 +281,7 @@ export function blip(): void {
 
 export function setSfx(on: boolean): void {
   sfxOn = on;
+  if (!on) cancelShopEntry();
 }
 
 function trackFor(mode: 'explore' | 'battle'): Track | null {
@@ -309,6 +342,7 @@ export function currentMusic(): 'off' | 'explore' | 'battle' {
 }
 
 export function suspendAudio(): void {
+  cancelShopEntry();
   backgrounded = true;
   generation++;
   stopAmbience();

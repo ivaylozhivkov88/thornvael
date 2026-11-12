@@ -1,11 +1,11 @@
 import { INV_MAX, SKILL_MAX, Why, blocker, skillNeed, type EquipmentAction, type HeroState } from './sim/hero';
-import { ITEMS, Ik, SLOT_NAMES, Slot } from './sim/items';
+import { getItemDef, Ik, SLOT_NAMES, Slot } from './sim/items';
 
 export type EquipmentSource = { from: 'inv' | 'eq'; item: number; slot: number };
 
 export function equipmentAction(source: EquipmentSource): EquipmentAction | null {
   if (source.from === 'eq') return { op: 'unequip', slot: source.slot };
-  return ITEMS[source.item]?.kind === Ik.Gear ? { op: 'equip', item: source.item } : null;
+  return getItemDef(source.item)?.kind === Ik.Gear ? { op: 'equip', item: source.item } : null;
 }
 
 export function equipmentPreview(h: HeroState, alive: boolean, source: EquipmentSource) {
@@ -17,7 +17,7 @@ export function equipmentPreview(h: HeroState, alive: boolean, source: Equipment
       why: !alive ? Why.Dead : h.eq[action.slot] !== source.item ? Why.None : h.inv.length >= INV_MAX ? Why.Full : 0,
     };
   }
-  const slot = ITEMS[action.item].slot;
+  const slot = getItemDef(action.item)?.slot ?? 0;
   return {
     action, target: `eq${slot}`, replacement: h.eq[slot],
     why: !alive ? Why.Dead : h.inv[source.slot]?.item !== source.item ? Why.None : blocker(h, action.item),

@@ -24,6 +24,14 @@
     {"name":"Weaken","school":"astral","target":"foe","cost":8,"cd":30,"reach":7,"status":"weaken","dur":30},
     {"name":"Resurrect","school":"astral","target":"corpse","cost":30,"cd":75,"reach":6},
     {"name":"Corpse Burst","school":"astral","target":"corpse","cost":14,"cd":50,"reach":7,"min":18,"max":26,"radius":2.5},
-    {"name":"Meditation","school":"astral","target":"self","cost":0,"cd":250,"reach":0,"val":12}
+    {"name":"Meditation","school":"astral","target":"self","cost":0,"cd":250,"reach":0,"val":12},
+    {"name":"Meteor","school":"fire","target":"ground","cost":26,"cd":70,"reach":8,"min":32,"max":48,"radius":3,"status":"burn","dur":8,"val":4},
+    {"name":"Inferno","school":"fire","target":"multi","cost":20,"cd":45,"reach":7,"min":22,"max":34,"radius":4,"count":5},
+    {"name":"Blizzard","school":"water","target":"ground","cost":24,"cd":65,"reach":8,"min":20,"max":30,"radius":3.5,"status":"slow","dur":10},
+    {"name":"Thunderstorm","school":"air","target":"multi","cost":22,"cd":50,"reach":8,"min":26,"max":38,"radius":4,"count":4},
+    {"name":"Iron Skin","school":"earth","target":"self","cost":18,"cd":60,"reach":0,"status":"shield","dur":60,"val":100},
+    {"name":"Acid Rain","school":"earth","target":"ground","cost":20,"cd":55,"reach":8,"min":14,"max":20,"radius":3.5,"status":"poison","dur":16,"val":2},
+    {"name":"Mana Burn","school":"astral","target":"foe","cost":15,"cd":40,"reach":7,"min":25,"max":40},
+    {"name":"Time Warp","school":"astral","target":"self","cost":25,"cd":80,"reach":0,"status":"haste","dur":40}
   ]
 }

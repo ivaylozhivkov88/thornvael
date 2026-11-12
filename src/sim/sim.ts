@@ -1,13 +1,15 @@
 import { isBlockedAt, type GameMap } from '../map';
+import type { ShrineDef } from '../mapdoc';
 import { dayLight } from './daynight';
 import { CombatState, DEFS, Ord, POOLS, enemyNear, lootPos, nearestLoot, think, toGuard, type CombatSnap } from './combat';
 import { cloneHero, hashHero, heroCommand, type HeroCommand, type HeroState } from './hero';
-import { SPELLS, Tk } from './spelldata';
-import { knows, resolveTarget, statusSpeed } from './spells';
+import { NST, SPELLS, St, Tk } from './spelldata';
+import { addStatus, knows, resolveTarget, statusSpeed } from './spells';
 import { FP, Pather, dir16, lineClear, regionsOf, speedPct } from './path';
 import { Rng } from './rng';
 import type { ScriptRuntime, ScriptState } from './script';
 import { buildTowns, checkQuests, cloneTown, hashTown, newTownState, townCommand, type TownCommand, type TownDef, type TownRt, type TownState } from './town';
+import { DYNAMIC_ITEM_OFFSET, getItemDef, registerDynamicItem, unregisterDynamicItem, ITEMS, type ItemDef, type ItemInstance } from './items';
 
 export { FP };
 export const TICKS_PER_SECOND = 25;
@@ -21,6 +23,8 @@ const STUCK_REPATH = 25; // ticks of no progress before a unit asks for a new pa
 const STUCK_GIVE_UP = 200; // 8 seconds of no progress after all repaths
 const PATHS_PER_TICK = 3; // time-slice: at most this many A* searches during unit steering
 const PATHS_PER_ORDER = 6; // extra individual searches a single order may start
+const COINC_DX = Int8Array.of(1, 1, 0, -1, -1, -1, 0, 1);
+const COINC_DY = Int8Array.of(0, 1, 1, 1, 0, -1, -1, -1);
 
 /** Order verbs of the `order` command. */
 export type OrderName = 'attack' | 'guard' | 'defend' | 'cast' | 'swarm' | 'hold' | 'retreat' | 'still' | 'pickup';
@@ -73,6 +77,9 @@ export interface Snapshot {
   script: ScriptState | null;
   team?: Uint8Array; // added in save version 2
   town?: TownState;
+  shrineCd?: Uint16Array;
+  instances?: ItemInstance[];
+  nextInstanceId?: number;
 }
 
 export interface SimOptions {
@@ -84,6 +91,12 @@ export interface SimOptions {
   combat?: boolean;
   /** Multiplier on every unit's hit points (benchmark battles). */
   hpMul?: number;
+  /** Monster palette tiers per unit (1..5). Default: all 1. */
+  tiers?: number[];
+  /** Monster catalog family ids per unit. Default: all ''. */
+  families?: string[];
+  /** Composable boss modifiers per unit. Default: none. */
+  bossMods?: readonly (readonly string[])[];
 }
 
 // Tile offsets around a point, nearest first, used to find the closest valid tile.
@@ -126,6 +139,37 @@ export class Sim {
   /** Towns of the map (static), and their changing state (stock, quests), which is saved. */
   towns: TownRt[] = [];
   town: TownState = newTownState(0);
+  /** Interactive world shrines and their recharge countdowns in ticks. */
+  shrines: ShrineDef[] = [];
+  shrineCd: Uint16Array = new Uint16Array(0);
+  private nextInstanceId = DYNAMIC_ITEM_OFFSET;
+  readonly instances = new Map<number, ItemInstance>();
+
+  createItemInstance(baseId: number, quality: 'magic' | 'rare' | string, def: ItemDef): ItemInstance {
+    const id = this.nextInstanceId++;
+    const inst: ItemInstance = {
+      id,
+      baseId,
+      quality,
+      name: def.name,
+      def,
+    };
+    this.instances.set(id, inst);
+    registerDynamicItem(id, def);
+    return inst;
+  }
+
+  getItemDef(id: number): ItemDef | undefined {
+    if (id < DYNAMIC_ITEM_OFFSET) return ITEMS[id];
+    return this.instances.get(id)?.def ?? getItemDef(id);
+  }
+
+  destroyItemInstance(id: number): void {
+    if (id >= DYNAMIC_ITEM_OFFSET) {
+      this.instances.delete(id);
+      unregisterDynamicItem(id);
+    }
+  }
   /** Uniform grid of living units, rebuilt every tick; used for collision and target search. */
   readonly cellStart: Int32Array;
   readonly cellItems: Int32Array;
@@ -133,6 +177,7 @@ export class Sim {
   private paths = new Map<number, PathRec>();
   private nextPath = 1;
   private budget = 0;
+  private dispatchBudget = 0;
   private readonly pather: Pather;
   private readonly region: Int32Array;
   private readonly ox: Int32Array;
@@ -140,6 +185,17 @@ export class Sim {
   private readonly ax: Int32Array;
   private readonly ay: Int32Array;
   private readonly cursor: Int32Array;
+  private readonly fogSeen: Uint32Array;
+  private readonly formUsed: Uint32Array;
+  private formStamp = 0;
+  private readonly formSlotX: Int32Array;
+  private readonly formSlotY: Int32Array;
+  private readonly formBad: Int32Array;
+  private readonly formPf: Int32Array;
+  private readonly formPr: Int32Array;
+  private readonly formOrder: Int32Array;
+  private readonly seenStamp: Uint32Array;
+  private seenCounter = 0;
 
   constructor(
     readonly map: GameMap,
@@ -174,14 +230,29 @@ export class Sim {
     this.cellStart = new Int32Array(map.w * map.h + 1);
     this.cellItems = new Int32Array(n);
     this.cursor = new Int32Array(map.w * map.h);
+    this.fogSeen = new Uint32Array(map.w * map.h);
+    this.formUsed = new Uint32Array(map.w * map.h);
+    this.formSlotX = new Int32Array(n);
+    this.formSlotY = new Int32Array(n);
+    this.formBad = new Int32Array(n);
+    this.formPf = new Int32Array(n);
+    this.formPr = new Int32Array(n);
+    this.formOrder = new Int32Array(n);
+    this.seenStamp = new Uint32Array(n);
     this.combat = opts.combat ?? false;
-    this.cb = new CombatState(n, opts.kinds ?? Array(n).fill(0), this.team, opts.hpMul ?? 1);
+    this.cb = new CombatState(n, opts.kinds ?? Array(n).fill(0), this.team, opts.hpMul ?? 1, opts.tiers, opts.families, opts.bossMods);
   }
 
   /** Set up the map's towns. Before the first tick. */
   attachTowns(defs: readonly TownDef[]): void {
     this.towns = buildTowns(this, defs);
     this.town = newTownState(defs.length);
+  }
+
+  /** Set up interactive world shrines before the first tick. */
+  attachShrines(defs: readonly ShrineDef[]): void {
+    this.shrines = defs.map((d) => ({ ...d }));
+    this.shrineCd = new Uint16Array(defs.length);
   }
 
   /**
@@ -253,6 +324,7 @@ export class Sim {
       townCommand(this, cmd);
     }
     this.budget = PATHS_PER_TICK;
+    this.dispatchBudget = 3;
     if (this.combat) this.buildGrid();
     for (const cmd of cmds) {
       if (cmd.type === 'town') continue;
@@ -261,6 +333,7 @@ export class Sim {
     }
     // Script commands are not logged: a replay runs the same script and produces them again.
     if (this.script) for (const cmd of this.script.run(this)) this.dispatch(cmd);
+    if (this.dispatchBudget < 3) this.budget = Math.max(0, this.budget - (3 - this.dispatchBudget));
     this.ox.set(this.x);
     this.oy.set(this.y);
     if (this.combat) think(this);
@@ -269,6 +342,123 @@ export class Sim {
     for (let i = 0; i < this.count; i++) if (this.moving[i]) this.progress(i);
     if (this.tick === 1 || this.tick % 5 === 0) this.updateFog();
     if (this.towns.length) checkQuests(this);
+    if (this.shrines.length) this.stepShrines();
+    if (this.combat && this.tick % 25 === 0) this.stepBossAuras();
+  }
+
+  private stepBossAuras(): void {
+    const cb = this.cb;
+    const count = this.count;
+    const hp = cb.hp;
+    const team = this.team;
+    const hidden = this.hidden;
+    const x = this.x;
+    const y = this.y;
+    const auraR2 = (6.0 * FP) * (6.0 * FP);
+
+    for (let b = 0; b < count; b++) {
+      if (hp[b] <= 0 || hidden[b]) continue;
+      const mods = cb.bossMods[b];
+      if (!mods || !mods.includes('blessed_aura')) continue;
+      const bx = x[b];
+      const by = y[b];
+      const bteam = team[b];
+      for (let u = 0; u < count; u++) {
+        if (hp[u] <= 0 || hidden[u] || team[u] !== bteam) continue;
+        const dx = x[u] - bx;
+        const dy = y[u] - by;
+        if (dx * dx + dy * dy <= auraR2) {
+          addStatus(this, u, St.Bless, 50, 0);
+        }
+      }
+    }
+  }
+
+  private stepShrines(): void {
+    const cb = this.cb;
+    const hp = cb.hp;
+    const x = this.x;
+    const y = this.y;
+    const team = this.team;
+    const hidden = this.hidden;
+    const trigR2 = (1.5 * FP) * (1.5 * FP);
+    const areaR2 = (3.5 * FP) * (3.5 * FP);
+    for (let s = 0; s < this.shrines.length; s++) {
+      if (this.shrineCd[s] > 0) {
+        this.shrineCd[s]--;
+        continue;
+      }
+      const sh = this.shrines[s];
+      const sx = (sh.x + 0.5) * FP;
+      const sy = (sh.y + 0.5) * FP;
+      let triggered = false;
+      for (let i = 0; i < this.count; i++) {
+        if (team[i] !== 0 || hp[i] <= 0 || hidden[i]) continue;
+        const dx = x[i] - sx;
+        const dy = y[i] - sy;
+        if (dx * dx + dy * dy <= trigR2) {
+          triggered = true;
+          break;
+        }
+      }
+      if (!triggered) continue;
+      for (let u = 0; u < this.count; u++) {
+        if (team[u] !== 0 || hp[u] <= 0 || hidden[u]) continue;
+        const dx = x[u] - sx;
+        const dy = y[u] - sy;
+        if (dx * dx + dy * dy > areaR2) continue;
+        switch (sh.kind) {
+          case 'healing': {
+            const healAmt = Math.max(20, Math.round(cb.hpMax[u] * 0.5));
+            cb.hp[u] = Math.min(cb.hpMax[u], cb.hp[u] + healAmt);
+            cb.emit(7, x[u], y[u], healAmt, 2);
+            break;
+          }
+          case 'mana': {
+            const manaAmt = Math.max(20, Math.round(cb.manaMax[u] * 0.6));
+            if (cb.manaMax[u] > 0) cb.mana[u] = Math.min(cb.manaMax[u], cb.mana[u] + manaAmt);
+            cb.emit(9, x[u], y[u], 0, 5);
+            break;
+          }
+          case 'combat': {
+            const idx = u * NST + St.Bless;
+            cb.stMask[u] |= 1 << St.Bless;
+            cb.stT[idx] = Math.max(cb.stT[idx], 300);
+            cb.emit(8, x[u], y[u], St.Bless, 5);
+            break;
+          }
+          case 'armor': {
+            const idx = u * NST + St.Shield;
+            cb.stMask[u] |= 1 << St.Shield;
+            cb.stT[idx] = Math.max(cb.stT[idx], 300);
+            cb.stV[idx] = Math.max(cb.stV[idx], 40);
+            cb.emit(8, x[u], y[u], St.Shield, 4);
+            break;
+          }
+          case 'haste': {
+            const idx = u * NST + St.Haste;
+            cb.stMask[u] |= 1 << St.Haste;
+            cb.stT[idx] = Math.max(cb.stT[idx], 300);
+            cb.emit(8, x[u], y[u], St.Haste, 3);
+            break;
+          }
+          case 'ward': {
+            const bIdx = u * NST + St.Bless;
+            cb.stMask[u] |= 1 << St.Bless;
+            cb.stT[bIdx] = Math.max(cb.stT[bIdx], 300);
+            const sIdx = u * NST + St.Shield;
+            cb.stMask[u] |= 1 << St.Shield;
+            cb.stT[sIdx] = Math.max(cb.stT[sIdx], 300);
+            cb.stV[sIdx] = Math.max(cb.stV[sIdx], 35);
+            const healAmt = Math.max(10, Math.round(cb.hpMax[u] * 0.25));
+            cb.hp[u] = Math.min(cb.hpMax[u], cb.hp[u] + healAmt);
+            cb.emit(7, x[u], y[u], healAmt, 5);
+            break;
+          }
+        }
+      }
+      this.shrineCd[s] = sh.cooldown ?? 750;
+    }
   }
 
   private dispatch(cmd: Command): void {
@@ -286,8 +476,19 @@ export class Sim {
   }
 
   private liveIds(raw: readonly number[]): number[] {
-    const seen = new Set<number>();
-    return raw.filter((id) => id >= 0 && id < this.count && this.cb.hp[id] > 0 && !seen.has(id) && seen.add(id));
+    const stamp = ++this.seenCounter;
+    const seen = this.seenStamp;
+    const hp = this.cb.hp;
+    const count = this.count;
+    const out: number[] = [];
+    for (let i = 0; i < raw.length; i++) {
+      const id = raw[i];
+      if (id >= 0 && id < count && hp[id] > 0 && seen[id] !== stamp) {
+        seen[id] = stamp;
+        out.push(id);
+      }
+    }
+    return out;
   }
 
   /** Switch autocast of one spell on (or off with -1) for every listed caster that knows it. */
@@ -474,19 +675,31 @@ export class Sim {
     const ly = this.y[lead];
     let shared: Int32Array | null;
     if (lineClear(map, lx, ly, goalCx, goalCy)) shared = Int32Array.of(goalCx, goalCy);
-    else shared = this.pather.find(Math.floor(lx / FP), Math.floor(ly / FP), gx, gy);
+    else if (this.dispatchBudget > 0) {
+      this.dispatchBudget--;
+      shared = this.pather.find(Math.floor(lx / FP), Math.floor(ly / FP), gx, gy);
+    } else shared = Int32Array.of(goalCx, goalCy);
     if (!shared) return;
 
     const loose = n === 1 || cmd.loose === true;
-    const slots = n === 1 ? [[goalX, goalY]] : loose ? ids.map(() => [goalX, goalY]) : this.formation(ids, leadReg, goalX, goalY, goalCx, goalCy);
+    const slotX = this.formSlotX;
+    const slotY = this.formSlotY;
+    if (loose) {
+      for (let k = 0; k < n; k++) {
+        slotX[k] = goalX;
+        slotY[k] = goalY;
+      }
+    } else {
+      this.formation(ids, leadReg, goalX, goalY, goalCx, goalCy);
+    }
     const order = loose ? ids : this.assign(ids, goalX, goalY);
     const sharedId = this.addPath(shared, 0);
     let own = PATHS_PER_ORDER;
     for (let k = 0; k < n; k++) {
       const id = order[k];
       this.release(id);
-      this.tx[id] = slots[k][0];
-      this.ty[id] = slots[k][1];
+      this.tx[id] = slotX[k];
+      this.ty[id] = slotY[k];
       this.moving[id] = 1;
       this.cb.ord[id] = Ord.Move;
       this.cb.tgt[id] = -1;
@@ -494,7 +707,8 @@ export class Sim {
       this.repaths[id] = 0;
       this.wp[id] = 0;
       let pid = sharedId;
-      if (id !== lead && !lineClear(map, this.x[id], this.y[id], shared[0], shared[1]) && own > 0) {
+      if (id !== lead && own > 0 && this.dispatchBudget > 0 && !lineClear(map, this.x[id], this.y[id], shared[0], shared[1])) {
+        this.dispatchBudget--;
         const mine = this.pather.find(Math.floor(this.x[id] / FP), Math.floor(this.y[id] / FP), gx, gy);
         own--;
         if (mine) pid = this.addPath(mine, 0);
@@ -531,28 +745,29 @@ export class Sim {
     this.release(i);
   }
 
-  /** Nearest tile (by ring order) around (x, y) that passes `ok`, skipping tiles marked in `used`. */
-  private nearestTile(x: number, y: number, ok: (idx: number) => boolean, used: Uint8Array | null): number {
+  /** Nearest tile (by ring order) around (x, y) that passes `ok`, skipping tiles marked with `stamp` in `used`. */
+  private nearestTile(x: number, y: number, ok: (idx: number) => boolean, used: Uint32Array | null, stamp = 0): number {
     const { w, h } = this.map;
     for (const [dx, dy] of RING) {
       const px = x + dx;
       const py = y + dy;
       if (px < 0 || py < 0 || px >= w || py >= h) continue;
       const idx = py * w + px;
-      if (this.map.blocked[idx] || (used && used[idx]) || !ok(idx)) continue;
+      if (this.map.blocked[idx] || (used && used[idx] === stamp) || !ok(idx)) continue;
       return idx;
     }
     return -1;
   }
 
-  /** Slot positions (fixed point) for a rectangular formation facing the direction of travel. */
-  private formation(ids: number[], reg: number, goalX: number, goalY: number, goalCx: number, goalCy: number): number[][] {
+  /** Slot positions (fixed point) for a rectangular formation facing the direction of travel, written into formSlotX/Y. */
+  private formation(ids: number[], reg: number, goalX: number, goalY: number, goalCx: number, goalCy: number): void {
     const { map, region } = this;
     const w = map.w;
     const n = ids.length;
     let sx = 0;
     let sy = 0;
-    for (const id of ids) {
+    for (let i = 0; i < n; i++) {
+      const id = ids[i];
       sx += this.x[id];
       sy += this.y[id];
     }
@@ -561,9 +776,12 @@ export class Sim {
     const ry = fx;
     const cols = Math.max(1, Math.ceil(Math.sqrt(n * 1.5)));
     const rows = Math.ceil(n / cols);
-    const slots: number[][] = [];
-    const used = new Uint8Array(map.w * map.h);
-    const bad: number[] = [];
+    const slotX = this.formSlotX;
+    const slotY = this.formSlotY;
+    const used = this.formUsed;
+    const stamp = ++this.formStamp;
+    const bad = this.formBad;
+    let badCount = 0;
     for (let k = 0; k < n; k++) {
       const r = Math.floor(k / cols);
       const c = k % cols;
@@ -575,25 +793,31 @@ export class Sim {
       const tx = Math.floor(px / FP);
       const ty = Math.floor(py / FP);
       const ok = !isBlockedAt(map, tx, ty) && region[ty * w + tx] === reg && lineClear(map, goalCx, goalCy, px, py);
-      slots.push([px, py]);
-      if (ok) used[ty * w + tx] = 1;
-      else bad.push(k);
+      slotX[k] = px;
+      slotY[k] = py;
+      if (ok) used[ty * w + tx] = stamp;
+      else bad[badCount++] = k;
     }
-    for (const k of bad) {
-      const tx = Math.floor(slots[k][0] / FP);
-      const ty = Math.floor(slots[k][1] / FP);
+    for (let bi = 0; bi < badCount; bi++) {
+      const k = bad[bi];
+      const tx = Math.floor(slotX[k] / FP);
+      const ty = Math.floor(slotY[k] / FP);
       const t = this.nearestTile(
         Math.min(map.w - 1, Math.max(0, tx)),
         Math.min(map.h - 1, Math.max(0, ty)),
         (idx) => region[idx] === reg && lineClear(map, goalCx, goalCy, (idx % w) * FP + FP / 2, Math.floor(idx / w) * FP + FP / 2),
         used,
+        stamp,
       );
       if (t >= 0) {
-        used[t] = 1;
-        slots[k] = [(t % w) * FP + FP / 2, Math.floor(t / w) * FP + FP / 2];
-      } else slots[k] = [goalCx, goalCy];
+        used[t] = stamp;
+        slotX[k] = (t % w) * FP + FP / 2;
+        slotY[k] = Math.floor(t / w) * FP + FP / 2;
+      } else {
+        slotX[k] = goalCx;
+        slotY[k] = goalCy;
+      }
     }
-    return slots;
   }
 
   /** Unit vector (scaled by 1024) from a point towards the goal; east when they coincide. */
@@ -606,11 +830,12 @@ export class Sim {
   }
 
   /** Order units so the front of the group takes the front of the formation, left to right inside a row. */
-  private assign(ids: number[], goalX: number, goalY: number): number[] {
+  private assign(ids: number[], goalX: number, goalY: number): Int32Array {
     const n = ids.length;
     let sx = 0;
     let sy = 0;
-    for (const id of ids) {
+    for (let i = 0; i < n; i++) {
+      const id = ids[i];
       sx += this.x[id];
       sy += this.y[id];
     }
@@ -618,13 +843,46 @@ export class Sim {
     const cy = Math.floor(sy / n);
     const { fx, fy } = this.facing(cx, cy, goalX, goalY);
     const cols = Math.max(1, Math.ceil(Math.sqrt(n * 1.5)));
-    const pf = (id: number): number => (this.x[id] - cx) * fx + (this.y[id] - cy) * fy;
-    const pr = (id: number): number => (this.x[id] - cx) * -fy + (this.y[id] - cy) * fx;
-    const sorted = ids.slice().sort((a, b) => pf(b) - pf(a) || a - b);
-    const out: number[] = [];
+    const pf = this.formPf;
+    const pr = this.formPr;
+    const out = this.formOrder;
+    for (let i = 0; i < n; i++) {
+      const id = ids[i];
+      pf[id] = (this.x[id] - cx) * fx + (this.y[id] - cy) * fy;
+      pr[id] = (this.x[id] - cx) * -fy + (this.y[id] - cy) * fx;
+      out[i] = id;
+    }
+    for (let i = 1; i < n; i++) {
+      const v = out[i];
+      const pfv = pf[v];
+      let j = i - 1;
+      while (j >= 0) {
+        const u = out[j];
+        const d = pfv - pf[u];
+        if (d > 0 || (d === 0 && v < u)) {
+          out[j + 1] = u;
+          j--;
+        } else break;
+      }
+      out[j + 1] = v;
+    }
     for (let r = 0; r * cols < n; r++) {
-      const row = sorted.slice(r * cols, (r + 1) * cols).sort((a, b) => pr(a) - pr(b) || a - b);
-      out.push(...row);
+      const start = r * cols;
+      const end = Math.min(n, start + cols);
+      for (let i = start + 1; i < end; i++) {
+        const v = out[i];
+        const prv = pr[v];
+        let j = i - 1;
+        while (j >= start) {
+          const u = out[j];
+          const d = pr[u] - prv;
+          if (d > 0 || (d === 0 && u > v)) {
+            out[j + 1] = u;
+            j--;
+          } else break;
+        }
+        out[j + 1] = v;
+      }
     }
     return out;
   }
@@ -657,7 +915,7 @@ export class Sim {
       if (k < n) {
         tgx = pts[2 * k];
         tgy = pts[2 * k + 1];
-        if (!lineClear(map, x, y, tgx, tgy) && this.repath(i)) {
+        if (this.budget > 0 && this.repaths[i] < 4 && !lineClear(map, x, y, tgx, tgy) && this.repath(i)) {
           rec = this.paths.get(this.pathId[i]);
           if (rec) {
             pts = rec.pts;
@@ -747,34 +1005,39 @@ export class Sim {
   private separate(): void {
     const { map, count } = this;
     const w = map.w;
+    const h = map.h;
     const cs = this.cellStart;
     this.buildGrid();
-    const cell = (i: number): number => this.cellOf(i);
     this.ax.fill(0);
     this.ay.fill(0);
+    const hp = this.cb.hp;
+    const x = this.x;
+    const y = this.y;
     for (let i = 0; i < count; i++) {
-      if (this.cb.hp[i] <= 0) continue;
-      const xi = this.x[i];
-      const yi = this.y[i];
-      const c = cell(i);
-      const cx = c % w;
-      const cy = (c - cx) / w;
-      for (let gy = Math.max(0, cy - 1); gy <= Math.min(map.h - 1, cy + 1); gy++) {
-        for (let gx = Math.max(0, cx - 1); gx <= Math.min(w - 1, cx + 1); gx++) {
+      if (hp[i] <= 0) continue;
+      const xi = x[i];
+      const yi = y[i];
+      const cx = Math.min(w - 1, Math.max(0, xi >> 8));
+      const cy = Math.min(h - 1, Math.max(0, yi >> 8));
+      const gy1 = Math.min(h - 1, cy + 1);
+      const gx0 = Math.max(0, cx - 1);
+      const gx1 = Math.min(w - 1, cx + 1);
+      for (let gy = Math.max(0, cy - 1); gy <= gy1; gy++) {
+        for (let gx = gx0; gx <= gx1; gx++) {
           const cc = gy * w + gx;
           for (let q = cs[cc]; q < cs[cc + 1]; q++) {
             const j = this.cellItems[q];
             if (j <= i) continue;
-            let dx = xi - this.x[j];
-            let dy = yi - this.y[j];
+            let dx = xi - x[j];
+            let dy = yi - y[j];
             const d2 = dx * dx + dy * dy;
             if (d2 >= MIN_DIST * MIN_DIST) continue;
             let d = Math.sqrt(d2);
             if (d < 1) {
               // Coincident units: split along a direction that depends on the pair, so triples do not cancel out.
               const k = (i * 3 + j * 5) & 7;
-              dx = [1, 1, 0, -1, -1, -1, 0, 1][k];
-              dy = [0, 1, 1, 1, 0, -1, -1, -1][k];
+              dx = COINC_DX[k];
+              dy = COINC_DY[k];
               d = k & 1 ? Math.SQRT2 : 1;
             }
             const push = Math.min(MAX_PUSH, Math.ceil((MIN_DIST - d) / 2) + 1);
@@ -832,26 +1095,40 @@ export class Sim {
 
   /** Recompute what the local team (team 0) sees; vision shrinks at night. */
   updateFog(): void {
-    const { map, visible, explored } = this;
+    const { map, visible, explored, fogSeen } = this;
     const { w, h } = map;
     visible.fill(0);
+    const stamp = this.fogVersion + 1;
     const r = this.daylight > 120 ? VISION_DAY : VISION_NIGHT;
     const r2 = r * r + r;
+    const hp = this.cb.hp;
+    const team = this.team;
     for (let i = 0; i < this.count; i++) {
-      if (this.team[i] !== 0 || this.cb.hp[i] <= 0) continue;
-      const ux = Math.floor(this.x[i] / FP);
-      const uy = Math.floor(this.y[i] / FP);
-      for (let dy = -r; dy <= r; dy++) {
-        const py = uy + dy;
-        if (py < 0 || py >= h) continue;
-        for (let dx = -r; dx <= r; dx++) {
-          const px = ux + dx;
-          if (px < 0 || px >= w || dx * dx + dy * dy > r2) continue;
-          visible[py * w + px] = explored[py * w + px] = 1;
+      if (team[i] !== 0 || hp[i] <= 0) continue;
+      const ux = this.x[i] >> 8;
+      const uy = this.y[i] >> 8;
+      if (ux < 0 || ux >= w || uy < 0 || uy >= h) continue;
+      const ui = uy * w + ux;
+      if (fogSeen[ui] === stamp) continue;
+      fogSeen[ui] = stamp;
+      const dyMin = Math.max(-r, -uy);
+      const dyMax = Math.min(r, h - 1 - uy);
+      for (let dy = dyMin; dy <= dyMax; dy++) {
+        const rem = r2 - dy * dy;
+        let maxDx = Math.floor(Math.sqrt(rem));
+        if ((maxDx + 1) * (maxDx + 1) <= rem) maxDx++;
+        while (maxDx * maxDx > rem) maxDx--;
+        const x0 = Math.max(0, ux - maxDx);
+        const x1 = Math.min(w - 1, ux + maxDx);
+        let idx = (uy + dy) * w + x0;
+        const end = idx + (x1 - x0);
+        for (; idx <= end; idx++) {
+          visible[idx] = 1;
+          explored[idx] = 1;
         }
       }
     }
-    this.fogVersion++;
+    this.fogVersion = stamp;
   }
 
   /** FNV-1a over tick, rng state, every per-unit array and the explored map. */
@@ -885,6 +1162,7 @@ export class Sim {
     this.script?.hashInto(mix);
     for (let i = 0; i < this.count; i++) mix(this.team[i]);
     hashTown(this.town, mix);
+    if (this.shrines.length) for (let s = 0; s < this.shrineCd.length; s++) mix(this.shrineCd[s]);
     return h >>> 0;
   }
 
@@ -913,6 +1191,9 @@ export class Sim {
       script: this.script ? this.script.snapshot() : null,
       team: this.team.slice(),
       town: cloneTown(this.town),
+      instances: [...this.instances.values()],
+      nextInstanceId: this.nextInstanceId,
+      ...(this.shrines.length ? { shrineCd: this.shrineCd.slice() } : {}),
     };
   }
 
@@ -940,6 +1221,16 @@ export class Sim {
     if (this.script && s.script) this.script.restore(s.script);
     if (s.team) this.team.set(s.team);
     this.town = s.town ? cloneTown(s.town) : newTownState(this.towns.length);
+    if (s.shrineCd && this.shrines.length) this.shrineCd = s.shrineCd.slice();
+    else this.shrineCd = new Uint16Array(this.shrines.length);
+    this.instances.clear();
+    if (s.instances) {
+      for (const inst of s.instances) {
+        this.instances.set(inst.id, inst);
+        registerDynamicItem(inst.id, inst.def);
+      }
+    }
+    if (s.nextInstanceId) this.nextInstanceId = s.nextInstanceId;
     this.cb.recount(this.team);
     this.fogVersion++;
   }

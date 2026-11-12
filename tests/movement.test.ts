@@ -37,6 +37,22 @@ describe('directions', () => {
   });
 });
 
+describe('line clearance', () => {
+  it('checks signed endpoints and side rays at corners', () => {
+    const open = field(3, 3);
+    const corner = field(3, 3, [[1, 0, 1, 0]]);
+    expect(lineClear(open, 0, 128, 0, 128)).toBe(true);
+    expect(lineClear(open, 0, 128, -1, 128)).toBe(false);
+    expect(lineClear(open, -1, 128, 0, 128)).toBe(false);
+    expect(lineClear(open, 767, 128, 768, 128)).toBe(false);
+    expect(lineClear(corner, 255, 128, 256, 128)).toBe(false);
+    expect(lineClear(open, 128, 128, 384, 384)).toBe(true);
+    expect(lineClear(corner, 128, 128, 384, 384)).toBe(false);
+    expect(lineClear(corner, 384, 384, 128, 128)).toBe(false);
+    expect(lineClear(open, 0, 128, 0, 256)).toBe(false);
+  });
+});
+
 describe('A*', () => {
   // Vertical wall at x=10 with a one-tile gap at y=12.
   const map = field(24, 24, [

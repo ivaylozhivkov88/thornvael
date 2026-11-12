@@ -134,7 +134,7 @@ export function showMissionMenu(): void {
   h.textContent = S.mission.menu;
   root.append(h);
   const links: [string, string][] = [
-    [S.mission.free, './'],
+    [S.mission.free, './?free=1'],
     [S.mission.ford, './?mission=ford'],
     [S.mission.market, './?mission=market'],
     [S.mission.test, './?mission=test'],

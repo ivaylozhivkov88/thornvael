@@ -46,12 +46,53 @@ export interface ItemDef {
   restore: number;
   grow: number; // attribute index + 1 raised by one for good, or 0
   spell: number; // spell taught, or -1
+  sockets?: number; // architectural hook for future sockets (0..6)
+  runes?: readonly string[]; // architectural hook for future slotted runes
+  mf?: number; // Magic Find %
+  rarity?: 'common' | 'normal' | 'magic' | 'rare' | 'set' | 'unique' | string;
+  set?: string;
+}
+
+export interface ItemInstance {
+  readonly id: number; // >= 1000
+  readonly baseId: number; // base item index in ITEMS
+  readonly quality: 'magic' | 'rare' | string;
+  readonly name: string;
+  readonly def: ItemDef;
+  readonly affixes?: readonly string[];
+}
+
+export const DYNAMIC_ITEM_OFFSET = 1000;
+const DYNAMIC_ITEMS: Map<number, ItemDef> = new Map();
+
+export function registerDynamicItem(id: number, def: ItemDef): void {
+  DYNAMIC_ITEMS.set(id, def);
+}
+
+export function unregisterDynamicItem(id: number): void {
+  DYNAMIC_ITEMS.delete(id);
+}
+
+export function clearDynamicItems(): void {
+  DYNAMIC_ITEMS.clear();
+}
+
+export function getItemDef(id: number): ItemDef | undefined {
+  if (id < DYNAMIC_ITEM_OFFSET) return ITEMS[id];
+  return DYNAMIC_ITEMS.get(id);
 }
 
 const LIST: ItemDef[] = [];
 /** Filled from items.json by installData; the index is the item id. */
 export const ITEMS: readonly ItemDef[] = LIST;
-export const itemId = (name: string): number => ITEMS.findIndex((d) => d.name === name);
+export const itemId = (name: string): number => {
+  const staticId = ITEMS.findIndex((d) => d.name === name);
+  if (staticId >= 0) return staticId;
+  for (const [id, def] of DYNAMIC_ITEMS) {
+    if (def.name === name) return id;
+  }
+  return -1;
+};
 
 /** Loot pools: [category][tier] -> item ids. Categories: 0 gear, 1 potion, 2 learn. */
 let POOL: number[][][] = [];
@@ -59,6 +100,7 @@ let POOL: number[][][] = [];
 export function setItems(defs: readonly ItemDef[]): void {
   LIST.length = 0;
   LIST.push(...defs);
+  clearDynamicItems();
   POOL = [0, 1, 2].map(() => [[], [], [], [], [], []]);
   ITEMS.forEach((d, id) => POOL[d.kind][d.tier].push(id));
 }
@@ -92,7 +134,8 @@ const SCHOOL_NAMES = ['fire', 'water', 'air', 'earth', 'astral'];
 
 /** Short stat line for tooltips and the pack. */
 export function itemText(id: number): string {
-  const d = ITEMS[id];
+  const d = getItemDef(id);
+  if (!d) return 'Unknown Item';
   const p: string[] = [];
   const kind = d.kind === Ik.Gear ? SLOT_NAMES[d.slot] : d.kind === Ik.Potion ? 'Potion' : d.w > 1 ? 'Tome' : 'Scroll';
   p.push(`${d.name} (${kind}, level ${d.tier}, weight ${d.w})`);

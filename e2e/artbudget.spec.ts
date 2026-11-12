@@ -11,7 +11,9 @@ interface BudgetGame {
   stats(): { fps: number; drawMs: number; stepMs: number; worstMs: number; reportAtMs: number;
     quality: number; resolution: number; paused: boolean };
 }
-test('desktop budget: 300 real animated units, three shared atlas sources, bounded timings', async ({ page }, testInfo) => {
+const FAMILIES = ['hero', 'archer', 'golem', 'warrior', 'mage', 'gnoll', 'imp'];
+
+test('desktop budget: 300 real animated units, shared atlas sources, bounded timings', async ({ page }, testInfo) => {
   // Fits the entire 64x48 world at zoom 1: a count of 300 isn't sufficient if most are culled.
   await page.setViewportSize({ width: 2304, height: 1728 });
   const errors: string[] = [];
@@ -31,11 +33,12 @@ test('desktop budget: 300 real animated units, three shared atlas sources, bound
     return { art: g.artMetrics(), stats: g.stats(), tick: g.sim.tick,
       frames: Array.from({ length: 300 }, (_, i) => g.unitArt(i)!.frame) };
   });
+  const expectedFamilies = Object.fromEntries(FAMILIES.map((u, idx) => [u, Math.floor(300 / FAMILIES.length) + (idx < 300 % FAMILIES.length ? 1 : 0)]));
   const initial = await snapshot();
   expect(initial.art).toMatchObject({ stress: true, totalSprites: 300, artSprites: 300,
-    visibleArtSprites: 300, onScreenArtSprites: 300, uniqueGpuSources: 3, filteredArtSprites: 0,
-    families: { hero: 100, archer: 100, golem: 100 }, layersPerArtSprite: 4 });
-  const atlasBytes = ['hero', 'archer', 'golem'].reduce((bytes, name) => {
+    visibleArtSprites: 300, onScreenArtSprites: 300, uniqueGpuSources: FAMILIES.length, filteredArtSprites: 0,
+    families: expectedFamilies, layersPerArtSprite: 4 });
+  const atlasBytes = FAMILIES.reduce((bytes, name) => {
     const { w, h } = JSON.parse(readFileSync(`public/sprites/${name}.json`, 'utf8')).meta.size;
     return bytes + w * h * 4 * 4; // four RGBA mask layers packed into one source per family
   }, 0);
@@ -44,7 +47,7 @@ test('desktop budget: 300 real animated units, three shared atlas sources, bound
     const g = (window as unknown as { __game: BudgetGame }).__game;
     return Array.from({ length: 300 }, (_, i) => g.unitArt(i)!);
   });
-  expect(new Set(details.map((d) => d.source)).size).toBe(3);
+  expect(new Set(details.map((d) => d.source)).size).toBe(FAMILIES.length);
   expect(details.every((d) => d.sources === 1 && !d.filters && d.visible && d.frame)).toBe(true);
   expect(await page.evaluate(() => Array.from((window as unknown as { __game: BudgetGame }).__game.sim.cb.kind).slice(0, 300))).toEqual(baselineKinds);
 
@@ -59,7 +62,7 @@ test('desktop budget: 300 real animated units, three shared atlas sources, bound
     previousReport = sample.stats.reportAtMs;
     expect(sample.art.onScreenArtSprites).toBe(300);
     expect(sample.art.filteredArtSprites).toBe(0);
-    expect(sample.art.uniqueGpuSources).toBe(3);
+    expect(sample.art.uniqueGpuSources).toBe(FAMILIES.length);
     expect(sample.stats.paused).toBe(false);
     for (const value of [sample.stats.fps, sample.stats.drawMs, sample.stats.stepMs, sample.stats.worstMs]) {
       expect(Number.isFinite(value)).toBe(true);

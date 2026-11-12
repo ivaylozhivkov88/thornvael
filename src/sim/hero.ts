@@ -1,6 +1,8 @@
 import { DEFS, M, MODN } from './combat';
 import { rulesOf } from './difficulty';
-import { ATTR_NAMES, CLS_MAGE, CLS_WARRIOR, Cls, ITEMS, Ik, LOOT_RULES, PART_COUNT, SLOT_COUNT, Slot, itemId, rollLoot } from './items';
+import { ATTR_NAMES, CLS_MAGE, CLS_WARRIOR, Cls, ITEMS, Ik, LOOT_RULES, PART_COUNT, SLOT_COUNT, Slot, getItemDef, itemId, rollLoot, type ItemDef } from './items';
+import { calculateActiveSetBonuses, ALL_SET_ITEMS } from './sets';
+import { UNIQUE_ARTIFACTS, rollMagicItem, rollRareItem } from './affixes';
 import type { Sim } from './sim';
 
 /** The hero: attributes, skills that grow with use, pack and equipment. All integer, all inside the sim, all changed through commands. */
@@ -34,6 +36,7 @@ export interface HeroState {
   eq: number[]; // item id per slot, -1 when empty
   known: number; // spells learned (bit mask)
   hits: number[]; // blows taken on head, torso, arms, legs since the last upkeep; old saves lack it
+  mf?: number; // magic find %
 }
 
 /** Gold to copy a spell from a scroll or tome into the spellbook. */
@@ -52,7 +55,7 @@ export type EquipmentAction = { op: 'equip'; item: number } | { op: 'unequip'; s
 export function equipmentStamp(h: HeroState, action: EquipmentAction): string {
   const identity = [h.id, h.cls, h.female];
   if (action.op === 'unequip') return JSON.stringify([identity, action.op, action.slot, h.eq[action.slot]]);
-  const slot = ITEMS[action.item]?.slot ?? -1;
+  const slot = getItemDef(action.item)?.slot ?? -1;
   let count = 0;
   for (const stack of h.inv) if (stack.item === action.item) count += stack.n;
   return JSON.stringify([identity, action.op, action.item, count, slot, h.eq[slot]]);
@@ -67,21 +70,48 @@ export const Did = { Pick: 0, Equip: 1, Use: 2, Learn: 3, Drop: 4, Unequip: 5 } 
 export const skillNeed = (level: number): number => 8 * (level + 1);
 export const capacityOf = (body: number): number => 20 + 4 * body;
 
+export function equippedNames(h: HeroState): string[] {
+  const names: string[] = [];
+  for (const id of h.eq) {
+    if (id >= 0) {
+      const d = getItemDef(id);
+      if (d) names.push(d.name);
+    }
+  }
+  return names;
+}
+
 /** Attributes with the bonuses of everything worn. */
 export function totals(h: HeroState): number[] {
   const t = h.attr.slice();
   for (const id of h.eq) {
     if (id < 0) continue;
-    const a = ITEMS[id].attr;
+    const d = getItemDef(id);
+    if (!d) continue;
+    const a = d.attr;
     for (let k = 0; k < 4; k++) t[k] += a[k];
+  }
+  const bonuses = calculateActiveSetBonuses(equippedNames(h));
+  for (const b of bonuses) {
+    if (b.attr) {
+      for (let k = 0; k < 4; k++) t[k] += b.attr[k];
+    }
   }
   return t;
 }
 
 export function weightOf(h: HeroState): number {
   let w = 0;
-  for (const s of h.inv) w += ITEMS[s.item].w * s.n;
-  for (const id of h.eq) if (id >= 0) w += ITEMS[id].w;
+  for (const s of h.inv) {
+    const d = getItemDef(s.item);
+    if (d) w += d.w * s.n;
+  }
+  for (const id of h.eq) {
+    if (id >= 0) {
+      const d = getItemDef(id);
+      if (d) w += d.w;
+    }
+  }
   return w;
 }
 
@@ -118,7 +148,8 @@ export function derive(h: HeroState): Derived {
   const pabs = [0, 0, 0, 0];
   for (const id of h.eq) {
     if (id < 0) continue;
-    const d = ITEMS[id];
+    const d = getItemDef(id);
+    if (!d) continue;
     min += d.min;
     max += d.max;
     acc += d.acc;
@@ -131,6 +162,30 @@ export function derive(h: HeroState): Derived {
     hp += d.hp;
     mana += d.mana;
     for (let k = 0; k < 5; k++) res[k] += d.res[k];
+  }
+  const bonuses = calculateActiveSetBonuses(equippedNames(h));
+  for (const b of bonuses) {
+    if (b.hp) hp += b.hp;
+    if (b.mana) mana += b.mana;
+    if (b.min) min += b.min;
+    if (b.max) max += b.max;
+    if (b.acc) acc += b.acc;
+    if (b.def !== undefined) {
+      for (let k = 0; k < PART_COUNT; k++) pdef[k] += b.def;
+    }
+    if ((b as { pdef?: readonly number[] }).pdef) {
+      for (let k = 0; k < PART_COUNT; k++) pdef[k] += (b as { pdef?: readonly number[] }).pdef![k] ?? 0;
+    }
+    if (b.abs !== undefined) {
+      for (let k = 0; k < PART_COUNT; k++) pabs[k] += b.abs;
+    }
+    if ((b as { pabs?: readonly number[] }).pabs) {
+      for (let k = 0; k < PART_COUNT; k++) pabs[k] += (b as { pabs?: readonly number[] }).pabs![k] ?? 0;
+    }
+    if (b.pow) pow += b.pow;
+    if (b.res) {
+      for (let k = 0; k < 5; k++) res[k] += b.res[k];
+    }
   }
   const [blade, guard, sorc] = h.skill;
   const mage = h.cls === Cls.Mage;
@@ -248,7 +303,8 @@ function done(sim: Sim, item: number, did: number): void {
 
 /** Put one item in the pack. Returns 0 on success or a Why code. */
 export function addItem(h: HeroState, item: number): number {
-  const d = ITEMS[item];
+  const d = getItemDef(item);
+  if (!d) return Why.None;
   if (weightOf(h) + d.w > capacityOf(totals(h)[0])) return Why.Heavy;
   if (d.kind !== Ik.Gear) {
     const s = h.inv.find((x) => x.item === item);
@@ -271,7 +327,8 @@ export function takeItem(h: HeroState, item: number): boolean {
 
 /** Why the hero cannot use item `item` right now (0 = it can). */
 export function blocker(h: HeroState, item: number): number {
-  const d = ITEMS[item];
+  const d = getItemDef(item);
+  if (!d) return Why.None;
   if (d.kind === Ik.Gear && (d.cls & (h.cls === Cls.Mage ? CLS_MAGE : CLS_WARRIOR)) === 0) return Why.Class;
   if (d.needv > 0 && totals(h)[d.need] < d.needv) return Why.Need;
   if (d.kind === Ik.Learn && ((h.known >>> d.spell) & 1) === 1) return Why.Known;
@@ -280,7 +337,8 @@ export function blocker(h: HeroState, item: number): number {
 
 function equip(sim: Sim, item: number): void {
   const h = sim.hero!;
-  const d = ITEMS[item];
+  const d = getItemDef(item);
+  if (!d) return refuse(sim, Why.None);
   if (!h.inv.some((x) => x.item === item)) return refuse(sim, Why.None);
   const why = blocker(h, item);
   if (why) return refuse(sim, why);
@@ -294,7 +352,8 @@ function equip(sim: Sim, item: number): void {
 
 function useItem(sim: Sim, item: number): void {
   const h = sim.hero!;
-  const d = ITEMS[item];
+  const d = getItemDef(item);
+  if (!d) return refuse(sim, Why.None);
   const cb = sim.cb;
   const i = h.id;
   if (!h.inv.some((x) => x.item === item)) return refuse(sim, Why.None);
@@ -341,13 +400,16 @@ export function heroCommand(sim: Sim, cmd: HeroCommand): void {
   if (sim.cb.hp[h.id] <= 0) return refuse(sim, Why.Dead);
   switch (cmd.op) {
     case 'equip':
-      if (cmd.item !== undefined && cmd.item >= 0 && cmd.item < ITEMS.length && ITEMS[cmd.item].kind === Ik.Gear) {
-        if (cmd.expectedEquipment !== undefined && cmd.expectedEquipment !== equipmentStamp(h, { op: 'equip', item: cmd.item })) return refuse(sim, Why.None);
-        equip(sim, cmd.item);
+      if (cmd.item !== undefined && cmd.item >= 0) {
+        const d = getItemDef(cmd.item);
+        if (d && d.kind === Ik.Gear) {
+          if (cmd.expectedEquipment !== undefined && cmd.expectedEquipment !== equipmentStamp(h, { op: 'equip', item: cmd.item })) return refuse(sim, Why.None);
+          equip(sim, cmd.item);
+        }
       }
       return;
     case 'use':
-      if (cmd.item !== undefined && cmd.item >= 0 && cmd.item < ITEMS.length) useItem(sim, cmd.item);
+      if (cmd.item !== undefined && cmd.item >= 0) useItem(sim, cmd.item);
       return;
     case 'unequip': {
       const s = cmd.slot ?? -1;
@@ -388,19 +450,310 @@ export function pickBag(sim: Sim, b: number): void {
   done(sim, item, Did.Pick);
 }
 
+export type ItemQuality = 'unique' | 'set' | 'rare' | 'magic' | 'normal';
+export type MonsterRank = 'normal' | 'champion' | 'boss';
+
+/** Quality roll base divisors inspired by Diablo II ItemRatio.txt */
+export const QUALITY_BASE_DIVISORS = {
+  unique: 2000,
+  set: 1000,
+  rare: 400,
+  magic: 120,
+} as const;
+
+export const QUALITY_FACTORS = {
+  unique: 40,
+  set: 20,
+  rare: 10,
+  magic: 5,
+} as const;
+
+/** Quality bias (reduces divisor, increasing chance of higher quality drops) */
+export const QUALITY_BIAS: Record<MonsterRank, Record<'unique' | 'set' | 'rare' | 'magic', number>> = {
+  normal: { unique: 0, set: 0, rare: 0, magic: 0 },
+  champion: { unique: 200, set: 150, rare: 80, magic: 30 },
+  boss: { unique: 500, set: 300, rare: 150, magic: 50 },
+};
+
+/**
+ * Diminishing returns formula for Magic Find (MF):
+ * - Magic: effectiveMF = MF (uncapped)
+ * - Rare: effectiveMF = Math.floor((MF * 500) / (MF + 500))
+ * - Set: effectiveMF = Math.floor((MF * 400) / (MF + 400))
+ * - Unique: effectiveMF = Math.floor((MF * 250) / (MF + 250))
+ */
+export function calculateEffectiveMF(mf: number, quality: 'unique' | 'set' | 'rare' | 'magic'): number {
+  if (mf <= 0) return 0;
+  switch (quality) {
+    case 'magic':
+      return mf;
+    case 'rare':
+      return Math.floor((mf * 500) / (mf + 500));
+    case 'set':
+      return Math.floor((mf * 400) / (mf + 400));
+    case 'unique':
+      return Math.floor((mf * 250) / (mf + 250));
+  }
+}
+
+/**
+ * Divisor adjustment:
+ * div = Math.max(minLimit, baseDiv - (monsterTier - itemTier) * factor - monsterBias)
+ */
+export function calculateQualityDivisor(
+  baseDiv: number,
+  monsterTier: number,
+  itemTier: number,
+  factor = 20,
+  monsterBias = 0,
+  minLimit = 1,
+): number {
+  return Math.max(minLimit, baseDiv - (monsterTier - itemTier) * factor - monsterBias);
+}
+
+/**
+ * Chance calculation:
+ * chance = Math.floor((div * 1000) / (1000 + effectiveMF * 10))
+ */
+export function calculateQualityChance(div: number, effectiveMF: number): number {
+  return Math.max(1, Math.floor((div * 1000) / (1000 + effectiveMF * 10)));
+}
+
+/**
+ * Quality roll check:
+ * Success if rnd(chance) < 100.
+ */
+export function rollQualitySuccess(chance: number, rnd: (n: number) => number): boolean {
+  if (chance <= 100) return true;
+  return rnd(chance) < 100;
+}
+
+/**
+ * Difficulty scaling on No-Drop rate:
+ * Easy (0): +20% no-drop, tier locked.
+ * Normal (1): standard.
+ * Hard (2): -30% no-drop, guaranteed +1 tier on champions/bosses.
+ */
+export function calculateNoDropRate(baseDropChance: number, diff: number): number {
+  if (baseDropChance <= 0) return 100;
+  const baseNoDrop = 100 - baseDropChance;
+  if (diff === 0) return Math.min(100, Math.round(baseNoDrop * 1.2));
+  if (diff === 2) return Math.max(0, Math.round(baseNoDrop * 0.7));
+  return baseNoDrop;
+}
+
+export function getMonsterRank(sim: Sim, t: number): MonsterRank {
+  const bmods = sim.cb.bossMods[t];
+  if (bmods && (bmods.length >= 2 || bmods.includes('boss'))) return 'boss';
+  if (bmods && (bmods.length === 1 || bmods.includes('champion'))) return 'champion';
+  return 'normal';
+}
+
+export function getHeroMF(sim: Sim): number {
+  const h = sim.hero;
+  if (!h) return 0;
+  let mf = h.mf ?? 0;
+  for (const id of h.eq) {
+    if (id >= 0) {
+      const d = getItemDef(id);
+      if (d?.mf) mf += d.mf;
+    }
+  }
+  return mf;
+}
+
+export interface LootDropResult {
+  quality: ItemQuality;
+  itemId: number;
+  itemDef?: ItemDef;
+  magicDef?: ItemDef;
+}
+
+/**
+ * Evaluates the Diablo II quality hierarchy:
+ * Unique -> Set -> Rare -> Magic -> Normal
+ */
+export function evaluateQualityHierarchy(
+  baseItemId: number,
+  monsterTier: number,
+  rank: MonsterRank,
+  mf: number,
+  rnd: (n: number) => number,
+): LootDropResult {
+  const baseItem = getItemDef(baseItemId);
+  if (!baseItem || baseItem.kind !== Ik.Gear) {
+    return { quality: 'normal', itemId: baseItemId, itemDef: baseItem };
+  }
+
+  // 1. Unique Check
+  const effMFUnique = calculateEffectiveMF(mf, 'unique');
+  const biasUnique = QUALITY_BIAS[rank].unique;
+  const divUnique = calculateQualityDivisor(
+    QUALITY_BASE_DIVISORS.unique,
+    monsterTier,
+    baseItem.tier,
+    QUALITY_FACTORS.unique,
+    biasUnique,
+  );
+  const chanceUnique = calculateQualityChance(divUnique, effMFUnique);
+  if (rollQualitySuccess(chanceUnique, rnd)) {
+    // Pick from UNIQUE_ARTIFACTS matching slot/tier if available
+    const exactMatches = UNIQUE_ARTIFACTS.filter((a) => a.slot === baseItem.slot && a.tier === baseItem.tier);
+    const slotMatches = exactMatches.length > 0 ? exactMatches : UNIQUE_ARTIFACTS.filter((a) => a.slot === baseItem.slot);
+    if (slotMatches.length > 0) {
+      const match = slotMatches[rnd(slotMatches.length)];
+      const regId = itemId(match.name);
+      return {
+        quality: 'unique',
+        itemId: regId >= 0 ? regId : baseItemId,
+        itemDef: match,
+      };
+    }
+  }
+
+  // 2. Set Check
+  const effMFSet = calculateEffectiveMF(mf, 'set');
+  const biasSet = QUALITY_BIAS[rank].set;
+  const divSet = calculateQualityDivisor(
+    QUALITY_BASE_DIVISORS.set,
+    monsterTier,
+    baseItem.tier,
+    QUALITY_FACTORS.set,
+    biasSet,
+  );
+  const chanceSet = calculateQualityChance(divSet, effMFSet);
+  if (rollQualitySuccess(chanceSet, rnd)) {
+    // Pick from ALL_SET_ITEMS matching slot/tier if available
+    const exactMatches = ALL_SET_ITEMS.filter((s) => s.slot === baseItem.slot && s.tier === baseItem.tier);
+    const slotMatches = exactMatches.length > 0 ? exactMatches : ALL_SET_ITEMS.filter((s) => s.slot === baseItem.slot);
+    if (slotMatches.length > 0) {
+      const match = slotMatches[rnd(slotMatches.length)];
+      const regId = itemId(match.name);
+      return {
+        quality: 'set',
+        itemId: regId >= 0 ? regId : baseItemId,
+        itemDef: match,
+      };
+    }
+  }
+
+  // 3. Rare Check
+  const effMFRare = calculateEffectiveMF(mf, 'rare');
+  const biasRare = QUALITY_BIAS[rank].rare;
+  const divRare = calculateQualityDivisor(
+    QUALITY_BASE_DIVISORS.rare,
+    monsterTier,
+    baseItem.tier,
+    QUALITY_FACTORS.rare,
+    biasRare,
+  );
+  const chanceRare = calculateQualityChance(divRare, effMFRare);
+  if (rollQualitySuccess(chanceRare, rnd)) {
+    // Rare: prefix AND suffix
+    const magicDef = rollRareItem(baseItem, baseItem.tier, rnd);
+    return {
+      quality: 'rare',
+      itemId: baseItemId,
+      itemDef: baseItem,
+      magicDef,
+    };
+  }
+
+  // 4. Magic Check
+  const effMFMagic = calculateEffectiveMF(mf, 'magic');
+  const biasMagic = QUALITY_BIAS[rank].magic;
+  const divMagic = calculateQualityDivisor(
+    QUALITY_BASE_DIVISORS.magic,
+    monsterTier,
+    baseItem.tier,
+    QUALITY_FACTORS.magic,
+    biasMagic,
+  );
+  const chanceMagic = calculateQualityChance(divMagic, effMFMagic);
+  if (rollQualitySuccess(chanceMagic, rnd)) {
+    // Magic: prefix OR suffix
+    const magicDef = rollMagicItem(baseItem, baseItem.tier, rnd, 'magic');
+    return {
+      quality: 'magic',
+      itemId: baseItemId,
+      itemDef: baseItem,
+      magicDef,
+    };
+  }
+
+  // 5. Normal Fallback
+  return {
+    quality: 'normal',
+    itemId: baseItemId,
+    itemDef: baseItem,
+  };
+}
+
 /** A foe fell: maybe leave an item bag where it lay. Only games with a hero have item loot. */
 export function dropLoot(sim: Sim, t: number): void {
   if (sim.hero === null || sim.team[t] === 0) return;
-  const rule = LOOT_RULES[sim.cb.kind[t]];
-  if (rule[0] === 0 || sim.rng.int(100) >= rule[0]) return;
-  const item = rollLoot((n) => sim.rng.int(n), rule[1], rule[2]);
+  const rank = getMonsterRank(sim, t);
+  const diff = sim.hero.diff ?? 1;
+  const monsterTier = sim.cb.tier[t] || 1;
+  const mf = getHeroMF(sim);
+
+  let picks = 1;
+  if (rank === 'boss') {
+    picks = 3;
+  } else if (rank === 'champion') {
+    picks = 2;
+  } else {
+    const rule = LOOT_RULES[sim.cb.kind[t]];
+    if (!rule || rule[0] === 0) return;
+    const noDropRate = calculateNoDropRate(rule[0], diff);
+    if (sim.rng.int(100) < noDropRate) return;
+  }
+
+  let lo: number;
+  let hi: number;
+  if (rank === 'boss' || rank === 'champion') {
+    if (diff === 0) {
+      lo = Math.min(5, Math.max(1, monsterTier));
+      hi = Math.min(5, Math.max(lo, monsterTier));
+    } else if (diff === 2) {
+      const boosted = Math.min(5, monsterTier + 1);
+      lo = Math.min(5, Math.max(boosted, 3));
+      hi = 5;
+    } else {
+      lo = Math.min(5, Math.max(monsterTier, 3));
+      hi = 5;
+    }
+  } else {
+    const rule = LOOT_RULES[sim.cb.kind[t]];
+    lo = rule ? rule[1] : 1;
+    hi = rule ? rule[2] : 1;
+  }
+
   const cb = sim.cb;
-  for (let b = 0; b < cb.bI.length; b++) {
-    if (cb.bI[b]) continue;
-    cb.bX[b] = sim.x[t] + 60;
-    cb.bY[b] = sim.y[t] - 40;
-    cb.bI[b] = item + 1;
-    return;
+  const offsets = [
+    [60, -40],
+    [40, -20],
+    [80, -20],
+  ] as const;
+
+  for (let pick = 0; pick < picks; pick++) {
+    const baseItemId = rollLoot((n) => sim.rng.int(n), lo, hi);
+    const drop = evaluateQualityHierarchy(baseItemId, monsterTier, rank, mf, (n) => sim.rng.int(n));
+
+    let finalItemId = drop.itemId;
+    if ((drop.quality === 'magic' || drop.quality === 'rare') && drop.magicDef) {
+      const inst = sim.createItemInstance(drop.itemId, drop.quality, drop.magicDef);
+      finalItemId = inst.id;
+    }
+
+    for (let b = 0; b < cb.bI.length; b++) {
+      if (cb.bI[b]) continue;
+      const off = offsets[pick] ?? [60 + pick * 20, -40];
+      cb.bX[b] = sim.x[t] + off[0];
+      cb.bY[b] = sim.y[t] + off[1];
+      cb.bI[b] = finalItemId + 1;
+      break;
+    }
   }
 }
 
@@ -420,6 +773,7 @@ export function hashHero(h: HeroState | null, mix: (v: number) => void): void {
   }
   mix(h.known);
   if (h.hits.some((v) => v > 0)) for (const v of h.hits) mix(v); // zero keeps older hashes unchanged
+  if (h.mf !== undefined && h.mf > 0) mix(h.mf);
 }
 
 export { ATTR_NAMES };

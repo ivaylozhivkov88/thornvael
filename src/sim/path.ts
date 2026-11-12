@@ -49,14 +49,30 @@ export function speedPct(map: GameMap, tx: number, ty: number): number {
 }
 
 function rayClear(map: GameMap, x0: number, y0: number, x1: number, y1: number): boolean {
+  const { w, h, blocked } = map;
+  const tx0 = x0 >> 8;
+  const ty0 = y0 >> 8;
+  const tx1 = x1 >> 8;
+  const ty1 = y1 >> 8;
+  if (tx0 === tx1 && ty0 === ty1) {
+    return tx0 >= 0 && ty0 >= 0 && tx0 < w && ty0 < h && blocked[ty0 * w + tx0] === 0;
+  }
   const dx = x1 - x0;
   const dy = y1 - y0;
   const len = Math.sqrt(dx * dx + dy * dy);
   const steps = Math.max(1, Math.ceil(len / 64)); // a sample every quarter tile
+  // Remember only the last clear tile on this ray.
+  let previousX = -999999;
+  let previousY = -999999;
   for (let s = 0; s <= steps; s++) {
     const x = x0 + Math.trunc((dx * s) / steps);
     const y = y0 + Math.trunc((dy * s) / steps);
-    if (isBlockedAt(map, Math.floor(x / FP), Math.floor(y / FP))) return false;
+    const tx = x >> 8;
+    const ty = y >> 8;
+    if (tx === previousX && ty === previousY) continue;
+    if (tx < 0 || ty < 0 || tx >= w || ty >= h || blocked[ty * w + tx]) return false;
+    previousX = tx;
+    previousY = ty;
   }
   return true;
 }
@@ -73,9 +89,8 @@ export function lineClear(map: GameMap, x0: number, y0: number, x1: number, y1: 
   return rayClear(map, x0 + ox, y0 + oy, x1 + ox, y1 + oy) && rayClear(map, x0 - ox, y0 - oy, x1 - ox, y1 - oy);
 }
 
-const OCT_D: ReadonlyArray<readonly [number, number]> = [
-  [1, 0], [-1, 0], [0, 1], [0, -1], [1, 1], [-1, 1], [1, -1], [-1, -1],
-];
+const OCT_DX = new Int8Array([1, -1, 0, 0, 1, -1, 1, -1]);
+const OCT_DY = new Int8Array([0, 0, 1, -1, 1, 1, -1, -1]);
 
 /** A* over the tile grid with 8 neighbours. Scratch buffers are reused between searches. */
 export class Pather {
@@ -83,6 +98,10 @@ export class Pather {
   private readonly parent: Int32Array;
   private readonly stamp: Int32Array;
   private readonly closed: Int32Array;
+  private readonly tiles: Int32Array;
+  private readonly smoothBuf: Int32Array;
+  private readonly cardCost: Uint8Array;
+  private readonly diagCost: Uint8Array;
   private gen = 0;
   private heap: number[] = [];
 
@@ -92,6 +111,17 @@ export class Pather {
     this.parent = new Int32Array(n);
     this.stamp = new Int32Array(n);
     this.closed = new Int32Array(n);
+    this.tiles = new Int32Array(n);
+    this.smoothBuf = new Int32Array(n * 2);
+    const maxT = Math.max(8, TERRAIN_SPEED_PCT.length);
+    this.cardCost = new Uint8Array(maxT);
+    this.diagCost = new Uint8Array(maxT);
+    for (let t = 0; t < maxT; t++) {
+      const pct = TERRAIN_SPEED_PCT[t] || 100;
+      const base = Math.round(1000 / pct);
+      this.cardCost[t] = base;
+      this.diagCost[t] = Math.floor((base * 14) / 10);
+    }
   }
 
   private push(key: number): void {
@@ -132,13 +162,13 @@ export class Pather {
    * (first = start tile, last = goal tile). Returns null when the goal cannot be reached.
    */
   find(sx: number, sy: number, gx: number, gy: number): Int32Array | null {
-    const { map } = this;
-    const w = map.w;
-    if (isBlockedAt(map, sx, sy) || isBlockedAt(map, gx, gy)) return null;
+    const { map, cardCost, diagCost } = this;
+    const { w, h, blocked, terrain } = map;
+    if (sx < 0 || sy < 0 || sx >= w || sy >= h || blocked[sy * w + sx]) return null;
+    if (gx < 0 || gy < 0 || gx >= w || gy >= h || blocked[gy * w + gx]) return null;
     const start = sy * w + sx;
     const goal = gy * w + gx;
-    const centre = (t: number): [number, number] => [(t % w) * FP + FP / 2, Math.floor(t / w) * FP + FP / 2];
-    if (start === goal) return Int32Array.from(centre(start));
+    if (start === goal) return Int32Array.of((sx << 8) + 128, (sy << 8) + 128);
     const gen = ++this.gen;
     const SHIFT = 262144; // heap key = f * SHIFT + tile index, so ties break by index (deterministic)
     this.heap.length = 0;
@@ -157,16 +187,20 @@ export class Pather {
       }
       const cx = cur % w;
       const cy = (cur - cx) / w;
-      for (const [dx, dy] of OCT_D) {
-        if (!stepOk(map, cx, cy, dx, dy)) continue;
+      const curG = this.g[cur];
+      for (let d = 0; d < 8; d++) {
+        const dx = OCT_DX[d];
+        const dy = OCT_DY[d];
         const nx = cx + dx;
         const ny = cy + dy;
+        if (nx < 0 || ny < 0 || nx >= w || ny >= h) continue;
         const n = ny * w + nx;
+        if (blocked[n]) continue;
+        if (dx !== 0 && dy !== 0 && (blocked[cy * w + nx] || blocked[ny * w + cx])) continue;
         if (this.closed[n] === gen) continue;
-        const pct = TERRAIN_SPEED_PCT[map.terrain[n]] || 100;
-        const base = Math.round(1000 / pct); // 10 on open ground, 18 on marsh
-        const step = dx !== 0 && dy !== 0 ? Math.floor((base * 14) / 10) : base;
-        const ng = this.g[cur] + step;
+        const tid = terrain[n];
+        const step = dx !== 0 && dy !== 0 ? (tid < diagCost.length ? diagCost[tid] : 14) : (tid < cardCost.length ? cardCost[tid] : 10);
+        const ng = curG + step;
         if (this.stamp[n] !== gen || ng < this.g[n]) {
           this.stamp[n] = gen;
           this.g[n] = ng;
@@ -176,10 +210,15 @@ export class Pather {
       }
     }
     if (!found) return null;
-    const tiles: number[] = [];
-    for (let t = goal; t !== -1; t = this.parent[t]) tiles.push(t);
-    tiles.reverse();
-    return this.smooth(tiles, centre);
+    let count = 0;
+    for (let t = goal; t !== -1; t = this.parent[t]) this.tiles[count++] = t;
+    // Reverse in-place
+    for (let l = 0, r = count - 1; l < r; l++, r--) {
+      const tmp = this.tiles[l];
+      this.tiles[l] = this.tiles[r];
+      this.tiles[r] = tmp;
+    }
+    return this.smooth(count, w);
   }
 
   private h(x: number, y: number, gx: number, gy: number): number {
@@ -189,22 +228,32 @@ export class Pather {
   }
 
   /** Greedy string pulling: keep only the corners that line of sight needs. */
-  private smooth(tiles: number[], centre: (t: number) => [number, number]): Int32Array {
-    const out: number[] = [];
+  private smooth(count: number, w: number): Int32Array {
+    const tiles = this.tiles;
+    const buf = this.smoothBuf;
+    let len = 0;
     let a = 0;
-    out.push(...centre(tiles[0]));
-    while (a < tiles.length - 1) {
+    const t0 = tiles[0];
+    buf[len++] = ((t0 % w) << 8) + 128;
+    buf[len++] = (Math.floor(t0 / w) << 8) + 128;
+    while (a < count - 1) {
       let b = a + 1;
-      const [ax, ay] = centre(tiles[a]);
-      while (b + 1 < tiles.length) {
-        const [nx, ny] = centre(tiles[b + 1]);
+      const ta = tiles[a];
+      const ax = ((ta % w) << 8) + 128;
+      const ay = (Math.floor(ta / w) << 8) + 128;
+      while (b + 1 < count) {
+        const tn = tiles[b + 1];
+        const nx = ((tn % w) << 8) + 128;
+        const ny = (Math.floor(tn / w) << 8) + 128;
         if (!lineClear(this.map, ax, ay, nx, ny)) break;
         b++;
       }
-      out.push(...centre(tiles[b]));
+      const tb = tiles[b];
+      buf[len++] = ((tb % w) << 8) + 128;
+      buf[len++] = (Math.floor(tb / w) << 8) + 128;
       a = b;
     }
-    return Int32Array.from(out);
+    return buf.slice(0, len);
   }
 }
 

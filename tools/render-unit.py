@@ -1,6 +1,6 @@
 """Render original PILOT motion models: six clips x 16 directions, colour/RGB mask.
 
-Run:  blender -b -P tools/render-unit.py -- <out_dir> [cell_px] [hero|archer|golem]
+Run:  blender -b -P tools/render-unit.py -- <out_dir> [cell_px] [hero|archer|golem|warrior|mage|gnoll|imp]
 Then: python tools/pack-atlas.py <out_dir> public/sprites <unit>
 Contract: docs/SPRITE-CONTRACT.md.  The model is built from primitives here, so no outside files are used.
 No external assets. Combat frame zero is contact/release, then recovery.
@@ -18,7 +18,7 @@ argv = sys.argv[sys.argv.index("--") + 1:] if "--" in sys.argv else []
 OUT = os.path.abspath(argv[0] if argv else "render_out")
 CELL = int(argv[1]) if len(argv) > 1 else 48
 UNIT = argv[2] if len(argv) > 2 else "hero"
-if UNIT not in ("hero", "archer", "golem"):
+if UNIT not in ("hero", "archer", "golem", "warrior", "mage", "gnoll", "imp"):
     raise SystemExit("unknown unit: " + UNIT)
 DIRECTIONS, ANIMS = 16, {"stand": 4, "walk": 8, "attack": 4, "cast": 4, "hurt": 2, "die": 4}
 START = time.perf_counter()
@@ -99,7 +99,69 @@ elif UNIT == "archer":
         p = part("cube", "bow", (0.52, -0.12 - 0.25 * math.cos(a), 1.15 + 0.53 * math.sin(a)), (0.035, 0.035, 0.13), "level")
         p.rotation_euler[0] = -a
     part("cube", "bowstring", (0.52, -0.12, 1.15), (0.012, 0.012, 0.53), "dark")
-else:
+elif UNIT == "warrior":
+    body.scale = (0.34, 0.22, 0.43)
+    part("ico_sphere", "helm", (0, 0, 1.86), (0.26, 0.25, 0.19), "armour")
+    part("cube", "helm_brim", (0, -0.02, 1.80), (0.29, 0.28, 0.045), "level")
+    part("cube", "visor", (0, -0.22, 1.79), (0.05, 0.04, 0.09), "dark")
+    for side in (-1, 1):
+        part("ico_sphere", "shoulder", (side * 0.44, 0, 1.46), (0.20, 0.21, 0.16), "level")
+    part("ico_sphere", "shield", (-0.49, -0.18, 1.05), (0.23, 0.10, 0.30), "armour")
+    part("ico_sphere", "shield_bar", (-0.49, -0.27, 1.05), (0.10, 0.05, 0.11), "team")
+    part("cube", "sword", (0.49, -0.15, 1.32), (0.042, 0.05, 0.48), "armour")
+    part("cube", "guard", (0.49, -0.15, 0.96), (0.15, 0.07, 0.035), "level")
+elif UNIT == "mage":
+    body.scale = (0.26, 0.20, 0.44)
+    body["role"] = "team"
+    cape.scale = (0.30, 0.06, 0.48)
+    cape["role"] = "level"
+    armL["role"] = armR["role"] = "team"
+    legL["role"] = legR["role"] = "armour"
+    part("cube", "apron", (0, -0.21, 0.72), (0.14, 0.03, 0.36), "level")
+    for side in (-1, 1):
+        part("ico_sphere", "shoulder", (side * 0.39, 0, 1.46), (0.16, 0.17, 0.12), "armour")
+    part("cube", "hat_brim", (0, 0, 1.89), (0.32, 0.32, 0.035), "team")
+    part("cone", "hat_cone", (0, 0.02, 2.02), (0.19, 0.19, 0.19), "level")
+    part("cube", "staff", (0.49, -0.15, 1.24), (0.03, 0.03, 0.56), "dark")
+    part("ico_sphere", "staff_orb", (0.49, -0.15, 1.84), (0.11, 0.11, 0.11), "level")
+    part("cube", "staff_ring", (0.49, -0.15, 1.72), (0.065, 0.065, 0.035), "armour")
+elif UNIT == "gnoll":
+    body.scale = (0.36, 0.24, 0.41)
+    body["role"] = "level"
+    head.scale = (0.22, 0.22, 0.21)
+    head["role"] = "level"
+    cape.scale = (0.26, 0.06, 0.34)
+    cape["role"] = "armour"
+    legL["role"] = legR["role"] = "level"
+    armL["role"] = armR["role"] = "skin"
+    part("cube", "snout", (0, -0.23, 1.72), (0.11, 0.13, 0.09), "skin")
+    for side in (-1, 1):
+        ear = part("cone", "ear", (side * 0.16, 0.02, 1.97), (0.06, 0.06, 0.14), "level")
+        ear.rotation_euler[1] = side * 0.28
+        part("cube", "eye", (side * 0.08, -0.21, 1.82), (0.038, 0.025, 0.032), "team")
+        part("ico_sphere", "shoulder", (side * 0.44, 0, 1.44), (0.20, 0.20, 0.17), "armour")
+    part("ico_sphere", "shield", (-0.49, -0.18, 1.04), (0.20, 0.09, 0.26), "team")
+    part("cube", "shield_bar", (-0.49, -0.26, 1.04), (0.05, 0.03, 0.18), "armour")
+    part("cube", "sword", (0.49, -0.15, 1.16), (0.035, 0.035, 0.34), "dark")
+    part("ico_sphere", "guard", (0.49, -0.15, 1.54), (0.12, 0.12, 0.15), "armour")
+elif UNIT == "imp":
+    body.scale = (0.28, 0.19, 0.38)
+    body["role"] = "team"
+    head.scale = (0.20, 0.20, 0.20)
+    head["role"] = "team"
+    cape.scale = (0.18, 0.04, 0.22)
+    cape["role"] = "armour"
+    legL["role"] = legR["role"] = "level"
+    armL["role"] = armR["role"] = "team"
+    for side in (-1, 1):
+        horn = part("cone", "horn", (side * 0.13, -0.02, 2.00), (0.055, 0.055, 0.16), "level")
+        horn.rotation_euler[1] = side * 0.32
+        part("cube", "eye", (side * 0.075, -0.19, 1.81), (0.04, 0.025, 0.03), "armour")
+        wing = part("cube", "wing", (side * 0.34, 0.24, 1.46), (0.26, 0.025, 0.30), "armour")
+        wing.rotation_euler[1] = -side * 0.38
+        wing.rotation_euler[2] = side * 0.32
+        part("ico_sphere", "fist", (side * 0.44, -0.06, 0.80), (0.14, 0.14, 0.16), "level")
+elif UNIT == "golem":
     body.scale = (0.46, 0.30, 0.43)
     body.data.materials.clear()
     body["role"] = "level"
@@ -163,7 +225,7 @@ for p in parts:
     name = p.name.split('.')[0]
     if name in ("shield", "shield_bar"):
         attach(p, wrists[0])
-    elif name in ("sword", "guard", "bow", "bowstring"):
+    elif name in ("sword", "guard", "bow", "bowstring", "staff", "staff_orb", "staff_ring"):
         attach(p, wrists[1])
     elif name == "fist":
         attach(p, wrists[0 if p.matrix_world.translation.x < 0 else 1])
@@ -203,10 +265,12 @@ def pose(anim, i, n):
             arms[1].rotation_euler.y = (-0.55, -0.10, 0.25, 0)[i]
             elbows[1].rotation_euler.x = (-0.10, -0.60, -0.80, -0.10)[i]
             arms[0].rotation_euler.x = (-0.80, -0.55, -0.30, -0.05)[i]
-            if UNIT == "hero":
+            if UNIT in ("hero", "warrior"):
                 # Contact points down/forward; don't extend the blade horizontally
                 # beyond a 48px cell and force every other clip to shrink.
                 wrists[1].rotation_euler.x = (4.90, 1.50, 0.30, 0)[i]
+            elif UNIT == "mage":
+                wrists[1].rotation_euler.x = (0.70, 0.45, 0.20, 0)[i]
         torso.rotation_euler.z = (-0.24, -0.10, 0.13, 0)[i]
     elif anim == "cast":
         for j in (0, 1):

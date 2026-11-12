@@ -33,9 +33,9 @@ async function boot(page: Page): Promise<void> {
   await expect(page.locator('#mission')).toBeHidden();
 }
 
-test('reference shop has six stock slots, ten pack slots, aligned original art and four monetary actions', async ({ page }) => {
+test('reference shop has six stock slots, ten pack slots, layered shop art and four monetary actions', async ({ page }) => {
   await page.setViewportSize({ width: 1366, height: 900 });
-  await page.emulateMedia({ reducedMotion: 'reduce' }); // Compare camera bounds at rest, not the intentional cutout motion.
+  await page.emulateMedia({ reducedMotion: 'reduce' }); // Measure layer placement at rest.
   await boot(page);
   await enter(page);
   const shop = page.locator('.town--shop');
@@ -45,11 +45,32 @@ test('reference shop has six stock slots, ten pack slots, aligned original art a
   const columns = await shop.locator('.shelf').evaluate((el) => getComputedStyle(el).gridTemplateColumns.split(' ').length);
   expect(columns).toBe(2);
   for (const image of await shop.locator('img').all()) await expect.poll(() => image.evaluate((el) => (el as HTMLImageElement).naturalWidth)).toBeGreaterThan(0);
-  const alignment = await shop.locator('.scene-art').evaluate((el) => {
-    const [a, b] = [...el.querySelectorAll('img')].map((im) => im.getBoundingClientRect());
-    return Math.abs(a.x - b.x) + Math.abs(a.y - b.y) + Math.abs(a.width - b.width) + Math.abs(a.height - b.height);
-  });
-  expect(alignment).toBeLessThan(1);
+  const scene = shop.locator('.scene-art');
+  const backdrop = scene.locator('img.town-backdrop');
+  const merchant = scene.locator('img.merchant-actor');
+  await expect(backdrop).toBeVisible();
+  await expect(merchant).toBeVisible();
+  await expect(merchant).toHaveCSS('opacity', '1');
+  await expect(backdrop).toHaveCSS('object-fit', 'contain');
+  const backdropRatio = await backdrop.evaluate((img: HTMLImageElement) => img.naturalWidth / img.naturalHeight);
+  expect(backdropRatio).toBeCloseTo(4 / 3, 3);
+
+  const frame = (await scene.boundingBox())!;
+  const background = (await backdrop.boundingBox())!;
+  const actor = (await merchant.boundingBox())!;
+  expect(frame.width / frame.height).toBeCloseTo(4 / 3, 3);
+  for (const edge of ['x', 'y', 'width', 'height'] as const) {
+    expect(Math.abs(background[edge] - frame[edge]), `backdrop ${edge}`).toBeLessThan(1);
+  }
+
+  expect(Math.abs(actor.x - frame.x - frame.width * .2325)).toBeLessThan(1);
+  expect(Math.abs(actor.y - frame.y - frame.height * .183)).toBeLessThan(1);
+  expect(Math.abs(actor.width - frame.width * .54)).toBeLessThan(1);
+  expect(Math.abs(actor.height - frame.height * .54)).toBeLessThan(1);
+  expect(actor.x).toBeGreaterThanOrEqual(background.x);
+  expect(actor.y).toBeGreaterThanOrEqual(background.y);
+  expect(actor.x + actor.width).toBeLessThanOrEqual(background.x + background.width);
+  expect(actor.y + actor.height).toBeLessThanOrEqual(background.y + background.height);
   await expect(page.locator('#toast')).toBeHidden({ timeout: 6_000 });
   await page.screenshot({ path: 'test-results/town-shop-desktop.png' });
   await shop.getByRole('button', { name: 'Next page: Shelf', exact: true }).click();

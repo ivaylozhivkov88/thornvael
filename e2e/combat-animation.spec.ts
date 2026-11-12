@@ -97,16 +97,17 @@ test('preview shipped one-shots clamp and replay without making more GPU sources
   await boot(page, 'warrior', '&art=1');
   const art = () => page.evaluate(() => (window as unknown as { __game: Game }).__game.previewArt());
   const sources = (await art()).map((a) => a.source);
+  const n = sources.length;
   await page.getByLabel('Animation', { exact: true }).selectOption('5');
-  await expect.poll(async () => (await art()).map((a) => a.requestedClip)).toEqual(['die', 'die', 'die']);
+  await expect.poll(async () => (await art()).map((a) => a.requestedClip)).toEqual(Array(n).fill('die'));
   await step(page, 20);
-  await expect.poll(async () => (await art()).map((a) => a.finished)).toEqual([true, true, true]);
+  await expect.poll(async () => (await art()).map((a) => a.finished)).toEqual(Array(n).fill(true));
   expect((await art()).every((a) => !a.fallback)).toBe(true);
   await expect(page.getByRole('complementary', { name: 'Unit art preview' }).getByRole('status'))
     .toHaveText('die · finished');
   await page.getByLabel('Facing', { exact: true }).selectOption('4');
   expect((await art()).every((a) => a.finished)).toBe(true);
   await page.getByRole('button', { name: 'Replay animation', exact: true }).click();
-  await expect.poll(async () => (await art()).map((a) => a.finished)).toEqual([false, false, false]);
+  await expect.poll(async () => (await art()).map((a) => a.finished)).toEqual(Array(n).fill(false));
   expect((await art()).map((a) => a.source)).toEqual(sources);
 });

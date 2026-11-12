@@ -3,7 +3,7 @@ import { checkSheet, frameName, type UnitSheet } from './contract';
 import { animationFrame, palette, sheetDirection, splitMask } from './palette';
 import type { AnimationPose } from './combat-animation';
 
-export const UNIT_ART = ['hero', 'archer', 'golem'] as const;
+export const UNIT_ART = ['hero', 'archer', 'golem', 'warrior', 'mage', 'gnoll', 'imp'] as const;
 export type UnitArt = typeof UNIT_ART[number];
 
 async function pixels(url: string): Promise<ImageData> {

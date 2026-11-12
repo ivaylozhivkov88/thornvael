@@ -1,4 +1,6 @@
 import { ATTR_NAMES, CLS_BOTH, CLS_MAGE, CLS_WARRIOR, Ik, PART_NAMES, SLOT_NAMES, setItems, type ItemDef } from './items';
+import { ALL_SET_ITEMS } from './sets';
+import { UNIQUE_ARTIFACTS } from './affixes';
 import { MAX_SPELLS, SPELLS, St, Tk, setSpells, type SpellDef } from './spelldata';
 
 /**
@@ -11,6 +13,41 @@ type Raw = Record<string, unknown>;
 export interface DataFiles {
   items: unknown;
   spells: unknown;
+  monsters?: unknown;
+}
+
+export interface MonsterPaletteDef {
+  tier: number;
+  label: string;
+  hex: string;
+  hpMult: number;
+  dmgMult: number;
+}
+
+export interface MonsterFamilyDef {
+  id: string;
+  name: string;
+  batch: string;
+  archetype: number;
+  elem: number;
+  baseHp: number;
+  baseMin: number;
+  baseMax: number;
+  speed: number;
+  ranged: boolean;
+  caster: boolean;
+  role: string;
+}
+
+export const MONSTER_PALETTES: MonsterPaletteDef[] = [];
+export const MONSTER_FAMILIES: MonsterFamilyDef[] = [];
+
+export function monsterPaletteByTier(tier: number): MonsterPaletteDef | undefined {
+  return MONSTER_PALETTES.find((p) => p.tier === tier);
+}
+
+export function monsterFamilyById(id: string): MonsterFamilyDef | undefined {
+  return MONSTER_FAMILIES.find((f) => f.id === id);
 }
 
 const SCHOOLS = ['fire', 'water', 'air', 'earth', 'astral'];
@@ -111,12 +148,52 @@ export function parseItems(file: unknown): ItemDef[] {
       restore: num(e, 'restore'),
       grow: e.grow === undefined ? 0 : word(e, 'grow', ATTRS) + 1,
       spell,
+      sockets: typeof e.sockets === 'number' ? e.sockets : undefined,
+      runes: Array.isArray(e.runes) ? e.runes.map(String) : undefined,
     };
   });
 }
 
-/** Install both tables. Call once before any Sim is built (main.ts, editor.ts, tests/setup.ts). */
+export function parseMonsters(file: unknown): { palettes: MonsterPaletteDef[]; families: MonsterFamilyDef[] } {
+  const palettes = listOf(file, 'palettes').map((e) => {
+    const tier = num(e, 'tier');
+    if (tier < 1 || tier > 5) throw new Error(`monsters.json: palette tier must be 1..5`);
+    return {
+      tier,
+      label: String(e.label ?? ''),
+      hex: String(e.hex ?? ''),
+      hpMult: num(e, 'hpMult', 1),
+      dmgMult: num(e, 'dmgMult', 1),
+    };
+  });
+  const families = listOf(file, 'families').map((e) => ({
+    id: String(e.id ?? ''),
+    name: String(e.name ?? ''),
+    batch: String(e.batch ?? ''),
+    archetype: num(e, 'archetype'),
+    elem: num(e, 'elem'),
+    baseHp: num(e, 'baseHp'),
+    baseMin: num(e, 'baseMin'),
+    baseMax: num(e, 'baseMax'),
+    speed: num(e, 'speed', 100),
+    ranged: e.ranged === true,
+    caster: e.caster === true,
+    role: String(e.role ?? ''),
+  }));
+  return { palettes, families };
+}
+
+export function setMonsters(data: { palettes: readonly MonsterPaletteDef[]; families: readonly MonsterFamilyDef[] }): void {
+  MONSTER_PALETTES.length = 0;
+  MONSTER_PALETTES.push(...data.palettes);
+  MONSTER_FAMILIES.length = 0;
+  MONSTER_FAMILIES.push(...data.families);
+}
+
+/** Install data tables. Call once before any Sim is built (main.ts, editor.ts, tests/setup.ts). */
 export function installData(files: DataFiles): void {
   setSpells(parseSpells(files.spells));
-  setItems(parseItems(files.items));
+  const parsed = parseItems(files.items);
+  setItems([...parsed, ...ALL_SET_ITEMS, ...UNIQUE_ARTIFACTS]);
+  if (files.monsters !== undefined) setMonsters(parseMonsters(files.monsters));
 }

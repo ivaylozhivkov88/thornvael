@@ -1,6 +1,7 @@
 import { bakeBlocked, bakeLight, type GameMap, type MapObject, ObjectKind, Terrain } from './map';
 import type { Scenario } from './sim/bot';
 import { DEFS, Kind } from './sim/combat';
+import { MONSTER_FAMILIES, monsterFamilyById } from './sim/data';
 import { ITEMS } from './sim/items';
 import { SPELLS } from './sim/spelldata';
 import type { TownDef } from './sim/town';
@@ -19,6 +20,27 @@ export const MAP_VERSION = 2;
 export const MIN_SIDE = 16;
 export const MAX_SIDE = 128;
 
+export const BOSS_MOD_IDS = [
+  'fire_enchanted',
+  'cold_enchanted',
+  'extra_fast',
+  'stone_skin',
+  'magic_resistant',
+  'spectral_hit',
+  'blessed_aura',
+] as const;
+export type BossModId = (typeof BOSS_MOD_IDS)[number];
+
+export const SHRINE_KINDS = ['healing', 'mana', 'combat', 'armor', 'haste', 'ward'] as const;
+export type ShrineKind = (typeof SHRINE_KINDS)[number];
+
+export interface ShrineDef {
+  x: number;
+  y: number;
+  kind: ShrineKind;
+  cooldown?: number;
+}
+
 export interface UnitDef {
   kind: number;
   team: number;
@@ -28,6 +50,9 @@ export interface UnitDef {
   pack?: number; // monster pack id: pack members guard their post together
   dormant?: boolean; // starts phased out
   vip?: boolean;
+  tier?: number; // monster palette tier (1 to 5)
+  family?: string; // monster catalog family id
+  bossMods?: string[]; // composable boss modifiers (Diablo II SuperUniques style)
 }
 export interface Region {
   name: string;
@@ -55,6 +80,8 @@ export interface MapDoc {
   day?: number;
   /** Towns: buildings by House index, shop tiers, school spells, mercenaries, NPCs (see docs/MAP-FORMAT.md). */
   towns?: TownDef[];
+  /** Interactive shrines on the map (healing, mana, combat, armor, haste, ward). */
+  shrines?: ShrineDef[];
 }
 
 export function rleEncode(a: ArrayLike<number>): number[] {
@@ -175,10 +202,23 @@ export function validate(doc: MapDoc): string[] {
     else if (blocked[u.y * doc.w + u.x]) errs.push(`Unit ${i}: stands on blocked ground.`);
     else if (taken.has(u.y * doc.w + u.x)) errs.push(`Unit ${i}: shares a tile with another unit.`);
     else taken.add(u.y * doc.w + u.x);
+    if (u.tier !== undefined && (!Number.isInteger(u.tier) || u.tier < 1 || u.tier > 5)) errs.push(`Unit ${i}: tier must be 1 to 5.`);
+    if (u.family !== undefined && MONSTER_FAMILIES.length > 0 && !monsterFamilyById(u.family)) errs.push(`Unit ${i}: unknown monster family "${u.family}".`);
+    if (u.bossMods !== undefined) {
+      if (!Array.isArray(u.bossMods) || u.bossMods.some((m) => typeof m !== 'string' || !BOSS_MOD_IDS.includes(m as BossModId))) {
+        errs.push(`Unit ${i}: invalid bossMods.`);
+      }
+    }
     if (u.group) groups.add(u.group);
   });
   const hero = doc.units[0];
   if (hero && (hero.kind !== Kind.Hero || hero.team !== 0)) errs.push('Unit 0 must be your hero (kind Hero, team 0).');
+  (doc.shrines ?? []).forEach((s, idx) => {
+    if (!isInt(s.x) || !isInt(s.y) || s.x < 0 || s.y < 0 || s.x >= doc.w || s.y >= doc.h) errs.push(`Shrine ${idx}: outside the map.`);
+    else if (blocked[s.y * doc.w + s.x]) errs.push(`Shrine ${idx}: stands on blocked ground.`);
+    if (!SHRINE_KINDS.includes(s.kind as ShrineKind)) errs.push(`Shrine ${idx}: unknown kind "${s.kind}".`);
+    if (s.cooldown !== undefined && (!isInt(s.cooldown) || s.cooldown <= 0)) errs.push(`Shrine ${idx}: cooldown must be a positive integer.`);
+  });
   doc.triggers.forEach((t, i) => {
     const where = `Trigger ${t.id || i}`;
     if (t.conds.length > 3) errs.push(`${where}: at most 3 conditions.`);
@@ -219,7 +259,7 @@ export function loadDoc(raw: unknown): LoadedMission {
   const height = rleDecode(doc.height, n);
   const objects: MapObject[] = doc.objects.map((o) => ({ kind: o.kind, x: o.x, y: o.y }));
   const map: GameMap = { w: doc.w, h: doc.h, terrain, height, blocked: bakeBlocked(doc.w, doc.h, terrain, objects), objects, light: bakeLight(doc.w, doc.h, height) };
-  const scenario: Scenario = { teams: [], kinds: [], tiles: [], packs: [] };
+  const scenario: Scenario = { teams: [], kinds: [], tiles: [], packs: [], tiers: [], families: [], bossMods: [] };
   const packs = new Map<number, number[]>();
   const groups: Record<number, number[]> = {};
   const def: MissionDef = { triggers: doc.triggers, groups, vip: [], home: [], dormant: [], buildings: [] };
@@ -227,6 +267,9 @@ export function loadDoc(raw: unknown): LoadedMission {
     scenario.teams.push(u.team);
     scenario.kinds.push(u.kind);
     scenario.tiles.push([u.x, u.y]);
+    scenario.tiers!.push(u.tier ?? 1);
+    scenario.families!.push(u.family ?? '');
+    scenario.bossMods!.push(u.bossMods ? u.bossMods.slice() : []);
     def.home.push([u.x, u.y]);
     if (u.group) (groups[u.group] ??= []).push(i);
     if (u.pack) packs.set(u.pack, [...(packs.get(u.pack) ?? []), i]);

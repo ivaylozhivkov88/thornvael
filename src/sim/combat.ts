@@ -1,5 +1,6 @@
 import { FP, dir16 } from './path';
 import type { Sim } from './sim';
+import { monsterFamilyById, monsterPaletteByTier } from './data';
 import { rulesOf } from './difficulty';
 import { ALL_SPELLS, MAGE_SPELLS, NST, SPELLS, St, Tk } from './spelldata';
 import { autoCast, castSpell, clearAllStatuses, knows, spellHit, statusTick, validTarget } from './spells';
@@ -120,12 +121,15 @@ export interface CombatSnap {
   mod: Int16Array;
   bX: Int32Array;
   bY: Int32Array;
-  bI: Int16Array;
+  bI: Int32Array;
 }
 
 /** All combat state: structure of arrays, no objects, so it snapshots and hashes cheaply. */
 export class CombatState {
   readonly kind: Uint8Array;
+  readonly tier: Uint8Array;
+  readonly family: readonly string[];
+  readonly bossMods: readonly (readonly string[])[];
   hpMax: Int16Array;
   hp: Int16Array;
   manaMax: Int16Array;
@@ -134,7 +138,7 @@ export class CombatState {
   pPow = new Int16Array(MAXP).fill(100); // spell power percent carried by a spell projectile
   bX = new Int32Array(MAXB); // item bags: position and item id + 1 (0 = free slot)
   bY = new Int32Array(MAXB);
-  bI = new Int16Array(MAXB);
+  bI = new Int32Array(MAXB);
   mana: Int16Array;
   ord: Uint8Array;
   tgt: Int32Array;
@@ -173,17 +177,84 @@ export class CombatState {
     kinds: readonly number[],
     team: Uint8Array,
     hpMul: number,
+    tiers?: readonly number[],
+    families?: readonly string[],
+    bossMods?: readonly (readonly string[])[],
   ) {
     this.kind = Uint8Array.from(kinds);
+    this.tier = tiers ? Uint8Array.from(tiers) : new Uint8Array(count).fill(1);
+    this.family = families ? families.slice() : Array<string>(count).fill('');
+    this.bossMods = bossMods ? bossMods.map((m) => m.slice()) : Array.from({ length: count }, () => []);
     this.hpMax = new Int16Array(count);
-    for (let i = 0; i < count; i++) this.hpMax[i] = Math.min(32000, DEFS[this.kind[i]].hp * hpMul);
+    this.mod = new Int16Array(count * MODN);
+    for (let i = 0; i < count; i++) {
+      const fam = this.family[i] ? monsterFamilyById(this.family[i]) : undefined;
+      if (fam || this.tier[i] > 1) {
+        const pal = monsterPaletteByTier(this.tier[i]);
+        const hpMult = pal?.hpMult ?? 1;
+        const dmgMult = pal?.dmgMult ?? 1;
+        const baseHp = fam ? fam.baseHp : DEFS[this.kind[i]].hp;
+        this.hpMax[i] = Math.min(32000, Math.round(baseHp * hpMult * hpMul));
+        const baseMin = fam ? fam.baseMin : DEFS[this.kind[i]].min;
+        const baseMax = fam ? fam.baseMax : DEFS[this.kind[i]].max;
+        this.mod[i * MODN + M.Min] = Math.round(baseMin * dmgMult) - DEFS[this.kind[i]].min;
+        this.mod[i * MODN + M.Max] = Math.round(baseMax * dmgMult) - DEFS[this.kind[i]].max;
+      } else {
+        this.hpMax[i] = Math.min(32000, DEFS[this.kind[i]].hp * hpMul);
+      }
+      const bmods = this.bossMods[i];
+      if (bmods.length > 0) {
+        const mo = i * MODN;
+        for (const bm of bmods) {
+          switch (bm) {
+            case 'fire_enchanted':
+              this.mod[mo + M.Min] += 4;
+              this.mod[mo + M.Max] += 6;
+              this.mod[mo + M.Res + 0] += 50;
+              this.hpMax[i] = Math.min(32000, Math.round(this.hpMax[i] * 1.15));
+              break;
+            case 'cold_enchanted':
+              this.mod[mo + M.Min] += 3;
+              this.mod[mo + M.Max] += 5;
+              this.mod[mo + M.Res + 1] += 50;
+              this.hpMax[i] = Math.min(32000, Math.round(this.hpMax[i] * 1.15));
+              break;
+            case 'extra_fast':
+              this.mod[mo + M.Acc] += 3;
+              this.mod[mo + M.Def] += 3;
+              this.hpMax[i] = Math.min(32000, Math.round(this.hpMax[i] * 1.1));
+              break;
+            case 'stone_skin':
+              this.mod[mo + M.Def] += 4;
+              this.mod[mo + M.Abs] += 3;
+              this.hpMax[i] = Math.min(32000, Math.round(this.hpMax[i] * 1.25));
+              break;
+            case 'magic_resistant':
+              for (let r = 0; r < 5; r++) this.mod[mo + M.Res + r] += 30;
+              this.hpMax[i] = Math.min(32000, Math.round(this.hpMax[i] * 1.15));
+              break;
+            case 'spectral_hit':
+              this.mod[mo + M.Acc] += 5;
+              this.mod[mo + M.Min] += 3;
+              this.mod[mo + M.Max] += 5;
+              this.mod[mo + M.Res + 4] += 40;
+              break;
+            case 'blessed_aura':
+              this.mod[mo + M.Min] += 4;
+              this.mod[mo + M.Max] += 4;
+              this.mod[mo + M.Def] += 2;
+              this.mod[mo + M.Regen] += 2;
+              break;
+          }
+        }
+      }
+    }
     this.hp = this.hpMax.slice();
     this.mana = new Int16Array(count);
     for (let i = 0; i < count; i++) this.mana[i] = DEFS[this.kind[i]].mana;
     this.manaMax = this.mana.slice();
     this.known = new Uint32Array(count);
     for (let i = 0; i < count; i++) this.known[i] = DEFS[this.kind[i]].known;
-    this.mod = new Int16Array(count * MODN);
     this.ord = new Uint8Array(count);
     this.tgt = new Int32Array(count).fill(-1);
     this.aux = new Int32Array(count);
@@ -291,32 +362,60 @@ export function enemyNear(sim: Sim, i: number, range: number, cx: number, cy: nu
   const y = sim.y[i];
   const me = sim.team[i];
   const r = Math.ceil(range / FP);
-  const tx = Math.floor(x / FP);
-  const ty = Math.floor(y / FP);
+  const tx = x >> 8;
+  const ty = y >> 8;
   const hp = sim.cb.hp;
   let best = -1;
   let bd = range * range + 1;
   let bw = 1 << 30; // armour score of the best pick; only foes on hard hunt the weakest armour
   const hunt = me !== 0 && rulesOf(sim).hunt;
   const l2 = leash * leash;
-  for (let gy = Math.max(0, ty - r); gy <= Math.min(h - 1, ty + r); gy++) {
-    for (let gx = Math.max(0, tx - r); gx <= Math.min(w - 1, tx + r); gx++) {
-      const c = gy * w + gx;
-      for (let q = cs[c]; q < cs[c + 1]; q++) {
-        const j = ci[q];
-        if (sim.team[j] === me || hp[j] <= 0 || sim.peace[me * 4 + sim.team[j]]) continue;
-        const dx = sim.x[j] - x;
-        const dy = sim.y[j] - y;
-        const d2 = dx * dx + dy * dy;
-        if (d2 > range * range) continue;
-        if (leash > 0 && (sim.x[j] - cx) ** 2 + (sim.y[j] - cy) ** 2 > l2) continue;
-        const w = hunt ? partAbs(sim, j, 0) + partAbs(sim, j, 1) : 0;
-        if (w > bw || (w === bw && (d2 > bd || (d2 === bd && j > best && best >= 0)))) continue;
-        bw = w;
-        bd = d2;
-        best = j;
-      }
+  const maxR2 = range * range;
+
+  const scanCell = (gx: number, gy: number): void => {
+    const c = gy * w + gx;
+    for (let q = cs[c]; q < cs[c + 1]; q++) {
+      const j = ci[q];
+      if (sim.team[j] === me || hp[j] <= 0 || sim.peace[me * 4 + sim.team[j]]) continue;
+      const dx = sim.x[j] - x;
+      const dy = sim.y[j] - y;
+      const d2 = dx * dx + dy * dy;
+      if (d2 > maxR2) continue;
+      if (leash > 0 && (sim.x[j] - cx) ** 2 + (sim.y[j] - cy) ** 2 > l2) continue;
+      const arm = hunt ? partAbs(sim, j, 0) + partAbs(sim, j, 1) : 0;
+      if (arm > bw || (arm === bw && (d2 > bd || (d2 === bd && j > best && best >= 0)))) continue;
+      bw = arm;
+      bd = d2;
+      best = j;
     }
+  };
+
+  if (hunt) {
+    for (let gy = Math.max(0, ty - r); gy <= Math.min(h - 1, ty + r); gy++) {
+      for (let gx = Math.max(0, tx - r); gx <= Math.min(w - 1, tx + r); gx++) scanCell(gx, gy);
+    }
+    return best;
+  }
+
+  for (let ring = 0; ring <= r; ring++) {
+    if (best >= 0 && ring > 1) {
+      const minD = (ring - 1) * FP;
+      if (minD * minD > bd) break;
+    }
+    if (ring === 0) {
+      if (tx >= 0 && tx < w && ty >= 0 && ty < h) scanCell(tx, ty);
+      continue;
+    }
+    const yTop = ty - ring;
+    const yBot = ty + ring;
+    const xL = Math.max(0, tx - ring);
+    const xR = Math.min(w - 1, tx + ring);
+    if (yTop >= 0 && yTop < h) for (let gx = xL; gx <= xR; gx++) scanCell(gx, yTop);
+    if (yBot >= 0 && yBot < h) for (let gx = xL; gx <= xR; gx++) scanCell(gx, yBot);
+    const yMid0 = Math.max(0, yTop + 1);
+    const yMid1 = Math.min(h - 1, yBot - 1);
+    if (tx - ring >= 0 && tx - ring < w) for (let gy = yMid0; gy <= yMid1; gy++) scanCell(tx - ring, gy);
+    if (tx + ring >= 0 && tx + ring < w) for (let gy = yMid0; gy <= yMid1; gy++) scanCell(tx + ring, gy);
   }
   return best;
 }
@@ -469,11 +568,12 @@ function die(sim: Sim, t: number): void {
   sim.stop(t);
   cb.emit(2, sim.x[t], sim.y[t], 0, 0);
   if (sim.team[t] !== 0) {
+    const bossBonus = cb.bossMods[t] && cb.bossMods[t].length > 0 ? 15 * cb.bossMods[t].length : 0;
     for (let s = 0; s < MAXS; s++) {
       if (cb.sG[s]) continue;
       cb.sX[s] = sim.x[t];
       cb.sY[s] = sim.y[t];
-      cb.sG[s] = 4 + sim.rng.int(9) + (cb.kind[t] === Kind.Golem ? 20 : 0);
+      cb.sG[s] = 4 + sim.rng.int(9) + (cb.kind[t] === Kind.Golem ? 20 : 0) + bossBonus;
       break;
     }
   }

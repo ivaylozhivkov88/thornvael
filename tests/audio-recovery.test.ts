@@ -68,12 +68,13 @@ describe('audio public lifecycle recovery', () => {
     expect(audio.audioStats().state).toBe('locked');
   });
 
-  it('loads the workshop bow cue from its own cache URL', async () => {
+  it('preloads the workshop bow and shop entry cues from their own cache URLs', async () => {
     audio.unlock();
     await audio.whenLoaded();
     const urls = vi.mocked(fetch).mock.calls.map(([url]) => String(url));
     expect(urls).toContain(`${import.meta.env.BASE_URL}audio/yew_release_01.m4a`);
     expect(urls).not.toContain(`${import.meta.env.BASE_URL}audio/bow.m4a`);
+    expect(urls.filter(url => url === `${import.meta.env.BASE_URL}audio/ledger_latch_01.m4a`)).toHaveLength(1);
   });
 
   it('handles a rejected resume and retries on a later gesture without recreating', async () => {
@@ -140,8 +141,9 @@ describe('audio public lifecycle recovery', () => {
     audio.unlock(); await audio.whenLoaded(); await settle();
     const current = ContextMock.all[1];
     fetchWait.resolve({ arrayBuffer: async () => new ArrayBuffer(8) }); await settle();
-    expect(old.decodeAudioData).toHaveBeenCalledTimes(18);
-    expect(current.decodeAudioData).toHaveBeenCalledTimes(19);
+    // 33 SFX per context, including shop entry, loot stingers, and apex spells. The old pending fetch never decodes.
+    expect(old.decodeAudioData).toHaveBeenCalledTimes(32);
+    expect(current.decodeAudioData).toHaveBeenCalledTimes(33);
     expect(audio.currentMusic()).toBe('off');
     audio.play('hit');
     expect(audio.audioStats().played).toBe(0);
@@ -198,7 +200,7 @@ describe('audio public lifecycle recovery', () => {
     for (let i = 0; i < 25; i++) audio.play('hit', i);
     expect(audio.audioStats().voices).toBeLessThanOrEqual(12);
     expect(audio.audioStats().stolen + audio.audioStats().rejected).toBeGreaterThan(0);
-    expect(ContextMock.all[1].decodeAudioData).toHaveBeenCalledTimes(20);
+    expect(ContextMock.all[1].decodeAudioData).toHaveBeenCalledTimes(34); // 33 SFX plus ambience
   });
 
   it('retries rejected media on gesture and keeps streaming music muted after late play', async () => {
@@ -214,7 +216,7 @@ describe('audio public lifecycle recovery', () => {
     silent.play.mockRejectedValueOnce(new Error('NotAllowedError'));
     audio.unlock(); await settle(); audio.unlock(); await settle();
     expect(silent.paused).toBe(false);
-    expect(ContextMock.all[0].decodeAudioData).toHaveBeenCalledTimes(20);
+    expect(ContextMock.all[0].decodeAudioData).toHaveBeenCalledTimes(34); // 33 SFX plus ambience
     expect(MediaMock.all.filter(m => m.src.includes('music_'))).toHaveLength(1);
   });
 });

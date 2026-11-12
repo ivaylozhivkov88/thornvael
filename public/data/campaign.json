@@ -1,6 +1,12 @@
 {
   "version": 1,
-  "chapter": "chapter1",
+  "chapter": "all-acts",
+  "acts": [
+    "Act I: The Border Fords",
+    "Act II: Into the Redmarsh",
+    "Act III: The Iron Coast",
+    "Act IV: Crown and Ember"
+  ],
   "start": "m01-blood-at-the-ford",
   "nodes": [
     {
@@ -8,49 +14,939 @@
       "kind": "mission",
       "map": "ford",
       "title": "Blood at the Ford",
-      "pos": [18, 70],
-      "unlocksOnVictory": ["town-thornwick", "m02-whispers-in-the-fen"],
+      "pos": [
+        38,
+        20
+      ],
+      "unlocksOnVictory": [
+        "town-thornwick",
+        "m02-whispers-in-the-fen"
+      ],
       "briefing": "Raiders have crossed the ford and burned the toll house. Gather your squad, push them back across the water and find out who sent them.",
-      "result": { "win": "The ford is clear. A scout swears the raiders came from the fen to the north.", "lose": "The raiders hold the ford. Your squad falls back to the road." }
+      "result": {
+        "win": "The ford is clear. A scout swears the raiders came from the fen to the north.",
+        "lose": "The raiders hold the ford. Your squad falls back to the road."
+      },
+      "act": 1
     },
     {
       "id": "town-thornwick",
       "kind": "town",
       "map": "market",
       "title": "Thornwick Market",
-      "pos": [34, 58],
+      "pos": [
+        14,
+        20
+      ],
       "unlocksOnVictory": [],
-      "briefing": "Trade gear, learn spells at the school, hire soldiers at the tavern and read the quest board between missions."
+      "briefing": "Trade gear, learn spells at the school, hire soldiers at the tavern and read the quest board between missions.",
+      "act": 1
     },
     {
       "id": "m02-whispers-in-the-fen",
       "kind": "mission",
       "map": "fen",
       "title": "Whispers in the Fen",
-      "pos": [48, 40],
-      "unlocksOnVictory": ["m03-nightfall-at-ravenwatch"],
+      "pos": [
+        62,
+        20
+      ],
+      "unlocksOnVictory": [
+        "m03-nightfall-at-ravenwatch"
+      ],
       "briefing": "Escort the surviving scout through the marsh to the old watch post. Ridge archers will pick at a slow column; swamp nests lie on the western hill.",
-      "result": { "win": "The watch post is held and its ledgers point to a ruined border fort.", "lose": "The fen swallows the column." }
+      "result": {
+        "win": "The watch post is held and its ledgers point to a ruined border fort.",
+        "lose": "The fen swallows the column."
+      },
+      "act": 1
     },
     {
       "id": "m03-nightfall-at-ravenwatch",
       "kind": "mission",
       "map": "ravenwatch",
       "title": "Nightfall at Ravenwatch",
-      "pos": [66, 28],
-      "unlocksOnVictory": ["m04-the-sunken-sanctum"],
+      "pos": [
+        86,
+        20
+      ],
+      "unlocksOnVictory": [
+        "m04-the-sunken-sanctum"
+      ],
       "briefing": "Hold the courtyard of the ruined fort through the night, then break the three bone totems in the woods at dawn.",
-      "result": { "win": "The totems fall and the night packs scatter. A hidden stair leads down.", "lose": "The fort is overrun before dawn." }
+      "result": {
+        "win": "The totems fall and the night packs scatter. A hidden stair leads down.",
+        "lose": "The fort is overrun before dawn."
+      },
+      "act": 1
     },
     {
       "id": "m04-the-sunken-sanctum",
       "kind": "mission",
       "map": "sanctum",
       "title": "The Sunken Sanctum",
-      "pos": [84, 14],
-      "unlocksOnVictory": [],
+      "pos": [
+        86,
+        50
+      ],
+      "unlocksOnVictory": [
+        "m05-lantern-passage"
+      ],
       "briefing": "Cross the narrow bridges and defeat Mordred the Ashen and his guard. He will fall back when wounded, and help will come from behind.",
-      "result": { "win": "Mordred the Ashen is dead. The first chapter of the road ends here.", "lose": "The sanctum keeps its master." }
+      "result": {
+        "win": "Mordred the Ashen is dead. The first chapter of the road ends here.",
+        "lose": "The sanctum keeps its master."
+      },
+      "act": 1
+    },
+    {
+      "id": "m05-lantern-passage",
+      "act": 1,
+      "kind": "mission",
+      "map": "m05",
+      "title": "Lantern Passage",
+      "pos": [
+        62,
+        50
+      ],
+      "unlocksOnVictory": [
+        "m06-greywood-supply"
+      ],
+      "briefing": "A courier carrying sealed dispatches is held in a moonless ravine hollow. Free the captive, defeat the Ravine Warden blocking the upper narrows, and bring both hero and courier safely through the north-east lantern exit.",
+      "result": {
+        "win": "Lantern Passage is clear, and Courier Corin delivers the sealed dispatches.",
+        "lose": "Your hero fell inside Lantern Passage."
+      }
+    },
+    {
+      "id": "m06-greywood-supply",
+      "act": 1,
+      "kind": "mission",
+      "map": "m06",
+      "title": "Greywood Supply",
+      "pos": [
+        38,
+        50
+      ],
+      "unlocksOnVictory": [
+        "m07-split-vanguard"
+      ],
+      "briefing": "Three raider storehouses hidden beneath the Greywood canopy feed every patrol along the border road. Clear the guards from all three depots and bring down Quartermaster Tarn.",
+      "result": {
+        "win": "Greywood Supply is burned to the stumps, and Quartermaster Tarn is no more.",
+        "lose": "Your hero fell in the Greywood raid."
+      }
+    },
+    {
+      "id": "m07-split-vanguard",
+      "act": 1,
+      "kind": "mission",
+      "map": "m07",
+      "title": "Split Vanguard",
+      "pos": [
+        14,
+        50
+      ],
+      "unlocksOnVictory": [
+        "m08-alder-bridge"
+      ],
+      "briefing": "A towering crag splits the highland road into two narrow passes. Send your company along both arms to break the stone guardians and kindle the Northern and Southern Cairns.",
+      "result": {
+        "win": "Both the Northern and Southern Cairns are kindled.",
+        "lose": "Your hero fell among the twin passes."
+      }
+    },
+    {
+      "id": "m08-alder-bridge",
+      "act": 1,
+      "kind": "mission",
+      "map": "m08",
+      "title": "Alder Bridge",
+      "pos": [
+        14,
+        80
+      ],
+      "unlocksOnVictory": [
+        "m09-ironhide-hunt"
+      ],
+      "briefing": "Raider columns mass on the far bank of Alder River. Hold the western bridgehead against three waves of attackers and prevent any foe from slipping down the western reserve road.",
+      "result": {
+        "win": "Alder Bridge is held, and the eastern raiders retreat into the woods.",
+        "lose": "Your hero fell at Alder Bridge."
+      }
+    },
+    {
+      "id": "m09-ironhide-hunt",
+      "act": 1,
+      "kind": "mission",
+      "map": "m09",
+      "title": "Ironhide Hunt",
+      "pos": [
+        38,
+        80
+      ],
+      "unlocksOnVictory": [
+        "m10-undervault-links"
+      ],
+      "briefing": "Krag Ironhide, a towering stone warlord, rallies broken raider bands inside the north-eastern quarry. Track him across the boggy moor and shatter his stone hide before more packs join him.",
+      "result": {
+        "win": "Krag Ironhide lies shattered, and the moorland raiders scatter.",
+        "lose": "Your hero fell during the Ironhide hunt."
+      }
+    },
+    {
+      "id": "m10-undervault-links",
+      "act": 1,
+      "kind": "mission",
+      "map": "m10",
+      "title": "Undervault Links",
+      "pos": [
+        62,
+        80
+      ],
+      "unlocksOnVictory": [
+        "m11-ashbrook-retreat"
+      ],
+      "briefing": "Beneath the canyon ridge run three torch-lit stone galleries linking Ashbrook to the outer passes. Purge the cultists and stone sentinels guarding the vaults to reopen the subterranean way.",
+      "result": {
+        "win": "The Undervault Links are purged, opening the passage beneath the ridge to Ashbrook.",
+        "lose": "Your hero fell in the Undervault Links."
+      }
+    },
+    {
+      "id": "m11-ashbrook-retreat",
+      "act": 1,
+      "kind": "mission",
+      "map": "m11",
+      "title": "Ashbrook Retreat",
+      "pos": [
+        86,
+        80
+      ],
+      "unlocksOnVictory": [
+        "town-redmarsh",
+        "m12-redmarsh-border"
+      ],
+      "briefing": "Dusk settles over Ashbrook as the siege host marches on the southern gatehouse. Hold the gate against their assault waves, then counterattack up the valley road to defeat Siege Commander Vaelen.",
+      "result": {
+        "win": "Ashbrook Gate holds and Siege Commander Vaelen is defeated. Act I draws to a close.",
+        "lose": "Your hero fell during the defense of Ashbrook."
+      }
+    },
+    {
+      "id": "town-redmarsh",
+      "kind": "town",
+      "map": "market",
+      "title": "Redmarsh Outpost",
+      "pos": [
+        14,
+        11
+      ],
+      "unlocksOnVictory": [],
+      "tiers": [
+        2,
+        3
+      ],
+      "briefing": "Trade tier 2-3 gear, learn advanced spells at the school, hire seasoned soldiers at the tavern and read the borderland bounty board.",
+      "act": 2
+    },
+    {
+      "id": "m12-redmarsh-border",
+      "act": 2,
+      "kind": "mission",
+      "map": "m12",
+      "title": "Redmarsh Border",
+      "pos": [
+        38,
+        20
+      ],
+      "unlocksOnVictory": [
+        "m13-twin-passes"
+      ],
+      "briefing": "Beyond the old border stone lies the Redmarsh, a rusted basin of reed beds and sunken fords. Raider scouts hold the crossings and watch the northern road. Cross into the borderland and drive out every scout pack.",
+      "result": {
+        "win": "The Redmarsh border is secure and the mountain road lies open.",
+        "lose": "Your hero has fallen on the Redmarsh border."
+      }
+    },
+    {
+      "id": "m13-twin-passes",
+      "act": 2,
+      "kind": "mission",
+      "map": "m13",
+      "title": "Twin Passes",
+      "pos": [
+        62,
+        20
+      ],
+      "unlocksOnVictory": [
+        "m14-scattered-scouts"
+      ],
+      "briefing": "A granite ridge splits the valley in two, crossed only by the West and East Passes. Both defiles are held by heavy pickets, and a command post waits on the high shelf above them.",
+      "result": {
+        "win": "Both mountain passes are broken and the summit command is cleared.",
+        "lose": "Your hero has fallen in the Twin Passes."
+      }
+    },
+    {
+      "id": "m14-scattered-scouts",
+      "act": 2,
+      "kind": "mission",
+      "map": "m14",
+      "title": "Scattered Scouts",
+      "pos": [
+        86,
+        20
+      ],
+      "unlocksOnVictory": [
+        "m15-outpost-palisade"
+      ],
+      "briefing": "Three forward ranger teams were cut off across the Bracken Basin when raiders encircled their watchposts. Clear the besiegers around each post and bring your hero to the doors to rally the survivors.",
+      "result": {
+        "win": "All three scout posts are relieved and the surviving rangers join your march.",
+        "lose": "Your hero has fallen in the Bracken Basin."
+      }
+    },
+    {
+      "id": "m15-outpost-palisade",
+      "act": 2,
+      "kind": "mission",
+      "map": "m15",
+      "title": "Outpost Palisade",
+      "pos": [
+        86,
+        50
+      ],
+      "unlocksOnVictory": [
+        "m16-wardstone-rupture"
+      ],
+      "briefing": "Night closes over the timber palisade at Highgate Watch. Three raider warbands are massing beyond the north, west and east gates. Hold the courtyard and keep at least one hall standing until the assault breaks.",
+      "result": {
+        "win": "All three siege waves are broken and Highgate Palisade endures.",
+        "lose": "Your hero has fallen inside the palisade."
+      }
+    },
+    {
+      "id": "m16-wardstone-rupture",
+      "act": 2,
+      "kind": "mission",
+      "map": "m16",
+      "title": "Wardstone Rupture",
+      "pos": [
+        62,
+        50
+      ],
+      "unlocksOnVictory": [
+        "m17-mire-convoy"
+      ],
+      "briefing": "Three ancient wardstones on the northern crags bind the highland storms against our march. Stone golems and fire imps guard each circle. Shatter all three guardian packs to break the wards.",
+      "result": {
+        "win": "All three ward guardian packs are destroyed and the highland veil lifts.",
+        "lose": "Your hero has fallen beneath the wardstones."
+      }
+    },
+    {
+      "id": "m17-mire-convoy",
+      "act": 2,
+      "kind": "mission",
+      "map": "m17",
+      "title": "Mire Convoy",
+      "pos": [
+        38,
+        50
+      ],
+      "unlocksOnVictory": [
+        "m18-granary-raid"
+      ],
+      "briefing": "Quartermaster Bram leads our last powder pack along the sunken causeway toward the north-east ridge depot. Keep him alive through the bog trails and break the blockade guarding the depot gate.",
+      "result": {
+        "win": "The convoy reaches the ridge depot intact.",
+        "lose": "Your hero has fallen in the mire."
+      }
+    },
+    {
+      "id": "m18-granary-raid",
+      "act": 2,
+      "kind": "mission",
+      "map": "m18",
+      "title": "Granary Raid",
+      "pos": [
+        14,
+        37
+      ],
+      "unlocksOnVictory": [
+        "m19-hexer-capture"
+      ],
+      "briefing": "The mountain raiders store grain and salted rations in a high shelf depot above the valley. Clear the lower sentries, then sweep all three storehouse guards from the compound.",
+      "result": {
+        "win": "The mountain storehouse depot falls into company hands.",
+        "lose": "Your hero has fallen below the granary walls."
+      }
+    },
+    {
+      "id": "m19-hexer-capture",
+      "act": 2,
+      "kind": "mission",
+      "map": "m19",
+      "title": "Hexer's Hollow",
+      "pos": [
+        14,
+        63
+      ],
+      "unlocksOnVictory": [
+        "m20-deep-quarry"
+      ],
+      "briefing": "Hexer Kaelen directs the highland covens from a stone ring in the northern woods. Cut through his hollow wardens and strike down Kaelen himself, though his acolytes will rush out if he is pressed.",
+      "result": {
+        "win": "Hexer Kaelen is defeated and the briar coven scatters.",
+        "lose": "Your hero has fallen in the hollow."
+      }
+    },
+    {
+      "id": "m20-deep-quarry",
+      "act": 2,
+      "kind": "mission",
+      "map": "m20",
+      "title": "Deep Quarry",
+      "pos": [
+        14,
+        89
+      ],
+      "unlocksOnVictory": [
+        "m21-lean-garrison"
+      ],
+      "briefing": "Raiders mine ironstone in a three-tiered pit carved into the mountainside. Fight down each quarry ramp from the south-west rim to the deep floor and break every overseer pack.",
+      "result": {
+        "win": "Every terrace of the Deep Quarry is cleared.",
+        "lose": "Your hero has fallen on the quarry steps."
+      }
+    },
+    {
+      "id": "m21-lean-garrison",
+      "act": 2,
+      "kind": "mission",
+      "map": "m21",
+      "title": "Lean Garrison",
+      "pos": [
+        38,
+        80
+      ],
+      "unlocksOnVictory": [
+        "m22-fleeing-column"
+      ],
+      "briefing": "With half the company detached along the supply road, only a lean watch holds Crosswall Courtyard. Plug the narrow stone lanes and survive three probing assaults without losing both halls.",
+      "result": {
+        "win": "Crosswall Courtyard holds firm despite a lean garrison.",
+        "lose": "Your hero has fallen in Crosswall Courtyard."
+      }
+    },
+    {
+      "id": "m22-fleeing-column",
+      "act": 2,
+      "kind": "mission",
+      "map": "m22",
+      "title": "Fleeing Column",
+      "pos": [
+        62,
+        80
+      ],
+      "unlocksOnVictory": [
+        "m23-fork-of-spears"
+      ],
+      "briefing": "Commander Vorn is retreating up Spearwind Gorge with dispatches naming the fortress war-chief. Cut through his rearguard and bring Vorn down before he reaches the mountain gate in the north-east.",
+      "result": {
+        "win": "Commander Vorn is intercepted and his dispatches name the Ironheart Bastion.",
+        "lose": "Your hero has fallen in Spearwind Gorge."
+      }
+    },
+    {
+      "id": "m23-fork-of-spears",
+      "act": 2,
+      "kind": "mission",
+      "map": "m23",
+      "title": "Fork of Spears",
+      "pos": [
+        86,
+        80
+      ],
+      "unlocksOnVictory": [
+        "town-oakhaven",
+        "m24-pledge-at-oakhaven"
+      ],
+      "briefing": "Ironheart Bastion crowns the forked mountain: the West Causeway crosses the marshy moat while the East Ridge climbs the stone switchbacks. Breach either gate into the fortress courtyard and shatter the Ironheart Bulwark, the living colossus anchoring the highland war.",
+      "result": {
+        "win": "The Ironheart Bulwark is shattered and the Fork of Spears falls to Thornvael.",
+        "lose": "Your hero has fallen beneath the walls of Ironheart Bastion."
+      }
+    },
+    {
+      "id": "town-oakhaven",
+      "kind": "town",
+      "map": "market",
+      "title": "Oakhaven Bastion",
+      "pos": [
+        14,
+        11
+      ],
+      "unlocksOnVictory": [],
+      "tiers": [
+        3,
+        4
+      ],
+      "briefing": "Trade tier 3-4 arms and armour, study high-tier spells at the school, recruit veteran mercenaries and check coastal war contracts.",
+      "act": 3
+    },
+    {
+      "id": "m24-pledge-at-oakhaven",
+      "act": 3,
+      "kind": "mission",
+      "map": "m24",
+      "title": "Pledge at Oakhaven",
+      "pos": [
+        38,
+        20
+      ],
+      "unlocksOnVictory": [
+        "m25-cinder-wards"
+      ],
+      "briefing": "Beyond the southern passes, Oakhaven holds the frontier line. Resupply in town, shatter the road blockade, and relieve Captain Bram at the northern watch post before the siege pack breaks his garrison.",
+      "result": {
+        "win": "The Oakhaven frontier is secured and the northern garrison stands relieved.",
+        "lose": "Your hero fell on the frontier road."
+      }
+    },
+    {
+      "id": "m25-cinder-wards",
+      "act": 3,
+      "kind": "mission",
+      "map": "m25",
+      "title": "Cinder Wards",
+      "pos": [
+        62,
+        20
+      ],
+      "unlocksOnVictory": [
+        "m26-sundered-ranks"
+      ],
+      "briefing": "Three outer rune circles feed an ancient ward over the central altar. Shatter the West, North, and East rune guardians, then break the Central Altar Warden.",
+      "result": {
+        "win": "Every cinder ward is extinguished across the ash plain.",
+        "lose": "Your hero fell beneath the cinder wards."
+      }
+    },
+    {
+      "id": "m26-sundered-ranks",
+      "act": 3,
+      "kind": "mission",
+      "map": "m26",
+      "title": "Sundered Ranks",
+      "pos": [
+        86,
+        20
+      ],
+      "unlocksOnVictory": [
+        "m27-field-infirmary"
+      ],
+      "briefing": "Twin flanking camps guard the approaches around a central crag. Cleave both flanking camps before breaking the Northern Command atop the ridge.",
+      "result": {
+        "win": "Both flanks and the northern ridge lie in your hands.",
+        "lose": "Your hero fell among the sundered ranks."
+      }
+    },
+    {
+      "id": "m27-field-infirmary",
+      "act": 3,
+      "kind": "mission",
+      "map": "m27",
+      "title": "Field Infirmary",
+      "pos": [
+        86,
+        50
+      ],
+      "unlocksOnVictory": [
+        "m28-sunken-citadel"
+      ],
+      "briefing": "Wounded soldiers shelter inside the woodland infirmary under Chief Healer Sera. Defend the camp from three converging raider packs and keep Sera alive.",
+      "result": {
+        "win": "Every pack was broken outside the tents and the infirmary stands intact.",
+        "lose": "Your hero fell defending the infirmary."
+      }
+    },
+    {
+      "id": "m28-sunken-citadel",
+      "act": 3,
+      "kind": "mission",
+      "map": "m28",
+      "title": "Sunken Citadel",
+      "pos": [
+        62,
+        50
+      ],
+      "unlocksOnVictory": [
+        "m29-hourglass-rescue"
+      ],
+      "briefing": "An ancient sunken citadel bars the northern road with twin stone ramparts. Breach the outer wall garrison, fight across the inner courtyard, and topple the Citadel Warden.",
+      "result": {
+        "win": "The Sunken Citadel’s gates stand open and its banners lie torn.",
+        "lose": "Your hero fell beneath the walls of the Sunken Citadel."
+      }
+    },
+    {
+      "id": "m29-hourglass-rescue",
+      "act": 3,
+      "kind": "mission",
+      "map": "m29",
+      "title": "Hourglass Rescue",
+      "pos": [
+        38,
+        50
+      ],
+      "unlocksOnVictory": [
+        "m30-starved-bastion"
+      ],
+      "briefing": "Gate Warden Lyra’s northern gatehouse is running out of bolts and time. Cut through the gorge picket, smash the gate siege detachment, and reach the gatehouse before the hourglass empties.",
+      "result": {
+        "win": "Your swift raid broke the siege before the hourglass ran dry.",
+        "lose": "Your hero fell on the rescue march."
+      }
+    },
+    {
+      "id": "m30-starved-bastion",
+      "act": 3,
+      "kind": "mission",
+      "map": "m30",
+      "title": "Starved Bastion",
+      "pos": [
+        14,
+        37
+      ],
+      "unlocksOnVictory": [
+        "m31-riverlock-crossing"
+      ],
+      "briefing": "Twin supply escorts feed the stone redoubt at the head of the valley. Cut both supply columns on the valley flanks, then storm the redoubt and break its commander.",
+      "result": {
+        "win": "The valley redoubt is starved, broken, and claimed.",
+        "lose": "Your hero fell below the valley redoubt."
+      }
+    },
+    {
+      "id": "m31-riverlock-crossing",
+      "act": 3,
+      "kind": "mission",
+      "map": "m31",
+      "title": "Riverlock Crossing",
+      "pos": [
+        14,
+        63
+      ],
+      "unlocksOnVictory": [
+        "m32-elder-juggernaut"
+      ],
+      "briefing": "A deep river splits the frontier, spanned only by the West and East Riverlock bridges. Seize both northern lock banks and overthrow the Lockmaster guarding the heights.",
+      "result": {
+        "win": "Both riverlocks and the northern ridge belong to your company.",
+        "lose": "Your hero was lost at Riverlock Crossing."
+      }
+    },
+    {
+      "id": "m32-elder-juggernaut",
+      "act": 3,
+      "kind": "mission",
+      "map": "m32",
+      "title": "Elder Juggernaut",
+      "pos": [
+        14,
+        89
+      ],
+      "unlocksOnVictory": [
+        "m33-high-stakes-gambit"
+      ],
+      "briefing": "High above the pine line, an ancient stone colossus—the Elder Juggernaut—guards a ruined cairn with twin granite wardens and runic retainers. Hunt down the Elder Juggernaut and shatter its stone court.",
+      "result": {
+        "win": "The Elder Juggernaut lies in rubble and the highland passes are quiet.",
+        "lose": "Your hero fell on the slopes of the Elder Juggernaut."
+      }
+    },
+    {
+      "id": "m33-high-stakes-gambit",
+      "act": 3,
+      "kind": "mission",
+      "map": "m33",
+      "title": "High-Stakes Gambit",
+      "pos": [
+        38,
+        80
+      ],
+      "unlocksOnVictory": [
+        "m34-clashing-banners"
+      ],
+      "briefing": "Two heavily guarded treasure vaults flank the central keep. Push straight through the middle to fell the Vault Keep Commander, or gamble on the side vaults for gold and relics first.",
+      "result": {
+        "win": "Your gamble paid off—the keep is taken.",
+        "lose": "Your hero fell in the high-stakes assault."
+      }
+    },
+    {
+      "id": "m34-clashing-banners",
+      "act": 3,
+      "kind": "mission",
+      "map": "m34",
+      "title": "Clashing Banners",
+      "pos": [
+        62,
+        80
+      ],
+      "unlocksOnVictory": [
+        "m35-burning-harbor"
+      ],
+      "briefing": "Two rival warbands—the Ironclad Banner to the west and the Ashen Banner to the east—war over the valley and attack any outsider on sight. Shatter both rival warbands and their commanders.",
+      "result": {
+        "win": "Neither warband remains to contest the frontier.",
+        "lose": "Your hero fell between the clashing banners."
+      }
+    },
+    {
+      "id": "m35-burning-harbor",
+      "act": 3,
+      "kind": "mission",
+      "map": "m35",
+      "title": "Burning Harbor",
+      "pos": [
+        86,
+        80
+      ],
+      "unlocksOnVictory": [
+        "town-ironcamp",
+        "m36-heartland-march"
+      ],
+      "briefing": "Smoke rises over Harborwatch as raiders seal the harbor avenues and press the western evacuation pier. Clear the avenues to save Harbor Marshal Veyra’s evacuation, then storm the eastern war pier and slay the Dock Commander.",
+      "result": {
+        "win": "The evacuation fleet sails clear and the Burning Harbor is reclaimed.",
+        "lose": "Your hero fell amidst the flames of Burning Harbor."
+      }
+    },
+    {
+      "id": "town-ironcamp",
+      "kind": "town",
+      "map": "market",
+      "title": "Ironcamp Citadel",
+      "pos": [
+        14,
+        20
+      ],
+      "unlocksOnVictory": [],
+      "tiers": [
+        4,
+        5
+      ],
+      "briefing": "Trade tier 4-5 relics, master final-circle spells at the school, hire elite veterans at the tavern and prepare for the final siege.",
+      "act": 4
+    },
+    {
+      "id": "m36-heartland-march",
+      "act": 4,
+      "kind": "mission",
+      "map": "m36",
+      "title": "Heartland March",
+      "pos": [
+        38,
+        20
+      ],
+      "unlocksOnVictory": [
+        "m37-shattered-beacons"
+      ],
+      "briefing": "Advance into the central highlands of Thornvael. Resupply at Highcrest, sweep the Iron Pact scouts from the lower road, and force the Northern Pass.",
+      "result": {
+        "win": "The central highlands are breached and the Iron Pact retreats northward.",
+        "lose": "Your hero fell on the Heartland March."
+      }
+    },
+    {
+      "id": "m37-shattered-beacons",
+      "act": 4,
+      "kind": "mission",
+      "map": "m37",
+      "title": "Shattered Beacons",
+      "pos": [
+        62,
+        20
+      ],
+      "unlocksOnVictory": [
+        "m38-besieged-wall"
+      ],
+      "briefing": "Three arcane signal beacons shield the highland approach. Cut down the wardens of each ridge tower to shatter the defensive grid.",
+      "result": {
+        "win": "All three defensive beacons lie in ruins. The Iron Pact ward is broken.",
+        "lose": "Your hero fell beneath the shattered beacons."
+      }
+    },
+    {
+      "id": "m38-besieged-wall",
+      "act": 4,
+      "kind": "mission",
+      "map": "m38",
+      "title": "Besieged Wall",
+      "pos": [
+        86,
+        20
+      ],
+      "unlocksOnVictory": [
+        "m39-flight-of-malrik"
+      ],
+      "briefing": "Greystone Bastion holds the highland narrows. Stand beside Captain Rowan’s garrison and repel three waves of siege breakers before the gate falls.",
+      "result": {
+        "win": "Greystone Bastion stands unbroken and the siege host scatters.",
+        "lose": "Your hero fell on the bastion battlements."
+      }
+    },
+    {
+      "id": "m39-flight-of-malrik",
+      "act": 4,
+      "kind": "mission",
+      "map": "m39",
+      "title": "Flight of Malrik",
+      "pos": [
+        86,
+        50
+      ],
+      "unlocksOnVictory": [
+        "m40-twofold-assault"
+      ],
+      "briefing": "Arch-Mage Malrik is fleeing through Ashveil Gorge toward the summit teleport gate. Cut him down before he reaches the northern shrine.",
+      "result": {
+        "win": "Arch-Mage Malrik is slain and his highland command collapses.",
+        "lose": "Your hero fell in Ashveil Gorge."
+      }
+    },
+    {
+      "id": "m40-twofold-assault",
+      "act": 4,
+      "kind": "mission",
+      "map": "m40",
+      "title": "Twofold Assault",
+      "pos": [
+        62,
+        50
+      ],
+      "unlocksOnVictory": [
+        "m41-gauntlet-of-iron"
+      ],
+      "briefing": "Twin crag bastions guard the approaches to the Iron Citadel. Split your forces or strike hard and fast—both keeps must fall.",
+      "result": {
+        "win": "Both Twin Crag bastions lie conquered under your banner.",
+        "lose": "Your hero fell beneath the Twin Crags."
+      }
+    },
+    {
+      "id": "m41-gauntlet-of-iron",
+      "act": 4,
+      "kind": "mission",
+      "map": "m41",
+      "title": "Gauntlet of Iron",
+      "pos": [
+        38,
+        50
+      ],
+      "unlocksOnVictory": [
+        "m42-outer-rampart"
+      ],
+      "briefing": "A canyon gauntlet barred by combined-arms checkpoints leads to the fortress outer approach. Break the First Gate, cross the mire, force the Iron Bridge, and crush the Exit Commander.",
+      "result": {
+        "win": "You have fought clear through the Gauntlet of Iron.",
+        "lose": "Your hero fell inside the Gauntlet of Iron."
+      }
+    },
+    {
+      "id": "m42-outer-rampart",
+      "act": 4,
+      "kind": "mission",
+      "map": "m42",
+      "title": "Outer Rampart",
+      "pos": [
+        14,
+        50
+      ],
+      "unlocksOnVictory": [
+        "m43-three-roads-siege"
+      ],
+      "briefing": "The Outer Rampart bars entry to the final fortress. Breach at least two of its three gatehouses to force open the Inner Bailey, then defeat its garrison.",
+      "result": {
+        "win": "The Outer Rampart lies open and the Inner Bailey is secured.",
+        "lose": "Your hero fell beneath the Outer Rampart."
+      }
+    },
+    {
+      "id": "m43-three-roads-siege",
+      "act": 4,
+      "kind": "mission",
+      "map": "m43",
+      "title": "Three-Roads Siege",
+      "pos": [
+        14,
+        80
+      ],
+      "unlocksOnVictory": [
+        "m44-threshold-choice"
+      ],
+      "briefing": "Enemy siege columns converge on Three-Roads Watch from the north, west, and east. Hold the central camp with Warden Tessa’s guard, then counterattack the northern staging post.",
+      "result": {
+        "win": "Three-Roads Watch holds fast and the besiegers are routed.",
+        "lose": "Your hero fell at Three-Roads Watch."
+      }
+    },
+    {
+      "id": "m44-threshold-choice",
+      "act": 4,
+      "kind": "mission",
+      "map": "m44",
+      "title": "Threshold Choice",
+      "pos": [
+        38,
+        80
+      ],
+      "unlocksOnVictory": [
+        "m45-crown-of-order",
+        "m46-ember-reckoning"
+      ],
+      "briefing": "Beneath the shattered rampart lies the Threshold Chamber of the Crown Vault. Clear its sentinels, then step onto either the West Altar of Order or the East Altar of Ember to choose how the vault shall end.",
+      "result": {
+        "win": "The Threshold is crossed and your final path lies open.",
+        "lose": "Your hero fell inside the Threshold Chamber."
+      }
+    },
+    {
+      "id": "m45-crown-of-order",
+      "act": 4,
+      "kind": "mission",
+      "map": "m45",
+      "title": "Crown of Order",
+      "pos": [
+        62,
+        80
+      ],
+      "unlocksOnVictory": [],
+      "briefing": "Final Chapter — Path of Order. Bind the West and East Anchor Seals of the Crown Vault, then defeat Arch-Warden Korrath to seal the realm’s heart in peace.",
+      "result": {
+        "win": "The Crown Vault is sealed in order. Peace returns to Thornvael.",
+        "lose": "Your hero fell inside the Crown Vault."
+      }
+    },
+    {
+      "id": "m46-ember-reckoning",
+      "act": 4,
+      "kind": "mission",
+      "map": "m46",
+      "title": "Ember Reckoning",
+      "pos": [
+        86,
+        80
+      ],
+      "unlocksOnVictory": [],
+      "briefing": "Final Chapter — Path of Ember. Shatter the West and East Conduit Pillars feeding the Furnace Heart, then slay Ember Overlord Vorak to destroy the vault forever.",
+      "result": {
+        "win": "The Crown Vault is shattered for good. Thornvael steps free of its shadow.",
+        "lose": "Your hero fell inside the Furnace Heart."
+      }
     }
   ]
 }

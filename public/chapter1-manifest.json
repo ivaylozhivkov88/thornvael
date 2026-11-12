@@ -1,19 +1,23 @@
 {
  "id": "ch1",
  "cache": "thornvael-ch1-v1",
- "total": 644632,
+ "total": 900964,
  "files": [
   {
    "path": "data/campaign.json",
-   "size": 2480
+   "size": 30581
   },
   {
    "path": "data/items.json",
-   "size": 10135
+   "size": 41766
+  },
+  {
+   "path": "data/monsters.json",
+   "size": 5811
   },
   {
    "path": "data/spells.json",
-   "size": 2900
+   "size": 3940
   },
   {
    "path": "audio/ambience.m4a",
@@ -72,6 +76,30 @@
    "size": 1948
   },
   {
+   "path": "audio/ledger_latch_01.m4a",
+   "size": 2234
+  },
+  {
+   "path": "audio/loot_magic.m4a",
+   "size": 8591
+  },
+  {
+   "path": "audio/loot_normal.m4a",
+   "size": 4311
+  },
+  {
+   "path": "audio/loot_rare.m4a",
+   "size": 11789
+  },
+  {
+   "path": "audio/loot_set.m4a",
+   "size": 15961
+  },
+  {
+   "path": "audio/loot_unique.m4a",
+   "size": 19619
+  },
+  {
    "path": "audio/miss.m4a",
    "size": 2496
   },
@@ -90,6 +118,38 @@
   {
    "path": "audio/revive.m4a",
    "size": 7040
+  },
+  {
+   "path": "audio/spell_acid_rain.m4a",
+   "size": 16006
+  },
+  {
+   "path": "audio/spell_blizzard.m4a",
+   "size": 18331
+  },
+  {
+   "path": "audio/spell_inferno.m4a",
+   "size": 14871
+  },
+  {
+   "path": "audio/spell_iron_skin.m4a",
+   "size": 12176
+  },
+  {
+   "path": "audio/spell_mana_burn.m4a",
+   "size": 11015
+  },
+  {
+   "path": "audio/spell_meteor.m4a",
+   "size": 20724
+  },
+  {
+   "path": "audio/spell_thunderstorm.m4a",
+   "size": 17053
+  },
+  {
+   "path": "audio/spell_time_warp.m4a",
+   "size": 17068
   },
   {
    "path": "audio/step1.m4a",

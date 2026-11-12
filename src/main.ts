@@ -1,6 +1,6 @@
 import { registerWorker } from './updategate';
 import { createInstallController, isInstallPrompt } from './pwa-install';
-import { audioState, blip, play, resumeAudio, setAmbience, setMusic, setSfx, suspendAudio, unlock } from './audio';
+import { audioState, blip, cancelShopEntry, play, playShopEntry, resumeAudio, setAmbience, setMusic, setSfx, suspendAudio, unlock } from './audio';
 import { MusicDirector, cueFor } from './audiologic';
 import { ControlGroups, GROUP_COUNT } from './groups';
 import { GestureRecognizer, pickUnit, reticle, unitsInBox, type Intent } from './input';
@@ -24,7 +24,7 @@ import { DEFS, Kind, M, MODN, nearestLoot, partAbs, partDef } from './sim/combat
 import { DAY_TICKS, clockText } from './sim/daynight';
 import { HeroUi, tabStrip } from './heroui';
 import { SKILL_NAMES, WHY_TEXT, createHero } from './sim/hero';
-import { ITEMS, itemText } from './sim/items';
+import { getItemDef, itemId, itemText } from './sim/items';
 import { loadGameData } from './loaddata';
 import { DebugPanel } from './debugpanel';
 import { SPELLS, Tk } from './sim/spelldata';
@@ -34,6 +34,7 @@ import { S } from './strings';
 import { readPreferences, writePreference } from './preferences';
 import { DoubleTap, PortraitStrip, RadialMenu, portraitIds, unitsOfKind, type RadialOrder } from './touchx';
 import { monsterInfo } from './monster-info';
+import { discoverItem, onDiscovery } from './codex';
 import './style.css';
 
 await loadGameData(); // item and spell tables, before any sim or mission is built
@@ -75,6 +76,19 @@ if (!resumed && missionName && !crowd && !stress && !battle) {
     missionError = (e as Error).message;
   }
 }
+const expeditionSeed = params.get('expedition');
+if (!resumed && !loadedMission && expeditionSeed && !crowd && !stress && !battle) {
+  try {
+    const seed = Number.parseInt(expeditionSeed, 10) || 12345;
+    const biome = (params.get('biome') as 'forest' | 'marsh' | 'desert' | 'crypt') || 'forest';
+    const { generateExpeditionMap } = await import('./map-generator');
+    const { loadDoc } = await import('./mapdoc');
+    const doc = generateExpeditionMap({ seed, biome, size: 64 });
+    loadedMission = loadDoc(doc);
+  } catch (e) {
+    missionError = (e as Error).message;
+  }
+}
 // Campaign node: the record holds the hero pick, difficulty and what the hero carries in.
 const campaignId = resumed ? resumed.save.state.node ?? null : params.get('campaign');
 let campaign: Campaign | null = null;
@@ -82,7 +96,14 @@ let crec: CampaignRecord | null = null;
 if (campaignId && loadedMission) {
   try {
     campaign = await loadCampaign();
-    nodeOf(campaign, campaignId);
+    const cNode = nodeOf(campaign, campaignId);
+    if (cNode.kind === 'town' && loadedMission.doc.towns?.length) {
+      loadedMission.doc.towns[0] = {
+        ...loadedMission.doc.towns[0],
+        name: cNode.title,
+        ...(cNode.tiers ? { tiers: cNode.tiers } : {}),
+      };
+    }
     crec = resumed ? await restoreSaveCampaign(resumed.save, campaign) : await readRecord();
     if (!crec) campaign = null;
     if (resumed && !crec) missionError = S.save.legacyCampaign;
@@ -161,7 +182,7 @@ let curSpell = 0; // the spell the Cast button, C key and Auto act on
 const DEFAULT_SLOTS = [0, 1, 4, 7, 9, 19, 11, 15, 17]; // Fire Bolt, Fireball, Frost Bolt, Healing, Lightning, Blessing, Haste, Stone Curse, Poison Cloud
 /** A quick slot holds a spell id (0..23), an item (100 + item id) or -1 for empty. */
 const ITEM_BASE = 100;
-const validSlot = (v: unknown): boolean => Number.isInteger(v) && (v as number) >= -1 && ((v as number) < SPELLS.length || ((v as number) >= ITEM_BASE && (v as number) - ITEM_BASE < ITEMS.length));
+const validSlot = (v: unknown): boolean => Number.isInteger(v) && (v as number) >= -1 && ((v as number) < SPELLS.length || ((v as number) >= ITEM_BASE && getItemDef((v as number) - ITEM_BASE) !== undefined));
 let slots: number[] = [...DEFAULT_SLOTS];
 let savedSlots = false; // slots the player has already arranged (kept across games)
 let slotAssign = -1;
@@ -456,8 +477,9 @@ function unitInfo(i: number): string {
   const side = sim.team[i] === 0 ? S.yours : S.enemy;
   const mana = cb.manaMax[i] > 0 ? `, ${S.mana} ${cb.mana[i]}/${cb.manaMax[i]}` : '';
   const armour = S.parts.map((p, k) => `${p} ${partDef(sim, i, k)}/${partAbs(sim, i, k)}`).join(', ');
-  const family = sim.team[i] !== 0 ? monsterInfo(cb.kind[i]) : null;
-  const traits = family ? `\nBase family: ${family.base.ranged ? 'ranged' : 'melee'} ${S.elements[family.base.elem]}, range ${family.base.reach / FP} tiles, speed ${family.base.speed}%.` : '';
+  const family = sim.team[i] !== 0 ? monsterInfo(cb.kind[i], cb.tier[i], cb.family[i], cb.bossMods[i]) : null;
+  const modLine = family?.mods?.length ? `\nElite: ${family.mods.join(', ')}` : '';
+  const traits = family ? `\nBase family${family.family ? ` (${family.name})` : ''}: ${family.base.ranged ? 'ranged' : 'melee'} ${S.elements[family.base.elem]}, range ${family.base.reach / FP} tiles, speed ${family.base.speed}%.${modLine}` : '';
   return `${S.kinds[cb.kind[i]]} (${side}): ${S.hp} ${cb.hp[i]}/${cb.hpMax[i]}${mana}\n${S.hit} ${d.acc + cb.mod[mo + M.Acc]}, ${S.defence}/${S.absorb}: ${armour}\n${S.resist}: ${r}${traits}`;
 }
 function unitAt(x: number, y: number, r: number): number {
@@ -793,7 +815,7 @@ function buildQuick(): void {
       b.title = S.slotEmpty;
       b.style.borderColor = '';
     } else if (sid >= ITEM_BASE) {
-      name.textContent = ITEMS[sid - ITEM_BASE].name;
+      name.textContent = getItemDef(sid - ITEM_BASE)?.name ?? '';
       small.textContent = `F${n + 4} · ${slotCount(sid)}`;
       b.title = itemText(sid - ITEM_BASE);
       b.style.borderColor = '#7ab4ff';
@@ -945,7 +967,7 @@ function renderBook(): void {
     const b = document.createElement('button');
     b.textContent = `F${n + 4}`;
     const small = document.createElement('small');
-    small.textContent = slots[n] >= ITEM_BASE ? ITEMS[slots[n] - ITEM_BASE].name : slots[n] >= 0 ? SPELLS[slots[n]].name : '-';
+    small.textContent = slots[n] >= ITEM_BASE ? (getItemDef(slots[n] - ITEM_BASE)?.name ?? '') : slots[n] >= 0 ? SPELLS[slots[n]].name : '-';
     b.append(small);
     b.classList.toggle('on', slotAssign === n);
     b.onclick = () => {
@@ -1028,6 +1050,8 @@ const townUi = new TownUi({
     if (!bookEl.hidden) closeBook();
     if (heroUi.isOpen) heroUi.close();
   },
+  onShopEnter: playShopEntry,
+  onShopLeave: cancelShopEntry,
 });
 let visit: { town: number; role: number; npc: number; until: number } | null = null;
 const TALK_REACH = 3;
@@ -1112,7 +1136,8 @@ function heroEvents(): void {
   let touched = false;
   for (const e of sim.cb.fx) {
     if (e.type === 14) {
-      const d = ITEMS[e.v];
+      const d = getItemDef(e.v);
+      if (!d) continue;
       const verbs = [S.hero.picked, S.hero.equipped, S.hero.used, S.hero.learned, S.hero.dropped, S.hero.unequipped];
       toast(`${verbs[e.el]}: ${e.el === 3 && d.spell >= 0 ? SPELLS[d.spell].name : d.name}`);
       touched = true;
@@ -1374,7 +1399,15 @@ async function endNode(win: boolean, text: string): Promise<void> {
   const [up, size] = army();
   const carry = win && sim.hero ? extractCarryover(sim, crec!.progress, townSeed(1, crec!.progress.townVisits), slots) : null;
   if (carry?.upkeep) toast(`${S.touch.upkeep}: -${carry.upkeep} ${S.gold}`);
-  crec = afterMission(campaign!, crec!, campaignId!, win, carry, { text, up, size, gold: sim.cb.gold[0] });
+  const branch = sim.script?.st.sv[0] ?? 0;
+  const lastResult: { text: string; up: number; size: number; gold: number; branch?: number } = {
+    text,
+    up,
+    size,
+    gold: sim.cb.gold[0],
+    ...(branch ? { branch } : {}),
+  };
+  crec = afterMission(campaign!, crec!, campaignId!, win, carry, lastResult);
   await writeRecord(crec);
   await deleteSave(AUTO).catch(() => undefined); // the mid-mission autosave is obsolete
   const b = $('panel-restart');
@@ -1405,6 +1438,10 @@ function advanceStep(): void {
   simMs += performance.now() - started;
   simSteps++;
   renderer.observe(sim); // presentation timing is deliberately outside the sim budget
+  if (sim.hero && sim.tick % 25 === 0) {
+    for (const stack of sim.hero.inv) discoverItem(stack.item);
+    for (const id of sim.hero.eq) if (id >= 0) discoverItem(id);
+  }
 }
 
 function frame(): void {
@@ -1495,6 +1532,10 @@ function toast(msg: string, action?: { label: string; run: () => void }): void {
   t.hidden = false;
   if (!action) setTimeout(() => (t.hidden = true), 3000);
 }
+onDiscovery((id) => {
+  const item = getItemDef(id);
+  if (item) toast(`✨ Codex: Discovered ${item.name}!`);
+});
 function openPanel(title: string, body: string, restart = false): void {
   $('panel-title').textContent = title;
   $('panel-body').textContent = body;
@@ -1562,9 +1603,13 @@ function startHero(): void {
   const begin = (cls: number, female: boolean, diff: number): void => {
     createHero(sim, 0, cls, female, diff);
     renderer.resetAnimation(sim);
+    if (sim.hero) {
+      for (const stack of sim.hero.inv) discoverItem(stack.item);
+      for (const id of sim.hero.eq) if (id >= 0) discoverItem(id);
+    }
     if (!savedSlots) {
-      const heal = ITEM_BASE + ITEMS.findIndex((d) => d.name === 'Healing Draught');
-      const mana = ITEM_BASE + ITEMS.findIndex((d) => d.name === 'Mana Draught');
+      const heal = ITEM_BASE + itemId('Healing Draught');
+      const mana = ITEM_BASE + itemId('Mana Draught');
       slots = cls === 1 ? [0, 4, 7, 1, 19, 20, 11, mana, heal] : [7, 19, 11, 15, 17, -1, -1, -1, heal];
       buildQuick();
     }

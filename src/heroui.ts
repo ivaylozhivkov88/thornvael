@@ -1,11 +1,13 @@
 import { DEFS, Kind, M, MODN } from './sim/combat';
 import { DIFF_NAMES, INV_MAX, SKILL_NAMES, SKILL_TIP, WHY_TEXT, blocker, derive, equipmentStamp, startState, type EquipmentAction, type HeroState } from './sim/hero';
 import { equipmentAction, equipmentLayers, equipmentPreview, skillProgress, type EquipmentSource as Sel } from './hero-presentation';
-import { ITEMS, Ik, SLOT_COUNT, SLOT_NAMES, itemText } from './sim/items';
+import { ATTR_NAMES, CLS_BOTH, CLS_MAGE, CLS_WARRIOR, Cls, ITEMS, Ik, ItemDef, PART_NAMES, SLOT_COUNT, SLOT_NAMES, getItemDef, itemText } from './sim/items';
+import { findSetByItemName, isSetItem, type SetBonus } from './sim/sets';
 import type { Command, Sim } from './sim/sim';
 import { SPELLS } from './sim/spelldata';
 import { S } from './strings';
 import { itemIcon } from './townicons';
+import { CodexUi } from './codexui';
 
 /** Hero, pack and creation sheets. Plain DOM buttons only, so touch, mouse and keyboard (Tab, Enter, arrows) all work the same way. */
 
@@ -139,6 +141,262 @@ export function tabStrip(active: number, go: (n: number) => void): HTMLElement {
   return t;
 }
 
+const SCHOOL_NAMES = ['fire', 'water', 'air', 'earth', 'astral'] as const;
+
+function formatBonusStats(b: SetBonus): string {
+  const parts: string[] = [];
+  if (b.hp) parts.push(`+${b.hp} HP`);
+  if (b.mana) parts.push(`+${b.mana} Mana`);
+  if (b.def) parts.push(`+${b.def} Def`);
+  if (b.abs) parts.push(`+${b.abs} Absorb`);
+  if (b.acc) parts.push(`+${b.acc} Hit`);
+  if (b.min || b.max) parts.push(`+${b.min ?? 0}-${b.max ?? 0} Damage`);
+  if (b.pow) parts.push(`+${b.pow}% Spell Power`);
+  if (b.attr) {
+    b.attr.forEach((v, idx) => {
+      if (v) parts.push(`+${v} ${ATTR_NAMES[idx]}`);
+    });
+  }
+  if (b.res) {
+    const res = b.res;
+    if (res.every((v) => v === res[0]) && res[0] > 0) {
+      parts.push(`+${res[0]}% All Res`);
+    } else {
+      res.forEach((v, idx) => {
+        if (v) parts.push(`+${v}% ${SCHOOL_NAMES[idx]} Res`);
+      });
+    }
+  }
+  return parts.join(', ');
+}
+
+export function formatItemTooltip(itemOrId: number | ItemDef, hero?: HeroState | null): string {
+  const d = typeof itemOrId === 'number' ? getItemDef(itemOrId) : itemOrId;
+  if (!d) return '';
+
+  const p: string[] = [];
+  const kind = d.kind === Ik.Gear ? SLOT_NAMES[d.slot] : d.kind === Ik.Potion ? 'Potion' : d.w > 1 ? 'Tome' : 'Scroll';
+  p.push(`${d.name} (${kind}, level ${d.tier}, weight ${d.w})`);
+  if (d.max > 0) p.push(`Blow damage +${d.min}-${d.max}`);
+  if (d.acc) p.push(`Hit +${d.acc}`);
+  if (d.cover && (d.def || d.abs)) {
+    const parts = PART_NAMES.filter((_, k) => (d.cover >> k) & 1).join(', ');
+    p.push(`Covers ${parts}: defence +${d.def}, absorb +${d.abs}`);
+  }
+  d.res.forEach((v, n) => v && p.push(`Resist ${SCHOOL_NAMES[n]} +${v}%`));
+  d.attr.forEach((v, n) => v && p.push(`${ATTR_NAMES[n]} +${v}`));
+  if (d.hp) p.push(`Hit points +${d.hp}`);
+  if (d.mana) p.push(`Mana +${d.mana}`);
+  if (d.pow) p.push(`Spell power +${d.pow}%`);
+  if (d.heal) p.push(`Heals ${d.heal}`);
+  if (d.restore) p.push(`Restores ${d.restore} mana`);
+  if (d.grow) p.push(`Raises ${ATTR_NAMES[d.grow - 1]} by 1 for good`);
+  if (d.spell >= 0 && SPELLS[d.spell]) p.push(`Teaches ${SPELLS[d.spell].name}`);
+  if (d.needv > 0) p.push(`Needs ${ATTR_NAMES[d.need]} ${d.needv}`);
+
+  // Class restriction
+  if (d.kind === Ik.Gear) {
+    if (d.cls === CLS_BOTH) {
+      p.push('Warriors and mages');
+    } else if (d.cls === CLS_WARRIOR) {
+      if (hero && hero.cls === Cls.Mage) {
+        p.push('⚠ Cannot equip: Warrior Only');
+      } else {
+        p.push('Warrior Only');
+      }
+    } else if (d.cls === CLS_MAGE) {
+      if (hero && hero.cls === Cls.Warrior) {
+        p.push('⚠ Cannot equip: Mage Only');
+      } else {
+        p.push('Mage Only');
+      }
+    }
+  }
+
+  // Set Item info
+  const setDef = findSetByItemName(d.name);
+  if (setDef) {
+    const equippedNames = hero
+      ? hero.eq.filter((id) => id >= 0).map((id) => getItemDef(id)?.name).filter(Boolean)
+      : [];
+    const equippedCount = setDef.pieces.filter((piece) => equippedNames.includes(piece.name)).length;
+
+    p.push('');
+    p.push(`Set: ${setDef.name} (${equippedCount}/${setDef.pieces.length})`);
+    for (const piece of setDef.pieces) {
+      const isEquipped = equippedNames.includes(piece.name);
+      p.push(`  ${isEquipped ? '[✓]' : '[ ]'} ${piece.name}`);
+    }
+    p.push('Set Bonuses:');
+    for (const bonus of setDef.bonuses) {
+      const active = equippedCount >= bonus.pieces;
+      p.push(`  ${active ? '★' : '○'} (${bonus.pieces}) ${formatBonusStats(bonus)}`);
+    }
+  }
+
+  return p.join('\n');
+}
+
+export function renderItemTooltipDom(itemOrId: number | ItemDef, hero?: HeroState | null): HTMLElement {
+  const d = typeof itemOrId === 'number' ? getItemDef(itemOrId) : itemOrId;
+  const root = document.createElement('div');
+  root.className = 'item-tooltip-box';
+  if (!d) return root;
+
+  const title = document.createElement('div');
+  title.className = 'item-title';
+  title.textContent = d.name;
+  root.append(title);
+
+  const kind = d.kind === Ik.Gear ? SLOT_NAMES[d.slot] : d.kind === Ik.Potion ? 'Potion' : d.w > 1 ? 'Tome' : 'Scroll';
+  const sub = document.createElement('div');
+  sub.className = 'note';
+  sub.textContent = `${kind}, level ${d.tier}, weight ${d.w}`;
+  root.append(sub);
+
+  const stats = document.createElement('div');
+  stats.className = 'item-stats-list';
+  if (d.max > 0) {
+    const div = document.createElement('div');
+    div.textContent = `Blow damage +${d.min}-${d.max}`;
+    stats.append(div);
+  }
+  if (d.acc) {
+    const div = document.createElement('div');
+    div.textContent = `Hit +${d.acc}`;
+    stats.append(div);
+  }
+  if (d.cover && (d.def || d.abs)) {
+    const parts = PART_NAMES.filter((_, k) => (d.cover >> k) & 1).join(', ');
+    const div = document.createElement('div');
+    div.textContent = `Covers ${parts}: defence +${d.def}, absorb +${d.abs}`;
+    stats.append(div);
+  }
+  d.res.forEach((v, n) => {
+    if (v) {
+      const div = document.createElement('div');
+      div.textContent = `Resist ${SCHOOL_NAMES[n]} +${v}%`;
+      stats.append(div);
+    }
+  });
+  d.attr.forEach((v, n) => {
+    if (v) {
+      const div = document.createElement('div');
+      div.textContent = `${ATTR_NAMES[n]} +${v}`;
+      stats.append(div);
+    }
+  });
+  if (d.hp) {
+    const div = document.createElement('div');
+    div.textContent = `Hit points +${d.hp}`;
+    stats.append(div);
+  }
+  if (d.mana) {
+    const div = document.createElement('div');
+    div.textContent = `Mana +${d.mana}`;
+    stats.append(div);
+  }
+  if (d.pow) {
+    const div = document.createElement('div');
+    div.textContent = `Spell power +${d.pow}%`;
+    stats.append(div);
+  }
+  if (d.heal) {
+    const div = document.createElement('div');
+    div.textContent = `Heals ${d.heal}`;
+    stats.append(div);
+  }
+  if (d.restore) {
+    const div = document.createElement('div');
+    div.textContent = `Restores ${d.restore} mana`;
+    stats.append(div);
+  }
+  if (d.grow) {
+    const div = document.createElement('div');
+    div.textContent = `Raises ${ATTR_NAMES[d.grow - 1]} by 1 for good`;
+    stats.append(div);
+  }
+  if (d.spell >= 0 && SPELLS[d.spell]) {
+    const div = document.createElement('div');
+    div.textContent = `Teaches ${SPELLS[d.spell].name}`;
+    stats.append(div);
+  }
+  if (d.needv > 0) {
+    const div = document.createElement('div');
+    div.textContent = `Needs ${ATTR_NAMES[d.need]} ${d.needv}`;
+    stats.append(div);
+  }
+  root.append(stats);
+
+  // Class restrictions
+  if (d.kind === Ik.Gear) {
+    if (d.cls === CLS_WARRIOR) {
+      const tag = document.createElement('div');
+      if (hero && hero.cls === Cls.Mage) {
+        tag.className = 'class-warning-red';
+        tag.textContent = '⚠ Cannot equip: Warrior Only';
+      } else {
+        tag.className = 'class-tag-gold';
+        tag.textContent = 'Warrior Only';
+      }
+      root.append(tag);
+    } else if (d.cls === CLS_MAGE) {
+      const tag = document.createElement('div');
+      if (hero && hero.cls === Cls.Warrior) {
+        tag.className = 'class-warning-red';
+        tag.textContent = '⚠ Cannot equip: Mage Only';
+      } else {
+        tag.className = 'class-tag-gold';
+        tag.textContent = 'Mage Only';
+      }
+      root.append(tag);
+    } else {
+      const tag = document.createElement('div');
+      tag.className = 'note';
+      tag.textContent = 'Warriors and mages';
+      root.append(tag);
+    }
+  }
+
+  // Set info
+  const setDef = findSetByItemName(d.name);
+  if (setDef) {
+    const equippedNames = hero
+      ? hero.eq.filter((id) => id >= 0).map((id) => getItemDef(id)?.name).filter(Boolean)
+      : [];
+    const equippedCount = setDef.pieces.filter((piece) => equippedNames.includes(piece.name)).length;
+
+    const setHeader = document.createElement('div');
+    setHeader.className = 'set-name-header';
+    setHeader.textContent = `${setDef.name} (${equippedCount}/${setDef.pieces.length})`;
+    root.append(setHeader);
+
+    const piecesList = document.createElement('ul');
+    piecesList.className = 'set-pieces-list';
+    for (const piece of setDef.pieces) {
+      const isEquipped = equippedNames.includes(piece.name);
+      const li = document.createElement('li');
+      li.className = `set-piece ${isEquipped ? 'equipped' : 'unequipped'}`;
+      li.textContent = `${isEquipped ? '✓ ' : '• '}${piece.name}`;
+      piecesList.append(li);
+    }
+    root.append(piecesList);
+
+    const bonusesDiv = document.createElement('div');
+    bonusesDiv.className = 'set-bonuses';
+    for (const bonus of setDef.bonuses) {
+      const active = equippedCount >= bonus.pieces;
+      const bDiv = document.createElement('div');
+      bDiv.className = active ? 'set-bonus-active' : 'set-bonus-inactive';
+      bDiv.textContent = `(${bonus.pieces} Pieces) ${formatBonusStats(bonus)}`;
+      bonusesDiv.append(bDiv);
+    }
+    root.append(bonusesDiv);
+  }
+
+  return root;
+}
+
 export class HeroUi {
   tab: Tab = 'hero';
   private sel: Sel | null = null;
@@ -153,8 +411,10 @@ export class HeroUi {
   private pending: { sim: Sim; tick: number } | null = null;
   private readonly feedback = el('p', 'hero-equipment-feedback');
   private suppressedPointer: number | null = null;
+  private readonly codexUi: CodexUi;
 
   constructor(private readonly ctx: HeroUiCtx) {
+    this.codexUi = new CodexUi((el, tip) => this.ctx.tipOn(el, tip));
     this.feedback.setAttribute('role', 'status');
     this.sheet.addEventListener('pointerdown', (e) => this.press(e));
     this.sheet.addEventListener('click', (e) => {
@@ -246,7 +506,7 @@ export class HeroUi {
     if (!drag.ghost) {
       if (Math.hypot(e.clientX - drag.x, e.clientY - drag.y) < 6) return;
       this.sheet.setPointerCapture(e.pointerId);
-      drag.ghost = el('div', 'hero-drag-ghost', ITEMS[drag.intent.source.item].name);
+      drag.ghost = el('div', 'hero-drag-ghost', getItemDef(drag.intent.source.item)?.name ?? '');
       drag.ghost.setAttribute('aria-hidden', 'true');
       drag.ghost.prepend(itemIcon(drag.intent.source.item));
       this.sheet.append(drag.ghost);
@@ -266,7 +526,7 @@ export class HeroUi {
     if (target) target.dataset.dropState = matches && !preview.why ? 'valid' : 'invalid';
     this.feedback.textContent = preview.why ? WHY_TEXT[preview.why]
       : !matches ? S.hero.invalidEquipmentTarget
-      : preview.replacement >= 0 ? `${S.hero.replaceEquipment} ${ITEMS[preview.replacement].name}`
+      : preview.replacement >= 0 ? `${S.hero.replaceEquipment} ${getItemDef(preview.replacement)?.name ?? ''}`
       : preview.target === 'pack' ? S.hero.returnToPack : S.hero.equip;
     this.scrollDrag(drag, e);
   }
@@ -390,9 +650,10 @@ export class HeroUi {
     const focus = (document.activeElement as HTMLElement | null)?.dataset?.k;
     this.head.replaceChildren();
     const info = el('span', '', `${S.hero.classes[h.cls]}, ${S.hero.sexes[h.female ? 1 : 0].toLowerCase()} · ${DIFF_NAMES[h.diff]}`);
+    const codex = button('🏆 Codex', 'codex', () => this.codexUi.toggle());
     const close = button(S.hero.close, 'close', () => this.close());
     const sp = el('span', 'spacer');
-    this.head.append(tabStrip(this.tab === 'hero' ? 0 : 1, (n) => this.go(n)), info, sp, close);
+    this.head.append(tabStrip(this.tab === 'hero' ? 0 : 1, (n) => this.go(n)), info, sp, codex, close);
     this.body.replaceChildren();
     this.feedback.textContent = this.pending ? S.hero.equipmentPending : canceled ? S.hero.dragCanceled : '';
     const workspace = el('div', 'hero-workspace');
@@ -481,7 +742,7 @@ export class HeroUi {
     const handle = button('⠿', `drag-${face.dataset.k}`, () => face.click());
     handle.className = 'hero-drag-handle';
     handle.dataset.source = key;
-    handle.setAttribute('aria-label', `${S.hero.dragItem} ${ITEMS[source.item].name}`);
+    handle.setAttribute('aria-label', `${S.hero.dragItem} ${getItemDef(source.item)?.name ?? ''}`);
     cell.append(handle);
     return cell;
   }
@@ -493,14 +754,23 @@ export class HeroUi {
     slots.append(figure(h));
     for (let s = 0; s < SLOT_COUNT; s++) {
       const id = h.eq[s];
-      const bt = button(id >= 0 ? ITEMS[id].name : S.hero.empty, `eq${s}`, () => {
+      const bt = button(id >= 0 ? (getItemDef(id)?.name ?? S.hero.empty) : S.hero.empty, `eq${s}`, () => {
         if (id < 0) return;
         this.sel = this.sel?.from === 'eq' && this.sel.slot === s ? null : { from: 'eq', item: id, slot: s };
         this.render(true);
       }, SLOT_NAMES[s]);
       bt.prepend(itemIcon(id));
       bt.classList.toggle('sel', this.sel?.from === 'eq' && this.sel.slot === s);
-      if (id >= 0) this.ctx.tipOn(bt, itemText(id));
+      if (id >= 0) {
+        this.ctx.tipOn(bt, formatItemTooltip(id, h));
+        const item = getItemDef(id);
+        if (item) {
+          const isSet = isSetItem(item.name);
+          const rarity = isSet ? 'set' : (item.rarity ?? (item.tier >= 5 ? 'unique' : item.tier >= 4 ? 'rare' : item.tier >= 2 ? 'magic' : 'normal'));
+          bt.dataset.rarity = rarity;
+          if (isSet) bt.classList.add('rarity-set');
+        }
+      }
       const cell = id < 0 ? el('div', 'hero-gear-cell') : this.cell(bt, { from: 'eq', item: id, slot: s });
       if (id < 0) cell.append(bt);
       cell.dataset.equipmentTarget = `eq${s}`;
@@ -526,7 +796,8 @@ export class HeroUi {
         grid.append(empty);
         continue;
       }
-      const d = ITEMS[st.item];
+      const d = getItemDef(st.item);
+      if (!d) continue;
       const bt = button(st.n > 1 ? `${d.name} x${st.n}` : d.name, `inv${n}`, () => {
         this.sel = this.sel?.from === 'inv' && this.sel.slot === n ? null : { from: 'inv', item: st.item, slot: n };
         this.render(true);
@@ -534,7 +805,11 @@ export class HeroUi {
       bt.prepend(itemIcon(st.item));
       bt.classList.toggle('sel', this.sel?.from === 'inv' && this.sel.slot === n);
       bt.classList.toggle('no', blocker(h, st.item) !== 0);
-      this.ctx.tipOn(bt, itemText(st.item));
+      this.ctx.tipOn(bt, formatItemTooltip(st.item, h));
+      const isSet = isSetItem(d.name);
+      const rarity = isSet ? 'set' : (d.rarity ?? (d.tier >= 5 ? 'unique' : d.tier >= 4 ? 'rare' : d.tier >= 2 ? 'magic' : 'normal'));
+      bt.dataset.rarity = rarity;
+      if (isSet) bt.classList.add('rarity-set');
       grid.append(this.cell(bt, { from: 'inv', item: st.item, slot: n }));
     }
     const pages = el('div', 'hero-pack-pages');
@@ -557,14 +832,15 @@ export class HeroUi {
   }
 
   private detail(h: HeroState, sel: Sel): HTMLElement {
-    const d = ITEMS[sel.item];
+    const d = getItemDef(sel.item);
     const box = el('div', 'detail');
-    box.append(el('div', '', itemText(sel.item)));
+    if (!d) return box;
+    box.append(renderItemTooltipDom(sel.item, h));
     const intent = this.intent(sel);
     const preview = equipmentPreview(h, this.ctx.sim().cb.hp[h.id] > 0, sel);
     const why = preview?.why ?? (sel.from === 'inv' ? blocker(h, sel.item) : 0);
     if (why) box.append(el('div', 'note', `⚠ ${WHY_TEXT[why]}`));
-    if (preview && preview.replacement >= 0) box.append(el('p', 'note', `${S.hero.replaceEquipment} ${ITEMS[preview.replacement].name}`));
+    if (preview && preview.replacement >= 0) box.append(el('p', 'note', `${S.hero.replaceEquipment} ${getItemDef(preview.replacement)?.name ?? ''}`));
     const acts = el('div', 'acts');
     if (preview) {
       const worn = sel.from === 'eq';

@@ -12,6 +12,16 @@ export interface SoundCue {
 
 const CURSE_STATUSES = new Set<number>([St.Slow, St.Poison, St.Burn, St.Stone, St.Weaken]);
 const CAST = ['', 'cast_fire', 'cast_water', 'cast_air', 'cast_earth', 'cast_astral'];
+const APEX_SPELL_SFX: Record<number, string> = {
+  24: 'spell_meteor',
+  25: 'spell_inferno',
+  26: 'spell_blizzard',
+  27: 'spell_thunderstorm',
+  28: 'spell_iron_skin',
+  29: 'spell_acid_rain',
+  30: 'spell_mana_burn',
+  31: 'spell_time_warp',
+};
 
 /** Which sound a combat event makes, or null for silence. Events with `v` >= 16 in type 8 are "status ended" and stay silent. */
 export function cueFor(e: Pick<Fx, 'type' | 'v' | 'el'>): SoundCue | null {
@@ -34,6 +44,7 @@ export function cueFor(e: Pick<Fx, 'type' | 'v' | 'el'>): SoundCue | null {
       if (e.v >= 16) return null;
       return { name: CURSE_STATUSES.has(e.v) ? 'curse' : 'buff', priority: 2 };
     case 9:
+      if (e.v >= 24 && e.v <= 31 && APEX_SPELL_SFX[e.v]) return { name: APEX_SPELL_SFX[e.v], priority: 4 };
       return e.el >= 1 && e.el <= 5 ? { name: CAST[e.el], priority: 3 } : null;
     case 10:
       return { name: e.v === 1 ? 'revive' : e.v === 2 ? 'buff' : 'boom', priority: 3 };

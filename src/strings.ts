@@ -237,6 +237,8 @@ export const S = {
     undo: 'Undo',
     buy: 'Buy',
     sell: 'Sell',
+    gamble: 'Gamble',
+    gambleHelp: "Smuggler's Casket: Gamble gold for unknown gear with a chance at set and unique artifacts.",
     shopHelp: 'Tap shelf items to buy and pack items to sell. Buy and Sell settle each list; Undo takes back the last pick; Exit forgets what was not settled.',
     keeper: ['Welcome, traveller. Look around.', 'A fine choice!', 'The trade was refused. Check your gold, pack space and carrying weight.', 'Safe roads to you.', 'Hmm, let me see...', 'Pleasure doing business.', 'Only part of the order fitted. The remaining items are still selected.'],
     mercs: 'Swords for hire',

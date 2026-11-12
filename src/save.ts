@@ -11,10 +11,10 @@ import type { Snapshot } from './sim/sim';
  * the game ships with. The same envelope goes into IndexedDB (typed arrays as they are) and into an
  * exported file (JSON, typed arrays as base64). See docs/SAVE-FORMAT.md.
  *
- * Versions: 1 lacked teams/towns, 2 added both, 3 added carryover, 4 adds campaign snapshots.
+ * Versions: 1 lacked teams/towns, 2 added both, 3 added carryover, 4 adds campaign snapshots, 5 adds procedural affix instances.
  */
 export const SAVE_FORMAT = 'thornvael-save';
-export const SAVE_VERSION = 4;
+export const SAVE_VERSION = 5;
 export const GAME_VERSION = '0.8.0';
 
 export interface SaveUi {
@@ -154,6 +154,10 @@ export function migrateSave(raw: unknown): SaveFile {
     // Old formats never captured a campaign. Do not manufacture one from node/carry/current storage.
     delete s.state.campaign;
     s.saveVersion = 4;
+  }
+  if (s.saveVersion < 5) {
+    // Version 5 adds procedural affix instances in snapshot and carryover.
+    s.saveVersion = 5;
   }
   if (s.state.campaign !== undefined) {
     s.state.campaign = campaignSnapshot(s.state.campaign);

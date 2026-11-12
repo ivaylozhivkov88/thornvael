@@ -21,8 +21,8 @@ const cast = (ids: number[], spell: string, extra: Partial<Extract<Command, { ty
 const still = (sim: Sim, ...ids: number[]): void => ids.forEach((i) => (sim.cb.ord[i] = Ord.Still)); // targets that do not fight back
 
 describe('spell table', () => {
-  it('has 24 spells, five schools and all five targeting kinds', () => {
-    expect(SPELLS.length).toBe(24);
+  it('has 32 spells, five schools and all five targeting kinds', () => {
+    expect(SPELLS.length).toBe(32);
     expect(new Set(SPELLS.map((s) => s.school))).toEqual(new Set([1, 2, 3, 4, 5]));
     expect(new Set(SPELLS.map((s) => s.tk))).toEqual(new Set([Tk.Foe, Tk.Ally, Tk.Ground, Tk.Multi, Tk.Self, Tk.Corpse]));
     for (const s of SPELLS) expect(s.cd).toBeLessThanOrEqual(255);
@@ -261,6 +261,70 @@ describe('determinism', () => {
     const r = mk();
     replay(r, a.log, 240);
     expect(r.hash()).toBe(a.hash());
+  });
+});
+
+describe('master and apex spells', () => {
+  it('Iron Skin applies 100 point shield and Time Warp hastes caster', () => {
+    const sim = arena([[0, Kind.Hero, 5, 5], [1, Kind.Gnoll, 30, 25]]);
+    run(sim, 1, { 1: [cast([0], 'Iron Skin')] });
+    run(sim, 2);
+    expect(sim.cb.stV[0 * 8 + St.Shield]).toBe(100);
+    expect(hasStatus(sim, 0, St.Shield)).toBe(true);
+
+    sim.cb.cd[0] = 0;
+    run(sim, 1, { [sim.tick + 1]: [cast([0], 'Time Warp')] });
+    run(sim, 2);
+    expect(hasStatus(sim, 0, St.Haste)).toBe(true);
+  });
+
+  it('Meteor deals high damage and applies burn', () => {
+    const sim = arena([[0, Kind.Hero, 5, 5], [1, Kind.Golem, 10, 5]], 1, 5);
+    still(sim, 1);
+    run(sim, 1, { 1: [cast([0], 'Meteor', { x: 10, y: 5 })] });
+    run(sim, 40);
+    expect(sim.cb.hp[1]).toBeLessThan(sim.cb.hpMax[1] - 30);
+    expect(hasStatus(sim, 1, St.Burn)).toBe(true);
+  });
+
+  it('Blizzard damages and slows, Acid Rain damages and poisons', () => {
+    const sim = arena([[0, Kind.Hero, 5, 5], [1, Kind.Golem, 10, 5]], 1, 5);
+    still(sim, 1);
+    run(sim, 1, { 1: [cast([0], 'Blizzard', { x: 10, y: 5 })] });
+    run(sim, 40);
+    expect(sim.cb.hp[1]).toBeLessThan(sim.cb.hpMax[1]);
+    expect(hasStatus(sim, 1, St.Slow)).toBe(true);
+
+    const sim2 = arena([[0, Kind.Hero, 5, 5], [1, Kind.Golem, 10, 5]], 1, 5);
+    still(sim2, 1);
+    run(sim2, 1, { 1: [cast([0], 'Acid Rain', { x: 10, y: 5 })] });
+    run(sim2, 40);
+    expect(sim2.cb.hp[1]).toBeLessThan(sim2.cb.hpMax[1]);
+    expect(hasStatus(sim2, 1, St.Poison)).toBe(true);
+  });
+
+  it('Inferno and Thunderstorm strike multiple nearby foes', () => {
+    const sim = arena([[0, Kind.Hero, 5, 5], [1, Kind.Golem, 10, 5], [1, Kind.Golem, 11, 5], [1, Kind.Golem, 10, 6], [1, Kind.Golem, 11, 6], [1, Kind.Golem, 12, 6]], 1, 5);
+    still(sim, 1, 2, 3, 4, 5);
+    run(sim, 1, { 1: [cast([0], 'Inferno', { target: 1 })] });
+    run(sim, 90);
+    const hitInferno = [1, 2, 3, 4, 5].filter((t) => sim.cb.hp[t] < sim.cb.hpMax[t]).length;
+    expect(hitInferno).toBe(5);
+
+    const sim2 = arena([[0, Kind.Hero, 5, 5], [1, Kind.Golem, 10, 5], [1, Kind.Golem, 11, 5], [1, Kind.Golem, 10, 6], [1, Kind.Golem, 11, 6], [1, Kind.Golem, 12, 6]], 1, 5);
+    still(sim2, 1, 2, 3, 4, 5);
+    run(sim2, 1, { 1: [cast([0], 'Thunderstorm', { target: 1 })] });
+    run(sim2, 90);
+    const hitThunder = [1, 2, 3, 4, 5].filter((t) => sim2.cb.hp[t] < sim2.cb.hpMax[t]).length;
+    expect(hitThunder).toBe(4);
+  });
+
+  it('Mana Burn damages target foe directly with astral power', () => {
+    const sim = arena([[0, Kind.Hero, 5, 5], [1, Kind.Golem, 10, 5]], 1, 5);
+    still(sim, 1);
+    run(sim, 1, { 1: [cast([0], 'Mana Burn', { target: 1 })] });
+    run(sim, 50);
+    expect(sim.cb.hp[1]).toBeLessThan(sim.cb.hpMax[1] - 20);
   });
 });
 

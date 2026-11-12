@@ -2,7 +2,7 @@ import { describe, expect, it } from 'vitest';
 import type { GameMap } from '../src/map';
 import { Kind, M, MODN, POOLS } from '../src/sim/combat';
 import { INV_MAX, Why, addItem, createHero, derive, equipmentStamp, skillNeed, weightOf, capacityOf, type EquipmentAction, type HeroCommand, type HeroState } from '../src/sim/hero';
-import { Cls, ITEMS, Ik, Slot, itemId, rollLoot } from '../src/sim/items';
+import { Cls, ITEMS, Ik, LOOT_RULES, Slot, itemId, rollLoot } from '../src/sim/items';
 import { SPELLS } from '../src/sim/spelldata';
 import { FP, Sim, replay, type Command } from '../src/sim/sim';
 import { Rng } from '../src/sim/rng';
@@ -40,6 +40,30 @@ describe('item table', () => {
       const id = rollLoot((k) => r.int(k), 3, 5);
       expect(ITEMS[id].tier).toBeLessThanOrEqual(5);
       expect(ITEMS[id].tier).toBeGreaterThanOrEqual(1);
+    }
+  });
+
+  it('rare material gear is selectable through existing tiered monster loot pools', () => {
+    const cases = [
+      ['Mithril Gale Buckler', 3, [Kind.Mage, Kind.Golem, Kind.Imp]],
+      ['Adamantium Needle', 4, [Kind.Mage, Kind.Golem]],
+      ['Dragon Leather Mantle', 4, [Kind.Mage, Kind.Golem]],
+    ] as const;
+    for (const [name, tier, sources] of cases) {
+      const id = itemId(name);
+      expect(id, name).toBeGreaterThanOrEqual(0);
+      const pool = ITEMS.filter((item) => item.kind === Ik.Gear && item.tier === tier);
+      const poolIndex = pool.findIndex((item) => item.name === name);
+      expect(poolIndex, name).toBeGreaterThanOrEqual(0);
+      for (const source of sources) {
+        const [chance, lo, hi] = LOOT_RULES[source];
+        expect(chance, `${name} source ${source}`).toBeGreaterThan(0);
+        expect(lo).toBeLessThanOrEqual(tier);
+        expect(hi).toBeGreaterThanOrEqual(tier);
+        const draws = [0, tier - lo, poolIndex];
+        let draw = 0;
+        expect(rollLoot((n) => draws[draw++] % n, lo, hi), name).toBe(id);
+      }
     }
   });
 });

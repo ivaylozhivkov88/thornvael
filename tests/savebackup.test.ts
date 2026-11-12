@@ -1,6 +1,6 @@
 import { beforeEach, describe, expect, it, vi } from 'vitest';
 import campaign from '../public/data/campaign.json';
-import { completeNode, type Campaign } from '../src/campaign';
+import { completeNode, parseCampaign } from '../src/campaign';
 import { afterMission, afterTown, newRecord, RECORD_KEY, type CampaignRecord } from '../src/flow';
 import { loadDoc, type MapDoc } from '../src/mapdoc';
 import { BUILT_IN, createMission } from '../src/mission';
@@ -9,7 +9,7 @@ import { decodeBundle, encodeBundle } from '../src/savebundle';
 import { AUTO, exportAllSaves, getRecord, getSave, importSaveText, putRecord, putSave, restoreSaveCampaign } from '../src/savedb';
 import { createHero, startState } from '../src/sim/hero';
 
-const camp = campaign as Campaign;
+const camp = parseCampaign(campaign);
 const town = 'town-thornwick';
 const fen = 'm02-whispers-in-the-fen';
 const result = { text: 'Won', up: 1, size: 1, gold: 90 };

@@ -1,0 +1,37 @@
+{
+  "version": 1,
+  "palettes": [
+    { "tier": 1, "label": "Verdant", "hex": "0x8fbc83", "hpMult": 1.0, "dmgMult": 1.0 },
+    { "tier": 2, "label": "Ochre", "hex": "0xc1ad74", "hpMult": 1.35, "dmgMult": 1.25 },
+    { "tier": 3, "label": "Copper", "hex": "0xcd8461", "hpMult": 1.75, "dmgMult": 1.55 },
+    { "tier": 4, "label": "Cobalt", "hex": "0x98a8df", "hpMult": 2.25, "dmgMult": 1.9 },
+    { "tier": 5, "label": "Amethyst", "hex": "0xd68bc8", "hpMult": 2.9, "dmgMult": 2.35 }
+  ],
+  "families": [
+    { "id": "briar-hound", "name": "Briar Hound", "batch": "A", "archetype": 4, "elem": 0, "baseHp": 42, "baseMin": 4, "baseMax": 8, "speed": 115, "ranged": false, "caster": false, "role": "Fast pack rusher" },
+    { "id": "flintback", "name": "Flintback", "batch": "A", "archetype": 5, "elem": 0, "baseHp": 95, "baseMin": 7, "baseMax": 12, "speed": 80, "ranged": false, "caster": false, "role": "Armoured frontliner" },
+    { "id": "mire-wisp", "name": "Mire Wisp", "batch": "A", "archetype": 6, "elem": 2, "baseHp": 32, "baseMin": 5, "baseMax": 9, "speed": 110, "ranged": true, "caster": true, "role": "Marsh ranged caster" },
+    { "id": "ruin-mite", "name": "Ruin Mite", "batch": "A", "archetype": 4, "elem": 0, "baseHp": 36, "baseMin": 3, "baseMax": 7, "speed": 105, "ranged": false, "caster": false, "role": "Swarming burrower" },
+    { "id": "thorn-boar", "name": "Thorn Boar", "batch": "A", "archetype": 4, "elem": 0, "baseHp": 64, "baseMin": 6, "baseMax": 11, "speed": 108, "ranged": false, "caster": false, "role": "Charging bruiser" },
+    { "id": "glasswing", "name": "Glasswing", "batch": "B", "archetype": 6, "elem": 3, "baseHp": 34, "baseMin": 6, "baseMax": 10, "speed": 125, "ranged": true, "caster": false, "role": "Swift air skirmisher" },
+    { "id": "rootbound", "name": "Rootbound", "batch": "B", "archetype": 5, "elem": 4, "baseHp": 120, "baseMin": 8, "baseMax": 14, "speed": 70, "ranged": false, "caster": false, "role": "Heavy earth sentinel" },
+    { "id": "cinderling", "name": "Cinderling", "batch": "B", "archetype": 6, "elem": 1, "baseHp": 30, "baseMin": 6, "baseMax": 9, "speed": 112, "ranged": true, "caster": true, "role": "Fire bolt harrier" },
+    { "id": "gloom-stag", "name": "Gloom Stag", "batch": "B", "archetype": 4, "elem": 5, "baseHp": 76, "baseMin": 7, "baseMax": 12, "speed": 115, "ranged": false, "caster": false, "role": "Forest flanker" },
+    { "id": "salt-crab", "name": "Salt Crab", "batch": "B", "archetype": 5, "elem": 2, "baseHp": 88, "baseMin": 6, "baseMax": 11, "speed": 85, "ranged": false, "caster": false, "role": "Coastal shell blocker" },
+    { "id": "hollow-knight", "name": "Hollow Knight", "batch": "C", "archetype": 0, "elem": 0, "baseHp": 92, "baseMin": 8, "baseMax": 13, "speed": 95, "ranged": false, "caster": false, "role": "Disciplined blade" },
+    { "id": "spore-matron", "name": "Spore Matron", "batch": "C", "archetype": 3, "elem": 4, "baseHp": 58, "baseMin": 6, "baseMax": 10, "speed": 88, "ranged": true, "caster": true, "role": "Earth poison hexer" },
+    { "id": "dune-lurker", "name": "Dune Lurker", "batch": "C", "archetype": 4, "elem": 0, "baseHp": 54, "baseMin": 7, "baseMax": 11, "speed": 118, "ranged": false, "caster": false, "role": "Ambush striker" },
+    { "id": "storm-kite", "name": "Storm Kite", "batch": "C", "archetype": 6, "elem": 3, "baseHp": 44, "baseMin": 7, "baseMax": 12, "speed": 128, "ranged": true, "caster": true, "role": "Lightning ranged kite" },
+    { "id": "basalt-brute", "name": "Basalt Brute", "batch": "C", "archetype": 5, "elem": 4, "baseHp": 145, "baseMin": 11, "baseMax": 17, "speed": 68, "ranged": false, "caster": false, "role": "Siege breaker giant" },
+    { "id": "lantern-eel", "name": "Lantern Eel", "batch": "D", "archetype": 6, "elem": 3, "baseHp": 52, "baseMin": 7, "baseMax": 13, "speed": 112, "ranged": true, "caster": true, "role": "Bog arc striker" },
+    { "id": "ash-weaver", "name": "Ash Weaver", "batch": "D", "archetype": 3, "elem": 1, "baseHp": 60, "baseMin": 8, "baseMax": 13, "speed": 96, "ranged": true, "caster": true, "role": "Flame curse caster" },
+    { "id": "pale-burrower", "name": "Pale Burrower", "batch": "D", "archetype": 4, "elem": 4, "baseHp": 72, "baseMin": 8, "baseMax": 14, "speed": 102, "ranged": false, "caster": false, "role": "Quarry tunneler" },
+    { "id": "ironbark", "name": "Ironbark", "batch": "D", "archetype": 5, "elem": 4, "baseHp": 160, "baseMin": 10, "baseMax": 16, "speed": 72, "ranged": false, "caster": false, "role": "Ancient ward treant" },
+    { "id": "rift-moth", "name": "Rift Moth", "batch": "D", "archetype": 6, "elem": 5, "baseHp": 48, "baseMin": 8, "baseMax": 13, "speed": 122, "ranged": true, "caster": true, "role": "Astral drain flyer" },
+    { "id": "crowned-maw", "name": "Crowned Maw", "batch": "E", "archetype": 4, "elem": 0, "baseHp": 115, "baseMin": 11, "baseMax": 17, "speed": 108, "ranged": false, "caster": false, "role": "Apex pack hunter" },
+    { "id": "frost-bell", "name": "Frost Bell", "batch": "E", "archetype": 3, "elem": 2, "baseHp": 78, "baseMin": 9, "baseMax": 14, "speed": 92, "ranged": true, "caster": true, "role": "Chilling astral bell" },
+    { "id": "silt-colossus", "name": "Silt Colossus", "batch": "E", "archetype": 5, "elem": 4, "baseHp": 210, "baseMin": 14, "baseMax": 22, "speed": 66, "ranged": false, "caster": false, "role": "Titanic citadel guardian" },
+    { "id": "redglass-drake", "name": "Redglass Drake", "batch": "E", "archetype": 6, "elem": 1, "baseHp": 125, "baseMin": 12, "baseMax": 19, "speed": 118, "ranged": true, "caster": true, "role": "Highland fire drake" },
+    { "id": "night-orchard", "name": "Night Orchard", "batch": "E", "archetype": 3, "elem": 5, "baseHp": 96, "baseMin": 10, "baseMax": 16, "speed": 90, "ranged": true, "caster": true, "role": "Dark ward weaver" }
+  ]
+}

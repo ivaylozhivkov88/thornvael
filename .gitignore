@@ -13,3 +13,5 @@ test-results/
 playwright-report/
 .art-build/
 .art-*.log
+__pycache__/
+*.pyc

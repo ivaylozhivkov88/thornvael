@@ -1,10 +1,12 @@
 import { DEFS } from './sim/combat';
 import { mercPrice } from './sim/difficulty';
 import { INV_MAX, SKILL_MAX, SKILL_NAMES } from './sim/hero';
-import { ITEMS, itemText } from './sim/items';
+import { ITEMS, getItemDef, itemText } from './sim/items';
+import { formatItemTooltip, renderItemTooltipDom } from './heroui';
+import { isSetItem } from './sim/sets';
 import type { Sim } from './sim/sim';
 import { SPELLS } from './sim/spelldata';
-import { OFFERS, QuestType, ROLE_COUNT, Role, SHELF, priceOf, sellPrice, spellPrice, trainPrice, type Quest, type TownCommand } from './sim/town';
+import { OFFERS, QuestType, ROLE_COUNT, Role, SHELF, gambleCost, priceOf, sellPrice, spellPrice, trainPrice, type Quest, type TownCommand } from './sim/town';
 import { S } from './strings';
 import { itemIcon } from './townicons';
 
@@ -21,6 +23,8 @@ export interface TownUiCtx {
   tipOn: (b: HTMLElement, text: string) => void;
   /** Called after a screen opens so the host can close other overlays. */
   onOpen: () => void;
+  onShopEnter: () => void;
+  onShopLeave: () => void;
 }
 
 function el<K extends keyof HTMLElementTagNameMap>(tag: K, cls = '', text = ''): HTMLElementTagNameMap[K] {
@@ -47,7 +51,7 @@ export function questText(sim: Sim, q: Quest): string {
     .replace('{n}', String(n))
     .replace('{x}', String(q.pts[0] ?? ''))
     .replace('{y}', String(q.pts[1] ?? ''))
-    .replace('{item}', ITEMS[q.a]?.name ?? '')
+    .replace('{item}', getItemDef(q.a)?.name ?? '')
     .replace('{skill}', SKILL_NAMES[q.a] ?? '');
 }
 
@@ -129,11 +133,13 @@ export class TownUi {
     this.render();
     this.root.focus({ preventScroll: true });
     this.root.scrollTop = 0;
+    if (role === Role.Shop) this.ctx.onShopEnter();
     return true;
   }
 
   close(): void {
     if (!this.open) return;
+    if (this.role === Role.Shop) this.ctx.onShopLeave();
     this.cmd('leave');
     this.root.hidden = true;
     for (const [node, wasInert] of this.inertSiblings) node.inert = wasInert;
@@ -218,13 +224,19 @@ export class TownUi {
   }
 
   private decorateItem(b: HTMLButtonElement, id: number): void {
-    const label = el('span', 'item-name', ITEMS[id].name);
+    const item = getItemDef(id);
+    if (!item) return;
+    const label = el('span', 'item-name', item.name);
     const price = b.querySelector('small');
     b.replaceChildren(itemIcon(id), label);
     if (price) b.append(price);
-    b.setAttribute('aria-label', `${ITEMS[id].name}, ${price?.textContent ?? ''}`);
+    b.setAttribute('aria-label', `${item.name}, ${price?.textContent ?? ''}`);
     b.setAttribute('aria-pressed', String(b.classList.contains('sel')));
     b.dataset.item = String(id);
+    const isSet = isSetItem(item.name);
+    const rarity = isSet ? 'set' : (item.rarity ?? (item.tier >= 5 ? 'unique' : item.tier >= 4 ? 'rare' : item.tier >= 2 ? 'magic' : 'normal'));
+    b.dataset.rarity = rarity;
+    if (isSet) b.classList.add('rarity-set');
   }
 
   private renderShop(sim: Sim): void {
@@ -254,7 +266,7 @@ export class TownUi {
         sg.append(el('div', 'cell empty'));
         continue;
       }
-      const b = button(ITEMS[id].name, () => {
+      const b = button(getItemDef(id)?.name ?? '', () => {
         this.detailItem = id;
         const at = this.buys.indexOf(k);
         if (at >= 0) {
@@ -271,7 +283,7 @@ export class TownUi {
       b.className = `cell${this.buys.includes(k) ? ' sel' : ''}`;
       b.dataset.slot = String(k);
       this.decorateItem(b, id);
-      this.ctx.tipOn(b, itemText(id));
+      this.ctx.tipOn(b, formatItemTooltip(id, h));
       sg.append(b);
     }
     stockPanel.append(sg, this.pager('shelf', this.shelfPage, Math.ceil(SHELF / 6), (p) => { this.shelfPage = p; this.render(); }));
@@ -285,7 +297,7 @@ export class TownUi {
         continue;
       }
       const picked = this.sells.filter((slot) => slot === k).length;
-      const b = button(ITEMS[s.item].name, () => {
+      const b = button(getItemDef(s.item)?.name ?? '', () => {
         this.detailItem = s.item;
         if (picked >= s.n) { this.render(); return; }
         this.sells.push(k);
@@ -295,7 +307,7 @@ export class TownUi {
       b.className = `cell${picked ? ' sel' : ''}${picked >= s.n ? ' no' : ''}`;
       b.dataset.packSlot = String(k);
       this.decorateItem(b, s.item);
-      this.ctx.tipOn(b, itemText(s.item));
+      this.ctx.tipOn(b, formatItemTooltip(s.item, h));
       pg.append(b);
     }
     packPanel.append(pg, this.pager('pack', this.packPage, Math.ceil(INV_MAX / 10), (p) => { this.packPage = p; this.render(); }));
@@ -337,10 +349,22 @@ export class TownUi {
       this.setMood(3);
       this.exitTimer = window.setTimeout(() => this.close(), 350);
     }, String(sim.cb.gold[0]));
-    acts.append(undo, buy, sell, exit);
+    const gCost = gambleCost(sim);
+    const gamble = button(S.town.gamble, () => {
+      const g0 = sim.cb.gold[0];
+      this.cmd('gamble');
+      const won = sim.cb.gold[0] < g0;
+      this.setMood(won ? 1 : 2);
+      this.ctx.changed();
+      this.render();
+    }, `-${gCost}`);
+    gamble.disabled = sim.cb.gold[0] < gCost || h.inv.length >= INV_MAX;
+    this.ctx.tipOn(gamble, `${S.town.gambleHelp} (${gCost} ${S.town.gold})`);
+    acts.append(undo, buy, sell, gamble, exit);
     const details = el('section', 'trade-details');
     details.setAttribute('aria-label', S.town.itemDetails);
-    details.append(bill, el('p', 'selected-item', this.detailItem >= 0 ? itemText(this.detailItem) : S.town.selectItem), el('p', 'note', S.town.shopHelp));
+    const detailView = this.detailItem >= 0 ? renderItemTooltipDom(this.detailItem, h) : el('p', 'selected-item', S.town.selectItem);
+    details.append(bill, detailView, el('p', 'note', S.town.shopHelp));
     const layout = el('div', 'trade-layout');
     layout.append(stockPanel, keeper, acts, this.portrait(sim), packPanel, details);
     this.root.append(layout);
@@ -420,12 +444,22 @@ export class TownUi {
   private renderSchool(sim: Sim): void {
     const h = sim.hero!;
     const def = sim.towns[this.town].def;
+    const banner = el('div', 'school-banner');
+    const crest = el('div', 'school-crest', '✦');
+    const copy = el('div', 'school-copy');
+    copy.append(
+      el('strong', '', `${def.name} Arcane Sanctum`),
+      el('p', 'note', S.town.keeper[this.mood]),
+    );
+    banner.append(crest, copy, this.portrait(sim));
+    this.root.append(banner);
     this.root.append(el('h3', '', S.town.spells));
     const sl = el('div', 'items');
     for (const s of def.spells ?? []) {
       const known = ((h.known >>> s) & 1) === 1;
       const b = button(SPELLS[s].name, () => {
         this.cmd('learn', s);
+        this.setMood(1);
         this.ctx.changed();
         this.render();
       }, known ? S.town.known : `${S.town.learn}: ${spellPrice(s)}`);
@@ -441,6 +475,7 @@ export class TownUi {
       const max = lvl >= SKILL_MAX;
       const b = button(`${name} ${lvl}`, () => {
         this.cmd('train', k);
+        this.setMood(1);
         this.ctx.changed();
         this.render();
       }, max ? S.town.maxed : `${S.town.train}: ${trainPrice(lvl)}`);

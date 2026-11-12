@@ -6,11 +6,27 @@ import { SKILL_NAMES } from './sim/hero';
 import { FP, type Sim } from './sim/sim';
 import { SPELLS, St, Tk } from './sim/spelldata';
 import { S } from './strings';
-import { ITEMS, Slot } from './sim/items';
+import { getItemDef, Slot } from './sim/items';
+import { itemRarity } from './sim/town';
 import { UnitAtlas, UnitSprite, UNIT_ART } from './sprites/units';
 import { ArtPreview } from './sprites/preview';
 import { CombatAnimation, type AnimationPose } from './sprites/combat-animation';
+import { VfxSystem } from './vfx';
 
+const SHRINE_COLORS: Record<string, number> = {
+  healing: 0xe84a5f,
+  mana: 0x4aa3ff,
+  combat: 0xff8c32,
+  armor: 0xc0c8d8,
+  haste: 0x62e878,
+  ward: 0xd070ff,
+};
+const LOOT_BEAM_COLORS: Record<string, { outer: number; inner: number; height: number }> = {
+  magic: { outer: 0x2979ff, inner: 0x82b1ff, height: 26 },
+  rare: { outer: 0xffd700, inner: 0xfff9c4, height: 32 },
+  set: { outer: 0x00e676, inner: 0xb9f6ca, height: 38 },
+  unique: { outer: 0xff9100, inner: 0xffe082, height: 44 },
+};
 const CHUNK = 16; // tiles per chunk side, so each baked texture is 512 px
 const DIR_COS = Array.from({ length: 16 }, (_, k) => Math.cos((k * Math.PI) / 8));
 const DIR_SIN = Array.from({ length: 16 }, (_, k) => Math.sin((k * Math.PI) / 8));
@@ -87,6 +103,7 @@ interface Burst {
   ms: number;
   color: number;
   fill: boolean;
+  el: number;
 }
 
 export class Renderer {
@@ -118,6 +135,9 @@ export class Renderer {
   private fogSeen = -1;
   private lightKey = '';
   private fog!: Sprite;
+  vfx?: VfxSystem;
+  private lastDrawNow = 0;
+  private lastCastSid = -1;
   zoom = 1;
   camX = 0;
   camY = 0;
@@ -177,7 +197,9 @@ export class Renderer {
     const fog = new Sprite(this.fogTex);
     fog.width = this.map.w * TILE;
     fog.height = this.map.h * TILE;
-    this.world.addChild(chunks, this.rings);
+    this.vfx = new VfxSystem();
+    this.vfx.init();
+    this.world.addChild(chunks, this.rings, this.vfx.groundLayer);
     this.fog = fog;
     const tex = unitTexture();
     const atlases = await Promise.all(UNIT_ART.map((unit) => UnitAtlas.load(unit)));
@@ -188,7 +210,14 @@ export class Renderer {
       const kind = sim.cb.kind[i];
       // Diagnostic presentation override only: retain the original sim kind and update path.
       const atlas = this.artStress ? atlases[i % atlases.length]
-        : kind === Kind.Hero ? atlases[0] : kind === Kind.Archer ? atlases[1] : kind === Kind.Golem ? atlases[2] : null;
+        : kind === Kind.Hero ? atlases[0]
+        : kind === Kind.Archer ? atlases[1]
+        : kind === Kind.Golem ? atlases[2]
+        : kind === Kind.Warrior ? atlases[3]
+        : kind === Kind.Mage ? atlases[4]
+        : kind === Kind.Gnoll ? atlases[5]
+        : kind === Kind.Imp ? atlases[6]
+        : null;
       const s = atlas ? new UnitSprite(atlas) : new Sprite(tex);
       if (s instanceof Sprite) s.anchor.set(0.5, 0.88);
       const look = KIND_LOOK[kind] ?? { scale: 1 };
@@ -204,7 +233,7 @@ export class Renderer {
     }
     this.dbgGrid.visible = false;
     this.dbgPath.visible = false;
-    this.world.addChild(this.shots, fog, this.dbgGrid, this.dbgPath);
+    this.world.addChild(this.shots, this.vfx.airLayer, fog, this.dbgGrid, this.dbgPath);
     this.light.blendMode = 'multiply';
     this.app.stage.addChild(this.world, this.light, this.floaterLayer, this.overlay);
     if (new URLSearchParams(location.search).get('art') === '1') {
@@ -218,6 +247,7 @@ export class Renderer {
   /** 0 Low, 1 Medium, 2 High: resolution, lighting, hit-point bars and floating numbers. */
   setQuality(q: number): void {
     this.quality = Math.max(0, Math.min(2, q));
+    this.vfx?.setQuality(this.quality);
     const dpr = window.devicePixelRatio || 1;
     const res = [1, Math.min(dpr, 1.5), Math.min(dpr, 2)][this.quality];
     try {
@@ -245,8 +275,8 @@ export class Renderer {
     this.floaters.push({ t, x: wx, y: wy, born: now });
   }
 
-  private burst(x: number, y: number, r: number, ms: number, color: number, fill: boolean, now: number): void {
-    if (this.bursts.length < 40) this.bursts.push({ x, y, born: now, r, ms, color, fill });
+  private burst(x: number, y: number, r: number, ms: number, color: number, fill: boolean, now: number, el = 0): void {
+    if (this.bursts.length < 40) this.bursts.push({ x, y, born: now, r, ms, color, fill, el });
   }
 
   /** Screen position of a fixed-point world point. */
@@ -257,6 +287,7 @@ export class Renderer {
 
   private runFx(sim: Sim, now: number): void {
     const fx = sim.cb.fx;
+    this.vfx?.observeFx(sim, now);
     if (this.quality > 0) {
       const k = TILE / FP;
       for (const e of fx) {
@@ -275,9 +306,12 @@ export class Renderer {
         else if (e.type === 8 && e.v < 16) this.floater(S.statuses[e.v], STATUS_COLORS[e.v], wx, wy, now);
         else if (e.type === 11) this.floater('blocked', 0x70c8ff, wx, wy, now);
         else if (e.type === 6) this.floater(`${SKILL_NAMES[e.v]} ${e.el}`, 0xffd84a, wx, wy, now);
-        else if (e.type === 5) this.burst(e.x * k, e.y * k, (e.v / 10) * TILE, 480, ELEM_COLOR[e.el], true, now);
-        else if (e.type === 9) this.burst(e.x * k, e.y * k - 8, 14, 260, ELEM_COLOR[e.el], false, now);
-        else if (e.type === 10) this.burst(e.x * k, e.y * k - 6, 22, 420, e.v === 1 ? BUFF_COLOR : ELEM_COLOR[5], e.v !== 2, now);
+        else if (e.type === 5) {
+          if (!this.vfx?.isApexCast(this.lastCastSid)) this.burst(e.x * k, e.y * k, (e.v / 10) * TILE, 480, ELEM_COLOR[e.el], true, now, e.el);
+        } else if (e.type === 9) {
+          this.lastCastSid = e.v;
+          if (!this.vfx?.isApexCast(e.v)) this.burst(e.x * k, e.y * k - 8, 14, 260, ELEM_COLOR[e.el], false, now, e.el);
+        } else if (e.type === 10) this.burst(e.x * k, e.y * k - 6, 22, 420, e.v === 1 ? BUFF_COLOR : ELEM_COLOR[5], e.v !== 2, now, e.v === 1 ? 0 : 5);
       }
     }
     fx.length = 0;
@@ -403,7 +437,7 @@ export class Renderer {
 
   /** On-demand snapshot only; atlas bytes estimate RGBA storage, not total GPU/process memory. */
   artMetrics() {
-    const families: Record<string, number> = { hero: 0, archer: 0, golem: 0 };
+    const families: Record<string, number> = Object.fromEntries(UNIT_ART.map((u) => [u, 0]));
     const sources = new Set<number>();
     let artSprites = 0;
     let visibleArtSprites = 0;
@@ -474,12 +508,16 @@ export class Renderer {
 
   draw(sim: Sim, px: Int32Array, py: Int32Array, alpha: number, v: View): void {
     this.artPreview?.draw(sim.tick);
+    const now = performance.now();
+    const dtMs = this.lastDrawNow > 0 ? Math.min(100, now - this.lastDrawNow) : 16;
+    this.lastDrawNow = now;
+    this.runFx(sim, now);
+    const [rx, ry] = this.vfx?.rumbleOffset() ?? [0, 0];
     this.world.scale.set(this.zoom);
-    this.world.position.set(-this.camX, -this.camY);
+    this.world.position.set(-this.camX + rx, -this.camY + ry);
     if (this.quality > 0 || (this.fogTick++ & 1) === 0) this.updateFog(sim);
     this.updateLight(sim.daylight);
-    const now = performance.now();
-    this.runFx(sim, now);
+    this.vfx?.updateAndDraw(sim, now, dtMs, this.zoom, this.camX, this.camY, this.overlay, this.viewW, this.viewH);
     const k = TILE / FP;
     const mw = this.map.w;
     const cb = sim.cb;
@@ -496,15 +534,62 @@ export class Renderer {
       r.circle(sx, sy - 3, 6).fill(0xa8803c).stroke({ color: 0x4a3414, width: 1 });
       r.rect(sx - 2, sy - 10, 4, 3).fill(0xe0c060);
     }
-    // Item bags: a small blue satchel with a pale clasp, so loot reads differently from gold.
+    // Item bags: a satchel with colored clasp and vertical light beam for higher rarities (D2 loot pillar).
     for (let n = 0; n < cb.bI.length; n++) {
       if (!cb.bI[n]) continue;
       if (!sim.explored[Math.floor(cb.bY[n] / FP) * mw + Math.floor(cb.bX[n] / FP)]) continue;
       const bx = cb.bX[n] * k;
       const by = cb.bY[n] * k;
+      const itemId = cb.bI[n] - 1;
+      const item = getItemDef(itemId);
+      const rarity = item ? itemRarity(item) : 'normal';
+      const beam = LOOT_BEAM_COLORS[rarity];
+
       r.ellipse(bx, by + 2, 7, 3).fill({ color: 0x000000, alpha: 0.35 });
-      r.roundRect(bx - 6, by - 9, 12, 10, 3).fill(0x3c5a8c).stroke({ color: 0x1a2a48, width: 1 });
-      r.rect(bx - 2, by - 6, 4, 3).fill(0xd8e4f4);
+      if (beam) {
+        const h = beam.height;
+        const pulse = 0.85 + 0.15 * Math.sin(sim.tick * 0.15 + n);
+        // Outer light beam pillar
+        r.moveTo(bx - 3.5, by - 6)
+          .lineTo(bx - 1, by - 6 - h)
+          .lineTo(bx + 1, by - 6 - h)
+          .lineTo(bx + 3.5, by - 6)
+          .closePath()
+          .fill({ color: beam.outer, alpha: 0.3 * pulse });
+        // Incandescent inner core
+        r.moveTo(bx - 1.5, by - 6)
+          .lineTo(bx - 0.5, by - 6 - h)
+          .lineTo(bx + 0.5, by - 6 - h)
+          .lineTo(bx + 1.5, by - 6)
+          .closePath()
+          .fill({ color: beam.inner, alpha: 0.65 * pulse });
+        // Pulsing ground light aura
+        r.ellipse(bx, by + 2, 9 * pulse, 4.5 * pulse).stroke({ color: beam.outer, width: 1.5, alpha: 0.7 * pulse });
+        // Satchel body tinted by rarity
+        r.roundRect(bx - 6, by - 9, 12, 10, 3).fill(0x283850).stroke({ color: beam.outer, width: 1.5, alpha: 0.9 });
+        r.rect(bx - 2, by - 6, 4, 3).fill(beam.inner);
+      } else {
+        // Standard normal satchel
+        r.roundRect(bx - 6, by - 9, 12, 10, 3).fill(0x3c5a8c).stroke({ color: 0x1a2a48, width: 1 });
+        r.rect(bx - 2, by - 6, 4, 3).fill(0xd8e4f4);
+      }
+    }
+    // Interactive world shrines: carved pedestal with a glowing crystal when ready.
+    for (let n = 0; n < sim.shrines.length; n++) {
+      const shDef = sim.shrines[n];
+      if (!sim.explored[shDef.y * mw + shDef.x]) continue;
+      const sx = (shDef.x + 0.5) * TILE;
+      const sy = (shDef.y + 0.5) * TILE;
+      const ready = sim.shrineCd[n] === 0;
+      const col = SHRINE_COLORS[shDef.kind] ?? 0xf0d060;
+      r.ellipse(sx, sy + 4, 10, 5).fill({ color: 0x000000, alpha: 0.4 });
+      r.roundRect(sx - 6, sy - 6, 12, 11, 2).fill(0x524c44).stroke({ color: 0x2a2520, width: 1 });
+      if (ready) {
+        r.ellipse(sx, sy - 9, 8, 4).stroke({ color: col, width: 1.5, alpha: 0.65 });
+        r.moveTo(sx, sy - 16).lineTo(sx + 4, sy - 9).lineTo(sx, sy - 4).lineTo(sx - 4, sy - 9).closePath().fill(col).stroke({ color: 0xffffff, width: 1, alpha: 0.8 });
+      } else {
+        r.circle(sx, sy - 8, 3).fill({ color: 0x3b3834, alpha: 0.85 });
+      }
     }
     // Bodies stay for a minute so a corpse spell has something to aim at; they sink into the ground at the end.
     for (let i = 0; i < sim.count; i++) {
@@ -539,10 +624,9 @@ export class Renderer {
       s.visible = onScreen && (dead ? !!sim.explored[tile] : sim.team[i] === 0 || sim.visible[tile] === 1);
       s.alpha = dead ? Math.min(1, cb.corp[i] / 200) : 1;
       if (s.visible && s instanceof UnitSprite) {
-        const armour = sim.hero?.id === i ? ITEMS[sim.hero.eq[Slot.Armor]]?.tier ?? 0 : 1;
-        // Levelled monsters arrive with the roster; existing golems are level 1.
+        const armour = sim.hero?.id === i ? (sim.hero.eq[Slot.Armor] >= 0 ? getItemDef(sim.hero.eq[Slot.Armor])?.tier ?? 0 : 0) : 1;
         this.animation?.sample(sim, i, this.pose);
-        s.update(sim.tick, !!sim.moving[i], sim.dir[i], sim.team[i], armour, 1, !!(cb.stMask[i] & (1 << St.Stone)), this.pose);
+        s.update(sim.tick, !!sim.moving[i], sim.dir[i], sim.team[i], armour, sim.cb.tier[i] || 1, !!(cb.stMask[i] & (1 << St.Stone)), this.pose);
       }
     }
     const sh = this.shots;
@@ -573,11 +657,22 @@ export class Renderer {
           sh.rect(s.x - 12 + n * 5, y - 7, 4, 4).fill(STATUS_COLORS[st]).stroke({ color: 0x000000, width: 1 });
           n++;
         }
-        if (m & (1 << St.Shield)) sh.ellipse(s.x, s.y - 12 * s.scale.y, 12, 15 * s.scale.y).stroke({ color: 0x70c8ff, width: 1.5, alpha: 0.8 });
+        if (m & (1 << St.Shield)) {
+          if (!this.vfx?.hasIronSkin(i)) sh.ellipse(s.x, s.y - 12 * s.scale.y, 12, 15 * s.scale.y).stroke({ color: 0x70c8ff, width: 1.5, alpha: 0.8 });
+        }
       }
       if (v.selected.has(i) && cb.mana[i] > 0) {
         const w = 20 * (s.scale.x > 1.2 ? 1.4 : 1);
         sh.rect(s.x - w / 2, y + 4, w * Math.min(1, cb.mana[i] / Math.max(1, cb.manaMax[i])), 2).fill(0x5a8cff);
+      }
+    }
+    for (let i = 0; i < sim.count; i++) {
+      if (!cb.bossMods[i]?.length || cb.hp[i] <= 0 || !this.sprites[i].visible) continue;
+      const s = this.sprites[i];
+      r.ellipse(s.x, s.y, 13, 6).stroke({ color: 0xf4b43a, width: 1.5, alpha: 0.85 });
+      if (cb.bossMods[i].includes('blessed_aura')) {
+        const pulse = 1 + 0.15 * Math.sin(sim.tick * 0.2);
+        r.ellipse(s.x, s.y, 24 * pulse, 12 * pulse).stroke({ color: 0xffd700, width: 1, alpha: 0.45 });
       }
     }
     for (const id of v.selected) {
@@ -601,8 +696,22 @@ export class Renderer {
       const el = cb.pEl[p];
       const spell = cb.pS[p] > 0 ? SPELLS[cb.pS[p] - 1] : null;
       if (spell && (spell.tk === Tk.Ally || spell.heal)) sh.circle(wx, wy, 4).fill(BUFF_COLOR).stroke({ color: 0xffffff, width: 1 });
-      else if (spell) sh.circle(wx, wy, 5).fill(ELEM_COLOR[el]).stroke({ color: 0xffffff, width: 1, alpha: 0.7 });
-      else if (el === 0) {
+      else if (spell) {
+        const sid = cb.pS[p] - 1;
+        if (sid >= 24 && sid <= 31) {
+          if (sid === 30) {
+            sh.circle(wx, wy, 6).fill(0x2979ff).stroke({ color: 0xe040fb, width: 2, alpha: 0.9 });
+            sh.circle(wx, wy, 2.5).fill(0xffffff);
+          }
+          continue;
+        }
+        if (el === 1) sh.circle(wx, wy, 5).fill(ELEM_COLOR[1]).circle(wx, wy, 2.5).fill(0xfff0a0);
+        else if (el === 2) sh.circle(wx, wy, 5).fill({ color: ELEM_COLOR[2], alpha: 0.8 }).stroke({ color: 0xe0f8ff, width: 1.5 });
+        else if (el === 3) sh.moveTo(wx - 6, wy).lineTo(wx, wy - 3).lineTo(wx + 6, wy).lineTo(wx, wy + 3).closePath().fill(ELEM_COLOR[3]).stroke({ color: 0xffffff, width: 1 });
+        else if (el === 4) sh.rect(wx - 4, wy - 4, 8, 8).fill(ELEM_COLOR[4]).stroke({ color: 0x4a3820, width: 1 });
+        else if (el === 5) sh.circle(wx, wy, 5).fill(ELEM_COLOR[5]).stroke({ color: 0xffffff, width: 1, alpha: 0.85 });
+        else sh.circle(wx, wy, 5).fill(ELEM_COLOR[el]).stroke({ color: 0xffffff, width: 1, alpha: 0.7 });
+      } else if (el === 0) {
         const t = cb.pT[p];
         const dx = sim.x[t] - cb.pX[p];
         const dy = sim.y[t] - cb.pY[p];
@@ -618,11 +727,39 @@ export class Renderer {
         continue;
       }
       const rad = b.r * (0.35 + 0.65 * age);
-      if (b.fill) sh.circle(b.x, b.y, rad).fill({ color: b.color, alpha: 0.28 * (1 - age) }).stroke({ color: b.color, width: 2, alpha: 1 - age });
-      else sh.circle(b.x, b.y, rad).stroke({ color: b.color, width: 2, alpha: 1 - age });
+      const fade = 1 - age;
+      if (b.fill) sh.circle(b.x, b.y, rad).fill({ color: b.color, alpha: 0.28 * fade }).stroke({ color: b.color, width: 2, alpha: fade });
+      else sh.circle(b.x, b.y, rad).stroke({ color: b.color, width: 2, alpha: fade });
+      if (b.el === 1) {
+        // Fire: radial ember sparks
+        for (let a = 0; a < 6; a++) {
+          const ang = a * (Math.PI / 3) + age * 0.6;
+          sh.moveTo(b.x + Math.cos(ang) * rad * 0.55, b.y + Math.sin(ang) * rad * 0.55)
+            .lineTo(b.x + Math.cos(ang) * rad * 1.15, b.y + Math.sin(ang) * rad * 1.15)
+            .stroke({ color: 0xffe484, width: 1.5, alpha: fade });
+        }
+      } else if (b.el === 2) {
+        // Water: inner cooling ripple
+        sh.ellipse(b.x, b.y, rad * 0.6, rad * 0.42).stroke({ color: 0xc8f4ff, width: 1.5, alpha: fade * 0.9 });
+      } else if (b.el === 3) {
+        // Air: jagged 4-point spark cross
+        const s = rad * 1.1;
+        sh.moveTo(b.x - s, b.y).lineTo(b.x + s, b.y).moveTo(b.x, b.y - s).lineTo(b.x, b.y + s).stroke({ color: 0xffffff, width: 1.5, alpha: fade });
+      } else if (b.el === 4) {
+        // Earth: rock shards flying outward
+        for (let a = 0; a < 4; a++) {
+          const ang = a * (Math.PI / 2) + 0.78;
+          sh.rect(b.x + Math.cos(ang) * rad * 0.75 - 2, b.y + Math.sin(ang) * rad * 0.75 - 2, 4, 4).fill({ color: 0x8f744a, alpha: fade });
+        }
+      } else if (b.el === 5) {
+        // Astral: glowing rune diamond
+        const d = rad * 0.78;
+        sh.moveTo(b.x, b.y - d).lineTo(b.x + d, b.y).lineTo(b.x, b.y + d).lineTo(b.x - d, b.y).closePath().stroke({ color: 0xf0c8ff, width: 1.5, alpha: fade });
+      }
     }
     const o = this.overlay;
     o.clear();
+    this.vfx?.drawScreenOverlay(o, this.viewW, this.viewH);
     if (v.aim) {
       const a = v.aim;
       const c = a.ok ? 0xffe070 : 0xff6a5a;

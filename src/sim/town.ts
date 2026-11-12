@@ -1,8 +1,10 @@
 import { isBlockedAt } from '../map';
-import { Did, SKILL_MAX, Why, addItem, blocker, recalc, takeItem } from './hero';
+import { UNIQUE_ARTIFACTS } from './affixes';
+import { Did, INV_MAX, SKILL_MAX, Why, addItem, blocker, recalc, takeItem } from './hero';
 import { mercPrice } from './difficulty';
-import { ITEMS, Ik } from './items';
+import { getItemDef, ITEMS, Ik, itemId, type ItemDef } from './items';
 import { FP } from './path';
+import { isSetItem, ALL_SET_ITEMS } from './sets';
 import type { Sim } from './sim';
 
 /**
@@ -72,9 +74,17 @@ export interface TownState {
   paid: number; // gold earned from quests, all told
 }
 
-export type TownOp = 'enter' | 'leave' | 'buy' | 'sell' | 'hire' | 'learn' | 'train' | 'accept';
+export type TownOp = 'enter' | 'leave' | 'buy' | 'sell' | 'hire' | 'learn' | 'train' | 'accept' | 'gamble';
 /** `v`: role (enter), merc index (hire), spell (learn), skill (train), offer (accept). `list`: shelf slots (buy) or item ids (sell). */
 export type TownCommand = { type: 'town'; op: TownOp; town: number; v?: number; list?: number[] };
+
+/** Gold cost to gamble for unknown riches at the merchant (Smuggler's Casket). Scales with hero progression. */
+export function gambleCost(sim: Sim): number {
+  const h = sim.hero;
+  if (!h) return 200;
+  const power = Math.max(1, Math.floor(h.attr.reduce((a, b) => a + b, 0) / 4) + h.skill.reduce((a, b) => a + b, 0));
+  return Math.max(150, power * 35);
+}
 
 /** Town fx (cb.emit types): 20 quest paid (v reward, el type), 21 quest failed (el type), 22 mercenary hired (v unit), 23 trade (v gold, el 0 bought 1 sold 2 learned 3 trained). */
 export const Tfx = { Paid: 20, Failed: 21, Hired: 22, Trade: 23 } as const;
@@ -87,9 +97,54 @@ export const cloneTown = (t: TownState): TownState => structuredClone(t);
 
 // ---- prices ----
 
+const UNIQUE_NAMES = new Set(UNIQUE_ARTIFACTS.map((u) => u.name));
+
+export function isUniqueItem(d: ItemDef): boolean {
+  return UNIQUE_NAMES.has(d.name) || d.tier >= 5 || d.rarity === 'unique' || d.rarity === 'artifact';
+}
+
+export function isSetPiece(d: ItemDef): boolean {
+  return isSetItem(d.name) || d.rarity === 'set' || Boolean(d.set);
+}
+
+export type ItemRarity = 'normal' | 'magic' | 'rare' | 'set' | 'unique';
+
+export function itemRarity(d: ItemDef): ItemRarity {
+  if (d.rarity) {
+    const r = d.rarity.toLowerCase();
+    if (r === 'unique' || r === 'artifact') return 'unique';
+    if (r === 'set') return 'set';
+    if (r === 'rare') return 'rare';
+    if (r === 'magic') return 'magic';
+    if (r === 'normal' || r === 'common') return 'normal';
+  }
+  if (isUniqueItem(d)) return 'unique';
+  if (isSetPiece(d)) return 'set';
+  if (d.tier >= 4) return 'rare';
+  if (d.tier >= 2) return 'magic';
+  return 'normal';
+}
+
 export function priceOf(id: number): number {
-  const d = ITEMS[id];
-  if (d.kind === Ik.Gear) return 30 * d.tier * d.tier;
+  const d = getItemDef(id);
+  if (!d) return 0;
+  if (d.kind === Ik.Gear) {
+    const base = 30 * d.tier * d.tier;
+    const rarity = itemRarity(d);
+    switch (rarity) {
+      case 'magic':
+        return Math.round(base * 1.8);
+      case 'rare':
+        return Math.round(base * 3.5);
+      case 'set':
+        return Math.round(base * 5.0);
+      case 'unique':
+        return Math.round(base * 8.5);
+      case 'normal':
+      default:
+        return base;
+    }
+  }
   if (d.kind === Ik.Potion) return d.grow ? 150 * d.tier : 12 * d.tier;
   return 50 * d.tier * (d.w > 1 ? 2 : 1);
 }
@@ -117,8 +172,8 @@ export function upkeepFee(hits: readonly number[], eq: readonly number[]): numbe
   let fee = 0;
   for (const id of eq) {
     if (id < 0) continue;
-    const d = ITEMS[id];
-    if (d.cover === 0) continue;
+    const d = getItemDef(id);
+    if (!d || d.cover === 0) continue;
     const wear = Math.max(1, Math.floor(priceOf(id) / 40));
     for (let k = 0; k < hits.length; k++) if ((d.cover >> k) & 1) fee += hits[k] * wear;
   }
@@ -199,14 +254,89 @@ export function townCommand(sim: Sim, cmd: TownCommand): void {
     return;
   }
   if (cmd.op === 'leave') {
+    if (st.inside >= 0 && st.inside % ROLE_COUNT === Role.Shop) {
+      rollStock(sim, cmd.town);
+    }
     st.inside = -1;
     return;
   }
-  const role = { buy: Role.Shop, sell: Role.Shop, hire: Role.Tavern, accept: Role.Tavern, learn: Role.School, train: Role.School }[cmd.op];
+  const role = { buy: Role.Shop, sell: Role.Shop, gamble: Role.Shop, hire: Role.Tavern, accept: Role.Tavern, learn: Role.School, train: Role.School }[cmd.op];
   if (st.inside !== cmd.town * ROLE_COUNT + role) return;
   const gold = sim.cb.gold;
   const v = cmd.v ?? -1;
   switch (cmd.op) {
+    case 'gamble': {
+      const cost = gambleCost(sim);
+      if (cost > gold[0]) return refuse(sim, Why.Gold);
+      if (h.inv.length >= INV_MAX) return refuse(sim, Why.Full);
+
+      // Diablo II Gambling Probabilities:
+      // 89.0% Magic (roll < 8900)
+      // 10.0% Rare (8900 <= roll < 9900)
+      // 0.8% Set (9900 <= roll < 9980)
+      // 0.2% Unique (9980 <= roll < 10000)
+      const roll = sim.rng.int(10000);
+      let wonId = -1;
+
+      const [baseLo, baseHi] = rt.def.tiers ?? [1, 2];
+      const diff = Math.max(0, Math.min(2, h.diff ?? 1));
+      const lo = diff >= 2 ? baseLo + 1 : baseLo;
+      const hi = Math.min(5, baseHi + diff);
+
+      if (roll >= 9980) {
+        // 0.2% Unique Artifact
+        const cand = UNIQUE_ARTIFACTS
+          .map((u) => itemId(u.name))
+          .filter((id) => id >= 0);
+        if (cand.length > 0) wonId = cand[sim.rng.int(cand.length)];
+      }
+
+      if (wonId < 0 && roll >= 9900) {
+        // 0.8% Set Piece
+        const cand = ALL_SET_ITEMS
+          .map((s) => itemId(s.name))
+          .filter((id) => id >= 0);
+        if (cand.length > 0) wonId = cand[sim.rng.int(cand.length)];
+      }
+
+      if (wonId < 0 && roll >= 8900) {
+        // 10% Rare Gear (tier 4)
+        const cand: number[] = [];
+        ITEMS.forEach((d, id) => {
+          if (d.kind === Ik.Gear && !isUniqueItem(d) && !isSetPiece(d)) {
+            if (d.tier >= 4 && d.tier <= 5) cand.push(id);
+          }
+        });
+        if (cand.length > 0) wonId = cand[sim.rng.int(cand.length)];
+      }
+
+      if (wonId < 0) {
+        // 89% Magic Gear (tier 2..3)
+        const cand: number[] = [];
+        ITEMS.forEach((d, id) => {
+          if (d.kind === Ik.Gear && !isUniqueItem(d) && !isSetPiece(d)) {
+            if (d.tier >= 1 && d.tier <= 3) cand.push(id);
+          }
+        });
+        if (cand.length > 0) wonId = cand[sim.rng.int(cand.length)];
+      }
+
+      if (wonId < 0) {
+        const pool: number[] = [];
+        ITEMS.forEach((d, id) => {
+          if (d.kind === Ik.Gear && !isUniqueItem(d)) pool.push(id);
+        });
+        wonId = pool[sim.rng.int(pool.length)];
+      }
+
+      const why = addItem(h, wonId);
+      if (why) return refuse(sim, why);
+
+      gold[0] -= cost;
+      recalc(sim);
+      emit(sim, Tfx.Trade, cost, 0);
+      return;
+    }
     case 'buy': {
       const shelf = st.stock[cmd.town];
       const slots = [...new Set(cmd.list ?? [])].filter((k) => k >= 0 && k < SHELF && shelf[k] >= 0);
@@ -232,8 +362,9 @@ export function townCommand(sim: Sim, cmd: TownCommand): void {
     case 'sell': {
       let got = 0;
       for (const id of cmd.list ?? []) {
-        if (id < 0 || id >= ITEMS.length || !takeItem(h, id)) continue;
+        if (id < 0 || !takeItem(h, id)) continue;
         got += sellPrice(id);
+        sim.destroyItemInstance(id);
       }
       gold[0] += got;
       if (got) {
@@ -300,20 +431,79 @@ export function townCommand(sim: Sim, cmd: TownCommand): void {
 
 // ---- shop ----
 
-function rollStock(sim: Sim, town: number): void {
-  const [lo, hi] = sim.towns[town].def.tiers ?? [1, 2];
-  const pool: number[] = [];
-  ITEMS.forEach((d, id) => {
-    if (d.tier >= lo && d.tier <= hi) pool.push(id);
-  });
+export function rollStock(sim: Sim, town: number): void {
+  const [baseLo, baseHi] = sim.towns[town].def.tiers ?? [1, 2];
+  const diff = Math.max(0, Math.min(2, sim.hero ? sim.hero.diff : 1));
+
+  let lo = baseLo;
+  let hi = baseHi;
+  if (diff === 1) {
+    hi = baseHi + 1;
+  } else if (diff >= 2) {
+    lo = baseLo + 1;
+    hi = baseHi + 2;
+  }
+
   const shelf = Array<number>(SHELF).fill(-1);
   let k = 0;
   for (const name of ['Healing Draught', 'Mana Draught']) {
     const id = ITEMS.findIndex((d) => d.name === name);
     if (id >= 0) shelf[k++] = id;
   }
+
+  // Filter pool: unique artifacts are strictly non-purchasable and NEVER sold in shops!
+  const pool: number[] = [];
+  ITEMS.forEach((d, id) => {
+    if (isUniqueItem(d)) return;
+    if (d.tier >= lo && d.tier <= hi) pool.push(id);
+  });
+
+  if (pool.length === 0) {
+    sim.town.stock[town] = shelf;
+    return;
+  }
+
+  const byTier: Record<number, number[]> = {};
+  for (let t = lo; t <= hi; t++) byTier[t] = [];
+  const setPool: number[] = [];
+
+  ITEMS.forEach((d, id) => {
+    if (isUniqueItem(d)) return;
+    if (isSetPiece(d) && d.tier >= lo && d.tier <= hi) setPool.push(id);
+    if (d.tier >= lo && d.tier <= hi) {
+      if (byTier[d.tier]) byTier[d.tier].push(id);
+    }
+  });
+
   const n = Math.min(SHELF, k + 6 + sim.rng.int(5));
-  while (k < n && pool.length > 0) shelf[k++] = pool[sim.rng.int(pool.length)];
+  while (k < n) {
+    let chosenId = -1;
+    const roll = sim.rng.int(100);
+
+    if (diff === 0) {
+      // Easy (0): 90% common (tier 1) / 10% magic (tier 2)
+      const targetTier = roll < 90 ? 1 : 2;
+      const candidates = byTier[targetTier]?.length ? byTier[targetTier] : pool;
+      chosenId = candidates[sim.rng.int(candidates.length)];
+    } else if (diff === 1) {
+      // Normal (1): 65% common (tier 1) / 30% magic (tier 2) / 5% rare (tier 3)
+      const targetTier = roll < 65 ? 1 : roll < 95 ? 2 : 3;
+      const candidates = byTier[targetTier]?.length ? byTier[targetTier] : pool;
+      chosenId = candidates[sim.rng.int(candidates.length)];
+    } else {
+      // Hard (2): 40% common (tier 2) / 45% magic (tier 3) / 14% rare (tier 4) / 1% rare set piece opportunity
+      if (roll === 99 && setPool.length > 0) {
+        chosenId = setPool[sim.rng.int(setPool.length)];
+      } else {
+        const targetTier = roll < 40 ? 2 : roll < 85 ? 3 : 4;
+        const candidates = byTier[targetTier]?.length ? byTier[targetTier] : pool;
+        chosenId = candidates[sim.rng.int(candidates.length)];
+      }
+    }
+
+    shelf[k++] = chosenId;
+  }
+
   sim.town.stock[town] = shelf;
 }
 

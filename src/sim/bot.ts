@@ -106,6 +106,9 @@ export interface Scenario {
   /** Start tile per unit. */
   tiles: [number, number][];
   packs: Pack[];
+  tiers?: number[];
+  families?: string[];
+  bossMods?: string[][];
 }
 
 /** Nearest open tile (spiral) to (x, y) that no earlier unit took. */

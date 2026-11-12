@@ -20,7 +20,7 @@ export class ArtPreview {
   private started = 0;
   private lastStatus = '';
   constructor(atlases: readonly UnitAtlas[]) {
-    this.layer.addChild(new Graphics().roundRect(0, 0, 300, 160, 8).fill({ color: 0x201c24, alpha: 0.96 }));
+    this.layer.addChild(new Graphics().roundRect(0, 0, Math.max(300, atlases.length * 100), 160, 8).fill({ color: 0x201c24, alpha: 0.96 }));
     this.units = atlases.map((atlas, i) => {
       const unit = new UnitSprite(atlas);
       unit.position.set(50 + i * 100, 150); unit.scale.set(1.6);
@@ -30,7 +30,7 @@ export class ArtPreview {
     this.controls.setAttribute('aria-label', 'Unit art preview');
     this.controls.style.cssText = 'position:fixed;left:8px;top:170px;z-index:50;background:#201c24;color:#eee;padding:6px;max-width:300px;font:14px system-ui;';
     const caption = document.createElement('div');
-    caption.textContent = 'Hero · Archer · Golem'; this.controls.append(caption);
+    caption.textContent = atlases.map((a) => a.unit).join(' · '); this.controls.append(caption);
     const definitions: [string, string[]][] = [
       ['Facing', Array.from({ length: 16 }, (_, i) => `${i} (${i * 22.5}° from east)`)],
       ['Animation', ['Stand', 'Walk', 'Attack', 'Cast', 'Hurt', 'Die']], ['Team', ['Blue', 'Red', 'Green', 'Violet']],

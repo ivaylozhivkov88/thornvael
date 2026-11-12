@@ -1,4 +1,5 @@
 import { expect, test } from '@playwright/test';
+import { UNIT_ART } from '../src/sprites/units';
 
 interface Art {
   unit: string; frame: string; colors: number[]; sources: number; source: number; filters: boolean; visible: boolean;
@@ -9,19 +10,19 @@ interface ArtGame {
   unitScreen(id: number): [number, number];
 }
 
-test('three in-game models, all facings, independent palettes and shared batch sources', async ({ page }) => {
+test('seven in-game models, all facings, independent palettes and shared batch sources', async ({ page }) => {
   const errors: string[] = [];
   page.on('pageerror', (e) => errors.push(e.message));
   await page.goto('/thornvael/?hero=warrior,m,medium&art=1');
   await page.waitForFunction(() => (window as unknown as { __game?: ArtGame }).__game?.previewArt()?.[0]?.frame);
   const art = () => page.evaluate(() => (window as unknown as { __game: ArtGame }).__game.previewArt());
   const first = await art();
-  expect(first.map((a) => a.unit)).toEqual(['hero', 'archer', 'golem']);
-  expect(new Set(first.map((a) => a.source)).size).toBe(3);
+  expect(first.map((a) => a.unit)).toEqual([...UNIT_ART]);
+  expect(new Set(first.map((a) => a.source)).size).toBe(UNIT_ART.length);
   for (const a of first) { expect(a.sources).toBe(1); expect(a.filters).toBe(false); }
   for (let d = 0; d < 16; d++) {
     await page.getByLabel('Facing', { exact: true }).selectOption(String(d));
-    await expect.poll(async () => (await art()).map((a) => a.frame.split('/')[2])).toEqual(Array(3).fill(String((d + 12) % 16).padStart(2, '0')));
+    await expect.poll(async () => (await art()).map((a) => a.frame.split('/')[2])).toEqual(Array(UNIT_ART.length).fill(String((d + 12) % 16).padStart(2, '0')));
   }
   await page.getByLabel('Animation', { exact: true }).selectOption('1');
   await expect.poll(async () => (await art())[0].frame).toContain('/walk/');

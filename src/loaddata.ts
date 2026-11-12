@@ -8,6 +8,6 @@ export async function loadGameData(): Promise<void> {
     if (!r.ok) throw new Error(`data/${name}.json: HTTP ${r.status}`);
     return r.json();
   };
-  const [items, spells] = await Promise.all([get('items'), get('spells')]);
-  installData({ items, spells });
+  const [items, spells, monsters] = await Promise.all([get('items'), get('spells'), get('monsters')]);
+  installData({ items, spells, monsters });
 }

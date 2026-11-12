@@ -6,7 +6,22 @@ const base = process.env.SITE_BASE ?? '/thornvael/';
 
 export default defineConfig({
   base,
-  build: { target: 'safari16', rollupOptions: { input: { main: 'index.html', editor: 'editor.html' } } },
+  build: {
+    target: 'safari16',
+    rollupOptions: {
+      input: { main: 'index.html', editor: 'editor.html' },
+      output: {
+        manualChunks(id) {
+          if (!id.includes('/src/missions/') && !id.includes('\\src\\missions\\')) return undefined;
+          if (/m(1[2-9]|2[0-3])-/.test(id)) return 'missions-act2';
+          if (/m(2[4-9]|3[0-5])-/.test(id)) return 'missions-act3';
+          if (/m(3[6-9]|4[0-6])-/.test(id)) return 'missions-act4';
+          if (/m0[5-9]-|m1[01]-|blood-at-the-ford|thornwick-market|whispers-in-the-fen|nightfall-at-ravenwatch|the-sunken-sanctum|kids-paradise-opening/.test(id)) return 'missions-act1';
+          return 'missions-skirmish';
+        },
+      },
+    },
+  },
   plugins: [
     VitePWA({
       registerType: 'prompt',

@@ -1,7 +1,8 @@
 import { readFileSync } from 'node:fs';
 import { describe, expect, it } from 'vitest';
-import { completeNode, isOpen, newProgress, parseCampaign, townSeed, visitTown } from '../src/campaign';
+import { actOf, completeNode, isOpen, newProgress, parseCampaign, townSeed, visitTown } from '../src/campaign';
 import { applyCarryover, extractCarryover } from '../src/carryover';
+import { afterMission, newRecord } from '../src/flow';
 import type { GameMap } from '../src/map';
 import { decodeSave, encodeSave, makeSave, migrateSave, SAVE_VERSION } from '../src/save';
 import { Kind, enemyNear } from '../src/sim/combat';
@@ -32,8 +33,23 @@ function world(diff: number, mercKinds: number[] = [Kind.Hero]): Sim {
 }
 
 describe('campaign data', () => {
-  it('has the chapter 1 nodes and a valid unlock graph', () => {
-    expect(campaign.nodes.map((n) => n.id)).toEqual(['m01-blood-at-the-ford', 'town-thornwick', 'm02-whispers-in-the-fen', 'm03-nightfall-at-ravenwatch', 'm04-the-sunken-sanctum']);
+  it('has the starter chapter 1 nodes plus all 46 campaign missions and 4 regional towns across 4 acts', () => {
+    expect(campaign.nodes.slice(0, 5).map((n) => n.id)).toEqual(['m01-blood-at-the-ford', 'town-thornwick', 'm02-whispers-in-the-fen', 'm03-nightfall-at-ravenwatch', 'm04-the-sunken-sanctum']);
+    expect(campaign.nodes.length).toBe(50);
+    const missions = campaign.nodes.filter((n) => n.kind === 'mission');
+    const towns = campaign.nodes.filter((n) => n.kind === 'town');
+    expect(missions.length).toBe(46);
+    expect(towns.map((t) => t.id)).toEqual(['town-thornwick', 'town-redmarsh', 'town-oakhaven', 'town-ironcamp']);
+    expect(towns.slice(1).map((t) => t.tiers)).toEqual([
+      [2, 3],
+      [3, 4],
+      [4, 5],
+    ]);
+    expect(campaign.nodes.find((n) => n.id === 'm11-ashbrook-retreat')?.unlocksOnVictory).toContain('town-redmarsh');
+    expect(campaign.nodes.find((n) => n.id === 'm23-fork-of-spears')?.unlocksOnVictory).toContain('town-oakhaven');
+    expect(campaign.nodes.find((n) => n.id === 'm35-burning-harbor')?.unlocksOnVictory).toContain('town-ironcamp');
+    expect(new Set(missions.map((n) => n.act ?? 1))).toEqual(new Set([1, 2, 3, 4]));
+    expect(campaign.nodes.find((n) => n.id === 'm44-threshold-choice')?.unlocksOnVictory).toEqual(['m45-crown-of-order', 'm46-ember-reckoning']);
     expect(() => parseCampaign({ ...campaign, start: 'nope' })).toThrow();
   });
 
@@ -52,6 +68,39 @@ describe('campaign data', () => {
   it('gives each town visit its own stock seed, the same every time', () => {
     expect(townSeed(5, 0)).toBe(townSeed(5, 0));
     expect(townSeed(5, 0)).not.toBe(townSeed(5, 1));
+  });
+
+  it('keeps nodes in every act separated so buttons never overlap', () => {
+    for (const act of [1, 2, 3, 4] as const) {
+      const nodes = campaign.nodes.filter((n) => actOf(n) === act);
+      for (let i = 0; i < nodes.length; i++) {
+        for (let j = i + 1; j < nodes.length; j++) {
+          const dx = Math.abs(nodes[i].pos[0] - nodes[j].pos[0]);
+          const dy = Math.abs(nodes[i].pos[1] - nodes[j].pos[1]);
+          expect(dx < 22 && dy < 26, `${nodes[i].id} vs ${nodes[j].id} in act ${act}`).toBe(false);
+        }
+      }
+    }
+  });
+
+  it('unlocks mutually exclusive branches on m44-threshold-choice based on branch parameter', () => {
+    const base = {
+      ...newProgress(campaign, 1),
+      unlocked: ['m01-blood-at-the-ford', 'm44-threshold-choice'],
+      node: 'm44-threshold-choice',
+    };
+    const b1 = completeNode(campaign, base, 'm44-threshold-choice', 1);
+    expect(isOpen(b1, 'm45-crown-of-order')).toBe(true);
+    expect(isOpen(b1, 'm46-ember-reckoning')).toBe(false);
+
+    const b2 = completeNode(campaign, base, 'm44-threshold-choice', 2);
+    expect(isOpen(b2, 'm45-crown-of-order')).toBe(false);
+    expect(isOpen(b2, 'm46-ember-reckoning')).toBe(true);
+
+    const rec = { ...newRecord(campaign, { cls: 0, female: false }, 1), progress: base };
+    const afterB1 = afterMission(campaign, rec, 'm44-threshold-choice', true, null, { text: '', up: 1, size: 1, gold: 10, branch: 1 });
+    expect(afterB1.progress.unlocked).toContain('m45-crown-of-order');
+    expect(afterB1.progress.unlocked).not.toContain('m46-ember-reckoning');
   });
 });
 

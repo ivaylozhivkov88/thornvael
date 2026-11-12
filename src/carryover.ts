@@ -2,6 +2,7 @@ import type { CampaignProgress } from './campaign';
 import { FP, type Sim } from './sim/sim';
 import { cloneHero, recalc, type HeroState } from './sim/hero';
 import { upkeepFee } from './sim/town';
+import { registerDynamicItem, type ItemInstance } from './sim/items';
 
 /**
  * What a hero takes from one mission or town to the next. Plain JSON, so it goes into saves and exported files unchanged.
@@ -20,6 +21,7 @@ export interface CarryoverState {
   progress: CampaignProgress;
   slots?: number[]; // quick-row layout, kept from node to node (older records lack it)
   upkeep?: number; // armour upkeep already taken out of `gold` at this hand-over
+  items?: ItemInstance[]; // dynamic item instances in inventory or equipment
 }
 
 export function extractCarryover(sim: Sim, progress: CampaignProgress, shopSeed: number, slots?: readonly number[]): CarryoverState {
@@ -32,7 +34,24 @@ export function extractCarryover(sim: Sim, progress: CampaignProgress, shopSeed:
     if (j === h.id || sim.team[j] !== 0 || sim.hidden[j] || sim.cb.hp[j] <= 0) continue;
     mercs.push({ kind: sim.cb.kind[j], hpPct: Math.max(1, Math.floor((sim.cb.hp[j] * 100) / Math.max(1, sim.cb.hpMax[j]))) });
   }
-  return { hero: h, mercs, gold: sim.cb.gold[0] - upkeep, shopSeed, progress: structuredClone(progress), slots: slots ? [...slots] : undefined, upkeep };
+  const neededIds = new Set<number>();
+  for (const s of h.inv) if (s.item >= 1000) neededIds.add(s.item);
+  for (const eq of h.eq) if (eq >= 1000) neededIds.add(eq);
+  const carriedInstances: ItemInstance[] = [];
+  for (const id of neededIds) {
+    const inst = sim.instances.get(id);
+    if (inst) carriedInstances.push(inst);
+  }
+  return {
+    hero: h,
+    mercs,
+    gold: sim.cb.gold[0] - upkeep,
+    shopSeed,
+    progress: structuredClone(progress),
+    slots: slots ? [...slots] : undefined,
+    upkeep,
+    items: carriedInstances.length > 0 ? carriedInstances : undefined,
+  };
 }
 
 /**
@@ -49,6 +68,12 @@ export function waivePurse(sim: Sim, townVisits: number): void {
 }
 
 export function applyCarryover(sim: Sim, co: CarryoverState): number {
+  if (co.items) {
+    for (const inst of co.items) {
+      sim.instances.set(inst.id, inst);
+      registerDynamicItem(inst.id, inst.def);
+    }
+  }
   const hero = cloneHero(co.hero)!;
   const id = sim.hero?.id ?? hero.id;
   hero.id = id;

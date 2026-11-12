@@ -320,9 +320,44 @@ export const ACTIONS: ActionDef[] = [
       }
     },
   },
-  { key: 'giveAll', label: 'Give everything to another unit (recorded only)', params: [UNIT('Giving unit'), UNIT('Taking unit')], run: note },
+  {
+    key: 'giveAll',
+    label: 'Give everything to another unit',
+    params: [UNIT('Giving unit'), UNIT('Taking unit')],
+    run: (c, [u, v]) => {
+      note(c);
+      const h = c.sim.hero;
+      if (!h || u === v || u < 0 || u >= c.sim.count || v < 0 || v >= c.sim.count) return;
+      if (h.id === u) {
+        h.inv.length = 0;
+      } else if (h.id === v) {
+        const cb = c.sim.cb;
+        for (let b = 0; b < cb.bI.length; b++) {
+          if (cb.bI[b] > 0 && Math.floor(cb.bX[b] / FP) === Math.floor(px(c.sim, u)) && Math.floor(cb.bY[b] / FP) === Math.floor(py(c.sim, u))) {
+            if (addItem(h, cb.bI[b] - 1) === 0) cb.bI[b] = 0;
+          }
+        }
+      }
+    },
+  },
   { key: 'tileSpellTime', label: 'Tile spell duration (recorded only)', params: [X(), Y(), SPELL, NUM('Duration')], run: note },
-  { key: 'unitSpellTime', label: 'Unit spell duration (recorded only)', params: [UNIT(), SPELL, NUM('Duration')], run: note },
+  {
+    key: 'unitSpellTime',
+    label: 'Unit spell duration',
+    params: [UNIT(), SPELL, NUM('Duration')],
+    run: (c, [u, s, dur]) => {
+      note(c);
+      if (u < 0 || u >= c.sim.count || s < 0 || s >= SPELLS.length || SPELLS[s].st < 0) return;
+      const st = SPELLS[s].st;
+      if (dur > 0) {
+        c.sim.cb.stMask[u] |= 1 << st;
+        c.sim.cb.stT[u * 8 + st] = dur * 25;
+      } else {
+        c.sim.cb.stMask[u] &= ~(1 << st);
+        c.sim.cb.stT[u * 8 + st] = 0;
+      }
+    },
+  },
   {
     key: 'repopDelay',
     label: 'Change the repop delay of a group',
