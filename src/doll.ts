@@ -35,6 +35,12 @@ const SETS: Record<string, DollSet> = {
       'helm': { file: 'mage-m-helm-wizard.png', x: 33.19, y: 1.21, w: 33.72, h: 16.76 },
     },
   },
+  'mage-f': {
+    base: 'mage-f-base.jpg',
+    layers: {
+      'armor': { file: 'mage-f-armor.png', x: 30, y: 6.11, w: 39.88, h: 90.86 },
+    },
+  },
 };
 
 export function dollSet(cls: number, female: boolean): DollSet | null {
