@@ -19,6 +19,7 @@ const SETS: Record<string, DollSet> = {
     base: 'mage-m-base.jpg',
     layers: {
       'armor': { file: 'mage-m-armor.png', x: 29.72, y: 17.65, w: 43.84, h: 66.14 },
+      'helm': { file: 'mage-m-helm-wizard.png', x: 33.19, y: 1.21, w: 33.72, h: 16.76 },
     },
   },
 };
