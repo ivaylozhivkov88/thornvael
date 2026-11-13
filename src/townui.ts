@@ -293,7 +293,7 @@ export class TownUi {
       for (let slot = 0; slot < h.eq.length; slot++) {
         const item = slot === trySlot ? this.tryOn : h.eq[slot];
         const def = item >= 0 ? getItemDef(item) : undefined;
-        const k = def ? lookFor(set, slot, def.tier ?? 1) : null;
+        const k = def ? lookFor(set, slot, def.tier ?? 1, def.name) : null;
         if (k) keys.push(k);
       }
       art = buildDoll(set, keys, import.meta.env.BASE_URL);
