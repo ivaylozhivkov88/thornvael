@@ -400,11 +400,14 @@ export async function runShell(startWorker: () => void): Promise<never> {
       await deleteSave(AUTO).catch(() => undefined);
       auto = null;
       const startNode = nodeOf(c, c.start);
+      const diffStr = (['easy', 'medium', 'hard'] as const)[diff];
+      const heroStr = `${arch.cls === 1 ? 'mage' : 'warrior'},${arch.female ? 'f' : 'm'},${diffStr}`;
+      const url = `${nodeUrl(startNode)}&hero=${encodeURIComponent(heroStr)}`;
       const seq = sequenceForNode(startNode.id);
       if (seq && seq.kind === 'intro') {
-        showStory(seq.id, () => go(nodeUrl(startNode)));
+        showStory(seq.id, () => go(url));
       } else {
-        go(nodeUrl(startNode));
+        go(url);
       }
     }, 'sh-btn-start');
 

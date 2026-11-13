@@ -609,9 +609,9 @@ button:disabled, #shell .sh-btn:disabled { opacity: .6; cursor: default; box-sha
   display: flex;
   align-items: flex-end;
   justify-content: center;
-  width: clamp(100px, 14vw, 180px);
-  height: clamp(100px, 18vh, 180px);
-  margin-bottom: clamp(6px, 1.2vh, 14px);
+  width: clamp(80px, 10vw, 130px);
+  height: clamp(80px, 12vh, 120px);
+  margin-bottom: clamp(4px, 1vh, 10px);
   z-index: 4;
   pointer-events: none;
   flex-shrink: 0;
