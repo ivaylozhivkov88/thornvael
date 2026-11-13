@@ -64,7 +64,11 @@ describe('chapter download', () => {
     const m = parseManifest(manifestJson);
     expect(m.cache).toBe('thornvael-ch1-v1');
     expect(m.files.some((f) => f.path === 'data/items.json')).toBe(true);
-    for (const f of m.files) expect(readFileSync(new URL(`../public/${f.path}`, import.meta.url)).length).toBe(f.size);
+    for (const f of m.files) {
+      const buf = readFileSync(new URL(`../public/${f.path}`, import.meta.url));
+      const len = f.path.endsWith('.json') ? Buffer.byteLength(buf.toString('utf8').replace(/\r\n/g, '\n')) : buf.length;
+      expect(len).toBe(f.size);
+    }
   });
 });
 

@@ -1,23 +1,23 @@
 {
  "id": "ch1",
  "cache": "thornvael-ch1-v1",
- "total": 2489355,
+ "total": 2485838,
  "files": [
   {
    "path": "data/campaign.json",
-   "size": 31533
+   "size": 30581
   },
   {
    "path": "data/items.json",
-   "size": 44238
+   "size": 41766
   },
   {
    "path": "data/monsters.json",
-   "size": 9424
+   "size": 9368
   },
   {
    "path": "data/spells.json",
-   "size": 3977
+   "size": 3940
   },
   {
    "path": "audio/ambience.m4a",
