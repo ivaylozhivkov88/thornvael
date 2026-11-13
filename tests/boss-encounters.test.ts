@@ -5,7 +5,7 @@ import { createMission } from '../src/mission';
 import { Elem, Kind, Ord } from '../src/sim/combat';
 import { createHero, dropLoot } from '../src/sim/hero';
 import { FP, Sim } from '../src/sim/sim';
-import { BOSS_SPRITE_DEFS, bossSpriteDef, isBossArt } from '../src/sprites/units';
+import { ALL_UNIT_ART, BOSS_ART, BOSS_SPRITE_DEFS, bossSpriteDef, isBossArt } from '../src/sprites/units';
 import { BOSS_SIGNATURE_ABILITIES } from '../src/monster-info';
 
 import catacombs from '../src/missions/catacombs-level-4.map.json';
@@ -44,11 +44,13 @@ describe('Milestone 3: Complete Act Final Boss Lairs & Visual Encounters', () =>
     }
   });
 
-  it('verifies custom boss sprite definitions, scales, and aura tints in units.ts', () => {
+  it('verifies custom boss sprite definitions, dedicated atlases, scales, and aura tints in units.ts', () => {
     for (const lair of BOSS_LAIRS) {
       expect(isBossArt(lair.bossFamily)).toBe(true);
+      expect((ALL_UNIT_ART as readonly string[]).includes(lair.bossFamily)).toBe(true);
       const def = bossSpriteDef(lair.bossFamily);
       expect(def).toBeDefined();
+      expect(def!.baseArt).toBe(lair.bossFamily); // True dedicated boss art
       expect(def!.scale).toBe(lair.expectedScale);
       expect(def!.auraTint).toBeGreaterThan(0);
       expect(def!.signatureColor).toBeGreaterThan(0);

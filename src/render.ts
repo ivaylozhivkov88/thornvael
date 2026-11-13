@@ -8,7 +8,7 @@ import { SPELLS, St, Tk } from './sim/spelldata';
 import { S } from './strings';
 import { getItemDef, Slot } from './sim/items';
 import { itemRarity } from './sim/town';
-import { UnitAtlas, UnitSprite, UNIT_ART, bossSpriteDef } from './sprites/units';
+import { UnitAtlas, UnitSprite, ALL_UNIT_ART, UNIT_ART, bossSpriteDef } from './sprites/units';
 import { ArtPreview } from './sprites/preview';
 import { CombatAnimation, type AnimationPose } from './sprites/combat-animation';
 import { VfxSystem } from './vfx';
@@ -237,14 +237,17 @@ export class Renderer {
     this.world.addChild(this.chunks, this.rings, this.feel.bloodGraphics, this.feel.auraGraphics, this.vfx.groundLayer);
     this.fog = fog;
     const tex = unitTexture();
-    const atlases = await Promise.all(UNIT_ART.map((unit) => UnitAtlas.load(unit)));
+    const atlases = await Promise.all(ALL_UNIT_ART.map((unit) => UnitAtlas.load(unit)));
     this.loadedAtlases = atlases;
+    const atlasByArt = new Map<string, UnitAtlas>(atlases.map((a) => [a.unit, a]));
     const params = new URLSearchParams(location.search);
     this.artStress = params.get('artstress') === '1' && (params.has('crowd') || params.has('battle'));
     for (let i = 0; i < sim.count; i++) {
       const kind = sim.cb.kind[i];
+      const boss = sim.cb.family[i] ? bossSpriteDef(sim.cb.family[i]) : undefined;
+      const bossAtlas = boss ? atlasByArt.get(boss.id) : undefined;
       // Diagnostic presentation override only: retain the original sim kind and update path.
-      const atlas = this.artStress ? atlases[i % atlases.length]
+      const atlas = bossAtlas ?? (this.artStress ? atlases[i % atlases.length]
         : kind === Kind.Hero ? atlases[0]
         : kind === Kind.Archer ? atlases[1]
         : kind === Kind.Golem ? atlases[2]
@@ -252,8 +255,7 @@ export class Renderer {
         : kind === Kind.Mage ? atlases[4]
         : kind === Kind.Gnoll ? atlases[5]
         : kind === Kind.Imp ? atlases[6]
-        : null;
-      const boss = sim.cb.family[i] ? bossSpriteDef(sim.cb.family[i]) : undefined;
+        : null);
       const s = atlas ? new UnitSprite(atlas, boss) : new Sprite(tex);
       if (s instanceof Sprite) s.anchor.set(0.5, 0.88);
       const look = KIND_LOOK[kind] ?? { scale: 1 };

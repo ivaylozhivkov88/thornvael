@@ -4,9 +4,9 @@ import { animationFrame, palette, sheetDirection, splitMask } from './palette';
 import type { AnimationPose } from './combat-animation';
 
 export const UNIT_ART = ['hero', 'archer', 'golem', 'warrior', 'mage', 'gnoll', 'imp'] as const;
-export type UnitArt = typeof UNIT_ART[number];
-
 export const BOSS_ART = ['lilithia', 'azgalor', 'malakar', 'ignis-khor'] as const;
+export const ALL_UNIT_ART = [...UNIT_ART, ...BOSS_ART] as const;
+export type UnitArt = typeof ALL_UNIT_ART[number];
 export type BossArt = typeof BOSS_ART[number];
 
 export interface BossSpriteContract {
@@ -21,7 +21,7 @@ export interface BossSpriteContract {
 export interface BossSpriteDef {
   id: BossArt;
   name: string;
-  baseArt: UnitArt;
+  baseArt: BossArt;
   scale: number;
   paletteTier: number;
   auraTint: number;
@@ -33,7 +33,7 @@ export const BOSS_SPRITE_DEFS: Record<BossArt, BossSpriteDef> = {
   lilithia: {
     id: 'lilithia',
     name: 'Lilithia, Queen of Agony',
-    baseArt: 'imp',
+    baseArt: 'lilithia',
     scale: 1.45,
     paletteTier: 5,
     auraTint: 0x3cd070, // Venomous emerald glow
@@ -50,7 +50,7 @@ export const BOSS_SPRITE_DEFS: Record<BossArt, BossSpriteDef> = {
   azgalor: {
     id: 'azgalor',
     name: 'Azgalor, Maggot Colossus',
-    baseArt: 'golem',
+    baseArt: 'azgalor',
     scale: 1.85,
     paletteTier: 5,
     auraTint: 0x60c8ff, // Glacial frost subterranean aura
@@ -67,7 +67,7 @@ export const BOSS_SPRITE_DEFS: Record<BossArt, BossSpriteDef> = {
   malakar: {
     id: 'malakar',
     name: 'Malakar, The Tormentor',
-    baseArt: 'golem',
+    baseArt: 'malakar',
     scale: 1.6,
     paletteTier: 5,
     auraTint: 0xa870ff, // Stormcaller astral aura
@@ -84,7 +84,7 @@ export const BOSS_SPRITE_DEFS: Record<BossArt, BossSpriteDef> = {
   'ignis-khor': {
     id: 'ignis-khor',
     name: 'Ignis-Khor, Lord of Terror',
-    baseArt: 'mage',
+    baseArt: 'ignis-khor',
     scale: 1.75,
     paletteTier: 5,
     auraTint: 0xff3b1a, // Infernal crimson hellfire
