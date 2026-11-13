@@ -39,6 +39,10 @@ const SETS: Record<string, DollSet> = {
     base: 'mage-f-base.jpg',
     layers: {
       'armor': { file: 'mage-f-armor.png', x: 30, y: 6.11, w: 39.88, h: 90.86 },
+      'helm': { file: 'mage-f-hat.png', x: 31.67, y: 2.19, w: 36.89, h: 16.63 },
+      'boots': { file: 'mage-f-boots.png', x: 35.8, y: 82.94, w: 31.78, h: 14.34 },
+      'gloves': { file: 'mage-f-gloves.png', x: 34.89, y: 47.5, w: 33.62, h: 11.7 },
+      'weapon': { file: 'mage-f-staff.png', x: 70.05, y: 6.27, w: 15.36, h: 87.91 },
     },
   },
 };
