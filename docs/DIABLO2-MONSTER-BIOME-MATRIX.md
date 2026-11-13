@@ -2,7 +2,7 @@
 
 ## 1. Overview & Vision
 
-**RoM2 Web** combines the orthogonal real-time tactical party controls and spellcasting of *Rage of Mages II: Necromancer* with the legendary dark fantasy enemy diversity, elite modifier system, and biome atmosphere of *Diablo II*.
+**Thornvael** combines the orthogonal real-time tactical party controls and spellcasting of classic 1999 isometric fantasy RTS with the legendary dark fantasy enemy diversity, elite modifier system, and biome atmosphere of *Diablo II*.
 
 Rather than facing monotonous enemies or solitary necromancers, players encounter distinct monster families, swarms, skirmishers, resurrection shamans, and SuperUnique bosses across procedurally generated expeditions and campaign missions. Every biome features tailored ecology, elemental affinities, visual terrain, and thematic boss pools.
 

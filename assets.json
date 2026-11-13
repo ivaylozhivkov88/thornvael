@@ -350,6 +350,42 @@
       "note": "Original full-body female mage RGBA cutout, 160x256, authored primitive model, Blender 5.2.3. Reproduce: docs/TOWN-ART.md"
     },
     {
+      "path": "public/townart/campfire-bg.jpg",
+      "license": "own",
+      "source": "tools/process-campfire-assets.py",
+      "note": "Campfire hero selection backdrop JPG render"
+    },
+    {
+      "path": "public/townart/campfire-bg.webp",
+      "license": "own",
+      "source": "tools/process-campfire-assets.py",
+      "note": "Campfire hero selection backdrop WebP render"
+    },
+    {
+      "path": "public/townart/hero-dain.png",
+      "license": "own",
+      "source": "tools/process-campfire-assets.py",
+      "note": "Dain Ironclad hero cutout PNG render"
+    },
+    {
+      "path": "public/townart/hero-morrigan.png",
+      "license": "own",
+      "source": "tools/process-campfire-assets.py",
+      "note": "Morrigan Frostweaver hero cutout PNG render"
+    },
+    {
+      "path": "public/townart/hero-selena.png",
+      "license": "own",
+      "source": "tools/process-campfire-assets.py",
+      "note": "Selena Swiftblade hero cutout PNG render"
+    },
+    {
+      "path": "public/townart/hero-valerius.png",
+      "license": "own",
+      "source": "tools/process-campfire-assets.py",
+      "note": "Valerius Pyromaster hero cutout PNG render"
+    },
+    {
       "path": "public/audio/loot_magic.m4a",
       "license": "own",
       "source": "tools/gen-loot-spell-sfx.py",
