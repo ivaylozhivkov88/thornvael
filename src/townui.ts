@@ -10,6 +10,7 @@ import { OFFERS, QuestType, ROLE_COUNT, Role, SHELF, gambleCost, priceOf, sellPr
 import { S } from './strings';
 import { itemIcon } from './townicons';
 import { equipmentLayers } from './hero-presentation';
+import { buildDoll, dollSet, lookFor } from './doll';
 import { playTraderBark, playTownAmbience, stopTownAmbience } from './audio';
 
 /**
@@ -285,7 +286,19 @@ export class TownUi {
       doll.append(badge);
     }
     figure.classList.toggle('trying', this.tryOn >= 0);
-    figure.append(image, doll, el('figcaption', '', this.tryOn >= 0 ? `${getItemDef(this.tryOn)?.name ?? ''}` : S.hero.classes[sim.hero!.cls]));
+    const set = dollSet(h.cls, h.female);
+    let art: HTMLElement = image;
+    if (set) {
+      const keys: string[] = [];
+      for (let slot = 0; slot < h.eq.length; slot++) {
+        const item = slot === trySlot ? this.tryOn : h.eq[slot];
+        const def = item >= 0 ? getItemDef(item) : undefined;
+        const k = def ? lookFor(set, slot, def.tier ?? 1) : null;
+        if (k) keys.push(k);
+      }
+      art = buildDoll(set, keys, import.meta.env.BASE_URL);
+    }
+    figure.append(art, doll, el('figcaption', '', this.tryOn >= 0 ? `${getItemDef(this.tryOn)?.name ?? ''}` : S.hero.classes[sim.hero!.cls]));
     return figure;
   }
 

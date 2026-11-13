@@ -1637,3 +1637,8 @@
 .doll-badge.replaced { border-color: #ffe08a; box-shadow: 0 0 10px #ffcf6a; animation: badge-pop .35s ease-out; }
 @keyframes badge-pop { from { transform: scale(1.6); opacity: .2; } to { transform: scale(1); opacity: 1; } }
 @media (prefers-reduced-motion: reduce) { .doll-badge.replaced { animation: none; } }
+
+.sheet .hero-portrait .doll-stack{position:relative;height:200px;width:auto;aspect-ratio:597/800;max-width:100%;margin:0 auto}
+.sheet .hero-portrait .doll-stack img{border:0;border-radius:0;background:none;object-fit:fill;display:block}
+.sheet .hero-portrait .doll-stack>img:first-child{width:100%;height:100%}
+.sheet .hero-portrait .doll-stack .doll-layer{position:absolute;pointer-events:none;animation:badge-pop .25s ease-out}
