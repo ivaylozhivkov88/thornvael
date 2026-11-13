@@ -91,7 +91,7 @@ describe('touch aiming', () => {
 
 describe('Milestone 4: Town Trader Ambience & Voices', () => {
   it('exercises procedural trader barks and town ambience without throw', async () => {
-    const { playTraderBark, playTownAmbience, stopTownAmbience, playPickupRustle, playEquipSfx } = await import('../src/audio');
+    const { playTraderBark, playTownAmbience, stopTownAmbience, setBiomeAmbience, playPickupRustle, playEquipSfx } = await import('../src/audio');
 
     // Safe execution without audio context throwing
     expect(() => {
@@ -118,6 +118,10 @@ describe('Milestone 4: Town Trader Ambience & Voices', () => {
       playTownAmbience('tavern');
       playTownAmbience('forest');
       playTownAmbience('dungeon');
+      setBiomeAmbience('act1_marsh');
+      setBiomeAmbience('act2_desert');
+      setBiomeAmbience('act3_cavern');
+      setBiomeAmbience('act4_hell');
       stopTownAmbience();
     }).not.toThrow();
 

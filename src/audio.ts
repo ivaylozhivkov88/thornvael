@@ -407,7 +407,7 @@ export function playTraderBark(trader: TraderRole, event: TraderEvent): void {
     gain.connect(sfxBus);
 
     if (trader === 'blacksmith') {
-      // Deep gruff vocal formant + distant anvil clink
+      // Deep gruff vocal formant + multi-frequency resonant iron/anvil strikes
       const osc = ctx.createOscillator();
       osc.type = 'sawtooth';
       const f0 = event === 'greet' ? 120 : event === 'buy' ? 140 : 100;
@@ -427,57 +427,98 @@ export function playTraderBark(trader: TraderRole, event: TraderEvent): void {
       osc.start(now);
       osc.stop(now + 0.25);
 
-      // Anvil resonance chime
-      const anvil = ctx.createOscillator();
-      const anvilGain = ctx.createGain();
-      anvil.type = 'sine';
-      anvil.frequency.setValueAtTime(event === 'buy' ? 1760 : 1240, now + 0.05);
-      anvilGain.gain.setValueAtTime(0.3 * sfxVol, now + 0.05);
-      anvilGain.gain.exponentialRampToValueAtTime(0.001, now + 0.35);
-      anvil.connect(anvilGain);
-      anvilGain.connect(sfxBus);
-      anvil.start(now + 0.05);
-      anvil.stop(now + 0.35);
+      // Multi-frequency resonant iron / anvil strikes
+      const strikeFreqs = event === 'buy' ? [1760, 2480, 880] : [1240, 1960, 620];
+      for (let k = 0; k < strikeFreqs.length; k++) {
+        const anvil = ctx.createOscillator();
+        const anvilGain = ctx.createGain();
+        anvil.type = k === 0 ? 'sine' : 'triangle';
+        const freq = strikeFreqs[k];
+        anvil.frequency.setValueAtTime(freq, now + 0.04);
+        anvil.frequency.exponentialRampToValueAtTime(freq * 0.98, now + 0.38);
+        const amp = (0.22 / (k + 1)) * sfxVol;
+        anvilGain.gain.setValueAtTime(amp, now + 0.04);
+        anvilGain.gain.exponentialRampToValueAtTime(0.0001, now + 0.38 + k * 0.05);
+        anvil.connect(anvilGain);
+        anvilGain.connect(sfxBus);
+        anvil.start(now + 0.04);
+        anvil.stop(now + 0.45);
+      }
 
     } else if (trader === 'barkeep') {
-      // Warm hearty tavern harmonic chord
-      const chords = event === 'greet' ? [196, 247, 294] : event === 'buy' ? [220, 277, 330] : [174, 220, 261];
+      // Heavy wooden mug thud + warm tavern polyphony
+      const thud = ctx.createOscillator();
+      const thudGain = ctx.createGain();
+      thud.type = 'sine';
+      thud.frequency.setValueAtTime(120, now);
+      thud.frequency.exponentialRampToValueAtTime(45, now + 0.12);
+      thudGain.gain.setValueAtTime(0.35 * sfxVol, now);
+      thudGain.gain.exponentialRampToValueAtTime(0.001, now + 0.14);
+      thud.connect(thudGain);
+      thudGain.connect(sfxBus);
+      thud.start(now);
+      thud.stop(now + 0.15);
+
+      const chords = event === 'greet'
+        ? [130.8, 164.8, 196.0, 261.6] // C major warm triad + octave
+        : event === 'buy'
+        ? [146.8, 174.6, 220.0, 293.7] // D minor warm triad + octave
+        : [110.0, 138.6, 164.8, 220.0]; // A minor warm triad + octave
       gain.gain.setValueAtTime(0.18 * sfxVol, now);
-      gain.gain.exponentialRampToValueAtTime(0.001, now + 0.3);
+      gain.gain.exponentialRampToValueAtTime(0.001, now + 0.36);
 
       for (const freq of chords) {
-        const osc = ctx.createOscillator();
-        osc.type = 'triangle';
-        osc.frequency.setValueAtTime(freq, now);
-        osc.connect(gain);
-        osc.start(now);
-        osc.stop(now + 0.3);
+        const hOsc = ctx.createOscillator();
+        hOsc.type = 'triangle';
+        hOsc.frequency.setValueAtTime(freq, now + 0.02);
+        hOsc.connect(gain);
+        hOsc.start(now + 0.02);
+        hOsc.stop(now + 0.36);
       }
 
     } else if (trader === 'alchemist') {
-      // Mystical celestial chime & bubbling glissando
-      const startF = event === 'greet' ? 880 : event === 'buy' ? 660 : 1175;
-      const endF = event === 'greet' ? 1320 : event === 'buy' ? 1568 : 880;
+      // Glass bubbling and mystical harmonic shimmer
+      const bubbleCount = 4;
+      for (let b = 0; b < bubbleCount; b++) {
+        const bStart = now + b * 0.055;
+        const bOsc = ctx.createOscillator();
+        const bGain = ctx.createGain();
+        bOsc.type = 'sine';
+        const bF = 750 + b * 140 + Math.random() * 80;
+        bOsc.frequency.setValueAtTime(bF, bStart);
+        bOsc.frequency.exponentialRampToValueAtTime(bF * 1.45, bStart + 0.045);
+        bGain.gain.setValueAtTime(0.12 * sfxVol, bStart);
+        bGain.gain.exponentialRampToValueAtTime(0.0001, bStart + 0.048);
+        bOsc.connect(bGain);
+        bGain.connect(sfxBus);
+        bOsc.start(bStart);
+        bOsc.stop(bStart + 0.05);
+      }
 
-      const osc = ctx.createOscillator();
-      osc.type = 'sine';
-      osc.frequency.setValueAtTime(startF, now);
-      osc.frequency.exponentialRampToValueAtTime(endF, now + 0.28);
+      const shimmerFreqs = event === 'greet' ? [880, 1320, 1760] : event === 'buy' ? [660, 990, 1485] : [1175, 1760, 2350];
+      for (let s = 0; s < shimmerFreqs.length; s++) {
+        const sOsc = ctx.createOscillator();
+        const sGain = ctx.createGain();
+        sOsc.type = 'sine';
+        const sf = shimmerFreqs[s];
+        sOsc.frequency.setValueAtTime(sf, now + 0.08);
+        sOsc.frequency.exponentialRampToValueAtTime(sf * 1.15, now + 0.38);
 
-      const vibrato = ctx.createOscillator();
-      const vibGain = ctx.createGain();
-      vibrato.frequency.value = 12;
-      vibGain.gain.value = 25;
-      vibrato.connect(osc.frequency);
-      vibrato.start(now);
-      vibrato.stop(now + 0.3);
+        const vib = ctx.createOscillator();
+        const vibG = ctx.createGain();
+        vib.frequency.value = 14;
+        vibG.gain.value = 18;
+        vib.connect(sOsc.frequency);
+        vib.start(now + 0.08);
+        vib.stop(now + 0.38);
 
-      gain.gain.setValueAtTime(0.22 * sfxVol, now);
-      gain.gain.exponentialRampToValueAtTime(0.001, now + 0.32);
-
-      osc.connect(gain);
-      osc.start(now);
-      osc.stop(now + 0.32);
+        sGain.gain.setValueAtTime((0.15 / (s + 1)) * sfxVol, now + 0.08);
+        sGain.gain.exponentialRampToValueAtTime(0.0001, now + 0.38);
+        sOsc.connect(sGain);
+        sGain.connect(sfxBus);
+        sOsc.start(now + 0.08);
+        sOsc.stop(now + 0.38);
+      }
 
     } else {
       // Guildmaster: Regal fanfare brass flourish
@@ -513,7 +554,9 @@ export function stopTownAmbience(): void {
   }
 }
 
-export function playTownAmbience(hub: 'blacksmith' | 'tavern' | 'forest' | 'dungeon' | 'town' | null): void {
+export type BiomeAmbience = 'act1_marsh' | 'act2_desert' | 'act3_cavern' | 'act4_hell';
+
+export function playTownAmbience(hub: 'blacksmith' | 'tavern' | 'forest' | 'dungeon' | 'town' | BiomeAmbience | null): void {
   stopTownAmbience();
   if (!hub || !sfxOn || backgrounded) return;
 
@@ -522,7 +565,7 @@ export function playTownAmbience(hub: 'blacksmith' | 'tavern' | 'forest' | 'dung
     try {
       const now = ctx.currentTime;
       if (hub === 'blacksmith') {
-        // Distant anvil clink: high resonant sine with reverb-like decay
+        // Distant anvil clink: multi-frequency resonant iron/anvil strike
         const anvil = ctx.createOscillator();
         const gain = ctx.createGain();
         anvil.type = 'sine';
@@ -551,29 +594,165 @@ export function playTownAmbience(hub: 'blacksmith' | 'tavern' | 'forest' | 'dung
         ftr.connect(gain);
         gain.connect(sfxBus);
         pop.start(now);
-      } else if (hub === 'dungeon') {
-        // Echoing water drop
+      } else if (hub === 'dungeon' || hub === 'act3_cavern') {
+        // Dense subterranean cavern: echoing water drops + deep rumblings
         const drop = ctx.createOscillator();
         const gain = ctx.createGain();
-        const f = 1100 + Math.random() * 400;
+        const f = 1200 + Math.random() * 400;
         drop.frequency.setValueAtTime(f, now);
-        drop.frequency.exponentialRampToValueAtTime(f * 1.5, now + 0.06);
+        drop.frequency.exponentialRampToValueAtTime(f * 1.4, now + 0.05);
         gain.gain.setValueAtTime(0.1 * sfxVol, now);
-        gain.gain.exponentialRampToValueAtTime(0.0001, now + 0.25);
+        gain.gain.exponentialRampToValueAtTime(0.0001, now + 0.28);
         drop.connect(gain);
         gain.connect(sfxBus);
         drop.start(now);
-        drop.stop(now + 0.25);
+        drop.stop(now + 0.28);
+
+        // Echoing reflection
+        const echo = ctx.createOscillator();
+        const echoGain = ctx.createGain();
+        echo.frequency.setValueAtTime(f * 0.95, now + 0.12);
+        echo.frequency.exponentialRampToValueAtTime(f * 1.3, now + 0.17);
+        echoGain.gain.setValueAtTime(0.04 * sfxVol, now + 0.12);
+        echoGain.gain.exponentialRampToValueAtTime(0.0001, now + 0.35);
+        echo.connect(echoGain);
+        echoGain.connect(sfxBus);
+        echo.start(now + 0.12);
+        echo.stop(now + 0.35);
+
+        if (hub === 'act3_cavern') {
+          // Deep subterranean stone rumble
+          const rumble = ctx.createOscillator();
+          const rGain = ctx.createGain();
+          rumble.type = 'triangle';
+          rumble.frequency.setValueAtTime(48, now);
+          rumble.frequency.exponentialRampToValueAtTime(42, now + 0.8);
+          rGain.gain.setValueAtTime(0.09 * sfxVol, now);
+          rGain.gain.exponentialRampToValueAtTime(0.0001, now + 0.85);
+          rumble.connect(rGain);
+          rGain.connect(sfxBus);
+          rumble.start(now);
+          rumble.stop(now + 0.85);
+        }
+      } else if (hub === 'act1_marsh') {
+        // Act 1: Murky marshland wind, distant crows, rain trickles
+        // Rain trickle ping
+        const drop = ctx.createOscillator();
+        const gain = ctx.createGain();
+        const f = 1350 + Math.random() * 300;
+        drop.frequency.setValueAtTime(f, now);
+        drop.frequency.exponentialRampToValueAtTime(f * 0.7, now + 0.06);
+        gain.gain.setValueAtTime(0.08 * sfxVol, now);
+        gain.gain.exponentialRampToValueAtTime(0.0001, now + 0.18);
+        drop.connect(gain);
+        gain.connect(sfxBus);
+        drop.start(now);
+        drop.stop(now + 0.18);
+
+        // Distant marsh crow cry (sporadic)
+        if (Math.random() < 0.35) {
+          const crow = ctx.createOscillator();
+          const cGain = ctx.createGain();
+          crow.type = 'sawtooth';
+          crow.frequency.setValueAtTime(540, now + 0.1);
+          crow.frequency.exponentialRampToValueAtTime(460, now + 0.32);
+          const cFtr = ctx.createBiquadFilter();
+          cFtr.type = 'bandpass';
+          cFtr.frequency.setValueAtTime(650, now + 0.1);
+          cGain.gain.setValueAtTime(0.05 * sfxVol, now + 0.1);
+          cGain.gain.exponentialRampToValueAtTime(0.0001, now + 0.35);
+          crow.connect(cFtr);
+          cFtr.connect(cGain);
+          cGain.connect(sfxBus);
+          crow.start(now + 0.1);
+          crow.stop(now + 0.35);
+        }
+      } else if (hub === 'act2_desert') {
+        // Act 2: Dry desert breeze, shifting sands, cicadas
+        // Shifting sands breeze
+        const bufferSize = Math.floor(ctx.sampleRate * 0.08);
+        const buffer = ctx.createBuffer(1, bufferSize, ctx.sampleRate);
+        const data = buffer.getChannelData(0);
+        for (let i = 0; i < bufferSize; i++) data[i] = (Math.random() * 2 - 1) * 0.3;
+        const sand = ctx.createBufferSource();
+        sand.buffer = buffer;
+        const ftr = ctx.createBiquadFilter();
+        ftr.type = 'bandpass';
+        ftr.frequency.value = 2800 + Math.random() * 600;
+        const gain = ctx.createGain();
+        gain.gain.setValueAtTime(0.06 * sfxVol, now);
+        gain.gain.exponentialRampToValueAtTime(0.0001, now + 0.08);
+        sand.connect(ftr);
+        ftr.connect(gain);
+        gain.connect(sfxBus);
+        sand.start(now);
+
+        // Desert cicada buzz
+        const cicada = ctx.createOscillator();
+        const cGain = ctx.createGain();
+        cicada.type = 'sine';
+        cicada.frequency.setValueAtTime(5200, now);
+        const am = ctx.createOscillator();
+        const amGain = ctx.createGain();
+        am.frequency.setValueAtTime(18, now);
+        amGain.gain.value = 0.05 * sfxVol;
+        am.connect(cGain.gain);
+        cicada.connect(cGain);
+        cGain.connect(sfxBus);
+        am.start(now);
+        cicada.start(now);
+        am.stop(now + 0.25);
+        cicada.stop(now + 0.25);
+      } else if (hub === 'act4_hell') {
+        // Act 4: Crackling hellfire embers, infernal wind, low sub-bass drones
+        // Hellfire ember crackle
+        const bufferSize = Math.floor(ctx.sampleRate * 0.03);
+        const buffer = ctx.createBuffer(1, bufferSize, ctx.sampleRate);
+        const data = buffer.getChannelData(0);
+        for (let i = 0; i < bufferSize; i++) data[i] = (Math.random() * 2 - 1) * 0.6;
+        const ember = ctx.createBufferSource();
+        ember.buffer = buffer;
+        const ftr = ctx.createBiquadFilter();
+        ftr.type = 'bandpass';
+        ftr.frequency.value = 2200 + Math.random() * 1200;
+        const gain = ctx.createGain();
+        gain.gain.setValueAtTime(0.12 * sfxVol, now);
+        gain.gain.exponentialRampToValueAtTime(0.001, now + 0.03);
+        ember.connect(ftr);
+        ftr.connect(gain);
+        gain.connect(sfxBus);
+        ember.start(now);
+
+        // Sub-bass infernal drone (beating terror frequencies 36Hz and 39Hz)
+        const drone1 = ctx.createOscillator();
+        const drone2 = ctx.createOscillator();
+        const dGain = ctx.createGain();
+        drone1.type = 'triangle';
+        drone2.type = 'triangle';
+        drone1.frequency.setValueAtTime(36, now);
+        drone2.frequency.setValueAtTime(39, now);
+        dGain.gain.setValueAtTime(0.1 * sfxVol, now);
+        dGain.gain.exponentialRampToValueAtTime(0.0001, now + 0.9);
+        drone1.connect(dGain);
+        drone2.connect(dGain);
+        dGain.connect(sfxBus);
+        drone1.start(now);
+        drone2.start(now);
+        drone1.stop(now + 0.9);
+        drone2.stop(now + 0.9);
       }
     } catch {
       // silent fallback
     }
   };
 
-  const period = hub === 'blacksmith' ? 3200 : hub === 'tavern' ? 1800 : 4200;
+  const period = hub === 'blacksmith' ? 3200 : hub === 'tavern' ? 1800 : hub === 'act4_hell' ? 2200 : 3800;
   activeTownHubInterval = setInterval(triggerSound, period) as unknown as number;
-  // Trigger initial subtle cue after short delay
   setTimeout(triggerSound, 400);
+}
+
+export function setBiomeAmbience(biome: BiomeAmbience | null): void {
+  playTownAmbience(biome);
 }
 
 function trackFor(mode: MusicMode): Track | null {
