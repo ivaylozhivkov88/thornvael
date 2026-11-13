@@ -850,8 +850,29 @@ function handle(intents: Intent[]): void {
 const tipEl = $('tip');
 let tipTimer = 0;
 let tipHide = 0;
-function showTip(text: string, x: number, y: number): void {
-  tipEl.textContent = text;
+/** Painted portrait candidates for an enemy: per-family card first, then the boss frame. Missing files hide themselves. */
+function unitPortraits(i: number): string[] {
+  if (sim.team[i] === 0) return [];
+  const fam = monsterInfo(sim.cb.kind[i], sim.cb.tier[i], sim.cb.family[i], sim.cb.bossMods[i])?.family;
+  if (!fam) return [];
+  const b = import.meta.env.BASE_URL;
+  return [`${b}townart/mon/${fam}.jpg`, `${b}townart/frame-${fam}.jpg`];
+}
+function showTip(text: string, x: number, y: number, portraits: string[] = []): void {
+  tipEl.textContent = '';
+  if (portraits.length) {
+    const img = document.createElement('img');
+    img.className = 'tip-portrait';
+    img.alt = '';
+    let n = 0;
+    img.onerror = () => {
+      if (++n < portraits.length) img.src = portraits[n]!;
+      else img.remove();
+    };
+    img.src = portraits[0]!;
+    tipEl.append(img);
+  }
+  tipEl.append(text);
   tipEl.hidden = false;
   tipEl.style.left = `${Math.max(4, Math.min(window.innerWidth - 270, x - 120))}px`;
   tipEl.style.top = `${Math.max(4, y - 70)}px`;
@@ -916,7 +937,7 @@ canvas.addEventListener('pointerdown', (e) => {
         return;
       }
       holdShown = true;
-      showTip(unitInfo(i), downAt[0], downAt[1]);
+      showTip(unitInfo(i), downAt[0], downAt[1], unitPortraits(i));
       tipHide = window.setTimeout(hideTip, 2500);
     }, 450);
   }
@@ -1003,7 +1024,7 @@ function updateHover(x: number, y: number): void {
   canvas.style.cursor = cursor;
   const shown = enemy >= 0 ? enemy : mine;
   hover = enemy >= 0 && (armed === null || armed === 'attack') ? { id: enemy, ok } : null;
-  if (shown >= 0) showTip(unitInfo(shown), x + 120, y + 100);
+  if (shown >= 0) showTip(unitInfo(shown), x + 120, y + 100, unitPortraits(shown));
   else hideTip();
 }
 

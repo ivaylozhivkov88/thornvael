@@ -3336,3 +3336,5 @@ button:disabled, #shell .sh-btn:disabled { opacity: .6; cursor: default; box-sha
     flex-direction: column;
   }
 }
+
+#tip .tip-portrait { float: left; width: 56px; height: 75px; object-fit: cover; border-radius: 6px; border: 1px solid #c9a24a; margin: 0 8px 4px 0; }
