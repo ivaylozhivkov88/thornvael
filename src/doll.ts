@@ -11,6 +11,7 @@ const SETS: Record<string, DollSet> = {
       'shield-round': { file: 'warrior-m-shield-round.png', x: 54.52, y: 35.46, w: 24.33, h: 25.58 },
       'boots-riveted': { file: 'warrior-m-boots-riveted.png', x: 30.86, y: 71.49, w: 35.21, h: 26.06 },
       'sword-long': { file: 'warrior-m-sword-long.png', x: 9.26, y: 46.81, w: 29.78, h: 37.45 },
+      'gloves-gauntlet': { file: 'warrior-m-gloves-gauntlet.png', x: 29.07, y: 44.19, w: 33.45, h: 14.07 },
       'helm-plume': { file: 'warrior-m-helm-plume.png', x: 40.96, y: 2.33, w: 26.06, h: 21.46 },
     },
   },
@@ -26,6 +27,7 @@ export function lookFor(set: DollSet, slot: number, _tier: number): string | nul
   if (slot === 1 && set.layers['shield-round']) return 'shield-round';
   if (slot === 4 && set.layers['boots-riveted']) return 'boots-riveted';
   if (slot === 0 && set.layers['sword-long']) return 'sword-long';
+  if (slot === 7 && set.layers['gloves-gauntlet']) return 'gloves-gauntlet';
   if (slot === 2 && set.layers['helm-plume']) return 'helm-plume';
   return null;
 }
