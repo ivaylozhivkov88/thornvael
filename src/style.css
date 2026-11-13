@@ -340,7 +340,7 @@ button:disabled, #shell .sh-btn:disabled { opacity: .6; cursor: default; box-sha
   .hud-dock { grid-template-columns: 340px minmax(0, 1fr); }
   .hud-dock .quick > button { font-size: 12px; }
   .hud-dock .tools > button { font-size: 13px; }
-  #minimap { width: 176px; }
+  #minimap { width: clamp(176px, 20vw, 260px); }
   .portraits { right: calc(var(--edge) + env(safe-area-inset-right)); top: calc(var(--hud-top) + 144px + env(safe-area-inset-top)); grid-template-columns: repeat(3, 48px); max-height: calc(100dvh - var(--hud-top) - 144px - var(--hud-bottom) - 8px - env(safe-area-inset-top) - env(safe-area-inset-bottom)); }
   #objectives { left: 24%; right: 208px; text-align: center; }
 }
@@ -2689,7 +2689,7 @@ button:disabled, #shell .sh-btn:disabled { opacity: .6; cursor: default; box-sha
 .gothic-hud-tracker {
   position: fixed;
   left: calc(12px + env(safe-area-inset-left));
-  top: calc(56px + env(safe-area-inset-top));
+  top: calc(var(--hud-top, 56px) + env(safe-area-inset-top));
   z-index: 6;
   user-select: none;
   cursor: pointer;

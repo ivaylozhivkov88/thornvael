@@ -12,10 +12,10 @@
   position: fixed;
   z-index: 5;
   right: calc(8px + env(safe-area-inset-right));
-  top: calc(56px + env(safe-area-inset-top));
-  width: auto;
-  max-width: clamp(120px, 22vw, 200px);
-  max-height: clamp(120px, 25vh, 200px);
+  top: calc(var(--hud-top, 56px) + env(safe-area-inset-top));
+  width: clamp(150px, 24vw, 240px);
+  max-width: none;
+  max-height: clamp(150px, 34vh, 240px);
   aspect-ratio: auto;
   border: 2px solid var(--bronze);
   border-radius: 4px;

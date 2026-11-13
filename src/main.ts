@@ -2788,3 +2788,17 @@ void renderer.init(sim).then(() => {
     setCameraFollow: (on: boolean) => { cameraFollow = on; },
   };
 });
+
+// HUD: keep --hud-top just under the (possibly wrapped) top bar so quest tracker, objectives and minimap never overlap it.
+{
+  const barEl = document.querySelector<HTMLElement>('.bar');
+  if (barEl) {
+    const sync = (): void => {
+      const r = barEl.getBoundingClientRect();
+      document.documentElement.style.setProperty('--hud-top', `${Math.ceil(r.bottom) + 6}px`);
+    };
+    sync();
+    if (typeof ResizeObserver !== 'undefined') new ResizeObserver(sync).observe(barEl);
+    window.addEventListener('resize', sync);
+  }
+}
