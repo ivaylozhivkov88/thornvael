@@ -8,7 +8,7 @@ import { SPELLS, St, Tk } from './sim/spelldata';
 import { S } from './strings';
 import { getItemDef, Slot } from './sim/items';
 import { itemRarity } from './sim/town';
-import { UnitAtlas, UnitSprite, UNIT_ART } from './sprites/units';
+import { UnitAtlas, UnitSprite, UNIT_ART, bossSpriteDef } from './sprites/units';
 import { ArtPreview } from './sprites/preview';
 import { CombatAnimation, type AnimationPose } from './sprites/combat-animation';
 import { VfxSystem } from './vfx';
@@ -69,14 +69,6 @@ const FLOAT_MS = 900;
 
 function chunkSide(map: GameMap): number {
   return Math.max(map.w, map.h) > 128 ? 32 : 16;
-}
-
-function bakeChunk(map: GameMap, cx: number, cy: number, art: HTMLImageElement, scenery: readonly SceneryPlacement[], chunk = CHUNK): HTMLCanvasElement {
-  const cv = document.createElement('canvas');
-  cv.width = cv.height = chunk * TILE;
-  const g = cv.getContext('2d')!;
-  paintTerrainChunk(g, map, cx, cy, art, scenery, chunk);
-  return cv;
 }
 
 function unitTexture(): Texture {
@@ -150,9 +142,36 @@ export class Renderer {
   private fogCv!: HTMLCanvasElement;
   private fogTex!: Texture;
   private fogImg!: ImageData;
+  private fogBuf32!: Uint32Array;
   private fogSeen = -1;
   private lightKey = '';
   private fog!: Sprite;
+  private terrainArt!: HTMLImageElement;
+  private scenery: readonly SceneryPlacement[] = [];
+  private chunk = 16;
+  private readonly chunks = new Container();
+  private readonly MAX_CHUNKS = 24;
+  private chunkAccessSeq = 0;
+  private readonly chunkPool: Array<{
+    cx: number;
+    cy: number;
+    key: string;
+    canvas: HTMLCanvasElement;
+    ctx: CanvasRenderingContext2D;
+    tex: Texture;
+    sprite: Sprite;
+    lastUsed: number;
+  }> = [];
+  private readonly chunkMap = new Map<string, {
+    cx: number;
+    cy: number;
+    key: string;
+    canvas: HTMLCanvasElement;
+    ctx: CanvasRenderingContext2D;
+    tex: Texture;
+    sprite: Sprite;
+    lastUsed: number;
+  }>();
   vfx?: VfxSystem;
   readonly feel: CombatFeelSystem;
   private lastDrawNow = 0;
@@ -199,31 +218,23 @@ export class Renderer {
       resolution: Math.min(window.devicePixelRatio || 1, 2),
     });
     this.app.ticker.stop(); // main.ts drives frames
-    const terrain = await loadTerrainArt();
-    const scenery = prepareScenery(this.map);
-    const chunk = chunkSide(this.map);
-    const chunks = new Container();
-    chunks.cullable = true;
-    for (let cy = 0; cy * chunk < this.map.h; cy++) {
-      for (let cx = 0; cx * chunk < this.map.w; cx++) {
-        const s = new Sprite(Texture.from(bakeChunk(this.map, cx, cy, terrain, scenery, chunk)));
-        s.position.set(cx * chunk * TILE, cy * chunk * TILE);
-        s.cullable = true;
-        chunks.addChild(s);
-      }
-    }
+    this.terrainArt = await loadTerrainArt();
+    this.scenery = prepareScenery(this.map);
+    this.chunk = chunkSide(this.map);
+    this.chunks.cullable = false;
     // Fog: one pixel per tile, stretched over the map with linear filtering for soft edges.
     this.fogCv = document.createElement('canvas');
     this.fogCv.width = this.map.w;
     this.fogCv.height = this.map.h;
     this.fogImg = this.fogCv.getContext('2d')!.createImageData(this.map.w, this.map.h);
+    this.fogBuf32 = new Uint32Array(this.fogImg.data.buffer);
     this.fogTex = Texture.from(this.fogCv);
     const fog = new Sprite(this.fogTex);
     fog.width = this.map.w * TILE;
     fog.height = this.map.h * TILE;
     this.vfx = new VfxSystem();
     this.vfx.init();
-    this.world.addChild(chunks, this.rings, this.feel.bloodGraphics, this.feel.auraGraphics, this.vfx.groundLayer);
+    this.world.addChild(this.chunks, this.rings, this.feel.bloodGraphics, this.feel.auraGraphics, this.vfx.groundLayer);
     this.fog = fog;
     const tex = unitTexture();
     const atlases = await Promise.all(UNIT_ART.map((unit) => UnitAtlas.load(unit)));
@@ -242,7 +253,8 @@ export class Renderer {
         : kind === Kind.Gnoll ? atlases[5]
         : kind === Kind.Imp ? atlases[6]
         : null;
-      const s = atlas ? new UnitSprite(atlas) : new Sprite(tex);
+      const boss = sim.cb.family[i] ? bossSpriteDef(sim.cb.family[i]) : undefined;
+      const s = atlas ? new UnitSprite(atlas, boss) : new Sprite(tex);
       if (s instanceof Sprite) s.anchor.set(0.5, 0.88);
       const look = KIND_LOOK[kind] ?? { scale: 1 };
       s.scale.set(look.scale);
@@ -269,6 +281,7 @@ export class Renderer {
       this.app.stage.addChild(this.artPreview.layer);
     }
     this.centerOn(sim.x[0] / FP, sim.y[0] / FP);
+    this.updateChunks();
     this.setQuality(this.quality);
   }
 
@@ -550,15 +563,133 @@ export class Renderer {
     return { x0: this.camX / s, y0: this.camY / s, x1: (this.camX + this.viewW) / s, y1: (this.camY + this.viewH) / s };
   }
 
+  private updateChunks(): void {
+    if (!this.terrainArt) return;
+    const chunk = this.chunk;
+    const chunkSizePx = chunk * TILE;
+    const vt = this.viewTiles();
+
+    // Determine visible chunk range (+1 margin buffer)
+    const minCx = Math.max(0, Math.floor(vt.x0 / chunk) - 1);
+    const maxCx = Math.min(Math.ceil(this.map.w / chunk) - 1, Math.floor(vt.x1 / chunk) + 1);
+    const minCy = Math.max(0, Math.floor(vt.y0 / chunk) - 1);
+    const maxCy = Math.min(Math.ceil(this.map.h / chunk) - 1, Math.floor(vt.y1 / chunk) + 1);
+
+    const centerCx = (vt.x0 + vt.x1) / (2 * chunk);
+    const centerCy = (vt.y0 + vt.y1) / (2 * chunk);
+
+    interface NeededChunk {
+      cx: number;
+      cy: number;
+      key: string;
+      distSq: number;
+    }
+    const needed: NeededChunk[] = [];
+
+    for (let cy = minCy; cy <= maxCy; cy++) {
+      for (let cx = minCx; cx <= maxCx; cx++) {
+        const key = `${cx},${cy}`;
+        const dx = cx + 0.5 - centerCx;
+        const dy = cy + 0.5 - centerCy;
+        needed.push({ cx, cy, key, distSq: dx * dx + dy * dy });
+      }
+    }
+
+    // Prioritize chunks nearest to camera center
+    needed.sort((a, b) => a.distSq - b.distSq);
+
+    const toBake = needed.slice(0, this.MAX_CHUNKS);
+    const activeKeys = new Set(toBake.map((n) => n.key));
+    const seq = ++this.chunkAccessSeq;
+
+    for (const req of toBake) {
+      let item = this.chunkMap.get(req.key);
+      if (item) {
+        item.lastUsed = seq;
+        item.sprite.visible = true;
+        continue;
+      }
+
+      if (this.chunkPool.length < this.MAX_CHUNKS) {
+        const cv = document.createElement('canvas');
+        cv.width = cv.height = chunkSizePx;
+        const ctx = cv.getContext('2d')!;
+        paintTerrainChunk(ctx, this.map, req.cx, req.cy, this.terrainArt, this.scenery, chunk);
+        const tex = Texture.from(cv);
+        const sprite = new Sprite(tex);
+        sprite.position.set(req.cx * chunkSizePx, req.cy * chunkSizePx);
+        sprite.visible = true;
+        this.chunks.addChild(sprite);
+
+        item = {
+          cx: req.cx,
+          cy: req.cy,
+          key: req.key,
+          canvas: cv,
+          ctx,
+          tex,
+          sprite,
+          lastUsed: seq,
+        };
+        this.chunkPool.push(item);
+        this.chunkMap.set(req.key, item);
+      } else {
+        // Find victim: furthest item not in activeKeys
+        let victim: (typeof this.chunkPool)[0] | null = null;
+        let maxDist = -1;
+        for (const p of this.chunkPool) {
+          if (!activeKeys.has(p.key)) {
+            const d = (p.cx + 0.5 - centerCx) ** 2 + (p.cy + 0.5 - centerCy) ** 2;
+            if (d > maxDist) {
+              maxDist = d;
+              victim = p;
+            }
+          }
+        }
+
+        if (!victim) {
+          let oldest = Infinity;
+          for (const p of this.chunkPool) {
+            if (!activeKeys.has(p.key) && p.lastUsed < oldest) {
+              oldest = p.lastUsed;
+              victim = p;
+            }
+          }
+        }
+
+        if (victim) {
+          this.chunkMap.delete(victim.key);
+          victim.cx = req.cx;
+          victim.cy = req.cy;
+          victim.key = req.key;
+          victim.lastUsed = seq;
+          victim.ctx.clearRect(0, 0, chunkSizePx, chunkSizePx);
+          paintTerrainChunk(victim.ctx, this.map, req.cx, req.cy, this.terrainArt, this.scenery, chunk);
+          victim.tex.source.update();
+          victim.sprite.position.set(req.cx * chunkSizePx, req.cy * chunkSizePx);
+          victim.sprite.visible = true;
+          this.chunkMap.set(req.key, victim);
+        }
+      }
+    }
+
+    // Hide pool items that are not in active set
+    for (const p of this.chunkPool) {
+      if (!activeKeys.has(p.key)) {
+        p.sprite.visible = false;
+      }
+    }
+  }
+
   private updateFog(sim: Sim): void {
     if (sim.fogVersion === this.fogSeen) return;
     this.fogSeen = sim.fogVersion;
-    const d = this.fogImg.data;
-    for (let i = 0; i < this.map.w * this.map.h; i++) {
-      d[4 * i] = 8;
-      d[4 * i + 1] = 6;
-      d[4 * i + 2] = 12;
-      d[4 * i + 3] = sim.visible[i] ? 0 : sim.explored[i] ? 130 : 245;
+    const buf32 = this.fogBuf32;
+    const vis = sim.visible;
+    const exp = sim.explored;
+    const len = this.map.w * this.map.h;
+    for (let i = 0; i < len; i++) {
+      buf32[i] = vis[i] ? 0x000c0608 : exp[i] ? 0x820c0608 : 0xf50c0608;
     }
     this.fogCv.getContext('2d')!.putImageData(this.fogImg, 0, 0);
     this.fogTex.source.update();
@@ -584,6 +715,7 @@ export class Renderer {
     this.feel?.update(dtMs / 1000, now, this.camX, this.camY, this.zoom);
     this.world.scale.set(this.zoom);
     this.world.position.set(-this.camX + rx + (this.feel?.shakeX ?? 0), -this.camY + ry + (this.feel?.shakeY ?? 0));
+    this.updateChunks();
     if (this.quality > 0 || (this.fogTick++ & 1) === 0) this.updateFog(sim);
     const k = TILE / FP;
     this.feel?.renderAuras(sim, now, k);
@@ -717,6 +849,7 @@ export class Renderer {
     for (let oIdx = 0; oIdx < this.map.objects.length; oIdx++) {
       const obj = this.map.objects[oIdx];
       if (obj.kind === ObjectKind.House) continue;
+      if (obj.x < minTx || obj.x > maxTx || obj.y < minTy || obj.y > maxTy) continue;
       const ox = (obj.x + 0.5) * TILE;
       const oy = (obj.y + 0.5) * TILE;
       if (sim.explored[obj.y * mw + obj.x]) {

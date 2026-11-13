@@ -242,10 +242,14 @@ export class MissionUi {
   ) {
     // HUD Objectives Tracker
     this.goals.id = 'objectives';
-    this.goals.className = 'gothic-hud-tracker';
+    this.goals.className = 'gothic-hud-tracker collapsed';
     this.goals.hidden = true;
-    this.goals.title = 'Click to open Quest Journal [Q]';
-    this.goals.onclick = () => this.toggleJournal(this.lastSim ?? undefined);
+    this.goals.title = 'Click to toggle Quest Objectives [Q / O]';
+    this.goals.onclick = () => this.toggleObjectives();
+    this.goals.ondblclick = (e) => {
+      e.stopPropagation();
+      this.toggleJournal(this.lastSim ?? undefined);
+    };
 
     // Gothic Character Dialogue Frame
     this.dialogueModal.id = 'gothic-dialogue';
@@ -483,23 +487,42 @@ export class MissionUi {
     this.renderObjectivesHud(sim);
   }
 
+  public isObjectivesCollapsed = true;
+
+  /** Toggle on-demand quest objectives banner */
+  public toggleObjectives(): void {
+    this.isObjectivesCollapsed = !this.isObjectivesCollapsed;
+    if (this.lastSim) this.renderObjectivesHud(this.lastSim);
+  }
+
   /** Render the parchment HUD tracker in top-left */
   private renderObjectivesHud(sim: Sim): void {
     const st = sim.script?.st;
     if (!st) return;
 
     const quest = this.evaluateQuestDossier(sim);
-    const lines: string[] = [];
-    lines.push(`📜 [Q] ${quest.title}`);
-
-    for (const obj of quest.objectives) {
-      const mark = obj.completed ? '✔' : '◻';
-      const progress = obj.total > 1 ? ` (${obj.current}/${obj.total})` : '';
-      lines.push(`${mark} ${obj.text}${progress}`);
+    if (!quest.objectives.length) {
+      this.goals.hidden = true;
+      return;
     }
 
-    this.goals.textContent = lines.join('\n');
-    this.goals.hidden = lines.length <= 1;
+    this.goals.hidden = false;
+    if (this.isObjectivesCollapsed) {
+      this.goals.className = 'gothic-hud-tracker collapsed';
+      const completed = quest.objectives.filter((o) => o.completed).length;
+      this.goals.textContent = `📜 Задачи [Q] (${completed}/${quest.objectives.length})`;
+    } else {
+      this.goals.className = 'gothic-hud-tracker expanded';
+      const lines: string[] = [];
+      lines.push(`📜 ${quest.title} ▴`);
+      for (const obj of quest.objectives) {
+        const mark = obj.completed ? '✔' : '◻';
+        const progress = obj.total > 1 ? ` (${obj.current}/${obj.total})` : '';
+        lines.push(`${mark} ${obj.text}${progress}`);
+      }
+      lines.push('\n[ Клик: Свий | Двоен клик: Дневник ]');
+      this.goals.textContent = lines.join('\n');
+    }
   }
 
   /** Evaluates live quest progress directly from the simulation state */

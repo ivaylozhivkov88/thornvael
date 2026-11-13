@@ -20,12 +20,52 @@ export const BOSS_MOD_LABELS: Record<string, string> = {
   teleporting: 'Teleporting',
 };
 
+export const BOSS_SIGNATURE_ABILITIES: Record<string, { title: string; abilities: readonly string[]; summary: string }> = {
+  lilithia: {
+    title: 'Broodmother of the Sunken Caverns',
+    abilities: [
+      'Poison Spray: Toxic projectile cone inflicting lingering Earth/Poison DoT.',
+      'Spine Lash: Crushing tail whip dealing heavy damage, knocking back and slowing targets in melee.',
+      'Brood Hatch: Summons ravenous brood larvae swarms when injured below health thresholds.',
+    ],
+    summary: 'Poison Spray DoT, Spine Lash knockdown, Brood Hatch summons',
+  },
+  azgalor: {
+    title: 'Lord of the Pit & Dune Devourer',
+    abilities: [
+      'Holy Freeze Aura: Chilling frost aura slowing nearby enemies and dealing periodic cold damage.',
+      'Subterranean Charge: Burrows underground and surges forward to crush distant foes.',
+      'Acid Cleave: Sweeping toxic melee strike reducing armor and cleaving adjacent targets.',
+    ],
+    summary: 'Holy Freeze slow aura, subterranean charge, acid cleave',
+  },
+  malakar: {
+    title: 'High Inquisitor & Stormcaller',
+    abilities: [
+      'Ball Lightning: Crackling piercing lightning orb traveling through enemy ranks.',
+      'Soul Siphon: Drains hero mana to restore vital health to Malakar.',
+      'Frost Nova: Expanding cold shockwave chilling and knocking back all nearby enemies.',
+    ],
+    summary: 'Ball lightning piercing, Soul Siphon mana drain, Frost Nova',
+  },
+  'ignis-khor': {
+    title: 'Prime Nether Titan & Lord of Hellfire',
+    abilities: [
+      'Hellfire Breath: Torrential cone of demonic flame incinerating everything in reach.',
+      'Fire Ring: Expanding fiery ring setting ablaze the surrounding ground.',
+      'Bone Prison: Necromantic bone cage encasing hero/target to prevent escape.',
+    ],
+    summary: 'Hellfire breath, Fire Ring, Bone Prison',
+  },
+};
+
 export interface MonsterInfo {
   readonly kind: number;
   readonly name: string;
   readonly tier?: number;
   readonly family?: string;
   readonly role?: string;
+  readonly signatureAbilities?: readonly string[];
   readonly mods?: readonly string[];
   readonly element?: string;
   /** Base family values, not a unit's current HP, equipment or status modifiers. */
@@ -105,9 +145,12 @@ export function monsterInfo(kind: number, tier = 1, familyId = '', bossMods: rea
   const armour = PARTS.map((part, i) => `${part}: ${base.pdef[i]} armour / ${base.pabs[i]} absorption`).join('; ');
   const resistance = base.res.map((value, i) => `${ELEMENTS[i + 1]} ${value}%`).join(', ');
   const modLines = modLabels.length > 0 ? [`Elite affixes: ${modLabels.join(', ')}.`] : [];
+  const bossSpec = fam ? BOSS_SIGNATURE_ABILITIES[fam.id] : undefined;
+  const signatureLines = bossSpec ? [`Signature Abilities: ${bossSpec.summary}.`, ...bossSpec.abilities.map((a) => ` • ${a}`)] : [];
   const text = [
     `${displayName}${fam?.role ? ` — ${fam.role}` : ''} — base family stats.`,
     ...modLines,
+    ...signatureLines,
     `HP ${base.hp}; mana ${base.mana}.`,
     `${base.ranged ? 'Ranged' : 'Melee'} ${ELEMENTS[base.elem]} attack: ${base.min}–${base.max}; accuracy ${base.acc}; range ${base.reach / FP} tiles; interval ${base.cd} ticks (${base.cd / TICKS_PER_SECOND}s).`,
     `Walking speed ${base.speed}% of base; dodge ${base.def}.`,
@@ -121,6 +164,7 @@ export function monsterInfo(kind: number, tier = 1, familyId = '', bossMods: rea
     tier: clampedTier,
     element: ELEMENTS[base.elem],
     ...(fam ? { family: fam.id, role: fam.role } : {}),
+    ...(bossSpec ? { signatureAbilities: bossSpec.abilities } : {}),
     ...(modLabels.length > 0 ? { mods: modLabels } : {}),
     base,
     text,

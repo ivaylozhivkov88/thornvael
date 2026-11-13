@@ -1,7 +1,7 @@
 {
  "id": "ch1",
  "cache": "thornvael-ch1-v1",
- "total": 2485838,
+ "total": 2487429,
  "files": [
   {
    "path": "data/campaign.json",
@@ -13,7 +13,7 @@
   },
   {
    "path": "data/monsters.json",
-   "size": 9368
+   "size": 10959
   },
   {
    "path": "data/spells.json",

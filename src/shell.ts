@@ -243,19 +243,24 @@ export async function runShell(startWorker: () => void): Promise<never> {
     const vignette = el('div', 'sh-campfire-vignette');
     const mist = el('div', 'sh-campfire-mist');
 
-    // Header
+    // 2-Column Campfire Layout: Left (65% Stage & Champions), Right (35% Dossier & Controls)
+    const leftPane = el('div', 'sh-campfire-left');
+    const rightPane = el('div', 'sh-campfire-right');
+
+    // Header (inside left pane)
     const hdr = el('div', 'sh-campfire-header');
     const brand = el('span', 'sh-campfire-brand', 'THORNVAEL');
     const title = el('h2', 'sh-campfire-title', 'SELECT YOUR CHAMPION');
     const subtitle = el('p', 'sh-campfire-subtitle', 'Gather around the midnight flames and choose your destined hero');
     hdr.append(brand, title, subtitle);
 
-    // Stage area: Champions arranged in semi-circle around the roaring campfire
+    // Stage area: Champions arranged side-by-side around the roaring campfire
     const stage = el('div', 'sh-campfire-stage');
     const hearthWrap = el('div', 'sh-campfire-hearth-wrap');
     hearthWrap.append(campfire.canvas);
 
-    const dossierWrap = el('div', 'sh-campfire-dossier-wrap');
+    leftPane.append(hdr, stage);
+
     const dossier = el('div', 'sh-hero-dossier');
 
     const updateDossier = (arch: Archetype): void => {
@@ -270,24 +275,11 @@ export async function runShell(startWorker: () => void): Promise<never> {
       dTitleWrap.append(dName, dEpithet);
       dHdr.append(dBadge, dTitleWrap);
 
-      // Main content body
-      const dBody = el('div', 'sh-dossier-body');
-
-      // Left column: bio + perks + gear
-      const left = el('div', 'sh-dossier-left');
+      // Hero biography
       const bio = el('div', 'sh-dossier-bio');
       bio.append(el('p', 'sh-dossier-desc', arch.bio));
 
-      const gearBox = el('div', 'sh-dossier-gear');
-      gearBox.append(el('b', 'sh-dossier-subtitle', 'Starting Equipment & Masteries:'));
-      const tags = el('div', 'sh-gear-tags');
-      for (const g of arch.gear) tags.append(el('span', 'sh-tag', g));
-      for (const p of arch.perks) tags.append(el('span', 'sh-tag perk', p));
-      gearBox.append(tags);
-
-      left.append(bio, gearBox);
-
-      // Right column: animated attribute bars
+      // Animated attribute bars
       const stats = el('div', 'sh-dossier-stats');
       const statRow = (label: string, width: string, val: string, cls: string): HTMLElement => {
         const row = el('div', 'sh-stat-row');
@@ -307,8 +299,15 @@ export async function runShell(startWorker: () => void): Promise<never> {
         statRow('Defence', arch.bars.def, arch.bars.def, 'def'),
       );
 
-      dBody.append(left, stats);
-      dossier.append(dHdr, dBody);
+      // Starting Equipment & Masteries
+      const gearBox = el('div', 'sh-dossier-gear');
+      gearBox.append(el('b', 'sh-dossier-subtitle', 'Starting Equipment & Masteries:'));
+      const tags = el('div', 'sh-gear-tags');
+      for (const g of arch.gear) tags.append(el('span', 'sh-tag', g));
+      for (const p of arch.perks) tags.append(el('span', 'sh-tag perk', p));
+      gearBox.append(tags);
+
+      dossier.append(dHdr, bio, stats, gearBox);
     };
 
     const drawStage = (): void => {
@@ -388,7 +387,7 @@ export async function runShell(startWorker: () => void): Promise<never> {
     diffHdr.append(diffBtns);
     diffPanel.append(diffHdr, diffDesc);
 
-    // Action buttons
+    // Action buttons: Launch directly into Act 1 seamless world
     const actions = el('div', 'sh-hero-actions');
     const startBtn = btn('BEGIN CAMPAIGN', async () => {
       blip();
@@ -400,7 +399,13 @@ export async function runShell(startWorker: () => void): Promise<never> {
       await writeRecord(rec);
       await deleteSave(AUTO).catch(() => undefined);
       auto = null;
-      map();
+      const startNode = nodeOf(c, c.start);
+      const seq = sequenceForNode(startNode.id);
+      if (seq && seq.kind === 'intro') {
+        showStory(seq.id, () => go(nodeUrl(startNode)));
+      } else {
+        go(nodeUrl(startNode));
+      }
     }, 'sh-btn-start');
 
     const backBtn = btn(T.back, () => {
@@ -411,9 +416,9 @@ export async function runShell(startWorker: () => void): Promise<never> {
 
     actions.append(startBtn, backBtn);
     controls.append(diffPanel, actions);
-    dossierWrap.append(dossier, controls);
+    rightPane.append(dossier, controls);
 
-    container.append(vignette, mist, hdr, stage, dossierWrap);
+    container.append(vignette, mist, leftPane, rightPane);
     screen(container);
   }
 

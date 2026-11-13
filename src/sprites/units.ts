@@ -6,6 +6,108 @@ import type { AnimationPose } from './combat-animation';
 export const UNIT_ART = ['hero', 'archer', 'golem', 'warrior', 'mage', 'gnoll', 'imp'] as const;
 export type UnitArt = typeof UNIT_ART[number];
 
+export const BOSS_ART = ['lilithia', 'azgalor', 'malakar', 'ignis-khor'] as const;
+export type BossArt = typeof BOSS_ART[number];
+
+export interface BossSpriteContract {
+  contract: number;
+  unit: BossArt;
+  directions: number;
+  cell: readonly [number, number];
+  anims: Readonly<Record<string, number>>;
+  mask: string;
+}
+
+export interface BossSpriteDef {
+  id: BossArt;
+  name: string;
+  baseArt: UnitArt;
+  scale: number;
+  paletteTier: number;
+  auraTint: number;
+  signatureColor: number;
+  contract: BossSpriteContract;
+}
+
+export const BOSS_SPRITE_DEFS: Record<BossArt, BossSpriteDef> = {
+  lilithia: {
+    id: 'lilithia',
+    name: 'Lilithia, Broodmother',
+    baseArt: 'imp',
+    scale: 1.45,
+    paletteTier: 5,
+    auraTint: 0x3cd070, // Venomous emerald glow
+    signatureColor: 0x228b22,
+    contract: {
+      contract: 1,
+      unit: 'lilithia',
+      directions: 16,
+      cell: [48, 48] as const,
+      anims: { stand: 4, walk: 8, attack: 4, cast: 4, hurt: 2, die: 4 },
+      mask: 'lilithia-mask.png',
+    },
+  },
+  azgalor: {
+    id: 'azgalor',
+    name: 'Azgalor, Dune Devourer',
+    baseArt: 'golem',
+    scale: 1.85,
+    paletteTier: 5,
+    auraTint: 0x60c8ff, // Glacial frost subterranean aura
+    signatureColor: 0x1e90ff,
+    contract: {
+      contract: 1,
+      unit: 'azgalor',
+      directions: 16,
+      cell: [48, 48] as const,
+      anims: { stand: 4, walk: 8, attack: 4, cast: 4, hurt: 2, die: 4 },
+      mask: 'azgalor-mask.png',
+    },
+  },
+  malakar: {
+    id: 'malakar',
+    name: 'Malakar, High Inquisitor',
+    baseArt: 'golem',
+    scale: 1.6,
+    paletteTier: 5,
+    auraTint: 0xa870ff, // Stormcaller astral aura
+    signatureColor: 0x9370db,
+    contract: {
+      contract: 1,
+      unit: 'malakar',
+      directions: 16,
+      cell: [48, 48] as const,
+      anims: { stand: 4, walk: 8, attack: 4, cast: 4, hurt: 2, die: 4 },
+      mask: 'malakar-mask.png',
+    },
+  },
+  'ignis-khor': {
+    id: 'ignis-khor',
+    name: 'Ignis-Khor, Lord of Hellfire',
+    baseArt: 'mage',
+    scale: 1.75,
+    paletteTier: 5,
+    auraTint: 0xff3b1a, // Infernal crimson hellfire
+    signatureColor: 0xdc143c,
+    contract: {
+      contract: 1,
+      unit: 'ignis-khor',
+      directions: 16,
+      cell: [48, 48] as const,
+      anims: { stand: 4, walk: 8, attack: 4, cast: 4, hurt: 2, die: 4 },
+      mask: 'ignis-khor-mask.png',
+    },
+  },
+};
+
+export function isBossArt(id: string): id is BossArt {
+  return (BOSS_ART as readonly string[]).includes(id);
+}
+
+export function bossSpriteDef(id: string): BossSpriteDef | undefined {
+  return isBossArt(id) ? BOSS_SPRITE_DEFS[id] : undefined;
+}
+
 async function pixels(url: string): Promise<ImageData> {
   const im = new Image();
   im.src = url;
@@ -76,11 +178,12 @@ export class UnitSprite extends Container {
   private resolvedClip = 'stand';
   private finished = false;
   private unresolved = false;
-  constructor(readonly atlas: UnitAtlas) {
+  constructor(readonly atlas: UnitAtlas, readonly bossDef?: BossSpriteDef) {
     super();
+    const scaleMul = bossDef ? bossDef.scale : 1;
     for (const s of this.layers) {
       s.anchor.set(0.5, 0.85);
-      s.scale.set(64 / atlas.cell[0], 64 / atlas.cell[1]);
+      s.scale.set((64 / atlas.cell[0]) * scaleMul, (64 / atlas.cell[1]) * scaleMul);
       this.addChild(s);
     }
   }
@@ -98,10 +201,11 @@ export class UnitSprite extends Container {
       this.atlas.get(key).forEach((tex, i) => { this.layers[i].texture = tex; });
       this.frameKey = key;
     }
-    const pk = `${team}:${armour}:${level}:${stone}:${statusTint}`;
+    const effectiveTint = this.bossDef && statusTint === 0 ? this.bossDef.auraTint : statusTint;
+    const pk = `${team}:${armour}:${level}:${stone}:${effectiveTint}`;
     if (pk !== this.paletteKey) {
       palette(team, armour, level).forEach((tint, i) => {
-        this.layers[i].tint = stone ? 0x8a8a8a : statusTint > 0 ? statusTint : tint;
+        this.layers[i].tint = stone ? 0x8a8a8a : effectiveTint > 0 ? effectiveTint : tint;
       });
       this.paletteKey = pk;
     }

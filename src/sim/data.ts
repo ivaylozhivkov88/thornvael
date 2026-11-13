@@ -41,13 +41,14 @@ export interface MonsterFamilyDef {
 
 export const MONSTER_PALETTES: MonsterPaletteDef[] = [];
 export const MONSTER_FAMILIES: MonsterFamilyDef[] = [];
+export const BOSS_FAMILIES: MonsterFamilyDef[] = [];
 
 export function monsterPaletteByTier(tier: number): MonsterPaletteDef | undefined {
   return MONSTER_PALETTES.find((p) => p.tier === tier);
 }
 
 export function monsterFamilyById(id: string): MonsterFamilyDef | undefined {
-  return MONSTER_FAMILIES.find((f) => f.id === id);
+  return MONSTER_FAMILIES.find((f) => f.id === id) ?? BOSS_FAMILIES.find((f) => f.id === id);
 }
 
 const SCHOOLS = ['fire', 'water', 'air', 'earth', 'astral'];
@@ -154,7 +155,7 @@ export function parseItems(file: unknown): ItemDef[] {
   });
 }
 
-export function parseMonsters(file: unknown): { palettes: MonsterPaletteDef[]; families: MonsterFamilyDef[] } {
+export function parseMonsters(file: unknown): { palettes: MonsterPaletteDef[]; families: MonsterFamilyDef[]; bosses?: MonsterFamilyDef[] } {
   const palettes = listOf(file, 'palettes').map((e) => {
     const tier = num(e, 'tier');
     if (tier < 1 || tier > 5) throw new Error(`monsters.json: palette tier must be 1..5`);
@@ -166,7 +167,7 @@ export function parseMonsters(file: unknown): { palettes: MonsterPaletteDef[]; f
       dmgMult: num(e, 'dmgMult', 1),
     };
   });
-  const families = listOf(file, 'families').map((e) => ({
+  const mapFamily = (e: Raw) => ({
     id: String(e.id ?? ''),
     name: String(e.name ?? ''),
     batch: String(e.batch ?? ''),
@@ -179,15 +180,20 @@ export function parseMonsters(file: unknown): { palettes: MonsterPaletteDef[]; f
     ranged: e.ranged === true,
     caster: e.caster === true,
     role: String(e.role ?? ''),
-  }));
-  return { palettes, families };
+  });
+  const families = listOf(file, 'families').map(mapFamily);
+  const f = file as Raw | null;
+  const bosses = f && Array.isArray(f.bosses) ? (f.bosses as Raw[]).map(mapFamily) : [];
+  return { palettes, families, bosses };
 }
 
-export function setMonsters(data: { palettes: readonly MonsterPaletteDef[]; families: readonly MonsterFamilyDef[] }): void {
+export function setMonsters(data: { palettes: readonly MonsterPaletteDef[]; families: readonly MonsterFamilyDef[]; bosses?: readonly MonsterFamilyDef[] }): void {
   MONSTER_PALETTES.length = 0;
   MONSTER_PALETTES.push(...data.palettes);
   MONSTER_FAMILIES.length = 0;
   MONSTER_FAMILIES.push(...data.families);
+  BOSS_FAMILIES.length = 0;
+  if (data.bosses) BOSS_FAMILIES.push(...data.bosses);
 }
 
 /** Install data tables. Call once before any Sim is built (main.ts, editor.ts, tests/setup.ts). */

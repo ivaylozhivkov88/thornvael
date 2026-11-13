@@ -18,6 +18,7 @@ import { TownUi } from './townui';
 import { ROLE_COUNT, Tfx, itemRarity } from './sim/town';
 import { MissionUi, showMissionMenu } from './missionui';
 import { Minimap } from './minimap';
+import { AutomapOverlay } from './automap';
 import { QUALITY_NAMES, Renderer, type View } from './render';
 import { Bot, MonsterAi, battleScenario, fightScenario, placeScenario, setupCrowd, setupSquads, type Scenario } from './sim/bot';
 import { DEFS, Kind, M, MODN, POOLS, lootPos, nearestLoot, partAbs, partDef } from './sim/combat';
@@ -1355,6 +1356,11 @@ window.addEventListener('keydown', (e) => {
   const inSheet = e.target instanceof Element && e.target.closest('.sheet, .spellbook-modal') !== null;
   if (inSheet && e.key !== 'Escape' && e.key.toLowerCase() !== 'i' && e.key.toLowerCase() !== 's' && e.key.toLowerCase() !== 'b') return;
   if (heroUi.creating) return;
+  if (e.key === 'Tab') {
+    e.preventDefault();
+    automap.toggle();
+    return;
+  }
   if (e.key === 'Alt') {
     mods.alt = true;
     e.preventDefault();
@@ -1442,9 +1448,9 @@ window.addEventListener('keydown', (e) => {
   } else if (e.key === 'Pause' || e.code === 'Pause') {
     e.preventDefault();
     togglePause();
-  } else if (e.key.toLowerCase() === 'q' && !e.ctrlKey && !e.altKey && controlMode !== 'wasd') {
+  } else if ((e.key.toLowerCase() === 'q' || e.key.toLowerCase() === 'o') && !e.ctrlKey && !e.altKey && !e.metaKey) {
     e.preventDefault();
-    if (sim.hero) triggerHeroSkill(0);
+    if (missionUi) missionUi.toggleObjectives();
     else toggleQuestLog();
   } else if (e.key.toLowerCase() === 'w' && !e.ctrlKey && !e.altKey && controlMode !== 'wasd') {
     e.preventDefault();
@@ -2177,6 +2183,7 @@ for (const id of ['btn-loose', 'btn-force', 'btn-quality', 'btn-box', 'btn-add',
 // --- minimap: tap or drag to move the camera ---
 const miniCanvas = $('minimap') as HTMLCanvasElement;
 const minimap = new Minimap(miniCanvas, map);
+const automap = new AutomapOverlay();
 let miniDown = false;
 const miniJump = (e: PointerEvent): void => {
   const [tx, ty] = minimap.tileAt(e.clientX, e.clientY);
@@ -2804,6 +2811,7 @@ function frame(): void {
     aim: armed === 'spell' ? aimView : null,
   });
   updateLootOverlay(now);
+  automap.draw(sim, map, renderer);
   if (now - lastMini >= 125) {
     lastMini = now;
     minimap.draw(sim, renderer.viewTiles(), selected);

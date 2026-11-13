@@ -53,5 +53,63 @@
     { "id": "doom-knight", "name": "Doom Knight", "batch": "E", "archetype": 0, "elem": 0, "baseHp": 135, "baseMin": 12, "baseMax": 18, "speed": 96, "ranged": false, "caster": false, "role": "Heavy armored hell vanguard" },
     { "id": "balrog", "name": "Balrog", "batch": "E", "archetype": 6, "elem": 1, "baseHp": 140, "baseMin": 13, "baseMax": 20, "speed": 112, "ranged": true, "caster": true, "role": "Inferno-breathing megademon" },
     { "id": "hephasto-smith", "name": "Hephasto Smith", "batch": "E", "archetype": 5, "elem": 1, "baseHp": 190, "baseMin": 14, "baseMax": 22, "speed": 76, "ranged": false, "caster": false, "role": "Hellforge anvil titan" }
+  ],
+  "bosses": [
+    {
+      "id": "lilithia",
+      "name": "Lilithia, Broodmother",
+      "batch": "BOSS",
+      "archetype": 3,
+      "elem": 4,
+      "baseHp": 460,
+      "baseMin": 16,
+      "baseMax": 24,
+      "speed": 105,
+      "ranged": true,
+      "caster": true,
+      "role": "Act 1 Final Boss: Broodmother of the Sunken Caverns (Poison Spray DoT, Spine Lash knockdown, Brood Hatch summons)"
+    },
+    {
+      "id": "azgalor",
+      "name": "Azgalor, Dune Devourer",
+      "batch": "BOSS",
+      "archetype": 5,
+      "elem": 2,
+      "baseHp": 720,
+      "baseMin": 22,
+      "baseMax": 34,
+      "speed": 80,
+      "ranged": false,
+      "caster": false,
+      "role": "Act 2 Final Boss: Colossal Pit Fiend of the High Wastes (Holy Freeze slow aura, subterranean charge, acid cleave)"
+    },
+    {
+      "id": "malakar",
+      "name": "Malakar, High Inquisitor",
+      "batch": "BOSS",
+      "archetype": 5,
+      "elem": 3,
+      "baseHp": 580,
+      "baseMin": 20,
+      "baseMax": 30,
+      "speed": 95,
+      "ranged": true,
+      "caster": true,
+      "role": "Act 3 Final Boss: High Inquisitor of the War Pier (Ball lightning piercing, Soul Siphon mana drain, Frost Nova)"
+    },
+    {
+      "id": "ignis-khor",
+      "name": "Ignis-Khor, Lord of Hellfire",
+      "batch": "BOSS",
+      "archetype": 3,
+      "elem": 1,
+      "baseHp": 980,
+      "baseMin": 26,
+      "baseMax": 40,
+      "speed": 100,
+      "ranged": true,
+      "caster": true,
+      "role": "Act 4 Final Boss: Prime Nether Titan of the Crown Vault (Hellfire breath, Fire Ring, Bone Prison)"
+    }
   ]
 }

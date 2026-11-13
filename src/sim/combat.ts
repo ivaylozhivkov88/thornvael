@@ -3,7 +3,7 @@ import type { Sim } from './sim';
 import { monsterFamilyById, monsterPaletteByTier } from './data';
 import { rulesOf } from './difficulty';
 import { ALL_SPELLS, MAGE_SPELLS, NST, SPELLS, St, Tk } from './spelldata';
-import { autoCast, castSpell, clearAllStatuses, knows, spellHit, statusTick, validTarget } from './spells';
+import { addStatus, autoCast, castSpell, clearAllStatuses, knows, spellHit, statusTick, validTarget } from './spells';
 import { addHeroXp, dropLoot, heroTick, heroUse, pickBag, respawnHero } from './hero';
 import { PART_COUNT, PART_DMG, PART_WEIGHT, getItemDef } from './items';
 
@@ -663,6 +663,26 @@ function attack(sim: Sim, i: number, t: number): void {
     launch(sim, sim.x[i], sim.y[i], t, min, max, d.elem, acc, -1, 100, i);
   }
   else strike(sim, t, min, max, d.elem, acc, i);
+
+  // Boss attack procs
+  const fam = cb.family[i];
+  if (fam === 'lilithia') {
+    addStatus(sim, t, St.Poison, 120, 3);
+  } else if (fam === 'azgalor') {
+    addStatus(sim, t, St.Weaken, 100, 0);
+    const cleaveR = Math.round(1.8 * FP);
+    const cleaveR2 = cleaveR * cleaveR;
+    for (let u = 0; u < sim.count; u++) {
+      if (u !== t && sim.team[u] !== sim.team[i] && cb.hp[u] > 0 && !sim.hidden[u]) {
+        const dx = sim.x[u] - sim.x[t];
+        const dy = sim.y[u] - sim.y[t];
+        if (dx * dx + dy * dy <= cleaveR2) {
+          strike(sim, u, Math.max(1, min >> 1), Math.max(1, max >> 1), Elem.Earth, acc, i);
+          addStatus(sim, u, St.Weaken, 60, 0);
+        }
+      }
+    }
+  }
 }
 
 function stepProjectiles(sim: Sim): void {
@@ -850,6 +870,174 @@ function unitThink(sim: Sim, i: number): void {
   }
 }
 
+function bossTick(sim: Sim, i: number): void {
+  const cb = sim.cb;
+  const fam = cb.family[i];
+  if (!fam) return;
+
+  const t = cb.tgt[i];
+  const hasTarget = t >= 0 && cb.hp[t] > 0 && sim.team[t] !== sim.team[i] && !sim.hidden[t];
+
+  if (fam === 'lilithia') {
+    // 1. Brood Hatch: summons/phases in dormant broodlings when damaged or periodically
+    if (hasTarget && (sim.tick % 80 === 0 || cb.hp[i] < Math.floor(cb.hpMax[i] * 0.6))) {
+      let hatched = 0;
+      for (let u = 0; u < sim.count; u++) {
+        if (sim.team[u] === sim.team[i] && sim.hidden[u] && cb.hp[u] > 0) {
+          sim.hidden[u] = 0;
+          cb.ord[u] = Ord.Swarm;
+          cb.tgt[u] = t;
+          cb.px[u] = sim.x[t];
+          cb.py[u] = sim.y[t];
+          hatched++;
+          if (hatched >= 2) break;
+        }
+      }
+      if (hatched > 0) cb.emit(6, sim.x[i], sim.y[i], 0, 0);
+    }
+
+    // 2. Poison Spray DoT (ranged spray)
+    if (hasTarget && sim.tick % 35 === 0) {
+      const d = dist(sim, i, sim.x[t], sim.y[t]);
+      if (d <= 6 * FP) {
+        const dmg = 12 + sim.rng.int(8);
+        strike(sim, t, dmg, dmg + 6, Elem.Earth, 12, i);
+        addStatus(sim, t, St.Poison, 150, 3);
+        cb.emit(12, sim.x[t], sim.y[t], 0, 0);
+      }
+    }
+
+    // 3. Spine Lash knockdown (melee tail strike)
+    if (hasTarget && sim.tick % 30 === 0) {
+      const d = dist(sim, i, sim.x[t], sim.y[t]);
+      if (d <= Math.round(1.6 * FP)) {
+        const lashDmg = 22 + sim.rng.int(10);
+        strike(sim, t, lashDmg, lashDmg + 8, Elem.Physical, 15, i);
+        cb.cd[t] = Math.max(cb.cd[t], 25);
+        addStatus(sim, t, St.Slow, 60, 0);
+        const dx = sim.x[t] - sim.x[i];
+        const dy = sim.y[t] - sim.y[i];
+        const distLen = Math.hypot(dx, dy) || 1;
+        sim.x[t] = Math.round(sim.x[t] + (dx / distLen) * FP);
+        sim.y[t] = Math.round(sim.y[t] + (dy / distLen) * FP);
+        cb.emit(2, sim.x[t], sim.y[t], 0, 0);
+      }
+    }
+  } else if (fam === 'azgalor') {
+    // 1. Holy Freeze slow aura
+    if (sim.tick % 25 === 0) {
+      const auraR2 = (5.5 * FP) ** 2;
+      for (let u = 0; u < sim.count; u++) {
+        if (sim.team[u] !== sim.team[i] && cb.hp[u] > 0 && !sim.hidden[u]) {
+          const dx = sim.x[u] - sim.x[i];
+          const dy = sim.y[u] - sim.y[i];
+          if (dx * dx + dy * dy <= auraR2) {
+            addStatus(sim, u, St.Slow, 50, 0);
+            const chill = 4 + sim.rng.int(4);
+            strike(sim, u, chill, chill + 2, Elem.Water, 10, i);
+          }
+        }
+      }
+      cb.emit(5, sim.x[i], sim.y[i], 0, 0);
+    }
+
+    // 2. Subterranean Charge
+    if (hasTarget && sim.tick % 50 === 0) {
+      const d = dist(sim, i, sim.x[t], sim.y[t]);
+      if (d >= 3 * FP && d <= 8 * FP) {
+        sim.x[i] = sim.x[t] - Math.round(((sim.x[t] - sim.x[i]) / d) * Math.round(0.8 * FP));
+        sim.y[i] = sim.y[t] - Math.round(((sim.y[t] - sim.y[i]) / d) * Math.round(0.8 * FP));
+        const crashDmg = 25 + sim.rng.int(15);
+        strike(sim, t, crashDmg, crashDmg + 10, Elem.Physical, 15, i);
+        addStatus(sim, t, St.Slow, 60, 0);
+        cb.emit(2, sim.x[i], sim.y[i], 0, 0);
+      }
+    }
+  } else if (fam === 'malakar') {
+    // 1. Ball Lightning Piercing
+    if (hasTarget && sim.tick % 35 === 0) {
+      const d = dist(sim, i, sim.x[t], sim.y[t]);
+      if (d <= 7 * FP) {
+        const ballDmg = 18 + sim.rng.int(12);
+        strike(sim, t, ballDmg, ballDmg + 8, Elem.Air, 14, i);
+        for (let u = 0; u < sim.count; u++) {
+          if (u !== t && sim.team[u] !== sim.team[i] && cb.hp[u] > 0 && !sim.hidden[u]) {
+            if (dist(sim, u, (sim.x[i] + sim.x[t]) >> 1, (sim.y[i] + sim.y[t]) >> 1) <= 2 * FP) {
+              strike(sim, u, ballDmg >> 1, (ballDmg >> 1) + 4, Elem.Air, 10, i);
+            }
+          }
+        }
+        cb.emit(10, sim.x[t], sim.y[t], 0, 0);
+      }
+    }
+
+    // 2. Soul Siphon Mana Drain
+    if (hasTarget && sim.tick % 45 === 0) {
+      if (cb.mana[t] > 0) {
+        const drain = Math.min(cb.mana[t], 25);
+        cb.mana[t] -= drain;
+        cb.hp[i] = Math.min(cb.hpMax[i], cb.hp[i] + drain);
+        strike(sim, t, 14, 20, Elem.Astral, 15, i);
+        cb.emit(4, sim.x[t], sim.y[t], 0, 0);
+      }
+    }
+
+    // 3. Frost Nova
+    if (sim.tick % 55 === 0) {
+      const novaR2 = (4 * FP) ** 2;
+      let hit = false;
+      for (let u = 0; u < sim.count; u++) {
+        if (sim.team[u] !== sim.team[i] && cb.hp[u] > 0 && !sim.hidden[u]) {
+          const dx = sim.x[u] - sim.x[i];
+          const dy = sim.y[u] - sim.y[i];
+          if (dx * dx + dy * dy <= novaR2) {
+            const novaDmg = 15 + sim.rng.int(10);
+            strike(sim, u, novaDmg, novaDmg + 6, Elem.Water, 12, i);
+            addStatus(sim, u, St.Slow, 75, 0);
+            hit = true;
+          }
+        }
+      }
+      if (hit) cb.emit(5, sim.x[i], sim.y[i], 0, 0);
+    }
+  } else if (fam === 'ignis-khor') {
+    // 1. Hellfire Breath
+    if (hasTarget && sim.tick % 40 === 0) {
+      const d = dist(sim, i, sim.x[t], sim.y[t]);
+      if (d <= 5 * FP) {
+        const breathDmg = 24 + sim.rng.int(14);
+        strike(sim, t, breathDmg, breathDmg + 10, Elem.Fire, 14, i);
+        addStatus(sim, t, St.Burn, 80, 5);
+        cb.emit(1, sim.x[t], sim.y[t], 0, 0);
+      }
+    }
+
+    // 2. Fire Ring
+    if (sim.tick % 70 === 0) {
+      const ringR2 = (4 * FP) ** 2;
+      for (let u = 0; u < sim.count; u++) {
+        if (sim.team[u] !== sim.team[i] && cb.hp[u] > 0 && !sim.hidden[u]) {
+          const dx = sim.x[u] - sim.x[i];
+          const dy = sim.y[u] - sim.y[i];
+          if (dx * dx + dy * dy <= ringR2) {
+            const fireDmg = 18 + sim.rng.int(12);
+            strike(sim, u, fireDmg, fireDmg + 6, Elem.Fire, 12, i);
+            addStatus(sim, u, St.Burn, 60, 4);
+          }
+        }
+      }
+      cb.emit(1, sim.x[i], sim.y[i], 0, 0);
+    }
+
+    // 3. Bone Prison
+    if (hasTarget && sim.tick % 90 === 0) {
+      addStatus(sim, t, St.Stone, 45, 0);
+      if (sim.moving[t]) sim.stop(t);
+      cb.emit(2, sim.x[t], sim.y[t], 0, 0);
+    }
+  }
+}
+
 /** One combat tick: mana, unit decisions, projectiles. Runs after commands and before steering. */
 export function think(sim: Sim): void {
   const cb = sim.cb;
@@ -872,6 +1060,7 @@ export function think(sim: Sim): void {
       }
     }
     unitThink(sim, i);
+    bossTick(sim, i);
   }
   if (sim.hero) heroTick(sim);
 
