@@ -1042,6 +1042,12 @@
       "license": "own",
       "source": "Gemini image generation (user subscription), original text prompt, resized with Pillow",
       "note": "AI-generated painted monster portrait, 2026-11-13; original design, style-only inspiration"
+    },
+    {
+      "path": "public/townart/npc-orlen.jpg",
+      "license": "own",
+      "source": "Gemini image generation (user subscription), original text prompt, resized with Pillow",
+      "note": "AI-generated painted NPC portrait, 2026-11-14; original design"
     }
   ]
 }

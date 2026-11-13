@@ -315,6 +315,18 @@ export class MissionUi {
         portraitSvg: paintedPortrait('npc-commander', getHeroPortraitSvg()),
       };
     }
+    const named: Array<[string, string, string]> = [
+      ['orlen', 'Orlen', 'Marsh Herbalist and Rot-Warden'],
+      ['sabik', 'Sabik', 'Dune Scout of the Glass Wastes'],
+      ['quillon', 'Quillon', 'Sage of the Drowned Coast'],
+      ['aldren', 'Aldren', 'Veteran Knight of the Burnt Keep'],
+      ['outpost scout', 'Outpost Scout', 'Frontier Ranger'],
+    ];
+    for (const [key, name, rank] of named) {
+      if (lower.includes(key)) {
+        return { name, rank, portraitSvg: paintedPortrait(`npc-${key.split(' ')[0] === 'outpost' ? 'scout' : key}`, getFallbackPortraitSvg()) };
+      }
+    }
     if (lower.includes('cache') || lower.includes('granary')) {
       return {
         name: 'Granary Cache',
