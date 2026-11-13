@@ -934,6 +934,24 @@
       "license": "own",
       "source": "Gemini image generation (user subscription), original text prompt, resized with Pillow",
       "note": "AI-generated painted art, 2026-11-13; style-only inspiration, no reference image used"
+    },
+    {
+      "path": "public/townart/doll/warrior-f-helm-crest.png",
+      "license": "own",
+      "source": "Gemini image generation (user subscription), original text prompt, resized with Pillow",
+      "note": "AI-generated painted art, 2026-11-13; style-only inspiration, no reference image used"
+    },
+    {
+      "path": "public/townart/doll/warrior-f-boots-riveted.png",
+      "license": "own",
+      "source": "Gemini image generation (user subscription), original text prompt, resized with Pillow",
+      "note": "AI-generated painted art, 2026-11-13; style-only inspiration, no reference image used"
+    },
+    {
+      "path": "public/townart/doll/warrior-f-gloves-gauntlet.png",
+      "license": "own",
+      "source": "Gemini image generation (user subscription), original text prompt, resized with Pillow",
+      "note": "AI-generated painted art, 2026-11-13; style-only inspiration, no reference image used"
     }
   ]
 }
