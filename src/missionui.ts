@@ -298,21 +298,21 @@ export class MissionUi {
       return {
         name: 'Warden Hale',
         rank: 'Captain of the Thornwick Border Guard',
-        portraitSvg: getWardenHalePortraitSvg(),
+        portraitSvg: paintedPortrait('npc-hale', getWardenHalePortraitSvg()),
       };
     }
     if (lower.includes('grok') || lower.includes('chief') || lower.includes('gnoll')) {
       return {
         name: "Chieftain Grok'tar",
         rank: 'Warlord of the Riverfang Gnoll Pack',
-        portraitSvg: getChieftainGroktarPortraitSvg(),
+        portraitSvg: paintedPortrait('npc-groktar', getChieftainGroktarPortraitSvg()),
       };
     }
     if (lower.includes('hero') || lower.includes('you')) {
       return {
         name: 'Company Commander',
         rank: 'Leader of the Thornwick Expeditionary Company',
-        portraitSvg: getHeroPortraitSvg(),
+        portraitSvg: paintedPortrait('npc-commander', getHeroPortraitSvg()),
       };
     }
     if (lower.includes('cache') || lower.includes('granary')) {
@@ -915,4 +915,10 @@ export function showMissionMenu(): void {
   close.onclick = () => (root.hidden = true);
   root.append(close);
   root.hidden = false;
+}
+
+/** Painted portrait (Gemini-generated, see assets.json) with the vector portrait as an offline fallback. */
+function paintedPortrait(file: string, fallbackSvg: string): string {
+  const fb = fallbackSvg.replace(/"/g, '&quot;').replace(/\s+/g, ' ');
+  return `<img class="portrait-img" src="${import.meta.env.BASE_URL}townart/${file}.jpg" alt="" style="width:100%;height:100%;object-fit:cover;border-radius:50%" onerror="this.outerHTML=this.dataset.fb" data-fb="${fb}">`;
 }

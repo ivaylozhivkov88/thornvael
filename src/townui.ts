@@ -9,6 +9,7 @@ import { SPELLS } from './sim/spelldata';
 import { OFFERS, QuestType, ROLE_COUNT, Role, SHELF, gambleCost, priceOf, sellPrice, spellPrice, trainPrice, type Quest, type TownCommand } from './sim/town';
 import { S } from './strings';
 import { itemIcon } from './townicons';
+import { equipmentLayers } from './hero-presentation';
 import { playTraderBark, playTownAmbience, stopTownAmbience } from './audio';
 
 /**
@@ -149,6 +150,7 @@ export class TownUi {
   }
 
   close(): void {
+    this.tryOn = -1;
     if (!this.open) return;
     if (this.role === Role.Shop) {
       playTraderBark('blacksmith', 'farewell');
@@ -204,14 +206,55 @@ export class TownUi {
 
   // ---- shop ----
 
+  /** Item being tried on the hero oval (drag onto the portrait, or tap the oval while an item is selected). */
+  private tryOn = -1;
+
+  /** Pointer-drag an item cell onto the hero oval to try it on; a plain tap still selects as before. */
+  private dragToHero(b: HTMLElement, id: number): void {
+    b.style.touchAction = 'none';
+    b.addEventListener('pointerdown', (down) => {
+      if (down.button > 0) return;
+      const x0 = down.clientX, y0 = down.clientY;
+      let ghost: HTMLElement | null = null;
+      const move = (e: PointerEvent) => {
+        if (!ghost && Math.hypot(e.clientX - x0, e.clientY - y0) > 8) {
+          ghost = el('div', 'drag-ghost');
+          ghost.append(itemIcon(id));
+          document.body.append(ghost);
+          b.dataset.dragging = '1';
+        }
+        if (!ghost) return;
+        ghost.style.transform = `translate(${e.clientX - 28}px, ${e.clientY - 28}px)`;
+        const over = document.elementFromPoint(e.clientX, e.clientY)?.closest('.hero-portrait');
+        this.root.querySelector('.hero-portrait')?.classList.toggle('drop-hot', !!over);
+      };
+      const up = (e: PointerEvent) => {
+        window.removeEventListener('pointermove', move);
+        window.removeEventListener('pointerup', up);
+        window.removeEventListener('pointercancel', up);
+        if (!ghost) return;
+        ghost.remove();
+        const over = document.elementFromPoint(e.clientX, e.clientY)?.closest('.hero-portrait');
+        // swallow the click that follows a drag so the item is not also selected
+        b.addEventListener('click', (c) => { c.stopImmediatePropagation(); c.preventDefault(); }, { capture: true, once: true });
+        window.setTimeout(() => { delete b.dataset.dragging; }, 0);
+        if (over) { this.tryOn = id; this.detailItem = id; this.render(); }
+        else this.root.querySelector('.hero-portrait')?.classList.remove('drop-hot');
+      };
+      window.addEventListener('pointermove', move);
+      window.addEventListener('pointerup', up);
+      window.addEventListener('pointercancel', up);
+    });
+  }
+
   private scene(kind: 'shop' | 'tavern'): HTMLElement {
     const keeper = el('div', 'keeper scene-panel');
     const background = el('img', 'town-backdrop');
-    background.src = `${import.meta.env.BASE_URL}townart/${kind}.png`;
+    background.src = `${import.meta.env.BASE_URL}townart/scene-${kind}.jpg`;
     background.alt = S.town.scene[kind];
     const actor = el('img', 'merchant-actor');
-    actor.src = `${import.meta.env.BASE_URL}townart/merchant-${kind}.png`;
     actor.alt = '';
+    actor.hidden = true; // the painted scene already contains its keeper
     const say = el('div', 'say');
     say.setAttribute('role', 'status');
     const art = el('div', 'scene-art');
@@ -224,9 +267,25 @@ export class TownUi {
   private portrait(sim: Sim): HTMLElement {
     const figure = el('figure', 'hero-portrait');
     const image = el('img');
-    image.src = `${import.meta.env.BASE_URL}townart/portrait-${sim.hero!.cls ? 'mage' : 'warrior'}-${sim.hero!.female ? 'f' : 'm'}.png`;
+    image.src = `${import.meta.env.BASE_URL}townart/frame-hero-${sim.hero!.cls ? 'mage' : 'warrior'}.jpg`;
     image.alt = S.hero.classes[sim.hero!.cls];
-    figure.append(image, el('figcaption', '', S.hero.classes[sim.hero!.cls]));
+    const h = sim.hero!;
+    const trySlot = this.tryOn >= 0 ? (getItemDef(this.tryOn)?.slot ?? -1) : -1;
+    const doll = el('div', 'doll-badges');
+    for (const layer of equipmentLayers(h)) {
+      const swapped = layer.slot === trySlot;
+      const badge = el('span', `doll-badge${swapped ? ' replaced' : ''}`);
+      badge.title = layer.name;
+      badge.append(itemIcon(swapped ? this.tryOn : layer.item));
+      doll.append(badge);
+    }
+    if (trySlot >= 0 && !h.eq.some((_, i) => i === trySlot && h.eq[i] >= 0)) {
+      const badge = el('span', 'doll-badge replaced');
+      badge.append(itemIcon(this.tryOn));
+      doll.append(badge);
+    }
+    figure.classList.toggle('trying', this.tryOn >= 0);
+    figure.append(image, doll, el('figcaption', '', this.tryOn >= 0 ? `${getItemDef(this.tryOn)?.name ?? ''}` : S.hero.classes[sim.hero!.cls]));
     return figure;
   }
 
@@ -303,6 +362,7 @@ export class TownUi {
       b.dataset.slot = String(k);
       this.decorateItem(b, id);
       this.ctx.tipOn(b, formatItemTooltip(id, h));
+      this.dragToHero(b, id);
       sg.append(b);
     }
     stockPanel.append(sg, this.pager('shelf', this.shelfPage, Math.ceil(SHELF / 6), (p) => { this.shelfPage = p; this.render(); }));
@@ -327,6 +387,7 @@ export class TownUi {
       b.dataset.packSlot = String(k);
       this.decorateItem(b, s.item);
       this.ctx.tipOn(b, formatItemTooltip(s.item, h));
+      this.dragToHero(b, s.item);
       pg.append(b);
     }
     packPanel.append(pg, this.pager('pack', this.packPage, Math.ceil(INV_MAX / 10), (p) => { this.packPage = p; this.render(); }));

@@ -1623,3 +1623,17 @@
 }
 
 
+
+/* Drag an item onto the hero oval: try-on preview (slot badges swap, oval glows). */
+.drag-ghost { position: fixed; left: 0; top: 0; width: 56px; height: 56px; z-index: 9999; pointer-events: none; filter: drop-shadow(0 6px 8px #000c); opacity: .92; }
+.drag-ghost > * { width: 100%; height: 100%; }
+.sheet .grid .cell { cursor: grab; }
+.sheet .hero-portrait { position: relative; transition: box-shadow .18s, transform .18s; }
+.sheet .hero-portrait.drop-hot { box-shadow: 0 0 0 3px var(--town-gold, #d9b45a), 0 0 26px #ffcf6a99, inset 0 0 20px #000a; transform: scale(1.03); }
+.sheet .hero-portrait.trying img { box-shadow: 0 0 18px #ffcf6a88; }
+.doll-badges { display: flex; flex-wrap: wrap; gap: 4px; justify-content: center; min-height: 34px; }
+.doll-badge { width: 32px; height: 32px; border: 1px solid #b7995d; border-radius: 6px; background: #120c07; display: grid; place-items: center; }
+.doll-badge > * { width: 26px; height: 26px; }
+.doll-badge.replaced { border-color: #ffe08a; box-shadow: 0 0 10px #ffcf6a; animation: badge-pop .35s ease-out; }
+@keyframes badge-pop { from { transform: scale(1.6); opacity: .2; } to { transform: scale(1); opacity: 1; } }
+@media (prefers-reduced-motion: reduce) { .doll-badge.replaced { animation: none; } }

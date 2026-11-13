@@ -772,6 +772,78 @@
       "source": "tools/gen-hero-select-sfx.py",
       "sha256": "446996ac43ec0b4c3c0799af77b04d063577ca64056f58949ebd3c8a3e24c0bc",
       "note": "Procedurally synthesized hero selection cue"
+    },
+    {
+      "path": "public/townart/npc-hale.jpg",
+      "license": "own",
+      "source": "Gemini image generation (user subscription), original text prompt, resized with Pillow",
+      "note": "AI-generated painted art, 2026-11-13; style-only inspiration, no reference image used"
+    },
+    {
+      "path": "public/townart/npc-groktar.jpg",
+      "license": "own",
+      "source": "Gemini image generation (user subscription), original text prompt, resized with Pillow",
+      "note": "AI-generated painted art, 2026-11-13; style-only inspiration, no reference image used"
+    },
+    {
+      "path": "public/townart/npc-commander.jpg",
+      "license": "own",
+      "source": "Gemini image generation (user subscription), original text prompt, resized with Pillow",
+      "note": "AI-generated painted art, 2026-11-13; style-only inspiration, no reference image used"
+    },
+    {
+      "path": "public/townart/scene-shop.jpg",
+      "license": "own",
+      "source": "Gemini image generation (user subscription), original text prompt, resized with Pillow",
+      "note": "AI-generated painted art, 2026-11-13; style-only inspiration, no reference image used"
+    },
+    {
+      "path": "public/townart/scene-tavern.jpg",
+      "license": "own",
+      "source": "Gemini image generation (user subscription), original text prompt, resized with Pillow",
+      "note": "AI-generated painted art, 2026-11-13; style-only inspiration, no reference image used"
+    },
+    {
+      "path": "public/townart/frame-hero-warrior.jpg",
+      "license": "own",
+      "source": "Gemini image generation (user subscription), original text prompt, resized with Pillow",
+      "note": "AI-generated painted art, 2026-11-13; style-only inspiration, no reference image used"
+    },
+    {
+      "path": "public/townart/frame-hero-mage.jpg",
+      "license": "own",
+      "source": "Gemini image generation (user subscription), original text prompt, resized with Pillow",
+      "note": "AI-generated painted art, 2026-11-13; style-only inspiration, no reference image used"
+    },
+    {
+      "path": "public/townart/frame-morvessa.jpg",
+      "license": "own",
+      "source": "Gemini image generation (user subscription), original text prompt, resized with Pillow",
+      "note": "AI-generated painted art, 2026-11-13; style-only inspiration, no reference image used"
+    },
+    {
+      "path": "public/townart/frame-gorrathul.jpg",
+      "license": "own",
+      "source": "Gemini image generation (user subscription), original text prompt, resized with Pillow",
+      "note": "AI-generated painted art, 2026-11-13; style-only inspiration, no reference image used"
+    },
+    {
+      "path": "public/townart/frame-vesperion.jpg",
+      "license": "own",
+      "source": "Gemini image generation (user subscription), original text prompt, resized with Pillow",
+      "note": "AI-generated painted art, 2026-11-13; style-only inspiration, no reference image used"
+    },
+    {
+      "path": "public/townart/frame-ashkarath.jpg",
+      "license": "own",
+      "source": "Gemini image generation (user subscription), original text prompt, resized with Pillow",
+      "note": "AI-generated painted art, 2026-11-13; style-only inspiration, no reference image used"
+    },
+    {
+      "path": "public/townart/frame-briar-hound.jpg",
+      "license": "own",
+      "source": "Gemini image generation (user subscription), original text prompt, resized with Pillow",
+      "note": "AI-generated painted art, 2026-11-13; style-only inspiration, no reference image used"
     }
   ]
 }
