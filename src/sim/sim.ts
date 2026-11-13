@@ -1110,9 +1110,10 @@ export class Sim {
       this.stuck[i] = 0;
     } else if (s >= STUCK_GIVE_UP) {
       // Never give up while occupying a narrow bottleneck or chokepoint
-      if (isChokepoint(this.map, this.x[i] >> 8, this.y[i] >> 8)) {
+      // Capped grace (repaths 4..8, no new state) so a truly blocked chokepoint still finishes.
+      if (this.repaths[i] < 8 && isChokepoint(this.map, this.x[i] >> 8, this.y[i] >> 8)) {
         this.stuck[i] = 0;
-        this.repaths[i] = 0;
+        this.repaths[i] = Math.max(4, this.repaths[i] + 1);
       } else {
         this.finish(i);
       }
