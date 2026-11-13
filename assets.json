@@ -1018,6 +1018,30 @@
       "license": "own",
       "source": "Gemini image generation (user subscription), original text prompt, resized with Pillow",
       "note": "AI-generated painted monster portrait, 2026-11-13; original design, style-only inspiration"
+    },
+    {
+      "path": "public/townart/mon/cinderling.jpg",
+      "license": "own",
+      "source": "Gemini image generation (user subscription), original text prompt, resized with Pillow",
+      "note": "AI-generated painted monster portrait, 2026-11-13; original design, style-only inspiration"
+    },
+    {
+      "path": "public/townart/mon/ironbark.jpg",
+      "license": "own",
+      "source": "Gemini image generation (user subscription), original text prompt, resized with Pillow",
+      "note": "AI-generated painted monster portrait, 2026-11-13; original design, style-only inspiration"
+    },
+    {
+      "path": "public/townart/mon/stormtree.jpg",
+      "license": "own",
+      "source": "Gemini image generation (user subscription), original text prompt, resized with Pillow",
+      "note": "AI-generated painted monster portrait, 2026-11-13; original design, style-only inspiration"
+    },
+    {
+      "path": "public/townart/mon/cinderhorn.jpg",
+      "license": "own",
+      "source": "Gemini image generation (user subscription), original text prompt, resized with Pillow",
+      "note": "AI-generated painted monster portrait, 2026-11-13; original design, style-only inspiration"
     }
   ]
 }
