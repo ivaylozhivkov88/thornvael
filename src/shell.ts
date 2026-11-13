@@ -1,4 +1,4 @@
-import { blip, setMusic, unlock } from './audio';
+import { blip, play, setMusic, unlock } from './audio';
 import { actOf, nodeOf, type CampaignNode } from './campaign';
 import { loadCampaign, readRecord, writeRecord } from './campaignstore';
 import { canEnter, newRecord, nodeUrl, RECORD_KEY, clearLast, type CampaignRecord, type HeroPick } from './flow';
@@ -145,37 +145,224 @@ export async function runShell(startWorker: () => void): Promise<never> {
     screen(col);
   }
 
-  // ---- hero creation: class, sex, difficulty ----
+  interface Archetype {
+    cls: 0 | 1;
+    female: boolean;
+    name: string;
+    epithet: string;
+    classLabel: string;
+    portraitFile: string;
+    bio: string;
+    gear: string[];
+    perks: string[];
+    hp: number;
+    mp: number;
+    bars: { hp: string; mp: string; atk: string; magic: string; def: string };
+    sound: string;
+  }
+
+  const ARCHETYPES: readonly Archetype[] = [
+    {
+      cls: 0,
+      female: false,
+      name: 'Dain Ironclad',
+      epithet: 'Vanguard Knight',
+      classLabel: 'WARRIOR',
+      portraitFile: 'portrait-warrior-m.png',
+      bio: 'A battle-hardened defender of Thornwick, clad in tempered plate. Leads from the frontline, absorbing crushing blows and holding chokepoints against overwhelming hordes.',
+      gear: ['Broadsword', 'Tower Shield', 'Heavy Mail', 'Healing Draught'],
+      perks: ['+25% Shield Block', 'Heavy Armor Mastery', 'Iron Resolve'],
+      hp: 160,
+      mp: 30,
+      bars: { hp: '85%', mp: '25%', atk: '80%', magic: '15%', def: '90%' },
+      sound: 'hit',
+    },
+    {
+      cls: 0,
+      female: true,
+      name: 'Selena Swiftblade',
+      epithet: 'Borderlands Nomad',
+      classLabel: 'WARRIOR',
+      portraitFile: 'portrait-warrior-f.png',
+      bio: 'A legendary mercenary duelist renowned for lethal speed and flanking maneuvers. Strikes vulnerable armor seams and turns enemy momentum into deadly counter-attacks.',
+      gear: ['Balanced Saber', 'Spiked Buckler', 'Reinforced Vest', 'Healing Draught'],
+      perks: ['+15% Movement Speed', '+20% Critical Strike', 'Nimble Footwork'],
+      hp: 140,
+      mp: 40,
+      bars: { hp: '75%', mp: '30%', atk: '95%', magic: '20%', def: '65%' },
+      sound: 'hit',
+    },
+    {
+      cls: 1,
+      female: false,
+      name: 'Valerius Pyremaster',
+      epithet: 'Flame Archmage',
+      classLabel: 'MAGE',
+      portraitFile: 'portrait-mage-m.png',
+      bio: 'An ordained scholar from the Citadel of Embers. Wields devastating celestial fire and astral wards to obliterate enemy squads and shatter monstrous defenses from range.',
+      gear: ['Carved Oak Staff', 'Apprentice Robe', 'Fire Bolt', 'Inferno Scroll'],
+      perks: ['Fire & Astral Mastery', '+30% Mana Pool', 'Elemental Overcharge'],
+      hp: 80,
+      mp: 130,
+      bars: { hp: '45%', mp: '95%', atk: '30%', magic: '98%', def: '30%' },
+      sound: 'cast_fire',
+    },
+    {
+      cls: 1,
+      female: true,
+      name: 'Morrigan Frostweaver',
+      epithet: 'Glacial Oracle',
+      classLabel: 'MAGE',
+      portraitFile: 'portrait-mage-f.png',
+      bio: 'Keeper of the ancient tide-runes. Weaves freezing blizzards and restorative water mists to immobilize charging beasts and protect allied battalions.',
+      gear: ['Crystal Wand', 'Runed Silk Cowl', 'Frost Bolt', 'Ice Shield'],
+      perks: ['Water & Earth Affinity', 'Battlefield Freeze', 'Quick Casting'],
+      hp: 85,
+      mp: 120,
+      bars: { hp: '48%', mp: '90%', atk: '25%', magic: '92%', def: '40%' },
+      sound: 'cast_water',
+    },
+  ];
+
+  // ---- hero creation: class, sex, difficulty (Diablo & RoM2 AAA Selection) ----
   function create(): void {
     mode = 'other';
-    const pick: HeroPick = { cls: 0, female: false };
+    let selIdx = 0;
     let diff = 1;
-    const info = el('p', 'note');
-    const row = (names: readonly string[], get: () => number, set: (i: number) => void): HTMLElement => {
-      const r = el('div', 'sh-row');
-      const draw = (): void => r.replaceChildren(...names.map((n, i) => btn(n, () => (set(i), draw(), (info.textContent = T.diffInfo[diff])), i === get() ? 'sh-on' : '')));
-      draw();
-      return r;
+
+    const base = import.meta.env.BASE_URL;
+    const container = el('div', 'sh-hero-screen');
+
+    // Header
+    const hdr = el('div', 'sh-hero-header');
+    hdr.append(el('h2', '', T.createTitle), el('p', 'sh-hero-subtitle', 'Select your champion and campaign difficulty'));
+
+    // Roster grid
+    const roster = el('div', 'sh-hero-roster');
+    const dossier = el('div', 'sh-hero-dossier');
+
+    const updateDossier = (arch: Archetype): void => {
+      dossier.replaceChildren();
+
+      // Left column: bio + perks + gear
+      const left = el('div', 'sh-dossier-left');
+      const bio = el('div', 'sh-dossier-bio');
+      bio.append(el('h3', '', `${arch.name} · ${arch.epithet}`), el('p', 'sh-dossier-desc', arch.bio));
+
+      const gearBox = el('div', 'sh-dossier-gear');
+      gearBox.append(el('b', '', 'Starting Equipment & Masteries:'));
+      const tags = el('div', 'sh-gear-tags');
+      for (const g of arch.gear) tags.append(el('span', 'sh-tag', g));
+      for (const p of arch.perks) tags.append(el('span', 'sh-tag perk', p));
+      gearBox.append(tags);
+
+      left.append(bio, gearBox);
+
+      // Right column: animated attribute bars
+      const stats = el('div', 'sh-dossier-stats');
+      const statRow = (label: string, width: string, val: string, cls: string): HTMLElement => {
+        const row = el('div', 'sh-stat-row');
+        const fill = el('div', `sh-stat-fill ${cls}`);
+        fill.style.width = width;
+        const bar = el('div', 'sh-stat-bar');
+        bar.append(fill);
+        row.append(el('span', 'sh-stat-label', label), bar, el('span', 'sh-stat-val', val));
+        return row;
+      };
+
+      stats.append(
+        statRow('Health', arch.bars.hp, `${arch.hp} HP`, 'hp'),
+        statRow('Mana', arch.bars.mp, `${arch.mp} MP`, 'mp'),
+        statRow('Combat Power', arch.bars.atk, arch.bars.atk, 'atk'),
+        statRow('Spell Affinity', arch.bars.magic, arch.bars.magic, 'magic'),
+        statRow('Defence', arch.bars.def, arch.bars.def, 'def'),
+      );
+
+      dossier.append(left, stats);
     };
-    info.textContent = T.diffInfo[diff];
-    const col = el('div', 'sh-col');
-    col.append(
-      el('h2', '', T.createTitle),
-      row(T.cls, () => pick.cls, (i) => (pick.cls = i)),
-      row(T.sex, () => (pick.female ? 1 : 0), (i) => (pick.female = i === 1)),
-      row(T.diff, () => diff, (i) => (diff = i)),
-      info,
-      btn(T.start, async () => {
-        rec = newRecord(c, pick, diff);
-        currentAct = activeAct(rec);
-        await writeRecord(rec);
-        await deleteSave(AUTO).catch(() => undefined); // an old mid-mission autosave must not outlive a new game
-        auto = null;
-        map();
-      }),
-      back(),
-    );
-    screen(col);
+
+    const drawRoster = (): void => {
+      roster.replaceChildren();
+      ARCHETYPES.forEach((arch, idx) => {
+        const isSel = idx === selIdx;
+        const card = el('div', `sh-hero-card ${isSel ? 'selected' : ''}`);
+
+        const frame = el('div', 'sh-hero-portrait-frame');
+        const img = document.createElement('img');
+        img.className = 'sh-hero-img';
+        img.src = `${base}townart/${arch.portraitFile}`;
+        img.alt = arch.name;
+        const pedestal = el('div', 'sh-hero-pedestal');
+        frame.append(pedestal, img);
+
+        const meta = el('div', 'sh-hero-meta');
+        const badge = el('span', `sh-hero-class ${arch.cls === 1 ? 'mage' : 'warrior'}`, arch.classLabel);
+        const name = el('h3', 'sh-hero-name', arch.name);
+        const title = el('span', 'sh-hero-title', arch.epithet);
+        meta.append(badge, name, title);
+
+        card.append(frame, meta);
+        card.onclick = () => {
+          if (selIdx !== idx) {
+            selIdx = idx;
+            play(arch.sound, 4);
+            drawRoster();
+            updateDossier(arch);
+          }
+        };
+        roster.append(card);
+      });
+    };
+
+    drawRoster();
+    updateDossier(ARCHETYPES[selIdx]);
+
+    // Difficulty Panel
+    const diffPanel = el('div', 'sh-difficulty-panel');
+    const diffHdr = el('div', 'sh-diff-header');
+    diffHdr.append(el('span', 'sh-diff-label', 'Campaign Difficulty:'));
+    const diffBtns = el('div', 'sh-diff-buttons');
+    const diffDesc = el('p', 'sh-diff-desc', T.diffInfo[diff]);
+
+    const drawDiff = (): void => {
+      diffBtns.replaceChildren(
+        ...T.diff.map((name, i) =>
+          btn(name, () => {
+            blip();
+            diff = i;
+            diffDesc.textContent = T.diffInfo[diff];
+            drawDiff();
+          }, i === diff ? 'sh-on sh-small' : 'sh-small')
+        )
+      );
+    };
+    drawDiff();
+    diffHdr.append(diffBtns);
+    diffPanel.append(diffHdr, diffDesc);
+
+    // Action buttons
+    const actions = el('div', 'sh-hero-actions');
+    const startBtn = btn(T.start, async () => {
+      blip();
+      const arch = ARCHETYPES[selIdx];
+      const pick: HeroPick = { cls: arch.cls, female: arch.female };
+      rec = newRecord(c, pick, diff);
+      currentAct = activeAct(rec);
+      await writeRecord(rec);
+      await deleteSave(AUTO).catch(() => undefined);
+      auto = null;
+      map();
+    }, 'sh-btn-start');
+
+    const backBtn = btn(T.back, () => {
+      blip();
+      menu();
+    }, 'sh-btn-back');
+
+    actions.append(startBtn, backBtn);
+
+    container.append(hdr, roster, dossier, diffPanel, actions);
+    screen(container);
   }
 
   // ---- global map ----
