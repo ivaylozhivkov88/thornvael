@@ -124,20 +124,20 @@
     {
       "path": "public/audio/music_battle.m4a",
       "license": "own",
-      "source": "tools/gen-diablo-soundtrack.py",
-      "note": "Procedural combat soundtrack (Chaos Sanctum) synthesized via physical modeling and encoded as AAC"
+      "source": "Procedural synthesis by the assistant (numpy physical modeling, AAC via FFmpeg); original generator script was not preserved in the repo, regeneration tool pending",
+      "note": "Procedural combat soundtrack synthesized via physical modeling and encoded as AAC"
     },
     {
       "path": "public/audio/music_explore.m4a",
       "license": "own",
-      "source": "tools/gen-diablo-soundtrack.py",
-      "note": "Procedural wilderness soundtrack (The Ashen Glade) synthesized via physical modeling and encoded as AAC"
+      "source": "Procedural synthesis by the assistant (numpy physical modeling, AAC via FFmpeg); original generator script was not preserved in the repo, regeneration tool pending",
+      "note": "Procedural wilderness soundtrack synthesized via physical modeling and encoded as AAC"
     },
     {
       "path": "public/audio/music_town.m4a",
       "license": "own",
-      "source": "tools/gen-diablo-soundtrack.py",
-      "note": "Procedural sanctuary soundtrack (Thornwick Sanctuary) synthesized via physical modeling and encoded as AAC"
+      "source": "Procedural synthesis by the assistant (numpy physical modeling, AAC via FFmpeg); original generator script was not preserved in the repo, regeneration tool pending",
+      "note": "Procedural sanctuary soundtrack synthesized via physical modeling and encoded as AAC"
     },
     {
       "path": "public/audio/nomana.m4a",
