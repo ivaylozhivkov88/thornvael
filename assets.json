@@ -900,6 +900,24 @@
       "note": "AI-generated painted art, 2026-11-13; style-only inspiration, no reference image used"
     },
     {
+      "path": "public/townart/doll/mage-m-boots-tall.png",
+      "license": "own",
+      "source": "Gemini image generation (user subscription), original text prompt, resized with Pillow",
+      "note": "AI-generated painted art, 2026-11-13; style-only inspiration, no reference image used"
+    },
+    {
+      "path": "public/townart/doll/mage-m-gloves-rune.png",
+      "license": "own",
+      "source": "Gemini image generation (user subscription), original text prompt, resized with Pillow",
+      "note": "AI-generated painted art, 2026-11-13; style-only inspiration, no reference image used"
+    },
+    {
+      "path": "public/townart/doll/mage-m-staff-crystal.png",
+      "license": "own",
+      "source": "Gemini image generation (user subscription), original text prompt, resized with Pillow",
+      "note": "AI-generated painted art, 2026-11-13; style-only inspiration, no reference image used"
+    },
+    {
       "path": "public/townart/doll/mage-m-armor.png",
       "license": "own",
       "source": "Gemini image generation (user subscription), original text prompt, resized with Pillow",
