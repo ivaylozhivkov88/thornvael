@@ -21,6 +21,7 @@ const SETS: Record<string, DollSet> = {
       'armor': { file: 'warrior-f-armor-plate.png', x: 33.81, y: 16.44, w: 36.07, h: 39.96 },
       'boots': { file: 'warrior-f-boots-riveted.png', x: 32.62, y: 71.32, w: 35.15, h: 25.79 },
       'gloves': { file: 'warrior-f-gloves-gauntlet.png', x: 29.3, y: 40.5, w: 41.67, h: 19.54 },
+      'weapon': { file: 'warrior-f-sword-long.png', x: 18.82, y: 44.04, w: 19.76, h: 44.12 },
       'helm': { file: 'warrior-f-helm-crest.png', x: 43.26, y: 1.91, w: 18.31, h: 19.06 },
     },
   },
