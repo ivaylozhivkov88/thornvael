@@ -47,7 +47,7 @@ test.describe('campaign shell, skirmish list, and story slideshows', () => {
     await page.setViewportSize({ width: 844, height: 390 });
     await page.goto('/thornvael/');
     await page.locator('#shell').getByRole('button', { name: 'New game' }).click();
-    await page.locator('#shell').getByRole('button', { name: /^(Start|Begin)$/i }).click();
+    await page.locator('#shell').getByRole('button', { name: /(Begin Campaign|Start|Begin)/i }).click();
 
     for (const act of [1, 2, 3, 4]) {
       await page.locator('#shell .sh-bar').getByRole('button', { name: new RegExp(`^Act ${act}`) }).click();

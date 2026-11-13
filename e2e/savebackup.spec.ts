@@ -28,11 +28,20 @@ async function storage(page: Page, campaign?: CampaignRecord): Promise<Record<st
 }
 
 async function newCampaign(page: Page, mage: boolean): Promise<CampaignRecord> {
-  await page.getByRole('button', { name: 'New Game', exact: true }).click();
-  await page.getByRole('button', { name: mage ? 'Mage' : 'Warrior', exact: true }).click();
-  await page.getByRole('button', { name: mage ? 'Female' : 'Male', exact: true }).click();
-  await page.getByRole('button', { name: mage ? 'Hard' : 'Easy', exact: true }).click();
-  await page.getByRole('button', { name: 'Start', exact: true }).click();
+  await page.getByRole('button', { name: /New Game/i }).click();
+  const campfireChampion = page.locator(mage ? '.champion-f-mage, .champion-m-mage' : '.champion-m-warrior, .champion-f-warrior');
+  if (await campfireChampion.first().isVisible().catch(() => false)) {
+    await campfireChampion.first().click();
+    await page.getByRole('button', { name: mage ? 'Hard' : 'Easy', exact: true }).click();
+    await page.getByRole('button', { name: /(Begin Campaign|Start|Begin)/i }).click();
+  } else {
+    await page.getByRole('button', { name: mage ? 'Mage' : 'Warrior', exact: true }).click();
+    if (await page.getByRole('button', { name: mage ? 'Female' : 'Male', exact: true }).isVisible().catch(() => false)) {
+      await page.getByRole('button', { name: mage ? 'Female' : 'Male', exact: true }).click();
+    }
+    await page.getByRole('button', { name: mage ? 'Hard' : 'Easy', exact: true }).click();
+    await page.getByRole('button', { name: /(Start|Begin Campaign|Begin)/i }).click();
+  }
   await expect(page.locator('.sh-map')).toBeVisible();
   return (await storage(page)).campaign as CampaignRecord;
 }
