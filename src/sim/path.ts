@@ -48,6 +48,19 @@ export function speedPct(map: GameMap, tx: number, ty: number): number {
   return isBlockedAt(map, tx, ty) ? 0 : TERRAIN_SPEED_PCT[map.terrain[ty * map.w + tx]] || 100;
 }
 
+/**
+ * Detects whether a tile is in a narrow passage or bottleneck (corridor, bridge, door).
+ * Walkable tile bordered by opposing impassable walls (north & south, or east & west).
+ */
+export function isChokepoint(map: GameMap, tx: number, ty: number): boolean {
+  if (isBlockedAt(map, tx, ty)) return false;
+  const n = isBlockedAt(map, tx, ty - 1);
+  const s = isBlockedAt(map, tx, ty + 1);
+  const w = isBlockedAt(map, tx - 1, ty);
+  const e = isBlockedAt(map, tx + 1, ty);
+  return (n && s) || (w && e);
+}
+
 function rayClear(map: GameMap, x0: number, y0: number, x1: number, y1: number): boolean {
   const { w, h, blocked } = map;
   const tx0 = x0 >> 8;

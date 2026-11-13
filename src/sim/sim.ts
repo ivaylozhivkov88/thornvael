@@ -5,7 +5,7 @@ import { CombatState, DEFS, Ord, POOLS, enemyNear, lootPos, nearestLoot, think, 
 import { cloneHero, hashHero, heroCommand, type HeroCommand, type HeroState } from './hero';
 import { NST, SPELLS, St, Tk } from './spelldata';
 import { addStatus, knows, resolveTarget, statusSpeed } from './spells';
-import { FP, Pather, dir16, lineClear, regionsOf, speedPct } from './path';
+import { FP, Pather, dir16, isChokepoint, lineClear, regionsOf, speedPct } from './path';
 import { Rng } from './rng';
 import type { ScriptRuntime, ScriptState } from './script';
 import { buildTowns, checkQuests, cloneTown, hashTown, newTownState, townCommand, type TownCommand, type TownDef, type TownRt, type TownState } from './town';
@@ -1108,7 +1108,15 @@ export class Sim {
     else if (s >= STUCK_REPATH && this.pathId[i] >= 0 && this.repaths[i] < 4 && this.budget > 0) {
       this.repath(i);
       this.stuck[i] = 0;
-    } else if (s >= STUCK_GIVE_UP) this.finish(i);
+    } else if (s >= STUCK_GIVE_UP) {
+      // Never give up while occupying a narrow bottleneck or chokepoint
+      if (isChokepoint(this.map, this.x[i] >> 8, this.y[i] >> 8)) {
+        this.stuck[i] = 0;
+        this.repaths[i] = 0;
+      } else {
+        this.finish(i);
+      }
+    }
   }
 
   private blockedAt(fx: number, fy: number): boolean {
