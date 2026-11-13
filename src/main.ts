@@ -43,6 +43,9 @@ import { S } from './strings';
 import { readPreferences, writePreference } from './preferences';
 import { DoubleTap, PortraitStrip, RadialMenu, portraitIds, unitsOfKind, type RadialOrder } from './touchx';
 import { monsterInfo } from './monster-info';
+import { CameraController } from './camera';
+import { LootOverlayManager } from './loot-overlay';
+import { HudController, getBeltPotions as getBeltPotionsHelper, BELT_COOLDOWN_MS } from './hud-controller';
 import { discoverItem, onDiscovery } from './codex';
 import { SpellbookUi } from './spellbookui';
 import { PauseMenu } from './pausemenu';
@@ -256,6 +259,7 @@ try {
 }
 
 const renderer = new Renderer($('game') as HTMLCanvasElement, map);
+const cameraController = new CameraController({ viewW: renderer.viewW, viewH: renderer.viewH, zoom: renderer.zoom, camX: renderer.camX, camY: renderer.camY });
 const preferences = readPreferences();
 renderer.quality = preferences.quality;
 let autoRecenter = localStorage.getItem('thornvael.autoRecenter') === 'true';
@@ -408,122 +412,25 @@ function useItemSlot(id: number): void {
   queue({ type: 'hero', op: 'use', item: id });
 }
 
-function getBeltPotions(): {
-  heal: { id: number; count: number };
-  mana: { id: number; count: number };
-  greater: { id: number; count: number };
-  buff: { id: number; count: number };
-} {
-  let healId = -1, healCount = 0;
-  let manaId = -1, manaCount = 0;
-  let greaterId = -1, greaterCount = 0;
-  let buffId = -1, buffCount = 0;
-
-  if (sim.hero) {
-    for (const s of sim.hero.inv) {
-      if (s.n <= 0) continue;
-      const def = getItemDef(s.item);
-      if (!def || def.kind !== Ik.Potion) continue;
-      if (def.heal > 0) {
-        if (def.heal > 60) {
-          if (greaterId < 0) greaterId = s.item;
-          greaterCount += s.n;
-        } else {
-          if (healId < 0) healId = s.item;
-          healCount += s.n;
-        }
-      } else if (def.restore > 0) {
-        if (def.restore > 50) {
-          if (buffId < 0) buffId = s.item;
-          buffCount += s.n;
-        } else {
-          if (manaId < 0) manaId = s.item;
-          manaCount += s.n;
-        }
-      } else if (def.grow) {
-        if (buffId < 0) buffId = s.item;
-        buffCount += s.n;
-      }
-    }
-  }
-  if (healId < 0 && greaterId >= 0) {
-    healId = greaterId;
-    healCount = greaterCount;
-  }
-  if (greaterId < 0 && healId >= 0) {
-    greaterId = healId;
-    greaterCount = healCount;
-  }
-  if (manaId < 0 && buffId >= 0) {
-    manaId = buffId;
-    manaCount = buffCount;
-  }
-  return {
-    heal: { id: healId, count: healCount },
-    mana: { id: manaId, count: manaCount },
-    greater: { id: greaterId, count: greaterCount },
-    buff: { id: buffId, count: buffCount },
-  };
+function getBeltPotions() {
+  return getBeltPotionsHelper(sim.hero);
 }
 
-const BELT_COOLDOWN_MS = 1200;
-const beltCooldowns = [0, 0, 0, 0, 0];
+const hudController = new HudController({
+  getSim: () => sim,
+  isOutcome: () => Boolean(outcome),
+  toast: (m) => toast(m),
+  useItemSlot: (id) => useItemSlot(id),
+  playSfx: (name, bus) => play(name === 'potion_drink' ? pickPotionDrink() : name, bus),
+  addFloater: (text, x, y, color) => renderer.feel.addDamageFloater(text, x, y, color, true, true, performance.now()),
+  toggleHeroUi: () => { heroUi.toggle(); blip(); },
+  openSpellbook: () => openBook(-1),
+  getCurSpell: () => curSpell,
+  getQuickSlots: () => slots,
+});
 
 function drinkBelt(slot: number): void {
-  if (outcome) return;
-  if (!sim.hero) {
-    toast(S.hero.noHero);
-    return;
-  }
-  const now = performance.now();
-  if (now < beltCooldowns[slot]) {
-    toast('Potion on cooldown');
-    return;
-  }
-  const belt = getBeltPotions();
-  let targetId = -1;
-  let label = '';
-  if (slot === 1) {
-    targetId = belt.heal.id;
-    label = 'Healing Draught';
-  } else if (slot === 2) {
-    targetId = belt.mana.id;
-    label = 'Mana Draught';
-  } else if (slot === 3) {
-    targetId = belt.greater.id >= 0 ? belt.greater.id : belt.heal.id;
-    label = 'Greater Healing / Rejuvenation Draught';
-  } else if (slot === 4) {
-    targetId = belt.buff.id >= 0 ? belt.buff.id : belt.mana.id;
-    label = 'Elixir / Mana Draught';
-  }
-
-  if (targetId < 0 || itemCount(targetId) === 0) {
-    toast(`No ${label} available.`);
-    return;
-  }
-
-  beltCooldowns[slot] = now + BELT_COOLDOWN_MS;
-  useItemSlot(targetId);
-  play(pickPotionDrink(), 4);
-  play(slot === 1 || slot === 3 ? 'heal' : 'buff', 5);
-
-  const k = TILE / FP;
-  const hx = sim.x[sim.hero.id] * k;
-  const hy = sim.y[sim.hero.id] * k - 28;
-  if (slot === 1 || slot === 3) {
-    renderer.feel.addDamageFloater('+HP', hx, hy, 0x33ff55, true, true, now);
-  } else {
-    renderer.feel.addDamageFloater('+MP', hx, hy, 0x44aaff, true, true, now);
-  }
-
-  const el = document.getElementById(`belt-slot-${slot}`);
-  if (el) {
-    el.classList.remove('pulse');
-    el.classList.add('cooldown');
-    setTimeout(() => el.classList.remove('cooldown'), BELT_COOLDOWN_MS);
-    void el.offsetWidth;
-    el.classList.add('pulse');
-  }
+  hudController.drinkBelt(slot);
 }
 
 // --- Diablo II Town Portal & Waypoint System ---
@@ -551,68 +458,24 @@ function castTownPortal(): void {
 }
 
 // --- Diablo II Style Ground Loot Overlay ---
+const lootOverlay = new LootOverlayManager();
 let altMobileToggle = false;
-const lootDropTimes = new Map<string, number>();
-const lastKnownLoot = new Set<string>();
-const lootBadges = new Map<string, HTMLDivElement>();
-let lootOverlayEl: HTMLElement | null = null;
-let btnAltEl: HTMLButtonElement | null = null;
 
 function ensureLootOverlay(): HTMLElement {
-  if (!lootOverlayEl) {
-    lootOverlayEl = document.getElementById('loot-overlay');
-    if (!lootOverlayEl) {
-      lootOverlayEl = document.createElement('div');
-      lootOverlayEl.id = 'loot-overlay';
-      document.body.appendChild(lootOverlayEl);
-    }
-  }
-  return lootOverlayEl;
+  return lootOverlay.ensureLootOverlay();
 }
 
 function updateAltButtonStates(active: boolean): void {
-  const btn1 = document.getElementById('btn-alt-loot');
-  if (btn1) {
-    btn1.classList.toggle('on', active);
-    btn1.setAttribute('aria-pressed', String(active));
-  }
-  const btn2 = document.getElementById('btn-alt');
-  if (btn2) {
-    btn2.classList.toggle('on', active);
-    btn2.setAttribute('aria-pressed', String(active));
-  }
+  lootOverlay.updateAltButtonStates(active);
 }
 
 function toggleLootMode(): void {
-  altMobileToggle = !altMobileToggle;
-  updateAltButtonStates(mods.alt || altMobileToggle);
-  if (altMobileToggle) {
-    toast('👁 Loot highlight active [ALT]');
-  } else {
-    toast('Loot highlight off');
-  }
+  lootOverlay.toggleLootMode(mods.alt, toast);
+  altMobileToggle = lootOverlay.altMobileToggle;
 }
 
 function initAltButton(): void {
-  btnAltEl = document.getElementById('btn-alt') as HTMLButtonElement | null;
-  if (!btnAltEl) {
-    btnAltEl = document.createElement('button');
-    btnAltEl.id = 'btn-alt';
-    btnAltEl.className = 'btn-alt';
-    btnAltEl.setAttribute('aria-pressed', 'false');
-    btnAltEl.title = 'Toggle Loot Overlay (ALT)';
-    btnAltEl.textContent = '👁 ALT';
-    const minimapEl = document.getElementById('minimap');
-    if (minimapEl && minimapEl.parentNode) {
-      minimapEl.parentNode.insertBefore(btnAltEl, minimapEl.nextSibling);
-    } else {
-      document.body.appendChild(btnAltEl);
-    }
-  }
-  btnAltEl.onclick = (e) => {
-    e.stopPropagation();
-    toggleLootMode();
-  };
+  lootOverlay.initAltButton(() => toggleLootMode());
 }
 
 function orderPickupLoot(code: number): void {
@@ -632,184 +495,15 @@ function orderPickupLoot(code: number): void {
   blip();
 }
 
-interface VisibleLootItem {
-  key: string;
-  code: number;
-  text: string;
-  cssClass: string;
-  sx: number;
-  sy: number;
-}
-
 function updateLootOverlay(now: number): void {
-  if (townUi.open) {
-    for (const el of lootBadges.values()) el.style.display = 'none';
-    return;
-  }
-
-  const cb = sim.cb;
-  const mw = sim.map.w;
-  const mh = sim.map.h;
-  const currentActiveKeys = new Set<string>();
-
-  // Track active gold sacks
-  for (let s = 0; s < cb.sG.length; s++) {
-    if (cb.sG[s] <= 0) continue;
-    const key = 's' + s;
-    currentActiveKeys.add(key);
-    if (!lastKnownLoot.has(key)) {
-      lootDropTimes.set(key, now);
-      lastKnownLoot.add(key);
-    }
-  }
-
-  // Track active item bags
-  for (let b = 0; b < cb.bI.length; b++) {
-    if (cb.bI[b] <= 0) continue;
-    const key = 'b' + b;
-    currentActiveKeys.add(key);
-    if (!lastKnownLoot.has(key)) {
-      lootDropTimes.set(key, now);
-      lastKnownLoot.add(key);
-    }
-  }
-
-  // Clean up inactive loot
-  for (const k of lastKnownLoot) {
-    if (!currentActiveKeys.has(k)) {
-      lastKnownLoot.delete(k);
-      lootDropTimes.delete(k);
-      const el = lootBadges.get(k);
-      if (el) {
-        el.remove();
-        lootBadges.delete(k);
-      }
-    }
-  }
-
-  const isAltActive = mods.alt || altMobileToggle;
-  updateAltButtonStates(isAltActive);
-
-  const itemsToRender: VisibleLootItem[] = [];
-
-  // 1. Gold sacks on explored ground
-  for (let s = 0; s < cb.sG.length; s++) {
-    const gold = cb.sG[s];
-    if (gold <= 0) continue;
-    const tx = Math.floor(cb.sX[s] / FP);
-    const ty = Math.floor(cb.sY[s] / FP);
-    if (tx < 0 || tx >= mw || ty < 0 || ty >= mh) continue;
-    if (!sim.explored[ty * mw + tx]) continue;
-
-    const key = 's' + s;
-    const dropTime = lootDropTimes.get(key) ?? 0;
-    const isRecent = (now - dropTime) < 3500;
-    if (!isAltActive && !isRecent) continue;
-
-    const pt = renderer.pointScreen(cb.sX[s], cb.sY[s]);
-    if (!pt) continue;
-    const [sx, sy] = pt;
-    if (sx < -120 || sy < -60 || sx > window.innerWidth + 120 || sy > window.innerHeight + 60) continue;
-
-    itemsToRender.push({
-      key,
-      code: s,
-      text: `[ ${gold} Gold ]`,
-      cssClass: 'd2-loot-label d2-loot-gold',
-      sx,
-      sy,
-    });
-  }
-
-  // 2. Item bags on explored ground
-  for (let b = 0; b < cb.bI.length; b++) {
-    const itemCode = cb.bI[b];
-    if (itemCode <= 0) continue;
-    const tx = Math.floor(cb.bX[b] / FP);
-    const ty = Math.floor(cb.bY[b] / FP);
-    if (tx < 0 || tx >= mw || ty < 0 || ty >= mh) continue;
-    if (!sim.explored[ty * mw + tx]) continue;
-
-    const key = 'b' + b;
-    const dropTime = lootDropTimes.get(key) ?? 0;
-    const isRecent = (now - dropTime) < 3500;
-    if (!isAltActive && !isRecent) continue;
-
-    const pt = renderer.pointScreen(cb.bX[b], cb.bY[b]);
-    if (!pt) continue;
-    const [sx, sy] = pt;
-    if (sx < -120 || sy < -60 || sx > window.innerWidth + 120 || sy > window.innerHeight + 60) continue;
-
-    const itemId = itemCode - 1;
-    const def = sim.getItemDef(itemId) ?? getItemDef(itemId);
-    const rarity = def ? itemRarity(def) : 'normal';
-    const name = def?.name ?? 'Item';
-
-    itemsToRender.push({
-      key,
-      code: POOLS.sacks + b,
-      text: name,
-      cssClass: `d2-loot-label d2-loot-${rarity}`,
-      sx,
-      sy,
-    });
-  }
-
-  // Stagger overlapping labels vertically
-  itemsToRender.sort((a, b) => a.sy - b.sy || a.sx - b.sx);
-
-  const placedRects: { x: number; y: number; w: number; h: number }[] = [];
-  const overlay = ensureLootOverlay();
-  const visibleKeys = new Set<string>();
-
-  for (const item of itemsToRender) {
-    visibleKeys.add(item.key);
-    let el = lootBadges.get(item.key);
-    if (!el) {
-      el = document.createElement('div');
-      el.dataset.code = String(item.code);
-      const onPick = (e: Event): void => {
-        e.stopPropagation();
-        e.preventDefault();
-        orderPickupLoot(Number(el!.dataset.code));
-      };
-      el.addEventListener('pointerdown', onPick);
-      el.addEventListener('click', onPick);
-      overlay.appendChild(el);
-      lootBadges.set(item.key, el);
-    }
-
-    el.className = item.cssClass;
-    if (el.textContent !== item.text) el.textContent = item.text;
-    el.dataset.code = String(item.code);
-
-    const approxW = Math.max(60, item.text.length * 7.5 + 16);
-    const approxH = 18;
-    let curY = item.sy;
-
-    for (let attempts = 0; attempts < 10; attempts++) {
-      let collided = false;
-      for (const p of placedRects) {
-        if (Math.abs(item.sx - p.x) < (approxW + p.w) * 0.48 && Math.abs(curY - p.y) < 18) {
-          curY = p.y - 19;
-          collided = true;
-          break;
-        }
-      }
-      if (!collided) break;
-    }
-
-    placedRects.push({ x: item.sx, y: curY, w: approxW, h: approxH });
-    el.style.left = `${Math.round(item.sx)}px`;
-    el.style.top = `${Math.round(curY)}px`;
-    el.style.display = '';
-  }
-
-  for (const [k, el] of lootBadges) {
-    if (!visibleKeys.has(k)) {
-      el.style.display = 'none';
-    }
-  }
+  lootOverlay.update(
+    now,
+    sim,
+    (fx, fy) => renderer.pointScreen(fx, fy),
+    townUi.open,
+    mods.alt,
+    (code) => orderPickupLoot(code),
+  );
 }
 
 function toggleQuestLog(): void {
@@ -2758,43 +2452,40 @@ function frame(): void {
 
   // Edge pan: gently shift camera when mouse is within 15px of screen border in desktop mode
   if (pointerAt && !hidden && !userPause) {
-    const EDGE = 15;
-    const edgeSpeed = 8;
-    let edgeDx = 0;
-    let edgeDy = 0;
-    if (pointerAt[0] <= EDGE) edgeDx += 1;
-    else if (pointerAt[0] >= renderer.viewW - EDGE) edgeDx -= 1;
-    if (pointerAt[1] <= EDGE) edgeDy += 1;
-    else if (pointerAt[1] >= renderer.viewH - EDGE) edgeDy -= 1;
-
-    if (edgeDx !== 0 || edgeDy !== 0) {
+    cameraController.viewW = renderer.viewW;
+    cameraController.viewH = renderer.viewH;
+    cameraController.camX = renderer.camX;
+    cameraController.camY = renderer.camY;
+    if (cameraController.edgePan(pointerAt[0], pointerAt[1])) {
       cameraFollow = false;
-      renderer.pan(edgeDx * edgeSpeed, edgeDy * edgeSpeed);
+      renderer.camX = cameraController.camX;
+      renderer.camY = cameraController.camY;
     }
   }
 
   // In classic mouse mode, arrow keys pan the camera
   if (controlMode === 'mouse') {
-    const speed = 10;
-    const kx = (keys.has('arrowleft') ? 1 : 0) - (keys.has('arrowright') ? 1 : 0);
-    const ky = (keys.has('arrowup') ? 1 : 0) - (keys.has('arrowdown') ? 1 : 0);
-    if (kx || ky) {
+    cameraController.camX = renderer.camX;
+    cameraController.camY = renderer.camY;
+    if (cameraController.keyPan(keys)) {
       cameraFollow = false;
-      renderer.pan(kx * speed, ky * speed);
+      renderer.camX = cameraController.camX;
+      renderer.camY = cameraController.camY;
     }
   }
 
   // Camera Auto-Follow: smoothly center on the hero's position
   if ((cameraFollow || autoRecenter) && sim.count > 0 && alive(0)) {
-    const targetCamX = px(sim, 0) * TILE * renderer.zoom - renderer.viewW / 2;
-    const targetCamY = py(sim, 0) * TILE * renderer.zoom - renderer.viewH / 2;
-    const factor = 0.2; // lerp ~0.15 - 0.25
-    if (Math.abs(targetCamX - renderer.camX) < 1) renderer.camX = targetCamX;
-    else renderer.camX += (targetCamX - renderer.camX) * factor;
-
-    if (Math.abs(targetCamY - renderer.camY) < 1) renderer.camY = targetCamY;
-    else renderer.camY += (targetCamY - renderer.camY) * factor;
-
+    cameraController.camX = renderer.camX;
+    cameraController.camY = renderer.camY;
+    cameraController.zoom = renderer.zoom;
+    cameraController.viewW = renderer.viewW;
+    cameraController.viewH = renderer.viewH;
+    cameraController.cameraFollow = cameraFollow;
+    cameraController.autoRecenter = autoRecenter;
+    cameraController.followHero(px(sim, 0), py(sim, 0));
+    renderer.camX = cameraController.camX;
+    renderer.camY = cameraController.camY;
     renderer.clamp();
   }
   const age = ping ? (now - ping.t) / 600 : 2;
