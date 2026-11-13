@@ -8,6 +8,8 @@ const SETS: Record<string, DollSet> = {
     base: 'warrior-m-base.jpg',
     layers: {
       'armor-plate': { file: 'warrior-m-armor-plate.png', x: 33.54, y: 17.5, w: 36.1, h: 28.17 },
+      'shield-round': { file: 'warrior-m-shield-round.png', x: 54.52, y: 35.46, w: 24.33, h: 25.58 },
+      'helm-plume': { file: 'warrior-m-helm-plume.png', x: 40.96, y: 2.33, w: 26.06, h: 21.46 },
     },
   },
 };
@@ -19,6 +21,8 @@ export function dollSet(cls: number, female: boolean): DollSet | null {
 /** Which layer key a slot/tier shows for this set, or null when no painted look exists yet. */
 export function lookFor(set: DollSet, slot: number, _tier: number): string | null {
   if (slot === 3 && set.layers['armor-plate']) return 'armor-plate';
+  if (slot === 1 && set.layers['shield-round']) return 'shield-round';
+  if (slot === 2 && set.layers['helm-plume']) return 'helm-plume';
   return null;
 }
 
