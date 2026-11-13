@@ -2787,7 +2787,7 @@ void renderer.init(sim).then(() => {
     cameraFollow: () => cameraFollow,
     setCameraFollow: (on: boolean) => { cameraFollow = on; },
   };
-});
+}).catch((e) => { console.error('renderer init failed', e); });
 
 // HUD: keep --hud-top just under the (possibly wrapped) top bar so quest tracker, objectives and minimap never overlap it.
 {

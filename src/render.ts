@@ -423,10 +423,10 @@ export class Renderer {
   }
 
   get viewW(): number {
-    return this.app.screen.width;
+    return this.app.renderer ? this.app.screen.width : (typeof window !== "undefined" ? window.innerWidth : 800);
   }
   get viewH(): number {
-    return this.app.screen.height;
+    return this.app.renderer ? this.app.screen.height : (typeof window !== "undefined" ? window.innerHeight : 600);
   }
 
   clamp(): void {
