@@ -289,12 +289,12 @@ export class TownUi {
     const set = dollSet(h.cls, h.female);
     let art: HTMLElement = image;
     if (set) {
-      const keys: string[] = [];
+      const keys: Array<{ key: string; tier: number }> = [];
       for (let slot = 0; slot < h.eq.length; slot++) {
         const item = slot === trySlot ? this.tryOn : h.eq[slot];
         const def = item >= 0 ? getItemDef(item) : undefined;
         const k = def ? lookFor(set, slot, def.tier ?? 1, def.name) : null;
-        if (k) keys.push(k);
+        if (k) keys.push({ key: k, tier: def?.tier ?? 1 });
       }
       art = buildDoll(set, keys, import.meta.env.BASE_URL);
     }

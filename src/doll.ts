@@ -62,21 +62,32 @@ export function lookFor(set: DollSet, slot: number, _tier: number, name?: string
   return set.layers[k] ? k : null;
 }
 
-export function buildDoll(set: DollSet, keys: string[], base: string): HTMLElement {
+/** Tier tint (item tier 1..5): rusty bronze, plain steel, bright, gilded, mystic violet. Layers stay shared. */
+const TIER_FILTER: Record<number, string> = {
+  1: 'sepia(.45) saturate(.8) brightness(.9)',
+  3: 'saturate(1.1) brightness(1.06)',
+  4: 'sepia(.35) saturate(1.8) hue-rotate(-12deg) brightness(1.1)',
+  5: 'saturate(1.5) hue-rotate(230deg) brightness(1.1)',
+};
+export const tierFilter = (tier: number): string => TIER_FILTER[tier] ?? '';
+
+export function buildDoll(set: DollSet, keys: Array<string | { key: string; tier: number }>, base: string): HTMLElement {
   const box = document.createElement('div');
   box.className = 'doll-stack';
   const img = document.createElement('img');
   img.src = `${base}townart/doll/${set.base}`;
   img.alt = '';
   box.append(img);
-  for (const k of keys) {
+  for (const e of keys) {
+    const k = typeof e === 'string' ? e : e.key;
     const l = set.layers[k];
     if (!l) continue;
     const o = document.createElement('img');
     o.className = 'doll-layer';
     o.src = `${base}townart/doll/${l.file}`;
     o.alt = '';
-    o.style.cssText = `left:${l.x}%;top:${l.y}%;width:${l.w}%;height:${l.h}%`;
+    const f = typeof e === 'string' ? '' : tierFilter(e.tier);
+    o.style.cssText = `left:${l.x}%;top:${l.y}%;width:${l.w}%;height:${l.h}%${f ? `;filter:${f}` : ''}`;
     box.append(o);
   }
   return box;
