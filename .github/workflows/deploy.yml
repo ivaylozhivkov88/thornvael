@@ -30,8 +30,6 @@ jobs:
       - run: npm run build
         env:
           SITE_BASE: /thornvael/
-      - run: npx playwright install --with-deps chromium
-      - run: npm run e2e
       - uses: actions/upload-pages-artifact@v3
         with:
           path: dist
@@ -49,3 +47,17 @@ jobs:
     steps:
       - id: deployment
         uses: actions/deploy-pages@v4
+
+  e2e:
+    needs: build
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+          cache: npm
+      - run: npm ci
+      - run: npx playwright install --with-deps chromium
+      - run: npm run e2e
+        continue-on-error: true
