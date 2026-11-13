@@ -183,7 +183,7 @@ export function formatItemTooltip(itemOrId: number | ItemDef, hero?: HeroState |
 export function renderItemTooltipDom(itemOrId: number | ItemDef, hero?: HeroState | null): HTMLElement {
   const d = typeof itemOrId === 'number' ? getItemDef(itemOrId) : itemOrId;
   const root = document.createElement('div');
-  root.className = 'item-tooltip-box diablo-card';
+  root.className = 'item-tooltip-box relic-card';
   if (!d) return root;
 
   const isSet = isSetItem(d.name);
@@ -392,6 +392,7 @@ export class HeroUi {
   private readonly feedback = el('p', 'hero-equipment-feedback');
   private readonly codexUi: CodexUi;
   private readonly cardTooltip: HTMLElement = el('div', 'hero-floating-card-tooltip');
+  private mobilePopover: HTMLElement | null = null;
 
   get drag(): Drag | null {
     return this.paperdoll.drag;
@@ -430,7 +431,8 @@ export class HeroUi {
     this.sheet.addEventListener('keydown', (e) => {
       if (e.key !== 'Escape') return;
       e.stopPropagation();
-      if (this.drag) this.cancelDrag(S.hero.dragCanceled);
+      if (this.mobilePopover) this.hideMobilePopover();
+      else if (this.drag) this.cancelDrag(S.hero.dragCanceled);
       else this.close();
     });
     document.addEventListener('visibilitychange', () => {
@@ -453,6 +455,7 @@ export class HeroUi {
   }
 
   private submit(intent: EquipmentIntent): void {
+    this.hideMobilePopover();
     this.paperdoll.submit(intent);
   }
 
@@ -475,6 +478,98 @@ export class HeroUi {
 
   private hideCardTooltip(): void {
     if (this.cardTooltip) this.cardTooltip.hidden = true;
+  }
+
+  hideMobilePopover(): void {
+    if (this.mobilePopover) {
+      this.mobilePopover.remove();
+      this.mobilePopover = null;
+    }
+  }
+
+  showMobilePopover(h: HeroState, sel: Sel): void {
+    this.hideMobilePopover();
+    const d = getItemDef(sel.item);
+    if (!d) return;
+
+    const overlay = el('div', 'hero-mobile-popover');
+    overlay.setAttribute('role', 'dialog');
+    overlay.setAttribute('aria-modal', 'true');
+    overlay.onclick = (e) => {
+      if (e.target === overlay) {
+        this.hideMobilePopover();
+      }
+    };
+
+    const dialog = el('div', 'hero-mobile-popover-content');
+    const body = el('div', 'hero-mobile-popover-body');
+
+    // Add item card / tooltip
+    body.append(renderItemTooltipDom(sel.item, h));
+
+    const intent = this.intent(sel);
+    const preview = equipmentPreview(h, this.ctx.sim().cb.hp[h.id] > 0, sel);
+    const why = preview?.why ?? (sel.from === 'inv' ? blocker(h, sel.item) : 0);
+    if (why) {
+      body.append(el('div', 'note', `⚠ ${WHY_TEXT[why]}`));
+    }
+    if (preview && preview.replacement >= 0) {
+      body.append(el('p', 'note', `${S.hero.replaceEquipment} ${getItemDef(preview.replacement)?.name ?? ''}`));
+    }
+
+    const actions = el('div', 'hero-mobile-popover-actions');
+
+    if (sel.from === 'eq') {
+      const unequipBtn = button(`🛡 ${S.hero.unequip}`, 'act-popover-unequip', () => {
+        this.hideMobilePopover();
+        if (intent) {
+          playPickupRustle();
+          this.submit(intent);
+        }
+      });
+      unequipBtn.className = 'btn-unequip-hero';
+      actions.append(unequipBtn);
+    } else {
+      // In inventory
+      if (preview) {
+        const isMetal = d ? (d.tier >= 3 || /sword|blade|iron|steel|plate|mail|shield|helm/i.test(d.name)) : true;
+        const equipBtn = button(`⚔ ${S.hero.equip}`, 'act-popover-equip', () => {
+          this.hideMobilePopover();
+          if (intent && !why) {
+            playEquipSfx(isMetal);
+            this.submit(intent);
+          }
+        });
+        equipBtn.className = 'btn-equip-hero';
+        equipBtn.disabled = !intent || why !== 0;
+        actions.append(equipBtn);
+      } else {
+        const useBtn = button(`✨ ${d.kind === Ik.Learn ? S.hero.learn : S.hero.use}`, 'act-popover-use', () => {
+          this.hideMobilePopover();
+          this.act({ type: 'hero', op: 'use', item: sel.item });
+        });
+        useBtn.className = 'btn-use-hero';
+        useBtn.disabled = why !== 0;
+        actions.append(useBtn);
+      }
+      const dropBtn = button(`🗑 ${S.hero.drop}`, 'act-popover-drop', () => {
+        this.hideMobilePopover();
+        this.act({ type: 'hero', op: 'drop', item: sel.item });
+      });
+      dropBtn.className = 'btn-drop-hero';
+      actions.append(dropBtn);
+    }
+
+    const closeBtn = button(S.hero.close, 'act-popover-close', () => {
+      this.hideMobilePopover();
+    });
+    closeBtn.className = 'btn-close-hero';
+    actions.append(closeBtn);
+
+    dialog.append(body, actions);
+    overlay.append(dialog);
+    document.body.append(overlay);
+    this.mobilePopover = overlay;
   }
 
   private cancelDrag(message = ''): void {
@@ -505,6 +600,7 @@ export class HeroUi {
   }
 
   close(): void {
+    this.hideMobilePopover();
     this.cancelDrag();
     this.hideCardTooltip();
     this.sheet.hidden = true;
@@ -516,6 +612,7 @@ export class HeroUi {
   }
 
   private go(n: number): void {
+    this.hideMobilePopover();
     if (n === 2) {
       this.close();
       this.ctx.openBook();
@@ -534,6 +631,7 @@ export class HeroUi {
   }
 
   private act(c: Command): void {
+    this.hideMobilePopover();
     this.ctx.queue(c);
     window.setTimeout(() => this.refresh(true), 160);
   }
@@ -559,7 +657,7 @@ export class HeroUi {
     canceled ||= this.drag?.ghost != null;
     this.cancelDrag();
     this.sig = sig;
-    const statsOpen = this.body.querySelector<HTMLDetailsElement>('.hero-stats')?.open ?? (this.tab === 'hero' && innerWidth > 650);
+    const statsOpen = this.body.querySelector<HTMLDetailsElement>('.hero-stats')?.open ?? (this.tab === 'hero' && (typeof window !== 'undefined' ? window.innerWidth : 800) > 650);
     const focus = (document.activeElement as HTMLElement | null)?.dataset?.k;
     this.head.replaceChildren();
     const info = el('span', '', `${S.hero.classes[h.cls]}, ${S.hero.sexes[h.female ? 1 : 0].toLowerCase()} · ${DIFF_NAMES[h.diff]}`);
@@ -864,6 +962,9 @@ export class HeroUi {
         this.sel = this.sel?.from === 'eq' && this.sel.slot === s ? null : { from: 'eq', item: id, slot: s };
         if (this.sel) playPickupRustle();
         this.render(true);
+        if (this.sel && typeof window !== 'undefined' && (window.innerWidth <= 650 || ('ontouchstart' in window))) {
+          this.showMobilePopover(h, this.sel);
+        }
       };
       bt.oncontextmenu = (e) => {
         if (id < 0) return;
@@ -920,6 +1021,21 @@ export class HeroUi {
     ring2Label.append(el('small', 'slot-empty-sub', S.hero.empty));
     ring2Bt.append(ring2Label);
     ring2Bt.title = 'Finger 2 (Ring): Secondary ring finger';
+    ring2Bt.onclick = () => {
+      if (this.sel && this.sel.from === 'inv') {
+        const intent = this.intent(this.sel);
+        if (intent) {
+          const preview = this.preview(intent);
+          if (preview && preview.target === 'eq5' && !preview.why) {
+            const def = getItemDef(this.sel.item);
+            const isMetal = def ? (def.tier >= 3 || /sword|blade|iron|steel|plate|mail|shield|helm/i.test(def.name)) : true;
+            playEquipSfx(isMetal);
+            this.sel = null;
+            this.submit(intent);
+          }
+        }
+      }
+    };
     ring2Cell.append(ring2Bt);
     slots.append(ring2Cell);
 
@@ -970,6 +1086,9 @@ export class HeroUi {
         this.sel = this.sel?.from === 'inv' && this.sel.slot === n ? null : { from: 'inv', item: st.item, slot: n };
         if (this.sel) playPickupRustle();
         this.render(true);
+        if (this.sel && typeof window !== 'undefined' && (window.innerWidth <= 650 || ('ontouchstart' in window))) {
+          this.showMobilePopover(h, this.sel);
+        }
       }, `${S.hero.level} ${d.tier} · ${d.w * st.n} ${S.hero.weight.toLowerCase()}`);
       bt.oncontextmenu = (e) => {
         e.preventDefault();

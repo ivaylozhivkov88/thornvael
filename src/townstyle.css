@@ -869,7 +869,7 @@
    ========================================================================== */
 
 /* --- Diablo II Style Ornate Item Tooltip Card --- */
-.diablo-card {
+.relic-card {
   background: radial-gradient(ellipse at top, #1a140e 0%, #0d0a07 100%);
   border: 2px solid #8e6c35;
   box-shadow: inset 0 0 20px rgba(0,0,0,0.95), 0 6px 20px rgba(0,0,0,0.85), 0 0 0 1px #23160a;
@@ -880,7 +880,7 @@
   box-sizing: border-box;
 }
 
-.diablo-card .item-title {
+.relic-card .item-title {
   font-family: inherit;
   font-size: 15px;
   font-weight: bold;
@@ -889,23 +889,23 @@
   margin-bottom: 2px;
 }
 
-.diablo-card .item-title.rarity-normal {
+.relic-card .item-title.rarity-normal {
   color: #f1f5f9;
   text-shadow: 0 0 4px rgba(255,255,255,0.4);
 }
-.diablo-card .item-title.rarity-magic {
+.relic-card .item-title.rarity-magic {
   color: #60a5fa;
   text-shadow: 0 0 8px rgba(96,165,250,0.6);
 }
-.diablo-card .item-title.rarity-rare {
+.relic-card .item-title.rarity-rare {
   color: #fbbf24;
   text-shadow: 0 0 8px rgba(251,191,36,0.6);
 }
-.diablo-card .item-title.rarity-set {
+.relic-card .item-title.rarity-set {
   color: #22c55e;
   text-shadow: 0 0 8px rgba(34,197,94,0.6);
 }
-.diablo-card .item-title.rarity-unique {
+.relic-card .item-title.rarity-unique {
   color: #f97316;
   text-shadow: 0 0 8px rgba(249,115,22,0.6);
 }
@@ -1426,4 +1426,200 @@
   color: #d8b4fe;
   box-shadow: inset 0 0 8px rgba(147,51,234,0.3), 0 0 6px rgba(147,51,234,0.25);
 }
+
+/* =========================================================================
+   Pillar 5: Mobile Touch Paperdoll Ergonomics & UI Viewport Containment
+   ========================================================================= */
+
+@media (max-width: 650px) {
+  #sheet {
+    max-height: 100dvh;
+    height: 100dvh;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    padding: 6px calc(6px + env(safe-area-inset-right)) calc(6px + env(safe-area-inset-bottom)) calc(6px + env(safe-area-inset-left));
+    border-radius: 0;
+  }
+  #sheet > .sheet-head {
+    flex-shrink: 0;
+    margin-bottom: 4px;
+  }
+  #sheet > #sheet-body {
+    flex: 1;
+    min-height: 0;
+    overflow-y: auto;
+    overscroll-behavior: contain;
+  }
+  #sheet .hero-workspace {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 6px;
+  }
+  #sheet .hero-gear-board {
+    grid-template: repeat(4, minmax(46px, auto)) / minmax(80px, 1fr) minmax(105px, 1.2fr) minmax(80px, 1fr);
+    gap: 4px;
+    padding: 4px;
+  }
+  #sheet .hero-figure {
+    min-height: 185px;
+  }
+  /* Expand effective touch hitboxes for small slots (Rings, Amulets) to >= 48x48px */
+  #sheet .hero-gear-cell > button:first-child {
+    min-height: 48px;
+    min-width: 48px;
+  }
+  #sheet [data-equipment-target="eq5"] > button,
+  #sheet [data-equipment-target="eq5_alt"] > button,
+  #sheet [data-equipment-target="eq6"] > button {
+    position: relative;
+    min-width: 48px;
+    min-height: 48px;
+  }
+  #sheet [data-equipment-target="eq5"] > button::before,
+  #sheet [data-equipment-target="eq5_alt"] > button::before,
+  #sheet [data-equipment-target="eq6"] > button::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    min-width: 48px;
+    min-height: 48px;
+    width: 100%;
+    height: 100%;
+    pointer-events: auto;
+    z-index: 2;
+  }
+}
+
+@media (max-height: 500px) {
+  #sheet {
+    max-height: 100dvh;
+    height: 100dvh;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    padding-top: 4px;
+  }
+  #sheet > #sheet-body {
+    flex: 1;
+    min-height: 0;
+    overflow-y: auto;
+    overscroll-behavior: contain;
+  }
+  #sheet .hero-workspace {
+    grid-template-columns: minmax(0, 1.1fr) minmax(0, 1fr);
+    gap: 6px;
+  }
+  #sheet .hero-gear-board {
+    grid-template: repeat(4, minmax(38px, auto)) / minmax(75px, 1fr) minmax(95px, 1.2fr) minmax(75px, 1fr);
+    gap: 3px;
+    padding: 4px;
+  }
+  #sheet .hero-figure {
+    min-height: 150px;
+  }
+  #sheet .hero-gear-cell > button:first-child {
+    min-height: 38px;
+    padding: 2px 4px;
+  }
+}
+
+/* Mobile Touch Paperdoll Inspection Popover */
+.hero-mobile-popover {
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(8, 5, 3, 0.82);
+  backdrop-filter: blur(4px);
+  -webkit-backdrop-filter: blur(4px);
+  padding: 12px;
+  box-sizing: border-box;
+  animation: popoverFadeIn 0.15s ease-out;
+}
+@keyframes popoverFadeIn {
+  from { opacity: 0; transform: scale(0.96); }
+  to { opacity: 1; transform: scale(1); }
+}
+.hero-mobile-popover-content {
+  background: linear-gradient(160deg, #2a1c12 0%, #150e09 100%);
+  border: 2px solid #b8860b;
+  border-radius: 8px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.9), inset 0 1px 0 rgba(255, 215, 0, 0.2);
+  width: min(94vw, 420px);
+  max-height: min(88dvh, 560px);
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  box-sizing: border-box;
+}
+.hero-mobile-popover-body {
+  padding: 12px;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  flex: 1;
+}
+.hero-mobile-popover-actions {
+  display: flex;
+  gap: 8px;
+  padding: 10px 12px;
+  background: #140d08;
+  border-top: 1px solid #4a341d;
+  flex-shrink: 0;
+}
+.hero-mobile-popover-actions button {
+  flex: 1;
+  min-height: 48px;
+  font-size: 14px;
+  font-weight: bold;
+  border-radius: 4px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  transition: all 0.15s;
+}
+.btn-equip-hero {
+  background: linear-gradient(180deg, #4d7c0f 0%, #365314 100%) !important;
+  border: 1.5px solid #84cc16 !important;
+  color: #f7fee7 !important;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.5), inset 0 1px 0 rgba(255,255,255,0.2) !important;
+}
+.btn-equip-hero:active {
+  transform: translateY(1px);
+}
+.btn-equip-hero:disabled {
+  background: #27272a !important;
+  border-color: #52525b !important;
+  color: #a1a1aa !important;
+  opacity: 0.6 !important;
+  cursor: not-allowed !important;
+}
+.btn-unequip-hero {
+  background: linear-gradient(180deg, #991b1b 0%, #7f1d1d 100%) !important;
+  border: 1.5px solid #ef4444 !important;
+  color: #fef2f2 !important;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.5), inset 0 1px 0 rgba(255,255,255,0.2) !important;
+}
+.btn-use-hero {
+  background: linear-gradient(180deg, #1d4ed8 0%, #1e40af 100%) !important;
+  border: 1.5px solid #60a5fa !important;
+  color: #eff6ff !important;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.5), inset 0 1px 0 rgba(255,255,255,0.2) !important;
+}
+.btn-drop-hero {
+  background: linear-gradient(180deg, #57534e 0%, #292524 100%) !important;
+  border: 1.5px solid #78716c !important;
+  color: #f5f5f4 !important;
+}
+.btn-close-hero {
+  background: linear-gradient(180deg, #37281c 0%, #201710 100%) !important;
+  border: 1.5px solid #634726 !important;
+  color: #d6c6a8 !important;
+}
+
 
