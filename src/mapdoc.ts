@@ -5,7 +5,22 @@ import { MONSTER_FAMILIES, monsterFamilyById } from './sim/data';
 import { ITEMS } from './sim/items';
 import { SPELLS } from './sim/spelldata';
 import type { TownDef } from './sim/town';
-import { actionDef, checkDef, type MissionDef, type Param, type Ref, type Trigger } from './sim/script';
+import {
+  actionDef,
+  checkDef,
+  type MissionDef,
+  type Param,
+  type Ref,
+  type Trigger,
+  type WaypointDef,
+  type ZoneExitDef,
+  type AdventureObjectDef,
+  type AdventureObjectKind,
+  ADVENTURE_OBJECT_KINDS,
+} from './sim/script';
+
+export type { WaypointDef, ZoneExitDef, AdventureObjectDef, AdventureObjectKind };
+export { ADVENTURE_OBJECT_KINDS };
 
 /**
  * The map file. One JSON document holds terrain, objects, units, regions, the mission script and
@@ -18,7 +33,7 @@ import { actionDef, checkDef, type MissionDef, type Param, type Ref, type Trigge
 export const MAP_FORMAT = 'thornvael-map';
 export const MAP_VERSION = 2;
 export const MIN_SIDE = 16;
-export const MAX_SIDE = 128;
+export const MAX_SIDE = 1024;
 
 export const BOSS_MOD_IDS = [
   'fire_enchanted',
@@ -82,6 +97,12 @@ export interface MapDoc {
   towns?: TownDef[];
   /** Interactive shrines on the map (healing, mana, combat, armor, haste, ward). */
   shrines?: ShrineDef[];
+  /** Interactive waypoints on the map for fast travel between Town Hub and explored wilderness. */
+  waypoints?: WaypointDef[];
+  /** Seamless boundary exits / gates connecting to adjacent zones. */
+  exits?: ZoneExitDef[];
+  /** HoMM III style adventure objects (watermill, magic well, creature bank). */
+  adventureObjects?: AdventureObjectDef[];
 }
 
 export function rleEncode(a: ArrayLike<number>): number[] {
@@ -219,6 +240,19 @@ export function validate(doc: MapDoc): string[] {
     if (!SHRINE_KINDS.includes(s.kind as ShrineKind)) errs.push(`Shrine ${idx}: unknown kind "${s.kind}".`);
     if (s.cooldown !== undefined && (!isInt(s.cooldown) || s.cooldown <= 0)) errs.push(`Shrine ${idx}: cooldown must be a positive integer.`);
   });
+  (doc.waypoints ?? []).forEach((w, idx) => {
+    if (!isInt(w.x) || !isInt(w.y) || w.x < 0 || w.y < 0 || w.x >= doc.w || w.y >= doc.h) errs.push(`Waypoint ${idx}: outside the map.`);
+    if (!w.id) errs.push(`Waypoint ${idx}: missing id.`);
+  });
+  (doc.exits ?? []).forEach((e, idx) => {
+    if (!isInt(e.x) || !isInt(e.y) || e.x < 0 || e.y < 0 || e.x >= doc.w || e.y >= doc.h) errs.push(`Exit ${idx}: outside the map.`);
+    if (!e.targetMap) errs.push(`Exit ${idx}: missing targetMap.`);
+    if (!isInt(e.targetX) || !isInt(e.targetY)) errs.push(`Exit ${idx}: target coordinates must be integers.`);
+  });
+  (doc.adventureObjects ?? []).forEach((obj, idx) => {
+    if (!isInt(obj.x) || !isInt(obj.y) || obj.x < 0 || obj.y < 0 || obj.x >= doc.w || obj.y >= doc.h) errs.push(`Adventure Object ${idx}: outside the map.`);
+    if (!ADVENTURE_OBJECT_KINDS.includes(obj.kind as AdventureObjectKind)) errs.push(`Adventure Object ${idx}: unknown kind "${obj.kind}".`);
+  });
   doc.triggers.forEach((t, i) => {
     const where = `Trigger ${t.id || i}`;
     if (t.conds.length > 3) errs.push(`${where}: at most 3 conditions.`);
@@ -262,7 +296,17 @@ export function loadDoc(raw: unknown): LoadedMission {
   const scenario: Scenario = { teams: [], kinds: [], tiles: [], packs: [], tiers: [], families: [], bossMods: [] };
   const packs = new Map<number, number[]>();
   const groups: Record<number, number[]> = {};
-  const def: MissionDef = { triggers: doc.triggers, groups, vip: [], home: [], dormant: [], buildings: [] };
+  const def: MissionDef = {
+    triggers: doc.triggers,
+    groups,
+    vip: [],
+    home: [],
+    dormant: [],
+    buildings: [],
+    waypoints: doc.waypoints,
+    exits: doc.exits,
+    adventureObjects: doc.adventureObjects,
+  };
   doc.units.forEach((u, i) => {
     scenario.teams.push(u.team);
     scenario.kinds.push(u.kind);

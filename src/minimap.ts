@@ -17,13 +17,16 @@ export class Minimap {
   private readonly baseCtx: CanvasRenderingContext2D;
   private readonly img: ImageData;
   private fogSeen = -1;
+  private readonly scale: number;
 
   constructor(
     private readonly canvas: HTMLCanvasElement,
     private readonly map: GameMap,
   ) {
-    canvas.width = map.w * SCALE;
-    canvas.height = map.h * SCALE;
+    const maxDim = Math.max(map.w, map.h);
+    this.scale = maxDim > 128 ? Math.max(0.25, 256 / maxDim) : SCALE;
+    canvas.width = Math.round(map.w * this.scale);
+    canvas.height = Math.round(map.h * this.scale);
     this.ctx = canvas.getContext('2d')!;
     this.base = document.createElement('canvas');
     this.base.width = map.w;
@@ -49,31 +52,35 @@ export class Minimap {
       this.baseCtx.putImageData(img, 0, 0);
     }
     const g = this.ctx;
+    const s = this.scale;
     g.imageSmoothingEnabled = false;
-    g.drawImage(this.base, 0, 0, map.w * SCALE, map.h * SCALE);
+    g.drawImage(this.base, 0, 0, Math.round(map.w * s), Math.round(map.h * s));
     for (let i = 0; i < sim.count; i++) {
       const tx = Math.floor(sim.x[i] / FP);
       const ty = Math.floor(sim.y[i] / FP);
       const mine = sim.team[i] === 0;
       if (!mine && !sim.visible[ty * map.w + tx]) continue;
       g.fillStyle = i === 0 && mine ? '#ffd86a' : mine ? (selected.has(i) ? '#b8ff9a' : '#7ab8ff') : '#ff6a5a';
-      const px = (sim.x[i] / FP) * SCALE - 1;
-      const py = (sim.y[i] / FP) * SCALE - 1;
+      const px = (sim.x[i] / FP) * s - 1;
+      const py = (sim.y[i] / FP) * s - 1;
       g.fillRect(Math.round(px), Math.round(py), i === 0 && mine ? 4 : 2, i === 0 && mine ? 4 : 2);
     }
     g.strokeStyle = '#ffffff';
     g.lineWidth = 1;
     g.strokeRect(
-      Math.round(view.x0 * SCALE) + 0.5,
-      Math.round(view.y0 * SCALE) + 0.5,
-      Math.round((view.x1 - view.x0) * SCALE),
-      Math.round((view.y1 - view.y0) * SCALE),
+      Math.round(view.x0 * s) + 0.5,
+      Math.round(view.y0 * s) + 0.5,
+      Math.round((view.x1 - view.x0) * s),
+      Math.round((view.y1 - view.y0) * s),
     );
   }
 
   /** Map tile coordinates for a pointer position given in client pixels. */
   tileAt(clientX: number, clientY: number): [number, number] {
     const r = this.canvas.getBoundingClientRect();
-    return [((clientX - r.left) / r.width) * this.map.w, ((clientY - r.top) / r.height) * this.map.h];
+    return [
+      Math.max(0, Math.min(this.map.w - 1, ((clientX - r.left) / r.width) * this.map.w)),
+      Math.max(0, Math.min(this.map.h - 1, ((clientY - r.top) / r.height) * this.map.h)),
+    ];
   }
 }

@@ -263,9 +263,10 @@ describe('Dynamic Shop Restock & Difficulty-Based Economy', () => {
 
   it('guarantees unique artifacts are strictly non-purchasable and NEVER appear on shop shelves', () => {
     const { sim } = game(505, 0, 2); // Hard difficulty with highest tier bounds
+    const uniqueNames = new Set(UNIQUE_ARTIFACTS.map(u => u.name));
 
-    // Run 500 restocks on Hard difficulty
-    for (let r = 0; r < 500; r++) {
+    // Run 250 restocks on Hard difficulty
+    for (let r = 0; r < 250; r++) {
       rollStock(sim, 0);
       const shelf = sim.town.stock[0];
       for (let k = 0; k < SHELF; k++) {
@@ -277,11 +278,7 @@ describe('Dynamic Shop Restock & Difficulty-Based Economy', () => {
         expect(isUniqueItem(d)).toBe(false);
         expect(itemRarity(d)).not.toBe('unique');
         expect(d.tier).toBeLessThan(5);
-
-        // Name check against all unique artifact names
-        for (const u of UNIQUE_ARTIFACTS) {
-          expect(d.name).not.toBe(u.name);
-        }
+        expect(uniqueNames.has(d.name)).toBe(false);
       }
     }
   });

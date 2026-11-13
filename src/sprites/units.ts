@@ -85,7 +85,7 @@ export class UnitSprite extends Container {
     }
   }
 
-  update(tick: number, moving: boolean, dir: number, team: number, armour: number, level: number, stone: boolean, pose?: AnimationPose): void {
+  update(tick: number, moving: boolean, dir: number, team: number, armour: number, level: number, stone: boolean, pose?: AnimationPose, statusTint = 0): void {
     this.requestedClip = pose?.clip ?? (moving ? 'walk' : 'stand');
     this.resolvedClip = this.atlas.hasClip(this.requestedClip) ? this.requestedClip : moving ? 'walk' : 'stand';
     this.finished = pose?.finished ?? false;
@@ -98,9 +98,11 @@ export class UnitSprite extends Container {
       this.atlas.get(key).forEach((tex, i) => { this.layers[i].texture = tex; });
       this.frameKey = key;
     }
-    const pk = `${team}:${armour}:${level}:${stone}`;
+    const pk = `${team}:${armour}:${level}:${stone}:${statusTint}`;
     if (pk !== this.paletteKey) {
-      palette(team, armour, level).forEach((tint, i) => { this.layers[i].tint = stone ? 0x8a8a8a : tint; });
+      palette(team, armour, level).forEach((tint, i) => {
+        this.layers[i].tint = stone ? 0x8a8a8a : statusTint > 0 ? statusTint : tint;
+      });
       this.paletteKey = pk;
     }
   }

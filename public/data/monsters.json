@@ -13,25 +13,45 @@
     { "id": "mire-wisp", "name": "Mire Wisp", "batch": "A", "archetype": 6, "elem": 2, "baseHp": 32, "baseMin": 5, "baseMax": 9, "speed": 110, "ranged": true, "caster": true, "role": "Marsh ranged caster" },
     { "id": "ruin-mite", "name": "Ruin Mite", "batch": "A", "archetype": 4, "elem": 0, "baseHp": 36, "baseMin": 3, "baseMax": 7, "speed": 105, "ranged": false, "caster": false, "role": "Swarming burrower" },
     { "id": "thorn-boar", "name": "Thorn Boar", "batch": "A", "archetype": 4, "elem": 0, "baseHp": 64, "baseMin": 6, "baseMax": 11, "speed": 108, "ranged": false, "caster": false, "role": "Charging bruiser" },
+    { "id": "quill-fiend", "name": "Quill Fiend", "batch": "A", "archetype": 1, "elem": 0, "baseHp": 38, "baseMin": 5, "baseMax": 9, "speed": 105, "ranged": true, "caster": false, "role": "Rapid quill sniper" },
+    { "id": "fallen-shaman", "name": "Fallen Shaman", "batch": "A", "archetype": 3, "elem": 1, "baseHp": 46, "baseMin": 5, "baseMax": 9, "speed": 95, "ranged": true, "caster": true, "role": "Firebolt chanter & reviver" },
+
     { "id": "glasswing", "name": "Glasswing", "batch": "B", "archetype": 6, "elem": 3, "baseHp": 34, "baseMin": 6, "baseMax": 10, "speed": 125, "ranged": true, "caster": false, "role": "Swift air skirmisher" },
     { "id": "rootbound", "name": "Rootbound", "batch": "B", "archetype": 5, "elem": 4, "baseHp": 120, "baseMin": 8, "baseMax": 14, "speed": 70, "ranged": false, "caster": false, "role": "Heavy earth sentinel" },
     { "id": "cinderling", "name": "Cinderling", "batch": "B", "archetype": 6, "elem": 1, "baseHp": 30, "baseMin": 6, "baseMax": 9, "speed": 112, "ranged": true, "caster": true, "role": "Fire bolt harrier" },
     { "id": "gloom-stag", "name": "Gloom Stag", "batch": "B", "archetype": 4, "elem": 5, "baseHp": 76, "baseMin": 7, "baseMax": 12, "speed": 115, "ranged": false, "caster": false, "role": "Forest flanker" },
     { "id": "salt-crab", "name": "Salt Crab", "batch": "B", "archetype": 5, "elem": 2, "baseHp": 88, "baseMin": 6, "baseMax": 11, "speed": 85, "ranged": false, "caster": false, "role": "Coastal shell blocker" },
+    { "id": "fetish-blowdart", "name": "Fetish Blowdart", "batch": "B", "archetype": 1, "elem": 4, "baseHp": 35, "baseMin": 5, "baseMax": 10, "speed": 125, "ranged": true, "caster": false, "role": "Jungle poison dart skirmisher" },
+    { "id": "witch-doctor", "name": "Witch Doctor", "batch": "B", "archetype": 3, "elem": 4, "baseHp": 70, "baseMin": 8, "baseMax": 13, "speed": 100, "ranged": true, "caster": true, "role": "Marsh hexer & tribal elder" },
+
     { "id": "hollow-knight", "name": "Hollow Knight", "batch": "C", "archetype": 0, "elem": 0, "baseHp": 92, "baseMin": 8, "baseMax": 13, "speed": 95, "ranged": false, "caster": false, "role": "Disciplined blade" },
     { "id": "spore-matron", "name": "Spore Matron", "batch": "C", "archetype": 3, "elem": 4, "baseHp": 58, "baseMin": 6, "baseMax": 10, "speed": 88, "ranged": true, "caster": true, "role": "Earth poison hexer" },
     { "id": "dune-lurker", "name": "Dune Lurker", "batch": "C", "archetype": 4, "elem": 0, "baseHp": 54, "baseMin": 7, "baseMax": 11, "speed": 118, "ranged": false, "caster": false, "role": "Ambush striker" },
     { "id": "storm-kite", "name": "Storm Kite", "batch": "C", "archetype": 6, "elem": 3, "baseHp": 44, "baseMin": 7, "baseMax": 12, "speed": 128, "ranged": true, "caster": true, "role": "Lightning ranged kite" },
     { "id": "basalt-brute", "name": "Basalt Brute", "batch": "C", "archetype": 5, "elem": 4, "baseHp": 145, "baseMin": 11, "baseMax": 17, "speed": 68, "ranged": false, "caster": false, "role": "Siege breaker giant" },
+    { "id": "sand-raider", "name": "Sand Raider", "batch": "C", "archetype": 0, "elem": 0, "baseHp": 86, "baseMin": 9, "baseMax": 14, "speed": 120, "ranged": false, "caster": false, "role": "Dual-scimitar desert speedster" },
+    { "id": "dune-scarab", "name": "Dune Scarab", "batch": "C", "archetype": 6, "elem": 3, "baseHp": 68, "baseMin": 7, "baseMax": 12, "speed": 105, "ranged": true, "caster": true, "role": "Lightning discharge beetle" },
+    { "id": "claw-viper", "name": "Claw Viper", "batch": "C", "archetype": 4, "elem": 4, "baseHp": 98, "baseMin": 10, "baseMax": 15, "speed": 122, "ranged": false, "caster": false, "role": "Venomous desert lunger" },
+    { "id": "dune-beast", "name": "Dune Beast", "batch": "C", "archetype": 4, "elem": 0, "baseHp": 75, "baseMin": 8, "baseMax": 13, "speed": 114, "ranged": false, "caster": false, "role": "Oasis leaper & pack prowler" },
+    { "id": "maggot-swarm", "name": "Maggot Swarm", "batch": "C", "archetype": 4, "elem": 4, "baseHp": 50, "baseMin": 6, "baseMax": 10, "speed": 98, "ranged": false, "caster": false, "role": "Toxic burrowing larva swarm" },
+
     { "id": "lantern-eel", "name": "Lantern Eel", "batch": "D", "archetype": 6, "elem": 3, "baseHp": 52, "baseMin": 7, "baseMax": 13, "speed": 112, "ranged": true, "caster": true, "role": "Bog arc striker" },
     { "id": "ash-weaver", "name": "Ash Weaver", "batch": "D", "archetype": 3, "elem": 1, "baseHp": 60, "baseMin": 8, "baseMax": 13, "speed": 96, "ranged": true, "caster": true, "role": "Flame curse caster" },
     { "id": "pale-burrower", "name": "Pale Burrower", "batch": "D", "archetype": 4, "elem": 4, "baseHp": 72, "baseMin": 8, "baseMax": 14, "speed": 102, "ranged": false, "caster": false, "role": "Quarry tunneler" },
     { "id": "ironbark", "name": "Ironbark", "batch": "D", "archetype": 5, "elem": 4, "baseHp": 160, "baseMin": 10, "baseMax": 16, "speed": 72, "ranged": false, "caster": false, "role": "Ancient ward treant" },
     { "id": "rift-moth", "name": "Rift Moth", "batch": "D", "archetype": 6, "elem": 5, "baseHp": 48, "baseMin": 8, "baseMax": 13, "speed": 122, "ranged": true, "caster": true, "role": "Astral drain flyer" },
+    { "id": "greater-mummy", "name": "Greater Mummy", "batch": "D", "archetype": 3, "elem": 4, "baseHp": 110, "baseMin": 9, "baseMax": 15, "speed": 82, "ranged": true, "caster": true, "role": "Ancient crypt embalmer & reviver" },
+    { "id": "hollow-king", "name": "Hollow King", "batch": "D", "archetype": 0, "elem": 2, "baseHp": 165, "baseMin": 12, "baseMax": 18, "speed": 88, "ranged": false, "caster": false, "role": "Undead monarch lord" },
+    { "id": "wendigo-bruiser", "name": "Wendigo Bruiser", "batch": "D", "archetype": 5, "elem": 2, "baseHp": 155, "baseMin": 11, "baseMax": 18, "speed": 74, "ranged": false, "caster": false, "role": "Heavy freezing yeti brawler" },
+
     { "id": "crowned-maw", "name": "Crowned Maw", "batch": "E", "archetype": 4, "elem": 0, "baseHp": 115, "baseMin": 11, "baseMax": 17, "speed": 108, "ranged": false, "caster": false, "role": "Apex pack hunter" },
     { "id": "frost-bell", "name": "Frost Bell", "batch": "E", "archetype": 3, "elem": 2, "baseHp": 78, "baseMin": 9, "baseMax": 14, "speed": 92, "ranged": true, "caster": true, "role": "Chilling astral bell" },
     { "id": "silt-colossus", "name": "Silt Colossus", "batch": "E", "archetype": 5, "elem": 4, "baseHp": 210, "baseMin": 14, "baseMax": 22, "speed": 66, "ranged": false, "caster": false, "role": "Titanic citadel guardian" },
     { "id": "redglass-drake", "name": "Redglass Drake", "batch": "E", "archetype": 6, "elem": 1, "baseHp": 125, "baseMin": 12, "baseMax": 19, "speed": 118, "ranged": true, "caster": true, "role": "Highland fire drake" },
-    { "id": "night-orchard", "name": "Night Orchard", "batch": "E", "archetype": 3, "elem": 5, "baseHp": 96, "baseMin": 10, "baseMax": 16, "speed": 90, "ranged": true, "caster": true, "role": "Dark ward weaver" }
+    { "id": "night-orchard", "name": "Night Orchard", "batch": "E", "archetype": 3, "elem": 5, "baseHp": 96, "baseMin": 10, "baseMax": 16, "speed": 90, "ranged": true, "caster": true, "role": "Dark ward weaver" },
+    { "id": "stormtree", "name": "Stormtree", "batch": "E", "archetype": 5, "elem": 3, "baseHp": 175, "baseMin": 12, "baseMax": 19, "speed": 75, "ranged": false, "caster": false, "role": "Charged lightning colossus" },
+    { "id": "doom-knight", "name": "Doom Knight", "batch": "E", "archetype": 0, "elem": 0, "baseHp": 135, "baseMin": 12, "baseMax": 18, "speed": 96, "ranged": false, "caster": false, "role": "Heavy armored hell vanguard" },
+    { "id": "balrog", "name": "Balrog", "batch": "E", "archetype": 6, "elem": 1, "baseHp": 140, "baseMin": 13, "baseMax": 20, "speed": 112, "ranged": true, "caster": true, "role": "Inferno-breathing megademon" },
+    { "id": "hephasto-smith", "name": "Hephasto Smith", "batch": "E", "archetype": 5, "elem": 1, "baseHp": 190, "baseMin": 14, "baseMax": 22, "speed": 76, "ranged": false, "caster": false, "role": "Hellforge anvil titan" }
   ]
 }

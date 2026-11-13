@@ -11,12 +11,15 @@ import {
   type ShrineDef,
   type ShrineKind,
   type UnitDef,
+  type WaypointDef,
+  type ZoneExitDef,
+  type AdventureObjectDef,
 } from './mapdoc';
 import { Kind } from './sim/combat';
 
 export interface ExpeditionOptions {
   seed: number;
-  biome?: 'forest' | 'marsh' | 'desert' | 'crypt';
+  biome?: 'forest' | 'marsh' | 'desert' | 'crypt' | 'oasis' | 'highlands' | 'volcanic';
   difficulty?: number; // 0, 1, 2
   size?: number; // 64 (default) or 96
 }
@@ -29,6 +32,9 @@ export interface BiomeConfig {
   hasTrees: boolean;
   bossFamily: string;
   mobFamily: string;
+  mobFamilies?: readonly string[];
+  bossFamilies?: readonly string[];
+  eliteMods?: readonly BossModId[];
 }
 
 export const BIOMES: Record<NonNullable<ExpeditionOptions['biome']>, BiomeConfig> = {
@@ -40,6 +46,9 @@ export const BIOMES: Record<NonNullable<ExpeditionOptions['biome']>, BiomeConfig
     hasTrees: true,
     bossFamily: 'rootbound',
     mobFamily: 'briar-hound',
+    mobFamilies: ['briar-hound', 'thorn-boar', 'quill-fiend', 'fallen-shaman'],
+    bossFamilies: ['rootbound', 'wendigo-bruiser'],
+    eliteMods: ['extra_fast', 'stone_skin', 'spectral_hit', 'blessed_aura'],
   },
   marsh: {
     ground: Terrain.Marsh,
@@ -49,6 +58,9 @@ export const BIOMES: Record<NonNullable<ExpeditionOptions['biome']>, BiomeConfig
     hasTrees: true,
     bossFamily: 'flintback',
     mobFamily: 'mire-wisp',
+    mobFamilies: ['mire-wisp', 'salt-crab', 'fetish-blowdart', 'spore-matron'],
+    bossFamilies: ['flintback', 'witch-doctor'],
+    eliteMods: ['cold_enchanted', 'magic_resistant', 'stone_skin', 'spectral_hit'],
   },
   desert: {
     ground: Terrain.Dirt,
@@ -58,6 +70,21 @@ export const BIOMES: Record<NonNullable<ExpeditionOptions['biome']>, BiomeConfig
     hasTrees: false,
     bossFamily: 'basalt-brute',
     mobFamily: 'dune-lurker',
+    mobFamilies: ['dune-lurker', 'sand-raider', 'dune-scarab', 'claw-viper'],
+    bossFamilies: ['basalt-brute', 'claw-viper'],
+    eliteMods: ['extra_fast', 'fire_enchanted', 'spectral_hit', 'stone_skin'],
+  },
+  oasis: {
+    ground: Terrain.Grass,
+    path: Terrain.Dirt,
+    barrierWater: Terrain.Water,
+    barrierRock: Terrain.Rock,
+    hasTrees: true,
+    bossFamily: 'silt-colossus',
+    mobFamily: 'dune-beast',
+    mobFamilies: ['dune-beast', 'maggot-swarm', 'dune-lurker', 'dune-scarab'],
+    bossFamilies: ['silt-colossus', 'dune-scarab'],
+    eliteMods: ['blessed_aura', 'magic_resistant', 'cold_enchanted', 'extra_fast'],
   },
   crypt: {
     ground: Terrain.Dirt,
@@ -67,6 +94,33 @@ export const BIOMES: Record<NonNullable<ExpeditionOptions['biome']>, BiomeConfig
     hasTrees: false,
     bossFamily: 'silt-colossus',
     mobFamily: 'ruin-mite',
+    mobFamilies: ['ruin-mite', 'hollow-knight', 'greater-mummy', 'fallen-shaman'],
+    bossFamilies: ['hollow-king', 'greater-mummy', 'silt-colossus'],
+    eliteMods: ['cold_enchanted', 'stone_skin', 'spectral_hit', 'magic_resistant'],
+  },
+  highlands: {
+    ground: Terrain.Dirt,
+    path: Terrain.Grass,
+    barrierWater: Terrain.Water,
+    barrierRock: Terrain.Rock,
+    hasTrees: false,
+    bossFamily: 'crowned-maw',
+    mobFamily: 'storm-kite',
+    mobFamilies: ['storm-kite', 'wendigo-bruiser', 'basalt-brute', 'gloom-stag'],
+    bossFamilies: ['stormtree', 'crowned-maw'],
+    eliteMods: ['extra_fast', 'spectral_hit', 'blessed_aura', 'magic_resistant'],
+  },
+  volcanic: {
+    ground: Terrain.Dirt,
+    path: Terrain.Marsh,
+    barrierWater: Terrain.Water,
+    barrierRock: Terrain.Rock,
+    hasTrees: false,
+    bossFamily: 'redglass-drake',
+    mobFamily: 'cinderling',
+    mobFamilies: ['cinderling', 'ash-weaver', 'doom-knight', 'balrog'],
+    bossFamilies: ['redglass-drake', 'hephasto-smith', 'balrog'],
+    eliteMods: ['fire_enchanted', 'stone_skin', 'extra_fast', 'spectral_hit'],
   },
 };
 
@@ -251,6 +305,21 @@ export function generateExpeditionMap(opts: ExpeditionOptions): MapDoc {
         else if (moist > 0.76) terrain[idx] = biome.barrierRock;
         else if (moist > 0.55) terrain[idx] = Terrain.Grass;
         else terrain[idx] = Terrain.Dirt;
+      } else if (biomeKey === 'oasis') {
+        if (moist < 0.22) terrain[idx] = biome.barrierWater;
+        else if (moist > 0.82) terrain[idx] = biome.barrierRock;
+        else if (moist > 0.5) terrain[idx] = Terrain.Dirt;
+        else terrain[idx] = Terrain.Grass;
+      } else if (biomeKey === 'highlands') {
+        if (moist < 0.12) terrain[idx] = biome.barrierWater;
+        else if (moist > 0.72) terrain[idx] = biome.barrierRock;
+        else if (moist > 0.45) terrain[idx] = Terrain.Grass;
+        else terrain[idx] = Terrain.Dirt;
+      } else if (biomeKey === 'volcanic') {
+        if (moist < 0.2) terrain[idx] = biome.barrierWater;
+        else if (moist > 0.7) terrain[idx] = biome.barrierRock;
+        else if (moist > 0.5) terrain[idx] = Terrain.Marsh;
+        else terrain[idx] = Terrain.Dirt;
       } else {
         // crypt
         if (moist < 0.12) terrain[idx] = biome.barrierWater;
@@ -290,6 +359,22 @@ export function generateExpeditionMap(opts: ExpeditionOptions): MapDoc {
     { x: Math.round(w * 0.6), y: Math.round(h * 0.75), kind: 'combat', cooldown: 750 },
   ];
 
+  // Connected Act System: Waypoints & Boundary Exits
+  const waypointDefs: WaypointDef[] = [
+    { id: `wp_${biomeKey}_outpost`, name: `${capitalize(biomeKey)} Outpost Waypoint`, x: Math.round(w * 0.16), y: Math.round(h * 0.12) },
+  ];
+
+  const exitDefs: ZoneExitDef[] = [
+    { x: bossX + 2, y: bossY + 2, targetMap: `${biomeKey}_depths`, targetX: 4, targetY: 4, label: 'Descent into Deeper Lair', kind: 'cave' },
+  ];
+
+  // HoMM III Adventure Objects
+  const adventureObjectDefs: AdventureObjectDef[] = [
+    { x: Math.round(w * 0.35), y: Math.round(h * 0.26), kind: 'watermill', rewardGold: 150 },
+    { x: Math.round(w * 0.46), y: Math.round(h * 0.52), kind: 'magic_well' },
+    { x: Math.round(w * 0.68), y: Math.round(h * 0.42), kind: 'creature_bank', rewardGold: 400, guardPower: 3, rewardArtifact: true },
+  ];
+
   // Helper to carve a circular clearing
   const carveClearing = (cx: number, cy: number, radius: number, groundTile: number) => {
     for (let dy = -radius; dy <= radius; dy++) {
@@ -322,6 +407,14 @@ export function generateExpeditionMap(opts: ExpeditionOptions): MapDoc {
   // Carve Shrines clearings (radius 2)
   for (const s of shrineDefs) {
     carveClearing(s.x, s.y, 2, biome.path);
+  }
+
+  // Carve Adventure Objects clearings (radius 2)
+  for (const o of adventureObjectDefs) {
+    carveClearing(o.x, o.y, 2, biome.path);
+  }
+  for (const wp of waypointDefs) {
+    carveClearing(wp.x, wp.y, 2, biome.path);
   }
 
   // Helper to carve connecting path with variable width
@@ -404,6 +497,14 @@ export function generateExpeditionMap(opts: ExpeditionOptions): MapDoc {
   carvePath(shrineDefs[1].x, shrineDefs[1].y, campCoords[1][0], campCoords[1][1], 1, false);
   carvePath(shrineDefs[2].x, shrineDefs[2].y, campCoords[3][0], campCoords[3][1], 1, false);
 
+  // Connect Adventure Objects & Waypoints
+  for (const o of adventureObjectDefs) {
+    carvePath(o.x, o.y, startX, startY, 1, false);
+  }
+  for (const wp of waypointDefs) {
+    carvePath(wp.x, wp.y, startX, startY, 1, false);
+  }
+
   // 3. Buildings (Start Camp)
   // Inn (Tavern) at (5, 5), Shop at (10, 5) -> 2x2 footprint each
   const innX = 5;
@@ -449,11 +550,13 @@ export function generateExpeditionMap(opts: ExpeditionOptions): MapDoc {
   // Monster Camps (team 1)
   let unitGroup = 2;
   let packId = 1;
+  const mobPool = biome.mobFamilies && biome.mobFamilies.length > 0 ? biome.mobFamilies : [biome.mobFamily];
 
   for (let c = 0; c < campCoords.length; c++) {
     const [cx, cy] = campCoords[c];
     const grp = unitGroup++;
     const pck = packId++;
+    const campMob = mobPool[c % mobPool.length];
 
     // Camp Leader
     const leaderKind = c % 2 === 0 ? Kind.Gnoll : Kind.Archer;
@@ -465,7 +568,7 @@ export function generateExpeditionMap(opts: ExpeditionOptions): MapDoc {
       group: grp,
       pack: pck,
       tier: Math.min(5, 2 + difficulty),
-      family: biome.mobFamily,
+      family: campMob,
     });
 
     // 2 Minions
@@ -482,7 +585,7 @@ export function generateExpeditionMap(opts: ExpeditionOptions): MapDoc {
         group: grp,
         pack: pck,
         tier: Math.min(5, 1 + difficulty),
-        family: biome.mobFamily,
+        family: campMob,
       });
     }
   }
@@ -491,13 +594,16 @@ export function generateExpeditionMap(opts: ExpeditionOptions): MapDoc {
   const bossGroup = unitGroup++;
   const bossPack = packId++;
 
-  // Deterministic boss modifiers
-  const availableMods: BossModId[] = [...BOSS_MOD_IDS];
-  const mod1Idx = randInt(0, availableMods.length - 1);
-  const mod1 = availableMods.splice(mod1Idx, 1)[0];
-  const mod2Idx = randInt(0, availableMods.length - 1);
-  const mod2 = availableMods.splice(mod2Idx, 1)[0];
+  // Deterministic boss modifiers from theme-appropriate pool
+  const candidateMods: BossModId[] = biome.eliteMods && biome.eliteMods.length >= 2 ? [...biome.eliteMods] : [...BOSS_MOD_IDS];
+  const mod1Idx = randInt(0, candidateMods.length - 1);
+  const mod1 = candidateMods.splice(mod1Idx, 1)[0];
+  const mod2Idx = randInt(0, candidateMods.length - 1);
+  const mod2 = candidateMods.splice(mod2Idx, 1)[0];
   const bossMods: string[] = [mod1, mod2];
+
+  const bossPool = biome.bossFamilies && biome.bossFamilies.length > 0 ? biome.bossFamilies : [biome.bossFamily];
+  const chosenBossFamily = bossPool[randInt(0, bossPool.length - 1)];
 
   const bossIdx = units.length;
   units.push({
@@ -509,11 +615,12 @@ export function generateExpeditionMap(opts: ExpeditionOptions): MapDoc {
     pack: bossPack,
     vip: true,
     tier: Math.min(5, 3 + difficulty),
-    family: biome.bossFamily,
+    family: chosenBossFamily,
     bossMods,
   });
 
   // Boss Minion Escort (3 units)
+  const escortMob = mobPool[campCoords.length % mobPool.length];
   const escortOffsets = [
     [-1, 0],
     [1, 0],
@@ -528,7 +635,7 @@ export function generateExpeditionMap(opts: ExpeditionOptions): MapDoc {
       group: bossGroup,
       pack: bossPack,
       tier: Math.min(5, 2 + difficulty),
-      family: biome.mobFamily,
+      family: escortMob,
     });
   }
 
@@ -547,6 +654,9 @@ export function generateExpeditionMap(opts: ExpeditionOptions): MapDoc {
   const criticalTiles = new Set<number>();
   for (const u of units) criticalTiles.add(u.y * w + u.x);
   for (const s of shrineDefs) criticalTiles.add(s.y * w + s.x);
+  for (const o of adventureObjectDefs) criticalTiles.add(o.y * w + o.x);
+  for (const wp of waypointDefs) criticalTiles.add(wp.y * w + wp.x);
+  for (const ex of exitDefs) criticalTiles.add(ex.y * w + ex.x);
   for (const b of objects) {
     if (b.kind === ObjectKind.House) {
       for (let dy = 0; dy < 2; dy++) {
@@ -571,6 +681,8 @@ export function generateExpeditionMap(opts: ExpeditionOptions): MapDoc {
   const targetsToCheck: [number, number][] = [
     [bossX, bossY],
     ...shrineDefs.map((s): [number, number] => [s.x, s.y]),
+    ...adventureObjectDefs.map((o): [number, number] => [o.x, o.y]),
+    ...waypointDefs.map((w): [number, number] => [w.x, w.y]),
     ...campCoords,
   ];
 
@@ -666,6 +778,9 @@ export function generateExpeditionMap(opts: ExpeditionOptions): MapDoc {
     text,
     towns,
     shrines: shrineDefs,
+    waypoints: waypointDefs,
+    exits: exitDefs,
+    adventureObjects: adventureObjectDefs,
   };
 
   // Validate the generated document

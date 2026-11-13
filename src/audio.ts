@@ -9,10 +9,22 @@ const SHOP_ENTRY_CUE = 'ledger_latch_01';
 const SHOP_ENTRY_WINDOW_MS = 750;
 const SFX_NAMES = [
   'hit', 'miss', 'death', 'bow', 'gold', 'nomana', 'cast_fire', 'cast_water', 'cast_air', 'cast_earth', 'cast_astral',
-  'boom', 'heal', 'buff', 'curse', 'revive', 'click', 'step1', 'step2', SHOP_ENTRY_CUE,
+  'boom', 'heal', 'buff', 'curse', 'revive', 'click', 'step1', 'step2', SHOP_ENTRY_CUE, 'select_hero',
   'loot_normal', 'loot_magic', 'loot_rare', 'loot_set', 'loot_unique',
   'spell_meteor', 'spell_inferno', 'spell_blizzard', 'spell_thunderstorm',
   'spell_iron_skin', 'spell_acid_rain', 'spell_mana_burn', 'spell_time_warp',
+  'hit_sword_1', 'hit_sword_2', 'hit_sword_3', 'swing_sword_1', 'swing_sword_2',
+  'hit_axe_1', 'hit_axe_2', 'hit_axe_3', 'swing_axe_1',
+  'hit_blunt_1', 'hit_blunt_2', 'hit_blunt_3',
+  'hit_pierce_1', 'hit_pierce_2', 'hit_dagger_1',
+  'block_shield_1', 'block_shield_2',
+  'armor_leather', 'armor_plate',
+  'potion_drink_1', 'potion_drink_2',
+  'step_grass_1', 'step_grass_2', 'step_grass_3',
+  'step_dirt_1', 'step_dirt_2', 'step_dirt_3',
+  'step_water_1', 'step_water_2',
+  'step_stone_1', 'step_stone_2',
+  'death_beast_1', 'death_skeleton_1',
 ];
 const base = (): string => import.meta.env.BASE_URL;
 
@@ -39,6 +51,20 @@ let ambSource: AudioBufferSourceNode | null = null;
 let ambWanted = true;
 let played = 0;
 let pendingShopEntry: { deadline: number } | null = null;
+
+let masterVol = 1.0;
+let sfxVol = 1.0;
+let musicVol = 1.0;
+let ambVol = 1.0;
+
+try {
+  const mv = localStorage.getItem('thornvael.masterVol');
+  if (mv !== null) masterVol = parseFloat(mv) || 0;
+  const sv = localStorage.getItem('thornvael.sfxVol');
+  if (sv !== null) sfxVol = parseFloat(sv) || 0;
+  const muv = localStorage.getItem('thornvael.musicVol');
+  if (muv !== null) musicVol = parseFloat(muv) || 0;
+} catch { /* storage denied */ }
 
 interface Track {
   el: HTMLAudioElement;
@@ -117,16 +143,16 @@ export function unlock(): void {
     if (!AC) return;
     ctx = new AC();
     master = ctx.createGain();
-    master.gain.value = 0.9;
+    master.gain.value = 0.9 * masterVol;
     master.connect(ctx.destination);
     sfxBus = ctx.createGain();
-    sfxBus.gain.value = 0.8;
+    sfxBus.gain.value = 0.8 * sfxVol;
     sfxBus.connect(master);
     musicBus = ctx.createGain();
-    musicBus.gain.value = 0.35;
+    musicBus.gain.value = 0.35 * musicVol;
     musicBus.connect(master);
     ambBus = ctx.createGain();
-    ambBus.gain.value = 0.25;
+    ambBus.gain.value = 0.25 * ambVol;
     ambBus.connect(master);
     // Retain the existing iOS silent-media workaround; device behavior is not assumed.
     silent = new Audio(silentWavUrl());
@@ -380,4 +406,48 @@ export function audioStats(): { state: string; loaded: number; played: number; r
 
 export function whenLoaded(): Promise<void> {
   return loading ?? Promise.resolve();
+}
+
+export function setMasterVolume(v: number): void {
+  masterVol = Math.max(0, Math.min(1, v));
+  if (master && ctx && ctx.state !== 'closed') {
+    master.gain.setValueAtTime(masterVol * 0.9, ctx.currentTime);
+  }
+}
+
+export function getMasterVolume(): number {
+  return masterVol;
+}
+
+export function setSfxVolume(v: number): void {
+  sfxVol = Math.max(0, Math.min(1, v));
+  if (sfxBus && ctx && ctx.state !== 'closed') {
+    sfxBus.gain.setValueAtTime(sfxVol * 0.8, ctx.currentTime);
+  }
+}
+
+export function getSfxVolume(): number {
+  return sfxVol;
+}
+
+export function setMusicVolume(v: number): void {
+  musicVol = Math.max(0, Math.min(1, v));
+  if (musicBus && ctx && ctx.state !== 'closed') {
+    musicBus.gain.setValueAtTime(musicVol * 0.35, ctx.currentTime);
+  }
+}
+
+export function getMusicVolume(): number {
+  return musicVol;
+}
+
+export function setAmbienceVolume(v: number): void {
+  ambVol = Math.max(0, Math.min(1, v));
+  if (ambBus && ctx && ctx.state !== 'closed') {
+    ambBus.gain.setValueAtTime(ambVol * 0.25, ctx.currentTime);
+  }
+}
+
+export function getAmbienceVolume(): number {
+  return ambVol;
 }

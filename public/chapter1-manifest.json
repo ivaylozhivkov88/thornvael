@@ -1,7 +1,7 @@
 {
  "id": "ch1",
  "cache": "thornvael-ch1-v1",
- "total": 2315232,
+ "total": 2485838,
  "files": [
   {
    "path": "data/campaign.json",
@@ -13,7 +13,7 @@
   },
   {
    "path": "data/monsters.json",
-   "size": 5811
+   "size": 9368
   },
   {
    "path": "data/spells.json",
@@ -22,6 +22,22 @@
   {
    "path": "audio/ambience.m4a",
    "size": 42526
+  },
+  {
+   "path": "audio/armor_leather.m4a",
+   "size": 3192
+  },
+  {
+   "path": "audio/armor_plate.m4a",
+   "size": 5521
+  },
+  {
+   "path": "audio/block_shield_1.m4a",
+   "size": 5208
+  },
+  {
+   "path": "audio/block_shield_2.m4a",
+   "size": 5721
   },
   {
    "path": "audio/boom.m4a",
@@ -64,6 +80,14 @@
    "size": 5295
   },
   {
+   "path": "audio/death_beast_1.m4a",
+   "size": 9174
+  },
+  {
+   "path": "audio/death_skeleton_1.m4a",
+   "size": 8015
+  },
+  {
    "path": "audio/gold.m4a",
    "size": 3301
   },
@@ -74,6 +98,54 @@
   {
    "path": "audio/hit.m4a",
    "size": 1948
+  },
+  {
+   "path": "audio/hit_axe_1.m4a",
+   "size": 5220
+  },
+  {
+   "path": "audio/hit_axe_2.m4a",
+   "size": 5226
+  },
+  {
+   "path": "audio/hit_axe_3.m4a",
+   "size": 5196
+  },
+  {
+   "path": "audio/hit_blunt_1.m4a",
+   "size": 5379
+  },
+  {
+   "path": "audio/hit_blunt_2.m4a",
+   "size": 5608
+  },
+  {
+   "path": "audio/hit_blunt_3.m4a",
+   "size": 5500
+  },
+  {
+   "path": "audio/hit_dagger_1.m4a",
+   "size": 2907
+  },
+  {
+   "path": "audio/hit_pierce_1.m4a",
+   "size": 3936
+  },
+  {
+   "path": "audio/hit_pierce_2.m4a",
+   "size": 3972
+  },
+  {
+   "path": "audio/hit_sword_1.m4a",
+   "size": 6114
+  },
+  {
+   "path": "audio/hit_sword_2.m4a",
+   "size": 6011
+  },
+  {
+   "path": "audio/hit_sword_3.m4a",
+   "size": 5905
   },
   {
    "path": "audio/ledger_latch_01.m4a",
@@ -120,8 +192,20 @@
    "size": 3740
   },
   {
+   "path": "audio/potion_drink_1.m4a",
+   "size": 6851
+  },
+  {
+   "path": "audio/potion_drink_2.m4a",
+   "size": 7539
+  },
+  {
    "path": "audio/revive.m4a",
    "size": 7040
+  },
+  {
+   "path": "audio/select_hero.m4a",
+   "size": 12987
   },
   {
    "path": "audio/spell_acid_rain.m4a",
@@ -162,6 +246,58 @@
   {
    "path": "audio/step2.m4a",
    "size": 1586
+  },
+  {
+   "path": "audio/step_dirt_1.m4a",
+   "size": 2915
+  },
+  {
+   "path": "audio/step_dirt_2.m4a",
+   "size": 2837
+  },
+  {
+   "path": "audio/step_dirt_3.m4a",
+   "size": 2887
+  },
+  {
+   "path": "audio/step_grass_1.m4a",
+   "size": 2913
+  },
+  {
+   "path": "audio/step_grass_2.m4a",
+   "size": 2971
+  },
+  {
+   "path": "audio/step_grass_3.m4a",
+   "size": 2957
+  },
+  {
+   "path": "audio/step_stone_1.m4a",
+   "size": 3112
+  },
+  {
+   "path": "audio/step_stone_2.m4a",
+   "size": 3192
+  },
+  {
+   "path": "audio/step_water_1.m4a",
+   "size": 3528
+  },
+  {
+   "path": "audio/step_water_2.m4a",
+   "size": 3520
+  },
+  {
+   "path": "audio/swing_axe_1.m4a",
+   "size": 4027
+  },
+  {
+   "path": "audio/swing_sword_1.m4a",
+   "size": 3253
+  },
+  {
+   "path": "audio/swing_sword_2.m4a",
+   "size": 3755
   },
   {
    "path": "audio/yew_release_01.m4a",

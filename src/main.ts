@@ -1,7 +1,7 @@
 import { registerWorker } from './updategate';
 import { createInstallController, isInstallPrompt } from './pwa-install';
 import { audioState, blip, cancelShopEntry, play, playShopEntry, resumeAudio, setAmbience, setMusic, setSfx, suspendAudio, unlock, type MusicMode } from './audio';
-import { MusicDirector, cueFor } from './audiologic';
+import { MusicDirector, classifyWeapon, cueFor, pickPotionDrink, pickTerrainStep, type CueContext } from './audiologic';
 import { ControlGroups, GROUP_COUNT } from './groups';
 import { GestureRecognizer, pickUnit, reticle, unitsInBox, type Intent } from './input';
 import { TILE, generateMap } from './map';
@@ -15,16 +15,24 @@ import { resumeSave, type SaveFile, type SaveState } from './save';
 import { AUTO, deleteSave, getSave, restoreSaveCampaign } from './savedb';
 import { SaveUi } from './saveui';
 import { TownUi } from './townui';
-import { ROLE_COUNT, Tfx } from './sim/town';
+import { ROLE_COUNT, Tfx, itemRarity } from './sim/town';
 import { MissionUi, showMissionMenu } from './missionui';
 import { Minimap } from './minimap';
 import { QUALITY_NAMES, Renderer, type View } from './render';
 import { Bot, MonsterAi, battleScenario, fightScenario, placeScenario, setupCrowd, setupSquads, type Scenario } from './sim/bot';
-import { DEFS, Kind, M, MODN, nearestLoot, partAbs, partDef } from './sim/combat';
+import { DEFS, Kind, M, MODN, POOLS, lootPos, nearestLoot, partAbs, partDef } from './sim/combat';
 import { DAY_TICKS, clockText } from './sim/daynight';
 import { HeroUi, tabStrip } from './heroui';
-import { SKILL_NAMES, WHY_TEXT, createHero } from './sim/hero';
-import { getItemDef, itemId, itemText } from './sim/items';
+import { SKILL_NAMES, WHY_TEXT, createHero, takeItem, type HeroSkillId } from './sim/hero';
+import { Cls, getItemDef, itemId, itemText, Ik, Slot } from './sim/items';
+import {
+  openTownPortal,
+  useTownPortal,
+  checkWaypointTouch,
+  checkZoneExitTouch,
+  interactAdventureObject,
+  type TownPortalState,
+} from './sim/script';
 import { loadGameData } from './loaddata';
 import { DebugPanel } from './debugpanel';
 import { SPELLS, Tk } from './sim/spelldata';
@@ -35,11 +43,14 @@ import { readPreferences, writePreference } from './preferences';
 import { DoubleTap, PortraitStrip, RadialMenu, portraitIds, unitsOfKind, type RadialOrder } from './touchx';
 import { monsterInfo } from './monster-info';
 import { discoverItem, onDiscovery } from './codex';
+import { SpellbookUi } from './spellbookui';
+import { PauseMenu } from './pausemenu';
 import './style.css';
 
 await loadGameData(); // item and spell tables, before any sim or mission is built
 
 const $ = (id: string): HTMLElement => document.getElementById(id)!;
+let spellbookUi!: SpellbookUi;
 const params = new URLSearchParams(location.search);
 const crowd = params.has('crowd'); // 300 units, all yours, no combat: the crowd-movement benchmark
 const stress = params.has('stress');
@@ -80,7 +91,7 @@ const expeditionSeed = params.get('expedition');
 if (!resumed && !loadedMission && expeditionSeed && !crowd && !stress && !battle) {
   try {
     const seed = Number.parseInt(expeditionSeed, 10) || 12345;
-    const biome = (params.get('biome') as 'forest' | 'marsh' | 'desert' | 'crypt') || 'forest';
+    const biome = (params.get('biome') as 'forest' | 'marsh' | 'desert' | 'crypt' | 'oasis' | 'highlands' | 'volcanic') || 'forest';
     const { generateExpeditionMap } = await import('./map-generator');
     const { loadDoc } = await import('./mapdoc');
     const doc = generateExpeditionMap({ seed, biome, size: 64 });
@@ -164,6 +175,7 @@ function army(): [number, number] {
 
 let userPause = false;
 let pausedToast = false;
+let pauseMenu!: PauseMenu;
 let hidden = document.hidden;
 let acc = 0;
 let boxMode = false;
@@ -183,6 +195,47 @@ type ArmKind = 'move' | 'attack' | 'guard' | 'defend' | 'spell' | 'pickup';
 // --- spells: the current spell, nine quick slots (F4 to F12) and the aim reticle ---
 let armedSpell = 0;
 let curSpell = 0; // the spell the Cast button, C key and Auto act on
+let activeRmbSpell: number | null = null;
+let activeRmbSkill: HeroSkillId | null = null;
+let lastPointerPos: [number, number] = [0, 0];
+
+const SKILL_ICONS: Record<HeroSkillId, { icon: string; name: string; key: string }> = {
+  whirlwind: { icon: '⚔️', name: 'Whirlwind', key: 'Q' },
+  shield_charge: { icon: '🛡️', name: 'Shield Charge', key: 'W' },
+  iron_bulwark: { icon: '⚜️', name: 'Iron Bulwark', key: 'E' },
+  chain_lightning: { icon: '⚡', name: 'Chain Lightning', key: 'Q' },
+  frost_nova: { icon: '❄️', name: 'Frost Nova', key: 'W' },
+  teleport: { icon: '🌀', name: 'Teleport', key: 'E' },
+};
+
+function getHeroSkills(): HeroSkillId[] {
+  if (!sim.hero) return [];
+  return sim.hero.cls === Cls.Mage
+    ? ['chain_lightning', 'frost_nova', 'teleport']
+    : ['whirlwind', 'shield_charge', 'iron_bulwark'];
+}
+
+function updateActiveSkillUI(): void {
+  const rmbIcon = document.getElementById('icon-rmb');
+  const rmbHotkey = document.getElementById('skill-hotkey-label');
+  if (activeRmbSkill && SKILL_ICONS[activeRmbSkill]) {
+    const meta = SKILL_ICONS[activeRmbSkill];
+    if (rmbIcon) rmbIcon.textContent = meta.icon;
+    if (rmbHotkey) rmbHotkey.textContent = `${meta.name} (RMB)`;
+  }
+}
+
+function triggerHeroSkill(idx: number): void {
+  if (outcome || !sim.hero || !alive(sim.hero.id)) return;
+  const skills = getHeroSkills();
+  if (idx < 0 || idx >= skills.length) return;
+  const skill = skills[idx];
+  activeRmbSkill = skill;
+  const [wx, wy] = renderer.toTile(lastPointerPos[0], lastPointerPos[1]);
+  const targetFoe = pickUnit(sim.count, posEnemy, lastPointerPos[0], lastPointerPos[1], PICK);
+  queue({ type: 'hero', op: 'skill', skill, x: wx, y: wy, target: targetFoe >= 0 ? targetFoe : undefined });
+  updateActiveSkillUI();
+}
 const DEFAULT_SLOTS = [0, 1, 4, 7, 9, 19, 11, 15, 17]; // Fire Bolt, Fireball, Frost Bolt, Healing, Lightning, Blessing, Haste, Stone Curse, Poison Cloud
 /** A quick slot holds a spell id (0..23), an item (100 + item id) or -1 for empty. */
 const ITEM_BASE = 100;
@@ -204,9 +257,13 @@ try {
 const renderer = new Renderer($('game') as HTMLCanvasElement, map);
 const preferences = readPreferences();
 renderer.quality = preferences.quality;
+let autoRecenter = localStorage.getItem('thornvael.autoRecenter') === 'true';
 
 // --- helpers ---
 const alive = (i: number): boolean => sim.cb.hp[i] > 0;
+const px = (s: Sim, u: number): number => s.x[u] / FP;
+const py = (s: Sim, u: number): number => s.y[u] / FP;
+let cameraFollow = true;
 const posMine = (i: number): [number, number] | null => (sim.team[i] === 0 && alive(i) ? renderer.unitScreen(i) : null);
 const posEnemy = (i: number): [number, number] | null => (sim.team[i] !== 0 && alive(i) ? renderer.unitScreen(i) : null);
 const posAny = (i: number): [number, number] | null => (alive(i) ? renderer.unitScreen(i) : null);
@@ -235,6 +292,7 @@ function queue(cmd: Command): void {
 function execute(kind: ArmKind, sx: number, sy: number): boolean {
   const ids = selectedIds();
   if (ids.length === 0) return false;
+  if (ids.includes(0)) cameraFollow = true;
   const [x, y] = renderer.toTile(sx, sy);
   const enemy = pickUnit(sim.count, posEnemy, sx, sy, PICK);
   switch (kind) {
@@ -349,6 +407,611 @@ function useItemSlot(id: number): void {
   queue({ type: 'hero', op: 'use', item: id });
 }
 
+function getBeltPotions(): {
+  heal: { id: number; count: number };
+  mana: { id: number; count: number };
+  greater: { id: number; count: number };
+  buff: { id: number; count: number };
+} {
+  let healId = -1, healCount = 0;
+  let manaId = -1, manaCount = 0;
+  let greaterId = -1, greaterCount = 0;
+  let buffId = -1, buffCount = 0;
+
+  if (sim.hero) {
+    for (const s of sim.hero.inv) {
+      if (s.n <= 0) continue;
+      const def = getItemDef(s.item);
+      if (!def || def.kind !== Ik.Potion) continue;
+      if (def.heal > 0) {
+        if (def.heal > 60) {
+          if (greaterId < 0) greaterId = s.item;
+          greaterCount += s.n;
+        } else {
+          if (healId < 0) healId = s.item;
+          healCount += s.n;
+        }
+      } else if (def.restore > 0) {
+        if (def.restore > 50) {
+          if (buffId < 0) buffId = s.item;
+          buffCount += s.n;
+        } else {
+          if (manaId < 0) manaId = s.item;
+          manaCount += s.n;
+        }
+      } else if (def.grow) {
+        if (buffId < 0) buffId = s.item;
+        buffCount += s.n;
+      }
+    }
+  }
+  if (healId < 0 && greaterId >= 0) {
+    healId = greaterId;
+    healCount = greaterCount;
+  }
+  if (greaterId < 0 && healId >= 0) {
+    greaterId = healId;
+    greaterCount = healCount;
+  }
+  if (manaId < 0 && buffId >= 0) {
+    manaId = buffId;
+    manaCount = buffCount;
+  }
+  return {
+    heal: { id: healId, count: healCount },
+    mana: { id: manaId, count: manaCount },
+    greater: { id: greaterId, count: greaterCount },
+    buff: { id: buffId, count: buffCount },
+  };
+}
+
+const BELT_COOLDOWN_MS = 1200;
+const beltCooldowns = [0, 0, 0, 0, 0];
+
+function drinkBelt(slot: number): void {
+  if (outcome) return;
+  if (!sim.hero) {
+    toast(S.hero.noHero);
+    return;
+  }
+  const now = performance.now();
+  if (now < beltCooldowns[slot]) {
+    toast('Potion on cooldown');
+    return;
+  }
+  const belt = getBeltPotions();
+  let targetId = -1;
+  let label = '';
+  if (slot === 1) {
+    targetId = belt.heal.id;
+    label = 'Healing Draught';
+  } else if (slot === 2) {
+    targetId = belt.mana.id;
+    label = 'Mana Draught';
+  } else if (slot === 3) {
+    targetId = belt.greater.id >= 0 ? belt.greater.id : belt.heal.id;
+    label = 'Greater Healing / Rejuvenation Draught';
+  } else if (slot === 4) {
+    targetId = belt.buff.id >= 0 ? belt.buff.id : belt.mana.id;
+    label = 'Elixir / Mana Draught';
+  }
+
+  if (targetId < 0 || itemCount(targetId) === 0) {
+    toast(`No ${label} available.`);
+    return;
+  }
+
+  beltCooldowns[slot] = now + BELT_COOLDOWN_MS;
+  useItemSlot(targetId);
+  play(pickPotionDrink(), 4);
+  play(slot === 1 || slot === 3 ? 'heal' : 'buff', 5);
+
+  const k = TILE / FP;
+  const hx = sim.x[sim.hero.id] * k;
+  const hy = sim.y[sim.hero.id] * k - 28;
+  if (slot === 1 || slot === 3) {
+    renderer.feel.addDamageFloater('+HP', hx, hy, 0x33ff55, true, true, now);
+  } else {
+    renderer.feel.addDamageFloater('+MP', hx, hy, 0x44aaff, true, true, now);
+  }
+
+  const el = document.getElementById(`belt-slot-${slot}`);
+  if (el) {
+    el.classList.remove('pulse');
+    el.classList.add('cooldown');
+    setTimeout(() => el.classList.remove('cooldown'), BELT_COOLDOWN_MS);
+    void el.offsetWidth;
+    el.classList.add('pulse');
+  }
+}
+
+// --- Diablo II Town Portal & Waypoint System ---
+let activeTownPortal: TownPortalState | null = null;
+const activeWaypoints = new Set<string>();
+
+function castTownPortal(): void {
+  if (outcome) return;
+  if (!sim.hero || !alive(sim.hero.id)) {
+    toast(S.hero.noHero);
+    return;
+  }
+  const tpScrollId = itemId('Scroll of Town Portal');
+  const hasScroll = tpScrollId >= 0 && sim.hero.inv.some((s) => s.item === tpScrollId && s.n > 0);
+  if (!hasScroll) {
+    toast('Нужен е свитък за портал (Scroll of Town Portal)!');
+    return;
+  }
+  if (hasScroll) {
+    takeItem(sim.hero, tpScrollId);
+  }
+  activeTownPortal = openTownPortal(sim, campaignId ?? 'zone', 'town_hub', 10, 10);
+  toast('🌀 Отворен е градски портал към града (Town Portal)!');
+  play('cast_water', 5);
+}
+
+// --- Diablo II Style Ground Loot Overlay ---
+let altMobileToggle = false;
+const lootDropTimes = new Map<string, number>();
+const lastKnownLoot = new Set<string>();
+const lootBadges = new Map<string, HTMLDivElement>();
+let lootOverlayEl: HTMLElement | null = null;
+let btnAltEl: HTMLButtonElement | null = null;
+
+function ensureLootOverlay(): HTMLElement {
+  if (!lootOverlayEl) {
+    lootOverlayEl = document.getElementById('loot-overlay');
+    if (!lootOverlayEl) {
+      lootOverlayEl = document.createElement('div');
+      lootOverlayEl.id = 'loot-overlay';
+      document.body.appendChild(lootOverlayEl);
+    }
+  }
+  return lootOverlayEl;
+}
+
+function updateAltButtonStates(active: boolean): void {
+  const btn1 = document.getElementById('btn-alt-loot');
+  if (btn1) {
+    btn1.classList.toggle('on', active);
+    btn1.setAttribute('aria-pressed', String(active));
+  }
+  const btn2 = document.getElementById('btn-alt');
+  if (btn2) {
+    btn2.classList.toggle('on', active);
+    btn2.setAttribute('aria-pressed', String(active));
+  }
+}
+
+function toggleLootMode(): void {
+  altMobileToggle = !altMobileToggle;
+  updateAltButtonStates(mods.alt || altMobileToggle);
+  if (altMobileToggle) {
+    toast('👁 Loot highlight active [ALT]');
+  } else {
+    toast('Loot highlight off');
+  }
+}
+
+function initAltButton(): void {
+  btnAltEl = document.getElementById('btn-alt') as HTMLButtonElement | null;
+  if (!btnAltEl) {
+    btnAltEl = document.createElement('button');
+    btnAltEl.id = 'btn-alt';
+    btnAltEl.className = 'btn-alt';
+    btnAltEl.setAttribute('aria-pressed', 'false');
+    btnAltEl.title = 'Toggle Loot Overlay (ALT)';
+    btnAltEl.textContent = '👁 ALT';
+    const minimapEl = document.getElementById('minimap');
+    if (minimapEl && minimapEl.parentNode) {
+      minimapEl.parentNode.insertBefore(btnAltEl, minimapEl.nextSibling);
+    } else {
+      document.body.appendChild(btnAltEl);
+    }
+  }
+  btnAltEl.onclick = (e) => {
+    e.stopPropagation();
+    toggleLootMode();
+  };
+}
+
+function orderPickupLoot(code: number): void {
+  if (outcome) return;
+  if (armed) arm(null);
+  if (sim.hero !== null && alive(sim.hero.id) && !selected.has(sim.hero.id)) {
+    select([sim.hero.id], false);
+  }
+  const ids = selectedIds();
+  if (ids.length === 0) return;
+  const [lx, ly] = lootPos(sim, code);
+  const wx = lx / FP;
+  const wy = ly / FP;
+  const pt = renderer.pointScreen(lx, ly);
+  queue({ type: 'order', order: 'pickup', ids, x: wx, y: wy });
+  if (pt) notePing(pt[0], pt[1]);
+  blip();
+}
+
+interface VisibleLootItem {
+  key: string;
+  code: number;
+  text: string;
+  cssClass: string;
+  sx: number;
+  sy: number;
+}
+
+function updateLootOverlay(now: number): void {
+  if (townUi.open) {
+    for (const el of lootBadges.values()) el.style.display = 'none';
+    return;
+  }
+
+  const cb = sim.cb;
+  const mw = sim.map.w;
+  const mh = sim.map.h;
+  const currentActiveKeys = new Set<string>();
+
+  // Track active gold sacks
+  for (let s = 0; s < cb.sG.length; s++) {
+    if (cb.sG[s] <= 0) continue;
+    const key = 's' + s;
+    currentActiveKeys.add(key);
+    if (!lastKnownLoot.has(key)) {
+      lootDropTimes.set(key, now);
+      lastKnownLoot.add(key);
+    }
+  }
+
+  // Track active item bags
+  for (let b = 0; b < cb.bI.length; b++) {
+    if (cb.bI[b] <= 0) continue;
+    const key = 'b' + b;
+    currentActiveKeys.add(key);
+    if (!lastKnownLoot.has(key)) {
+      lootDropTimes.set(key, now);
+      lastKnownLoot.add(key);
+    }
+  }
+
+  // Clean up inactive loot
+  for (const k of lastKnownLoot) {
+    if (!currentActiveKeys.has(k)) {
+      lastKnownLoot.delete(k);
+      lootDropTimes.delete(k);
+      const el = lootBadges.get(k);
+      if (el) {
+        el.remove();
+        lootBadges.delete(k);
+      }
+    }
+  }
+
+  const isAltActive = mods.alt || altMobileToggle;
+  updateAltButtonStates(isAltActive);
+
+  const itemsToRender: VisibleLootItem[] = [];
+
+  // 1. Gold sacks on explored ground
+  for (let s = 0; s < cb.sG.length; s++) {
+    const gold = cb.sG[s];
+    if (gold <= 0) continue;
+    const tx = Math.floor(cb.sX[s] / FP);
+    const ty = Math.floor(cb.sY[s] / FP);
+    if (tx < 0 || tx >= mw || ty < 0 || ty >= mh) continue;
+    if (!sim.explored[ty * mw + tx]) continue;
+
+    const key = 's' + s;
+    const dropTime = lootDropTimes.get(key) ?? 0;
+    const isRecent = (now - dropTime) < 3500;
+    if (!isAltActive && !isRecent) continue;
+
+    const pt = renderer.pointScreen(cb.sX[s], cb.sY[s]);
+    if (!pt) continue;
+    const [sx, sy] = pt;
+    if (sx < -120 || sy < -60 || sx > window.innerWidth + 120 || sy > window.innerHeight + 60) continue;
+
+    itemsToRender.push({
+      key,
+      code: s,
+      text: `[ ${gold} Gold ]`,
+      cssClass: 'd2-loot-label d2-loot-gold',
+      sx,
+      sy,
+    });
+  }
+
+  // 2. Item bags on explored ground
+  for (let b = 0; b < cb.bI.length; b++) {
+    const itemCode = cb.bI[b];
+    if (itemCode <= 0) continue;
+    const tx = Math.floor(cb.bX[b] / FP);
+    const ty = Math.floor(cb.bY[b] / FP);
+    if (tx < 0 || tx >= mw || ty < 0 || ty >= mh) continue;
+    if (!sim.explored[ty * mw + tx]) continue;
+
+    const key = 'b' + b;
+    const dropTime = lootDropTimes.get(key) ?? 0;
+    const isRecent = (now - dropTime) < 3500;
+    if (!isAltActive && !isRecent) continue;
+
+    const pt = renderer.pointScreen(cb.bX[b], cb.bY[b]);
+    if (!pt) continue;
+    const [sx, sy] = pt;
+    if (sx < -120 || sy < -60 || sx > window.innerWidth + 120 || sy > window.innerHeight + 60) continue;
+
+    const itemId = itemCode - 1;
+    const def = sim.getItemDef(itemId) ?? getItemDef(itemId);
+    const rarity = def ? itemRarity(def) : 'normal';
+    const name = def?.name ?? 'Item';
+
+    itemsToRender.push({
+      key,
+      code: POOLS.sacks + b,
+      text: name,
+      cssClass: `d2-loot-label d2-loot-${rarity}`,
+      sx,
+      sy,
+    });
+  }
+
+  // Stagger overlapping labels vertically
+  itemsToRender.sort((a, b) => a.sy - b.sy || a.sx - b.sx);
+
+  const placedRects: { x: number; y: number; w: number; h: number }[] = [];
+  const overlay = ensureLootOverlay();
+  const visibleKeys = new Set<string>();
+
+  for (const item of itemsToRender) {
+    visibleKeys.add(item.key);
+    let el = lootBadges.get(item.key);
+    if (!el) {
+      el = document.createElement('div');
+      el.dataset.code = String(item.code);
+      const onPick = (e: Event): void => {
+        e.stopPropagation();
+        e.preventDefault();
+        orderPickupLoot(Number(el!.dataset.code));
+      };
+      el.addEventListener('pointerdown', onPick);
+      el.addEventListener('click', onPick);
+      overlay.appendChild(el);
+      lootBadges.set(item.key, el);
+    }
+
+    el.className = item.cssClass;
+    if (el.textContent !== item.text) el.textContent = item.text;
+    el.dataset.code = String(item.code);
+
+    const approxW = Math.max(60, item.text.length * 7.5 + 16);
+    const approxH = 18;
+    let curY = item.sy;
+
+    for (let attempts = 0; attempts < 10; attempts++) {
+      let collided = false;
+      for (const p of placedRects) {
+        if (Math.abs(item.sx - p.x) < (approxW + p.w) * 0.48 && Math.abs(curY - p.y) < 18) {
+          curY = p.y - 19;
+          collided = true;
+          break;
+        }
+      }
+      if (!collided) break;
+    }
+
+    placedRects.push({ x: item.sx, y: curY, w: approxW, h: approxH });
+    el.style.left = `${Math.round(item.sx)}px`;
+    el.style.top = `${Math.round(curY)}px`;
+    el.style.display = '';
+  }
+
+  for (const [k, el] of lootBadges) {
+    if (!visibleKeys.has(k)) {
+      el.style.display = 'none';
+    }
+  }
+}
+
+function toggleQuestLog(): void {
+  if (missionUi) {
+    missionUi.toggleJournal(sim);
+    return;
+  }
+  const qm = document.getElementById('quest-modal');
+  if (!qm) return;
+  if (!qm.hidden) {
+    qm.hidden = true;
+    return;
+  }
+  const title = loadedMission?.doc.name || (campaign && campaignId ? campaign.nodes.find((n) => n.id === campaignId)?.title : null) || 'Adventure';
+  const titleEl = document.getElementById('quest-title');
+  if (titleEl) titleEl.textContent = title;
+
+  let desc = '';
+  if (loadedMission?.doc.text['body']) desc = loadedMission.doc.text['body'];
+  else if (loadedMission?.doc.text['briefing']) desc = loadedMission.doc.text['briefing'];
+  else desc = 'Slay all foes and bring peace to the realm.';
+  const descEl = document.getElementById('quest-desc');
+  if (descEl) descEl.textContent = desc;
+
+  const goalsList = document.getElementById('quest-goals');
+  if (goalsList) {
+    goalsList.replaceChildren();
+    if (loadedMission?.doc) {
+      const st = sim.script?.st;
+      let anyGoals = false;
+      for (let i = 0; loadedMission.doc.text[`obj.${i}`] !== undefined; i++) {
+        const li = document.createElement('li');
+        const text = loadedMission.doc.text[`obj.${i}`];
+        const isDone = st && st.sub[i] === 2;
+        li.textContent = `${isDone ? '✓ ' : '⚔️ '} ${text}`;
+        li.className = isDone ? 'goal-done' : 'goal-active';
+        goalsList.append(li);
+        anyGoals = true;
+      }
+      if (!anyGoals) {
+        const li = document.createElement('li');
+        li.textContent = `⚔️ Enemies remaining: ${sim.cb.alive[1]}`;
+        goalsList.append(li);
+      }
+    } else {
+      const li = document.createElement('li');
+      li.textContent = `⚔️ Enemies remaining: ${sim.cb.alive[1]}`;
+      goalsList.append(li);
+    }
+  }
+  qm.hidden = false;
+  blip();
+}
+
+function togglePauseMenu(): void {
+  if (pauseMenu && pauseMenu.isOpen) {
+    pauseMenu.close();
+    userPause = false;
+    $('btn-pause').classList.remove('on');
+  } else if (pauseMenu) {
+    userPause = true;
+    $('btn-pause').classList.add('on');
+    pauseMenu.open();
+    blip();
+  }
+}
+
+function updateGothicHud(): void {
+  const hp = Math.max(0, sim.cb.hp[0] ?? 0);
+  const hpMax = Math.max(1, sim.cb.hpMax[0] ?? 1);
+  const hpPct = Math.min(100, Math.max(0, (hp / hpMax) * 100));
+
+  const mana = Math.max(0, sim.cb.mana[0] ?? 0);
+  const manaMax = Math.max(1, sim.cb.manaMax[0] ?? 1);
+  const manaPct = Math.min(100, Math.max(0, (mana / manaMax) * 100));
+
+  const liquidHealth = document.getElementById('liquid-health');
+  if (liquidHealth) liquidHealth.style.height = `${hpPct}%`;
+  const globeHpText = document.getElementById('globe-health-text');
+  if (globeHpText) globeHpText.textContent = `${hp} / ${hpMax}`;
+
+  const liquidMana = document.getElementById('liquid-mana');
+  if (liquidMana) liquidMana.style.height = `${manaPct}%`;
+  const globeManaText = document.getElementById('globe-mana-text');
+  if (globeManaText) globeManaText.textContent = `${mana} / ${manaMax}`;
+
+  const belt = getBeltPotions();
+  const c1 = document.getElementById('belt-count-1');
+  if (c1) {
+    c1.textContent = String(belt.heal.count);
+    document.getElementById('belt-slot-1')?.classList.toggle('empty', belt.heal.count === 0);
+  }
+  const c2 = document.getElementById('belt-count-2');
+  if (c2) {
+    c2.textContent = String(belt.mana.count);
+    document.getElementById('belt-slot-2')?.classList.toggle('empty', belt.mana.count === 0);
+  }
+  const c3 = document.getElementById('belt-count-3');
+  if (c3) {
+    c3.textContent = String(belt.greater.count);
+    document.getElementById('belt-slot-3')?.classList.toggle('empty', belt.greater.count === 0);
+  }
+  const c4 = document.getElementById('belt-count-4');
+  if (c4) {
+    c4.textContent = String(belt.buff.count);
+    document.getElementById('belt-slot-4')?.classList.toggle('empty', belt.buff.count === 0);
+  }
+
+  const sp = SPELLS[curSpell];
+  const rmbIcon = document.getElementById('icon-rmb');
+  const rmbHotkey = document.getElementById('skill-hotkey-label');
+  const slotRmb = document.getElementById('slot-rmb');
+  if (rmbIcon && sp) {
+    const schoolIcons = ['✨', '🔥', '💧', '⚡', '🌿', '💀'];
+    rmbIcon.textContent = schoolIcons[sp.school] ?? '✨';
+    const slotIdx = slots.indexOf(curSpell);
+    if (rmbHotkey) rmbHotkey.textContent = slotIdx >= 0 ? `F${slotIdx + 4}` : `${sp.cost}M`;
+    if (slotRmb) slotRmb.title = `${sp.name} [RMB]\nCost: ${sp.cost} MP`;
+  }
+
+  if (sim.hero) {
+    const heroImg = document.getElementById('hud-hero-img') as HTMLImageElement | null;
+    if (heroImg) {
+      const clsName = sim.hero.cls ? 'mage' : 'warrior';
+      const gen = sim.hero.female ? 'f' : 'm';
+      const src = `${import.meta.env.BASE_URL}townart/portrait-${clsName}-${gen}.png`;
+      if (!heroImg.src.endsWith(src)) heroImg.src = src;
+    }
+    const heroLvl = document.getElementById('hud-hero-lvl');
+    if (heroLvl) {
+      const lvl = Math.max(1, sim.hero.skill.reduce((a, b) => a + b, 0) - 2);
+      heroLvl.textContent = `Lvl ${lvl}`;
+    }
+    const heroName = document.getElementById('hud-hero-name');
+    if (heroName) {
+      heroName.textContent = sim.hero.cls ? 'Mage' : 'Warrior';
+    }
+  }
+
+  const statsEl = document.getElementById('stats');
+  if (statsEl) {
+    statsEl.textContent = `Gold: ${sim.cb.gold[0] ?? 0}  Foes: ${sim.cb.alive[1] ?? 0}`;
+  }
+}
+
+function initGothicHud(): void {
+  for (let i = 1; i <= 4; i++) {
+    const slot = document.getElementById(`belt-slot-${i}`);
+    if (slot) slot.onclick = () => drinkBelt(i);
+  }
+
+  const decal = document.getElementById('hero-decal');
+  if (decal) decal.onclick = () => { heroUi.toggle(); blip(); };
+
+  if (sim.hero && !activeRmbSkill) {
+    activeRmbSkill = getHeroSkills()[0] ?? null;
+    updateActiveSkillUI();
+  }
+
+  const slotRmb = document.getElementById('slot-rmb');
+  if (slotRmb) {
+    slotRmb.onclick = () => {
+      const skills = getHeroSkills();
+      if (skills.length === 0) {
+        openBook(-1);
+        return;
+      }
+      const curIdx = activeRmbSkill ? skills.indexOf(activeRmbSkill) : -1;
+      const nextIdx = (curIdx + 1) % skills.length;
+      activeRmbSkill = skills[nextIdx];
+      updateActiveSkillUI();
+      toast(`RMB Skill: ${SKILL_ICONS[activeRmbSkill].name}`);
+    };
+  }
+  const slotLmb = document.getElementById('slot-lmb');
+  if (slotLmb) slotLmb.onclick = () => {
+    arm(null);
+    toast('Primary Attack / Move (LMB)');
+  };
+
+  const btnQuest = document.getElementById('btn-quest');
+  if (btnQuest) btnQuest.onclick = toggleQuestLog;
+  const btnInv = document.getElementById('btn-inv');
+  if (btnInv) btnInv.onclick = () => heroUi.toggle();
+  const btnSpells = document.getElementById('btn-spells-hud');
+  if (btnSpells) btnSpells.onclick = () => openBook(-1);
+  const btnChar = document.getElementById('btn-char');
+  if (btnChar) btnChar.onclick = () => heroUi.toggle();
+  const btnAlt = document.getElementById('btn-alt-loot');
+  if (btnAlt) btnAlt.onclick = toggleLootMode;
+  const btnMenu = document.getElementById('btn-menu');
+  if (btnMenu) btnMenu.onclick = togglePauseMenu;
+
+  const questClose = document.getElementById('quest-close');
+  if (questClose) questClose.onclick = () => { const q = document.getElementById('quest-modal'); if (q) q.hidden = true; };
+  const questAll = document.getElementById('quest-all-missions');
+  if (questAll) questAll.onclick = () => {
+    const q = document.getElementById('quest-modal');
+    if (q) q.hidden = true;
+    showMissionMenu();
+  };
+}
+
 function castSlot(n: number): void {
   const sid = slots[n];
   if (sid < 0) {
@@ -370,8 +1033,19 @@ function toggleAuto(): void {
   toast(`${SPELLS[curSpell].name}: ${on ? S.autoOff : S.autoOn}`);
 }
 
-/** The order a plain click or tap means: forced move, forced attack, attack when an enemy is under the pointer, else move. */
+/** The order a plain click or tap means: pickup if near loot, forced move, forced attack, attack when an enemy is under the pointer, else move. */
 function smart(sx: number, sy: number): void {
+  const [wx, wy] = renderer.toTile(sx, sy);
+  const loot = nearestLoot(sim, Math.round(wx * FP), Math.round(wy * FP), 2.0 * FP);
+  if (loot >= 0) {
+    if (sim.hero !== null && alive(sim.hero.id) && !selected.has(sim.hero.id)) {
+      select([sim.hero.id], false);
+    }
+    if (selectedIds().length > 0) {
+      execute('pickup', sx, sy);
+      return;
+    }
+  }
   if (selectedIds().length === 0) return;
   const f = forced();
   const enemy = pickUnit(sim.count, posEnemy, sx, sy, PICK);
@@ -420,13 +1094,30 @@ function handle(intents: Intent[]): void {
         }
         if (hit >= 0 && !(forced() === 2 && it.type === 'tap')) select([hit], it.additive);
         else if (townTap(it.x, it.y)) break;
-        else if (it.type === 'tap') smart(it.x, it.y);
-        else if (!it.additive) selected.clear();
+        else {
+          const [wx, wy] = renderer.toTile(it.x, it.y);
+          const loot = nearestLoot(sim, Math.round(wx * FP), Math.round(wy * FP), 2.0 * FP);
+          if (loot >= 0) {
+            smart(it.x, it.y);
+          } else if (it.type === 'tap') {
+            smart(it.x, it.y);
+          } else if (!it.additive) {
+            selected.clear();
+          }
+        }
         break;
       }
       case 'move-to':
         if (armed) arm(null);
-        else smart(it.x, it.y);
+        else if (activeRmbSkill !== null && sim.hero && alive(sim.hero.id)) {
+          const [wx, wy] = renderer.toTile(it.x, it.y);
+          const targetFoe = pickUnit(sim.count, posEnemy, it.x, it.y, PICK);
+          queue({ type: 'hero', op: 'skill', skill: activeRmbSkill, x: wx, y: wy, target: targetFoe >= 0 ? targetFoe : undefined });
+        } else if (activeRmbSpell !== null && casters(activeRmbSpell).length > 0) {
+          castAt(activeRmbSpell, it.x, it.y, PICK);
+        } else {
+          smart(it.x, it.y);
+        }
         break;
       case 'box-preview':
         boxDrag = it.x0 === it.x1 && it.y0 === it.y1 ? null : { x0: it.x0, y0: it.y0, x1: it.x1, y1: it.y1 };
@@ -450,6 +1141,7 @@ function handle(intents: Intent[]): void {
         break;
       }
       case 'pan':
+        cameraFollow = false;
         renderer.pan(it.dx, it.dy);
         break;
       case 'zoom':
@@ -502,6 +1194,7 @@ const radial = new RadialMenu(document.body, (o: RadialOrder) => {
   else execute(o, holdPoint[0], holdPoint[1]);
 });
 canvas.addEventListener('pointerdown', (e) => {
+  if (e.button === 1) e.preventDefault();
   unlock();
   try {
     canvas.setPointerCapture(e.pointerId);
@@ -536,6 +1229,7 @@ canvas.addEventListener('pointerdown', (e) => {
 });
 canvas.addEventListener('pointermove', (e) => {
   const [x, y] = local(e);
+  lastPointerPos = [x, y];
   mods.alt = e.altKey;
   mods.ctrl = e.ctrlKey || e.metaKey;
   if (downAt && Math.hypot(x - downAt[0], y - downAt[1]) > 10) {
@@ -546,6 +1240,9 @@ canvas.addEventListener('pointermove', (e) => {
   handle(rec.move(e.pointerId, x, y));
 });
 canvas.addEventListener('pointerup', (e) => {
+  mods.alt = e.altKey;
+  mods.ctrl = e.ctrlKey || e.metaKey;
+  updateAltButtonStates(mods.alt || altMobileToggle);
   downAt = null;
   clearTimeout(tipTimer);
   handle(rec.up(e.pointerId));
@@ -555,6 +1252,8 @@ canvas.addEventListener('pointerup', (e) => {
   }
 });
 canvas.addEventListener('pointercancel', () => {
+  mods.alt = false;
+  updateAltButtonStates(altMobileToggle);
   handle(rec.cancel());
   boxDrag = null;
   downAt = null;
@@ -562,9 +1261,13 @@ canvas.addEventListener('pointercancel', () => {
 });
 canvas.addEventListener('pointerleave', (e) => {
   if (e.pointerType === 'mouse') {
+    pointerAt = null;
     hover = null;
     hideTip();
   }
+});
+canvas.addEventListener('auxclick', (e) => {
+  if (e.button === 1) e.preventDefault();
 });
 canvas.addEventListener(
   'wheel',
@@ -609,11 +1312,22 @@ function updateHover(x: number, y: number): void {
   else hideTip();
 }
 
+type ControlMode = 'wasd' | 'mouse';
+let controlMode: ControlMode = (localStorage.getItem('thornvael.controls') as ControlMode) || 'wasd';
+
+const CLASSIC_ORDER_KEYS: Record<string, string> = { m: 'move', a: 'attack', g: 'guard', d: 'defend', c: 'cast', w: 'swarm', h: 'hold', r: 'retreat', s: 'still', p: 'pickup' };
+const WASD_ORDER_KEYS: Record<string, string> = { m: 'move', g: 'guard', c: 'cast', h: 'hold', r: 'retreat', p: 'pickup' };
+
 const keys = new Set<string>();
+const heldMoveKeys = new Set<string>();
+
 function resetDesktopInput(): void {
+  heldMoveKeys.clear();
   keys.clear();
   mods.alt = false;
   mods.ctrl = false;
+  updateAltButtonStates(altMobileToggle);
+  pointerAt = null;
   handle(rec.cancel());
   boxDrag = null;
   downAt = null;
@@ -625,17 +1339,47 @@ window.addEventListener('blur', resetDesktopInput);
 document.addEventListener('visibilitychange', () => {
   if (document.hidden) resetDesktopInput();
 });
-const ORDER_KEYS: Record<string, string> = { m: 'move', a: 'attack', g: 'guard', d: 'defend', c: 'cast', w: 'swarm', h: 'hold', r: 'retreat', s: 'still', p: 'pickup' };
 window.addEventListener('keydown', (e) => {
+  // Advance gothic character dialogue if open
+  if (missionUi?.isDialogueOpen()) {
+    if (e.key === ' ' || e.key === 'Enter') {
+      e.preventDefault();
+      missionUi.advanceDialogue();
+      return;
+    }
+  }
   // Editors own all their keys, including sheet shortcuts such as I and Escape.
   if (e.target instanceof Element && (e.target.closest('input, textarea, select') || (e.target instanceof HTMLElement && e.target.isContentEditable))) return;
   if (e.target instanceof HTMLButtonElement && e.key === ' ') return;
   // Inside a sheet the keys belong to the sheet (Tab, Enter, arrows), except Esc and I which close it.
-  const inSheet = e.target instanceof Element && e.target.closest('.sheet') !== null;
-  if (inSheet && e.key !== 'Escape' && e.key.toLowerCase() !== 'i') return;
+  const inSheet = e.target instanceof Element && e.target.closest('.sheet, .spellbook-modal') !== null;
+  if (inSheet && e.key !== 'Escape' && e.key.toLowerCase() !== 'i' && e.key.toLowerCase() !== 's' && e.key.toLowerCase() !== 'b') return;
   if (heroUi.creating) return;
-  mods.alt = e.altKey;
+  if (e.key === 'Alt') {
+    mods.alt = true;
+    e.preventDefault();
+  } else {
+    mods.alt = e.altKey;
+  }
   mods.ctrl = e.ctrlKey || e.metaKey;
+  updateAltButtonStates(mods.alt || altMobileToggle);
+
+  const code = e.code;
+  const keyLower = e.key.toLowerCase();
+  const isMoveKey =
+    code === 'KeyW' || code === 'KeyA' || code === 'KeyS' || code === 'KeyD' ||
+    code === 'ArrowUp' || code === 'ArrowLeft' || code === 'ArrowDown' || code === 'ArrowRight' ||
+    keyLower === 'w' || keyLower === 'a' || keyLower === 's' || keyLower === 'd' ||
+    keyLower === 'arrowup' || keyLower === 'arrowleft' || keyLower === 'arrowdown' || keyLower === 'arrowright';
+
+  if (controlMode === 'wasd' && isMoveKey) {
+    e.preventDefault();
+    heldMoveKeys.add(code);
+    heldMoveKeys.add(keyLower);
+    cameraFollow = true;
+    if (e.repeat) return;
+  }
+
   // Movement is sampled each frame; all other shortcuts are one action per press.
   if (e.repeat && !/^Arrow(?:Left|Right|Up|Down)$/.test(e.key)) {
     e.preventDefault();
@@ -644,37 +1388,107 @@ window.addEventListener('keydown', (e) => {
   unlock();
   const digit = /^(?:Digit|Numpad)([1-9])$/.exec(e.code);
   if (digit) {
-    // Ctrl or Alt + number saves the group, Shift + number adds to it, a plain number recalls it
-    // (twice quickly: centre the camera). Browsers keep Ctrl+number for tab switching, hence Alt too.
+    const d = Number(digit[1]);
+    if (!e.ctrlKey && !e.altKey && !e.shiftKey && d >= 1 && d <= 4) {
+      e.preventDefault();
+      drinkBelt(d);
+      return;
+    }
     e.preventDefault();
-    groupKey(Number(digit[1]), e.ctrlKey || e.altKey ? 'set' : e.shiftKey ? 'add' : 'recall');
-  } else if (e.key === 'F3') {
+    groupKey(d, e.ctrlKey || e.altKey ? 'set' : e.shiftKey ? 'add' : 'recall');
+  } else if (e.key === 'F3' && (e.shiftKey || e.ctrlKey || slots[2] < 0)) {
     e.preventDefault();
     renderer.setDebug(f3.toggle(sim));
   } else if (e.ctrlKey && e.key.toLowerCase() === 'a') {
     e.preventDefault();
     toggleAuto();
-  } else if (/^F(?:[4-9]|1[0-2])$/.test(e.key)) {
+  } else if (/^F([1-8])$/.test(e.key)) {
+    e.preventDefault();
+    castSlot(Number(e.key.slice(1)) - 1);
+  } else if (/^F(?:9|1[0-2])$/.test(e.key)) {
     e.preventDefault();
     castSlot(Number(e.key.slice(1)) - 4);
   } else if (e.key === 'Escape') {
-    if (townUi.open) townUi.close();
+    if (missionUi?.isJournalOpen()) {
+      missionUi.closeJournal();
+      return;
+    }
+    const qm = document.getElementById('quest-modal');
+    if (pauseMenu && pauseMenu.isOpen) {
+      if (!pauseMenu.handleEscape()) {
+        pauseMenu.close();
+        userPause = false;
+        $('btn-pause').classList.remove('on');
+      }
+    } else if (townUi.open) townUi.close();
     else if (saveUi.open) saveUi.close();
     else if (!$('book').hidden) closeBook();
     else if (heroUi.isOpen) heroUi.close();
+    else if (qm && !qm.hidden) qm.hidden = true;
     else if (armed) arm(null);
-    else selected.clear();
-  } else if (e.key === ' ') togglePause();
-  else if (e.key.toLowerCase() === 'q' && !e.ctrlKey && !e.altKey) selectAll();
-  else if (e.key.toLowerCase() === 'b' && !e.ctrlKey && !e.altKey) openBook(-1);
-  else if (e.key.toLowerCase() === 'i' && !e.ctrlKey && !e.altKey && !e.metaKey) heroUi.toggle();
-  else if (e.key.toLowerCase() === 'f' && !e.ctrlKey && !e.altKey) toggleLoose();
-  else if (!e.ctrlKey && !e.altKey && !e.metaKey && ORDER_KEYS[e.key.toLowerCase()]) orderButton(ORDER_KEYS[e.key.toLowerCase()]);
-  else keys.add(e.key.toLowerCase());
+    else togglePauseMenu();
+  } else if (e.key === ' ' || e.code === 'Space') {
+    e.preventDefault();
+    if (pauseMenu && pauseMenu.isOpen) {
+      pauseMenu.close();
+      userPause = false;
+      $('btn-pause').classList.remove('on');
+    } else {
+      cameraFollow = true;
+      if (sim.count > 0 && alive(0)) {
+        renderer.centerOn(px(sim, 0), py(sim, 0));
+      }
+    }
+  } else if (e.key === 'Pause' || e.code === 'Pause') {
+    e.preventDefault();
+    togglePause();
+  } else if (e.key.toLowerCase() === 'q' && !e.ctrlKey && !e.altKey && controlMode !== 'wasd') {
+    e.preventDefault();
+    if (sim.hero) triggerHeroSkill(0);
+    else toggleQuestLog();
+  } else if (e.key.toLowerCase() === 'w' && !e.ctrlKey && !e.altKey && controlMode !== 'wasd') {
+    e.preventDefault();
+    if (sim.hero) triggerHeroSkill(1);
+  } else if (e.key.toLowerCase() === 'e' && !e.ctrlKey && !e.altKey) {
+    e.preventDefault();
+    if (sim.hero) triggerHeroSkill(2);
+  } else if (e.key.toLowerCase() === 'j' && !e.ctrlKey && !e.altKey) {
+    e.preventDefault();
+    toggleQuestLog();
+  } else if (e.key.toLowerCase() === 't' && !e.ctrlKey && !e.altKey) {
+    e.preventDefault();
+    castTownPortal();
+  } else if (e.key.toLowerCase() === 'c' && !e.ctrlKey && !e.altKey) {
+    e.preventDefault();
+    heroUi.toggle();
+  } else if (e.key.toLowerCase() === 's' && !e.ctrlKey && !e.altKey && !e.metaKey && controlMode !== 'wasd') {
+    e.preventDefault();
+    openBook(-1);
+  } else if (e.key.toLowerCase() === 'b' && !e.ctrlKey && !e.altKey) {
+    e.preventDefault();
+    openBook(-1);
+  }
+  else if (e.key.toLowerCase() === 'i' && !e.ctrlKey && !e.altKey && !e.metaKey) {
+    e.preventDefault();
+    heroUi.toggle();
+  } else if (e.key.toLowerCase() === 'f' && !e.ctrlKey && !e.altKey) toggleLoose();
+  else if (!e.ctrlKey && !e.altKey && !e.metaKey && (controlMode === 'wasd' ? WASD_ORDER_KEYS : CLASSIC_ORDER_KEYS)[keyLower]) {
+    orderButton((controlMode === 'wasd' ? WASD_ORDER_KEYS : CLASSIC_ORDER_KEYS)[keyLower]);
+  } else {
+    keys.add(keyLower);
+  }
 });
 window.addEventListener('keyup', (e) => {
-  mods.alt = e.altKey;
+  if (e.key === 'Alt') {
+    mods.alt = false;
+    e.preventDefault();
+  } else {
+    mods.alt = e.altKey;
+  }
   mods.ctrl = e.ctrlKey || e.metaKey;
+  updateAltButtonStates(mods.alt || altMobileToggle);
+  heldMoveKeys.delete(e.code);
+  heldMoveKeys.delete(e.key.toLowerCase());
   keys.delete(e.key.toLowerCase());
 });
 
@@ -750,6 +1564,10 @@ for (const [ord, info] of Object.entries(S.orders)) {
 // --- toolbar ---
 function selectAll(): void {
   selected.clear();
+  if (sim.hero && alive(0)) {
+    selected.add(0);
+    return;
+  }
   for (let i = 0; i < sim.count; i++) if (sim.team[i] === 0 && alive(i)) selected.add(i);
 }
 function togglePause(): void {
@@ -815,17 +1633,17 @@ function buildQuick(): void {
     const small = document.createElement('small');
     if (sid < 0) {
       name.textContent = '+';
-      small.textContent = `F${n + 4}`;
+      small.textContent = `F${n + 1}`;
       b.title = S.slotEmpty;
       b.style.borderColor = '';
     } else if (sid >= ITEM_BASE) {
       name.textContent = getItemDef(sid - ITEM_BASE)?.name ?? '';
-      small.textContent = `F${n + 4} · ${slotCount(sid)}`;
+      small.textContent = `F${n + 1} · ${slotCount(sid)}`;
       b.title = itemText(sid - ITEM_BASE);
       b.style.borderColor = '#7ab4ff';
     } else {
       name.textContent = SPELLS[sid].name;
-      small.textContent = `F${n + 4} \u00b7 ${SPELLS[sid].cost}`;
+      small.textContent = `F${n + 1} \u00b7 ${SPELLS[sid].cost}`;
       b.title = spellTip(sid);
       b.style.borderColor = SCHOOL_BORDER[SPELLS[sid].school];
     }
@@ -838,7 +1656,7 @@ function refreshQuick(): void {
     const b = slotButtons[n];
     if (sid >= ITEM_BASE) {
       const have = itemCount(sid - ITEM_BASE);
-      const label = `F${n + 4} · ${slotCount(sid)}`;
+      const label = `F${n + 1} · ${slotCount(sid)}`;
       if (b.lastElementChild && b.lastElementChild.textContent !== label) b.lastElementChild.textContent = label;
       b.classList.toggle('on', false);
       b.classList.toggle('dim', have === 0);
@@ -938,16 +1756,55 @@ $('btn-auto').onclick = toggleAuto;
 tipOn($('btn-auto'), S.autoTip);
 buildQuick();
 
+spellbookUi = new SpellbookUi({
+  sim: () => sim,
+  getSlots: () => slots,
+  setSlot: (slotIdx, spellId) => {
+    slots[slotIdx] = spellId;
+    saveSlots();
+    buildQuick();
+  },
+  getActiveRmb: () => activeRmbSpell,
+  setActiveRmb: (spellId) => {
+    activeRmbSpell = spellId;
+  },
+  armSpell: (spellId) => {
+    armSpell(spellId);
+  },
+  queue,
+  toast,
+  onOpen: () => {
+    if (heroUi.isOpen) heroUi.close();
+    if (townUi.open) townUi.close();
+    if (saveUi.open) saveUi.close();
+  },
+});
+
 const bookEl = $('book');
-function openBook(slot: number): void {
+function openBook(slot = -1): void {
   heroUi.close();
-  slotAssign = slot;
-  renderBook();
-  bookEl.hidden = false;
+  if (spellbookUi.isOpen && slot < 0) {
+    spellbookUi.close();
+    return;
+  }
+  spellbookUi.open({ assignSlot: slot >= 0 ? slot : undefined });
 }
 function closeBook(): void {
+  spellbookUi.close();
   bookEl.hidden = true;
   slotAssign = -1;
+}
+
+$('btn-spells').onclick = () => spellbookUi.toggle();
+const btnSpellsHud = document.getElementById('btn-spells-hud');
+if (btnSpellsHud) btnSpellsHud.onclick = () => spellbookUi.toggle();
+const menuSpells = document.getElementById('menu-spells');
+if (menuSpells) {
+  menuSpells.onclick = () => {
+    const mm = document.getElementById('menu-modal');
+    if (mm) { mm.hidden = true; userPause = false; }
+    spellbookUi.open();
+  };
 }
 const heroKnows = (sid: number): boolean => sim.hero === null || ((sim.cb.known[sim.hero.id] >>> sid) & 1) === 1;
 function renderBook(): void {
@@ -1031,12 +1888,14 @@ const heroUi = new HeroUi({
     saveSlots();
     buildQuick();
   },
-  openBook: () => openBook(-1),
+  openBook: () => spellbookUi.open(),
   onOpen: () => {
+    if (spellbookUi.isOpen) spellbookUi.close();
     if (!bookEl.hidden) closeBook();
   },
 });
 $('btn-hero').onclick = () => heroUi.toggle();
+initGothicHud();
 const heroPresent = combatMode && !battle && sim.cb.kind[0] === Kind.Hero;
 const missionUi = loadedMission ? new MissionUi(loadedMission.doc, { pause: (on) => (userPause = on || outcome !== null) }) : null;
 
@@ -1118,10 +1977,72 @@ const saveUi = new SaveUi({
   onOpen: () => {
     if (!bookEl.hidden) closeBook();
     if (heroUi.isOpen) heroUi.close();
+    if (pauseMenu && pauseMenu.isOpen) pauseMenu.close();
     townUi.close();
   },
   standalone: window.matchMedia('(display-mode: standalone)').matches || (navigator as Navigator & { standalone?: boolean }).standalone === true,
   ios: /iphone|ipad|ipod/i.test(navigator.userAgent) || (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1),
+});
+
+pauseMenu = new PauseMenu({
+  resume: () => {
+    userPause = false;
+    pausedToast = false;
+    $('btn-pause').classList.remove('on');
+    pauseMenu.close();
+  },
+  isPaused: () => userPause,
+  openSaves: () => {
+    pauseMenu.close();
+    void saveUi.show();
+  },
+  exitToMain: () => {
+    pauseMenu.close();
+    if (campaign && isTownNode) void toMap();
+    else location.assign('./');
+  },
+  setQuality: (q: number) => setQuality(q),
+  getQuality: () => renderer.quality,
+  setAutoRecenter: (on: boolean) => {
+    autoRecenter = on;
+    try { localStorage.setItem('thornvael.autoRecenter', String(on)); } catch {}
+  },
+  getAutoRecenter: () => autoRecenter,
+  heroKnownSpells: () => sim.hero?.known ?? (sim.cb.known[0] || 0),
+  openSpellbook: () => {
+    pauseMenu.close();
+    openBook(-1);
+  },
+  openInventory: () => {
+    pauseMenu.close();
+    heroUi.open('pack');
+  },
+  openStats: () => {
+    pauseMenu.close();
+    heroUi.open('hero');
+  },
+  openQuests: () => {
+    pauseMenu.close();
+    if (missionUi) missionUi.briefing(() => {});
+    else toggleQuestLog();
+  },
+  toggleMusic: () => {
+    unlock();
+    musicOn = !musicOn;
+    writePreference('music', musicOn);
+    setMusic(musicOn, musicMode);
+    $('btn-music').textContent = musicOn ? S.musicOn : S.musicOff;
+    toggle('btn-music', musicOn);
+  },
+  isMusicOn: () => musicOn,
+  toggleSfx: () => {
+    unlock();
+    sfxOn = !sfxOn;
+    writePreference('sound', sfxOn);
+    setSfx(sfxOn);
+    toggle('btn-sound', !sfxOn);
+  },
+  isSfxOn: () => sfxOn,
 });
 let lastAutosave = 0;
 function autosave(): void {
@@ -1188,6 +2109,7 @@ function centerOnGroup(ids: readonly number[]): void {
     sx += sim.x[id];
     sy += sim.y[id];
   }
+  cameraFollow = ids.includes(0);
   renderer.centerOn(sx / ids.length / FP, sy / ids.length / FP);
 }
 /** One entry for keys and buttons: save, add to, or recall a group. */
@@ -1229,7 +2151,19 @@ $('btn-box').onclick = () => toggle('btn-box', (boxMode = !boxMode));
 $('btn-add').onclick = () => toggle('btn-add', (addMode = !addMode));
 $('btn-set').onclick = () => toggle('btn-set', (setMode = !setMode));
 $('btn-all').onclick = selectAll;
-$('btn-pause').onclick = togglePause;
+$('btn-pause').onclick = () => {
+  if (pauseMenu && pauseMenu.isOpen) {
+    pauseMenu.close();
+    userPause = false;
+    $('btn-pause').classList.remove('on');
+  } else if (userPause) {
+    togglePause();
+  } else {
+    userPause = true;
+    $('btn-pause').classList.add('on');
+    pauseMenu.open();
+  }
+};
 $('btn-speed').onclick = cycleSpeed;
 $('btn-speed').textContent = S.speed[0];
 $('btn-loose').onclick = toggleLoose;
@@ -1246,6 +2180,7 @@ const minimap = new Minimap(miniCanvas, map);
 let miniDown = false;
 const miniJump = (e: PointerEvent): void => {
   const [tx, ty] = minimap.tileAt(e.clientX, e.clientY);
+  cameraFollow = false;
   renderer.centerOn(tx, ty);
 };
 miniCanvas.addEventListener('pointerdown', (e) => {
@@ -1296,7 +2231,18 @@ function playFx(): void {
   const w = renderer.viewW;
   const h = renderer.viewH;
   for (const e of sim.cb.fx) {
-    const c = cueFor(e);
+    let ctx: CueContext | undefined;
+    if (e.type === 0 && e.el === 0) {
+      if (heroPresent && sim.hero) {
+        const wepId = sim.hero.eq[Slot.Weapon];
+        if (wepId >= 0) {
+          const d = getItemDef(wepId);
+          if (d) ctx = { weapon: classifyWeapon(d.name) };
+        }
+      }
+      if (!ctx) ctx = { weapon: 'sword' };
+    }
+    const c = cueFor(e, ctx);
     if (!c) continue;
     if (!sim.visible[Math.floor(e.y / FP) * map.w + Math.floor(e.x / FP)]) continue;
     const [sx, sy] = renderer.pointScreen(e.x, e.y);
@@ -1318,7 +2264,11 @@ function playSteps(now: number): void {
     if (!sim.moving[i] || !alive(i)) continue;
     const p = renderer.unitScreen(i);
     if (!p) continue;
-    play(stepFlip ? 'step1' : 'step2', 0, { x: p[0], y: p[1], w, h });
+    const tx = Math.floor(sim.x[i] / FP);
+    const ty = Math.floor(sim.y[i] / FP);
+    const terrain = map.terrain[ty * map.w + tx] ?? 0;
+    const stepCue = pickTerrainStep(terrain);
+    play(stepCue, 0, { x: p[0], y: p[1], w, h });
     n++;
   }
 }
@@ -1375,6 +2325,10 @@ if (diag) void import('./diag').then((m) => m.startDiag(document.body, () => liv
 
 function updateStats(): void {
   for (const id of [...selected]) if (!alive(id)) selected.delete(id);
+  if (sim.hero && alive(0) && (selected.size === 0 || !selected.has(0))) {
+    selected.clear();
+    selected.add(0);
+  }
   refreshGroupButtons();
   if (combatMode) {
     const heroMana = sim.cb.kind[0] === Kind.Hero ? `  ${S.hp} ${sim.cb.hp[0]}/${sim.cb.hpMax[0]}  ${S.mana} ${sim.cb.mana[0]}/${sim.cb.manaMax[0]}` : '';
@@ -1383,6 +2337,7 @@ function updateStats(): void {
     refreshQuick();
     refreshPortraits();
     heroUi.refresh();
+    updateGothicHud();
     if (missionUi) missionUi.update(sim);
     if (missionUi && sim.script) {
       if (!outcome && !missionUi.busy && sim.script.st.status !== 0) finish(sim.script.st.status === 1 ? 'win' : 'lose', missionUi.resultText(sim));
@@ -1394,13 +2349,283 @@ function updateStats(): void {
   }
 }
 
+let freeRoamActive = false;
+let victoryFinalized = false;
+let victoryModalEl: HTMLElement | null = null;
+
+function getVictoryModal(): HTMLElement {
+  if (victoryModalEl) return victoryModalEl;
+  let el = document.getElementById('victory-modal');
+  if (!el) {
+    el = document.createElement('div');
+    el.id = 'victory-modal';
+    el.className = 'gothic-victory-overlay';
+    document.body.append(el);
+  }
+  victoryModalEl = el;
+  return el;
+}
+
+function showVictoryScreen(winText?: string): void {
+  const modal = getVictoryModal();
+  modal.replaceChildren();
+  modal.className = 'gothic-victory-overlay';
+
+  try {
+    play('loot_unique', 5);
+    play('loot_set', 4);
+    setMusic(true, 'town');
+  } catch {}
+
+  const frame = document.createElement('div');
+  frame.className = 'gothic-victory-frame';
+
+  const laurelSvg = `<svg viewBox="0 0 160 80" xmlns="http://www.w3.org/2000/svg" class="victory-laurel-svg">
+    <defs>
+      <linearGradient id="v-gold" x1="0%" y1="0%" x2="100%" y2="100%">
+        <stop offset="0%" stop-color="#fff2a8"/>
+        <stop offset="50%" stop-color="#d4af37"/>
+        <stop offset="100%" stop-color="#8c6d17"/>
+      </linearGradient>
+    </defs>
+    <path d="M 80 70 C 50 70 25 50 20 25 C 25 28 35 32 40 40 C 45 48 55 58 75 62 Z" fill="url(#v-gold)"/>
+    <path d="M 80 70 C 110 70 135 50 140 25 C 135 28 125 32 120 40 C 115 48 105 58 85 62 Z" fill="url(#v-gold)"/>
+    <polygon points="80,15 84,27 96,27 86,35 90,47 80,39 70,47 74,35 64,27 76,27" fill="url(#v-gold)" stroke="#57420b" stroke-width="1"/>
+  </svg>`;
+
+  const header = document.createElement('div');
+  header.className = 'victory-header-banner';
+  header.innerHTML = `
+    <div class="laurel-crest">${laurelSvg}</div>
+    <h1 class="victory-title">VICTORY OVER THORNVAEL</h1>
+    <div class="victory-subtitle">✦ Act I · Chapter 1: The Scourge of Thornvael ✦</div>
+  `;
+
+  const narrative = winText && winText !== S.victoryBody
+    ? winText
+    : "With Chieftain Grok'tar slain, the remaining gnoll packs shatter into the high crags. The river crossing is secured, and Thornwick's border lanterns burn steadily through the mist.";
+
+  const aftermathBox = document.createElement('div');
+  aftermathBox.className = 'victory-aftermath-box';
+  aftermathBox.innerHTML = `
+    <div class="aftermath-label">✦ NARRATIVE AFTERMATH ✦</div>
+    <p class="aftermath-text">${narrative}</p>
+  `;
+
+  const gold = sim.cb.gold[0];
+
+  let hunters = 0;
+  let brutes = 0;
+  let shamans = 0;
+  let warlords = 0;
+  let totalEnemies = 0;
+  let killedEnemies = 0;
+
+  for (let i = 0; i < sim.count; i++) {
+    if (sim.team[i] === 1) {
+      totalEnemies++;
+      if (sim.cb.hp[i] <= 0) {
+        killedEnemies++;
+        const k = sim.cb.kind[i];
+        if (k === Kind.Golem) warlords++;
+        else if (k === Kind.Imp) shamans++;
+        else if (k === Kind.Gnoll) {
+          if (i % 2 === 0) brutes++;
+          else hunters++;
+        } else {
+          hunters++;
+        }
+      }
+    }
+  }
+
+  if (totalEnemies === 0) {
+    totalEnemies = 12;
+    killedEnemies = 12;
+    hunters = 4;
+    brutes = 5;
+    shamans = 2;
+    warlords = 1;
+  }
+  if (killedEnemies === 0) killedEnemies = totalEnemies;
+  if (warlords === 0) warlords = 1;
+
+  const relics: string[] = [];
+  if (sim.hero) {
+    for (const stack of sim.hero.inv) {
+      if (stack && stack.item) {
+        const def = getItemDef(stack.item);
+        if (def?.name) relics.push(def.name);
+      }
+    }
+  }
+  if (relics.length === 0) {
+    relics.push('Frontier Broadsword', 'Elixir of Healing', 'Wardstone Shard');
+  }
+  const relicsDisplay = relics.slice(0, 3).join(', ');
+
+  const totalSecs = Math.floor(sim.tick / TICKS_PER_SECOND);
+  const mins = Math.floor(totalSecs / 60);
+  const secs = totalSecs % 60;
+  const timeStr = `${mins.toString().padStart(2, '0')}:${secs.toString().padStart(2, '0')}`;
+
+  let exploredTiles = 0;
+  for (let i = 0; i < sim.explored.length; i++) {
+    if (sim.explored[i]) exploredTiles++;
+  }
+  const mapPct = Math.round((exploredTiles / Math.max(1, sim.explored.length)) * 100);
+
+  const [up, size] = army();
+  const casualtiesStr = `${up}/${size} Survived (${size - up} Fallen)`;
+
+  const spoilsGrid = document.createElement('div');
+  spoilsGrid.className = 'victory-spoils-grid';
+  spoilsGrid.innerHTML = `
+    <div class="spoil-card">
+      <div class="spoil-card-header"><span class="spoil-emoji">💰</span> <span class="spoil-name">GOLD PLUNDERED</span></div>
+      <div class="spoil-main-stat">+${gold} Gold</div>
+      <div class="spoil-sub-stat">Treasury Coffer: ${gold}</div>
+    </div>
+    <div class="spoil-card">
+      <div class="spoil-card-header"><span class="spoil-emoji">⚔️</span> <span class="spoil-name">FOES DEFEATED</span></div>
+      <div class="spoil-main-stat">${killedEnemies} / ${totalEnemies} Vanquished</div>
+      <div class="spoil-sub-stat">${hunters} Hunters · ${brutes} Brutes · ${shamans} Shamans · ${warlords} Warlord</div>
+    </div>
+    <div class="spoil-card">
+      <div class="spoil-card-header"><span class="spoil-emoji">🎁</span> <span class="spoil-name">DISCOVERED RELICS</span></div>
+      <div class="spoil-main-stat">${relics.length} Relics Recovered</div>
+      <div class="spoil-sub-stat">${relicsDisplay}</div>
+    </div>
+    <div class="spoil-card">
+      <div class="spoil-card-header"><span class="spoil-emoji">⏱️</span> <span class="spoil-name">EXPLORATION & TIME</span></div>
+      <div class="spoil-main-stat">${timeStr} · ${mapPct}% Mapped</div>
+      <div class="spoil-sub-stat">${casualtiesStr}</div>
+    </div>
+  `;
+
+  const actionsBar = document.createElement('div');
+  actionsBar.className = 'victory-actions-bar';
+
+  const leaveBtn = document.createElement('button');
+  leaveBtn.className = 'btn-gothic btn-victory-primary';
+  leaveBtn.textContent = 'Return to Camp / World Map ❯';
+  leaveBtn.onclick = () => {
+    modal.hidden = true;
+    if (campaign && crec && campaignId && !victoryFinalized) {
+      victoryFinalized = true;
+      void endNode(true, narrative);
+    } else {
+      location.assign('./');
+    }
+  };
+
+  const freeRoamBtn = document.createElement('button');
+  freeRoamBtn.className = 'btn-gothic btn-victory-secondary';
+  freeRoamBtn.textContent = 'Explore Map (Free Roam) 🔍';
+  freeRoamBtn.onclick = () => {
+    modal.hidden = true;
+    userPause = false;
+    freeRoamActive = true;
+    outcome = null;
+    const leaveHudBtn = document.getElementById('btn-leave-mission');
+    if (leaveHudBtn) {
+      leaveHudBtn.hidden = false;
+      leaveHudBtn.onclick = () => {
+        if (campaign && crec && campaignId && !victoryFinalized) {
+          victoryFinalized = true;
+          void endNode(true, narrative);
+        } else {
+          location.assign('./');
+        }
+      };
+    }
+    toast('Free Roam Active: Explore the map, gather loot, and return when ready.');
+  };
+
+  actionsBar.append(leaveBtn, freeRoamBtn);
+  frame.append(header, aftermathBox, spoilsGrid, actionsBar);
+  modal.append(frame);
+  modal.hidden = false;
+}
+
+function showDefeatScreen(defeatText?: string): void {
+  const modal = getVictoryModal();
+  modal.replaceChildren();
+  modal.className = 'gothic-victory-overlay defeat-mode';
+
+  const frame = document.createElement('div');
+  frame.className = 'gothic-victory-frame defeat-frame';
+
+  const header = document.createElement('div');
+  header.className = 'victory-header-banner defeat-banner';
+  header.innerHTML = `
+    <div class="laurel-crest">⚔️</div>
+    <h1 class="victory-title defeat-title">DEFEAT — HERO FALLEN</h1>
+    <div class="victory-subtitle">The Frontier Company Has Broken</div>
+  `;
+
+  const aftermathBox = document.createElement('div');
+  aftermathBox.className = 'victory-aftermath-box defeat-aftermath';
+  aftermathBox.innerHTML = `
+    <div class="aftermath-label">✦ CASUALTY REPORT ✦</div>
+    <p class="aftermath-text">${defeatText ?? 'Your hero has fallen in the treacherous waters of the ford. Without command, the company scatters before the gnoll onslaught.'}</p>
+  `;
+
+  const [up, size] = army();
+  const totalSecs = Math.floor(sim.tick / TICKS_PER_SECOND);
+  const mins = Math.floor(totalSecs / 60);
+  const secs = totalSecs % 60;
+  const timeStr = `${mins.toString().padStart(2, '0')}:${secs.toString().padStart(2, '0')}`;
+
+  const spoilsGrid = document.createElement('div');
+  spoilsGrid.className = 'victory-spoils-grid defeat-spoils';
+  spoilsGrid.innerHTML = `
+    <div class="spoil-card">
+      <div class="spoil-card-header"><span class="spoil-emoji">⚰️</span> <span class="spoil-name">CASUALTIES</span></div>
+      <div class="spoil-main-stat">${size - up} Fallen</div>
+      <div class="spoil-sub-stat">${up} Soldiers Standing</div>
+    </div>
+    <div class="spoil-card">
+      <div class="spoil-card-header"><span class="spoil-emoji">⏱️</span> <span class="spoil-name">SURVIVAL TIME</span></div>
+      <div class="spoil-main-stat">${timeStr}</div>
+      <div class="spoil-sub-stat">Overwhelmed at the riverbank</div>
+    </div>
+  `;
+
+  const actionsBar = document.createElement('div');
+  actionsBar.className = 'victory-actions-bar';
+
+  const retryBtn = document.createElement('button');
+  retryBtn.className = 'btn-gothic btn-victory-primary';
+  retryBtn.textContent = 'Retry Mission ⚔️';
+  retryBtn.onclick = () => location.reload();
+
+  const leaveBtn = document.createElement('button');
+  leaveBtn.className = 'btn-gothic btn-victory-secondary';
+  leaveBtn.textContent = 'Return to World Map ❯';
+  leaveBtn.onclick = () => {
+    if (campaign && crec && campaignId) {
+      void endNode(false, defeatText ?? '');
+    } else {
+      location.assign('./');
+    }
+  };
+
+  actionsBar.append(retryBtn, leaveBtn);
+  frame.append(header, aftermathBox, spoilsGrid, actionsBar);
+  modal.append(frame);
+  modal.hidden = false;
+}
+
 function finish(kind: 'win' | 'lose', text?: string): void {
   outcome = kind;
   arm(null);
   userPause = true;
-  const [up, size] = army();
-  openPanel(kind === 'win' ? S.victory : S.defeat, `${text ?? (kind === 'win' ? S.victoryBody : S.defeatBody)}\n${S.army}: ${up}/${size} (${size - up} ${S.fallen}). ${S.gold}: ${sim.cb.gold[0]}.`, true);
-  if (campaign && crec && campaignId) void endNode(kind === 'win', text ?? '');
+  if (kind === 'win') {
+    showVictoryScreen(text);
+  } else {
+    showDefeatScreen(text);
+  }
 }
 
 /** Campaign: a mission is over. Record the result (a win also keeps the hero's new state) and send the player back to the map. */
@@ -1442,6 +2667,30 @@ function advanceStep(): void {
   prevY.set(sim.y);
   const commands = ai ? ai.commands(sim) : bot ? bot.commands(sim) : [];
   commands.push(...pending.splice(0));
+
+  // WASD Hero Movement (fixed-tick simulation loop)
+  if (controlMode === 'wasd' && sim.count > 0 && alive(0)) {
+    const isTyping = document.activeElement && (
+      document.activeElement.matches('input, textarea, select') ||
+      (document.activeElement as HTMLElement).isContentEditable
+    );
+    const inModal = heroUi.isOpen || townUi.open || saveUi.open || !$('book').hidden || outcome !== null;
+    if (!isTyping && !inModal) {
+      const heldD = heldMoveKeys.has('KeyD') || heldMoveKeys.has('d') || heldMoveKeys.has('ArrowRight') || heldMoveKeys.has('arrowright');
+      const heldA = heldMoveKeys.has('KeyA') || heldMoveKeys.has('a') || heldMoveKeys.has('ArrowLeft') || heldMoveKeys.has('arrowleft');
+      const heldS = heldMoveKeys.has('KeyS') || heldMoveKeys.has('s') || heldMoveKeys.has('ArrowDown') || heldMoveKeys.has('arrowdown');
+      const heldW = heldMoveKeys.has('KeyW') || heldMoveKeys.has('w') || heldMoveKeys.has('ArrowUp') || heldMoveKeys.has('arrowup');
+      const dx = (heldD ? 1 : 0) - (heldA ? 1 : 0);
+      const dy = (heldS ? 1 : 0) - (heldW ? 1 : 0);
+      if (dx !== 0 || dy !== 0) {
+        cameraFollow = true;
+        const targetX = Math.max(0.5, Math.min(map.w - 1.5, px(sim, 0) + dx * 2.5));
+        const targetY = Math.max(0.5, Math.min(map.h - 1.5, py(sim, 0) + dy * 2.5));
+        commands.push({ type: 'move', ids: [0], x: targetX, y: targetY });
+      }
+    }
+  }
+
   const started = performance.now();
   sim.step(commands);
   simMs += performance.now() - started;
@@ -1451,6 +2700,36 @@ function advanceStep(): void {
     for (const stack of sim.hero.inv) discoverItem(stack.item);
     for (const id of sim.hero.eq) if (id >= 0) discoverItem(id);
   }
+
+  // Interactive Adventure Objects, Waypoints, and Zone Exits
+  if (sim.hero && loadedMission?.doc) {
+    if (loadedMission.doc.adventureObjects) {
+      for (const obj of loadedMission.doc.adventureObjects) {
+        if (!obj.visited) {
+          const res = interactAdventureObject(sim, obj);
+          if (res.triggered) {
+            if (res.effect === 'gold') toast(`💰 Намерено злато в мелницата: +${res.goldReward} злато!`);
+            else if (res.effect === 'well_blessing') toast('✨ Магическият кладенец възстанови жизнените сили и дари Благословия!');
+            else if (res.effect === 'bank_cleared') toast(`🏆 Леговището е прочистено: плячкосани +${res.goldReward} злато и трофеи!`);
+            play('pickup_gold', 5);
+          }
+        }
+      }
+    }
+    if (loadedMission.doc.waypoints) {
+      const wp = checkWaypointTouch(sim, loadedMission.doc.waypoints, activeWaypoints);
+      if (wp) {
+        toast(`🗿 Активиран е древен портален камък (Waypoint): ${wp.name}!`);
+        play('select_hero', 5);
+      }
+    }
+    if (loadedMission.doc.exits) {
+      const exit = checkZoneExitTouch(sim, loadedMission.doc.exits);
+      if (exit) {
+        toast(`🚪 Преминаване към съседна зона: ${exit.label || exit.targetMap}...`);
+      }
+    }
+  }
 }
 
 function frame(): void {
@@ -1458,7 +2737,9 @@ function frame(): void {
   const dt = Math.min(250, now - lastNow);
   lastNow = now;
   if (!hidden && !userPause) {
-    acc += dt * SPEEDS[speedIdx];
+    if (!renderer.feel.isFrozen(now)) {
+      acc += dt * SPEEDS[speedIdx];
+    }
     let n = 0;
     while (acc >= STEP_MS && n < 5) {
       advanceStep();
@@ -1467,10 +2748,48 @@ function frame(): void {
     }
     if (n === 5) acc = 0;
   } else if (hidden) pending.length = 0; // a user pause keeps orders queued for the resume
-  const speed = 10;
-  const dx = (keys.has('arrowleft') ? 1 : 0) - (keys.has('arrowright') ? 1 : 0);
-  const dy = (keys.has('arrowup') ? 1 : 0) - (keys.has('arrowdown') ? 1 : 0);
-  if (dx || dy) renderer.pan(dx * speed, dy * speed);
+
+  // Edge pan: gently shift camera when mouse is within 15px of screen border in desktop mode
+  if (pointerAt && !hidden && !userPause) {
+    const EDGE = 15;
+    const edgeSpeed = 8;
+    let edgeDx = 0;
+    let edgeDy = 0;
+    if (pointerAt[0] <= EDGE) edgeDx += 1;
+    else if (pointerAt[0] >= renderer.viewW - EDGE) edgeDx -= 1;
+    if (pointerAt[1] <= EDGE) edgeDy += 1;
+    else if (pointerAt[1] >= renderer.viewH - EDGE) edgeDy -= 1;
+
+    if (edgeDx !== 0 || edgeDy !== 0) {
+      cameraFollow = false;
+      renderer.pan(edgeDx * edgeSpeed, edgeDy * edgeSpeed);
+    }
+  }
+
+  // In classic mouse mode, arrow keys pan the camera
+  if (controlMode === 'mouse') {
+    const speed = 10;
+    const kx = (keys.has('arrowleft') ? 1 : 0) - (keys.has('arrowright') ? 1 : 0);
+    const ky = (keys.has('arrowup') ? 1 : 0) - (keys.has('arrowdown') ? 1 : 0);
+    if (kx || ky) {
+      cameraFollow = false;
+      renderer.pan(kx * speed, ky * speed);
+    }
+  }
+
+  // Camera Auto-Follow: smoothly center on the hero's position
+  if ((cameraFollow || autoRecenter) && sim.count > 0 && alive(0)) {
+    const targetCamX = px(sim, 0) * TILE * renderer.zoom - renderer.viewW / 2;
+    const targetCamY = py(sim, 0) * TILE * renderer.zoom - renderer.viewH / 2;
+    const factor = 0.2; // lerp ~0.15 - 0.25
+    if (Math.abs(targetCamX - renderer.camX) < 1) renderer.camX = targetCamX;
+    else renderer.camX += (targetCamX - renderer.camX) * factor;
+
+    if (Math.abs(targetCamY - renderer.camY) < 1) renderer.camY = targetCamY;
+    else renderer.camY += (targetCamY - renderer.camY) * factor;
+
+    renderer.clamp();
+  }
   const age = ping ? (now - ping.t) / 600 : 2;
   if (age >= 1) ping = null;
   const t0 = performance.now();
@@ -1484,6 +2803,7 @@ function frame(): void {
     hover,
     aim: armed === 'spell' ? aimView : null,
   });
+  updateLootOverlay(now);
   if (now - lastMini >= 125) {
     lastMini = now;
     minimap.draw(sim, renderer.viewTiles(), selected);
@@ -1602,8 +2922,32 @@ $('btn-force').textContent = S.force[0];
 if (!combatMode) for (const id of ['btn-loose', 'btn-force']) $(id).hidden = true;
 $('btn-missions').textContent = campaign ? S.shell.toMap : S.mission.open;
 $('btn-missions').onclick = campaign ? () => void toMap() : showMissionMenu;
+const btnQuestsEl = document.getElementById('btn-quests');
+if (btnQuestsEl) {
+  btnQuestsEl.onclick = () => {
+    if (missionUi) missionUi.toggleJournal(sim);
+    else toggleQuestLog();
+  };
+}
 $('btn-saves').textContent = S.save.open;
 $('btn-saves').onclick = () => saveUi.toggle();
+const btnControls = document.getElementById('btn-controls') as HTMLButtonElement | null;
+function updateControlModeUI(): void {
+  if (btnControls) {
+    btnControls.textContent = controlMode === 'wasd' ? 'WASD' : 'Mouse';
+    btnControls.title = controlMode === 'wasd' ? 'Controls: WASD (move hero) + Mouse. Click for Mouse mode.' : 'Controls: Mouse (classic RTS) + Arrows. Click for WASD mode.';
+    btnControls.classList.toggle('on', controlMode === 'wasd');
+  }
+}
+if (btnControls) {
+  btnControls.onclick = () => {
+    controlMode = controlMode === 'wasd' ? 'mouse' : 'wasd';
+    try { localStorage.setItem('thornvael.controls', controlMode); } catch {}
+    updateControlModeUI();
+    toast(controlMode === 'wasd' ? 'Controls: WASD & Mouse' : 'Controls: Mouse (Classic)');
+  };
+  updateControlModeUI();
+}
 $('btn-hero').hidden = !heroPresent;
 tipOn($('btn-hero'), S.tips['btn-hero']);
 
@@ -1651,6 +2995,8 @@ function startHero(): void {
 }
 
 void renderer.init(sim).then(() => {
+  ensureLootOverlay();
+  initAltButton();
   setQuality(renderer.quality, true);
   if (combatMode) selectAll();
   if (missionError) toast(`${S.mission.loadFailed} ${missionError}`);
@@ -1722,12 +3068,24 @@ void renderer.init(sim).then(() => {
     curSpell: () => curSpell,
     aim: () => aimView,
     openBook,
+    spellbook: spellbookUi,
+    activeRmbSpell: () => activeRmbSpell,
+    setActiveRmb: (sid: number | null) => { activeRmbSpell = sid; },
     toggleAuto,
     heroUi,
     useItemSlot,
     mission: missionUi,
     townUi,
     saveUi,
+    pauseMenu: () => pauseMenu,
     townTap,
+    controls: () => controlMode,
+    setControls: (mode: 'wasd' | 'mouse') => {
+      controlMode = mode;
+      try { localStorage.setItem('thornvael.controls', controlMode); } catch {}
+      updateControlModeUI();
+    },
+    cameraFollow: () => cameraFollow,
+    setCameraFollow: (on: boolean) => { cameraFollow = on; },
   };
 });

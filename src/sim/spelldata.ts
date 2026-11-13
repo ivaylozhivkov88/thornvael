@@ -35,7 +35,8 @@ export function setSpells(defs: readonly SpellDef[]): void {
 
 export const MAX_SPELLS = 32; // known spells are one bit each in a Uint32
 export const ALL_SPELLS = 0xffffffff;
-/** Spells a Mage knows: Fire Bolt, Fireball, Frost Bolt, Healing, Blessing, Weaken (ids are the order in spells.json). */
-export const MAGE_SPELLS = (1 << 0) | (1 << 1) | (1 << 4) | (1 << 7) | (1 << 19) | (1 << 20);
+/** Spells a Mage/Shaman knows: Fire Bolt, Fireball, Frost Bolt, Healing, Stone Skin, Poison Cloud, Weaken, Resurrect. */
+export const MAGE_SPELLS =
+  (1 << 0) | (1 << 1) | (1 << 4) | (1 << 7) | (1 << 19) | (1 << 20) | (1 << 23) | (1 << 24);
 export const CORPSE_TICKS = 1500; // a body can be raised or burst for 60 seconds
 export const POISON_STACKS = 3;

@@ -77,10 +77,11 @@ export class GestureRecognizer {
     p.y = y;
     if (p.aim) return [{ type: 'aim', phase: 'move', x, y }];
     if (p.touch && this.ptr.size >= 2) return this.pinch();
-    if (this.pinched || (!p.touch && p.button !== 0)) return [];
+    if (this.pinched || (!p.touch && p.button !== 0 && p.button !== 1)) return [];
     const slop = p.touch ? TOUCH_SLOP : MOUSE_SLOP;
     if (!p.dragging && Math.hypot(x - p.x0, y - p.y0) < slop) return [];
     p.dragging = true;
+    if (!p.touch && p.button === 1) return [{ type: 'pan', dx, dy }];
     if (!p.touch || this.opt.boxMode()) return [{ type: 'box-preview', x0: p.x0, y0: p.y0, x1: x, y1: y }];
     return [{ type: 'pan', dx, dy }];
   }

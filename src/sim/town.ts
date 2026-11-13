@@ -2,7 +2,7 @@ import { isBlockedAt } from '../map';
 import { UNIQUE_ARTIFACTS } from './affixes';
 import { Did, INV_MAX, SKILL_MAX, Why, addItem, blocker, recalc, takeItem } from './hero';
 import { mercPrice } from './difficulty';
-import { getItemDef, ITEMS, Ik, itemId, type ItemDef } from './items';
+import { getItemDef, ITEMS, Ik, itemId, transmuteItems, type ItemDef } from './items';
 import { FP } from './path';
 import { isSetItem, ALL_SET_ITEMS } from './sets';
 import type { Sim } from './sim';
@@ -74,7 +74,7 @@ export interface TownState {
   paid: number; // gold earned from quests, all told
 }
 
-export type TownOp = 'enter' | 'leave' | 'buy' | 'sell' | 'hire' | 'learn' | 'train' | 'accept' | 'gamble';
+export type TownOp = 'enter' | 'leave' | 'buy' | 'sell' | 'hire' | 'learn' | 'train' | 'accept' | 'gamble' | 'transmute';
 /** `v`: role (enter), merc index (hire), spell (learn), skill (train), offer (accept). `list`: shelf slots (buy) or item ids (sell). */
 export type TownCommand = { type: 'town'; op: TownOp; town: number; v?: number; list?: number[] };
 
@@ -260,11 +260,19 @@ export function townCommand(sim: Sim, cmd: TownCommand): void {
     st.inside = -1;
     return;
   }
-  const role = { buy: Role.Shop, sell: Role.Shop, gamble: Role.Shop, hire: Role.Tavern, accept: Role.Tavern, learn: Role.School, train: Role.School }[cmd.op];
+  const role = { buy: Role.Shop, sell: Role.Shop, gamble: Role.Shop, transmute: Role.Shop, hire: Role.Tavern, accept: Role.Tavern, learn: Role.School, train: Role.School }[cmd.op];
   if (st.inside !== cmd.town * ROLE_COUNT + role) return;
   const gold = sim.cb.gold;
   const v = cmd.v ?? -1;
   switch (cmd.op) {
+    case 'transmute': {
+      if (!cmd.list || cmd.list.length !== 3) return refuse(sim, Why.None);
+      const res = transmuteItems(h.inv, cmd.list);
+      if (!res) return refuse(sim, Why.None);
+      sim.cb.emit(Tfx.Trade, sim.x[h.id], sim.y[h.id], 0, 4);
+      recalc(sim);
+      return;
+    }
     case 'gamble': {
       const cost = gambleCost(sim);
       if (cost > gold[0]) return refuse(sim, Why.Gold);

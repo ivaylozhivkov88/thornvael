@@ -18,7 +18,7 @@ interface MonsterCatalog {
 describe('Monster 25-family x 5-tier catalog (P12)', () => {
   const catalog = JSON.parse(readFileSync(new URL('../public/data/monsters.json', import.meta.url), 'utf8')) as MonsterCatalog;
 
-  it('defines 25 unique monster families across batches A-E and 5 ascending power tiers', () => {
+  it('defines 41 unique monster families across batches A-E and 5 ascending power tiers', () => {
     expect(catalog.palettes.length).toBe(5);
     expect(catalog.palettes.map((p) => p.tier)).toEqual([1, 2, 3, 4, 5]);
     for (let i = 1; i < catalog.palettes.length; i++) {
@@ -26,9 +26,9 @@ describe('Monster 25-family x 5-tier catalog (P12)', () => {
       expect(catalog.palettes[i].dmgMult).toBeGreaterThan(catalog.palettes[i - 1].dmgMult);
     }
 
-    expect(catalog.families.length).toBe(25);
-    expect(new Set(catalog.families.map((f) => f.id)).size).toBe(25);
-    expect(new Set(catalog.families.map((f) => f.name)).size).toBe(25);
+    expect(catalog.families.length).toBe(41);
+    expect(new Set(catalog.families.map((f) => f.id)).size).toBe(41);
+    expect(new Set(catalog.families.map((f) => f.name)).size).toBe(41);
     expect(new Set(catalog.families.map((f) => f.batch))).toEqual(new Set(['A', 'B', 'C', 'D', 'E']));
 
     for (const f of catalog.families) {
@@ -42,7 +42,7 @@ describe('Monster 25-family x 5-tier catalog (P12)', () => {
   it('installs MONSTER_PALETTES and MONSTER_FAMILIES into sim data tables and scales Sim units by tier and family', () => {
     if (MONSTER_FAMILIES.length === 0) setMonsters(parseMonsters(catalog));
     expect(MONSTER_PALETTES.length).toBe(5);
-    expect(MONSTER_FAMILIES.length).toBe(25);
+    expect(MONSTER_FAMILIES.length).toBe(41);
     expect(monsterPaletteByTier(3)?.label).toBe('Copper');
     expect(monsterFamilyById('briar-hound')?.name).toBe('Briar Hound');
 

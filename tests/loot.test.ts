@@ -1,6 +1,8 @@
 import { describe, expect, it } from 'vitest';
 import type { GameMap } from '../src/map';
-import { Kind } from '../src/sim/combat';
+import { Kind, nearestLoot, lootPos, Ord, POOLS } from '../src/sim/combat';
+import { FP } from '../src/sim/path';
+import { itemRarity } from '../src/sim/town';
 import {
   calculateEffectiveMF,
   calculateNoDropRate,
@@ -19,7 +21,7 @@ import {
 import { ITEMS, Ik, LOOT_RULES, Slot, itemId } from '../src/sim/items';
 import { UNIQUE_ARTIFACTS } from '../src/sim/affixes';
 import { ALL_SET_ITEMS } from '../src/sim/sets';
-import { Sim } from '../src/sim/sim';
+import { Sim, type Command } from '../src/sim/sim';
 
 function field(w: number, h: number): GameMap {
   return {
@@ -338,6 +340,75 @@ describe('Diablo II 2-Stage Drop Rate & Quality Engine', () => {
 
       sim.hero!.mf = 150;
       expect(getHeroMF(sim)).toBe(150);
+    });
+  });
+
+  describe('Diablo II Ground Loot Pickup & Rarity', () => {
+    it('detects nearest gold sack and executes 1-click pickup order', () => {
+      const sim = createTestWorld(1);
+      // Hero placed at (5.5, 5.5). Place gold sack at (10, 5)
+      sim.cb.sX[0] = 10 * FP;
+      sim.cb.sY[0] = 5 * FP;
+      sim.cb.sG[0] = 50;
+
+      // Click near the sack at (10.2, 5.1)
+      const code = nearestLoot(sim, Math.round(10.2 * FP), Math.round(5.1 * FP), 2.0 * FP);
+      expect(code).toBe(0);
+
+      const [lx, ly] = lootPos(sim, code);
+      expect(lx).toBe(10 * FP);
+      expect(ly).toBe(5 * FP);
+
+      // Order pickup
+      sim.step([{ type: 'order' as const, order: 'pickup' as const, ids: [0], x: lx / FP, y: ly / FP }]);
+      expect(sim.cb.ord[0]).toBe(Ord.Pickup);
+      expect(sim.cb.aux[0]).toBe(code);
+
+      // Step simulation until hero reaches sack and collects gold
+      for (let t = 0; t < 50; t++) {
+        sim.step();
+        if (sim.cb.sG[0] === 0) break;
+      }
+      expect(sim.cb.sG[0]).toBe(0);
+      expect(sim.cb.gold[0]).toBe(50);
+      expect(sim.cb.ord[0]).toBe(Ord.Guard);
+    });
+
+    it('detects nearest item bag and executes 1-click pickup order by hero', () => {
+      const sim = createTestWorld(1);
+      // Hero placed at (5.5, 5.5). Place item bag at (10, 5) with itemId 0
+      sim.cb.bX[0] = 10 * FP;
+      sim.cb.bY[0] = 5 * FP;
+      sim.cb.bI[0] = 1; // item id 0 + 1
+
+      const code = nearestLoot(sim, Math.round(10.1 * FP), Math.round(4.9 * FP), 2.0 * FP);
+      expect(code).toBe(POOLS.sacks + 0);
+
+      const [lx, ly] = lootPos(sim, code);
+      expect(lx).toBe(10 * FP);
+      expect(ly).toBe(5 * FP);
+
+      // Order pickup
+      sim.step([{ type: 'order' as const, order: 'pickup' as const, ids: [0], x: lx / FP, y: ly / FP }]);
+      expect(sim.cb.ord[0]).toBe(Ord.Pickup);
+      expect(sim.cb.aux[0]).toBe(code);
+
+      // Step simulation until hero reaches bag and collects it into inventory
+      for (let t = 0; t < 60; t++) {
+        sim.step();
+        if (sim.cb.bI[0] === 0) break;
+      }
+      expect(sim.cb.bI[0]).toBe(0);
+      expect(sim.hero?.inv.some((s) => s.item === 0)).toBe(true);
+      expect(sim.cb.ord[0]).toBe(Ord.Guard);
+    });
+
+    it('identifies authentic Diablo II item rarities correctly', () => {
+      expect(itemRarity({ name: 'Short Sword', kind: Ik.Gear, slot: Slot.Weapon, tier: 1, w: 2, cls: 1, need: 0, needv: 0, min: 2, max: 5, acc: 0, cover: 0, def: 0, abs: 0, res: [0,0,0,0,0], attr: [0,0,0,0], hp: 0, mana: 0, pow: 0, heal: 0, restore: 0, grow: 0, spell: -1 })).toBe('normal');
+      expect(itemRarity({ name: 'Glacial Wand', kind: Ik.Gear, slot: Slot.Weapon, tier: 2, rarity: 'magic', w: 1, cls: 2, need: 2, needv: 10, min: 1, max: 3, acc: 0, cover: 0, def: 0, abs: 0, res: [0,0,0,0,0], attr: [0,0,0,0], hp: 0, mana: 0, pow: 10, heal: 0, restore: 0, grow: 0, spell: -1 })).toBe('magic');
+      expect(itemRarity({ name: 'Dire Crest', kind: Ik.Gear, slot: Slot.Helm, tier: 4, rarity: 'rare', w: 3, cls: 3, need: 0, needv: 12, min: 0, max: 0, acc: 0, cover: 1, def: 2, abs: 3, res: [0,0,0,0,0], attr: [0,0,0,0], hp: 0, mana: 0, pow: 0, heal: 0, restore: 0, grow: 0, spell: -1 })).toBe('rare');
+      expect(itemRarity(ALL_SET_ITEMS[0])).toBe('set');
+      expect(itemRarity(UNIQUE_ARTIFACTS[0])).toBe('unique');
     });
   });
 });

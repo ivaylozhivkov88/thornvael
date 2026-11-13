@@ -1,5 +1,5 @@
 import { Application, Container, Graphics, Sprite, Text, Texture } from 'pixi.js';
-import { TILE, type GameMap } from './map';
+import { ObjectKind, Terrain, TILE, type GameMap } from './map';
 import { loadTerrainArt, paintTerrainChunk, prepareScenery, type SceneryPlacement } from './terrain';
 import { Kind } from './sim/combat';
 import { SKILL_NAMES } from './sim/hero';
@@ -12,6 +12,7 @@ import { UnitAtlas, UnitSprite, UNIT_ART } from './sprites/units';
 import { ArtPreview } from './sprites/preview';
 import { CombatAnimation, type AnimationPose } from './sprites/combat-animation';
 import { VfxSystem } from './vfx';
+import { CombatFeelSystem } from './feel';
 
 const SHRINE_COLORS: Record<string, number> = {
   healing: 0xe84a5f,
@@ -27,6 +28,19 @@ const LOOT_BEAM_COLORS: Record<string, { outer: number; inner: number; height: n
   set: { outer: 0x00e676, inner: 0xb9f6ca, height: 38 },
   unique: { outer: 0xff9100, inner: 0xffe082, height: 44 },
 };
+
+function drawGlint(r: Graphics, x: number, y: number, tick: number, seed: number): void {
+  const period = 85; // 3.4 seconds at 25 fps
+  const phase = (tick + seed * 23) % period;
+  if (phase >= 14) return;
+  const progress = phase / 14;
+  const size = Math.sin(progress * Math.PI) * 4.5;
+  if (size < 0.5) return;
+  const alpha = Math.sin(progress * Math.PI);
+  r.moveTo(x - size, y).lineTo(x + size, y).stroke({ color: 0xffffff, width: 1.5, alpha });
+  r.moveTo(x, y - size).lineTo(x, y + size).stroke({ color: 0xffffff, width: 1.5, alpha });
+  r.circle(x, y, Math.max(0.8, size * 0.35)).fill({ color: 0xfffae0, alpha });
+}
 const CHUNK = 16; // tiles per chunk side, so each baked texture is 512 px
 const DIR_COS = Array.from({ length: 16 }, (_, k) => Math.cos((k * Math.PI) / 8));
 const DIR_SIN = Array.from({ length: 16 }, (_, k) => Math.sin((k * Math.PI) / 8));
@@ -53,11 +67,15 @@ export const QUALITY_NAMES = ['Low', 'Medium', 'High'] as const;
 const FLOATERS = [0, 10, 24];
 const FLOAT_MS = 900;
 
-function bakeChunk(map: GameMap, cx: number, cy: number, art: HTMLImageElement, scenery: readonly SceneryPlacement[]): HTMLCanvasElement {
+function chunkSide(map: GameMap): number {
+  return Math.max(map.w, map.h) > 128 ? 32 : 16;
+}
+
+function bakeChunk(map: GameMap, cx: number, cy: number, art: HTMLImageElement, scenery: readonly SceneryPlacement[], chunk = CHUNK): HTMLCanvasElement {
   const cv = document.createElement('canvas');
-  cv.width = cv.height = CHUNK * TILE;
+  cv.width = cv.height = chunk * TILE;
   const g = cv.getContext('2d')!;
-  paintTerrainChunk(g, map, cx, cy, art, scenery, CHUNK);
+  paintTerrainChunk(g, map, cx, cy, art, scenery, chunk);
   return cv;
 }
 
@@ -136,6 +154,7 @@ export class Renderer {
   private lightKey = '';
   private fog!: Sprite;
   vfx?: VfxSystem;
+  readonly feel: CombatFeelSystem;
   private lastDrawNow = 0;
   private lastCastSid = -1;
   zoom = 1;
@@ -145,7 +164,9 @@ export class Renderer {
   constructor(
     private readonly canvas: HTMLCanvasElement,
     private readonly map: GameMap,
-  ) {}
+  ) {
+    this.feel = new CombatFeelSystem(map.w, map.h);
+  }
 
   /** Static world labels: town buildings and people to talk to (x, y in tiles). Call after init. */
   setMarks(marks: readonly { x: number; y: number; label: string; npc: boolean }[]): void {
@@ -180,11 +201,14 @@ export class Renderer {
     this.app.ticker.stop(); // main.ts drives frames
     const terrain = await loadTerrainArt();
     const scenery = prepareScenery(this.map);
+    const chunk = chunkSide(this.map);
     const chunks = new Container();
-    for (let cy = 0; cy * CHUNK < this.map.h; cy++) {
-      for (let cx = 0; cx * CHUNK < this.map.w; cx++) {
-        const s = new Sprite(Texture.from(bakeChunk(this.map, cx, cy, terrain, scenery)));
-        s.position.set(cx * CHUNK * TILE, cy * CHUNK * TILE);
+    chunks.cullable = true;
+    for (let cy = 0; cy * chunk < this.map.h; cy++) {
+      for (let cx = 0; cx * chunk < this.map.w; cx++) {
+        const s = new Sprite(Texture.from(bakeChunk(this.map, cx, cy, terrain, scenery, chunk)));
+        s.position.set(cx * chunk * TILE, cy * chunk * TILE);
+        s.cullable = true;
         chunks.addChild(s);
       }
     }
@@ -199,7 +223,7 @@ export class Renderer {
     fog.height = this.map.h * TILE;
     this.vfx = new VfxSystem();
     this.vfx.init();
-    this.world.addChild(chunks, this.rings, this.vfx.groundLayer);
+    this.world.addChild(chunks, this.rings, this.feel.bloodGraphics, this.feel.auraGraphics, this.vfx.groundLayer);
     this.fog = fog;
     const tex = unitTexture();
     const atlases = await Promise.all(UNIT_ART.map((unit) => UnitAtlas.load(unit)));
@@ -233,9 +257,13 @@ export class Renderer {
     }
     this.dbgGrid.visible = false;
     this.dbgPath.visible = false;
-    this.world.addChild(this.shots, this.vfx.airLayer, fog, this.dbgGrid, this.dbgPath);
-    this.light.blendMode = 'multiply';
-    this.app.stage.addChild(this.world, this.light, this.floaterLayer, this.overlay);
+    this.world.addChild(this.shots, this.feel.sparkGraphics, this.feel.bubbleGraphics, this.feel.slashGraphics, this.vfx.airLayer, fog, this.dbgGrid, this.dbgPath);
+    if (this.feel.lightSprite) {
+      this.app.stage.addChild(this.world, this.feel.lightSprite, this.feel.floaterContainer, this.floaterLayer, this.overlay);
+    } else {
+      this.light.blendMode = 'multiply';
+      this.app.stage.addChild(this.world, this.light, this.floaterLayer, this.overlay);
+    }
     if (new URLSearchParams(location.search).get('art') === '1') {
       this.artPreview = new ArtPreview(atlases);
       this.app.stage.addChild(this.artPreview.layer);
@@ -298,14 +326,54 @@ export class Renderer {
         const sx = wx * this.zoom - this.camX;
         const sy = wy * this.zoom - this.camY;
         if (sx < -20 || sy < -20 || sx > this.viewW + 20 || sy > this.viewH + 20) continue;
-        if (e.type === 0) this.floater(String(e.v), ELEM_COLOR[e.el], wx, wy, now);
-        else if (e.type === 1) this.floater('miss', 0xbbbbbb, wx, wy, now);
-        else if (e.type === 3) this.floater(`+${e.v} gold`, 0xffd84a, wx, wy, now);
-        else if (e.type === 4) this.floater('no mana', 0x6a8cff, wx, wy, now);
-        else if (e.type === 7 && e.v > 0) this.floater(`+${e.v}`, BUFF_COLOR, wx, wy, now);
-        else if (e.type === 8 && e.v < 16) this.floater(S.statuses[e.v], STATUS_COLORS[e.v], wx, wy, now);
-        else if (e.type === 11) this.floater('blocked', 0x70c8ff, wx, wy, now);
-        else if (e.type === 6) this.floater(`${SKILL_NAMES[e.v]} ${e.el}`, 0xffd84a, wx, wy, now);
+        if (e.type === 0) {
+          const isHero = sim.team[0] === 0 && e.x === sim.x[0] && e.y === sim.y[0];
+          const isCrit = e.v >= 18 || e.el > 0;
+          const floaterColor = isHero ? 0xff4444 : isCrit ? 0xffd700 : 0xf5f5f5;
+          this.feel.addDamageFloater(String(e.v) + (isCrit ? '!' : ''), wx, wy, floaterColor, isCrit, isHero, now);
+
+          // Find attack direction for directional blood & slashes
+          let dirX = 1;
+          let dirY = 0;
+          for (let u = 0; u < sim.count; u++) {
+            if (sim.cb.hp[u] > 0 && sim.cb.tgt[u] >= 0) {
+              const target = sim.cb.tgt[u];
+              if (sim.x[target] === e.x && sim.y[target] === e.y) {
+                dirX = e.x - sim.x[u];
+                dirY = e.y - sim.y[u];
+                break;
+              }
+            }
+          }
+          const len = Math.hypot(dirX, dirY) || 1;
+          dirX /= len;
+          dirY /= len;
+          const angle = Math.atan2(dirY, dirX);
+
+          if (e.el === 0) {
+            this.feel?.spawnBlood(wx, wy + 16, dirX, dirY, isCrit ? 10 : 5);
+            this.feel?.spawnSlash(wx, wy + 12, angle, isCrit, isCrit ? 0xffd700 : 0xf0f0f0, isCrit ? 32 : 22);
+          } else {
+            this.feel?.spawnSparks(wx, wy + 12, ELEM_COLOR[e.el], isCrit ? 14 : 7, isCrit ? 120 : 80);
+          }
+
+          if (isCrit) {
+            this.feel?.addTrauma(0.35);
+            this.feel?.triggerHitStop(45, now);
+          } else if (e.v >= 12) {
+            this.feel?.addTrauma(0.18);
+            this.feel?.triggerHitStop(30, now);
+          } else if (isHero) {
+            this.feel?.addTrauma(0.2);
+          }
+        }
+        else if (e.type === 1) this.feel.addDamageFloater('miss', wx, wy, 0xbbbbbb, false, false, now);
+        else if (e.type === 3) this.feel.addDamageFloater(`+${e.v} gold`, wx, wy, 0xffd84a, false, false, now);
+        else if (e.type === 4) this.feel.addDamageFloater('no mana', wx, wy, 0x6a8cff, false, false, now);
+        else if (e.type === 7 && e.v > 0) this.feel.addDamageFloater(`+${e.v}`, wx, wy, BUFF_COLOR, false, false, now);
+        else if (e.type === 8 && e.v < 16) this.feel.addDamageFloater(S.statuses[e.v], wx, wy, STATUS_COLORS[e.v], false, false, now);
+        else if (e.type === 11) this.feel.addDamageFloater('blocked', wx, wy, 0x70c8ff, false, false, now);
+        else if (e.type === 6) this.feel.addDamageFloater(`${SKILL_NAMES[e.v]} ${e.el}`, wx, wy, 0xffd84a, false, false, now);
         else if (e.type === 5) {
           if (!this.vfx?.isApexCast(this.lastCastSid)) this.burst(e.x * k, e.y * k, (e.v / 10) * TILE, 480, ELEM_COLOR[e.el], true, now, e.el);
         } else if (e.type === 9) {
@@ -513,17 +581,59 @@ export class Renderer {
     this.lastDrawNow = now;
     this.runFx(sim, now);
     const [rx, ry] = this.vfx?.rumbleOffset() ?? [0, 0];
+    this.feel?.update(dtMs / 1000, now, this.camX, this.camY, this.zoom);
     this.world.scale.set(this.zoom);
-    this.world.position.set(-this.camX + rx, -this.camY + ry);
+    this.world.position.set(-this.camX + rx + (this.feel?.shakeX ?? 0), -this.camY + ry + (this.feel?.shakeY ?? 0));
     if (this.quality > 0 || (this.fogTick++ & 1) === 0) this.updateFog(sim);
-    this.updateLight(sim.daylight);
-    this.vfx?.updateAndDraw(sim, now, dtMs, this.zoom, this.camX, this.camY, this.overlay, this.viewW, this.viewH);
     const k = TILE / FP;
+    this.feel?.renderAuras(sim, now, k);
+    if (this.quality > 0 && this.feel?.lightSprite) {
+      const heroX = (sim.hero ? sim.x[sim.hero.id] : sim.x[0]) * k;
+      const heroY = (sim.hero ? sim.y[sim.hero.id] : sim.y[0]) * k;
+      const extraLights: Array<{ x: number; y: number; r: number }> = [];
+      for (let n = 0; n < sim.shrines.length; n++) {
+        if (sim.shrineCd[n] === 0) {
+          extraLights.push({ x: (sim.shrines[n].x + 0.5) * TILE, y: (sim.shrines[n].y + 0.5) * TILE, r: 75 * this.zoom });
+        }
+      }
+      this.feel.renderLighting(this.viewW, this.viewH, heroX, heroY, this.camX, this.camY, this.zoom, sim.daylight, now, extraLights);
+    } else {
+      this.updateLight(sim.daylight);
+    }
+    this.vfx?.updateAndDraw(sim, now, dtMs, this.zoom, this.camX, this.camY, this.overlay, this.viewW, this.viewH);
     const mw = this.map.w;
     const cb = sim.cb;
     const z = this.zoom;
     const r = this.rings;
     r.clear();
+    const frame8 = (sim.tick >> 2) & 7;
+
+    // Micro-animation: Shoreline water foam 8-frame ripple loop
+    const vt = this.viewTiles();
+    const minTx = Math.max(0, Math.floor(vt.x0));
+    const maxTx = Math.min(mw - 1, Math.ceil(vt.x1));
+    const minTy = Math.max(0, Math.floor(vt.y0));
+    const maxTy = Math.min(this.map.h - 1, Math.ceil(vt.y1));
+    const foamPhase = frame8 / 8;
+    const foamDist = foamPhase * 4;
+    const foamAlpha = (1 - foamPhase) * 0.55;
+
+    for (let ty = minTy; ty <= maxTy; ty++) {
+      for (let tx = minTx; tx <= maxTx; tx++) {
+        const idx = ty * mw + tx;
+        if (this.map.terrain[idx] !== Terrain.Water) continue;
+        if (!sim.explored[idx]) continue;
+        const px = tx * TILE;
+        const py = ty * TILE;
+        if (ty > 0 && this.map.terrain[(ty - 1) * mw + tx] !== Terrain.Water) {
+          r.ellipse(px + 16, py + foamDist + 1, 14, 1.5).fill({ color: 0xebf8ff, alpha: foamAlpha });
+        }
+        if (tx > 0 && this.map.terrain[ty * mw + tx - 1] !== Terrain.Water) {
+          r.ellipse(px + foamDist + 1, py + 16, 1.5, 14).fill({ color: 0xebf8ff, alpha: foamAlpha });
+        }
+      }
+    }
+
     // Loot sacks under the units, only on ground the player has seen.
     for (let n = 0; n < cb.sG.length; n++) {
       if (!cb.sG[n]) continue;
@@ -533,6 +643,7 @@ export class Renderer {
       r.ellipse(sx, sy + 2, 7, 3).fill({ color: 0x000000, alpha: 0.35 });
       r.circle(sx, sy - 3, 6).fill(0xa8803c).stroke({ color: 0x4a3414, width: 1 });
       r.rect(sx - 2, sy - 10, 4, 3).fill(0xe0c060);
+      drawGlint(r, sx, sy - 8, sim.tick, n);
     }
     // Item bags: a satchel with colored clasp and vertical light beam for higher rarities (D2 loot pillar).
     for (let n = 0; n < cb.bI.length; n++) {
@@ -573,8 +684,9 @@ export class Renderer {
         r.roundRect(bx - 6, by - 9, 12, 10, 3).fill(0x3c5a8c).stroke({ color: 0x1a2a48, width: 1 });
         r.rect(bx - 2, by - 6, 4, 3).fill(0xd8e4f4);
       }
+      drawGlint(r, bx, by - 12, sim.tick, n + 50);
     }
-    // Interactive world shrines: carved pedestal with a glowing crystal when ready.
+    // Interactive world shrines: carved pedestal with a glowing crystal when ready (8-frame micro-animation).
     for (let n = 0; n < sim.shrines.length; n++) {
       const shDef = sim.shrines[n];
       if (!sim.explored[shDef.y * mw + shDef.x]) continue;
@@ -585,11 +697,40 @@ export class Renderer {
       r.ellipse(sx, sy + 4, 10, 5).fill({ color: 0x000000, alpha: 0.4 });
       r.roundRect(sx - 6, sy - 6, 12, 11, 2).fill(0x524c44).stroke({ color: 0x2a2520, width: 1 });
       if (ready) {
-        r.ellipse(sx, sy - 9, 8, 4).stroke({ color: col, width: 1.5, alpha: 0.65 });
-        r.moveTo(sx, sy - 16).lineTo(sx + 4, sy - 9).lineTo(sx, sy - 4).lineTo(sx - 4, sy - 9).closePath().fill(col).stroke({ color: 0xffffff, width: 1, alpha: 0.8 });
+        const bob = Math.sin((frame8 / 8) * Math.PI * 2) * 2;
+        const crystalY = sy - 10 + bob;
+        const auraR = 8 + Math.sin((frame8 / 8) * Math.PI * 2) * 1.5;
+        r.ellipse(sx, crystalY + 1, auraR, auraR * 0.5).stroke({ color: col, width: 1.5, alpha: 0.65 });
+        r.moveTo(sx, crystalY - 7)
+          .lineTo(sx + 4, crystalY)
+          .lineTo(sx, crystalY + 6)
+          .lineTo(sx - 4, crystalY)
+          .closePath()
+          .fill(col)
+          .stroke({ color: 0xffffff, width: 1, alpha: 0.85 });
+        drawGlint(r, sx, crystalY - 7, sim.tick, n + 100);
       } else {
         r.circle(sx, sy - 8, 3).fill({ color: 0x3b3834, alpha: 0.85 });
       }
+    }
+    // Specular glints over chests/relics in scenery
+    for (let oIdx = 0; oIdx < this.map.objects.length; oIdx++) {
+      const obj = this.map.objects[oIdx];
+      if (obj.kind === ObjectKind.House) continue;
+      const ox = (obj.x + 0.5) * TILE;
+      const oy = (obj.y + 0.5) * TILE;
+      if (sim.explored[obj.y * mw + obj.x]) {
+        drawGlint(r, ox, oy - 10, sim.tick, oIdx + 200);
+      }
+    }
+    // Micro-animation: Torch flame flicker on living hero
+    if (sim.hero && cb.hp[sim.hero.id] > 0) {
+      const hx = sim.x[sim.hero.id] * k;
+      const hy = sim.y[sim.hero.id] * k;
+      const flameH = 5 + (frame8 % 4) * 0.8;
+      const flameW = 2.5 + ((frame8 + 1) % 3) * 0.5;
+      r.ellipse(hx + 4, hy - 18, flameW, flameH * 0.5).fill({ color: 0xff7700, alpha: 0.85 });
+      r.ellipse(hx + 4, hy - 17, flameW * 0.55, flameH * 0.35).fill({ color: 0xffea00, alpha: 0.95 });
     }
     // Bodies stay for a minute so a corpse spell has something to aim at; they sink into the ground at the end.
     for (let i = 0; i < sim.count; i++) {
@@ -611,8 +752,15 @@ export class Renderer {
         s.visible = false;
         continue;
       }
+      let statusTint = 0;
+      const mask = cb.stMask[i];
+      if (mask & (1 << St.Stone)) statusTint = 0x8a8a8a;
+      else if (mask & (1 << St.Poison)) statusTint = 0x2ecc71;
+      else if (mask & (1 << St.Slow)) statusTint = 0x60c0ff;
+      else if (mask & (1 << St.Burn)) statusTint = 0xff7722;
+
       if (s instanceof Sprite) {
-        const want = cb.stMask[i] & (1 << St.Stone) ? 0x8a8a8a : this.baseTint[i];
+        const want = statusTint > 0 ? statusTint : this.baseTint[i];
         if (s.tint !== want) s.tint = want;
       }
       s.x = Math.round((px[i] + (sim.x[i] - px[i]) * alpha) * k);
@@ -626,7 +774,11 @@ export class Renderer {
       if (s.visible && s instanceof UnitSprite) {
         const armour = sim.hero?.id === i ? (sim.hero.eq[Slot.Armor] >= 0 ? getItemDef(sim.hero.eq[Slot.Armor])?.tier ?? 0 : 0) : 1;
         this.animation?.sample(sim, i, this.pose);
-        s.update(sim.tick, !!sim.moving[i], sim.dir[i], sim.team[i], armour, sim.cb.tier[i] || 1, !!(cb.stMask[i] & (1 << St.Stone)), this.pose);
+        s.update(sim.tick, !!sim.moving[i], sim.dir[i], sim.team[i], armour, sim.cb.tier[i] || 1, !!(mask & (1 << St.Stone)), this.pose, statusTint);
+      }
+      if (s.visible && !dead && (sim.tick & 3) === 0) {
+        if (mask & (1 << St.Poison)) this.feel?.spawnPoisonBubbles(s.x, s.y - 14, 1);
+        else if (mask & (1 << St.Burn)) this.feel?.spawnBurnEmbers(s.x, s.y - 12, 1);
       }
     }
     const sh = this.shots;

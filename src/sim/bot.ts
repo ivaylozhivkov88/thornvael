@@ -2,6 +2,8 @@ import { isBlockedAt, type GameMap } from '../map';
 import { Kind } from './combat';
 import { FP, type Command, type Sim } from './sim';
 import { Rng } from './rng';
+import { St } from './spelldata';
+import { knows } from './spells';
 
 /**
  * Scripted squads. Commands come out of the same `Command` vocabulary the player uses;
@@ -48,11 +50,17 @@ interface Pack {
 }
 
 /**
- * Monster packs. Packs think every 10 ticks and act only through the shared order commands:
- * a pack guards its post; when a member engages an intruder the whole pack attack-moves on it;
- * after four calm seconds, or when it strays 22 tiles, it guards its post again.
+ * Monster packs with tactical enemy AI:
+ * - Frontline Swarm AI: Wolves & gnolls push forward and flank/surround the hero.
+ * - Backline Shaman / Necromancer AI: Stays behind meatshields, kites when pressed, casts curses & bolts.
+ * - Balanced Corpse Resurrection: Resurrects dead corpses with strict 15s cooldown & max 2 active raised minions.
+ * - Chieftain Grok'tar / Brute Boss: Heavy windup telegraphed attacks and elite champion affixes.
  */
 export class MonsterAi {
+  private resCooldowns = new Map<number, number>();
+  private raisedMinions = new Map<number, Set<number>>();
+  private bossWindups = new Map<number, number>();
+
   constructor(private readonly packs: Pack[]) {}
 
   /** The only changing state: whether each pack is hunting and how long it has been calm. */
@@ -65,6 +73,147 @@ export class MonsterAi {
       this.packs[i].hunting = hunting;
       this.packs[i].calm = calm;
     });
+  }
+
+  private choosePrimaryTarget(sim: Sim, p: Pack, alive: number[], engaged?: number): number {
+    const cb = sim.cb;
+    if (engaged !== undefined && cb.tgt[engaged] >= 0 && cb.hp[cb.tgt[engaged]] > 0) {
+      return cb.tgt[engaged];
+    }
+    const heroId = sim.hero?.id ?? 0;
+    if (cb.hp[heroId] > 0 && sim.team[heroId] !== sim.team[alive[0]]) {
+      const hx = sim.x[heroId] / FP;
+      const hy = sim.y[heroId] / FP;
+      if (Math.hypot(hx - p.x, hy - p.y) <= 18) {
+        return heroId;
+      }
+    }
+    let best = -1;
+    let bestDist = 16;
+    for (let i = 0; i < sim.count; i++) {
+      if (cb.hp[i] > 0 && sim.team[i] !== sim.team[alive[0]] && !sim.hidden[i]) {
+        const d = Math.hypot(sim.x[i] / FP - p.x, sim.y[i] / FP - p.y);
+        if (d < bestDist) {
+          bestDist = d;
+          best = i;
+        }
+      }
+    }
+    return best;
+  }
+
+  private issueTacticalOrders(sim: Sim, p: Pack, alive: number[], targetId: number, out: Command[]): void {
+    const cb = sim.cb;
+    const targetX = sim.x[targetId] / FP;
+    const targetY = sim.y[targetId] / FP;
+
+    const shamans: number[] = [];
+    const bosses: number[] = [];
+    const swarmers: number[] = [];
+
+    for (const id of alive) {
+      const isBoss = (cb.bossMods[id]?.length ?? 0) > 0 || cb.tier[id] >= 4 || cb.hpMax[id] >= 180;
+      const isCaster =
+        cb.kind[id] === Kind.Mage ||
+        cb.manaMax[id] > 0 ||
+        cb.family[id] === 'ash-weaver' ||
+        cb.family[id] === 'spore-matron';
+
+      if (isBoss) {
+        bosses.push(id);
+      } else if (isCaster) {
+        shamans.push(id);
+      } else {
+        swarmers.push(id);
+      }
+    }
+
+    // 1. Shaman / Necromancer AI
+    for (const sId of shamans) {
+      const resCd = this.resCooldowns.get(sId) ?? 0;
+      let raisedSet = this.raisedMinions.get(sId);
+      if (!raisedSet) {
+        raisedSet = new Set<number>();
+        this.raisedMinions.set(sId, raisedSet);
+      }
+      for (const mId of raisedSet) {
+        if (cb.hp[mId] <= 0) raisedSet.delete(mId);
+      }
+
+      let didResurrect = false;
+      if (knows(sim, sId, 24) && sim.tick >= resCd && raisedSet.size < 2 && cb.mana[sId] >= 30) {
+        const sx = sim.x[sId] / FP;
+        const sy = sim.y[sId] / FP;
+        let bestCorpse = -1;
+        let bestCDist = 6.0;
+        for (let c = 0; c < sim.count; c++) {
+          if (cb.hp[c] <= 0 && cb.corp[c] > 0 && sim.team[c] === sim.team[sId] && !sim.hidden[c]) {
+            const cd = Math.hypot(sim.x[c] / FP - sx, sim.y[c] / FP - sy);
+            if (cd < bestCDist) {
+              bestCDist = cd;
+              bestCorpse = c;
+            }
+          }
+        }
+        if (bestCorpse >= 0) {
+          out.push({ type: 'order', order: 'cast', ids: [sId], spell: 24, target: bestCorpse });
+          this.resCooldowns.set(sId, sim.tick + 375); // strict 15s cooldown
+          raisedSet.add(bestCorpse);
+          didResurrect = true;
+        }
+      }
+
+      if (didResurrect) continue;
+
+      const sx = sim.x[sId] / FP;
+      const sy = sim.y[sId] / FP;
+      const distToTarget = Math.hypot(sx - targetX, sy - targetY);
+
+      if (distToTarget < 3.0) {
+        const awayDx = sx - targetX || 1;
+        const awayDy = sy - targetY || 0;
+        const awayLen = Math.hypot(awayDx, awayDy);
+        const retreatX = Math.max(1, Math.min(sim.map.w - 2, Math.round(sx + (awayDx / awayLen) * 3)));
+        const retreatY = Math.max(1, Math.min(sim.map.h - 2, Math.round(sy + (awayDy / awayLen) * 3)));
+        out.push({ type: 'order', order: 'retreat', ids: [sId], x: retreatX, y: retreatY });
+      } else if (distToTarget <= 7.5 && cb.mana[sId] >= 8) {
+        if (knows(sim, sId, 23) && !(cb.stMask[targetId] & (1 << St.Weaken))) {
+          out.push({ type: 'order', order: 'cast', ids: [sId], spell: 23, target: targetId });
+        } else if (knows(sim, sId, 4) && !(cb.stMask[targetId] & (1 << St.Slow))) {
+          out.push({ type: 'order', order: 'cast', ids: [sId], spell: 4, target: targetId });
+        } else if (knows(sim, sId, 0)) {
+          out.push({ type: 'order', order: 'cast', ids: [sId], spell: 0, target: targetId });
+        }
+      }
+    }
+
+    // 2. Chieftain Grok'tar / Brute Boss AI
+    for (const bId of bosses) {
+      const bx = sim.x[bId] / FP;
+      const by = sim.y[bId] / FP;
+      const d = Math.hypot(bx - targetX, by - targetY);
+
+      let windup = this.bossWindups.get(bId) ?? 0;
+      if (windup > 0) {
+        windup -= 10;
+        this.bossWindups.set(bId, windup);
+        if (windup <= 0) {
+          out.push({ type: 'order', order: 'attack', ids: [bId], target: targetId, x: targetX, y: targetY });
+        } else {
+          out.push({ type: 'order', order: 'hold', ids: [bId] });
+        }
+      } else if (d <= 1.5 && sim.tick % 100 < 10) {
+        this.bossWindups.set(bId, 15);
+        out.push({ type: 'order', order: 'hold', ids: [bId] });
+      } else if (sim.cb.ord[bId] === 0 || sim.cb.tgt[bId] < 0) {
+        out.push({ type: 'order', order: 'attack', ids: [bId], target: targetId, x: targetX, y: targetY });
+      }
+    }
+
+    // 3. Frontline Swarm AI (wolves, gnolls, grunts surround the hero)
+    if (swarmers.length > 0) {
+      out.push({ type: 'order', order: 'swarm', ids: swarmers, x: targetX, y: targetY });
+    }
   }
 
   commands(sim: Sim): Command[] {
@@ -80,7 +229,7 @@ export class MonsterAi {
         const t = cb.tgt[engaged];
         p.hunting = true;
         p.calm = 0;
-        out.push({ type: 'order', order: 'attack', ids: alive, x: sim.x[t] / FP, y: sim.y[t] / FP });
+        this.issueTacticalOrders(sim, p, alive, t, out);
         continue;
       }
       p.calm = engaged === undefined ? p.calm + 10 : 0;
@@ -94,6 +243,12 @@ export class MonsterAi {
       if (p.calm >= 100 || far) {
         p.hunting = false;
         out.push({ type: 'order', order: 'guard', ids: alive, x: p.x, y: p.y });
+        continue;
+      }
+
+      const primaryTarget = this.choosePrimaryTarget(sim, p, alive, engaged);
+      if (primaryTarget >= 0) {
+        this.issueTacticalOrders(sim, p, alive, primaryTarget, out);
       }
     }
     return out;

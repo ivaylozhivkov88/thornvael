@@ -54,6 +54,12 @@ describe('gestures', () => {
     expect(g.wheel(-100, 1, 2)).toEqual([{ type: 'zoom', dir: 1, x: 1, y: 2 }]);
     expect(g.wheel(100, 1, 2)[0]).toMatchObject({ dir: -1 });
   });
+  it('mouse: middle button drag pans', () => {
+    const { g } = make();
+    g.down(1, 10, 10, false, 1);
+    expect(g.move(1, 25, 30)).toEqual([{ type: 'pan', dx: 15, dy: 20 }]);
+    expect(g.up(1)).toEqual([]);
+  });
 });
 
 describe('picking', () => {

@@ -141,7 +141,7 @@ describe('equipment', () => {
 });
 
 describe('queued equipment preconditions', () => {
-  const guarded = (h: HeroState, action: EquipmentAction): HeroCommand => ({ type: 'hero', ...action, expectedEquipment: equipmentStamp(h, action) });
+  const guarded = (h: HeroState, action: EquipmentAction): Extract<HeroCommand, { expectedEquipment?: string }> => ({ type: 'hero', ...action, expectedEquipment: equipmentStamp(h, action) });
   const owned = (h: HeroState): number[] => {
     const counts = Array<number>(ITEMS.length).fill(0);
     for (const stack of h.inv) counts[stack.item] += stack.n;

@@ -126,19 +126,19 @@ describe('the whole chain', () => {
   it('carries the whole squad from mission 1 through the town to missions 2, 3 and 4', () => {
     let p = newProgress(campaign, 1);
 
-    // Mission 1: the chief falls; all eleven units come along.
+    // Mission 1: the chief falls; Lone Wolf hero completes without mercenaries.
     const m1 = start('ford').g;
     run(m1, 30);
     killAll(m1, [12]);
     run(m1, 12);
     expect(m1.sim.script!.st.status).toBe(1);
     let co = extractCarryover(m1.sim, p, townSeed(1, p.townVisits));
-    expect(co.mercs.length).toBe(11);
+    expect(co.mercs.length).toBe(0);
     p = completeNode(campaign, p, 'm01-blood-at-the-ford');
 
     // Thornwick, first visit: a 300 gold purse, then one warrior hired at the tavern.
     const t1 = start('market', { ...co, progress: p }, townSeed(1, p.townVisits));
-    expect(t1.placed).toBe(11);
+    expect(t1.placed).toBe(0);
     waivePurse(t1.g.sim, p.townVisits);
     run(t1.g, 10);
     expect(t1.g.sim.cb.gold[0]).toBe(co.gold + 300);
@@ -150,39 +150,39 @@ describe('the whole chain', () => {
     t1.g.sim.now(town('leave'));
     p = visitTown(p, 'town-thornwick');
     co = extractCarryover(t1.g.sim, p, townSeed(1, p.townVisits));
-    expect(co.mercs.length).toBe(12);
+    expect(co.mercs.length).toBe(1);
 
     // Second visit: no second purse, and nobody is lost on the way in.
     const t2 = start('market', co, townSeed(1, p.townVisits));
-    expect(t2.placed).toBe(12);
+    expect(t2.placed).toBe(1);
     waivePurse(t2.g.sim, p.townVisits);
     run(t2.g, 10);
     expect(t2.g.sim.cb.gold[0]).toBe(co.gold);
 
     // Mission 2: hero and scout reach the post; the scout joins the company.
     const m2 = start('fen', co);
-    expect(m2.placed).toBe(12);
+    expect(m2.placed).toBe(1);
     m2.g.sim.place(0, 70, 9);
     m2.g.sim.place(1, 71, 9);
     run(m2.g, 10);
     expect(m2.g.sim.script!.st.status).toBe(1);
     co = extractCarryover(m2.g.sim, p, 1);
-    expect(co.mercs.length).toBe(13);
+    expect(co.mercs.length).toBe(2);
     p = completeNode(campaign, p, 'm02-whispers-in-the-fen');
 
     // Mission 3: everything hostile is dead; the script runs wave, dawn and totems to the win.
     const m3 = start('ravenwatch', co);
-    expect(m3.placed).toBe(13);
+    expect(m3.placed).toBe(2);
     killAll(m3.g, foes(m3.g));
     run(m3.g, 80);
     expect(m3.g.sim.script!.st.status).toBe(1);
     co = extractCarryover(m3.g.sim, p, 1);
-    expect(co.mercs.length).toBe(13);
+    expect(co.mercs.length).toBe(2);
     p = completeNode(campaign, p, 'm03-nightfall-at-ravenwatch');
 
     // Mission 4: the boss falls; chapter 1 is complete.
     const m4 = start('sanctum', co);
-    expect(m4.placed).toBe(13);
+    expect(m4.placed).toBe(2);
     killAll(m4.g, foes(m4.g));
     run(m4.g, 20);
     expect(m4.g.sim.script!.st.status).toBe(1);

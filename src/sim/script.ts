@@ -1,6 +1,6 @@
 import { addItem, dropLoot } from './hero';
 import { launch } from './combat';
-import { SPELLS } from './spelldata';
+import { SPELLS, St, NST } from './spelldata';
 import { FP } from './path';
 import type { Command, Sim } from './sim';
 
@@ -36,6 +36,47 @@ export interface Trigger {
   acts: Ref[];
 }
 
+export interface WaypointDef {
+  id: string;
+  name: string;
+  x: number;
+  y: number;
+  activated?: boolean;
+}
+
+export interface ZoneExitDef {
+  x: number;
+  y: number;
+  targetMap: string;
+  targetX: number;
+  targetY: number;
+  label?: string;
+  kind?: 'gate' | 'cave' | 'road' | 'caravan';
+}
+
+export const ADVENTURE_OBJECT_KINDS = ['watermill', 'windmill', 'magic_well', 'fountain_of_youth', 'creature_bank'] as const;
+export type AdventureObjectKind = (typeof ADVENTURE_OBJECT_KINDS)[number];
+
+export interface AdventureObjectDef {
+  x: number;
+  y: number;
+  kind: AdventureObjectKind;
+  visited?: boolean;
+  guardPower?: number;
+  rewardGold?: number;
+  rewardArtifact?: boolean;
+}
+
+export interface TownPortalState {
+  active: boolean;
+  map: string;
+  x: number;
+  y: number;
+  townMap: string;
+  townX: number;
+  townY: number;
+}
+
 /** Static mission data, built from the map document and never changed while playing. */
 export interface MissionDef {
   triggers: Trigger[];
@@ -47,6 +88,9 @@ export interface MissionDef {
   /** Units that start phased out. */
   dormant: number[];
   buildings: { x: number; y: number; owner: number; hp: number }[];
+  waypoints?: WaypointDef[];
+  exits?: ZoneExitDef[];
+  adventureObjects?: AdventureObjectDef[];
 }
 
 export interface ScriptState {
@@ -543,5 +587,123 @@ export class ScriptRuntime {
     for (const p of st.patrols) mix(p.leg);
     mix(st.traps.length);
     mix(st.msgs.length);
+  }
+}
+
+export function interactAdventureObject(
+  sim: Sim,
+  obj: AdventureObjectDef,
+): { triggered: boolean; effect: string; goldReward?: number } {
+  if (obj.visited) return { triggered: false, effect: 'already_visited' };
+  const h = sim.hero ? sim.hero.id : 0;
+  const hx = Math.floor(sim.x[h] / FP);
+  const hy = Math.floor(sim.y[h] / FP);
+  const d = Math.hypot(hx - obj.x, hy - obj.y);
+  if (d > 2.0) return { triggered: false, effect: 'too_far' };
+
+  obj.visited = true;
+  const cb = sim.cb;
+  switch (obj.kind) {
+    case 'watermill':
+    case 'windmill': {
+      const g = obj.rewardGold ?? 125;
+      cb.gold[0] += g;
+      cb.emit(3, sim.x[h], sim.y[h], g, 0);
+      return { triggered: true, effect: 'gold', goldReward: g };
+    }
+    case 'magic_well':
+    case 'fountain_of_youth': {
+      cb.hp[h] = cb.hpMax[h];
+      cb.mana[h] = cb.manaMax[h];
+      cb.stMask[h] |= 1 << St.Bless;
+      cb.stT[h * NST + St.Bless] = 600;
+      cb.emit(7, sim.x[h], sim.y[h], cb.hpMax[h], 0);
+      return { triggered: true, effect: 'well_blessing' };
+    }
+    case 'creature_bank': {
+      const g = obj.rewardGold ?? 350;
+      cb.gold[0] += g;
+      cb.emit(3, sim.x[h], sim.y[h], g, 0);
+      return { triggered: true, effect: 'bank_cleared', goldReward: g };
+    }
+  }
+}
+
+export function checkWaypointTouch(
+  sim: Sim,
+  waypoints: WaypointDef[],
+  activeWaypoints: Set<string>,
+): WaypointDef | null {
+  const h = sim.hero ? sim.hero.id : 0;
+  const hx = Math.floor(sim.x[h] / FP);
+  const hy = Math.floor(sim.y[h] / FP);
+  for (const wp of waypoints) {
+    const d = Math.hypot(hx - wp.x, hy - wp.y);
+    if (d <= 1.8) {
+      if (!wp.activated || !activeWaypoints.has(wp.id)) {
+        wp.activated = true;
+        activeWaypoints.add(wp.id);
+        sim.cb.emit(8, sim.x[h], sim.y[h], 99, 0);
+        return wp;
+      }
+    }
+  }
+  return null;
+}
+
+export function checkZoneExitTouch(
+  sim: Sim,
+  exits: ZoneExitDef[],
+): ZoneExitDef | null {
+  const h = sim.hero ? sim.hero.id : 0;
+  const hx = Math.floor(sim.x[h] / FP);
+  const hy = Math.floor(sim.y[h] / FP);
+  for (const exit of exits) {
+    const d = Math.hypot(hx - exit.x, hy - exit.y);
+    if (d <= 1.8) {
+      return exit;
+    }
+  }
+  return null;
+}
+
+export function openTownPortal(
+  sim: Sim,
+  currentMap: string,
+  townMap = 'town_hub',
+  townX = 10,
+  townY = 10,
+): TownPortalState {
+  const h = sim.hero ? sim.hero.id : 0;
+  const hx = Math.floor(sim.x[h] / FP);
+  const hy = Math.floor(sim.y[h] / FP);
+  const portal: TownPortalState = {
+    active: true,
+    map: currentMap,
+    x: hx,
+    y: hy,
+    townMap,
+    townX,
+    townY,
+  };
+  sim.cb.emit(9, sim.x[h], sim.y[h], 99, 0);
+  return portal;
+}
+
+export function useTownPortal(
+  sim: Sim,
+  portal: TownPortalState,
+  currentMap: string,
+): { targetMap: string; targetX: number; targetY: number; closePortal: boolean } {
+  const h = sim.hero ? sim.hero.id : 0;
+  if (currentMap === portal.townMap) {
+    portal.active = false;
+    sim.x[h] = portal.x * FP;
+    sim.y[h] = portal.y * FP;
+    return { targetMap: portal.map, targetX: portal.x, targetY: portal.y, closePortal: true };
+  } else {
+    sim.x[h] = portal.townX * FP;
+    sim.y[h] = portal.townY * FP;
+    return { targetMap: portal.townMap, targetX: portal.townX, targetY: portal.townY, closePortal: false };
   }
 }

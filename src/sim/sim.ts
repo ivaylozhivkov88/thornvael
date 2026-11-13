@@ -172,7 +172,11 @@ export class Sim {
   }
   /** Uniform grid of living units, rebuilt every tick; used for collision and target search. */
   readonly cellStart: Int32Array;
+  /** End (exclusive) of each cell's range in cellItems. Only cells in `occupied` are non-empty; all others stay 0/0. */
+  readonly cellEnd: Int32Array;
   readonly cellItems: Int32Array;
+  private readonly occupied: Int32Array;
+  private occupiedN = 0;
 
   private paths = new Map<number, PathRec>();
   private nextPath = 1;
@@ -184,7 +188,6 @@ export class Sim {
   private readonly oy: Int32Array;
   private readonly ax: Int32Array;
   private readonly ay: Int32Array;
-  private readonly cursor: Int32Array;
   private readonly fogSeen: Uint32Array;
   private readonly formUsed: Uint32Array;
   private formStamp = 0;
@@ -228,8 +231,9 @@ export class Sim {
     this.ax = new Int32Array(n);
     this.ay = new Int32Array(n);
     this.cellStart = new Int32Array(map.w * map.h + 1);
+    this.cellEnd = new Int32Array(map.w * map.h + 1);
     this.cellItems = new Int32Array(n);
-    this.cursor = new Int32Array(map.w * map.h);
+    this.occupied = new Int32Array(n);
     this.fogSeen = new Uint32Array(map.w * map.h);
     this.formUsed = new Uint32Array(map.w * map.h);
     this.formSlotX = new Int32Array(n);
@@ -984,21 +988,40 @@ export class Sim {
     return Math.min(h - 1, Math.max(0, Math.floor(this.y[i] / FP))) * w + Math.min(w - 1, Math.max(0, Math.floor(this.x[i] / FP)));
   }
 
-  /** Bucket the living units by tile (counting sort). */
+  /**
+   * Bucket the living units by tile (sparse counting sort). Cost is O(units), not O(map tiles):
+   * only the cells used last tick are cleared, so a 640x480 map steps as fast as a 64x48 one.
+   * Within a cell units stay in ascending id order, exactly as before (determinism).
+   */
   private buildGrid(): void {
-    const { map, count } = this;
+    const { count, occupied } = this;
     const cs = this.cellStart;
+    const ce = this.cellEnd;
     const hp = this.cb.hp;
-    cs.fill(0);
     const hid = this.hidden;
-    for (let i = 0; i < count; i++) if (hp[i] > 0 && !hid[i]) cs[this.cellOf(i) + 1]++;
-    for (let c = 0; c < map.w * map.h; c++) cs[c + 1] += cs[c];
-    const cursor = this.cursor;
-    cursor.fill(0);
+    for (let k = 0; k < this.occupiedN; k++) {
+      const c = occupied[k];
+      cs[c] = 0;
+      ce[c] = 0;
+    }
+    let m = 0;
     for (let i = 0; i < count; i++) {
       if (hp[i] <= 0 || hid[i]) continue;
       const c = this.cellOf(i);
-      this.cellItems[cs[c] + cursor[c]++] = i;
+      if (ce[c]++ === 0) occupied[m++] = c;
+    }
+    this.occupiedN = m;
+    let run = 0;
+    for (let k = 0; k < m; k++) {
+      const c = occupied[k];
+      const n = ce[c];
+      cs[c] = run;
+      ce[c] = run; // becomes the write cursor, ends up as the exclusive end
+      run += n;
+    }
+    for (let i = 0; i < count; i++) {
+      if (hp[i] <= 0 || hid[i]) continue;
+      this.cellItems[ce[this.cellOf(i)]++] = i;
     }
   }
 
@@ -1007,6 +1030,7 @@ export class Sim {
     const w = map.w;
     const h = map.h;
     const cs = this.cellStart;
+    const ce = this.cellEnd;
     this.buildGrid();
     this.ax.fill(0);
     this.ay.fill(0);
@@ -1025,7 +1049,7 @@ export class Sim {
       for (let gy = Math.max(0, cy - 1); gy <= gy1; gy++) {
         for (let gx = gx0; gx <= gx1; gx++) {
           const cc = gy * w + gx;
-          for (let q = cs[cc]; q < cs[cc + 1]; q++) {
+          for (let q = cs[cc]; q < ce[cc]; q++) {
             const j = this.cellItems[q];
             if (j <= i) continue;
             let dx = xi - x[j];

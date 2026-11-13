@@ -1,4 +1,5 @@
 import { blip, play, setMusic, unlock } from './audio';
+import { CampfireCanvas } from './campfire';
 import { actOf, nodeOf, type CampaignNode } from './campaign';
 import { loadCampaign, readRecord, writeRecord } from './campaignstore';
 import { canEnter, newRecord, nodeUrl, RECORD_KEY, clearLast, type CampaignRecord, type HeroPick } from './flow';
@@ -166,11 +167,11 @@ export async function runShell(startWorker: () => void): Promise<never> {
       cls: 0,
       female: false,
       name: 'Dain Ironclad',
-      epithet: 'Vanguard Knight',
+      epithet: 'Vanguard Paladin',
       classLabel: 'WARRIOR',
       portraitFile: 'portrait-warrior-m.png',
-      bio: 'A battle-hardened defender of Thornwick, clad in tempered plate. Leads from the frontline, absorbing crushing blows and holding chokepoints against overwhelming hordes.',
-      gear: ['Broadsword', 'Tower Shield', 'Heavy Mail', 'Healing Draught'],
+      bio: 'A battle-hardened defender of Thornwick, clad in tempered gothic plate, wielding a broad kite shield and steel bastard sword. Absorbs crushing blows and holds chokepoints against overwhelming hordes.',
+      gear: ['Steel Bastard Sword', 'Tower Kite Shield', 'Tempered Plate', 'Healing Draught'],
       perks: ['+25% Shield Block', 'Heavy Armor Mastery', 'Iron Resolve'],
       hp: 160,
       mp: 30,
@@ -181,11 +182,11 @@ export async function runShell(startWorker: () => void): Promise<never> {
       cls: 0,
       female: true,
       name: 'Selena Swiftblade',
-      epithet: 'Borderlands Nomad',
+      epithet: 'Borderlands Ranger',
       classLabel: 'WARRIOR',
       portraitFile: 'portrait-warrior-f.png',
-      bio: 'A legendary mercenary duelist renowned for lethal speed and flanking maneuvers. Strikes vulnerable armor seams and turns enemy momentum into deadly counter-attacks.',
-      gear: ['Balanced Saber', 'Spiked Buckler', 'Reinforced Vest', 'Healing Draught'],
+      bio: 'A legendary mercenary duelist and ranger in hardened leather cuirass and dark cloak, wielding lethal twin curved daggers. Strikes vulnerable armor seams and turns enemy momentum into deadly counter-attacks.',
+      gear: ['Twin Curved Daggers', 'Hardened Cuirass', 'Shadow Cloak', 'Healing Draught'],
       perks: ['+15% Movement Speed', '+20% Critical Strike', 'Nimble Footwork'],
       hp: 140,
       mp: 40,
@@ -199,8 +200,8 @@ export async function runShell(startWorker: () => void): Promise<never> {
       epithet: 'Flame Archmage',
       classLabel: 'MAGE',
       portraitFile: 'portrait-mage-m.png',
-      bio: 'An ordained scholar from the Citadel of Embers. Wields devastating celestial fire and astral wards to obliterate enemy squads and shatter monstrous defenses from range.',
-      gear: ['Carved Oak Staff', 'Apprentice Robe', 'Fire Bolt', 'Inferno Scroll'],
+      bio: 'An ordained scholar from the Citadel of Embers, robed in crimson and ash-grey scholar robes, clutching an ancient ash staff crowned with a smoldering ember crystal. Obliterates enemy squads from range with devastating celestial fire.',
+      gear: ['Ember Ash Staff', 'Scholar Robes', 'Fire Bolt', 'Inferno Scroll'],
       perks: ['Fire & Astral Mastery', '+30% Mana Pool', 'Elemental Overcharge'],
       hp: 80,
       mp: 130,
@@ -211,11 +212,11 @@ export async function runShell(startWorker: () => void): Promise<never> {
       cls: 1,
       female: true,
       name: 'Morrigan Frostweaver',
-      epithet: 'Glacial Oracle',
+      epithet: 'Glacial Sorceress',
       classLabel: 'MAGE',
       portraitFile: 'portrait-mage-f.png',
-      bio: 'Keeper of the ancient tide-runes. Weaves freezing blizzards and restorative water mists to immobilize charging beasts and protect allied battalions.',
-      gear: ['Crystal Wand', 'Runed Silk Cowl', 'Frost Bolt', 'Ice Shield'],
+      bio: 'Keeper of ancient tide-runes, wearing midnight-blue runic garments with silver embroidery and holding a frost-forged staff with glowing azure runes. Weaves freezing blizzards and restorative water mists to immobilize charging hordes.',
+      gear: ['Runic Frost Staff', 'Silver Silk Garments', 'Frost Bolt', 'Ice Shield'],
       perks: ['Water & Earth Affinity', 'Battlefield Freeze', 'Quick Casting'],
       hp: 85,
       mp: 120,
@@ -224,33 +225,61 @@ export async function runShell(startWorker: () => void): Promise<never> {
     },
   ];
 
-  // ---- hero creation: class, sex, difficulty (Diablo & RoM2 AAA Selection) ----
+  // ---- hero creation: class, sex, difficulty (Diablo II Gothic Campfire AAA Selection) ----
   function create(): void {
     mode = 'other';
     let selIdx = 0;
     let diff = 1;
 
     const base = import.meta.env.BASE_URL;
-    const container = el('div', 'sh-hero-screen');
+    const container = el('div', 'sh-campfire-screen');
+    container.style.backgroundImage = `url("${base}townart/campfire-bg.webp"), url("${base}townart/campfire-bg.jpg")`;
+
+    // Campfire Canvas Particle System (center foreground bonfire)
+    const campfire = new CampfireCanvas();
+    campfire.start();
+
+    // Dark gothic atmospheric overlays
+    const vignette = el('div', 'sh-campfire-vignette');
+    const mist = el('div', 'sh-campfire-mist');
 
     // Header
-    const hdr = el('div', 'sh-hero-header');
-    hdr.append(el('h2', '', T.createTitle), el('p', 'sh-hero-subtitle', 'Select your champion and campaign difficulty'));
+    const hdr = el('div', 'sh-campfire-header');
+    const brand = el('span', 'sh-campfire-brand', 'THORNVAEL');
+    const title = el('h2', 'sh-campfire-title', 'SELECT YOUR CHAMPION');
+    const subtitle = el('p', 'sh-campfire-subtitle', 'Gather around the midnight flames and choose your destined hero');
+    hdr.append(brand, title, subtitle);
 
-    // Roster grid
-    const roster = el('div', 'sh-hero-roster');
+    // Stage area: Champions arranged in semi-circle around the roaring campfire
+    const stage = el('div', 'sh-campfire-stage');
+    const hearthWrap = el('div', 'sh-campfire-hearth-wrap');
+    hearthWrap.append(campfire.canvas);
+
+    const dossierWrap = el('div', 'sh-campfire-dossier-wrap');
     const dossier = el('div', 'sh-hero-dossier');
 
     const updateDossier = (arch: Archetype): void => {
       dossier.replaceChildren();
 
+      // Top identity banner
+      const dHdr = el('div', 'sh-dossier-header');
+      const dBadge = el('span', `sh-dossier-class-seal ${arch.cls === 1 ? 'mage' : 'warrior'}`, arch.classLabel);
+      const dTitleWrap = el('div', 'sh-dossier-title-wrap');
+      const dName = el('h3', 'sh-dossier-name', arch.name);
+      const dEpithet = el('span', 'sh-dossier-epithet', arch.epithet);
+      dTitleWrap.append(dName, dEpithet);
+      dHdr.append(dBadge, dTitleWrap);
+
+      // Main content body
+      const dBody = el('div', 'sh-dossier-body');
+
       // Left column: bio + perks + gear
       const left = el('div', 'sh-dossier-left');
       const bio = el('div', 'sh-dossier-bio');
-      bio.append(el('h3', '', `${arch.name} · ${arch.epithet}`), el('p', 'sh-dossier-desc', arch.bio));
+      bio.append(el('p', 'sh-dossier-desc', arch.bio));
 
       const gearBox = el('div', 'sh-dossier-gear');
-      gearBox.append(el('b', '', 'Starting Equipment & Masteries:'));
+      gearBox.append(el('b', 'sh-dossier-subtitle', 'Starting Equipment & Masteries:'));
       const tags = el('div', 'sh-gear-tags');
       for (const g of arch.gear) tags.append(el('span', 'sh-tag', g));
       for (const p of arch.perks) tags.append(el('span', 'sh-tag perk', p));
@@ -278,44 +307,63 @@ export async function runShell(startWorker: () => void): Promise<never> {
         statRow('Defence', arch.bars.def, arch.bars.def, 'def'),
       );
 
-      dossier.append(left, stats);
+      dBody.append(left, stats);
+      dossier.append(dHdr, dBody);
     };
 
-    const drawRoster = (): void => {
-      roster.replaceChildren();
-      ARCHETYPES.forEach((arch, idx) => {
-        const isSel = idx === selIdx;
-        const card = el('div', `sh-hero-card ${isSel ? 'selected' : ''}`);
+    const drawStage = (): void => {
+      stage.replaceChildren();
 
-        const frame = el('div', 'sh-hero-portrait-frame');
+      // Semi-circle arrangement:
+      // Selena (idx 1, outer-left) | Dain (idx 0, inner-left) | Campfire | Valerius (idx 2, inner-right) | Morrigan (idx 3, outer-right)
+      const renderChampion = (idx: number): HTMLElement => {
+        const arch = ARCHETYPES[idx];
+        const isSel = idx === selIdx;
+        const champ = el('div', `sh-campfire-champion champion-${arch.female ? 'f' : 'm'}-${arch.cls === 1 ? 'mage' : 'warrior'} ${isSel ? 'selected' : ''}`);
+
+        const groundGlow = el('div', 'sh-champion-ground-glow');
+        const figureWrap = el('div', 'sh-champion-figure-wrap');
         const img = document.createElement('img');
-        img.className = 'sh-hero-img';
+        img.className = 'sh-champion-figure';
         img.src = `${base}townart/${arch.portraitFile}`;
         img.alt = arch.name;
-        const pedestal = el('div', 'sh-hero-pedestal');
-        frame.append(pedestal, img);
+        figureWrap.append(img);
 
-        const meta = el('div', 'sh-hero-meta');
-        const badge = el('span', `sh-hero-class ${arch.cls === 1 ? 'mage' : 'warrior'}`, arch.classLabel);
-        const name = el('h3', 'sh-hero-name', arch.name);
-        const title = el('span', 'sh-hero-title', arch.epithet);
-        meta.append(badge, name, title);
+        const nameplate = el('div', 'sh-champion-nameplate');
+        const badge = el('span', `sh-champion-badge ${arch.cls === 1 ? 'mage' : 'warrior'}`, arch.classLabel);
+        const name = el('span', 'sh-champion-name', arch.name);
+        const epithet = el('span', 'sh-champion-epithet', arch.epithet);
+        nameplate.append(badge, name, epithet);
 
-        card.append(frame, meta);
-        card.onclick = () => {
+        champ.append(groundGlow, figureWrap, nameplate);
+
+        champ.onclick = () => {
           if (selIdx !== idx) {
             selIdx = idx;
+            play('select_hero', 5);
             play(arch.sound, 4);
-            drawRoster();
+            drawStage();
             updateDossier(arch);
           }
         };
-        roster.append(card);
-      });
+
+        return champ;
+      };
+
+      stage.append(
+        renderChampion(1), // Selena Swiftblade
+        renderChampion(0), // Dain Ironclad
+        hearthWrap,        // Roaring Bonfire in center
+        renderChampion(2), // Valerius Pyremaster
+        renderChampion(3)  // Morrigan Frostweaver
+      );
     };
 
-    drawRoster();
+    drawStage();
     updateDossier(ARCHETYPES[selIdx]);
+
+    // Bottom controls panel: Difficulty + Action buttons
+    const controls = el('div', 'sh-campfire-controls');
 
     // Difficulty Panel
     const diffPanel = el('div', 'sh-difficulty-panel');
@@ -342,8 +390,9 @@ export async function runShell(startWorker: () => void): Promise<never> {
 
     // Action buttons
     const actions = el('div', 'sh-hero-actions');
-    const startBtn = btn(T.start, async () => {
+    const startBtn = btn('BEGIN CAMPAIGN', async () => {
       blip();
+      campfire.stop();
       const arch = ARCHETYPES[selIdx];
       const pick: HeroPick = { cls: arch.cls, female: arch.female };
       rec = newRecord(c, pick, diff);
@@ -356,12 +405,15 @@ export async function runShell(startWorker: () => void): Promise<never> {
 
     const backBtn = btn(T.back, () => {
       blip();
+      campfire.stop();
       menu();
     }, 'sh-btn-back');
 
     actions.append(startBtn, backBtn);
+    controls.append(diffPanel, actions);
+    dossierWrap.append(dossier, controls);
 
-    container.append(hdr, roster, dossier, diffPanel, actions);
+    container.append(vignette, mist, hdr, stage, dossierWrap);
     screen(container);
   }
 

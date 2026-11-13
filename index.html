@@ -13,10 +13,14 @@
 </head>
 <body>
 <canvas id="game"></canvas>
-<div class="bar"><span id="hint"></span><span id="stats"></span><span id="clock"></span><button id="btn-missions">Missions</button><button id="btn-saves">Saves</button><button id="btn-install">Install</button><button id="btn-credits">Credits</button></div>
+<div id="loot-overlay"></div>
+<div class="bar"><span id="hint"></span><span id="stats"></span><span id="clock" hidden></span><button id="btn-controls" title="Toggle Controls Mode (WASD / Mouse)">WASD</button><button id="btn-quests" title="Quest Journal (Q)">[Q] Quests</button><button id="btn-leave-mission" class="btn-leave-mission" hidden>Return to Camp ❯</button><button id="btn-missions">Missions</button><button id="btn-saves">Saves</button><button id="btn-install">Install</button><button id="btn-credits">Credits</button></div>
 <canvas id="minimap" aria-label="Minimap"></canvas>
+<button id="btn-alt" class="btn-alt" aria-pressed="false" title="Toggle Loot Overlay (ALT)">👁 ALT</button>
 <div id="armed" hidden></div>
-<div class="hud-dock">
+
+<!-- Legacy Dock (kept hidden for backward compatibility with existing handles) -->
+<div class="hud-dock" id="hud-dock" hidden>
 <div class="cmds" id="cmds" hidden></div>
 <div class="quick" id="quick" hidden><button id="btn-spells">Spells</button><button id="btn-auto">Auto</button></div>
 <div class="groups" id="groups"></div>
@@ -24,9 +28,174 @@
   <button id="btn-hero"></button><button id="btn-box" aria-pressed="false"></button><button id="btn-add" aria-pressed="false"></button><button id="btn-set" aria-pressed="false"></button><button id="btn-all"></button><button id="btn-loose"></button><button id="btn-force"></button><button id="btn-pause"></button><button id="btn-speed"></button><button id="btn-quality"></button><button id="btn-sound"></button><button id="btn-music" aria-pressed="false"></button>
 </div>
 </div>
+
+<!-- ======================================================== -->
+<!-- GOTHIC HUD (Diablo II & Rage of Mages Style)              -->
+<!-- ======================================================== -->
+<div id="gothic-hud" class="gothic-hud">
+  <!-- Left Wing: Hero Portrait Decal & Health Globe -->
+  <div class="hud-left">
+    <div id="hero-decal" class="hero-decal" role="button" tabindex="0" title="Character Stats [C]">
+      <div class="hero-portrait-frame">
+        <img id="hud-hero-img" class="hud-hero-img" alt="Hero Portrait" src="./townart/portrait-warrior-m.png" />
+        <span id="hud-hero-lvl" class="hud-hero-lvl">Lvl 1</span>
+      </div>
+      <div class="hero-name-plate" id="hud-hero-name">Hero</div>
+    </div>
+
+    <!-- Health Globe -->
+    <div id="globe-health" class="globe-container globe-health" title="Life (Health)">
+      <div class="globe-mount left-mount">
+        <svg viewBox="0 0 140 140" class="mount-svg" aria-hidden="true">
+          <defs>
+            <linearGradient id="bronzeGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+              <stop offset="0%" stop-color="#f5dcab"/>
+              <stop offset="35%" stop-color="#c1995d"/>
+              <stop offset="70%" stop-color="#72532d"/>
+              <stop offset="100%" stop-color="#2a1e10"/>
+            </linearGradient>
+            <linearGradient id="darkStone" x1="0%" y1="0%" x2="100%" y2="100%">
+              <stop offset="0%" stop-color="#3d4952"/>
+              <stop offset="50%" stop-color="#1f262c"/>
+              <stop offset="100%" stop-color="#101518"/>
+            </linearGradient>
+          </defs>
+          <path d="M12 134 C25 90 40 45 68 20 C60 38 56 60 62 82 C44 95 28 112 12 134 Z" fill="url(#darkStone)" stroke="url(#bronzeGrad)" stroke-width="2"/>
+          <path d="M22 134 C45 105 72 75 110 65 C95 80 82 100 84 134 Z" fill="url(#darkStone)" stroke="url(#bronzeGrad)" stroke-width="2"/>
+          <circle cx="28" cy="120" r="4" fill="url(#bronzeGrad)"/>
+          <circle cx="50" cy="128" r="5" fill="url(#bronzeGrad)"/>
+          <path d="M10 134 Q 70 144 130 134" stroke="url(#bronzeGrad)" stroke-width="3" fill="none"/>
+        </svg>
+      </div>
+      <div class="globe-orb">
+        <div id="liquid-health" class="liquid liquid-health" style="height: 100%;">
+          <div class="liquid-wave"></div>
+        </div>
+        <div class="globe-glass-highlight"></div>
+        <div class="globe-inner-shadow"></div>
+      </div>
+      <div class="globe-text" id="globe-health-text">120 / 120</div>
+      <span class="globe-label">LIFE</span>
+    </div>
+  </div>
+
+  <!-- Center Action Bar between globes -->
+  <div class="hud-center">
+    <div class="hud-center-top">
+      <!-- Potion Belt Slots: 4 slots numbered [1], [2], [3], [4] -->
+      <div class="belt-container" id="belt-container">
+        <div class="belt-slot" id="belt-slot-1" data-slot="1" role="button" tabindex="0" title="Drink Healing Potion [1]">
+          <span class="belt-key">1</span>
+          <div class="belt-icon icon-heal"></div>
+          <span class="belt-count" id="belt-count-1">0</span>
+        </div>
+        <div class="belt-slot" id="belt-slot-2" data-slot="2" role="button" tabindex="0" title="Drink Mana Potion [2]">
+          <span class="belt-key">2</span>
+          <div class="belt-icon icon-mana"></div>
+          <span class="belt-count" id="belt-count-2">0</span>
+        </div>
+        <div class="belt-slot" id="belt-slot-3" data-slot="3" role="button" tabindex="0" title="Drink Greater / Rejuvenation Potion [3]">
+          <span class="belt-key">3</span>
+          <div class="belt-icon icon-rejuv"></div>
+          <span class="belt-count" id="belt-count-3">0</span>
+        </div>
+        <div class="belt-slot" id="belt-slot-4" data-slot="4" role="button" tabindex="0" title="Drink Elixir / Buff Potion [4]">
+          <span class="belt-key">4</span>
+          <div class="belt-icon icon-buff"></div>
+          <span class="belt-count" id="belt-count-4">0</span>
+        </div>
+      </div>
+
+      <!-- Active Skill / Spell Quick Display (Left & Right Mouse) -->
+      <div class="skills-container" id="skills-container">
+        <div class="skill-slot active-lmb" id="slot-lmb" title="Primary Attack & Move (LMB)">
+          <span class="skill-mouse-tag">LMB</span>
+          <div class="skill-icon icon-attack" id="icon-lmb">⚔️</div>
+        </div>
+        <div class="skill-slot active-rmb" id="slot-rmb" title="Active Spell / Skill (RMB)">
+          <span class="skill-mouse-tag">RMB</span>
+          <div class="skill-icon" id="icon-rmb">🔥</div>
+          <span class="skill-hotkey" id="skill-hotkey-label">F4</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Utility Action Buttons: [Q], [I], [S], [C], [👁 ALT], [ESC] -->
+    <div class="utility-buttons" id="utility-buttons">
+      <button id="btn-quest" class="hud-btn" title="Quests [Q]">
+        <span class="btn-hotkey">Q</span>
+        <span class="btn-name">Quests</span>
+      </button>
+      <button id="btn-inv" class="hud-btn" title="Inventory [I]">
+        <span class="btn-hotkey">I</span>
+        <span class="btn-name">Pack</span>
+      </button>
+      <button id="btn-spells-hud" class="hud-btn" title="Spellbook [S]">
+        <span class="btn-hotkey">S</span>
+        <span class="btn-name">Spells</span>
+      </button>
+      <button id="btn-char" class="hud-btn" title="Character Stats [C]">
+        <span class="btn-hotkey">C</span>
+        <span class="btn-name">Stats</span>
+      </button>
+      <button id="btn-alt-loot" class="hud-btn" title="Highlight & Auto-Loot [ALT]">
+        <span class="btn-hotkey">ALT</span>
+        <span class="btn-name">👁 Loot</span>
+      </button>
+      <button id="btn-menu" class="hud-btn" title="Menu / Pause [ESC]">
+        <span class="btn-hotkey">ESC</span>
+        <span class="btn-name">Menu</span>
+      </button>
+    </div>
+  </div>
+
+  <!-- Right Globe: Blue Mana Globe -->
+  <div class="hud-right">
+    <div id="globe-mana" class="globe-container globe-mana" title="Mana">
+      <div class="globe-mount right-mount">
+        <svg viewBox="0 0 140 140" class="mount-svg" aria-hidden="true">
+          <path d="M128 134 C115 90 100 45 72 20 C80 38 84 60 78 82 C96 95 112 112 128 134 Z" fill="url(#darkStone)" stroke="url(#bronzeGrad)" stroke-width="2"/>
+          <path d="M118 134 C95 105 68 75 30 65 C45 80 58 100 56 134 Z" fill="url(#darkStone)" stroke="url(#bronzeGrad)" stroke-width="2"/>
+          <circle cx="112" cy="120" r="4" fill="url(#bronzeGrad)"/>
+          <circle cx="90" cy="128" r="5" fill="url(#bronzeGrad)"/>
+          <path d="M10 134 Q 70 144 130 134" stroke="url(#bronzeGrad)" stroke-width="3" fill="none"/>
+        </svg>
+      </div>
+      <div class="globe-orb">
+        <div id="liquid-mana" class="liquid liquid-mana" style="height: 100%;">
+          <div class="liquid-wave"></div>
+        </div>
+        <div class="globe-glass-highlight"></div>
+        <div class="globe-inner-shadow"></div>
+      </div>
+      <div class="globe-text" id="globe-mana-text">31 / 31</div>
+      <span class="globe-label">MANA</span>
+    </div>
+  </div>
+</div>
+
+<!-- Gothic Quest Log Modal [Q] -->
+<div id="quest-modal" class="sheet gothic-dialog" role="dialog" aria-label="Quest Log" hidden>
+  <div class="sheet-head gothic-dialog-head">
+    <h2 id="quest-title">Quest Log</h2>
+    <button id="quest-close">Close</button>
+  </div>
+  <div class="gothic-dialog-body">
+    <p id="quest-desc" class="quest-desc"></p>
+    <h3>Objectives</h3>
+    <ul id="quest-goals" class="quest-goals"></ul>
+  </div>
+  <div class="gothic-dialog-actions">
+    <button id="quest-all-missions">All Missions</button>
+  </div>
+</div>
+
+<!-- Gothic Pause Menu & Game Codex [ESC] -->
+<div id="pause-menu" class="pause-menu" role="dialog" aria-label="Game Paused" hidden></div>
 <div id="sheet" class="sheet" role="dialog" aria-label="Hero" hidden><div class="sheet-head" id="sheet-head"></div><div id="sheet-body"></div></div>
 <div id="create" class="sheet" role="dialog" aria-label="Create your hero" hidden></div>
 <div id="book" class="sheet" role="dialog" aria-label="Spells" hidden><div class="book-head"><h2 id="book-title"></h2><button id="book-close">Close</button></div><p id="book-help"></p><div id="book-body"></div></div>
+<div id="spellbook-modal" class="spellbook-modal" role="dialog" aria-label="Gothic Spellbook" hidden></div>
 <pre id="debug" hidden></pre>
 <div id="tip" hidden></div>
 <div id="rotate">Rotate your device to landscape for the best view.</div>

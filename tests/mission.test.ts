@@ -50,8 +50,8 @@ describe('map format', () => {
     const l = loadDoc(BUILT_IN.ford);
     expect(l.map.w * l.map.h).toBe(l.map.terrain.length);
     expect(l.scenario.kinds[0]).toBe(Kind.Hero);
-    expect(l.scenario.packs.length).toBe(2);
-    expect(l.def.dormant.length).toBe(5);
+    expect(l.scenario.packs.length).toBe(15);
+    expect(l.def.dormant.length).toBe(12);
   });
 
   it('migrates a version 1 file and the result still plays', () => {
@@ -87,9 +87,10 @@ describe('the first mission', () => {
     run(g, 30);
     expect(st.sub[0]).toBe(1);
     expect(st.msgs.slice(1)).toEqual([1]);
-    expect(sim.hidden.reduce((a, b) => a + b, 0)).toBe(5);
-    // Everybody crosses to the ford; the hero's box trigger fires.
-    run(g, 1, { [sim.tick + 1]: [{ type: 'move', ids: squad(sim), x: 31, y: 23 }] });
+    expect(sim.hidden.reduce((a, b) => a + b, 0)).toBe(12);
+    // Hero crosses the ford; the hero's box trigger fires.
+    sim.place(0, 260, 250);
+    run(g, 1, { [sim.tick + 1]: [{ type: 'move', ids: squad(sim), x: 350, y: 250 }] });
     for (let t = 0; t < 1500 && st.vars[0] === 0 && sim.cb.hp[0] > 0; t++) run(g, 1);
     expect(sim.cb.hp[0]).toBeGreaterThan(0);
     expect(st.vars[0]).toBe(1);
@@ -101,7 +102,7 @@ describe('the first mission', () => {
     sim.cb.recount(sim.team);
     run(g, 12);
     expect(st.status).toBe(1);
-    expect(st.sub[1]).toBe(2);
+    expect(st.sub[3]).toBe(2);
   });
 
   it('is lost when the hero falls', () => {

@@ -290,7 +290,7 @@
       "note": "Original articulated imp PILOT model; Blender 5.2.3 LTS, 48px, 16 directions, stand4/walk8/attack4/cast4/hurt2/die4, RGB masks, fixed camera3.0. Reproduce: docs/UNIT-ART.md"
     },
     {
-      "path": "public/terrain/terrain-e732fd5fcaf8.png",
+      "path": "public/terrain/terrain-b99f623a8e97.png",
       "license": "own",
       "source": "tools/make-terrain.py",
       "note": "Original procedural terrain, edge feathers, trees, cottages and ruins; seed 1032026, Pillow 12.3.0. No source images. Reproduce: docs/TERRAIN-ART.md"
@@ -426,6 +426,244 @@
       "license": "own",
       "source": "tools/gen-loot-spell-sfx.py",
       "note": "Procedurally synthesized AAC time warp spell cue"
+    },
+    {
+      "path": "public/audio/hit_sword_1.m4a",
+      "license": "own",
+      "source": "tools/gen-combat-weapon-sfx.py",
+      "sha256": "e0d9ab6cb88beecfd812d0e9037d5464f3d77e6aeecb5a003436e80152112f2f",
+      "note": "Procedurally synthesized AAC combat cue hit_sword_1.m4a"
+    },
+    {
+      "path": "public/audio/hit_sword_2.m4a",
+      "license": "own",
+      "source": "tools/gen-combat-weapon-sfx.py",
+      "sha256": "de69155499cdfe31a0caa74a2f9e4c9e89ca4f328ab1a8b740b7e176987d6d35",
+      "note": "Procedurally synthesized AAC combat cue hit_sword_2.m4a"
+    },
+    {
+      "path": "public/audio/hit_sword_3.m4a",
+      "license": "own",
+      "source": "tools/gen-combat-weapon-sfx.py",
+      "sha256": "cbe89c8c651a8ce9072feb9cecfcdaf096e9f27cf1cd7f66ade6a58180a98bab",
+      "note": "Procedurally synthesized AAC combat cue hit_sword_3.m4a"
+    },
+    {
+      "path": "public/audio/swing_sword_1.m4a",
+      "license": "own",
+      "source": "tools/gen-combat-weapon-sfx.py",
+      "sha256": "446d290dc5a3e46f29bddf4455df0f2463942b1ff23de6e5ed6445d0185649ba",
+      "note": "Procedurally synthesized AAC combat cue swing_sword_1.m4a"
+    },
+    {
+      "path": "public/audio/swing_sword_2.m4a",
+      "license": "own",
+      "source": "tools/gen-combat-weapon-sfx.py",
+      "sha256": "e975e0756a8a7734cd62056f2c2dfbc83c2c094d452e187e9728dac1413ac1d7",
+      "note": "Procedurally synthesized AAC combat cue swing_sword_2.m4a"
+    },
+    {
+      "path": "public/audio/hit_axe_1.m4a",
+      "license": "own",
+      "source": "tools/gen-combat-weapon-sfx.py",
+      "sha256": "6a37551aababc2ccbbbeab3f6a984583245ff5b6af1ee7d5624e0583c3892146",
+      "note": "Procedurally synthesized AAC combat cue hit_axe_1.m4a"
+    },
+    {
+      "path": "public/audio/hit_axe_2.m4a",
+      "license": "own",
+      "source": "tools/gen-combat-weapon-sfx.py",
+      "sha256": "95aa91fdf3d1853ddbbf8598292fa5bad75c87afca3b934c30968b6fc5b77154",
+      "note": "Procedurally synthesized AAC combat cue hit_axe_2.m4a"
+    },
+    {
+      "path": "public/audio/hit_axe_3.m4a",
+      "license": "own",
+      "source": "tools/gen-combat-weapon-sfx.py",
+      "sha256": "ed735fab029ca4eada6894814374261672f700e0653c6f1c2643e0306696f887",
+      "note": "Procedurally synthesized AAC combat cue hit_axe_3.m4a"
+    },
+    {
+      "path": "public/audio/swing_axe_1.m4a",
+      "license": "own",
+      "source": "tools/gen-combat-weapon-sfx.py",
+      "sha256": "03dde52eab77d2c80f48eac878369189109727733190a9993189c0f3724939b6",
+      "note": "Procedurally synthesized AAC combat cue swing_axe_1.m4a"
+    },
+    {
+      "path": "public/audio/hit_blunt_1.m4a",
+      "license": "own",
+      "source": "tools/gen-combat-weapon-sfx.py",
+      "sha256": "a430d4eac776b17aa871c839d22e3952dac17a65a025a8585cb039c11f6f9910",
+      "note": "Procedurally synthesized AAC combat cue hit_blunt_1.m4a"
+    },
+    {
+      "path": "public/audio/hit_blunt_2.m4a",
+      "license": "own",
+      "source": "tools/gen-combat-weapon-sfx.py",
+      "sha256": "e37c32e5b8011073d52210b0f38a621c7597b5800d504a75ead71d13ad9ecb64",
+      "note": "Procedurally synthesized AAC combat cue hit_blunt_2.m4a"
+    },
+    {
+      "path": "public/audio/hit_blunt_3.m4a",
+      "license": "own",
+      "source": "tools/gen-combat-weapon-sfx.py",
+      "sha256": "60e930a5d36dcf128d07fc19c1ec254adb53cd796f99eea3a9c2bf7e370c3cae",
+      "note": "Procedurally synthesized AAC combat cue hit_blunt_3.m4a"
+    },
+    {
+      "path": "public/audio/hit_pierce_1.m4a",
+      "license": "own",
+      "source": "tools/gen-combat-weapon-sfx.py",
+      "sha256": "29d42d7ce8d5e78f92c8d0a0147b9471972606c48f475548a27291b0825c602e",
+      "note": "Procedurally synthesized AAC combat cue hit_pierce_1.m4a"
+    },
+    {
+      "path": "public/audio/hit_pierce_2.m4a",
+      "license": "own",
+      "source": "tools/gen-combat-weapon-sfx.py",
+      "sha256": "283ed7483f52e5c18328ce7691fb015802e848b8064b7784a2e47fec0769b985",
+      "note": "Procedurally synthesized AAC combat cue hit_pierce_2.m4a"
+    },
+    {
+      "path": "public/audio/hit_dagger_1.m4a",
+      "license": "own",
+      "source": "tools/gen-combat-weapon-sfx.py",
+      "sha256": "bf6b1767fb9d9e72cd36e5e7a7e2b1072a7b2a2f37ac2d0fcf65bcf1debbcfe8",
+      "note": "Procedurally synthesized AAC combat cue hit_dagger_1.m4a"
+    },
+    {
+      "path": "public/audio/block_shield_1.m4a",
+      "license": "own",
+      "source": "tools/gen-combat-weapon-sfx.py",
+      "sha256": "00ae395be8ee55847013cc07e8f5be1d3437b2de12beda09e0f148171df4f258",
+      "note": "Procedurally synthesized AAC combat cue block_shield_1.m4a"
+    },
+    {
+      "path": "public/audio/block_shield_2.m4a",
+      "license": "own",
+      "source": "tools/gen-combat-weapon-sfx.py",
+      "sha256": "63f3325ef07bdfb52adc22387f683166b4e483b524ea2417fa83b03e6a7f5afc",
+      "note": "Procedurally synthesized AAC combat cue block_shield_2.m4a"
+    },
+    {
+      "path": "public/audio/armor_leather.m4a",
+      "license": "own",
+      "source": "tools/gen-combat-weapon-sfx.py",
+      "sha256": "0a20bb90d493bc7b17bf6d4ee63e62ea921be3708b7b6e85ec23ba526fc8152a",
+      "note": "Procedurally synthesized AAC combat cue armor_leather.m4a"
+    },
+    {
+      "path": "public/audio/armor_plate.m4a",
+      "license": "own",
+      "source": "tools/gen-combat-weapon-sfx.py",
+      "sha256": "eb3ff1f742ce287b84fd46e2e7292e8fb1084b92ad7ba73f62732d3b7ff7bfa6",
+      "note": "Procedurally synthesized AAC combat cue armor_plate.m4a"
+    },
+    {
+      "path": "public/audio/potion_drink_1.m4a",
+      "license": "own",
+      "source": "tools/gen-combat-weapon-sfx.py",
+      "sha256": "b7a564b23c675ae7b24f841409110155dba638ead13fe6ec8ec909d360663084",
+      "note": "Procedurally synthesized AAC combat cue potion_drink_1.m4a"
+    },
+    {
+      "path": "public/audio/potion_drink_2.m4a",
+      "license": "own",
+      "source": "tools/gen-combat-weapon-sfx.py",
+      "sha256": "6d7c26435248c9f8bbf0a75e90ee88ecd47a89a16017b004a8fc9283df2d9e39",
+      "note": "Procedurally synthesized AAC combat cue potion_drink_2.m4a"
+    },
+    {
+      "path": "public/audio/step_grass_1.m4a",
+      "license": "own",
+      "source": "tools/gen-combat-weapon-sfx.py",
+      "sha256": "d3c8b3cb9780ef1a852c49f2bfcb460c57e22e0c3f31a92768e1d60ea7f080cf",
+      "note": "Procedurally synthesized AAC combat cue step_grass_1.m4a"
+    },
+    {
+      "path": "public/audio/step_grass_2.m4a",
+      "license": "own",
+      "source": "tools/gen-combat-weapon-sfx.py",
+      "sha256": "df3e6dbbbab6cb94718a2731345711f925bcc9e15c47b4fd7930dd9a3b4ebdbe",
+      "note": "Procedurally synthesized AAC combat cue step_grass_2.m4a"
+    },
+    {
+      "path": "public/audio/step_grass_3.m4a",
+      "license": "own",
+      "source": "tools/gen-combat-weapon-sfx.py",
+      "sha256": "0e0449660b863fe606541b4e7f530d27da9028976d1f14a3050e57862d3b13fa",
+      "note": "Procedurally synthesized AAC combat cue step_grass_3.m4a"
+    },
+    {
+      "path": "public/audio/step_dirt_1.m4a",
+      "license": "own",
+      "source": "tools/gen-combat-weapon-sfx.py",
+      "sha256": "437b88b569e386b01eee29b5474e34c9ce2907248fce5262f425189413845955",
+      "note": "Procedurally synthesized AAC combat cue step_dirt_1.m4a"
+    },
+    {
+      "path": "public/audio/step_dirt_2.m4a",
+      "license": "own",
+      "source": "tools/gen-combat-weapon-sfx.py",
+      "sha256": "975bbeb9eaa4556225c3ebebfedb9867b9bc19d81dbacf473f29f92b47443c48",
+      "note": "Procedurally synthesized AAC combat cue step_dirt_2.m4a"
+    },
+    {
+      "path": "public/audio/step_dirt_3.m4a",
+      "license": "own",
+      "source": "tools/gen-combat-weapon-sfx.py",
+      "sha256": "5b081108ad7252540eb215acdf53fc9d8a0035c51aa0c2a7bf48a496aa3f7110",
+      "note": "Procedurally synthesized AAC combat cue step_dirt_3.m4a"
+    },
+    {
+      "path": "public/audio/step_water_1.m4a",
+      "license": "own",
+      "source": "tools/gen-combat-weapon-sfx.py",
+      "sha256": "254e758cef62fbb6214a05ecba1a3e6a37296b3ec2b6db713cea33b7ef83733c",
+      "note": "Procedurally synthesized AAC combat cue step_water_1.m4a"
+    },
+    {
+      "path": "public/audio/step_water_2.m4a",
+      "license": "own",
+      "source": "tools/gen-combat-weapon-sfx.py",
+      "sha256": "27c7161d625389256fb3e8d063a007a87af420848c4374601e3da19313f983dd",
+      "note": "Procedurally synthesized AAC combat cue step_water_2.m4a"
+    },
+    {
+      "path": "public/audio/step_stone_1.m4a",
+      "license": "own",
+      "source": "tools/gen-combat-weapon-sfx.py",
+      "sha256": "30fc9ceb195aebf87410ec13d335032f402b04fe17a0d0a375d36fd2fab257e4",
+      "note": "Procedurally synthesized AAC combat cue step_stone_1.m4a"
+    },
+    {
+      "path": "public/audio/step_stone_2.m4a",
+      "license": "own",
+      "source": "tools/gen-combat-weapon-sfx.py",
+      "sha256": "5765e23dc4b42f54b303a90d528e5a851f7f215e277ca46309804771db2b7b2c",
+      "note": "Procedurally synthesized AAC combat cue step_stone_2.m4a"
+    },
+    {
+      "path": "public/audio/death_beast_1.m4a",
+      "license": "own",
+      "source": "tools/gen-combat-weapon-sfx.py",
+      "sha256": "4007dee012c10fd1440d451305914bed0be712665a82857ffbdc8f6f398e7875",
+      "note": "Procedurally synthesized AAC combat cue death_beast_1.m4a"
+    },
+    {
+      "path": "public/audio/death_skeleton_1.m4a",
+      "license": "own",
+      "source": "tools/gen-combat-weapon-sfx.py",
+      "sha256": "bdd1cc131cfd88e359aa43f5e9048e6699fab9d4c2c57a08de7be97fd5c4f2a4",
+      "note": "Procedurally synthesized AAC combat cue death_skeleton_1.m4a"
+    },
+    {
+      "path": "public/audio/select_hero.m4a",
+      "license": "own",
+      "source": "tools/gen-hero-select-sfx.py",
+      "sha256": "446996ac43ec0b4c3c0799af77b04d063577ca64056f58949ebd3c8a3e24c0bc",
+      "note": "Procedurally synthesized hero selection cue"
     }
   ]
 }

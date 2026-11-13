@@ -4,8 +4,8 @@ import { monsterFamilyById, monsterPaletteByTier } from './data';
 import { rulesOf } from './difficulty';
 import { ALL_SPELLS, MAGE_SPELLS, NST, SPELLS, St, Tk } from './spelldata';
 import { autoCast, castSpell, clearAllStatuses, knows, spellHit, statusTick, validTarget } from './spells';
-import { dropLoot, heroUse, pickBag } from './hero';
-import { PART_COUNT, PART_DMG, PART_WEIGHT } from './items';
+import { addHeroXp, dropLoot, heroTick, heroUse, pickBag, respawnHero } from './hero';
+import { PART_COUNT, PART_DMG, PART_WEIGHT, getItemDef } from './items';
 
 /** Per-unit stat bonuses (hero gear, attributes, skills), MODN entries per unit. Def and Abs count on every part; PDef and PAbs are four entries, one per body part. */
 export const M = { Min: 0, Max: 1, Acc: 2, Def: 3, Abs: 4, Res: 5, Pow: 10, Regen: 11, PDef: 12, PAbs: 16 } as const;
@@ -72,7 +72,7 @@ const DEFEND_LEASH = 8 * T;
 const FOLLOW = 3 * T;
 const NEAR_POST = Math.round(1.5 * T);
 const MAXP = 256;
-const MAXS = 128;
+export const MAXS = 128;
 const MAXB = 64;
 const PSPEED = Math.round((9 * FP) / 25);
 const PROJ_SCAN = 4; // monsters and allies look for a new target every 4th tick
@@ -357,6 +357,7 @@ function valid(sim: Sim, t: number): boolean {
 export function enemyNear(sim: Sim, i: number, range: number, cx: number, cy: number, leash: number): number {
   const { w, h } = sim.map;
   const cs = sim.cellStart;
+  const ce = sim.cellEnd;
   const ci = sim.cellItems;
   const x = sim.x[i];
   const y = sim.y[i];
@@ -374,7 +375,7 @@ export function enemyNear(sim: Sim, i: number, range: number, cx: number, cy: nu
 
   const scanCell = (gx: number, gy: number): void => {
     const c = gy * w + gx;
-    for (let q = cs[c]; q < cs[c + 1]; q++) {
+    for (let q = cs[c]; q < ce[c]; q++) {
       const j = ci[q];
       if (sim.team[j] === me || hp[j] <= 0 || sim.peace[me * 4 + sim.team[j]]) continue;
       const dx = sim.x[j] - x;
@@ -553,21 +554,53 @@ export function strike(sim: Sim, t: number, min: number, max: number, elem: numb
   cb.hp[t] -= dmg;
   if (cb.log) logHit(sim, src, t, elem, part, chance, roll, raw, cut, dmg);
   if (dmg > 0 || !(cb.stMask[t] & (1 << St.Shield))) cb.emit(0, sim.x[t], sim.y[t], dmg, elem);
-  if (cb.hp[t] <= 0) die(sim, t);
+
+  if (src >= 0 && sim.hero !== null && src === sim.hero.id && dmg > 0) {
+    const wep = sim.hero.eq[0];
+    const wepDef = wep >= 0 ? getItemDef(wep) : undefined;
+    const ls = wepDef?.lifesteal ?? 0;
+    if (ls > 0 && cb.hp[src] < cb.hpMax[src]) {
+      const heal = Math.max(1, Math.floor((dmg * ls) / 100));
+      cb.hp[src] = Math.min(cb.hpMax[src], cb.hp[src] + heal);
+      cb.emit(7, sim.x[src], sim.y[src], heal, 0);
+    }
+  }
+
+  if (cb.hp[t] <= 0) die(sim, t, elem);
 }
 
-function die(sim: Sim, t: number): void {
+function die(sim: Sim, t: number, elem = 0): void {
+  if (sim.hero !== null && t === sim.hero.id) {
+    respawnHero(sim);
+    return;
+  }
   dropLoot(sim, t);
   const cb = sim.cb;
   cb.hp[t] = 0;
   cb.alive[sim.team[t] & 3]--;
   cb.ord[t] = Ord.Still;
   cb.tgt[t] = -1;
-  cb.corp[t] = rulesOf(sim).corpse;
+
+  // Freeze Shatter: if killed while frozen (St.Slow) or by lethal frost damage (Elem.Water), shatter corpse into ice crystals
+  const isFrozen = (cb.stMask[t] & (1 << St.Slow)) !== 0 || elem === Elem.Water;
+  if (isFrozen) {
+    cb.corp[t] = 0; // Corpse consumed and destroyed, preventing necromancer/shaman resurrection!
+    cb.emit(10, sim.x[t], sim.y[t], 3, 0); // Event 10 (corpse event), v = 3 (freeze shatter)
+  } else {
+    cb.corp[t] = rulesOf(sim).corpse;
+  }
+
   clearAllStatuses(sim, t);
   sim.stop(t);
   cb.emit(2, sim.x[t], sim.y[t], 0, 0);
   if (sim.team[t] !== 0) {
+    if (sim.hero !== null) {
+      const tier = cb.tier[t] || 1;
+      const bmods = cb.bossMods[t];
+      const rankMult = bmods && bmods.length >= 2 ? 4 : bmods && bmods.length === 1 ? 2 : 1;
+      const xp = Math.round(15 * tier * rankMult);
+      addHeroXp(sim, xp);
+    }
     const bossBonus = cb.bossMods[t] && cb.bossMods[t].length > 0 ? 15 * cb.bossMods[t].length : 0;
     for (let s = 0; s < MAXS; s++) {
       if (cb.sG[s]) continue;
@@ -840,6 +873,29 @@ export function think(sim: Sim): void {
     }
     unitThink(sim, i);
   }
+  if (sim.hero) heroTick(sim);
+
+  // Hero Gold Vacuum: automatically collect gold piles within 1.8 tiles radius
+  if (sim.hero && cb.hp[sim.hero.id] > 0) {
+    const hid = sim.hero.id;
+    const hx = sim.x[hid];
+    const hy = sim.y[hid];
+    const vacDistSq = Math.round(1.8 * FP) ** 2;
+    for (let s = 0; s < MAXS; s++) {
+      if (!cb.sG[s]) continue;
+      const dx = cb.sX[s] - hx;
+      const dy = cb.sY[s] - hy;
+      if (dx * dx + dy * dy <= vacDistSq) {
+        cb.gold[sim.team[hid] & 3] += cb.sG[s];
+        cb.emit(3, cb.sX[s], cb.sY[s], cb.sG[s], 0);
+        cb.sG[s] = 0;
+        if (cb.ord[hid] === Ord.Pickup && cb.aux[hid] === s) {
+          toGuard(sim, hid);
+        }
+      }
+    }
+  }
+
   stepProjectiles(sim);
 }
 

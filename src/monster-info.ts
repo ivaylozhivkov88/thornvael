@@ -8,11 +8,16 @@ const PARTS = ['Head', 'Torso', 'Arms', 'Legs'] as const;
 export const BOSS_MOD_LABELS: Record<string, string> = {
   fire_enchanted: 'Fire Enchanted',
   cold_enchanted: 'Cold Enchanted',
+  lightning_enchanted: 'Lightning Enchanted',
   extra_fast: 'Extra Fast',
+  extra_strong: 'Extra Strong',
   stone_skin: 'Stone Skin',
   magic_resistant: 'Magic Resistant',
   spectral_hit: 'Spectral Hit',
+  mana_burn: 'Mana Burn',
+  cursed: 'Cursed',
   blessed_aura: 'Blessed Aura',
+  teleporting: 'Teleporting',
 };
 
 export interface MonsterInfo {
@@ -22,16 +27,24 @@ export interface MonsterInfo {
   readonly family?: string;
   readonly role?: string;
   readonly mods?: readonly string[];
+  readonly element?: string;
   /** Base family values, not a unit's current HP, equipment or status modifiers. */
   readonly base: Readonly<KindDef>;
   readonly text: string;
 }
 
-/** Current enemy roster only. For Archer, the caller must establish hostility. */
+/** Convenient lookup by family identifier directly. */
+export function monsterInfoByFamily(familyId: string, tier = 1, bossMods: readonly string[] = []): MonsterInfo | null {
+  const fam = monsterFamilyById(familyId);
+  if (!fam) return null;
+  return monsterInfo(fam.archetype, tier, familyId, bossMods);
+}
+
+/** Current enemy roster and monster families lookup. For Archer, the caller must establish hostility. */
 export function monsterInfo(kind: number, tier = 1, familyId = '', bossMods: readonly string[] = []): MonsterInfo | null {
-  const def = DEFS[kind];
-  if (!def) return null;
   const fam = familyId ? monsterFamilyById(familyId) : undefined;
+  const def = DEFS[kind] ?? (fam ? DEFS[fam.archetype] : undefined);
+  if (!def) return null;
   if (!fam && kind !== Kind.Gnoll && kind !== Kind.Golem && kind !== Kind.Imp && kind !== Kind.Archer) return null;
   const modLabels = bossMods.map((m) => BOSS_MOD_LABELS[m] || m);
   if (tier === 1 && !fam && bossMods.length === 0) {
@@ -53,7 +66,7 @@ export function monsterInfo(kind: number, tier = 1, familyId = '', bossMods: rea
       `School resistance (negative means vulnerability): ${resistance}.`,
       base.caster ? 'Spellcaster; known spell mask and default autocast are in base. Spell details come from the installed spell table.' : 'No spellcasting.',
     ].join('\n');
-    return Object.freeze({ kind, name: base.name, base, text });
+    return Object.freeze({ kind, name: base.name, element: ELEMENTS[base.elem], base, text });
   }
 
   const clampedTier = Math.max(1, Math.min(5, Math.trunc(tier)));
@@ -91,8 +104,10 @@ export function monsterInfo(kind: number, tier = 1, familyId = '', bossMods: rea
   });
   const armour = PARTS.map((part, i) => `${part}: ${base.pdef[i]} armour / ${base.pabs[i]} absorption`).join('; ');
   const resistance = base.res.map((value, i) => `${ELEMENTS[i + 1]} ${value}%`).join(', ');
+  const modLines = modLabels.length > 0 ? [`Elite affixes: ${modLabels.join(', ')}.`] : [];
   const text = [
     `${displayName}${fam?.role ? ` — ${fam.role}` : ''} — base family stats.`,
+    ...modLines,
     `HP ${base.hp}; mana ${base.mana}.`,
     `${base.ranged ? 'Ranged' : 'Melee'} ${ELEMENTS[base.elem]} attack: ${base.min}–${base.max}; accuracy ${base.acc}; range ${base.reach / FP} tiles; interval ${base.cd} ticks (${base.cd / TICKS_PER_SECOND}s).`,
     `Walking speed ${base.speed}% of base; dodge ${base.def}.`,
@@ -104,6 +119,7 @@ export function monsterInfo(kind: number, tier = 1, familyId = '', bossMods: rea
     kind,
     name: displayName,
     tier: clampedTier,
+    element: ELEMENTS[base.elem],
     ...(fam ? { family: fam.id, role: fam.role } : {}),
     ...(modLabels.length > 0 ? { mods: modLabels } : {}),
     base,

@@ -125,6 +125,25 @@ export function paintTerrainChunk(
         const variant = terrainVariant(x + DX[side], y + DY[side], next);
         draw(g, art, `edge/${NAMES[next]}/${side}/${variant}`, px, py);
       }
+      // Vibrant HOMM III color balance: emerald grass, warm sunlit trails, deep sapphire water, murky marsh
+      switch (kind) {
+        case Terrain.Grass:
+          g.fillStyle = 'rgba(35, 175, 55, 0.08)';
+          g.fillRect(px, py, TILE, TILE);
+          break;
+        case Terrain.Dirt:
+          g.fillStyle = 'rgba(235, 170, 70, 0.09)';
+          g.fillRect(px, py, TILE, TILE);
+          break;
+        case Terrain.Water:
+          g.fillStyle = 'rgba(20, 75, 190, 0.14)';
+          g.fillRect(px, py, TILE, TILE);
+          break;
+        case Terrain.Marsh:
+          g.fillStyle = 'rgba(70, 95, 30, 0.08)';
+          g.fillRect(px, py, TILE, TILE);
+          break;
+      }
       // Preserve map slope lighting and height brightening; all applied at bake time.
       if (map.light[i] < 255) {
         g.fillStyle = `rgba(0,0,0,${1 - map.light[i] / 255})`;
