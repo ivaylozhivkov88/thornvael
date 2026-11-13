@@ -28,7 +28,7 @@ interface MonsterCatalog {
   }[];
 }
 
-describe('Monster Taxonomy & Diablo II Biome Matrix Verification', () => {
+describe('Monster Taxonomy & classic ARPG Biome Matrix Verification', () => {
   const catalog = JSON.parse(
     readFileSync(new URL('../public/data/monsters.json', import.meta.url), 'utf8'),
   ) as MonsterCatalog;
@@ -37,12 +37,12 @@ describe('Monster Taxonomy & Diablo II Biome Matrix Verification', () => {
     setMonsters(parseMonsters(catalog));
   }
 
-  it('validates all 41 monster families in monsters.json with complete Diablo II inspired taxonomy', () => {
+  it('validates all 41 monster families in monsters.json with complete classic ARPG inspired taxonomy', () => {
     expect(catalog.families.length).toBe(41);
     expect(new Set(catalog.families.map((f) => f.id)).size).toBe(41);
     expect(new Set(catalog.families.map((f) => f.name)).size).toBe(41);
 
-    // Verify key Diablo II inspired families exist
+    // Verify key classic ARPG inspired families exist
     const requiredFamilies = [
       'sand-raider',
       'dune-scarab',
@@ -52,14 +52,14 @@ describe('Monster Taxonomy & Diablo II Biome Matrix Verification', () => {
       'wendigo-bruiser',
       'fetish-blowdart',
       'doom-knight',
-      'balrog',
+      'cinderhorn',
       'fallen-shaman',
       'dune-beast',
       'maggot-swarm',
       'hollow-king',
       'witch-doctor',
       'stormtree',
-      'hephasto-smith',
+      'anvilmaw-smith',
     ];
 
     for (const famId of requiredFamilies) {
@@ -187,12 +187,12 @@ describe('Monster Taxonomy & Diablo II Biome Matrix Verification', () => {
     expect(mummyInfo?.text).toContain('Stone Skin Greater Mummy (Tier 4 Cobalt)');
     expect(mummyInfo?.text).toContain('Ancient crypt embalmer & reviver');
 
-    // 4. Balrog with Fire Enchanted
-    const balrogInfo = monsterInfoByFamily('balrog', 5, ['fire_enchanted']);
-    expect(balrogInfo).not.toBeNull();
-    expect(balrogInfo?.mods).toEqual(['Fire Enchanted']);
-    expect(balrogInfo?.element).toBe('Fire');
-    expect(balrogInfo?.text).toContain('Inferno-breathing megademon');
+    // 4. Cinderhorn with Fire Enchanted
+    const cinderhornInfo = monsterInfoByFamily('cinderhorn', 5, ['fire_enchanted']);
+    expect(cinderhornInfo).not.toBeNull();
+    expect(cinderhornInfo?.mods).toEqual(['Fire Enchanted']);
+    expect(cinderhornInfo?.element).toBe('Fire');
+    expect(cinderhornInfo?.text).toContain('Inferno-breathing megademon');
   });
 
   it('runs an expedition game and triggers victory on slaying the SuperUnique boss', () => {

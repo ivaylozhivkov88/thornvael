@@ -327,7 +327,7 @@ export function canTransmute(items: readonly ItemDef[]): { recipe: string; resul
   if (items.every((x) => x.kind === Ik.Gear && x.slot === Slot.Ring)) {
     const avgTier = Math.min(5, Math.max(1, Math.round(items.reduce((s, x) => s + x.tier, 0) / 3)));
     const amuletDef: ItemDef = {
-      name: 'Horadric Transmuted Amulet',
+      name: 'Runewright Transmuted Amulet',
       kind: Ik.Gear,
       slot: Slot.Amulet,
       tier: avgTier,
@@ -352,14 +352,14 @@ export function canTransmute(items: readonly ItemDef[]): { recipe: string; resul
       spell: -1,
       rarity: 'rare',
     };
-    return { recipe: '3 Rings -> Horadric Rare Amulet', result: amuletDef };
+    return { recipe: '3 Rings -> Runewright Rare Amulet', result: amuletDef };
   }
 
   // Recipe 4: 3 Magic Amulets -> 1 Rare Ring
   if (items.every((x) => x.kind === Ik.Gear && x.slot === Slot.Amulet)) {
     const avgTier = Math.min(5, Math.max(1, Math.round(items.reduce((s, x) => s + x.tier, 0) / 3)));
     const ringDef: ItemDef = {
-      name: 'Horadric Transmuted Ring',
+      name: 'Runewright Transmuted Ring',
       kind: Ik.Gear,
       slot: Slot.Ring,
       tier: avgTier,
@@ -384,7 +384,7 @@ export function canTransmute(items: readonly ItemDef[]): { recipe: string; resul
       spell: -1,
       rarity: 'rare',
     };
-    return { recipe: '3 Amulets -> Horadric Rare Ring', result: ringDef };
+    return { recipe: '3 Amulets -> Runewright Rare Ring', result: ringDef };
   }
 
   return null;

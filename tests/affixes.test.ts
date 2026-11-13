@@ -30,7 +30,7 @@ function dummySword(): ItemDef {
   };
 }
 
-describe('magic affixes model (Diablo II MagicPrefix / MagicSuffix)', () => {
+describe('magic affixes model (classic ARPG MagicPrefix / MagicSuffix)', () => {
   it('rollAffix filters by tier, gear slot, and mutual exclusion group', () => {
     let seed = 12345;
     const rnd = (n: number) => {

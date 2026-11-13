@@ -1,7 +1,7 @@
 {
   "format": "thornvael-map",
   "version": 2,
-  "name": "Durance of Hate",
+  "name": "Drowned Choir",
   "w": 48,
   "h": 48,
   "terrain": [
@@ -537,7 +537,7 @@
       "pack": 1,
       "vip": true,
       "tier": 5,
-      "family": "malakar",
+      "family": "vesperion",
       "bossMods": [
         "magic_resistant",
         "spectral_hit"
@@ -726,13 +726,13 @@
     }
   ],
   "text": {
-    "title": "Durance of Hate",
-    "body": "In the submerged depths of Kurast’s black temple stands the Durance of Hate. Malakar, The Tormentor, commands the residual astral power of the High Council. Slay Malakar to sever the bond.",
-    "obj.0": "Slay Malakar, The Tormentor in the Durance of Hate",
-    "msg.1": "Malakar wields lethal piercing ball lightning and can siphon your vital spirit!",
-    "msg.1.who": "Ormus",
-    "msg.2": "The Tormentor is slain! The shadow looming over Kurast recedes.",
-    "win": "Malakar, The Tormentor has fallen. The Durance of Hate is shattered.",
-    "fail.1": "Your hero was devoured by the Durance of Hate."
+    "title": "Drowned Choir",
+    "body": "In the submerged depths of Varmouth’s black temple stands the Drowned Choir. Vesperion, the Hollow Choir, commands the residual astral power of the Tide Conclave. Slay Vesperion to sever the bond.",
+    "obj.0": "Slay Vesperion, the Hollow Choir in the Drowned Choir",
+    "msg.1": "Vesperion wields lethal piercing ball lightning and can siphon your vital spirit!",
+    "msg.1.who": "Quillon",
+    "msg.2": "The Hollow Choir is slain! The shadow looming over Varmouth recedes.",
+    "win": "Vesperion, the Hollow Choir has fallen. The Drowned Choir is shattered.",
+    "fail.1": "Your hero was devoured by the Drowned Choir."
   }
 }

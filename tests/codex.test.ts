@@ -2,7 +2,7 @@ import { beforeEach, describe, expect, it } from 'vitest';
 import { discoverItem, getCodexProgress, isDiscovered, onDiscovery, resetCodex } from '../src/codex';
 import { ITEMS } from '../src/sim/items';
 
-describe('Holy Grail Codex system', () => {
+describe('Hall of Relics Codex system', () => {
   beforeEach(() => {
     resetCodex();
   });

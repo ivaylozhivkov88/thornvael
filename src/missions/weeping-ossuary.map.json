@@ -1,7 +1,7 @@
 {
   "format": "thornvael-map",
   "version": 2,
-  "name": "Chamber of Torment",
+  "name": "The Weeping Ossuary",
   "w": 48,
   "h": 48,
   "terrain": [
@@ -529,7 +529,7 @@
       "dormant": true
     },
     {
-      "kind": 5,
+      "kind": 6,
       "team": 1,
       "x": 24,
       "y": 14,
@@ -537,10 +537,10 @@
       "pack": 1,
       "vip": true,
       "tier": 5,
-      "family": "azgalor",
+      "family": "morvessa",
       "bossMods": [
-        "cold_enchanted",
-        "extra_fast"
+        "extra_fast",
+        "magic_resistant"
       ]
     },
     {
@@ -551,7 +551,7 @@
       "group": 1,
       "pack": 1,
       "tier": 4,
-      "family": "maggot-swarm"
+      "family": "ruin-mite"
     },
     {
       "kind": 6,
@@ -561,27 +561,27 @@
       "group": 1,
       "pack": 1,
       "tier": 4,
-      "family": "maggot-swarm"
+      "family": "ruin-mite"
     },
     {
-      "kind": 0,
+      "kind": 1,
       "team": 1,
       "x": 19,
       "y": 22,
       "group": 2,
       "pack": 2,
       "tier": 3,
-      "family": "sand-raider"
+      "family": "quill-fiend"
     },
     {
-      "kind": 0,
+      "kind": 1,
       "team": 1,
       "x": 29,
       "y": 22,
       "group": 2,
       "pack": 2,
       "tier": 3,
-      "family": "sand-raider"
+      "family": "quill-fiend"
     },
     {
       "kind": 6,
@@ -591,7 +591,7 @@
       "group": 3,
       "pack": 3,
       "tier": 4,
-      "family": "maggot-swarm"
+      "family": "ruin-mite"
     }
   ],
   "regions": [
@@ -672,7 +672,7 @@
           "a": [
             24,
             14,
-            3000
+            2500
           ]
         },
         {
@@ -726,13 +726,13 @@
     }
   ],
   "text": {
-    "title": "Chamber of Torment",
-    "body": "Deep in the sand-choked crypts lies the Chamber of Torment. Azgalor, Maggot Colossus, rules this subterranean pit with a freezing chill. Slay the colossus to break the desert scourge.",
-    "obj.0": "Slay Azgalor, Maggot Colossus in the Chamber of Torment",
-    "msg.1": "A freezing mist rises from the sand. Azgalor can burrow underground to crush you from below!",
-    "msg.1.who": "Drognan",
-    "msg.2": "Azgalor has collapsed into the dust! The desert depths are reclaimed.",
-    "win": "Azgalor, Maggot Colossus is defeated. The subterranean terror is no more.",
-    "fail.1": "Your hero was crushed in the Chamber of Torment."
+    "title": "The Weeping Ossuary",
+    "body": "You have descended into the deepest level of the Weeping Ossuary. Morvessa, the Silk Widow, dwells in the central blood-stained crypt. Purge the brood and slay Morvessa.",
+    "obj.0": "Slay Morvessa, the Silk Widow in her sanctum",
+    "msg.1": "The air here reeks of bile and rot. Beware Morvessa’s toxic spray and brood hatchlings!",
+    "msg.1.who": "Orlen",
+    "msg.2": "Morvessa has fallen! Her demonic agony is silenced, and the Ossuary is cleansed.",
+    "win": "Morvessa, the Silk Widow lies slain. The Ossuary is cleansed.",
+    "fail.1": "Your hero succumbed to Morvessa’s agony."
   }
 }

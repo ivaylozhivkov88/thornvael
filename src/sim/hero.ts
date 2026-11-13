@@ -804,7 +804,7 @@ export function pickBag(sim: Sim, b: number): void {
 export type ItemQuality = 'unique' | 'set' | 'rare' | 'magic' | 'normal';
 export type MonsterRank = 'normal' | 'champion' | 'boss';
 
-/** Quality roll base divisors inspired by Diablo II ItemRatio.txt */
+/** Quality roll base divisors inspired by classic ARPG ItemRatio.txt */
 export const QUALITY_BASE_DIVISORS = {
   unique: 2000,
   set: 1000,
@@ -921,7 +921,7 @@ export interface LootDropResult {
 }
 
 /**
- * Evaluates the Diablo II quality hierarchy:
+ * Evaluates the classic ARPG quality hierarchy:
  * Unique -> Set -> Rare -> Magic -> Normal
  */
 export function evaluateQualityHierarchy(
@@ -1048,7 +1048,7 @@ export function dropLoot(sim: Sim, t: number): void {
   const monsterTier = sim.cb.tier[t] || 1;
   const mf = getHeroMF(sim);
   const fam = sim.cb.family[t];
-  const isActBoss = fam === 'lilithia' || fam === 'azgalor' || fam === 'malakar' || fam === 'ignis-khor';
+  const isActBoss = fam === 'morvessa' || fam === 'gorrathul' || fam === 'vesperion' || fam === 'ashkarath';
 
   let picks = 1;
   if (isActBoss) {

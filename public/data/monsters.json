@@ -51,13 +51,13 @@
     { "id": "night-orchard", "name": "Night Orchard", "batch": "E", "archetype": 3, "elem": 5, "baseHp": 96, "baseMin": 10, "baseMax": 16, "speed": 90, "ranged": true, "caster": true, "role": "Dark ward weaver" },
     { "id": "stormtree", "name": "Stormtree", "batch": "E", "archetype": 5, "elem": 3, "baseHp": 175, "baseMin": 12, "baseMax": 19, "speed": 75, "ranged": false, "caster": false, "role": "Charged lightning colossus" },
     { "id": "doom-knight", "name": "Doom Knight", "batch": "E", "archetype": 0, "elem": 0, "baseHp": 135, "baseMin": 12, "baseMax": 18, "speed": 96, "ranged": false, "caster": false, "role": "Heavy armored hell vanguard" },
-    { "id": "balrog", "name": "Balrog", "batch": "E", "archetype": 6, "elem": 1, "baseHp": 140, "baseMin": 13, "baseMax": 20, "speed": 112, "ranged": true, "caster": true, "role": "Inferno-breathing megademon" },
-    { "id": "hephasto-smith", "name": "Hephasto Smith", "batch": "E", "archetype": 5, "elem": 1, "baseHp": 190, "baseMin": 14, "baseMax": 22, "speed": 76, "ranged": false, "caster": false, "role": "Hellforge anvil titan" }
+    { "id": "cinderhorn", "name": "Cinderhorn", "batch": "E", "archetype": 6, "elem": 1, "baseHp": 140, "baseMin": 13, "baseMax": 20, "speed": 112, "ranged": true, "caster": true, "role": "Inferno-breathing megademon" },
+    { "id": "anvilmaw-smith", "name": "Anvilmaw Smith", "batch": "E", "archetype": 5, "elem": 1, "baseHp": 190, "baseMin": 14, "baseMax": 22, "speed": 76, "ranged": false, "caster": false, "role": "Cinderforge anvil titan" }
   ],
   "bosses": [
     {
-      "id": "lilithia",
-      "name": "Lilithia, Queen of Agony",
+      "id": "morvessa",
+      "name": "Morvessa, the Silk Widow",
       "batch": "BOSS",
       "archetype": 3,
       "elem": 4,
@@ -67,11 +67,11 @@
       "speed": 105,
       "ranged": true,
       "caster": true,
-      "role": "Act 1 Final Boss: Catacombs Level 4 (Poison Spray DoT, Spine Lash knockdown, Brood Hatch summons)"
+      "role": "Act 1 Final Boss: The Weeping Ossuary (Poison Spray DoT, Spine Lash knockdown, Brood Hatch summons)"
     },
     {
-      "id": "azgalor",
-      "name": "Azgalor, Maggot Colossus",
+      "id": "gorrathul",
+      "name": "Gorrathul, the Sand Glutton",
       "batch": "BOSS",
       "archetype": 5,
       "elem": 2,
@@ -81,11 +81,11 @@
       "speed": 80,
       "ranged": false,
       "caster": false,
-      "role": "Act 2 Final Boss: Chamber of Torment (Holy Freeze slow aura, burrow charge, acid cleave)"
+      "role": "Act 2 Final Boss: Gullet of Dunes (Holy Freeze slow aura, burrow charge, acid cleave)"
     },
     {
-      "id": "malakar",
-      "name": "Malakar, The Tormentor",
+      "id": "vesperion",
+      "name": "Vesperion, the Hollow Choir",
       "batch": "BOSS",
       "archetype": 5,
       "elem": 3,
@@ -95,11 +95,11 @@
       "speed": 95,
       "ranged": true,
       "caster": true,
-      "role": "Act 3 Final Boss: Durance of Hate (Ball lightning piercing, Soul Siphon mana drain, Frost Nova)"
+      "role": "Act 3 Final Boss: Drowned Choir (Ball lightning piercing, Soul Siphon mana drain, Frost Nova)"
     },
     {
-      "id": "ignis-khor",
-      "name": "Ignis-Khor, Lord of Terror",
+      "id": "ashkarath",
+      "name": "Ashkarath, the Cinder King",
       "batch": "BOSS",
       "archetype": 3,
       "elem": 1,
@@ -109,7 +109,7 @@
       "speed": 100,
       "ranged": true,
       "caster": true,
-      "role": "Act 4 Final Boss: Chaos Sanctuary (Hellfire breath, Fire Ring, Bone Prison, Red Lightning)"
+      "role": "Act 4 Final Boss: Cinder Throne (Hellfire breath, Fire Ring, Bone Prison, Red Lightning)"
     }
   ]
 }

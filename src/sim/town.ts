@@ -278,7 +278,7 @@ export function townCommand(sim: Sim, cmd: TownCommand): void {
       if (cost > gold[0]) return refuse(sim, Why.Gold);
       if (h.inv.length >= INV_MAX) return refuse(sim, Why.Full);
 
-      // Diablo II Gambling Probabilities:
+      // classic ARPG Gambling Probabilities:
       // 89.0% Magic (roll < 8900)
       // 10.0% Rare (8900 <= roll < 9900)
       // 0.8% Set (9900 <= roll < 9980)

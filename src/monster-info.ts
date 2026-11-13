@@ -21,8 +21,8 @@ export const BOSS_MOD_LABELS: Record<string, string> = {
 };
 
 export const BOSS_SIGNATURE_ABILITIES: Record<string, { title: string; abilities: readonly string[]; summary: string }> = {
-  lilithia: {
-    title: 'Lilithia, Queen of Agony',
+  morvessa: {
+    title: 'Morvessa, the Silk Widow',
     abilities: [
       'Poison Spray: Toxic projectile cone inflicting lingering Earth/Poison DoT.',
       'Spine Lash: Crushing tail whip dealing heavy damage, knocking back and slowing targets in melee.',
@@ -30,8 +30,8 @@ export const BOSS_SIGNATURE_ABILITIES: Record<string, { title: string; abilities
     ],
     summary: 'Poison Spray DoT, Spine Lash knockdown, Brood Hatch summons',
   },
-  azgalor: {
-    title: 'Azgalor, Maggot Colossus',
+  gorrathul: {
+    title: 'Gorrathul, the Sand Glutton',
     abilities: [
       'Holy Freeze Aura: Chilling frost aura slowing nearby enemies and dealing periodic cold damage.',
       'Subterranean Charge: Burrows underground and surges forward to crush distant foes.',
@@ -39,17 +39,17 @@ export const BOSS_SIGNATURE_ABILITIES: Record<string, { title: string; abilities
     ],
     summary: 'Holy Freeze slow aura, burrow charge, acid cleave',
   },
-  malakar: {
-    title: 'Malakar, The Tormentor',
+  vesperion: {
+    title: 'Vesperion, the Hollow Choir',
     abilities: [
       'Ball Lightning: Crackling piercing lightning orb traveling through enemy ranks.',
-      'Soul Siphon: Drains hero mana to restore vital health to Malakar.',
+      'Soul Siphon: Drains hero mana to restore vital health to Vesperion.',
       'Frost Nova: Expanding cold shockwave chilling and knocking back all nearby enemies.',
     ],
     summary: 'Ball lightning piercing, Soul Siphon mana drain, Frost Nova',
   },
-  'ignis-khor': {
-    title: 'Ignis-Khor, Lord of Terror',
+  'ashkarath': {
+    title: 'Ashkarath, the Cinder King',
     abilities: [
       'Hellfire Breath: Torrential cone of demonic flame incinerating everything in reach.',
       'Fire Ring: Expanding fiery ring setting ablaze the surrounding ground.',

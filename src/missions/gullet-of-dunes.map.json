@@ -1,7 +1,7 @@
 {
   "format": "thornvael-map",
   "version": 2,
-  "name": "Chaos Sanctuary",
+  "name": "Gullet of Dunes",
   "w": 48,
   "h": 48,
   "terrain": [
@@ -529,7 +529,7 @@
       "dormant": true
     },
     {
-      "kind": 3,
+      "kind": 5,
       "team": 1,
       "x": 24,
       "y": 14,
@@ -537,61 +537,61 @@
       "pack": 1,
       "vip": true,
       "tier": 5,
-      "family": "ignis-khor",
+      "family": "gorrathul",
       "bossMods": [
-        "fire_enchanted",
-        "stone_skin"
+        "cold_enchanted",
+        "extra_fast"
       ]
     },
     {
-      "kind": 0,
+      "kind": 6,
       "team": 1,
       "x": 21,
       "y": 16,
       "group": 1,
       "pack": 1,
       "tier": 4,
-      "family": "doom-knight"
+      "family": "maggot-swarm"
     },
     {
-      "kind": 0,
+      "kind": 6,
       "team": 1,
       "x": 27,
       "y": 16,
       "group": 1,
       "pack": 1,
       "tier": 4,
-      "family": "doom-knight"
+      "family": "maggot-swarm"
     },
     {
-      "kind": 5,
+      "kind": 0,
       "team": 1,
       "x": 19,
       "y": 22,
       "group": 2,
       "pack": 2,
       "tier": 3,
-      "family": "balrog"
+      "family": "sand-raider"
     },
     {
-      "kind": 5,
+      "kind": 0,
       "team": 1,
       "x": 29,
       "y": 22,
       "group": 2,
       "pack": 2,
       "tier": 3,
-      "family": "balrog"
+      "family": "sand-raider"
     },
     {
-      "kind": 0,
+      "kind": 6,
       "team": 1,
       "x": 24,
       "y": 28,
       "group": 3,
       "pack": 3,
       "tier": 4,
-      "family": "doom-knight"
+      "family": "maggot-swarm"
     }
   ],
   "regions": [
@@ -672,7 +672,7 @@
           "a": [
             24,
             14,
-            5000
+            3000
           ]
         },
         {
@@ -726,13 +726,13 @@
     }
   ],
   "text": {
-    "title": "Chaos Sanctuary",
-    "body": "At the heart of the Nether Realm stands the Chaos Sanctuary. Ignis-Khor, Lord of Terror, reigns here amidst rivers of hellfire. Destroy him to conclude the apocalyptic war.",
-    "obj.0": "Slay Ignis-Khor, Lord of Terror in the Chaos Sanctuary",
-    "msg.1": "Ignis-Khor commands hellfire breath, bone cages, and demonic red lightning! Hold nothing back!",
-    "msg.1.who": "Tyrael",
-    "msg.2": "The Lord of Terror is overthrown! The skies above Thornvael clear as peace is restored to the realms.",
-    "win": "Ignis-Khor, Lord of Terror has been vanquished. Thornvael is saved!",
-    "fail.1": "Your hero fell before the Lord of Terror in the Chaos Sanctuary."
+    "title": "Gullet of Dunes",
+    "body": "Deep in the sand-choked crypts lies the Gullet of Dunes. Gorrathul, the Sand Glutton, rules this subterranean pit with a freezing chill. Slay the colossus to break the desert scourge.",
+    "obj.0": "Slay Gorrathul, the Sand Glutton in the Gullet of Dunes",
+    "msg.1": "A freezing mist rises from the sand. Gorrathul can burrow underground to crush you from below!",
+    "msg.1.who": "Sabik",
+    "msg.2": "Gorrathul has collapsed into the dust! The desert depths are reclaimed.",
+    "win": "Gorrathul, the Sand Glutton is defeated. The subterranean terror is no more.",
+    "fail.1": "Your hero was crushed in the Gullet of Dunes."
   }
 }

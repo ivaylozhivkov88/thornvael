@@ -40,7 +40,7 @@ function testMap(w = 40, h = 30) {
   };
 }
 
-describe('Diablo II Connected Acts & Core ARPG Systems', () => {
+describe('classic ARPG Connected Acts & Core ARPG Systems', () => {
   describe('Connected Acts Architecture: Waypoints & Zone Exits', () => {
     it('validates waypoint and zone exit definitions on MapDoc', () => {
       const doc = blankDoc(40, 40, 'Connected Act Map');
@@ -326,7 +326,7 @@ describe('Diablo II Connected Acts & Core ARPG Systems', () => {
     });
   });
 
-  describe('System 3: Horadric Transmutation Altar', () => {
+  describe('System 3: Runewright Transmutation Altar', () => {
     it('combines 3 identical potions into 1 higher potion', () => {
       const d1 = getItemDef(itemId('Healing Draught'))!;
       const recipe = canTransmute([d1, d1, d1]);

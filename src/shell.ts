@@ -85,7 +85,7 @@ export async function runShell(startWorker: () => void): Promise<never> {
       btn(T.storage, storage),
       btn(T.settings, settings),
       btn(T.credits, credits),
-      btn('🏆 Holy Grail Codex', () => codexUi.show()),
+      btn('🏆 Hall of Relics Codex', () => codexUi.show()),
       btn('Skirmish (11 Maps)', skirmish),
       btn(T.free, () => go('./?free=1'), 'sh-quiet'),
     );
@@ -225,7 +225,7 @@ export async function runShell(startWorker: () => void): Promise<never> {
     },
   ];
 
-  // ---- hero creation: class, sex, difficulty (Diablo II Gothic Campfire AAA Selection) ----
+  // ---- hero creation: class, sex, difficulty (classic ARPG Gothic Campfire AAA Selection) ----
   function create(): void {
     mode = 'other';
     let selIdx = 0;

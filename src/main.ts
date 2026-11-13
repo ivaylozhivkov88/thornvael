@@ -433,7 +433,7 @@ function drinkBelt(slot: number): void {
   hudController.drinkBelt(slot);
 }
 
-// --- Diablo II Town Portal & Waypoint System ---
+// --- classic ARPG Town Portal & Waypoint System ---
 let activeTownPortal: TownPortalState | null = null;
 const activeWaypoints = new Set<string>();
 
@@ -457,7 +457,7 @@ function castTownPortal(): void {
   play('cast_water', 5);
 }
 
-// --- Diablo II Style Ground Loot Overlay ---
+// --- classic ARPG Style Ground Loot Overlay ---
 const lootOverlay = new LootOverlayManager();
 let altMobileToggle = false;
 

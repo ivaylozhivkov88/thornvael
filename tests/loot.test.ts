@@ -55,7 +55,7 @@ function createTestWorld(
   return sim;
 }
 
-describe('Diablo II 2-Stage Drop Rate & Quality Engine', () => {
+describe('classic ARPG 2-Stage Drop Rate & Quality Engine', () => {
   describe('1. Diminishing Returns for Magic Find (MF)', () => {
     it('applies exact formulas for effective MF across all item qualities', () => {
       const testCases = [0, 50, 100, 250, 400, 500, 1000];
@@ -343,7 +343,7 @@ describe('Diablo II 2-Stage Drop Rate & Quality Engine', () => {
     });
   });
 
-  describe('Diablo II Ground Loot Pickup & Rarity', () => {
+  describe('classic ARPG Ground Loot Pickup & Rarity', () => {
     it('detects nearest gold sack and executes 1-click pickup order', () => {
       const sim = createTestWorld(1);
       // Hero placed at (5.5, 5.5). Place gold sack at (10, 5)
@@ -403,7 +403,7 @@ describe('Diablo II 2-Stage Drop Rate & Quality Engine', () => {
       expect(sim.cb.ord[0]).toBe(Ord.Guard);
     });
 
-    it('identifies authentic Diablo II item rarities correctly', () => {
+    it('identifies authentic classic ARPG item rarities correctly', () => {
       expect(itemRarity({ name: 'Short Sword', kind: Ik.Gear, slot: Slot.Weapon, tier: 1, w: 2, cls: 1, need: 0, needv: 0, min: 2, max: 5, acc: 0, cover: 0, def: 0, abs: 0, res: [0,0,0,0,0], attr: [0,0,0,0], hp: 0, mana: 0, pow: 0, heal: 0, restore: 0, grow: 0, spell: -1 })).toBe('normal');
       expect(itemRarity({ name: 'Glacial Wand', kind: Ik.Gear, slot: Slot.Weapon, tier: 2, rarity: 'magic', w: 1, cls: 2, need: 2, needv: 10, min: 1, max: 3, acc: 0, cover: 0, def: 0, abs: 0, res: [0,0,0,0,0], attr: [0,0,0,0], hp: 0, mana: 0, pow: 10, heal: 0, restore: 0, grow: 0, spell: -1 })).toBe('magic');
       expect(itemRarity({ name: 'Dire Crest', kind: Ik.Gear, slot: Slot.Helm, tier: 4, rarity: 'rare', w: 3, cls: 3, need: 0, needv: 12, min: 0, max: 0, acc: 0, cover: 1, def: 2, abs: 3, res: [0,0,0,0,0], attr: [0,0,0,0], hp: 0, mana: 0, pow: 0, heal: 0, restore: 0, grow: 0, spell: -1 })).toBe('rare');

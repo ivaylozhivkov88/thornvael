@@ -8,17 +8,17 @@ import { FP, Sim } from '../src/sim/sim';
 import { ALL_UNIT_ART, BOSS_ART, BOSS_SPRITE_DEFS, bossSpriteDef, isBossArt } from '../src/sprites/units';
 import { BOSS_SIGNATURE_ABILITIES } from '../src/monster-info';
 
-import catacombs from '../src/missions/catacombs-level-4.map.json';
-import chamber from '../src/missions/chamber-of-torment.map.json';
-import durance from '../src/missions/durance-of-hate.map.json';
-import chaos from '../src/missions/chaos-sanctuary.map.json';
+import ossuary from '../src/missions/weeping-ossuary.map.json';
+import gullet from '../src/missions/gullet-of-dunes.map.json';
+import drowned from '../src/missions/drowned-choir.map.json';
+import cinder from '../src/missions/cinder-throne.map.json';
 
 describe('Milestone 3: Complete Act Final Boss Lairs & Visual Encounters', () => {
   const BOSS_LAIRS = [
-    { id: 'catacombs', raw: catacombs, bossFamily: 'lilithia', expectedScale: 1.45, act: 1 },
-    { id: 'chamber', raw: chamber, bossFamily: 'azgalor', expectedScale: 1.85, act: 2 },
-    { id: 'durance', raw: durance, bossFamily: 'malakar', expectedScale: 1.6, act: 3 },
-    { id: 'chaos', raw: chaos, bossFamily: 'ignis-khor', expectedScale: 1.75, act: 4 },
+    { id: 'ossuary', raw: ossuary, bossFamily: 'morvessa', expectedScale: 1.45, act: 1 },
+    { id: 'gullet', raw: gullet, bossFamily: 'gorrathul', expectedScale: 1.85, act: 2 },
+    { id: 'drowned', raw: drowned, bossFamily: 'vesperion', expectedScale: 1.6, act: 3 },
+    { id: 'cinder', raw: cinder, bossFamily: 'ashkarath', expectedScale: 1.75, act: 4 },
   ] as const;
 
   it('validates all 4 boss lair maps (format v2, bounds, text keys, triggers)', () => {
@@ -58,8 +58,8 @@ describe('Milestone 3: Complete Act Final Boss Lairs & Visual Encounters', () =>
     }
   });
 
-  it('verifies Ignis-Khor has Red Lightning ability in signature abilities', () => {
-    const ik = BOSS_SIGNATURE_ABILITIES['ignis-khor'];
+  it('verifies Ashkarath has Red Lightning ability in signature abilities', () => {
+    const ik = BOSS_SIGNATURE_ABILITIES['ashkarath'];
     expect(ik.abilities.some((a) => a.includes('Red Lightning'))).toBe(true);
     expect(ik.summary).toContain('Red Lightning');
   });

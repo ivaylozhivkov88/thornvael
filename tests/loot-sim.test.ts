@@ -27,7 +27,7 @@ function field(w: number, h: number): GameMap {
   };
 }
 
-describe('Monte Carlo Diablo II Loot Drop Simulator (10,000 Kills)', () => {
+describe('Monte Carlo classic ARPG Loot Drop Simulator (10,000 Kills)', () => {
   it('simulates 10,000 monster kills and validates statistical drop rates', () => {
     interface SimResult {
       condition: string;

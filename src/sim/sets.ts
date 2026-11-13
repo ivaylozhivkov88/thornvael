@@ -1,7 +1,7 @@
 import { Ik, ItemDef, Slot, CLS_WARRIOR, CLS_MAGE, CLS_BOTH } from './items';
 
 /**
- * Item Sets inspired by classic Diablo II (e.g. Sigon's, Tal Rasha's, Immortal King).
+ * Item Sets inspired by classic classic ARPG.
  * Equipping multiple items from the same set activates partial (2-piece, 3-piece)
  * and complete set bonuses.
  */
@@ -366,7 +366,6 @@ export const SET_SHADOW_STALKER: ItemSetDef = {
 // -----------------------------------------------------------------------------
 // 1. Early Levelling Set: Alder Vanguard's Regalia (4 Pieces - Shared Tier 1-2)
 // -----------------------------------------------------------------------------
-// Spiritual archetype: Sigon's Complete Steel.
 // Highly accessible (low stat requirements equipable by Level 1 Warrior or Mage),
 // with an immediately impactful 2-piece power spike (+20 HP, +3 Acc, +2 Def)
 // that smooths early Act 1 progression through Alder River and the Border Fords.
@@ -779,7 +778,6 @@ export const SET_BOREAL_FROSTWEAVER: ItemSetDef = {
 // -----------------------------------------------------------------------------
 // 4. Endgame Warrior Set: Crown-Forged Juggernaut (5 Pieces - Tier 5 Melee Colossus)
 // -----------------------------------------------------------------------------
-// Spiritual archetype: Immortal King's Legend.
 // High Body requirements (16-18) reflect legendary tier 5 status.
 // Deliberate partial combos:
 // - 2-piece (Gloves + Boots) provides an irresistible melee foundation (+8 Acc, +2 Body, +2 Agi, +3 Def, +35 HP).
@@ -957,7 +955,6 @@ export const SET_CROWN_FORGED: ItemSetDef = {
 // -----------------------------------------------------------------------------
 // 5. Endgame Mage Set: Astral Sovereign's Regalia (5 Pieces - Tier 5 Archmage)
 // -----------------------------------------------------------------------------
-// Spiritual archetype: Tal Rasha's Wrappings.
 // Slots: Weapon, Helm, Armor, Amulet, Gloves.
 // Deliberate partial combos:
 // - The famous 3-piece combo (Amulet + Gloves + Robes/Diadem) provides immense spell power (+37% combined),

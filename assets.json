@@ -290,76 +290,76 @@
       "note": "Original articulated imp PILOT model; Blender 5.2.3 LTS, 48px, 16 directions, stand4/walk8/attack4/cast4/hurt2/die4, RGB masks, fixed camera3.0. Reproduce: docs/UNIT-ART.md"
     },
     {
-      "path": "public/sprites/lilithia.png",
+      "path": "public/sprites/morvessa.png",
       "license": "own",
       "source": "tools/generate-boss-sprites.py",
-      "note": "Dedicated Lilithia Act 1 boss atlas (arachnid demon queen); 48px, 16 directions, combat profile, RGB masks"
+      "note": "Dedicated Morvessa Act 1 boss atlas (arachnid demon queen); 48px, 16 directions, combat profile, RGB masks"
     },
     {
-      "path": "public/sprites/lilithia-mask.png",
+      "path": "public/sprites/morvessa-mask.png",
       "license": "own",
       "source": "tools/generate-boss-sprites.py",
-      "note": "Dedicated Lilithia Act 1 boss mask (arachnid demon queen); 48px, 16 directions, combat profile, RGB masks"
+      "note": "Dedicated Morvessa Act 1 boss mask (arachnid demon queen); 48px, 16 directions, combat profile, RGB masks"
     },
     {
-      "path": "public/sprites/lilithia.json",
+      "path": "public/sprites/morvessa.json",
       "license": "own",
       "source": "tools/generate-boss-sprites.py",
-      "note": "Dedicated Lilithia Act 1 boss spritesheet JSON"
+      "note": "Dedicated Morvessa Act 1 boss spritesheet JSON"
     },
     {
-      "path": "public/sprites/azgalor.png",
+      "path": "public/sprites/gorrathul.png",
       "license": "own",
       "source": "tools/generate-boss-sprites.py",
-      "note": "Dedicated Azgalor Act 2 boss atlas (segmented maggot colossus); 48px, 16 directions, combat profile, RGB masks"
+      "note": "Dedicated Gorrathul Act 2 boss atlas (segmented maggot colossus); 48px, 16 directions, combat profile, RGB masks"
     },
     {
-      "path": "public/sprites/azgalor-mask.png",
+      "path": "public/sprites/gorrathul-mask.png",
       "license": "own",
       "source": "tools/generate-boss-sprites.py",
-      "note": "Dedicated Azgalor Act 2 boss mask (segmented maggot colossus); 48px, 16 directions, combat profile, RGB masks"
+      "note": "Dedicated Gorrathul Act 2 boss mask (segmented maggot colossus); 48px, 16 directions, combat profile, RGB masks"
     },
     {
-      "path": "public/sprites/azgalor.json",
+      "path": "public/sprites/gorrathul.json",
       "license": "own",
       "source": "tools/generate-boss-sprites.py",
-      "note": "Dedicated Azgalor Act 2 boss spritesheet JSON"
+      "note": "Dedicated Gorrathul Act 2 boss spritesheet JSON"
     },
     {
-      "path": "public/sprites/malakar.png",
+      "path": "public/sprites/vesperion.png",
       "license": "own",
       "source": "tools/generate-boss-sprites.py",
-      "note": "Dedicated Malakar Act 3 boss atlas (floating skeletal tormentor); 48px, 16 directions, combat profile, RGB masks"
+      "note": "Dedicated Vesperion Act 3 boss atlas (floating skeletal tormentor); 48px, 16 directions, combat profile, RGB masks"
     },
     {
-      "path": "public/sprites/malakar-mask.png",
+      "path": "public/sprites/vesperion-mask.png",
       "license": "own",
       "source": "tools/generate-boss-sprites.py",
-      "note": "Dedicated Malakar Act 3 boss mask (floating skeletal tormentor); 48px, 16 directions, combat profile, RGB masks"
+      "note": "Dedicated Vesperion Act 3 boss mask (floating skeletal tormentor); 48px, 16 directions, combat profile, RGB masks"
     },
     {
-      "path": "public/sprites/malakar.json",
+      "path": "public/sprites/vesperion.json",
       "license": "own",
       "source": "tools/generate-boss-sprites.py",
-      "note": "Dedicated Malakar Act 3 boss spritesheet JSON"
+      "note": "Dedicated Vesperion Act 3 boss spritesheet JSON"
     },
     {
-      "path": "public/sprites/ignis-khor.png",
+      "path": "public/sprites/ashkarath.png",
       "license": "own",
       "source": "tools/generate-boss-sprites.py",
-      "note": "Dedicated Ignis-Khor Act 4 boss atlas (horned terror titan); 48px, 16 directions, combat profile, RGB masks"
+      "note": "Dedicated Ashkarath Act 4 boss atlas (horned terror titan); 48px, 16 directions, combat profile, RGB masks"
     },
     {
-      "path": "public/sprites/ignis-khor-mask.png",
+      "path": "public/sprites/ashkarath-mask.png",
       "license": "own",
       "source": "tools/generate-boss-sprites.py",
-      "note": "Dedicated Ignis-Khor Act 4 boss mask (horned terror titan); 48px, 16 directions, combat profile, RGB masks"
+      "note": "Dedicated Ashkarath Act 4 boss mask (horned terror titan); 48px, 16 directions, combat profile, RGB masks"
     },
     {
-      "path": "public/sprites/ignis-khor.json",
+      "path": "public/sprites/ashkarath.json",
       "license": "own",
       "source": "tools/generate-boss-sprites.py",
-      "note": "Dedicated Ignis-Khor Act 4 boss spritesheet JSON"
+      "note": "Dedicated Ashkarath Act 4 boss spritesheet JSON"
     },
     {
       "path": "public/terrain/terrain-b99f623a8e97.png",

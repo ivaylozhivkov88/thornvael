@@ -364,7 +364,7 @@ button:disabled, #shell .sh-btn:disabled { opacity: .6; cursor: default; box-sha
 }
 
 /* ==========================================================================
-   Hero Selection: Diablo II Gothic Campfire AAA Character Select
+   Hero Selection: classic ARPG Gothic Campfire AAA Character Select
    ========================================================================== */
 #shell .sh-campfire-screen {
   position: relative;
@@ -2515,7 +2515,7 @@ button:disabled, #shell .sh-btn:disabled { opacity: .6; cursor: default; box-sha
   }
 }
 
-/* ---- Diablo II Style Ground Loot Overlay ---- */
+/* ---- classic ARPG Style Ground Loot Overlay ---- */
 #loot-overlay {
   position: fixed;
   inset: 0;
@@ -2736,7 +2736,7 @@ button:disabled, #shell .sh-btn:disabled { opacity: .6; cursor: default; box-sha
   border-color: #ffd770;
 }
 
-/* --- Diablo II Vector Automap Canvas Overlay --- */
+/* --- classic ARPG Vector Automap Canvas Overlay --- */
 .automap-canvas {
   position: fixed;
   inset: 0;

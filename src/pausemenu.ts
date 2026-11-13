@@ -309,7 +309,7 @@ export class PauseMenu {
         icon: '📜',
         keys: [
           { key: 'Q', label: 'Quest Journal', detail: 'Open current mission objectives, chapter directives and story journal.' },
-          { key: 'I', label: 'Inventory & Equipment', detail: 'Open Hero pack, equipment slots, gear inspect, and Holy Grail Codex.' },
+          { key: 'I', label: 'Inventory & Equipment', detail: 'Open Hero pack, equipment slots, gear inspect, and Hall of Relics Codex.' },
           { key: 'S', label: 'Spellbook & Spheres', detail: 'Open your learned Grimoire to view and cast spells or assign them to quick slots.' },
           { key: 'C', label: 'Character Stats', detail: 'Toggle detailed attributes (Body, Agility, Mind, Spirit) and combat ratings.' },
           { key: 'ESC', label: 'Pause / Game Menu', detail: 'Pause the game simulation cleanly and open this Gothic Codex menu.' },

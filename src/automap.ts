@@ -3,7 +3,7 @@ import type { Renderer } from './render';
 import { FP, type Sim } from './sim/sim';
 
 /**
- * Diablo II-Style Semi-Transparent Vector Automap Overlay.
+ * Classic ARPG-style Semi-Transparent Vector Automap Overlay.
  * Toggled via 'Tab' key. Controls, unit selection, and movement remain 100% active
  * while automap is open.
  */
@@ -69,7 +69,7 @@ export class AutomapOverlay {
         const sy = ty * s - camY;
 
         if (map.blocked[idx]) {
-          // Semi-transparent wall stroke (Diablo II vector outline)
+          // Semi-transparent wall stroke (classic ARPG vector outline)
           ctx.strokeStyle = 'rgba(145, 185, 225, 0.45)';
           ctx.strokeRect(sx + 0.5, sy + 0.5, s - 1, s - 1);
         } else if (map.terrain[idx] === Terrain.Water) {

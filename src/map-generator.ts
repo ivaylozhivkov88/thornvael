@@ -118,8 +118,8 @@ export const BIOMES: Record<NonNullable<ExpeditionOptions['biome']>, BiomeConfig
     hasTrees: false,
     bossFamily: 'redglass-drake',
     mobFamily: 'cinderling',
-    mobFamilies: ['cinderling', 'ash-weaver', 'doom-knight', 'balrog'],
-    bossFamilies: ['redglass-drake', 'hephasto-smith', 'balrog'],
+    mobFamilies: ['cinderling', 'ash-weaver', 'doom-knight', 'cinderhorn'],
+    bossFamilies: ['redglass-drake', 'anvilmaw-smith', 'cinderhorn'],
     eliteMods: ['fire_enchanted', 'stone_skin', 'extra_fast', 'spectral_hit'],
   },
 };

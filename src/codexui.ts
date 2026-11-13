@@ -5,7 +5,7 @@ import { findSetByItemName, isSetItem } from './sim/sets';
 import { itemIcon } from './townicons';
 
 /**
- * Holy Grail Codex UI for Thornvael.
+ * Hall of Relics Codex UI for Thornvael.
  * Displays all collectible items with discovery status, progress meters,
  * and category filtering.
  */
@@ -48,7 +48,7 @@ export class CodexUi {
 
     const titleBox = document.createElement('div');
     const h2 = document.createElement('h2');
-    h2.textContent = '🏆 Holy Grail Codex';
+    h2.textContent = '🏆 Hall of Relics Codex';
     const sub = document.createElement('p');
     sub.className = 'codex-progress-text';
     sub.textContent = `${discovered} / ${total} Discovered (${pct}%)`;

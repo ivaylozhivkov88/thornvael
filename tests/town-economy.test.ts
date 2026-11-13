@@ -283,7 +283,7 @@ describe('Dynamic Shop Restock & Difficulty-Based Economy', () => {
     }
   });
 
-  it('implements Smuggler Casket gambling with Diablo II probabilities and level-scaled costs', () => {
+  it('implements Smuggler Casket gambling with classic ARPG probabilities and level-scaled costs', () => {
     const { sim } = game(777, 0, 1);
     const cost = gambleCost(sim);
     expect(cost).toBeGreaterThanOrEqual(150);

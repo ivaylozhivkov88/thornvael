@@ -154,7 +154,7 @@ export function figure(h: HeroState): SVGSVGElement {
   `;
   svg.append(defs);
 
-  // Background Alcove & Gothic Cathedral Arch
+  // Background Alcove & Gothic Arch
   const bg = document.createElementNS(ns, 'g');
   bg.innerHTML = `
     <path d="M 24 212 L 24 74 C 24 28, 80 8, 80 8 C 80 8, 136 28, 136 74 L 136 212 Z" fill="url(#pdNiche)" stroke="url(#pdArch)" stroke-width="2.5"/>

@@ -1,8 +1,8 @@
 """Generate dedicated, high-detail procedural voxel/raster sprite atlases for the 4 Act Bosses:
-1. Act 1: Lilithia (Queen of Agony) - multi-appendaged arachnid demon queen
-2. Act 2: Azgalor (Maggot Colossus) - massive segmented burrowing grub with mandibles
-3. Act 3: Malakar (The Tormentor) - multi-armed floating skeletal tormentor with astral storm tendrils
-4. Act 4: Ignis-Khor (Lord of Terror) - massive horned demonic terror titan with hellfire spikes
+1. Act 1: Morvessa (Silk Widow) - multi-appendaged arachnid demon queen
+2. Act 2: Gorrathul (Sand Glutton) - massive segmented burrowing grub with mandibles
+3. Act 3: Vesperion (The Hollow Choir) - multi-armed floating skeletal tormentor with astral storm tendrils
+4. Act 4: Ashkarath (Cinder King) - massive horned demonic terror titan with hellfire spikes
 
 Contract: docs/SPRITE-CONTRACT.md (48x48 cells, 1024x1024 atlas, 16 directions, 6 clips, RGB masks).
 Output: public/sprites/{boss}.png, public/sprites/{boss}-mask.png, public/sprites/{boss}.json
@@ -111,7 +111,7 @@ class VoxelCanvas:
                             self.mask[py, px] = [0, 0, 0, 255]
 
 
-def render_lilithia_frame(anim: str, facing_angle: float, frame_idx: int) -> VoxelCanvas:
+def render_morvessa_frame(anim: str, facing_angle: float, frame_idx: int) -> VoxelCanvas:
     vc = VoxelCanvas()
     t = frame_idx / max(1, ANIMS[anim] - 1)
     
@@ -180,7 +180,7 @@ def render_lilithia_frame(anim: str, facing_angle: float, frame_idx: int) -> Vox
     return vc
 
 
-def render_azgalor_frame(anim: str, facing_angle: float, frame_idx: int) -> VoxelCanvas:
+def render_gorrathul_frame(anim: str, facing_angle: float, frame_idx: int) -> VoxelCanvas:
     vc = VoxelCanvas()
     t = frame_idx / max(1, ANIMS[anim] - 1)
     
@@ -244,7 +244,7 @@ def render_azgalor_frame(anim: str, facing_angle: float, frame_idx: int) -> Voxe
     return vc
 
 
-def render_malakar_frame(anim: str, facing_angle: float, frame_idx: int) -> VoxelCanvas:
+def render_vesperion_frame(anim: str, facing_angle: float, frame_idx: int) -> VoxelCanvas:
     vc = VoxelCanvas()
     t = frame_idx / max(1, ANIMS[anim] - 1)
     
@@ -305,7 +305,7 @@ def render_malakar_frame(anim: str, facing_angle: float, frame_idx: int) -> Voxe
     return vc
 
 
-def render_ignis_khor_frame(anim: str, facing_angle: float, frame_idx: int) -> VoxelCanvas:
+def render_ashkarath_frame(anim: str, facing_angle: float, frame_idx: int) -> VoxelCanvas:
     vc = VoxelCanvas()
     t = frame_idx / max(1, ANIMS[anim] - 1)
     
@@ -375,10 +375,10 @@ def render_ignis_khor_frame(anim: str, facing_angle: float, frame_idx: int) -> V
 
 
 RENDERERS = {
-    "lilithia": render_lilithia_frame,
-    "azgalor": render_azgalor_frame,
-    "malakar": render_malakar_frame,
-    "ignis-khor": render_ignis_khor_frame,
+    "morvessa": render_morvessa_frame,
+    "gorrathul": render_gorrathul_frame,
+    "vesperion": render_vesperion_frame,
+    "ashkarath": render_ashkarath_frame,
 }
 
 
@@ -465,7 +465,7 @@ def generate_boss_atlas(boss_id: str, out_sprites_dir: str):
 def main():
     out_dir = sys.argv[1] if len(sys.argv) > 1 else "public/sprites"
     os.makedirs(out_dir, exist_ok=True)
-    for boss_id in ["lilithia", "azgalor", "malakar", "ignis-khor"]:
+    for boss_id in ["morvessa", "gorrathul", "vesperion", "ashkarath"]:
         generate_boss_atlas(boss_id, out_dir)
     print("All 4 Boss Sprite Atlases generated successfully!")
 

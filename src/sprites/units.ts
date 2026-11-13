@@ -4,7 +4,7 @@ import { animationFrame, palette, sheetDirection, splitMask } from './palette';
 import type { AnimationPose } from './combat-animation';
 
 export const UNIT_ART = ['hero', 'archer', 'golem', 'warrior', 'mage', 'gnoll', 'imp'] as const;
-export const BOSS_ART = ['lilithia', 'azgalor', 'malakar', 'ignis-khor'] as const;
+export const BOSS_ART = ['morvessa', 'gorrathul', 'vesperion', 'ashkarath'] as const;
 export const ALL_UNIT_ART = [...UNIT_ART, ...BOSS_ART] as const;
 export type UnitArt = typeof ALL_UNIT_ART[number];
 export type BossArt = typeof BOSS_ART[number];
@@ -30,72 +30,72 @@ export interface BossSpriteDef {
 }
 
 export const BOSS_SPRITE_DEFS: Record<BossArt, BossSpriteDef> = {
-  lilithia: {
-    id: 'lilithia',
-    name: 'Lilithia, Queen of Agony',
-    baseArt: 'lilithia',
+  morvessa: {
+    id: 'morvessa',
+    name: 'Morvessa, the Silk Widow',
+    baseArt: 'morvessa',
     scale: 1.45,
     paletteTier: 5,
     auraTint: 0x3cd070, // Venomous emerald glow
     signatureColor: 0x228b22,
     contract: {
       contract: 1,
-      unit: 'lilithia',
+      unit: 'morvessa',
       directions: 16,
       cell: [48, 48] as const,
       anims: { stand: 4, walk: 8, attack: 4, cast: 4, hurt: 2, die: 4 },
-      mask: 'lilithia-mask.png',
+      mask: 'morvessa-mask.png',
     },
   },
-  azgalor: {
-    id: 'azgalor',
-    name: 'Azgalor, Maggot Colossus',
-    baseArt: 'azgalor',
+  gorrathul: {
+    id: 'gorrathul',
+    name: 'Gorrathul, the Sand Glutton',
+    baseArt: 'gorrathul',
     scale: 1.85,
     paletteTier: 5,
     auraTint: 0x60c8ff, // Glacial frost subterranean aura
     signatureColor: 0x1e90ff,
     contract: {
       contract: 1,
-      unit: 'azgalor',
+      unit: 'gorrathul',
       directions: 16,
       cell: [48, 48] as const,
       anims: { stand: 4, walk: 8, attack: 4, cast: 4, hurt: 2, die: 4 },
-      mask: 'azgalor-mask.png',
+      mask: 'gorrathul-mask.png',
     },
   },
-  malakar: {
-    id: 'malakar',
-    name: 'Malakar, The Tormentor',
-    baseArt: 'malakar',
+  vesperion: {
+    id: 'vesperion',
+    name: 'Vesperion, the Hollow Choir',
+    baseArt: 'vesperion',
     scale: 1.6,
     paletteTier: 5,
     auraTint: 0xa870ff, // Stormcaller astral aura
     signatureColor: 0x9370db,
     contract: {
       contract: 1,
-      unit: 'malakar',
+      unit: 'vesperion',
       directions: 16,
       cell: [48, 48] as const,
       anims: { stand: 4, walk: 8, attack: 4, cast: 4, hurt: 2, die: 4 },
-      mask: 'malakar-mask.png',
+      mask: 'vesperion-mask.png',
     },
   },
-  'ignis-khor': {
-    id: 'ignis-khor',
-    name: 'Ignis-Khor, Lord of Terror',
-    baseArt: 'ignis-khor',
+  'ashkarath': {
+    id: 'ashkarath',
+    name: 'Ashkarath, the Cinder King',
+    baseArt: 'ashkarath',
     scale: 1.75,
     paletteTier: 5,
     auraTint: 0xff3b1a, // Infernal crimson hellfire
     signatureColor: 0xdc143c,
     contract: {
       contract: 1,
-      unit: 'ignis-khor',
+      unit: 'ashkarath',
       directions: 16,
       cell: [48, 48] as const,
       anims: { stand: 4, walk: 8, attack: 4, cast: 4, hurt: 2, die: 4 },
-      mask: 'ignis-khor-mask.png',
+      mask: 'ashkarath-mask.png',
     },
   },
 };

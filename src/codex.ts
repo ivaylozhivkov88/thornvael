@@ -2,7 +2,7 @@ import { ITEMS, getItemDef, DYNAMIC_ITEM_OFFSET } from './sim/items';
 import type { Sim } from './sim/sim';
 
 /**
- * Holy Grail Codex system for Thornvael, inspired by Diablo II Resurrected.
+ * Hall of Relics Codex system for Thornvael, inspired by classic ARPG relic hunts.
  * Persistently tracks every unique base and artifact item discovered by the player
  * across campaigns, skirmishes, and procedural expeditions.
  */
@@ -101,7 +101,7 @@ export function isDiscovered(itemId: number): boolean {
   return memoryDiscovered.has(itemId);
 }
 
-/** Calculate overall Holy Grail completion progress. */
+/** Calculate overall Hall of Relics completion progress. */
 export function getCodexProgress(): { discovered: number; total: number; pct: number } {
   loadDiscovered();
   const total = ITEMS.length;

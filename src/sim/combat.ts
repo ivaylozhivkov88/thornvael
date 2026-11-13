@@ -666,9 +666,9 @@ function attack(sim: Sim, i: number, t: number): void {
 
   // Boss attack procs
   const fam = cb.family[i];
-  if (fam === 'lilithia') {
+  if (fam === 'morvessa') {
     addStatus(sim, t, St.Poison, 120, 3);
-  } else if (fam === 'azgalor') {
+  } else if (fam === 'gorrathul') {
     addStatus(sim, t, St.Weaken, 100, 0);
     const cleaveR = Math.round(1.8 * FP);
     const cleaveR2 = cleaveR * cleaveR;
@@ -878,7 +878,7 @@ function bossTick(sim: Sim, i: number): void {
   const t = cb.tgt[i];
   const hasTarget = t >= 0 && cb.hp[t] > 0 && sim.team[t] !== sim.team[i] && !sim.hidden[t];
 
-  if (fam === 'lilithia') {
+  if (fam === 'morvessa') {
     // 1. Brood Hatch: summons/phases in dormant broodlings when damaged or periodically
     if (hasTarget && (sim.tick % 80 === 0 || cb.hp[i] < Math.floor(cb.hpMax[i] * 0.6))) {
       let hatched = 0;
@@ -923,7 +923,7 @@ function bossTick(sim: Sim, i: number): void {
         cb.emit(2, sim.x[t], sim.y[t], 0, 0);
       }
     }
-  } else if (fam === 'azgalor') {
+  } else if (fam === 'gorrathul') {
     // 1. Holy Freeze slow aura
     if (sim.tick % 25 === 0) {
       const auraR2 = (5.5 * FP) ** 2;
@@ -953,7 +953,7 @@ function bossTick(sim: Sim, i: number): void {
         cb.emit(2, sim.x[i], sim.y[i], 0, 0);
       }
     }
-  } else if (fam === 'malakar') {
+  } else if (fam === 'vesperion') {
     // 1. Ball Lightning Piercing
     if (hasTarget && sim.tick % 35 === 0) {
       const d = dist(sim, i, sim.x[t], sim.y[t]);
@@ -1000,7 +1000,7 @@ function bossTick(sim: Sim, i: number): void {
       }
       if (hit) cb.emit(5, sim.x[i], sim.y[i], 0, 0);
     }
-  } else if (fam === 'ignis-khor') {
+  } else if (fam === 'ashkarath') {
     // 1. Hellfire Breath
     if (hasTarget && sim.tick % 40 === 0) {
       const d = dist(sim, i, sim.x[t], sim.y[t]);

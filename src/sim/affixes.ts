@@ -1,7 +1,7 @@
 import { Ik, ItemDef, Slot } from './items';
 
 /**
- * Procedural Magic Affixes inspired by Diablo II (MagicPrefix.txt, MagicSuffix.txt) & RoM2.
+ * Procedural Magic Affixes inspired by classic ARPG (MagicPrefix.txt, MagicSuffix.txt) & RoM2.
  * Includes mutual exclusion groups, tier eligibility windows [tierMin..tierMax],
  * weights (frequency), slot applicability, and balanced stat bonuses.
  */
@@ -304,7 +304,7 @@ export function rollMagicItem(
   return { ...def, rarity: 'magic' };
 }
 
-/** 18 Original Unique Artifact items inspired by Diablo II & RoM2 classics. */
+/** 18 Original Unique Artifact items inspired by classic ARPG & RoM2 classics. */
 export const UNIQUE_ARTIFACTS: readonly ItemDef[] = [
   {
     name: "Sovereign's Gilded Crest", kind: Ik.Gear, slot: Slot.Helm, tier: 5, w: 3, cls: 3, need: 2, needv: 15,

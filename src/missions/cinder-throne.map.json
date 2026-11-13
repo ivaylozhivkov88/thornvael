@@ -1,7 +1,7 @@
 {
   "format": "thornvael-map",
   "version": 2,
-  "name": "Catacombs Level 4",
+  "name": "Cinder Throne",
   "w": 48,
   "h": 48,
   "terrain": [
@@ -529,7 +529,7 @@
       "dormant": true
     },
     {
-      "kind": 6,
+      "kind": 3,
       "team": 1,
       "x": 24,
       "y": 14,
@@ -537,61 +537,61 @@
       "pack": 1,
       "vip": true,
       "tier": 5,
-      "family": "lilithia",
+      "family": "ashkarath",
       "bossMods": [
-        "extra_fast",
-        "magic_resistant"
+        "fire_enchanted",
+        "stone_skin"
       ]
     },
     {
-      "kind": 6,
+      "kind": 0,
       "team": 1,
       "x": 21,
       "y": 16,
       "group": 1,
       "pack": 1,
       "tier": 4,
-      "family": "ruin-mite"
+      "family": "doom-knight"
     },
     {
-      "kind": 6,
+      "kind": 0,
       "team": 1,
       "x": 27,
       "y": 16,
       "group": 1,
       "pack": 1,
       "tier": 4,
-      "family": "ruin-mite"
+      "family": "doom-knight"
     },
     {
-      "kind": 1,
+      "kind": 5,
       "team": 1,
       "x": 19,
       "y": 22,
       "group": 2,
       "pack": 2,
       "tier": 3,
-      "family": "quill-fiend"
+      "family": "cinderhorn"
     },
     {
-      "kind": 1,
+      "kind": 5,
       "team": 1,
       "x": 29,
       "y": 22,
       "group": 2,
       "pack": 2,
       "tier": 3,
-      "family": "quill-fiend"
+      "family": "cinderhorn"
     },
     {
-      "kind": 6,
+      "kind": 0,
       "team": 1,
       "x": 24,
       "y": 28,
       "group": 3,
       "pack": 3,
       "tier": 4,
-      "family": "ruin-mite"
+      "family": "doom-knight"
     }
   ],
   "regions": [
@@ -672,7 +672,7 @@
           "a": [
             24,
             14,
-            2500
+            5000
           ]
         },
         {
@@ -726,13 +726,13 @@
     }
   ],
   "text": {
-    "title": "Catacombs Level 4",
-    "body": "You have descended into the deepest level of the Monastery Catacombs. Lilithia, Queen of Agony, dwells in the central blood-stained crypt. Purge the brood and slay Lilithia.",
-    "obj.0": "Slay Lilithia, Queen of Agony in her sanctum",
-    "msg.1": "The air here reeks of bile and rot. Beware Lilithia’s toxic spray and brood hatchlings!",
-    "msg.1.who": "Deckard",
-    "msg.2": "Lilithia has fallen! Her demonic agony is silenced, and the Monastery is cleansed.",
-    "win": "Lilithia, Queen of Agony lies slain. The catacombs are cleansed.",
-    "fail.1": "Your hero succumbed to Lilithia’s agony."
+    "title": "Cinder Throne",
+    "body": "At the heart of the Ashen Deep stands the Cinder Throne. Ashkarath, the Cinder King, reigns here amidst rivers of hellfire. Destroy him to conclude the apocalyptic war.",
+    "obj.0": "Slay Ashkarath, the Cinder King in the Cinder Throne",
+    "msg.1": "Ashkarath commands hellfire breath, bone cages, and demonic red lightning! Hold nothing back!",
+    "msg.1.who": "Aldren",
+    "msg.2": "The Cinder King is overthrown! The skies above Thornvael clear as peace is restored to the realms.",
+    "win": "Ashkarath, the Cinder King has been vanquished. Thornvael is saved!",
+    "fail.1": "Your hero fell before the Cinder King in the Cinder Throne."
   }
 }

@@ -67,7 +67,7 @@ export interface UnitDef {
   vip?: boolean;
   tier?: number; // monster palette tier (1 to 5)
   family?: string; // monster catalog family id
-  bossMods?: string[]; // composable boss modifiers (Diablo II SuperUniques style)
+  bossMods?: string[]; // composable boss modifiers (classic ARPG super-unique style)
 }
 export interface Region {
   name: string;
