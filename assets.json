@@ -1000,6 +1000,24 @@
       "license": "own",
       "source": "Gemini image generation (user subscription), original text prompt, resized with Pillow",
       "note": "AI-generated painted art, 2026-11-13; style-only inspiration, no reference image used"
+    },
+    {
+      "path": "public/townart/mon/flintback.jpg",
+      "license": "own",
+      "source": "Gemini image generation (user subscription), original text prompt, resized with Pillow",
+      "note": "AI-generated painted monster portrait, 2026-11-13; original design, style-only inspiration"
+    },
+    {
+      "path": "public/townart/mon/glasswing.jpg",
+      "license": "own",
+      "source": "Gemini image generation (user subscription), original text prompt, resized with Pillow",
+      "note": "AI-generated painted monster portrait, 2026-11-13; original design, style-only inspiration"
+    },
+    {
+      "path": "public/townart/mon/rootbound.jpg",
+      "license": "own",
+      "source": "Gemini image generation (user subscription), original text prompt, resized with Pillow",
+      "note": "AI-generated painted monster portrait, 2026-11-13; original design, style-only inspiration"
     }
   ]
 }
