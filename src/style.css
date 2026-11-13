@@ -2566,42 +2566,42 @@ button:disabled, #shell .sh-btn:disabled { opacity: .6; cursor: default; box-sha
 
 /* Normal Items */
 .d2-loot-normal {
-  color: #f5f2eb;
-  background: rgba(16, 16, 16, 0.9);
-  border: 1px solid #7a7a7a;
-  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.85), inset 0 0 4px rgba(255, 255, 255, 0.1);
+  color: #ffffff;
+  background: rgba(14, 14, 14, 0.94);
+  border: 1px solid #999999;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.9), inset 0 0 4px rgba(255, 255, 255, 0.15);
 }
 
 /* Magic Items */
 .d2-loot-magic {
-  color: #70b8ff;
-  background: rgba(10, 20, 36, 0.92);
-  border: 1px solid #4ea8de;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.85), 0 0 6px rgba(78, 168, 222, 0.4), inset 0 0 6px rgba(29, 78, 137, 0.35);
+  color: #4a9eff;
+  background: rgba(10, 20, 36, 0.94);
+  border: 1px solid #4a9eff;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.9), 0 0 8px rgba(74, 158, 255, 0.5), inset 0 0 6px rgba(29, 78, 137, 0.4);
 }
 
 /* Rare Items */
 .d2-loot-rare {
-  color: #ffd166;
-  background: rgba(28, 22, 8, 0.92);
-  border: 1px solid #f4b43a;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.85), 0 0 7px rgba(244, 180, 58, 0.45), inset 0 0 6px rgba(178, 121, 23, 0.35);
+  color: #e6c840;
+  background: rgba(28, 22, 8, 0.94);
+  border: 1px solid #e6c840;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.9), 0 0 8px rgba(230, 200, 64, 0.5), inset 0 0 6px rgba(178, 121, 23, 0.4);
 }
 
 /* Set Items */
 .d2-loot-set {
-  color: #2ecc71;
-  background: rgba(8, 28, 14, 0.92);
-  border: 1px solid #27ae60;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.85), 0 0 7px rgba(46, 204, 113, 0.45), inset 0 0 6px rgba(39, 174, 96, 0.35);
+  color: #00ff7f;
+  background: rgba(8, 28, 14, 0.94);
+  border: 1px solid #00ff7f;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.9), 0 0 8px rgba(0, 255, 127, 0.5), inset 0 0 6px rgba(39, 174, 96, 0.4);
 }
 
-/* Unique Items */
+/* Unique / Artifact Items */
 .d2-loot-unique {
-  color: #ffaa5e;
-  background: rgba(32, 16, 8, 0.92);
-  border: 1px solid #ff8c38;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.85), 0 0 8px rgba(255, 140, 56, 0.5), inset 0 0 6px rgba(153, 61, 0, 0.4);
+  color: #ff9a1f;
+  background: rgba(32, 16, 8, 0.94);
+  border: 1px solid #ff9a1f;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.9), 0 0 10px rgba(255, 154, 31, 0.6), inset 0 0 8px rgba(153, 61, 0, 0.45);
 }
 
 /* Mobile HUD button [👁 ALT] */

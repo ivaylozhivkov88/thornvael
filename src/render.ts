@@ -23,10 +23,10 @@ const SHRINE_COLORS: Record<string, number> = {
   ward: 0xd070ff,
 };
 const LOOT_BEAM_COLORS: Record<string, { outer: number; inner: number; height: number }> = {
-  magic: { outer: 0x2979ff, inner: 0x82b1ff, height: 26 },
-  rare: { outer: 0xffd700, inner: 0xfff9c4, height: 32 },
-  set: { outer: 0x00e676, inner: 0xb9f6ca, height: 38 },
-  unique: { outer: 0xff9100, inner: 0xffe082, height: 44 },
+  magic: { outer: 0x4a9eff, inner: 0xa8d4ff, height: 28 },
+  rare: { outer: 0xe6c840, inner: 0xfff3a8, height: 34 },
+  set: { outer: 0x00ff7f, inner: 0xb9f6ca, height: 38 },
+  unique: { outer: 0xff9a1f, inner: 0xffd294, height: 46 },
 };
 
 function drawGlint(r: Graphics, x: number, y: number, tick: number, seed: number): void {
@@ -257,10 +257,12 @@ export class Renderer {
       const s = atlas ? new UnitSprite(atlas, boss) : new Sprite(tex);
       if (s instanceof Sprite) s.anchor.set(0.5, 0.88);
       const look = KIND_LOOK[kind] ?? { scale: 1 };
-      s.scale.set(look.scale);
+      const finalScale = boss?.scale ?? look.scale;
+      s.scale.set(finalScale);
       // Your units keep the team colour (the hero stays gold); monsters use the colour of their kind.
       if (s instanceof Sprite) {
         if (sim.team[i] === 0) s.tint = kind === Kind.Hero || kind === Kind.Mage ? look.tint! : TEAM_TINT[0];
+        else if (boss?.signatureColor) s.tint = boss.signatureColor;
         else s.tint = kind === Kind.Archer ? TEAM_TINT[1] : look.tint ?? TEAM_TINT[1];
       }
       this.baseTint.push(s.tint as number);
@@ -952,12 +954,16 @@ export class Renderer {
       }
     }
     for (let i = 0; i < sim.count; i++) {
-      if (!cb.bossMods[i]?.length || cb.hp[i] <= 0 || !this.sprites[i].visible) continue;
+      if ((!cb.bossMods[i]?.length && !cb.family[i]) || cb.hp[i] <= 0 || !this.sprites[i].visible) continue;
+      const boss = cb.family[i] ? bossSpriteDef(cb.family[i]) : undefined;
       const s = this.sprites[i];
-      r.ellipse(s.x, s.y, 13, 6).stroke({ color: 0xf4b43a, width: 1.5, alpha: 0.85 });
-      if (cb.bossMods[i].includes('blessed_aura')) {
+      const auraTint = boss?.auraTint ?? 0xf4b43a;
+      const baseRadius = boss ? Math.round(14 * (boss.scale / 1.3)) : 13;
+      r.ellipse(s.x, s.y, baseRadius, Math.round(baseRadius * 0.46)).stroke({ color: auraTint, width: 1.5, alpha: 0.85 });
+      if (boss || cb.bossMods[i]?.includes('blessed_aura')) {
         const pulse = 1 + 0.15 * Math.sin(sim.tick * 0.2);
-        r.ellipse(s.x, s.y, 24 * pulse, 12 * pulse).stroke({ color: 0xffd700, width: 1, alpha: 0.45 });
+        const outerTint = boss ? boss.auraTint : 0xffd700;
+        r.ellipse(s.x, s.y, Math.round(baseRadius * 1.8 * pulse), Math.round(baseRadius * 0.9 * pulse)).stroke({ color: outerTint, width: 1.5, alpha: 0.5 });
       }
     }
     for (const id of v.selected) {

@@ -32,7 +32,7 @@ export interface BossSpriteDef {
 export const BOSS_SPRITE_DEFS: Record<BossArt, BossSpriteDef> = {
   lilithia: {
     id: 'lilithia',
-    name: 'Lilithia, Broodmother',
+    name: 'Lilithia, Queen of Agony',
     baseArt: 'imp',
     scale: 1.45,
     paletteTier: 5,
@@ -49,7 +49,7 @@ export const BOSS_SPRITE_DEFS: Record<BossArt, BossSpriteDef> = {
   },
   azgalor: {
     id: 'azgalor',
-    name: 'Azgalor, Dune Devourer',
+    name: 'Azgalor, Maggot Colossus',
     baseArt: 'golem',
     scale: 1.85,
     paletteTier: 5,
@@ -66,7 +66,7 @@ export const BOSS_SPRITE_DEFS: Record<BossArt, BossSpriteDef> = {
   },
   malakar: {
     id: 'malakar',
-    name: 'Malakar, High Inquisitor',
+    name: 'Malakar, The Tormentor',
     baseArt: 'golem',
     scale: 1.6,
     paletteTier: 5,
@@ -83,7 +83,7 @@ export const BOSS_SPRITE_DEFS: Record<BossArt, BossSpriteDef> = {
   },
   'ignis-khor': {
     id: 'ignis-khor',
-    name: 'Ignis-Khor, Lord of Hellfire',
+    name: 'Ignis-Khor, Lord of Terror',
     baseArt: 'mage',
     scale: 1.75,
     paletteTier: 5,

@@ -8,6 +8,7 @@ import { SPELLS } from './sim/spelldata';
 import { S } from './strings';
 import { itemIcon } from './townicons';
 import { CodexUi } from './codexui';
+import { playPickupRustle, playEquipSfx } from './audio';
 
 /** Hero, pack and creation sheets. Plain DOM buttons only, so touch, mouse and keyboard (Tab, Enter, arrows) all work the same way. */
 
@@ -114,6 +115,15 @@ function slotWatermarkIcon(slot: number): SVGSVGElement {
       g.innerHTML = `
         <path d="M 16 38 L 16 23 L 20 18 L 24 20 L 27 15 L 31 20 L 33 24 L 33 38 Z" stroke-width="1.8"/>
         <line x1="16" y1="32" x2="33" y2="32" stroke-width="1.2"/>
+      `;
+      break;
+    case 8: // 8: Belt / Waist
+      g.innerHTML = `
+        <rect x="8" y="20" width="32" height="8" rx="2" stroke-width="1.8"/>
+        <rect x="20" y="17" width="8" height="14" rx="1.5" stroke-width="1.8"/>
+        <line x1="24" y1="20" x2="24" y2="28" stroke-width="2"/>
+        <circle cx="14" cy="24" r="1.2" fill="currentColor"/>
+        <circle cx="34" cy="24" r="1.2" fill="currentColor"/>
       `;
       break;
   }
@@ -807,7 +817,7 @@ export class HeroUi {
     this.suppressedPointer = null;
     if (this.drag || !e.isPrimary || e.button !== 0 || !(e.target instanceof Element)) return;
     const source = e.target.closest<HTMLElement>('[data-source]');
-    if (!source || (e.pointerType === 'touch' && !source.classList.contains('hero-drag-handle'))) return;
+    if (!source) return;
     const [from, slot, item] = source.dataset.source!.split('/');
     const intent = this.intent({ from: from === 'eq' ? 'eq' : 'inv', slot: Number(slot), item: Number(item) });
     if (!intent) return;
@@ -846,6 +856,7 @@ export class HeroUi {
       drag.ghost.setAttribute('aria-hidden', 'true');
       drag.ghost.prepend(itemIcon(drag.intent.source.item));
       this.sheet.append(drag.ghost);
+      playPickupRustle();
     }
     const preview = this.preview(drag.intent);
     if (!preview) {
@@ -888,8 +899,14 @@ export class HeroUi {
     const preview = drag.ghost && this.preview(drag.intent);
     const target = drag.ghost && this.targetAt(e);
     this.cancelDrag();
-    if (preview && target?.dataset.equipmentTarget === preview.target && !preview.why) this.submit(drag.intent);
-    else if (drag.ghost) this.feedback.textContent = preview && preview.why ? WHY_TEXT[preview.why] : S.hero.dragCanceled;
+    if (preview && target?.dataset.equipmentTarget === preview.target && !preview.why) {
+      const def = getItemDef(drag.intent.source.item);
+      const isMetal = def ? (def.tier >= 3 || /sword|blade|iron|steel|plate|mail|shield|helm/i.test(def.name)) : true;
+      playEquipSfx(isMetal);
+      this.submit(drag.intent);
+    } else if (drag.ghost) {
+      this.feedback.textContent = preview && preview.why ? WHY_TEXT[preview.why] : S.hero.dragCanceled;
+    }
   }
 
   private showCardTooltip(itemId: number, anchor: HTMLElement): void {
@@ -1290,10 +1307,46 @@ export class HeroUi {
         bt.append(labelBox);
       }
       bt.onclick = () => {
+        if (this.sel && this.sel.from === 'inv') {
+          // Click-to-place: user selected an inventory item, now clicks an equipment slot
+          const intent = this.intent(this.sel);
+          if (intent) {
+            const preview = this.preview(intent);
+            if (preview && preview.target === `eq${s}` && !preview.why) {
+              const def = getItemDef(this.sel.item);
+              const isMetal = def ? (def.tier >= 3 || /sword|blade|iron|steel|plate|mail|shield|helm/i.test(def.name)) : true;
+              playEquipSfx(isMetal);
+              this.sel = null;
+              this.submit(intent);
+              return;
+            }
+          }
+        }
         if (id < 0) return;
         this.hideCardTooltip();
         this.sel = this.sel?.from === 'eq' && this.sel.slot === s ? null : { from: 'eq', item: id, slot: s };
+        if (this.sel) playPickupRustle();
         this.render(true);
+      };
+      bt.oncontextmenu = (e) => {
+        if (id < 0) return;
+        e.preventDefault();
+        e.stopPropagation();
+        const intent = this.intent({ from: 'eq', item: id, slot: s });
+        if (intent) {
+          playPickupRustle();
+          this.submit(intent);
+        }
+      };
+      bt.ondblclick = (e) => {
+        if (id < 0) return;
+        e.preventDefault();
+        e.stopPropagation();
+        const intent = this.intent({ from: 'eq', item: id, slot: s });
+        if (intent) {
+          playPickupRustle();
+          this.submit(intent);
+        }
       };
       bt.classList.toggle('sel', this.sel?.from === 'eq' && this.sel.slot === s);
       const cell = id < 0 ? el('div', 'hero-gear-cell') : this.cell(bt, { from: 'eq', item: id, slot: s });
@@ -1301,6 +1354,38 @@ export class HeroUi {
       cell.dataset.equipmentTarget = `eq${s}`;
       slots.append(cell);
     }
+
+    // Waist: Belt slot (displays belt / potion belt status)
+    const beltCell = el('div', 'hero-gear-cell');
+    beltCell.dataset.equipmentTarget = 'eq8';
+    const beltBt = el('button', 'slot-btn slot-empty');
+    beltBt.type = 'button';
+    beltBt.dataset.k = 'eq8';
+    beltBt.append(slotWatermarkIcon(8));
+    const beltLabel = el('div', 'slot-text-wrap');
+    beltLabel.append(el('span', 'slot-empty-title', 'Waist (Belt)'));
+    const beltCount = h.inv.filter((s) => getItemDef(s.item)?.kind === Ik.Potion).reduce((sum, s) => sum + s.n, 0);
+    beltLabel.append(el('small', 'slot-empty-sub', beltCount > 0 ? `${beltCount} Potions` : 'Potion Belt'));
+    beltBt.append(beltLabel);
+    beltBt.title = 'Waist Belt: Quick-quaff potion belt (Keys 1-4)';
+    beltCell.append(beltBt);
+    slots.append(beltCell);
+
+    // Finger 2 (Right Ring) slot
+    const ring2Cell = el('div', 'hero-gear-cell finger-2');
+    ring2Cell.dataset.equipmentTarget = 'eq5';
+    const ring2Bt = el('button', 'slot-btn slot-empty');
+    ring2Bt.type = 'button';
+    ring2Bt.dataset.k = 'eq5_alt';
+    ring2Bt.append(slotWatermarkIcon(Slot.Ring));
+    const ring2Label = el('div', 'slot-text-wrap');
+    ring2Label.append(el('span', 'slot-empty-title', 'Finger 2 (Ring)'));
+    ring2Label.append(el('small', 'slot-empty-sub', S.hero.empty));
+    ring2Bt.append(ring2Label);
+    ring2Bt.title = 'Finger 2 (Ring): Secondary ring finger';
+    ring2Cell.append(ring2Bt);
+    slots.append(ring2Cell);
+
     panel.append(slots);
     return panel;
   }
@@ -1310,6 +1395,16 @@ export class HeroUi {
     panel.append(el('h3', '', `${S.hero.pack} (${h.inv.length}/${INV_MAX})`), this.weightLine(h));
     const back = el('div', 'hero-return', S.hero.returnToPack);
     back.dataset.equipmentTarget = 'pack';
+    back.onclick = () => {
+      if (this.sel && this.sel.from === 'eq') {
+        const intent = this.intent(this.sel);
+        if (intent) {
+          playPickupRustle();
+          this.sel = null;
+          this.submit(intent);
+        }
+      }
+    };
     panel.append(back);
     const grid = el('div', 'items hero-pack-grid');
     for (let index = 0; index < PACK_PAGE; index++) {
@@ -1318,6 +1413,16 @@ export class HeroUi {
       if (!st) {
         const empty = el('div', 'hero-pack-empty', S.hero.empty);
         empty.dataset.equipmentTarget = 'pack';
+        empty.onclick = () => {
+          if (this.sel && this.sel.from === 'eq') {
+            const intent = this.intent(this.sel);
+            if (intent) {
+              playPickupRustle();
+              this.sel = null;
+              this.submit(intent);
+            }
+          }
+        };
         grid.append(empty);
         continue;
       }
@@ -1326,8 +1431,37 @@ export class HeroUi {
       const bt = button(st.n > 1 ? `${d.name} x${st.n}` : d.name, `inv${n}`, () => {
         this.hideCardTooltip();
         this.sel = this.sel?.from === 'inv' && this.sel.slot === n ? null : { from: 'inv', item: st.item, slot: n };
+        if (this.sel) playPickupRustle();
         this.render(true);
       }, `${S.hero.level} ${d.tier} · ${d.w * st.n} ${S.hero.weight.toLowerCase()}`);
+      bt.oncontextmenu = (e) => {
+        e.preventDefault();
+        e.stopPropagation();
+        const intent = this.intent({ from: 'inv', item: st.item, slot: n });
+        if (intent) {
+          const preview = this.preview(intent);
+          if (preview && !preview.why) {
+            const def = getItemDef(st.item);
+            const isMetal = def ? (def.tier >= 3 || /sword|blade|iron|steel|plate|mail|shield|helm/i.test(def.name)) : true;
+            playEquipSfx(isMetal);
+            this.submit(intent);
+          }
+        }
+      };
+      bt.ondblclick = (e) => {
+        e.preventDefault();
+        e.stopPropagation();
+        const intent = this.intent({ from: 'inv', item: st.item, slot: n });
+        if (intent) {
+          const preview = this.preview(intent);
+          if (preview && !preview.why) {
+            const def = getItemDef(st.item);
+            const isMetal = def ? (def.tier >= 3 || /sword|blade|iron|steel|plate|mail|shield|helm/i.test(def.name)) : true;
+            playEquipSfx(isMetal);
+            this.submit(intent);
+          }
+        }
+      };
       bt.prepend(itemIcon(st.item));
       bt.classList.toggle('sel', this.sel?.from === 'inv' && this.sel.slot === n);
       bt.classList.toggle('no', blocker(h, st.item) !== 0);

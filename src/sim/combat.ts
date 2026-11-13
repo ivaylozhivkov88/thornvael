@@ -1035,6 +1035,17 @@ function bossTick(sim: Sim, i: number): void {
       if (sim.moving[t]) sim.stop(t);
       cb.emit(2, sim.x[t], sim.y[t], 0, 0);
     }
+
+    // 4. Red Lightning: Devastating piercing stream of crimson demonic lightning
+    if (hasTarget && sim.tick % 50 === 0) {
+      const d = dist(sim, i, sim.x[t], sim.y[t]);
+      if (d <= 7 * FP) {
+        const lightningDmg = 26 + sim.rng.int(16);
+        strike(sim, t, lightningDmg, lightningDmg + 10, Elem.Fire, 16, i);
+        strike(sim, t, lightningDmg >> 1, (lightningDmg >> 1) + 6, Elem.Astral, 14, i);
+        cb.emit(10, sim.x[t], sim.y[t], 0, 0);
+      }
+    }
   }
 }
 

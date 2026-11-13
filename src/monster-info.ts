@@ -22,7 +22,7 @@ export const BOSS_MOD_LABELS: Record<string, string> = {
 
 export const BOSS_SIGNATURE_ABILITIES: Record<string, { title: string; abilities: readonly string[]; summary: string }> = {
   lilithia: {
-    title: 'Broodmother of the Sunken Caverns',
+    title: 'Lilithia, Queen of Agony',
     abilities: [
       'Poison Spray: Toxic projectile cone inflicting lingering Earth/Poison DoT.',
       'Spine Lash: Crushing tail whip dealing heavy damage, knocking back and slowing targets in melee.',
@@ -31,16 +31,16 @@ export const BOSS_SIGNATURE_ABILITIES: Record<string, { title: string; abilities
     summary: 'Poison Spray DoT, Spine Lash knockdown, Brood Hatch summons',
   },
   azgalor: {
-    title: 'Lord of the Pit & Dune Devourer',
+    title: 'Azgalor, Maggot Colossus',
     abilities: [
       'Holy Freeze Aura: Chilling frost aura slowing nearby enemies and dealing periodic cold damage.',
       'Subterranean Charge: Burrows underground and surges forward to crush distant foes.',
       'Acid Cleave: Sweeping toxic melee strike reducing armor and cleaving adjacent targets.',
     ],
-    summary: 'Holy Freeze slow aura, subterranean charge, acid cleave',
+    summary: 'Holy Freeze slow aura, burrow charge, acid cleave',
   },
   malakar: {
-    title: 'High Inquisitor & Stormcaller',
+    title: 'Malakar, The Tormentor',
     abilities: [
       'Ball Lightning: Crackling piercing lightning orb traveling through enemy ranks.',
       'Soul Siphon: Drains hero mana to restore vital health to Malakar.',
@@ -49,13 +49,14 @@ export const BOSS_SIGNATURE_ABILITIES: Record<string, { title: string; abilities
     summary: 'Ball lightning piercing, Soul Siphon mana drain, Frost Nova',
   },
   'ignis-khor': {
-    title: 'Prime Nether Titan & Lord of Hellfire',
+    title: 'Ignis-Khor, Lord of Terror',
     abilities: [
       'Hellfire Breath: Torrential cone of demonic flame incinerating everything in reach.',
       'Fire Ring: Expanding fiery ring setting ablaze the surrounding ground.',
       'Bone Prison: Necromantic bone cage encasing hero/target to prevent escape.',
+      'Red Lightning: Piercing stream of demonic crimson lightning shredding physical and magical wards.',
     ],
-    summary: 'Hellfire breath, Fire Ring, Bone Prison',
+    summary: 'Hellfire breath, Fire Ring, Bone Prison, Red Lightning',
   },
 };
 

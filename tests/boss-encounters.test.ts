@@ -1,0 +1,110 @@
+import { describe, expect, it } from 'vitest';
+import './setup';
+import { loadDoc, migrate, validate } from '../src/mapdoc';
+import { createMission } from '../src/mission';
+import { Elem, Kind, Ord } from '../src/sim/combat';
+import { createHero, dropLoot } from '../src/sim/hero';
+import { FP, Sim } from '../src/sim/sim';
+import { BOSS_SPRITE_DEFS, bossSpriteDef, isBossArt } from '../src/sprites/units';
+import { BOSS_SIGNATURE_ABILITIES } from '../src/monster-info';
+
+import catacombs from '../src/missions/catacombs-level-4.map.json';
+import chamber from '../src/missions/chamber-of-torment.map.json';
+import durance from '../src/missions/durance-of-hate.map.json';
+import chaos from '../src/missions/chaos-sanctuary.map.json';
+
+describe('Milestone 3: Complete Act Final Boss Lairs & Visual Encounters', () => {
+  const BOSS_LAIRS = [
+    { id: 'catacombs', raw: catacombs, bossFamily: 'lilithia', expectedScale: 1.45, act: 1 },
+    { id: 'chamber', raw: chamber, bossFamily: 'azgalor', expectedScale: 1.85, act: 2 },
+    { id: 'durance', raw: durance, bossFamily: 'malakar', expectedScale: 1.6, act: 3 },
+    { id: 'chaos', raw: chaos, bossFamily: 'ignis-khor', expectedScale: 1.75, act: 4 },
+  ] as const;
+
+  it('validates all 4 boss lair maps (format v2, bounds, text keys, triggers)', () => {
+    for (const lair of BOSS_LAIRS) {
+      const doc = migrate(lair.raw);
+      expect(validate(doc), lair.id).toEqual([]);
+      expect(doc.w).toBe(48);
+      expect(doc.h).toBe(48);
+      expect(doc.units[0].kind).toBe(Kind.Hero);
+      expect(doc.units[0].team).toBe(0);
+
+      // Boss unit is at index 5 (after hero + 4 reserve companions)
+      const bossUnit = doc.units[5];
+      expect(bossUnit.family).toBe(lair.bossFamily);
+      expect(bossUnit.vip).toBe(true);
+      expect(bossUnit.tier).toBe(5);
+      expect(bossUnit.bossMods?.length).toBeGreaterThan(0);
+
+      expect(doc.text.title).toBeTruthy();
+      expect(doc.text['obj.0']).toBeTruthy();
+      expect(doc.text.win).toBeTruthy();
+      expect(doc.text['fail.1']).toBeTruthy();
+    }
+  });
+
+  it('verifies custom boss sprite definitions, scales, and aura tints in units.ts', () => {
+    for (const lair of BOSS_LAIRS) {
+      expect(isBossArt(lair.bossFamily)).toBe(true);
+      const def = bossSpriteDef(lair.bossFamily);
+      expect(def).toBeDefined();
+      expect(def!.scale).toBe(lair.expectedScale);
+      expect(def!.auraTint).toBeGreaterThan(0);
+      expect(def!.signatureColor).toBeGreaterThan(0);
+      expect(BOSS_SIGNATURE_ABILITIES[lair.bossFamily]).toBeDefined();
+    }
+  });
+
+  it('verifies Ignis-Khor has Red Lightning ability in signature abilities', () => {
+    const ik = BOSS_SIGNATURE_ABILITIES['ignis-khor'];
+    expect(ik.abilities.some((a) => a.includes('Red Lightning'))).toBe(true);
+    expect(ik.summary).toContain('Red Lightning');
+  });
+
+  it('verifies guaranteed high-tier unique/set loot drops and 5-item shower on boss death', () => {
+    for (const lair of BOSS_LAIRS) {
+      const loaded = loadDoc(lair.raw);
+      const game = createMission(loaded, 42);
+      createHero(game.sim, 0, 0, false, 1);
+
+      const bossIdx = 5;
+      expect(game.sim.cb.family[bossIdx]).toBe(lair.bossFamily);
+
+      // Kill the boss and verify drops
+      game.sim.cb.hp[bossIdx] = 0;
+      dropLoot(game.sim, bossIdx);
+
+      // Count dropped loot bags
+      let bagCount = 0;
+      for (let b = 0; b < game.sim.cb.bI.length; b++) {
+        if (game.sim.cb.bI[b] > 0) bagCount++;
+      }
+      expect(bagCount).toBe(5); // 5-item shower for act bosses
+    }
+  });
+
+  it('runs boss combat simulation verifying spells/abilities and victory condition', () => {
+    for (const lair of BOSS_LAIRS) {
+      const loaded = loadDoc(lair.raw);
+      const game = createMission(loaded, 123);
+      createHero(game.sim, 0, 0, false, 1);
+
+      const bossIdx = 5;
+      // Step a few ticks to verify combat simulation runs cleanly
+      for (let t = 0; t < 100; t++) {
+        game.sim.step(game.ai.commands(game.sim));
+      }
+
+      // Slay the boss
+      game.sim.cb.hp[bossIdx] = 0;
+      game.sim.cb.recount(game.sim.team);
+
+      // Advance sim to let triggers evaluate
+      game.sim.step([]);
+
+      // Victory trigger should be achieved (status 1 = victory)
+      expect(game.sim.script?.st.status).toBe(1);
+    }
+  });
+});

@@ -1047,9 +1047,13 @@ export function dropLoot(sim: Sim, t: number): void {
   const diff = sim.hero.diff ?? 1;
   const monsterTier = sim.cb.tier[t] || 1;
   const mf = getHeroMF(sim);
+  const fam = sim.cb.family[t];
+  const isActBoss = fam === 'lilithia' || fam === 'azgalor' || fam === 'malakar' || fam === 'ignis-khor';
 
   let picks = 1;
-  if (rank === 'boss') {
+  if (isActBoss) {
+    picks = 5; // Prime Act Bosses shower 5 high-tier items
+  } else if (rank === 'boss') {
     picks = 3;
   } else if (rank === 'champion') {
     picks = 2;
@@ -1062,7 +1066,10 @@ export function dropLoot(sim: Sim, t: number): void {
 
   let lo: number;
   let hi: number;
-  if (rank === 'boss' || rank === 'champion') {
+  if (isActBoss) {
+    lo = 4;
+    hi = 5;
+  } else if (rank === 'boss' || rank === 'champion') {
     if (diff === 0) {
       lo = Math.min(5, Math.max(1, monsterTier));
       hi = Math.min(5, Math.max(lo, monsterTier));
@@ -1085,11 +1092,22 @@ export function dropLoot(sim: Sim, t: number): void {
     [60, -40],
     [40, -20],
     [80, -20],
+    [20, -50],
+    [100, -50],
   ] as const;
 
   for (let pick = 0; pick < picks; pick++) {
     const baseItemId = rollLoot((n) => sim.rng.int(n), lo, hi);
-    const drop = evaluateQualityHierarchy(baseItemId, monsterTier, rank, mf, (n) => sim.rng.int(n));
+    let drop = evaluateQualityHierarchy(baseItemId, monsterTier, rank, mf, (n) => sim.rng.int(n));
+
+    if (isActBoss && pick === 0 && drop.quality !== 'unique' && drop.quality !== 'set') {
+      const highTierUniques = UNIQUE_ARTIFACTS.filter((a) => a.tier >= 4);
+      if (highTierUniques.length > 0) {
+        const u = highTierUniques[sim.rng.int(highTierUniques.length)];
+        const regId = itemId(u.name);
+        drop = { quality: 'unique', itemId: regId >= 0 ? regId : baseItemId, itemDef: u };
+      }
+    }
 
     let finalItemId = drop.itemId;
     if ((drop.quality === 'magic' || drop.quality === 'rare') && drop.magicDef) {

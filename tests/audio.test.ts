@@ -88,3 +88,44 @@ describe('touch aiming', () => {
     expect(g.up(1)[0]).toMatchObject({ type: 'click' });
   });
 });
+
+describe('Milestone 4: Town Trader Ambience & Voices', () => {
+  it('exercises procedural trader barks and town ambience without throw', async () => {
+    const { playTraderBark, playTownAmbience, stopTownAmbience, playPickupRustle, playEquipSfx } = await import('../src/audio');
+
+    // Safe execution without audio context throwing
+    expect(() => {
+      playTraderBark('blacksmith', 'greet');
+      playTraderBark('blacksmith', 'buy');
+      playTraderBark('blacksmith', 'farewell');
+
+      playTraderBark('barkeep', 'greet');
+      playTraderBark('barkeep', 'buy');
+      playTraderBark('barkeep', 'farewell');
+
+      playTraderBark('alchemist', 'greet');
+      playTraderBark('alchemist', 'buy');
+      playTraderBark('alchemist', 'farewell');
+
+      playTraderBark('guildmaster', 'greet');
+      playTraderBark('guildmaster', 'buy');
+      playTraderBark('guildmaster', 'farewell');
+    }).not.toThrow();
+
+    // Ambience start / stop lifecycle
+    expect(() => {
+      playTownAmbience('blacksmith');
+      playTownAmbience('tavern');
+      playTownAmbience('forest');
+      playTownAmbience('dungeon');
+      stopTownAmbience();
+    }).not.toThrow();
+
+    // Inventory paperdoll audio
+    expect(() => {
+      playPickupRustle();
+      playEquipSfx(true); // metal
+      playEquipSfx(false); // leather
+    }).not.toThrow();
+  });
+});

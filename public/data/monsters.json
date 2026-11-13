@@ -57,7 +57,7 @@
   "bosses": [
     {
       "id": "lilithia",
-      "name": "Lilithia, Broodmother",
+      "name": "Lilithia, Queen of Agony",
       "batch": "BOSS",
       "archetype": 3,
       "elem": 4,
@@ -67,11 +67,11 @@
       "speed": 105,
       "ranged": true,
       "caster": true,
-      "role": "Act 1 Final Boss: Broodmother of the Sunken Caverns (Poison Spray DoT, Spine Lash knockdown, Brood Hatch summons)"
+      "role": "Act 1 Final Boss: Catacombs Level 4 (Poison Spray DoT, Spine Lash knockdown, Brood Hatch summons)"
     },
     {
       "id": "azgalor",
-      "name": "Azgalor, Dune Devourer",
+      "name": "Azgalor, Maggot Colossus",
       "batch": "BOSS",
       "archetype": 5,
       "elem": 2,
@@ -81,11 +81,11 @@
       "speed": 80,
       "ranged": false,
       "caster": false,
-      "role": "Act 2 Final Boss: Colossal Pit Fiend of the High Wastes (Holy Freeze slow aura, subterranean charge, acid cleave)"
+      "role": "Act 2 Final Boss: Chamber of Torment (Holy Freeze slow aura, burrow charge, acid cleave)"
     },
     {
       "id": "malakar",
-      "name": "Malakar, High Inquisitor",
+      "name": "Malakar, The Tormentor",
       "batch": "BOSS",
       "archetype": 5,
       "elem": 3,
@@ -95,11 +95,11 @@
       "speed": 95,
       "ranged": true,
       "caster": true,
-      "role": "Act 3 Final Boss: High Inquisitor of the War Pier (Ball lightning piercing, Soul Siphon mana drain, Frost Nova)"
+      "role": "Act 3 Final Boss: Durance of Hate (Ball lightning piercing, Soul Siphon mana drain, Frost Nova)"
     },
     {
       "id": "ignis-khor",
-      "name": "Ignis-Khor, Lord of Hellfire",
+      "name": "Ignis-Khor, Lord of Terror",
       "batch": "BOSS",
       "archetype": 3,
       "elem": 1,
@@ -109,7 +109,7 @@
       "speed": 100,
       "ranged": true,
       "caster": true,
-      "role": "Act 4 Final Boss: Prime Nether Titan of the Crown Vault (Hellfire breath, Fire Ring, Bone Prison)"
+      "role": "Act 4 Final Boss: Chaos Sanctuary (Hellfire breath, Fire Ring, Bone Prison, Red Lightning)"
     }
   ]
 }

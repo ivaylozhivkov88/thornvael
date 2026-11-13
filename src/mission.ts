@@ -61,6 +61,10 @@ import m43 from './missions/m43-three-roads-siege.map.json';
 import m44 from './missions/m44-threshold-choice.map.json';
 import m45 from './missions/m45-crown-of-order.map.json';
 import m46 from './missions/m46-ember-reckoning.map.json';
+import catacombs from './missions/catacombs-level-4.map.json';
+import chamber from './missions/chamber-of-torment.map.json';
+import durance from './missions/durance-of-hate.map.json';
+import chaos from './missions/chaos-sanctuary.map.json';
 
 /** Missions that ship with the game, by the name used in `?mission=`. */
 export const BUILT_IN: Record<string, unknown> = {
@@ -84,6 +88,14 @@ export const BUILT_IN: Record<string, unknown> = {
   m12, m13, m14, m15, m16, m17, m18, m19, m20, m21, m22, m23,
   m24, m25, m26, m27, m28, m29, m30, m31, m32, m33, m34, m35,
   m36, m37, m38, m39, m40, m41, m42, m43, m44, m45, m46,
+  'catacombs-level-4': catacombs,
+  'chamber-of-torment': chamber,
+  'durance-of-hate': durance,
+  'chaos-sanctuary': chaos,
+  catacombs,
+  chamber,
+  durance,
+  chaos,
 };
 
 export const TEST_KEY = 'thornvael.testmap';

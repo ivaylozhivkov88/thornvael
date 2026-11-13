@@ -9,6 +9,7 @@ import { SPELLS } from './sim/spelldata';
 import { OFFERS, QuestType, ROLE_COUNT, Role, SHELF, gambleCost, priceOf, sellPrice, spellPrice, trainPrice, type Quest, type TownCommand } from './sim/town';
 import { S } from './strings';
 import { itemIcon } from './townicons';
+import { playTraderBark, playTownAmbience, stopTownAmbience } from './audio';
 
 /**
  * Building screens: tavern (mercenaries, quest board), shop (one trade screen) and school. The game is
@@ -133,13 +134,31 @@ export class TownUi {
     this.render();
     this.root.focus({ preventScroll: true });
     this.root.scrollTop = 0;
-    if (role === Role.Shop) this.ctx.onShopEnter();
+    if (role === Role.Shop) {
+      playTraderBark('blacksmith', 'greet');
+      playTownAmbience('blacksmith');
+      this.ctx.onShopEnter();
+    } else if (role === Role.Tavern) {
+      playTraderBark('barkeep', 'greet');
+      playTownAmbience('tavern');
+    } else if (role === Role.School) {
+      playTraderBark('alchemist', 'greet');
+      playTownAmbience('dungeon');
+    }
     return true;
   }
 
   close(): void {
     if (!this.open) return;
-    if (this.role === Role.Shop) this.ctx.onShopLeave();
+    if (this.role === Role.Shop) {
+      playTraderBark('blacksmith', 'farewell');
+      this.ctx.onShopLeave();
+    } else if (this.role === Role.Tavern) {
+      playTraderBark('barkeep', 'farewell');
+    } else if (this.role === Role.School) {
+      playTraderBark('alchemist', 'farewell');
+    }
+    stopTownAmbience();
     this.cmd('leave');
     this.root.hidden = true;
     for (const [node, wasInert] of this.inertSiblings) node.inert = wasInert;
@@ -329,6 +348,7 @@ export class TownUi {
       const ok = sim.cb.gold[0] < g0;
       this.setMood(ok ? this.buys.some((k) => shelf[k] >= 0) ? 6 : 1 : 2);
       if (ok) {
+        playTraderBark('blacksmith', 'buy');
         this.buys = this.buys.filter((k) => shelf[k] >= 0);
         this.picks = this.picks.filter((p) => p.kind === 's' || shelf[p.value] >= 0);
       }
@@ -354,6 +374,7 @@ export class TownUi {
       const g0 = sim.cb.gold[0];
       this.cmd('gamble');
       const won = sim.cb.gold[0] < g0;
+      if (won) playTraderBark('blacksmith', 'buy');
       this.setMood(won ? 1 : 2);
       this.ctx.changed();
       this.render();
@@ -404,7 +425,9 @@ export class TownUi {
       const free = sim.hidden[chosen.unit] === 1 && sim.cb.hp[chosen.unit] > 0;
       const hire = button(free ? S.town.hire : S.town.hired, () => {
         this.cmd('hire', this.mercIndex);
-        this.setMood(sim.hidden[chosen.unit] === 0 ? 1 : 2);
+        const hired = sim.hidden[chosen.unit] === 0;
+        this.setMood(hired ? 1 : 2);
+        if (hired) playTraderBark('guildmaster', 'buy');
         this.ctx.changed();
         this.render();
       }, String(mercPrice(sim, chosen.price)));
@@ -421,6 +444,7 @@ export class TownUi {
       const l = el('div', 'line');
       l.append(el('span', 'grow', questText(sim, q)), el('b', '', `${S.town.reward} ${q.reward}`), button(S.town.accept, () => {
         this.cmd('accept', k);
+        playTraderBark('barkeep', 'buy');
         this.render();
       }));
       ol.append(l);
@@ -458,7 +482,9 @@ export class TownUi {
     for (const s of def.spells ?? []) {
       const known = ((h.known >>> s) & 1) === 1;
       const b = button(SPELLS[s].name, () => {
+        const g0 = sim.cb.gold[0];
         this.cmd('learn', s);
+        if (sim.cb.gold[0] < g0) playTraderBark('alchemist', 'buy');
         this.setMood(1);
         this.ctx.changed();
         this.render();
@@ -474,7 +500,9 @@ export class TownUi {
       const lvl = h.skill[k];
       const max = lvl >= SKILL_MAX;
       const b = button(`${name} ${lvl}`, () => {
+        const g0 = sim.cb.gold[0];
         this.cmd('train', k);
+        if (sim.cb.gold[0] < g0) playTraderBark('alchemist', 'buy');
         this.setMood(1);
         this.ctx.changed();
         this.render();

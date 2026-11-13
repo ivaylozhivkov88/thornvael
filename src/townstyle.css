@@ -402,7 +402,7 @@
 #sheet .hero-gear-board {
   position: relative;
   display: grid;
-  grid-template: repeat(4, minmax(54px, auto)) / minmax(115px, 1fr) minmax(140px, 1.25fr) minmax(115px, 1fr);
+  grid-template: repeat(4, minmax(50px, auto)) / minmax(105px, 1fr) minmax(135px, 1.25fr) minmax(105px, 1fr);
   gap: 6px;
   padding: 8px;
   background: radial-gradient(ellipse at 50% 35%, #352518 0%, #1c140e 65%, #0e0a07 100%);
@@ -417,15 +417,20 @@
   min-height: 220px;
   pointer-events: none;
   filter: drop-shadow(0 4px 10px rgba(0,0,0,0.8));
+  opacity: 0.85;
 }
-#sheet [data-equipment-target="eq0"] { grid-area: 3 / 1; }
-#sheet [data-equipment-target="eq1"] { grid-area: 3 / 3; }
-#sheet [data-equipment-target="eq2"] { grid-area: 1 / 1; }
-#sheet [data-equipment-target="eq3"] { grid-area: 2 / 1; }
-#sheet [data-equipment-target="eq4"] { grid-area: 4 / 1; }
-#sheet [data-equipment-target="eq5"] { grid-area: 4 / 3; }
-#sheet [data-equipment-target="eq6"] { grid-area: 1 / 3; }
-#sheet [data-equipment-target="eq7"] { grid-area: 2 / 3; }
+/* Diablo II / RoM2 Gothic Paperdoll Layout */
+#sheet [data-equipment-target="eq2"] { grid-area: 1 / 2; } /* Head: Helm (Top Center) */
+#sheet [data-equipment-target="eq6"] { grid-area: 1 / 3; } /* Neck: Amulet (Top Right) */
+#sheet [data-equipment-target="eq0"] { grid-area: 2 / 1; } /* Main Hand: Weapon (Mid Left) */
+#sheet [data-equipment-target="eq3"] { grid-area: 2 / 2; } /* Torso: Armor (Mid Center) */
+#sheet [data-equipment-target="eq1"] { grid-area: 2 / 3; } /* Off Hand: Shield/Quiver/Focus (Mid Right) */
+#sheet [data-equipment-target="eq7"] { grid-area: 3 / 1; } /* Hands: Gloves (Lower Left) */
+#sheet [data-equipment-target="eq8"] { grid-area: 3 / 2; } /* Waist: Belt (Lower Center) */
+#sheet [data-equipment-target="eq4"] { grid-area: 3 / 3; } /* Feet: Boots (Lower Right) */
+#sheet [data-equipment-target="eq5"]:not(.finger-2) { grid-area: 4 / 1; } /* Finger 1: Left Ring (Bottom Left) */
+#sheet .finger-2[data-equipment-target="eq5"],
+#sheet [data-equipment-target="eq5_alt"] { grid-area: 4 / 3; } /* Finger 2: Right Ring (Bottom Right) */
 #sheet .hero-gear-cell { display: flex; min-width: 0; position: relative; }
 #sheet .hero-gear-cell > button:first-child {
   flex: 1;

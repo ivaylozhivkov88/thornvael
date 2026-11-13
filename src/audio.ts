@@ -139,6 +139,7 @@ export function unlock(): void {
     master = sfxBus = musicBus = ambBus = null;
   }
   if (!ctx) {
+    if (typeof window === 'undefined') return;
     const AC = window.AudioContext ?? (window as unknown as { webkitAudioContext: typeof AudioContext }).webkitAudioContext;
     if (!AC) return;
     ctx = new AC();
@@ -312,6 +313,269 @@ export function setSfx(on: boolean): void {
   if (!on) cancelShopEntry();
 }
 
+/** Rustle grab sound for dragging/picking up items. */
+export function playPickupRustle(): void {
+  unlock();
+  if (!ctx || !sfxBus || !sfxOn || backgrounded || ctx.state !== 'running') return;
+  try {
+    const now = ctx.currentTime;
+    const bufferSize = Math.floor(ctx.sampleRate * 0.08);
+    const buffer = ctx.createBuffer(1, bufferSize, ctx.sampleRate);
+    const data = buffer.getChannelData(0);
+    for (let i = 0; i < bufferSize; i++) {
+      data[i] = (Math.random() * 2 - 1) * Math.exp(-i / (bufferSize * 0.35));
+    }
+    const noise = ctx.createBufferSource();
+    noise.buffer = buffer;
+    const filter = ctx.createBiquadFilter();
+    filter.type = 'bandpass';
+    filter.frequency.setValueAtTime(900, now);
+    filter.frequency.exponentialRampToValueAtTime(1400, now + 0.08);
+    filter.Q.value = 2.0;
+
+    const gain = ctx.createGain();
+    gain.gain.setValueAtTime(0.28 * sfxVol, now);
+    gain.gain.exponentialRampToValueAtTime(0.01, now + 0.08);
+
+    noise.connect(filter);
+    filter.connect(gain);
+    gain.connect(sfxBus);
+    noise.start(now);
+  } catch {
+    // silent fallback
+  }
+}
+
+/** Equip leather/metal placement sound. */
+export function playEquipSfx(isMetal = true): void {
+  unlock();
+  if (!ctx || !sfxBus || !sfxOn || backgrounded || ctx.state !== 'running') return;
+  try {
+    const now = ctx.currentTime;
+    if (isMetal) {
+      const osc1 = ctx.createOscillator();
+      const osc2 = ctx.createOscillator();
+      const gain = ctx.createGain();
+      osc1.type = 'sine';
+      osc1.frequency.setValueAtTime(1600, now);
+      osc1.frequency.exponentialRampToValueAtTime(880, now + 0.12);
+
+      osc2.type = 'triangle';
+      osc2.frequency.setValueAtTime(2400, now);
+      osc2.frequency.exponentialRampToValueAtTime(1200, now + 0.08);
+
+      gain.gain.setValueAtTime(0.35 * sfxVol, now);
+      gain.gain.exponentialRampToValueAtTime(0.001, now + 0.18);
+
+      osc1.connect(gain);
+      osc2.connect(gain);
+      gain.connect(sfxBus);
+      osc1.start(now);
+      osc2.start(now);
+      osc1.stop(now + 0.18);
+      osc2.stop(now + 0.18);
+    } else {
+      const osc = ctx.createOscillator();
+      const gain = ctx.createGain();
+      osc.type = 'triangle';
+      osc.frequency.setValueAtTime(220, now);
+      osc.frequency.exponentialRampToValueAtTime(80, now + 0.1);
+
+      gain.gain.setValueAtTime(0.3 * sfxVol, now);
+      gain.gain.exponentialRampToValueAtTime(0.001, now + 0.12);
+
+      osc.connect(gain);
+      gain.connect(sfxBus);
+      osc.start(now);
+      osc.stop(now + 0.12);
+    }
+  } catch {
+    // silent fallback
+  }
+}
+
+/** Distinct procedural trader speech barks & tones. */
+export type TraderRole = 'blacksmith' | 'barkeep' | 'alchemist' | 'guildmaster';
+export type TraderEvent = 'greet' | 'farewell' | 'buy';
+
+export function playTraderBark(trader: TraderRole, event: TraderEvent): void {
+  unlock();
+  if (!ctx || !sfxBus || !sfxOn || backgrounded || ctx.state !== 'running') return;
+  try {
+    const now = ctx.currentTime;
+    const gain = ctx.createGain();
+    gain.connect(sfxBus);
+
+    if (trader === 'blacksmith') {
+      // Deep gruff vocal formant + distant anvil clink
+      const osc = ctx.createOscillator();
+      osc.type = 'sawtooth';
+      const f0 = event === 'greet' ? 120 : event === 'buy' ? 140 : 100;
+      osc.frequency.setValueAtTime(f0, now);
+      osc.frequency.exponentialRampToValueAtTime(f0 * 0.85, now + 0.22);
+
+      const filter = ctx.createBiquadFilter();
+      filter.type = 'bandpass';
+      filter.frequency.setValueAtTime(450, now);
+      filter.Q.value = 3.5;
+
+      gain.gain.setValueAtTime(0.25 * sfxVol, now);
+      gain.gain.exponentialRampToValueAtTime(0.001, now + 0.25);
+
+      osc.connect(filter);
+      filter.connect(gain);
+      osc.start(now);
+      osc.stop(now + 0.25);
+
+      // Anvil resonance chime
+      const anvil = ctx.createOscillator();
+      const anvilGain = ctx.createGain();
+      anvil.type = 'sine';
+      anvil.frequency.setValueAtTime(event === 'buy' ? 1760 : 1240, now + 0.05);
+      anvilGain.gain.setValueAtTime(0.3 * sfxVol, now + 0.05);
+      anvilGain.gain.exponentialRampToValueAtTime(0.001, now + 0.35);
+      anvil.connect(anvilGain);
+      anvilGain.connect(sfxBus);
+      anvil.start(now + 0.05);
+      anvil.stop(now + 0.35);
+
+    } else if (trader === 'barkeep') {
+      // Warm hearty tavern harmonic chord
+      const chords = event === 'greet' ? [196, 247, 294] : event === 'buy' ? [220, 277, 330] : [174, 220, 261];
+      gain.gain.setValueAtTime(0.18 * sfxVol, now);
+      gain.gain.exponentialRampToValueAtTime(0.001, now + 0.3);
+
+      for (const freq of chords) {
+        const osc = ctx.createOscillator();
+        osc.type = 'triangle';
+        osc.frequency.setValueAtTime(freq, now);
+        osc.connect(gain);
+        osc.start(now);
+        osc.stop(now + 0.3);
+      }
+
+    } else if (trader === 'alchemist') {
+      // Mystical celestial chime & bubbling glissando
+      const startF = event === 'greet' ? 880 : event === 'buy' ? 660 : 1175;
+      const endF = event === 'greet' ? 1320 : event === 'buy' ? 1568 : 880;
+
+      const osc = ctx.createOscillator();
+      osc.type = 'sine';
+      osc.frequency.setValueAtTime(startF, now);
+      osc.frequency.exponentialRampToValueAtTime(endF, now + 0.28);
+
+      const vibrato = ctx.createOscillator();
+      const vibGain = ctx.createGain();
+      vibrato.frequency.value = 12;
+      vibGain.gain.value = 25;
+      vibrato.connect(osc.frequency);
+      vibrato.start(now);
+      vibrato.stop(now + 0.3);
+
+      gain.gain.setValueAtTime(0.22 * sfxVol, now);
+      gain.gain.exponentialRampToValueAtTime(0.001, now + 0.32);
+
+      osc.connect(gain);
+      osc.start(now);
+      osc.stop(now + 0.32);
+
+    } else {
+      // Guildmaster: Regal fanfare brass flourish
+      const freqs = event === 'greet' ? [220, 330] : event === 'buy' ? [330, 440] : [220, 165];
+      gain.gain.setValueAtTime(0.25 * sfxVol, now);
+      gain.gain.exponentialRampToValueAtTime(0.001, now + 0.35);
+
+      for (const f of freqs) {
+        const osc = ctx.createOscillator();
+        osc.type = 'sawtooth';
+        osc.frequency.setValueAtTime(f, now);
+        const ftr = ctx.createBiquadFilter();
+        ftr.type = 'lowpass';
+        ftr.frequency.setValueAtTime(900, now);
+        osc.connect(ftr);
+        ftr.connect(gain);
+        osc.start(now);
+        osc.stop(now + 0.35);
+      }
+    }
+  } catch {
+    // silent fallback
+  }
+}
+
+/** Town hub environmental audio layers. */
+let activeTownHubInterval: number | null = null;
+
+export function stopTownAmbience(): void {
+  if (activeTownHubInterval !== null) {
+    clearInterval(activeTownHubInterval);
+    activeTownHubInterval = null;
+  }
+}
+
+export function playTownAmbience(hub: 'blacksmith' | 'tavern' | 'forest' | 'dungeon' | 'town' | null): void {
+  stopTownAmbience();
+  if (!hub || !sfxOn || backgrounded) return;
+
+  const triggerSound = () => {
+    if (!ctx || !sfxBus || !sfxOn || backgrounded || ctx.state !== 'running') return;
+    try {
+      const now = ctx.currentTime;
+      if (hub === 'blacksmith') {
+        // Distant anvil clink: high resonant sine with reverb-like decay
+        const anvil = ctx.createOscillator();
+        const gain = ctx.createGain();
+        anvil.type = 'sine';
+        anvil.frequency.setValueAtTime(1480 + (Math.random() * 200 - 100), now);
+        gain.gain.setValueAtTime(0.12 * sfxVol, now);
+        gain.gain.exponentialRampToValueAtTime(0.0001, now + 0.5);
+        anvil.connect(gain);
+        gain.connect(sfxBus);
+        anvil.start(now);
+        anvil.stop(now + 0.5);
+      } else if (hub === 'tavern') {
+        // Hearth fire pop / crackle
+        const bufferSize = Math.floor(ctx.sampleRate * 0.04);
+        const buffer = ctx.createBuffer(1, bufferSize, ctx.sampleRate);
+        const data = buffer.getChannelData(0);
+        for (let i = 0; i < bufferSize; i++) data[i] = (Math.random() * 2 - 1) * 0.5;
+        const pop = ctx.createBufferSource();
+        pop.buffer = buffer;
+        const ftr = ctx.createBiquadFilter();
+        ftr.type = 'bandpass';
+        ftr.frequency.value = 1200 + Math.random() * 800;
+        const gain = ctx.createGain();
+        gain.gain.setValueAtTime(0.08 * sfxVol, now);
+        gain.gain.exponentialRampToValueAtTime(0.001, now + 0.04);
+        pop.connect(ftr);
+        ftr.connect(gain);
+        gain.connect(sfxBus);
+        pop.start(now);
+      } else if (hub === 'dungeon') {
+        // Echoing water drop
+        const drop = ctx.createOscillator();
+        const gain = ctx.createGain();
+        const f = 1100 + Math.random() * 400;
+        drop.frequency.setValueAtTime(f, now);
+        drop.frequency.exponentialRampToValueAtTime(f * 1.5, now + 0.06);
+        gain.gain.setValueAtTime(0.1 * sfxVol, now);
+        gain.gain.exponentialRampToValueAtTime(0.0001, now + 0.25);
+        drop.connect(gain);
+        gain.connect(sfxBus);
+        drop.start(now);
+        drop.stop(now + 0.25);
+      }
+    } catch {
+      // silent fallback
+    }
+  };
+
+  const period = hub === 'blacksmith' ? 3200 : hub === 'tavern' ? 1800 : 4200;
+  activeTownHubInterval = setInterval(triggerSound, period) as unknown as number;
+  // Trigger initial subtle cue after short delay
+  setTimeout(triggerSound, 400);
+}
+
 function trackFor(mode: MusicMode): Track | null {
   if (!ctx || ctx.state === 'closed' || !musicBus || backgrounded) return null;
   let t = tracks[mode];
@@ -344,7 +608,7 @@ function fadeTrack(t: Track | null, to: number, sec: number): void {
     t.gain.gain.linearRampToValueAtTime(to, ctx.currentTime + sec);
   } else t.el.volume = to;
   if (to > 0) playMedia(t.el, () => musicWanted && tracks[musicMode] === t);
-  else window.setTimeout(() => !musicWanted || tracks[musicMode] !== t ? t.el.pause() : undefined, sec * 1000 + 50);
+  else setTimeout(() => !musicWanted || tracks[musicMode] !== t ? t.el.pause() : undefined, sec * 1000 + 50);
 }
 
 /** Start or stop the music, and crossfade between the explore, battle, and town tracks. */
