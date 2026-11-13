@@ -1,6 +1,6 @@
 import { registerWorker } from './updategate';
 import { createInstallController, isInstallPrompt } from './pwa-install';
-import { audioState, blip, cancelShopEntry, play, playShopEntry, resumeAudio, setAmbience, setMusic, setSfx, suspendAudio, unlock } from './audio';
+import { audioState, blip, cancelShopEntry, play, playShopEntry, resumeAudio, setAmbience, setMusic, setSfx, suspendAudio, unlock, type MusicMode } from './audio';
 import { MusicDirector, cueFor } from './audiologic';
 import { ControlGroups, GROUP_COUNT } from './groups';
 import { GestureRecognizer, pickUnit, reticle, unitsInBox, type Intent } from './input';
@@ -93,16 +93,20 @@ if (!resumed && !loadedMission && expeditionSeed && !crowd && !stress && !battle
 const campaignId = resumed ? resumed.save.state.node ?? null : params.get('campaign');
 let campaign: Campaign | null = null;
 let crec: CampaignRecord | null = null;
+let isTownNode = false;
 if (campaignId && loadedMission) {
   try {
     campaign = await loadCampaign();
     const cNode = nodeOf(campaign, campaignId);
-    if (cNode.kind === 'town' && loadedMission.doc.towns?.length) {
-      loadedMission.doc.towns[0] = {
-        ...loadedMission.doc.towns[0],
-        name: cNode.title,
-        ...(cNode.tiers ? { tiers: cNode.tiers } : {}),
-      };
+    if (cNode.kind === 'town') {
+      isTownNode = true;
+      if (loadedMission.doc.towns?.length) {
+        loadedMission.doc.towns[0] = {
+          ...loadedMission.doc.towns[0],
+          name: cNode.title,
+          ...(cNode.tiers ? { tiers: cNode.tiers } : {}),
+        };
+      }
     }
     crec = resumed ? await restoreSaveCampaign(resumed.save, campaign) : await readRecord();
     if (!crec) campaign = null;
@@ -1271,7 +1275,7 @@ $('btn-sound').onclick = () => {
   if (sfxOn) blip();
 };
 let musicOn = preferences.music;
-let musicMode: 'explore' | 'battle' = 'explore';
+let musicMode: MusicMode = isTownNode ? 'town' : 'explore';
 const musicDir = new MusicDirector();
 // Restore intent, but start audio only inside a real player gesture (mobile autoplay).
 const startPreferredMusic = (): void => { if (musicOn) setMusic(true, musicMode); };
@@ -1328,7 +1332,12 @@ function updateMusic(now: number): void {
       if (sim.team[i] !== 0 && alive(i) && sim.visible[Math.floor(sim.y[i] / FP) * map.w + Math.floor(sim.x[i] / FP)]) seen = true;
     }
   }
-  const mode = musicDir.update(seen, now);
+  let mode: MusicMode;
+  if (townUi.open || isTownNode) {
+    mode = 'town';
+  } else {
+    mode = musicDir.update(seen, now);
+  }
   if (mode !== musicMode) {
     musicMode = mode;
     if (musicOn) setMusic(true, mode);

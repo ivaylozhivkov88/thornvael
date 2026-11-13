@@ -1,6 +1,6 @@
 export interface Preferences { sound: boolean; music: boolean; quality: number }
 type Store = Pick<Storage, 'getItem' | 'setItem'>;
-export const DEFAULT_PREFERENCES: Preferences = { sound: true, music: false, quality: 2 };
+export const DEFAULT_PREFERENCES: Preferences = { sound: true, music: true, quality: 2 };
 
 export function readPreferences(store?: Store): Preferences {
   const value = { ...DEFAULT_PREFERENCES };

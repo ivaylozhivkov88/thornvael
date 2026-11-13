@@ -1,4 +1,4 @@
-import { blip } from './audio';
+import { blip, setMusic, unlock } from './audio';
 import { actOf, nodeOf, type CampaignNode } from './campaign';
 import { loadCampaign, readRecord, writeRecord } from './campaignstore';
 import { canEnter, newRecord, nodeUrl, RECORD_KEY, clearLast, type CampaignRecord, type HeroPick } from './flow';
@@ -35,6 +35,14 @@ function btn(label: string, run: () => void, cls = ''): HTMLButtonElement {
 export async function runShell(startWorker: () => void): Promise<never> {
   startWorker();
   const codexUi = new CodexUi();
+  const prefs = readPreferences();
+  const startShellMusic = (): void => {
+    if (prefs.music) {
+      unlock();
+      setMusic(true, 'town');
+    }
+  };
+  document.addEventListener('pointerdown', startShellMusic, { once: true });
   const root = el('div');
   root.id = 'shell';
   document.body.append(root);
@@ -489,6 +497,7 @@ export async function runShell(startWorker: () => void): Promise<never> {
       const control = btn('', () => {
         prefs[key] = !prefs[key];
         if (!writePreference(key, prefs[key])) notice.textContent = T.preferenceStorage;
+        if (key === 'music') setMusic(prefs[key], 'town');
         refresh();
       });
       const refresh = (): void => {

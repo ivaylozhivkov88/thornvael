@@ -31,9 +31,10 @@ let generation = 0;
 let resuming: Promise<void> | null = null;
 let suspending: Promise<void> | null = null;
 let loading: Promise<void> | null = null;
+export type MusicMode = 'explore' | 'battle' | 'town';
 let sfxOn = true;
 let musicWanted = false;
-let musicMode: 'explore' | 'battle' = 'explore';
+let musicMode: MusicMode = 'explore';
 let ambSource: AudioBufferSourceNode | null = null;
 let ambWanted = true;
 let played = 0;
@@ -43,7 +44,7 @@ interface Track {
   el: HTMLAudioElement;
   gain: GainNode | null;
 }
-const tracks: Record<'explore' | 'battle', Track | null> = { explore: null, battle: null };
+const tracks: Record<MusicMode, Track | null> = { explore: null, battle: null, town: null };
 
 function silentWavUrl(): string {
   const n = 800;
@@ -99,7 +100,8 @@ export function unlock(): void {
     limiter = new VoiceLimiter();
     tracks.explore?.el.pause();
     tracks.battle?.el.pause();
-    tracks.explore = tracks.battle = null;
+    tracks.town?.el.pause();
+    tracks.explore = tracks.battle = tracks.town = null;
     silent?.pause();
     if (silent) URL.revokeObjectURL(silent.src);
     silent = null;
@@ -284,7 +286,7 @@ export function setSfx(on: boolean): void {
   if (!on) cancelShopEntry();
 }
 
-function trackFor(mode: 'explore' | 'battle'): Track | null {
+function trackFor(mode: MusicMode): Track | null {
   if (!ctx || ctx.state === 'closed' || !musicBus || backgrounded) return null;
   let t = tracks[mode];
   if (!t) {
@@ -319,8 +321,8 @@ function fadeTrack(t: Track | null, to: number, sec: number): void {
   else window.setTimeout(() => !musicWanted || tracks[musicMode] !== t ? t.el.pause() : undefined, sec * 1000 + 50);
 }
 
-/** Start or stop the music, and crossfade between the explore and battle tracks. */
-export function setMusic(on: boolean, mode: 'explore' | 'battle' = musicMode): void {
+/** Start or stop the music, and crossfade between the explore, battle, and town tracks. */
+export function setMusic(on: boolean, mode: MusicMode = musicMode): void {
   if (on) unlock();
   const prev = tracks[musicMode];
   musicWanted = on;
@@ -330,6 +332,7 @@ export function setMusic(on: boolean, mode: 'explore' | 'battle' = musicMode): v
   if (!on) {
     fadeTrack(tracks.explore, 0, 0.6);
     fadeTrack(tracks.battle, 0, 0.6);
+    fadeTrack(tracks.town, 0, 0.6);
     return;
   }
   const next = trackFor(mode);
@@ -337,7 +340,7 @@ export function setMusic(on: boolean, mode: 'explore' | 'battle' = musicMode): v
   fadeTrack(next, 1, changed ? 1.5 : 1);
 }
 
-export function currentMusic(): 'off' | 'explore' | 'battle' {
+export function currentMusic(): 'off' | MusicMode {
   return musicWanted ? musicMode : 'off';
 }
 
@@ -349,6 +352,7 @@ export function suspendAudio(): void {
   silent?.pause();
   tracks.explore?.el.pause();
   tracks.battle?.el.pause();
+  tracks.town?.el.pause();
   const context = ctx;
   if (!context || context.state === 'closed' || suspending) return;
   const attempt = context.suspend().catch(() => undefined).finally(() => {
