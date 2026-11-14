@@ -95,6 +95,44 @@ export function prepareScenery(map: GameMap): SceneryPlacement[] {
     .filter((p): p is SceneryPlacement => p !== null);
 }
 
+function cellHash(x: number, y: number, k: number): number {
+  let h = Math.imul(x + 374761393, 668265263) ^ Math.imul(y + 144665, 2246822519) ^ Math.imul(k + 1, 3266489917);
+  h = Math.imul(h ^ (h >>> 13), 1274126177);
+  return (h ^ (h >>> 16)) >>> 0;
+}
+
+/** Sparse ground clutter (tufts, pebbles, reeds), deterministic per tile and baked into the chunk. */
+function paintDecals(g: CanvasRenderingContext2D, kind: number, x: number, y: number, px: number, py: number): void {
+  if (kind === Terrain.Water) return;
+  const roll = cellHash(x, y, 0) % 100;
+  if (roll >= 28) return;
+  const n = 1 + (cellHash(x, y, 1) % 3);
+  for (let k = 0; k < n; k++) {
+    const h = cellHash(x, y, 2 + k);
+    const dx = px + 3 + (h % 26);
+    const dy = py + 4 + ((h >>> 8) % 24);
+    if (kind === Terrain.Grass) {
+      const flower = (h >>> 16) % 9 === 0;
+      g.fillStyle = flower ? ['#e8d8f0', '#f0d060', '#e07878'][(h >>> 20) % 3]! : 'rgba(20,110,35,.75)';
+      if (flower) g.fillRect(dx, dy, 2, 2);
+      else {
+        g.fillRect(dx, dy, 1, 3);
+        g.fillRect(dx + 2, dy + 1, 1, 2);
+        g.fillRect(dx - 2, dy + 1, 1, 2);
+      }
+    } else if (kind === Terrain.Dirt || kind === Terrain.Rock) {
+      g.fillStyle = 'rgba(40,30,22,.35)';
+      g.fillRect(dx, dy + 1, 4, 2);
+      g.fillStyle = 'rgba(190,175,150,.55)';
+      g.fillRect(dx, dy, 3, 2);
+    } else if (kind === Terrain.Marsh) {
+      g.fillStyle = 'rgba(40,70,20,.8)';
+      g.fillRect(dx, dy - 2, 1, 5);
+      g.fillRect(dx + 2, dy - 1, 1, 4);
+    }
+  }
+}
+
 /** Called only while baking a chunk. Canvas clips shared overhangs at chunk boundaries. */
 export function paintTerrainChunk(
   g: CanvasRenderingContext2D,
@@ -144,6 +182,7 @@ export function paintTerrainChunk(
           g.fillRect(px, py, TILE, TILE);
           break;
       }
+      paintDecals(g, kind, x, y, px, py);
       // Preserve map slope lighting and height brightening; all applied at bake time.
       if (map.light[i] < 255) {
         g.fillStyle = `rgba(0,0,0,${1 - map.light[i] / 255})`;
