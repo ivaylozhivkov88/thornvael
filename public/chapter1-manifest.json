@@ -1,7 +1,7 @@
 {
  "id": "ch1",
  "cache": "thornvael-ch1-v1",
- "total": 2487382,
+ "total": 2687371,
  "files": [
   {
    "path": "data/campaign.json",
@@ -177,15 +177,15 @@
   },
   {
    "path": "audio/music_battle.m4a",
-   "size": 578642
+   "size": 604812
   },
   {
    "path": "audio/music_explore.m4a",
-   "size": 817078
+   "size": 790819
   },
   {
    "path": "audio/music_town.m4a",
-   "size": 530704
+   "size": 730782
   },
   {
    "path": "audio/nomana.m4a",

@@ -124,19 +124,19 @@
     {
       "path": "public/audio/music_battle.m4a",
       "license": "own",
-      "source": "Procedural synthesis by the assistant (numpy physical modeling, AAC via FFmpeg); original generator script was not preserved in the repo, regeneration tool pending",
+      "source": "tools/gen-soundtrack.py",
       "note": "Procedural combat soundtrack synthesized via physical modeling and encoded as AAC"
     },
     {
       "path": "public/audio/music_explore.m4a",
       "license": "own",
-      "source": "Procedural synthesis by the assistant (numpy physical modeling, AAC via FFmpeg); original generator script was not preserved in the repo, regeneration tool pending",
+      "source": "tools/gen-soundtrack.py",
       "note": "Procedural wilderness soundtrack synthesized via physical modeling and encoded as AAC"
     },
     {
       "path": "public/audio/music_town.m4a",
       "license": "own",
-      "source": "Procedural synthesis by the assistant (numpy physical modeling, AAC via FFmpeg); original generator script was not preserved in the repo, regeneration tool pending",
+      "source": "tools/gen-soundtrack.py",
       "note": "Procedural sanctuary soundtrack synthesized via physical modeling and encoded as AAC"
     },
     {
