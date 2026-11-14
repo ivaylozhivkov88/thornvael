@@ -1,4 +1,4 @@
-import { Container, Graphics, Sprite, Texture, Text, TextStyle } from 'pixi.js';
+import { BitmapText, Container, Graphics, Sprite, Texture, TextStyle } from 'pixi.js';
 import type { Sim } from './sim/sim';
 import { TILE } from './map';
 import { FP } from './sim/sim';
@@ -29,8 +29,18 @@ export interface DamageFloater {
   alpha: number;
   born: number;
   lifeMs: number;
-  sprite: Text;
+  sprite: BitmapText;
+  kind: FloaterKind;
 }
+
+type FloaterKind = 0 | 1 | 2; // normal, hero, crit
+
+/** One white bitmap font per kind; colour comes from tint, so no re-rasterising per hit. */
+const FLOATER_STYLES: TextStyle[] = [
+  new TextStyle({ fontFamily: 'Georgia, serif', fontSize: 13, fontWeight: '700', fill: 0xffffff, stroke: { color: 0x000000, width: 3 } }),
+  new TextStyle({ fontFamily: 'Georgia, serif', fontSize: 15, fontWeight: '900', fill: 0xffffff, stroke: { color: 0x200000, width: 3 } }),
+  new TextStyle({ fontFamily: 'Georgia, serif', fontSize: 18, fontWeight: '900', fill: 0xffffff, stroke: { color: 0x000000, width: 4 } }),
+];
 
 export interface GroundSplatter {
   x: number;
@@ -101,7 +111,7 @@ export class CombatFeelSystem {
   private slashes: SlashArc[] = [];
   private bubbles: StatusBubble[] = [];
   private floaters: DamageFloater[] = [];
-  private textPool: Text[] = [];
+  private textPool: BitmapText[][] = [[], [], []];
 
   // Lighting
   private lightCv!: HTMLCanvasElement;
@@ -253,26 +263,15 @@ export class CombatFeelSystem {
   ): void {
     if (this.floaters.length > 50) return;
 
-    let t = this.textPool.pop();
+    const kind: FloaterKind = isCrit ? 2 : isHero ? 1 : 0;
+    let t = this.textPool[kind].pop();
     if (!t) {
-      t = new Text({
-        text,
-        style: new TextStyle({
-          fontFamily: 'Georgia, serif',
-          fontSize: isCrit ? 18 : isHero ? 15 : 13,
-          fontWeight: isCrit || isHero ? '900' : '700',
-          fill: color,
-          stroke: { color: isHero ? 0x200000 : 0x000000, width: isCrit ? 4 : 3 },
-          dropShadow: isCrit ? { alpha: 0.8, angle: Math.PI / 4, blur: 4, color: 0xffa000, distance: 2 } : undefined,
-        }),
-      });
+      t = new BitmapText({ text, style: FLOATER_STYLES[kind] });
       t.anchor.set(0.5, 1);
     } else {
       t.text = text;
-      t.style.fill = color;
-      t.style.fontSize = isCrit ? 18 : isHero ? 15 : 13;
-      t.style.fontWeight = isCrit || isHero ? '900' : '700';
     }
+    t.tint = color;
 
     t.visible = true;
     t.alpha = 1.0;
@@ -293,6 +292,7 @@ export class CombatFeelSystem {
       born: now,
       lifeMs: isCrit ? 1100 : 800,
       sprite: t,
+      kind,
     });
 
     if (isCrit) {
@@ -551,7 +551,7 @@ export class CombatFeelSystem {
       if (age >= 1) {
         this.floaterContainer.removeChild(f.sprite);
         f.sprite.visible = false;
-        this.textPool.push(f.sprite);
+        this.textPool[f.kind].push(f.sprite);
         this.floaters.splice(i, 1);
         continue;
       }
