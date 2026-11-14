@@ -1072,6 +1072,12 @@
       "license": "own",
       "source": "Gemini image generation (user subscription), original text prompt, resized with Pillow",
       "note": "AI-generated painted NPC portrait, 2026-11-14; original design"
+    },
+    {
+      "path": "public/townart/friend-golem.jpg",
+      "license": "own",
+      "source": "Gemini image generation (user subscription), original text prompt, resized with Pillow",
+      "note": "AI-generated painted ember golem portrait, 2026-11-14; original design"
     }
   ]
 }
