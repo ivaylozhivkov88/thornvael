@@ -1048,6 +1048,30 @@
       "license": "own",
       "source": "Gemini image generation (user subscription), original text prompt, resized with Pillow",
       "note": "AI-generated painted NPC portrait, 2026-11-14; original design"
+    },
+    {
+      "path": "public/townart/npc-sabik.jpg",
+      "license": "own",
+      "source": "Gemini image generation (user subscription), original text prompt, resized with Pillow",
+      "note": "AI-generated painted NPC portrait, 2026-11-14; original design"
+    },
+    {
+      "path": "public/townart/npc-quillon.jpg",
+      "license": "own",
+      "source": "Gemini image generation (user subscription), original text prompt, resized with Pillow",
+      "note": "AI-generated painted NPC portrait, 2026-11-14; original design"
+    },
+    {
+      "path": "public/townart/npc-aldren.jpg",
+      "license": "own",
+      "source": "Gemini image generation (user subscription), original text prompt, resized with Pillow",
+      "note": "AI-generated painted NPC portrait, 2026-11-14; original design"
+    },
+    {
+      "path": "public/townart/npc-scout.jpg",
+      "license": "own",
+      "source": "Gemini image generation (user subscription), original text prompt, resized with Pillow",
+      "note": "AI-generated painted NPC portrait, 2026-11-14; original design"
     }
   ]
 }
