@@ -3,6 +3,7 @@ import { FP, type Sim } from './sim/sim';
 import { cloneHero, recalc, type HeroState } from './sim/hero';
 import { upkeepFee } from './sim/town';
 import { registerDynamicItem, type ItemInstance } from './sim/items';
+import { healPct } from './townbuild';
 
 /**
  * What a hero takes from one mission or town to the next. Plain JSON, so it goes into saves and exported files unchanged.
@@ -82,6 +83,7 @@ export function applyCarryover(sim: Sim, co: CarryoverState): number {
   const forHire = new Set(sim.towns.flatMap((t) => (t.def.mercs ?? []).map((m) => m.unit)));
   const reserve: number[] = [];
   for (let j = 0; j < sim.count; j++) if (j !== id && sim.team[j] === 0 && sim.hidden[j] && !forHire.has(j)) reserve.push(j);
+  const heal = healPct(co.progress?.builds); // shrine: mercs rest between nodes
   let placed = 0;
   for (const m of co.mercs) {
     const at = reserve.findIndex((j) => sim.cb.kind[j] === m.kind);
@@ -92,7 +94,7 @@ export function applyCarryover(sim: Sim, co: CarryoverState): number {
     sim.y[u] = sim.ty[u] = sim.cb.py[u] = sim.y[id] + Math.round(Math.sin(a) * 1.2 * FP);
     sim.stop(u);
     sim.hidden[u] = 0;
-    sim.cb.hp[u] = Math.max(1, Math.floor((sim.cb.hpMax[u] * m.hpPct) / 100));
+    sim.cb.hp[u] = Math.max(1, Math.floor((sim.cb.hpMax[u] * Math.min(100, m.hpPct + heal)) / 100));
     placed++;
   }
   sim.cb.recount(sim.team);

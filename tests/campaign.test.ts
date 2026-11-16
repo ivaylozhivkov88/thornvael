@@ -128,6 +128,20 @@ describe('carryover', () => {
     expect(b.cb.hp[1]).toBeLessThan(b.cb.hpMax[1]);
   });
 
+  it('shrine levels heal returning mercenaries, capped at full health', () => {
+    const a = world(1, [Kind.Hero, Kind.Hero]);
+    a.hidden[1] = 0;
+    a.cb.hp[1] = Math.floor(a.cb.hpMax[1] / 2);
+    const co = extractCarryover(a, newProgress(campaign, 1), 1);
+    const pct = co.mercs[0].hpPct;
+    const healed = world(1, [Kind.Hero, Kind.Hero]);
+    applyCarryover(healed, { ...co, progress: { ...co.progress, builds: { shrine: 1 } } });
+    expect(healed.cb.hp[1]).toBe(Math.max(1, Math.floor((healed.cb.hpMax[1] * Math.min(100, pct + 20)) / 100)));
+    const full = world(1, [Kind.Hero, Kind.Hero]);
+    applyCarryover(full, { ...co, progress: { ...co.progress, builds: { shrine: 3 } } });
+    expect(full.cb.hp[1]).toBe(full.cb.hpMax[1]);
+  });
+
   it('is deterministic: the same carryover gives the same state hash', () => {
     const co = extractCarryover(world(1), newProgress(campaign, 1), 1);
     const a = world(1);
