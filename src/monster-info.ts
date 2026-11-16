@@ -1,6 +1,14 @@
 import { DEFS, Kind, type KindDef } from './sim/combat';
 import { monsterFamilyById, monsterPaletteByTier } from './sim/data';
 import { FP, TICKS_PER_SECOND } from './sim/sim';
+import {
+  SUPER_UNIQUES,
+  getSuperUniqueById,
+  superUniqueAsFamilyDef,
+  type SuperUniqueRetinue,
+  type SuperUniqueVisual,
+  type TacticalAiRole,
+} from './sim/super-uniques';
 
 const ELEMENTS = ['Physical', 'Fire', 'Water', 'Air', 'Earth', 'Astral'] as const;
 const PARTS = ['Head', 'Torso', 'Arms', 'Legs'] as const;
@@ -58,6 +66,16 @@ export const BOSS_SIGNATURE_ABILITIES: Record<string, { title: string; abilities
     ],
     summary: 'Hellfire breath, Fire Ring, Bone Prison, Red Lightning',
   },
+  ...Object.fromEntries(
+    SUPER_UNIQUES.map((su) => [
+      su.id,
+      {
+        title: su.name,
+        abilities: su.signatureAbilities,
+        summary: su.summary,
+      },
+    ]),
+  ),
 };
 
 export interface MonsterInfo {
@@ -69,6 +87,10 @@ export interface MonsterInfo {
   readonly signatureAbilities?: readonly string[];
   readonly mods?: readonly string[];
   readonly element?: string;
+  readonly superUnique?: boolean;
+  readonly visual?: SuperUniqueVisual;
+  readonly aiRole?: TacticalAiRole;
+  readonly retinue?: SuperUniqueRetinue;
   /** Base family values, not a unit's current HP, equipment or status modifiers. */
   readonly base: Readonly<KindDef>;
   readonly text: string;
@@ -76,6 +98,10 @@ export interface MonsterInfo {
 
 /** Convenient lookup by family identifier directly. */
 export function monsterInfoByFamily(familyId: string, tier = 1, bossMods: readonly string[] = []): MonsterInfo | null {
+  const su = getSuperUniqueById(familyId);
+  if (su) {
+    return monsterInfo(su.kind, tier > 1 ? tier : su.tier, su.id, bossMods.length > 0 ? bossMods : su.mods);
+  }
   const fam = monsterFamilyById(familyId);
   if (!fam) return null;
   return monsterInfo(fam.archetype, tier, familyId, bossMods);
@@ -83,12 +109,14 @@ export function monsterInfoByFamily(familyId: string, tier = 1, bossMods: readon
 
 /** Current enemy roster and monster families lookup. For Archer, the caller must establish hostility. */
 export function monsterInfo(kind: number, tier = 1, familyId = '', bossMods: readonly string[] = []): MonsterInfo | null {
-  const fam = familyId ? monsterFamilyById(familyId) : undefined;
+  const su = familyId ? getSuperUniqueById(familyId) : undefined;
+  const fam = familyId ? (monsterFamilyById(familyId) ?? superUniqueAsFamilyDef(familyId)) : undefined;
   const def = DEFS[kind] ?? (fam ? DEFS[fam.archetype] : undefined);
   if (!def) return null;
   if (!fam && kind !== Kind.Gnoll && kind !== Kind.Golem && kind !== Kind.Imp && kind !== Kind.Archer) return null;
-  const modLabels = bossMods.map((m) => BOSS_MOD_LABELS[m] || m);
-  if (tier === 1 && !fam && bossMods.length === 0) {
+  const effectiveMods = bossMods.length > 0 ? bossMods : (su ? su.mods : []);
+  const modLabels = effectiveMods.map((m) => BOSS_MOD_LABELS[m] || m);
+  if (tier === 1 && !fam && effectiveMods.length === 0) {
     // Detached, frozen arrays prevent a presentation consumer from editing combat definitions.
     const base: Readonly<KindDef> = Object.freeze({
       ...def,
@@ -110,7 +138,8 @@ export function monsterInfo(kind: number, tier = 1, familyId = '', bossMods: rea
     return Object.freeze({ kind, name: base.name, element: ELEMENTS[base.elem], base, text });
   }
 
-  const clampedTier = Math.max(1, Math.min(5, Math.trunc(tier)));
+  const effectiveTier = su && tier === 1 ? su.tier : tier;
+  const clampedTier = Math.max(1, Math.min(5, Math.trunc(effectiveTier)));
   const pal = monsterPaletteByTier(clampedTier);
   const hpMult = pal?.hpMult ?? 1;
   const dmgMult = pal?.dmgMult ?? 1;
@@ -127,7 +156,7 @@ export function monsterInfo(kind: number, tier = 1, familyId = '', bossMods: rea
   const familyName = fam ? fam.name : def.name;
   const tierLabel = pal ? `Tier ${clampedTier} ${pal.label}` : `Tier ${clampedTier}`;
   const prefix = modLabels.length > 0 ? `${modLabels.join(', ')} ` : '';
-  const displayName = `${prefix}${familyName} (${tierLabel})`;
+  const displayName = su ? `${su.name} (${tierLabel})` : `${prefix}${familyName} (${tierLabel})`;
 
   const base: Readonly<KindDef> = Object.freeze({
     ...def,
@@ -148,10 +177,12 @@ export function monsterInfo(kind: number, tier = 1, familyId = '', bossMods: rea
   const modLines = modLabels.length > 0 ? [`Elite affixes: ${modLabels.join(', ')}.`] : [];
   const bossSpec = fam ? BOSS_SIGNATURE_ABILITIES[fam.id] : undefined;
   const signatureLines = bossSpec ? [`Signature Abilities: ${bossSpec.summary}.`, ...bossSpec.abilities.map((a) => ` • ${a}`)] : [];
+  const retinueLines = su ? [`Retinue: ${su.retinue.count}x ${su.retinue.family} (${su.ai}).`] : [];
   const text = [
     `${displayName}${fam?.role ? ` — ${fam.role}` : ''} — base family stats.`,
     ...modLines,
     ...signatureLines,
+    ...retinueLines,
     `HP ${base.hp}; mana ${base.mana}.`,
     `${base.ranged ? 'Ranged' : 'Melee'} ${ELEMENTS[base.elem]} attack: ${base.min}–${base.max}; accuracy ${base.acc}; range ${base.reach / FP} tiles; interval ${base.cd} ticks (${base.cd / TICKS_PER_SECOND}s).`,
     `Walking speed ${base.speed}% of base; dodge ${base.def}.`,
@@ -167,6 +198,7 @@ export function monsterInfo(kind: number, tier = 1, familyId = '', bossMods: rea
     ...(fam ? { family: fam.id, role: fam.role } : {}),
     ...(bossSpec ? { signatureAbilities: bossSpec.abilities } : {}),
     ...(modLabels.length > 0 ? { mods: modLabels } : {}),
+    ...(su ? { superUnique: true, visual: su.visual, aiRole: su.ai, retinue: su.retinue } : {}),
     base,
     text,
   });

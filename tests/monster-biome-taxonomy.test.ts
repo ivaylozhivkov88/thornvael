@@ -179,12 +179,12 @@ describe('Monster Taxonomy & classic ARPG Biome Matrix Verification', () => {
     expect(scarabInfo?.text).toContain('Lightning Enchanted, Extra Fast Dune Scarab (Tier 3 Copper)');
     expect(scarabInfo?.text).toContain('Lightning discharge beetle');
 
-    // 3. Greater Mummy with Stone Skin
+    // 3. Crypt Embalmer with Stone Skin
     const mummyInfo = monsterInfoByFamily('greater-mummy', 4, ['stone_skin']);
     expect(mummyInfo).not.toBeNull();
     expect(mummyInfo?.mods).toEqual(['Stone Skin']);
     expect(mummyInfo?.element).toBe('Earth');
-    expect(mummyInfo?.text).toContain('Stone Skin Greater Mummy (Tier 4 Cobalt)');
+    expect(mummyInfo?.text).toContain('Stone Skin Crypt Embalmer (Tier 4 Cobalt)');
     expect(mummyInfo?.text).toContain('Ancient crypt embalmer & reviver');
 
     // 4. Cinderhorn with Fire Enchanted

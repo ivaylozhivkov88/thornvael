@@ -47,23 +47,37 @@ cam.rotation_euler = (-cam.location).to_track_quat('-Z', 'Y').to_euler()
 scene.camera = cam
 
 
-def mat(name, rgb):
+def mat(name, rgb, metallic=0.2, roughness=0.45):
     m = bpy.data.materials.new(name)
     m.diffuse_color = (*rgb, 1)
+    m.metallic = metallic
+    m.roughness = roughness
     return m
 
 
-PALETTE = {"skin": (0.80, 0.62, 0.50), "team": (0.72, 0.72, 0.72), "armour": (0.62, 0.62, 0.62), "level": (0.68, 0.68, 0.68), "dark": (0.12, 0.10, 0.10)}
+PALETTE = {
+    "skin": (0.86, 0.68, 0.54, 0.05, 0.55),
+    "team": (0.82, 0.82, 0.86, 0.35, 0.38),
+    "armour": (0.88, 0.90, 0.94, 0.88, 0.22),
+    "level": (0.92, 0.86, 0.72, 0.82, 0.25),
+    "dark": (0.18, 0.15, 0.14, 0.15, 0.65),
+}
 MASKS = {"skin": (0, 0, 0), "team": (1, 0, 0), "armour": (0, 1, 0), "level": (0, 0, 1), "dark": (0, 0, 0)}
-mats = {k: mat(k, v) for k, v in PALETTE.items()}
-mask_mats = {k: mat("m_" + k, v) for k, v in MASKS.items()}
+mats = {k: mat(k, v[:3], v[3], v[4]) for k, v in PALETTE.items()}
+mask_mats = {k: mat("m_" + k, v, 0.0, 1.0) for k, v in MASKS.items()}
 
 
 def part(kind, name, loc, scale, role):
-    opts = {"subdivisions": 1} if kind == "ico_sphere" else {}
+    opts = {"subdivisions": 2} if kind == "ico_sphere" else {}
     getattr(bpy.ops.mesh, "primitive_%s_add" % kind)(**opts)
     o = bpy.context.active_object
     o.name, o.location, o.scale = name, loc, scale
+    if kind == "cube":
+        bev = o.modifiers.new(name="SculptBevel", type="BEVEL")
+        bev.width = 0.18
+        bev.segments = 2
+    for poly in o.data.polygons:
+        poly.use_smooth = True
     o.data.materials.append(mats[role])
     o["role"] = role
     return o
@@ -305,7 +319,7 @@ def render(path, masked):
     scene.display.shading.light = "FLAT" if masked else "STUDIO"
     scene.display.shading.show_object_outline = not masked
     scene.display.shading.show_shadows = not masked
-    scene.display.shading.show_cavity = False
+    scene.display.shading.show_cavity = not masked
     scene.display.shading.show_specular_highlight = not masked
     scene.render.filepath = path
     bpy.ops.render.render(write_still=True)

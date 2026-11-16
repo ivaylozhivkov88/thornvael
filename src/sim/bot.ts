@@ -1,9 +1,83 @@
 import { isBlockedAt, type GameMap } from '../map';
-import { Kind, Ord } from './combat';
+import { DEFS, Kind, Ord, partAbs, partDef } from './combat';
 import { FP, type Command, type Sim } from './sim';
 import { Rng } from './rng';
 import { St } from './spelldata';
 import { knows } from './spells';
+import { getSuperUniqueForUnit, type TacticalAiRole } from './super-uniques';
+
+export type { TacticalAiRole };
+
+const COWARD_FAMILIES = new Set(['cinderling', 'ruin-mite', 'maggot-swarm', 'imp']);
+const KITER_FAMILIES = new Set([
+  'quill-fiend',
+  'fetish-blowdart',
+  'glasswing',
+  'storm-kite',
+  'dune-scarab',
+  'lantern-eel',
+  'rift-moth',
+  'redglass-drake',
+]);
+const SHAMAN_FAMILIES = new Set(['fallen-shaman', 'witch-doctor', 'greater-mummy']);
+const HEXER_FAMILIES = new Set([
+  'spore-matron',
+  'ash-weaver',
+  'mire-wisp',
+  'frost-bell',
+  'night-orchard',
+  'morvessa',
+  'vesperion',
+  'ashkarath',
+]);
+const TANK_FAMILIES = new Set([
+  'flintback',
+  'rootbound',
+  'salt-crab',
+  'basalt-brute',
+  'ironbark',
+  'wendigo-bruiser',
+  'silt-colossus',
+  'stormtree',
+  'anvilmaw-smith',
+  'gorrathul',
+]);
+const LUNGER_FAMILIES = new Set(['claw-viper', 'dune-lurker', 'gloom-stag', 'dune-beast', 'pale-burrower']);
+const CHARGER_FAMILIES = new Set([
+  'briar-hound',
+  'thorn-boar',
+  'sand-raider',
+  'crowned-maw',
+  'doom-knight',
+  'cinderhorn',
+  'hollow-knight',
+  'hollow-king',
+]);
+
+/**
+ * Classify any enemy unit into one of the 6 Thornvael tactical AI archetypes.
+ */
+export function classifyMonsterRole(sim: Sim, id: number): TacticalAiRole {
+  const su = getSuperUniqueForUnit(sim, id);
+  if (su) return su.ai;
+
+  const cb = sim.cb;
+  const fam = cb.family[id] || '';
+  const kind = cb.kind[id];
+
+  if (COWARD_FAMILIES.has(fam) || (fam === '' && kind === Kind.Imp)) return 'coward_swarm';
+  if (KITER_FAMILIES.has(fam) || kind === Kind.Archer) return 'ranged_kiter';
+  if (SHAMAN_FAMILIES.has(fam) || (fam === '' && kind === Kind.Mage)) return 'shaman_reviver';
+  if (HEXER_FAMILIES.has(fam) || kind === Kind.Mage) return 'hexer_caster';
+  if (TANK_FAMILIES.has(fam) || kind === Kind.Golem) return 'juggernaut_tank';
+  if (LUNGER_FAMILIES.has(fam)) return 'ambush_lunger';
+  if (CHARGER_FAMILIES.has(fam)) return 'berserker_charger';
+
+  const isBoss = (cb.bossMods[id]?.length ?? 0) > 0 || cb.tier[id] >= 4 || cb.hpMax[id] >= 180;
+  if (isBoss) return 'juggernaut_tank';
+  if (cb.manaMax[id] > 0) return 'hexer_caster';
+  return 'berserker_charger';
+}
 
 /**
  * Scripted squads. Commands come out of the same `Command` vocabulary the player uses;
@@ -63,16 +137,20 @@ export interface Pack {
 }
 
 /**
- * Monster packs with tactical enemy AI:
- * - Frontline Swarm AI: Wolves & gnolls push forward and flank/surround the hero.
- * - Backline Shaman / Necromancer AI: Stays behind meatshields, kites when pressed, casts curses & bolts.
- * - Balanced Corpse Resurrection: Resurrects dead corpses with strict 15s cooldown & max 2 active raised minions.
- * - Chieftain Grok'tar / Brute Boss: Heavy windup telegraphed attacks and elite champion affixes.
+ * Monster packs with Thornvael tactical enemy AI:
+ * 1. `coward_swarm`: Cinderling/Ruin-Mite/Maggot swarms panic and flee for 60 ticks (3s) when their Shaman/Super-Unique dies or HP < 25%.
+ * 2. `ranged_kiter`: Quill Fiends, Dartblowers, Scarabs, Archers kite backwards when enemies close within 3.2 tiles and fire from range.
+ * 3. `ambush_lunger` & `berserker_charger`: Flank weakest-armored targets (casters/archers/hero) and enter Berserk frenzy below 40% HP.
+ * 4. `juggernaut_tank`: Ironbarks, Rootbounds, Golems intercept line-of-sight to bodyblock for Shamans/Kiters and unleash heavy windups.
+ * 5. `shaman_reviver` & `hexer_caster`: Keep backline distance, resurrect corpses (15s cd, max 2), heal wounded elites, and cast curses/bolts.
  */
 export class MonsterAi {
   protected resCooldowns = new Map<number, number>();
   protected raisedMinions = new Map<number, Set<number>>();
   protected bossWindups = new Map<number, number>();
+  protected panicUntil = new Map<number, number>();
+  protected fledForLeader = new Set<number>();
+  protected lowHpPanicked = new Set<number>();
 
   constructor(protected readonly packs: Pack[]) {}
 
@@ -96,6 +174,9 @@ export class MonsterAi {
     this.resCooldowns = new Map(x?.res ?? []);
     this.raisedMinions = new Map((x?.raised ?? []).map(([k, v]) => [k, new Set(v)]));
     this.bossWindups = new Map(x?.windup ?? []);
+    this.panicUntil.clear();
+    this.fledForLeader.clear();
+    this.lowHpPanicked.clear();
   }
 
   restore(s: readonly [boolean, number][]): void {
@@ -132,34 +213,168 @@ export class MonsterAi {
     return best;
   }
 
+  protected findWeakestArmorTarget(sim: Sim, unitId: number, fallbackTargetId: number): number {
+    const cb = sim.cb;
+    const myTeam = sim.team[unitId];
+    const ux = sim.x[unitId] / FP;
+    const uy = sim.y[unitId] / FP;
+    let bestId = fallbackTargetId;
+    let bestScore = 1e9;
+
+    for (let i = 0; i < sim.count; i++) {
+      if (cb.hp[i] <= 0 || sim.team[i] === myTeam || sim.hidden[i]) continue;
+      const dist = Math.hypot(sim.x[i] / FP - ux, sim.y[i] / FP - uy);
+      if (dist > 6.5) continue;
+      const armor = partAbs(sim, i, 0) + partAbs(sim, i, 1) + partDef(sim, i, 0);
+      const roleBias = cb.kind[i] === Kind.Mage || cb.kind[i] === Kind.Archer ? -12 : cb.kind[i] === Kind.Hero ? -4 : 0;
+      const score = armor * 2 + roleBias + dist * 0.5;
+      if (score < bestScore) {
+        bestScore = score;
+        bestId = i;
+      }
+    }
+    return bestId;
+  }
+
+  protected findNearestEnemy(sim: Sim, unitId: number, fallbackTargetId: number): number {
+    const cb = sim.cb;
+    const myTeam = sim.team[unitId];
+    const ux = sim.x[unitId] / FP;
+    const uy = sim.y[unitId] / FP;
+    let bestId = fallbackTargetId;
+    let bestDist = 1e9;
+
+    for (let i = 0; i < sim.count; i++) {
+      if (cb.hp[i] <= 0 || sim.team[i] === myTeam || sim.hidden[i]) continue;
+      const d = Math.hypot(sim.x[i] / FP - ux, sim.y[i] / FP - uy);
+      if (d < bestDist) {
+        bestDist = d;
+        bestId = i;
+      }
+    }
+    return bestId;
+  }
+
   protected issueTacticalOrders(sim: Sim, p: Pack, alive: number[], targetId: number, out: Command[]): void {
     const cb = sim.cb;
     const targetX = sim.x[targetId] / FP;
     const targetY = sim.y[targetId] / FP;
 
+    const cowards: number[] = [];
+    const kiters: number[] = [];
     const shamans: number[] = [];
-    const bosses: number[] = [];
+    const hexers: number[] = [];
+    const tanks: number[] = [];
+    const lungers: number[] = [];
+    const chargers: number[] = [];
     const swarmers: number[] = [];
 
     for (const id of alive) {
-      const isBoss = (cb.bossMods[id]?.length ?? 0) > 0 || cb.tier[id] >= 4 || cb.hpMax[id] >= 180;
-      const isCaster =
-        cb.kind[id] === Kind.Mage ||
-        cb.manaMax[id] > 0 ||
-        cb.family[id] === 'ash-weaver' ||
-        cb.family[id] === 'spore-matron';
+      const role = classifyMonsterRole(sim, id);
+      const fam = cb.family[id] || '';
+      const isGenericSwarmer =
+        fam === '' &&
+        (cb.bossMods[id]?.length ?? 0) === 0 &&
+        cb.tier[id] < 4 &&
+        cb.hpMax[id] < 180 &&
+        cb.kind[id] === Kind.Gnoll;
 
-      if (isBoss) {
-        bosses.push(id);
-      } else if (isCaster) {
-        shamans.push(id);
-      } else {
+      if (isGenericSwarmer) {
         swarmers.push(id);
+        continue;
+      }
+
+      switch (role) {
+        case 'coward_swarm':
+          cowards.push(id);
+          break;
+        case 'ranged_kiter':
+          kiters.push(id);
+          break;
+        case 'shaman_reviver':
+          shamans.push(id);
+          break;
+        case 'hexer_caster':
+          hexers.push(id);
+          break;
+        case 'juggernaut_tank':
+          tanks.push(id);
+          break;
+        case 'ambush_lunger':
+          lungers.push(id);
+          break;
+        case 'berserker_charger':
+          chargers.push(id);
+          break;
       }
     }
 
-    // 1. Shaman / Necromancer AI
-    for (const sId of shamans) {
+    // Check if a pack leader / shaman / Super-Unique in this pack has died to trigger Coward Swarm panic
+    let newlySlainLeader = false;
+    for (const memberId of p.ids) {
+      if (cb.hp[memberId] <= 0 && !this.fledForLeader.has(memberId)) {
+        const memberRole = classifyMonsterRole(sim, memberId);
+        const wasLeader =
+          memberRole === 'shaman_reviver' ||
+          memberRole === 'hexer_caster' ||
+          (cb.bossMods[memberId]?.length ?? 0) > 0 ||
+          cb.tier[memberId] >= 4 ||
+          getSuperUniqueForUnit(sim, memberId) !== undefined;
+        if (wasLeader) {
+          this.fledForLeader.add(memberId);
+          newlySlainLeader = true;
+        }
+      }
+    }
+
+    // 1. Coward Swarm AI (Fallen-style panic retreat for 60 ticks when leader dies or HP < 25%)
+    for (const cId of cowards) {
+      if (newlySlainLeader) {
+        this.panicUntil.set(cId, sim.tick + 60); // 60 ticks = 3 seconds panic retreat
+      } else if (cb.hp[cId] * 4 <= cb.hpMax[cId] && !this.lowHpPanicked.has(cId)) {
+        this.lowHpPanicked.add(cId);
+        this.panicUntil.set(cId, sim.tick + 60);
+      }
+
+      const panicEnd = this.panicUntil.get(cId) ?? 0;
+      if (sim.tick < panicEnd) {
+        const cx = sim.x[cId] / FP;
+        const cy = sim.y[cId] / FP;
+        const awayDx = cx - targetX || 1;
+        const awayDy = cy - targetY || 0;
+        const awayLen = Math.hypot(awayDx, awayDy) || 1;
+        const retreatX = Math.max(1, Math.min(sim.map.w - 2, Math.round(cx + (awayDx / awayLen) * 4.5)));
+        const retreatY = Math.max(1, Math.min(sim.map.h - 2, Math.round(cy + (awayDy / awayLen) * 4.5)));
+        out.push({ type: 'order', order: 'retreat', ids: [cId], x: retreatX, y: retreatY });
+      } else {
+        swarmers.push(cId);
+      }
+    }
+
+    // 2. Ranged Kiter AI (Quill Fiends, Blowdarts, Scarabs, Glasswings, Archers — NEVER swarm into melee!)
+    for (const kId of kiters) {
+      const kx = sim.x[kId] / FP;
+      const ky = sim.y[kId] / FP;
+      const dist = Math.hypot(kx - targetX, ky - targetY);
+      const reach = Math.max(5.5, DEFS[cb.kind[kId]].reach / FP);
+
+      if (dist < 3.2) {
+        const awayDx = kx - targetX || 1;
+        const awayDy = ky - targetY || 0;
+        const awayLen = Math.hypot(awayDx, awayDy) || 1;
+        const retreatX = Math.max(1, Math.min(sim.map.w - 2, Number((kx + (awayDx / awayLen) * 3.5).toFixed(2))));
+        const retreatY = Math.max(1, Math.min(sim.map.h - 2, Number((ky + (awayDy / awayLen) * 3.5).toFixed(2))));
+        out.push({ type: 'order', order: 'retreat', ids: [kId], x: retreatX, y: retreatY });
+      } else if (dist <= reach) {
+        out.push({ type: 'order', order: 'attack', ids: [kId], target: targetId });
+      } else {
+        out.push({ type: 'order', order: 'attack', ids: [kId], target: targetId, x: targetX, y: targetY });
+      }
+    }
+
+    // 3. Shaman Reviver & Hexer Caster AI (Backline positioning, Corpse Resurrection, Elite Healing, Curses & Bolts)
+    const allCasters = [...shamans, ...hexers];
+    for (const sId of allCasters) {
       const resCd = this.resCooldowns.get(sId) ?? 0;
       let raisedSet = this.raisedMinions.get(sId);
       if (!raisedSet) {
@@ -199,16 +414,49 @@ export class MonsterAi {
       const sy = sim.y[sId] / FP;
       const distToTarget = Math.hypot(sx - targetX, sy - targetY);
 
-      if (distToTarget < 3.0) {
+      if (distToTarget < 3.5) {
         const awayDx = sx - targetX || 1;
         const awayDy = sy - targetY || 0;
-        const awayLen = Math.hypot(awayDx, awayDy);
-        const retreatX = Math.max(1, Math.min(sim.map.w - 2, Math.round(sx + (awayDx / awayLen) * 3)));
-        const retreatY = Math.max(1, Math.min(sim.map.h - 2, Math.round(sy + (awayDy / awayLen) * 3)));
+        const awayLen = Math.hypot(awayDx, awayDy) || 1;
+        const retreatX = Math.max(1, Math.min(sim.map.w - 2, Math.round(sx + (awayDx / awayLen) * 3.5)));
+        const retreatY = Math.max(1, Math.min(sim.map.h - 2, Math.round(sy + (awayDy / awayLen) * 3.5)));
         out.push({ type: 'order', order: 'retreat', ids: [sId], x: retreatX, y: retreatY });
-      } else if (distToTarget <= 7.5 && cb.mana[sId] >= 8) {
-        if (knows(sim, sId, 23) && !(cb.stMask[targetId] & (1 << St.Weaken))) {
-          out.push({ type: 'order', order: 'cast', ids: [sId], spell: 23, target: targetId });
+        continue;
+      }
+
+      // Heal wounded elites/bosses/tanks in the pack (Spell 7: Healing)
+      if (knows(sim, sId, 7) && cb.mana[sId] >= 10) {
+        let woundedAlly = -1;
+        let bestScore = 0.75;
+        for (const aId of alive) {
+          if (aId === sId || cb.hp[aId] <= 0) continue;
+          const ratio = cb.hp[aId] / cb.hpMax[aId];
+          if (ratio >= 0.75) continue;
+          const dAlly = Math.hypot(sim.x[aId] / FP - sx, sim.y[aId] / FP - sy);
+          if (dAlly > 7.0) continue;
+          const isEliteOrTank =
+            tanks.includes(aId) ||
+            (cb.bossMods[aId]?.length ?? 0) > 0 ||
+            cb.tier[aId] >= 3 ||
+            cb.hpMax[aId] >= 100 ||
+            getSuperUniqueForUnit(sim, aId) !== undefined;
+          const score = ratio - (isEliteOrTank ? 1.0 : 0);
+          if (score < bestScore) {
+            bestScore = score;
+            woundedAlly = aId;
+          }
+        }
+        if (woundedAlly >= 0) {
+          out.push({ type: 'order', order: 'cast', ids: [sId], spell: 7, target: woundedAlly });
+          continue;
+        }
+      }
+
+      if (distToTarget <= 7.5 && cb.mana[sId] >= 8) {
+        if ((knows(sim, sId, 20) || knows(sim, sId, 23)) && !(cb.stMask[targetId] & (1 << St.Weaken))) {
+          out.push({ type: 'order', order: 'cast', ids: [sId], spell: knows(sim, sId, 20) ? 20 : 23, target: targetId });
+        } else if (knows(sim, sId, 17) && cb.mana[sId] >= 12 && !(cb.stMask[targetId] & (1 << St.Poison))) {
+          out.push({ type: 'order', order: 'cast', ids: [sId], spell: 17, x: targetX, y: targetY });
         } else if (knows(sim, sId, 4) && !(cb.stMask[targetId] & (1 << St.Slow))) {
           out.push({ type: 'order', order: 'cast', ids: [sId], spell: 4, target: targetId });
         } else if (knows(sim, sId, 0)) {
@@ -217,8 +465,9 @@ export class MonsterAi {
       }
     }
 
-    // 2. Chieftain Grok'tar / Brute Boss AI
-    for (const bId of bosses) {
+    // 4. Juggernaut Tank AI (Bodyblocking line of sight between Shamans/Kiters and Hero + Heavy Windup Slam)
+    const protectedBackliners = [...allCasters, ...kiters];
+    for (const bId of tanks) {
       const bx = sim.x[bId] / FP;
       const by = sim.y[bId] / FP;
       const d = Math.hypot(bx - targetX, by - targetY);
@@ -232,15 +481,76 @@ export class MonsterAi {
         } else {
           out.push({ type: 'order', order: 'hold', ids: [bId] });
         }
-      } else if (d <= 1.5 && sim.tick % 100 < 10) {
+        continue;
+      }
+
+      if (d <= 1.5 && sim.tick % 100 < 10) {
         this.bossWindups.set(bId, 15);
         out.push({ type: 'order', order: 'hold', ids: [bId] });
-      } else if (sim.cb.ord[bId] === 0 || sim.cb.tgt[bId] < 0) {
+        continue;
+      }
+
+      // If pack has a living shaman or ranged kiter, intercept on the line between the backliner and the enemy
+      if (protectedBackliners.length > 0 && d > 1.6) {
+        const wardId = protectedBackliners[0];
+        const wx = sim.x[wardId] / FP;
+        const wy = sim.y[wardId] / FP;
+        const dx = targetX - wx;
+        const dy = targetY - wy;
+        const len = Math.hypot(dx, dy) || 1;
+        const stepDist = Math.min(len * 0.55, 2.5);
+        const interX = Math.max(1, Math.min(sim.map.w - 2, Number((wx + (dx / len) * stepDist).toFixed(2))));
+        const interY = Math.max(1, Math.min(sim.map.h - 2, Number((wy + (dy / len) * stepDist).toFixed(2))));
+
+        if (Math.hypot(bx - interX, by - interY) > 0.85) {
+          out.push({ type: 'move', ids: [bId], x: interX, y: interY });
+        } else {
+          out.push({ type: 'order', order: 'attack', ids: [bId], target: targetId, x: interX, y: interY });
+        }
+      } else if (sim.cb.ord[bId] === 0 || sim.cb.tgt[bId] < 0 || d > 1.5) {
         out.push({ type: 'order', order: 'attack', ids: [bId], target: targetId, x: targetX, y: targetY });
       }
     }
 
-    // 3. Frontline Swarm AI (wolves, gnolls, grunts surround the hero)
+    // 5. Ambush Lunger & Berserker Charger AI (Flanking sprint onto weakest armor & Berserk below 40% HP)
+    const flankers = [...lungers, ...chargers];
+    for (const fId of flankers) {
+      const fx = sim.x[fId] / FP;
+      const fy = sim.y[fId] / FP;
+      const isBerserk = cb.hp[fId] * 10 <= cb.hpMax[fId] * 4; // <= 40% HP
+
+      if (isBerserk) {
+        // Berserk rage: attack nearest enemy directly without flanking detour or retreat
+        const nearest = this.findNearestEnemy(sim, fId, targetId);
+        const nx = sim.x[nearest] / FP;
+        const ny = sim.y[nearest] / FP;
+        out.push({ type: 'order', order: 'attack', ids: [fId], target: nearest, x: nx, y: ny });
+        continue;
+      }
+
+      // Target lowest-armored enemy (prioritizing Mages/Archers/Hero)
+      const weakTarget = this.findWeakestArmorTarget(sim, fId, targetId);
+      const wx = sim.x[weakTarget] / FP;
+      const wy = sim.y[weakTarget] / FP;
+      const dist = Math.hypot(fx - wx, fy - wy);
+
+      if (dist > 2.8 && lungers.includes(fId)) {
+        // Flanking arc approach perpendicular to target vector
+        const dx = wx - fx;
+        const dy = wy - fy;
+        const len = Math.hypot(dx, dy) || 1;
+        const side = fId & 1 ? 1 : -1;
+        const perpX = (-dy / len) * side * 1.8;
+        const perpY = (dx / len) * side * 1.8;
+        const flankX = Math.max(1, Math.min(sim.map.w - 2, Number((wx + perpX).toFixed(2))));
+        const flankY = Math.max(1, Math.min(sim.map.h - 2, Number((wy + perpY).toFixed(2))));
+        out.push({ type: 'order', order: 'attack', ids: [fId], target: weakTarget, x: flankX, y: flankY });
+      } else {
+        out.push({ type: 'order', order: 'attack', ids: [fId], target: weakTarget, x: wx, y: wy });
+      }
+    }
+
+    // 6. Frontline Swarm AI (wolves, gnolls, grunts surround the hero)
     if (swarmers.length > 0) {
       out.push({ type: 'order', order: 'swarm', ids: swarmers, x: targetX, y: targetY });
     }

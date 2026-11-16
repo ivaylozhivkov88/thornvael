@@ -14,15 +14,15 @@ Every creature family in RoM2 Web is mapped to a core simulation archetype (`Kin
 
 | Archetype | Sim Kind | Genre Parallels | Behavioral Role & Combat Profile |
 |-----------|----------|--------------|-----------------------------------|
-| **Swarm / Rusher** | `Gnoll` (4) | Fallen, Ruin Mites, Maggot Swarms | Light HP, high movement speed, swarms in packs, rushes squishy heroes or casters. |
-| **Ambusher / Leaper** | `Gnoll` (4) | Sand Leapers, Dune Lurkers, Claw Vipers | Fast strike speeds, charges from fog of war, high burst physical or poison damage. |
-| **Tank / Brute / Siege** | `Golem` (5) | Wendigos/Brutes, Thorn Hulks, Basalt Brutes | High base HP, heavy natural absorption, crushing melee damage, slow walking speed. |
-| **Disciplined Vanguard** | `Warrior` (0) | Doom Knights, Sand Raiders, Hollow Knights | Moderate speed, balanced physical defense and offense, holds the line and kites melee targets. |
+| **Swarm / Rusher** | `Gnoll` (4) | Cinderlings, Ruin Mites, Maggot Swarms | Light HP, high movement speed, swarms in packs, rushes squishy heroes or casters. |
+| **Ambusher / Leaper** | `Gnoll` (4) | Dune Beasts, Dune Lurkers, Scale Vipers | Fast strike speeds, charges from fog of war, high burst physical or poison damage. |
+| **Tank / Brute / Siege** | `Golem` (5) | Frosthorn Bruisers, Rootbounds, Basalt Brutes | High base HP, heavy natural absorption, crushing melee damage, slow walking speed. |
+| **Disciplined Vanguard** | `Warrior` (0) | Dread Knights, Sand Raiders, Hollow Knights | Moderate speed, balanced physical defense and offense, holds the line and kites melee targets. |
 | **Skirmisher / Harrier** | `Imp` (6) | Glasswings, Dune Scarabs, Rift Moths | Fast hit-and-run fliers/strikers, evasive movement, elemental harrying attacks. |
-| **Artillery / Sniper** | `Archer` (1) | Quill Fiends, Dark Rogues, Fetish Blowdarts | High-range physical or poisoned projectiles, attacks from behind frontline tanks. |
+| **Artillery / Sniper** | `Archer` (1) | Quill Fiends, Bog Dartblowers | High-range physical or poisoned projectiles, attacks from behind frontline tanks. |
 | **Elemental Caster** | `Mage` (3) / `Imp` (6) | Mire Wisps, Spore Matrons, Cinderlings, Ash Weavers | Long-range elemental magic (Fire, Cold, Lightning, Earth/Poison, Astral), status effects. |
-| **Resurrector / Shaman** | `Mage` (3) | Fallen Shamans, Greater Mummies, Witch Doctors | Casts ranged spells and commands minion packs, acts as high-priority tactical target. |
-| **SuperUnique / Boss** | `Golem` (5) / `Warrior` (0) | Treehead, Fangskin, Corpsefire, Hephasto, Stormtree | Elite leader units endowed with 2+ composable affixes, increased HP/damage, and minion escorts. |
+| **Resurrector / Shaman** | `Mage` (3) | Cinder Shamans, Crypt Embalmers, Witch Doctors | Casts ranged spells and commands minion packs, acts as high-priority tactical target. |
+| **SuperUnique / Boss** | `Golem` (5) / `Warrior` (0) | Thornmaw, Ssorath, Vaelor, Kragg, Elder Thunderbough | Elite leader units endowed with 2+ composable affixes, increased HP/damage, and minion escorts. |
 
 ---
 
@@ -76,7 +76,7 @@ RoM2 Web features 7 distinct visual and ecological biomes:
 - **Terrain**: `Grass` (Ground), `Dirt` (Path), `Water` (River barrier), `Rock` (Boulders), Dense `Trees`.
 - **Ecology**:
   - Regulars: `briar-hound` (pack rusher), `thorn-boar` (charging bruiser), `quill-fiend` (rapid quill sniper), `fallen-shaman` (fire chanter).
-  - Boss Pool: `rootbound` (Treehead Woodfist equivalent), `wendigo-bruiser`.
+  - Boss Pool: `rootbound` (Thornmaw the Ironroot), `wendigo-bruiser`.
   - Elite Affixes: `extra_fast`, `stone_skin`, `spectral_hit`, `blessed_aura`.
 
 ### 2. Marsh Bog (`'marsh'`)
@@ -84,15 +84,15 @@ RoM2 Web features 7 distinct visual and ecological biomes:
 - **Terrain**: `Marsh` (Ground, slowing movement), `Dirt` (Path), `Water` (Swamp ponds), `Rock` (Crags), `Trees`.
 - **Ecology**:
   - Regulars: `mire-wisp` (cold caster), `salt-crab` (coastal blocker), `fetish-blowdart` (jungle poison sniper), `spore-matron` (earth hexer).
-  - Boss Pool: `flintback` (armoured leviathan), `witch-doctor` (Witch Doctor Endugu equivalent).
+  - Boss Pool: `flintback` (armoured leviathan), `witch-doctor` (Zulmar, High Hexer of the Mire).
   - Elite Affixes: `cold_enchanted`, `magic_resistant`, `stone_skin`, `spectral_hit`.
 
-### 3. Aranoch Desert (`'desert'`)
+### 3. Redmarsh Desert (`'desert'`)
 - **Theme**: Sun-scorched dunes, baked dirt paths, rocky outcrops, ancient sandstone.
 - **Terrain**: `Dirt` (Ground), `Grass` (Scrub/Oasis path), `Water` (Dry salt beds / small springs), `Rock` (Sandstone cliffs), No trees.
 - **Ecology**:
   - Regulars: `dune-lurker` (ambush striker), `sand-raider` (dual-scimitar speedster), `dune-scarab` (lightning beetle), `claw-viper` (venomous lunger).
-  - Boss Pool: `basalt-brute` (siege titan), `claw-viper` (Fangskin equivalent).
+  - Boss Pool: `basalt-brute` (siege titan), `claw-viper` (Ssorath, the Venom Patriarch).
   - Elite Affixes: `extra_fast`, `fire_enchanted`, `spectral_hit`, `stone_skin`.
 
 ### 4. Lush Oasis (`'oasis'`)
@@ -100,15 +100,15 @@ RoM2 Web features 7 distinct visual and ecological biomes:
 - **Terrain**: `Grass` (Ground), `Dirt` (Path), `Water` (Deep oasis springs), `Rock` (Basalt bluffs), `Trees` (Palms/verdant scrub).
 - **Ecology**:
   - Regulars: `dune-beast` (oasis prowler), `maggot-swarm` (toxic burrowing larvae), `dune-lurker` (sand stalker), `dune-scarab` (charged beetle).
-  - Boss Pool: `silt-colossus` (monolithic guardian), `dune-scarab` (Beetleburst equivalent).
+  - Boss Pool: `silt-colossus` (monolithic guardian), `dune-scarab` (Vekor, the Arc Carapace).
   - Elite Affixes: `blessed_aura`, `magic_resistant`, `cold_enchanted`, `extra_fast`.
 
 ### 5. Ancient Crypt (`'crypt'`)
 - **Theme**: Cobblestone tomb floors, rotten burial chambers, dark necromantic mires.
 - **Terrain**: `Dirt` (Ground), `Marsh` (Rotten damp flagstones), `Water` (Underground pools), `Rock` (Catacomb walls), No trees.
 - **Ecology**:
-  - Regulars: `ruin-mite` (swarming burrower), `hollow-knight` (disciplined skeletal blade), `greater-mummy` (embalmed reviver / Radament equivalent), `fallen-shaman` (cult chanter).
-  - Boss Pool: `hollow-king` (Corpsefire / Leoric equivalent), `greater-mummy`, `silt-colossus`.
+  - Regulars: `ruin-mite` (swarming burrower), `hollow-knight` (disciplined skeletal blade), `greater-mummy` (embalmed reviver / Khepri, the Sunken Embalmer), `fallen-shaman` (cult chanter).
+  - Boss Pool: `hollow-king` (undead monarch), `greater-mummy`, `silt-colossus`.
   - Elite Affixes: `cold_enchanted`, `stone_skin`, `spectral_hit`, `magic_resistant`.
 
 ### 6. Frigid Highlands (`'highlands'`)
@@ -116,15 +116,15 @@ RoM2 Web features 7 distinct visual and ecological biomes:
 - **Terrain**: `Dirt` (Ground), `Grass` (Tundra turf), `Water` (Mountain tarns), `Rock` (Sheer granite cliffs), No trees.
 - **Ecology**:
   - Regulars: `storm-kite` (lightning arc kite), `wendigo-bruiser` (freezing yeti), `basalt-brute` (mountain giant), `gloom-stag` (highland flanker).
-  - Boss Pool: `stormtree` (charged lightning colossus / Stormtree equivalent), `crowned-maw` (Apex predator).
+  - Boss Pool: `stormtree` (charged lightning colossus / Elder Thunderbough), `crowned-maw` (Apex predator).
   - Elite Affixes: `extra_fast`, `spectral_hit`, `blessed_aura`, `magic_resistant`.
 
 ### 7. Volcanic Wastes (`'volcanic'`)
 - **Theme**: Ash plains, scalding slag paths, lava rivers, demonic basalt pillars.
 - **Terrain**: `Dirt` (Ash ground), `Marsh` (Scalding slag / slow crust), `Water` (Molten lava rivers), `Rock` (Obsidian cliffs), No trees.
 - **Ecology**:
-  - Regulars: `cinderling` (flame bolt harrier), `ash-weaver` (flame curse caster), `doom-knight` (armored hell blade), `balrog` (inferno megademon).
-  - Boss Pool: `redglass-drake` (fire drake), `hephasto-smith` (Hephasto the Armorer equivalent), `balrog`.
+  - Regulars: `cinderling` (flame bolt harrier), `ash-weaver` (flame curse caster), `doom-knight` (armored hell blade), `cinderhorn` (inferno megademon).
+  - Boss Pool: `redglass-drake` (fire drake), `anvilmaw-smith` (Kragg, the Cinderforge Overseer), `cinderhorn`.
   - Elite Affixes: `fire_enchanted`, `stone_skin`, `extra_fast`, `spectral_hit`.
 
 ---
@@ -173,9 +173,9 @@ All 41 families are codified in `game/public/data/monsters.json` (and `game/dist
 | `redglass-drake` | Redglass Drake | E | Imp (6) | Fire (1) | 125 | 12–19 | 118% | Yes | Yes | Volcanic | Highland fire drake |
 | `night-orchard` | Night Orchard | E | Mage (3) | Astral (5) | 96 | 10–16 | 90% | Yes | Yes | Crypt, Volcanic | Dark ward weaver |
 | `stormtree` | Stormtree | E | Golem (5) | Air/Lightning (3) | 175 | 12–19 | 75% | No | No | Highlands | Charged lightning colossus |
-| `doom-knight` | Doom Knight | E | Warrior (0) | Physical (0) | 135 | 12–18 | 96% | No | No | Volcanic | Heavy armored hell vanguard |
-| `balrog` | Balrog | E | Imp (6) | Fire (1) | 140 | 13–20 | 112% | Yes | Yes | Volcanic | Inferno-breathing megademon |
-| `hephasto-smith` | Hephasto Smith | E | Golem (5) | Fire (1) | 190 | 14–22 | 76% | No | No | Volcanic | Hellforge anvil titan |
+| `doom-knight` | Dread Knight | E | Warrior (0) | Physical (0) | 135 | 12–18 | 96% | No | No | Volcanic | Heavy armored hell vanguard |
+| `cinderhorn` | Cinderhorn | E | Imp (6) | Fire (1) | 140 | 13–20 | 112% | Yes | Yes | Volcanic | Inferno-breathing megademon |
+| `anvilmaw-smith` | Anvilmaw Smith | E | Golem (5) | Fire (1) | 190 | 14–22 | 76% | No | No | Volcanic | Cinderforge anvil titan |
 
 ---
 

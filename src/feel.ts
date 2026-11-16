@@ -3,6 +3,7 @@ import type { Sim } from './sim/sim';
 import { TILE } from './map';
 import { FP } from './sim/sim';
 import { St } from './sim/spelldata';
+import { getSuperUniqueForUnit } from './sim/super-uniques';
 
 /**
  * AAA Combat Feel & Dynamic Torch Lighting Engine:
@@ -409,6 +410,26 @@ export class CombatFeelSystem {
           if (isCardinal) {
             g.circle(px, py, 1.8).fill({ color: 0xffffff, alpha: 0.95 });
           }
+        }
+      }
+
+      // 5. Super-Unique Signature Crown & Elemental Halo
+      const su = getSuperUniqueForUnit(sim, i);
+      if (su) {
+        const pulse = 1 + 0.09 * Math.sin(now * 0.005 + i);
+        const rx = 21 * su.visual.scale * 0.8 * pulse;
+        const ry = 10.5 * su.visual.scale * 0.8 * pulse;
+        const rot = -now * 0.0018;
+        g.ellipse(ux, uy + 2, rx * 1.15, ry * 1.15).stroke({ color: su.visual.auraColor, width: 2.6, alpha: 0.9 });
+        g.ellipse(ux, uy + 2, rx * 0.82, ry * 0.82).stroke({ color: su.visual.tint, width: 1.8, alpha: 0.85 });
+        for (let p = 0; p < 8; p++) {
+          const ang = rot + p * (Math.PI / 4);
+          const bx = ux + Math.cos(ang) * rx;
+          const by = uy + 2 + Math.sin(ang) * ry;
+          const tx = ux + Math.cos(ang) * (rx * 1.32);
+          const ty = uy + 2 + Math.sin(ang) * (ry * 1.32) - 3;
+          g.moveTo(bx, by).lineTo(tx, ty).stroke({ color: su.visual.auraColor, width: 2, alpha: 0.92 });
+          g.circle(tx, ty, 2.2).fill({ color: 0xffffff, alpha: 0.95 });
         }
       }
     }

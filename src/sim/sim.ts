@@ -4,7 +4,7 @@ import { dayLight } from './daynight';
 import { CombatState, DEFS, Ord, POOLS, enemyNear, lootPos, nearestLoot, think, toGuard, type CombatSnap } from './combat';
 import { cloneHero, hashHero, heroCommand, type HeroCommand, type HeroState } from './hero';
 import { NST, SPELLS, St, Tk } from './spelldata';
-import { addStatus, knows, resolveTarget, statusSpeed } from './spells';
+import { addStatus, isCorpse, knows, resolveTarget, revive, statusSpeed } from './spells';
 import { FP, Pather, dir16, isChokepoint, lineClear, regionsOf, speedPct } from './path';
 import { Rng } from './rng';
 import type { ScriptRuntime, ScriptState } from './script';
@@ -597,6 +597,17 @@ export class Sim {
         if (sid < 0 || sid >= SPELLS.length) return;
         const pxf = hasPoint ? Math.round(cmd.x! * FP) : 0;
         const pyf = hasPoint ? Math.round(cmd.y! * FP) : 0;
+        if (sid === 24 && !hasPoint && isCorpse(this, t)) {
+          for (const id of ids) {
+            if (!knows(this, id, 24) && !knows(this, id, 21)) continue;
+            if (cb.mana[id] < 30) continue;
+            cb.mana[id] -= 30;
+            cb.cd[id] = 75;
+            revive(this, t);
+            break;
+          }
+          return;
+        }
         const tk = SPELLS[sid].tk;
         for (const id of ids) {
           if (!knows(this, id, sid)) continue;

@@ -205,8 +205,8 @@ export class PauseMenu {
       },
       {
         icon: '🎮',
-        title: 'D2R Controller Skill Assignment',
-        subtitle: 'Bind spells & skills to the 12 PS5 DualSense slots',
+        title: 'Controller Skill Assignment',
+        subtitle: 'Bind spells & skills to the 12 Gamepad / DualSense slots',
         action: () => {
           this.close();
           this.ctx.openSkillAssignment?.();
@@ -239,8 +239,8 @@ export class PauseMenu {
       {
         icon: '🚪',
         title: 'Save and Exit',
-        subtitle: 'Save character progress & return safely to Town Hub (D2R)',
-        badge: 'D2',
+        subtitle: 'Save character progress & return safely to Town Hub',
+        badge: 'HUB',
         action: () => {
           if (this.ctx.saveAndExit) this.ctx.saveAndExit();
           else this.ctx.exitToMain();
@@ -320,7 +320,7 @@ export class PauseMenu {
         ],
       },
       {
-        category: 'D2R Resurrected PS5 Controller Layout',
+        category: 'Gamepad & DualSense Controller Layout',
         icon: '🎮',
         keys: [
           { key: 'Left Stick', label: '360° Hero Movement', detail: 'Direct analog real-time movement for your hero and company.' },
@@ -340,7 +340,7 @@ export class PauseMenu {
           { key: 'Touchpad', label: 'Inventory / Hero Sheet', detail: 'DualSense touchpad click: Toggle character equipment and backpack.' },
           { key: 'Options', label: 'Game Menu (Save & Exit)', detail: 'Pause simulation cleanly and access Gothic game options.' },
           { key: 'Share / Select', label: 'Quest Journal', detail: 'View current chapter objectives, subquests, and campaign progress.' },
-          { key: 'L1', label: 'Select Hero / Rebind Skills', detail: 'Center viewport on hero or access D2R skill assignment.' },
+          { key: 'L1', label: 'Select Hero / Rebind Skills', detail: 'Center viewport on hero or access controller skill assignment.' },
         ],
       },
       {

@@ -362,7 +362,7 @@
       "note": "Dedicated Ashkarath Act 4 boss spritesheet JSON"
     },
     {
-      "path": "public/terrain/terrain-b99f623a8e97.png",
+      "path": "public/terrain/terrain-8827ede3f508.png",
       "license": "own",
       "source": "tools/make-terrain.py",
       "note": "Original procedural terrain, edge feathers, trees, cottages and ruins; seed 1032026, Pillow 12.3.0. No source images. Reproduce: docs/TERRAIN-ART.md"

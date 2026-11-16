@@ -101,34 +101,80 @@ function cellHash(x: number, y: number, k: number): number {
   return (h ^ (h >>> 16)) >>> 0;
 }
 
-/** Sparse ground clutter (tufts, pebbles, reeds), deterministic per tile and baked into the chunk. */
+/** Sparse ground clutter (cobblestones, shaded pebbles, multi-blade grass tufts, marsh reeds), deterministic per tile and baked into the chunk. */
 function paintDecals(g: CanvasRenderingContext2D, kind: number, x: number, y: number, px: number, py: number): void {
   if (kind === Terrain.Water) return;
   const roll = cellHash(x, y, 0) % 100;
-  if (roll >= 28) return;
+  if (roll >= 34) return;
   const n = 1 + (cellHash(x, y, 1) % 3);
   for (let k = 0; k < n; k++) {
     const h = cellHash(x, y, 2 + k);
-    const dx = px + 3 + (h % 26);
-    const dy = py + 4 + ((h >>> 8) % 24);
+    const dx = px + 4 + (h % 22);
+    const dy = py + 5 + ((h >>> 8) % 20);
     if (kind === Terrain.Grass) {
-      const flower = (h >>> 16) % 9 === 0;
-      g.fillStyle = flower ? ['#e8d8f0', '#f0d060', '#e07878'][(h >>> 20) % 3]! : 'rgba(20,110,35,.75)';
-      if (flower) g.fillRect(dx, dy, 2, 2);
-      else {
-        g.fillRect(dx, dy, 1, 3);
-        g.fillRect(dx + 2, dy + 1, 1, 2);
-        g.fillRect(dx - 2, dy + 1, 1, 2);
+      const flower = (h >>> 16) % 8 === 0;
+      if (flower) {
+        // Shaded wildflower with stem, leaf, petal cluster and bright center pip
+        g.fillStyle = 'rgba(22,74,28,.72)';
+        g.fillRect(dx, dy + 1, 1, 3);
+        g.fillRect(dx - 1, dy + 2, 2, 1);
+        const petals = ['rgba(232,214,244,.88)', 'rgba(244,210,88,.88)', 'rgba(228,116,116,.88)'][(h >>> 20) % 3]!;
+        g.fillStyle = petals;
+        g.fillRect(dx - 1, dy, 3, 1);
+        g.fillRect(dx, dy - 1, 1, 3);
+        g.fillStyle = 'rgba(255,245,170,.95)';
+        g.fillRect(dx, dy, 1, 1);
+      } else {
+        // Layered 3-tone grass tuft with root shadow, emerald blades and sunlit tips
+        g.fillStyle = 'rgba(14,42,18,.55)';
+        g.fillRect(dx - 2, dy + 2, 5, 1);
+        g.fillStyle = 'rgba(26,98,36,.78)';
+        g.fillRect(dx, dy - 1, 1, 3);
+        g.fillRect(dx - 2, dy, 1, 2);
+        g.fillRect(dx + 2, dy, 1, 2);
+        g.fillStyle = 'rgba(88,162,58,.72)';
+        g.fillRect(dx, dy - 2, 1, 1);
+        g.fillRect(dx - 2, dy - 1, 1, 1);
+        g.fillRect(dx + 2, dy - 1, 1, 1);
       }
     } else if (kind === Terrain.Dirt || kind === Terrain.Rock) {
-      g.fillStyle = 'rgba(40,30,22,.35)';
-      g.fillRect(dx, dy + 1, 4, 2);
-      g.fillStyle = 'rgba(190,175,150,.55)';
-      g.fillRect(dx, dy, 3, 2);
+      const isSlab = (h >>> 16) % 3 !== 0;
+      if (isSlab) {
+        // Bevelled road flagstone / paving slab with mortar joint, stone body and NW highlight
+        const sw = 4 + ((h >>> 19) % 3);
+        const sh = 2 + ((h >>> 22) % 2);
+        g.fillStyle = 'rgba(28,22,16,.42)';
+        g.fillRect(dx - 1, dy, sw + 1, sh + 1);
+        g.fillStyle = kind === Terrain.Dirt ? 'rgba(142,126,104,.46)' : 'rgba(116,118,114,.48)';
+        g.fillRect(dx, dy, sw, sh);
+        g.fillStyle = 'rgba(212,198,174,.52)';
+        g.fillRect(dx, dy, sw - 1, 1);
+        g.fillRect(dx, dy, 1, sh - 1);
+      } else {
+        // Shaded 3D pebble with drop shadow, midtone and specular glint
+        g.fillStyle = 'rgba(24,18,12,.45)';
+        g.fillRect(dx, dy + 1, 3, 2);
+        g.fillStyle = 'rgba(136,124,108,.65)';
+        g.fillRect(dx, dy, 3, 2);
+        g.fillStyle = 'rgba(220,210,192,.75)';
+        g.fillRect(dx, dy, 1, 1);
+      }
     } else if (kind === Terrain.Marsh) {
-      g.fillStyle = 'rgba(40,70,20,.8)';
-      g.fillRect(dx, dy - 2, 1, 5);
+      // Swamp reeds and cattails with dark water ripple at base
+      g.fillStyle = 'rgba(20,36,30,.48)';
+      g.fillRect(dx - 2, dy + 3, 6, 1);
+      g.fillStyle = 'rgba(38,68,24,.82)';
+      g.fillRect(dx, dy - 3, 1, 6);
       g.fillRect(dx + 2, dy - 1, 1, 4);
+      g.fillRect(dx - 2, dy, 1, 3);
+      g.fillStyle = 'rgba(84,118,46,.72)';
+      g.fillRect(dx, dy - 3, 1, 2);
+      g.fillRect(dx + 2, dy - 1, 1, 1);
+      // Cattail brown seed cylinder on main stalk
+      if ((h >>> 17) & 1) {
+        g.fillStyle = 'rgba(72,42,20,.92)';
+        g.fillRect(dx, dy - 2, 1, 2);
+      }
     }
   }
 }

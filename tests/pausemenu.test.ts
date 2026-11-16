@@ -210,7 +210,7 @@ describe('Gothic In-Game Pause Menu & Game Codex (#pause-menu)', () => {
     const titles = buttons.map(b => b.querySelector('.pause-btn-title')?.textContent);
     expect(titles).toContain('Resume Game');
     expect(titles).toContain('Controls & Hotkeys');
-    expect(titles).toContain('D2R Controller Skill Assignment');
+    expect(titles).toContain('Controller Skill Assignment');
     expect(titles).toContain('Magic & Spells Codex');
     expect(titles).toContain('Settings (Audio & Display)');
     expect(titles).toContain('Save Game / Load Game');

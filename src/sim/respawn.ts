@@ -2,6 +2,7 @@ import type { Scenario } from './bot';
 import { FP, type Sim } from './sim';
 import { mulberry32 } from '../map-generator';
 import { Kind, DEFS } from './combat';
+import { getSuperUniquesForAct, spawnSuperUniqueInPack } from './super-uniques';
 
 export const D2R_BOSS_MODS = [
   'extra_fast',
@@ -14,6 +15,8 @@ export const D2R_BOSS_MODS = [
   'mana_burn',
   'magic_resistant',
   'blessed_aura',
+  'cursed',
+  'teleporting',
 ] as const;
 
 export type D2RBossMod = (typeof D2R_BOSS_MODS)[number];
@@ -62,7 +65,7 @@ export function applyDynamicSessionRespawn(
   sessionSeed: number,
   nodeId = 'mission',
   act: 1 | 2 | 3 | 4 = 1,
-): { championsCount: number; elitesCount: number } {
+): { championsCount: number; elitesCount: number; superUniquesCount: number; superUniques: string[] } {
   const seed = (sessionSeed ^ hashString(nodeId)) >>> 0;
   const rng = mulberry32(seed);
 
@@ -78,6 +81,8 @@ export function applyDynamicSessionRespawn(
 
   let championsCount = 0;
   let elitesCount = 0;
+  let superUniquesCount = 0;
+  const superUniques: string[] = [];
 
   // Identify pack leaders among enemy units (team 1)
   const enemyPackLeaders: number[] = [];
@@ -145,6 +150,30 @@ export function applyDynamicSessionRespawn(
     championsCount++;
   }
 
+  // Spawn 1-2 Named Super-Unique bosses with their retinue in wilderness zones
+  const actSuperPool = [...getSuperUniquesForAct(act)];
+  for (let i = actSuperPool.length - 1; i > 0; i--) {
+    const j = Math.floor(rng() * (i + 1));
+    const tmp = actSuperPool[i];
+    actSuperPool[i] = actSuperPool[j];
+    actSuperPool[j] = tmp;
+  }
+
+  const maxSuperUniques = enemyPackLeaders.length >= 3 ? 2 : enemyPackLeaders.length >= 1 ? 1 : 0;
+  for (let s = 0; s < maxSuperUniques && s < actSuperPool.length; s++) {
+    // Pick from the end of enemyPackLeaders so we keep elite/champion variety too
+    const leaderId = enemyPackLeaders[enemyPackLeaders.length - 1 - s];
+    const pack = scenario.packs.find((p) => p.ids[0] === leaderId);
+    if (pack) {
+      const spawned = spawnSuperUniqueInPack(sim, pack, actSuperPool[s]);
+      if (spawned) {
+        superUniquesCount++;
+        elitesCount++;
+        superUniques.push(spawned.def.id);
+      }
+    }
+  }
+
   // Deterministically jitter positions of monster packs around walkable paths
   for (const pack of scenario.packs) {
     const jitterX = randInt(-2, 2);
@@ -171,5 +200,5 @@ export function applyDynamicSessionRespawn(
     }
   }
 
-  return { championsCount, elitesCount };
+  return { championsCount, elitesCount, superUniquesCount, superUniques };
 }

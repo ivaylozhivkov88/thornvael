@@ -804,7 +804,7 @@ function unitThink(sim: Sim, i: number): void {
     }
     case Ord.Cast: {
       const sid = cb.aux[i];
-      if (!d.caster || !knows(sim, i, sid)) {
+      if ((!d.caster && cb.known[i] === 0) || !knows(sim, i, sid)) {
         toGuard(sim, i);
         return;
       }

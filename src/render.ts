@@ -60,6 +60,87 @@ const KIND_LOOK: Record<number, { tint?: number; scale: number }> = {
   [Kind.Golem]: { tint: 0xa8a8b0, scale: 1.5 },
   [Kind.Imp]: { tint: 0xff7a3a, scale: 0.8 },
 };
+
+type FamilyOrnament =
+  | 'spines'
+  | 'wisp'
+  | 'antlers'
+  | 'shell'
+  | 'totem'
+  | 'scarab'
+  | 'serpent'
+  | 'treant'
+  | 'crown'
+  | 'drake'
+  | 'storm'
+  | 'forge'
+  | 'astral'
+  | 'bell'
+  | 'mummy'
+  | 'none';
+
+interface FamilyVisualDef {
+  scaleX: number;
+  scaleY: number;
+  /** 3-channel color harmony for (team, armour, level) mask layers */
+  tints: readonly [number, number, number];
+  auraColor: number;
+  ornament: FamilyOrnament;
+}
+
+/** Distinct battlefield proportions, 3-layer color harmonies and silhouette ornaments for all 41 monster families. */
+export const FAMILY_VISUALS: Readonly<Record<string, FamilyVisualDef>> = {
+  // Batch A (Act 1 — Marsh / Woods)
+  'briar-hound': { scaleX: 1.04, scaleY: 0.84, tints: [0xb83b2a, 0x6e4e32, 0x9c7a44], auraColor: 0xc85a32, ornament: 'spines' },
+  'flintback': { scaleX: 1.32, scaleY: 1.18, tints: [0x5c8a58, 0x7a8288, 0x989e94], auraColor: 0x7a9a72, ornament: 'shell' },
+  'mire-wisp': { scaleX: 0.86, scaleY: 0.96, tints: [0x38e8c8, 0x2aa8d8, 0x90fff0], auraColor: 0x40f0d0, ornament: 'wisp' },
+  'ruin-mite': { scaleX: 0.82, scaleY: 0.72, tints: [0xd46a28, 0x8a5836, 0xc89a52], auraColor: 0xd47a38, ornament: 'scarab' },
+  'thorn-boar': { scaleX: 1.16, scaleY: 0.94, tints: [0x8c3828, 0x5c402c, 0xd8c8a8], auraColor: 0xa85838, ornament: 'spines' },
+  'quill-fiend': { scaleX: 0.95, scaleY: 1.0, tints: [0xd83848, 0x784838, 0xe8b050], auraColor: 0xe04848, ornament: 'spines' },
+  'fallen-shaman': { scaleX: 1.02, scaleY: 1.08, tints: [0xe03020, 0xd8c8a0, 0xff9830], auraColor: 0xff6820, ornament: 'totem' },
+
+  // Batch B (Act 1/2 — Forest / Coast)
+  'glasswing': { scaleX: 0.9, scaleY: 1.04, tints: [0x60e0ff, 0x98d8ff, 0xe0ffff], auraColor: 0x70e8ff, ornament: 'wisp' },
+  'rootbound': { scaleX: 1.42, scaleY: 1.48, tints: [0x48a840, 0x6e5034, 0x5c8838], auraColor: 0x58b848, ornament: 'treant' },
+  'cinderling': { scaleX: 0.84, scaleY: 0.86, tints: [0xff5818, 0x583830, 0xffc840], auraColor: 0xff6820, ornament: 'forge' },
+  'gloom-stag': { scaleX: 1.08, scaleY: 1.2, tints: [0x8868d8, 0x483c68, 0xc8d8f8], auraColor: 0x9878e8, ornament: 'antlers' },
+  'salt-crab': { scaleX: 1.3, scaleY: 0.96, tints: [0xe05848, 0x5898a8, 0xd8a888], auraColor: 0x58b8c8, ornament: 'shell' },
+  'fetish-blowdart': { scaleX: 0.78, scaleY: 0.8, tints: [0x78e838, 0xd8c898, 0x987040], auraColor: 0x78e838, ornament: 'totem' },
+  'witch-doctor': { scaleX: 1.04, scaleY: 1.14, tints: [0x9848d8, 0x48c878, 0xe8d8a8], auraColor: 0x58d888, ornament: 'totem' },
+
+  // Batch C (Act 2 — Desert / Dunes)
+  'hollow-knight': { scaleX: 1.08, scaleY: 1.12, tints: [0x48b8c8, 0x687482, 0x98a8b8], auraColor: 0x58c8d8, ornament: 'crown' },
+  'spore-matron': { scaleX: 1.12, scaleY: 1.08, tints: [0xc858b8, 0x68a848, 0x98d860], auraColor: 0x88d858, ornament: 'astral' },
+  'dune-lurker': { scaleX: 1.06, scaleY: 0.88, tints: [0xd89838, 0xa87c48, 0xe8c478], auraColor: 0xd8a040, ornament: 'spines' },
+  'storm-kite': { scaleX: 0.96, scaleY: 1.08, tints: [0x4898ff, 0x485888, 0xffd858], auraColor: 0x58a8ff, ornament: 'storm' },
+  'basalt-brute': { scaleX: 1.54, scaleY: 1.5, tints: [0xff7828, 0x48444c, 0x686268], auraColor: 0xff8030, ornament: 'forge' },
+  'sand-raider': { scaleX: 1.04, scaleY: 1.06, tints: [0xd83828, 0xc8a468, 0xe8d098], auraColor: 0xe09838, ornament: 'none' },
+  'dune-scarab': { scaleX: 1.14, scaleY: 0.84, tints: [0x38d8e8, 0x387888, 0xe8c048], auraColor: 0x48e0ff, ornament: 'scarab' },
+  'claw-viper': { scaleX: 1.04, scaleY: 1.16, tints: [0x28c868, 0xd8b040, 0x489858], auraColor: 0x38d878, ornament: 'serpent' },
+  'dune-beast': { scaleX: 1.16, scaleY: 1.02, tints: [0xb83828, 0x987040, 0xd4a458], auraColor: 0xc87838, ornament: 'spines' },
+  'maggot-swarm': { scaleX: 1.04, scaleY: 0.78, tints: [0x98e838, 0x789848, 0xb8d870], auraColor: 0x98e838, ornament: 'scarab' },
+
+  // Batch D (Act 3 — Bog / Crypt / Mountain)
+  'lantern-eel': { scaleX: 0.94, scaleY: 1.1, tints: [0xffe848, 0x286898, 0x48d8ff], auraColor: 0x48e0ff, ornament: 'wisp' },
+  'ash-weaver': { scaleX: 1.04, scaleY: 1.12, tints: [0xff5820, 0x686068, 0xffa838], auraColor: 0xff6828, ornament: 'forge' },
+  'pale-burrower': { scaleX: 1.1, scaleY: 0.92, tints: [0xd82838, 0xb8b0a8, 0xe8e2d8], auraColor: 0xd84848, ornament: 'spines' },
+  'ironbark': { scaleX: 1.56, scaleY: 1.64, tints: [0x38e878, 0x687078, 0x586458], auraColor: 0x48e888, ornament: 'treant' },
+  'rift-moth': { scaleX: 0.98, scaleY: 1.1, tints: [0xe058ff, 0x583888, 0x98c8ff], auraColor: 0xd868ff, ornament: 'astral' },
+  'greater-mummy': { scaleX: 1.18, scaleY: 1.24, tints: [0x48e868, 0xd8b048, 0xd8cfb8], auraColor: 0x58e878, ornament: 'mummy' },
+  'hollow-king': { scaleX: 1.26, scaleY: 1.32, tints: [0x48c8ff, 0x586880, 0xffd860], auraColor: 0x58d0ff, ornament: 'crown' },
+  'wendigo-bruiser': { scaleX: 1.48, scaleY: 1.44, tints: [0x68d8ff, 0x98b8d0, 0xe8f4ff], auraColor: 0x78e0ff, ornament: 'antlers' },
+
+  // Batch E (Act 4 — Highland / Citadel / Cinderforge)
+  'crowned-maw': { scaleX: 1.2, scaleY: 1.12, tints: [0xe82838, 0x782828, 0xe8d8b0], auraColor: 0xe83838, ornament: 'crown' },
+  'frost-bell': { scaleX: 1.08, scaleY: 1.18, tints: [0x78e8ff, 0xa8b8c8, 0xd8f0ff], auraColor: 0x88f0ff, ornament: 'bell' },
+  'silt-colossus': { scaleX: 1.66, scaleY: 1.64, tints: [0x38a8ff, 0xd8b060, 0xb89868], auraColor: 0x48b8ff, ornament: 'crown' },
+  'redglass-drake': { scaleX: 1.3, scaleY: 1.26, tints: [0xff2838, 0x981828, 0xffb838], auraColor: 0xff4828, ornament: 'drake' },
+  'night-orchard': { scaleX: 1.12, scaleY: 1.18, tints: [0xb858ff, 0x382858, 0xd8c8f8], auraColor: 0xc868ff, ornament: 'astral' },
+  'stormtree': { scaleX: 1.58, scaleY: 1.64, tints: [0x48d8ff, 0x484c58, 0x98e8ff], auraColor: 0x58e0ff, ornament: 'storm' },
+  'doom-knight': { scaleX: 1.24, scaleY: 1.28, tints: [0xff2828, 0x383842, 0xd86828], auraColor: 0xff3828, ornament: 'crown' },
+  'cinderhorn': { scaleX: 1.34, scaleY: 1.32, tints: [0xff4818, 0x682420, 0xffd048], auraColor: 0xff5820, ornament: 'drake' },
+  'anvilmaw-smith': { scaleX: 1.62, scaleY: 1.56, tints: [0xff6818, 0x785838, 0xffc848], auraColor: 0xff7820, ornament: 'forge' },
+};
 const ELEM_COLOR = [0xffffff, 0xff9a3a, 0x6ac8ff, 0xd8f0ff, 0xb59a6a, 0xd48aff];
 /** Colours of the status pips drawn over a unit, indexed by status id. */
 export const STATUS_COLORS = [0xffe070, 0x70c8ff, 0xffffff, 0x6a8cff, 0x7cd14a, 0xff7a2a, 0x9a9a9a, 0xb070c0];
@@ -272,12 +353,21 @@ export class Renderer {
       const s = atlas ? new UnitSprite(atlas, boss) : new Sprite(tex);
       if (s instanceof Sprite) s.anchor.set(0.5, 0.88);
       const look = KIND_LOOK[kind] ?? { scale: 1 };
-      const finalScale = boss?.scale ?? look.scale;
-      s.scale.set(finalScale);
-      // Your units keep the team colour (the hero stays gold); monsters use the colour of their kind.
+      const famVis = sim.cb.family[i] ? FAMILY_VISUALS[sim.cb.family[i]] : undefined;
+      const isChamp = (sim.cb.bossMods[i]?.length ?? 0) > 0 && !boss;
+      const champMul = isChamp ? 1.12 : 1;
+      if (boss) {
+        s.scale.set(boss.scale);
+      } else if (famVis) {
+        s.scale.set(famVis.scaleX * champMul, famVis.scaleY * champMul);
+      } else {
+        s.scale.set(look.scale * champMul);
+      }
+      // Your units keep the team colour (the hero stays gold); monsters use the colour of their kind or family.
       if (s instanceof Sprite) {
         if (sim.team[i] === 0) s.tint = kind === Kind.Hero || kind === Kind.Mage ? look.tint! : TEAM_TINT[0];
         else if (boss?.signatureColor) s.tint = boss.signatureColor;
+        else if (famVis) s.tint = famVis.auraColor;
         else s.tint = kind === Kind.Archer ? TEAM_TINT[1] : look.tint ?? TEAM_TINT[1];
       }
       this.baseTint.push(s.tint as number);
@@ -777,6 +867,13 @@ export class Renderer {
           extraLights.push({ x: (sim.shrines[n].x + 0.5) * TILE, y: (sim.shrines[n].y + 0.5) * TILE, r: 75 * this.zoom });
         }
       }
+      if (sim.towns?.length) {
+        for (const town of sim.towns) {
+          for (const c of town.centre) {
+            if (c) extraLights.push({ x: c[0] * TILE, y: (c[1] + 0.6) * TILE, r: 120 * this.zoom });
+          }
+        }
+      }
       this.feel.renderLighting(this.viewW, this.viewH, heroX, heroY, this.camX, this.camY, this.zoom, sim.daylight, now, extraLights);
     } else {
       this.updateLight(sim.daylight);
@@ -977,7 +1074,20 @@ export class Renderer {
       if (s.visible && s instanceof UnitSprite) {
         const armour = sim.hero?.id === i ? (sim.hero.eq[Slot.Armor] >= 0 ? getItemDef(sim.hero.eq[Slot.Armor])?.tier ?? 0 : 0) : 1;
         this.animation?.sample(sim, i, this.pose);
-        s.update(sim.tick, !!sim.moving[i], sim.dir[i], sim.team[i], armour, sim.cb.tier[i] || 1, !!(mask & (1 << St.Stone)), this.pose, statusTint);
+        const stone = !!(mask & (1 << St.Stone));
+        s.update(sim.tick, !!sim.moving[i], sim.dir[i], sim.team[i], armour, sim.cb.tier[i] || 1, stone, this.pose, statusTint);
+        if (!stone && statusTint === 0) {
+          // Preserve unmasked full-RGB details on layer 0 and apply distinct family 3-layer color harmony
+          const ch = s.children as Sprite[];
+          if (ch[0]) ch[0].tint = 0xffffff;
+          const famId = cb.family[i];
+          const famVis = famId ? FAMILY_VISUALS[famId] : undefined;
+          if (famVis && ch.length >= 4) {
+            ch[1].tint = famVis.tints[0];
+            ch[2].tint = famVis.tints[1];
+            ch[3].tint = famVis.tints[2];
+          }
+        }
       }
       if (s.visible && !dead && (sim.tick & 3) === 0) {
         if (mask & (1 << St.Poison)) this.feel?.spawnPoisonBubbles(s.x, s.y - 14, 1);
@@ -986,6 +1096,93 @@ export class Renderer {
     }
     const sh = this.shots;
     sh.clear();
+
+    // Medieval Town Hub Architecture: cobblestone plaza, warm window & torch light spills, banners and props
+    if (sim.towns?.length) {
+      for (const town of sim.towns) {
+        let sumX = 0;
+        let sumY = 0;
+        let countB = 0;
+        for (let role = 0; role < town.centre.length; role++) {
+          const c = town.centre[role];
+          if (!c) continue;
+          const tileIdx = Math.min(this.map.h - 1, Math.max(0, Math.floor(c[1]))) * mw + Math.min(mw - 1, Math.max(0, Math.floor(c[0])));
+          if (!sim.explored[tileIdx]) continue;
+          const bx = c[0] * TILE;
+          const by = c[1] * TILE;
+          sumX += bx;
+          sumY += by + TILE;
+          countB++;
+
+          // Dressed stone courtyard apron under and in front of the building
+          r.roundRect(bx - 42, by - 26, 84, 72, 8)
+            .fill({ color: 0x585248, alpha: 0.42 })
+            .stroke({ color: 0x8e8474, width: 1.5, alpha: 0.55 });
+          r.roundRect(bx - 36, by - 20, 72, 60, 6).stroke({ color: 0x38322a, width: 1, alpha: 0.45 });
+
+          // Warm golden window & doorway light spill on courtyard stones
+          const flicker = 0.85 + 0.15 * Math.sin(sim.tick * 0.18 + role * 2.1);
+          const glowCol = role === 0 ? 0xffaa38 : role === 1 ? 0xff6820 : 0x58c8ff;
+          r.ellipse(bx, by + 28, 26 * flicker, 12 * flicker).fill({ color: glowCol, alpha: 0.22 * flicker });
+          r.ellipse(bx, by + 26, 15 * flicker, 7 * flicker).fill({ color: 0xffe898, alpha: 0.28 * flicker });
+
+          // Flickering entrance torch posts flanking the building doorway
+          for (const side of [-1, 1]) {
+            const tx = bx + side * 28;
+            const ty = by + 22;
+            sh.rect(tx - 1.5, ty - 10, 3, 10).fill(0x3a2818);
+            const fh = 4.5 + ((frame8 + (side > 0 ? 2 : 0)) % 3) * 0.9;
+            sh.ellipse(tx, ty - 12, 3, fh * 0.6).fill({ color: role === 2 ? 0x48d8ff : 0xff7818, alpha: 0.9 });
+            sh.circle(tx, ty - 12, 1.6).fill({ color: 0xfff4a8, alpha: 0.95 });
+          }
+
+          // Fluttering Heraldic Banner & role-specific architectural props
+          const bannerX = bx - 34;
+          const bannerY = by + 8;
+          const wave = Math.sin(sim.tick * 0.14 + role) * 2;
+          const bannerCol = role === 0 ? 0xc82838 : role === 1 ? 0x2858a8 : 0x7838b8;
+          const trimCol = 0xf0c850;
+          sh.rect(bannerX - 1, bannerY - 22, 2, 24).fill(0x4a3828);
+          sh.moveTo(bannerX + 1, bannerY - 20)
+            .lineTo(bannerX + 11 + wave, bannerY - 17)
+            .lineTo(bannerX + 8 + wave * 0.8, bannerY - 6)
+            .lineTo(bannerX + 1, bannerY - 9)
+            .closePath()
+            .fill(bannerCol)
+            .stroke({ color: trimCol, width: 1 });
+
+          if (role === 0) {
+            // Tavern: oak ale barrels & warm lantern post
+            sh.circle(bx + 32, by + 16, 4.5).fill(0x784c28).stroke({ color: 0x2c1a0c, width: 1 });
+            sh.circle(bx + 37, by + 21, 4.5).fill(0x684020).stroke({ color: 0x2c1a0c, width: 1 });
+          } else if (role === 1) {
+            // Blacksmith: glowing forge brazier & steel anvil
+            sh.circle(bx + 33, by + 18, 5.5).fill(0x383840).stroke({ color: 0x18181c, width: 1.5 });
+            sh.circle(bx + 33, by + 18, 3.5 * flicker).fill({ color: 0xff5818, alpha: 0.9 });
+            sh.circle(bx + 33, by + 18, 1.8).fill(0xffe068);
+          } else if (role === 2) {
+            // Mage School: inscribed arcane courtyard rune circle
+            const rot = sim.tick * 0.03;
+            r.ellipse(bx, by + 26, 20, 10).stroke({ color: 0x58d0ff, width: 1.2, alpha: 0.55 });
+            for (let p = 0; p < 4; p++) {
+              const a = rot + p * (Math.PI / 2);
+              r.circle(bx + Math.cos(a) * 20, by + 26 + Math.sin(a) * 10, 2).fill({ color: 0xb8f4ff, alpha: 0.8 });
+            }
+          }
+        }
+        if (countB >= 2) {
+          // Central Town Plaza compass medallion & fountain connecting the buildings
+          const px = sumX / countB;
+          const py = sumY / countB;
+          r.ellipse(px, py, 34, 18)
+            .fill({ color: 0x625a4e, alpha: 0.38 })
+            .stroke({ color: 0x9e9280, width: 1.5, alpha: 0.55 });
+          r.ellipse(px, py, 14, 7.5)
+            .fill({ color: 0x286890, alpha: 0.55 })
+            .stroke({ color: 0xb8b0a0, width: 2, alpha: 0.7 });
+        }
+      }
+    }
     // Hit-point bars: Low draws them only for selected units, Medium adds hurt units, High draws every hurt unit in view.
     for (let i = 0; i < sim.count; i++) {
       const s = this.sprites[i];
@@ -1023,15 +1220,162 @@ export class Renderer {
     }
     for (let i = 0; i < sim.count; i++) {
       if ((!cb.bossMods[i]?.length && !cb.family[i]) || cb.hp[i] <= 0 || !this.sprites[i].visible) continue;
-      const boss = cb.family[i] ? bossSpriteDef(cb.family[i]) : undefined;
+      const famId = cb.family[i];
+      const boss = famId ? bossSpriteDef(famId) : undefined;
+      const famVis = famId ? FAMILY_VISUALS[famId] : undefined;
+      const mods = cb.bossMods[i] ?? [];
+      const isElite = mods.length > 0 || !!boss;
       const s = this.sprites[i];
-      const auraTint = boss?.auraTint ?? 0xf4b43a;
-      const baseRadius = boss ? Math.round(14 * (boss.scale / 1.3)) : 13;
-      r.ellipse(s.x, s.y, baseRadius, Math.round(baseRadius * 0.46)).stroke({ color: auraTint, width: 1.5, alpha: 0.85 });
-      if (boss || cb.bossMods[i]?.includes('blessed_aura')) {
-        const pulse = 1 + 0.15 * Math.sin(sim.tick * 0.2);
-        const outerTint = boss ? boss.auraTint : 0xffd700;
-        r.ellipse(s.x, s.y, Math.round(baseRadius * 1.8 * pulse), Math.round(baseRadius * 0.9 * pulse)).stroke({ color: outerTint, width: 1.5, alpha: 0.5 });
+      const auraTint = boss?.auraTint ?? (isElite ? 0xf4b43a : famVis?.auraColor ?? 0xf4b43a);
+      const baseRadius = boss ? Math.round(14 * (boss.scale / 1.3)) : isElite ? 14 : 11;
+
+      // Ground runic / family ring
+      r.ellipse(s.x, s.y, baseRadius, Math.round(baseRadius * 0.46)).stroke({
+        color: auraTint,
+        width: isElite ? 1.8 : 1.2,
+        alpha: isElite ? 0.88 : 0.48,
+      });
+
+      if (boss || isElite || mods.includes('blessed_aura')) {
+        const pulse = 1 + 0.14 * Math.sin(sim.tick * 0.2 + i);
+        const outerTint = boss ? boss.auraTint : mods.includes('blessed_aura') ? 0xffd700 : auraTint;
+        const rxOut = Math.round(baseRadius * 1.45 * pulse);
+        const ryOut = Math.round(baseRadius * 0.68 * pulse);
+        r.ellipse(s.x, s.y, rxOut, ryOut).stroke({ color: outerTint, width: 1.4, alpha: 0.55 });
+        // Rotating arcane rune nodes on the ground circle for Champions & Bosses
+        const nodeCount = boss ? 6 : 4;
+        const rot = sim.tick * 0.05 + i;
+        for (let n = 0; n < nodeCount; n++) {
+          const ang = rot + (n * Math.PI * 2) / nodeCount;
+          sh.circle(s.x + Math.cos(ang) * rxOut, s.y + Math.sin(ang) * ryOut, 1.8).fill({ color: 0xffffff, alpha: 0.85 });
+        }
+      }
+
+      const headY = s.y - (s instanceof UnitSprite ? 48 : 36) * s.scale.y;
+
+      // Distinct Monster Family Silhouette Ornaments on the battlefield
+      if (famVis && famVis.ornament !== 'none') {
+        const orn = famVis.ornament;
+        const col = famVis.auraColor;
+        const bob = Math.sin(sim.tick * 0.15 + i) * 2;
+        if (orn === 'antlers') {
+          sh.moveTo(s.x - 3, headY + 8).lineTo(s.x - 9, headY + 1).lineTo(s.x - 6, headY - 3).stroke({ color: col, width: 1.6, alpha: 0.9 });
+          sh.moveTo(s.x + 3, headY + 8).lineTo(s.x + 9, headY + 1).lineTo(s.x + 6, headY - 3).stroke({ color: col, width: 1.6, alpha: 0.9 });
+        } else if (orn === 'wisp' || orn === 'astral') {
+          const a = sim.tick * 0.12 + i;
+          sh.circle(s.x + Math.cos(a) * 11, s.y - 16 + Math.sin(a * 2) * 3, 2.4).fill({ color: col, alpha: 0.9 });
+          sh.circle(s.x - Math.cos(a) * 11, s.y - 16 - Math.sin(a * 2) * 3, 1.8).fill({ color: 0xffffff, alpha: 0.85 });
+        } else if (orn === 'totem') {
+          sh.moveTo(s.x, headY + 2 + bob).lineTo(s.x + 3.5, headY + 7 + bob).lineTo(s.x - 3.5, headY + 7 + bob).closePath().fill({ color: col, alpha: 0.88 });
+        } else if (orn === 'spines') {
+          for (let sp = -1; sp <= 1; sp++) {
+            sh.moveTo(s.x + sp * 4, s.y - 18).lineTo(s.x + sp * 5, s.y - 24).stroke({ color: col, width: 1.5, alpha: 0.85 });
+          }
+        } else if (orn === 'treant') {
+          sh.circle(s.x - 6, headY + 10, 2.5).fill({ color: 0x58d848, alpha: 0.85 });
+          sh.circle(s.x + 6, headY + 10, 2.5).fill({ color: 0x58d848, alpha: 0.85 });
+        } else if (orn === 'drake' || orn === 'forge') {
+          sh.circle(s.x, s.y - 18 + bob, 2.8).fill({ color: 0xff7820, alpha: 0.85 });
+          sh.circle(s.x, s.y - 18 + bob, 1.4).fill({ color: 0xffe878, alpha: 0.95 });
+        } else if (orn === 'storm' || orn === 'scarab') {
+          const jx = ((sim.tick + i) & 1) ? 3 : -3;
+          sh.moveTo(s.x - 5, s.y - 16).lineTo(s.x + jx, s.y - 21).lineTo(s.x + 5, s.y - 15).stroke({ color: 0x70e8ff, width: 1.5, alpha: 0.9 });
+        } else if (orn === 'crown') {
+          sh.moveTo(s.x - 5, headY + 6).lineTo(s.x - 3, headY + 2).lineTo(s.x, headY + 5).lineTo(s.x + 3, headY + 2).lineTo(s.x + 5, headY + 6).stroke({ color: col, width: 1.5, alpha: 0.9 });
+        } else if (orn === 'bell' || orn === 'mummy' || orn === 'serpent' || orn === 'shell') {
+          sh.ellipse(s.x, s.y - 14, 9, 5).stroke({ color: col, width: 1.2, alpha: 0.65 });
+        }
+      }
+
+      // Champion / Super-Unique / Act Boss Crown Emblem above head & Elemental Body Affixes
+      if (isElite) {
+        const cy = headY - 9;
+        const isSuper = !!boss || mods.length >= 2;
+        const crownCol = boss ? boss.auraTint : isSuper ? 0xffb830 : 0xffe066;
+        if (isSuper) {
+          // Ornate 5-point Super-Unique / Boss Diadem Crown with glowing center gem
+          sh.moveTo(s.x - 8, cy + 5)
+            .lineTo(s.x - 9, cy - 1)
+            .lineTo(s.x - 4, cy + 2)
+            .lineTo(s.x, cy - 4)
+            .lineTo(s.x + 4, cy + 2)
+            .lineTo(s.x + 9, cy - 1)
+            .lineTo(s.x + 8, cy + 5)
+            .closePath()
+            .fill(crownCol)
+            .stroke({ color: 0x241408, width: 1.2 });
+          sh.circle(s.x, cy + 1, 1.8).fill(0xff2848);
+        } else {
+          // Crisp 3-point Elite Champion Crown
+          sh.moveTo(s.x - 6, cy + 4)
+            .lineTo(s.x - 6, cy - 1)
+            .lineTo(s.x - 2, cy + 2)
+            .lineTo(s.x, cy - 3)
+            .lineTo(s.x + 2, cy + 2)
+            .lineTo(s.x + 6, cy - 1)
+            .lineTo(s.x + 6, cy + 4)
+            .closePath()
+            .fill(crownCol)
+            .stroke({ color: 0x241408, width: 1 });
+        }
+
+        // Elemental body effects per bossMod
+        const bodyY = s.y - 16 * s.scale.y;
+        if (mods.includes('fire_enchanted')) {
+          const fAng = DIR_COS[sim.dir[i]] * 8;
+          const fh = 5 + (frame8 % 3) * 1.2;
+          sh.ellipse(s.x + fAng, bodyY - 2, 4, fh).fill({ color: 0xff4800, alpha: 0.85 });
+          sh.ellipse(s.x + fAng, bodyY - 2, 2.2, fh * 0.6).fill({ color: 0xffe858, alpha: 0.95 });
+        }
+        if (mods.includes('lightning_enchanted') || mods.includes('lightning') || mods.includes('spectral_hit')) {
+          const seedL = (sim.tick + i * 7) & 3;
+          const lx1 = s.x - 8 + seedL * 2;
+          const lx2 = s.x + 8 - seedL * 2;
+          sh.moveTo(lx1, bodyY - 8)
+            .lineTo(s.x + (seedL & 1 ? 4 : -4), bodyY)
+            .lineTo(lx2, bodyY + 7)
+            .stroke({ color: 0x58c8ff, width: 2, alpha: 0.9 });
+          sh.moveTo(lx1, bodyY - 8)
+            .lineTo(s.x + (seedL & 1 ? 4 : -4), bodyY)
+            .lineTo(lx2, bodyY + 7)
+            .stroke({ color: 0xffffff, width: 1, alpha: 0.95 });
+        }
+        if (mods.includes('cold_enchanted') || mods.includes('cold_touch')) {
+          for (let cIdx = 0; cIdx < 3; cIdx++) {
+            const cAng = sim.tick * 0.08 + i + (cIdx * Math.PI * 2) / 3;
+            const cx = s.x + Math.cos(cAng) * 12;
+            const cyCrystal = bodyY + Math.sin(cAng) * 6;
+            sh.moveTo(cx, cyCrystal - 4)
+              .lineTo(cx + 2.5, cyCrystal)
+              .lineTo(cx, cyCrystal + 4)
+              .lineTo(cx - 2.5, cyCrystal)
+              .closePath()
+              .fill({ color: 0x80e8ff, alpha: 0.88 })
+              .stroke({ color: 0xffffff, width: 0.8 });
+          }
+        }
+        if (mods.includes('stone_skin')) {
+          for (let gIdx = 0; gIdx < 3; gIdx++) {
+            const gAng = -sim.tick * 0.06 + i + (gIdx * Math.PI * 2) / 3;
+            const gx = s.x + Math.cos(gAng) * 13;
+            const gy = bodyY + Math.sin(gAng) * 6.5;
+            sh.roundRect(gx - 3, gy - 4, 6, 8, 1.5)
+              .fill({ color: 0x98948c, alpha: 0.92 })
+              .stroke({ color: 0x403c38, width: 1.2 });
+          }
+        }
+        if (mods.includes('extra_fast')) {
+          const dx = -DIR_COS[sim.dir[i]];
+          const dy = -DIR_SIN[sim.dir[i]];
+          for (let tr = 1; tr <= 2; tr++) {
+            sh.moveTo(s.x + dx * (6 * tr), bodyY + dy * (3 * tr) - 5)
+              .lineTo(s.x + dx * (6 * tr + 9), bodyY + dy * (3 * tr + 4.5) - 5)
+              .stroke({ color: 0x98f8ff, width: 2, alpha: 0.65 / tr });
+            sh.moveTo(s.x + dx * (6 * tr), bodyY + dy * (3 * tr) + 4)
+              .lineTo(s.x + dx * (6 * tr + 8), bodyY + dy * (3 * tr + 4) + 4)
+              .stroke({ color: 0xffe878, width: 1.6, alpha: 0.6 / tr });
+          }
+        }
       }
     }
     for (const id of v.selected) {

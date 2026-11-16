@@ -43,7 +43,22 @@ for (const a of manifest.assets) {
 }
 
 // REPO-02/04: original names must not appear in any text file (words are built from parts so this file passes)
-const banned = [['Rage of', ' Mages'], ['Allo', 'ds'], ['Niva', 'l'], ['Necromancer', "'s Rage"], ['Dia', 'blo'], ['Kur', 'ast'], ['Tal Ra', 'sha']].map(([a, b]) => new RegExp(a + b, 'i'));
+const banned = [
+  ['Rage of', ' Mages'],
+  ['Allo', 'ds'],
+  ['Niva', 'l'],
+  ['Necromancer', "'s Rage"],
+  ['Dia', 'blo'],
+  ['Kur', 'ast'],
+  ['Tal Ra', 'sha'],
+  ['Bishi', 'bosh'],
+  ['Raka', 'nishu'],
+  ['Rada', 'ment'],
+  ['Heph', 'asto'],
+  ['Izu', 'al'],
+  ['Endu', 'gu'],
+  ['De ', 'Seis'],
+].map(([a, b]) => new RegExp(a + b, 'i'));
 for (const f of files) {
   if (f === 'package-lock.json' || !TEXT_EXT.has(extname(f).toLowerCase())) continue;
   const text = readFileSync(f, 'utf8');

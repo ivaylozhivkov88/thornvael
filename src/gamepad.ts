@@ -500,7 +500,7 @@ export class SkillAssignmentModal {
 
     const h2 = document.createElement('h2');
     h2.className = 'pause-title';
-    h2.textContent = 'D2R Skill Assignment (PS5 Controller)';
+    h2.textContent = 'Controller Skill Assignment (Gamepad)';
 
     const divider = document.createElement('div');
     divider.className = 'gothic-divider';
@@ -667,10 +667,10 @@ export class SkillAssignmentModal {
     resetBtn.className = 'pause-close-btn';
     resetBtn.style.padding = '6px 14px';
     resetBtn.style.fontSize = '12px';
-    resetBtn.textContent = '↺ Reset to D2R Defaults';
+    resetBtn.textContent = '↺ Reset to Default Bindings';
     resetBtn.onclick = () => {
       this.controller.resetBindings();
-      this.host.toast?.('🎮 Controller bindings reset to D2R defaults');
+      this.host.toast?.('🎮 Controller bindings reset to defaults');
       this.render();
     };
 
