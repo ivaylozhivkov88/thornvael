@@ -54,7 +54,7 @@ const HERO_TINT = 0xffd86a;
 const KIND_LOOK: Record<number, { tint?: number; scale: number }> = {
   [Kind.Warrior]: { scale: 1 },
   [Kind.Archer]: { scale: 0.92 },
-  [Kind.Hero]: { tint: HERO_TINT, scale: 1.15 },
+  [Kind.Hero]: { tint: HERO_TINT, scale: 1.32 },
   [Kind.Mage]: { tint: 0xc9a0ff, scale: 0.95 },
   [Kind.Gnoll]: { tint: 0xc4a35a, scale: 1 },
   [Kind.Golem]: { tint: 0xa8a8b0, scale: 1.5 },
@@ -158,19 +158,67 @@ function chunkSide(map: GameMap): number {
 
 function unitTexture(): Texture {
   const cv = document.createElement('canvas');
-  cv.width = 24;
-  cv.height = 32;
+  cv.width = 32;
+  cv.height = 42;
   const g = cv.getContext('2d')!;
-  g.fillStyle = 'rgba(0,0,0,.4)';
+
+  // Soft ground contact shadow
+  g.fillStyle = 'rgba(0, 0, 0, 0.45)';
   g.beginPath();
-  g.ellipse(12, 28, 9, 3.5, 0, 0, Math.PI * 2);
+  g.ellipse(16, 38, 12, 4, 0, 0, Math.PI * 2);
   g.fill();
-  g.fillStyle = '#fff';
-  g.fillRect(6, 10, 12, 17);
-  g.fillStyle = '#e8d5b0';
+
+  // Royal blue mantle / cape
+  g.fillStyle = '#2563eb';
   g.beginPath();
-  g.arc(12, 7, 5, 0, Math.PI * 2);
+  g.moveTo(10, 16);
+  g.lineTo(7, 34);
+  g.lineTo(25, 34);
+  g.lineTo(22, 16);
+  g.closePath();
   g.fill();
+
+  // Polished steel plate body with metallic specular highlight
+  g.fillStyle = '#dce6f2';
+  g.fillRect(10, 15, 12, 16);
+  g.fillStyle = '#ffffff';
+  g.fillRect(11, 16, 3, 14);
+
+  // Knight helm & visor
+  g.fillStyle = '#b8c7db';
+  g.beginPath();
+  g.arc(16, 11, 6, 0, Math.PI * 2);
+  g.fill();
+  g.fillStyle = '#111827';
+  g.fillRect(13, 11, 6, 2);
+  g.fillStyle = '#ffd23d';
+  g.fillRect(15, 4, 2, 4);
+
+  // Kite Shield on left arm
+  g.fillStyle = '#2563eb';
+  g.beginPath();
+  g.moveTo(7, 18);
+  g.lineTo(13, 18);
+  g.lineTo(10, 29);
+  g.closePath();
+  g.fill();
+  g.lineWidth = 1.2;
+  g.strokeStyle = '#ffd23d';
+  g.stroke();
+
+  // Gleaming Steel Sword on right arm
+  g.fillStyle = '#ffffff';
+  g.fillRect(23, 7, 2, 18);
+  g.strokeStyle = '#b8c7db';
+  g.lineWidth = 0.5;
+  g.strokeRect(23, 7, 2, 18);
+  g.fillStyle = '#ffd23d';
+  g.fillRect(21, 23, 6, 2);
+  g.fillRect(23, 25, 2, 3);
+  g.beginPath();
+  g.arc(24, 29, 1.5, 0, Math.PI * 2);
+  g.fill();
+
   return Texture.from(cv);
 }
 
@@ -342,7 +390,7 @@ export class Renderer {
       const bossAtlas = boss ? atlasByArt.get(boss.id) : undefined;
       // Diagnostic presentation override only: retain the original sim kind and update path.
       const atlas = bossAtlas ?? (this.artStress ? atlases[i % atlases.length]
-        : kind === Kind.Hero ? atlases[0]
+        : kind === Kind.Hero ? (sim.hero?.cls === 1 ? atlases[4] : atlases[0])
         : kind === Kind.Archer ? atlases[1]
         : kind === Kind.Golem ? atlases[2]
         : kind === Kind.Warrior ? atlases[3]
@@ -1072,20 +1120,31 @@ export class Renderer {
       s.visible = onScreen && (dead ? !!sim.explored[tile] : sim.team[i] === 0 || sim.visible[tile] === 1);
       s.alpha = dead ? Math.min(1, cb.corp[i] / 200) : 1;
       if (s.visible && s instanceof UnitSprite) {
-        const armour = sim.hero?.id === i ? (sim.hero.eq[Slot.Armor] >= 0 ? getItemDef(sim.hero.eq[Slot.Armor])?.tier ?? 0 : 0) : 1;
+        const isHero = sim.hero?.id === i || sim.cb.kind[i] === Kind.Hero;
+        const armour = isHero ? (sim.hero && sim.hero.eq[Slot.Armor] >= 0 ? getItemDef(sim.hero.eq[Slot.Armor])?.tier ?? 0 : 0) : 1;
         this.animation?.sample(sim, i, this.pose);
         const stone = !!(mask & (1 << St.Stone));
-        s.update(sim.tick, !!sim.moving[i], sim.dir[i], sim.team[i], armour, sim.cb.tier[i] || 1, stone, this.pose, statusTint);
+        s.update(sim.tick, !!sim.moving[i], sim.dir[i], sim.team[i], armour, sim.cb.tier[i] || 1, stone, this.pose, statusTint, isHero);
         if (!stone && statusTint === 0) {
-          // Preserve unmasked full-RGB details on layer 0 and apply distinct family 3-layer color harmony
+          // Preserve unmasked full-RGB details on layer 0 and apply distinct family / hero color harmony
           const ch = s.children as Sprite[];
           if (ch[0]) ch[0].tint = 0xffffff;
-          const famId = cb.family[i];
-          const famVis = famId ? FAMILY_VISUALS[famId] : undefined;
-          if (famVis && ch.length >= 4) {
-            ch[1].tint = famVis.tints[0];
-            ch[2].tint = famVis.tints[1];
-            ch[3].tint = famVis.tints[2];
+          if (isHero && sim.team[i] === 0) {
+            // Vivid royal cape & shield field
+            ch[1].tint = 0x2563eb;
+            // Polished metallic steel plate & gleam on sword
+            const steelTints = [0xe8f0fc, 0xedf4ff, 0xf2f7ff, 0xf8fbff, 0xfff3cf, 0xdcf6f2];
+            ch[2].tint = steelTints[Math.min(5, Math.max(0, armour))] ?? 0xe8f0fc;
+            // Gilded crest & sword pommel
+            ch[3].tint = 0xffd23d;
+          } else {
+            const famId = cb.family[i];
+            const famVis = famId ? FAMILY_VISUALS[famId] : undefined;
+            if (famVis && ch.length >= 4) {
+              ch[1].tint = famVis.tints[0];
+              ch[2].tint = famVis.tints[1];
+              ch[3].tint = famVis.tints[2];
+            }
           }
         }
       }

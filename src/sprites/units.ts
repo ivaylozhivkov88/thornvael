@@ -188,7 +188,7 @@ export class UnitSprite extends Container {
     }
   }
 
-  update(tick: number, moving: boolean, dir: number, team: number, armour: number, level: number, stone: boolean, pose?: AnimationPose, statusTint = 0): void {
+  update(tick: number, moving: boolean, dir: number, team: number, armour: number, level: number, stone: boolean, pose?: AnimationPose, statusTint = 0, isHero = false): void {
     this.requestedClip = pose?.clip ?? (moving ? 'walk' : 'stand');
     this.resolvedClip = this.atlas.hasClip(this.requestedClip) ? this.requestedClip : moving ? 'walk' : 'stand';
     this.finished = pose?.finished ?? false;
@@ -202,11 +202,29 @@ export class UnitSprite extends Container {
       this.frameKey = key;
     }
     const effectiveTint = this.bossDef && statusTint === 0 ? this.bossDef.auraTint : statusTint;
-    const pk = `${team}:${armour}:${level}:${stone}:${effectiveTint}`;
+    const isHeroUnit = this.atlas.unit === 'hero' || isHero;
+    const pk = `${team}:${armour}:${level}:${stone}:${effectiveTint}:${isHeroUnit}`;
     if (pk !== this.paletteKey) {
-      palette(team, armour, level).forEach((tint, i) => {
-        this.layers[i].tint = stone ? 0x8a8a8a : effectiveTint > 0 ? effectiveTint : tint;
-      });
+      if (stone) {
+        this.layers.forEach((l) => { l.tint = 0x8a8a8a; });
+      } else if (effectiveTint > 0) {
+        this.layers.forEach((l) => { l.tint = effectiveTint; });
+      } else if (isHeroUnit && team === 0) {
+        // Heroic metallic gleam and royal heraldry:
+        // layer 0: base full-RGB (skin tones, leather boots, outlines)
+        this.layers[0].tint = 0xffffff;
+        // layer 1: royal sapphire mantle, shield crest & helm plumage
+        this.layers[1].tint = 0x2563eb;
+        // layer 2: polished gothic plate armor & gleaming steel sword blade
+        const steelTints = [0xe8f0fc, 0xedf4ff, 0xf2f7ff, 0xf8fbff, 0xfff3cf, 0xdcf6f2];
+        this.layers[2].tint = steelTints[Math.min(5, Math.max(0, armour))] ?? 0xe8f0fc;
+        // layer 3: gilded gold lion emblem, pommel & regal filigree
+        this.layers[3].tint = 0xffd23d;
+      } else {
+        palette(team, armour, level).forEach((tint, i) => {
+          this.layers[i].tint = tint;
+        });
+      }
       this.paletteKey = pk;
     }
   }
