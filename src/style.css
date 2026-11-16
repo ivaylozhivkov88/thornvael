@@ -2524,7 +2524,7 @@ button:disabled, #shell .sh-btn:disabled { opacity: .6; cursor: default; box-sha
   z-index: 8;
 }
 
-.d2-loot-label {
+.relic-loot-label {
   position: absolute;
   pointer-events: auto;
   cursor: pointer;
@@ -2546,18 +2546,18 @@ button:disabled, #shell .sh-btn:disabled { opacity: .6; cursor: default; box-sha
   line-height: 1.25;
 }
 
-.d2-loot-label:hover {
+.relic-loot-label:hover {
   filter: brightness(1.3);
   transform: translate(-50%, -100%) scale(1.04);
 }
 
-.d2-loot-label:active {
+.relic-loot-label:active {
   transform: translate(-50%, -100%) scale(0.96);
   filter: brightness(1.1);
 }
 
 /* Gold */
-.d2-loot-gold {
+.relic-loot-gold {
   color: #ffd700;
   background: rgba(24, 18, 10, 0.92);
   border: 1px solid #d4af37;
@@ -2565,7 +2565,7 @@ button:disabled, #shell .sh-btn:disabled { opacity: .6; cursor: default; box-sha
 }
 
 /* Normal Items */
-.d2-loot-normal {
+.relic-loot-normal {
   color: #ffffff;
   background: rgba(14, 14, 14, 0.94);
   border: 1px solid #999999;
@@ -2573,7 +2573,7 @@ button:disabled, #shell .sh-btn:disabled { opacity: .6; cursor: default; box-sha
 }
 
 /* Magic Items */
-.d2-loot-magic {
+.relic-loot-magic {
   color: #4a9eff;
   background: rgba(10, 20, 36, 0.94);
   border: 1px solid #4a9eff;
@@ -2581,7 +2581,7 @@ button:disabled, #shell .sh-btn:disabled { opacity: .6; cursor: default; box-sha
 }
 
 /* Rare Items */
-.d2-loot-rare {
+.relic-loot-rare {
   color: #e6c840;
   background: rgba(28, 22, 8, 0.94);
   border: 1px solid #e6c840;
@@ -2589,7 +2589,7 @@ button:disabled, #shell .sh-btn:disabled { opacity: .6; cursor: default; box-sha
 }
 
 /* Set Items */
-.d2-loot-set {
+.relic-loot-set {
   color: #00ff7f;
   background: rgba(8, 28, 14, 0.94);
   border: 1px solid #00ff7f;
@@ -2597,7 +2597,7 @@ button:disabled, #shell .sh-btn:disabled { opacity: .6; cursor: default; box-sha
 }
 
 /* Unique / Artifact Items */
-.d2-loot-unique {
+.relic-loot-unique {
   color: #ff9a1f;
   background: rgba(32, 16, 8, 0.94);
   border: 1px solid #ff9a1f;

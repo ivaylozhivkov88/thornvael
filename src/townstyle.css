@@ -419,7 +419,7 @@
   filter: drop-shadow(0 4px 10px rgba(0,0,0,0.8));
   opacity: 0.85;
 }
-/* Diablo II / RoM2 Gothic Paperdoll Layout */
+/* Gothic paperdoll layout */
 #sheet [data-equipment-target="eq2"] { grid-area: 1 / 2; } /* Head: Helm (Top Center) */
 #sheet [data-equipment-target="eq6"] { grid-area: 1 / 3; } /* Neck: Amulet (Top Right) */
 #sheet [data-equipment-target="eq0"] { grid-area: 2 / 1; } /* Main Hand: Weapon (Mid Left) */
@@ -621,7 +621,7 @@
   font-size: 11px;
 }
 
-/* ---- Item Rarities & Prestige Visuals (Diablo II & RoM2 aesthetic) ---- */
+/* ---- Item Rarities & Prestige Visuals (gothic relic aesthetic) ---- */
 :is(.sheet .cell, #sheet button, .sheet button)[data-rarity="magic"] {
   border-color: #4ea8de !important;
   color: #cbe3f7;
@@ -865,10 +865,10 @@
 }
 
 /* ==========================================================================
-   HERO OVERHAUL: DIABLO II STYLE ORNATE ITEM CARD & CHARACTER SHEET
+   HERO OVERHAUL: ORNATE RELIC ITEM CARD & CHARACTER SHEET
    ========================================================================== */
 
-/* --- Diablo II Style Ornate Item Tooltip Card --- */
+/* --- Ornate relic item tooltip card --- */
 .relic-card {
   background: radial-gradient(ellipse at top, #1a140e 0%, #0d0a07 100%);
   border: 2px solid #8e6c35;

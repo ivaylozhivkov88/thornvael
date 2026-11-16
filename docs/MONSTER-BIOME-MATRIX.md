@@ -1,8 +1,8 @@
-# Diablo II Monster Taxonomy, Boss Affixes & Biome Matrix
+# Monster Taxonomy, Boss Affixes & Biome Matrix
 
 ## 1. Overview & Vision
 
-**Thornvael** combines the orthogonal real-time tactical party controls and spellcasting of classic 1999 isometric fantasy RTS with the legendary dark fantasy enemy diversity, elite modifier system, and biome atmosphere of *Diablo II*.
+**Thornvael** combines the orthogonal real-time tactical party controls and spellcasting of classic 1999 isometric fantasy RTS with the legendary dark fantasy enemy diversity, elite modifier system, and biome atmosphere of a dark action RPG.
 
 Rather than facing monotonous enemies or solitary necromancers, players encounter distinct monster families, swarms, skirmishers, resurrection shamans, and SuperUnique bosses across procedurally generated expeditions and campaign missions. Every biome features tailored ecology, elemental affinities, visual terrain, and thematic boss pools.
 
@@ -12,7 +12,7 @@ Rather than facing monotonous enemies or solitary necromancers, players encounte
 
 Every creature family in RoM2 Web is mapped to a core simulation archetype (`Kind`) while exhibiting distinct tactical behaviors:
 
-| Archetype | Sim Kind | D2 Parallels | Behavioral Role & Combat Profile |
+| Archetype | Sim Kind | Genre Parallels | Behavioral Role & Combat Profile |
 |-----------|----------|--------------|-----------------------------------|
 | **Swarm / Rusher** | `Gnoll` (4) | Fallen, Ruin Mites, Maggot Swarms | Light HP, high movement speed, swarms in packs, rushes squishy heroes or casters. |
 | **Ambusher / Leaper** | `Gnoll` (4) | Sand Leapers, Dune Lurkers, Claw Vipers | Fast strike speeds, charges from fog of war, high burst physical or poison damage. |
@@ -39,9 +39,9 @@ Creatures and spells align with RoM2's 6 damage schools:
 
 ---
 
-## 4. Diablo II Elite Affixes & Modifier System
+## 4. Elite Affixes & Modifier System
 
-In Diablo II, Champion and Unique mobs roll procedural prefixes and suffixes that dramatically alter battle tactics. RoM2 Web implements composable boss modifiers (`bossMods`):
+Champion and unique mobs roll procedural prefixes and suffixes that dramatically alter battle tactics. RoM2 Web implements composable boss modifiers (`bossMods`):
 
 ### Supported In-Sim Modifiers (`BOSS_MOD_IDS`)
 
@@ -55,9 +55,9 @@ In Diablo II, Champion and Unique mobs roll procedural prefixes and suffixes tha
 | `spectral_hit` | Spectral Hit | +5 Accuracy, +3 Min / +5 Max Damage, +40% Astral Resistance, random elemental bonus. |
 | `blessed_aura` | Blessed Aura | Radiates a divine aura every 25 ticks, applying Bless (+15% dmg/accuracy) to nearby same-team minions; +4 Min / +4 Max Damage, +2 Dodge, +2 HP Regeneration. |
 
-### Extended Diablo II Affix Design Matrix
+### Extended Affix Design Matrix
 
-| Mod Identifier | Display Name | Tactical Concept & Diablo II Origin |
+| Mod Identifier | Display Name | Tactical Concept |
 |----------------|--------------|--------------------------------------|
 | `lightning_enchanted` | Lightning Enchanted | Discharges charged bolts upon taking damage; +50% Air resistance. |
 | `extra_strong` | Extra Strong | +100% Physical damage multiplier; brutal on critical strikes. |
@@ -73,7 +73,6 @@ RoM2 Web features 7 distinct visual and ecological biomes:
 
 ### 1. Forest Wilds (`'forest'`)
 - **Theme**: Verdant groves, dirt paths, ancient woodland canopies, river streams.
-- **Diablo II Echo**: Blood Moor, Cold Plains, Dark Wood (Act 1).
 - **Terrain**: `Grass` (Ground), `Dirt` (Path), `Water` (River barrier), `Rock` (Boulders), Dense `Trees`.
 - **Ecology**:
   - Regulars: `briar-hound` (pack rusher), `thorn-boar` (charging bruiser), `quill-fiend` (rapid quill sniper), `fallen-shaman` (fire chanter).
@@ -82,7 +81,6 @@ RoM2 Web features 7 distinct visual and ecological biomes:
 
 ### 2. Marsh Bog (`'marsh'`)
 - **Theme**: Stagnant peat bogs, mud crossings, murky ponds, ancient ruins.
-- **Diablo II Echo**: Flayer Jungle, Great Marsh, Kurast Docks (Act 3).
 - **Terrain**: `Marsh` (Ground, slowing movement), `Dirt` (Path), `Water` (Swamp ponds), `Rock` (Crags), `Trees`.
 - **Ecology**:
   - Regulars: `mire-wisp` (cold caster), `salt-crab` (coastal blocker), `fetish-blowdart` (jungle poison sniper), `spore-matron` (earth hexer).
@@ -91,7 +89,6 @@ RoM2 Web features 7 distinct visual and ecological biomes:
 
 ### 3. Aranoch Desert (`'desert'`)
 - **Theme**: Sun-scorched dunes, baked dirt paths, rocky outcrops, ancient sandstone.
-- **Diablo II Echo**: Rocky Waste, Dry Hills, Far Oasis (Act 2).
 - **Terrain**: `Dirt` (Ground), `Grass` (Scrub/Oasis path), `Water` (Dry salt beds / small springs), `Rock` (Sandstone cliffs), No trees.
 - **Ecology**:
   - Regulars: `dune-lurker` (ambush striker), `sand-raider` (dual-scimitar speedster), `dune-scarab` (lightning beetle), `claw-viper` (venomous lunger).
@@ -100,7 +97,6 @@ RoM2 Web features 7 distinct visual and ecological biomes:
 
 ### 4. Lush Oasis (`'oasis'`)
 - **Theme**: Vibrant desert springs, palm foliage, fertile sand basins, hidden water sources.
-- **Diablo II Echo**: Far Oasis, Maggot Lair outskirts (Act 2).
 - **Terrain**: `Grass` (Ground), `Dirt` (Path), `Water` (Deep oasis springs), `Rock` (Basalt bluffs), `Trees` (Palms/verdant scrub).
 - **Ecology**:
   - Regulars: `dune-beast` (oasis prowler), `maggot-swarm` (toxic burrowing larvae), `dune-lurker` (sand stalker), `dune-scarab` (charged beetle).
@@ -109,7 +105,6 @@ RoM2 Web features 7 distinct visual and ecological biomes:
 
 ### 5. Ancient Crypt (`'crypt'`)
 - **Theme**: Cobblestone tomb floors, rotten burial chambers, dark necromantic mires.
-- **Diablo II Echo**: Crypt, Mausoleum, Catacombs, Tal Rasha's Tombs (Acts 1 & 2).
 - **Terrain**: `Dirt` (Ground), `Marsh` (Rotten damp flagstones), `Water` (Underground pools), `Rock` (Catacomb walls), No trees.
 - **Ecology**:
   - Regulars: `ruin-mite` (swarming burrower), `hollow-knight` (disciplined skeletal blade), `greater-mummy` (embalmed reviver / Radament equivalent), `fallen-shaman` (cult chanter).
@@ -118,7 +113,6 @@ RoM2 Web features 7 distinct visual and ecological biomes:
 
 ### 6. Frigid Highlands (`'highlands'`)
 - **Theme**: Windswept crags, alpine dirt plateaus, glacial winds, basalt peaks.
-- **Diablo II Echo**: Frigid Highlands, Arreat Plateau, Ancient's Way (Act 5).
 - **Terrain**: `Dirt` (Ground), `Grass` (Tundra turf), `Water` (Mountain tarns), `Rock` (Sheer granite cliffs), No trees.
 - **Ecology**:
   - Regulars: `storm-kite` (lightning arc kite), `wendigo-bruiser` (freezing yeti), `basalt-brute` (mountain giant), `gloom-stag` (highland flanker).
@@ -127,7 +121,6 @@ RoM2 Web features 7 distinct visual and ecological biomes:
 
 ### 7. Volcanic Wastes (`'volcanic'`)
 - **Theme**: Ash plains, scalding slag paths, lava rivers, demonic basalt pillars.
-- **Diablo II Echo**: Plains of Despair, River of Flame, Chaos Sanctuary (Act 4).
 - **Terrain**: `Dirt` (Ash ground), `Marsh` (Scalding slag / slow crust), `Water` (Molten lava rivers), `Rock` (Obsidian cliffs), No trees.
 - **Ecology**:
   - Regulars: `cinderling` (flame bolt harrier), `ash-weaver` (flame curse caster), `doom-knight` (armored hell blade), `balrog` (inferno megademon).

@@ -167,7 +167,7 @@ export class LootOverlayManager {
         key,
         code: s,
         text: `[ ${gold} Gold ]`,
-        cssClass: 'd2-loot-label d2-loot-gold',
+        cssClass: 'relic-loot-label relic-loot-gold',
         sx,
         sy,
       });
@@ -201,7 +201,7 @@ export class LootOverlayManager {
         key,
         code: POOLS.sacks + b,
         text: name,
-        cssClass: `d2-loot-label d2-loot-${rarity}`,
+        cssClass: `relic-loot-label relic-loot-${rarity}`,
         sx,
         sy,
       });
