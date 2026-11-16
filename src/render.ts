@@ -1154,11 +1154,9 @@ export class Renderer {
           const ch = s.layers;
           if (ch[0]) ch[0].tint = 0xffffff;
           if (isHero && sim.team[i] === 0) {
-            // Vivid royal cape & shield field
+            // Heroic dark fantasy: deep heraldic mantle, authentic shaded armor (never flat white), golden accents
             ch[1].tint = 0x2563eb;
-            // Equipped armor tier (Leather, Chain, Scale, Plate, Gilded, Astral/Meteorite)
-            ch[2].tint = HERO_ARMOUR_TINTS[Math.min(5, Math.max(0, armorTier))] ?? 0xd6dce8;
-            // Weapon type / gilded crest & filigree
+            ch[2].tint = HERO_ARMOUR_TINTS[Math.min(HERO_ARMOUR_TINTS.length - 1, Math.max(0, armorTier))] ?? 0x71797e;
             ch[3].tint = weaponVisual === 'staff' ? 0x70d8ff : weaponVisual === 'bow' ? 0x9be368 : 0xffd23d;
           } else {
             const famId = cb.family[i];

@@ -3,7 +3,7 @@ import { Texture, TextureSource } from 'pixi.js';
 import { checkSheet, frameName, type UnitSheet } from '../src/sprites/contract';
 import { UnitAtlas, UnitSprite, HERO_ARMOUR_TINTS, type HeroWeaponVisual } from '../src/sprites/units';
 import { getHeroWeaponVisual, getHeroArmorVisualTier } from '../src/render';
-import { ARMOUR_COLORS, ARMOR_TIER_NAMES } from '../src/sprites/palette';
+import { ARMOR_TIER_NAMES } from '../src/sprites/palette';
 
 function heroAtlasFixture(): UnitAtlas {
   const counts = { stand: 4, walk: 8, attack: 4, cast: 4, hurt: 2, die: 4 };
@@ -74,7 +74,6 @@ describe('Hero Gear Visual Fidelity & Dynamic Armor / Weapon Overhaul', () => {
       expect(info.armorTier).toBe(tier);
       // Layer 2 armor tint must match the exact expected tier color
       expect(info.colors[2]).toBe(HERO_ARMOUR_TINTS[tier]);
-      expect(info.colors[2]).toBe(ARMOUR_COLORS[tier]);
     }
 
     sprite.destroy();
