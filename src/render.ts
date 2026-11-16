@@ -1,5 +1,5 @@
 import { Application, Container, Graphics, Sprite, Text, Texture } from 'pixi.js';
-import { DiabloNameplateLayer } from './nameplate';
+import { OverheadNameplateLayer } from './nameplate';
 import { ObjectKind, Terrain, TILE, type GameMap } from './map';
 import { loadTerrainArt, paintTerrainChunk, prepareScenery, type SceneryPlacement } from './terrain';
 import { Kind } from './sim/combat';
@@ -273,7 +273,7 @@ interface Burst {
 export class Renderer {
   readonly app = new Application();
   readonly world = new Container();
-  readonly nameplates = new DiabloNameplateLayer();
+  readonly nameplates = new OverheadNameplateLayer();
   private readonly rings = new Graphics();
   private readonly overlay = new Graphics();
   private readonly light = new Graphics();
@@ -1266,7 +1266,7 @@ export class Renderer {
         }
       }
     }
-    // Update in-world overhead Diablo II nameplates and health bars
+    // Update in-world overhead ARPG nameplates and health bars
     this.nameplates?.update(sim, this.sprites, this.zoom, this.camX, this.camY, this.viewW, this.viewH, v);
 
     // Hit-point bars: Low draws them only for selected units, Medium adds hurt units, High draws every hurt unit in view.

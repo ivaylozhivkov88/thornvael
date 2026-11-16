@@ -11,7 +11,7 @@ export interface Rules {
   mercPct: number; // mercenary hire price, percent
   goldPct: number; // starting gold of a new hero, percent
   hunt: boolean; // foes pick the target with the weakest head and torso armour
-  aggroTiles: number; // Diablo II authentic detection / aggro range in tiles
+  aggroTiles: number; // Authentic detection / aggro range in tiles
   leashTiles: number; // leash distance from guard post in tiles
 }
 

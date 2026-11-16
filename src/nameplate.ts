@@ -103,7 +103,7 @@ export function getUnitPlateData(sim: Sim, i: number): UnitPlateData {
   }
 
   const affixes = affixList.join(' · ');
-  const affixColor = 0x5ce6f8; // Diablo II Cyan
+  const affixColor = 0x5ce6f8; // Classic ARPG Cyan
 
   return {
     name,
@@ -216,7 +216,7 @@ class PlateEntry {
     const fillW = Math.round(w * pct);
     if (fillW > 0) {
       if (data.isEnemy) {
-        // Diablo II rich red body
+        // Classic rich red body
         g.rect(-w / 2, barY, fillW, barH).fill(0xd01818);
         // Highlight top line
         g.rect(-w / 2, barY, fillW, 1.5).fill(0xff5555);
@@ -239,7 +239,7 @@ class PlateEntry {
   }
 }
 
-export class DiabloNameplateLayer {
+export class OverheadNameplateLayer {
   readonly container = new Container();
   private readonly pool: PlateEntry[] = [];
   private readonly activeUnitIds = new Set<number>();

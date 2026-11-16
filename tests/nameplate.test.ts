@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { DiabloNameplateLayer, getUnitPlateData } from '../src/nameplate';
+import { OverheadNameplateLayer, getUnitPlateData } from '../src/nameplate';
 import { Kind } from '../src/sim/combat';
 import { Sim } from '../src/sim/sim';
 import { getSuperUniqueById } from '../src/sim/super-uniques';
@@ -13,7 +13,7 @@ const mockMap = {
   light: new Uint8Array(256),
 } as any;
 
-describe('Diablo II In-World Overhead Monster Nameplates & Affix Titles', () => {
+describe('ARPG In-World Overhead Monster Nameplates & Affix Titles', () => {
   it('1. Standard trash mobs have White (#FFFFFF) nameplate and no affixes', () => {
     // 2 units: hero (team 0), trash gnoll (team 1)
     const sim = new Sim(mockMap, 1, [0, 1], { kinds: [Kind.Hero, Kind.Gnoll] });
@@ -114,14 +114,14 @@ describe('Diablo II In-World Overhead Monster Nameplates & Affix Titles', () => 
     expect(allyPlate.affixes).toBe('');
   });
 
-  it('6. DiabloNameplateLayer pools entries, marks active plates, and cleans up', () => {
+  it('6. OverheadNameplateLayer pools entries, marks active plates, and cleans up', () => {
     const sim = new Sim(mockMap, 1, [0, 0, 1], { kinds: [Kind.Hero, Kind.Archer, Kind.Gnoll] });
     sim.cb.hp[0] = 100;
     sim.cb.hp[1] = 60;
     sim.cb.hp[2] = 40;
     (sim.cb.family as string[])[2] = 'briar-hound';
 
-    const layer = new DiabloNameplateLayer(4);
+    const layer = new OverheadNameplateLayer(4);
     expect(layer.container.children.length).toBe(4);
 
     // Mock sprites
