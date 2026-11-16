@@ -41,6 +41,12 @@ export class Bot {
   }
 }
 
+export interface MonsterAiExtra {
+  res: [number, number][];
+  raised: [number, number[]][];
+  windup: [number, number][];
+}
+
 interface Pack {
   ids: number[];
   x: number; // post in tiles
@@ -66,6 +72,23 @@ export class MonsterAi {
   /** The only changing state: whether each pack is hunting and how long it has been calm. */
   snapshot(): [boolean, number][] {
     return this.packs.map((p) => [p.hunting, p.calm]);
+  }
+
+  /** Per-unit timers that must survive a save: resurrect cooldowns, raised minions and boss windups. Sorted for a stable save. */
+  snapshotExtra(): MonsterAiExtra {
+    const byId = <T,>(a: [number, T][]): [number, T][] => a.sort((p, q) => p[0] - q[0]);
+    return {
+      res: byId([...this.resCooldowns]),
+      raised: byId([...this.raisedMinions].map(([k, v]): [number, number[]] => [k, [...v].sort((a, b) => a - b)])),
+      windup: byId([...this.bossWindups]),
+    };
+  }
+
+  /** Older saves have no extra block; then the timers start empty, as before. */
+  restoreExtra(x: MonsterAiExtra | undefined): void {
+    this.resCooldowns = new Map(x?.res ?? []);
+    this.raisedMinions = new Map((x?.raised ?? []).map(([k, v]) => [k, new Set(v)]));
+    this.bossWindups = new Map(x?.windup ?? []);
   }
 
   restore(s: readonly [boolean, number][]): void {

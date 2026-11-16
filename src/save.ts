@@ -3,6 +3,7 @@ import type { Campaign, CampaignProgress } from './campaign';
 import { parseRecord, type CampaignRecord } from './flow';
 import { loadDoc, type MapDoc } from './mapdoc';
 import { createMission, type MissionGame } from './mission';
+import type { MonsterAiExtra } from './sim/bot';
 import type { Snapshot } from './sim/sim';
 
 /**
@@ -28,6 +29,7 @@ export interface SaveState {
   seed: number;
   snap: Snapshot;
   ai: [boolean, number][];
+  aix?: MonsterAiExtra; // monster AI timers (resurrect cooldowns, raised minions, boss windups); absent in older saves
   ui: SaveUi;
   node?: string; // campaign node this save belongs to; Continue and ?load return to that node's flow
   carry?: CarryoverState; // legacy carryover; alone it cannot identify a campaign
@@ -173,5 +175,6 @@ export function resumeSave(save: SaveFile): MissionGame {
   if (st.snap.x.length !== g.sim.count) throw new Error('This save does not match its map.');
   g.sim.restore(st.snap);
   g.ai.restore(st.ai);
+  g.ai.restoreExtra(st.aix);
   return g;
 }

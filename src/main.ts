@@ -1693,6 +1693,7 @@ const saveUi = new SaveUi({
       campaign: campaign && crec ? structuredClone(crec) : undefined,
       snap: sim.snapshot(),
       ai: missionAi?.snapshot() ?? [],
+      aix: missionAi?.snapshotExtra(),
       ui: { cam: [renderer.camX, renderer.camY, renderer.zoom], groups: Array.from({ length: GROUP_COUNT + 1 }, (_, n) => [...groups.get(n)]), slots: [...slots], selected: [...selected] },
     };
   },
