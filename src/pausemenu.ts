@@ -177,7 +177,7 @@ export class PauseMenu {
     closeBtn.type = 'button';
     closeBtn.className = 'pause-close-btn';
     closeBtn.textContent = '✕';
-    closeBtn.title = 'Resume Game (ESC)';
+    closeBtn.setAttribute('aria-label', 'Resume Game (ESC)');
     closeBtn.onclick = () => this.ctx.resume();
 
     head.append(titleBox, closeBtn);
@@ -904,7 +904,7 @@ export class PauseMenu {
     closeBtn.type = 'button';
     closeBtn.className = 'pause-close-btn';
     closeBtn.textContent = '✕';
-    closeBtn.title = 'Resume Game (ESC)';
+    closeBtn.setAttribute('aria-label', 'Resume Game (ESC)');
     closeBtn.onclick = () => this.ctx.resume();
 
     head.append(backBtn, h2, closeBtn);

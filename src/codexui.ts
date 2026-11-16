@@ -126,9 +126,8 @@ export class CodexUi {
         const tip = formatItemTooltip(id);
         if (this.tipOn) {
           this.tipOn(card, tip);
-        } else {
-          card.title = tip;
         }
+        card.setAttribute('aria-label', tip.replace(/\n/g, ' '));
       } else {
         if (isSet) {
           card.dataset.rarity = 'set';
@@ -148,9 +147,8 @@ export class CodexUi {
           : `Undiscovered Tier ${item.tier} Artifact. Discover by looting or purchasing.`;
         if (this.tipOn) {
           this.tipOn(card, hint);
-        } else {
-          card.title = hint;
         }
+        card.setAttribute('aria-label', hint.replace(/\n/g, ' '));
       }
 
       grid.append(card);

@@ -62,7 +62,7 @@ export class LootOverlayManager {
       this.btnAltEl.id = 'btn-alt';
       this.btnAltEl.className = 'btn-alt';
       this.btnAltEl.setAttribute('aria-pressed', 'false');
-      this.btnAltEl.title = 'Toggle Loot Overlay (ALT)';
+      this.btnAltEl.setAttribute('aria-label', 'Toggle Loot Overlay (ALT)');
       this.btnAltEl.textContent = '👁 ALT';
       const minimapEl = document.getElementById('minimap');
       if (minimapEl && minimapEl.parentNode) {

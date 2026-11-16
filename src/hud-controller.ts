@@ -194,7 +194,10 @@ export class HudController {
       const slots = this.host.getQuickSlots();
       const slotIdx = slots.indexOf(curSpell);
       if (rmbHotkey) rmbHotkey.textContent = slotIdx >= 0 ? `F${slotIdx + 4}` : `${sp.cost}M`;
-      if (slotRmb) slotRmb.title = `${sp.name} [RMB]\nCost: ${sp.cost} MP`;
+      if (slotRmb) {
+        slotRmb.removeAttribute('title');
+        slotRmb.setAttribute('aria-label', `${sp.name} [RMB] Cost: ${sp.cost} MP`);
+      }
     }
 
     // Hero portrait & level

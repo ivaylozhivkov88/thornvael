@@ -737,7 +737,7 @@ export class D2RActionBarUi {
       const btn = document.createElement('button');
       btn.type = 'button';
       btn.className = `d2r-hud-btn ${this.isSecondary ? 'secondary' : ''}`;
-      btn.title = `${slotMeta.label}: ${disp.title} (Click to rebind)`;
+      btn.setAttribute('aria-label', `${slotMeta.label}: ${disp.title} (Click to rebind)`);
       btn.onclick = () => this.onOpenModal(slotIdx);
 
       const badge = document.createElement('span');

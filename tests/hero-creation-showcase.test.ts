@@ -15,6 +15,15 @@ class MockElement {
   onkeydown: ((e: { key: string; preventDefault: () => void }) => void) | null = null;
   style: Record<string, string> = {};
   children: MockElement[] = [];
+  attributes: Record<string, string> = {};
+
+  setAttribute(name: string, value: string): void {
+    this.attributes[name] = value;
+  }
+
+  getAttribute(name: string): string | null {
+    return this.attributes[name] ?? null;
+  }
 
   constructor(tagName = 'div') {
     this.tagName = tagName.toUpperCase();

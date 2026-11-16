@@ -97,7 +97,11 @@ export class VirtualStick {
     this.base.addEventListener('pointerdown', (e) => {
       e.preventDefault();
       e.stopPropagation();
-      this.base.setPointerCapture(e.pointerId);
+      try {
+        this.base.setPointerCapture(e.pointerId);
+      } catch {
+        // synthetic pointer ids (tests/unsupported devices) cannot be captured
+      }
       handleDown(e.clientX, e.clientY, e.pointerId);
     });
 

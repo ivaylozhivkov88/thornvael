@@ -61,7 +61,7 @@ function line(label: string, value: string, tip = '', extra?: HTMLElement): HTML
   const l = el('div', 'line');
   l.append(el('span', 'grow', label), el('b', '', value));
   if (extra) l.append(extra);
-  if (tip) l.title = tip;
+  if (tip) l.setAttribute('aria-label', `${label}: ${value}. ${tip}`);
   return l;
 }
 
@@ -818,6 +818,9 @@ export class HeroUi {
   }
 
   openInventory(): void {
+    if (typeof window !== 'undefined' && window.innerWidth < 900 && this.isStatsOpen) {
+      this.closeStats();
+    }
     const h = this.ctx.sim().hero;
     if (h === null) {
       this.ctx.toast(S.hero.noHero);
@@ -850,6 +853,13 @@ export class HeroUi {
   }
 
   open(tab: Tab = 'pack'): void {
+    if (typeof window !== 'undefined' && window.innerWidth < 900) {
+      if (tab === 'hero') {
+        if (this.isInventoryOpen) this.closeInventory();
+      } else {
+        if (this.isStatsOpen) this.closeStats();
+      }
+    }
     if (tab === 'hero') this.openStats();
     else this.openInventory();
   }
@@ -1043,7 +1053,8 @@ export class HeroUi {
     for (let k = 0; k < 4; k++) {
       const bonus = d.attr[k] - h.attr[k];
       const card = el('div', 'hero-attr-card');
-      card.title = `${S.hero.attrTips[k]} (${attrSub[k]})`;
+      const attrTip = `${S.hero.attrTips[k]} (${attrSub[k]})`;
+      this.ctx.tipOn(card, attrTip);
 
       const iconBox = el('div', `attr-crest-box attr-c-${k}`);
       iconBox.textContent = attrCrests[k];
@@ -1062,19 +1073,22 @@ export class HeroUi {
       plusBtn.type = 'button';
       plusBtn.textContent = '+';
       if (hasPoints) {
-        plusBtn.title = `Allocate 1 Stat Point to ${ATTR_NAMES[k]} (${h.statPoints} points remaining)`;
+        const tip = `Allocate 1 Stat Point to ${ATTR_NAMES[k]} (${h.statPoints} points remaining)`;
+        this.ctx.tipOn(plusBtn, tip);
         plusBtn.onclick = (e) => {
           e.stopPropagation();
           this.act({ type: 'hero', op: 'stat', attr: k });
         };
       } else if (elixir) {
-        plusBtn.title = `Drink ${getItemDef(elixir.item)?.name ?? 'Elixir'} (+1 ${ATTR_NAMES[k]})`;
+        const tip = `Drink ${getItemDef(elixir.item)?.name ?? 'Elixir'} (+1 ${ATTR_NAMES[k]})`;
+        this.ctx.tipOn(plusBtn, tip);
         plusBtn.onclick = (e) => {
           e.stopPropagation();
           this.act({ type: 'hero', op: 'use', item: elixir.item });
         };
       } else {
-        plusBtn.title = `Raise attributes with level-up stat points or rare Elixirs`;
+        const tip = `Raise attributes with level-up stat points or rare Elixirs`;
+        this.ctx.tipOn(plusBtn, tip);
         plusBtn.disabled = true;
       }
 
@@ -1126,26 +1140,26 @@ export class HeroUi {
     const hitChance = Math.max(15, Math.min(95, 70 + (totalAcc - 4) * 3));
     const tileAcc = el('div', 'combat-stat-tile');
     tileAcc.innerHTML = `<div class="cstat-icon">🎯</div><div class="cstat-body"><div class="cstat-label">${S.hit}</div><div class="cstat-val">${totalAcc} <small class="cstat-sub">(~${hitChance}% Hit)</small></div></div>`;
-    tileAcc.title = `Attack Rating against standard defense. Base: ${base.acc}, Mod: ${cb.mod[o + M.Acc]}`;
+    this.ctx.tipOn(tileAcc, `Attack Rating against standard defense. Base: ${base.acc}, Mod: ${cb.mod[o + M.Acc]}`);
 
     const minDmg = base.min + cb.mod[o + M.Min];
     const maxDmg = base.max + cb.mod[o + M.Max];
     const tileDmg = el('div', 'combat-stat-tile');
     tileDmg.innerHTML = `<div class="cstat-icon">⚔</div><div class="cstat-body"><div class="cstat-label">${S.hero.blowDamage}</div><div class="cstat-val">${minDmg}–${maxDmg} <small class="cstat-sub">Physical</small></div></div>`;
-    tileDmg.title = `Weapon and blow damage range per hit`;
+    this.ctx.tipOn(tileDmg, `Weapon and blow damage range per hit`);
 
     const avgDef = Math.round(S.parts.reduce((sum, _, k) => sum + (base.def + cb.mod[o + M.Def] + base.pdef[k] + cb.mod[o + M.PDef + k]), 0) / 4);
     const avgAbs = Math.round(S.parts.reduce((sum, _, k) => sum + (cb.mod[o + M.Abs] + base.pabs[k] + cb.mod[o + M.PAbs + k]), 0) / 4);
     const tileArmor = el('div', 'combat-stat-tile');
     const partDetails = S.parts.map((p, k) => `${p}: ${base.def + cb.mod[o + M.Def] + base.pdef[k] + cb.mod[o + M.PDef + k]} Def / ${cb.mod[o + M.Abs] + base.pabs[k] + cb.mod[o + M.PAbs + k]} Abs`).join(' · ');
     tileArmor.innerHTML = `<div class="cstat-icon">🛡</div><div class="cstat-body"><div class="cstat-label">Armor Absorption</div><div class="cstat-val">${avgDef} Def <span class="cstat-sep">/</span> ${avgAbs} Abs</div></div>`;
-    tileArmor.title = partDetails;
+    this.ctx.tipOn(tileArmor, partDetails);
 
     const hasShield = h.eq[Slot.Shield] >= 0;
     const blockChance = hasShield ? Math.min(75, 20 + h.skill[1] * 3 + (getItemDef(h.eq[Slot.Shield])?.def ?? 0) * 2) : 0;
     const tileBlock = el('div', 'combat-stat-tile');
     tileBlock.innerHTML = `<div class="cstat-icon">🔰</div><div class="cstat-body"><div class="cstat-label">Block Chance</div><div class="cstat-val">${blockChance}% <small class="cstat-sub">${hasShield ? 'Shield Active' : 'No Shield'}</small></div></div>`;
-    tileBlock.title = hasShield ? `Shield Block chance scaling with Guard Skill (Rank ${h.skill[1]}) and Shield Defense` : `Requires an equipped offhand shield`;
+    this.ctx.tipOn(tileBlock, hasShield ? `Shield Block chance scaling with Guard Skill (Rank ${h.skill[1]}) and Shield Defense` : `Requires an equipped offhand shield`);
 
     combatGrid.append(tileAcc, tileDmg, tileArmor, tileBlock);
     right.append(combatGrid);
@@ -1171,7 +1185,10 @@ export class HeroUi {
           <span class="badge-val">${val}%</span>
         </div>
       `;
-      badge.title = `${resMeta[k].name} Resistance: ${val}% (reduces incoming ${resMeta[k].name.toLowerCase()} spell and environmental damage)`;
+      this.ctx.tipOn(
+        badge,
+        `${resMeta[k].name} Resistance: ${val}% (reduces incoming ${resMeta[k].name.toLowerCase()} spell and environmental damage)`,
+      );
       resGrid.append(badge);
     }
     right.append(resGrid);
@@ -1511,7 +1528,9 @@ export class HeroUi {
             c.querySelector<HTMLElement>(`[data-k="${title}${n}"]`)?.focus();
           });
           b.setAttribute('aria-pressed', String(n === cur));
-          if (tips) b.title = tips[n];
+          if (tips) {
+            this.ctx.tipOn(b, tips[n]);
+          }
           row.append(b);
         });
         left.append(row);

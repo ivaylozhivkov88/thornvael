@@ -4154,7 +4154,7 @@ button:disabled, #shell .sh-btn:disabled { opacity: .6; cursor: default; box-sha
   border-color: rgba(180, 50, 50, 0.35) !important;
 }
 
-@media (max-width: 600px) {
+@media (max-width: 600px) and (min-height: 481px) {
   .gothic-journal-dual-pane {
     flex-direction: column;
   }
@@ -4169,6 +4169,106 @@ button:disabled, #shell .sh-btn:disabled { opacity: .6; cursor: default; box-sha
   }
   .victory-actions-bar {
     flex-direction: column;
+  }
+}
+
+@media (max-height: 480px) {
+  .gothic-journal-overlay {
+    padding: 4px 8px calc(4px + env(safe-area-inset-bottom)) calc(8px + env(safe-area-inset-left));
+  }
+  .gothic-journal-frame {
+    width: min(98vw, 960px);
+    max-height: min(98dvh, 460px);
+    height: 96dvh;
+    border-radius: 6px;
+  }
+  .gothic-journal-header {
+    padding: 4px 10px;
+  }
+  .gothic-journal-header h2 {
+    font-size: 14px;
+  }
+  .journal-subtitle {
+    display: none;
+  }
+  .journal-header-crest {
+    font-size: 18px;
+  }
+  .journal-close-btn {
+    padding: 3px 8px;
+    font-size: 11px;
+  }
+  .gothic-journal-dual-pane {
+    flex-direction: row !important;
+    flex: 1;
+    min-height: 0;
+    overflow: hidden;
+  }
+  .journal-nav-pane {
+    width: clamp(170px, 30vw, 230px) !important;
+    max-height: 100% !important;
+    border-right: 1px solid rgba(143, 114, 68, 0.35) !important;
+    border-bottom: none !important;
+    padding: 6px 8px;
+    gap: 4px;
+  }
+  .journal-section-label {
+    font-size: 9px;
+    margin: 2px 0 2px 2px;
+  }
+  .journal-quest-card {
+    padding: 4px 6px;
+    gap: 6px;
+  }
+  .quest-seal-icon {
+    width: 24px;
+    height: 24px;
+  }
+  .quest-card-title {
+    font-size: 11px;
+  }
+  .quest-card-chapter,
+  .quest-card-status {
+    font-size: 9px;
+  }
+  .journal-dossier-pane {
+    padding: 8px 12px;
+    gap: 8px;
+  }
+  .dossier-header {
+    padding-bottom: 4px;
+  }
+  .dossier-act {
+    font-size: 9px;
+  }
+  .dossier-title {
+    font-size: 16px;
+    margin: 2px 0;
+  }
+  .dossier-location {
+    font-size: 10px;
+  }
+  .dossier-section-heading {
+    font-size: 10px;
+    margin-top: 2px;
+  }
+  .dossier-narrative {
+    font-size: 11px;
+    line-height: 1.4;
+  }
+  .dossier-objectives-list {
+    gap: 4px;
+  }
+  .dossier-obj-row {
+    padding: 5px 8px;
+    font-size: 11px;
+    gap: 6px;
+  }
+  .obj-checkbox {
+    font-size: 13px;
+  }
+  .dossier-rewards-grid {
+    gap: 4px;
   }
 }
 

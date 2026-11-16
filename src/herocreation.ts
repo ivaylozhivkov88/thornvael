@@ -265,7 +265,7 @@ export function buildHeroCreationScreen(opts: HeroCreationOptions): HTMLElement 
     const figureWrap = el('div', 'sh-champion-figure-wrap');
 
     const prevBtn = btn('◀', () => selectArchetype(selIdx - 1), 'sh-stage-nav prev');
-    prevBtn.title = 'Previous Champion';
+    prevBtn.setAttribute?.('aria-label', 'Previous Champion');
 
     const img = document.createElement('img');
     img.className = 'sh-champion-figure';
@@ -273,7 +273,7 @@ export function buildHeroCreationScreen(opts: HeroCreationOptions): HTMLElement 
     img.alt = arch.name;
 
     const nextBtn = btn('▶', () => selectArchetype(selIdx + 1), 'sh-stage-nav next');
-    nextBtn.title = 'Next Champion';
+    nextBtn.setAttribute?.('aria-label', 'Next Champion');
 
     figureWrap.append(prevBtn, img, nextBtn);
 

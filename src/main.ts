@@ -666,7 +666,7 @@ function toggleMinimap(): void {
   const btnToggle = document.getElementById('btn-minimap-toggle');
   if (btnToggle) {
     btnToggle.textContent = isLarge ? '⤡' : '⤢';
-    btnToggle.title = isLarge ? 'Minimize Minimap [M]' : 'Enlarge Minimap [M]';
+    tipOn(btnToggle, isLarge ? 'Minimize Minimap [M]' : 'Enlarge Minimap [M]');
     btnToggle.setAttribute('aria-pressed', isLarge ? 'true' : 'false');
   }
 }
@@ -791,7 +791,7 @@ function updateGothicHud(): void {
     rmbIcon.textContent = schoolIcons[sp.school] ?? '✨';
     const slotIdx = slots.indexOf(curSpell);
     if (rmbHotkey) rmbHotkey.textContent = slotIdx >= 0 ? `F${slotIdx + 4}` : `${sp.cost}M`;
-    if (slotRmb) slotRmb.title = `${sp.name} [RMB]\nCost: ${sp.cost} MP`;
+    if (slotRmb) tipOn(slotRmb, `${sp.name} [RMB]\nCost: ${sp.cost} MP`);
   }
 
   if (sim.hero) {
@@ -1124,6 +1124,53 @@ function showTip(text: string, x: number, y: number): void {
 function hideTip(): void {
   tipEl.hidden = true;
   clearTimeout(tipHide);
+}
+function tipOn(b: HTMLElement, text: string): void {
+  b.setAttribute('aria-label', text.replace(/\n/g, ' '));
+  (b as unknown as { __tipText?: string }).__tipText = text;
+  if ((b as unknown as { __hasTipOn?: boolean }).__hasTipOn) return;
+  (b as unknown as { __hasTipOn?: boolean }).__hasTipOn = true;
+
+  let t = 0;
+  let shown = false;
+  b.addEventListener('pointerenter', (e) => {
+    if (e.pointerType === 'mouse') {
+      const curText = (b as unknown as { __tipText?: string }).__tipText ?? text;
+      const r = b.getBoundingClientRect();
+      showTip(curText, r.left + r.width / 2 + 120, r.top - 4 + 70);
+    }
+  });
+  b.addEventListener('pointerleave', (e) => {
+    if (e.pointerType === 'mouse') {
+      hideTip();
+    }
+  });
+  b.addEventListener('pointerdown', (e) => {
+    shown = false;
+    if (e.pointerType === 'mouse') return;
+    t = window.setTimeout(() => {
+      shown = true;
+      const curText = (b as unknown as { __tipText?: string }).__tipText ?? text;
+      const r = b.getBoundingClientRect();
+      showTip(curText, r.left + r.width / 2 + 120, r.top - 4 + 70);
+      tipHide = window.setTimeout(hideTip, 2500);
+    }, 450);
+  });
+  const stop = (): void => clearTimeout(t);
+  b.addEventListener('pointerup', stop);
+  b.addEventListener('pointerleave', stop);
+  b.addEventListener('pointercancel', stop);
+  b.addEventListener(
+    'click',
+    (e) => {
+      if (shown) {
+        e.stopImmediatePropagation();
+        e.preventDefault();
+        shown = false;
+      }
+    },
+    true,
+  );
 }
 function unitAt(x: number, y: number, r: number): number {
   return pickUnit(sim.count, posAny, x, y, r);
@@ -1499,35 +1546,6 @@ function orderButton(ord: string): void {
   arm(armed === ord ? null : (ord as ArmKind));
 }
 const cmds = $('cmds');
-const tipOn = (b: HTMLElement, text: string): void => {
-  let t = 0;
-  let shown = false;
-  b.addEventListener('pointerdown', (e) => {
-    shown = false;
-    if (e.pointerType === 'mouse') return;
-    t = window.setTimeout(() => {
-      shown = true;
-      const r = b.getBoundingClientRect();
-      showTip(text, r.left + r.width / 2 + 120, r.top - 4 + 70);
-      tipHide = window.setTimeout(hideTip, 2500);
-    }, 450);
-  });
-  const stop = (): void => clearTimeout(t);
-  b.addEventListener('pointerup', stop);
-  b.addEventListener('pointerleave', stop);
-  b.addEventListener('pointercancel', stop);
-  b.addEventListener(
-    'click',
-    (e) => {
-      if (shown) {
-        e.stopImmediatePropagation();
-        e.preventDefault();
-        shown = false;
-      }
-    },
-    true,
-  );
-};
 for (const [ord, info] of Object.entries(S.orders)) {
   const b = document.createElement('button');
   b.dataset.ord = ord;
@@ -1613,17 +1631,17 @@ function buildQuick(): void {
     if (sid < 0) {
       name.textContent = '+';
       small.textContent = `F${n + 1}`;
-      b.title = S.slotEmpty;
+      tipOn(b, S.slotEmpty);
       b.style.borderColor = '';
     } else if (sid >= ITEM_BASE) {
       name.textContent = getItemDef(sid - ITEM_BASE)?.name ?? '';
       small.textContent = `F${n + 1} · ${slotCount(sid)}`;
-      b.title = itemText(sid - ITEM_BASE);
+      tipOn(b, itemText(sid - ITEM_BASE));
       b.style.borderColor = '#7ab4ff';
     } else {
       name.textContent = SPELLS[sid].name;
       small.textContent = `F${n + 1} \u00b7 ${SPELLS[sid].cost}`;
-      b.title = spellTip(sid);
+      tipOn(b, spellTip(sid));
       b.style.borderColor = SCHOOL_BORDER[SPELLS[sid].school];
     }
     b.append(name, small);
@@ -2502,6 +2520,7 @@ miniCanvas.addEventListener('dblclick', (e) => {
 });
 const btnMinimapToggle = document.getElementById('btn-minimap-toggle');
 if (btnMinimapToggle) {
+  tipOn(btnMinimapToggle, 'Enlarge Minimap [M]');
   btnMinimapToggle.onclick = (e) => {
     e.stopPropagation();
     toggleMinimap();
@@ -2984,6 +3003,24 @@ async function toMap(): Promise<void> {
   location.assign('./');
 }
 
+function isAnyModalOpen(): boolean {
+  const pmOpen = pauseMenu
+    ? (typeof (pauseMenu as unknown as { isOpen?: (() => boolean) | boolean }).isOpen === 'function'
+      ? (pauseMenu as unknown as { isOpen: () => boolean }).isOpen()
+      : Boolean(pauseMenu.isOpen))
+    : false;
+  return Boolean(
+    heroUi.isOpen ||
+    townUi.open ||
+    saveUi.open ||
+    !$('book').hidden ||
+    outcome !== null ||
+    Boolean(missionUi?.isDialogueOpen()) ||
+    Boolean(missionUi?.isJournalOpen()) ||
+    pmOpen,
+  );
+}
+
 /** Shared by the real-time loop and bounded paused-only browser diagnostics. */
 function advanceStep(): void {
   prevX.set(sim.x);
@@ -2997,7 +3034,7 @@ function advanceStep(): void {
       document.activeElement.matches('input, textarea, select') ||
       (document.activeElement as HTMLElement).isContentEditable
     );
-    const inModal = heroUi.isOpen || townUi.open || saveUi.open || !$('book').hidden || outcome !== null;
+    const inModal = isAnyModalOpen();
     if (!isTyping && !inModal) {
       const heldD = heldMoveKeys.has('KeyD') || heldMoveKeys.has('d') || heldMoveKeys.has('ArrowRight') || heldMoveKeys.has('arrowright');
       const heldA = heldMoveKeys.has('KeyA') || heldMoveKeys.has('a') || heldMoveKeys.has('ArrowLeft') || heldMoveKeys.has('arrowleft');
@@ -3021,7 +3058,7 @@ function advanceStep(): void {
       document.activeElement.matches('input, textarea, select') ||
       (document.activeElement as HTMLElement).isContentEditable
     );
-    const inModal = heroUi.isOpen || townUi.open || saveUi.open || !$('book').hidden || outcome !== null;
+    const inModal = isAnyModalOpen();
     if (!isTyping && !inModal) {
       const ids = selectedIds().length > 0 ? selectedIds() : (alive(0) ? [0] : []);
       if (ids.length > 0) {
@@ -3043,7 +3080,7 @@ function advanceStep(): void {
       document.activeElement.matches('input, textarea, select') ||
       (document.activeElement as HTMLElement).isContentEditable
     );
-    const inModal = heroUi.isOpen || townUi.open || saveUi.open || !$('book').hidden || outcome !== null;
+    const inModal = isAnyModalOpen();
     if (!isTyping && !inModal) {
       const ids = selectedIds().length > 0 ? selectedIds() : (alive(0) ? [0] : []);
       if (ids.length > 0) {
@@ -3327,7 +3364,12 @@ const btnControls = document.getElementById('btn-controls') as HTMLButtonElement
 function updateControlModeUI(): void {
   if (btnControls) {
     btnControls.textContent = controlMode === 'wasd' ? 'WASD' : 'Mouse';
-    btnControls.title = controlMode === 'wasd' ? 'Controls: WASD (move hero) + Mouse. Click for Mouse mode.' : 'Controls: Mouse (classic RTS) + Arrows. Click for WASD mode.';
+    tipOn(
+      btnControls,
+      controlMode === 'wasd'
+        ? 'Controls: WASD (move hero) + Mouse. Click for Mouse mode.'
+        : 'Controls: Mouse (classic RTS) + Arrows. Click for WASD mode.',
+    );
     btnControls.classList.toggle('on', controlMode === 'wasd');
   }
 }

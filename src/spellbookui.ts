@@ -750,7 +750,7 @@ export class SpellbookUi {
     const closeBtn = document.createElement('button');
     closeBtn.className = 'grimoire-close-btn';
     closeBtn.textContent = '✕';
-    closeBtn.title = 'Close Grimoire [S, Esc]';
+    closeBtn.setAttribute('aria-label', 'Close Grimoire [S, Esc]');
     closeBtn.onclick = () => this.close();
 
     header.append(titleBox, closeBtn);
@@ -1174,7 +1174,7 @@ export class SpellbookUi {
       const rmbBtn = document.createElement('button');
       rmbBtn.className = `dossier-btn rmb-btn ${isActiveRmb ? 'active' : ''}`;
       rmbBtn.innerHTML = `⚡ ${isActiveRmb ? '✓ Active Right-Click Spell (Click to Unset)' : 'Set as Active Right-Click Spell'}`;
-      rmbBtn.title = 'Allows you to cast this spell with mouse Right-Click in the world';
+      rmbBtn.setAttribute('aria-label', 'Allows you to cast this spell with mouse Right-Click in the world');
       rmbBtn.onclick = () => {
         if (isActiveRmb) {
           this.opt.setActiveRmb(null);
@@ -1190,7 +1190,7 @@ export class SpellbookUi {
       const castBtn = document.createElement('button');
       castBtn.className = 'dossier-btn cast-btn';
       castBtn.innerHTML = `✨ Cast / Arm Now`;
-      castBtn.title = 'Close Spellbook and immediately arm this spell';
+      castBtn.setAttribute('aria-label', 'Close Spellbook and immediately arm this spell');
       castBtn.onclick = () => {
         this.close();
         this.opt.armSpell(spell.id);
@@ -1212,7 +1212,7 @@ export class SpellbookUi {
         const isCurrent = this.opt.getSlots()[f] === spell.id;
         fb.className = `fkey-mini-btn ${isCurrent ? 'bound' : ''}`;
         fb.textContent = `F${f + 1}`;
-        fb.title = `Bind ${spell.name} to slot F${f + 1}`;
+        fb.setAttribute('aria-label', `Bind ${spell.name} to slot F${f + 1}`);
         fb.onclick = () => {
           this.opt.setSlot(f, spell.id);
           this.opt.toast(`Assigned ${spell.name} to Quickbar [F${f + 1}]`);
