@@ -1,6 +1,6 @@
 # THORNVAEL: CLAUDE CODE LIVE CONTINUOUS HANDOFF
-**Updated At:** 2026-11-16T08:15:00+02:00  
-**Status:** In active development (Masterpiece Drive)  
+**Updated At:** 2026-11-16T09:15:00+02:00  
+**Status:** In active development (Masterpiece Drive — Packet P22 Completed)  
 **Git Branch:** `main`  
 **Live Application URL:** https://ivaylozhivkov88.github.io/thornvael/
 
@@ -21,9 +21,9 @@ npm run build
 ## 2. Proven Verification Results (Hard Numbers, No Estimates)
 Run at 2026-11-16:
 - `npm run typecheck`: **PASSED (0 errors)**
-- `npm test -- --maxWorkers=1`: **PASSED (77 test files, 632 passed, 1 skipped, 0 failed)** [duration: 85.89s]
-- `npm run check:repo`: **PASSED (478 files)**
-- `npm run build`: **PASSED (dist built in 1.05s, 116 precache entries in sw.js)**
+- `npm test -- --maxWorkers=1`: **PASSED (79 test files, 649 passed, 1 skipped, 0 failed)** [duration: 68.28s]
+- `npm run check:repo`: **PASSED (481 files)**
+- `npm run build`: **PASSED (dist built in 873ms, 116 precache entries in sw.js)**
 
 ---
 
@@ -84,6 +84,23 @@ Run at 2026-11-16:
    - Minimap Smooth Toggle & Readability: Added smooth CSS width/height/shadow transition, `#minimap.large` state (expands from compact 140-200px to 250-380px), dedicated toggle button (`.btn-minimap-toggle`) with $\ge 44\times 44$px touch hitbox, 'M' hotkey binding, and minimap double-click support. Shrines rendered on minimap as gold indicators.
    - Mobile Paperdoll Ergonomics: Ensured gear buttons in compact landscape viewports ($\le 500$px) have $\ge 44$px touch hitboxes without overflowing.
    - Automated Verification: New test suite `tests/holdings-ui.test.ts` (9 comprehensive tests passing).
+10. **Packet P22 — Narrative & Campaign Slideshow Interludes (Story Architecture)**:
+    - Authored story interludes and transitions between Acts I–IV and both endings:
+      * Act 1 intro: "Act I — Граничните бродове (The Border Fords)"
+      * Transition Act 1 -> Act 2: "Act II — Пътят през пресъхващите блата към пустинята" (`m12-redmarsh-border` entry; auto-triggered upon completing `m11-ashbrook-retreat`)
+      * Transition Act 2 -> Act 3: "Act III — Слизане в безслънчевите пещери и подземия" (`m24-pledge-at-oakhaven` entry; auto-triggered upon completing `m23-fork-of-spears`)
+      * Transition Act 3 -> Act 4: "Act IV — Портите на Инферналното светилище" (`m36-heartland-march` entry; auto-triggered upon completing `m35-burning-harbor`)
+      * Ending A (Victory): "Победа — Пречистването на Торнваел" (triggered upon winning `m45-crown-of-order`)
+      * Ending B (Alternative): "Алтернативен край — Възкачването на Тъмния Владетел" (triggered upon winning `m46-ember-reckoning`)
+    - Strict UI Viewport Containment Rule:
+      * Fullscreen slideshow overlay `#shell .sh-slideshow-overlay` constrained to `100dvh` and `overflow: hidden`.
+      * Gothic frame `#shell .sh-slideshow-frame` capped at `92dvh` and `overflow: hidden`, zero vertical page scroll across desktop (1080p, 720p) and mobile landscape/portrait.
+      * Adaptive touch targets strictly >= 44px (`.sh-slideshow-btn`: `min-height: 44px; min-width: 44px`).
+      * Clear buttons: "Пропусни [Space / Esc]" and "Напред →" / "Край".
+      * Smooth fade-in/fade-out transitions with `.fading`.
+      * Keyboard hotkeys: Space / Escape skips, Enter / ArrowRight advances, ArrowLeft steps back.
+      * Thematic gothic SVG illustrations in `storyBanner` with tailored radial gradients.
+    - Automated Verification: New test suite `tests/act-transitions.test.ts` (7 comprehensive tests passing).
 
 ---
 

@@ -1,12 +1,12 @@
-export interface Preferences { sound: boolean; music: boolean; quality: number }
+export interface Preferences { sound: boolean; music: boolean; quality: number; weather: boolean }
 type Store = Pick<Storage, 'getItem' | 'setItem'>;
-export const DEFAULT_PREFERENCES: Preferences = { sound: true, music: true, quality: 2 };
+export const DEFAULT_PREFERENCES: Preferences = { sound: true, music: true, quality: 2, weather: true };
 
 export function readPreferences(store?: Store): Preferences {
   const value = { ...DEFAULT_PREFERENCES };
   try {
     const storage = store ?? localStorage;
-    for (const key of ['sound', 'music'] as const) {
+    for (const key of ['sound', 'music', 'weather'] as const) {
       const raw = storage.getItem(`thornvael.${key}`);
       if (raw === 'true' || raw === 'false') value[key] = raw === 'true';
     }

@@ -17,7 +17,8 @@ describe('player preferences across page navigation', () => {
     expect(writePreference('sound', false, disk)).toBe(true);
     writePreference('music', true, disk);
     writePreference('quality', 1, disk);
-    expect(readPreferences(disk)).toEqual({ sound: false, music: true, quality: 1 });
+    writePreference('weather', false, disk);
+    expect(readPreferences(disk)).toEqual({ sound: false, music: true, quality: 1, weather: false });
   });
   it('rejects corrupt booleans and nonintegral/out-of-range quality without losing other valid choices', () => {
     for (const bad of ['NaN', '', '1.5', '-1', '3', 'Infinity']) {
@@ -25,7 +26,8 @@ describe('player preferences across page navigation', () => {
       disk.setItem('thornvael.quality', bad);
       disk.setItem('thornvael.sound', 'yes');
       disk.setItem('thornvael.music', 'true');
-      expect(readPreferences(disk)).toEqual({ sound: true, music: true, quality: 2 });
+      disk.setItem('thornvael.weather', 'not_bool');
+      expect(readPreferences(disk)).toEqual({ sound: true, music: true, quality: 2, weather: true });
     }
     for (const quality of [NaN, 1.5, -1, 3, Infinity]) expect(writePreference('quality', quality, store())).toBe(false);
   });

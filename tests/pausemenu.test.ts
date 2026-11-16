@@ -334,8 +334,9 @@ describe('Gothic In-Game Pause Menu & Game Codex (#pause-menu)', () => {
     qualityButtons[1].onclick?.();
     expect(ctx.setQuality).toHaveBeenCalledWith(1);
 
-    // Auto-recenter Camera toggle
-    const camToggle = root.querySelector('.pause-toggle-btn');
+    // Auto-recenter Camera toggle (and weather toggle if present)
+    const toggles = root.querySelectorAll('.pause-toggle-btn');
+    const camToggle = toggles.length > 1 ? toggles[1] : toggles[0];
     expect(camToggle).not.toBeNull();
     camToggle?.onclick?.();
     expect(ctx.setAutoRecenter).toHaveBeenCalledWith(true);

@@ -1,5 +1,5 @@
 import { loadDoc, type LoadedMission } from './mapdoc';
-import { MonsterAi, placeScenario } from './sim/bot';
+import { MonsterAi, SkirmishDirector, placeScenario } from './sim/bot';
 import { ScriptRuntime } from './sim/script';
 import { Sim } from './sim/sim';
 import ashentier from './missions/ashen-tier.map.json';
@@ -100,6 +100,20 @@ export const BUILT_IN: Record<string, unknown> = {
 
 export const TEST_KEY = 'thornvael.testmap';
 
+export const SKIRMISH_MAP_NAMES = new Set([
+  'Bracken Glade',
+  'Scarlet Ridge',
+  'Tidebreak Cove',
+  'Blackwater Reach',
+  'Crossroads of Ash',
+  'Shattered Shore',
+  'Twin Furies',
+  'Inward March',
+  'Muddlefen',
+  'Shallow Ford',
+  'Ashen Tier',
+]);
+
 export interface MissionGame {
   loaded: LoadedMission;
   sim: Sim;
@@ -107,7 +121,7 @@ export interface MissionGame {
 }
 
 /** Build the sim for a loaded mission: units placed, script attached, monsters on watch. */
-export function createMission(loaded: LoadedMission, seed = 1): MissionGame {
+export function createMission(loaded: LoadedMission, seed = 1, options?: { director?: boolean }): MissionGame {
   const { scenario, map, def, doc } = loaded;
   const sim = new Sim(map, seed, scenario.teams, {
     combat: true,
@@ -122,7 +136,11 @@ export function createMission(loaded: LoadedMission, seed = 1): MissionGame {
   sim.attachTowns(doc.towns ?? []);
   if (doc.shrines?.length) sim.attachShrines(doc.shrines);
   sim.attachScript(new ScriptRuntime(structuredClone(def)));
-  return { loaded, sim, ai: new MonsterAi(structuredClone(scenario.packs)) };
+  const useDirector = options?.director ?? SKIRMISH_MAP_NAMES.has(doc.name);
+  const ai = useDirector
+    ? new SkirmishDirector(structuredClone(scenario.packs), { seed, team: 1 })
+    : new MonsterAi(structuredClone(scenario.packs));
+  return { loaded, sim, ai };
 }
 
 /** The mission a page asked for: a built-in name, or `test` for the map the editor stored. Throws a readable error. */

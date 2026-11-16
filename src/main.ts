@@ -42,6 +42,7 @@ import { FP, Sim, TICKS_PER_SECOND, type Command, type OrderName } from './sim/s
 import { S } from './strings';
 import { LOW_HP_TIP, Tips } from './tips';
 import { readPreferences, writePreference } from './preferences';
+import { detectBiomeFromMap } from './aesthetic-vfx';
 import { DoubleTap, PortraitStrip, RadialMenu, portraitIds, unitsOfKind, type RadialOrder } from './touchx';
 import { monsterInfo } from './monster-info';
 import { CameraController } from './camera';
@@ -260,9 +261,21 @@ try {
 }
 
 const renderer = new Renderer($('game') as HTMLCanvasElement, map);
+if (campaign && campaignId) {
+  try {
+    const cNode = nodeOf(campaign, campaignId);
+    renderer.setBiome(cNode.act ?? 1);
+  } catch {}
+} else if (params.has('act')) {
+  const a = Number(params.get('act'));
+  if (a >= 1 && a <= 4) renderer.setBiome(a);
+} else if (loadedMission) {
+  renderer.setBiome(detectBiomeFromMap(loadedMission.doc.name || '', map.terrain));
+}
 const cameraController = new CameraController({ viewW: renderer.viewW, viewH: renderer.viewH, zoom: renderer.zoom, camX: renderer.camX, camY: renderer.camY });
 const preferences = readPreferences();
 renderer.quality = preferences.quality;
+renderer.setWeatherEnabled(preferences.weather);
 let autoRecenter = localStorage.getItem('thornvael.autoRecenter') === 'true';
 
 // --- helpers ---
@@ -1756,6 +1769,11 @@ pauseMenu = new PauseMenu({
   },
   setQuality: (q: number) => setQuality(q),
   getQuality: () => renderer.quality,
+  setWeather: (on: boolean) => {
+    renderer.setWeatherEnabled(on);
+    writePreference('weather', on);
+  },
+  isWeatherOn: () => renderer.isWeatherEnabled(),
   setAutoRecenter: (on: boolean) => {
     autoRecenter = on;
     try { localStorage.setItem('thornvael.autoRecenter', String(on)); } catch {}

@@ -17,6 +17,8 @@ export interface PauseMenuCtx {
   exitToMain: () => void;
   setQuality: (q: number) => void;
   getQuality: () => number;
+  setWeather?: (on: boolean) => void;
+  isWeatherOn?: () => boolean;
   setAutoRecenter: (on: boolean) => void;
   getAutoRecenter: () => boolean;
   heroKnownSpells: () => number;
@@ -669,7 +671,26 @@ export class PauseMenu {
     });
 
     qualityRow.append(qLabel, qButtons);
-    displayBox.append(qualityRow);
+
+    const weatherRow = document.createElement('div');
+    weatherRow.className = 'pause-setting-row';
+
+    const weatherLabel = document.createElement('div');
+    weatherLabel.className = 'pause-setting-label';
+    weatherLabel.innerHTML = '<b>Weather & Atmospheric VFX</b><small>Biome rain, drifting sand, cave spores and infernal embers</small>';
+
+    const weatherToggle = document.createElement('button');
+    weatherToggle.type = 'button';
+    const isWeather = this.ctx.isWeatherOn?.() ?? true;
+    weatherToggle.className = `pause-toggle-btn ${isWeather ? 'on' : ''}`;
+    weatherToggle.textContent = isWeather ? 'ON' : 'OFF';
+    weatherToggle.onclick = () => {
+      this.ctx.setWeather?.(!isWeather);
+      this.render();
+    };
+
+    weatherRow.append(weatherLabel, weatherToggle);
+    displayBox.append(qualityRow, weatherRow);
 
     // 3. Gameplay & Camera Section
     const gameBox = document.createElement('div');

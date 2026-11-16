@@ -8,7 +8,7 @@ import { downloadChapter, loadManifest, removeChapter, verifyChapter, type Chapt
 import { encodeSave } from './save';
 import { applyUpdate, onUpdateWaiting, updateWaiting } from './updategate';
 import { AUTO, deleteRecord, deleteSave, exportAllSaves, getSave, importSaveText, listSaves } from './savedb';
-import { advanceStory, openStory, replayStory, sequenceById, sequenceForNode, skipStory, STORY_SEQUENCES, type StorySequence } from './story';
+import { actTransitionForCompletedNode, advanceStory, openStory, previousStory, replayStory, sequenceById, sequenceForNode, skipStory, STORY_SEQUENCES, type StorySequence } from './story';
 import { S } from './strings';
 import { readPreferences, writePreference } from './preferences';
 import { CodexUi } from './codexui';
@@ -503,24 +503,54 @@ export async function runShell(startWorker: () => void): Promise<never> {
 
   function storyBanner(seqId: StorySequence['id'], backdrop: string): HTMLElement {
     const themeMap: Record<StorySequence['id'], { key: string; c1: string; c2: string; path: string }> = {
-      'act-1': { key: 'ford-dawn', c1: '#384b32', c2: '#1a2718', path: 'M10 42 Q40 34 80 42 T150 42 M68 14 L92 38 M92 14 L68 38 M80 10 L80 44' },
-      'act-2': { key: 'marsh-lanterns', c1: '#553f2f', c2: '#231811', path: 'M20 46 L140 46 M50 46 L50 20 M80 46 L80 14 M110 46 L110 20 M74 14 L86 14 L84 26 L76 26 Z' },
-      'act-3': { key: 'sunken-citadel', c1: '#2d4154', c2: '#121d28', path: 'M42 46 L42 18 L58 18 L58 46 M102 46 L102 18 L118 18 L118 46 M58 30 L102 30 M80 12 L88 22 L80 32 L72 22 Z' },
-      'act-4': { key: 'heartland-ash', c1: '#4a2b31', c2: '#1f1115', path: 'M24 46 L56 16 L80 38 L104 16 L136 46 M80 12 L86 24 L74 24 Z' },
-      'ending-a': { key: 'crown-of-order', c1: '#2e4152', c2: '#142029', path: 'M52 38 L60 18 L80 30 L100 18 L108 38 Z M46 42 L114 42' },
-      'ending-b': { key: 'ember-reckoning', c1: '#522c24', c2: '#24110d', path: 'M80 10 L96 28 L86 28 L94 46 L66 26 L76 26 Z M40 44 L120 44' },
+      'act-1': {
+        key: 'ford-dawn',
+        c1: '#384b32',
+        c2: '#1a2718',
+        path: 'M10 44 Q40 38 80 44 T150 44 M50 44 L50 24 M70 44 L70 20 M90 44 L90 20 M110 44 L110 24 M44 26 L116 26 M76 12 L84 12 L80 32 Z',
+      },
+      'act-2': {
+        key: 'parched-marshes',
+        c1: '#553f2f',
+        c2: '#231811',
+        path: 'M10 48 Q35 44 60 46 T120 45 T160 48 M40 46 L55 36 L70 46 M80 46 L95 38 L110 46 M20 38 Q50 24 85 36 T150 32 M80 8 A6 6 0 1 0 80 20 A6 6 0 1 0 80 8 M80 4 L80 7 M80 21 L80 24 M68 14 L71 14 M89 14 L92 14',
+      },
+      'act-3': {
+        key: 'sunless-caverns',
+        c1: '#2d4154',
+        c2: '#121d28',
+        path: 'M30 48 L30 22 Q80 6 130 22 L130 48 M45 48 L45 28 Q80 14 115 28 L115 48 M20 0 L24 16 L28 0 M60 0 L64 20 L68 0 M92 0 L96 22 L100 0 M132 0 L136 15 L140 0 M80 22 L86 32 L80 42 L74 32 Z',
+      },
+      'act-4': {
+        key: 'infernal-sanctuary',
+        c1: '#4a2b31',
+        c2: '#1f1115',
+        path: 'M24 48 L24 18 L36 10 L48 18 L48 48 M112 48 L112 18 L124 10 L136 18 L136 48 M48 30 L112 30 M56 48 L56 22 Q80 12 104 22 L104 48 M80 14 L88 26 L80 38 L72 26 Z M80 10 L84 18 L76 18 Z',
+      },
+      'ending-a': {
+        key: 'cleansing-thornvael',
+        c1: '#2e4152',
+        c2: '#142029',
+        path: 'M50 36 Q60 18 80 28 Q100 18 110 36 M44 42 Q80 34 116 42 M80 10 L84 20 L94 22 L86 30 L88 40 L80 34 L72 40 L74 30 L66 22 L76 20 Z',
+      },
+      'ending-b': {
+        key: 'dark-sovereign',
+        c1: '#522c24',
+        c2: '#24110d',
+        path: 'M50 44 L60 16 L72 28 L80 12 L88 28 L100 16 L110 44 Z M42 46 L118 46 M80 26 L86 36 L80 42 L74 36 Z',
+      },
     };
     const t = themeMap[seqId];
     const baseColor = backdrop.startsWith('#') ? backdrop : t.c1;
-    const art = el('div', 'sh-story-art');
+    const art = el('div', 'sh-story-art sh-slideshow-art');
     art.dataset.backdrop = t.key;
-    art.style.background = `radial-gradient(circle at 50% 35%, #e4bf8033, ${baseColor} 68%), linear-gradient(135deg, ${baseColor}, ${t.c2})`;
+    art.style.background = `radial-gradient(circle at 50% 35%, #ffd8702b, ${baseColor} 70%), linear-gradient(135deg, ${baseColor}, ${t.c2})`;
     const svg = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
     svg.setAttribute('viewBox', '0 0 160 54');
     const p = document.createElementNS('http://www.w3.org/2000/svg', 'path');
     p.setAttribute('d', t.path);
     p.setAttribute('fill', 'none');
-    p.setAttribute('stroke', '#e4bf80');
+    p.setAttribute('stroke', '#ffd870');
     p.setAttribute('stroke-width', '2');
     p.setAttribute('stroke-linecap', 'round');
     p.setAttribute('stroke-linejoin', 'round');
@@ -532,44 +562,126 @@ export async function runShell(startWorker: () => void): Promise<never> {
   function showStory(id: StorySequence['id'], onFinish?: () => void): void {
     blip();
     let player = openStory(id);
-    const m = el('div', 'sh-modal');
-    const box = el('div', 'sh-box');
-    const draw = (): void => {
-      box.replaceChildren();
-      const slide = player.sequence.slides[player.index];
-      box.style.borderColor = '#d6a45b';
-      const title = el('h2', '', player.sequence.title);
-      const art = storyBanner(player.sequence.id, slide.backdrop);
-      const heading = el('h3', '', slide.heading);
-      const caption = el('p', '', slide.caption);
-      const note = el('p', 'note', `Slide ${player.index + 1}/${player.sequence.slides.length} · Cue: ${slide.cue}`);
-      const controls = el('div', 'sh-row');
-      controls.append(
-        btn(player.index + 1 < player.sequence.slides.length ? 'Next' : 'Finish', () => {
-          blip();
+    const overlay = el('div', 'sh-slideshow-overlay');
+    const frame = el('div', 'sh-slideshow-frame');
+    const content = el('div', 'sh-slideshow-content');
+    let isTransitioning = false;
+
+    const close = (): void => {
+      window.removeEventListener('keydown', handleKey);
+      overlay.remove();
+      onFinish?.();
+    };
+
+    const handleKey = (e: KeyboardEvent): void => {
+      if (e.key === 'Escape' || e.code === 'Space') {
+        e.preventDefault();
+        e.stopPropagation();
+        blip();
+        player = skipStory(player);
+        close();
+      } else if (e.key === 'Enter' || e.key === 'ArrowRight') {
+        e.preventDefault();
+        e.stopPropagation();
+        stepNext();
+      } else if (e.key === 'ArrowLeft') {
+        e.preventDefault();
+        e.stopPropagation();
+        stepPrev();
+      }
+    };
+    window.addEventListener('keydown', handleKey);
+
+    const stepNext = (): void => {
+      if (isTransitioning) return;
+      blip();
+      if (player.index + 1 < player.sequence.slides.length) {
+        animateTransition(() => {
           player = advanceStory(player);
-          if (player.finished) {
-            m.remove();
-            onFinish?.();
-          } else draw();
-        }),
-        btn('Replay', () => {
-          blip();
+          draw();
+        });
+      } else {
+        player = advanceStory(player);
+        close();
+      }
+    };
+
+    const stepPrev = (): void => {
+      if (isTransitioning || player.index === 0) return;
+      blip();
+      animateTransition(() => {
+        player = previousStory(player);
+        draw();
+      });
+    };
+
+    const animateTransition = (fn: () => void): void => {
+      isTransitioning = true;
+      content.classList.add('fading');
+      setTimeout(() => {
+        fn();
+        content.classList.remove('fading');
+        setTimeout(() => {
+          isTransitioning = false;
+        }, 120);
+      }, 120);
+    };
+
+    const draw = (): void => {
+      frame.replaceChildren();
+      const slide = player.sequence.slides[player.index];
+
+      // Header
+      const header = el('div', 'sh-slideshow-header');
+      const title = el('h2', 'sh-slideshow-title', player.sequence.title);
+      header.append(title);
+      if (player.sequence.subtitle) {
+        header.append(el('div', 'sh-slideshow-subtitle', player.sequence.subtitle));
+      }
+
+      // Center Content (fade target)
+      content.replaceChildren();
+      const art = storyBanner(player.sequence.id, slide.backdrop);
+
+      const textWrap = el('div', 'sh-slideshow-text');
+      const heading = el('h3', 'sh-slideshow-heading', slide.heading);
+      const caption = el('p', 'sh-slideshow-caption', slide.caption);
+
+      const pips = el('div', 'sh-slideshow-pips');
+      for (let i = 0; i < player.sequence.slides.length; i++) {
+        pips.append(el('span', `sh-slideshow-pip${i === player.index ? ' active' : ''}`));
+      }
+
+      textWrap.append(heading, caption, pips);
+      content.append(art, textWrap);
+
+      // Controls
+      const controls = el('div', 'sh-slideshow-controls');
+      const isLast = player.index + 1 >= player.sequence.slides.length;
+
+      const skipBtn = btn('Пропусни [Space / Esc]', () => {
+        blip();
+        player = skipStory(player);
+        close();
+      }, 'sh-slideshow-btn sh-slideshow-btn-secondary');
+
+      const replayBtn = btn('Повтори', () => {
+        blip();
+        animateTransition(() => {
           player = replayStory(player);
           draw();
-        }, 'sh-small'),
-        btn('Skip', () => {
-          blip();
-          player = skipStory(player);
-          m.remove();
-          onFinish?.();
-        }, 'sh-small'),
-      );
-      box.append(title, art, heading, caption, note, controls);
+        });
+      }, 'sh-slideshow-btn sh-slideshow-btn-secondary');
+
+      const nextBtn = btn(isLast ? 'Край' : 'Напред →', stepNext, 'sh-slideshow-btn sh-slideshow-btn-primary');
+
+      controls.append(skipBtn, replayBtn, nextBtn);
+      frame.append(header, content, controls);
     };
+
     draw();
-    m.append(box);
-    root.append(m);
+    overlay.append(frame);
+    root.append(overlay);
   }
 
   // ---- briefing modal ----
@@ -654,7 +766,12 @@ export async function runShell(startWorker: () => void): Promise<never> {
         m.remove();
         map();
         const ending = last.win ? sequenceForNode(n.id) : null;
-        if (ending && ending.kind === 'ending') showStory(ending.id);
+        if (ending && ending.kind === 'ending') {
+          showStory(ending.id);
+        } else if (last.win) {
+          const transition = actTransitionForCompletedNode(n.id);
+          if (transition) showStory(transition.id);
+        }
       }),
     );
     m.append(box);

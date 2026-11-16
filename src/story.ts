@@ -13,7 +13,9 @@ export interface StorySequence {
   readonly act: 1 | 2 | 3 | 4;
   readonly kind: 'intro' | 'ending';
   readonly title: string;
+  readonly subtitle?: string;
   readonly triggerNode?: string;
+  readonly completedNodeTrigger?: string;
   readonly slides: readonly StorySlide[];
 }
 
@@ -22,66 +24,147 @@ export const STORY_SEQUENCES: readonly StorySequence[] = [
     id: 'act-1',
     act: 1,
     kind: 'intro',
-    title: 'Act I — The Border Fords',
+    title: 'Act I — Граничните бродове (The Border Fords)',
+    subtitle: 'Началото на похода през Торнваел',
     triggerNode: 'm01-blood-at-the-ford',
     slides: [
-      { id: 'a1-1', heading: 'Ash on the Toll Road', caption: 'Smoke rises along the border rivers where frontier scouts hold the last wooden crossings.', backdrop: '#2c3d29', cue: 'calm' },
-      { id: 'a1-2', heading: 'The Muster at Thornwick', caption: 'Swords for hire and hedge mages gather in the market square before the highland raids.', backdrop: '#384b32', cue: 'march' },
+      {
+        id: 'a1-1',
+        heading: 'Пепел по крайграничния път',
+        caption: 'Дим се издига над граничните реки. Войските на границата отстъпват, оставяйки само неколцина смелчаци да бранят последните дървени мостове.',
+        backdrop: '#2c3d29',
+        cue: 'calm',
+      },
+      {
+        id: 'a1-2',
+        heading: 'Сборът в Торнуик',
+        caption: 'Наемници, ветерани и самотни магове се събират в пазарния площад на Торнуик, обединени от една обща цел преди настъплението към пустошта.',
+        backdrop: '#384b32',
+        cue: 'march',
+      },
     ],
   },
   {
     id: 'act-2',
     act: 2,
     kind: 'intro',
-    title: 'Act II — Into the Redmarsh',
+    title: 'Act II — Пътят през пресъхващите блата към пустинята',
+    subtitle: 'Преход от блатата към пясъчната пустош',
     triggerNode: 'm12-redmarsh-border',
+    completedNodeTrigger: 'm11-ashbrook-retreat',
     slides: [
-      { id: 'a2-1', heading: 'Beyond the Watchtowers', caption: 'Beneath the sunken vaults lie older boundary stones linking the fens to the stone quarries.', backdrop: '#453528', cue: 'march' },
-      { id: 'a2-2', heading: 'Two Passes South', caption: 'Every bridge and ridge post now carries banners from rival warbands converging on the plateau.', backdrop: '#553f2f', cue: 'battle' },
+      {
+        id: 'a2-1',
+        heading: 'Пресъхващите блата на Червено блато',
+        caption: 'Водите бавно се оттеглят, оставяйки напукана тиня и оголени древни мегалити. Пътят през пресъхващите блата към пустинята се разкрива под жаркото слънце.',
+        backdrop: '#453528',
+        cue: 'march',
+      },
+      {
+        id: 'a2-2',
+        heading: 'Входът към пясъчната пустош',
+        caption: 'Вятърът носи сипкав прах и мирис на сяра. Наблюдателните кули са изоставени, а пред отряда лежат два опасни прохода през безпощадната пустиня.',
+        backdrop: '#553f2f',
+        cue: 'battle',
+      },
     ],
   },
   {
     id: 'act-3',
     act: 3,
     kind: 'intro',
-    title: 'Act III — The Iron Coast',
+    title: 'Act III — Слизане в безслънчевите пещери и подземия',
+    subtitle: 'Преход към мрачните бездни под Железния бряг',
     triggerNode: 'm24-pledge-at-oakhaven',
+    completedNodeTrigger: 'm23-fork-of-spears',
     slides: [
-      { id: 'a3-1', heading: 'Harbors Under Wardfire', caption: 'Alchemical beacons flare above the river locks as coastal fortresses seal their gates.', backdrop: '#243545', cue: 'march' },
-      { id: 'a3-2', heading: 'The Breaker of Walls', caption: 'Only a seasoned company can pierce the rune perimeters and rescue the trapped garrisons.', backdrop: '#2d4154', cue: 'battle' },
+      {
+        id: 'a3-1',
+        heading: 'Разломите на Железния бряг',
+        caption: 'Крепостите по брега са обградени от магически огньове. Единственият път напред е слизане в безслънчевите пещери и подземия дълбоко под скалния масив.',
+        backdrop: '#243545',
+        cue: 'march',
+      },
+      {
+        id: 'a3-2',
+        heading: 'Безслънчевите катакомби',
+        caption: 'Дневната светлина изчезва. Влажните подземни коридори ехтят от древни рунни окови и стъпки на създания, невиждали слънцето от столетия.',
+        backdrop: '#2d4154',
+        cue: 'battle',
+      },
     ],
   },
   {
     id: 'act-4',
     act: 4,
     kind: 'intro',
-    title: 'Act IV — Crown and Ember',
+    title: 'Act IV — Портите на Инферналното светилище',
+    subtitle: 'Последната битка за съдбата на Торнваел',
     triggerNode: 'm36-heartland-march',
+    completedNodeTrigger: 'm35-burning-harbor',
     slides: [
-      { id: 'a4-1', heading: 'Heartland Ascent', caption: 'Three roads climb toward the central citadel where the ancient vault wards still pulse.', backdrop: '#3c2529', cue: 'battle' },
-      { id: 'a4-2', heading: 'At the Threshold', caption: 'When the outer ramparts fall, your company must choose whether to seal the vault or break it open.', backdrop: '#4a2b31', cue: 'battle' },
+      {
+        id: 'a4-1',
+        heading: 'Пепелният поход към Сърцевината',
+        caption: 'Земята около цитаделата се тресе, а небето гори в цвят на разтопено желязо. Пътят води право към портите на Инферналното светилище.',
+        backdrop: '#3c2529',
+        cue: 'battle',
+      },
+      {
+        id: 'a4-2',
+        heading: 'Прагът на Светилището',
+        caption: 'Масивните обсидианови порти стоят открехнати, излъчвайки древна първична мощ. Всеки удар на сърцето ви приближава до неизбежния финален избор.',
+        backdrop: '#4a2b31',
+        cue: 'battle',
+      },
     ],
   },
   {
     id: 'ending-a',
     act: 4,
     kind: 'ending',
-    title: 'Ending A — The Crown of Order',
+    title: 'Победа — Пречистването на Торнваел',
+    subtitle: 'Светлината възтържествува над мрака',
     triggerNode: 'm45-crown-of-order',
     slides: [
-      { id: 'ea-1', heading: 'The Vault Sealed', caption: 'With the arch-warden defeated, the heavy iron rings lock the core beneath Thornvael once more.', backdrop: '#2e4152', cue: 'triumph' },
-      { id: 'ea-2', heading: 'Quiet Roads', caption: 'Mercenaries hang up their shields in Thornwick while border lanterns burn steadily through the autumn mist.', backdrop: '#384b36', cue: 'calm' },
+      {
+        id: 'ea-1',
+        heading: 'Падането на Инферналния ковен',
+        caption: 'След съкрушаването на архи-пазителя, тежките железни печати се затварят завинаги. Пречистването на Торнваел започва с пречупването на тъмните руни.',
+        backdrop: '#2e4152',
+        cue: 'triumph',
+      },
+      {
+        id: 'ea-2',
+        heading: 'Мир над възродените земи',
+        caption: 'Слънцето отново озарява зелените долини и спокойните реки. Воините закачат щитовете си по стените, а Торнваел започва своето ново възраждане.',
+        backdrop: '#384b36',
+        cue: 'calm',
+      },
     ],
   },
   {
     id: 'ending-b',
     act: 4,
     kind: 'ending',
-    title: 'Ending B — The Ember Reckoning',
+    title: 'Алтернативен край — Възкачването на Тъмния Владетел',
+    subtitle: 'Новият ред на огъня и сенките',
     triggerNode: 'm46-ember-reckoning',
     slides: [
-      { id: 'eb-1', heading: 'Shattered Chains', caption: 'You break the ancient seal and scatter the ember overlord across the high plateau.', backdrop: '#522c24', cue: 'triumph' },
-      { id: 'eb-2', heading: 'An Unbound Horizon', caption: 'Magic surges untamed into the highlands; the frontier towns rebuild under a brighter, wilder sky.', backdrop: '#4a3829', cue: 'march' },
+      {
+        id: 'eb-1',
+        heading: 'Счупените вериги на Ембера',
+        caption: 'Древният олтар е разчупен на парчета. Първичната огнена магия не е запечатана, а подчинена на вашата непреклонна воля.',
+        backdrop: '#522c24',
+        cue: 'triumph',
+      },
+      {
+        id: 'eb-2',
+        heading: 'Възкачването на Тъмния Владетел',
+        caption: 'Вие се възкачвате на обсидиановия трон. Знамената на пепелта се развяват над цял Торнваел, а победените врагове скланят глави пред новия господар.',
+        backdrop: '#4a3829',
+        cue: 'march',
+      },
     ],
   },
 ];
@@ -103,6 +186,21 @@ export function sequenceForNode(nodeId: string): StorySequence | null {
   return STORY_SEQUENCES.find((s) => s.triggerNode === nodeId) ?? null;
 }
 
+export function actTransitionForCompletedNode(nodeId: string): StorySequence | null {
+  return STORY_SEQUENCES.find((s) => s.completedNodeTrigger === nodeId) ?? null;
+}
+
+export function getActTransition(fromAct: 1 | 2 | 3, toAct: 2 | 3 | 4): StorySequence | undefined {
+  if (fromAct === 1 && toAct === 2) return sequenceById('act-2');
+  if (fromAct === 2 && toAct === 3) return sequenceById('act-3');
+  if (fromAct === 3 && toAct === 4) return sequenceById('act-4');
+  return undefined;
+}
+
+export function getEndingSequence(ending: 'victory' | 'alternative'): StorySequence {
+  return sequenceById(ending === 'victory' ? 'ending-a' : 'ending-b');
+}
+
 export function openStory(id: StorySequence['id']): StoryPlayer {
   return { sequence: sequenceById(id), index: 0, finished: false, replays: 0 };
 }
@@ -113,6 +211,13 @@ export function advanceStory(player: StoryPlayer): StoryPlayer {
     return { ...player, index: player.index + 1 };
   }
   return { ...player, finished: true };
+}
+
+export function previousStory(player: StoryPlayer): StoryPlayer {
+  if (player.index > 0) {
+    return { ...player, index: player.index - 1, finished: false };
+  }
+  return player;
 }
 
 export function skipStory(player: StoryPlayer): StoryPlayer {

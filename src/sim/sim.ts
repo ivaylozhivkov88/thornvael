@@ -41,6 +41,7 @@ export type Command =
       spell?: number; // cast: spell id, default 0 (Fire Bolt)
     }
   | { type: 'autocast'; ids: number[]; spell: number } // spell id, or -1 to switch autocast off
+  | { type: 'repopulate'; id: number; x: number; y: number; cost?: number }
   | HeroCommand
   | TownCommand;
 export interface LoggedCommand {
@@ -468,9 +469,35 @@ export class Sim {
   private dispatch(cmd: Command): void {
     if (cmd.type === 'move') this.apply(cmd);
     else if (cmd.type === 'autocast') this.applyAutocast(cmd);
+    else if (cmd.type === 'repopulate') this.applyRepopulate(cmd);
     else if (cmd.type === 'hero') heroCommand(this, cmd);
     else if (cmd.type === 'town') townCommand(this, cmd);
     else this.applyOrder(cmd);
+  }
+
+  private applyRepopulate(cmd: Extract<Command, { type: 'repopulate' }>): void {
+    const { id, x, y, cost } = cmd;
+    if (id < 0 || id >= this.count) return;
+    if (this.cb.hp[id] > 0) return;
+    const team = this.team[id] & 3;
+    if (cost && cost > 0) {
+      if (this.cb.gold[team] < cost) return;
+      this.cb.gold[team] -= cost;
+    }
+    const cb = this.cb;
+    cb.hp[id] = cb.hpMax[id];
+    cb.mana[id] = cb.manaMax[id];
+    cb.corp[id] = 0;
+    cb.ord[id] = 0;
+    cb.tgt[id] = -1;
+    cb.aux[id] = 0;
+    cb.cd[id] = 0;
+    this.x[id] = this.tx[id] = cb.px[id] = Math.round((x + 0.5) * FP);
+    this.y[id] = this.ty[id] = cb.py[id] = Math.round((y + 0.5) * FP);
+    this.stop(id);
+    this.hidden[id] = 0;
+    cb.recount(this.team);
+    cb.emit(10, this.x[id], this.y[id], 1, 5);
   }
 
   // ---- orders: goal, formation, shared path ----

@@ -1,5 +1,5 @@
 import { isBlockedAt, type GameMap } from '../map';
-import { Kind } from './combat';
+import { Kind, Ord } from './combat';
 import { FP, type Command, type Sim } from './sim';
 import { Rng } from './rng';
 import { St } from './spelldata';
@@ -41,13 +41,20 @@ export class Bot {
   }
 }
 
+export interface DirectorExtra {
+  death: [number, number][];
+  lastRaid: number;
+  raidCount: number;
+}
+
 export interface MonsterAiExtra {
   res: [number, number][];
   raised: [number, number[]][];
   windup: [number, number][];
+  director?: DirectorExtra;
 }
 
-interface Pack {
+export interface Pack {
   ids: number[];
   x: number; // post in tiles
   y: number;
@@ -63,11 +70,11 @@ interface Pack {
  * - Chieftain Grok'tar / Brute Boss: Heavy windup telegraphed attacks and elite champion affixes.
  */
 export class MonsterAi {
-  private resCooldowns = new Map<number, number>();
-  private raisedMinions = new Map<number, Set<number>>();
-  private bossWindups = new Map<number, number>();
+  protected resCooldowns = new Map<number, number>();
+  protected raisedMinions = new Map<number, Set<number>>();
+  protected bossWindups = new Map<number, number>();
 
-  constructor(private readonly packs: Pack[]) {}
+  constructor(protected readonly packs: Pack[]) {}
 
   /** The only changing state: whether each pack is hunting and how long it has been calm. */
   snapshot(): [boolean, number][] {
@@ -98,7 +105,7 @@ export class MonsterAi {
     });
   }
 
-  private choosePrimaryTarget(sim: Sim, p: Pack, alive: number[], engaged?: number): number {
+  protected choosePrimaryTarget(sim: Sim, p: Pack, alive: number[], engaged?: number): number {
     const cb = sim.cb;
     if (engaged !== undefined && cb.tgt[engaged] >= 0 && cb.hp[cb.tgt[engaged]] > 0) {
       return cb.tgt[engaged];
@@ -125,7 +132,7 @@ export class MonsterAi {
     return best;
   }
 
-  private issueTacticalOrders(sim: Sim, p: Pack, alive: number[], targetId: number, out: Command[]): void {
+  protected issueTacticalOrders(sim: Sim, p: Pack, alive: number[], targetId: number, out: Command[]): void {
     const cb = sim.cb;
     const targetX = sim.x[targetId] / FP;
     const targetY = sim.y[targetId] / FP;
@@ -275,6 +282,303 @@ export class MonsterAi {
       }
     }
     return out;
+  }
+}
+
+export interface SkirmishDirectorOptions {
+  team?: number;
+  seed?: number;
+  squadSize?: number;
+  repopCooldown?: number;
+  raidInterval?: number;
+  scavengeRadius?: number;
+  defenseRadius?: number;
+  repopCost?: number;
+  enableGoldEconomy?: boolean;
+  enableRaids?: boolean;
+  enableRepopulation?: boolean;
+  enableDefense?: boolean;
+}
+
+/**
+ * Solo Skirmish AI Director (P11 & P14):
+ * Orchestrates rival enemy faction / monster commanders on skirmish maps:
+ * - Resource Gathering: scouts & scavengers pick up dropped gold sacks, increasing enemy gold.
+ * - Camp Repopulation & Recruitment: cleared camps revive fallen minions using accumulated gold or cooldown.
+ * - Coordinated Raid Squads: periodically dispatches tactical strike squads to advance and attack player positions.
+ * - Stronghold & Base Defense: detects intruders breaching perimeter and rallies defenders to repel intruders.
+ * - Sim Determinism: 100% deterministic command log replay without Math.random.
+ */
+export class SkirmishDirector extends MonsterAi {
+  protected deathTicks = new Map<number, number>();
+  protected lastRaidTick = 0;
+  protected raidCount = 0;
+  private readonly rng: Rng;
+  readonly options: SkirmishDirectorOptions;
+
+  constructor(packs: Pack[], options: SkirmishDirectorOptions = {}) {
+    super(packs);
+    this.options = {
+      team: options.team ?? 1,
+      seed: options.seed ?? 1,
+      squadSize: options.squadSize ?? 4,
+      repopCooldown: options.repopCooldown ?? 450,
+      raidInterval: options.raidInterval ?? 600,
+      scavengeRadius: options.scavengeRadius ?? 20,
+      defenseRadius: options.defenseRadius ?? 14,
+      repopCost: options.repopCost ?? 40,
+      enableGoldEconomy: options.enableGoldEconomy ?? true,
+      enableRaids: options.enableRaids ?? true,
+      enableRepopulation: options.enableRepopulation ?? true,
+      enableDefense: options.enableDefense ?? true,
+    };
+    this.rng = new Rng(this.options.seed ?? 1);
+  }
+
+  getRaidCount(): number {
+    return this.raidCount;
+  }
+
+  getDeathCount(): number {
+    return this.deathTicks.size;
+  }
+
+  override snapshotExtra(): MonsterAiExtra {
+    const base = super.snapshotExtra();
+    const byId = <T,>(a: [number, T][]): [number, T][] => a.sort((p, q) => p[0] - q[0]);
+    base.director = {
+      death: byId([...this.deathTicks]),
+      lastRaid: this.lastRaidTick,
+      raidCount: this.raidCount,
+    };
+    return base;
+  }
+
+  override restoreExtra(x: MonsterAiExtra | undefined): void {
+    super.restoreExtra(x);
+    if (x?.director) {
+      this.deathTicks = new Map(x.director.death ?? []);
+      this.lastRaidTick = x.director.lastRaid ?? 0;
+      this.raidCount = x.director.raidCount ?? 0;
+    }
+  }
+
+  override commands(sim: Sim): Command[] {
+    const out: Command[] = super.commands(sim);
+
+    // Staggered director decisions: runs every 25 ticks (1 Hz) at tick % 25 === 7
+    if (sim.tick % 25 !== 7) return out;
+
+    // Do not issue director commands if mission is already finished
+    if (sim.script && sim.script.st.status !== 0) return out;
+
+    if (this.options.enableDefense) {
+      this.checkBaseDefense(sim, out);
+    }
+
+    if (this.options.enableGoldEconomy) {
+      this.checkResourceGathering(sim, out);
+    }
+
+    if (this.options.enableRepopulation) {
+      this.checkRepopulation(sim, out);
+    }
+
+    if (this.options.enableRaids) {
+      this.checkRaidSquads(sim, out);
+    }
+
+    return out;
+  }
+
+  forceRaid(sim: Sim): Command[] {
+    const out: Command[] = [];
+    this.lastRaidTick = -9999;
+    this.checkRaidSquads(sim, out);
+    return out;
+  }
+
+  forceScavenge(sim: Sim): Command[] {
+    const out: Command[] = [];
+    this.checkResourceGathering(sim, out);
+    return out;
+  }
+
+  forceRepopulate(sim: Sim): Command[] {
+    const out: Command[] = [];
+    this.checkRepopulation(sim, out);
+    return out;
+  }
+
+  private checkBaseDefense(sim: Sim, out: Command[]): void {
+    const cb = sim.cb;
+    const team = this.options.team ?? 1;
+    const defRadiusSq = (this.options.defenseRadius ?? 14) ** 2;
+
+    for (const p of this.packs) {
+      if (p.hunting) continue;
+      const alive = p.ids.filter((id) => cb.hp[id] > 0 && sim.team[id] === team);
+      if (alive.length === 0) continue;
+
+      let intruder = -1;
+      let closestIntruderDistSq = defRadiusSq;
+
+      for (let i = 0; i < sim.count; i++) {
+        if (sim.team[i] !== team && cb.hp[i] > 0 && !sim.hidden[i]) {
+          const ix = sim.x[i] / FP;
+          const iy = sim.y[i] / FP;
+          const d2 = (ix - p.x) ** 2 + (iy - p.y) ** 2;
+          if (d2 < closestIntruderDistSq) {
+            closestIntruderDistSq = d2;
+            intruder = i;
+          }
+        }
+      }
+
+      if (intruder >= 0) {
+        p.hunting = true;
+        p.calm = 0;
+        this.issueTacticalOrders(sim, p, alive, intruder, out);
+      }
+    }
+  }
+
+  private checkResourceGathering(sim: Sim, out: Command[]): void {
+    const cb = sim.cb;
+    const team = this.options.team ?? 1;
+    const scavengeRadSq = (this.options.scavengeRadius ?? 20) ** 2;
+
+    const scavengers: number[] = [];
+    for (let i = 0; i < sim.count; i++) {
+      if (
+        sim.team[i] === team &&
+        cb.hp[i] > 0 &&
+        !sim.hidden[i] &&
+        cb.tgt[i] < 0 &&
+        cb.ord[i] !== Ord.Pickup &&
+        cb.ord[i] !== Ord.Attack
+      ) {
+        scavengers.push(i);
+      }
+    }
+    if (scavengers.length === 0) return;
+
+    for (let s = 0; s < 64; s++) {
+      if (cb.sG[s] <= 0) continue;
+      const sx = cb.sX[s] / FP;
+      const sy = cb.sY[s] / FP;
+
+      let bestScavenger = -1;
+      let bestDistSq = scavengeRadSq;
+
+      for (const u of scavengers) {
+        const ux = sim.x[u] / FP;
+        const uy = sim.y[u] / FP;
+        const d2 = (ux - sx) ** 2 + (uy - sy) ** 2;
+        if (d2 < bestDistSq) {
+          bestDistSq = d2;
+          bestScavenger = u;
+        }
+      }
+
+      if (bestScavenger >= 0) {
+        out.push({ type: 'order', order: 'pickup', ids: [bestScavenger], x: sx, y: sy });
+        const idx = scavengers.indexOf(bestScavenger);
+        if (idx >= 0) scavengers.splice(idx, 1);
+        if (scavengers.length === 0) break;
+      }
+    }
+  }
+
+  private checkRepopulation(sim: Sim, out: Command[]): void {
+    const cb = sim.cb;
+    const team = this.options.team ?? 1;
+    const cooldown = this.options.repopCooldown ?? 450;
+    const cost = this.options.enableGoldEconomy ? (this.options.repopCost ?? 40) : 0;
+
+    for (const p of this.packs) {
+      for (const id of p.ids) {
+        if (sim.team[id] !== team) continue;
+        if (cb.hp[id] <= 0) {
+          if (!this.deathTicks.has(id)) {
+            this.deathTicks.set(id, sim.tick);
+          } else {
+            const deathTick = this.deathTicks.get(id)!;
+            if (sim.tick - deathTick >= cooldown) {
+              if (cost === 0 || cb.gold[team] >= cost) {
+                const targetX = Math.floor(p.x);
+                const targetY = Math.floor(p.y);
+                out.push({ type: 'repopulate', id, x: targetX, y: targetY, cost });
+                this.deathTicks.delete(id);
+                break;
+              }
+            }
+          }
+        } else {
+          this.deathTicks.delete(id);
+        }
+      }
+    }
+  }
+
+  private checkRaidSquads(sim: Sim, out: Command[]): void {
+    const interval = this.options.raidInterval ?? 600;
+    if (sim.tick - this.lastRaidTick < interval) return;
+
+    const cb = sim.cb;
+    const team = this.options.team ?? 1;
+
+    let targetId = -1;
+    if (sim.hero && cb.hp[sim.hero.id] > 0 && sim.team[sim.hero.id] !== team) {
+      targetId = sim.hero.id;
+    } else {
+      for (let i = 0; i < sim.count; i++) {
+        if (sim.team[i] !== team && cb.hp[i] > 0 && !sim.hidden[i]) {
+          targetId = i;
+          break;
+        }
+      }
+    }
+    if (targetId < 0) return;
+
+    const tx = sim.x[targetId] / FP;
+    const ty = sim.y[targetId] / FP;
+
+    const candidates: number[] = [];
+    for (const p of this.packs) {
+      if (p.hunting) continue;
+      for (const id of p.ids) {
+        if (
+          sim.team[id] === team &&
+          cb.hp[id] > 0 &&
+          !sim.hidden[id] &&
+          cb.tgt[id] < 0 &&
+          cb.ord[id] !== Ord.Pickup
+        ) {
+          candidates.push(id);
+        }
+      }
+    }
+
+    const squadSize = this.options.squadSize ?? 4;
+    if (candidates.length < 2) return;
+
+    const squad = candidates.slice(0, squadSize);
+
+    let avgDist = 0;
+    for (const id of squad) {
+      avgDist += Math.hypot(sim.x[id] / FP - tx, sim.y[id] / FP - ty);
+    }
+    avgDist /= squad.length;
+
+    if (avgDist > 12) {
+      out.push({ type: 'move', ids: squad, x: tx, y: ty });
+    } else {
+      out.push({ type: 'order', order: 'attack', ids: squad, target: targetId, x: tx, y: ty });
+    }
+
+    this.lastRaidTick = sim.tick;
+    this.raidCount++;
   }
 }
 

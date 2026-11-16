@@ -13,6 +13,7 @@ import { ArtPreview } from './sprites/preview';
 import { CombatAnimation, type AnimationPose } from './sprites/combat-animation';
 import { VfxSystem } from './vfx';
 import { CombatFeelSystem } from './feel';
+import { AestheticVfxSystem, detectBiomeFromMap, type BiomeWeatherType, type BiomeAct } from './aesthetic-vfx';
 
 const SHRINE_COLORS: Record<string, number> = {
   healing: 0xe84a5f,
@@ -182,6 +183,7 @@ export class Renderer {
   }>();
   vfx?: VfxSystem;
   readonly feel: CombatFeelSystem;
+  readonly aestheticVfx: AestheticVfxSystem;
   private lastDrawNow = 0;
   private lastCastSid = -1;
   zoom = 1;
@@ -193,6 +195,8 @@ export class Renderer {
     private readonly map: GameMap,
   ) {
     this.feel = new CombatFeelSystem(map.w, map.h);
+    this.aestheticVfx = new AestheticVfxSystem();
+    this.aestheticVfx.setBiome(detectBiomeFromMap('', map.terrain));
   }
 
   /** Static world labels: town buildings and people to talk to (x, y in tiles). Call after init. */
@@ -242,6 +246,7 @@ export class Renderer {
     fog.height = this.map.h * TILE;
     this.vfx = new VfxSystem();
     this.vfx.init();
+    this.aestheticVfx?.init();
     this.world.addChild(this.chunks, this.rings, this.feel.bloodGraphics, this.feel.auraGraphics, this.vfx.groundLayer);
     this.fog = fog;
     const tex = unitTexture();
@@ -283,10 +288,16 @@ export class Renderer {
     this.dbgPath.visible = false;
     this.world.addChild(this.shots, this.feel.sparkGraphics, this.feel.bubbleGraphics, this.feel.slashGraphics, this.vfx.airLayer, fog, this.dbgGrid, this.dbgPath);
     if (this.feel.lightSprite) {
-      this.app.stage.addChild(this.world, this.feel.lightSprite, this.feel.floaterContainer, this.floaterLayer, this.overlay);
+      const stageItems = [this.world, this.feel.lightSprite];
+      if (this.aestheticVfx) stageItems.push(this.aestheticVfx.weatherLayer);
+      stageItems.push(this.feel.floaterContainer, this.floaterLayer, this.overlay);
+      this.app.stage.addChild(...stageItems);
     } else {
       this.light.blendMode = 'multiply';
-      this.app.stage.addChild(this.world, this.light, this.floaterLayer, this.overlay);
+      const stageItems = [this.world, this.light];
+      if (this.aestheticVfx) stageItems.push(this.aestheticVfx.weatherLayer);
+      stageItems.push(this.floaterLayer, this.overlay);
+      this.app.stage.addChild(...stageItems);
     }
     if (new URLSearchParams(location.search).get('art') === '1') {
       this.artPreview = new ArtPreview(atlases);
@@ -301,6 +312,7 @@ export class Renderer {
   setQuality(q: number): void {
     this.quality = Math.max(0, Math.min(2, q));
     this.vfx?.setQuality(this.quality);
+    this.aestheticVfx?.setQuality(this.quality);
     const dpr = window.devicePixelRatio || 1;
     const res = [1, Math.min(dpr, 1.5), Math.min(dpr, 2)][this.quality];
     try {
@@ -336,6 +348,22 @@ export class Renderer {
   pointScreen(fx: number, fy: number): [number, number] {
     const k = TILE / FP;
     return [fx * k * this.zoom - this.camX, fy * k * this.zoom - this.camY];
+  }
+
+  setBiome(biomeOrAct: BiomeWeatherType | BiomeAct | number): void {
+    (this.aestheticVfx as AestheticVfxSystem | undefined)?.setBiome(biomeOrAct);
+  }
+
+  getBiome(): BiomeWeatherType {
+    return (this.aestheticVfx as AestheticVfxSystem | undefined)?.getBiome() ?? 'swamp';
+  }
+
+  setWeatherEnabled(enabled: boolean): void {
+    (this.aestheticVfx as AestheticVfxSystem | undefined)?.setEnabled(enabled);
+  }
+
+  isWeatherEnabled(): boolean {
+    return this.aestheticVfx?.isEnabled() ?? true;
   }
 
   private runFx(sim: Sim, now: number): void {
@@ -754,6 +782,7 @@ export class Renderer {
       this.updateLight(sim.daylight);
     }
     this.vfx?.updateAndDraw(sim, now, dtMs, this.zoom, this.camX, this.camY, this.overlay, this.viewW, this.viewH);
+    (this.aestheticVfx as AestheticVfxSystem | undefined)?.updateAndDraw(now, dtMs, this.camX, this.camY, this.zoom, this.viewW, this.viewH);
     const mw = this.map.w;
     const cb = sim.cb;
     const z = this.zoom;

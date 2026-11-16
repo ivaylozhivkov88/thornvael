@@ -3465,3 +3465,219 @@ button:disabled, #shell .sh-btn:disabled { opacity: .6; cursor: default; box-sha
 }
 
 #tip .tip-portrait { float: left; width: 56px; height: 75px; object-fit: cover; border-radius: 6px; border: 1px solid #c9a24a; margin: 0 8px 4px 0; }
+
+/* ==========================================================================
+   GOTHIC CAMPAIGN SLIDESHOW & ACT TRANSITIONS (P22)
+   Strict UI Viewport Containment: 100dvh, overflow: hidden, touch targets >= 44px
+   ========================================================================== */
+
+#shell .sh-slideshow-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 60;
+  width: 100vw;
+  height: 100dvh;
+  max-height: 100dvh;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: radial-gradient(circle at 50% 50%, rgba(20, 24, 30, 0.95) 0%, rgba(6, 8, 10, 0.98) 100%);
+  backdrop-filter: blur(8px);
+  padding: env(safe-area-inset-top) env(safe-area-inset-right) env(safe-area-inset-bottom) env(safe-area-inset-left);
+  box-sizing: border-box;
+}
+
+#shell .sh-slideshow-frame {
+  width: min(94vw, 840px);
+  height: min(92dvh, 640px);
+  max-height: 92dvh;
+  overflow: hidden;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: clamp(12px, 2.4dvh, 24px) clamp(16px, 3vw, 32px);
+  background: linear-gradient(165deg, #182028 0%, #0c1014 100%);
+  border: 2px solid #b89358;
+  border-radius: 12px;
+  box-shadow: 0 16px 50px rgba(0, 0, 0, 0.95), inset 0 0 30px rgba(184, 147, 88, 0.12);
+  user-select: none;
+}
+
+#shell .sh-slideshow-header {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 3px;
+  text-align: center;
+  flex-shrink: 0;
+}
+
+#shell .sh-slideshow-title {
+  font-family: Georgia, "Cinzel", "Times New Roman", serif;
+  font-size: clamp(17px, 2.8dvh, 25px);
+  color: #ffd870;
+  margin: 0;
+  letter-spacing: 0.8px;
+  text-shadow: 0 2px 10px rgba(255, 215, 0, 0.35);
+}
+
+#shell .sh-slideshow-subtitle {
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: clamp(11px, 1.5dvh, 13px);
+  color: #b89358;
+  letter-spacing: 1px;
+}
+
+#shell .sh-slideshow-content {
+  flex: 1 1 auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: clamp(8px, 1.8dvh, 16px);
+  min-height: 0;
+  overflow: hidden;
+  transition: opacity 220ms ease, transform 220ms ease;
+  opacity: 1;
+  transform: translateY(0);
+}
+
+#shell .sh-slideshow-content.fading {
+  opacity: 0;
+  transform: translateY(4px);
+}
+
+#shell .sh-slideshow-art {
+  width: 100%;
+  max-width: 720px;
+  height: clamp(100px, 24dvh, 190px);
+  flex-shrink: 0;
+  border-radius: 8px;
+  border: 1px solid rgba(184, 147, 88, 0.4);
+  box-shadow: inset 0 0 25px rgba(0, 0, 0, 0.8), 0 4px 15px rgba(0, 0, 0, 0.6);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+
+#shell .sh-slideshow-art svg {
+  width: 100%;
+  height: 100%;
+  max-height: 170px;
+}
+
+#shell .sh-slideshow-text {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 5px;
+  text-align: center;
+  max-width: 680px;
+  flex-shrink: 1;
+  min-height: 0;
+  overflow: hidden;
+}
+
+#shell .sh-slideshow-heading {
+  font-family: Georgia, "Cinzel", "Times New Roman", serif;
+  font-size: clamp(15px, 2.1dvh, 20px);
+  color: #f5eedc;
+  margin: 0;
+  font-weight: 600;
+  letter-spacing: 0.5px;
+}
+
+#shell .sh-slideshow-caption {
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: clamp(12px, 1.7dvh, 15px);
+  color: #c4b59d;
+  line-height: 1.4;
+  margin: 0;
+  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.8);
+}
+
+#shell .sh-slideshow-pips {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  margin-top: 2px;
+}
+
+#shell .sh-slideshow-pip {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: rgba(184, 147, 88, 0.25);
+  border: 1px solid rgba(184, 147, 88, 0.5);
+  transition: background 200ms, transform 200ms;
+}
+
+#shell .sh-slideshow-pip.active {
+  background: #ffd870;
+  box-shadow: 0 0 8px #ffd870;
+  transform: scale(1.25);
+}
+
+#shell .sh-slideshow-controls {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  width: 100%;
+  margin-top: auto;
+  padding-top: clamp(8px, 1.4dvh, 14px);
+  border-top: 1px solid rgba(184, 147, 88, 0.25);
+  flex-shrink: 0;
+}
+
+#shell .sh-slideshow-btn {
+  min-height: 44px;
+  min-width: 44px;
+  box-sizing: border-box;
+  font-family: Georgia, "Cinzel", "Times New Roman", serif;
+  font-size: 14px;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: filter 150ms, transform 100ms, background 150ms;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  text-decoration: none;
+}
+
+#shell .sh-slideshow-btn:active {
+  transform: scale(0.97);
+}
+
+#shell .sh-slideshow-btn-primary {
+  min-width: 120px;
+  padding: 10px 22px;
+  background: linear-gradient(180deg, #d6a45b 0%, #9c6c2e 100%);
+  color: #120e07;
+  font-weight: 700;
+  border: 1px solid #ffd870;
+  box-shadow: 0 3px 10px rgba(0, 0, 0, 0.5), inset 0 1px 0 rgba(255, 255, 255, 0.4);
+}
+
+#shell .sh-slideshow-btn-primary:hover {
+  filter: brightness(1.15);
+}
+
+#shell .sh-slideshow-btn-secondary {
+  min-width: 140px;
+  padding: 10px 18px;
+  background: rgba(30, 24, 18, 0.85);
+  color: #cbb898;
+  border: 1px solid rgba(184, 147, 88, 0.45);
+}
+
+#shell .sh-slideshow-btn-secondary:hover {
+  background: rgba(45, 36, 26, 0.95);
+  color: #ffd870;
+  border-color: #ffd870;
+}
+
