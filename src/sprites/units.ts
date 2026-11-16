@@ -167,7 +167,7 @@ export class UnitAtlas {
       ctx.putImageData(new ImageData(new Uint8ClampedArray(data), w, h), (layer % 2) * w, Math.floor(layer / 2) * h);
     });
     const texture = Texture.from(cv);
-    texture.source.scaleMode = 'linear';
+    texture.source.scaleMode = 'nearest';
     return new UnitAtlas(unit, texture, sheet);
   }
 
