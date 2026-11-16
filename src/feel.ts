@@ -52,6 +52,17 @@ export interface GroundSplatter {
   decayRate: number;
 }
 
+export interface BoneDebris {
+  x: number;
+  y: number;
+  rot: number;
+  length: number;
+  width: number;
+  type: 0 | 1 | 2; // 0: shard, 1: curved rib, 2: joint bone
+  alpha: number;
+  decayRate: number;
+}
+
 export interface SparkParticle {
   x: number;
   y: number;
@@ -108,6 +119,7 @@ export class CombatFeelSystem {
 
   // Active pools
   private splatters: GroundSplatter[] = [];
+  private boneFragments: BoneDebris[] = [];
   private sparks: SparkParticle[] = [];
   private slashes: SlashArc[] = [];
   private bubbles: StatusBubble[] = [];
@@ -304,6 +316,53 @@ export class CombatFeelSystem {
     }
   }
 
+  /** Spawn persistent death gore: dark pooled blood splatters and fractured bone fragments on terrain */
+  spawnDeathGore(x: number, y: number, isElite = false, isUndead = false): void {
+    const bloodCount = isElite ? 8 : 5;
+    const colors = [0x500000, 0x6e0000, 0x880808, 0x3d0000];
+
+    // 1. Concentric and radial pooled blood splatters
+    for (let b = 0; b < bloodCount; b++) {
+      const dist = b === 0 ? 0 : Math.random() * (isElite ? 22 : 15);
+      const ang = Math.random() * Math.PI * 2;
+      const bx = x + Math.cos(ang) * dist;
+      const by = y + Math.sin(ang) * (dist * 0.55);
+      const rad = b === 0 ? (isElite ? 14 : 9) : Math.random() * (isElite ? 8 : 5) + 3;
+      const col = colors[Math.floor(Math.random() * colors.length)];
+      this.splatters.push({
+        x: bx,
+        y: by,
+        r: rad,
+        color: col,
+        alpha: 0.85,
+        decayRate: 0.00002, // persists ~45 seconds
+      });
+    }
+
+    // 2. Fractured bone debris and shards
+    const boneCount = isElite ? 8 : isUndead ? 7 : 4;
+    for (let k = 0; k < boneCount; k++) {
+      const bDist = Math.random() * (isElite ? 26 : 18) + 4;
+      const bAng = Math.random() * Math.PI * 2;
+      const fx = x + Math.cos(bAng) * bDist;
+      const fy = y + Math.sin(bAng) * (bDist * 0.55);
+      const type = (k % 3) as 0 | 1 | 2;
+      this.boneFragments.push({
+        x: fx,
+        y: fy,
+        rot: Math.random() * Math.PI * 2,
+        length: type === 1 ? 9 + Math.random() * 5 : 5 + Math.random() * 4,
+        width: type === 2 ? 3 : 1.8,
+        type,
+        alpha: 0.95,
+        decayRate: 0.00002, // persists ~45 seconds
+      });
+    }
+
+    if (this.splatters.length > 250) this.splatters.splice(0, this.splatters.length - 250);
+    if (this.boneFragments.length > 200) this.boneFragments.splice(0, this.boneFragments.length - 200);
+  }
+
   /** Render GPU Decal Auras under units with blendMode = 'add' */
   renderAuras(sim: Sim, now: number, k: number): void {
     this.auraGraphics.clear();
@@ -320,75 +379,129 @@ export class CombatFeelSystem {
       const uy = sim.y[i] * k;
       const mods = sim.cb.bossMods[i] || [];
       const isHero = sim.hero?.id === i;
-      const hasBless = isHero && !!(sim.cb.stMask[i] & (1 << St.Bless));
+      const isLeader = isHero || mods.length > 0;
+      const stMask = sim.cb.stMask[i];
+      const hasBless = isHero && !!(stMask & (1 << St.Bless));
+      const hasHaste = isHero && !!(stMask & (1 << St.Haste));
+      const hasShield = isHero && !!(stMask & (1 << St.Shield));
 
-      // 1. Fire Enchanted: Magma Flame Ring
-      if (mods.includes('fire_enchanted')) {
-        const pulse = 1 + 0.08 * Math.sin(now * 0.006 + i);
-        const rx = 18 * pulse;
-        const ry = 9 * pulse;
-        // Outer magma ring
-        g.ellipse(ux, uy + 2, rx, ry).stroke({ color: 0xff3a00, width: 2.2, alpha: 0.85 });
-        // Inner molten core
-        g.ellipse(ux, uy + 2, rx * 0.7, ry * 0.7).stroke({ color: 0xff8c00, width: 1.5, alpha: 0.7 });
-        // 6 rotating fiery magma tongues
-        for (let a = 0; a < 6; a++) {
-          const ang = a * (Math.PI / 3) + now * 0.003;
-          const dist = 1 + 0.18 * Math.sin(now * 0.01 + a * 2);
+      // 1. Fire Aura / Fanaticism: Pulsing crimson flame sigil under leader's feet
+      if (mods.includes('fire_enchanted') || (isHero && (hasBless || sim.hero?.cls === 0))) {
+        const pulse = 1 + 0.12 * Math.sin(now * 0.006 + i);
+        const rx = (isHero ? 20 : 18) * pulse;
+        const ry = (isHero ? 10 : 9) * pulse;
+        const rot = now * 0.0015;
+
+        // Outer pulsing crimson flame perimeter
+        g.ellipse(ux, uy + 2, rx, ry).stroke({ color: 0xef4444, width: 2.2, alpha: 0.85 });
+        g.ellipse(ux, uy + 2, rx * 0.72, ry * 0.72).stroke({ color: 0xf97316, width: 1.6, alpha: 0.75 });
+        g.ellipse(ux, uy + 2, rx * 0.38, ry * 0.38).stroke({ color: 0xfde047, width: 1.2, alpha: 0.8 });
+
+        // 8-point rotating runic flame sigil nodes & tongues
+        for (let a = 0; a < 8; a++) {
+          const ang = rot + a * (Math.PI / 4);
+          const isCardinal = a % 2 === 0;
+          const dist = isCardinal ? 1.22 : 0.95;
           const px = ux + Math.cos(ang) * rx * dist;
           const py = (uy + 2) + Math.sin(ang) * ry * dist;
-          g.circle(px, py, 2.5).fill({ color: 0xffdd33, alpha: 0.9 });
+          const midX = ux + Math.cos(ang) * (rx * 0.55);
+          const midY = (uy + 2) + Math.sin(ang) * (ry * 0.55);
+
+          g.moveTo(midX, midY).lineTo(px, py).stroke({
+            color: isCardinal ? 0xff4500 : 0xfbbf24,
+            width: isCardinal ? 1.8 : 1.1,
+            alpha: 0.88,
+          });
+          g.circle(px, py, isCardinal ? 2.4 : 1.6).fill({
+            color: isCardinal ? 0xfff080 : 0xff7722,
+            alpha: 0.9,
+          });
         }
       }
 
-      // 2. Cold Touch: Frost Snowflake Runes
-      if (mods.includes('cold_enchanted') || mods.includes('cold_touch')) {
-        const pulse = 1 + 0.05 * Math.sin(now * 0.004 + i);
-        const rx = 17 * pulse;
-        const ry = 8.5 * pulse;
-        g.ellipse(ux, uy + 2, rx, ry).stroke({ color: 0x40a8ff, width: 1.5, alpha: 0.65 });
-        const rot = now * 0.0008;
-        // 6 radial snowflake arms
-        for (let a = 0; a < 6; a++) {
-          const ang = rot + a * (Math.PI / 3);
+      // 2. Frost Aura / Holy Freeze: Rotating icy snowflake rune ring with freezing blue pulse
+      if (mods.includes('cold_enchanted') || mods.includes('cold_touch') || hasShield || (isHero && sim.hero?.cls === 1)) {
+        const pulse = 1 + 0.08 * Math.sin(now * 0.005 + i * 2);
+        const rx = 19 * pulse;
+        const ry = 9.5 * pulse;
+        const rotCW = now * 0.001;
+        const rotCCW = -now * 0.0008;
+
+        // Concentric counter-rotating runic rings
+        g.ellipse(ux, uy + 2, rx, ry).stroke({ color: 0x0284c7, width: 2.0, alpha: 0.7 });
+        g.ellipse(ux, uy + 2, rx * 0.8, ry * 0.8).stroke({ color: 0x38bdf8, width: 1.4, alpha: 0.8 });
+        g.ellipse(ux, uy + 2, rx * 0.45, ry * 0.45).stroke({ color: 0xbae6fd, width: 1.0, alpha: 0.65 });
+
+        // Expanding freezing blue wave ring pulse
+        const waveProgress = (now * 0.0015 + i * 0.5) % 1;
+        const waveR = rx * (0.4 + waveProgress * 1.0);
+        g.ellipse(ux, uy + 2, waveR, waveR * 0.5).stroke({
+          color: 0x7dd3fc,
+          width: 1.5 * (1 - waveProgress),
+          alpha: 0.75 * (1 - waveProgress),
+        });
+
+        // 8 radial icy snowflake arms with branching barbed crystals
+        for (let a = 0; a < 8; a++) {
+          const ang = rotCW + a * (Math.PI / 4);
           const tipX = ux + Math.cos(ang) * rx;
           const tipY = (uy + 2) + Math.sin(ang) * ry;
-          const midX = ux + Math.cos(ang) * (rx * 0.6);
-          const midY = (uy + 2) + Math.sin(ang) * (ry * 0.6);
-          g.moveTo(ux, uy + 2).lineTo(tipX, tipY).stroke({ color: 0x8ce0ff, width: 1.5, alpha: 0.85 });
-          // Snowflake notch barb
-          const barbAng = ang + 0.6;
+          const midX = ux + Math.cos(ang) * (rx * 0.58);
+          const midY = (uy + 2) + Math.sin(ang) * (ry * 0.58);
+
+          g.moveTo(ux, uy + 2).lineTo(tipX, tipY).stroke({ color: 0x7dd3fc, width: 1.6, alpha: 0.9 });
+
+          // Jagged triangular snowflake barbs
+          const barbAng1 = ang + 0.65;
+          const barbAng2 = ang - 0.65;
           g.moveTo(midX, midY)
-            .lineTo(midX + Math.cos(barbAng) * 4, midY + Math.sin(barbAng) * 2.5)
-            .stroke({ color: 0xd8f4ff, width: 1, alpha: 0.8 });
-          g.circle(tipX, tipY, 1.5).fill({ color: 0xffffff, alpha: 0.9 });
+            .lineTo(midX + Math.cos(barbAng1) * 4.5, midY + Math.sin(barbAng1) * 2.5)
+            .stroke({ color: 0xe0f2fe, width: 1.2, alpha: 0.85 });
+          g.moveTo(midX, midY)
+            .lineTo(midX + Math.cos(barbAng2) * 4.5, midY + Math.sin(barbAng2) * 2.5)
+            .stroke({ color: 0xe0f2fe, width: 1.2, alpha: 0.85 });
+
+          g.circle(tipX, tipY, 1.8).fill({ color: 0xffffff, alpha: 0.95 });
         }
       }
 
-      // 3. Lightning: Crackling Electric Arcs
-      if (mods.includes('lightning') || mods.includes('lightning_enchanted') || mods.includes('spectral_hit')) {
-        const rx = 18;
-        const ry = 9;
-        const pts = 5;
-        // Jittering electric arcs between nodes
+      // 3. Lightning / Conviction: Crackling electrical ring with sparks
+      if (mods.includes('lightning') || mods.includes('lightning_enchanted') || mods.includes('spectral_hit') || hasHaste) {
+        const rx = 19;
+        const ry = 9.5;
+        const pts = 6;
+
+        // Ground crackling conduit ring
+        g.ellipse(ux, uy + 2, rx, ry).stroke({ color: 0x0284c7, width: 1.2, alpha: 0.55 });
+
+        // High-frequency jittering electrical arcs connecting ring perimeter nodes
         for (let p = 0; p < pts; p++) {
-          const a1 = (p / pts) * Math.PI * 2 + Math.sin(now * 0.008 + p) * 0.1;
-          const a2 = ((p + 1) / pts) * Math.PI * 2 + Math.sin(now * 0.008 + p + 1) * 0.1;
+          const a1 = (p / pts) * Math.PI * 2 + Math.sin(now * 0.012 + p) * 0.12;
+          const a2 = ((p + 1) / pts) * Math.PI * 2 + Math.sin(now * 0.012 + p + 1) * 0.12;
           const x1 = ux + Math.cos(a1) * rx;
           const y1 = (uy + 2) + Math.sin(a1) * ry;
           const x2 = ux + Math.cos(a2) * rx;
           const y2 = (uy + 2) + Math.sin(a2) * ry;
-          // Midpoint with jitter
-          const midJitter = Math.sin(now * 0.035 + p * 5.7) > 0.15 ? 4 : -4;
+
+          // Arc midpoint with high-voltage jitter
+          const midJitter = Math.sin(now * 0.045 + p * 6.3) > 0.1 ? 5 : -5;
           const mx = (x1 + x2) * 0.5 + Math.cos(a1 + 1.57) * midJitter;
           const my = (y1 + y2) * 0.5 + Math.sin(a1 + 1.57) * (midJitter * 0.5);
-          g.moveTo(x1, y1).lineTo(mx, my).lineTo(x2, y2).stroke({ color: 0x60a8ff, width: 2, alpha: 0.85 });
-          g.moveTo(x1, y1).lineTo(mx, my).lineTo(x2, y2).stroke({ color: 0xffffff, width: 1, alpha: 0.95 });
+
+          // Deep blue glow + brilliant white electric core
+          g.moveTo(x1, y1).lineTo(mx, my).lineTo(x2, y2).stroke({ color: 0x38bdf8, width: 2.4, alpha: 0.85 });
+          g.moveTo(x1, y1).lineTo(mx, my).lineTo(x2, y2).stroke({ color: 0xffffff, width: 1.2, alpha: 0.98 });
+
+          // Leaping electric sparks
+          if ((sim.tick + p) % 2 === 0) {
+            const spDist = Math.sin(now * 0.02 + p * 3) * 6;
+            g.circle(x1 + spDist, y1 - 2, 1.4).fill({ color: 0xf0f9ff, alpha: 0.9 });
+          }
         }
       }
 
       // 4. Blessed: Golden Rotating Celtic Compass
-      if (mods.includes('blessed_aura') || mods.includes('blessed') || hasBless) {
+      if (mods.includes('blessed_aura') || mods.includes('blessed')) {
         const rx = 19;
         const ry = 9.5;
         const rot = now * 0.0012;
@@ -461,6 +574,50 @@ export class CombatFeelSystem {
         continue;
       }
       this.bloodGraphics.circle(s.x, s.y, s.r).fill({ color: s.color, alpha: s.alpha });
+    }
+
+    // Update & Draw Bone Fragments & Skeletal Debris
+    for (let i = this.boneFragments.length - 1; i >= 0; i--) {
+      const b = this.boneFragments[i];
+      b.alpha -= b.decayRate * (dt * 1000);
+      if (b.alpha <= 0) {
+        this.boneFragments.splice(i, 1);
+        continue;
+      }
+      const cos = Math.cos(b.rot);
+      const sin = Math.sin(b.rot);
+      const halfL = b.length * 0.5;
+      const x1 = b.x - cos * halfL;
+      const y1 = b.y - sin * halfL;
+      const x2 = b.x + cos * halfL;
+      const y2 = b.y + sin * halfL;
+
+      // Dark drop shadow
+      this.bloodGraphics
+        .moveTo(x1 + 1, y1 + 1.5)
+        .lineTo(x2 + 1, y2 + 1.5)
+        .stroke({ color: 0x140e0a, width: b.width + 1.2, alpha: b.alpha * 0.65 });
+
+      // Ivory fractured bone
+      this.bloodGraphics
+        .moveTo(x1, y1)
+        .lineTo(x2, y2)
+        .stroke({ color: 0xe5dac5, width: b.width, alpha: b.alpha });
+
+      if (b.type === 1) {
+        // Curved rib arc fragment
+        const midX = (x1 + x2) * 0.5 - sin * 2.8;
+        const midY = (y1 + y2) * 0.5 + cos * 2.8;
+        this.bloodGraphics
+          .moveTo(x1, y1)
+          .lineTo(midX, midY)
+          .lineTo(x2, y2)
+          .stroke({ color: 0xd8cdb0, width: b.width * 0.85, alpha: b.alpha });
+      } else if (b.type === 2) {
+        // Joint bone nubs on ends
+        this.bloodGraphics.circle(x1, y1, b.width * 0.85).fill({ color: 0xf4ede2, alpha: b.alpha });
+        this.bloodGraphics.circle(x2, y2, b.width * 0.85).fill({ color: 0xf4ede2, alpha: b.alpha });
+      }
     }
 
     // Update Sparks

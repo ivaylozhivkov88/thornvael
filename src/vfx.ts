@@ -31,6 +31,35 @@ const MAX_THUNDERSTORMS = 6;
 const MAX_INFERNO_RINGS = 8;
 const MAX_TIME_WARPS = 4;
 const MAX_AFTERIMAGES = 24;
+const MAX_FIREBALL_BLASTS = 8;
+const MAX_FROST_NOVAS = 6;
+const MAX_CHAIN_LIGHTNINGS = 6;
+
+interface FireballBlastEffect {
+  active: boolean;
+  x: number;
+  y: number;
+  elapsed: number;
+  totalTime: number; // 450ms
+  radius: number;
+}
+
+interface FrostNovaEffect {
+  active: boolean;
+  x: number;
+  y: number;
+  elapsed: number;
+  totalTime: number; // 600ms
+  radiusPx: number;
+}
+
+interface ChainLightningEffect {
+  active: boolean;
+  elapsed: number;
+  totalTime: number; // 280ms
+  branches: LightningBranch[];
+  branchCount: number;
+}
 
 interface VfxParticle {
   active: boolean;
@@ -185,6 +214,9 @@ export class VfxSystem {
   private readonly infernoRings: InfernoRingEffect[] = [];
   private readonly timeWarps: TimeWarpEffect[] = [];
   private readonly afterimages: AfterimageGhost[] = [];
+  private readonly fireballBlasts: FireballBlastEffect[] = [];
+  private readonly frostNovas: FrostNovaEffect[] = [];
+  private readonly chainLightnings: ChainLightningEffect[] = [];
   private readonly ironSkins: Map<number, ActiveIronSkin> = new Map();
   private readonly timeWarpUnits: Set<number> = new Set();
 
@@ -299,6 +331,30 @@ export class VfxSystem {
 
     for (let i = 0; i < MAX_AFTERIMAGES; i++) {
       this.afterimages.push({ active: false, x: 0, y: 0, unitId: -1, elapsed: 0, maxTime: 350, tint: 0x00e5ff, scaleX: 1, scaleY: 1 });
+    }
+
+    for (let i = 0; i < MAX_FIREBALL_BLASTS; i++) {
+      this.fireballBlasts.push({ active: false, x: 0, y: 0, elapsed: 0, totalTime: 450, radius: 48 });
+    }
+
+    for (let i = 0; i < MAX_FROST_NOVAS; i++) {
+      this.frostNovas.push({ active: false, x: 0, y: 0, elapsed: 0, totalTime: 650, radiusPx: 112 });
+    }
+
+    for (let i = 0; i < MAX_CHAIN_LIGHTNINGS; i++) {
+      const branches: LightningBranch[] = [];
+      for (let b = 0; b < 6; b++) {
+        branches.push({
+          x0: 0,
+          y0: 0,
+          x1: 0,
+          y1: 0,
+          ptsX: new Float32Array(32),
+          ptsY: new Float32Array(32),
+          count: 0,
+        });
+      }
+      this.chainLightnings.push({ active: false, elapsed: 0, totalTime: 280, branches, branchCount: 0 });
     }
   }
 
@@ -563,6 +619,32 @@ export class VfxSystem {
           if (sid === 24) this.triggerMeteor(gx, gy, radTiles);
           else if (sid === 26) this.triggerBlizzard(gx, gy, radTiles);
           else if (sid === 29) this.triggerAcidRain(gx, gy, radTiles);
+        } else if (sid === 1) {
+          // Fireball cast & impact
+          let gx = cx, gy = cy;
+          for (let j = i + 1; j < n; j++) {
+            if (fx[j].type === 5 && fx[j].el === e.el) {
+              gx = fx[j].x * k;
+              gy = fx[j].y * k;
+              break;
+            }
+          }
+          this.triggerFireballImpact(gx, gy);
+        } else if (sid === 5 || sid === 6) {
+          // Frost Nova / Ice Storm
+          let gx = cx, gy = cy, radTiles = 3.5;
+          for (let j = i + 1; j < n; j++) {
+            if (fx[j].type === 5 && fx[j].el === e.el) {
+              gx = fx[j].x * k;
+              gy = fx[j].y * k;
+              radTiles = fx[j].v / 10;
+              break;
+            }
+          }
+          this.triggerFrostNova(gx, gy, radTiles);
+        } else if (sid === 10 || sid === 9) {
+          // Chain Lightning / Lightning
+          this.triggerChainLightning(sim, e.x, e.y);
         } else if (sid === 27) {
           // Thunderstorm
           this.triggerThunderstorm(sim, e.x, e.y);
@@ -815,6 +897,124 @@ export class VfxSystem {
     }
   }
 
+  /** Fireball: Trailing flame embers and smoke, expanding fire blast ring on hit */
+  triggerFireballImpact(tx: number, ty: number): void {
+    let fb: FireballBlastEffect | null = null;
+    for (const f of this.fireballBlasts) {
+      if (!f.active) {
+        fb = f;
+        break;
+      }
+    }
+    if (fb) {
+      fb.active = true;
+      fb.x = tx;
+      fb.y = ty;
+      fb.elapsed = 0;
+      fb.radius = 46;
+    }
+    this.screenFlash = Math.max(this.screenFlash, this.quality === 0 ? 0.12 : 0.26);
+    this.screenFlashDecay = 0.004;
+
+    const count = this.quality === 0 ? 6 : this.quality === 1 ? 12 : 18;
+    for (let i = 0; i < count; i++) {
+      const ang = Math.random() * Math.PI * 2;
+      const spd = 40 + Math.random() * 110;
+      this.spawnParticle(TEX_SPARK, tx, ty, Math.cos(ang) * spd, Math.sin(ang) * spd * 0.7, 0xff8c00, 0.8, 0.2, 0.45, 1, 0, 0, 0, 0.94);
+      if (i % 2 === 0) {
+        this.spawnParticle(TEX_SMOKE, tx, ty, Math.cos(ang) * (spd * 0.4), Math.sin(ang) * (spd * 0.4) - 15, 0x2e2520, 0.7, 1.8, 0.6, 0.55, 0, 0, 0, 0.96);
+      }
+    }
+  }
+
+  /** Frost Nova: Concentric expanding ring of jagged ice crystals with cold frost wave, turning hit enemies icy blue */
+  triggerFrostNova(gx: number, gy: number, radTiles = 3.5): void {
+    let fn: FrostNovaEffect | null = null;
+    for (const f of this.frostNovas) {
+      if (!f.active) {
+        fn = f;
+        break;
+      }
+    }
+    if (fn) {
+      fn.active = true;
+      fn.x = gx;
+      fn.y = gy;
+      fn.elapsed = 0;
+      fn.radiusPx = radTiles * TILE;
+    }
+    const count = this.quality === 0 ? 8 : 16;
+    for (let i = 0; i < count; i++) {
+      const ang = (i / count) * Math.PI * 2;
+      const spd = 50 + Math.random() * 70;
+      this.spawnParticle(TEX_SHARD, gx, gy, Math.cos(ang) * spd, Math.sin(ang) * (spd * 0.6), 0x7dd3fc, 0.8, 0.2, 0.5, 0.9, 0, 0, 0, 0.95);
+    }
+  }
+
+  /** Chain Lightning: Jagged branching electrical arcs connecting target to target with bright flashes */
+  triggerChainLightning(sim: Sim, casterFx: number, casterFy: number): void {
+    const k = TILE / FP;
+    const cx = casterFx * k;
+    const cy = casterFy * k - 14;
+
+    this.screenFlash = this.quality === 0 ? 0.16 : 0.32;
+    this.screenFlashDecay = 0.0035;
+
+    let cl: ChainLightningEffect | null = null;
+    for (const c of this.chainLightnings) {
+      if (!c.active) {
+        cl = c;
+        break;
+      }
+    }
+    if (!cl) return;
+
+    cl.active = true;
+    cl.elapsed = 0;
+    cl.branchCount = 0;
+
+    const targets: [number, number][] = [];
+    const visited = new Set<number>();
+    let lastX = casterFx;
+    let lastY = casterFy;
+
+    for (let jump = 0; jump < 4; jump++) {
+      let nearestDist = 8 * FP;
+      let nextId = -1;
+      for (let j = 0; j < sim.count; j++) {
+        if (sim.cb.hp[j] <= 0 || sim.team[j] === 0 || visited.has(j)) continue;
+        const d = Math.hypot(sim.x[j] - lastX, sim.y[j] - lastY);
+        if (d < nearestDist) {
+          nearestDist = d;
+          nextId = j;
+        }
+      }
+      if (nextId >= 0) {
+        visited.add(nextId);
+        lastX = sim.x[nextId];
+        lastY = sim.y[nextId];
+        targets.push([sim.x[nextId] * k, sim.y[nextId] * k - 12]);
+      } else break;
+    }
+
+    let prevX = cx;
+    let prevY = cy;
+    for (let t = 0; t < targets.length && cl.branchCount < cl.branches.length; t++) {
+      const tx = targets[t][0];
+      const ty = targets[t][1];
+      this.generateFractalBolt(cl.branches[cl.branchCount], prevX, prevY, tx, ty);
+      cl.branchCount++;
+
+      for (let s = 0; s < (this.quality === 2 ? 10 : 5); s++) {
+        const ang = Math.random() * Math.PI * 2;
+        const spd = 50 + Math.random() * 100;
+        this.spawnParticle(TEX_SPARK, tx, ty, Math.cos(ang) * spd, Math.sin(ang) * spd, 0x67e8f9, 0.7, 0.15, 0.35, 1, 0, 0, 0, 0.92);
+      }
+      prevX = tx;
+      prevY = ty;
+    }
+  }
+
   // ---- Main Update & Render loop ----
 
   updateAndDraw(
@@ -862,10 +1062,19 @@ export class VfxSystem {
     // 8. Time Warp Ripples & Afterimages
     this.updateTimeWarps(sim, dt);
 
-    // 9. Update Active Particles in ParticleContainers
+    // 9. Fireball Expanding Blasts
+    this.updateFireballBlasts(dt);
+
+    // 10. Frost Nova Expanding Ice Rings
+    this.updateFrostNovas(dt);
+
+    // 11. Chain Lightning Forked Arcs
+    this.updateChainLightnings(dt);
+
+    // 12. Update Active Particles in ParticleContainers
     this.updateParticles(dt);
 
-    // 10. Screen-space Flash on overlay
+    // 13. Screen-space Flash on overlay
     this.drawScreenFlash(overlayGfx, viewW, viewH);
   }
 
@@ -890,6 +1099,19 @@ export class VfxSystem {
         } else if (sid === 25) {
           // Inferno hit
           this.triggerInfernoImpact(tx, ty);
+        } else if (sid === 1) {
+          // Fireball hit
+          this.triggerFireballImpact(tx, ty);
+        }
+      }
+
+      // Flying projectile micro-particles (e.g. Fireball trailing embers & smoke)
+      if (alive && s === 2) {
+        const px = cb.pX[p] * k;
+        const py = cb.pY[p] * k - 12;
+        if ((sim.tick + p) % 2 === 0) {
+          this.spawnParticle(TEX_SPARK, px, py, (Math.random() - 0.5) * 18, (Math.random() - 0.5) * 18, 0xff7700, 0.65, 0.15, 0.35, 1, 0, 0, 0, 0.94);
+          this.spawnParticle(TEX_SMOKE, px, py, (Math.random() - 0.5) * 10, -8 - Math.random() * 8, 0x3d3228, 0.65, 1.3, 0.45, 0.5, 0, 0, 0, 0.95);
         }
       }
 
@@ -1385,7 +1607,122 @@ export class VfxSystem {
     }
   }
 
-  // --- 10. SCREEN FLASH ---
+  // --- 9. FIREBALL BLASTS ---
+  private updateFireballBlasts(dt: number): void {
+    const gg = this.groundGfx;
+    const ag = this.airGfx;
+    for (const fb of this.fireballBlasts) {
+      if (!fb.active) continue;
+      fb.elapsed += dt * 1000;
+      const t = fb.elapsed / fb.totalTime;
+      if (t >= 1) {
+        fb.active = false;
+        continue;
+      }
+      const curR = fb.radius * (0.2 + 0.8 * Math.sqrt(t));
+      const fade = 1 - t;
+
+      // Ground scorch and blast ring
+      gg.ellipse(fb.x, fb.y + 2, curR, curR * 0.52).fill({ color: 0x3d1a0e, alpha: 0.55 * fade });
+      gg.ellipse(fb.x, fb.y + 2, curR, curR * 0.52).stroke({ color: 0xff4500, width: 3.5 * fade, alpha: 0.85 * fade });
+      gg.ellipse(fb.x, fb.y + 2, curR * 0.75, curR * 0.39).stroke({ color: 0xffea00, width: 2 * fade, alpha: 0.95 * fade });
+
+      // Air expanding corona and radial flame bursts
+      ag.circle(fb.x, fb.y, curR).stroke({ color: 0xff5500, width: 3 * fade, alpha: 0.8 * fade });
+      ag.circle(fb.x, fb.y, curR * 0.6).fill({ color: 0xffe600, alpha: 0.35 * fade });
+
+      for (let a = 0; a < 8; a++) {
+        const ang = a * (Math.PI / 4) + t * 0.8;
+        const x1 = fb.x + Math.cos(ang) * (curR * 0.6);
+        const y1 = fb.y + Math.sin(ang) * (curR * 0.6);
+        const x2 = fb.x + Math.cos(ang) * (curR * 1.18);
+        const y2 = fb.y + Math.sin(ang) * (curR * 1.18);
+        ag.moveTo(x1, y1).lineTo(x2, y2).stroke({ color: 0xffd000, width: 2 * fade, alpha: 0.9 * fade });
+      }
+    }
+  }
+
+  // --- 10. FROST NOVAS ---
+  private updateFrostNovas(dt: number): void {
+    const gg = this.groundGfx;
+    const ag = this.airGfx;
+    for (const fn of this.frostNovas) {
+      if (!fn.active) continue;
+      fn.elapsed += dt * 1000;
+      const t = fn.elapsed / fn.totalTime;
+      if (t >= 1) {
+        fn.active = false;
+        continue;
+      }
+      const curR = fn.radiusPx * (0.2 + 0.8 * Math.sqrt(t));
+      const fade = 1 - t;
+
+      // Ground frosty shockwave wave
+      gg.ellipse(fn.x, fn.y + 2, curR, curR * 0.5).fill({ color: 0xbae6fd, alpha: 0.22 * fade });
+      gg.ellipse(fn.x, fn.y + 2, curR, curR * 0.5).stroke({ color: 0x38bdf8, width: 3 * fade, alpha: 0.85 * fade });
+      gg.ellipse(fn.x, fn.y + 2, curR * 0.85, curR * 0.42).stroke({ color: 0xffffff, width: 1.5 * fade, alpha: 0.9 * fade });
+
+      // Air expanding ring of jagged ice crystals
+      const crystalCount = 14;
+      for (let c = 0; c < crystalCount; c++) {
+        const ang = (c / crystalCount) * Math.PI * 2;
+        const baseX = fn.x + Math.cos(ang) * (curR * 0.85);
+        const baseY = fn.y + Math.sin(ang) * (curR * 0.48);
+        const tipX = fn.x + Math.cos(ang) * (curR * 1.18);
+        const tipY = fn.y + Math.sin(ang) * (curR * 0.65) - 4;
+        const normAng = ang + Math.PI / 2;
+        const wX = Math.cos(normAng) * 3;
+        const wY = Math.sin(normAng) * 1.8;
+
+        ag.moveTo(baseX - wX, baseY - wY)
+          .lineTo(tipX, tipY)
+          .lineTo(baseX + wX, baseY + wY)
+          .closePath()
+          .fill({ color: 0xe0f2fe, alpha: 0.85 * fade })
+          .stroke({ color: 0x0284c7, width: 1.2 * fade, alpha: 0.95 * fade });
+      }
+    }
+  }
+
+  // --- 11. CHAIN LIGHTNING ---
+  private updateChainLightnings(dt: number): void {
+    const ag = this.airGfx;
+    for (const cl of this.chainLightnings) {
+      if (!cl.active) continue;
+      cl.elapsed += dt * 1000;
+      const t = cl.elapsed / cl.totalTime;
+      if (t >= 1) {
+        cl.active = false;
+        continue;
+      }
+      const fade = 1 - t;
+
+      for (let b = 0; b < cl.branchCount; b++) {
+        const branch = cl.branches[b];
+        if (branch.count < 2) continue;
+
+        // Outer electric blue aura
+        ag.moveTo(branch.ptsX[0], branch.ptsY[0]);
+        for (let s = 1; s < branch.count; s++) {
+          ag.lineTo(branch.ptsX[s], branch.ptsY[s]);
+        }
+        ag.stroke({ color: 0x38bdf8, width: 4.5 * fade, alpha: 0.85 * fade });
+
+        // Inner brilliant white core
+        ag.moveTo(branch.ptsX[0], branch.ptsY[0]);
+        for (let s = 1; s < branch.count; s++) {
+          ag.lineTo(branch.ptsX[s], branch.ptsY[s]);
+        }
+        ag.stroke({ color: 0xffffff, width: 1.8 * fade, alpha: 0.98 * fade });
+
+        // Node flash
+        ag.circle(branch.x0, branch.y0, 4 * fade).fill({ color: 0xffffff, alpha: fade });
+        ag.circle(branch.x1, branch.y1, 5 * fade).fill({ color: 0xbae6fd, alpha: fade });
+      }
+    }
+  }
+
+  // --- 12. SCREEN FLASH ---
   drawScreenOverlay(overlayGfx: Graphics, viewW: number, viewH: number): void {
     if (this.screenFlash <= 0) return;
     overlayGfx.rect(0, 0, viewW, viewH).fill({ color: 0xe0f2fe, alpha: this.screenFlash });
@@ -1411,6 +1748,6 @@ export class VfxSystem {
   }
 
   isApexCast(sid: number): boolean {
-    return sid >= 24 && sid <= 31;
+    return (sid >= 24 && sid <= 31) || sid === 1 || sid === 5 || sid === 6 || sid === 9 || sid === 10;
   }
 }

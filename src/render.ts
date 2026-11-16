@@ -20,6 +20,15 @@ export function getHeroWeaponVisual(itemDef?: { name: string; cls?: number } | n
   return 'sword';
 }
 
+export function classifyHeroWeapon(itemDef?: { name: string; cls?: number } | null): 'sword' | 'axe' | 'staff' | 'bow' {
+  if (!itemDef) return 'sword';
+  const name = itemDef.name.toLowerCase();
+  if (name.includes('axe') || name.includes('hatchet') || name.includes('cleaver') || name.includes('halberd') || name.includes('decapitator')) return 'axe';
+  if (name.includes('bow') || name.includes('arbalest') || name.includes('arrow') || name.includes('crossbow') || name.includes('windpiercer')) return 'bow';
+  if (name.includes('staff') || name.includes('wand') || name.includes('siphon') || name.includes('focus') || (itemDef.cls === 2 && !name.includes('dagger'))) return 'staff';
+  return 'sword';
+}
+
 export function getHeroArmorVisualTier(itemDef?: { name: string; tier?: number } | null): number {
   if (!itemDef) return 0;
   const name = itemDef.name.toLowerCase();
@@ -278,6 +287,13 @@ export class Renderer {
   private readonly overlay = new Graphics();
   private readonly light = new Graphics();
   private readonly shots = new Graphics();
+  private dustGraphics = new Graphics();
+  private heroGearGraphics = new Graphics();
+  private swingTrailGraphics = new Graphics();
+  private unitAngles: Float32Array = new Float32Array(0);
+  private wasAlive: boolean[] = [];
+  private dustPuffs: Array<{ x: number; y: number; vx: number; vy: number; size: number; alpha: number; born: number; lifeMs: number; color: number }> = [];
+  private swingTrails: Array<{ x: number; y: number; angle: number; radius: number; color: number; born: number; lifeMs: number }> = [];
   private readonly dbgGrid = new Graphics();
   private readonly dbgPath = new Graphics();
   private dbgBuilt = false;
@@ -345,6 +361,7 @@ export class Renderer {
     private readonly canvas: HTMLCanvasElement,
     private readonly map: GameMap,
   ) {
+    this.swingTrailGraphics.blendMode = 'add';
     this.feel = new CombatFeelSystem(map.w, map.h);
     this.aestheticVfx = new AestheticVfxSystem();
     this.aestheticVfx.setBiome(detectBiomeFromMap('', map.terrain));
@@ -398,8 +415,13 @@ export class Renderer {
     this.vfx = new VfxSystem();
     this.vfx.init();
     this.aestheticVfx?.init();
-    this.world.addChild(this.chunks, this.rings, this.feel.bloodGraphics, this.feel.auraGraphics, this.vfx.groundLayer);
+    this.world.addChild(this.chunks, this.rings, this.feel.bloodGraphics, this.dustGraphics, this.feel.auraGraphics, this.vfx.groundLayer);
     this.fog = fog;
+    this.unitAngles = new Float32Array(sim.count);
+    this.wasAlive = Array.from({ length: sim.count }, (_, i) => sim.cb.hp[i] > 0);
+    for (let i = 0; i < sim.count; i++) {
+      this.unitAngles[i] = (sim.dir[i] * 2 * Math.PI) / 16;
+    }
     const tex = unitTexture();
     const atlases = await Promise.all(ALL_UNIT_ART.map((unit) => UnitAtlas.load(unit)));
     this.loadedAtlases = atlases;
@@ -425,7 +447,7 @@ export class Renderer {
       const look = KIND_LOOK[kind] ?? { scale: 1 };
       const famVis = sim.cb.family[i] ? FAMILY_VISUALS[sim.cb.family[i]] : undefined;
       const isChamp = (sim.cb.bossMods[i]?.length ?? 0) > 0 && !boss;
-      const champMul = isChamp ? 1.12 : 1;
+      const champMul = isChamp ? 1.20 : 1;
       if (boss) {
         s.scale.set(boss.scale);
       } else if (famVis) {
@@ -446,7 +468,7 @@ export class Renderer {
     }
     this.dbgGrid.visible = false;
     this.dbgPath.visible = false;
-    this.world.addChild(this.shots, this.feel.sparkGraphics, this.feel.bubbleGraphics, this.feel.slashGraphics, this.vfx.airLayer, fog, this.dbgGrid, this.dbgPath);
+    this.world.addChild(this.shots, this.feel.sparkGraphics, this.feel.bubbleGraphics, this.feel.slashGraphics, this.swingTrailGraphics, this.heroGearGraphics, this.vfx.airLayer, fog, this.dbgGrid, this.dbgPath);
     if (this.feel.lightSprite) {
       const stageItems = [this.world, this.feel.lightSprite];
       if (this.aestheticVfx) stageItems.push(this.aestheticVfx.weatherLayer);
@@ -914,6 +936,151 @@ export class Renderer {
     this.light.clear().rect(0, 0, this.viewW, this.viewH).fill((c[0] << 16) | (c[1] << 8) | c[2]);
   }
 
+  private drawHeroGearOverlays(
+    sim: Sim,
+    heroIdx: number,
+    s: Sprite | UnitSprite,
+    smoothAngle: number,
+    now: number,
+    isAttacking: boolean,
+    attackProgress: number
+  ): void {
+    const g = this.heroGearGraphics;
+    if (!s.visible || sim.cb.hp[heroIdx] <= 0) return;
+
+    const hero = sim.hero;
+    const weaponId = hero ? hero.eq[Slot.Weapon] : -1;
+    const shieldId = hero ? hero.eq[Slot.Shield] : -1;
+    const weaponDef = weaponId >= 0 ? getItemDef(weaponId) : undefined;
+    const shieldDef = shieldId >= 0 ? getItemDef(shieldId) : undefined;
+    const weaponKind = classifyHeroWeapon(weaponDef);
+
+    const hx = s.x;
+    const hy = s.y;
+    const scale = s.scale.x;
+
+    // 1. SHIELD OVERLAY (Off hand: left hand relative to forward facing angle)
+    if (shieldId >= 0 || shieldDef) {
+      const shieldAng = smoothAngle - 0.75;
+      const sx = hx + Math.cos(shieldAng) * (11 * scale);
+      const sy = hy - (13 * scale) + Math.sin(shieldAng) * (5 * scale);
+      const pulseGlint = 0.8 + 0.2 * Math.sin(now * 0.005);
+
+      // Heater Shield body
+      g.moveTo(sx - 5 * scale, sy - 8 * scale)
+        .lineTo(sx + 5 * scale, sy - 8 * scale)
+        .lineTo(sx + 4 * scale, sy + 3 * scale)
+        .lineTo(sx, sy + 9 * scale)
+        .lineTo(sx - 4 * scale, sy + 3 * scale)
+        .closePath()
+        .fill(0x1e3a8a)
+        .stroke({ color: 0xced4da, width: 1.5 * scale, alpha: 0.95 });
+
+      // Golden heraldic boss / cross
+      g.moveTo(sx, sy - 6 * scale).lineTo(sx, sy + 5 * scale).stroke({ color: 0xf59e0b, width: 1.4 * scale });
+      g.moveTo(sx - 3 * scale, sy - 2 * scale).lineTo(sx + 3 * scale, sy - 2 * scale).stroke({ color: 0xf59e0b, width: 1.4 * scale });
+      g.circle(sx, sy - 2 * scale, 1.4 * scale).fill(0xfef08a);
+
+      // Specular gleam on steel rim
+      g.moveTo(sx - 4 * scale, sy - 8 * scale).lineTo(sx - 1 * scale, sy - 8 * scale).stroke({ color: 0xffffff, width: 1.6 * scale, alpha: pulseGlint });
+    }
+
+    // 2. WEAPON OVERLAY (Main hand: right hand relative to facing angle)
+    const weaponAng = isAttacking ? smoothAngle + (attackProgress - 0.5) * 1.8 : smoothAngle + 0.45;
+    const handX = hx + Math.cos(weaponAng) * (7 * scale);
+    const handY = hy - (14 * scale) + Math.sin(weaponAng) * (4 * scale);
+
+    if (weaponKind === 'sword') {
+      const tipX = handX + Math.cos(weaponAng) * (20 * scale);
+      const tipY = handY + Math.sin(weaponAng) * (20 * scale);
+      const guardNorm = weaponAng + Math.PI / 2;
+      const gx1 = handX + Math.cos(guardNorm) * (3.5 * scale);
+      const gy1 = handY + Math.sin(guardNorm) * (3.5 * scale);
+      const gx2 = handX - Math.cos(guardNorm) * (3.5 * scale);
+      const gy2 = handY - Math.sin(guardNorm) * (3.5 * scale);
+
+      // Steel blade
+      g.moveTo(handX, handY).lineTo(tipX, tipY).stroke({ color: 0xdbeafe, width: 2.2 * scale, alpha: 0.95 });
+      g.moveTo(handX, handY).lineTo(tipX, tipY).stroke({ color: 0xffffff, width: 1.0 * scale, alpha: 1.0 });
+
+      // Crossguard & pommel
+      g.moveTo(gx1, gy1).lineTo(gx2, gy2).stroke({ color: 0xf59e0b, width: 1.5 * scale });
+      const pomX = handX - Math.cos(weaponAng) * (3 * scale);
+      const pomY = handY - Math.sin(weaponAng) * (3 * scale);
+      g.circle(pomX, pomY, 1.3 * scale).fill(0xd97706);
+
+      // Specular blade glint
+      drawGlint(g, tipX, tipY, sim.tick, 77);
+
+    } else if (weaponKind === 'axe') {
+      const haftTipX = handX + Math.cos(weaponAng) * (18 * scale);
+      const haftTipY = handY + Math.sin(weaponAng) * (18 * scale);
+      // Wooden haft
+      g.moveTo(handX, handY).lineTo(haftTipX, haftTipY).stroke({ color: 0x78350f, width: 2.0 * scale });
+
+      // Bearded crescent iron blade
+      const headNorm = weaponAng + Math.PI / 2;
+      const b1X = haftTipX - Math.cos(weaponAng) * (3 * scale);
+      const b1Y = haftTipY - Math.sin(weaponAng) * (3 * scale);
+      const bTipX = b1X + Math.cos(headNorm) * (7 * scale);
+      const bTipY = b1Y + Math.sin(headNorm) * (7 * scale);
+      const bBeardX = bTipX - Math.cos(weaponAng) * (6 * scale);
+      const bBeardY = bTipY - Math.sin(weaponAng) * (6 * scale);
+
+      g.moveTo(b1X, b1Y)
+        .lineTo(bTipX, bTipY)
+        .lineTo(bBeardX, bBeardY)
+        .lineTo(handX + Math.cos(weaponAng) * (8 * scale), handY + Math.sin(weaponAng) * (8 * scale))
+        .closePath()
+        .fill(0x64748b)
+        .stroke({ color: 0xf1f5f9, width: 1.2 * scale });
+
+      // Bronze rivet boss
+      g.circle(b1X, b1Y, 1.4 * scale).fill(0xd97706);
+
+    } else if (weaponKind === 'staff') {
+      const staffBaseX = handX - Math.cos(weaponAng) * (10 * scale);
+      const staffBaseY = handY - Math.sin(weaponAng) * (10 * scale);
+      const staffTipX = handX + Math.cos(weaponAng) * (26 * scale);
+      const staffTipY = handY + Math.sin(weaponAng) * (26 * scale);
+
+      // Carved mahogany shaft
+      g.moveTo(staffBaseX, staffBaseY).lineTo(staffTipX, staffTipY).stroke({ color: 0x5c3a21, width: 2.2 * scale });
+
+      // Ornate finial & glowing crystal head
+      const crystalPulse = 0.8 + 0.2 * Math.sin(now * 0.008);
+      g.circle(staffTipX, staffTipY, 3.8 * scale * crystalPulse).fill({ color: 0x38bdf8, alpha: 0.85 });
+      g.circle(staffTipX, staffTipY, 2.0 * scale).fill(0xffffff);
+
+      // Orbiting arcane spark motes
+      const sparkAng = now * 0.005;
+      const sp1X = staffTipX + Math.cos(sparkAng) * (6 * scale);
+      const sp1Y = staffTipY + Math.sin(sparkAng) * (4 * scale);
+      g.circle(sp1X, sp1Y, 1.2 * scale).fill({ color: 0xbae6fd, alpha: 0.95 });
+
+    } else if (weaponKind === 'bow') {
+      const bTip1X = handX + Math.cos(weaponAng + 1.1) * (14 * scale);
+      const bTip1Y = handY + Math.sin(weaponAng + 1.1) * (14 * scale);
+      const bTip2X = handX + Math.cos(weaponAng - 1.1) * (14 * scale);
+      const bTip2Y = handY + Math.sin(weaponAng - 1.1) * (14 * scale);
+
+      // Recurve limbs
+      g.moveTo(bTip1X, bTip1Y).lineTo(handX, handY).lineTo(bTip2X, bTip2Y).stroke({ color: 0x92400e, width: 2.2 * scale });
+      // Silver bowstring
+      g.moveTo(bTip1X, bTip1Y).lineTo(bTip2X, bTip2Y).stroke({ color: 0xf8fafc, width: 0.9 * scale, alpha: 0.85 });
+
+      if (isAttacking) {
+        // Notched bodkin arrow pointing along weaponAng
+        const arrTipX = handX + Math.cos(weaponAng) * (18 * scale);
+        const arrTipY = handY + Math.sin(weaponAng) * (18 * scale);
+        g.moveTo(handX - Math.cos(weaponAng) * (4 * scale), handY - Math.sin(weaponAng) * (4 * scale))
+          .lineTo(arrTipX, arrTipY)
+          .stroke({ color: 0xd97706, width: 1.2 * scale });
+        g.circle(arrTipX, arrTipY, 1.4 * scale).fill(0xffffff);
+      }
+    }
+  }
+
   draw(sim: Sim, px: Int32Array, py: Int32Array, alpha: number, v: View): void {
     this.artPreview?.draw(sim.tick);
     const now = performance.now();
@@ -1139,9 +1306,40 @@ export class Renderer {
       if (body instanceof UnitSprite) r.moveTo(cx - 5, cy - 2).lineTo(cx + 5, cy + 3).moveTo(cx + 5, cy - 2).lineTo(cx - 5, cy + 3).stroke({ color: 0xd8cdb0, width: 2, alpha: a });
     }
     this.deathAt ??= [];
+    this.unitAngles ??= new Float32Array(sim.count);
+    this.wasAlive ??= [];
+    this.heroGearGraphics ??= new Graphics();
+    this.dustGraphics ??= new Graphics();
+    this.swingTrailGraphics ??= new Graphics();
+    this.dustPuffs ??= [];
+    this.swingTrails ??= [];
+
+    // Ensure angle smoothing and life-tracking arrays are sized for current unit count
+    if (this.unitAngles.length < sim.count) {
+      const nextAngles = new Float32Array(sim.count);
+      nextAngles.set(this.unitAngles);
+      for (let i = this.unitAngles.length; i < sim.count; i++) {
+        nextAngles[i] = (sim.dir[i] * 2 * Math.PI) / 16;
+      }
+      this.unitAngles = nextAngles;
+    }
+    while (this.wasAlive.length < sim.count) {
+      this.wasAlive.push(cb.hp[this.wasAlive.length] > 0);
+    }
+    this.heroGearGraphics.clear();
+
     for (let i = 0; i < sim.count; i++) {
       const s = this.sprites[i];
       const dead = cb.hp[i] <= 0;
+
+      // Track unit death for visceral gore & bone debris spawning
+      if (this.wasAlive[i] && dead) {
+        const isElite = (cb.bossMods[i]?.length ?? 0) > 0 || (cb.family[i] ? !!bossSpriteDef(cb.family[i]) : false);
+        const isUndead = cb.family[i] === 'hollow-knight' || cb.family[i] === 'restless-dead';
+        this.feel?.spawnDeathGore(s.x, s.y, isElite, isUndead);
+      }
+      this.wasAlive[i] = !dead;
+
       if (sim.hidden[i] || (dead && (cb.corp[i] <= 0 || (s instanceof UnitSprite && !s.atlas.hasClip('die'))))) {
         s.visible = false;
         continue;
@@ -1183,6 +1381,34 @@ export class Renderer {
       const tile = Math.floor(sim.y[i] / FP) * mw + Math.floor(sim.x[i] / FP);
       s.visible = onScreen && (dead ? !!sim.explored[tile] : sim.team[i] === 0 || sim.visible[tile] === 1);
       s.alpha = dead ? Math.min(1, cb.corp[i] / 200) : 1;
+
+      // Smooth 16-direction angle interpolation without snapping
+      const targetAngle = (sim.dir[i] * 2 * Math.PI) / 16;
+      let curAngle = this.unitAngles[i] ?? targetAngle;
+      let diff = targetAngle - curAngle;
+      while (diff > Math.PI) diff -= Math.PI * 2;
+      while (diff < -Math.PI) diff += Math.PI * 2;
+      curAngle += diff * 0.28;
+      while (curAngle < 0) curAngle += Math.PI * 2;
+      while (curAngle >= Math.PI * 2) curAngle -= Math.PI * 2;
+      this.unitAngles[i] = curAngle;
+      const smoothDir = ((Math.round((curAngle / (Math.PI * 2)) * 16) % 16) + 16) % 16;
+
+      // Dynamic footstep dust particles spawned behind moving units
+      if (s.visible && !dead && sim.moving[i] && (sim.tick + i * 5) % 5 === 0) {
+        this.dustPuffs.push({
+          x: s.x - Math.cos(curAngle) * 7 + (Math.random() - 0.5) * 4,
+          y: s.y - Math.sin(curAngle) * 4 + (Math.random() - 0.5) * 3,
+          vx: -Math.cos(curAngle) * 0.35 + (Math.random() - 0.5) * 0.2,
+          vy: -Math.sin(curAngle) * 0.2 - 0.1,
+          size: 2.5 + Math.random() * 2.5,
+          alpha: 0.5,
+          born: now,
+          lifeMs: 360,
+          color: 0x8a7b68,
+        });
+      }
+
       if (s.visible && s instanceof UnitSprite) {
         const isHero = sim.hero?.id === i || sim.cb.kind[i] === Kind.Hero;
         const weaponId = isHero && sim.hero ? sim.hero.eq[Slot.Weapon] : -1;
@@ -1193,7 +1419,7 @@ export class Renderer {
         const armorTier = isHero ? getHeroArmorVisualTier(armorDef) : 1;
         this.animation?.sample(sim, i, this.pose);
         const stone = !!(mask & (1 << St.Stone));
-        s.update(sim.tick, !!sim.moving[i], sim.dir[i], sim.team[i], armorTier, sim.cb.tier[i] || 1, stone, this.pose, statusTint, isHero, weaponVisual);
+        s.update(sim.tick, !!sim.moving[i], smoothDir, sim.team[i], armorTier, sim.cb.tier[i] || 1, stone, this.pose, statusTint, isHero, weaponVisual);
         if (!stone && statusTint === 0) {
           // Preserve unmasked full-RGB details on layer 0 and apply distinct family / hero color harmony
           const ch = s.layers;
@@ -1213,11 +1439,72 @@ export class Renderer {
             }
           }
         }
+
+        // Weapon swing arc trail (glowing motion slash trail) during attack animations
+        if (!dead && this.pose.clip === 'attack' && this.pose.frame >= 1 && this.pose.frame <= 3 && (sim.tick & 1) === 0) {
+          const swingCol = isHero ? 0x93c5fd : 0xf87171;
+          const swingRadius = (isHero ? 22 : 16) * s.scale.x;
+          this.swingTrails.push({
+            x: s.x,
+            y: s.y - 12 * s.scale.y,
+            angle: curAngle,
+            radius: swingRadius,
+            color: swingCol,
+            born: now,
+            lifeMs: 160,
+          });
+        }
+
+        // Render weapon & shield visual overlays based on hero's equipped items
+        if (isHero && !dead) {
+          const isAttacking = this.pose.clip === 'attack';
+          const attackProgress = isAttacking ? this.pose.frame / 3 : 0;
+          this.drawHeroGearOverlays(sim, i, s, curAngle, now, isAttacking, attackProgress);
+        }
       }
       if (s.visible && !dead && (sim.tick & 3) === 0) {
         if (mask & (1 << St.Poison)) this.feel?.spawnPoisonBubbles(s.x, s.y - 14, 1);
         else if (mask & (1 << St.Burn)) this.feel?.spawnBurnEmbers(s.x, s.y - 12, 1);
       }
+    }
+
+    // Render footstep dust particles
+    const dg = this.dustGraphics;
+    dg.clear();
+    for (let pIdx = this.dustPuffs.length - 1; pIdx >= 0; pIdx--) {
+      const p = this.dustPuffs[pIdx];
+      const age = now - p.born;
+      if (age >= p.lifeMs) {
+        this.dustPuffs.splice(pIdx, 1);
+        continue;
+      }
+      const progress = age / p.lifeMs;
+      p.x += p.vx;
+      p.y += p.vy;
+      const curSize = p.size * (1 + progress * 0.8);
+      const curAlpha = p.alpha * (1 - progress);
+      dg.ellipse(p.x, p.y, curSize, curSize * 0.6).fill({ color: p.color, alpha: curAlpha });
+    }
+
+    // Render weapon swing arc trails (additive blended slash ribbon)
+    const stg = this.swingTrailGraphics;
+    stg.clear();
+    for (let tIdx = this.swingTrails.length - 1; tIdx >= 0; tIdx--) {
+      const st = this.swingTrails[tIdx];
+      const age = now - st.born;
+      if (age >= st.lifeMs) {
+        this.swingTrails.splice(tIdx, 1);
+        continue;
+      }
+      const progress = age / st.lifeMs;
+      const arcAlpha = (1 - progress) * 0.85;
+      const startA = st.angle - 1.2 + progress * 0.4;
+      const endA = st.angle + 1.2;
+      const rad = st.radius;
+      stg.arc(st.x, st.y, rad, startA, endA)
+        .stroke({ color: st.color, width: 2.5 * (1 - progress * 0.5), alpha: arcAlpha });
+      stg.arc(st.x, st.y, rad * 0.85, startA + 0.2, endA - 0.2)
+        .stroke({ color: 0xffffff, width: 1.2 * (1 - progress), alpha: arcAlpha * 0.9 });
     }
     const sh = this.shots;
     sh.clear();
@@ -1394,7 +1681,41 @@ export class Renderer {
         const orn = famVis.ornament;
         const col = famVis.auraColor;
         const bob = Math.sin(sim.tick * 0.15 + i) * 2;
-        if (orn === 'antlers') {
+        if (famId === 'hollow-knight') {
+          // Hollow Knights: twin piercing glowing cyan soul eyes + burnished dark steel shoulder spikes
+          const eyePulse = 0.8 + 0.2 * Math.sin(sim.tick * 0.2 + i);
+          sh.circle(s.x - 3, headY + 5, 1.6).fill({ color: 0x38bdf8, alpha: eyePulse });
+          sh.circle(s.x + 3, headY + 5, 1.6).fill({ color: 0x38bdf8, alpha: eyePulse });
+          sh.circle(s.x - 3, headY + 5, 0.8).fill({ color: 0xffffff, alpha: 0.95 });
+          sh.circle(s.x + 3, headY + 5, 0.8).fill({ color: 0xffffff, alpha: 0.95 });
+          sh.moveTo(s.x - 7, headY + 11).lineTo(s.x - 12, headY + 7).lineTo(s.x - 8, headY + 15).stroke({ color: 0x334155, width: 1.5 });
+          sh.moveTo(s.x + 7, headY + 11).lineTo(s.x + 12, headY + 7).lineTo(s.x + 8, headY + 15).stroke({ color: 0x334155, width: 1.5 });
+        } else if (famId === 'gloom-stag') {
+          // Gloom Stags: corrupted bone antlers + drifting violet corruption motes
+          sh.moveTo(s.x - 3, headY + 8).lineTo(s.x - 10, headY - 1).lineTo(s.x - 6, headY - 6).stroke({ color: 0xe2e8f0, width: 2.0, alpha: 0.95 });
+          sh.moveTo(s.x + 3, headY + 8).lineTo(s.x + 10, headY - 1).lineTo(s.x + 6, headY - 6).stroke({ color: 0xe2e8f0, width: 2.0, alpha: 0.95 });
+          sh.moveTo(s.x - 7, headY + 2).lineTo(s.x - 12, headY + 1).stroke({ color: 0xc084fc, width: 1.4 });
+          sh.moveTo(s.x + 7, headY + 2).lineTo(s.x + 12, headY + 1).stroke({ color: 0xc084fc, width: 1.4 });
+          const cAng = sim.tick * 0.1 + i;
+          sh.circle(s.x + Math.cos(cAng) * 12, headY + Math.sin(cAng * 2) * 5, 2.0).fill({ color: 0xa855f7, alpha: 0.85 });
+          sh.circle(s.x - Math.cos(cAng) * 10, headY - Math.sin(cAng * 2) * 4, 1.4).fill({ color: 0xd8b4fe, alpha: 0.9 });
+        } else if (famId === 'spore-matron') {
+          // Spore Matrons: toxic miasma spores orbiting fungal carapace
+          for (let sp = 0; sp < 4; sp++) {
+            const spAng = sim.tick * 0.08 + i + (sp * Math.PI) / 2;
+            const spDist = 11 + Math.sin(sim.tick * 0.15 + sp) * 3;
+            sh.circle(s.x + Math.cos(spAng) * spDist, s.y - 16 + Math.sin(spAng) * (spDist * 0.5), 2.2).fill({ color: 0x84cc16, alpha: 0.85 });
+            sh.circle(s.x + Math.cos(spAng) * spDist, s.y - 16 + Math.sin(spAng) * (spDist * 0.5), 1.0).fill({ color: 0xecfccb, alpha: 0.95 });
+          }
+        } else if (famId === 'basalt-brute') {
+          // Basalt Brutes: glowing molten magma cracks across black basalt body
+          const pulse = 0.85 + 0.15 * Math.sin(sim.tick * 0.18 + i);
+          const bodyY = s.y - 16 * s.scale.y;
+          sh.moveTo(s.x - 6, bodyY - 6).lineTo(s.x - 1, bodyY + 1).lineTo(s.x - 4, bodyY + 8).stroke({ color: 0xf97316, width: 2.2, alpha: pulse });
+          sh.moveTo(s.x + 5, bodyY - 5).lineTo(s.x + 1, bodyY).lineTo(s.x + 4, bodyY + 7).stroke({ color: 0xf97316, width: 2.2, alpha: pulse });
+          sh.moveTo(s.x - 6, bodyY - 6).lineTo(s.x - 1, bodyY + 1).lineTo(s.x - 4, bodyY + 8).stroke({ color: 0xfde047, width: 1.0, alpha: pulse });
+          sh.moveTo(s.x + 5, bodyY - 5).lineTo(s.x + 1, bodyY).lineTo(s.x + 4, bodyY + 7).stroke({ color: 0xfde047, width: 1.0, alpha: pulse });
+        } else if (orn === 'antlers') {
           sh.moveTo(s.x - 3, headY + 8).lineTo(s.x - 9, headY + 1).lineTo(s.x - 6, headY - 3).stroke({ color: col, width: 1.6, alpha: 0.9 });
           sh.moveTo(s.x + 3, headY + 8).lineTo(s.x + 9, headY + 1).lineTo(s.x + 6, headY - 3).stroke({ color: col, width: 1.6, alpha: 0.9 });
         } else if (orn === 'wisp' || orn === 'astral') {

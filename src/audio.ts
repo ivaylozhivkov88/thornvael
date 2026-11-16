@@ -243,7 +243,30 @@ export function setAmbience(on: boolean): void {
 export function play(name: string, priority = 1, at?: { x: number; y: number; w: number; h: number }): void {
   if (!ctx || !sfxBus || !sfxOn || backgrounded || ctx.state !== 'running') return;
   const b = buffers.get(name);
-  if (!b) return;
+  if (!b) {
+    // Visceral synthesized dark fantasy combat sound effects fallback
+    if (name.startsWith('shield_block') || name === 'block') {
+      playShieldBlock();
+      return;
+    }
+    if (name === 'hit' || name.startsWith('hit_') || name === 'flesh_hit') {
+      playFleshHit();
+      return;
+    }
+    if (name === 'gold' || name === 'pickup_gold') {
+      playGoldPickup();
+      return;
+    }
+    if (name.startsWith('death') || name === 'monster_death') {
+      playMonsterDeath();
+      return;
+    }
+    if (name.startsWith('potion_drink') || name === 'potion_gulp') {
+      playPotionGulp();
+      return;
+    }
+    return;
+  }
   let gain = 1;
   let pan = 0;
   if (at) {
@@ -930,6 +953,7 @@ export function setMusic(on: boolean, mode: MusicMode = musicMode): void {
     fadeTrack(tracks.explore, 0, 0.6);
     fadeTrack(tracks.battle, 0, 0.6);
     fadeTrack(tracks.town, 0, 0.6);
+    stopDarkFantasyAtmosphere();
     return;
   }
   const allModes: MusicMode[] = ['explore', 'battle', 'town'];
@@ -940,6 +964,11 @@ export function setMusic(on: boolean, mode: MusicMode = musicMode): void {
   }
   const next = trackFor(mode);
   fadeTrack(next, 1, changed ? 1.4 : 1.0);
+  if (mode !== 'town') {
+    startDarkFantasyAtmosphere();
+  } else {
+    stopDarkFantasyAtmosphere();
+  }
 }
 
 export function currentMusic(): 'off' | MusicMode {
@@ -951,6 +980,7 @@ export function suspendAudio(): void {
   backgrounded = true;
   generation++;
   stopAmbience();
+  stopDarkFantasyAtmosphere();
   suspendedTownHub = currentTownHubLocation;
   stopTownAmbience();
   silent?.pause();
@@ -1059,4 +1089,413 @@ export function getBusLevels(): { master: number; sfx: number; ui: number; music
     music: 0.32 * musicVol,
     ambience: 0.22 * ambVol,
   };
+}
+
+/**
+ * Phase 10: Visceral ARPG Audio & Dark Fantasy Soundscape Synthesis
+ */
+
+/** Sharp metallic sword clash on shield with high resonant ring and heavy iron thud. */
+export function playShieldBlock(): void {
+  unlock();
+  const bus = sfxBus;
+  if (!ctx || !bus || !sfxOn || backgrounded || ctx.state !== 'running') return;
+  try {
+    const now = ctx.currentTime;
+    const vol = sfxVol * masterVol;
+
+    // 1. Steel scrape / transient burst
+    const noiseLen = Math.floor(ctx.sampleRate * 0.04);
+    const noiseBuf = ctx.createBuffer(1, noiseLen, ctx.sampleRate);
+    const data = noiseBuf.getChannelData(0);
+    for (let i = 0; i < noiseLen; i++) data[i] = (Math.random() * 2 - 1) * 0.7;
+    const scrape = ctx.createBufferSource();
+    scrape.buffer = noiseBuf;
+    const scrapeFtr = ctx.createBiquadFilter();
+    scrapeFtr.type = 'bandpass';
+    scrapeFtr.frequency.setValueAtTime(2100, now);
+    scrapeFtr.Q.value = 4.0;
+    const scrapeGain = ctx.createGain();
+    scrapeGain.gain.setValueAtTime(0.35 * vol, now);
+    scrapeGain.gain.exponentialRampToValueAtTime(0.001, now + 0.04);
+    scrape.connect(scrapeFtr);
+    scrapeFtr.connect(scrapeGain);
+    scrapeGain.connect(bus);
+    scrape.start(now);
+
+    // 2. High resonant ringing blade harmonics (2240 Hz and 3360 Hz)
+    const ring1 = ctx.createOscillator();
+    const ring1Gain = ctx.createGain();
+    ring1.type = 'sine';
+    ring1.frequency.setValueAtTime(2240, now);
+    ring1.frequency.exponentialRampToValueAtTime(2160, now + 0.35);
+    ring1Gain.gain.setValueAtTime(0.40 * vol, now);
+    ring1Gain.gain.exponentialRampToValueAtTime(0.0001, now + 0.36);
+    ring1.connect(ring1Gain);
+    ring1Gain.connect(bus);
+    ring1.start(now);
+    ring1.stop(now + 0.38);
+
+    const ring2 = ctx.createOscillator();
+    const ring2Gain = ctx.createGain();
+    ring2.type = 'triangle';
+    ring2.frequency.setValueAtTime(3360, now);
+    ring2Gain.gain.setValueAtTime(0.22 * vol, now);
+    ring2Gain.gain.exponentialRampToValueAtTime(0.0001, now + 0.22);
+    ring2.connect(ring2Gain);
+    ring2Gain.connect(bus);
+    ring2.start(now);
+    ring2.stop(now + 0.24);
+
+    // 3. Heavy shield boss wooden / iron impact thud
+    const thud = ctx.createOscillator();
+    const thudGain = ctx.createGain();
+    thud.type = 'sine';
+    thud.frequency.setValueAtTime(175, now);
+    thud.frequency.exponentialRampToValueAtTime(50, now + 0.12);
+    thudGain.gain.setValueAtTime(0.55 * vol, now);
+    thudGain.gain.exponentialRampToValueAtTime(0.001, now + 0.14);
+    thud.connect(thudGain);
+    thudGain.connect(bus);
+    thud.start(now);
+    thud.stop(now + 0.15);
+  } catch {
+    // silent fallback
+  }
+}
+
+/** Heavy fleshy blade slash: deep impactful low thud, wet squelch cut, and high blade whistle. */
+export function playFleshHit(): void {
+  unlock();
+  const bus = sfxBus;
+  if (!ctx || !bus || !sfxOn || backgrounded || ctx.state !== 'running') return;
+  try {
+    const now = ctx.currentTime;
+    const vol = sfxVol * masterVol;
+
+    // 1. Sub-bass blunt body impact
+    const thud = ctx.createOscillator();
+    const thudGain = ctx.createGain();
+    thud.type = 'sine';
+    thud.frequency.setValueAtTime(95, now);
+    thud.frequency.exponentialRampToValueAtTime(36, now + 0.11);
+    thudGain.gain.setValueAtTime(0.48 * vol, now);
+    thudGain.gain.exponentialRampToValueAtTime(0.001, now + 0.13);
+    thud.connect(thudGain);
+    thudGain.connect(bus);
+    thud.start(now);
+    thud.stop(now + 0.14);
+
+    // 2. Wet flesh laceration (downward sliding filtered sawtooth)
+    const cut = ctx.createOscillator();
+    const cutFtr = ctx.createBiquadFilter();
+    const cutGain = ctx.createGain();
+    cut.type = 'sawtooth';
+    cut.frequency.setValueAtTime(460, now);
+    cut.frequency.exponentialRampToValueAtTime(110, now + 0.09);
+    cutFtr.type = 'bandpass';
+    cutFtr.frequency.setValueAtTime(580, now);
+    cutFtr.frequency.exponentialRampToValueAtTime(180, now + 0.09);
+    cutFtr.Q.value = 2.8;
+    cutGain.gain.setValueAtTime(0.42 * vol, now);
+    cutGain.gain.exponentialRampToValueAtTime(0.001, now + 0.10);
+    cut.connect(cutFtr);
+    cutFtr.connect(cutGain);
+    cutGain.connect(bus);
+    cut.start(now);
+    cut.stop(now + 0.11);
+
+    // 3. High steel blade snick transient
+    const snick = ctx.createOscillator();
+    const snickGain = ctx.createGain();
+    snick.type = 'triangle';
+    snick.frequency.setValueAtTime(1380, now);
+    snick.frequency.exponentialRampToValueAtTime(950, now + 0.04);
+    snickGain.gain.setValueAtTime(0.25 * vol, now);
+    snickGain.gain.exponentialRampToValueAtTime(0.0001, now + 0.045);
+    snick.connect(snickGain);
+    snickGain.connect(bus);
+    snick.start(now);
+    snick.stop(now + 0.05);
+  } catch {
+    // silent fallback
+  }
+}
+
+/** Crisp ringing coin drop chime with shimmering harmonics for gold pickups. */
+export function playGoldPickup(): void {
+  unlock();
+  const bus = uiBus ?? sfxBus;
+  if (!ctx || !bus || !sfxOn || backgrounded || ctx.state !== 'running') return;
+  try {
+    const now = ctx.currentTime;
+    const vol = uiVol * masterVol;
+
+    // Coin 1 (E7: ~2637 Hz with harmonic at ~5274 Hz)
+    const c1 = ctx.createOscillator();
+    const c1Gain = ctx.createGain();
+    c1.type = 'sine';
+    c1.frequency.setValueAtTime(2637, now);
+    c1.frequency.exponentialRampToValueAtTime(2620, now + 0.38);
+    c1Gain.gain.setValueAtTime(0.38 * vol, now);
+    c1Gain.gain.exponentialRampToValueAtTime(0.0001, now + 0.40);
+    c1.connect(c1Gain);
+    c1Gain.connect(bus);
+    c1.start(now);
+    c1.stop(now + 0.42);
+
+    // Coin 2 (A7: ~3520 Hz with slight delay 0.038s)
+    const t2 = now + 0.038;
+    const c2 = ctx.createOscillator();
+    const c2Gain = ctx.createGain();
+    c2.type = 'sine';
+    c2.frequency.setValueAtTime(3520, t2);
+    c2.frequency.exponentialRampToValueAtTime(3495, t2 + 0.44);
+    c2Gain.gain.setValueAtTime(0.32 * vol, t2);
+    c2Gain.gain.exponentialRampToValueAtTime(0.0001, t2 + 0.45);
+    c2.connect(c2Gain);
+    c2Gain.connect(bus);
+    c2.start(t2);
+    c2.stop(t2 + 0.48);
+
+    // Metallic coin contact click
+    const click = ctx.createOscillator();
+    const clickGain = ctx.createGain();
+    click.type = 'triangle';
+    click.frequency.setValueAtTime(4200, now);
+    click.frequency.exponentialRampToValueAtTime(1800, now + 0.02);
+    clickGain.gain.setValueAtTime(0.30 * vol, now);
+    clickGain.gain.exponentialRampToValueAtTime(0.0001, now + 0.025);
+    click.connect(clickGain);
+    clickGain.connect(bus);
+    click.start(now);
+    click.stop(now + 0.03);
+  } catch {
+    // silent fallback
+  }
+}
+
+/** Monster death roar and guttural dying gurgle. */
+export function playMonsterDeath(): void {
+  unlock();
+  const bus = sfxBus;
+  if (!ctx || !bus || !sfxOn || backgrounded || ctx.state !== 'running') return;
+  try {
+    const now = ctx.currentTime;
+    const vol = sfxVol * masterVol;
+
+    // Guttural growl / low vocal cords pitch sweep
+    const roar = ctx.createOscillator();
+    const roarFtr = ctx.createBiquadFilter();
+    const roarGain = ctx.createGain();
+
+    roar.type = 'sawtooth';
+    roar.frequency.setValueAtTime(165, now);
+    roar.frequency.exponentialRampToValueAtTime(44, now + 0.55);
+
+    roarFtr.type = 'bandpass';
+    roarFtr.frequency.setValueAtTime(450, now);
+    roarFtr.frequency.exponentialRampToValueAtTime(180, now + 0.55);
+    roarFtr.Q.value = 3.2;
+
+    // AM modulation for ragged gurgle
+    const gurgle = ctx.createOscillator();
+    const gurgleGain = ctx.createGain();
+    gurgle.type = 'sine';
+    gurgle.frequency.setValueAtTime(24, now);
+    gurgle.frequency.linearRampToValueAtTime(12, now + 0.55);
+    gurgleGain.gain.value = 0.25;
+    gurgle.connect(roarGain.gain);
+
+    roarGain.gain.setValueAtTime(0.45 * vol, now);
+    roarGain.gain.exponentialRampToValueAtTime(0.001, now + 0.58);
+
+    roar.connect(roarFtr);
+    roarFtr.connect(roarGain);
+    roarGain.connect(bus);
+
+    gurgle.start(now);
+    roar.start(now);
+    gurgle.stop(now + 0.60);
+    roar.stop(now + 0.60);
+  } catch {
+    // silent fallback
+  }
+}
+
+/** Glass potion cork uncork squeak and resonant swallow gulp. */
+export function playPotionGulp(): void {
+  unlock();
+  const bus = uiBus ?? sfxBus;
+  if (!ctx || !bus || !sfxOn || backgrounded || ctx.state !== 'running') return;
+  try {
+    const now = ctx.currentTime;
+    const vol = uiVol * masterVol;
+
+    // 1. Friction cork uncork pop
+    const cork = ctx.createOscillator();
+    const corkGain = ctx.createGain();
+    cork.type = 'sine';
+    cork.frequency.setValueAtTime(640, now);
+    cork.frequency.exponentialRampToValueAtTime(1580, now + 0.04);
+    corkGain.gain.setValueAtTime(0.38 * vol, now);
+    corkGain.gain.exponentialRampToValueAtTime(0.001, now + 0.045);
+    cork.connect(corkGain);
+    corkGain.connect(bus);
+    cork.start(now);
+    cork.stop(now + 0.05);
+
+    // Glass chime ring
+    const glass = ctx.createOscillator();
+    const glassGain = ctx.createGain();
+    glass.type = 'sine';
+    glass.frequency.setValueAtTime(1860, now + 0.02);
+    glassGain.gain.setValueAtTime(0.20 * vol, now + 0.02);
+    glassGain.gain.exponentialRampToValueAtTime(0.0001, now + 0.20);
+    glass.connect(glassGain);
+    glassGain.connect(bus);
+    glass.start(now + 0.02);
+    glass.stop(now + 0.22);
+
+    // 2. Liquid swallow / gulp bubbles (t = +0.07s and +0.22s)
+    const swallowTimes = [now + 0.07, now + 0.22];
+    for (let s = 0; s < swallowTimes.length; s++) {
+      const st = swallowTimes[s];
+      const gulp = ctx.createOscillator();
+      const gulpGain = ctx.createGain();
+      gulp.type = 'sine';
+      const fStart = s === 0 ? 380 : 340;
+      gulp.frequency.setValueAtTime(fStart, st);
+      gulp.frequency.exponentialRampToValueAtTime(fStart * 0.55, st + 0.08);
+      gulpGain.gain.setValueAtTime(0.34 * vol, st);
+      gulpGain.gain.exponentialRampToValueAtTime(0.001, st + 0.09);
+      gulp.connect(gulpGain);
+      gulpGain.connect(bus);
+      gulp.start(st);
+      gulp.stop(st + 0.10);
+    }
+  } catch {
+    // silent fallback
+  }
+}
+
+/** Atmospheric Dark Fantasy Guitar & Sub-Drone Music Synthesis Layer */
+let darkFantasyInterval: number | null = null;
+let darkFantasyDroneOscs: OscillatorNode[] = [];
+let darkFantasyDroneGain: GainNode | null = null;
+let darkFantasyActive = false;
+
+// Dark fantasy Dorian/Phrygian acoustic lute/guitar scale notes in Hz (D3 to A4)
+const DARK_GUITAR_NOTES = [
+  146.83, // D3
+  174.61, // F3
+  196.00, // G3
+  207.65, // G#3 / Ab3
+  220.00, // A3
+  261.63, // C4
+  293.66, // D4
+  329.63, // E4
+  349.23, // F4
+  440.00, // A4
+];
+
+export function startDarkFantasyAtmosphere(): void {
+  if (darkFantasyActive) return;
+  darkFantasyActive = true;
+  unlock();
+  const bus = musicBus ?? master;
+  if (!ctx || !bus || !musicWanted || backgrounded || ctx.state !== 'running') return;
+  try {
+    const now = ctx.currentTime;
+    const vol = musicVol * masterVol * 0.45;
+
+    // 1. Deep sub-drone layer (D2 73.4 Hz + A1 55 Hz)
+    darkFantasyDroneGain = ctx.createGain();
+    darkFantasyDroneGain.gain.setValueAtTime(0.001, now);
+    darkFantasyDroneGain.gain.linearRampToValueAtTime(0.18 * vol, now + 2.5);
+    darkFantasyDroneGain.connect(bus);
+
+    const ftr = ctx.createBiquadFilter();
+    ftr.type = 'lowpass';
+    ftr.frequency.setValueAtTime(140, now);
+    ftr.Q.value = 2.0;
+    ftr.connect(darkFantasyDroneGain);
+
+    const drone1 = ctx.createOscillator();
+    drone1.type = 'triangle';
+    drone1.frequency.setValueAtTime(73.42, now); // D2
+    drone1.connect(ftr);
+    drone1.start(now);
+
+    const drone2 = ctx.createOscillator();
+    drone2.type = 'sine';
+    drone2.frequency.setValueAtTime(55.0, now); // A1
+    drone2.connect(ftr);
+    drone2.start(now);
+
+    darkFantasyDroneOscs = [drone1, drone2];
+
+    // 2. Periodic acoustic dark guitar arpeggio plucks
+    const playGuitarNote = () => {
+      if (!darkFantasyActive || !ctx || ctx.state !== 'running') return;
+      try {
+        const t = ctx.currentTime;
+        const gVol = musicVol * masterVol * 0.32;
+        // Select 1-2 melancholic notes
+        const noteIdx = Math.floor(Math.random() * DARK_GUITAR_NOTES.length);
+        const freq = DARK_GUITAR_NOTES[noteIdx];
+
+        // Plucked acoustic string synthesis (dual harmonics with percussive attack and warm decay)
+        const osc = ctx.createOscillator();
+        const oscGain = ctx.createGain();
+        osc.type = 'triangle';
+        osc.frequency.setValueAtTime(freq, t);
+
+        // String tone filter (warm wooden acoustic body)
+        const bodyFtr = ctx.createBiquadFilter();
+        bodyFtr.type = 'lowpass';
+        bodyFtr.frequency.setValueAtTime(freq * 3.5, t);
+        bodyFtr.frequency.exponentialRampToValueAtTime(freq * 1.2, t + 0.9);
+
+        // Percussive pluck envelope (fast attack 4ms, decay over 1.2s)
+        oscGain.gain.setValueAtTime(0.001, t);
+        oscGain.gain.linearRampToValueAtTime(gVol, t + 0.006);
+        oscGain.gain.exponentialRampToValueAtTime(0.0001, t + 1.4);
+
+        osc.connect(bodyFtr);
+        bodyFtr.connect(oscGain);
+        oscGain.connect(bus);
+
+        osc.start(t);
+        osc.stop(t + 1.5);
+      } catch {
+        // silent fallback
+      }
+    };
+
+    darkFantasyInterval = setInterval(playGuitarNote, 3200) as unknown as number;
+    setTimeout(playGuitarNote, 800);
+  } catch {
+    // silent fallback
+  }
+}
+
+export function stopDarkFantasyAtmosphere(): void {
+  darkFantasyActive = false;
+  if (darkFantasyInterval !== null) {
+    clearInterval(darkFantasyInterval);
+    darkFantasyInterval = null;
+  }
+  for (const osc of darkFantasyDroneOscs) {
+    try { osc.stop(); osc.disconnect(); } catch { /* ignore */ }
+  }
+  darkFantasyDroneOscs = [];
+  if (darkFantasyDroneGain) {
+    try { darkFantasyDroneGain.disconnect(); } catch { /* ignore */ }
+    darkFantasyDroneGain = null;
+  }
+}
+
+export function isDarkFantasyAtmosphereActive(): boolean {
+  return darkFantasyActive;
 }
