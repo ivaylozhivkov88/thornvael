@@ -67,6 +67,8 @@ export const QUALITY_NAMES = ['Low', 'Medium', 'High'] as const;
 const FLOATERS = [0, 10, 24];
 const FLOAT_MS = 900;
 const KICK_MS = 170;
+const TOPPLE_MS = 260;
+const DEAD_TINT = 0x6a5a55;
 
 function chunkSide(map: GameMap): number {
   return Math.max(map.w, map.h) > 128 ? 32 : 16;
@@ -135,6 +137,7 @@ export class Renderer {
   private kickX: number[] = [];
   private kickY: number[] = [];
   private kickAt: number[] = [];
+  private deathAt: (number | undefined)[] = [];
   private freeText: Text[] = [];
   private fogTick = 0;
   quality = 2;
@@ -894,12 +897,14 @@ export class Renderer {
       const cy = sim.y[i] * k;
       const a = Math.min(1, cb.corp[i] / 200);
       r.ellipse(cx, cy + 1, 9, 4).fill({ color: 0x3a1a14, alpha: 0.7 * a });
-      r.moveTo(cx - 5, cy - 2).lineTo(cx + 5, cy + 3).moveTo(cx + 5, cy - 2).lineTo(cx - 5, cy + 3).stroke({ color: 0xd8cdb0, width: 2, alpha: a });
+      // Plain sprites topple over their own pool (see below); only clip-less atlases fall back to the bone mark.
+      if (body instanceof UnitSprite) r.moveTo(cx - 5, cy - 2).lineTo(cx + 5, cy + 3).moveTo(cx + 5, cy - 2).lineTo(cx - 5, cy + 3).stroke({ color: 0xd8cdb0, width: 2, alpha: a });
     }
+    this.deathAt ??= [];
     for (let i = 0; i < sim.count; i++) {
       const s = this.sprites[i];
       const dead = cb.hp[i] <= 0;
-      if (sim.hidden[i] || (dead && (cb.corp[i] <= 0 || !(s instanceof UnitSprite) || !s.atlas.hasClip('die')))) {
+      if (sim.hidden[i] || (dead && (cb.corp[i] <= 0 || (s instanceof UnitSprite && !s.atlas.hasClip('die'))))) {
         s.visible = false;
         continue;
       }
@@ -911,8 +916,18 @@ export class Renderer {
       else if (mask & (1 << St.Burn)) statusTint = 0xff7722;
 
       if (s instanceof Sprite) {
-        const want = statusTint > 0 ? statusTint : this.baseTint[i];
+        const want = dead ? DEAD_TINT : statusTint > 0 ? statusTint : this.baseTint[i];
         if (s.tint !== want) s.tint = want;
+        // Death fallback for sprites without a die clip: topple sideways with a short ease-out.
+        if (dead) {
+          const diedAt = (this.deathAt[i] ??= now);
+          const t = Math.min(1, (now - diedAt) / TOPPLE_MS);
+          const fall = 1 - (1 - t) * (1 - t);
+          s.rotation = (i & 1 ? 1 : -1) * (Math.PI / 2) * fall;
+        } else if (s.rotation !== 0 || this.deathAt[i] !== undefined) {
+          s.rotation = 0;
+          this.deathAt[i] = undefined;
+        }
       }
       s.x = Math.round((px[i] + (sim.x[i] - px[i]) * alpha) * k);
       s.y = Math.round((py[i] + (sim.y[i] - py[i]) * alpha) * k);
