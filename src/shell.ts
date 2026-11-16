@@ -584,7 +584,7 @@ export async function runShell(startWorker: () => void): Promise<never> {
       for (const b of BUILDINGS) {
         const lv = levelOf(r.progress.builds, b.id);
         const cost = nextCost(r.progress.builds, b.id);
-        const row = el('div', 'sh-row');
+        const row = el('div', 'sh-row sh-hold');
         row.append(el('b', '', `${T.building[b.id]} · ${T.buildLevel} ${lv}/${b.cost.length}`), el('span', '', T.buildingInfo[b.id]));
         if (cost === null) row.append(el('span', '', T.buildMax));
         else {

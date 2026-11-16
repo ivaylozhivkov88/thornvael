@@ -324,6 +324,9 @@ button:focus-visible { outline: 2px solid #9dff7a; outline-offset: 1px; }
 #shell .sh-map { border-color: var(--bronze); }
 #shell .sh-row { flex-wrap: wrap; }
 #shell .sh-row > .sh-btn { min-width: 44px; }
+#shell .sh-hold { display: grid; grid-template-columns: 1fr auto; align-items: center; gap: 2px 10px; padding: 6px 0; border-bottom: 1px solid #5a472755; }
+#shell .sh-hold > span { grid-column: 1; font-size: 13px; opacity: .85; }
+#shell .sh-hold > .sh-btn, #shell .sh-hold > span:last-child:not(:nth-child(2)) { grid-column: 2; grid-row: 1 / span 2; flex: none; min-height: 44px; }
 #shell .sh-update { color: var(--gold); }
 
 button.on, button[aria-pressed="true"], .tabs > button[aria-selected="true"], .choice > button[aria-pressed="true"], .items > button.sel, .slots > button.sel, .town .cell.sel, .portraits > button.sel { background: linear-gradient(#594b35, #3c3327); border-color: var(--gold); color: #fff0ce; box-shadow: inset 0 -2px var(--gold); }
