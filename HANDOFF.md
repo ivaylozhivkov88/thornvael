@@ -72,6 +72,13 @@ Run at 2026-11-16 between 06:55 and 06:57:
    - Clean Crossfades & Music Looping: `setMusic()` guarantees all non-selected modes ramp to 0 and pause, preventing overlapping or orphaned audio streams.
    - Mobile / iOS Lifecycle: `suspendAudio()` stops timers, pauses tracks, and frees context; `resumeAudio()` and touch `unlock()` seamlessly recover playback, re-arm AudioContext, and restore active biome ambiances.
    - Automated Verification: New test suite `tests/audio-balance.test.ts` (7 comprehensive tests passing).
+8. **UI & Ergonomics: Holdings Modal Viewport Containment, HUD Quest Tracker & Minimap (Items 2 & 5)**:
+   - Holdings Modal 100dvh Containment: Enforced `max-height: calc(100dvh - 16px)` and `overflow: hidden` on `#shell .sh-holdings-modal` and `#shell .sh-holdings-box`, guaranteeing zero vertical page scroll on standard 1080p, 720p, and mobile viewports.
+   - Mobile Landscape Two-Column Grid: Activated `@media (max-height: 520px) and (min-width: 540px)` transforming holdings buildings into a compact 2-column grid with 44px-48px touch buy buttons.
+   - Gothic HUD Quest Tracker (#objectives / .gothic-hud-tracker): Eliminated legacy conflicting ID selector rules that stretched across the top bar. Anchored to `left: calc(10px + env(safe-area-inset-left))` with `right: auto !important;`, bounded expanded height to prevent covering bottom globes and action dock.
+   - Minimap Smooth Toggle & Readability: Added smooth CSS width/height/shadow transition, `#minimap.large` state (expands from compact 140-200px to 250-380px), dedicated toggle button (`.btn-minimap-toggle`) with $\ge 44\times 44$px touch hitbox, 'M' hotkey binding, and minimap double-click support. Shrines rendered on minimap as gold indicators.
+   - Mobile Paperdoll Ergonomics: Ensured gear buttons in compact landscape viewports ($\le 500$px) have $\ge 44$px touch hitboxes without overflowing.
+   - Automated Verification: New test suite `tests/holdings-ui.test.ts` (9 comprehensive tests passing).
 
 ---
 

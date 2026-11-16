@@ -308,7 +308,9 @@ export class PauseMenu {
         category: 'Panels & Codex Screens',
         icon: '📜',
         keys: [
-          { key: 'Q', label: 'Quest Journal', detail: 'Open current mission objectives, chapter directives and story journal.' },
+          { key: 'Q', label: 'Quest Journal / Objectives', detail: 'Toggle HUD quest tracker banner [Q/O] or open full Quest Journal.' },
+          { key: 'M', label: 'Toggle Minimap Size', detail: 'Toggle minimap between compact tactical view and large strategic overview.' },
+          { key: 'Tab', label: 'Vector Automap Overlay', detail: 'Toggle semi-transparent full-screen tactical vector automap.' },
           { key: 'I', label: 'Inventory & Equipment', detail: 'Open Hero pack, equipment slots, gear inspect, and Hall of Relics Codex.' },
           { key: 'S', label: 'Spellbook & Spheres', detail: 'Open your learned Grimoire to view and cast spells or assign them to quick slots.' },
           { key: 'C', label: 'Character Stats', detail: 'Toggle detailed attributes (Body, Agility, Mind, Spirit) and combat ratings.' },

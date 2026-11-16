@@ -507,6 +507,18 @@ function updateLootOverlay(now: number): void {
   );
 }
 
+function toggleMinimap(): void {
+  const miniEl = document.getElementById('minimap');
+  if (!miniEl) return;
+  const isLarge = miniEl.classList.toggle('large');
+  const btnToggle = document.getElementById('btn-minimap-toggle');
+  if (btnToggle) {
+    btnToggle.textContent = isLarge ? '⤡' : '⤢';
+    btnToggle.title = isLarge ? 'Minimize Minimap [M]' : 'Enlarge Minimap [M]';
+    btnToggle.setAttribute('aria-pressed', isLarge ? 'true' : 'false');
+  }
+}
+
 function toggleQuestLog(): void {
   if (missionUi) {
     missionUi.toggleJournal(sim);
@@ -1183,6 +1195,9 @@ window.addEventListener('keydown', (e) => {
     e.preventDefault();
     if (missionUi) missionUi.toggleObjectives();
     else toggleQuestLog();
+  } else if (e.key.toLowerCase() === 'm' && !e.ctrlKey && !e.altKey && !e.metaKey) {
+    e.preventDefault();
+    toggleMinimap();
   } else if (e.key.toLowerCase() === 'w' && !e.ctrlKey && !e.altKey && controlMode !== 'wasd') {
     e.preventDefault();
     if (sim.hero) triggerHeroSkill(1);
@@ -1937,6 +1952,18 @@ miniCanvas.addEventListener('pointerdown', (e) => {
 miniCanvas.addEventListener('pointermove', (e) => miniDown && miniJump(e));
 miniCanvas.addEventListener('pointerup', () => (miniDown = false));
 miniCanvas.addEventListener('pointercancel', () => (miniDown = false));
+miniCanvas.addEventListener('dblclick', (e) => {
+  e.preventDefault();
+  e.stopPropagation();
+  toggleMinimap();
+});
+const btnMinimapToggle = document.getElementById('btn-minimap-toggle');
+if (btnMinimapToggle) {
+  btnMinimapToggle.onclick = (e) => {
+    e.stopPropagation();
+    toggleMinimap();
+  };
+}
 let sfxOn = preferences.sound;
 setSfx(sfxOn);
 setAmbience(sfxOn);

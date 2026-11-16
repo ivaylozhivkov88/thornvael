@@ -55,6 +55,15 @@ export class Minimap {
     const s = this.scale;
     g.imageSmoothingEnabled = false;
     g.drawImage(this.base, 0, 0, Math.round(map.w * s), Math.round(map.h * s));
+    if (sim.shrines && Array.isArray(sim.shrines)) {
+      g.fillStyle = '#ffd700';
+      for (const sh of sim.shrines) {
+        if (!sim.explored || !sim.explored[sh.y * map.w + sh.x]) continue;
+        const sx = (sh.x + 0.5) * s - 1.5;
+        const sy = (sh.y + 0.5) * s - 1.5;
+        g.fillRect(Math.round(sx), Math.round(sy), 3, 3);
+      }
+    }
     for (let i = 0; i < sim.count; i++) {
       const tx = Math.floor(sim.x[i] / FP);
       const ty = Math.floor(sim.y[i] / FP);

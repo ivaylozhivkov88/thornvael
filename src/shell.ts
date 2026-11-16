@@ -576,17 +576,21 @@ export async function runShell(startWorker: () => void): Promise<never> {
   function holdings(): void {
     if (!rec) return;
     const r = rec;
-    const m = el('div', 'sh-modal');
-    const box = el('div', 'sh-box');
+    const m = el('div', 'sh-modal sh-holdings-modal');
+    const box = el('div', 'sh-box sh-holdings-box');
     const draw = (): void => {
       const carry = r.carry;
-      box.replaceChildren(el('h2', '', T.holdings), el('p', '', carry ? `${T.holdingsIntro} ${T.gold}: ${carry.gold}` : T.holdingsNone));
+      box.replaceChildren(
+        el('h2', '', T.holdings),
+        el('p', 'sh-holdings-intro', carry ? `${T.holdingsIntro} ${T.gold}: ${carry.gold}` : T.holdingsNone),
+      );
+      const list = el('div', 'sh-holdings-list');
       for (const b of BUILDINGS) {
         const lv = levelOf(r.progress.builds, b.id);
         const cost = nextCost(r.progress.builds, b.id);
         const row = el('div', 'sh-row sh-hold');
         row.append(el('b', '', `${T.building[b.id]} · ${T.buildLevel} ${lv}/${b.cost.length}`), el('span', '', T.buildingInfo[b.id]));
-        if (cost === null) row.append(el('span', '', T.buildMax));
+        if (cost === null) row.append(el('span', 'sh-hold-max', T.buildMax));
         else {
           const buy = btn(`${T.buildFor} ${cost}`, () => {
             if (!carry) return;
@@ -597,13 +601,14 @@ export async function runShell(startWorker: () => void): Promise<never> {
             carry.progress = { ...carry.progress, builds: out.progress.builds }; // the next node reads builds from the carryover
             void writeRecord(r);
             draw();
-          }, 'sh-small');
+          }, 'sh-small sh-hold-btn');
           buy.disabled = !carry || carry.gold < cost;
           row.append(buy);
         }
-        box.append(row);
+        list.append(row);
       }
-      box.append(btn(T.back, () => m.remove(), 'sh-small'));
+      box.append(list);
+      box.append(btn(T.back, () => m.remove(), 'sh-small sh-hold-back'));
     };
     draw();
     m.append(box);

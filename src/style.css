@@ -39,7 +39,6 @@ button:active { background: #493e2e; box-shadow: inset 0 2px 4px #0006; }
 .tools > button { pointer-events: auto; min-width: 56px; }
 button.on { background: #6a5a22; border-color: #d8b24a; }
 #clock { font-size: 14px; opacity: .85; text-shadow: 0 1px 2px #000; pointer-events: none; min-width: 3.2em; text-align: right; }
-#minimap { position: fixed; right: calc(8px + env(safe-area-inset-right)); top: calc(64px + env(safe-area-inset-top)); width: clamp(120px, 24vw, 192px); aspect-ratio: 4 / 3; border: 2px solid #8a6b3a; border-radius: 4px; background: #000; image-rendering: pixelated; touch-action: none; }
 .groups { position: fixed; left: 0; right: 0; bottom: calc(60px + env(safe-area-inset-bottom)); display: flex; gap: 6px; justify-content: center; padding: 0 calc(8px + env(safe-area-inset-right)) 0 calc(8px + env(safe-area-inset-left)); pointer-events: none; }
 .groups > button { pointer-events: auto; min-width: 44px; padding: 0 6px; line-height: 1.05; opacity: .8; }
 .groups > button small { display: block; font-size: 10px; opacity: .8; }
@@ -122,7 +121,6 @@ button:focus-visible { outline: 2px solid #9dff7a; outline-offset: 1px; }
   .quick > button { min-width: 50px; }
   #book h3 { margin: 6px 0 2px; }
 }
-#objectives { position: fixed; left: 50%; transform: translateX(-50%); text-align: center; top: calc(64px + env(safe-area-inset-top)); z-index: 5; font-size: 13px; white-space: pre-line; line-height: 1.5; text-shadow: 0 1px 2px #000; pointer-events: none; max-width: 40vw; }
 #mission, #missions { z-index: 30; }
 #mission .who { color: #d8b24a; font-weight: bold; margin-bottom: 6px; }
 #mission p { line-height: 1.45; margin: 0 0 10px; }
@@ -268,16 +266,6 @@ button:focus-visible { outline: 2px solid #9dff7a; outline-offset: 1px; }
 .hud-dock .groups small { font-size: 10px; color: var(--muted); opacity: 1; }
 .hud-dock .tools { grid-area: 3 / 1 / 4 / -1; grid-template-columns: repeat(12, minmax(0, 1fr)); }
 .hud-dock .tools > button { font-size: 12px; line-height: 1.15; }
-#minimap {
-  z-index: 5;
-  top: calc(var(--hud-top) + env(safe-area-inset-top));
-  right: calc(var(--edge) + env(safe-area-inset-right));
-  width: 112px;
-  border-color: var(--bronze);
-  border-radius: 3px;
-  box-shadow: 0 3px 12px #0008;
-  cursor: crosshair;
-}
 .portraits {
   top: calc(var(--hud-top) + env(safe-area-inset-top));
   right: calc(128px + env(safe-area-inset-right));
@@ -290,7 +278,6 @@ button:focus-visible { outline: 2px solid #9dff7a; outline-offset: 1px; }
   scrollbar-color: var(--bronze) var(--ink);
 }
 .portraits > button { flex-shrink: 0; background: linear-gradient(#34414a, #19232b); }
-#objectives { top: calc(var(--hud-top) + env(safe-area-inset-top)); left: 8px; right: 244px; transform: none; max-width: none; text-align: left; font-size: 12px; line-height: 1.35; }
 #armed { z-index: 7; top: auto; bottom: calc(var(--hud-bottom) + env(safe-area-inset-bottom)); max-width: calc(100vw - 32px); background: #3c3326f5; color: var(--text); border-color: var(--gold); }
 #toast { z-index: 35; bottom: calc(var(--hud-bottom) + env(safe-area-inset-bottom)); pointer-events: none; font-size: 13px; }
 #debug { left: 8px; top: calc(var(--hud-top) + 44px + env(safe-area-inset-top)); }
@@ -324,9 +311,138 @@ button:focus-visible { outline: 2px solid #9dff7a; outline-offset: 1px; }
 #shell .sh-map { border-color: var(--bronze); }
 #shell .sh-row { flex-wrap: wrap; }
 #shell .sh-row > .sh-btn { min-width: 44px; }
-#shell .sh-hold { display: grid; grid-template-columns: 1fr auto; align-items: center; gap: 2px 10px; padding: 6px 0; border-bottom: 1px solid #5a472755; }
-#shell .sh-hold > span { grid-column: 1; font-size: 13px; opacity: .85; }
-#shell .sh-hold > .sh-btn, #shell .sh-hold > span:last-child:not(:nth-child(2)) { grid-column: 2; grid-row: 1 / span 2; flex: none; min-height: 44px; }
+#shell .sh-holdings-modal { padding: 8px; overflow: hidden; box-sizing: border-box; }
+#shell .sh-holdings-box {
+  width: min(94vw, 540px);
+  max-height: calc(100dvh - 16px);
+  overflow: hidden;
+  box-sizing: border-box;
+  padding: clamp(10px, 2.2vh, 18px);
+  gap: clamp(6px, 1.4vh, 10px);
+  border-radius: 10px;
+  background: #231a10;
+  border: 1px solid #8a6b3a;
+  box-shadow: 0 10px 32px rgba(0, 0, 0, 0.9), inset 0 1px 0 rgba(255, 215, 0, 0.15);
+}
+#shell .sh-holdings-box h2 {
+  margin: 0;
+  font-size: clamp(16px, 2.4vh, 22px);
+  text-align: center;
+  color: var(--gold);
+}
+#shell .sh-holdings-intro {
+  margin: 0;
+  font-size: clamp(11px, 1.8vh, 13px);
+  text-align: center;
+  opacity: .9;
+  color: var(--text);
+}
+#shell .sh-holdings-list {
+  display: flex;
+  flex-direction: column;
+  gap: clamp(4px, 1.2vh, 8px);
+}
+#shell .sh-hold {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  align-items: center;
+  gap: 2px 10px;
+  padding: clamp(6px, 1.2vh, 8px) 10px;
+  background: rgba(17, 26, 34, 0.55);
+  border: 1px solid #95755055;
+  border-radius: 6px;
+  box-sizing: border-box;
+}
+#shell .sh-hold > b {
+  grid-column: 1;
+  font-size: clamp(12px, 1.8vh, 14px);
+  color: #fff;
+}
+#shell .sh-hold > span:not(.sh-hold-max) {
+  grid-column: 1;
+  font-size: clamp(11px, 1.5vh, 12px);
+  opacity: .85;
+  line-height: 1.25;
+}
+#shell .sh-hold > .sh-btn.sh-hold-btn,
+#shell .sh-hold > .sh-hold-max {
+  grid-column: 2;
+  grid-row: 1 / span 2;
+  flex: none;
+  min-height: 44px;
+  height: clamp(44px, 5vh, 48px);
+  min-width: clamp(88px, 14vw, 110px);
+  padding: 0 12px;
+  font-size: 13px;
+  font-weight: 600;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 4px;
+  box-sizing: border-box;
+}
+#shell .sh-hold > .sh-hold-max {
+  color: var(--gold);
+  border: 1px dashed #8a6b3a88;
+  background: #1a140d66;
+  font-size: 12px;
+}
+#shell .sh-hold-back {
+  min-height: 44px;
+  height: clamp(44px, 5vh, 48px);
+  align-self: center;
+  min-width: 120px;
+  font-size: 13px;
+  font-weight: 600;
+  margin-top: 2px;
+  flex: none;
+}
+@media (max-height: 520px) and (min-width: 540px) {
+  #shell .sh-holdings-box {
+    width: min(96vw, 680px);
+    max-height: calc(100dvh - 8px);
+    padding: 6px 12px;
+    gap: 4px;
+  }
+  #shell .sh-holdings-box h2 {
+    font-size: 16px;
+  }
+  #shell .sh-holdings-intro {
+    font-size: 11px;
+  }
+  #shell .sh-holdings-list {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 4px 8px;
+  }
+  #shell .sh-holdings-list > .sh-hold:last-child:nth-child(odd) {
+    grid-column: 1 / span 2;
+  }
+  #shell .sh-hold {
+    padding: 4px 8px;
+    gap: 2px 8px;
+  }
+  #shell .sh-hold > b {
+    font-size: 12px;
+  }
+  #shell .sh-hold > span:not(.sh-hold-max) {
+    font-size: 11px;
+    line-height: 1.2;
+  }
+  #shell .sh-hold > .sh-btn.sh-hold-btn,
+  #shell .sh-hold > .sh-hold-max {
+    min-height: 44px;
+    height: 44px;
+    font-size: 12px;
+    min-width: 80px;
+    padding: 0 8px;
+  }
+  #shell .sh-hold-back {
+    min-height: 44px;
+    height: 44px;
+    margin-top: 0;
+  }
+}
 #shell .sh-update { color: var(--gold); }
 
 button.on, button[aria-pressed="true"], .tabs > button[aria-selected="true"], .choice > button[aria-pressed="true"], .items > button.sel, .slots > button.sel, .town .cell.sel, .portraits > button.sel { background: linear-gradient(#594b35, #3c3327); border-color: var(--gold); color: #fff0ce; box-shadow: inset 0 -2px var(--gold); }
@@ -343,9 +459,7 @@ button:disabled, #shell .sh-btn:disabled { opacity: .6; cursor: default; box-sha
   .hud-dock { grid-template-columns: 340px minmax(0, 1fr); }
   .hud-dock .quick > button { font-size: 12px; }
   .hud-dock .tools > button { font-size: 13px; }
-  #minimap { width: clamp(176px, 20vw, 260px); }
   .portraits { right: calc(var(--edge) + env(safe-area-inset-right)); top: calc(var(--hud-top) + 144px + env(safe-area-inset-top)); grid-template-columns: repeat(3, 48px); max-height: calc(100dvh - var(--hud-top) - 144px - var(--hud-bottom) - 8px - env(safe-area-inset-top) - env(safe-area-inset-bottom)); }
-  #objectives { left: 24%; right: 208px; text-align: center; }
 }
 /* Leave room for landscape phone notches without shrinking the 44px targets. */
 @media (min-width: 760px) and (max-width: 950px) {
@@ -360,7 +474,6 @@ button:disabled, #shell .sh-btn:disabled { opacity: .6; cursor: default; box-sha
   .hud-dock .quick { grid-template-columns: repeat(auto-fit, minmax(48px, 1fr)); }
   .hud-dock .groups { grid-template-columns: repeat(auto-fit, minmax(44px, 1fr)); }
   .hud-dock .tools { grid-template-columns: repeat(auto-fit, minmax(64px, 1fr)); }
-  #objectives { right: 128px; }
 }
 @media (prefers-reduced-motion: reduce) {
   .keeper .figure, .keeper .arm { animation: none; }
@@ -2689,21 +2802,26 @@ button:disabled, #shell .sh-btn:disabled { opacity: .6; cursor: default; box-sha
 }
 
 /* --- Gothic HUD Quest Tracker (#objectives) --- */
-.gothic-hud-tracker {
+#objectives, .gothic-hud-tracker {
   position: fixed;
-  left: calc(12px + env(safe-area-inset-left));
-  top: calc(var(--hud-top, 56px) + env(safe-area-inset-top));
-  z-index: 6;
+  left: calc(10px + env(safe-area-inset-left));
+  right: auto !important;
+  top: var(--hud-top, calc(56px + env(safe-area-inset-top)));
+  transform: none !important;
+  z-index: 25;
   user-select: none;
+  -webkit-user-select: none;
   cursor: pointer;
   pointer-events: auto !important;
   transition: all 0.22s cubic-bezier(0.2, 0, 0.2, 1);
   font-family: 'Cinzel', 'Trajan Pro', 'Georgia', serif;
+  box-sizing: border-box;
 }
-.gothic-hud-tracker.collapsed {
+#objectives.collapsed, .gothic-hud-tracker.collapsed {
+  width: auto;
   max-width: fit-content;
   padding: 4px 10px;
-  background: linear-gradient(135deg, rgba(22, 18, 14, 0.88) 0%, rgba(12, 10, 8, 0.92) 100%);
+  background: linear-gradient(135deg, rgba(22, 18, 14, 0.92) 0%, rgba(12, 10, 8, 0.96) 100%);
   border: 1px solid #735937;
   border-left: 3px solid #d4af37;
   border-radius: 4px;
@@ -2711,20 +2829,26 @@ button:disabled, #shell .sh-btn:disabled { opacity: .6; cursor: default; box-sha
   font-weight: 600;
   letter-spacing: 0.5px;
   color: #ffd88a;
-  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.65), inset 0 1px 0 rgba(255, 215, 100, 0.15);
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.75), inset 0 1px 0 rgba(255, 215, 100, 0.15);
   white-space: nowrap;
 }
-.gothic-hud-tracker.collapsed:hover {
-  background: linear-gradient(135deg, rgba(36, 28, 20, 0.96) 0%, rgba(18, 14, 10, 0.98) 100%);
+#objectives.collapsed:hover, .gothic-hud-tracker.collapsed:hover {
+  background: linear-gradient(135deg, rgba(36, 28, 20, 0.98) 0%, rgba(18, 14, 10, 1) 100%);
   border-color: #ffd770;
   color: #fff;
-  transform: translateY(-1px);
+  transform: translateY(-1px) !important;
   box-shadow: 0 4px 16px rgba(0, 0, 0, 0.85), 0 0 10px rgba(212, 175, 55, 0.35);
 }
-.gothic-hud-tracker.expanded {
-  max-width: min(340px, 45vw);
+#objectives.expanded, .gothic-hud-tracker.expanded {
+  width: auto;
+  max-width: min(340px, calc(100vw - 20px - env(safe-area-inset-left) - env(safe-area-inset-right)));
+  max-height: calc(100dvh - var(--hud-top, 56px) - 160px);
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  scrollbar-width: thin;
+  scrollbar-color: #8a6b3a #1a120b;
   padding: 8px 12px;
-  background: linear-gradient(135deg, rgba(24, 20, 15, 0.96) 0%, rgba(13, 11, 8, 0.98) 100%);
+  background: linear-gradient(135deg, rgba(24, 20, 15, 0.97) 0%, rgba(13, 11, 8, 0.99) 100%);
   border: 1px solid #735937;
   border-left: 3px solid #d4af37;
   border-radius: 4px;
@@ -2734,8 +2858,8 @@ button:disabled, #shell .sh-btn:disabled { opacity: .6; cursor: default; box-sha
   color: #e8dcc4;
   white-space: pre-line;
 }
-.gothic-hud-tracker.expanded:hover {
-  background: linear-gradient(135deg, rgba(34, 28, 20, 0.98) 0%, rgba(18, 15, 11, 1) 100%);
+#objectives.expanded:hover, .gothic-hud-tracker.expanded:hover {
+  background: linear-gradient(135deg, rgba(34, 28, 20, 0.99) 0%, rgba(18, 15, 11, 1) 100%);
   border-color: #ffd770;
 }
 

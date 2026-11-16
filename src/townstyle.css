@@ -1520,7 +1520,7 @@
     min-height: 150px;
   }
   #sheet .hero-gear-cell > button:first-child {
-    min-height: 38px;
+    min-height: 44px;
     padding: 2px 4px;
   }
 }
