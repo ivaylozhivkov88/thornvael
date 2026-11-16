@@ -8,8 +8,27 @@ import { SPELLS, St, Tk } from './sim/spelldata';
 import { S } from './strings';
 import { getItemDef, Slot } from './sim/items';
 import { itemRarity } from './sim/town';
-import { UnitAtlas, UnitSprite, ALL_UNIT_ART, UNIT_ART, bossSpriteDef } from './sprites/units';
+import { UnitAtlas, UnitSprite, ALL_UNIT_ART, UNIT_ART, bossSpriteDef, type HeroWeaponVisual, HERO_ARMOUR_TINTS } from './sprites/units';
 import { ArtPreview } from './sprites/preview';
+
+export function getHeroWeaponVisual(itemDef?: { name: string; cls?: number } | null): HeroWeaponVisual {
+  if (!itemDef) return 'sword';
+  const name = itemDef.name.toLowerCase();
+  if (name.includes('bow') || name.includes('arbalest') || name.includes('arrow') || name.includes('crossbow') || name.includes('windpiercer')) return 'bow';
+  if (name.includes('staff') || name.includes('wand') || name.includes('siphon') || name.includes('focus') || (itemDef.cls === 2 && !name.includes('dagger'))) return 'staff';
+  return 'sword';
+}
+
+export function getHeroArmorVisualTier(itemDef?: { name: string; tier?: number } | null): number {
+  if (!itemDef) return 0;
+  const name = itemDef.name.toLowerCase();
+  if (name.includes('astral') || name.includes('star') || name.includes('meteorite') || name.includes('celestial') || name.includes('aether')) return 5;
+  if (name.includes('gilded') || name.includes('gothic') || name.includes('warlord') || name.includes('dragon') || ((itemDef.tier ?? 0) >= 5 && name.includes('plate'))) return 4;
+  if (name.includes('scale') || name.includes('brigandine') || itemDef.tier === 3) return 2;
+  if (name.includes('plate') || name.includes('cuirass') || itemDef.tier === 4) return 3;
+  if (name.includes('chain') || name.includes('mail') || itemDef.tier === 2) return 1;
+  return 0;
+}
 import { CombatAnimation, type AnimationPose } from './sprites/combat-animation';
 import { VfxSystem } from './vfx';
 import { CombatFeelSystem } from './feel';
@@ -52,13 +71,13 @@ const TEAM_TINT = [0x7ab8ff, 0xff6a5a];
 const HERO_TINT = 0xffd86a;
 /** Tint and size per unit kind; monsters are told apart by colour and size until the art pipeline arrives. */
 const KIND_LOOK: Record<number, { tint?: number; scale: number }> = {
-  [Kind.Warrior]: { scale: 1 },
-  [Kind.Archer]: { scale: 0.92 },
-  [Kind.Hero]: { tint: HERO_TINT, scale: 1.32 },
-  [Kind.Mage]: { tint: 0xc9a0ff, scale: 0.95 },
-  [Kind.Gnoll]: { tint: 0xc4a35a, scale: 1 },
-  [Kind.Golem]: { tint: 0xa8a8b0, scale: 1.5 },
-  [Kind.Imp]: { tint: 0xff7a3a, scale: 0.8 },
+  [Kind.Warrior]: { scale: 1.35 },
+  [Kind.Archer]: { scale: 1.25 },
+  [Kind.Hero]: { tint: HERO_TINT, scale: 1.45 },
+  [Kind.Mage]: { tint: 0xc9a0ff, scale: 1.28 },
+  [Kind.Gnoll]: { tint: 0xc4a35a, scale: 1.35 },
+  [Kind.Golem]: { tint: 0xa8a8b0, scale: 1.85 },
+  [Kind.Imp]: { tint: 0xff7a3a, scale: 1.22 },
 };
 
 type FamilyOrnament =
@@ -407,7 +426,7 @@ export class Renderer {
       if (boss) {
         s.scale.set(boss.scale);
       } else if (famVis) {
-        s.scale.set(famVis.scaleX * champMul, famVis.scaleY * champMul);
+        s.scale.set(famVis.scaleX * champMul * 1.32, famVis.scaleY * champMul * 1.32);
       } else {
         s.scale.set(look.scale * champMul);
       }
@@ -1121,22 +1140,26 @@ export class Renderer {
       s.alpha = dead ? Math.min(1, cb.corp[i] / 200) : 1;
       if (s.visible && s instanceof UnitSprite) {
         const isHero = sim.hero?.id === i || sim.cb.kind[i] === Kind.Hero;
-        const armour = isHero ? (sim.hero && sim.hero.eq[Slot.Armor] >= 0 ? getItemDef(sim.hero.eq[Slot.Armor])?.tier ?? 0 : 0) : 1;
+        const weaponId = isHero && sim.hero ? sim.hero.eq[Slot.Weapon] : -1;
+        const armorId = isHero && sim.hero ? sim.hero.eq[Slot.Armor] : -1;
+        const weaponDef = weaponId >= 0 ? getItemDef(weaponId) : undefined;
+        const armorDef = armorId >= 0 ? getItemDef(armorId) : undefined;
+        const weaponVisual = isHero ? getHeroWeaponVisual(weaponDef) : 'sword';
+        const armorTier = isHero ? getHeroArmorVisualTier(armorDef) : 1;
         this.animation?.sample(sim, i, this.pose);
         const stone = !!(mask & (1 << St.Stone));
-        s.update(sim.tick, !!sim.moving[i], sim.dir[i], sim.team[i], armour, sim.cb.tier[i] || 1, stone, this.pose, statusTint, isHero);
+        s.update(sim.tick, !!sim.moving[i], sim.dir[i], sim.team[i], armorTier, sim.cb.tier[i] || 1, stone, this.pose, statusTint, isHero, weaponVisual);
         if (!stone && statusTint === 0) {
           // Preserve unmasked full-RGB details on layer 0 and apply distinct family / hero color harmony
-          const ch = s.children as Sprite[];
+          const ch = s.layers;
           if (ch[0]) ch[0].tint = 0xffffff;
           if (isHero && sim.team[i] === 0) {
             // Vivid royal cape & shield field
             ch[1].tint = 0x2563eb;
-            // Polished metallic steel plate & gleam on sword
-            const steelTints = [0xe8f0fc, 0xedf4ff, 0xf2f7ff, 0xf8fbff, 0xfff3cf, 0xdcf6f2];
-            ch[2].tint = steelTints[Math.min(5, Math.max(0, armour))] ?? 0xe8f0fc;
-            // Gilded crest & sword pommel
-            ch[3].tint = 0xffd23d;
+            // Equipped armor tier (Leather, Chain, Scale, Plate, Gilded, Astral/Meteorite)
+            ch[2].tint = HERO_ARMOUR_TINTS[Math.min(5, Math.max(0, armorTier))] ?? 0xd6dce8;
+            // Weapon type / gilded crest & filigree
+            ch[3].tint = weaponVisual === 'staff' ? 0x70d8ff : weaponVisual === 'bow' ? 0x9be368 : 0xffd23d;
           } else {
             const famId = cb.family[i];
             const famVis = famId ? FAMILY_VISUALS[famId] : undefined;
@@ -1251,7 +1274,7 @@ export class Renderer {
       if (!(sel || (hurt && this.quality > 0))) continue;
       const f = cb.hp[i] / cb.hpMax[i];
       const w = 20 * (s.scale.x > 1.2 ? 1.4 : 1);
-      const y = s.y - (s instanceof UnitSprite ? 48 : 36) * s.scale.y;
+      const y = s.y - (s instanceof UnitSprite ? 52 : 36) * s.scale.y;
       sh.rect(s.x - w / 2 - 1, y - 1, w + 2, 5).fill(0x000000);
       sh.rect(s.x - w / 2, y, w * f, 3).fill(sim.team[i] === 0 ? (f > 0.35 ? 0x5fd35f : 0xe0b030) : 0xe05a4a);
     }
@@ -1260,7 +1283,7 @@ export class Renderer {
       const s = this.sprites[i];
       if (!s.visible || cb.hp[i] <= 0) continue;
       const m = cb.stMask[i];
-      const y = s.y - (s instanceof UnitSprite ? 48 : 36) * s.scale.y;
+      const y = s.y - (s instanceof UnitSprite ? 52 : 36) * s.scale.y;
       if (m) {
         let n = 0;
         for (let st = 0; st < 8; st++) {
@@ -1310,7 +1333,7 @@ export class Renderer {
         }
       }
 
-      const headY = s.y - (s instanceof UnitSprite ? 48 : 36) * s.scale.y;
+      const headY = s.y - (s instanceof UnitSprite ? 52 : 36) * s.scale.y;
 
       // Distinct Monster Family Silhouette Ornaments on the battlefield
       if (famVis && famVis.ornament !== 'none') {

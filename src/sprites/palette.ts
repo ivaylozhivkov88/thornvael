@@ -2,6 +2,8 @@
 export const sheetDirection = (dir: number): number => (dir + 12) & 15;
 export const TEAM_COLORS = [0x66aaff, 0xf16b59, 0x8bd675, 0xdca2ff] as const;
 export const ARMOUR_COLORS = [0x93816c, 0xa9afb9, 0xbd8b55, 0xd6dce8, 0xe4bf69, 0xa3dbd5] as const;
+export const ARMOR_TIER_NAMES = ['Leather', 'Chain', 'Scale', 'Plate', 'Gilded', 'Astral/Meteorite'] as const;
+export type ArmorTierName = typeof ARMOR_TIER_NAMES[number];
 export const LEVEL_COLORS = [0x8fbc83, 0xc1ad74, 0xcd8461, 0x98a8df, 0xd68bc8] as const;
 const index = (n: number, max: number): number => Math.min(max, Math.max(0, Math.floor(n) || 0));
 export function palette(team: number, armourTier: number, monsterLevel: number): readonly number[] {

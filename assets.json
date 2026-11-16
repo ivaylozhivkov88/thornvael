@@ -1126,6 +1126,36 @@
       "license": "own",
       "source": "Gemini image generation (user subscription), original text prompt, resized with Pillow",
       "note": "AI-generated painted monster portrait, 2026-11-16; original design"
+    },
+    {
+      "path": "public/townart/mon/azgalor.jpg",
+      "license": "own",
+      "source": "Gemini image generation (user subscription), original text prompt, resized with Pillow",
+      "note": "AI-generated painted boss portrait for Azgalor Maggot Colossus (Gorrathul), 2026-11-16; original design"
+    },
+    {
+      "path": "public/townart/mon/ignis-khor.jpg",
+      "license": "own",
+      "source": "Gemini image generation (user subscription), original text prompt, resized with Pillow",
+      "note": "AI-generated painted boss portrait for Ignis Khor Lord of Terror (Ashkarath), 2026-11-16; original design"
+    },
+    {
+      "path": "public/townart/mon/lilithia.jpg",
+      "license": "own",
+      "source": "Gemini image generation (user subscription), original text prompt, resized with Pillow",
+      "note": "AI-generated painted boss portrait for Lilithia Queen of Agony (Morvessa), 2026-11-16; original design"
+    },
+    {
+      "path": "public/townart/mon/malakar.jpg",
+      "license": "own",
+      "source": "Gemini image generation (user subscription), original text prompt, resized with Pillow",
+      "note": "AI-generated painted boss portrait for Malakar Arch-Lich (Vesperion), 2026-11-16; original design"
+    },
+    {
+      "path": "public/townart/mon/gnoll.jpg",
+      "license": "own",
+      "source": "Gemini image generation (user subscription), original text prompt, cropped and resized with Pillow",
+      "note": "AI-generated painted monster portrait for Gnoll Warrior Chieftain, 2026-11-16; original design"
     }
   ]
 }
