@@ -370,8 +370,8 @@ export class TownUi {
     const doll = el('div', 'doll-badges');
     for (const layer of equipmentLayers(h)) {
       const swapped = layer.slot === trySlot;
-      const badge = el('span', `doll-badge${swapped ? ' replaced' : ''}`);
-      badge.title = layer.name;
+      const badge = el('span', `doll-badge${swapped ? ' preview-override' : ''}`);
+      badge.title = swapped ? `Previewing: ${getItemDef(this.tryOn)?.name ?? ''}` : layer.name;
       badge.style.cursor = 'pointer';
       badge.append(itemIcon(swapped ? this.tryOn : layer.item));
       badge.addEventListener('click', (e) => {
@@ -382,7 +382,8 @@ export class TownUi {
       doll.append(badge);
     }
     if (trySlot >= 0 && !h.eq.some((_, i) => i === trySlot && h.eq[i] >= 0)) {
-      const badge = el('span', 'doll-badge replaced');
+      const badge = el('span', 'doll-badge preview-badge');
+      badge.title = `Preview: ${getItemDef(this.tryOn)?.name ?? ''}`;
       badge.append(itemIcon(this.tryOn));
       doll.append(badge);
     }
@@ -400,7 +401,8 @@ export class TownUi {
       }
       art = buildDoll(set, keys, import.meta.env.BASE_URL);
     }
-    figure.append(art, doll, el('figcaption', '', this.tryOn >= 0 ? `${getItemDef(this.tryOn)?.name ?? ''}` : S.hero.classes[sim.hero!.cls]));
+    const captionText = this.tryOn >= 0 ? `[Preview] ${getItemDef(this.tryOn)?.name ?? ''}` : S.hero.classes[sim.hero!.cls];
+    figure.append(art, doll, el('figcaption', '', captionText));
     figure.addEventListener('click', (e) => {
       if ((e.target as HTMLElement).closest('.doll-badges')) return;
       if (this.detailItem >= 0 && h.inv.some((s) => s.item === this.detailItem)) {
