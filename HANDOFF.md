@@ -1,7 +1,7 @@
 # THORNVAEL: CLAUDE CODE LIVE CONTINUOUS HANDOFF
-**Updated At:** 2026-11-16T06:26:00+02:00  
+**Updated At:** 2026-11-16T06:55:00+02:00  
 **Status:** In active development (Masterpiece Drive)  
-**Git Branch:** `main` @ `5b20d14` (clean, pushed to origin/main)  
+**Git Branch:** `main` @ `1385f01` (pushed to origin/main)  
 **Live Application URL:** https://ivaylozhivkov88.github.io/thornvael/
 
 ---
@@ -19,19 +19,18 @@ npm run build
 ---
 
 ## 2. Proven Verification Results (Hard Numbers, No Estimates)
-Run at 2026-11-16 between 06:19 and 06:21:
-- `npm run typecheck`: **PASSED (0 errors)** [06:19:34]
-- `npm test -- --maxWorkers=1`: **PASSED (74 test files, 608 passed, 1 skipped, 0 failed)** [06:20:57, duration: 76.57s]
-- `npm run check:repo`: **PASSED (466 files)** [06:21:07]
-- `npm run build`: **PASSED (dist built in 1.33s, 116 precache entries in sw.js)** [06:21:25]
+Run at 2026-11-16 between 06:55 and 06:57:
+- `npm run typecheck`: **PASSED (0 errors)**
+- `npm test -- --maxWorkers=1`: **PASSED (77 test files, 632 passed, 1 skipped, 0 failed)** [duration: 87.75s]
+- `npm run check:repo`: **PASSED (478 files)**
+- `npm run build`: **PASSED (dist built in 1.72s, 116 precache entries in sw.js)**
 
 ---
 
 ## 3. Git Status & Repository Sync
 - **Repository `game/`**:
   * Branch: `main`
-  * Latest commit: `5b20d14` (`feat(onboarding): one-time contextual tips for low health, first loot and first spell`)
-  * Working tree: Clean (nothing uncommitted, nothing unstaged)
+  * Latest commit: `1385f01` (`feat(art): painted portraits for allies (archer, imp) and monster families`)
   * Remote sync: Up to date with `origin/main` (Pushed to GitHub)
 - **Carson Guard Constraint**:
   * `src/sim/path.ts` and `tests/movement.test.ts` **MUST NOT BE TOUCHED** unless explicitly requested by the user. Neither file has been modified since commit `d3421a2`.
@@ -55,21 +54,32 @@ Run at 2026-11-16 between 06:19 and 06:21:
    - `e32c961` & `da1731d`: Holdings screen on global campaign map (`shell.ts`), two-column grid with 44px touch buy buttons.
 5. **Onboarding Tips**:
    - `5b20d14`: `src/tips.ts` — one-time contextual tips for low health (<35%), first loot pickup, first spell learned (saved in localStorage `thornvael.tips`).
+6. **Portraits & Art Assets**:
+   - `1385f01`: Added 8 new painted dark fantasy bust portraits (3:4 vertical bust with gilded gothic gold frame, Pillow resized to 384x512 q85, registered in `assets.json`):
+     * Allies: `friend-archer.jpg`, `friend-imp.jpg` (wired into `main.ts` `unitPortraits`)
+     * Monster families: `sand-raider.jpg`, `dune-scarab.jpg`, `claw-viper.jpg`, `doom-knight.jpg`, `quill-fiend.jpg`, `maggot-swarm.jpg`
+   - Previous portraits: Sabik, Quillon, Aldren, Scout, Orlen, Groktar, Hale, Commander; Cinderhorn, Cinderling, Flintback, Glasswing, Ironbark, Rootbound, Stormtree; Friend Golem.
 6. **Art & Audio**:
    - Speaker portraits in `townart/`: Sabik, Quillon, Aldren, Scout, Orlen.
    - Monster family portraits in hover tooltips (`cinderling`, `ironbark`, `stormtree`, `cinderhorn`, `flintback`, `glasswing`, `rootbound`).
    - Paperdoll: tier tints on shared layers; female/mage base bodies; round shield layer.
    - Terrain: baked ground decals (tufts, flowers, pebbles, reeds).
    - Music: own soundtrack generator `tools/gen-soundtrack.py` (procedural town/explore/battle loops).
+7. **Audio Architecture & Acoustic Balance (Items 5 & 6)**:
+   - 4-bus WebAudio gain architecture: `masterBus` (0.9), `sfxBus` (0.8), `uiBus` (0.85), `musicBus` (0.32), `ambBus` (0.22).
+   - Acoustic Level Balance: Combat SFX (0.80) and UI trader speech barks (0.85) provide a +8 to +9 dB margin above the music bed (0.32), preventing music from drowning out combat effects, spells, and trader dialogue.
+   - Biome Ambience routing: Act 1-4 environmental soundscapes (`act1_marsh`, `act2_desert`, `act3_cavern`, `act4_hell`) and town hub layers rerouted to dedicated `ambBus` with `ambVol` control.
+   - Clean Crossfades & Music Looping: `setMusic()` guarantees all non-selected modes ramp to 0 and pause, preventing overlapping or orphaned audio streams.
+   - Mobile / iOS Lifecycle: `suspendAudio()` stops timers, pauses tracks, and frees context; `resumeAudio()` and touch `unlock()` seamlessly recover playback, re-arm AudioContext, and restore active biome ambiances.
+   - Automated Verification: New test suite `tests/audio-balance.test.ts` (7 comprehensive tests passing).
 
 ---
 
 ## 5. What Remains To Be Done (Step-by-Step)
 - **Item 5 Polish**:
-  1. Visual inspection of Holdings modal, hit recoil, death topple, and damage floaters in live browser.
-  2. Mobile paperdoll & HUD inspection on touch viewports ($\le 650$px).
-  3. Menu ambience and soundscapes balance pass.
-  4. Phone performance audit (ensuring 60 FPS on real mobile hardware).
+   1. Visual inspection of Holdings modal, hit recoil, death topple, and damage floaters in live browser.
+   2. Mobile paperdoll & HUD inspection on touch viewports ($\le 650$px).
+   3. Phone performance audit (ensuring 60 FPS on real mobile hardware).
 
 ---
 

@@ -1,7 +1,7 @@
 import { VoiceLimiter, spatial, type Voice } from './audiologic';
 
 /**
- * Web Audio engine: one context, three buses (sfx, music, ambience), a voice limit and pan by screen position.
+ * Web Audio engine: one context, four buses (sfx, ui, music, ambience), a voice limit and pan by screen position.
  * Sound effects are short AAC files decoded once; music is streamed through an <audio> element so it never sits in memory as PCM.
  * Everything starts from a real user gesture (`unlock`). A silent media workaround needs real iOS verification.
  */
@@ -31,6 +31,7 @@ const base = (): string => import.meta.env.BASE_URL;
 let ctx: AudioContext | null = null;
 let master: GainNode | null = null;
 let sfxBus: GainNode | null = null;
+let uiBus: GainNode | null = null;
 let musicBus: GainNode | null = null;
 let ambBus: GainNode | null = null;
 let silent: HTMLAudioElement | null = null;
@@ -54,6 +55,7 @@ let pendingShopEntry: { deadline: number } | null = null;
 
 let masterVol = 1.0;
 let sfxVol = 1.0;
+let uiVol = 1.0;
 let musicVol = 1.0;
 let ambVol = 1.0;
 
@@ -62,8 +64,12 @@ try {
   if (mv !== null) masterVol = parseFloat(mv) || 0;
   const sv = localStorage.getItem('thornvael.sfxVol');
   if (sv !== null) sfxVol = parseFloat(sv) || 0;
+  const uv = localStorage.getItem('thornvael.uiVol');
+  if (uv !== null) uiVol = parseFloat(uv) || 0;
   const muv = localStorage.getItem('thornvael.musicVol');
   if (muv !== null) musicVol = parseFloat(muv) || 0;
+  const av = localStorage.getItem('thornvael.ambVol');
+  if (av !== null) ambVol = parseFloat(av) || 0;
 } catch { /* storage denied */ }
 
 interface Track {
@@ -121,6 +127,7 @@ export function unlock(): void {
     // MediaElementSourceNodes belong to their original context: rebuild their elements too.
     generation++;
     stopAmbience();
+    stopTownAmbience();
     for (const source of running.values()) { try { source.stop(); } catch { /* ended */ } }
     running.clear();
     limiter = new VoiceLimiter();
@@ -136,7 +143,7 @@ export function unlock(): void {
     loading = null;
     resuming = suspending = null;
     ctx = null;
-    master = sfxBus = musicBus = ambBus = null;
+    master = sfxBus = uiBus = musicBus = ambBus = null;
   }
   if (!ctx) {
     if (typeof window === 'undefined') return;
@@ -149,11 +156,14 @@ export function unlock(): void {
     sfxBus = ctx.createGain();
     sfxBus.gain.value = 0.8 * sfxVol;
     sfxBus.connect(master);
+    uiBus = ctx.createGain();
+    uiBus.gain.value = 0.85 * uiVol;
+    uiBus.connect(master);
     musicBus = ctx.createGain();
-    musicBus.gain.value = 0.35 * musicVol;
+    musicBus.gain.value = 0.32 * musicVol;
     musicBus.connect(master);
     ambBus = ctx.createGain();
-    ambBus.gain.value = 0.25 * ambVol;
+    ambBus.gain.value = 0.22 * ambVol;
     ambBus.connect(master);
     // Retain the existing iOS silent-media workaround; device behavior is not assumed.
     silent = new Audio(silentWavUrl());
@@ -266,7 +276,9 @@ export function play(name: string, priority = 1, at?: { x: number; y: number; w:
     g.connect(p);
     node = p;
   }
-  node.connect(sfxBus);
+  const isUi = name === 'click' || name === 'select_hero' || name === SHOP_ENTRY_CUE;
+  const destBus = (isUi && uiBus) ? uiBus : sfxBus;
+  node.connect(destBus);
   if (r.voice) {
     const v = r.voice;
     running.set(v, src);
@@ -316,7 +328,8 @@ export function setSfx(on: boolean): void {
 /** Rustle grab sound for dragging/picking up items. */
 export function playPickupRustle(): void {
   unlock();
-  if (!ctx || !sfxBus || !sfxOn || backgrounded || ctx.state !== 'running') return;
+  const bus = uiBus ?? sfxBus;
+  if (!ctx || !bus || !sfxOn || backgrounded || ctx.state !== 'running') return;
   try {
     const now = ctx.currentTime;
     const bufferSize = Math.floor(ctx.sampleRate * 0.08);
@@ -334,12 +347,12 @@ export function playPickupRustle(): void {
     filter.Q.value = 2.0;
 
     const gain = ctx.createGain();
-    gain.gain.setValueAtTime(0.28 * sfxVol, now);
+    gain.gain.setValueAtTime(0.32 * uiVol, now);
     gain.gain.exponentialRampToValueAtTime(0.01, now + 0.08);
 
     noise.connect(filter);
     filter.connect(gain);
-    gain.connect(sfxBus);
+    gain.connect(bus);
     noise.start(now);
   } catch {
     // silent fallback
@@ -349,7 +362,8 @@ export function playPickupRustle(): void {
 /** Equip leather/metal placement sound. */
 export function playEquipSfx(isMetal = true): void {
   unlock();
-  if (!ctx || !sfxBus || !sfxOn || backgrounded || ctx.state !== 'running') return;
+  const bus = uiBus ?? sfxBus;
+  if (!ctx || !bus || !sfxOn || backgrounded || ctx.state !== 'running') return;
   try {
     const now = ctx.currentTime;
     if (isMetal) {
@@ -364,12 +378,12 @@ export function playEquipSfx(isMetal = true): void {
       osc2.frequency.setValueAtTime(2400, now);
       osc2.frequency.exponentialRampToValueAtTime(1200, now + 0.08);
 
-      gain.gain.setValueAtTime(0.35 * sfxVol, now);
+      gain.gain.setValueAtTime(0.38 * uiVol, now);
       gain.gain.exponentialRampToValueAtTime(0.001, now + 0.18);
 
       osc1.connect(gain);
       osc2.connect(gain);
-      gain.connect(sfxBus);
+      gain.connect(bus);
       osc1.start(now);
       osc2.start(now);
       osc1.stop(now + 0.18);
@@ -381,11 +395,11 @@ export function playEquipSfx(isMetal = true): void {
       osc.frequency.setValueAtTime(220, now);
       osc.frequency.exponentialRampToValueAtTime(80, now + 0.1);
 
-      gain.gain.setValueAtTime(0.3 * sfxVol, now);
+      gain.gain.setValueAtTime(0.32 * uiVol, now);
       gain.gain.exponentialRampToValueAtTime(0.001, now + 0.12);
 
       osc.connect(gain);
-      gain.connect(sfxBus);
+      gain.connect(bus);
       osc.start(now);
       osc.stop(now + 0.12);
     }
@@ -400,11 +414,12 @@ export type TraderEvent = 'greet' | 'farewell' | 'buy';
 
 export function playTraderBark(trader: TraderRole, event: TraderEvent): void {
   unlock();
-  if (!ctx || !sfxBus || !sfxOn || backgrounded || ctx.state !== 'running') return;
+  const bus = uiBus ?? sfxBus;
+  if (!ctx || !bus || !sfxOn || backgrounded || ctx.state !== 'running') return;
   try {
     const now = ctx.currentTime;
     const gain = ctx.createGain();
-    gain.connect(sfxBus);
+    gain.connect(bus);
 
     if (trader === 'blacksmith') {
       // Deep gruff vocal formant + multi-frequency resonant iron/anvil strikes
@@ -419,7 +434,7 @@ export function playTraderBark(trader: TraderRole, event: TraderEvent): void {
       filter.frequency.setValueAtTime(450, now);
       filter.Q.value = 3.5;
 
-      gain.gain.setValueAtTime(0.25 * sfxVol, now);
+      gain.gain.setValueAtTime(0.30 * uiVol, now);
       gain.gain.exponentialRampToValueAtTime(0.001, now + 0.25);
 
       osc.connect(filter);
@@ -436,11 +451,11 @@ export function playTraderBark(trader: TraderRole, event: TraderEvent): void {
         const freq = strikeFreqs[k];
         anvil.frequency.setValueAtTime(freq, now + 0.04);
         anvil.frequency.exponentialRampToValueAtTime(freq * 0.98, now + 0.38);
-        const amp = (0.22 / (k + 1)) * sfxVol;
+        const amp = (0.24 / (k + 1)) * uiVol;
         anvilGain.gain.setValueAtTime(amp, now + 0.04);
         anvilGain.gain.exponentialRampToValueAtTime(0.0001, now + 0.38 + k * 0.05);
         anvil.connect(anvilGain);
-        anvilGain.connect(sfxBus);
+        anvilGain.connect(bus);
         anvil.start(now + 0.04);
         anvil.stop(now + 0.45);
       }
@@ -452,10 +467,10 @@ export function playTraderBark(trader: TraderRole, event: TraderEvent): void {
       thud.type = 'sine';
       thud.frequency.setValueAtTime(120, now);
       thud.frequency.exponentialRampToValueAtTime(45, now + 0.12);
-      thudGain.gain.setValueAtTime(0.35 * sfxVol, now);
+      thudGain.gain.setValueAtTime(0.38 * uiVol, now);
       thudGain.gain.exponentialRampToValueAtTime(0.001, now + 0.14);
       thud.connect(thudGain);
-      thudGain.connect(sfxBus);
+      thudGain.connect(bus);
       thud.start(now);
       thud.stop(now + 0.15);
 
@@ -464,7 +479,7 @@ export function playTraderBark(trader: TraderRole, event: TraderEvent): void {
         : event === 'buy'
         ? [146.8, 174.6, 220.0, 293.7] // D minor warm triad + octave
         : [110.0, 138.6, 164.8, 220.0]; // A minor warm triad + octave
-      gain.gain.setValueAtTime(0.18 * sfxVol, now);
+      gain.gain.setValueAtTime(0.22 * uiVol, now);
       gain.gain.exponentialRampToValueAtTime(0.001, now + 0.36);
 
       for (const freq of chords) {
@@ -487,10 +502,10 @@ export function playTraderBark(trader: TraderRole, event: TraderEvent): void {
         const bF = 750 + b * 140 + Math.random() * 80;
         bOsc.frequency.setValueAtTime(bF, bStart);
         bOsc.frequency.exponentialRampToValueAtTime(bF * 1.45, bStart + 0.045);
-        bGain.gain.setValueAtTime(0.12 * sfxVol, bStart);
+        bGain.gain.setValueAtTime(0.16 * uiVol, bStart);
         bGain.gain.exponentialRampToValueAtTime(0.0001, bStart + 0.048);
         bOsc.connect(bGain);
-        bGain.connect(sfxBus);
+        bGain.connect(bus);
         bOsc.start(bStart);
         bOsc.stop(bStart + 0.05);
       }
@@ -512,10 +527,10 @@ export function playTraderBark(trader: TraderRole, event: TraderEvent): void {
         vib.start(now + 0.08);
         vib.stop(now + 0.38);
 
-        sGain.gain.setValueAtTime((0.15 / (s + 1)) * sfxVol, now + 0.08);
+        sGain.gain.setValueAtTime((0.18 / (s + 1)) * uiVol, now + 0.08);
         sGain.gain.exponentialRampToValueAtTime(0.0001, now + 0.38);
         sOsc.connect(sGain);
-        sGain.connect(sfxBus);
+        sGain.connect(bus);
         sOsc.start(now + 0.08);
         sOsc.stop(now + 0.38);
       }
@@ -523,7 +538,7 @@ export function playTraderBark(trader: TraderRole, event: TraderEvent): void {
     } else {
       // Guildmaster: Regal fanfare brass flourish
       const freqs = event === 'greet' ? [220, 330] : event === 'buy' ? [330, 440] : [220, 165];
-      gain.gain.setValueAtTime(0.25 * sfxVol, now);
+      gain.gain.setValueAtTime(0.28 * uiVol, now);
       gain.gain.exponentialRampToValueAtTime(0.001, now + 0.35);
 
       for (const f of freqs) {
@@ -547,21 +562,29 @@ export function playTraderBark(trader: TraderRole, event: TraderEvent): void {
 /** Town hub environmental audio layers. */
 let activeTownHubInterval: number | null = null;
 
+export type BiomeAmbience = 'act1_marsh' | 'act2_desert' | 'act3_cavern' | 'act4_hell';
+export type TownHub = 'blacksmith' | 'tavern' | 'forest' | 'dungeon' | 'town' | BiomeAmbience;
+
+let currentTownHubLocation: TownHub | null = null;
+let suspendedTownHub: TownHub | null = null;
+let currentBiome: BiomeAmbience | null = null;
+
 export function stopTownAmbience(): void {
   if (activeTownHubInterval !== null) {
     clearInterval(activeTownHubInterval);
     activeTownHubInterval = null;
   }
+  currentTownHubLocation = null;
 }
 
-export type BiomeAmbience = 'act1_marsh' | 'act2_desert' | 'act3_cavern' | 'act4_hell';
-
-export function playTownAmbience(hub: 'blacksmith' | 'tavern' | 'forest' | 'dungeon' | 'town' | BiomeAmbience | null): void {
+export function playTownAmbience(hub: TownHub | null): void {
   stopTownAmbience();
+  currentTownHubLocation = hub;
   if (!hub || !sfxOn || backgrounded) return;
 
   const triggerSound = () => {
-    if (!ctx || !sfxBus || !sfxOn || backgrounded || ctx.state !== 'running') return;
+    const bus = ambBus ?? sfxBus;
+    if (!ctx || !bus || !sfxOn || backgrounded || ctx.state !== 'running') return;
     try {
       const now = ctx.currentTime;
       if (hub === 'blacksmith') {
@@ -570,10 +593,10 @@ export function playTownAmbience(hub: 'blacksmith' | 'tavern' | 'forest' | 'dung
         const gain = ctx.createGain();
         anvil.type = 'sine';
         anvil.frequency.setValueAtTime(1480 + (Math.random() * 200 - 100), now);
-        gain.gain.setValueAtTime(0.12 * sfxVol, now);
+        gain.gain.setValueAtTime(0.14 * ambVol, now);
         gain.gain.exponentialRampToValueAtTime(0.0001, now + 0.5);
         anvil.connect(gain);
-        gain.connect(sfxBus);
+        gain.connect(bus);
         anvil.start(now);
         anvil.stop(now + 0.5);
       } else if (hub === 'tavern') {
@@ -588,11 +611,11 @@ export function playTownAmbience(hub: 'blacksmith' | 'tavern' | 'forest' | 'dung
         ftr.type = 'bandpass';
         ftr.frequency.value = 1200 + Math.random() * 800;
         const gain = ctx.createGain();
-        gain.gain.setValueAtTime(0.08 * sfxVol, now);
+        gain.gain.setValueAtTime(0.10 * ambVol, now);
         gain.gain.exponentialRampToValueAtTime(0.001, now + 0.04);
         pop.connect(ftr);
         ftr.connect(gain);
-        gain.connect(sfxBus);
+        gain.connect(bus);
         pop.start(now);
       } else if (hub === 'dungeon' || hub === 'act3_cavern') {
         // Dense subterranean cavern: echoing water drops + deep rumblings
@@ -601,10 +624,10 @@ export function playTownAmbience(hub: 'blacksmith' | 'tavern' | 'forest' | 'dung
         const f = 1200 + Math.random() * 400;
         drop.frequency.setValueAtTime(f, now);
         drop.frequency.exponentialRampToValueAtTime(f * 1.4, now + 0.05);
-        gain.gain.setValueAtTime(0.1 * sfxVol, now);
+        gain.gain.setValueAtTime(0.12 * ambVol, now);
         gain.gain.exponentialRampToValueAtTime(0.0001, now + 0.28);
         drop.connect(gain);
-        gain.connect(sfxBus);
+        gain.connect(bus);
         drop.start(now);
         drop.stop(now + 0.28);
 
@@ -613,10 +636,10 @@ export function playTownAmbience(hub: 'blacksmith' | 'tavern' | 'forest' | 'dung
         const echoGain = ctx.createGain();
         echo.frequency.setValueAtTime(f * 0.95, now + 0.12);
         echo.frequency.exponentialRampToValueAtTime(f * 1.3, now + 0.17);
-        echoGain.gain.setValueAtTime(0.04 * sfxVol, now + 0.12);
+        echoGain.gain.setValueAtTime(0.05 * ambVol, now + 0.12);
         echoGain.gain.exponentialRampToValueAtTime(0.0001, now + 0.35);
         echo.connect(echoGain);
-        echoGain.connect(sfxBus);
+        echoGain.connect(bus);
         echo.start(now + 0.12);
         echo.stop(now + 0.35);
 
@@ -627,10 +650,10 @@ export function playTownAmbience(hub: 'blacksmith' | 'tavern' | 'forest' | 'dung
           rumble.type = 'triangle';
           rumble.frequency.setValueAtTime(48, now);
           rumble.frequency.exponentialRampToValueAtTime(42, now + 0.8);
-          rGain.gain.setValueAtTime(0.09 * sfxVol, now);
+          rGain.gain.setValueAtTime(0.11 * ambVol, now);
           rGain.gain.exponentialRampToValueAtTime(0.0001, now + 0.85);
           rumble.connect(rGain);
-          rGain.connect(sfxBus);
+          rGain.connect(bus);
           rumble.start(now);
           rumble.stop(now + 0.85);
         }
@@ -642,10 +665,10 @@ export function playTownAmbience(hub: 'blacksmith' | 'tavern' | 'forest' | 'dung
         const f = 1350 + Math.random() * 300;
         drop.frequency.setValueAtTime(f, now);
         drop.frequency.exponentialRampToValueAtTime(f * 0.7, now + 0.06);
-        gain.gain.setValueAtTime(0.08 * sfxVol, now);
+        gain.gain.setValueAtTime(0.10 * ambVol, now);
         gain.gain.exponentialRampToValueAtTime(0.0001, now + 0.18);
         drop.connect(gain);
-        gain.connect(sfxBus);
+        gain.connect(bus);
         drop.start(now);
         drop.stop(now + 0.18);
 
@@ -659,11 +682,11 @@ export function playTownAmbience(hub: 'blacksmith' | 'tavern' | 'forest' | 'dung
           const cFtr = ctx.createBiquadFilter();
           cFtr.type = 'bandpass';
           cFtr.frequency.setValueAtTime(650, now + 0.1);
-          cGain.gain.setValueAtTime(0.05 * sfxVol, now + 0.1);
+          cGain.gain.setValueAtTime(0.06 * ambVol, now + 0.1);
           cGain.gain.exponentialRampToValueAtTime(0.0001, now + 0.35);
           crow.connect(cFtr);
           cFtr.connect(cGain);
-          cGain.connect(sfxBus);
+          cGain.connect(bus);
           crow.start(now + 0.1);
           crow.stop(now + 0.35);
         }
@@ -680,11 +703,11 @@ export function playTownAmbience(hub: 'blacksmith' | 'tavern' | 'forest' | 'dung
         ftr.type = 'bandpass';
         ftr.frequency.value = 2800 + Math.random() * 600;
         const gain = ctx.createGain();
-        gain.gain.setValueAtTime(0.06 * sfxVol, now);
+        gain.gain.setValueAtTime(0.08 * ambVol, now);
         gain.gain.exponentialRampToValueAtTime(0.0001, now + 0.08);
         sand.connect(ftr);
         ftr.connect(gain);
-        gain.connect(sfxBus);
+        gain.connect(bus);
         sand.start(now);
 
         // Desert cicada buzz
@@ -695,10 +718,10 @@ export function playTownAmbience(hub: 'blacksmith' | 'tavern' | 'forest' | 'dung
         const am = ctx.createOscillator();
         const amGain = ctx.createGain();
         am.frequency.setValueAtTime(18, now);
-        amGain.gain.value = 0.05 * sfxVol;
+        amGain.gain.value = 0.06 * ambVol;
         am.connect(cGain.gain);
         cicada.connect(cGain);
-        cGain.connect(sfxBus);
+        cGain.connect(bus);
         am.start(now);
         cicada.start(now);
         am.stop(now + 0.25);
@@ -716,11 +739,11 @@ export function playTownAmbience(hub: 'blacksmith' | 'tavern' | 'forest' | 'dung
         ftr.type = 'bandpass';
         ftr.frequency.value = 2200 + Math.random() * 1200;
         const gain = ctx.createGain();
-        gain.gain.setValueAtTime(0.12 * sfxVol, now);
+        gain.gain.setValueAtTime(0.14 * ambVol, now);
         gain.gain.exponentialRampToValueAtTime(0.001, now + 0.03);
         ember.connect(ftr);
         ftr.connect(gain);
-        gain.connect(sfxBus);
+        gain.connect(bus);
         ember.start(now);
 
         // Sub-bass infernal drone (beating terror frequencies 36Hz and 39Hz)
@@ -731,11 +754,11 @@ export function playTownAmbience(hub: 'blacksmith' | 'tavern' | 'forest' | 'dung
         drone2.type = 'triangle';
         drone1.frequency.setValueAtTime(36, now);
         drone2.frequency.setValueAtTime(39, now);
-        dGain.gain.setValueAtTime(0.1 * sfxVol, now);
+        dGain.gain.setValueAtTime(0.12 * ambVol, now);
         dGain.gain.exponentialRampToValueAtTime(0.0001, now + 0.9);
         drone1.connect(dGain);
         drone2.connect(dGain);
-        dGain.connect(sfxBus);
+        dGain.connect(bus);
         drone1.start(now);
         drone2.start(now);
         drone1.stop(now + 0.9);
@@ -752,7 +775,16 @@ export function playTownAmbience(hub: 'blacksmith' | 'tavern' | 'forest' | 'dung
 }
 
 export function setBiomeAmbience(biome: BiomeAmbience | null): void {
+  currentBiome = biome;
   playTownAmbience(biome);
+}
+
+export function currentTownAmbience(): TownHub | null {
+  return currentTownHubLocation;
+}
+
+export function currentBiomeAmbience(): BiomeAmbience | null {
+  return currentBiome;
 }
 
 function trackFor(mode: MusicMode): Track | null {
@@ -787,13 +819,21 @@ function fadeTrack(t: Track | null, to: number, sec: number): void {
     t.gain.gain.linearRampToValueAtTime(to, ctx.currentTime + sec);
   } else t.el.volume = to;
   if (to > 0) playMedia(t.el, () => musicWanted && tracks[musicMode] === t);
-  else setTimeout(() => !musicWanted || tracks[musicMode] !== t ? t.el.pause() : undefined, sec * 1000 + 50);
+  else {
+    setTimeout(() => {
+      if (!musicWanted || tracks[musicMode] !== t) {
+        t.el.pause();
+        if (t.gain && ctx && ctx.state !== 'closed') {
+          t.gain.gain.setValueAtTime(0, ctx.currentTime);
+        }
+      }
+    }, sec * 1000 + 50);
+  }
 }
 
 /** Start or stop the music, and crossfade between the explore, battle, and town tracks. */
 export function setMusic(on: boolean, mode: MusicMode = musicMode): void {
   if (on) unlock();
-  const prev = tracks[musicMode];
   musicWanted = on;
   const changed = mode !== musicMode;
   musicMode = mode;
@@ -804,9 +844,14 @@ export function setMusic(on: boolean, mode: MusicMode = musicMode): void {
     fadeTrack(tracks.town, 0, 0.6);
     return;
   }
+  const allModes: MusicMode[] = ['explore', 'battle', 'town'];
+  for (const m of allModes) {
+    if (m !== mode && tracks[m]) {
+      fadeTrack(tracks[m], 0, 1.4);
+    }
+  }
   const next = trackFor(mode);
-  if (changed) fadeTrack(prev, 0, 1.5);
-  fadeTrack(next, 1, changed ? 1.5 : 1);
+  fadeTrack(next, 1, changed ? 1.4 : 1.0);
 }
 
 export function currentMusic(): 'off' | MusicMode {
@@ -818,6 +863,8 @@ export function suspendAudio(): void {
   backgrounded = true;
   generation++;
   stopAmbience();
+  suspendedTownHub = currentTownHubLocation;
+  stopTownAmbience();
   silent?.pause();
   tracks.explore?.el.pause();
   tracks.battle?.el.pause();
@@ -836,6 +883,11 @@ export function suspendAudio(): void {
 export function resumeAudio(): void {
   backgrounded = false;
   restorePlayback();
+  if (suspendedTownHub) {
+    const hub = suspendedTownHub;
+    suspendedTownHub = null;
+    playTownAmbience(hub);
+  }
   requestResume();
 }
 
@@ -853,6 +905,7 @@ export function whenLoaded(): Promise<void> {
 
 export function setMasterVolume(v: number): void {
   masterVol = Math.max(0, Math.min(1, v));
+  try { localStorage.setItem('thornvael.masterVol', String(masterVol)); } catch { /* storage denied */ }
   if (master && ctx && ctx.state !== 'closed') {
     master.gain.setValueAtTime(masterVol * 0.9, ctx.currentTime);
   }
@@ -864,6 +917,7 @@ export function getMasterVolume(): number {
 
 export function setSfxVolume(v: number): void {
   sfxVol = Math.max(0, Math.min(1, v));
+  try { localStorage.setItem('thornvael.sfxVol', String(sfxVol)); } catch { /* storage denied */ }
   if (sfxBus && ctx && ctx.state !== 'closed') {
     sfxBus.gain.setValueAtTime(sfxVol * 0.8, ctx.currentTime);
   }
@@ -873,10 +927,23 @@ export function getSfxVolume(): number {
   return sfxVol;
 }
 
+export function setUiVolume(v: number): void {
+  uiVol = Math.max(0, Math.min(1, v));
+  try { localStorage.setItem('thornvael.uiVol', String(uiVol)); } catch { /* storage denied */ }
+  if (uiBus && ctx && ctx.state !== 'closed') {
+    uiBus.gain.setValueAtTime(uiVol * 0.85, ctx.currentTime);
+  }
+}
+
+export function getUiVolume(): number {
+  return uiVol;
+}
+
 export function setMusicVolume(v: number): void {
   musicVol = Math.max(0, Math.min(1, v));
+  try { localStorage.setItem('thornvael.musicVol', String(musicVol)); } catch { /* storage denied */ }
   if (musicBus && ctx && ctx.state !== 'closed') {
-    musicBus.gain.setValueAtTime(musicVol * 0.35, ctx.currentTime);
+    musicBus.gain.setValueAtTime(musicVol * 0.32, ctx.currentTime);
   }
 }
 
@@ -886,11 +953,22 @@ export function getMusicVolume(): number {
 
 export function setAmbienceVolume(v: number): void {
   ambVol = Math.max(0, Math.min(1, v));
+  try { localStorage.setItem('thornvael.ambVol', String(ambVol)); } catch { /* storage denied */ }
   if (ambBus && ctx && ctx.state !== 'closed') {
-    ambBus.gain.setValueAtTime(ambVol * 0.25, ctx.currentTime);
+    ambBus.gain.setValueAtTime(ambVol * 0.22, ctx.currentTime);
   }
 }
 
 export function getAmbienceVolume(): number {
   return ambVol;
+}
+
+export function getBusLevels(): { master: number; sfx: number; ui: number; music: number; ambience: number } {
+  return {
+    master: 0.9 * masterVol,
+    sfx: 0.8 * sfxVol,
+    ui: 0.85 * uiVol,
+    music: 0.32 * musicVol,
+    ambience: 0.22 * ambVol,
+  };
 }
