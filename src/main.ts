@@ -40,6 +40,7 @@ import { SPELLS, Tk } from './sim/spelldata';
 import { validTarget } from './sim/spells';
 import { FP, Sim, TICKS_PER_SECOND, type Command, type OrderName } from './sim/sim';
 import { S } from './strings';
+import { LOW_HP_TIP, Tips } from './tips';
 import { readPreferences, writePreference } from './preferences';
 import { DoubleTap, PortraitStrip, RadialMenu, portraitIds, unitsOfKind, type RadialOrder } from './touchx';
 import { monsterInfo } from './monster-info';
@@ -571,10 +572,15 @@ function togglePauseMenu(): void {
   }
 }
 
+let tipStore: Storage | null = null;
+try { tipStore = localStorage; } catch { /* private mode */ }
+const tips = new Tips(tipStore);
+
 function updateGothicHud(): void {
   const hp = Math.max(0, sim.cb.hp[0] ?? 0);
   const hpMax = Math.max(1, sim.cb.hpMax[0] ?? 1);
   const hpPct = Math.min(100, Math.max(0, (hp / hpMax) * 100));
+  if (combatMode && sim.cb.kind[0] === Kind.Hero && hp > 0 && hpPct < LOW_HP_TIP && tips.once('lowHp')) toast(S.firstTips.lowHp);
 
   const mana = Math.max(0, sim.cb.mana[0] ?? 0);
   const manaMax = Math.max(1, sim.cb.manaMax[0] ?? 1);
@@ -1790,6 +1796,8 @@ function heroEvents(): void {
       if (!d) continue;
       const verbs = [S.hero.picked, S.hero.equipped, S.hero.used, S.hero.learned, S.hero.dropped, S.hero.unequipped];
       toast(`${verbs[e.el]}: ${e.el === 3 && d.spell >= 0 ? SPELLS[d.spell].name : d.name}`);
+      if (e.el === 0 && tips.once('firstLoot')) setTimeout(() => toast(S.firstTips.firstLoot), 2200);
+      else if (e.el === 3 && tips.once('firstSpell')) setTimeout(() => toast(S.firstTips.firstSpell), 2200);
       touched = true;
     } else if (e.type === 15) {
       toast(WHY_TEXT[e.v]);

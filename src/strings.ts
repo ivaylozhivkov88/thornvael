@@ -157,6 +157,11 @@ export const S = {
   victoryBody: 'Every monster pack is destroyed.',
   defeat: 'Defeat',
   defeatBody: 'Your hero has fallen.',
+  firstTips: {
+    lowHp: 'Tip: your health is low. Drink a potion from the belt (keys 1-4) or pull back.',
+    firstLoot: 'Tip: open Hero (I) to wear what you picked up. Better gear shows in brighter colours.',
+    firstSpell: 'Tip: new spells go to the skill bar. Tap or press its key, then pick a target.',
+  },
   hero: {
     createTitle: 'Create your hero',
     cls: 'Class',
