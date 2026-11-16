@@ -7,10 +7,11 @@ import { GestureRecognizer, pickUnit, reticle, unitsInBox, type Intent } from '.
 import { TILE, generateMap } from './map';
 import type { LoadedMission } from './mapdoc';
 import { createMission, missionFromName, type MissionGame } from './mission';
-import { nodeOf, townSeed, type Campaign } from './campaign';
+import { actOf, nodeOf, townHubForAct, townNodeForAct, townSeed, type Campaign } from './campaign';
 import { loadCampaign, readRecord, writeRecord } from './campaignstore';
 import { applyCarryover, extractCarryover, waivePurse } from './carryover';
-import { afterMission, afterTown, type CampaignRecord } from './flow';
+import { afterMission, afterTown, nodeUrl, saveAndExitRecord, type CampaignRecord } from './flow';
+import { ensureConnectedWorldExits, WaypointTravelModal } from './connected-world';
 import { resumeSave, type SaveFile, type SaveState } from './save';
 import { AUTO, deleteSave, getSave, restoreSaveCampaign } from './savedb';
 import { SaveUi } from './saveui';
@@ -33,6 +34,7 @@ import {
   checkZoneExitTouch,
   interactAdventureObject,
   type TownPortalState,
+  type ZoneExitDef,
 } from './sim/script';
 import { loadGameData } from './loaddata';
 import { DebugPanel } from './debugpanel';
@@ -51,6 +53,12 @@ import { HudController, getBeltPotions as getBeltPotionsHelper, BELT_COOLDOWN_MS
 import { discoverItem, onDiscovery } from './codex';
 import { SpellbookUi } from './spellbookui';
 import { PauseMenu } from './pausemenu';
+import {
+  GamepadController,
+  SkillAssignmentModal,
+  D2RActionBarUi,
+  type ControllerSlotBinding,
+} from './gamepad';
 import './style.css';
 
 await loadGameData(); // item and spell tables, before any sim or mission is built
@@ -145,7 +153,11 @@ if (crowd || stress) {
   if (crowd) setupCrowd(sim, 300);
   else setupSquads(sim);
 } else if (loadedMission) {
-  const g = resumed?.game ?? createMission(loadedMission, missionSeed);
+  const g = resumed?.game ?? createMission(loadedMission, missionSeed, {
+    sessionSeed: crec?.progress.sessionSeed ?? (params.has('session') ? Number.parseInt(params.get('session')!, 10) : undefined),
+    nodeId: campaignId ?? undefined,
+    act: campaign && campaignId ? actOf(nodeOf(campaign, campaignId)) : 1,
+  });
   sim = g.sim;
   scenario = loadedMission.scenario;
   missionAi = g.ai;
@@ -450,8 +462,10 @@ function drinkBelt(slot: number): void {
 // --- classic ARPG Town Portal & Waypoint System ---
 let activeTownPortal: TownPortalState | null = null;
 const activeWaypoints = new Set<string>();
+const waypointModal = new WaypointTravelModal();
+let isTransitioning = false;
 
-function castTownPortal(): void {
+async function castTownPortal(): Promise<void> {
   if (outcome) return;
   if (!sim.hero || !alive(sim.hero.id)) {
     toast(S.hero.noHero);
@@ -459,16 +473,129 @@ function castTownPortal(): void {
   }
   const tpScrollId = itemId('Scroll of Town Portal');
   const hasScroll = tpScrollId >= 0 && sim.hero.inv.some((s) => s.item === tpScrollId && s.n > 0);
+  if (!hasScroll && isTownNode) {
+    if (crec?.progress.townPortal) {
+      void returnThroughTownPortal();
+      return;
+    }
+  }
   if (!hasScroll) {
     toast('Нужен е свитък за портал (Scroll of Town Portal)!');
     return;
   }
-  if (hasScroll) {
-    takeItem(sim.hero, tpScrollId);
-  }
-  activeTownPortal = openTownPortal(sim, campaignId ?? 'zone', 'town_hub', 10, 10);
-  toast('🌀 Отворен е градски портал към града (Town Portal)!');
+  takeItem(sim.hero, tpScrollId);
+  toast('🌀 Отворен е син градски портал към града (Town Portal)!');
   play('cast_water', 5);
+
+  if (campaign && crec && campaignId) {
+    const hx = Math.floor(sim.x[sim.hero.id] / FP);
+    const hy = Math.floor(sim.y[sim.hero.id] / FP);
+    crec.progress.townPortal = {
+      zoneNodeId: campaignId,
+      map: loadedMission?.doc.name || missionName || 'zone',
+      x: hx,
+      y: hy,
+    };
+    const currentAct = actOf(nodeOf(campaign, campaignId));
+    const townNode = townNodeForAct(campaign, currentAct);
+    const carry = extractCarryover(sim, crec.progress, townSeed(1, crec.progress.townVisits + 1), slots);
+    crec.progress.node = townNode.id;
+    crec.carry = carry;
+    await writeRecord(crec);
+    await deleteSave(AUTO).catch(() => undefined);
+    location.assign(`${nodeUrl(townNode)}&tpReturn=1`);
+  }
+}
+
+async function returnThroughTownPortal(): Promise<void> {
+  if (!campaign || !crec || !crec.progress.townPortal) return;
+  const tp = crec.progress.townPortal;
+  crec.progress.townPortal = null;
+  toast('🌀 Завръщане през градския портал в дивата местност...');
+  play('cast_water', 5);
+
+  const targetNode = nodeOf(campaign, tp.zoneNodeId);
+  const carry = sim.hero ? extractCarryover(sim, crec.progress, townSeed(1, crec.progress.townVisits + 1), slots) : null;
+  crec.progress.node = targetNode.id;
+  crec.carry = carry;
+  await writeRecord(crec);
+  await deleteSave(AUTO).catch(() => undefined);
+  location.assign(`${nodeUrl(targetNode)}&spawnX=${tp.x}&spawnY=${tp.y}&session=${crec.progress.sessionSeed ?? 1234567}`);
+}
+
+function triggerWaypointTravel(): void {
+  if (!campaign || !crec) return;
+  const currentAct = campaignId ? actOf(nodeOf(campaign, campaignId)) : 1;
+  userPause = true;
+  waypointModal.open({
+    campaign,
+    rec: crec,
+    currentAct,
+    currentNodeId: campaignId ?? '',
+    onTravel: (targetNode) => {
+      void (async () => {
+        toast(`⚡ Телепортиране до ${targetNode.title}...`);
+        play('cast_astral', 5);
+        const carry = sim.hero ? extractCarryover(sim, crec!.progress, townSeed(1, crec!.progress.townVisits + 1), slots) : null;
+        crec!.progress.node = targetNode.id;
+        crec!.carry = carry;
+        await writeRecord(crec!);
+        await deleteSave(AUTO).catch(() => undefined);
+        const url = `${nodeUrl(targetNode)}&session=${crec!.progress.sessionSeed ?? 1234567}`;
+        location.assign(url);
+      })();
+    },
+    onClose: () => {
+      userPause = false;
+    },
+  });
+}
+
+async function transitionToZone(exit: ZoneExitDef): Promise<void> {
+  if (isTransitioning) return;
+  isTransitioning = true;
+  userPause = true;
+  toast(`🚪 Преминаване към съседна зона: ${exit.label || exit.targetMap}...`);
+  play('select_hero', 5);
+
+  if (campaign && crec) {
+    const carry = sim.hero ? extractCarryover(sim, crec.progress, townSeed(1, crec.progress.townVisits + 1), slots) : null;
+    const targetNode = campaign.nodes.find((n) => n.id === exit.targetMap || n.map === exit.targetMap);
+    if (targetNode) {
+      if (!crec.progress.unlocked.includes(targetNode.id)) {
+        crec.progress.unlocked.push(targetNode.id);
+      }
+      crec.progress.node = targetNode.id;
+      crec.carry = carry;
+      await writeRecord(crec);
+      await deleteSave(AUTO).catch(() => undefined);
+      const url = `${nodeUrl(targetNode)}&spawnX=${exit.targetX}&spawnY=${exit.targetY}&session=${crec.progress.sessionSeed ?? 1234567}`;
+      location.assign(url);
+      return;
+    }
+  }
+
+  location.assign(`./?mission=${encodeURIComponent(exit.targetMap)}&spawnX=${exit.targetX}&spawnY=${exit.targetY}`);
+}
+
+async function saveAndExit(): Promise<void> {
+  if (outcome) return;
+  userPause = true;
+  toast('💾 Записване и изход... Връщане в Градския лагер (D2R)...');
+  townUi.close();
+  pauseMenu.close();
+  saveUi.close();
+  heroUi.close();
+
+  if (campaign && crec) {
+    const carry = sim.hero ? extractCarryover(sim, crec.progress, townSeed(1, crec.progress.townVisits + 1), slots) : null;
+    crec = saveAndExitRecord(campaign, crec, carry);
+    await writeRecord(crec);
+    await deleteSave(AUTO).catch(() => undefined);
+    location.assign('./');
+  } else {
+    location.assign('./');
+  }
 }
 
 // --- classic ARPG Style Ground Loot Overlay ---
@@ -1758,6 +1885,10 @@ pauseMenu = new PauseMenu({
     pauseMenu.close();
   },
   isPaused: () => userPause,
+  saveAndExit: () => {
+    pauseMenu.close();
+    void saveAndExit();
+  },
   openSaves: () => {
     pauseMenu.close();
     void saveUi.show();
@@ -1814,6 +1945,243 @@ pauseMenu = new PauseMenu({
     toggle('btn-sound', !sfxOn);
   },
   isSfxOn: () => sfxOn,
+  openSkillAssignment: () => skillAssignmentModal?.open(),
+});
+
+let skillAssignmentModal!: SkillAssignmentModal;
+let d2rActionBarUi!: D2RActionBarUi;
+
+function castSpellById(sid: number): void {
+  if (outcome || hidden) return;
+  const who = casters(sid);
+  if (who.length === 0) {
+    toast(selectedIds().length === 0 ? S.selectFirst : S.noKnown);
+    return;
+  }
+  const sp = SPELLS[sid];
+  if (sp.tk === Tk.Self) {
+    queue({ type: 'order', order: 'cast', ids: who, spell: sid });
+    blip();
+  } else if (sp.tk === Tk.Ally) {
+    let targetAlly = who[0];
+    let lowestHpRatio = 1.0;
+    for (let i = 0; i < sim.count; i++) {
+      if (sim.team[i] === 0 && alive(i)) {
+        const ratio = sim.cb.hp[i] / sim.cb.hpMax[i];
+        if (ratio < lowestHpRatio) {
+          lowestHpRatio = ratio;
+          targetAlly = i;
+        }
+      }
+    }
+    queue({ type: 'order', order: 'cast', ids: who, spell: sid, target: targetAlly });
+    blip();
+  } else {
+    const leadCaster = who[0];
+    const cx = px(sim, leadCaster);
+    const cy = py(sim, leadCaster);
+    let nearestEnemy = -1;
+    let minDistSq = Infinity;
+    for (let i = 0; i < sim.count; i++) {
+      if (sim.team[i] !== 0 && alive(i) && !sim.hidden[i]) {
+        const ex = px(sim, i);
+        const ey = py(sim, i);
+        const dsq = (ex - cx) * (ex - cx) + (ey - cy) * (ey - cy);
+        if (dsq < minDistSq && dsq <= 16 * 16) {
+          minDistSq = dsq;
+          nearestEnemy = i;
+        }
+      }
+    }
+    if (nearestEnemy >= 0) {
+      const tx = px(sim, nearestEnemy);
+      const ty = py(sim, nearestEnemy);
+      queue({
+        type: 'order',
+        order: 'cast',
+        ids: who,
+        spell: sid,
+        target: sp.tk === Tk.Ground ? undefined : nearestEnemy,
+        x: tx,
+        y: ty,
+      });
+      blip();
+    } else if (sp.tk === Tk.Ground) {
+      const angle = (sim.dir[leadCaster] * Math.PI) / 8;
+      const tx = Math.max(0.5, Math.min(map.w - 1.5, cx + Math.cos(angle) * 4));
+      const ty = Math.max(0.5, Math.min(map.h - 1.5, cy + Math.sin(angle) * 4));
+      queue({ type: 'order', order: 'cast', ids: who, spell: sid, x: tx, y: ty });
+      blip();
+    } else {
+      toast(S.noTarget);
+    }
+  }
+}
+
+const gamepadController = new GamepadController({
+  toast: (m) => toast(m),
+  onCameraPan: (dx, dy) => {
+    if (hidden || userPause) return;
+    cameraFollow = false;
+    cameraController.camX = renderer.camX;
+    cameraController.camY = renderer.camY;
+    cameraController.pan(dx * 12, dy * 12);
+    renderer.camX = cameraController.camX;
+    renderer.camY = cameraController.camY;
+  },
+  onExecuteSlot: (slotIdx, binding) => {
+    if (outcome || hidden) return;
+    if (binding.type === 'action') {
+      switch (binding.action) {
+        case 'attack': {
+          const ids = selectedIds().length > 0 ? selectedIds() : (alive(0) ? [0] : []);
+          if (ids.length === 0) return;
+          const leadId = ids.includes(0) ? 0 : ids[0];
+          const lx = px(sim, leadId);
+          const ly = py(sim, leadId);
+          let nearestEnemy = -1;
+          let minDistSq = Infinity;
+          for (let i = 0; i < sim.count; i++) {
+            if (sim.team[i] !== 0 && alive(i) && !sim.hidden[i]) {
+              const ex = px(sim, i);
+              const ey = py(sim, i);
+              const dsq = (ex - lx) * (ex - lx) + (ey - ly) * (ey - ly);
+              if (dsq < minDistSq && dsq <= 16 * 16) {
+                minDistSq = dsq;
+                nearestEnemy = i;
+              }
+            }
+          }
+          if (nearestEnemy >= 0) {
+            queue({ type: 'order', order: 'attack', ids, target: nearestEnemy });
+            const spos = renderer.unitScreen(nearestEnemy);
+            if (spos) notePing(spos[0], spos[1]);
+          } else {
+            const [sx, sy] = gamepadController.getMovementVector();
+            let moveDx = sx;
+            let moveDy = sy;
+            if (moveDx === 0 && moveDy === 0) {
+              const angle = (sim.dir[leadId] * Math.PI) / 8;
+              moveDx = Math.cos(angle);
+              moveDy = Math.sin(angle);
+            }
+            const tx = Math.max(0.5, Math.min(map.w - 1.5, lx + moveDx * 3));
+            const ty = Math.max(0.5, Math.min(map.h - 1.5, ly + moveDy * 3));
+            queue({ type: 'move', ids, x: tx, y: ty });
+          }
+          break;
+        }
+        case 'move': {
+          const ids = selectedIds().length > 0 ? selectedIds() : (alive(0) ? [0] : []);
+          if (ids.length === 0) return;
+          const leadId = ids.includes(0) ? 0 : ids[0];
+          const lx = px(sim, leadId);
+          const ly = py(sim, leadId);
+          const [sx, sy] = gamepadController.getMovementVector();
+          let moveDx = sx;
+          let moveDy = sy;
+          if (moveDx === 0 && moveDy === 0) {
+            const angle = (sim.dir[leadId] * Math.PI) / 8;
+            moveDx = Math.cos(angle);
+            moveDy = Math.sin(angle);
+          }
+          const tx = Math.max(0.5, Math.min(map.w - 1.5, lx + moveDx * 3));
+          const ty = Math.max(0.5, Math.min(map.h - 1.5, ly + moveDy * 3));
+          queue({ type: 'move', ids, x: tx, y: ty });
+          break;
+        }
+        case 'hold': {
+          const ids = selectedIds().length > 0 ? selectedIds() : (alive(0) ? [0] : []);
+          if (ids.length > 0) {
+            queue({ type: 'order', order: 'hold', ids });
+            blip();
+          }
+          break;
+        }
+        case 'town_portal':
+          castTownPortal();
+          break;
+        case 'loot':
+          lootOverlay.toggleLootMode(mods.alt, toast);
+          break;
+      }
+    } else if (binding.type === 'skill') {
+      const skills = getHeroSkills();
+      const idx = skills.indexOf(binding.skillId as HeroSkillId);
+      if (idx >= 0) {
+        triggerHeroSkill(idx);
+      }
+    } else if (binding.type === 'spell') {
+      castSpellById(binding.spellId);
+    }
+  },
+  onDrinkPotion: (slot) => drinkBelt(slot),
+  onToggleLootHighlight: () => lootOverlay.toggleLootMode(mods.alt, toast),
+  onToggleInventory: () => heroUi.toggle(),
+  onToggleQuestJournal: () => {
+    if (missionUi) missionUi.toggleObjectives();
+    else toggleQuestLog();
+  },
+  onTogglePauseMenu: () => togglePauseMenu(),
+  onOpenSkillAssignment: () => skillAssignmentModal?.open(),
+  onSelectHero: () => {
+    selected.clear();
+    if (alive(0)) {
+      selected.add(0);
+      cameraFollow = true;
+      renderer.centerOn(px(sim, 0), py(sim, 0));
+      play('select_hero', 5);
+    }
+  },
+  onL2StateChange: (held) => {
+    d2rActionBarUi?.setSecondary(held);
+  },
+  getKnownSpells: () => {
+    const mask = sim.hero?.known ?? (sim.cb.known[0] || 0);
+    const res: number[] = [];
+    for (let i = 0; i < SPELLS.length; i++) {
+      if ((mask >>> i) & 1) res.push(i);
+    }
+    return res.length > 0 ? res : [0, 1, 4, 7, 8, 9, 11, 15, 17, 19];
+  },
+  getHeroSkills: () => {
+    const skillIds = getHeroSkills();
+    return skillIds.map((id) => ({
+      id,
+      name: SKILL_ICONS[id]?.name || id,
+      icon: SKILL_ICONS[id]?.icon || '⚔',
+    }));
+  },
+});
+
+skillAssignmentModal = new SkillAssignmentModal(gamepadController, {
+  toast: (m) => toast(m),
+  getKnownSpells: () => {
+    const mask = sim.hero?.known ?? (sim.cb.known[0] || 0);
+    const res: number[] = [];
+    for (let i = 0; i < SPELLS.length; i++) {
+      if ((mask >>> i) & 1) res.push(i);
+    }
+    return res.length > 0 ? res : [0, 1, 4, 7, 8, 9, 11, 15, 17, 19];
+  },
+  getHeroSkills: () => {
+    const skillIds = getHeroSkills();
+    return skillIds.map((id) => ({
+      id,
+      name: SKILL_ICONS[id]?.name || id,
+      icon: SKILL_ICONS[id]?.icon || '⚔',
+    }));
+  },
+  onExecuteSlot: () => {},
+  onDrinkPotion: () => {},
+  onToggleLootHighlight: () => {},
+  onToggleInventory: () => {},
+  onToggleQuestJournal: () => {},
+  onTogglePauseMenu: () => {},
+});
+
+d2rActionBarUi = new D2RActionBarUi(gamepadController, (slotIdx) => {
+  skillAssignmentModal.open(slotIdx);
 });
 let lastAutosave = 0;
 function autosave(): void {
@@ -2477,6 +2845,28 @@ function advanceStep(): void {
     }
   }
 
+  // Gamepad Analog Movement (fixed-tick simulation loop)
+  const [gpDx, gpDy] = gamepadController.getMovementVector();
+  if ((gpDx !== 0 || gpDy !== 0) && sim.count > 0) {
+    const isTyping = document.activeElement && (
+      document.activeElement.matches('input, textarea, select') ||
+      (document.activeElement as HTMLElement).isContentEditable
+    );
+    const inModal = heroUi.isOpen || townUi.open || saveUi.open || !$('book').hidden || outcome !== null;
+    if (!isTyping && !inModal) {
+      const ids = selectedIds().length > 0 ? selectedIds() : (alive(0) ? [0] : []);
+      if (ids.length > 0) {
+        const leadId = ids.includes(0) ? 0 : ids[0];
+        if (alive(leadId)) {
+          cameraFollow = true;
+          const targetX = Math.max(0.5, Math.min(map.w - 1.5, px(sim, leadId) + gpDx * 2.5));
+          const targetY = Math.max(0.5, Math.min(map.h - 1.5, py(sim, leadId) + gpDy * 2.5));
+          commands.push({ type: 'move', ids, x: targetX, y: targetY });
+        }
+      }
+    }
+  }
+
   const started = performance.now();
   sim.step(commands);
   simMs += performance.now() - started;
@@ -2502,17 +2892,27 @@ function advanceStep(): void {
         }
       }
     }
-    if (loadedMission.doc.waypoints) {
-      const wp = checkWaypointTouch(sim, loadedMission.doc.waypoints, activeWaypoints);
+    const allWaypoints = loadedMission.doc.waypoints ?? (isTownNode ? [{ id: campaignId ?? 'town_wp', name: 'Town Waypoint', x: 10, y: 10 }] : []);
+    if (allWaypoints.length > 0) {
+      const wp = checkWaypointTouch(sim, allWaypoints, activeWaypoints);
       if (wp) {
         toast(`🗿 Активиран е древен портален камък (Waypoint): ${wp.name}!`);
         play('select_hero', 5);
+        if (crec) {
+          const wps = crec.progress.waypoints ? [...crec.progress.waypoints] : [];
+          if (campaignId && !wps.includes(campaignId)) wps.push(campaignId);
+          if (!wps.includes(wp.id)) wps.push(wp.id);
+          crec.progress.waypoints = wps;
+          void writeRecord(crec);
+        }
+        triggerWaypointTravel();
       }
     }
-    if (loadedMission.doc.exits) {
-      const exit = checkZoneExitTouch(sim, loadedMission.doc.exits);
+    const allExits = loadedMission.doc.exits ?? ensureConnectedWorldExits(loadedMission.doc, campaign, campaignId);
+    if (allExits.length > 0) {
+      const exit = checkZoneExitTouch(sim, allExits);
       if (exit) {
-        toast(`🚪 Преминаване към съседна зона: ${exit.label || exit.targetMap}...`);
+        void transitionToZone(exit);
       }
     }
   }
@@ -2534,6 +2934,11 @@ function frame(): void {
     }
     if (n === 5) acc = 0;
   } else if (hidden) pending.length = 0; // a user pause keeps orders queued for the resume
+
+  // Poll gamepad inputs (sticks and edge-triggered buttons)
+  if (!hidden) {
+    gamepadController.poll();
+  }
 
   // Edge pan: gently shift camera when mouse is within 15px of screen border in desktop mode
   if (pointerAt && !hidden && !userPause) {
@@ -2706,6 +3111,10 @@ $('btn-force').textContent = S.force[0];
 if (!combatMode) for (const id of ['btn-loose', 'btn-force']) $(id).hidden = true;
 $('btn-missions').textContent = campaign ? S.shell.toMap : S.mission.open;
 $('btn-missions').onclick = campaign ? () => void toMap() : showMissionMenu;
+const btnSaveExit = document.getElementById('btn-save-exit');
+if (btnSaveExit) {
+  btnSaveExit.onclick = () => void saveAndExit();
+}
 const btnQuestsEl = document.getElementById('btn-quests');
 if (btnQuestsEl) {
   btnQuestsEl.onclick = () => {
@@ -2763,6 +3172,27 @@ function startHero(): void {
       buildQuick();
       heroUi.refresh(true);
       updateStats();
+    }
+    if (params.has('spawnX') && params.has('spawnY')) {
+      const sx = Number.parseFloat(params.get('spawnX')!);
+      const sy = Number.parseFloat(params.get('spawnY')!);
+      if (!Number.isNaN(sx) && !Number.isNaN(sy)) {
+        const hid = sim.hero?.id ?? 0;
+        sim.x[hid] = sim.tx[hid] = sim.cb.px[hid] = (sx + 0.5) * FP;
+        sim.y[hid] = sim.ty[hid] = sim.cb.py[hid] = (sy + 0.5) * FP;
+        let placed = 0;
+        for (let u = 0; u < sim.count; u++) {
+          if (u === hid || sim.team[u] !== 0 || sim.hidden[u] || sim.cb.hp[u] <= 0) continue;
+          const a = (placed * 2.4) % (Math.PI * 2);
+          sim.x[u] = sim.tx[u] = sim.cb.px[u] = sim.x[hid] + Math.round(Math.cos(a) * 1.2 * FP);
+          sim.y[u] = sim.ty[u] = sim.cb.py[u] = sim.y[hid] + Math.round(Math.sin(a) * 1.2 * FP);
+          placed++;
+        }
+        renderer.centerOn(sx, sy);
+      }
+    }
+    if (isTownNode && (params.has('tpReturn') || crec.progress.townPortal)) {
+      toast('🌀 Син градски портал е отворен! Натисни [T] за завръщане в дивата природа.');
     }
     renderer.resetAnimation(sim);
     return;
@@ -2871,6 +3301,9 @@ void renderer.init(sim).then(() => {
     },
     cameraFollow: () => cameraFollow,
     setCameraFollow: (on: boolean) => { cameraFollow = on; },
+    gamepad: () => gamepadController,
+    skillAssignment: () => skillAssignmentModal,
+    d2rActionBar: () => d2rActionBarUi,
   };
 }).catch((e) => { console.error('renderer init failed', e); });
 

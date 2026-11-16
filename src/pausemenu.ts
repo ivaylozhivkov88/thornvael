@@ -13,6 +13,7 @@ import { QUALITY_NAMES } from './render';
 export interface PauseMenuCtx {
   resume: () => void;
   isPaused: () => boolean;
+  saveAndExit?: () => void;
   openSaves: () => void;
   exitToMain: () => void;
   setQuality: (q: number) => void;
@@ -30,6 +31,7 @@ export interface PauseMenuCtx {
   isMusicOn: () => boolean;
   toggleSfx: () => void;
   isSfxOn: () => boolean;
+  openSkillAssignment?: () => void;
 }
 
 type MenuView = 'main' | 'controls' | 'codex' | 'settings';
@@ -202,6 +204,15 @@ export class PauseMenu {
         },
       },
       {
+        icon: '🎮',
+        title: 'D2R Controller Skill Assignment',
+        subtitle: 'Bind spells & skills to the 12 PS5 DualSense slots',
+        action: () => {
+          this.close();
+          this.ctx.openSkillAssignment?.();
+        },
+      },
+      {
         icon: '🔮',
         title: 'Magic & Spells Codex',
         subtitle: 'The 5 Spheres, spell trees & casting rules',
@@ -227,8 +238,18 @@ export class PauseMenu {
       },
       {
         icon: '🚪',
+        title: 'Save and Exit',
+        subtitle: 'Save character progress & return safely to Town Hub (D2R)',
+        badge: 'D2',
+        action: () => {
+          if (this.ctx.saveAndExit) this.ctx.saveAndExit();
+          else this.ctx.exitToMain();
+        },
+      },
+      {
+        icon: '↩',
         title: 'Exit to Main Menu',
-        subtitle: 'Save progress and return to title shell',
+        subtitle: 'Return to title shell',
         action: () => this.ctx.exitToMain(),
       },
     ];
@@ -281,7 +302,7 @@ export class PauseMenu {
 
     const intro = document.createElement('p');
     intro.className = 'pause-intro-note';
-    intro.textContent = 'Command your hero and mercenaries seamlessly with mouse, touch gestures, and keyboard hotkeys.';
+    intro.textContent = 'Command your hero and mercenaries seamlessly with mouse, touch gestures, keyboard hotkeys, and Gamepad / PS5 DualSense controllers.';
     body.append(intro);
 
     const sections: Array<{
@@ -296,6 +317,30 @@ export class PauseMenu {
           { key: 'WASD / RMB', label: 'Move Hero', detail: 'Walk hero towards destination. Right-Click gives instant move-to.' },
           { key: 'LMB', label: 'Attack / Interact / Loot', detail: 'Strike targeted foe, talk to townsfolk, or pick up ground items.' },
           { key: 'Space', label: 'Recenter Camera', detail: 'Instantly refocus the viewport camera directly onto your hero.' },
+        ],
+      },
+      {
+        category: 'D2R Resurrected PS5 Controller Layout',
+        icon: '🎮',
+        keys: [
+          { key: 'Left Stick', label: '360° Hero Movement', detail: 'Direct analog real-time movement for your hero and company.' },
+          { key: 'Right Stick', label: 'Camera Pan / Aiming', detail: 'Smooth analog camera panning and directional aim.' },
+          { key: '✕', label: 'Primary Action / Attack / Move', detail: 'Slot 0: Strike nearest enemy, interact, or advance forward.' },
+          { key: '▢', label: 'Action Bar Skill 1', detail: 'Slot 1: Quick cast assigned primary skill/spell.' },
+          { key: '△', label: 'Action Bar Skill 2', detail: 'Slot 2: Quick cast assigned secondary offensive spell.' },
+          { key: '◯', label: 'Action Bar Skill 3', detail: 'Slot 3: Quick cast defensive or healing ability.' },
+          { key: 'R1', label: 'Action Bar Skill 4', detail: 'Slot 4: Quick cast special grimoire spell.' },
+          { key: 'R2', label: 'Action Bar Skill 5', detail: 'Slot 5: Quick cast ultimate or area-of-effect spell.' },
+          { key: 'L2 (Hold)', label: 'Secondary Skill Bar (Modifier)', detail: 'Hold L2 to switch to secondary 6 slots: L2+✕, L2+▢, L2+△, L2+◯, L2+R1, L2+R2.' },
+          { key: 'D-Pad Up', label: 'Potion 1 (Health)', detail: 'Quaff Belt Potion 1 (Healing Draught) for immediate HP restoration.' },
+          { key: 'D-Pad Right', label: 'Potion 2 (Mana)', detail: 'Quaff Belt Potion 2 (Mana Draught) to replenish mana reserves.' },
+          { key: 'D-Pad Down', label: 'Potion 3 (Rejuvenation)', detail: 'Quaff Belt Potion 3 (Greater Healing / Rejuvenation / Buffs).' },
+          { key: 'D-Pad Left', label: 'Potion 4 (Utility / Portal)', detail: 'Use Belt Potion 4 (Elixirs / Utility Draughts).' },
+          { key: 'R3', label: 'Highlight Ground Loot', detail: 'Right stick click: Toggle ground item pillars with rarity color beams.' },
+          { key: 'Touchpad', label: 'Inventory / Hero Sheet', detail: 'DualSense touchpad click: Toggle character equipment and backpack.' },
+          { key: 'Options', label: 'Game Menu (Save & Exit)', detail: 'Pause simulation cleanly and access Gothic game options.' },
+          { key: 'Share / Select', label: 'Quest Journal', detail: 'View current chapter objectives, subquests, and campaign progress.' },
+          { key: 'L1', label: 'Select Hero / Rebind Skills', detail: 'Center viewport on hero or access D2R skill assignment.' },
         ],
       },
       {

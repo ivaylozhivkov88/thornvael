@@ -161,6 +161,7 @@ describe('Gothic In-Game Pause Menu & Game Codex (#pause-menu)', () => {
       resume: vi.fn(() => { paused = false; menu.close(); }),
       isPaused: vi.fn(() => paused),
       openSaves: vi.fn(),
+      saveAndExit: vi.fn(),
       exitToMain: vi.fn(),
       setQuality: vi.fn((q: number) => { quality = q; }),
       getQuality: vi.fn(() => quality),
@@ -202,16 +203,18 @@ describe('Gothic In-Game Pause Menu & Game Codex (#pause-menu)', () => {
     expect(divider).not.toBeNull();
     expect(divider?.innerHTML).toContain('filigree-glyph');
 
-    // 6 Main Menu Buttons
+    // Main Menu Buttons
     const buttons = root.querySelectorAll('.pause-btn');
-    expect(buttons.length).toBe(6);
+    expect(buttons.length).toBe(8);
 
     const titles = buttons.map(b => b.querySelector('.pause-btn-title')?.textContent);
     expect(titles).toContain('Resume Game');
     expect(titles).toContain('Controls & Hotkeys');
+    expect(titles).toContain('D2R Controller Skill Assignment');
     expect(titles).toContain('Magic & Spells Codex');
     expect(titles).toContain('Settings (Audio & Display)');
     expect(titles).toContain('Save Game / Load Game');
+    expect(titles).toContain('Save and Exit');
     expect(titles).toContain('Exit to Main Menu');
   });
 
@@ -259,7 +262,7 @@ describe('Gothic In-Game Pause Menu & Game Codex (#pause-menu)', () => {
     expect(subTitle?.textContent).toContain('Controls & Hotkeys');
 
     const sections = root.querySelectorAll('.pause-section-box');
-    expect(sections.length).toBe(4);
+    expect(sections.length).toBe(5);
 
     const fullText = collectText(root);
     // Movement & Combat
@@ -355,12 +358,19 @@ describe('Gothic In-Game Pause Menu & Game Codex (#pause-menu)', () => {
     const root = document.getElementById('pause-menu') as unknown as MockElement;
     const buttons = root.querySelectorAll('.pause-btn');
 
-    // 5th button: Save Game / Load Game
-    buttons[4].onclick?.();
+    const saveLoadBtn = buttons.find((b) => b.querySelector('.pause-btn-title')?.textContent?.includes('Save Game / Load Game'));
+    expect(saveLoadBtn).toBeDefined();
+    saveLoadBtn?.onclick?.();
     expect(ctx.openSaves).toHaveBeenCalled();
 
-    // 6th button: Exit to Main Menu
-    buttons[5].onclick?.();
+    const saveExitBtn = buttons.find((b) => b.querySelector('.pause-btn-title')?.textContent?.includes('Save and Exit'));
+    expect(saveExitBtn).toBeDefined();
+    saveExitBtn?.onclick?.();
+    expect(ctx.saveAndExit).toHaveBeenCalled();
+
+    const exitBtn = buttons.find((b) => b.querySelector('.pause-btn-title')?.textContent?.includes('Exit to Main Menu'));
+    expect(exitBtn).toBeDefined();
+    exitBtn?.onclick?.();
     expect(ctx.exitToMain).toHaveBeenCalled();
   });
 });

@@ -447,43 +447,92 @@ export async function runShell(startWorker: () => void): Promise<never> {
     if (!acts.includes(currentAct)) currentAct = acts[0] ?? 1;
     const visibleNodes = c.nodes.filter((n) => actOf(n) === currentAct);
     const visibleIds = new Set(visibleNodes.map((n) => n.id));
-    const stage = el('div', 'sh-map');
+    const stage = el('div', 'sh-map homm-kingdom-map');
+    // HoMM 3 Antique Parchment Corners & Compass Rose
+    stage.append(
+      el('div', 'homm-corner homm-corner-tl'),
+      el('div', 'homm-corner homm-corner-tr'),
+      el('div', 'homm-corner homm-corner-bl'),
+      el('div', 'homm-corner homm-corner-br'),
+      el('div', 'homm-compass-rose', '🧭')
+    );
+
     const svg = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
     svg.setAttribute('viewBox', '0 0 100 100');
     svg.setAttribute('preserveAspectRatio', 'none');
+    svg.setAttribute('class', 'homm-roads-svg');
+
     for (const n of visibleNodes) {
       for (const u of n.unlocksOnVictory) {
         const m = nodeOf(c, u);
+        const isUnlocked = r.progress.unlocked.includes(u);
         if (!visibleIds.has(u)) {
           if (actOf(m) > currentAct) {
-            const l = document.createElementNS('http://www.w3.org/2000/svg', 'line');
-            l.setAttribute('x1', String(n.pos[0]));
-            l.setAttribute('y1', String(n.pos[1]));
-            l.setAttribute('x2', '98');
-            l.setAttribute('y2', String(n.pos[1]));
-            l.setAttribute('class', r.progress.unlocked.includes(u) ? 'on' : '');
-            svg.append(l);
+            const p = document.createElementNS('http://www.w3.org/2000/svg', 'path');
+            const mx = (n.pos[0] + 98) / 2;
+            const my = (n.pos[1] + n.pos[1]) / 2 + 1.5;
+            p.setAttribute('d', `M ${n.pos[0]} ${n.pos[1]} Q ${mx} ${my} 98 ${n.pos[1]}`);
+            p.setAttribute('class', `homm-road ${isUnlocked ? 'unlocked' : 'locked'}`);
+            svg.append(p);
           }
           continue;
         }
-        const l = document.createElementNS('http://www.w3.org/2000/svg', 'line');
-        l.setAttribute('x1', String(n.pos[0]));
-        l.setAttribute('y1', String(n.pos[1]));
-        l.setAttribute('x2', String(m.pos[0]));
-        l.setAttribute('y2', String(m.pos[1]));
-        l.setAttribute('class', r.progress.unlocked.includes(u) ? 'on' : '');
-        svg.append(l);
+        const p = document.createElementNS('http://www.w3.org/2000/svg', 'path');
+        const mx = (n.pos[0] + m.pos[0]) / 2;
+        const my = (n.pos[1] + m.pos[1]) / 2 + (n.pos[0] % 2 === 0 ? 2 : -2);
+        p.setAttribute('d', `M ${n.pos[0]} ${n.pos[1]} Q ${mx} ${my} ${m.pos[0]} ${m.pos[1]}`);
+        p.setAttribute('class', `homm-road ${isUnlocked ? 'unlocked' : 'locked'}`);
+        svg.append(p);
       }
     }
     stage.append(svg);
+
     for (const n of visibleNodes) {
       const open = canEnter(r, n.id, MAPS, c);
       const done = r.progress.completed.includes(n.id);
-      const tag = !r.progress.unlocked.includes(n.id) ? T.locked : !MAPS.has(n.map) ? T.soon : done ? T.done : '';
-      const b = btn(`${n.kind === 'town' ? '⌂ ' : ''}${n.title}${tag ? `\n(${tag})` : ''}`, () => briefing(n), `sh-node${done ? ' done' : ''}${n.id === r.progress.node ? ' here' : ''}`);
+      const isHere = n.id === r.progress.node;
+      const isTown = n.kind === 'town';
+      const hasWp = (r.progress.waypoints?.includes(n.id) ?? false) || isTown;
+      const isBoss = n.id.includes('sanctum') || n.id.includes('ossuary') || n.id.includes('gullet') || n.id.includes('choir') || n.id.includes('throne') || n.id.includes('reckoning') || n.id.includes('order');
+
+      const b = el('button', `sh-node homm-node ${isTown ? 'homm-town' : isBoss ? 'homm-boss' : 'homm-mission'}${done ? ' done' : ''}${isHere ? ' here' : ''}`);
       b.style.left = `${n.pos[0]}%`;
       b.style.top = `${n.pos[1]}%`;
       b.disabled = !open;
+      b.onclick = () => briefing(n);
+
+      const iconWrap = el('div', 'homm-node-icon-wrap');
+      const icon = el('span', 'homm-node-icon', isTown ? '🏰' : isBoss ? '💀' : '⚔');
+      iconWrap.append(icon);
+
+      if (hasWp) {
+        const wpGem = el('span', 'homm-wp-gem', '🗿');
+        wpGem.title = 'Active Waypoint';
+        iconWrap.append(wpGem);
+      }
+
+      if (isHere) {
+        const pawn = el('div', 'homm-hero-pawn');
+        pawn.innerHTML = '<span class="pawn-banner">♞</span>';
+        iconWrap.append(pawn);
+      }
+
+      const plate = el('div', 'homm-node-plate');
+      const nameSpan = el('span', 'homm-node-name', n.title);
+      plate.append(nameSpan);
+
+      if (!open) {
+        const lockTag = el('small', 'homm-node-tag locked', T.locked);
+        plate.append(lockTag);
+      } else if (done) {
+        const doneTag = el('small', 'homm-node-tag done', T.done);
+        plate.append(doneTag);
+      } else if (isTown) {
+        const townTag = el('small', 'homm-node-tag town', 'TOWN HUB');
+        plate.append(townTag);
+      }
+
+      b.append(iconWrap, plate);
       stage.append(b);
     }
     const bar = el('div', 'sh-bar');
@@ -729,7 +778,7 @@ export async function runShell(startWorker: () => void): Promise<never> {
 
   function briefing(n: CampaignNode): void {
     const m = el('div', 'sh-modal');
-    const box = el('div', 'sh-box');
+    const box = el('div', 'sh-box homm-dossier-box');
     const enter = (): void => {
       const seq = sequenceForNode(n.id);
       if (seq && seq.kind === 'intro') {
@@ -739,7 +788,32 @@ export async function runShell(startWorker: () => void): Promise<never> {
         go(nodeUrl(n));
       }
     };
-    box.append(el('h2', '', n.title), el('p', '', n.briefing), btn(n.kind === 'town' ? T.enterTown : T.enter, enter), btn(T.back, () => m.remove(), 'sh-small'));
+
+    const hasWp = (rec?.progress.waypoints?.includes(n.id) ?? false) || n.kind === 'town';
+    const isHere = n.id === rec?.progress.node;
+
+    const btnRow = el('div', 'sh-row');
+    const enterBtn = btn(n.kind === 'town' ? `🏰 ${T.enterTown}` : `⚔ ${T.enter}`, enter, 'sh-on');
+    btnRow.append(enterBtn);
+
+    if (hasWp && !isHere && rec) {
+      const targetRec = rec;
+      const wpBtn = btn('⚡ Fast Travel via Waypoint', async () => {
+        m.remove();
+        targetRec.progress.node = n.id;
+        await writeRecord(targetRec);
+        await deleteSave(AUTO).catch(() => undefined);
+        go(nodeUrl(n));
+      }, 'sh-small');
+      btnRow.append(wpBtn);
+    }
+    btnRow.append(btn(T.back, () => m.remove(), 'sh-small'));
+
+    box.append(
+      el('h2', '', `${n.kind === 'town' ? '🏰 ' : '⚔ '}${n.title}`),
+      el('p', '', n.briefing),
+      btnRow,
+    );
     m.append(box);
     root.append(m);
   }

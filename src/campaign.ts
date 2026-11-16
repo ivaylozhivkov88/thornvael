@@ -27,6 +27,13 @@ export interface Campaign {
 export const DIFFICULTY_NAMES = ['easy', 'normal', 'hard'] as const;
 export type DifficultyName = (typeof DIFFICULTY_NAMES)[number];
 
+export interface TownPortalRecord {
+  zoneNodeId: string;
+  map: string;
+  x: number;
+  y: number;
+}
+
 export interface CampaignProgress {
   difficulty: number; // index into DIFFICULTY_NAMES, same as the hero's `diff` (0 easy, 1 medium, 2 hard)
   unlocked: string[];
@@ -34,6 +41,9 @@ export interface CampaignProgress {
   node: string; // the node the player stands on
   townVisits: number;
   builds?: Builds; // town buildings raised so far (src/townbuild.ts); absent in older records
+  waypoints?: string[]; // list of unlocked Waypoint node IDs (always includes towns of unlocked acts)
+  sessionSeed?: number; // current session seed; rotates on every Save & Exit!
+  townPortal?: TownPortalRecord | null;
 }
 
 export function parseCampaign(raw: unknown): Campaign {
@@ -47,7 +57,16 @@ export function parseCampaign(raw: unknown): Campaign {
 }
 
 export function newProgress(c: Campaign, difficulty: number): CampaignProgress {
-  return { difficulty, unlocked: [c.start], completed: [], node: c.start, townVisits: 0 };
+  return {
+    difficulty,
+    unlocked: [c.start],
+    completed: [],
+    node: c.start,
+    townVisits: 0,
+    waypoints: [townHubForAct(1)],
+    sessionSeed: 1234567,
+    townPortal: null,
+  };
 }
 
 export const nodeOf = (c: Campaign, id: string): CampaignNode => {
@@ -81,3 +100,38 @@ export function visitTown(p: CampaignProgress, id: string): CampaignProgress {
 
 /** Seed for shop stock and tavern quests on this visit: the same visit number always gives the same stock. */
 export const townSeed = (base: number, visits: number): number => (Math.imul(base ^ 0x9e3779b9, 31) + Math.imul(visits + 1, 0x85ebca6b)) >>> 0;
+
+/** Return the canonical D2R style Town Hub node ID for each Act. */
+export function townHubForAct(act: 1 | 2 | 3 | 4): string {
+  switch (act) {
+    case 1:
+      return 'town-thornwick';
+    case 2:
+      return 'town-redmarsh';
+    case 3:
+      return 'town-oakhaven';
+    case 4:
+      return 'town-ironcamp';
+  }
+}
+
+/** Find the Town Hub node for the given Act in a campaign. */
+export function findTownNodeForAct(c: Campaign, act: 1 | 2 | 3 | 4): CampaignNode {
+  const town = c.nodes.find((n) => actOf(n) === act && n.kind === 'town');
+  if (town) return town;
+  const fallbackId = townHubForAct(act);
+  return nodeOf(c, fallbackId);
+}
+
+export const townNodeForAct = findTownNodeForAct;
+
+/** Generate a new deterministic session seed upon Save and Exit. */
+export function nextSessionSeed(seed = 1234567, salt = 1): number {
+  let s = (seed ^ Math.imul(salt, 0x85ebca6b)) >>> 0;
+  s = (s + 0x6d2b79f5) >>> 0;
+  let t = s;
+  t = Math.imul(t ^ (t >>> 15), t | 1);
+  t ^= t + Math.imul(t ^ (t >>> 7), t | 61);
+  return ((t ^ (t >>> 14)) >>> 0) || 1;
+}
+

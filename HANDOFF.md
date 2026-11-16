@@ -21,9 +21,9 @@ npm run build
 ## 2. Proven Verification Results (Hard Numbers, No Estimates)
 Run at 2026-11-16:
 - `npm run typecheck`: **PASSED (0 errors)**
-- `npm test -- --maxWorkers=1`: **PASSED (80 test files, 658 passed, 1 skipped, 0 failed)** [duration: 60.19s]
-- `npm run check:repo`: **PASSED (482 files)**
-- `npm run build`: **PASSED (dist built in 525ms, 116 precache entries in sw.js)**
+- `npm test -- --maxWorkers=1`: **PASSED (81 test files, 669 passed, 1 skipped, 0 failed)** [duration: 59.25s]
+- `npm run check:repo`: **PASSED (486 files)**
+- `npm run build`: **PASSED (dist built in 505ms, 117 precache entries in sw.js)**
 
 ---
 
@@ -100,6 +100,19 @@ Run at 2026-11-16:
       * Keyboard hotkeys: Space / Escape skips, Enter / ArrowRight advances, ArrowLeft steps back.
       * Thematic gothic SVG illustrations in `storyBanner` with tailored radial gradients.
     - Automated Verification: New test suite `tests/act-transitions.test.ts` (7 comprehensive tests passing).
+11. **D2R PS5 DualSense & Gamepad Controller System (Masterpiece Ergonomics)**:
+    - Implemented `src/gamepad.ts` with authentic console ARPG control mapping:
+      * 12 Action Bar Skill Slots: Primary Bar (✕, ▢, △, ◯, R1, R2) and Secondary Bar toggled dynamically by holding L2 modifier (L2+✕, L2+▢, L2+△, L2+◯, L2+R1, L2+R2).
+      * Analog Left Stick 360° Hero Movement: Direct directional movement injected deterministically into the fixed-tick simulation loop (`advanceStep()`) with radial 0.20 deadzone filtering.
+      * Analog Right Stick: Smooth camera panning and targeting.
+      * D-Pad Belt Potions: Up = Potion 1 (Healing Draught), Right = Potion 2 (Mana Draught), Down = Potion 3 (Rejuvenation / Buff), Left = Potion 4 (Utility / Portal).
+      * Utility Buttons: R3 click toggles ground loot highlight, DualSense Touchpad toggles Hero Inventory sheet, Options opens Gothic pause menu (with Save & Exit), Share/Select opens Quest Journal, L1 selects main hero.
+      * Rising Edge Triggering: Strict edge-detection prevents repeated triggers while buttons are held down.
+      * D2R Skill Assignment Modal (`SkillAssignmentModal`): Accessible via Pause Menu or Action Bar click; lets players assign any known Grimoire spell, hero class skill, or utility action to any of the 12 controller slots with persistent `localStorage` saving.
+      * On-screen D2R Action Bar HUD widget (`D2RActionBarUi`): Renders 6 active skill slots with button badges and icons; flips dynamically to secondary skills when L2 is held.
+      * Connect / Disconnect Toast Notifications: Native events display Bulgarian status messages (`🎮 Контролер свързан: ...` / `🎮 Контролер изключен: ...`).
+      * Added Gothic D2R controls cheat sheet to `src/pausemenu.ts`.
+      * Automated Verification: New test suite `tests/gamepad.test.ts` (11 comprehensive tests passing, 100%).
 
 ---
 

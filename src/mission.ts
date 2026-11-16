@@ -2,6 +2,7 @@ import { loadDoc, type LoadedMission } from './mapdoc';
 import { MonsterAi, SkirmishDirector, placeScenario } from './sim/bot';
 import { ScriptRuntime } from './sim/script';
 import { Sim } from './sim/sim';
+import { applyDynamicSessionRespawn } from './sim/respawn';
 import ashentier from './missions/ashen-tier.map.json';
 import blackwater from './missions/blackwater-reach.map.json';
 import blood from './missions/blood-at-the-ford.map.json';
@@ -121,7 +122,16 @@ export interface MissionGame {
 }
 
 /** Build the sim for a loaded mission: units placed, script attached, monsters on watch. */
-export function createMission(loaded: LoadedMission, seed = 1, options?: { director?: boolean }): MissionGame {
+export function createMission(
+  loaded: LoadedMission,
+  seed = 1,
+  options?: {
+    director?: boolean;
+    sessionSeed?: number;
+    nodeId?: string;
+    act?: 1 | 2 | 3 | 4;
+  },
+): MissionGame {
   const { scenario, map, def, doc } = loaded;
   const sim = new Sim(map, seed, scenario.teams, {
     combat: true,
@@ -136,6 +146,12 @@ export function createMission(loaded: LoadedMission, seed = 1, options?: { direc
   sim.attachTowns(doc.towns ?? []);
   if (doc.shrines?.length) sim.attachShrines(doc.shrines);
   sim.attachScript(new ScriptRuntime(structuredClone(def)));
+
+  // If dynamic session respawn is requested for a wilderness mission, apply it
+  if (options?.sessionSeed && (!doc.towns || doc.towns.length === 0)) {
+    applyDynamicSessionRespawn(sim, scenario, options.sessionSeed, options.nodeId ?? doc.name, options.act ?? 1);
+  }
+
   const useDirector = options?.director ?? SKIRMISH_MAP_NAMES.has(doc.name);
   const ai = useDirector
     ? new SkirmishDirector(structuredClone(scenario.packs), { seed, team: 1 })

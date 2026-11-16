@@ -460,6 +460,55 @@
   filter: drop-shadow(0 2px 3px #000);
 }
 
+/* D2R PS5 Controller Action Bar */
+.d2r-action-bar {
+  display: flex;
+  gap: 6px;
+  background: rgba(18, 14, 10, 0.75);
+  border: 1px solid #755b33;
+  border-radius: 6px;
+  padding: 4px 6px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.75);
+}
+.d2r-hud-btn {
+  position: relative;
+  width: 44px;
+  height: 44px;
+  background: linear-gradient(145deg, #242c33, #151b22);
+  border: 1px solid var(--bronze);
+  border-radius: 4px;
+  box-shadow: inset 0 1px 2px rgba(255,255,255,0.1), 0 2px 4px rgba(0,0,0,0.6);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.15s ease;
+  color: #eee5d4;
+}
+.d2r-hud-btn:hover {
+  border-color: var(--gold);
+  box-shadow: 0 0 8px rgba(228, 191, 128, 0.4);
+  transform: translateY(-1px);
+}
+.d2r-hud-btn.secondary {
+  border-color: #ffd54f;
+  background: linear-gradient(145deg, #36291a, #1f1810);
+}
+.d2r-hud-badge {
+  position: absolute;
+  top: 2px;
+  left: 3px;
+  font-size: 8px;
+  font-weight: bold;
+  color: var(--gold);
+  text-shadow: 0 1px 2px #000;
+}
+.d2r-hud-icon {
+  font-size: 18px;
+  line-height: 1;
+  filter: drop-shadow(0 2px 3px #000);
+}
+
 /* Utility Action Buttons */
 .utility-buttons {
   display: flex;

@@ -1,4 +1,4 @@
-import { completeNode, newProgress, nodeOf, visitTown, type Campaign, type CampaignNode, type CampaignProgress } from './campaign';
+import { actOf, completeNode, newProgress, nextSessionSeed, nodeOf, townNodeForAct, visitTown, type Campaign, type CampaignNode, type CampaignProgress } from './campaign';
 import type { CarryoverState } from './carryover';
 
 /** Pure screen-flow rules of the campaign shell: what the record holds and how it changes between screens. No browser access. */
@@ -62,3 +62,58 @@ export function afterTown(c: Campaign, rec: CampaignRecord, id: string, carry: C
 
 /** The result screen has been shown. */
 export const clearLast = (rec: CampaignRecord): CampaignRecord => ({ ...rec, last: null });
+
+/**
+ * D2R Save and Exit:
+ * Saves the hero's progress (XP, attributes, inventory, eq, gold, spells, mercs)
+ * Moves current node to the Town Hub of the current Act.
+ * Rotates the session seed for the next adventure session.
+ * Fully restores hero and merc HP/mana for a fresh respawn in town.
+ */
+export function saveAndExitRecord(c: Campaign, rec: CampaignRecord, carry: CarryoverState | null): CampaignRecord {
+  const currentNode = nodeOf(c, rec.progress.node);
+  const currentAct = actOf(currentNode);
+  const townNode = townNodeForAct(c, currentAct);
+
+  // Rotate session seed for fresh dynamic respawns next time hero steps into wilderness
+  const newSeed = nextSessionSeed(rec.progress.sessionSeed ?? 1234567, rec.progress.townVisits + 1);
+
+  // Ensure town node is unlocked
+  const unlocked = rec.progress.unlocked.includes(townNode.id)
+    ? rec.progress.unlocked
+    : [...rec.progress.unlocked, townNode.id];
+
+  // Update waypoints list to include town
+  const waypoints = rec.progress.waypoints ? [...rec.progress.waypoints] : [];
+  if (!waypoints.includes(townNode.id)) {
+    waypoints.push(townNode.id);
+  }
+
+  const progress: CampaignProgress = {
+    ...rec.progress,
+    unlocked,
+    node: townNode.id,
+    townVisits: rec.progress.townVisits + (currentNode.kind === 'town' ? 0 : 1),
+    sessionSeed: newSeed,
+    waypoints,
+  };
+
+  let cleanCarry = carry ? structuredClone(carry) : (rec.carry ? structuredClone(rec.carry) : null);
+  if (cleanCarry) {
+    cleanCarry.progress = progress;
+    // Restore living mercs to 100% HP for town spawn
+    if (cleanCarry.mercs) {
+      cleanCarry.mercs.forEach((m) => {
+        m.hpPct = 100;
+      });
+    }
+  }
+
+  return {
+    ...rec,
+    progress,
+    carry: cleanCarry,
+    last: null, // No defeat/victory screen on save and exit
+  };
+}
+
