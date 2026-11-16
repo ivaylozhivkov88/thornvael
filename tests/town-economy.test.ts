@@ -332,3 +332,24 @@ describe('Dynamic Shop Restock & Difficulty-Based Economy', () => {
     expect(sets + uniques).toBeGreaterThanOrEqual(1);
   });
 });
+
+describe('campaign forge', () => {
+  const maxTier = (sim: Sim): number => {
+    let top = 0;
+    for (let r = 0; r < 200; r++) {
+      rollStock(sim, 0);
+      for (let k = 2; k < SHELF; k++) {
+        const id = sim.town.stock[0][k];
+        if (id >= 0) top = Math.max(top, ITEMS[id].tier);
+      }
+    }
+    return top;
+  };
+
+  it('a forge level lifts the shop ceiling by one tier on Easy', () => {
+    expect(maxTier(game(303, 0, 0).sim)).toBe(2);
+    const { sim } = game(303, 0, 0);
+    sim.town.forge = 1;
+    expect(maxTier(sim)).toBe(3);
+  });
+});

@@ -72,6 +72,7 @@ export interface TownState {
   quests: Quest[];
   inside: number; // town * ROLE_COUNT + role, or -1
   paid: number; // gold earned from quests, all told
+  forge?: number; // campaign forge level: shop stock reaches this many tiers higher
 }
 
 export type TownOp = 'enter' | 'leave' | 'buy' | 'sell' | 'hire' | 'learn' | 'train' | 'accept' | 'gamble' | 'transmute';
@@ -452,6 +453,8 @@ export function rollStock(sim: Sim, town: number): void {
     hi = baseHi + 2;
   }
 
+  const forge = sim.town.forge ?? 0;
+  if (forge) hi = Math.max(hi, Math.min(5, hi + forge));
   const shelf = Array<number>(SHELF).fill(-1);
   let k = 0;
   for (const name of ['Healing Draught', 'Mana Draught']) {
@@ -509,6 +512,11 @@ export function rollStock(sim: Sim, town: number): void {
       }
     }
 
+    if (forge && chosenId >= 0) {
+      // The forge reworks some wares one tier up (no extra draws without a forge, so old runs replay unchanged).
+      const up = byTier[ITEMS[chosenId].tier + 1];
+      if (up?.length && sim.rng.int(100) < 30 * forge) chosenId = up[sim.rng.int(up.length)];
+    }
     shelf[k++] = chosenId;
   }
 

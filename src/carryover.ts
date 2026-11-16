@@ -3,7 +3,7 @@ import { FP, type Sim } from './sim/sim';
 import { cloneHero, recalc, type HeroState } from './sim/hero';
 import { upkeepFee } from './sim/town';
 import { registerDynamicItem, type ItemInstance } from './sim/items';
-import { healPct } from './townbuild';
+import { healPct, tierBonus } from './townbuild';
 
 /**
  * What a hero takes from one mission or town to the next. Plain JSON, so it goes into saves and exported files unchanged.
@@ -83,6 +83,8 @@ export function applyCarryover(sim: Sim, co: CarryoverState): number {
   const forHire = new Set(sim.towns.flatMap((t) => (t.def.mercs ?? []).map((m) => m.unit)));
   const reserve: number[] = [];
   for (let j = 0; j < sim.count; j++) if (j !== id && sim.team[j] === 0 && sim.hidden[j] && !forHire.has(j)) reserve.push(j);
+  const forge = tierBonus(co.progress?.builds);
+  if (forge) sim.town.forge = forge; // saved with town state, so a reload keeps the better stock
   const heal = healPct(co.progress?.builds); // shrine: mercs rest between nodes
   let placed = 0;
   for (const m of co.mercs) {
