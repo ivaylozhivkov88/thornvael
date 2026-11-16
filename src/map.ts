@@ -7,11 +7,15 @@ export const Terrain = { Grass: 0, Dirt: 1, Water: 2, Rock: 3, Marsh: 4 } as con
 /** Walking speed in percent per terrain; Marsh is the rough ground that slows units. */
 export const TERRAIN_SPEED_PCT = [100, 100, 0, 0, 55] as const;
 export const ObjectKind = { Tree: 0, House: 1 } as const;
+export const PropKind = { Barrel: 2, Urn: 3, Sarcophagus: 4 } as const;
 
 export interface MapObject {
   kind: number;
   x: number;
   y: number;
+  hp?: number;
+  maxHp?: number;
+  destroyed?: boolean;
 }
 
 export interface GameMap {
@@ -92,6 +96,16 @@ export function generateMap(seed = 7): GameMap {
     objects.push({ kind: ObjectKind.Tree, x, y });
     blocked[i] = 1;
   }
+  // Destructible props: Barrels, Urns, Sarcophagi
+  for (let n = 0; n < 24; n++) {
+    const x = 4 + rng.int(w - 8);
+    const y = 4 + rng.int(h - 8);
+    const i = y * w + x;
+    if (blocked[i] || terrain[i] === Terrain.Water) continue;
+    const kind = n < 12 ? PropKind.Barrel : n < 20 ? PropKind.Urn : PropKind.Sarcophagus;
+    objects.push({ kind, x, y, hp: 1, maxHp: 1, destroyed: false });
+    blocked[i] = 1;
+  }
   light.set(bakeLight(w, h, height));
   return { w, h, terrain, height, blocked, objects, light };
 }
@@ -114,6 +128,7 @@ export function bakeBlocked(w: number, h: number, terrain: Uint8Array, objects: 
   const blocked = new Uint8Array(w * h);
   for (let i = 0; i < w * h; i++) if (terrain[i] === Terrain.Water || terrain[i] === Terrain.Rock) blocked[i] = 1;
   for (const o of objects) {
+    if (o.destroyed) continue;
     const size = o.kind === ObjectKind.House ? 2 : 1;
     for (let dy = 0; dy < size; dy++) for (let dx = 0; dx < size; dx++) if (o.x + dx < w && o.y + dy < h) blocked[(o.y + dy) * w + o.x + dx] = 1;
   }

@@ -7,6 +7,7 @@ import { blip, play } from './audio';
 /** Host callbacks: the game owns the pause flag. */
 export interface MissionHost {
   pause(on: boolean): void;
+  navigateTo?(tx: number, ty: number, label: string): void;
 }
 
 const OBJ_MARK = ['', '◻', '✔', '✖'];
@@ -18,6 +19,8 @@ export interface QuestObjective {
   readonly current: number;
   readonly total: number;
   readonly optional?: boolean;
+  readonly targetX?: number;
+  readonly targetY?: number;
 }
 
 export interface QuestReward {
@@ -244,7 +247,6 @@ export class MissionUi {
     this.goals.id = 'objectives';
     this.goals.className = 'gothic-hud-tracker collapsed';
     this.goals.hidden = true;
-    this.goals.title = 'Click to toggle Quest Objectives [Q / O]';
     this.goals.onclick = () => this.toggleObjectives();
     this.goals.ondblclick = (e) => {
       e.stopPropagation();
@@ -519,21 +521,71 @@ export class MissionUi {
     }
 
     this.goals.hidden = false;
+    this.goals.replaceChildren();
+
     if (this.isObjectivesCollapsed) {
       this.goals.className = 'gothic-hud-tracker collapsed';
       const completed = quest.objectives.filter((o) => o.completed).length;
-      this.goals.textContent = `📜 Quests [Q] (${completed}/${quest.objectives.length})`;
+      const header = document.createElement('div');
+      header.className = 'tracker-collapsed-row';
+      header.innerHTML = `<span class="tracker-icon">📜</span> <span class="tracker-title-text">Quests [Q] (${completed}/${quest.objectives.length})</span> <span class="tracker-chevron">▾</span>`;
+      header.onclick = () => this.toggleObjectives();
+      header.ondblclick = (e) => {
+        e.stopPropagation();
+        this.toggleJournal(this.lastSim ?? undefined);
+      };
+      this.goals.append(header);
     } else {
       this.goals.className = 'gothic-hud-tracker expanded';
-      const lines: string[] = [];
-      lines.push(`📜 ${quest.title} ▴`);
+
+      // Header Bar
+      const header = document.createElement('div');
+      header.className = 'tracker-title';
+      header.innerHTML = `
+        <div class="tracker-title-bar">
+          <span class="tracker-title-text">📜 ${quest.title}</span>
+          <span class="tracker-chevron">▴</span>
+        </div>
+        <div class="tracker-hint">[Click: Collapse | 2x: Journal]</div>
+      `;
+      header.onclick = (e) => {
+        e.stopPropagation();
+        this.toggleObjectives();
+      };
+      header.ondblclick = (e) => {
+        e.stopPropagation();
+        this.toggleJournal(this.lastSim ?? undefined);
+      };
+      this.goals.append(header);
+
+      // Objective list
+      const list = document.createElement('div');
+      list.className = 'tracker-obj-list';
+
       for (const obj of quest.objectives) {
+        const row = document.createElement('div');
+        row.className = `tracker-obj-row ${obj.completed ? 'completed' : ''} ${obj.targetX !== undefined ? 'navigable' : ''}`;
         const mark = obj.completed ? '✔' : '◻';
         const progress = obj.total > 1 ? ` (${obj.current}/${obj.total})` : '';
-        lines.push(`${mark} ${obj.text}${progress}`);
+        const navPin = obj.targetX !== undefined && !obj.completed ? '<span class="tracker-nav-pin" aria-label="Auto-Navigate">🧭</span>' : '';
+        row.innerHTML = `
+          <span class="tracker-mark">${mark}</span>
+          <span class="tracker-obj-text">${obj.text}${progress}</span>
+          ${navPin}
+        `;
+        if (obj.targetX !== undefined && obj.targetY !== undefined) {
+          row.onclick = (e) => {
+            e.stopPropagation();
+            this.host.navigateTo?.(obj.targetX!, obj.targetY!, obj.text);
+          };
+        } else {
+          row.onclick = (e) => {
+            e.stopPropagation();
+          };
+        }
+        list.append(row);
       }
-      lines.push('\n[ Click: Collapse | Double Click: Journal ]');
-      this.goals.textContent = lines.join('\n');
+      this.goals.append(list);
     }
   }
 
@@ -545,11 +597,19 @@ export class MissionUi {
     if (isFordMap) {
       // Build objectives from doc.text if present, ensuring live tracking from st.sub
       const customObjs: QuestObjective[] = [];
+      const fordCoords: [number, number][] = [
+        [32, 32], // Sunken Ford
+        [34, 18], // River Ambush
+        [39, 31], // High Ridge
+        [52, 12], // Chieftain Grok'tar
+        [8, 28],  // Granary Supply Cache
+      ];
       if (st) {
         for (let i = 0; this.doc.text[`obj.${i}`] !== undefined; i++) {
           const text = this.doc.text[`obj.${i}`];
           const isCompleted = st.sub[i] === 2;
           const isOptional = text.toLowerCase().includes('recover') || text.toLowerCase().includes('purify') || text.toLowerCase().includes('optional');
+          const coords = fordCoords[i] ?? [32, 32];
           customObjs.push({
             id: `obj-${i}`,
             text: isOptional && !text.toLowerCase().includes('optional') ? `Optional: ${text}` : text,
@@ -557,6 +617,8 @@ export class MissionUi {
             current: isCompleted ? 1 : 0,
             total: 1,
             optional: isOptional,
+            targetX: coords[0],
+            targetY: coords[1],
           });
         }
       }
@@ -569,6 +631,8 @@ export class MissionUi {
           completed: st ? (st.sub[0] === 2 || (st.sv[0] ?? 0) >= 1) : false,
           current: (st && (st.sub[0] === 2 || (st.sv[0] ?? 0) >= 1)) ? 1 : 0,
           total: 1,
+          targetX: 32,
+          targetY: 32,
         },
         {
           id: 'obj-ambush',
@@ -576,6 +640,8 @@ export class MissionUi {
           completed: st ? st.sub[1] === 2 : false,
           current: (st && st.sub[1] === 2) ? 4 : (st && (st.sv[0] ?? 0) >= 1 ? 2 : 0),
           total: 4,
+          targetX: 34,
+          targetY: 18,
         },
         {
           id: 'obj-ridge',
@@ -583,6 +649,8 @@ export class MissionUi {
           completed: st ? (st.sub[2] === 2 || (st.sub[3] ?? 0) === 2) : false,
           current: (st && (st.sub[2] === 2 || (st.sub[3] ?? 0) === 2)) ? 1 : 0,
           total: 1,
+          targetX: 39,
+          targetY: 31,
         },
         {
           id: 'obj-chief',
@@ -590,6 +658,8 @@ export class MissionUi {
           completed: sim ? (sim.cb.hp[12] <= 0 || (st?.sub[3] ?? 0) === 2) : false,
           current: (sim && (sim.cb.hp[12] <= 0 || (st?.sub[3] ?? 0) === 2)) ? 1 : 0,
           total: 1,
+          targetX: 52,
+          targetY: 12,
         },
         {
           id: 'obj-granary',
@@ -598,6 +668,8 @@ export class MissionUi {
           current: (sim && (sim.cb.gold[0] >= 40 || (st?.sub[4] ?? 0) === 2)) ? 1 : 0,
           total: 1,
           optional: true,
+          targetX: 8,
+          targetY: 28,
         },
       ];
 
@@ -626,12 +698,25 @@ export class MissionUi {
     if (st) {
       for (let i = 0; this.doc.text[`obj.${i}`] !== undefined; i++) {
         const state = st.sub[i] ?? 0;
+        let gx = Math.round(this.doc.w / 2);
+        let gy = Math.round(this.doc.h / 2);
+        if (this.doc.regions && this.doc.regions[i]) {
+          const reg = this.doc.regions[i];
+          gx = Math.round((reg.x1 + reg.x2) / 2);
+          gy = Math.round((reg.y1 + reg.y2) / 2);
+        } else if (this.doc.units && this.doc.units.length > 0) {
+          const u = this.doc.units[i % this.doc.units.length];
+          gx = u.x;
+          gy = u.y;
+        }
         genericObjs.push({
           id: `gen-obj-${i}`,
           text: this.doc.text[`obj.${i}`],
           completed: state === 2,
           current: state === 2 ? 1 : 0,
           total: 1,
+          targetX: gx,
+          targetY: gy,
         });
       }
     }
@@ -649,6 +734,8 @@ export class MissionUi {
         completed: st ? st.status === 1 : false,
         current: st?.status === 1 ? 1 : 0,
         total: 1,
+        targetX: Math.round(this.doc.w / 2),
+        targetY: Math.round(this.doc.h / 2),
       }],
       rewards: {
         gold: 200,
@@ -826,15 +913,30 @@ export class MissionUi {
           item.className = `dossier-obj-row ${obj.completed ? 'completed' : ''}`;
           const progressTag = obj.total > 1 ? `<span class="obj-counter">(${obj.current}/${obj.total})</span>` : '';
           const optTag = obj.optional ? '<span class="obj-optional">[Optional]</span> ' : '';
+          const navAction = obj.targetX !== undefined && obj.targetY !== undefined && !obj.completed
+            ? `<button type="button" class="dossier-nav-btn"><span class="nav-compass">🧭</span> Navigate</button>`
+            : '';
           item.innerHTML = `
             <span class="obj-checkbox">${obj.completed ? '✔' : '◻'}</span>
             <span class="obj-text">${optTag}${obj.text} ${progressTag}</span>
             <span class="obj-badge ${obj.completed ? 'done' : 'active'}">${obj.completed ? 'COMPLETED' : 'IN PROGRESS'}</span>
+            ${navAction}
           `;
+          if (obj.targetX !== undefined && obj.targetY !== undefined && !obj.completed) {
+            const btn = item.querySelector('.dossier-nav-btn') as HTMLButtonElement | null;
+            if (btn) {
+              btn.onclick = (e) => {
+                e.stopPropagation();
+                this.closeJournal();
+                this.host.navigateTo?.(obj.targetX!, obj.targetY!, obj.text);
+              };
+            }
+          }
           objContainer.append(item);
         }
       }
     } else if (this.activeQuestId === 'side-granary') {
+      const granaryDone = (this.lastSim?.cb.gold[0] ?? 0) >= 40;
       rightPane.innerHTML = `
         <div class="dossier-header">
           <div class="dossier-act">Side Mission · Frontier Recovery</div>
@@ -845,11 +947,12 @@ export class MissionUi {
         <div class="dossier-section-heading">TACTICAL BRIEFING</div>
         <p class="dossier-narrative">During their initial assault across the river, Grok'tar's vanguard looted the watermill and stored emergency grain rations in sacks along the riverbank and around their camp. Recovering these supplies guarantees provisions for Thornwick throughout the bitter autumn.</p>
         <div class="dossier-section-heading">OBJECTIVE</div>
-        <div class="dossier-objectives-list">
-          <div class="dossier-obj-row ${(this.lastSim?.cb.gold[0] ?? 0) >= 40 ? 'completed' : ''}">
-            <span class="obj-checkbox">${(this.lastSim?.cb.gold[0] ?? 0) >= 40 ? '✔' : '◻'}</span>
+        <div class="dossier-objectives-list" id="side-dossier-objectives">
+          <div class="dossier-obj-row ${granaryDone ? 'completed' : ''}">
+            <span class="obj-checkbox">${granaryDone ? '✔' : '◻'}</span>
             <span class="obj-text">Gather Gold & Munitions from the Gnoll Encampment (Current: ${this.lastSim?.cb.gold[0] ?? 0} Gold)</span>
-            <span class="obj-badge ${(this.lastSim?.cb.gold[0] ?? 0) >= 40 ? 'done' : 'active'}">${(this.lastSim?.cb.gold[0] ?? 0) >= 40 ? 'COMPLETED' : 'IN PROGRESS'}</span>
+            <span class="obj-badge ${granaryDone ? 'done' : 'active'}">${granaryDone ? 'COMPLETED' : 'IN PROGRESS'}</span>
+            ${!granaryDone ? '<button type="button" class="dossier-nav-btn"><span class="nav-compass">🧭</span> Navigate</button>' : ''}
           </div>
         </div>
         <div class="dossier-rewards-grid">
@@ -857,6 +960,16 @@ export class MissionUi {
           <div class="reward-pill xp-reward">⚡ <strong>+150 XP</strong></div>
         </div>
       `;
+      if (!granaryDone) {
+        const btn = rightPane.querySelector('.dossier-nav-btn') as HTMLButtonElement | null;
+        if (btn) {
+          btn.onclick = (e) => {
+            e.stopPropagation();
+            this.closeJournal();
+            this.host.navigateTo?.(8, 28, 'Granary Supply Cache');
+          };
+        }
+      }
     } else {
       rightPane.innerHTML = `
         <div class="dossier-header">

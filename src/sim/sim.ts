@@ -938,7 +938,8 @@ export class Sim {
     const y = this.y[i];
     const pct = Math.max(25, speedPct(map, Math.floor(x / FP), Math.floor(y / FP)));
     const st = this.cb.stMask[i] === 0 ? 100 : statusSpeed(this.cb.stMask[i]);
-    const spd = Math.floor((UNIT_SPEED * pct * DEFS[this.cb.kind[i]].speed * st) / 1000000);
+    const extraFastMult = this.cb.bossMods[i]?.includes('extra_fast') ? 130 : 100;
+    const spd = Math.floor((UNIT_SPEED * pct * DEFS[this.cb.kind[i]].speed * st * extraFastMult) / 100000000);
     let tgx = this.tx[i];
     let tgy = this.ty[i];
     const pid = this.pathId[i];

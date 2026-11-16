@@ -99,54 +99,137 @@ export async function runShell(startWorker: () => void): Promise<never> {
     mode = 'other';
     const pick: HeroPick = { cls: 0, female: false };
     let diff = 1;
-    const opts = el('div', 'sh-skirmish-opts');
-    const row = (names: readonly string[], get: () => number, set: (i: number) => void): HTMLElement => {
-      const r = el('div', 'sh-row');
-      const draw = (): void => r.replaceChildren(...names.map((n, i) => btn(n, () => (set(i), draw()), i === get() ? 'sh-on sh-small' : 'sh-small')));
-      draw();
-      return r;
-    };
-    opts.append(
-      row(T.cls, () => pick.cls, (i) => (pick.cls = i)),
-      row(T.sex, () => (pick.female ? 1 : 0), (i) => (pick.female = i === 1)),
-      row(T.diff, () => diff, (i) => (diff = i)),
-    );
-    const col = el('div', 'sh-col');
-    col.append(el('h2', '', 'Skirmish Maps'), opts);
-    col.append(
-      btn(
-        '🎲 Procedural Expedition (Endless Mode)',
-        () => {
-          const seed = (Math.random() * 0x7fffffff) | 0;
-          go(`./?expedition=${seed}&hero=${pick.cls === 1 ? 'mage' : 'warrior'},${pick.female ? 'f' : 'm'},${(['easy', 'medium', 'hard'] as const)[diff]}`);
-        },
-        'sh-wide sh-on',
-      ),
-    );
-    const maps: readonly [string, string][] = [
-      ['glade', 'S01 · Bracken Glade'],
-      ['scarlet', 'S02 · Scarlet Ridge'],
-      ['tidebreak', 'S03 · Tidebreak Cove'],
-      ['blackwater', 'S04 · Blackwater Reach'],
-      ['crossroads', 'S05 · Crossroads of Ash'],
-      ['shattered', 'S06 · Shattered Shore'],
-      ['twinfuries', 'S07 · Twin Furies'],
-      ['inward', 'S08 · Inward March'],
-      ['muddlefen', 'S09 · Muddlefen'],
-      ['shallowford', 'S10 · Shallow Ford'],
-      ['ashentier', 'S11 · Ashen Tier'],
+    let gold = 100;
+    let selectedMapIdx = 0;
+
+    const maps: readonly { key: string; name: string; tag: string }[] = [
+      { key: 'glade', name: 'S01 · Bracken Glade', tag: 'Meadow' },
+      { key: 'scarlet', name: 'S02 · Scarlet Ridge', tag: 'Highlands' },
+      { key: 'tidebreak', name: 'S03 · Tidebreak Cove', tag: 'Coast' },
+      { key: 'blackwater', name: 'S04 · Blackwater Reach', tag: 'Swamp' },
+      { key: 'crossroads', name: 'S05 · Crossroads of Ash', tag: 'Volcanic' },
+      { key: 'shattered', name: 'S06 · Shattered Shore', tag: 'Ruins' },
+      { key: 'twinfuries', name: 'S07 · Twin Furies', tag: 'Chokepoint' },
+      { key: 'inward', name: 'S08 · Inward March', tag: 'Frontier' },
+      { key: 'muddlefen', name: 'S09 · Muddlefen', tag: 'Mire' },
+      { key: 'shallowford', name: 'S10 · Shallow Ford', tag: 'River' },
+      { key: 'ashentier', name: 'S11 · Ashen Tier', tag: 'Citadel' },
     ];
-    for (const [key, label] of maps) {
-      col.append(
-        btn(
-          label,
-          () => go(`./?mission=${encodeURIComponent(key)}&hero=${pick.cls === 1 ? 'mage' : 'warrior'},${pick.female ? 'f' : 'm'},${(['easy', 'medium', 'hard'] as const)[diff]}`),
-          'sh-wide',
-        ),
+
+    const goldAmounts = [100, 300, 600, 1200] as const;
+    const goldLabels = ['100g Standard', '300g Adventurer', '600g Mercenary', '1200g Sovereign'] as const;
+
+    const modal = el('div', 'sh-skirmish-modal');
+
+    const header = el('div', 'sh-skirmish-header');
+    header.innerHTML = `
+      <div>
+        <h2>⚔️ SKIRMISH PREPARATION & DEPLOYMENT</h2>
+        <span class="sh-skirmish-sub">Select Hero Class, Battle Difficulty, Starting Gold Purse, and Mission Arena</span>
+      </div>
+    `;
+
+    const body = el('div', 'sh-skirmish-body');
+
+    // Left config column
+    const configCol = el('div', 'sh-skirmish-config');
+
+    const renderConfig = (): void => {
+      configCol.replaceChildren();
+
+      // Class section
+      configCol.append(el('div', 'sh-skirmish-section-title', 'HERO ARCHETYPE'));
+      const clsRow = el('div', 'sh-row');
+      clsRow.append(
+        btn('⚔️ Warrior', () => { pick.cls = 0; renderConfig(); }, pick.cls === 0 ? 'sh-on sh-small' : 'sh-small'),
+        btn('🔮 Mage', () => { pick.cls = 1; renderConfig(); }, pick.cls === 1 ? 'sh-on sh-small' : 'sh-small'),
       );
-    }
-    col.append(back());
-    screen(col);
+      configCol.append(clsRow);
+
+      // Gender section
+      configCol.append(el('div', 'sh-skirmish-section-title', 'GENDER'));
+      const sexRow = el('div', 'sh-row');
+      sexRow.append(
+        btn('♂ Male', () => { pick.female = false; renderConfig(); }, !pick.female ? 'sh-on sh-small' : 'sh-small'),
+        btn('♀ Female', () => { pick.female = true; renderConfig(); }, pick.female ? 'sh-on sh-small' : 'sh-small'),
+      );
+      configCol.append(sexRow);
+
+      // Difficulty section
+      configCol.append(el('div', 'sh-skirmish-section-title', 'DIFFICULTY'));
+      const diffRow = el('div', 'sh-row');
+      const diffNames = ['🍃 Easy', '⚖️ Veteran', '💀 Nightmare'];
+      diffRow.append(
+        ...diffNames.map((dName, dIdx) =>
+          btn(dName, () => { diff = dIdx; renderConfig(); }, diff === dIdx ? 'sh-on sh-small' : 'sh-small')
+        )
+      );
+      configCol.append(diffRow);
+
+      // Starting gold section
+      configCol.append(el('div', 'sh-skirmish-section-title', 'STARTING GOLD PURSE'));
+      const goldRow = el('div', 'sh-row');
+      goldRow.append(
+        ...goldAmounts.map((gAmt, gIdx) =>
+          btn(goldLabels[gIdx], () => { gold = gAmt; renderConfig(); }, gold === gAmt ? 'sh-on sh-small' : 'sh-small')
+        )
+      );
+      configCol.append(goldRow);
+    };
+    renderConfig();
+
+    // Right maps column
+    const mapsCol = el('div', 'sh-skirmish-maps');
+    mapsCol.append(el('div', 'sh-skirmish-section-title', 'CHOOSE BATTLE ARENA'));
+
+    const mapGrid = el('div', 'sh-map-grid');
+    const renderMaps = (): void => {
+      mapGrid.replaceChildren();
+      maps.forEach((m, idx) => {
+        const item = el('div', `sh-map-item ${idx === selectedMapIdx ? 'selected' : ''}`);
+        item.innerHTML = `<span>${m.name}</span><span class="sh-node-tag">${m.tag}</span>`;
+        item.onclick = () => {
+          selectedMapIdx = idx;
+          renderMaps();
+        };
+        mapGrid.append(item);
+      });
+    };
+    renderMaps();
+    mapsCol.append(mapGrid);
+
+    body.append(configCol, mapsCol);
+
+    // Footer
+    const footer = el('div', 'sh-skirmish-footer');
+    const startUrl = (): string => {
+      const heroStr = `${pick.cls === 1 ? 'mage' : 'warrior'},${pick.female ? 'f' : 'm'},${(['easy', 'medium', 'hard'] as const)[diff]}`;
+      const mKey = maps[selectedMapIdx].key;
+      return `./?mission=${encodeURIComponent(mKey)}&hero=${encodeURIComponent(heroStr)}&gold=${gold}`;
+    };
+
+    const expeditionUrl = (): string => {
+      const seed = (Math.random() * 0x7fffffff) | 0;
+      const heroStr = `${pick.cls === 1 ? 'mage' : 'warrior'},${pick.female ? 'f' : 'm'},${(['easy', 'medium', 'hard'] as const)[diff]}`;
+      return `./?expedition=${seed}&hero=${encodeURIComponent(heroStr)}&gold=${gold}`;
+    };
+
+    footer.append(
+      btn(
+        '⚔️ Deploy Hero to Battle',
+        () => go(startUrl()),
+        'sh-on sh-wide',
+      ),
+      btn(
+        '🎲 Procedural Endless Expedition',
+        () => go(expeditionUrl()),
+        'sh-small',
+      ),
+      btn('↩ Return to Menu', menu),
+    );
+
+    modal.append(header, body, footer);
+    screen(modal);
   }
 
   // ---- hero creation: class, sex, difficulty (Gothic Pillar & Campfire Champion Showcase) ----
@@ -258,7 +341,7 @@ export async function runShell(startWorker: () => void): Promise<never> {
 
       if (hasWp) {
         const wpGem = el('span', 'homm-wp-gem', '🗿');
-        wpGem.title = 'Active Waypoint';
+        wpGem.setAttribute('aria-label', 'Active Waypoint');
         iconWrap.append(wpGem);
       }
 

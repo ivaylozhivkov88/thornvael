@@ -1,10 +1,10 @@
 import { registerWorker } from './updategate';
 import { createInstallController, isInstallPrompt } from './pwa-install';
-import { audioState, blip, cancelShopEntry, play, playPickupRustle, playShopEntry, resumeAudio, setAmbience, setMusic, setSfx, suspendAudio, unlock, type MusicMode } from './audio';
+import { audioState, blip, cancelShopEntry, play, playPickupRustle, playShopEntry, playNotEnoughMana, playInventoryFull, playLowHpHeartbeat, resumeAudio, setAmbience, setMusic, setSfx, suspendAudio, unlock, type MusicMode } from './audio';
 import { MusicDirector, classifyWeapon, cueFor, pickPotionDrink, pickTerrainStep, type CueContext } from './audiologic';
 import { ControlGroups, GROUP_COUNT } from './groups';
 import { GestureRecognizer, pickUnit, reticle, unitsInBox, type Intent } from './input';
-import { TILE, generateMap } from './map';
+import { TILE, generateMap, ObjectKind, PropKind, type MapObject } from './map';
 import type { LoadedMission } from './mapdoc';
 import { createMission, missionFromName, type MissionGame } from './mission';
 import { actOf, nodeOf, townHubForAct, townNodeForAct, townSeed, type Campaign } from './campaign';
@@ -381,6 +381,11 @@ function castAt(sid: number, sx: number, sy: number, snap: number): boolean {
     toast(S.noKnown);
     return false;
   }
+  if (who.every((i) => sim.cb.mana[i] < SPELLS[sid].cost)) {
+    try { playNotEnoughMana(); } catch {}
+    toast('⚠️ Not enough mana!');
+    return false;
+  }
   const tk = SPELLS[sid].tk;
   const [x, y] = renderer.toTile(sx, sy);
   const target = spellTargetAt(sid, sx, sy, snap);
@@ -409,6 +414,11 @@ function armSpell(sid: number): void {
   const who = casters(sid);
   if (who.length === 0) {
     toast(selectedIds().length === 0 ? S.selectFirst : S.noKnown);
+    return;
+  }
+  if (who.every((i) => sim.cb.mana[i] < SPELLS[sid].cost)) {
+    try { playNotEnoughMana(); } catch {}
+    toast('⚠️ Not enough mana!');
     return;
   }
   curSpell = sid;
@@ -889,6 +899,81 @@ function toggleAuto(): void {
   toast(`${SPELLS[curSpell].name}: ${on ? S.autoOff : S.autoOn}`);
 }
 
+let pendingSmashProp: MapObject | null = null;
+
+function findDestructibleProp(tx: number, ty: number): MapObject | null {
+  for (const obj of map.objects) {
+    if (obj.destroyed) continue;
+    if (obj.kind === PropKind.Barrel || obj.kind === PropKind.Urn || obj.kind === PropKind.Sarcophagus) {
+      if (Math.abs(tx - (obj.x + 0.5)) <= 0.85 && Math.abs(ty - (obj.y + 0.5)) <= 0.85) {
+        return obj;
+      }
+    }
+  }
+  return null;
+}
+
+function dropPropItemBagAt(tx: number, ty: number, finalItemId: number): void {
+  const cb = sim.cb;
+  for (let b = 0; b < cb.bI.length; b++) {
+    if (cb.bI[b]) continue;
+    cb.bX[b] = Math.round((tx + 0.5) * FP);
+    cb.bY[b] = Math.round((ty + 0.5) * FP);
+    cb.bI[b] = finalItemId + 1;
+    break;
+  }
+}
+
+function smashProp(obj: MapObject): void {
+  if (obj.destroyed) return;
+  obj.destroyed = true;
+  if (obj.x >= 0 && obj.x < map.w && obj.y >= 0 && obj.y < map.h) {
+    map.blocked[obj.y * map.w + obj.x] = 0;
+  }
+  if (obj.kind === PropKind.Barrel) {
+    try { play('hit', 5); } catch {}
+    sim.cb.emit(1, (obj.x + 0.5) * FP, (obj.y + 0.5) * FP, 0, 0);
+    const roll = sim.rng.int(100);
+    if (roll < 55) {
+      const g = 10 + sim.rng.int(20);
+      sim.cb.gold[0] = (sim.cb.gold[0] ?? 0) + g;
+      toast(`💰 Smashed Barrel: Found ${g} gold!`);
+      try { play('pickup_gold', 5); } catch {}
+    } else if (roll < 85) {
+      const potId = sim.rng.int(2) === 0 ? itemId('Healing Draught') : itemId('Mana Draught');
+      dropPropItemBagAt(obj.x, obj.y, potId >= 0 ? potId : 1);
+      toast('🏺 Smashed Barrel: Uncovered a Draught potion!');
+    } else {
+      const dropId = itemId('Iron Dagger');
+      dropPropItemBagAt(obj.x, obj.y, dropId >= 0 ? dropId : 1);
+      toast('🗡️ Smashed Barrel: Found equipment!');
+    }
+  } else if (obj.kind === PropKind.Urn) {
+    try { play('hit', 5); } catch {}
+    sim.cb.emit(1, (obj.x + 0.5) * FP, (obj.y + 0.5) * FP, 0, 0);
+    const roll = sim.rng.int(100);
+    if (roll < 70) {
+      const g = 15 + sim.rng.int(35);
+      sim.cb.gold[0] = (sim.cb.gold[0] ?? 0) + g;
+      toast(`💰 Shattered Ancient Urn: Found ${g} gold!`);
+      try { play('pickup_gold', 5); } catch {}
+    } else {
+      const potId = itemId('Healing Draught');
+      dropPropItemBagAt(obj.x, obj.y, potId >= 0 ? potId : 1);
+      toast('✨ Shattered Ancient Urn: Uncovered a Sacred Draught!');
+    }
+  } else if (obj.kind === PropKind.Sarcophagus) {
+    try { play('hit', 5); } catch {}
+    sim.cb.emit(6, (obj.x + 0.5) * FP, (obj.y + 0.5) * FP, 0, 0);
+    const g = 50 + sim.rng.int(60);
+    sim.cb.gold[0] = (sim.cb.gold[0] ?? 0) + g;
+    const relicId = itemId('Tempered Plate');
+    dropPropItemBagAt(obj.x, obj.y, relicId >= 0 ? relicId : 1);
+    toast(`⚰️ Opened Sarcophagus: Cleansed tomb and looted ${g} Gold & Relics!`);
+    try { play('pickup_gold', 5); } catch {}
+  }
+}
+
 /** The order a plain click or tap means: pickup if near loot, forced move, forced attack, attack when an enemy is under the pointer, else move. */
 function smart(sx: number, sy: number): void {
   const [wx, wy] = renderer.toTile(sx, sy);
@@ -899,6 +984,22 @@ function smart(sx: number, sy: number): void {
     }
     if (selectedIds().length > 0) {
       execute('pickup', sx, sy);
+      return;
+    }
+  }
+  const prop = findDestructibleProp(wx, wy);
+  if (prop) {
+    const ids = selectedIds().length > 0 ? selectedIds() : alive(0) ? [0] : [];
+    if (ids.length > 0) {
+      const heroId = sim.hero ? sim.hero.id : 0;
+      const hDist = Math.hypot((sim.x[heroId] / FP) - (prop.x + 0.5), (sim.y[heroId] / FP) - (prop.y + 0.5));
+      if (hDist <= 2.0) {
+        smashProp(prop);
+      } else {
+        pendingSmashProp = prop;
+        queue({ type: 'move', ids, x: prop.x + 0.5, y: prop.y + 0.5, loose: true });
+        toast('Marching to break prop...');
+      }
       return;
     }
   }
@@ -1753,7 +1854,24 @@ const heroUi = new HeroUi({
 $('btn-hero').onclick = () => heroUi.toggle();
 initGothicHud();
 const heroPresent = combatMode && !battle && sim.cb.kind[0] === Kind.Hero;
-const missionUi = loadedMission ? new MissionUi(loadedMission.doc, { pause: (on) => (userPause = on || outcome !== null) }) : null;
+const missionUi = loadedMission
+  ? new MissionUi(loadedMission.doc, {
+      pause: (on) => (userPause = on || outcome !== null),
+      navigateTo: (tx: number, ty: number, label: string) => {
+        const sel = selectedIds();
+        const ids = sel.length > 0 ? sel : alive(0) ? [0] : [];
+        if (ids.length > 0) {
+          queue({ type: 'move', ids, x: tx, y: ty, loose: true });
+        }
+        renderer.centerOn(tx, ty);
+        ping = { x: tx, y: ty, t: performance.now() };
+        try {
+          blip();
+        } catch {}
+        toast(`🧭 Marching to: ${label}`);
+      },
+    })
+  : null;
 
 // --- towns: tap a building to walk there and go in, tap a person to talk ---
 const townUi = new TownUi({
@@ -1809,6 +1927,16 @@ function townTap(sx: number, sy: number): boolean {
 }
 
 function checkVisit(): void {
+  if (pendingSmashProp) {
+    if (pendingSmashProp.destroyed) {
+      pendingSmashProp = null;
+    } else if (alive(0)) {
+      if (heroNear(pendingSmashProp.x + 0.5, pendingSmashProp.y + 0.5, 2.0)) {
+        smashProp(pendingSmashProp);
+        pendingSmashProp = null;
+      }
+    }
+  }
   if (!visit || townUi.open) return;
   if (sim.tick > visit.until || !alive(0)) visit = null;
   else if (arrive(visit.town, visit.role, visit.npc)) visit = null;
@@ -2208,6 +2336,9 @@ function heroEvents(): void {
       else if (e.el === 3 && tips.once('firstSpell')) setTimeout(() => toast(S.firstTips.firstSpell), 2200);
       touched = true;
     } else if (e.type === 15) {
+      if (e.v === 4 || e.v === 5) {
+        try { playInventoryFull(); } catch {}
+      }
       toast(WHY_TEXT[e.v]);
     } else if (e.type === Tfx.Paid) {
       toast(`${S.town.paid} ${e.v}`);
@@ -2918,10 +3049,17 @@ function advanceStep(): void {
   }
 }
 
+let lastHeartbeat = 0;
 function frame(): void {
   const now = performance.now();
   const dt = Math.min(250, now - lastNow);
   lastNow = now;
+  if (heroPresent && alive(0) && sim.cb.hp[0] > 0 && sim.cb.hp[0] < Math.floor(sim.cb.hpMax[0] * 0.25)) {
+    if (now - lastHeartbeat >= 1200) {
+      lastHeartbeat = now;
+      try { playLowHpHeartbeat(); } catch {}
+    }
+  }
   if (!hidden && !userPause) {
     if (!renderer.feel.isFrozen(now)) {
       acc += dt * SPEEDS[speedIdx];
@@ -3149,6 +3287,12 @@ tipOn($('btn-hero'), S.tips['btn-hero']);
 function startHero(): void {
   const begin = (cls: number, female: boolean, diff: number): void => {
     createHero(sim, 0, cls, female, diff);
+    if (params.has('gold')) {
+      const g = Number.parseInt(params.get('gold')!, 10);
+      if (!Number.isNaN(g) && g > 0) {
+        sim.cb.gold[0] = (sim.cb.gold[0] ?? 0) + g;
+      }
+    }
     renderer.resetAnimation(sim);
     if (sim.hero) {
       for (const stack of sim.hero.inv) discoverItem(stack.item);

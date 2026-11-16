@@ -291,7 +291,7 @@ export function loadDoc(raw: unknown): LoadedMission {
   const n = doc.w * doc.h;
   const terrain = rleDecode(doc.terrain, n);
   const height = rleDecode(doc.height, n);
-  const objects: MapObject[] = doc.objects.map((o) => ({ kind: o.kind, x: o.x, y: o.y }));
+  const objects: MapObject[] = doc.objects.map((o) => ({ kind: o.kind, x: o.x, y: o.y, hp: o.hp, maxHp: o.hp, destroyed: false }));
   const map: GameMap = { w: doc.w, h: doc.h, terrain, height, blocked: bakeBlocked(doc.w, doc.h, terrain, objects), objects, light: bakeLight(doc.w, doc.h, height) };
   const scenario: Scenario = { teams: [], kinds: [], tiles: [], packs: [], tiers: [], families: [], bossMods: [] };
   const packs = new Map<number, number[]>();

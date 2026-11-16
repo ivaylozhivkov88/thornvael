@@ -408,6 +408,94 @@ export function playEquipSfx(isMetal = true): void {
   }
 }
 
+/** Procedural cue: Not enough mana (arcane fizzle / sputter). */
+export function playNotEnoughMana(): void {
+  unlock();
+  const bus = uiBus ?? sfxBus;
+  if (!ctx || !bus || !sfxOn || backgrounded || ctx.state !== 'running') return;
+  try {
+    const now = ctx.currentTime;
+    const osc = ctx.createOscillator();
+    const filter = ctx.createBiquadFilter();
+    const gain = ctx.createGain();
+    osc.type = 'sawtooth';
+    osc.frequency.setValueAtTime(170, now);
+    osc.frequency.exponentialRampToValueAtTime(80, now + 0.16);
+    filter.type = 'lowpass';
+    filter.frequency.setValueAtTime(600, now);
+    filter.frequency.exponentialRampToValueAtTime(180, now + 0.16);
+    gain.gain.setValueAtTime(0.28 * uiVol, now);
+    gain.gain.exponentialRampToValueAtTime(0.001, now + 0.16);
+    osc.connect(filter);
+    filter.connect(gain);
+    gain.connect(bus);
+    osc.start(now);
+    osc.stop(now + 0.16);
+  } catch {
+    // silent fallback
+  }
+}
+
+/** Procedural cue: Inventory full (heavy leather thud). */
+export function playInventoryFull(): void {
+  unlock();
+  const bus = uiBus ?? sfxBus;
+  if (!ctx || !bus || !sfxOn || backgrounded || ctx.state !== 'running') return;
+  try {
+    const now = ctx.currentTime;
+    const osc = ctx.createOscillator();
+    const gain = ctx.createGain();
+    osc.type = 'triangle';
+    osc.frequency.setValueAtTime(140, now);
+    osc.frequency.exponentialRampToValueAtTime(50, now + 0.14);
+    gain.gain.setValueAtTime(0.35 * uiVol, now);
+    gain.gain.exponentialRampToValueAtTime(0.001, now + 0.14);
+    osc.connect(gain);
+    gain.connect(bus);
+    osc.start(now);
+    osc.stop(now + 0.14);
+  } catch {
+    // silent fallback
+  }
+}
+
+/** Procedural cue: Low HP heartbeat (sub-bass lub-dub pulse). */
+export function playLowHpHeartbeat(): void {
+  unlock();
+  const bus = sfxBus ?? uiBus;
+  if (!ctx || !bus || !sfxOn || backgrounded || ctx.state !== 'running') return;
+  try {
+    const now = ctx.currentTime;
+    // Lub (first pulse)
+    const osc1 = ctx.createOscillator();
+    const gain1 = ctx.createGain();
+    osc1.type = 'sine';
+    osc1.frequency.setValueAtTime(62, now);
+    osc1.frequency.exponentialRampToValueAtTime(42, now + 0.12);
+    gain1.gain.setValueAtTime(0.42 * sfxVol, now);
+    gain1.gain.exponentialRampToValueAtTime(0.001, now + 0.12);
+    osc1.connect(gain1);
+    gain1.connect(bus);
+    osc1.start(now);
+    osc1.stop(now + 0.12);
+
+    // Dub (second slightly quieter pulse)
+    const osc2 = ctx.createOscillator();
+    const gain2 = ctx.createGain();
+    osc2.type = 'sine';
+    osc2.frequency.setValueAtTime(54, now + 0.14);
+    osc2.frequency.exponentialRampToValueAtTime(36, now + 0.28);
+    gain2.gain.setValueAtTime(0.32 * sfxVol, now + 0.14);
+    gain2.gain.exponentialRampToValueAtTime(0.001, now + 0.28);
+    osc2.connect(gain2);
+    gain2.connect(bus);
+    osc2.start(now + 0.14);
+    osc2.stop(now + 0.28);
+  } catch {
+    // silent fallback
+  }
+}
+
 /** Distinct procedural trader speech barks & tones. */
 export type TraderRole = 'blacksmith' | 'barkeep' | 'alchemist' | 'guildmaster';
 export type TraderEvent = 'greet' | 'farewell' | 'buy';

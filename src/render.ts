@@ -1,6 +1,6 @@
 import { Application, Container, Graphics, Sprite, Text, Texture } from 'pixi.js';
 import { OverheadNameplateLayer } from './nameplate';
-import { ObjectKind, Terrain, TILE, type GameMap } from './map';
+import { ObjectKind, PropKind, Terrain, TILE, type GameMap } from './map';
 import { loadTerrainArt, paintTerrainChunk, prepareScenery, type SceneryPlacement } from './terrain';
 import { Kind } from './sim/combat';
 import { SKILL_NAMES } from './sim/hero';
@@ -1062,14 +1062,56 @@ export class Renderer {
         r.circle(sx, sy - 8, 3).fill({ color: 0x3b3834, alpha: 0.85 });
       }
     }
-    // Specular glints over chests/relics in scenery
+    // Destructible Props & Specular glints over scenery
     for (let oIdx = 0; oIdx < this.map.objects.length; oIdx++) {
       const obj = this.map.objects[oIdx];
       if (obj.kind === ObjectKind.House) continue;
       if (obj.x < minTx || obj.x > maxTx || obj.y < minTy || obj.y > maxTy) continue;
       const ox = (obj.x + 0.5) * TILE;
       const oy = (obj.y + 0.5) * TILE;
-      if (sim.explored[obj.y * mw + obj.x]) {
+      if (!sim.explored[obj.y * mw + obj.x]) continue;
+
+      if (obj.kind === PropKind.Barrel) {
+        if (obj.destroyed) {
+          r.ellipse(ox, oy + 2, 7, 3.5).fill({ color: 0x3d200e, alpha: 0.65 });
+          r.moveTo(ox - 5, oy).lineTo(ox + 4, oy + 3).stroke({ color: 0x784824, width: 1.5 });
+          r.moveTo(ox - 3, oy + 3).lineTo(ox + 5, oy - 1).stroke({ color: 0x5a3418, width: 1.5 });
+          r.circle(ox - 2, oy + 1, 1).fill(0x3a3a3a);
+        } else {
+          r.ellipse(ox, oy + 3, 7, 3).fill({ color: 0x000000, alpha: 0.45 });
+          r.roundRect(ox - 6, oy - 11, 12, 13, 2).fill(0x784824).stroke({ color: 0x3d200e, width: 1.2 });
+          r.rect(ox - 6, oy - 8, 12, 1.8).fill(0x404448);
+          r.rect(ox - 6, oy - 2, 12, 1.8).fill(0x404448);
+          r.ellipse(ox, oy - 11, 5, 2).fill(0x945a2e).stroke({ color: 0x3d200e, width: 0.8 });
+          drawGlint(r, ox - 2, oy - 10, sim.tick, oIdx + 200);
+        }
+      } else if (obj.kind === PropKind.Urn) {
+        if (obj.destroyed) {
+          r.ellipse(ox, oy + 2, 6, 3).fill({ color: 0x4a1e10, alpha: 0.65 });
+          r.moveTo(ox - 4, oy).lineTo(ox - 1, oy + 2).lineTo(ox - 3, oy + 4).closePath().fill(0xb55a30);
+          r.moveTo(ox + 2, oy - 1).lineTo(ox + 5, oy + 1).lineTo(ox + 2, oy + 3).closePath().fill(0x9e4822);
+        } else {
+          r.ellipse(ox, oy + 3, 5, 2.5).fill({ color: 0x000000, alpha: 0.45 });
+          r.ellipse(ox, oy - 5, 5.5, 6.5).fill(0xb55a30).stroke({ color: 0x5a2410, width: 1.2 });
+          r.rect(ox - 2.5, oy - 12, 5, 3.5).fill(0xc86838);
+          r.ellipse(ox, oy - 12, 3.5, 1.5).fill(0xe07844).stroke({ color: 0x5a2410, width: 0.8 });
+          r.rect(ox - 5, oy - 6, 10, 1.5).fill(0x3880a8);
+          drawGlint(r, ox, oy - 8, sim.tick, oIdx + 200);
+        }
+      } else if (obj.kind === PropKind.Sarcophagus) {
+        if (obj.destroyed) {
+          r.ellipse(ox, oy + 3, 10, 5).fill({ color: 0x000000, alpha: 0.45 });
+          r.roundRect(ox - 9, oy - 12, 18, 14, 2).fill(0x383a3d).stroke({ color: 0x1a1c1e, width: 1.4 });
+          r.moveTo(ox - 6, oy - 10).lineTo(ox, oy - 4).lineTo(ox + 6, oy - 7).stroke({ color: 0x141517, width: 1.5 });
+        } else {
+          r.ellipse(ox, oy + 4, 11, 5).fill({ color: 0x000000, alpha: 0.5 });
+          r.roundRect(ox - 9, oy - 14, 18, 16, 2.5).fill(0x565b60).stroke({ color: 0x24282c, width: 1.4 });
+          r.roundRect(ox - 7, oy - 13, 14, 14, 1.5).fill(0x6e747a).stroke({ color: 0x383c40, width: 0.8 });
+          r.moveTo(ox, oy - 12).lineTo(ox, oy - 2).stroke({ color: 0xc49a3c, width: 1.8 });
+          r.moveTo(ox - 4, oy - 9).lineTo(ox + 4, oy - 9).stroke({ color: 0xc49a3c, width: 1.8 });
+          drawGlint(r, ox + 1, oy - 9, sim.tick, oIdx + 200);
+        }
+      } else {
         drawGlint(r, ox, oy - 10, sim.tick, oIdx + 200);
       }
     }
@@ -1313,7 +1355,14 @@ export class Renderer {
       const mods = cb.bossMods[i] ?? [];
       const isElite = mods.length > 0 || !!boss;
       const s = this.sprites[i];
-      const auraTint = boss?.auraTint ?? (isElite ? 0xf4b43a : famVis?.auraColor ?? 0xf4b43a);
+      let auraTint = boss?.auraTint ?? (isElite ? 0xf4b43a : famVis?.auraColor ?? 0xf4b43a);
+      if (mods.includes('fire_enchanted')) {
+        auraTint = 0xff4810;
+      } else if (mods.includes('lightning_enchanted') || mods.includes('spectral_hit')) {
+        auraTint = 0x00c8ff;
+      } else if (mods.includes('extra_fast')) {
+        auraTint = 0x30e850;
+      }
       const baseRadius = boss ? Math.round(14 * (boss.scale / 1.3)) : isElite ? 14 : 11;
 
       // Ground runic / family ring
@@ -1570,7 +1619,9 @@ export class Renderer {
     if (v.ping) {
       const sx = v.ping.x * TILE * this.zoom - this.camX;
       const sy = v.ping.y * TILE * this.zoom - this.camY;
-      o.circle(sx, sy, (6 + v.ping.age * 16) * this.zoom).stroke({ color: 0xffffff, width: 2, alpha: 1 - v.ping.age });
+      o.circle(sx, sy, (6 + v.ping.age * 22) * this.zoom).stroke({ color: 0xffd700, width: 2.5, alpha: 1 - v.ping.age });
+      o.circle(sx, sy, (3 + v.ping.age * 12) * this.zoom).stroke({ color: 0xffe680, width: 1.5, alpha: (1 - v.ping.age) * 0.8 });
+      o.moveTo(sx, sy - 6).lineTo(sx + 6, sy).lineTo(sx, sy + 6).lineTo(sx - 6, sy).closePath().stroke({ color: 0xffd700, width: 1.5, alpha: 1 - v.ping.age });
     }
     // Subtle directional chevron around hero pointing towards nearest enemy raider camp
     const heroId = sim.hero ? sim.hero.id : 0;

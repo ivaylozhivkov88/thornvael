@@ -566,6 +566,14 @@ export function strike(sim: Sim, t: number, min: number, max: number, elem: numb
     }
   }
 
+  // Elite affixes on struck
+  if (dmg > 0 && cb.bossMods[t]?.includes('lightning_enchanted')) {
+    cb.emit(6, sim.x[t], sim.y[t], 0, 0); // electric sparks
+    if (src >= 0 && src !== t && sim.team[src] !== sim.team[t]) {
+      strike(sim, src, 2, 5, Elem.Air, 12, t);
+    }
+  }
+
   if (cb.hp[t] <= 0) die(sim, t, elem);
 }
 
@@ -574,8 +582,21 @@ function die(sim: Sim, t: number, elem = 0): void {
     respawnHero(sim);
     return;
   }
-  dropLoot(sim, t);
   const cb = sim.cb;
+  if (cb.bossMods[t]?.includes('fire_enchanted')) {
+    cb.emit(1, sim.x[t], sim.y[t], 0, 0); // death fiery explosion
+    const blastR = Math.round(1.8 * FP);
+    const blastR2 = blastR * blastR;
+    for (let u = 0; u < sim.count; u++) {
+      if (sim.team[u] !== sim.team[t] && cb.hp[u] > 0) {
+        const d2 = (sim.x[u] - sim.x[t]) ** 2 + (sim.y[u] - sim.y[t]) ** 2;
+        if (d2 <= blastR2) {
+          strike(sim, u, 4, 10, Elem.Fire, 14, t);
+        }
+      }
+    }
+  }
+  dropLoot(sim, t);
   cb.hp[t] = 0;
   cb.alive[sim.team[t] & 3]--;
   cb.ord[t] = Ord.Still;
@@ -657,12 +678,22 @@ function attack(sim: Sim, i: number, t: number): void {
       max = Math.max(1, Math.floor((max * 70) / 100));
     }
   }
+  const bmods = cb.bossMods[i];
+  if (bmods && bmods.length > 0) {
+    if (bmods.includes('extra_fast')) cd = Math.max(1, Math.round(cd * 0.7));
+  }
   cb.cd[i] = cd;
   if (d.ranged) {
     if (d.elem === 0) cb.emit(12, sim.x[i], sim.y[i], 0, 0);
     launch(sim, sim.x[i], sim.y[i], t, min, max, d.elem, acc, -1, 100, i);
   }
   else strike(sim, t, min, max, d.elem, acc, i);
+  if (bmods && bmods.length > 0) {
+    if (bmods.includes('fire_enchanted')) {
+      strike(sim, t, 3, 7, Elem.Fire, acc, i);
+      cb.emit(1, sim.x[i], sim.y[i], 0, 0);
+    }
+  }
 
   // Boss attack procs
   const fam = cb.family[i];
