@@ -7,7 +7,7 @@ describe('UI & Visual Ergonomics: Holdings Modal, HUD Quest Tracker & Minimap', 
   const gothicHudCss = readFileSync(resolve(__dirname, '../src/gothic-hud.css'), 'utf8');
   const townstyleCss = readFileSync(resolve(__dirname, '../src/townstyle.css'), 'utf8');
 
-  describe('1. Holdings Modal ("Владения") Viewport Containment & Touch Ergonomics', () => {
+  describe('1. Holdings Modal ("Holdings") Viewport Containment & Touch Ergonomics', () => {
     it('enforces 100dvh containment and overflow: hidden on holdings modal and box', () => {
       expect(styleCss).toContain('#shell .sh-holdings-modal');
       expect(styleCss).toContain('#shell .sh-holdings-box');

@@ -371,7 +371,6 @@ export class TownUi {
     for (const layer of equipmentLayers(h)) {
       const swapped = layer.slot === trySlot;
       const badge = el('span', `doll-badge${swapped ? ' preview-override' : ''}`);
-      badge.title = swapped ? `Previewing: ${getItemDef(this.tryOn)?.name ?? ''}` : layer.name;
       badge.style.cursor = 'pointer';
       badge.append(itemIcon(swapped ? this.tryOn : layer.item));
       badge.addEventListener('click', (e) => {
@@ -383,7 +382,6 @@ export class TownUi {
     }
     if (trySlot >= 0 && !h.eq.some((_, i) => i === trySlot && h.eq[i] >= 0)) {
       const badge = el('span', 'doll-badge preview-badge');
-      badge.title = `Preview: ${getItemDef(this.tryOn)?.name ?? ''}`;
       badge.append(itemIcon(this.tryOn));
       doll.append(badge);
     }
@@ -485,7 +483,6 @@ export class TownUi {
       b.className = `cell${this.buys.includes(k) ? ' sel' : ''}`;
       b.dataset.slot = String(k);
       this.decorateItem(b, id);
-      this.ctx.tipOn(b, formatItemTooltip(id, h));
       b.addEventListener('pointerenter', (e) => {
         if ((e as PointerEvent).pointerType !== 'touch') this.showCardTooltip(id, b);
       });
@@ -519,7 +516,6 @@ export class TownUi {
       b.className = `cell${picked ? ' sel' : ''}${picked >= s.n ? ' no' : ''}`;
       b.dataset.packSlot = String(k);
       this.decorateItem(b, s.item);
-      this.ctx.tipOn(b, formatItemTooltip(s.item, h));
       b.addEventListener('pointerenter', (e) => {
         if ((e as PointerEvent).pointerType !== 'touch') this.showCardTooltip(s.item, b);
       });

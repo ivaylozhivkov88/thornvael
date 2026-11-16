@@ -163,14 +163,14 @@ export function applyDeadzone(x: number, y: number, deadzone = DEFAULT_DEADZONE)
 }
 
 export function cleanGamepadName(id: string): string {
-  if (!id) return 'Контролер';
+  if (!id) return 'Controller';
   let name = id.replace(/\s*\([^)]*STANDARD GAMEPAD[^)]*\)/gi, '');
   name = name.replace(/\s*\(Vendor:[^)]*\)/gi, '').trim();
   if (!name) name = id.trim();
   if (name.length > 36) {
     name = name.slice(0, 36).trim() + '...';
   }
-  return name || 'Контролер';
+  return name || 'Controller';
 }
 
 export class GamepadController {
@@ -199,15 +199,15 @@ export class GamepadController {
     this.onConnectHandler = (e: Event) => {
       const gp = (e as GamepadEvent).gamepad;
       this.connectedCount++;
-      const name = gp?.id ? cleanGamepadName(gp.id) : 'Контролер';
-      this.host.toast?.(`🎮 Контролер свързан: ${name}`);
+      const name = gp?.id ? cleanGamepadName(gp.id) : 'Controller';
+      this.host.toast?.(`🎮 Controller connected: ${name}`);
     };
 
     this.onDisconnectHandler = (e: Event) => {
       const gp = (e as GamepadEvent).gamepad;
       this.connectedCount = Math.max(0, this.connectedCount - 1);
-      const name = gp?.id ? cleanGamepadName(gp.id) : 'Контролер';
-      this.host.toast?.(`🎮 Контролер изключен: ${name}`);
+      const name = gp?.id ? cleanGamepadName(gp.id) : 'Controller';
+      this.host.toast?.(`🎮 Controller disconnected: ${name}`);
     };
 
     if (typeof window !== 'undefined') {

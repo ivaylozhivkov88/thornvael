@@ -191,11 +191,11 @@ export class MonsterAi {
     if (engaged !== undefined && cb.tgt[engaged] >= 0 && cb.hp[cb.tgt[engaged]] > 0) {
       return cb.tgt[engaged];
     }
-    const heroId = sim.hero?.id ?? 0;
-    if (cb.hp[heroId] > 0 && sim.team[heroId] !== sim.team[alive[0]]) {
+    const heroId = sim.hero ? (sim.hero.id ?? 0) : -1;
+    if (heroId >= 0 && cb.hp[heroId] > 0 && sim.team[heroId] !== sim.team[alive[0]]) {
       const hx = sim.x[heroId] / FP;
       const hy = sim.y[heroId] / FP;
-      if (Math.hypot(hx - p.x, hy - p.y) <= 18) {
+      if (Math.hypot(hx - p.x, hy - p.y) <= 25) {
         return heroId;
       }
     }
@@ -327,11 +327,11 @@ export class MonsterAi {
       }
     }
 
-    // 1. Coward Swarm AI (Fallen-style panic retreat for 60 ticks when leader dies or HP < 25%)
+    // 1. Coward Swarm AI (Small Imp/Fallen panic retreat for 60 ticks when leader dies or HP <= 25%)
     for (const cId of cowards) {
       if (newlySlainLeader) {
-        this.panicUntil.set(cId, sim.tick + 60); // 60 ticks = 3 seconds panic retreat
-      } else if (cb.hp[cId] * 4 <= cb.hpMax[cId] && !this.lowHpPanicked.has(cId)) {
+        this.panicUntil.set(cId, sim.tick + 60); // 60 ticks = 3.0 seconds panic retreat
+      } else if (cb.hp[cId] <= Math.floor(cb.hpMax[cId] * 0.25) && !this.lowHpPanicked.has(cId)) {
         this.lowHpPanicked.add(cId);
         this.panicUntil.set(cId, sim.tick + 60);
       }
@@ -563,16 +563,31 @@ export class MonsterAi {
     for (const p of this.packs) {
       const alive = p.ids.filter((id) => cb.hp[id] > 0);
       if (alive.length === 0) continue;
+      const packTeam = sim.team[alive[0]];
       const engaged = alive.find((id) => cb.tgt[id] >= 0 && cb.hp[cb.tgt[id]] > 0);
+
+      // Hero proximity: aggro sight radius ~13 tiles and relentless pursuit within 25 tiles
+      const heroId = sim.hero ? (sim.hero.id ?? 0) : -1;
+      const heroDist = heroId >= 0 && cb.hp[heroId] > 0 && sim.team[heroId] !== packTeam
+        ? Math.hypot(sim.x[heroId] / FP - p.x, sim.y[heroId] / FP - p.y)
+        : Infinity;
+      const heroSight = heroDist <= 13;
+      const heroPursuit = heroDist <= 25;
+
       if (!p.hunting) {
-        if (engaged === undefined) continue;
-        const t = cb.tgt[engaged];
+        // Aggro sight radius ~13 tiles onto hero or active engagement
+        const canAggro = engaged !== undefined || heroSight;
+        if (!canAggro) continue;
+        const t = engaged !== undefined ? cb.tgt[engaged] : heroId;
         p.hunting = true;
         p.calm = 0;
         this.issueTacticalOrders(sim, p, alive, t, out);
         continue;
       }
-      p.calm = engaged === undefined ? p.calm + 10 : 0;
+
+      // Relentless pursuit: as long as hero is within 25 tiles or engaged, pack will not disengage!
+      p.calm = (engaged !== undefined || heroPursuit) ? 0 : p.calm + 10;
+
       let cx = 0;
       let cy = 0;
       for (const id of alive) {
@@ -580,7 +595,7 @@ export class MonsterAi {
         cy += sim.y[id];
       }
       const far = Math.hypot(cx / alive.length / FP - p.x, cy / alive.length / FP - p.y) > 22;
-      if (p.calm >= 100 || far) {
+      if (p.calm >= 100 || (far && !heroPursuit)) {
         p.hunting = false;
         out.push({ type: 'order', order: 'guard', ids: alive, x: p.x, y: p.y });
         continue;

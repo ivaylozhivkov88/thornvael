@@ -459,13 +459,13 @@ export async function runShell(startWorker: () => void): Promise<never> {
       const controls = el('div', 'sh-slideshow-controls');
       const isLast = player.index + 1 >= player.sequence.slides.length;
 
-      const skipBtn = btn('Пропусни [Space / Esc]', () => {
+      const skipBtn = btn('Skip [Space / Esc]', () => {
         blip();
         player = skipStory(player);
         close();
       }, 'sh-slideshow-btn sh-slideshow-btn-secondary');
 
-      const replayBtn = btn('Повтори', () => {
+      const replayBtn = btn('Replay', () => {
         blip();
         animateTransition(() => {
           player = replayStory(player);
@@ -473,7 +473,7 @@ export async function runShell(startWorker: () => void): Promise<never> {
         });
       }, 'sh-slideshow-btn sh-slideshow-btn-secondary');
 
-      const nextBtn = btn(isLast ? 'Край' : 'Напред →', stepNext, 'sh-slideshow-btn sh-slideshow-btn-primary');
+      const nextBtn = btn(isLast ? 'Finish' : 'Next →', stepNext, 'sh-slideshow-btn sh-slideshow-btn-primary');
 
       controls.append(skipBtn, replayBtn, nextBtn);
       frame.append(header, content, controls);

@@ -1,6 +1,6 @@
 import { registerWorker } from './updategate';
 import { createInstallController, isInstallPrompt } from './pwa-install';
-import { audioState, blip, cancelShopEntry, play, playShopEntry, resumeAudio, setAmbience, setMusic, setSfx, suspendAudio, unlock, type MusicMode } from './audio';
+import { audioState, blip, cancelShopEntry, play, playPickupRustle, playShopEntry, resumeAudio, setAmbience, setMusic, setSfx, suspendAudio, unlock, type MusicMode } from './audio';
 import { MusicDirector, classifyWeapon, cueFor, pickPotionDrink, pickTerrainStep, type CueContext } from './audiologic';
 import { ControlGroups, GROUP_COUNT } from './groups';
 import { GestureRecognizer, pickUnit, reticle, unitsInBox, type Intent } from './input';
@@ -480,11 +480,11 @@ async function castTownPortal(): Promise<void> {
     }
   }
   if (!hasScroll) {
-    toast('Нужен е свитък за портал (Scroll of Town Portal)!');
+    toast('A Scroll of Town Portal is required!');
     return;
   }
   takeItem(sim.hero, tpScrollId);
-  toast('🌀 Отворен е син градски портал към града (Town Portal)!');
+  toast('🌀 A blue Town Portal to town has opened!');
   play('cast_water', 5);
 
   if (campaign && crec && campaignId) {
@@ -511,7 +511,7 @@ async function returnThroughTownPortal(): Promise<void> {
   if (!campaign || !crec || !crec.progress.townPortal) return;
   const tp = crec.progress.townPortal;
   crec.progress.townPortal = null;
-  toast('🌀 Завръщане през градския портал в дивата местност...');
+  toast('🌀 Returning through the Town Portal to the wilderness...');
   play('cast_water', 5);
 
   const targetNode = nodeOf(campaign, tp.zoneNodeId);
@@ -534,7 +534,7 @@ function triggerWaypointTravel(): void {
     currentNodeId: campaignId ?? '',
     onTravel: (targetNode) => {
       void (async () => {
-        toast(`⚡ Телепортиране до ${targetNode.title}...`);
+        toast(`⚡ Teleporting to ${targetNode.title}...`);
         play('cast_astral', 5);
         const carry = sim.hero ? extractCarryover(sim, crec!.progress, townSeed(1, crec!.progress.townVisits + 1), slots) : null;
         crec!.progress.node = targetNode.id;
@@ -555,7 +555,7 @@ async function transitionToZone(exit: ZoneExitDef): Promise<void> {
   if (isTransitioning) return;
   isTransitioning = true;
   userPause = true;
-  toast(`🚪 Преминаване към съседна зона: ${exit.label || exit.targetMap}...`);
+  toast(`🚪 Travelling to adjacent zone: ${exit.label || exit.targetMap}...`);
   play('select_hero', 5);
 
   if (campaign && crec) {
@@ -581,7 +581,7 @@ async function transitionToZone(exit: ZoneExitDef): Promise<void> {
 async function saveAndExit(): Promise<void> {
   if (outcome) return;
   userPause = true;
-  toast('💾 Записване и изход... Връщане в Градския лагер (D2R)...');
+  toast('💾 Saving character & exiting... Returning to Town Hub (D2R)...');
   townUi.close();
   pauseMenu.close();
   saveUi.close();
@@ -843,13 +843,16 @@ function initGothicHud(): void {
   };
 
   const btnQuest = document.getElementById('btn-quest');
-  if (btnQuest) btnQuest.onclick = toggleQuestLog;
+  if (btnQuest) btnQuest.onclick = () => {
+    if (missionUi) missionUi.toggleObjectives();
+    else toggleQuestLog();
+  };
   const btnInv = document.getElementById('btn-inv');
-  if (btnInv) btnInv.onclick = () => heroUi.toggle();
+  if (btnInv) btnInv.onclick = () => heroUi.toggleInventory();
   const btnSpells = document.getElementById('btn-spells-hud');
   if (btnSpells) btnSpells.onclick = () => openBook(-1);
   const btnChar = document.getElementById('btn-char');
-  if (btnChar) btnChar.onclick = () => heroUi.toggle();
+  if (btnChar) btnChar.onclick = () => heroUi.toggleStats();
   const btnAlt = document.getElementById('btn-alt-loot');
   if (btnAlt) btnAlt.onclick = toggleLootMode;
   const btnMenu = document.getElementById('btn-menu');
@@ -1311,20 +1314,20 @@ window.addEventListener('keydown', (e) => {
     toggleQuestLog();
   } else if (e.key.toLowerCase() === 't' && !e.ctrlKey && !e.altKey) {
     e.preventDefault();
-    castTownPortal();
+    openBook(-1);
   } else if (e.key.toLowerCase() === 'c' && !e.ctrlKey && !e.altKey) {
     e.preventDefault();
-    heroUi.toggle();
+    heroUi.toggleStats();
   } else if (e.key.toLowerCase() === 's' && !e.ctrlKey && !e.altKey && !e.metaKey && controlMode !== 'wasd') {
     e.preventDefault();
     openBook(-1);
   } else if (e.key.toLowerCase() === 'b' && !e.ctrlKey && !e.altKey) {
     e.preventDefault();
-    openBook(-1);
+    heroUi.toggleInventory();
   }
   else if (e.key.toLowerCase() === 'i' && !e.ctrlKey && !e.altKey && !e.metaKey) {
     e.preventDefault();
-    heroUi.toggle();
+    heroUi.toggleInventory();
   } else if (e.key.toLowerCase() === 'f' && !e.ctrlKey && !e.altKey) toggleLoose();
   else if (!e.ctrlKey && !e.altKey && !e.metaKey && (controlMode === 'wasd' ? WASD_ORDER_KEYS : CLASSIC_ORDER_KEYS)[keyLower]) {
     orderButton((controlMode === 'wasd' ? WASD_ORDER_KEYS : CLASSIC_ORDER_KEYS)[keyLower]);
@@ -1374,7 +1377,6 @@ function orderButton(ord: string): void {
 }
 const cmds = $('cmds');
 const tipOn = (b: HTMLElement, text: string): void => {
-  b.title = text;
   let t = 0;
   let shown = false;
   b.addEventListener('pointerdown', (e) => {
@@ -2001,6 +2003,15 @@ const gamepadController = new GamepadController({
           const leadId = ids.includes(0) ? 0 : ids[0];
           const lx = px(sim, leadId);
           const ly = py(sim, leadId);
+
+          // Check if there is dropped loot within 4.0 tiles from hero (Controller A / Cross / Slot 0 loot pickup)
+          const nearbyLootCode = nearestLoot(sim, Math.round(lx * FP), Math.round(ly * FP), 4.0 * FP);
+          if (nearbyLootCode >= 0) {
+            orderPickupLoot(nearbyLootCode);
+            playPickupRustle();
+            break;
+          }
+
           let nearestEnemy = -1;
           let minDistSq = Infinity;
           for (let i = 0; i < sim.count; i++) {
@@ -2063,9 +2074,22 @@ const gamepadController = new GamepadController({
         case 'town_portal':
           castTownPortal();
           break;
-        case 'loot':
+        case 'loot': {
+          const ids = selectedIds().length > 0 ? selectedIds() : (alive(0) ? [0] : []);
+          if (ids.length > 0) {
+            const leadId = ids.includes(0) ? 0 : ids[0];
+            const lx = px(sim, leadId);
+            const ly = py(sim, leadId);
+            const nearbyLootCode = nearestLoot(sim, Math.round(lx * FP), Math.round(ly * FP), 4.0 * FP);
+            if (nearbyLootCode >= 0) {
+              orderPickupLoot(nearbyLootCode);
+              playPickupRustle();
+              break;
+            }
+          }
           lootOverlay.toggleLootMode(mods.alt, toast);
           break;
+        }
       }
     } else if (binding.type === 'skill') {
       const skills = getHeroSkills();
@@ -2078,8 +2102,22 @@ const gamepadController = new GamepadController({
     }
   },
   onDrinkPotion: (slot) => drinkBelt(slot),
-  onToggleLootHighlight: () => lootOverlay.toggleLootMode(mods.alt, toast),
-  onToggleInventory: () => heroUi.toggle(),
+  onToggleLootHighlight: () => {
+    const ids = selectedIds().length > 0 ? selectedIds() : (alive(0) ? [0] : []);
+    if (ids.length > 0) {
+      const leadId = ids.includes(0) ? 0 : ids[0];
+      const lx = px(sim, leadId);
+      const ly = py(sim, leadId);
+      const nearbyLootCode = nearestLoot(sim, Math.round(lx * FP), Math.round(ly * FP), 4.0 * FP);
+      if (nearbyLootCode >= 0) {
+        orderPickupLoot(nearbyLootCode);
+        playPickupRustle();
+        return;
+      }
+    }
+    lootOverlay.toggleLootMode(mods.alt, toast);
+  },
+  onToggleInventory: () => heroUi.toggleInventory(),
   onToggleQuestJournal: () => {
     if (missionUi) missionUi.toggleObjectives();
     else toggleQuestLog();
@@ -2846,9 +2884,9 @@ function advanceStep(): void {
         if (!obj.visited) {
           const res = interactAdventureObject(sim, obj);
           if (res.triggered) {
-            if (res.effect === 'gold') toast(`💰 Намерено злато в мелницата: +${res.goldReward} злато!`);
-            else if (res.effect === 'well_blessing') toast('✨ Магическият кладенец възстанови жизнените сили и дари Благословия!');
-            else if (res.effect === 'bank_cleared') toast(`🏆 Леговището е прочистено: плячкосани +${res.goldReward} злато и трофеи!`);
+            if (res.effect === 'gold') toast(`💰 Plundered mill stores: +${res.goldReward} gold!`);
+            else if (res.effect === 'well_blessing') toast('✨ The sacred well restored vitality and bestowed a Blessing!');
+            else if (res.effect === 'bank_cleared') toast(`🏆 Monster den cleansed: looted +${res.goldReward} gold and trophies!`);
             play('pickup_gold', 5);
           }
         }
@@ -2858,7 +2896,7 @@ function advanceStep(): void {
     if (allWaypoints.length > 0) {
       const wp = checkWaypointTouch(sim, allWaypoints, activeWaypoints);
       if (wp) {
-        toast(`🗿 Активиран е древен портален камък (Waypoint): ${wp.name}!`);
+        toast(`🗿 Ancient Waypoint activated: ${wp.name}!`);
         play('select_hero', 5);
         if (crec) {
           const wps = crec.progress.waypoints ? [...crec.progress.waypoints] : [];
@@ -3155,7 +3193,7 @@ function startHero(): void {
       }
     }
     if (isTownNode && (params.has('tpReturn') || crec.progress.townPortal)) {
-      toast('🌀 Син градски портал е отворен! Натисни [T] за завръщане в дивата природа.');
+      toast('🌀 Blue Town Portal opened! Press [T] to return to the wilderness.');
     }
     renderer.resetAnimation(sim);
     return;

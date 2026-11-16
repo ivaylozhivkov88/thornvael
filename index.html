@@ -121,25 +121,25 @@
       </div>
     </div>
 
-    <!-- Utility Action Buttons: [Q], [I], [S], [C], [👁 ALT], [ESC] -->
+    <!-- Utility Action Buttons: [C], [I], [T], [Q], [👁 ALT], [ESC] -->
     <div class="utility-buttons" id="utility-buttons">
-      <button id="btn-quest" class="hud-btn" title="Quests [Q]">
-        <span class="btn-hotkey">Q</span>
-        <span class="btn-name">Quests</span>
-      </button>
-      <button id="btn-inv" class="hud-btn" title="Inventory [I]">
-        <span class="btn-hotkey">I</span>
-        <span class="btn-name">Pack</span>
-      </button>
-      <button id="btn-spells-hud" class="hud-btn" title="Spellbook [S]">
-        <span class="btn-hotkey">S</span>
-        <span class="btn-name">Spells</span>
-      </button>
       <button id="btn-char" class="hud-btn" title="Character Stats [C]">
         <span class="btn-hotkey">C</span>
         <span class="btn-name">Stats</span>
       </button>
-      <button id="btn-alt-loot" class="hud-btn" title="Highlight & Auto-Loot [ALT]">
+      <button id="btn-inv" class="hud-btn" title="Inventory [I]">
+        <span class="btn-hotkey">I</span>
+        <span class="btn-name">Inv</span>
+      </button>
+      <button id="btn-spells-hud" class="hud-btn" title="Skills [T]">
+        <span class="btn-hotkey">T</span>
+        <span class="btn-name">Skills</span>
+      </button>
+      <button id="btn-quest" class="hud-btn" title="Quests [Q]">
+        <span class="btn-hotkey">Q</span>
+        <span class="btn-name">Quests</span>
+      </button>
+      <button id="btn-alt-loot" class="hud-btn" title="Highlight Loot [ALT]">
         <span class="btn-hotkey">ALT</span>
         <span class="btn-name">👁 Loot</span>
       </button>
@@ -193,6 +193,7 @@
 
 <!-- Gothic Pause Menu & Game Codex [ESC] -->
 <div id="pause-menu" class="pause-menu" role="dialog" aria-label="Game Paused" hidden></div>
+<div id="char-sheet" class="sheet char-sheet" role="dialog" aria-label="Character Stats" hidden><div class="sheet-head" id="char-sheet-head"></div><div id="char-sheet-body"></div></div>
 <div id="sheet" class="sheet" role="dialog" aria-label="Hero" hidden><div class="sheet-head" id="sheet-head"></div><div id="sheet-body"></div></div>
 <div id="create" class="sheet" role="dialog" aria-label="Create your hero" hidden></div>
 <div id="book" class="sheet" role="dialog" aria-label="Spells" hidden><div class="book-head"><h2 id="book-title"></h2><button id="book-close">Close</button></div><p id="book-help"></p><div id="book-body"></div></div>

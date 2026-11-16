@@ -477,6 +477,46 @@ button:focus-visible { outline: 2px solid #9dff7a; outline-offset: 1px; }
   overscroll-behavior: contain;
 }
 
+/* Character Sheet UI Viewport Containment Rule */
+#char-sheet {
+  max-height: calc(100dvh - 36px);
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+#char-sheet > .sheet-head {
+  flex-shrink: 0;
+}
+#char-sheet > #char-sheet-body {
+  flex: 1 1 auto;
+  min-height: 0;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+}
+
+@media (min-width: 901px) {
+  #char-sheet {
+    left: 16px;
+    right: auto;
+    bottom: calc(56px + env(safe-area-inset-bottom));
+    top: calc(12px + env(safe-area-inset-top));
+    width: min(440px, 46vw);
+    max-height: calc(100dvh - 72px);
+    transform: none;
+    margin: 0;
+  }
+  #sheet {
+    right: 16px;
+    left: auto;
+    bottom: calc(56px + env(safe-area-inset-bottom));
+    top: calc(12px + env(safe-area-inset-top));
+    width: min(460px, 48vw);
+    max-height: calc(100dvh - 72px);
+    transform: none;
+    margin: 0;
+  }
+}
+
 /* Centered Hero Portrait in HUD */
 .hud-hero-img {
   width: 100%;

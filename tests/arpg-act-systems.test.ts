@@ -112,7 +112,7 @@ describe('classic ARPG Connected Acts & Core ARPG Systems', () => {
     });
   });
 
-  describe('System 1: Town Portal (Свитък за градски портал)', () => {
+  describe('System 1: Town Portal (Scroll of Town Portal)', () => {
     it('opens a town portal from wilderness at hero position', () => {
       const sim = new Sim(testMap(40, 40), 1, [0], { combat: true, kinds: [Kind.Hero] });
       createHero(sim, 0, 0, false, 1);

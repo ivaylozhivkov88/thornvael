@@ -127,7 +127,7 @@ export class WaypointTravelModal {
 
     const title = document.createElement('h3');
     title.className = 'waypoint-modal-title';
-    title.textContent = '🗿 Waypoint Network (Портални Камъни)';
+    title.textContent = '🗿 Waypoint Network';
 
     const closeBtn = document.createElement('button');
     closeBtn.type = 'button';

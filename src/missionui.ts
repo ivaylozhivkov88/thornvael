@@ -522,7 +522,7 @@ export class MissionUi {
     if (this.isObjectivesCollapsed) {
       this.goals.className = 'gothic-hud-tracker collapsed';
       const completed = quest.objectives.filter((o) => o.completed).length;
-      this.goals.textContent = `📜 Задачи [Q] (${completed}/${quest.objectives.length})`;
+      this.goals.textContent = `📜 Quests [Q] (${completed}/${quest.objectives.length})`;
     } else {
       this.goals.className = 'gothic-hud-tracker expanded';
       const lines: string[] = [];
@@ -532,7 +532,7 @@ export class MissionUi {
         const progress = obj.total > 1 ? ` (${obj.current}/${obj.total})` : '';
         lines.push(`${mark} ${obj.text}${progress}`);
       }
-      lines.push('\n[ Клик: Свий | Двоен клик: Дневник ]');
+      lines.push('\n[ Click: Collapse | Double Click: Journal ]');
       this.goals.textContent = lines.join('\n');
     }
   }

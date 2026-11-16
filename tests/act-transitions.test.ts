@@ -25,42 +25,42 @@ describe('Campaign Act Transitions & Slideshow System (P22)', () => {
     const act1 = sequenceById('act-1');
     expect(act1.act).toBe(1);
     expect(act1.kind).toBe('intro');
-    expect(act1.title).toContain('Граничните бродове');
+    expect(act1.title).toContain('The Border Fords');
 
-    // Transition Act 1 -> Act 2: "Пътят през пресъхващите блата към пустинята"
+    // Transition Act 1 -> Act 2
     const act2 = sequenceById('act-2');
     expect(act2.act).toBe(2);
     expect(act2.kind).toBe('intro');
-    expect(act2.title).toContain('Пътят през пресъхващите блата към пустинята');
+    expect(act2.title).toContain('The Desiccated Marches');
     expect(act2.triggerNode).toBe('m12-redmarsh-border');
     expect(act2.completedNodeTrigger).toBe('m11-ashbrook-retreat');
 
-    // Transition Act 2 -> Act 3: "Слизане в безслънчевите пещери и подземия"
+    // Transition Act 2 -> Act 3
     const act3 = sequenceById('act-3');
     expect(act3.act).toBe(3);
     expect(act3.kind).toBe('intro');
-    expect(act3.title).toContain('Слизане в безслънчевите пещери и подземия');
+    expect(act3.title).toContain('Descent into the Sunless Deeps');
     expect(act3.triggerNode).toBe('m24-pledge-at-oakhaven');
     expect(act3.completedNodeTrigger).toBe('m23-fork-of-spears');
 
-    // Transition Act 3 -> Act 4: "Портите на Инферналното светилище"
+    // Transition Act 3 -> Act 4
     const act4 = sequenceById('act-4');
     expect(act4.act).toBe(4);
     expect(act4.kind).toBe('intro');
-    expect(act4.title).toContain('Портите на Инферналното светилище');
+    expect(act4.title).toContain('Gates of the Infernal Sanctuary');
     expect(act4.triggerNode).toBe('m36-heartland-march');
     expect(act4.completedNodeTrigger).toBe('m35-burning-harbor');
 
-    // Ending A: Victory ("Пречистването на Торнваел")
+    // Ending A: Victory
     const endingA = sequenceById('ending-a');
     expect(endingA.kind).toBe('ending');
-    expect(endingA.title).toContain('Пречистването на Торнваел');
+    expect(endingA.title).toContain('The Purging of Thornvael');
     expect(endingA.triggerNode).toBe('m45-crown-of-order');
 
-    // Ending B: Alternative Ending ("Възкачването на Тъмния Владетел")
+    // Ending B: Alternative Ending
     const endingB = sequenceById('ending-b');
     expect(endingB.kind).toBe('ending');
-    expect(endingB.title).toContain('Възкачването на Тъмния Владетел');
+    expect(endingB.title).toContain('Rise of the Dark Sovereign');
     expect(endingB.triggerNode).toBe('m46-ember-reckoning');
   });
 
@@ -189,7 +189,7 @@ describe('Campaign Act Transitions & Slideshow System (P22)', () => {
     expect(progress.unlocked).toContain('m12-redmarsh-border');
     const transAct2 = actTransitionForCompletedNode('m11-ashbrook-retreat');
     expect(transAct2?.id).toBe('act-2');
-    expect(transAct2?.title).toContain('Пътят през пресъхващите блата към пустинята');
+    expect(transAct2?.title).toContain('The Desiccated Marches');
 
     // Complete Act 2 finale
     progress = {
@@ -202,7 +202,7 @@ describe('Campaign Act Transitions & Slideshow System (P22)', () => {
     expect(progress.unlocked).toContain('m24-pledge-at-oakhaven');
     const transAct3 = actTransitionForCompletedNode('m23-fork-of-spears');
     expect(transAct3?.id).toBe('act-3');
-    expect(transAct3?.title).toContain('Слизане в безслънчевите пещери и подземия');
+    expect(transAct3?.title).toContain('Descent into the Sunless Deeps');
 
     // Complete Act 3 finale
     progress = {
@@ -215,17 +215,17 @@ describe('Campaign Act Transitions & Slideshow System (P22)', () => {
     expect(progress.unlocked).toContain('m36-heartland-march');
     const transAct4 = actTransitionForCompletedNode('m35-burning-harbor');
     expect(transAct4?.id).toBe('act-4');
-    expect(transAct4?.title).toContain('Портите на Инферналното светилище');
+    expect(transAct4?.title).toContain('Gates of the Infernal Sanctuary');
 
     // Branch A finale
     const endingA = sequenceForNode('m45-crown-of-order');
     expect(endingA?.id).toBe('ending-a');
-    expect(endingA?.title).toContain('Пречистването на Торнваел');
+    expect(endingA?.title).toContain('The Purging of Thornvael');
 
     // Branch B finale
     const endingB = sequenceForNode('m46-ember-reckoning');
     expect(endingB?.id).toBe('ending-b');
-    expect(endingB?.title).toContain('Възкачването на Тъмния Владетел');
+    expect(endingB?.title).toContain('Rise of the Dark Sovereign');
   });
 
   it('enforces UI Viewport Containment Rule and touch target compliance in style.css', () => {

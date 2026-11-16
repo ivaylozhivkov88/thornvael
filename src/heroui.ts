@@ -556,12 +556,16 @@ export function renderItemTooltipDom(itemOrId: number | ItemDef, hero?: HeroStat
 }
 
 export class HeroUi {
-  tab: Tab = 'hero';
+  tab: Tab = 'pack';
   private sel: Sel | null = null;
-  private sig = '';
+  private sigInv = '';
+  private sigStats = '';
   private readonly sheet = document.getElementById('sheet')!;
   private readonly head = document.getElementById('sheet-head')!;
   private readonly body = document.getElementById('sheet-body')!;
+  private readonly charSheet: HTMLElement;
+  private readonly charHead: HTMLElement;
+  private readonly charBody: HTMLElement;
   private readonly create = document.getElementById('create')!;
 
   private page = 0;
@@ -586,7 +590,22 @@ export class HeroUi {
   constructor(private readonly ctx: HeroUiCtx) {
     this.codexUi = new CodexUi((el, tip) => this.ctx.tipOn(el, tip));
     this.cardTooltip.hidden = true;
-    document.body.append(this.cardTooltip);
+    if (typeof document !== 'undefined' && document.body) {
+      document.body.append(this.cardTooltip);
+    }
+    this.charSheet = (typeof document !== 'undefined' ? document.getElementById('char-sheet') : null) ?? el('div', 'sheet char-sheet');
+    this.charHead = (typeof document !== 'undefined' ? document.getElementById('char-sheet-head') : null) ?? el('div', 'sheet-head');
+    this.charBody = (typeof document !== 'undefined' ? document.getElementById('char-sheet-body') : null) ?? el('div');
+    if (!this.charSheet.parentElement && typeof document !== 'undefined' && document.body) {
+      this.charSheet.append(this.charHead, this.charBody);
+      document.body.append(this.charSheet);
+    }
+    this.charSheet.hidden = true;
+    this.charSheet.addEventListener('keydown', (e) => {
+      if (e.key !== 'Escape') return;
+      e.stopPropagation();
+      this.closeStats();
+    });
     this.feedback.setAttribute('role', 'status');
     this.paperdoll = new PaperdollController({
       sheet: this.sheet,
@@ -612,7 +631,7 @@ export class HeroUi {
       e.stopPropagation();
       if (this.mobilePopover) this.hideMobilePopover();
       else if (this.drag) this.cancelDrag(S.hero.dragCanceled);
-      else this.close();
+      else this.closeInventory();
     });
     document.addEventListener('visibilitychange', () => {
       if (!document.hidden) return;
@@ -755,39 +774,100 @@ export class HeroUi {
     this.paperdoll.cancelDrag(message);
   }
 
-  get isOpen(): boolean {
+  get isStatsOpen(): boolean {
+    return !this.charSheet.hidden;
+  }
+
+  get isInventoryOpen(): boolean {
     return !this.sheet.hidden;
+  }
+
+  get isOpen(): boolean {
+    return !this.sheet.hidden || !this.charSheet.hidden;
   }
 
   get creating(): boolean {
     return !this.create.hidden;
   }
 
-  open(tab: Tab = this.tab): void {
+  openStats(): void {
     const h = this.ctx.sim().hero;
     if (h === null) {
       this.ctx.toast(S.hero.noHero);
       return;
     }
     this.ctx.onOpen();
-    this.tab = tab;
-    this.page = 0;
-    this.sel = null;
-    this.sheet.hidden = false;
-    this.render(true);
-    this.head.querySelector<HTMLElement>('[aria-selected="true"]')?.focus();
+    this.charSheet.hidden = false;
+    this.renderStats(true);
+    this.charHead.querySelector<HTMLElement>('[data-k="close-char"]')?.focus();
   }
 
-  close(): void {
+  closeStats(): void {
+    this.charSheet.hidden = true;
+  }
+
+  toggleStats(): void {
+    if (this.isStatsOpen) {
+      this.closeStats();
+    } else {
+      if (typeof window !== 'undefined' && window.innerWidth < 900 && this.isInventoryOpen) {
+        this.closeInventory();
+      }
+      this.openStats();
+    }
+  }
+
+  openInventory(): void {
+    const h = this.ctx.sim().hero;
+    if (h === null) {
+      this.ctx.toast(S.hero.noHero);
+      return;
+    }
+    this.ctx.onOpen();
+    this.tab = 'pack';
+    this.sel = null;
+    this.sheet.hidden = false;
+    this.renderInventory(true);
+    this.head.querySelector<HTMLElement>('[data-k="close-inv"]')?.focus();
+  }
+
+  closeInventory(): void {
     this.hideMobilePopover();
     this.cancelDrag();
     this.hideCardTooltip();
     this.sheet.hidden = true;
   }
 
+  toggleInventory(): void {
+    if (this.isInventoryOpen) {
+      this.closeInventory();
+    } else {
+      if (typeof window !== 'undefined' && window.innerWidth < 900 && this.isStatsOpen) {
+        this.closeStats();
+      }
+      this.openInventory();
+    }
+  }
+
+  open(tab: Tab = 'pack'): void {
+    if (tab === 'hero') this.openStats();
+    else this.openInventory();
+  }
+
+  close(): void {
+    this.closeStats();
+    this.closeInventory();
+  }
+
+  closeAll(): void {
+    this.close();
+  }
+
   toggle(tab?: Tab): void {
-    if (this.isOpen && (tab === undefined || this.tab === tab)) this.close();
-    else this.open(tab ?? this.tab);
+    if (tab === 'hero') this.toggleStats();
+    else if (tab === 'pack') this.toggleInventory();
+    else if (this.isOpen) this.close();
+    else this.openInventory();
   }
 
   private go(n: number): void {
@@ -797,16 +877,17 @@ export class HeroUi {
       this.ctx.openBook();
       return;
     }
-    this.tab = n === 0 ? 'hero' : 'pack';
-    this.body.querySelector('.hero-stats')?.remove();
-    this.sel = null;
-    this.render(true);
-    this.head.querySelector<HTMLElement>('[aria-selected="true"]')?.focus();
+    if (n === 0) {
+      this.openStats();
+    } else {
+      this.openInventory();
+    }
   }
 
   /** Called a few times a second: redraws only when something shown has changed. */
   refresh(force = false): void {
-    if (this.isOpen) this.render(force);
+    if (this.isStatsOpen) this.renderStats(force);
+    if (this.isInventoryOpen) this.renderInventory(force);
   }
 
   private act(c: Command): void {
@@ -815,12 +896,36 @@ export class HeroUi {
     window.setTimeout(() => this.refresh(true), 160);
   }
 
-  private render(force: boolean): void {
+  private renderStats(force: boolean): void {
+    const sim = this.ctx.sim();
+    const h = sim.hero;
+    if (h === null) {
+      this.closeStats();
+      return;
+    }
+    const cb = sim.cb;
+    const sig = JSON.stringify([h, cb.hp[h.id], cb.hpMax[h.id], cb.mana[h.id], cb.manaMax[h.id], h.statPoints]);
+    if (!force && sig === this.sigStats) return;
+    this.sigStats = sig;
+
+    this.charHead.replaceChildren();
+    const title = el('h2', 'sheet-title', 'Character Stats');
+    const info = el('span', 'hero-sub-meta', `${S.hero.classes[h.cls]}, ${S.hero.sexes[h.female ? 1 : 0].toLowerCase()} · ${DIFF_NAMES[h.diff]}`);
+    const sp = el('span', 'spacer');
+    const codex = button('🏆 Codex', 'codex', () => this.codexUi.toggle());
+    const close = button(S.hero.close, 'close-char', () => this.closeStats());
+    this.charHead.append(title, info, sp, codex, close);
+
+    this.charBody.replaceChildren();
+    this.charBody.append(this.renderHero(h, sim));
+  }
+
+  private renderInventory(force: boolean): void {
     const sim = this.ctx.sim();
     const h = sim.hero;
     if (this.pending && (this.pending.sim !== sim || sim.tick > this.pending.tick)) this.pending = null;
     if (h === null) {
-      this.close();
+      this.closeInventory();
       return;
     }
     const cb = sim.cb;
@@ -831,32 +936,39 @@ export class HeroUi {
     }
     if (this.sel && (this.sel.from === 'inv' ? h.inv[this.sel.slot]?.item !== this.sel.item : h.eq[this.sel.slot] !== this.sel.item)) this.sel = null;
     this.page = Math.min(this.page, Math.max(0, Math.ceil(h.inv.length / PACK_PAGE) - 1));
-    const sig = JSON.stringify([h, cb.hp[h.id], cb.hpMax[h.id], cb.mana[h.id], cb.manaMax[h.id], this.sel, this.tab, this.page, this.pending !== null]);
-    if (!force && sig === this.sig) return;
+    const sig = JSON.stringify([h, cb.hp[h.id], cb.hpMax[h.id], cb.mana[h.id], cb.manaMax[h.id], this.sel, this.page, this.pending !== null]);
+    if (!force && sig === this.sigInv) return;
     canceled ||= this.drag?.ghost != null;
     this.cancelDrag();
-    this.sig = sig;
-    const statsOpen = this.body.querySelector<HTMLDetailsElement>('.hero-stats')?.open ?? (this.tab === 'hero' && (typeof window !== 'undefined' ? window.innerWidth : 800) > 650);
+    this.sigInv = sig;
     const focus = (document.activeElement as HTMLElement | null)?.dataset?.k;
+
     this.head.replaceChildren();
-    const info = el('span', '', `${S.hero.classes[h.cls]}, ${S.hero.sexes[h.female ? 1 : 0].toLowerCase()} · ${DIFF_NAMES[h.diff]}`);
-    const codex = button('🏆 Codex', 'codex', () => this.codexUi.toggle());
-    const close = button(S.hero.close, 'close', () => this.close());
+    const title = el('h2', 'sheet-title', 'Inventory & Equipment');
+    const gold = this.ctx.sim().cb?.gold?.[0] ?? 0;
+    const goldSpan = el('span', 'hero-gold-badge', `💰 ${gold} Gold`);
     const sp = el('span', 'spacer');
-    this.head.append(tabStrip(this.tab === 'hero' ? 0 : 1, (n) => this.go(n)), info, sp, codex, close);
+    const codex = button('🏆 Codex', 'codex', () => this.codexUi.toggle());
+    const close = button(S.hero.close, 'close-inv', () => this.closeInventory());
+    this.head.append(title, goldSpan, sp, codex, close);
+
     this.body.replaceChildren();
     this.feedback.textContent = this.pending ? S.hero.equipmentPending : canceled ? S.hero.dragCanceled : '';
     const workspace = el('div', 'hero-workspace');
     workspace.append(this.renderEquipment(h), this.renderPack(h));
-    this.body.append(el('p', 'note hero-drag-help', S.hero.dragHelp), this.feedback, workspace);
+    this.body.append(workspace, this.feedback);
     if (this.sel) this.body.append(this.detail(h, this.sel));
-    else this.body.append(el('p', 'note', S.hero.noSel));
-    this.body.append(this.renderHero(h, sim, statsOpen));
+
     if (focus) {
       const next = this.sheet.querySelector<HTMLElement>(`[data-k="${focus}"]:not(:disabled)`);
       const source = this.sel && this.sheet.querySelector<HTMLElement>(`[data-k="${this.sel.from}${this.sel.slot}"]`);
-      (next || source || this.head.querySelector<HTMLElement>('[aria-selected="true"]'))?.focus({ preventScroll: true });
+      (next || source || this.head.querySelector<HTMLElement>('[data-k="close-inv"]'))?.focus({ preventScroll: true });
     }
+  }
+
+  private render(force: boolean): void {
+    if (this.isStatsOpen) this.renderStats(force);
+    this.renderInventory(force);
   }
 
   private weightLine(h: HeroState): HTMLElement {
@@ -865,16 +977,14 @@ export class HeroUi {
     return line(S.hero.weight, `${d.weight} / ${d.capacity}`, '', m);
   }
 
-  private renderHero(h: HeroState, sim: Sim, open: boolean): HTMLElement {
+  private renderHero(h: HeroState, sim: Sim, open = true): HTMLElement {
     const cb = sim.cb;
     const i = h.id;
     const d = derive(h);
     const base = DEFS[Kind.Hero];
     const o = i * MODN;
 
-    const b = el('details', 'hero-stats');
-    b.open = open;
-    b.append(el('summary', '', S.hero.heroStats));
+    const b = el('div', 'hero-stats');
 
     // 1. Hero Level & Ornate Gold Progress Bar
     const heroLevel = h.level ?? 1;
@@ -1100,7 +1210,6 @@ export class HeroUi {
         labelBox.append(el('span', 'slot-item-name', d.name));
         labelBox.append(el('small', 'slot-meta-name', `${SLOT_NAMES[s]} · T${d.tier}`));
         bt.append(labelBox);
-        this.ctx.tipOn(bt, formatItemTooltip(id, h));
         const isSet = isSetItem(d.name);
         const rarity = isSet ? 'set' : (d.rarity ?? (d.tier >= 5 ? 'unique' : d.tier >= 4 ? 'rare' : d.tier >= 2 ? 'magic' : 'normal'));
         bt.dataset.rarity = rarity;
@@ -1181,7 +1290,6 @@ export class HeroUi {
     const beltCount = h.inv.filter((s) => getItemDef(s.item)?.kind === Ik.Potion).reduce((sum, s) => sum + s.n, 0);
     beltLabel.append(el('small', 'slot-empty-sub', beltCount > 0 ? `${beltCount} Potions` : 'Potion Belt'));
     beltBt.append(beltLabel);
-    beltBt.title = 'Waist Belt: Quick-quaff potion belt (Keys 1-4)';
     beltCell.append(beltBt);
     slots.append(beltCell);
 
@@ -1196,7 +1304,6 @@ export class HeroUi {
     ring2Label.append(el('span', 'slot-empty-title', 'Finger 2 (Ring)'));
     ring2Label.append(el('small', 'slot-empty-sub', S.hero.empty));
     ring2Bt.append(ring2Label);
-    ring2Bt.title = 'Finger 2 (Ring): Secondary ring finger';
     ring2Bt.onclick = () => {
       if (this.sel && this.sel.from === 'inv') {
         const intent = this.intent(this.sel);
@@ -1299,7 +1406,6 @@ export class HeroUi {
       bt.prepend(itemIcon(st.item));
       bt.classList.toggle('sel', this.sel?.from === 'inv' && this.sel.slot === n);
       bt.classList.toggle('no', blocker(h, st.item) !== 0);
-      this.ctx.tipOn(bt, formatItemTooltip(st.item, h));
       const isSet = isSetItem(d.name);
       const rarity = isSet ? 'set' : (d.rarity ?? (d.tier >= 5 ? 'unique' : d.tier >= 4 ? 'rare' : d.tier >= 2 ? 'magic' : 'normal'));
       bt.dataset.rarity = rarity;
@@ -1332,9 +1438,16 @@ export class HeroUi {
 
   private detail(h: HeroState, sel: Sel): HTMLElement {
     const d = getItemDef(sel.item);
-    const box = el('div', 'detail');
+    const box = el('div', 'detail hero-compact-detail');
     if (!d) return box;
-    box.append(renderItemTooltipDom(sel.item, h));
+
+    const hdr = el('div', 'detail-header');
+    const isSet = isSetItem(d.name);
+    const rarity = isSet ? 'set' : (d.rarity ?? (d.tier >= 5 ? 'unique' : d.tier >= 4 ? 'rare' : d.tier >= 2 ? 'magic' : 'normal'));
+    hdr.className = `detail-header rarity-${rarity}`;
+    hdr.textContent = `${d.name} (${d.kind === Ik.Gear ? SLOT_NAMES[d.slot] : 'Item'}) · T${d.tier}`;
+    box.append(hdr);
+
     const intent = this.intent(sel);
     const preview = equipmentPreview(h, this.ctx.sim().cb.hp[h.id] > 0, sel);
     const why = preview?.why ?? (sel.from === 'inv' ? blocker(h, sel.item) : 0);

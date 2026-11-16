@@ -129,7 +129,7 @@ describe('Gamepad Deadzone & Name Cleaner', () => {
       'DualSense Wireless Controller'
     );
     expect(cleanGamepadName('Xbox 360 Controller (XInput STANDARD GAMEPAD)')).toBe('Xbox 360 Controller');
-    expect(cleanGamepadName('')).toBe('Контролер');
+    expect(cleanGamepadName('')).toBe('Controller');
   });
 });
 
