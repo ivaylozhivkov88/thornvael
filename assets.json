@@ -1078,6 +1078,54 @@
       "license": "own",
       "source": "Gemini image generation (user subscription), original text prompt, resized with Pillow",
       "note": "AI-generated painted ember golem portrait, 2026-11-14; original design"
+    },
+    {
+      "path": "public/townart/friend-archer.jpg",
+      "license": "own",
+      "source": "Gemini image generation (user subscription), original text prompt, resized with Pillow",
+      "note": "AI-generated painted ally archer portrait, 2026-11-16; original design"
+    },
+    {
+      "path": "public/townart/friend-imp.jpg",
+      "license": "own",
+      "source": "Gemini image generation (user subscription), original text prompt, resized with Pillow",
+      "note": "AI-generated painted ally imp portrait, 2026-11-16; original design"
+    },
+    {
+      "path": "public/townart/mon/sand-raider.jpg",
+      "license": "own",
+      "source": "Gemini image generation (user subscription), original text prompt, resized with Pillow",
+      "note": "AI-generated painted monster portrait, 2026-11-16; original design"
+    },
+    {
+      "path": "public/townart/mon/dune-scarab.jpg",
+      "license": "own",
+      "source": "Gemini image generation (user subscription), original text prompt, resized with Pillow",
+      "note": "AI-generated painted monster portrait, 2026-11-16; original design"
+    },
+    {
+      "path": "public/townart/mon/claw-viper.jpg",
+      "license": "own",
+      "source": "Gemini image generation (user subscription), original text prompt, resized with Pillow",
+      "note": "AI-generated painted monster portrait, 2026-11-16; original design"
+    },
+    {
+      "path": "public/townart/mon/doom-knight.jpg",
+      "license": "own",
+      "source": "Gemini image generation (user subscription), original text prompt, resized with Pillow",
+      "note": "AI-generated painted monster portrait, 2026-11-16; original design"
+    },
+    {
+      "path": "public/townart/mon/quill-fiend.jpg",
+      "license": "own",
+      "source": "Gemini image generation (user subscription), original text prompt, resized with Pillow",
+      "note": "AI-generated painted monster portrait, 2026-11-16; original design"
+    },
+    {
+      "path": "public/townart/mon/maggot-swarm.jpg",
+      "license": "own",
+      "source": "Gemini image generation (user subscription), original text prompt, resized with Pillow",
+      "note": "AI-generated painted monster portrait, 2026-11-16; original design"
     }
   ]
 }

@@ -859,7 +859,14 @@ let tipHide = 0;
 /** Painted portrait candidates for an enemy: per-family card first, then the boss frame. Missing files hide themselves. */
 function unitPortraits(i: number): string[] {
   if (sim.team[i] === 0) {
-    if (sim.hero?.id !== i) return sim.cb.kind[i] === Kind.Golem ? [`${import.meta.env.BASE_URL}townart/friend-golem.jpg`] : [];
+    if (sim.hero?.id !== i) {
+      const b = import.meta.env.BASE_URL;
+      const k = sim.cb.kind[i];
+      if (k === Kind.Golem) return [`${b}townart/friend-golem.jpg`];
+      if (k === Kind.Archer) return [`${b}townart/friend-archer.jpg`];
+      if (k === Kind.Imp) return [`${b}townart/friend-imp.jpg`];
+      return [];
+    }
     return [`${import.meta.env.BASE_URL}townart/frame-hero-${sim.hero.cls ? 'mage' : 'warrior'}.jpg`];
   }
   const fam = monsterInfo(sim.cb.kind[i], sim.cb.tier[i], sim.cb.family[i], sim.cb.bossMods[i])?.family;
