@@ -73,6 +73,7 @@ export interface TownState {
   inside: number; // town * ROLE_COUNT + role, or -1
   paid: number; // gold earned from quests, all told
   forge?: number; // campaign forge level: shop stock reaches this many tiers higher
+  barracks?: number; // campaign barracks: percent off hire fees
 }
 
 export type TownOp = 'enter' | 'leave' | 'buy' | 'sell' | 'hire' | 'learn' | 'train' | 'accept' | 'gamble' | 'transmute';

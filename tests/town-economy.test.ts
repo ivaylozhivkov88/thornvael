@@ -353,3 +353,13 @@ describe('campaign forge', () => {
     expect(maxTier(sim)).toBe(3);
   });
 });
+
+describe('campaign barracks', () => {
+  it('takes its percent off hire fees and leaves fees alone without it', async () => {
+    const { mercPrice } = await import('../src/sim/difficulty');
+    const { sim } = game(404, 0, 1);
+    const base = mercPrice(sim, 1000);
+    sim.town.barracks = 20;
+    expect(mercPrice(sim, 1000)).toBe(Math.floor((base * 80) / 100));
+  });
+});

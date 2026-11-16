@@ -22,4 +22,8 @@ export const RULES: readonly Rules[] = [
 export const rulesOf = (sim: Sim): Rules => RULES[sim.hero?.diff ?? 1] ?? RULES[1];
 
 /** Price of a mercenary after difficulty. */
-export const mercPrice = (sim: Sim, base: number): number => Math.floor((base * rulesOf(sim).mercPct) / 100);
+export const mercPrice = (sim: Sim, base: number): number => {
+  const fee = Math.floor((base * rulesOf(sim).mercPct) / 100);
+  const off = sim.town?.barracks ?? 0; // campaign barracks discount, percent
+  return off ? Math.floor((fee * (100 - off)) / 100) : fee;
+};
