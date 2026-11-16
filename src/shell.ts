@@ -12,6 +12,7 @@ import { advanceStory, openStory, replayStory, sequenceById, sequenceForNode, sk
 import { S } from './strings';
 import { readPreferences, writePreference } from './preferences';
 import { CodexUi } from './codexui';
+import { BUILDINGS, build, levelOf, nextCost } from './townbuild';
 
 /**
  * The screens around the game: main menu, hero creation, global map, briefing and result.
@@ -495,7 +496,7 @@ export async function runShell(startWorker: () => void): Promise<never> {
     }
     const seqId = (`act-${currentAct}`) as StorySequence['id'];
     actTabs.append(btn('Story', () => showStory(seqId), 'sh-small'));
-    bar.append(el('b', '', `${T.mapTitle} · ${T.diff[r.progress.difficulty]}`), actTabs, btn('🏆 Codex', () => codexUi.show(), 'sh-small'), ...banner(), btn(T.back, menu, 'sh-small'));
+    bar.append(el('b', '', `${T.mapTitle} · ${T.diff[r.progress.difficulty]}`), actTabs, btn('🏆 Codex', () => codexUi.show(), 'sh-small'), btn(T.holdings, holdings, 'sh-small'), ...banner(), btn(T.back, menu, 'sh-small'));
     screen(bar, stage);
     if (r.last) result(r.last);
   }
@@ -572,6 +573,43 @@ export async function runShell(startWorker: () => void): Promise<never> {
   }
 
   // ---- briefing modal ----
+  function holdings(): void {
+    if (!rec) return;
+    const r = rec;
+    const m = el('div', 'sh-modal');
+    const box = el('div', 'sh-box');
+    const draw = (): void => {
+      const carry = r.carry;
+      box.replaceChildren(el('h2', '', T.holdings), el('p', '', carry ? `${T.holdingsIntro} ${T.gold}: ${carry.gold}` : T.holdingsNone));
+      for (const b of BUILDINGS) {
+        const lv = levelOf(r.progress.builds, b.id);
+        const cost = nextCost(r.progress.builds, b.id);
+        const row = el('div', 'sh-row');
+        row.append(el('b', '', `${T.building[b.id]} · ${T.buildLevel} ${lv}/${b.cost.length}`), el('span', '', T.buildingInfo[b.id]));
+        if (cost === null) row.append(el('span', '', T.buildMax));
+        else {
+          const buy = btn(`${T.buildFor} ${cost}`, () => {
+            if (!carry) return;
+            const out = build(r.progress, carry.gold, b.id);
+            if (!out) return;
+            r.progress = out.progress;
+            carry.gold = out.gold;
+            carry.progress = { ...carry.progress, builds: out.progress.builds }; // the next node reads builds from the carryover
+            void writeRecord(r);
+            draw();
+          }, 'sh-small');
+          buy.disabled = !carry || carry.gold < cost;
+          row.append(buy);
+        }
+        box.append(row);
+      }
+      box.append(btn(T.back, () => m.remove(), 'sh-small'));
+    };
+    draw();
+    m.append(box);
+    root.append(m);
+  }
+
   function briefing(n: CampaignNode): void {
     const m = el('div', 'sh-modal');
     const box = el('div', 'sh-box');
