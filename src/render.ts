@@ -66,6 +66,7 @@ const BUFF_COLOR = 0x7affa0;
 export const QUALITY_NAMES = ['Low', 'Medium', 'High'] as const;
 const FLOATERS = [0, 10, 24];
 const FLOAT_MS = 900;
+const KICK_MS = 170;
 
 function chunkSide(map: GameMap): number {
   return Math.max(map.w, map.h) > 128 ? 32 : 16;
@@ -130,6 +131,10 @@ export class Renderer {
   private floaters: Floater[] = [];
   private bursts: Burst[] = [];
   private baseTint: number[] = [];
+  // Render-only hit recoil: the struck sprite is pushed away from the attacker and springs back. The sim never sees it.
+  private kickX: number[] = [];
+  private kickY: number[] = [];
+  private kickAt: number[] = [];
   private freeText: Text[] = [];
   private fogTick = 0;
   quality = 2;
@@ -352,12 +357,14 @@ export class Renderer {
           // Find attack direction for directional blood & slashes
           let dirX = 1;
           let dirY = 0;
+          let hitIdx = -1;
           for (let u = 0; u < sim.count; u++) {
             if (sim.cb.hp[u] > 0 && sim.cb.tgt[u] >= 0) {
               const target = sim.cb.tgt[u];
               if (sim.x[target] === e.x && sim.y[target] === e.y) {
                 dirX = e.x - sim.x[u];
                 dirY = e.y - sim.y[u];
+                hitIdx = target;
                 break;
               }
             }
@@ -366,6 +373,13 @@ export class Renderer {
           dirX /= len;
           dirY /= len;
           const angle = Math.atan2(dirY, dirX);
+          if (hitIdx >= 0) {
+            const killed = sim.cb.hp[hitIdx] <= 0;
+            const amp = (isCrit ? 6 : e.v >= 12 ? 4 : 2.5) * (killed ? 1.8 : 1);
+            this.kickX[hitIdx] = dirX * amp;
+            this.kickY[hitIdx] = dirY * amp * 0.6;
+            this.kickAt[hitIdx] = now;
+          }
 
           if (e.el === 0) {
             this.feel?.spawnBlood(wx, wy + 16, dirX, dirY, isCrit ? 10 : 5);
@@ -902,6 +916,14 @@ export class Renderer {
       }
       s.x = Math.round((px[i] + (sim.x[i] - px[i]) * alpha) * k);
       s.y = Math.round((py[i] + (sim.y[i] - py[i]) * alpha) * k);
+      const kickT = (now - (this.kickAt?.[i] ?? -1e9)) / KICK_MS;
+      if (kickT >= 0 && kickT < 1) {
+        // Fast shove out (first fifth), slower ease back.
+        const f = kickT < 0.2 ? kickT / 0.2 : 1 - (kickT - 0.2) / 0.8;
+        const ease = f * f * (3 - 2 * f);
+        s.x += Math.round(this.kickX[i] * ease);
+        s.y += Math.round(this.kickY[i] * ease);
+      }
       const sx = s.x * z - this.camX;
       const sy = s.y * z - this.camY;
       const onScreen = sx > -40 && sy > -40 && sx < this.viewW + 40 && sy < this.viewH + 40;
