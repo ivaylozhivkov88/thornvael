@@ -608,7 +608,9 @@ export function makeQuest(sim: Sim, town: number, type: number): Quest | null {
       break;
     }
     case QuestType.Fetch: {
-      const [lo, hi] = rt.def.tiers ?? [1, 2];
+      const [lo, baseHi] = rt.def.tiers ?? [1, 2];
+      const forge = sim.town.forge ?? 0;
+      const hi = forge ? Math.max(baseHi, Math.min(5, baseHi + forge)) : baseHi;
       const pool: number[] = [];
       ITEMS.forEach((d, id) => {
         if (d.kind !== Ik.Learn && d.tier >= lo && d.tier <= hi) pool.push(id);
@@ -738,6 +740,8 @@ export function checkQuests(sim: Sim): void {
 export function hashTown(t: TownState, mix: (v: number) => void): void {
   mix(t.inside + 1);
   mix(t.paid);
+  mix(t.forge ?? 0);
+  mix(t.barracks ?? 0);
   for (const s of t.stock) for (const v of s) mix(v + 1);
   for (const q of [...t.offers.flat(), ...t.quests]) {
     mix(q.type);

@@ -1,7 +1,7 @@
 # THORNVAEL: CLAUDE CODE LIVE CONTINUOUS HANDOFF
-**Updated At:** 2026-11-16T06:55:00+02:00  
+**Updated At:** 2026-11-16T08:15:00+02:00  
 **Status:** In active development (Masterpiece Drive)  
-**Git Branch:** `main` @ `1385f01` (pushed to origin/main)  
+**Git Branch:** `main`  
 **Live Application URL:** https://ivaylozhivkov88.github.io/thornvael/
 
 ---
@@ -19,19 +19,19 @@ npm run build
 ---
 
 ## 2. Proven Verification Results (Hard Numbers, No Estimates)
-Run at 2026-11-16 between 06:55 and 06:57:
+Run at 2026-11-16:
 - `npm run typecheck`: **PASSED (0 errors)**
-- `npm test -- --maxWorkers=1`: **PASSED (77 test files, 632 passed, 1 skipped, 0 failed)** [duration: 87.75s]
+- `npm test -- --maxWorkers=1`: **PASSED (77 test files, 632 passed, 1 skipped, 0 failed)** [duration: 85.89s]
 - `npm run check:repo`: **PASSED (478 files)**
-- `npm run build`: **PASSED (dist built in 1.72s, 116 precache entries in sw.js)**
+- `npm run build`: **PASSED (dist built in 1.05s, 116 precache entries in sw.js)**
 
 ---
 
 ## 3. Git Status & Repository Sync
 - **Repository `game/`**:
   * Branch: `main`
-  * Latest commit: `1385f01` (`feat(art): painted portraits for allies (archer, imp) and monster families`)
-  * Remote sync: Up to date with `origin/main` (Pushed to GitHub)
+  * Latest commit: `b14d044` (`feat(audio): 4-bus WebAudio architecture, acoustic level balance & biome soundscapes`)
+  * Remote sync: Tracking `origin/main`
 - **Carson Guard Constraint**:
   * `src/sim/path.ts` and `tests/movement.test.ts` **MUST NOT BE TOUCHED** unless explicitly requested by the user. Neither file has been modified since commit `d3421a2`.
 
@@ -52,27 +52,32 @@ Run at 2026-11-16 between 06:55 and 06:57:
    - `4e01c11`: Forge lifts town shop stock by a tier.
    - `f69d00d`: Barracks discounts mercenary hire fees (-10%/level).
    - `e32c961` & `da1731d`: Holdings screen on global campaign map (`shell.ts`), two-column grid with 44px touch buy buttons.
-5. **Onboarding Tips**:
+   - **Campaign Holdings Integration Across All 4 Acts (`m01` to `m46`)**:
+     * Verified `carryover.ts` propagates Barracks discount, Forge tier enhancement, and Shrine healing across all 46 campaign missions.
+     * Extended `sim/town.ts` `makeQuest` (Fetch quests) to respect Forge tier bonuses and added `forge`/`barracks` to `hashTown`.
+     * Added `tests/campaign-holdings-integration.test.ts` (8 comprehensive tests, 100% passing).
+5. **Flagship Skirmish Maps Integrity**:
+   - Verified `Kids Paradise III` (`glade`), `Red Hat` (`scarlet`), and `Turtle Beach` (`tidebreak`):
+     * Objectives, triggers, and reward structures (`dropGold`, `dropAll`, `giveMoney`) are deterministic with zero dangling/unresolved references.
+     * Validated map doc schemas, region bounds, shrine coordinates, town house indices, and merc unit references.
+6. **Onboarding Tips**:
    - `5b20d14`: `src/tips.ts` — one-time contextual tips for low health (<35%), first loot pickup, first spell learned (saved in localStorage `thornvael.tips`).
-6. **Portraits & Art Assets**:
+7. **Portraits & Art Assets**:
    - `1385f01`: Added 8 new painted dark fantasy bust portraits (3:4 vertical bust with gilded gothic gold frame, Pillow resized to 384x512 q85, registered in `assets.json`):
      * Allies: `friend-archer.jpg`, `friend-imp.jpg` (wired into `main.ts` `unitPortraits`)
      * Monster families: `sand-raider.jpg`, `dune-scarab.jpg`, `claw-viper.jpg`, `doom-knight.jpg`, `quill-fiend.jpg`, `maggot-swarm.jpg`
    - Previous portraits: Sabik, Quillon, Aldren, Scout, Orlen, Groktar, Hale, Commander; Cinderhorn, Cinderling, Flintback, Glasswing, Ironbark, Rootbound, Stormtree; Friend Golem.
-6. **Art & Audio**:
-   - Speaker portraits in `townart/`: Sabik, Quillon, Aldren, Scout, Orlen.
-   - Monster family portraits in hover tooltips (`cinderling`, `ironbark`, `stormtree`, `cinderhorn`, `flintback`, `glasswing`, `rootbound`).
    - Paperdoll: tier tints on shared layers; female/mage base bodies; round shield layer.
    - Terrain: baked ground decals (tufts, flowers, pebbles, reeds).
    - Music: own soundtrack generator `tools/gen-soundtrack.py` (procedural town/explore/battle loops).
-7. **Audio Architecture & Acoustic Balance (Items 5 & 6)**:
+8. **Audio Architecture & Acoustic Balance (Items 5 & 6)**:
    - 4-bus WebAudio gain architecture: `masterBus` (0.9), `sfxBus` (0.8), `uiBus` (0.85), `musicBus` (0.32), `ambBus` (0.22).
    - Acoustic Level Balance: Combat SFX (0.80) and UI trader speech barks (0.85) provide a +8 to +9 dB margin above the music bed (0.32), preventing music from drowning out combat effects, spells, and trader dialogue.
    - Biome Ambience routing: Act 1-4 environmental soundscapes (`act1_marsh`, `act2_desert`, `act3_cavern`, `act4_hell`) and town hub layers rerouted to dedicated `ambBus` with `ambVol` control.
    - Clean Crossfades & Music Looping: `setMusic()` guarantees all non-selected modes ramp to 0 and pause, preventing overlapping or orphaned audio streams.
    - Mobile / iOS Lifecycle: `suspendAudio()` stops timers, pauses tracks, and frees context; `resumeAudio()` and touch `unlock()` seamlessly recover playback, re-arm AudioContext, and restore active biome ambiances.
    - Automated Verification: New test suite `tests/audio-balance.test.ts` (7 comprehensive tests passing).
-8. **UI & Ergonomics: Holdings Modal Viewport Containment, HUD Quest Tracker & Minimap (Items 2 & 5)**:
+9. **UI & Ergonomics: Holdings Modal Viewport Containment, HUD Quest Tracker & Minimap (Items 2 & 5)**:
    - Holdings Modal 100dvh Containment: Enforced `max-height: calc(100dvh - 16px)` and `overflow: hidden` on `#shell .sh-holdings-modal` and `#shell .sh-holdings-box`, guaranteeing zero vertical page scroll on standard 1080p, 720p, and mobile viewports.
    - Mobile Landscape Two-Column Grid: Activated `@media (max-height: 520px) and (min-width: 540px)` transforming holdings buildings into a compact 2-column grid with 44px-48px touch buy buttons.
    - Gothic HUD Quest Tracker (#objectives / .gothic-hud-tracker): Eliminated legacy conflicting ID selector rules that stretched across the top bar. Anchored to `left: calc(10px + env(safe-area-inset-left))` with `right: auto !important;`, bounded expanded height to prevent covering bottom globes and action dock.

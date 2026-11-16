@@ -85,8 +85,10 @@ export function applyCarryover(sim: Sim, co: CarryoverState): number {
   for (let j = 0; j < sim.count; j++) if (j !== id && sim.team[j] === 0 && sim.hidden[j] && !forHire.has(j)) reserve.push(j);
   const forge = tierBonus(co.progress?.builds);
   if (forge) sim.town.forge = forge; // saved with town state, so a reload keeps the better stock
+  else delete sim.town.forge;
   const off = hireDiscountPct(co.progress?.builds);
   if (off) sim.town.barracks = off;
+  else delete sim.town.barracks;
   const heal = healPct(co.progress?.builds); // shrine: mercs rest between nodes
   let placed = 0;
   for (const m of co.mercs) {
