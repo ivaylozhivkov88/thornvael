@@ -1,3 +1,5 @@
+import type { Builds } from './townbuild';
+
 /** Campaign data and progress: which nodes exist, which are open, which are done. Pure data, no browser access. */
 
 export interface CampaignNode {
@@ -31,6 +33,7 @@ export interface CampaignProgress {
   completed: string[];
   node: string; // the node the player stands on
   townVisits: number;
+  builds?: Builds; // town buildings raised so far (src/townbuild.ts); absent in older records
 }
 
 export function parseCampaign(raw: unknown): Campaign {
