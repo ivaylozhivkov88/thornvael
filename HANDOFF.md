@@ -21,9 +21,9 @@ npm run build
 ## 2. Proven Verification Results (Hard Numbers, No Estimates)
 Run at 2026-11-16:
 - `npm run typecheck`: **PASSED (0 errors)**
-- `npm test -- --maxWorkers=1`: **PASSED (81 test files, 669 passed, 1 skipped, 0 failed)** [duration: 59.25s]
-- `npm run check:repo`: **PASSED (486 files)**
-- `npm run build`: **PASSED (dist built in 505ms, 117 precache entries in sw.js)**
+- `npm test -- --maxWorkers=1`: **PASSED (82 test files, 677 passed, 1 skipped, 0 failed)** [duration: 43.96s]
+- `npm run check:repo`: **PASSED (487 files)**
+- `npm run build`: **PASSED (dist built in 453ms, 117 precache entries in sw.js)**
 
 ---
 

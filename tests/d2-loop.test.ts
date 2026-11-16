@@ -301,7 +301,7 @@ describe('D2R Game Loop & Connected World', () => {
       // Champions and elites generated
       expect(res.championsCount + res.elitesCount).toBeGreaterThan(0);
 
-      // Check that at least one enemy has Diablo II bossMods
+      // Check that at least one enemy has D2R bossMods
       let hasBossMods = false;
       for (let i = 3; i < sim.count; i++) {
         const mods = sim.cb.bossMods[i];
