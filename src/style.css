@@ -3549,6 +3549,148 @@ button:disabled, #shell .sh-btn:disabled { opacity: .6; cursor: default; box-sha
   color: #fff;
   box-shadow: 0 0 10px rgba(212, 175, 55, 0.5);
 }
+
+/* --- Town Lore & Rumor System --- */
+.lore-speaker-tabs {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 6px;
+  flex-wrap: wrap;
+}
+.lore-tab-btn {
+  background: rgba(143, 114, 68, 0.2);
+  border: 1px solid rgba(143, 114, 68, 0.4);
+  color: #c9b48c;
+  border-radius: 4px;
+  padding: 3px 10px;
+  font-size: 11px;
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+.lore-tab-btn.active, .lore-tab-btn:hover {
+  background: rgba(212, 175, 55, 0.35);
+  border-color: #ffd870;
+  color: #fff;
+}
+.lore-topic-pills {
+  display: flex;
+  gap: 6px;
+  margin-bottom: 8px;
+  flex-wrap: wrap;
+}
+.lore-pill-btn {
+  background: #18222a;
+  border: 1px solid #4a5c68;
+  color: #d1dbdf;
+  border-radius: 12px;
+  padding: 3px 10px;
+  font-size: 11px;
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+.lore-pill-btn.active, .lore-pill-btn:hover {
+  background: #2b3d48;
+  border-color: #ffd870;
+  color: #ffd870;
+  box-shadow: 0 0 6px rgba(255, 216, 112, 0.3);
+}
+
+/* --- Mobile Virtual Analog Stick (#virtual-stick-container) --- */
+.virtual-stick-container {
+  position: fixed;
+  bottom: calc(20px + env(safe-area-inset-bottom));
+  left: calc(20px + env(safe-area-inset-left));
+  width: 120px;
+  height: 120px;
+  z-index: 25;
+  pointer-events: auto;
+  touch-action: none;
+  user-select: none;
+  -webkit-user-select: none;
+}
+.virtual-stick-base {
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  background: radial-gradient(circle at 50% 50%, rgba(28, 38, 48, 0.45) 0%, rgba(12, 16, 22, 0.75) 100%);
+  border: 2px solid rgba(212, 175, 55, 0.4);
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.6), inset 0 0 12px rgba(0, 0, 0, 0.5);
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  backdrop-filter: blur(2px);
+  cursor: grab;
+}
+.virtual-stick-ring {
+  position: absolute;
+  width: 70px;
+  height: 70px;
+  border-radius: 50%;
+  border: 1px dashed rgba(212, 175, 55, 0.25);
+  pointer-events: none;
+}
+.virtual-stick-thumb {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  background: radial-gradient(circle at 35% 35%, #f5d687 0%, #a88132 55%, #4a3410 100%);
+  border: 2px solid #ffe699;
+  box-shadow: 0 3px 10px rgba(0, 0, 0, 0.8), inset 0 1px 2px rgba(255, 255, 255, 0.6);
+  position: absolute;
+  pointer-events: none;
+  transform: translate(0px, 0px);
+  will-change: transform;
+}
+
+/* --- Interactive Keybinds Customization Table --- */
+.rebind-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+.pause-rebind-btn {
+  background: #24303a;
+  border: 1px solid #4f6473;
+  color: #d8e2e6;
+  border-radius: 4px;
+  padding: 4px 10px;
+  font-size: 11px;
+  cursor: pointer;
+  transition: all 0.15s ease;
+  flex-shrink: 0;
+}
+.pause-rebind-btn:hover {
+  background: #394b59;
+  border-color: #ffd870;
+  color: #ffd870;
+}
+.pause-rebind-btn.listening {
+  background: #523812;
+  border-color: #ff9900;
+  color: #fff;
+  animation: pulse-rebind 1s infinite alternate;
+}
+@keyframes pulse-rebind {
+  from { opacity: 0.7; }
+  to { opacity: 1.0; }
+}
+.pause-reset-btn {
+  background: transparent;
+  border: 1px solid rgba(143, 114, 68, 0.4);
+  color: #c9b48c;
+  border-radius: 4px;
+  padding: 3px 8px;
+  font-size: 11px;
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+.pause-reset-btn:hover {
+  background: rgba(143, 114, 68, 0.2);
+  border-color: #ffd870;
+  color: #fff;
+}
 .btn-hotkey {
   font-size: 10px;
   opacity: 0.75;

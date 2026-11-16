@@ -11,7 +11,14 @@ import { S } from './strings';
 import { itemIcon } from './townicons';
 import { equipmentLayers } from './hero-presentation';
 import { buildDoll, dollSet, lookFor } from './doll';
-import { playTraderBark, playTownAmbience, stopTownAmbience, playEquipSfx } from './audio';
+import { playTraderBark, playTownAmbience, stopTownAmbience, playEquipSfx, blip } from './audio';
+import {
+  getWardenHalePortraitSvg,
+  getHighArcanistVaelenPortraitSvg,
+  getFordScoutBrenPortraitSvg,
+  getCaptainMerrickPortraitSvg,
+  getTavernPatronPortraitSvg,
+} from './missionui';
 
 /**
  * Building screens: tavern (mercenaries, quest board), shop (one trade screen) and school. The game is
@@ -79,6 +86,8 @@ export class TownUi {
   private previousFocus: HTMLElement | null = null;
   private inertSiblings: [HTMLElement, boolean][] = [];
   private readonly cardTooltip: HTMLElement = el('div', 'hero-floating-card-tooltip');
+  private readonly loreModal: HTMLElement = el('div', 'gothic-dialogue-overlay');
+  private loreTypingTimer: number | null = null;
   private shopUndoBtn: HTMLButtonElement | null = null;
   private shopBuyBtn: HTMLButtonElement | null = null;
   private shopSellBtn: HTMLButtonElement | null = null;
@@ -89,7 +98,8 @@ export class TownUi {
     this.root.setAttribute('aria-modal', 'true');
     this.root.tabIndex = -1;
     this.cardTooltip.hidden = true;
-    document.body.append(this.cardTooltip);
+    this.loreModal.hidden = true;
+    document.body.append(this.cardTooltip, this.loreModal);
     this.root.addEventListener('keydown', (event) => {
       if (event.key === 'Escape') { event.preventDefault(); this.close(); }
       if (event.key === 'Tab') {
@@ -188,6 +198,11 @@ export class TownUi {
 
   close(): void {
     this.hideCardTooltip();
+    this.loreModal.hidden = true;
+    if (this.loreTypingTimer !== null) {
+      clearInterval(this.loreTypingTimer);
+      this.loreTypingTimer = null;
+    }
     this.tryOn = -1;
     if (!this.open) return;
     if (this.role === Role.Shop) {
@@ -587,7 +602,7 @@ export class TownUi {
     }, `-${gCost}`);
     gamble.disabled = sim.cb.gold[0] < gCost || h.inv.length >= INV_MAX;
     this.ctx.tipOn(gamble, `${S.town.gambleHelp} (${gCost} ${S.town.gold})`);
-    acts.append(undo, buy, sell, gamble, exit);
+    acts.append(undo, buy, sell, gamble, button('💬 Lore & Spoils', () => this.openLoreDialogue('shop')), exit);
     const details = el('section', 'trade-details');
     details.setAttribute('aria-label', S.town.itemDetails);
     details.append(bill, this.renderDetailView(h), el('p', 'note', S.town.shopHelp));
@@ -749,7 +764,7 @@ export class TownUi {
       hire.disabled = !free;
       controls.append(hire);
     }
-    controls.append(button(S.town.leave, () => this.close()));
+    controls.append(button('📜 Rumors & Lore', () => this.openLoreDialogue('tavern')), button(S.town.leave, () => this.close()));
     mercPanel.append(def.mercs?.length ? ml : el('p', 'note', S.town.noMercs));
     const quests = el('section', 'quest-panel');
     quests.append(el('h3', '', S.town.board));
@@ -789,6 +804,7 @@ export class TownUi {
     copy.append(
       el('strong', '', `${def.name} Arcane Sanctum`),
       el('p', 'note', S.town.keeper[this.mood]),
+      button('✨ Lore of the Astral Veil', () => this.openLoreDialogue('school')),
     );
     banner.append(crest, copy, this.portrait(sim));
     this.root.append(banner);
@@ -827,5 +843,204 @@ export class TownUi {
       tl.append(b);
     });
     this.root.append(tl);
+  }
+
+  // ---- Interactive Dark Fantasy Lore & Rumors Dialogue System ----
+
+  private openLoreDialogue(context: 'tavern' | 'school' | 'shop'): void {
+    if (this.loreTypingTimer !== null) {
+      clearInterval(this.loreTypingTimer);
+      this.loreTypingTimer = null;
+    }
+
+    interface SpeakerLore {
+      name: string;
+      rank: string;
+      portraitSvg: string;
+      topics: Array<{ label: string; text: string }>;
+    }
+
+    let speakers: SpeakerLore[] = [];
+
+    if (context === 'tavern') {
+      speakers = [
+        {
+          name: 'Warden Hale',
+          rank: 'Captain of the Thornwick Border Guard',
+          portraitSvg: getWardenHalePortraitSvg(),
+          topics: [
+            {
+              label: 'The Sunken Ford Incursion',
+              text: 'The water runs black with ash, champion. Grok\'tar\'s gnolls didn\'t merely stumble across the shallows; they were driven southward by primeval horrors uncoiling in the crags. Keep your blade sharp and your boots greased—the highland packs fight like cornered fiends.',
+            },
+            {
+              label: 'The High Bastion Keeps',
+              text: 'Captain Merrick holds the high stone keeps with sixty men, but their supply wagons were plundered at the crossroads. If the fords fall completely, Thornwick will be starved out before the first winter frost. We must hold the line.',
+            },
+          ],
+        },
+        {
+          name: 'Ford-Scout Bren',
+          rank: 'Frontier Scout & River Pathfinder',
+          portraitSvg: getFordScoutBrenPortraitSvg(),
+          topics: [
+            {
+              label: 'Reconnaissance in the Reeds',
+              text: 'I crept through the willow marshes at twilight. Grok\'tar has stationed barbed bowmen behind the sunken silt bars. If you march straight down the middle of the river, they\'ll pin your vanguard in the mud. Seek the high gravel banks on the flank.',
+            },
+            {
+              label: 'Lost Sarcophagi of the Ford',
+              text: 'Beneath the riverbed lie stone tombs older than the kingdom. The river gnolls have been digging around them with crude picks, seeking star-silver trinkets. Sunder them before their shamans uncover ancient curses.',
+            },
+          ],
+        },
+        {
+          name: 'Master Corin',
+          rank: 'Tavern Keeper & Frontier Chronicler',
+          portraitSvg: getTavernPatronPortraitSvg(),
+          topics: [
+            {
+              label: 'Catacombs of the Sunless Deeps',
+              text: 'Old miners whisper that beneath the Redmarsh lies an ancient subterranean highway paved before the First Age. The vaults there were never ransacked—only sealed when the sky rained molten iron. If you venture down, carry plenty of torches and holy draughts.',
+            },
+          ],
+        },
+      ];
+    } else if (context === 'school') {
+      speakers = [
+        {
+          name: 'High Arcanist Vaelen',
+          rank: 'Archmage & Scholar of the Astral Veil',
+          portraitSvg: getHighArcanistVaelenPortraitSvg(),
+          topics: [
+            {
+              label: 'The Nature of the Astral Veil',
+              text: 'The fools in the council believe magic is a gentle gift of the stars. It is not. The Astral Veil is a bleeding, scarred membrane keeping primeval hungers from swallowing our realm. Every time a blood-shaman sunders a wardstone, that membrane thins.',
+            },
+            {
+              label: 'Relics of the First Wardens',
+              text: 'The relics of the First Wardens are not mere curiosities. A True Unique artifact carries the indelible will of its creator. Equip them with reverence; in the hands of an untrained recruit, power is only a swifter path to the grave.',
+            },
+            {
+              label: 'Elemental Spheres & Countermeasures',
+              text: 'You will face sorcerers who have bartered their very humanity for eternal embers. Standard steel will bite, but without mastery of the elemental spheres—water to quench, stone to ward—their infernos will turn your armor into a furnace.',
+            },
+          ],
+        },
+      ];
+    } else {
+      speakers = [
+        {
+          name: 'Captain Merrick',
+          rank: 'Garrison Commander of the High Keep',
+          portraitSvg: getCaptainMerrickPortraitSvg(),
+          topics: [
+            {
+              label: 'Tempering Frontier Steel',
+              text: 'Plate armor forged in Thornwick has stood against gnoll war-picks for fifty campaigns. Mind your joints—a crushing blow will bypass iron plate if your skull lacks padding. Check your repair ledger after every foray.',
+            },
+            {
+              label: 'Artifact Sets of Renown',
+              text: 'If you chance upon matching pieces of an antique battlegear set, never sell them for quick coin. The enchantments resonate when assembled together, bestowing protections no single smith could ever hammer into iron.',
+            },
+            {
+              label: 'Smuggler\'s Caskets & Spoils',
+              text: 'The black-market caskets brought in by wanderers are risky gambles. Most hold battered iron and tarnished rings, but on rare nights, a daring mercenary pries open a legendary heirloom from the old kingdom.',
+            },
+          ],
+        },
+      ];
+    }
+
+    let activeSpeakerIdx = 0;
+    let activeTopicIdx = 0;
+
+    const renderModal = () => {
+      this.loreModal.replaceChildren();
+      const currentSpeaker = speakers[activeSpeakerIdx];
+      const currentTopic = currentSpeaker.topics[activeTopicIdx];
+
+      const frame = el('div', 'gothic-dialogue-frame');
+
+      // Left Column: Speaker Portrait
+      const portraitCol = el('div', 'gothic-portrait-wrapper');
+      portraitCol.innerHTML = currentSpeaker.portraitSvg;
+
+      // Right Column: Dialogue Body & Topic Selectors
+      const contentCol = el('div', 'gothic-dialogue-content');
+
+      const nameplate = el('div', 'gothic-nameplate');
+      nameplate.innerHTML = `<span class="filigree-flourish">✦</span> <span class="speaker-name">${currentSpeaker.name}</span> <span class="filigree-flourish">✦</span>
+        <div class="speaker-rank">${currentSpeaker.rank}</div>`;
+
+      // Speaker selection tabs if multiple
+      const speakerTabs = el('div', 'lore-speaker-tabs');
+      if (speakers.length > 1) {
+        speakers.forEach((sp, sIdx) => {
+          const tabBtn = button(sp.name, () => {
+            activeSpeakerIdx = sIdx;
+            activeTopicIdx = 0;
+            renderModal();
+          });
+          tabBtn.className = `lore-tab-btn ${sIdx === activeSpeakerIdx ? 'active' : ''}`;
+          speakerTabs.append(tabBtn);
+        });
+      }
+
+      // Topic Selection Pills
+      const topicPills = el('div', 'lore-topic-pills');
+      currentSpeaker.topics.forEach((top, tIdx) => {
+        const topBtn = button(top.label, () => {
+          activeTopicIdx = tIdx;
+          renderModal();
+        });
+        topBtn.className = `lore-pill-btn ${tIdx === activeTopicIdx ? 'active' : ''}`;
+        topicPills.append(topBtn);
+      });
+
+      const bodyEl = el('div', 'gothic-dialogue-body');
+      bodyEl.textContent = '';
+
+      const footer = el('div', 'gothic-dialogue-footer');
+      const topicCounter = el('span', 'dialogue-queue-count', `Lore Entry: ${activeTopicIdx + 1}/${currentSpeaker.topics.length}`);
+      const closeBtn = button('Close [Esc]', () => {
+        this.loreModal.hidden = true;
+        if (this.loreTypingTimer !== null) {
+          clearInterval(this.loreTypingTimer);
+          this.loreTypingTimer = null;
+        }
+      });
+      closeBtn.className = 'gothic-continue-btn';
+      footer.append(topicCounter, closeBtn);
+
+      contentCol.append(nameplate);
+      if (speakers.length > 1) contentCol.append(speakerTabs);
+      contentCol.append(topicPills, bodyEl, footer);
+      frame.append(portraitCol, contentCol);
+      this.loreModal.append(frame);
+
+      // Typewriter animation
+      if (this.loreTypingTimer !== null) clearInterval(this.loreTypingTimer);
+      let charIdx = 0;
+      const fullText = currentTopic.text;
+
+      this.loreTypingTimer = window.setInterval(() => {
+        if (charIdx < fullText.length) {
+          bodyEl.textContent += fullText[charIdx];
+          if (charIdx % 3 === 0 && fullText[charIdx] !== ' ') {
+            try { blip(); } catch {}
+          }
+          charIdx++;
+        } else {
+          if (this.loreTypingTimer !== null) {
+            clearInterval(this.loreTypingTimer);
+            this.loreTypingTimer = null;
+          }
+        }
+      }, 16);
+    };
+
+    this.loreModal.hidden = false;
+    renderModal();
   }
 }

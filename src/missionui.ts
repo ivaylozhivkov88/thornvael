@@ -172,6 +172,123 @@ export function getFallbackPortraitSvg(): string {
 </svg>`;
 }
 
+export function getHighArcanistVaelenPortraitSvg(): string {
+  return `<svg viewBox="0 0 120 120" xmlns="http://www.w3.org/2000/svg" class="portrait-svg">
+  <defs>
+    <radialGradient id="bg-vaelen" cx="50%" cy="38%" r="65%">
+      <stop offset="0%" stop-color="#2d1c47"/>
+      <stop offset="60%" stop-color="#140a24"/>
+      <stop offset="100%" stop-color="#07030d"/>
+    </radialGradient>
+    <linearGradient id="astral-robes" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#4a3075"/>
+      <stop offset="50%" stop-color="#2b1747"/>
+      <stop offset="100%" stop-color="#120821"/>
+    </linearGradient>
+    <linearGradient id="astral-silver" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#e0e8ff"/>
+      <stop offset="50%" stop-color="#8ba4d8"/>
+      <stop offset="100%" stop-color="#3d4f7c"/>
+    </linearGradient>
+  </defs>
+  <rect width="120" height="120" fill="url(#bg-vaelen)"/>
+  <circle cx="60" cy="42" r="32" fill="none" stroke="#5e3894" stroke-width="1" stroke-dasharray="3,3" opacity="0.6"/>
+  <path d="M 12 120 Q 30 72 60 68 Q 90 72 108 120 Z" fill="url(#astral-robes)" stroke="#1a0c2e" stroke-width="2"/>
+  <path d="M 38 72 L 60 90 L 82 72 L 78 120 L 42 120 Z" fill="#180c2b" stroke="url(#astral-silver)" stroke-width="1.5"/>
+  <path d="M 32 46 C 30 18 90 18 88 46 C 88 64 80 72 60 74 C 40 72 32 64 32 46 Z" fill="#24133b" stroke="#0f071a" stroke-width="2"/>
+  <path d="M 40 40 C 44 26 76 26 80 40 L 76 56 C 70 60 50 60 44 56 Z" fill="#4d3525"/>
+  <ellipse cx="49" cy="48" rx="3.5" ry="2.5" fill="#a4e5ff"/>
+  <circle cx="49" cy="48" r="1.2" fill="#ffffff"/>
+  <ellipse cx="71" cy="48" rx="3.5" ry="2.5" fill="#a4e5ff"/>
+  <circle cx="71" cy="48" r="1.2" fill="#ffffff"/>
+  <path d="M 30 42 C 34 20 86 20 90 42 C 92 68 84 82 60 84 C 36 82 28 68 30 42 Z" fill="none" stroke="url(#astral-robes)" stroke-width="4"/>
+  <polygon points="60,20 63,26 69,27 64,31 66,37 60,34 54,37 56,31 51,27 57,26" fill="url(#astral-silver)"/>
+  <rect x="2" y="2" width="116" height="116" rx="4" fill="none" stroke="url(#astral-silver)" stroke-width="2.5"/>
+</svg>`;
+}
+
+export function getFordScoutBrenPortraitSvg(): string {
+  return `<svg viewBox="0 0 120 120" xmlns="http://www.w3.org/2000/svg" class="portrait-svg">
+  <defs>
+    <radialGradient id="bg-bren" cx="50%" cy="38%" r="65%">
+      <stop offset="0%" stop-color="#1e3324"/>
+      <stop offset="60%" stop-color="#0f1f14"/>
+      <stop offset="100%" stop-color="#050a06"/>
+    </radialGradient>
+    <linearGradient id="scout-leather" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#4a3e2c"/>
+      <stop offset="50%" stop-color="#2d251a"/>
+      <stop offset="100%" stop-color="#14100b"/>
+    </linearGradient>
+  </defs>
+  <rect width="120" height="120" fill="url(#bg-bren)"/>
+  <path d="M 15 120 Q 35 76 60 72 Q 85 76 105 120 Z" fill="url(#scout-leather)" stroke="#120e09" stroke-width="2"/>
+  <path d="M 35 74 L 85 74 L 75 120 L 45 120 Z" fill="#243324" stroke="#101710" stroke-width="1.5"/>
+  <path d="M 30 48 C 28 20 92 20 90 48 C 90 66 82 76 60 78 C 38 76 30 66 30 48 Z" fill="#2b3b2d" stroke="#121a13" stroke-width="2.5"/>
+  <ellipse cx="48" cy="49" rx="3.5" ry="2.2" fill="#d9ad3d"/>
+  <circle cx="48" cy="49" r="1.3" fill="#1f1400"/>
+  <ellipse cx="72" cy="49" rx="3.5" ry="2.2" fill="#d9ad3d"/>
+  <circle cx="72" cy="49" r="1.3" fill="#1f1400"/>
+  <line x1="42" y1="44" x2="54" y2="47" stroke="#172218" stroke-width="2.5" stroke-linecap="round"/>
+  <line x1="78" y1="44" x2="66" y2="47" stroke="#172218" stroke-width="2.5" stroke-linecap="round"/>
+  <path d="M 45 66 Q 60 62 75 66" stroke="#182218" stroke-width="2" fill="none"/>
+  <path d="M 28 46 C 30 14 90 14 92 46 C 94 62 88 78 60 80 C 32 78 26 62 28 46 Z" fill="none" stroke="#223625" stroke-width="5"/>
+  <rect x="2" y="2" width="116" height="116" rx="4" fill="none" stroke="#48694c" stroke-width="2.5"/>
+</svg>`;
+}
+
+export function getCaptainMerrickPortraitSvg(): string {
+  return `<svg viewBox="0 0 120 120" xmlns="http://www.w3.org/2000/svg" class="portrait-svg">
+  <defs>
+    <radialGradient id="bg-merrick" cx="50%" cy="38%" r="65%">
+      <stop offset="0%" stop-color="#3d2b24"/>
+      <stop offset="60%" stop-color="#1f1410"/>
+      <stop offset="100%" stop-color="#0a0504"/>
+    </radialGradient>
+    <linearGradient id="merrick-iron" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#a3b1c2"/>
+      <stop offset="50%" stop-color="#55606e"/>
+      <stop offset="100%" stop-color="#242b33"/>
+    </linearGradient>
+    <linearGradient id="bronze-trim" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#e09e53"/>
+      <stop offset="50%" stop-color="#a86927"/>
+      <stop offset="100%" stop-color="#5c350c"/>
+    </linearGradient>
+  </defs>
+  <rect width="120" height="120" fill="url(#bg-merrick)"/>
+  <path d="M 12 120 Q 30 74 60 70 Q 90 74 108 120 Z" fill="#241a16" stroke="#120c09" stroke-width="2"/>
+  <path d="M 30 84 L 60 96 L 90 84 L 84 120 L 36 120 Z" fill="url(#merrick-iron)" stroke="#1a2026" stroke-width="2"/>
+  <path d="M 40 88 L 60 94 L 80 88" stroke="url(#bronze-trim)" stroke-width="2.5" fill="none"/>
+  <path d="M 34 48 C 32 16 88 16 86 48 C 86 64 80 74 60 76 C 40 74 34 64 34 48 Z" fill="url(#merrick-iron)" stroke="#141a21" stroke-width="2.5"/>
+  <path d="M 58 14 L 62 14 L 62 55 L 58 55 Z" fill="url(#bronze-trim)"/>
+  <rect x="44" y="46" width="32" height="6" rx="2" fill="#0d1114"/>
+  <circle cx="52" cy="49" r="1.5" fill="#f5d687"/>
+  <circle cx="68" cy="49" r="1.5" fill="#f5d687"/>
+  <path d="M 48 64 L 72 64 L 68 73 L 52 73 Z" fill="#1b2126" stroke="#0e1317" stroke-width="1.5"/>
+  <rect x="2" y="2" width="116" height="116" rx="4" fill="none" stroke="url(#bronze-trim)" stroke-width="2.5"/>
+</svg>`;
+}
+
+export function getTavernPatronPortraitSvg(): string {
+  return `<svg viewBox="0 0 120 120" xmlns="http://www.w3.org/2000/svg" class="portrait-svg">
+  <defs>
+    <radialGradient id="bg-patron" cx="50%" cy="38%" r="65%">
+      <stop offset="0%" stop-color="#4a301d"/>
+      <stop offset="60%" stop-color="#211309"/>
+      <stop offset="100%" stop-color="#0a0502"/>
+    </radialGradient>
+  </defs>
+  <rect width="120" height="120" fill="url(#bg-patron)"/>
+  <path d="M 18 120 Q 36 78 60 74 Q 84 78 102 120 Z" fill="#2d1f16" stroke="#140c07" stroke-width="2"/>
+  <path d="M 32 50 C 30 22 90 22 88 50 C 88 66 78 76 60 78 C 42 76 32 66 32 50 Z" fill="#422e20" stroke="#1a110a" stroke-width="2"/>
+  <circle cx="50" cy="48" r="2.5" fill="#f0c27b"/>
+  <circle cx="70" cy="48" r="2.5" fill="#f0c27b"/>
+  <path d="M 46 64 Q 60 70 74 64" stroke="#24140a" stroke-width="2.5" fill="none"/>
+  <rect x="2" y="2" width="116" height="116" rx="4" fill="none" stroke="#875630" stroke-width="2.5"/>
+</svg>`;
+}
+
 export function getGoldWaxSealSvg(): string {
   return `<svg viewBox="0 0 60 60" xmlns="http://www.w3.org/2000/svg" class="wax-seal-svg">
   <defs>
@@ -301,6 +418,34 @@ export class MissionUi {
         name: 'Warden Hale',
         rank: 'Captain of the Thornwick Border Guard',
         portraitSvg: paintedPortrait('npc-hale', getWardenHalePortraitSvg()),
+      };
+    }
+    if (lower.includes('vaelen') || lower.includes('arcanist')) {
+      return {
+        name: 'High Arcanist Vaelen',
+        rank: 'Archmage & Scholar of the Astral Veil',
+        portraitSvg: getHighArcanistVaelenPortraitSvg(),
+      };
+    }
+    if (lower.includes('bren') || lower.includes('ford-scout') || lower.includes('river scout')) {
+      return {
+        name: 'Ford-Scout Bren',
+        rank: 'Frontier Scout & River Pathfinder',
+        portraitSvg: getFordScoutBrenPortraitSvg(),
+      };
+    }
+    if (lower.includes('merrick') || lower.includes('commander merrick')) {
+      return {
+        name: 'Captain Merrick',
+        rank: 'Garrison Commander of the High Keep',
+        portraitSvg: getCaptainMerrickPortraitSvg(),
+      };
+    }
+    if (lower.includes('patron') || lower.includes('barkeep') || lower.includes('corin') || lower.includes('rumor')) {
+      return {
+        name: 'Master Corin',
+        rank: 'Tavern Keeper & Frontier Chronicler',
+        portraitSvg: getTavernPatronPortraitSvg(),
       };
     }
     if (lower.includes('grok') || lower.includes('chief') || lower.includes('gnoll')) {
@@ -836,14 +981,14 @@ export class MissionUi {
       this.renderQuestJournal();
     };
 
-    // Quest Item 2: Side Quest
+    // Quest Item 2: Side Quest 1 (Granary)
     const sideItem = document.createElement('div');
     sideItem.className = `journal-quest-card ${this.activeQuestId === 'side-granary' ? 'selected' : ''}`;
     sideItem.innerHTML = `
       <div class="quest-seal-icon">${getSilverWaxSealSvg()}</div>
       <div class="quest-card-meta">
         <div class="quest-card-title">Granary Supply Cache</div>
-        <div class="quest-card-chapter">Side Expedition · Optional</div>
+        <div class="quest-card-chapter">Act I · Frontier Recovery</div>
         <div class="quest-card-status">${(this.lastSim?.cb.gold[0] ?? 0) >= 40 ? 'Secured' : 'In Progress'}</div>
       </div>
     `;
@@ -852,7 +997,87 @@ export class MissionUi {
       this.renderQuestJournal();
     };
 
-    // Quest Item 3: Completed Prologue
+    // Quest Item 3: Side Quest 2 (Ancestral Relic)
+    const relicItem = document.createElement('div');
+    relicItem.className = `journal-quest-card ${this.activeQuestId === 'side-relic' ? 'selected' : ''}`;
+    relicItem.innerHTML = `
+      <div class="quest-seal-icon">${getSilverWaxSealSvg()}</div>
+      <div class="quest-card-meta">
+        <div class="quest-card-title">Ancestral Astral Relic</div>
+        <div class="quest-card-chapter">Act I · Ancient Crypt</div>
+        <div class="quest-card-status">Active Directive</div>
+      </div>
+    `;
+    relicItem.onclick = () => {
+      this.activeQuestId = 'side-relic';
+      this.renderQuestJournal();
+    };
+
+    // Quest Item 4: Side Quest 3 (Elite Lieutenant)
+    const lieutenantItem = document.createElement('div');
+    lieutenantItem.className = `journal-quest-card ${this.activeQuestId === 'side-lieutenant' ? 'selected' : ''}`;
+    lieutenantItem.innerHTML = `
+      <div class="quest-seal-icon">${getSilverWaxSealSvg()}</div>
+      <div class="quest-card-meta">
+        <div class="quest-card-title">Slay Shaman Mor'drak</div>
+        <div class="quest-card-chapter">Act I · Elite Bounty</div>
+        <div class="quest-card-status">Active Directive</div>
+      </div>
+    `;
+    lieutenantItem.onclick = () => {
+      this.activeQuestId = 'side-lieutenant';
+      this.renderQuestJournal();
+    };
+
+    // Quest Item 5: Act II Strategic Briefing
+    const act2Item = document.createElement('div');
+    act2Item.className = `journal-quest-card ${this.activeQuestId === 'act-2-dossier' ? 'selected' : ''}`;
+    act2Item.innerHTML = `
+      <div class="quest-seal-icon">${getGoldWaxSealSvg()}</div>
+      <div class="quest-card-meta">
+        <div class="quest-card-title">The Desiccated Marches</div>
+        <div class="quest-card-chapter">Act II · Imperial Dossier</div>
+        <div class="quest-card-status">Strategic Campaign</div>
+      </div>
+    `;
+    act2Item.onclick = () => {
+      this.activeQuestId = 'act-2-dossier';
+      this.renderQuestJournal();
+    };
+
+    // Quest Item 6: Act III Strategic Briefing
+    const act3Item = document.createElement('div');
+    act3Item.className = `journal-quest-card ${this.activeQuestId === 'act-3-dossier' ? 'selected' : ''}`;
+    act3Item.innerHTML = `
+      <div class="quest-seal-icon">${getGoldWaxSealSvg()}</div>
+      <div class="quest-card-meta">
+        <div class="quest-card-title">Sunless Deeps Catacombs</div>
+        <div class="quest-card-chapter">Act III · Abyssal Dossier</div>
+        <div class="quest-card-status">Strategic Campaign</div>
+      </div>
+    `;
+    act3Item.onclick = () => {
+      this.activeQuestId = 'act-3-dossier';
+      this.renderQuestJournal();
+    };
+
+    // Quest Item 7: Act IV Strategic Briefing
+    const act4Item = document.createElement('div');
+    act4Item.className = `journal-quest-card ${this.activeQuestId === 'act-4-dossier' ? 'selected' : ''}`;
+    act4Item.innerHTML = `
+      <div class="quest-seal-icon">${getGoldWaxSealSvg()}</div>
+      <div class="quest-card-meta">
+        <div class="quest-card-title">Gates of Infernal Core</div>
+        <div class="quest-card-chapter">Act IV · Final Reckoning</div>
+        <div class="quest-card-status">Strategic Campaign</div>
+      </div>
+    `;
+    act4Item.onclick = () => {
+      this.activeQuestId = 'act-4-dossier';
+      this.renderQuestJournal();
+    };
+
+    // Quest Item 8: Completed Prologue
     const completedItem = document.createElement('div');
     completedItem.className = `journal-quest-card ${this.activeQuestId === 'prologue-muster' ? 'selected' : ''}`;
     completedItem.innerHTML = `
@@ -868,7 +1093,7 @@ export class MissionUi {
       this.renderQuestJournal();
     };
 
-    questList.append(mainItem, sideItem, completedItem);
+    questList.append(mainItem, sideItem, relicItem, lieutenantItem, act2Item, act3Item, act4Item, completedItem);
     leftPane.append(mainQuestsLabel, questList);
 
     // Right Pane: Detailed Quest Dossier
@@ -958,6 +1183,12 @@ export class MissionUi {
         <div class="dossier-rewards-grid">
           <div class="reward-pill gold-reward">💰 <strong>+100 Bonus Gold</strong></div>
           <div class="reward-pill xp-reward">⚡ <strong>+150 XP</strong></div>
+          <div class="reward-pill renown-reward">🛡️ <strong>+10 Thornwick Favor</strong></div>
+          <div class="reward-pill item-reward">🎁 <strong>Highland Rations & Silver Coin</strong></div>
+        </div>
+        <div class="dossier-signature">
+          <div class="signature-stamp">${getSilverWaxSealSvg()}</div>
+          <div class="signature-text">COMMISSIONED BY BORDER QUARTERMASTER</div>
         </div>
       `;
       if (!granaryDone) {
@@ -969,6 +1200,196 @@ export class MissionUi {
             this.host.navigateTo?.(8, 28, 'Granary Supply Cache');
           };
         }
+      }
+    } else if (this.activeQuestId === 'side-relic') {
+      rightPane.innerHTML = `
+        <div class="dossier-header">
+          <div class="dossier-act">Act I · Sacred Archeology</div>
+          <h1 class="dossier-title">Ancestral Astral Relic</h1>
+          <div class="dossier-location">📍 Sunken Riverbed Crypt · Forgotten Sarcophagus</div>
+        </div>
+        <div class="dossier-divider">✦ ─── ❖ ─── ✦</div>
+        <div class="dossier-section-heading">HISTORICAL INTELLIGENCE</div>
+        <p class="dossier-narrative">High Arcanist Vaelen recounts that three centuries ago, the First Wardens sealed an astral-infused silver amulet within a submerged riverbed crypt. The gnoll war-shaman senses its hum and searches the shallows. Sunder his excavators and secure the talisman for the realm.</p>
+        <div class="dossier-section-heading">OPERATIONAL DIRECTIVES</div>
+        <div class="dossier-objectives-list">
+          <div class="dossier-obj-row">
+            <span class="obj-checkbox">◻</span>
+            <span class="obj-text">Infiltrate the Submerged Riverbed Crypt & Slay Crypt Guardians</span>
+            <span class="obj-badge active">IN PROGRESS</span>
+            <button type="button" class="dossier-nav-btn"><span class="nav-compass">🧭</span> Navigate</button>
+          </div>
+        </div>
+        <div class="dossier-rewards-grid">
+          <div class="reward-pill gold-reward">💰 <strong>+220 Gold</strong> Sovereigns</div>
+          <div class="reward-pill xp-reward">⚡ <strong>+350 XP</strong> Grimoire Lore</div>
+          <div class="reward-pill renown-reward">🛡️ <strong>+25 Astral Coven Favor</strong></div>
+          <div class="reward-pill item-reward">🎁 <strong>Guaranteed Unique Astral Ring or Amulet</strong></div>
+        </div>
+        <div class="dossier-signature">
+          <div class="signature-stamp">${getSilverWaxSealSvg()}</div>
+          <div class="signature-text">SANCTIONED BY HIGH ARCANIST VAELEN</div>
+        </div>
+      `;
+      const btn = rightPane.querySelector('.dossier-nav-btn') as HTMLButtonElement | null;
+      if (btn) {
+        btn.onclick = (e) => {
+          e.stopPropagation();
+          this.closeJournal();
+          this.host.navigateTo?.(30, 10, 'Submerged Riverbed Crypt');
+        };
+      }
+    } else if (this.activeQuestId === 'side-lieutenant') {
+      rightPane.innerHTML = `
+        <div class="dossier-header">
+          <div class="dossier-act">Act I · Elite Bounty Contract</div>
+          <h1 class="dossier-title">Assassinate Blood-Shaman Mor'drak</h1>
+          <div class="dossier-location">📍 Northern Ridge Bluff · Corrupted Blood Altar</div>
+        </div>
+        <div class="dossier-divider">✦ ─── ❖ ─── ✦</div>
+        <div class="dossier-section-heading">TACTICAL BRIEFING</div>
+        <p class="dossier-narrative">Ford-Scout Bren has confirmed that Chieftain Grok'tar's second-in-command, Shaman Mor'drak, has established a foul sacrificial pyre upon the northern bluffs. From this shrine, dark blood-curses empower the river vanguard. Execute the shaman to shatter enemy morale.</p>
+        <div class="dossier-section-heading">OPERATIONAL DIRECTIVES</div>
+        <div class="dossier-objectives-list">
+          <div class="dossier-obj-row">
+            <span class="obj-checkbox">◻</span>
+            <span class="obj-text">Assassinate Shaman Mor'drak & Sunder the Corrupted Blood Altar</span>
+            <span class="obj-badge active">IN PROGRESS</span>
+            <button type="button" class="dossier-nav-btn"><span class="nav-compass">🧭</span> Navigate</button>
+          </div>
+        </div>
+        <div class="dossier-rewards-grid">
+          <div class="reward-pill gold-reward">💰 <strong>+350 Gold</strong> Royal Bounty</div>
+          <div class="reward-pill xp-reward">⚡ <strong>+450 XP</strong> Experience</div>
+          <div class="reward-pill renown-reward">🛡️ <strong>+30 Thornwick Honor</strong></div>
+          <div class="reward-pill item-reward">🎁 <strong>Guaranteed Rare Tier II Blade or Staff</strong></div>
+        </div>
+        <div class="dossier-signature">
+          <div class="signature-stamp">${getGoldWaxSealSvg()}</div>
+          <div class="signature-text">ISSUED BY CAPTAIN MERRICK · HIGH KEEP</div>
+        </div>
+      `;
+      const btn = rightPane.querySelector('.dossier-nav-btn') as HTMLButtonElement | null;
+      if (btn) {
+        btn.onclick = (e) => {
+          e.stopPropagation();
+          this.closeJournal();
+          this.host.navigateTo?.(55, 18, "Shaman Mor'drak's Altar");
+        };
+      }
+    } else if (this.activeQuestId === 'act-2-dossier') {
+      rightPane.innerHTML = `
+        <div class="dossier-header">
+          <div class="dossier-act">Act II · Imperial Campaign Dossier</div>
+          <h1 class="dossier-title">The Desiccated Marches</h1>
+          <div class="dossier-location">📍 Redmarsh Frontier & Glass Waste Dunes</div>
+        </div>
+        <div class="dossier-divider">✦ ─── ❖ ─── ✦</div>
+        <div class="dossier-section-heading">CAMPAIGN RECORD & THEATRE OF WAR</div>
+        <p class="dossier-narrative">Beyond the drying silt of Redmarsh lie the blinding salt dunes of the Glass Wastes. Imperial caravans have been ambushed by dune scourges, and ancient stone obelisks pulse with corrupted elemental fire. Advance your detachment across the desert highway and reclaim the lost outposts.</p>
+        <div class="dossier-section-heading">PRIMARY DIRECTIVES</div>
+        <div class="dossier-objectives-list">
+          <div class="dossier-obj-row">
+            <span class="obj-checkbox">◻</span>
+            <span class="obj-text">Force the Redmarsh Crossing & Cleanse Dune Scourge Outposts</span>
+            <span class="obj-badge active">CAMPAIGN GOAL</span>
+            <button type="button" class="dossier-nav-btn"><span class="nav-compass">🧭</span> Navigate</button>
+          </div>
+        </div>
+        <div class="dossier-rewards-grid">
+          <div class="reward-pill gold-reward">💰 <strong>+600 Gold</strong></div>
+          <div class="reward-pill xp-reward">⚡ <strong>+800 XP</strong></div>
+          <div class="reward-pill renown-reward">🛡️ <strong>+40 Desiccated March Favor</strong></div>
+          <div class="reward-pill item-reward">🎁 <strong>Tier III Set & Unique Relics</strong></div>
+        </div>
+        <div class="dossier-signature">
+          <div class="signature-stamp">${getGoldWaxSealSvg()}</div>
+          <div class="signature-text">IMPERIAL HIGH WAR OFFICE DISPATCH</div>
+        </div>
+      `;
+      const btn = rightPane.querySelector('.dossier-nav-btn') as HTMLButtonElement | null;
+      if (btn) {
+        btn.onclick = (e) => {
+          e.stopPropagation();
+          this.closeJournal();
+          this.host.navigateTo?.(42, 38, 'Redmarsh Frontier');
+        };
+      }
+    } else if (this.activeQuestId === 'act-3-dossier') {
+      rightPane.innerHTML = `
+        <div class="dossier-header">
+          <div class="dossier-act">Act III · Subterranean Incursion</div>
+          <h1 class="dossier-title">Catacombs of the Sunless Deeps</h1>
+          <div class="dossier-location">📍 Sunless Abyss · Beneath the Iron Coast</div>
+        </div>
+        <div class="dossier-divider">✦ ─── ❖ ─── ✦</div>
+        <div class="dossier-section-heading">TACTICAL INTELLIGENCE</div>
+        <p class="dossier-narrative">The sun dies behind you as your company enters the chasms under the Iron Coast. In these flooded labyrinths, primordial abominations guard ironclad vaults. Reclaim the dwarven runestones and breach the subterranean causeway to the core.</p>
+        <div class="dossier-section-heading">PRIMARY DIRECTIVES</div>
+        <div class="dossier-objectives-list">
+          <div class="dossier-obj-row">
+            <span class="obj-checkbox">◻</span>
+            <span class="obj-text">Sunder the Deep Runestone Chains & Slay the Brood Mother</span>
+            <span class="obj-badge active">CAMPAIGN GOAL</span>
+            <button type="button" class="dossier-nav-btn"><span class="nav-compass">🧭</span> Navigate</button>
+          </div>
+        </div>
+        <div class="dossier-rewards-grid">
+          <div class="reward-pill gold-reward">💰 <strong>+1200 Gold</strong></div>
+          <div class="reward-pill xp-reward">⚡ <strong>+1600 XP</strong></div>
+          <div class="reward-pill renown-reward">🛡️ <strong>+60 Iron Coast Standing</strong></div>
+          <div class="reward-pill item-reward">🎁 <strong>Tier IV High Master Artifacts</strong></div>
+        </div>
+        <div class="dossier-signature">
+          <div class="signature-stamp">${getGoldWaxSealSvg()}</div>
+          <div class="signature-text">DECREE OF THE IRON COUNCIL</div>
+        </div>
+      `;
+      const btn = rightPane.querySelector('.dossier-nav-btn') as HTMLButtonElement | null;
+      if (btn) {
+        btn.onclick = (e) => {
+          e.stopPropagation();
+          this.closeJournal();
+          this.host.navigateTo?.(28, 44, 'Sunless Abyss');
+        };
+      }
+    } else if (this.activeQuestId === 'act-4-dossier') {
+      rightPane.innerHTML = `
+        <div class="dossier-header">
+          <div class="dossier-act">Act IV · Apex Campaign Dossier</div>
+          <h1 class="dossier-title">Gates of the Infernal Sanctuary</h1>
+          <div class="dossier-location">📍 The Obsidian Caldera · Citadel of Ruin</div>
+        </div>
+        <div class="dossier-divider">✦ ─── ❖ ─── ✦</div>
+        <div class="dossier-section-heading">FINAL RECORD OF THORNVAEL</div>
+        <p class="dossier-narrative">The earth shudders as rivers of magma breach the surface. The final stronghold of the shadow lords stands behind colossal iron gates. March through the burning highway, shatter the Arch-Warden's defenses, and decide the ultimate fate of this world.</p>
+        <div class="dossier-section-heading">FINAL DIRECTIVES</div>
+        <div class="dossier-objectives-list">
+          <div class="dossier-obj-row">
+            <span class="obj-checkbox">◻</span>
+            <span class="obj-text">Breach the Infernal Citadel & Vanquish the Dread Sovereign</span>
+            <span class="obj-badge active">FINAL RECKONING</span>
+            <button type="button" class="dossier-nav-btn"><span class="nav-compass">🧭</span> Navigate</button>
+          </div>
+        </div>
+        <div class="dossier-rewards-grid">
+          <div class="reward-pill gold-reward">💰 <strong>+3000 Gold</strong> Imperial Vault</div>
+          <div class="reward-pill xp-reward">⚡ <strong>+4000 XP</strong> Mythic Apex</div>
+          <div class="reward-pill renown-reward">🛡️ <strong>Sovereign of Thornvael</strong></div>
+          <div class="reward-pill item-reward">🎁 <strong>Legendary Tier V Crown & Regalia</strong></div>
+        </div>
+        <div class="dossier-signature">
+          <div class="signature-stamp">${getCompletedWaxSealSvg()}</div>
+          <div class="signature-text">SOVEREIGN SEAL OF THE ALLIED REALMS</div>
+        </div>
+      `;
+      const btn = rightPane.querySelector('.dossier-nav-btn') as HTMLButtonElement | null;
+      if (btn) {
+        btn.onclick = (e) => {
+          e.stopPropagation();
+          this.closeJournal();
+          this.host.navigateTo?.(50, 15, 'Infernal Citadel');
+        };
       }
     } else {
       rightPane.innerHTML = `
@@ -986,6 +1407,16 @@ export class MissionUi {
             <span class="obj-text">Assemble company of twelve and accept Warden Hale's commission</span>
             <span class="obj-badge done">COMPLETED</span>
           </div>
+        </div>
+        <div class="dossier-rewards-grid">
+          <div class="reward-pill gold-reward">💰 <strong>+150 Gold</strong> Stipend</div>
+          <div class="reward-pill xp-reward">⚡ <strong>+200 XP</strong> Veteran Experience</div>
+          <div class="reward-pill renown-reward">🛡️ <strong>+15 Thornwick Favor</strong></div>
+          <div class="reward-pill item-reward">🎁 <strong>Frontier Commission Badge</strong></div>
+        </div>
+        <div class="dossier-signature">
+          <div class="signature-stamp">${getCompletedWaxSealSvg()}</div>
+          <div class="signature-text">COMMISSION VERIFIED · WARDEN HALE</div>
         </div>
       `;
     }

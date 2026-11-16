@@ -265,6 +265,26 @@ export function play(name: string, priority = 1, at?: { x: number; y: number; w:
       playPotionGulp();
       return;
     }
+    if (name.startsWith('step_') || name.startsWith('step')) {
+      if (name.includes('water')) {
+        playSurfaceFootstep('water', at);
+        return;
+      }
+      if (name.includes('stone') || name.includes('rock')) {
+        playSurfaceFootstep('stone', at);
+        return;
+      }
+      if (name.includes('wood') || name.includes('bridge')) {
+        playSurfaceFootstep('wood', at);
+        return;
+      }
+      if (name.includes('dirt') || name.includes('mud')) {
+        playSurfaceFootstep('mud', at);
+        return;
+      }
+      playSurfaceFootstep('grass', at);
+      return;
+    }
     return;
   }
   let gain = 1;
@@ -1373,6 +1393,168 @@ export function playPotionGulp(): void {
       gulpGain.connect(bus);
       gulp.start(st);
       gulp.stop(st + 0.10);
+    }
+  } catch {
+    // silent fallback
+  }
+}
+
+export type SurfaceType = 'water' | 'stone' | 'grass' | 'mud' | 'wood';
+
+/**
+ * Surface-Aware Audio Footstep Synthesis (Phase 11):
+ * - water / ford / river: soft splash with liquid droplet resonance.
+ * - stone / dungeon floor: crisp hard heel click with short transient slap.
+ * - mud / grass: muffled soft thud with low damped rumble.
+ * - wood bridge / floor: hollow resonant wooden tap with cavity body response.
+ */
+export function playSurfaceFootstep(surface: SurfaceType, at?: { x: number; y: number; w: number; h: number }): void {
+  unlock();
+  const bus = sfxBus;
+  if (!ctx || !bus || !sfxOn || backgrounded || ctx.state !== 'running') return;
+  try {
+    let spatialGain = 1.0;
+    let spatialPan = 0;
+    if (at) {
+      const s = spatial(at.x, at.y, at.w, at.h);
+      spatialGain = s.gain;
+      spatialPan = s.pan;
+      if (spatialGain <= 0.02) return;
+    }
+    const now = ctx.currentTime;
+    const vol = sfxVol * masterVol * spatialGain * 0.45;
+
+    // Connect node to bus via stereo panner if available
+    const outputGain = ctx.createGain();
+    outputGain.gain.value = 1.0;
+    let targetDest: AudioNode = outputGain;
+    if (typeof ctx.createStereoPanner === 'function' && spatialPan !== 0) {
+      const panner = ctx.createStereoPanner();
+      panner.pan.value = spatialPan;
+      outputGain.connect(panner);
+      panner.connect(bus);
+    } else {
+      outputGain.connect(bus);
+    }
+
+    if (surface === 'water') {
+      // Shallow water / river: soft splash with liquid resonance
+      // 1. Filtered white noise splash
+      const noiseLen = Math.floor(ctx.sampleRate * 0.065);
+      const noiseBuf = ctx.createBuffer(1, noiseLen, ctx.sampleRate);
+      const data = noiseBuf.getChannelData(0);
+      for (let i = 0; i < noiseLen; i++) data[i] = (Math.random() * 2 - 1) * 0.5;
+      const splash = ctx.createBufferSource();
+      splash.buffer = noiseBuf;
+      const splashFtr = ctx.createBiquadFilter();
+      splashFtr.type = 'bandpass';
+      splashFtr.frequency.setValueAtTime(1450, now);
+      splashFtr.Q.value = 2.4;
+      const splashGain = ctx.createGain();
+      splashGain.gain.setValueAtTime(0.28 * vol, now);
+      splashGain.gain.exponentialRampToValueAtTime(0.001, now + 0.065);
+      splash.connect(splashFtr);
+      splashFtr.connect(splashGain);
+      splashGain.connect(targetDest);
+      splash.start(now);
+
+      // 2. Liquid droplet bubble resonance (480 Hz sliding down to 240 Hz)
+      const drop = ctx.createOscillator();
+      const dropGain = ctx.createGain();
+      drop.type = 'sine';
+      drop.frequency.setValueAtTime(480, now);
+      drop.frequency.exponentialRampToValueAtTime(240, now + 0.08);
+      dropGain.gain.setValueAtTime(0.35 * vol, now);
+      dropGain.gain.exponentialRampToValueAtTime(0.0001, now + 0.085);
+      drop.connect(dropGain);
+      dropGain.connect(targetDest);
+      drop.start(now);
+      drop.stop(now + 0.09);
+    } else if (surface === 'stone') {
+      // Stone / dungeon floor: crisp hard heel click
+      // 1. High transient contact click (3400 Hz -> 1600 Hz)
+      const click = ctx.createOscillator();
+      const clickGain = ctx.createGain();
+      click.type = 'triangle';
+      click.frequency.setValueAtTime(3400, now);
+      click.frequency.exponentialRampToValueAtTime(1400, now + 0.025);
+      clickGain.gain.setValueAtTime(0.40 * vol, now);
+      clickGain.gain.exponentialRampToValueAtTime(0.0001, now + 0.03);
+      click.connect(clickGain);
+      clickGain.connect(targetDest);
+      click.start(now);
+      click.stop(now + 0.035);
+
+      // 2. Short masonry body impact
+      const body = ctx.createOscillator();
+      const bodyGain = ctx.createGain();
+      body.type = 'sine';
+      body.frequency.setValueAtTime(280, now);
+      body.frequency.exponentialRampToValueAtTime(80, now + 0.04);
+      bodyGain.gain.setValueAtTime(0.30 * vol, now);
+      bodyGain.gain.exponentialRampToValueAtTime(0.0001, now + 0.045);
+      body.connect(bodyGain);
+      bodyGain.connect(targetDest);
+      body.start(now);
+      body.stop(now + 0.05);
+    } else if (surface === 'wood') {
+      // Wood bridge / floor: hollow resonant wooden tap
+      // 1. Hollow acoustic cavity resonance (~420 Hz -> ~260 Hz)
+      const wood = ctx.createOscillator();
+      const woodGain = ctx.createGain();
+      wood.type = 'triangle';
+      wood.frequency.setValueAtTime(420, now);
+      wood.frequency.exponentialRampToValueAtTime(260, now + 0.06);
+      woodGain.gain.setValueAtTime(0.42 * vol, now);
+      woodGain.gain.exponentialRampToValueAtTime(0.0001, now + 0.065);
+      wood.connect(woodGain);
+      woodGain.connect(targetDest);
+      wood.start(now);
+      wood.stop(now + 0.07);
+
+      // 2. Low wooden beam thud
+      const thud = ctx.createOscillator();
+      const thudGain = ctx.createGain();
+      thud.type = 'sine';
+      thud.frequency.setValueAtTime(160, now);
+      thud.frequency.exponentialRampToValueAtTime(65, now + 0.07);
+      thudGain.gain.setValueAtTime(0.36 * vol, now);
+      thudGain.gain.exponentialRampToValueAtTime(0.0001, now + 0.075);
+      thud.connect(thudGain);
+      thudGain.connect(targetDest);
+      thud.start(now);
+      thud.stop(now + 0.08);
+    } else {
+      // Mud / grass: muffled soft thud
+      // 1. Soft damped sine thud (90 Hz -> 42 Hz)
+      const thud = ctx.createOscillator();
+      const thudGain = ctx.createGain();
+      thud.type = 'sine';
+      thud.frequency.setValueAtTime(surface === 'mud' ? 80 : 95, now);
+      thud.frequency.exponentialRampToValueAtTime(38, now + 0.07);
+      thudGain.gain.setValueAtTime(0.32 * vol, now);
+      thudGain.gain.exponentialRampToValueAtTime(0.0001, now + 0.075);
+      thud.connect(thudGain);
+      thudGain.connect(targetDest);
+      thud.start(now);
+      thud.stop(now + 0.08);
+
+      // 2. Soft foliage / mud squelch rustle
+      const rustle = ctx.createOscillator();
+      const rustleFtr = ctx.createBiquadFilter();
+      const rustleGain = ctx.createGain();
+      rustle.type = 'sawtooth';
+      rustle.frequency.setValueAtTime(240, now);
+      rustle.frequency.exponentialRampToValueAtTime(90, now + 0.04);
+      rustleFtr.type = 'lowpass';
+      rustleFtr.frequency.setValueAtTime(surface === 'mud' ? 320 : 480, now);
+      rustleGain.gain.setValueAtTime(0.18 * vol, now);
+      rustleGain.gain.exponentialRampToValueAtTime(0.0001, now + 0.045);
+      rustle.connect(rustleFtr);
+      rustleFtr.connect(rustleGain);
+      rustleGain.connect(targetDest);
+      rustle.start(now);
+      rustle.stop(now + 0.05);
     }
   } catch {
     // silent fallback

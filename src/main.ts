@@ -1,6 +1,6 @@
 import { registerWorker } from './updategate';
 import { createInstallController, isInstallPrompt } from './pwa-install';
-import { audioState, blip, cancelShopEntry, play, playPickupRustle, playShopEntry, playNotEnoughMana, playInventoryFull, playLowHpHeartbeat, resumeAudio, setAmbience, setMusic, setSfx, suspendAudio, unlock, type MusicMode } from './audio';
+import { audioState, blip, cancelShopEntry, play, playSurfaceFootstep, playPickupRustle, playShopEntry, playNotEnoughMana, playInventoryFull, playLowHpHeartbeat, resumeAudio, setAmbience, setMusic, setSfx, suspendAudio, unlock, type MusicMode } from './audio';
 import { MusicDirector, classifyWeapon, cueFor, pickPotionDrink, pickTerrainStep, type CueContext } from './audiologic';
 import { ControlGroups, GROUP_COUNT } from './groups';
 import { GestureRecognizer, pickUnit, reticle, unitsInBox, type Intent } from './input';
@@ -59,6 +59,8 @@ import {
   D2RActionBarUi,
   type ControllerSlotBinding,
 } from './gamepad';
+import { VirtualStick } from './virtualstick';
+import { keybindManager } from './keybinds';
 import './style.css';
 
 await loadGameData(); // item and spell tables, before any sim or mission is built
@@ -1341,6 +1343,26 @@ window.addEventListener('keydown', (e) => {
     return;
   }
   unlock();
+  if (keybindManager.matches('potion1', e.code, e.key)) {
+    e.preventDefault();
+    drinkBelt(1);
+    return;
+  }
+  if (keybindManager.matches('potion2', e.code, e.key)) {
+    e.preventDefault();
+    drinkBelt(2);
+    return;
+  }
+  if (keybindManager.matches('potion3', e.code, e.key)) {
+    e.preventDefault();
+    drinkBelt(3);
+    return;
+  }
+  if (keybindManager.matches('potion4', e.code, e.key)) {
+    e.preventDefault();
+    drinkBelt(4);
+    return;
+  }
   const digit = /^(?:Digit|Numpad)([1-9])$/.exec(e.code);
   if (digit) {
     const d = Number(digit[1]);
@@ -1363,7 +1385,7 @@ window.addEventListener('keydown', (e) => {
   } else if (/^F(?:9|1[0-2])$/.test(e.key)) {
     e.preventDefault();
     castSlot(Number(e.key.slice(1)) - 4);
-  } else if (e.key === 'Escape') {
+  } else if (e.key === 'Escape' || keybindManager.matches('pause', e.code, e.key)) {
     if (missionUi?.isJournalOpen()) {
       missionUi.closeJournal();
       return;
@@ -1382,7 +1404,7 @@ window.addEventListener('keydown', (e) => {
     else if (qm && !qm.hidden) qm.hidden = true;
     else if (armed) arm(null);
     else togglePauseMenu();
-  } else if (e.key === ' ' || e.code === 'Space') {
+  } else if (e.key === ' ' || e.code === 'Space' || keybindManager.matches('recenter', e.code, e.key)) {
     e.preventDefault();
     if (pauseMenu && pauseMenu.isOpen) {
       pauseMenu.close();
@@ -1397,11 +1419,11 @@ window.addEventListener('keydown', (e) => {
   } else if (e.key === 'Pause' || e.code === 'Pause') {
     e.preventDefault();
     togglePause();
-  } else if ((e.key.toLowerCase() === 'q' || e.key.toLowerCase() === 'o') && !e.ctrlKey && !e.altKey && !e.metaKey) {
+  } else if ((keybindManager.matches('quests', e.code, e.key) || e.key.toLowerCase() === 'q' || e.key.toLowerCase() === 'o') && !e.ctrlKey && !e.altKey && !e.metaKey) {
     e.preventDefault();
     if (missionUi) missionUi.toggleObjectives();
     else toggleQuestLog();
-  } else if (e.key.toLowerCase() === 'm' && !e.ctrlKey && !e.altKey && !e.metaKey) {
+  } else if ((keybindManager.matches('minimap', e.code, e.key) || e.key.toLowerCase() === 'm') && !e.ctrlKey && !e.altKey && !e.metaKey) {
     e.preventDefault();
     toggleMinimap();
   } else if (e.key.toLowerCase() === 'w' && !e.ctrlKey && !e.altKey && controlMode !== 'wasd') {
@@ -1416,13 +1438,13 @@ window.addEventListener('keydown', (e) => {
   } else if (e.key.toLowerCase() === 't' && !e.ctrlKey && !e.altKey) {
     e.preventDefault();
     openBook(-1);
-  } else if (e.key.toLowerCase() === 'c' && !e.ctrlKey && !e.altKey) {
+  } else if ((keybindManager.matches('character', e.code, e.key) || e.key.toLowerCase() === 'c') && !e.ctrlKey && !e.altKey) {
     e.preventDefault();
     heroUi.toggleStats();
-  } else if (e.key.toLowerCase() === 's' && !e.ctrlKey && !e.altKey && !e.metaKey && controlMode !== 'wasd') {
+  } else if ((keybindManager.matches('spellbook', e.code, e.key) || e.key.toLowerCase() === 's') && !e.ctrlKey && !e.altKey && !e.metaKey && controlMode !== 'wasd') {
     e.preventDefault();
     openBook(-1);
-  } else if (e.key.toLowerCase() === 'b' && !e.ctrlKey && !e.altKey) {
+  } else if ((keybindManager.matches('inventory', e.code, e.key) || e.key.toLowerCase() === 'i' || e.key.toLowerCase() === 'b') && !e.ctrlKey && !e.altKey) {
     e.preventDefault();
     heroUi.toggleInventory();
   }
@@ -1969,6 +1991,8 @@ const saveUi = new SaveUi({
   ios: /iphone|ipad|ipod/i.test(navigator.userAgent) || (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1),
 });
 
+const virtualStick = new VirtualStick();
+
 pauseMenu = new PauseMenu({
   resume: () => {
     userPause = false;
@@ -2038,6 +2062,8 @@ pauseMenu = new PauseMenu({
   },
   isSfxOn: () => sfxOn,
   openSkillAssignment: () => skillAssignmentModal?.open(),
+  isVirtualStickOn: () => virtualStick.isEnabled(),
+  setVirtualStick: (on: boolean) => virtualStick.setEnabled(on),
 });
 
 let skillAssignmentModal!: SkillAssignmentModal;
@@ -2552,8 +2578,20 @@ function playSteps(now: number): void {
     const tx = Math.floor(sim.x[i] / FP);
     const ty = Math.floor(sim.y[i] / FP);
     const terrain = map.terrain[ty * map.w + tx] ?? 0;
-    const stepCue = pickTerrainStep(terrain);
-    play(stepCue, 0, { x: p[0], y: p[1], w, h });
+    const isBridge = terrain === 2 && (map.blocked[ty * map.w + tx] ?? 0) === 0 && ((tx + ty) % 2 === 1);
+    let surface: 'water' | 'stone' | 'grass' | 'mud' | 'wood' = 'grass';
+    if (isBridge) {
+      surface = 'wood';
+    } else if (terrain === 2) {
+      surface = 'water';
+    } else if (terrain === 3) {
+      surface = 'stone';
+    } else if (terrain === 4 || terrain === 1) {
+      surface = 'mud';
+    } else {
+      surface = 'grass';
+    }
+    playSurfaceFootstep(surface, { x: p[0], y: p[1], w, h });
     n++;
   }
 }
@@ -2992,6 +3030,28 @@ function advanceStep(): void {
           cameraFollow = true;
           const targetX = Math.max(0.5, Math.min(map.w - 1.5, px(sim, leadId) + gpDx * 2.5));
           const targetY = Math.max(0.5, Math.min(map.h - 1.5, py(sim, leadId) + gpDy * 2.5));
+          commands.push({ type: 'move', ids, x: targetX, y: targetY });
+        }
+      }
+    }
+  }
+
+  // Virtual Analog Stick Movement (mobile / touch controls)
+  const [vsDx, vsDy] = virtualStick.getMovementVector();
+  if ((vsDx !== 0 || vsDy !== 0) && sim.count > 0) {
+    const isTyping = document.activeElement && (
+      document.activeElement.matches('input, textarea, select') ||
+      (document.activeElement as HTMLElement).isContentEditable
+    );
+    const inModal = heroUi.isOpen || townUi.open || saveUi.open || !$('book').hidden || outcome !== null;
+    if (!isTyping && !inModal) {
+      const ids = selectedIds().length > 0 ? selectedIds() : (alive(0) ? [0] : []);
+      if (ids.length > 0) {
+        const leadId = ids.includes(0) ? 0 : ids[0];
+        if (alive(leadId)) {
+          cameraFollow = true;
+          const targetX = Math.max(0.5, Math.min(map.w - 1.5, px(sim, leadId) + vsDx * 2.5));
+          const targetY = Math.max(0.5, Math.min(map.h - 1.5, py(sim, leadId) + vsDy * 2.5));
           commands.push({ type: 'move', ids, x: targetX, y: targetY });
         }
       }

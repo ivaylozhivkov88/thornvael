@@ -2,6 +2,7 @@ import { FP, dir16 } from './path';
 import type { Sim } from './sim';
 import { monsterFamilyById, monsterPaletteByTier } from './data';
 import { rulesOf } from './difficulty';
+import { calculateCalibratedResist, getDifficultyCalibration } from './balance';
 import { ALL_SPELLS, MAGE_SPELLS, NST, SPELLS, St, Tk } from './spelldata';
 import { addStatus, autoCast, castSpell, clearAllStatuses, knows, spellHit, statusTick, validTarget } from './spells';
 import { addHeroXp, dropLoot, heroTick, heroUse, pickBag, respawnHero } from './hero';
@@ -531,11 +532,17 @@ export function strike(sim: Sim, t: number, min: number, max: number, elem: numb
       sim.hero.hits[part]++; // wear on the armour, paid as upkeep after the mission
     }
   } else {
-    const res = Math.min(90, d.res[elem - 1] + cb.mod[mo + M.Res + elem - 1]);
+    const isFoe = sim.team[t] !== 0;
+    const isChampionOrBoss = Boolean(cb.bossMods[t]?.length || cb.tier[t] >= 3);
+    const baseRes = d.res[elem - 1] + cb.mod[mo + M.Res + elem - 1];
+    const diff = sim.hero?.diff ?? (sim as unknown as { difficultyMode?: string | number }).difficultyMode;
+    const res = calculateCalibratedResist(baseRes, elem, t, isFoe, isChampionOrBoss, diff);
     dmg = Math.max(0, Math.floor((dmg * (100 - res)) / 100));
   }
   if (src >= 0 && sim.team[t] === 0 && sim.team[src] !== 0) {
-    const pct = rulesOf(sim).foeHitPct;
+    const diff = sim.hero?.diff ?? (sim as unknown as { difficultyMode?: string | number }).difficultyMode;
+    const cal = getDifficultyCalibration(diff);
+    const pct = Math.floor(rulesOf(sim).foeHitPct * cal.monsterDmgMult);
     if (pct !== 100 && dmg > 0) dmg = Math.max(1, Math.floor((dmg * pct) / 100));
   }
   const cut = raw - dmg;

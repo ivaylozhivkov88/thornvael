@@ -1,5 +1,6 @@
 import { DEFS, Elem, M, MODN, Ord, MAXS, strike } from './combat';
 import { rulesOf } from './difficulty';
+import { getDifficultyCalibration } from './balance';
 import { ATTR_NAMES, CLS_MAGE, CLS_WARRIOR, Cls, ITEMS, Ik, LOOT_RULES, PART_COUNT, SLOT_COUNT, Slot, getItemDef, itemId, rollLoot, type ItemDef } from './items';
 import { calculateActiveSetBonuses, ALL_SET_ITEMS } from './sets';
 import { UNIQUE_ARTIFACTS, rollMagicItem, rollRareItem } from './affixes';
@@ -14,8 +15,8 @@ export const INV_MAX = 24;
 export const SKILL_NAMES = ['Blade', 'Guard', 'Sorcery'] as const;
 export const SKILL_MAX = 10;
 export const SKILL_TIP = ['+5% blow damage per level. Grows with blows struck.', '+1 absorb per 3 levels. Grows with blows taken.', '+4% spell power per level. Grows with spells cast.'] as const;
-export const DIFF_NAMES = ['Easy', 'Medium', 'Hard'] as const;
-export const FOE_PCT = [75, 100, 130] as const;
+export const DIFF_NAMES = ['Easy', 'Medium', 'Hard', 'Hell'] as const;
+export const FOE_PCT = [75, 100, 150, 220] as const;
 const START_DRAUGHTS = [3, 2, 1] as const;
 const BASE_ATTR: readonly (readonly number[])[] = [
   [8, 6, 3, 4], // Warrior: Body, Agility, Mind, Spirit
@@ -930,17 +931,21 @@ export function evaluateQualityHierarchy(
   rank: MonsterRank,
   mf: number,
   rnd: (n: number) => number,
+  diff?: number | string,
 ): LootDropResult {
   const baseItem = getItemDef(baseItemId);
   if (!baseItem || baseItem.kind !== Ik.Gear) {
     return { quality: 'normal', itemId: baseItemId, itemDef: baseItem };
   }
 
+  const cal = getDifficultyCalibration(diff);
+
   // 1. Unique Check
   const effMFUnique = calculateEffectiveMF(mf, 'unique');
   const biasUnique = QUALITY_BIAS[rank].unique;
+  const baseDivUnique = Math.max(1, Math.round(QUALITY_BASE_DIVISORS.unique / cal.uniqueDropMult));
   const divUnique = calculateQualityDivisor(
-    QUALITY_BASE_DIVISORS.unique,
+    baseDivUnique,
     monsterTier,
     baseItem.tier,
     QUALITY_FACTORS.unique,
@@ -965,8 +970,9 @@ export function evaluateQualityHierarchy(
   // 2. Set Check
   const effMFSet = calculateEffectiveMF(mf, 'set');
   const biasSet = QUALITY_BIAS[rank].set;
+  const baseDivSet = Math.max(1, Math.round(QUALITY_BASE_DIVISORS.set / cal.setDropMult));
   const divSet = calculateQualityDivisor(
-    QUALITY_BASE_DIVISORS.set,
+    baseDivSet,
     monsterTier,
     baseItem.tier,
     QUALITY_FACTORS.set,
@@ -1098,7 +1104,7 @@ export function dropLoot(sim: Sim, t: number): void {
 
   for (let pick = 0; pick < picks; pick++) {
     const baseItemId = rollLoot((n) => sim.rng.int(n), lo, hi);
-    let drop = evaluateQualityHierarchy(baseItemId, monsterTier, rank, mf, (n) => sim.rng.int(n));
+    let drop = evaluateQualityHierarchy(baseItemId, monsterTier, rank, mf, (n) => sim.rng.int(n), diff);
 
     if (isActBoss && pick === 0 && drop.quality !== 'unique' && drop.quality !== 'set') {
       const highTierUniques = UNIQUE_ARTIFACTS.filter((a) => a.tier >= 4);

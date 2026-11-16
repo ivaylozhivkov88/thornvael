@@ -9,6 +9,7 @@ import {
 } from './audio';
 import { SPELLS, Tk, St, type SpellDef } from './sim/spelldata';
 import { QUALITY_NAMES } from './render';
+import { keybindManager, DEFAULT_KEYBINDS } from './keybinds';
 
 export interface PauseMenuCtx {
   resume: () => void;
@@ -32,6 +33,8 @@ export interface PauseMenuCtx {
   toggleSfx: () => void;
   isSfxOn: () => boolean;
   openSkillAssignment?: () => void;
+  isVirtualStickOn?: () => boolean;
+  setVirtualStick?: (on: boolean) => void;
 }
 
 type MenuView = 'main' | 'controls' | 'codex' | 'settings';
@@ -430,6 +433,94 @@ export class PauseMenu {
       body.append(box);
     });
 
+    // 5. Interactive Custom Keyboard Remapping Table
+    const customBox = document.createElement('div');
+    customBox.className = 'pause-rebind-container';
+
+    const customTitle = document.createElement('h3');
+    customTitle.className = 'pause-sec-title';
+    customTitle.innerHTML = '<span class="sec-icon">⚙️</span> Custom Key Rebinding';
+
+    const customHeaderRow = document.createElement('div');
+    customHeaderRow.style.display = 'flex';
+    customHeaderRow.style.justifyContent = 'space-between';
+    customHeaderRow.style.alignItems = 'center';
+    customHeaderRow.style.marginBottom = '8px';
+
+    const customDesc = document.createElement('small');
+    customDesc.className = 'pause-sec-desc';
+    customDesc.textContent = 'Click [Rebind] on any action, then press your preferred key on your keyboard.';
+
+    const resetBtn = document.createElement('button');
+    resetBtn.type = 'button';
+    resetBtn.className = 'pause-reset-btn';
+    resetBtn.textContent = '↺ Reset to Defaults';
+    resetBtn.onclick = () => {
+      keybindManager.resetDefaults();
+      this.render();
+    };
+
+    customHeaderRow.append(customDesc, resetBtn);
+    customBox.append(customTitle, customHeaderRow);
+
+    const rebindTable = document.createElement('div');
+    rebindTable.className = 'pause-hotkey-table';
+
+    DEFAULT_KEYBINDS.forEach((action) => {
+      const row = document.createElement('div');
+      row.className = 'pause-hotkey-row rebind-row';
+
+      const bind = keybindManager.getBinding(action.id);
+
+      const kbdBox = document.createElement('div');
+      kbdBox.className = 'pause-kbd-box';
+      const kbd = document.createElement('kbd');
+      kbd.className = 'gothic-kbd';
+      kbd.textContent = bind.key;
+      kbdBox.append(kbd);
+
+      const descBox = document.createElement('div');
+      descBox.className = 'pause-hotkey-desc';
+      const nameSpan = document.createElement('b');
+      nameSpan.textContent = action.label;
+      const detailSpan = document.createElement('span');
+      detailSpan.className = 'pause-hotkey-detail';
+      detailSpan.textContent = action.detail;
+      descBox.append(nameSpan, detailSpan);
+
+      const rebindBtn = document.createElement('button');
+      rebindBtn.type = 'button';
+      rebindBtn.className = 'pause-rebind-btn';
+      rebindBtn.textContent = 'Rebind';
+
+      rebindBtn.onclick = () => {
+        rebindBtn.textContent = 'Press key...';
+        rebindBtn.classList.add('listening');
+
+        const keyListener = (e: KeyboardEvent) => {
+          e.preventDefault();
+          e.stopPropagation();
+          window.removeEventListener('keydown', keyListener, true);
+          let keyDisplay = e.key.toUpperCase();
+          if (e.code === 'Space') keyDisplay = 'Space';
+          else if (e.code === 'Escape') keyDisplay = 'ESC';
+          else if (e.code.startsWith('Digit')) keyDisplay = e.code.replace('Digit', '');
+          else if (e.code.startsWith('Key')) keyDisplay = e.code.replace('Key', '');
+
+          keybindManager.setBinding(action.id, keyDisplay, e.code);
+          this.render();
+        };
+
+        window.addEventListener('keydown', keyListener, true);
+      };
+
+      row.append(kbdBox, descBox, rebindBtn);
+      rebindTable.append(row);
+    });
+
+    customBox.append(rebindTable);
+    body.append(customBox);
+
     modal.append(head, body);
   }
 
@@ -764,7 +855,26 @@ export class PauseMenu {
     };
 
     cameraRow.append(camLabel, camToggle);
-    gameBox.append(cameraRow);
+
+    const stickRow = document.createElement('div');
+    stickRow.className = 'pause-setting-row';
+
+    const stickLabel = document.createElement('div');
+    stickLabel.className = 'pause-setting-label';
+    stickLabel.innerHTML = '<b>Virtual Movement Stick (Touch / Mobile)</b><small>On-screen translucent 360° joystick for direct hero movement</small>';
+
+    const stickToggle = document.createElement('button');
+    stickToggle.type = 'button';
+    const isStick = this.ctx.isVirtualStickOn?.() ?? false;
+    stickToggle.className = `pause-toggle-btn ${isStick ? 'on' : ''}`;
+    stickToggle.textContent = isStick ? 'ON' : 'OFF';
+    stickToggle.onclick = () => {
+      this.ctx.setVirtualStick?.(!isStick);
+      this.render();
+    };
+
+    stickRow.append(stickLabel, stickToggle);
+    gameBox.append(cameraRow, stickRow);
 
     body.append(audioBox, displayBox, gameBox);
     modal.append(head, body);
