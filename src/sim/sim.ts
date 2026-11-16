@@ -261,13 +261,14 @@ export class Sim {
   }
 
   /**
-   * Apply a town command at once (the game is paused inside a building). It is logged for the next
+   * Apply a town or hero command at once (the game is paused inside a building). It is logged for the next
    * tick, and step runs town commands before anything else, so a replay gets the same result.
    */
-  now(cmd: TownCommand): void {
+  now(cmd: TownCommand | HeroCommand): void {
     this.log.push({ tick: this.tick + 1, cmd });
     this.tick++;
-    townCommand(this, cmd);
+    if (cmd.type === 'town') townCommand(this, cmd);
+    else if (cmd.type === 'hero') heroCommand(this, cmd);
     this.tick--;
   }
 

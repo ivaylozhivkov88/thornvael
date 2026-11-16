@@ -87,7 +87,7 @@ export function buildDoll(set: DollSet, keys: Array<string | { key: string; tier
     o.src = `${base}townart/doll/${l.file}`;
     o.alt = '';
     const f = typeof e === 'string' ? '' : tierFilter(e.tier);
-    o.style.cssText = `left:${l.x}%;top:${l.y}%;width:${l.w}%;height:${l.h}%${f ? `;filter:${f}` : ''}`;
+    o.style.cssText = `left:${l.x}%;top:${l.y}%;width:${l.w}%;height:${l.h}%;background:transparent;border:none;box-shadow:none;outline:none;${f ? `filter:${f};` : ''}`;
     box.append(o);
   }
   return box;

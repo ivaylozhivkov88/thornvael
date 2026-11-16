@@ -1,7 +1,7 @@
 import { DEFS } from './sim/combat';
 import { mercPrice } from './sim/difficulty';
-import { INV_MAX, SKILL_MAX, SKILL_NAMES } from './sim/hero';
-import { ITEMS, getItemDef, itemText } from './sim/items';
+import { INV_MAX, SKILL_MAX, SKILL_NAMES, WHY_TEXT, Why, blocker } from './sim/hero';
+import { ITEMS, getItemDef, itemText, Ik, Slot } from './sim/items';
 import { formatItemTooltip, renderItemTooltipDom } from './heroui';
 import { isSetItem } from './sim/sets';
 import type { Sim } from './sim/sim';
@@ -11,7 +11,7 @@ import { S } from './strings';
 import { itemIcon } from './townicons';
 import { equipmentLayers } from './hero-presentation';
 import { buildDoll, dollSet, lookFor } from './doll';
-import { playTraderBark, playTownAmbience, stopTownAmbience } from './audio';
+import { playTraderBark, playTownAmbience, stopTownAmbience, playEquipSfx } from './audio';
 
 /**
  * Building screens: tavern (mercenaries, quest board), shop (one trade screen) and school. The game is
@@ -78,12 +78,18 @@ export class TownUi {
   private exitTimer = 0;
   private previousFocus: HTMLElement | null = null;
   private inertSiblings: [HTMLElement, boolean][] = [];
+  private readonly cardTooltip: HTMLElement = el('div', 'hero-floating-card-tooltip');
+  private shopUndoBtn: HTMLButtonElement | null = null;
+  private shopBuyBtn: HTMLButtonElement | null = null;
+  private shopSellBtn: HTMLButtonElement | null = null;
 
   constructor(private readonly ctx: TownUiCtx) {
     this.root = el('div', 'sheet town');
     this.root.setAttribute('role', 'dialog');
     this.root.setAttribute('aria-modal', 'true');
     this.root.tabIndex = -1;
+    this.cardTooltip.hidden = true;
+    document.body.append(this.cardTooltip);
     this.root.addEventListener('keydown', (event) => {
       if (event.key === 'Escape') { event.preventDefault(); this.close(); }
       if (event.key === 'Tab') {
@@ -150,7 +156,38 @@ export class TownUi {
     return true;
   }
 
+  private showCardTooltip(itemId: number, anchor: HTMLElement): void {
+    if (!this.cardTooltip) return;
+    const hero = this.ctx.sim().hero;
+    this.cardTooltip.replaceChildren(renderItemTooltipDom(itemId, hero));
+    this.cardTooltip.hidden = false;
+
+    const tipRect = this.cardTooltip.getBoundingClientRect();
+    const anchorRect = anchor.getBoundingClientRect();
+    const pad = 10;
+
+    let left = anchorRect.right + pad;
+    if (left + tipRect.width > window.innerWidth - pad) {
+      left = anchorRect.left - tipRect.width - pad;
+    }
+    if (left < pad) left = pad;
+
+    let top = anchorRect.top;
+    if (top + tipRect.height > window.innerHeight - pad) {
+      top = window.innerHeight - pad - tipRect.height;
+    }
+    if (top < pad) top = pad;
+
+    this.cardTooltip.style.left = `${left}px`;
+    this.cardTooltip.style.top = `${top}px`;
+  }
+
+  private hideCardTooltip(): void {
+    if (this.cardTooltip) this.cardTooltip.hidden = true;
+  }
+
   close(): void {
+    this.hideCardTooltip();
     this.tryOn = -1;
     if (!this.open) return;
     if (this.role === Role.Shop) {
@@ -187,6 +224,7 @@ export class TownUi {
   }
 
   private render(): void {
+    this.hideCardTooltip();
     const hadFocus = this.root.contains(document.activeElement);
     const scrollTop = this.root.scrollTop;
     const sim = this.ctx.sim();
@@ -211,7 +249,7 @@ export class TownUi {
   private tryOn = -1;
 
   /** Pointer-drag an item cell onto the hero oval to try it on; a plain tap still selects as before. */
-  private dragToHero(b: HTMLElement, id: number): void {
+  private dragToHero(b: HTMLElement, id: number, fromPack = false): void {
     b.style.touchAction = 'none';
     b.addEventListener('pointerdown', (down) => {
       if (down.button > 0) return;
@@ -219,6 +257,7 @@ export class TownUi {
       let ghost: HTMLElement | null = null;
       const move = (e: PointerEvent) => {
         if (!ghost && Math.hypot(e.clientX - x0, e.clientY - y0) > 8) {
+          this.hideCardTooltip();
           ghost = el('div', 'drag-ghost');
           ghost.append(itemIcon(id));
           document.body.append(ghost);
@@ -239,13 +278,68 @@ export class TownUi {
         // swallow the click that follows a drag so the item is not also selected
         b.addEventListener('click', (c) => { c.stopImmediatePropagation(); c.preventDefault(); }, { capture: true, once: true });
         window.setTimeout(() => { delete b.dataset.dragging; }, 0);
-        if (over) { this.tryOn = id; this.detailItem = id; this.render(); }
-        else this.root.querySelector('.hero-portrait')?.classList.remove('drop-hot');
+        if (over) {
+          if (fromPack) {
+            this.equipItem(id);
+          } else {
+            this.tryOn = id;
+            this.detailItem = id;
+            this.render();
+          }
+        } else {
+          this.root.querySelector('.hero-portrait')?.classList.remove('drop-hot');
+        }
       };
       window.addEventListener('pointermove', move);
       window.addEventListener('pointerup', up);
       window.addEventListener('pointercancel', up);
     });
+  }
+
+  private equipItem(id: number): void {
+    const sim = this.ctx.sim();
+    const h = sim.hero;
+    if (!h) return;
+    const def = getItemDef(id);
+    if (!def) return;
+    const why = def.kind === Ik.Gear ? blocker(h, id) : 0;
+    if (why) {
+      this.setMood(2);
+      return;
+    }
+    const invSlot = h.inv.findIndex((s) => s.item === id);
+    if (invSlot >= 0) {
+      this.sells = this.sells.filter((slot) => slot !== invSlot);
+      this.picks = this.picks.filter((p) => p.kind !== 's' || p.value !== invSlot);
+    }
+    const isMetal = def.slot === 0 || def.slot === 1 || def.slot === 2 || def.slot === 3 || def.slot === 4 || def.slot === 7;
+    if (def.kind === Ik.Gear) {
+      sim.now({ type: 'hero', op: 'equip', item: id });
+    } else {
+      sim.now({ type: 'hero', op: 'use', item: id });
+    }
+    playEquipSfx(isMetal);
+    this.tryOn = -1;
+    this.detailItem = id;
+    this.ctx.changed();
+    this.render();
+  }
+
+  private unequipSlot(slot: number): void {
+    const sim = this.ctx.sim();
+    const h = sim.hero;
+    if (!h || slot < 0 || slot >= h.eq.length) return;
+    const item = h.eq[slot];
+    if (item < 0) return;
+    if (h.inv.length >= INV_MAX) return;
+    const def = getItemDef(item);
+    const isMetal = def?.slot === 0 || def?.slot === 1 || def?.slot === 2 || def?.slot === 3 || def?.slot === 4 || def?.slot === 7;
+    sim.now({ type: 'hero', op: 'unequip', slot });
+    playEquipSfx(isMetal);
+    this.tryOn = -1;
+    this.detailItem = item;
+    this.ctx.changed();
+    this.render();
   }
 
   private scene(kind: 'shop' | 'tavern'): HTMLElement {
@@ -267,6 +361,7 @@ export class TownUi {
 
   private portrait(sim: Sim): HTMLElement {
     const figure = el('figure', 'hero-portrait');
+    figure.style.cursor = 'pointer';
     const image = el('img');
     image.src = `${import.meta.env.BASE_URL}townart/frame-hero-${sim.hero!.cls ? 'mage' : 'warrior'}.jpg`;
     image.alt = S.hero.classes[sim.hero!.cls];
@@ -277,7 +372,13 @@ export class TownUi {
       const swapped = layer.slot === trySlot;
       const badge = el('span', `doll-badge${swapped ? ' replaced' : ''}`);
       badge.title = layer.name;
+      badge.style.cursor = 'pointer';
       badge.append(itemIcon(swapped ? this.tryOn : layer.item));
+      badge.addEventListener('click', (e) => {
+        e.stopPropagation();
+        this.detailItem = layer.item;
+        this.updateShopSelections(sim);
+      });
       doll.append(badge);
     }
     if (trySlot >= 0 && !h.eq.some((_, i) => i === trySlot && h.eq[i] >= 0)) {
@@ -290,7 +391,8 @@ export class TownUi {
     let art: HTMLElement = image;
     if (set) {
       const keys: Array<{ key: string; tier: number }> = [];
-      for (let slot = 0; slot < h.eq.length; slot++) {
+      const layerSlots = [Slot.Armor, Slot.Boots, Slot.Gloves, Slot.Weapon, Slot.Shield, Slot.Helm];
+      for (const slot of layerSlots) {
         const item = slot === trySlot ? this.tryOn : h.eq[slot];
         const def = item >= 0 ? getItemDef(item) : undefined;
         const k = def ? lookFor(set, slot, def.tier ?? 1, def.name) : null;
@@ -299,6 +401,12 @@ export class TownUi {
       art = buildDoll(set, keys, import.meta.env.BASE_URL);
     }
     figure.append(art, doll, el('figcaption', '', this.tryOn >= 0 ? `${getItemDef(this.tryOn)?.name ?? ''}` : S.hero.classes[sim.hero!.cls]));
+    figure.addEventListener('click', (e) => {
+      if ((e.target as HTMLElement).closest('.doll-badges')) return;
+      if (this.detailItem >= 0 && h.inv.some((s) => s.item === this.detailItem)) {
+        this.equipItem(this.detailItem);
+      }
+    });
     return figure;
   }
 
@@ -358,6 +466,7 @@ export class TownUi {
         continue;
       }
       const b = button(getItemDef(id)?.name ?? '', () => {
+        this.hideCardTooltip();
         this.detailItem = id;
         const at = this.buys.indexOf(k);
         if (at >= 0) {
@@ -369,12 +478,16 @@ export class TownUi {
           this.picks.push({ kind: 'b', value: k });
           this.setMood(4);
         }
-        this.render();
+        this.updateShopSelections(sim);
       }, String(priceOf(id)));
       b.className = `cell${this.buys.includes(k) ? ' sel' : ''}`;
       b.dataset.slot = String(k);
       this.decorateItem(b, id);
       this.ctx.tipOn(b, formatItemTooltip(id, h));
+      b.addEventListener('pointerenter', (e) => {
+        if ((e as PointerEvent).pointerType !== 'touch') this.showCardTooltip(id, b);
+      });
+      b.addEventListener('pointerleave', () => this.hideCardTooltip());
       this.dragToHero(b, id);
       sg.append(b);
     }
@@ -390,33 +503,51 @@ export class TownUi {
       }
       const picked = this.sells.filter((slot) => slot === k).length;
       const b = button(getItemDef(s.item)?.name ?? '', () => {
+        this.hideCardTooltip();
         this.detailItem = s.item;
-        if (picked >= s.n) { this.render(); return; }
-        this.sells.push(k);
-        this.picks.push({ kind: 's', value: k });
-        this.render();
+        if (picked >= s.n) {
+          this.sells = this.sells.filter((slot) => slot !== k);
+          this.picks = this.picks.filter((p) => p.kind !== 's' || p.value !== k);
+        } else {
+          this.sells.push(k);
+          this.picks.push({ kind: 's', value: k });
+        }
+        this.updateShopSelections(sim);
       }, `${sellPrice(s.item)}${s.n > 1 ? `  x${s.n - picked}` : ''}`);
       b.className = `cell${picked ? ' sel' : ''}${picked >= s.n ? ' no' : ''}`;
       b.dataset.packSlot = String(k);
       this.decorateItem(b, s.item);
       this.ctx.tipOn(b, formatItemTooltip(s.item, h));
-      this.dragToHero(b, s.item);
+      b.addEventListener('pointerenter', (e) => {
+        if ((e as PointerEvent).pointerType !== 'touch') this.showCardTooltip(s.item, b);
+      });
+      b.addEventListener('pointerleave', () => this.hideCardTooltip());
+      b.addEventListener('dblclick', (e) => {
+        e.preventDefault();
+        e.stopPropagation();
+        this.hideCardTooltip();
+        this.equipItem(s.item);
+      });
+      this.dragToHero(b, s.item, true);
       pg.append(b);
     }
     packPanel.append(pg, this.pager('pack', this.packPage, Math.ceil(INV_MAX / 10), (p) => { this.packPage = p; this.render(); }));
 
     const acts = el('div', 'trade-actions');
     const undo = button(S.town.undo, () => {
+      this.hideCardTooltip();
       const last = this.picks.pop();
       if (last) {
         const picks = last.kind === 'b' ? this.buys : this.sells;
         const index = picks.lastIndexOf(last.value);
         if (index >= 0) picks.splice(index, 1);
       }
-      this.render();
+      this.updateShopSelections(sim);
     }, String(sim.cb.gold[0]));
     undo.disabled = this.picks.length === 0;
+    this.shopUndoBtn = undo;
     const buy = button(S.town.buy, () => {
+      this.hideCardTooltip();
       const g0 = sim.cb.gold[0];
       this.cmd('buy', undefined, this.buys);
       const ok = sim.cb.gold[0] < g0;
@@ -430,7 +561,9 @@ export class TownUi {
       this.render();
     }, `-${buyTotal}`);
     buy.disabled = this.buys.length === 0;
+    this.shopBuyBtn = buy;
     const sell = button(S.town.sell, () => {
+      this.hideCardTooltip();
       this.cmd('sell', undefined, this.sells.map((slot) => h.inv[slot].item));
       this.sells = [];
       this.picks = this.picks.filter((p) => p.kind === 'b');
@@ -439,6 +572,7 @@ export class TownUi {
       this.render();
     }, `+${sellTotal}`);
     sell.disabled = this.sells.length === 0;
+    this.shopSellBtn = sell;
     const exit = button(S.town.leave, () => {
       this.setMood(3);
       this.exitTimer = window.setTimeout(() => this.close(), 350);
@@ -458,11 +592,120 @@ export class TownUi {
     acts.append(undo, buy, sell, gamble, exit);
     const details = el('section', 'trade-details');
     details.setAttribute('aria-label', S.town.itemDetails);
-    const detailView = this.detailItem >= 0 ? renderItemTooltipDom(this.detailItem, h) : el('p', 'selected-item', S.town.selectItem);
-    details.append(bill, detailView, el('p', 'note', S.town.shopHelp));
+    details.append(bill, this.renderDetailView(h), el('p', 'note', S.town.shopHelp));
     const layout = el('div', 'trade-layout');
     layout.append(stockPanel, keeper, acts, this.portrait(sim), packPanel, details);
     this.root.append(layout);
+  }
+
+  private renderDetailView(h: Sim['hero'] & {}): HTMLElement {
+    const wrap = el('div', 'trade-detail-view');
+    if (this.detailItem < 0) {
+      wrap.append(el('p', 'selected-item', S.town.selectItem));
+      return wrap;
+    }
+    const tip = renderItemTooltipDom(this.detailItem, h);
+    wrap.append(tip);
+
+    const invIdx = h.inv.findIndex((s) => s.item === this.detailItem);
+    if (invIdx >= 0) {
+      const d = getItemDef(this.detailItem);
+      const isGear = d?.kind === Ik.Gear;
+      const why = isGear ? blocker(h, this.detailItem) : 0;
+      const btn = button(isGear ? S.hero.equip : S.hero.use, () => {
+        this.equipItem(this.detailItem);
+      });
+      btn.className = 'btn-equip-pack';
+      if (why) {
+        btn.disabled = true;
+        this.ctx.tipOn(btn, WHY_TEXT[why] ?? '');
+      }
+      wrap.append(btn);
+    } else {
+      const eqSlot = h.eq.indexOf(this.detailItem);
+      if (eqSlot >= 0) {
+        const btn = button(S.hero.unequip, () => {
+          this.unequipSlot(eqSlot);
+        });
+        btn.className = 'btn-unequip-pack';
+        if (h.inv.length >= INV_MAX) {
+          btn.disabled = true;
+          this.ctx.tipOn(btn, WHY_TEXT[Why.Full]);
+        }
+        wrap.append(btn);
+      }
+    }
+    return wrap;
+  }
+
+  private updateShopSelections(sim: Sim): void {
+    const h = sim.hero!;
+    const shelf = sim.town.stock[this.town];
+
+    // 1. Update shelf cell buttons
+    const shelfCells = this.root.querySelectorAll<HTMLButtonElement>('.grid.shelf .cell:not(.empty)');
+    for (const b of shelfCells) {
+      const slot = Number(b.dataset.slot);
+      const isSel = this.buys.includes(slot);
+      b.classList.toggle('sel', isSel);
+      b.setAttribute('aria-pressed', String(isSel));
+    }
+
+    // 2. Update pack cell buttons
+    const packCells = this.root.querySelectorAll<HTMLButtonElement>('.grid.pack .cell:not(.empty)');
+    for (const b of packCells) {
+      const slot = Number(b.dataset.packSlot);
+      const s = h.inv[slot];
+      if (!s) continue;
+      const picked = this.sells.filter((sl) => sl === slot).length;
+      b.classList.toggle('sel', picked > 0);
+      b.classList.toggle('no', picked >= s.n);
+      b.setAttribute('aria-pressed', String(picked > 0));
+      const priceSmall = b.querySelector('small');
+      if (priceSmall) {
+        priceSmall.textContent = `${sellPrice(s.item)}${s.n > 1 ? `  x${s.n - picked}` : ''}`;
+      }
+    }
+
+    // 3. Update bill numbers
+    const buyTotal = this.buys.reduce((n, k) => n + priceOf(shelf[k]), 0);
+    const sellTotal = this.sells.reduce((n, slot) => n + sellPrice(h.inv[slot].item), 0);
+    const bal = sellTotal - buyTotal;
+    const after = sim.cb.gold[0] + bal;
+
+    const billLines = this.root.querySelectorAll('.bill .line b');
+    if (billLines.length >= 4) {
+      billLines[0].textContent = String(buyTotal);
+      billLines[1].textContent = String(sellTotal);
+      billLines[2].textContent = String(bal);
+      billLines[3].textContent = String(after);
+      billLines[3].className = after < 0 ? 'neg' : '';
+    }
+
+    // 4. Update trade actions (undo, buy, sell)
+    if (this.shopUndoBtn) {
+      this.shopUndoBtn.disabled = this.picks.length === 0;
+    }
+    if (this.shopBuyBtn) {
+      this.shopBuyBtn.disabled = this.buys.length === 0;
+      const sm = this.shopBuyBtn.querySelector('small');
+      if (sm) sm.textContent = `-${buyTotal}`;
+    }
+    if (this.shopSellBtn) {
+      this.shopSellBtn.disabled = this.sells.length === 0;
+      const sm = this.shopSellBtn.querySelector('small');
+      if (sm) sm.textContent = `+${sellTotal}`;
+    }
+
+    // 5. Update detail view smoothly without touching portrait or keeper!
+    const detailsSec = this.root.querySelector('.trade-details');
+    if (detailsSec) {
+      const existing = detailsSec.querySelector('.trade-detail-view, .item-tooltip-box, .selected-item');
+      const replacement = this.renderDetailView(h);
+      if (existing) {
+        existing.replaceWith(replacement);
+      }
+    }
   }
 
   // ---- tavern ----

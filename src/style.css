@@ -459,6 +459,35 @@ button:focus-visible { outline: 2px solid #9dff7a; outline-offset: 1px; }
 :is(h1, h2) { font-family: Georgia, "Times New Roman", serif; font-weight: normal; letter-spacing: .035em; }
 .sheet h3, #mission .who { color: var(--gold); }
 .sheet :is(small, .note) { color: var(--muted); opacity: 1; }
+
+/* Inventory UI Viewport Containment Rule */
+#sheet {
+  max-height: calc(100dvh - 36px);
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+#sheet > .sheet-head {
+  flex-shrink: 0;
+}
+#sheet > #sheet-body {
+  flex: 1 1 auto;
+  min-height: 0;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+}
+
+/* Centered Hero Portrait in HUD */
+.hud-hero-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: 50% 10%;
+  transform: scale(1.55);
+  transform-origin: 50% 12%;
+  display: block;
+  image-rendering: auto;
+}
 .line, .detail { background: #111a2288; border-color: #95755066; }
 .detail { line-height: 1.5; }
 .line b { color: var(--text); }

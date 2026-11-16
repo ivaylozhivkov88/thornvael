@@ -422,7 +422,7 @@ export function getSuperUniqueForUnit(sim: Sim, unitId: number): SuperUniqueDef 
   return famId ? SUPER_UNIQUE_MAP.get(famId) : undefined;
 }
 
-function applyAffixStatBonuses(sim: Sim, u: number, mods: readonly string[]): void {
+export function applyAffixStatBonuses(sim: Sim, u: number, mods: readonly string[]): void {
   const cb = sim.cb;
   const mo = u * MODN;
   for (const bm of mods) {

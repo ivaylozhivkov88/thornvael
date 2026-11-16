@@ -1004,43 +1004,13 @@ function handle(intents: Intent[]): void {
   }
 }
 
-// --- tooltips: mouse hover and touch press-and-hold show the same info ---
+// --- tooltips: toolbar and skill buttons ---
 const tipEl = $('tip');
 let tipTimer = 0;
 let tipHide = 0;
-/** Painted portrait candidates for an enemy: per-family card first, then the boss frame. Missing files hide themselves. */
-function unitPortraits(i: number): string[] {
-  if (sim.team[i] === 0) {
-    if (sim.hero?.id !== i) {
-      const b = import.meta.env.BASE_URL;
-      const k = sim.cb.kind[i];
-      if (k === Kind.Golem) return [`${b}townart/friend-golem.jpg`];
-      if (k === Kind.Archer) return [`${b}townart/friend-archer.jpg`];
-      if (k === Kind.Imp) return [`${b}townart/friend-imp.jpg`];
-      return [];
-    }
-    return [`${import.meta.env.BASE_URL}townart/frame-hero-${sim.hero.cls ? 'mage' : 'warrior'}.jpg`];
-  }
-  const fam = monsterInfo(sim.cb.kind[i], sim.cb.tier[i], sim.cb.family[i], sim.cb.bossMods[i])?.family;
-  if (!fam) return [];
-  const b = import.meta.env.BASE_URL;
-  return [`${b}townart/mon/${fam}.jpg`, `${b}townart/frame-${fam}.jpg`];
-}
-function showTip(text: string, x: number, y: number, portraits: string[] = []): void {
-  tipEl.textContent = '';
-  if (portraits.length) {
-    const img = document.createElement('img');
-    img.className = 'tip-portrait';
-    img.alt = '';
-    let n = 0;
-    img.onerror = () => {
-      if (++n < portraits.length) img.src = portraits[n]!;
-      else img.remove();
-    };
-    img.src = portraits[0]!;
-    tipEl.append(img);
-  }
-  tipEl.append(text);
+let hoveredUnit: number | null = null;
+function showTip(text: string, x: number, y: number): void {
+  tipEl.textContent = text;
   tipEl.hidden = false;
   tipEl.style.left = `${Math.max(4, Math.min(window.innerWidth - 270, x - 120))}px`;
   tipEl.style.top = `${Math.max(4, y - 70)}px`;
@@ -1048,19 +1018,6 @@ function showTip(text: string, x: number, y: number, portraits: string[] = []): 
 function hideTip(): void {
   tipEl.hidden = true;
   clearTimeout(tipHide);
-}
-function unitInfo(i: number): string {
-  const d = DEFS[sim.cb.kind[i]];
-  const cb = sim.cb;
-  const mo = i * MODN;
-  const r = d.res.map((v, n) => `${S.elements[n + 1]} ${Math.min(90, v + cb.mod[mo + M.Res + n])}%`).join(', ');
-  const side = sim.team[i] === 0 ? S.yours : S.enemy;
-  const mana = cb.manaMax[i] > 0 ? `, ${S.mana} ${cb.mana[i]}/${cb.manaMax[i]}` : '';
-  const armour = S.parts.map((p, k) => `${p} ${partDef(sim, i, k)}/${partAbs(sim, i, k)}`).join(', ');
-  const family = sim.team[i] !== 0 ? monsterInfo(cb.kind[i], cb.tier[i], cb.family[i], cb.bossMods[i]) : null;
-  const modLine = family?.mods?.length ? `\nElite: ${family.mods.join(', ')}` : '';
-  const traits = family ? `\nBase family${family.family ? ` (${family.name})` : ''}: ${family.base.ranged ? 'ranged' : 'melee'} ${S.elements[family.base.elem]}, range ${family.base.reach / FP} tiles, speed ${family.base.speed}%.${modLine}` : '';
-  return `${S.kinds[cb.kind[i]]} (${side}): ${S.hp} ${cb.hp[i]}/${cb.hpMax[i]}${mana}\n${S.hit} ${d.acc + cb.mod[mo + M.Acc]}, ${S.defence}/${S.absorb}: ${armour}\n${S.resist}: ${r}${traits}`;
 }
 function unitAt(x: number, y: number, r: number): number {
   return pickUnit(sim.count, posAny, x, y, r);
@@ -1105,8 +1062,7 @@ canvas.addEventListener('pointerdown', (e) => {
         return;
       }
       holdShown = true;
-      showTip(unitInfo(i), downAt[0], downAt[1], unitPortraits(i));
-      tipHide = window.setTimeout(hideTip, 2500);
+      hoveredUnit = i;
     }, 450);
   }
   handle(rec.down(e.pointerId, x, y, e.pointerType !== 'mouse', e.button, e.shiftKey));
@@ -1132,7 +1088,10 @@ canvas.addEventListener('pointerup', (e) => {
   handle(rec.up(e.pointerId));
   if (holdShown) {
     clearTimeout(tipHide);
-    tipHide = window.setTimeout(hideTip, 1500);
+    tipHide = window.setTimeout(() => {
+      hoveredUnit = null;
+      hideTip();
+    }, 1500);
   }
 });
 canvas.addEventListener('pointercancel', () => {
@@ -1141,12 +1100,14 @@ canvas.addEventListener('pointercancel', () => {
   handle(rec.cancel());
   boxDrag = null;
   downAt = null;
+  hoveredUnit = null;
   clearTimeout(tipTimer);
 });
 canvas.addEventListener('pointerleave', (e) => {
   if (e.pointerType === 'mouse') {
     pointerAt = null;
     hover = null;
+    hoveredUnit = null;
     hideTip();
   }
 });
@@ -1192,8 +1153,8 @@ function updateHover(x: number, y: number): void {
   canvas.style.cursor = cursor;
   const shown = enemy >= 0 ? enemy : mine;
   hover = enemy >= 0 && (armed === null || armed === 'attack') ? { id: enemy, ok } : null;
-  if (shown >= 0) showTip(unitInfo(shown), x + 120, y + 100, unitPortraits(shown));
-  else hideTip();
+  hoveredUnit = shown >= 0 ? shown : null;
+  hideTip();
 }
 
 type ControlMode = 'wasd' | 'mouse';
@@ -1212,6 +1173,7 @@ function resetDesktopInput(): void {
   mods.ctrl = false;
   updateAltButtonStates(altMobileToggle);
   pointerAt = null;
+  hoveredUnit = null;
   handle(rec.cancel());
   boxDrag = null;
   downAt = null;
@@ -2989,6 +2951,7 @@ function frame(): void {
     box: boxDrag,
     ping: ping ? { x: ping.x, y: ping.y, age } : null,
     hover,
+    hoverUnit: hoveredUnit,
     aim: armed === 'spell' ? aimView : null,
   });
   updateLootOverlay(now);

@@ -1,6 +1,7 @@
 import { describe, expect, it } from 'vitest';
 import { Minimap } from '../src/minimap';
 import { TILE } from '../src/map';
+import { CameraController } from '../src/camera';
 
 describe('Camera & WASD Controls', () => {
   it('calculates target camera coordinates centered on hero', () => {
@@ -139,5 +140,55 @@ describe('Camera & WASD Controls', () => {
 
       document.createElement = origCreateElement;
     }
+  });
+
+  it('pans camera in natural RTS directions when mouse hits screen edges (inverted edgePan)', () => {
+    const cam = new CameraController({
+      viewW: 1280,
+      viewH: 720,
+      camX: 500,
+      camY: 500,
+      zoom: 1,
+    });
+
+    // 1. Mouse at left edge (pointerX <= 15): camera moves LEFT (camX decreases)
+    cam.camX = 500;
+    cam.camY = 500;
+    const pannedLeft = cam.edgePan(10, 360, 8, 15);
+    expect(pannedLeft).toBe(true);
+    expect(cam.camX).toBe(492); // 500 - 8
+    expect(cam.camY).toBe(500);
+
+    // 2. Mouse at right edge (pointerX >= 1280 - 15 = 1265): camera moves RIGHT (camX increases)
+    cam.camX = 500;
+    cam.camY = 500;
+    const pannedRight = cam.edgePan(1270, 360, 8, 15);
+    expect(pannedRight).toBe(true);
+    expect(cam.camX).toBe(508); // 500 + 8
+    expect(cam.camY).toBe(500);
+
+    // 3. Mouse at top edge (pointerY <= 15): camera moves UP (camY decreases)
+    cam.camX = 500;
+    cam.camY = 500;
+    const pannedUp = cam.edgePan(640, 10, 8, 15);
+    expect(pannedUp).toBe(true);
+    expect(cam.camX).toBe(500);
+    expect(cam.camY).toBe(492); // 500 - 8
+
+    // 4. Mouse at bottom edge (pointerY >= 720 - 15 = 705): camera moves DOWN (camY increases)
+    cam.camX = 500;
+    cam.camY = 500;
+    const pannedDown = cam.edgePan(640, 715, 8, 15);
+    expect(pannedDown).toBe(true);
+    expect(cam.camX).toBe(500);
+    expect(cam.camY).toBe(508); // 500 + 8
+
+    // 5. Mouse inside screen: no pan
+    cam.camX = 500;
+    cam.camY = 500;
+    const pannedInterior = cam.edgePan(640, 360, 8, 15);
+    expect(pannedInterior).toBe(false);
+    expect(cam.camX).toBe(500);
+    expect(cam.camY).toBe(500);
   });
 });

@@ -74,6 +74,98 @@ export class Minimap {
       const py = (sim.y[i] / FP) * s - 1;
       g.fillRect(Math.round(px), Math.round(py), i === 0 && mine ? 4 : 2, i === 0 && mine ? 4 : 2);
     }
+
+    // Subtle enemy radar pulse & directional guidance for raider camps outside vision
+    const enemyCamps: { x: number; y: number }[] = [];
+    for (let i = 0; i < sim.count; i++) {
+      if (sim.team[i] !== 1 || sim.cb.hp[i] <= 0) continue;
+      const tx = sim.x[i] / FP;
+      const ty = sim.y[i] / FP;
+      const itx = Math.floor(tx);
+      const ity = Math.floor(ty);
+      if (itx < 0 || itx >= map.w || ity < 0 || ity >= map.h) continue;
+      if (sim.visible[ity * map.w + itx]) continue;
+
+      let found = false;
+      for (const camp of enemyCamps) {
+        if (Math.hypot(camp.x - tx, camp.y - ty) < 6) {
+          found = true;
+          break;
+        }
+      }
+      if (!found) {
+        enemyCamps.push({ x: tx, y: ty });
+      }
+    }
+
+    if (enemyCamps.length > 0 && typeof performance !== 'undefined') {
+      const now = performance.now();
+      const pulsePhase = (now % 1600) / 1600;
+      const pulseRadius = 2 + pulsePhase * 7;
+      const pulseAlpha = Math.max(0, 1 - pulsePhase) * 0.65;
+
+      g.save?.();
+      for (const camp of enemyCamps) {
+        const px = camp.x * s;
+        const py = camp.y * s;
+
+        if (g.beginPath && g.arc && g.stroke) {
+          g.strokeStyle = `rgba(255, 65, 55, ${pulseAlpha})`;
+          g.lineWidth = 1;
+          g.beginPath();
+          g.arc(px, py, pulseRadius, 0, Math.PI * 2);
+          g.stroke();
+        }
+
+        g.fillStyle = `rgba(235, 55, 45, ${0.4 + 0.4 * (1 - pulsePhase)})`;
+        g.fillRect(Math.round(px - 1), Math.round(py - 1), 2, 2);
+      }
+
+      // Directional needle from hero towards nearest raider camp outside gates
+      const heroId = sim.hero ? sim.hero.id : 0;
+      if (sim.cb.hp[heroId] > 0) {
+        const hx = sim.x[heroId] / FP;
+        const hy = sim.y[heroId] / FP;
+
+        let nearestDist = Infinity;
+        let nearestCamp = enemyCamps[0];
+        for (const camp of enemyCamps) {
+          const d = Math.hypot(camp.x - hx, camp.y - hy);
+          if (d < nearestDist) {
+            nearestDist = d;
+            nearestCamp = camp;
+          }
+        }
+
+        if (nearestCamp && nearestDist > 8 && g.beginPath && g.fill) {
+          const angle = Math.atan2(nearestCamp.y - hy, nearestCamp.x - hx);
+          const heroMinimapX = hx * s;
+          const heroMinimapY = hy * s;
+          const indicatorDist = Math.min(14, nearestDist * s * 0.4);
+          const tipX = heroMinimapX + Math.cos(angle) * indicatorDist;
+          const tipY = heroMinimapY + Math.sin(angle) * indicatorDist;
+
+          const pulse = 0.5 + 0.5 * Math.sin(now / 350);
+          g.strokeStyle = `rgba(255, 180, 50, ${0.4 + 0.35 * pulse})`;
+          g.fillStyle = `rgba(255, 80, 60, ${0.6 + 0.35 * pulse})`;
+          g.lineWidth = 1.2;
+
+          const arrowSize = 3.5;
+          const leftAngle = angle + 2.5;
+          const rightAngle = angle - 2.5;
+
+          g.beginPath();
+          g.moveTo(tipX, tipY);
+          g.lineTo(tipX + Math.cos(leftAngle) * arrowSize, tipY + Math.sin(leftAngle) * arrowSize);
+          g.lineTo(heroMinimapX + Math.cos(angle) * (indicatorDist * 0.4), heroMinimapY + Math.sin(angle) * (indicatorDist * 0.4));
+          g.lineTo(tipX + Math.cos(rightAngle) * arrowSize, tipY + Math.sin(rightAngle) * arrowSize);
+          g.closePath();
+          g.fill();
+          g.stroke?.();
+        }
+      }
+      g.restore?.();
+    }
     g.strokeStyle = '#ffffff';
     g.lineWidth = 1;
     g.strokeRect(

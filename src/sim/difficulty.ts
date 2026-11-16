@@ -11,12 +11,14 @@ export interface Rules {
   mercPct: number; // mercenary hire price, percent
   goldPct: number; // starting gold of a new hero, percent
   hunt: boolean; // foes pick the target with the weakest head and torso armour
+  aggroTiles: number; // Diablo II authentic detection / aggro range in tiles
+  leashTiles: number; // leash distance from guard post in tiles
 }
 
 export const RULES: readonly Rules[] = [
-  { corpse: 2250, foeHitPct: 80, friendlyPct: 0, mercPct: 100, goldPct: 150, hunt: false },
-  { corpse: 1500, foeHitPct: 100, friendlyPct: 0, mercPct: 100, goldPct: 100, hunt: false },
-  { corpse: 750, foeHitPct: 100, friendlyPct: 25, mercPct: 125, goldPct: 100, hunt: true },
+  { corpse: 2250, foeHitPct: 80, friendlyPct: 0, mercPct: 100, goldPct: 150, hunt: false, aggroTiles: 8, leashTiles: 11 },
+  { corpse: 1500, foeHitPct: 100, friendlyPct: 0, mercPct: 100, goldPct: 100, hunt: false, aggroTiles: 11, leashTiles: 14 },
+  { corpse: 750, foeHitPct: 100, friendlyPct: 25, mercPct: 125, goldPct: 100, hunt: true, aggroTiles: 14, leashTiles: 18 },
 ];
 
 export const rulesOf = (sim: Sim): Rules => RULES[sim.hero?.diff ?? 1] ?? RULES[1];

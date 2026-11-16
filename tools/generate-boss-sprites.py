@@ -951,7 +951,18 @@ def main():
     for boss_id in ["morvessa", "gorrathul", "vesperion", "ashkarath"]:
         generate_boss_atlas(boss_id, out_dir)
     if "--bosses-only" not in sys.argv:
-        for unit_id in ["hero", "warrior", "archer", "mage", "gnoll", "golem", "imp"]:
+        try:
+            import importlib.util
+            script_path = os.path.join(os.path.dirname(__file__), "generate-hero-sprites.py")
+            if os.path.exists(script_path):
+                spec = importlib.util.spec_from_file_location("ghs", script_path)
+                ghs = importlib.util.module_from_spec(spec)
+                spec.loader.exec_module(ghs)
+                for unit_id in ["hero", "warrior", "archer", "mage"]:
+                    ghs.generate_hero_unit_atlas(unit_id, out_dir)
+        except Exception as e:
+            print(f"Warning: could not run dedicated hero generator: {e}")
+        for unit_id in ["gnoll", "golem", "imp"]:
             enhance_base_unit_atlas(unit_id, out_dir)
     print("All 4 Boss Atlases and 7 Base Unit Atlases generated and enhanced successfully!")
 

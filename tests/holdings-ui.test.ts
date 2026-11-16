@@ -65,5 +65,21 @@ describe('UI & Visual Ergonomics: Holdings Modal, HUD Quest Tracker & Minimap', 
     it('ensures equipment buttons have >= 44px min-height even in compact landscape mode', () => {
       expect(townstyleCss).toMatch(/#sheet\s+\.hero-gear-cell\s*>\s*button:first-child\s*\{[^}]*min-height:\s*44px;/);
     });
+
+    it('enforces Inventory (#sheet) 100dvh Zero-Scroll Rule with overflow: hidden and flex column layout', () => {
+      expect(townstyleCss).toMatch(/#sheet\s*\{[^}]*max-height:\s*calc\(100dvh\s*-\s*36px\);/);
+      expect(townstyleCss).toMatch(/#sheet\s*\{[^}]*overflow:\s*hidden;/);
+      expect(townstyleCss).toMatch(/#sheet\s*\{[^}]*display:\s*flex;/);
+      expect(townstyleCss).toMatch(/#sheet\s*\{[^}]*flex-direction:\s*column;/);
+      expect(styleCss).toMatch(/#sheet\s*\{[^}]*max-height:\s*calc\(100dvh\s*-\s*36px\);/);
+      expect(styleCss).toMatch(/#sheet\s*\{[^}]*overflow:\s*hidden;/);
+    });
+
+    it('centers and scales Hero Portrait in HUD to prominently display face and shoulders without clipping', () => {
+      expect(gothicHudCss).toMatch(/\.hud-hero-img\s*\{[^}]*object-position:\s*50%\s+10%;/);
+      expect(gothicHudCss).toMatch(/\.hud-hero-img\s*\{[^}]*transform:\s*scale\(1\.55\);/);
+      expect(gothicHudCss).toMatch(/\.hud-hero-img\s*\{[^}]*transform-origin:\s*50%\s+12%;/);
+      expect(styleCss).toMatch(/\.hud-hero-img\s*\{[^}]*object-position:\s*50%\s+10%;/);
+    });
   });
 });

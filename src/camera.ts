@@ -38,10 +38,10 @@ export class CameraController {
   edgePan(pointerX: number, pointerY: number, edgeSpeed = 8, edgeThreshold = 15): boolean {
     let edgeDx = 0;
     let edgeDy = 0;
-    if (pointerX <= edgeThreshold) edgeDx += 1;
-    else if (pointerX >= this.viewW - edgeThreshold) edgeDx -= 1;
-    if (pointerY <= edgeThreshold) edgeDy += 1;
-    else if (pointerY >= this.viewH - edgeThreshold) edgeDy -= 1;
+    if (pointerX <= edgeThreshold) edgeDx -= 1;
+    else if (pointerX >= this.viewW - edgeThreshold) edgeDx += 1;
+    if (pointerY <= edgeThreshold) edgeDy -= 1;
+    else if (pointerY >= this.viewH - edgeThreshold) edgeDy += 1;
 
     if (edgeDx !== 0 || edgeDy !== 0) {
       this.cameraFollow = false;

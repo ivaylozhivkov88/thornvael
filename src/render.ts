@@ -1,4 +1,5 @@
 import { Application, Container, Graphics, Sprite, Text, Texture } from 'pixi.js';
+import { DiabloNameplateLayer } from './nameplate';
 import { ObjectKind, Terrain, TILE, type GameMap } from './map';
 import { loadTerrainArt, paintTerrainChunk, prepareScenery, type SceneryPlacement } from './terrain';
 import { Kind } from './sim/combat';
@@ -250,6 +251,7 @@ interface Floater {
 
 export interface View {
   hover: { id: number; ok: boolean } | null; // unit under the pointer and whether the armed order may target it
+  hoverUnit?: number | null; // unit currently hovered or touched
   selected: ReadonlySet<number>;
   box: { x0: number; y0: number; x1: number; y1: number } | null;
   ping: { x: number; y: number; age: number } | null; // world tile coords, age 0..1
@@ -271,6 +273,7 @@ interface Burst {
 export class Renderer {
   readonly app = new Application();
   readonly world = new Container();
+  readonly nameplates = new DiabloNameplateLayer();
   private readonly rings = new Graphics();
   private readonly overlay = new Graphics();
   private readonly light = new Graphics();
@@ -447,13 +450,13 @@ export class Renderer {
     if (this.feel.lightSprite) {
       const stageItems = [this.world, this.feel.lightSprite];
       if (this.aestheticVfx) stageItems.push(this.aestheticVfx.weatherLayer);
-      stageItems.push(this.feel.floaterContainer, this.floaterLayer, this.overlay);
+      stageItems.push(this.feel.floaterContainer, this.floaterLayer, this.nameplates.container, this.overlay);
       this.app.stage.addChild(...stageItems);
     } else {
       this.light.blendMode = 'multiply';
       const stageItems = [this.world, this.light];
       if (this.aestheticVfx) stageItems.push(this.aestheticVfx.weatherLayer);
-      stageItems.push(this.floaterLayer, this.overlay);
+      stageItems.push(this.floaterLayer, this.nameplates.container, this.overlay);
       this.app.stage.addChild(...stageItems);
     }
     if (new URLSearchParams(location.search).get('art') === '1') {
@@ -1263,10 +1266,14 @@ export class Renderer {
         }
       }
     }
+    // Update in-world overhead Diablo II nameplates and health bars
+    this.nameplates?.update(sim, this.sprites, this.zoom, this.camX, this.camY, this.viewW, this.viewH, v);
+
     // Hit-point bars: Low draws them only for selected units, Medium adds hurt units, High draws every hurt unit in view.
     for (let i = 0; i < sim.count; i++) {
       const s = this.sprites[i];
       if (!s.visible || cb.hp[i] <= 0) continue;
+      if (this.nameplates?.hasPlate(i)) continue;
       const hurt = cb.hp[i] < cb.hpMax[i];
       const sel = v.selected.has(i);
       if (!(sel || (hurt && this.quality > 0))) continue;
@@ -1564,6 +1571,51 @@ export class Renderer {
       const sx = v.ping.x * TILE * this.zoom - this.camX;
       const sy = v.ping.y * TILE * this.zoom - this.camY;
       o.circle(sx, sy, (6 + v.ping.age * 16) * this.zoom).stroke({ color: 0xffffff, width: 2, alpha: 1 - v.ping.age });
+    }
+    // Subtle directional chevron around hero pointing towards nearest enemy raider camp
+    const heroId = sim.hero ? sim.hero.id : 0;
+    if (sim.cb.hp[heroId] > 0) {
+      const hWorldX = (sim.x[heroId] / FP) * TILE;
+      const hWorldY = (sim.y[heroId] / FP) * TILE;
+      const hScreenX = hWorldX * this.zoom - this.camX;
+      const hScreenY = hWorldY * this.zoom - this.camY;
+
+      if (hScreenX >= 0 && hScreenX <= this.viewW && hScreenY >= 0 && hScreenY <= this.viewH) {
+        let nearestDistSq = Infinity;
+        let nearestEnemyIdx = -1;
+        for (let i = 0; i < sim.count; i++) {
+          if (sim.team[i] !== 1 || sim.cb.hp[i] <= 0) continue;
+          const eWorldX = (sim.x[i] / FP) * TILE;
+          const eWorldY = (sim.y[i] / FP) * TILE;
+          const dSq = (eWorldX - hWorldX) ** 2 + (eWorldY - hWorldY) ** 2;
+          if (dSq < nearestDistSq) {
+            nearestDistSq = dSq;
+            nearestEnemyIdx = i;
+          }
+        }
+
+        if (nearestEnemyIdx >= 0 && nearestDistSq > (10 * TILE) ** 2) {
+          const eWorldX = (sim.x[nearestEnemyIdx] / FP) * TILE;
+          const eWorldY = (sim.y[nearestEnemyIdx] / FP) * TILE;
+          const angle = Math.atan2(eWorldY - hWorldY, eWorldX - hWorldX);
+          const orbitR = 48 * this.zoom;
+          const px = hScreenX + Math.cos(angle) * orbitR;
+          const py = hScreenY + Math.sin(angle) * orbitR;
+
+          const pulse = 0.5 + 0.5 * Math.sin(now / 400);
+          const chevronAlpha = 0.35 + 0.3 * pulse;
+          const sideL = 8 * this.zoom;
+          const wingAngle1 = angle + 2.5;
+          const wingAngle2 = angle - 2.5;
+
+          o.moveTo(px, py)
+            .lineTo(px + Math.cos(wingAngle1) * sideL, py + Math.sin(wingAngle1) * sideL)
+            .stroke({ color: 0xff6a5a, width: 2, alpha: chevronAlpha });
+          o.moveTo(px, py)
+            .lineTo(px + Math.cos(wingAngle2) * sideL, py + Math.sin(wingAngle2) * sideL)
+            .stroke({ color: 0xff6a5a, width: 2, alpha: chevronAlpha });
+        }
+      }
     }
     this.app.render();
   }

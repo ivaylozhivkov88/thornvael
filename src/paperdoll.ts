@@ -115,8 +115,40 @@ export class PaperdollController {
   }
 
   targetAt(e: PointerEvent): HTMLElement | null {
-    const target = document.elementFromPoint(e.clientX, e.clientY)?.closest<HTMLElement>('[data-equipment-target]');
-    return target && this.host.body.contains(target) ? target : null;
+    if (!this.drag) return null;
+    const elUnder = document.elementFromPoint(e.clientX, e.clientY);
+    if (!elUnder || !this.host.body.contains(elUnder)) return null;
+
+    const preview = this.preview(this.drag.intent);
+    if (!preview) return null;
+
+    // Check direct target with data-equipment-target
+    const directTarget = elUnder.closest<HTMLElement>('[data-equipment-target]');
+    if (directTarget && this.host.body.contains(directTarget)) {
+      if (directTarget.dataset.equipmentTarget === preview.target) {
+        return directTarget;
+      }
+    }
+
+    // Natural ARPG drop: dragging an item from pack onto the paperdoll figure, board, or gear area
+    if (this.drag.intent.source.from === 'inv') {
+      const gearArea = elUnder.closest<HTMLElement>('.hero-figure, .hero-gear-board, .hero-gear-panel, [data-equipment-target^="eq"]');
+      if (gearArea) {
+        const slotEl = this.host.body.querySelector<HTMLElement>(`[data-equipment-target="${preview.target}"]`);
+        if (slotEl) return slotEl;
+      }
+    }
+
+    // Natural ARPG drop: dragging equipped gear back onto the pack grid or pack panel
+    if (this.drag.intent.source.from === 'eq') {
+      const packArea = elUnder.closest<HTMLElement>('.hero-pack-grid, .hero-pack-panel, .hero-return, .hero-pack-empty, [data-equipment-target="pack"]');
+      if (packArea) {
+        const packTarget = this.host.body.querySelector<HTMLElement>('[data-equipment-target="pack"]');
+        if (packTarget) return packTarget;
+      }
+    }
+
+    return directTarget && this.host.body.contains(directTarget) ? directTarget : null;
   }
 
   moveDrag(e: PointerEvent): void {
@@ -124,7 +156,10 @@ export class PaperdollController {
     if (!drag || e.pointerId !== drag.pointer) return;
     if (!drag.ghost) {
       if (Math.hypot(e.clientX - drag.x, e.clientY - drag.y) < 6) return;
-      this.host.sheet.setPointerCapture(e.pointerId);
+      this.host.hideCardTooltip?.();
+      try {
+        this.host.sheet.setPointerCapture(e.pointerId);
+      } catch { /* ignore capture failure */ }
       const ghost = document.createElement('div');
       ghost.className = 'hero-drag-ghost';
       ghost.textContent = getItemDef(drag.intent.source.item)?.name ?? '';
@@ -192,10 +227,21 @@ export class PaperdollController {
     this.drag = null;
     drag.events.abort();
     cancelAnimationFrame(drag.scrollFrame);
-    if (drag.ghost) this.suppressedPointer = drag.pointer;
+    if (drag.ghost) {
+      this.suppressedPointer = drag.pointer;
+      window.setTimeout(() => {
+        if (this.suppressedPointer === drag.pointer) {
+          this.suppressedPointer = null;
+        }
+      }, 80);
+    }
     drag.ghost?.remove();
     drag.target?.removeAttribute('data-drop-state');
-    if (this.host.sheet.hasPointerCapture(drag.pointer)) this.host.sheet.releasePointerCapture(drag.pointer);
+    if (this.host.sheet.hasPointerCapture(drag.pointer)) {
+      try {
+        this.host.sheet.releasePointerCapture(drag.pointer);
+      } catch { /* ignore capture error */ }
+    }
     if (message) this.host.feedback.textContent = message;
   }
 }

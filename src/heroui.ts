@@ -177,6 +177,79 @@ export function formatItemTooltip(itemOrId: number | ItemDef, hero?: HeroState |
     }
   }
 
+  // Equipped comparison
+  if (d.kind === Ik.Gear && d.slot >= 0 && hero) {
+    const eqId = hero.eq[d.slot];
+    if (typeof itemOrId === 'number' && itemOrId === eqId) {
+      p.push('');
+      p.push('[CURRENTLY EQUIPPED]');
+    } else if (eqId >= 0) {
+      const eqDef = getItemDef(eqId);
+      if (eqDef) {
+        p.push('');
+        p.push(`--- EQUIPPED: ${eqDef.name} ---`);
+        p.push(`Level ${eqDef.tier}, Weight ${eqDef.w}`);
+        if (eqDef.max > 0) p.push(`Damage: ${eqDef.min}-${eqDef.max}`);
+        if (eqDef.acc) p.push(`Hit: +${eqDef.acc}`);
+        if (eqDef.def || eqDef.abs) p.push(`Defence: +${eqDef.def}, Absorb: +${eqDef.abs}`);
+        eqDef.res.forEach((v, n) => v && p.push(`Resist ${SCHOOL_NAMES[n]} +${v}%`));
+        eqDef.attr.forEach((v, n) => v && p.push(`${ATTR_NAMES[n]} +${v}`));
+        if (eqDef.hp) p.push(`Life: +${eqDef.hp}`);
+        if (eqDef.mana) p.push(`Mana: +${eqDef.mana}`);
+        if (eqDef.pow) p.push(`Spell Power: +${eqDef.pow}%`);
+
+        p.push('--- COMPARISON vs EQUIPPED ---');
+        const diffs: string[] = [];
+        if (d.max > 0 || eqDef.max > 0) {
+          const dMin = d.min - eqDef.min;
+          const dMax = d.max - eqDef.max;
+          diffs.push(`Damage: ${dMin >= 0 ? '+' + dMin : dMin} to ${dMax >= 0 ? '+' + dMax : dMax}`);
+        }
+        if (d.acc !== eqDef.acc) {
+          const diff = d.acc - eqDef.acc;
+          diffs.push(`Hit: ${diff >= 0 ? '+' + diff : diff}`);
+        }
+        if (d.def !== eqDef.def) {
+          const diff = d.def - eqDef.def;
+          diffs.push(`Defence: ${diff >= 0 ? '+' + diff : diff}`);
+        }
+        if (d.abs !== eqDef.abs) {
+          const diff = d.abs - eqDef.abs;
+          diffs.push(`Absorb: ${diff >= 0 ? '+' + diff : diff}`);
+        }
+        d.attr.forEach((v, n) => {
+          const diff = v - eqDef.attr[n];
+          if (diff !== 0) diffs.push(`${ATTR_NAMES[n]}: ${diff >= 0 ? '+' + diff : diff}`);
+        });
+        d.res.forEach((v, n) => {
+          const diff = v - eqDef.res[n];
+          if (diff !== 0) diffs.push(`Resist ${SCHOOL_NAMES[n]}: ${diff >= 0 ? '+' + diff : diff}%`);
+        });
+        if (d.hp !== eqDef.hp) {
+          const diff = d.hp - eqDef.hp;
+          diffs.push(`Life: ${diff >= 0 ? '+' + diff : diff}`);
+        }
+        if (d.mana !== eqDef.mana) {
+          const diff = d.mana - eqDef.mana;
+          diffs.push(`Mana: ${diff >= 0 ? '+' + diff : diff}`);
+        }
+        if (d.pow !== eqDef.pow) {
+          const diff = d.pow - eqDef.pow;
+          diffs.push(`Spell Power: ${diff >= 0 ? '+' + diff : diff}%`);
+        }
+        if (d.w !== eqDef.w) {
+          const diff = d.w - eqDef.w;
+          diffs.push(`Weight: ${diff > 0 ? '+' + diff + ' (Heavier)' : diff + ' (Lighter)'}`);
+        }
+        if (diffs.length > 0) p.push(...diffs);
+        else p.push('Stats are identical');
+      }
+    } else {
+      p.push('');
+      p.push(`--- [${SLOT_NAMES[d.slot]} Slot Empty] ---`);
+    }
+  }
+
   return p.join('\n');
 }
 
@@ -374,6 +447,111 @@ export function renderItemTooltipDom(itemOrId: number | ItemDef, hero?: HeroStat
     root.append(setSection);
   }
 
+  // Equipped Comparison Section
+  if (d.kind === Ik.Gear && d.slot >= 0 && hero) {
+    const eqId = hero.eq[d.slot];
+    if (typeof itemOrId === 'number' && itemOrId === eqId) {
+      const badge = document.createElement('div');
+      badge.className = 'item-equipped-badge';
+      badge.textContent = '✔ CURRENTLY EQUIPPED';
+      root.append(badge);
+    } else if (eqId >= 0) {
+      const eqDef = getItemDef(eqId);
+      if (eqDef) {
+        const compSec = document.createElement('div');
+        compSec.className = 'card-comparison-section';
+
+        const header = document.createElement('div');
+        header.className = 'comparison-header';
+        const tag = document.createElement('span');
+        tag.className = 'comparison-tag';
+        tag.textContent = 'EQUIPPED IN SLOT';
+        const eqName = document.createElement('span');
+        eqName.className = 'comparison-eq-name';
+        eqName.textContent = eqDef.name;
+        header.append(tag, eqName);
+        compSec.append(header);
+
+        const summary = document.createElement('div');
+        summary.className = 'comparison-summary';
+        const summaryParts = [`Level ${eqDef.tier}`, `Weight ${eqDef.w}`];
+        if (eqDef.max > 0) summaryParts.push(`Dmg ${eqDef.min}–${eqDef.max}`);
+        if (eqDef.acc) summaryParts.push(`Hit +${eqDef.acc}`);
+        if (eqDef.def) summaryParts.push(`Def +${eqDef.def}`);
+        if (eqDef.abs) summaryParts.push(`Abs +${eqDef.abs}`);
+        summary.textContent = summaryParts.join(' · ');
+        compSec.append(summary);
+
+        const deltas = document.createElement('div');
+        deltas.className = 'comparison-deltas';
+
+        const addDelta = (label: string, diff: number, unit = '', invert = false) => {
+          if (diff === 0) return;
+          const row = document.createElement('div');
+          row.className = 'delta-row';
+          const lbl = document.createElement('span');
+          lbl.className = 'delta-label';
+          lbl.textContent = label;
+          const val = document.createElement('span');
+          const isBetter = invert ? diff < 0 : diff > 0;
+          val.className = `delta-val ${isBetter ? 'delta-pos' : 'delta-neg'}`;
+          val.textContent = `${diff > 0 ? '+' : ''}${diff}${unit}`;
+          row.append(lbl, val);
+          deltas.append(row);
+        };
+
+        // Weapon Damage diff
+        if (d.max > 0 || eqDef.max > 0) {
+          const dMin = d.min - eqDef.min;
+          const dMax = d.max - eqDef.max;
+          if (dMin !== 0 || dMax !== 0) {
+            const row = document.createElement('div');
+            row.className = 'delta-row';
+            const lbl = document.createElement('span');
+            lbl.className = 'delta-label';
+            lbl.textContent = 'Blow Damage:';
+            const val = document.createElement('span');
+            const avgDiff = (dMin + dMax) / 2;
+            val.className = `delta-val ${avgDiff > 0 ? 'delta-pos' : avgDiff < 0 ? 'delta-neg' : 'delta-neutral'}`;
+            val.textContent = `${dMin > 0 ? '+' : ''}${dMin} to ${dMax > 0 ? '+' : ''}${dMax}`;
+            row.append(lbl, val);
+            deltas.append(row);
+          }
+        }
+
+        addDelta('Hit Rating:', d.acc - eqDef.acc);
+        addDelta('Defence:', d.def - eqDef.def);
+        addDelta('Absorption:', d.abs - eqDef.abs);
+        d.attr.forEach((v, n) => addDelta(`${ATTR_NAMES[n]}:`, v - eqDef.attr[n]));
+        addDelta('Life:', d.hp - eqDef.hp);
+        addDelta('Mana:', d.mana - eqDef.mana);
+        addDelta('Spell Power:', d.pow - eqDef.pow, '%');
+        d.res.forEach((v, n) => addDelta(`Resist ${SCHOOL_NAMES[n]}:`, v - eqDef.res[n], '%'));
+        if (d.w !== eqDef.w) {
+          addDelta('Weight:', d.w - eqDef.w, d.w > eqDef.w ? ' (Heavier)' : ' (Lighter)', true);
+        }
+
+        if (!deltas.hasChildNodes()) {
+          const neutral = document.createElement('div');
+          neutral.className = 'delta-row';
+          const lbl = document.createElement('span');
+          lbl.className = 'delta-label delta-neutral';
+          lbl.textContent = 'All attributes and stats are identical';
+          neutral.append(lbl);
+          deltas.append(neutral);
+        }
+
+        compSec.append(deltas);
+        root.append(compSec);
+      }
+    } else {
+      const emptyNotice = document.createElement('div');
+      emptyNotice.className = 'card-comparison-section empty-slot-notice';
+      emptyNotice.innerHTML = `<span class="empty-icon">✧</span> <span><b>Slot Empty:</b> All bonuses gained on equip.</span>`;
+      root.append(emptyNotice);
+    }
+  }
+
   return root;
 }
 
@@ -423,10 +601,11 @@ export class HeroUi {
     });
     this.sheet.addEventListener('pointerdown', (e) => this.paperdoll.press(e));
     this.sheet.addEventListener('click', (e) => {
-      if (e.detail === 0 || !(e instanceof PointerEvent) || e.pointerId !== this.suppressedPointer) return;
-      e.preventDefault();
-      e.stopImmediatePropagation();
-      this.suppressedPointer = null;
+      if (this.suppressedPointer !== null) {
+        e.preventDefault();
+        e.stopImmediatePropagation();
+        this.suppressedPointer = null;
+      }
     }, true);
     this.sheet.addEventListener('keydown', (e) => {
       if (e.key !== 'Escape') return;
@@ -898,11 +1077,8 @@ export class HeroUi {
     if (!equipmentAction(source)) return cell;
     const key = `${source.from}/${source.slot}/${source.item}`;
     face.dataset.source = key;
-    const handle = button('⠿', `drag-${face.dataset.k}`, () => face.click());
-    handle.className = 'hero-drag-handle';
-    handle.dataset.source = key;
-    handle.setAttribute('aria-label', `${S.hero.dragItem} ${getItemDef(source.item)?.name ?? ''}`);
-    cell.append(handle);
+    cell.dataset.source = key;
+    face.style.touchAction = 'none';
     return cell;
   }
 
@@ -1044,7 +1220,8 @@ export class HeroUi {
   }
 
   private renderPack(h: HeroState): HTMLElement {
-    const panel = el('section', 'hero-gear-panel');
+    const panel = el('section', 'hero-gear-panel hero-pack-panel');
+    panel.dataset.equipmentTarget = 'pack';
     panel.append(el('h3', '', `${S.hero.pack} (${h.inv.length}/${INV_MAX})`), this.weightLine(h));
     const back = el('div', 'hero-return', S.hero.returnToPack);
     back.dataset.equipmentTarget = 'pack';
@@ -1060,6 +1237,7 @@ export class HeroUi {
     };
     panel.append(back);
     const grid = el('div', 'items hero-pack-grid');
+    grid.dataset.equipmentTarget = 'pack';
     for (let index = 0; index < PACK_PAGE; index++) {
       const n = this.page * PACK_PAGE + index;
       const st = h.inv[n];
