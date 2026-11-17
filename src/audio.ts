@@ -26,6 +26,7 @@ const SFX_NAMES = [
   'step_stone_1', 'step_stone_2',
   'death_beast_1', 'death_skeleton_1',
   ...SPELL_CAST_SFX,
+  'ui_button_click', 'ui_trade_buy', 'ui_trade_sell', 'ui_inv_pick', 'ui_inv_equip', 'ui_inv_drop', 'sfx_quest_accept', 'sfx_quest_complete', 'sfx_level_up',
 ];
 const base = (): string => import.meta.env.BASE_URL;
 
@@ -320,7 +321,7 @@ export function play(name: string, priority = 1, at?: { x: number; y: number; w:
     g.connect(p);
     node = p;
   }
-  const isUi = name === 'click' || name === 'select_hero' || name === SHOP_ENTRY_CUE;
+  const isUi = name.startsWith('ui_') || name.startsWith('sfx_quest') || name === 'click' || name === 'select_hero' || name === SHOP_ENTRY_CUE;
   const destBus = (isUi && uiBus) ? uiBus : sfxBus;
   node.connect(destBus);
   if (r.voice) {
@@ -361,7 +362,7 @@ export function cancelShopEntry(): void {
 /** The UI click. */
 export function blip(): void {
   unlock();
-  play('click', 5);
+  play('ui_button_click', 5);
 }
 
 export function setSfx(on: boolean): void {

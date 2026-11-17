@@ -142,8 +142,8 @@ describe('audio public lifecycle recovery', () => {
     const current = ContextMock.all[1];
     fetchWait.resolve({ arrayBuffer: async () => new ArrayBuffer(8) }); await settle();
     // 99 SFX per context, including weapon hits, shield blocks, armor, potions, footsteps, monster deaths. The old pending fetch never decodes.
-    expect(old.decodeAudioData).toHaveBeenCalledTimes(99);
-    expect(current.decodeAudioData).toHaveBeenCalledTimes(100);
+    expect(old.decodeAudioData).toHaveBeenCalledTimes(108);
+    expect(current.decodeAudioData).toHaveBeenCalledTimes(109);
     expect(audio.currentMusic()).toBe('off');
     audio.play('hit');
     expect(audio.audioStats().played).toBe(0);
@@ -200,7 +200,7 @@ describe('audio public lifecycle recovery', () => {
     for (let i = 0; i < 25; i++) audio.play('hit', i);
     expect(audio.audioStats().voices).toBeLessThanOrEqual(12);
     expect(audio.audioStats().stolen + audio.audioStats().rejected).toBeGreaterThan(0);
-    expect(ContextMock.all[1].decodeAudioData).toHaveBeenCalledTimes(101); // 100 SFX plus ambience
+    expect(ContextMock.all[1].decodeAudioData).toHaveBeenCalledTimes(110); // 109 SFX plus ambience
   });
 
   it('retries rejected media on gesture and keeps streaming music muted after late play', async () => {
@@ -216,7 +216,7 @@ describe('audio public lifecycle recovery', () => {
     silent.play.mockRejectedValueOnce(new Error('NotAllowedError'));
     audio.unlock(); await settle(); audio.unlock(); await settle();
     expect(silent.paused).toBe(false);
-    expect(ContextMock.all[0].decodeAudioData).toHaveBeenCalledTimes(101); // 100 SFX plus ambience
+    expect(ContextMock.all[0].decodeAudioData).toHaveBeenCalledTimes(110); // 109 SFX plus ambience
     expect(MediaMock.all.filter(m => m.src.includes('music_'))).toHaveLength(1);
   });
 });

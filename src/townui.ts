@@ -11,7 +11,7 @@ import { S } from './strings';
 import { itemIcon } from './townicons';
 import { equipmentLayers } from './hero-presentation';
 import { buildDoll, dollSet, lookFor } from './doll';
-import { playTraderBark, playTownAmbience, stopTownAmbience, playEquipSfx, blip, playSpeakerSwitchThrill } from './audio';
+import { play, playTraderBark, playTownAmbience, stopTownAmbience, playEquipSfx, blip, playSpeakerSwitchThrill } from './audio';
 import {
   getWardenHalePortraitSvg,
   getHighArcanistVaelenPortraitSvg,
@@ -627,7 +627,7 @@ export class TownUi {
       sim.now({ type: 'town', op: 'deal', town: this.town, list: [...this.buys], list2: this.sells.map((slot) => h.inv[slot].item) });
       const ok = sim.cb.gold[0] - g0 === t.bal;
       this.setMood(ok ? 5 : sim.cb.gold[0] !== g0 ? 6 : 2);
-      if (sim.cb.gold[0] !== g0) playTraderBark('blacksmith', 'buy');
+      if (sim.cb.gold[0] !== g0) { playTraderBark('blacksmith', 'buy'); play(t.bal < 0 ? 'ui_trade_buy' : 'ui_trade_sell', 5); }
       // Sales always settle first, so pack indices are stale; unfilled one-off shelf items stay in the tray.
       this.sells = [];
       this.buys = ok ? [] : this.buys.filter((k) => shelf[k] >= 0 && !isUnlimited(shelf[k]));
@@ -808,6 +808,7 @@ export class TownUi {
       const l = el('div', 'line');
       l.append(el('span', 'grow', questText(sim, q)), el('b', '', `${S.town.reward} ${q.reward}`), button(S.town.accept, () => {
         this.cmd('accept', k);
+        play('sfx_quest_accept', 5);
         playTraderBark('barkeep', 'buy');
         this.render();
       }));
