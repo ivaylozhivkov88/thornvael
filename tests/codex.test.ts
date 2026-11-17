@@ -94,4 +94,30 @@ describe('Hall of Relics Codex system', () => {
     const mageTip = formatItemTooltip(visorId, mageHero);
     expect(mageTip).toContain('⚠ Cannot equip: Warrior Only');
   });
+
+  it('provides dark fantasy chronicles and bestiary entries in string tables', async () => {
+    const { S } = await import('../src/strings');
+    expect(S.codex.chronicles.length).toBeGreaterThanOrEqual(3);
+    const thornvaelChronicle = S.codex.chronicles.find((c) => c.id === 'chronicle-thornvael');
+    expect(thornvaelChronicle?.title).toContain('Sundered Realm');
+    expect(thornvaelChronicle?.text.length).toBeGreaterThan(100);
+
+    const shrinesChronicle = S.codex.chronicles.find((c) => c.id === 'chronicle-shrines');
+    expect(shrinesChronicle?.title).toContain('Five Shrines');
+
+    const necromancyChronicle = S.codex.chronicles.find((c) => c.id === 'chronicle-necromancy');
+    expect(necromancyChronicle?.title).toContain('Necromancy');
+
+    expect(S.codex.bestiary.length).toBe(4);
+    const names = S.codex.bestiary.map((b) => b.name);
+    expect(names).toContain('Gloom Stag');
+    expect(names).toContain('Spore Matron');
+    expect(names).toContain('Basalt Brute');
+    expect(names).toContain('Hollow Knight');
+
+    for (const beast of S.codex.bestiary) {
+      expect(beast.lore.length).toBeGreaterThan(150);
+      expect(beast.classification.length).toBeGreaterThan(5);
+    }
+  });
 });

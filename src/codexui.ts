@@ -2,15 +2,15 @@ import { getCodexProgress, isDiscovered } from './codex';
 import { formatItemTooltip } from './heroui';
 import { Ik, ITEMS, Slot, itemText } from './sim/items';
 import { findSetByItemName, isSetItem } from './sim/sets';
+import { S } from './strings';
 import { itemIcon } from './townicons';
 
 /**
- * Hall of Relics Codex UI for Thornvael.
- * Displays all collectible items with discovery status, progress meters,
- * and category filtering.
+ * Hall of Relics & Imperial Codex UI for Thornvael.
+ * Displays collectible relics, deep lore chronicles, and the monstrous bestiary.
  */
 
-type Filter = 'all' | 'weapon' | 'armor' | 'shield' | 'jewelry' | 'magic' | 'set';
+type Filter = 'all' | 'weapon' | 'armor' | 'shield' | 'jewelry' | 'magic' | 'set' | 'chronicles' | 'bestiary';
 
 export class CodexUi {
   private overlay: HTMLElement | null = null;
@@ -48,10 +48,10 @@ export class CodexUi {
 
     const titleBox = document.createElement('div');
     const h2 = document.createElement('h2');
-    h2.textContent = '🏆 Hall of Relics Codex';
+    h2.textContent = S.codex.title;
     const sub = document.createElement('p');
     sub.className = 'codex-progress-text';
-    sub.textContent = `${discovered} / ${total} Discovered (${pct}%)`;
+    sub.textContent = `${discovered} / ${total} Relics Discovered (${pct}%) · 4 Chronicles & 4 Mutations Cataloged`;
     titleBox.append(h2, sub);
 
     const closeBtn = document.createElement('button');
@@ -73,13 +73,15 @@ export class CodexUi {
     const filters = document.createElement('div');
     filters.className = 'codex-filters';
     const tabs: [Filter, string][] = [
-      ['all', 'All Items'],
-      ['weapon', 'Weapons'],
-      ['armor', 'Armor & Helms'],
-      ['shield', 'Shields'],
-      ['jewelry', 'Rings & Charms'],
-      ['magic', 'Scrolls & Draughts'],
-      ['set', 'Set Items'],
+      ['all', S.codex.tabs.all],
+      ['weapon', S.codex.tabs.weapon],
+      ['armor', S.codex.tabs.armor],
+      ['shield', S.codex.tabs.shield],
+      ['jewelry', S.codex.tabs.jewelry],
+      ['magic', S.codex.tabs.magic],
+      ['set', S.codex.tabs.set],
+      ['chronicles', S.codex.tabs.chronicles],
+      ['bestiary', S.codex.tabs.bestiary],
     ];
     tabs.forEach(([f, label]) => {
       const btn = document.createElement('button');
@@ -93,6 +95,56 @@ export class CodexUi {
       };
       filters.append(btn);
     });
+
+    if (this.filter === 'chronicles') {
+      const loreList = document.createElement('div');
+      loreList.className = 'codex-lore-list';
+      for (const entry of S.codex.chronicles) {
+        const card = document.createElement('article');
+        card.className = 'codex-lore-entry';
+        const title = document.createElement('h3');
+        title.className = 'codex-lore-title';
+        title.textContent = entry.title;
+        const subTitle = document.createElement('div');
+        subTitle.className = 'codex-lore-sub';
+        subTitle.textContent = entry.subtitle;
+        const p = document.createElement('p');
+        p.className = 'codex-lore-text';
+        p.textContent = entry.text;
+        card.append(title, subTitle, p);
+        loreList.append(card);
+      }
+      this.overlay.append(head, meter, filters, loreList);
+      return;
+    }
+
+    if (this.filter === 'bestiary') {
+      const loreList = document.createElement('div');
+      loreList.className = 'codex-lore-list';
+      for (const beast of S.codex.bestiary) {
+        const card = document.createElement('article');
+        card.className = 'codex-lore-entry';
+        const title = document.createElement('h3');
+        title.className = 'codex-lore-title';
+        title.textContent = beast.name;
+        const meta = document.createElement('div');
+        meta.className = 'codex-bestiary-meta';
+        const b1 = document.createElement('span');
+        b1.className = 'codex-bestiary-badge';
+        b1.textContent = beast.classification;
+        const b2 = document.createElement('span');
+        b2.className = 'codex-bestiary-badge';
+        b2.textContent = beast.role;
+        meta.append(b1, b2);
+        const p = document.createElement('p');
+        p.className = 'codex-lore-text';
+        p.textContent = beast.lore;
+        card.append(title, meta, p);
+        loreList.append(card);
+      }
+      this.overlay.append(head, meter, filters, loreList);
+      return;
+    }
 
     // Items Grid
     const grid = document.createElement('div');

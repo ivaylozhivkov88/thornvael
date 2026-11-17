@@ -388,4 +388,68 @@ export const S = {
     persisted: 'Storage is kept safe on this device.',
     notPersisted: 'The browser may clear storage when space runs low. Export saves you care about.',
   },
+  codex: {
+    title: '🏆 Hall of Relics & Imperial Codex',
+    tabs: {
+      all: 'All Items',
+      weapon: 'Weapons',
+      armor: 'Armor & Helms',
+      shield: 'Shields',
+      jewelry: 'Rings & Charms',
+      magic: 'Scrolls & Draughts',
+      set: 'Set Items',
+      chronicles: '📜 Chronicles of Thornvael',
+      bestiary: '💀 Bestiary & Mutations',
+    },
+    chronicles: [
+      {
+        id: 'chronicle-thornvael',
+        title: 'The Sundered Realm of Thornvael',
+        subtitle: 'From the First Wardens to the Age of Ashen Sky',
+        text: 'Before the rivers ran with rust and the sky turned to soot, Thornvael was a verdant cradle of five kingdoms, governed by the First Wardens under celestial pacts. High atop the obsidian crags, the ancient leylines converged in harmony. But when mortal pride sought to chain the subterranean fires beneath the caldera, the continental bedrock buckled. The northern seas flooded the catacombs, the southern plains desiccated into salt, and the eternal vigilance of the Wardens dissolved into centuries of bloody civil war.',
+      },
+      {
+        id: 'chronicle-shrines',
+        title: 'The Desecration of the Five Shrines',
+        subtitle: 'The Fall of the Elemental Anchors',
+        text: 'To protect the realm from cosmic entropy, the ancients raised five Primordial Shrines: Fire, Water, Air, Earth, and Astral. For centuries their pure leylines purified the soil and held back subterranean nightmares. Yet when the Arch-Warden turned his gaze to forbidden dominion, blood-cultists defiled the wardstones. The Fire Shrine spewed uncontrollable volcanic slag; the Water Shrine drowned ancient cities into tidal tombs; the Earth Shrine cracked into toxic chasms; the Air Shrine whipped up eternal furnace sandstorms; and the Astral Shrine opened the veil to nameless shadow.',
+      },
+      {
+        id: 'chronicle-necromancy',
+        title: 'The Genesis of Necromancy & Runic Chaining',
+        subtitle: 'The Sin of the Flesh-Weavers',
+        text: 'Necromancy in Thornvael was not born of death, but of desperation. When the highland legions fell in the First Border Cataclysm, the High Arcanists bound astral runic chains to cold marrow, dragging fallen souls back into shattered bone and rusted mail. What began as an unholy weapon against the wild horde soon metastasized into an insatiable plague. Now, every battlefield whispers to the earth, raising hollow crusaders and flesh-golems whose only purpose is the harvest of the living.',
+      },
+    ],
+    bestiary: [
+      {
+        id: 'beast-gloom-stag',
+        name: 'Gloom Stag',
+        classification: 'Astral-Blighted Forest Flanker',
+        role: 'Swift Fen Predator · Corrupted Ley-Beast',
+        lore: 'Once reverenced as sacred heralds of the verdant goddess, the stags of the border fens fed upon corrupted astral seepage leaking from cracked wardstones. Their marrow calcified into blackened bone; their velvet antlers hardened into razor-sharp obsidian tines crackling with violet witchfire. Bounding with eerie, silent speed through dense marsh reeds, a single Gloom Stag can flank an entire infantry column, impaling veteran halberdiers before dissolving into twilight mist.',
+      },
+      {
+        id: 'beast-spore-matron',
+        name: 'Spore Matron',
+        classification: 'Subterranean Fungal Brood-Queen',
+        role: 'Earth Poison Hexer · Hive Matriarch',
+        lore: 'Deep within the sunless caverns beneath the Iron Coast, decomposing corpses gave rise to sentient fungal biomass. The Spore Matron is the bloated heart of this creeping decay—a towering hive-queen encased in calcified chitin and pulsating mycelial sacs. In battle, she spews clouds of virulent acidic spores that melt steel plate and blind archers, while telepathically commanding chittering swarms of parasitic hatchlings to drown fallen prey.',
+      },
+      {
+        id: 'beast-basalt-brute',
+        name: 'Basalt Brute',
+        classification: 'Seismic Magma-Crusted Siege Titan',
+        role: 'Siege Breaker Giant · Igneous Colossus',
+        lore: 'Forged in the subterranean volcanic furnaces of the Obsidian Caldera, Basalt Brutes are cyclopean monstrosities born from cooling tectonic slag infused with tortured elemental earth spirits. Their skin is impenetrable igneous stone, illuminated by burning fissures of molten rock that bleed heat into the surrounding air. With fists heavier than siege rams, a Basalt Brute strikes the earth to unleash devastating seismic shockwaves, pulverizing fortified palisades and shattering infantry formations with equal ease.',
+      },
+      {
+        id: 'beast-hollow-knight',
+        name: 'Hollow Knight',
+        classification: 'Disciplined Undead Imperial Crusader',
+        role: 'Disciplined Blade · Iron-Bound Sentinel',
+        lore: 'The tragic remnants of the Iron Warden Vanguard who swore to defend Thornvael unto eternity. Trapped beneath collapsed granite vaults centuries ago, their flesh rotted away within soot-blackened plate armor, yet their oaths remained bound by necromantic runic chains. Within their vacant eye-slits burn piercing cyan soul-fires; they march in terrifying, unbroken military discipline, wielding greatswords with flawless martial precision against former brethren whom they perceive only as intruders in their eternal tomb.',
+      },
+    ],
+  },
 } as const;

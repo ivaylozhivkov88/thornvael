@@ -416,62 +416,62 @@ export class MissionUi {
     if (lower.includes('hale') || lower.includes('warden')) {
       return {
         name: 'Warden Hale',
-        rank: 'Captain of the Thornwick Border Guard',
+        rank: 'High Captain of the Thornwick Border Guard & Knight-Commander',
         portraitSvg: paintedPortrait('npc-hale', getWardenHalePortraitSvg()),
       };
     }
     if (lower.includes('vaelen') || lower.includes('arcanist')) {
       return {
         name: 'High Arcanist Vaelen',
-        rank: 'Archmage & Scholar of the Astral Veil',
+        rank: 'Grand Scholar of the Astral Veil & Keeper of the Primeval Runes',
         portraitSvg: getHighArcanistVaelenPortraitSvg(),
       };
     }
     if (lower.includes('bren') || lower.includes('ford-scout') || lower.includes('river scout')) {
       return {
         name: 'Ford-Scout Bren',
-        rank: 'Frontier Scout & River Pathfinder',
+        rank: 'Chief Frontier Pathfinder & Master of the River Marches',
         portraitSvg: getFordScoutBrenPortraitSvg(),
       };
     }
     if (lower.includes('merrick') || lower.includes('commander merrick')) {
       return {
         name: 'Captain Merrick',
-        rank: 'Garrison Commander of the High Keep',
+        rank: 'Garrison Commander of the High Keep & Master of Ordnance',
         portraitSvg: getCaptainMerrickPortraitSvg(),
       };
     }
     if (lower.includes('patron') || lower.includes('barkeep') || lower.includes('corin') || lower.includes('rumor')) {
       return {
         name: 'Master Corin',
-        rank: 'Tavern Keeper & Frontier Chronicler',
+        rank: 'Tavern Chronicler & Informant of the Frontier Underworld',
         portraitSvg: getTavernPatronPortraitSvg(),
       };
     }
     if (lower.includes('grok') || lower.includes('chief') || lower.includes('gnoll')) {
       return {
         name: "Chieftain Grok'tar",
-        rank: 'Warlord of the Riverfang Gnoll Pack',
+        rank: 'Blood-Warlord of the Riverfang Gnoll Horde',
         portraitSvg: paintedPortrait('npc-groktar', getChieftainGroktarPortraitSvg()),
       };
     }
     if (lower.includes('hero') || lower.includes('you')) {
       return {
-        name: 'Company Commander',
-        rank: 'Leader of the Thornwick Expeditionary Company',
+        name: 'Expeditionary Commander',
+        rank: 'Leader of the Twelve & Chosen Champion of Thornvael',
         portraitSvg: paintedPortrait('npc-commander', getHeroPortraitSvg()),
       };
     }
     const named: Array<[string, string, string]> = [
-      ['orlen', 'Orlen', 'Marsh Herbalist and Rot-Warden'],
-      ['sabik', 'Sabik', 'Dune Scout of the Glass Wastes'],
-      ['quillon', 'Quillon', 'Sage of the Drowned Coast'],
-      ['aldren', 'Aldren', 'Veteran Knight of the Burnt Keep'],
-      ['outpost scout', 'Outpost Scout', 'Frontier Ranger'],
+      ['orlen', 'Orlen the Grave-Tender', 'Marsh Herbalist & Master of Rot-Wards'],
+      ['sabik', 'Sabik the Sand-Walker', 'Chief Dune Scout of the Glass Wastes'],
+      ['quillon', 'Sage Quillon', 'High Sage of the Drowned Coast & Tide-Caller'],
+      ['aldren', 'Sir Aldren the Iron-Willed', 'Veteran Knight-Commander of the Burnt Keep'],
+      ['outpost scout', 'Frontier Ranger', 'Highland Reconnaissance Scout'],
     ];
     for (const [key, name, rank] of named) {
       if (lower.includes(key)) {
-        return { name, rank, portraitSvg: paintedPortrait(`npc-${key.split(' ')[0] === 'outpost' ? 'scout' : key}`, getFallbackPortraitSvg()) };
+        return { name, rank, portraitSvg: paintedPortrait(`npc-${key.split(' ')[0] === 'outpost' ? 'scout' : key.split(' ')[0]}`, getFallbackPortraitSvg()) };
       }
     }
     if (lower.includes('cache') || lower.includes('granary')) {
@@ -606,7 +606,7 @@ export class MissionUi {
    */
   briefing(begin: () => void): void {
     const title = this.t('title', this.doc.name);
-    const body = this.t('body', 'The raiders have crossed the border fords. Lead your company across the water and put an end to their chief.');
+    const body = this.t('body', 'Hostile warbands have breached the frontier riverbanks and fired the watch outposts. Rally your vanguard, advance across the shallows under covering fire, and strike down their warlord before our lines are encircled.');
     this.showDialogue('Warden Hale', `${title}: ${body}`, S.mission.begin, () => {
       this.host.pause(false);
       begin();
@@ -818,7 +818,7 @@ export class MissionUi {
         },
       ];
 
-      const narrativeText = this.t('body') || `Warden Hale has sounded the muster bells at Thornwick. Following weeks of escalating border skirmishes, the highland gnoll packs have united under Chieftain Grok'tar. They have burned the river mills, slaughtered the frontier patrols, and severed the grain supply roads.\n\nYour orders from the garrison watch: march your company east, force a crossing through the Sunken Ford, break the river ambushes, storm the High Ridge redoubt, and execute Chieftain Grok'tar to secure the border.`;
+      const narrativeText = this.t('body') || `Warden Hale has sounded the grim muster bells at Thornwick Keep. Following weeks of escalating border skirmishes, the highland gnoll packs have united under Chieftain Grok'tar. They have burned the river mills, butchered the frontier patrols, and severed the grain supply roads to Thornwick.\n\nIntelligence reveals that Grok'tar is performing dark blood sacrifices upon ancient warding stones to shatter the realm's protective barriers. Your direct orders from the high garrison watch: march your company east, force a bloody crossing through the Sunken Ford, break the river ambushes, storm the High Ridge redoubt, and execute Chieftain Grok'tar upon his command bluff.\n\nField Warnings: Beware deep mud along the riverbanks that impedes heavy armor; gnoll archers conceal themselves behind the willows and fire poisoned barbed iron.`;
 
       return {
         id: 'main-scourge',
@@ -1164,25 +1164,27 @@ export class MissionUi {
       const granaryDone = (this.lastSim?.cb.gold[0] ?? 0) >= 40;
       rightPane.innerHTML = `
         <div class="dossier-header">
-          <div class="dossier-act">Side Mission · Frontier Recovery</div>
+          <div class="dossier-act">Side Mission · Frontier Recovery & Supply Security</div>
           <h1 class="dossier-title">Granary Supply Cache</h1>
-          <div class="dossier-location">📍 Sunken Ford · Burned Mill & Grain Store</div>
+          <div class="dossier-location">📍 Sunken Ford · Burned River Mill & Charred Granary Cellars</div>
         </div>
         <div class="dossier-divider">✦ ─── ❖ ─── ✦</div>
-        <div class="dossier-section-heading">TACTICAL BRIEFING</div>
-        <p class="dossier-narrative">During their initial assault across the river, Grok'tar's vanguard looted the watermill and stored emergency grain rations in sacks along the riverbank and around their camp. Recovering these supplies guarantees provisions for Thornwick throughout the bitter autumn.</p>
-        <div class="dossier-section-heading">OBJECTIVE</div>
+        <div class="dossier-section-heading">HISTORICAL INTELLIGENCE & MILITARY RECORD</div>
+        <p class="dossier-narrative">Erected a century ago during the First Northern Truce, the Thornwick River Granary once stored winter rations for three frontier garrisons. During their sudden assault across the shallows, Chieftain Grok'tar's warbands put the timber mill to the torch, pillaging flour and salt pork into ironbound caches along the riverbank. Recovering these supplies is vital to preserve the garrison from midwinter famine.</p>
+        <div class="dossier-section-heading">TACTICAL RECONNAISSANCE & HAZARD WARNINGS</div>
+        <p class="dossier-narrative">⚠️ <strong>Field Hazard:</strong> Gnoll war-raiders use the dense river smoke as concealment. Feral brutes armed with barbed cleavers lurk in the flooded root hollows. Approach behind raised pavises and deploy area spells to flush out ambushers.</p>
+        <div class="dossier-section-heading">PRIMARY DIRECTIVE</div>
         <div class="dossier-objectives-list" id="side-dossier-objectives">
           <div class="dossier-obj-row ${granaryDone ? 'completed' : ''}">
             <span class="obj-checkbox">${granaryDone ? '✔' : '◻'}</span>
-            <span class="obj-text">Gather Gold & Munitions from the Gnoll Encampment (Current: ${this.lastSim?.cb.gold[0] ?? 0} Gold)</span>
+            <span class="obj-text">Recover Provisions & Recover Gold Cache from the Camp (Current: ${this.lastSim?.cb.gold[0] ?? 0} Gold)</span>
             <span class="obj-badge ${granaryDone ? 'done' : 'active'}">${granaryDone ? 'COMPLETED' : 'IN PROGRESS'}</span>
             ${!granaryDone ? '<button type="button" class="dossier-nav-btn"><span class="nav-compass">🧭</span> Navigate</button>' : ''}
           </div>
         </div>
         <div class="dossier-rewards-grid">
-          <div class="reward-pill gold-reward">💰 <strong>+100 Bonus Gold</strong></div>
-          <div class="reward-pill xp-reward">⚡ <strong>+150 XP</strong></div>
+          <div class="reward-pill gold-reward">💰 <strong>+100 Bonus Gold</strong> Sovereigns</div>
+          <div class="reward-pill xp-reward">⚡ <strong>+150 XP</strong> Veteran Drill</div>
           <div class="reward-pill renown-reward">🛡️ <strong>+10 Thornwick Favor</strong></div>
           <div class="reward-pill item-reward">🎁 <strong>Highland Rations & Silver Coin</strong></div>
         </div>
@@ -1204,18 +1206,20 @@ export class MissionUi {
     } else if (this.activeQuestId === 'side-relic') {
       rightPane.innerHTML = `
         <div class="dossier-header">
-          <div class="dossier-act">Act I · Sacred Archeology</div>
+          <div class="dossier-act">Act I · Sacred Archeology & Relic Recovery</div>
           <h1 class="dossier-title">Ancestral Astral Relic</h1>
-          <div class="dossier-location">📍 Sunken Riverbed Crypt · Forgotten Sarcophagus</div>
+          <div class="dossier-location">📍 Sunken Riverbed Crypt · Sarcophagus of the First Warden</div>
         </div>
         <div class="dossier-divider">✦ ─── ❖ ─── ✦</div>
-        <div class="dossier-section-heading">HISTORICAL INTELLIGENCE</div>
-        <p class="dossier-narrative">High Arcanist Vaelen recounts that three centuries ago, the First Wardens sealed an astral-infused silver amulet within a submerged riverbed crypt. The gnoll war-shaman senses its hum and searches the shallows. Sunder his excavators and secure the talisman for the realm.</p>
+        <div class="dossier-section-heading">HISTORICAL INTELLIGENCE & LORE CHRONICLE</div>
+        <p class="dossier-narrative">High Arcanist Vaelen recounts that three centuries ago, during the Sundering of the First Shrines, an astral-infused talisman of celestial electrum was sealed within a submerged granite tomb beneath the riverbed. The gnoll shamans now excavate the shallows, seeking to desecrate the relic for their necrotic blood-pyres. You must breach the submerged crypt, eliminate the excavation guard, and reclaim the ancestral talisman.</p>
+        <div class="dossier-section-heading">TACTICAL RECONNAISSANCE & HAZARD WARNINGS</div>
+        <p class="dossier-narrative">⚠️ <strong>Field Hazard:</strong> The sunken tomb is saturated with lingering astral radiation and guarded by entombed Hollow Knights who feel no pain. Their ancient runic blades bypass normal armor absorption; maintain distance and concentrate holy or frost magic.</p>
         <div class="dossier-section-heading">OPERATIONAL DIRECTIVES</div>
         <div class="dossier-objectives-list">
           <div class="dossier-obj-row">
             <span class="obj-checkbox">◻</span>
-            <span class="obj-text">Infiltrate the Submerged Riverbed Crypt & Slay Crypt Guardians</span>
+            <span class="obj-text">Infiltrate the Submerged Riverbed Crypt & Slay Tomb Wardens</span>
             <span class="obj-badge active">IN PROGRESS</span>
             <button type="button" class="dossier-nav-btn"><span class="nav-compass">🧭</span> Navigate</button>
           </div>
@@ -1242,13 +1246,15 @@ export class MissionUi {
     } else if (this.activeQuestId === 'side-lieutenant') {
       rightPane.innerHTML = `
         <div class="dossier-header">
-          <div class="dossier-act">Act I · Elite Bounty Contract</div>
+          <div class="dossier-act">Act I · Elite Bounty Contract & Decapitation Strike</div>
           <h1 class="dossier-title">Assassinate Blood-Shaman Mor'drak</h1>
           <div class="dossier-location">📍 Northern Ridge Bluff · Corrupted Blood Altar</div>
         </div>
         <div class="dossier-divider">✦ ─── ❖ ─── ✦</div>
-        <div class="dossier-section-heading">TACTICAL BRIEFING</div>
-        <p class="dossier-narrative">Ford-Scout Bren has confirmed that Chieftain Grok'tar's second-in-command, Shaman Mor'drak, has established a foul sacrificial pyre upon the northern bluffs. From this shrine, dark blood-curses empower the river vanguard. Execute the shaman to shatter enemy morale.</p>
+        <div class="dossier-section-heading">TACTICAL BRIEFING & MILITARY DOSSIER</div>
+        <p class="dossier-narrative">Ford-Scout Bren has confirmed that Chieftain Grok'tar's dark vizier, Shaman Mor'drak, has erected a blasphemous sacrificial altar upon the high northern bluffs. From this shrine of carved beast-bones, Mor'drak channels necrotic warding rituals that shield the river gnolls from mortal wounds. Slaying Mor'drak will shatter the enemy's supernatural resolve and throw their ranks into confusion.</p>
+        <div class="dossier-section-heading">TACTICAL RECONNAISSANCE & HAZARD WARNINGS</div>
+        <p class="dossier-narrative">⚠️ <strong>Field Hazard:</strong> Mor'drak commands a fanatical cabal of blood-witches who cast lingering decay hexes and summon rabid fen-hounds. Keep formations dispersed to avoid chain hexes and focus missile fire upon the ritualists first.</p>
         <div class="dossier-section-heading">OPERATIONAL DIRECTIVES</div>
         <div class="dossier-objectives-list">
           <div class="dossier-obj-row">
@@ -1260,7 +1266,7 @@ export class MissionUi {
         </div>
         <div class="dossier-rewards-grid">
           <div class="reward-pill gold-reward">💰 <strong>+350 Gold</strong> Royal Bounty</div>
-          <div class="reward-pill xp-reward">⚡ <strong>+450 XP</strong> Experience</div>
+          <div class="reward-pill xp-reward">⚡ <strong>+450 XP</strong> Tactical Renown</div>
           <div class="reward-pill renown-reward">🛡️ <strong>+30 Thornwick Honor</strong></div>
           <div class="reward-pill item-reward">🎁 <strong>Guaranteed Rare Tier II Blade or Staff</strong></div>
         </div>
@@ -1280,25 +1286,27 @@ export class MissionUi {
     } else if (this.activeQuestId === 'act-2-dossier') {
       rightPane.innerHTML = `
         <div class="dossier-header">
-          <div class="dossier-act">Act II · Imperial Campaign Dossier</div>
+          <div class="dossier-act">Act II · Imperial Campaign Strategic Dossier</div>
           <h1 class="dossier-title">The Desiccated Marches</h1>
-          <div class="dossier-location">📍 Redmarsh Frontier & Glass Waste Dunes</div>
+          <div class="dossier-location">📍 Redmarsh Frontier, Salt Basin & Glass Waste Dunes</div>
         </div>
         <div class="dossier-divider">✦ ─── ❖ ─── ✦</div>
-        <div class="dossier-section-heading">CAMPAIGN RECORD & THEATRE OF WAR</div>
-        <p class="dossier-narrative">Beyond the drying silt of Redmarsh lie the blinding salt dunes of the Glass Wastes. Imperial caravans have been ambushed by dune scourges, and ancient stone obelisks pulse with corrupted elemental fire. Advance your detachment across the desert highway and reclaim the lost outposts.</p>
+        <div class="dossier-section-heading">THEATRE OF WAR & CAMPAIGN CONTEXT</div>
+        <p class="dossier-narrative">Beyond the receding waters of the frontier lies the Desiccated Marches—a brutal expanse where ancient inland seas boiled into barren salt flats and sand dunes under primordial cataclysms. Imperial trade caravans have been annihilated by burrowing dune scourges, and corrupted obelisks bleed dark elemental fire into the dust storms. Your army must advance along the ancient causeway, secure the water outposts, and force passage to the mountains.</p>
+        <div class="dossier-section-heading">TACTICAL RECONNAISSANCE & HAZARD WARNINGS</div>
+        <p class="dossier-narrative">⚠️ <strong>Field Hazard:</strong> Extreme heat exhausts stamina; hostile dune scourges burrow beneath the sand and ambush from the rear. Equip piercing polearms and maintain vigilance on open flanks.</p>
         <div class="dossier-section-heading">PRIMARY DIRECTIVES</div>
         <div class="dossier-objectives-list">
           <div class="dossier-obj-row">
             <span class="obj-checkbox">◻</span>
-            <span class="obj-text">Force the Redmarsh Crossing & Cleanse Dune Scourge Outposts</span>
+            <span class="obj-text">Force the Redmarsh Crossing & Secure Forward Oasis Outposts</span>
             <span class="obj-badge active">CAMPAIGN GOAL</span>
             <button type="button" class="dossier-nav-btn"><span class="nav-compass">🧭</span> Navigate</button>
           </div>
         </div>
         <div class="dossier-rewards-grid">
-          <div class="reward-pill gold-reward">💰 <strong>+600 Gold</strong></div>
-          <div class="reward-pill xp-reward">⚡ <strong>+800 XP</strong></div>
+          <div class="reward-pill gold-reward">💰 <strong>+600 Gold</strong> Sovereigns</div>
+          <div class="reward-pill xp-reward">⚡ <strong>+800 XP</strong> Desert Veteran</div>
           <div class="reward-pill renown-reward">🛡️ <strong>+40 Desiccated March Favor</strong></div>
           <div class="reward-pill item-reward">🎁 <strong>Tier III Set & Unique Relics</strong></div>
         </div>
@@ -1318,25 +1326,27 @@ export class MissionUi {
     } else if (this.activeQuestId === 'act-3-dossier') {
       rightPane.innerHTML = `
         <div class="dossier-header">
-          <div class="dossier-act">Act III · Subterranean Incursion</div>
+          <div class="dossier-act">Act III · Subterranean Incursion Strategic Dossier</div>
           <h1 class="dossier-title">Catacombs of the Sunless Deeps</h1>
-          <div class="dossier-location">📍 Sunless Abyss · Beneath the Iron Coast</div>
+          <div class="dossier-location">📍 Sunless Abyss & Flooded Vaults beneath the Iron Coast</div>
         </div>
         <div class="dossier-divider">✦ ─── ❖ ─── ✦</div>
-        <div class="dossier-section-heading">TACTICAL INTELLIGENCE</div>
-        <p class="dossier-narrative">The sun dies behind you as your company enters the chasms under the Iron Coast. In these flooded labyrinths, primordial abominations guard ironclad vaults. Reclaim the dwarven runestones and breach the subterranean causeway to the core.</p>
+        <div class="dossier-section-heading">THEATRE OF WAR & ABYSSAL RECORD</div>
+        <p class="dossier-narrative">Daylight perishes as your expedition marches into the abyssal fissures beneath the crashing tides of the Iron Coast. These submerged labyrinthine vaults, carved by long-dead dwarven artisans, are now overrun by blind chitinous horrors and undead legions bound in primeval runic chains. You must breach the flooded causeways, recover the ancient runestones, and uncover the subterranean route leading to the heart of the realm.</p>
+        <div class="dossier-section-heading">TACTICAL RECONNAISSANCE & HAZARD WARNINGS</div>
+        <p class="dossier-narrative">⚠️ <strong>Field Hazard:</strong> Pitch darkness and treacherous flooded stone causeways. Chitinous broods scale the stalactites to drop directly upon the party's center. Keep torches lit and protect your arcanists.</p>
         <div class="dossier-section-heading">PRIMARY DIRECTIVES</div>
         <div class="dossier-objectives-list">
           <div class="dossier-obj-row">
             <span class="obj-checkbox">◻</span>
-            <span class="obj-text">Sunder the Deep Runestone Chains & Slay the Brood Mother</span>
+            <span class="obj-text">Sunder the Deep Runestone Chains & Slay the Brood Queen</span>
             <span class="obj-badge active">CAMPAIGN GOAL</span>
             <button type="button" class="dossier-nav-btn"><span class="nav-compass">🧭</span> Navigate</button>
           </div>
         </div>
         <div class="dossier-rewards-grid">
-          <div class="reward-pill gold-reward">💰 <strong>+1200 Gold</strong></div>
-          <div class="reward-pill xp-reward">⚡ <strong>+1600 XP</strong></div>
+          <div class="reward-pill gold-reward">💰 <strong>+1200 Gold</strong> Sovereigns</div>
+          <div class="reward-pill xp-reward">⚡ <strong>+1600 XP</strong> Abyssal Conqueror</div>
           <div class="reward-pill renown-reward">🛡️ <strong>+60 Iron Coast Standing</strong></div>
           <div class="reward-pill item-reward">🎁 <strong>Tier IV High Master Artifacts</strong></div>
         </div>
@@ -1356,13 +1366,15 @@ export class MissionUi {
     } else if (this.activeQuestId === 'act-4-dossier') {
       rightPane.innerHTML = `
         <div class="dossier-header">
-          <div class="dossier-act">Act IV · Apex Campaign Dossier</div>
+          <div class="dossier-act">Act IV · Apex Campaign Final Reckoning Dossier</div>
           <h1 class="dossier-title">Gates of the Infernal Sanctuary</h1>
-          <div class="dossier-location">📍 The Obsidian Caldera · Citadel of Ruin</div>
+          <div class="dossier-location">📍 The Obsidian Caldera, Lava Chasm & Citadel of Ruin</div>
         </div>
         <div class="dossier-divider">✦ ─── ❖ ─── ✦</div>
-        <div class="dossier-section-heading">FINAL RECORD OF THORNVAEL</div>
-        <p class="dossier-narrative">The earth shudders as rivers of magma breach the surface. The final stronghold of the shadow lords stands behind colossal iron gates. March through the burning highway, shatter the Arch-Warden's defenses, and decide the ultimate fate of this world.</p>
+        <div class="dossier-section-heading">FINAL CHRONICLE OF THORNVAEL</div>
+        <p class="dossier-narrative">The earth trembles in agony as rivers of boiling slag split the volcanic highway. Before you stands the Infernal Citadel—a cyclopean bastion of meteoric iron and necrotic sorcery where the Arch-Warden binds the tortured leylines to extinguish the sun. Every step across the burning slag must be carved in blood; you stand at the apex of the war where every blade stroke writes the destiny of Thornvael.</p>
+        <div class="dossier-section-heading">TACTICAL RECONNAISSANCE & HAZARD WARNINGS</div>
+        <p class="dossier-narrative">⚠️ <strong>Field Hazard:</strong> Extreme volcanic heat, rivers of instant-death magma, and continuous artillery barrages from fortress mana-cannons. Only disciplined formation advance and master-tier wards will endure the storm.</p>
         <div class="dossier-section-heading">FINAL DIRECTIVES</div>
         <div class="dossier-objectives-list">
           <div class="dossier-obj-row">
@@ -1373,8 +1385,8 @@ export class MissionUi {
           </div>
         </div>
         <div class="dossier-rewards-grid">
-          <div class="reward-pill gold-reward">💰 <strong>+3000 Gold</strong> Imperial Vault</div>
-          <div class="reward-pill xp-reward">⚡ <strong>+4000 XP</strong> Mythic Apex</div>
+          <div class="reward-pill gold-reward">💰 <strong>+3000 Gold</strong> Imperial Treasury</div>
+          <div class="reward-pill xp-reward">⚡ <strong>+4000 XP</strong> Mythic Paragon</div>
           <div class="reward-pill renown-reward">🛡️ <strong>Sovereign of Thornvael</strong></div>
           <div class="reward-pill item-reward">🎁 <strong>Legendary Tier V Crown & Regalia</strong></div>
         </div>
@@ -1394,25 +1406,26 @@ export class MissionUi {
     } else {
       rightPane.innerHTML = `
         <div class="dossier-header">
-          <div class="dossier-act">Historical Record · Chapter Prologue</div>
+          <div class="dossier-act">Historical Record · Chapter Prologue & Garrison Oath</div>
           <h1 class="dossier-title">Muster at Thornwick</h1>
-          <div class="dossier-location">📍 Thornwick Fortress Garrison</div>
+          <div class="dossier-location">📍 Thornwick Fortress Garrison · Great Hall of Oaths</div>
         </div>
         <div class="dossier-divider">✦ ─── ❖ ─── ✦</div>
-        <div class="dossier-section-heading">RECORDED ENTRY</div>
-        <p class="dossier-narrative">Your company mustered in the courtyard of Thornwick Fortress. Warden Hale inspected your troops, issued frontier equipment, and pledged garrison support for the campaign ahead.</p>
+        <div class="dossier-section-heading">RECORDED ENTRY & GARRISON COMMISSION</div>
+        <p class="dossier-narrative">In the torch-lit courtyard of Thornwick Fortress, amidst driving rain and tolling war bells, your company swore the iron covenant of the frontier. Warden Hale reviewed your soldiers, inspected weapons and harness, and issued the sovereign commission empowering your blades to cross the border and eliminate all hostile forces threatening the realm.</p>
+        <div class="dossier-section-heading">COMMISSION RECORD</div>
         <div class="dossier-objectives-list">
           <div class="dossier-obj-row completed">
             <span class="obj-checkbox">✔</span>
-            <span class="obj-text">Assemble company of twelve and accept Warden Hale's commission</span>
+            <span class="obj-text">Assemble company of twelve and accept Warden Hale's sovereign commission</span>
             <span class="obj-badge done">COMPLETED</span>
           </div>
         </div>
         <div class="dossier-rewards-grid">
-          <div class="reward-pill gold-reward">💰 <strong>+150 Gold</strong> Stipend</div>
+          <div class="reward-pill gold-reward">💰 <strong>+150 Gold</strong> Frontier Stipend</div>
           <div class="reward-pill xp-reward">⚡ <strong>+200 XP</strong> Veteran Experience</div>
           <div class="reward-pill renown-reward">🛡️ <strong>+15 Thornwick Favor</strong></div>
-          <div class="reward-pill item-reward">🎁 <strong>Frontier Commission Badge</strong></div>
+          <div class="reward-pill item-reward">🎁 <strong>Frontier Commission Badge & Armory Writ</strong></div>
         </div>
         <div class="dossier-signature">
           <div class="signature-stamp">${getCompletedWaxSealSvg()}</div>

@@ -529,13 +529,19 @@ export async function runShell(startWorker: () => void): Promise<never> {
       const textWrap = el('div', 'sh-slideshow-text');
       const heading = el('h3', 'sh-slideshow-heading', slide.heading);
       const caption = el('p', 'sh-slideshow-caption', slide.caption);
+      if (slide.reflection) {
+        const refl = el('blockquote', 'sh-slideshow-reflection', slide.reflection);
+        textWrap.append(heading, caption, refl);
+      } else {
+        textWrap.append(heading, caption);
+      }
 
       const pips = el('div', 'sh-slideshow-pips');
       for (let i = 0; i < player.sequence.slides.length; i++) {
         pips.append(el('span', `sh-slideshow-pip${i === player.index ? ' active' : ''}`));
       }
 
-      textWrap.append(heading, caption, pips);
+      textWrap.append(pips);
       content.append(art, textWrap);
 
       // Controls
