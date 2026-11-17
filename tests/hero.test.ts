@@ -309,7 +309,7 @@ describe('potions, elixirs and spells from scrolls', () => {
     const sim = world(Cls.Warrior);
     sim.cb.hp[0] = 10;
     cmd(sim, { type: 'hero', op: 'use', item: itemId('Healing Draught') });
-    expect(sim.cb.hp[0]).toBe(60);
+    expect(sim.cb.hp[0]).toBe(75);
     give(sim, 'Elixir of Body');
     const max = sim.cb.hpMax[0];
     cmd(sim, { type: 'hero', op: 'use', item: itemId('Elixir of Body') });

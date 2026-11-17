@@ -689,28 +689,28 @@
       "kind": "potion",
       "tier": 1,
       "w": 1,
-      "heal": 50
+      "heal": 65
     },
     {
       "name": "Greater Healing Draught",
       "kind": "potion",
       "tier": 3,
       "w": 1,
-      "heal": 120
+      "heal": 180
     },
     {
       "name": "Mana Draught",
       "kind": "potion",
       "tier": 1,
       "w": 1,
-      "restore": 40
+      "restore": 50
     },
     {
       "name": "Greater Mana Draught",
       "kind": "potion",
       "tier": 3,
       "w": 1,
-      "restore": 90
+      "restore": 140
     },
     {
       "name": "Elixir of Body",

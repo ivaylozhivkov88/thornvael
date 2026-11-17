@@ -154,7 +154,12 @@ export function priceOf(id: number): number {
         return base;
     }
   }
-  if (d.kind === Ik.Potion) return d.grow ? 150 * d.tier : 12 * d.tier;
+  if (d.kind === Ik.Potion) {
+    if (d.grow) return 150 * d.tier;
+    // pack 6b economy: [tier 1, greater] prices for healing and mana draughts
+    const row = d.restore ? [30, 95] : [25, 85];
+    return d.tier <= 1 ? row[0] : row[1];
+  }
   return 50 * d.tier * (d.w > 1 ? 2 : 1);
 }
 export const sellPrice = (id: number): number => priceOf(id) >> 1;

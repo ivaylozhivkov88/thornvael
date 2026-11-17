@@ -1,7 +1,7 @@
 {
  "id": "ch1",
  "cache": "thornvael-ch1-v1",
- "total": 2717858,
+ "total": 3248979,
  "files": [
   {
    "path": "data/campaign.json",
@@ -9,7 +9,7 @@
   },
   {
    "path": "data/items.json",
-   "size": 41766
+   "size": 41767
   },
   {
    "path": "data/monsters.json",
@@ -212,6 +212,354 @@
    "size": 12987
   },
   {
+   "path": "audio/sfx_achievement.m4a",
+   "size": 7429
+  },
+  {
+   "path": "audio/sfx_chest_open.m4a",
+   "size": 4907
+  },
+  {
+   "path": "audio/sfx_cmd_attack.m4a",
+   "size": 2775
+  },
+  {
+   "path": "audio/sfx_cmd_hold.m4a",
+   "size": 2614
+  },
+  {
+   "path": "audio/sfx_cmd_move.m4a",
+   "size": 2442
+  },
+  {
+   "path": "audio/sfx_cooldown_ready.m4a",
+   "size": 2845
+  },
+  {
+   "path": "audio/sfx_crit_hit.m4a",
+   "size": 3696
+  },
+  {
+   "path": "audio/sfx_dodge.m4a",
+   "size": 3035
+  },
+  {
+   "path": "audio/sfx_door_heavy.m4a",
+   "size": 5837
+  },
+  {
+   "path": "audio/sfx_game_save.m4a",
+   "size": 3386
+  },
+  {
+   "path": "audio/sfx_hero_death.m4a",
+   "size": 10036
+  },
+  {
+   "path": "audio/sfx_hero_revive.m4a",
+   "size": 8937
+  },
+  {
+   "path": "audio/sfx_level_up.m4a",
+   "size": 8711
+  },
+  {
+   "path": "audio/sfx_low_health.m4a",
+   "size": 5316
+  },
+  {
+   "path": "audio/sfx_mana_empty.m4a",
+   "size": 3259
+  },
+  {
+   "path": "audio/sfx_quest_accept.m4a",
+   "size": 5628
+  },
+  {
+   "path": "audio/sfx_quest_complete.m4a",
+   "size": 8283
+  },
+  {
+   "path": "audio/sfx_quest_fail.m4a",
+   "size": 6551
+  },
+  {
+   "path": "audio/sfx_secret_reveal.m4a",
+   "size": 6841
+  },
+  {
+   "path": "audio/sfx_shield_block_heavy.m4a",
+   "size": 3413
+  },
+  {
+   "path": "audio/sfx_spell_acid_rain_cast.m4a",
+   "size": 5317
+  },
+  {
+   "path": "audio/sfx_spell_acid_rain_impact.m4a",
+   "size": 5456
+  },
+  {
+   "path": "audio/sfx_spell_blessing_cast.m4a",
+   "size": 5314
+  },
+  {
+   "path": "audio/sfx_spell_blessing_impact.m4a",
+   "size": 5291
+  },
+  {
+   "path": "audio/sfx_spell_blizzard_cast.m4a",
+   "size": 5301
+  },
+  {
+   "path": "audio/sfx_spell_blizzard_impact.m4a",
+   "size": 5495
+  },
+  {
+   "path": "audio/sfx_spell_chain_frost_cast.m4a",
+   "size": 5278
+  },
+  {
+   "path": "audio/sfx_spell_chain_frost_impact.m4a",
+   "size": 5460
+  },
+  {
+   "path": "audio/sfx_spell_chain_lightning_cast.m4a",
+   "size": 5239
+  },
+  {
+   "path": "audio/sfx_spell_chain_lightning_impact.m4a",
+   "size": 5423
+  },
+  {
+   "path": "audio/sfx_spell_corpse_burst_cast.m4a",
+   "size": 5262
+  },
+  {
+   "path": "audio/sfx_spell_corpse_burst_impact.m4a",
+   "size": 5405
+  },
+  {
+   "path": "audio/sfx_spell_fire_bolt_cast.m4a",
+   "size": 5214
+  },
+  {
+   "path": "audio/sfx_spell_fire_bolt_impact.m4a",
+   "size": 5295
+  },
+  {
+   "path": "audio/sfx_spell_fireball_cast.m4a",
+   "size": 5243
+  },
+  {
+   "path": "audio/sfx_spell_fireball_impact.m4a",
+   "size": 5352
+  },
+  {
+   "path": "audio/sfx_spell_flame_burst_cast.m4a",
+   "size": 5218
+  },
+  {
+   "path": "audio/sfx_spell_flame_burst_impact.m4a",
+   "size": 5395
+  },
+  {
+   "path": "audio/sfx_spell_frost_bolt_cast.m4a",
+   "size": 5247
+  },
+  {
+   "path": "audio/sfx_spell_frost_bolt_impact.m4a",
+   "size": 5367
+  },
+  {
+   "path": "audio/sfx_spell_gale_cast.m4a",
+   "size": 5360
+  },
+  {
+   "path": "audio/sfx_spell_gale_impact.m4a",
+   "size": 5453
+  },
+  {
+   "path": "audio/sfx_spell_haste_cast.m4a",
+   "size": 5243
+  },
+  {
+   "path": "audio/sfx_spell_haste_impact.m4a",
+   "size": 5391
+  },
+  {
+   "path": "audio/sfx_spell_healing_cast.m4a",
+   "size": 5248
+  },
+  {
+   "path": "audio/sfx_spell_healing_impact.m4a",
+   "size": 5374
+  },
+  {
+   "path": "audio/sfx_spell_healing_rain_cast.m4a",
+   "size": 5264
+  },
+  {
+   "path": "audio/sfx_spell_healing_rain_impact.m4a",
+   "size": 5432
+  },
+  {
+   "path": "audio/sfx_spell_ice_storm_cast.m4a",
+   "size": 5241
+  },
+  {
+   "path": "audio/sfx_spell_ice_storm_impact.m4a",
+   "size": 5424
+  },
+  {
+   "path": "audio/sfx_spell_ignite_cast.m4a",
+   "size": 5220
+  },
+  {
+   "path": "audio/sfx_spell_ignite_impact.m4a",
+   "size": 5284
+  },
+  {
+   "path": "audio/sfx_spell_inferno_cast.m4a",
+   "size": 5256
+  },
+  {
+   "path": "audio/sfx_spell_inferno_impact.m4a",
+   "size": 5402
+  },
+  {
+   "path": "audio/sfx_spell_iron_skin_cast.m4a",
+   "size": 5266
+  },
+  {
+   "path": "audio/sfx_spell_iron_skin_impact.m4a",
+   "size": 5264
+  },
+  {
+   "path": "audio/sfx_spell_lightning_cast.m4a",
+   "size": 5249
+  },
+  {
+   "path": "audio/sfx_spell_lightning_impact.m4a",
+   "size": 5413
+  },
+  {
+   "path": "audio/sfx_spell_mana_burn_cast.m4a",
+   "size": 5353
+  },
+  {
+   "path": "audio/sfx_spell_mana_burn_impact.m4a",
+   "size": 5291
+  },
+  {
+   "path": "audio/sfx_spell_meditation_cast.m4a",
+   "size": 4594
+  },
+  {
+   "path": "audio/sfx_spell_meditation_impact.m4a",
+   "size": 5291
+  },
+  {
+   "path": "audio/sfx_spell_meteor_cast.m4a",
+   "size": 5265
+  },
+  {
+   "path": "audio/sfx_spell_meteor_impact.m4a",
+   "size": 5395
+  },
+  {
+   "path": "audio/sfx_spell_poison_cloud_cast.m4a",
+   "size": 5312
+  },
+  {
+   "path": "audio/sfx_spell_poison_cloud_impact.m4a",
+   "size": 5367
+  },
+  {
+   "path": "audio/sfx_spell_quake_cast.m4a",
+   "size": 5296
+  },
+  {
+   "path": "audio/sfx_spell_quake_impact.m4a",
+   "size": 5454
+  },
+  {
+   "path": "audio/sfx_spell_resurrect_cast.m4a",
+   "size": 5343
+  },
+  {
+   "path": "audio/sfx_spell_resurrect_impact.m4a",
+   "size": 5291
+  },
+  {
+   "path": "audio/sfx_spell_rock_throw_cast.m4a",
+   "size": 5280
+  },
+  {
+   "path": "audio/sfx_spell_rock_throw_impact.m4a",
+   "size": 5261
+  },
+  {
+   "path": "audio/sfx_spell_stone_curse_cast.m4a",
+   "size": 5317
+  },
+  {
+   "path": "audio/sfx_spell_stone_curse_impact.m4a",
+   "size": 5293
+  },
+  {
+   "path": "audio/sfx_spell_stone_skin_cast.m4a",
+   "size": 5279
+  },
+  {
+   "path": "audio/sfx_spell_stone_skin_impact.m4a",
+   "size": 5287
+  },
+  {
+   "path": "audio/sfx_spell_thunderstorm_cast.m4a",
+   "size": 5291
+  },
+  {
+   "path": "audio/sfx_spell_thunderstorm_impact.m4a",
+   "size": 5604
+  },
+  {
+   "path": "audio/sfx_spell_time_warp_cast.m4a",
+   "size": 5335
+  },
+  {
+   "path": "audio/sfx_spell_time_warp_impact.m4a",
+   "size": 5291
+  },
+  {
+   "path": "audio/sfx_spell_weaken_cast.m4a",
+   "size": 5277
+  },
+  {
+   "path": "audio/sfx_spell_weaken_impact.m4a",
+   "size": 5291
+  },
+  {
+   "path": "audio/sfx_spell_wind_ward_cast.m4a",
+   "size": 5337
+  },
+  {
+   "path": "audio/sfx_spell_wind_ward_impact.m4a",
+   "size": 5385
+  },
+  {
+   "path": "audio/sfx_trap_trigger.m4a",
+   "size": 3721
+  },
+  {
+   "path": "audio/sfx_unit_select.m4a",
+   "size": 2422
+  },
+  {
+   "path": "audio/sfx_waypoint_activate.m4a",
+   "size": 7728
+  },
+  {
    "path": "audio/spell_acid_rain.m4a",
    "size": 16006
   },
@@ -276,6 +624,22 @@
    "size": 2957
   },
   {
+   "path": "audio/step_marsh_mud_1.m4a",
+   "size": 3037
+  },
+  {
+   "path": "audio/step_marsh_mud_2.m4a",
+   "size": 3138
+  },
+  {
+   "path": "audio/step_snow_ash_1.m4a",
+   "size": 2791
+  },
+  {
+   "path": "audio/step_snow_ash_2.m4a",
+   "size": 2587
+  },
+  {
    "path": "audio/step_stone_1.m4a",
    "size": 3112
   },
@@ -292,6 +656,14 @@
    "size": 3520
   },
   {
+   "path": "audio/step_wood_plank_1.m4a",
+   "size": 2442
+  },
+  {
+   "path": "audio/step_wood_plank_2.m4a",
+   "size": 2362
+  },
+  {
    "path": "audio/swing_axe_1.m4a",
    "size": 4027
   },
@@ -302,6 +674,58 @@
   {
    "path": "audio/swing_sword_2.m4a",
    "size": 3755
+  },
+  {
+   "path": "audio/town_anvil_hammer.m4a",
+   "size": 4183
+  },
+  {
+   "path": "audio/town_cart_wheel.m4a",
+   "size": 6386
+  },
+  {
+   "path": "audio/town_tavern_murmur.m4a",
+   "size": 7939
+  },
+  {
+   "path": "audio/town_watch_bell.m4a",
+   "size": 10704
+  },
+  {
+   "path": "audio/ui_button_click.m4a",
+   "size": 2403
+  },
+  {
+   "path": "audio/ui_button_hover.m4a",
+   "size": 2039
+  },
+  {
+   "path": "audio/ui_inv_drop.m4a",
+   "size": 2589
+  },
+  {
+   "path": "audio/ui_inv_equip.m4a",
+   "size": 3338
+  },
+  {
+   "path": "audio/ui_inv_pick.m4a",
+   "size": 2388
+  },
+  {
+   "path": "audio/ui_menu_close.m4a",
+   "size": 2811
+  },
+  {
+   "path": "audio/ui_menu_open.m4a",
+   "size": 3011
+  },
+  {
+   "path": "audio/ui_trade_buy.m4a",
+   "size": 3587
+  },
+  {
+   "path": "audio/ui_trade_sell.m4a",
+   "size": 3437
   },
   {
    "path": "audio/yew_release_01.m4a",
