@@ -49,6 +49,7 @@ export interface ItemDef {
   sockets?: number; // sockets count (0..3)
   socketedGems?: string[]; // slotted gem names
   lifesteal?: number; // life steal percentage
+  crit?: number; // critical strike chance percentage
   runes?: readonly string[]; // architectural hook for future slotted runes
   mf?: number; // Magic Find %
   crushingBlow?: number;

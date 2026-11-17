@@ -1,4 +1,4 @@
-import { calculateBlockChance, calculateD2HitChance, mitigateDamage } from './mechanics';
+import { calculateBlockChance, combineCritChance, calculateD2HitChance, mitigateDamage } from './mechanics';
 import { FP, dir16 } from './path';
 import type { Sim } from './sim';
 import { monsterFamilyById, monsterPaletteByTier } from './data';
@@ -554,6 +554,14 @@ export function strike(sim: Sim, t: number, min: number, max: number, elem: numb
       if (cb.log) logHit(sim, src, t, elem, part, chance, roll, raw, raw, 0);
       cb.emit(11, sim.x[t], sim.y[t], 0, 0); // shield turns the blow aside
       return;
+    }
+    if (src >= 0 && sim.hero !== null && src === sim.hero.id) {
+      const wep = sim.hero.eq[0];
+      const crit = Math.floor(combineCritChance(Math.floor(sim.hero.attr[1] / 8), (wep >= 0 ? getItemDef(wep)?.crit : 0) ?? 0));
+      if (crit > 0 && sim.rng.int(100) < crit) {
+        dmg *= 2; // critical strike
+        cb.emit(6, sim.x[t], sim.y[t], 1, Elem.Physical);
+      }
     }
     raw = Math.floor((dmg * PART_DMG[part]) / 100);
     dmg = Math.max(1, raw - partAbs(sim, t, part));
