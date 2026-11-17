@@ -1,5 +1,5 @@
 import { Elem, M, MODN, enemyNear, launch, strike } from './combat';
-import { heroUse } from './hero';
+import { heroUse, spellRankOf, SPELL_RANK_POW } from './hero';
 import { FP } from './path';
 import type { Sim } from './sim';
 import { rulesOf } from './difficulty';
@@ -188,7 +188,8 @@ export function castSpell(sim: Sim, i: number, sid: number, t: number, px: numbe
   cb.mana[i] -= sp.cost;
   cb.cd[i] = sp.cd;
   cb.emit(9, sim.x[i], sim.y[i], sid, sp.school);
-  const pow = Math.max(0, 100 + cb.mod[i * MODN + M.Pow]);
+  const rank = sim.hero !== null && i === sim.hero.id ? spellRankOf(sim.hero, sid) : 0;
+  const pow = Math.max(0, 100 + cb.mod[i * MODN + M.Pow] + rank * SPELL_RANK_POW);
   if (sim.hero !== null && i === sim.hero.id) heroUse(sim, 2); // Sorcery grows with casting
   switch (sp.tk) {
     case Tk.Foe:

@@ -1,7 +1,7 @@
 import { SPELLS, Tk } from './sim/spelldata';
 import { teacherOf } from './sim/town';
 import { getItemDef } from './sim/items';
-import { scribeFee } from './sim/hero';
+import { scribeFee, spellRankOf, MAX_SPELL_RANK, SPELL_RANK_POW } from './sim/hero';
 import type { Sim, Command } from './sim/sim';
 import { S } from './strings';
 
@@ -1196,7 +1196,23 @@ export class SpellbookUi {
         this.opt.armSpell(spell.id);
       };
 
-      btnGroup.append(rmbBtn, castBtn);
+      // 3. Rank up: spends a skill point, +8% power per rank
+      const hh = this.opt.sim().hero;
+      const rk = spellRankOf(hh, spell.id);
+      const pts = hh?.skillPoints ?? 0;
+      const rankBtn = document.createElement('button');
+      rankBtn.className = 'dossier-btn rank-btn';
+      rankBtn.style.minHeight = '48px';
+      rankBtn.disabled = pts < 1 || rk >= MAX_SPELL_RANK;
+      rankBtn.innerHTML = `⬆ Rank ${rk}/${MAX_SPELL_RANK} · +${SPELL_RANK_POW}% power each · ${pts} point${pts === 1 ? '' : 's'}`;
+      rankBtn.setAttribute('aria-label', 'Spend a skill point to raise this spell rank');
+      rankBtn.onclick = () => {
+        this.opt.queue({ type: 'hero', op: 'rank', spell: spell.id });
+        this.opt.toast(`${spell.name} rank ${rk + 1}`);
+        setTimeout(() => this.render(), 80);
+      };
+
+      btnGroup.append(rmbBtn, castBtn, rankBtn);
       actionPanel.append(btnGroup);
 
       // 3. Quickbar Assign Row [F1 - F8]

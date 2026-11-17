@@ -49,9 +49,18 @@ export interface HeroState {
   xpNext?: number;
   statPoints?: number;
   skillPoints?: number;
+  /** Rank per spell id (0..MAX_SPELL_RANK); each rank adds SPELL_RANK_POW % power. Spends skill points. */
+  spellRank?: number[];
   skillCd?: Record<string, number>;
   name?: string;
   activeAura?: string;
+}
+
+export const MAX_SPELL_RANK = 10;
+/** Extra spell power percent per rank. */
+export const SPELL_RANK_POW = 8;
+export function spellRankOf(h: HeroState | null, sid: number): number {
+  return h?.spellRank?.[sid] ?? 0;
 }
 
 /** Gold to copy a spell from a scroll or tome into the spellbook. */
@@ -61,6 +70,7 @@ export const scribeFee = (tier: number): number => 15 * tier;
 export type HeroCommand =
   | { type: 'hero'; op: 'equip' | 'unequip' | 'use' | 'drop'; item?: number; slot?: number; expectedEquipment?: string }
   | { type: 'hero'; op: 'stat'; attr: number }
+  | { type: 'hero'; op: 'rank'; spell: number }
   | { type: 'hero'; op: 'skill'; skill: HeroSkillId; x?: number; y?: number; target?: number }
   | { type: 'hero'; op: 'aura'; aura?: string };
 
@@ -824,6 +834,16 @@ export function heroCommand(sim: Sim, cmd: HeroCommand): void {
       }
       return;
     }
+    case 'rank': {
+      const sid = cmd.spell;
+      if (Number.isInteger(sid) && sid >= 0 && sid < 32 && ((h.known >>> sid) & 1) === 1 && (h.skillPoints ?? 0) > 0 && spellRankOf(h, sid) < MAX_SPELL_RANK) {
+        h.spellRank = h.spellRank ?? Array<number>(32).fill(0);
+        h.spellRank[sid]++;
+        h.skillPoints = (h.skillPoints ?? 0) - 1;
+        sim.cb.emit(6, sim.x[h.id], sim.y[h.id], 10 + sid, h.spellRank[sid]);
+      }
+      return;
+    }
     case 'skill': {
       if (cmd.skill) {
         executeHeroSkill(sim, cmd.skill, cmd.x, cmd.y, cmd.target);
@@ -1201,6 +1221,7 @@ export function cloneHero(h: HeroState | null): HeroState | null {
     statPoints: h.statPoints ?? 0,
     skillPoints: h.skillPoints ?? 0,
     skillCd: h.skillCd ? { ...h.skillCd } : {},
+    ...(h.spellRank ? { spellRank: h.spellRank.slice() } : {}),
   };
 }
 
@@ -1221,6 +1242,7 @@ export function hashHero(h: HeroState | null, mix: (v: number) => void): void {
   if ((h.xp ?? 0) > 0) mix(h.xp!);
   if ((h.statPoints ?? 0) > 0) mix(h.statPoints!);
   if ((h.skillPoints ?? 0) > 0) mix(h.skillPoints!);
+  if (h.spellRank) h.spellRank.forEach((r, i) => { if (r > 0) mix(i * 16 + r); }); // zero keeps older hashes unchanged
   if (h.skillCd) {
     for (const k of Object.keys(h.skillCd).sort()) {
       if (h.skillCd[k] > 0) mix(h.skillCd[k]);
