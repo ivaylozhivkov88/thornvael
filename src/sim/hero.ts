@@ -63,6 +63,30 @@ export function spellRankOf(h: HeroState | null, sid: number): number {
   return h?.spellRank?.[sid] ?? 0;
 }
 
+/** To raise a spell's rank the hero needs rank 1 in its prerequisite spell (spell id -> prerequisite id). */
+export const SPELL_PREREQ: Readonly<Record<number, number>> = {
+  1: 0, 2: 0, 3: 0, 24: 1, 25: 2, 5: 4, 6: 4, 26: 5, 8: 7, 10: 9, 12: 9, 27: 10, 13: 11,
+  15: 14, 17: 14, 18: 14, 29: 17, 28: 16, 21: 19, 22: 20, 30: 20, 31: 23,
+};
+/** Each rank in a source spell adds SPELL_SYNERGY_POW % power to the target spell. */
+export const SPELL_SYNERGY: Readonly<Record<number, readonly number[]>> = {
+  0: [1, 3, 24], 1: [0, 2], 2: [1, 25], 24: [1, 0], 25: [2, 3],
+  4: [5, 6], 5: [4, 26], 6: [4, 5], 26: [5, 4],
+  9: [10, 12], 10: [9, 27], 27: [10, 9],
+  14: [18, 29], 18: [14, 17], 17: [29, 14], 29: [17, 18],
+  19: [16, 7], 7: [8, 19], 8: [7], 20: [22, 30], 22: [20, 21],
+};
+export const SPELL_SYNERGY_POW = 4;
+export function spellSynergy(h: HeroState | null, sid: number): number {
+  let n = 0;
+  for (const src of SPELL_SYNERGY[sid] ?? []) n += spellRankOf(h, src);
+  return n * SPELL_SYNERGY_POW;
+}
+export function spellPrereqMet(h: HeroState | null, sid: number): boolean {
+  const need = SPELL_PREREQ[sid];
+  return need === undefined || spellRankOf(h, need) >= 1;
+}
+
 /** Gold to copy a spell from a scroll or tome into the spellbook. */
 export const scribeFee = (tier: number): number => 15 * tier;
 
@@ -836,7 +860,7 @@ export function heroCommand(sim: Sim, cmd: HeroCommand): void {
     }
     case 'rank': {
       const sid = cmd.spell;
-      if (Number.isInteger(sid) && sid >= 0 && sid < 32 && ((h.known >>> sid) & 1) === 1 && (h.skillPoints ?? 0) > 0 && spellRankOf(h, sid) < MAX_SPELL_RANK) {
+      if (Number.isInteger(sid) && sid >= 0 && sid < 32 && ((h.known >>> sid) & 1) === 1 && (h.skillPoints ?? 0) > 0 && spellRankOf(h, sid) < MAX_SPELL_RANK && spellPrereqMet(h, sid)) {
         h.spellRank = h.spellRank ?? Array<number>(32).fill(0);
         h.spellRank[sid]++;
         h.skillPoints = (h.skillPoints ?? 0) - 1;

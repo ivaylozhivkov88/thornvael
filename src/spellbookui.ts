@@ -1,7 +1,7 @@
 import { SPELLS, Tk } from './sim/spelldata';
 import { teacherOf } from './sim/town';
 import { getItemDef } from './sim/items';
-import { scribeFee, spellRankOf, MAX_SPELL_RANK, SPELL_RANK_POW } from './sim/hero';
+import { scribeFee, spellPrereqMet, spellSynergy, SPELL_PREREQ, spellRankOf, MAX_SPELL_RANK, SPELL_RANK_POW } from './sim/hero';
 import type { Sim, Command } from './sim/sim';
 import { S } from './strings';
 
@@ -1203,8 +1203,9 @@ export class SpellbookUi {
       const rankBtn = document.createElement('button');
       rankBtn.className = 'dossier-btn rank-btn';
       rankBtn.style.minHeight = '48px';
-      rankBtn.disabled = pts < 1 || rk >= MAX_SPELL_RANK;
-      rankBtn.innerHTML = `⬆ Rank ${rk}/${MAX_SPELL_RANK} · +${SPELL_RANK_POW}% power each · ${pts} point${pts === 1 ? '' : 's'}`;
+      const prereqOk = spellPrereqMet(hh, spell.id);
+      rankBtn.disabled = pts < 1 || rk >= MAX_SPELL_RANK || !prereqOk;
+      rankBtn.innerHTML = `⬆ Rank ${rk}/${MAX_SPELL_RANK} · +${SPELL_RANK_POW}% power each · ${pts} point${pts === 1 ? '' : 's'}${prereqOk ? '' : ` · needs ${SPELLS[SPELL_PREREQ[spell.id]].name} rank 1`}${spellSynergy(hh, spell.id) ? ` · synergy +${spellSynergy(hh, spell.id)}%` : ''}`;
       rankBtn.setAttribute('aria-label', 'Spend a skill point to raise this spell rank');
       rankBtn.onclick = () => {
         this.opt.queue({ type: 'hero', op: 'rank', spell: spell.id });

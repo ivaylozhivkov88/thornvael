@@ -42,3 +42,19 @@ describe('spell rank', () => {
     expect(spellRankOf(h, 0)).toBe(0);
   });
 });
+
+describe('spell prerequisites and synergy', () => {
+  it('needs the prerequisite at rank 1; synergies add power', async () => {
+    const { spellSynergy } = await import('../src/sim/hero');
+    const sim = mk();
+    const h = sim.hero!;
+    h.skillPoints = 5;
+    h.known |= 0b11;
+    sim.step([{ type: 'hero', op: 'rank', spell: 1 }]);
+    expect(spellRankOf(h, 1)).toBe(0); // Fireball needs Fire Bolt rank 1
+    sim.step([{ type: 'hero', op: 'rank', spell: 0 }, { type: 'hero', op: 'rank', spell: 1 }]);
+    expect(spellRankOf(h, 1)).toBe(1);
+    expect(spellSynergy(h, 0)).toBe(4); // Fire Bolt gains from Fireball rank 1
+    expect(spellSynergy(h, 1)).toBe(4);
+  });
+});
