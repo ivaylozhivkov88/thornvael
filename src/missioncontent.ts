@@ -69,3 +69,14 @@ export function defeatFlavor(): string {
   const q = pick(deathQuotes), t = pick(loadingTips);
   return [q ? `"${q.quote}" - ${q.source}` : '', t ? `Tip: ${t.tip}` : ''].filter(Boolean).join('\n');
 }
+
+/** Bestiary entries (content/monster-codex.json). Empty until loaded. */
+export interface MonsterCodexEntry { id: string; name: string; codex: string; weakness?: string; special?: string; loot_theme?: string }
+let monsterCodex: MonsterCodexEntry[] = [];
+export const getMonsterCodex = (): MonsterCodexEntry[] => monsterCodex;
+export async function loadMonsterCodex(): Promise<void> {
+  try {
+    const r = await fetch(`${import.meta.env.BASE_URL}data/content/monster-codex.json`);
+    if (r.ok) monsterCodex = await r.json();
+  } catch { /* optional */ }
+}

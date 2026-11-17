@@ -1,3 +1,4 @@
+import { getMonsterCodex } from './missioncontent';
 import { getCodexProgress, isDiscovered } from './codex';
 import { formatItemTooltip } from './heroui';
 import { Ik, ITEMS, Slot, itemText } from './sim/items';
@@ -121,6 +122,32 @@ export class CodexUi {
     if (this.filter === 'bestiary') {
       const loreList = document.createElement('div');
       loreList.className = 'codex-lore-list';
+      const pack = getMonsterCodex();
+      if (pack.length) {
+        for (const m of pack) {
+          const card = document.createElement('article');
+          card.className = 'codex-lore-entry';
+          const title = document.createElement('h3');
+          title.className = 'codex-lore-title';
+          title.textContent = m.name;
+          const meta = document.createElement('div');
+          meta.className = 'codex-bestiary-meta';
+          for (const t of [m.weakness && `Weakness: ${m.weakness}`, m.special && `Special: ${m.special}`]) {
+            if (!t) continue;
+            const b = document.createElement('span');
+            b.className = 'codex-bestiary-badge';
+            b.textContent = t;
+            meta.append(b);
+          }
+          const p = document.createElement('p');
+          p.className = 'codex-lore-text';
+          p.textContent = m.codex;
+          card.append(title, meta, p);
+          loreList.append(card);
+        }
+        this.overlay.append(head, meter, filters, loreList);
+        return;
+      }
       for (const beast of S.codex.bestiary) {
         const card = document.createElement('article');
         card.className = 'codex-lore-entry';

@@ -12,6 +12,7 @@ import { actTransitionForCompletedNode, advanceStory, openStory, previousStory, 
 import { S } from './strings';
 import { readPreferences, writePreference } from './preferences';
 import { CodexUi } from './codexui';
+import { loadMonsterCodex } from './missioncontent';
 import { BUILDINGS, build, levelOf, nextCost } from './townbuild';
 
 export { ARCHETYPES, buildHeroCreationScreen, findArchetypeIndex, type Archetype, type HeroCreationOptions };
@@ -37,6 +38,7 @@ function btn(label: string, run: () => void, cls = ''): HTMLButtonElement {
 }
 
 export async function runShell(startWorker: () => void): Promise<never> {
+  void loadMonsterCodex();
   startWorker();
   const codexUi = new CodexUi();
   const prefs = readPreferences();
