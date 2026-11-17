@@ -64,16 +64,16 @@ describe('classic ARPG 2-Stage Drop Rate & Quality Engine', () => {
         // Magic: uncapped
         expect(calculateEffectiveMF(mf, 'magic')).toBe(mf);
 
-        // Rare: (MF * 500) / (MF + 500)
-        const expectedRare = mf <= 0 ? 0 : Math.floor((mf * 500) / (mf + 500));
+        // Rare: (MF * 600) / (MF + 600)
+        const expectedRare = mf <= 0 ? 0 : Math.round((mf * 600) / (mf + 600));
         expect(calculateEffectiveMF(mf, 'rare')).toBe(expectedRare);
 
-        // Set: (MF * 400) / (MF + 400)
-        const expectedSet = mf <= 0 ? 0 : Math.floor((mf * 400) / (mf + 400));
+        // Set: (MF * 500) / (MF + 500)
+        const expectedSet = mf <= 0 ? 0 : Math.round((mf * 500) / (mf + 500));
         expect(calculateEffectiveMF(mf, 'set')).toBe(expectedSet);
 
         // Unique: (MF * 250) / (MF + 250)
-        const expectedUnique = mf <= 0 ? 0 : Math.floor((mf * 250) / (mf + 250));
+        const expectedUnique = mf <= 0 ? 0 : Math.round((mf * 250) / (mf + 250));
         expect(calculateEffectiveMF(mf, 'unique')).toBe(expectedUnique);
       }
     });
@@ -88,18 +88,18 @@ describe('classic ARPG 2-Stage Drop Rate & Quality Engine', () => {
     it('demonstrates asymptotic diminishing returns behavior', () => {
       // Unique approaches 250
       expect(calculateEffectiveMF(1000, 'unique')).toBe(200);
-      expect(calculateEffectiveMF(10000, 'unique')).toBe(243);
+      expect(calculateEffectiveMF(10000, 'unique')).toBe(244);
       expect(calculateEffectiveMF(100000, 'unique')).toBe(249);
 
-      // Set approaches 400
-      expect(calculateEffectiveMF(1000, 'set')).toBe(285);
-      expect(calculateEffectiveMF(10000, 'set')).toBe(384);
-      expect(calculateEffectiveMF(100000, 'set')).toBe(398);
+      // Set approaches 500
+      expect(calculateEffectiveMF(1000, 'set')).toBe(333);
+      expect(calculateEffectiveMF(10000, 'set')).toBe(476);
+      expect(calculateEffectiveMF(100000, 'set')).toBe(498);
 
-      // Rare approaches 500
-      expect(calculateEffectiveMF(1000, 'rare')).toBe(333);
-      expect(calculateEffectiveMF(10000, 'rare')).toBe(476);
-      expect(calculateEffectiveMF(100000, 'rare')).toBe(497);
+      // Rare approaches 600
+      expect(calculateEffectiveMF(1000, 'rare')).toBe(375);
+      expect(calculateEffectiveMF(10000, 'rare')).toBe(566);
+      expect(calculateEffectiveMF(100000, 'rare')).toBe(596);
 
       // Magic has no cap
       expect(calculateEffectiveMF(1000, 'magic')).toBe(1000);

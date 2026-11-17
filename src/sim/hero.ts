@@ -1,3 +1,4 @@
+import { calculateMaxrollEffectiveMF } from './mechanics';
 import { DEFS, Elem, M, MODN, Ord, MAXS, strike } from './combat';
 import { rulesOf } from './difficulty';
 import { getDifficultyCalibration } from './balance';
@@ -884,17 +885,7 @@ export const QUALITY_BIAS: Record<MonsterRank, Record<'unique' | 'set' | 'rare' 
  * - Unique: effectiveMF = Math.floor((MF * 250) / (MF + 250))
  */
 export function calculateEffectiveMF(mf: number, quality: 'unique' | 'set' | 'rare' | 'magic'): number {
-  if (mf <= 0) return 0;
-  switch (quality) {
-    case 'magic':
-      return mf;
-    case 'rare':
-      return Math.floor((mf * 500) / (mf + 500));
-    case 'set':
-      return Math.floor((mf * 400) / (mf + 400));
-    case 'unique':
-      return Math.floor((mf * 250) / (mf + 250));
-  }
+  return calculateMaxrollEffectiveMF(mf)[quality];
 }
 
 /**
