@@ -1,4 +1,4 @@
-import { calculateBlockChance, calculateD2HitChance } from './mechanics';
+import { calculateBlockChance, calculateD2HitChance, mitigateDamage } from './mechanics';
 import { FP, dir16 } from './path';
 import type { Sim } from './sim';
 import { monsterFamilyById, monsterPaletteByTier } from './data';
@@ -568,7 +568,9 @@ export function strike(sim: Sim, t: number, min: number, max: number, elem: numb
     const baseRes = d.res[elem - 1] + cb.mod[mo + M.Res + elem - 1];
     const diff = sim.hero?.diff ?? (sim as unknown as { difficultyMode?: string | number }).difficultyMode;
     const res = calculateCalibratedResist(baseRes, elem, t, isFoe, isChampionOrBoss, diff);
-    dmg = Math.max(0, Math.floor((dmg * (100 - res)) / 100));
+    // Reference order and caps: players top out at 75% resist, foes at 95%; 100 is true immunity; below -100 is clamped.
+    const capRes = sim.team[t] === 0 ? 75 : 95;
+    dmg = res >= 100 ? 0 : Math.max(0, mitigateDamage(dmg, { resist: Math.min(capRes, res) }));
   }
   if (src >= 0 && sim.team[t] === 0 && sim.team[src] !== 0) {
     const diff = sim.hero?.diff ?? (sim as unknown as { difficultyMode?: string | number }).difficultyMode;

@@ -117,3 +117,14 @@ describe('shield block', () => {
     expect(run(true)).toBeGreaterThan(30);
   });
 });
+
+describe('resist caps', () => {
+  it('a hero never resists more than 75% of a school, whatever the gear says', () => {
+    const sim = arena([Kind.Hero, Kind.Gnoll]);
+    createHero(sim, 0, 0, false, 1);
+    sim.cb.mod[M.Res] = 500;
+    const before = sim.cb.hp[0];
+    strike(sim, 0, 100, 100, Elem.Fire, 0, 1);
+    expect(before - sim.cb.hp[0]).toBe(25);
+  });
+});
