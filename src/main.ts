@@ -119,6 +119,18 @@ if (!resumed && !loadedMission && expeditionSeed && !crowd && !stress && !battle
     missionError = (e as Error).message;
   }
 }
+const depthsSeed = params.get('depths');
+if (!resumed && !loadedMission && depthsSeed && !crowd && !stress && !battle) {
+  try {
+    const seed = Number.parseInt(depthsSeed, 10) || 12345;
+    const depth = Math.max(1, Number.parseInt(params.get('depth') ?? '1', 10) || 1);
+    const { generateDepthsLevel } = await import('./sim/procgen');
+    const { loadDoc } = await import('./mapdoc');
+    loadedMission = loadDoc(generateDepthsLevel({ seed, depth, size: 64 }));
+  } catch (e) {
+    missionError = (e as Error).message;
+  }
+}
 // Campaign node: the record holds the hero pick, difficulty and what the hero carries in.
 const campaignId = resumed ? resumed.save.state.node ?? null : params.get('campaign');
 let campaign: Campaign | null = null;

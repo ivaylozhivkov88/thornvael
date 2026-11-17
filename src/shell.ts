@@ -214,6 +214,12 @@ export async function runShell(startWorker: () => void): Promise<never> {
       return `./?expedition=${seed}&hero=${encodeURIComponent(heroStr)}&gold=${gold}`;
     };
 
+    const depthsUrl = (): string => {
+      const seed = (Math.random() * 0x7fffffff) | 0;
+      const heroStr = `${pick.cls === 1 ? 'mage' : 'warrior'},${pick.female ? 'f' : 'm'},${(['easy', 'medium', 'hard'] as const)[diff]}`;
+      return `./?depths=${seed}&hero=${encodeURIComponent(heroStr)}&gold=${gold}`;
+    };
+
     footer.append(
       btn(
         '⚔️ Deploy Hero to Battle',
@@ -225,6 +231,7 @@ export async function runShell(startWorker: () => void): Promise<never> {
         () => go(expeditionUrl()),
         'sh-small',
       ),
+      btn('Endless Depths', () => go(depthsUrl()), 'sh-small'),
       btn('↩ Return to Menu', menu),
     );
 
