@@ -15,6 +15,9 @@ import {
   calculateLeechAmount,
   calculateKnockback,
   calculateMaxrollEffectiveMF,
+  calculateBlockChance,
+  combineCritChance,
+  mitigateDamage,
 } from '../src/sim/mechanics';
 import {
   ALL_RUNES,
@@ -191,9 +194,9 @@ describe('Classic ARPG Systems & Maxroll Database Architecture Gate', () => {
       expect(mf250.magic).toBe(250);
 
       const mf500 = calculateMaxrollEffectiveMF(500);
-      expect(mf500.unique).toBe(166); // (500 * 250) / 750 = 166.6 -> 166
+      expect(mf500.unique).toBe(167); // 166.6 rounds to 167
       expect(mf500.set).toBe(250); // (500 * 500) / 1000 = 250
-      expect(mf500.rare).toBe(272); // (500 * 600) / 1100 = 272.7 -> 272
+      expect(mf500.rare).toBe(273); // 272.7 rounds to 273
       expect(mf500.magic).toBe(500);
     });
   });
@@ -829,5 +832,26 @@ describe('Classic ARPG Systems & Maxroll Database Architecture Gate', () => {
       expect(affixIds).toContain('teleporting');
       expect(affixIds).toContain('spectral_hit');
     });
+  });
+});
+
+describe('reference-checked combat numbers', () => {
+  it('block: floor(shield*(dex-15)/(clvl*2)) capped at 75, running thirds it', () => {
+    expect(calculateBlockChance(30, 0, 55, 30)).toBe(20);
+    expect(calculateBlockChance(30, 0, 15, 30)).toBe(0);
+    expect(calculateBlockChance(0, 50, 200, 10)).toBe(0);
+    expect(calculateBlockChance(80, 50, 300, 10)).toBe(75);
+    expect(calculateBlockChance(80, 50, 300, 10, true)).toBe(25);
+  });
+  it('crit sources combine multiplicatively', () => {
+    expect(combineCritChance(50, 50)).toBe(75);
+    expect(combineCritChance(0)).toBe(0);
+    expect(combineCritChance(100, 30)).toBe(100);
+  });
+  it('mitigation order: flat, resist, absorb%, absorb flat', () => {
+    expect(mitigateDamage(1000, { resist: 50, absorbPct: 50, absorbFlat: 20 })).toBe(280);
+    expect(mitigateDamage(1000, { resist: 90 })).toBe(100);
+    expect(mitigateDamage(1000, { resist: 80 })).toBe(200);
+    expect(mitigateDamage(1000, { resist: 90, isPhysical: true })).toBe(500);
   });
 });

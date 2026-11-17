@@ -340,9 +340,59 @@ export function calculateMaxrollEffectiveMF(mf: number): {
   const val = Math.max(0, mf);
   if (val === 0) return { unique: 0, set: 0, rare: 0, magic: 0 };
   return {
-    unique: Math.floor((val * 250) / (val + 250)),
-    set: Math.floor((val * 500) / (val + 500)),
-    rare: Math.floor((val * 600) / (val + 600)),
+    unique: Math.round((val * 250) / (val + 250)),
+    set: Math.round((val * 500) / (val + 500)),
+    rare: Math.round((val * 600) / (val + 600)),
     magic: val,
   };
+}
+
+/**
+ * Chance to block: min(floor((shield + bonus) * (dex - 15) / (clvl * 2)), 75).
+ * Running cuts it to a third (cap 25). Zero without a shield or when dex <= 15.
+ */
+export function calculateBlockChance(
+  shieldBlock: number,
+  bonusBlock: number,
+  dex: number,
+  clvl: number,
+  running = false,
+): number {
+  if (shieldBlock <= 0) return 0;
+  const raw = Math.floor(((shieldBlock + Math.max(0, bonusBlock)) * (dex - 15)) / (Math.max(1, clvl) * 2));
+  const capped = Math.max(0, Math.min(75, raw));
+  return running ? Math.min(25, Math.floor(capped / 3)) : capped;
+}
+
+/** Independent crit sources combine as 100 - prod(100 - chance_i) / 100^(n-1). Each chance 0..100. */
+export function combineCritChance(...chances: number[]): number {
+  let miss = 100;
+  for (const c of chances) miss = (miss * (100 - Math.max(0, Math.min(100, c)))) / 100;
+  return 100 - miss;
+}
+
+export interface MitigationInput {
+  /** Flat reduction applied before percentages. */
+  flatReduction?: number;
+  /** Resistance percent (-100..95) or, for physical, damage-reduced percent (-100..50). */
+  resist: number;
+  isPhysical?: boolean;
+  /** Percent absorb (capped at 40, never applies to physical) and flat absorb (uncapped). */
+  absorbPct?: number;
+  absorbFlat?: number;
+}
+
+/**
+ * Order: flat reduction, then resist, then percent absorb, then flat absorb.
+ * Returns life lost; negative values mean the absorb healed the target.
+ */
+export function mitigateDamage(damage: number, m: MitigationInput): number {
+  let d = Math.max(0, damage - Math.max(0, m.flatReduction ?? 0));
+  const res = m.isPhysical ? Math.max(-100, Math.min(50, m.resist)) : Math.max(-100, Math.min(95, m.resist));
+  d = d * (1 - res / 100);
+  if (!m.isPhysical) {
+    d = d * (1 - Math.max(0, Math.min(40, m.absorbPct ?? 0)) / 100);
+    d = d - Math.max(0, m.absorbFlat ?? 0);
+  }
+  return Math.floor(d + 1e-9);
 }
