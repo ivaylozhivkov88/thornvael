@@ -30,7 +30,7 @@ function png(phase: number, corruptReset = false, hiddenColor = 0): Buffer {
   for (let y = 0; y < 48; y++) for (let x = 0; x < 48; x++) {
     const offset = y * 193 + 1 + x * 4;
     raw[offset] = hiddenColor;
-    if (x < 19 || x > 28 + phase || y < 10 || y > 40) continue;
+    if (x < 19 || x > 28 + phase || y < 10 || y > 37) continue;
     raw[offset] = 90 + phase * 20; raw[offset + 1] = 120;
     raw[offset + 2] = 150; raw[offset + 3] = 255;
   }
