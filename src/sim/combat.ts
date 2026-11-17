@@ -1,4 +1,4 @@
-import { calculateD2HitChance } from './mechanics';
+import { calculateBlockChance, calculateD2HitChance } from './mechanics';
 import { FP, dir16 } from './path';
 import type { Sim } from './sim';
 import { monsterFamilyById, monsterPaletteByTier } from './data';
@@ -7,7 +7,7 @@ import { calculateCalibratedResist, getDifficultyCalibration } from './balance';
 import { ALL_SPELLS, MAGE_SPELLS, NST, SPELLS, St, Tk } from './spelldata';
 import { addStatus, autoCast, castSpell, clearAllStatuses, knows, spellHit, statusTick, validTarget } from './spells';
 import { addHeroXp, dropLoot, heroTick, heroUse, pickBag, respawnHero } from './hero';
-import { PART_COUNT, PART_DMG, PART_WEIGHT, getItemDef } from './items';
+import { PART_COUNT, PART_DMG, PART_WEIGHT, Slot, getItemDef } from './items';
 
 /** Per-unit stat bonuses (hero gear, attributes, skills), MODN entries per unit. Def and Abs count on every part; PDef and PAbs are four entries, one per body part. */
 export const M = { Min: 0, Max: 1, Acc: 2, Def: 3, Abs: 4, Res: 5, Pow: 10, Regen: 11, PDef: 12, PAbs: 16 } as const;
@@ -473,6 +473,18 @@ export function toGuard(sim: Sim, i: number): void {
 
 // ---- damage ----
 
+/** Shield block for the hero: base by shield tier, scaled by agility (as dex) and level; one roll on the sim rng. */
+function heroBlocks(sim: Sim): boolean {
+  const h = sim.hero!;
+  const sid = h.eq[Slot.Shield];
+  if (sid < 0) return false;
+  const d = getItemDef(sid);
+  if (!d) return false;
+  const agi = h.attr[1];
+  const chance = calculateBlockChance(20 + d.tier * 8, 0, agi * 3 + 12, h.level ?? 1);
+  return chance > 0 && sim.rng.int(100) < chance;
+}
+
 const AR_SCALE = 10;
 /** Level used by the hit formula: the hero's own level, foes by tier above the hero's level. */
 function unitLevel(sim: Sim, i: number): number {
@@ -536,6 +548,11 @@ export function strike(sim: Sim, t: number, min: number, max: number, elem: numb
     if (roll >= chance) {
       if (cb.log) logHit(sim, src, t, elem, part, chance, roll, raw, 0, -1);
       cb.emit(1, sim.x[t], sim.y[t], 0, 0);
+      return;
+    }
+    if (sim.hero !== null && t === sim.hero.id && src >= 0 && heroBlocks(sim)) {
+      if (cb.log) logHit(sim, src, t, elem, part, chance, roll, raw, raw, 0);
+      cb.emit(11, sim.x[t], sim.y[t], 0, 0); // shield turns the blow aside
       return;
     }
     raw = Math.floor((dmg * PART_DMG[part]) / 100);

@@ -102,3 +102,18 @@ describe('body-part armour', () => {
     expect(sim.cb.log[0].dmg).toBe(20);
   });
 });
+
+describe('shield block', () => {
+  it('a shield turns some blows aside and a bare hero blocks none', () => {
+    const run = (shield: boolean): number => {
+      const sim = arena([Kind.Hero, Kind.Gnoll]);
+      const h = createHero(sim, 0, 0, false, 1);
+      if (shield) h.eq[Slot.Shield] = itemId('Mithril Gale Buckler');
+      sim.cb.log = [];
+      for (let n = 0; n < 300; n++) strike(sim, 0, 1, 1, Elem.Physical, 9999, 1);
+      return sim.cb.log.filter((r: HitRec) => r.dmg === 0).length;
+    };
+    expect(run(false)).toBe(0);
+    expect(run(true)).toBeGreaterThan(30);
+  });
+});
