@@ -14,14 +14,14 @@ const files = execFileSync('git', ['ls-files', '-z', '--cached', '--others', '--
 
 // REPO-01: original-format files and oversized binaries
 const FORBIDDEN_EXT = new Set(['.res', '.alm', '.256', '.smk', '.pak', '.bik']);
-const MAX_BINARY = 1024 * 1024; // 1 MB
+const MAX_BINARY = 2 * 1024 * 1024; // 2 MB (96px hero atlases)
 const TEXT_EXT = new Set(['.ts', '.js', '.mjs', '.json', '.md', '.html', '.css', '.yml', '.yaml', '.svg', '.txt', '.webmanifest']);
 const BINARY_EXT = new Set(['.png', '.jpg', '.jpeg', '.webp', '.gif', '.m4a', '.mp3', '.ogg', '.woff', '.woff2', '.ttf', '.otf']);
 
 for (const f of files) {
   const ext = extname(f).toLowerCase();
   if (FORBIDDEN_EXT.has(ext)) fail(`${f}: original-format file type ${ext} is not allowed`);
-  if (BINARY_EXT.has(ext) && statSync(f).size > MAX_BINARY) fail(`${f}: binary larger than 1 MB`);
+  if (BINARY_EXT.has(ext) && statSync(f).size > MAX_BINARY) fail(`${f}: binary larger than 2 MB`);
 }
 
 // REPO-03: provenance manifest

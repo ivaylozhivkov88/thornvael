@@ -58,14 +58,14 @@ export function checkLookdev(directory, comparePilot = false) {
     frames.forEach((frame, index) => {
       const key = `hero/stand/${String(expectedDirections[index]).padStart(2, '0')}/00`;
       const r = sheet.frames[key]?.frame;
-      if (!r || r.w !== 48 || r.h !== 48) throw Error(`Missing matching pilot cell ${key}`);
+      if (!r || (r.w !== 48 && r.w !== 96) || r.h !== r.w) throw Error(`Missing matching pilot cell ${key}`);
       let top = r.h, bottom = -1;
       for (let y = 0; y < r.h; y++) for (let x = 0; x < r.w; x++) {
         if (pilot.pixels[((r.y + y) * pilot.w + r.x + x) * 4 + 3] > 128) {
           top = Math.min(top, y); bottom = Math.max(bottom, y);
         }
       }
-      const height = bottom - top + 1;
+      const height = (bottom - top + 1) * 48 / r.h;
       if (height <= 0) throw Error(`${key}: empty reference silhouette`);
       const ratio = (frame.bbox[3] - frame.bbox[1] + 1) / height;
       frame.pilotComparison = { key, height, ratio, sourceSha256: pilotHash };

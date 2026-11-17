@@ -20,11 +20,13 @@ from PIL import Image
 DIRECTIONS = 16
 ANIMS = {"stand": 4, "walk": 8, "attack": 4, "cast": 4, "hurt": 2, "die": 4}
 COMBAT_ANIMS_ORDER = ["stand", "walk", "attack", "cast", "hurt", "die"]
-CELL = 48
-SS = 4  # 4x Supersampling: Render internally at 192x192
-CELL_HI = CELL * SS  # 192
-ATLAS_SIZE = 1024
-GRID_COLS = 21  # 21 * 48 = 1008 <= 1024
+LOGICAL = 48  # drawing coordinates are authored on a 48-unit grid
+CELL = 96  # output cell in px (2x detail)
+K = CELL // LOGICAL
+SS = 8  # supersampling per logical unit: 384px canvas -> 96px cell (4x AA)
+CELL_HI = LOGICAL * SS  # 384
+ATLAS_SIZE = 2048
+GRID_COLS = 21  # 21 * 96 = 2016 <= 2048
 
 ELEV = math.radians(35)
 COS_ELEV = math.cos(ELEV)
@@ -89,7 +91,7 @@ class HighResVoxelCanvas:
         dx = (PX_GRID - scx) / max(1.0, rx)
         dy = (PY_GRID - scy) / max(1.0, ry)
         d2 = dx * dx + dy * dy
-        valid = (d2 < 1.0) & (PX_GRID >= 8) & (PX_GRID <= CELL_HI - 9) & (PY_GRID >= 8) & (PY_GRID <= CELL_HI - 9) & (self.color[:, :, 3] == 0)
+        valid = (d2 < 1.0) & (PX_GRID >= 2 * SS) & (PX_GRID <= CELL_HI - 2 * SS - 1) & (PY_GRID >= 2 * SS) & (PY_GRID <= CELL_HI - 2 * SS - 1) & (self.color[:, :, 3] == 0)
         alpha = (np.maximum(0.0, 1.0 - d2) ** 1.8 * 95.0).astype(np.uint8)
 
         self.color[valid, 0] = 12
@@ -268,7 +270,7 @@ class HighResVoxelCanvas:
 
 
 def downsample_and_finalize(vc: HighResVoxelCanvas, unit_id: str, anim: str, min_stand_px: int, max_stand_px: int):
-    """Downsamples from 192x192 to 48x48 via Lanczos and enforces contract safety."""
+    """Downsamples from the hi-res canvas to the cell via Lanczos and enforces contract safety."""
     c_hi = Image.fromarray(vc.color, "RGBA")
     m_hi = Image.fromarray(vc.mask, "RGBA")
 
@@ -303,11 +305,11 @@ def downsample_and_finalize(vc: HighResVoxelCanvas, unit_id: str, anim: str, min
         ys = np.where(np.any(solid, axis=1))[0]
         top, bottom = int(ys[0]), int(ys[-1])
         h = bottom - top + 1
-        if unit_id == "hero" and h < 30:
-            needed = 30 - h
+        if unit_id == "hero" and h < 30 * K:
+            needed = 30 * K - h
             for _ in range(needed):
                 cur_top = np.where(np.any(col[:, :, 3] > 128, axis=1))[0][0]
-                if cur_top > 2:
+                if cur_top > 2 * K:
                     col[cur_top - 1, :, :] = col[cur_top, :, :]
                     msk[cur_top - 1, :, :] = msk[cur_top, :, :]
             solid = col[:, :, 3] > 128
@@ -514,7 +516,7 @@ def render_dain_hero_frame(anim: str, facing_angle: float, frame_idx: int):
         vc.draw_part(0, ty + 1.5, tz - 0.5, 1.2, 1.2, 1.2, (245, 210, 80), "level", facing_angle, emissive=0.35)
         vc.draw_blade((3.0, ty - 1.0, 1.5), (3.0, ty + 7.5, 1.5), 1.2, 0.7, facing_angle)
 
-    return downsample_and_finalize(vc, "hero", anim, min_stand_px=27, max_stand_px=35)
+    return downsample_and_finalize(vc, "hero", anim, min_stand_px=27 * K, max_stand_px=35 * K)
 
 
 def render_selena_archer_frame(anim: str, facing_angle: float, frame_idx: int):
@@ -615,7 +617,7 @@ def render_selena_archer_frame(anim: str, facing_angle: float, frame_idx: int):
         vc.draw_capsule((0, ty - 2.0, tz), (0, ty - 3.0, tz), 2.2, 2.2, (38, 128, 68), "team", facing_angle, steps=3)
         vc.draw_part(2.2, ty, tz, 0.8, 0.8, 0.8, (248, 218, 88), "level", facing_angle, emissive=0.35)
 
-    return downsample_and_finalize(vc, "archer", anim, min_stand_px=24, max_stand_px=34)
+    return downsample_and_finalize(vc, "archer", anim, min_stand_px=24 * K, max_stand_px=34 * K)
 
 
 def render_valerius_mage_frame(anim: str, facing_angle: float, frame_idx: int):
@@ -709,7 +711,7 @@ def render_valerius_mage_frame(anim: str, facing_angle: float, frame_idx: int):
         vc.draw_part(0, ty + 1.5, tz, 1.5, 1.5, 1.5, (198, 158, 68), "armour", facing_angle)
         vc.draw_part(2.6, ty, tz, 1.0, 1.0, 1.0, (95, 235, 255), "level", facing_angle, emissive=0.4)
 
-    return downsample_and_finalize(vc, "mage", anim, min_stand_px=25, max_stand_px=35)
+    return downsample_and_finalize(vc, "mage", anim, min_stand_px=25 * K, max_stand_px=35 * K)
 
 
 def render_mercenary_warrior_frame(anim: str, facing_angle: float, frame_idx: int):
@@ -821,7 +823,7 @@ def render_mercenary_warrior_frame(anim: str, facing_angle: float, frame_idx: in
         vc.draw_part(0, ty, tz, 1.0, 1.0, 1.0, (245, 210, 80), "level", facing_angle, emissive=0.35)
         vc.draw_blade((2.8, ty - 1.0, 1.5), (2.8, ty + 6.5, 1.5), 1.0, 0.6, facing_angle)
 
-    return downsample_and_finalize(vc, "warrior", anim, min_stand_px=25, max_stand_px=35)
+    return downsample_and_finalize(vc, "warrior", anim, min_stand_px=25 * K, max_stand_px=35 * K)
 
 
 HERO_RENDERERS = {

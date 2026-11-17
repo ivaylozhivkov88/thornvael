@@ -106,15 +106,16 @@ export function checkCombatSheet(input: unknown): string[] {
   const errors = checkSheet(input);
   if (errors.length) return errors;
   const sheet = input as UnitSheet, t = sheet.meta.thornvael!;
-  if (t.cell[0] !== 48 || t.cell[1] !== 48) errors.push('combat profile requires 48px cells');
-  if (sheet.meta.size.w !== 1024 || sheet.meta.size.h !== 1024) errors.push('combat profile requires a 1024px atlas');
+  const cellPx = t.cell[0], atlasPx = cellPx === 96 ? 2048 : 1024;
+  if ((cellPx !== 48 && cellPx !== 96) || t.cell[1] !== cellPx) errors.push('combat profile requires 48px or 96px square cells');
+  if (sheet.meta.size.w !== atlasPx || sheet.meta.size.h !== atlasPx) errors.push(`combat profile requires a ${atlasPx}px atlas for ${cellPx}px cells`);
   if (Object.keys(t.anims).length !== Object.keys(COMBAT_ANIMS).length) errors.push('combat profile requires exactly six clips');
   for (const [clip, count] of Object.entries(COMBAT_ANIMS))
     if (t.anims[clip] !== count) errors.push(`combat profile requires ${clip}=${count}`);
   if (!sheet.animations) errors.push('combat profile requires animation sequences');
   for (const [name, f] of Object.entries(sheet.frames)) {
     if (f.anchor?.x !== 0.5 || f.anchor?.y !== 0.85) errors.push(`${name}: combat feet anchor is required`);
-    if (f.sourceSize?.w !== 48 || f.sourceSize?.h !== 48) errors.push(`${name}: combat source size is required`);
+    if (f.sourceSize?.w !== cellPx || f.sourceSize?.h !== cellPx) errors.push(`${name}: combat source size is required`);
     if (errors.length > 12) break;
   }
   return errors;
