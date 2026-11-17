@@ -32,3 +32,18 @@ export async function loadItemFlavor(): Promise<void> {
     if (r.ok) itemFlavor = await r.json();
   } catch { /* flavor is optional */ }
 }
+
+/** Death quotes and loading tips (content/death-quotes.json, loading-tips.json) for the defeat screen. */
+let deathQuotes: { quote: string; source: string }[] = [];
+let loadingTips: { tip: string }[] = [];
+export async function loadFlavorLists(): Promise<void> {
+  const base = import.meta.env.BASE_URL;
+  try { deathQuotes = await (await fetch(`${base}data/content/death-quotes.json`)).json(); } catch { /* optional */ }
+  try { loadingTips = await (await fetch(`${base}data/content/loading-tips.json`)).json(); } catch { /* optional */ }
+}
+const pick = <T,>(a: T[]): T | undefined => (a.length ? a[Math.floor(Math.random() * a.length)] : undefined);
+/** UI-only randomness (never feeds the sim). */
+export function defeatFlavor(): string {
+  const q = pick(deathQuotes), t = pick(loadingTips);
+  return [q ? `"${q.quote}" - ${q.source}` : '', t ? `Tip: ${t.tip}` : ''].filter(Boolean).join('\n');
+}

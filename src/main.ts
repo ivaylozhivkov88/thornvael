@@ -40,7 +40,7 @@ import {
   type ZoneExitDef,
 } from './sim/script';
 import { loadGameData } from './loaddata';
-import { loadMissionContent, loadItemFlavor } from './missioncontent';
+import { loadMissionContent, loadItemFlavor, loadFlavorLists, defeatFlavor } from './missioncontent';
 import { DebugPanel } from './debugpanel';
 import { SPELLS, Tk } from './sim/spelldata';
 import { validTarget } from './sim/spells';
@@ -2015,6 +2015,7 @@ $('btn-hero').onclick = () => heroUi.toggle();
 initGothicHud();
 const heroPresent = combatMode && !battle && sim.cb.kind[0] === Kind.Hero;
 await loadItemFlavor();
+await loadFlavorLists();
 const missionContent = loadedMission ? await loadMissionContent(missionName) : null;
 const missionUi = loadedMission
   ? new MissionUi(loadedMission.doc, {
@@ -2874,7 +2875,7 @@ function showVictoryScreen(winText?: string): void {
   aftermathBox.className = 'victory-aftermath-box';
   aftermathBox.innerHTML = `
     <div class="aftermath-label">✦ NARRATIVE AFTERMATH ✦</div>
-    <p class="aftermath-text">${narrative}</p>
+    <p class="aftermath-text" style="white-space:pre-line">${narrative}</p>
   `;
 
   const gold = sim.cb.gold[0];
@@ -3033,7 +3034,7 @@ function showDefeatScreen(defeatText?: string): void {
   aftermathBox.className = 'victory-aftermath-box defeat-aftermath';
   aftermathBox.innerHTML = `
     <div class="aftermath-label">✦ CASUALTY REPORT ✦</div>
-    <p class="aftermath-text">${defeatText ?? 'Your hero has fallen in the treacherous waters of the ford. Without command, the company scatters before the gnoll onslaught.'}</p>
+    <p class="aftermath-text" style="white-space:pre-line">${defeatText ?? 'Your hero has fallen in the treacherous waters of the ford. Without command, the company scatters before the gnoll onslaught.'}</p>
   `;
 
   const [up, size] = army();
@@ -3089,7 +3090,8 @@ function finish(kind: 'win' | 'lose', text?: string): void {
   if (kind === 'win') {
     showVictoryScreen(text);
   } else {
-    showDefeatScreen(text);
+    const fx = defeatFlavor();
+    showDefeatScreen(fx ? [text, fx].filter(Boolean).join('\n\n') : text);
   }
 }
 
