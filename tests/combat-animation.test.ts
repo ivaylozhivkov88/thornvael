@@ -128,7 +128,7 @@ describe('CombatAnimation actual Sim', () => {
   it('tracks net damage, prioritizes death, clamps until corpse expiry and clears on revival', () => {
     const s = arena([Kind.Warrior, Kind.Golem]);
     s.place(1, 5.7, 5);
-    s.cb.mod[M.Acc] = 100;
+    s.cb.mod[M.Acc] = 5000;
     const a = new CombatAnimation(s);
     step(s, a, [attack()]);
     expect(pose(a, s, 1)).toMatchObject({ clip: 'hurt', age: 0, frame: 0 });

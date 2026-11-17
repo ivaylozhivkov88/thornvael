@@ -159,7 +159,7 @@ describe('Monster 25-family x 5-tier catalog (P12)', () => {
     expect(sim.cb.mod[1 * MODN + M.Abs]).toBe(3);
 
     // Lethal strike guarantees item bag drop + boss bonus gold (2 mods -> +30 bonus gold)
-    strike(sim, 1, 999, 999, 0, 99, 0);
+    strike(sim, 1, 999, 999, 0, 9999, 0);
     expect(sim.cb.hp[1]).toBe(0);
     expect(sim.cb.bI[0]).toBeGreaterThan(0);
     expect(sim.cb.sG[0]).toBeGreaterThanOrEqual(4 + 20 + 30);

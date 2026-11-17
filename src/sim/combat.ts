@@ -1,3 +1,4 @@
+import { calculateD2HitChance } from './mechanics';
 import { FP, dir16 } from './path';
 import type { Sim } from './sim';
 import { monsterFamilyById, monsterPaletteByTier } from './data';
@@ -472,6 +473,15 @@ export function toGuard(sim: Sim, i: number): void {
 
 // ---- damage ----
 
+const AR_SCALE = 10;
+/** Level used by the hit formula: the hero's own level, foes by tier above the hero's level. */
+function unitLevel(sim: Sim, i: number): number {
+  const hl = sim.hero?.level ?? 1;
+  if (i < 0) return hl;
+  if (sim.hero !== null && i === sim.hero.id) return hl;
+  return hl + (sim.team[i] === 0 ? 0 : sim.cb.tier[i]);
+}
+
 /** Defence of unit i on body part k: dodge plus the armour on that part. */
 export function partDef(sim: Sim, i: number, k: number): number {
   const mo = i * MODN;
@@ -517,7 +527,11 @@ export function strike(sim: Sim, t: number, min: number, max: number, elem: numb
   let raw = dmg;
   if (elem === Elem.Physical) {
     part = partOf(sim.rng.int(100));
-    chance = Math.max(15, Math.min(95, 70 + (acc - partDef(sim, t, part)) * 3));
+    const dfn = partDef(sim, t, part);
+    // Reference-checked formula on an AR/Def scale (stat points x AR_SCALE); equal stats and levels give about 70%, as before.
+    const aLvl = unitLevel(sim, src);
+    const dLvl = unitLevel(sim, t);
+    chance = Math.max(15, Math.min(95, Math.floor(calculateD2HitChance(acc * AR_SCALE + 40, dfn * AR_SCALE, aLvl, dLvl) * 1.4)));
     roll = sim.rng.int(100);
     if (roll >= chance) {
       if (cb.log) logHit(sim, src, t, elem, part, chance, roll, raw, 0, -1);
