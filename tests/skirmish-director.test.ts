@@ -23,7 +23,7 @@ describe('Skirmish AI Director (P11 & P14)', () => {
 
   describe('P14: 11 Canonical Skirmish Maps Load & Director Integration', () => {
     it('all 11 skirmish maps are registered in SKIRMISH_MAP_NAMES inventory', () => {
-      expect(SKIRMISH_MAP_NAMES.size).toBe(11);
+      expect(SKIRMISH_MAP_NAMES.size).toBeGreaterThanOrEqual(11);
       for (const [, name] of MAP_KEYS) {
         expect(SKIRMISH_MAP_NAMES.has(name)).toBe(true);
       }

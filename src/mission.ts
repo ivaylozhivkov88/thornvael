@@ -67,6 +67,19 @@ import gullet from './missions/gullet-of-dunes.map.json';
 import drowned from './missions/drowned-choir.map.json';
 import cinder from './missions/cinder-throne.map.json';
 
+import sk_skirmish_twin_fords from './missions/skirmish-twin-fords.map.json';
+import sk_skirmish_ash_hourglass from './missions/skirmish-ash-hourglass.map.json';
+import sk_skirmish_sunken_causeway from './missions/skirmish-sunken-causeway.map.json';
+import sk_skirmish_fen_attrition from './missions/skirmish-fen-attrition.map.json';
+import sk_skirmish_quarry_passes from './missions/skirmish-quarry-passes.map.json';
+import sk_skirmish_lantern_labyrinth from './missions/skirmish-lantern-labyrinth.map.json';
+import sk_skirmish_night_bastion from './missions/skirmish-night-bastion.map.json';
+import sk_skirmish_four_corners from './missions/skirmish-four-corners.map.json';
+import sk_skirmish_wardstone_ring from './missions/skirmish-wardstone-ring.map.json';
+import sk_skirmish_riverlock_cross from './missions/skirmish-riverlock-cross.map.json';
+import sk_skirmish_citadel_crown from './missions/skirmish-citadel-crown.map.json';
+import sk_skirmish_grand_estuary from './missions/skirmish-grand-estuary.map.json';
+
 /** Missions that ship with the game, by the name used in `?mission=`. */
 export const BUILT_IN: Record<string, unknown> = {
   ford: blood,
@@ -93,6 +106,18 @@ export const BUILT_IN: Record<string, unknown> = {
   'gullet-of-dunes': gullet,
   'drowned-choir': drowned,
   'cinder-throne': cinder,
+  'skirmish-twin-fords': sk_skirmish_twin_fords,
+  'skirmish-ash-hourglass': sk_skirmish_ash_hourglass,
+  'skirmish-sunken-causeway': sk_skirmish_sunken_causeway,
+  'skirmish-fen-attrition': sk_skirmish_fen_attrition,
+  'skirmish-quarry-passes': sk_skirmish_quarry_passes,
+  'skirmish-lantern-labyrinth': sk_skirmish_lantern_labyrinth,
+  'skirmish-night-bastion': sk_skirmish_night_bastion,
+  'skirmish-four-corners': sk_skirmish_four_corners,
+  'skirmish-wardstone-ring': sk_skirmish_wardstone_ring,
+  'skirmish-riverlock-cross': sk_skirmish_riverlock_cross,
+  'skirmish-citadel-crown': sk_skirmish_citadel_crown,
+  'skirmish-grand-estuary': sk_skirmish_grand_estuary,
   ossuary,
   gullet,
   drowned,
@@ -113,6 +138,18 @@ export const SKIRMISH_MAP_NAMES = new Set([
   'Muddlefen',
   'Shallow Ford',
   'Ashen Tier',
+  'Twin Fords of Alder',
+  'The Cinder Hourglass',
+  'Sunken Causeway',
+  'Blackmire Basin',
+  'Split-Stone Passes',
+  'Lantern Hedge Maze',
+  'Vigil of Ironcamp',
+  'Four-Corner Keep',
+  'Wardstone Atoll',
+  'Riverlock Crossroads',
+  'Throne of Cinders',
+  'Grand Iron Estuary',
 ]);
 
 export interface MissionGame {
