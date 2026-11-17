@@ -1,0 +1,30 @@
+[
+ {
+  "id": "easy",
+  "name": "Wayfarer",
+  "desc": "Forgiving combat and generous loot for players focused on story and exploration.",
+  "flavor": "Even Thornwick's mud seems inclined to let your boots pull free.",
+  "warning": "Enemies strike softer and miss more often; tactical errors rarely prove fatal."
+ },
+ {
+  "id": "normal",
+  "name": "Sellsword",
+  "desc": "Balanced steel and sorcery—the intended march across Thornvael.",
+  "flavor": "Honest pay for honest scars, provided you keep your shields in front.",
+  "warning": "Careless positioning will cost mercenaries; smart use of pause and formations prevails."
+ },
+ {
+  "id": "hard",
+  "name": "Ironbound",
+  "desc": "Deadlier foes, tighter gold, and merciless ambushes across every province.",
+  "flavor": "Every bridge is watched, every potion counts, and nobody forgives a flanking slip.",
+  "warning": "Enemies use sharper tactics and hit harder. Expect to reload if you march blind."
+ },
+ {
+  "id": "nightmare",
+  "name": "Ashen Oath",
+  "desc": "Brutal lethality where single mistakes wipe entire companies in seconds.",
+  "flavor": "The Ember Court already has your grave dug; prove them premature.",
+  "warning": "Designed for veterans who pause every heartbeat and optimize every copper coin."
+ }
+]

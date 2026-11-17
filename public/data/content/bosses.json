@@ -1,0 +1,442 @@
+{
+ "morvessa": {
+  "id": "morvessa",
+  "title": "High Quartermaster of the Salt Tithe",
+  "mission": "m11-ashbrook-retreat",
+  "pre_fight": [
+   {
+    "speaker": "narrator",
+    "line": "Ashbrook's southern gatehouse groans under siege rams as black-cloaked standard-bearers part before the breach."
+   },
+   {
+    "speaker": "morvessa",
+    "line": "Vaelen bled his levies on your oak doors. I came with ledgers, not battering rams, to collect what Thornwick owes."
+   },
+   {
+    "speaker": "npc-garrick-captain",
+    "line": "You starved three border parishes before a single arrow flew, Morvessa. Call it taxation if it helps you sleep."
+   },
+   {
+    "speaker": "morvessa",
+    "line": "Your crown taxed our iron mines dry to gild Thornwick's granaries. A border fence does not cancel a debt."
+   },
+   {
+    "speaker": "hero",
+    "line": "Debts paid in refugees still smell like arson. Step aside from the road."
+   },
+   {
+    "speaker": "morvessa",
+    "line": "Then watch how neatly an accountant balances a deficit—one severed banner at a time."
+   }
+  ],
+  "phases": [
+   {
+    "hp_pct": 100,
+    "line": "Every bolt your archers loose was forged from stolen ore. Let us audit the interest.",
+    "taunt_barks": [
+     "Hold the cordon—none pass south!",
+     "Your militia fights on empty bellies.",
+     "Step forward and sign the writ in blood."
+    ]
+   },
+   {
+    "hp_pct": 66,
+    "line": "So the border dogs still have teeth. Very well—bring forward the cinder-censer.",
+    "taunt_barks": [
+     "Breathe the ash of your own granaries!",
+     "Line formations! Do not give an inch!",
+     "Garrick's banners are already tinder."
+    ]
+   },
+   {
+    "hp_pct": 33,
+    "line": "You call this victory? You are only buying these people a slower death in Redmarsh.",
+    "taunt_barks": [
+     "My levies will drown you in numbers!",
+     "Bleed for a crown that forgot your names!",
+     "No retreat—seal the valley mouth!"
+    ]
+   },
+   {
+    "hp_pct": 10,
+    "line": "Strike, then. When winter hits the Ford, remember who kept the granaries full.",
+    "taunt_barks": [
+     "I will not die in the mud of Ashbrook!",
+     "One last seal—burn them all!",
+     "The ledger stays open!"
+    ]
+   }
+  ],
+  "special_callouts": [
+   {
+    "name": "Ashen Writ",
+    "telegraph_line": "By seal and tallow, your ground is forfeit!",
+    "hit_line": "Marked for collection—feel the ember bite!"
+   },
+   {
+    "name": "Cordon of Pikes",
+    "telegraph_line": "Close ranks! Pin them to the gatehouse stone!",
+    "hit_line": "Nowhere left to step, mercenary!"
+   },
+   {
+    "name": "Salt-Tax Hex",
+    "telegraph_line": "Let thirst dry the marrow in your bones!",
+    "hit_line": "Even your blood belongs to the Crown's creditors!"
+   }
+  ],
+  "death_scene": [
+   {
+    "speaker": "morvessa",
+    "line": "Look south... past the smoke... Redmarsh is already dry. You saved them for the buzzards..."
+   },
+   {
+    "speaker": "npc-garrick-captain",
+    "line": "Better buzzards under an open sky than chains in your salt pits, Morvessa."
+   },
+   {
+    "speaker": "field-ashbrook-watchman",
+    "line": "The siege line is breaking! Vaelen's remnants are scattering up the ridge!"
+   },
+   {
+    "speaker": "hero",
+    "line": "Get the wounded onto the wagons before they rally. The road won't stay open long."
+   },
+   {
+    "speaker": "narrator",
+    "line": "Her brass abacus clatters into the ash, its beads spilled like cold iron teeth across the muddy road."
+   }
+  ],
+  "hero_reaction": "She had numbers for every sack of grain and none for the graves behind her.",
+  "loot_flavor": "A heavy brass seal ring warm with residual hex-fire, stamped with the crest of the Border Mint."
+ },
+ "gorrathul": {
+  "id": "gorrathul",
+  "title": "Warden of the Forked Cisterns",
+  "mission": "m23-fork-of-spears",
+  "pre_fight": [
+   {
+    "speaker": "narrator",
+    "line": "Above the twin causeways, iron sluice-gates hiss steam over the parched basin of Ironheart Bastion."
+   },
+   {
+    "speaker": "gorrathul",
+    "line": "Two causeways, two thousand corpses, and still you climb toward my cisterns with dry canteens."
+   },
+   {
+    "speaker": "npc-tull-water-seller",
+    "line": "You dammed the aquifer at the mountain's throat, Gorrathul! Three settlements turned to dust!"
+   },
+   {
+    "speaker": "gorrathul",
+    "line": "Rationed water kept ten thousand alive through the drought. Open the sluices to your mob and everyone dies by autumn."
+   },
+   {
+    "speaker": "hero",
+    "line": "Hoarding water behind catapults isn't stewardship. Open the gates."
+   },
+   {
+    "speaker": "gorrathul",
+    "line": "If you want the keys to the mountain, pry them from my gauntlets."
+   }
+  ],
+  "phases": [
+   {
+    "hp_pct": 100,
+    "line": "The stone of Ironheart has broken finer armies than yours on those narrow causeways.",
+    "taunt_barks": [
+     "Test your steel against mountain basalt!",
+     "Your thirst makes you sloppy!",
+     "Hold the parapet—spill nothing!"
+    ]
+   },
+   {
+    "hp_pct": 66,
+    "line": "You breached the outer redoubts. Good. Now bleed where the air is thin.",
+    "taunt_barks": [
+     "Sound the iron bells—crush their flank!",
+     "Every step upward costs you a squad!",
+     "Neither marsh nor cliff will save you!"
+    ]
+   },
+   {
+    "hp_pct": 33,
+    "line": "Fools! Below this bastion lies a dry sea! You are tearing down the only dam left!",
+    "taunt_barks": [
+     "Feel the weight of the forked peak!",
+     "My oath is older than your kingdom!",
+     "Break upon my shield!"
+    ]
+   },
+   {
+    "hp_pct": 10,
+    "line": "Still standing... fine. Take the mountain, and choke on its dust.",
+    "taunt_barks": [
+     "Ironheart does not yield!",
+     "To the last breath, to the last stone!",
+     "Come and finish it!"
+    ]
+   }
+  ],
+  "special_callouts": [
+   {
+    "name": "Basalt Cleave",
+    "telegraph_line": "Brace your shields—the mountain falls!",
+    "hit_line": "Shattered like dry clay!"
+   },
+   {
+    "name": "Scalding Vent",
+    "telegraph_line": "Open the boiler valves! Cook them in their plate!",
+    "hit_line": "Steam strips flesh faster than steel!"
+   },
+   {
+    "name": "Garrison Volley",
+    "telegraph_line": "Redoubt crews—range the inner courtyard and fire!",
+    "hit_line": "Pinned under iron hail!"
+   }
+  ],
+  "death_scene": [
+   {
+    "speaker": "gorrathul",
+    "line": "The lower valves... rusted shut years ago... there was never enough for the valley..."
+   },
+   {
+    "speaker": "npc-bram-quartermaster",
+    "line": "Gods above—half these cisterns are empty silt. He was guarding a dry well."
+   },
+   {
+    "speaker": "gorrathul",
+    "line": "Fear kept the raiders off the coast road... better they feared my walls than saw the truth..."
+   },
+   {
+    "speaker": "hero",
+    "line": "Raise the banner on the high parapet. Let the column know the pass is clear."
+   },
+   {
+    "speaker": "narrator",
+    "line": "Wind howls through the forked battlements, carrying salt air up from the Iron Coast below."
+   }
+  ],
+  "hero_reaction": "He starved a province to protect an empty tank. Men will die for a convincing lie.",
+  "loot_flavor": "A notched tower-shield core forged from meteoric slag, pitted by forty years of siege-stone."
+ },
+ "vesperion": {
+  "id": "vesperion",
+  "title": "Lord Admiral of the Black Blockade",
+  "mission": "m35-burning-harbor",
+  "pre_fight": [
+   {
+    "speaker": "narrator",
+    "line": "Burning pitch hisses into black tidewater as the flagship's main deck tilts beneath torn rigging."
+   },
+   {
+    "speaker": "vesperion",
+    "line": "Admiral Kael bought you time with his life, land-rat, yet you still board a sinking hull."
+   },
+   {
+    "speaker": "npc-kors-shipwright",
+    "line": "You torched Oakhaven's drydocks and sank fishing sloops! There's no honor in harbor arson!"
+   },
+   {
+    "speaker": "vesperion",
+    "line": "Every keel in Harborwatch was built to ferry troops to the Ember Core. I burned ships to save a continent."
+   },
+   {
+    "speaker": "hero",
+    "line": "You burned civilians on wooden piers. The sea doesn't care about your strategy."
+   },
+   {
+    "speaker": "vesperion",
+    "line": "Then let the tide judge between us before the magazine catches."
+   }
+  ],
+  "phases": [
+   {
+    "hp_pct": 100,
+    "line": "Mind the slick planks—blood and whale oil turn a good swordsman into ballast.",
+    "taunt_barks": [
+     "Marines! Sweep them into the scuppers!",
+     "You fight like men who miss dry dirt!",
+     "The tide is against you!"
+    ]
+   },
+   {
+    "hp_pct": 66,
+    "line": "Stubborn bastards. Bring the pitch-pots topside—light the forecastle!",
+    "taunt_barks": [
+     "Let the harbor choke on black smoke!",
+     "Your sea-wall guns are too late!",
+     "Dance on burning oak!"
+    ]
+   },
+   {
+    "hp_pct": 33,
+    "line": "You think sailing into the volcanic straits is victory? You are rowing into a furnace!",
+    "taunt_barks": [
+     "Cut the halyards—drop the spars on them!",
+     "No quarter on my quarterdeck!",
+     "Down with the ship, if we must!"
+    ]
+   },
+   {
+    "hp_pct": 10,
+    "line": "The hull is split... take the helm, then, and steer straight into hell.",
+    "taunt_barks": [
+     "One last broadside!",
+     "Still standing? Come take my saber!",
+     "The deep takes all flags!"
+    ]
+   }
+  ],
+  "special_callouts": [
+   {
+    "name": "Grapeshot Sweeper",
+    "telegraph_line": "Swivel guns—clear the main deck!",
+    "hit_line": "Torn to splinters!"
+   },
+   {
+    "name": "Pitch Lantern",
+    "telegraph_line": "Heave the oil casks! Set the bilge alight!",
+    "hit_line": "Burn in the brine!"
+   },
+   {
+    "name": "Riptide Lunge",
+    "telegraph_line": "Watch the roll of the swell—now!",
+    "hit_line": "Steel meets ribs!"
+   }
+  ],
+  "death_scene": [
+   {
+    "speaker": "vesperion",
+    "line": "Look east... the ash clouds already touch the horizon... I tried to sink the ferryman..."
+   },
+   {
+    "speaker": "npc-lyra-warden",
+    "line": "The harbor batteries are ours! Cut the mooring lines before her powder blows!"
+   },
+   {
+    "speaker": "hero",
+    "line": "Over the rail—now. Leave the admiralty to the crabs."
+   },
+   {
+    "speaker": "npc-kors-shipwright",
+    "line": "Half the fleet is charred timber, captain, but we have hulls enough for the crossing."
+   },
+   {
+    "speaker": "narrator",
+    "line": "The flagship settles beneath boiling foam, trailing a slick of gold braid and burning tar."
+   }
+  ],
+  "hero_reaction": "He burned a harbor to stop an invasion, and only gave us fewer lifeboats for the trip.",
+  "loot_flavor": "A salt-corroded astrolabe whose brass rings still turn smoothly toward the volcanic southern straits."
+ },
+ "ashkarath": {
+  "id": "ashkarath",
+  "title": "First Warden of the Anchor Seals",
+  "mission": "m46-ember-reckoning",
+  "pre_fight": [
+   {
+    "speaker": "narrator",
+    "line": "Shattered conduit pillars weep liquid gold across the Obsidian Dais as the last Anchor Seal fractures."
+   },
+   {
+    "speaker": "ashkarath",
+    "line": "Four provinces burned to bring you to my steps, and now you smash the very chains holding the cinders down."
+   },
+   {
+    "speaker": "npc-elias-penitent",
+    "line": "The Anchor Seals starved the realm of warmth and grace, Ashkarath! Every harvest failed under your ash!"
+   },
+   {
+    "speaker": "ashkarath",
+    "line": "A cold hearth is still a house. Unbind the primordial fire and you do not rule the world—you become its fuel."
+   },
+   {
+    "speaker": "hero",
+    "line": "Better to burn hot and brief than rot forever in your cellar."
+   },
+   {
+    "speaker": "ashkarath",
+    "line": "Then step onto the Obsidian Dais, usurper, and prove your flesh can hold a sun."
+   }
+  ],
+  "phases": [
+   {
+    "hp_pct": 100,
+    "line": "Two conduit pillars lie in ruin, yet enough ember remains in my armor to unmake you.",
+    "taunt_barks": [
+     "Kneel before the old covenant!",
+     "Your ambition outstrips your mortal frame!",
+     "Feel the weight of the Obsidian Throne!"
+    ]
+   },
+   {
+    "hp_pct": 66,
+    "line": "You drink the unbound flame like wine—tell me, does it taste like ashes yet?",
+    "taunt_barks": [
+     "Every spark you steal hollows your soul!",
+     "The Wardens held this line for ten reigns!",
+     "Your allies already fear what you are becoming!"
+    ]
+   },
+   {
+    "hp_pct": 33,
+    "line": "Look at your hands! Even if you strike me down, you can never leave this throne!",
+    "taunt_barks": [
+     "I will seal the breach with your corpse!",
+     "Burn, mortal—burn until nothing remains!",
+     "The crown of ember is a branding iron!"
+    ]
+   },
+   {
+    "hp_pct": 10,
+    "line": "The seals are gone... the fire has chosen its new host... gods pity Thornvael...",
+    "taunt_barks": [
+     "One final stroke for the quiet dark!",
+     "Hold fast against the furnace!",
+     "So ends the watch!"
+    ]
+   }
+  ],
+  "special_callouts": [
+   {
+    "name": "Cinder Edict",
+    "telegraph_line": "By the broken pillars—let the dais erupt!",
+    "hit_line": "Charred to the marrow!"
+   },
+   {
+    "name": "Warden's Brand",
+    "telegraph_line": "Bear the mark of the Anchor Seal!",
+    "hit_line": "Your own fire turns inward!"
+   },
+   {
+    "name": "Obsidian Judgment",
+    "telegraph_line": "Rise, slag and sulfur—bury the usurper!",
+    "hit_line": "Crushed beneath molten stone!"
+   }
+  ],
+  "death_scene": [
+   {
+    "speaker": "ashkarath",
+    "line": "Sit, then... feel how heavy the quiet becomes when nothing left dares to burn..."
+   },
+   {
+    "speaker": "npc-rowan-commander",
+    "line": "The volcanic vents are cooling—no, they're bending toward the throne. What have you done?"
+   },
+   {
+    "speaker": "npc-elias-penitent",
+    "line": "The old penitence is ended. A new lord wears the ember now."
+   },
+   {
+    "speaker": "hero",
+    "line": "Tell the banners to stand down. The war is over; the reckoning begins."
+   },
+   {
+    "speaker": "narrator",
+    "line": "Ashkarath's empty armor collapses into gray dust as living ember coils silently around the Obsidian Throne."
+   }
+  ],
+  "hero_reaction": "He spent centuries guarding a furnace he was too afraid to light. Now the matches are mine.",
+  "loot_flavor": "A crown-band of blackened meteoric iron, pulsing with a slow, steady heat like a sleeping heart."
+ }
+}

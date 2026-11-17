@@ -1,0 +1,482 @@
+[
+ {
+  "id": "sq01-tollhouse-audit",
+  "act": 1,
+  "town": "town-thornwick",
+  "giver": "npc-garrick-captain",
+  "title": "The Tollhouse Strongbox",
+  "briefing": "Before the gnolls fired the river crossing, Collector Vance locked three months of border tariffs inside a weighted iron strongbox and kicked it into the reeds. Sergeant Garrick needs that silver to pay the militia's back-wages before they desert. Clear the Briar Hound packs scavenging the shallows and drag the box out of the mud.",
+  "objective": {
+   "type": "kill",
+   "target": "briar-hound",
+   "count": 12
+  },
+  "reward": {
+   "gold": 250,
+   "xp": 300,
+   "item": "uniq-tollkeeper-bill"
+  },
+  "twist": "Choice A: Hand the sealed strongbox to Garrick (+1 militia morale, unlocks cheaper mercs in Thornwick). Choice B: Pry the lock open with Old Fenwick and split the silver (+300 extra gold now, but Garrick's militia starts 'Alder Bridge' with 20% less HP).",
+  "unlocks_after": "m01-blood-at-the-ford"
+ },
+ {
+  "id": "sq02-bile-of-the-fen",
+  "act": 1,
+  "town": "town-thornwick",
+  "giver": "npc-marta-alchemist",
+  "title": "Bile of the Fen",
+  "briefing": "Widow Marta's supply of marsh-antidote has run dry, and a dozen scouts from Bren's column are swelling up from poisoned iron arrowheads. She needs fresh gas-bladders harvested from Mire Wisps before their internal fire goes cold. Wade into the willow sinks and bring back intact specimens.",
+  "objective": {
+   "type": "collect",
+   "target": "mire-wisp",
+   "count": 6
+  },
+  "reward": {
+   "gold": 180,
+   "xp": 350,
+   "item": "uniq-bren-dry-boot"
+  },
+  "twist": "Choice A: Give all 6 bladders to Marta to save the scouts (Marta reduces potion prices by 20% permanently). Choice B: Sell the volatile bladders to the garrison sappers for fire-pots (+250 gold and +1 Fireball scroll, but 3 scouts die and Bren refuses to speak to you).",
+  "unlocks_after": "m02-whispers-in-the-fen"
+ },
+ {
+  "id": "sq03-broken-picket",
+  "act": 1,
+  "town": "town-thornwick",
+  "giver": "npc-garrick-captain",
+  "title": "The Broken Picket",
+  "briefing": "Four border watchmen abandoned the outer watchtower during the Ravenwatch siege, leaving their comrades to be butchered by Quill Fiends. They are currently hiding in a hunter's blind near the pine line, guarded by feral packs. Hunt down the Quill Fiends around the blind and deal with the deserters according to martial law.",
+  "objective": {
+   "type": "kill",
+   "target": "quill-fiend",
+   "count": 10
+  },
+  "reward": {
+   "gold": 220,
+   "xp": 420,
+   "item": null
+  },
+  "twist": "Choice A: Execute the deserters on the spot as Garrick ordered (grants +2 Body elixir, reveals Garrick's nephew secret). Choice B: Conscript them into your vanguard for the Sunken Sanctum (you gain 2 free disposable spearman mercs for the next mission, but Garrick withholds the gold reward).",
+  "unlocks_after": "m03-nightfall-at-ravenwatch"
+ },
+ {
+  "id": "sq04-night-cargo",
+  "act": 1,
+  "town": "town-thornwick",
+  "giver": "npc-fenwick-ferryman",
+  "title": "Night Cargo",
+  "briefing": "A flat-bottomed sulfur barge grounded on the gravel shoals north of the ford three nights ago. Cinder Shamans have already set up fire-chanting braziers on the deck, drying the casks to cook river-salt into blasting powder. Clear the ritualists off the hull before the whole bend goes up in orange smoke.",
+  "objective": {
+   "type": "kill",
+   "target": "fallen-shaman",
+   "count": 4
+  },
+  "reward": {
+   "gold": 120,
+   "xp": 210,
+   "item": "uniq-mordred-tallow-wand"
+  },
+  "twist": "Choice A (Return the salvaged sulfur casks to npc-fenwick-ferryman): Fenwick smuggles them upriver; in Act 3, npc-kors-shipwright in town-oakhaven charges -20% on hull and shield repairs. Choice B (Dump the casks into the river to deny everyone powder): m08-alder-bridge has 3 fewer cinderling spawns, but npc-fenwick-ferryman raises river-crossing fees by +25% and mutters about 'pious drowners of good freight'.",
+  "unlocks_after": "m05-lantern-passage"
+ },
+ {
+  "id": "sq05-the-quartermasters-ledger",
+  "act": 1,
+  "town": "town-thornwick",
+  "giver": "npc-hobb-smith",
+  "title": "The Quartermaster's Ledger",
+  "briefing": "Hobb forged forty iron axle-pins and twelve billhooks on militia credit, and the clerk who carried the tallow-skin ledger bolted into the Greywood when the vanguard split. Without those tallies, the garrison captain refuses to pay a single copper. Pull the oilskin ledger out of the wrecked supply cart before the root-beasts pulp it.",
+  "objective": {
+   "type": "collect",
+   "target": "Oilskin Supply Ledger",
+   "count": 1
+  },
+  "reward": {
+   "gold": 150,
+   "xp": 260,
+   "item": "uniq-corin-dispatch-ring"
+  },
+  "twist": "Choice A (Give the unaltered ledger to npc-hobb-smith): Hobb gets his payout and unlocks tier-2 weapon tempering at -15% cost in town-thornwick, while npc-garrick-captain loses face and gives no bonus rations before m09-ironhide-hunt. Choice B (Sell the ledger to npc-garrick-captain to cover up his requisition embezzlement): You gain +90 extra gold immediately, but in Act 2 npc-bram-quartermaster in town-redmarsh recognizes the forged tallies and increases his shop prices by +15%.",
+  "unlocks_after": "m06-greywood-supply"
+ },
+ {
+  "id": "sq06-glass-in-the-thicket",
+  "act": 1,
+  "town": "town-thornwick",
+  "giver": "npc-marta-alchemist",
+  "title": "Glass in the Thicket",
+  "briefing": "Marta's apprentice went out to tap birch-tar near the oldwatch cairns and came back with three translucent crystal shards wedged in his collarbone. A flock of Glasswings has nested in the dead ash trees above the road, blinding scouts with refracted glare. Bring down the brood-leaders so their wing-slivers can be ground into sight-salve.",
+  "objective": {
+   "type": "kill",
+   "target": "glasswing",
+   "count": 6
+  },
+  "reward": {
+   "gold": 95,
+   "xp": 175,
+   "item": null
+  },
+  "twist": "Choice A (Let npc-marta-alchemist distill the wings into militia eye-drops): Ranged mercenaries gain +5 accuracy during m11-ashbrook-retreat, and Marta greets you as 'the one who kept our eyes open'. Choice B (Grind the crystal dust into trade-poison for yourself): Marta's apprentice loses sight in one eye and she refuses to brew cold-resistance draughts for the rest of Act 1, though your party gains +120 gold from contraband buyers.",
+  "unlocks_after": "m09-ironhide-hunt"
+ },
+ {
+  "id": "sq07-the-canyon-audit",
+  "act": 2,
+  "town": "town-redmarsh",
+  "giver": "npc-bram-quartermaster",
+  "title": "The Canyon Audit",
+  "briefing": "Three mule-trains of salted mutton and cold-iron arrowheads vanished between the Twin Passes and the marsh palisade. Bram suspects the drivers staged an ambush and sold the crates to desert nomads, though the canyon floor is crawling with Pale Burrowers. Escort Bram's bonded tally-clerk to the overturned wagons in the gorge so he can count the branding-irons on the dead mules.",
+  "objective": {
+   "type": "escort",
+   "target": "Bonded Tally-Clerk",
+   "count": 1
+  },
+  "reward": {
+   "gold": 240,
+   "xp": 420,
+   "item": "uniq-bram-axle-shield"
+  },
+  "twist": "Choice A (Report the drivers' desertion honestly to npc-bram-quartermaster): Bram hangs the surviving driver's brother; his shop stock expands with heavy bolts at -10% price, but in m20-deep-quarry 2 extra sand-raider mercs join the enemy side for revenge. Choice B (Falsify the audit and blame the burrowers): The driver's kin slips you 180 gold in hush-money, but npc-bram-quartermaster runs short on iron and removes all shield items from his store.",
+  "unlocks_after": "m13-twin-passes"
+ },
+ {
+  "id": "sq08-rubbings-in-blood",
+  "act": 2,
+  "town": "town-redmarsh",
+  "giver": "npc-zahra-scholar",
+  "title": "Rubbings in Blood",
+  "briefing": "When the wardstone ruptured, the peat bog drained enough to expose three pre-dynastic boundary steles carved with marsh-binding glyphs. Zahra needs charcoal-and-tallow rubbings of the inscriptions before the rising mire-water and Spore Matrons dissolve the limestone. Reach the three sunken steles in the outer fen and hold the ground long enough to press the parchment.",
+  "objective": {
+   "type": "reach",
+   "target": "Sunken Boundary Steles",
+   "count": 3
+  },
+  "reward": {
+   "gold": 280,
+   "xp": 490,
+   "item": "uniq-wardstone-shard-focus"
+  },
+  "twist": "Choice A (Give all three rubbings to npc-zahra-scholar): She deciphers the marsh hexes, reducing enemy witch-doctor curse duration in m19-hexer-capture, and in Act 4 npc-elias-penitent in town-ironcamp recognizes her annotations and shares his secret dialogue early. Choice B (Burn the third stele's rubbing as demanded by a cornered witch-doctor in exchange for his fetish-cache): You receive +250 gold, but m19-hexer-capture spawns 1 additional spore-matron and Zahra calls you an illiterate grave-robber.",
+  "unlocks_after": "m16-wardstone-rupture"
+ },
+ {
+  "id": "sq09-the-bitter-well",
+  "act": 2,
+  "town": "town-redmarsh",
+  "giver": "npc-tull-water-seller",
+  "title": "The Bitter Well",
+  "briefing": "Tull's stone cistern at the edge of the landing has turned thick and green, smelling of copper and boiled maggots. A pair of Lantern Eels burrowed up through the broken limestone filter-grate and are laying shock-eggs in the town's only sweet-water reserve. Kill the eels in the cistern vaults before Tull is forced to sell boiled bog-water at famine prices.",
+  "objective": {
+   "type": "kill",
+   "target": "lantern-eel",
+   "count": 5
+  },
+  "reward": {
+   "gold": 210,
+   "xp": 380,
+   "item": "uniq-alkali-canteen-amulet"
+  },
+  "twist": "Choice A (Clean the cistern grate and flush the eggs): npc-tull-water-seller lowers potion and flask prices in town-redmarsh by -20%, and in Act 3 npc-sera-healer in town-oakhaven receives clean water barrels, granting your party +15 max HP during m27-field-infirmary. Choice B (Harvest the intact shock-eggs for alchemical sale): Tull's water remains brackish, his prices rise by +20%, and 2 extra maggot-swarm packs appear in m21-lean-garrison, though you pocket +300 gold from lightning-salts.",
+  "unlocks_after": "m17-mire-convoy"
+ },
+ {
+  "id": "sq10-granary-smokers",
+  "act": 2,
+  "town": "town-redmarsh",
+  "giver": "npc-bram-quartermaster",
+  "title": "Granary Smokers",
+  "briefing": "After the granary raid, half the barley silos are infested with Ruin Mites chewing through the foundation mortar. Bram's laborers set up peat-smoke braziers to suffocate the swarm in the lower vaults, but the smell of roasting chitin draws bog predators out of the reeds. Defend the four smoking braziers at the silo doors until the vaults are purged.",
+  "objective": {
+   "type": "defend",
+   "target": "m18-granary-raid",
+   "count": 4
+  },
+  "reward": {
+   "gold": 310,
+   "xp": 540,
+   "item": null
+  },
+  "twist": "Choice A (Vent the silos early to save the trapped convict laborers coughing inside): Two laborers survive and join the garrison, removing 2 dune-lurker ambushes in m21-lean-garrison, but 30% of the grain spoils and Bram deducts 80 gold from your pay. Choice B (Keep the heavy iron doors barred until every mite is dead): You get the full 310 gold plus a 90 gold bonus, but npc-bram-quartermaster's dialogue turns grim as the town eats smoked grain that smells of dead prisoners.",
+  "unlocks_after": "m18-granary-raid"
+ },
+ {
+  "id": "sq11-canopic-tar",
+  "act": 2,
+  "town": "town-redmarsh",
+  "giver": "npc-zahra-scholar",
+  "title": "Canopic Tar",
+  "briefing": "Deep quarry blasting broke into an older salt-brick burial gallery where Crypt Embalmers still tend rows of bitumen-sealed jars. Zahra wants four jars of unspoiled funerary pitch to seal her parchment crates against the marsh rot. Slay the embalmers guarding the lower gallery before they wake the rest of the alcoves.",
+  "objective": {
+   "type": "kill",
+   "target": "greater-mummy",
+   "count": 3
+  },
+  "reward": {
+   "gold": 360,
+   "xp": 630,
+   "item": "uniq-embalmer-linen-robe"
+  },
+  "twist": "Choice A (Deliver the sealed jars to npc-zahra-scholar): She preserves her treatise and teaches your mage/healer +10 poison_res permanently. Choice B (Crack the jars to loot the gold tongue-plates inside the viscera): You gain +220 gold, but breaking the seals releases necrotic fumes that cause 2 additional greater-mummy enemies to spawn in Act 3's m28-sunken-citadel.",
+  "unlocks_after": "m20-deep-quarry"
+ },
+ {
+  "id": "sq12-empty-waterskins",
+  "act": 2,
+  "town": "town-redmarsh",
+  "giver": "npc-tull-water-seller",
+  "title": "Empty Waterskins",
+  "briefing": "The fleeing column from the south ridges abandoned their brass water-wagons in the dry scrub when the Dune Beasts struck. Tull knows those brass tanks are worth more than the mules that pulled them, and he wants the copper valves stripped before Sand Raiders haul them off. Collect six stamped brass valves from the wrecked wagons along the ridge trail.",
+  "objective": {
+   "type": "collect",
+   "target": "Stamped Brass Valve",
+   "count": 6
+  },
+  "reward": {
+   "gold": 390,
+   "xp": 680,
+   "item": null
+  },
+  "twist": "Choice A (Leave two full water-tanks intact for the stragglers hiding in the rocks): You return with fewer valves (-100 gold), but the surviving scouts mark enemy paths for you, removing 3 claw-viper ambushes in m23-fork-of-spears. Choice B (Drain every tank to strip all six valves quickly): Tull pays the full reward and offers a discount on mana flasks, but the stragglers die of thirst and rise as 3 hollow-knight enemies in m23-fork-of-spears.",
+  "unlocks_after": "m22-fleeing-column"
+ },
+ {
+  "id": "sq13-the-triage-wagon",
+  "act": 3,
+  "town": "town-oakhaven",
+  "giver": "npc-sera-healer",
+  "title": "The Triage Wagon",
+  "briefing": "Sera's heavy ambulance wagon is bogged down in axle-deep shingle half a mile outside the field infirmary, surrounded by Cinderlings drawn to fever-heat of the wounded. Inside are twelve amputees from the sundered ranks and all of Oakhaven's willow-bark laudanum. Defend the wagon until the ox-team can be hitched and dragged behind the palisade.",
+  "objective": {
+   "type": "defend",
+   "target": "m27-field-infirmary",
+   "count": 1
+  },
+  "reward": {
+   "gold": 480,
+   "xp": 840,
+   "item": "uniq-sera-bone-saw"
+  },
+  "twist": "Choice A (Save the wounded soldiers at the cost of jettisoning the laudanum crate): The soldiers survive; in Act 4, npc-rowan-commander in town-ironcamp has 2 extra veteran guards and reduces mercenary hiring costs by -20%, though npc-sera-healer's healing services in Act 3 cost +25% more. Choice B (Abandon the back litter of dying men to save the heavy medicine chest): Sera's shop prices drop by -20% in town-oakhaven, but her greeting turns cold ('We saved the bottles, didn't we?') and 2 hollow-knight enemies appear in m30-starved-bastion.",
+  "unlocks_after": "m27-field-infirmary"
+ },
+ {
+  "id": "sq14-the-mountain-convoy",
+  "act": 3,
+  "town": "town-oakhaven",
+  "giver": "npc-kors-shipwright",
+  "title": "The Mountain Convoy",
+  "briefing": "Kors cannot brace the harbor boom-chains without heartwood beams of mountain ironbark, and the timber sledges from the high pass are three days overdue. Frosthorn Bruisers have rolled boulders across the switchbacks and are using the logging sledges for firewood. Escort the surviving timber-wright and his two ox-sledges down the pass to the shipyard gates.",
+  "objective": {
+   "type": "escort",
+   "target": "Ironbark Timber Sledge",
+   "count": 2
+  },
+  "reward": {
+   "gold": 550,
+   "xp": 960,
+   "item": "uniq-riverlock-sluice-crank"
+  },
+  "twist": "Choice A (Deliver all the ironbark timber to npc-kors-shipwright for the harbor boom): The harbor chains hold in m35-burning-harbor, reducing enemy redglass-drake spawns by 1, and Kors upgrades your shields. Choice B (Divert half the timber to npc-lyra-warden to shore up the town's bell-tower barricades): Lyra pays +200 gold and gives you extra traps in m30-starved-bastion, but Kors refuses to speak to you and m35-burning-harbor has 2 extra ash-weaver enemies boarding from the sea.",
+  "unlocks_after": "m29-hourglass-rescue"
+ },
+ {
+  "id": "sq15-the-bell-tower-picket",
+  "act": 3,
+  "town": "town-oakhaven",
+  "giver": "npc-lyra-warden",
+  "title": "The Bell-Tower Picket",
+  "briefing": "Three floating Frost Bells have drifted down from the highland rifts and anchored themselves in the sea-fog around the old watchtower at the riverlock. Every time the tide turns, their sub-audible tolling cracks the mortar of the floodgates and freezes the sentries' fingers to their crossbows. Shatter all three astral bells before the lock-gates burst.",
+  "objective": {
+   "type": "kill",
+   "target": "frost-bell",
+   "count": 3
+  },
+  "reward": {
+   "gold": 620,
+   "xp": 1080,
+   "item": "uniq-drowned-choir-bell"
+  },
+  "twist": "Choice A (Melt the bronze shards down for npc-lyra-warden's watchmen): Lyra outfits her pickets with cold-forged bolts; in m34-clashing-banners, allied archers assist you at the flank. Choice B (Leave one cracked bell hanging at the riverlock as a resonant ward against flyers): It keeps rift-moth enemies out of m31-riverlock-crossing, but the constant freezing chime drives two of Lyra's sentries mad, increasing town guard bribe/toll costs by +15%.",
+  "unlocks_after": "m31-riverlock-crossing"
+ },
+ {
+  "id": "sq16-low-tide-salvage",
+  "act": 3,
+  "town": "town-oakhaven",
+  "giver": "npc-pip-mudlark",
+  "title": "Low-Tide Salvage",
+  "briefing": "When the neap tide pulls back from the sunken citadel causeway, the mudflats glint with pay-chests dropped during the first evacuation. Pip knows where the paymaster's iron strongboxes sank, but a colony of armored Salt Crabs has crusted over the wrecks like living reefs. Collect five barnacle-welded strongboxes from the flats before the tide and the crabs close in.",
+  "objective": {
+   "type": "collect",
+   "target": "Barnacle-Welded Strongbox",
+   "count": 5
+  },
+  "reward": {
+   "gold": 420,
+   "xp": 750,
+   "item": "uniq-baron-embezzled-signet"
+  },
+  "twist": "Choice A (Split the salvaged military payroll 50/50 with npc-pip-mudlark as promised): Pip opens his black-market curio stash in town-oakhaven at -25% discount and tips you off about a hidden chest in m32-elder-juggernaut. Choice B (Confiscate the strongboxes in the name of the garrison and hand them to npc-lyra-warden): You receive a 300 gold commendation from Lyra, but Pip vanishes from town-oakhaven permanently, locking out his fence shop.",
+  "unlocks_after": "m28-sunken-citadel"
+ },
+ {
+  "id": "sq17-silencing-the-orchard",
+  "act": 3,
+  "town": "town-oakhaven",
+  "giver": "npc-sera-healer",
+  "title": "Silencing the Orchard",
+  "briefing": "Above the starved bastion lies a terraced apple grove that drank too much ash and unburied blood; now its trunks walk as Night Orchards, hanging human skulls from their boughs like winter fruit. The soldiers on the ramparts hear the skulls chattering their dead brothers' names through the fog. Cut down the two eldest orchard-trees so the garrison can sleep.",
+  "objective": {
+   "type": "kill",
+   "target": "night-orchard",
+   "count": 2
+  },
+  "reward": {
+   "gold": 690,
+   "xp": 1200,
+   "item": null
+  },
+  "twist": "Choice A (Burn the skull-fruit in quicklime as npc-sera-healer asks): Garrison morale steadies, giving your party +10 mind in m33-high-stakes-gambit. Choice B (Harvest the glowing skull-lanterns for Act 4 siege illumination): In Act 4, npc-vok-forgemaster in town-ironcamp buys them for +450 gold to light his slag-tunnels, but npc-sera-healer refuses to speak anything but a single disgusted line for the rest of Act 3.",
+  "unlocks_after": "m30-starved-bastion"
+ },
+ {
+  "id": "sq18-pitch-for-the-fire-ships",
+  "act": 3,
+  "town": "town-oakhaven",
+  "giver": "npc-kors-shipwright",
+  "title": "Pitch for the Fire-Ships",
+  "briefing": "To stop the dread-fleet from landing at the harbor mole, Kors is packing three leaky coastal cogs with oil-soaked cordage and sulfur to ram the vanguard. Ash Weavers have already infiltrated the drydocks, spinning flame-threads across the rigging to detonate the hulls prematurely. Reach the three fire-ships moored along the outer jetty and cut the burning webs.",
+  "objective": {
+   "type": "reach",
+   "target": "Moored Fire-Ships",
+   "count": 3
+  },
+  "reward": {
+   "gold": 760,
+   "xp": 1350,
+   "item": null
+  },
+  "twist": "Choice A (Launch the fire-ships early into the narrow channel): They sink the enemy vanguard barge, removing 2 doom-knight enemies from m35-burning-harbor, but the burning oil slick destroys Kors's lower boathouse, raising his repair costs by +20%. Choice B (Hold the fire-ships until the merchant barges clear the mole): The merchants reward you with +350 gold in Act 4 at town-ironcamp, but 1 extra cinderhorn lands on the docks in m35-burning-harbor.",
+  "unlocks_after": "m34-clashing-banners"
+ },
+ {
+  "id": "sq19-iron-on-the-wall",
+  "act": 4,
+  "town": "town-ironcamp",
+  "giver": "npc-rowan-commander",
+  "title": "Iron on the Wall",
+  "briefing": "The outer curtain wall is buckling under the siege-breakers, and a vanguard of Dread Knights has planted black iron banners on the east parapet to guide the hell-mortars. Rowan needs someone to walk the broken battlements and hurl those knights into the ditch before the mortar-crews zero in on the command tent. Slay five Dread Knights holding the eastern wall-walk.",
+  "objective": {
+   "type": "kill",
+   "target": "doom-knight",
+   "count": 5
+  },
+  "reward": {
+   "gold": 850,
+   "xp": 1500,
+   "item": "uniq-rowan-siege-helm"
+  },
+  "twist": "Choice A (Use the captured black iron banners to reinforce the breach-gates): m42-outer-rampart starts with reinforced gates (+30% barricade durability), and npc-rowan-commander grants access to his elite reserve armory. Choice B (stake the Dread Knights' armor along the glacis as a grim warning): It provokes the hell-vanguard; m41-gauntlet-of-iron spawns 2 extra doom-knight champions, but each drops guaranteed high-tier rune-iron (+400 gold value).",
+  "unlocks_after": "m38-besieged-wall"
+ },
+ {
+  "id": "sq20-the-unquenched-jaw",
+  "act": 4,
+  "town": "town-ironcamp",
+  "giver": "npc-vok-forgemaster",
+  "title": "The Unquenched Jaw",
+  "briefing": "Vok's great steam-trip hammer cracked its bedplate, and no terrestrial iron can take the heat of the ember-steel he needs to forge for the final push. Only the living anvil-jaw of an Anvilmaw Smith from the cinder-trenches stays hard at white heat. Hunt down two of the forge-titans beyond the shattered beacons and drag their lower jaws back on chains.",
+  "objective": {
+   "type": "kill",
+   "target": "anvilmaw-smith",
+   "count": 2
+  },
+  "reward": {
+   "gold": 1050,
+   "xp": 1850,
+   "item": "uniq-anvilmaw-slag-maul"
+  },
+  "twist": "Choice A (Bolt the demon jaws directly into Vok's town forge): npc-vok-forgemaster reduces all weapon and armor crafting/upgrade prices by -25% in town-ironcamp, though the cursed soot gives your hero -5 cold_res. Choice B (Quench the jaws in holy salt before mounting them, as npc-elias-penitent begs): The metal loses half its heat-temper (no shop discount from Vok, who calls you a superstitious fool), but npc-elias-penitent blesses your party with +15 fire_res for the rest of Act 4.",
+  "unlocks_after": "m40-twofold-assault"
+ },
+ {
+  "id": "sq21-the-burnt-syllabus",
+  "act": 4,
+  "town": "town-ironcamp",
+  "giver": "npc-elias-penitent",
+  "title": "The Burnt Syllabus",
+  "briefing": "Before Elias took the penitent's chains, he was tutor to the young nobles of the Ember Court—and it was his syllabus of pyromantic theorems that taught the court to open the cinder-gates. Four lead-bound cylinders containing his original lecture notes are still locked in the ruined scriptorium along the gauntlet. Collect the four cylinders so he can burn his life's work in clean fire.",
+  "objective": {
+   "type": "collect",
+   "target": "Lead-Bound Lecture Cylinder",
+   "count": 4
+  },
+  "reward": {
+   "gold": 920,
+   "xp": 1650,
+   "item": "uniq-threshold-scales-ring"
+  },
+  "twist": "Choice A (Let npc-elias-penitent melt the cylinders in the brazier): Elias finds peace, his dialogue changes to quiet resolve, and he permanently grants your party +8 mind and +10 mana_regen. Choice B (Keep the pyromantic theorems and sell them to npc-vok-forgemaster to superheat his blast furnaces): Vok pays +600 gold and adds fire-damage affixes to his shop stock, but Elias hangs himself in his cell before m44-threshold-choice, removing his NPC services from town-ironcamp.",
+  "unlocks_after": "m41-gauntlet-of-iron"
+ },
+ {
+  "id": "sq22-thunder-on-the-glacis",
+  "act": 4,
+  "town": "town-ironcamp",
+  "giver": "npc-rowan-commander",
+  "title": "Thunder on the Glacis",
+  "briefing": "Two ancient Stormtrees have rooted themselves in the mud of the three-roads siege works, acting as living lightning-rods that fry Rowan's catapult crews whenever the ash-clouds rub together. The engineers have rigged copper earthing-spikes, but someone has to defend the sappers while they drive the chains into the roots. Defend the sapper team at the outer rampart.",
+  "objective": {
+   "type": "defend",
+   "target": "m42-outer-rampart",
+   "count": 2
+  },
+  "reward": {
+   "gold": 1150,
+   "xp": 2000,
+   "item": null
+  },
+  "twist": "Choice A (Ground the lightning harmlessly into the bedrock): The catapults survive, bombarding m43-three-roads-siege and removing 2 basalt-brute enemies from the map. Choice B (Channel the Stormtrees' charge into the camp's iron Palisade): Any melee enemy striking the gates in m43-three-roads-siege takes lightning damage, but the surge kills three sappers and npc-rowan-commander deducts 300 gold in blood-compensation.",
+  "unlocks_after": "m42-outer-rampart"
+ },
+ {
+  "id": "sq23-slag-trench-convoy",
+  "act": 4,
+  "town": "town-ironcamp",
+  "giver": "npc-vok-forgemaster",
+  "title": "Slag-Trench Convoy",
+  "briefing": "The forward battery at the three roads has burned through its last barrel of quenched ballista-bolts, and Cinderhorns are prowling the ash-dunes between the camp and the battery. Vok has loaded an iron-plated powder dray drawn by blind quarry-oxen, and no regular teamster will touch the reins. Escort the iron dray across the siege lines to the battery.",
+  "objective": {
+   "type": "escort",
+   "target": "Iron-Plated Powder Dray",
+   "count": 1
+  },
+  "reward": {
+   "gold": 1280,
+   "xp": 2250,
+   "item": null
+  },
+  "twist": "Choice A (Deliver the bolts to the forward battery as ordered): The ballistae pin down aerial threats, removing 2 redglass-drake enemies in m45-crown-of-order. Choice B (Detonate the powder dray inside the Cinderhorn breeding pit along the route): It wipes out all cinderhorn spawns in m44-threshold-choice, but npc-vok-forgemaster is furious over his lost iron dray and increases his repair fees by +30%.",
+  "unlocks_after": "m43-three-roads-siege"
+ },
+ {
+  "id": "sq24-the-choir-in-the-nave",
+  "act": 4,
+  "town": "town-ironcamp",
+  "giver": "npc-elias-penitent",
+  "title": "The Choir in the Nave",
+  "briefing": "In the sunken basilica beneath the threshold, the prelate-abomination Vesperion conducts a choir of hollow pipes carved from the collarbones of the first penitents. Every hymn it exhales drains the warmth from the living and turns camp sentries into sleepwalking husks. Enter the basilica before the final reckoning and silence Vesperion, the Hollow Choir.",
+  "objective": {
+   "type": "kill",
+   "target": "vesperion",
+   "count": 1
+  },
+  "reward": {
+   "gold": 1500,
+   "xp": 2800,
+   "item": "uniq-vesperion-organ-pipe"
+  },
+  "twist": "Choice A (Shatter Vesperion's bone pipe-organ completely): The trapped souls disperse; in m46-ember-reckoning, boss ashkarath loses his spectral choir shield phase, making the final fight direct. Choice B (Bind the organ's main bone-pipe into your own standard as a war-horn): Your party gains +15% lifesteal and terrorizes lesser enemies in m46-ember-reckoning, but npc-rowan-commander and npc-elias-penitent refuse to stand near you in town-ironcamp, calling you the new Prelate of Ash.",
+  "unlocks_after": "m44-threshold-choice"
+ }
+]

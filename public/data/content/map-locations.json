@@ -1,0 +1,652 @@
+[
+ {
+  "id": "m01-blood-at-the-ford",
+  "name": "Blood at the Ford",
+  "blurb": "Shallow river crossing where Thornwick's levy first broke.",
+  "lore": "Every spring thaw turns this gravel bar into a bottleneck for wagons heading south. When border raiders ambushed the toll picket here, the current ran rust-colored all the way to the mill-weir.",
+  "mood": "Slick, frantic, shallow",
+  "ambient_text": [
+   "Cold water tugs at leather boots.",
+   "Broken wagon wheels jut from silt.",
+   "Crows pick through abandoned supply sacks.",
+   "The current hides sunken iron."
+  ]
+ },
+ {
+  "id": "town-thornwick",
+  "name": "Thornwick Market",
+  "blurb": "Mud-walled river town surviving on tolls, rumors, and salt fish.",
+  "lore": "Built where three peat roads converge on a timber bridge, Thornwick grew fat taxing border drovers. Now its plank palisades bristle with sharpened stakes while merchants hoard grain behind shuttered stalls.",
+  "mood": "Damp, watchful, crowded",
+  "ambient_text": [
+   "Wet wool steams beside charcoal braziers.",
+   "Hawkers whisper prices behind barred shutters.",
+   "River fog clings to sagging eaves.",
+   "Watchmen test spear-tips on whetstones."
+  ]
+ },
+ {
+  "id": "m02-whispers-in-the-fen",
+  "name": "Whispers in the Fen",
+  "blurb": "Reed-choked marshland where lanterns bob without hands to hold them.",
+  "lore": "Peat cutters abandoned these sunken flats after whole teams vanished between dusk and cockcrow. Narrow boardwalks rot beneath black water while reed-beds carry voices half a league across the mire.",
+  "mood": "Clammy, deceptive, hushed",
+  "ambient_text": [
+   "Marsh gas bubbles through black peat.",
+   "Reeds rustle where no wind blows.",
+   "Sunken planks shift beneath careful steps.",
+   "Pale lights drift beyond the mist."
+  ]
+ },
+ {
+  "id": "m03-nightfall-at-ravenwatch",
+  "name": "Nightfall at Ravenwatch",
+  "blurb": "A timber signal tower holding the ridge above the eastern road.",
+  "lore": "Constructed during the old border wars to relay beacon smoke toward Thornwick, Ravenwatch has stood half-garrisoned for decades. Its tar cauldrons still sit ready on the parapet, though the reliefs never arrived.",
+  "mood": "Drafty, exposed, grim",
+  "ambient_text": [
+   "Wind moans through split shutter slats.",
+   "Unlit pitch barrels smell of pine.",
+   "Shadows lengthen across the ridge trail.",
+   "Ravens roost along the charred parapet."
+  ]
+ },
+ {
+  "id": "m04-the-sunken-sanctum",
+  "name": "The Sunken Sanctum",
+  "blurb": "Half-flooded abbey swallowed slowly by settling fen-clay.",
+  "lore": "Monks once copied border treaties in these vaulted cloisters before rising groundwater cracked the foundations. Now knee-deep brine laps at defaced altars while things older than the abbey nest in the choir.",
+  "mood": "Drowned, solemn, fetid",
+  "ambient_text": [
+   "Black water laps against cracked pillars.",
+   "Sodden parchment rots in stone niches.",
+   "Echoes drip from vaulted ceiling ribs.",
+   "Incense gave way to stagnant rot."
+  ]
+ },
+ {
+  "id": "m05-lantern-passage",
+  "name": "Lantern Passage",
+  "blurb": "Canyon road lit by chained oil lamps that sway in dead calm.",
+  "lore": "Carved through slate bluffs to bypass the deepest bogs, this defile relies on iron-caged lanterns tended by an eccentric hermit order. When the wicks gutter out, travelers learn why the cliffs bear claw marks.",
+  "mood": "Narrow, flickering, tense",
+  "ambient_text": [
+   "Caged flames throw lunging wall shadows.",
+   "Slate dust sifts down cliff faces.",
+   "Footsteps clatter twice in the gorge.",
+   "Oil drips slowly onto worn cobbles."
+  ]
+ },
+ {
+  "id": "m06-greywood-supply",
+  "name": "Greywood Supply",
+  "blurb": "Logging depot and wagon yard choking under tangled ash-boughs.",
+  "lore": "Thornwick's shipwrights drew seasoned timber from Greywood until ambushers cut the haulage trail. Stacked cordwood rots beside overturned supply carts while wolves den under the sawmill roof.",
+  "mood": "Tangled, overgrown, silent",
+  "ambient_text": [
+   "Sawdust mats the mud like snow.",
+   "Rusted chains hang from empty cranes.",
+   "Briars creep over stacked oak planks.",
+   "Something watches from the canopy."
+  ]
+ },
+ {
+  "id": "m07-split-vanguard",
+  "name": "Split Vanguard",
+  "blurb": "Forked valley floor where two scouting columns lost contact.",
+  "lore": "Twin limestone ridges divide the march route into blind gullies favored by irregulars. Broken pennants still flutter from ash spears planted to mark rally points nobody reached.",
+  "mood": "Divided, frantic, rocky",
+  "ambient_text": [
+   "Torn banners snap in cross-valley gusts.",
+   "Loose scree betrays every hurried boot.",
+   "Two paths lead into separate traps.",
+   "Horn blasts echo off twin cliffs."
+  ]
+ },
+ {
+  "id": "m08-alder-bridge",
+  "name": "Alder Bridge",
+  "blurb": "Stone-arched span anchoring the sole dry crossing into the marshes.",
+  "lore": "Built by imperial masons three centuries ago, Alder Bridge has survived floods, fires, and four siege attempts. Scorch scars blacken its parapets where defenders held off raiders with boiling pitch.",
+  "mood": "Stubborn, scarred, vital",
+  "ambient_text": [
+   "River rapids boil around stone piers.",
+   "Charred timbers brace a cracked arch.",
+   "Boot-nails scrape across ancient flagstones.",
+   "Arrow slits watch both muddy banks."
+  ]
+ },
+ {
+  "id": "m09-ironhide-hunt",
+  "name": "Ironhide Hunt",
+  "blurb": "Thicket-lined ravine ruled by tusked beasts scarred with broken spears.",
+  "lore": "Hunters from Thornwick tracked a monstrous bog-boar into these brambles and came back empty-handed—those who came back at all. Snapped trappers' chains dangle from scarred trunks like grim trophies.",
+  "mood": "Brutal, feral, dense",
+  "ambient_text": [
+   "Deep gouges score the lower bark.",
+   "Snapped spear-shafts litter trampled fern.",
+   "Heavy breathing rumbles inside thick brush.",
+   "Dried mud cakes the ravine stones."
+  ]
+ },
+ {
+  "id": "m10-undervault-links",
+  "name": "Undervault Links",
+  "blurb": "Subterranean cistern tunnels connecting ruined border watchposts.",
+  "lore": "Dug to move messengers unseen beneath contested ground, the Undervault's brick arches now sag under tree roots. Stale air carries faint metallic hums from deeper chambers sealed with lead.",
+  "mood": "Claustrophobic, damp, ancient",
+  "ambient_text": [
+   "Brickwork sweats cold mineral drops.",
+   "Roots split mortar like patient wedges.",
+   "Distant water echoes down dark galleries.",
+   "Lead seals guard forgotten iron doors."
+  ]
+ },
+ {
+  "id": "m11-ashbrook-retreat",
+  "name": "Ashbrook Retreat",
+  "blurb": "Burned manor farmstead overlooking the border's last ford.",
+  "lore": "Once the summer estate of a Border Fords magistrate, Ashbrook was put to the torch during the first uprising. Charred roof beams frame empty windows while survivors huddle behind stone garden walls.",
+  "mood": "Smoldering, bitter, desperate",
+  "ambient_text": [
+   "Cold ash swirls across trampled herb beds.",
+   "Charred rafters creak against grey skies.",
+   "Smoke still rises from collapsed cellars.",
+   "Barricades block the broken courtyard gate."
+  ]
+ },
+ {
+  "id": "town-redmarsh",
+  "name": "Redmarsh Outpost",
+  "blurb": "Timber-and-earth stockade sinking inch by inch into crimson peat.",
+  "lore": "Raised atop driven oak pilings to guard the southern causeway, Redmarsh Outpost smells permanently of boiled pitch and wet dog. Mercenaries trade tall tales here while leeches fatten in the moat.",
+  "mood": "Sodden, cynical, fortified",
+  "ambient_text": [
+   "Log palisades lean into red mud.",
+   "Sentry fires hiss in constant drizzle.",
+   "Leeches cling to moored supply punts.",
+   "Dice clatter inside smoky billet tents."
+  ]
+ },
+ {
+  "id": "m12-redmarsh-border",
+  "name": "Redmarsh Border",
+  "blurb": "Rust-stained boundary ditch separating solid turf from sucking bog.",
+  "lore": "Iron boundary stones sink crookedly into ochre clay where cart tracks dissolve into reed-beds. Patrols mark safe footing with bleached skulls hung on willow poles.",
+  "mood": "Bleak, treacherous, ochre",
+  "ambient_text": [
+   "Rust-red water pools in boot prints.",
+   "Tilted boundary stones vanish into peat.",
+   "Willow poles rattle with warning bones.",
+   "Mist swallows the causeway ten paces out."
+  ]
+ },
+ {
+  "id": "m13-twin-passes",
+  "name": "Twin Passes",
+  "blurb": "Parallel ridge trails separated by a sheer sinkhole chasm.",
+  "lore": "Caravans split forces across both ledges to avoid bottle-necking on narrow stone. Crossbowmen perched on the middle crag can sweep either track with impunity.",
+  "mood": "Precarious, windswept, exposed",
+  "ambient_text": [
+   "Pebbles skitter into the unseen gulf.",
+   "Wind whips cloaks across narrow ledges.",
+   "Crossbow bolts glint on middle crags.",
+   "Two columns march within shouting distance."
+  ]
+ },
+ {
+  "id": "m14-scattered-scouts",
+  "name": "Scattered Scouts",
+  "blurb": "Tussock-dotted basin where an advance patrol was broken at dawn.",
+  "lore": "Outriders sent to map dry ground ran headlong into marsh ambushers before fog lifted. Signal mirrors flash sporadically from isolated hummocks surrounded by rising water.",
+  "mood": "Fractured, urgent, foggy",
+  "ambient_text": [
+   "Signal glass glints through grey fog.",
+   "Abandoned saddlebags sink into tussocks.",
+   "Distant whistles call from three directions.",
+   "Mud sucks greedily at every stride."
+  ]
+ },
+ {
+  "id": "m15-outpost-palisade",
+  "name": "Outpost Palisade",
+  "blurb": "Outer earthwork ring defending Redmarsh's eastern approach.",
+  "lore": "Dug in haste by conscript laborers, the palisade relies on sharpened stakes and water-filled ditches. Raiders test its weak timbers every night under cover of swamp mist.",
+  "mood": "Battered, muddy, defiant",
+  "ambient_text": [
+   "Sharpened stakes bristle above muddy ditches.",
+   "Lanterns swing along wet parapet walks.",
+   "Ax-marks scar the heavy timber gate.",
+   "Sentries peer blindly into white mist."
+  ]
+ },
+ {
+  "id": "m16-wardstone-rupture",
+  "name": "Wardstone Rupture",
+  "blurb": "Shattered boundary obelisk leaking violet static across dead grass.",
+  "lore": "Ancient wardstones once kept Redmarsh's lingering hex-rot from creeping northward. Now the central monolith lies split down its core, humming loudly enough to sour milk a mile away.",
+  "mood": "Unnatural, crackling, blighted",
+  "ambient_text": [
+   "Violet sparks crawl across cracked granite.",
+   "Grass lies flattened in a dead ring.",
+   "Air tastes sharp as bitten copper.",
+   "The fractured monolith hums through boots."
+  ]
+ },
+ {
+  "id": "m17-mire-convoy",
+  "name": "Mire Convoy",
+  "blurb": "Bogged-down supply train trapped axle-deep on a sunken corduroy road.",
+  "lore": "Six heavy wagons carrying salt pork and crossbow bolts slipped off the log track during night rain. Outriders circle the mired train while shapes gather just beyond torchlight.",
+  "mood": "Bogged, frantic, vulnerable",
+  "ambient_text": [
+   "Wagon wheels groan in sucking clay.",
+   "Draft oxen bellow in tangled traces.",
+   "Torchlight dies against walls of fog.",
+   "Arrows thud into wet canvas covers."
+  ]
+ },
+ {
+  "id": "m18-granary-raid",
+  "name": "Granary Raid",
+  "blurb": "Fortified storehouse holding the last dry grain in the province.",
+  "lore": "Built on stone stilts to foil rats and floodwater, the Redmarsh granary feeds three garrisons. Smoke curls from its louver vents where raiders are trying to smoke out the defenders.",
+  "mood": "Smoky, desperate, vital",
+  "ambient_text": [
+   "Charred grain spills from burst sacks.",
+   "Smoke pours through high stone vents.",
+   "Barred oak doors shudder under battering.",
+   "Flames lick along dry shingle eaves."
+  ]
+ },
+ {
+  "id": "m19-hexer-capture",
+  "name": "Hexer's Hollow",
+  "blurb": "Sunken willow grove hung with bone fetishes and drying herbs.",
+  "lore": "A renegade Ember Court hedge-mage turned this peat sinkhole into a workshop for bog-curses. Even the frogs here croak out of rhythm around bubbling clay cauldrons.",
+  "mood": "Fetid, sinister, tangled",
+  "ambient_text": [
+   "Bone chimes clack in stagnant air.",
+   "Green froth bubbles in clay pots.",
+   "Twisted willows choke out grey daylight.",
+   "Sour smoke stings eyes and throat."
+  ]
+ },
+ {
+  "id": "m20-deep-quarry",
+  "name": "Deep Quarry",
+  "blurb": "Terraced slate pit flooded at the bottom with black rainwater.",
+  "lore": "Prison gangs once cut paving stone from these sheer walls until the lower galleries struck an underground spring. Crane booms hang frozen over the dark pool like gallows.",
+  "mood": "Vertical, cold, echoing",
+  "ambient_text": [
+   "Slate ledges drop into black water.",
+   "Rusted winch gears creak in wind.",
+   "Every clang echoes ten times over.",
+   "Chisel marks stripe the wet rock."
+  ]
+ },
+ {
+  "id": "m21-lean-garrison",
+  "name": "Lean Garrison",
+  "blurb": "Half-starved hill fort holding out on boiled leather and rainwater.",
+  "lore": "Cut off since the autumn rains washed out its supply road, this stone blockhouse refuses to lower its colors. Gaunt defenders ration arrows down to the single shaft.",
+  "mood": "Gaunt, stubborn, bleak",
+  "ambient_text": [
+   "Hollow-eyed sentries lean on pikes.",
+   "Rain barrels stand empty beneath eaves.",
+   "Tattered banners hang limp in drizzle.",
+   "Boiled boot-leather simmers over peat."
+  ]
+ },
+ {
+  "id": "m22-fleeing-column",
+  "name": "Fleeing Column",
+  "blurb": "Choked causeway clogged with handcarts, refugees, and broken rear-guards.",
+  "lore": "Word of the southern breach sent whole villages streaming north along the only raised road. Pursuers harry the tail of the column while panic jams the narrow stone culverts.",
+  "mood": "Chaotic, crowded, grim",
+  "ambient_text": [
+   "Overturned handcarts block the raised road.",
+   "Crying children huddle under wet shawls.",
+   "Rear-guard shields lock against charging raiders.",
+   "Mud churns red beneath fleeing heels."
+  ]
+ },
+ {
+  "id": "m23-fork-of-spears",
+  "name": "Fork of Spears",
+  "blurb": "River confluence where three warbands clashed over the northern ferry.",
+  "lore": "Two sluggish red streams meet beneath a gravel bluff littered with rusted spearheads. Whoever holds the ferry chains commands every crossing into the Iron Coast hills.",
+  "mood": "Bloodied, contested, stark",
+  "ambient_text": [
+   "Rusted spear-tips jut from gravel bars.",
+   "Heavy ferry chains drag in current.",
+   "Three banners rot in river mud.",
+   "Ravens circle low over trampled reeds."
+  ]
+ },
+ {
+  "id": "town-oakhaven",
+  "name": "Oakhaven Bastion",
+  "blurb": "Walled hill-city of slate roofs, mage-towers, and suspicious guildmasters.",
+  "lore": "Anchored around an ancient oak grove petrified by early ward-magic, Oakhaven survived wars through high walls and higher tariffs. Its towers glow faintly at dusk while mercenaries crowd the lower taverns.",
+  "mood": "Stoic, arcane, guarded",
+  "ambient_text": [
+   "Blue ward-lamps flicker along stone walls.",
+   "Guild bells toll the evening curfew.",
+   "Apprentices hurry past armored watch patrols.",
+   "Sea wind carries salt over slate roofs."
+  ]
+ },
+ {
+  "id": "m24-pledge-at-oakhaven",
+  "name": "Pledge at Oakhaven",
+  "blurb": "Parade courtyard where rival captains swear truce beneath stone standards.",
+  "lore": "Beneath the scarred arches of the outer bailey, Oakhaven's council demands blood-oaths before opening its armories. Old grudges simmer beneath polite salutes while scouts bring fresh alarms.",
+  "mood": "Tense, formal, brittle",
+  "ambient_text": [
+   "Iron-shod boots stamp on wet flagstones.",
+   "Rival captains glare across drawn lines.",
+   "Heralds read terms in flat voices.",
+   "Torches sputter in salt-heavy gusts."
+  ]
+ },
+ {
+  "id": "m25-cinder-wards",
+  "name": "Cinder Wards",
+  "blurb": "Charred tenement quarter outside the walls cleared for clear sightlines.",
+  "lore": "Rather than let besiegers shelter in wooden slums, Oakhaven's commanders burned three districts to blackened rubble. Smoldering cellars now hide desperate looters and infiltrators.",
+  "mood": "Ashen, desolate, suspicious",
+  "ambient_text": [
+   "Blackened chimneys stand like broken teeth.",
+   "Wind stirs grey ash across cobbles.",
+   "Scorched timbers groan as they cool.",
+   "Eyes glint inside collapsed cellar vaults."
+  ]
+ },
+ {
+  "id": "m26-sundered-ranks",
+  "name": "Sundered Ranks",
+  "blurb": "Boulder-strewn coastal moor where a shield-wall broke under artillery.",
+  "lore": "Craters from incendiary pots pockmark the heather where Oakhaven's heavy infantry met coastal raiders. Scattered shields mark the exact line where discipline finally snapped.",
+  "mood": "Shattered, windswept, grim",
+  "ambient_text": [
+   "Cratered heather smokes in sea drizzle.",
+   "Split shields lie half-buried in peat.",
+   "Wind howls through abandoned pike racks.",
+   "Gulls wheel over silent armor piles."
+  ]
+ },
+ {
+  "id": "m27-field-infirmary",
+  "name": "Field Infirmary",
+  "blurb": "Tented triage camp pitched behind a ruined chapel's stone nave.",
+  "lore": "Surgeons work by lantern-light with bone-saws and vinegar rags while wounded groan on straw pallets. Only a thin picket line stands between the tents and enemy outriders.",
+  "mood": "Grim, urgent, mercy-worn",
+  "ambient_text": [
+   "Vinegar and blood hang heavy indoors.",
+   "Canvas tent flaps snap in wind.",
+   "Surgeons wipe blades on stained aprons.",
+   "Distant horns warn of approaching scouts."
+  ]
+ },
+ {
+  "id": "m28-sunken-citadel",
+  "name": "Sunken Citadel",
+  "blurb": "Sea-eroded fortress tilting slowly into the roaring tide.",
+  "lore": "Built on undermined chalk cliffs, half of this ancient bastion has already slid into the surf. Salt spray floods its lower armories while ancient vaults yawn open in tilted corridors.",
+  "mood": "Tilted, briny, perilous",
+  "ambient_text": [
+   "Surf thunders inside flooded lower halls.",
+   "Slanted floors pull boots toward drops.",
+   "Salt crusts old bronze door hinges.",
+   "Sea spray mists through cracked embrasures."
+  ]
+ },
+ {
+  "id": "m29-hourglass-rescue",
+  "name": "Hourglass Rescue",
+  "blurb": "Tidal causeway flooding fast around a trapped vanguard detachment.",
+  "lore": "Twice a day the Iron Coast sea swallows this shingle spit under twenty feet of freezing swell. Stranded soldiers form a shrinking circle on the highest rock as waves climb their ankles.",
+  "mood": "Rising, frantic, briny",
+  "ambient_text": [
+   "White surf foams across shrinking shingle.",
+   "Waves slap higher against shield rims.",
+   "Salt wind drowns out shouted orders.",
+   "Every minute steals another dry pace."
+  ]
+ },
+ {
+  "id": "m30-starved-bastion",
+  "name": "Starved Bastion",
+  "blurb": "Cliff-top watchtower blockaded for forty days without relief.",
+  "lore": "Perched above crashing breakers, this granite keep guards the coastal sea-lane. Its defenders have eaten their pack mules and melted pewter plates for sling-shot.",
+  "mood": "Gaunt, salt-bitten, unyielding",
+  "ambient_text": [
+   "Sea birds mock defenders from battlements.",
+   "Rusted portcullis chains groan in gales.",
+   "Hollow cheeks frame grim, steady eyes.",
+   "Salt spray freezes on granite merlons."
+  ]
+ },
+ {
+  "id": "m31-riverlock-crossing",
+  "name": "Riverlock Crossing",
+  "blurb": "Massive stone floodgates regulating the canal between Oakhaven and sea.",
+  "lore": "Twin iron-bound lock gates hold back tidal surges from flooding inland farmlands. Saboteurs have jammed the capstans while raiders swarm the narrow catwalks above dark water.",
+  "mood": "Mechanical, loud, precarious",
+  "ambient_text": [
+   "Dark water roars through half-jammed sluices.",
+   "Iron capstan chains shriek under strain.",
+   "Narrow catwalks slick with river spray.",
+   "Gears grind inside wet stone housings."
+  ]
+ },
+ {
+  "id": "m32-elder-juggernaut",
+  "name": "Elder Juggernaut",
+  "blurb": "Cratered testing ground where an ancient war-construct woke from rust.",
+  "lore": "Half-buried in coastal scree since the pre-Ashen wars, a towering iron colossus stirred when ward-magic surged. Its furnace core glows dull cherry through cracked chest plates.",
+  "mood": "Colossal, grinding, relentless",
+  "ambient_text": [
+   "Earth trembles with each heavy footfall.",
+   "Furnace light bleeds through rusted seams.",
+   "Crushed boulders crunch beneath iron heels.",
+   "Steam hisses from ancient pressure vents."
+  ]
+ },
+ {
+  "id": "m33-high-stakes-gambit",
+  "name": "High-Stakes Gambit",
+  "blurb": "Exposed sea-cliff battery where artillery commands the bay.",
+  "lore": "Capturing these heavy torsion engines could turn the coastal siege overnight—or leave your vanguard trapped against a hundred-foot drop. Powder kegs sit stacked beside burning slow-matches.",
+  "mood": "Volatile, dizzying, bold",
+  "ambient_text": [
+   "Slow-matches glow beside stacked powder casks.",
+   "Waves crash a hundred feet below.",
+   "Heavy siege arms creak under tension.",
+   "One spark could end everything fast."
+  ]
+ },
+ {
+  "id": "m34-clashing-banners",
+  "name": "Clashing Banners",
+  "blurb": "Wide coastal plain where full armies collide beneath storm clouds.",
+  "lore": "No walls, no narrow bridges—only wind-whipped grass and thousands of boots churning mud. Heraldic standards rise and fall like masts in a gale as lines lock together.",
+  "mood": "Thunderous, vast, merciless",
+  "ambient_text": [
+   "War drums roll beneath low thunder.",
+   "Standards dip and surge across grass.",
+   "Steel rings continuously along the ridge.",
+   "Rain turns trampled turf into mire."
+  ]
+ },
+ {
+  "id": "m35-burning-harbor",
+  "name": "Burning Harbor",
+  "blurb": "Blazing timber quays lighting up a black sea with pitch-fed flames.",
+  "lore": "Fireships drifted into Oakhaven's anchorage at midnight, igniting tarred hulls and dockside warehouses alike. Blinding orange glare reflects off choppy black water as masts topple in showers of sparks.",
+  "mood": "Infernal, choking, frantic",
+  "ambient_text": [
+   "Tarred hulls roar like floating furnaces.",
+   "Burning rigging rains sparks onto piers.",
+   "Black smoke blots out harbor beacons.",
+   "Boiling sea-water hisses around charred pilings."
+  ]
+ },
+ {
+  "id": "town-ironcamp",
+  "name": "Ironcamp Citadel",
+  "blurb": "Smog-choked fortress-foundry hammering out war gear beside the Ember border.",
+  "lore": "Built atop slag heaps and deep iron veins, Ironcamp never sleeps and rarely smiles. Trip-hammers thunder day and night while scarred veterans sharpen blades in the shadow of the Crown's threshold.",
+  "mood": "Smoky, relentless, iron-hard",
+  "ambient_text": [
+   "Trip-hammers shake soot from tavern rafters.",
+   "Coal smoke stings every drawn breath.",
+   "Veterans test edges under red forge-glow.",
+   "Ash drifts down from the eastern peaks."
+  ]
+ },
+ {
+  "id": "m36-heartland-march",
+  "name": "Heartland March",
+  "blurb": "Scorched imperial highway leading straight toward the Ember Court.",
+  "lore": "Paved with massive basalt slabs meant for triumphal legions, this straight road cuts through blistered orchards and toppled milestones. Every mile brings warmer wind and thicker ash.",
+  "mood": "Blistered, grim, inexorable",
+  "ambient_text": [
+   "Basalt slabs radiate dry subterranean heat.",
+   "Toppled milestones bear chiselled-out names.",
+   "Ash crunches softly under marching boots.",
+   "Heat shimmer distorts the distant horizon."
+  ]
+ },
+ {
+  "id": "m37-shattered-beacons",
+  "name": "Shattered Beacons",
+  "blurb": "Chain of hilltop signal pyres reduced to cold slag and scattered bone.",
+  "lore": "Once designed to warn the realm within an hour of southern incursion, these stone towers fell from within. Broken signal mirrors lie amid charred timbers and traitors' armor.",
+  "mood": "Betrayed, bleak, windswept",
+  "ambient_text": [
+   "Cold slag fills the cracked fire-bowls.",
+   "Broken signal mirrors catch red sky.",
+   "Ash blows across silent watch platforms.",
+   "Traitors' pennants hang beside old crests."
+  ]
+ },
+ {
+  "id": "m38-besieged-wall",
+  "name": "Besieged Wall",
+  "blurb": "Cracked basalt curtain wall under relentless bombardment from Ember engines.",
+  "lore": "Ironcamp's outer rampart holds the last bottleneck before the inner valleys. Glowing slag-stones arc overhead while sappers hammer at the foundations below.",
+  "mood": "Pounded, smoky, desperate",
+  "ambient_text": [
+   "Basalt blocks shudder under heavy impacts.",
+   "Glowing embers rain across parapet walks.",
+   "Sappers' picks echo beneath the wall.",
+   "Defenders haul water to burning hoardings."
+  ]
+ },
+ {
+  "id": "m39-flight-of-malrik",
+  "name": "Flight of Malrik",
+  "blurb": "Twisted canyon trail where a turncoat commander flees with stolen seals.",
+  "lore": "Rather than face court-martial, Malrik bolted toward the Ember lines with Ironcamp's cipher-keys. His picked bodyguard holds narrow switchbacks while he spurs ahead through falling ash.",
+  "mood": "Ruthless, urgent, treacherous",
+  "ambient_text": [
+   "Hoofprints cut deep through grey ash.",
+   "Rear-guard blades glint on high switchbacks.",
+   "Canyon walls funnel hot sulfurous wind.",
+   "Every delay lets traitors slip closer."
+  ]
+ },
+ {
+  "id": "m40-twofold-assault",
+  "name": "Twofold Assault",
+  "blurb": "Twin siege ramps breaching an Ember fortress from opposite flanks.",
+  "lore": "Dividing assault columns across two ruined gatehouses prevents defenders from massing reserves. Crossfire sweeps the central courtyard as battering rams splinter iron-shod oak.",
+  "mood": "Coordinated, violent, loud",
+  "ambient_text": [
+   "Twin rams boom in alternating rhythm.",
+   "Crossfire sweeps across the inner bailey.",
+   "Smoke pours from two breached gatehouses.",
+   "War horns answer across the fortress."
+  ]
+ },
+ {
+  "id": "m41-gauntlet-of-iron",
+  "name": "Gauntlet of Iron",
+  "blurb": "Sunken trench-maze lined with spike-traps and repeating ballistae.",
+  "lore": "Engineered by Ember Court tacticians to bleed storming parties white before reaching the inner walls. Every traverse hides enfilading slits and oil-soaked faggots waiting for a spark.",
+  "mood": "Punishing, claustrophobic, lethal",
+  "ambient_text": [
+   "Ballista bolts whistle down narrow trenches.",
+   "Oil-soaked brush lines the timber walls.",
+   "Iron spikes gleam inside muddy pits.",
+   "No cover lasts more than ten paces."
+  ]
+ },
+ {
+  "id": "m42-outer-rampart",
+  "name": "Outer Rampart",
+  "blurb": "Scorched glacis and barbican guarding the Crown's inner domain.",
+  "lore": "Sloped volcanic stone leaves attackers completely exposed to boiling oil and obsidian darts. Centuries of dried soot coat every merlon like black velvet.",
+  "mood": "Steep, scorching, forbidding",
+  "ambient_text": [
+   "Black stone blisters hands at midday.",
+   "Murder-holes gape above the narrow approach.",
+   "Soot flakes drift like black snow.",
+   "Heavy gates groan behind iron bars."
+  ]
+ },
+ {
+  "id": "m43-three-roads-siege",
+  "name": "Three-Roads Siege",
+  "blurb": "Triangular junction fort locking down all three approaches to the capital.",
+  "lore": "Whoever controls this star-shaped bastion dictates supply lines for the entire final campaign. Three distinct fronts flare simultaneously around its scarred bastions.",
+  "mood": "Encircled, relentless, pivotal",
+  "ambient_text": [
+   "Three causeways converge beneath tower guns.",
+   "Smoke rises from every outer bastion.",
+   "Messengers sprint between battered gate towers.",
+   "Steel clashes on all three flanks."
+  ]
+ },
+ {
+  "id": "m44-threshold-choice",
+  "name": "Threshold Choice",
+  "blurb": "Ash-choked crossroads beneath twin statues of headless kings.",
+  "lore": "Here the royal road splits toward the sacrificial altars or the sealed treasury vaults. Whatever mercy remained in your company must be spent or discarded before stepping past.",
+  "mood": "Ominous, heavy, final",
+  "ambient_text": [
+   "Headless stone kings stare down blankly.",
+   "Hot cinders swirl around crossed paths.",
+   "Air hums with old bound oaths.",
+   "No road back leads from here."
+  ]
+ },
+ {
+  "id": "m45-crown-of-order",
+  "name": "Crown of Order",
+  "blurb": "Obsidian colonnade leading to the throne hall of the Ashen sovereigns.",
+  "lore": "Polished black marble reflects burning braziers like a river of blood. Elite palace wardens stand motionless between pillars carved with every conquered province.",
+  "mood": "Imperial, cold, suffocating",
+  "ambient_text": [
+   "Black marble mirrors guttering brazier flames.",
+   "Armored wardens stand like iron statues.",
+   "Footsteps echo endlessly down vast halls.",
+   "Old crowns hang tarnished from chains."
+  ]
+ },
+ {
+  "id": "m46-ember-reckoning",
+  "name": "Ember Reckoning",
+  "blurb": "Cracked volcanic caldera where the Court's heart burns in open air.",
+  "lore": "Beneath a bruised sky choked with cinders, the throne itself sits above a glowing fissure. All oaths, debts, and blades forged since Thornwick converge in final judgment.",
+  "mood": "Apocalyptic, incandescent, terminal",
+  "ambient_text": [
+   "Cinders rise like inverted red snow.",
+   "The cracked floor pulses with magma-light.",
+   "Heat warps steel and breath alike.",
+   "The final bell tolls through ash."
+  ]
+ }
+]

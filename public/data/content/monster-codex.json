@@ -1,0 +1,1217 @@
+[
+ {
+  "id": "briar-hound",
+  "name": "Briar Hound",
+  "codex": "Feral border curs colonized by parasitic iron-bramble that grows directly through their ribs. They hunt in starving packs along the Sunken Ford; cut them down with fire or wide-sweeping blades before they surround isolated archers.",
+  "weakness": "fire",
+  "special": {
+   "name": "Bramble Pounce",
+   "desc": "Leaps 4 tiles to bite for 10 damage and inflicts 2 bleed/s for 4 s.",
+   "cooldown_s": 8,
+   "telegraph": "Lowers its snout to the dirt as the wooden spine-thorns rattle violently."
+  },
+  "barks": {
+   "aggro": [
+    "splintering snarl",
+    "wet, rattling bark"
+   ],
+   "hit": [
+    "dry wood cracking",
+    "whimpering yelp"
+   ],
+   "death": [
+    "hollow snap of roots",
+    "choked whine"
+   ]
+  },
+  "loot_theme": "Light hides, thorny kindling, and copper coins swallowed from dead scouts."
+ },
+ {
+  "id": "flintback",
+  "name": "Flintback",
+  "codex": "Lumbering quarry-beasts whose dorsal hides have calcified into overlapping slabs of grey chert. Arrows and light swords glance harmlessly off their posture; soften them with crushing maces or lightning magic.",
+  "weakness": "lightning",
+  "special": {
+   "name": "Shoulder Crag Slam",
+   "desc": "Charges 3 tiles and bashes for 15 physical damage, stunning for 2 s.",
+   "cooldown_s": 12,
+   "telegraph": "Drags its knuckles in the gravel and tilts its tall left shoulder-stone forward."
+  },
+  "barks": {
+   "aggro": [
+    "grinding stone roar",
+    "heavy nasal snort"
+   ],
+   "hit": [
+    "sparks clinking on rock",
+    "guttural grunt"
+   ],
+   "death": [
+    "avalanching thud",
+    "cracking slate sigh"
+   ]
+  },
+  "loot_theme": "Heavy shields, iron ore fragments, and dented warrior helms."
+ },
+ {
+  "id": "mire-wisp",
+  "name": "Mire Wisp",
+  "codex": "Pockets of marsh methane and spiteful lingering memory anchored inside drowned livestock skulls. Keep your formation spread out so their corpse-gas volleys cannot rot the entire vanguard at once.",
+  "weakness": "fire",
+  "special": {
+   "name": "Drowned Lantern Flare",
+   "desc": "Spits a glob of marsh-gas (radius 2) dealing 11 poison damage and reducing accuracy by 3 for 6 s.",
+   "cooldown_s": 10,
+   "telegraph": "The rusted left-side lantern swings wildly and flares toxic emerald."
+  },
+  "barks": {
+   "aggro": [
+    "bubbling bog-whistle",
+    "Follow the light..."
+   ],
+   "hit": [
+    "hissing gas leak",
+    "cracking bone-rattle"
+   ],
+   "death": [
+    "wet pop of extinguished flame",
+    "The water is warm..."
+   ]
+  },
+  "loot_theme": "Mana draughts, apprentice wands, and tarnished brass charms."
+ },
+ {
+  "id": "ruin-mite",
+  "name": "Ruin Mite",
+  "codex": "Blind, sandstone-chewing arthropods that nest in the foundations of abandoned watchtowers. Individually trivial, their serrated mandibles can saw through greaves if allowed to swarm a stationary tank.",
+  "weakness": "cold",
+  "special": {
+   "name": "Saw-Mandible Clamp",
+   "desc": "Snaps for 8 damage and reduces target's armor by 2 for 6 s.",
+   "cooldown_s": 7,
+   "telegraph": "Rears back on its hind legs and opens its oversized right mandible wide."
+  },
+  "barks": {
+   "aggro": [
+    "rapid chitin clatter",
+    "rasping click"
+   ],
+   "hit": [
+    "cracking shell hiss",
+    "high-pitched chitter"
+   ],
+   "death": [
+    "wet crunch",
+    "fading leg-twitches"
+   ]
+  },
+  "loot_theme": "Low-tier boots, chipped flint daggers, and small healing draughts."
+ },
+ {
+  "id": "thorn-boar",
+  "name": "Thorn Boar",
+  "codex": "Ill-tempered greywood swine grown massive on a diet of unburied border skirmishers and witch-hazel roots. Sidestep their straight-line gore attacks and strike their unarmored flanks.",
+  "weakness": "fire",
+  "special": {
+   "name": "Root-Tusk Gore",
+   "desc": "Rushes 5 tiles in a line, dealing 14 damage and knocking targets back 2 tiles.",
+   "cooldown_s": 9,
+   "telegraph": "Paws the mud twice and drops its giant branched left tusk to knee-height."
+  },
+  "barks": {
+   "aggro": [
+    "furious pig-squeal",
+    "phlegmy snort"
+   ],
+   "hit": [
+    "hoarse grunt",
+    "snapping bristle-crunch"
+   ],
+   "death": [
+    "long deflating squeal",
+    "heavy mud-slump"
+   ]
+  },
+  "loot_theme": "Padded jerkins, axes, and hearty stamina-restoring rations."
+ },
+ {
+  "id": "quill-fiend",
+  "name": "Quill Fiend",
+  "codex": "Hunched, sinewy scavengers that fire calcified ribs through a hollow bone trough fused to their right forearm. Close the distance immediately with fast cavalry or hasted infantry before they pin your casters.",
+  "weakness": "physical",
+  "special": {
+   "name": "Bone-Volley Fan",
+   "desc": "Fires 3 bone needles in a narrow cone for 8 piercing damage each.",
+   "cooldown_s": 8,
+   "telegraph": "Arches its spine forward until the dorsal fan of bone quills clicks upright."
+  },
+  "barks": {
+   "aggro": [
+    "dry rattling cackle",
+    "Pin the meat!"
+   ],
+   "hit": [
+    "hollow bone clatter",
+    "My quills!"
+   ],
+   "death": [
+    "splintering rib-cage crash",
+    "wet cough"
+   ]
+  },
+  "loot_theme": "Shortbows, arrows, light gloves, and bone rings."
+ },
+ {
+  "id": "fallen-shaman",
+  "name": "Cinder Shaman",
+  "codex": "Hedge-priests of the ash-cults who carry burning bone-totems strapped to their spines. Always kill the Shaman first; if left chanting in the rear, he will endlessly re-ignite fallen hounds and raiders.",
+  "weakness": "cold",
+  "special": {
+   "name": "Ashen Revival",
+   "desc": "Restores a fallen non-boss enemy within 5 tiles to 50% HP with a fiery aura.",
+   "cooldown_s": 16,
+   "telegraph": "Raises his charred right-hand staff high as the skull-totem on his back belches orange flame."
+  },
+  "barks": {
+   "aggro": [
+    "The ash remembers your name!",
+    "Stand up, you lazy bones!"
+   ],
+   "hit": [
+    "hissing ember-spit",
+    "You break only clay!"
+   ],
+   "death": [
+    "The hearth... goes cold...",
+    "crumbling charcoal sigh"
+   ]
+  },
+  "loot_theme": "Spell scrolls, mage staves, ember charms, and mana potions."
+ },
+ {
+  "id": "glasswing",
+  "name": "Glasswing",
+  "codex": "High-altitude predators with four razor-edged wings of translucent silica. They hover over impassable terrain to pelt troops with obsidian tail-shards; bring them down with accurate bowfire or instant lightning spells.",
+  "weakness": "physical",
+  "special": {
+   "name": "Obsidian Stinger Dart",
+   "desc": "Fires a glass shard from 6 tiles away for 12 damage that inflicts 3 bleed/s for 4 s.",
+   "cooldown_s": 7,
+   "telegraph": "Whip-curls its double obsidian tail-stinger over its head while hovering stationary."
+  },
+  "barks": {
+   "aggro": [
+    "chilling glass-chime",
+    "high-frequency wing-hum"
+   ],
+   "hit": [
+    "shattering crystal ring",
+    "sharp screech"
+   ],
+   "death": [
+    "cascade of breaking glass",
+    "fading chime"
+   ]
+  },
+  "loot_theme": "Quartz focuses, swift boots, and high-accuracy daggers."
+ },
+ {
+  "id": "rootbound",
+  "name": "Rootbound",
+  "codex": "Ancient boundary cairns overgrown by strangler-oaks that absorbed the frontier's spilled blood. Extremely slow but capable of flattening a shield-wall in two swings; kite them across open ground with fire magic.",
+  "weakness": "fire",
+  "special": {
+   "name": "Monolith Root-Slam",
+   "desc": "Smashes a 2-tile area in front for 18 earth damage and roots targets for 3 s.",
+   "cooldown_s": 13,
+   "telegraph": "Slowly hoists its colossal right root-hammer overhead while the left shoulder-stone glows lime-green."
+  },
+  "barks": {
+   "aggro": [
+    "groaning timber-creak",
+    "Trespass... in the loam..."
+   ],
+   "hit": [
+    "splintering oak thud",
+    "grinding moss-sigh"
+   ],
+   "death": [
+    "falling forest-giant crash",
+    "Back... to dirt..."
+   ]
+  },
+  "loot_theme": "Oak staves, heavy shields, stone charms, and earth scrolls."
+ },
+ {
+  "id": "cinderling",
+  "name": "Cinderling",
+  "codex": "Malformed volcanic homunculi with smoking chimney-skulls and a dragging left arm of molten slag. They scurry around the edges of battle hurling magma globs; a single Frost Bolt will crack their brittle crust.",
+  "weakness": "cold",
+  "special": {
+   "name": "Slag Lob",
+   "desc": "Flings molten rock at a 1.5-radius spot (range 6) for 11 fire damage, leaving burning ground for 4 s.",
+   "cooldown_s": 8,
+   "telegraph": "Spins in a tight circle, scooping glowing magma with its long left arm."
+  },
+  "barks": {
+   "aggro": [
+    "crackling coal-cackle",
+    "Hot! Hot for the tall ones!"
+   ],
+   "hit": [
+    "hissing steam-shriek",
+    "Don't douse me!"
+   ],
+   "death": [
+    "popping soot-explosion",
+    "Cold... so dark..."
+   ]
+  },
+  "loot_theme": "Fire scrolls, ember charms, and small piles of fused gold."
+ },
+ {
+  "id": "gloom-stag",
+  "name": "Gloom Stag",
+  "codex": "Gaunt, long-legged cervids of the deep Greywood whose deadwood antlers trail ribbons of narcotic shadow-mist. They ignore the frontline to gore back-row mages; keep a reserve pikeman or Stone Curse ready.",
+  "weakness": "fire",
+  "special": {
+   "name": "Shadow-Antler Rush",
+   "desc": "Blinks through mist for 4 tiles and gores for 15 astral/physical damage, silencing for 3 s.",
+   "cooldown_s": 11,
+   "telegraph": "The skull tangled in its wide left antler flares violet as the stag lowers its rack."
+  },
+  "barks": {
+   "aggro": [
+    "hollow bugling bellow",
+    "clacking antler-rattle"
+   ],
+   "hit": [
+    "breathy wheeze",
+    "snapping branch-crunch"
+   ],
+   "death": [
+    "echoing forest groan",
+    "dissolving mist-sigh"
+   ]
+  },
+  "loot_theme": "Stalker hoods, bows, agility rings, and astral charms."
+ },
+ {
+  "id": "salt-crab",
+  "name": "Salt Crab",
+  "codex": "Tidal crustaceans that build towering shells from brine-crystals and wrecked Oakhaven hull planks. Frontal physical attacks bounce off their massive left shield-claw; flank them or boil them inside their shells with lightning.",
+  "weakness": "lightning",
+  "special": {
+   "name": "Brine-Shield Guard",
+   "desc": "Raises its left claw for 4 s, reducing frontal damage by 70% before lunging for 13 damage.",
+   "cooldown_s": 10,
+   "telegraph": "Slams its flat salt-crystal left claw into the mud like a pavise shield."
+  },
+  "barks": {
+   "aggro": [
+    "wet mandibulate bubbling",
+    "heavy claw-snap"
+   ],
+   "hit": [
+    "crunching salt-crust",
+    "hissing froth"
+   ],
+   "death": [
+    "cracking carapace collapse",
+    "gurgling brine-drain"
+   ]
+  },
+  "loot_theme": "Heavy armor, bucklers, and salt-preserved rations."
+ },
+ {
+  "id": "fetish-blowdart",
+  "name": "Bog Dartblower",
+  "codex": "Diminutive swamp-dwellers concealed behind ritual masks twice their own height. They kite relentlessly through the reeds while spitting neurotoxic needles; use area-of-effect Fireballs or fast archers to sweep them clear.",
+  "weakness": "fire",
+  "special": {
+   "name": "Paralyzing Reed-Dart",
+   "desc": "Shoots a toxic dart (range 7) for 7 damage that slows by 40% and poisons (2/s) for 6 s.",
+   "cooldown_s": 6,
+   "telegraph": "Hops backward on one foot and steadies the long bamboo pipe with both hands."
+  },
+  "barks": {
+   "aggro": [
+    "wooden mask-clack",
+    "Tchk-tchk! Neck-meat!"
+   ],
+   "hit": [
+    "muffled squeak behind wood",
+    "Mask cracked!"
+   ],
+   "death": [
+    "hollow wooden clatter",
+    "Back to the mud..."
+   ]
+  },
+  "loot_theme": "Stilettos, poison scrolls, light boots, and wooden charms."
+ },
+ {
+  "id": "witch-doctor",
+  "name": "Witch Doctor",
+  "codex": "Tribal elders of the Redmarsh fringes draped in crocodile jaws and bubbling alembic flasks. Their hexes rot armor and turn healing potions sour; interrupt their censer-swings or silence them from afar.",
+  "weakness": "physical",
+  "special": {
+   "name": "Mire-Marrow Hex",
+   "desc": "Curses a 2.5-radius area, reducing armor by 3 and dealing 9 poison damage over 8 s.",
+   "cooldown_s": 12,
+   "telegraph": "Swings the smoking left-hand skull censer in a wide violet circle overhead."
+  },
+  "barks": {
+   "aggro": [
+    "Your liver is already pickled!",
+    "The marsh wants its iron back!"
+   ],
+   "hit": [
+    "shattering glass vials",
+    "A waste of good bile!"
+   ],
+   "death": [
+    "Drink... the dregs...",
+    "rattling crocodile-bone collapse"
+   ]
+  },
+  "loot_theme": "Potions, elixirs, hexing wands, and scholar hats."
+ },
+ {
+  "id": "hollow-knight",
+  "name": "Hollow Knight",
+  "codex": "Suits of imperial border-plate animated by the muscle-memory of soldiers who refused to yield their posts. Though missing their left arms, they drag greatswords that cleave through two ranks at once; melt their joints with fire or acid.",
+  "weakness": "fire",
+  "special": {
+   "name": "One-Armed Execution Sweep",
+   "desc": "Cleaves a 180-degree frontal arc for 17 physical damage, ignoring 3 armor.",
+   "cooldown_s": 10,
+   "telegraph": "Drags the greatsword behind its right heel, drawing a shower of blue sparks on the stone."
+  },
+  "barks": {
+   "aggro": [
+    "echoing visor-hum",
+    "Password... or the blade..."
+   ],
+   "hit": [
+    "ringing anvil-clang",
+    "The line... holds..."
+   ],
+   "death": [
+    "clattering heap of empty iron",
+    "Relieved... of watch..."
+   ]
+  },
+  "loot_theme": "Knight swords, plate armor, steel helms, and gauntlets."
+ },
+ {
+  "id": "spore-matron",
+  "name": "Spore Matron",
+  "codex": "Bloated fungal colonies shaped vaguely like bent washerwomen, carrying umbrella-caps dripping with yellow mycotoxins. Never fight them in narrow corridors; burn them from maximum bow-range before their right-side sacs rupture.",
+  "weakness": "fire",
+  "special": {
+   "name": "Mycotoxin Vent",
+   "desc": "Releases a 3-radius spore cloud around itself dealing 4 poison/s for 8 s and slowing by 25%.",
+   "cooldown_s": 14,
+   "telegraph": "The three glowing tumors on its right flank swell to bursting and pulse bright lime."
+  },
+  "barks": {
+   "aggro": [
+    "wet bellows-wheeze",
+    "Breathe the bloom..."
+   ],
+   "hit": [
+    "squelching fungal tear",
+    "hissing spore-puff"
+   ],
+   "death": [
+    "deflating bladder-slump",
+    "Mulch... for the cap..."
+   ]
+  },
+  "loot_theme": "Earth scrolls, mage robes, and alchemical draughts."
+ },
+ {
+  "id": "dune-lurker",
+  "name": "Dune Lurker",
+  "codex": "Ochre-shelled desert mantids that lie buried up to their eyes in the dry creek beds of Bracken Basin. They erupt beneath stragglers with cross-scythe slashes; keep Stone Skin on your rear guard when crossing sand.",
+  "weakness": "cold",
+  "special": {
+   "name": "Sand-Trap Ambush",
+   "desc": "Burrows and erupts behind the lowest-armor target within 5 tiles for 16 slashing damage.",
+   "cooldown_s": 11,
+   "telegraph": "Crosses its oversized serrated right scythe over its chest and sinks into the sand."
+  },
+  "barks": {
+   "aggro": [
+    "rasping scissor-scrape",
+    "dry clicking hiss"
+   ],
+   "hit": [
+    "cracking chitin snap",
+    "shrill stridulation"
+   ],
+   "death": [
+    "curling legs crunch",
+    "fading mandible click"
+   ]
+  },
+  "loot_theme": "Poignards, studded leather, and agility gear."
+ },
+ {
+  "id": "storm-kite",
+  "name": "Storm Kite",
+  "codex": "Leathery sky-rays that ride the thermal updrafts of the Redmarsh escarpments, storing static charge in their bronze-veined left wingtips. Ground them quickly or equip Storm Charms before they link lightning across your squad.",
+  "weakness": "poison",
+  "special": {
+   "name": "Wingtip Arc-Discharge",
+   "desc": "Fires a lightning bolt (range 8) for 14 air damage that jumps to 2 nearby allies for 8 damage.",
+   "cooldown_s": 9,
+   "telegraph": "Banks vertically in mid-air as blue sparks bridge its horns and forked tail."
+  },
+  "barks": {
+   "aggro": [
+    "cracking whip-snap",
+    "keening wind-whistle"
+   ],
+   "hit": [
+    "leathery thwack",
+    "static hiss"
+   ],
+   "death": [
+    "spiraling thunder-crack",
+    "grounding thud"
+   ]
+  },
+  "loot_theme": "Storm charms, air scrolls, and composite bows."
+ },
+ {
+  "id": "basalt-brute",
+  "name": "Basalt Brute",
+  "codex": "Walking siege-engines of hexagonal black rock animated by the caldera's deep pressure. Their battering-ram right arms can shatter a shield-wall in one blow; immobilize their wide feet with ice magic and chip them down from range.",
+  "weakness": "cold",
+  "special": {
+   "name": "Tectonic Ram",
+   "desc": "Slams its right arm into the earth, dealing 22 damage in a 4-tile line and knocking down for 2.5 s.",
+   "cooldown_s": 14,
+   "telegraph": "Magma flares brightly between the hexagonal pillars on its back as it drags its ram-arm back."
+  },
+  "barks": {
+   "aggro": [
+    "grinding tectonic rumble",
+    "WALLS... FALL..."
+   ],
+   "hit": [
+    "hammer-on-anvil ring",
+    "hissing lava-vent"
+   ],
+   "death": [
+    "collapsing quarry-blast",
+    "COOLING... STONE..."
+   ]
+  },
+  "loot_theme": "Warhammers, greatmauls, tower shields, and plate mail."
+ },
+ {
+  "id": "sand-raider",
+  "name": "Sand Raider",
+  "codex": "Salt-bitten desert cutthroats wearing scarab-shell pauldrons and wielding twin curved scimitars. They sprint past slow heavy infantry to butcher archers; catch them with Haste or snare them in narrow choke points.",
+  "weakness": "poison",
+  "special": {
+   "name": "Dune-Dervishes' Cross-Cut",
+   "desc": "Dashes 4 tiles and strikes twice for 9 damage each, inflicting bleed.",
+   "cooldown_s": 8,
+   "telegraph": "Drops into a low sprinter's crouch and scrapes both scimitar blades together."
+  },
+  "barks": {
+   "aggro": [
+    "Your water-skins are ours!",
+    "Cut the baggage mules first!"
+   ],
+   "hit": [
+    "curse through grit teeth",
+    "Good steel—I'll take it!"
+   ],
+   "death": [
+    "The sun... takes the rest...",
+    "choking in the dust"
+   ]
+  },
+  "loot_theme": "Curved blades, leather boots, gold pouches, and water draughts."
+ },
+ {
+  "id": "dune-scarab",
+  "name": "Dune Scarab",
+  "codex": "Carapace-plated beetles with forked copper horns that act as living Leyden jars. Striking their cracked right shell with metal weapons triggers a static backfire; engage them with ranged magic or wooden staves.",
+  "weakness": "physical",
+  "special": {
+   "name": "Ball-Lightning Horn",
+   "desc": "Launches a slow lightning orb (range 7) that explodes for 15 air damage in a 2-tile radius.",
+   "cooldown_s": 10,
+   "telegraph": "A blinding cyan arc forms between the tips of its forked copper horn."
+  },
+  "barks": {
+   "aggro": [
+    "humming transformer-buzz",
+    "metallic wing-click"
+   ],
+   "hit": [
+    "zapping arc-pop",
+    "cracking quartz-chitter"
+   ],
+   "death": [
+    "short-circuiting pop",
+    "smoking shell-hiss"
+   ]
+  },
+  "loot_theme": "Rings, amulets, lightning scrolls, and copper bands."
+ },
+ {
+  "id": "claw-viper",
+  "name": "Scale Viper",
+  "codex": "Armored desert serpents that rear up on clawed forelimbs and sweep with a halberd-like bone blade at the tip of their tails. Their venom blinds and weakens; keep antidotes or Blessing active on your point man.",
+  "weakness": "cold",
+  "special": {
+   "name": "Halberd-Tail Whip",
+   "desc": "Lunges 3 tiles and whips its tail for 14 damage plus 3 poison/s for 6 s.",
+   "cooldown_s": 9,
+   "telegraph": "Coils high on its tail, flaring its spiked cobra hood wide as the tail-blade glints."
+  },
+  "barks": {
+   "aggro": [
+    "rattling bone-hood hiss",
+    "scraping scale-rush"
+   ],
+   "hit": [
+    "spitting venom-shriek",
+    "dry scale-crunch"
+   ],
+   "death": [
+    "convulsive tail-thrash",
+    "deflating hiss"
+   ]
+  },
+  "loot_theme": "Scale armor, poison charms, and agile weapons."
+ },
+ {
+  "id": "dune-beast",
+  "name": "Dune Beast",
+  "codex": "Sail-backed oasis predators whose crocodile jaws occupy nearly half their body length. They leap over frontline shields to snap at wounded soldiers; focus fire on them the moment their dorsal fin breaks the scrub.",
+  "weakness": "fire",
+  "special": {
+   "name": "Oasis-Clearing Leap",
+   "desc": "Jumps 5 tiles over obstacles to bite for 16 physical damage, pinning the target for 2 s.",
+   "cooldown_s": 11,
+   "telegraph": "Flattens its tall dorsal sail and flares the three bone gill-spikes on its left neck."
+  },
+  "barks": {
+   "aggro": [
+    "bellowing jaw-clap",
+    "deep throat-rumble"
+   ],
+   "hit": [
+    "leathery hide-grunt",
+    "snapping teeth"
+   ],
+   "death": [
+    "heavy rib-crushing thud",
+    "gurgling wheeze"
+   ]
+  },
+  "loot_theme": "Heavy hides, brigandines, and body-enhancing gear."
+ },
+ {
+  "id": "maggot-swarm",
+  "name": "Maggot Swarm",
+  "codex": "A churning carpet of pale carrion-larvae piloting a half-digested ribcage through the alkaline mud. Single-target arrows and swords are wasted on the mass; incinerate the entire cluster with Fireball or Flame Burst.",
+  "weakness": "fire",
+  "special": {
+   "name": "Acid-Bile Surge",
+   "desc": "Spits digestive slime in a 2-tile cone for 10 acid damage, corroding armor by 3 for 8 s.",
+   "cooldown_s": 8,
+   "telegraph": "The giant red-jawed alpha larva rears high out of the right side of the ribcage."
+  },
+  "barks": {
+   "aggro": [
+    "wet, thousand-fold squelch",
+    "chittering bone-scrape"
+   ],
+   "hit": [
+    "popping larval sacs",
+    "hissing acid-sputter"
+   ],
+   "death": [
+    "boiling slime-dissolve",
+    "collapsing ribcage clatter"
+   ]
+  },
+  "loot_theme": "Bone rings, acid scrolls, and half-digested jewelry."
+ },
+ {
+  "id": "lantern-eel",
+  "name": "Lantern Eel",
+  "codex": "Amphibious bog-serpents that slither onto the flooded causeways of the Iron Coast at high tide. Their angler-lures discharge lethal arcs through standing water; lure them onto dry paving stones before engaging.",
+  "weakness": "poison",
+  "special": {
+   "name": "Tidal Arc-Lure",
+   "desc": "Shocks the target and any unit standing in water within 3 tiles for 15 lightning damage.",
+   "cooldown_s": 9,
+   "telegraph": "Whips its overhead bioluminescent lure forward as its serrated right fin fans out."
+  },
+  "barks": {
+   "aggro": [
+    "electric, wet snap",
+    "slithering gill-wheeze"
+   ],
+   "hit": [
+    "slick flesh-slap",
+    "crackling hiss"
+   ],
+   "death": [
+    "shattering lure-orb pop",
+    "limp mud-slump"
+   ]
+  },
+  "loot_theme": "Mana potions, astral spheres, and lightning-resistant gear."
+ },
+ {
+  "id": "ash-weaver",
+  "name": "Ash Weaver",
+  "codex": "Four-armed cinder-cultists who spin incandescent filaments of glass and soot above their cowls. Their fire-webs entangle and immolate entire squads; snipe them early or use Wind Ward to deflect their casts.",
+  "weakness": "cold",
+  "special": {
+   "name": "Cinder-Silk Net",
+   "desc": "Throws a burning web (radius 2.5) that roots foes for 3 s and deals 5 fire damage/s.",
+   "cooldown_s": 12,
+   "telegraph": "All four spider-like arms cross overhead, pulling a bright orange net from its smoking left mantle."
+  },
+  "barks": {
+   "aggro": [
+    "Wear the shirt of embers!",
+    "Every thread a fuse!"
+   ],
+   "hit": [
+    "tearing silk-hiss",
+    "You tangle the loom!"
+   ],
+   "death": [
+    "Unraveled... into soot...",
+    "collapsing ash-whisper"
+   ]
+  },
+  "loot_theme": "Silk gloves, velvet mantles, fire tomes, and wands."
+ },
+ {
+  "id": "pale-burrower",
+  "name": "Pale Burrower",
+  "codex": "Eyeless subterranean hulks from the Deep Quarry whose hands have ossified into broad bone shovels. They tunnel beneath shield-walls to toss infantry into the air; watch the dirt ripples and stun them as they surface.",
+  "weakness": "fire",
+  "special": {
+   "name": "Upheaval Scoop",
+   "desc": "Emerges from underground, flinging targets in a 2-tile radius upward for 16 damage and 2 s stun.",
+   "cooldown_s": 11,
+   "telegraph": "The rusted pickaxe stuck in its back vibrates and clanks against its chain before it digs."
+  },
+  "barks": {
+   "aggro": [
+    "snuffling gravel-wheeze",
+    "heavy shovel-scrape"
+   ],
+   "hit": [
+    "dull pickaxe-clang",
+    "blind guttural roar"
+   ],
+   "death": [
+    "collapsing tunnel-groan",
+    "limp claw-scrape"
+   ]
+  },
+  "loot_theme": "Heavy axes, iron boots, and raw quarry gemstones."
+ },
+ {
+  "id": "ironbark",
+  "name": "Ironbark",
+  "codex": "Centuries-old coastal ward-trees whose sap has been replaced by bog-iron and whose left trunks are armored with ancient bronze shields. Conventional arrows cannot pierce them; use armor-shredding mauls or intense fire.",
+  "weakness": "fire",
+  "special": {
+   "name": "Fortress-Bough Sweep",
+   "desc": "Sweeps both knee-length branch arms for 20 physical damage and pushes foes back 3 tiles.",
+   "cooldown_s": 13,
+   "telegraph": "The emerald hollow in its chest flares brightly as the bronze shields on its left side clang together."
+  },
+  "barks": {
+   "aggro": [
+    "creaking iron-timber groan",
+    "The coast... is warded..."
+   ],
+   "hit": [
+    "ringing bronze-on-wood clang",
+    "falling iron-leaf rattle"
+   ],
+   "death": [
+    "splitting trunk thunder-crash",
+    "Felled... at last..."
+   ]
+  },
+  "loot_theme": "Tower shields, thorn staves, and high-tier defensive charms."
+ },
+ {
+  "id": "rift-moth",
+  "name": "Rift Moth",
+  "codex": "Silent nocturnal lepidopterans from the high passes whose wing-patterns resemble staring astral eyes. Their gaze drains mana directly from casters' minds; have your archers shoot them down before your mages run dry.",
+  "weakness": "physical",
+  "special": {
+   "name": "Void-Eye Siphon",
+   "desc": "Beams astral light at a target (range 7), draining 18 mana and dealing 14 astral damage.",
+   "cooldown_s": 9,
+   "telegraph": "Spreads its wings flat, causing the violet astral tear on its lower right wing to blaze."
+  },
+  "barks": {
+   "aggro": [
+    "fluttering velvet-hum",
+    "distant glass-harmonic"
+   ],
+   "hit": [
+    "tearing wing-shred",
+    "hollow astral chime"
+   ],
+   "death": [
+    "imploding vacuum-pop",
+    "scattering star-dust sigh"
+   ]
+  },
+  "loot_theme": "Astral wands, mana potions, sage cowls, and mind rings."
+ },
+ {
+  "id": "greater-mummy",
+  "name": "Crypt Embalmer",
+  "codex": "High mortuary priests of the Redmarsh dynasties whose hollowed left ribs house nests of venomous copperheads. They raise fallen skeletons and suffocate the living in bitumen fumes; cleanse them from afar with fire.",
+  "weakness": "fire",
+  "special": {
+   "name": "Canopic Serpent Breath",
+   "desc": "Exhales necrotic mist and snakes in a 3-tile cone for 16 poison damage, preventing healing for 6 s.",
+   "cooldown_s": 13,
+   "telegraph": "Pulls open its bandaged left ribcage as green smoke pours from beneath its golden crown."
+  },
+  "barks": {
+   "aggro": [
+    "Your jars are already labeled...",
+    "Lie still for the hook..."
+   ],
+   "hit": [
+    "dry linen ripping",
+    "Insolent meat!"
+   ],
+   "death": [
+    "The natron... fails...",
+    "collapsing gold and dust"
+   ]
+  },
+  "loot_theme": "Ancient gold rings, tomes of resurrection, and ornate staves."
+ },
+ {
+  "id": "hollow-king",
+  "name": "Hollow King",
+  "codex": "Fallen petty-monarchs of the coastal keeps whose iron crowns were hammered directly into their skulls. Impervious to fear and cold, their royal maces shatter bone; kite them with Haste and melt their plate with fire.",
+  "weakness": "fire",
+  "special": {
+   "name": "Sovereign Decree Smash",
+   "desc": "Crushes the ground (radius 2.5) for 22 physical/cold damage and slows movement by 50% for 5 s.",
+   "cooldown_s": 12,
+   "telegraph": "Raises his royal mace with both hands as the three impaled swords in his left shoulder glow cyan."
+  },
+  "barks": {
+   "aggro": [
+    "Kneel and pay the arrears!",
+    "None have leave to depart!"
+   ],
+   "hit": [
+    "clanging crown-iron",
+    "Treason... in the ranks..."
+   ],
+   "death": [
+    "The throne... is cold...",
+    "heavy plate collapse"
+   ]
+  },
+  "loot_theme": "Executioner blades, gothic plate, dread helms, and royal signets."
+ },
+ {
+  "id": "wendigo-bruiser",
+  "name": "Frosthorn Bruiser",
+  "codex": "Hulking alpine beasts from the peaks above Oakhaven with a solid gauntlet of blue glacier-ice encasing their left arms. Every blow chills the blood; keep Ember or Frost Charms equipped and burn through their thick white pelts.",
+  "weakness": "fire",
+  "special": {
+   "name": "Glacier-Fist Haymaker",
+   "desc": "Swings its ice-encased left arm for 20 cold/physical damage, freezing the target solid for 2.5 s.",
+   "cooldown_s": 11,
+   "telegraph": "Scrapes its forward-curving ice horns on the ground and drags its giant blue left fist back."
+  },
+  "barks": {
+   "aggro": [
+    "roaring blizzard-bellow",
+    "cracking ice-knuckle pop"
+   ],
+   "hit": [
+    "chipping glacier-crunch",
+    "furious ape-howl"
+   ],
+   "death": [
+    "shattering ice-crust crash",
+    "freezing rattle"
+   ]
+  },
+  "loot_theme": "Frost charms, heavy axes, furs, and giant gauntlets."
+ },
+ {
+  "id": "crowned-maw",
+  "name": "Crowned Maw",
+  "codex": "Apex pack-leaders of the volcanic foothills bearing a jagged collar of bone horns behind their half-flayed skulls. They smell wounded soldiers across the map and sprint to finish them; guard your injured behind Stone Skin.",
+  "weakness": "cold",
+  "special": {
+   "name": "Blood-Scent Lunge",
+   "desc": "Leaps 6 tiles to an injured target, dealing 19 damage (28 if target is below 50% HP).",
+   "cooldown_s": 10,
+   "telegraph": "Flares its neck-crown of bone horns wide while crimson saliva drips from its flayed right jaw."
+  },
+  "barks": {
+   "aggro": [
+    "bone-collar clatter",
+    "shrieking predator-howl"
+   ],
+   "hit": [
+    "snapping skull-bite",
+    "vicious snarl"
+   ],
+   "death": [
+    "somersaulting bone-crash",
+    "bloody wheeze"
+   ]
+  },
+  "loot_theme": "High-tier daggers, shadow masks, and lifesteal rings."
+ },
+ {
+  "id": "frost-bell",
+  "name": "Frost Bell",
+  "codex": "Haunted liturgical bronze bells torn from drowned coastal chapels, levitating on chains of rime. When their skull-clappers strike, the sound freezes mana and muscle alike; shatter their cracked right flanks with heavy maces.",
+  "weakness": "physical",
+  "special": {
+   "name": "Vesper Toll of Rime",
+   "desc": "Rings a 4-radius sonic wave dealing 15 cold damage and adding 15 to all spell cooldowns.",
+   "cooldown_s": 14,
+   "telegraph": "Tilts sharply backward as the glowing frost-skull clapper swings out through the right-side crack."
+  },
+  "barks": {
+   "aggro": [
+    "low, teeth-vibrating bronze hum",
+    "clinking ice-chains"
+   ],
+   "hit": [
+    "discordant cracked-bell clang",
+    "reverberating whine"
+   ],
+   "death": [
+    "ear-splitting bronze fracture",
+    "fading liturgical chime"
+   ]
+  },
+  "loot_theme": "Spell-mirrors, astral medallions, and water tomes."
+ },
+ {
+  "id": "silt-colossus",
+  "name": "Silt Colossus",
+  "codex": "Towering citadel guardians formed from compressed river-silt and the masonry of ruined watchtowers. Physical blades sink uselessly into their mud-and-stone bulk; crack them open with Quake or concentrated Lightning.",
+  "weakness": "lightning",
+  "special": {
+   "name": "Temple-Pillar Sweep",
+   "desc": "Swings its broken stone column in a wide arc for 25 physical damage, knocking back 3 tiles.",
+   "cooldown_s": 15,
+   "telegraph": "Sand pours in a waterfall from its right shoulder as it lifts the left-hand temple pillar."
+  },
+  "barks": {
+   "aggro": [
+    "grinding masonry rumble",
+    "THE... CAUSEWAY... IS... CLOSED..."
+   ],
+   "hit": [
+    "crumbling mortar thud",
+    "shifting silt-hiss"
+   ],
+   "death": [
+    "collapsing tower avalanche",
+    "RETURN... TO... SILT..."
+   ]
+  },
+  "loot_theme": "Aegis shields, colossus amulets, and high-tier earth tomes."
+ },
+ {
+  "id": "redglass-drake",
+  "name": "Redglass Drake",
+  "codex": "Lesser volcanic dragons of the Act IV ridges whose wing-membranes are sheets of razor-sharp red obsidian. Stay out of their frontal cone when their throats glow orange, and ground them with cold magic.",
+  "weakness": "cold",
+  "special": {
+   "name": "Vitreous Flame-Breath",
+   "desc": "Breathes liquid fire in a 5-tile cone for 22 fire damage, leaving molten glass that slows for 5 s.",
+   "cooldown_s": 12,
+   "telegraph": "Rears on its hind legs, flaring its red-glass wings as magma rises up its throat."
+  },
+  "barks": {
+   "aggro": [
+    "shrieking furnace-roar",
+    "clattering glass-wing snap"
+   ],
+   "hit": [
+    "cracking obsidian chime",
+    "hissing flame-spit"
+   ],
+   "death": [
+    "shattering wing-crash",
+    "gurgling magma-cough"
+   ]
+  },
+  "loot_theme": "Wyrmscale cuirasses, dragon leather mantles, and meteor tomes."
+ },
+ {
+  "id": "night-orchard",
+  "name": "Night Orchard",
+  "codex": "Gnarled black gallows-trees animated by the shadow covens, bearing glowing magenta skulls like ripe plums. They hurl screaming skull-fruit into your backline; chop them down with fire-enchanted axes.",
+  "weakness": "fire",
+  "special": {
+   "name": "Harvest of Skulls",
+   "desc": "Lobs 3 glowing skull-fruits at ranged targets for 14 astral damage each, inflicting Weaken.",
+   "cooldown_s": 11,
+   "telegraph": "The heavy right-side canopy shakes violently as the hanging magenta skulls shriek in unison."
+  },
+  "barks": {
+   "aggro": [
+    "creaking gallows-rope groan",
+    "Ripe... for the picking..."
+   ],
+   "hit": [
+    "bursting fruit-splatter",
+    "chattering branch-skulls"
+   ],
+   "death": [
+    "rotting timber collapse",
+    "The orchard... withers..."
+   ]
+  },
+  "loot_theme": "Astral staves, archon wands, and dark velvet robes."
+ },
+ {
+  "id": "stormtree",
+  "name": "Stormtree",
+  "codex": "Colossal highland pines split down the center by perpetual lightning, holding a crackling plasma core between their halves. Never clump melee troops around their grounding chains; use earth shields and ranged fire.",
+  "weakness": "poison",
+  "special": {
+   "name": "Grounding-Chain Surge",
+   "desc": "Slams its branches, discharging 24 lightning damage in a 3.5-radius ring around its roots.",
+   "cooldown_s": 13,
+   "telegraph": "The plasma orb in its split crown drops downward as the heavy left iron chain glows white-hot."
+  },
+  "barks": {
+   "aggro": [
+    "deafening thunder-split",
+    "hum of ten thousand volts"
+   ],
+   "hit": [
+    "charred bark-explosion",
+    "ozonic hiss"
+   ],
+   "death": [
+    "imploding plasma-crack",
+    "two-halves timber crash"
+   ]
+  },
+  "loot_theme": "Thunderstorm tomes, greatbows, and high-tier lightning charms."
+ },
+ {
+  "id": "doom-knight",
+  "name": "Dread Knight",
+  "codex": "Elite vanguard champions of the Infernal Citadel clad in meteoric black iron and skull-faced pauldrons. Their two-handed battleaxes cleave through shields; slow them with Blizzard and focus them down with astral magic.",
+  "weakness": "cold",
+  "special": {
+   "name": "Hell-Vanguard Cleave",
+   "desc": "Swings its greataxe for 22 physical/fire damage and ignites the ground for 5 fire/s over 5 s.",
+   "cooldown_s": 10,
+   "telegraph": "The fiery runes on its right pauldron flare crimson as it steps forward with a two-handed grip."
+  },
+  "barks": {
+   "aggro": [
+    "The Citadel takes no prisoners!",
+    "Ashes to the throne!"
+   ],
+   "hit": [
+    "meteoric plate clang",
+    "Scratch the iron, bleed the man!"
+   ],
+   "death": [
+    "My oath... burns out...",
+    "internal furnace-collapse"
+   ]
+  },
+  "loot_theme": "Zweihanders, decapitator axes, full plate, and champion rings."
+ },
+ {
+  "id": "cinderhorn",
+  "name": "Cinderhorn",
+  "codex": "Towering furnace-chested megademons of the caldera floor, swinging chained cast-iron weights from their right arms. Stay clear of their mid-range flail sweeps and douse their open ribcage fires with Ice Storm or Blizzard.",
+  "weakness": "cold",
+  "special": {
+   "name": "Furnace-Rib Breath",
+   "desc": "Exhales a wide 4-tile cone of hellfire from its chest for 25 fire damage, melting 4 armor.",
+   "cooldown_s": 13,
+   "telegraph": "Beats its chained iron weight against its hooves as the open furnace in its chest roars white."
+  },
+  "barks": {
+   "aggro": [
+    "bellowing forge-roar",
+    "INTO THE SLAG WITH YOU!"
+   ],
+   "hit": [
+    "clanging cast-iron chain",
+    "spitting magma-growl"
+   ],
+   "death": [
+    "exploding chest-furnace",
+    "THE FIRE... CHOKES..."
+   ]
+  },
+  "loot_theme": "Endgame weapons, fire-resistant greaves, and demon-forged charms."
+ },
+ {
+  "id": "anvilmaw-smith",
+  "name": "Anvilmaw Smith",
+  "codex": "Living siege-titans of the Cinderforge with iron anvils for lower jaws and smoking chimneys protruding from their spines. When they strike their own jaws with their hammer-arms, scatter immediately to avoid the shrapnel.",
+  "weakness": "cold",
+  "special": {
+   "name": "Anvil-Jaw Shrapnel Strike",
+   "desc": "Hammers its own jaw, spraying molten sparks in a 3.5-radius for 20 fire/physical damage and stunning 1.5 s.",
+   "cooldown_s": 14,
+   "telegraph": "Clamps its left-arm tongs shut and raises its colossal right-arm smithing hammer toward its chin."
+  },
+  "barks": {
+   "aggro": [
+    "deafening anvil-ring",
+    "UNFIT METAL! RE-SMELT!"
+   ],
+   "hit": [
+    "boiler-plate hiss",
+    "POOR TEMPER!"
+   ],
+   "death": [
+    "rupturing furnace-explosion",
+    "THE FORGE... CRACKS..."
+   ]
+  },
+  "loot_theme": "Titan gauntlets, obsidian mauls, gothic plate, and tier-5 gear."
+ },
+ {
+  "id": "morvessa",
+  "name": "Morvessa, the Silk Widow",
+  "codex": "BOSS (Act I). An ancient arachnid matriarch nesting in the Weeping Ossuary beneath Ravenwatch, crowned with a cathedral spire of woven bone and silk. Destroy her brood-cocoons before they hatch and keep poison resistance high during her Venom Spray.",
+  "weakness": "fire",
+  "special": {
+   "name": "Ossuary Brood-Lash",
+   "desc": "Lashed in a 4-tile arc for 24 poison/physical damage, knocking down for 2 s and hatching 2 spiderlings.",
+   "cooldown_s": 14,
+   "telegraph": "Rears up on all eight legs as the glowing victim-cocoon on her left abdomen pulses violet."
+  },
+  "barks": {
+   "aggro": [
+    "Come into the parlor, little iron flies...",
+    "Your marrow will feed the third clutch!"
+   ],
+   "hit": [
+    "shrieking mandibles",
+    "You tear the tapestry!"
+   ],
+   "death": [
+    "The loom... snaps...",
+    "collapsing bone-canopy crash"
+   ]
+  },
+  "loot_theme": "Act I Unique items, rare staves, and enchanted silks."
+ },
+ {
+  "id": "gorrathul",
+  "name": "Gorrathul, the Sand Glutton",
+  "codex": "BOSS (Act II). A four-armed desert abomination crowned with golden obelisks, possessing a second vertical maw down its belly that radiates an unnatural heat-sink chill. Avoid standing directly in front of its belly-maw and scatter when it burrows.",
+  "weakness": "fire",
+  "special": {
+   "name": "Gullet of the Dunes",
+   "desc": "Burrows and erupts beneath the party for 32 damage, pulling units inward toward its freezing belly-maw.",
+   "cooldown_s": 16,
+   "telegraph": "The vertical maw on its stomach yawns wide as all four arms—including the giant right scorpion pincer—dig in."
+  },
+  "barks": {
+   "aggro": [
+    "sub-audible desert tremor",
+    "CARAVANS... CITIES... ALL GRAIN FOR THE MILL!"
+   ],
+   "hit": [
+    "cracking obelisk-stone",
+    "A SHARP BONE IN THE MEAT!"
+   ],
+   "death": [
+    "STILL... STARVING...",
+    "sinking sand-crater collapse"
+   ]
+  },
+  "loot_theme": "Act II Unique items, ancient desert gold, and high-tier charms."
+ },
+ {
+  "id": "vesperion",
+  "name": "Vesperion, the Hollow Choir",
+  "codex": "BOSS (Act III). A six-winged spectral arch-prelate hovering above the flooded nave, bearing a towering pipe-organ of human femurs above its cowl. Interrupt its liturgical crescendos and spread out to avoid bouncing Ball Lightning and Frost Novas.",
+  "weakness": "physical",
+  "special": {
+   "name": "Antiphon of the Drowned",
+   "desc": "Chords the bone-organ, draining 25 mana and dealing 28 lightning/cold damage in a 4.5-radius ring.",
+   "cooldown_s": 15,
+   "telegraph": "Four main arms rise like a conductor's while spectral hands swing censers from its open right robe."
+  },
+  "barks": {
+   "aggro": [
+    "Take your seats in the flooded pews...",
+    "Sing with the water in your lungs!"
+   ],
+   "hit": [
+    "shattering bone-pipe chord",
+    "Out of tune!"
+   ],
+   "death": [
+    "The benediction... is concluded...",
+    "fading organ-wheeze"
+   ]
+  },
+  "loot_theme": "Act III Unique items, archmage regalia, and high-tier spell tomes."
+ },
+ {
+  "id": "ashkarath",
+  "name": "Ashkarath, the Cinder King",
+  "codex": "BOSS (Act IV). The three-meter sovereign of the Obsidian Throne, crowned with a blazing halo of fused iron swords and wielding four arms. Break his Bone Prisons immediately so your squad is not trapped inside his Hellfire Breath and Red Lightning rings.",
+  "weakness": "cold",
+  "special": {
+   "name": "Decree of Crown and Ember",
+   "desc": "Cages the furthest target in bone, then sweeps a 6-tile molten greatsword arc for 38 fire/astral damage.",
+   "cooldown_s": 14,
+   "telegraph": "The living dragon-skull on his left shoulder belches black smoke as the sword-halo above his head blazes white."
+  },
+  "barks": {
+   "aggro": [
+    "Kneel in the cinders of your history!",
+    "Order is a lie told by cold ashes!"
+   ],
+   "hit": [
+    "ringing volcano-plate",
+    "You strike the mountain with a needle!"
+   ],
+   "death": [
+    "The ember... only waits... for wind...",
+    "petrifying magma-throne crash"
+   ]
+  },
+  "loot_theme": "Act IV Unique items, sovereign artifacts, and tier-5 masterworks."
+ }
+]

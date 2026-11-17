@@ -1,0 +1,302 @@
+[
+ {
+  "tip": "Assign squads to number keys so panic never leaves your archers standing in front.",
+  "category": "squad",
+  "act": 0
+ },
+ {
+  "tip": "Spacebar freezes time; use it to think before your front line turns into expensive meat.",
+  "category": "combat",
+  "act": 0
+ },
+ {
+  "tip": "Hold position keeps pikemen planted instead of chasing one dying goblin into an ambush.",
+  "category": "squad",
+  "act": 0
+ },
+ {
+  "tip": "Mercenaries fight for coin, not poetry—keep gold in reserve before hiring replacements.",
+  "category": "economy",
+  "act": 0
+ },
+ {
+  "tip": "Area spells scorch friend and foe alike; aim past your own shield-wall, not onto it.",
+  "category": "magic",
+  "act": 0
+ },
+ {
+  "tip": "Rotate the camera near cliffs and ruined walls; ambushers love blind angles.",
+  "category": "exploration",
+  "act": 0
+ },
+ {
+  "tip": "Thornvael caches your campaign locally—progress saves safely even if your connection drops.",
+  "category": "world",
+  "act": 0
+ },
+ {
+  "tip": "Save manually before entering unfamiliar ruins; overconfidence leaves no corpses to loot.",
+  "category": "world",
+  "act": 0
+ },
+ {
+  "tip": "Wedge formations punch through thin lines; box formations keep fragile mages breathing.",
+  "category": "squad",
+  "act": 0
+ },
+ {
+  "tip": "A dead mage casts zero spells; spend a few coins on robes and charms before glory.",
+  "category": "inventory",
+  "act": 0
+ },
+ {
+  "tip": "Potions belong on quick-slots, not buried at the bottom of a pack during a charge.",
+  "category": "inventory",
+  "act": 0
+ },
+ {
+  "tip": "Flanking strikes bypass shields; pin enemies with warriors, then circle with blades.",
+  "category": "combat",
+  "act": 0
+ },
+ {
+  "tip": "High ground extends bow range and accuracy—seize ridges before trading volleys.",
+  "category": "combat",
+  "act": 0
+ },
+ {
+  "tip": "Selling rusted scrap in town pays for bandages; leaving it in mud pays nothing.",
+  "category": "economy",
+  "act": 0
+ },
+ {
+  "tip": "Check merchants after every major battle; caravans bring fresh stock with new rumors.",
+  "category": "economy",
+  "act": 0
+ },
+ {
+  "tip": "Focus fire drops dangerous hexers fast; wounded enemies still swing at full strength.",
+  "category": "combat",
+  "act": 0
+ },
+ {
+  "tip": "Control groups remember your roster across missions—rebind after hiring fresh blood.",
+  "category": "squad",
+  "act": 0
+ },
+ {
+  "tip": "Tomes teach permanent spells; scrolls burn to ash after a single desperate reading.",
+  "category": "magic",
+  "act": 0
+ },
+ {
+  "tip": "Mana regenerates faster out of combat—pause advancing until your casters recover.",
+  "category": "magic",
+  "act": 0
+ },
+ {
+  "tip": "Heavy plate slows marching speed; don't let swift scouts outrun their own rescue.",
+  "category": "inventory",
+  "act": 0
+ },
+ {
+  "tip": "Click the minimap to jump across wide battlefields faster than scrolling through fog.",
+  "category": "exploration",
+  "act": 0
+ },
+ {
+  "tip": "Side trails hide supply caches and old graves—both worth more than an empty road.",
+  "category": "exploration",
+  "act": 0
+ },
+ {
+  "tip": "Heroes carry the banner; if yours falls, the company breaks no matter who survives.",
+  "category": "combat",
+  "act": 0
+ },
+ {
+  "tip": "Inspect rare gear carefully—some relics carry history that hints at stronger sets.",
+  "category": "inventory",
+  "act": 0
+ },
+ {
+  "tip": "Thornwick's bridge tolls are highway robbery, yet cheaper than swimming in chain mail.",
+  "category": "world",
+  "act": 1
+ },
+ {
+  "tip": "Border Fords raiders strike supply wagons first; guard your flanks on narrow roads.",
+  "category": "combat",
+  "act": 1
+ },
+ {
+  "tip": "Fen fog hides archers until ten paces—send a shielded scout ahead of your casters.",
+  "category": "exploration",
+  "act": 1
+ },
+ {
+  "tip": "Lightning spells arc violently in wet weather and shallow river fords.",
+  "category": "magic",
+  "act": 1
+ },
+ {
+  "tip": "In Redmarsh, standing water slows heavy boots—lure foes onto dry hummocks first.",
+  "category": "combat",
+  "act": 2
+ },
+ {
+  "tip": "Poison clouds linger in windless hollows; pull your squad back instead of choking.",
+  "category": "magic",
+  "act": 2
+ },
+ {
+  "tip": "Redmarsh apothecaries charge double for healing draughts—stock up before leaving town.",
+  "category": "economy",
+  "act": 2
+ },
+ {
+  "tip": "Broken wardstones distort spell ranges; watch your casters' footing near violet rifts.",
+  "category": "world",
+  "act": 2
+ },
+ {
+  "tip": "Oakhaven's tower guild buys rare scrolls at fair rates—if you survive the road there.",
+  "category": "economy",
+  "act": 3
+ },
+ {
+  "tip": "Coastal gales scatter loose formations; tighten ranks before crossing sea cliffs.",
+  "category": "squad",
+  "act": 3
+ },
+ {
+  "tip": "Frost magic freezes slick cobbles and tidal causeways, slowing charging cavalry.",
+  "category": "magic",
+  "act": 3
+ },
+ {
+  "tip": "Iron Coast raiders favor heavy arbalests—keep tower shields raised while closing.",
+  "category": "combat",
+  "act": 3
+ },
+ {
+  "tip": "Ironcamp smiths forge the finest plate in the realm, priced for men expecting to die.",
+  "category": "economy",
+  "act": 4
+ },
+ {
+  "tip": "Ember Court hexers weaken your strongest warrior first—carry Ward Charms into battle.",
+  "category": "inventory",
+  "act": 4
+ },
+ {
+  "tip": "Obsidian trenches punish bunched squads; split into two groups to clear crossfire.",
+  "category": "squad",
+  "act": 4
+ },
+ {
+  "tip": "Fire resistance saves lives in the Crownlands—swap rings before marching into ash.",
+  "category": "inventory",
+  "act": 4
+ },
+ {
+  "tip": "Yes, you can hoard ninety healing potions until the credits roll. No, they won't help.",
+  "category": "inventory",
+  "act": 0
+ },
+ {
+  "tip": "Retreating to regroup costs pride; wiping out costs your entire save file's dignity.",
+  "category": "combat",
+  "act": 0
+ },
+ {
+  "tip": "Every mercenary claims to be a veteran until the first fireball lands near their boots.",
+  "category": "squad",
+  "act": 0
+ },
+ {
+  "tip": "Offline play works seamlessly—Thornvael needs no royal courier watching every click.",
+  "category": "world",
+  "act": 0
+ },
+ {
+  "tip": "If a bridge looks suspiciously unguarded, congratulations: you found the ambush.",
+  "category": "exploration",
+  "act": 0
+ },
+ {
+  "tip": "Two-handed swords clear crowds fast, provided someone else is catching the arrows.",
+  "category": "combat",
+  "act": 0
+ },
+ {
+  "tip": "Stilettos and rondels shine against armored captains once their shield-arm is tied up.",
+  "category": "combat",
+  "act": 0
+ },
+ {
+  "tip": "Check your squad's health bars after every skirmish—bleeding out between fights is bad form.",
+  "category": "squad",
+  "act": 0
+ },
+ {
+  "tip": "Summoned storms don't care who paid for the tome; keep casters clear of the eye.",
+  "category": "magic",
+  "act": 0
+ },
+ {
+  "tip": "Repairing and upgrading equipment in towns beats praying to headless statues on the road.",
+  "category": "economy",
+  "act": 0
+ },
+ {
+  "tip": "Scout ahead with swift units, then pull back to your prepared kill-zone.",
+  "category": "squad",
+  "act": 0
+ },
+ {
+  "tip": "Rings and amulets weigh nothing—leaving slots empty is voluntary suffering.",
+  "category": "inventory",
+  "act": 0
+ },
+ {
+  "tip": "A single well-timed Stone Curse stops a charging berserker colder than a speech.",
+  "category": "magic",
+  "act": 0
+ },
+ {
+  "tip": "Archers auto-target nearby threats unless ordered to focus enemy healers.",
+  "category": "squad",
+  "act": 0
+ },
+ {
+  "tip": "Fog of war hides terrain hazards as well as foes—watch where your boots step.",
+  "category": "exploration",
+  "act": 0
+ },
+ {
+  "tip": "Gold weighs nothing in your purse until a merchant sees how much you're carrying.",
+  "category": "economy",
+  "act": 0
+ },
+ {
+  "tip": "Crowd control wins outnumbered fights; damage alone just trades bodies faster.",
+  "category": "combat",
+  "act": 0
+ },
+ {
+  "tip": "Double-click a unit type to select every matching fighter currently on screen.",
+  "category": "squad",
+  "act": 0
+ },
+ {
+  "tip": "The Ember Court remembers every mercy you showed—usually by trying to exploit it.",
+  "category": "world",
+  "act": 4
+ },
+ {
+  "tip": "When all else fails, pause, breathe, and check if your healer still has mana.",
+  "category": "magic",
+  "act": 0
+ }
+]

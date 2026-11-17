@@ -1,0 +1,882 @@
+[
+ {
+  "id": "uniq-tollkeeper-bill",
+  "name": "Tollkeeper's Receipt",
+  "base": "Woodcutter Handaxe",
+  "act": 1,
+  "cls": "warrior",
+  "mods": [
+   {
+    "stat": "body",
+    "value": 2
+   },
+   {
+    "stat": "accuracy",
+    "value": 4
+   },
+   {
+    "stat": "lifesteal",
+    "value": 4
+   }
+  ],
+  "quirk": "Every kill drops 3 extra gold, but each swing that misses deducts 2 gold from your pouch.",
+  "lore": "Recovered from the burned toll house at the Sunken Ford. Collector Vance kept his books balanced in ink until the highland raiders arrived, and in marrow thereafter.",
+  "drop_from": "briar-hound"
+ },
+ {
+  "id": "uniq-bren-dry-boot",
+  "name": "Bren's Only Dry Boot",
+  "base": "Leather Boots",
+  "act": 1,
+  "cls": "any",
+  "mods": [
+   {
+    "stat": "speed",
+    "value": 12
+   },
+   {
+    "stat": "poison_res",
+    "value": 20
+   },
+   {
+    "stat": "hp",
+    "value": 18
+   }
+  ],
+  "quirk": "Grants +25% movement speed in water or mud, but leaves a loud squelching trail that increases enemy aggro range by 3 tiles.",
+  "lore": "Scout Bren swore he lost its twin in the willow sinks east of Ravenwatch. In truth, he traded it to a bog hermit for three dry biscuits and a map that was mostly lies.",
+  "drop_from": "quest"
+ },
+ {
+  "id": "uniq-mordred-tallow-wand",
+  "name": "Candle of the Sunken Sanctum",
+  "base": "Willow Wand",
+  "act": 1,
+  "cls": "mage",
+  "mods": [
+   {
+    "stat": "mind",
+    "value": 2
+   },
+   {
+    "stat": "mana",
+    "value": 24
+   },
+   {
+    "stat": "fire_res",
+    "value": 15
+   }
+  ],
+  "quirk": "Fire spells deal +20% damage, but standing in water extinguishes the wand for 6 s, reducing spell damage by 15%.",
+  "lore": "Carved from bleached alder wood and dipped in rendered tallow from the Ravenwatch crypts. Mordred the Ashen used it to light rituals where dry kindling refused to catch.",
+  "drop_from": "fallen-shaman"
+ },
+ {
+  "id": "uniq-ravenwatch-gate-door",
+  "name": "Splinter of the Bailey",
+  "base": "Wooden Buckler",
+  "act": 1,
+  "cls": "warrior",
+  "mods": [
+   {
+    "stat": "armor",
+    "value": 4
+   },
+   {
+    "stat": "hp",
+    "value": 35
+   },
+   {
+    "stat": "body",
+    "value": 1
+   }
+  ],
+  "quirk": "Blocks 40% of ranged projectile damage, but burns for double duration when hit by fire.",
+  "lore": "A three-inch slab of seasoned iron-oak pried from the shattered inner portcullis of Ravenwatch Keep. Three broken iron arrowheads are still wedged in the grain.",
+  "drop_from": "quill-fiend"
+ },
+ {
+  "id": "uniq-greywood-poacher-bow",
+  "name": "Tax-Collector's Recurve",
+  "base": "Ash Shortbow",
+  "act": 1,
+  "cls": "archer",
+  "mods": [
+   {
+    "stat": "accuracy",
+    "value": 6
+   },
+   {
+    "stat": "crit",
+    "value": 8
+   },
+   {
+    "stat": "speed",
+    "value": 6
+   }
+  ],
+  "quirk": "Every 4th arrow pins the target's shadow to the dirt, rooting them for 2.5 s.",
+  "lore": "Quartermaster Tarn confiscated forty such bows from Greywood poachers before the war. When the border collapsed, he handed them back with instructions to shoot anything wearing furs.",
+  "drop_from": "gloom-stag"
+ },
+ {
+  "id": "uniq-krag-jawbone",
+  "name": "Quarryman's Grievance",
+  "base": "Spiked Cudgel",
+  "act": 1,
+  "cls": "warrior",
+  "mods": [
+   {
+    "stat": "body",
+    "value": 3
+   },
+   {
+    "stat": "armor",
+    "value": 3
+   },
+   {
+    "stat": "hp",
+    "value": 25
+   }
+  ],
+  "quirk": "Hits against armored or stone targets deal +35% crushing damage and reduce their armor by 2 for 5 s.",
+  "lore": "Bound with quarry-chain and weighted with a chunk of enchanted granite chipped from Krag Ironhide's left knee. It is unsubtle, poorly balanced, and thoroughly persuasive.",
+  "drop_from": "flintback"
+ },
+ {
+  "id": "uniq-corin-dispatch-ring",
+  "name": "Seal of Unread Dispatches",
+  "base": "Copper Band",
+  "act": 1,
+  "cls": "any",
+  "mods": [
+   {
+    "stat": "speed",
+    "value": 10
+   },
+   {
+    "stat": "mana_regen",
+    "value": 3
+   },
+   {
+    "stat": "cold_res",
+    "value": 15
+   }
+  ],
+  "quirk": "While below 35% HP, your movement speed increases by 30%, but you cannot cast offensive spells.",
+  "lore": "Courier Corin swallowed this signet ring twice during the siege of Lantern Passage to keep it from the Ravine Warden. He politely declined to wear it again afterward.",
+  "drop_from": "chest"
+ },
+ {
+  "id": "uniq-undervault-lantern-helm",
+  "name": "Miner's Canary Cage",
+  "base": "Iron Helm",
+  "act": 1,
+  "cls": "warrior",
+  "mods": [
+   {
+    "stat": "armor",
+    "value": 3
+   },
+   {
+    "stat": "poison_res",
+    "value": 30
+   },
+   {
+    "stat": "hp",
+    "value": 22
+   }
+  ],
+  "quirk": "Emits a loud metallic chirping whenever poison clouds are within 6 tiles, granting +15% accuracy to nearby allies.",
+  "lore": "Worn by the deep-sappers who cleared the Undervault Links. There is no bird inside the iron crest anymore—only a bound marsh-wisp that shrieks when the air turns sour.",
+  "drop_from": "mire-wisp"
+ },
+ {
+  "id": "uniq-morvessa-spindle",
+  "name": "Widow's Loom-Weight",
+  "base": "Bloodstone Pendant",
+  "act": 1,
+  "cls": "any",
+  "mods": [
+   {
+    "stat": "hp",
+    "value": 45
+   },
+   {
+    "stat": "poison_res",
+    "value": 25
+   },
+   {
+    "stat": "lifesteal",
+    "value": 6
+   }
+  ],
+  "quirk": "When struck in melee, weaves a brittle silk thread that slows the attacker by 30% for 4 s.",
+  "lore": "Cut from the calcified silk-gland of Morvessa beneath the Weeping Ossuary. It remains unpleasantly sticky in humid weather and attracts cellar spiders.",
+  "drop_from": "morvessa"
+ },
+ {
+  "id": "uniq-alkali-canteen-amulet",
+  "name": "Deserter's Tin Canteen",
+  "base": "Bronze Locket",
+  "act": 2,
+  "cls": "any",
+  "mods": [
+   {
+    "stat": "hp",
+    "value": 40
+   },
+   {
+    "stat": "fire_res",
+    "value": 22
+   },
+   {
+    "stat": "body",
+    "value": 2
+   }
+  ],
+  "quirk": "Drinking a Healing Draught also restores 25 mana, but inflicts a 3 s coughing fit that reduces accuracy by 4.",
+  "lore": "Half-full of Redmarsh brackish water and cheap apricot spirit. It tastes of rust and dead beetles, yet men have killed their brothers at Highgate Watch for a single swallow.",
+  "drop_from": "sand-raider"
+ },
+ {
+  "id": "uniq-kaelen-marrow-needle",
+  "name": "Lancet of the Stone Circle",
+  "base": "Steel Rondel",
+  "act": 2,
+  "cls": "any",
+  "mods": [
+   {
+    "stat": "accuracy",
+    "value": 6
+   },
+   {
+    "stat": "crit",
+    "value": 10
+   },
+   {
+    "stat": "lifesteal",
+    "value": 6
+   }
+  ],
+  "quirk": "Every critical hit steals 8 mana from the target and infects them with 4 poison damage per second for 6 s.",
+  "lore": "Hexer Kaelen maintained that bloodletting cured all frontier complaints, particularly the complaint of imperial soldiers standing upright in his desert.",
+  "drop_from": "witch-doctor"
+ },
+ {
+  "id": "uniq-quarry-overseer-maul",
+  "name": "Indenture Breaker",
+  "base": "Heavy Morningstar",
+  "act": 2,
+  "cls": "warrior",
+  "mods": [
+   {
+    "stat": "body",
+    "value": 3
+   },
+   {
+    "stat": "accuracy",
+    "value": 3
+   },
+   {
+    "stat": "hp",
+    "value": 35
+   }
+  ],
+  "quirk": "Every 4th hit releases a shockwave of ironstone dust that blinds enemies in a 2-tile radius for 3 s.",
+  "lore": "Wielded by the head convict of the Deep Quarry during the terrace uprising. The iron chain wrapping the haft is still stamped with his prison serial number.",
+  "drop_from": "pale-burrower"
+ },
+ {
+  "id": "uniq-wardstone-shard-focus",
+  "name": "Splinter of the Third Monolith",
+  "base": "Chiseled Quartz Focus",
+  "act": 2,
+  "cls": "mage",
+  "mods": [
+   {
+    "stat": "mind",
+    "value": 3
+   },
+   {
+    "stat": "mana",
+    "value": 32
+   },
+   {
+    "stat": "lightning_res",
+    "value": 28
+   }
+  ],
+  "quirk": "Casting an Air or Earth spell discharges a static arc to the nearest foe within 5 tiles for 18 lightning damage.",
+  "lore": "Chipped from the northern wardstone during the great dust-rupture. It smells permanently of scorched sand and makes the bearer's hair stand on end before rain.",
+  "drop_from": "dune-scarab"
+ },
+ {
+  "id": "uniq-bram-axle-shield",
+  "name": "Iron Wheel of Wagon Four",
+  "base": "Iron Shield",
+  "act": 2,
+  "cls": "warrior",
+  "mods": [
+   {
+    "stat": "armor",
+    "value": 5
+   },
+   {
+    "stat": "hp",
+    "value": 40
+   },
+   {
+    "stat": "lightning_res",
+    "value": 18
+   }
+  ],
+  "quirk": "Reduces movement speed by 8%, but makes the bearer completely immune to knockback and stun effects.",
+  "lore": "When the fourth munitions wagon broke its axle in the Redmarsh mire, Quartermaster Bram bolted a leather strap to the iron-rimmed wheel and told his sergeant to stop complaining.",
+  "drop_from": "quest"
+ },
+ {
+  "id": "uniq-vorn-retreat-boots",
+  "name": "Spurs of Tactical Withdrawal",
+  "base": "Tracker Treads",
+  "act": 2,
+  "cls": "any",
+  "mods": [
+   {
+    "stat": "speed",
+    "value": 16
+   },
+   {
+    "stat": "armor",
+    "value": 2
+   },
+   {
+    "stat": "accuracy",
+    "value": 3
+   }
+  ],
+  "quirk": "Moving away from enemies grants +20% speed and +4 mana regen, but moving toward them reduces your armor by 2.",
+  "lore": "Taken from Commander Vorn's baggage train in Spearwind Gorge. His officers called it a rout; his memoirs, left unfinished in the saddlebag, called it 'an aggressive rearward realignment.'",
+  "drop_from": "dune-lurker"
+ },
+ {
+  "id": "uniq-embalmer-linen-robe",
+  "name": "pitch-steeped Winding Sheet",
+  "base": "Weaver Robe",
+  "act": 2,
+  "cls": "mage",
+  "mods": [
+   {
+    "stat": "mind",
+    "value": 3
+   },
+   {
+    "stat": "mana",
+    "value": 28
+   },
+   {
+    "stat": "poison_res",
+    "value": 35
+   }
+  ],
+  "quirk": "Grants +100% resistance to poison and disease, but increases all fire damage taken by 35%.",
+  "lore": "Unwound from a three-century-old magistrate in the salt tombs below Redmarsh. The bitumen preservative keeps out marsh-rot wonderfully, provided one stays far from open torches.",
+  "drop_from": "greater-mummy"
+ },
+ {
+  "id": "uniq-mirage-hunters-bow",
+  "name": "Salt-Mirage Longbow",
+  "base": "Recurve Bow",
+  "act": 2,
+  "cls": "archer",
+  "mods": [
+   {
+    "stat": "accuracy",
+    "value": 7
+   },
+   {
+    "stat": "crit",
+    "value": 9
+   },
+   {
+    "stat": "fire_res",
+    "value": 18
+   }
+  ],
+  "quirk": "Arrows fired from more than 6 tiles away split into a shimmering heat-haze, hitting a second target for 50% damage.",
+  "lore": "Laminated from dried dune-beast horn and sinew cured in alkaline brine. Looking along the arrow-shelf for too long induces a mild, pleasant hallucination of cold beer.",
+  "drop_from": "dune-beast"
+ },
+ {
+  "id": "uniq-gorrathul-gizzard-stone",
+  "name": "Bezoar of the Sand Glutton",
+  "base": "Stone Charm",
+  "act": 2,
+  "cls": "any",
+  "mods": [
+   {
+    "stat": "hp",
+    "value": 55
+   },
+   {
+    "stat": "armor",
+    "value": 4
+   },
+   {
+    "stat": "poison_res",
+    "value": 30
+   }
+  ],
+  "quirk": "Absorbs the first 15 points of damage from any poison or acid attack and converts it into 10 HP.",
+  "lore": "Hacked from the third stomach of Gorrathul alongside six rusted belt buckles, a brass astrolabe, and the guild-signet of a missing spice caravan.",
+  "drop_from": "gorrathul"
+ },
+ {
+  "id": "uniq-sera-bone-saw",
+  "name": "Healer Sera's Amputation Saw",
+  "base": "Flamberge",
+  "act": 3,
+  "cls": "warrior",
+  "mods": [
+   {
+    "stat": "body",
+    "value": 3
+   },
+   {
+    "stat": "crit",
+    "value": 12
+   },
+   {
+    "stat": "lifesteal",
+    "value": 8
+   }
+  ],
+  "quirk": "Critical hits inflict a bleeding wound for 8 damage/s over 5 s and heal the nearest injured ally for 20 HP.",
+  "lore": "'Hold him down and give him the leather strap to bite. If he dies of shock, at least he won't die of gangrene.' — Chief Healer Sera, during the third night at the woodland infirmary.",
+  "drop_from": "quest"
+ },
+ {
+  "id": "uniq-sunken-castellan-plate",
+  "name": "Barnacle-Crusted Brigandine",
+  "base": "Hardened Brigandine",
+  "act": 3,
+  "cls": "any",
+  "mods": [
+   {
+    "stat": "armor",
+    "value": 6
+   },
+   {
+    "stat": "cold_res",
+    "value": 30
+   },
+   {
+    "stat": "hp",
+    "value": 48
+   }
+  ],
+  "quirk": "Attackers striking you in melee take 9 physical thorn damage from the razor-sharp sea barnacles.",
+  "lore": "Worn by the Sunken Citadel's castellan, who refused to abandon the lower guardroom even after the winter tides permanently claimed the ground floor.",
+  "drop_from": "salt-crab"
+ },
+ {
+  "id": "uniq-baron-embezzled-signet",
+  "name": "The Baron's Cooking-Ledger Ring",
+  "base": "Ring of the Scribe",
+  "act": 3,
+  "cls": "any",
+  "mods": [
+   {
+    "stat": "mind",
+    "value": 3
+   },
+   {
+    "stat": "mana",
+    "value": 35
+   },
+   {
+    "stat": "crit",
+    "value": 8
+   }
+  ],
+  "quirk": "Shop prices in towns are reduced by 15%, but enemies focus their attacks on you first as if you owed them back-pay.",
+  "lore": "The rogue baron of Oakhaven kept two signet rings: one for signing imperial tax charters, and this one for transferring garrison pension funds into his private catacombs.",
+  "drop_from": "chest"
+ },
+ {
+  "id": "uniq-lyra-last-arbalest",
+  "name": "Turnkey of the North Gate",
+  "base": "Heavy Arbalest",
+  "act": 3,
+  "cls": "archer",
+  "mods": [
+   {
+    "stat": "accuracy",
+    "value": 8
+   },
+   {
+    "stat": "crit",
+    "value": 11
+   },
+   {
+    "stat": "body",
+    "value": 2
+   }
+  ],
+  "quirk": "Fires heavy iron bolts that pierce through the first target to hit a second foe behind them for 75% damage.",
+  "lore": "When Gate Warden Lyra ran out of standard cedar quarrels during the Hourglass siege, her engineers began loading iron door-hinges and broken jail keys into the windlass.",
+  "drop_from": "hollow-knight"
+ },
+ {
+  "id": "uniq-riverlock-sluice-crank",
+  "name": "Sluice-Master's Wrench",
+  "base": "Steel Warhammer",
+  "act": 3,
+  "cls": "warrior",
+  "mods": [
+   {
+    "stat": "body",
+    "value": 4
+   },
+   {
+    "stat": "armor",
+    "value": 3
+   },
+   {
+    "stat": "lightning_res",
+    "value": 22
+   }
+  ],
+  "quirk": "Every 5th hit knocks the target backward 2 tiles and stuns them for 2 s.",
+  "lore": "Fourteen pounds of drop-forged Oakhaven iron designed to turn the rusted floodgate gears of Riverlock Crossing. It turns helmets with equal mechanical leverage.",
+  "drop_from": "silt-colossus"
+ },
+ {
+  "id": "uniq-stormtree-amber-staff",
+  "name": "Lightning-Split Bough",
+  "base": "Rune Staff",
+  "act": 3,
+  "cls": "mage",
+  "mods": [
+   {
+    "stat": "mind",
+    "value": 4
+   },
+   {
+    "stat": "mana",
+    "value": 42
+   },
+   {
+    "stat": "mana_regen",
+    "value": 6
+   }
+  ],
+  "quirk": "Chain Lightning and Thunderstorm jump to 2 additional targets, but each cast shocks the wielder for 6 HP.",
+  "lore": "Harvested from the charred heartwood of the coastal Stormtree. The wood never truly stopped burning; it merely agreed to wait until pointed at someone else.",
+  "drop_from": "stormtree"
+ },
+ {
+  "id": "uniq-admiral-kael-spyglass",
+  "name": "Harbor-Burner's Astrolabe",
+  "base": "Radiant Spell-Mirror",
+  "act": 3,
+  "cls": "mage",
+  "mods": [
+   {
+    "stat": "mind",
+    "value": 3
+   },
+   {
+    "stat": "accuracy",
+    "value": 6
+   },
+   {
+    "stat": "fire_res",
+    "value": 25
+   }
+  ],
+  "quirk": "Increases the reach of all ranged spells by +2 tiles.",
+  "lore": "Taken from Admiral Kael's charred cabin aboard his flagship in Harborwatch. The brass lenses are cracked by heat, yet they still calculate artillery trajectories with cruel precision.",
+  "drop_from": "ash-weaver"
+ },
+ {
+  "id": "uniq-drowned-choir-bell",
+  "name": "Clapper of the Submerged Nave",
+  "base": "Astral Medallion",
+  "act": 3,
+  "cls": "mage",
+  "mods": [
+   {
+    "stat": "mana",
+    "value": 40
+   },
+   {
+    "stat": "cold_res",
+    "value": 28
+   },
+   {
+    "stat": "mana_regen",
+    "value": 5
+   }
+  ],
+  "quirk": "Whenever your mana drops below 20%, emits a freezing chime that slows all foes within 4 tiles for 4 s (30 s cooldown).",
+  "lore": "A salt-eaten bronze pendulum salvaged from the flooded bell-tower of the Sunken Citadel. Even on dry land, it swings slightly in rhythm with the coastal tide.",
+  "drop_from": "frost-bell"
+ },
+ {
+  "id": "uniq-vesperion-organ-pipe",
+  "name": "Hollow Reed of Vesperion",
+  "base": "Crystal Siphon Wand",
+  "act": 3,
+  "cls": "mage",
+  "mods": [
+   {
+    "stat": "mind",
+    "value": 4
+   },
+   {
+    "stat": "mana",
+    "value": 48
+   },
+   {
+    "stat": "lifesteal",
+    "value": 7
+   }
+  ],
+  "quirk": "Spells drain 5 mana from every enemy hit and restore it to the caster.",
+  "lore": "One of the smaller bone pipes from Vesperion's dorsal cathedral organ. When swung through the air, it produces a flat, liturgical F-sharp that makes dogs weep.",
+  "drop_from": "vesperion"
+ },
+ {
+  "id": "uniq-malrik-unforgiven-tome",
+  "name": "Malrik's Margin-Notes",
+  "base": "Eye of the Cosmos",
+  "act": 4,
+  "cls": "mage",
+  "mods": [
+   {
+    "stat": "mind",
+    "value": 5
+   },
+   {
+    "stat": "mana",
+    "value": 60
+   },
+   {
+    "stat": "mana_regen",
+    "value": 9
+   }
+  ],
+  "quirk": "Reduces all spell cooldowns by 20%, but 15% of all damage taken is subtracted from your Mana before HP.",
+  "lore": "Bound in the fire-cured hide of a highland drake. Arch-Mage Malrik's handwriting begins in neat academic script and degenerates over three hundred pages into frantic geometric diagrams.",
+  "drop_from": "rift-moth"
+ },
+ {
+  "id": "uniq-rowan-siege-helm",
+  "name": "Dent of Greystone Wall",
+  "base": "Dread Crest Helm",
+  "act": 4,
+  "cls": "warrior",
+  "mods": [
+   {
+    "stat": "armor",
+    "value": 7
+   },
+   {
+    "stat": "hp",
+    "value": 60
+   },
+   {
+    "stat": "fire_res",
+    "value": 30
+   }
+  ],
+  "quirk": "Reduces damage from area-of-effect explosions and boulders by 45%.",
+  "lore": "Captain Rowan took a glancing blow from a basalt catapult stone on the third day at Greystone Bastion. His neck was never straight again, which he claimed improved his posture on parade.",
+  "drop_from": "basalt-brute"
+ },
+ {
+  "id": "uniq-anvilmaw-slag-maul",
+  "name": "Tongs of the Cinderforge",
+  "base": "Obsidian Greatmaul",
+  "act": 4,
+  "cls": "warrior",
+  "mods": [
+   {
+    "stat": "body",
+    "value": 5
+   },
+   {
+    "stat": "fire_res",
+    "value": 35
+   },
+   {
+    "stat": "crit",
+    "value": 12
+   }
+  ],
+  "quirk": "Every 3rd hit brands the target with white-hot slag, dealing 15 fire damage/s for 4 s and melting 3 armor.",
+  "lore": "Still glowing dull cherry-red at the core. If left on a wooden table in Ironcamp, it burns its way through to the floorboards before the ale goes flat.",
+  "drop_from": "anvilmaw-smith"
+ },
+ {
+  "id": "uniq-redglass-fletched-bow",
+  "name": "Caldera Glass Greatbow",
+  "base": "Windpiercer Greatbow",
+  "act": 4,
+  "cls": "archer",
+  "mods": [
+   {
+    "stat": "accuracy",
+    "value": 9
+   },
+   {
+    "stat": "crit",
+    "value": 15
+   },
+   {
+    "stat": "speed",
+    "value": 14
+   }
+  ],
+  "quirk": "Arrows shatter into volcanic glass on impact, dealing 30% of their damage in a 2-tile cone behind the target.",
+  "lore": "Ribbed with flexible strips of crimson obsidian taken from a Redglass Drake's wing-spar. Drawing the string without heavy leather gauntlets is a quick way to lose three fingers.",
+  "drop_from": "redglass-drake"
+ },
+ {
+  "id": "uniq-gauntlet-pacifier-shield",
+  "name": "Portcullis of the First Checkpoint",
+  "base": "Aegis of the Citadel",
+  "act": 4,
+  "cls": "warrior",
+  "mods": [
+   {
+    "stat": "armor",
+    "value": 8
+   },
+   {
+    "stat": "hp",
+    "value": 65
+   },
+   {
+    "stat": "fire_res",
+    "value": 25
+   },
+   {
+    "stat": "lightning_res",
+    "value": 25
+   }
+  ],
+  "quirk": "While standing completely still, you gain +5 armor and reflect 25% of ranged damage back at the shooter.",
+  "lore": "Carried through the Gauntlet of Iron by a vanguard sergeant who died standing upright, wedged so tightly between two basalt boulders that the enemy had to climb over him.",
+  "drop_from": "doom-knight"
+ },
+ {
+  "id": "uniq-penitent-cinder-boots",
+  "name": "Coal-Walker's Sabatons",
+  "base": "Juggernaut War Greaves",
+  "act": 4,
+  "cls": "warrior",
+  "mods": [
+   {
+    "stat": "armor",
+    "value": 6
+   },
+   {
+    "stat": "fire_res",
+    "value": 40
+   },
+   {
+    "stat": "speed",
+    "value": 12
+   }
+  ],
+  "quirk": "Leaves a trail of burning embers as you walk that deals 10 fire damage/s to pursuing enemies, but burns you for 2 HP/s while standing still.",
+  "lore": "Forged without leather linings so they would never catch fire in the lava trenches of the Outer Rampart. The soldiers who wore them learned never to stop marching.",
+  "drop_from": "cinderhorn"
+ },
+ {
+  "id": "uniq-hollow-monarch-blade",
+  "name": "Abdication",
+  "base": "Dreadnought Zweihander",
+  "act": 4,
+  "cls": "warrior",
+  "mods": [
+   {
+    "stat": "body",
+    "value": 5
+   },
+   {
+    "stat": "lifesteal",
+    "value": 12
+   },
+   {
+    "stat": "crit",
+    "value": 14
+   },
+   {
+    "stat": "cold_res",
+    "value": 25
+   }
+  ],
+  "quirk": "Deals +25% damage to bosses and elite monsters, and executes non-boss enemies below 12% HP instantly.",
+  "lore": "An ancient coronation greatsword whose royal crest was chiseled off with a cold iron punch. It weighs as much as a wet sack of salt and cuts like a broken treaty.",
+  "drop_from": "hollow-king"
+ },
+ {
+  "id": "uniq-threshold-scales-ring",
+  "name": "Signet of the Two Paths",
+  "base": "Signet of Unbroken Vigor",
+  "act": 4,
+  "cls": "any",
+  "mods": [
+   {
+    "stat": "body",
+    "value": 3
+   },
+   {
+    "stat": "mind",
+    "value": 3
+   },
+   {
+    "stat": "hp",
+    "value": 40
+   },
+   {
+    "stat": "mana",
+    "value": 40
+   }
+  ],
+  "quirk": "When HP is above 50%, grants +15% spell damage; when HP is below 50%, grants +15% physical damage and +8% lifesteal.",
+  "lore": "Found upon the stone threshold before the Crown Vault. One half of the bezel is set with cold celestial silver, the other with slag from the Obsidian Throne.",
+  "drop_from": "quest"
+ },
+ {
+  "id": "uniq-ashkarath-crown-shard",
+  "name": "Cinder-King's Halberd-Horn",
+  "base": "Medallion of the Celestial Spire",
+  "act": 4,
+  "cls": "any",
+  "mods": [
+   {
+    "stat": "mind",
+    "value": 5
+   },
+   {
+    "stat": "body",
+    "value": 4
+   },
+   {
+    "stat": "fire_res",
+    "value": 40
+   },
+   {
+    "stat": "crit",
+    "value": 15
+   }
+  ],
+  "quirk": "Every 5th spell or weapon attack unleashes a ring of volcanic fire around you for 38 fire damage.",
+  "lore": "A molten iron sword-tip broken from the blazing halo above Ashkarath's brow. Even suspended on a heavy chain, it pulls slightly toward the center of the earth.",
+  "drop_from": "ashkarath"
+ }
+]

@@ -1,0 +1,407 @@
+{
+ "warrior": {
+  "class": "warrior",
+  "tagline": "Heavy iron, short answers, and bad knees in the rain.",
+  "description": "A veteran border-guard who treats battlefields like bad weather—something to be endured behind good oak and thick plate. Built to hold choke points, break shield walls, and survive mistakes that would fold lesser mercenaries.",
+  "backstory": [
+   "Twelve years on the Thornwick border taught him two useful habits: check your cinch-straps before dawn, and never volunteer for a parade. He survived three reorganizations of the provincial levy simply by being too stubborn to die and too reliable to dismiss.",
+   "When the salt-tax riots turned into full-scale siege warfare, his company was paid in promissory notes stamped by clerks who had already fled south. He kept the shield, pawned the ceremonial sash, and started taking contracts where the silver was weighed upfront.",
+   "He does not care who sits on the Obsidian Throne or why the wells went dry. Someone paid to have the road cleared, and he intends to collect before his joints lock up for good."
+  ],
+  "barks": {
+   "select": [
+    "Point me at the thick end.",
+    "My shield's ready. My knees aren't.",
+    "Keep the silver dry and the orders short.",
+    "Same mud, different banner.",
+    "Let's get this over with before rain.",
+    "If it bleeds, I can block it."
+   ],
+   "move": [
+    "Moving. Try to keep up.",
+    "Another mile of gravel.",
+    "Watch the flanks.",
+    "Advancing—slow and heavy.",
+    "Eyes open, shields up.",
+    "Ground looks poor for dying."
+   ],
+   "attack": [
+    "Hold still for this.",
+    "Right through the collarbone.",
+    "Make room!",
+    "Your guard's sloppy.",
+    "Down you go.",
+    "Iron wins arguments."
+   ],
+   "hurt": [
+    "That'll bruise through winter.",
+    "Still standing. Barely.",
+    "Felt that one in my teeth.",
+    "Cheap shot.",
+    "Armor's earning its keep."
+   ],
+   "low_hp": [
+    "Someone bring a bandage—or a shovel.",
+    "Running out of blood here.",
+    "Not today. Not in this ditch.",
+    "Vision's going gray around the edges.",
+    "One more hit and I'm done."
+   ],
+   "level_up": [
+    "Still learning new ways to hit things.",
+    "Harder shell, same old dents.",
+    "Practice makes scar tissue.",
+    "Good. Now I survive slightly worse odds.",
+    "Muscle remembers what the head forgets."
+   ],
+   "rare_loot": [
+    "Decent steel. No rust on the tang.",
+    "Finally, something worth carrying.",
+    "Better than issue gear.",
+    "That'll fetch a month's rations."
+   ],
+   "unique_loot": [
+    "Now that's proper metalwork.",
+    "Whoever forged this hated their enemies.",
+    "Heavy, balanced, and ugly. Perfect.",
+    "Worth every blister on the march."
+   ],
+   "cast_or_ability": [
+    "Brace for impact!",
+    "Break their line!",
+    "Hold the dirt!",
+    "Shield wall—now!",
+    "Put your weight behind it!"
+   ],
+   "idle": [
+    "My boots are leaking again.",
+    "Standing still costs extra.",
+    "Could use a chair and some broth.",
+    "Quiet usually means an ambush.",
+    "Should've stayed a turnip farmer.",
+    "This strap's chafing.",
+    "Wake me when someone swings.",
+    "Even the crows look bored."
+   ],
+   "kill_streak": [
+    "Line's folding—keep pressing!",
+    "Next volunteer!",
+    "They're falling like cordwood.",
+    "Should've brought more men."
+   ],
+   "victory": [
+    "Field's clear. Check the bodies.",
+    "Still breathing. Counts as a win.",
+    "Patch the shields and move on.",
+    "Job's done. Pay the company."
+   ],
+   "death": [
+    "Tell Garrick... I want my boots back...",
+    "Finally... a place to lie down...",
+    "Contract's... void..."
+   ]
+  },
+  "act_reactions": {
+   "act1_end": "Ashbrook's empty, the road south is open, and my boots are already full of dust.",
+   "act2_end": "All that climbing for a dry cistern. At least the sea breeze smells cleaner.",
+   "act3_end": "I hate boats. I hate burning boats even more. Point me toward dry rock.",
+   "act4_end": "The throne's warm, the war's quiet, and nobody's shooting at me. Best contract yet."
+  },
+  "npc_asides": [
+   {
+    "npc": "npc-hobb-smith",
+    "line": "Add another rivet to the left pauldron, Hobb—cavalry lances keep skidding right into the seam."
+   },
+   {
+    "npc": "npc-garrick-captain",
+    "line": "Keep your militia behind my shield line, Garrick. Brave boys make messy funerals."
+   },
+   {
+    "npc": "npc-bram-quartermaster",
+    "line": "Skip the salted mutton, Bram—give me lamp oil and whetstones before the next ridge."
+   },
+   {
+    "npc": "npc-kors-shipwright",
+    "line": "If this hull leaks twice between Oakhaven and the straits, Kors, I'm swimming back to bill you."
+   },
+   {
+    "npc": "npc-rowan-commander",
+    "line": "Your vanguard marches too stiff, Rowan. Loose shoulders live longer on volcanic scree."
+   },
+   {
+    "npc": "npc-vok-forgemaster",
+    "line": "Now that's a proper anvil, Vok. Keep your tongs off my blade unless you're tempering the edge."
+   }
+  ]
+ },
+ "archer": {
+  "class": "archer",
+  "tagline": "Good eyes, dry wit, and zero interest in melee.",
+  "description": "A sharp-tongued reconnaissance hunter who prefers solving problems from sixty paces behind cover. Excels at picking off high-value targets, crippling advancing lines, and reminding heavy infantry how loud they breathe.",
+  "backstory": [
+   "She learned her trade poaching crown deer in the border woods, where getting caught meant losing a thumb and missing a shot meant going hungry. Both lessons stuck remarkably well.",
+   "After three winters guiding tax assessors through marshland—and occasionally leaving the rude ones on the wrong side of a peat bog—she discovered that military scouting paid twice as much for half the conversation.",
+   "She follows the campaign south mostly out of professional curiosity: someone keeps building bigger walls, and she enjoys finding the drafty gaps in all of them."
+  ],
+  "barks": {
+   "select": [
+    "Wind's steady. Target's ugly.",
+    "Let's keep sixty paces between us.",
+    "I brought plenty of bodkins.",
+    "Point out the expensive ones.",
+    "Try not to clank so loud.",
+    "Always better from high ground."
+   ],
+   "move": [
+    "Light steps.",
+    "Taking the flank.",
+    "Watch the mud.",
+    "Ahead and unseen.",
+    "Good sightlines over there.",
+    "Moving—no need to stomp."
+   ],
+   "attack": [
+    "Right through the visor.",
+    "Hold that pose.",
+    "Feather-delivered.",
+    "Missed your heart—barely.",
+    "One less shield to carry.",
+    "Should've worn a thicker helm."
+   ],
+   "hurt": [
+    "Ow! Who let them close?",
+    "That ruined a perfectly good cloak.",
+    "Rude. Truly rude.",
+    "Somebody peel them off me!",
+    "Note to self: duck faster."
+   ],
+   "low_hp": [
+    "Too close! Way too close!",
+    "I am not built for this!",
+    "Patch me up before I faint!",
+    "Somebody take agro, please!",
+    "Bad day to forget extra bandages."
+   ],
+   "level_up": [
+    "Sharper eyes, steadier hands.",
+    "Even the wind's cooperating now.",
+    "New trick, same dead targets.",
+    "Getting dangerously competent.",
+    "Try dodging this batch."
+   ],
+   "rare_loot": [
+    "Ooh, shiny—and light enough to carry.",
+    "Look at the fletching balance on that.",
+    "I'll take it before the warrior notices.",
+    "Nice craftsmanship. Terrible previous owner."
+   ],
+   "unique_loot": [
+    "Now that's a work of art.",
+    "Draws like silk, bites like a viper.",
+    "I'm keeping this. Don't even ask.",
+    "Worth wading through all that mud."
+   ],
+   "cast_or_ability": [
+    "Watch the sky!",
+    "Pinning them down!",
+    "Thread the needle!",
+    "Snare's set—spring it!",
+    "Rain of ash and yew!"
+   ],
+   "idle": [
+    "Checking the wind. Still blowing.",
+    "Do we get paid by the hour?",
+    "Waxing the bowstring—don't interrupt.",
+    "I could hit that crow from here.",
+    "Heavy armor looks exhausting.",
+    "Wake me when something moves.",
+    "Nice scenery, awful company.",
+    "Counting arrows. Still enough."
+   ],
+   "kill_streak": [
+    "Like shooting barrels in a ditch.",
+    "Who's next in line?",
+    "That's three—keep them coming!",
+    "Did they even see me?"
+   ],
+   "victory": [
+    "Clean sweep. Salvage the good shafts.",
+    "And nobody even mussed my hair.",
+    "Target practice concluded.",
+    "Easy enough. What's next?"
+   ],
+   "death": [
+    "Forgot... to check... behind me...",
+    "Tell them... the wind shifted...",
+    "Well... that's embarrassing..."
+   ]
+  },
+  "act_reactions": {
+   "act1_end": "Half a town evacuated and not a single arrow wasted. Honestly, I'm impressed with myself.",
+   "act2_end": "Turns out the mighty fortress was guarding an empty bucket. Classic management.",
+   "act3_end": "Setting boats on fire is great for dramatic lighting, terrible for visibility.",
+   "act4_end": "You actually sat on the flaming chair. Bold choice—I'll stand slightly upwind."
+  },
+  "npc_asides": [
+   {
+    "npc": "npc-fenwick-ferryman",
+    "line": "Keep the oar steady, Fenwick—hard to line up a clean shot when your boat wobbles like a drunk duck."
+   },
+   {
+    "npc": "npc-tull-water-seller",
+    "line": "Two coppers for a thimble of warm water, Tull? I'd rather lick dew off a cactus."
+   },
+   {
+    "npc": "npc-lyra-warden",
+    "line": "Your coastal scouts walk like badgers in dry leaves, Lyra. Send them to me for a week."
+   },
+   {
+    "npc": "npc-pip-mudlark",
+    "line": "Keep your pockets out of my quiver, Pip—those broadheads bite harder than harbor crabs."
+   },
+   {
+    "npc": "npc-sera-healer",
+    "line": "Just a dab of salve on the forearm, Sera. String-slap is embarrassing enough without a sling."
+   },
+   {
+    "npc": "npc-elias-penitent",
+    "line": "You carry enough iron chains to sink a skiff, Elias. Ever tried traveling light?"
+   }
+  ]
+ },
+ "mage": {
+  "class": "mage",
+  "tagline": "Precise equations, volatile gestures, and mild dread.",
+  "description": "A methodical arcana-scholar who views magic not as miracle, but as hazardous thermodynamics. Capable of unraveling formations from afar, provided nothing interrupts the third syllable of the invocation.",
+  "backstory": [
+   "Expelled from the Capital Collegium for publishing a monograph proving that half the state liturgy consisted of corrupted plumbing diagrams, he retreated to the provinces with three trunks of annotated notebooks.",
+   "Field work in Thornvael has been deeply inconvenient: rain warps vellum, blood ruins chalk circles, and mercenaries routinely stand inside blast radii despite explicit verbal warnings.",
+   "He presses onward toward the Obsidian Core because the ambient ley-drift violates every known conservation law—and leaving an unmeasured anomaly behind would keep him awake for years."
+  ],
+  "barks": {
+   "select": [
+    "Keep your steel clear of my gestures.",
+    "The ambient pressure is... concerning.",
+    "Calculate twice, incinerate once.",
+    "Please do not jostle my elbow.",
+    "Theory and practice rarely agree.",
+    "Ready. Statistically speaking."
+   ],
+   "move": [
+    "Mind the damp ground.",
+    "Repositioning—quickly.",
+    "Suboptimal footing ahead.",
+    "Proceeding with caution.",
+    "Let us avoid the bottleneck.",
+    "Moving before something explodes."
+   ],
+   "attack": [
+    "Observe the thermal gradient!",
+    "Hold still—you're skewing the arc!",
+    "Purely academic violence!",
+    "Discharge complete.",
+    "Fascinating—and flammable.",
+    "Right on the focal point."
+   ],
+   "hurt": [
+    "That disrupted my cadence!",
+    "My robes are not rated for blades!",
+    "Unacceptable! Keep them back!",
+    "I am bleeding on my notes!",
+    "Who allowed melee contact?!"
+   ],
+   "low_hp": [
+    "Vital signs trending sharply downward!",
+    "I require immediate triage!",
+    "This is a catastrophic margin of error!",
+    "My concentration is failing!",
+    "Retreat—tactically and immediately!"
+   ],
+   "level_up": [
+    "The formula yields cleaner results now.",
+    "Hypothesis confirmed—with higher output.",
+    "Marginally less likely to backfire.",
+    "My control coefficients have improved.",
+    "Ah! That solves the fourth variable."
+   ],
+   "rare_loot": [
+    "Intriguing resonance on this casing.",
+    "Far superior to provincial trinkets.",
+    "I must catalog this later.",
+    "Notice the conductivity—remarkable."
+   ],
+   "unique_loot": [
+    "Extraordinary! Pre-Schism workmanship!",
+    "The ley-lines practically sing through it.",
+    "Do not touch the runes with bare hands.",
+    "This belongs in a vault—or my pack."
+   ],
+   "cast_or_ability": [
+    "Clear the blast radius!",
+    "Igniting the lattice!",
+    "Containment failing—on purpose!",
+    "Channeling at peak threshold!",
+    "Stand back—three paces minimum!"
+   ],
+   "idle": [
+    "The humidity is ruining my parchment.",
+    "Did anyone else hear that hum?",
+    "I really should have packed dry socks.",
+    "Reviewing third-tier ward geometries...",
+    "Why is everything here covered in soot?",
+    "My inkwell froze again.",
+    "Fascinating rock. Probably cursed.",
+    "Silence before a surge. Never good."
+   ],
+   "kill_streak": [
+    "Chain reaction within tolerances!",
+    "Cascade effect—magnificent!",
+    "They clustered far too tightly.",
+    "Empirical proof of superior range."
+   ],
+   "victory": [
+    "Threat neutralized. Checking my pulse.",
+    "Everything remains mostly un-singed.",
+    "A tidy conclusion, all things considered.",
+    "Let us record the casualties and leave."
+   ],
+   "death": [
+    "My calculations... were off by...",
+    "Do not... drop my satchel...",
+    "The equilibrium... collapses..."
+   ]
+  },
+  "act_reactions": {
+   "act1_end": "Fascinating—Morvessa's hex-seals drew power straight from the border salt-flats. Terrible for agriculture.",
+   "act2_end": "An entire fortress built atop a dry aquifer. Truly, superstition is the most durable mortar.",
+   "act3_end": "Combusting pitch on saltwater produces dreadful fumes. My throat may never recover.",
+   "act4_end": "You bypassed the Anchor Seals entirely. Unorthodox, terrifying, and—I admit—structurally elegant."
+  },
+  "npc_asides": [
+   {
+    "npc": "npc-marta-alchemist",
+    "line": "Your tinctures are remarkably stable, Marta, though your labeling system gives me palpitations."
+   },
+   {
+    "npc": "npc-zahra-scholar",
+    "line": "Those Redmarsh hydraulic glyphs match pre-imperial border markers, Zahra. Let me copy your rubbings."
+   },
+   {
+    "npc": "npc-sera-healer",
+    "line": "Fascinating poultice, Sera—mildly antiseptic, though the willow-bark ratio could be refined."
+   },
+   {
+    "npc": "npc-vok-forgemaster",
+    "line": "Volcanic slag conducts ember-charge at triple rate, Vok. Wear insulated gloves when quenching."
+   },
+   {
+    "npc": "npc-elias-penitent",
+    "line": "Your liturgy describes the Anchor Seals as moral weights, Elias. Mechanically, they are pressure valves."
+   },
+   {
+    "npc": "npc-hobb-smith",
+    "line": "No, Hobb, you cannot hammer rune-silver cold—it fractures along the crystalline grain."
+   }
+  ]
+ }
+}

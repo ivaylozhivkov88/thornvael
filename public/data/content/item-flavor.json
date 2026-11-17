@@ -1,0 +1,847 @@
+{
+ "Rusty Sword": {
+  "name": "Rusty Sword",
+  "flavor": "Bent near the crossguard where a Thornwick taxman tried to parry a cartwheel.",
+  "inspect": "Pitted by river fog along the Border Fords. Still keen enough to settle tavern debts, though the tang rattles inside its shrunken hide grip."
+ },
+ "Iron Sword": {
+  "name": "Iron Sword",
+  "flavor": "Issued to Alder Bridge pickets before the spring floods washed their barracks away.",
+  "inspect": "Forged from bog-smelted ore that smudges oiled rags. Dependable if you keep the bevel away from granite and bone."
+ },
+ "Steel Sword": {
+  "name": "Steel Sword",
+  "flavor": "Balanced by a Greywood smith who lost three fingers testing its temper.",
+  "inspect": "A clean fuller runs two-thirds down the flat, singing faintly when drawn. Watchmen in Oakhaven trade two months' scrip for metalwork this honest."
+ },
+ "Knight Sword": {
+  "name": "Knight Sword",
+  "flavor": "The pommel bears a filed-off crest from a disgraced Border Fords barony.",
+  "inspect": "Watered alloy folded until faint ripples show beneath the grease. Whoever owned it before died with their visor up and their purse still buckled."
+ },
+ "Thorn Blade": {
+  "name": "Thorn Blade",
+  "flavor": "Grown rather than forged; sap still beads along its serrated fuller.",
+  "inspect": "Cut from a petrified briar at the root of the Sunken Sanctum. Flesh parts around its jagged teeth as if eager to escape the edge."
+ },
+ "Oak Staff": {
+  "name": "Oak Staff",
+  "flavor": "Charred at the ferrule where an apprentice mistook swamp gas for hearth smoke.",
+  "inspect": "Seasoned bog-timber bound in tarnished wire. It smells of wet bark and scorched eyebrows whenever sparks gather at its crown."
+ },
+ "Ash Staff": {
+  "name": "Ash Staff",
+  "flavor": "Carved with tally marks by a Redmarsh hedge-witch who stopped counting at forty.",
+  "inspect": "Heartwood stripped from lightning-split trees. Channeling through it feels like holding a taut bowstring in a sleet storm."
+ },
+ "Rune Staff": {
+  "name": "Rune Staff",
+  "flavor": "Its inlaid glyphs hum low enough to loosen fillings in nearby teeth.",
+  "inspect": "Etched by Lantern Passage scholars before the ink-vaults flooded. Each sigil drinks ambient warmth, leaving rime on the wielder's knuckles."
+ },
+ "Star Staff": {
+  "name": "Star Staff",
+  "flavor": "Crowned with a meteorite shard that refuses to cool even in river ice.",
+  "inspect": "Recovered from a crater north of the Iron Coast. Staring directly at its fractured core leaves violet afterimages across the battlefield."
+ },
+ "Thorn Staff": {
+  "name": "Thorn Staff",
+  "flavor": "Roots coil tightly around a core that twitches near spilled blood.",
+  "inspect": "Harvested from the living gallows of the Ember Court. It murmurs in dead dialects when fed aether, tightening its clasp on the caster's wrist."
+ },
+ "Wooden Buckler": {
+  "name": "Wooden Buckler",
+  "flavor": "Planked from an ale cask; the inside still smells of sour barley.",
+  "inspect": "Reinforced with a single boss hammered flat on an anvil stone. Good for turning aside a cudgel, hopeless against anything weightier."
+ },
+ "Iron Shield": {
+  "name": "Iron Shield",
+  "flavor": "Dented inward by a boar tusk at the edge of the Greywood.",
+  "inspect": "Rim-bound oak faced with hammered grey sheet. Burdensome on the forearm after a league's march, yet comforting when arrows start falling."
+ },
+ "Tower Shield": {
+  "name": "Tower Shield",
+  "flavor": "Scorched along the lower rim from holding a burning doorway at Ravenwatch.",
+  "inspect": "Tall enough to kneel behind while quarrels splinter against the planks. Two painted eyes stare from the front, one half-scraped off by shrapnel."
+ },
+ "Knight Shield": {
+  "name": "Knight Shield",
+  "flavor": "Polished to a dull mirror despite three gouges across the heraldry.",
+  "inspect": "Laminated ash beneath fluted plate built to deflect lance tips. The arm-straps are padded with wolfskin rubbed smooth by gauntlets."
+ },
+ "Leather Cap": {
+  "name": "Leather Cap",
+  "flavor": "Stitched from boiled bullhide with one ear-flap chewed off by kennel pups.",
+  "inspect": "Cracked along the crown where rain dried too fast beside a campfire. Better than bare scalp when sling-stones start dropping."
+ },
+ "Iron Helm": {
+  "name": "Iron Helm",
+  "flavor": "The nasal bar is bent slightly left, forcing the wearer to cock their head.",
+  "inspect": "Riveted from two halves over a greasy wool liner. Every blow against the dome rings like a cracked chapel bell inside your skull."
+ },
+ "Steel Helm": {
+  "name": "Steel Helm",
+  "flavor": "Slotted visor hinges still hold dried salt from the Iron Coast garrisons.",
+  "inspect": "Angled cheek-plates guide blade tips away from the throat. Veterans keep a spare chin-strap tucked inside the crown just in case."
+ },
+ "Scholar Hat": {
+  "name": "Scholar Hat",
+  "flavor": "Moth-eaten brim stiffened with wax and stained with violet ink.",
+  "inspect": "Used by census clerks who accompanied early expeditions into Redmarsh. The wide brim keeps drizzle off parchment, though little else."
+ },
+ "Wizard Hat": {
+  "name": "Wizard Hat",
+  "flavor": "Sewn from midnight felt lined with copper thread that crackles in dry wind.",
+  "inspect": "Its crooked peak leans away from drafty corridors and incoming hexes alike. Dust motes orbit the brim when spells are being readied."
+ },
+ "Padded Jerkin": {
+  "name": "Padded Jerkin",
+  "flavor": "Stuffed with horsehair and tow; smells strongly of wet sheep in the rain.",
+  "inspect": "Quilted canvas worn beneath mail or alone by penniless recruits. Stops splinters and shallow cuts while catching every burr in the fen."
+ },
+ "Chain Mail": {
+  "name": "Chain Mail",
+  "flavor": "Thousands of riveted links, twelve of them replaced with mismatched brass wire.",
+  "inspect": "Taken off a deserter who drowned trying to swim the Thornwick ford. Weighty across the shoulders, chill as a grave at dawn."
+ },
+ "Plate Armor": {
+  "name": "Plate Armor",
+  "flavor": "Articulated lames blackened with soot to hide bright metal during night marches.",
+  "inspect": "Fitted by Ironcamp armorers who charge by the pound and never bargain. A direct mace blow still bruises, though your ribs stay whole."
+ },
+ "Cloth Robe": {
+  "name": "Cloth Robe",
+  "flavor": "Hemmed with mud from a dozen Border Fords ditches and patched at both elbows.",
+  "inspect": "Unbleached homespun dyed with walnut hulls. Offers no shelter from blades, only pockets for chalk, dried roots, and tallow stubs."
+ },
+ "Mage Robe": {
+  "name": "Mage Robe",
+  "flavor": "Woven with silver-dipped silk that sheds bog-water like a duck's back.",
+  "inspect": "Tailored for Oakhaven tower adepts who disliked scorched cuffs. Faint wards stitched into the seams tingle when hostile magic draws near."
+ },
+ "Star Robe": {
+  "name": "Star Robe",
+  "flavor": "Velvet dusted with crushed moonstone that glitters only in shadow.",
+  "inspect": "Looped with gold wire tracing constellations no longer visible over Thornvael. Arrows seem to hesitate a fraction before striking its folds."
+ },
+ "Sandals": {
+  "name": "Sandals",
+  "flavor": "Thongs cut from frayed bridle hide, mended twice with tarred twine.",
+  "inspect": "Built for dry cobbles rather than ankle-deep fen sludge. At least they dry out fast beside a banked fire."
+ },
+ "Leather Boots": {
+  "name": "Leather Boots",
+  "flavor": "Hobnailed soles ground smooth on the outer heels from long patrol routes.",
+  "inspect": "Greased calfskin reaching mid-calf to keep leeches out of your hose. Every mercenary in Thornwick knows good boots outlast good vows."
+ },
+ "Iron Boots": {
+  "name": "Iron Boots",
+  "flavor": "Sabaton plates clack like a skeleton dancing on flagstones.",
+  "inspect": "Articulated metal over thick hide soles meant for holding narrow breaches. Nobody runs in them, and nobody easily pushes you backward."
+ },
+ "Swift Boots": {
+  "name": "Swift Boots",
+  "flavor": "Supple elkhide stitched with sinew so light they barely press the mud.",
+  "inspect": "Favored by couriers running dispatches between Oakhaven and the coast. The soles leave almost no heel-print even in damp clay."
+ },
+ "Ring of Might": {
+  "name": "Ring of Might",
+  "flavor": "Band hammered around a sliver of lodestone.",
+  "inspect": "Belonged to a pit-fighter in Thornwick until a debt collector took his finger. Warm to the touch whenever muscles strain."
+ },
+ "Ring of Grace": {
+  "name": "Ring of Grace",
+  "flavor": "Twisted silver wire thin enough to bend if squeezed between two thumbs.",
+  "inspect": "Found in the velvet jewelry box of an Ember Court dancer. The band settles naturally against the knuckle, steadying trembling hands."
+ },
+ "Ring of Insight": {
+  "name": "Ring of Insight",
+  "flavor": "Set with a cloudy beryl that clears briefly whenever a lie is spoken nearby.",
+  "inspect": "Forged for archivists cataloging the Undervault ruins. Wearing it makes lamp-light seem sharper and margins easier to read."
+ },
+ "Ring of Calm": {
+  "name": "Ring of Calm",
+  "flavor": "River-pebble band carved from a single piece of jade.",
+  "inspect": "Given to watchmen stationed along the howling cliffs of Iron Coast. Pulse-beats slow against its cool inner surface."
+ },
+ "Great Ring of Might": {
+  "name": "Great Ring of Might",
+  "flavor": "Twin bands of meteoric ore welded over a pulsing garnet core.",
+  "inspect": "Once belonged to a siege-breaker who lifted a portcullis alone at Alder Bridge. Heat radiates into the tendons of the sword-arm."
+ },
+ "Great Ring of Grace": {
+  "name": "Great Ring of Grace",
+  "flavor": "Filigree platinum loop that feels lighter than the air it displaces.",
+  "inspect": "Crafted by blind jewelers of the pre-Ashen court. Wearers move as though wind were always at their heels."
+ },
+ "Great Ring of Insight": {
+  "name": "Great Ring of Insight",
+  "flavor": "An unblinking sapphire set in gold that reflects rooms differently.",
+  "inspect": "Recovered from a drowned observatory beneath Redmarsh. Thoughts line up like soldiers on parade while it rests on your hand."
+ },
+ "Great Ring of Calm": {
+  "name": "Great Ring of Calm",
+  "flavor": "Obsidian hoop veined with silver that swallows nearby clatter.",
+  "inspect": "Carried by inquisitors during Ember Court trials to keep their hands steady. Panic slides off the mind like rain off slate."
+ },
+ "Ember Charm": {
+  "name": "Ember Charm",
+  "flavor": "Charred bone pendant enclosing a cinder that has glowed for thirty winters.",
+  "inspect": "Hung around the necks of charcoal burners working the Greywood. Keeps frostbite from the fingers even when campfires die."
+ },
+ "Frost Charm": {
+  "name": "Frost Charm",
+  "flavor": "Rime-coated glass vial holding a single snowflake suspended in oil.",
+  "inspect": "Traded down from northern whalers who wrecked along the Ferric Coast. Cold sweats bead on the chain whenever flames flare close."
+ },
+ "Storm Charm": {
+  "name": "Storm Charm",
+  "flavor": "Fulgerite shard bound in copper wire that smells sharply of ozone.",
+  "inspect": "Picked from a blasted oak outside Ravenwatch. The pendant jerks northward seconds before thunder cracks overhead."
+ },
+ "Stone Charm": {
+  "name": "Stone Charm",
+  "flavor": "Chipped granite disc carved with a mason's plumb-line and three dots.",
+  "inspect": "Carried by quarrymen in the pits of Redmarsh to ward off cave-ins. Feels twice as weighty whenever ground begins to tremble."
+ },
+ "Life Charm": {
+  "name": "Life Charm",
+  "flavor": "Braided red thread coiled around a seed that still rattles inside its husk.",
+  "inspect": "Sold by midwives in Thornwick after bad harvests. Its warmth steadies shallow breathing when bandages run red."
+ },
+ "Mind Charm": {
+  "name": "Mind Charm",
+  "flavor": "Tarnished argent locket containing a folded scrap of mirrored foil.",
+  "inspect": "Kept by Lantern Passage scribes during all-night vigils. Keeps fog from creeping behind the eyes after days without sleep."
+ },
+ "Ward Charm": {
+  "name": "Ward Charm",
+  "flavor": "Lead-sealed brass talisman stamped with four crossed keys.",
+  "inspect": "Issued to captains marching against Ember Court hexers. The pendant grows scalding hot just before a curse strikes home."
+ },
+ "Healing Draught": {
+  "name": "Healing Draught",
+  "flavor": "Tastes like boiled nettles and copper pennies; do not sniff before swallowing.",
+  "inspect": "Brewed in clay jugs by Thornwick apothecaries. Knits torn meat together fast enough to itch, leaving puckered scars behind."
+ },
+ "Greater Healing Draught": {
+  "name": "Greater Healing Draught",
+  "flavor": "Thick as tallow and glowing faintly pink; swirl well or chew the sediment.",
+  "inspect": "Distilled from red-cap moss harvested only after Redmarsh blood-rains. Closes gashes in seconds while leaving your tongue numb for hours."
+ },
+ "Mana Draught": {
+  "name": "Mana Draught",
+  "flavor": "Fizzy blue brine that turns your teeth indigo and makes your ears ring.",
+  "inspect": "Steeped from crushed glow-lichen scraped off Undervault pillars. Restores spent focus at the cost of a brief, sharp headache."
+ },
+ "Greater Mana Draught": {
+  "name": "Greater Mana Draught",
+  "flavor": "Smells of crushed stars and vinegar; never drink within an hour of open flame.",
+  "inspect": "Refined in glass retorts by Oakhaven alchemists. Floods parched channels with clarity until sparks dance off your fingernails."
+ },
+ "Elixir of Body": {
+  "name": "Elixir of Body",
+  "flavor": "Swallow in one gulp; spitting it out wastes coin and stains floorboards forever.",
+  "inspect": "Boiled down from marrow, filings, and bitter root. Leaves muscles tight as drawn bowstrings long after the bottle is empty."
+ },
+ "Elixir of Agility": {
+  "name": "Elixir of Agility",
+  "flavor": "Shimmers like mercury in the phial and makes your knees twitch before uncorking.",
+  "inspect": "Compounded with wasp venom and distilled fen-mint. The world seems to drag its feet for a heartbeat after the last drop goes down."
+ },
+ "Elixir of Mind": {
+  "name": "Elixir of Mind",
+  "flavor": "Clear as rain until tilted, revealing tiny motes that spell forgotten words.",
+  "inspect": "Brewed in silence by hooded archivists of Lantern Passage. Sharpens recall until every old mistake feels freshly minted."
+ },
+ "Elixir of Spirit": {
+  "name": "Elixir of Spirit",
+  "flavor": "Warm as mulled wine and thick with gold leaf that clings to the throat.",
+  "inspect": "Blessed over braziers in the chapels before the Ember Court schism. Steadies the nerve against terror and hex-rot alike."
+ },
+ "Scroll of Fire Bolt": {
+  "name": "Scroll of Fire Bolt",
+  "flavor": "Keep arid; damp parchment tends to ignite inside the scroll-case instead.",
+  "inspect": "Inscribed in soot-ink on cured sheepskin. Speaking the final syllable looses a whistling dart of searing ember."
+ },
+ "Scroll of Fireball": {
+  "name": "Scroll of Fireball",
+  "flavor": "Singed around all four margins by the scribe who proofread the last verse.",
+  "inspect": "Bound with crimson waxed cord and smelling strongly of sulfur. Unfurls a roaring sphere that turns tight formations into ash and grease."
+ },
+ "Scroll of Flame Burst": {
+  "name": "Scroll of Flame Burst",
+  "flavor": "Read aloud at arm's length unless you prefer eyebrows painted on with charcoal.",
+  "inspect": "Drafted by siege-mages during the Alder Bridge defense. Releases a sudden ring of scorching heat around the caster's boots."
+ },
+ "Scroll of Ignite": {
+  "name": "Scroll of Ignite",
+  "flavor": "Even holding the rolled vellum makes seasoned tinder curl in nearby pockets.",
+  "inspect": "A terse three-line incantation favored by Redmarsh scouts. Sets oil, pitch, and wool ablaze with a snap of the thumb."
+ },
+ "Scroll of Frost Bolt": {
+  "name": "Scroll of Frost Bolt",
+  "flavor": "Rime forms along the wax seal whenever the scroll is carried indoors.",
+  "inspect": "Written with pewter-ash ink on bleached vellum. Launches a needle of black ice that numbs limbs on impact."
+ },
+ "Tome of Ice Storm": {
+  "name": "Tome of Ice Storm",
+  "flavor": "Its clasped covers are welded shut with frost that never melts.",
+  "inspect": "Recovered from a frozen watchtower north of the Smelted Coast. Calls down jagged hailstones stout enough to dent helm crowns."
+ },
+ "Scroll of Chain Frost": {
+  "name": "Scroll of Chain Frost",
+  "flavor": "The ink shifts across the page like frost patterns creeping over glass.",
+  "inspect": "Annotated in trembling handwriting by an Oakhaven winter-adept. Releases a bouncing shard of cold that leaps from shield to shield."
+ },
+ "Scroll of Healing": {
+  "name": "Scroll of Healing",
+  "flavor": "Smells faintly of crushed sage and clean linen amid battlefield mud.",
+  "inspect": "Copied by field chaplains who followed the Border Fords levies. Mends torn sinew and stops bleeding before shock sets in."
+ },
+ "Tome of Healing Rain": {
+  "name": "Tome of Healing Rain",
+  "flavor": "Pages stay perpetually damp, smelling of summer storms over open fields.",
+  "inspect": "Bound in oiled sealskin for coastal campaigns. Summons a mercury-bright mist that washes grime and shallow wounds from an entire company."
+ },
+ "Scroll of Lightning": {
+  "name": "Scroll of Lightning",
+  "flavor": "Hair on the forearms stands straight up the moment the ribbon is untied.",
+  "inspect": "Scratched onto copper-leaf parchment during a squall. Calls a jagged fork down from even a cloudless sky."
+ },
+ "Tome of Chain Lightning": {
+  "name": "Tome of Chain Lightning",
+  "flavor": "Smells of burnt hair and ozone; store well away from scabbards.",
+  "inspect": "Chained inside a lead box until the Ironcamp siege. Arcs violently from one armored target to the next until grounded."
+ },
+ "Scroll of Haste": {
+  "name": "Scroll of Haste",
+  "flavor": "The calligraphy slants forward so sharply the words nearly run off the page.",
+  "inspect": "Drafted by courier-mages who hated late dispatches. Quickens pulse and stride until blades blur in the air."
+ },
+ "Scroll of Gale": {
+  "name": "Scroll of Gale",
+  "flavor": "Fluttering edges snap like a mainsail even inside a shuttered cellar.",
+  "inspect": "Used by Wrought-ore Coast harbor pilots to clear fog banks. Uncorks a battering blast of wind that bowls pikemen backward."
+ },
+ "Scroll of Wind Ward": {
+  "name": "Scroll of Wind Ward",
+  "flavor": "Light as a dried gull feather and impossible to lay flat on a table.",
+  "inspect": "Inscribed along the cliffs above Burning Harbor. Wraps allies in screaming crosswinds that turn arrows harmlessly aside."
+ },
+ "Scroll of Rock Throw": {
+  "name": "Scroll of Rock Throw",
+  "flavor": "Gritty quartz dust spills from the folds every time the parchment bends.",
+  "inspect": "A blunt peasant-hedge formula favored by quarry foremen. Hurls a fist-sized stone with the punch of a torsion sling."
+ },
+ "Tome of Stone Curse": {
+  "name": "Tome of Stone Curse",
+  "flavor": "Burdened like a milestone and cold enough to numb bare fingers.",
+  "inspect": "Chiseled onto thin slate leaves bound with bronze rings. Turns rushing flesh sluggish and grey before locking joints solid."
+ },
+ "Scroll of Stone Skin": {
+  "name": "Scroll of Stone Skin",
+  "flavor": "The vellum feels rough as pumice and dulls any quill drawn across it.",
+  "inspect": "Copied from boundary markers in the Deep Quarry. Hardens skin into pebbled grit that blunts shallow cuts."
+ },
+ "Scroll of Poison Cloud": {
+  "name": "Scroll of Poison Cloud",
+  "flavor": "Sealed in oiled bladder-skin; yellow vapor leaks if the wax cracks.",
+  "inspect": "Brewed from swamp-adder bile and rotting bog-turnips. Fills a hollow with choking green fumes that rot lungs and hide alike."
+ },
+ "Tome of Quake": {
+  "name": "Tome of Quake",
+  "flavor": "Bookshelves shudder and dust sifts from rafters wherever this volume rests.",
+  "inspect": "Bound in riveted plates stamped with broken towers. Splits flagstones and topples shield-walls in a rolling roar."
+ },
+ "Scroll of Blessing": {
+  "name": "Scroll of Blessing",
+  "flavor": "Gold leaf along the margin stays bright even in the filthiest trench.",
+  "inspect": "Distributed by Oakhaven chaplains before dawn assaults. Steadies wavering ranks with brief, fierce certainty."
+ },
+ "Scroll of Weaken": {
+  "name": "Scroll of Weaken",
+  "flavor": "Written in faded gall-ink that makes the reader's shoulders slump.",
+  "inspect": "Used by Ember Court tax-enforcers to break stubborn holdouts. Saps muscle and resolve until shields drag in the dirt."
+ },
+ "Tome of Resurrect": {
+  "name": "Tome of Resurrect",
+  "flavor": "Pages whisper names of the recently dead whenever left open at night.",
+  "inspect": "Forbidden by three synods and hidden beneath the Sunken Sanctum. Drags a fresh corpse back to ragged, furious breath."
+ },
+ "Scroll of Corpse Burst": {
+  "name": "Scroll of Corpse Burst",
+  "flavor": "Smells faintly of lard and saltpeter; do not read near exposed graves.",
+  "inspect": "Scrawled by a frantic necromancer cornered in Redmarsh. Turns fallen bodies into shrapnel of splintered bone and boiling blood."
+ },
+ "Scroll of Meditation": {
+  "name": "Scroll of Meditation",
+  "flavor": "Reading the first line slows your breathing; reading the last empties your purse.",
+  "inspect": "Copied in calm, even script by Lantern Passage hermits. Quiets battlefield clamor so spent focus pools back swiftly."
+ },
+ "Leather Gloves": {
+  "name": "Leather Gloves",
+  "flavor": "Stiffened around the knuckles from gripping wet reins and tarnished hilts.",
+  "inspect": "Tanned pigskin stitched with waxed linen. Keeps blisters off palms during forced marches through the Border Fords."
+ },
+ "Iron Gauntlets": {
+  "name": "Iron Gauntlets",
+  "flavor": "Articulated finger-plates rattle softly against wooden spear-shafts.",
+  "inspect": "Riveted over dense buckskin mittens by Thornwick smiths. Turns a backhand punch into a solid blow with metal knuckles."
+ },
+ "Steel Gauntlets": {
+  "name": "Steel Gauntlets",
+  "flavor": "Fluted cuffs bear notch-marks where a mercenary counted his winter contracts.",
+  "inspect": "Fitted closely enough to draw a bowstring yet sturdy enough to parry a dagger. Oiled weekly to keep sea-spray from seizing the rivets."
+ },
+ "Silk Gloves": {
+  "name": "Silk Gloves",
+  "flavor": "Dyed plum with lunate-thread cuffs that never catch on scroll ribbons.",
+  "inspect": "Woven in Oakhaven for channelers whose fingers blister from raw aether. The fabric stays cool even when sparks dance across the palms."
+ },
+ "Mithril Gale Buckler": {
+  "name": "Mithril Gale Buckler",
+  "flavor": "Featherweight as a tin platter yet rings like an anvil when struck square.",
+  "inspect": "Hammered from mountain alloy etched with wind-spirals. Deflects incoming bolts with a sharp whistling whine."
+ },
+ "Adamantium Needle": {
+  "name": "Adamantium Needle",
+  "flavor": "A slender estoc that slides between mail rings without a sound.",
+  "inspect": "Forged in a lost foundry beneath the Pig-metal Coast. Built not for hacking, but for finding the narrow gap under a gorget."
+ },
+ "Dragon Leather Mantle": {
+  "name": "Dragon Leather Mantle",
+  "flavor": "Scales along the shoulders still smell faintly of sulfur and sodden ash.",
+  "inspect": "Cured from a drake carcass dragged out of the Redmarsh sinkholes. Sizzling sparks and lamp-oil bead harmlessly off its pebbled hide."
+ },
+ "Tome of Meteor": {
+  "name": "Tome of Meteor",
+  "flavor": "Singed calfskin bound in blackened metal that radiates tinder-crisp furnace heat.",
+  "inspect": "Penultimate work of a mad Ember Court astronomer. Calls a screaming lump of slag down from the upper dark."
+ },
+ "Scroll of Inferno": {
+  "name": "Scroll of Inferno",
+  "flavor": "The wax seal melts into scarlet tears whenever enemies draw within twenty paces.",
+  "inspect": "Inscribed with charcoal harvested from burned chapels. Turns an entire patch of ground into a roaring kiln."
+ },
+ "Tome of Blizzard": {
+  "name": "Tome of Blizzard",
+  "flavor": "Icicles form along the spine whenever the book is opened indoors.",
+  "inspect": "Recovered from a shipwreck locked in northern pack-ice. Blankets the field in blinding sleet that freezes boots to the mud."
+ },
+ "Tome of Thunderstorm": {
+  "name": "Tome of Thunderstorm",
+  "flavor": "Static arcs between the brass corners whenever rainclouds gather.",
+  "inspect": "Chained to a lightning-rod atop Oakhaven's tallest spire. Unleashes rolling thunderbolts across an entire valley."
+ },
+ "Scroll of Iron Skin": {
+  "name": "Scroll of Iron Skin",
+  "flavor": "Written on hammered tin-foil rather than parchment; creases scream loudly.",
+  "inspect": "Issued to vanguard stormers at Ironcamp Citadel. Turns flesh temporarily dull grey and hard as frigid pig-ore-cast."
+ },
+ "Scroll of Acid Rain": {
+  "name": "Scroll of Acid Rain",
+  "flavor": "Eats slowly through ordinary scroll-cases; keep wrapped in oiled canvas.",
+  "inspect": "Brewed from vitriol recipes stolen out of Redmarsh laboratories. Brings down a hissing drizzle that pits plate and blisters skin."
+ },
+ "Scroll of Mana Burn": {
+  "name": "Scroll of Mana Burn",
+  "flavor": "The ink glows violet and tastes bitter on the air when unrolled.",
+  "inspect": "Devised by witch-hunters hunting rogue Ember Court adepts. Detonates a caster's gathered power inside their own skull."
+ },
+ "Tome of Time Warp": {
+  "name": "Tome of Time Warp",
+  "flavor": "Its pages yellow and turn crisp again in the span of a solitary heartbeat.",
+  "inspect": "Found ticking inside a sealed vault beneath the Sunken Citadel. Warps local seconds until allies strike twice before a foe blinks."
+ },
+ "Woodcutter Handaxe": {
+  "name": "Woodcutter Handaxe",
+  "flavor": "Nicked near the heel from hitting a buried horseshoe in Greywood.",
+  "inspect": "Short hickory haft wedged tight with a metal shim. Meant for kindling, yet plenty lethal in a cramped ditch."
+ },
+ "Bearded Battleaxe": {
+  "name": "Bearded Battleaxe",
+  "flavor": "The lower hook is ground shiny from dragging shields down in melee.",
+  "inspect": "Broad crescent head balanced for one-handed swings. Redmarsh raiders favor it because it splits rain-soaked oak planks with one chop."
+ },
+ "Tempered War Axe": {
+  "name": "Tempered War Axe",
+  "flavor": "Blue-ashen edge honed on river slate until it shaves hair unmoistened.",
+  "inspect": "Forged in Oakhaven with a reinforced poll for cracking helms. Nimble enough to recover quickly after a missed overhead strike."
+ },
+ "Crescent Broadaxe": {
+  "name": "Crescent Broadaxe",
+  "flavor": "Two-handed haft wrapped in tarred cord where blood once made wood slick.",
+  "inspect": "Sweeping curved bit built to shear through pike shafts and mail alike. Leaves a whistling wake every time it clears the shoulder."
+ },
+ "Berserker Decapitator": {
+  "name": "Berserker Decapitator",
+  "flavor": "Notched along the spine where its former owner chewed the blade before charges.",
+  "inspect": "Brutally forward-heavy cleaver stained near the rivets. Built for men who have already decided not to walk back."
+ },
+ "Spiked Cudgel": {
+  "name": "Spiked Cudgel",
+  "flavor": "Seasoned ash knot studded with square-headed coffin nails.",
+  "inspect": "Cheap, ugly, and brutally effective against hide and bone. Every levy camp outside Thornwick has a dozen leaning by the fire."
+ },
+ "Flanged Mace": {
+  "name": "Flanged Mace",
+  "flavor": "Six fins bent slightly from hammering against Forged-ore Coast plate.",
+  "inspect": "Designed to cave in helmets where sword edges merely glance off. A wrist-loop keeps it from flying out of numb fingers."
+ },
+ "Heavy Morningstar": {
+  "name": "Heavy Morningstar",
+  "flavor": "Dried fen-moss still clings between the spikes of its flanged head.",
+  "inspect": "Ash shaft banded with metal straps to survive parries. Punches clean holes through shield bosses and breastplates alike."
+ },
+ "Steel Warhammer": {
+  "name": "Steel Warhammer",
+  "flavor": "Long rear beak darkened from prying apart riveted mail links.",
+  "inspect": "Compact head concentrating all its weight behind a narrow striking face. Favored by Ironcamp sergeants facing armored veterans."
+ },
+ "Obsidian Greatmaul": {
+  "name": "Obsidian Greatmaul",
+  "flavor": "Volcanic glass bound in black bronze that rings like struck crystal.",
+  "inspect": "Quarried from the charred slopes near the Ember Court. Each blow sends numbing shockwaves straight through shield arms."
+ },
+ "Flint Stiletto": {
+  "name": "Flint Stiletto",
+  "flavor": "Knapped glassy blade lashed to a bone handle with sinew.",
+  "inspect": "Brittle against plate, ruthless in the dark between ribs. Snaps cleanly if twisted, leaving a jagged souvenir inside."
+ },
+ "Steel Rondel": {
+  "name": "Steel Rondel",
+  "flavor": "Twin disc guards keep blood-slick fingers from sliding onto the triangular blade.",
+  "inspect": "Built solely for punching through mail rings and visor slits. Every mercenary carries one as a final argument in the mud."
+ },
+ "Duelist Poignard": {
+  "name": "Duelist Poignard",
+  "flavor": "Etched along the ricasso with the motto of a ruined Oakhaven fencing hall.",
+  "inspect": "Parrying dagger balanced to catch and trap heavier blades. Quick enough to dart past a guard before a wrist turns."
+ },
+ "Main-Gauche": {
+  "name": "Main-Gauche",
+  "flavor": "Swept knuckle-bow scarred by dozens of caught sword-edges.",
+  "inspect": "Left-hand companion blade crafted for Slag-metal Coast duelists. Turns aside cuts while leaving the wielder's main hand free."
+ },
+ "Shadow Dirk": {
+  "name": "Shadow Dirk",
+  "flavor": "Soot-blackened metal that swallows torchlight instead of gleaming.",
+  "inspect": "Issued to Ember Court whisper-agents operating behind enemy lines. Leaves glacial, bloodless punctures that ache extended after closing."
+ },
+ "Two-Handed Claymore": {
+  "name": "Two-Handed Claymore",
+  "flavor": "Quatrefoil crossguard bent slightly from levering unsealed a barred gate.",
+  "inspect": "Lengthy plain blade requiring two hands and plenty of room to swing. Clears a wide semicircle through crowded ranks."
+ },
+ "Bastard Greatsword": {
+  "name": "Bastard Greatsword",
+  "flavor": "Wire-wrapped grip ground down to bare beechwood near the pommel.",
+  "inspect": "Hand-and-a-half blade flexible enough for shield work or sweeping two-handed cuts. Popular among Border Fords veterans."
+ },
+ "Flamberge": {
+  "name": "Flamberge",
+  "flavor": "Undulating edge leaves ragged wounds that resist ordinary stitching.",
+  "inspect": "Wavy blade forged to vibrate violently against parrying guards. Smiths hate sharpening it; surgeons hate cleaning up after it."
+ },
+ "Executioner Blade": {
+  "name": "Executioner Blade",
+  "flavor": "Square-tipped and massive, engraved with a scales-and-cinder emblem.",
+  "inspect": "Balanced entirely for downward chopping rather than thrusting. Carried into battle by disgraced judges of the Ember Court."
+ },
+ "Dreadnought Zweihander": {
+  "name": "Dreadnought Zweihander",
+  "flavor": "Parrying lugs below the ricasso bear dents from pike-points.",
+  "inspect": "Six feet of soot-darkened spring alloy built to wade into spear walls. Only men built like draft oxen last a full campaign swinging it."
+ },
+ "Willow Wand": {
+  "name": "Willow Wand",
+  "flavor": "Peeling bark reveals wood faintly warm at the tip.",
+  "inspect": "Cut from river-bank trees near Thornwick. Simple, cheap, and prone to snapping if waved too wildly in panic."
+ },
+ "Yew Wand": {
+  "name": "Yew Wand",
+  "flavor": "Rust-hued heartwood polished smooth by nervous thumbs.",
+  "inspect": "Carved from graveyard yews older than the Border Fords watchtowers. Channels sparks cleanly without scorching the grip."
+ },
+ "Amber Focus Wand": {
+  "name": "Amber Focus Wand",
+  "flavor": "A trapped prehistoric wasp gleams inside the resin knob.",
+  "inspect": "Turned by Redmarsh craftsmen from bog-dredged amber. Holds static charge like baked wool before a winter storm."
+ },
+ "Crystal Siphon Wand": {
+  "name": "Crystal Siphon Wand",
+  "flavor": "Hexagonal quartz core clouds over whenever magic is drawn through it.",
+  "inspect": "Assembled in Oakhaven workshops for field battlemages. Drinks ambient aether faster than wooden foci can manage."
+ },
+ "Astral Archon Wand": {
+  "name": "Astral Archon Wand",
+  "flavor": "Star-metal shaft inlaid with white-metal rings that spin softly on their own.",
+  "inspect": "Relic of the pre-schism magisters. Bolts loosed from its tip leave faint violet trails hanging in the air."
+ },
+ "Ash Shortbow": {
+  "name": "Ash Shortbow",
+  "flavor": "Stave wrapped in rawhide where damp weather once started a split.",
+  "inspect": "Hunting bow strung with waxed hemp. Quick to draw from behind cover, though weak against mail."
+ },
+ "Recurve Bow": {
+  "name": "Recurve Bow",
+  "flavor": "Horn tips laminated onto seasoned ash for extra snap in the draw.",
+  "inspect": "Carried by Redmarsh outriders who shoot from slender causeways. Packs surprising punch for a bow short enough for brush."
+ },
+ "Composite War Bow": {
+  "name": "Composite War Bow",
+  "flavor": "Sinew-backed limbs lacquered black against salt spray and drizzle.",
+  "inspect": "Requires a stout back to string and a calloused thumb to loose. Sends bodkins cleanly through nimble shields at a hundred paces."
+ },
+ "Heavy Arbalest": {
+  "name": "Heavy Arbalest",
+  "flavor": "Metal prod scarred with tally notches along the walnut tiller.",
+  "inspect": "Spanned with a belt-hook and loud enough to wake half a valley. Punches quarrels straight through oak planks and brigandine."
+ },
+ "Windpiercer Greatbow": {
+  "name": "Windpiercer Greatbow",
+  "flavor": "Six-foot yew stave whose string hums a low note even at rest.",
+  "inspect": "Crafted by master bowyers overlooking the Dark-ore Coast cliffs. Arrows loosed from it scream like gulls before striking home."
+ },
+ "Steel Kite Shield": {
+  "name": "Steel Kite Shield",
+  "flavor": "Tapered bottom point chipped from planting it into rocky ground.",
+  "inspect": "Curved face protecting from shoulder to knee. Standard issue for Oakhaven spear-sergeants holding snug-fit bridges."
+ },
+ "Aegis of the Citadel": {
+  "name": "Aegis of the Citadel",
+  "flavor": "Mirror-bright rim frames a char-stained central boss shaped like a sunburst.",
+  "inspect": "Forged for the personal guard of Ironcamp Citadel. Blows that should shatter bones rebound with a dull, harmless chime."
+ },
+ "Novice Glass Focus": {
+  "name": "Novice Glass Focus",
+  "flavor": "Blown green bottle-glass full of tiny air bubbles and one hairline crack.",
+  "inspect": "Issued to first-year tower apprentices in Oakhaven. Cheap enough to replace when an overloaded spell shatters it in hand."
+ },
+ "Chiseled Quartz Focus": {
+  "name": "Chiseled Quartz Focus",
+  "flavor": "Faceted milky crystal bound in pewter claws.",
+  "inspect": "Quarried from veins beneath the Border Fords hills. Splits raw magical force into tighter, steadier streams."
+ },
+ "Astral Sphere": {
+  "name": "Astral Sphere",
+  "flavor": "Hollow brass rings orbit a suspended drop of liquid starlight.",
+  "inspect": "Calibrated by scholars studying the night sky above Redmarsh. Turns softly toward sources of unseen sorcery."
+ },
+ "Radiant Spell-Mirror": {
+  "name": "Radiant Spell-Mirror",
+  "flavor": "Polished disc framed in bone that reflects faces a second late.",
+  "inspect": "Carried by mage-hunters of the Bloomery Coast. Incoming hexes splash across its surface like water hitting hot griddle."
+ },
+ "Eye of the Cosmos": {
+  "name": "Eye of the Cosmos",
+  "flavor": "A slit-pupiled gemstone floating inside a cage of biting gold.",
+  "inspect": "Plucked from the crown of a fallen Ember Court oracle. Looking into its depths reveals threads of fate fraying in real time."
+ },
+ "Steel Basinet": {
+  "name": "Steel Basinet",
+  "flavor": "Pointed skull-cap with vervelles for hanging a mail aventail.",
+  "inspect": "Sloped crown deflects downward cuts cleanly past the shoulders. Favored by hardened men-at-arms across all four provinces."
+ },
+ "Dread Crest Helm": {
+  "name": "Dread Crest Helm",
+  "flavor": "Visor shaped like a snarling hound with soot-stained eye slits.",
+  "inspect": "Forged for shock captains leading assaults into Ember Court territory. Just seeing its silhouette breaks the nerve of raw levies."
+ },
+ "Apprentice Circlet": {
+  "name": "Apprentice Circlet",
+  "flavor": "Thin brass band tarnished green behind the ears.",
+  "inspect": "Set with a pebble of blue feldspar to help focus wandering thoughts. Every young caster in Oakhaven starts with one."
+ },
+ "Sage Cowl": {
+  "name": "Sage Cowl",
+  "flavor": "Coarse slate-hued wool hood lined with faded silk script.",
+  "inspect": "Draped over elders who keep the Lantern Passage archives. Blocks out drafty corridors and stray psychic static alike."
+ },
+ "Archmage Diadem": {
+  "name": "Archmage Diadem",
+  "flavor": "Interlocking crescents cradling a diamond over the brow.",
+  "inspect": "Badge of rank in the Oakhaven conclave. Icy clarity settles behind the eyes the moment it touches the forehead."
+ },
+ "Stalker Hood": {
+  "name": "Stalker Hood",
+  "flavor": "Oilskin cowl stained with peat-smoke and leaf-mold to break up silhouettes.",
+  "inspect": "Tailored for Redmarsh pathfinders who move through reeds before dawn. Keeps rain off the neck without muffling footsteps."
+ },
+ "Shadow Mask": {
+  "name": "Shadow Mask",
+  "flavor": "Steeped ebon hide molded featureless save for constricted eye-slits.",
+  "inspect": "Donned by Ember Court night-blades during political purges. Even torchlight seems reluctant to catch on its matte surface."
+ },
+ "Interlocking Ring Mail": {
+  "name": "Interlocking Ring Mail",
+  "flavor": "Double-linked rings dense enough to stop a bodkin point.",
+  "inspect": "Hauberk oiled with mutton fat against Redmarsh humidity. Moves like metal cloth over a padded gambeson."
+ },
+ "Gothic Full Plate": {
+  "name": "Gothic Full Plate",
+  "flavor": "Rippled plates channeled to guide lance tips away from joints.",
+  "inspect": "Masterwork of Ironcamp's finest guildsmiths. Turns a warrior into a walking fortress at the cost of every coin in their chest."
+ },
+ "Studded Leather Armor": {
+  "name": "Studded Leather Armor",
+  "flavor": "Hardened oxhide reinforced with rows of domed rivets.",
+  "inspect": "Lighter than mail and quieter in brush. Favored by scouts and caravan guards patrolling the Greywood roads."
+ },
+ "Hardened Brigandine": {
+  "name": "Hardened Brigandine",
+  "flavor": "Hundreds of overlapping plates riveted inside crimson canvas.",
+  "inspect": "Looks like a nobleman's doublet until a blade strikes hidden metal. Easy to repair on campaign with a hammer and spare rivets."
+ },
+ "Wyrmscale Cuirass": {
+  "name": "Wyrmscale Cuirass",
+  "flavor": "Iridescent scales stitched onto dragon-sinew backing that clinks softly.",
+  "inspect": "Stripped from an elder marsh-wyrm slain after three weeks of siege. Laughs off fire, frost, and blades alike."
+ },
+ "Weaver Robe": {
+  "name": "Weaver Robe",
+  "flavor": "Patterned with geometric knots that make the eyes water if stared at.",
+  "inspect": "Loomed by silent guild-weavers in Oakhaven. Each thread is spun around a hair-slender copper filament to ground stray sparks."
+ },
+ "Mystic Velvet Mantle": {
+  "name": "Mystic Velvet Mantle",
+  "flavor": "Burgundy pile trimmed with ermine stained leaden at the hem.",
+  "inspect": "Draped on advisors in the Ember Court before the fall. Heavy-ply enough to turn aside chill winds and minor hexes."
+ },
+ "Steel Greaves": {
+  "name": "Steel Greaves",
+  "flavor": "Hinged shin-guards buckled over wool leggings.",
+  "inspect": "Protect the lower legs from sweeping cuts in shield-wall crushes. Scratched bright along the ankles from rocky trails."
+ },
+ "Juggernaut War Greaves": {
+  "name": "Juggernaut War Greaves",
+  "flavor": "Flanged plate leg-armor sturdy enough to crack cobbles on a hard stomp.",
+  "inspect": "Forged for frontline breachers at Ironcamp Citadel. Once planted, the wearer yields ground only when dead."
+ },
+ "Tracker Treads": {
+  "name": "Tracker Treads",
+  "flavor": "Soft-soled deerhide boots laced crosswise up the calf.",
+  "inspect": "Built by border trappers who follow wolf packs across frozen fens. Silent on parched leaves and steady on clammy stone."
+ },
+ "Windrunner Striders": {
+  "name": "Windrunner Striders",
+  "flavor": "Wing-stamped calfskin boots that feel half-empty even when laced taut.",
+  "inspect": "Enchanted in Oakhaven for scouts outrunning cavalry patrols. Dust barely rises behind the heels at a full sprint."
+ },
+ "Scholar Slippers": {
+  "name": "Scholar Slippers",
+  "flavor": "Felt-soled house shoes ground delicate from pacing library floors.",
+  "inspect": "Quiet enough not to wake snoring archivists in Lantern Passage. Useless in mud, oddly comforting during vigils."
+ },
+ "Astral Walkers": {
+  "name": "Astral Walkers",
+  "flavor": "Midnight-blue boots stitched with sterling thread that leaves faint footprints.",
+  "inspect": "Crafted for tower magisters crossing treacherous planar thresholds. Stones and roots seem to shift out of the wearer's path."
+ },
+ "Titan War Gauntlets": {
+  "name": "Titan War Gauntlets",
+  "flavor": "Oversized articulated gauntlets scarred from catching falling portcullises.",
+  "inspect": "Forged from dense meteoric alloy for champions of Ironcamp. A lone backhand can cave in a breastplate."
+ },
+ "Studded Bracers": {
+  "name": "Studded Bracers",
+  "flavor": "Forearm guards capped with brass strips.",
+  "inspect": "Strapped over sleeves by archers and skirmishers alike. Deflects glancing cuts and keeps bowstrings from bruising wrists."
+ },
+ "Reinforced Vambraces": {
+  "name": "Reinforced Vambraces",
+  "flavor": "Spring-metal splints riveted over simmered hide.",
+  "inspect": "Issued to Oakhaven pikemen tired of losing forearms in close press. Nimble enough not to slow a thrust."
+ },
+ "Shadowstrike Grips": {
+  "name": "Shadowstrike Grips",
+  "flavor": "Supple pitch-dark kidskin gloves with lead-weighted knuckles.",
+  "inspect": "Favored by Ember Court assassins scaling drenched castle walls. Fingers keep full sensitivity while palms bite snug onto stone."
+ },
+ "Novice Wraps": {
+  "name": "Novice Wraps",
+  "flavor": "Inked linen strips wound tightly around knuckles and wrists.",
+  "inspect": "Used by apprentices practicing fire-cantrips before they learn control. Prevents minor burns from blistering the palms."
+ },
+ "Velvet Channelers": {
+  "name": "Velvet Channelers",
+  "flavor": "Fingerless crimson gloves embroidered with conduits.",
+  "inspect": "Tailored for battle-casters who need bare fingertips for somatic signs. Draws ambient magic smoothly up the forearms."
+ },
+ "Archon Handwraps": {
+  "name": "Archon Handwraps",
+  "flavor": "Gold-threaded silk bandages that never fray or stain with soot.",
+  "inspect": "Relic bindings carried by the warden of the Celestial Spire. Spells leap from the fingertips with terrifying speed."
+ },
+ "Copper Band": {
+  "name": "Copper Band",
+  "flavor": "Hammered from a melted-down Border Fords halfpenny.",
+  "inspect": "Leaves a verdigris ring around the finger after a day in the rain. Costs almost nothing and brings modest luck at dice."
+ },
+ "Bone Ring": {
+  "name": "Bone Ring",
+  "flavor": "Carved from a knuckle-bone smoothed yellow by decades of use.",
+  "inspect": "Sold by grave-diggers outside Thornwick after winter plagues. Chill against the skin whenever undead stir nearby."
+ },
+ "Ring of Valor": {
+  "name": "Ring of Valor",
+  "flavor": "Bronze signet stamped with a broken spear.",
+  "inspect": "Awarded to survivors of the Alder Bridge rear-guard. Pulse beats steadier when outnumbered three to one."
+ },
+ "Ring of the Scribe": {
+  "name": "Ring of the Scribe",
+  "flavor": "Argent band shaped like a coiled quill nib.",
+  "inspect": "Kept by clerks in Oakhaven's registry. Ink never blots and spells read faster under its sheen."
+ },
+ "Ring of the Champions": {
+  "name": "Ring of the Champions",
+  "flavor": "Crown-shaped gold band set with three blood-vermilion spinels.",
+  "inspect": "Won in the brutal pit-tournaments of Ironcamp Citadel. Fills the sword-arm with tireless, ruthless strength."
+ },
+ "Ring of the High Archon": {
+  "name": "Ring of the High Archon",
+  "flavor": "Platinum loop cradling a star-sapphire that hums when spells are cast.",
+  "inspect": "Passed down among heads of the Oakhaven conclave. Vast reserves of arcane power answer its silent call."
+ },
+ "Signet of Unbroken Vigor": {
+  "name": "Signet of Unbroken Vigor",
+  "flavor": "Seal stamped with an oak root splitting granite.",
+  "inspect": "Carried by marshals who marched across Redmarsh without a sick-day. Wounds knit faster while it rests on the hand."
+ },
+ "Clay Talisman": {
+  "name": "Clay Talisman",
+  "flavor": "Thumb-pressed river clay baked hard and strung on hemp.",
+  "inspect": "Sold at Thornwick market stalls to nervous farmers. Mostly superstition, though it occasionally turns aside a hex."
+ },
+ "Bronze Locket": {
+  "name": "Bronze Locket",
+  "flavor": "Hinged oval case holding a lock of faded hair and dried lavender.",
+  "inspect": "Found in the pack of a soldier who never made it home from Ravenwatch. Keeps a stubborn spark of hope alive in the dark."
+ },
+ "Astral Medallion": {
+  "name": "Astral Medallion",
+  "flavor": "Astrolabe pendant whose tiny pointers never stop turning.",
+  "inspect": "Crafted by Redmarsh star-watchers tracking omens over the Ember Court. Sharpens magical focus under unroofed skies."
+ },
+ "Bloodstone Pendant": {
+  "name": "Bloodstone Pendant",
+  "flavor": "Moss-hued jasper flecked with crimson spots like fresh splatter.",
+  "inspect": "Carried by Anvil-wrought Coast surgeons and mercenaries alike. Slows bleeding when blades bite deep into flesh."
+ },
+ "Prismatic Choker": {
+  "name": "Prismatic Choker",
+  "flavor": "Seven tiny cut gems set in links that flash different colors.",
+  "inspect": "Looted from a ruined Ember Court treasury vault. Scatters incoming elemental magic across the spectrum."
+ },
+ "Heart of the Colossus": {
+  "name": "Heart of the Colossus",
+  "flavor": "Fist-sized banded ruby that thuds softly against the chest plate.",
+  "inspect": "Torn from the chest of an ancient siege-golem beneath Ironcamp. Grants towering endurance to warriors who bear its weight."
+ },
+ "Medallion of the Celestial Spire": {
+  "name": "Medallion of the Celestial Spire",
+  "flavor": "A shard of white crystal suspended inside a ring of charcoal star-ferric.",
+  "inspect": "Recovered from the ruin overlooking the Ember Court. Channels blinding celestial authority through its bearer's will."
+ }
+}

@@ -1,0 +1,242 @@
+[
+ {
+  "town": "town-thornwick",
+  "kind": "crowd",
+  "line": "Keep your boots out of the puddle, stranger."
+ },
+ {
+  "town": "town-thornwick",
+  "kind": "crowd",
+  "line": "Another cart robbed past Alder Bridge last night."
+ },
+ {
+  "town": "town-thornwick",
+  "kind": "merchant",
+  "line": "Dry salt pork, good rope—coin up front!"
+ },
+ {
+  "town": "town-thornwick",
+  "kind": "merchant",
+  "line": "No credit for sellswords heading toward the fen."
+ },
+ {
+  "town": "town-thornwick",
+  "kind": "guard",
+  "line": "Keep steel sheathed inside the market palisade."
+ },
+ {
+  "town": "town-thornwick",
+  "kind": "guard",
+  "line": "Bridge toll's doubled since the northern watch vanished."
+ },
+ {
+  "town": "town-thornwick",
+  "kind": "child",
+  "line": "Bet you won't walk Lantern Passage after dark!"
+ },
+ {
+  "town": "town-thornwick",
+  "kind": "child",
+  "line": "Mister, is that real blood on your scabbard?"
+ },
+ {
+  "town": "town-thornwick",
+  "kind": "drunk",
+  "line": "Saw lights dancing in the peat—swear on ale!"
+ },
+ {
+  "town": "town-thornwick",
+  "kind": "drunk",
+  "line": "Taxman drowned at the ford. Best spring ever."
+ },
+ {
+  "town": "town-thornwick",
+  "kind": "priest",
+  "line": "Light a tallow stub before crossing the river."
+ },
+ {
+  "town": "town-thornwick",
+  "kind": "priest",
+  "line": "Even the Sunken Sanctum remembers our forgotten prayers."
+ },
+ {
+  "town": "town-redmarsh",
+  "kind": "crowd",
+  "line": "Don't step off the planks unless you fancy leeches."
+ },
+ {
+  "town": "town-redmarsh",
+  "kind": "crowd",
+  "line": "My socks haven't been dry since last autumn."
+ },
+ {
+  "town": "town-redmarsh",
+  "kind": "merchant",
+  "line": "Bog-moss poultices! Stops rot before it turns black!"
+ },
+ {
+  "town": "town-redmarsh",
+  "kind": "merchant",
+  "line": "Arrows cost extra when the causeway's flooded."
+ },
+ {
+  "town": "town-redmarsh",
+  "kind": "guard",
+  "line": "Check your boots for ticks before entering barracks."
+ },
+ {
+  "town": "town-redmarsh",
+  "kind": "guard",
+  "line": "Wardstone's humming louder again. Bad night ahead."
+ },
+ {
+  "town": "town-redmarsh",
+  "kind": "child",
+  "line": "Found a shiny ring inside a dead frog!"
+ },
+ {
+  "town": "town-redmarsh",
+  "kind": "child",
+  "line": "Gran says hexers live under the willow roots."
+ },
+ {
+  "town": "town-redmarsh",
+  "kind": "drunk",
+  "line": "Red mud stains forever—just like bad contracts."
+ },
+ {
+  "town": "town-redmarsh",
+  "kind": "drunk",
+  "line": "Here's to the convoy! May it sink slowly."
+ },
+ {
+  "town": "town-redmarsh",
+  "kind": "priest",
+  "line": "Bless the dry ground, thin though it is."
+ },
+ {
+  "town": "town-redmarsh",
+  "kind": "priest",
+  "line": "Ashes cleanse what swamp water only rots."
+ },
+ {
+  "town": "town-oakhaven",
+  "kind": "crowd",
+  "line": "Mind the curfew bell; wardens shoot first tonight."
+ },
+ {
+  "town": "town-oakhaven",
+  "kind": "crowd",
+  "line": "Smoke from the harbor makes my eyes water."
+ },
+ {
+  "town": "town-oakhaven",
+  "kind": "merchant",
+  "line": "Fine Oakhaven steel—guild-stamped and priced to hurt."
+ },
+ {
+  "town": "town-oakhaven",
+  "kind": "merchant",
+  "line": "Scrolls fresh from the tower! Handle with dry hands."
+ },
+ {
+  "town": "town-oakhaven",
+  "kind": "guard",
+  "line": "State your company charter at the inner gate."
+ },
+ {
+  "town": "town-oakhaven",
+  "kind": "guard",
+  "line": "Keep clear of the Cinder Wards after sundown."
+ },
+ {
+  "town": "town-oakhaven",
+  "kind": "child",
+  "line": "Look! A real mage with sparks in his beard!"
+ },
+ {
+  "town": "town-oakhaven",
+  "kind": "child",
+  "line": "My brother's on the harbor wall with a bow."
+ },
+ {
+  "town": "town-oakhaven",
+  "kind": "drunk",
+  "line": "Guildmasters drink wine while we chew salt tack."
+ },
+ {
+  "town": "town-oakhaven",
+  "kind": "drunk",
+  "line": "Sea's rising, Ember's marching—pour another cup!"
+ },
+ {
+  "town": "town-oakhaven",
+  "kind": "priest",
+  "line": "May the old oaks stand against coming fire."
+ },
+ {
+  "town": "town-oakhaven",
+  "kind": "priest",
+  "line": "Tend the wounded; judgment waits at the gate."
+ },
+ {
+  "town": "town-ironcamp",
+  "kind": "crowd",
+  "line": "Cough up the soot and keep moving, recruit."
+ },
+ {
+  "town": "town-ironcamp",
+  "kind": "crowd",
+  "line": "Every forge in camp's been glowing three weeks straight."
+ },
+ {
+  "town": "town-ironcamp",
+  "kind": "merchant",
+  "line": "Plate armor won't save fools, just dent prettier."
+ },
+ {
+  "town": "town-ironcamp",
+  "kind": "merchant",
+  "line": "Buy your elixirs now—no shops past the ridge."
+ },
+ {
+  "town": "town-ironcamp",
+  "kind": "guard",
+  "line": "Malrik's name is mud here. Speak it softly."
+ },
+ {
+  "town": "town-ironcamp",
+  "kind": "guard",
+  "line": "Ash wind's blowing east—keep visors down."
+ },
+ {
+  "town": "town-ironcamp",
+  "kind": "child",
+  "line": "I carry water buckets for the siege smiths!"
+ },
+ {
+  "town": "town-ironcamp",
+  "kind": "child",
+  "line": "Are you marching to the Court tomorrow?"
+ },
+ {
+  "town": "town-ironcamp",
+  "kind": "drunk",
+  "line": "Spent my last silver on steel instead of burial."
+ },
+ {
+  "town": "town-ironcamp",
+  "kind": "drunk",
+  "line": "Ember wine burns twice going down!"
+ },
+ {
+  "town": "town-ironcamp",
+  "kind": "priest",
+  "line": "Steel bends; only unbroken will crosses the ash."
+ },
+ {
+  "town": "town-ironcamp",
+  "kind": "priest",
+  "line": "Speak your regrets before the basalt road."
+ }
+]

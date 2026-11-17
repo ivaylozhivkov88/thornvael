@@ -1,0 +1,194 @@
+[
+ {
+  "name": "Fire Bolt",
+  "tooltip": "Hurls a bolt of ash-fire at a foe (reach 7), dealing 16-24 fire damage. Cost: 8 mana, CD: 30.",
+  "flavor": "The first lesson of the border academies: dry thatch and wet men burn at the same rate once the pitch catches.",
+  "cast_line": "Take the cinder to heart."
+ },
+ {
+  "name": "Fireball",
+  "tooltip": "Launches an explosive sphere at the ground (reach 8, radius 2), dealing 18-28 fire damage. Cost: 14, CD: 40.",
+  "flavor": "Siege engineers spend three days building a trebuchet; a battle-mage spends fourteen mana and an afternoon's patience.",
+  "cast_line": "Clear the dry brush!"
+ },
+ {
+  "name": "Flame Burst",
+  "tooltip": "Splits into up to 3 fiery shards within radius 3.5 (reach 7), dealing 12-18 fire damage each. Cost: 12, CD: 35.",
+  "flavor": "When the kiln is over-stoked, the bricks themselves become shrapnel.",
+  "cast_line": "Scatter the coals!"
+ },
+ {
+  "name": "Ignite",
+  "tooltip": "Sets a foe ablaze (reach 6), inflicting burn (2) for 6s. Cost: 8 mana, CD: 30.",
+  "flavor": "It does not kill quickly, which makes it unpopular with duelists and favored by quartermasters.",
+  "cast_line": "Smolder from the marrow out."
+ },
+ {
+  "name": "Frost Bolt",
+  "tooltip": "Strikes a foe with river-ice (reach 7) for 12-18 water damage and slows for 8s. Cost: 8, CD: 30.",
+  "flavor": "The winter ford claims more boots than the gnolls ever did.",
+  "cast_line": "Stiffen in the mire."
+ },
+ {
+  "name": "Ice Storm",
+  "tooltip": "Pelts an area with sleet (reach 8, radius 2.5) for 10-16 damage, slowing foes for 6s. Cost: 16, CD: 45.",
+  "flavor": "A brief, localized January borrowed from the northern crags.",
+  "cast_line": "Bury the road in rime."
+ },
+ {
+  "name": "Chain Frost",
+  "tooltip": "Bounces across 4 foes in radius 3.5 (reach 7) for 9-14 damage, slowing for 4s. Cost: 14, CD: 40.",
+  "flavor": "Misery loves company; hypothermia insists upon it.",
+  "cast_line": "Share the winter among you."
+ },
+ {
+  "name": "Healing",
+  "tooltip": "Mends an ally's wounds (reach 7), restoring 30-45 HP. Cost: 10 mana, CD: 30.",
+  "flavor": "Knits torn flesh with the cold, indifferent efficiency of a cobbler's awl.",
+  "cast_line": "Get up; your pay isn't spent."
+ },
+ {
+  "name": "Healing Rain",
+  "tooltip": "Showers a 3-radius area (reach 8), restoring 14-22 HP to allies within. Cost: 18 mana, CD: 50.",
+  "flavor": "Tastes of peat moss and iron, but washes the coagulated dust from the eyes.",
+  "cast_line": "Drink before the mud takes it."
+ },
+ {
+  "name": "Lightning",
+  "tooltip": "Strikes a foe with a high-voltage arc (reach 8) for 24-34 air damage. Cost: 12 mana, CD: 35.",
+  "flavor": "Leaves a smell of copper coins and boiled wool in the wet marsh air.",
+  "cast_line": "Stand tall in the open."
+ },
+ {
+  "name": "Chain Lightning",
+  "tooltip": "Arcs across 4 targets within radius 3.5 (reach 7), dealing 14-22 air damage. Cost: 16, CD: 40.",
+  "flavor": "Iron mail is a wonderful invention right up until the sky decides to speak.",
+  "cast_line": "From buckle to blade!"
+ },
+ {
+  "name": "Haste",
+  "tooltip": "Quickens an ally's stride and swing (reach 7) with haste for 25s. Cost: 12 mana, CD: 30.",
+  "flavor": "The heart beats twice as fast, borrowing tomorrow's vigor to pay today's butcher bill.",
+  "cast_line": "Double-time, or die in the mud!"
+ },
+ {
+  "name": "Gale",
+  "tooltip": "Buffets a 3-radius area (reach 8) for 8-12 air damage and slows foes for 5s. Cost: 12, CD: 40.",
+  "flavor": "A sudden coastal squall that fills helmets with grit and ruins bowstrings.",
+  "cast_line": "Against the teeth of the wind!"
+ },
+ {
+  "name": "Wind Ward",
+  "tooltip": "Sheathes the caster in whirling air, granting a 35-point shield for 45s. Cost: 8 mana, CD: 30.",
+  "flavor": "Arrows do not miss; they simply decide they have urgent business three inches to the left.",
+  "cast_line": "Turn the shaft aside."
+ },
+ {
+  "name": "Rock Throw",
+  "tooltip": "Hurls a jagged chunk of granite at a foe (reach 7) for 18-26 earth damage. Cost: 9, CD: 32.",
+  "flavor": "Six years of classical academy Latin, culminating in throwing a very large brick.",
+  "cast_line": "Stone is cheaper than steel."
+ },
+ {
+  "name": "Stone Curse",
+  "tooltip": "Calcifies a foe (reach 6), petrifying them into stone for 5s. Cost: 16 mana, CD: 40.",
+  "flavor": "For five quiet seconds, even the most fanatical raider becomes a garden ornament.",
+  "cast_line": "Be still and wait for the chisel."
+ },
+ {
+  "name": "Stone Skin",
+  "tooltip": "Hardens an ally's flesh (reach 7) with a 50-point earth shield for 45s. Cost: 10, CD: 30.",
+  "flavor": "The skin turns the color of wet slate and itches abominably, yet blades bounce off.",
+  "cast_line": "Wear the mountain's hide."
+ },
+ {
+  "name": "Poison Cloud",
+  "tooltip": "Fills a 2.5-radius area (reach 8) with toxic marsh gas, poisoning (1) for 12s. Cost: 12, CD: 40.",
+  "flavor": "Distilled from what bubbles up when you step on a bloated horse in the Redmarsh.",
+  "cast_line": "Breathe deep of the fen."
+ },
+ {
+  "name": "Quake",
+  "tooltip": "Ruptures the ground (reach 7, radius 3.5), dealing 20-30 earth damage. Cost: 22 mana, CD: 60.",
+  "flavor": "Foundations are merely polite agreements between mason and bedrock; both can be revoked.",
+  "cast_line": "Let the cellar swallow the hall!"
+ },
+ {
+  "name": "Blessing",
+  "tooltip": "Steadies an ally's hand and spirit (reach 7), granting bless for 60s. Cost: 10 mana, CD: 30.",
+  "flavor": "Not a prayer to the gods—who are notoriously busy—but a cold alignment of nerve and iron.",
+  "cast_line": "Steady the hand, narrow the eye."
+ },
+ {
+  "name": "Weaken",
+  "tooltip": "Saps a foe's sinews (reach 7), inflicting weaken for 30s. Cost: 8 mana, CD: 30.",
+  "flavor": "Suddenly the sword weighs forty pounds and the shield feels like a wet mattress.",
+  "cast_line": "Your bones remember their age."
+ },
+ {
+  "name": "Resurrect",
+  "tooltip": "Calls a fallen combatant back from a corpse (reach 6). Cost: 30 mana, CD: 75.",
+  "flavor": "Death on the frontier is rarely a permanent discharge; the quartermaster still has your contract.",
+  "cast_line": "Your shift is not finished."
+ },
+ {
+  "name": "Corpse Burst",
+  "tooltip": "Detonates a corpse (reach 7, radius 2.5), dealing 18-26 astral damage. Cost: 14, CD: 50.",
+  "flavor": "An unsentimental recycling of fallen vanguard assets.",
+  "cast_line": "Serve one last time."
+ },
+ {
+  "name": "Meditation",
+  "tooltip": "Centers the mind to restore 12 mana to the caster. Cost: 0 mana, CD: 250.",
+  "flavor": "Three deep breaths of gun-smoke and blood, counting backwards from a hundred.",
+  "cast_line": "Silence behind the eyes."
+ },
+ {
+  "name": "Meteor",
+  "tooltip": "Calls down a molten crag (reach 8, radius 3) for 32-48 damage and burn (4) for 8s. Cost: 26, CD: 70.",
+  "flavor": "When diplomacy, archery, and heavy infantry have all failed to make the point.",
+  "cast_line": "The sky settles the ledger!"
+ },
+ {
+  "name": "Inferno",
+  "tooltip": "Engulfs up to 5 foes in radius 4 (reach 7) for 22-34 fire damage each. Cost: 20 mana, CD: 45.",
+  "flavor": "Turns a defensive shield-wall into a communal Dutch oven.",
+  "cast_line": "Roast in your own mail!"
+ },
+ {
+  "name": "Blizzard",
+  "tooltip": "Unleashes a freezing gale (reach 8, radius 3.5) for 20-30 damage, slowing for 10s. Cost: 24, CD: 65.",
+  "flavor": "The kind of frost that snaps pine trunks like dry macaroni.",
+  "cast_line": "Winter comes early this year."
+ },
+ {
+  "name": "Thunderstorm",
+  "tooltip": "Strikes 4 foes in radius 4 (reach 8) with 26-38 air damage each. Cost: 22 mana, CD: 50.",
+  "flavor": "Four bolts, four blackened craters, and a sudden shortage of officers.",
+  "cast_line": "Count the seconds to the thunder!"
+ },
+ {
+  "name": "Iron Skin",
+  "tooltip": "Encases the caster in living plate, granting a 100-point shield for 60s. Cost: 18 mana, CD: 60.",
+  "flavor": "For one minute, you are an anvil, and the rest of the world is merely a poorly tempered hammer.",
+  "cast_line": "Break your teeth upon me."
+ },
+ {
+  "name": "Acid Rain",
+  "tooltip": "Corrosive downpour (reach 8, radius 3.5) dealing 14-20 damage and poison (2) for 16s. Cost: 20, CD: 55.",
+  "flavor": "Pits polished steel, blinds warhorses, and ruins the heraldry on the banners.",
+  "cast_line": "Rust in the standing rain."
+ },
+ {
+  "name": "Mana Burn",
+  "tooltip": "Ignites a foe's internal aether (reach 7), dealing 25-40 astral damage. Cost: 15 mana, CD: 40.",
+  "flavor": "Boils the uncast syllables right on the enemy sorcerer's tongue.",
+  "cast_line": "Choke on your own craft."
+ },
+ {
+  "name": "Time Warp",
+  "tooltip": "Bends the local hour around the caster, granting haste for 40s. Cost: 25 mana, CD: 80.",
+  "flavor": "To the rest of the battlefield, you are a blur; to yourself, everyone else is wading through cold molasses.",
+  "cast_line": "Step between the seconds."
+ }
+]

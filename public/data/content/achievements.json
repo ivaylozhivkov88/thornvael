@@ -1,0 +1,402 @@
+[
+ {
+  "id": "first-blood-ford",
+  "name": "Muddy Baptism",
+  "desc": "Win your first battle at the Border Fords.",
+  "flavor": "Thornwick's crows already know your company's scent.",
+  "tier": "bronze",
+  "secret": false
+ },
+ {
+  "id": "hundred-slain",
+  "name": "Carver of Tallies",
+  "desc": "Slay 100 enemies across your campaign.",
+  "flavor": "A modest heap by Border Fords standards.",
+  "tier": "bronze",
+  "secret": false
+ },
+ {
+  "id": "thousand-slain",
+  "name": "Reaper of Thornvael",
+  "desc": "Slay 1,000 enemies across your campaign.",
+  "flavor": "Grave-diggers in four provinces owe you overtime.",
+  "tier": "gold",
+  "secret": false
+ },
+ {
+  "id": "boar-bane",
+  "name": "Tusk-Breaker",
+  "desc": "Defeat the Ironhide beast in the Greywood ravine.",
+  "flavor": "Enough salted bacon to feed Thornwick till thaw.",
+  "tier": "bronze",
+  "secret": false
+ },
+ {
+  "id": "hexer-silenced",
+  "name": "Snuffed Cauldron",
+  "desc": "Slay the renegade hexer of Redmarsh Hollow.",
+  "flavor": "Even the bog-frogs sound relieved.",
+  "tier": "silver",
+  "secret": false
+ },
+ {
+  "id": "juggernaut-felled",
+  "name": "Rust and Silence",
+  "desc": "Destroy the Elder Juggernaut on the Iron Coast.",
+  "flavor": "Three centuries of fury reduced to scrap iron.",
+  "tier": "silver",
+  "secret": false
+ },
+ {
+  "id": "malrik-caught",
+  "name": "No Haven for Traitors",
+  "desc": "Intercept Commander Malrik before he reaches Ember lines.",
+  "flavor": "He stole the keys; you kept the lock.",
+  "tier": "silver",
+  "secret": false
+ },
+ {
+  "id": "ember-crown-broken",
+  "name": "Ashes of the Court",
+  "desc": "Complete Act IV and shatter the Ember Reckoning.",
+  "flavor": "Nobody left to tax the cinders.",
+  "tier": "gold",
+  "secret": false
+ },
+ {
+  "id": "zero-casualties-first",
+  "name": "Everyone Walks Back",
+  "desc": "Complete any mission without losing a single squad member.",
+  "flavor": "An administrative miracle the quartermaster will frame.",
+  "tier": "bronze",
+  "secret": false
+ },
+ {
+  "id": "flawless-act",
+  "name": "Unbroken Company",
+  "desc": "Complete ten missions with zero mercenary fatalities.",
+  "flavor": "Either brilliant tactics or cowardly running. Both work.",
+  "tier": "gold",
+  "secret": false
+ },
+ {
+  "id": "first-unique-found",
+  "name": "Something Sharp and Old",
+  "desc": "Equip your first Tier 5 relic item.",
+  "flavor": "Try not to ask whose finger it came off.",
+  "tier": "silver",
+  "secret": false
+ },
+ {
+  "id": "full-relic-loadout",
+  "name": "Walking Treasury",
+  "desc": "Equip Tier 5 gear in every slot on your hero.",
+  "flavor": "Bandits weep just calculating your ransom.",
+  "tier": "gold",
+  "secret": false
+ },
+ {
+  "id": "archon-regalia",
+  "name": "Star-Crowned Magister",
+  "desc": "Equip Astral Archon Wand, Archmage Diadem, and Star Robe.",
+  "flavor": "Oakhaven's elders would kill for that wardrobe.",
+  "tier": "gold",
+  "secret": false
+ },
+ {
+  "id": "citadel-bulwark",
+  "name": "Walking Bastion",
+  "desc": "Equip Gothic Full Plate, Aegis of the Citadel, and Dread Crest Helm.",
+  "flavor": "Arrows bounce off; bridges groan underneath.",
+  "tier": "gold",
+  "secret": false
+ },
+ {
+  "id": "thorn-regalia",
+  "name": "Briar-Born",
+  "desc": "Wield both Thorn Blade and Thorn Staff in the same squad.",
+  "flavor": "The roots whisper to each other when you camp.",
+  "tier": "silver",
+  "secret": true
+ },
+ {
+  "id": "hoarder-gold-10k",
+  "name": "Heavy Purse",
+  "desc": "Accumulate 10,000 gold coins in your company chest.",
+  "flavor": "Heavy enough to drown a careless ferryman.",
+  "tier": "bronze",
+  "secret": false
+ },
+ {
+  "id": "hoarder-gold-50k",
+  "name": "Merchant Prince of Mud",
+  "desc": "Accumulate 50,000 gold coins at one time.",
+  "flavor": "You could buy Thornwick twice and still hate the smell.",
+  "tier": "gold",
+  "secret": false
+ },
+ {
+  "id": "level-10-hero",
+  "name": "Seasoned Sellsword",
+  "desc": "Reach level 10 with your hero.",
+  "flavor": "You survived long enough to learn everyone's names.",
+  "tier": "bronze",
+  "secret": false
+ },
+ {
+  "id": "level-20-hero",
+  "name": "Scourge of the Four Acts",
+  "desc": "Reach level 20 with your hero.",
+  "flavor": "Even veterans step aside when you enter the tavern.",
+  "tier": "silver",
+  "secret": false
+ },
+ {
+  "id": "level-30-hero",
+  "name": "Legend in Scarred Iron",
+  "desc": "Reach maximum level with your hero.",
+  "flavor": "Songs will lie about how clean your boots were.",
+  "tier": "gold",
+  "secret": false
+ },
+ {
+  "id": "scholar-ten-spells",
+  "name": "Inked Fingers",
+  "desc": "Learn 10 different spells from scrolls or tomes.",
+  "flavor": "Your sleeves smell permanently of ozone and tallow.",
+  "tier": "bronze",
+  "secret": false
+ },
+ {
+  "id": "master-arcana",
+  "name": "Keeper of Forbidden Pages",
+  "desc": "Learn every Tier 5 spell tome in the realm.",
+  "flavor": "Three synods have already drafted your arrest warrant.",
+  "tier": "gold",
+  "secret": false
+ },
+ {
+  "id": "merc-mercy-choice",
+  "name": "Spare the Deserter",
+  "desc": "Show mercy to the cornered picket captain in Border Fords.",
+  "flavor": "Kindness is expensive; hope he remembers the debt.",
+  "tier": "bronze",
+  "secret": true
+ },
+ {
+  "id": "burn-the-ledger",
+  "name": "Ash Over Ink",
+  "desc": "Destroy the tax ledgers during the Ashbrook Retreat.",
+  "flavor": "Half of Thornwick suddenly forgets how to read.",
+  "tier": "silver",
+  "secret": true
+ },
+ {
+  "id": "save-granary-all",
+  "name": "Full Bellies in Redmarsh",
+  "desc": "Save all grain stores during the Redmarsh Granary Raid.",
+  "flavor": "The garrison eats bread instead of boiled belts tonight.",
+  "tier": "silver",
+  "secret": false
+ },
+ {
+  "id": "refugees-escorted",
+  "name": "Shepherd of the Mire",
+  "desc": "Escort the Fleeing Column without losing a single cart.",
+  "flavor": "Mud, tears, and stubbornness got them through.",
+  "tier": "silver",
+  "secret": false
+ },
+ {
+  "id": "tide-beaten",
+  "name": "Faster Than the Swell",
+  "desc": "Complete Hourglass Rescue with time to spare before high tide.",
+  "flavor": "Dry boots on the Iron Coast—a rare miracle.",
+  "tier": "silver",
+  "secret": false
+ },
+ {
+  "id": "harbor-saved",
+  "name": "Bucket Brigade",
+  "desc": "Save at least half the piers during Burning Harbor.",
+  "flavor": "Oakhaven's shipwrights owe you a pint and a plank.",
+  "tier": "silver",
+  "secret": false
+ },
+ {
+  "id": "threshold-mercy",
+  "name": "The Unburnt Key",
+  "desc": "Choose the vault path at Threshold Choice without slaying the wardens.",
+  "flavor": "Even headless statues seemed surprised.",
+  "tier": "gold",
+  "secret": true
+ },
+ {
+  "id": "threshold-wrath",
+  "name": "Altar of Cinders",
+  "desc": "Choose the sacrificial path at Threshold Choice.",
+  "flavor": "Some doors only open when fed smoke.",
+  "tier": "gold",
+  "secret": true
+ },
+ {
+  "id": "all-nodes-act1",
+  "name": "Border Cartographer",
+  "desc": "Complete every mission node in Act I: Border Fords.",
+  "flavor": "You know every ditch between Thornwick and Ravenwatch.",
+  "tier": "bronze",
+  "secret": false
+ },
+ {
+  "id": "all-nodes-act2",
+  "name": "Fen-Walker",
+  "desc": "Complete every mission node in Act II: Redmarsh.",
+  "flavor": "Leeches recognize you as kin.",
+  "tier": "silver",
+  "secret": false
+ },
+ {
+  "id": "all-nodes-act3",
+  "name": "Breaker of Tides",
+  "desc": "Complete every mission node in Act III: Iron Coast.",
+  "flavor": "Salt water couldn't rust your resolve.",
+  "tier": "silver",
+  "secret": false
+ },
+ {
+  "id": "all-nodes-act4",
+  "name": "Conqueror of Ash",
+  "desc": "Complete every mission node in Act IV: Crown and Ember.",
+  "flavor": "Not a single ember left unturned.",
+  "tier": "gold",
+  "secret": false
+ },
+ {
+  "id": "friendly-fire-oops",
+  "name": "Danger Close",
+  "desc": "Knock out one of your own mercenaries with your own fireball.",
+  "flavor": "Apologize after the battle—if they wake up.",
+  "tier": "bronze",
+  "secret": true
+ },
+ {
+  "id": "win-with-1hp",
+  "name": "By a Thread of Mail",
+  "desc": "Finish a mission with your hero under 5% health.",
+  "flavor": "Your surgeon aged ten years watching that.",
+  "tier": "silver",
+  "secret": true
+ },
+ {
+  "id": "no-potions-run",
+  "name": "Dry Canteen",
+  "desc": "Complete five consecutive missions without drinking a single potion.",
+  "flavor": "Alchemists hate you; your liver thanks you.",
+  "tier": "silver",
+  "secret": true
+ },
+ {
+  "id": "ring-the-sunken-bell",
+  "name": "Toll for the Drowned",
+  "desc": "Strike the cracked bronze bell inside the Sunken Sanctum.",
+  "flavor": "Something beneath the water rang back.",
+  "tier": "bronze",
+  "secret": true
+ },
+ {
+  "id": "silent-vigil",
+  "name": "Statues Don't Blink",
+  "desc": "Stand motionless for two full minutes on a battlefield.",
+  "flavor": "Even the crows wondered if you'd turned to stone.",
+  "tier": "bronze",
+  "secret": true
+ },
+ {
+  "id": "sell-junk-100",
+  "name": "Scrap Peddler",
+  "desc": "Sell 100 pieces of equipment to town merchants.",
+  "flavor": "One man's rusty sword is another man's pension.",
+  "tier": "bronze",
+  "secret": false
+ },
+ {
+  "id": "full-squad-hired",
+  "name": "Full Roster",
+  "desc": "Fill every mercenary slot in your company.",
+  "flavor": "More mouths to feed, more shields to hide behind.",
+  "tier": "bronze",
+  "secret": false
+ },
+ {
+  "id": "pause-tactician",
+  "name": "Armchair Marshal",
+  "desc": "Issue 50 commands while the game is paused.",
+  "flavor": "Time stands still so you don't have to bleed.",
+  "tier": "bronze",
+  "secret": false
+ },
+ {
+  "id": "corpse-chain",
+  "name": "Dominoes of Bone",
+  "desc": "Kill 5 enemies with a single Corpse Burst cast.",
+  "flavor": "Messy, efficient, and deeply impolite.",
+  "tier": "silver",
+  "secret": true
+ },
+ {
+  "id": "resurrect-clutch",
+  "name": "Not Done Yet",
+  "desc": "Use Tome of Resurrect to revive a fallen veteran mid-battle.",
+  "flavor": "Get back up; your contract isn't finished.",
+  "tier": "silver",
+  "secret": false
+ },
+ {
+  "id": "bare-fist-brawl",
+  "name": "Forgot the Scabbard",
+  "desc": "Win a skirmish with no weapon equipped in your hero's main hand.",
+  "flavor": "Thornwick tavern rules apply everywhere.",
+  "tier": "silver",
+  "secret": true
+ },
+ {
+  "id": "four-towns-visited",
+  "name": "Citizen of Everywhere",
+  "desc": "Visit Thornwick, Redmarsh, Oakhaven, and Ironcamp.",
+  "flavor": "Four towns, four distinct flavors of mud.",
+  "tier": "bronze",
+  "secret": false
+ },
+ {
+  "id": "hard-campaign",
+  "name": "Iron Discipline",
+  "desc": "Complete the campaign on Hard difficulty.",
+  "flavor": "You earned every scar the slow way.",
+  "tier": "gold",
+  "secret": false
+ },
+ {
+  "id": "nightmare-campaign",
+  "name": "Crown of Cinders",
+  "desc": "Complete the campaign on Nightmare difficulty.",
+  "flavor": "Thornvael tried its worst and ran out of graves.",
+  "tier": "gold",
+  "secret": false
+ },
+ {
+  "id": "rich-pauper",
+  "name": "Penniless Victor",
+  "desc": "Win a mission with zero gold left in your purse.",
+  "flavor": "Nothing left to lose makes men reckless.",
+  "tier": "bronze",
+  "secret": true
+ },
+ {
+  "id": "undervault-secret",
+  "name": "Beneath the Seals",
+  "desc": "Uncover the hidden chamber in Undervault Links.",
+  "flavor": "Some doors were lead-sealed for good reason.",
+  "tier": "silver",
+  "secret": true
+ }
+]

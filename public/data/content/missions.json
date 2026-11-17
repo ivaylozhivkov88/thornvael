@@ -1,0 +1,3718 @@
+{
+ "m01-blood-at-the-ford": {
+  "id": "m01-blood-at-the-ford",
+  "intro_scene": [
+   {
+    "speaker": "narrator",
+    "line": "Dawn turns the Sunken Ford the color of watered rust; smoke still curls from the tollhouse rafters."
+   },
+   {
+    "speaker": "npc-garrick-captain",
+    "line": "Grok'tar's gnolls butchered the watch at midnight. If they hold the shallows, Thornwick burns by supper."
+   },
+   {
+    "speaker": "npc-fenwick-ferryman",
+    "line": "My ferryman's ledger is locked inside The Tollhouse Strongbox. Leave it to the fire and half the valley forgets who owes whom."
+   },
+   {
+    "speaker": "npc-garrick-captain",
+    "line": "Forget your coin, Fenwick. We wade in under arrow cover, take the bluff, and drop Grok'tar before his pack scents blood."
+   },
+   {
+    "speaker": "hero",
+    "line": "Keep the archers on the ridge. We cross where the current runs shallowest."
+   }
+  ],
+  "milestones": [
+   {
+    "trigger": "first_contact",
+    "speaker": "npc-garrick-captain",
+    "line": "Shields up! Do not let their spear-throwers pin us waist-deep in the current!"
+   },
+   {
+    "trigger": "half_enemies_dead",
+    "speaker": "npc-fenwick-ferryman",
+    "line": "The tollhouse beams are sagging—check the charred floorboards for The Tollhouse Strongbox!"
+   },
+   {
+    "trigger": "low_morale",
+    "speaker": "npc-garrick-captain",
+    "line": "Hold your footing! Slip on these stones and the river carries you straight to their cleavers!"
+   },
+   {
+    "trigger": "last_stand",
+    "speaker": "hero",
+    "line": "Grok'tar is alone on the bluff. Cut his banner down and end this."
+   }
+  ],
+  "ambient_barks": [
+   "Snarling gnolls clash iron shields together.",
+   "Arrows hiss into the red current.",
+   "Hold the gravel bar, men!",
+   "Grok'tar bellows from the limestone bluff.",
+   "Wet leather creaks under heavy mail.",
+   "The burning tollhouse roof caves inward.",
+   "Keep your blades above the water!",
+   "A wounded raider splashes downstream."
+  ],
+  "victory_epilogue": [
+   {
+    "speaker": "npc-garrick-captain",
+    "line": "Grok'tar's rag of a banner is halfway to the estuary. Good work—though these orders from the watchtower are no gnoll scrawl."
+   },
+   {
+    "speaker": "npc-fenwick-ferryman",
+    "line": "The river remembers every toll paid in iron. Still, my punt is yours whenever the marsh calls."
+   },
+   {
+    "speaker": "hero",
+    "line": "Someone paid to put those gnolls at the ford. Let us find out who."
+   }
+  ],
+  "defeat_line": "The river washes red over broken shields as gnoll horns echo unopposed down the Thornwick road.",
+  "optional_choice": {
+   "prompt": "The burning tollhouse is collapsing around an iron strongbox and a trapped watchman.",
+   "a": "Pull the wounded watchman clear before the roof falls.",
+   "b": "Drag the scorched strongbox out of the embers first.",
+   "effect_a": "Lose 40 gold in melted coin; gain a veteran spearman recruit and +10 Thornwick morale.",
+   "effect_b": "Gain 120 gold and tax writs; Garrick condemns your greed (-10 garrison morale until m04)."
+  },
+  "codex_note": "The Sunken Ford marks the ancient basalt shelf where the northern trade road crosses the Redwater. Three border treaties were signed on its gravel banks and broken before the ink dried."
+ },
+ "m02-whispers-in-the-fen": {
+  "id": "m02-whispers-in-the-fen",
+  "intro_scene": [
+   {
+    "speaker": "narrator",
+    "line": "Mist clings to the drowned willows like wet wool, swallowing footsteps ten paces out."
+   },
+   {
+    "speaker": "field-scout-bren",
+    "line": "They hit my patrol at the sedge-line... poisoned barbs. The whole host is massing behind Ravenwatch, not the ford."
+   },
+   {
+    "speaker": "npc-marta-alchemist",
+    "line": "His veins are already turning black. Keep him breathing till the stone post, and scrape any Bile of the Fen you find off their blades."
+   },
+   {
+    "speaker": "npc-garrick-captain",
+    "line": "Slow march, tight flanks. If Bren dies in the bog, we march blind into whatever is waiting north."
+   },
+   {
+    "speaker": "hero",
+    "line": "Heavy shields outside. Burn the willow nests as we pass."
+   }
+  ],
+  "milestones": [
+   {
+    "trigger": "first_contact",
+    "speaker": "field-scout-bren",
+    "line": "In the branches—above the water! Watch the green-fletched shafts!"
+   },
+   {
+    "trigger": "objective_halfway",
+    "speaker": "npc-marta-alchemist",
+    "line": "That black ooze on their arrowheads is Bile of the Fen—deadly, yet priceless for antivenom."
+   },
+   {
+    "trigger": "reinforcements",
+    "speaker": "npc-garrick-captain",
+    "line": "More bog-stalkers wading in from the reeds! Close ranks around the litter!"
+   },
+   {
+    "trigger": "low_morale",
+    "speaker": "field-scout-bren",
+    "line": "Leave me by the cairn if you must... just get the count of their banners to Thornwick..."
+   }
+  ],
+  "ambient_barks": [
+   "Poisoned shafts hiss from willow limbs.",
+   "Boots squelch deep in black peat.",
+   "Marsh gas bubbles beneath rotting logs.",
+   "A bitter cough echoes through fog.",
+   "Check your flanks—reeds are moving!",
+   "Carrion crows watch from drowned oaks.",
+   "Antivenom vials clink against belt buckles.",
+   "Something heavy slides beneath the duckweed."
+  ],
+  "victory_epilogue": [
+   {
+    "speaker": "field-scout-bren",
+    "line": "The watch post... still standing. Take the garrison ledgers under the hearthstone—every tally leads to Ravenwatch."
+   },
+   {
+    "speaker": "npc-marta-alchemist",
+    "line": "One more league and the poison would have stopped his heart. Now we brew a cure before the next ambush."
+   },
+   {
+    "speaker": "hero",
+    "line": "The ford was bait. Ravenwatch is the jaw."
+   }
+  ],
+  "defeat_line": "The fen drinks the last torchlight, leaving only bubbles where your vanguard sank beneath poisoned reeds.",
+  "optional_choice": {
+   "prompt": "Bren's fever spikes midway across the causeway, slowing the column under archer fire.",
+   "a": "Spend Marta's last concentrated antitoxin to stabilize Bren immediately.",
+   "b": "Force-march the litter without stopping to treat the wound.",
+   "effect_a": "Lose 1 Rare Antitoxin consumable; Bren survives healthy and reveals ambush caches in Act II (m14).",
+   "effect_b": "Save supplies, but Bren suffers permanent nerve damage (-15% scouting vision through m06)."
+  },
+  "codex_note": "Drowned three centuries ago when an earthquake dammed the Greywater, the Fen is a maze of peat islands and sunken causeways favored by smugglers and marsh-born cultists."
+ },
+ "m03-nightfall-at-ravenwatch": {
+  "id": "m03-nightfall-at-ravenwatch",
+  "intro_scene": [
+   {
+    "speaker": "narrator",
+    "line": "Ravenwatch Keep squats on a basalt tooth, its gatehouse stinking of wet ash and butchered rooks."
+   },
+   {
+    "speaker": "npc-garrick-captain",
+    "line": "The portcullis is twisted like melted tallow. We lock shields in the inner bailey until first light, then burn their totems."
+   },
+   {
+    "speaker": "npc-hobb-smith",
+    "line": "Look at the outer wall—The Broken Picket. Someone pulled the iron stakes from the inside before the horns blew."
+   },
+   {
+    "speaker": "npc-marta-alchemist",
+    "line": "Those bone totems in the treeline are feeding witchfire into the courtyard. Hold the line until the chanting falters."
+   },
+   {
+    "speaker": "hero",
+    "line": "Form the circle. Nobody steps past the wellhead until dawn."
+   }
+  ],
+  "milestones": [
+   {
+    "trigger": "first_contact",
+    "speaker": "npc-garrick-captain",
+    "line": "They're pouring through the gatehouse! Lock shields and brace your heels!"
+   },
+   {
+    "trigger": "half_enemies_dead",
+    "speaker": "npc-marta-alchemist",
+    "line": "Green witchfire is eating the mortar! Three totems in the pines—sunder them as soon as dawn breaks!"
+   },
+   {
+    "trigger": "low_morale",
+    "speaker": "npc-hobb-smith",
+    "line": "My hammer's notched to the haft, captain, and they keep coming out of the dark!"
+   },
+   {
+    "trigger": "objective_halfway",
+    "speaker": "hero",
+    "line": "First light. Break the circle—burn those bone totems down to splinters."
+   }
+  ],
+  "ambient_barks": [
+   "Claws scrape across battered iron shields.",
+   "Sickly green witchfire crackles overhead.",
+   "Hold the bailey wellhead!",
+   "Bone chimes rattle in the pines.",
+   "A trebuchet timber groans and snaps.",
+   "Howls answer howls beyond the curtain wall.",
+   "Dawn grey bleeds over the ridge.",
+   "Shatter the cursed totem poles!"
+  ],
+  "victory_epilogue": [
+   {
+    "speaker": "npc-garrick-captain",
+    "line": "The totems are dust and the courtyard is ours. Look beneath the collapsed shrine—stairs cut straight into the bedrock."
+   },
+   {
+    "speaker": "npc-hobb-smith",
+    "line": "Dwarven masonry under an imperial keep. Whoever opened The Broken Picket wanted us looking at the walls, not below."
+   },
+   {
+    "speaker": "hero",
+    "line": "Light fresh torches. We go down."
+   }
+  ],
+  "defeat_line": "Dawn never reaches the inner bailey; beneath a canopy of pale witchfire, Ravenwatch becomes an ossuary.",
+  "optional_choice": null,
+  "codex_note": "Erected atop an older subterranean vault, Ravenwatch Keep served as the Empire's northern listening post until its garrison stopped sending winter dispatches."
+ },
+ "m04-the-sunken-sanctum": {
+  "id": "m04-the-sunken-sanctum",
+  "intro_scene": [
+   {
+    "speaker": "narrator",
+    "line": "Below Ravenwatch, black water laps against drowned pillars where candle-grease drips like pale stalactites."
+   },
+   {
+    "speaker": "npc-marta-alchemist",
+    "line": "Mordred the Ashen was stripped of his robes in the capital twenty years ago. He trades blood for things that sleep in silt."
+   },
+   {
+    "speaker": "npc-garrick-captain",
+    "line": "Those causeways are two shields wide at best. One shove and a man in plate sinks like an anvil."
+   },
+   {
+    "speaker": "npc-hobb-smith",
+    "line": "And watch the steps behind us—older arches lead straight into the black water."
+   },
+   {
+    "speaker": "hero",
+    "line": "Keep casters in the center. Watch the water behind us."
+   }
+  ],
+  "milestones": [
+   {
+    "trigger": "first_contact",
+    "speaker": "npc-garrick-captain",
+    "line": "Ashen retainers on the bridge! Narrow front—do not let them wrap our flanks!"
+   },
+   {
+    "trigger": "objective_halfway",
+    "speaker": "npc-marta-alchemist",
+    "line": "The water is boiling behind the rear guard! Mordred is calling drowned things up from the deep!"
+   },
+   {
+    "trigger": "low_morale",
+    "speaker": "npc-garrick-captain",
+    "line": "Eyes forward and backs to the pillars! Nobody goes into that black water alive!"
+   },
+   {
+    "trigger": "last_stand",
+    "speaker": "hero",
+    "line": "Mordred's ward is failing. Cut him down on his own altar."
+   }
+  ],
+  "ambient_barks": [
+   "Cold black water laps stone causeways.",
+   "Chanting echoes off vaulted wet ceilings.",
+   "Watch your footing on slick moss!",
+   "Drowned hands claw up the bridge.",
+   "Incense and copper choke the air.",
+   "Steel rings dull in the damp.",
+   "Protect the casters from behind!",
+   "Blood hisses on ancient altar stone."
+  ],
+  "victory_epilogue": [
+   {
+    "speaker": "npc-marta-alchemist",
+    "line": "Mordred is ash at last, yet his ledger speaks of a mistress beyond the border—one who bankrolled every raider banner."
+   },
+   {
+    "speaker": "npc-garrick-captain",
+    "line": "The northern road is open for supply wagons again, though my boots will never dry."
+   },
+   {
+    "speaker": "hero",
+    "line": "Burn his altar notes. Leave nothing for the next zealot."
+   }
+  ],
+  "defeat_line": "Dragged into sunless water by armored hands, your company joins the silent congregation beneath Ravenwatch.",
+  "optional_choice": {
+   "prompt": "Mordred's blood-stained grimoire lies open beside a vessel of consecrated silver.",
+   "a": "Seize the grimoire for Marta to decode the coven's network.",
+   "b": "Drown the book in consecrated silver to purge its lingering curse.",
+   "effect_a": "Unlock +15% shadow resistance for casters; a vengeful assassin ambushes your camp in Act II (m19).",
+   "effect_b": "Gain +200 gold in purified silver and cleanse party fatigue; lose clues on Mordred's patron."
+  },
+  "codex_note": "The Sunken Sanctum predates human settlement in the Border Fords. Its submerged colonnades align with no known imperial compass, pointing instead toward the volcanic south."
+ },
+ "m05-lantern-passage": {
+  "id": "m05-lantern-passage",
+  "intro_scene": [
+   {
+    "speaker": "narrator",
+    "line": "No moon reaches the floor of Lantern Passage; dead pine trunks tangle across the ravine like broken ribs."
+   },
+   {
+    "speaker": "npc-garrick-captain",
+    "line": "Courier Corin carries sealed dispatches from the high passes. The Ravine Warden has him pinned under cliff-side bowmen."
+   },
+   {
+    "speaker": "npc-fenwick-ferryman",
+    "line": "Smugglers call this cut Night Cargo—anything dropped in the dark belongs to whoever survives until morning."
+   },
+   {
+    "speaker": "npc-garrick-captain",
+    "line": "We breach the upper barricades, pull Corin out, and get him to the northeast beacon before his blood runs dry."
+   },
+   {
+    "speaker": "hero",
+    "line": "Douse extra torches until we reach the first cliff ladder."
+   }
+  ],
+  "milestones": [
+   {
+    "trigger": "first_contact",
+    "speaker": "npc-garrick-captain",
+    "line": "Ambush from the deadfalls! Clear the lower barricade before their bowmen find our range!"
+   },
+   {
+    "trigger": "objective_halfway",
+    "speaker": "field-courier-corin",
+    "line": "Over here—behind the overturned wagon! The seals are intact, though my leg's pinned!"
+   },
+   {
+    "trigger": "reinforcements",
+    "speaker": "npc-fenwick-ferryman",
+    "line": "Lanterns bobbing on the ridge—more Night Cargo cutthroats closing the gorge behind us!"
+   },
+   {
+    "trigger": "last_stand",
+    "speaker": "field-courier-corin",
+    "line": "The northeast beacon is fifty paces! Hold them off the steps!"
+   }
+  ],
+  "ambient_barks": [
+   "Bowstrings twang from unseen cliff ledges.",
+   "Boots crunch over dry pine needles.",
+   "Keep low beneath the deadfall!",
+   "A signal whistle pierces the ravine.",
+   "Sparks fly off stone arrowheads.",
+   "Someone groans beneath a splintered cart.",
+   "Light the beacon—now!",
+   "Rocks clatter down the gorge wall."
+  ],
+  "victory_epilogue": [
+   {
+    "speaker": "field-courier-corin",
+    "line": "Blood on the wax, but the imperial seal holds. The high passes aren't facing raids—they're facing a coordinated rising."
+   },
+   {
+    "speaker": "npc-garrick-captain",
+    "line": "Without these letters, Thornwick would have marched straight into a meat-grinder."
+   },
+   {
+    "speaker": "hero",
+    "line": "Get Corin a horse and a healer. We strike their supplies next."
+   }
+  ],
+  "defeat_line": "In the moonless gorge, cold steel finds the courier's throat and leaves Thornwick deaf to the storm ahead.",
+  "optional_choice": {
+   "prompt": "A sealed diplomatic pouch marked 'Private — Provincial Governor' spills from a dead outrider's saddlebag.",
+   "a": "Break the wax and read the governor's secret correspondence.",
+   "b": "Hand the pouch unopened to Garrick for official dispatch.",
+   "effect_a": "Discover the governor bribed border clans (+20% gold loot in Act I); Garrick distrusts you (-10 loyalty).",
+   "effect_b": "Gain +100 gold official commendation; the governor's agent sabotages a supply wagon in Act II (m17)."
+  },
+  "codex_note": "Lantern Passage earned its name from the iron signal braziers bolted into its sheer limestone walls, once lit to guide winter mail riders through fog-choked canyons."
+ },
+ "m06-greywood-supply": {
+  "id": "m06-greywood-supply",
+  "intro_scene": [
+   {
+    "speaker": "narrator",
+    "line": "Under Greywood's needle-thick canopy, noon looks like dusk and every hollow smells of tallow and brine."
+   },
+   {
+    "speaker": "npc-hobb-smith",
+    "line": "Quartermaster Tarn is hoarding stolen imperial iron and black powder in three timber caches. Burn them before winter sets in."
+   },
+   {
+    "speaker": "npc-marta-alchemist",
+    "line": "Watch for The Quartermaster's Ledger when his command tent burns—names of every turncoat merchant will be inked inside."
+   },
+   {
+    "speaker": "npc-garrick-captain",
+    "line": "Strike fast, torch the powder last, and get clear before the blast brings the pines down on our heads."
+   },
+   {
+    "speaker": "hero",
+    "line": "Spread oil on the salted meat first. Powder goes up as we leave."
+   }
+  ],
+  "milestones": [
+   {
+    "trigger": "first_contact",
+    "speaker": "npc-hobb-smith",
+    "line": "Tarn's pikemen wear good Thornwick steel! Hit their flanks before they form a hedge!"
+   },
+   {
+    "trigger": "objective_halfway",
+    "speaker": "npc-marta-alchemist",
+    "line": "Two warehouses blazing! Keep fire away from the black powder kegs until our men clear the ditch!"
+   },
+   {
+    "trigger": "low_morale",
+    "speaker": "npc-garrick-captain",
+    "line": "Smoke's choking the vanguard—push through the clearing or we cook in our own armor!"
+   },
+   {
+    "trigger": "last_stand",
+    "speaker": "hero",
+    "line": "There is Tarn by the command wagon. Take his head and The Quartermaster's Ledger."
+   }
+  ],
+  "ambient_barks": [
+   "Tar barrels hiss and split open.",
+   "Black powder smoke stings the eyes.",
+   "Save the iron ingots, burn the grain!",
+   "Pine needles rain sparks onto cloaks.",
+   "Tarn barks orders from his wagon.",
+   "Casks of salted pork burst in flame.",
+   "Clear the ditch before the powder blows!",
+   "Heavy boots pound the mossy trail."
+  ],
+  "victory_epilogue": [
+   {
+    "speaker": "npc-hobb-smith",
+    "line": "Three depots in cinders and good iron back in honest hands. Their warbands will be chewing boot leather by Frostfall."
+   },
+   {
+    "speaker": "npc-marta-alchemist",
+    "line": "Scorched edges, legible ink—this ledger names buyers as far south as the Redmarsh border."
+   },
+   {
+    "speaker": "hero",
+    "line": "Let them starve. We march for the high crags at dawn."
+   }
+  ],
+  "defeat_line": "Trapped in burning thickets beneath a hail of poisoned barbs, your company feeds the Greywood soil.",
+  "optional_choice": null,
+  "codex_note": "Greywood's ancient spruce stands were once reserved strictly for royal shipbuilding; since the border wars, its tangled ravines have sheltered deserters and illicit foundries."
+ },
+ "m07-split-vanguard": {
+  "id": "m07-split-vanguard",
+  "intro_scene": [
+   {
+    "speaker": "narrator",
+    "line": "A razor-backed granite horn splits the alpine road into two cold gorges where shadows never thaw."
+   },
+   {
+    "speaker": "npc-marta-alchemist",
+    "line": "Runic monoliths—woken by earth sorcery—block both defiles. Neither stone sentinel will fall unless both cairns are lit together."
+   },
+   {
+    "speaker": "npc-garrick-captain",
+    "line": "Dividing our strength in a mountain pass violates every rule I was taught. Half the men on each side, and pray neither falters."
+   },
+   {
+    "speaker": "npc-hobb-smith",
+    "line": "Pack heavy mauls on both wings—swords will only chip your wrists against basalt."
+   },
+   {
+    "speaker": "hero",
+    "line": "Two columns. Light both cairns on the same horn blast."
+   }
+  ],
+  "milestones": [
+   {
+    "trigger": "first_contact",
+    "speaker": "npc-garrick-captain",
+    "line": "Stone fists are moving! Keep heavy armor in front and hammer at their knee-joints!"
+   },
+   {
+    "trigger": "objective_halfway",
+    "speaker": "npc-marta-alchemist",
+    "line": "The Northern Cairn catches! Push the southern column—the leyline won't hold half-lit!"
+   },
+   {
+    "trigger": "low_morale",
+    "speaker": "npc-hobb-smith",
+    "line": "Blades bounce off granite hide! Use mauls and lightning—anything that cracks stone!"
+   },
+   {
+    "trigger": "last_stand",
+    "speaker": "hero",
+    "line": "Sound the horn. Kindle the second cairn now."
+   }
+  ],
+  "ambient_barks": [
+   "Grinding granite echoes between twin cliffs.",
+   "Boulders crash down the scree slope.",
+   "Ley-fire hums inside ancient cairn stones.",
+   "Swords spark uselessly off basalt armor.",
+   "Hold the eastern gorge—help is coming!",
+   "Thin mountain air burns tired lungs.",
+   "Crack the runes along its spine!",
+   "Golden fire leaps between the peaks."
+  ],
+  "victory_epilogue": [
+   {
+    "speaker": "npc-marta-alchemist",
+    "line": "The warding leylines hum steady again. Whoever woke those sentinels did not build them—they merely twisted an older lock."
+   },
+   {
+    "speaker": "npc-garrick-captain",
+    "line": "Both wings intact and the supply road clear. Remind me never to split a column twice in one campaign."
+   },
+   {
+    "speaker": "hero",
+    "line": "Keep moving while the pass is warm."
+   }
+  ],
+  "defeat_line": "Divided by a wall of indifferent granite, both halves of your vanguard are ground to paste beneath living stone.",
+  "optional_choice": null,
+  "codex_note": "The Twin Cairns of Craghorn were raised by pre-imperial surveyors to anchor weather-wards across the alpine watershed. When both burn gold, mountain storms part around the pass."
+ },
+ "m08-alder-bridge": {
+  "id": "m08-alder-bridge",
+  "intro_scene": [
+   {
+    "speaker": "narrator",
+    "line": "Hundreds of farm carts choke the western road while warhorns boom across the swollen Alder."
+   },
+   {
+    "speaker": "npc-fenwick-ferryman",
+    "line": "Three thousand folk from the river parishes are still on the mud track. If Alder Bridge falls, they drown or bleed."
+   },
+   {
+    "speaker": "npc-garrick-captain",
+    "line": "Archers on the chalk bluff, pikes locked across the timber span. Three waves are forming on the east bank—not one boot crosses."
+   },
+   {
+    "speaker": "npc-hobb-smith",
+    "line": "Oak pilings are damp from the spring thaw; they won't burn fast, so hold the deck with iron."
+   },
+   {
+    "speaker": "hero",
+    "line": "Plant the stakes. Hold the bridge until the last cart clears the hill."
+   }
+  ],
+  "milestones": [
+   {
+    "trigger": "first_contact",
+    "speaker": "npc-garrick-captain",
+    "line": "First wave on the timbers! Pikes level—let them impale themselves on their own rush!"
+   },
+   {
+    "trigger": "reinforcements",
+    "speaker": "npc-fenwick-ferryman",
+    "line": "Another banner pouring out of the alder scrub! They're bringing heavy shields for the second push!"
+   },
+   {
+    "trigger": "low_morale",
+    "speaker": "npc-garrick-captain",
+    "line": "The bridge planks are slick with gore! Step over the dead and plug that gap!"
+   },
+   {
+    "trigger": "last_stand",
+    "speaker": "hero",
+    "line": "Last wave. The refugees are over the crest—break them here."
+   }
+  ],
+  "ambient_barks": [
+   "Timber bridge arches groan under boots.",
+   "Volleys whistle down from the bluff.",
+   "Refugee wheels creak in the distance.",
+   "Pikes splinter against iron-rimmed shields.",
+   "Bodies splash into the Alder rapids.",
+   "Hold the western abutment!",
+   "Warhorns blare from the eastern bank.",
+   "Stand fast—not one step back!"
+  ],
+  "victory_epilogue": [
+   {
+    "speaker": "npc-fenwick-ferryman",
+    "line": "Every cart made the ridge road. Half the valley owes its breath to the timber you held today."
+   },
+   {
+    "speaker": "npc-garrick-captain",
+    "line": "We'll need axes to clear the bridge planks before wagons can roll again, but the line held."
+   },
+   {
+    "speaker": "hero",
+    "line": "Bury our dead on the west bank. Then we hunt their chief."
+   }
+  ],
+  "defeat_line": "The bridgehead buckles beneath a howling tide, and the western road turns into a slaughterhouse of overturned carts.",
+  "optional_choice": {
+   "prompt": "A merchant guild wagon loaded with siege oil blocks the narrow bridge approach behind your pikemen.",
+   "a": "Dump the oil onto the bridge deck and ignite it to stall the third wave.",
+   "b": "Have your reserves haul the wagon to safety to preserve the guild's cargo.",
+   "effect_a": "Weaken Wave 3 enemies by 30%, but fire damages the span (-75 gold repair levy in Thornwick).",
+   "effect_b": "Gain +150 gold guild reward after battle; Wave 3 hits your front line at full strength."
+  },
+  "codex_note": "Built on oak pilings driven deep into the river gravel, Alder Bridge is the sole crossing wide enough for wheeled artillery between Thornwick and the high moors."
+ },
+ "m09-ironhide-hunt": {
+  "id": "m09-ironhide-hunt",
+  "intro_scene": [
+   {
+    "speaker": "narrator",
+    "line": "Peat fog hangs low over the abandoned granite quarry where Krag Ironhide's war-drum beats like a slow heart."
+   },
+   {
+    "speaker": "npc-hobb-smith",
+    "line": "I've seen that brute take a broadhead to the ribs and snap the shaft like dry reed. His hide is baked with quarry-sorcery."
+   },
+   {
+    "speaker": "npc-marta-alchemist",
+    "line": "Lightning and heavy mauls will crack his carapace. Also keep an eye out for Glass in the Thicket—vitrified slag from the old kilns."
+   },
+   {
+    "speaker": "npc-garrick-captain",
+    "line": "Peel his escort off in the bog first. Get Krag alone before dusk or he rallies every broken clan in the hills."
+   },
+   {
+    "speaker": "hero",
+    "line": "Draw his bodyguard into the mire. Save lightning for the big one."
+   }
+  ],
+  "milestones": [
+   {
+    "trigger": "first_contact",
+    "speaker": "npc-garrick-captain",
+    "line": "Skirmishers in the heather! Cut his outriders down before they close around him!"
+   },
+   {
+    "trigger": "objective_halfway",
+    "speaker": "npc-marta-alchemist",
+    "line": "There—glinting beneath the gorse! Glass in the Thicket, fused by whatever magic hardened Krag's skin!"
+   },
+   {
+    "trigger": "low_morale",
+    "speaker": "npc-hobb-smith",
+    "line": "His maul just caved in three shields at once! Keep moving—do not stand square to his swing!"
+   },
+   {
+    "trigger": "last_stand",
+    "speaker": "hero",
+    "line": "His carapace is fissured. Put everything into that crack."
+   }
+  ],
+  "ambient_barks": [
+   "Krag's stone maul shakes the peat.",
+   "Arcane sparks dance across granite skin.",
+   "Watch the sinkholes along the quarry!",
+   "Chipped stone flakes off his shoulders.",
+   "Moorland horns wail in ragged retreat.",
+   "Sledgehammers ring against living rock.",
+   "He's limping—press the flank!",
+   "Dusk purple settles over the quarry."
+  ],
+  "victory_epilogue": [
+   {
+    "speaker": "npc-hobb-smith",
+    "line": "Look at him—crumbled like an old millstone. Without Krag, the moorland clans won't muster ten spears."
+   },
+   {
+    "speaker": "npc-marta-alchemist",
+    "line": "The rune branded beneath his breastplate matches Mordred's sanctum. Someone is forging living weapons."
+   },
+   {
+    "speaker": "hero",
+    "line": "Take the rune-rubbing. Ashbrook is running out of time."
+   }
+  ],
+  "defeat_line": "Krag's stone maul drives your frontline into the black peat, leaving the northern clans united beneath a living colossus.",
+  "optional_choice": null,
+  "codex_note": "Once worked by imperial stonemasons for Thornwick's curtain wall, the Granite Quarry was abandoned after miners uncovered vitrified veins that dulled tempered chisels."
+ },
+ "m10-undervault-links": {
+  "id": "m10-undervault-links",
+  "intro_scene": [
+   {
+    "speaker": "narrator",
+    "line": "Cold air breathes up from the Undervault Links, carrying the stench of stale incense and wet iron."
+   },
+   {
+    "speaker": "npc-hobb-smith",
+    "line": "Three dwarven galleries cut straight beneath the ridge to Ashbrook. Better than starving on the snow-choked pass above."
+   },
+   {
+    "speaker": "npc-marta-alchemist",
+    "line": "Blood cultists have nested in the old guardrooms and twisted the stone guardians. Keep torches close—darkness feeds their wards."
+   },
+   {
+    "speaker": "npc-garrick-captain",
+    "line": "Single file at the sluice-gates, wide shield-wall in the vaults."
+   },
+   {
+    "speaker": "hero",
+    "line": "Clear gallery by gallery. Leave no side-tunnel unchecked behind us."
+   }
+  ],
+  "milestones": [
+   {
+    "trigger": "first_contact",
+    "speaker": "npc-garrick-captain",
+    "line": "Cultists in the first arch! Strike their chant-leaders before they wake the wall-sentinels!"
+   },
+   {
+    "trigger": "objective_halfway",
+    "speaker": "npc-hobb-smith",
+    "line": "Dwarven sluice-gates ahead—two galleries purged, one to go!"
+   },
+   {
+    "trigger": "low_morale",
+    "speaker": "npc-marta-alchemist",
+    "line": "Torches guttering! Shadow-wards are draining the oil—press forward into the light-shaft!"
+   },
+   {
+    "trigger": "last_stand",
+    "speaker": "hero",
+    "line": "The Ashbrook stair is right behind that altar. Break them."
+   }
+  ],
+  "ambient_barks": [
+   "Footsteps echo endlessly down vaulted stone.",
+   "Chisel-work runes glow dull crimson.",
+   "Torchlight flickers against damp basalt.",
+   "Cultist daggers rasp from leather sheaths.",
+   "Water drips steadily into stagnant cisterns.",
+   "Watch the alcoves on both flanks!",
+   "Corrupted stone joints grind in darkness.",
+   "Fresh mountain air drafts from ahead."
+  ],
+  "victory_epilogue": [
+   {
+    "speaker": "npc-hobb-smith",
+    "line": "Clean dwarven stonework from end to end. Supply mules can march under the peaks without losing a single pack."
+   },
+   {
+    "speaker": "npc-garrick-captain",
+    "line": "I can already hear siege engines hammering above us. Ashbrook's south gate is taking a beating."
+   },
+   {
+    "speaker": "hero",
+    "line": "Rest ten minutes, check your straps, and climb."
+   }
+  ],
+  "defeat_line": "Swallowed by pitch-black galleries miles beneath the granite ridge, your expedition vanishes without a marker.",
+  "optional_choice": {
+   "prompt": "A sealed dwarven armory vault stands ajar in the second gallery, guarded by a dormant rune-lock.",
+   "a": "Spend time and arcane charge forcing the dwarven vault open.",
+   "b": "Bypass the vault to reach Ashbrook's besieged gate before nightfall.",
+   "effect_a": "Gain Masterwork Dwarven Plate (+2 armor), but Ashbrook's outer gate starts m11 at 70% integrity.",
+   "effect_b": "Arrive early at Ashbrook (+15% defender morale in m11), leaving the vault's relics behind."
+  },
+  "codex_note": "Carved by exiled smith-clans during the First Compact, the Undervault Links connect the border valleys through three miles of ventilated stone galleries."
+ },
+ "m11-ashbrook-retreat": {
+  "id": "m11-ashbrook-retreat",
+  "intro_scene": [
+   {
+    "speaker": "narrator",
+    "line": "Ashbrook's southern gatehouse shudders under iron-shod rams while pale ash drifts down from a bruised sky."
+   },
+   {
+    "speaker": "npc-garrick-captain",
+    "line": "Half the garrison is out of quarrels and three hundred townsfolk are packed behind the inner bar! Hold the gate!"
+   },
+   {
+    "speaker": "morvessa",
+    "line": "Look how tightly they huddle behind cracked mortar. Vaelen—break their hinges and salt the cellar."
+   },
+   {
+    "speaker": "npc-marta-alchemist",
+    "line": "That voice on the wind... Morvessa. She's the hand behind Mordred, Krag, all of it—watching from the ridge!"
+   },
+   {
+    "speaker": "npc-hobb-smith",
+    "line": "The gate timbers won't survive another hour of rams. We hold the breach, then sally up the road and kill Vaelen!"
+   },
+   {
+    "speaker": "morvessa",
+    "line": "Run south into the red dust if you survive, little captain. The desert is already dug for your bones."
+   },
+   {
+    "speaker": "npc-fenwick-ferryman",
+    "line": "Wagons are hitched at the north postern, captain. Just buy us twenty minutes."
+   },
+   {
+    "speaker": "hero",
+    "line": "Form on the gatehouse steps. Nobody dies behind a locked door today."
+   }
+  ],
+  "milestones": [
+   {
+    "trigger": "first_contact",
+    "speaker": "npc-garrick-captain",
+    "line": "The postern splintered! Plug the gap with steel until the townsfolk clear the inner ward!"
+   },
+   {
+    "trigger": "low_morale",
+    "speaker": "npc-hobb-smith",
+    "line": "Arrows spent! Draw cleavers and hammers—make them pay three lives for every yard!"
+   },
+   {
+    "trigger": "objective_halfway",
+    "speaker": "hero",
+    "line": "The evacuees are clear. Open the sally port—we take Vaelen's head on the road."
+   },
+   {
+    "trigger": "last_stand",
+    "speaker": "morvessa",
+    "line": "A stubborn spark in the ash. Let us see if you survive the Redmarsh sun."
+   }
+  ],
+  "ambient_barks": [
+   "Iron rams boom against oak gates.",
+   "Refugees hurry through smoke-choked alleys.",
+   "Hold the breach for Thornvael!",
+   "Boiling pitch hisses off siege shields.",
+   "Vaelen's warhorn splits the valley.",
+   "Morvessa's laughter rides the cold wind.",
+   "Sally out—cut down their bannermen!",
+   "Ash settles thick over bloody cobbles."
+  ],
+  "victory_epilogue": [
+   {
+    "speaker": "npc-garrick-captain",
+    "line": "Vaelen's dead in the mud and the southern road is open. Ashbrook is a shell, but its people live."
+   },
+   {
+    "speaker": "npc-marta-alchemist",
+    "line": "Morvessa slipped south before our blades could reach the ridge. Every trail leads into the Redmarsh now."
+   },
+   {
+    "speaker": "morvessa",
+    "line": "Follow the red dust, then. You will find what wakes beneath the salt."
+   },
+   {
+    "speaker": "npc-hobb-smith",
+    "line": "We'll forge new gates when this war is buried. For now, point us south."
+   },
+   {
+    "speaker": "hero",
+    "line": "Burn what we cannot carry. Tomorrow we cross the boundary stone."
+   }
+  ],
+  "defeat_line": "Ashbrook's gates collapse in a roar of splintered oak, and Morvessa's host turns the border town into smoking rubble.",
+  "optional_choice": {
+   "prompt": "Ashbrook's treasury vault and the town's wounded militia both require wagons before the final withdrawal.",
+   "a": "Load the wounded militia onto the remaining draft wagons.",
+   "b": "Load the provincial gold chests onto the wagons instead.",
+   "effect_a": "Start Act II (m12) with +25% reserve manpower and high morale, but only 50 gold.",
+   "effect_b": "Start Act II (m12) with +350 gold, but wounded veterans perish (-15% morale in Act II)."
+  },
+  "codex_note": "Gateway between the wooded Border Fords and the alkali wastes of Redmarsh, Ashbrook stood for four centuries as the southern hinge of the imperial frontier."
+ },
+ "m12-redmarsh-border": {
+  "id": "m12-redmarsh-border",
+  "intro_scene": [
+   {
+    "speaker": "narrator",
+    "line": "Beyond the boundary obelisk, green pine gives way to rust-red salt pans and ribs of bleached cattle."
+   },
+   {
+    "speaker": "npc-bram-quartermaster",
+    "line": "Three supply trains vanished between here and the salt flats. No causeway, no campaign—we starve in a week."
+   },
+   {
+    "speaker": "npc-tull-water-seller",
+    "line": "Drink slowly, northerners. This red brine blisters the tongue and draws giant scourges when blood hits the mud."
+   },
+   {
+    "speaker": "npc-zahra-scholar",
+    "line": "The border outposts were rebuilt atop old bone-pits. Clear them fast before the midday heat cooks men inside their mail."
+   },
+   {
+    "speaker": "hero",
+    "line": "Take the causeway. Keep water skins covered."
+   }
+  ],
+  "milestones": [
+   {
+    "trigger": "first_contact",
+    "speaker": "npc-bram-quartermaster",
+    "line": "Raiders rising out of the salt ditches! Hold the stone causeway—don't get bogged in the crust!"
+   },
+   {
+    "trigger": "objective_halfway",
+    "speaker": "npc-tull-water-seller",
+    "line": "Chitin clicking under the silt! Giant vermin smell fresh blood—watch your ankles!"
+   },
+   {
+    "trigger": "low_morale",
+    "speaker": "npc-bram-quartermaster",
+    "line": "Sun's blinding off the salt! Rotate the front rank before heatstroke drops them!"
+   },
+   {
+    "trigger": "last_stand",
+    "speaker": "hero",
+    "line": "One outpost left. Break their palisade and plant our banner."
+   }
+  ],
+  "ambient_barks": [
+   "Salt crust crunches beneath iron boots.",
+   "Heat shimmer distorts the distant horizon.",
+   "Chitinous claws click in stagnant brine.",
+   "Ration your water—noon is coming!",
+   "Red dust cakes sweat onto mail.",
+   "Desert raiders whistle like dry wind.",
+   "Keep off the soft alkali sinks!",
+   "Bleached ribs jut from rust silt."
+  ],
+  "victory_epilogue": [
+   {
+    "speaker": "npc-bram-quartermaster",
+    "line": "Causeway secured and markers planted. My supply mules can finally cross without sinking to their bellies."
+   },
+   {
+    "speaker": "npc-zahra-scholar",
+    "line": "These outposts weren't built to stop an army—they were built to guard something moving north from the deep basin."
+   },
+   {
+    "speaker": "hero",
+    "line": "Dig wells and post sentries. We push inland at dusk."
+   }
+  ],
+  "defeat_line": "Baked inside blistering armor and dragged into alkaline mire, your expedition leaves only white bones for the Redmarsh.",
+  "optional_choice": null,
+  "codex_note": "The Redmarsh is the dried bed of an ancient inland sea whose iron-rich silt stains boots, banners, and wounds a permanent rust crimson."
+ },
+ "m13-twin-passes": {
+  "id": "m13-twin-passes",
+  "intro_scene": [
+   {
+    "speaker": "narrator",
+    "line": "A sheer wall of red granite splits the basin, pierced only by two wind-scoured notches bristling with stakes."
+   },
+   {
+    "speaker": "npc-bram-quartermaster",
+    "line": "Composite bowmen in high stone blinds cover both the West and East Passes. Marching straight at the spikes is suicide."
+   },
+   {
+    "speaker": "npc-zahra-scholar",
+    "line": "Take the ridge trails first. When you secure the crest, check their watch-logs—The Canyon Audit will tell us who arms these clans."
+   },
+   {
+    "speaker": "field-warden-hale",
+    "line": "I know goat-tracks up both flanks, commander—steep, but out of their arrow-slits."
+   },
+   {
+    "speaker": "hero",
+    "line": "Clear the high blinds first. Storm the barricades once their arrows stop."
+   }
+  ],
+  "milestones": [
+   {
+    "trigger": "first_contact",
+    "speaker": "field-warden-hale",
+    "line": "Plunging fire from the cliff blinds! Keep shields overhead till the flankers climb!"
+   },
+   {
+    "trigger": "objective_halfway",
+    "speaker": "npc-zahra-scholar",
+    "line": "West blind taken! Look at the iron tallies carved into the lintel—The Canyon Audit begins right here."
+   },
+   {
+    "trigger": "low_morale",
+    "speaker": "field-warden-hale",
+    "line": "Boulders rolling down the East notch! Hug the inner cliff face!"
+   },
+   {
+    "trigger": "last_stand",
+    "speaker": "hero",
+    "line": "Both ridges are ours. Drop down and shatter the central gates."
+   }
+  ],
+  "ambient_barks": [
+   "Composite arrows punch deep into shields.",
+   "Loose scree clatters down granite walls.",
+   "Hot wind howls through narrow notches.",
+   "Clear the high blinds first!",
+   "Spiked barricades block the wagon track.",
+   "Iron-tipped spears glint in stone slots.",
+   "Keep your shield-wall angled upward!",
+   "Dust plumes rise across the basin."
+  ],
+  "victory_epilogue": [
+   {
+    "speaker": "field-warden-hale",
+    "line": "Imperial sentinels hold the crest now. Every dust cloud for twenty miles is ours to read."
+   },
+   {
+    "speaker": "npc-zahra-scholar",
+    "line": "The tallies confirm it: iron ingots from the Deep Quarry are paying for every bow in these passes."
+   },
+   {
+    "speaker": "hero",
+    "line": "Leave a picket on the ridge. Move down into the basin."
+   }
+  ],
+  "defeat_line": "Pinned against blistering granite beneath plunging shafts and rolling boulders, your company breaks in a bloody rout.",
+  "optional_choice": null,
+  "codex_note": "Known locally as the Jawbones, the Twin Passes control the sole caravan route across the Redmarsh escarpment; whoever holds the blinds taxes every drop of water moving north."
+ },
+ "m14-scattered-scouts": {
+  "id": "m14-scattered-scouts",
+  "intro_scene": [
+   {
+    "speaker": "narrator",
+    "line": "A copper dust storm scours Bracken Basin while three distant signal flares gutter out in the scrub."
+   },
+   {
+    "speaker": "field-warden-hale",
+    "line": "Three vanguard squads got cut off among the sandstone boulders when the storm hit. They're down to their last quivers."
+   },
+   {
+    "speaker": "npc-tull-water-seller",
+    "line": "Sand-clans hunt in rings during a haboob—they bleed a pocket dry, then move to the next. Ride hard or find corpses."
+   },
+   {
+    "speaker": "npc-bram-quartermaster",
+    "line": "Lose those scouts and we cross the northern crags without a single pair of eyes."
+   },
+   {
+    "speaker": "hero",
+    "line": "Nearest ring first. Keep horns sounding so they hear us through the grit."
+   }
+  ],
+  "milestones": [
+   {
+    "trigger": "first_contact",
+    "speaker": "field-warden-hale",
+    "line": "First squad spotted behind the red boulders! Break the outer ring before they rush!"
+   },
+   {
+    "trigger": "objective_halfway",
+    "speaker": "npc-tull-water-seller",
+    "line": "Two squads pulled clear—one left in the deep scrub, and the storm's thickening!"
+   },
+   {
+    "trigger": "reinforcements",
+    "speaker": "field-warden-hale",
+    "line": "Dust riders circling back from the dunes! They're trying to cut off our extraction lane!"
+   },
+   {
+    "trigger": "last_stand",
+    "speaker": "hero",
+    "line": "All three squads are on our line. Crush the encirclement."
+   }
+  ],
+  "ambient_barks": [
+   "Blowing sand stings eyes and nostrils.",
+   "Distant horn blasts fade in wind.",
+   "Hold the sandstone ring—help's here!",
+   "War-cries echo out of copper haze.",
+   "Empty quivers rattle against leather boots.",
+   "Sound the rally horn again!",
+   "Blood dries instantly on sun-baked rock.",
+   "Cut through the rider cordon!"
+  ],
+  "victory_epilogue": [
+   {
+    "speaker": "field-warden-hale",
+    "line": "Every scout accounted for, battered but breathing. They saw clans excavating giant quartz monoliths across the northern crags."
+   },
+   {
+    "speaker": "npc-zahra-scholar",
+    "line": "The ancient climate wardstones... if they crack those seals, the Redmarsh will swallow half the borderlands."
+   },
+   {
+    "speaker": "hero",
+    "line": "Get the wounded water. We march for the plateau."
+   }
+  ],
+  "defeat_line": "You reach the sandstone rings only to find silent bodies impaled on cactus poles beneath a pitiless copper sky.",
+  "optional_choice": {
+   "prompt": "One rescued scout squad begs to detour to recover their dead sergeant's cipher-satchel in a dune hollow.",
+   "a": "Detour into the storm to retrieve the cipher-satchel.",
+   "b": "Order an immediate withdrawal while the storm covers your tracks.",
+   "effect_a": "Gain enemy patrol routes (+10% ambush defense in Act II), but storm exposure drains 15% unit stamina.",
+   "effect_b": "Preserve full squad stamina and water rations, but lose the sergeant's reconnaissance notes."
+  },
+  "codex_note": "Bracken Basin is a labyrinth of wind-carved hoodoos and thorny scrub where seasonal dust storms can erase landmarks and swallow entire patrols within minutes."
+ },
+ "m15-outpost-palisade": {
+  "id": "m15-outpost-palisade",
+  "intro_scene": [
+   {
+    "speaker": "narrator",
+    "line": "Twilight bleeds purple over Highgate Watch, where sun-cracked pine logs groan against desert gusts."
+   },
+   {
+    "speaker": "npc-bram-quartermaster",
+    "line": "Three warbands are creeping up the dry creek beds with scaling ladders and clay firepots. One spark and this dry timber goes up like straw."
+   },
+   {
+    "speaker": "npc-tull-water-seller",
+    "line": "Keep sand buckets beside every catwalk. Water's too precious to waste on firepots unless the gate itself catches."
+   },
+   {
+    "speaker": "field-warden-hale",
+    "line": "If Highgate burns, every road back to the Twin Passes lies wide open behind us."
+   },
+   {
+    "speaker": "hero",
+    "line": "Archers on the walkways. Shock troops sally out to smash the ladder teams."
+   }
+  ],
+  "milestones": [
+   {
+    "trigger": "first_contact",
+    "speaker": "npc-bram-quartermaster",
+    "line": "Ladders clattering against the east wall! Kill the firepot throwers before they hurl!"
+   },
+   {
+    "trigger": "reinforcements",
+    "speaker": "field-warden-hale",
+    "line": "Second warband emerging from the north creek bed—torches lit!"
+   },
+   {
+    "trigger": "low_morale",
+    "speaker": "npc-tull-water-seller",
+    "line": "Timber's smoking on the south corner! Smother it with sand—hold till grey dawn!"
+   },
+   {
+    "trigger": "last_stand",
+    "speaker": "hero",
+    "line": "Dawn's breaking on the ridge. Drive them back into the creek beds."
+   }
+  ],
+  "ambient_barks": [
+   "Clay firepots shatter against dry logs.",
+   "Scaling ladders thud onto timber parapets.",
+   "Throw sand on the flames!",
+   "Night arrows hiss across dry creek beds.",
+   "Charred pine crackles in hot wind.",
+   "Push the ladders off the wall!",
+   "Stars pale toward grey desert dawn.",
+   "Hold Highgate Watch till sunrise!"
+  ],
+  "victory_epilogue": [
+   {
+    "speaker": "npc-bram-quartermaster",
+    "line": "Scorched black and stinking of pitch, but Highgate Watch still stands. Dawn caught hundreds of them in the ditch."
+   },
+   {
+    "speaker": "field-warden-hale",
+    "line": "They threw everything they had at a wooden fence and broke their teeth on it."
+   },
+   {
+    "speaker": "hero",
+    "line": "Patch the wall and douse the embers. Next we save the wardstones."
+   }
+  ],
+  "defeat_line": "Pitch-soaked firepots turn Highgate Watch into a funeral pyre, lighting the night sky for twenty leagues.",
+  "optional_choice": null,
+  "codex_note": "Haphazardly built from salvaged siege timbers, Highgate Watch anchors the northern rim of the Redmarsh where dry arroyos funnel desert raiders toward the highland passes."
+ },
+ "m16-wardstone-rupture": {
+  "id": "m16-wardstone-rupture",
+  "intro_scene": [
+   {
+    "speaker": "narrator",
+    "line": "Three colossal quartz spires jut from the plateau like broken teeth, weeping black blood into howling grit."
+   },
+   {
+    "speaker": "npc-zahra-scholar",
+    "line": "Those wardstones anchor our climate wards. Blood sorcerers are cracking them—and taking Rubbings in Blood from the runes!"
+   },
+   {
+    "speaker": "npc-marta-alchemist",
+    "line": "If all three rupture together, the resulting sandstorm will strip flesh from bone across three provinces."
+   },
+   {
+    "speaker": "npc-bram-quartermaster",
+    "line": "Wrap wet cloth over your faces—that quartz dust turns lungs to wet cement."
+   },
+   {
+    "speaker": "hero",
+    "line": "Slay the ward-breakers at each circle. Re-attune the quartz before the fissures widen."
+   }
+  ],
+  "milestones": [
+   {
+    "trigger": "first_contact",
+    "speaker": "npc-zahra-scholar",
+    "line": "First ritual circle ahead! Kill the blood-chanters before the quartz fissure splits!"
+   },
+   {
+    "trigger": "objective_halfway",
+    "speaker": "npc-marta-alchemist",
+    "line": "Two spires humming azure again—look at the altar parchment, Rubbings in Blood! Take them when we clear the third!"
+   },
+   {
+    "trigger": "low_morale",
+    "speaker": "npc-zahra-scholar",
+    "line": "Static is burning our skin! The third stone is howling—hurry!"
+   },
+   {
+    "trigger": "last_stand",
+    "speaker": "hero",
+    "line": "Strike the last ward-breaker. Seal the stone."
+   }
+  ],
+  "ambient_barks": [
+   "Cracked quartz hums at teeth-rattling pitch.",
+   "Toxic grit blisters exposed wrists.",
+   "Azure light wars with crimson blood-wards.",
+   "Chanting rises above the howling squall.",
+   "Static sparks leap from iron helms.",
+   "Seal the fissure—the stone is splitting!",
+   "Sand whips like razor wire.",
+   "A deep chime echoes across plateau."
+  ],
+  "victory_epilogue": [
+   {
+    "speaker": "npc-zahra-scholar",
+    "line": "Pure azure resonance again—and the squalls are dying. These Rubbings in Blood copy a locking sigil older than the Empire."
+   },
+   {
+    "speaker": "npc-marta-alchemist",
+    "line": "They weren't trying to destroy the plateau. They were testing how to crack a much larger seal further south."
+   },
+   {
+    "speaker": "hero",
+    "line": "Keep those rubbings dry. Bram's supply convoy needs us on the causeway."
+   }
+  ],
+  "defeat_line": "The three quartz monoliths detonate in a wall of boiling sand and arcane fire, erasing your army in a single blinding breath.",
+  "optional_choice": {
+   "prompt": "A captive blood-acolyte offers to stabilize the third wardstone instantly in exchange for his freedom.",
+   "a": "Accept his ritual aid to spare your troops from arcane backlash.",
+   "b": "Execute him and force Zahra to re-attune the monolith manually.",
+   "effect_a": "Finish battle with full unit health, but the freed acolyte warns Hexer Kaelen (+15% caster armor in m19).",
+   "effect_b": "Units suffer 15% arcane burn damage, but Kaelen's coven remains unaware of your approach."
+  },
+  "codex_note": "Carved from single pillars of primeval quartz, the Plateau Wardstones were raised by forgotten geomancers to anchor rain-clouds and keep the Redmarsh alkali from drifting north."
+ },
+ "m17-mire-convoy": {
+  "id": "m17-mire-convoy",
+  "intro_scene": [
+   {
+    "speaker": "narrator",
+    "line": "Iron-rimmed wagon wheels sink axle-deep in red mud while dragonflies the size of hawks circle overhead."
+   },
+   {
+    "speaker": "npc-bram-quartermaster",
+    "line": "Every bandage, arrow, and barrel of clean water for the forward camp rides in these six wagons. Lose them and the campaign stops dead."
+   },
+   {
+    "speaker": "npc-tull-water-seller",
+    "line": "Don't drink from The Bitter Well by the third milestone—the clans poisoned it with beetle-bile to drop thirsty escorts."
+   },
+   {
+    "speaker": "field-warden-hale",
+    "line": "Mudbanks on both sides are pocked with burrow-holes. Keep pikes outboard."
+   },
+   {
+    "speaker": "hero",
+    "line": "Screen both mudbanks. Nobody breaks formation to chase stragglers."
+   }
+  ],
+  "milestones": [
+   {
+    "trigger": "first_contact",
+    "speaker": "npc-bram-quartermaster",
+    "line": "Dune scourges erupting from the mudbanks! Keep them off the draft horses!"
+   },
+   {
+    "trigger": "objective_halfway",
+    "speaker": "npc-tull-water-seller",
+    "line": "We're passing The Bitter Well—keep men away from the trough and watch the reeds behind it!"
+   },
+   {
+    "trigger": "reinforcements",
+    "speaker": "field-warden-hale",
+    "line": "Giant marsh beetles surfacing behind the rear wagon! Spears to the back!"
+   },
+   {
+    "trigger": "last_stand",
+    "speaker": "npc-bram-quartermaster",
+    "line": "Forward camp palisade in sight! Drive the teams through the mud!"
+   }
+  ],
+  "ambient_barks": [
+   "Wagon axles groan in thick red mire.",
+   "Whip-cracks urge exhausted mules forward.",
+   "Giant beetles hiss from sunken reeds.",
+   "Guard the powder wagon—keep sparks away!",
+   "Mud splatters across visors and shields.",
+   "Poisoned water steams in stone troughs.",
+   "Keep pace with the lead team!",
+   "Chitin cracks under heavy halberds."
+  ],
+  "victory_epilogue": [
+   {
+    "speaker": "npc-bram-quartermaster",
+    "line": "Six wagons, six intact axles, and not a single crate lost to the mud. The forward camp can actually fight tomorrow."
+   },
+   {
+    "speaker": "npc-tull-water-seller",
+    "line": "Clean water and fresh steel—worth more than crowns out here."
+   },
+   {
+    "speaker": "hero",
+    "line": "Unload the powder. Tonight we hit their granary."
+   }
+  ],
+  "defeat_line": "Overturned and burning in the alkali mud, Bram's wagons leave the forward army starving for steel, medicine, and water.",
+  "optional_choice": {
+   "prompt": "One wagon's axle snaps in deep mire while giant beetles close on the rear guard.",
+   "a": "Halt the column under fire to salvage the medical crates onto spare mules.",
+   "b": "Cut the wagon loose and burn it to keep the convoy moving.",
+   "effect_a": "Keep +25% post-battle healing for Act II, but lose 20% frontline health fighting off the swarm.",
+   "effect_b": "Escape cleanly with zero casualties, but lose medical reserves (-15% healing until m21)."
+  },
+  "codex_note": "The Sunken Causeway crosses the lowest salt-pan of the Redmarsh atop sunken timber cribs that shift after every flash flood."
+ },
+ "m18-granary-raid": {
+  "id": "m18-granary-raid",
+  "intro_scene": [
+   {
+    "speaker": "narrator",
+    "line": "Inside a blind sandstone box canyon, stolen imperial grain sacks are stacked three stories high beneath tarred canvas."
+   },
+   {
+    "speaker": "npc-bram-quartermaster",
+    "line": "Their main warbands are riding east. We breach the trench, burn their stores, and haul back the gold they looted from border farms."
+   },
+   {
+    "speaker": "npc-tull-water-seller",
+    "line": "Watch the curing sheds—Granary Smokers burn dried desert thorn that blinds a man faster than pepper."
+   },
+   {
+    "speaker": "field-warden-hale",
+    "line": "One narrow mouth in and out—if we linger past sundown, their riders bottle us up inside."
+   },
+   {
+    "speaker": "hero",
+    "line": "Fast breach. Grab the coin chests before you light the grain."
+   }
+  ],
+  "milestones": [
+   {
+    "trigger": "first_contact",
+    "speaker": "npc-bram-quartermaster",
+    "line": "Trench guards alerted! Cross the ditch before they light the thorn-smokers!"
+   },
+   {
+    "trigger": "objective_halfway",
+    "speaker": "npc-tull-water-seller",
+    "line": "Coughing wind from the curing sheds—Granary Smokers! Stay upwind of the grey smoke!"
+   },
+   {
+    "trigger": "low_morale",
+    "speaker": "field-warden-hale",
+    "line": "Outriders spotted on the canyon rim! Move faster before they seal the mouth!"
+   },
+   {
+    "trigger": "last_stand",
+    "speaker": "hero",
+    "line": "Gold is loaded. Torch the granaries and clear the canyon."
+   }
+  ],
+  "ambient_barks": [
+   "Bitter thorn-smoke stings watering eyes.",
+   "Grain sacks split, spilling golden wheat.",
+   "Chest locks shatter under iron crowbars.",
+   "Flames roar up tarred canvas roofs.",
+   "Horns echo down sandstone canyon walls.",
+   "Haul the coin chests—move!",
+   "Trench stakes splinter beneath heavy boots.",
+   "Heat blasts out from burning storehouses."
+  ],
+  "victory_epilogue": [
+   {
+    "speaker": "npc-bram-quartermaster",
+    "line": "Cinders for their warbands, bread for the refugee camps, and heavy coin for our war chest."
+   },
+   {
+    "speaker": "npc-tull-water-seller",
+    "line": "Nothing makes a raider turn homeward faster than an empty belly."
+   },
+   {
+    "speaker": "hero",
+    "line": "Get out of the canyon before their riders regroup."
+   }
+  ],
+  "defeat_line": "Bogged down in the outer trenches until enemy riders seal the canyon mouth, your strike force is butchered between red walls.",
+  "optional_choice": {
+   "prompt": "Flames threaten a locked vault holding either imperial tax bullion or crates of rare desert star-metal.",
+   "a": "Break open the tax bullion vault before the roof collapses.",
+   "b": "Haul out the heavy crates of raw star-metal instead.",
+   "effect_a": "Gain +250 gold immediately for troop hiring and supplies.",
+   "effect_b": "Unlock Forgemaster Vok's star-metal weapon upgrade in Act III (m26) (+2 weapon damage)."
+  },
+  "codex_note": "Hidden behind a wind-eroded slot canyon, Redrock Box was once an imperial silver assay post before desert marauders converted its vaulted cellars into a siege depot."
+ },
+ "m19-hexer-capture": {
+  "id": "m19-hexer-capture",
+  "intro_scene": [
+   {
+    "speaker": "narrator",
+    "line": "Twelve black standing stones ring a hollow where green miasma pools like stagnant oil around kneeling acolytes."
+   },
+   {
+    "speaker": "npc-marta-alchemist",
+    "line": "Hexer Kaelen is rotting our wounded from twenty miles away—marrow turning to grey pulp inside clean bandages."
+   },
+   {
+    "speaker": "npc-zahra-scholar",
+    "line": "His perimeter wards feed on fear and breath. Step through the gaps between the stones and cut Kaelen down before the chant peaks."
+   },
+   {
+    "speaker": "npc-bram-quartermaster",
+    "line": "Half my best sergeants are spitting grey phlegm in the hospital tents. End him."
+   },
+   {
+    "speaker": "hero",
+    "line": "Breathe through wet cloth. Straight for the center ring."
+   }
+  ],
+  "milestones": [
+   {
+    "trigger": "first_contact",
+    "speaker": "npc-marta-alchemist",
+    "line": "Perimeter wards triggered! Do not linger in the green mist—keep pushing inward!"
+   },
+   {
+    "trigger": "low_morale",
+    "speaker": "npc-zahra-scholar",
+    "line": "His curse is pulling at old scars! Focus on Kaelen—his concentration is the only thing holding this ring!"
+   },
+   {
+    "trigger": "reinforcements",
+    "speaker": "field-warden-hale",
+    "line": "Hollow-eyed thralls rising from the bone-trenches behind us!"
+   },
+   {
+    "trigger": "last_stand",
+    "speaker": "hero",
+    "line": "Kaelen is exposed. Break his staff and end the plague."
+   }
+  ],
+  "ambient_barks": [
+   "Sweet rot hangs thick in still air.",
+   "Megalithic runes pulse sickly bile-green.",
+   "Wet cloth muffles ragged coughing.",
+   "Necrotic mist corrodes polished mail.",
+   "Kaelen's chanting rasps like dry bone.",
+   "Smash the ritual censers!",
+   "Old wounds throb inside the stone ring.",
+   "Cold sweat beads under iron helms."
+  ],
+  "victory_epilogue": [
+   {
+    "speaker": "npc-marta-alchemist",
+    "line": "The green fog is lifting—and word from camp says the fever in the hospital tents broke the moment Kaelen fell."
+   },
+   {
+    "speaker": "npc-zahra-scholar",
+    "line": "He wore a ring stamped with Gorrathul's iron crown. The warlord at the Fork of Spears is using necromancers as artillery."
+   },
+   {
+    "speaker": "hero",
+    "line": "Topple the standing stones. Leave no altar intact."
+   }
+  ],
+  "defeat_line": "Choked by vile miasma and withered from within, your company collapses before the silent ring of black megaliths.",
+  "optional_choice": null,
+  "codex_note": "The Megalithic Hollow predates human memory in the Redmarsh; nomadic herders shun the ring even in drought, claiming grass that grows inside its shadow turns teeth black."
+ },
+ "m20-deep-quarry": {
+  "id": "m20-deep-quarry",
+  "intro_scene": [
+   {
+    "speaker": "narrator",
+    "line": "Switchback ramps spiral down into a smoking pit where chained miners chip black ironstone under whip-cracks."
+   },
+   {
+    "speaker": "npc-bram-quartermaster",
+    "line": "Every blade and siege-ram Gorrathul fields is forged from the black ironstone hauled out of this pit."
+   },
+   {
+    "speaker": "npc-zahra-scholar",
+    "line": "Watch the lower vats—they seal their funerary urns and firepots with Canopic Tar boiled from the quarry's deep seams."
+   },
+   {
+    "speaker": "field-miner-tomas",
+    "line": "Break the slave-pens on the third terrace and we'll bury our overseers with our own picks!"
+   },
+   {
+    "speaker": "hero",
+    "line": "Take the ballista ledges first. Fight downward terrace by terrace."
+   }
+  ],
+  "milestones": [
+   {
+    "trigger": "first_contact",
+    "speaker": "npc-bram-quartermaster",
+    "line": "Quarry ballistas aiming up the ramp! Take cover behind the ore carts and rush the crew!"
+   },
+   {
+    "trigger": "objective_halfway",
+    "speaker": "field-miner-tomas",
+    "line": "Pen gates shattered! Grab picks, lads—pay them back for every winter in the dark!"
+   },
+   {
+    "trigger": "low_morale",
+    "speaker": "npc-zahra-scholar",
+    "line": "Boiling Canopic Tar tipping from the crane-buckets! Clear the lower terrace!"
+   },
+   {
+    "trigger": "last_stand",
+    "speaker": "hero",
+    "line": "Chief overseer on the pit floor. Drop him and cut the chains."
+   }
+  ],
+  "ambient_barks": [
+   "Iron picks ring against black ore.",
+   "Heavy ballista bolts splinter ore carts.",
+   "Shackles rattle as freed miners charge.",
+   "Black tar bubbles in iron cauldrons.",
+   "Overseer whips crack above the pit.",
+   "Sledgehammers crush ironclad helmets!",
+   "Coal dust chokes the lower terraces.",
+   "Cut the crane ropes—drop the hoist!"
+  ],
+  "victory_epilogue": [
+   {
+    "speaker": "field-miner-tomas",
+    "line": "Three hundred men breathing free air again—and half of us swing a hammer better than your recruits swing a sword."
+   },
+   {
+    "speaker": "npc-bram-quartermaster",
+    "line": "With the hoists burned and the pit flooded, Gorrathul's forges won't see another ounce of black ironstone."
+   },
+   {
+    "speaker": "hero",
+    "line": "Arm the miners who want to fight. Send the rest north to Thornwick."
+   }
+  ],
+  "defeat_line": "Pinned on the upper switchbacks by quarry ballistas, your company is cut down above the chains of the captives you came to free.",
+  "optional_choice": {
+   "prompt": "Freed quarry miners ask to either join your assault on Ironheart Bastion or escort the weakest captives north.",
+   "a": "Draft the strongest miners as heavy pioneer auxiliaries for the final push.",
+   "b": "Send all freed miners north to reinforce Thornwick's reconstruction.",
+   "effect_a": "Gain +2 Heavy Pioneer squads for m21–m23, but 15% of weak captives perish on the unguarded road.",
+   "effect_b": "All captives reach safety (+150 gold crown reward in Act III), with no extra auxiliaries now."
+  },
+  "codex_note": "Sunk four hundred feet into a volcanic fault, the Deep Quarry yields dense black ironstone prized for siege armor and cursed runesmithing alike."
+ },
+ "m21-lean-garrison": {
+  "id": "m21-lean-garrison",
+  "intro_scene": [
+   {
+    "speaker": "narrator",
+    "line": "Wind whistles through half-built stone revetments at Crossroads Redoubt, where forty tired sentinels guard four empty roads."
+   },
+   {
+    "speaker": "field-warden-hale",
+    "line": "Our main column is ten miles east. Enemy scouts spotted how thin we are here and threw three vanguard packs straight at the junction."
+   },
+   {
+    "speaker": "npc-bram-quartermaster",
+    "line": "If they take Crossroads Redoubt, they cut our supply line and trap the east wing between two armies."
+   },
+   {
+    "speaker": "npc-tull-water-seller",
+    "line": "Two cisterns inside the wall—enough water for three days if we keep their torches off the roof."
+   },
+   {
+    "speaker": "hero",
+    "line": "Hold the stone revetments. Conserve spells until they hit the inner ditch."
+   }
+  ],
+  "milestones": [
+   {
+    "trigger": "first_contact",
+    "speaker": "field-warden-hale",
+    "line": "Outnumbered three to one—make every arrow count before they reach the low wall!"
+   },
+   {
+    "trigger": "reinforcements",
+    "speaker": "npc-bram-quartermaster",
+    "line": "Second column swinging in from the south track! Shift spears to the right revetment!"
+   },
+   {
+    "trigger": "low_morale",
+    "speaker": "field-warden-hale",
+    "line": "Half the line bleeding and no relief till dusk! Dig your heels in!"
+   },
+   {
+    "trigger": "last_stand",
+    "speaker": "hero",
+    "line": "Their vanguard chief is down. Hold thirty more breaths and they break."
+   }
+  ],
+  "ambient_barks": [
+   "Thin shield-walls groan under heavy impact.",
+   "Save your mana for the breach!",
+   "Stones clatter from half-mortared parapets.",
+   "Four roads meet in bloody dust.",
+   "Bandaged sentinels limp back to line.",
+   "Hold the junction—the army depends on it!",
+   "Spear-shafts snap in close quarters.",
+   "Enemy horns sound a ragged recall."
+  ],
+  "victory_epilogue": [
+   {
+    "speaker": "field-warden-hale",
+    "line": "Forty sentinels held an army's lifeline. Not a single raider banner made it past the milestone."
+   },
+   {
+    "speaker": "npc-bram-quartermaster",
+    "line": "The east column just linked back up. Our supply road to the Fork of Spears is intact."
+   },
+   {
+    "speaker": "hero",
+    "line": "Relieve the sentinels and give them double rations. We ride at dawn."
+   }
+  ],
+  "defeat_line": "The thin sentinel line buckles at the crossroads, slicing your campaign in half across the open desert.",
+  "optional_choice": null,
+  "codex_note": "Marked by a four-faced milestone carved with imperial distances, Crossroads Redoubt is the sole fortified well-station controlling movement across the central Redmarsh."
+ },
+ "m22-fleeing-column": {
+  "id": "m22-fleeing-column",
+  "intro_scene": [
+   {
+    "speaker": "narrator",
+    "line": "Gale-force wind howls through Spearwind Gorge, whipping red sand off razor-edged limestone fins."
+   },
+   {
+    "speaker": "field-warden-hale",
+    "line": "Commander Vorn is sprinting up the gorge with Gorrathul's battle maps. If he reaches the gates, Ironheart doubles its watch."
+   },
+   {
+    "speaker": "npc-tull-water-seller",
+    "line": "Look at the trail behind his riders—Empty Waterskins tossed in the gravel. He's driving his horses to death to beat us."
+   },
+   {
+    "speaker": "npc-zahra-scholar",
+    "line": "Those maps show every blind spot in Ironheart's curtain wall. Do not let them vanish behind that portcullis."
+   },
+   {
+    "speaker": "hero",
+    "line": "Light armor forward. Cut his rear guard and bring Vorn down before the gate."
+   }
+  ],
+  "milestones": [
+   {
+    "trigger": "first_contact",
+    "speaker": "field-warden-hale",
+    "line": "Rear guard turning to stall us! Punch through—don't get bogged down in a duel!"
+   },
+   {
+    "trigger": "objective_halfway",
+    "speaker": "npc-tull-water-seller",
+    "line": "More Empty Waterskins and a foundered warhorse—we're gaining on Vorn's banner!"
+   },
+   {
+    "trigger": "reinforcements",
+    "speaker": "field-warden-hale",
+    "line": "Crossbowmen dropping from the gorge ledges to cover Vorn's sprint!"
+   },
+   {
+    "trigger": "last_stand",
+    "speaker": "hero",
+    "line": "Three hundred yards to the portcullis. Drop Vorn now."
+   }
+  ],
+  "ambient_barks": [
+   "Gale winds howl through narrow stone.",
+   "Hooves clatter wildly over loose shale.",
+   "Empty waterskins tumble across red gravel.",
+   "Do not let Vorn reach the gate!",
+   "Crossbow bolts ricochet off canyon walls.",
+   "Horses scream as they founder on stone.",
+   "Sprint—ignore the stragglers behind us!",
+   "The iron portcullis groans upward ahead."
+  ],
+  "victory_epilogue": [
+   {
+    "speaker": "field-warden-hale",
+    "line": "Vorn's dead twenty paces short of the chains—and the map case was still strapped to his ribs."
+   },
+   {
+    "speaker": "npc-zahra-scholar",
+    "line": "Look at the eastern culvert on his blueprint: an unguarded drainage sluice beneath Ironheart's curtain wall."
+   },
+   {
+    "speaker": "hero",
+    "line": "That sluice just saved five hundred lives. Muster the whole army."
+   }
+  ],
+  "defeat_line": "Vorn slips beneath the falling iron portcullis, alerting Ironheart Bastion and turning your assault into a bloodbath.",
+  "optional_choice": {
+   "prompt": "Vorn's dying second-in-command offers the Bastion's garrison rotation schedule if spared.",
+   "a": "Spare the officer and extract the guard rotation schedule.",
+   "b": "Execute him on the spot so no survivor can warn the gatehouse.",
+   "effect_a": "Delay enemy reinforcements by 90 seconds in m23, but the prisoner escapes and warns Act III coastal forts (m25).",
+   "effect_b": "Maintain complete operational secrecy for Act III, facing standard reinforcement timing in m23."
+  },
+  "codex_note": "Carved by millennia of sand-laden gales, Spearwind Gorge acts as a natural wind tunnel leading directly to the fortified approaches of the Fork of Spears."
+ },
+ "m23-fork-of-spears": {
+  "id": "m23-fork-of-spears",
+  "intro_scene": [
+   {
+    "speaker": "narrator",
+    "line": "Ironheart Bastion crowns the forked peak like an anvil of black slag above two narrow causeways."
+   },
+   {
+    "speaker": "gorrathul",
+    "line": "Come then, northern dogs. Cross the salt-bog or the cannon-walk—either road feeds my smelters."
+   },
+   {
+    "speaker": "npc-bram-quartermaster",
+    "line": "West Causeway is sinking mire; East runs under cliffside guns. Break the outer redoubts first or bleed out on the stone."
+   },
+   {
+    "speaker": "npc-zahra-scholar",
+    "line": "Gorrathul wears the iron crown forged from Deep Quarry ore—and Morvessa's sea-galleys are already waiting beyond the ridge."
+   },
+   {
+    "speaker": "gorrathul",
+    "line": "Morvessa promised me the Iron Coast if I break your spine here. I intend to collect."
+   },
+   {
+    "speaker": "npc-tull-water-seller",
+    "line": "Last skins of water passed out, commander. Beyond that gate lies salt wind and the sea."
+   },
+   {
+    "speaker": "field-miner-tomas",
+    "line": "My quarry lads brought iron wedges for that citadel hinge—point us at the gate!"
+   },
+   {
+    "speaker": "hero",
+    "line": "Silence the cliff redoubts. Cross both causeways and breach the gate."
+   }
+  ],
+  "milestones": [
+   {
+    "trigger": "first_contact",
+    "speaker": "npc-bram-quartermaster",
+    "line": "Catapults opening up from the East cliff! Rush the outer redoubt before they find our range!"
+   },
+   {
+    "trigger": "objective_halfway",
+    "speaker": "field-warden-hale",
+    "line": "Outer redoubts silenced! Push across the causeways—watch the bog-holes on the west!"
+   },
+   {
+    "trigger": "low_morale",
+    "speaker": "gorrathul",
+    "line": "Pour boiling slag through the murder-holes! Let them smell their own armor melting!"
+   },
+   {
+    "trigger": "last_stand",
+    "speaker": "hero",
+    "line": "The citadel gate is down. Put Gorrathul in the dirt."
+   }
+  ],
+  "ambient_barks": [
+   "Catapult stones shatter causeway flagstones.",
+   "Black iron banners snap in mountain gales.",
+   "Slag cauldrons hiss above the gatehouse.",
+   "Storm the outer redoubts—silence the guns!",
+   "Salt-bog bubbles along the West causeway.",
+   "Gorrathul's iron war-horn shakes the peak.",
+   "Breach the citadel—the coast lies beyond!",
+   "Steel rings across blood-slick basalt."
+  ],
+  "victory_epilogue": [
+   {
+    "speaker": "gorrathul",
+    "line": "You broke the anvil... yet the hammer waits on the Iron Coast. Morvessa... already has the fleet..."
+   },
+   {
+    "speaker": "npc-bram-quartermaster",
+    "line": "Thornvael's banner flies over Ironheart Bastion! Look west from the parapet—you can see the grey surf of the Iron Coast!"
+   },
+   {
+    "speaker": "npc-zahra-scholar",
+    "line": "The Redmarsh campaign is won, yet Gorrathul's last breath confirms our worst fear: the war moves to the sea."
+   },
+   {
+    "speaker": "field-warden-hale",
+    "line": "Scouts already spot black sails tacking south toward Oakhaven."
+   },
+   {
+    "speaker": "hero",
+    "line": "Raise the standard and tend the wounded. Tomorrow we march down to Oakhaven."
+   }
+  ],
+  "defeat_line": "Shattered by cliffside artillery and counter-charging knights on the narrow causeways, your army breaks on Ironheart's black rocks.",
+  "optional_choice": {
+   "prompt": "Gorrathul's siege foundries still hold unstable black-powder charges beneath the Bastion's sea-facing wall.",
+   "a": "Detonate the charges to blow open a shortcut down to the Iron Coast.",
+   "b": "Defuse the charges and salvage the powder for your coastal campaign.",
+   "effect_a": "Start Act III (m24) with +1 day head start against Morvessa's fleet, but trigger rockslides (-10% starting morale).",
+   "effect_b": "Gain +3 Siege Powder charges for Act III, giving Morvessa's ships time to fortify Oakhaven's harbor."
+  },
+  "codex_note": "Built astride the twin volcanic spires known as the Fork of Spears, Ironheart Bastion commands the sole mountain pass linking the arid Redmarsh interior to the stormy Iron Coast."
+ },
+ "m24-pledge-at-oakhaven": {
+  "id": "m24-pledge-at-oakhaven",
+  "intro_scene": [
+   {
+    "speaker": "narrator",
+    "line": "Salt rot and wet pine smoke cling to Oakhaven's timber palisades like a damp shroud."
+   },
+   {
+    "speaker": "npc-kors-shipwright",
+    "line": "Three ironclad hulks block the channel. My drydocks haven't launched a keel in six weeks."
+   },
+   {
+    "speaker": "npc-lyra-warden",
+    "line": "The council hoards salt-beef and crossbows behind bolted gates while raiders burn the marsh jetties."
+   },
+   {
+    "speaker": "hero",
+    "line": "Open the armory. If we clear the mudflats, their blockade starves."
+   },
+   {
+    "speaker": "npc-kors-shipwright",
+    "line": "And if your mercenaries break on the causeways, the raiders take our timber yards intact."
+   },
+   {
+    "speaker": "npc-lyra-warden",
+    "line": "Give us the wetlands back, commander, and you'll have every mariner who can still pull an oar."
+   }
+  ],
+  "milestones": [
+   {
+    "trigger": "first_contact",
+    "speaker": "field-salt-corporal",
+    "line": "Ironclads in the reeds! Keep shields locked or their boarding hooks will drag you under."
+   },
+   {
+    "trigger": "objective_halfway",
+    "speaker": "npc-kors-shipwright",
+    "line": "First raider pontoon is burning. Their signal flags are scrambling toward the south shoal."
+   },
+   {
+    "trigger": "low_morale",
+    "speaker": "field-salt-corporal",
+    "line": "Boots are sinking to the knees in black silt—don't stop moving or you'll drown in armor!"
+   },
+   {
+    "trigger": "last_stand",
+    "speaker": "npc-lyra-warden",
+    "line": "That's their command hulk grounding on the sandbar! Press them before the tide turns!"
+   }
+  ],
+  "ambient_barks": [
+   "Oars up! Ram the pilings!",
+   "Salt in the wound, steel in the gut!",
+   "Hold the plank-walk! Don't slip!",
+   "Ironclads advance! Ready the gaffs!",
+   "Fog hides their archers—keep low!",
+   "For Oakhaven's keels!",
+   "Strip their dead for dry powder!",
+   "The marsh swallows the slow!"
+  ],
+  "victory_epilogue": [
+   {
+    "speaker": "npc-kors-shipwright",
+    "line": "The channel is clear. My carpenters are already caulking the troop barges for your southward push."
+   },
+   {
+    "speaker": "npc-lyra-warden",
+    "line": "The council signed the charter before the smoke cleared. Oakhaven's marines march under your pennant."
+   },
+   {
+    "speaker": "hero",
+    "line": "Load the provisions before nightfall. Iron Coast won't stay quiet for long."
+   }
+  ],
+  "defeat_line": "Oakhaven's timber walls crack inward under iron rams, and the harbor waters turn black with ash and blood.",
+  "optional_choice": {
+   "prompt": "Raider storehouses on the marsh edge hold either tar-sealed timber reserves or captured harbor pilot charts.",
+   "a": "Seize the timber to reinforce Oakhaven's hulls immediately.",
+   "b": "Confiscate the sea-charts to map hidden reefs along the coast.",
+   "effect_a": "Gains +20% ship armor in Act 3 coastal missions; forfeits safe reef passage in Act 4 landing.",
+   "effect_b": "Unlocks safe landing approaches in Act 4 (m36); Kors complains his hulls remain patched with green pine."
+  },
+  "codex_note": "Built atop petrified cedar pilings where the Greywash meets the sea, Oakhaven survived three centuries of piracy by taxing both smugglers and kings."
+ },
+ "m25-cinder-wards": {
+  "id": "m25-cinder-wards",
+  "intro_scene": [
+   {
+    "speaker": "narrator",
+    "line": "Heat shimmers off the basalt cliffs above Oakhaven, bending the horizon into a jagged mirage."
+   },
+   {
+    "speaker": "npc-sera-healer",
+    "line": "My bandages scorch before they touch skin. Whatever they lit up there is boiling the groundwater."
+   },
+   {
+    "speaker": "npc-pip-mudlark",
+    "line": "Three stone rings on the ridge, boss. Red-robed lunatics chanting over vents that smell like burnt hair."
+   },
+   {
+    "speaker": "hero",
+    "line": "Break the outer circles first. Without the binders, the central altar has no fuel."
+   },
+   {
+    "speaker": "npc-sera-healer",
+    "line": "Tell your men to wrap wet wool over their mouths, or the sulfur fumes will blister their lungs."
+   },
+   {
+    "speaker": "npc-pip-mudlark",
+    "line": "I'll mark the cool fissures. Just don't ask me to stand near those glowing pillars."
+   }
+  ],
+  "milestones": [
+   {
+    "trigger": "first_contact",
+    "speaker": "npc-pip-mudlark",
+    "line": "Watch the cracks in the slate—they spit white flame whenever a binder slams his staff!"
+   },
+   {
+    "trigger": "objective_halfway",
+    "speaker": "field-salt-corporal",
+    "line": "Two ward-rings shattered! The heat wall around the altar is flickering like a dying tallow lamp."
+   },
+   {
+    "trigger": "reinforcements",
+    "speaker": "npc-sera-healer",
+    "line": "Cinder-hounds emerging from the fumaroles! Keep your wounded clear of their ash-breath!"
+   },
+   {
+    "trigger": "last_stand",
+    "speaker": "hero",
+    "line": "The last binder is exposed. Cut him down before he completes the chant."
+   }
+  ],
+  "ambient_barks": [
+   "Flesh blackens! Step off the vents!",
+   "Feed the vein! Burn the coast!",
+   "Shatter the pillar—now!",
+   "Air tastes like copper and soot!",
+   "Shields up against the cinders!",
+   "The altar cracks! Keep striking!",
+   "No mercy for the fire-priests!",
+   "Cool ash falls at last!"
+  ],
+  "victory_epilogue": [
+   {
+    "speaker": "npc-pip-mudlark",
+    "line": "The pillars went cold so fast they cracked like cheap pottery. Even the cliff stopped humming."
+   },
+   {
+    "speaker": "npc-sera-healer",
+    "line": "Half the vanguard has heat-blisters, but the coastal plain won't burn tonight."
+   },
+   {
+    "speaker": "hero",
+    "line": "Gather the obsidian shards from the altar. Someone in Ironcamp will know who forged them."
+   }
+  ],
+  "defeat_line": "The three wards chime in unison, and a river of white-hot slag washes down the cliffside over your screaming lines.",
+  "optional_choice": null,
+  "codex_note": "The Cinder Wards were raised by pre-imperial geomancers to vent volcanic pressure away from Oakhaven's timber valleys—until the cult reversed their runes."
+ },
+ "m26-sundered-ranks": {
+  "id": "m26-sundered-ranks",
+  "intro_scene": [
+   {
+    "speaker": "narrator",
+    "line": "A needle of grey granite splits the cliff road, flanked by two timber-and-stone redoubts bristling with steel."
+   },
+   {
+    "speaker": "npc-lyra-warden",
+    "line": "Heavy arbalests on both flanks, overlapping every inch of the center approach. Walk up the middle and we die."
+   },
+   {
+    "speaker": "field-salt-corporal",
+    "line": "My scouts counted forty bolts a volley from the west camp alone. We need to crack one wing at a time."
+   },
+   {
+    "speaker": "hero",
+    "line": "Split the column. Silence the flanking batteries before anyone climbs that spire."
+   },
+   {
+    "speaker": "npc-lyra-warden",
+    "line": "Dividing our strength leaves each wing thin if they sally out."
+   },
+   {
+    "speaker": "hero",
+    "line": "Better thin on the flanks than butchered in a funnel."
+   }
+  ],
+  "milestones": [
+   {
+    "trigger": "first_contact",
+    "speaker": "npc-lyra-warden",
+    "line": "Crossbow volleys incoming! Keep pavises angled toward the spire until we reach the west ditch!"
+   },
+   {
+    "trigger": "half_enemies_dead",
+    "speaker": "field-salt-corporal",
+    "line": "West redoubt's firing slits are choked with dead! Pivot the heavy infantry toward the east camp!"
+   },
+   {
+    "trigger": "low_morale",
+    "speaker": "npc-lyra-warden",
+    "line": "They're rolling burning pitch barrels down the ridge—hold formation, don't scatter!"
+   },
+   {
+    "trigger": "last_stand",
+    "speaker": "hero",
+    "line": "Both flanks are silent. Take the command tent on the spire."
+   }
+  ],
+  "ambient_barks": [
+   "Bolts from the spire—duck!",
+   "Clear the east trench!",
+   "Pavises forward! Lock rims!",
+   "Their signal horn is broken!",
+   "Cut the winch ropes!",
+   "No quarter on the crag!",
+   "Keep climbing—stones be damned!",
+   "Spire banner is down!"
+  ],
+  "victory_epilogue": [
+   {
+    "speaker": "npc-lyra-warden",
+    "line": "Their semaphore mirrors are smashed and the codebooks burned in their own brazier."
+   },
+   {
+    "speaker": "field-salt-corporal",
+    "line": "We lost good shield-bearers on the approaches, but the coast road lies open."
+   },
+   {
+    "speaker": "hero",
+    "line": "Strip the arbalests for spare strings and move on."
+   }
+  ],
+  "defeat_line": "Caught in a scissor of steel bolts between the twin forts, your broken column bleeds out upon the bare granite.",
+  "optional_choice": {
+   "prompt": "Among the spire's wreckage lie intact semaphore lenses and crates of heavy steel-tipped arbalest bolts.",
+   "a": "Salvage the arbalest bolts to arm your ranged squads.",
+   "b": "Preserve the semaphore lenses for coastal reconnaissance.",
+   "effect_a": "Increases ranged unit armor-piercing damage for the rest of Act 3; costs 150 gold in maintenance.",
+   "effect_b": "Reveals enemy ambushes early in m28 and m31; leaves ranged troops with standard iron quarrels."
+  },
+  "codex_note": "Known to local drovers as the Split Tooth, this granite spire once served as an imperial customs post where smugglers were hung in iron cages."
+ },
+ "m27-field-infirmary": {
+  "id": "m27-field-infirmary",
+  "intro_scene": [
+   {
+    "speaker": "narrator",
+    "line": "Canvas tents sag under cold coastal drizzle, stained rust-brown where the surgeons work by lantern light."
+   },
+   {
+    "speaker": "npc-sera-healer",
+    "line": "Sixty men inside can't stand without crutches. If those raider hounds breach the clearing, it's a slaughterhouse."
+   },
+   {
+    "speaker": "field-salt-corporal",
+    "line": "They're coming through the bracken from three trails at once—scented the blood on the wind."
+   },
+   {
+    "speaker": "npc-sera-healer",
+    "line": "I've sent word for The Triage Wagon, but it won't reach the ridge road before dusk."
+   },
+   {
+    "speaker": "hero",
+    "line": "Form a tight ring around the surgical tents. Nobody crosses the ditch."
+   },
+   {
+    "speaker": "npc-sera-healer",
+    "line": "Keep them off my operating tables, commander, and I swear every man here will fight for you again."
+   }
+  ],
+  "milestones": [
+   {
+    "trigger": "first_contact",
+    "speaker": "field-salt-corporal",
+    "line": "Raiders out of the north thicket! Watch the brush—they're trying to slip past the picket line!"
+   },
+   {
+    "trigger": "objective_halfway",
+    "speaker": "npc-sera-healer",
+    "line": "First litter-train is loaded! Hold the east perimeter while we splint the femur fractures!"
+   },
+   {
+    "trigger": "reinforcements",
+    "speaker": "npc-pip-mudlark",
+    "line": "More torches on the creek trail! They brought cleavers, not war-blades—butchers!"
+   },
+   {
+    "trigger": "last_stand",
+    "speaker": "npc-sera-healer",
+    "line": "The Triage Wagon's lanterns are on the ridge! Last push—clear the south trail!"
+   }
+  ],
+  "ambient_barks": [
+   "Keep them off the tents!",
+   "Scalpel down, grab a spear!",
+   "Hold the bracken ditch!",
+   "Wounded first—fall back slow!",
+   "Gut the dogs before they howl!",
+   "Lanterns low—don't give targets!",
+   "Wagons are rolling! Hold fast!",
+   "Not one patient dies tonight!"
+  ],
+  "victory_epilogue": [
+   {
+    "speaker": "npc-sera-healer",
+    "line": "Every stretcher made it onto the carts. My apothecaries brewed you our strongest poppy-and-iron draughts."
+   },
+   {
+    "speaker": "field-salt-corporal",
+    "line": "The men saw you bleed for the crippled. Morale in the camp hasn't been this high since Thornwick."
+   },
+   {
+    "speaker": "hero",
+    "line": "Get your wounded to Oakhaven's stone keeps. We march at dawn."
+   }
+  ],
+  "defeat_line": "The canvas tents collapse in flames as raider blades silence the groans of the helpless inside.",
+  "optional_choice": null,
+  "codex_note": "During the salt wars, even pirates spared tent-hospitals marked with white ash crosses; the cultists of Thornvael view bandages as a declaration of war."
+ },
+ "m28-sunken-citadel": {
+  "id": "m28-sunken-citadel",
+  "intro_scene": [
+   {
+    "speaker": "narrator",
+    "line": "Green brine pours through cracked basalt embrasures as the Atlantic swell hammers the drowned barbican."
+   },
+   {
+    "speaker": "field-harbor-pilot",
+    "line": "You have two hours before the spring tide floods the lower courtyard to a man's chin."
+   },
+   {
+    "speaker": "npc-kors-shipwright",
+    "line": "Look at the bronze chains hanging off those sea-gates—relics worth a king's ransom if anyone survives Low-Tide Salvage."
+   },
+   {
+    "speaker": "hero",
+    "line": "Ignore the scrap until the Castellan is dead. Blow the water-gate and take the upper stairs."
+   },
+   {
+    "speaker": "field-harbor-pilot",
+    "line": "If we linger on the lower steps, the undertow will drag armored men straight through the sluices."
+   },
+   {
+    "speaker": "npc-kors-shipwright",
+    "line": "Aye, and if we don't clear that road, our siege wagons stay stuck in the mud."
+   }
+  ],
+  "milestones": [
+   {
+    "trigger": "first_contact",
+    "speaker": "field-harbor-pilot",
+    "line": "Water-gate is down! Watch your footing on the kelp-slick flagstones!"
+   },
+   {
+    "trigger": "objective_halfway",
+    "speaker": "npc-kors-shipwright",
+    "line": "Tide's rising fast—waist-deep in the outer ward! Get the heavy infantry onto the upper rampart!"
+   },
+   {
+    "trigger": "low_morale",
+    "speaker": "field-salt-corporal",
+    "line": "Saltwater's fouling the crossbows! Draw blades and climb!"
+   },
+   {
+    "trigger": "last_stand",
+    "speaker": "hero",
+    "line": "There's the Castellan on the lighthouse stair. End him before the sea closes the gate."
+   }
+  ],
+  "ambient_barks": [
+   "Tide's coming in—move!",
+   "Watch the kelp—don't slip!",
+   "Barnacles cut like razors!",
+   "Take the high steps!",
+   "Drown them in their own moat!",
+   "Hold your breath—wave incoming!",
+   "Castellan's guard is breaking!",
+   "Lower the landward portcullis!"
+  ],
+  "victory_epilogue": [
+   {
+    "speaker": "field-harbor-pilot",
+    "line": "The landward causeway is dry and the sea-gates are wedged shut. Your siege train can roll at will."
+   },
+   {
+    "speaker": "npc-kors-shipwright",
+    "line": "The Castellan went over the parapet in full plate. The tide won't give him back."
+   },
+   {
+    "speaker": "hero",
+    "line": "Post a watch on the seawall and bring up the wagons."
+   }
+  ],
+  "defeat_line": "The sea surges through the breached gate, pinning your armored soldiers against the basalt wall until the surf stills.",
+  "optional_choice": {
+   "prompt": "The Castellan's drowned armory holds salt-corroded relic shields and sealed barrels of waterproofed Greek fire.",
+   "a": "Haul out the Greek fire barrels for siege demolition.",
+   "b": "Recover the ancient sea-forged shields for your frontliners.",
+   "effect_a": "Grants +30% structure damage in m30 and m35; toxic fumes reduce troop stamina for one mission.",
+   "effect_b": "Grants +15% missile block chance; slows vanguard movement speed by 10% in m29."
+  },
+  "codex_note": "Carved into a tidal sea-stack by the First Empire, the Sunken Citadel was abandoned when a coastal tremor dropped its foundations ten cubits into the surf."
+ },
+ "m29-hourglass-rescue": {
+  "id": "m29-hourglass-rescue",
+  "intro_scene": [
+   {
+    "speaker": "narrator",
+    "line": "Signal flares sputter red through the coastal fog, marking where Lyra's garrison clings to the northern gatehouse."
+   },
+   {
+    "speaker": "npc-pip-mudlark",
+    "line": "Three barricades between us and the gate, and I can hear their rams thudding from half a mile off."
+   },
+   {
+    "speaker": "field-salt-corporal",
+    "line": "Lyra sent her last runner an hour ago—said they were down to broken bolts and boiling water."
+   },
+   {
+    "speaker": "hero",
+    "line": "Leave the baggage behind. We punch straight through their roadblocks at a dead run."
+   },
+   {
+    "speaker": "npc-pip-mudlark",
+    "line": "What about The Mountain Convoy supposed to meet us at the crossroads?"
+   },
+   {
+    "speaker": "hero",
+    "line": "If Lyra falls, there won't be a crossroads left to meet at. Move."
+   }
+  ],
+  "milestones": [
+   {
+    "trigger": "first_contact",
+    "speaker": "field-salt-corporal",
+    "line": "First palisade ahead! Hack the timbers down—don't stop to loot!"
+   },
+   {
+    "trigger": "objective_halfway",
+    "speaker": "npc-lyra-warden",
+    "line": "We hear your horns! Keep pushing—the outer oak door just split down the hinges!"
+   },
+   {
+    "trigger": "reinforcements",
+    "speaker": "npc-pip-mudlark",
+    "line": "Armored hulks dropping off the crags behind us! Don't look back, just break the third line!"
+   },
+   {
+    "trigger": "last_stand",
+    "speaker": "npc-lyra-warden",
+    "line": "They're in the courtyard! Strike their rear before they reach the tower stair!"
+   }
+  ],
+  "ambient_barks": [
+   "Faster! The gate is buckling!",
+   "Axes to the barricade!",
+   "No stragglers—keep running!",
+   "Hold the stairs, Warden!",
+   "Smash their siege ram!",
+   "Through the breach! Now!",
+   "Bolts are spent—draw swords!",
+   "Relief column has arrived!"
+  ],
+  "victory_epilogue": [
+   {
+    "speaker": "npc-lyra-warden",
+    "line": "Fourteen bolts left in the entire tower. Five minutes later and you'd have found crows picking our ribs."
+   },
+   {
+    "speaker": "hero",
+    "line": "Your archers still have steady hands. Fall in with the main column."
+   },
+   {
+    "speaker": "npc-lyra-warden",
+    "line": "Gladly. My women owe you a debt paid in iron."
+   }
+  ],
+  "defeat_line": "The gatehouse doors splinter inward with a roar, and Lyra's signal horn cuts off mid-note.",
+  "optional_choice": null,
+  "codex_note": "Built to choke northern raiding clans out of the coastal valleys, the Iron-Gate Watchtower has never once been taken by storm—only starved."
+ },
+ "m30-starved-bastion": {
+  "id": "m30-starved-bastion",
+  "intro_scene": [
+   {
+    "speaker": "narrator",
+    "line": "Grey limestone walls crown the valley head, bristling with fresh banners and stacked arrow-bundles."
+   },
+   {
+    "speaker": "npc-lyra-warden",
+    "line": "Storming those walls cold will cost half our company. Their granaries are low, though—two mule trains are due by noon."
+   },
+   {
+    "speaker": "npc-pip-mudlark",
+    "line": "I crept past their pickets near the cider groves. Easy ambush if we don't spook the drovers."
+   },
+   {
+    "speaker": "hero",
+    "line": "Take both convoys on the switchbacks. Let hunger open the gates before we spend blood."
+   },
+   {
+    "speaker": "npc-lyra-warden",
+    "line": "And while we're in the valley, my scouts say the cultists are Silencing the Orchard to hide their forward caches."
+   },
+   {
+    "speaker": "npc-pip-mudlark",
+    "line": "First the mules, boss. Everything else rots if that fort gets fed."
+   }
+  ],
+  "milestones": [
+   {
+    "trigger": "first_contact",
+    "speaker": "npc-pip-mudlark",
+    "line": "West convoy is in the gully! Cut the lead mules so the wagons jam the trail!"
+   },
+   {
+    "trigger": "objective_halfway",
+    "speaker": "npc-lyra-warden",
+    "line": "Both supply trains captured! Look at the battlements—their signal flags are frantic."
+   },
+   {
+    "trigger": "reinforcements",
+    "speaker": "field-salt-corporal",
+    "line": "The garrison is sallying out to retake the grain carts! Hold the ridge!"
+   },
+   {
+    "trigger": "last_stand",
+    "speaker": "hero",
+    "line": "Their sortie is broken and their larders are empty. Storm the gatehouse."
+   }
+  ],
+  "ambient_barks": [
+   "Hamstring the lead mules!",
+   "Don't burn the grain wagons!",
+   "They're starving—press the gate!",
+   "Cut off their sally party!",
+   "Drop the portcullis chains!",
+   "No food, no fight!",
+   "Take the cistern first!",
+   "White rag on the keep!"
+  ],
+  "victory_epilogue": [
+   {
+    "speaker": "npc-lyra-warden",
+    "line": "Half the defenders collapsed when they smelled our cookfires. They traded the keys for hardtack and water."
+   },
+   {
+    "speaker": "field-salt-corporal",
+    "line": "Captured thirty barrels of salted pork and clean fletching—enough to carry us to the river."
+   },
+   {
+    "speaker": "hero",
+    "line": "Disarm the prisoners and garrison the tower."
+   }
+  ],
+  "defeat_line": "The supply wagons roll triumphantly beneath the raised portcullis, and fresh volleys sweep your exposed camp.",
+  "optional_choice": {
+   "prompt": "The starving garrison offers to surrender their hidden armory keys in exchange for safe passage north.",
+   "a": "Grant safe passage to preserve your soldiers' strength.",
+   "b": "Refuse terms and storm the keep to prevent them from rejoining the enemy.",
+   "effect_a": "Saves troop casualties; released veterans reinforce the enemy in m35.",
+   "effect_b": "Eliminates enemy reinforcements in m35; costs 20% frontline health in final assault."
+  },
+  "codex_note": "Quarried from pale coastal chalk, High-Orchard Redoubt has no well of its own, relying entirely on mountain cisterns and pack-mule trains."
+ },
+ "m31-riverlock-crossing": {
+  "id": "m31-riverlock-crossing",
+  "intro_scene": [
+   {
+    "speaker": "narrator",
+    "line": "Black river water thunders eighty feet below two stone spans, held back by rust-red iron sluice gates."
+   },
+   {
+    "speaker": "npc-kors-shipwright",
+    "line": "See those counterweights on the center island? One pull of a lever and fifty tons of river sweeps both bridges clean."
+   },
+   {
+    "speaker": "field-harbor-pilot",
+    "line": "We take the island redoubt first, lock the gears with iron wedges, then bring the main host across."
+   },
+   {
+    "speaker": "hero",
+    "line": "Send the light vanguard onto the island. Nobody steps onto the east bridge until the gears are jammed."
+   },
+   {
+    "speaker": "npc-kors-shipwright",
+    "line": "Listen to that brass chime from the cliffs—looks like someone's already manning The Bell-Tower Picket."
+   },
+   {
+    "speaker": "field-harbor-pilot",
+    "line": "Let them ring. Once those sluices are wedged, the river belongs to us."
+   }
+  ],
+  "milestones": [
+   {
+    "trigger": "first_contact",
+    "speaker": "field-harbor-pilot",
+    "line": "Crossbowmen on the sluice gallery! Clear the winches before they trip the floodgates!"
+   },
+   {
+    "trigger": "objective_halfway",
+    "speaker": "npc-kors-shipwright",
+    "line": "Wedges driven into the main gear-teeth! The sluices are locked—send the heavy infantry over!"
+   },
+   {
+    "trigger": "reinforcements",
+    "speaker": "field-salt-corporal",
+    "line": "Enemy engineers swimming with crowbars to pry the wedges loose! Guard the winch house!"
+   },
+   {
+    "trigger": "last_stand",
+    "speaker": "hero",
+    "line": "East bank garrison is pinned against the gorge. Finish them."
+   }
+  ],
+  "ambient_barks": [
+   "Jam the sluice gears!",
+   "Keep off the wet spans!",
+   "Shoot the winch-keepers!",
+   "Water's rising—hold the island!",
+   "Push across the east bridge!",
+   "Cut their sapper lines!",
+   "Gorge is ours—advance!",
+   "Smash the east gatehouse!"
+  ],
+  "victory_epilogue": [
+   {
+    "speaker": "npc-kors-shipwright",
+    "line": "Those gears won't turn again without a foundry crew and six months of scaffolding."
+   },
+   {
+    "speaker": "field-harbor-pilot",
+    "line": "The deep harbor road is clear. We can smell the coal smoke from Harborwatch already."
+   },
+   {
+    "speaker": "hero",
+    "line": "Keep a squad on the island until the baggage train finishes crossing."
+   }
+  ],
+  "defeat_line": "Iron chains scream as the floodgates drop, and a wall of black river water sweeps your vanguard into the gorge.",
+  "optional_choice": null,
+  "codex_note": "Engineered to regulate winter snowmelt for the valley mills, the Twin Riverlocks can flood the lower canyon in less than forty heartbeats."
+ },
+ "m32-elder-juggernaut": {
+  "id": "m32-elder-juggernaut",
+  "intro_scene": [
+   {
+    "speaker": "narrator",
+    "line": "Pine needles tremble on the ridge path as something vast shifts among the boulders above."
+   },
+   {
+    "speaker": "npc-pip-mudlark",
+    "line": "That's no boulder, boss. It's got moss in its joints and eyes like banked furnace coals."
+   },
+   {
+    "speaker": "npc-lyra-warden",
+    "line": "Our iron broadheads bounced off its chest like hailstones. Standard steel won't even scratch that hide."
+   },
+   {
+    "speaker": "hero",
+    "line": "Keep the infantry dispersed. Use arcane fire and armor-piercing bolts on the glowing seams."
+   },
+   {
+    "speaker": "npc-pip-mudlark",
+    "line": "Every time it stamps, the ground splits wide enough to swallow a horse!"
+   },
+   {
+    "speaker": "npc-lyra-warden",
+    "line": "Stay light on your feet and aim for the rune-cracks when it kneels."
+   }
+  ],
+  "milestones": [
+   {
+    "trigger": "first_contact",
+    "speaker": "field-salt-corporal",
+    "line": "Scatter! Don't bunch up or one shockwave will break every leg in the squad!"
+   },
+   {
+    "trigger": "objective_halfway",
+    "speaker": "npc-lyra-warden",
+    "line": "Left knee-joint is smoking! Pour every arcane charge you have into that fissure!"
+   },
+   {
+    "trigger": "low_morale",
+    "speaker": "npc-pip-mudlark",
+    "line": "Rockslides coming down the ridge! Keep moving—standing still is suicide!"
+   },
+   {
+    "trigger": "last_stand",
+    "speaker": "hero",
+    "line": "Its core rune is exposed. Strike it now before it regains its footing."
+   }
+  ],
+  "ambient_barks": [
+   "Scatter! Shockwave incoming!",
+   "Aim for the glowing joints!",
+   "Swords are useless—use magic!",
+   "Watch the falling pines!",
+   "It's staggering—keep hitting!",
+   "Don't get cornered on the cliff!",
+   "Crack the chest-rune!",
+   "Stone giant is crumbling!"
+  ],
+  "victory_epilogue": [
+   {
+    "speaker": "npc-pip-mudlark",
+    "line": "Just a pile of grey gravel now. Even the birds are coming back to the pines."
+   },
+   {
+    "speaker": "npc-lyra-warden",
+    "line": "The mountain pass is open, and our mages harvested enough earth-core dust to fill three flasks."
+   },
+   {
+    "speaker": "hero",
+    "line": "Take the ridge road before the cult realizes their sentinel is dead."
+   }
+  ],
+  "defeat_line": "A tectonic stomp splits the granite ridge beneath your boots, burying the expedition under tons of ancient stone.",
+  "optional_choice": {
+   "prompt": "The shattered Juggernaut's chest cavity holds a pulsing earth-core crystal and slabs of rune-carved lodestone.",
+   "a": "Extract the earth-core to empower your battle-mages.",
+   "b": "Harvest the lodestone slabs to reinforce your siege wagons.",
+   "effect_a": "Increases spell damage by +20% through Act 4; causes unstable magic backlash on critical misses.",
+   "effect_b": "Grants +25% siege durability in Act 4 (m38, m42); leaves mages without arcane reserves."
+  },
+  "codex_note": "Elder Juggernauts were bound from living bedrock during the Age of Chains to guard mountain borders long after their creators turned to dust."
+ },
+ "m33-high-stakes-gambit": {
+  "id": "m33-high-stakes-gambit",
+  "intro_scene": [
+   {
+    "speaker": "narrator",
+    "line": "Lanterns glint off gilded ironwork inside Baron Vane's keep, where pack-mules wait in the postern yard."
+   },
+   {
+    "speaker": "npc-pip-mudlark",
+    "line": "Two vaults flanking the hall, crammed with silver ingots meant to buy every sellsword from here to the straits."
+   },
+   {
+    "speaker": "field-salt-corporal",
+    "line": "His treasurers are already loading chests onto the catacomb lifts. If they drop the portcullis, that gold vanishes."
+   },
+   {
+    "speaker": "hero",
+    "line": "Drive straight through the center gate. Ignore the side towers until the vault doors are ours."
+   },
+   {
+    "speaker": "npc-pip-mudlark",
+    "line": "His household halberdiers are dressed in plate thicker than a ship's hull."
+   },
+   {
+    "speaker": "hero",
+    "line": "Heavy armor slows them down. Hit them before they form ranks."
+   }
+  ],
+  "milestones": [
+   {
+    "trigger": "first_contact",
+    "speaker": "field-salt-corporal",
+    "line": "Main gate is breached! Push past the courtyard fountain—don't get bogged down on the walls!"
+   },
+   {
+    "trigger": "objective_halfway",
+    "speaker": "npc-pip-mudlark",
+    "line": "West vault secured! Treasurers are fleeing toward the east strongroom with the royal seals!"
+   },
+   {
+    "trigger": "reinforcements",
+    "speaker": "npc-lyra-warden",
+    "line": "The Baron's personal guard is blocking the throne stair! Break their pike-wall!"
+   },
+   {
+    "trigger": "last_stand",
+    "speaker": "hero",
+    "line": "Baron Vane is cornered by the catacomb grate. Take the keys."
+   }
+  ],
+  "ambient_barks": [
+   "Block the catacomb stairs!",
+   "Cut down the paymasters!",
+   "Break the halberd line!",
+   "Gold stays in the realm!",
+   "Smash the vault lock!",
+   "Don't let the Baron flee!",
+   "Seize the war-chests!",
+   "Both vaults are ours!"
+  ],
+  "victory_epilogue": [
+   {
+    "speaker": "npc-pip-mudlark",
+    "line": "Never seen so much stamped gold in one room. Half the mercenary guilds on the coast just lost their employer."
+   },
+   {
+    "speaker": "npc-lyra-warden",
+    "line": "With these regalia and coin-chests, we can pay our veterans double through the final campaign."
+   },
+   {
+    "speaker": "hero",
+    "line": "Seal the chests under armed guard and prepare for the coastal hills."
+   }
+  ],
+  "defeat_line": "Baron Vane's halberdiers hold the stair while the last iron lift drops into the dark catacombs with the war-chest.",
+  "optional_choice": {
+   "prompt": "Baron Vane's ledger reveals extortion contracts held over Oakhaven's merchant families alongside hidden bullion.",
+   "a": "Burn the debt ledgers to win Oakhaven's unconditional loyalty.",
+   "b": "Collect the debts immediately to swell your war-chest.",
+   "effect_a": "Unlocks free veteran reinforcements in m35 and Act 4; forfeits 600 gold.",
+   "effect_b": "Gains +600 gold immediately; Oakhaven levies suffer -15% morale in m35."
+  },
+  "codex_note": "Baron Vane inherited a salt-tax monopoly and turned his ancestral manor into a counting-house for traitors, pirates, and shadow-brokers."
+ },
+ "m34-clashing-banners": {
+  "id": "m34-clashing-banners",
+  "intro_scene": [
+   {
+    "speaker": "narrator",
+    "line": "Two mercenary hosts hack at each other across a muddy hollow, trampled banners sinking into churned turf."
+   },
+   {
+    "speaker": "npc-kors-shipwright",
+    "line": "The Ironclads and the Ashen Company—butchering each other over the loot from three burned fishing towns."
+   },
+   {
+    "speaker": "field-salt-corporal",
+    "line": "If we wait until one side wins, we face a victorious warlord. If we strike now, both lines are tangled."
+   },
+   {
+    "speaker": "npc-kors-shipwright",
+    "line": "Watch their supply wagons on the ridge—they're hauling Pitch for the Fire-Ships down to Harborwatch."
+   },
+   {
+    "speaker": "hero",
+    "line": "Drive a wedge straight between their standards. Kill both commanders before they sound a truce."
+   },
+   {
+    "speaker": "field-salt-corporal",
+    "line": "Once their warlords drop, sellswords always remember how to surrender."
+   }
+  ],
+  "milestones": [
+   {
+    "trigger": "first_contact",
+    "speaker": "field-salt-corporal",
+    "line": "We're in their flanks! Neither banner saw us coming through the hollow!"
+   },
+   {
+    "trigger": "half_enemies_dead",
+    "speaker": "npc-kors-shipwright",
+    "line": "Ironclad warlord is down! Watch out—the Ashen Banner is trying to rally the survivors!"
+   },
+   {
+    "trigger": "low_morale",
+    "speaker": "npc-lyra-warden",
+    "line": "They're turning their pikes toward us together—break the Ashen standard before they link shields!"
+   },
+   {
+    "trigger": "last_stand",
+    "speaker": "hero",
+    "line": "Both warlords are dead. Offer steel or submission to the rest."
+   }
+  ],
+  "ambient_barks": [
+   "Strike while they're tangled!",
+   "Cut down their standard-bearers!",
+   "Don't let them form a truce!",
+   "Ironclads are breaking!",
+   "Take the Ashen warlord's head!",
+   "Drop your swords or die!",
+   "Mud claims the greedy!",
+   "Banners are in the dirt!"
+  ],
+  "victory_epilogue": [
+   {
+    "speaker": "field-salt-corporal",
+    "line": "Three hundred sellswords threw down their pikes the moment the Ashen standard hit the mud."
+   },
+   {
+    "speaker": "npc-kors-shipwright",
+    "line": "They'll haul supplies and dig trenches for us now—and Harborwatch just lost its hired garrison."
+   },
+   {
+    "speaker": "hero",
+    "line": "Put them in the vanguard for the harbor assault. Let them earn their pardons."
+   }
+  ],
+  "defeat_line": "The rival banners lock shields around your surrounded column, turning the muddy hollow into a killing pen.",
+  "optional_choice": null,
+  "codex_note": "Free companies along the Iron Coast swear oaths only to coin and steel; their banners are stitched from salvaged sailcloth dyed in rust and soot."
+ },
+ "m35-burning-harbor": {
+  "id": "m35-burning-harbor",
+  "intro_scene": [
+   {
+    "speaker": "narrator",
+    "line": "Harborwatch's piers roar like open furnaces as pitch-pots rain down from Admiral Kael's black-sailed flagship."
+   },
+   {
+    "speaker": "npc-kors-shipwright",
+    "line": "Two hundred years of shipwright craft burning to ash! If we don't retake the seawall batteries, the whole bay dies."
+   },
+   {
+    "speaker": "npc-lyra-warden",
+    "line": "Smoke is choking the lower avenues, and cultists are herding dockworkers toward the flaming warehouses."
+   },
+   {
+    "speaker": "vesperion",
+    "line": "Look upon your harbor, mortal. Even the sea refuses to quench what the Crown has kindled."
+   },
+   {
+    "speaker": "hero",
+    "line": "That voice from the flagship—Vesperion's herald commands the fleet. Take the batteries and turn their own catapults on them."
+   },
+   {
+    "speaker": "npc-sera-healer",
+    "line": "My medics will douse the pier-heads behind you. Just keep those fire-pots off our backs!"
+   },
+   {
+    "speaker": "npc-kors-shipwright",
+    "line": "Once the seawall guns speak, I'll ram my own brigantine straight into Kael's hull so your marines can board!"
+   },
+   {
+    "speaker": "hero",
+    "line": "Clear the burning streets. Tonight Harborwatch either rises or becomes a pyre."
+   }
+  ],
+  "milestones": [
+   {
+    "trigger": "first_contact",
+    "speaker": "npc-lyra-warden",
+    "line": "Seawall stairs ahead! Cut through the arson-squads before they spike the coastal trebuchets!"
+   },
+   {
+    "trigger": "objective_halfway",
+    "speaker": "npc-kors-shipwright",
+    "line": "Batteries reclaimed! Aim low—smash Kael's rudder so his flagship can't slip the harbor!"
+   },
+   {
+    "trigger": "low_morale",
+    "speaker": "vesperion",
+    "line": "Burn, little insects. Your cinders will pave the road to the volcanic throne!"
+   },
+   {
+    "trigger": "last_stand",
+    "speaker": "hero",
+    "line": "Grappling hooks are fast on the flagship. Board her and end Admiral Kael."
+   }
+  ],
+  "ambient_barks": [
+   "Douse the pitch! Keep moving!",
+   "Seawall guns—fire at will!",
+   "Board the flagship! Hooks away!",
+   "Kael's deck is burning!",
+   "Cut the anchor cables!",
+   "For Harborwatch! Charge!",
+   "Smoke blinds them—strike now!",
+   "Admiral Kael is down!"
+  ],
+  "victory_epilogue": [
+   {
+    "speaker": "npc-kors-shipwright",
+    "line": "Kael's flagship is sinking in the channel, and Vesperion's phantom vanished with the smoke."
+   },
+   {
+    "speaker": "npc-lyra-warden",
+    "line": "The fire-brigades saved the drydocks. Half the fleet is scorched, but enough hulls float to carry our army south."
+   },
+   {
+    "speaker": "npc-sera-healer",
+    "line": "Beyond the straits lies the volcanic heartland. Nothing there grows—nothing there forgives."
+   },
+   {
+    "speaker": "hero",
+    "line": "Load the transports at high tide. We take the war to their hearth."
+   }
+  ],
+  "defeat_line": "Driven onto the blazing piers with burning oil behind and deep water ahead, your army is consumed by Harborwatch's flames.",
+  "optional_choice": {
+   "prompt": "As Kael's flagship sinks, marines can rescue either locked chests of volcanic navigation charts or trapped Harborwatch shipwrights.",
+   "a": "Save the shipwrights to repair your fleet.",
+   "b": "Seize the volcanic sea-charts before the cabin collapses.",
+   "effect_a": "Provides extra troop transports and +15% unit recovery entering Act 4 (m36).",
+   "effect_b": "Reveals enemy patrol routes and grants +15% ambush damage in Act 4 (m36, m37)."
+  },
+  "codex_note": "Harborwatch was the jewel of the Iron Coast, its lighthouse fueled by refined whale-oil that burned visible for forty leagues through winter gales."
+ },
+ "m36-heartland-march": {
+  "id": "m36-heartland-march",
+  "intro_scene": [
+   {
+    "speaker": "narrator",
+    "line": "Black glass sand crunches underfoot as grey ash drifts down from a sky without sun or stars."
+   },
+   {
+    "speaker": "npc-rowan-commander",
+    "line": "Welcome to the slag-lands. Keep your visors down—the grit here chews through leather and lung alike."
+   },
+   {
+    "speaker": "field-ash-scout",
+    "line": "Highcrest bluff is two miles inland. Cultist outriders are already circling the landing coves like vultures."
+   },
+   {
+    "speaker": "hero",
+    "line": "Form a defensive wedge and secure Highcrest before nightfall. Without high ground, the magma vents will cook us."
+   },
+   {
+    "speaker": "npc-rowan-commander",
+    "line": "My Ironcamp veterans know this terrain. Follow their boot-prints and don't step on yellow crust."
+   },
+   {
+    "speaker": "field-ash-scout",
+    "line": "Yellow crust means boiling sulfur two inches down. Keep your eyes on the ground."
+   }
+  ],
+  "milestones": [
+   {
+    "trigger": "first_contact",
+    "speaker": "field-ash-scout",
+    "line": "Ash-stalkers rising out of the dunes! Watch your flanks—they blend straight into the soot!"
+   },
+   {
+    "trigger": "objective_halfway",
+    "speaker": "npc-rowan-commander",
+    "line": "Halfway up the bluff! Plant the iron stakes and keep the pack-wagons moving!"
+   },
+   {
+    "trigger": "low_morale",
+    "speaker": "field-siege-sapper",
+    "line": "Heat's warping the shield-straps! Drink sparingly—there isn't a clean spring within thirty miles!"
+   },
+   {
+    "trigger": "last_stand",
+    "speaker": "hero",
+    "line": "Clear the Highcrest plateau and raise the command banner."
+   }
+  ],
+  "ambient_barks": [
+   "Stay off the yellow crust!",
+   "Visors down—ash storm!",
+   "Hold the ridge! Dig in!",
+   "Cut down the outriders!",
+   "Keep the water casks safe!",
+   "Ironcamp holds the line!",
+   "Push them off the bluff!",
+   "Highcrest is ours!"
+  ],
+  "victory_epilogue": [
+   {
+    "speaker": "npc-rowan-commander",
+    "line": "Trenches are dug and the windbreaks are up. Ugly ground, but it will hold against a night counterattack."
+   },
+   {
+    "speaker": "field-ash-scout",
+    "line": "The Infernal Sanctuary looms across the caldera—glowing like a cracked ember in the dark."
+   },
+   {
+    "speaker": "hero",
+    "line": "Post double sentries. Nobody sleeps without steel in reach."
+   }
+  ],
+  "defeat_line": "Pinned on the black volcanic beach with boiling surf behind and ash-demons ahead, the expedition is butchered before setting camp.",
+  "optional_choice": null,
+  "codex_note": "The Volcanic Heartland was once Thornvael's fertile breadbasket before the First Cataclysm cracked the mantle and turned orchards into obsidian."
+ },
+ "m37-shattered-beacons": {
+  "id": "m37-shattered-beacons",
+  "intro_scene": [
+   {
+    "speaker": "narrator",
+    "line": "A dome of violet static hums across the obsidian pass, snapping blue lightning against any steel raised near it."
+   },
+   {
+    "speaker": "npc-vok-forgemaster",
+    "line": "Three focusing beacons on those crags feed that barrier. Touch it with a pike and you'll fry inside your mail."
+   },
+   {
+    "speaker": "field-siege-sapper",
+    "line": "Each beacon has a warden bound to its crystal. Kill the warden, crack the prism, and the dome drops."
+   },
+   {
+    "speaker": "hero",
+    "line": "Take the beacons before the citadel's reserve legions finish mustering behind that shield."
+   },
+   {
+    "speaker": "npc-vok-forgemaster",
+    "line": "Use ground-mauls on the crystals—swords will just bounce the discharge back into your wrists."
+   },
+   {
+    "speaker": "field-siege-sapper",
+    "line": "Move fast. Every minute that dome hums, the beams grow hotter."
+   }
+  ],
+  "milestones": [
+   {
+    "trigger": "first_contact",
+    "speaker": "npc-vok-forgemaster",
+    "line": "First beacon ridge! Keep spread out—the crystal arcs lightning between men standing close!"
+   },
+   {
+    "trigger": "objective_halfway",
+    "speaker": "field-siege-sapper",
+    "line": "Two prisms shattered! The dome is flickering—only the east crag still holds power!"
+   },
+   {
+    "trigger": "reinforcements",
+    "speaker": "npc-rowan-commander",
+    "line": "Citadel outriders charging down the pass to relieve the last warden! Intercept them!"
+   },
+   {
+    "trigger": "last_stand",
+    "speaker": "hero",
+    "line": "East warden is down. Smash the last crystal."
+   }
+  ],
+  "ambient_barks": [
+   "Spread out—lightning arcs!",
+   "Mauls to the crystal!",
+   "Kill the beacon warden!",
+   "Shield dome is failing!",
+   "Don't touch the violet barrier!",
+   "Hold the ridge against reserves!",
+   "One prism left—strike!",
+   "The pass is open!"
+  ],
+  "victory_epilogue": [
+   {
+    "speaker": "npc-vok-forgemaster",
+    "line": "Clean shatter. The static is gone and the air smells like ozone instead of scorched hair."
+   },
+   {
+    "speaker": "npc-rowan-commander",
+    "line": "The pass lies open before their reserves could form ranks. Good timing, commander."
+   },
+   {
+    "speaker": "hero",
+    "line": "Collect the prism shards for Vok's forge and advance on Greystone."
+   }
+  ],
+  "defeat_line": "The three beacons converge their beams into a blinding lance of white fire, vaporizing your vanguard on the obsidian pass.",
+  "optional_choice": {
+   "prompt": "The shattered beacons leave behind volatile arcane capacitor cores and scorched obsidian lenses.",
+   "a": "Give the cores to Forgemaster Vok to overcharge your weapons.",
+   "b": "Use the lenses to build an early-warning array at Greystone.",
+   "effect_a": "Grants +15% shock damage to melee units in Act 4; reduces armor durability by 10%.",
+   "effect_b": "Grants +20% defensive sight range and artillery accuracy in m38; forfeits shock weapon bonus."
+  },
+  "codex_note": "Constructed from star-fallen lodestone and bound lightning elementals, the Obsidian Beacons were designed to seal the inner caldera against imperial armies."
+ },
+ "m38-besieged-wall": {
+  "id": "m38-besieged-wall",
+  "intro_scene": [
+   {
+    "speaker": "narrator",
+    "line": "Cracked basalt blocks shower down from Greystone Bastion's parapet as demonic siege-engines thunder below."
+   },
+   {
+    "speaker": "npc-rowan-commander",
+    "line": "Three colossal catapults are hammering my curtain wall to gravel. Another hour and there won't be a parapet left!"
+   },
+   {
+    "speaker": "npc-vok-forgemaster",
+    "line": "My smiths are out of rivets and cold steel—we need fresh Iron on the Wall if we're going to patch these breaches."
+   },
+   {
+    "speaker": "hero",
+    "line": "Hold the ladders first. Once their assault wave breaks, we sally out and burn all three catapults."
+   },
+   {
+    "speaker": "npc-rowan-commander",
+    "line": "Demonic brutes are turning the winches on those engines—ordinary archers won't drop them."
+   },
+   {
+    "speaker": "hero",
+    "line": "Then we kill them up close with fire and steel."
+   }
+  ],
+  "milestones": [
+   {
+    "trigger": "first_contact",
+    "speaker": "npc-rowan-commander",
+    "line": "Grappling ladders on the west battlement! Tip them back before their brutes gain the walkway!"
+   },
+   {
+    "trigger": "objective_halfway",
+    "speaker": "npc-vok-forgemaster",
+    "line": "First siege catapult is ablaze! Open the sally-port—hit the center battery while they're blinded by smoke!"
+   },
+   {
+    "trigger": "low_morale",
+    "speaker": "field-siege-sapper",
+    "line": "East wall just buckled! Plug the breach with shields—don't let them into the inner ward!"
+   },
+   {
+    "trigger": "last_stand",
+    "speaker": "hero",
+    "line": "Only the last catapult remains. Burn it to ash."
+   }
+  ],
+  "ambient_barks": [
+   "Tip the siege ladders!",
+   "Boiling slag—pour it now!",
+   "Sally out! Burn the engines!",
+   "Hold the breach with your lives!",
+   "Hamstring the siege-brutes!",
+   "Greystone will not fall!",
+   "Torch the winch-ropes!",
+   "Catapults are kindling!"
+  ],
+  "victory_epilogue": [
+   {
+    "speaker": "npc-rowan-commander",
+    "line": "Greystone still stands, bruised and smoking, and our supply road back to the coast remains unbroken."
+   },
+   {
+    "speaker": "npc-vok-forgemaster",
+    "line": "My anvils are ringing again. Give me two hours and I'll have every dent hammered out of your vanguard's plate."
+   },
+   {
+    "speaker": "hero",
+    "line": "Repair the sally-port and prepare for pursuit into Ashveil Gorge."
+   }
+  ],
+  "defeat_line": "Greystone's curtain wall collapses in a thunderous avalanche of basalt, burying Rowan's garrison beneath the rubble.",
+  "optional_choice": null,
+  "codex_note": "Greystone Bastion plugs the sole wagon-wide defile into the volcanic core; its walls are mortared with pulverized pumice that hardens under heat."
+ },
+ "m39-flight-of-malrik": {
+  "id": "m39-flight-of-malrik",
+  "intro_scene": [
+   {
+    "speaker": "narrator",
+    "line": "Violet sparks trail down Ashveil Gorge like bleeding stars where Arch-Mage Malrik flees toward the summit gate."
+   },
+   {
+    "speaker": "npc-elias-penitent",
+    "line": "Malrik carries the desecration codices. If he steps through that summit portal, the inner sanctum's wards become unbreakable."
+   },
+   {
+    "speaker": "field-ash-scout",
+    "line": "He's raising walls of jagged obsidian behind him to slow our pursuit, and leaving bound horrors in the clefts."
+   },
+   {
+    "speaker": "hero",
+    "line": "Push the vanguard at a forced march. Cut through his rearguard and catch him on the portal stairs."
+   },
+   {
+    "speaker": "npc-elias-penitent",
+    "line": "Do not let him finish his final incantation—his blood is bound to the gate's keystone."
+   },
+   {
+    "speaker": "hero",
+    "line": "Then he dies before he speaks the last syllable."
+   }
+  ],
+  "milestones": [
+   {
+    "trigger": "first_contact",
+    "speaker": "field-ash-scout",
+    "line": "Obsidian barrier across the narrows! Shatter the keystone runes and keep running!"
+   },
+   {
+    "trigger": "objective_halfway",
+    "speaker": "npc-elias-penitent",
+    "line": "I see his crimson robe on the upper switchback! He's already channeling the summit portal!"
+   },
+   {
+    "trigger": "reinforcements",
+    "speaker": "npc-rowan-commander",
+    "line": "Shadow constructs erupting from the gorge walls! Don't get pinned—keep eyes on Malrik!"
+   },
+   {
+    "trigger": "last_stand",
+    "speaker": "hero",
+    "line": "He's on the portal steps. Strike him down now!"
+   }
+  ],
+  "ambient_barks": [
+   "Faster! The portal is opening!",
+   "Smash the obsidian wall!",
+   "Don't let Malrik chant!",
+   "Cut through his constructs!",
+   "Gorge is collapsing—move!",
+   "Seize the black grimoires!",
+   "Interrupt his ritual!",
+   "Arch-Mage Malrik is slain!"
+  ],
+  "victory_epilogue": [
+   {
+    "speaker": "npc-elias-penitent",
+    "line": "The portal collapsed the instant his heart stopped. Look at these grimoires—every leyline conduit in the citadel is mapped inside."
+   },
+   {
+    "speaker": "field-ash-scout",
+    "line": "Without Malrik, their outer batteries have lost their master-weaver."
+   },
+   {
+    "speaker": "hero",
+    "line": "Keep those books wrapped in lead-cloth. We'll need every secret inside."
+   }
+  ],
+  "defeat_line": "Malrik vanishes into the blinding portal with a mocking laugh as the obsidian canyon walls cave inward atop your column.",
+  "optional_choice": {
+   "prompt": "Malrik's corpse clutches both his forbidden leyline grimoire and a soul-phylactery pulsing with trapped elemental essence.",
+   "a": "Keep the grimoire intact to weaken the citadel's final wards.",
+   "b": "Shatter the phylactery to restore your army's depleted arcane reserves.",
+   "effect_a": "Reduces enemy ward defenses in m45 and m46; curses vanguard with -10% shadow resistance.",
+   "effect_b": "Fully restores mage mana and heals +25% across all squads; forfeits leyline intelligence."
+  },
+  "codex_note": "Once First Archivist of the Crown College, Malrik traded his sight for the ability to read volcanic leylines like veins beneath skin."
+ },
+ "m40-twofold-assault": {
+  "id": "m40-twofold-assault",
+  "intro_scene": [
+   {
+    "speaker": "narrator",
+    "line": "Twin crag bastions straddle the citadel causeway like iron jaws, each housing a rune-engraved mana-cannon."
+   },
+   {
+    "speaker": "npc-vok-forgemaster",
+    "line": "One blast from those barrels turns a shield-wall into vapor. Marching down the center road is suicide."
+   },
+   {
+    "speaker": "field-siege-sapper",
+    "line": "We split into two strike columns and climb the blind scree behind each crag, or hit one fast before the other can traverse."
+   },
+   {
+    "speaker": "npc-vok-forgemaster",
+    "line": "Look at the west furnace vent—they call that trench The Unquenched Jaw. Keep clear of its slag-spouts."
+   },
+   {
+    "speaker": "hero",
+    "line": "Take both crags systematically. Silence the cannons before the main column steps onto the causeway."
+   },
+   {
+    "speaker": "npc-rowan-commander",
+    "line": "Signal with red flares when the first breech blows so the second team knows when to strike."
+   }
+  ],
+  "milestones": [
+   {
+    "trigger": "first_contact",
+    "speaker": "field-siege-sapper",
+    "line": "Stay behind the basalt outcrops! The cannons fire every twenty heartbeats—move between volleys!"
+   },
+   {
+    "trigger": "objective_halfway",
+    "speaker": "npc-vok-forgemaster",
+    "line": "West mana-cannon is spiked and burning! Now pivot everything onto the east crag!"
+   },
+   {
+    "trigger": "low_morale",
+    "speaker": "npc-rowan-commander",
+    "line": "Artillery splash just wiped out the vanguard scouts—keep climbing, the dead zone is twenty yards ahead!"
+   },
+   {
+    "trigger": "last_stand",
+    "speaker": "hero",
+    "line": "East redoubt gunners are cornered. Dismantle the last cannon."
+   }
+  ],
+  "ambient_barks": [
+   "Take cover—cannon charging!",
+   "Move between the volleys!",
+   "Spike the mana-breech!",
+   "West battery is silent!",
+   "Climb the east scree!",
+   "Kill the rune-gunners!",
+   "Causeway is clearing!",
+   "Both bastions are ours!"
+  ],
+  "victory_epilogue": [
+   {
+    "speaker": "npc-vok-forgemaster",
+    "line": "I cracked both mana-barrels with cold-iron wedges. Neither gun will ever fire again."
+   },
+   {
+    "speaker": "npc-rowan-commander",
+    "line": "The causeway to the Gauntlet is clear of artillery. Our heavy troops can march in full formation."
+   },
+   {
+    "speaker": "hero",
+    "line": "Bring up the siege shields. The narrow canyon comes next."
+   }
+  ],
+  "defeat_line": "Twin beams of compressed mana sweep the causeway in crossfire, reducing your assault columns to drifting grey ash.",
+  "optional_choice": null,
+  "codex_note": "Cast from meteoric bronze in the foundries of the deep caldera, the Twin Mana-Cannons require three bound warlocks apiece merely to cool their barrels."
+ },
+ "m41-gauntlet-of-iron": {
+  "id": "m41-gauntlet-of-iron",
+  "intro_scene": [
+   {
+    "speaker": "narrator",
+    "line": "Sheer iron-veined cliffs squeeze the canyon road to thirty paces wide, barred by three spiked portcullises."
+   },
+   {
+    "speaker": "npc-rowan-commander",
+    "line": "The Gauntlet of Iron. Three checkpoints, iron golems at every gate, and crossbow nests carved into the rock above."
+   },
+   {
+    "speaker": "npc-elias-penitent",
+    "line": "Among the ash-heaps by the first gate lie fragments of The Burnt Syllabus—records of how those golems were animated."
+   },
+   {
+    "speaker": "hero",
+    "line": "Advance under locked tower-shields. Sappers crack the gates while mages strip the cliffs."
+   },
+   {
+    "speaker": "npc-vok-forgemaster",
+    "line": "Watch those iron golems—their chests glow white-hot right before they swing."
+   },
+   {
+    "speaker": "npc-rowan-commander",
+    "line": "Every yard here costs blood. Keep the line tight and don't let them drop a gate behind us."
+   }
+  ],
+  "milestones": [
+   {
+    "trigger": "first_contact",
+    "speaker": "npc-rowan-commander",
+    "line": "Shields overhead! Bolts raining from the cliff niches—advance in tortoise formation!"
+   },
+   {
+    "trigger": "objective_halfway",
+    "speaker": "field-siege-sapper",
+    "line": "Second portcullis blown! Iron golems stepping out of the side alcoves—ready armor-piercing rounds!"
+   },
+   {
+    "trigger": "low_morale",
+    "speaker": "npc-elias-penitent",
+    "line": "The canyon is choked with smoke and dead—hold your nerve, the third gate is fifty paces ahead!"
+   },
+   {
+    "trigger": "last_stand",
+    "speaker": "hero",
+    "line": "Break the final checkpoint. The outer citadel wall lies just beyond."
+   }
+  ],
+  "ambient_barks": [
+   "Shields up! Cliff ambush!",
+   "Crack the portcullis chains!",
+   "Iron golem advancing—scatter!",
+   "Clear the rock ledges!",
+   "Don't get trapped between gates!",
+   "Sappers forward! Set the charges!",
+   "Push through the smoke!",
+   "The Gauntlet is broken!"
+  ],
+  "victory_epilogue": [
+   {
+    "speaker": "npc-rowan-commander",
+    "line": "Three checkpoints taken, and every iron golem lies in scrap. That was the bloodiest mile of the war."
+   },
+   {
+    "speaker": "npc-vok-forgemaster",
+    "line": "We stand beneath the Outer Rampart now. Nowhere left for the enemy to retreat."
+   },
+   {
+    "speaker": "hero",
+    "line": "Rest the wounded for one hour, then ready the siege towers."
+   }
+  ],
+  "defeat_line": "Heavy iron portcullises slam shut behind and ahead, trapping your vanguard in a narrow canyon of crossfire and crushing steel.",
+  "optional_choice": {
+   "prompt": "Captured iron golem cores can either be rigged as demolition charges for the Outer Rampart or melted into heavy plate.",
+   "a": "Rig the cores as volatile breach-charges for m42.",
+   "b": "Reforge the golem plates into heavy infantry armor.",
+   "effect_a": "Instantly breaches one outer gatehouse in m42; injures sappers during transport.",
+   "effect_b": "Grants +15% physical armor for the remainder of Act 4; slows siege advance in m42."
+  },
+  "codex_note": "Cut straight through a vein of raw magnetic iron, the Gauntlet was engineered so a hundred defenders could bleed an army of ten thousand."
+ },
+ "m42-outer-rampart": {
+  "id": "m42-outer-rampart",
+  "intro_scene": [
+   {
+    "speaker": "narrator",
+    "line": "Molten rock glows sluggishly in the moat below the Infernal Citadel's towering basalt curtain wall."
+   },
+   {
+    "speaker": "npc-vok-forgemaster",
+    "line": "Three outer gatehouses control the drawbridge winches. Crack at least two and we can drop that iron span across the lava."
+   },
+   {
+    "speaker": "field-siege-sapper",
+    "line": "Listen to that rumble from the left flank—sounds like Thunder on the Glacis where their heavy mortars are bedded."
+   },
+   {
+    "speaker": "hero",
+    "line": "Focus assault teams on the West and Center gatehouses. Ignore the East tower unless a flank opens."
+   },
+   {
+    "speaker": "npc-rowan-commander",
+    "line": "Watch for boiling pitch chutes above the gates. Keep the battering rams covered with wet hides."
+   },
+   {
+    "speaker": "npc-vok-forgemaster",
+    "line": "Once that drawbridge drops, there's nothing between us and the inner courtyard."
+   }
+  ],
+  "milestones": [
+   {
+    "trigger": "first_contact",
+    "speaker": "npc-rowan-commander",
+    "line": "Ladders up on the West wall! Keep suppressing fire on the battlements while the rams work!"
+   },
+   {
+    "trigger": "objective_halfway",
+    "speaker": "npc-vok-forgemaster",
+    "line": "West gatehouse is ours! One winch down—push into the Center gatehouse before they counterattack!"
+   },
+   {
+    "trigger": "reinforcements",
+    "speaker": "field-siege-sapper",
+    "line": "Stone brutes marching along the wall-walk! Bring up the heavy crossbows!"
+   },
+   {
+    "trigger": "last_stand",
+    "speaker": "hero",
+    "line": "Both winches are cut. Drop the drawbridge!"
+   }
+  ],
+  "ambient_barks": [
+   "Wet hides over the rams!",
+   "Take the gatehouse winches!",
+   "Watch the boiling pitch!",
+   "West tower is secured!",
+   "Cut the drawbridge chains!",
+   "Hold the wall-walk!",
+   "Drawbridge is falling!",
+   "Into the inner courtyard!"
+  ],
+  "victory_epilogue": [
+   {
+    "speaker": "npc-vok-forgemaster",
+    "line": "The iron span slammed down so hard it cracked the basalt lip on both sides. The inner courtyard is open!"
+   },
+   {
+    "speaker": "npc-rowan-commander",
+    "line": "Our banners fly on the Outer Rampart, though scouts report dust plumes rising on three horizon roads."
+   },
+   {
+    "speaker": "hero",
+    "line": "Turn the rampart's defenses outward. If relief armies are coming, we meet them on our terms."
+   }
+  ],
+  "defeat_line": "Boiling pitch and stone boulders shatter your siege rams at the moat's edge, leaving the drawbridge raised above a sea of fire.",
+  "optional_choice": null,
+  "codex_note": "Fed by diverted magma channels from the central caldera, the Citadel's moat was built to turn failed assaults into cremations."
+ },
+ "m43-three-roads-siege": {
+  "id": "m43-three-roads-siege",
+  "intro_scene": [
+   {
+    "speaker": "narrator",
+    "line": "Three plumes of ash-dust converge across the blackened plain toward Three-Roads Watch behind your siege camp."
+   },
+   {
+    "speaker": "field-ash-scout",
+    "line": "North, west, and east—three enemy relief columns marching to crush us against the citadel walls!"
+   },
+   {
+    "speaker": "npc-rowan-commander",
+    "line": "If they link up around our camp, we're caught between the anvil and the hammer."
+   },
+   {
+    "speaker": "field-siege-sapper",
+    "line": "The western column is escorting a Slag-Trench Convoy packed with siege powder—hit that and it'll blow half their vanguard."
+   },
+   {
+    "speaker": "hero",
+    "line": "We defeat them in detail. Strike the fastest column first, then pivot before the others arrive."
+   },
+   {
+    "speaker": "npc-rowan-commander",
+    "line": "No digging in—mobility is the only thing keeping us alive today."
+   }
+  ],
+  "milestones": [
+   {
+    "trigger": "first_contact",
+    "speaker": "field-ash-scout",
+    "line": "North column engaged! Break their vanguard quickly—the west host is less than a mile out!"
+   },
+   {
+    "trigger": "objective_halfway",
+    "speaker": "npc-rowan-commander",
+    "line": "North road cleared! Pivot the cavalry west—hit them while they're still in march column!"
+   },
+   {
+    "trigger": "low_morale",
+    "speaker": "field-siege-sapper",
+    "line": "East column is hitting our camp perimeter! Hold the barricades until the main force wheels back!"
+   },
+   {
+    "trigger": "last_stand",
+    "speaker": "hero",
+    "line": "Two columns broken. Shatter the eastern host and seal the sanctum."
+   }
+  ],
+  "ambient_barks": [
+   "Break them before they join!",
+   "Hit the powder wagons!",
+   "Pivot west—double time!",
+   "Hold the camp perimeter!",
+   "No relief reaches the citadel!",
+   "Flank their march column!",
+   "East host is wavering!",
+   "All three roads are clear!"
+  ],
+  "victory_epilogue": [
+   {
+    "speaker": "npc-rowan-commander",
+    "line": "Three relief armies scattered across the ash fields. No help is coming for whatever waits inside that vault."
+   },
+   {
+    "speaker": "field-ash-scout",
+    "line": "The citadel is completely isolated. Even the crows have fled the caldera."
+   },
+   {
+    "speaker": "hero",
+    "line": "Gather the veterans. We enter the Crown Vault."
+   }
+  ],
+  "defeat_line": "Three relief armies slam into your camp simultaneously, crushing your surrounded host against the outer basalt walls.",
+  "optional_choice": {
+   "prompt": "Wounded deserters from the shattered relief columns beg for water and offer the password to the inner sanctum's side postern.",
+   "a": "Share your scarce water rations to learn the postern password.",
+   "b": "Conserve your water for the final assault and force the main vault doors.",
+   "effect_a": "Unlocks a flanking entry in m44; reduces troop stamina by 10% due to water rationing.",
+   "effect_b": "Preserves full troop stamina for m44; requires fighting through heavy front-door traps."
+  },
+  "codex_note": "Three-Roads Watch marks the ancient crossroads where tribute caravans from the four provinces once converged before ascending to the Crown Vault."
+ },
+ "m44-threshold-choice": {
+  "id": "m44-threshold-choice",
+  "intro_scene": [
+   {
+    "speaker": "narrator",
+    "line": "Two colossal doors dominate the obsidian nave: one inlaid with pale silver stars, the other weeping liquid fire."
+   },
+   {
+    "speaker": "npc-elias-penitent",
+    "line": "The Threshold Chamber. Beyond the silver door lies the Altar of Order; beyond the molten seal burns the Obsidian Throne."
+   },
+   {
+    "speaker": "npc-vok-forgemaster",
+    "line": "Listen to that eerie chanting from the upper galleries—like The Choir in the Nave singing through iron masks."
+   },
+   {
+    "speaker": "hero",
+    "line": "First we clear the Arch-Warden's praetors guarding this hall. Then we decide what Thornvael becomes."
+   },
+   {
+    "speaker": "npc-elias-penitent",
+    "line": "The Crown of Order will purge the shadow, commander, though its light burns away everything forged in dark times."
+   },
+   {
+    "speaker": "npc-vok-forgemaster",
+    "line": "And the primal ember offers strength enough to rule the world—if it doesn't incinerate your soul first."
+   }
+  ],
+  "milestones": [
+   {
+    "trigger": "first_contact",
+    "speaker": "npc-rowan-commander",
+    "line": "Praetors advancing in silent lockstep! Watch their polearms—they strike in unison!"
+   },
+   {
+    "trigger": "half_enemies_dead",
+    "speaker": "npc-elias-penitent",
+    "line": "The vault runes are reacting to our blood! Keep the center dais clear!"
+   },
+   {
+    "trigger": "low_morale",
+    "speaker": "npc-vok-forgemaster",
+    "line": "Heat from the Ember Door is blistering our shields—finish the Arch-Warden's guard!"
+   },
+   {
+    "trigger": "last_stand",
+    "speaker": "hero",
+    "line": "The Arch-Warden falls. The threshold stands open."
+   }
+  ],
+  "ambient_barks": [
+   "Break the praetor phalanx!",
+   "Keep off the glowing runes!",
+   "Silver star or primal flame!",
+   "Arch-Warden's guard is cracking!",
+   "Hold the center dais!",
+   "Steel rings in the nave!",
+   "Last praetor down!",
+   "Choose Thornvael's fate!"
+  ],
+  "victory_epilogue": [
+   {
+    "speaker": "npc-elias-penitent",
+    "line": "Both seals await your hand. Restore the Crown of Order, or claim the Ember Throne—there is no turning back."
+   },
+   {
+    "speaker": "npc-rowan-commander",
+    "line": "My veterans followed you through mud, tide, and ash. Whatever door you open, we stand behind you."
+   },
+   {
+    "speaker": "hero",
+    "line": "The long march ends beyond these doors."
+   }
+  ],
+  "defeat_line": "Struck down upon the Threshold dais, your blood feeds the twin seals while Thornvael burns unchallenged above.",
+  "optional_choice": {
+   "prompt": "Standing before the twin doors of destiny, you commit your expedition to its final path.",
+   "a": "Unseal the Path of Order to restore the Crown and purge the shadow (Unlocks m45).",
+   "b": "Break the Path of Ember to seize the primal flame and Dark Throne (Unlocks m46).",
+   "effect_a": "Commits the campaign to Ending A (m45-crown-of-order); grants celestial ward aura.",
+   "effect_b": "Commits the campaign to Ending B (m46-ember-reckoning); grants infernal wrath aura."
+  },
+  "codex_note": "Built at the exact geometric center of the caldera, the Threshold Chamber was designed so no sovereign could claim the Crown without confronting its fire."
+ },
+ "m45-crown-of-order": {
+  "id": "m45-crown-of-order",
+  "intro_scene": [
+   {
+    "speaker": "narrator",
+    "line": "Pale starlight pierces the cracked vault dome, illuminating a fractured marble altar choked with black ash."
+   },
+   {
+    "speaker": "npc-elias-penitent",
+    "line": "Bind the West and East Anchor Seals first. Until the celestial leylines stabilize, the altar will reject the Crown."
+   },
+   {
+    "speaker": "npc-rowan-commander",
+    "line": "Shadow praetorians are pouring from every alcove to smash those seals before we finish!"
+   },
+   {
+    "speaker": "hero",
+    "line": "Hold both Anchor Seals at all costs. Once the light catches, the darkness has nowhere to hide."
+   },
+   {
+    "speaker": "npc-elias-penitent",
+    "line": "Be warned—the Crown's cleansing fire spares no corruption, not even the scars we carry."
+   },
+   {
+    "speaker": "hero",
+    "line": "Better clean ash than an eternal rot. Hold the line."
+   }
+  ],
+  "milestones": [
+   {
+    "trigger": "first_contact",
+    "speaker": "npc-rowan-commander",
+    "line": "Praetorians rushing the West Seal! Form a steel crescent around the rune-stone!"
+   },
+   {
+    "trigger": "objective_halfway",
+    "speaker": "npc-elias-penitent",
+    "line": "West Seal bound! Now hold the East Anchor while the leyline harmonics align!"
+   },
+   {
+    "trigger": "reinforcements",
+    "speaker": "npc-vok-forgemaster",
+    "line": "Shadow horrors dropping from the dome ribs! Keep them off the central altar!"
+   },
+   {
+    "trigger": "last_stand",
+    "speaker": "hero",
+    "line": "Both seals are singing. Place the Crown upon the altar."
+   }
+  ],
+  "ambient_barks": [
+   "Protect the Anchor Seals!",
+   "Starlight burns the shadow!",
+   "Hold the marble steps!",
+   "Don't let them crack the rune!",
+   "Praetorians on the flank!",
+   "Leylines are stabilizing!",
+   "Crown to the altar!",
+   "Dawn breaks over Thornvael!"
+  ],
+  "victory_epilogue": [
+   {
+    "speaker": "narrator",
+    "line": "White-gold radiance erupts from the Crown of Order, washing across the caldera like a silent tidal wave of dawn."
+   },
+   {
+    "speaker": "npc-elias-penitent",
+    "line": "The ash is turning to grey rain. For the first time in a generation, the sky above Thornvael is blue."
+   },
+   {
+    "speaker": "hero",
+    "line": "Lay down your shields. The realm is clean."
+   }
+  ],
+  "defeat_line": "The Anchor Seals shatter into black dust, and an unyielding tide of shadow extinguishes the last starlight in Thornvael.",
+  "optional_choice": null,
+  "codex_note": "Forged from fallen star-iron and tempered in mountain snow, the Crown of Order was meant to bind sovereigns to the welfare of the land."
+ },
+ "m46-ember-reckoning": {
+  "id": "m46-ember-reckoning",
+  "intro_scene": [
+   {
+    "speaker": "narrator",
+    "line": "Roaring magma illuminates the Obsidian Throne as primordial fire spirals upward into the vaulted dark."
+   },
+   {
+    "speaker": "ashkarath",
+    "line": "So the dog finally climbs the ash-heap. Come, mortal—claim the flame if your bones can bear its weight."
+   },
+   {
+    "speaker": "npc-vok-forgemaster",
+    "line": "Shatter the West and East Conduit Pillars! Those chains bind the primal fire to Ashkarath's wardens!"
+   },
+   {
+    "speaker": "npc-rowan-commander",
+    "line": "My veterans didn't bleed across four provinces to bow to a demon—or burn for nothing. Give the word!"
+   },
+   {
+    "speaker": "ashkarath",
+    "line": "Break the pillars and the fire will strip your flesh to cinders before you touch a single step!"
+   },
+   {
+    "speaker": "hero",
+    "line": "Smash the conduits. If Thornvael must be ruled by fire, it will be my hand holding the brand."
+   },
+   {
+    "speaker": "field-siege-sapper",
+    "line": "Charges are set on the West Pillar! Clear the blast zone when the stone cracks!"
+   },
+   {
+    "speaker": "ashkarath",
+    "line": "Then burn, usurper! Let us see whose will is harder than obsidian!"
+   }
+  ],
+  "milestones": [
+   {
+    "trigger": "first_contact",
+    "speaker": "npc-vok-forgemaster",
+    "line": "West Conduit Pillar is cracking! Watch the molten backlash—keep your shields angled!"
+   },
+   {
+    "trigger": "objective_halfway",
+    "speaker": "ashkarath",
+    "line": "You dare unchain the deep fire? My wardens will tear your soul from your ribs!"
+   },
+   {
+    "trigger": "low_morale",
+    "speaker": "npc-rowan-commander",
+    "line": "The floor is splitting into magma vents! Push onto the Obsidian Dais—nowhere else is solid!"
+   },
+   {
+    "trigger": "last_stand",
+    "speaker": "hero",
+    "line": "Both conduits are shattered. Kneel, Ashkarath, or turn to ash."
+   }
+  ],
+  "ambient_barks": [
+   "Shatter the Conduit Pillars!",
+   "Bow before the new Sovereign!",
+   "Magma rising—take the dais!",
+   "Subjugate the flame-wardens!",
+   "Ashkarath is weakening!",
+   "Crown of fire, throne of glass!",
+   "No gods, no masters—only iron!",
+   "The Obsidian Throne is ours!"
+  ],
+  "victory_epilogue": [
+   {
+    "speaker": "narrator",
+    "line": "Primordial embers coil around your gauntlets like living gold as Ashkarath's legions drop to one knee across the hall."
+   },
+   {
+    "speaker": "ashkarath",
+    "line": "The flame... answers you. Even the deep dark knows its master now."
+   },
+   {
+    "speaker": "npc-rowan-commander",
+    "line": "Thornwick to the caldera—every banner bends to your word, my lord."
+   },
+   {
+    "speaker": "hero",
+    "line": "Send word to the coast. A new age begins in iron and ember."
+   }
+  ],
+  "defeat_line": "The unchained fire surges through your veins, leaving nothing upon the Obsidian Throne but a hollow suit of blackened plate.",
+  "optional_choice": null,
+  "codex_note": "Carved from a single monolith of volcanic glass, the Obsidian Throne was left empty by the First Emperors, who feared any mortal who sat upon it would never die."
+ }
+}

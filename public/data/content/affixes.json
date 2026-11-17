@@ -1,0 +1,759 @@
+[
+ {
+  "id": "pref-stout",
+  "kind": "prefix",
+  "name": "Stout",
+  "slots": [
+   "weapon",
+   "armor",
+   "shield",
+   "helm"
+  ],
+  "stat": "body",
+  "min": 1,
+  "max": 1,
+  "tier": 1,
+  "flavor": "Thickened with pig-iron rivets and provincial stubbornness."
+ },
+ {
+  "id": "pref-oxen",
+  "kind": "prefix",
+  "name": "Oxen",
+  "slots": [
+   "weapon",
+   "armor",
+   "shield",
+   "boots"
+  ],
+  "stat": "body",
+  "min": 1,
+  "max": 2,
+  "tier": 2,
+  "flavor": "Heavy enough to leave ruts in the frontier mud."
+ },
+ {
+  "id": "pref-quarry-born",
+  "kind": "prefix",
+  "name": "Quarry-Born",
+  "slots": [
+   "weapon",
+   "armor",
+   "shield"
+  ],
+  "stat": "body",
+  "min": 2,
+  "max": 3,
+  "tier": 3,
+  "flavor": "Forged by men who died of stone-lung before thirty."
+ },
+ {
+  "id": "pref-colossus-wrought",
+  "kind": "prefix",
+  "name": "Colossus-Wrought",
+  "slots": [
+   "weapon",
+   "armor",
+   "shield"
+  ],
+  "stat": "body",
+  "min": 3,
+  "max": 4,
+  "tier": 4,
+  "flavor": "It does not fit a human shoulder; the shoulder must adapt."
+ },
+ {
+  "id": "pref-lucid",
+  "kind": "prefix",
+  "name": "Lucid",
+  "slots": [
+   "weapon",
+   "helm",
+   "armor",
+   "ring",
+   "amulet"
+  ],
+  "stat": "mind",
+  "min": 1,
+  "max": 1,
+  "tier": 1,
+  "flavor": "Keeps the marsh-fever fog at bay for another hour."
+ },
+ {
+  "id": "pref-scribe-marked",
+  "kind": "prefix",
+  "name": "Scribe-Marked",
+  "slots": [
+   "weapon",
+   "helm",
+   "armor",
+   "ring"
+  ],
+  "stat": "mind",
+  "min": 1,
+  "max": 2,
+  "tier": 2,
+  "flavor": "Notched with tiny, obsessive tally marks in the margin."
+ },
+ {
+  "id": "pref-vesperal",
+  "kind": "prefix",
+  "name": "Vesperal",
+  "slots": [
+   "weapon",
+   "helm",
+   "armor",
+   "amulet"
+  ],
+  "stat": "mind",
+  "min": 2,
+  "max": 3,
+  "tier": 3,
+  "flavor": "Smells faintly of snuffed church tallow and cold stone."
+ },
+ {
+  "id": "pref-archon-forged",
+  "kind": "prefix",
+  "name": "Archon-Forged",
+  "slots": [
+   "weapon",
+   "helm",
+   "armor",
+   "amulet"
+  ],
+  "stat": "mind",
+  "min": 3,
+  "max": 4,
+  "tier": 4,
+  "flavor": "Hums with a geometry that makes the teeth ache."
+ },
+ {
+  "id": "pref-brisk",
+  "kind": "prefix",
+  "name": "Brisk",
+  "slots": [
+   "boots",
+   "weapon",
+   "armor"
+  ],
+  "stat": "speed",
+  "min": 3,
+  "max": 6,
+  "tier": 1,
+  "flavor": "Lightened by paring away every ounce of ornament."
+ },
+ {
+  "id": "pref-fleet",
+  "kind": "prefix",
+  "name": "Fleet",
+  "slots": [
+   "boots",
+   "weapon",
+   "ring"
+  ],
+  "stat": "speed",
+  "min": 7,
+  "max": 11,
+  "tier": 2,
+  "flavor": "Made for couriers who are paid only if they survive."
+ },
+ {
+  "id": "pref-galestrung",
+  "kind": "prefix",
+  "name": "Galestrung",
+  "slots": [
+   "boots",
+   "weapon",
+   "amulet"
+  ],
+  "stat": "speed",
+  "min": 12,
+  "max": 16,
+  "tier": 3,
+  "flavor": "The leather whistles sharply when swung against the wind."
+ },
+ {
+  "id": "pref-hale",
+  "kind": "prefix",
+  "name": "Hale",
+  "slots": [
+   "armor",
+   "helm",
+   "shield",
+   "ring",
+   "amulet"
+  ],
+  "stat": "hp",
+  "min": 8,
+  "max": 15,
+  "tier": 1,
+  "flavor": "Smells of boiled leather and willow-bark poultice."
+ },
+ {
+  "id": "pref-blood-warm",
+  "kind": "prefix",
+  "name": "Blood-Warm",
+  "slots": [
+   "armor",
+   "helm",
+   "shield",
+   "amulet"
+  ],
+  "stat": "hp",
+  "min": 16,
+  "max": 28,
+  "tier": 2,
+  "flavor": "Retains the heat of its previous owner's final fever."
+ },
+ {
+  "id": "pref-sinew-bound",
+  "kind": "prefix",
+  "name": "Sinew-Bound",
+  "slots": [
+   "armor",
+   "helm",
+   "shield",
+   "ring"
+  ],
+  "stat": "hp",
+  "min": 30,
+  "max": 45,
+  "tier": 3,
+  "flavor": "Stitched with cured salt-marsh tendon that refuses to part."
+ },
+ {
+  "id": "pref-immortal",
+  "kind": "prefix",
+  "name": "Undying",
+  "slots": [
+   "armor",
+   "shield",
+   "amulet"
+  ],
+  "stat": "hp",
+  "min": 48,
+  "max": 68,
+  "tier": 4,
+  "flavor": "The heart keeps beating long after the mind begs it to stop."
+ },
+ {
+  "id": "pref-wellspring",
+  "kind": "prefix",
+  "name": "Wellspring",
+  "slots": [
+   "weapon",
+   "helm",
+   "armor",
+   "ring",
+   "amulet"
+  ],
+  "stat": "mana",
+  "min": 8,
+  "max": 14,
+  "tier": 1,
+  "flavor": "Condensation gathers on the rim even in the dry wastes."
+ },
+ {
+  "id": "pref-vessel",
+  "kind": "prefix",
+  "name": "Deep-Vessel",
+  "slots": [
+   "weapon",
+   "helm",
+   "armor",
+   "amulet"
+  ],
+  "stat": "mana",
+  "min": 16,
+  "max": 26,
+  "tier": 2,
+  "flavor": "Hollowed out to hold more aether than is strictly safe."
+ },
+ {
+  "id": "pref-ley-steeped",
+  "kind": "prefix",
+  "name": "Ley-Steeped",
+  "slots": [
+   "weapon",
+   "helm",
+   "armor",
+   "ring"
+  ],
+  "stat": "mana",
+  "min": 28,
+  "max": 42,
+  "tier": 3,
+  "flavor": "Buried for seven winters beneath a cracked border cairn."
+ },
+ {
+  "id": "pref-abyssal-font",
+  "kind": "prefix",
+  "name": "Astral-Font",
+  "slots": [
+   "weapon",
+   "helm",
+   "armor",
+   "amulet"
+  ],
+  "stat": "mana",
+  "min": 45,
+  "max": 65,
+  "tier": 4,
+  "flavor": "Staring into the polish reveals stars that died centuries ago."
+ },
+ {
+  "id": "pref-riveted",
+  "kind": "prefix",
+  "name": "Riveted",
+  "slots": [
+   "armor",
+   "shield",
+   "helm",
+   "boots"
+  ],
+  "stat": "armor",
+  "min": 1,
+  "max": 2,
+  "tier": 1,
+  "flavor": "Patched with boilerplate from a dismantled river barge."
+ },
+ {
+  "id": "pref-bastion",
+  "kind": "prefix",
+  "name": "Bastion-Grade",
+  "slots": [
+   "armor",
+   "shield",
+   "helm",
+   "boots"
+  ],
+  "stat": "armor",
+  "min": 3,
+  "max": 4,
+  "tier": 2,
+  "flavor": "Stamped with the quartermaster's seal of Oakhaven."
+ },
+ {
+  "id": "pref-citadel-plated",
+  "kind": "prefix",
+  "name": "Citadel-Plated",
+  "slots": [
+   "armor",
+   "shield",
+   "helm"
+  ],
+  "stat": "armor",
+  "min": 5,
+  "max": 7,
+  "tier": 3,
+  "flavor": "Turns aside crossbow quarrels with a dull, indifferent thud."
+ },
+ {
+  "id": "pref-true-sighted",
+  "kind": "prefix",
+  "name": "True-Sighted",
+  "slots": [
+   "weapon",
+   "helm",
+   "ring"
+  ],
+  "stat": "accuracy",
+  "min": 2,
+  "max": 4,
+  "tier": 2,
+  "flavor": "Balanced to compensate for a trembling, gin-soaked hand."
+ },
+ {
+  "id": "pref-unerring",
+  "kind": "prefix",
+  "name": "Unerring",
+  "slots": [
+   "weapon",
+   "helm",
+   "ring",
+   "amulet"
+  ],
+  "stat": "accuracy",
+  "min": 5,
+  "max": 8,
+  "tier": 4,
+  "flavor": "Finds the gap between gorget and collarbone without being asked."
+ },
+ {
+  "id": "suff-of-the-ford",
+  "kind": "suffix",
+  "name": "of the Ford",
+  "slots": [
+   "boots",
+   "armor",
+   "shield"
+  ],
+  "stat": "cold_res",
+  "min": 8,
+  "max": 14,
+  "tier": 1,
+  "flavor": "Greased with mutton tallow against the icy river shallows."
+ },
+ {
+  "id": "suff-of-winter-watch",
+  "kind": "suffix",
+  "name": "of Winter Watch",
+  "slots": [
+   "armor",
+   "helm",
+   "boots",
+   "amulet",
+   "ring"
+  ],
+  "stat": "cold_res",
+  "min": 16,
+  "max": 26,
+  "tier": 2,
+  "flavor": "Worn by sentries who chipped frost from their eyelids at dawn."
+ },
+ {
+  "id": "suff-of-the-glacier",
+  "kind": "suffix",
+  "name": "of the Rime-Vault",
+  "slots": [
+   "armor",
+   "shield",
+   "amulet",
+   "ring"
+  ],
+  "stat": "cold_res",
+  "min": 28,
+  "max": 40,
+  "tier": 4,
+  "flavor": "Cold no longer bites the flesh; it merely recognizes kin."
+ },
+ {
+  "id": "suff-of-slag",
+  "kind": "suffix",
+  "name": "of the Slag-Heap",
+  "slots": [
+   "armor",
+   "shield",
+   "boots",
+   "helm"
+  ],
+  "stat": "fire_res",
+  "min": 8,
+  "max": 14,
+  "tier": 1,
+  "flavor": "Blackened in the coal pits outside Thornwick."
+ },
+ {
+  "id": "suff-of-the-kiln",
+  "kind": "suffix",
+  "name": "of the Kiln",
+  "slots": [
+   "armor",
+   "shield",
+   "helm",
+   "ring",
+   "amulet"
+  ],
+  "stat": "fire_res",
+  "min": 16,
+  "max": 26,
+  "tier": 2,
+  "flavor": "Baked until the metal forgot how to melt."
+ },
+ {
+  "id": "suff-of-the-caldera",
+  "kind": "suffix",
+  "name": "of the Caldera",
+  "slots": [
+   "armor",
+   "shield",
+   "amulet",
+   "ring"
+  ],
+  "stat": "fire_res",
+  "min": 28,
+  "max": 40,
+  "tier": 4,
+  "flavor": "Quenched in the ash-choked vents beneath Ironcamp."
+ },
+ {
+  "id": "suff-of-the-fen",
+  "kind": "suffix",
+  "name": "of the Fen",
+  "slots": [
+   "boots",
+   "armor",
+   "helm",
+   "ring"
+  ],
+  "stat": "poison_res",
+  "min": 8,
+  "max": 14,
+  "tier": 1,
+  "flavor": "Stained yellow by decades of wading through stagnant peat."
+ },
+ {
+  "id": "suff-of-alkali",
+  "kind": "suffix",
+  "name": "of the Salt-Pan",
+  "slots": [
+   "armor",
+   "helm",
+   "boots",
+   "amulet",
+   "ring"
+  ],
+  "stat": "poison_res",
+  "min": 16,
+  "max": 26,
+  "tier": 2,
+  "flavor": "Crusted with bitter desert alkali that neutralizes venom."
+ },
+ {
+  "id": "suff-of-the-ossuary",
+  "kind": "suffix",
+  "name": "of the Bile-Ward",
+  "slots": [
+   "armor",
+   "shield",
+   "amulet",
+   "ring"
+  ],
+  "stat": "poison_res",
+  "min": 28,
+  "max": 40,
+  "tier": 4,
+  "flavor": "Steeped in mithridate until the wearer's spit turns bitter."
+ },
+ {
+  "id": "suff-of-copper-wire",
+  "kind": "suffix",
+  "name": "of Grounding",
+  "slots": [
+   "boots",
+   "armor",
+   "helm",
+   "shield"
+  ],
+  "stat": "lightning_res",
+  "min": 8,
+  "max": 14,
+  "tier": 1,
+  "flavor": "Threaded with cheap copper wire that trails into the dirt."
+ },
+ {
+  "id": "suff-of-the-fulgurite",
+  "kind": "suffix",
+  "name": "of Fulgurite",
+  "slots": [
+   "armor",
+   "shield",
+   "helm",
+   "ring",
+   "amulet"
+  ],
+  "stat": "lightning_res",
+  "min": 16,
+  "max": 26,
+  "tier": 2,
+  "flavor": "Set with hollow glass tubes fused where lightning struck the dunes."
+ },
+ {
+  "id": "suff-of-the-storm-rod",
+  "kind": "suffix",
+  "name": "of the Storm-Rod",
+  "slots": [
+   "armor",
+   "shield",
+   "amulet",
+   "ring"
+  ],
+  "stat": "lightning_res",
+  "min": 28,
+  "max": 40,
+  "tier": 4,
+  "flavor": "Drinks the tempest and leaves only the smell of ozone."
+ },
+ {
+  "id": "suff-of-spite",
+  "kind": "suffix",
+  "name": "of Spite",
+  "slots": [
+   "weapon",
+   "ring",
+   "amulet"
+  ],
+  "stat": "crit",
+  "min": 2,
+  "max": 4,
+  "tier": 1,
+  "flavor": "Nicknamed by a cutthroat who never fought fair in his life."
+ },
+ {
+  "id": "suff-of-the-butcher",
+  "kind": "suffix",
+  "name": "of the Abattoir",
+  "slots": [
+   "weapon",
+   "ring",
+   "amulet"
+  ],
+  "stat": "crit",
+  "min": 5,
+  "max": 8,
+  "tier": 2,
+  "flavor": "Designed for dismemberment rather than honorable dueling."
+ },
+ {
+  "id": "suff-of-arteries",
+  "kind": "suffix",
+  "name": "of Severed Sinew",
+  "slots": [
+   "weapon",
+   "ring",
+   "amulet"
+  ],
+  "stat": "crit",
+  "min": 9,
+  "max": 13,
+  "tier": 3,
+  "flavor": "Every edge is honed to seek the softest part of a man."
+ },
+ {
+  "id": "suff-of-execution",
+  "kind": "suffix",
+  "name": "of the Headsman",
+  "slots": [
+   "weapon",
+   "ring",
+   "amulet"
+  ],
+  "stat": "crit",
+  "min": 14,
+  "max": 18,
+  "tier": 4,
+  "flavor": "Requires only one clean stroke to settle an argument."
+ },
+ {
+  "id": "suff-of-the-tick",
+  "kind": "suffix",
+  "name": "of the Wood-Tick",
+  "slots": [
+   "weapon",
+   "ring"
+  ],
+  "stat": "lifesteal",
+  "min": 2,
+  "max": 3,
+  "tier": 1,
+  "flavor": "Drinks modestly from the cut, leaving the wound oddly pale."
+ },
+ {
+  "id": "suff-of-the-leech",
+  "kind": "suffix",
+  "name": "of the Redmarsh Leech",
+  "slots": [
+   "weapon",
+   "ring",
+   "amulet"
+  ],
+  "stat": "lifesteal",
+  "min": 4,
+  "max": 6,
+  "tier": 2,
+  "flavor": "The hilt grows warm and slick the longer the melee drags on."
+ },
+ {
+  "id": "suff-of-exsanguination",
+  "kind": "suffix",
+  "name": "of the Tithe",
+  "slots": [
+   "weapon",
+   "ring",
+   "amulet"
+  ],
+  "stat": "lifesteal",
+  "min": 7,
+  "max": 10,
+  "tier": 3,
+  "flavor": "Collects what is owed in crimson coin."
+ },
+ {
+  "id": "suff-of-the-strigoi",
+  "kind": "suffix",
+  "name": "of the Crimson Thirst",
+  "slots": [
+   "weapon",
+   "amulet"
+  ],
+  "stat": "lifesteal",
+  "min": 11,
+  "max": 15,
+  "tier": 4,
+  "flavor": "It does not merely drink; it demands a second course."
+ },
+ {
+  "id": "suff-of-quietude",
+  "kind": "suffix",
+  "name": "of Quietude",
+  "slots": [
+   "helm",
+   "armor",
+   "ring",
+   "amulet"
+  ],
+  "stat": "mana_regen",
+  "min": 1,
+  "max": 2,
+  "tier": 1,
+  "flavor": "Steadies the breathing when the shields begin to splinter."
+ },
+ {
+  "id": "suff-of-the-cistern",
+  "kind": "suffix",
+  "name": "of the Cistern",
+  "slots": [
+   "weapon",
+   "helm",
+   "armor",
+   "ring",
+   "amulet"
+  ],
+  "stat": "mana_regen",
+  "min": 3,
+  "max": 4,
+  "tier": 2,
+  "flavor": "Slowly refills itself from the damp air of the world."
+ },
+ {
+  "id": "suff-of-the-pendulum",
+  "kind": "suffix",
+  "name": "of the Pendulum",
+  "slots": [
+   "weapon",
+   "helm",
+   "ring",
+   "amulet"
+  ],
+  "stat": "mana_regen",
+  "min": 5,
+  "max": 7,
+  "tier": 3,
+  "flavor": "Ticks with a rhythmic, unseen momentum."
+ },
+ {
+  "id": "suff-of-perpetual-ash",
+  "kind": "suffix",
+  "name": "of the Unbroken Circle",
+  "slots": [
+   "weapon",
+   "helm",
+   "armor",
+   "amulet"
+  ],
+  "stat": "mana_regen",
+  "min": 8,
+  "max": 12,
+  "tier": 4,
+  "flavor": "What is spent in fire returns in smoke."
+ }
+]

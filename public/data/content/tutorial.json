@@ -1,0 +1,86 @@
+[
+ {
+  "step": 1,
+  "title": "Who's Still Breathing",
+  "text": "Left-click a fighter or drag a box across your lot. Double-click to grab every blade of the same sort.",
+  "hint_key": "selection"
+ },
+ {
+  "step": 2,
+  "title": "The Veteran Leads",
+  "text": "That's your hero—the one carrying the banner. Keep them vertical; if they drop, the company scatters.",
+  "hint_key": "hero"
+ },
+ {
+  "step": 3,
+  "title": "Hired Meat",
+  "text": "Mercenaries take wages and stop arrows with their ribs. Keep shield-bearers in front and bows behind.",
+  "hint_key": "squad"
+ },
+ {
+  "step": 4,
+  "title": "Number Your Puppets",
+  "text": "Press Ctrl+1 or Ctrl+2 to bind selected fighters to number keys. Saves frantic clicking when fog turns ugly.",
+  "hint_key": "groups"
+ },
+ {
+  "step": 5,
+  "title": "Point and Bleed",
+  "text": "Right-click ground to march, right-click a foe to hack them, or use Hold Position before fools chase bait.",
+  "hint_key": "commands"
+ },
+ {
+  "step": 6,
+  "title": "Dressing the Line",
+  "text": "Pick a formation button to pack shields tight or spread out against fireballs. Neat rows live longer.",
+  "hint_key": "formation"
+ },
+ {
+  "step": 7,
+  "title": "Borrowing Lightning",
+  "text": "Select a caster, pick a spell from the bar, and click your target. Watch the blue bar—empty heads cast nothing.",
+  "hint_key": "spells"
+ },
+ {
+  "step": 8,
+  "title": "Sacks and Scrip",
+  "text": "Open the pack to strap on steel, read spell scrolls, or slot potions where panicked thumbs can reach.",
+  "hint_key": "inventory"
+ },
+ {
+  "step": 9,
+  "title": "Robbery in Daylight",
+  "text": "Between fights, visit town merchants to offload muddy loot and buy iron that won't snap on first parry.",
+  "hint_key": "shop"
+ },
+ {
+  "step": 10,
+  "title": "Eyes on the Horizon",
+  "text": "Move your cursor to screen edges or use WASD to pan the camera. Blind corners hide expensive surprises.",
+  "hint_key": "camera"
+ },
+ {
+  "step": 11,
+  "title": "The Bloody Corner",
+  "text": "Check the minimap for red dots creeping around your flanks. Click anywhere on it to snap your view there.",
+  "hint_key": "minimap"
+ },
+ {
+  "step": 12,
+  "title": "Stop the Clock",
+  "text": "Hit Spacebar to pause the slaughter and queue orders calmly. Heroes who never pause rarely grow grey hair.",
+  "hint_key": "pause"
+ },
+ {
+  "step": 13,
+  "title": "Write It Down",
+  "text": "Save your march before stepping into dark ruins. Regret is heavy; a clean save file weighs nothing.",
+  "hint_key": "save"
+ },
+ {
+  "step": 14,
+  "title": "No Crown Needed",
+  "text": "Your campaign caches locally on this machine. Even when the road goes dead, your progress stays yours.",
+  "hint_key": "offline"
+ }
+]
