@@ -4,7 +4,7 @@ import { BUILT_IN, createMission } from '../src/mission';
 import { createHero } from '../src/sim/hero';
 import { ITEMS } from '../src/sim/items';
 import { FP, Sim, replay } from '../src/sim/sim';
-import { MAX_QUESTS, QUEST_TYPES, QuestType, Role, makeQuest, priceOf, sellPrice, spellPrice, trainPrice, type TownCommand } from '../src/sim/town';
+import { MAX_QUESTS, QUEST_TYPES, QuestType, reviveFee, Role, makeQuest, priceOf, sellPrice, spellPrice, trainPrice, type TownCommand } from '../src/sim/town';
 
 function game(seed = 1, cls = 0) {
   const g = createMission(loadDoc(BUILT_IN.market), seed);
@@ -92,6 +92,31 @@ describe('towns', () => {
     sim.step([{ type: 'move', ids: [merc.unit], x: dx + 4.5, y: dy + 2.5 }]);
     steps(sim, 60);
     expect(Math.abs(sim.x[merc.unit] / FP - (dx + 4.5))).toBeLessThan(1);
+  });
+
+  it('a fallen mercenary is raised at the tavern for 60% of the hire fee', () => {
+    const { sim } = game();
+    steps(sim, 2);
+    const merc = sim.towns[0].def.mercs![0];
+    at(sim, Role.Tavern);
+    sim.now(cmd('enter', Role.Tavern));
+    sim.now(cmd('revive', 0)); // not hired yet: nothing happens
+    expect(sim.cb.gold[0]).toBe(300);
+    sim.now(cmd('hire', 0));
+    sim.now(cmd('revive', 0)); // alive: nothing happens
+    expect(sim.cb.gold[0]).toBe(300 - merc.price);
+    sim.cb.hp[merc.unit] = 0;
+    sim.cb.corp[merc.unit] = 5;
+    sim.cb.recount(sim.team);
+    const g = sim.cb.gold[0];
+    sim.now(cmd('revive', 0));
+    expect(sim.cb.hp[merc.unit]).toBe(sim.cb.hpMax[merc.unit]);
+    expect(sim.cb.gold[0]).toBe(g - reviveFee(merc.price));
+    expect(reviveFee(merc.price)).toBe(Math.floor(merc.price * 0.6));
+    sim.cb.hp[merc.unit] = 0;
+    sim.cb.gold[0] = 0;
+    sim.now(cmd('revive', 0)); // too poor
+    expect(sim.cb.hp[merc.unit]).toBe(0);
   });
 
   it('the school teaches spells and trains skills for gold', () => {

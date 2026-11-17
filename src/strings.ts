@@ -254,6 +254,7 @@ export const S = {
     archerEmblem: 'Bow company · Ranged mercenary',
     hire: 'Hire',
     hired: 'Hired',
+    revive: 'Raise the fallen',
     noMercs: 'Nobody is looking for work here.',
     board: 'Work on offer',
     accept: 'Take it',

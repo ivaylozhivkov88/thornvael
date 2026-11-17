@@ -4,6 +4,7 @@ import { Did, INV_MAX, SKILL_MAX, Why, addItem, blocker, recalc, takeItem } from
 import { mercPrice } from './difficulty';
 import { getItemDef, ITEMS, Ik, itemId, transmuteItems, type ItemDef } from './items';
 import { FP } from './path';
+import { revive } from './spells';
 import { isSetItem, ALL_SET_ITEMS } from './sets';
 import type { Sim } from './sim';
 
@@ -76,7 +77,7 @@ export interface TownState {
   barracks?: number; // campaign barracks: percent off hire fees
 }
 
-export type TownOp = 'enter' | 'leave' | 'buy' | 'sell' | 'hire' | 'learn' | 'train' | 'accept' | 'gamble' | 'transmute' | 'identify_all';
+export type TownOp = 'enter' | 'leave' | 'buy' | 'sell' | 'hire' | 'revive' | 'learn' | 'train' | 'accept' | 'gamble' | 'transmute' | 'identify_all';
 /** `v`: role (enter), merc index (hire), spell (learn), skill (train), offer (accept). `list`: shelf slots (buy) or item ids (sell). */
 export type TownCommand = { type: 'town'; op: TownOp; town: number; v?: number; list?: number[] };
 
@@ -89,6 +90,9 @@ export function gambleCost(sim: Sim): number {
 }
 
 /** Town fx (cb.emit types): 20 quest paid (v reward, el type), 21 quest failed (el type), 22 mercenary hired (v unit), 23 trade (v gold, el 0 bought 1 sold 2 learned 3 trained). */
+/** Gold to raise a fallen hired mercenary at the tavern: 60% of the hire fee, at least 1. */
+export const reviveFee = (hireFee: number): number => Math.max(1, Math.floor((hireFee * 60) / 100));
+
 export const Tfx = { Paid: 20, Failed: 21, Hired: 22, Trade: 23 } as const;
 
 export function newTownState(towns: number): TownState {
@@ -288,7 +292,7 @@ export function townCommand(sim: Sim, cmd: TownCommand): void {
     }
     return;
   }
-  const role = { buy: Role.Shop, sell: Role.Shop, gamble: Role.Shop, transmute: Role.Shop, hire: Role.Tavern, accept: Role.Tavern, learn: Role.School, train: Role.School }[cmd.op];
+  const role = { buy: Role.Shop, sell: Role.Shop, gamble: Role.Shop, transmute: Role.Shop, hire: Role.Tavern, revive: Role.Tavern, accept: Role.Tavern, learn: Role.School, train: Role.School }[cmd.op];
   if (st.inside !== cmd.town * ROLE_COUNT + role) return;
   const gold = sim.cb.gold;
   const v = cmd.v ?? -1;
@@ -423,6 +427,22 @@ export function townCommand(sim: Sim, cmd: TownCommand): void {
       sim.hidden[u] = 0;
       sim.cb.recount(sim.team);
       emit(sim, Tfx.Hired, u, 0);
+      return;
+    }
+    case 'revive': {
+      const m = rt.def.mercs?.[v];
+      if (!m || sim.hidden[m.unit] !== 0 || sim.cb.hp[m.unit] > 0) return;
+      const fee = reviveFee(mercPrice(sim, m.price));
+      if (fee > gold[0]) return refuse(sim, Why.Gold);
+      gold[0] -= fee;
+      const [dx, dy] = rt.door[Role.Tavern]!;
+      const u = m.unit;
+      revive(sim, u);
+      sim.cb.hp[u] = sim.cb.hpMax[u];
+      sim.x[u] = sim.tx[u] = sim.cb.px[u] = Math.round((dx + 0.5) * FP);
+      sim.y[u] = sim.ty[u] = sim.cb.py[u] = Math.round((dy + 0.5) * FP);
+      sim.stop(u);
+      emit(sim, Tfx.Hired, u, 1);
       return;
     }
     case 'learn': {

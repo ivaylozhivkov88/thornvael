@@ -6,7 +6,7 @@ import { formatItemTooltip, renderItemTooltipDom } from './heroui';
 import { isSetItem } from './sim/sets';
 import type { Sim } from './sim/sim';
 import { SPELLS } from './sim/spelldata';
-import { OFFERS, QuestType, ROLE_COUNT, Role, SHELF, gambleCost, priceOf, sellPrice, spellPrice, trainPrice, type Quest, type TownCommand } from './sim/town';
+import { OFFERS, QuestType, reviveFee, ROLE_COUNT, Role, SHELF, gambleCost, priceOf, sellPrice, spellPrice, trainPrice, type Quest, type TownCommand } from './sim/town';
 import { S } from './strings';
 import { itemIcon } from './townicons';
 import { equipmentLayers } from './hero-presentation';
@@ -733,10 +733,11 @@ export class TownUi {
     const ml = el('div', 'items');
     for (const [k, m] of (def.mercs ?? []).entries()) {
       const free = sim.hidden[m.unit] === 1 && sim.cb.hp[m.unit] > 0;
+      const fallen = sim.hidden[m.unit] === 0 && sim.cb.hp[m.unit] <= 0;
       const b = button(DEFS[sim.cb.kind[m.unit]].name, () => {
         this.mercIndex = k;
         this.render();
-      }, free ? `${S.town.hire}: ${mercPrice(sim, m.price)} ${S.town.gold.toLowerCase()}` : S.town.hired);
+      }, free ? `${S.town.hire}: ${mercPrice(sim, m.price)} ${S.town.gold.toLowerCase()}` : fallen ? `${S.town.revive}: ${reviveFee(mercPrice(sim, m.price))} ${S.town.gold.toLowerCase()}` : S.town.hired);
       b.setAttribute('aria-pressed', String(k === this.mercIndex));
       if (free && mercPrice(sim, m.price) > sim.cb.gold[0]) b.classList.add('no');
       ml.append(b);
@@ -755,15 +756,16 @@ export class TownUi {
       else mercPanel.append(image);
       mercPanel.append(el('h3', '', data.name), stats);
       const free = sim.hidden[chosen.unit] === 1 && sim.cb.hp[chosen.unit] > 0;
-      const hire = button(free ? S.town.hire : S.town.hired, () => {
-        this.cmd('hire', this.mercIndex);
-        const hired = sim.hidden[chosen.unit] === 0;
+      const fallen = sim.hidden[chosen.unit] === 0 && sim.cb.hp[chosen.unit] <= 0;
+      const hire = button(free ? S.town.hire : fallen ? S.town.revive : S.town.hired, () => {
+        this.cmd(fallen ? 'revive' : 'hire', this.mercIndex);
+        const hired = sim.hidden[chosen.unit] === 0 && sim.cb.hp[chosen.unit] > 0;
         this.setMood(hired ? 1 : 2);
         if (hired) playTraderBark('guildmaster', 'buy');
         this.ctx.changed();
         this.render();
-      }, String(mercPrice(sim, chosen.price)));
-      hire.disabled = !free;
+      }, String(fallen ? reviveFee(mercPrice(sim, chosen.price)) : mercPrice(sim, chosen.price)));
+      hire.disabled = !free && !fallen;
       controls.append(hire);
     }
     controls.append(button('📜 Rumors & Lore', () => this.openLoreDialogue('tavern')), button(S.town.leave, () => this.close()));
