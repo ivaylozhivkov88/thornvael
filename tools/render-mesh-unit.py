@@ -22,7 +22,7 @@ OUT = os.path.abspath(argv[0])
 UNIT = argv[1]
 CELL = int(argv[2]) if len(argv) > 2 else 96
 MODELS = argv[3] if len(argv) > 3 else os.path.join(HERE, "..", "..", "models")
-UNITS = {"warrior": ("warrior", "warrior"), "hero": ("warrior", "hero")}
+UNITS = {"warrior": ("warrior", "warrior"), "hero": ("warrior", "hero"), "archer": ("archer", "archer")}
 mod_name, variant = UNITS[UNIT]
 spec = importlib.util.spec_from_file_location(mod_name, os.path.join(HERE, "mesh-units", mod_name + ".py"))
 mod = importlib.util.module_from_spec(spec)
@@ -116,7 +116,7 @@ def pose(anim, i, n):
         P[:, 1] *= 1 - 0.25 * die
         P = P @ rot("X", -math.pi / 2 * die).T
         P[:, 1] -= 0.5 * die
-        P[:, 2] += 0.28 * die
+        P[:, 2] += mod.POSE.get("die_lift", 0.28) * die
     return P
 
 

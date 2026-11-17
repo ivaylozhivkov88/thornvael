@@ -1,4 +1,9 @@
 {
+  "archer": {
+    "cell": 96,
+    "seconds": 108,
+    "status": "done"
+  },
   "hero": {
     "cell": 96,
     "seconds": 197,
