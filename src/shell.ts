@@ -89,7 +89,7 @@ export async function runShell(startWorker: () => void): Promise<never> {
       btn(T.settings, settings),
       btn(T.credits, credits),
       btn('🏆 Hall of Relics Codex', () => codexUi.show()),
-      btn('Skirmish (11 Maps)', skirmish),
+      btn('Skirmish (23 Maps)', skirmish),
       btn(T.free, () => go('./?free=1'), 'sh-quiet'),
     );
     screen(col);
@@ -114,6 +114,18 @@ export async function runShell(startWorker: () => void): Promise<never> {
       { key: 'muddlefen', name: 'S09 · Muddlefen', tag: 'Mire' },
       { key: 'shallowford', name: 'S10 · Shallow Ford', tag: 'River' },
       { key: 'ashentier', name: 'S11 · Ashen Tier', tag: 'Citadel' },
+      { key: 'skirmish-twin-fords', name: 'S12 · Twin Fords of Alder', tag: 'Greywood 1v1' },
+      { key: 'skirmish-ash-hourglass', name: 'S13 · The Cinder Hourglass', tag: 'Crownember 1v1' },
+      { key: 'skirmish-sunken-causeway', name: 'S14 · Sunken Causeway', tag: 'Ironcoast 1v1' },
+      { key: 'skirmish-fen-attrition', name: 'S15 · Blackmire Basin', tag: 'Redmarsh 1v1' },
+      { key: 'skirmish-quarry-passes', name: 'S16 · Split-Stone Passes', tag: 'Redmarsh 1v1' },
+      { key: 'skirmish-lantern-labyrinth', name: 'S17 · Lantern Hedge Maze', tag: 'Greywood 1v1' },
+      { key: 'skirmish-night-bastion', name: 'S18 · Vigil of Ironcamp', tag: 'Crownember 1v1' },
+      { key: 'skirmish-four-corners', name: 'S19 · Four-Corner Keep', tag: 'Greywood 4P' },
+      { key: 'skirmish-wardstone-ring', name: 'S20 · Wardstone Atoll', tag: 'Redmarsh 4P' },
+      { key: 'skirmish-riverlock-cross', name: 'S21 · Riverlock Crossroads', tag: 'Ironcoast 4P' },
+      { key: 'skirmish-citadel-crown', name: 'S22 · Throne of Cinders', tag: 'Crownember 4P' },
+      { key: 'skirmish-grand-estuary', name: 'S23 · Grand Iron Estuary', tag: 'Ironcoast 4P' },
     ];
 
     const goldAmounts = [100, 300, 600, 1200] as const;
