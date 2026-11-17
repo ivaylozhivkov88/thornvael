@@ -1,4 +1,4 @@
-import { VoiceLimiter, spatial, type Voice } from './audiologic';
+import { SPELL_CAST_SFX, VoiceLimiter, spatial, type Voice } from './audiologic';
 
 /**
  * Web Audio engine: one context, four buses (sfx, ui, music, ambience), a voice limit and pan by screen position.
@@ -25,6 +25,7 @@ const SFX_NAMES = [
   'step_water_1', 'step_water_2',
   'step_stone_1', 'step_stone_2',
   'death_beast_1', 'death_skeleton_1',
+  ...SPELL_CAST_SFX,
 ];
 const base = (): string => import.meta.env.BASE_URL;
 

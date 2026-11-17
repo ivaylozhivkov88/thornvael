@@ -131,6 +131,13 @@ export function pickMonsterDeath(kind: string | number = 'default'): string {
 
 const CURSE_STATUSES = new Set<number>([St.Slow, St.Poison, St.Burn, St.Stone, St.Weaken]);
 const CAST = ['', 'cast_fire', 'cast_water', 'cast_air', 'cast_earth', 'cast_astral'];
+/** Pack 6a cast sounds, indexed by spell id (same order as spells.json). */
+export const SPELL_CAST_SFX: readonly string[] = [
+  'fire_bolt', 'fireball', 'flame_burst', 'ignite', 'frost_bolt', 'ice_storm', 'chain_frost', 'healing', 'healing_rain',
+  'lightning', 'chain_lightning', 'haste', 'gale', 'wind_ward', 'rock_throw', 'stone_curse', 'stone_skin', 'poison_cloud',
+  'quake', 'blessing', 'weaken', 'resurrect', 'corpse_burst', 'meditation', 'meteor', 'inferno', 'blizzard', 'thunderstorm',
+  'iron_skin', 'acid_rain', 'mana_burn', 'time_warp',
+].map((n) => `sfx_spell_${n}_cast`);
 const APEX_SPELL_SFX: Record<number, string> = {
   24: 'spell_meteor',
   25: 'spell_inferno',
@@ -181,6 +188,7 @@ export function cueFor(e: Pick<Fx, 'type' | 'v' | 'el'> & Partial<CueContext>, c
       if (e.v >= 16) return null;
       return { name: CURSE_STATUSES.has(e.v) ? 'curse' : 'buff', priority: 2 };
     case 9:
+      if (e.v >= 0 && e.v < SPELL_CAST_SFX.length) return { name: SPELL_CAST_SFX[e.v], priority: e.v >= 24 ? 4 : 3 };
       if (e.v >= 24 && e.v <= 31 && APEX_SPELL_SFX[e.v]) return { name: APEX_SPELL_SFX[e.v], priority: 4 };
       return e.el >= 1 && e.el <= 5 ? { name: CAST[e.el], priority: 3 } : null;
     case 10:

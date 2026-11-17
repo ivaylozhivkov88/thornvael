@@ -34,8 +34,8 @@ describe('sound cues and space', () => {
   it('maps combat events to sounds and keeps ended statuses and school hits silent', () => {
     expect(cueFor({ type: 0, v: 5, el: 0 })?.name).toBe('hit');
     expect(cueFor({ type: 0, v: 5, el: 1 })).toBeNull();
-    expect(cueFor({ type: 9, v: 0, el: 1 })?.name).toBe('cast_fire');
-    expect(cueFor({ type: 9, v: 0, el: 5 })?.name).toBe('cast_astral');
+    expect(cueFor({ type: 9, v: 0, el: 1 })?.name).toBe('sfx_spell_fire_bolt_cast');
+    expect(cueFor({ type: 9, v: 99, el: 5 })?.name).toBe('cast_astral');
     expect(cueFor({ type: 8, v: St.Poison, el: 0 })?.name).toBe('curse');
     expect(cueFor({ type: 8, v: St.Bless, el: 0 })?.name).toBe('buff');
     expect(cueFor({ type: 8, v: St.Poison + 16, el: 0 })).toBeNull();

@@ -1162,6 +1162,642 @@
       "license": "own",
       "source": "Gemini image generation (user subscription), original text prompt, cropped and resized with Pillow",
       "note": "AI-generated painted monster portrait for Gnoll Warrior Chieftain, 2026-11-16; original design"
+    },
+    {
+      "path": "public/audio/sfx_achievement.m4a",
+      "license": "own",
+      "source": "tools/synth-pack6a.py",
+      "note": "Procedurally synthesized from Gemini pack 6a recipe"
+    },
+    {
+      "path": "public/audio/sfx_chest_open.m4a",
+      "license": "own",
+      "source": "tools/synth-pack6a.py",
+      "note": "Procedurally synthesized from Gemini pack 6a recipe"
+    },
+    {
+      "path": "public/audio/sfx_cmd_attack.m4a",
+      "license": "own",
+      "source": "tools/synth-pack6a.py",
+      "note": "Procedurally synthesized from Gemini pack 6a recipe"
+    },
+    {
+      "path": "public/audio/sfx_cmd_hold.m4a",
+      "license": "own",
+      "source": "tools/synth-pack6a.py",
+      "note": "Procedurally synthesized from Gemini pack 6a recipe"
+    },
+    {
+      "path": "public/audio/sfx_cmd_move.m4a",
+      "license": "own",
+      "source": "tools/synth-pack6a.py",
+      "note": "Procedurally synthesized from Gemini pack 6a recipe"
+    },
+    {
+      "path": "public/audio/sfx_cooldown_ready.m4a",
+      "license": "own",
+      "source": "tools/synth-pack6a.py",
+      "note": "Procedurally synthesized from Gemini pack 6a recipe"
+    },
+    {
+      "path": "public/audio/sfx_crit_hit.m4a",
+      "license": "own",
+      "source": "tools/synth-pack6a.py",
+      "note": "Procedurally synthesized from Gemini pack 6a recipe"
+    },
+    {
+      "path": "public/audio/sfx_dodge.m4a",
+      "license": "own",
+      "source": "tools/synth-pack6a.py",
+      "note": "Procedurally synthesized from Gemini pack 6a recipe"
+    },
+    {
+      "path": "public/audio/sfx_door_heavy.m4a",
+      "license": "own",
+      "source": "tools/synth-pack6a.py",
+      "note": "Procedurally synthesized from Gemini pack 6a recipe"
+    },
+    {
+      "path": "public/audio/sfx_game_save.m4a",
+      "license": "own",
+      "source": "tools/synth-pack6a.py",
+      "note": "Procedurally synthesized from Gemini pack 6a recipe"
+    },
+    {
+      "path": "public/audio/sfx_hero_death.m4a",
+      "license": "own",
+      "source": "tools/synth-pack6a.py",
+      "note": "Procedurally synthesized from Gemini pack 6a recipe"
+    },
+    {
+      "path": "public/audio/sfx_hero_revive.m4a",
+      "license": "own",
+      "source": "tools/synth-pack6a.py",
+      "note": "Procedurally synthesized from Gemini pack 6a recipe"
+    },
+    {
+      "path": "public/audio/sfx_level_up.m4a",
+      "license": "own",
+      "source": "tools/synth-pack6a.py",
+      "note": "Procedurally synthesized from Gemini pack 6a recipe"
+    },
+    {
+      "path": "public/audio/sfx_low_health.m4a",
+      "license": "own",
+      "source": "tools/synth-pack6a.py",
+      "note": "Procedurally synthesized from Gemini pack 6a recipe"
+    },
+    {
+      "path": "public/audio/sfx_mana_empty.m4a",
+      "license": "own",
+      "source": "tools/synth-pack6a.py",
+      "note": "Procedurally synthesized from Gemini pack 6a recipe"
+    },
+    {
+      "path": "public/audio/sfx_quest_accept.m4a",
+      "license": "own",
+      "source": "tools/synth-pack6a.py",
+      "note": "Procedurally synthesized from Gemini pack 6a recipe"
+    },
+    {
+      "path": "public/audio/sfx_quest_complete.m4a",
+      "license": "own",
+      "source": "tools/synth-pack6a.py",
+      "note": "Procedurally synthesized from Gemini pack 6a recipe"
+    },
+    {
+      "path": "public/audio/sfx_quest_fail.m4a",
+      "license": "own",
+      "source": "tools/synth-pack6a.py",
+      "note": "Procedurally synthesized from Gemini pack 6a recipe"
+    },
+    {
+      "path": "public/audio/sfx_secret_reveal.m4a",
+      "license": "own",
+      "source": "tools/synth-pack6a.py",
+      "note": "Procedurally synthesized from Gemini pack 6a recipe"
+    },
+    {
+      "path": "public/audio/sfx_shield_block_heavy.m4a",
+      "license": "own",
+      "source": "tools/synth-pack6a.py",
+      "note": "Procedurally synthesized from Gemini pack 6a recipe"
+    },
+    {
+      "path": "public/audio/sfx_spell_acid_rain_cast.m4a",
+      "license": "own",
+      "source": "tools/synth-pack6a.py",
+      "note": "Procedurally synthesized from Gemini pack 6a recipe"
+    },
+    {
+      "path": "public/audio/sfx_spell_acid_rain_impact.m4a",
+      "license": "own",
+      "source": "tools/synth-pack6a.py",
+      "note": "Procedurally synthesized from Gemini pack 6a recipe"
+    },
+    {
+      "path": "public/audio/sfx_spell_blessing_cast.m4a",
+      "license": "own",
+      "source": "tools/synth-pack6a.py",
+      "note": "Procedurally synthesized from Gemini pack 6a recipe"
+    },
+    {
+      "path": "public/audio/sfx_spell_blessing_impact.m4a",
+      "license": "own",
+      "source": "tools/synth-pack6a.py",
+      "note": "Procedurally synthesized from Gemini pack 6a recipe"
+    },
+    {
+      "path": "public/audio/sfx_spell_blizzard_cast.m4a",
+      "license": "own",
+      "source": "tools/synth-pack6a.py",
+      "note": "Procedurally synthesized from Gemini pack 6a recipe"
+    },
+    {
+      "path": "public/audio/sfx_spell_blizzard_impact.m4a",
+      "license": "own",
+      "source": "tools/synth-pack6a.py",
+      "note": "Procedurally synthesized from Gemini pack 6a recipe"
+    },
+    {
+      "path": "public/audio/sfx_spell_chain_frost_cast.m4a",
+      "license": "own",
+      "source": "tools/synth-pack6a.py",
+      "note": "Procedurally synthesized from Gemini pack 6a recipe"
+    },
+    {
+      "path": "public/audio/sfx_spell_chain_frost_impact.m4a",
+      "license": "own",
+      "source": "tools/synth-pack6a.py",
+      "note": "Procedurally synthesized from Gemini pack 6a recipe"
+    },
+    {
+      "path": "public/audio/sfx_spell_chain_lightning_cast.m4a",
+      "license": "own",
+      "source": "tools/synth-pack6a.py",
+      "note": "Procedurally synthesized from Gemini pack 6a recipe"
+    },
+    {
+      "path": "public/audio/sfx_spell_chain_lightning_impact.m4a",
+      "license": "own",
+      "source": "tools/synth-pack6a.py",
+      "note": "Procedurally synthesized from Gemini pack 6a recipe"
+    },
+    {
+      "path": "public/audio/sfx_spell_corpse_burst_cast.m4a",
+      "license": "own",
+      "source": "tools/synth-pack6a.py",
+      "note": "Procedurally synthesized from Gemini pack 6a recipe"
+    },
+    {
+      "path": "public/audio/sfx_spell_corpse_burst_impact.m4a",
+      "license": "own",
+      "source": "tools/synth-pack6a.py",
+      "note": "Procedurally synthesized from Gemini pack 6a recipe"
+    },
+    {
+      "path": "public/audio/sfx_spell_fire_bolt_cast.m4a",
+      "license": "own",
+      "source": "tools/synth-pack6a.py",
+      "note": "Procedurally synthesized from Gemini pack 6a recipe"
+    },
+    {
+      "path": "public/audio/sfx_spell_fire_bolt_impact.m4a",
+      "license": "own",
+      "source": "tools/synth-pack6a.py",
+      "note": "Procedurally synthesized from Gemini pack 6a recipe"
+    },
+    {
+      "path": "public/audio/sfx_spell_fireball_cast.m4a",
+      "license": "own",
+      "source": "tools/synth-pack6a.py",
+      "note": "Procedurally synthesized from Gemini pack 6a recipe"
+    },
+    {
+      "path": "public/audio/sfx_spell_fireball_impact.m4a",
+      "license": "own",
+      "source": "tools/synth-pack6a.py",
+      "note": "Procedurally synthesized from Gemini pack 6a recipe"
+    },
+    {
+      "path": "public/audio/sfx_spell_flame_burst_cast.m4a",
+      "license": "own",
+      "source": "tools/synth-pack6a.py",
+      "note": "Procedurally synthesized from Gemini pack 6a recipe"
+    },
+    {
+      "path": "public/audio/sfx_spell_flame_burst_impact.m4a",
+      "license": "own",
+      "source": "tools/synth-pack6a.py",
+      "note": "Procedurally synthesized from Gemini pack 6a recipe"
+    },
+    {
+      "path": "public/audio/sfx_spell_frost_bolt_cast.m4a",
+      "license": "own",
+      "source": "tools/synth-pack6a.py",
+      "note": "Procedurally synthesized from Gemini pack 6a recipe"
+    },
+    {
+      "path": "public/audio/sfx_spell_frost_bolt_impact.m4a",
+      "license": "own",
+      "source": "tools/synth-pack6a.py",
+      "note": "Procedurally synthesized from Gemini pack 6a recipe"
+    },
+    {
+      "path": "public/audio/sfx_spell_gale_cast.m4a",
+      "license": "own",
+      "source": "tools/synth-pack6a.py",
+      "note": "Procedurally synthesized from Gemini pack 6a recipe"
+    },
+    {
+      "path": "public/audio/sfx_spell_gale_impact.m4a",
+      "license": "own",
+      "source": "tools/synth-pack6a.py",
+      "note": "Procedurally synthesized from Gemini pack 6a recipe"
+    },
+    {
+      "path": "public/audio/sfx_spell_haste_cast.m4a",
+      "license": "own",
+      "source": "tools/synth-pack6a.py",
+      "note": "Procedurally synthesized from Gemini pack 6a recipe"
+    },
+    {
+      "path": "public/audio/sfx_spell_haste_impact.m4a",
+      "license": "own",
+      "source": "tools/synth-pack6a.py",
+      "note": "Procedurally synthesized from Gemini pack 6a recipe"
+    },
+    {
+      "path": "public/audio/sfx_spell_healing_cast.m4a",
+      "license": "own",
+      "source": "tools/synth-pack6a.py",
+      "note": "Procedurally synthesized from Gemini pack 6a recipe"
+    },
+    {
+      "path": "public/audio/sfx_spell_healing_impact.m4a",
+      "license": "own",
+      "source": "tools/synth-pack6a.py",
+      "note": "Procedurally synthesized from Gemini pack 6a recipe"
+    },
+    {
+      "path": "public/audio/sfx_spell_healing_rain_cast.m4a",
+      "license": "own",
+      "source": "tools/synth-pack6a.py",
+      "note": "Procedurally synthesized from Gemini pack 6a recipe"
+    },
+    {
+      "path": "public/audio/sfx_spell_healing_rain_impact.m4a",
+      "license": "own",
+      "source": "tools/synth-pack6a.py",
+      "note": "Procedurally synthesized from Gemini pack 6a recipe"
+    },
+    {
+      "path": "public/audio/sfx_spell_ice_storm_cast.m4a",
+      "license": "own",
+      "source": "tools/synth-pack6a.py",
+      "note": "Procedurally synthesized from Gemini pack 6a recipe"
+    },
+    {
+      "path": "public/audio/sfx_spell_ice_storm_impact.m4a",
+      "license": "own",
+      "source": "tools/synth-pack6a.py",
+      "note": "Procedurally synthesized from Gemini pack 6a recipe"
+    },
+    {
+      "path": "public/audio/sfx_spell_ignite_cast.m4a",
+      "license": "own",
+      "source": "tools/synth-pack6a.py",
+      "note": "Procedurally synthesized from Gemini pack 6a recipe"
+    },
+    {
+      "path": "public/audio/sfx_spell_ignite_impact.m4a",
+      "license": "own",
+      "source": "tools/synth-pack6a.py",
+      "note": "Procedurally synthesized from Gemini pack 6a recipe"
+    },
+    {
+      "path": "public/audio/sfx_spell_inferno_cast.m4a",
+      "license": "own",
+      "source": "tools/synth-pack6a.py",
+      "note": "Procedurally synthesized from Gemini pack 6a recipe"
+    },
+    {
+      "path": "public/audio/sfx_spell_inferno_impact.m4a",
+      "license": "own",
+      "source": "tools/synth-pack6a.py",
+      "note": "Procedurally synthesized from Gemini pack 6a recipe"
+    },
+    {
+      "path": "public/audio/sfx_spell_iron_skin_cast.m4a",
+      "license": "own",
+      "source": "tools/synth-pack6a.py",
+      "note": "Procedurally synthesized from Gemini pack 6a recipe"
+    },
+    {
+      "path": "public/audio/sfx_spell_iron_skin_impact.m4a",
+      "license": "own",
+      "source": "tools/synth-pack6a.py",
+      "note": "Procedurally synthesized from Gemini pack 6a recipe"
+    },
+    {
+      "path": "public/audio/sfx_spell_lightning_cast.m4a",
+      "license": "own",
+      "source": "tools/synth-pack6a.py",
+      "note": "Procedurally synthesized from Gemini pack 6a recipe"
+    },
+    {
+      "path": "public/audio/sfx_spell_lightning_impact.m4a",
+      "license": "own",
+      "source": "tools/synth-pack6a.py",
+      "note": "Procedurally synthesized from Gemini pack 6a recipe"
+    },
+    {
+      "path": "public/audio/sfx_spell_mana_burn_cast.m4a",
+      "license": "own",
+      "source": "tools/synth-pack6a.py",
+      "note": "Procedurally synthesized from Gemini pack 6a recipe"
+    },
+    {
+      "path": "public/audio/sfx_spell_mana_burn_impact.m4a",
+      "license": "own",
+      "source": "tools/synth-pack6a.py",
+      "note": "Procedurally synthesized from Gemini pack 6a recipe"
+    },
+    {
+      "path": "public/audio/sfx_spell_meditation_cast.m4a",
+      "license": "own",
+      "source": "tools/synth-pack6a.py",
+      "note": "Procedurally synthesized from Gemini pack 6a recipe"
+    },
+    {
+      "path": "public/audio/sfx_spell_meditation_impact.m4a",
+      "license": "own",
+      "source": "tools/synth-pack6a.py",
+      "note": "Procedurally synthesized from Gemini pack 6a recipe"
+    },
+    {
+      "path": "public/audio/sfx_spell_meteor_cast.m4a",
+      "license": "own",
+      "source": "tools/synth-pack6a.py",
+      "note": "Procedurally synthesized from Gemini pack 6a recipe"
+    },
+    {
+      "path": "public/audio/sfx_spell_meteor_impact.m4a",
+      "license": "own",
+      "source": "tools/synth-pack6a.py",
+      "note": "Procedurally synthesized from Gemini pack 6a recipe"
+    },
+    {
+      "path": "public/audio/sfx_spell_poison_cloud_cast.m4a",
+      "license": "own",
+      "source": "tools/synth-pack6a.py",
+      "note": "Procedurally synthesized from Gemini pack 6a recipe"
+    },
+    {
+      "path": "public/audio/sfx_spell_poison_cloud_impact.m4a",
+      "license": "own",
+      "source": "tools/synth-pack6a.py",
+      "note": "Procedurally synthesized from Gemini pack 6a recipe"
+    },
+    {
+      "path": "public/audio/sfx_spell_quake_cast.m4a",
+      "license": "own",
+      "source": "tools/synth-pack6a.py",
+      "note": "Procedurally synthesized from Gemini pack 6a recipe"
+    },
+    {
+      "path": "public/audio/sfx_spell_quake_impact.m4a",
+      "license": "own",
+      "source": "tools/synth-pack6a.py",
+      "note": "Procedurally synthesized from Gemini pack 6a recipe"
+    },
+    {
+      "path": "public/audio/sfx_spell_resurrect_cast.m4a",
+      "license": "own",
+      "source": "tools/synth-pack6a.py",
+      "note": "Procedurally synthesized from Gemini pack 6a recipe"
+    },
+    {
+      "path": "public/audio/sfx_spell_resurrect_impact.m4a",
+      "license": "own",
+      "source": "tools/synth-pack6a.py",
+      "note": "Procedurally synthesized from Gemini pack 6a recipe"
+    },
+    {
+      "path": "public/audio/sfx_spell_rock_throw_cast.m4a",
+      "license": "own",
+      "source": "tools/synth-pack6a.py",
+      "note": "Procedurally synthesized from Gemini pack 6a recipe"
+    },
+    {
+      "path": "public/audio/sfx_spell_rock_throw_impact.m4a",
+      "license": "own",
+      "source": "tools/synth-pack6a.py",
+      "note": "Procedurally synthesized from Gemini pack 6a recipe"
+    },
+    {
+      "path": "public/audio/sfx_spell_stone_curse_cast.m4a",
+      "license": "own",
+      "source": "tools/synth-pack6a.py",
+      "note": "Procedurally synthesized from Gemini pack 6a recipe"
+    },
+    {
+      "path": "public/audio/sfx_spell_stone_curse_impact.m4a",
+      "license": "own",
+      "source": "tools/synth-pack6a.py",
+      "note": "Procedurally synthesized from Gemini pack 6a recipe"
+    },
+    {
+      "path": "public/audio/sfx_spell_stone_skin_cast.m4a",
+      "license": "own",
+      "source": "tools/synth-pack6a.py",
+      "note": "Procedurally synthesized from Gemini pack 6a recipe"
+    },
+    {
+      "path": "public/audio/sfx_spell_stone_skin_impact.m4a",
+      "license": "own",
+      "source": "tools/synth-pack6a.py",
+      "note": "Procedurally synthesized from Gemini pack 6a recipe"
+    },
+    {
+      "path": "public/audio/sfx_spell_thunderstorm_cast.m4a",
+      "license": "own",
+      "source": "tools/synth-pack6a.py",
+      "note": "Procedurally synthesized from Gemini pack 6a recipe"
+    },
+    {
+      "path": "public/audio/sfx_spell_thunderstorm_impact.m4a",
+      "license": "own",
+      "source": "tools/synth-pack6a.py",
+      "note": "Procedurally synthesized from Gemini pack 6a recipe"
+    },
+    {
+      "path": "public/audio/sfx_spell_time_warp_cast.m4a",
+      "license": "own",
+      "source": "tools/synth-pack6a.py",
+      "note": "Procedurally synthesized from Gemini pack 6a recipe"
+    },
+    {
+      "path": "public/audio/sfx_spell_time_warp_impact.m4a",
+      "license": "own",
+      "source": "tools/synth-pack6a.py",
+      "note": "Procedurally synthesized from Gemini pack 6a recipe"
+    },
+    {
+      "path": "public/audio/sfx_spell_weaken_cast.m4a",
+      "license": "own",
+      "source": "tools/synth-pack6a.py",
+      "note": "Procedurally synthesized from Gemini pack 6a recipe"
+    },
+    {
+      "path": "public/audio/sfx_spell_weaken_impact.m4a",
+      "license": "own",
+      "source": "tools/synth-pack6a.py",
+      "note": "Procedurally synthesized from Gemini pack 6a recipe"
+    },
+    {
+      "path": "public/audio/sfx_spell_wind_ward_cast.m4a",
+      "license": "own",
+      "source": "tools/synth-pack6a.py",
+      "note": "Procedurally synthesized from Gemini pack 6a recipe"
+    },
+    {
+      "path": "public/audio/sfx_spell_wind_ward_impact.m4a",
+      "license": "own",
+      "source": "tools/synth-pack6a.py",
+      "note": "Procedurally synthesized from Gemini pack 6a recipe"
+    },
+    {
+      "path": "public/audio/sfx_trap_trigger.m4a",
+      "license": "own",
+      "source": "tools/synth-pack6a.py",
+      "note": "Procedurally synthesized from Gemini pack 6a recipe"
+    },
+    {
+      "path": "public/audio/sfx_unit_select.m4a",
+      "license": "own",
+      "source": "tools/synth-pack6a.py",
+      "note": "Procedurally synthesized from Gemini pack 6a recipe"
+    },
+    {
+      "path": "public/audio/sfx_waypoint_activate.m4a",
+      "license": "own",
+      "source": "tools/synth-pack6a.py",
+      "note": "Procedurally synthesized from Gemini pack 6a recipe"
+    },
+    {
+      "path": "public/audio/step_marsh_mud_1.m4a",
+      "license": "own",
+      "source": "tools/synth-pack6a.py",
+      "note": "Procedurally synthesized from Gemini pack 6a recipe"
+    },
+    {
+      "path": "public/audio/step_marsh_mud_2.m4a",
+      "license": "own",
+      "source": "tools/synth-pack6a.py",
+      "note": "Procedurally synthesized from Gemini pack 6a recipe"
+    },
+    {
+      "path": "public/audio/step_snow_ash_1.m4a",
+      "license": "own",
+      "source": "tools/synth-pack6a.py",
+      "note": "Procedurally synthesized from Gemini pack 6a recipe"
+    },
+    {
+      "path": "public/audio/step_snow_ash_2.m4a",
+      "license": "own",
+      "source": "tools/synth-pack6a.py",
+      "note": "Procedurally synthesized from Gemini pack 6a recipe"
+    },
+    {
+      "path": "public/audio/step_wood_plank_1.m4a",
+      "license": "own",
+      "source": "tools/synth-pack6a.py",
+      "note": "Procedurally synthesized from Gemini pack 6a recipe"
+    },
+    {
+      "path": "public/audio/step_wood_plank_2.m4a",
+      "license": "own",
+      "source": "tools/synth-pack6a.py",
+      "note": "Procedurally synthesized from Gemini pack 6a recipe"
+    },
+    {
+      "path": "public/audio/town_anvil_hammer.m4a",
+      "license": "own",
+      "source": "tools/synth-pack6a.py",
+      "note": "Procedurally synthesized from Gemini pack 6a recipe"
+    },
+    {
+      "path": "public/audio/town_cart_wheel.m4a",
+      "license": "own",
+      "source": "tools/synth-pack6a.py",
+      "note": "Procedurally synthesized from Gemini pack 6a recipe"
+    },
+    {
+      "path": "public/audio/town_tavern_murmur.m4a",
+      "license": "own",
+      "source": "tools/synth-pack6a.py",
+      "note": "Procedurally synthesized from Gemini pack 6a recipe"
+    },
+    {
+      "path": "public/audio/town_watch_bell.m4a",
+      "license": "own",
+      "source": "tools/synth-pack6a.py",
+      "note": "Procedurally synthesized from Gemini pack 6a recipe"
+    },
+    {
+      "path": "public/audio/ui_button_click.m4a",
+      "license": "own",
+      "source": "tools/synth-pack6a.py",
+      "note": "Procedurally synthesized from Gemini pack 6a recipe"
+    },
+    {
+      "path": "public/audio/ui_button_hover.m4a",
+      "license": "own",
+      "source": "tools/synth-pack6a.py",
+      "note": "Procedurally synthesized from Gemini pack 6a recipe"
+    },
+    {
+      "path": "public/audio/ui_inv_drop.m4a",
+      "license": "own",
+      "source": "tools/synth-pack6a.py",
+      "note": "Procedurally synthesized from Gemini pack 6a recipe"
+    },
+    {
+      "path": "public/audio/ui_inv_equip.m4a",
+      "license": "own",
+      "source": "tools/synth-pack6a.py",
+      "note": "Procedurally synthesized from Gemini pack 6a recipe"
+    },
+    {
+      "path": "public/audio/ui_inv_pick.m4a",
+      "license": "own",
+      "source": "tools/synth-pack6a.py",
+      "note": "Procedurally synthesized from Gemini pack 6a recipe"
+    },
+    {
+      "path": "public/audio/ui_menu_close.m4a",
+      "license": "own",
+      "source": "tools/synth-pack6a.py",
+      "note": "Procedurally synthesized from Gemini pack 6a recipe"
+    },
+    {
+      "path": "public/audio/ui_menu_open.m4a",
+      "license": "own",
+      "source": "tools/synth-pack6a.py",
+      "note": "Procedurally synthesized from Gemini pack 6a recipe"
+    },
+    {
+      "path": "public/audio/ui_trade_buy.m4a",
+      "license": "own",
+      "source": "tools/synth-pack6a.py",
+      "note": "Procedurally synthesized from Gemini pack 6a recipe"
+    },
+    {
+      "path": "public/audio/ui_trade_sell.m4a",
+      "license": "own",
+      "source": "tools/synth-pack6a.py",
+      "note": "Procedurally synthesized from Gemini pack 6a recipe"
     }
   ]
 }
