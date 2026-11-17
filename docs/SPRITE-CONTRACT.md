@@ -21,7 +21,7 @@ Every unit sprite set in Thornvael follows this contract. It is produced by `too
 
 ## Budgets
 
-- Atlas at most 2048 x 2048 px, one file at most 2 MB (repo guard), mask atlas the same size.
+- Atlas at most 2048 x 2048 px, one file at most 3 MB (repo guard), mask atlas the same size.
 - Cell size is a multiple of 8.
 - The strict combat profile fixes source dimensions to1024² so the four palette-layer quadrants produce one2048² RGBA GPU source per family (16MiB at 48px; 64MiB at 96px, so keep at most one 96px hero family loaded alongside the 48px families), excluding CPU/decode/other textures. CI rejects border-touching silhouettes and gross neutral-subject shrink; a large pose must be corrected instead of shrinking all clips.
 

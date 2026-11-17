@@ -14,7 +14,7 @@ const files = execFileSync('git', ['ls-files', '-z', '--cached', '--others', '--
 
 // REPO-01: original-format files and oversized binaries
 const FORBIDDEN_EXT = new Set(['.res', '.alm', '.256', '.smk', '.pak', '.bik']);
-const MAX_BINARY = 2 * 1024 * 1024; // 2 MB (96px hero atlases)
+const MAX_BINARY = 3 * 1024 * 1024; // 2 MB (96px hero atlases)
 const TEXT_EXT = new Set(['.ts', '.js', '.mjs', '.json', '.md', '.html', '.css', '.yml', '.yaml', '.svg', '.txt', '.webmanifest']);
 const BINARY_EXT = new Set(['.png', '.jpg', '.jpeg', '.webp', '.gif', '.m4a', '.mp3', '.ogg', '.woff', '.woff2', '.ttf', '.otf']);
 

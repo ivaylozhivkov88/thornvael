@@ -19,16 +19,21 @@ from PIL import Image
 DIRECTIONS = 16
 ANIMS = {"stand": 4, "walk": 8, "attack": 4, "cast": 4, "hurt": 2, "die": 4}
 COMBAT_ANIMS_ORDER = ["stand", "walk", "attack", "cast", "hurt", "die"]
-CELL = 48
-ATLAS_SIZE = 1024
-GRID_COLS = 21  # 21 * 48 = 1008 <= 1024
+LOGICAL = 48  # drawing coordinates are authored on a 48-unit grid
+CELL = 96  # output cell px
+K = CELL // LOGICAL
+S = 8  # supersampling per logical unit
+CELL_HI = LOGICAL * S  # 384 hi-res canvas -> 96px cell (4x AA)
+ATLAS_SIZE = 2048
+GRID_COLS = 21  # 21 * 96 = 2016 <= 2048
 
 ELEV = math.radians(35)
 COS_ELEV = math.cos(ELEV)
 SIN_ELEV = math.sin(ELEV)
 
 # Precomputed pixel coordinate grids for fast vectorized NumPy rendering
-PY_GRID, PX_GRID = np.mgrid[0:CELL, 0:CELL].astype(np.float32)
+PY_GRID, PX_GRID = np.mgrid[0:LOGICAL, 0:LOGICAL].astype(np.float32)  # 48px grid (base-unit enhancer)
+PY_HI, PX_HI = np.mgrid[0:CELL_HI, 0:CELL_HI].astype(np.float32)
 
 
 def frame_name(unit: str, anim: str, d: int, n: int) -> str:
@@ -58,16 +63,16 @@ MASK_CODES = {
 
 class VoxelCanvas:
     def __init__(self):
-        self.color = np.zeros((CELL, CELL, 4), dtype=np.uint8)
-        self.mask = np.zeros((CELL, CELL, 4), dtype=np.uint8)
-        self.zbuf = np.full((CELL, CELL), -9999.0, dtype=np.float32)
+        self.color = np.zeros((CELL_HI, CELL_HI, 4), dtype=np.uint8)
+        self.mask = np.zeros((CELL_HI, CELL_HI, 4), dtype=np.uint8)
+        self.zbuf = np.full((CELL_HI, CELL_HI), -9999.0, dtype=np.float32)
 
     def draw_ground_shadow(self, radius_x: float = 12.0, radius_y: float = 6.0, cy: float = 39.0):
         """Soft translucent ambient shadow on the ground (alpha <= 105 so it does not affect >128 height bounds)."""
-        dx = (PX_GRID - 24.0) / max(1.0, radius_x)
-        dy = (PY_GRID - cy) / max(1.0, radius_y)
+        dx = (PX_HI - 24.0 * S) / (max(1.0, radius_x) * S)
+        dy = (PY_HI - cy * S) / (max(1.0, radius_y) * S)
         d2 = dx * dx + dy * dy
-        valid = (d2 < 1.0) & (PX_GRID >= 3) & (PX_GRID <= 44) & (PY_GRID >= 3) & (PY_GRID <= 44) & (self.color[:, :, 3] == 0)
+        valid = (d2 < 1.0) & (PX_HI >= 3 * S) & (PX_HI <= 44 * S) & (PY_HI >= 3 * S) & (PY_HI <= 44 * S) & (self.color[:, :, 3] == 0)
         alpha = (np.maximum(0.0, 1.0 - d2) ** 1.6 * 100.0).astype(np.uint8)
         self.color[valid, 0] = 10
         self.color[valid, 1] = 8
@@ -93,23 +98,23 @@ class VoxelCanvas:
     ):
         """Vectorized 3D ellipsoid with normal mapping, procedural surface texture, Blinn-Phong specular, and rim light."""
         scx_rel, scy_rel, depth_c = project_3d_point(cx, cy, cz, facing_angle)
-        scx = 24.0 + scx_rel
-        scy = 39.0 + scy_rel
+        scx = (24.0 + scx_rel) * S
+        scy = (39.0 + scy_rel) * S
 
         cos_a = abs(math.cos(facing_angle))
         sin_a = abs(math.sin(facing_angle))
-        eff_rx = max(0.65, rx * cos_a + ry * sin_a)
-        eff_ry = max(0.65, (rx * sin_a + ry * cos_a) * SIN_ELEV + rz * COS_ELEV)
+        eff_rx = max(0.65, rx * cos_a + ry * sin_a) * S
+        eff_ry = max(0.65, (rx * sin_a + ry * cos_a) * SIN_ELEV + rz * COS_ELEV) * S
 
-        x0 = max(2, int(math.floor(scx - eff_rx - 0.5)))
-        x1 = min(45, int(math.ceil(scx + eff_rx + 0.5)))
-        y0 = max(2, int(math.floor(scy - eff_ry - 0.5)))
-        y1 = min(45, int(math.ceil(scy + eff_ry + 0.5)))
+        x0 = max(2 * S, int(math.floor(scx - eff_rx - 0.5)))
+        x1 = min(45 * S + S - 1, int(math.ceil(scx + eff_rx + 0.5)))
+        y0 = max(2 * S, int(math.floor(scy - eff_ry - 0.5)))
+        y1 = min(45 * S + S - 1, int(math.ceil(scy + eff_ry + 0.5)))
         if x0 > x1 or y0 > y1:
             return
 
-        sub_px = PX_GRID[y0 : y1 + 1, x0 : x1 + 1]
-        sub_py = PY_GRID[y0 : y1 + 1, x0 : x1 + 1]
+        sub_px = PX_HI[y0 : y1 + 1, x0 : x1 + 1]
+        sub_py = PY_HI[y0 : y1 + 1, x0 : x1 + 1]
         nx = (sub_px - scx) / eff_rx
         ny = (sub_py - scy) / eff_ry
         d2 = nx * nx + ny * ny
@@ -119,6 +124,9 @@ class VoxelCanvas:
 
         nz = np.sqrt(np.maximum(0.0, 1.0 - d2))
         z_offset = nz * ((rz + ry) * 0.5)
+        # textures are authored in logical-pixel units
+        sub_px = sub_px / S
+        sub_py = sub_py / S
         depth = depth_c + z_offset
 
         sub_zbuf = self.zbuf[y0 : y1 + 1, x0 : x1 + 1]
@@ -208,6 +216,13 @@ class VoxelCanvas:
 
     def finalize_frame(self, is_stand: bool = False):
         """Add crisp dark-fantasy 1px silhouette contour shading and enforce contract bounds."""
+        # Anti-aliased downsample from the hi-res canvas to the output cell
+        self.color = np.array(Image.fromarray(self.color, "RGBA").resize((CELL, CELL), Image.Resampling.LANCZOS))
+        self.mask = np.array(Image.fromarray(self.mask, "RGBA").resize((CELL, CELL), Image.Resampling.BILINEAR))
+        col_a = self.color[:, :, 3]
+        self.mask[col_a == 0] = 0
+        self.mask[col_a < 32] = 0
+        self.mask[:, :, 3] = np.minimum(self.mask[:, :, 3], col_a)
         # Zero border pixels strictly
         self.color[0, :, :] = 0
         self.color[CELL - 1, :, :] = 0
@@ -224,9 +239,9 @@ class VoxelCanvas:
             top, bottom = int(ys[0]), int(ys[-1])
             h = bottom - top + 1
             # Contract stand logicalHeight must be in [32, 47] -> h in [24, 35]
-            if h > 34:
+            if h > 34 * K:
                 # Trim top excess above bottom - 33
-                cut_y = bottom - 33
+                cut_y = bottom - 34 * K + 1
                 self.color[:cut_y, :, :] = 0
                 self.mask[:cut_y, :, :] = 0
                 solid = self.color[:, :, 3] > 128
