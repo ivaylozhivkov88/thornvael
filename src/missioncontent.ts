@@ -21,3 +21,14 @@ export async function loadMissionContent(map: string | null): Promise<MissionCon
     return null;
   }
 }
+
+/** Item flavor/inspect text from content/item-flavor.json, keyed by item name. Empty until loaded. */
+export interface ItemFlavor { flavor?: string; inspect?: string }
+let itemFlavor: Record<string, ItemFlavor> = {};
+export const getItemFlavor = (name: string): ItemFlavor | undefined => itemFlavor[name];
+export async function loadItemFlavor(): Promise<void> {
+  try {
+    const r = await fetch(`${import.meta.env.BASE_URL}data/content/item-flavor.json`);
+    if (r.ok) itemFlavor = await r.json();
+  } catch { /* flavor is optional */ }
+}

@@ -40,7 +40,7 @@ import {
   type ZoneExitDef,
 } from './sim/script';
 import { loadGameData } from './loaddata';
-import { loadMissionContent } from './missioncontent';
+import { loadMissionContent, loadItemFlavor } from './missioncontent';
 import { DebugPanel } from './debugpanel';
 import { SPELLS, Tk } from './sim/spelldata';
 import { validTarget } from './sim/spells';
@@ -2014,6 +2014,7 @@ const heroUi = new HeroUi({
 $('btn-hero').onclick = () => heroUi.toggle();
 initGothicHud();
 const heroPresent = combatMode && !battle && sim.cb.kind[0] === Kind.Hero;
+await loadItemFlavor();
 const missionContent = loadedMission ? await loadMissionContent(missionName) : null;
 const missionUi = loadedMission
   ? new MissionUi(loadedMission.doc, {

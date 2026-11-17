@@ -1,3 +1,4 @@
+import { getItemFlavor } from './missioncontent';
 import { DEFS, Kind, M, MODN } from './sim/combat';
 import { DIFF_NAMES, INV_MAX, SKILL_NAMES, SKILL_TIP, SKILL_MAX, WHY_TEXT, blocker, derive, equipmentStamp, startState, totals, type EquipmentAction, type HeroState } from './sim/hero';
 import { equipmentAction, equipmentLayers, equipmentPreview, skillProgress, type EquipmentSource as Sel } from './hero-presentation';
@@ -405,6 +406,15 @@ export function renderItemTooltipDom(itemOrId: number | ItemDef, hero?: HeroStat
 
   if (stats.hasChildNodes()) {
     root.append(stats);
+  }
+
+  const fl = getItemFlavor(d.name);
+  if (fl?.flavor) {
+    const f = document.createElement('div');
+    f.className = 'item-flavor';
+    f.style.cssText = 'font-style:italic;opacity:.8;margin-top:8px;font-size:.9em;line-height:1.35';
+    f.textContent = fl.flavor;
+    root.append(f);
   }
 
   // Set Info Section
