@@ -40,6 +40,7 @@ import {
   type ZoneExitDef,
 } from './sim/script';
 import { loadGameData } from './loaddata';
+import { loadMissionContent } from './missioncontent';
 import { DebugPanel } from './debugpanel';
 import { SPELLS, Tk } from './sim/spelldata';
 import { validTarget } from './sim/spells';
@@ -2013,6 +2014,7 @@ const heroUi = new HeroUi({
 $('btn-hero').onclick = () => heroUi.toggle();
 initGothicHud();
 const heroPresent = combatMode && !battle && sim.cb.kind[0] === Kind.Hero;
+const missionContent = loadedMission ? await loadMissionContent(missionName) : null;
 const missionUi = loadedMission
   ? new MissionUi(loadedMission.doc, {
       pause: (on) => (userPause = on || outcome !== null),
@@ -2030,7 +2032,7 @@ const missionUi = loadedMission
         } catch {}
         toast(`🧭 Marching to: ${label}`);
       },
-    })
+    }, missionContent)
   : null;
 
 // --- towns: tap a building to walk there and go in, tap a person to talk ---

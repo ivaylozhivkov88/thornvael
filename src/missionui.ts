@@ -1,4 +1,5 @@
 import type { MapDoc } from './mapdoc';
+import { speakerName, type MissionContent } from './missioncontent';
 import { Kind } from './sim/combat';
 import type { Sim } from './sim/sim';
 import { S } from './strings';
@@ -434,6 +435,7 @@ export class MissionUi {
   constructor(
     private readonly doc: MapDoc,
     private readonly host: MissionHost,
+    private readonly content: MissionContent | null = null,
   ) {
     // HUD Objectives Tracker
     this.goals.id = 'objectives';
@@ -927,12 +929,18 @@ export class MissionUi {
   briefing(begin: () => void): void {
     const title = this.t('title', this.doc.name);
     const body = this.t('body', 'Hostile warbands have breached the frontier riverbanks and fired the watch outposts. Rally your vanguard, advance across the shallows under covering fire, and strike down their warlord before our lines are encircled.');
-    this.showDialogue('Warden Hale', `${title}: ${body}`, S.mission.begin, () => {
+    const go = () => {
       this.host.pause(false);
       begin();
       // Render initial objectives
       if (this.lastSim) this.update(this.lastSim);
-    });
+    };
+    const scene = this.content?.intro_scene ?? [];
+    const play = (i: number): void => {
+      if (i >= scene.length) return go();
+      this.showDialogue(speakerName(scene[i].speaker), scene[i].line, i + 1 < scene.length ? S.mission.next : S.mission.begin, () => play(i + 1));
+    };
+    this.showDialogue('Warden Hale', `${title}: ${body}`, scene.length ? S.mission.next : S.mission.begin, () => play(0));
   }
 
   /** Called a few times a second: handles dialogue queue and live HUD objectives */
@@ -1767,7 +1775,12 @@ export class MissionUi {
 
   resultText(sim: Sim): string {
     const st = sim.script!.st;
-    return st.status === 1 ? this.t('win', S.victoryBody) : this.t(`fail.${st.cause}`, S.defeatBody);
+    if (st.status === 1) {
+      const ep = (this.content?.victory_epilogue ?? []).map((e) => `${speakerName(e.speaker)}: ${e.line}`).join('\n');
+      return this.t('win', S.victoryBody) + (ep ? `\n\n${ep}` : '');
+    }
+    const lose = this.t(`fail.${st.cause}`, S.defeatBody);
+    return this.content?.defeat_line ? `${lose}\n\n${this.content.defeat_line}` : lose;
   }
 }
 
