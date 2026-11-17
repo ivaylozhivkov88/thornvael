@@ -4,6 +4,7 @@ import { getItemDef } from './sim/items';
 import { scribeFee, spellPrereqMet, spellSynergy, SPELL_PREREQ, spellRankOf, MAX_SPELL_RANK, SPELL_RANK_POW } from './sim/hero';
 import type { Sim, Command } from './sim/sim';
 import { S } from './strings';
+import { getSpellText } from './missioncontent';
 
 export interface SpellbookUiOptions {
   sim: () => Sim;
@@ -1139,8 +1140,10 @@ export class SpellbookUi {
     const loreText = document.createElement('div');
     loreText.className = 'dossier-lore-text';
 
-    const firstLetter = spell.lore.charAt(0);
-    const restOfLore = spell.lore.slice(1);
+    const st = getSpellText(spell.name);
+    const loreFull = st?.flavor ? (st.cast_line ? `${st.flavor} “${st.cast_line}”` : st.flavor) : spell.lore;
+    const firstLetter = loreFull.charAt(0);
+    const restOfLore = loreFull.slice(1);
 
     loreText.innerHTML = `
       <span class="illuminated-initial" style="background:linear-gradient(135deg, ${school.color}, #1f120c);">${firstLetter}</span>

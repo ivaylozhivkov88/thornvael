@@ -80,3 +80,14 @@ export async function loadMonsterCodex(): Promise<void> {
     if (r.ok) monsterCodex = await r.json();
   } catch { /* optional */ }
 }
+
+/** Spell flavor text (content/spell-text.json), keyed by spell name. Empty until loaded. */
+export interface SpellText { name: string; tooltip?: string; flavor?: string; cast_line?: string }
+let spellText: Record<string, SpellText> = {};
+export const getSpellText = (name: string): SpellText | undefined => spellText[name];
+export async function loadSpellText(): Promise<void> {
+  try {
+    const r = await fetch(`${import.meta.env.BASE_URL}data/content/spell-text.json`);
+    if (r.ok) spellText = Object.fromEntries((await r.json() as SpellText[]).map((x) => [x.name, x]));
+  } catch { /* optional */ }
+}
