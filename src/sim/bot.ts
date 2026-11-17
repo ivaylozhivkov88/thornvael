@@ -5,6 +5,7 @@ import { Rng } from './rng';
 import { St } from './spelldata';
 import { knows } from './spells';
 import { getSuperUniqueForUnit, type TacticalAiRole } from './super-uniques';
+import { slideMove } from './movement';
 
 export type { TacticalAiRole };
 
@@ -149,6 +150,7 @@ export class MonsterAi {
   protected raisedMinions = new Map<number, Set<number>>();
   protected bossWindups = new Map<number, number>();
   protected panicUntil = new Map<number, number>();
+  protected kiteCooldowns = new Map<number, number>();
   protected fledForLeader = new Set<number>();
   protected lowHpPanicked = new Set<number>();
 
@@ -175,6 +177,7 @@ export class MonsterAi {
     this.raisedMinions = new Map((x?.raised ?? []).map(([k, v]) => [k, new Set(v)]));
     this.bossWindups = new Map(x?.windup ?? []);
     this.panicUntil.clear();
+    this.kiteCooldowns.clear();
     this.fledForLeader.clear();
     this.lowHpPanicked.clear();
   }
@@ -327,13 +330,13 @@ export class MonsterAi {
       }
     }
 
-    // 1. Coward Swarm AI (Small Imp/Fallen panic retreat for 60 ticks when leader dies or HP <= 25%)
+    // 1. Coward Swarm AI (Small Imp/Fallen panic retreat for 45 ticks when leader dies or HP <= 25%)
     for (const cId of cowards) {
       if (newlySlainLeader) {
-        this.panicUntil.set(cId, sim.tick + 60); // 60 ticks = 3.0 seconds panic retreat
+        this.panicUntil.set(cId, sim.tick + 45); // 45 ticks = 1.8 seconds panic retreat cap
       } else if (cb.hp[cId] <= Math.floor(cb.hpMax[cId] * 0.25) && !this.lowHpPanicked.has(cId)) {
         this.lowHpPanicked.add(cId);
-        this.panicUntil.set(cId, sim.tick + 60);
+        this.panicUntil.set(cId, sim.tick + 45);
       }
 
       const panicEnd = this.panicUntil.get(cId) ?? 0;
@@ -343,27 +346,30 @@ export class MonsterAi {
         const awayDx = cx - targetX || 1;
         const awayDy = cy - targetY || 0;
         const awayLen = Math.hypot(awayDx, awayDy) || 1;
-        const retreatX = Math.max(1, Math.min(sim.map.w - 2, Math.round(cx + (awayDx / awayLen) * 4.5)));
-        const retreatY = Math.max(1, Math.min(sim.map.h - 2, Math.round(cy + (awayDy / awayLen) * 4.5)));
+        const retreatX = Math.max(1, Math.min(sim.map.w - 2, Math.round(cx + (awayDx / awayLen) * 2.5)));
+        const retreatY = Math.max(1, Math.min(sim.map.h - 2, Math.round(cy + (awayDy / awayLen) * 2.5)));
         out.push({ type: 'order', order: 'retreat', ids: [cId], x: retreatX, y: retreatY });
       } else {
         swarmers.push(cId);
       }
     }
 
-    // 2. Ranged Kiter AI (Quill Fiends, Blowdarts, Scarabs, Glasswings, Archers — NEVER swarm into melee!)
+    // 2. Ranged Kiter AI (Quill Fiends, Blowdarts, Scarabs, Glasswings, Archers — NEVER sprint away indefinitely!)
     for (const kId of kiters) {
       const kx = sim.x[kId] / FP;
       const ky = sim.y[kId] / FP;
       const dist = Math.hypot(kx - targetX, ky - targetY);
       const reach = Math.max(5.5, DEFS[cb.kind[kId]].reach / FP);
+      const lastKite = this.kiteCooldowns.get(kId) ?? -999;
+      const onCooldown = sim.tick - lastKite < 135; // 5.4s cooldown (135 ticks)
 
-      if (dist < 3.2) {
+      if (dist < 3.2 && !onCooldown) {
+        this.kiteCooldowns.set(kId, sim.tick);
         const awayDx = kx - targetX || 1;
         const awayDy = ky - targetY || 0;
         const awayLen = Math.hypot(awayDx, awayDy) || 1;
-        const retreatX = Math.max(1, Math.min(sim.map.w - 2, Number((kx + (awayDx / awayLen) * 3.5).toFixed(2))));
-        const retreatY = Math.max(1, Math.min(sim.map.h - 2, Number((ky + (awayDy / awayLen) * 3.5).toFixed(2))));
+        const retreatX = Math.max(1, Math.min(sim.map.w - 2, Number((kx + (awayDx / awayLen) * 2.5).toFixed(2))));
+        const retreatY = Math.max(1, Math.min(sim.map.h - 2, Number((ky + (awayDy / awayLen) * 2.5).toFixed(2))));
         out.push({ type: 'order', order: 'retreat', ids: [kId], x: retreatX, y: retreatY });
       } else if (dist <= reach) {
         out.push({ type: 'order', order: 'attack', ids: [kId], target: targetId });
@@ -499,8 +505,9 @@ export class MonsterAi {
         const dy = targetY - wy;
         const len = Math.hypot(dx, dy) || 1;
         const stepDist = Math.min(len * 0.55, 2.5);
-        const interX = Math.max(1, Math.min(sim.map.w - 2, Number((wx + (dx / len) * stepDist).toFixed(2))));
-        const interY = Math.max(1, Math.min(sim.map.h - 2, Number((wy + (dy / len) * stepDist).toFixed(2))));
+        const slide = slideMove(sim.map, wx, wy, (dx / len) * stepDist, (dy / len) * stepDist);
+        const interX = Math.max(1, Math.min(sim.map.w - 2, Number(slide.x.toFixed(2))));
+        const interY = Math.max(1, Math.min(sim.map.h - 2, Number(slide.y.toFixed(2))));
 
         if (Math.hypot(bx - interX, by - interY) > 0.85) {
           out.push({ type: 'move', ids: [bId], x: interX, y: interY });
@@ -542,8 +549,9 @@ export class MonsterAi {
         const side = fId & 1 ? 1 : -1;
         const perpX = (-dy / len) * side * 1.8;
         const perpY = (dx / len) * side * 1.8;
-        const flankX = Math.max(1, Math.min(sim.map.w - 2, Number((wx + perpX).toFixed(2))));
-        const flankY = Math.max(1, Math.min(sim.map.h - 2, Number((wy + perpY).toFixed(2))));
+        const slide = slideMove(sim.map, wx, wy, perpX, perpY);
+        const flankX = Math.max(1, Math.min(sim.map.w - 2, Number(slide.x.toFixed(2))));
+        const flankY = Math.max(1, Math.min(sim.map.h - 2, Number(slide.y.toFixed(2))));
         out.push({ type: 'order', order: 'attack', ids: [fId], target: weakTarget, x: flankX, y: flankY });
       } else {
         out.push({ type: 'order', order: 'attack', ids: [fId], target: weakTarget, x: wx, y: wy });
@@ -594,8 +602,9 @@ export class MonsterAi {
         cx += sim.x[id];
         cy += sim.y[id];
       }
-      const far = Math.hypot(cx / alive.length / FP - p.x, cy / alive.length / FP - p.y) > 22;
-      if (p.calm >= 100 || (far && !heroPursuit)) {
+      // Aggro Leash: breaks pursuit when dragged more than 14 tiles away from patrol post
+      const far = Math.hypot(cx / alive.length / FP - p.x, cy / alive.length / FP - p.y) > 14;
+      if (p.calm >= 100 || far) {
         p.hunting = false;
         out.push({ type: 'order', order: 'guard', ids: alive, x: p.x, y: p.y });
         continue;

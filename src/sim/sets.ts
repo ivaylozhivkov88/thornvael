@@ -1,4 +1,4 @@
-import { Ik, ItemDef, Slot, CLS_WARRIOR, CLS_MAGE, CLS_BOTH } from './items';
+import { Ik, ItemDef, Slot, CLS_WARRIOR, CLS_MAGE, CLS_BOTH } from './item-types';
 
 /**
  * Item Sets inspired by classic classic ARPG.
@@ -59,6 +59,7 @@ export const SET_IRON_WARDEN: ItemSetDef = {
       grow: 0,
       spell: -1,
       sockets: 1,
+      lore: "The slit visor of Commander Valerius, who held the river breach against forty waves of invaders.",
     },
     {
       name: "Iron Warden's Tower",
@@ -85,6 +86,7 @@ export const SET_IRON_WARDEN: ItemSetDef = {
       grow: 0,
       spell: -1,
       sockets: 1,
+      lore: "Inlaid with the crest of the vigilant wolf, ringing like a cathedral bell under heavy blows.",
     },
     {
       name: "Iron Warden's Hauberk",
@@ -111,6 +113,7 @@ export const SET_IRON_WARDEN: ItemSetDef = {
       grow: 0,
       spell: -1,
       sockets: 2,
+      lore: "Scored by claws and arrows, this chestpiece refused to bend even when the bastion fell.",
     },
     {
       name: "Iron Warden's Greaves",
@@ -136,6 +139,7 @@ export const SET_IRON_WARDEN: ItemSetDef = {
       restore: 0,
       grow: 0,
       spell: -1,
+      lore: "Weighted with cold-rolled steel, rooting the defender firmly into bloody soil.",
     },
   ],
   bonuses: [

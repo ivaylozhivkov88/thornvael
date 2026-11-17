@@ -25,7 +25,7 @@ export interface HeroUiCtx {
 }
 
 type Tab = 'hero' | 'pack';
-const PACK_PAGE = 8;
+const PACK_PAGE = 24;
 
 import { figure, slotWatermarkIcon } from './hero-figure';
 import { PaperdollController, type Drag, type EquipmentIntent } from './paperdoll';
@@ -987,7 +987,7 @@ export class HeroUi {
     return line(S.hero.weight, `${d.weight} / ${d.capacity}`, '', m);
   }
 
-  private renderHero(h: HeroState, sim: Sim, open = true): HTMLElement {
+  private renderHero(h: HeroState, sim: Sim, _open = true): HTMLElement {
     const cb = sim.cb;
     const i = h.id;
     const d = derive(h);
@@ -996,7 +996,7 @@ export class HeroUi {
 
     const b = el('div', 'hero-stats');
 
-    // 1. Hero Level & Ornate Gold Progress Bar
+    // 1. Hero Identity Header & XP Progress Bar (Classic ARPG Style)
     const heroLevel = h.level ?? 1;
     const xpCur = h.xp ?? 0;
     const xpMax = h.xpNext ?? 100;
@@ -1004,7 +1004,7 @@ export class HeroUi {
 
     const levelWrap = el('div', 'hero-level-wrap');
     const levelTitle = el('div', 'hero-level-title');
-    levelTitle.innerHTML = `<span class="hl-class">${S.hero.classes[h.cls]}</span> · <span class="hl-badge">Level ${heroLevel}</span> <span class="hl-pct">${xpCur}/${xpMax} XP (${overallProgressPct}%)${h.statPoints ? ` · <b style="color:#ffd700">+${h.statPoints} Stat Points Available</b>` : ''}</span>`;
+    levelTitle.innerHTML = `<span class="hl-class">${S.hero.classes[h.cls]}</span> · <span class="hl-title">${S.hero.sexes[h.female ? 1 : 0]}</span> · <span class="hl-badge">Level ${heroLevel}</span> <span class="hl-pct">${xpCur}/${xpMax} XP (${overallProgressPct}%)${h.statPoints ? ` · <b class="hl-stat-pts">+${h.statPoints} Stat Points</b>` : ''}</span>`;
 
     const goldProgressBar = el('div', 'hero-gold-progress-bar');
     const goldProgressFill = el('div', 'gold-progress-fill');
@@ -1020,7 +1020,7 @@ export class HeroUi {
     const hpFill = el('div', 'resource-fill hp-fill');
     hpFill.style.width = `${Math.max(0, Math.min(100, (cb.hp[i] / Math.max(1, cb.hpMax[i])) * 100))}%`;
     const hpInfo = el('div', 'resource-info');
-    hpInfo.innerHTML = `<span class="res-title">❤️ Life: <b>${cb.hp[i]} / ${cb.hpMax[i]}</b></span><span class="res-sub">+${1 + cb.mod[o + M.Regen]}/sec regen</span>`;
+    hpInfo.innerHTML = `<span class="res-title">❤️ Life: <b>${cb.hp[i]} / ${cb.hpMax[i]}</b></span><span class="res-sub">+${1 + cb.mod[o + M.Regen]}/s regen</span>`;
     hpGauge.append(hpFill, hpInfo);
 
     const mpGauge = el('div', 'resource-gauge mp-gauge');
@@ -1033,39 +1033,38 @@ export class HeroUi {
     gaugesRow.append(hpGauge, mpGauge);
     b.append(gaugesRow);
 
-    // 3. Two Column Layout: Left = Primary Attributes & Skills; Right = Combat Stats & Resistances
+    // 3. Two Column Layout: Left = Primary Attributes; Right = Combat Stats
     const cols = el('div', 'hero-char-cols');
 
-    // Left Column
+    // Left Column: 4 Primary Attributes
     const left = el('div', 'hero-char-left');
+    const attrHdr = el('h3', 'section-hdr', S.hero.attributes);
+    if (h.statPoints) {
+      attrHdr.append(el('span', 'stat-pts-callout', ` (+${h.statPoints})`));
+    }
+    left.append(attrHdr);
 
-    // Four Primary Attributes
-    left.append(el('h3', 'section-hdr', S.hero.attributes));
-    const attrGrid = el('div', 'hero-attr-grid');
+    const attrList = el('div', 'hero-attr-list');
     const attrCrests = ['🛡', '🦅', '👁', '☀️'];
-    const attrSub = [
-      'Increases blow damage & item carry weight',
-      'Increases attack rating & dodge defense',
-      'Increases mana pool & spell effectiveness',
-      'Increases mana recovery & magic resistance',
+    const attrSubs = [
+      'Increases blow damage & carry capacity',
+      'Increases attack rating & defense',
+      'Increases mana pool & spell effect',
+      'Increases mana recovery & resistance',
     ];
 
     for (let k = 0; k < 4; k++) {
       const bonus = d.attr[k] - h.attr[k];
-      const card = el('div', 'hero-attr-card');
-      const attrTip = `${S.hero.attrTips[k]} (${attrSub[k]})`;
-      this.ctx.tipOn(card, attrTip);
+      const row = el('div', 'hero-attr-row');
+      const attrTip = `${S.hero.attrTips[k]} (${attrSubs[k]})`;
+      this.ctx.tipOn(row, attrTip);
 
-      const iconBox = el('div', `attr-crest-box attr-c-${k}`);
-      iconBox.textContent = attrCrests[k];
-
-      const textBox = el('div', 'attr-text-box');
-      const nameSpan = el('div', 'attr-name', S.hero.attrs[k]);
-      const valSpan = el('div', 'attr-val');
-      valSpan.innerHTML = bonus
-        ? `<b class="attr-total">${d.attr[k]}</b> <small class="attr-breakdown">(${h.attr[k]}${bonus > 0 ? '+' : ''}${bonus})</small>`
+      const crest = el('span', `attr-crest attr-c-${k}`, attrCrests[k]);
+      const name = el('span', 'attr-name', S.hero.attrs[k]);
+      const val = el('span', 'attr-val');
+      val.innerHTML = bonus
+        ? `<b class="attr-total">${d.attr[k]}</b> <small class="attr-bonus">(${h.attr[k]}${bonus > 0 ? '+' : ''}${bonus})</small>`
         : `<b class="attr-total">${d.attr[k]}</b>`;
-      textBox.append(nameSpan, valSpan);
 
       const elixir = h.inv.find((s) => getItemDef(s.item)?.grow === k + 1);
       const hasPoints = (h.statPoints ?? 0) > 0;
@@ -1087,85 +1086,57 @@ export class HeroUi {
           this.act({ type: 'hero', op: 'use', item: elixir.item });
         };
       } else {
-        const tip = `Raise attributes with level-up stat points or rare Elixirs`;
-        this.ctx.tipOn(plusBtn, tip);
         plusBtn.disabled = true;
       }
 
-      card.append(iconBox, textBox, plusBtn);
-      attrGrid.append(card);
+      row.append(crest, name, val, plusBtn);
+      attrList.append(row);
     }
-    left.append(attrGrid);
+    left.append(attrList);
 
-    // Hero Skills (Blade, Guard, Sorcery)
-    left.append(el('h3', 'section-hdr', S.hero.skills));
-    const skillsContainer = el('div', 'hero-skills-list');
-    const skillIcons = ['⚔', '🛡', '🔮'];
-    const skillEffects = [
-      (lvl: number) => `+${lvl * 5}% Blow Damage`,
-      (lvl: number) => `+${Math.floor(lvl / 3)} Damage Absorb`,
-      (lvl: number) => `+${lvl * 4}% Spell Power`,
-    ];
-
-    for (let k = 0; k < 3; k++) {
-      const { level, used, needed, remaining } = skillProgress(h, k);
-      const card = el('div', 'hero-skill-card');
-      card.dataset.skill = String(k);
-
-      const hdr = el('div', 'skill-card-hdr');
-      hdr.innerHTML = `<span class="skill-icon-name">${skillIcons[k]} ${SKILL_NAMES[k]}</span> <span class="skill-rank-badge">Rank ${level} / ${SKILL_MAX}</span>`;
-
-      const gaugeWrap = el('div', 'skill-gauge-wrap');
-      const gaugeFill = el('div', 'skill-gauge-fill');
-      const pct = needed === null ? 100 : Math.min(100, (used / needed) * 100);
-      gaugeFill.style.width = `${pct}%`;
-      gaugeWrap.append(gaugeFill);
-
-      const desc = el('div', 'skill-card-desc');
-      const summary = needed === null ? 'Mastered (Maximum Level)' : `${used} / ${needed} uses · ${remaining} to Rank ${level + 1}`;
-      desc.innerHTML = `<span class="skill-summary">${summary}</span> <span class="skill-bonus">(${skillEffects[k](level)})</span>`;
-
-      card.append(hdr, gaugeWrap, desc);
-      skillsContainer.append(card);
-    }
-    left.append(skillsContainer);
-
-    // Right Column: Combat Statistics & Elemental Resistances
+    // Right Column: Combat Statistics
     const right = el('div', 'hero-char-right');
-
     right.append(el('h3', 'section-hdr', S.hero.stats));
-    const combatGrid = el('div', 'combat-stats-grid');
+    const combatList = el('div', 'combat-stats-list');
 
+    // 1. Attack Rating
     const totalAcc = base.acc + cb.mod[o + M.Acc];
     const hitChance = Math.max(15, Math.min(95, 70 + (totalAcc - 4) * 3));
-    const tileAcc = el('div', 'combat-stat-tile');
-    tileAcc.innerHTML = `<div class="cstat-icon">🎯</div><div class="cstat-body"><div class="cstat-label">${S.hit}</div><div class="cstat-val">${totalAcc} <small class="cstat-sub">(~${hitChance}% Hit)</small></div></div>`;
-    this.ctx.tipOn(tileAcc, `Attack Rating against standard defense. Base: ${base.acc}, Mod: ${cb.mod[o + M.Acc]}`);
+    const rowAcc = el('div', 'combat-stat-row');
+    rowAcc.innerHTML = `<span class="cstat-icon">🎯</span><span class="cstat-label">${S.hit}</span><span class="cstat-val">${totalAcc} <small class="cstat-sub">(~${hitChance}% Hit)</small></span>`;
+    this.ctx.tipOn(rowAcc, `Attack Rating against standard defense. Base: ${base.acc}, Mod: ${cb.mod[o + M.Acc]}`);
 
+    // 2. Weapon Damage
     const minDmg = base.min + cb.mod[o + M.Min];
     const maxDmg = base.max + cb.mod[o + M.Max];
-    const tileDmg = el('div', 'combat-stat-tile');
-    tileDmg.innerHTML = `<div class="cstat-icon">⚔</div><div class="cstat-body"><div class="cstat-label">${S.hero.blowDamage}</div><div class="cstat-val">${minDmg}–${maxDmg} <small class="cstat-sub">Physical</small></div></div>`;
-    this.ctx.tipOn(tileDmg, `Weapon and blow damage range per hit`);
+    const rowDmg = el('div', 'combat-stat-row');
+    rowDmg.innerHTML = `<span class="cstat-icon">⚔</span><span class="cstat-label">${S.hero.blowDamage}</span><span class="cstat-val">${minDmg}–${maxDmg} <small class="cstat-sub">Physical</small></span>`;
+    this.ctx.tipOn(rowDmg, `Blow damage range per physical strike`);
 
+    // 3. Defense & Absorption
     const avgDef = Math.round(S.parts.reduce((sum, _, k) => sum + (base.def + cb.mod[o + M.Def] + base.pdef[k] + cb.mod[o + M.PDef + k]), 0) / 4);
     const avgAbs = Math.round(S.parts.reduce((sum, _, k) => sum + (cb.mod[o + M.Abs] + base.pabs[k] + cb.mod[o + M.PAbs + k]), 0) / 4);
-    const tileArmor = el('div', 'combat-stat-tile');
+    const rowArmor = el('div', 'combat-stat-row');
     const partDetails = S.parts.map((p, k) => `${p}: ${base.def + cb.mod[o + M.Def] + base.pdef[k] + cb.mod[o + M.PDef + k]} Def / ${cb.mod[o + M.Abs] + base.pabs[k] + cb.mod[o + M.PAbs + k]} Abs`).join(' · ');
-    tileArmor.innerHTML = `<div class="cstat-icon">🛡</div><div class="cstat-body"><div class="cstat-label">Armor Absorption</div><div class="cstat-val">${avgDef} Def <span class="cstat-sep">/</span> ${avgAbs} Abs</div></div>`;
-    this.ctx.tipOn(tileArmor, partDetails);
+    rowArmor.innerHTML = `<span class="cstat-icon">🛡</span><span class="cstat-label">Defense</span><span class="cstat-val">${avgDef} Def <span class="cstat-sep">/</span> ${avgAbs} Abs</span>`;
+    this.ctx.tipOn(rowArmor, partDetails);
 
+    // 4. Block Chance
     const hasShield = h.eq[Slot.Shield] >= 0;
     const blockChance = hasShield ? Math.min(75, 20 + h.skill[1] * 3 + (getItemDef(h.eq[Slot.Shield])?.def ?? 0) * 2) : 0;
-    const tileBlock = el('div', 'combat-stat-tile');
-    tileBlock.innerHTML = `<div class="cstat-icon">🔰</div><div class="cstat-body"><div class="cstat-label">Block Chance</div><div class="cstat-val">${blockChance}% <small class="cstat-sub">${hasShield ? 'Shield Active' : 'No Shield'}</small></div></div>`;
-    this.ctx.tipOn(tileBlock, hasShield ? `Shield Block chance scaling with Guard Skill (Rank ${h.skill[1]}) and Shield Defense` : `Requires an equipped offhand shield`);
+    const rowBlock = el('div', 'combat-stat-row');
+    rowBlock.innerHTML = `<span class="cstat-icon">🔰</span><span class="cstat-label">Chance to Block</span><span class="cstat-val">${blockChance}% <small class="cstat-sub">${hasShield ? 'Shield' : 'None'}</small></span>`;
+    this.ctx.tipOn(rowBlock, hasShield ? `Shield Block chance scaling with Guard Skill and Shield Defense` : `Requires an equipped offhand shield`);
 
-    combatGrid.append(tileAcc, tileDmg, tileArmor, tileBlock);
-    right.append(combatGrid);
+    combatList.append(rowAcc, rowDmg, rowArmor, rowBlock);
+    right.append(combatList);
 
-    // Elemental Resistances Grid with Colored Shield Badges
-    right.append(el('h3', 'section-hdr', 'Elemental Resistances'));
+    cols.append(left, right);
+    b.append(cols);
+
+    // 4. Bottom Section: Elemental Resistances (Full-width clean compact chips)
+    const resSec = el('div', 'hero-res-section');
+    resSec.append(el('h3', 'section-hdr', 'Elemental Resistances (Max 90%)'));
     const resGrid = el('div', 'elemental-res-grid');
     const resMeta = [
       { name: 'Fire', color: 'ruby', icon: '🔥', cap: 90 },
@@ -1178,23 +1149,32 @@ export class HeroUi {
     for (let k = 0; k < 5; k++) {
       const val = Math.min(resMeta[k].cap, base.res[k] + cb.mod[o + M.Res + k]);
       const badge = el('div', `res-shield-badge res-badge-${resMeta[k].color}`);
-      badge.innerHTML = `
-        <div class="badge-icon">${resMeta[k].icon}</div>
-        <div class="badge-text">
-          <span class="badge-name">${resMeta[k].name}</span>
-          <span class="badge-val">${val}%</span>
-        </div>
-      `;
+      badge.innerHTML = `<span class="badge-icon">${resMeta[k].icon}</span><span class="badge-name">${resMeta[k].name}</span><b class="badge-val">${val}%</b>`;
       this.ctx.tipOn(
         badge,
-        `${resMeta[k].name} Resistance: ${val}% (reduces incoming ${resMeta[k].name.toLowerCase()} spell and environmental damage)`,
+        `${resMeta[k].name} Resistance: ${val}% / ${resMeta[k].cap}% (reduces incoming ${resMeta[k].name.toLowerCase()} spell and elemental damage)`,
       );
       resGrid.append(badge);
     }
-    right.append(resGrid);
+    resSec.append(resGrid);
+    b.append(resSec);
 
-    cols.append(left, right);
-    b.append(cols);
+    // 5. Skills Footer Strip (Compact 1-line strip for Blade, Guard, Sorcery)
+    const skillsStrip = el('div', 'hero-skills-strip');
+    const skillIcons = ['⚔', '🛡', '🔮'];
+    for (let k = 0; k < 3; k++) {
+      const { level, used, needed, remaining } = skillProgress(h, k);
+      const chip = el('div', 'skill-strip-chip');
+      chip.dataset.skill = String(k);
+      chip.innerHTML = `<span class="skill-chip-icon">${skillIcons[k]}</span> <span class="skill-chip-name">${SKILL_NAMES[k]}:</span> <b class="skill-chip-rank">Rank ${level}</b>`;
+      const tip = needed === null
+        ? `${SKILL_NAMES[k]}: Mastered (Maximum Rank ${SKILL_MAX})`
+        : `${SKILL_NAMES[k]}: Rank ${level} (${used}/${needed} uses, ${remaining} to Rank ${level + 1})`;
+      this.ctx.tipOn(chip, tip);
+      skillsStrip.append(chip);
+    }
+    b.append(skillsStrip);
+
     return b;
   }
 
@@ -1223,10 +1203,6 @@ export class HeroUi {
       if (id >= 0 && d) {
         bt.className = 'slot-btn slot-equipped';
         bt.append(itemIcon(id));
-        const labelBox = el('div', 'slot-text-wrap');
-        labelBox.append(el('span', 'slot-item-name', d.name));
-        labelBox.append(el('small', 'slot-meta-name', `${SLOT_NAMES[s]} · T${d.tier}`));
-        bt.append(labelBox);
         const isSet = isSetItem(d.name);
         const rarity = isSet ? 'set' : (d.rarity ?? (d.tier >= 5 ? 'unique' : d.tier >= 4 ? 'rare' : d.tier >= 2 ? 'magic' : 'normal'));
         bt.dataset.rarity = rarity;
@@ -1238,10 +1214,12 @@ export class HeroUi {
       } else {
         bt.className = 'slot-btn slot-empty';
         bt.append(slotWatermarkIcon(s));
-        const labelBox = el('div', 'slot-text-wrap');
-        labelBox.append(el('span', 'slot-empty-title', SLOT_NAMES[s]));
-        labelBox.append(el('small', 'slot-empty-sub', S.hero.empty));
-        bt.append(labelBox);
+        bt.title = `${SLOT_NAMES[s]} (${S.hero.empty})`;
+        bt.addEventListener('pointerenter', (e) => {
+          if ((e as PointerEvent).pointerType !== 'touch') {
+            this.ctx.tipOn(bt, `${SLOT_NAMES[s]} (${S.hero.empty})`);
+          }
+        });
       }
       bt.onclick = () => {
         if (this.sel && this.sel.from === 'inv') {
@@ -1302,11 +1280,13 @@ export class HeroUi {
     beltBt.type = 'button';
     beltBt.dataset.k = 'eq8';
     beltBt.append(slotWatermarkIcon(8));
-    const beltLabel = el('div', 'slot-text-wrap');
-    beltLabel.append(el('span', 'slot-empty-title', 'Waist (Belt)'));
     const beltCount = h.inv.filter((s) => getItemDef(s.item)?.kind === Ik.Potion).reduce((sum, s) => sum + s.n, 0);
-    beltLabel.append(el('small', 'slot-empty-sub', beltCount > 0 ? `${beltCount} Potions` : 'Potion Belt'));
-    beltBt.append(beltLabel);
+    beltBt.title = `Waist / Belt (${beltCount > 0 ? `${beltCount} Potions` : 'Potion Belt'})`;
+    beltBt.addEventListener('pointerenter', (e) => {
+      if ((e as PointerEvent).pointerType !== 'touch') {
+        this.ctx.tipOn(beltBt, `Waist / Belt (${beltCount > 0 ? `${beltCount} Potions` : 'Potion Belt'})`);
+      }
+    });
     beltCell.append(beltBt);
     slots.append(beltCell);
 
@@ -1317,10 +1297,12 @@ export class HeroUi {
     ring2Bt.type = 'button';
     ring2Bt.dataset.k = 'eq5_alt';
     ring2Bt.append(slotWatermarkIcon(Slot.Ring));
-    const ring2Label = el('div', 'slot-text-wrap');
-    ring2Label.append(el('span', 'slot-empty-title', 'Finger 2 (Ring)'));
-    ring2Label.append(el('small', 'slot-empty-sub', S.hero.empty));
-    ring2Bt.append(ring2Label);
+    ring2Bt.title = `Finger 2 (Ring) (${S.hero.empty})`;
+    ring2Bt.addEventListener('pointerenter', (e) => {
+      if ((e as PointerEvent).pointerType !== 'touch') {
+        this.ctx.tipOn(ring2Bt, `Finger 2 (Ring) (${S.hero.empty})`);
+      }
+    });
     ring2Bt.onclick = () => {
       if (this.sel && this.sel.from === 'inv') {
         const intent = this.intent(this.sel);
@@ -1347,27 +1329,16 @@ export class HeroUi {
     const panel = el('section', 'hero-gear-panel hero-pack-panel');
     panel.dataset.equipmentTarget = 'pack';
     panel.append(el('h3', '', `${S.hero.pack} (${h.inv.length}/${INV_MAX})`), this.weightLine(h));
-    const back = el('div', 'hero-return', S.hero.returnToPack);
-    back.dataset.equipmentTarget = 'pack';
-    back.onclick = () => {
-      if (this.sel && this.sel.from === 'eq') {
-        const intent = this.intent(this.sel);
-        if (intent) {
-          playPickupRustle();
-          this.sel = null;
-          this.submit(intent);
-        }
-      }
-    };
-    panel.append(back);
+
     const grid = el('div', 'items hero-pack-grid');
     grid.dataset.equipmentTarget = 'pack';
-    for (let index = 0; index < PACK_PAGE; index++) {
-      const n = this.page * PACK_PAGE + index;
+
+    for (let n = 0; n < INV_MAX; n++) {
       const st = h.inv[n];
       if (!st) {
-        const empty = el('div', 'hero-pack-empty', S.hero.empty);
+        const empty = el('div', 'hero-pack-empty hero-pack-slot');
         empty.dataset.equipmentTarget = 'pack';
+        empty.dataset.k = `inv${n}`;
         empty.onclick = () => {
           if (this.sel && this.sel.from === 'eq') {
             const intent = this.intent(this.sel);
@@ -1383,7 +1354,16 @@ export class HeroUi {
       }
       const d = getItemDef(st.item);
       if (!d) continue;
-      const bt = button(st.n > 1 ? `${d.name} x${st.n}` : d.name, `inv${n}`, () => {
+
+      const bt = el('button', 'slot-btn slot-equipped hero-pack-slot');
+      bt.type = 'button';
+      bt.dataset.k = `inv${n}`;
+      bt.append(itemIcon(st.item));
+      if (st.n > 1) {
+        const countBadge = el('span', 'slot-stack-count', String(st.n));
+        bt.append(countBadge);
+      }
+      bt.onclick = () => {
         this.hideCardTooltip();
         this.sel = this.sel?.from === 'inv' && this.sel.slot === n ? null : { from: 'inv', item: st.item, slot: n };
         if (this.sel) playPickupRustle();
@@ -1391,7 +1371,7 @@ export class HeroUi {
         if (this.sel && typeof window !== 'undefined' && (window.innerWidth <= 650 || ('ontouchstart' in window))) {
           this.showMobilePopover(h, this.sel);
         }
-      }, `${S.hero.level} ${d.tier} · ${d.w * st.n} ${S.hero.weight.toLowerCase()}`);
+      };
       bt.oncontextmenu = (e) => {
         e.preventDefault();
         e.stopPropagation();
@@ -1420,7 +1400,6 @@ export class HeroUi {
           }
         }
       };
-      bt.prepend(itemIcon(st.item));
       bt.classList.toggle('sel', this.sel?.from === 'inv' && this.sel.slot === n);
       bt.classList.toggle('no', blocker(h, st.item) !== 0);
       const isSet = isSetItem(d.name);
@@ -1431,25 +1410,26 @@ export class HeroUi {
         if ((e as PointerEvent).pointerType !== 'touch') this.showCardTooltip(st.item, bt);
       });
       bt.addEventListener('pointerleave', () => this.hideCardTooltip());
+
       grid.append(this.cell(bt, { from: 'inv', item: st.item, slot: n }));
     }
-    const pages = el('div', 'hero-pack-pages');
-    const go = (delta: number) => {
-      if (this.drag) return;
-      this.hideCardTooltip();
-      this.page += delta;
-      this.render(true);
+
+    panel.append(grid);
+
+    const back = el('div', 'hero-return', S.hero.returnToPack);
+    back.dataset.equipmentTarget = 'pack';
+    back.onclick = () => {
+      if (this.sel && this.sel.from === 'eq') {
+        const intent = this.intent(this.sel);
+        if (intent) {
+          playPickupRustle();
+          this.sel = null;
+          this.submit(intent);
+        }
+      }
     };
-    const prev = button('‹', 'pack-prev', () => go(-1));
-    const next = button('›', 'pack-next', () => go(1));
-    const count = Math.max(1, Math.ceil(h.inv.length / PACK_PAGE));
-    prev.disabled = this.page === 0;
-    next.disabled = this.page + 1 >= count;
-    prev.setAttribute('aria-label', S.town.previousPage);
-    next.setAttribute('aria-label', S.town.nextPage);
-    pages.append(prev, el('span', '', `${this.page + 1} / ${count}`), next);
-    panel.append(grid, pages);
-    if (!h.inv.length) panel.append(el('p', 'note', S.hero.noItems));
+    panel.append(back);
+
     return panel;
   }
 

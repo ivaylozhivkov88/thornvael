@@ -54,9 +54,9 @@ const SHRINE_COLORS: Record<string, number> = {
 };
 const LOOT_BEAM_COLORS: Record<string, { outer: number; inner: number; height: number }> = {
   magic: { outer: 0x4a9eff, inner: 0xa8d4ff, height: 28 },
-  rare: { outer: 0xe6c840, inner: 0xfff3a8, height: 34 },
-  set: { outer: 0x00ff7f, inner: 0xb9f6ca, height: 38 },
-  unique: { outer: 0xff9a1f, inner: 0xffd294, height: 46 },
+  rare: { outer: 0xe6c840, inner: 0xfff3a8, height: 42 },
+  set: { outer: 0x00ff7f, inner: 0xb9f6ca, height: 155 },
+  unique: { outer: 0xff9a1f, inner: 0xffe0a0, height: 180 },
 };
 
 function drawGlint(r: Graphics, x: number, y: number, tick: number, seed: number): void {
@@ -586,27 +586,29 @@ export class Renderer {
           dirX /= len;
           dirY /= len;
           const angle = Math.atan2(dirY, dirX);
+          const isFlinch = hitIdx >= 0 && (isCrit || e.v >= Math.ceil(sim.cb.hpMax[hitIdx] / 12) || e.v >= 12);
           if (hitIdx >= 0) {
             const killed = sim.cb.hp[hitIdx] <= 0;
-            const amp = (isCrit ? 6 : e.v >= 12 ? 4 : 2.5) * (killed ? 1.8 : 1);
+            const amp = (isCrit ? 9 : isFlinch ? 6.5 : 2.8) * (killed ? 2.0 : 1.25);
             this.kickX[hitIdx] = dirX * amp;
             this.kickY[hitIdx] = dirY * amp * 0.6;
             this.kickAt[hitIdx] = now;
           }
 
           if (e.el === 0) {
-            this.feel?.spawnBlood(wx, wy + 16, dirX, dirY, isCrit ? 10 : 5);
-            this.feel?.spawnSlash(wx, wy + 12, angle, isCrit, isCrit ? 0xffd700 : 0xf0f0f0, isCrit ? 32 : 22);
+            this.feel?.spawnBlood(wx, wy + 16, dirX, dirY, isCrit ? 14 : isFlinch ? 8 : 4);
+            this.feel?.spawnSlash(wx, wy + 12, angle, isCrit, isCrit ? 0xffd700 : 0xf0f0f0, isCrit ? 34 : 24);
           } else {
-            this.feel?.spawnSparks(wx, wy + 12, ELEM_COLOR[e.el], isCrit ? 14 : 7, isCrit ? 120 : 80);
+            this.feel?.spawnSparks(wx, wy + 12, ELEM_COLOR[e.el], isCrit ? 16 : isFlinch ? 10 : 6, isCrit ? 130 : 85);
           }
+          this.vfx?.spawnHitSpray(wx, wy + 12, dirX, dirY, e.el === 0, isCrit);
 
           if (isCrit) {
-            this.feel?.addTrauma(0.35);
-            this.feel?.triggerHitStop(45, now);
-          } else if (e.v >= 12) {
-            this.feel?.addTrauma(0.18);
-            this.feel?.triggerHitStop(30, now);
+            this.feel?.addTrauma(0.40);
+            this.feel?.triggerHitStop(85, now);
+          } else if (isFlinch) {
+            this.feel?.addTrauma(0.24);
+            this.feel?.triggerHitStop(55, now);
           } else if (isHero) {
             this.feel?.addTrauma(0.2);
           }
@@ -1073,25 +1075,70 @@ export class Renderer {
       if (beam) {
         const h = beam.height;
         const pulse = 0.85 + 0.15 * Math.sin(sim.tick * 0.15 + n);
-        // Outer light beam pillar
-        r.moveTo(bx - 3.5, by - 6)
-          .lineTo(bx - 1, by - 6 - h)
-          .lineTo(bx + 1, by - 6 - h)
-          .lineTo(bx + 3.5, by - 6)
-          .closePath()
-          .fill({ color: beam.outer, alpha: 0.3 * pulse });
-        // Incandescent inner core
-        r.moveTo(bx - 1.5, by - 6)
-          .lineTo(bx - 0.5, by - 6 - h)
-          .lineTo(bx + 0.5, by - 6 - h)
-          .lineTo(bx + 1.5, by - 6)
-          .closePath()
-          .fill({ color: beam.inner, alpha: 0.65 * pulse });
-        // Pulsing ground light aura
-        r.ellipse(bx, by + 2, 9 * pulse, 4.5 * pulse).stroke({ color: beam.outer, width: 1.5, alpha: 0.7 * pulse });
-        // Satchel body tinted by rarity
-        r.roundRect(bx - 6, by - 9, 12, 10, 3).fill(0x283850).stroke({ color: beam.outer, width: 1.5, alpha: 0.9 });
-        r.rect(bx - 2, by - 6, 4, 3).fill(beam.inner);
+        const isLegendary = rarity === 'unique' || rarity === 'set';
+
+        if (isLegendary) {
+          // Broad outer ethereal glow beam soaring into the sky
+          r.moveTo(bx - 6, by - 6)
+            .lineTo(bx - 2, by - 6 - h)
+            .lineTo(bx + 2, by - 6 - h)
+            .lineTo(bx + 6, by - 6)
+            .closePath()
+            .fill({ color: beam.outer, alpha: 0.3 * pulse });
+          // Core luminous pillar
+          r.moveTo(bx - 3, by - 6)
+            .lineTo(bx - 1, by - 6 - h)
+            .lineTo(bx + 1, by - 6 - h)
+            .lineTo(bx + 3, by - 6)
+            .closePath()
+            .fill({ color: beam.outer, alpha: 0.58 * pulse });
+          // Incandescent inner laser core
+          r.moveTo(bx - 1.2, by - 6)
+            .lineTo(bx - 0.5, by - 6 - h)
+            .lineTo(bx + 0.5, by - 6 - h)
+            .lineTo(bx + 1.2, by - 6)
+            .closePath()
+            .fill({ color: beam.inner, alpha: 0.88 * pulse });
+          // Double concentric pulsing ground rune aura
+          r.ellipse(bx, by + 2, 12 * pulse, 6 * pulse).stroke({ color: beam.outer, width: 1.5, alpha: 0.8 * pulse });
+          r.ellipse(bx, by + 2, 6 * pulse, 3 * pulse).stroke({ color: beam.inner, width: 1.0, alpha: 0.9 * pulse });
+
+          // Rising celestial glints/sparkles ascending up the beacon
+          const sparklePeriod = 36;
+          for (let sp = 0; sp < 4; sp++) {
+            const sPhase = (sim.tick * 1.5 + n * 11 + sp * 9) % sparklePeriod;
+            const sT = sPhase / sparklePeriod;
+            const sy = by - 6 - sT * h;
+            const sx = bx + Math.sin(sT * Math.PI * 4 + n + sp) * 2.5;
+            const sAlpha = Math.sin(sT * Math.PI) * 0.9 * pulse;
+            r.circle(sx, sy, 1.2).fill({ color: 0xffffff, alpha: sAlpha });
+            r.circle(sx, sy, 2.4).stroke({ color: beam.inner, width: 0.8, alpha: sAlpha * 0.7 });
+          }
+
+          // Satchel body tinted by rarity
+          r.roundRect(bx - 6, by - 9, 12, 10, 3).fill(0x283850).stroke({ color: beam.outer, width: 1.8, alpha: 0.95 });
+          r.rect(bx - 2, by - 6, 4, 3).fill(beam.inner);
+        } else {
+          // Standard magic/rare light beam pillar
+          r.moveTo(bx - 3.5, by - 6)
+            .lineTo(bx - 1, by - 6 - h)
+            .lineTo(bx + 1, by - 6 - h)
+            .lineTo(bx + 3.5, by - 6)
+            .closePath()
+            .fill({ color: beam.outer, alpha: 0.3 * pulse });
+          // Incandescent inner core
+          r.moveTo(bx - 1.5, by - 6)
+            .lineTo(bx - 0.5, by - 6 - h)
+            .lineTo(bx + 0.5, by - 6 - h)
+            .lineTo(bx + 1.5, by - 6)
+            .closePath()
+            .fill({ color: beam.inner, alpha: 0.65 * pulse });
+          // Pulsing ground light aura
+          r.ellipse(bx, by + 2, 9 * pulse, 4.5 * pulse).stroke({ color: beam.outer, width: 1.5, alpha: 0.7 * pulse });
+          // Satchel body tinted by rarity
+          r.roundRect(bx - 6, by - 9, 12, 10, 3).fill(0x283850).stroke({ color: beam.outer, width: 1.5, alpha: 0.9 });
+          r.rect(bx - 2, by - 6, 4, 3).fill(beam.inner);
+        }
       } else {
         // Standard normal satchel
         r.roundRect(bx - 6, by - 9, 12, 10, 3).fill(0x3c5a8c).stroke({ color: 0x1a2a48, width: 1 });
@@ -1540,11 +1587,19 @@ export class Renderer {
       const isElite = mods.length > 0 || !!boss;
       const s = this.sprites[i];
       let auraTint = boss?.auraTint ?? (isElite ? 0xf4b43a : famVis?.auraColor ?? 0xf4b43a);
-      if (mods.includes('fire_enchanted')) {
+      if (mods.includes('holy_freeze') || mods.includes('cold_enchanted')) {
+        auraTint = 0x38bdf8;
+      } else if (mods.includes('holy_fire') || mods.includes('fire_enchanted')) {
         auraTint = 0xff4810;
-      } else if (mods.includes('lightning_enchanted') || mods.includes('spectral_hit')) {
+      } else if (mods.includes('holy_shock') || mods.includes('lightning_enchanted') || mods.includes('spectral_hit')) {
         auraTint = 0x00c8ff;
-      } else if (mods.includes('extra_fast')) {
+      } else if (mods.includes('conviction')) {
+        auraTint = 0x22c55e;
+      } else if (mods.includes('fanaticism') || mods.includes('thorns')) {
+        auraTint = 0xdc2626;
+      } else if (mods.includes('blessed_aim') || mods.includes('concentration')) {
+        auraTint = 0xffd700;
+      } else if (mods.includes('extra_fast') || mods.includes('vigor')) {
         auraTint = 0x30e850;
       }
       const baseRadius = boss ? Math.round(14 * (boss.scale / 1.3)) : isElite ? 14 : 11;

@@ -1,4 +1,4 @@
-import { Ik, ItemDef, Slot } from './items';
+import { Ik, type ItemDef, Slot } from './item-types';
 
 /**
  * Procedural Magic Affixes inspired by classic ARPG (MagicPrefix.txt, MagicSuffix.txt) & RoM2.
@@ -310,91 +310,109 @@ export const UNIQUE_ARTIFACTS: readonly ItemDef[] = [
     name: "Sovereign's Gilded Crest", kind: Ik.Gear, slot: Slot.Helm, tier: 5, w: 3, cls: 3, need: 2, needv: 15,
     min: 0, max: 0, acc: 0, cover: 1, def: 3, abs: 4, hp: 45, mana: 45, pow: 15, heal: 0, restore: 0, grow: 0, spell: -1,
     res: [10, 10, 10, 10, 10], attr: [2, 2, 2, 2], sockets: 2,
+    lore: "Worn by High King Justinian before the caldera cracked the northern heavens. The imperial crest still hums with ancestral authority.",
   },
   {
     name: 'Bastion of the Sunlit Oath', kind: Ik.Gear, slot: Slot.Shield, tier: 5, w: 14, cls: 1, need: 0, needv: 17,
     min: 0, max: 0, acc: 2, cover: 7, def: 5, abs: 5, hp: 50, mana: 0, pow: 0, heal: 0, restore: 0, grow: 0, spell: -1,
     res: [35, 10, 10, 10, 20], attr: [2, 0, 0, 1], sockets: 1,
+    lore: "Forged in the dawn-kilns of Valoria. No blade of shadows has ever pierced its sun-touched steel.",
   },
   {
     name: 'Signet of the Astral Well', kind: Ik.Gear, slot: Slot.Ring, tier: 4, w: 0, cls: 3, need: 3, needv: 12,
     min: 0, max: 0, acc: 0, cover: 0, def: 0, abs: 0, hp: 0, mana: 50, pow: 12, heal: 0, restore: 0, grow: 0, spell: -1,
     res: [0, 0, 0, 0, 20], attr: [0, 0, 1, 1],
+    lore: "A deep sapphire seal containing an unbroken link to the luminous astral currents.",
   },
   {
     name: 'Zephyr-Bough of the Tempest', kind: Ik.Gear, slot: Slot.Weapon, tier: 5, w: 4, cls: 3, need: 1, needv: 18,
     min: 12, max: 18, acc: 6, cover: 0, def: 0, abs: 0, hp: 0, mana: 0, pow: 10, heal: 0, restore: 0, grow: 0, spell: -1,
     res: [0, 0, 30, 0, 0], attr: [0, 3, 0, 0], sockets: 1,
+    lore: "Carved from the heartwood of an elder willow struck by celestial lightning. The bowstring hums with trapped gale winds.",
   },
   {
     name: "Cinder-Weaver's Wraps", kind: Ik.Gear, slot: Slot.Gloves, tier: 3, w: 0, cls: 2, need: 2, needv: 9,
     min: 0, max: 0, acc: 0, cover: 4, def: 1, abs: 1, hp: 0, mana: 20, pow: 15, heal: 0, restore: 0, grow: 0, spell: -1,
     res: [25, 0, 0, 0, 0], attr: [0, 0, 1, 0],
+    lore: "Scorched velvet gloves that turn the caster's astral sparks into roaring firestorms.",
   },
   {
     name: 'Colossus of the Fallen Dynasty', kind: Ik.Gear, slot: Slot.Weapon, tier: 5, w: 12, cls: 1, need: 0, needv: 18,
     min: 16, max: 24, acc: 3, cover: 0, def: 2, abs: 0, hp: 40, mana: 0, pow: 0, heal: 0, restore: 0, grow: 0, spell: -1,
     res: [0, 0, 0, 15, 0], attr: [3, 0, 0, 0], sockets: 2,
+    lore: "Its core is dense meteoric ore mined from the deep craters of the First Reckoning. Every swing cleaves rock like dry bone.",
   },
   {
     name: 'Cowl of the Pale Stalker', kind: Ik.Gear, slot: Slot.Helm, tier: 4, w: 2, cls: 3, need: 1, needv: 14,
     min: 0, max: 0, acc: 4, cover: 1, def: 3, abs: 3, hp: 20, mana: 0, pow: 0, heal: 0, restore: 0, grow: 0, spell: -1,
     res: [0, 0, 0, 15, 0], attr: [0, 2, 0, 0],
+    lore: "Stitched from shadow-beast pelt; the wearer's gaze pierces magical darkness and fog.",
   },
   {
     name: 'Mantle of the Storm-Caller', kind: Ik.Gear, slot: Slot.Armor, tier: 5, w: 4, cls: 2, need: 2, needv: 16,
     min: 0, max: 0, acc: 0, cover: 6, def: 2, abs: 3, hp: 0, mana: 35, pow: 18, heal: 0, restore: 0, grow: 0, spell: -1,
     res: [0, 0, 30, 0, 10], attr: [0, 0, 2, 1], sockets: 1,
+    lore: "Woven from storm-silk and charged air. Crackling sparks dance across the collar with every breath.",
   },
   {
     name: "Dune-Strider's Treads", kind: Ik.Gear, slot: Slot.Boots, tier: 4, w: 3, cls: 3, need: 1, needv: 13,
     min: 0, max: 0, acc: 0, cover: 8, def: 2, abs: 3, hp: 20, mana: 0, pow: 0, heal: 0, restore: 0, grow: 0, spell: -1,
     res: [25, 0, 0, 25, 0], attr: [0, 2, 0, 0],
+    lore: "Tanned in scorched brimstone oils, allowing the wearer to run across burning sand and toxic mire unhindered.",
   },
   {
     name: 'Glacial Shard of the First Frost', kind: Ik.Gear, slot: Slot.Weapon, tier: 4, w: 2, cls: 2, need: 2, needv: 14,
     min: 2, max: 4, acc: 1, cover: 0, def: 1, abs: 0, hp: 0, mana: 25, pow: 22, heal: 0, restore: 0, grow: 0, spell: -1,
     res: [0, 35, 0, 0, 0], attr: [0, 0, 2, 0], sockets: 1,
+    lore: "Extracted from the primordial heart of the High Pass glacier. Cold vapor curls eternally from its razor edge.",
   },
   {
     name: 'Caduceus of the Dawn-Bearer', kind: Ik.Gear, slot: Slot.Weapon, tier: 5, w: 5, cls: 2, need: 2, needv: 18,
     min: 3, max: 6, acc: 2, cover: 0, def: 1, abs: 1, hp: 30, mana: 45, pow: 35, heal: 0, restore: 0, grow: 0, spell: -1,
     res: [20, 20, 20, 20, 20], attr: [0, 0, 3, 2], sockets: 2,
+    lore: "Borne by Saint Sophia during the Great Plague. Where its shadow fell, corruption withered and vitality returned.",
   },
   {
     name: 'Talisman of the Prismatic Loom', kind: Ik.Gear, slot: Slot.Amulet, tier: 5, w: 1, cls: 3, need: 3, needv: 15,
     min: 0, max: 0, acc: 0, cover: 0, def: 0, abs: 0, hp: 30, mana: 30, pow: 10, heal: 0, restore: 0, grow: 0, spell: -1,
     res: [18, 18, 18, 18, 18], attr: [1, 1, 1, 1],
+    lore: "Seven concentric crystal rings that refract all incoming spells into harmless colored light.",
   },
   {
     name: 'Crown of the Primordial Ages', kind: Ik.Gear, slot: Slot.Helm, tier: 5, w: 6, cls: 1, need: 0, needv: 17,
     min: 0, max: 0, acc: 1, cover: 1, def: 4, abs: 6, hp: 40, mana: 0, pow: 0, heal: 0, restore: 0, grow: 0, spell: -1,
     res: [15, 15, 15, 15, 15], attr: [2, 0, 2, 0], sockets: 2,
+    lore: "Ancient amber veins spiderweb across its archaic iron rim, whispering secrets of forgotten ages.",
   },
   {
     name: "Blood-Drinker's Crescent", kind: Ik.Gear, slot: Slot.Weapon, tier: 4, w: 8, cls: 1, need: 0, needv: 15,
     min: 11, max: 18, acc: 2, cover: 0, def: 0, abs: 0, hp: 25, mana: 0, pow: 0, heal: 0, restore: 0, grow: 0, spell: -1,
     res: [0, 0, 0, 0, 0], attr: [2, 0, 0, 0], sockets: 1,
+    lore: "A sacrificial sickle unearthed from the red barrows. It grows warmer the closer it draws to a beating heart.",
   },
   {
     name: 'Hammer of the Earth-Breaker', kind: Ik.Gear, slot: Slot.Weapon, tier: 5, w: 14, cls: 1, need: 0, needv: 18,
     min: 14, max: 24, acc: 2, cover: 0, def: 0, abs: 2, hp: 0, mana: 0, pow: 0, heal: 0, restore: 0, grow: 0, spell: -1,
     res: [0, 0, 0, 30, 0], attr: [4, 0, 0, 0], sockets: 2,
+    lore: "A titan's mason tool, repurposed for war. It struck the cornerstone of the Sunken Citadel.",
   },
   {
     name: 'Aegis of the Sunken Citadel', kind: Ik.Gear, slot: Slot.Shield, tier: 4, w: 12, cls: 1, need: 0, needv: 14,
     min: 0, max: 0, acc: 0, cover: 7, def: 4, abs: 4, hp: 30, mana: 0, pow: 0, heal: 0, restore: 0, grow: 0, spell: -1,
     res: [0, 20, 0, 20, 0], attr: [1, 0, 0, 1], sockets: 1,
+    lore: "Its surface reflects not the sky, but the murky green depths of the submerged sanctuary.",
   },
   {
     name: 'Boots of the Shadow-Dancer', kind: Ik.Gear, slot: Slot.Boots, tier: 5, w: 3, cls: 3, need: 1, needv: 16,
     min: 0, max: 0, acc: 2, cover: 8, def: 3, abs: 4, hp: 25, mana: 0, pow: 0, heal: 0, restore: 0, grow: 0, spell: -1,
     res: [10, 10, 10, 10, 10], attr: [0, 3, 0, 0],
+    lore: "Stitched from night-stalker hides that absorb all light, silencing the footsteps of their master.",
   },
   {
     name: 'Girdle of Giants', kind: Ik.Gear, slot: Slot.Armor, tier: 4, w: 16, cls: 1, need: 0, needv: 15,
     min: 0, max: 0, acc: 0, cover: 6, def: 3, abs: 5, hp: 50, mana: 0, pow: 0, heal: 0, restore: 0, grow: 0, spell: -1,
     res: [0, 0, 0, 0, 0], attr: [4, 0, 0, 0], sockets: 1,
+    lore: "Thick plates of hammered mountain iron that grant the unyielding fortitude of the stone colossi.",
   },
 
   {

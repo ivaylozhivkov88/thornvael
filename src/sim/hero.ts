@@ -49,6 +49,8 @@ export interface HeroState {
   statPoints?: number;
   skillPoints?: number;
   skillCd?: Record<string, number>;
+  name?: string;
+  activeAura?: string;
 }
 
 /** Gold to copy a spell from a scroll or tome into the spellbook. */
@@ -58,7 +60,8 @@ export const scribeFee = (tier: number): number => 15 * tier;
 export type HeroCommand =
   | { type: 'hero'; op: 'equip' | 'unequip' | 'use' | 'drop'; item?: number; slot?: number; expectedEquipment?: string }
   | { type: 'hero'; op: 'stat'; attr: number }
-  | { type: 'hero'; op: 'skill'; skill: HeroSkillId; x?: number; y?: number; target?: number };
+  | { type: 'hero'; op: 'skill'; skill: HeroSkillId; x?: number; y?: number; target?: number }
+  | { type: 'hero'; op: 'aura'; aura?: string };
 
 export type EquipmentAction = { op: 'equip'; item: number } | { op: 'unequip'; slot: number };
 
@@ -110,6 +113,15 @@ export function totals(h: HeroState): number[] {
   for (const b of bonuses) {
     if (b.attr) {
       for (let k = 0; k < 4; k++) t[k] += b.attr[k];
+    }
+  }
+  // Charms carried in inventory passively grant attribute bonuses (D2 system)
+  for (const s of h.inv) {
+    if (s.item < 0) continue;
+    const d = getItemDef(s.item);
+    if (!d || !d.charmSize) continue;
+    for (let count = 0; count < s.n; count++) {
+      for (let k = 0; k < 4; k++) t[k] += d.attr[k];
     }
   }
   return t;
@@ -200,6 +212,22 @@ export function derive(h: HeroState): Derived {
     if (b.pow) pow += b.pow;
     if (b.res) {
       for (let k = 0; k < 5; k++) res[k] += b.res[k];
+    }
+  }
+  // Charms carried in inventory passively grant combat bonuses (D2 system)
+  for (const s of h.inv) {
+    if (s.item < 0) continue;
+    const d = getItemDef(s.item);
+    if (!d || !d.charmSize) continue;
+    for (let count = 0; count < s.n; count++) {
+      min += d.min;
+      max += d.max;
+      acc += d.acc;
+      hp += d.hp;
+      mana += d.mana;
+      pow += d.pow;
+      for (let k = 0; k < 5; k++) res[k] += d.res[k];
+      for (let k = 0; k < PART_COUNT; k++) pdef[k] += d.def;
     }
   }
   const [blade, guard, sorc] = h.skill;
@@ -350,6 +378,7 @@ export function takeItem(h: HeroState, item: number): boolean {
 export function blocker(h: HeroState, item: number): number {
   const d = getItemDef(item);
   if (!d) return Why.None;
+  if (d.unidentified) return Why.Unidentified;
   if (d.kind === Ik.Gear && (d.cls & (h.cls === Cls.Mage ? CLS_MAGE : CLS_WARRIOR)) === 0) return Why.Class;
   if (d.needv > 0 && totals(h)[d.need] < d.needv) return Why.Need;
   if (d.kind === Ik.Learn && ((h.known >>> d.spell) & 1) === 1) return Why.Known;
@@ -393,6 +422,22 @@ function useItem(sim: Sim, item: number): void {
     recalc(sim);
   } else if (d.kind === Ik.Portal) {
     cb.emit(9, sim.x[i], sim.y[i], 99, 0);
+  } else if (d.kind === Ik.Identify) {
+    let unIdItem = -1;
+    for (const stack of h.inv) {
+      const itDef = sim.getItemDef(stack.item);
+      if (itDef && itDef.unidentified) {
+        unIdItem = stack.item;
+        break;
+      }
+    }
+    if (unIdItem < 0) return refuse(sim, Why.NoEffect);
+    const targetDef = sim.getItemDef(unIdItem);
+    if (targetDef) {
+      targetDef.unidentified = false;
+      if (targetDef.trueName) targetDef.name = targetDef.trueName;
+    }
+    cb.emit(7, sim.x[i], sim.y[i], 0, 0);
   } else if (d.spell >= 0) {
     const fee = scribeFee(d.tier);
     if (cb.gold[0] < fee) return refuse(sim, Why.Gold);
@@ -784,6 +829,10 @@ export function heroCommand(sim: Sim, cmd: HeroCommand): void {
       }
       return;
     }
+    case 'aura': {
+      h.activeAura = cmd.aura;
+      return;
+    }
   }
 }
 
@@ -1119,6 +1168,20 @@ export function dropLoot(sim: Sim, t: number): void {
     if ((drop.quality === 'magic' || drop.quality === 'rare') && drop.magicDef) {
       const inst = sim.createItemInstance(drop.itemId, drop.quality, drop.magicDef);
       finalItemId = inst.id;
+    } else if (drop.quality === 'unique' || drop.quality === 'set') {
+      const targetDef = drop.itemDef ?? sim.getItemDef(drop.itemId) ?? getItemDef(drop.itemId);
+      if (targetDef) {
+        const unIdName = getUnidentifiedName(targetDef);
+        const unIdDef: ItemDef = {
+          ...targetDef,
+          unidentified: true,
+          trueName: targetDef.name,
+          name: unIdName,
+          rarity: drop.quality,
+        };
+        const inst = sim.createItemInstance(drop.itemId, drop.quality, unIdDef);
+        finalItemId = inst.id;
+      }
     }
 
     for (let b = 0; b < cb.bI.length; b++) {

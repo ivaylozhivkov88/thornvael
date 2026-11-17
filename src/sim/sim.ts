@@ -10,6 +10,7 @@ import { Rng } from './rng';
 import type { ScriptRuntime, ScriptState } from './script';
 import { buildTowns, checkQuests, cloneTown, hashTown, newTownState, townCommand, type TownCommand, type TownDef, type TownRt, type TownState } from './town';
 import { DYNAMIC_ITEM_OFFSET, getItemDef, registerDynamicItem, unregisterDynamicItem, ITEMS, type ItemDef, type ItemInstance } from './items';
+import { stepAuraSystem } from './auras';
 
 export { FP };
 export const TICKS_PER_SECOND = 25;
@@ -353,31 +354,7 @@ export class Sim {
   }
 
   private stepBossAuras(): void {
-    const cb = this.cb;
-    const count = this.count;
-    const hp = cb.hp;
-    const team = this.team;
-    const hidden = this.hidden;
-    const x = this.x;
-    const y = this.y;
-    const auraR2 = (6.0 * FP) * (6.0 * FP);
-
-    for (let b = 0; b < count; b++) {
-      if (hp[b] <= 0 || hidden[b]) continue;
-      const mods = cb.bossMods[b];
-      if (!mods || !mods.includes('blessed_aura')) continue;
-      const bx = x[b];
-      const by = y[b];
-      const bteam = team[b];
-      for (let u = 0; u < count; u++) {
-        if (hp[u] <= 0 || hidden[u] || team[u] !== bteam) continue;
-        const dx = x[u] - bx;
-        const dy = y[u] - by;
-        if (dx * dx + dy * dy <= auraR2) {
-          addStatus(this, u, St.Bless, 50, 0);
-        }
-      }
-    }
+    stepAuraSystem(this);
   }
 
   private stepShrines(): void {
@@ -657,6 +634,7 @@ export class Sim {
         for (const id of ids) {
           cb.ord[id] = Ord.Retreat;
           cb.tgt[id] = -1;
+          cb.aux[id] = this.tick;
         }
         return;
       }
@@ -936,10 +914,16 @@ export class Sim {
     const map = this.map;
     const x = this.x[i];
     const y = this.y[i];
+    if (this.cb.ord[i] === Ord.Retreat && this.tick - this.cb.aux[i] >= 45) {
+      this.cb.ord[i] = Ord.Guard;
+      this.moving[i] = 0;
+      return;
+    }
     const pct = Math.max(25, speedPct(map, Math.floor(x / FP), Math.floor(y / FP)));
     const st = this.cb.stMask[i] === 0 ? 100 : statusSpeed(this.cb.stMask[i]);
     const extraFastMult = this.cb.bossMods[i]?.includes('extra_fast') ? 130 : 100;
-    const spd = Math.floor((UNIT_SPEED * pct * DEFS[this.cb.kind[i]].speed * st * extraFastMult) / 100000000);
+    const baseSpd = Math.floor((UNIT_SPEED * pct * DEFS[this.cb.kind[i]].speed * st * extraFastMult) / 100000000);
+    const spd = this.cb.ord[i] === Ord.Retreat ? Math.floor((baseSpd * 75) / 100) : baseSpd;
     let tgx = this.tx[i];
     let tgy = this.ty[i];
     const pid = this.pathId[i];

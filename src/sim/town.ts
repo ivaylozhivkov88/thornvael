@@ -76,7 +76,7 @@ export interface TownState {
   barracks?: number; // campaign barracks: percent off hire fees
 }
 
-export type TownOp = 'enter' | 'leave' | 'buy' | 'sell' | 'hire' | 'learn' | 'train' | 'accept' | 'gamble' | 'transmute';
+export type TownOp = 'enter' | 'leave' | 'buy' | 'sell' | 'hire' | 'learn' | 'train' | 'accept' | 'gamble' | 'transmute' | 'identify_all';
 /** `v`: role (enter), merc index (hire), spell (learn), skill (train), offer (accept). `list`: shelf slots (buy) or item ids (sell). */
 export type TownCommand = { type: 'town'; op: TownOp; town: number; v?: number; list?: number[] };
 
@@ -260,6 +260,32 @@ export function townCommand(sim: Sim, cmd: TownCommand): void {
       rollStock(sim, cmd.town);
     }
     st.inside = -1;
+    return;
+  }
+  if (cmd.op === 'identify_all') {
+    let count = 0;
+    for (const stack of h.inv) {
+      const d = sim.getItemDef(stack.item);
+      if (d && d.unidentified) {
+        d.unidentified = false;
+        if (d.trueName) d.name = d.trueName;
+        count++;
+      }
+    }
+    for (let s = 0; s < h.eq.length; s++) {
+      const eqId = h.eq[s];
+      if (eqId >= 0) {
+        const d = sim.getItemDef(eqId);
+        if (d && d.unidentified) {
+          d.unidentified = false;
+          if (d.trueName) d.name = d.trueName;
+          count++;
+        }
+      }
+    }
+    if (count > 0) {
+      sim.cb.emit(7, sim.x[h.id], sim.y[h.id], count, 0);
+    }
     return;
   }
   const role = { buy: Role.Shop, sell: Role.Shop, gamble: Role.Shop, transmute: Role.Shop, hire: Role.Tavern, accept: Role.Tavern, learn: Role.School, train: Role.School }[cmd.op];

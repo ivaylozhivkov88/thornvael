@@ -4,6 +4,9 @@ import { TILE } from './map';
 import { FP } from './sim/sim';
 import { St } from './sim/spelldata';
 import { getSuperUniqueForUnit } from './sim/super-uniques';
+import { renderPaladinAura, renderUnitAuras } from './auras';
+
+export { renderPaladinAura, renderUnitAuras };
 
 /**
  * AAA Combat Feel & Dynamic Torch Lighting Engine:
@@ -366,167 +369,7 @@ export class CombatFeelSystem {
   /** Render GPU Decal Auras under units with blendMode = 'add' */
   renderAuras(sim: Sim, now: number, k: number): void {
     this.auraGraphics.clear();
-    const g = this.auraGraphics;
-    const count = sim.count;
-    const mw = this.mapW;
-
-    for (let i = 0; i < count; i++) {
-      if (sim.cb.hp[i] <= 0 || sim.hidden[i]) continue;
-      const tile = Math.floor(sim.y[i] / FP) * mw + Math.floor(sim.x[i] / FP);
-      if (!sim.visible[tile]) continue;
-
-      const ux = sim.x[i] * k;
-      const uy = sim.y[i] * k;
-      const mods = sim.cb.bossMods[i] || [];
-      const isHero = sim.hero?.id === i;
-      const isLeader = isHero || mods.length > 0;
-      const stMask = sim.cb.stMask[i];
-      const hasBless = isHero && !!(stMask & (1 << St.Bless));
-      const hasHaste = isHero && !!(stMask & (1 << St.Haste));
-      const hasShield = isHero && !!(stMask & (1 << St.Shield));
-
-      // 1. Fire Aura / Fanaticism: Ethereal subterranean crimson flame sigil under fire-enchanted bosses
-      if (mods.includes('fire_enchanted')) {
-        const pulse = 1 + 0.04 * Math.sin(now * 0.0025 + i);
-        const rx = 18 * pulse;
-        const ry = 8.5 * pulse;
-        const rot = now * 0.0007;
-
-        // Soft ethereal ground glow rings (additive blending)
-        g.ellipse(ux, uy + 2, rx * 1.15, ry * 1.15).stroke({ color: 0x991b1b, width: 2.0, alpha: 0.14 });
-        g.ellipse(ux, uy + 2, rx, ry).stroke({ color: 0xc2410c, width: 1.2, alpha: 0.25 });
-        g.ellipse(ux, uy + 2, rx * 0.65, ry * 0.65).stroke({ color: 0xd97706, width: 0.8, alpha: 0.18 });
-
-        // 6 delicate ancient runic ticks slowly drifting along perimeter
-        for (let a = 0; a < 6; a++) {
-          const ang = rot + a * (Math.PI / 3);
-          const px = ux + Math.cos(ang) * rx;
-          const py = (uy + 2) + Math.sin(ang) * ry;
-          const tang = ang + Math.PI / 2;
-          const rdx = Math.cos(tang) * 2.2;
-          const rdy = Math.sin(tang) * 1.1;
-          g.moveTo(px - rdx, py - rdy).lineTo(px + rdx, py + rdy).stroke({
-            color: 0xf97316,
-            width: 0.9,
-            alpha: 0.35,
-          });
-        }
-
-        // Delicate rising ground embers fading upward
-        for (let m = 0; m < 3; m++) {
-          const phase = ((now * 0.0008 + m * 0.33 + i * 0.2) % 1);
-          const mAng = m * 2.09 + now * 0.0005;
-          const mrx = rx * (0.4 + phase * 0.55);
-          const mry = ry * (0.4 + phase * 0.55);
-          const mx = ux + Math.cos(mAng) * mrx;
-          const my = uy + 2 + Math.sin(mAng) * mry - phase * 5;
-          g.circle(mx, my, 0.75).fill({ color: 0xfde047, alpha: (1 - phase) * 0.35 });
-        }
-      }
-
-      // 2. Frost Aura / Holy Freeze: Ethereal glacial rune ring with freezing blue pulse
-      if (mods.includes('cold_enchanted') || mods.includes('cold_touch') || (isHero && hasShield)) {
-        const pulse = 1 + 0.04 * Math.sin(now * 0.0022 + i * 2);
-        const rx = 18 * pulse;
-        const ry = 8.5 * pulse;
-        const rotCW = -now * 0.0006;
-
-        // Soft glacial glow rings
-        g.ellipse(ux, uy + 2, rx * 1.15, ry * 1.15).stroke({ color: 0x0369a1, width: 2.0, alpha: 0.14 });
-        g.ellipse(ux, uy + 2, rx, ry).stroke({ color: 0x0284c7, width: 1.2, alpha: 0.25 });
-        g.ellipse(ux, uy + 2, rx * 0.65, ry * 0.65).stroke({ color: 0x38bdf8, width: 0.8, alpha: 0.16 });
-
-        // Expanding soft glacial mist pulse
-        const wave = (now * 0.0006 + i * 0.3) % 1;
-        g.ellipse(ux, uy + 2, rx * (0.4 + wave * 0.6), ry * (0.4 + wave * 0.6)).stroke({
-          color: 0x7dd3fc,
-          width: 0.8,
-          alpha: (1 - wave) * 0.2,
-        });
-
-        // 6 delicate crystalline radial tick marks
-        for (let a = 0; a < 6; a++) {
-          const ang = rotCW + a * (Math.PI / 3);
-          const tipX = ux + Math.cos(ang) * rx;
-          const tipY = (uy + 2) + Math.sin(ang) * ry;
-          const midX = ux + Math.cos(ang) * (rx * 0.82);
-          const midY = (uy + 2) + Math.sin(ang) * (ry * 0.82);
-          g.moveTo(midX, midY).lineTo(tipX, tipY).stroke({ color: 0xbae6fd, width: 0.9, alpha: 0.35 });
-        }
-      }
-
-      // 3. Lightning / Conviction: Crackling celestial sapphire conduit
-      if (mods.includes('lightning') || mods.includes('lightning_enchanted') || mods.includes('spectral_hit') || (isHero && hasHaste)) {
-        const rx = 18;
-        const ry = 8.5;
-
-        // Ground conduit glow
-        g.ellipse(ux, uy + 2, rx * 1.1, ry * 1.1).stroke({ color: 0x0369a1, width: 1.8, alpha: 0.12 });
-        g.ellipse(ux, uy + 2, rx, ry).stroke({ color: 0x0284c7, width: 1.0, alpha: 0.22 });
-
-        // Subtle electric current filaments
-        for (let p = 0; p < 4; p++) {
-          const a1 = (p / 4) * Math.PI * 2 + now * 0.0008;
-          const a2 = ((p + 1) / 4) * Math.PI * 2 + now * 0.0008;
-          const x1 = ux + Math.cos(a1) * rx;
-          const y1 = (uy + 2) + Math.sin(a1) * ry;
-          const x2 = ux + Math.cos(a2) * rx;
-          const y2 = (uy + 2) + Math.sin(a2) * ry;
-
-          const midJitter = (Math.sin(now * 0.02 + p * 3) > 0 ? 1.5 : -1.5);
-          const mx = (x1 + x2) * 0.5 + Math.cos(a1 + 1.57) * midJitter;
-          const my = (y1 + y2) * 0.5 + Math.sin(a1 + 1.57) * (midJitter * 0.5);
-
-          g.moveTo(x1, y1).lineTo(mx, my).lineTo(x2, y2).stroke({ color: 0x38bdf8, width: 0.9, alpha: 0.28 });
-        }
-      }
-
-      // 4. Blessed: Golden Ethereal Sanctuary Seal
-      if (mods.includes('blessed_aura') || mods.includes('blessed') || (isHero && hasBless)) {
-        const pulse = 1 + 0.035 * Math.sin(now * 0.002 + i);
-        const rx = 18 * pulse;
-        const ry = 8.5 * pulse;
-        const rot = now * 0.0006;
-
-        // Concentric soft golden sanctuary rings
-        g.ellipse(ux, uy + 2, rx * 1.15, ry * 1.15).stroke({ color: 0x854d0e, width: 2.0, alpha: 0.14 });
-        g.ellipse(ux, uy + 2, rx, ry).stroke({ color: 0xb45309, width: 1.2, alpha: 0.26 });
-        g.ellipse(ux, uy + 2, rx * 0.65, ry * 0.65).stroke({ color: 0xd97706, width: 0.8, alpha: 0.18 });
-
-        // 6 delicate sacred runic ticks
-        for (let p = 0; p < 6; p++) {
-          const ang = rot + p * (Math.PI / 3);
-          const px = ux + Math.cos(ang) * rx;
-          const py = (uy + 2) + Math.sin(ang) * ry;
-          const inX = ux + Math.cos(ang) * (rx * 0.82);
-          const inY = (uy + 2) + Math.sin(ang) * (ry * 0.82);
-          g.moveTo(inX, inY).lineTo(px, py).stroke({
-            color: 0xfef08a,
-            width: 0.9,
-            alpha: 0.35,
-          });
-        }
-      }
-
-      // 5. Super-Unique Signature Crown & Elemental Halo
-      const su = getSuperUniqueForUnit(sim, i);
-      if (su) {
-        const pulse = 1 + 0.09 * Math.sin(now * 0.005 + i);
-        const rx = 21 * su.visual.scale * 0.8 * pulse;
-        const ry = 10.5 * su.visual.scale * 0.8 * pulse;
-        const rot = -now * 0.0018;
-        g.ellipse(ux, uy + 2, rx * 1.15, ry * 1.15).stroke({ color: su.visual.auraColor, width: 1.6, alpha: 0.35 });
-        g.ellipse(ux, uy + 2, rx * 0.82, ry * 0.82).stroke({ color: su.visual.tint, width: 1.0, alpha: 0.25 });
-        for (let p = 0; p < 8; p++) {
-          const ang = rot + p * (Math.PI / 4);
-          const bx = ux + Math.cos(ang) * rx;
-          const by = uy + 2 + Math.sin(ang) * ry;
-          const tx = ux + Math.cos(ang) * (rx * 1.25);
-          const ty = uy + 2 + Math.sin(ang) * (ry * 1.25);
-          g.moveTo(bx, by).lineTo(tx, ty).stroke({ color: su.visual.auraColor, width: 0.9, alpha: 0.35 });
-        }
-      }
-    }
+    renderUnitAuras(this.auraGraphics, sim, now, k, this.mapW);
   }
 
   /** Update particles, screen shake, slashes, bubbles, and damage numbers */

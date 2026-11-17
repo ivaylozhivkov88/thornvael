@@ -7,7 +7,10 @@ export type Intent =
   | { type: 'box'; x0: number; y0: number; x1: number; y1: number; additive: boolean }
   | { type: 'pan'; dx: number; dy: number }
   | { type: 'zoom'; dir: 1 | -1; x: number; y: number }
-  | { type: 'aim'; phase: 'start' | 'move' | 'end' | 'cancel'; x: number; y: number }; // touch spell aiming: x, y is the fingertip
+  | { type: 'aim'; phase: 'start' | 'move' | 'end' | 'cancel'; x: number; y: number } // touch spell aiming: x, y is the fingertip
+  | { type: 'steer-start'; x: number; y: number; shift: boolean }
+  | { type: 'steer-move'; x: number; y: number; shift: boolean }
+  | { type: 'steer-end'; x: number; y: number; shift: boolean };
 
 /** The aiming reticle sits this far above the fingertip so the finger never hides the target. */
 export const AIM_OFFSET = 72;
@@ -23,6 +26,7 @@ export interface GestureOptions {
   aimMode?: () => boolean; // touch: a spell is armed, so a finger aims a reticle instead of selecting or panning
   boxMode: () => boolean; // touch: one-finger drag draws a select box instead of panning
   additive: () => boolean; // touch: the Add toggle
+  dragSteer?: () => boolean; // mouse LMB drag: continuous steering instead of box-preview
 }
 
 const TOUCH_SLOP = 10;
@@ -65,6 +69,9 @@ export class GestureRecognizer {
       this.pinched = true;
       return this.endDrag();
     }
+    if (!touch && button === 0 && (this.opt.dragSteer?.() ?? false)) {
+      return [{ type: 'steer-start', x, y, shift }];
+    }
     return [];
   }
 
@@ -82,6 +89,9 @@ export class GestureRecognizer {
     if (!p.dragging && Math.hypot(x - p.x0, y - p.y0) < slop) return [];
     p.dragging = true;
     if (!p.touch && p.button === 1) return [{ type: 'pan', dx, dy }];
+    if (!p.touch && p.button === 0 && (this.opt.dragSteer?.() ?? false)) {
+      return [{ type: 'steer-move', x, y, shift: p.shift }];
+    }
     if (!p.touch || this.opt.boxMode()) return [{ type: 'box-preview', x0: p.x0, y0: p.y0, x1: x, y1: y }];
     return [{ type: 'pan', dx, dy }];
   }
@@ -96,6 +106,12 @@ export class GestureRecognizer {
       if (!p || wasPinch) return [];
     }
     if (!p || this.pinched || (!p.touch && p.button !== 0)) return [];
+    if (!p.touch && p.button === 0 && (this.opt.dragSteer?.() ?? false)) {
+      if (p.dragging) {
+        return [{ type: 'steer-end', x: p.x, y: p.y, shift: p.shift }];
+      }
+      return [{ type: 'click', x: p.x, y: p.y, additive: p.shift }];
+    }
     if (p.dragging) {
       if (p.touch && !this.opt.boxMode()) return [];
       return [
@@ -110,9 +126,12 @@ export class GestureRecognizer {
 
   cancel(): Intent[] {
     const aiming = [...this.ptr.values()].find((p) => p.aim);
+    const wasSteering = [...this.ptr.values()].some((p) => !p.touch && p.button === 0 && (this.opt.dragSteer?.() ?? false));
     this.ptr.clear();
     this.pinched = false;
-    return aiming ? [{ type: 'aim', phase: 'cancel', x: aiming.x, y: aiming.y }] : [];
+    if (aiming) return [{ type: 'aim', phase: 'cancel', x: aiming.x, y: aiming.y }];
+    if (wasSteering) return [{ type: 'steer-end', x: 0, y: 0, shift: false }];
+    return [];
   }
 
   wheel(dy: number, x: number, y: number): Intent[] {

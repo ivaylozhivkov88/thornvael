@@ -33,7 +33,26 @@ const MAX_TIME_WARPS = 4;
 const MAX_AFTERIMAGES = 24;
 const MAX_FIREBALL_BLASTS = 8;
 const MAX_FROST_NOVAS = 6;
+const MAX_FIRE_NOVAS = 6;
+const MAX_SHADOW_TELEPORTS = 6;
 const MAX_CHAIN_LIGHTNINGS = 6;
+
+interface FireNovaEffect {
+  active: boolean;
+  x: number;
+  y: number;
+  elapsed: number;
+  totalTime: number; // 550ms
+  radiusPx: number;
+}
+
+interface ShadowTeleportEffect {
+  active: boolean;
+  x: number;
+  y: number;
+  elapsed: number;
+  totalTime: number; // 400ms
+}
 
 interface FireballBlastEffect {
   active: boolean;
@@ -216,12 +235,15 @@ export class VfxSystem {
   private readonly afterimages: AfterimageGhost[] = [];
   private readonly fireballBlasts: FireballBlastEffect[] = [];
   private readonly frostNovas: FrostNovaEffect[] = [];
+  private readonly fireNovas: FireNovaEffect[] = [];
+  private readonly shadowTeleports: ShadowTeleportEffect[] = [];
   private readonly chainLightnings: ChainLightningEffect[] = [];
   private readonly ironSkins: Map<number, ActiveIronSkin> = new Map();
   private readonly timeWarpUnits: Set<number> = new Set();
 
   private screenFlash = 0; // alpha 0..0.4
   private screenFlashDecay = 0;
+  private screenFlashColor = 0xe0f2fe;
   private cameraRumble = 0;
   private lastTime = 0;
   private quality = 2; // 0 Low, 1 Medium, 2 High
@@ -339,6 +361,14 @@ export class VfxSystem {
 
     for (let i = 0; i < MAX_FROST_NOVAS; i++) {
       this.frostNovas.push({ active: false, x: 0, y: 0, elapsed: 0, totalTime: 650, radiusPx: 112 });
+    }
+
+    for (let i = 0; i < MAX_FIRE_NOVAS; i++) {
+      this.fireNovas.push({ active: false, x: 0, y: 0, elapsed: 0, totalTime: 550, radiusPx: 96 });
+    }
+
+    for (let i = 0; i < MAX_SHADOW_TELEPORTS; i++) {
+      this.shadowTeleports.push({ active: false, x: 0, y: 0, elapsed: 0, totalTime: 400 });
     }
 
     for (let i = 0; i < MAX_CHAIN_LIGHTNINGS; i++) {
@@ -661,6 +691,25 @@ export class VfxSystem {
           if (uid >= 0) this.triggerTimeWarp(uid, cx, cy);
         }
       }
+      // Area blast / nova events (type 5): e.g. death novas
+      else if (e.type === 5) {
+        const gx = e.x * k;
+        const gy = e.y * k;
+        const rad = e.v ? e.v / 10 : 2.5;
+        if (e.el === 1) { // Elem.Fire
+          this.triggerFireNova(gx, gy, rad);
+        } else if (e.el === 2) { // Elem.Water
+          this.triggerFrostNova(gx, gy, rad);
+        }
+      }
+      // Electric sparks from lightning enchanted (type 6, Elem.Air)
+      else if (e.type === 6 && e.el === 3) {
+        this.triggerLightningSparks(e.x * k, e.y * k, e.v || 4);
+      }
+      // Teleportation distortion (type 10, v === 4, Elem.Astral)
+      else if (e.type === 10 && e.v === 4) {
+        this.triggerTeleportDistortion(e.x * k, e.y * k);
+      }
     }
   }
 
@@ -951,6 +1000,90 @@ export class VfxSystem {
     }
   }
 
+  /** Fire Nova: Expanding fiery shockwave with incandescent core and raging flame bursts */
+  triggerFireNova(gx: number, gy: number, radTiles = 2.5): void {
+    let fn: FireNovaEffect | null = null;
+    for (const f of this.fireNovas) {
+      if (!f.active) {
+        fn = f;
+        break;
+      }
+    }
+    if (fn) {
+      fn.active = true;
+      fn.x = gx;
+      fn.y = gy;
+      fn.elapsed = 0;
+      fn.radiusPx = radTiles * TILE;
+    }
+    this.cameraRumble = Math.max(this.cameraRumble, 3.5);
+    this.triggerScreenFlash(0.25, 0.006, 0xffeedd);
+
+    const count = this.quality === 0 ? 10 : 20;
+    for (let i = 0; i < count; i++) {
+      const ang = (i / count) * Math.PI * 2 + (Math.random() - 0.5) * 0.3;
+      const spd = 60 + Math.random() * 80;
+      this.spawnParticle(TEX_SPARK, gx, gy, Math.cos(ang) * spd, Math.sin(ang) * (spd * 0.65), 0xff7700, 0.9, 0.2, 0.45, 1, 0, 0, 0, 0.94);
+      if (i % 2 === 0) {
+        this.spawnParticle(TEX_SMOKE, gx, gy, Math.cos(ang) * (spd * 0.4), Math.sin(ang) * (spd * 0.4) - 15, 0x3d2817, 0.8, 1.6, 0.55, 0.6, 0, 0, 0, 0.95);
+      }
+    }
+  }
+
+  /** Teleport Distortion: Void ripples and shadowy distortion on champion teleport */
+  triggerTeleportDistortion(gx: number, gy: number): void {
+    let st: ShadowTeleportEffect | null = null;
+    for (const s of this.shadowTeleports) {
+      if (!s.active) {
+        st = s;
+        break;
+      }
+    }
+    if (st) {
+      st.active = true;
+      st.x = gx;
+      st.y = gy;
+      st.elapsed = 0;
+    }
+    const count = this.quality === 0 ? 8 : 14;
+    for (let i = 0; i < count; i++) {
+      const ang = (i / count) * Math.PI * 2;
+      const spd = 30 + Math.random() * 50;
+      this.spawnParticle(TEX_SMOKE, gx, gy - 8, Math.cos(ang) * spd, Math.sin(ang) * (spd * 0.5) - 10, 0x1f1438, 0.9, 1.8, 0.45, 0.85, 0, 0, 0, 0.92);
+      this.spawnParticle(TEX_SHARD, gx, gy - 8, Math.cos(ang) * (spd * 1.2), Math.sin(ang) * (spd * 0.6), 0xa855f7, 0.8, 0.2, 0.35, 1, 0, ang, 4, 0.95);
+    }
+  }
+
+  /** Lightning Enchanted: Crackling electric sparks radiating outward when struck */
+  triggerLightningSparks(gx: number, gy: number, count = 4): void {
+    const num = Math.min(6, Math.max(3, count));
+    for (let i = 0; i < num; i++) {
+      const ang = (i / num) * Math.PI * 2 + (Math.random() - 0.5) * 0.4;
+      const spd = 90 + Math.random() * 80;
+      this.spawnParticle(TEX_SPARK, gx, gy - 8, Math.cos(ang) * spd, Math.sin(ang) * (spd * 0.7), 0x38bdf8, 1.1, 0.25, 0.35, 1, 0, ang, (Math.random() - 0.5) * 6, 0.92);
+      this.spawnParticle(TEX_SHARD, gx, gy - 8, Math.cos(ang) * (spd * 0.7), Math.sin(ang) * (spd * 0.5), 0xffffff, 0.8, 0.15, 0.25, 1, 0, ang, 0, 0.94);
+    }
+  }
+
+  /** Directional blood spray or spark burst on weapon/crit impact */
+  spawnHitSpray(x: number, y: number, dirX: number, dirY: number, isBlood: boolean, isCrit: boolean): void {
+    const count = isCrit ? (this.quality === 0 ? 8 : 16) : (this.quality === 0 ? 4 : 8);
+    const baseAng = Math.atan2(dirY, dirX);
+    const col = isBlood ? (isCrit ? 0x880808 : 0xaa1111) : (isCrit ? 0xffea00 : 0x93c5fd);
+    const tex = isBlood ? TEX_DROPLET : TEX_SPARK;
+
+    for (let i = 0; i < count; i++) {
+      const spread = (Math.random() - 0.5) * (isCrit ? 1.4 : 0.9);
+      const ang = baseAng + spread;
+      const spd = (isCrit ? 80 : 50) + Math.random() * (isCrit ? 90 : 50);
+      const vx = Math.cos(ang) * spd;
+      const vy = Math.sin(ang) * spd * 0.75 - 15;
+      const sc = (isCrit ? 0.9 : 0.6) + Math.random() * 0.4;
+      const life = 0.25 + Math.random() * 0.3;
+      this.spawnParticle(tex, x, y, vx, vy, col, sc, 0.2, life, 1.0, 0, ang, (Math.random() - 0.5) * 4, 0.94);
+    }
+  }
+
   /** Chain Lightning: Jagged branching electrical arcs connecting target to target with bright flashes */
   triggerChainLightning(sim: Sim, casterFx: number, casterFy: number): void {
     const k = TILE / FP;
@@ -1067,6 +1200,12 @@ export class VfxSystem {
 
     // 10. Frost Nova Expanding Ice Rings
     this.updateFrostNovas(dt);
+
+    // 10b. Fire Nova Expanding Fiery Waves
+    this.updateFireNovas(dt);
+
+    // 10c. Shadow Teleportation Distortion
+    this.updateShadowTeleports(dt);
 
     // 11. Chain Lightning Forked Arcs
     this.updateChainLightnings(dt);
@@ -1684,6 +1823,68 @@ export class VfxSystem {
     }
   }
 
+  // --- 10b. FIRE NOVAS ---
+  private updateFireNovas(dt: number): void {
+    const gg = this.groundGfx;
+    const ag = this.airGfx;
+    for (const fn of this.fireNovas) {
+      if (!fn.active) continue;
+      fn.elapsed += dt * 1000;
+      const t = fn.elapsed / fn.totalTime;
+      if (t >= 1) {
+        fn.active = false;
+        continue;
+      }
+      const curR = fn.radiusPx * (0.2 + 0.8 * Math.sqrt(t));
+      const fade = 1 - t;
+
+      // Ground scorched fiery wave
+      gg.ellipse(fn.x, fn.y + 2, curR, curR * 0.5).fill({ color: 0x450a0a, alpha: 0.28 * fade });
+      gg.ellipse(fn.x, fn.y + 2, curR, curR * 0.5).stroke({ color: 0xea580c, width: 3.5 * fade, alpha: 0.9 * fade });
+      gg.ellipse(fn.x, fn.y + 2, curR * 0.82, curR * 0.41).stroke({ color: 0xfef08a, width: 2 * fade, alpha: 0.95 * fade });
+
+      // Air expanding ring of flame bursts
+      const flameCount = 12;
+      for (let c = 0; c < flameCount; c++) {
+        const ang = (c / flameCount) * Math.PI * 2;
+        const baseX = fn.x + Math.cos(ang) * (curR * 0.85);
+        const baseY = fn.y + Math.sin(ang) * (curR * 0.48);
+        const tipX = fn.x + Math.cos(ang) * (curR * 1.15);
+        const tipY = fn.y + Math.sin(ang) * (curR * 0.65) - 4;
+        const normAng = ang + Math.PI / 2;
+        const wX = Math.cos(normAng) * 3.5;
+        const wY = Math.sin(normAng) * 2;
+
+        ag.moveTo(baseX - wX, baseY - wY)
+          .lineTo(tipX, tipY)
+          .lineTo(baseX + wX, baseY + wY)
+          .closePath()
+          .fill({ color: 0xf97316, alpha: 0.85 * fade })
+          .stroke({ color: 0xffedd5, width: 1.2 * fade, alpha: 0.95 * fade });
+      }
+    }
+  }
+
+  // --- 10c. SHADOW TELEPORTS ---
+  private updateShadowTeleports(dt: number): void {
+    const ag = this.airGfx;
+    const gg = this.groundGfx;
+    for (const st of this.shadowTeleports) {
+      if (!st.active) continue;
+      st.elapsed += dt * 1000;
+      const t = st.elapsed / st.totalTime;
+      if (t >= 1) {
+        st.active = false;
+        continue;
+      }
+      const fade = 1 - t;
+      const r = 28 * Math.sin(t * Math.PI);
+      gg.ellipse(st.x, st.y, r * 1.2, r * 0.6).fill({ color: 0x090514, alpha: 0.45 * fade });
+      gg.ellipse(st.x, st.y, r * 1.2, r * 0.6).stroke({ color: 0x9333ea, width: 2.5 * fade, alpha: 0.85 * fade });
+      ag.circle(st.x, st.y - 12, r * 0.8).stroke({ color: 0xc084fc, width: 2 * fade, alpha: 0.9 * fade });
+    }
+  }
+
   // --- 11. CHAIN LIGHTNING ---
   private updateChainLightnings(dt: number): void {
     const ag = this.airGfx;
@@ -1723,9 +1924,15 @@ export class VfxSystem {
   }
 
   // --- 12. SCREEN FLASH ---
+  triggerScreenFlash(alpha = 0.35, decay = 0.008, color = 0xe0f2fe): void {
+    this.screenFlash = Math.max(this.screenFlash, alpha);
+    this.screenFlashDecay = decay;
+    this.screenFlashColor = color;
+  }
+
   drawScreenOverlay(overlayGfx: Graphics, viewW: number, viewH: number): void {
     if (this.screenFlash <= 0) return;
-    overlayGfx.rect(0, 0, viewW, viewH).fill({ color: 0xe0f2fe, alpha: this.screenFlash });
+    overlayGfx.rect(0, 0, viewW, viewH).fill({ color: this.screenFlashColor, alpha: this.screenFlash });
     this.screenFlash = Math.max(0, this.screenFlash - this.screenFlashDecay * 60);
   }
 

@@ -581,6 +581,19 @@ export function strike(sim: Sim, t: number, min: number, max: number, elem: numb
     }
   }
 
+  // Thorns aura reflection: when taking melee physical damage, reflects damage back to attacker
+  if (dmg > 0 && elem === Elem.Physical && src >= 0 && src !== t && sim.team[src] !== sim.team[t]) {
+    const hasThorns = Boolean(
+      cb.bossMods[t]?.includes('thorns') ||
+        (sim.hero !== null && sim.hero.id === t && sim.hero.activeAura === 'thorns')
+    );
+    if (hasThorns) {
+      const reflectDmg = Math.max(1, Math.round(dmg * 0.75));
+      strike(sim, src, reflectDmg, reflectDmg + 2, Elem.Physical, 20, t);
+      cb.emit(6, sim.x[src], sim.y[src], 3, Elem.Physical);
+    }
+  }
+
   if (cb.hp[t] <= 0) die(sim, t, elem);
 }
 
@@ -783,9 +796,15 @@ function unitThink(sim: Sim, i: number): void {
     case Ord.Still:
       return;
     case Ord.Move:
-    case Ord.Retreat:
       if (!sim.moving[i]) toGuard(sim, i);
       return;
+    case Ord.Retreat: {
+      if (!sim.moving[i] || sim.tick - cb.aux[i] >= 45) {
+        sim.stop(i);
+        toGuard(sim, i);
+      }
+      return;
+    }
     case Ord.Guard: {
       if (valid(sim, t) && (sim.x[t] - cb.px[i]) ** 2 + (sim.y[t] - cb.py[i]) ** 2 > LEASH * LEASH) t = -1;
       if (!valid(sim, t)) t = scan ? enemyNear(sim, i, AGGRO, cb.px[i], cb.py[i], LEASH) : -1;

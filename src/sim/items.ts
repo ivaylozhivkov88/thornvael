@@ -1,115 +1,33 @@
 import { SPELLS } from './spelldata';
 
-/** Item types. The table itself lives in public/data/items.json, loaded once by data.ts before a game starts. */
+export * from './item-types';
 
-export const Slot = { Weapon: 0, Shield: 1, Helm: 2, Armor: 3, Boots: 4, Ring: 5, Amulet: 6, Gloves: 7 } as const;
-export const SLOT_COUNT = 8;
-export const SLOT_NAMES = ['Weapon', 'Shield', 'Helm', 'Armor', 'Boots', 'Ring', 'Amulet', 'Gloves'] as const;
-/** Body parts a blow can land on. Each has its own defence and absorption; armour covers one or more. */
-export const Part = { Head: 0, Torso: 1, Arms: 2, Legs: 3 } as const;
-export const PART_COUNT = 4;
-export const PART_NAMES = ['head', 'torso', 'arms', 'legs'] as const;
-/** Chance in percent that a blow lands on each part (sums to 100). */
-export const PART_WEIGHT = [15, 45, 20, 20] as const;
-/** Blow damage in percent per part, before absorption: the head takes more. */
-export const PART_DMG = [150, 100, 100, 100] as const;
-/** Gear is worn; potions are used up; learn items (scroll or tome) teach a spell for good; portal opens a rift; gem socketed into gear; identify unmasks relics. */
-export const Ik = { Gear: 0, Potion: 1, Learn: 2, Portal: 3, Gem: 4, Identify: 5 } as const;
-export const Cls = { Warrior: 0, Mage: 1 } as const;
-export const Attr = { Body: 0, Agility: 1, Mind: 2, Spirit: 3 } as const;
-export const ATTR_NAMES = ['Body', 'Agility', 'Mind', 'Spirit'] as const;
-export const CLS_WARRIOR = 1;
-export const CLS_MAGE = 2;
-export const CLS_BOTH = 3;
+import {
+  Attr,
+  ATTR_NAMES,
+  CLS_BOTH,
+  CLS_MAGE,
+  CLS_WARRIOR,
+  Cls,
+  GemDef,
+  GemQuality,
+  GemType,
+  Ik,
+  ItemDef,
+  Part,
+  PART_COUNT,
+  PART_DMG,
+  PART_NAMES,
+  PART_WEIGHT,
+  Slot,
+  SLOT_COUNT,
+  SLOT_NAMES,
+  BUILTIN_GEMS,
+  getGemDefByName,
+} from './item-types';
 
-export interface ItemDef {
-  name: string;
-  kind: number;
-  slot: number; // -1 unless gear
-  tier: number; // item level 1..5
-  w: number; // weight
-  cls: number; // class mask: 1 warrior, 2 mage
-  need: number; // attribute index required to use the item
-  needv: number;
-  min: number; // added blow damage
-  max: number;
-  acc: number;
-  cover: number; // bit per body part this piece protects
-  def: number; // defence on each covered part
-  abs: number; // absorption on each covered part
-  res: readonly [number, number, number, number, number]; // percent: fire, water, air, earth, astral
-  attr: readonly [number, number, number, number]; // bonus to Body, Agility, Mind, Spirit
-  hp: number;
-  mana: number;
-  pow: number; // spell power, percent
-  heal: number;
-  restore: number;
-  grow: number; // attribute index + 1 raised by one for good, or 0
-  spell: number; // spell taught, or -1
-  sockets?: number; // sockets count (0..3)
-  socketedGems?: string[]; // slotted gem names
-  lifesteal?: number; // life steal percentage
-  runes?: readonly string[]; // architectural hook for future slotted runes
-  mf?: number; // Magic Find %
-  rarity?: 'common' | 'normal' | 'magic' | 'rare' | 'set' | 'unique' | string;
-  set?: string;
-  unidentified?: boolean;
-  trueName?: string;
-  lore?: string;
-}
-
-export type GemType = 'ruby' | 'sapphire' | 'topaz' | 'emerald' | 'skull';
-export type GemQuality = 'chipped' | 'flawed' | 'regular' | 'flawless' | 'perfect';
-
-export interface GemDef {
-  name: string;
-  type: GemType;
-  quality: GemQuality;
-  tier: number; // 1 to 5
-  weaponBonus: { min: number; max: number; elem?: number; lifesteal?: number };
-  armorBonus: { hp?: number; mana?: number; mf?: number; def?: number; attr?: readonly [number, number, number, number]; regen?: number };
-}
-
-export const BUILTIN_GEMS: readonly GemDef[] = [
-  // Ruby (Fire & HP)
-  { name: 'Chipped Ruby', type: 'ruby', quality: 'chipped', tier: 1, weaponBonus: { min: 2, max: 2, elem: 1 }, armorBonus: { hp: 10 } },
-  { name: 'Flawed Ruby', type: 'ruby', quality: 'flawed', tier: 2, weaponBonus: { min: 4, max: 4, elem: 1 }, armorBonus: { hp: 20 } },
-  { name: 'Ruby', type: 'ruby', quality: 'regular', tier: 3, weaponBonus: { min: 8, max: 8, elem: 1 }, armorBonus: { hp: 40 } },
-  { name: 'Flawless Ruby', type: 'ruby', quality: 'flawless', tier: 4, weaponBonus: { min: 15, max: 15, elem: 1 }, armorBonus: { hp: 75 } },
-  { name: 'Perfect Ruby', type: 'ruby', quality: 'perfect', tier: 5, weaponBonus: { min: 25, max: 25, elem: 1 }, armorBonus: { hp: 125 } },
-
-  // Sapphire (Cold & Mana)
-  { name: 'Chipped Sapphire', type: 'sapphire', quality: 'chipped', tier: 1, weaponBonus: { min: 2, max: 2, elem: 2 }, armorBonus: { mana: 10 } },
-  { name: 'Flawed Sapphire', type: 'sapphire', quality: 'flawed', tier: 2, weaponBonus: { min: 4, max: 4, elem: 2 }, armorBonus: { mana: 20 } },
-  { name: 'Sapphire', type: 'sapphire', quality: 'regular', tier: 3, weaponBonus: { min: 8, max: 8, elem: 2 }, armorBonus: { mana: 40 } },
-  { name: 'Flawless Sapphire', type: 'sapphire', quality: 'flawless', tier: 4, weaponBonus: { min: 15, max: 15, elem: 2 }, armorBonus: { mana: 75 } },
-  { name: 'Perfect Sapphire', type: 'sapphire', quality: 'perfect', tier: 5, weaponBonus: { min: 25, max: 25, elem: 2 }, armorBonus: { mana: 125 } },
-
-  // Topaz (Lightning & Magic Find)
-  { name: 'Chipped Topaz', type: 'topaz', quality: 'chipped', tier: 1, weaponBonus: { min: 1, max: 5, elem: 3 }, armorBonus: { mf: 8 } },
-  { name: 'Flawed Topaz', type: 'topaz', quality: 'flawed', tier: 2, weaponBonus: { min: 2, max: 10, elem: 3 }, armorBonus: { mf: 15 } },
-  { name: 'Topaz', type: 'topaz', quality: 'regular', tier: 3, weaponBonus: { min: 3, max: 18, elem: 3 }, armorBonus: { mf: 24 } },
-  { name: 'Flawless Topaz', type: 'topaz', quality: 'flawless', tier: 4, weaponBonus: { min: 5, max: 28, elem: 3 }, armorBonus: { mf: 35 } },
-  { name: 'Perfect Topaz', type: 'topaz', quality: 'perfect', tier: 5, weaponBonus: { min: 8, max: 42, elem: 3 }, armorBonus: { mf: 50 } },
-
-  // Emerald (Poison & Agility/Def)
-  { name: 'Chipped Emerald', type: 'emerald', quality: 'chipped', tier: 1, weaponBonus: { min: 3, max: 3, elem: 4 }, armorBonus: { attr: [0, 1, 0, 0], def: 1 } },
-  { name: 'Flawed Emerald', type: 'emerald', quality: 'flawed', tier: 2, weaponBonus: { min: 6, max: 6, elem: 4 }, armorBonus: { attr: [0, 2, 0, 0], def: 2 } },
-  { name: 'Emerald', type: 'emerald', quality: 'regular', tier: 3, weaponBonus: { min: 12, max: 12, elem: 4 }, armorBonus: { attr: [0, 3, 0, 0], def: 3 } },
-  { name: 'Flawless Emerald', type: 'emerald', quality: 'flawless', tier: 4, weaponBonus: { min: 22, max: 22, elem: 4 }, armorBonus: { attr: [0, 4, 0, 0], def: 4 } },
-  { name: 'Perfect Emerald', type: 'emerald', quality: 'perfect', tier: 5, weaponBonus: { min: 36, max: 36, elem: 4 }, armorBonus: { attr: [0, 6, 0, 0], def: 6 } },
-
-  // Skull (Life Steal & Health/Mana Regen)
-  { name: 'Chipped Skull', type: 'skull', quality: 'chipped', tier: 1, weaponBonus: { min: 1, max: 1, lifesteal: 2 }, armorBonus: { regen: 1 } },
-  { name: 'Flawed Skull', type: 'skull', quality: 'flawed', tier: 2, weaponBonus: { min: 2, max: 2, lifesteal: 4 }, armorBonus: { regen: 2 } },
-  { name: 'Skull', type: 'skull', quality: 'regular', tier: 3, weaponBonus: { min: 3, max: 3, lifesteal: 6 }, armorBonus: { regen: 3 } },
-  { name: 'Flawless Skull', type: 'skull', quality: 'flawless', tier: 4, weaponBonus: { min: 5, max: 5, lifesteal: 9 }, armorBonus: { regen: 4 } },
-  { name: 'Perfect Skull', type: 'skull', quality: 'perfect', tier: 5, weaponBonus: { min: 8, max: 8, lifesteal: 14 }, armorBonus: { regen: 6 } },
-];
-
-export function getGemDefByName(name: string): GemDef | undefined {
-  return BUILTIN_GEMS.find((g) => g.name === name);
-}
+import { ALL_RUNES, applyRunewordToItem, getRuneByName, matchRuneword } from './runes';
+import { transmuteCube } from './cube';
 
 export const SPECIAL_ITEMS: readonly ItemDef[] = [
   {
@@ -270,6 +188,174 @@ export const SPECIAL_ITEMS: readonly ItemDef[] = [
     spell: -1,
     rarity: 'magic',
   })),
+  {
+    name: 'Rejuvenation Potion',
+    kind: Ik.Potion,
+    slot: -1,
+    tier: 2,
+    w: 1,
+    cls: CLS_BOTH,
+    need: 0,
+    needv: 0,
+    min: 0,
+    max: 0,
+    acc: 0,
+    cover: 0,
+    def: 0,
+    abs: 0,
+    res: [0, 0, 0, 0, 0],
+    attr: [0, 0, 0, 0],
+    hp: 0,
+    mana: 0,
+    pow: 0,
+    heal: 35,
+    restore: 35,
+    grow: 0,
+    spell: -1,
+    rarity: 'magic',
+    lore: 'A distilled elixir instantly restoring vitality and essence.',
+  },
+  {
+    name: 'Full Rejuvenation Potion',
+    kind: Ik.Potion,
+    slot: -1,
+    tier: 4,
+    w: 1,
+    cls: CLS_BOTH,
+    need: 0,
+    needv: 0,
+    min: 0,
+    max: 0,
+    acc: 0,
+    cover: 0,
+    def: 0,
+    abs: 0,
+    res: [0, 0, 0, 0, 0],
+    attr: [0, 0, 0, 0],
+    hp: 0,
+    mana: 0,
+    pow: 0,
+    heal: 9999,
+    restore: 9999,
+    grow: 0,
+    spell: -1,
+    rarity: 'magic',
+    lore: 'The supreme draught of restoration, replenishing all life and mana instantaneously.',
+  },
+  {
+    name: 'Small Talisman Charm',
+    kind: Ik.Gear,
+    slot: -1,
+    tier: 1,
+    w: 1,
+    cls: CLS_BOTH,
+    need: 0,
+    needv: 0,
+    min: 1,
+    max: 2,
+    acc: 5,
+    cover: 0,
+    def: 1,
+    abs: 0,
+    res: [5, 5, 5, 5, 5],
+    attr: [1, 1, 1, 1],
+    hp: 15,
+    mana: 10,
+    pow: 2,
+    heal: 0,
+    restore: 0,
+    grow: 0,
+    spell: -1,
+    mf: 5,
+    charmSize: 'small',
+    rarity: 'magic',
+    lore: 'Carried in the inventory, this talisman imparts minor blessings.',
+  },
+  {
+    name: 'Large Relic Charm',
+    kind: Ik.Gear,
+    slot: -1,
+    tier: 2,
+    w: 2,
+    cls: CLS_BOTH,
+    need: 0,
+    needv: 0,
+    min: 2,
+    max: 4,
+    acc: 10,
+    cover: 0,
+    def: 2,
+    abs: 1,
+    res: [8, 8, 8, 8, 8],
+    attr: [2, 2, 2, 2],
+    hp: 25,
+    mana: 20,
+    pow: 4,
+    heal: 0,
+    restore: 0,
+    grow: 0,
+    spell: -1,
+    mf: 8,
+    charmSize: 'large',
+    rarity: 'magic',
+    lore: 'A mystic relic that strengthens the adventurer while kept in their pack.',
+  },
+  {
+    name: 'Grand Mystic Charm',
+    kind: Ik.Gear,
+    slot: -1,
+    tier: 3,
+    w: 3,
+    cls: CLS_BOTH,
+    need: 0,
+    needv: 0,
+    min: 4,
+    max: 8,
+    acc: 20,
+    cover: 0,
+    def: 4,
+    abs: 2,
+    res: [12, 12, 12, 12, 12],
+    attr: [3, 3, 3, 3],
+    hp: 45,
+    mana: 35,
+    pow: 8,
+    heal: 0,
+    restore: 0,
+    grow: 0,
+    spell: -1,
+    mf: 12,
+    charmSize: 'grand',
+    rarity: 'magic',
+    lore: 'A potent grand charm humming with ancient magic while held in the pack.',
+  },
+  ...ALL_RUNES.map((r): ItemDef => ({
+    name: r.name,
+    kind: Ik.Gem,
+    slot: -1,
+    tier: Math.min(5, Math.ceil(r.id / 7)),
+    w: 0,
+    cls: CLS_BOTH,
+    need: 0,
+    needv: 0,
+    min: 0,
+    max: 0,
+    acc: 0,
+    cover: 0,
+    def: 0,
+    abs: 0,
+    res: [0, 0, 0, 0, 0],
+    attr: [0, 0, 0, 0],
+    hp: 0,
+    mana: 0,
+    pow: 0,
+    heal: 0,
+    restore: 0,
+    grow: 0,
+    spell: -1,
+    rarity: 'magic',
+    lore: `Rune #${r.id} (${r.d2Name}). Socket into weapons, armor, or shields, or combine in the Transmutation Cube.`,
+  })),
 ];
 
 export const SPECIAL_ITEM_OFFSET = 500;
@@ -283,58 +369,124 @@ export function canSocket(item: ItemDef): boolean {
 }
 
 export function socketGem(item: ItemDef, gem: ItemDef | GemDef): ItemDef {
-  const gemDef = 'type' in gem && 'weaponBonus' in gem ? (gem as GemDef) : getGemDefByName(gem.name);
-  if (!gemDef) return item;
-  const currentGems = [...(item.socketedGems ?? []), gemDef.name];
+  const runeDef = !('type' in gem && 'weaponBonus' in gem) ? getRuneByName(gem.name) : undefined;
+  const gemDef = !runeDef ? ('type' in gem && 'weaponBonus' in gem ? (gem as GemDef) : getGemDefByName(gem.name)) : undefined;
+  if (!gemDef && !runeDef) return item;
+
+  const itemName = runeDef ? runeDef.name : gemDef!.name;
+  const currentGems = [...(item.socketedGems ?? []), itemName];
   const isWeapon = item.slot === Slot.Weapon;
+  const isShield = item.slot === Slot.Shield;
 
   let min = item.min;
   let max = item.max;
+  let acc = item.acc ?? 0;
   let hp = item.hp;
   let mana = item.mana;
   let def = item.def;
   let mf = item.mf ?? 0;
   let lifesteal = item.lifesteal ?? 0;
+  let manasteal = item.manasteal ?? 0;
+  let crushingBlow = item.crushingBlow ?? 0;
+  let deadlyStrike = item.deadlyStrike ?? 0;
+  let openWounds = item.openWounds ?? 0;
+  let fhr = item.fhr ?? 0;
   let grow = item.grow;
   const res: [number, number, number, number, number] = [...item.res];
   const attr: [number, number, number, number] = [...item.attr];
 
-  if (isWeapon) {
-    min += gemDef.weaponBonus.min;
-    max += gemDef.weaponBonus.max;
-    if (gemDef.weaponBonus.lifesteal) lifesteal += gemDef.weaponBonus.lifesteal;
-    if (gemDef.type === 'ruby') res[0] += 5 * gemDef.tier;
-    if (gemDef.type === 'sapphire') res[1] += 5 * gemDef.tier;
-    if (gemDef.type === 'topaz') res[2] += 5 * gemDef.tier;
-    if (gemDef.type === 'emerald') res[3] += 5 * gemDef.tier;
-  } else {
-    if (gemDef.armorBonus.hp) hp += gemDef.armorBonus.hp;
-    if (gemDef.armorBonus.mana) mana += gemDef.armorBonus.mana;
-    if (gemDef.armorBonus.def) def += gemDef.armorBonus.def;
-    if (gemDef.armorBonus.mf) mf += gemDef.armorBonus.mf;
-    if (gemDef.armorBonus.regen) grow += gemDef.armorBonus.regen;
-    if (gemDef.armorBonus.attr) {
-      for (let i = 0; i < 4; i++) attr[i] += gemDef.armorBonus.attr[i];
+  if (gemDef) {
+    if (isWeapon) {
+      min += gemDef.weaponBonus.min;
+      max += gemDef.weaponBonus.max;
+      if (gemDef.weaponBonus.lifesteal) lifesteal += gemDef.weaponBonus.lifesteal;
+      if (gemDef.type === 'ruby') res[0] += 5 * gemDef.tier;
+      if (gemDef.type === 'sapphire') res[1] += 5 * gemDef.tier;
+      if (gemDef.type === 'topaz') res[2] += 5 * gemDef.tier;
+      if (gemDef.type === 'emerald') res[3] += 5 * gemDef.tier;
+    } else {
+      if (gemDef.armorBonus.hp) hp += gemDef.armorBonus.hp;
+      if (gemDef.armorBonus.mana) mana += gemDef.armorBonus.mana;
+      if (gemDef.armorBonus.def) def += gemDef.armorBonus.def;
+      if (gemDef.armorBonus.mf) mf += gemDef.armorBonus.mf;
+      if (gemDef.armorBonus.regen) grow += gemDef.armorBonus.regen;
+      if (gemDef.armorBonus.attr) {
+        for (let i = 0; i < 4; i++) attr[i] += gemDef.armorBonus.attr[i];
+      }
+    }
+  } else if (runeDef) {
+    if (isWeapon) {
+      if (runeDef.weaponBonus.min) min += runeDef.weaponBonus.min;
+      if (runeDef.weaponBonus.max) max += runeDef.weaponBonus.max;
+      if (runeDef.weaponBonus.acc) acc += runeDef.weaponBonus.acc;
+      if (runeDef.weaponBonus.lifesteal) lifesteal += runeDef.weaponBonus.lifesteal;
+      if (runeDef.weaponBonus.manasteal) manasteal += runeDef.weaponBonus.manasteal;
+      if (runeDef.weaponBonus.crushingBlow) crushingBlow += runeDef.weaponBonus.crushingBlow;
+      if (runeDef.weaponBonus.deadlyStrike) deadlyStrike += runeDef.weaponBonus.deadlyStrike;
+      if (runeDef.weaponBonus.openWounds) openWounds += runeDef.weaponBonus.openWounds;
+      if (runeDef.weaponBonus.mf) mf += runeDef.weaponBonus.mf;
+      if (runeDef.weaponBonus.elemDmg) {
+        res[runeDef.weaponBonus.elemDmg.elem - 1] += 5;
+      }
+    } else if (isShield) {
+      if (runeDef.shieldBonus.def) def += runeDef.shieldBonus.def;
+      if (runeDef.shieldBonus.hp) hp += runeDef.shieldBonus.hp;
+      if (runeDef.shieldBonus.mana) mana += runeDef.shieldBonus.mana;
+      if (runeDef.shieldBonus.mf) mf += runeDef.shieldBonus.mf;
+      if (runeDef.shieldBonus.res) {
+        for (let i = 0; i < 5; i++) res[i] += runeDef.shieldBonus.res[i];
+      }
+      if (runeDef.shieldBonus.attr) {
+        for (let i = 0; i < 4; i++) attr[i] += runeDef.shieldBonus.attr[i];
+      }
+    } else {
+      if (runeDef.armorBonus.def) def += runeDef.armorBonus.def;
+      if (runeDef.armorBonus.hp) hp += runeDef.armorBonus.hp;
+      if (runeDef.armorBonus.mana) mana += runeDef.armorBonus.mana;
+      if (runeDef.armorBonus.fhr) fhr += runeDef.armorBonus.fhr;
+      if (runeDef.armorBonus.mf) mf += runeDef.armorBonus.mf;
+      if (runeDef.armorBonus.res) {
+        for (let i = 0; i < 5; i++) res[i] += runeDef.armorBonus.res[i];
+      }
+      if (runeDef.armorBonus.attr) {
+        for (let i = 0; i < 4; i++) attr[i] += runeDef.armorBonus.attr[i];
+      }
     }
   }
 
-  return {
+  const baseResult: ItemDef = {
     ...item,
     socketedGems: currentGems,
     min,
     max,
+    acc,
     hp,
     mana,
     def,
     mf,
     lifesteal,
+    manasteal,
+    crushingBlow,
+    deadlyStrike,
+    openWounds,
+    fhr,
     grow,
     res,
     attr,
   };
+
+  const rw = matchRuneword(item.slot, currentGems);
+  if (rw) {
+    return applyRunewordToItem(baseResult, rw);
+  }
+
+  return baseResult;
 }
 
 export function canTransmute(items: readonly ItemDef[]): { recipe: string; result: ItemDef } | null {
+  const cubeRes = transmuteCube(items);
+  if (cubeRes) return cubeRes;
+
   if (items.length !== 3) return null;
 
   // Recipe 1: 3 identical potions -> 1 higher potion
@@ -448,7 +600,7 @@ export function canTransmute(items: readonly ItemDef[]): { recipe: string; resul
 }
 
 export function transmuteItems(inv: { item: number; n: number }[], itemIds: number[]): { resultDef: ItemDef; resultId: number; recipe: string } | null {
-  if (itemIds.length !== 3) return null;
+  if (itemIds.length < 1) return null;
   const defs: ItemDef[] = [];
   for (const id of itemIds) {
     const d = getItemDef(id);
@@ -548,8 +700,12 @@ export function setItems(defs: readonly ItemDef[]): void {
   LIST.length = 0;
   LIST.push(...defs);
   clearDynamicItems();
-  POOL = [0, 1, 2].map(() => [[], [], [], [], [], []]);
-  ITEMS.forEach((d, id) => POOL[d.kind][d.tier].push(id));
+  POOL = [0, 1, 2, 3, 4, 5].map(() => [[], [], [], [], [], []]);
+  ITEMS.forEach((d, id) => {
+    if (POOL[d.kind] && POOL[d.kind][d.tier]) {
+      POOL[d.kind][d.tier].push(id);
+    }
+  });
 }
 
 /** Pick a loot item for a monster whose drops range over tiers lo..hi. `rnd(n)` returns an integer in 0..n-1. */
@@ -557,12 +713,23 @@ export function rollLoot(rnd: (n: number) => number, lo: number, hi: number): nu
   const r = rnd(100);
   const cat = r < 55 ? 0 : r < 80 ? 1 : 2;
   const tier = lo + rnd(hi - lo + 1);
-  let pool = POOL[cat][tier];
+  if (!POOL || !POOL[cat]) {
+    POOL = [0, 1, 2, 3, 4, 5].map(() => [[], [], [], [], [], []]);
+    ITEMS.forEach((d, id) => {
+      if (POOL[d.kind] && POOL[d.kind][d.tier]) {
+        POOL[d.kind][d.tier].push(id);
+      }
+    });
+  }
+  let pool = (POOL[cat] && POOL[cat][tier]) || [];
   if (pool.length === 0) {
     pool = [];
-    for (let t = 1; t <= hi; t++) pool.push(...POOL[cat][t]);
+    for (let t = 1; t <= hi; t++) {
+      if (POOL[cat] && POOL[cat][t]) pool.push(...POOL[cat][t]);
+    }
   }
-  if (pool.length === 0) pool = POOL[1][1];
+  if (pool.length === 0) pool = (POOL[1] && POOL[1][1]) || [];
+  if (pool.length === 0) return 0;
   return pool[rnd(pool.length)];
 }
 
@@ -649,6 +816,36 @@ export function itemText(id: number): string {
   }
   if (d.lifesteal) {
     p.push(`Life Steal: +${d.lifesteal}%`);
+  }
+  if (d.manasteal) {
+    p.push(`Mana Steal: +${d.manasteal}%`);
+  }
+  if (d.crushingBlow) {
+    p.push(`Crushing Blow: +${d.crushingBlow}%`);
+  }
+  if (d.deadlyStrike) {
+    p.push(`Deadly Strike: +${d.deadlyStrike}%`);
+  }
+  if (d.openWounds) {
+    p.push(`Open Wounds: +${d.openWounds}%`);
+  }
+  if (d.fcr) {
+    p.push(`Faster Cast Rate: +${d.fcr}%`);
+  }
+  if (d.fhr) {
+    p.push(`Faster Hit Recovery: +${d.fhr}%`);
+  }
+  if (d.ias) {
+    p.push(`Increased Attack Speed: +${d.ias}%`);
+  }
+  if (d.cannotBeFrozen) {
+    p.push('Cannot Be Frozen');
+  }
+  if (d.beltSlots) {
+    p.push(`Belt Capacity: ${d.beltSlots} potion slots`);
+  }
+  if (d.charmSize) {
+    p.push(`Inventory Charm (${d.charmSize}): Grants active bonuses while in pack`);
   }
   if (d.mf) {
     p.push(`Magic Find: +${d.mf}%`);

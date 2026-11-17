@@ -212,31 +212,31 @@ export class AestheticVfxSystem {
 
     switch (this.biome) {
       case 'swamp': {
-        // Act 1: Swamp - Fine diagonal rain streaks
-        p.kind = Math.random() < 0.12 ? 1 : 0; // 0: Rain streak, 1: Ground splash
+        // Act 1: Swamp - Soft atmospheric rainfall & ground ripples
+        p.kind = Math.random() < 0.3 ? 1 : 0; // 0: Rain streak, 1: Ground splash
         if (p.kind === 0) {
           p.x = initialScatter ? Math.random() * (viewW + 200) - 100 : Math.random() * (viewW + 200) - 50;
           p.y = initialScatter ? Math.random() * viewH : -30;
-          p.vx = -70 - Math.random() * 50; // drifting diagonally down-left
-          p.vy = 650 + Math.random() * 300; // swift raindrop velocity
-          p.size = 1 + Math.random() * 0.5;
-          p.baseAlpha = 0.25 + Math.random() * 0.2;
+          p.vx = -55 - Math.random() * 40; // gentle diagonal drift
+          p.vy = 520 + Math.random() * 240; // swift raindrop velocity
+          p.size = 0.7 + Math.random() * 0.25; // fine needle streak
+          p.baseAlpha = 0.09 + Math.random() * 0.07; // soft atmospheric mist
           p.alpha = p.baseAlpha;
-          p.color = Math.random() < 0.4 ? 0xb4e0ff : 0x8ec8f0;
+          p.color = Math.random() < 0.5 ? 0x9ac0d8 : 0x7e9eb4;
           p.life = 0;
           p.maxLife = 1200 + Math.random() * 600;
         } else {
           // Micro-splash bead
           p.x = Math.random() * viewW;
-          p.y = viewH * 0.7 + Math.random() * viewH * 0.3;
-          p.vx = (Math.random() - 0.5) * 80;
-          p.vy = -30 - Math.random() * 40;
-          p.size = 1.2;
-          p.baseAlpha = 0.45;
+          p.y = viewH * 0.65 + Math.random() * viewH * 0.35;
+          p.vx = (Math.random() - 0.5) * 60;
+          p.vy = -20 - Math.random() * 30;
+          p.size = 1.0;
+          p.baseAlpha = 0.25;
           p.alpha = p.baseAlpha;
-          p.color = 0xd0ecff;
+          p.color = 0xa8d0ec;
           p.life = 0;
-          p.maxLife = 120 + Math.random() * 80;
+          p.maxLife = 140 + Math.random() * 90;
         }
         break;
       }
@@ -395,8 +395,8 @@ export class AestheticVfxSystem {
               continue;
             }
 
-            const streakLen = p.vy * 0.032;
-            const endX = p.x + p.vx * 0.032;
+            const streakLen = p.vy * 0.018;
+            const endX = p.x + p.vx * 0.018;
             const endY = p.y + streakLen;
 
             wg.moveTo(p.x, p.y)
@@ -546,24 +546,15 @@ export class AestheticVfxSystem {
 
     switch (this.biome) {
       case 'swamp': {
-        // Eerie marsh mist horizontal flowing ribbons
-        const ribbonCount = this.quality === 2 ? 3 : 2;
-        for (let r = 0; r < ribbonCount; r++) {
-          const baseY = viewH * (0.35 + r * 0.24);
-          const phase = t * 0.4 + r * 1.7;
-          const yOff = Math.sin(phase) * 14;
-          const alpha = 0.04 + 0.02 * Math.sin(t * 0.6 + r * 2.2);
-
-          g.moveTo(0, baseY + yOff)
-            .bezierCurveTo(
-              viewW * 0.33,
-              baseY + yOff + Math.sin(phase + 1) * 18,
-              viewW * 0.66,
-              baseY + yOff + Math.cos(phase + 2) * 16,
-              viewW,
-              baseY + yOff + Math.sin(phase + 3) * 12
-            )
-            .stroke({ color: 0x769b8f, width: 42 + r * 12, alpha });
+        // Eerie marsh mist: soft, organic ground-level fog puffs drifting slowly across the bottom half
+        const fogPuffs = this.quality === 2 ? 4 : 3;
+        for (let r = 0; r < fogPuffs; r++) {
+          const fx = ((t * 22 + r * (viewW / fogPuffs) * 1.3) % (viewW + 200)) - 100;
+          const fy = viewH * (0.55 + ((r * 0.14) % 0.38)) + Math.sin(t * 0.5 + r * 1.5) * 12;
+          const rx = 130 + r * 30;
+          const ry = 36 + r * 12;
+          const alpha = 0.024 + 0.012 * Math.sin(t * 0.4 + r);
+          g.ellipse(fx, fy, rx, ry).fill({ color: 0x5a7a70, alpha });
         }
         break;
       }

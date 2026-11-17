@@ -10,7 +10,7 @@ const SHOP_ENTRY_WINDOW_MS = 750;
 const SFX_NAMES = [
   'hit', 'miss', 'death', 'bow', 'gold', 'nomana', 'cast_fire', 'cast_water', 'cast_air', 'cast_earth', 'cast_astral',
   'boom', 'heal', 'buff', 'curse', 'revive', 'click', 'step1', 'step2', SHOP_ENTRY_CUE, 'select_hero',
-  'loot_normal', 'loot_magic', 'loot_rare', 'loot_set', 'loot_unique',
+  'loot_normal', 'loot_magic', 'loot_rare', 'loot_set', 'loot_unique', 'rune_reveal',
   'spell_meteor', 'spell_inferno', 'spell_blizzard', 'spell_thunderstorm',
   'spell_iron_skin', 'spell_acid_rain', 'spell_mana_burn', 'spell_time_warp',
   'hit_sword_1', 'hit_sword_2', 'hit_sword_3', 'swing_sword_1', 'swing_sword_2',

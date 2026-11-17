@@ -19,6 +19,8 @@ export class LootOverlayManager {
   private lootOverlayEl: HTMLElement | null = null;
   private btnAltEl: HTMLButtonElement | null = null;
   public altMobileToggle = false;
+  public onUniqueDrop?: () => void;
+  public onSetDrop?: () => void;
 
   ensureLootOverlay(): HTMLElement {
     if (!this.lootOverlayEl) {
@@ -123,6 +125,14 @@ export class LootOverlayManager {
       if (!this.lastKnownLoot.has(key)) {
         this.lootDropTimes.set(key, now);
         this.lastKnownLoot.add(key);
+        const itemId = cb.bI[b] - 1;
+        const def = sim.getItemDef(itemId) ?? getItemDef(itemId);
+        const rarity = def ? itemRarity(def) : 'normal';
+        if (rarity === 'unique') {
+          this.onUniqueDrop?.();
+        } else if (rarity === 'set') {
+          this.onSetDrop?.();
+        }
       }
     }
 
@@ -196,12 +206,16 @@ export class LootOverlayManager {
       const def = sim.getItemDef(itemId) ?? getItemDef(itemId);
       const rarity = def ? itemRarity(def) : 'normal';
       const name = def?.name ?? 'Item';
+      let cssClass = `relic-loot-label relic-loot-${rarity}`;
+      if (def?.unidentified) {
+        cssClass += ' relic-loot-unidentified';
+      }
 
       itemsToRender.push({
         key,
         code: POOLS.sacks + b,
         text: name,
-        cssClass: `relic-loot-label relic-loot-${rarity}`,
+        cssClass,
         sx,
         sy,
       });

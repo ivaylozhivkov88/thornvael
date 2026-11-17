@@ -583,7 +583,9 @@ button:focus-visible { outline: 2px solid #9dff7a; outline-offset: 1px; }
   flex: 1 1 auto;
   min-height: 0;
   overflow-y: auto;
+  overflow-x: hidden;
   overscroll-behavior: contain;
+  scrollbar-width: thin;
 }
 
 /* Character Sheet UI Viewport Containment Rule */
@@ -600,7 +602,9 @@ button:focus-visible { outline: 2px solid #9dff7a; outline-offset: 1px; }
   flex: 1 1 auto;
   min-height: 0;
   overflow-y: auto;
+  overflow-x: hidden;
   overscroll-behavior: contain;
+  scrollbar-width: thin;
 }
 
 @media (min-width: 901px) {
@@ -609,7 +613,7 @@ button:focus-visible { outline: 2px solid #9dff7a; outline-offset: 1px; }
     right: auto;
     bottom: calc(56px + env(safe-area-inset-bottom));
     top: calc(12px + env(safe-area-inset-top));
-    width: min(440px, 46vw);
+    width: min(450px, 46vw);
     max-height: calc(100dvh - 72px);
     transform: none;
     margin: 0;
@@ -619,7 +623,7 @@ button:focus-visible { outline: 2px solid #9dff7a; outline-offset: 1px; }
     left: auto;
     bottom: calc(56px + env(safe-area-inset-bottom));
     top: calc(12px + env(safe-area-inset-top));
-    width: min(460px, 48vw);
+    width: min(530px, 48vw);
     max-height: calc(100dvh - 72px);
     transform: none;
     margin: 0;

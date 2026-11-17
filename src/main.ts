@@ -23,6 +23,8 @@ import { AutomapOverlay } from './automap';
 import { QUALITY_NAMES, Renderer, type View } from './render';
 import { Bot, MonsterAi, battleScenario, fightScenario, placeScenario, setupCrowd, setupSquads, type Scenario } from './sim/bot';
 import { DEFS, Kind, M, MODN, POOLS, lootPos, nearestLoot, partAbs, partDef } from './sim/combat';
+import { dir16 } from './sim/path';
+import { D2InteractionController, type D2Interactable } from './sim/movement';
 import { DAY_TICKS, clockText } from './sim/daynight';
 import { HeroUi, tabStrip } from './heroui';
 import { SKILL_NAMES, WHY_TEXT, createHero, takeItem, type HeroSkillId } from './sim/hero';
@@ -305,7 +307,39 @@ const selectedIds = (): number[] => [...selected].filter((i) => alive(i) && sim.
 const forced = (): number => (mods.alt ? 1 : mods.ctrl ? 2 : forceState);
 
 // --- intents ---
-const rec = new GestureRecognizer({ boxMode: () => boxMode, additive: () => addMode, aimMode: () => armed === 'spell' });
+const rec = new GestureRecognizer({
+  boxMode: () => boxMode,
+  additive: () => addMode,
+  aimMode: () => armed === 'spell',
+  dragSteer: () => !boxMode && armed === null,
+});
+const d2Controller = new D2InteractionController();
+
+function findEnemyNearFacing(sim: Sim, heroId: number, facing: number): number {
+  const hx = sim.x[heroId];
+  const hy = sim.y[heroId];
+  const d = DEFS[sim.cb.kind[heroId]];
+  const reach = d.reach + Math.round(0.4 * FP);
+  const reach2 = reach * reach;
+  let best = -1;
+  let bestD = reach2;
+  for (let i = 0; i < sim.count; i++) {
+    if (sim.team[i] === sim.team[heroId] || sim.cb.hp[i] <= 0 || sim.hidden[i]) continue;
+    const dx = sim.x[i] - hx;
+    const dy = sim.y[i] - hy;
+    const dist2 = dx * dx + dy * dy;
+    if (dist2 <= bestD) {
+      const ef = dir16(dx, dy);
+      const diff = Math.abs(ef - facing);
+      const angleDiff = Math.min(diff, 16 - diff);
+      if (angleDiff <= 3) {
+        bestD = dist2;
+        best = i;
+      }
+    }
+  }
+  return best;
+}
 
 function notePing(sx: number, sy: number): void {
   const [x, y] = renderer.toTile(sx, sy);
@@ -1198,6 +1232,26 @@ canvas.addEventListener('pointerdown', (e) => {
   mods.alt = e.altKey;
   mods.ctrl = e.ctrlKey || e.metaKey;
   const [x, y] = local(e);
+  const [wx, wy] = renderer.toTile(x, y);
+
+  if (e.button === 0 || e.button === 2) {
+    const enemy = pickUnit(sim.count, posEnemy, x, y, PICK);
+    const loot = nearestLoot(sim, Math.round(wx * FP), Math.round(wy * FP), 2.0 * FP);
+    let interactable: D2Interactable | undefined;
+    if (loot >= 0) {
+      const [lx, ly] = lootPos(sim, loot);
+      interactable = { type: 'item', x: lx / FP, y: ly / FP, id: loot };
+    } else if (loadedMission?.doc?.adventureObjects) {
+      const advObj = loadedMission.doc.adventureObjects.find((o) => !o.visited && Math.hypot(o.x + 0.5 - wx, o.y + 0.5 - wy) <= 2.0);
+      if (advObj) interactable = { type: 'chest', x: advObj.x + 0.5, y: advObj.y + 0.5, obj: advObj };
+    }
+    if (!interactable && sim.shrines) {
+      const sh = sim.shrines.find((s) => Math.hypot(s.x + 0.5 - wx, s.y + 0.5 - wy) <= 2.0);
+      if (sh) interactable = { type: 'shrine', x: sh.x + 0.5, y: sh.y + 0.5, obj: sh };
+    }
+    d2Controller.onPointerDown(wx, wy, e.button, e.shiftKey, enemy >= 0 ? enemy : undefined, interactable);
+  }
+
   holdShown = false;
   hideTip();
   if (e.pointerType !== 'mouse') {
@@ -1223,8 +1277,12 @@ canvas.addEventListener('pointerdown', (e) => {
 canvas.addEventListener('pointermove', (e) => {
   const [x, y] = local(e);
   lastPointerPos = [x, y];
+  const [wx, wy] = renderer.toTile(x, y);
   mods.alt = e.altKey;
   mods.ctrl = e.ctrlKey || e.metaKey;
+  if (d2Controller.isHolding) {
+    d2Controller.onPointerMove(wx, wy, e.shiftKey);
+  }
   if (downAt && Math.hypot(x - downAt[0], y - downAt[1]) > 10) {
     downAt = null;
     clearTimeout(tipTimer);
@@ -1233,6 +1291,7 @@ canvas.addEventListener('pointermove', (e) => {
   handle(rec.move(e.pointerId, x, y));
 });
 canvas.addEventListener('pointerup', (e) => {
+  d2Controller.onPointerUp(e.button);
   mods.alt = e.altKey;
   mods.ctrl = e.ctrlKey || e.metaKey;
   updateAltButtonStates(mods.alt || altMobileToggle);
@@ -1248,6 +1307,7 @@ canvas.addEventListener('pointerup', (e) => {
   }
 });
 canvas.addEventListener('pointercancel', () => {
+  d2Controller.reset();
   mods.alt = false;
   updateAltButtonStates(altMobileToggle);
   handle(rec.cancel());
@@ -1320,6 +1380,7 @@ const keys = new Set<string>();
 const heldMoveKeys = new Set<string>();
 
 function resetDesktopInput(): void {
+  d2Controller.reset();
   heldMoveKeys.clear();
   keys.clear();
   mods.alt = false;
@@ -1364,6 +1425,7 @@ window.addEventListener('keydown', (e) => {
     automap.toggle();
     return;
   }
+  if (e.key === 'Shift') d2Controller.setShift(true);
   if (e.key === 'Alt') {
     mods.alt = true;
     e.preventDefault();
@@ -1511,6 +1573,7 @@ window.addEventListener('keydown', (e) => {
   }
 });
 window.addEventListener('keyup', (e) => {
+  if (e.key === 'Shift') d2Controller.setShift(false);
   if (e.key === 'Alt') {
     mods.alt = false;
     e.preventDefault();
@@ -3095,6 +3158,81 @@ function advanceStep(): void {
           const targetX = Math.max(0.5, Math.min(map.w - 1.5, px(sim, leadId) + vsDx * 2.5));
           const targetY = Math.max(0.5, Math.min(map.h - 1.5, py(sim, leadId) + vsDy * 2.5));
           commands.push({ type: 'move', ids, x: targetX, y: targetY });
+        }
+      }
+    }
+  }
+
+  // Classic ARPG Mouse-Hold Steering, Target Locking & Stand-Ground Attack
+  const heroLeadId = sim.hero ? sim.hero.id : (alive(0) ? 0 : -1);
+  if (heroLeadId >= 0 && alive(heroLeadId) && d2Controller.isHolding) {
+    const isTyping = document.activeElement && (
+      document.activeElement.matches('input, textarea, select') ||
+      (document.activeElement as HTMLElement).isContentEditable
+    );
+    const inModal = isAnyModalOpen();
+    if (!isTyping && !inModal && !outcome) {
+      const d2Action = d2Controller.step(sim, heroLeadId);
+      if (d2Action.type === 'hold_ground') {
+        sim.stop(heroLeadId);
+      } else if (d2Action.type === 'stand_attack') {
+        sim.stop(heroLeadId);
+        sim.dir[heroLeadId] = d2Action.facing;
+        if (d2Action.button === 0) {
+          if (sim.cb.cd[heroLeadId] === 0) {
+            const enemyInReach = findEnemyNearFacing(sim, heroLeadId, d2Action.facing);
+            if (enemyInReach >= 0) {
+              commands.push({ type: 'order', order: 'attack', ids: [heroLeadId], target: enemyInReach });
+            } else {
+              sim.cb.cd[heroLeadId] = DEFS[sim.cb.kind[heroLeadId]].cd;
+              sim.cb.emit(12, sim.x[heroLeadId], sim.y[heroLeadId], 0, 0);
+            }
+          }
+        } else if (d2Action.button === 2) {
+          if (activeRmbSkill !== null) {
+            queue({ type: 'hero', op: 'skill', skill: activeRmbSkill, x: d2Action.x, y: d2Action.y });
+          } else if (activeRmbSpell !== null && casters(activeRmbSpell).length > 0) {
+            castAt(activeRmbSpell, lastPointerPos[0], lastPointerPos[1], PICK);
+          }
+        }
+      } else if (d2Action.type === 'attack_target') {
+        sim.stop(heroLeadId);
+        sim.dir[heroLeadId] = d2Action.facing;
+        if (sim.cb.cd[heroLeadId] === 0) {
+          commands.push({ type: 'order', order: 'attack', ids: [heroLeadId], target: d2Action.targetId });
+        }
+      } else if (d2Action.type === 'chase_target') {
+        cameraFollow = true;
+        commands.push({ type: 'order', order: 'attack', ids: [heroLeadId], target: d2Action.targetId, x: d2Action.targetX, y: d2Action.targetY });
+      } else if (d2Action.type === 'interact') {
+        sim.stop(heroLeadId);
+        if (d2Action.interactable.type === 'item') {
+          const lootId = d2Action.interactable.id ?? nearestLoot(sim, Math.round(d2Action.interactable.x * FP), Math.round(d2Action.interactable.y * FP), 2.0 * FP);
+          if (lootId >= 0) {
+            orderPickupLoot(lootId);
+            playPickupRustle();
+          }
+        } else if (d2Action.interactable.type === 'chest' && d2Action.interactable.obj) {
+          const res = interactAdventureObject(sim, d2Action.interactable.obj);
+          if (res.triggered) {
+            if (res.effect === 'gold') toast(`💰 Plundered chest: +${res.goldReward} gold!`);
+            play('pickup_gold', 5);
+          }
+        } else if (d2Action.interactable.type === 'shrine') {
+          toast('✨ Ancient shrine activated!');
+          play('pickup_gold', 5);
+        }
+      } else if (d2Action.type === 'move_to_interact') {
+        cameraFollow = true;
+        commands.push({ type: 'move', ids: [heroLeadId], x: d2Action.x, y: d2Action.y, loose: true });
+      } else if (d2Action.type === 'steer') {
+        if (d2Action.inDeadzone) {
+          sim.stop(heroLeadId);
+          sim.dir[heroLeadId] = d2Action.facing;
+        } else {
+          cameraFollow = true;
+          sim.dir[heroLeadId] = d2Action.facing;
+          commands.push({ type: 'move', ids: [heroLeadId], x: d2Action.nextX, y: d2Action.nextY, loose: true });
         }
       }
     }
