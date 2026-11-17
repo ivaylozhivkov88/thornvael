@@ -2,7 +2,7 @@ import type { MapDoc } from './mapdoc';
 import { Kind } from './sim/combat';
 import type { Sim } from './sim/sim';
 import { S } from './strings';
-import { blip, play } from './audio';
+import { blip, play, playSpeakerSwitchThrill } from './audio';
 
 /** Host callbacks: the game owns the pause flag. */
 export interface MissionHost {
@@ -44,7 +44,7 @@ export interface QuestDossier {
 
 /** SVG Vector Portraits for Gothic Characters */
 export function getWardenHalePortraitSvg(): string {
-  return `<svg viewBox="0 0 120 120" xmlns="http://www.w3.org/2000/svg" class="portrait-svg">
+  return `<svg viewBox="0 0 120 120" preserveAspectRatio="xMidYMid slice" xmlns="http://www.w3.org/2000/svg" class="portrait-svg">
   <defs>
     <radialGradient id="bg-hale" cx="50%" cy="40%" r="60%">
       <stop offset="0%" stop-color="#2c3b47"/>
@@ -83,7 +83,7 @@ export function getWardenHalePortraitSvg(): string {
 }
 
 export function getChieftainGroktarPortraitSvg(): string {
-  return `<svg viewBox="0 0 120 120" xmlns="http://www.w3.org/2000/svg" class="portrait-svg">
+  return `<svg viewBox="0 0 120 120" preserveAspectRatio="xMidYMid slice" xmlns="http://www.w3.org/2000/svg" class="portrait-svg">
   <defs>
     <radialGradient id="bg-grok" cx="50%" cy="40%" r="60%">
       <stop offset="0%" stop-color="#4a1c14"/>
@@ -131,7 +131,7 @@ export function getChieftainGroktarPortraitSvg(): string {
 }
 
 export function getHeroPortraitSvg(): string {
-  return `<svg viewBox="0 0 120 120" xmlns="http://www.w3.org/2000/svg" class="portrait-svg">
+  return `<svg viewBox="0 0 120 120" preserveAspectRatio="xMidYMid slice" xmlns="http://www.w3.org/2000/svg" class="portrait-svg">
   <defs>
     <radialGradient id="bg-hero" cx="50%" cy="40%" r="60%">
       <stop offset="0%" stop-color="#3a2f1c"/>
@@ -156,7 +156,7 @@ export function getHeroPortraitSvg(): string {
 }
 
 export function getFallbackPortraitSvg(): string {
-  return `<svg viewBox="0 0 120 120" xmlns="http://www.w3.org/2000/svg" class="portrait-svg">
+  return `<svg viewBox="0 0 120 120" preserveAspectRatio="xMidYMid slice" xmlns="http://www.w3.org/2000/svg" class="portrait-svg">
   <defs>
     <radialGradient id="bg-scout" cx="50%" cy="40%" r="60%">
       <stop offset="0%" stop-color="#243328"/>
@@ -173,7 +173,7 @@ export function getFallbackPortraitSvg(): string {
 }
 
 export function getHighArcanistVaelenPortraitSvg(): string {
-  return `<svg viewBox="0 0 120 120" xmlns="http://www.w3.org/2000/svg" class="portrait-svg">
+  return `<svg viewBox="0 0 120 120" preserveAspectRatio="xMidYMid slice" xmlns="http://www.w3.org/2000/svg" class="portrait-svg">
   <defs>
     <radialGradient id="bg-vaelen" cx="50%" cy="38%" r="65%">
       <stop offset="0%" stop-color="#2d1c47"/>
@@ -208,7 +208,7 @@ export function getHighArcanistVaelenPortraitSvg(): string {
 }
 
 export function getFordScoutBrenPortraitSvg(): string {
-  return `<svg viewBox="0 0 120 120" xmlns="http://www.w3.org/2000/svg" class="portrait-svg">
+  return `<svg viewBox="0 0 120 120" preserveAspectRatio="xMidYMid slice" xmlns="http://www.w3.org/2000/svg" class="portrait-svg">
   <defs>
     <radialGradient id="bg-bren" cx="50%" cy="38%" r="65%">
       <stop offset="0%" stop-color="#1e3324"/>
@@ -238,7 +238,7 @@ export function getFordScoutBrenPortraitSvg(): string {
 }
 
 export function getCaptainMerrickPortraitSvg(): string {
-  return `<svg viewBox="0 0 120 120" xmlns="http://www.w3.org/2000/svg" class="portrait-svg">
+  return `<svg viewBox="0 0 120 120" preserveAspectRatio="xMidYMid slice" xmlns="http://www.w3.org/2000/svg" class="portrait-svg">
   <defs>
     <radialGradient id="bg-merrick" cx="50%" cy="38%" r="65%">
       <stop offset="0%" stop-color="#3d2b24"/>
@@ -271,7 +271,7 @@ export function getCaptainMerrickPortraitSvg(): string {
 }
 
 export function getTavernPatronPortraitSvg(): string {
-  return `<svg viewBox="0 0 120 120" xmlns="http://www.w3.org/2000/svg" class="portrait-svg">
+  return `<svg viewBox="0 0 120 120" preserveAspectRatio="xMidYMid slice" xmlns="http://www.w3.org/2000/svg" class="portrait-svg">
   <defs>
     <radialGradient id="bg-patron" cx="50%" cy="38%" r="65%">
       <stop offset="0%" stop-color="#4a301d"/>
@@ -290,7 +290,7 @@ export function getTavernPatronPortraitSvg(): string {
 }
 
 export function getBossOverlordPortraitSvg(): string {
-  return `<svg viewBox="0 0 120 120" xmlns="http://www.w3.org/2000/svg" class="portrait-svg">
+  return `<svg viewBox="0 0 120 120" preserveAspectRatio="xMidYMid slice" xmlns="http://www.w3.org/2000/svg" class="portrait-svg">
   <defs>
     <radialGradient id="bg-overlord" cx="50%" cy="40%" r="65%">
       <stop offset="0%" stop-color="#5a1808"/>
@@ -326,7 +326,7 @@ export function getBossOverlordPortraitSvg(): string {
 }
 
 export function getHighNecromancerPortraitSvg(): string {
-  return `<svg viewBox="0 0 120 120" xmlns="http://www.w3.org/2000/svg" class="portrait-svg">
+  return `<svg viewBox="0 0 120 120" preserveAspectRatio="xMidYMid slice" xmlns="http://www.w3.org/2000/svg" class="portrait-svg">
   <defs>
     <radialGradient id="bg-necro" cx="50%" cy="40%" r="65%">
       <stop offset="0%" stop-color="#142834"/>
@@ -429,6 +429,7 @@ export class MissionUi {
   private fullTypingText = '';
   private typingCallback: (() => void) | null = null;
   private finishCurrentTyping: (() => void) | null = null;
+  private lastSpeaker: string | null = null;
 
   constructor(
     private readonly doc: MapDoc,
@@ -498,28 +499,28 @@ export class MissionUi {
       return {
         name: 'High Arcanist Vaelen',
         rank: 'Grand Scholar of the Astral Veil & Keeper of the Primeval Runes',
-        portraitSvg: getHighArcanistVaelenPortraitSvg(),
+        portraitSvg: paintedPortrait('npc-aldren', getHighArcanistVaelenPortraitSvg()),
       };
     }
     if (lower.includes('bren') || lower.includes('ford-scout') || lower.includes('river scout')) {
       return {
         name: 'Ford-Scout Bren',
         rank: 'Chief Frontier Pathfinder & Master of the River Marches',
-        portraitSvg: getFordScoutBrenPortraitSvg(),
+        portraitSvg: paintedPortrait('npc-scout', getFordScoutBrenPortraitSvg()),
       };
     }
     if (lower.includes('merrick') || lower.includes('commander merrick')) {
       return {
         name: 'Captain Merrick',
         rank: 'Garrison Commander of the High Keep & Master of Ordnance',
-        portraitSvg: getCaptainMerrickPortraitSvg(),
+        portraitSvg: paintedPortrait('npc-aldren', getCaptainMerrickPortraitSvg()),
       };
     }
     if (lower.includes('patron') || lower.includes('barkeep') || lower.includes('corin') || lower.includes('rumor')) {
       return {
         name: 'Master Corin',
         rank: 'Tavern Chronicler & Informant of the Frontier Underworld',
-        portraitSvg: getTavernPatronPortraitSvg(),
+        portraitSvg: paintedPortrait('npc-quillon', getTavernPatronPortraitSvg()),
       };
     }
     if (lower.includes('grok') || lower.includes('chief') || lower.includes('gnoll')) {
@@ -533,35 +534,35 @@ export class MissionUi {
       return {
         name: who.includes('Ashkarath') ? 'Ashkarath the Cinder King' : 'Ember Overlord Vorak',
         rank: 'Primordial Sovereign of the Obsidian Caldera & Cleansing Flame',
-        portraitSvg: getBossOverlordPortraitSvg(),
+        portraitSvg: paintedPortrait('frame-ashkarath', getBossOverlordPortraitSvg()),
       };
     }
     if (lower.includes('malgath') || lower.includes('necro') || lower.includes('mordred') || lower.includes('vesperion')) {
       return {
         name: who.includes('Mordred') ? 'Mordred the Ashen' : who.includes('Vesperion') ? 'Vesperion the Hollow Choir' : 'High Necromancer Malgath',
         rank: 'Arch-Prelate of Immutable Silence & the Bone Choir',
-        portraitSvg: getHighNecromancerPortraitSvg(),
+        portraitSvg: paintedPortrait('frame-vesperion', getHighNecromancerPortraitSvg()),
       };
     }
     if (lower.includes('korrath') || lower.includes('arch-warden')) {
       return {
         name: 'Arch-Warden Korrath',
         rank: 'Eternal Sentinel of Imperial Law & Granite Petrifaction',
-        portraitSvg: getBossOverlordPortraitSvg(),
+        portraitSvg: paintedPortrait('frame-gorrathul', getBossOverlordPortraitSvg()),
       };
     }
     if (lower.includes('gorrathul')) {
       return {
         name: 'Gorrathul the Sand Glutton',
         rank: 'Subterranean Frost-Gorged Colossus of the Dunes',
-        portraitSvg: getBossOverlordPortraitSvg(),
+        portraitSvg: paintedPortrait('frame-gorrathul', getBossOverlordPortraitSvg()),
       };
     }
     if (lower.includes('morvessa')) {
       return {
         name: 'Morvessa the Silk Matron',
         rank: 'Brood Queen of the Sunless Bone Catacombs',
-        portraitSvg: getHighNecromancerPortraitSvg(),
+        portraitSvg: paintedPortrait('frame-morvessa', getHighNecromancerPortraitSvg()),
       };
     }
     if (lower.includes('hero') || lower.includes('you')) {
@@ -756,12 +757,23 @@ export class MissionUi {
     const info = this.getSpeakerInfo(who);
     const formatted = this.formatDiscoDialogue(who, text);
 
-    const frame = document.createElement('div');
-    frame.className = 'gothic-dialogue-frame';
+    const isSpeakerSwitch = this.lastSpeaker === null || this.lastSpeaker.toLowerCase() !== who.toLowerCase();
+    this.lastSpeaker = who;
 
-    // Left Column: Speaker Portrait
+    if (isSpeakerSwitch) {
+      try {
+        playSpeakerSwitchThrill();
+      } catch {
+        // Safe in headless or audio-disabled test runs
+      }
+    }
+
+    const frame = document.createElement('div');
+    frame.className = `gothic-dialogue-frame${isSpeakerSwitch ? ' speaker-switch-thrill' : ''}`;
+
+    // Left Column: Speaker Portrait (Disco Elysium Grand Side Canvas)
     const portraitCol = document.createElement('div');
-    portraitCol.className = 'gothic-portrait-wrapper';
+    portraitCol.className = `gothic-portrait-wrapper${isSpeakerSwitch ? ' portrait-shiver-thrill' : ''}`;
     portraitCol.innerHTML = info.portraitSvg;
 
     // Right Column: Dialogue Nameplate & Body
@@ -823,7 +835,9 @@ export class MissionUi {
       speechEl.textContent = this.fullTypingText;
       isTyping = false;
       choicesEl.style.display = 'flex';
-      contBtn.focus();
+      const firstChoice = choicesEl.querySelector<HTMLButtonElement>('.commander-choice-btn');
+      if (firstChoice) firstChoice.focus();
+      else contBtn.focus();
     };
 
     this.finishCurrentTyping = finishTyping;
@@ -834,6 +848,9 @@ export class MissionUi {
       } else {
         this.dialogueModal.hidden = true;
         this.dialogueActive = false;
+        if (this.queue.length === 0) {
+          this.lastSpeaker = null;
+        }
         done();
       }
     };
@@ -842,7 +859,7 @@ export class MissionUi {
       const choiceBtn = document.createElement('button');
       choiceBtn.type = 'button';
       choiceBtn.className = 'commander-choice-btn';
-      choiceBtn.innerHTML = `<span class="choice-num">${c.num}.</span> <span class="choice-tag">${c.tag}</span> "${c.text}"`;
+      choiceBtn.innerHTML = `<span class="choice-num">${c.num}.</span> <span class="choice-tag">${c.tag}</span> <span class="choice-text">"${c.text}"</span>`;
       choiceBtn.onclick = (e) => {
         e.stopPropagation();
         try { blip(); } catch {}
@@ -856,7 +873,12 @@ export class MissionUi {
       e.stopPropagation();
       advance();
     };
-    frame.onclick = () => advance();
+    frame.onclick = (e) => {
+      if ((e.target as HTMLElement).closest('button')) return;
+      if (isTyping) {
+        finishTyping();
+      }
+    };
 
     // Typewriter interval with audio cue
     this.typingTimer = window.setInterval(() => {
@@ -882,8 +904,13 @@ export class MissionUi {
     if (this.typingTimer !== null) {
       this.finishCurrentTyping?.();
     } else {
-      try { blip(); } catch {}
-      this.advanceDialogue();
+      const choiceBtns = this.dialogueModal.querySelectorAll<HTMLButtonElement>('.commander-choice-btn');
+      if (choiceBtns && choiceBtns[choiceIdx - 1]) {
+        choiceBtns[choiceIdx - 1].click();
+      } else {
+        try { blip(); } catch {}
+        this.advanceDialogue();
+      }
     }
   }
 
@@ -1780,7 +1807,9 @@ export function showMissionMenu(): void {
 }
 
 /** Painted portrait (Gemini-generated, see assets.json) with the vector portrait as an offline fallback. */
-function paintedPortrait(file: string, fallbackSvg: string): string {
+export function paintedPortrait(file: string, fallbackSvg: string): string {
   const fb = fallbackSvg.replace(/"/g, '&quot;').replace(/\s+/g, ' ');
-  return `<img class="portrait-img" src="${import.meta.env.BASE_URL}townart/${file}.jpg" alt="" style="width:100%;height:100%;object-fit:cover;border-radius:50%" onerror="this.outerHTML=this.dataset.fb" data-fb="${fb}">`;
+  const ext = file.endsWith('.png') || file.endsWith('.jpg') || file.endsWith('.webp') ? '' : '.jpg';
+  const fileName = file.includes('.') ? file : `${file}${ext}`;
+  return `<img class="portrait-img" src="${import.meta.env.BASE_URL}townart/${fileName}" alt="" onerror="this.outerHTML=this.dataset.fb" data-fb="${fb}">`;
 }

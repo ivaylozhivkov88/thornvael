@@ -1,7 +1,7 @@
 import { DEFS, Elem, M, MODN, Ord, MAXS, strike } from './combat';
 import { rulesOf } from './difficulty';
 import { getDifficultyCalibration } from './balance';
-import { ATTR_NAMES, CLS_MAGE, CLS_WARRIOR, Cls, ITEMS, Ik, LOOT_RULES, PART_COUNT, SLOT_COUNT, Slot, getItemDef, itemId, rollLoot, type ItemDef } from './items';
+import { ATTR_NAMES, CLS_MAGE, CLS_WARRIOR, Cls, ITEMS, Ik, LOOT_RULES, PART_COUNT, SLOT_COUNT, Slot, getItemDef, getUnidentifiedName, itemId, rollLoot, type ItemDef } from './items';
 import { calculateActiveSetBonuses, ALL_SET_ITEMS } from './sets';
 import { UNIQUE_ARTIFACTS, rollMagicItem, rollRareItem } from './affixes';
 import { St } from './spelldata';
@@ -77,8 +77,8 @@ export function equipmentStamp(h: HeroState, action: EquipmentAction): string {
 }
 
 /** Why an action was refused (fx type 15, v = reason). */
-export const Why = { Class: 1, Need: 2, Known: 3, Full: 4, Heavy: 5, Dead: 6, None: 7, NoEffect: 8, Gold: 9, Far: 10, Busy: 11 } as const;
-export const WHY_TEXT = ['', 'Wrong class for this item.', 'Attribute too low for this item.', 'You already know that spell.', 'The pack is full.', 'Too heavy to carry.', 'The hero has fallen.', 'You do not have that.', 'It would have no effect now.', 'Not enough gold.', 'Walk closer to go in.', 'You already carry three quests.'] as const;
+export const Why = { Class: 1, Need: 2, Known: 3, Full: 4, Heavy: 5, Dead: 6, None: 7, NoEffect: 8, Gold: 9, Far: 10, Busy: 11, Unidentified: 12 } as const;
+export const WHY_TEXT = ['', 'Wrong class for this item.', 'Attribute too low for this item.', 'You already know that spell.', 'The pack is full.', 'Too heavy to carry.', 'The hero has fallen.', 'You do not have that.', 'It would have no effect now.', 'Not enough gold.', 'Walk closer to go in.', 'You already carry three quests.', 'Item must be identified before equipping.'] as const;
 /** Item events (fx type 14, v = item id, el = what happened). */
 export const Did = { Pick: 0, Equip: 1, Use: 2, Learn: 3, Drop: 4, Unequip: 5 } as const;
 

@@ -3444,225 +3444,436 @@ button:disabled, #shell .sh-btn:disabled { opacity: .6; cursor: default; box-sha
   position: fixed;
   inset: 0;
   z-index: 40;
-  background: rgba(0, 0, 0, 0.6);
-  backdrop-filter: blur(4px);
+  background: rgba(4, 7, 10, 0.75);
+  backdrop-filter: blur(6px);
   display: flex;
-  align-items: flex-end;
+  align-items: center;
   justify-content: center;
-  padding: 0 12px calc(18px + env(safe-area-inset-bottom));
+  padding: 16px 16px calc(16px + env(safe-area-inset-bottom));
   pointer-events: auto;
+  box-sizing: border-box;
 }
+
 .gothic-dialogue-frame {
-  width: min(95vw, 780px);
-  min-height: 140px;
-  max-height: min(85vh, 520px);
+  width: min(94vw, 920px);
+  height: min(86vh, 580px);
+  min-height: 380px;
+  max-height: min(88vh, 620px);
   display: flex;
-  gap: 16px;
-  background: linear-gradient(160deg, #1f272e 0%, #12181f 100%);
+  flex-direction: row;
+  gap: 20px;
+  background: linear-gradient(155deg, #182027 0%, #0f141a 60%, #080c10 100%);
   border: 2px solid #8f7244;
   border-radius: 8px;
-  box-shadow: 0 12px 42px rgba(0, 0, 0, 0.9), inset 0 1px 0 rgba(255, 230, 150, 0.2);
-  padding: 14px 16px;
+  box-shadow: 0 18px 56px rgba(0, 0, 0, 0.95), inset 0 1px 0 rgba(255, 230, 150, 0.25);
+  padding: 18px 22px;
   position: relative;
-  cursor: pointer;
   overflow: hidden;
+  box-sizing: border-box;
 }
+
+/* Visceral Character Switch Pulse on Frame */
+@keyframes frame-switch-pulse {
+  0% {
+    box-shadow: 0 0 45px rgba(255, 190, 70, 0.45), inset 0 0 35px rgba(255, 190, 70, 0.25), 0 18px 56px rgba(0, 0, 0, 0.95);
+    border-color: #ffd870;
+  }
+  40% {
+    box-shadow: 0 0 25px rgba(180, 130, 40, 0.3), inset 0 0 20px rgba(180, 130, 40, 0.15), 0 18px 56px rgba(0, 0, 0, 0.95);
+    border-color: #d4af37;
+  }
+  100% {
+    box-shadow: 0 18px 56px rgba(0, 0, 0, 0.95), inset 0 1px 0 rgba(255, 230, 150, 0.25);
+    border-color: #8f7244;
+  }
+}
+
+.speaker-switch-thrill {
+  animation: frame-switch-pulse 0.75s cubic-bezier(0.2, 0.9, 0.3, 1) forwards;
+}
+
+/* Side Portrait: Grand Disco Elysium Expressionist Canvas */
 .gothic-portrait-wrapper {
-  flex-shrink: 0;
-  width: 104px;
-  height: 104px;
-  border-radius: 6px;
+  flex: 0 0 clamp(200px, 24vw, 245px);
+  height: 100%;
+  min-height: 280px;
+  max-height: 100%;
+  position: relative;
   overflow: hidden;
-  border: 2px solid #b89358;
-  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.8), inset 0 0 12px rgba(0, 0, 0, 0.8);
-  background: #0d1217;
+  border-radius: 6px;
+  border: 2px solid #8f7244;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.9), inset 0 0 36px rgba(0, 0, 0, 0.85);
+  background: radial-gradient(circle at 50% 30%, #1a222c 0%, #090d12 100%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
+
+/* Subtle ambient backlight breathing */
+.gothic-portrait-wrapper::before {
+  content: "";
+  position: absolute;
+  inset: -8px;
+  background: radial-gradient(circle at 50% 35%, rgba(212, 175, 55, 0.22) 0%, transparent 68%);
+  opacity: 0.6;
+  animation: portrait-ambient-pulse 6s ease-in-out infinite alternate;
+  pointer-events: none;
+  z-index: 1;
+}
+
+@keyframes portrait-ambient-pulse {
+  0% { opacity: 0.35; transform: scale(0.97); }
+  100% { opacity: 0.8; transform: scale(1.03); }
+}
+
+/* Rich vignette and weathered inner frame overlay */
+.gothic-portrait-wrapper::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: radial-gradient(ellipse at 50% 40%, transparent 42%, rgba(5, 8, 12, 0.75) 100%),
+              linear-gradient(to bottom, transparent 65%, rgba(4, 6, 8, 0.9) 100%);
+  border: 1px solid rgba(255, 216, 112, 0.22);
+  border-radius: 4px;
+  z-index: 2;
+}
+
+.portrait-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center 20%;
+  display: block;
+  filter: contrast(1.08) saturate(1.1);
+  position: relative;
+  z-index: 0;
+}
+
 .portrait-svg {
   width: 100%;
   height: 100%;
   display: block;
+  position: relative;
+  z-index: 0;
 }
+
+/* Visceral Character Switch Shiver ("Тръпка") on Portrait */
+@keyframes portrait-shiver-thrill {
+  0% {
+    transform: scale(1.06) translate(0, 0);
+    filter: brightness(1.75) contrast(1.35) drop-shadow(0 0 24px rgba(255, 216, 112, 0.8));
+  }
+  15% {
+    transform: scale(1.04) translate(-4px, 2px);
+    filter: brightness(1.45) contrast(1.22);
+  }
+  35% {
+    transform: scale(1.02) translate(3px, -2px);
+    filter: brightness(1.25) contrast(1.12);
+  }
+  55% {
+    transform: scale(1.01) translate(-2px, 1px);
+    filter: brightness(1.12);
+  }
+  75% {
+    transform: scale(1.003) translate(1px, 0);
+    filter: brightness(1.05);
+  }
+  100% {
+    transform: scale(1) translate(0, 0);
+    filter: brightness(1) contrast(1);
+  }
+}
+
+.portrait-shiver-thrill {
+  animation: portrait-shiver-thrill 0.7s cubic-bezier(0.25, 1, 0.5, 1) forwards;
+}
+
+/* Right Column: Dialogue Nameplate, Novel Stream & Actions */
 .gothic-dialogue-content {
   flex: 1;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
   min-width: 0;
-  max-height: 100%;
-  overflow-y: auto;
+  height: 100%;
 }
+
 .gothic-nameplate {
-  margin-bottom: 6px;
-  border-bottom: 1px solid rgba(143, 114, 68, 0.4);
-  padding-bottom: 4px;
+  margin-bottom: 8px;
+  border-bottom: 1px solid rgba(143, 114, 68, 0.45);
+  padding-bottom: 6px;
 }
 .speaker-name {
   font-family: Georgia, "Times New Roman", serif;
-  font-size: 16px;
+  font-size: 18px;
   font-weight: 700;
-  letter-spacing: 0.5px;
+  letter-spacing: 0.6px;
   color: #ffd870;
-  text-shadow: 0 1px 4px #000;
+  text-shadow: 0 2px 5px rgba(0, 0, 0, 0.9);
 }
 .filigree-flourish {
-  color: #8f7244;
-  font-size: 13px;
-  margin: 0 2px;
+  color: #cfa84a;
+  font-size: 14px;
+  margin: 0 4px;
 }
 .speaker-rank {
-  font-size: 11px;
-  color: #9ea8ad;
-  letter-spacing: 0.3px;
-  margin-top: 1px;
-}
-.gothic-dialogue-body {
-  font-size: 14px;
-  line-height: 1.5;
-  color: #f0e6d6;
-  margin: 6px 0 10px;
-  min-height: 48px;
-  white-space: pre-line;
+  font-size: 11.5px;
+  color: #a0acb5;
+  letter-spacing: 0.6px;
+  text-transform: uppercase;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  margin-top: 2px;
 }
 
-/* --- Disco Elysium Inspired Literary Architecture Badges & Stances --- */
+/* Dialogue Body: Single Flowing Novel Stream with Thin Gothic Scrollbar */
+.gothic-dialogue-body {
+  flex: 1;
+  min-height: 0;
+  overflow-y: auto;
+  overflow-x: hidden;
+  padding-right: 8px;
+  margin: 6px 0 10px;
+  font-size: 14.5px;
+  line-height: 1.55;
+  color: #f0e6d6;
+  white-space: pre-line;
+  scrollbar-width: thin;
+  scrollbar-color: rgba(143, 114, 68, 0.5) transparent;
+}
+.gothic-dialogue-body::-webkit-scrollbar {
+  width: 6px;
+}
+.gothic-dialogue-body::-webkit-scrollbar-track {
+  background: transparent;
+}
+.gothic-dialogue-body::-webkit-scrollbar-thumb {
+  background: rgba(143, 114, 68, 0.5);
+  border-radius: 3px;
+}
+.gothic-dialogue-body::-webkit-scrollbar-thumb:hover {
+  background: #ffd870;
+}
+
+/* --- Disco Elysium Cognitive Badges --- */
 .de-skill-badge {
   display: inline-block;
-  font-size: 10.5px;
+  font-size: 11px;
   font-weight: 700;
   letter-spacing: 0.8px;
   text-transform: uppercase;
-  padding: 2px 8px;
+  padding: 3px 10px;
   border-radius: 3px;
-  margin-bottom: 6px;
-  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.4);
+  margin-bottom: 8px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.5);
 }
 .de-skill-badge.de-war-logic {
-  background: rgba(200, 140, 40, 0.22);
+  background: rgba(200, 140, 40, 0.25);
   border: 1px solid #d49b28;
-  color: #ffd770;
+  color: #ffe082;
 }
 .de-skill-badge.de-tactical {
-  background: rgba(60, 140, 90, 0.22);
-  border: 1px solid #5aa870;
-  color: #a8e6b8;
+  background: rgba(50, 150, 90, 0.25);
+  border: 1px solid #4fa368;
+  color: #b8f0c8;
 }
 .de-skill-badge.de-astral {
-  background: rgba(120, 70, 190, 0.22);
+  background: rgba(130, 70, 200, 0.25);
   border: 1px solid #9d68db;
-  color: #d8baff;
+  color: #e8d5ff;
 }
 .de-skill-badge.de-quartermaster {
-  background: rgba(180, 160, 50, 0.22);
+  background: rgba(190, 170, 40, 0.25);
   border: 1px solid #c4b038;
-  color: #fff08a;
+  color: #fff5a0;
 }
 .de-skill-badge.de-skepticism {
-  background: rgba(170, 95, 50, 0.22);
+  background: rgba(180, 95, 40, 0.25);
   border: 1px solid #b87040;
-  color: #f5b68a;
+  color: #ffd0b0;
 }
 .de-skill-badge.de-dread {
-  background: rgba(180, 35, 35, 0.25);
-  border: 1px solid #cc3333;
-  color: #ff8888;
+  background: rgba(200, 35, 35, 0.28);
+  border: 1px solid #d43333;
+  color: #ffaaaa;
 }
 .de-skill-badge.de-primordial {
-  background: rgba(220, 75, 20, 0.25);
-  border: 1px solid #e05018;
-  color: #ffaa66;
+  background: rgba(230, 80, 20, 0.28);
+  border: 1px solid #e65518;
+  color: #ffbe88;
 }
 .de-skill-badge.de-cohort {
-  background: rgba(65, 105, 165, 0.22);
-  border: 1px solid #5588cc;
-  color: #99c2ff;
+  background: rgba(65, 115, 185, 0.25);
+  border: 1px solid #4880cc;
+  color: #bad7ff;
 }
+
 .de-sensory-beat {
   font-family: Georgia, "Times New Roman", serif;
   font-style: italic;
-  font-size: 12.5px;
-  line-height: 1.45;
-  color: #b8ac9a;
-  margin-bottom: 6px;
-  border-left: 2px solid rgba(143, 114, 68, 0.45);
-  padding-left: 8px;
-}
-.de-speech-text {
   font-size: 13.5px;
   line-height: 1.5;
-  color: #f0e6d6;
+  color: #c5b8a5;
+  margin-bottom: 10px;
+  border-left: 2px solid rgba(212, 175, 55, 0.5);
+  padding-left: 10px;
+}
+.de-speech-text {
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: 15px;
+  line-height: 1.6;
+  color: #fdf5e8;
+  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.75);
   min-height: 28px;
 }
+
+/* Clean Disco Elysium Commander Responses List */
 .commander-responses-container {
   display: flex;
   flex-direction: column;
-  gap: 4px;
-  margin-top: 8px;
-  margin-bottom: 6px;
-  max-height: 135px;
-  overflow-y: auto;
+  gap: 6px;
+  margin-top: 14px;
+  margin-bottom: 8px;
+  width: 100%;
 }
 .commander-choice-btn {
   display: flex;
   align-items: baseline;
-  gap: 6px;
-  background: rgba(18, 24, 30, 0.75);
+  gap: 8px;
+  background: rgba(18, 24, 32, 0.75);
   border: 1px solid rgba(143, 114, 68, 0.35);
-  color: #dcd1c0;
-  padding: 5px 8px;
+  border-left: 3px solid rgba(143, 114, 68, 0.6);
+  color: #e5dbcb;
+  padding: 8px 12px;
   border-radius: 4px;
-  font-size: 12px;
-  line-height: 1.35;
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: 13.5px;
+  line-height: 1.45;
   text-align: left;
   cursor: pointer;
-  transition: all 0.12s ease;
+  transition: transform 0.14s ease, border-color 0.14s ease, background 0.14s ease, box-shadow 0.14s ease;
+  min-height: 40px;
+  box-sizing: border-box;
 }
-.commander-choice-btn:hover {
-  background: rgba(45, 34, 20, 0.9);
-  border-color: #ffd870;
-  color: #fff;
-  transform: translateX(3px);
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.6);
+.commander-choice-btn:hover,
+.commander-choice-btn:focus-visible {
+  background: linear-gradient(90deg, rgba(60, 44, 22, 0.85) 0%, rgba(26, 32, 42, 0.9) 100%);
+  border-color: rgba(255, 216, 112, 0.6);
+  border-left: 3px solid #ffd870;
+  color: #ffffff;
+  transform: translateX(4px);
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.7);
+  outline: none;
 }
 .commander-choice-btn .choice-num {
   color: #ffd870;
   font-weight: 700;
-  font-size: 11px;
+  font-size: 13px;
+  flex-shrink: 0;
+  font-family: Georgia, "Times New Roman", serif;
 }
 .commander-choice-btn .choice-tag {
-  color: #b89358;
+  color: #cfa84a;
   font-weight: 600;
-  font-size: 11px;
+  font-size: 12px;
+  letter-spacing: 0.3px;
   margin-right: 2px;
+  flex-shrink: 0;
+  text-transform: uppercase;
 }
+.commander-choice-btn .choice-text {
+  color: #f0e6d6;
+  flex: 1;
+}
+.commander-choice-btn:hover .choice-text {
+  color: #ffffff;
+}
+
 .gothic-dialogue-footer {
   display: flex;
   align-items: center;
   justify-content: space-between;
   gap: 12px;
   margin-top: auto;
+  padding-top: 8px;
+  border-top: 1px solid rgba(143, 114, 68, 0.3);
 }
 .dialogue-queue-count {
-  font-size: 11px;
-  color: #7b8890;
+  font-size: 11.5px;
+  color: #88969e;
   font-style: italic;
 }
 .gothic-continue-btn {
-  background: linear-gradient(140deg, #3c2f1c, #241b10);
-  border: 1px solid #d4af37;
-  color: #ffe89e;
+  background: linear-gradient(145deg, #382c1a, #1f180e);
+  border: 1px solid #cfa84a;
+  color: #ffe699;
   border-radius: 4px;
-  padding: 6px 14px;
+  padding: 7px 16px;
+  font-family: Georgia, serif;
   font-size: 13px;
-  font-weight: 600;
+  font-weight: 700;
+  letter-spacing: 0.5px;
   cursor: pointer;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.6);
   transition: all 0.15s ease;
 }
 .gothic-continue-btn:hover {
-  background: linear-gradient(140deg, #524025, #332616);
-  border-color: #ffe680;
+  background: linear-gradient(145deg, #4f3d23, #2e2415);
+  border-color: #ffd870;
   color: #fff;
-  box-shadow: 0 0 10px rgba(212, 175, 55, 0.5);
+  box-shadow: 0 0 12px rgba(255, 216, 112, 0.4);
+}
+.gothic-continue-btn .btn-hotkey {
+  font-size: 11px;
+  opacity: 0.75;
+  margin-left: 4px;
+  font-weight: normal;
+}
+
+/* Responsive Adaptive Viewport Containment for Dialogue Modal */
+@media (max-height: 480px) {
+  .gothic-dialogue-frame {
+    height: min(94vh, 360px);
+    min-height: 260px;
+    padding: 10px 14px;
+    gap: 12px;
+  }
+  .gothic-portrait-wrapper {
+    flex: 0 0 130px;
+    min-height: 0;
+  }
+  .speaker-name {
+    font-size: 15px;
+  }
+  .de-speech-text {
+    font-size: 13px;
+  }
+  .commander-choice-btn {
+    padding: 6px 8px;
+    font-size: 12px;
+    min-height: 34px;
+  }
+}
+
+@media (max-width: 640px) and (orientation: portrait) {
+  .gothic-dialogue-frame {
+    flex-direction: column;
+    height: min(92vh, 620px);
+    min-height: 360px;
+    gap: 10px;
+    padding: 12px;
+  }
+  .gothic-portrait-wrapper {
+    flex: 0 0 110px;
+    width: 100%;
+    height: 110px;
+    min-height: 110px;
+  }
+  .commander-choice-btn {
+    font-size: 12.5px;
+    padding: 7px 10px;
+  }
 }
 
 /* --- Town Lore & Rumor System --- */

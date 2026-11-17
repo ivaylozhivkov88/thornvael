@@ -434,7 +434,7 @@ export class Renderer {
       const bossAtlas = boss ? atlasByArt.get(boss.id) : undefined;
       // Diagnostic presentation override only: retain the original sim kind and update path.
       const atlas = bossAtlas ?? (this.artStress ? atlases[i % atlases.length]
-        : kind === Kind.Hero ? (sim.hero?.cls === 1 ? atlases[4] : atlases[0])
+        : kind === Kind.Hero ? (sim.hero?.cls === 1 ? (atlasByArt.get('mage') ?? atlases[4]) : sim.hero?.cls === 2 ? (atlasByArt.get('archer') ?? atlases[1]) : (atlasByArt.get('hero') ?? atlases[0]))
         : kind === Kind.Archer ? atlases[1]
         : kind === Kind.Golem ? atlases[2]
         : kind === Kind.Warrior ? atlases[3]
@@ -948,136 +948,33 @@ export class Renderer {
     const g = this.heroGearGraphics;
     if (!s.visible || sim.cb.hp[heroIdx] <= 0) return;
 
+    // Only render subtle atmospheric specular blade glints or staff crystal shimmer during active attacks.
+    // Never draw crude vector sticks or flat polygons over the authentic pre-rendered sprite.
+    if (!isAttacking) return;
+
     const hero = sim.hero;
     const weaponId = hero ? hero.eq[Slot.Weapon] : -1;
-    const shieldId = hero ? hero.eq[Slot.Shield] : -1;
     const weaponDef = weaponId >= 0 ? getItemDef(weaponId) : undefined;
-    const shieldDef = shieldId >= 0 ? getItemDef(shieldId) : undefined;
     const weaponKind = classifyHeroWeapon(weaponDef);
 
     const hx = s.x;
     const hy = s.y;
     const scale = s.scale.x;
-
-    // 1. SHIELD OVERLAY (Off hand: left hand relative to forward facing angle)
-    if (shieldId >= 0 || shieldDef) {
-      const shieldAng = smoothAngle - 0.75;
-      const sx = hx + Math.cos(shieldAng) * (11 * scale);
-      const sy = hy - (13 * scale) + Math.sin(shieldAng) * (5 * scale);
-      const pulseGlint = 0.8 + 0.2 * Math.sin(now * 0.005);
-
-      // Heater Shield body
-      g.moveTo(sx - 5 * scale, sy - 8 * scale)
-        .lineTo(sx + 5 * scale, sy - 8 * scale)
-        .lineTo(sx + 4 * scale, sy + 3 * scale)
-        .lineTo(sx, sy + 9 * scale)
-        .lineTo(sx - 4 * scale, sy + 3 * scale)
-        .closePath()
-        .fill(0x1e3a8a)
-        .stroke({ color: 0xced4da, width: 1.5 * scale, alpha: 0.95 });
-
-      // Golden heraldic boss / cross
-      g.moveTo(sx, sy - 6 * scale).lineTo(sx, sy + 5 * scale).stroke({ color: 0xf59e0b, width: 1.4 * scale });
-      g.moveTo(sx - 3 * scale, sy - 2 * scale).lineTo(sx + 3 * scale, sy - 2 * scale).stroke({ color: 0xf59e0b, width: 1.4 * scale });
-      g.circle(sx, sy - 2 * scale, 1.4 * scale).fill(0xfef08a);
-
-      // Specular gleam on steel rim
-      g.moveTo(sx - 4 * scale, sy - 8 * scale).lineTo(sx - 1 * scale, sy - 8 * scale).stroke({ color: 0xffffff, width: 1.6 * scale, alpha: pulseGlint });
-    }
-
-    // 2. WEAPON OVERLAY (Main hand: right hand relative to facing angle)
-    const weaponAng = isAttacking ? smoothAngle + (attackProgress - 0.5) * 1.8 : smoothAngle + 0.45;
+    const weaponAng = smoothAngle + (attackProgress - 0.5) * 1.8;
     const handX = hx + Math.cos(weaponAng) * (7 * scale);
     const handY = hy - (14 * scale) + Math.sin(weaponAng) * (4 * scale);
 
-    if (weaponKind === 'sword') {
-      const tipX = handX + Math.cos(weaponAng) * (20 * scale);
-      const tipY = handY + Math.sin(weaponAng) * (20 * scale);
-      const guardNorm = weaponAng + Math.PI / 2;
-      const gx1 = handX + Math.cos(guardNorm) * (3.5 * scale);
-      const gy1 = handY + Math.sin(guardNorm) * (3.5 * scale);
-      const gx2 = handX - Math.cos(guardNorm) * (3.5 * scale);
-      const gy2 = handY - Math.sin(guardNorm) * (3.5 * scale);
-
-      // Steel blade
-      g.moveTo(handX, handY).lineTo(tipX, tipY).stroke({ color: 0xdbeafe, width: 2.2 * scale, alpha: 0.95 });
-      g.moveTo(handX, handY).lineTo(tipX, tipY).stroke({ color: 0xffffff, width: 1.0 * scale, alpha: 1.0 });
-
-      // Crossguard & pommel
-      g.moveTo(gx1, gy1).lineTo(gx2, gy2).stroke({ color: 0xf59e0b, width: 1.5 * scale });
-      const pomX = handX - Math.cos(weaponAng) * (3 * scale);
-      const pomY = handY - Math.sin(weaponAng) * (3 * scale);
-      g.circle(pomX, pomY, 1.3 * scale).fill(0xd97706);
-
-      // Specular blade glint
+    if (weaponKind === 'sword' || weaponKind === 'axe') {
+      const tipDist = (weaponKind === 'sword' ? 20 : 16) * scale;
+      const tipX = handX + Math.cos(weaponAng) * tipDist;
+      const tipY = handY + Math.sin(weaponAng) * tipDist;
       drawGlint(g, tipX, tipY, sim.tick, 77);
-
-    } else if (weaponKind === 'axe') {
-      const haftTipX = handX + Math.cos(weaponAng) * (18 * scale);
-      const haftTipY = handY + Math.sin(weaponAng) * (18 * scale);
-      // Wooden haft
-      g.moveTo(handX, handY).lineTo(haftTipX, haftTipY).stroke({ color: 0x78350f, width: 2.0 * scale });
-
-      // Bearded crescent iron blade
-      const headNorm = weaponAng + Math.PI / 2;
-      const b1X = haftTipX - Math.cos(weaponAng) * (3 * scale);
-      const b1Y = haftTipY - Math.sin(weaponAng) * (3 * scale);
-      const bTipX = b1X + Math.cos(headNorm) * (7 * scale);
-      const bTipY = b1Y + Math.sin(headNorm) * (7 * scale);
-      const bBeardX = bTipX - Math.cos(weaponAng) * (6 * scale);
-      const bBeardY = bTipY - Math.sin(weaponAng) * (6 * scale);
-
-      g.moveTo(b1X, b1Y)
-        .lineTo(bTipX, bTipY)
-        .lineTo(bBeardX, bBeardY)
-        .lineTo(handX + Math.cos(weaponAng) * (8 * scale), handY + Math.sin(weaponAng) * (8 * scale))
-        .closePath()
-        .fill(0x64748b)
-        .stroke({ color: 0xf1f5f9, width: 1.2 * scale });
-
-      // Bronze rivet boss
-      g.circle(b1X, b1Y, 1.4 * scale).fill(0xd97706);
-
     } else if (weaponKind === 'staff') {
-      const staffBaseX = handX - Math.cos(weaponAng) * (10 * scale);
-      const staffBaseY = handY - Math.sin(weaponAng) * (10 * scale);
-      const staffTipX = handX + Math.cos(weaponAng) * (26 * scale);
-      const staffTipY = handY + Math.sin(weaponAng) * (26 * scale);
-
-      // Carved mahogany shaft
-      g.moveTo(staffBaseX, staffBaseY).lineTo(staffTipX, staffTipY).stroke({ color: 0x5c3a21, width: 2.2 * scale });
-
-      // Ornate finial & glowing crystal head
+      const staffTipX = handX + Math.cos(weaponAng) * (24 * scale);
+      const staffTipY = handY + Math.sin(weaponAng) * (24 * scale);
       const crystalPulse = 0.8 + 0.2 * Math.sin(now * 0.008);
-      g.circle(staffTipX, staffTipY, 3.8 * scale * crystalPulse).fill({ color: 0x38bdf8, alpha: 0.85 });
-      g.circle(staffTipX, staffTipY, 2.0 * scale).fill(0xffffff);
-
-      // Orbiting arcane spark motes
-      const sparkAng = now * 0.005;
-      const sp1X = staffTipX + Math.cos(sparkAng) * (6 * scale);
-      const sp1Y = staffTipY + Math.sin(sparkAng) * (4 * scale);
-      g.circle(sp1X, sp1Y, 1.2 * scale).fill({ color: 0xbae6fd, alpha: 0.95 });
-
-    } else if (weaponKind === 'bow') {
-      const bTip1X = handX + Math.cos(weaponAng + 1.1) * (14 * scale);
-      const bTip1Y = handY + Math.sin(weaponAng + 1.1) * (14 * scale);
-      const bTip2X = handX + Math.cos(weaponAng - 1.1) * (14 * scale);
-      const bTip2Y = handY + Math.sin(weaponAng - 1.1) * (14 * scale);
-
-      // Recurve limbs
-      g.moveTo(bTip1X, bTip1Y).lineTo(handX, handY).lineTo(bTip2X, bTip2Y).stroke({ color: 0x92400e, width: 2.2 * scale });
-      // Silver bowstring
-      g.moveTo(bTip1X, bTip1Y).lineTo(bTip2X, bTip2Y).stroke({ color: 0xf8fafc, width: 0.9 * scale, alpha: 0.85 });
-
-      if (isAttacking) {
-        // Notched bodkin arrow pointing along weaponAng
-        const arrTipX = handX + Math.cos(weaponAng) * (18 * scale);
-        const arrTipY = handY + Math.sin(weaponAng) * (18 * scale);
-        g.moveTo(handX - Math.cos(weaponAng) * (4 * scale), handY - Math.sin(weaponAng) * (4 * scale))
-          .lineTo(arrTipX, arrTipY)
-          .stroke({ color: 0xd97706, width: 1.2 * scale });
-        g.circle(arrTipX, arrTipY, 1.4 * scale).fill(0xffffff);
-      }
+      g.circle(staffTipX, staffTipY, 2.5 * scale * crystalPulse).fill({ color: 0x38bdf8, alpha: 0.6 });
+      g.circle(staffTipX, staffTipY, 1.2 * scale).fill({ color: 0xffffff, alpha: 0.85 });
     }
   }
 
@@ -1838,16 +1735,20 @@ export class Renderer {
     for (const id of v.selected) {
       const s = this.sprites[id];
       if (!s.visible || cb.hp[id] <= 0) continue;
-      const dir = sim.dir[id];
-      r.ellipse(s.x, s.y, 11, 5)
-        .stroke({ color: 0x9dff7a, width: 2 })
-        .moveTo(s.x, s.y)
-        .lineTo(s.x + DIR_COS[dir] * 15, s.y + DIR_SIN[dir] * 7)
-        .stroke({ color: 0xffffff, width: 2 });
+      const radX = (s instanceof UnitSprite ? 13 : 11) * s.scale.x;
+      const radY = radX * 0.48;
+      // Dual-ring subtle grounded selection indicator (clean RoM2/D2 style, no crude white vector line)
+      r.ellipse(s.x, s.y, radX * 1.15, radY * 1.15).stroke({ color: 0x22c55e, width: 1.0, alpha: 0.35 });
+      r.ellipse(s.x, s.y, radX, radY).stroke({ color: 0x86efac, width: 1.4, alpha: 0.85 });
     }
     if (v.hover) {
       const s = this.sprites[v.hover.id];
-      if (s.visible && cb.hp[v.hover.id] > 0) r.ellipse(s.x, s.y, 13, 6).stroke({ color: v.hover.ok ? 0xff5a4a : 0x999999, width: 2 });
+      if (s.visible && cb.hp[v.hover.id] > 0) {
+        const radX = (s instanceof UnitSprite ? 13.5 : 12) * s.scale.x;
+        const radY = radX * 0.48;
+        const col = v.hover.ok ? 0xef4444 : 0x94a3b8;
+        r.ellipse(s.x, s.y, radX, radY).stroke({ color: col, width: 1.2, alpha: 0.7 });
+      }
     }
     for (let p = 0; p < cb.pAlive.length; p++) {
       if (!cb.pAlive[p]) continue;

@@ -488,6 +488,12 @@
       "note": "Procedurally synthesized AAC unique artifact loot drop cue"
     },
     {
+      "path": "public/audio/rune_reveal.m4a",
+      "license": "own",
+      "source": "tools/gen-loot-spell-sfx.py",
+      "note": "Procedurally synthesized AAC magical rune reveal and identification sound effect"
+    },
+    {
       "path": "public/audio/spell_acid_rain.m4a",
       "license": "own",
       "source": "tools/gen-loot-spell-sfx.py",

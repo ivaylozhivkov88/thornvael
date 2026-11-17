@@ -539,6 +539,74 @@ export function playLowHpHeartbeat(): void {
   }
 }
 
+/**
+ * Procedural cue: Dramatic dialogue speaker shift thrill ("тръпка").
+ * Resonant, deep cinematic audio cue: low atmospheric sub-bass shudder paired with
+ * a dark resonant iron bell / bass pulse when the speaker changes or enters.
+ */
+export function playSpeakerSwitchThrill(): void {
+  unlock();
+  const bus = uiBus ?? sfxBus;
+  if (!ctx || !bus || !sfxOn || backgrounded || ctx.state !== 'running') return;
+  try {
+    const now = ctx.currentTime;
+
+    // Sub-bass atmospheric shudder (rumble)
+    const subOsc = ctx.createOscillator();
+    const subGain = ctx.createGain();
+    const subFilter = ctx.createBiquadFilter();
+    subOsc.type = 'sine';
+    subOsc.frequency.setValueAtTime(68, now);
+    subOsc.frequency.exponentialRampToValueAtTime(32, now + 0.45);
+
+    subFilter.type = 'lowpass';
+    subFilter.frequency.setValueAtTime(140, now);
+    subFilter.frequency.exponentialRampToValueAtTime(50, now + 0.45);
+
+    subGain.gain.setValueAtTime(0.48 * uiVol, now);
+    subGain.gain.exponentialRampToValueAtTime(0.001, now + 0.48);
+
+    subOsc.connect(subFilter);
+    subFilter.connect(subGain);
+    subGain.connect(bus);
+    subOsc.start(now);
+    subOsc.stop(now + 0.48);
+
+    // Resonant dark metallic bell / gong chime (F3 174.6 Hz + C4 261.6 Hz harmonic)
+    const bellOsc1 = ctx.createOscillator();
+    const bellOsc2 = ctx.createOscillator();
+    const bellFilter = ctx.createBiquadFilter();
+    const bellGain = ctx.createGain();
+
+    bellOsc1.type = 'triangle';
+    bellOsc1.frequency.setValueAtTime(174.6, now);
+    bellOsc1.frequency.exponentialRampToValueAtTime(164, now + 0.55);
+
+    bellOsc2.type = 'sine';
+    bellOsc2.frequency.setValueAtTime(261.6, now);
+    bellOsc2.frequency.exponentialRampToValueAtTime(245, now + 0.55);
+
+    bellFilter.type = 'bandpass';
+    bellFilter.frequency.setValueAtTime(220, now);
+    bellFilter.Q.value = 3.5;
+
+    bellGain.gain.setValueAtTime(0.38 * uiVol, now);
+    bellGain.gain.exponentialRampToValueAtTime(0.001, now + 0.55);
+
+    bellOsc1.connect(bellFilter);
+    bellOsc2.connect(bellFilter);
+    bellFilter.connect(bellGain);
+    bellGain.connect(bus);
+
+    bellOsc1.start(now);
+    bellOsc2.start(now);
+    bellOsc1.stop(now + 0.55);
+    bellOsc2.stop(now + 0.55);
+  } catch {
+    // silent fallback
+  }
+}
+
 /** Distinct procedural trader speech barks & tones. */
 export type TraderRole = 'blacksmith' | 'barkeep' | 'alchemist' | 'guildmaster';
 export type TraderEvent = 'greet' | 'farewell' | 'buy';

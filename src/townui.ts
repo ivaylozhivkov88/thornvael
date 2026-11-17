@@ -11,13 +11,14 @@ import { S } from './strings';
 import { itemIcon } from './townicons';
 import { equipmentLayers } from './hero-presentation';
 import { buildDoll, dollSet, lookFor } from './doll';
-import { playTraderBark, playTownAmbience, stopTownAmbience, playEquipSfx, blip } from './audio';
+import { playTraderBark, playTownAmbience, stopTownAmbience, playEquipSfx, blip, playSpeakerSwitchThrill } from './audio';
 import {
   getWardenHalePortraitSvg,
   getHighArcanistVaelenPortraitSvg,
   getFordScoutBrenPortraitSvg,
   getCaptainMerrickPortraitSvg,
   getTavernPatronPortraitSvg,
+  paintedPortrait,
 } from './missionui';
 
 /**
@@ -88,6 +89,7 @@ export class TownUi {
   private readonly cardTooltip: HTMLElement = el('div', 'hero-floating-card-tooltip');
   private readonly loreModal: HTMLElement = el('div', 'gothic-dialogue-overlay');
   private loreTypingTimer: number | null = null;
+  private lastLoreSpeakerIdx = -1;
   private shopUndoBtn: HTMLButtonElement | null = null;
   private shopBuyBtn: HTMLButtonElement | null = null;
   private shopSellBtn: HTMLButtonElement | null = null;
@@ -876,7 +878,7 @@ export class TownUi {
         {
           name: 'Warden Hale',
           rank: 'High Captain of the Thornwick Border Guard & Knight-Commander',
-          portraitSvg: getWardenHalePortraitSvg(),
+          portraitSvg: paintedPortrait('npc-hale', getWardenHalePortraitSvg()),
           topics: [
             {
               label: 'The Sunken Ford Incursion',
@@ -919,7 +921,7 @@ export class TownUi {
         {
           name: 'Ford-Scout Bren',
           rank: 'Chief Frontier Pathfinder & Master of the River Marches',
-          portraitSvg: getFordScoutBrenPortraitSvg(),
+          portraitSvg: paintedPortrait('npc-scout', getFordScoutBrenPortraitSvg()),
           topics: [
             {
               label: 'Anatomy of an Ambuscade',
@@ -962,7 +964,7 @@ export class TownUi {
         {
           name: 'Master Corin',
           rank: 'Tavern Chronicler & Informant of the Frontier Underworld',
-          portraitSvg: getTavernPatronPortraitSvg(),
+          portraitSvg: paintedPortrait('npc-quillon', getTavernPatronPortraitSvg()),
           topics: [
             {
               label: 'Price of Grain & Smuggler Ledgers',
@@ -1008,7 +1010,7 @@ export class TownUi {
         {
           name: 'High Arcanist Vaelen',
           rank: 'Grand Scholar of the Astral Veil & Keeper of the Primeval Runes',
-          portraitSvg: getHighArcanistVaelenPortraitSvg(),
+          portraitSvg: paintedPortrait('npc-aldren', getHighArcanistVaelenPortraitSvg()),
           topics: [
             {
               label: 'Bleeding Membrane of the Veil',
@@ -1054,7 +1056,7 @@ export class TownUi {
         {
           name: 'Captain Merrick',
           rank: 'Garrison Commander of the High Keep & Master of Ordnance',
-          portraitSvg: getCaptainMerrickPortraitSvg(),
+          portraitSvg: paintedPortrait('npc-commander', getCaptainMerrickPortraitSvg()),
           topics: [
             {
               label: 'Physics of Blunt Impact on Plate',
@@ -1105,10 +1107,21 @@ export class TownUi {
       const currentSpeaker = speakers[activeSpeakerIdx];
       const currentTopic = currentSpeaker.topics[activeTopicIdx];
 
-      const frame = el('div', 'gothic-dialogue-frame');
+      const isSwitch = this.lastLoreSpeakerIdx !== activeSpeakerIdx;
+      this.lastLoreSpeakerIdx = activeSpeakerIdx;
 
-      // Left Column: Speaker Portrait
-      const portraitCol = el('div', 'gothic-portrait-wrapper');
+      if (isSwitch) {
+        try {
+          playSpeakerSwitchThrill();
+        } catch {
+          // Safe in headless or audio-disabled test runs
+        }
+      }
+
+      const frame = el('div', `gothic-dialogue-frame${isSwitch ? ' speaker-switch-thrill' : ''}`);
+
+      // Left Column: Speaker Portrait (Disco Elysium Grand Side Canvas)
+      const portraitCol = el('div', `gothic-portrait-wrapper${isSwitch ? ' portrait-shiver-thrill' : ''}`);
       portraitCol.innerHTML = currentSpeaker.portraitSvg;
 
       // Right Column: Dialogue Body & Topic Selectors
@@ -1159,7 +1172,7 @@ export class TownUi {
           choiceBtn.style.color = '#fff';
         });
         choiceBtn.className = 'commander-choice-btn';
-        choiceBtn.innerHTML = `<span class="choice-num">${cIdx + 1}.</span> <span class="choice-tag">${c.tag}</span> "${c.text}"`;
+        choiceBtn.innerHTML = `<span class="choice-num">${cIdx + 1}.</span> <span class="choice-tag">${c.tag}</span> <span class="choice-text">"${c.text}"</span>`;
         choicesEl.append(choiceBtn);
       });
 
@@ -1169,6 +1182,7 @@ export class TownUi {
       const topicCounter = el('span', 'dialogue-queue-count', `Lore Entry: ${activeTopicIdx + 1}/${currentSpeaker.topics.length}`);
       const closeBtn = button('Close [Esc]', () => {
         this.loreModal.hidden = true;
+        this.lastLoreSpeakerIdx = -1;
         if (this.loreTypingTimer !== null) {
           clearInterval(this.loreTypingTimer);
           this.loreTypingTimer = null;
@@ -1182,6 +1196,16 @@ export class TownUi {
       contentCol.append(topicPills, bodyEl, footer);
       frame.append(portraitCol, contentCol);
       this.loreModal.append(frame);
+
+      frame.onclick = (e) => {
+        if ((e.target as HTMLElement).closest('button')) return;
+        if (this.loreTypingTimer !== null) {
+          clearInterval(this.loreTypingTimer);
+          this.loreTypingTimer = null;
+          speechEl.textContent = fullText;
+          choicesEl.style.display = 'flex';
+        }
+      };
 
       // Typewriter animation
       if (this.loreTypingTimer !== null) clearInterval(this.loreTypingTimer);

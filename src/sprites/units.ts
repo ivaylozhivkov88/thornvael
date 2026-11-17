@@ -167,7 +167,7 @@ export class UnitAtlas {
       ctx.putImageData(new ImageData(new Uint8ClampedArray(data), w, h), (layer % 2) * w, Math.floor(layer / 2) * h);
     });
     const texture = Texture.from(cv);
-    texture.source.scaleMode = 'linear';
+    texture.source.scaleMode = 'nearest';
     return new UnitAtlas(unit, texture, sheet);
   }
 
@@ -260,12 +260,12 @@ export class UnitSprite extends Container {
         // Heroic dark fantasy materials:
         // layer 0: base full-RGB (preserves authentic skin tones on face/beard, dark leather boots/gloves, weapon hilts, shadows)
         this.layers[0].tint = 0xffffff;
-        // layer 1: deep heraldic royal blue mantle & crest
-        this.layers[1].tint = 0x2563eb;
+        // layer 1: deep heraldic midnight navy mantle & crest
+        this.layers[1].tint = 0x1e40af;
         // layer 2: authentic shaded steel plate / armor tier (DO NOT use pure white 0xe8f0fc)
         this.layers[2].tint = HERO_ARMOUR_TINTS[Math.min(HERO_ARMOUR_TINTS.length - 1, Math.max(0, armour))] ?? 0x71797e;
-        // layer 3: golden accents, lion crest & pommel
-        this.layers[3].tint = weaponType === 'staff' ? 0x70d8ff : weaponType === 'bow' ? 0x9be368 : 0xffd23d;
+        // layer 3: antique burnished gold accents, lion crest & pommel
+        this.layers[3].tint = weaponType === 'staff' ? 0x67e8f9 : weaponType === 'bow' ? 0xa3e635 : 0xf59e0b;
       } else {
         palette(team, armour, level).forEach((tint, i) => {
           this.layers[i].tint = tint;

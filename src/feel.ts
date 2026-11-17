@@ -385,144 +385,126 @@ export class CombatFeelSystem {
       const hasHaste = isHero && !!(stMask & (1 << St.Haste));
       const hasShield = isHero && !!(stMask & (1 << St.Shield));
 
-      // 1. Fire Aura / Fanaticism: Pulsing crimson flame sigil under leader's feet
-      if (mods.includes('fire_enchanted') || (isHero && (hasBless || sim.hero?.cls === 0))) {
-        const pulse = 1 + 0.12 * Math.sin(now * 0.006 + i);
-        const rx = (isHero ? 20 : 18) * pulse;
-        const ry = (isHero ? 10 : 9) * pulse;
-        const rot = now * 0.0015;
+      // 1. Fire Aura / Fanaticism: Ethereal subterranean crimson flame sigil under fire-enchanted bosses
+      if (mods.includes('fire_enchanted')) {
+        const pulse = 1 + 0.04 * Math.sin(now * 0.0025 + i);
+        const rx = 18 * pulse;
+        const ry = 8.5 * pulse;
+        const rot = now * 0.0007;
 
-        // Outer pulsing crimson flame perimeter
-        g.ellipse(ux, uy + 2, rx, ry).stroke({ color: 0xef4444, width: 2.2, alpha: 0.85 });
-        g.ellipse(ux, uy + 2, rx * 0.72, ry * 0.72).stroke({ color: 0xf97316, width: 1.6, alpha: 0.75 });
-        g.ellipse(ux, uy + 2, rx * 0.38, ry * 0.38).stroke({ color: 0xfde047, width: 1.2, alpha: 0.8 });
+        // Soft ethereal ground glow rings (additive blending)
+        g.ellipse(ux, uy + 2, rx * 1.15, ry * 1.15).stroke({ color: 0x991b1b, width: 2.0, alpha: 0.14 });
+        g.ellipse(ux, uy + 2, rx, ry).stroke({ color: 0xc2410c, width: 1.2, alpha: 0.25 });
+        g.ellipse(ux, uy + 2, rx * 0.65, ry * 0.65).stroke({ color: 0xd97706, width: 0.8, alpha: 0.18 });
 
-        // 8-point rotating runic flame sigil nodes & tongues
-        for (let a = 0; a < 8; a++) {
-          const ang = rot + a * (Math.PI / 4);
-          const isCardinal = a % 2 === 0;
-          const dist = isCardinal ? 1.22 : 0.95;
-          const px = ux + Math.cos(ang) * rx * dist;
-          const py = (uy + 2) + Math.sin(ang) * ry * dist;
-          const midX = ux + Math.cos(ang) * (rx * 0.55);
-          const midY = (uy + 2) + Math.sin(ang) * (ry * 0.55);
-
-          g.moveTo(midX, midY).lineTo(px, py).stroke({
-            color: isCardinal ? 0xff4500 : 0xfbbf24,
-            width: isCardinal ? 1.8 : 1.1,
-            alpha: 0.88,
+        // 6 delicate ancient runic ticks slowly drifting along perimeter
+        for (let a = 0; a < 6; a++) {
+          const ang = rot + a * (Math.PI / 3);
+          const px = ux + Math.cos(ang) * rx;
+          const py = (uy + 2) + Math.sin(ang) * ry;
+          const tang = ang + Math.PI / 2;
+          const rdx = Math.cos(tang) * 2.2;
+          const rdy = Math.sin(tang) * 1.1;
+          g.moveTo(px - rdx, py - rdy).lineTo(px + rdx, py + rdy).stroke({
+            color: 0xf97316,
+            width: 0.9,
+            alpha: 0.35,
           });
-          g.circle(px, py, isCardinal ? 2.4 : 1.6).fill({
-            color: isCardinal ? 0xfff080 : 0xff7722,
-            alpha: 0.9,
-          });
+        }
+
+        // Delicate rising ground embers fading upward
+        for (let m = 0; m < 3; m++) {
+          const phase = ((now * 0.0008 + m * 0.33 + i * 0.2) % 1);
+          const mAng = m * 2.09 + now * 0.0005;
+          const mrx = rx * (0.4 + phase * 0.55);
+          const mry = ry * (0.4 + phase * 0.55);
+          const mx = ux + Math.cos(mAng) * mrx;
+          const my = uy + 2 + Math.sin(mAng) * mry - phase * 5;
+          g.circle(mx, my, 0.75).fill({ color: 0xfde047, alpha: (1 - phase) * 0.35 });
         }
       }
 
-      // 2. Frost Aura / Holy Freeze: Rotating icy snowflake rune ring with freezing blue pulse
-      if (mods.includes('cold_enchanted') || mods.includes('cold_touch') || hasShield || (isHero && sim.hero?.cls === 1)) {
-        const pulse = 1 + 0.08 * Math.sin(now * 0.005 + i * 2);
-        const rx = 19 * pulse;
-        const ry = 9.5 * pulse;
-        const rotCW = now * 0.001;
-        const rotCCW = -now * 0.0008;
+      // 2. Frost Aura / Holy Freeze: Ethereal glacial rune ring with freezing blue pulse
+      if (mods.includes('cold_enchanted') || mods.includes('cold_touch') || (isHero && hasShield)) {
+        const pulse = 1 + 0.04 * Math.sin(now * 0.0022 + i * 2);
+        const rx = 18 * pulse;
+        const ry = 8.5 * pulse;
+        const rotCW = -now * 0.0006;
 
-        // Concentric counter-rotating runic rings
-        g.ellipse(ux, uy + 2, rx, ry).stroke({ color: 0x0284c7, width: 2.0, alpha: 0.7 });
-        g.ellipse(ux, uy + 2, rx * 0.8, ry * 0.8).stroke({ color: 0x38bdf8, width: 1.4, alpha: 0.8 });
-        g.ellipse(ux, uy + 2, rx * 0.45, ry * 0.45).stroke({ color: 0xbae6fd, width: 1.0, alpha: 0.65 });
+        // Soft glacial glow rings
+        g.ellipse(ux, uy + 2, rx * 1.15, ry * 1.15).stroke({ color: 0x0369a1, width: 2.0, alpha: 0.14 });
+        g.ellipse(ux, uy + 2, rx, ry).stroke({ color: 0x0284c7, width: 1.2, alpha: 0.25 });
+        g.ellipse(ux, uy + 2, rx * 0.65, ry * 0.65).stroke({ color: 0x38bdf8, width: 0.8, alpha: 0.16 });
 
-        // Expanding freezing blue wave ring pulse
-        const waveProgress = (now * 0.0015 + i * 0.5) % 1;
-        const waveR = rx * (0.4 + waveProgress * 1.0);
-        g.ellipse(ux, uy + 2, waveR, waveR * 0.5).stroke({
+        // Expanding soft glacial mist pulse
+        const wave = (now * 0.0006 + i * 0.3) % 1;
+        g.ellipse(ux, uy + 2, rx * (0.4 + wave * 0.6), ry * (0.4 + wave * 0.6)).stroke({
           color: 0x7dd3fc,
-          width: 1.5 * (1 - waveProgress),
-          alpha: 0.75 * (1 - waveProgress),
+          width: 0.8,
+          alpha: (1 - wave) * 0.2,
         });
 
-        // 8 radial icy snowflake arms with branching barbed crystals
-        for (let a = 0; a < 8; a++) {
-          const ang = rotCW + a * (Math.PI / 4);
+        // 6 delicate crystalline radial tick marks
+        for (let a = 0; a < 6; a++) {
+          const ang = rotCW + a * (Math.PI / 3);
           const tipX = ux + Math.cos(ang) * rx;
           const tipY = (uy + 2) + Math.sin(ang) * ry;
-          const midX = ux + Math.cos(ang) * (rx * 0.58);
-          const midY = (uy + 2) + Math.sin(ang) * (ry * 0.58);
-
-          g.moveTo(ux, uy + 2).lineTo(tipX, tipY).stroke({ color: 0x7dd3fc, width: 1.6, alpha: 0.9 });
-
-          // Jagged triangular snowflake barbs
-          const barbAng1 = ang + 0.65;
-          const barbAng2 = ang - 0.65;
-          g.moveTo(midX, midY)
-            .lineTo(midX + Math.cos(barbAng1) * 4.5, midY + Math.sin(barbAng1) * 2.5)
-            .stroke({ color: 0xe0f2fe, width: 1.2, alpha: 0.85 });
-          g.moveTo(midX, midY)
-            .lineTo(midX + Math.cos(barbAng2) * 4.5, midY + Math.sin(barbAng2) * 2.5)
-            .stroke({ color: 0xe0f2fe, width: 1.2, alpha: 0.85 });
-
-          g.circle(tipX, tipY, 1.8).fill({ color: 0xffffff, alpha: 0.95 });
+          const midX = ux + Math.cos(ang) * (rx * 0.82);
+          const midY = (uy + 2) + Math.sin(ang) * (ry * 0.82);
+          g.moveTo(midX, midY).lineTo(tipX, tipY).stroke({ color: 0xbae6fd, width: 0.9, alpha: 0.35 });
         }
       }
 
-      // 3. Lightning / Conviction: Crackling electrical ring with sparks
-      if (mods.includes('lightning') || mods.includes('lightning_enchanted') || mods.includes('spectral_hit') || hasHaste) {
-        const rx = 19;
-        const ry = 9.5;
-        const pts = 6;
+      // 3. Lightning / Conviction: Crackling celestial sapphire conduit
+      if (mods.includes('lightning') || mods.includes('lightning_enchanted') || mods.includes('spectral_hit') || (isHero && hasHaste)) {
+        const rx = 18;
+        const ry = 8.5;
 
-        // Ground crackling conduit ring
-        g.ellipse(ux, uy + 2, rx, ry).stroke({ color: 0x0284c7, width: 1.2, alpha: 0.55 });
+        // Ground conduit glow
+        g.ellipse(ux, uy + 2, rx * 1.1, ry * 1.1).stroke({ color: 0x0369a1, width: 1.8, alpha: 0.12 });
+        g.ellipse(ux, uy + 2, rx, ry).stroke({ color: 0x0284c7, width: 1.0, alpha: 0.22 });
 
-        // High-frequency jittering electrical arcs connecting ring perimeter nodes
-        for (let p = 0; p < pts; p++) {
-          const a1 = (p / pts) * Math.PI * 2 + Math.sin(now * 0.012 + p) * 0.12;
-          const a2 = ((p + 1) / pts) * Math.PI * 2 + Math.sin(now * 0.012 + p + 1) * 0.12;
+        // Subtle electric current filaments
+        for (let p = 0; p < 4; p++) {
+          const a1 = (p / 4) * Math.PI * 2 + now * 0.0008;
+          const a2 = ((p + 1) / 4) * Math.PI * 2 + now * 0.0008;
           const x1 = ux + Math.cos(a1) * rx;
           const y1 = (uy + 2) + Math.sin(a1) * ry;
           const x2 = ux + Math.cos(a2) * rx;
           const y2 = (uy + 2) + Math.sin(a2) * ry;
 
-          // Arc midpoint with high-voltage jitter
-          const midJitter = Math.sin(now * 0.045 + p * 6.3) > 0.1 ? 5 : -5;
+          const midJitter = (Math.sin(now * 0.02 + p * 3) > 0 ? 1.5 : -1.5);
           const mx = (x1 + x2) * 0.5 + Math.cos(a1 + 1.57) * midJitter;
           const my = (y1 + y2) * 0.5 + Math.sin(a1 + 1.57) * (midJitter * 0.5);
 
-          // Deep blue glow + brilliant white electric core
-          g.moveTo(x1, y1).lineTo(mx, my).lineTo(x2, y2).stroke({ color: 0x38bdf8, width: 2.4, alpha: 0.85 });
-          g.moveTo(x1, y1).lineTo(mx, my).lineTo(x2, y2).stroke({ color: 0xffffff, width: 1.2, alpha: 0.98 });
-
-          // Leaping electric sparks
-          if ((sim.tick + p) % 2 === 0) {
-            const spDist = Math.sin(now * 0.02 + p * 3) * 6;
-            g.circle(x1 + spDist, y1 - 2, 1.4).fill({ color: 0xf0f9ff, alpha: 0.9 });
-          }
+          g.moveTo(x1, y1).lineTo(mx, my).lineTo(x2, y2).stroke({ color: 0x38bdf8, width: 0.9, alpha: 0.28 });
         }
       }
 
-      // 4. Blessed: Golden Rotating Celtic Compass
-      if (mods.includes('blessed_aura') || mods.includes('blessed')) {
-        const rx = 19;
-        const ry = 9.5;
-        const rot = now * 0.0012;
-        // Outer and inner concentric rings
-        g.ellipse(ux, uy + 2, rx, ry).stroke({ color: 0xffd700, width: 1.8, alpha: 0.8 });
-        g.ellipse(ux, uy + 2, rx * 0.55, ry * 0.55).stroke({ color: 0xffea70, width: 1.2, alpha: 0.65 });
-        // 8-point rotating Celtic compass star
-        for (let p = 0; p < 8; p++) {
-          const ang = rot + p * (Math.PI / 4);
-          const isCardinal = p % 2 === 0;
-          const rLen = isCardinal ? 1.25 : 0.85;
-          const px = ux + Math.cos(ang) * (rx * rLen);
-          const py = (uy + 2) + Math.sin(ang) * (ry * rLen);
-          g.moveTo(ux, uy + 2).lineTo(px, py).stroke({
-            color: isCardinal ? 0xffea60 : 0xd4a020,
-            width: isCardinal ? 1.8 : 1.2,
-            alpha: 0.9,
+      // 4. Blessed: Golden Ethereal Sanctuary Seal
+      if (mods.includes('blessed_aura') || mods.includes('blessed') || (isHero && hasBless)) {
+        const pulse = 1 + 0.035 * Math.sin(now * 0.002 + i);
+        const rx = 18 * pulse;
+        const ry = 8.5 * pulse;
+        const rot = now * 0.0006;
+
+        // Concentric soft golden sanctuary rings
+        g.ellipse(ux, uy + 2, rx * 1.15, ry * 1.15).stroke({ color: 0x854d0e, width: 2.0, alpha: 0.14 });
+        g.ellipse(ux, uy + 2, rx, ry).stroke({ color: 0xb45309, width: 1.2, alpha: 0.26 });
+        g.ellipse(ux, uy + 2, rx * 0.65, ry * 0.65).stroke({ color: 0xd97706, width: 0.8, alpha: 0.18 });
+
+        // 6 delicate sacred runic ticks
+        for (let p = 0; p < 6; p++) {
+          const ang = rot + p * (Math.PI / 3);
+          const px = ux + Math.cos(ang) * rx;
+          const py = (uy + 2) + Math.sin(ang) * ry;
+          const inX = ux + Math.cos(ang) * (rx * 0.82);
+          const inY = (uy + 2) + Math.sin(ang) * (ry * 0.82);
+          g.moveTo(inX, inY).lineTo(px, py).stroke({
+            color: 0xfef08a,
+            width: 0.9,
+            alpha: 0.35,
           });
-          if (isCardinal) {
-            g.circle(px, py, 1.8).fill({ color: 0xffffff, alpha: 0.95 });
-          }
         }
       }
 
@@ -533,16 +515,15 @@ export class CombatFeelSystem {
         const rx = 21 * su.visual.scale * 0.8 * pulse;
         const ry = 10.5 * su.visual.scale * 0.8 * pulse;
         const rot = -now * 0.0018;
-        g.ellipse(ux, uy + 2, rx * 1.15, ry * 1.15).stroke({ color: su.visual.auraColor, width: 2.6, alpha: 0.9 });
-        g.ellipse(ux, uy + 2, rx * 0.82, ry * 0.82).stroke({ color: su.visual.tint, width: 1.8, alpha: 0.85 });
+        g.ellipse(ux, uy + 2, rx * 1.15, ry * 1.15).stroke({ color: su.visual.auraColor, width: 1.6, alpha: 0.35 });
+        g.ellipse(ux, uy + 2, rx * 0.82, ry * 0.82).stroke({ color: su.visual.tint, width: 1.0, alpha: 0.25 });
         for (let p = 0; p < 8; p++) {
           const ang = rot + p * (Math.PI / 4);
           const bx = ux + Math.cos(ang) * rx;
           const by = uy + 2 + Math.sin(ang) * ry;
-          const tx = ux + Math.cos(ang) * (rx * 1.32);
-          const ty = uy + 2 + Math.sin(ang) * (ry * 1.32) - 3;
-          g.moveTo(bx, by).lineTo(tx, ty).stroke({ color: su.visual.auraColor, width: 2, alpha: 0.92 });
-          g.circle(tx, ty, 2.2).fill({ color: 0xffffff, alpha: 0.95 });
+          const tx = ux + Math.cos(ang) * (rx * 1.25);
+          const ty = uy + 2 + Math.sin(ang) * (ry * 1.25);
+          g.moveTo(bx, by).lineTo(tx, ty).stroke({ color: su.visual.auraColor, width: 0.9, alpha: 0.35 });
         }
       }
     }

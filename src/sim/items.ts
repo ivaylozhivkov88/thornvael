@@ -13,8 +13,8 @@ export const PART_NAMES = ['head', 'torso', 'arms', 'legs'] as const;
 export const PART_WEIGHT = [15, 45, 20, 20] as const;
 /** Blow damage in percent per part, before absorption: the head takes more. */
 export const PART_DMG = [150, 100, 100, 100] as const;
-/** Gear is worn; potions are used up; learn items (scroll or tome) teach a spell for good; portal opens a rift; gem socketed into gear. */
-export const Ik = { Gear: 0, Potion: 1, Learn: 2, Portal: 3, Gem: 4 } as const;
+/** Gear is worn; potions are used up; learn items (scroll or tome) teach a spell for good; portal opens a rift; gem socketed into gear; identify unmasks relics. */
+export const Ik = { Gear: 0, Potion: 1, Learn: 2, Portal: 3, Gem: 4, Identify: 5 } as const;
 export const Cls = { Warrior: 0, Mage: 1 } as const;
 export const Attr = { Body: 0, Agility: 1, Mind: 2, Spirit: 3 } as const;
 export const ATTR_NAMES = ['Body', 'Agility', 'Mind', 'Spirit'] as const;
@@ -53,6 +53,9 @@ export interface ItemDef {
   mf?: number; // Magic Find %
   rarity?: 'common' | 'normal' | 'magic' | 'rare' | 'set' | 'unique' | string;
   set?: string;
+  unidentified?: boolean;
+  trueName?: string;
+  lore?: string;
 }
 
 export type GemType = 'ruby' | 'sapphire' | 'topaz' | 'emerald' | 'skull';
@@ -134,6 +137,60 @@ export const SPECIAL_ITEMS: readonly ItemDef[] = [
     grow: 0,
     spell: -1,
     rarity: 'normal',
+  },
+  {
+    name: 'Scroll of Identification',
+    kind: Ik.Identify,
+    slot: -1,
+    tier: 1,
+    w: 1,
+    cls: CLS_BOTH,
+    need: 0,
+    needv: 0,
+    min: 0,
+    max: 0,
+    acc: 0,
+    cover: 0,
+    def: 0,
+    abs: 0,
+    res: [0, 0, 0, 0, 0],
+    attr: [0, 0, 0, 0],
+    hp: 0,
+    mana: 0,
+    pow: 0,
+    heal: 0,
+    restore: 0,
+    grow: 0,
+    spell: -1,
+    rarity: 'normal',
+    lore: 'An enchanted parchment inscribed with the Eye of Vaelen, revealing hidden dweomers on dormant relics.',
+  },
+  {
+    name: 'Identification Scroll',
+    kind: Ik.Identify,
+    slot: -1,
+    tier: 1,
+    w: 1,
+    cls: CLS_BOTH,
+    need: 0,
+    needv: 0,
+    min: 0,
+    max: 0,
+    acc: 0,
+    cover: 0,
+    def: 0,
+    abs: 0,
+    res: [0, 0, 0, 0, 0],
+    attr: [0, 0, 0, 0],
+    hp: 0,
+    mana: 0,
+    pow: 0,
+    heal: 0,
+    restore: 0,
+    grow: 0,
+    spell: -1,
+    rarity: 'normal',
+    lore: 'An enchanted parchment inscribed with the Eye of Vaelen, revealing hidden dweomers on dormant relics.',
   },
   {
     name: 'Greater Healing Potion',
@@ -522,13 +579,54 @@ export const LOOT_RULES: readonly (readonly [number, number, number])[] = [
 
 const SCHOOL_NAMES = ['fire', 'water', 'air', 'earth', 'astral'];
 
+export function getUnidentifiedName(def: ItemDef): string {
+  const slot = def.slot;
+  const tier = def.tier || 1;
+  const isMage = def.cls === CLS_MAGE;
+  if (slot === Slot.Weapon) {
+    if (isMage) return tier <= 2 ? 'Unidentified Oak Staff' : tier <= 4 ? 'Unidentified Rune Staff' : 'Unidentified Astral Staff';
+    return tier <= 2 ? 'Unidentified Broadsword' : tier <= 4 ? 'Unidentified Runed Blade' : 'Unidentified Highland Blade';
+  }
+  if (slot === Slot.Armor) {
+    if (isMage) return tier <= 2 ? 'Unidentified Silk Robe' : tier <= 4 ? 'Unidentified Mage Vestment' : 'Unidentified Astral Shroud';
+    return tier <= 2 ? 'Unidentified Chain Hauberk' : tier <= 4 ? 'Unidentified Gothic Plate' : 'Unidentified Imperial Full Plate';
+  }
+  if (slot === Slot.Shield) {
+    return tier <= 2 ? 'Unidentified Round Targe' : tier <= 4 ? 'Unidentified Tower Shield' : 'Unidentified Aegis Pavise';
+  }
+  if (slot === Slot.Helm) {
+    if (isMage) return tier <= 2 ? 'Unidentified Sage Cowl' : 'Unidentified Runic Diadem';
+    return tier <= 2 ? 'Unidentified Iron Visor' : tier <= 4 ? 'Unidentified Great Helm' : 'Unidentified Winged Armet';
+  }
+  if (slot === Slot.Boots) {
+    return tier <= 2 ? 'Unidentified Leather Boots' : tier <= 4 ? 'Unidentified Heavy Greaves' : 'Unidentified War Boots';
+  }
+  if (slot === Slot.Gloves) {
+    return tier <= 2 ? 'Unidentified Leather Wraps' : tier <= 4 ? 'Unidentified Chain Gauntlets' : 'Unidentified War Gauntlets';
+  }
+  if (slot === Slot.Ring) return 'Unidentified Ring';
+  if (slot === Slot.Amulet) return 'Unidentified Amulet';
+  return `Unidentified ${def.name}`;
+}
+
 /** Short stat line for tooltips and the pack. */
 export function itemText(id: number): string {
   const d = getItemDef(id);
   if (!d) return 'Unknown Item';
   const p: string[] = [];
-  const kind = d.kind === Ik.Gear ? SLOT_NAMES[d.slot] : d.kind === Ik.Potion ? 'Potion' : d.kind === Ik.Gem ? 'Gem' : d.kind === Ik.Portal ? 'Portal' : d.w > 1 ? 'Tome' : 'Scroll';
+  const kind = d.kind === Ik.Gear ? SLOT_NAMES[d.slot] : d.kind === Ik.Potion ? 'Potion' : d.kind === Ik.Gem ? 'Gem' : d.kind === Ik.Portal ? 'Portal' : d.kind === Ik.Identify ? 'Scroll' : d.w > 1 ? 'Tome' : 'Scroll';
   p.push(`${d.name} (${kind}, level ${d.tier}, weight ${d.w})`);
+  if (d.unidentified) {
+    p.push('Unidentified Magical Relic');
+    p.push('Right-click an Identification Scroll or visit High Arcanist Vaelen / Master Corin in town to reveal its powers.');
+    return p.join('\n');
+  }
+  if (d.lore) {
+    p.push(`"${d.lore}"`);
+  }
+  if (d.kind === Ik.Identify) {
+    p.push('Reveals the hidden enchantments on an unidentified item in inventory.');
+  }
   if (d.kind === Ik.Gem) {
     const g = getGemDefByName(d.name);
     if (g) {
