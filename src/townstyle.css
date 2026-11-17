@@ -114,8 +114,7 @@
   align-items: center;
 }
 .sheet.town--shop .pack-panel h3 { margin: 0; text-align: left; }
-.sheet.town--shop .pack-panel .grid { grid-column: 1 / -1; grid-row: 2; }
-.sheet.town--shop .pack-panel .town-pages { grid-column: 2; grid-row: 1; margin: 0; }
+.sheet.town--shop .pack-panel .scroll-wrap { grid-column: 1 / -1; grid-row: 2; }
 .sheet.town--shop .trade-actions { grid-area: actions; }
 .sheet.town--shop .hero-portrait { grid-area: portrait; }
 .sheet.town--shop .trade-details { grid-area: details; }
@@ -2093,3 +2092,22 @@
   cursor: not-allowed;
   border-color: #554433;
 }
+
+/* Scrollable shop lists (no pages) and the barter tray */
+.sheet.town--shop .scroll-wrap { display: grid; grid-template-columns: minmax(0, 1fr) 44px; gap: 6px; align-items: start; }
+.sheet.town--shop .scroll-box { max-height: 330px; overflow-y: auto; overscroll-behavior: contain; touch-action: pan-y; scrollbar-width: thin; }
+.sheet.town--shop .pack-panel .scroll-box { max-height: 190px; }
+.sheet.town--shop .scroll-btns { display: grid; gap: 6px; align-content: start; }
+.sheet.town--shop .scroll-btn { min-width: 44px; min-height: 44px; padding: 0; }
+.sheet.town--shop .grid .cell { touch-action: pan-y; }
+.sheet.town--shop .trade-tray { display: grid; gap: 8px; }
+.sheet.town--shop .tray-sides { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px; }
+.sheet.town--shop .tray-side { min-height: 64px; padding: 6px; border: 1px dashed #e5b76166; border-radius: 6px; display: grid; gap: 4px; align-content: start; }
+.sheet.town--shop .tray-side.drop-hot { border-style: solid; background: #e5b7611f; }
+.sheet.town--shop .tray-side h4 { margin: 0; font-size: 12px; }
+.sheet.town--shop .tray-empty { margin: 0; font-size: 11px; opacity: .7; }
+.sheet.town--shop .tray-row { display: grid; grid-template-columns: minmax(0, 1fr) 44px; gap: 4px; }
+.sheet.town--shop .tray-item, .sheet.town--shop .tray-minus { min-height: 44px; font-size: 12px; text-align: left; }
+.sheet.town--shop .tray-minus { min-width: 44px; text-align: center; font-size: 18px; }
+.sheet.town--shop .deal-btn { min-height: 44px; }
+.sheet.town--shop .trade-actions button { min-height: 44px; }

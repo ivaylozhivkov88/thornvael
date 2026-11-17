@@ -60,14 +60,14 @@ describe('towns', () => {
     const before = sim.hero!.inv.find((s) => s.item === shelf[0])?.n ?? 0;
     sim.now(cmd('buy', undefined, [0, 1]));
     expect(sim.cb.gold[0]).toBe(300 - priceOf(shelf[0]) - priceOf(shelf[1]));
-    expect(sim.town.stock[0][0]).toBe(-1);
+    expect(sim.town.stock[0][0]).toBe(shelf[0]); // potions are unlimited and stay on the shelf
     expect(sim.hero!.inv.find((s) => s.item === shelf[0])!.n).toBe(before + 1);
     const g0 = sim.cb.gold[0];
     sim.now(cmd('sell', undefined, [shelf[0]]));
     expect(sim.cb.gold[0]).toBe(g0 + sellPrice(shelf[0]));
     // Too dear: nothing changes.
     sim.cb.gold[0] = 0;
-    const left = sim.town.stock[0].findIndex((v) => v >= 0);
+    const left = sim.town.stock[0].findIndex((v, k) => v >= 0 && k > 1);
     sim.now(cmd('buy', undefined, [left]));
     expect(sim.town.stock[0][left]).toBeGreaterThanOrEqual(0);
     sim.now(cmd('leave'));
@@ -258,3 +258,49 @@ function replay2(dst: Sim, src: Sim): void {
     dst.step(cmds);
   }
 }
+
+describe('trade tray: unlimited potions and confirmed deals', () => {
+  it('buys any number of potions, which never leave the shelf', () => {
+    const { sim } = game();
+    steps(sim, 2);
+    at(sim, Role.Shop);
+    sim.now(cmd('enter', Role.Shop));
+    const shelf = sim.town.stock[0].slice();
+    const price = priceOf(shelf[0]);
+    sim.cb.gold[0] = price * 5;
+    const before = sim.hero!.inv.find((s) => s.item === shelf[0])?.n ?? 0;
+    sim.now(cmd('buy', undefined, [0, 0, 0, 0, 0]));
+    expect(sim.cb.gold[0]).toBe(0);
+    expect(sim.hero!.inv.find((s) => s.item === shelf[0])!.n).toBe(before + 5);
+    expect(sim.town.stock[0][0]).toBe(shelf[0]);
+    // not enough gold for six: nothing changes
+    sim.cb.gold[0] = price * 5;
+    sim.now(cmd('buy', undefined, [0, 0, 0, 0, 0, 0]));
+    expect(sim.cb.gold[0]).toBe(price * 5);
+  });
+
+  it('a deal sells first, then buys, in one step; an unaffordable deal changes nothing bought', () => {
+    const { sim } = game();
+    steps(sim, 2);
+    at(sim, Role.Shop);
+    sim.now(cmd('enter', Role.Shop));
+    const shelf = sim.town.stock[0].slice();
+    let gearSlot = 2;
+    shelf.forEach((v, k) => { if (k > 1 && v >= 0 && priceOf(v) > priceOf(shelf[gearSlot])) gearSlot = k; });
+    const gear = shelf[gearSlot];
+    sim.cb.gold[0] = priceOf(gear);
+    sim.now(cmd('buy', undefined, [gearSlot]));
+    expect(sim.cb.gold[0]).toBe(0);
+    // sell the gear back to afford a potion in the same deal
+    const potion = shelf[0];
+    const two = priceOf(potion);
+    expect(sellPrice(gear)).toBeGreaterThanOrEqual(two);
+    sim.now({ type: 'town', op: 'deal', town: 0, list: [0], list2: [gear] });
+    expect(sim.cb.gold[0]).toBe(sellPrice(gear) - two);
+    expect(sim.hero!.inv.some((s) => s.item === gear)).toBe(false);
+    // too dear even after selling: the potions are not bought
+    const g = sim.cb.gold[0];
+    sim.now({ type: 'town', op: 'deal', town: 0, list: [gearSlot === 2 ? 3 : gearSlot], list2: [] });
+    expect(sim.cb.gold[0]).toBeLessThanOrEqual(g);
+  });
+});

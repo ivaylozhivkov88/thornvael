@@ -6,7 +6,7 @@ import { formatItemTooltip, renderItemTooltipDom } from './heroui';
 import { isSetItem } from './sim/sets';
 import type { Sim } from './sim/sim';
 import { SPELLS } from './sim/spelldata';
-import { OFFERS, QuestType, reviveFee, ROLE_COUNT, Role, SHELF, gambleCost, priceOf, sellPrice, spellPrice, trainPrice, type Quest, type TownCommand } from './sim/town';
+import { OFFERS, isUnlimited, QuestType, reviveFee, ROLE_COUNT, Role, SHELF, gambleCost, priceOf, sellPrice, spellPrice, trainPrice, type Quest, type TownCommand } from './sim/town';
 import { S } from './strings';
 import { itemIcon } from './townicons';
 import { equipmentLayers } from './hero-presentation';
@@ -77,8 +77,8 @@ export class TownUi {
   private buys: number[] = [];
   private sells: number[] = [];
   private picks: { kind: 'b' | 's'; value: number }[] = [];
-  private shelfPage = 0;
-  private packPage = 0;
+  private shelfScroll = 0;
+  private packScroll = 0;
   private detailItem = -1;
   private mercIndex = 0;
   private mood = 0;
@@ -92,7 +92,6 @@ export class TownUi {
   private lastLoreSpeakerIdx = -1;
   private shopUndoBtn: HTMLButtonElement | null = null;
   private shopBuyBtn: HTMLButtonElement | null = null;
-  private shopSellBtn: HTMLButtonElement | null = null;
 
   constructor(private readonly ctx: TownUiCtx) {
     this.root = el('div', 'sheet town');
@@ -143,7 +142,7 @@ export class TownUi {
       .filter((node): node is HTMLElement => node instanceof HTMLElement && node !== this.root)
       .map((node) => [node, node.inert]);
     for (const [node] of this.inertSiblings) node.inert = true;
-    this.shelfPage = this.packPage = 0;
+    this.shelfScroll = this.packScroll = 0;
     this.detailItem = -1;
     this.mercIndex = 0;
     this.setMood(0);
@@ -266,10 +265,12 @@ export class TownUi {
   private tryOn = -1;
 
   /** Pointer-drag an item cell onto the hero oval to try it on; a plain tap still selects as before. */
-  private dragToHero(b: HTMLElement, id: number, fromPack = false): void {
-    b.style.touchAction = 'none';
+  private dragToHero(b: HTMLElement, id: number, fromPack = false, toTray?: () => void): void {
+    // Touch keeps native list scrolling; touch users tap items into the tray instead.
+    b.style.touchAction = 'pan-y';
+    const trayClass = fromPack ? '.tray-sell' : '.tray-buy';
     b.addEventListener('pointerdown', (down) => {
-      if (down.button > 0) return;
+      if (down.button > 0 || down.pointerType === 'touch') return;
       const x0 = down.clientX, y0 = down.clientY;
       let ghost: HTMLElement | null = null;
       const move = (e: PointerEvent) => {
@@ -282,8 +283,9 @@ export class TownUi {
         }
         if (!ghost) return;
         ghost.style.transform = `translate(${e.clientX - 28}px, ${e.clientY - 28}px)`;
-        const over = document.elementFromPoint(e.clientX, e.clientY)?.closest('.hero-portrait');
-        this.root.querySelector('.hero-portrait')?.classList.toggle('drop-hot', !!over);
+        const at = document.elementFromPoint(e.clientX, e.clientY);
+        this.root.querySelector('.hero-portrait')?.classList.toggle('drop-hot', !!at?.closest('.hero-portrait'));
+        if (toTray) this.root.querySelector(trayClass)?.classList.toggle('drop-hot', !!at?.closest(trayClass));
       };
       const up = (e: PointerEvent) => {
         window.removeEventListener('pointermove', move);
@@ -291,11 +293,16 @@ export class TownUi {
         window.removeEventListener('pointercancel', up);
         if (!ghost) return;
         ghost.remove();
-        const over = document.elementFromPoint(e.clientX, e.clientY)?.closest('.hero-portrait');
+        const at = document.elementFromPoint(e.clientX, e.clientY);
+        const over = at?.closest('.hero-portrait');
+        const inTray = !!toTray && !!at?.closest(trayClass);
+        this.root.querySelector(trayClass)?.classList.remove('drop-hot');
         // swallow the click that follows a drag so the item is not also selected
         b.addEventListener('click', (c) => { c.stopImmediatePropagation(); c.preventDefault(); }, { capture: true, once: true });
         window.setTimeout(() => { delete b.dataset.dragging; }, 0);
-        if (over) {
+        if (inTray) {
+          toTray!();
+        } else if (over) {
           if (fromPack) {
             this.equipItem(id);
           } else {
@@ -427,18 +434,103 @@ export class TownUi {
     return figure;
   }
 
-  private pager(kind: 'shelf' | 'pack', current: number, count: number, change: (page: number) => void): HTMLElement {
-    const row = el('div', 'town-pages');
-    const before = button('‹', () => change(current - 1));
-    const after = button('›', () => change(current + 1));
-    before.setAttribute('aria-label', `${S.town.previousPage}: ${S.town[kind === 'shelf' ? 'shelf' : 'yourPack']}`);
-    after.setAttribute('aria-label', `${S.town.nextPage}: ${S.town[kind === 'shelf' ? 'shelf' : 'yourPack']}`);
-    before.disabled = current === 0;
-    after.disabled = current + 1 >= count;
-    row.append(before, el('span', '', `${current + 1} / ${count}`), after);
-    return row;
+  /** A scrolling list driven by wheel, touch drag and on-screen up/down buttons (no pages). */
+  private scrollBox(grid: HTMLElement, kind: 'shelf' | 'pack'): HTMLElement {
+    const wrap = el('div', 'scroll-wrap');
+    const box = el('div', 'scroll-box');
+    box.tabIndex = 0;
+    box.append(grid);
+    box.addEventListener('scroll', () => {
+      if (kind === 'shelf') this.shelfScroll = box.scrollTop;
+      else this.packScroll = box.scrollTop;
+    });
+    const step = (dir: number) => box.scrollBy({ top: dir * Math.max(100, box.clientHeight * 0.8), behavior: 'smooth' });
+    const name = S.town[kind === 'shelf' ? 'shelf' : 'yourPack'];
+    const up = button('▲', () => step(-1));
+    const down = button('▼', () => step(1));
+    up.className = down.className = 'scroll-btn';
+    up.setAttribute('aria-label', `${S.town.scrollUp}: ${name}`);
+    down.setAttribute('aria-label', `${S.town.scrollDown}: ${name}`);
+    const btns = el('div', 'scroll-btns');
+    btns.append(up, down);
+    wrap.append(box, btns);
+    queueMicrotask(() => { box.scrollTop = kind === 'shelf' ? this.shelfScroll : this.packScroll; });
+    return wrap;
   }
 
+  private addBuy(k: number): void {
+    const id = this.ctx.sim().town.stock[this.town][k];
+    if (id < 0) return;
+    if (!isUnlimited(id) && this.buys.includes(k)) return;
+    this.buys.push(k);
+    this.picks.push({ kind: 'b', value: k });
+    this.setMood(4);
+  }
+
+  private addSell(slot: number): void {
+    const s = this.ctx.sim().hero!.inv[slot];
+    if (!s || this.sells.filter((x) => x === slot).length >= s.n) return;
+    this.sells.push(slot);
+    this.picks.push({ kind: 's', value: slot });
+  }
+
+  private removeOne(kind: 'b' | 's', value: number): void {
+    const list = kind === 'b' ? this.buys : this.sells;
+    const at = list.lastIndexOf(value);
+    if (at >= 0) list.splice(at, 1);
+    for (let i = this.picks.length - 1; i >= 0; i--) {
+      if (this.picks[i].kind === kind && this.picks[i].value === value) { this.picks.splice(i, 1); break; }
+    }
+  }
+
+  private tradeBalance(sim: Sim): { buy: number; sell: number; bal: number; after: number } {
+    const h = sim.hero!;
+    const shelf = sim.town.stock[this.town];
+    const buy = this.buys.reduce((n, k) => n + priceOf(shelf[k]), 0);
+    const sell = this.sells.reduce((n, slot) => n + sellPrice(h.inv[slot].item), 0);
+    return { buy, sell, bal: sell - buy, after: sim.cb.gold[0] + sell - buy };
+  }
+
+  /** The barter tray: what you pay, what you receive, and the running balance. */
+  private renderTray(sim: Sim): HTMLElement {
+    const h = sim.hero!;
+    const shelf = sim.town.stock[this.town];
+    const t = this.tradeBalance(sim);
+    const tray = el('div', 'trade-tray');
+    const side = (cls: string, title: string, kind: 'b' | 's', keys: number[], idOf: (k: number) => number, unit: (id: number) => number, total: number) => {
+      const box = el('div', `tray-side ${cls}`);
+      box.append(el('h4', '', `${title}: ${total}`));
+      const counts = new Map<number, number>();
+      for (const k of keys) counts.set(k, (counts.get(k) ?? 0) + 1);
+      if (!counts.size) box.append(el('p', 'tray-empty', kind === 'b' ? S.town.trayBuyEmpty : S.town.traySellEmpty));
+      for (const [k, n] of counts) {
+        const id = idOf(k);
+        const name = getItemDef(id)?.name ?? '';
+        const row = el('div', 'tray-row');
+        const label = button(`${name}${n > 1 ? ` x${n}` : ''}  ${unit(id) * n}`, () => { this.detailItem = id; this.updateShopSelections(sim); });
+        label.className = 'tray-item';
+        const minus = button('−', () => { this.hideCardTooltip(); this.removeOne(kind, k); this.updateShopSelections(sim); });
+        minus.className = 'tray-minus';
+        minus.setAttribute('aria-label', `${S.town.removeOne}: ${name}`);
+        row.append(label, minus);
+        box.append(row);
+      }
+      return box;
+    };
+    const sides = el('div', 'tray-sides');
+    sides.append(
+      side('tray-buy', S.town.toBuy, 'b', this.buys, (k) => shelf[k], priceOf, t.buy),
+      side('tray-sell', S.town.toSell, 's', this.sells, (k) => h.inv[k].item, sellPrice, t.sell),
+    );
+    const bill = el('div', 'bill lines');
+    for (const [label, v] of [[S.town.buying, t.buy], [S.town.selling, t.sell], [S.town.balance, t.bal], [S.town.after, t.after]] as const) {
+      const l = el('div', 'line');
+      l.append(el('span', 'grow', label), el('b', v < 0 && label === S.town.after ? 'neg' : '', String(v)));
+      bill.append(l);
+    }
+    tray.append(sides, bill);
+    return tray;
+  }
   private decorateItem(b: HTMLButtonElement, id: number): void {
     const item = getItemDef(id);
     if (!item) return;
@@ -459,75 +551,41 @@ export class TownUi {
     const h = sim.hero!;
     const shelf = sim.town.stock[this.town];
     const keeper = this.scene('shop');
-    const bill = el('div', 'bill lines');
-    const buyTotal = this.buys.reduce((n, k) => n + priceOf(shelf[k]), 0);
-    const sellTotal = this.sells.reduce((n, slot) => n + sellPrice(h.inv[slot].item), 0);
-    const bal = sellTotal - buyTotal;
-    for (const [label, v] of [
-      [S.town.buying, buyTotal],
-      [S.town.selling, sellTotal],
-      [S.town.balance, bal],
-      [S.town.after, sim.cb.gold[0] + bal],
-    ] as const) {
-      const l = el('div', 'line');
-      l.append(el('span', 'grow', label), el('b', v < 0 && label === S.town.after ? 'neg' : '', String(v)));
-      bill.append(l);
-    }
     const stockPanel = el('section', 'stock-panel');
     stockPanel.append(el('h3', '', S.town.shelf));
     const sg = el('div', 'grid shelf');
-    for (let k = this.shelfPage * 6; k < Math.min(SHELF, (this.shelfPage + 1) * 6); k++) {
+    for (let k = 0; k < SHELF; k++) {
       const id = shelf[k];
-      if (id < 0) {
-        sg.append(el('div', 'cell empty'));
-        continue;
-      }
+      if (id === undefined || id < 0) continue;
+      const unlimited = isUnlimited(id);
+      const inTray = this.buys.includes(k);
       const b = button(getItemDef(id)?.name ?? '', () => {
         this.hideCardTooltip();
         this.detailItem = id;
-        const at = this.buys.indexOf(k);
-        if (at >= 0) {
-          this.buys.splice(at, 1);
-          const pick = this.picks.findIndex((p) => p.kind === 'b' && p.value === k);
-          if (pick >= 0) this.picks.splice(pick, 1);
-        } else {
-          this.buys.push(k);
-          this.picks.push({ kind: 'b', value: k });
-          this.setMood(4);
-        }
+        this.addBuy(k);
         this.updateShopSelections(sim);
-      }, String(priceOf(id)));
-      b.className = `cell${this.buys.includes(k) ? ' sel' : ''}`;
+      }, unlimited ? `${priceOf(id)}  ∞` : String(priceOf(id)));
+      b.className = `cell${inTray ? ' sel' : ''}`;
       b.dataset.slot = String(k);
       this.decorateItem(b, id);
       b.addEventListener('pointerenter', (e) => {
         if ((e as PointerEvent).pointerType !== 'touch') this.showCardTooltip(id, b);
       });
       b.addEventListener('pointerleave', () => this.hideCardTooltip());
-      this.dragToHero(b, id);
+      this.dragToHero(b, id, false, () => { this.detailItem = id; this.addBuy(k); this.updateShopSelections(sim); });
       sg.append(b);
     }
-    stockPanel.append(sg, this.pager('shelf', this.shelfPage, Math.ceil(SHELF / 6), (p) => { this.shelfPage = p; this.render(); }));
+    stockPanel.append(this.scrollBox(sg, 'shelf'));
     const packPanel = el('section', 'pack-panel');
     packPanel.append(el('h3', '', S.town.yourPack));
     const pg = el('div', 'grid pack');
-    for (let k = this.packPage * 10; k < (this.packPage + 1) * 10; k++) {
+    for (let k = 0; k < h.inv.length; k++) {
       const s = h.inv[k];
-      if (!s) {
-        pg.append(el('div', 'cell empty'));
-        continue;
-      }
       const picked = this.sells.filter((slot) => slot === k).length;
       const b = button(getItemDef(s.item)?.name ?? '', () => {
         this.hideCardTooltip();
         this.detailItem = s.item;
-        if (picked >= s.n) {
-          this.sells = this.sells.filter((slot) => slot !== k);
-          this.picks = this.picks.filter((p) => p.kind !== 's' || p.value !== k);
-        } else {
-          this.sells.push(k);
-          this.picks.push({ kind: 's', value: k });
-        }
+        this.addSell(k);
         this.updateShopSelections(sim);
       }, `${sellPrice(s.item)}${s.n > 1 ? `  x${s.n - picked}` : ''}`);
       b.className = `cell${picked ? ' sel' : ''}${picked >= s.n ? ' no' : ''}`;
@@ -543,10 +601,10 @@ export class TownUi {
         this.hideCardTooltip();
         this.equipItem(s.item);
       });
-      this.dragToHero(b, s.item, true);
+      this.dragToHero(b, s.item, true, () => { this.detailItem = s.item; this.addSell(k); this.updateShopSelections(sim); });
       pg.append(b);
     }
-    packPanel.append(pg, this.pager('pack', this.packPage, Math.ceil(INV_MAX / 10), (p) => { this.packPage = p; this.render(); }));
+    packPanel.append(this.scrollBox(pg, 'pack'));
 
     const acts = el('div', 'trade-actions');
     const undo = button(S.town.undo, () => {
@@ -561,33 +619,25 @@ export class TownUi {
     }, String(sim.cb.gold[0]));
     undo.disabled = this.picks.length === 0;
     this.shopUndoBtn = undo;
-    const buy = button(S.town.buy, () => {
+    const t0 = this.tradeBalance(sim);
+    const deal = button(S.town.confirmDeal, () => {
       this.hideCardTooltip();
+      const t = this.tradeBalance(sim);
       const g0 = sim.cb.gold[0];
-      this.cmd('buy', undefined, this.buys);
-      const ok = sim.cb.gold[0] < g0;
-      this.setMood(ok ? this.buys.some((k) => shelf[k] >= 0) ? 6 : 1 : 2);
-      if (ok) {
-        playTraderBark('blacksmith', 'buy');
-        this.buys = this.buys.filter((k) => shelf[k] >= 0);
-        this.picks = this.picks.filter((p) => p.kind === 's' || shelf[p.value] >= 0);
-      }
-      this.ctx.changed();
-      this.render();
-    }, `-${buyTotal}`);
-    buy.disabled = this.buys.length === 0;
-    this.shopBuyBtn = buy;
-    const sell = button(S.town.sell, () => {
-      this.hideCardTooltip();
-      this.cmd('sell', undefined, this.sells.map((slot) => h.inv[slot].item));
+      sim.now({ type: 'town', op: 'deal', town: this.town, list: [...this.buys], list2: this.sells.map((slot) => h.inv[slot].item) });
+      const ok = sim.cb.gold[0] - g0 === t.bal;
+      this.setMood(ok ? 5 : sim.cb.gold[0] !== g0 ? 6 : 2);
+      if (sim.cb.gold[0] !== g0) playTraderBark('blacksmith', 'buy');
+      // Sales always settle first, so pack indices are stale; unfilled one-off shelf items stay in the tray.
       this.sells = [];
-      this.picks = this.picks.filter((p) => p.kind === 'b');
-      this.setMood(5);
+      this.buys = ok ? [] : this.buys.filter((k) => shelf[k] >= 0 && !isUnlimited(shelf[k]));
+      this.picks = this.buys.map((value) => ({ kind: 'b' as const, value }));
       this.ctx.changed();
       this.render();
-    }, `+${sellTotal}`);
-    sell.disabled = this.sells.length === 0;
-    this.shopSellBtn = sell;
+    }, `${t0.bal >= 0 ? '+' : ''}${t0.bal}`);
+    deal.className = 'deal-btn';
+    deal.disabled = (this.buys.length === 0 && this.sells.length === 0) || t0.after < 0;
+    this.shopBuyBtn = deal;
     const exit = button(S.town.leave, () => {
       this.setMood(3);
       this.exitTimer = window.setTimeout(() => this.close(), 350);
@@ -604,10 +654,10 @@ export class TownUi {
     }, `-${gCost}`);
     gamble.disabled = sim.cb.gold[0] < gCost || h.inv.length >= INV_MAX;
     this.ctx.tipOn(gamble, `${S.town.gambleHelp} (${gCost} ${S.town.gold})`);
-    acts.append(undo, buy, sell, gamble, button('💬 Lore & Spoils', () => this.openLoreDialogue('shop')), exit);
+    acts.append(deal, undo, gamble, button('💬 Lore & Spoils', () => this.openLoreDialogue('shop')), exit);
     const details = el('section', 'trade-details');
     details.setAttribute('aria-label', S.town.itemDetails);
-    details.append(bill, this.renderDetailView(h), el('p', 'note', S.town.shopHelp));
+    details.append(this.renderTray(sim), this.renderDetailView(h), el('p', 'note', S.town.shopHelp));
     const layout = el('div', 'trade-layout');
     layout.append(stockPanel, keeper, acts, this.portrait(sim), packPanel, details);
     this.root.append(layout);
@@ -682,34 +732,14 @@ export class TownUi {
       }
     }
 
-    // 3. Update bill numbers
-    const buyTotal = this.buys.reduce((n, k) => n + priceOf(shelf[k]), 0);
-    const sellTotal = this.sells.reduce((n, slot) => n + sellPrice(h.inv[slot].item), 0);
-    const bal = sellTotal - buyTotal;
-    const after = sim.cb.gold[0] + bal;
-
-    const billLines = this.root.querySelectorAll('.bill .line b');
-    if (billLines.length >= 4) {
-      billLines[0].textContent = String(buyTotal);
-      billLines[1].textContent = String(sellTotal);
-      billLines[2].textContent = String(bal);
-      billLines[3].textContent = String(after);
-      billLines[3].className = after < 0 ? 'neg' : '';
-    }
-
-    // 4. Update trade actions (undo, buy, sell)
-    if (this.shopUndoBtn) {
-      this.shopUndoBtn.disabled = this.picks.length === 0;
-    }
+    // 3. Rebuild the tray (lists, totals, balance) and refresh the action buttons
+    this.root.querySelector('.trade-tray')?.replaceWith(this.renderTray(sim));
+    const t = this.tradeBalance(sim);
+    if (this.shopUndoBtn) this.shopUndoBtn.disabled = this.picks.length === 0;
     if (this.shopBuyBtn) {
-      this.shopBuyBtn.disabled = this.buys.length === 0;
+      this.shopBuyBtn.disabled = (this.buys.length === 0 && this.sells.length === 0) || t.after < 0;
       const sm = this.shopBuyBtn.querySelector('small');
-      if (sm) sm.textContent = `-${buyTotal}`;
-    }
-    if (this.shopSellBtn) {
-      this.shopSellBtn.disabled = this.sells.length === 0;
-      const sm = this.shopSellBtn.querySelector('small');
-      if (sm) sm.textContent = `+${sellTotal}`;
+      if (sm) sm.textContent = `${t.bal >= 0 ? '+' : ''}${t.bal}`;
     }
 
     // 5. Update detail view smoothly without touching portrait or keeper!

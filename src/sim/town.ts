@@ -17,7 +17,9 @@ import type { Sim } from './sim';
 
 export const Role = { Tavern: 0, Shop: 1, School: 2 } as const;
 export const ROLE_COUNT = 3;
-export const SHELF = 12; // shop shelf slots, 4 x 3
+export const SHELF = 28; // shop shelf slots (a scrolling list)
+/** Healing and mana draughts are unlimited: they stay on the shelf and can be bought in any quantity. */
+export const isUnlimited = (id: number): boolean => id >= 0 && (ITEMS[id]?.name === 'Healing Draught' || ITEMS[id]?.name === 'Mana Draught');
 export const OFFERS = 3;
 export const MAX_QUESTS = 3;
 const REACH = 4.5; // tiles from a building's centre to enter it
@@ -77,9 +79,10 @@ export interface TownState {
   barracks?: number; // campaign barracks: percent off hire fees
 }
 
-export type TownOp = 'enter' | 'leave' | 'buy' | 'sell' | 'hire' | 'revive' | 'learn' | 'train' | 'accept' | 'gamble' | 'transmute' | 'identify_all';
+export type TownOp = 'enter' | 'leave' | 'buy' | 'sell' | 'deal' | 'hire' | 'revive' | 'learn' | 'train' | 'accept' | 'gamble' | 'transmute' | 'identify_all';
 /** `v`: role (enter), merc index (hire), spell (learn), skill (train), offer (accept). `list`: shelf slots (buy) or item ids (sell). */
-export type TownCommand = { type: 'town'; op: TownOp; town: number; v?: number; list?: number[] };
+export type TownCommand = { type: 'town'; op: TownOp; town: number; v?: number; list?: number[]; list2?: number[] };
+/** `deal`: `list` = shelf slots to buy (unlimited potions may repeat), `list2` = item ids to sell; settled together, sales first. */
 
 /** Gold cost to gamble for unknown riches at the merchant (Smuggler's Casket). Scales with hero progression. */
 export function gambleCost(sim: Sim): number {
@@ -292,7 +295,7 @@ export function townCommand(sim: Sim, cmd: TownCommand): void {
     }
     return;
   }
-  const role = { buy: Role.Shop, sell: Role.Shop, gamble: Role.Shop, transmute: Role.Shop, hire: Role.Tavern, revive: Role.Tavern, accept: Role.Tavern, learn: Role.School, train: Role.School }[cmd.op];
+  const role = { buy: Role.Shop, sell: Role.Shop, deal: Role.Shop, gamble: Role.Shop, transmute: Role.Shop, hire: Role.Tavern, revive: Role.Tavern, accept: Role.Tavern, learn: Role.School, train: Role.School }[cmd.op];
   if (st.inside !== cmd.town * ROLE_COUNT + role) return;
   const gold = sim.cb.gold;
   const v = cmd.v ?? -1;
@@ -377,40 +380,45 @@ export function townCommand(sim: Sim, cmd: TownCommand): void {
       emit(sim, Tfx.Trade, cost, 0);
       return;
     }
-    case 'buy': {
+    case 'buy':
+    case 'sell':
+    case 'deal': {
+      const buyList = cmd.op === 'sell' ? [] : (cmd.list ?? []);
+      const sellList = cmd.op === 'sell' ? (cmd.list ?? []) : cmd.op === 'deal' ? (cmd.list2 ?? []) : [];
       const shelf = st.stock[cmd.town];
-      const slots = [...new Set(cmd.list ?? [])].filter((k) => k >= 0 && k < SHELF && shelf[k] >= 0);
-      const cost = slots.reduce((s, k) => s + priceOf(shelf[k]), 0);
-      if (cost > gold[0]) return refuse(sim, Why.Gold);
-      let spent = 0;
-      for (const k of slots) {
-        const why = addItem(h, shelf[k]);
-        if (why) {
-          refuse(sim, why);
-          break;
-        }
-        spent += priceOf(shelf[k]);
-        shelf[k] = -1;
-      }
-      gold[0] -= spent;
-      if (spent) {
-        recalc(sim);
-        emit(sim, Tfx.Trade, spent, 0);
-      }
-      return;
-    }
-    case 'sell': {
+      // Sales first, so their gold and pack room fund the purchases of the same deal.
       let got = 0;
-      for (const id of cmd.list ?? []) {
+      for (const id of sellList) {
         if (id < 0 || !takeItem(h, id)) continue;
         got += sellPrice(id);
         sim.destroyItemInstance(id);
       }
       gold[0] += got;
-      if (got) {
-        recalc(sim);
-        emit(sim, Tfx.Trade, got, 1);
-      }
+      const seen = new Set<number>();
+      const slots = buyList.filter((k) => {
+        if (k < 0 || k >= SHELF || shelf[k] < 0) return false;
+        if (isUnlimited(shelf[k])) return true;
+        if (seen.has(k)) return false;
+        seen.add(k);
+        return true;
+      });
+      const cost = slots.reduce((n, k) => n + priceOf(shelf[k]), 0);
+      let spent = 0;
+      if (cost <= gold[0]) {
+        for (const k of slots) {
+          const why = addItem(h, shelf[k]);
+          if (why) {
+            refuse(sim, why);
+            break;
+          }
+          spent += priceOf(shelf[k]);
+          if (!isUnlimited(shelf[k])) shelf[k] = -1;
+        }
+      } else if (slots.length) refuse(sim, Why.Gold);
+      gold[0] -= spent;
+      if (got || spent) recalc(sim);
+      if (spent) emit(sim, Tfx.Trade, spent, 0);
+      if (got) emit(sim, Tfx.Trade, got, 1);
       return;
     }
     case 'hire': {
@@ -533,7 +541,7 @@ export function rollStock(sim: Sim, town: number): void {
     }
   });
 
-  const n = Math.min(SHELF, k + 6 + sim.rng.int(5));
+  const n = Math.min(SHELF, k + 14 + sim.rng.int(9));
   while (k < n) {
     let chosenId = -1;
     const roll = sim.rng.int(100);

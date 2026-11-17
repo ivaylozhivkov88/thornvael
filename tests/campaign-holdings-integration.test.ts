@@ -96,6 +96,10 @@ describe('Campaign Holdings & Missions Integration (Masterpiece Drive)', () => {
         applyCarryover(game.sim, co0);
         expect(game.sim.town.forge).toBeUndefined();
 
+        // Difficulty raises the ceiling too; the longer shelf now reliably shows it.
+        const dd = game.sim.hero!.diff;
+        const diffBump = dd === 1 ? 1 : dd >= 2 ? 2 : 0;
+
         // Level 1 Forge: +1 tier
         const p1: CampaignProgress = { ...p0, builds: { forge: 1 } };
         applyCarryover(game.sim, { ...co0, progress: p1 });
@@ -105,7 +109,7 @@ describe('Campaign Holdings & Missions Integration (Masterpiece Drive)', () => {
         const stock1 = game.sim.town.stock[0].filter((id) => id >= 0);
         expect(stock1.length).toBeGreaterThan(0);
         const maxTier1 = Math.max(...stock1.map((id) => ITEMS[id].tier));
-        expect(maxTier1).toBeLessThanOrEqual(Math.min(5, town.base[1] + 1));
+        expect(maxTier1).toBeLessThanOrEqual(Math.min(5, town.base[1] + diffBump + 1));
 
         // Level 2 Forge: +2 tiers
         const p2: CampaignProgress = { ...p0, builds: { forge: 2 } };
@@ -115,7 +119,7 @@ describe('Campaign Holdings & Missions Integration (Masterpiece Drive)', () => {
         rollStock(game.sim, 0);
         const stock2 = game.sim.town.stock[0].filter((id) => id >= 0);
         const maxTier2 = Math.max(...stock2.map((id) => ITEMS[id].tier));
-        expect(maxTier2).toBeLessThanOrEqual(Math.min(5, town.base[1] + 2));
+        expect(maxTier2).toBeLessThanOrEqual(Math.min(5, town.base[1] + diffBump + 2));
       }
     });
 

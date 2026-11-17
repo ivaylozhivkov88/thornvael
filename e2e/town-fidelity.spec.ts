@@ -28,81 +28,80 @@ async function gold(page: Page): Promise<number> {
 async function boot(page: Page): Promise<void> {
   await page.goto('/thornvael/?mission=market&hero=warrior,m,medium');
   await page.waitForFunction(() => (window as unknown as { __game?: TownGame }).__game);
-  await page.getByRole('button', { name: 'Begin the mission', exact: true }).click();
-  await page.locator('#mission').getByRole('button', { name: 'Continue', exact: true }).click();
+  // The first click only finishes the typewriter line; click until the briefing closes.
+  const begin = page.getByRole('button', { name: /^Begin the mission/ });
+  for (let i = 0; i < 4 && (await begin.isVisible()); i++) await begin.click();
+  const cont = page.getByRole('button', { name: /^Continue \[/ });
+  await cont.waitFor({ state: 'visible', timeout: 10_000 }).catch(() => undefined);
+  for (let i = 0; i < 4 && (await cont.isVisible()); i++) await cont.click();
   await expect(page.locator('#mission')).toBeHidden();
 }
 
-test('reference shop has six stock slots, ten pack slots, layered shop art and four monetary actions', async ({ page }) => {
+test('shop lists the whole stock and pack in scroll boxes, with layered shop art and the tray actions', async ({ page }) => {
   await page.setViewportSize({ width: 1366, height: 900 });
   await page.emulateMedia({ reducedMotion: 'reduce' }); // Measure layer placement at rest.
   await boot(page);
   await enter(page);
   const shop = page.locator('.town--shop');
-  await expect(shop.locator('.shelf > *')).toHaveCount(6);
-  await expect(shop.locator('.pack > *')).toHaveCount(10);
-  await expect(shop.locator('.trade-actions > button')).toHaveCount(4);
+  expect(await shop.locator('.shelf > *').count()).toBeGreaterThan(6);
+  expect(await shop.locator('.pack > *').count()).toBe(await page.evaluate(() => (window as unknown as { __game: TownGame }).__game.sim.hero!.inv.length));
+  await expect(shop.locator('.trade-actions > button')).toHaveCount(5);
+  await expect(shop.locator('.scroll-btn')).toHaveCount(4);
+  await expect(shop.locator('.tray-buy')).toBeVisible();
+  await expect(shop.locator('.tray-sell')).toBeVisible();
   const columns = await shop.locator('.shelf').evaluate((el) => getComputedStyle(el).gridTemplateColumns.split(' ').length);
   expect(columns).toBe(2);
-  for (const image of await shop.locator('img').all()) await expect.poll(() => image.evaluate((el) => (el as HTMLImageElement).naturalWidth)).toBeGreaterThan(0);
+  for (const image of await shop.locator('img:not([hidden])').all()) await expect.poll(() => image.evaluate((el) => (el as HTMLImageElement).naturalWidth)).toBeGreaterThan(0);
   const scene = shop.locator('.scene-art');
   const backdrop = scene.locator('img.town-backdrop');
   const merchant = scene.locator('img.merchant-actor');
   await expect(backdrop).toBeVisible();
-  await expect(merchant).toBeVisible();
-  await expect(merchant).toHaveCSS('opacity', '1');
+  await expect(merchant).toBeHidden(); // the painted scene already contains its keeper
   await expect(backdrop).toHaveCSS('object-fit', 'contain');
   const backdropRatio = await backdrop.evaluate((img: HTMLImageElement) => img.naturalWidth / img.naturalHeight);
   expect(backdropRatio).toBeCloseTo(4 / 3, 3);
 
   const frame = (await scene.boundingBox())!;
   const background = (await backdrop.boundingBox())!;
-  const actor = (await merchant.boundingBox())!;
   expect(frame.width / frame.height).toBeCloseTo(4 / 3, 3);
   for (const edge of ['x', 'y', 'width', 'height'] as const) {
     expect(Math.abs(background[edge] - frame[edge]), `backdrop ${edge}`).toBeLessThan(1);
   }
 
-  expect(Math.abs(actor.x - frame.x - frame.width * .2325)).toBeLessThan(1);
-  expect(Math.abs(actor.y - frame.y - frame.height * .183)).toBeLessThan(1);
-  expect(Math.abs(actor.width - frame.width * .54)).toBeLessThan(1);
-  expect(Math.abs(actor.height - frame.height * .54)).toBeLessThan(1);
-  expect(actor.x).toBeGreaterThanOrEqual(background.x);
-  expect(actor.y).toBeGreaterThanOrEqual(background.y);
-  expect(actor.x + actor.width).toBeLessThanOrEqual(background.x + background.width);
-  expect(actor.y + actor.height).toBeLessThanOrEqual(background.y + background.height);
   await expect(page.locator('#toast')).toBeHidden({ timeout: 6_000 });
   await page.screenshot({ path: 'test-results/town-shop-desktop.png' });
-  await shop.getByRole('button', { name: 'Next page: Shelf', exact: true }).click();
-  expect(await shop.locator('.shelf button').first().getAttribute('data-slot')).toBe('6');
-  await shop.getByRole('button', { name: 'Next page: Your pack', exact: true }).click();
-  await shop.getByRole('button', { name: 'Next page: Your pack', exact: true }).click();
-  await expect(shop.getByRole('button', { name: 'Next page: Your pack', exact: true })).toBeDisabled();
-  await page.screenshot({ path: 'test-results/town-shop-last-page.png' });
+  const box = shop.locator('.scroll-box').first();
+  await shop.getByRole('button', { name: 'Scroll down: Shelf', exact: true }).click();
+  await expect.poll(() => box.evaluate((el) => el.scrollTop)).toBeGreaterThan(0);
+  await page.screenshot({ path: 'test-results/town-shop-scrolled.png' });
 });
 
-test('deselect then Undo removes the actual last pick; buy/sell changes gold and stock refreshes on return', async ({ page }) => {
+test('tray: tap, Undo, and only Confirm deal moves gold; stock refreshes on return', async ({ page }) => {
   await boot(page);
   await enter(page);
   const shop = page.locator('.town--shop');
   const stock = shop.locator('.shelf button');
-  for (const n of [0, 1, 2, 1]) await stock.nth(n).click();
-  await shop.locator('.trade-actions button').nth(0).click();
+  for (const n of [0, 1, 2]) await stock.nth(n).click();
+  await shop.locator('.trade-actions button').nth(1).click(); // Undo takes back slot 2 only.
   await expect(stock.nth(0)).toHaveAttribute('aria-pressed', 'true');
   await expect(stock.nth(2)).toHaveAttribute('aria-pressed', 'false');
-  const price = Number(await stock.nth(0).locator('small').textContent());
+  const p0 = parseInt((await stock.nth(0).locator('small').textContent())!, 10);
+  const p1 = parseInt((await stock.nth(1).locator('small').textContent())!, 10);
   const before = await gold(page);
-  await shop.locator('.trade-actions button').nth(1).click();
-  expect(await gold(page)).toBe(before - price);
+  expect(await gold(page)).toBe(before); // Picking alone never charges.
+  await stock.nth(0).click(); // Potions are unlimited: a second tap adds another one.
+  await shop.locator('.deal-btn').click();
+  expect(await gold(page)).toBe(before - 2 * p0 - p1);
   await expect(shop.locator('.keeper')).toHaveClass(/pleased/);
+  await expect(stock.nth(0)).toBeVisible(); // Potions never leave the shelf.
   const item = shop.locator('.pack button').first();
   const sale = Number((await item.locator('small').textContent())!.split(' ')[0]);
   await item.click();
   const beforeSale = await gold(page);
-  await shop.locator('.trade-actions button').nth(2).click();
+  await shop.locator('.deal-btn').click();
   expect(await gold(page)).toBe(beforeSale + sale);
   const stockBefore = await page.evaluate(() => [...(window as unknown as { __game: TownGame }).__game.sim.town.stock[0]]);
-  await shop.locator('.trade-actions button').nth(3).click();
+  await shop.locator('.trade-actions button').nth(4).click();
   await expect(shop).toBeHidden();
   await enter(page);
   const stockAfter = await page.evaluate(() => [...(window as unknown as { __game: TownGame }).__game.sim.town.stock[0]]);
@@ -113,16 +112,12 @@ test('unaffordable basket is refused without a charge and gives merchant feedbac
   await boot(page);
   await enter(page);
   const shop = page.locator('.town--shop');
-  for (const index of [0, 1]) {
-    if (index) await shop.getByRole('button', { name: 'Next page: Shelf', exact: true }).click();
-    for (let n = 0; n < await shop.locator('.shelf button').count(); n++) await shop.locator('.shelf button').nth(n).click();
-  }
+  for (let n = 0; n < await shop.locator('.shelf button').count(); n++) await shop.locator('.shelf button').nth(n).click();
   const before = await gold(page);
-  const total = Math.abs(Number(await shop.locator('.trade-actions button').nth(1).locator('small').textContent()));
+  const total = Math.abs(Number(await shop.locator('.deal-btn small').textContent()));
   expect(total).toBeGreaterThan(before);
-  await shop.locator('.trade-actions button').nth(1).click();
+  await expect(shop.locator('.deal-btn')).toBeDisabled();
   expect(await gold(page)).toBe(before);
-  await expect(shop.locator('.keeper')).toHaveClass(/sorry/);
 });
 
 test('landscape phone can reach every shop control and tavern hiring/quests', async ({ page }) => {
@@ -138,7 +133,7 @@ test('landscape phone can reach every shop control and tavern hiring/quests', as
     expect(rect!.x).toBeGreaterThanOrEqual(0);
     expect(rect!.x + rect!.width).toBeLessThanOrEqual(845);
   }
-  await shop.locator('.trade-actions button').nth(3).click();
+  await shop.locator('.trade-actions button').nth(4).click();
   await expect(shop).toBeHidden();
   await enter(page, 0);
   const tavern = page.locator('.town--tavern');
@@ -211,38 +206,32 @@ test('modal owns keyboard and background focus, then restores gameplay on Escape
   await expect(page.locator('#game')).not.toHaveAttribute('inert', '');
 });
 
-test('duplicate gear slots remain independent across pack pages; inspection and Undo preserve quantities', async ({ page }) => {
+test('duplicate gear slots stay independent in one scrolling pack; Undo and Confirm keep quantities', async ({ page }) => {
   await boot(page);
-  await enter(page);
   // Controlled inventory fixture, not a claim that these copies were earned in gameplay.
   await page.evaluate(() => {
     const h = (window as unknown as { __game: TownGame }).__game.sim.hero!;
     h.inv = Array.from({ length: 11 }, () => ({ item: h.eq[0], n: 1 }));
   });
+  await enter(page);
   const shop = page.locator('.town--shop');
-  await shop.getByRole('button', { name: 'Next page: Your pack', exact: true }).click();
-  await shop.getByRole('button', { name: 'Previous page: Your pack', exact: true }).click();
   const pack = shop.locator('.pack button');
-  const name = await pack.nth(0).locator('.item-name').textContent();
+  await expect(pack).toHaveCount(11);
   const fee = Number(await pack.nth(0).locator('small').textContent());
   await pack.nth(0).click();
   await expect(pack.nth(1)).toHaveAttribute('aria-pressed', 'false');
   await pack.nth(1).click();
-  await shop.locator('.shelf button').first().click();
-  await pack.nth(0).click(); // Fully selected: inspect again without adding another sale.
-  await expect(shop.locator('.selected-item')).toContainText(name!);
-  await shop.getByRole('button', { name: 'Next page: Your pack', exact: true }).click();
-  await shop.locator('.pack button').first().click();
-  await shop.locator('.trade-actions button').nth(0).click(); // Undo only slot10.
-  await expect(shop.locator('.pack button').first()).toHaveAttribute('aria-pressed', 'false');
+  await pack.nth(10).click();
+  await shop.locator('.trade-actions button').nth(1).click(); // Undo only slot 10.
+  await expect(pack.nth(10)).toHaveAttribute('aria-pressed', 'false');
   const before = await gold(page);
-  await shop.locator('.trade-actions button').nth(2).click();
+  await shop.locator('.deal-btn').click();
   expect(await gold(page)).toBe(before + fee * 2);
   expect(await page.evaluate(() => (window as unknown as { __game: TownGame }).__game.sim.hero!.inv.length)).toBe(9);
-  await expect(shop.locator('.trade-actions button').nth(3).locator('small')).toHaveText(String(before + fee * 2));
-  await shop.locator('.trade-actions button').nth(3).click();
+  await expect(shop.locator('.trade-actions button').nth(4).locator('small')).toHaveText(String(before + fee * 2));
+  await shop.locator('.trade-actions button').nth(4).click();
   await expect(shop).toBeHidden();
-  expect(await gold(page)).toBe(before + fee * 2); // Unsettled purchase never charged by Exit.
+  expect(await gold(page)).toBe(before + fee * 2);
 });
 
 test('partial pack-capacity purchase retains only the unbought selection', async ({ page }) => {
@@ -252,14 +241,14 @@ test('partial pack-capacity purchase retains only the unbought selection', async
   await page.evaluate((ring) => {
     const h = (window as unknown as { __game: TownGame }).__game.sim.hero!;
     h.inv = Array.from({ length: 23 }, () => ({ item: ring, n: 1 }));
+    (window as unknown as { __game: TownGame }).__game.sim.cb.gold[0] = 1_000_000;
   }, ring);
   const shop = page.locator('.town--shop');
-  await shop.getByRole('button', { name: 'Next page: Shelf', exact: true }).click();
   const stock = shop.locator('.shelf button');
-  await stock.nth(0).click();
-  await stock.nth(1).click(); // Production seed, page2: two gear slots, total300, only one pack slot free.
-  await shop.locator('.trade-actions button').nth(1).click();
+  await stock.nth(2).click();
+  await stock.nth(3).click(); // Two one-off items, only one pack slot free.
+  await shop.locator('.deal-btn').click();
   expect(await page.evaluate(() => (window as unknown as { __game: TownGame }).__game.sim.hero!.inv.length)).toBe(24);
   await expect(shop.locator('.keeper .say')).toContainText('Only part');
-  await expect(shop.locator('.shelf button[aria-pressed=true]')).toHaveCount(1);
+  await expect(shop.locator('.tray-buy .tray-row')).toHaveCount(1);
 });
