@@ -27,11 +27,12 @@ def convert(m):
     terrain = [TER[c] for r in T for c in r]
     height = [min(3, max(0, int(c))) for r in H for c in r]
     walk = lambda x, y: 0 <= x < w and 0 <= y < h and T[y][x] in WALK
-    free = lambda x, y: walk(x, y)
+    foot = {(b['x'] + i, b['y'] + j) for b in m['buildings'] for i in (0, 1) for j in (0, 1)}
+    free = lambda x, y: walk(x, y) and (x, y) not in foot
 
     def near(x, y, used):
         """nearest free walkable tile not in used (BFS rings)."""
-        for rad in range(0, 8):
+        for rad in range(0, 16):
             for dy in range(-rad, rad + 1):
                 for dx in range(-rad, rad + 1):
                     a, b = x + dx, y + dy
@@ -47,6 +48,13 @@ def convert(m):
     bi = len(objects)
     objects += bld
     tavern = next((i for i, b in enumerate(m['buildings']) if b['role'] == 'tavern'), None)
+    if tavern is None:  # no tavern in the pack: add one beside the first start so mercenaries work
+        s0 = m['starts'][0]
+        for dx, dy in ((5, 3), (3, 5), (-5, 3), (5, -3), (6, 6), (-6, -3)):
+            a, b2 = s0['x'] + dx, s0['y'] + dy
+            if all(0 <= a + i < w and 0 <= b2 + j < h and T[b2 + j][a + i] in WALK for i in (0, 1) for j in (0, 1)):
+                objects.append({'kind': 1, 'x': a, 'y': b2, 'owner': 0, 'hp': 100})
+                tavern = len(bld); break
     shop = next((i for i, b in enumerate(m['buildings']) if b['role'] == 'shop'), None)
 
     used = set(); units = []
@@ -72,6 +80,13 @@ def convert(m):
     for c in m['neutral_camps']:
         pk += 1
         fam = c['family']
+        near_start = min(max(abs(c['x'] - st['x']), abs(c['y'] - st['y'])) for st in m['starts'])
+        if near_start < 12:
+            st = min(m['starts'], key=lambda q: max(abs(c['x'] - q['x']), abs(c['y'] - q['y'])))
+            vx, vy = c['x'] - st['x'], c['y'] - st['y']
+            f = 12 / max(1, max(abs(vx), abs(vy)))   # push the camp out to 12 tiles from the start
+            c = dict(c, x=min(w - 2, max(1, round(st['x'] + vx * f))), y=min(h - 2, max(1, round(st['y'] + vy * f))),
+                     count=min(c['count'], 3), tier=1)
         if fam not in ARCH: raise SystemExit(f'unknown family {fam} in {m["id"]}')
         for _ in range(c['count']):
             x, y = near(c['x'], c['y'], used)
@@ -79,12 +94,20 @@ def convert(m):
                           'tier': min(5, max(1, c['tier'])), 'family': fam})
     if len(units) > 300: raise SystemExit(f'{m["id"]}: {len(units)} units > 300')
 
+    reach = {(hx, hy)}; q = collections.deque([(hx, hy)])
+    while q:
+        cx, cy = q.popleft()
+        for dx, dy in ((1, 0), (-1, 0), (0, 1), (0, -1)):
+            n = (cx + dx, cy + dy)
+            if n not in reach and walk(*n): reach.add(n); q.append(n)
     shrines = []
     for s in m['shrines']:
         if walk(s['x'], s['y']):
             x, y = s['x'], s['y']
         else:
             x, y = near(s['x'], s['y'], set())
+        if (x, y) not in reach:
+            print('  warn: shrine unreachable', m['id'], x, y); continue
         shrines.append({'x': x, 'y': y, 'kind': s['kind'], 'cooldown': 750})
 
     tx = m['text']

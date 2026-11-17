@@ -9,7 +9,8 @@ describe('pack-8 skirmish maps', () => {
     it(`${id} loads, steps 200 ticks and steps without errors`, () => {
       const g = createMission(missionFromName(id), 7);
       expect(g.sim.cb.hp[0]).toBeGreaterThan(0);
-      for (let i = 0; i < 200; i++) g.sim.step(); // unattended hero may die to a close camp: balance, not a load error
+      for (let i = 0; i < 200; i++) g.sim.step();
+      expect(g.sim.cb.hp[0]).toBeGreaterThan(0); // the opening must be survivable unattended
       expect(g.loaded.doc.w).toBeGreaterThanOrEqual(48);
     });
   }
