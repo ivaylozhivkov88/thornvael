@@ -238,20 +238,20 @@
     {
       "path": "public/sprites/mage.png",
       "license": "own",
-      "source": "tools/generate-hero-sprites.py",
-      "note": "Original high-resolution Valerius grand wizard battlefield hero model (silver beard, indigo robes, ceremonial mantle, glowing astral rune staff); 48px, 16 directions, stand4/walk8/attack4/cast4/hurt2/die4, RGB masks. Generated 2026-11-16."
+      "source": "tools/render-mesh-unit.py + tools/mesh-units/mage.py + tools/pack-atlas.py",
+      "note": "Mage rendered in Blender 5.2 from a heavily modified, re-posed and recoloured derivative of a fan-made 3D reference mesh (kept outside the repo, never committed) plus our own primitive robe, bent hat and staff; 96px, 16 directions, stand4/walk8/attack4/cast4/hurt2/die4, RGB masks. Generated 2026-11-17; reproduce with tools/mesh-queue.py."
     },
     {
       "path": "public/sprites/mage-mask.png",
       "license": "own",
-      "source": "tools/generate-hero-sprites.py",
-      "note": "Original high-resolution Valerius grand wizard battlefield hero model (silver beard, indigo robes, ceremonial mantle, glowing astral rune staff); 48px, 16 directions, stand4/walk8/attack4/cast4/hurt2/die4, RGB masks. Generated 2026-11-16."
+      "source": "tools/render-mesh-unit.py + tools/mesh-units/mage.py + tools/pack-atlas.py",
+      "note": "Mage rendered in Blender 5.2 from a heavily modified, re-posed and recoloured derivative of a fan-made 3D reference mesh (kept outside the repo, never committed) plus our own primitive robe, bent hat and staff; 96px, 16 directions, stand4/walk8/attack4/cast4/hurt2/die4, RGB masks. Generated 2026-11-17; reproduce with tools/mesh-queue.py."
     },
     {
       "path": "public/sprites/mage.json",
       "license": "own",
-      "source": "tools/render-unit.py + tools/pack-atlas.py",
-      "note": "Original articulated mage PILOT model; Blender 5.2.3 LTS, 48px, 16 directions, stand4/walk8/attack4/cast4/hurt2/die4, RGB masks, fixed camera3.0. Reproduce: docs/UNIT-ART.md"
+      "source": "tools/render-mesh-unit.py + tools/mesh-units/mage.py + tools/pack-atlas.py",
+      "note": "Mage rendered in Blender 5.2 from a heavily modified, re-posed and recoloured derivative of a fan-made 3D reference mesh (kept outside the repo, never committed) plus our own primitive robe, bent hat and staff; 96px, 16 directions, stand4/walk8/attack4/cast4/hurt2/die4, RGB masks. Generated 2026-11-17; reproduce with tools/mesh-queue.py."
     },
     {
       "path": "public/sprites/gnoll.png",

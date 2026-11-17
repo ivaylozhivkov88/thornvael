@@ -9,6 +9,11 @@
     "seconds": 197,
     "status": "done"
   },
+  "mage": {
+    "cell": 96,
+    "seconds": 131,
+    "status": "done"
+  },
   "warrior": {
     "cell": 96,
     "status": "done"
