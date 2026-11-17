@@ -632,7 +632,7 @@ export function transmuteItems(inv: { item: number; n: number }[], itemIds: numb
   // Register dynamic result item or find existing ID
   let resId = itemId(match.result.name);
   if (resId < 0) {
-    resId = DYNAMIC_ITEM_OFFSET + Math.floor(Math.random() * 900000);
+    resId = DYNAMIC_ITEM_OFFSET + 1000000 + (nameHash(match.result.name) % 900000);
     registerDynamicItem(resId, match.result);
   }
 
@@ -657,6 +657,13 @@ export interface ItemInstance {
 }
 
 export const DYNAMIC_ITEM_OFFSET = 1000;
+
+/** Deterministic FNV-1a hash so dynamic result ids never depend on RNG. */
+function nameHash(name: string): number {
+  let h = 2166136261;
+  for (let i = 0; i < name.length; i++) h = Math.imul(h ^ name.charCodeAt(i), 16777619);
+  return h >>> 0;
+}
 const DYNAMIC_ITEMS: Map<number, ItemDef> = new Map();
 
 export function registerDynamicItem(id: number, def: ItemDef): void {
