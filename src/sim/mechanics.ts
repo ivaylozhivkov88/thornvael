@@ -396,3 +396,26 @@ export function mitigateDamage(damage: number, m: MitigationInput): number {
   }
   return Math.floor(d + 1e-9);
 }
+
+/** Running is 50% faster than walking before the armour penalty. */
+export const RUN_SPEED_PCT = 150;
+/** Stamina per tick: running drains, otherwise it recovers (standing recovers twice as fast). */
+export const STAMINA_DRAIN = 1;
+export const STAMINA_REGEN_WALK = 1;
+export const STAMINA_REGEN_IDLE = 2;
+/** Maximum stamina from Body (attr 0): about 9 seconds of running at 25 ticks per second at Body 0. */
+export const staminaMax = (body: number): number => 225 + 10 * Math.max(0, body);
+/** After running dry the hero may run again once a quarter of the pool is back. */
+export const staminaResumeAt = (max: number): number => Math.floor(max / 4);
+
+/** Run-speed penalty in percent points by armour tier: light (1-2) none, medium (3) -5, heavy (4+) -10. */
+export function armourRunPenalty(tier: number): number {
+  if (tier >= 4) return -10;
+  if (tier === 3) return -5;
+  return 0;
+}
+
+/** Hero speed percent of walking speed: 100 walking, 150 running, less armour penalty. */
+export function heroSpeedPct(running: boolean, armourTier: number): number {
+  return running ? RUN_SPEED_PCT + armourRunPenalty(armourTier) : 100;
+}

@@ -27,6 +27,7 @@ import { dir16 } from './sim/path';
 import { D2InteractionController, type D2Interactable } from './sim/movement';
 import { DAY_TICKS, clockText } from './sim/daynight';
 import { HeroUi, tabStrip } from './heroui';
+import { staminaMax } from './sim/mechanics';
 import { SKILL_NAMES, WHY_TEXT, createHero, takeItem, type HeroSkillId } from './sim/hero';
 import { Cls, getItemDef, itemId, itemText, Ik, Slot } from './sim/items';
 import {
@@ -847,10 +848,25 @@ function updateGothicHud(): void {
     }
   }
 
+  const runBtn = document.getElementById('btn-run');
+  if (runBtn && sim.hero) {
+    const on = sim.hero.running === true;
+    const pct = Math.round(((sim.hero.stamina ?? staminaMax(sim.hero.attr[0])) * 100) / staminaMax(sim.hero.attr[0]));
+    runBtn.setAttribute('aria-pressed', on ? 'true' : 'false');
+    runBtn.classList.toggle('on', on);
+    const lbl = document.getElementById('run-label');
+    if (lbl) lbl.textContent = on ? `Run ${pct}%` : pct < 100 ? `Walk ${pct}%` : 'Walk';
+  }
+
   const statsEl = document.getElementById('stats');
   if (statsEl) {
     statsEl.textContent = `Gold: ${sim.cb.gold[0] ?? 0}  Foes: ${sim.cb.alive[1] ?? 0}`;
   }
+}
+
+function toggleRun(): void {
+  if (!sim.hero) return;
+  queue({ type: 'hero', op: 'run', on: sim.hero.running !== true });
 }
 
 function initGothicHud(): void {
@@ -903,6 +919,8 @@ function initGothicHud(): void {
   if (btnAlt) btnAlt.onclick = toggleLootMode;
   const btnMenu = document.getElementById('btn-menu');
   if (btnMenu) btnMenu.onclick = togglePauseMenu;
+  const btnRun = document.getElementById('btn-run');
+  if (btnRun) btnRun.onclick = toggleRun;
 
   const questClose = document.getElementById('quest-close');
   if (questClose) questClose.onclick = () => { const q = document.getElementById('quest-modal'); if (q) q.hidden = true; };
@@ -1437,6 +1455,10 @@ window.addEventListener('keydown', (e) => {
 
   const code = e.code;
   const keyLower = e.key.toLowerCase();
+  if (code === 'KeyR' && !e.repeat && !e.ctrlKey && !e.metaKey) {
+    toggleRun();
+    return;
+  }
   const isMoveKey =
     code === 'KeyW' || code === 'KeyA' || code === 'KeyS' || code === 'KeyD' ||
     code === 'ArrowUp' || code === 'ArrowLeft' || code === 'ArrowDown' || code === 'ArrowRight' ||

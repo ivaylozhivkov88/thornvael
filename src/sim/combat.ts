@@ -481,7 +481,7 @@ function heroBlocks(sim: Sim): boolean {
   const d = getItemDef(sid);
   if (!d) return false;
   const agi = h.attr[1];
-  const chance = calculateBlockChance(20 + d.tier * 8, 0, agi * 3 + 12, h.level ?? 1);
+  const chance = calculateBlockChance(20 + d.tier * 8, 0, agi * 3 + 12, h.level ?? 1, h.running === true && sim.moving[h.id] !== 0);
   return chance > 0 && sim.rng.int(100) < chance;
 }
 

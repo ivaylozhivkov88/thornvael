@@ -1,4 +1,4 @@
-import { calculateMaxrollEffectiveMF } from './mechanics';
+import { STAMINA_DRAIN, STAMINA_REGEN_IDLE, STAMINA_REGEN_WALK, calculateMaxrollEffectiveMF, staminaMax, staminaResumeAt } from './mechanics';
 import { DEFS, Elem, M, MODN, Ord, MAXS, strike } from './combat';
 import { rulesOf } from './difficulty';
 import { getDifficultyCalibration } from './balance';
@@ -54,6 +54,10 @@ export interface HeroState {
   skillCd?: Record<string, number>;
   name?: string;
   activeAura?: string;
+  /** Run toggle (absent = walking, old saves). */
+  running?: boolean;
+  /** Current stamina; absent = full. */
+  stamina?: number;
 }
 
 export const MAX_SPELL_RANK = 10;
@@ -95,6 +99,7 @@ export type HeroCommand =
   | { type: 'hero'; op: 'equip' | 'unequip' | 'use' | 'drop'; item?: number; slot?: number; expectedEquipment?: string }
   | { type: 'hero'; op: 'stat'; attr: number }
   | { type: 'hero'; op: 'rank'; spell: number }
+  | { type: 'hero'; op: 'run'; on: boolean }
   | { type: 'hero'; op: 'skill'; skill: HeroSkillId; x?: number; y?: number; target?: number }
   | { type: 'hero'; op: 'aura'; aura?: string };
 
@@ -115,8 +120,8 @@ export function equipmentStamp(h: HeroState, action: EquipmentAction): string {
 }
 
 /** Why an action was refused (fx type 15, v = reason). */
-export const Why = { Class: 1, Need: 2, Known: 3, Full: 4, Heavy: 5, Dead: 6, None: 7, NoEffect: 8, Gold: 9, Far: 10, Busy: 11, Unidentified: 12 } as const;
-export const WHY_TEXT = ['', 'Wrong class for this item.', 'Attribute too low for this item.', 'You already know that spell.', 'The pack is full.', 'Too heavy to carry.', 'The hero has fallen.', 'You do not have that.', 'It would have no effect now.', 'Not enough gold.', 'Walk closer to go in.', 'You already carry three quests.', 'Item must be identified before equipping.'] as const;
+export const Why = { Class: 1, Need: 2, Known: 3, Full: 4, Heavy: 5, Dead: 6, None: 7, NoEffect: 8, Gold: 9, Far: 10, Busy: 11, Unidentified: 12, Tired: 13 } as const;
+export const WHY_TEXT = ['', 'Wrong class for this item.', 'Attribute too low for this item.', 'You already know that spell.', 'The pack is full.', 'Too heavy to carry.', 'The hero has fallen.', 'You do not have that.', 'It would have no effect now.', 'Not enough gold.', 'Walk closer to go in.', 'You already carry three quests.', 'Item must be identified before equipping.', 'Too winded to run.'] as const;
 /** Item events (fx type 14, v = item id, el = what happened). */
 export const Did = { Pick: 0, Equip: 1, Use: 2, Learn: 3, Drop: 4, Unequip: 5 } as const;
 
@@ -526,8 +531,30 @@ export function addHeroXp(sim: Sim, amount: number): boolean {
   return leveled;
 }
 
+/** Stamina pool and run state for one tick. Absent fields mean full stamina and walking, so old replays are unchanged. */
+export function staminaTick(sim: Sim, h: HeroState): void {
+  const max = staminaMax(h.attr[0]);
+  const cur = h.stamina ?? max;
+  const moving = sim.moving[h.id] !== 0;
+  if (h.running && moving) {
+    const next = Math.max(0, cur - STAMINA_DRAIN);
+    if (next <= 0) h.running = false;
+    h.stamina = next;
+  } else if (cur < max) {
+    h.stamina = Math.min(max, cur + (moving ? STAMINA_REGEN_WALK : STAMINA_REGEN_IDLE));
+    if (h.stamina >= max) delete h.stamina;
+  }
+}
+
+/** The hero is running right now: toggled on and actually moving. */
+export function heroRunning(sim: Sim): boolean {
+  const h = sim.hero;
+  return h !== null && h.running === true && sim.moving[h.id] !== 0;
+}
+
 export function heroTick(sim: Sim): void {
   const h = sim.hero;
+  if (h && (h.running || h.stamina !== undefined)) staminaTick(sim, h);
   if (!h || !h.skillCd) return;
   for (const k in h.skillCd) {
     if (h.skillCd[k] > 0) h.skillCd[k]--;
@@ -872,6 +899,14 @@ export function heroCommand(sim: Sim, cmd: HeroCommand): void {
       if (cmd.skill) {
         executeHeroSkill(sim, cmd.skill, cmd.x, cmd.y, cmd.target);
       }
+      return;
+    }
+    case 'run': {
+      if (cmd.on) {
+        const max = staminaMax(h.attr[0]);
+        if ((h.stamina ?? max) < staminaResumeAt(max)) return refuse(sim, Why.Tired);
+      }
+      h.running = cmd.on ? true : undefined;
       return;
     }
     case 'aura': {
@@ -1266,6 +1301,8 @@ export function hashHero(h: HeroState | null, mix: (v: number) => void): void {
   if ((h.xp ?? 0) > 0) mix(h.xp!);
   if ((h.statPoints ?? 0) > 0) mix(h.statPoints!);
   if ((h.skillPoints ?? 0) > 0) mix(h.skillPoints!);
+  if (h.running) mix(0x5a17);
+  if (h.stamina !== undefined) mix(0x57a0 + h.stamina);
   if (h.spellRank) h.spellRank.forEach((r, i) => { if (r > 0) mix(i * 16 + r); }); // zero keeps older hashes unchanged
   if (h.skillCd) {
     for (const k of Object.keys(h.skillCd).sort()) {

@@ -9,7 +9,8 @@ import { FP, Pather, dir16, isChokepoint, lineClear, regionsOf, speedPct } from 
 import { Rng } from './rng';
 import type { ScriptRuntime, ScriptState } from './script';
 import { buildTowns, checkQuests, cloneTown, hashTown, newTownState, townCommand, type TownCommand, type TownDef, type TownRt, type TownState } from './town';
-import { DYNAMIC_ITEM_OFFSET, getItemDef, registerDynamicItem, unregisterDynamicItem, ITEMS, type ItemDef, type ItemInstance } from './items';
+import { DYNAMIC_ITEM_OFFSET, Slot, getItemDef, registerDynamicItem, unregisterDynamicItem, ITEMS, type ItemDef, type ItemInstance } from './items';
+import { heroSpeedPct } from './mechanics';
 import { stepAuraSystem } from './auras';
 
 export { FP };
@@ -923,7 +924,11 @@ export class Sim {
     const st = this.cb.stMask[i] === 0 ? 100 : statusSpeed(this.cb.stMask[i]);
     const extraFastMult = this.cb.bossMods[i]?.includes('extra_fast') ? 130 : 100;
     const baseSpd = Math.floor((UNIT_SPEED * pct * DEFS[this.cb.kind[i]].speed * st * extraFastMult) / 100000000);
-    const spd = this.cb.ord[i] === Ord.Retreat ? Math.floor((baseSpd * 75) / 100) : baseSpd;
+    let spd = this.cb.ord[i] === Ord.Retreat ? Math.floor((baseSpd * 75) / 100) : baseSpd;
+    if (this.hero !== null && i === this.hero.id && this.hero.running) {
+      const armour = getItemDef(this.hero.eq[Slot.Armor]);
+      spd = Math.floor((spd * heroSpeedPct(true, armour?.tier ?? 0)) / 100);
+    }
     let tgx = this.tx[i];
     let tgy = this.ty[i];
     const pid = this.pathId[i];
