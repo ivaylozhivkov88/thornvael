@@ -11,12 +11,34 @@ export async function loadMissionContent(map: string | null): Promise<MissionCon
   if (!map) return null;
   try {
     const base = import.meta.env.BASE_URL;
-    const [camp, all] = await Promise.all([
+    const [camp, all, bosses, endings] = await Promise.all([
       fetch(`${base}data/campaign.json`).then((r) => r.json()),
       fetch(`${base}data/content/missions.json`).then((r) => r.json()),
+      fetch(`${base}data/content/bosses.json`).then((r) => r.json()).catch(() => ({})),
+      fetch(`${base}data/content/act-endings.json`).then((r) => r.json()).catch(() => []),
     ]);
-    const node = (camp.nodes as { id: string; map?: string }[]).find((n) => n.map === map);
-    return (node && all[node.id]) || null;
+    const nodes = camp.nodes as { id: string; map?: string; act?: number; kind?: string }[];
+    const node = nodes.find((n) => n.map === map);
+    if (!node) return null;
+    const base0: MissionContent = { ...(all[node.id] ?? {}) };
+    const boss = Object.values(bosses as Record<string, { mission: string; pre_fight?: Scene[]; death_scene?: Scene[]; hero_reaction?: string }>).find((b) => b.mission === node.id);
+    if (boss) {
+      base0.intro_scene = [...(base0.intro_scene ?? []), ...(boss.pre_fight ?? [])];
+      const reaction = boss.hero_reaction ? [{ speaker: 'hero', line: boss.hero_reaction }] : [];
+      base0.victory_epilogue = [...(base0.victory_epilogue ?? []), ...(boss.death_scene ?? []), ...reaction];
+    }
+    // The last mission of an act closes it with the act-ending text.
+    const missions = nodes.filter((n) => n.kind === 'mission' && n.act === node.act);
+    const end = (endings as { act: number; title: string; text: string; cliffhanger?: string }[]).find((e) => e.act === node.act);
+    if (end && missions[missions.length - 1]?.id === node.id) {
+      base0.victory_epilogue = [
+        ...(base0.victory_epilogue ?? []),
+        { speaker: 'narrator', line: `${end.title}
+${end.text}${end.cliffhanger ? `
+${end.cliffhanger}` : ''}` },
+      ];
+    }
+    return Object.keys(base0).length ? base0 : null;
   } catch {
     return null;
   }
