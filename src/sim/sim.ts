@@ -163,7 +163,7 @@ export class Sim {
   }
 
   getItemDef(id: number): ItemDef | undefined {
-    if (id < DYNAMIC_ITEM_OFFSET) return ITEMS[id];
+    if (id < DYNAMIC_ITEM_OFFSET) return getItemDef(id);
     return this.instances.get(id)?.def ?? getItemDef(id);
   }
 

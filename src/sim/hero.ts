@@ -2,7 +2,7 @@ import { STAMINA_DRAIN, STAMINA_REGEN_IDLE, STAMINA_REGEN_WALK, calculateMaxroll
 import { DEFS, Elem, M, MODN, Ord, MAXS, strike } from './combat';
 import { rulesOf } from './difficulty';
 import { getDifficultyCalibration } from './balance';
-import { ATTR_NAMES, CLS_MAGE, CLS_WARRIOR, Cls, ITEMS, Ik, LOOT_RULES, PART_COUNT, SLOT_COUNT, Slot, getItemDef, getUnidentifiedName, itemId, rollLoot, type ItemDef } from './items';
+import { ATTR_NAMES, CLS_MAGE, CLS_WARRIOR, Cls, ITEMS, Ik, LOOT_RULES, PART_COUNT, SIGIL_NAMES, SLOT_COUNT, Slot, WRIT_NAME, getItemDef, getUnidentifiedName, itemId, rollLoot, type ItemDef } from './items';
 import { calculateActiveSetBonuses, ALL_SET_ITEMS } from './sets';
 import { UNIQUE_ARTIFACTS, rollMagicItem, rollRareItem } from './affixes';
 import { St } from './spelldata';
@@ -58,6 +58,8 @@ export interface HeroState {
   running?: boolean;
   /** Current stamina; absent = full. */
   stamina?: number;
+  /** Pinnacle Writ used: the vault is open. */
+  pinnacle?: boolean;
 }
 
 export const MAX_SPELL_RANK = 10;
@@ -460,6 +462,10 @@ function useItem(sim: Sim, item: number): void {
   } else if (d.grow > 0) {
     h.attr[d.grow - 1]++;
     recalc(sim);
+  } else if (d.kind === Ik.Key) {
+    if (d.name !== WRIT_NAME) return refuse(sim, Why.NoEffect);
+    h.pinnacle = true;
+    cb.emit(9, sim.x[i], sim.y[i], 98, 0);
   } else if (d.kind === Ik.Portal) {
     cb.emit(9, sim.x[i], sim.y[i], 99, 0);
   } else if (d.kind === Ik.Identify) {
@@ -1173,7 +1179,8 @@ export function dropLoot(sim: Sim, t: number): void {
   const monsterTier = sim.cb.tier[t] || 1;
   const mf = getHeroMF(sim);
   const fam = sim.cb.family[t];
-  const isActBoss = fam === 'morvessa' || fam === 'gorrathul' || fam === 'vesperion' || fam === 'ashkarath';
+  const isPinnacle = rank === 'boss' && fam === 'hollow-king' && (sim.cb.bossMods[t]?.length ?? 0) >= 3;
+  const isActBoss = isPinnacle || fam === 'morvessa' || fam === 'gorrathul' || fam === 'vesperion' || fam === 'ashkarath';
 
   let picks = 1;
   if (isActBoss) {
@@ -1263,6 +1270,17 @@ export function dropLoot(sim: Sim, t: number): void {
       break;
     }
   }
+  // Hard elites carry sigils for the endgame cube recipe.
+  if (diff === 2 && rank !== 'normal' && !isPinnacle && sim.rng.int(100) < (rank === 'boss' ? 60 : 20)) {
+    const kid = itemId(SIGIL_NAMES[sim.rng.int(SIGIL_NAMES.length)]);
+    for (let b = 0; b < cb.bI.length; b++) {
+      if (cb.bI[b]) continue;
+      cb.bX[b] = sim.x[t] - 40;
+      cb.bY[b] = sim.y[t] - 20;
+      cb.bI[b] = kid + 1;
+      break;
+    }
+  }
 }
 
 export function cloneHero(h: HeroState | null): HeroState | null {
@@ -1301,6 +1319,7 @@ export function hashHero(h: HeroState | null, mix: (v: number) => void): void {
   if ((h.xp ?? 0) > 0) mix(h.xp!);
   if ((h.statPoints ?? 0) > 0) mix(h.statPoints!);
   if ((h.skillPoints ?? 0) > 0) mix(h.skillPoints!);
+  if (h.pinnacle) mix(0x91ac);
   if (h.running) mix(0x5a17);
   if (h.stamina !== undefined) mix(0x57a0 + h.stamina);
   if (h.spellRank) h.spellRank.forEach((r, i) => { if (r > 0) mix(i * 16 + r); }); // zero keeps older hashes unchanged

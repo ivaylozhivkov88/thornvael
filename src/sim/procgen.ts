@@ -187,3 +187,53 @@ export function generateDepthsLevel(opts: DepthsOptions): MapDoc {
   if (errs.length > 0) throw new Error(`Generated depths level failed validation:\n${errs.join('\n')}`);
   return doc;
 }
+
+/** The Pinnacle Vault: one open arena, one original boss with three modifiers (that marks the guaranteed drop). */
+export function generatePinnacleArena(opts: { seed: number }): MapDoc {
+  const rng = new Rng((opts.seed ^ 0x51ed270b) >>> 0);
+  const w = 48;
+  const h = 48;
+  const terrain = new Uint8Array(w * h).fill(Terrain.Rock);
+  const height = new Uint8Array(w * h).fill(1);
+  for (let y = 8; y < 40; y++) for (let x = 8; x < 40; x++) if ((x - 24) * (x - 24) + (y - 24) * (y - 24) <= 17 * 17) terrain[y * w + x] = Terrain.Dirt;
+  const mods: string[] = [...BOSS_MOD_IDS];
+  const picked: string[] = [];
+  for (let i = 0; i < 3; i++) picked.push(mods.splice(rng.int(mods.length), 1)[0]);
+  const units: UnitDef[] = [
+    { kind: Kind.Hero, team: 0, x: 24, y: 36, vip: true },
+    { kind: Kind.Warrior, team: 0, x: 23, y: 36 },
+    { kind: Kind.Archer, team: 0, x: 25, y: 36 },
+    { kind: Kind.Golem, team: 1, x: 24, y: 12, group: 2, pack: 1, vip: true, tier: 5, family: 'hollow-king', bossMods: picked },
+  ];
+  for (const [ox, oy] of [[-3, 2], [3, 2], [-5, 0], [5, 0]]) units.push({ kind: Kind.Gnoll, team: 1, x: 24 + ox, y: 12 + oy, group: 2, pack: 1, tier: 4, family: 'hollow-knight' });
+  const doc: MapDoc = {
+    format: MAP_FORMAT,
+    version: MAP_VERSION,
+    name: 'Pinnacle Vault',
+    w,
+    h,
+    terrain: rleEncode(terrain),
+    height: rleEncode(height),
+    objects: [],
+    units,
+    regions: [{ name: 'Vault', x1: 8, y1: 8, x2: 40, y2: 40 }],
+    players: ['Delvers', 'Monsters', 'Neutral', 'Allies'],
+    triggers: [
+      { id: 'briefing', once: true, enabled: true, conds: [{ a: { k: 'yes', a: [] }, op: 0, b: { k: 'constant', a: [1] } }], acts: [{ k: 'message', a: [1] }] },
+      { id: 'pinnacle-slain', once: true, enabled: true, conds: [{ a: { k: 'unitAlive', a: [3] }, op: 0, b: { k: 'constant', a: [0] } }], acts: [{ k: 'win', a: [] }] },
+      { id: 'hero-fallen', once: true, enabled: true, conds: [{ a: { k: 'unitAlive', a: [0] }, op: 0, b: { k: 'constant', a: [0] } }], acts: [{ k: 'lose', a: [1] }] },
+    ],
+    text: {
+      title: 'Pinnacle Vault',
+      body: 'Three sigils opened a door that was never meant to be opened. The thing behind it has waited a long time.',
+      'obj.0': 'Slay the Hollow Sovereign',
+      'msg.1': 'The floor is warm. Something is breathing under it.',
+      'msg.1.who': 'Your Own Thoughts',
+      win: 'The Sovereign is dead. What it guarded is yours.',
+      'fail.1': 'Your hero has fallen in the vault.',
+    },
+  };
+  const errs = validate(doc);
+  if (errs.length > 0) throw new Error(`Generated pinnacle arena failed validation: ${errs.join('; ')}`);
+  return doc;
+}

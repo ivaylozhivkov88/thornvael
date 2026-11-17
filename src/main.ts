@@ -131,6 +131,16 @@ if (!resumed && !loadedMission && depthsSeed && !crowd && !stress && !battle) {
     missionError = (e as Error).message;
   }
 }
+const pinnacleSeed = params.get('pinnacle');
+if (!resumed && !loadedMission && pinnacleSeed && !crowd && !stress && !battle) {
+  try {
+    const { generatePinnacleArena } = await import('./sim/procgen');
+    const { loadDoc } = await import('./mapdoc');
+    loadedMission = loadDoc(generatePinnacleArena({ seed: Number.parseInt(pinnacleSeed, 10) || 12345 }));
+  } catch (e) {
+    missionError = (e as Error).message;
+  }
+}
 // Campaign node: the record holds the hero pick, difficulty and what the hero carries in.
 const campaignId = resumed ? resumed.save.state.node ?? null : params.get('campaign');
 let campaign: Campaign | null = null;
@@ -870,6 +880,9 @@ function updateGothicHud(): void {
     if (lbl) lbl.textContent = on ? `Run ${pct}%` : pct < 100 ? `Walk ${pct}%` : 'Walk';
   }
 
+  const pinBtn = document.getElementById('btn-pinnacle');
+  if (pinBtn) pinBtn.hidden = sim.hero?.pinnacle !== true;
+
   const statsEl = document.getElementById('stats');
   if (statsEl) {
     statsEl.textContent = `Gold: ${sim.cb.gold[0] ?? 0}  Foes: ${sim.cb.alive[1] ?? 0}`;
@@ -933,6 +946,8 @@ function initGothicHud(): void {
   if (btnMenu) btnMenu.onclick = togglePauseMenu;
   const btnRun = document.getElementById('btn-run');
   if (btnRun) btnRun.onclick = toggleRun;
+  const btnPin = document.getElementById('btn-pinnacle');
+  if (btnPin) btnPin.onclick = () => { location.assign(`./?pinnacle=${(sim.rng.state >>> 1) || 1}&hero=${encodeURIComponent(params.get('hero') ?? 'warrior,m,hard')}`); };
 
   const questClose = document.getElementById('quest-close');
   if (questClose) questClose.onclick = () => { const q = document.getElementById('quest-modal'); if (q) q.hidden = true; };

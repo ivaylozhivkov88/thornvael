@@ -29,6 +29,20 @@ import {
 import { ALL_RUNES, applyRunewordToItem, getRuneByName, matchRuneword } from './runes';
 import { transmuteCube } from './cube';
 
+/** Endgame keys: dropped by hard elites. Three different sigils in the cube make a Pinnacle Writ. */
+export const SIGIL_NAMES = ['Sigil of Ash', 'Sigil of Hollow', 'Sigil of Tide'] as const;
+export const WRIT_NAME = 'Pinnacle Writ';
+const keyItem = (name: string, lore: string): ItemDef => ({
+  name, kind: Ik.Key, slot: -1, tier: 5, w: 1, cls: CLS_BOTH, need: 0, needv: 0, min: 0, max: 0, acc: 0, cover: 0, def: 0, abs: 0,
+  res: [0, 0, 0, 0, 0], attr: [0, 0, 0, 0], hp: 0, mana: 0, pow: 0, heal: 0, restore: 0, grow: 0, spell: -1, rarity: 'unique', lore,
+});
+const KEY_ITEMS: readonly ItemDef[] = [
+  keyItem(SIGIL_NAMES[0], 'A disc of cold ash that still remembers a fire.'),
+  keyItem(SIGIL_NAMES[1], 'Hollow in the middle. Something used to sit there.'),
+  keyItem(SIGIL_NAMES[2], 'Wet to the touch, though it has never been near water.'),
+  keyItem(WRIT_NAME, 'Use it to open the way to the Pinnacle Vault. Do not bring anything you want back.'),
+];
+
 export const SPECIAL_ITEMS: readonly ItemDef[] = [
   {
     name: 'Scroll of Town Portal',
@@ -356,6 +370,7 @@ export const SPECIAL_ITEMS: readonly ItemDef[] = [
     rarity: 'magic',
     lore: `Rune #${r.id} (${r.d2Name}). Socket into weapons, armor, or shields, or combine in the Transmutation Cube.`,
   })),
+  ...KEY_ITEMS,
 ];
 
 export const SPECIAL_ITEM_OFFSET = 500;
@@ -487,6 +502,11 @@ export function canTransmute(items: readonly ItemDef[]): { recipe: string; resul
   const cubeRes = transmuteCube(items);
   if (cubeRes) return cubeRes;
 
+  // Endgame: three different sigils -> one Pinnacle Writ
+  if (items.length === 3 && items.every((x) => x.kind === Ik.Key && (SIGIL_NAMES as readonly string[]).includes(x.name)) && new Set(items.map((x) => x.name)).size === 3) {
+    const writ = SPECIAL_ITEMS.find((s) => s.name === WRIT_NAME);
+    if (writ) return { recipe: '3 different Sigils -> Pinnacle Writ', result: writ };
+  }
   if (items.length !== 3) return null;
 
   // Recipe 1: 3 identical potions -> 1 higher potion
@@ -788,7 +808,7 @@ export function itemText(id: number): string {
   const d = getItemDef(id);
   if (!d) return 'Unknown Item';
   const p: string[] = [];
-  const kind = d.kind === Ik.Gear ? SLOT_NAMES[d.slot] : d.kind === Ik.Potion ? 'Potion' : d.kind === Ik.Gem ? 'Gem' : d.kind === Ik.Portal ? 'Portal' : d.kind === Ik.Identify ? 'Scroll' : d.w > 1 ? 'Tome' : 'Scroll';
+  const kind = d.kind === Ik.Gear ? SLOT_NAMES[d.slot] : d.kind === Ik.Potion ? 'Potion' : d.kind === Ik.Gem ? 'Gem' : d.kind === Ik.Portal ? 'Portal' : d.kind === Ik.Identify ? 'Scroll' : d.kind === Ik.Key ? 'Key' : d.w > 1 ? 'Tome' : 'Scroll';
   p.push(`${d.name} (${kind}, level ${d.tier}, weight ${d.w})`);
   if (d.unidentified) {
     p.push('Unidentified Magical Relic');
