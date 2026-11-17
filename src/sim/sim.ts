@@ -150,8 +150,15 @@ export class Sim {
 
   createItemInstance(baseId: number, quality: 'magic' | 'rare' | string, def: ItemDef): ItemInstance {
     const id = this.nextInstanceId++;
+    // Serial: uint32 mixed from the rng state and the id. It reads the stream without advancing it, so
+    // existing replays and hashes stay exactly as they were.
+    const used = new Set<number>();
+    for (const o of this.instances.values()) if (o.serial !== undefined) used.add(o.serial);
+    let serial = Math.imul(this.rng.state ^ Math.imul(id, 0x9e3779b1), 0x85ebca6b) >>> 0;
+    while (used.has(serial)) serial = (serial + 0x6d2b79f5) >>> 0;
     const inst: ItemInstance = {
       id,
+      serial,
       baseId,
       quality,
       name: def.name,

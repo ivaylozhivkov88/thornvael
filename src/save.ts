@@ -5,6 +5,7 @@ import { loadDoc, type MapDoc } from './mapdoc';
 import { createMission, type MissionGame } from './mission';
 import type { MonsterAiExtra } from './sim/bot';
 import type { Snapshot } from './sim/sim';
+import { hasDuplicateInstance } from './sim/items';
 
 /**
  * Save files. A save holds the whole map document, the seed, the sim snapshot, the monster AI state
@@ -161,6 +162,7 @@ export function migrateSave(raw: unknown): SaveFile {
     // Version 5 adds procedural affix instances in snapshot and carryover.
     s.saveVersion = 5;
   }
+  if (hasDuplicateInstance(s.state.snap.instances ?? []) || hasDuplicateInstance(s.state.carry?.items ?? [])) throw new Error('This save has duplicated items.');
   if (s.state.campaign !== undefined) {
     s.state.campaign = campaignSnapshot(s.state.campaign);
     if (!s.state.node || !s.state.campaign.progress.unlocked.includes(s.state.node)) throw new Error('This save does not match its campaign.');

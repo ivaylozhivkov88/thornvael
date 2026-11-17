@@ -674,6 +674,23 @@ export interface ItemInstance {
   readonly name: string;
   readonly def: ItemDef;
   readonly affixes?: readonly string[];
+  /** uint32 serial number, unique per instance; absent on instances from older saves. */
+  readonly serial?: number;
+}
+
+/** True when two instances share an id or a serial number: a copied (duplicated) item. */
+export function hasDuplicateInstance(list: readonly ItemInstance[]): boolean {
+  const ids = new Set<number>();
+  const serials = new Set<number>();
+  for (const i of list) {
+    if (ids.has(i.id)) return true;
+    ids.add(i.id);
+    if (i.serial !== undefined) {
+      if (serials.has(i.serial)) return true;
+      serials.add(i.serial);
+    }
+  }
+  return false;
 }
 
 export const DYNAMIC_ITEM_OFFSET = 1000;
