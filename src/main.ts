@@ -232,6 +232,8 @@ let armed: ArmKind | null = null;
 let outcome: 'win' | 'lose' | null = null;
 let boxDrag: View['box'] = null;
 let ping: { x: number; y: number; t: number } | null = null;
+/** Quest goal set by the journal's Navigate button; stays marked until the hero arrives. */
+let questGoal: { x: number; y: number } | null = null;
 let hover: View['hover'] = null;
 const mods = { alt: false, ctrl: false };
 
@@ -2022,6 +2024,7 @@ const missionUi = loadedMission
         }
         renderer.centerOn(tx, ty);
         ping = { x: tx, y: ty, t: performance.now() };
+        questGoal = { x: tx, y: ty };
         try {
           blip();
         } catch {}
@@ -3405,6 +3408,10 @@ function frame(): void {
     renderer.camY = cameraController.camY;
     renderer.clamp();
   }
+  if (questGoal && sim.hero !== null && alive(0) && Math.hypot(sim.x[0] / FP - questGoal.x, sim.y[0] / FP - questGoal.y) < 2.5) {
+    toast('🧭 You have arrived');
+    questGoal = null;
+  }
   const age = ping ? (now - ping.t) / 600 : 2;
   if (age >= 1) ping = null;
   const t0 = performance.now();
@@ -3415,6 +3422,7 @@ function frame(): void {
     selected,
     box: boxDrag,
     ping: ping ? { x: ping.x, y: ping.y, age } : null,
+    goal: questGoal,
     hover,
     hoverUnit: hoveredUnit,
     aim: armed === 'spell' ? aimView : null,

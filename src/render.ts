@@ -264,6 +264,8 @@ export interface View {
   selected: ReadonlySet<number>;
   box: { x0: number; y0: number; x1: number; y1: number } | null;
   ping: { x: number; y: number; age: number } | null; // world tile coords, age 0..1
+  /** Persistent quest goal (world tile coords): pulsing marker, or an edge arrow when off screen. */
+  goal?: { x: number; y: number } | null;
   /** Spell reticle in screen pixels: radius in pixels for an area spell (0 otherwise), whether a cast here would work, the unit it would hit. */
   aim: { x: number; y: number; r: number; ok: boolean; target: number } | null;
 }
@@ -1899,6 +1901,31 @@ export class Renderer {
       o.circle(sx, sy, (6 + v.ping.age * 22) * this.zoom).stroke({ color: 0xffd700, width: 2.5, alpha: 1 - v.ping.age });
       o.circle(sx, sy, (3 + v.ping.age * 12) * this.zoom).stroke({ color: 0xffe680, width: 1.5, alpha: (1 - v.ping.age) * 0.8 });
       o.moveTo(sx, sy - 6).lineTo(sx + 6, sy).lineTo(sx, sy + 6).lineTo(sx - 6, sy).closePath().stroke({ color: 0xffd700, width: 1.5, alpha: 1 - v.ping.age });
+    }
+    if (v.goal) {
+      const gx = v.goal.x * TILE * this.zoom - this.camX;
+      const gy = v.goal.y * TILE * this.zoom - this.camY;
+      const pulse = (performance.now() % 1200) / 1200;
+      const m = 26;
+      if (gx >= m && gy >= m && gx <= this.viewW - m && gy <= this.viewH - m) {
+        o.circle(gx, gy, (10 + pulse * 20) * this.zoom).stroke({ color: 0xffd700, width: 2.5, alpha: 1 - pulse });
+        o.moveTo(gx, gy - 16 * this.zoom).lineTo(gx + 10 * this.zoom, gy).lineTo(gx, gy + 16 * this.zoom).lineTo(gx - 10 * this.zoom, gy).closePath()
+          .fill({ color: 0xffd700, alpha: 0.35 }).stroke({ color: 0xffe680, width: 2 });
+      } else {
+        const cx = this.viewW / 2;
+        const cy = this.viewH / 2;
+        const dx = gx - cx;
+        const dy = gy - cy;
+        const k = Math.min((cx - m) / Math.max(Math.abs(dx), 1e-3), (cy - m) / Math.max(Math.abs(dy), 1e-3));
+        const ax = cx + dx * k;
+        const ay = cy + dy * k;
+        const a = Math.atan2(dy, dx);
+        const s = 14 + pulse * 4;
+        o.moveTo(ax + Math.cos(a) * s, ay + Math.sin(a) * s)
+          .lineTo(ax + Math.cos(a + 2.4) * s, ay + Math.sin(a + 2.4) * s)
+          .lineTo(ax + Math.cos(a - 2.4) * s, ay + Math.sin(a - 2.4) * s)
+          .closePath().fill({ color: 0xffd700, alpha: 0.9 }).stroke({ color: 0x3a2a00, width: 2 });
+      }
     }
     // Subtle directional chevron around hero pointing towards nearest enemy raider camp
     const heroId = sim.hero ? sim.hero.id : 0;
