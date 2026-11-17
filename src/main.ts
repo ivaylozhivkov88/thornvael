@@ -1346,6 +1346,11 @@ window.addEventListener('keydown', (e) => {
       missionUi.advanceDialogue();
       return;
     }
+    if (e.key === '1' || e.key === '2' || e.key === '3') {
+      e.preventDefault();
+      missionUi.selectStance(Number(e.key));
+      return;
+    }
   }
   // Editors own all their keys, including sheet shortcuts such as I and Escape.
   if (e.target instanceof Element && (e.target.closest('input, textarea, select') || (e.target instanceof HTMLElement && e.target.isContentEditable))) return;

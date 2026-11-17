@@ -3455,6 +3455,7 @@ button:disabled, #shell .sh-btn:disabled { opacity: .6; cursor: default; box-sha
 .gothic-dialogue-frame {
   width: min(95vw, 780px);
   min-height: 140px;
+  max-height: min(85vh, 520px);
   display: flex;
   gap: 16px;
   background: linear-gradient(160deg, #1f272e 0%, #12181f 100%);
@@ -3464,6 +3465,7 @@ button:disabled, #shell .sh-btn:disabled { opacity: .6; cursor: default; box-sha
   padding: 14px 16px;
   position: relative;
   cursor: pointer;
+  overflow: hidden;
 }
 .gothic-portrait-wrapper {
   flex-shrink: 0;
@@ -3486,6 +3488,8 @@ button:disabled, #shell .sh-btn:disabled { opacity: .6; cursor: default; box-sha
   flex-direction: column;
   justify-content: space-between;
   min-width: 0;
+  max-height: 100%;
+  overflow-y: auto;
 }
 .gothic-nameplate {
   margin-bottom: 6px;
@@ -3518,6 +3522,117 @@ button:disabled, #shell .sh-btn:disabled { opacity: .6; cursor: default; box-sha
   margin: 6px 0 10px;
   min-height: 48px;
   white-space: pre-line;
+}
+
+/* --- Disco Elysium Inspired Literary Architecture Badges & Stances --- */
+.de-skill-badge {
+  display: inline-block;
+  font-size: 10.5px;
+  font-weight: 700;
+  letter-spacing: 0.8px;
+  text-transform: uppercase;
+  padding: 2px 8px;
+  border-radius: 3px;
+  margin-bottom: 6px;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.4);
+}
+.de-skill-badge.de-war-logic {
+  background: rgba(200, 140, 40, 0.22);
+  border: 1px solid #d49b28;
+  color: #ffd770;
+}
+.de-skill-badge.de-tactical {
+  background: rgba(60, 140, 90, 0.22);
+  border: 1px solid #5aa870;
+  color: #a8e6b8;
+}
+.de-skill-badge.de-astral {
+  background: rgba(120, 70, 190, 0.22);
+  border: 1px solid #9d68db;
+  color: #d8baff;
+}
+.de-skill-badge.de-quartermaster {
+  background: rgba(180, 160, 50, 0.22);
+  border: 1px solid #c4b038;
+  color: #fff08a;
+}
+.de-skill-badge.de-skepticism {
+  background: rgba(170, 95, 50, 0.22);
+  border: 1px solid #b87040;
+  color: #f5b68a;
+}
+.de-skill-badge.de-dread {
+  background: rgba(180, 35, 35, 0.25);
+  border: 1px solid #cc3333;
+  color: #ff8888;
+}
+.de-skill-badge.de-primordial {
+  background: rgba(220, 75, 20, 0.25);
+  border: 1px solid #e05018;
+  color: #ffaa66;
+}
+.de-skill-badge.de-cohort {
+  background: rgba(65, 105, 165, 0.22);
+  border: 1px solid #5588cc;
+  color: #99c2ff;
+}
+.de-sensory-beat {
+  font-family: Georgia, "Times New Roman", serif;
+  font-style: italic;
+  font-size: 12.5px;
+  line-height: 1.45;
+  color: #b8ac9a;
+  margin-bottom: 6px;
+  border-left: 2px solid rgba(143, 114, 68, 0.45);
+  padding-left: 8px;
+}
+.de-speech-text {
+  font-size: 13.5px;
+  line-height: 1.5;
+  color: #f0e6d6;
+  min-height: 28px;
+}
+.commander-responses-container {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  margin-top: 8px;
+  margin-bottom: 6px;
+  max-height: 135px;
+  overflow-y: auto;
+}
+.commander-choice-btn {
+  display: flex;
+  align-items: baseline;
+  gap: 6px;
+  background: rgba(18, 24, 30, 0.75);
+  border: 1px solid rgba(143, 114, 68, 0.35);
+  color: #dcd1c0;
+  padding: 5px 8px;
+  border-radius: 4px;
+  font-size: 12px;
+  line-height: 1.35;
+  text-align: left;
+  cursor: pointer;
+  transition: all 0.12s ease;
+}
+.commander-choice-btn:hover {
+  background: rgba(45, 34, 20, 0.9);
+  border-color: #ffd870;
+  color: #fff;
+  transform: translateX(3px);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.6);
+}
+.commander-choice-btn .choice-num {
+  color: #ffd870;
+  font-weight: 700;
+  font-size: 11px;
+}
+.commander-choice-btn .choice-tag {
+  color: #b89358;
+  font-weight: 600;
+  font-size: 11px;
+  margin-right: 2px;
 }
 .gothic-dialogue-footer {
   display: flex;

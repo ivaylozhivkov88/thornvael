@@ -853,11 +853,20 @@ export class TownUi {
       this.loreTypingTimer = null;
     }
 
+    interface TopicLore {
+      label: string;
+      skillTag: string;
+      badgeClass: string;
+      sensoryBeat: string;
+      speech: string;
+      choices: Array<{ tag: string; text: string }>;
+    }
+
     interface SpeakerLore {
       name: string;
       rank: string;
       portraitSvg: string;
-      topics: Array<{ label: string; text: string }>;
+      topics: TopicLore[];
     }
 
     let speakers: SpeakerLore[] = [];
@@ -866,42 +875,130 @@ export class TownUi {
       speakers = [
         {
           name: 'Warden Hale',
-          rank: 'Captain of the Thornwick Border Guard',
+          rank: 'High Captain of the Thornwick Border Guard & Knight-Commander',
           portraitSvg: getWardenHalePortraitSvg(),
           topics: [
             {
               label: 'The Sunken Ford Incursion',
-              text: 'The water runs black with ash, champion. Grok\'tar\'s gnolls didn\'t merely stumble across the shallows; they were driven southward by primeval horrors uncoiling in the crags. Keep your blade sharp and your boots greased—the highland packs fight like cornered fiends.',
+              skillTag: 'WAR LOGIC - Formidable: Success',
+              badgeClass: 'de-war-logic',
+              sensoryBeat: '*(He sets down his battered iron tankard with a heavy clatter. The tallow candle flickers, illuminating deep white scars across his knuckles. He smells of wet wool, bitter chicory, and old armor oil.)*',
+              speech: 'The river runs black with soot, Commander. Grok\'tar\'s highland gnolls didn\'t merely stumble down into the shallows—they were driven south by horrors stirring in the high crags. The High Council sits warm behind their granite walls in the capital, writing decrees in red wax while we drown in mud for a handful of copper. If the fords break, there is no second line of defense. Thornwick starves before the first frost.',
+              choices: [
+                { tag: '[War Logic]', text: 'What are their flanking dispositions along the riverbank?' },
+                { tag: '[Frontier Skepticism]', text: 'And if the capital sends no reinforcements?' },
+                { tag: '[Iron Will]', text: 'We will hold the shallows ourselves. Let them come.' },
+              ],
             },
             {
               label: 'The High Bastion Keeps',
-              text: 'Captain Merrick holds the high stone keeps with sixty men, but their supply wagons were plundered at the crossroads. If the fords fall completely, Thornwick will be starved out before the first winter frost. We must hold the line.',
+              skillTag: 'VETERAN FLESH - Medium: Success',
+              badgeClass: 'de-war-logic',
+              sensoryBeat: '*(He traces the grain of the rough timber bench, his voice dropping to a low gravelly rasp.)*',
+              speech: 'Captain Merrick holds the high stone bastions with sixty men, but their supply wagons were plundered at the crossroads. Sixty men against two thousand howling spears. War out here isn\'t won by songs; it\'s won by salt pork, dry bowstrings, and boots that don\'t rot in the silt. Every casualty is an irreplaceable blade.',
+              choices: [
+                { tag: '[Tactical Calculus]', text: 'Can the bastion withstand a prolonged siege?' },
+                { tag: '[Quartermaster\'s Eye]', text: 'We need to clear the supply road before winter sets in.' },
+                { tag: '[Cohort Memory]', text: 'Sixty men who know how to hold a wall are worth five hundred conscripts.' },
+              ],
+            },
+            {
+              label: 'Ghost Cohorts of the Cataclysm',
+              skillTag: 'COHORT MEMORY - Challenging: Success',
+              badgeClass: 'de-cohort',
+              sensoryBeat: '*(He gazes past you into the tavern shadows, where the rain drums ceaselessly against the leaded glass.)*',
+              speech: 'Three centuries ago, the First Wardens swore an oath upon celestial gold. When the continental bedrock buckled, their flesh rotted away, but the words stayed chained to their marrow. They march beneath the earth in unbroken ranks—Hollow Knights who know neither fear nor fatigue. Pray you never hear their iron tread in the dark.',
+              choices: [
+                { tag: '[Astral Shiver]', text: 'Is there any release for them, or only destruction?' },
+                { tag: '[War Logic]', text: 'Disciplined undead are still subject to kinetics. Heavy blades will shatter their bone.' },
+                { tag: '[Visceral Dread]', text: 'A grim fate. Better to bleed out in the mire than march forever in rust.' },
+              ],
             },
           ],
         },
         {
           name: 'Ford-Scout Bren',
-          rank: 'Frontier Scout & River Pathfinder',
+          rank: 'Chief Frontier Pathfinder & Master of the River Marches',
           portraitSvg: getFordScoutBrenPortraitSvg(),
           topics: [
             {
-              label: 'Reconnaissance in the Reeds',
-              text: 'I crept through the willow marshes at twilight. Grok\'tar has stationed barbed bowmen behind the sunken silt bars. If you march straight down the middle of the river, they\'ll pin your vanguard in the mud. Seek the high gravel banks on the flank.',
+              label: 'Anatomy of an Ambuscade',
+              skillTag: 'TACTICAL CALCULUS - Easy: Success',
+              badgeClass: 'de-tactical',
+              sensoryBeat: '*(His knuckles twitch against his dagger sheath. Mud is splattered across his cheekbones; his eyes dart to the tavern door at every gust of wind.)*',
+              speech: 'I crept through the willow reeds at twilight, bellied down in the cold mire. Grok\'tar\'s barbed bowmen don\'t fire from the open; they notch their horns behind the sunken silt bars and wait for the vanguard to flounder. If you march straight down the river center, their shafts will pin your halberdiers like beetles to a board. Flank along the high gravel spits—gravel holds your footing.',
+              choices: [
+                { tag: '[Tactical Calculus]', text: 'We take the high spit and deploy tower shields on the approach.' },
+                { tag: '[Frontier Skepticism]', text: 'And if they have scouts watching the spit as well?' },
+                { tag: '[Iron Will]', text: 'Speed is our armor. We cross before they can coordinate their volley.' },
+              ],
             },
             {
-              label: 'Lost Sarcophagi of the Ford',
-              text: 'Beneath the riverbed lie stone tombs older than the kingdom. The river gnolls have been digging around them with crude picks, seeking star-silver trinkets. Sunder them before their shamans uncover ancient curses.',
+              label: 'Barbed Iron & Venom Tracking',
+              skillTag: 'PERCEPTION - Medium: Success',
+              badgeClass: 'de-tactical',
+              sensoryBeat: '*(He produces a snapped arrow from his sleeve, holding the jagged black iron to the candlelight.)*',
+              speech: 'Smell that? Bitter almond and marsh viper gall. They dip their barbs in rancid bile. A surface scratch inflames the veins within thirty heartbeats; by sunset, your blood turns to black water. Keep your visors locked and your shields overlapping until you close distance.',
+              choices: [
+                { tag: '[Quartermaster\'s Eye]', text: 'Do our field chirurgeons have enough antivenom?' },
+                { tag: '[War Logic]', text: 'Archers in the front, spearmen behind. We shoot them before they draw.' },
+                { tag: '[Veteran Flesh]', text: 'I\'ve tasted worse poison in border broths. It won\'t stop our march.' },
+              ],
+            },
+            {
+              label: 'Sarcophagi of the River Bed',
+              skillTag: 'ASTRAL SHIVER - Formidable: Success',
+              badgeClass: 'de-astral',
+              sensoryBeat: '*(A tremor runs through his shoulders as he lowers his voice to a breathless whisper.)*',
+              speech: 'Beneath the gravel shallows lie granite tombs older than the kingdom. The river gnolls have been prying at the runic seals with crude iron picks, seeking star-silver amulets. When they strike those wardstones, the water turns freezing cold and dead fish float belly-up to the surface. Sunder their cabal before they wake what sleeps beneath the silt.',
+              choices: [
+                { tag: '[Astral Shiver]', text: 'The water was freezing when we crossed. The seals are already cracking.' },
+                { tag: '[War Logic]', text: 'Cut down the shamans first. Break their concentration.' },
+                { tag: '[Iron Will]', text: 'Let their dead wake. My blade cuts through stone and marrow alike.' },
+              ],
             },
           ],
         },
         {
           name: 'Master Corin',
-          rank: 'Tavern Keeper & Frontier Chronicler',
+          rank: 'Tavern Chronicler & Informant of the Frontier Underworld',
           portraitSvg: getTavernPatronPortraitSvg(),
           topics: [
             {
+              label: 'Price of Grain & Smuggler Ledgers',
+              skillTag: 'FRONTIER SKEPTICISM - Medium: Success',
+              badgeClass: 'de-skepticism',
+              sensoryBeat: '*(He wrings a stained linen rag over the counter, his dry smirk revealing two broken teeth.)*',
+              speech: 'Flour is up forty percent since the border mill went up in flames, Commander. Salt is scarcer than imperial mercy, and the beer is half marsh-water. But gold? Gold still talks. Every deserter, merchant, and cutpurse passes through this taproom. If you need blades that won\'t ask questions about who gave the order, look around the hearth. Just don\'t lend them money.',
+              choices: [
+                { tag: '[Quartermaster\'s Eye]', text: 'Who is funding the border deserters?' },
+                { tag: '[Frontier Skepticism]', text: 'And what is your cut of the smuggler traffic, Corin?' },
+                { tag: '[War Logic]', text: 'Gold buys sellswords. Blood keeps them in line.' },
+              ],
+            },
+            {
               label: 'Catacombs of the Sunless Deeps',
-              text: 'Old miners whisper that beneath the Redmarsh lies an ancient subterranean highway paved before the First Age. The vaults there were never ransacked—only sealed when the sky rained molten iron. If you venture down, carry plenty of torches and holy draughts.',
+              skillTag: 'GALLOWS HUMOR - Challenging: Success',
+              badgeClass: 'de-skepticism',
+              sensoryBeat: '*(He leans in close, smelling of stale hop-mash and sour tallow.)*',
+              speech: 'Old miners say that beneath the Redmarsh lies an ancient subterranean highway paved before the First Age. The vaults down there were never ransacked—only sealed when the sky rained molten iron. If you venture down into the dark, Commander, carry twice as many torches as you think you need, and don\'t drink the water. Even the rats down there have two heads.',
+              choices: [
+                { tag: '[War Logic]', text: 'Are the highway tunnels wide enough for a supply baggage train?' },
+                { tag: '[Astral Shiver]', text: 'What sealed them? Natural rock, or ancient sorcery?' },
+                { tag: '[Iron Will]', text: 'If there is a path beneath the enemy, we will march through it.' },
+              ],
+            },
+            {
+              label: 'Whispers of Blood-Stained Coin',
+              skillTag: 'QUARTERMASTER\'S EYE - Easy: Success',
+              badgeClass: 'de-quartermaster',
+              sensoryBeat: '*(He flips a tarnished silver coin onto the counter; it rings with a dull, leaden clink.)*',
+              speech: 'Notice the edge? Shaved down by coin-clippers in the garrison quartermaster\'s office. The empire pays its mercenaries with debased silver, then wonders why cohorts desert at the first sign of a gnoll war-horn. If you want loyalty on this border, you pay in steel and bread, not empty oaths.',
+              choices: [
+                { tag: '[Quartermaster\'s Eye]', text: 'Our company pays fair coin. We take care of our own.' },
+                { tag: '[Frontier Skepticism]', text: 'Even debased silver buys arrows and tallow.' },
+                { tag: '[Iron Will]', text: 'My soldiers fight for their lives and each other, not coin-clipper ledgers.' },
+              ],
             },
           ],
         },
@@ -910,20 +1007,44 @@ export class TownUi {
       speakers = [
         {
           name: 'High Arcanist Vaelen',
-          rank: 'Archmage & Scholar of the Astral Veil',
+          rank: 'Grand Scholar of the Astral Veil & Keeper of the Primeval Runes',
           portraitSvg: getHighArcanistVaelenPortraitSvg(),
           topics: [
             {
-              label: 'The Nature of the Astral Veil',
-              text: 'The fools in the council believe magic is a gentle gift of the stars. It is not. The Astral Veil is a bleeding, scarred membrane keeping primeval hungers from swallowing our realm. Every time a blood-shaman sunders a wardstone, that membrane thins.',
+              label: 'Bleeding Membrane of the Veil',
+              skillTag: 'ASTRAL SHIVER - Formidable: Success',
+              badgeClass: 'de-astral',
+              sensoryBeat: '*(He does not look at you; his long, bloodless fingers trace geometric spirals in the air, leaving faint trails of luminous violet mist.)*',
+              speech: 'The fools in the council believe magic is a gentle celestial gift. It is not. The Astral Veil is a bleeding, scarred membrane keeping primeval cosmic hungers from swallowing our world whole. Every time an apostate or blood-shaman cracks a wardstone, that membrane stretches and thins. The cold you feel in your teeth before a lightning strike? That is the universe groaning under mortal arrogance.',
+              choices: [
+                { tag: '[Astral Shiver]', text: 'How much strain can the Veil endure before catastrophic rupture?' },
+                { tag: '[War Logic]', text: 'Theories won\'t stop gnolls. Which spells crack stone armor?' },
+                { tag: '[Veteran Flesh]', text: 'The only membrane I care about is the one keeping my blood inside my ribs.' },
+              ],
             },
             {
-              label: 'Relics of the First Wardens',
-              text: 'The relics of the First Wardens are not mere curiosities. A True Unique artifact carries the indelible will of its creator. Equip them with reverence; in the hands of an untrained recruit, power is only a swifter path to the grave.',
+              label: 'Runic Friction & Blood Magic',
+              skillTag: 'WAR LOGIC - Medium: Success',
+              badgeClass: 'de-war-logic',
+              sensoryBeat: '*(He pauses, a faint, cold sneer touching his pale lips.)*',
+              speech: 'Necromancy was not invented by monsters; it was commissioned by desperate imperial generals whose legions had frozen in the northern passes. When you bind an astral runic chain to cold bone, you are not resurrecting life—you are creating a mechanical puppet powered by spiritual agony. It is efficient, yes. But the debt must always be settled in blood.',
+              choices: [
+                { tag: '[Astral Shiver]', text: 'Is there a way to unbind those chains without destroying the vessel?' },
+                { tag: '[War Logic]', text: 'If the enemy uses puppets, we strike the puppeteer.' },
+                { tag: '[Iron Will]', text: 'We purge the abomination wherever it crawls.' },
+              ],
             },
             {
-              label: 'Elemental Spheres & Countermeasures',
-              text: 'You will face sorcerers who have bartered their very humanity for eternal embers. Standard steel will bite, but without mastery of the elemental spheres—water to quench, stone to ward—their infernos will turn your armor into a furnace.',
+              label: 'Primordial Cleansing of the Caldera',
+              skillTag: 'PRIMORDIAL RECKONING - Heroic: Success',
+              badgeClass: 'de-primordial',
+              sensoryBeat: '*(His eyes flash with piercing celestial luminescence as the shadows around the sanctum stretch unnaturally.)*',
+              speech: 'At the heart of the Obsidian Caldera, the bedrock breathes. Ember Overlord Vorak does not hate humanity; he simply views us as a moldering parasitic rot upon the earth\'s crust. To him, incandescent magma is the only true antiseptic. If you face him without mastering the elemental counter-spheres—stone to absorb, frost to quench—your vanguard will be reduced to ash before they can draw steel.',
+              choices: [
+                { tag: '[Astral Shiver]', text: 'Teach me the frost spheres. We will quench his flame.' },
+                { tag: '[War Logic]', text: 'Every fire needs fuel. Sunder his conduits and he suffocates.' },
+                { tag: '[Iron Will]', text: 'Let his magma boil. Our resolve was forged in colder fires.' },
+              ],
             },
           ],
         },
@@ -932,20 +1053,44 @@ export class TownUi {
       speakers = [
         {
           name: 'Captain Merrick',
-          rank: 'Garrison Commander of the High Keep',
+          rank: 'Garrison Commander of the High Keep & Master of Ordnance',
           portraitSvg: getCaptainMerrickPortraitSvg(),
           topics: [
             {
-              label: 'Tempering Frontier Steel',
-              text: 'Plate armor forged in Thornwick has stood against gnoll war-picks for fifty campaigns. Mind your joints—a crushing blow will bypass iron plate if your skull lacks padding. Check your repair ledger after every foray.',
+              label: 'Physics of Blunt Impact on Plate',
+              skillTag: 'QUARTERMASTER\'S EYE - Easy: Success',
+              badgeClass: 'de-quartermaster',
+              sensoryBeat: '*(He heaves a dented steel breastplate onto the anvil, running heavy, scarred thumbs along the fractured rivets.)*',
+              speech: 'New recruits think three millimeters of tempered steel makes them immortal. It does not. A gnoll war-pick or a basalt club doesn\'t need to pierce the cuirass—the kinetic shockwave travels straight through the metal into the ribcage, rupturing the spleen and collapsing the lungs. Mind your skull padding and check your arming doublet after every foray. Dead men don\'t get paid.',
+              choices: [
+                { tag: '[Quartermaster\'s Eye]', text: 'Reinforce the chest plates with boiled leather backing.' },
+                { tag: '[War Logic]', text: 'Keep shields locked forward. Blunt weapons need swinging room—deny it.' },
+                { tag: '[Veteran Flesh]', text: 'I\'ve felt cracked ribs before. You learn to breathe shallow.' },
+              ],
             },
             {
-              label: 'Artifact Sets of Renown',
-              text: 'If you chance upon matching pieces of an antique battlegear set, never sell them for quick coin. The enchantments resonate when assembled together, bestowing protections no single smith could ever hammer into iron.',
+              label: 'Harmonic Resonance in Relic Sets',
+              skillTag: 'WAR LOGIC - Medium: Success',
+              badgeClass: 'de-war-logic',
+              sensoryBeat: '*(He taps the crossguard of an antique broadsword, producing a clear, ringing harmonic note.)*',
+              speech: 'If you discover matching pieces of an antique battlegear set, never sell them for quick coin. The First Wardens forged them with harmonized astral runes. Worn together, the pieces resonate like tuned church bells, generating protective kinetic fields no single smith could ever hammer into iron.',
+              choices: [
+                { tag: '[Astral Shiver]', text: 'The resonance creates a subtle ward against spellcraft.' },
+                { tag: '[Quartermaster\'s Eye]', text: 'We will search every ruin until the complete set is assembled.' },
+                { tag: '[Iron Will]', text: 'Masterwork steel in the hands of a master soldier—nothing stands against it.' },
+              ],
             },
             {
-              label: 'Smuggler\'s Caskets & Spoils',
-              text: 'The black-market caskets brought in by wanderers are risky gambles. Most hold battered iron and tarnished rings, but on rare nights, a daring mercenary pries open a legendary heirloom from the old kingdom.',
+              label: 'Smuggler Caskets & Heirlooms',
+              skillTag: 'FRONTIER SKEPTICISM - Challenging: Success',
+              badgeClass: 'de-skepticism',
+              sensoryBeat: '*(He spits iron filings onto the workshop floorboards with a grim chuckle.)*',
+              speech: 'The smuggler caskets dragged out of the fens are a desperate gambler\'s game. Most hold rusted chain links and tarnished pewter rings from dead soldiers. But every hundredth box? Pried open beneath the blood-grease is a pristine ancestral blade from the old kingdom. If you have gold to burn, roll the dice. Just don\'t wager your last coin.',
+              choices: [
+                { tag: '[Quartermaster\'s Eye]', text: 'We gamble only what we can afford to lose.' },
+                { tag: '[Frontier Skepticism]', text: 'The smugglers grease the hinges to make junk look ancient.' },
+                { tag: '[Iron Will]', text: 'A true warrior makes any blade legendary through slaughter.' },
+              ],
             },
           ],
         },
@@ -999,7 +1144,26 @@ export class TownUi {
       });
 
       const bodyEl = el('div', 'gothic-dialogue-body');
-      bodyEl.textContent = '';
+
+      const badgeEl = el('div', `de-skill-badge ${currentTopic.badgeClass}`, currentTopic.skillTag);
+      const sensoryEl = el('div', 'de-sensory-beat', currentTopic.sensoryBeat);
+      const speechEl = el('div', 'de-speech-text', '');
+
+      const choicesEl = el('div', 'commander-responses-container');
+      choicesEl.style.display = 'none';
+
+      currentTopic.choices.forEach((c, cIdx) => {
+        const choiceBtn = button('', () => {
+          try { blip(); } catch {}
+          choiceBtn.style.borderColor = '#ffd870';
+          choiceBtn.style.color = '#fff';
+        });
+        choiceBtn.className = 'commander-choice-btn';
+        choiceBtn.innerHTML = `<span class="choice-num">${cIdx + 1}.</span> <span class="choice-tag">${c.tag}</span> "${c.text}"`;
+        choicesEl.append(choiceBtn);
+      });
+
+      bodyEl.append(badgeEl, sensoryEl, speechEl, choicesEl);
 
       const footer = el('div', 'gothic-dialogue-footer');
       const topicCounter = el('span', 'dialogue-queue-count', `Lore Entry: ${activeTopicIdx + 1}/${currentSpeaker.topics.length}`);
@@ -1022,11 +1186,11 @@ export class TownUi {
       // Typewriter animation
       if (this.loreTypingTimer !== null) clearInterval(this.loreTypingTimer);
       let charIdx = 0;
-      const fullText = currentTopic.text;
+      const fullText = currentTopic.speech;
 
       this.loreTypingTimer = window.setInterval(() => {
         if (charIdx < fullText.length) {
-          bodyEl.textContent += fullText[charIdx];
+          speechEl.textContent += fullText[charIdx];
           if (charIdx % 3 === 0 && fullText[charIdx] !== ' ') {
             try { blip(); } catch {}
           }
@@ -1036,6 +1200,8 @@ export class TownUi {
             clearInterval(this.loreTypingTimer);
             this.loreTypingTimer = null;
           }
+          speechEl.textContent = fullText;
+          choicesEl.style.display = 'flex';
         }
       }, 16);
     };

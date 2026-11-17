@@ -289,6 +289,79 @@ export function getTavernPatronPortraitSvg(): string {
 </svg>`;
 }
 
+export function getBossOverlordPortraitSvg(): string {
+  return `<svg viewBox="0 0 120 120" xmlns="http://www.w3.org/2000/svg" class="portrait-svg">
+  <defs>
+    <radialGradient id="bg-overlord" cx="50%" cy="40%" r="65%">
+      <stop offset="0%" stop-color="#5a1808"/>
+      <stop offset="60%" stop-color="#240702"/>
+      <stop offset="100%" stop-color="#0a0201"/>
+    </radialGradient>
+    <linearGradient id="magma-core" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#ff9922"/>
+      <stop offset="50%" stop-color="#ff3300"/>
+      <stop offset="100%" stop-color="#880000"/>
+    </linearGradient>
+    <linearGradient id="basalt-armor" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#4a423d"/>
+      <stop offset="50%" stop-color="#26211e"/>
+      <stop offset="100%" stop-color="#120e0c"/>
+    </linearGradient>
+  </defs>
+  <rect width="120" height="120" fill="url(#bg-overlord)"/>
+  <path d="M 10 120 L 32 80 L 88 80 L 110 120 Z" fill="url(#basalt-armor)" stroke="#1a0a06" stroke-width="2.5"/>
+  <path d="M 40 85 L 60 102 L 80 85 L 75 120 L 45 120 Z" fill="url(#magma-core)" opacity="0.85"/>
+  <path d="M 32 50 C 26 15 94 15 88 50 C 88 72 78 85 60 88 C 42 85 32 72 32 50 Z" fill="url(#basalt-armor)" stroke="#0d0402" stroke-width="3"/>
+  <path d="M 28 35 L 14 12 L 38 28 Z" fill="#291b14" stroke="#ff4400" stroke-width="1.5"/>
+  <path d="M 92 35 L 106 12 L 82 28 Z" fill="#291b14" stroke="#ff4400" stroke-width="1.5"/>
+  <line x1="60" y1="22" x2="60" y2="52" stroke="url(#magma-core)" stroke-width="2"/>
+  <line x1="44" y1="36" x2="76" y2="36" stroke="url(#magma-core)" stroke-width="1.5"/>
+  <line x1="48" y1="62" x2="72" y2="62" stroke="url(#magma-core)" stroke-width="2"/>
+  <ellipse cx="48" cy="48" rx="5" ry="3" fill="#ffee66"/>
+  <ellipse cx="72" cy="48" rx="5" ry="3" fill="#ffee66"/>
+  <circle cx="48" cy="48" r="1.8" fill="#ff1100"/>
+  <circle cx="72" cy="48" r="1.8" fill="#ff1100"/>
+  <rect x="2" y="2" width="116" height="116" rx="4" fill="none" stroke="#e04010" stroke-width="2.5"/>
+</svg>`;
+}
+
+export function getHighNecromancerPortraitSvg(): string {
+  return `<svg viewBox="0 0 120 120" xmlns="http://www.w3.org/2000/svg" class="portrait-svg">
+  <defs>
+    <radialGradient id="bg-necro" cx="50%" cy="40%" r="65%">
+      <stop offset="0%" stop-color="#142834"/>
+      <stop offset="60%" stop-color="#08141d"/>
+      <stop offset="100%" stop-color="#02060a"/>
+    </radialGradient>
+    <linearGradient id="bone-cowl" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#3b4d59"/>
+      <stop offset="50%" stop-color="#1e2830"/>
+      <stop offset="100%" stop-color="#0b1014"/>
+    </linearGradient>
+    <linearGradient id="cyan-soul" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#e0ffff"/>
+      <stop offset="50%" stop-color="#33ddff"/>
+      <stop offset="100%" stop-color="#006688"/>
+    </linearGradient>
+  </defs>
+  <rect width="120" height="120" fill="url(#bg-necro)"/>
+  <path d="M 12 120 Q 30 74 60 70 Q 90 74 108 120 Z" fill="url(#bone-cowl)" stroke="#081016" stroke-width="2"/>
+  <path d="M 30 52 C 26 16 94 16 90 52 C 90 72 80 82 60 84 C 40 82 30 72 30 52 Z" fill="#0f171d" stroke="#050a0e" stroke-width="2.5"/>
+  <path d="M 38 42 C 40 28 80 28 82 42 L 78 72 C 70 78 50 78 42 72 Z" fill="#d4cfbe" stroke="#3d372e" stroke-width="1.5"/>
+  <ellipse cx="48" cy="50" rx="4.5" ry="3.5" fill="#081014"/>
+  <ellipse cx="72" cy="50" rx="4.5" ry="3.5" fill="#081014"/>
+  <circle cx="48" cy="50" r="2" fill="url(#cyan-soul)"/>
+  <circle cx="72" cy="50" r="2" fill="url(#cyan-soul)"/>
+  <polygon points="56,60 64,60 60,66" fill="#0c1216"/>
+  <line x1="48" y1="70" x2="72" y2="70" stroke="#0c1216" stroke-width="2"/>
+  <line x1="52" y1="67" x2="52" y2="73" stroke="#0c1216" stroke-width="1.5"/>
+  <line x1="57" y1="67" x2="57" y2="73" stroke="#0c1216" stroke-width="1.5"/>
+  <line x1="63" y1="67" x2="63" y2="73" stroke="#0c1216" stroke-width="1.5"/>
+  <line x1="68" y1="67" x2="68" y2="73" stroke="#0c1216" stroke-width="1.5"/>
+  <rect x="2" y="2" width="116" height="116" rx="4" fill="none" stroke="#33ddff" stroke-width="2.5"/>
+</svg>`;
+}
+
 export function getGoldWaxSealSvg(): string {
   return `<svg viewBox="0 0 60 60" xmlns="http://www.w3.org/2000/svg" class="wax-seal-svg">
   <defs>
@@ -355,6 +428,7 @@ export class MissionUi {
   private typingTimer: number | null = null;
   private fullTypingText = '';
   private typingCallback: (() => void) | null = null;
+  private finishCurrentTyping: (() => void) | null = null;
 
   constructor(
     private readonly doc: MapDoc,
@@ -455,6 +529,41 @@ export class MissionUi {
         portraitSvg: paintedPortrait('npc-groktar', getChieftainGroktarPortraitSvg()),
       };
     }
+    if (lower.includes('vorak') || lower.includes('ashkarath') || lower.includes('cinder') || lower.includes('ember')) {
+      return {
+        name: who.includes('Ashkarath') ? 'Ashkarath the Cinder King' : 'Ember Overlord Vorak',
+        rank: 'Primordial Sovereign of the Obsidian Caldera & Cleansing Flame',
+        portraitSvg: getBossOverlordPortraitSvg(),
+      };
+    }
+    if (lower.includes('malgath') || lower.includes('necro') || lower.includes('mordred') || lower.includes('vesperion')) {
+      return {
+        name: who.includes('Mordred') ? 'Mordred the Ashen' : who.includes('Vesperion') ? 'Vesperion the Hollow Choir' : 'High Necromancer Malgath',
+        rank: 'Arch-Prelate of Immutable Silence & the Bone Choir',
+        portraitSvg: getHighNecromancerPortraitSvg(),
+      };
+    }
+    if (lower.includes('korrath') || lower.includes('arch-warden')) {
+      return {
+        name: 'Arch-Warden Korrath',
+        rank: 'Eternal Sentinel of Imperial Law & Granite Petrifaction',
+        portraitSvg: getBossOverlordPortraitSvg(),
+      };
+    }
+    if (lower.includes('gorrathul')) {
+      return {
+        name: 'Gorrathul the Sand Glutton',
+        rank: 'Subterranean Frost-Gorged Colossus of the Dunes',
+        portraitSvg: getBossOverlordPortraitSvg(),
+      };
+    }
+    if (lower.includes('morvessa')) {
+      return {
+        name: 'Morvessa the Silk Matron',
+        rank: 'Brood Queen of the Sunless Bone Catacombs',
+        portraitSvg: getHighNecromancerPortraitSvg(),
+      };
+    }
     if (lower.includes('hero') || lower.includes('you')) {
       return {
         name: 'Expeditionary Commander',
@@ -467,6 +576,10 @@ export class MissionUi {
       ['sabik', 'Sabik the Sand-Walker', 'Chief Dune Scout of the Glass Wastes'],
       ['quillon', 'Sage Quillon', 'High Sage of the Drowned Coast & Tide-Caller'],
       ['aldren', 'Sir Aldren the Iron-Willed', 'Veteran Knight-Commander of the Burnt Keep'],
+      ['isolde', 'Captain Isolde', 'Vanguard Commander of the Ashbrook Relief Cohort'],
+      ['vance', 'Marshal Vance', 'Supreme Commander of the Highcrest Vanguard'],
+      ['veyra', 'Harbor Marshal Veyra', 'Defender of the Drowned Bastions & Sea Lanes'],
+      ['marlow', 'Reeve Marlow', 'Frontier Bailiff of Thornwick Market'],
       ['outpost scout', 'Frontier Ranger', 'Highland Reconnaissance Scout'],
     ];
     for (const [key, name, rank] of named) {
@@ -474,10 +587,10 @@ export class MissionUi {
         return { name, rank, portraitSvg: paintedPortrait(`npc-${key.split(' ')[0] === 'outpost' ? 'scout' : key.split(' ')[0]}`, getFallbackPortraitSvg()) };
       }
     }
-    if (lower.includes('cache') || lower.includes('granary')) {
+    if (lower.includes('cache') || lower.includes('coffer') || lower.includes('granary') || lower.includes('lockbox')) {
       return {
-        name: 'Granary Cache',
-        rank: 'Charred Frontier Supply Store',
+        name: who || 'Garrison Requisition Coffer',
+        rank: 'Recovered Military Baggage & Ledgers',
         portraitSvg: getFallbackPortraitSvg(),
       };
     }
@@ -495,6 +608,141 @@ export class MissionUi {
     };
   }
 
+  /** Formats dialogues into rich literary prose with internal voices, sensory action beats, and player stances */
+  private formatDiscoDialogue(who: string, text: string): {
+    badgeTag: string;
+    badgeClass: string;
+    sensoryBeat: string;
+    speech: string;
+    choices: Array<{ num: number; tag: string; text: string }>;
+  } {
+    const lower = who.toLowerCase();
+
+    let badgeTag = '';
+    let badgeClass = 'de-war-logic';
+    let sensoryBeat = '';
+    let speech = text;
+
+    const tagMatch = speech.match(/^\[([A-Z\s/-]+(?::\s*[A-Za-z]+)?)\]\s*/);
+    if (tagMatch) {
+      badgeTag = tagMatch[1];
+      speech = speech.slice(tagMatch[0].length);
+      const tagLower = badgeTag.toLowerCase();
+      if (tagLower.includes('astral') || tagLower.includes('veil')) badgeClass = 'de-astral';
+      else if (tagLower.includes('tactical') || tagLower.includes('perception')) badgeClass = 'de-tactical';
+      else if (tagLower.includes('quartermaster') || tagLower.includes('logistics')) badgeClass = 'de-quartermaster';
+      else if (tagLower.includes('skepticism') || tagLower.includes('humor')) badgeClass = 'de-skepticism';
+      else if (tagLower.includes('dread')) badgeClass = 'de-dread';
+      else if (tagLower.includes('primordial')) badgeClass = 'de-primordial';
+      else if (tagLower.includes('cohort')) badgeClass = 'de-cohort';
+    }
+
+    const sensoryMatch = speech.match(/^\*\((.*?)\)\*\s*/s);
+    if (sensoryMatch) {
+      sensoryBeat = `*(${sensoryMatch[1]})*`;
+      speech = speech.slice(sensoryMatch[0].length);
+    }
+
+    // Default cognitive framing if not explicitly present in raw text
+    if (!badgeTag) {
+      if (lower.includes('hale') || lower.includes('warden')) {
+        badgeTag = 'WAR LOGIC - Medium: Success';
+        badgeClass = 'de-war-logic';
+        if (!sensoryBeat) sensoryBeat = '*(A damp mountain gale rattles the tarnished plates of his gorget. He exhales a gray plume smelling of bitter chicory and cold tallow.)*';
+      } else if (lower.includes('bren') || lower.includes('scout')) {
+        badgeTag = 'TACTICAL CALCULUS - Easy: Success';
+        badgeClass = 'de-tactical';
+        if (!sensoryBeat) sensoryBeat = '*(His breath comes in ragged, shallow gasps. Mud is caked to his brow and his fingers nervously trace the fletching of an arrow.)*';
+      } else if (lower.includes('vaelen') || lower.includes('arcanist')) {
+        badgeTag = 'ASTRAL SHIVER - Challenging: Success';
+        badgeClass = 'de-astral';
+        if (!sensoryBeat) sensoryBeat = '*(The air around his sleeves vibrates with the faint metallic taste of ozone. His pale eyes reflect runic calculations invisible to mortal sight.)*';
+      } else if (lower.includes('merrick')) {
+        badgeTag = "QUARTERMASTER'S EYE - Easy: Success";
+        badgeClass = 'de-quartermaster';
+        if (!sensoryBeat) sensoryBeat = '*(He taps the pommel of his broadsword against iron greaves, calculating tensile strength and the physics of blunt impact.)*';
+      } else if (lower.includes('corin') || lower.includes('patron') || lower.includes('barkeep')) {
+        badgeTag = 'FRONTIER SKEPTICISM - Formidable: Success';
+        badgeClass = 'de-skepticism';
+        if (!sensoryBeat) sensoryBeat = '*(He wrings a grease-blackened rag over the timber counter, his eyes darting to the locked coffer beneath the shelf.)*';
+      } else if (lower.includes('grok') || lower.includes('boss') || lower.includes('chief')) {
+        badgeTag = 'VISCERAL DREAD - Extreme: Success';
+        badgeClass = 'de-dread';
+        if (!sensoryBeat) sensoryBeat = '*(Yellowed fangs glisten with spit and bile. A scarred chest heaves like a dying furnace beneath soot-blackened leather straps.)*';
+      } else if (lower.includes('vorak') || lower.includes('ashkarath') || lower.includes('cinder') || lower.includes('ember')) {
+        badgeTag = 'PRIMORDIAL RECKONING - Heroic: Success';
+        badgeClass = 'de-primordial';
+        if (!sensoryBeat) sensoryBeat = '*(The air before him shimmers with white heat, scorching the eyes. The bedrock groans under magma veins answering his heartbeat.)*';
+      } else if (lower.includes('malgath') || lower.includes('necro') || lower.includes('mordred') || lower.includes('vesperion')) {
+        badgeTag = 'CHILL OF THE VEIL - Challenging: Success';
+        badgeClass = 'de-astral';
+        if (!sensoryBeat) sensoryBeat = '*(A profound, unnatural stillness falls over the hall. The air drops below freezing, drawing frost across the edges of your mail.)*';
+      } else if (lower.includes('cache') || lower.includes('coffer') || lower.includes('granary') || lower.includes('lockbox')) {
+        badgeTag = 'LOGISTICS - Trivial: Success';
+        badgeClass = 'de-quartermaster';
+        if (!sensoryBeat) sensoryBeat = '*(Prying back the iron-reinforced lid reveals the tangible spoils of frontier warfare.)*';
+      } else {
+        badgeTag = 'COHORT MEMORY - Easy: Success';
+        badgeClass = 'de-cohort';
+        if (!sensoryBeat) sensoryBeat = '*(The company halts in tight order, shields overlapping as the frontier wind lashes their tabards.)*';
+      }
+    }
+
+    // Generate 3 evocative Commander Stance responses
+    let choices: Array<{ num: number; tag: string; text: string }> = [];
+    if (lower.includes('hale') || lower.includes('warden')) {
+      choices = [
+        { num: 1, tag: '[War Logic]', text: 'Understood, Captain. Vanguard maintains wedge formation and secures the choke points.' },
+        { num: 2, tag: '[Frontier Skepticism]', text: 'Another ditch to drown in for a High Council that wouldn\'t know our graves.' },
+        { num: 3, tag: '[Iron Will]', text: 'Sound the advance. We do not yield an inch of this ground.' },
+      ];
+    } else if (lower.includes('bren') || lower.includes('scout')) {
+      choices = [
+        { num: 1, tag: '[Tactical Calculus]', text: 'Report enemy dispositions, Bren. Where is their flanking reserve?' },
+        { num: 2, tag: '[Frontier Skepticism]', text: 'If their bowmen hold the high bluff, we are marching into a slaughterhouse.' },
+        { num: 3, tag: '[Iron Will]', text: 'Keep your nerve, scout. Lead the vanguard through the reeds.' },
+      ];
+    } else if (lower.includes('vaelen') || lower.includes('arcanist')) {
+      choices = [
+        { num: 1, tag: '[Astral Shiver]', text: 'I can feel the cold vibration in my teeth. The Veil is tearing.' },
+        { num: 2, tag: '[War Logic]', text: 'Channel the ley-energy into protective wards. We need defense, not theories.' },
+        { num: 3, tag: '[Veteran Flesh]', text: 'Sorcery or cold iron, blood spilled on stones dries the same.' },
+      ];
+    } else if (lower.includes('merrick')) {
+      choices = [
+        { num: 1, tag: '[Quartermaster\'s Eye]', text: 'Are the shields braced for heavy blunt trauma?' },
+        { num: 2, tag: '[War Logic]', text: 'Tighten the vanguard harness. We push step by step.' },
+        { num: 3, tag: '[Iron Will]', text: 'Frontier steel will hold. To the line!' },
+      ];
+    } else if (lower.includes('corin') || lower.includes('patron') || lower.includes('barkeep')) {
+      choices = [
+        { num: 1, tag: '[Frontier Skepticism]', text: 'Watered ale and exaggerated terror—the frontier never changes.' },
+        { num: 2, tag: '[Quartermaster\'s Eye]', text: 'What is the true price of these rumors, barkeep?' },
+        { num: 3, tag: '[Iron Will]', text: 'Give me the truth. My cohort moves at first light.' },
+      ];
+    } else if (lower.includes('grok') || lower.includes('vorak') || lower.includes('malgath') || lower.includes('boss') || lower.includes('chief') || lower.includes('mordred')) {
+      choices = [
+        { num: 1, tag: '[War Logic]', text: 'Your flanks are overextended. Your reign ends in this dirt.' },
+        { num: 2, tag: '[Visceral Dread]', text: 'Steel against fang. Let\'s see whose marrow splinters first.' },
+        { num: 3, tag: '[Iron Will]', text: 'For Thornwick and the fallen. To the death.' },
+      ];
+    } else if (lower.includes('cache') || lower.includes('coffer') || lower.includes('granary') || lower.includes('lockbox')) {
+      choices = [
+        { num: 1, tag: '[Quartermaster\'s Eye]', text: 'Secure the coinage and inspect the requisition scrolls.' },
+        { num: 2, tag: '[War Logic]', text: 'Distribute the silver among the mercenary cohort.' },
+        { num: 3, tag: '[Iron Will]', text: 'Lock the coffer in the baggage train. We press on.' },
+      ];
+    } else {
+      choices = [
+        { num: 1, tag: '[War Logic]', text: 'Understood. Deploy the archers and hold the line.' },
+        { num: 2, tag: '[Frontier Skepticism]', text: 'They promise glory, but deliver only mud and grave-markers.' },
+        { num: 3, tag: '[Iron Will]', text: 'Forward. Not one step back.' },
+      ];
+    }
+
+    return { badgeTag, badgeClass, sensoryBeat, speech, choices };
+  }
+
   /**
    * Character Portrait Dialogue Box (#gothic-dialogue):
    * Speaker portrait on left, gold filigree nameplate, typewriter typography with typing sound cue.
@@ -506,6 +754,8 @@ export class MissionUi {
     this.dialogueModal.replaceChildren();
 
     const info = this.getSpeakerInfo(who);
+    const formatted = this.formatDiscoDialogue(who, text);
+
     const frame = document.createElement('div');
     frame.className = 'gothic-dialogue-frame';
 
@@ -525,7 +775,22 @@ export class MissionUi {
 
     const bodyEl = document.createElement('div');
     bodyEl.className = 'gothic-dialogue-body';
-    bodyEl.textContent = '';
+
+    const badgeEl = document.createElement('div');
+    badgeEl.className = `de-skill-badge ${formatted.badgeClass}`;
+    badgeEl.textContent = formatted.badgeTag;
+
+    const sensoryEl = document.createElement('div');
+    sensoryEl.className = 'de-sensory-beat';
+    sensoryEl.textContent = formatted.sensoryBeat;
+
+    const speechEl = document.createElement('div');
+    speechEl.className = 'de-speech-text';
+    speechEl.textContent = '';
+
+    const choicesEl = document.createElement('div');
+    choicesEl.className = 'commander-responses-container';
+    choicesEl.style.display = 'none';
 
     const footer = document.createElement('div');
     footer.className = 'gothic-dialogue-footer';
@@ -539,13 +804,14 @@ export class MissionUi {
     contBtn.innerHTML = `${buttonText} <span class="btn-hotkey">[Space / Click]</span>`;
 
     footer.append(queueCounter, contBtn);
+    bodyEl.append(badgeEl, sensoryEl, speechEl, choicesEl);
     contentCol.append(nameplate, bodyEl, footer);
     frame.append(portraitCol, contentCol);
     this.dialogueModal.append(frame);
 
     // Typewriter effect state
     if (this.typingTimer !== null) clearInterval(this.typingTimer);
-    this.fullTypingText = text;
+    this.fullTypingText = formatted.speech;
     let charIdx = 0;
     let isTyping = true;
 
@@ -554,10 +820,13 @@ export class MissionUi {
         clearInterval(this.typingTimer);
         this.typingTimer = null;
       }
-      bodyEl.textContent = this.fullTypingText;
+      speechEl.textContent = this.fullTypingText;
       isTyping = false;
+      choicesEl.style.display = 'flex';
       contBtn.focus();
     };
+
+    this.finishCurrentTyping = finishTyping;
 
     const advance = () => {
       if (isTyping) {
@@ -569,6 +838,19 @@ export class MissionUi {
       }
     };
 
+    formatted.choices.forEach((c) => {
+      const choiceBtn = document.createElement('button');
+      choiceBtn.type = 'button';
+      choiceBtn.className = 'commander-choice-btn';
+      choiceBtn.innerHTML = `<span class="choice-num">${c.num}.</span> <span class="choice-tag">${c.tag}</span> "${c.text}"`;
+      choiceBtn.onclick = (e) => {
+        e.stopPropagation();
+        try { blip(); } catch {}
+        advance();
+      };
+      choicesEl.append(choiceBtn);
+    });
+
     this.typingCallback = advance;
     contBtn.onclick = (e) => {
       e.stopPropagation();
@@ -578,9 +860,9 @@ export class MissionUi {
 
     // Typewriter interval with audio cue
     this.typingTimer = window.setInterval(() => {
-      if (charIdx < text.length) {
-        bodyEl.textContent += text[charIdx];
-        if (charIdx % 3 === 0 && text[charIdx] !== ' ') {
+      if (charIdx < formatted.speech.length) {
+        speechEl.textContent += formatted.speech[charIdx];
+        if (charIdx % 3 === 0 && formatted.speech[charIdx] !== ' ') {
           try {
             blip();
           } catch {
@@ -592,6 +874,17 @@ export class MissionUi {
         finishTyping();
       }
     }, 18);
+  }
+
+  /** Selects a commander response stance (1, 2, 3) or advances dialogue. */
+  selectStance(choiceIdx: number): void {
+    if (!this.dialogueActive) return;
+    if (this.typingTimer !== null) {
+      this.finishCurrentTyping?.();
+    } else {
+      try { blip(); } catch {}
+      this.advanceDialogue();
+    }
   }
 
   /** Advances dialogue on keyboard Space or Enter. */
