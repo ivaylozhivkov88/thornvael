@@ -988,11 +988,31 @@ export function currentBiomeAmbience(): BiomeAmbience | null {
   return currentBiome;
 }
 
+const ACT_EXPLORE = ['fords', 'marsh', 'coast', 'heartland'];
+const ACT_TOWN = ['thornwick', 'redmarsh', 'oakhaven', 'ironcamp'];
+let musicAct = 0;
+/** Pick the act-specific tracks from pack 6a (1 to 4); 0 keeps the generic ones. Call before the music starts. */
+export function setMusicAct(act: number): void {
+  const a = act >= 1 && act <= 4 ? act : 0;
+  if (a === musicAct) return;
+  musicAct = a;
+  for (const m of ['explore', 'battle', 'town'] as MusicMode[]) {
+    const t = tracks[m];
+    if (t) { try { t.el.pause(); } catch {} tracks[m] = null; }
+  }
+}
+function musicFile(mode: MusicMode): string {
+  if (!musicAct) return `music_${mode}`;
+  if (mode === 'explore') return `music_explore_act${musicAct}_${ACT_EXPLORE[musicAct - 1]}`;
+  if (mode === 'battle') return `music_battle_act${musicAct}`;
+  return `music_town_${ACT_TOWN[musicAct - 1]}`;
+}
+
 function trackFor(mode: MusicMode): Track | null {
   if (!ctx || ctx.state === 'closed' || !musicBus || backgrounded) return null;
   let t = tracks[mode];
   if (!t) {
-    const el = new Audio(`${base()}audio/music_${mode}.m4a`);
+    const el = new Audio(`${base()}audio/${musicFile(mode)}.m4a`);
     el.loop = true;
     el.preload = 'auto';
     el.crossOrigin = 'anonymous';

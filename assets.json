@@ -1798,6 +1798,336 @@
       "license": "own",
       "source": "tools/synth-pack6a.py",
       "note": "Procedurally synthesized from Gemini pack 6a recipe"
+    },
+    {
+      "path": "public/audio/amb_canyon_wind.m4a",
+      "license": "own",
+      "source": "tools/synth-pack6a-music.py",
+      "note": "Procedurally synthesized from Gemini pack 6a recipe"
+    },
+    {
+      "path": "public/audio/amb_canyon_wind_ev0.m4a",
+      "license": "own",
+      "source": "tools/synth-pack6a-music.py",
+      "note": "Procedurally synthesized from Gemini pack 6a recipe"
+    },
+    {
+      "path": "public/audio/amb_fen.m4a",
+      "license": "own",
+      "source": "tools/synth-pack6a-music.py",
+      "note": "Procedurally synthesized from Gemini pack 6a recipe"
+    },
+    {
+      "path": "public/audio/amb_fen_ev0.m4a",
+      "license": "own",
+      "source": "tools/synth-pack6a-music.py",
+      "note": "Procedurally synthesized from Gemini pack 6a recipe"
+    },
+    {
+      "path": "public/audio/amb_forge_ironcamp.m4a",
+      "license": "own",
+      "source": "tools/synth-pack6a-music.py",
+      "note": "Procedurally synthesized from Gemini pack 6a recipe"
+    },
+    {
+      "path": "public/audio/amb_forge_ironcamp_ev0.m4a",
+      "license": "own",
+      "source": "tools/synth-pack6a-music.py",
+      "note": "Procedurally synthesized from Gemini pack 6a recipe"
+    },
+    {
+      "path": "public/audio/amb_greywood.m4a",
+      "license": "own",
+      "source": "tools/synth-pack6a-music.py",
+      "note": "Procedurally synthesized from Gemini pack 6a recipe"
+    },
+    {
+      "path": "public/audio/amb_greywood_ev0.m4a",
+      "license": "own",
+      "source": "tools/synth-pack6a-music.py",
+      "note": "Procedurally synthesized from Gemini pack 6a recipe"
+    },
+    {
+      "path": "public/audio/amb_harbor.m4a",
+      "license": "own",
+      "source": "tools/synth-pack6a-music.py",
+      "note": "Procedurally synthesized from Gemini pack 6a recipe"
+    },
+    {
+      "path": "public/audio/amb_harbor_ev0.m4a",
+      "license": "own",
+      "source": "tools/synth-pack6a-music.py",
+      "note": "Procedurally synthesized from Gemini pack 6a recipe"
+    },
+    {
+      "path": "public/audio/amb_quarry.m4a",
+      "license": "own",
+      "source": "tools/synth-pack6a-music.py",
+      "note": "Procedurally synthesized from Gemini pack 6a recipe"
+    },
+    {
+      "path": "public/audio/amb_quarry_ev0.m4a",
+      "license": "own",
+      "source": "tools/synth-pack6a-music.py",
+      "note": "Procedurally synthesized from Gemini pack 6a recipe"
+    },
+    {
+      "path": "public/audio/amb_redmarsh_swamp.m4a",
+      "license": "own",
+      "source": "tools/synth-pack6a-music.py",
+      "note": "Procedurally synthesized from Gemini pack 6a recipe"
+    },
+    {
+      "path": "public/audio/amb_redmarsh_swamp_ev0.m4a",
+      "license": "own",
+      "source": "tools/synth-pack6a-music.py",
+      "note": "Procedurally synthesized from Gemini pack 6a recipe"
+    },
+    {
+      "path": "public/audio/amb_river_ford.m4a",
+      "license": "own",
+      "source": "tools/synth-pack6a-music.py",
+      "note": "Procedurally synthesized from Gemini pack 6a recipe"
+    },
+    {
+      "path": "public/audio/amb_river_ford_ev0.m4a",
+      "license": "own",
+      "source": "tools/synth-pack6a-music.py",
+      "note": "Procedurally synthesized from Gemini pack 6a recipe"
+    },
+    {
+      "path": "public/audio/amb_ruined_sanctum.m4a",
+      "license": "own",
+      "source": "tools/synth-pack6a-music.py",
+      "note": "Procedurally synthesized from Gemini pack 6a recipe"
+    },
+    {
+      "path": "public/audio/amb_ruined_sanctum_ev0.m4a",
+      "license": "own",
+      "source": "tools/synth-pack6a-music.py",
+      "note": "Procedurally synthesized from Gemini pack 6a recipe"
+    },
+    {
+      "path": "public/audio/amb_sunken_citadel.m4a",
+      "license": "own",
+      "source": "tools/synth-pack6a-music.py",
+      "note": "Procedurally synthesized from Gemini pack 6a recipe"
+    },
+    {
+      "path": "public/audio/amb_sunken_citadel_ev0.m4a",
+      "license": "own",
+      "source": "tools/synth-pack6a-music.py",
+      "note": "Procedurally synthesized from Gemini pack 6a recipe"
+    },
+    {
+      "path": "public/audio/amb_throne_hall.m4a",
+      "license": "own",
+      "source": "tools/synth-pack6a-music.py",
+      "note": "Procedurally synthesized from Gemini pack 6a recipe"
+    },
+    {
+      "path": "public/audio/amb_throne_hall_ev0.m4a",
+      "license": "own",
+      "source": "tools/synth-pack6a-music.py",
+      "note": "Procedurally synthesized from Gemini pack 6a recipe"
+    },
+    {
+      "path": "public/audio/amb_town_oakhaven.m4a",
+      "license": "own",
+      "source": "tools/synth-pack6a-music.py",
+      "note": "Procedurally synthesized from Gemini pack 6a recipe"
+    },
+    {
+      "path": "public/audio/amb_town_oakhaven_ev0.m4a",
+      "license": "own",
+      "source": "tools/synth-pack6a-music.py",
+      "note": "Procedurally synthesized from Gemini pack 6a recipe"
+    },
+    {
+      "path": "public/audio/amb_town_redmarsh.m4a",
+      "license": "own",
+      "source": "tools/synth-pack6a-music.py",
+      "note": "Procedurally synthesized from Gemini pack 6a recipe"
+    },
+    {
+      "path": "public/audio/amb_town_redmarsh_ev0.m4a",
+      "license": "own",
+      "source": "tools/synth-pack6a-music.py",
+      "note": "Procedurally synthesized from Gemini pack 6a recipe"
+    },
+    {
+      "path": "public/audio/amb_town_thornwick.m4a",
+      "license": "own",
+      "source": "tools/synth-pack6a-music.py",
+      "note": "Procedurally synthesized from Gemini pack 6a recipe"
+    },
+    {
+      "path": "public/audio/amb_town_thornwick_ev0.m4a",
+      "license": "own",
+      "source": "tools/synth-pack6a-music.py",
+      "note": "Procedurally synthesized from Gemini pack 6a recipe"
+    },
+    {
+      "path": "public/audio/music_battle_act1.m4a",
+      "license": "own",
+      "source": "tools/synth-pack6a-music.py",
+      "note": "Procedurally synthesized from Gemini pack 6a recipe"
+    },
+    {
+      "path": "public/audio/music_battle_act2.m4a",
+      "license": "own",
+      "source": "tools/synth-pack6a-music.py",
+      "note": "Procedurally synthesized from Gemini pack 6a recipe"
+    },
+    {
+      "path": "public/audio/music_battle_act3.m4a",
+      "license": "own",
+      "source": "tools/synth-pack6a-music.py",
+      "note": "Procedurally synthesized from Gemini pack 6a recipe"
+    },
+    {
+      "path": "public/audio/music_battle_act4.m4a",
+      "license": "own",
+      "source": "tools/synth-pack6a-music.py",
+      "note": "Procedurally synthesized from Gemini pack 6a recipe"
+    },
+    {
+      "path": "public/audio/music_battle_elite.m4a",
+      "license": "own",
+      "source": "tools/synth-pack6a-music.py",
+      "note": "Procedurally synthesized from Gemini pack 6a recipe"
+    },
+    {
+      "path": "public/audio/music_boss_ashkarath.m4a",
+      "license": "own",
+      "source": "tools/synth-pack6a-music.py",
+      "note": "Procedurally synthesized from Gemini pack 6a recipe"
+    },
+    {
+      "path": "public/audio/music_boss_gorrathul.m4a",
+      "license": "own",
+      "source": "tools/synth-pack6a-music.py",
+      "note": "Procedurally synthesized from Gemini pack 6a recipe"
+    },
+    {
+      "path": "public/audio/music_boss_morvessa.m4a",
+      "license": "own",
+      "source": "tools/synth-pack6a-music.py",
+      "note": "Procedurally synthesized from Gemini pack 6a recipe"
+    },
+    {
+      "path": "public/audio/music_boss_vesperion.m4a",
+      "license": "own",
+      "source": "tools/synth-pack6a-music.py",
+      "note": "Procedurally synthesized from Gemini pack 6a recipe"
+    },
+    {
+      "path": "public/audio/music_cutscene_crown.m4a",
+      "license": "own",
+      "source": "tools/synth-pack6a-music.py",
+      "note": "Procedurally synthesized from Gemini pack 6a recipe"
+    },
+    {
+      "path": "public/audio/music_cutscene_omen.m4a",
+      "license": "own",
+      "source": "tools/synth-pack6a-music.py",
+      "note": "Procedurally synthesized from Gemini pack 6a recipe"
+    },
+    {
+      "path": "public/audio/music_explore_act1_fen.m4a",
+      "license": "own",
+      "source": "tools/synth-pack6a-music.py",
+      "note": "Procedurally synthesized from Gemini pack 6a recipe"
+    },
+    {
+      "path": "public/audio/music_explore_act1_fords.m4a",
+      "license": "own",
+      "source": "tools/synth-pack6a-music.py",
+      "note": "Procedurally synthesized from Gemini pack 6a recipe"
+    },
+    {
+      "path": "public/audio/music_explore_act2_canyon.m4a",
+      "license": "own",
+      "source": "tools/synth-pack6a-music.py",
+      "note": "Procedurally synthesized from Gemini pack 6a recipe"
+    },
+    {
+      "path": "public/audio/music_explore_act2_marsh.m4a",
+      "license": "own",
+      "source": "tools/synth-pack6a-music.py",
+      "note": "Procedurally synthesized from Gemini pack 6a recipe"
+    },
+    {
+      "path": "public/audio/music_explore_act3_citadel.m4a",
+      "license": "own",
+      "source": "tools/synth-pack6a-music.py",
+      "note": "Procedurally synthesized from Gemini pack 6a recipe"
+    },
+    {
+      "path": "public/audio/music_explore_act3_coast.m4a",
+      "license": "own",
+      "source": "tools/synth-pack6a-music.py",
+      "note": "Procedurally synthesized from Gemini pack 6a recipe"
+    },
+    {
+      "path": "public/audio/music_explore_act4_heartland.m4a",
+      "license": "own",
+      "source": "tools/synth-pack6a-music.py",
+      "note": "Procedurally synthesized from Gemini pack 6a recipe"
+    },
+    {
+      "path": "public/audio/music_explore_act4_rampart.m4a",
+      "license": "own",
+      "source": "tools/synth-pack6a-music.py",
+      "note": "Procedurally synthesized from Gemini pack 6a recipe"
+    },
+    {
+      "path": "public/audio/music_main_menu.m4a",
+      "license": "own",
+      "source": "tools/synth-pack6a-music.py",
+      "note": "Procedurally synthesized from Gemini pack 6a recipe"
+    },
+    {
+      "path": "public/audio/music_stinger_low_hp.m4a",
+      "license": "own",
+      "source": "tools/synth-pack6a-music.py",
+      "note": "Procedurally synthesized from Gemini pack 6a recipe"
+    },
+    {
+      "path": "public/audio/music_town_ironcamp.m4a",
+      "license": "own",
+      "source": "tools/synth-pack6a-music.py",
+      "note": "Procedurally synthesized from Gemini pack 6a recipe"
+    },
+    {
+      "path": "public/audio/music_town_oakhaven.m4a",
+      "license": "own",
+      "source": "tools/synth-pack6a-music.py",
+      "note": "Procedurally synthesized from Gemini pack 6a recipe"
+    },
+    {
+      "path": "public/audio/music_town_redmarsh.m4a",
+      "license": "own",
+      "source": "tools/synth-pack6a-music.py",
+      "note": "Procedurally synthesized from Gemini pack 6a recipe"
+    },
+    {
+      "path": "public/audio/music_town_thornwick.m4a",
+      "license": "own",
+      "source": "tools/synth-pack6a-music.py",
+      "note": "Procedurally synthesized from Gemini pack 6a recipe"
+    },
+    {
+      "path": "public/audio/music_victory.m4a",
+      "license": "own",
+      "source": "tools/synth-pack6a-music.py",
+      "note": "Procedurally synthesized from Gemini pack 6a recipe"
+    },
+    {
+      "path": "public/audio/music_defeat.m4a",
+      "license": "own",
+      "source": "tools/synth-pack6a-music.py",
+      "note": "Procedurally synthesized from Gemini pack 6a recipe"
     }
   ]
 }

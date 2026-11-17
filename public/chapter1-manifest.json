@@ -1,7 +1,7 @@
 {
  "id": "ch1",
  "cache": "thornvael-ch1-v1",
- "total": 3248979,
+ "total": 9510725,
  "files": [
   {
    "path": "data/campaign.json",
@@ -18,6 +18,118 @@
   {
    "path": "data/spells.json",
    "size": 3940
+  },
+  {
+   "path": "audio/amb_canyon_wind.m4a",
+   "size": 78175
+  },
+  {
+   "path": "audio/amb_canyon_wind_ev0.m4a",
+   "size": 5937
+  },
+  {
+   "path": "audio/amb_fen.m4a",
+   "size": 78088
+  },
+  {
+   "path": "audio/amb_fen_ev0.m4a",
+   "size": 5909
+  },
+  {
+   "path": "audio/amb_forge_ironcamp.m4a",
+   "size": 78129
+  },
+  {
+   "path": "audio/amb_forge_ironcamp_ev0.m4a",
+   "size": 5868
+  },
+  {
+   "path": "audio/amb_greywood.m4a",
+   "size": 78139
+  },
+  {
+   "path": "audio/amb_greywood_ev0.m4a",
+   "size": 5944
+  },
+  {
+   "path": "audio/amb_harbor.m4a",
+   "size": 78178
+  },
+  {
+   "path": "audio/amb_harbor_ev0.m4a",
+   "size": 5869
+  },
+  {
+   "path": "audio/amb_quarry.m4a",
+   "size": 78153
+  },
+  {
+   "path": "audio/amb_quarry_ev0.m4a",
+   "size": 5857
+  },
+  {
+   "path": "audio/amb_redmarsh_swamp.m4a",
+   "size": 78178
+  },
+  {
+   "path": "audio/amb_redmarsh_swamp_ev0.m4a",
+   "size": 5879
+  },
+  {
+   "path": "audio/amb_river_ford.m4a",
+   "size": 78104
+  },
+  {
+   "path": "audio/amb_river_ford_ev0.m4a",
+   "size": 5805
+  },
+  {
+   "path": "audio/amb_ruined_sanctum.m4a",
+   "size": 78094
+  },
+  {
+   "path": "audio/amb_ruined_sanctum_ev0.m4a",
+   "size": 5891
+  },
+  {
+   "path": "audio/amb_sunken_citadel.m4a",
+   "size": 78071
+  },
+  {
+   "path": "audio/amb_sunken_citadel_ev0.m4a",
+   "size": 5894
+  },
+  {
+   "path": "audio/amb_throne_hall.m4a",
+   "size": 78134
+  },
+  {
+   "path": "audio/amb_throne_hall_ev0.m4a",
+   "size": 5973
+  },
+  {
+   "path": "audio/amb_town_oakhaven.m4a",
+   "size": 78197
+  },
+  {
+   "path": "audio/amb_town_oakhaven_ev0.m4a",
+   "size": 5917
+  },
+  {
+   "path": "audio/amb_town_redmarsh.m4a",
+   "size": 78127
+  },
+  {
+   "path": "audio/amb_town_redmarsh_ev0.m4a",
+   "size": 5802
+  },
+  {
+   "path": "audio/amb_town_thornwick.m4a",
+   "size": 78164
+  },
+  {
+   "path": "audio/amb_town_thornwick_ev0.m4a",
+   "size": 5916
   },
   {
    "path": "audio/ambience.m4a",
@@ -180,12 +292,120 @@
    "size": 604812
   },
   {
+   "path": "audio/music_battle_act1.m4a",
+   "size": 182904
+  },
+  {
+   "path": "audio/music_battle_act2.m4a",
+   "size": 174785
+  },
+  {
+   "path": "audio/music_battle_act3.m4a",
+   "size": 225801
+  },
+  {
+   "path": "audio/music_battle_act4.m4a",
+   "size": 217610
+  },
+  {
+   "path": "audio/music_battle_elite.m4a",
+   "size": 211389
+  },
+  {
+   "path": "audio/music_boss_ashkarath.m4a",
+   "size": 207532
+  },
+  {
+   "path": "audio/music_boss_gorrathul.m4a",
+   "size": 177670
+  },
+  {
+   "path": "audio/music_boss_morvessa.m4a",
+   "size": 219326
+  },
+  {
+   "path": "audio/music_boss_vesperion.m4a",
+   "size": 222801
+  },
+  {
+   "path": "audio/music_cutscene_crown.m4a",
+   "size": 117078
+  },
+  {
+   "path": "audio/music_cutscene_omen.m4a",
+   "size": 124722
+  },
+  {
+   "path": "audio/music_defeat.m4a",
+   "size": 136274
+  },
+  {
    "path": "audio/music_explore.m4a",
    "size": 790819
   },
   {
+   "path": "audio/music_explore_act1_fen.m4a",
+   "size": 222641
+  },
+  {
+   "path": "audio/music_explore_act1_fords.m4a",
+   "size": 204731
+  },
+  {
+   "path": "audio/music_explore_act2_canyon.m4a",
+   "size": 209924
+  },
+  {
+   "path": "audio/music_explore_act2_marsh.m4a",
+   "size": 195184
+  },
+  {
+   "path": "audio/music_explore_act3_citadel.m4a",
+   "size": 228470
+  },
+  {
+   "path": "audio/music_explore_act3_coast.m4a",
+   "size": 190262
+  },
+  {
+   "path": "audio/music_explore_act4_heartland.m4a",
+   "size": 185171
+  },
+  {
+   "path": "audio/music_explore_act4_rampart.m4a",
+   "size": 198581
+  },
+  {
+   "path": "audio/music_main_menu.m4a",
+   "size": 215465
+  },
+  {
+   "path": "audio/music_stinger_low_hp.m4a",
+   "size": 59665
+  },
+  {
    "path": "audio/music_town.m4a",
    "size": 730782
+  },
+  {
+   "path": "audio/music_town_ironcamp.m4a",
+   "size": 209012
+  },
+  {
+   "path": "audio/music_town_oakhaven.m4a",
+   "size": 216135
+  },
+  {
+   "path": "audio/music_town_redmarsh.m4a",
+   "size": 223036
+  },
+  {
+   "path": "audio/music_town_thornwick.m4a",
+   "size": 235427
+  },
+  {
+   "path": "audio/music_victory.m4a",
+   "size": 73758
   },
   {
    "path": "audio/nomana.m4a",

@@ -1,6 +1,6 @@
 import { registerWorker } from './updategate';
 import { createInstallController, isInstallPrompt } from './pwa-install';
-import { audioState, blip, cancelShopEntry, play, playSurfaceFootstep, playPickupRustle, playShopEntry, playNotEnoughMana, playInventoryFull, playLowHpHeartbeat, resumeAudio, setAmbience, setMusic, setSfx, suspendAudio, unlock, type MusicMode } from './audio';
+import { audioState, blip, cancelShopEntry, play, playSurfaceFootstep, playPickupRustle, playShopEntry, playNotEnoughMana, playInventoryFull, playLowHpHeartbeat, resumeAudio, setAmbience, setMusic, setMusicAct, setSfx, suspendAudio, unlock, type MusicMode } from './audio';
 import { MusicDirector, classifyWeapon, cueFor, pickPotionDrink, pickTerrainStep, type CueContext } from './audiologic';
 import { ControlGroups, GROUP_COUNT } from './groups';
 import { GestureRecognizer, pickUnit, reticle, unitsInBox, type Intent } from './input';
@@ -307,10 +307,11 @@ if (campaign && campaignId) {
   try {
     const cNode = nodeOf(campaign, campaignId);
     renderer.setBiome(cNode.act ?? 1);
+    setMusicAct(cNode.act ?? 1);
   } catch {}
 } else if (params.has('act')) {
   const a = Number(params.get('act'));
-  if (a >= 1 && a <= 4) renderer.setBiome(a);
+  if (a >= 1 && a <= 4) { renderer.setBiome(a); setMusicAct(a); }
 } else if (loadedMission) {
   renderer.setBiome(detectBiomeFromMap(loadedMission.doc.name || '', map.terrain));
 }
