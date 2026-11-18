@@ -90,6 +90,19 @@ export function defeatFlavor(): string {
   return [q ? `"${q.quote}" - ${q.source}` : '', t ? `Tip: ${t.tip}` : ''].filter(Boolean).join('\n');
 }
 
+/** Difficulty flavor (content/difficulty-flavor.json). diff index 0 easy, 1 normal, 2 hard. */
+let diffFlavor: { level: string; on_select: string[]; on_death: string[]; on_win: string[] }[] = [];
+export async function loadDifficultyFlavor(): Promise<void> {
+  try {
+    const r = await fetch(`${import.meta.env.BASE_URL}data/content/difficulty-flavor.json`);
+    if (r.ok) diffFlavor = await r.json();
+  } catch { /* optional */ }
+}
+export function difficultyLine(kind: 'on_select' | 'on_death' | 'on_win', diff: number): string | undefined {
+  const lv = ['easy', 'normal', 'hard', 'nightmare'][diff] ?? 'normal';
+  return pick(diffFlavor.find((d) => d.level === lv)?.[kind] ?? []);
+}
+
 /** Bestiary entries (content/monster-codex.json). Empty until loaded. */
 export interface MonsterCodexEntry { id: string; name: string; codex: string; weakness?: string; special?: string; loot_theme?: string }
 let monsterCodex: MonsterCodexEntry[] = [];
@@ -98,6 +111,15 @@ export async function loadMonsterCodex(): Promise<void> {
   try {
     const r = await fetch(`${import.meta.env.BASE_URL}data/content/monster-codex.json`);
     if (r.ok) monsterCodex = await r.json();
+  } catch { /* optional */ }
+  try {
+    const r = await fetch(`${import.meta.env.BASE_URL}data/content/bestiary-extra.json`);
+    if (r.ok) {
+      const have = new Set(monsterCodex.map((m) => m.id));
+      for (const b of await r.json() as { id: string; name: string; behavior: string; lore: string; weakness?: string }[]) {
+        if (!have.has(b.id)) monsterCodex.push({ id: b.id, name: b.name, codex: `${b.lore} ${b.behavior}`, weakness: b.weakness });
+      }
+    }
   } catch { /* optional */ }
 }
 
@@ -125,6 +147,18 @@ export async function loadCodexLore(): Promise<void> {
       if (r.ok) out.push(...(await r.json() as CodexLore[]));
     } catch { /* optional */ }
   }
+  try {
+    const books = await (await fetch(`${base}data/content/lore-books.json`)).json() as { id: string; title: string; author?: string; text: string; act?: number }[];
+    for (const b of books) out.push({ id: b.id, category: 'book', title: b.title, body: `${b.author ? `By ${b.author}. ` : ''}${b.text}`, act: b.act });
+  } catch { /* optional */ }
+  try {
+    const facs = await (await fetch(`${base}data/content/factions.json`)).json() as { id: string; name: string; desc: string; ranks?: string[] }[];
+    for (const f of facs) out.push({ id: f.id, category: 'faction', title: f.name, body: `${f.desc}${f.ranks?.length ? ` Ranks: ${f.ranks.join(', ')}.` : ''}` });
+  } catch { /* optional */ }
+  try {
+    const tl = await (await fetch(`${base}data/content/timeline.json`)).json() as { year: string; event: string }[];
+    out.push({ id: 'timeline', category: 'history', title: 'Timeline of Thornvael', body: tl.map((t) => `${t.year}: ${t.event}`).join('\n') });
+  } catch { /* optional */ }
   codexLore = out;
 }
 

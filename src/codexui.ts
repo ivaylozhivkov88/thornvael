@@ -147,7 +147,7 @@ export class CodexUi {
           title.textContent = m.name;
           const meta = document.createElement('div');
           meta.className = 'codex-bestiary-meta';
-          for (const t of [m.weakness && `Weakness: ${m.weakness}`, m.special && `Special: ${m.special}`]) {
+          for (const t of [m.weakness && `Weakness: ${m.weakness}`, m.special && `Special: ${typeof m.special === 'string' ? m.special : (m.special as { name?: string }).name}`]) {
             if (!t) continue;
             const b = document.createElement('span');
             b.className = 'codex-bestiary-badge';

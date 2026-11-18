@@ -43,7 +43,7 @@ import {
 } from './sim/script';
 import { loadGameData } from './loaddata';
 import { loadHeroVoices, heroBark } from './herovoice';
-import { loadMissionContent, loadItemFlavor, loadFlavorLists, loadMonsterCodex, loadCodexLore, loadTownBarks, loadSpellText, defeatFlavor } from './missioncontent';
+import { loadMissionContent, loadItemFlavor, loadFlavorLists, loadMonsterCodex, loadCodexLore, loadTownBarks, loadSpellText, defeatFlavor, loadDifficultyFlavor, difficultyLine } from './missioncontent';
 import { DebugPanel } from './debugpanel';
 import { SPELLS, Tk } from './sim/spelldata';
 import { validTarget } from './sim/spells';
@@ -2031,6 +2031,7 @@ await loadItemFlavor();
 await loadFlavorLists();
 await loadMonsterCodex();
 await loadCodexLore();
+await loadDifficultyFlavor();
 await loadTownBarks();
 await loadSpellText();
 if (activeChar) await loadHeroVoices(activeChar.cls, activeChar.female);
@@ -3638,6 +3639,8 @@ tipOn($('btn-hero'), S.tips['btn-hero']);
 function startHero(): void {
   const begin = (cls: number, female: boolean, diff: number): void => {
     createHero(sim, 0, cls, female, diff);
+    const dl = difficultyLine('on_select', diff);
+    if (dl) toast(dl);
     if (params.has('gold')) {
       const g = Number.parseInt(params.get('gold')!, 10);
       if (!Number.isNaN(g) && g > 0) {
