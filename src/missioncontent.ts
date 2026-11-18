@@ -221,3 +221,19 @@ export async function loadMissionHints(mission: string): Promise<string[]> {
   } catch { /* optional */ }
   return [];
 }
+
+interface MercLine { act: number; name: string; hire_line: string }
+let mercLines: MercLine[] = [];
+/** Loads hire lines of the content mercenaries (Gemini mercenaries.json); optional. */
+export async function loadMercLines(): Promise<void> {
+  try {
+    const r = await fetch(`${import.meta.env.BASE_URL}data/content/mercenaries.json`);
+    if (r.ok) mercLines = (await r.json() as MercLine[]).filter((m) => m.hire_line);
+  } catch { /* optional */ }
+}
+/** A hire line for the given act, picked by unit id so it stays stable per mercenary. */
+export function mercHireLine(act: number, unit: number): string | null {
+  const pool = mercLines.filter((m) => m.act === act);
+  const m = pool.length ? pool[unit % pool.length] : null;
+  return m ? `${m.name}: "${m.hire_line}"` : null;
+}

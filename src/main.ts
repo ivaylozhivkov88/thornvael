@@ -43,7 +43,7 @@ import {
 } from './sim/script';
 import { loadGameData } from './loaddata';
 import { loadHeroVoices, heroBark } from './herovoice';
-import { loadMissionContent, loadMissionHints, loadItemFlavor, loadFlavorLists, loadMonsterCodex, loadCodexLore, loadTownBarks, loadSpellText, defeatFlavor, loadDifficultyFlavor, difficultyLine } from './missioncontent';
+import { loadMissionContent, loadMissionHints, loadItemFlavor, loadFlavorLists, loadMonsterCodex, loadCodexLore, loadTownBarks, loadSpellText, defeatFlavor, loadDifficultyFlavor, difficultyLine, loadMercLines, mercHireLine } from './missioncontent';
 import { DebugPanel } from './debugpanel';
 import { KNOWN_HI, SPELLS, Tk, maskHas } from './sim/spelldata';
 import { validTarget } from './sim/spells';
@@ -307,10 +307,12 @@ try {
   // storage may be blocked or hold junk; keep the defaults
 }
 
+let missionAct = 1;
 const renderer = new Renderer($('game') as HTMLCanvasElement, map);
 if (campaign && campaignId) {
   try {
     const cNode = nodeOf(campaign, campaignId);
+    missionAct = cNode.act ?? 1;
     renderer.setBiome(cNode.act ?? 1);
     setMusicAct(cNode.act ?? 1);
     setAmbienceAct(cNode.act ?? 1, isTownNode);
@@ -2040,6 +2042,7 @@ await loadFlavorLists();
 await loadMonsterCodex();
 await loadCodexLore();
 await loadDifficultyFlavor();
+await loadMercLines();
 await loadTownBarks();
 await loadSpellText();
 if (activeChar) await loadHeroVoices(activeChar.cls, activeChar.female);
@@ -2546,6 +2549,7 @@ function heroEvents(): void {
       toast(S.town.failed);
     } else if (e.type === Tfx.Hired) {
       toast(S.town.hiredToast);
+      if (e.el === 0) { const hl = mercHireLine(missionAct, e.v); if (hl) setTimeout(() => toast(hl), 1200); }
     } else if (e.type === 6) {
       toast(`${S.hero.skillUp}: ${SKILL_NAMES[e.v]} ${e.el}`);
       touched = true;
