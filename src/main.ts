@@ -2057,7 +2057,7 @@ await loadTownBarks();
 await loadSpellText();
 if (activeChar) await loadHeroVoices(activeChar.cls, activeChar.female);
 const missionContent = loadedMission ? await loadMissionContent(missionName) : null;
-if (loadedMission && missionName && !isTownNode) achReset();
+if (loadedMission && missionName && !isTownNode) { achReset(); radioFoes0 = 0; radioHalf = false; radioLow = false; }
   if (loadedMission && missionName && !isTownNode) void missionKey(missionName).then((k) => { if (k) void startSideQuests(k); });
 if (loadedMission && missionName) void missionRadio(missionName, 'start').then((l) => { if (l) setTimeout(() => toast(`Radio: ${l}`), 2500); });
 if (loadedMission && missionName) void loadMissionHints(missionName).then((h) => { if (h[0]) setTimeout(() => toast(h[0]), 6000); if (h[1]) setTimeout(() => toast(h[1]), 45000); });
@@ -2798,7 +2798,7 @@ function updateMusic(now: number): void {
     }
   }
   if (outcome) {
-    if (outcome === 'win' && !victoryBarked) { victoryBarked = true; recordAchWin(); { const [up, size] = army(); for (const q of sqFinish(true, up === size)) { const extra = Math.round((sim.cb.gold[0] ?? 0) * q.bonus / 100); sim.cb.gold[0] += extra; toast(`Side quest done: ${q.title} (+${extra} gold)`); } } if (missionName) void missionRadio(missionName, 'win').then((l) => { if (l) toast(`Radio: ${l}`); }); const vb = heroBark('victory', 0); if (vb) toast(`"${vb}"`); }
+    if (outcome === 'win' && !victoryBarked) { victoryBarked = true; recordAchWin(); { const [up, size] = army(); for (const q of sqFinish(true, up === size)) { const extra = Math.round((sim.cb.gold[0] ?? 0) * q.bonus / 100); sim.cb.gold[0] += extra; toast(`Side quest done: ${q.title} (+${extra} gold)`); } } if (missionName) void missionRadio(missionName, 'win').then((l) => { if (l) toast(`Radio: ${l}`); void missionRadio(missionName, 'victory_flavour').then((v) => { if (v) setTimeout(() => toast(`Radio: ${v}`), 3500); }); }); const vb = heroBark('victory', 0); if (vb) toast(`"${vb}"`); }
     setSpecialMusic(outcome === 'win' ? 'music_victory' : 'music_defeat', false);
     return;
   }
@@ -2853,6 +2853,7 @@ let persisted: boolean | string = '?';
 let live = { fps: 0, drawMs: 0, stepMs: 0, worstMs: 0 };
 if (diag) void import('./diag').then((m) => m.startDiag(document.body, () => live));
 
+let radioFoes0 = 0, radioHalf = false, radioLow = false;
 function updateStats(): void {
   for (const id of [...selected]) if (!alive(id)) selected.delete(id);
   if (sim.hero && alive(0) && (selected.size === 0 || !selected.has(0))) {
@@ -2866,6 +2867,12 @@ function updateStats(): void {
     if (aliveFoes < lastFoes && !isTownNode) achKills(lastFoes - aliveFoes);
     if (!isTownNode) achTrack(sim.count, sim.team, sim.cb.hp, sim.cb.family);
     if (!isTownNode) sqTrack(sim.count, sim.team, sim.cb.hp, sim.cb.family, sim.cb.gold[0] ?? 0);
+    if (!isTownNode && missionName) {
+      radioFoes0 = Math.max(radioFoes0, aliveFoes);
+      if (!radioHalf && radioFoes0 >= 6 && aliveFoes <= radioFoes0 / 2) { radioHalf = true; void missionRadio(missionName, 'half_cleared').then((l) => { if (l) toast(`Radio: ${l}`); }); }
+      const hh = sim.cb.hpMax[0] > 0 ? sim.cb.hp[0] / sim.cb.hpMax[0] : 1;
+      if (!radioLow && alive(0) && hh < 0.3) { radioLow = true; void missionRadio(missionName, 'low_hp').then((l) => { if (l) toast(`Radio: ${l}`); }); }
+    }
     lastFoes = aliveFoes;
     achGold(sim.cb.gold[0] ?? 0); achLevel(sim.hero?.level ?? 0);
     const [up, size] = army();

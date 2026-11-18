@@ -241,12 +241,14 @@ export async function missionKey(mission: string): Promise<string | null> {
 }
 
 /** In-mission radio line (content/mission-radio.json) for a map name and kind (start|mid|danger|win|lose). */
-export async function missionRadio(mission: string, kind: 'start' | 'mid' | 'danger' | 'win' | 'lose'): Promise<string | null> {
+export async function missionRadio(mission: string, kind: 'start' | 'mid' | 'danger' | 'win' | 'lose' | 'reinforce' | 'low_hp' | 'half_cleared' | 'boss_spawn' | 'boss_low' | 'victory_flavour'): Promise<string | null> {
   try {
     const base = import.meta.env.BASE_URL;
     const camp = await (await fetch(`${base}data/campaign.json`)).json() as { nodes: { id: string; map?: string }[] };
     const key = camp.nodes.find((n) => n.map === mission)?.id.split('-')[0];
-    const r = await fetch(`${base}data/content/mission-radio.json`);
+    const extra = ['reinforce', 'low_hp', 'half_cleared', 'boss_spawn', 'boss_low', 'victory_flavour'].includes(kind);
+    const r = await fetch(`${base}data/content/${extra ? 'mission-radio-extra' : 'mission-radio'}.json`);
+    if (key && r.ok && extra) return ((await r.json()) as { radio_extra: Record<string, string>[] }).radio_extra.find((x) => x.mission === key)?.[kind] ?? null;
     if (key && r.ok) return ((await r.json()) as Record<string, string>[]).find((x) => x.mission === key)?.[kind] ?? null;
   } catch { /* optional */ }
   return null;

@@ -1,0 +1,418 @@
+{
+ "radio_extra": [
+  {
+   "mission": "m01",
+   "reinforce": "More briar hounds are breaking through the brush from the southern woodline!",
+   "low_hp": "You're bleeding through your mail, Commander—pull back behind the pikes!",
+   "half_cleared": "Half the gnoll pack is in the dirt, keep the pressure on the ford!",
+   "boss_spawn": null,
+   "boss_low": null,
+   "victory_flavour": "The ford is cleared of blood and mud. Tollhouse ledger is safe."
+  },
+  {
+   "mission": "m02",
+   "reinforce": "Rootbound hulks are lumbering out of the gray mist behind our position!",
+   "low_hp": "That poison is slowing your stride, take a draught of sweet water now!",
+   "half_cleared": "The willow nests are burning down; we have broken their ambush line.",
+   "boss_spawn": null,
+   "boss_low": null,
+   "victory_flavour": "Scout Bren is on the litter. The peat fog hides our retreat no longer."
+  },
+  {
+   "mission": "m03",
+   "reinforce": "Quill fiends are swarming over the outer wall from the pine shadows!",
+   "low_hp": "Your shield-arm is wavering, Captain—let the levymen take the front rank!",
+   "half_cleared": "Two bone totems are smashed to splinters; the witchfire is dimming.",
+   "boss_spawn": null,
+   "boss_low": null,
+   "victory_flavour": "Ravenwatch bailey holds another night against the dark."
+  },
+  {
+   "mission": "m04",
+   "reinforce": "More drowned thralls are boiling up through the flooded cloister floor!",
+   "low_hp": "The chill water is stealing your strength, stay away from the deep silt!",
+   "half_cleared": "Mordred's altar is fouled with his own guard's blood.",
+   "boss_spawn": "Old Briarmaw rises from the black sump, jaws dripping with ancient mud!",
+   "boss_low": "The beast's massive hide is torn—strike the heart before it drags us down!",
+   "victory_flavour": "The sunken sanctum rests in silence once more."
+  },
+  {
+   "mission": "m05",
+   "reinforce": "Cinderlings are dropping onto the switchback from the upper crags!",
+   "low_hp": "You're taking too many arrows on the climb, crouch behind the mail wagon!",
+   "half_cleared": "The lower deadfall is cleared and Courier Corin is moving.",
+   "boss_spawn": null,
+   "boss_low": null,
+   "victory_flavour": "Lantern Passage beacon burns clear against the midnight sky."
+  },
+  {
+   "mission": "m06",
+   "reinforce": "Flintbacks are charging out of the timber stacks to defend Tarn's powder!",
+   "low_hp": "Step back from the salted rations before your wounds foul the meat!",
+   "half_cleared": "Two timber depots are blazing; Tarn's reserves are cut in half.",
+   "boss_spawn": null,
+   "boss_low": null,
+   "victory_flavour": "Greywood supply depots are reduced to black craters."
+  },
+  {
+   "mission": "m07",
+   "reinforce": "Glasswings are diving from the granite horn straight into our left wing!",
+   "low_hp": "The frost is biting deep into your cuts, keep moving to stay warm!",
+   "half_cleared": "Both alpine gorges are cleared of the stone sentinels.",
+   "boss_spawn": null,
+   "boss_low": null,
+   "victory_flavour": "Twin Cairns stand lit against the mountain gale."
+  },
+  {
+   "mission": "m08",
+   "reinforce": "Rootbound breakers are splashing across the swollen river from the east bank!",
+   "low_hp": "The pike line is thinning around you, do not let them break the bridgehead!",
+   "half_cleared": "Three raider waves have broken against our stakes and bled out.",
+   "boss_spawn": null,
+   "boss_low": null,
+   "victory_flavour": "Every refugee cart is safe across Alder Bridge."
+  },
+  {
+   "mission": "m09",
+   "reinforce": "More flintbacks are pouring out of the old kiln smoke to support Krag!",
+   "low_hp": "Ironhide's maul has cracked your ribs, fall back behind the spearmen!",
+   "half_cleared": "Krag's outriders are wiped from the quarry floor.",
+   "boss_spawn": "Krag Ironhide steps from the peat smoke, swinging his rune-baked maul!",
+   "boss_low": "The warlord's hide is cracking! One good push will drop him!",
+   "victory_flavour": "The granite quarry belongs to the living again."
+  },
+  {
+   "mission": "m10",
+   "reinforce": "Fallen shamans are crawling out of the dark ventilation shafts!",
+   "low_hp": "The underground air is foul and your blood is running thin, watch your guard!",
+   "half_cleared": "Two ventilated galleries are purged of the blood-cultists.",
+   "boss_spawn": null,
+   "boss_low": null,
+   "victory_flavour": "The Undervault links are cleared from snow to southern stair."
+  },
+  {
+   "mission": "m11",
+   "reinforce": "Gloom stags are leaping over the burning barricades into the town square!",
+   "low_hp": "Ashbrook is burning around you, find cover before the roof beams fall!",
+   "half_cleared": "The evacuation wagons are rolling unmolested up the north road.",
+   "boss_spawn": "Morvessa descends from the ridge like a storm-cloud of cold iron!",
+   "boss_low": "Morvessa's dark sorcery is failing—finish the turncoat witch!",
+   "victory_flavour": "Ashbrook's gates are shut against the ashes."
+  },
+  {
+   "mission": "m12",
+   "reinforce": "Sand raiders are boiling out of the alkali hollows on lathered mounts!",
+   "low_hp": "The desert heat is draining your stamina, find shadow by the obelisk!",
+   "half_cleared": "Two bone-pit outposts are smoking heaps in the salt.",
+   "boss_spawn": null,
+   "boss_low": null,
+   "victory_flavour": "Redmarsh border is crossed and the causeway holds."
+  },
+  {
+   "mission": "m13",
+   "reinforce": "Claw vipers are slithering down the red granite goat-trails behind us!",
+   "low_hp": "Poison is blackening your veins, drink the antidote phial now!",
+   "half_cleared": "Both high horn-bow blinds are silent and abandoned.",
+   "boss_spawn": null,
+   "boss_low": null,
+   "victory_flavour": "Twin passes are opened to our vanguard."
+  },
+  {
+   "mission": "m14",
+   "reinforce": "Storm kites are screeching down through the copper dust storm!",
+   "low_hp": "The grit is scouring the flesh from your face, keep your visor down!",
+   "half_cleared": "Two scout squads are secured; one ring remains in the grit.",
+   "boss_spawn": null,
+   "boss_low": null,
+   "victory_flavour": "All scattered scouts are gathered behind the boulder rings."
+  },
+  {
+   "mission": "m15",
+   "reinforce": "Witch doctors are chanting up the dry creek bed with fresh firepots!",
+   "low_hp": "Highgate catwalks are slippery with your blood, step carefully!",
+   "half_cleared": "The scaling ladders are smashed into kindling along the palisade.",
+   "boss_spawn": null,
+   "boss_low": null,
+   "victory_flavour": "Highgate Watch stands tall against the desert night."
+  },
+  {
+   "mission": "m16",
+   "reinforce": "Greater mummies are rising from the alkali crust around the quartz spires!",
+   "low_hp": "The black blood from the spires is rotting your armor away!",
+   "half_cleared": "Two ward-breaking circles are smashed to white dust.",
+   "boss_spawn": "Lady Selene steps from the bleeding quartz, wreathed in frost and malice!",
+   "boss_low": "Selene's ice is melting! Strike hard while she stumbles!",
+   "victory_flavour": "Wardstone spires hum with pure light once more."
+  },
+  {
+   "mission": "m17",
+   "reinforce": "Claw vipers are burrowing beneath the wagon wheels in the deep mire!",
+   "low_hp": "An axle is groaning and you are bleeding out—defend the supply crates!",
+   "half_cleared": "Half the Sunken Causeway is behind us with all wheels rolling.",
+   "boss_spawn": null,
+   "boss_low": null,
+   "victory_flavour": "Mire convoy is safely inside the forward camp."
+  },
+  {
+   "mission": "m18",
+   "reinforce": "Dune beasts are charging through the blinding smoke of the smokers!",
+   "low_hp": "The sulfur smoke is choking the breath from your lungs, pull back!",
+   "half_cleared": "The assay vault is looted and half the grain stacks are burning.",
+   "boss_spawn": null,
+   "boss_low": null,
+   "victory_flavour": "Granary box canyon is a scorched imperial memory."
+  },
+  {
+   "mission": "m19",
+   "reinforce": "Fetish blowdart gunners are creeping through the poison willow thicket!",
+   "low_hp": "The marrow-rot fumes are bypassing your wet cloth, get out of the haze!",
+   "half_cleared": "Ten black megaliths are overturned; Kaelen's circle is broken.",
+   "boss_spawn": "Matriarch Voss emerges from the fetid roots, rattling bone trinkets!",
+   "boss_low": "The Matriarch's hexes are breaking over her head—strike now!",
+   "victory_flavour": "Hexer's hollow is cleansed of root and rot."
+  },
+  {
+   "mission": "m20",
+   "reinforce": "Pale burrowers are tunneling up through the quarry switchback ramps!",
+   "low_hp": "Stone dust and blood make a thick paste on your armor, stay steady!",
+   "half_cleared": "The upper ballista ledges are quiet and the slave-pens are open.",
+   "boss_spawn": null,
+   "boss_low": null,
+   "victory_flavour": "Deep Quarry miners are free of Gorrathul's chains."
+  },
+  {
+   "mission": "m21",
+   "reinforce": "Salt crabs are scuttling up the half-built stone revetments!",
+   "low_hp": "Crossroads Redoubt is nearly overwhelmed, do not let them touch the well!",
+   "half_cleared": "Two raider columns have broken their teeth on our revetments.",
+   "boss_spawn": null,
+   "boss_low": null,
+   "victory_flavour": "Lean garrison holds the crossroads until relief arrives."
+  },
+  {
+   "mission": "m22",
+   "reinforce": "Dune lurkers are dropping from the gorge walls to block Vorn's pursuers!",
+   "low_hp": "You're sprinting hard on empty lungs, catch Vorn before the gates drop!",
+   "half_cleared": "Vorn's rearguard is scattered across the gravel trail.",
+   "boss_spawn": null,
+   "boss_low": null,
+   "victory_flavour": "Gorrathul's fortress blueprints are secured from Vorn's cold hands."
+  },
+  {
+   "mission": "m23",
+   "reinforce": "Greater mummies are marching out of Ironheart's gatehouse to reinforce the bridge!",
+   "low_hp": "The citadel guns are pounding the causeway into dust around you!",
+   "half_cleared": "The eastern gun redoubts are smashed and silent.",
+   "boss_spawn": "Gorrathul steps onto the causeway, clad in plates of dark forged iron!",
+   "boss_low": "Gorrathul's iron plate is dented and bare! Take his head!",
+   "victory_flavour": "Ironheart Bastion's gates lie open to our banners."
+  },
+  {
+   "mission": "m24",
+   "reinforce": "Hollow knights are wading through the Greywash mudflats toward our flank!",
+   "low_hp": "The tide is rising fast and your wounds are open, reach the jetties!",
+   "half_cleared": "The blockade pontoons are burning down to the waterline.",
+   "boss_spawn": null,
+   "boss_low": null,
+   "victory_flavour": "Oakhaven channel flies our colors once more."
+  },
+  {
+   "mission": "m25",
+   "reinforce": "Spore matrons are puffing boiling steam across the basalt clifftops!",
+   "low_hp": "Your wet wool mask is scorched through, the sulfur is burning your throat!",
+   "half_cleared": "Two outer ward-rings are shattered into basalt rubble.",
+   "boss_spawn": null,
+   "boss_low": null,
+   "victory_flavour": "Cinder Wards are cooled and the groundwater flows pure."
+  },
+  {
+   "mission": "m26",
+   "reinforce": "Ironbark constructs are marching down from Split Tooth ridge!",
+   "low_hp": "The arbalest bolts are splintering your tower-shield to matchwood!",
+   "half_cleared": "Both flanking arbalest batteries are smashed into the granite.",
+   "boss_spawn": null,
+   "boss_low": null,
+   "victory_flavour": "Split Tooth road is clear of sniper fire."
+  },
+  {
+   "mission": "m27",
+   "reinforce": "Hollow knights are breaking through the ruined chapel graveyard fence!",
+   "low_hp": "Levymen are falling around the stretchers, hold the bracken line!",
+   "half_cleared": "Most of the wounded are loaded; the triage wagon is ready.",
+   "boss_spawn": null,
+   "boss_low": null,
+   "victory_flavour": "Field infirmary has evacuated every crippled soldier."
+  },
+  {
+   "mission": "m28",
+   "reinforce": "Salt crabs are swarming up the lower lighthouse stair out of the surf!",
+   "low_hp": "The sea-stack is chin-deep in freezing brine, swim or die!",
+   "half_cleared": "The drowned armory is looted and the water-gate is blown.",
+   "boss_spawn": "Malakor the Drowned rises from the crashing surf, armored in barnacles and rust!",
+   "boss_low": "Malakor's coral shell is cracking! Drive him back into the tide!",
+   "victory_flavour": "Sunken Citadel Castellan lies still on the lighthouse landing."
+  },
+  {
+   "mission": "m29",
+   "reinforce": "Hollow kings are blocking the canyon exit with animated deadfall!",
+   "low_hp": "You're running on fumes and fourteen bolts, keep the pace up!",
+   "half_cleared": "Two canyon roadblocks are hacked to splinters.",
+   "boss_spawn": null,
+   "boss_low": null,
+   "victory_flavour": "Iron-Gate Watchtower is relieved from its long siege."
+  },
+  {
+   "mission": "m30",
+   "reinforce": "Wendigo bruisers are crashing through the switchback timber lines!",
+   "low_hp": "The chalk walls offer no shelter against their sortie, fight for your life!",
+   "half_cleared": "Both mule-train ambushes succeeded; the garrison is starving.",
+   "boss_spawn": null,
+   "boss_low": null,
+   "victory_flavour": "High-Orchard Redoubt surrenders its keys to the frost."
+  },
+  {
+   "mission": "m31",
+   "reinforce": "Lantern eels are writhing up through the sluice grates from the dark river!",
+   "low_hp": "Eighty feet of roaring water is below you, do not lose your footing!",
+   "half_cleared": "The central sluice island is secured and the gears are wedged.",
+   "boss_spawn": null,
+   "boss_low": null,
+   "victory_flavour": "Riverlock Crossing floodgates are locked in our favor."
+  },
+  {
+   "mission": "m32",
+   "reinforce": "Spore matrons are releasing toxic cloud cover across the pine ridge!",
+   "low_hp": "The colossus's tectonic stomps have broken your armor plates to scrap!",
+   "half_cleared": "The giant's granite plating is cracked down the spine.",
+   "boss_spawn": "The Peat Monolith heaves itself upright from the ancient bog, shaking the pines!",
+   "boss_low": "The Monolith's core is sputtering slag! One final push!",
+   "victory_flavour": "Elder Juggernaut lies shattered across the ridge."
+  },
+  {
+   "mission": "m33",
+   "reinforce": "Night orchards are hurling screaming skull-fruit over Vane's manor wall!",
+   "low_hp": "Vane's catacomb guards are closing in while you bleed on the flagstones!",
+   "half_cleared": "Both flanking manor vaults are secured and the bullion is bagged.",
+   "boss_spawn": "Captain Draven strides from the catacomb lift, brandishing a poisoned sabre!",
+   "boss_low": "Draven is bleeding heavily from his own vaults—cut him down!",
+   "victory_flavour": "Baron Vane's extortion ring is broken forever."
+  },
+  {
+   "mission": "m34",
+   "reinforce": "Frost bells are chiming an eerie warning across the muddy salvage hollow!",
+   "low_hp": "Two mercenary bands are carving you up in the crossfire, find cover!",
+   "half_cleared": "The warband standards are lying in the mud between the corpses.",
+   "boss_spawn": null,
+   "boss_low": null,
+   "victory_flavour": "Clashing banners are trampled into the harbor muck."
+  },
+  {
+   "mission": "m35",
+   "reinforce": "Wendigo bruisers are leaping from the burning drydocks onto the seawall!",
+   "low_hp": "The pitch-pots are setting your cloak ablaze, beat out the fire!",
+   "half_cleared": "The seawall catapults are retaken and Kael's rudder is smashed.",
+   "boss_spawn": "Pyre-Marshal Kael leaps from the flagship superstructure, wreathed in white phosphorus!",
+   "boss_low": "Kael's phosphorus mantle is burning out! End the Pyre-Marshal!",
+   "victory_flavour": "Burning Harbor flagship is boarded and cleared."
+  },
+  {
+   "mission": "m36",
+   "reinforce": "Crowned maws are erupting from the black glass sand drifts!",
+   "low_hp": "The volcanic cinders are scouring your wounds, bind them tight!",
+   "half_cleared": "The ash-stalker packs are wiped from the dunes.",
+   "boss_spawn": null,
+   "boss_low": null,
+   "victory_flavour": "Highcrest bluff is fortified against the heartland night."
+  },
+  {
+   "mission": "m37",
+   "reinforce": "Rift moths are swarming out of the static dome to feed on our spells!",
+   "low_hp": "Lightning arcs are dancing across your chest plate, step away from the prisms!",
+   "half_cleared": "Two crystal focusing beacons are smashed into glass powder.",
+   "boss_spawn": null,
+   "boss_low": null,
+   "victory_flavour": "Shattered beacons leave the obsidian pass wide open."
+  },
+  {
+   "mission": "m38",
+   "reinforce": "Anvilmaw smiths are hauling heavy iron scaling ladders up the glacis!",
+   "low_hp": "Greystone's pumice wall is crumbling beneath your feet, hold the gap!",
+   "half_cleared": "All scaling ladders are tipped into the ditch.",
+   "boss_spawn": null,
+   "boss_low": null,
+   "victory_flavour": "Besieged wall is cleared of every siege engine."
+  },
+  {
+   "mission": "m39",
+   "reinforce": "Doom knights are materializing behind our advance on the Ashveil gorge!",
+   "low_hp": "Malrik's obsidian barriers are grinding your shield arm to bone!",
+   "half_cleared": "The shadow constructs are fading back into the gorge walls.",
+   "boss_spawn": null,
+   "boss_low": null,
+   "victory_flavour": "Flight of Malrik ends upon the blood-stained portal stairs."
+  },
+  {
+   "mission": "m40",
+   "reinforce": "Silt colossi are trampling the blind scree behind the twin crag bastions!",
+   "low_hp": "The mana-cannon volleys are shaking the very cliffside loose!",
+   "half_cleared": "One crag bastion gun is spiked and silent.",
+   "boss_spawn": "The High-Tide Oracle rises from the citadel mists, chanting curses of salt and iron!",
+   "boss_low": "The Oracle's tides are receding—strike before the next chant!",
+   "victory_flavour": "Twofold assault leaves the citadel causeway open."
+  },
+  {
+   "mission": "m41",
+   "reinforce": "Basalt brutes are blocking the magnetic canyon road with heavy portcullis beams!",
+   "low_hp": "Your weapons are leaping to the canyon walls from magnetic pull, fight bare-handed if you must!",
+   "half_cleared": "Two spiked gates are cracked and the golems are scrap.",
+   "boss_spawn": null,
+   "boss_low": null,
+   "victory_flavour": "Gauntlet of iron is passed and the cliff nests are stripped."
+  },
+  {
+   "mission": "m42",
+   "reinforce": "Redglass drakes are swooping out of the magma moat across the battlements!",
+   "low_hp": "The heat from the slag river is melting your greaves, move faster!",
+   "half_cleared": "Both gatehouse counterweight winches are cut and dropped.",
+   "boss_spawn": null,
+   "boss_low": null,
+   "victory_flavour": "Outer rampart drawbridge spans the fire."
+  },
+  {
+   "mission": "m43",
+   "reinforce": "Crowned maws are surging across the ash plain from the eastern relief host!",
+   "low_hp": "Three armies are crushing our camp, do not let the line buckle!",
+   "half_cleared": "The northern column and western powder convoy are obliterated.",
+   "boss_spawn": "The Ironclad Leviathan crawls across the ash plains, bristling with heavy ballistas!",
+   "boss_low": "The Leviathan's iron plates are buckling! Pour everything into the breach!",
+   "victory_flavour": "Three-roads siege ends in a field of broken standards."
+  },
+  {
+   "mission": "m44",
+   "reinforce": "Rift moths are streaming out of the twin doors of the obsidian nave!",
+   "low_hp": "The silent praetors have driven their spears through your armor, stay on your feet!",
+   "half_cleared": "The praetor phalanx is broken and the central dais is clear.",
+   "boss_spawn": "Inquisitor Varro steps through the silver steles, eyes burning with zealot fire!",
+   "boss_low": "Varro's faith is cracking under your blade—end the Inquisitor!",
+   "victory_flavour": "Threshold Choice is made within the silent nave."
+  },
+  {
+   "mission": "m45",
+   "reinforce": "Stormtrees are smashing their root-clubs down onto the marble altar seals!",
+   "low_hp": "Shadow praetorians have surrounded the vault dome, fight your way to the seals!",
+   "half_cleared": "Both West and East Anchor Seals are holding against the surge.",
+   "boss_spawn": "Vesperion descends from the cracked dome, wings of pure starlight blazing with wrath!",
+   "boss_low": "Vesperion's starlight is dimming to ash—strike true!",
+   "victory_flavour": "Crown of Order rests immovable upon the fractured altar."
+  },
+  {
+   "mission": "m46",
+   "reinforce": "Anvilmaw smiths are swarming out of the splitting floor vents around the throne!",
+   "low_hp": "The unchained primordial fire is melting the floor beneath your boots!",
+   "half_cleared": "Both West and East Conduit Pillars are reduced to slag.",
+   "boss_spawn": "First Warden Ashkarath rises from the Obsidian Throne, wreathed in unchained magma!",
+   "boss_low": "Ashkarath's primordial flame is guttering out! Strike the final blow!",
+   "victory_flavour": "Ember Reckoning is complete. The realm belongs to the dawn."
+  }
+ ]
+}
