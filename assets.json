@@ -2128,6 +2128,966 @@
       "license": "own",
       "source": "tools/synth-pack6a-music.py",
       "note": "Procedurally synthesized from Gemini pack 6a recipe"
+    },
+    {
+      "path": "public/itemicons/bog-iron-spatha.png",
+      "license": "own",
+      "source": "tools/gen-item-icons.py",
+      "note": "Procedural item icon from base-items.json"
+    },
+    {
+      "path": "public/itemicons/wardens-arming-blade.png",
+      "license": "own",
+      "source": "tools/gen-item-icons.py",
+      "note": "Procedural item icon from base-items.json"
+    },
+    {
+      "path": "public/itemicons/salt-tempered-falchion.png",
+      "license": "own",
+      "source": "tools/gen-item-icons.py",
+      "note": "Procedural item icon from base-items.json"
+    },
+    {
+      "path": "public/itemicons/harbor-guard-estoc.png",
+      "license": "own",
+      "source": "tools/gen-item-icons.py",
+      "note": "Procedural item icon from base-items.json"
+    },
+    {
+      "path": "public/itemicons/cinder-vein-greatsword.png",
+      "license": "own",
+      "source": "tools/gen-item-icons.py",
+      "note": "Procedural item icon from base-items.json"
+    },
+    {
+      "path": "public/itemicons/peat-cleaver-hatchet.png",
+      "license": "own",
+      "source": "tools/gen-item-icons.py",
+      "note": "Procedural item icon from base-items.json"
+    },
+    {
+      "path": "public/itemicons/ford-picket-francisca.png",
+      "license": "own",
+      "source": "tools/gen-item-icons.py",
+      "note": "Procedural item icon from base-items.json"
+    },
+    {
+      "path": "public/itemicons/quarry-splitting-axe.png",
+      "license": "own",
+      "source": "tools/gen-item-icons.py",
+      "note": "Procedural item icon from base-items.json"
+    },
+    {
+      "path": "public/itemicons/reaver-lochaber-axe.png",
+      "license": "own",
+      "source": "tools/gen-item-icons.py",
+      "note": "Procedural item icon from base-items.json"
+    },
+    {
+      "path": "public/itemicons/caldera-jaw-greataxe.png",
+      "license": "own",
+      "source": "tools/gen-item-icons.py",
+      "note": "Procedural item icon from base-items.json"
+    },
+    {
+      "path": "public/itemicons/ash-knobbed-bludgeon.png",
+      "license": "own",
+      "source": "tools/gen-item-icons.py",
+      "note": "Procedural item icon from base-items.json"
+    },
+    {
+      "path": "public/itemicons/bailiffs-iron-truncheon.png",
+      "license": "own",
+      "source": "tools/gen-item-icons.py",
+      "note": "Procedural item icon from base-items.json"
+    },
+    {
+      "path": "public/itemicons/salt-crusted-pernach.png",
+      "license": "own",
+      "source": "tools/gen-item-icons.py",
+      "note": "Procedural item icon from base-items.json"
+    },
+    {
+      "path": "public/itemicons/foundry-sledge-mace.png",
+      "license": "own",
+      "source": "tools/gen-item-icons.py",
+      "note": "Procedural item icon from base-items.json"
+    },
+    {
+      "path": "public/itemicons/ember-crown-bec.png",
+      "license": "own",
+      "source": "tools/gen-item-icons.py",
+      "note": "Procedural item icon from base-items.json"
+    },
+    {
+      "path": "public/itemicons/alder-limb-flatbow.png",
+      "license": "own",
+      "source": "tools/gen-item-icons.py",
+      "note": "Procedural item icon from base-items.json"
+    },
+    {
+      "path": "public/itemicons/fen-reed-longbow.png",
+      "license": "own",
+      "source": "tools/gen-item-icons.py",
+      "note": "Procedural item icon from base-items.json"
+    },
+    {
+      "path": "public/itemicons/salt-backed-horn-bow.png",
+      "license": "own",
+      "source": "tools/gen-item-icons.py",
+      "note": "Procedural item icon from base-items.json"
+    },
+    {
+      "path": "public/itemicons/cliff-gale-selfbow.png",
+      "license": "own",
+      "source": "tools/gen-item-icons.py",
+      "note": "Procedural item icon from base-items.json"
+    },
+    {
+      "path": "public/itemicons/ash-spire-warbow.png",
+      "license": "own",
+      "source": "tools/gen-item-icons.py",
+      "note": "Procedural item icon from base-items.json"
+    },
+    {
+      "path": "public/itemicons/latched-poacher-prod.png",
+      "license": "own",
+      "source": "tools/gen-item-icons.py",
+      "note": "Procedural item icon from base-items.json"
+    },
+    {
+      "path": "public/itemicons/bridge-watch-latchet.png",
+      "license": "own",
+      "source": "tools/gen-item-icons.py",
+      "note": "Procedural item icon from base-items.json"
+    },
+    {
+      "path": "public/itemicons/salt-bed-gastraphetes.png",
+      "license": "own",
+      "source": "tools/gen-item-icons.py",
+      "note": "Procedural item icon from base-items.json"
+    },
+    {
+      "path": "public/itemicons/cranequin-sea-arbalest.png",
+      "license": "own",
+      "source": "tools/gen-item-icons.py",
+      "note": "Procedural item icon from base-items.json"
+    },
+    {
+      "path": "public/itemicons/slag-spring-repeater.png",
+      "license": "own",
+      "source": "tools/gen-item-icons.py",
+      "note": "Procedural item icon from base-items.json"
+    },
+    {
+      "path": "public/itemicons/charred-birch-twig.png",
+      "license": "own",
+      "source": "tools/gen-item-icons.py",
+      "note": "Procedural item icon from base-items.json"
+    },
+    {
+      "path": "public/itemicons/tallied-bone-pointer.png",
+      "license": "own",
+      "source": "tools/gen-item-icons.py",
+      "note": "Procedural item icon from base-items.json"
+    },
+    {
+      "path": "public/itemicons/brine-etched-spire-rod.png",
+      "license": "own",
+      "source": "tools/gen-item-icons.py",
+      "note": "Procedural item icon from base-items.json"
+    },
+    {
+      "path": "public/itemicons/gravetide-ash-baton.png",
+      "license": "own",
+      "source": "tools/gen-item-icons.py",
+      "note": "Procedural item icon from base-items.json"
+    },
+    {
+      "path": "public/itemicons/threshold-key-scepter.png",
+      "license": "own",
+      "source": "tools/gen-item-icons.py",
+      "note": "Procedural item icon from base-items.json"
+    },
+    {
+      "path": "public/itemicons/driftwood-crook-staff.png",
+      "license": "own",
+      "source": "tools/gen-item-icons.py",
+      "note": "Procedural item icon from base-items.json"
+    },
+    {
+      "path": "public/itemicons/surveyors-plumb-staff.png",
+      "license": "own",
+      "source": "tools/gen-item-icons.py",
+      "note": "Procedural item icon from base-items.json"
+    },
+    {
+      "path": "public/itemicons/fen-abbey-crosier.png",
+      "license": "own",
+      "source": "tools/gen-item-icons.py",
+      "note": "Procedural item icon from base-items.json"
+    },
+    {
+      "path": "public/itemicons/galvanic-coil-stave.png",
+      "license": "own",
+      "source": "tools/gen-item-icons.py",
+      "note": "Procedural item icon from base-items.json"
+    },
+    {
+      "path": "public/itemicons/pyre-warden-pillar.png",
+      "license": "own",
+      "source": "tools/gen-item-icons.py",
+      "note": "Procedural item icon from base-items.json"
+    },
+    {
+      "path": "public/itemicons/rust-pitted-seax.png",
+      "license": "own",
+      "source": "tools/gen-item-icons.py",
+      "note": "Procedural item icon from base-items.json"
+    },
+    {
+      "path": "public/itemicons/cobblers-awl-blade.png",
+      "license": "own",
+      "source": "tools/gen-item-icons.py",
+      "note": "Procedural item icon from base-items.json"
+    },
+    {
+      "path": "public/itemicons/salt-flat-stiletto.png",
+      "license": "own",
+      "source": "tools/gen-item-icons.py",
+      "note": "Procedural item icon from base-items.json"
+    },
+    {
+      "path": "public/itemicons/harbor-pilots-dirk.png",
+      "license": "own",
+      "source": "tools/gen-item-icons.py",
+      "note": "Procedural item icon from base-items.json"
+    },
+    {
+      "path": "public/itemicons/cinder-glass-kriss.png",
+      "license": "own",
+      "source": "tools/gen-item-icons.py",
+      "note": "Procedural item icon from base-items.json"
+    },
+    {
+      "path": "public/itemicons/boiled-hide-coif.png",
+      "license": "own",
+      "source": "tools/gen-item-icons.py",
+      "note": "Procedural item icon from base-items.json"
+    },
+    {
+      "path": "public/itemicons/hemp-padded-arming-cap.png",
+      "license": "own",
+      "source": "tools/gen-item-icons.py",
+      "note": "Procedural item icon from base-items.json"
+    },
+    {
+      "path": "public/itemicons/riveted-nasal-spangen.png",
+      "license": "own",
+      "source": "tools/gen-item-icons.py",
+      "note": "Procedural item icon from base-items.json"
+    },
+    {
+      "path": "public/itemicons/peat-dyed-trapper-hood.png",
+      "license": "own",
+      "source": "tools/gen-item-icons.py",
+      "note": "Procedural item icon from base-items.json"
+    },
+    {
+      "path": "public/itemicons/brimstone-chapel-de-fer.png",
+      "license": "own",
+      "source": "tools/gen-item-icons.py",
+      "note": "Procedural item icon from base-items.json"
+    },
+    {
+      "path": "public/itemicons/assayers-copper-circlet.png",
+      "license": "own",
+      "source": "tools/gen-item-icons.py",
+      "note": "Procedural item icon from base-items.json"
+    },
+    {
+      "path": "public/itemicons/sea-wall-sallet.png",
+      "license": "own",
+      "source": "tools/gen-item-icons.py",
+      "note": "Procedural item icon from base-items.json"
+    },
+    {
+      "path": "public/itemicons/ossuary-scribe-miter.png",
+      "license": "own",
+      "source": "tools/gen-item-icons.py",
+      "note": "Procedural item icon from base-items.json"
+    },
+    {
+      "path": "public/itemicons/caldera-forged-armet.png",
+      "license": "own",
+      "source": "tools/gen-item-icons.py",
+      "note": "Procedural item icon from base-items.json"
+    },
+    {
+      "path": "public/itemicons/crown-ember-coronet.png",
+      "license": "own",
+      "source": "tools/gen-item-icons.py",
+      "note": "Procedural item icon from base-items.json"
+    },
+    {
+      "path": "public/itemicons/patched-canvas-doublet.png",
+      "license": "own",
+      "source": "tools/gen-item-icons.py",
+      "note": "Procedural item icon from base-items.json"
+    },
+    {
+      "path": "public/itemicons/mortuary-linen-tunic.png",
+      "license": "own",
+      "source": "tools/gen-item-icons.py",
+      "note": "Procedural item icon from base-items.json"
+    },
+    {
+      "path": "public/itemicons/fen-scale-hauberk.png",
+      "license": "own",
+      "source": "tools/gen-item-icons.py",
+      "note": "Procedural item icon from base-items.json"
+    },
+    {
+      "path": "public/itemicons/salt-cured-jerkin.png",
+      "license": "own",
+      "source": "tools/gen-item-icons.py",
+      "note": "Procedural item icon from base-items.json"
+    },
+    {
+      "path": "public/itemicons/redmarsh-lamellar-coat.png",
+      "license": "own",
+      "source": "tools/gen-item-icons.py",
+      "note": "Procedural item icon from base-items.json"
+    },
+    {
+      "path": "public/itemicons/wardstone-scholar-coat.png",
+      "license": "own",
+      "source": "tools/gen-item-icons.py",
+      "note": "Procedural item icon from base-items.json"
+    },
+    {
+      "path": "public/itemicons/oakhaven-plate-cuirass.png",
+      "license": "own",
+      "source": "tools/gen-item-icons.py",
+      "note": "Procedural item icon from base-items.json"
+    },
+    {
+      "path": "public/itemicons/scriptorium-funeral-pall.png",
+      "license": "own",
+      "source": "tools/gen-item-icons.py",
+      "note": "Procedural item icon from base-items.json"
+    },
+    {
+      "path": "public/itemicons/obsidian-bastion-plate.png",
+      "license": "own",
+      "source": "tools/gen-item-icons.py",
+      "note": "Procedural item icon from base-items.json"
+    },
+    {
+      "path": "public/itemicons/leyline-conduit-vestment.png",
+      "license": "own",
+      "source": "tools/gen-item-icons.py",
+      "note": "Procedural item icon from base-items.json"
+    },
+    {
+      "path": "public/itemicons/split-rawhide-mitts.png",
+      "license": "own",
+      "source": "tools/gen-item-icons.py",
+      "note": "Procedural item icon from base-items.json"
+    },
+    {
+      "path": "public/itemicons/ink-stained-fingerless.png",
+      "license": "own",
+      "source": "tools/gen-item-icons.py",
+      "note": "Procedural item icon from base-items.json"
+    },
+    {
+      "path": "public/itemicons/greased-archers-tab-gloves.png",
+      "license": "own",
+      "source": "tools/gen-item-icons.py",
+      "note": "Procedural item icon from base-items.json"
+    },
+    {
+      "path": "public/itemicons/riveted-scale-cuffs.png",
+      "license": "own",
+      "source": "tools/gen-item-icons.py",
+      "note": "Procedural item icon from base-items.json"
+    },
+    {
+      "path": "public/itemicons/alkali-proof-gauntlets.png",
+      "license": "own",
+      "source": "tools/gen-item-icons.py",
+      "note": "Procedural item icon from base-items.json"
+    },
+    {
+      "path": "public/itemicons/copper-sewn-conduit-gloves.png",
+      "license": "own",
+      "source": "tools/gen-item-icons.py",
+      "note": "Procedural item icon from base-items.json"
+    },
+    {
+      "path": "public/itemicons/harbor-riggers-grips.png",
+      "license": "own",
+      "source": "tools/gen-item-icons.py",
+      "note": "Procedural item icon from base-items.json"
+    },
+    {
+      "path": "public/itemicons/bone-knuckle-grips.png",
+      "license": "own",
+      "source": "tools/gen-item-icons.py",
+      "note": "Procedural item icon from base-items.json"
+    },
+    {
+      "path": "public/itemicons/slag-forged-crushers.png",
+      "license": "own",
+      "source": "tools/gen-item-icons.py",
+      "note": "Procedural item icon from base-items.json"
+    },
+    {
+      "path": "public/itemicons/ember-weave-handwraps.png",
+      "license": "own",
+      "source": "tools/gen-item-icons.py",
+      "note": "Procedural item icon from base-items.json"
+    },
+    {
+      "path": "public/itemicons/bog-clogged-clogs.png",
+      "license": "own",
+      "source": "tools/gen-item-icons.py",
+      "note": "Procedural item icon from base-items.json"
+    },
+    {
+      "path": "public/itemicons/tallow-rubbed-buskins.png",
+      "license": "own",
+      "source": "tools/gen-item-icons.py",
+      "note": "Procedural item icon from base-items.json"
+    },
+    {
+      "path": "public/itemicons/hobnailed-ford-boots.png",
+      "license": "own",
+      "source": "tools/gen-item-icons.py",
+      "note": "Procedural item icon from base-items.json"
+    },
+    {
+      "path": "public/itemicons/fen-stalker-moccasins.png",
+      "license": "own",
+      "source": "tools/gen-item-icons.py",
+      "note": "Procedural item icon from base-items.json"
+    },
+    {
+      "path": "public/itemicons/salt-crust-waders.png",
+      "license": "own",
+      "source": "tools/gen-item-icons.py",
+      "note": "Procedural item icon from base-items.json"
+    },
+    {
+      "path": "public/itemicons/plated-sabaton-boots.png",
+      "license": "own",
+      "source": "tools/gen-item-icons.py",
+      "note": "Procedural item icon from base-items.json"
+    },
+    {
+      "path": "public/itemicons/cliff-grip-greaves.png",
+      "license": "own",
+      "source": "tools/gen-item-icons.py",
+      "note": "Procedural item icon from base-items.json"
+    },
+    {
+      "path": "public/itemicons/crypt-dust-slippers.png",
+      "license": "own",
+      "source": "tools/gen-item-icons.py",
+      "note": "Procedural item icon from base-items.json"
+    },
+    {
+      "path": "public/itemicons/molten-tread-sabatons.png",
+      "license": "own",
+      "source": "tools/gen-item-icons.py",
+      "note": "Procedural item icon from base-items.json"
+    },
+    {
+      "path": "public/itemicons/threshold-step-boots.png",
+      "license": "own",
+      "source": "tools/gen-item-icons.py",
+      "note": "Procedural item icon from base-items.json"
+    },
+    {
+      "path": "public/itemicons/hemp-rope-girdle.png",
+      "license": "own",
+      "source": "tools/gen-item-icons.py",
+      "note": "Procedural item icon from base-items.json"
+    },
+    {
+      "path": "public/itemicons/tanned-oxhide-strap.png",
+      "license": "own",
+      "source": "tools/gen-item-icons.py",
+      "note": "Procedural item icon from base-items.json"
+    },
+    {
+      "path": "public/itemicons/toll-collectors-pouch-belt.png",
+      "license": "own",
+      "source": "tools/gen-item-icons.py",
+      "note": "Procedural item icon from base-items.json"
+    },
+    {
+      "path": "public/itemicons/iron-studded-war-sash.png",
+      "license": "own",
+      "source": "tools/gen-item-icons.py",
+      "note": "Procedural item icon from base-items.json"
+    },
+    {
+      "path": "public/itemicons/salt-caravan-bandolier.png",
+      "license": "own",
+      "source": "tools/gen-item-icons.py",
+      "note": "Procedural item icon from base-items.json"
+    },
+    {
+      "path": "public/itemicons/assayers-scale-girdle.png",
+      "license": "own",
+      "source": "tools/gen-item-icons.py",
+      "note": "Procedural item icon from base-items.json"
+    },
+    {
+      "path": "public/itemicons/harbor-masters-cinch.png",
+      "license": "own",
+      "source": "tools/gen-item-icons.py",
+      "note": "Procedural item icon from base-items.json"
+    },
+    {
+      "path": "public/itemicons/probate-seal-sash.png",
+      "license": "own",
+      "source": "tools/gen-item-icons.py",
+      "note": "Procedural item icon from base-items.json"
+    },
+    {
+      "path": "public/itemicons/caldera-plate-girdle.png",
+      "license": "own",
+      "source": "tools/gen-item-icons.py",
+      "note": "Procedural item icon from base-items.json"
+    },
+    {
+      "path": "public/itemicons/ember-core-cincture.png",
+      "license": "own",
+      "source": "tools/gen-item-icons.py",
+      "note": "Procedural item icon from base-items.json"
+    },
+    {
+      "path": "public/itemicons/tarred-plank-targe.png",
+      "license": "own",
+      "source": "tools/gen-item-icons.py",
+      "note": "Procedural item icon from base-items.json"
+    },
+    {
+      "path": "public/itemicons/cracked-horn-buckler.png",
+      "license": "own",
+      "source": "tools/gen-item-icons.py",
+      "note": "Procedural item icon from base-items.json"
+    },
+    {
+      "path": "public/itemicons/iron-rimmed-heater.png",
+      "license": "own",
+      "source": "tools/gen-item-icons.py",
+      "note": "Procedural item icon from base-items.json"
+    },
+    {
+      "path": "public/itemicons/surveyors-brass-mirror.png",
+      "license": "own",
+      "source": "tools/gen-item-icons.py",
+      "note": "Procedural item icon from base-items.json"
+    },
+    {
+      "path": "public/itemicons/salt-oak-pavise.png",
+      "license": "own",
+      "source": "tools/gen-item-icons.py",
+      "note": "Procedural item icon from base-items.json"
+    },
+    {
+      "path": "public/itemicons/ossuary-bone-ward.png",
+      "license": "own",
+      "source": "tools/gen-item-icons.py",
+      "note": "Procedural item icon from base-items.json"
+    },
+    {
+      "path": "public/itemicons/oakhaven-galley-shield.png",
+      "license": "own",
+      "source": "tools/gen-item-icons.py",
+      "note": "Procedural item icon from base-items.json"
+    },
+    {
+      "path": "public/itemicons/galvanic-copper-aegis.png",
+      "license": "own",
+      "source": "tools/gen-item-icons.py",
+      "note": "Procedural item icon from base-items.json"
+    },
+    {
+      "path": "public/itemicons/obsidian-bulwark.png",
+      "license": "own",
+      "source": "tools/gen-item-icons.py",
+      "note": "Procedural item icon from base-items.json"
+    },
+    {
+      "path": "public/itemicons/threshold-ward-mirror.png",
+      "license": "own",
+      "source": "tools/gen-item-icons.py",
+      "note": "Procedural item icon from base-items.json"
+    },
+    {
+      "path": "public/itemicons/twisted-bog-wire-ring.png",
+      "license": "own",
+      "source": "tools/gen-item-icons.py",
+      "note": "Procedural item icon from base-items.json"
+    },
+    {
+      "path": "public/itemicons/tallow-wax-signet.png",
+      "license": "own",
+      "source": "tools/gen-item-icons.py",
+      "note": "Procedural item icon from base-items.json"
+    },
+    {
+      "path": "public/itemicons/river-pebble-band.png",
+      "license": "own",
+      "source": "tools/gen-item-icons.py",
+      "note": "Procedural item icon from base-items.json"
+    },
+    {
+      "path": "public/itemicons/alkali-etched-band.png",
+      "license": "own",
+      "source": "tools/gen-item-icons.py",
+      "note": "Procedural item icon from base-items.json"
+    },
+    {
+      "path": "public/itemicons/copper-coil-ring.png",
+      "license": "own",
+      "source": "tools/gen-item-icons.py",
+      "note": "Procedural item icon from base-items.json"
+    },
+    {
+      "path": "public/itemicons/toll-wardens-signet.png",
+      "license": "own",
+      "source": "tools/gen-item-icons.py",
+      "note": "Procedural item icon from base-items.json"
+    },
+    {
+      "path": "public/itemicons/salt-glass-ring.png",
+      "license": "own",
+      "source": "tools/gen-item-icons.py",
+      "note": "Procedural item icon from base-items.json"
+    },
+    {
+      "path": "public/itemicons/probate-bailiffs-band.png",
+      "license": "own",
+      "source": "tools/gen-item-icons.py",
+      "note": "Procedural item icon from base-items.json"
+    },
+    {
+      "path": "public/itemicons/harbor-chain-ring.png",
+      "license": "own",
+      "source": "tools/gen-item-icons.py",
+      "note": "Procedural item icon from base-items.json"
+    },
+    {
+      "path": "public/itemicons/beacon-lens-signet.png",
+      "license": "own",
+      "source": "tools/gen-item-icons.py",
+      "note": "Procedural item icon from base-items.json"
+    },
+    {
+      "path": "public/itemicons/ossuary-seal-ring.png",
+      "license": "own",
+      "source": "tools/gen-item-icons.py",
+      "note": "Procedural item icon from base-items.json"
+    },
+    {
+      "path": "public/itemicons/galvanic-arc-band.png",
+      "license": "own",
+      "source": "tools/gen-item-icons.py",
+      "note": "Procedural item icon from base-items.json"
+    },
+    {
+      "path": "public/itemicons/caldera-slag-signet.png",
+      "license": "own",
+      "source": "tools/gen-item-icons.py",
+      "note": "Procedural item icon from base-items.json"
+    },
+    {
+      "path": "public/itemicons/first-watch-oath-ring.png",
+      "license": "own",
+      "source": "tools/gen-item-icons.py",
+      "note": "Procedural item icon from base-items.json"
+    },
+    {
+      "path": "public/itemicons/spire-keystone-band.png",
+      "license": "own",
+      "source": "tools/gen-item-icons.py",
+      "note": "Procedural item icon from base-items.json"
+    },
+    {
+      "path": "public/itemicons/braided-rush-charm.png",
+      "license": "own",
+      "source": "tools/gen-item-icons.py",
+      "note": "Procedural item icon from base-items.json"
+    },
+    {
+      "path": "public/itemicons/leaden-parish-token.png",
+      "license": "own",
+      "source": "tools/gen-item-icons.py",
+      "note": "Procedural item icon from base-items.json"
+    },
+    {
+      "path": "public/itemicons/chipped-flint-gorget.png",
+      "license": "own",
+      "source": "tools/gen-item-icons.py",
+      "note": "Procedural item icon from base-items.json"
+    },
+    {
+      "path": "public/itemicons/brine-vial-pendant.png",
+      "license": "own",
+      "source": "tools/gen-item-icons.py",
+      "note": "Procedural item icon from base-items.json"
+    },
+    {
+      "path": "public/itemicons/copper-plumb-amulet.png",
+      "license": "own",
+      "source": "tools/gen-item-icons.py",
+      "note": "Procedural item icon from base-items.json"
+    },
+    {
+      "path": "public/itemicons/iron-ration-tag.png",
+      "license": "own",
+      "source": "tools/gen-item-icons.py",
+      "note": "Procedural item icon from base-items.json"
+    },
+    {
+      "path": "public/itemicons/amber-fen-beetle-charm.png",
+      "license": "own",
+      "source": "tools/gen-item-icons.py",
+      "note": "Procedural item icon from base-items.json"
+    },
+    {
+      "path": "public/itemicons/salt-crystal-pendulum.png",
+      "license": "own",
+      "source": "tools/gen-item-icons.py",
+      "note": "Procedural item icon from base-items.json"
+    },
+    {
+      "path": "public/itemicons/sea-wall-anchor-charm.png",
+      "license": "own",
+      "source": "tools/gen-item-icons.py",
+      "note": "Procedural item icon from base-items.json"
+    },
+    {
+      "path": "public/itemicons/smoked-quartz-monocle.png",
+      "license": "own",
+      "source": "tools/gen-item-icons.py",
+      "note": "Procedural item icon from base-items.json"
+    },
+    {
+      "path": "public/itemicons/ash-urn-reliquary.png",
+      "license": "own",
+      "source": "tools/gen-item-icons.py",
+      "note": "Procedural item icon from base-items.json"
+    },
+    {
+      "path": "public/itemicons/conclave-tuning-fork.png",
+      "license": "own",
+      "source": "tools/gen-item-icons.py",
+      "note": "Procedural item icon from base-items.json"
+    },
+    {
+      "path": "public/itemicons/cinder-heart-talisman.png",
+      "license": "own",
+      "source": "tools/gen-item-icons.py",
+      "note": "Procedural item icon from base-items.json"
+    },
+    {
+      "path": "public/itemicons/threshold-seal-gorget.png",
+      "license": "own",
+      "source": "tools/gen-item-icons.py",
+      "note": "Procedural item icon from base-items.json"
+    },
+    {
+      "path": "public/itemicons/astral-prism-medallion.png",
+      "license": "own",
+      "source": "tools/gen-item-icons.py",
+      "note": "Procedural item icon from base-items.json"
+    },
+    {
+      "path": "public/itemicons/bog-moss-poultice.png",
+      "license": "own",
+      "source": "tools/gen-item-icons.py",
+      "note": "Procedural item icon from base-items.json"
+    },
+    {
+      "path": "public/itemicons/tallow-ration-hardbread.png",
+      "license": "own",
+      "source": "tools/gen-item-icons.py",
+      "note": "Procedural item icon from base-items.json"
+    },
+    {
+      "path": "public/itemicons/bitter-gall-draught.png",
+      "license": "own",
+      "source": "tools/gen-item-icons.py",
+      "note": "Procedural item icon from base-items.json"
+    },
+    {
+      "path": "public/itemicons/crude-whetstone-block.png",
+      "license": "own",
+      "source": "tools/gen-item-icons.py",
+      "note": "Procedural item icon from base-items.json"
+    },
+    {
+      "path": "public/itemicons/parish-ward-scroll.png",
+      "license": "own",
+      "source": "tools/gen-item-icons.py",
+      "note": "Procedural item icon from base-items.json"
+    },
+    {
+      "path": "public/itemicons/scrap-bog-iron-ingot.png",
+      "license": "own",
+      "source": "tools/gen-item-icons.py",
+      "note": "Procedural item icon from base-items.json"
+    },
+    {
+      "path": "public/itemicons/redmarsh-saline-tonic.png",
+      "license": "own",
+      "source": "tools/gen-item-icons.py",
+      "note": "Procedural item icon from base-items.json"
+    },
+    {
+      "path": "public/itemicons/viper-antivenom-phial.png",
+      "license": "own",
+      "source": "tools/gen-item-icons.py",
+      "note": "Procedural item icon from base-items.json"
+    },
+    {
+      "path": "public/itemicons/copper-filings-phial.png",
+      "license": "own",
+      "source": "tools/gen-item-icons.py",
+      "note": "Procedural item icon from base-items.json"
+    },
+    {
+      "path": "public/itemicons/cured-fen-hide-bundle.png",
+      "license": "own",
+      "source": "tools/gen-item-icons.py",
+      "note": "Procedural item icon from base-items.json"
+    },
+    {
+      "path": "public/itemicons/notarized-hex-vellum.png",
+      "license": "own",
+      "source": "tools/gen-item-icons.py",
+      "note": "Procedural item icon from base-items.json"
+    },
+    {
+      "path": "public/itemicons/tempered-flux-powder.png",
+      "license": "own",
+      "source": "tools/gen-item-icons.py",
+      "note": "Procedural item icon from base-items.json"
+    },
+    {
+      "path": "public/itemicons/alkali-blood-restorative.png",
+      "license": "own",
+      "source": "tools/gen-item-icons.py",
+      "note": "Procedural item icon from base-items.json"
+    },
+    {
+      "path": "public/itemicons/galvanic-ether-ampoule.png",
+      "license": "own",
+      "source": "tools/gen-item-icons.py",
+      "note": "Procedural item icon from base-items.json"
+    },
+    {
+      "path": "public/itemicons/bitumen-sealant-jar.png",
+      "license": "own",
+      "source": "tools/gen-item-icons.py",
+      "note": "Procedural item icon from base-items.json"
+    },
+    {
+      "path": "public/itemicons/scroll-of-iron-skin.png",
+      "license": "own",
+      "source": "tools/gen-item-icons.py",
+      "note": "Procedural item icon from base-items.json"
+    },
+    {
+      "path": "public/itemicons/refined-harbor-steel-bar.png",
+      "license": "own",
+      "source": "tools/gen-item-icons.py",
+      "note": "Procedural item icon from base-items.json"
+    },
+    {
+      "path": "public/itemicons/salt-cured-sinew-coil.png",
+      "license": "own",
+      "source": "tools/gen-item-icons.py",
+      "note": "Procedural item icon from base-items.json"
+    },
+    {
+      "path": "public/itemicons/oakhaven-aqua-vitae.png",
+      "license": "own",
+      "source": "tools/gen-item-icons.py",
+      "note": "Procedural item icon from base-items.json"
+    },
+    {
+      "path": "public/itemicons/leyline-spark-elixir.png",
+      "license": "own",
+      "source": "tools/gen-item-icons.py",
+      "note": "Procedural item icon from base-items.json"
+    },
+    {
+      "path": "public/itemicons/ossuary-ash-incense.png",
+      "license": "own",
+      "source": "tools/gen-item-icons.py",
+      "note": "Procedural item icon from base-items.json"
+    },
+    {
+      "path": "public/itemicons/scroll-of-fissure-ward.png",
+      "license": "own",
+      "source": "tools/gen-item-icons.py",
+      "note": "Procedural item icon from base-items.json"
+    },
+    {
+      "path": "public/itemicons/meteoric-slag-chunk.png",
+      "license": "own",
+      "source": "tools/gen-item-icons.py",
+      "note": "Procedural item icon from base-items.json"
+    },
+    {
+      "path": "public/itemicons/wyrm-scale-bundle.png",
+      "license": "own",
+      "source": "tools/gen-item-icons.py",
+      "note": "Procedural item icon from base-items.json"
+    },
+    {
+      "path": "public/itemicons/threshold-ichor-phial.png",
+      "license": "own",
+      "source": "tools/gen-item-icons.py",
+      "note": "Procedural item icon from base-items.json"
+    },
+    {
+      "path": "public/itemicons/celestial-spire-distillate.png",
+      "license": "own",
+      "source": "tools/gen-item-icons.py",
+      "note": "Procedural item icon from base-items.json"
+    },
+    {
+      "path": "public/itemicons/first-watch-edict-scroll.png",
+      "license": "own",
+      "source": "tools/gen-item-icons.py",
+      "note": "Procedural item icon from base-items.json"
+    },
+    {
+      "path": "public/itemicons/caldera-ember-core.png",
+      "license": "own",
+      "source": "tools/gen-item-icons.py",
+      "note": "Procedural item icon from base-items.json"
+    },
+    {
+      "path": "public/itemicons/star-iron-ingot.png",
+      "license": "own",
+      "source": "tools/gen-item-icons.py",
+      "note": "Procedural item icon from base-items.json"
+    },
+    {
+      "path": "public/itemicons/void-glass-shard.png",
+      "license": "own",
+      "source": "tools/gen-item-icons.py",
+      "note": "Procedural item icon from base-items.json"
     }
   ]
 }

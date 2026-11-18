@@ -86,6 +86,14 @@ def main():
         draw(it).save(os.path.join(OUT, it['id'] + '.png'), optimize=True)
         ids.append(it['id'])
     json.dump({'count': len(ids), 'ids': ids}, open(os.path.join(OUT, 'manifest.json'), 'w'))
+    # keep assets.json provenance in sync (check:repo requires an entry per binary)
+    mp = os.path.join(ROOT, 'assets.json')
+    man = json.load(open(mp, encoding='utf-8'))
+    man['assets'] = [a for a in man['assets'] if not a['path'].startswith('public/itemicons/')]
+    for i in ids:
+        man['assets'].append({'path': f'public/itemicons/{i}.png', 'license': 'own', 'source': 'tools/gen-item-icons.py', 'note': 'Procedural item icon from base-items.json'})
+    json.dump(man, open(mp, 'w', encoding='utf-8'), indent=2, ensure_ascii=False)
+    open(mp, 'a').write(chr(10))
     print(len(ids), 'icons')
 
 main()
