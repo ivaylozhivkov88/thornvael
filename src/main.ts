@@ -30,7 +30,7 @@ import { D2InteractionController, type D2Interactable } from './sim/movement';
 import { DAY_TICKS, clockText } from './sim/daynight';
 import { HeroUi, tabStrip } from './heroui';
 import { staminaMax } from './sim/mechanics';
-import { SKILL_NAMES, WHY_TEXT, createHero, takeItem, type HeroSkillId } from './sim/hero';
+import { SKILL_NAMES, WHY_TEXT, createHero, heroKnowsSpell, takeItem, type HeroSkillId } from './sim/hero';
 import { Cls, getItemDef, itemId, itemText, Ik, Slot } from './sim/items';
 import {
   openTownPortal,
@@ -45,7 +45,7 @@ import { loadGameData } from './loaddata';
 import { loadHeroVoices, heroBark } from './herovoice';
 import { loadMissionContent, loadMissionHints, loadItemFlavor, loadFlavorLists, loadMonsterCodex, loadCodexLore, loadTownBarks, loadSpellText, defeatFlavor, loadDifficultyFlavor, difficultyLine } from './missioncontent';
 import { DebugPanel } from './debugpanel';
-import { SPELLS, Tk } from './sim/spelldata';
+import { KNOWN_HI, SPELLS, Tk, maskHas } from './sim/spelldata';
 import { validTarget } from './sim/spells';
 import { FP, Sim, TICKS_PER_SECOND, type Command, type OrderName } from './sim/sim';
 import { S } from './strings';
@@ -424,7 +424,7 @@ function execute(kind: ArmKind, sx: number, sy: number): boolean {
   return true;
 }
 
-const casters = (sid: number): number[] => selectedIds().filter((i) => ((sim.cb.known[i] >>> sid) & 1) === 1);
+const casters = (sid: number): number[] => selectedIds().filter((i) => maskHas(sim.cb.known[i], sim.cb.knownHi, i * KNOWN_HI, sid));
 
 /** The unit (or body) a spell would take as its target at a screen point, or -1. */
 function spellTargetAt(sid: number, sx: number, sy: number, snap: number): number {
@@ -1941,7 +1941,7 @@ if (menuSpells) {
     spellbookUi.open();
   };
 }
-const heroKnows = (sid: number): boolean => sim.hero === null || ((sim.cb.known[sim.hero.id] >>> sid) & 1) === 1;
+const heroKnows = (sid: number): boolean => sim.hero === null || maskHas(sim.cb.known[sim.hero.id], sim.cb.knownHi, sim.hero.id * KNOWN_HI, sid);
 function renderBook(): void {
   const body = $('book-body');
   body.replaceChildren();
@@ -2193,7 +2193,7 @@ pauseMenu = new PauseMenu({
     try { localStorage.setItem('thornvael.autoRecenter', String(on)); } catch {}
   },
   getAutoRecenter: () => autoRecenter,
-  heroKnownSpells: () => sim.hero?.known ?? (sim.cb.known[0] || 0),
+  heroKnownSpells: () => (sid: number) => (sim.hero ? heroKnowsSpell(sim.hero, sid) : maskHas(sim.cb.known[0], sim.cb.knownHi, 0, sid)),
   openSpellbook: () => {
     pauseMenu.close();
     openBook(-1);
@@ -2527,6 +2527,7 @@ function heroEvents(): void {
       if (!d) continue;
       const verbs = [S.hero.picked, S.hero.equipped, S.hero.used, S.hero.learned, S.hero.dropped, S.hero.unequipped];
       toast(`${verbs[e.el]}: ${e.el === 3 && d.spell >= 0 ? SPELLS[d.spell].name : d.name}`);
+      if (e.el === 0 && d.rarity !== 'normal' && d.rarity !== 'magic') { const rb = heroBark('loot_rare', 8000); if (rb) setTimeout(() => toast(`"${rb}"`), 1200); }
       if (e.el === 0 && tips.once('firstLoot')) setTimeout(() => toast(S.firstTips.firstLoot), 2200);
       else if (e.el === 3 && tips.once('firstSpell')) setTimeout(() => toast(S.firstTips.firstSpell), 2200);
       touched = true;
