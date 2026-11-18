@@ -43,6 +43,7 @@ import {
 } from './sim/script';
 import { loadGameData } from './loaddata';
 import { loadHeroVoices, heroBark } from './herovoice';
+import { loadAchievements, achKills, achHired, achLevel, achGold, achWin, achCampaign } from './achievements';
 import { loadMissionContent, loadMissionHints, loadItemFlavor, loadFlavorLists, loadMonsterCodex, loadCodexLore, loadTownBarks, loadSpellText, defeatFlavor, loadDifficultyFlavor, difficultyLine, loadMercLines, mercHireLine, regionEnterLine, loadHeroFlavor, promotionLine, classBanter } from './missioncontent';
 import { DebugPanel } from './debugpanel';
 import { KNOWN_HI, SPELLS, Tk, maskHas } from './sim/spelldata';
@@ -815,6 +816,7 @@ const tips = new Tips(tipStore);
 
 let lastHeroHp = 0;
 let victoryBarked = false;
+let lastFoes = 0;
 let lastHeroLevel = 0;
 let idleN = 0;
 let lastInputAt = Date.now();
@@ -2047,6 +2049,7 @@ await loadFlavorLists();
 await loadMonsterCodex();
 await loadCodexLore();
 await loadDifficultyFlavor();
+await loadAchievements((m) => toast(m));
 await loadMercLines();
 await loadHeroFlavor();
 await loadTownBarks();
@@ -2555,6 +2558,7 @@ function heroEvents(): void {
       toast(S.town.failed);
     } else if (e.type === Tfx.Hired) {
       toast(S.town.hiredToast);
+      if (e.el === 0) achHired();
       if (e.el === 0) { const hl = mercHireLine(missionAct, e.v); if (hl) setTimeout(() => toast(hl), 1200); }
     } else if (e.type === 6) {
       toast(`${S.hero.skillUp}: ${SKILL_NAMES[e.v]} ${e.el}`);
@@ -2790,7 +2794,7 @@ function updateMusic(now: number): void {
     }
   }
   if (outcome) {
-    if (outcome === 'win' && !victoryBarked) { victoryBarked = true; const vb = heroBark('victory', 0); if (vb) toast(`"${vb}"`); }
+    if (outcome === 'win' && !victoryBarked) { victoryBarked = true; recordAchWin(); const vb = heroBark('victory', 0); if (vb) toast(`"${vb}"`); }
     setSpecialMusic(outcome === 'win' ? 'music_victory' : 'music_defeat', false);
     return;
   }
@@ -2854,6 +2858,10 @@ function updateStats(): void {
   refreshGroupButtons();
   if (combatMode) {
     const heroMana = sim.cb.kind[0] === Kind.Hero ? `  ${S.hp} ${sim.cb.hp[0]}/${sim.cb.hpMax[0]}  ${S.mana} ${sim.cb.mana[0]}/${sim.cb.manaMax[0]}` : '';
+    const aliveFoes = sim.cb.alive[1] ?? 0;
+    if (aliveFoes < lastFoes && !isTownNode) achKills(lastFoes - aliveFoes);
+    lastFoes = aliveFoes;
+    achGold(sim.cb.gold[0] ?? 0); achLevel(sim.hero?.level ?? 0);
     const [up, size] = army();
     $('stats').textContent = `${S.army} ${up}/${size}  ${S.foes} ${sim.cb.alive[1]}  ${S.gold} ${sim.cb.gold[0]}${heroMana}`;
     refreshQuick();
@@ -3545,6 +3553,14 @@ function frame(): void {
 }
 
 // --- overlays ---
+function recordAchWin(): void {
+  if (isTownNode || !campaign || !campaignId) return;
+  const ms = (campaign.nodes as { kind?: string; act?: number; id: string }[]).filter((n) => n.kind === 'mission' && n.act === missionAct);
+  const last = ms.length > 0 && ms[ms.length - 1].id === campaignId;
+  const [up, size] = army();
+  achWin(campaignId, missionAct, last, up === size, sim.cb.gold[0] ?? 0);
+  if (last && missionAct === 4) achCampaign(['easy', 'medium', 'hard'][crec?.progress.difficulty ?? 1] ?? 'medium', ['warrior', 'mage', 'archer', 'necromancer'][activeChar?.cls ?? 0] ?? 'warrior');
+}
 function toast(msg: string, action?: { label: string; run: () => void }): void {
   const t = $('toast');
   t.textContent = msg + ' ';
