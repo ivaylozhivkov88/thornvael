@@ -3428,38 +3428,38 @@
     {
       "path": "public/sprites/flintback.png",
       "license": "own",
-      "source": "tools/render-unit.py + tools/pack-atlas.py",
-      "note": "Original primitive-built flintback model; Blender 5.2.3 LTS, 96px, 16 directions, stand4/walk8/attack4/cast4/hurt2/die4, RGB masks, fixed camera3.0."
+      "source": "tools/sheet-build.py + Canva sheet",
+      "note": "Original flintback sprite; Canva-generated 5-view turnaround sheet, 96px, 16 directions, stand4/walk8/attack4/cast4/hurt2/die4, RGB masks."
     },
     {
       "path": "public/sprites/flintback-mask.png",
       "license": "own",
-      "source": "tools/render-unit.py + tools/pack-atlas.py",
-      "note": "Original primitive-built flintback model; Blender 5.2.3 LTS, 96px, 16 directions, stand4/walk8/attack4/cast4/hurt2/die4, RGB masks, fixed camera3.0."
+      "source": "tools/sheet-build.py + Canva sheet",
+      "note": "Original flintback sprite; Canva-generated 5-view turnaround sheet, 96px, 16 directions, stand4/walk8/attack4/cast4/hurt2/die4, RGB masks."
     },
     {
       "path": "public/sprites/flintback.json",
       "license": "own",
-      "source": "tools/render-unit.py + tools/pack-atlas.py",
-      "note": "Original primitive-built flintback model; Blender 5.2.3 LTS, 96px, 16 directions, stand4/walk8/attack4/cast4/hurt2/die4, RGB masks, fixed camera3.0."
+      "source": "tools/sheet-build.py + Canva sheet",
+      "note": "Original flintback sprite; Canva-generated 5-view turnaround sheet, 96px, 16 directions, stand4/walk8/attack4/cast4/hurt2/die4, RGB masks."
     },
     {
       "path": "public/sprites/mire-wisp.png",
       "license": "own",
-      "source": "tools/render-unit.py + tools/pack-atlas.py",
-      "note": "Original primitive-built mire-wisp model; Blender 5.2.3 LTS, 96px, 16 directions, stand4/walk8/attack4/cast4/hurt2/die4, RGB masks, fixed camera3.0."
+      "source": "tools/sheet-build.py + Canva sheet",
+      "note": "Original mire-wisp sprite; Canva-generated 5-view turnaround sheet, 96px, 16 directions, stand4/walk8/attack4/cast4/hurt2/die4, RGB masks."
     },
     {
       "path": "public/sprites/mire-wisp-mask.png",
       "license": "own",
-      "source": "tools/render-unit.py + tools/pack-atlas.py",
-      "note": "Original primitive-built mire-wisp model; Blender 5.2.3 LTS, 96px, 16 directions, stand4/walk8/attack4/cast4/hurt2/die4, RGB masks, fixed camera3.0."
+      "source": "tools/sheet-build.py + Canva sheet",
+      "note": "Original mire-wisp sprite; Canva-generated 5-view turnaround sheet, 96px, 16 directions, stand4/walk8/attack4/cast4/hurt2/die4, RGB masks."
     },
     {
       "path": "public/sprites/mire-wisp.json",
       "license": "own",
-      "source": "tools/render-unit.py + tools/pack-atlas.py",
-      "note": "Original primitive-built mire-wisp model; Blender 5.2.3 LTS, 96px, 16 directions, stand4/walk8/attack4/cast4/hurt2/die4, RGB masks, fixed camera3.0."
+      "source": "tools/sheet-build.py + Canva sheet",
+      "note": "Original mire-wisp sprite; Canva-generated 5-view turnaround sheet, 96px, 16 directions, stand4/walk8/attack4/cast4/hurt2/die4, RGB masks."
     },
     {
       "path": "public/sprites/cinder-shaman.png",
@@ -3482,20 +3482,470 @@
     {
       "path": "public/sprites/quill-fiend.png",
       "license": "own",
-      "source": "tools/render-unit.py + tools/pack-atlas.py",
-      "note": "Original primitive-built quill-fiend model; Blender 5.2.3 LTS, 96px, 16 directions, stand4/walk8/attack4/cast4/hurt2/die4, RGB masks, fixed camera3.0."
+      "source": "tools/sheet-build.py + Canva sheet",
+      "note": "Original quill-fiend sprite; Canva-generated 5-view turnaround sheet, 96px, 16 directions, stand4/walk8/attack4/cast4/hurt2/die4, RGB masks."
     },
     {
       "path": "public/sprites/quill-fiend-mask.png",
       "license": "own",
-      "source": "tools/render-unit.py + tools/pack-atlas.py",
-      "note": "Original primitive-built quill-fiend model; Blender 5.2.3 LTS, 96px, 16 directions, stand4/walk8/attack4/cast4/hurt2/die4, RGB masks, fixed camera3.0."
+      "source": "tools/sheet-build.py + Canva sheet",
+      "note": "Original quill-fiend sprite; Canva-generated 5-view turnaround sheet, 96px, 16 directions, stand4/walk8/attack4/cast4/hurt2/die4, RGB masks."
     },
     {
       "path": "public/sprites/quill-fiend.json",
       "license": "own",
-      "source": "tools/render-unit.py + tools/pack-atlas.py",
-      "note": "Original primitive-built quill-fiend model; Blender 5.2.3 LTS, 96px, 16 directions, stand4/walk8/attack4/cast4/hurt2/die4, RGB masks, fixed camera3.0."
+      "source": "tools/sheet-build.py + Canva sheet",
+      "note": "Original quill-fiend sprite; Canva-generated 5-view turnaround sheet, 96px, 16 directions, stand4/walk8/attack4/cast4/hurt2/die4, RGB masks."
+    },
+    {
+      "path": "public/sprites/cinderling.png",
+      "license": "own",
+      "source": "tools/sheet-build.py + Canva sheet",
+      "note": "Original cinderling sprite; Canva-generated 5-view turnaround sheet, 96px, 16 directions, stand4/walk8/attack4/cast4/hurt2/die4, RGB masks."
+    },
+    {
+      "path": "public/sprites/cinderling-mask.png",
+      "license": "own",
+      "source": "tools/sheet-build.py + Canva sheet",
+      "note": "Original cinderling sprite; Canva-generated 5-view turnaround sheet, 96px, 16 directions, stand4/walk8/attack4/cast4/hurt2/die4, RGB masks."
+    },
+    {
+      "path": "public/sprites/cinderling.json",
+      "license": "own",
+      "source": "tools/sheet-build.py + Canva sheet",
+      "note": "Original cinderling sprite; Canva-generated 5-view turnaround sheet, 96px, 16 directions, stand4/walk8/attack4/cast4/hurt2/die4, RGB masks."
+    },
+    {
+      "path": "public/sprites/ash-weaver.png",
+      "license": "own",
+      "source": "tools/sheet-build.py + Canva sheet",
+      "note": "Original ash-weaver sprite; Canva-generated 5-view turnaround sheet, 96px, 16 directions, stand4/walk8/attack4/cast4/hurt2/die4, RGB masks."
+    },
+    {
+      "path": "public/sprites/ash-weaver-mask.png",
+      "license": "own",
+      "source": "tools/sheet-build.py + Canva sheet",
+      "note": "Original ash-weaver sprite; Canva-generated 5-view turnaround sheet, 96px, 16 directions, stand4/walk8/attack4/cast4/hurt2/die4, RGB masks."
+    },
+    {
+      "path": "public/sprites/ash-weaver.json",
+      "license": "own",
+      "source": "tools/sheet-build.py + Canva sheet",
+      "note": "Original ash-weaver sprite; Canva-generated 5-view turnaround sheet, 96px, 16 directions, stand4/walk8/attack4/cast4/hurt2/die4, RGB masks."
+    },
+    {
+      "path": "public/sprites/basalt-brute.png",
+      "license": "own",
+      "source": "tools/sheet-build.py + Canva sheet",
+      "note": "Original basalt-brute sprite; Canva-generated 5-view turnaround sheet, 96px, 16 directions, stand4/walk8/attack4/cast4/hurt2/die4, RGB masks."
+    },
+    {
+      "path": "public/sprites/basalt-brute-mask.png",
+      "license": "own",
+      "source": "tools/sheet-build.py + Canva sheet",
+      "note": "Original basalt-brute sprite; Canva-generated 5-view turnaround sheet, 96px, 16 directions, stand4/walk8/attack4/cast4/hurt2/die4, RGB masks."
+    },
+    {
+      "path": "public/sprites/basalt-brute.json",
+      "license": "own",
+      "source": "tools/sheet-build.py + Canva sheet",
+      "note": "Original basalt-brute sprite; Canva-generated 5-view turnaround sheet, 96px, 16 directions, stand4/walk8/attack4/cast4/hurt2/die4, RGB masks."
+    },
+    {
+      "path": "public/sprites/claw-viper.png",
+      "license": "own",
+      "source": "tools/sheet-build.py + Canva sheet",
+      "note": "Original claw-viper sprite; Canva-generated 5-view turnaround sheet, 96px, 16 directions, stand4/walk8/attack4/cast4/hurt2/die4, RGB masks."
+    },
+    {
+      "path": "public/sprites/claw-viper-mask.png",
+      "license": "own",
+      "source": "tools/sheet-build.py + Canva sheet",
+      "note": "Original claw-viper sprite; Canva-generated 5-view turnaround sheet, 96px, 16 directions, stand4/walk8/attack4/cast4/hurt2/die4, RGB masks."
+    },
+    {
+      "path": "public/sprites/claw-viper.json",
+      "license": "own",
+      "source": "tools/sheet-build.py + Canva sheet",
+      "note": "Original claw-viper sprite; Canva-generated 5-view turnaround sheet, 96px, 16 directions, stand4/walk8/attack4/cast4/hurt2/die4, RGB masks."
+    },
+    {
+      "path": "public/sprites/crowned-maw.png",
+      "license": "own",
+      "source": "tools/sheet-build.py + Canva sheet",
+      "note": "Original crowned-maw sprite; Canva-generated 5-view turnaround sheet, 96px, 16 directions, stand4/walk8/attack4/cast4/hurt2/die4, RGB masks."
+    },
+    {
+      "path": "public/sprites/crowned-maw-mask.png",
+      "license": "own",
+      "source": "tools/sheet-build.py + Canva sheet",
+      "note": "Original crowned-maw sprite; Canva-generated 5-view turnaround sheet, 96px, 16 directions, stand4/walk8/attack4/cast4/hurt2/die4, RGB masks."
+    },
+    {
+      "path": "public/sprites/crowned-maw.json",
+      "license": "own",
+      "source": "tools/sheet-build.py + Canva sheet",
+      "note": "Original crowned-maw sprite; Canva-generated 5-view turnaround sheet, 96px, 16 directions, stand4/walk8/attack4/cast4/hurt2/die4, RGB masks."
+    },
+    {
+      "path": "public/sprites/dune-beast.png",
+      "license": "own",
+      "source": "tools/sheet-build.py + Canva sheet",
+      "note": "Original dune-beast sprite; Canva-generated 5-view turnaround sheet, 96px, 16 directions, stand4/walk8/attack4/cast4/hurt2/die4, RGB masks."
+    },
+    {
+      "path": "public/sprites/dune-beast-mask.png",
+      "license": "own",
+      "source": "tools/sheet-build.py + Canva sheet",
+      "note": "Original dune-beast sprite; Canva-generated 5-view turnaround sheet, 96px, 16 directions, stand4/walk8/attack4/cast4/hurt2/die4, RGB masks."
+    },
+    {
+      "path": "public/sprites/dune-beast.json",
+      "license": "own",
+      "source": "tools/sheet-build.py + Canva sheet",
+      "note": "Original dune-beast sprite; Canva-generated 5-view turnaround sheet, 96px, 16 directions, stand4/walk8/attack4/cast4/hurt2/die4, RGB masks."
+    },
+    {
+      "path": "public/sprites/dune-lurker.png",
+      "license": "own",
+      "source": "tools/sheet-build.py + Canva sheet",
+      "note": "Original dune-lurker sprite; Canva-generated 5-view turnaround sheet, 96px, 16 directions, stand4/walk8/attack4/cast4/hurt2/die4, RGB masks."
+    },
+    {
+      "path": "public/sprites/dune-lurker-mask.png",
+      "license": "own",
+      "source": "tools/sheet-build.py + Canva sheet",
+      "note": "Original dune-lurker sprite; Canva-generated 5-view turnaround sheet, 96px, 16 directions, stand4/walk8/attack4/cast4/hurt2/die4, RGB masks."
+    },
+    {
+      "path": "public/sprites/dune-lurker.json",
+      "license": "own",
+      "source": "tools/sheet-build.py + Canva sheet",
+      "note": "Original dune-lurker sprite; Canva-generated 5-view turnaround sheet, 96px, 16 directions, stand4/walk8/attack4/cast4/hurt2/die4, RGB masks."
+    },
+    {
+      "path": "public/sprites/dune-scarab.png",
+      "license": "own",
+      "source": "tools/sheet-build.py + Canva sheet",
+      "note": "Original dune-scarab sprite; Canva-generated 5-view turnaround sheet, 96px, 16 directions, stand4/walk8/attack4/cast4/hurt2/die4, RGB masks."
+    },
+    {
+      "path": "public/sprites/dune-scarab-mask.png",
+      "license": "own",
+      "source": "tools/sheet-build.py + Canva sheet",
+      "note": "Original dune-scarab sprite; Canva-generated 5-view turnaround sheet, 96px, 16 directions, stand4/walk8/attack4/cast4/hurt2/die4, RGB masks."
+    },
+    {
+      "path": "public/sprites/dune-scarab.json",
+      "license": "own",
+      "source": "tools/sheet-build.py + Canva sheet",
+      "note": "Original dune-scarab sprite; Canva-generated 5-view turnaround sheet, 96px, 16 directions, stand4/walk8/attack4/cast4/hurt2/die4, RGB masks."
+    },
+    {
+      "path": "public/sprites/fallen-shaman.png",
+      "license": "own",
+      "source": "tools/sheet-build.py + Canva sheet",
+      "note": "Original fallen-shaman sprite; Canva-generated 5-view turnaround sheet, 96px, 16 directions, stand4/walk8/attack4/cast4/hurt2/die4, RGB masks."
+    },
+    {
+      "path": "public/sprites/fallen-shaman-mask.png",
+      "license": "own",
+      "source": "tools/sheet-build.py + Canva sheet",
+      "note": "Original fallen-shaman sprite; Canva-generated 5-view turnaround sheet, 96px, 16 directions, stand4/walk8/attack4/cast4/hurt2/die4, RGB masks."
+    },
+    {
+      "path": "public/sprites/fallen-shaman.json",
+      "license": "own",
+      "source": "tools/sheet-build.py + Canva sheet",
+      "note": "Original fallen-shaman sprite; Canva-generated 5-view turnaround sheet, 96px, 16 directions, stand4/walk8/attack4/cast4/hurt2/die4, RGB masks."
+    },
+    {
+      "path": "public/sprites/fetish-blowdart.png",
+      "license": "own",
+      "source": "tools/sheet-build.py + Canva sheet",
+      "note": "Original fetish-blowdart sprite; Canva-generated 5-view turnaround sheet, 96px, 16 directions, stand4/walk8/attack4/cast4/hurt2/die4, RGB masks."
+    },
+    {
+      "path": "public/sprites/fetish-blowdart-mask.png",
+      "license": "own",
+      "source": "tools/sheet-build.py + Canva sheet",
+      "note": "Original fetish-blowdart sprite; Canva-generated 5-view turnaround sheet, 96px, 16 directions, stand4/walk8/attack4/cast4/hurt2/die4, RGB masks."
+    },
+    {
+      "path": "public/sprites/fetish-blowdart.json",
+      "license": "own",
+      "source": "tools/sheet-build.py + Canva sheet",
+      "note": "Original fetish-blowdart sprite; Canva-generated 5-view turnaround sheet, 96px, 16 directions, stand4/walk8/attack4/cast4/hurt2/die4, RGB masks."
+    },
+    {
+      "path": "public/sprites/frost-bell.png",
+      "license": "own",
+      "source": "tools/sheet-build.py + Canva sheet",
+      "note": "Original frost-bell sprite; Canva-generated 5-view turnaround sheet, 96px, 16 directions, stand4/walk8/attack4/cast4/hurt2/die4, RGB masks."
+    },
+    {
+      "path": "public/sprites/frost-bell-mask.png",
+      "license": "own",
+      "source": "tools/sheet-build.py + Canva sheet",
+      "note": "Original frost-bell sprite; Canva-generated 5-view turnaround sheet, 96px, 16 directions, stand4/walk8/attack4/cast4/hurt2/die4, RGB masks."
+    },
+    {
+      "path": "public/sprites/frost-bell.json",
+      "license": "own",
+      "source": "tools/sheet-build.py + Canva sheet",
+      "note": "Original frost-bell sprite; Canva-generated 5-view turnaround sheet, 96px, 16 directions, stand4/walk8/attack4/cast4/hurt2/die4, RGB masks."
+    },
+    {
+      "path": "public/sprites/glasswing.png",
+      "license": "own",
+      "source": "tools/sheet-build.py + Canva sheet",
+      "note": "Original glasswing sprite; Canva-generated 5-view turnaround sheet, 96px, 16 directions, stand4/walk8/attack4/cast4/hurt2/die4, RGB masks."
+    },
+    {
+      "path": "public/sprites/glasswing-mask.png",
+      "license": "own",
+      "source": "tools/sheet-build.py + Canva sheet",
+      "note": "Original glasswing sprite; Canva-generated 5-view turnaround sheet, 96px, 16 directions, stand4/walk8/attack4/cast4/hurt2/die4, RGB masks."
+    },
+    {
+      "path": "public/sprites/glasswing.json",
+      "license": "own",
+      "source": "tools/sheet-build.py + Canva sheet",
+      "note": "Original glasswing sprite; Canva-generated 5-view turnaround sheet, 96px, 16 directions, stand4/walk8/attack4/cast4/hurt2/die4, RGB masks."
+    },
+    {
+      "path": "public/sprites/gloom-stag.png",
+      "license": "own",
+      "source": "tools/sheet-build.py + Canva sheet",
+      "note": "Original gloom-stag sprite; Canva-generated 5-view turnaround sheet, 96px, 16 directions, stand4/walk8/attack4/cast4/hurt2/die4, RGB masks."
+    },
+    {
+      "path": "public/sprites/gloom-stag-mask.png",
+      "license": "own",
+      "source": "tools/sheet-build.py + Canva sheet",
+      "note": "Original gloom-stag sprite; Canva-generated 5-view turnaround sheet, 96px, 16 directions, stand4/walk8/attack4/cast4/hurt2/die4, RGB masks."
+    },
+    {
+      "path": "public/sprites/gloom-stag.json",
+      "license": "own",
+      "source": "tools/sheet-build.py + Canva sheet",
+      "note": "Original gloom-stag sprite; Canva-generated 5-view turnaround sheet, 96px, 16 directions, stand4/walk8/attack4/cast4/hurt2/die4, RGB masks."
+    },
+    {
+      "path": "public/sprites/hollow-king.png",
+      "license": "own",
+      "source": "tools/sheet-build.py + Canva sheet",
+      "note": "Original hollow-king sprite; Canva-generated 5-view turnaround sheet, 96px, 16 directions, stand4/walk8/attack4/cast4/hurt2/die4, RGB masks."
+    },
+    {
+      "path": "public/sprites/hollow-king-mask.png",
+      "license": "own",
+      "source": "tools/sheet-build.py + Canva sheet",
+      "note": "Original hollow-king sprite; Canva-generated 5-view turnaround sheet, 96px, 16 directions, stand4/walk8/attack4/cast4/hurt2/die4, RGB masks."
+    },
+    {
+      "path": "public/sprites/hollow-king.json",
+      "license": "own",
+      "source": "tools/sheet-build.py + Canva sheet",
+      "note": "Original hollow-king sprite; Canva-generated 5-view turnaround sheet, 96px, 16 directions, stand4/walk8/attack4/cast4/hurt2/die4, RGB masks."
+    },
+    {
+      "path": "public/sprites/hollow-knight.png",
+      "license": "own",
+      "source": "tools/sheet-build.py + Canva sheet",
+      "note": "Original hollow-knight sprite; Canva-generated 5-view turnaround sheet, 96px, 16 directions, stand4/walk8/attack4/cast4/hurt2/die4, RGB masks."
+    },
+    {
+      "path": "public/sprites/hollow-knight-mask.png",
+      "license": "own",
+      "source": "tools/sheet-build.py + Canva sheet",
+      "note": "Original hollow-knight sprite; Canva-generated 5-view turnaround sheet, 96px, 16 directions, stand4/walk8/attack4/cast4/hurt2/die4, RGB masks."
+    },
+    {
+      "path": "public/sprites/hollow-knight.json",
+      "license": "own",
+      "source": "tools/sheet-build.py + Canva sheet",
+      "note": "Original hollow-knight sprite; Canva-generated 5-view turnaround sheet, 96px, 16 directions, stand4/walk8/attack4/cast4/hurt2/die4, RGB masks."
+    },
+    {
+      "path": "public/sprites/ironbark.png",
+      "license": "own",
+      "source": "tools/sheet-build.py + Canva sheet",
+      "note": "Original ironbark sprite; Canva-generated 5-view turnaround sheet, 96px, 16 directions, stand4/walk8/attack4/cast4/hurt2/die4, RGB masks."
+    },
+    {
+      "path": "public/sprites/ironbark-mask.png",
+      "license": "own",
+      "source": "tools/sheet-build.py + Canva sheet",
+      "note": "Original ironbark sprite; Canva-generated 5-view turnaround sheet, 96px, 16 directions, stand4/walk8/attack4/cast4/hurt2/die4, RGB masks."
+    },
+    {
+      "path": "public/sprites/ironbark.json",
+      "license": "own",
+      "source": "tools/sheet-build.py + Canva sheet",
+      "note": "Original ironbark sprite; Canva-generated 5-view turnaround sheet, 96px, 16 directions, stand4/walk8/attack4/cast4/hurt2/die4, RGB masks."
+    },
+    {
+      "path": "public/sprites/lantern-eel.png",
+      "license": "own",
+      "source": "tools/sheet-build.py + Canva sheet",
+      "note": "Original lantern-eel sprite; Canva-generated 5-view turnaround sheet, 96px, 16 directions, stand4/walk8/attack4/cast4/hurt2/die4, RGB masks."
+    },
+    {
+      "path": "public/sprites/lantern-eel-mask.png",
+      "license": "own",
+      "source": "tools/sheet-build.py + Canva sheet",
+      "note": "Original lantern-eel sprite; Canva-generated 5-view turnaround sheet, 96px, 16 directions, stand4/walk8/attack4/cast4/hurt2/die4, RGB masks."
+    },
+    {
+      "path": "public/sprites/lantern-eel.json",
+      "license": "own",
+      "source": "tools/sheet-build.py + Canva sheet",
+      "note": "Original lantern-eel sprite; Canva-generated 5-view turnaround sheet, 96px, 16 directions, stand4/walk8/attack4/cast4/hurt2/die4, RGB masks."
+    },
+    {
+      "path": "public/sprites/maggot-swarm.png",
+      "license": "own",
+      "source": "tools/sheet-build.py + Canva sheet",
+      "note": "Original maggot-swarm sprite; Canva-generated 5-view turnaround sheet, 96px, 16 directions, stand4/walk8/attack4/cast4/hurt2/die4, RGB masks."
+    },
+    {
+      "path": "public/sprites/maggot-swarm-mask.png",
+      "license": "own",
+      "source": "tools/sheet-build.py + Canva sheet",
+      "note": "Original maggot-swarm sprite; Canva-generated 5-view turnaround sheet, 96px, 16 directions, stand4/walk8/attack4/cast4/hurt2/die4, RGB masks."
+    },
+    {
+      "path": "public/sprites/maggot-swarm.json",
+      "license": "own",
+      "source": "tools/sheet-build.py + Canva sheet",
+      "note": "Original maggot-swarm sprite; Canva-generated 5-view turnaround sheet, 96px, 16 directions, stand4/walk8/attack4/cast4/hurt2/die4, RGB masks."
+    },
+    {
+      "path": "public/sprites/rootbound.png",
+      "license": "own",
+      "source": "tools/sheet-build.py + Canva sheet",
+      "note": "Original rootbound sprite; Canva-generated 5-view turnaround sheet, 96px, 16 directions, stand4/walk8/attack4/cast4/hurt2/die4, RGB masks."
+    },
+    {
+      "path": "public/sprites/rootbound-mask.png",
+      "license": "own",
+      "source": "tools/sheet-build.py + Canva sheet",
+      "note": "Original rootbound sprite; Canva-generated 5-view turnaround sheet, 96px, 16 directions, stand4/walk8/attack4/cast4/hurt2/die4, RGB masks."
+    },
+    {
+      "path": "public/sprites/rootbound.json",
+      "license": "own",
+      "source": "tools/sheet-build.py + Canva sheet",
+      "note": "Original rootbound sprite; Canva-generated 5-view turnaround sheet, 96px, 16 directions, stand4/walk8/attack4/cast4/hurt2/die4, RGB masks."
+    },
+    {
+      "path": "public/sprites/salt-crab.png",
+      "license": "own",
+      "source": "tools/sheet-build.py + Canva sheet",
+      "note": "Original salt-crab sprite; Canva-generated 5-view turnaround sheet, 96px, 16 directions, stand4/walk8/attack4/cast4/hurt2/die4, RGB masks."
+    },
+    {
+      "path": "public/sprites/salt-crab-mask.png",
+      "license": "own",
+      "source": "tools/sheet-build.py + Canva sheet",
+      "note": "Original salt-crab sprite; Canva-generated 5-view turnaround sheet, 96px, 16 directions, stand4/walk8/attack4/cast4/hurt2/die4, RGB masks."
+    },
+    {
+      "path": "public/sprites/salt-crab.json",
+      "license": "own",
+      "source": "tools/sheet-build.py + Canva sheet",
+      "note": "Original salt-crab sprite; Canva-generated 5-view turnaround sheet, 96px, 16 directions, stand4/walk8/attack4/cast4/hurt2/die4, RGB masks."
+    },
+    {
+      "path": "public/sprites/sand-raider.png",
+      "license": "own",
+      "source": "tools/sheet-build.py + Canva sheet",
+      "note": "Original sand-raider sprite; Canva-generated 5-view turnaround sheet, 96px, 16 directions, stand4/walk8/attack4/cast4/hurt2/die4, RGB masks."
+    },
+    {
+      "path": "public/sprites/sand-raider-mask.png",
+      "license": "own",
+      "source": "tools/sheet-build.py + Canva sheet",
+      "note": "Original sand-raider sprite; Canva-generated 5-view turnaround sheet, 96px, 16 directions, stand4/walk8/attack4/cast4/hurt2/die4, RGB masks."
+    },
+    {
+      "path": "public/sprites/sand-raider.json",
+      "license": "own",
+      "source": "tools/sheet-build.py + Canva sheet",
+      "note": "Original sand-raider sprite; Canva-generated 5-view turnaround sheet, 96px, 16 directions, stand4/walk8/attack4/cast4/hurt2/die4, RGB masks."
+    },
+    {
+      "path": "public/sprites/spore-matron.png",
+      "license": "own",
+      "source": "tools/sheet-build.py + Canva sheet",
+      "note": "Original spore-matron sprite; Canva-generated 5-view turnaround sheet, 96px, 16 directions, stand4/walk8/attack4/cast4/hurt2/die4, RGB masks."
+    },
+    {
+      "path": "public/sprites/spore-matron-mask.png",
+      "license": "own",
+      "source": "tools/sheet-build.py + Canva sheet",
+      "note": "Original spore-matron sprite; Canva-generated 5-view turnaround sheet, 96px, 16 directions, stand4/walk8/attack4/cast4/hurt2/die4, RGB masks."
+    },
+    {
+      "path": "public/sprites/spore-matron.json",
+      "license": "own",
+      "source": "tools/sheet-build.py + Canva sheet",
+      "note": "Original spore-matron sprite; Canva-generated 5-view turnaround sheet, 96px, 16 directions, stand4/walk8/attack4/cast4/hurt2/die4, RGB masks."
+    },
+    {
+      "path": "public/sprites/storm-kite.png",
+      "license": "own",
+      "source": "tools/sheet-build.py + Canva sheet",
+      "note": "Original storm-kite sprite; Canva-generated 5-view turnaround sheet, 96px, 16 directions, stand4/walk8/attack4/cast4/hurt2/die4, RGB masks."
+    },
+    {
+      "path": "public/sprites/storm-kite-mask.png",
+      "license": "own",
+      "source": "tools/sheet-build.py + Canva sheet",
+      "note": "Original storm-kite sprite; Canva-generated 5-view turnaround sheet, 96px, 16 directions, stand4/walk8/attack4/cast4/hurt2/die4, RGB masks."
+    },
+    {
+      "path": "public/sprites/storm-kite.json",
+      "license": "own",
+      "source": "tools/sheet-build.py + Canva sheet",
+      "note": "Original storm-kite sprite; Canva-generated 5-view turnaround sheet, 96px, 16 directions, stand4/walk8/attack4/cast4/hurt2/die4, RGB masks."
+    },
+    {
+      "path": "public/sprites/wendigo-bruiser.png",
+      "license": "own",
+      "source": "tools/sheet-build.py + Canva sheet",
+      "note": "Original wendigo-bruiser sprite; Canva-generated 5-view turnaround sheet, 96px, 16 directions, stand4/walk8/attack4/cast4/hurt2/die4, RGB masks."
+    },
+    {
+      "path": "public/sprites/wendigo-bruiser-mask.png",
+      "license": "own",
+      "source": "tools/sheet-build.py + Canva sheet",
+      "note": "Original wendigo-bruiser sprite; Canva-generated 5-view turnaround sheet, 96px, 16 directions, stand4/walk8/attack4/cast4/hurt2/die4, RGB masks."
+    },
+    {
+      "path": "public/sprites/wendigo-bruiser.json",
+      "license": "own",
+      "source": "tools/sheet-build.py + Canva sheet",
+      "note": "Original wendigo-bruiser sprite; Canva-generated 5-view turnaround sheet, 96px, 16 directions, stand4/walk8/attack4/cast4/hurt2/die4, RGB masks."
+    },
+    {
+      "path": "public/sprites/witch-doctor.png",
+      "license": "own",
+      "source": "tools/sheet-build.py + Canva sheet",
+      "note": "Original witch-doctor sprite; Canva-generated 5-view turnaround sheet, 96px, 16 directions, stand4/walk8/attack4/cast4/hurt2/die4, RGB masks."
+    },
+    {
+      "path": "public/sprites/witch-doctor-mask.png",
+      "license": "own",
+      "source": "tools/sheet-build.py + Canva sheet",
+      "note": "Original witch-doctor sprite; Canva-generated 5-view turnaround sheet, 96px, 16 directions, stand4/walk8/attack4/cast4/hurt2/die4, RGB masks."
+    },
+    {
+      "path": "public/sprites/witch-doctor.json",
+      "license": "own",
+      "source": "tools/sheet-build.py + Canva sheet",
+      "note": "Original witch-doctor sprite; Canva-generated 5-view turnaround sheet, 96px, 16 directions, stand4/walk8/attack4/cast4/hurt2/die4, RGB masks."
     }
   ]
 }

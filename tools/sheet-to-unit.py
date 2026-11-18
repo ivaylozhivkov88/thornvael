@@ -90,14 +90,18 @@ def make_mask(color):
     return Image.fromarray(mask, "RGBA")
 
 
+WMAX = 76
+
+
 def fit_scale(views):
     """Per-view scale: equalise sqrt(area) so front/side views read as one animal; cap height and width."""
     ar = [math.sqrt((np.asarray(v)[..., 3] > 40).sum()) for v in views]
     ref = max(ar)
     ks = [ref / x for x in ar]
-    k0 = min(TARGET_H / max(v.height * k for v, k in zip(views, ks)), 76 / max(v.width * k for v, k in zip(views, ks)))
+    k0 = min(TARGET_H / max(v.height * k for v, k in zip(views, ks)), WMAX / max(v.width * k for v, k in zip(views, ks)))
     out = [k * k0 for k in ks]
-    return [max(k, 51.0 / v.height) if v.height * k < 51 else k for v, k in zip(views, out)]
+    out = [max(k, 51.0 / v.height) if v.height * k < 51 else k for v, k in zip(views, out)]
+    return [min(k, WMAX / v.width) if WMAX < 76 else k for v, k in zip(views, out)]
 
 
 def place(img):
@@ -262,7 +266,10 @@ def main():
     sheet, unit = sys.argv[1], sys.argv[2]
     im = Image.open(sheet).convert("RGB")
     for a in sys.argv[3:]:
-        if a == "crop=auto":
+        if a.startswith("wmax="):
+            global WMAX
+            WMAX = int(a[5:])
+        elif a == "crop=auto":
             im = auto_crop(im)
         elif a.startswith("crop="):
             im = im.crop(tuple(int(v) for v in a[5:].split(",")))
