@@ -1,0 +1,802 @@
+[
+ {
+  "id": "react-001-smith-war-m-act1",
+  "npc_kind": "smith",
+  "class": "warrior",
+  "female": false,
+  "requires": "act_1_started",
+  "line": "Broad shoulders like yours bend standard border-plate; step by the anvil when you want real rivets."
+ },
+ {
+  "id": "react-002-smith-war-f-act1",
+  "npc_kind": "smith",
+  "class": "warrior",
+  "female": true,
+  "requires": "act_1_started",
+  "line": "You carry that shield like you actually take blows on it, lass. Most greenhorns drop theirs by the ford."
+ },
+ {
+  "id": "react-003-guard-arc-m-act1",
+  "npc_kind": "guard",
+  "class": "archer",
+  "female": false,
+  "requires": "act_1_started",
+  "line": "Keep your bowstrings greased against this fen-damp; wet hemp snaps loud enough to wake every gnoll."
+ },
+ {
+  "id": "react-004-guard-arc-f-act1",
+  "npc_kind": "guard",
+  "class": "archer",
+  "female": true,
+  "requires": "act_1_started",
+  "line": "Steady eyes on you, archer. Watch the chalk ridge—quill-fiends love trading shots with scouts."
+ },
+ {
+  "id": "react-005-alchemist-mag-m-act1",
+  "npc_kind": "alchemist",
+  "class": "mage",
+  "female": false,
+  "requires": "act_1_started",
+  "line": "Mind your sparks near my drying shelves, scholar; one stray ember turns dried marsh-rue into poison smoke."
+ },
+ {
+  "id": "react-006-alchemist-mag-f-act1",
+  "npc_kind": "alchemist",
+  "class": "mage",
+  "female": true,
+  "requires": "act_1_started",
+  "line": "A hedge-witch with clean cuffs? Rare sight in Thornwick. Bring me kiln-glass if you value good mana draughts."
+ },
+ {
+  "id": "react-007-priest-nec-m-act1",
+  "npc_kind": "priest",
+  "class": "necromancer",
+  "female": false,
+  "requires": "act_1_started",
+  "line": "Keep your bone-charms tucked under your coat in the chapel yard; the widows here have buried enough kin."
+ },
+ {
+  "id": "react-008-priest-nec-f-act1",
+  "npc_kind": "priest",
+  "class": "necromancer",
+  "female": true,
+  "requires": "act_1_started",
+  "line": "You smell of grave-loam and cold tallow, woman. Use your dark craft on the bog-dead, not our churchyard."
+ },
+ {
+  "id": "react-009-innkeeper-war-any-act1",
+  "npc_kind": "innkeeper",
+  "class": "warrior",
+  "female": null,
+  "requires": "m03_completed",
+  "line": "Scrape that Ravenwatch mud off your greaves before you sit—my floorboards took three winters to season."
+ },
+ {
+  "id": "react-010-merchant-arc-any-act1",
+  "npc_kind": "merchant",
+  "class": "archer",
+  "female": null,
+  "requires": "m04_completed",
+  "line": "Goose-fletched quarrels just arrived from Ashbrook; buy them now before Garrick's quartermaster claims the lot."
+ },
+ {
+  "id": "react-011-ferryman-mag-any-act1",
+  "npc_kind": "ferryman",
+  "class": "mage",
+  "female": null,
+  "requires": "m02_completed",
+  "line": "Keep your staff-light hooded on my punt; bog-wisps swarm glowing crystal like moths to tallow."
+ },
+ {
+  "id": "react-012-dockworker-nec-any-act1",
+  "npc_kind": "dockworker",
+  "class": "necromancer",
+  "female": null,
+  "requires": "m06_completed",
+  "line": "If one of your pale thralls steps onto my cargo plank, I'm pushing both of you into the weir."
+ },
+ {
+  "id": "react-013-smith-war-any-morvessa",
+  "npc_kind": "smith",
+  "class": "warrior",
+  "female": null,
+  "requires": "boss_morvessa_slain",
+  "line": "Spider-ichor pits cheap iron overnight; bring your blade here so I can burn the venom off the edge."
+ },
+ {
+  "id": "react-014-guard-arc-any-morvessa",
+  "npc_kind": "guard",
+  "class": "archer",
+  "female": null,
+  "requires": "boss_morvessa_slain",
+  "line": "Word is your arrows pinned the Silk Widow before her third clutch hatched. First mug at the tavern is mine."
+ },
+ {
+  "id": "react-015-alchemist-mag-any-morvessa",
+  "npc_kind": "alchemist",
+  "class": "mage",
+  "female": null,
+  "requires": "boss_morvessa_slain",
+  "line": "The ossuary wards stopped humming the hour Morvessa fell. You burned through silk older than the border."
+ },
+ {
+  "id": "react-016-priest-nec-any-morvessa",
+  "npc_kind": "priest",
+  "class": "necromancer",
+  "female": null,
+  "requires": "boss_morvessa_slain",
+  "line": "Even I must admit it—turning the ossuary's own dead against that spider saved fifty border spears."
+ },
+ {
+  "id": "react-017-innkeeper-war-m-act1",
+  "npc_kind": "innkeeper",
+  "class": "warrior",
+  "female": false,
+  "requires": "flag_fenwick_mint_returned",
+  "line": "Captain Garrick paid his tab in fresh Mint silver this morning. Seems you're an honest man after all."
+ },
+ {
+  "id": "react-018-merchant-arc-f-act1",
+  "npc_kind": "merchant",
+  "class": "archer",
+  "female": true,
+  "requires": "flag_alder_bolts_sold",
+  "line": "Private caravan guards are bragging about cheap ash-shaft bolts today. Funny how supply wagons go light."
+ },
+ {
+  "id": "react-019-guard-mag-m-act1",
+  "npc_kind": "guard",
+  "class": "mage",
+  "female": false,
+  "requires": "m08_completed",
+  "line": "Never saw lightning crack a shield-wall like you did at Alder Bridge, master wizard. Glad you're on our payroll."
+ },
+ {
+  "id": "react-020-smith-nec-f-act1",
+  "npc_kind": "smith",
+  "class": "necromancer",
+  "female": true,
+  "requires": "m11_completed",
+  "line": "You don't buy much steel, pale lady, yet your bone-guards soak more arrows than my best tower shields."
+ },
+ {
+  "id": "react-021-quartermaster-war-m-act2",
+  "npc_kind": "quartermaster",
+  "class": "warrior",
+  "female": false,
+  "requires": "act_2_started",
+  "line": "Oil your plate twice a day in Redmarsh, soldier; alkali dust eats through leather straps by sundown."
+ },
+ {
+  "id": "react-022-quartermaster-war-f-act2",
+  "npc_kind": "quartermaster",
+  "class": "warrior",
+  "female": true,
+  "requires": "act_2_started",
+  "line": "Hope you brought linen under-padding, vanguard; sun-baked steel blisters shoulders faster than firepots."
+ },
+ {
+  "id": "react-023-scout-arc-m-act2",
+  "npc_kind": "scout",
+  "class": "archer",
+  "female": false,
+  "requires": "act_2_started",
+  "line": "Account for cross-winds off the salt-pans, bowman—gusts here push an arrow three paces wide at fifty yards."
+ },
+ {
+  "id": "react-024-scout-arc-f-act2",
+  "npc_kind": "scout",
+  "class": "archer",
+  "female": true,
+  "requires": "act_2_started",
+  "line": "Good call wrapping your bow-limbs in rawhide, sister. Dry basin heat splits unbacked ash wood clean."
+ },
+ {
+  "id": "react-025-scholar-mag-m-act2",
+  "npc_kind": "scholar",
+  "class": "mage",
+  "female": false,
+  "requires": "act_2_started",
+  "line": "Feel that static in your fingertips? The wardstones here bleed raw lightning into any open spell-weave."
+ },
+ {
+  "id": "react-026-scholar-mag-f-act2",
+  "npc_kind": "scholar",
+  "class": "mage",
+  "female": true,
+  "requires": "act_2_started",
+  "line": "Keep your focus crystal grounded when dust storms roll in, mage—dry grit sparks like flint."
+ },
+ {
+  "id": "react-027-water_seller-nec-m-act2",
+  "npc_kind": "water_seller",
+  "class": "necromancer",
+  "female": false,
+  "requires": "act_2_started",
+  "line": "At least those dry-bone servants of yours don't drink half my cistern before noon. More water for paying men."
+ },
+ {
+  "id": "react-028-water_seller-nec-f-act2",
+  "npc_kind": "water_seller",
+  "class": "necromancer",
+  "female": true,
+  "requires": "act_2_started",
+  "line": "Keep your shade-hounds away from my sweet-water casks, death-speaker; cold air turns my brine-seals brittle."
+ },
+ {
+  "id": "react-029-guard-war-any-act2",
+  "npc_kind": "guard",
+  "class": "warrior",
+  "female": null,
+  "requires": "m15_completed",
+  "line": "Highgate's palisade would be charcoal if your shield-line hadn't held the breach against those firepots."
+ },
+ {
+  "id": "react-030-merchant-arc-any-act2",
+  "npc_kind": "merchant",
+  "class": "archer",
+  "female": null,
+  "requires": "m13_completed",
+  "line": "Picked twenty curved sand-raider arrows out of my wagon bed—take them if you don't mind desert fletching."
+ },
+ {
+  "id": "react-031-alchemist-mag-any-act2",
+  "npc_kind": "alchemist",
+  "class": "mage",
+  "female": null,
+  "requires": "m16_completed",
+  "line": "My ears are still ringing from that wardstone rupture. Whatever counter-sigil you cast kept the camp standing."
+ },
+ {
+  "id": "react-032-miner-nec-any-act2",
+  "npc_kind": "miner",
+  "class": "necromancer",
+  "female": null,
+  "requires": "m20_completed",
+  "line": "Seeing our dead kin rise with picks to batter their own overseers... grim work, stranger, yet fair."
+ },
+ {
+  "id": "react-033-scholar-mag-f-chimes",
+  "npc_kind": "scholar",
+  "class": "mage",
+  "female": true,
+  "requires": "flag_jawbone_chimes_zahra",
+  "line": "Those femur-flutes you brought me sing in pre-dynastic wind-modes! Every step across the flats feels lighter."
+ },
+ {
+  "id": "react-034-scholar-war-m-chimes",
+  "npc_kind": "scholar",
+  "class": "warrior",
+  "female": false,
+  "requires": "flag_jawbone_chimes_smashed",
+  "line": "Three centuries of acoustic ward-craft smashed to gravel because a soldier couldn't bear eerie whistling."
+ },
+ {
+  "id": "react-035-quartermaster-war-any-gorrathul",
+  "npc_kind": "quartermaster",
+  "class": "warrior",
+  "female": null,
+  "requires": "boss_gorrathul_slain",
+  "line": "Caravans are rolling through the central basin without losing a single mule since you felled the Sand Glutton."
+ },
+ {
+  "id": "react-036-scout-arc-any-gorrathul",
+  "npc_kind": "scout",
+  "class": "archer",
+  "female": null,
+  "requires": "boss_gorrathul_slain",
+  "line": "Scouts found a forty-foot sinkhole where Gorrathul collapsed. You put enough shafts in him to fence a paddock."
+ },
+ {
+  "id": "react-037-scholar-mag-any-gorrathul",
+  "npc_kind": "scholar",
+  "class": "mage",
+  "female": null,
+  "requires": "boss_gorrathul_slain",
+  "line": "The unnatural chill over the southern dunes vanished when that belly-maw closed forever. Brilliant work."
+ },
+ {
+  "id": "react-038-priest-nec-any-gorrathul",
+  "npc_kind": "priest",
+  "class": "necromancer",
+  "female": null,
+  "requires": "boss_gorrathul_slain",
+  "line": "Even the desert worms won't touch Gorrathul's carcass after the rot-curses you wove into its hide."
+ },
+ {
+  "id": "react-039-smith-war-f-act2",
+  "npc_kind": "smith",
+  "class": "warrior",
+  "female": true,
+  "requires": "flag_quarry_gallery_braced",
+  "line": "Tomas's freed quarrymen forged half a ton of new spear-tips this week—all because you held that gallery."
+ },
+ {
+  "id": "react-040-water_seller-arc-m-act2",
+  "npc_kind": "water_seller",
+  "class": "archer",
+  "female": false,
+  "requires": "m23_completed",
+  "line": "After the Fork of Spears, nobody in Redmarsh questions an outlander's aim. Drink on the house today."
+ },
+ {
+  "id": "react-041-shipwright-war-m-act3",
+  "npc_kind": "shipwright",
+  "class": "warrior",
+  "female": false,
+  "requires": "act_3_started",
+  "line": "Keep off the wet gangplanks in full plate, man—Oakhaven's harbor mud swallows armored knights whole."
+ },
+ {
+  "id": "react-042-shipwright-war-f-act3",
+  "npc_kind": "shipwright",
+  "class": "warrior",
+  "female": true,
+  "requires": "act_3_started",
+  "line": "Salt spray rusts border steel in a single watch; rub whale-tallow into your pauldrons before boarding."
+ },
+ {
+  "id": "react-043-harbor_pilot-arc-m-act3",
+  "npc_kind": "harbor_pilot",
+  "class": "archer",
+  "female": false,
+  "requires": "act_3_started",
+  "line": "Sea-fog bends light across the mudflats, archer—aim a hand's breadth low when shooting over surf."
+ },
+ {
+  "id": "react-044-harbor_pilot-arc-f-act3",
+  "npc_kind": "harbor_pilot",
+  "class": "archer",
+  "female": true,
+  "requires": "act_3_started",
+  "line": "We need sharp eyes on the seawall turrets; Kael's skiffs slip right under the mist at flood tide."
+ },
+ {
+  "id": "react-045-healer-mag-m-act3",
+  "npc_kind": "healer",
+  "class": "mage",
+  "female": false,
+  "requires": "act_3_started",
+  "line": "If you can boil water with a finger-snap, my triage tents need three cauldrons heated before sundown."
+ },
+ {
+  "id": "react-046-healer-mag-f-act3",
+  "npc_kind": "healer",
+  "class": "mage",
+  "female": true,
+  "requires": "act_3_started",
+  "line": "A disciplined arcanist is worth ten surgeons when gangrene spreads through the lower ward."
+ },
+ {
+  "id": "react-047-mudlark-nec-m-act3",
+  "npc_kind": "mudlark",
+  "class": "necromancer",
+  "female": false,
+  "requires": "act_3_started",
+  "line": "You look right at home in Oakhaven's fog, guv—half our drowned sailors walk the flats at low tide anyway."
+ },
+ {
+  "id": "react-048-mudlark-nec-f-act3",
+  "npc_kind": "mudlark",
+  "class": "necromancer",
+  "female": true,
+  "requires": "act_3_started",
+  "line": "Keep your cold fingers off my salvage crates, pale miss—I found those barnacle-chests fair and square."
+ },
+ {
+  "id": "react-049-guard-war-any-act3",
+  "npc_kind": "guard",
+  "class": "warrior",
+  "female": null,
+  "requires": "m26_completed",
+  "line": "Holding Sundered Ranks against privateer boarding-pikes bought our shipwrights two whole days to caulk hulls."
+ },
+ {
+  "id": "react-050-merchant-arc-any-act3",
+  "npc_kind": "merchant",
+  "class": "archer",
+  "female": null,
+  "requires": "m28_completed",
+  "line": "Salvaged barbed harpoon-heads from the Sunken Citadel—heavy draw, yet they punch straight through crab-shell."
+ },
+ {
+  "id": "react-051-healer-mag-any-act3",
+  "npc_kind": "healer",
+  "class": "mage",
+  "female": null,
+  "requires": "m25_completed",
+  "line": "Cooling those cinder-wards saved half the cliffside barracks from blistering heat-fever."
+ },
+ {
+  "id": "react-052-shipwright-nec-any-act3",
+  "npc_kind": "shipwright",
+  "class": "necromancer",
+  "female": null,
+  "requires": "m31_completed",
+  "line": "Your tireless bone-hands hauled twice as much oak timber at Riverlock as my dock-gangs could lift."
+ },
+ {
+  "id": "react-053-guard-arc-f-semaphore",
+  "npc_kind": "guard",
+  "class": "archer",
+  "female": true,
+  "requires": "flag_semaphore_burned",
+  "line": "Kael's gunners fired blind into the fog all morning—burning those cipher tables saved our north pier."
+ },
+ {
+  "id": "react-054-dockworker-war-m-cellar",
+  "npc_kind": "dockworker",
+  "class": "warrior",
+  "female": false,
+  "requires": "flag_baron_cellar_town",
+  "line": "Salted herring in every pot tonight! When Kael's fire-ships come, every dockhand grabs a water-bucket for you."
+ },
+ {
+  "id": "react-055-dockworker-mag-f-cellar",
+  "npc_kind": "dockworker",
+  "class": "mage",
+  "female": true,
+  "requires": "flag_baron_cellar_sold",
+  "line": "Hope privateer gold keeps your robes warm, lady—our kids are chewing boiled kelp while you count coins."
+ },
+ {
+  "id": "react-056-shipwright-war-any-vesperion",
+  "npc_kind": "shipwright",
+  "class": "warrior",
+  "female": null,
+  "requires": "boss_vesperion_slain",
+  "line": "That cursed bone-organ stopped echoing across the bay at last. My carpenters can finally hear their hammers."
+ },
+ {
+  "id": "react-057-harbor_pilot-arc-any-vesperion",
+  "npc_kind": "harbor_pilot",
+  "class": "archer",
+  "female": null,
+  "requires": "boss_vesperion_slain",
+  "line": "The southern channel cleared of spectral fog the moment Vesperion's choir fell silent. We can sail at dawn."
+ },
+ {
+  "id": "react-058-healer-mag-any-vesperion",
+  "npc_kind": "healer",
+  "class": "mage",
+  "female": null,
+  "requires": "boss_vesperion_slain",
+  "line": "My apprentices stopped waking with nosebleeds the hour you shattered that six-winged prelate."
+ },
+ {
+  "id": "react-059-priest-nec-any-vesperion",
+  "npc_kind": "priest",
+  "class": "necromancer",
+  "female": null,
+  "requires": "boss_vesperion_slain",
+  "line": "Unbinding an arch-prelate's choir takes iron will, necromancer. Even the drowned dead rest quieter tonight."
+ },
+ {
+  "id": "react-060-innkeeper-war-m-act3",
+  "npc_kind": "innkeeper",
+  "class": "warrior",
+  "female": false,
+  "requires": "m35_completed",
+  "line": "You walked through burning pitch on the harbor piers and still came back for stout. Drink free till we sail."
+ },
+ {
+  "id": "react-061-forgemaster-war-m-act4",
+  "npc_kind": "forgemaster",
+  "class": "warrior",
+  "female": false,
+  "requires": "act_4_started",
+  "line": "Caldera heat warps cheap mail into tin; let me quench your breastplate in prism-dust before you march."
+ },
+ {
+  "id": "react-062-forgemaster-war-f-act4",
+  "npc_kind": "forgemaster",
+  "class": "warrior",
+  "female": true,
+  "requires": "act_4_started",
+  "line": "Good heavy steel on you, shield-sister, though volcanic ash will chew those leather joints in two watches."
+ },
+ {
+  "id": "react-063-ash_scout-arc-m-act4",
+  "npc_kind": "ash_scout",
+  "class": "archer",
+  "female": false,
+  "requires": "act_4_started",
+  "line": "Thermal updrafts above the fissures lift light arrows straight into the soot—use heavy bodkin points."
+ },
+ {
+  "id": "react-064-ash_scout-arc-f-act4",
+  "npc_kind": "ash_scout",
+  "class": "archer",
+  "female": true,
+  "requires": "act_4_started",
+  "line": "Keep smoked glass handy on the ridge, archer; sulfur flares blind an unshielded eye in half a breath."
+ },
+ {
+  "id": "react-065-penitent-mag-m-act4",
+  "npc_kind": "penitent",
+  "class": "mage",
+  "female": false,
+  "requires": "act_4_started",
+  "line": "Speak your incantations cleanly near the obsidian pillars; the caldera echoes hungry names back at casters."
+ },
+ {
+  "id": "react-066-penitent-mag-f-act4",
+  "npc_kind": "penitent",
+  "class": "mage",
+  "female": true,
+  "requires": "act_4_started",
+  "line": "Frost magic is worth its weight in sovereign gold down here, magister—keep your cold wards primed."
+ },
+ {
+  "id": "react-067-penitent-nec-m-act4",
+  "npc_kind": "penitent",
+  "class": "necromancer",
+  "female": false,
+  "requires": "act_4_started",
+  "line": "Hundreds of First-Watch wardens burned to ash on these steps. Tread lightly before calling on old bones."
+ },
+ {
+  "id": "react-068-penitent-nec-f-act4",
+  "npc_kind": "penitent",
+  "class": "necromancer",
+  "female": true,
+  "requires": "act_4_started",
+  "line": "Neither ash nor magma scares you, death-weaver. Just keep your spirits bound when we reach the Threshold."
+ },
+ {
+  "id": "react-069-commander-war-any-act4",
+  "npc_kind": "commander",
+  "class": "warrior",
+  "female": null,
+  "requires": "m38_completed",
+  "line": "Greystone's east wall still stands because you held the breach while demonic catapults hammered the glacis."
+ },
+ {
+  "id": "react-070-sapper-arc-any-act4",
+  "npc_kind": "sapper",
+  "class": "archer",
+  "female": null,
+  "requires": "m37_completed",
+  "line": "Picking off those ash-weavers on the beacon crags kept my powder-kegs from going up early."
+ },
+ {
+  "id": "react-071-forgemaster-mag-any-act4",
+  "npc_kind": "forgemaster",
+  "class": "mage",
+  "female": null,
+  "requires": "m39_completed",
+  "line": "Malrik's shadow-constructs melted like wax against your counter-spells. The gorge supply line is open."
+ },
+ {
+  "id": "react-072-guard-nec-any-act4",
+  "npc_kind": "guard",
+  "class": "necromancer",
+  "female": null,
+  "requires": "m41_completed",
+  "line": "Singing iron cliffs tugged my breastplate sideways in the Gauntlet, yet your bone-men marched straight through."
+ },
+ {
+  "id": "react-073-commander-arc-m-gauntlet",
+  "npc_kind": "commander",
+  "class": "archer",
+  "female": false,
+  "requires": "flag_gauntlet_grounded",
+  "line": "With those copper spikes bleeding off the canyon's pull, my crossbowmen are landing bolts at two hundred paces."
+ },
+ {
+  "id": "react-074-forgemaster-war-f-gauntlet",
+  "npc_kind": "forgemaster",
+  "class": "warrior",
+  "female": true,
+  "requires": "flag_gauntlet_overloaded",
+  "line": "Shame about those two sappers' legs, yet the raw magnetic ore you shook loose will plate twenty shields."
+ },
+ {
+  "id": "react-075-commander-war-any-act4",
+  "npc_kind": "commander",
+  "class": "warrior",
+  "female": null,
+  "requires": "m43_completed",
+  "line": "Breaking the Three-Roads siege united our vanguard; nothing stands between Ironcamp and the Threshold now."
+ },
+ {
+  "id": "react-076-penitent-mag-any-act4",
+  "npc_kind": "penitent",
+  "class": "mage",
+  "female": null,
+  "requires": "m43_completed",
+  "line": "The Anchor Seals hum in harmony with your wards, magister. The obsidian doors will yield when you give the word."
+ },
+ {
+  "id": "react-077-forgemaster-war-any-ashkarath",
+  "npc_kind": "forgemaster",
+  "class": "warrior",
+  "female": null,
+  "requires": "boss_ashkarath_slain",
+  "line": "The caldera vents cooled three degrees the instant the Cinder King fell. Every anvil in Ironcamp salutes you."
+ },
+ {
+  "id": "react-078-ash_scout-arc-any-ashkarath",
+  "npc_kind": "ash_scout",
+  "class": "archer",
+  "female": null,
+  "requires": "boss_ashkarath_slain",
+  "line": "Clear sky above the rim for the first time in a century—and they say your final shaft split his sword-halo."
+ },
+ {
+  "id": "react-079-commander-mag-any-ashkarath",
+  "npc_kind": "commander",
+  "class": "mage",
+  "female": null,
+  "requires": "boss_ashkarath_slain",
+  "line": "You froze the Cinder King's throne mid-eruption, magister. Poets will argue over how one mortal held that fire."
+ },
+ {
+  "id": "react-080-penitent-nec-any-ashkarath",
+  "npc_kind": "penitent",
+  "class": "necromancer",
+  "female": null,
+  "requires": "boss_ashkarath_slain",
+  "line": "The First Watch has laid down its obsidian spears at last. You gave the dead of Thornvael their final peace."
+ },
+ {
+  "id": "react-081-merchant-war-m-act1",
+  "npc_kind": "merchant",
+  "class": "warrior",
+  "female": false,
+  "requires": "act_1_started",
+  "line": "Heavy broadswords eat whetstones fast in wet weather—buy two bars of grey grit while my pack is open."
+ },
+ {
+  "id": "react-082-innkeeper-arc-f-act1",
+  "npc_kind": "innkeeper",
+  "class": "archer",
+  "female": true,
+  "requires": "act_1_started",
+  "line": "Warm mutton broth by the hearth, huntress—steady hands don't come from shivering on cold watchtowers."
+ },
+ {
+  "id": "react-083-ferryman-war-f-act1",
+  "npc_kind": "ferryman",
+  "class": "warrior",
+  "female": true,
+  "requires": "m02_completed",
+  "line": "Stand amidships when we pole across the Sunken Ford, shield-maid; heavy mail tilts a flat-bottomed punt."
+ },
+ {
+  "id": "react-084-alchemist-nec-m-act1",
+  "npc_kind": "alchemist",
+  "class": "necromancer",
+  "female": false,
+  "requires": "m04_completed",
+  "line": "I sell marsh-rue salve for living skin, friend—if your bone-servants rot, you'll have to patch them yourself."
+ },
+ {
+  "id": "react-085-water_seller-war-m-act2",
+  "npc_kind": "water_seller",
+  "class": "warrior",
+  "female": false,
+  "requires": "act_2_started",
+  "line": "Two coppers a ladle for sweet cistern water, iron-clad—and double if your horse drinks from the bucket."
+ },
+ {
+  "id": "react-086-miner-arc-f-act2",
+  "npc_kind": "miner",
+  "class": "archer",
+  "female": true,
+  "requires": "m20_completed",
+  "line": "Never saw an arrow thread a slave-pen padlock at forty paces until you cleared the third quarry terrace."
+ },
+ {
+  "id": "react-087-scout-mag-m-act2",
+  "npc_kind": "scout",
+  "class": "mage",
+  "female": false,
+  "requires": "m14_completed",
+  "line": "Nothing scatters sand-raider outriders faster than dropping a frost nova right under their lead mules."
+ },
+ {
+  "id": "react-088-quartermaster-nec-f-act2",
+  "npc_kind": "quartermaster",
+  "class": "necromancer",
+  "female": true,
+  "requires": "m21_completed",
+  "line": "Garrison rations are tight at Crossroads, so I won't complain that your silent vanguard eats nothing at all."
+ },
+ {
+  "id": "react-089-mudlark-war-f-act3",
+  "npc_kind": "mudlark",
+  "class": "warrior",
+  "female": true,
+  "requires": "act_3_started",
+  "line": "Dropped your silver in the harbor silt? Give me a copper and I'll dive under the pilings before tide turns."
+ },
+ {
+  "id": "react-090-harbor_pilot-mag-m-act3",
+  "npc_kind": "harbor_pilot",
+  "class": "mage",
+  "female": false,
+  "requires": "m32_completed",
+  "line": "Whatever lightning you called down on that Elder Juggernaut cracked coastal bedrock half a league away."
+ },
+ {
+  "id": "react-091-healer-arc-m-act3",
+  "npc_kind": "healer",
+  "class": "archer",
+  "female": false,
+  "requires": "m33_completed",
+  "line": "Clean bow-shots save bandage linen—half the raiders you dropped at the manor never even drew steel."
+ },
+ {
+  "id": "react-092-innkeeper-nec-f-act3",
+  "npc_kind": "innkeeper",
+  "class": "necromancer",
+  "female": true,
+  "requires": "m35_completed",
+  "line": "The harbor smells of charred tar and cold salt, yet my taproom stays open as long as you keep Kael's dead down."
+ },
+ {
+  "id": "react-093-sapper-war-m-act4",
+  "npc_kind": "sapper",
+  "class": "warrior",
+  "female": false,
+  "requires": "act_4_started",
+  "line": "Stand in front of my demolition crew when the slag-fiends rush, big man, and I'll blast every gate wide."
+ },
+ {
+  "id": "react-094-forgemaster-arc-f-act4",
+  "npc_kind": "forgemaster",
+  "class": "archer",
+  "female": true,
+  "requires": "m36_completed",
+  "line": "Brought in a batch of obsidian-tipped shafts from the landing coves—they'll punch right through demon scale."
+ },
+ {
+  "id": "react-095-ash_scout-mag-f-act4",
+  "npc_kind": "ash_scout",
+  "class": "mage",
+  "female": true,
+  "requires": "m37_completed",
+  "line": "The air around West Crag stopped tasting like burnt copper the moment you unmade those capacitor prisms."
+ },
+ {
+  "id": "react-096-commander-nec-m-act4",
+  "npc_kind": "commander",
+  "class": "necromancer",
+  "female": false,
+  "requires": "m39_completed",
+  "line": "I don't care what chapel-priests say about your craft—turning Malrik's own constructs to dust won us the gorge."
+ },
+ {
+  "id": "react-097-guard-war-m-any",
+  "npc_kind": "guard",
+  "class": "warrior",
+  "female": false,
+  "requires": "m08_completed",
+  "line": "Dented shields tell an honest story, veteran. Keep your chin tucked when the heavy mauls swing."
+ },
+ {
+  "id": "react-098-merchant-arc-f-any",
+  "npc_kind": "merchant",
+  "class": "archer",
+  "female": true,
+  "requires": "m15_completed",
+  "line": "Fresh bow-wax and sinew-cord in stock—a snapped string in the middle of a charge ruins everybody's day."
+ },
+ {
+  "id": "react-099-scholar-mag-m-any",
+  "npc_kind": "scholar",
+  "class": "mage",
+  "female": false,
+  "requires": "m28_completed",
+  "line": "Old empire ward-craft runs deeper than tavern tales admit; keep detailed notes on every seal you break."
+ },
+ {
+  "id": "react-100-priest-nec-f-any",
+  "npc_kind": "priest",
+  "class": "necromancer",
+  "female": true,
+  "requires": "m41_completed",
+  "line": "Walk your cold path if you must, sister, so long as every bound soul is released when the ash settles."
+ }
+]

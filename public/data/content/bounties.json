@@ -1,0 +1,482 @@
+[
+ {
+  "id": "bounty-a1-briar-pack",
+  "act": 1,
+  "target": "briar-hound",
+  "hint": "Starving packs stalk the flooded ruts east of Sunken Ford; bring torch-oil to burn their iron-bramble pelts.",
+  "reward_gold": 75,
+  "tier": 1
+ },
+ {
+  "id": "bounty-a1-ditch-mites",
+  "act": 1,
+  "target": "ruin-mite",
+  "hint": "Sandstone-chewing swarms nest beneath Ravenwatch's collapsed watch-wall; chill them before they shred greaves.",
+  "reward_gold": 70,
+  "tier": 1
+ },
+ {
+  "id": "bounty-a1-bog-lanterns",
+  "act": 1,
+  "target": "mire-wisp",
+  "hint": "Drifting green skulls lure night pickets off the southern boardwalk; scatter your squad against their gas globs.",
+  "reward_gold": 85,
+  "tier": 1
+ },
+ {
+  "id": "bounty-a1-greywood-tuskers",
+  "act": 1,
+  "target": "thorn-boar",
+  "hint": "Massive witch-hazel boars tear up supply carts along the sawmill road; sidestep their straight-line charges.",
+  "reward_gold": 95,
+  "tier": 1
+ },
+ {
+  "id": "bounty-a1-quill-scavengers",
+  "act": 1,
+  "target": "quill-fiend",
+  "hint": "Bone-spitting hunchbacks perch on the chalk ledges above Alder Bridge; rush them before they pin archers.",
+  "reward_gold": 100,
+  "tier": 1
+ },
+ {
+  "id": "bounty-a1-quarry-chert",
+  "act": 1,
+  "target": "flintback",
+  "hint": "Slab-backed quarry beasts block the old glass-kiln trail; crack their stone hides with maces or lightning.",
+  "reward_gold": 120,
+  "tier": 2
+ },
+ {
+  "id": "bounty-a1-ash-hedge-priest",
+  "act": 1,
+  "target": "fallen-shaman",
+  "hint": "A bone-totem chanter re-ignites dead raiders near Lantern Passage; cut him down before his embers spread.",
+  "reward_gold": 135,
+  "tier": 2
+ },
+ {
+  "id": "bounty-a1-craghorn-shards",
+  "act": 1,
+  "target": "glasswing",
+  "hint": "Four-winged silica predators hover above Craghorn Saddle hurling obsidian needles; bring longbows.",
+  "reward_gold": 130,
+  "tier": 2
+ },
+ {
+  "id": "bounty-a1-strangler-cairn",
+  "act": 1,
+  "target": "rootbound",
+  "hint": "A blood-soaked oak cairn uprooted itself beside the weir; kite its slow root-hammers with fire spells.",
+  "reward_gold": 150,
+  "tier": 2
+ },
+ {
+  "id": "bounty-a1-antler-mist",
+  "act": 1,
+  "target": "gloom-stag",
+  "hint": "A deadwood-crowned stag blinks through shadow-mist in deep Greywood to gore unguarded mages.",
+  "reward_gold": 155,
+  "tier": 2
+ },
+ {
+  "id": "bounty-a1-rust-sentinel",
+  "act": 1,
+  "target": "hollow-knight",
+  "hint": "A one-armed suit of border-plate still demands passwords on the northern causeway; melt its joints.",
+  "reward_gold": 175,
+  "tier": 3
+ },
+ {
+  "id": "bounty-a1-weir-leech-brood",
+  "act": 1,
+  "target": "briar-hound",
+  "hint": "Alpha bramble-curs lead midnight raids against Thornwick's cattle pens; clear the entire pack.",
+  "reward_gold": 165,
+  "tier": 3
+ },
+ {
+  "id": "bounty-a1-kiln-flint-alpha",
+  "act": 1,
+  "target": "flintback",
+  "hint": "An ancient chert-plated bull crushes wagon axles near the south ditch; bring heavy hammers.",
+  "reward_gold": 180,
+  "tier": 3
+ },
+ {
+  "id": "bounty-a1-lantern-coven-elder",
+  "act": 1,
+  "target": "fallen-shaman",
+  "hint": "A scarred cinder-priest raises fallen hounds beneath the Third Lantern Post; silence him swiftly.",
+  "reward_gold": 190,
+  "tier": 3
+ },
+ {
+  "id": "bounty-a1-ossuary-broodmother",
+  "act": 1,
+  "target": "morvessa",
+  "hint": "Echoes of Morvessa's silk-spinners linger in the Ravenwatch undercroft; burn every bone cocoon.",
+  "reward_gold": 240,
+  "tier": 3
+ },
+ {
+  "id": "bounty-a2-scimitar-riders",
+  "act": 2,
+  "target": "sand-raider",
+  "hint": "Twin-bladed desert cutthroats ambush water-wagons near Whale-Rib Gate; snare them before they flank.",
+  "reward_gold": 185,
+  "tier": 1
+ },
+ {
+  "id": "bounty-a2-creek-mantids",
+  "act": 2,
+  "target": "dune-lurker",
+  "hint": "Ochre mantids lie buried in Bracken Basin's dry creek beds; shield your rear guard on open sand.",
+  "reward_gold": 195,
+  "tier": 1
+ },
+ {
+  "id": "bounty-a2-copper-beetles",
+  "act": 2,
+  "target": "dune-scarab",
+  "hint": "Static-charged beetles gather around the Third Quartz Monolith; avoid striking cracked shells with steel.",
+  "reward_gold": 205,
+  "tier": 1
+ },
+ {
+  "id": "bounty-a2-arroyo-serpents",
+  "act": 2,
+  "target": "claw-viper",
+  "hint": "Clawed hood-vipers nest under Highgate's timber catwalks; carry antitoxins for their tail-blades.",
+  "reward_gold": 215,
+  "tier": 1
+ },
+ {
+  "id": "bounty-a2-well-carrion",
+  "act": 2,
+  "target": "maggot-swarm",
+  "hint": "Ribcage-piloting larva carpets foul the Bitter Milestone Well; incinerate the mass with area fire.",
+  "reward_gold": 210,
+  "tier": 1
+ },
+ {
+  "id": "bounty-a2-thermal-rays",
+  "act": 2,
+  "target": "storm-kite",
+  "hint": "Bronze-veined sky-rays ride updrafts above the East Blind, arcing lightning across tight formations.",
+  "reward_gold": 235,
+  "tier": 2
+ },
+ {
+  "id": "bounty-a2-sail-crocodiles",
+  "act": 2,
+  "target": "dune-beast",
+  "hint": "Sail-backed oasis predators leap frontline shields along the salt-pans; focus fire when fins break scrub.",
+  "reward_gold": 250,
+  "tier": 2
+ },
+ {
+  "id": "bounty-a2-reed-dartblowers",
+  "act": 2,
+  "target": "fetish-blowdart",
+  "hint": "Masked swamp-dwellers kite through alkali reeds spitting neurotoxins; sweep them with fireballs.",
+  "reward_gold": 240,
+  "tier": 2
+ },
+ {
+  "id": "bounty-a2-megalith-hexers",
+  "act": 2,
+  "target": "witch-doctor",
+  "hint": "Tribal elders at the Twelve Megaliths sour healing draughts and rot plate; interrupt their censers.",
+  "reward_gold": 270,
+  "tier": 2
+ },
+ {
+  "id": "bounty-a2-quarry-diggers",
+  "act": 2,
+  "target": "pale-burrower",
+  "hint": "Eyeless bone-shovel hulks tunnel beneath Deep Quarry barricades; stun them as dirt ripples surface.",
+  "reward_gold": 285,
+  "tier": 2
+ },
+ {
+  "id": "bounty-a2-natron-priest",
+  "act": 2,
+  "target": "greater-mummy",
+  "hint": "A snake-ribbed mortuary priest raises skeletons in Redrock Vault; burn him from maximum range.",
+  "reward_gold": 310,
+  "tier": 3
+ },
+ {
+  "id": "bounty-a2-hoodoo-warband",
+  "act": 2,
+  "target": "sand-raider",
+  "hint": "Veteran desert reavers hold the Bracken Hoodoo Maze; cut down their outriders to reopen caravan routes.",
+  "reward_gold": 295,
+  "tier": 3
+ },
+ {
+  "id": "bounty-a2-monolith-spark-nest",
+  "act": 2,
+  "target": "dune-scarab",
+  "hint": "Oversized Leyden scarabs discharge ball-lightning near Crossroads Milestone; use wooden staves.",
+  "reward_gold": 300,
+  "tier": 3
+ },
+ {
+  "id": "bounty-a2-deep-quarry-terror",
+  "act": 2,
+  "target": "pale-burrower",
+  "hint": "A chained quarry-titan collapses lower galleries with upheaval scoops; bring fire to sear its hide.",
+  "reward_gold": 330,
+  "tier": 3
+ },
+ {
+  "id": "bounty-a2-glutton-remnant",
+  "act": 2,
+  "target": "gorrathul",
+  "hint": "Tremors beneath the central basin herald a four-armed sand abomination; scatter when it burrows.",
+  "reward_gold": 400,
+  "tier": 3
+ },
+ {
+  "id": "bounty-a3-mudflat-claws",
+  "act": 3,
+  "target": "salt-crab",
+  "hint": "Towering brine-shelled crabs block Oakhaven's low-tide salvage teams; flank their left shield-claws.",
+  "reward_gold": 340,
+  "tier": 1
+ },
+ {
+  "id": "bounty-a3-fumarole-slaglings",
+  "act": 3,
+  "target": "cinderling",
+  "hint": "Molten-armed homunculi hurl magma globs from the cliff vents; crack their brittle crusts with frost.",
+  "reward_gold": 355,
+  "tier": 1
+ },
+ {
+  "id": "bounty-a3-causeway-eels",
+  "act": 3,
+  "target": "lantern-eel",
+  "hint": "Bioluminescent bog-serpents shock wading patrols at high tide; lure them onto dry paving stones.",
+  "reward_gold": 370,
+  "tier": 1
+ },
+ {
+  "id": "bounty-a3-capstan-spores",
+  "act": 3,
+  "target": "spore-matron",
+  "hint": "Bloated fungal matrons drip yellow mycotoxins on Riverlock Island; burn them before sacs burst.",
+  "reward_gold": 385,
+  "tier": 1
+ },
+ {
+  "id": "bounty-a3-triage-darts",
+  "act": 3,
+  "target": "fetish-blowdart",
+  "hint": "Swamp-masked snipers harass wounded stretchers outside the ruined chapel nave; sweep the bracken.",
+  "reward_gold": 360,
+  "tier": 1
+ },
+ {
+  "id": "bounty-a3-ward-oaks",
+  "act": 3,
+  "target": "ironbark",
+  "hint": "Bronze-shielded ironwood trees block the coastal road; shatter their bark with heavy mauls or fire.",
+  "reward_gold": 420,
+  "tier": 2
+ },
+ {
+  "id": "bounty-a3-void-lepidoptera",
+  "act": 3,
+  "target": "rift-moth",
+  "hint": "Silent astral-eyed moths siphon caster mana along Split Tooth Crag; shoot them down with archers.",
+  "reward_gold": 435,
+  "tier": 2
+ },
+ {
+  "id": "bounty-a3-glacier-apes",
+  "act": 3,
+  "target": "wendigo-bruiser",
+  "hint": "Ice-gauntleted alpine beasts raid Harborwatch's seawall; melt their white pelts with fire magic.",
+  "reward_gold": 460,
+  "tier": 2
+ },
+ {
+  "id": "bounty-a3-drowned-chimes",
+  "act": 3,
+  "target": "frost-bell",
+  "hint": "Levitating bronze chapel-bells toll spell-freezing waves on Shingle Spit; shatter their cracked flanks.",
+  "reward_gold": 475,
+  "tier": 2
+ },
+ {
+  "id": "bounty-a3-gallows-grove",
+  "act": 3,
+  "target": "night-orchard",
+  "hint": "Black gallows-trees lob screaming magenta skulls across High-Orchard Terraces; chop them with fire axes.",
+  "reward_gold": 490,
+  "tier": 2
+ },
+ {
+  "id": "bounty-a3-sunken-monarch",
+  "act": 3,
+  "target": "hollow-king",
+  "hint": "An iron-crowned petty-monarch haunts Baron Vane's sea-cellar; kite his royal mace with Haste.",
+  "reward_gold": 540,
+  "tier": 3
+ },
+ {
+  "id": "bounty-a3-citadel-masonry",
+  "act": 3,
+  "target": "silt-colossus",
+  "hint": "Towering river-silt guardians bar the Drowned Lighthouse stair; crack them open with lightning.",
+  "reward_gold": 560,
+  "tier": 3
+ },
+ {
+  "id": "bounty-a3-execution-watch",
+  "act": 3,
+  "target": "hollow-knight",
+  "hint": "Relentless greatsword specters hold the customs semaphore at Split Tooth; melt their border-plate.",
+  "reward_gold": 520,
+  "tier": 3
+ },
+ {
+  "id": "bounty-a3-seawall-frosthorns",
+  "act": 3,
+  "target": "wendigo-bruiser",
+  "hint": "A pack of glacier-fisted brutes batters Oakhaven's eastern culverin batteries; bring Ember Charms.",
+  "reward_gold": 550,
+  "tier": 3
+ },
+ {
+  "id": "bounty-a3-nave-choir-echo",
+  "act": 3,
+  "target": "vesperion",
+  "hint": "Six-winged spectral organ-chords echo across the flooded nave; interrupt the antiphon or lose mana.",
+  "reward_gold": 680,
+  "tier": 3
+ },
+ {
+  "id": "bounty-a4-cinder-spinners",
+  "act": 4,
+  "target": "ash-weaver",
+  "hint": "Four-armed cultists cast burning glass-webs across Three-Roads Watch; snipe them before squads root.",
+  "reward_gold": 600,
+  "tier": 1
+ },
+ {
+  "id": "bounty-a4-bone-collar-stalkers",
+  "act": 4,
+  "target": "crowned-maw",
+  "hint": "Flayed-skull pack leaders leap onto wounded scouts below Highcrest Bluff; guard injured soldiers.",
+  "reward_gold": 625,
+  "tier": 1
+ },
+ {
+  "id": "bounty-a4-summit-moths",
+  "act": 4,
+  "target": "rift-moth",
+  "hint": "Astral-winged moths cluster around Ashveil Summit Portal draining vanguard mages; bring rapid bowfire.",
+  "reward_gold": 610,
+  "tier": 1
+ },
+ {
+  "id": "bounty-a4-cove-fumaroles",
+  "act": 4,
+  "target": "cinderling",
+  "hint": "Volcanic homunculi lob slag across Obsidian Landing Coves; shatter their crusts with Frost Bolts.",
+  "reward_gold": 590,
+  "tier": 1
+ },
+ {
+  "id": "bounty-a4-highland-plasma",
+  "act": 4,
+  "target": "stormtree",
+  "hint": "Lightning-split pines discharge plasma rings near West Focusing Crag; keep melee off their chains.",
+  "reward_gold": 650,
+  "tier": 1
+ },
+ {
+  "id": "bounty-a4-hexagonal-rams",
+  "act": 4,
+  "target": "basalt-brute",
+  "hint": "Walking black-rock siege engines batter Greystone's east glacis; freeze their feet and chip from range.",
+  "reward_gold": 710,
+  "tier": 2
+ },
+ {
+  "id": "bounty-a4-obsidian-wyrms",
+  "act": 4,
+  "target": "redglass-drake",
+  "hint": "Razor-winged lesser dragons strafe supply columns on the ash ridges; ground them with cold spells.",
+  "reward_gold": 740,
+  "tier": 2
+ },
+ {
+  "id": "bounty-a4-meteoric-champions",
+  "act": 4,
+  "target": "doom-knight",
+  "hint": "Skull-pauldroned citadel champions hold Magnetic Iron Narrows; slow their battleaxes with Blizzard.",
+  "reward_gold": 780,
+  "tier": 2
+ },
+ {
+  "id": "bounty-a4-caldera-colossi",
+  "act": 4,
+  "target": "silt-colossus",
+  "hint": "Tower-masonry guardians block the Threshold Nave approaches; crack their bulk with Quake or Lightning.",
+  "reward_gold": 760,
+  "tier": 2
+ },
+ {
+  "id": "bounty-a4-gallows-ash",
+  "act": 4,
+  "target": "night-orchard",
+  "hint": "Coven gallows-trees rain screaming skulls onto Ashveil switchbacks; fell them with fire-enchanted steel.",
+  "reward_gold": 725,
+  "tier": 2
+ },
+ {
+  "id": "bounty-a4-furnace-megademons",
+  "act": 4,
+  "target": "cinderhorn",
+  "hint": "Cast-iron flail demons guard the Citadel Iron Drawbridge; douse their chest-furnaces with Ice Storm.",
+  "reward_gold": 850,
+  "tier": 3
+ },
+ {
+  "id": "bounty-a4-jaw-smith-titans",
+  "act": 4,
+  "target": "anvilmaw-smith",
+  "hint": "Anvil-jawed siege titans patrol The Unquenched Jaw; scatter when they hammer their own chins.",
+  "reward_gold": 890,
+  "tier": 3
+ },
+ {
+  "id": "bounty-a4-narrows-dread-vanguard",
+  "act": 4,
+  "target": "doom-knight",
+  "hint": "Elite black-iron executioners rally beneath the magnetic portcullises; focus them with astral magic.",
+  "reward_gold": 840,
+  "tier": 3
+ },
+ {
+  "id": "bounty-a4-redglass-matriarch",
+  "act": 4,
+  "target": "redglass-drake",
+  "hint": "An elder volcanic drake nests above the landing coves, glassing whole squads in molten breath.",
+  "reward_gold": 870,
+  "tier": 3
+ },
+ {
+  "id": "bounty-a4-cinder-sovereign",
+  "act": 4,
+  "target": "ashkarath",
+  "hint": "The four-armed Cinder King stirs atop the Obsidian Throne; shatter his bone prisons before fire rings close.",
+  "reward_gold": 1100,
+  "tier": 3
+ }
+]

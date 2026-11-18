@@ -1,0 +1,266 @@
+[
+ {
+  "merc": "merc-thornwick-levyman",
+  "backstory": "Before the bridge-bailiffs seized his peat-spade, he spent twelve damp autumns cutting fuel bricks along the Thornwick fens to pay off a dead father's toll-arrears. Conscripted into the border levy with a dented kettle-helm and a warped ash-pike, he survived three gnoll raids simply by refusing to take a step forward or back. He harbors no illusions about glory, counting every battle in dry socks, hot turnip broth, and coppers shaved off his debt.",
+  "battle_barks": [
+   "Keep your shields locked—I'm not dying with three seasons unpaid!",
+   "Ash-wood holds stronger than your fancy swordplay!",
+   "Step into the ditch and taste iron!",
+   "My boots are soaked, so somebody's bleeding for it!",
+   "Hold the line till the supper bell!"
+  ]
+ },
+ {
+  "merc": "merc-alder-poacher",
+  "backstory": "Born in a charcoal-burner's shack on the edge of Greywood, she learned to read deer-slots before she could spell her own name. When a magistrate's branding iron took the tip of her left ear over two haunches of crown venison, she traded snare-wire for a heavy yew bow and mercenary scrip. She treats armored captains like slow, noisy stags, always calculating wind-drift, escape paths, and whatever loose silver might be tucked inside an officer's belt.",
+  "battle_barks": [
+   "Keep breathing loud—makes the windage easier!",
+   "One goose-feather straight through the eye-slit!",
+   "Stay out of my brush or catch a bodkin!",
+   "That's a heavy purse dropping in the grass!",
+   "Never even heard the string snap!"
+  ]
+ },
+ {
+  "merc": "merc-hedge-leech",
+  "backstory": "Once a promising apprentice in Oakhaven's apothecary guild, he ruined his standing by watering down laudanum with willow-bark tea to cover dice debts at the harbor taverns. Cast out with a scarred leather satchel and three rusted needles, he discovered that desperate mercenaries rarely complain about crooked stitches or mutton-fat salves. Half-pickled on cheap juniper gin before every clash, he patches torn bellies with cynical precision.",
+  "battle_barks": [
+   "Hold still—if you bleed on my last clean rag, I'll charge double!",
+   "Keep those blades away from my gin flask!",
+   "I stitch guts, not corpses—don't die yet!",
+   "Back off the litter before I use the bone-saw!",
+   "A splash of spirit and you're fit to bleed again!"
+  ]
+ },
+ {
+  "merc": "merc-greywood-chopper",
+  "backstory": "For fifteen winters he felled heart-pine along the Greywood ridge until border raiders burned his timber sledges and scattered his crew into the snow. Left with nothing but a broad-bitted felling axe and shoulders like seasoned oak, he took to hiring out as living siege-work. He approaches armored knights with the calm, methodical rhythm of a woodsman eyeing a stubborn trunk, testing every bridge and door-frame with his axe-poll out of sheer habit.",
+  "battle_barks": [
+   "Stand clear of the backswing—this trunk's coming down!",
+   "Plate armor splits just like wet pine!",
+   "One notch deeper and you're kindling!",
+   "Lean into the grain and cleave through!",
+   "Timber falls where I tell it to fall!"
+  ]
+ },
+ {
+  "merc": "merc-lantern-novice",
+  "backstory": "Expelled from a cliffside hermitage after pawning three consecrated brass oil-lamps to settle a Thornwick tavern tab, he fled into the borderlands with scorched robes and four volatile fire cantrips memorized in the margins of a stolen breviary. Nervous before every ambush—usually singeing his own eyebrows with stray sparks—he compensates for zero restraint with terrifying enthusiasm whenever dry brush or oil-soaked shields stand in his path.",
+  "battle_barks": [
+   "Mind the sleeves—this margin-spell runs hot!",
+   "Catch a spark and dance for the prior!",
+   "Dry tinder, dry cloaks—everything burns!",
+   "Stand back before I singe the other brow!",
+   "Ashes don't collect tavern tabs!"
+  ]
+ },
+ {
+  "merc": "merc-parish-sexton",
+  "backstory": "Twelve winters digging graves in Thornwick's waterlogged churchyard taught him that the poor die twice—once from fever and once from unpaid shovel-fees. Armed with a brass-shod spade, a knotted measuring cord, and forbidden parish obituaries, he began raising stubborn debtors straight from the turf to work off their arrears. Calm, methodical, and endlessly bookkeeping, he views every skirmish as an audit of uncollected labor.",
+  "battle_barks": [
+   "Six feet down or back on your feet—choose!",
+   "Your parish arrears are officially overdue!",
+   "Keep the skulls intact; they work better whole!",
+   "Sign the roll and pick up a rusty blade!",
+   "Cold turf welcomes every debtor eventually!"
+  ]
+ },
+ {
+  "merc": "merc-redmarsh-slinger",
+  "backstory": "Raised among the blinding alkali flats of Redmarsh, he spent his youth herding salt-mules and whipping lead-cored sling-stones at venomous dune vipers from forty paces. When tax-bandits seized his family's brine-pans and burned their cistern-shacks, he took his braided hemp sling into the mercenary companies. Chewing bitter alkali root until his teeth stained rust-red, he cracks visors and collarbones with lethal, sun-squinting patience.",
+  "battle_barks": [
+   "Sun's in your visor—lead's in your teeth!",
+   "Forty paces is generous for a target that big!",
+   "Crack goes the skull, down goes the salt-thief!",
+   "Keep your shield high and your shins exposed!",
+   "Cheap lead, expensive funeral!"
+  ]
+ },
+ {
+  "merc": "merc-quarry-sapper",
+  "backstory": "Condemned to three years in Gorrathul's deep ironstone quarries over a disputed land-deed, he escaped during a tunnel collapse carrying a heavy miner's pick and a permanent dust-cough. Refusing ever again to sleep beneath a stone roof, he hires out to crack armored carapaces, earthworks, and fortress gates. Every blow he strikes carries the bitter, rhythmic fury of a prisoner splitting the shackles off his own ankles.",
+  "battle_barks": [
+   "Find the seam and split the stone wide open!",
+   "No roof over my head and no chains on my wrists!",
+   "Armor's just soft shale to an ironstone pick!",
+   "Breathe the dust and choke on it!",
+   "Bring down the wall and bury the lot!"
+  ]
+ },
+ {
+  "merc": "merc-dune-houndmaster",
+  "backstory": "She spent years tracking runaway convicts across the shifting Redmarsh salt-dunes until a corrupt magistrate pocketed her bounty silver and burned her warrants. Reading wind-ripples and lizard-tracks like open parchment, she despises tight formations and trumpet calls. With dried gecko jerky tucked inside her quiver and ash smeared beneath her eyes, she stalks enemy flanks like a desert fox herding panicked sheep.",
+  "battle_barks": [
+   "You left tracks a blind mule could follow!",
+   "Downwind, unseen, and already behind you!",
+   "Bleed in the sand—the vultures are paid!",
+   "Break formation and you're dead meat!",
+   "Never step where the dunes look smooth!"
+  ]
+ },
+ {
+  "merc": "merc-cistern-acolyte",
+  "backstory": "Cast out of a desert hermitage for secretly tapping a sacred rock-cistern to water his struggling melon patch, he wandered the Redmarsh caravan routes trading water-wards for dry bread. Even in scorching heat that cooks knights inside their breastplates, his murmured chants draw cool mist from barren air. Though he still pauses to bless every muddy puddle on the road, his wards keep entire vanguards breathing through hellish marches.",
+  "battle_barks": [
+   "Let the cool mist seal your cracked lungs!",
+   "Even the desert remembers the taste of rain!",
+   "Step back or drown in bitter brine!",
+   "Hold fast beneath the ward—the heat won't take you!",
+   "Blessed be the water that washes iron clean!"
+  ]
+ },
+ {
+  "merc": "merc-tomb-notary",
+  "backstory": "Hired as a copyist for Zahra's ill-fated tomb expedition, he had his left hand petrified into stiff brown leather by an embalmer's ward-hex while transcribing Third-Dynasty funerary liens. Rather than starve, he bound strips of papyrus to his belt and turned ancient tax-curses into weapons. With cold astral ink and relentless clerical precision, he serves overdue royal writs upon bandits, warlords, and tomb-robbers alike.",
+  "battle_barks": [
+   "Compound interest accrues in blood, bandit!",
+   "By royal seal of the Third Dynasty—forfeit!",
+   "Hold still while I enter your name on the strip!",
+   "No appeal, no extension, payable immediately!",
+   "Astral ink stains deeper than steel!"
+  ]
+ },
+ {
+  "merc": "merc-salt-mercenary",
+  "backstory": "The lone survivor of a salt-caravan guard slaughtered in the Twin Passes after a miserly merchant refused to pay for extra arrow-bundles, he carries a scarred kite shield notched by forty blades. Distrustful of noble banners and eloquent captains alike, he insists on counting silver in broad daylight and sleeps with his shield strapped to his forearm. Once paid, however, he stands like an iron bollard until the last enemy drops.",
+  "battle_barks": [
+   "Paid in full—so nobody crosses this rim!",
+   "Break your blades on oak and iron!",
+   "Hold the flank—Bram's ghosts are watching!",
+   "Step closer and test how thick my shield is!",
+   "Silver bought my post, and blood keeps it!"
+  ]
+ },
+ {
+  "merc": "merc-oakhaven-marine",
+  "backstory": "After losing two toes to frostbite aboard an Oakhaven winter blockade cutter, he traded sleet-slick decks for coastal mud trenches without changing his fighting style. Trained for brutal, knee-to-knee boarding crushes where stepping backward means drowning, he wields cutlass and buckler like a battering ram. He spits over his left shoulder for luck before every charge and treats armored land-knights like clumsy cargo waiting to be thrown overboard.",
+  "battle_barks": [
+   "Clear the gangplank—boarders coming through!",
+   "No room to step back, so step into my blade!",
+   "Salt in your cuts and crabs at your heels!",
+   "Brace for impact and gut the helmsman!",
+   "Hold the rail till the tide washes them out!"
+  ]
+ },
+ {
+  "merc": "merc-harbor-arbalest",
+  "backstory": "For ten years he manned the windlass towers above Oakhaven's customs harbor, punching heavy steel-headed prods through the oak hulls of smuggling galleys. Broad-shouldered and utterly immune to panic, he takes three measured heartbeats to crank his arbalest before sending bolts straight through knightly breastplates. Every tiny notch filed into his walnut stock marks an enemy officer who trusted too much in heavy plate.",
+  "battle_barks": [
+   "Three clicks on the windlass—one hole in your plate!",
+   "Plate armor just gives my prod something to bite!",
+   "Hold the line while I crank another bolt!",
+   "That's a fresh notch for the walnut stock!",
+   "Stand still—customs inspection is overdue!"
+  ]
+ },
+ {
+  "merc": "merc-storm-channeler",
+  "backstory": "Expelled from Oakhaven's maritime weather-guild after accidentally frying three prize harbor gulls during an experimental fog-clearing chant, he took his copper-threaded cuffs to the mercenary companies. Wearing thick rubberized soles stolen from an old lighthouse keeper, he treats rain-soaked armor and coastal marshes like an open circuit. Wherever thunder rolls along the Iron Coast, he turns tight infantry formations into smoking heaps.",
+  "battle_barks": [
+   "Wear more iron—it makes the arc jump cleaner!",
+   "Ground yourselves or taste harbor lightning!",
+   "The air's charged and your plate's wet!",
+   "Conduct this straight down your spine!",
+   "Thunder answers faster than cavalry!"
+  ]
+ },
+ {
+  "merc": "merc-triage-surgeon",
+  "backstory": "Trained under Chief Healer Sera in the coastal field hospitals, he lost his commission after selling jarred anatomical trophies to unscrupulous alchemy students. Unfazed by blood, bone-splinters, or screaming recruits, he sizes up every soldier's collarbone structure upon first meeting and works a tourniquet faster than most men draw a dagger. Cynical yet eerily effective, he keeps battered companies walking long after the priests give up.",
+  "battle_barks": [
+   "Keep your arteries intact—I'm low on catgut!",
+   "Clean cuts only, please—ragged flesh ruins my work!",
+   "Back off before I take that kneecap for my jar!",
+   "Hold the tourniquet and keep swinging!",
+   "Your survival odds just dropped by half!"
+  ]
+ },
+ {
+  "merc": "merc-drowned-arbiter",
+  "backstory": "For years he rowed out to sinking wrecks along the Iron Coast to witness sailors' dying wills, until the drowned began answering his corroded brass bell without being called. Refusing ever to touch shellfish—convinced they harbor the memories of dead mariners—he enforces maritime oaths with chilling spectral authority. One toll of his bell silences enemy hexers and drags oath-breakers down into phantom undertow.",
+  "battle_barks": [
+   "The tide keeps every promise made on salt water!",
+   "Silence in court—the drowned are testifying!",
+   "Hear the brass bell and choke on cold surf!",
+   "Your debt is called at high water!",
+   "No hex survives beneath the undertow!"
+  ]
+ },
+ {
+  "merc": "merc-ironclad-turncoat",
+  "backstory": "When his former warlord tried paying the vanguard in clipped tin coins after the bloody Sundered Ranks campaign, he calmly walked off the field in full coastal brigandine without looking back. Every gold crown he earns gets bitten between his molars before entering his pouch. Mercenary to the marrow, he harbors zero loyalty to flags or bloodlines, yet fights with ferocious professionalism so long as the silver weighs honest.",
+  "battle_barks": [
+   "Nothing personal—your captain's silver weighed light!",
+   "Payday's here and I collect in advance!",
+   "Scavenged plate holds better than borrowed pride!",
+   "Fold up—my contract doesn't pay overtime!",
+   "Good steel, honest weight, clean finish!"
+  ]
+ },
+ {
+  "merc": "merc-ironcamp-halberdier",
+  "backstory": "A scarred veteran of the Greystone wall-breach whose eyebrows never grew back after a sulfur-vent explosion, he has held Ironcamp's ash-choked ramparts against demonic incursions for a decade. Wielding a heavy meteor-slag halberd forged to hook armored champions off their feet, he rubs volcanic pumice across his palms before every assault. Gruff, immovable, and loyal to hardened soldiers, he anchors the vanguard where lesser men melt.",
+  "battle_barks": [
+   "Hook the hinges and drag them into the ash!",
+   "Ironcamp holds even when the stone melts!",
+   "Rub the pumice and plant your heels!",
+   "No demon walks past a meteor-slag blade!",
+   "Stand fast—the caldera's seen worse!"
+  ]
+ },
+ {
+  "merc": "merc-slag-hound-sniper",
+  "backstory": "Before joining the caldera garrisons, she hunted redglass drakes along smoking volcanic crags to harvest wing-splinters for Ironcamp's master fletchers. Wearing smoked-quartz goggles even inside pitch-black vaults, she reads thermal updrafts off magma fissures without blinking. Every arrow she looses compensates effortlessly for shimmering heat-waves, finding the narrowest gap beneath an enemy champion's gorget.",
+  "battle_barks": [
+   "Heat shimmer bends arrows, never my eye!",
+   "Redglass splinter straight through the visor-slit!",
+   "Updraft accounted for—target dropped!",
+   "Stay out of the open crags if you value your throat!",
+   "One breath, one release, one dead champion!"
+  ]
+ },
+ {
+  "merc": "merc-ash-battlemage",
+  "backstory": "Trained at Ironcamp's open-fissure foundries to quench white-hot slag blades with focused frost magic, he carries a fist-sized chunk of mountain glacier-ice wrapped in oiled felt inside his leather satchel. On the scorched ash-plains of Crown and Ember, he turns his foundry discipline against magma-armored brutes and cinder-hounds, flash-freezing their glowing joints so infantry hammers can shatter them like brittle glass.",
+  "battle_barks": [
+   "Quench the white-hot steel till it cracks!",
+   "Feel the glacier bite through your cinder-plate!",
+   "Freeze them solid—infantry, shatter the line!",
+   "Even the caldera yields to deep mountain frost!",
+   "Keep your vents open; the chill's coming in!"
+  ]
+ },
+ {
+  "merc": "merc-penitent-flagellant",
+  "backstory": "Once a ruthless tax-bailiff for the Ember Court, he blinded himself with hot hearth-ash after discovering his levies funded demonic blood-rites beneath the palace. Guided by acute hearing and unshakable conviction, he marches into hellfire without flinching, counting his own heartbeat aloud whenever standing near open magma. He seeks neither gold nor pardon, only the chance to shield living souls from the fires he once fed.",
+  "battle_barks": [
+   "I blinded my eyes so I could see the fire clearly!",
+   "Strike harder—pain is an old acquaintance!",
+   "My heartbeat's steady; your malice is weak!",
+   "Step behind my shield and leave the cinders to me!",
+   "Every scar pays down an ancient sin!"
+  ]
+ },
+ {
+  "merc": "merc-catacomb-bailiff",
+  "backstory": "For thirty years he served as chief archivist of the Threshold catacombs, cataloging thousands of frozen military oaths inscribed beneath the obsidian floor. Polishing his brass seal-weights whenever idle, he wields the forgotten authority of the First Watch—soldiers who died before receiving their formal discharge papers. With a stamp of hot wax and a spoken docket number, he calls spectral watchmen out of the ash to finish their term.",
+  "battle_barks": [
+   "First Watch, form ranks—your discharge is denied!",
+   "By seal and docket, serve your remaining term!",
+   "No oath expires beneath the obsidian floor!",
+   "Foreclosed in ash and signed in brass!",
+   "Step forward and answer the muster-roll!"
+  ]
+ },
+ {
+  "merc": "merc-obsidian-sapper",
+  "backstory": "Having lost three fingers on his left hand while rigging blasting charges beneath the Gauntlet portcullises, he navigates the volcanic front by sniffing the wind constantly for sulfur leaks. He loads packed prism-powder quarrels into a reinforced siege-bow, cracking obsidian golems and iron barricades into smoking gravel. Laconic and hyper-alert around stray sparks, he treats every armored giant like a demolition problem.",
+  "battle_barks": [
+   "Short fuse, heavy charge—clear the blast zone!",
+   "Prism-powder turns iron golems into gravel!",
+   "Keep those torches back while I prime the quarrel!",
+   "Seven fingers are plenty to light a fuse!",
+   "Crack the shell and watch the whole wall drop!"
+  ]
+ }
+]

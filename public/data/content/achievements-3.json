@@ -1,0 +1,422 @@
+[
+ {
+  "id": "ach3-first-blood-ford",
+  "name": "Mud on the Boots",
+  "desc": "Win your first skirmish in the Border Fords.",
+  "category": "campaign",
+  "secret": false
+ },
+ {
+  "id": "ach3-act1-cleared",
+  "name": "Out of the Peat",
+  "desc": "Complete all main objectives in Act I: Border Fords.",
+  "category": "campaign",
+  "secret": false
+ },
+ {
+  "id": "ach3-act2-cleared",
+  "name": "Salt in the Teeth",
+  "desc": "Complete all main objectives in Act II: Redmarsh.",
+  "category": "campaign",
+  "secret": false
+ },
+ {
+  "id": "ach3-act3-cleared",
+  "name": "Harbor Master",
+  "desc": "Complete all main objectives in Act III: Iron Coast.",
+  "category": "campaign",
+  "secret": false
+ },
+ {
+  "id": "ach3-act4-cleared",
+  "name": "Through the Caldera",
+  "desc": "Reach the inner sanctum of Crown and Ember.",
+  "category": "campaign",
+  "secret": false
+ },
+ {
+  "id": "ach3-warrior-victory",
+  "name": "Iron Vanguard",
+  "desc": "Complete the campaign playing as a Warrior.",
+  "category": "classes",
+  "secret": false
+ },
+ {
+  "id": "ach3-archer-victory",
+  "name": "Longbow's Reach",
+  "desc": "Complete the campaign playing as an Archer.",
+  "category": "classes",
+  "secret": false
+ },
+ {
+  "id": "ach3-mage-victory",
+  "name": "Collegium Graduate",
+  "desc": "Complete the campaign playing as a Mage.",
+  "category": "classes",
+  "secret": false
+ },
+ {
+  "id": "ach3-necro-victory",
+  "name": "Keeper of the Roll",
+  "desc": "Complete the campaign playing as a Necromancer.",
+  "category": "classes",
+  "secret": false
+ },
+ {
+  "id": "ach3-hard-victory",
+  "name": "Ironbound Veteran",
+  "desc": "Finish the entire campaign on Ironbound difficulty.",
+  "category": "mastery",
+  "secret": false
+ },
+ {
+  "id": "ach3-nightmare-victory",
+  "name": "Ashen Oath Kept",
+  "desc": "Finish the entire campaign on Ashen Oath difficulty.",
+  "category": "mastery",
+  "secret": false
+ },
+ {
+  "id": "ach3-ngplus-cycle1",
+  "name": "Second Muster",
+  "desc": "Complete a full New Game+ Cycle with at least one modifier.",
+  "category": "mastery",
+  "secret": false
+ },
+ {
+  "id": "ach3-ngplus-max-mods",
+  "name": "Caldera Masochist",
+  "desc": "Defeat Ashkarath with five Caldera Modifiers active.",
+  "category": "mastery",
+  "secret": true
+ },
+ {
+  "id": "ach3-full-roster",
+  "name": "Company of Six",
+  "desc": "Field a full squad of protagonist plus five mercenaries.",
+  "category": "mercenaries",
+  "secret": false
+ },
+ {
+  "id": "ach3-all-mercs-hired",
+  "name": "Every Name on the Roll",
+  "desc": "Hire all 24 unique mercenaries across your campaigns.",
+  "category": "mercenaries",
+  "secret": false
+ },
+ {
+  "id": "ach3-merc-loyalty-100",
+  "name": "Sworn to the Banner",
+  "desc": "Raise any mercenary's personal loyalty to 100.",
+  "category": "mercenaries",
+  "secret": false
+ },
+ {
+  "id": "ach3-five-loyal-100",
+  "name": "Brotherhood of Silver",
+  "desc": "Maintain 100 loyalty with five mercenaries simultaneously.",
+  "category": "mercenaries",
+  "secret": false
+ },
+ {
+  "id": "ach3-banter-listener",
+  "name": "Campfire Stories",
+  "desc": "Trigger 25 unique mercenary-protagonist party banters.",
+  "category": "mercenaries",
+  "secret": false
+ },
+ {
+  "id": "ach3-two-copper-bonus",
+  "name": "Ford Toll Paid",
+  "desc": "Pay Thornwick Levy-Pikeman's deep-water bonus in combat.",
+  "category": "mercenaries",
+  "secret": true
+ },
+ {
+  "id": "ach3-no-desertion",
+  "name": "Prompt Paymaster",
+  "desc": "Finish a campaign without a single mercenary deserting.",
+  "category": "mercenaries",
+  "secret": false
+ },
+ {
+  "id": "ach3-elite-slayer-10",
+  "name": "Champion Hunter",
+  "desc": "Slay 10 elite enemies bearing regional affixes.",
+  "category": "combat",
+  "secret": false
+ },
+ {
+  "id": "ach3-elite-slayer-50",
+  "name": "Scourge of Elites",
+  "desc": "Slay 50 elite enemies across a single campaign.",
+  "category": "combat",
+  "secret": false
+ },
+ {
+  "id": "ach3-sovereign-slayer",
+  "name": "Crown-Breaker",
+  "desc": "Defeat an elite champion bearing the Ashen-Sovereign affix.",
+  "category": "combat",
+  "secret": false
+ },
+ {
+  "id": "ach3-flawless-skirmish",
+  "name": "Not a Scratch",
+  "desc": "Win a battle without any squad member taking health damage.",
+  "category": "combat",
+  "secret": false
+ },
+ {
+  "id": "ach3-tactical-pauser",
+  "name": "Cool Head",
+  "desc": "Issue 100 commands while the game is paused.",
+  "category": "combat",
+  "secret": false
+ },
+ {
+  "id": "ach3-realtime-purist",
+  "name": "No Time to Think",
+  "desc": "Win any main mission without using tactical pause once.",
+  "category": "combat",
+  "secret": true
+ },
+ {
+  "id": "ach3-shield-wall-block",
+  "name": "Living Wall",
+  "desc": "Block or mitigate 5,000 physical damage in one campaign.",
+  "category": "combat",
+  "secret": false
+ },
+ {
+  "id": "ach3-visor-snipe",
+  "name": "Thread the Slit",
+  "desc": "Land 30 critical hits with bows or arbalests.",
+  "category": "combat",
+  "secret": false
+ },
+ {
+  "id": "ach3-interrupt-caster",
+  "name": "Silence in Court",
+  "desc": "Interrupt 20 enemy spellcasts using stuns or silence.",
+  "category": "combat",
+  "secret": false
+ },
+ {
+  "id": "ach3-bleed-out",
+  "name": "Death by a Thousand Cuts",
+  "desc": "Kill 40 enemies with bleed or poison damage over time.",
+  "category": "combat",
+  "secret": false
+ },
+ {
+  "id": "ach3-first-set-2pc",
+  "name": "Matched Relics",
+  "desc": "Activate a 2-piece named item set bonus.",
+  "category": "gear",
+  "secret": false
+ },
+ {
+  "id": "ach3-full-set-4pc",
+  "name": "Heirloom Complete",
+  "desc": "Equip all four pieces of any named armor or weapon set.",
+  "category": "gear",
+  "secret": false
+ },
+ {
+  "id": "ach3-first-gem-fuse",
+  "name": "Lapidary's Art",
+  "desc": "Fuse three identical gems into a higher-tier stone.",
+  "category": "gear",
+  "secret": false
+ },
+ {
+  "id": "ach3-tier5-gem",
+  "name": "Heart of the Mountain",
+  "desc": "Socket a Tier 5 gem or First-Compact rune into an item.",
+  "category": "gear",
+  "secret": false
+ },
+ {
+  "id": "ach3-salvage-100",
+  "name": "Scrap Collector",
+  "desc": "Dismantle 100 weapons or armor pieces at town anvils.",
+  "category": "gear",
+  "secret": false
+ },
+ {
+  "id": "ach3-max-temper",
+  "name": "Anvil's Pride",
+  "desc": "Temper a single weapon to its maximum upgrade rank.",
+  "category": "gear",
+  "secret": false
+ },
+ {
+  "id": "ach3-respec-writ",
+  "name": "Second Thoughts",
+  "desc": "Use a Collegium Respec Writ to retrain your protagonist.",
+  "category": "gear",
+  "secret": false
+ },
+ {
+  "id": "ach3-gold-hoarder",
+  "name": "War-Chest Overflowing",
+  "desc": "Hold 15,000 gold in your company treasury at once.",
+  "category": "economy",
+  "secret": false
+ },
+ {
+  "id": "ach3-tavern-rest-10",
+  "name": "Well Rested",
+  "desc": "Clear march fatigue at town taverns 10 times.",
+  "category": "economy",
+  "secret": false
+ },
+ {
+  "id": "ach3-surgeon-regular",
+  "name": "Frequent Patient",
+  "desc": "Pay for field surgery on downed mercenaries 10 times.",
+  "category": "economy",
+  "secret": false
+ },
+ {
+  "id": "ach3-codex-lore-25",
+  "name": "Border Chronicler",
+  "desc": "Unlock 25 historical lore entries in the Thornvael Codex.",
+  "category": "exploration",
+  "secret": false
+ },
+ {
+  "id": "ach3-codex-100",
+  "name": "Grand Archivist",
+  "desc": "Unlock 100 total entries across all Codex categories.",
+  "category": "exploration",
+  "secret": false
+ },
+ {
+  "id": "ach3-shrine-blessed",
+  "name": "Boundary Pilgrim",
+  "desc": "Pray at or inspect 10 roadside boundary shrines.",
+  "category": "exploration",
+  "secret": false
+ },
+ {
+  "id": "ach3-smuggler-deal",
+  "name": "Black Market Regular",
+  "desc": "Trade with 5 wandering contraband caravans.",
+  "category": "exploration",
+  "secret": false
+ },
+ {
+  "id": "ach3-ruin-delver",
+  "name": "Vault Raider",
+  "desc": "Explore and clear 8 collapsed First-Empire ruins.",
+  "category": "exploration",
+  "secret": false
+ },
+ {
+  "id": "ach3-melon-blessing",
+  "name": "Sacred Irrigation",
+  "desc": "Let Disgraced Aquifer-Novice bless 15 roadside puddles.",
+  "category": "exploration",
+  "secret": true
+ },
+ {
+  "id": "ach3-coin-biter",
+  "name": "Honest Weight",
+  "desc": "Pay Ironclad Deserter his weekly upkeep 10 times.",
+  "category": "mercenaries",
+  "secret": true
+ },
+ {
+  "id": "ach3-goggles-dark",
+  "name": "Quartz Vision",
+  "desc": "Bring Caldera Ridge-Marksman into an underground vault.",
+  "category": "mercenaries",
+  "secret": true
+ },
+ {
+  "id": "ach3-glacier-ember",
+  "name": "Ice in the Furnace",
+  "desc": "Freeze a magma-armored brute in Crown and Ember.",
+  "category": "combat",
+  "secret": false
+ },
+ {
+  "id": "ach3-no-consumables",
+  "name": "Dry Satchel",
+  "desc": "Complete any Act boss fight without using belt items.",
+  "category": "mastery",
+  "secret": true
+ },
+ {
+  "id": "ach3-all-warriors",
+  "name": "Wall of Iron",
+  "desc": "Win a mission with a squad made entirely of Warriors.",
+  "category": "mastery",
+  "secret": true
+ },
+ {
+  "id": "ach3-all-archers",
+  "name": "Darken the Sky",
+  "desc": "Win a mission with a squad made entirely of Archers.",
+  "category": "mastery",
+  "secret": true
+ },
+ {
+  "id": "ach3-all-casters",
+  "name": "Walking Collegium",
+  "desc": "Win a mission with only Mages and Necromancers.",
+  "category": "mastery",
+  "secret": true
+ },
+ {
+  "id": "ach3-level-20",
+  "name": "Seasoned Commander",
+  "desc": "Reach protagonist level 20.",
+  "category": "campaign",
+  "secret": false
+ },
+ {
+  "id": "ach3-level-30",
+  "name": "Legend of Thornvael",
+  "desc": "Reach maximum protagonist level 30.",
+  "category": "campaign",
+  "secret": false
+ },
+ {
+  "id": "ach3-last-stand",
+  "name": "By a Thread",
+  "desc": "Win a battle with your protagonist below 5% health.",
+  "category": "combat",
+  "secret": true
+ },
+ {
+  "id": "ach3-friendly-fire-avoid",
+  "name": "Steady Hands",
+  "desc": "Complete Act I without Defrocked Lantern-Scribe burning allies.",
+  "category": "mercenaries",
+  "secret": true
+ },
+ {
+  "id": "ach3-shellfish-free",
+  "name": "Clean Plate",
+  "desc": "Feed Wreck-Bell Notary only dry rations through Act III.",
+  "category": "mercenaries",
+  "secret": true
+ },
+ {
+  "id": "ach3-bridge-tapper",
+  "name": "Timber Inspector",
+  "desc": "Cross 10 wooden bridges with Greywood Timber-Feller.",
+  "category": "exploration",
+  "secret": true
+ },
+ {
+  "id": "ach3-ledger-balanced",
+  "name": "Final Audit",
+  "desc": "Unlock every achievement in Thornvael.",
+  "category": "mastery",
+  "secret": true
+ }
+]

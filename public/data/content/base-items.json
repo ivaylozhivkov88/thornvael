@@ -1,0 +1,1282 @@
+[
+ {
+  "id": "bog-iron-spatha",
+  "name": "Bog-Iron Spatha",
+  "slot": "weapon",
+  "tier": 1,
+  "class_hint": "warrior",
+  "flavor": "A broad river-forged blade pitted by fen acid yet stubbornly keen."
+ },
+ {
+  "id": "wardens-arming-blade",
+  "name": "Warden's Arming Blade",
+  "slot": "weapon",
+  "tier": 2,
+  "class_hint": "warrior",
+  "flavor": "Balanced straight sword issued to border ford patrol sergeants."
+ },
+ {
+  "id": "salt-tempered-falchion",
+  "name": "Salt-Tempered Falchion",
+  "slot": "weapon",
+  "tier": 3,
+  "class_hint": "warrior",
+  "flavor": "Clip-pointed chopping blade quenched in Redmarsh brine."
+ },
+ {
+  "id": "harbor-guard-estoc",
+  "name": "Harbor Guard Estoc",
+  "slot": "weapon",
+  "tier": 4,
+  "class_hint": "warrior",
+  "flavor": "Stiff triangular thrusting sword built to split riveted brigandine."
+ },
+ {
+  "id": "cinder-vein-greatsword",
+  "name": "Cinder-Vein Greatsword",
+  "slot": "weapon",
+  "tier": 5,
+  "class_hint": "warrior",
+  "flavor": "Two-handed volcanic steel slab veined with glowing slag seams."
+ },
+ {
+  "id": "peat-cleaver-hatchet",
+  "name": "Peat-Cleaver Hatchet",
+  "slot": "weapon",
+  "tier": 1,
+  "class_hint": "warrior",
+  "flavor": "Short ash-handled chopper used for brush and unarmored skulls alike."
+ },
+ {
+  "id": "ford-picket-francisca",
+  "name": "Ford-Picket Francisca",
+  "slot": "weapon",
+  "tier": 2,
+  "class_hint": "warrior",
+  "flavor": "Forward-weighted throwing and hewing axe stamped with toll marks."
+ },
+ {
+  "id": "quarry-splitting-axe",
+  "name": "Quarry-Splitting Axe",
+  "slot": "weapon",
+  "tier": 3,
+  "class_hint": "warrior",
+  "flavor": "Thick-cheeked wedge blade forged to shear stone wedges and shields."
+ },
+ {
+  "id": "reaver-lochaber-axe",
+  "name": "Reaver Lochaber Axe",
+  "slot": "weapon",
+  "tier": 4,
+  "class_hint": "warrior",
+  "flavor": "Hook-backed poleaxe favoured by Iron Coast boarding crews."
+ },
+ {
+  "id": "caldera-jaw-greataxe",
+  "name": "Caldera-Jaw Greataxe",
+  "slot": "weapon",
+  "tier": 5,
+  "class_hint": "warrior",
+  "flavor": "Double-bitted executioner's arc tempered over open magma vents."
+ },
+ {
+  "id": "ash-knobbed-bludgeon",
+  "name": "Ash-Knobbed Bludgeon",
+  "slot": "weapon",
+  "tier": 1,
+  "class_hint": "warrior",
+  "flavor": "Fire-hardened river ash bound with three hammered iron hoops."
+ },
+ {
+  "id": "bailiffs-iron-truncheon",
+  "name": "Bailiff's Iron Truncheon",
+  "slot": "weapon",
+  "tier": 2,
+  "class_hint": "warrior",
+  "flavor": "Octagonal solid bar carried by tax collectors in restless parishes."
+ },
+ {
+  "id": "salt-crusted-pernach",
+  "name": "Salt-Crusted Pernach",
+  "slot": "weapon",
+  "tier": 3,
+  "class_hint": "warrior",
+  "flavor": "Six-flanged bronze-iron head pitted by coastal spray."
+ },
+ {
+  "id": "foundry-sledge-mace",
+  "name": "Foundry Sledge Mace",
+  "slot": "weapon",
+  "tier": 4,
+  "class_hint": "warrior",
+  "flavor": "Heavy octagonal hammerhead pinned to an iron-sleeved haft."
+ },
+ {
+  "id": "ember-crown-bec",
+  "name": "Ember-Crown Bec",
+  "slot": "weapon",
+  "tier": 5,
+  "class_hint": "warrior",
+  "flavor": "Spiked war-hammer whose beak punches clean through gothic plate."
+ },
+ {
+  "id": "alder-limb-flatbow",
+  "name": "Alder-Limb Flatbow",
+  "slot": "weapon",
+  "tier": 1,
+  "class_hint": "archer",
+  "flavor": "Wide-limbed river-alder bow wrapped in waxed hemp twine."
+ },
+ {
+  "id": "fen-reed-longbow",
+  "name": "Fen-Reed Longbow",
+  "slot": "weapon",
+  "tier": 2,
+  "class_hint": "archer",
+  "flavor": "Tall seasoned hornbeam stave built for high-arc volley fire."
+ },
+ {
+  "id": "salt-backed-horn-bow",
+  "name": "Salt-Backed Horn Bow",
+  "slot": "weapon",
+  "tier": 3,
+  "class_hint": "archer",
+  "flavor": "Laminated ibex-horn limbs sealed against alkali dust storms."
+ },
+ {
+  "id": "cliff-gale-selfbow",
+  "name": "Cliff-Gale Selfbow",
+  "slot": "weapon",
+  "tier": 4,
+  "class_hint": "archer",
+  "flavor": "Dense yew-heart stave strung with braided sea-gut cord."
+ },
+ {
+  "id": "ash-spire-warbow",
+  "name": "Ash-Spire Warbow",
+  "slot": "weapon",
+  "tier": 5,
+  "class_hint": "archer",
+  "flavor": "Heavy draw-weight warbow tipped with blackened meteoric horn."
+ },
+ {
+  "id": "latched-poacher-prod",
+  "name": "Latched Poacher Prod",
+  "slot": "weapon",
+  "tier": 1,
+  "class_hint": "archer",
+  "flavor": "Simple wooden stirrup crossbow with a bone-pinned trigger nut."
+ },
+ {
+  "id": "bridge-watch-latchet",
+  "name": "Bridge-Watch Latchet",
+  "slot": "weapon",
+  "tier": 2,
+  "class_hint": "archer",
+  "flavor": "Lever-spanned patrol crossbow built for damp river fog."
+ },
+ {
+  "id": "salt-bed-gastraphetes",
+  "name": "Salt-Bed Gastraphetes",
+  "slot": "weapon",
+  "tier": 3,
+  "class_hint": "archer",
+  "flavor": "Belly-braced siege bow firing heavy bodkin-headed quarrels."
+ },
+ {
+  "id": "cranequin-sea-arbalest",
+  "name": "Cranequin Sea-Arbalest",
+  "slot": "weapon",
+  "tier": 4,
+  "class_hint": "archer",
+  "flavor": "Geared steel-prod arbalest mounted on Oakhaven harbor towers."
+ },
+ {
+  "id": "slag-spring-repeater",
+  "name": "Slag-Spring Repeater",
+  "slot": "weapon",
+  "tier": 5,
+  "class_hint": "archer",
+  "flavor": "Box-fed heavy arbalest driven by twin tempered caldera springs."
+ },
+ {
+  "id": "charred-birch-twig",
+  "name": "Charred Birch Twig",
+  "slot": "weapon",
+  "tier": 1,
+  "class_hint": "mage",
+  "flavor": "Lightning-split birch stripped of bark and bound with copper wire."
+ },
+ {
+  "id": "tallied-bone-pointer",
+  "name": "Tallied Bone Pointer",
+  "slot": "weapon",
+  "tier": 2,
+  "class_hint": "necromancer",
+  "flavor": "Yellowed tibia carved with probate numerals and dried tallow."
+ },
+ {
+  "id": "brine-etched-spire-rod",
+  "name": "Brine-Etched Spire Rod",
+  "slot": "weapon",
+  "tier": 3,
+  "class_hint": "mage",
+  "flavor": "Glass-cored copper wand used by Redmarsh wardstone surveyors."
+ },
+ {
+  "id": "gravetide-ash-baton",
+  "name": "Gravetide Ash Baton",
+  "slot": "weapon",
+  "tier": 4,
+  "class_hint": "necromancer",
+  "flavor": "Salt-bleached driftwood inlaid with silver funerary seals."
+ },
+ {
+  "id": "threshold-key-scepter",
+  "name": "Threshold Key Scepter",
+  "slot": "weapon",
+  "tier": 5,
+  "class_hint": "mage",
+  "flavor": "Obsidian-capped conduit humming with deep leyline pressure."
+ },
+ {
+  "id": "driftwood-crook-staff",
+  "name": "Driftwood Crook Staff",
+  "slot": "weapon",
+  "tier": 1,
+  "class_hint": "mage",
+  "flavor": "River-smoothed alder pole capped with a rough river-quartz pebble."
+ },
+ {
+  "id": "surveyors-plumb-staff",
+  "name": "Surveyor's Plumb Staff",
+  "slot": "weapon",
+  "tier": 2,
+  "class_hint": "mage",
+  "flavor": "Graduated ashwood rod hung with a leaden sighting bob."
+ },
+ {
+  "id": "fen-abbey-crosier",
+  "name": "Fen-Abbey Crosier",
+  "slot": "weapon",
+  "tier": 3,
+  "class_hint": "necromancer",
+  "flavor": "Hooked bog-oak pastoral staff darkened by centuries of funeral smoke."
+ },
+ {
+  "id": "galvanic-coil-stave",
+  "name": "Galvanic Coil Stave",
+  "slot": "weapon",
+  "tier": 4,
+  "class_hint": "mage",
+  "flavor": "Ironwood shaft spiraled in tarnished copper bus-bars."
+ },
+ {
+  "id": "pyre-warden-pillar",
+  "name": "Pyre-Warden Pillar",
+  "slot": "weapon",
+  "tier": 5,
+  "class_hint": "necromancer",
+  "flavor": "Charred basalt-and-ash staff crowned with an iron censer cage."
+ },
+ {
+  "id": "rust-pitted-seax",
+  "name": "Rust-Pitted Seax",
+  "slot": "weapon",
+  "tier": 1,
+  "class_hint": "archer",
+  "flavor": "Single-edged broken-back utility knife reground for close throat-work."
+ },
+ {
+  "id": "cobblers-awl-blade",
+  "name": "Cobbler's Awl Blade",
+  "slot": "weapon",
+  "tier": 2,
+  "class_hint": "archer",
+  "flavor": "Narrow stiffened spike favored by Border Fords alley-cutters."
+ },
+ {
+  "id": "salt-flat-stiletto",
+  "name": "Salt-Flat Stiletto",
+  "slot": "weapon",
+  "tier": 3,
+  "class_hint": "archer",
+  "flavor": "Needle-thin cross-section built to slip between mail links."
+ },
+ {
+  "id": "harbor-pilots-dirk",
+  "name": "Harbor Pilot's Dirk",
+  "slot": "weapon",
+  "tier": 4,
+  "class_hint": "archer",
+  "flavor": "Weighted brass-hilted dagger balanced for wet deck fighting."
+ },
+ {
+  "id": "cinder-glass-kriss",
+  "name": "Cinder-Glass Kriss",
+  "slot": "weapon",
+  "tier": 5,
+  "class_hint": "necromancer",
+  "flavor": "Wavy volcanic-glass blade that leaves jagged, weeping wounds."
+ },
+ {
+  "id": "boiled-hide-coif",
+  "name": "Boiled-Hide Coif",
+  "slot": "helmet",
+  "tier": 1,
+  "class_hint": "archer",
+  "flavor": "Stiffened ox-leather hood laced tight beneath the chin."
+ },
+ {
+  "id": "hemp-padded-arming-cap",
+  "name": "Hemp-Padded Arming Cap",
+  "slot": "helmet",
+  "tier": 1,
+  "class_hint": "warrior",
+  "flavor": "Quilted linen skullcap worn beneath rusted border iron."
+ },
+ {
+  "id": "riveted-nasal-spangen",
+  "name": "Riveted Nasal Spangen",
+  "slot": "helmet",
+  "tier": 2,
+  "class_hint": "warrior",
+  "flavor": "Four-plate iron dome joined by heavy copper-washed bands."
+ },
+ {
+  "id": "peat-dyed-trapper-hood",
+  "name": "Peat-Dyed Trapper Hood",
+  "slot": "helmet",
+  "tier": 2,
+  "class_hint": "archer",
+  "flavor": "Waxed wool cowl cut low over the brow to hide pale skin."
+ },
+ {
+  "id": "brimstone-chapel-de-fer",
+  "name": "Brimstone Chapel-de-Fer",
+  "slot": "helmet",
+  "tier": 3,
+  "class_hint": "warrior",
+  "flavor": "Wide-brimmed kettle helm deflecting falling quarry stone and arrows."
+ },
+ {
+  "id": "assayers-copper-circlet",
+  "name": "Assayer's Copper Circlet",
+  "slot": "helmet",
+  "tier": 3,
+  "class_hint": "mage",
+  "flavor": "Annealed copper brow-band stamped with mint calibration ticks."
+ },
+ {
+  "id": "sea-wall-sallet",
+  "name": "Sea-Wall Sallet",
+  "slot": "helmet",
+  "tier": 4,
+  "class_hint": "warrior",
+  "flavor": "Tail-guarded steel helm with a narrow vision slit against salt spray."
+ },
+ {
+  "id": "ossuary-scribe-miter",
+  "name": "Ossuary Scribe Miter",
+  "slot": "helmet",
+  "tier": 4,
+  "class_hint": "necromancer",
+  "flavor": "Tall ash-grey linen cap stitched with silver probate wards."
+ },
+ {
+  "id": "caldera-forged-armet",
+  "name": "Caldera-Forged Armet",
+  "slot": "helmet",
+  "tier": 5,
+  "class_hint": "warrior",
+  "flavor": "Enclosed volcanic-steel helm locked by a heavy chin-pin."
+ },
+ {
+  "id": "crown-ember-coronet",
+  "name": "Crown-Ember Coronet",
+  "slot": "helmet",
+  "tier": 5,
+  "class_hint": "mage",
+  "flavor": "Blackened gold diadem cradling a fractured ember-quartz lens."
+ },
+ {
+  "id": "patched-canvas-doublet",
+  "name": "Patched Canvas Doublet",
+  "slot": "chest",
+  "tier": 1,
+  "class_hint": "archer",
+  "flavor": "Tar-rubbed sailcloth tunic reinforced at the shoulders with rawhide."
+ },
+ {
+  "id": "mortuary-linen-tunic",
+  "name": "Mortuary Linen Tunic",
+  "slot": "chest",
+  "tier": 1,
+  "class_hint": "necromancer",
+  "flavor": "Coarse grey funeral smock smelling faintly of camphor and tallow."
+ },
+ {
+  "id": "fen-scale-hauberk",
+  "name": "Fen-Scale Hauberk",
+  "slot": "chest",
+  "tier": 2,
+  "class_hint": "warrior",
+  "flavor": "Overlapping bog-iron scales wired onto a greased deerskin backing."
+ },
+ {
+  "id": "salt-cured-jerkin",
+  "name": "Salt-Cured Jerkin",
+  "slot": "chest",
+  "tier": 2,
+  "class_hint": "archer",
+  "flavor": "Stiffened marsh-hound hide rubbed with mutton fat against brine."
+ },
+ {
+  "id": "redmarsh-lamellar-coat",
+  "name": "Redmarsh Lamellar Coat",
+  "slot": "chest",
+  "tier": 3,
+  "class_hint": "warrior",
+  "flavor": "Laced iron plates coated in red ochre to slow rust."
+ },
+ {
+  "id": "wardstone-scholar-coat",
+  "name": "Wardstone Scholar Coat",
+  "slot": "chest",
+  "tier": 3,
+  "class_hint": "mage",
+  "flavor": "Heavy slate-wool surcoat lined with grounded copper mesh."
+ },
+ {
+  "id": "oakhaven-plate-cuirass",
+  "name": "Oakhaven Plate Cuirass",
+  "slot": "chest",
+  "tier": 4,
+  "class_hint": "warrior",
+  "flavor": "Fluted harbor-steel breastplate proofed against heavy crossbow bolts."
+ },
+ {
+  "id": "scriptorium-funeral-pall",
+  "name": "Scriptorium Funeral Pall",
+  "slot": "chest",
+  "tier": 4,
+  "class_hint": "necromancer",
+  "flavor": "Layered pitch-black wool vestments embroidered with binding oaths."
+ },
+ {
+  "id": "obsidian-bastion-plate",
+  "name": "Obsidian Bastion Plate",
+  "slot": "chest",
+  "tier": 5,
+  "class_hint": "warrior",
+  "flavor": "Thick meteoric-iron harness quenched in sulfur-rich caldera brine."
+ },
+ {
+  "id": "leyline-conduit-vestment",
+  "name": "Leyline Conduit Vestment",
+  "slot": "chest",
+  "tier": 5,
+  "class_hint": "mage",
+  "flavor": "Obsidian-silk robe threaded with glowing star-iron filaments."
+ },
+ {
+  "id": "split-rawhide-mitts",
+  "name": "Split-Rawhide Mitts",
+  "slot": "gloves",
+  "tier": 1,
+  "class_hint": "warrior",
+  "flavor": "Thick river-ox mittens stitched with waxed sinew."
+ },
+ {
+  "id": "ink-stained-fingerless",
+  "name": "Ink-Stained Fingerless",
+  "slot": "gloves",
+  "tier": 1,
+  "class_hint": "necromancer",
+  "flavor": "Worn wool half-gloves used by cold-weather parish clerks."
+ },
+ {
+  "id": "greased-archers-tab-gloves",
+  "name": "Greased Archer's Gloves",
+  "slot": "gloves",
+  "tier": 2,
+  "class_hint": "archer",
+  "flavor": "Supple kidskin reinforced along the three drawing fingers."
+ },
+ {
+  "id": "riveted-scale-cuffs",
+  "name": "Riveted Scale Cuffs",
+  "slot": "gloves",
+  "tier": 2,
+  "class_hint": "warrior",
+  "flavor": "Wrist-guard gauntlets faced with overlapping iron platelets."
+ },
+ {
+  "id": "alkali-proof-gauntlets",
+  "name": "Alkali-Proof Gauntlets",
+  "slot": "gloves",
+  "tier": 3,
+  "class_hint": "warrior",
+  "flavor": "Articulated steel finger-guards oiled against salt corrosion."
+ },
+ {
+  "id": "copper-sewn-conduit-gloves",
+  "name": "Copper-Sewn Gloves",
+  "slot": "gloves",
+  "tier": 3,
+  "class_hint": "mage",
+  "flavor": "Fine linen gloves grounded at the cuff with braided wire."
+ },
+ {
+  "id": "harbor-riggers-grips",
+  "name": "Harbor Rigger's Grips",
+  "slot": "gloves",
+  "tier": 4,
+  "class_hint": "archer",
+  "flavor": "Sharkskin-palmed leather gloves built for wet ropes and bows."
+ },
+ {
+  "id": "bone-knuckle-grips",
+  "name": "Bone-Knuckle Grips",
+  "slot": "gloves",
+  "tier": 4,
+  "class_hint": "necromancer",
+  "flavor": "Blackened calfskin fitted with carved finger-bone plates."
+ },
+ {
+  "id": "slag-forged-crushers",
+  "name": "Slag-Forged Crushers",
+  "slot": "gloves",
+  "tier": 5,
+  "class_hint": "warrior",
+  "flavor": "Heavy articulated war-gauntlets with spiked knuckle-bars."
+ },
+ {
+  "id": "ember-weave-handwraps",
+  "name": "Ember-Weave Handwraps",
+  "slot": "gloves",
+  "tier": 5,
+  "class_hint": "mage",
+  "flavor": "Asbestos-lined silk bindings that channel searing arc-fire."
+ },
+ {
+  "id": "bog-clogged-clogs",
+  "name": "Bog-Clogged Clogs",
+  "slot": "boots",
+  "tier": 1,
+  "class_hint": "warrior",
+  "flavor": "Alder-soled work boots strapped with cracked leather thongs."
+ },
+ {
+  "id": "tallow-rubbed-buskins",
+  "name": "Tallow-Rubbed Buskins",
+  "slot": "boots",
+  "tier": 1,
+  "class_hint": "archer",
+  "flavor": "Ankle-high soft hide boots waterproofed with mutton grease."
+ },
+ {
+  "id": "hobnailed-ford-boots",
+  "name": "Hobnailed Ford Boots",
+  "slot": "boots",
+  "tier": 2,
+  "class_hint": "warrior",
+  "flavor": "Iron-studded marching boots built for slick river cobbles."
+ },
+ {
+  "id": "fen-stalker-moccasins",
+  "name": "Fen-Stalker Moccasins",
+  "slot": "boots",
+  "tier": 2,
+  "class_hint": "archer",
+  "flavor": "Silent felt-lined swamp boots that muffle every footfall."
+ },
+ {
+  "id": "salt-crust-waders",
+  "name": "Salt-Crust Waders",
+  "slot": "boots",
+  "tier": 3,
+  "class_hint": "archer",
+  "flavor": "Knee-high cured-hide boots sealed with pitch at every seam."
+ },
+ {
+  "id": "plated-sabaton-boots",
+  "name": "Plated Sabaton Boots",
+  "slot": "boots",
+  "tier": 3,
+  "class_hint": "warrior",
+  "flavor": "Laminated steel foot-guards hinged over thick cowhide soles."
+ },
+ {
+  "id": "cliff-grip-greaves",
+  "name": "Cliff-Grip Greaves",
+  "slot": "boots",
+  "tier": 4,
+  "class_hint": "archer",
+  "flavor": "Notched-sole climbing boots worn by coastal beacon watchers."
+ },
+ {
+  "id": "crypt-dust-slippers",
+  "name": "Crypt-Dust Slippers",
+  "slot": "boots",
+  "tier": 4,
+  "class_hint": "necromancer",
+  "flavor": "Soft ash-velvet shoes soled with silent cured grey-leather."
+ },
+ {
+  "id": "molten-tread-sabatons",
+  "name": "Molten-Tread Sabatons",
+  "slot": "boots",
+  "tier": 5,
+  "class_hint": "warrior",
+  "flavor": "Basalt-soled iron boots impervious to blistering volcanic ash."
+ },
+ {
+  "id": "threshold-step-boots",
+  "name": "Threshold-Step Boots",
+  "slot": "boots",
+  "tier": 5,
+  "class_hint": "mage",
+  "flavor": "Star-iron buckled boots that hum softly over leyline cracks."
+ },
+ {
+  "id": "hemp-rope-girdle",
+  "name": "Hemp-Rope Girdle",
+  "slot": "belt",
+  "tier": 1,
+  "class_hint": "necromancer",
+  "flavor": "Braided barge-rope knotted thrice around a patched cassock."
+ },
+ {
+  "id": "tanned-oxhide-strap",
+  "name": "Tanned Oxhide Strap",
+  "slot": "belt",
+  "tier": 1,
+  "class_hint": "warrior",
+  "flavor": "Wide utility belt punched with rough iron buckle holes."
+ },
+ {
+  "id": "toll-collectors-pouch-belt",
+  "name": "Toll-Collector's Belt",
+  "slot": "belt",
+  "tier": 2,
+  "class_hint": "archer",
+  "flavor": "Compartmented leather waist-belt for coins, flints, and quarrels."
+ },
+ {
+  "id": "iron-studded-war-sash",
+  "name": "Iron-Studded War Sash",
+  "slot": "belt",
+  "tier": 2,
+  "class_hint": "warrior",
+  "flavor": "Thick kidney-guard belt reinforced with square iron washers."
+ },
+ {
+  "id": "salt-caravan-bandolier",
+  "name": "Salt-Caravan Bandolier",
+  "slot": "belt",
+  "tier": 3,
+  "class_hint": "archer",
+  "flavor": "Cross-stitched waist strap fitted with loops for glass vials."
+ },
+ {
+  "id": "assayers-scale-girdle",
+  "name": "Assayer's Scale Girdle",
+  "slot": "belt",
+  "tier": 3,
+  "class_hint": "mage",
+  "flavor": "Copper-linked chain belt hung with calibrated brass counterweights."
+ },
+ {
+  "id": "harbor-masters-cinch",
+  "name": "Harbor-Master's Cinch",
+  "slot": "belt",
+  "tier": 4,
+  "class_hint": "warrior",
+  "flavor": "Heavy bronze-buckled waist-plate worn over sea-wall mail."
+ },
+ {
+  "id": "probate-seal-sash",
+  "name": "Probate-Seal Sash",
+  "slot": "belt",
+  "tier": 4,
+  "class_hint": "necromancer",
+  "flavor": "Crimson funeral ribbon weighted with stamped leaden wax-seals."
+ },
+ {
+  "id": "caldera-plate-girdle",
+  "name": "Caldera-Plate Girdle",
+  "slot": "belt",
+  "tier": 5,
+  "class_hint": "warrior",
+  "flavor": "Articulated volcanic-steel waist-guard riveted over thick felt."
+ },
+ {
+  "id": "ember-core-cincture",
+  "name": "Ember-Core Cincture",
+  "slot": "belt",
+  "tier": 5,
+  "class_hint": "mage",
+  "flavor": "Black-gold filigree belt housing a caged cinder-prism."
+ },
+ {
+  "id": "tarred-plank-targe",
+  "name": "Tarred-Plank Targe",
+  "slot": "shield",
+  "tier": 1,
+  "class_hint": "warrior",
+  "flavor": "Three river-alder boards pinned together with a tin boss."
+ },
+ {
+  "id": "cracked-horn-buckler",
+  "name": "Cracked-Horn Buckler",
+  "slot": "shield",
+  "tier": 1,
+  "class_hint": "archer",
+  "flavor": "Small fist-shield faced with boiled river-ox horn."
+ },
+ {
+  "id": "iron-rimmed-heater",
+  "name": "Iron-Rimmed Heater",
+  "slot": "shield",
+  "tier": 2,
+  "class_hint": "warrior",
+  "flavor": "Triangular oak shield bound in hammered border-iron strips."
+ },
+ {
+  "id": "surveyors-brass-mirror",
+  "name": "Surveyor's Brass Mirror",
+  "slot": "shield",
+  "tier": 2,
+  "class_hint": "mage",
+  "flavor": "Polished dish-shield originally used to flash signals across fens."
+ },
+ {
+  "id": "salt-oak-pavise",
+  "name": "Salt-Oak Pavise",
+  "slot": "shield",
+  "tier": 3,
+  "class_hint": "warrior",
+  "flavor": "Tall ground-spiked mantle board built to cover crossbow crews."
+ },
+ {
+  "id": "ossuary-bone-ward",
+  "name": "Ossuary Bone Ward",
+  "slot": "shield",
+  "tier": 3,
+  "class_hint": "necromancer",
+  "flavor": "Rib-latticed ward-shield lacquered with blackened funerary resin."
+ },
+ {
+  "id": "oakhaven-galley-shield",
+  "name": "Oakhaven Galley Shield",
+  "slot": "shield",
+  "tier": 4,
+  "class_hint": "warrior",
+  "flavor": "Round iron-faced marine shield painted with faded anchor chevrons."
+ },
+ {
+  "id": "galvanic-copper-aegis",
+  "name": "Galvanic Copper Aegis",
+  "slot": "shield",
+  "tier": 4,
+  "class_hint": "mage",
+  "flavor": "Concentric copper-and-glass disc that grounds stray lightning arcs."
+ },
+ {
+  "id": "obsidian-bulwark",
+  "name": "Obsidian Bulwark",
+  "slot": "shield",
+  "tier": 5,
+  "class_hint": "warrior",
+  "flavor": "Slab of meteoric steel backed with heat-cured wyrm-hide."
+ },
+ {
+  "id": "threshold-ward-mirror",
+  "name": "Threshold Ward Mirror",
+  "slot": "shield",
+  "tier": 5,
+  "class_hint": "necromancer",
+  "flavor": "Silvered volcanic-glass disc framed in blackened First Watch bronze."
+ },
+ {
+  "id": "twisted-bog-wire-ring",
+  "name": "Twisted Bog-Wire Ring",
+  "slot": "ring",
+  "tier": 1,
+  "class_hint": "warrior",
+  "flavor": "Crude iron wire hammered flat around a river pebble."
+ },
+ {
+  "id": "tallow-wax-signet",
+  "name": "Tallow-Wax Signet",
+  "slot": "ring",
+  "tier": 1,
+  "class_hint": "necromancer",
+  "flavor": "Pewter stamp-ring worn smooth by sealing pauper testaments."
+ },
+ {
+  "id": "river-pebble-band",
+  "name": "River-Pebble Band",
+  "slot": "ring",
+  "tier": 1,
+  "class_hint": "archer",
+  "flavor": "Woven horsehair band holding a smooth grey ford-stone."
+ },
+ {
+  "id": "alkali-etched-band",
+  "name": "Alkali-Etched Band",
+  "slot": "ring",
+  "tier": 2,
+  "class_hint": "archer",
+  "flavor": "Tarnished silver ring pitted by Redmarsh salt-winds."
+ },
+ {
+  "id": "copper-coil-ring",
+  "name": "Copper-Coil Ring",
+  "slot": "ring",
+  "tier": 2,
+  "class_hint": "mage",
+  "flavor": "Triple-wound copper wire that tingles near active wardstones."
+ },
+ {
+  "id": "toll-wardens-signet",
+  "name": "Toll-Warden's Signet",
+  "slot": "ring",
+  "tier": 2,
+  "class_hint": "warrior",
+  "flavor": "Heavy brass ring stamped with the Redwater bridge gatehouse."
+ },
+ {
+  "id": "salt-glass-ring",
+  "name": "Salt-Glass Ring",
+  "slot": "ring",
+  "tier": 3,
+  "class_hint": "mage",
+  "flavor": "Fused desert-glass hoop trapping a single drop of brine."
+ },
+ {
+  "id": "probate-bailiffs-band",
+  "name": "Probate Bailiff's Band",
+  "slot": "ring",
+  "tier": 3,
+  "class_hint": "necromancer",
+  "flavor": "Lead-inlaid iron ring engraved with foreclosure tallies."
+ },
+ {
+  "id": "harbor-chain-ring",
+  "name": "Harbor-Chain Ring",
+  "slot": "ring",
+  "tier": 3,
+  "class_hint": "warrior",
+  "flavor": "Forged from a single link of Oakhaven's boom-chain."
+ },
+ {
+  "id": "beacon-lens-signet",
+  "name": "Beacon-Lens Signet",
+  "slot": "ring",
+  "tier": 4,
+  "class_hint": "archer",
+  "flavor": "Gold-washed bronze ring set with a ground coastal quartz bead."
+ },
+ {
+  "id": "ossuary-seal-ring",
+  "name": "Ossuary Seal Ring",
+  "slot": "ring",
+  "tier": 4,
+  "class_hint": "necromancer",
+  "flavor": "Carved yellow ivory band bound with tarnished silver wire."
+ },
+ {
+  "id": "galvanic-arc-band",
+  "name": "Galvanic Arc Band",
+  "slot": "ring",
+  "tier": 4,
+  "class_hint": "mage",
+  "flavor": "Twin-metal copper and zinc ring that sparks when clenched."
+ },
+ {
+  "id": "caldera-slag-signet",
+  "name": "Caldera-Slag Signet",
+  "slot": "ring",
+  "tier": 5,
+  "class_hint": "warrior",
+  "flavor": "Meteoric iron band set with a vitrified ember-coal."
+ },
+ {
+  "id": "first-watch-oath-ring",
+  "name": "First-Watch Oath Ring",
+  "slot": "ring",
+  "tier": 5,
+  "class_hint": "necromancer",
+  "flavor": "Blackened bronze ring bearing an unbroken threshold glyph."
+ },
+ {
+  "id": "spire-keystone-band",
+  "name": "Spire Keystone Band",
+  "slot": "ring",
+  "tier": 5,
+  "class_hint": "mage",
+  "flavor": "Star-iron ring humming with the frequency of the Celestial Spire."
+ },
+ {
+  "id": "braided-rush-charm",
+  "name": "Braided Rush Charm",
+  "slot": "amulet",
+  "tier": 1,
+  "class_hint": "archer",
+  "flavor": "Knotted marsh-reed loop hung with a hollow gull bone."
+ },
+ {
+  "id": "leaden-parish-token",
+  "name": "Leaden Parish Token",
+  "slot": "amulet",
+  "tier": 1,
+  "class_hint": "necromancer",
+  "flavor": "Stamped lead disc certifying burial dues paid in full."
+ },
+ {
+  "id": "chipped-flint-gorget",
+  "name": "Chipped-Flint Gorget",
+  "slot": "amulet",
+  "tier": 1,
+  "class_hint": "warrior",
+  "flavor": "Rawhide cord strung with three sharp river-flint splinters."
+ },
+ {
+  "id": "brine-vial-pendant",
+  "name": "Brine-Vial Pendant",
+  "slot": "amulet",
+  "tier": 2,
+  "class_hint": "archer",
+  "flavor": "Stoppered glass phial of concentrated Redmarsh salt-water."
+ },
+ {
+  "id": "copper-plumb-amulet",
+  "name": "Copper-Plumb Amulet",
+  "slot": "amulet",
+  "tier": 2,
+  "class_hint": "mage",
+  "flavor": "Pointed copper bob hung on a waxed linen cord."
+ },
+ {
+  "id": "iron-ration-tag",
+  "name": "Iron Ration Tag",
+  "slot": "amulet",
+  "tier": 2,
+  "class_hint": "warrior",
+  "flavor": "Notched garrison dog-tag hammered from salvaged horseshoes."
+ },
+ {
+  "id": "amber-fen-beetle-charm",
+  "name": "Amber Fen-Beetle Charm",
+  "slot": "amulet",
+  "tier": 3,
+  "class_hint": "necromancer",
+  "flavor": "Cloudy bog-amber pendant enclosing an ancient segmented husk."
+ },
+ {
+  "id": "salt-crystal-pendulum",
+  "name": "Salt-Crystal Pendulum",
+  "slot": "amulet",
+  "tier": 3,
+  "class_hint": "mage",
+  "flavor": "Cubic halite crystal caged in tarnished silver wire."
+ },
+ {
+  "id": "sea-wall-anchor-charm",
+  "name": "Sea-Wall Anchor Charm",
+  "slot": "amulet",
+  "tier": 3,
+  "class_hint": "warrior",
+  "flavor": "Cast-iron miniature fluke worn by Oakhaven marine pikemen."
+ },
+ {
+  "id": "smoked-quartz-monocle",
+  "name": "Smoked-Quartz Monocle",
+  "slot": "amulet",
+  "tier": 4,
+  "class_hint": "archer",
+  "flavor": "Darkened lens suspended on a braided brass chain."
+ },
+ {
+  "id": "ash-urn-reliquary",
+  "name": "Ash-Urn Reliquary",
+  "slot": "amulet",
+  "tier": 4,
+  "class_hint": "necromancer",
+  "flavor": "Thumb-sized pewter phial sealed with black funeral wax."
+ },
+ {
+  "id": "conclave-tuning-fork",
+  "name": "Conclave Tuning Fork",
+  "slot": "amulet",
+  "tier": 4,
+  "class_hint": "mage",
+  "flavor": "Two-pronged star-metal pendant that vibrates near ley-vents."
+ },
+ {
+  "id": "cinder-heart-talisman",
+  "name": "Cinder-Heart Talisman",
+  "slot": "amulet",
+  "tier": 5,
+  "class_hint": "warrior",
+  "flavor": "Caged volcanic garnet radiating steady, dry furnace heat."
+ },
+ {
+  "id": "threshold-seal-gorget",
+  "name": "Threshold Seal Gorget",
+  "slot": "amulet",
+  "tier": 5,
+  "class_hint": "necromancer",
+  "flavor": "Heavy bronze collar plate stamped with First Watch ward-ciphers."
+ },
+ {
+  "id": "astral-prism-medallion",
+  "name": "Astral Prism Medallion",
+  "slot": "amulet",
+  "tier": 5,
+  "class_hint": "mage",
+  "flavor": "Octagonal void-glass prism refracting cold silver light."
+ },
+ {
+  "id": "bog-moss-poultice",
+  "name": "Bog-Moss Poultice",
+  "slot": "consumable",
+  "tier": 1,
+  "class_hint": "all",
+  "flavor": "Clump of sphagnum moss soaked in boiled willow-bark bitter."
+ },
+ {
+  "id": "tallow-ration-hardbread",
+  "name": "Tallow-Ration Hardbread",
+  "slot": "consumable",
+  "tier": 1,
+  "class_hint": "all",
+  "flavor": "Twice-baked barley biscuit sealed against fen damp with mutton fat."
+ },
+ {
+  "id": "bitter-gall-draught",
+  "name": "Bitter-Gall Draught",
+  "slot": "consumable",
+  "tier": 1,
+  "class_hint": "mage",
+  "flavor": "Murky blue tincture brewed from crushed river-leeches and sage."
+ },
+ {
+  "id": "crude-whetstone-block",
+  "name": "Crude Whetstone Block",
+  "slot": "consumable",
+  "tier": 1,
+  "class_hint": "warrior",
+  "flavor": "Coarse sandstone grit-bar used to dress notched iron edges."
+ },
+ {
+  "id": "parish-ward-scroll",
+  "name": "Parish Ward Scroll",
+  "slot": "consumable",
+  "tier": 1,
+  "class_hint": "necromancer",
+  "flavor": "Gall-ink prayer strip transcribed onto damp rag-paper."
+ },
+ {
+  "id": "scrap-bog-iron-ingot",
+  "name": "Scrap Bog-Iron Ingot",
+  "slot": "consumable",
+  "tier": 1,
+  "class_hint": "all",
+  "flavor": "Smelted river-ore bar pitted with charcoal inclusions."
+ },
+ {
+  "id": "redmarsh-saline-tonic",
+  "name": "Redmarsh Saline Tonic",
+  "slot": "consumable",
+  "tier": 2,
+  "class_hint": "all",
+  "flavor": "Clarified mineral brine that settles stomach cramps and blood-loss."
+ },
+ {
+  "id": "viper-antivenom-phial",
+  "name": "Viper-Antivenom Phial",
+  "slot": "consumable",
+  "tier": 2,
+  "class_hint": "archer",
+  "flavor": "Milky distillate drawn from cured salt-viper venom glands."
+ },
+ {
+  "id": "copper-filings-phial",
+  "name": "Copper-Filings Phial",
+  "slot": "consumable",
+  "tier": 2,
+  "class_hint": "mage",
+  "flavor": "Stoppered tube of fine conductive dust from the Thornwick mint."
+ },
+ {
+  "id": "cured-fen-hide-bundle",
+  "name": "Cured Fen-Hide Bundle",
+  "slot": "consumable",
+  "tier": 2,
+  "class_hint": "archer",
+  "flavor": "Rolled sheets of oak-tanned marsh-ox leather."
+ },
+ {
+  "id": "notarized-hex-vellum",
+  "name": "Notarized Hex Vellum",
+  "slot": "consumable",
+  "tier": 2,
+  "class_hint": "necromancer",
+  "flavor": "Sheepskin writ stamped with a crimson probate seal."
+ },
+ {
+  "id": "tempered-flux-powder",
+  "name": "Tempered Flux Powder",
+  "slot": "consumable",
+  "tier": 2,
+  "class_hint": "all",
+  "flavor": "Crushed limestone and borax used to weld clean steel seams."
+ },
+ {
+  "id": "alkali-blood-restorative",
+  "name": "Alkali-Blood Restorative",
+  "slot": "consumable",
+  "tier": 3,
+  "class_hint": "all",
+  "flavor": "Crimson distillation that knits torn muscle within heartbeats."
+ },
+ {
+  "id": "galvanic-ether-ampoule",
+  "name": "Galvanic Ether Ampoule",
+  "slot": "consumable",
+  "tier": 3,
+  "class_hint": "mage",
+  "flavor": "Sealed glass bulb of volatile spirit that jolts numbed nerves."
+ },
+ {
+  "id": "bitumen-sealant-jar",
+  "name": "Bitumen-Sealant Jar",
+  "slot": "consumable",
+  "tier": 3,
+  "class_hint": "necromancer",
+  "flavor": "Thick funerary pitch boiled with crushed bone-ash."
+ },
+ {
+  "id": "scroll-of-iron-skin",
+  "name": "Scroll of Iron Skin",
+  "slot": "consumable",
+  "tier": 3,
+  "class_hint": "warrior",
+  "flavor": "Vellum diagram traced in powdered hematite and oil."
+ },
+ {
+  "id": "refined-harbor-steel-bar",
+  "name": "Refined Harbor-Steel Bar",
+  "slot": "consumable",
+  "tier": 3,
+  "class_hint": "all",
+  "flavor": "Clean crucible-cast steel billet forged in Oakhaven."
+ },
+ {
+  "id": "salt-cured-sinew-coil",
+  "name": "Salt-Cured Sinew Coil",
+  "slot": "consumable",
+  "tier": 3,
+  "class_hint": "archer",
+  "flavor": "Braided tendon cord treated against coastal rot."
+ },
+ {
+  "id": "oakhaven-aqua-vitae",
+  "name": "Oakhaven Aqua Vitae",
+  "slot": "consumable",
+  "tier": 4,
+  "class_hint": "all",
+  "flavor": "Triple-stilled amber cordial prized by sea-wall surgeons."
+ },
+ {
+  "id": "leyline-spark-elixir",
+  "name": "Leyline Spark Elixir",
+  "slot": "consumable",
+  "tier": 4,
+  "class_hint": "mage",
+  "flavor": "Luminescent blue distillate drawn near ruptured wardstones."
+ },
+ {
+  "id": "ossuary-ash-incense",
+  "name": "Ossuary Ash Incense",
+  "slot": "consumable",
+  "tier": 4,
+  "class_hint": "necromancer",
+  "flavor": "Compressed cones of tomb-soot and dried myrrh."
+ },
+ {
+  "id": "scroll-of-fissure-ward",
+  "name": "Scroll of Fissure Ward",
+  "slot": "consumable",
+  "tier": 4,
+  "class_hint": "all",
+  "flavor": "Asbestos-fiber parchment inked with thermal containment runes."
+ },
+ {
+  "id": "meteoric-slag-chunk",
+  "name": "Meteoric Slag Chunk",
+  "slot": "consumable",
+  "tier": 4,
+  "class_hint": "all",
+  "flavor": "Dense star-iron ore pried from deep quarry seams."
+ },
+ {
+  "id": "wyrm-scale-bundle",
+  "name": "Wyrm-Scale Bundle",
+  "slot": "consumable",
+  "tier": 4,
+  "class_hint": "archer",
+  "flavor": "Overlapping redglass scales stripped from coastal cliff-drakes."
+ },
+ {
+  "id": "threshold-ichor-phial",
+  "name": "Threshold Ichor Phial",
+  "slot": "consumable",
+  "tier": 5,
+  "class_hint": "all",
+  "flavor": "Thick silver-flecked draught harvested below the sealed chamber."
+ },
+ {
+  "id": "celestial-spire-distillate",
+  "name": "Celestial Spire Distillate",
+  "slot": "consumable",
+  "tier": 5,
+  "class_hint": "mage",
+  "flavor": "Pure star-light condensate sealed in lead-crystal."
+ },
+ {
+  "id": "first-watch-edict-scroll",
+  "name": "First-Watch Edict Scroll",
+  "slot": "consumable",
+  "tier": 5,
+  "class_hint": "necromancer",
+  "flavor": "Bronze-leaf writ bearing the original wardens' binding signature."
+ },
+ {
+  "id": "caldera-ember-core",
+  "name": "Caldera Ember Core",
+  "slot": "consumable",
+  "tier": 5,
+  "class_hint": "all",
+  "flavor": "Caged heart of slow-burning volcanic slag."
+ },
+ {
+  "id": "star-iron-ingot",
+  "name": "Star-Iron Ingot",
+  "slot": "consumable",
+  "tier": 5,
+  "class_hint": "all",
+  "flavor": "Mirror-bright meteoric billet quenched in caldera brine."
+ },
+ {
+  "id": "void-glass-shard",
+  "name": "Void-Glass Shard",
+  "slot": "consumable",
+  "tier": 5,
+  "class_hint": "mage",
+  "flavor": "Razor-edged splinter of blackened threshold obsidian."
+ }
+]

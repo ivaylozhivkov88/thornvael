@@ -1,0 +1,642 @@
+[
+ {
+  "id": "rf-a1-01",
+  "name": "Sunken Ford Crossing",
+  "act": 1,
+  "enter_line": "Cold river water swirls around sunken wagon axles where the border watch fell.",
+  "weather_lines": [
+   "Fine drizzle dimples the rust-brown current.",
+   "Low river mist hides the opposite gravel bank.",
+   "Gusts whip cold spray off the willow weir."
+  ],
+  "ambient_sounds_text": [
+   "Water gurgles through broken wheel spokes.",
+   "Wet leather creaks under heavy footsteps.",
+   "Crows croak from half-submerged alder posts."
+  ]
+ },
+ {
+  "id": "rf-a1-02",
+  "name": "Thornwick Timber Palisade",
+  "act": 1,
+  "enter_line": "Sharpened stakes and damp wool smoke guard the last market town before the fens.",
+  "weather_lines": [
+   "Grey sleet hisses against charcoal braziers.",
+   "Thick morning fog clings to shingled eaves.",
+   "Chill wind rattles shuttered merchant stalls."
+  ],
+  "ambient_sounds_text": [
+   "Whetstones scrape along notched levy spears.",
+   "Muffled voices bargain behind barred doors.",
+   "Watch-boots thump across wet plank walkways."
+  ]
+ },
+ {
+  "id": "rf-a1-03",
+  "name": "Fenwick Peat Flats",
+  "act": 1,
+  "enter_line": "Black water and swaying reeds swallow every path save the rotting corduroy planks.",
+  "weather_lines": [
+   "Clammy fog hangs three paces above the peat.",
+   "Spitting rain turns moss beds into black mire.",
+   "Stagnant air smells sharply of sulfur and rot."
+  ],
+  "ambient_sounds_text": [
+   "Marsh gas bubbles up through thick black mud.",
+   "Reeds rustle where no breeze stirs the mist.",
+   "Sunken timbers groan beneath careful weight."
+  ]
+ },
+ {
+  "id": "rf-a1-04",
+  "name": "Ravenwatch Signal Ridge",
+  "act": 1,
+  "enter_line": "Exposed granite heights where wind howls through the split shutters of an undermanned tower.",
+  "weather_lines": [
+   "Driving sleet lashes the charred timber parapet.",
+   "Racing clouds tear across a pale winter moon.",
+   "Biting ridge-gales carry smoke from the valley."
+  ],
+  "ambient_sounds_text": [
+   "Loose shutter slats clatter against stone.",
+   "Ravens shift uneasily along wet roof beams.",
+   "Unlit pitch barrels creak in the cold draft."
+  ]
+ },
+ {
+  "id": "rf-a1-05",
+  "name": "The Flooded Cloisters",
+  "act": 1,
+  "enter_line": "Knee-deep black brine laps against defaced saints inside the sinking abbey nave.",
+  "weather_lines": [
+   "Cold dampness sweats down every vaulted rib.",
+   "Pale mist drifts over stagnant choir water.",
+   "Chill drafts whistle through broken lancet glass."
+  ],
+  "ambient_sounds_text": [
+   "Water drips steadily from cracked stone arches.",
+   "Sodden parchment slaps softly against pillars.",
+   "Distant chains clink inside the flooded crypt."
+  ]
+ },
+ {
+  "id": "rf-a1-06",
+  "name": "Lantern Passage Defile",
+  "act": 1,
+  "enter_line": "Sheer slate cliffs funnel footsteps beneath iron-caged lamps that sway in dead calm.",
+  "weather_lines": [
+   "Canyon fog turns lamp-light into blurry halos.",
+   "Fine slate grit sifts down in dry gusts.",
+   "Damp chill pools at the bottom of the gorge."
+  ],
+  "ambient_sounds_text": [
+   "Caged oil lamps creak on rusted wall brackets.",
+   "Iron-shod boots echo twice off narrow slate.",
+   "Oil drips slowly onto worn cobblestone."
+  ]
+ },
+ {
+  "id": "rf-a1-07",
+  "name": "Greywood Haulage Yard",
+  "act": 1,
+  "enter_line": "Overturned timber wagons and stacked oak beams rot beneath tangled ash canopies.",
+  "weather_lines": [
+   "Dappled drizzle patters on damp sawdust mats.",
+   "Heavy forest mist muffles distant bird-calls.",
+   "Cool wind sighs through overgrown bramble thickets."
+  ],
+  "ambient_sounds_text": [
+   "Rusted crane chains swing with a faint clink.",
+   "Wet sawdust squelches underfoot like snow.",
+   "Branches creak high in the tangled canopy."
+  ]
+ },
+ {
+  "id": "rf-a1-08",
+  "name": "Alder Stone Span",
+  "act": 1,
+  "enter_line": "Three-century-old granite arches carry the sole artillery road across the swollen Alder.",
+  "weather_lines": [
+   "River spray mists the scorched stone parapets.",
+   "Sharp cross-winds whip banners along the arch.",
+   "Overcast skies darken the churning rapids below."
+  ],
+  "ambient_sounds_text": [
+   "River rapids boil loudly against stone cutwaters.",
+   "Boot-nails scrape across worn granite paving.",
+   "Bowstrings hum tautly in the damp river air."
+  ]
+ },
+ {
+  "id": "rf-a1-09",
+  "name": "Ironhide Bramble Ravine",
+  "act": 1,
+  "enter_line": "Deep tusk-gouges and snapped hunting spears scar the birches lining this dense gully.",
+  "weather_lines": [
+   "Low mist tangles among thorny undergrowth.",
+   "Spitting rain darkens mud-caked ravine stones.",
+   "Still, heavy air smells of wet fur and loam."
+  ],
+  "ambient_sounds_text": [
+   "Heavy breathing rumbles inside thick brush.",
+   "Snapped spear-shafts clatter under wary boots.",
+   "Dry briars rasp against leather greaves."
+  ]
+ },
+ {
+  "id": "rf-a1-10",
+  "name": "Undervault Drainage Galleries",
+  "act": 1,
+  "enter_line": "Dwarven brick tunnels sweat cold mineral drops beneath lead-sealed border armories.",
+  "weather_lines": [
+   "Stale subterranean air tastes of lime and iron.",
+   "Cold drafts seep through cracked mortar joints.",
+   "Perpetual dark swallows torchlight ten paces out."
+  ],
+  "ambient_sounds_text": [
+   "Mineral drops plink into stone drainage runnels.",
+   "Tree roots creak as they wedge brick arches.",
+   "Faint metallic hums vibrate through lead doors."
+  ]
+ },
+ {
+  "id": "rf-a2-01",
+  "name": "Redmarsh Piling Stockade",
+  "act": 2,
+  "enter_line": "Sinking oak palisades brace above rust-red silt where clean water sells by the gill.",
+  "weather_lines": [
+   "Warm drizzle hisses on smoky sentry braziers.",
+   "Ochre marsh-fog clings low over the moat.",
+   "Hot, gritty gusts blow north from the salt-pan."
+  ],
+  "ambient_sounds_text": [
+   "Leeches slap against moored supply punts.",
+   "Dice clatter inside humid canvas billet tents.",
+   "Log palisades groan as they settle into mud."
+  ]
+ },
+ {
+  "id": "rf-a2-02",
+  "name": "The Ochre Boundary Ditch",
+  "act": 2,
+  "enter_line": "Crooked iron markers and skull-hung willow poles divide solid turf from sucking bog.",
+  "weather_lines": [
+   "Thick yellow haze blurs the horizon line.",
+   "Dry alkali wind crusts salt onto wet wool.",
+   "Pale sun glares off stagnant rust-red pools."
+  ],
+  "ambient_sounds_text": [
+   "Bleached skulls rattle on dry willow poles.",
+   "Mud sucks greedily at every lifted boot.",
+   "Reeds hiss like sandpaper in hot gusts."
+  ]
+ },
+ {
+  "id": "rf-a2-03",
+  "name": "Twin Canyon Ledges",
+  "act": 2,
+  "enter_line": "Parallel sandstone tracks skirt a sheer sinkhole chasm under sniper-lined crags.",
+  "weather_lines": [
+   "Howling canyon drafts whip cloaks across stone.",
+   "Blinding grit-squalls sweep through the notch.",
+   "Harsh midday glare bakes the red sandstone."
+  ],
+  "ambient_sounds_text": [
+   "Loose pebbles skitter into the unseen gulf.",
+   "Wind whistles sharply through sandstone chimneys.",
+   "Crossbow prods click from high middle crags."
+  ]
+ },
+ {
+  "id": "rf-a2-04",
+  "name": "Bracken Tussock Basin",
+  "act": 2,
+  "enter_line": "Wind-carved hoodoos and thorny scrub hide alkali sinkholes and buried ambushers.",
+  "weather_lines": [
+   "Swirling dust-devils blot out distant cairns.",
+   "Dry heat shimmers above cracked clay beds.",
+   "Sudden haboobs turn afternoon sky to rust."
+  ],
+  "ambient_sounds_text": [
+   "Signal mirrors flash with faint metallic clicks.",
+   "Sand hisses continuously across dry scrub.",
+   "Distant whistles echo from unseen hummocks."
+  ]
+ },
+ {
+  "id": "rf-a2-05",
+  "name": "Ruptured Wardstone Crest",
+  "act": 2,
+  "enter_line": "A split quartz monolith hums with violet static above a dead ring of flattened grass.",
+  "weather_lines": [
+   "Ozone-heavy air prickles exposed skin.",
+   "Dry static crackles before hot desert gusts.",
+   "Unnatural violet glare pulses through dust."
+  ],
+  "ambient_sounds_text": [
+   "The fractured crystal hums deep in the teeth.",
+   "Blue sparks snap between iron helm-rivets.",
+   "Dead grass rustles brittly around the spire."
+  ]
+ },
+ {
+  "id": "rf-a2-06",
+  "name": "Corduroy Causeway Bog",
+  "act": 2,
+  "enter_line": "Half-sunken log tracks carry heavy supply wagons across bottomless red clay.",
+  "weather_lines": [
+   "Warm rain turns clay tracks into slick grease.",
+   "Low bog-mist swallows torchlight at dusk.",
+   "Humid air hangs thick with peat and sweat."
+  ],
+  "ambient_sounds_text": [
+   "Wagon wheels groan in deep, sucking mud.",
+   "Draft oxen snort and stamp in tangled traces.",
+   "Arrows thud softly into wet canvas covers."
+  ]
+ },
+ {
+  "id": "rf-a2-07",
+  "name": "Stilt-Granary Compound",
+  "act": 2,
+  "enter_line": "Limestone pillars lift the province's last dry barley stores above floodwater and rats.",
+  "weather_lines": [
+   "Acrid brush-smoke curls through louver vents.",
+   "Hot wind fans embers along dry shingle eaves.",
+   "Dusty sunlight slants through barred shutters."
+  ],
+  "ambient_sounds_text": [
+   "Oak shutters shudder under heavy ram blows.",
+   "Loose grain patters like rain from burst sacks.",
+   "Flames crackle hungrily beneath stone stilts."
+  ]
+ },
+ {
+  "id": "rf-a2-08",
+  "name": "Megalith Willow Hollow",
+  "act": 2,
+  "enter_line": "Twelve black standing stones weep bitter green miasma around bubbling clay cauldrons.",
+  "weather_lines": [
+   "Stagnant, fetid air chokes out every breeze.",
+   "Sickly green mist rises off warm peat pools.",
+   "Overcast gloom dims the sunken willow ring."
+  ],
+  "ambient_sounds_text": [
+   "Bone fetishes clack together in dead calm.",
+   "Thick broth bubbles in blackened clay pots.",
+   "Frogs croak out of rhythm in the dark reeds."
+  ]
+ },
+ {
+  "id": "rf-a2-09",
+  "name": "Terraced Ironstone Pit",
+  "act": 2,
+  "enter_line": "Sheer slate ledges drop three hundred feet into a flooded black rainwater pool.",
+  "weather_lines": [
+   "Cold updrafts rise from the dark pit water.",
+   "Fine black iron-dust coats damp rock faces.",
+   "Low clouds snag along the upper quarry rim."
+  ],
+  "ambient_sounds_text": [
+   "Rusted crane winches creak in canyon drafts.",
+   "Every pick-clang echoes ten times off slate.",
+   "Discarded shackles rattle along timber ledges."
+  ]
+ },
+ {
+  "id": "rf-a2-10",
+  "name": "Ironheart Twin Spires",
+  "act": 2,
+  "enter_line": "Black-slag bastions crown volcanic needles above cannon-swept salt-bog causeways.",
+  "weather_lines": [
+   "Dry mountain winds whip dust across stone.",
+   "Blistering sun bakes the empty cistern courtyards.",
+   "Ash-tinged clouds gather over the mountain pass."
+  ],
+  "ambient_sounds_text": [
+   "Heavy iron gates groan on dry bronze hinges.",
+   "Wind moans through empty stone water-channels.",
+   "Boots crunch on volcanic slag and alkali grit."
+  ]
+ },
+ {
+  "id": "rf-a3-01",
+  "name": "Oakhaven Cedar Drydocks",
+  "act": 3,
+  "enter_line": "Walled hill-terraces and petrified oak pilings overlook a bay choked by naval blockade.",
+  "weather_lines": [
+   "Salt-heavy sea fog rolls over slate roofs.",
+   "Brisk coastal gales carry pine-pitch smoke.",
+   "Pale sun glints off blue tower ward-lamps."
+  ],
+  "ambient_sounds_text": [
+   "Guild curfew bells toll across the lower town.",
+   "Surf slaps against bolted harbor boom-chains.",
+   "Shipwright hammers ring inside timber drydocks."
+  ]
+ },
+ {
+  "id": "rf-a3-02",
+  "name": "Ashen Tenement Ruins",
+  "act": 3,
+  "enter_line": "Blackened chimneys and smoldering cellars stretch beyond Oakhaven's cleared sightlines.",
+  "weather_lines": [
+   "Wind stirs grey ash across scorched cobbles.",
+   "Cold sea drizzle hisses on warm cellar beams.",
+   "Smoke-stained fog lingers in ruined alleys."
+  ],
+  "ambient_sounds_text": [
+   "Charred roof timbers groan as they settle.",
+   "Loose roof slates clatter in coastal gusts.",
+   "Furtive footsteps scrape inside dark cellars."
+  ]
+ },
+ {
+  "id": "rf-a3-03",
+  "name": "Cratered Coastal Moor",
+  "act": 3,
+  "enter_line": "Split shields and incendiary craters scar the heather where shield-walls shattered.",
+  "weather_lines": [
+   "Horizontal sea-rain sweeps the open ridge.",
+   "Low storm clouds darken trampled peat turf.",
+   "Salt wind stings exposed cheeks and eyes."
+  ],
+  "ambient_sounds_text": [
+   "Wind howls through abandoned iron pike-racks.",
+   "Gulls shriek above silent piles of dented plate.",
+   "Wet heather squelches under marching columns."
+  ]
+ },
+ {
+  "id": "rf-a3-04",
+  "name": "Ruined Abbey Triage Nave",
+  "act": 3,
+  "enter_line": "Lantern-lit hospital tents huddle inside roofless stone walls behind a thin picket line.",
+  "weather_lines": [
+   "Night drizzle drums on tight-stretched canvas.",
+   "Sea mist drifts through broken rose-windows.",
+   "Chill wind rattles loose abbey roof-tiles."
+  ],
+  "ambient_sounds_text": [
+   "Canvas tent flaps snap sharply in gusts.",
+   "Surgeons' blades clink in vinegar-filled basins.",
+   "Distant horn blasts warn of probing scouts."
+  ]
+ },
+ {
+  "id": "rf-a3-05",
+  "name": "Tilted Sea-Stack Fortress",
+  "act": 3,
+  "enter_line": "Atlantic breakers thunder through flooded lower halls of a sinking First-Empire keep.",
+  "weather_lines": [
+   "Salt spray mists through cracked arrow slits.",
+   "Gale-force gusts whip foam across tilted stone.",
+   "Grey sea-squalls obscure the mainland cliffs."
+  ],
+  "ambient_sounds_text": [
+   "Surf booms loudly inside submerged lower vaults.",
+   "Corroded bronze hinges shriek in the sea wind.",
+   "Kelp-slick flagstones squelch beneath boots."
+  ]
+ },
+ {
+  "id": "rf-a3-06",
+  "name": "Hourglass Shingle Bar",
+  "act": 3,
+  "enter_line": "Freezing tidewater climbs steadily across the narrow gravel spit linking tower to shore.",
+  "weather_lines": [
+   "Driving spray blurs the shrinking gravel path.",
+   "Low tide-fog hides the approaching surf line.",
+   "Biting sea wind drowns out shouted commands."
+  ],
+  "ambient_sounds_text": [
+   "Waves hiss and rattle across loose beach shingle.",
+   "Surf slams against the watchtower's granite base.",
+   "Water sloshes inside heavy leather boots."
+  ]
+ },
+ {
+  "id": "rf-a3-07",
+  "name": "Greywash Canal Locks",
+  "act": 3,
+  "enter_line": "Roaring sluices and massive bronze capstans hold back tidal surges from inland fields.",
+  "weather_lines": [
+   "River mist rises thick above churning lock-gates.",
+   "Brisk wind whips spray across narrow catwalks.",
+   "Overcast gloom darkens the deep canal basin."
+  ],
+  "ambient_sounds_text": [
+   "Dark water roars through half-jammed sluices.",
+   "Iron counterweight chains groan under immense load.",
+   "Bronze gears grind inside wet stone housings."
+  ]
+ },
+ {
+  "id": "rf-a3-08",
+  "name": "Rust-Scree Testing Ground",
+  "act": 3,
+  "enter_line": "Crushed boulders and gouged earth mark where an ancient bedrock colossus woke from sleep.",
+  "weather_lines": [
+   "Sulfurous steam vents from cracked coastal rock.",
+   "Sea fog curls around rusted iron plates.",
+   "Heavy, static air tastes of hot copper and salt."
+  ],
+  "ambient_sounds_text": [
+   "Steam hisses from ancient pressure-relief valves.",
+   "Loose scree crunches under heavy iron treads.",
+   "Low metallic groans echo across the crater."
+  ]
+ },
+ {
+  "id": "rf-a3-09",
+  "name": "Cliffside Culverin Battery",
+  "act": 3,
+  "enter_line": "Bronze coastal guns command the bay above hundred-foot drops and crashing breakers.",
+  "weather_lines": [
+   "Salt-laden gusts whip sparks from slow-matches.",
+   "Low sea-clouds drift past the granite parapet.",
+   "Cold spray rises from the breakers far below."
+  ],
+  "ambient_sounds_text": [
+   "Waves crash thunderously against sheer cliff bases.",
+   "Heavy siege-carriages creak on wooden tracks.",
+   "Canvas powder-covers flap in brisk sea wind."
+  ]
+ },
+ {
+  "id": "rf-a3-10",
+  "name": "Blazing Harbor Quays",
+  "act": 3,
+  "enter_line": "Pitch-fed fire-hulks light up choppy black water as burning masts topple onto piers.",
+  "weather_lines": [
+   "Thick black oil-smoke blots out the night sky.",
+   "Blistering orange heat radiates off burning hulls.",
+   "Sparks rain down like red snow in harbor gusts."
+  ],
+  "ambient_sounds_text": [
+   "Tarred ship-timbers roar like open furnaces.",
+   "Boiling seawater hisses around charred pilings.",
+   "Rigging snaps and crashes onto stone quays."
+  ]
+ },
+ {
+  "id": "rf-a4-01",
+  "name": "Ironcamp Slag Foundry",
+  "act": 4,
+  "enter_line": "Trip-hammers thunder day and night beside open caldera fissures glowing with white heat.",
+  "weather_lines": [
+   "Thick coal-smog stings every drawn breath.",
+   "Grey volcanic ash sifts onto tavern roofs.",
+   "Dry furnace heat radiates from slag-heap walls."
+  ],
+  "ambient_sounds_text": [
+   "Heavy trip-hammers shake soot from iron rafters.",
+   "Quenching troughs hiss violently with sulfur steam.",
+   "Sharpening wheels shriek against meteoric steel."
+  ]
+ },
+ {
+  "id": "rf-a4-02",
+  "name": "Scorched Basalt Highway",
+  "act": 4,
+  "enter_line": "Toppled milestones and blistered orchards line the straight imperial road into the caldera.",
+  "weather_lines": [
+   "Heat shimmer warps the distant volcanic ridge.",
+   "Fine grey ash crunches like frost under boots.",
+   "Dry, sulfurous wind parches lips and throat."
+  ],
+  "ambient_sounds_text": [
+   "Basalt paving slabs pop softly in intense heat.",
+   "Ash drifts across stone with a dry whisper.",
+   "Distant war-horns echo from the inner hills."
+  ]
+ },
+ {
+  "id": "rf-a4-03",
+  "name": "Cold-Slag Beacon Towers",
+  "act": 4,
+  "enter_line": "Shattered signal mirrors and traitors' armor litter hilltop pyres extinguished from within.",
+  "weather_lines": [
+   "Howling ash-winds sweep the exposed watch-decks.",
+   "Bruised crimson skies loom over cold fire-bowls.",
+   "Chilling night drafts follow blistering afternoons."
+  ],
+  "ambient_sounds_text": [
+   "Broken bronze mirrors rattle in dusty gusts.",
+   "Torn traitors' pennants snap on iron poles.",
+   "Cold slag crunches beneath patrol boots."
+  ]
+ },
+ {
+  "id": "rf-a4-04",
+  "name": "Ironcamp Curtain Rampart",
+  "act": 4,
+  "enter_line": "Cracked basalt walls shudder under glowing slag-stones and sappers' picks below.",
+  "weather_lines": [
+   "Thick siege-smoke obscures the outer glacis.",
+   "Glowing cinders rain down across parapet walks.",
+   "Hot sulfurous drafts rise from cratered stone."
+  ],
+  "ambient_sounds_text": [
+   "Heavy basalt blocks groan under artillery impact.",
+   "Sappers' iron picks echo beneath the foundations.",
+   "Quenching water hisses on burning timber hoardings."
+  ]
+ },
+ {
+  "id": "rf-a4-05",
+  "name": "Ashveil Switchback Canyon",
+  "act": 4,
+  "enter_line": "Narrow obsidian trails wind beneath flickering rift-gates where turncoats hold the heights.",
+  "weather_lines": [
+   "Violet rift-sparks crackle through falling ash.",
+   "Hot canyon winds funnel soot into blinding clouds.",
+   "Ominous crimson twilight stains the cliff walls."
+  ],
+  "ambient_sounds_text": [
+   "Shod hooves clatter sharply on volcanic glass.",
+   "Static arcs snap between jagged obsidian crags.",
+   "Rear-guard blades ring along narrow switchbacks."
+  ]
+ },
+ {
+  "id": "rf-a4-06",
+  "name": "The Trench-Maze Gauntlet",
+  "act": 4,
+  "enter_line": "Enfilading ballista slits and oil-soaked faggots turn every sunken traverse into a kill-box.",
+  "weather_lines": [
+   "Oily black smoke clings inside narrow ditches.",
+   "Dry heat radiates off pitch-soaked timber walls.",
+   "Ash falls steadily into spiked mud pits."
+  ],
+  "ambient_sounds_text": [
+   "Repeating ballistae click as heavy cords wind.",
+   "Oil-soaked brush crackles near glowing braziers.",
+   "Bolts whistle sharply down narrow trench bends."
+  ]
+ },
+ {
+  "id": "rf-a4-07",
+  "name": "Soot-Velvet Outer Glacis",
+  "act": 4,
+  "enter_line": "Steep volcanic stone leaves storming columns exposed beneath gaping murder-holes.",
+  "weather_lines": [
+   "Blistering midday sun turns black stone white-hot.",
+   "Soot flakes drift downward like black winter snow.",
+   "Sudden evening chill cracks heated basalt."
+  ],
+  "ambient_sounds_text": [
+   "Heavy iron portcullises groan behind stone bars.",
+   "Loose pumice skitters down the steep approach.",
+   "Boiling slag-cauldrons bubble above murder-holes."
+  ]
+ },
+ {
+  "id": "rf-a4-08",
+  "name": "Three-Roads Star Bastion",
+  "act": 4,
+  "enter_line": "Three converging causeways lock down the ash plains under crossfire from battered towers.",
+  "weather_lines": [
+   "Three dust plumes rise through grey ash-clouds.",
+   "Hot cross-winds carry war-drum beats across plains.",
+   "Smoke-choked skies glow dull red at noon."
+  ],
+  "ambient_sounds_text": [
+   "War-drums pound steadily from three directions.",
+   "Steel clashes continuously along outer bastions.",
+   "Messengers' boots pound across stone causeways."
+  ]
+ },
+ {
+  "id": "rf-a4-09",
+  "name": "Colonnade of Conquered Crowns",
+  "act": 4,
+  "enter_line": "Polished black marble mirrors guttering coal-braziers beneath twelve chained provincial crowns.",
+  "weather_lines": [
+   "Suffocating, still heat hangs beneath vast arches.",
+   "Brazier smoke coils around tarnished royal chains.",
+   "Cold draft from the dais chills sweat-soaked mail."
+  ],
+  "ambient_sounds_text": [
+   "Iron footsteps echo endlessly down marble halls.",
+   "Tarnished crowns clink softly on suspended chains.",
+   "Coal braziers crackle in dead liturgical silence."
+  ]
+ },
+ {
+  "id": "rf-a4-10",
+  "name": "The Obsidian Dais Caldera",
+  "act": 4,
+  "enter_line": "Magma moats split the geometric sanctuary where the last Anchor Seals fracture in open air.",
+  "weather_lines": [
+   "Cinders rise upward like inverted red snow.",
+   "Intense volcanic glare warps air and steel alike.",
+   "Bruised skies rumble above the open caldera."
+  ],
+  "ambient_sounds_text": [
+   "Molten rock bubbles sluggishly in stone moats.",
+   "Meteoric Anchor Seals hum at a bone-deep pitch.",
+   "The threshold bell tolls through drifting ash."
+  ]
+ }
+]

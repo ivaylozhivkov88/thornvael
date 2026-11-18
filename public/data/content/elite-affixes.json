@@ -1,0 +1,322 @@
+[
+ {
+  "id": "elite-bog-leech",
+  "name": "Bog-Leech",
+  "prefix_text": "Bog-Leech",
+  "effect": "Attacks drain 12% of damage dealt as health and apply slow.",
+  "desc": "Siphons vitality with every blow while weighing down boots in phantom mire.",
+  "threat": 2
+ },
+ {
+  "id": "elite-iron-bulwark",
+  "name": "Iron-Bulwark",
+  "prefix_text": "Iron-Bulwark",
+  "effect": "+45% physical armor and frontal shield block chance.",
+  "desc": "Encased in thick riveted plate that turns aside glancing melee strikes.",
+  "threat": 2
+ },
+ {
+  "id": "elite-cinder-veined",
+  "name": "Cinder-Veined",
+  "prefix_text": "Cinder-Veined",
+  "effect": "Melee hits deal bonus fire damage and leave burning ground.",
+  "desc": "Molten cracks across its hide scorch the earth beneath every footstep.",
+  "threat": 3
+ },
+ {
+  "id": "elite-brine-soaked",
+  "name": "Brine-Soaked",
+  "prefix_text": "Brine-Soaked",
+  "effect": "High cold resistance; chills attackers on melee contact.",
+  "desc": "Drenched in freezing sea-water that numbs sword-arms on impact.",
+  "threat": 2
+ },
+ {
+  "id": "elite-storm-charged",
+  "name": "Storm-Charged",
+  "prefix_text": "Storm-Charged",
+  "effect": "Emits periodic lightning bolts toward nearby armored targets.",
+  "desc": "Crackling static arcs violently from its weapon toward heavy metal.",
+  "threat": 3
+ },
+ {
+  "id": "elite-marrow-rot",
+  "name": "Marrow-Rot",
+  "prefix_text": "Marrow-Rot",
+  "effect": "Aura reduces enemy healing received by 40% within 4 tiles.",
+  "desc": "Exhales grave-damp miasma that curdles salves and dulls healing wards.",
+  "threat": 3
+ },
+ {
+  "id": "elite-ash-shrouded",
+  "name": "Ash-Shrouded",
+  "prefix_text": "Ash-Shrouded",
+  "effect": "+30% ranged evasion and leaves blinding smoke when struck.",
+  "desc": "Swirling soot obscures its outline, confounding archers at long range.",
+  "threat": 2
+ },
+ {
+  "id": "elite-debt-collector",
+  "name": "Debt-Collector",
+  "prefix_text": "Debt-Collector",
+  "effect": "Deals +25% damage to targets below 50% health.",
+  "desc": "Presses the attack ruthlessly whenever a defender begins to falter.",
+  "threat": 3
+ },
+ {
+  "id": "elite-thorn-carapace",
+  "name": "Thorn-Carapace",
+  "prefix_text": "Thorn-Carapace",
+  "effect": "Reflects 18% of melee physical damage back to the attacker.",
+  "desc": "Jagged iron spurs jut from its armor, punishing reckless close strikes.",
+  "threat": 2
+ },
+ {
+  "id": "elite-quick-stepping",
+  "name": "Quick-Stepping",
+  "prefix_text": "Quick-Stepping",
+  "effect": "+35% movement speed and immune to root or snare effects.",
+  "desc": "Darts across broken terrain without breaking stride or losing momentum.",
+  "threat": 2
+ },
+ {
+  "id": "elite-hex-warded",
+  "name": "Hex-Warded",
+  "prefix_text": "Hex-Warded",
+  "effect": "+40% elemental resistances and cleanses debuffs every 8 seconds.",
+  "desc": "Inscribed wards flare across its skin, burning off hostile curses.",
+  "threat": 3
+ },
+ {
+  "id": "elite-skull-splitter",
+  "name": "Skull-Splitter",
+  "prefix_text": "Skull-Splitter",
+  "effect": "Critical hits stun the target for 1.5 seconds.",
+  "desc": "Delivers crushing overhead blows meant to rattle helms and break formations.",
+  "threat": 3
+ },
+ {
+  "id": "elite-grave-caller",
+  "name": "Grave-Caller",
+  "prefix_text": "Grave-Caller",
+  "effect": "Raises fallen lesser foes nearby as brittle skeletons.",
+  "desc": "Mutters forbidden parish litanies that drag slain comrades back upright.",
+  "threat": 4
+ },
+ {
+  "id": "elite-alkali-crusted",
+  "name": "Alkali-Crusted",
+  "prefix_text": "Alkali-Crusted",
+  "effect": "Explodes in caustic salt-dust on death, blinding nearby foes.",
+  "desc": "Hardened salt-crusts shatter upon death in a stinging white cloud.",
+  "threat": 2
+ },
+ {
+  "id": "elite-windlass-eyed",
+  "name": "Windlass-Eyed",
+  "prefix_text": "Windlass-Eyed",
+  "effect": "+30% ranged accuracy, range, and armor penetration.",
+  "desc": "Picks out tiny gaps in breastplates with cold, unhurried precision.",
+  "threat": 3
+ },
+ {
+  "id": "elite-war-drummer",
+  "name": "War-Drummer",
+  "prefix_text": "War-Drummer",
+  "effect": "Allies within 5 tiles gain +20% attack speed and morale.",
+  "desc": "Drives nearby raiders into a relentless frenzy with grim battle-cadence.",
+  "threat": 3
+ },
+ {
+  "id": "elite-bell-toller",
+  "name": "Bell-Toller",
+  "prefix_text": "Bell-Toller",
+  "effect": "Periodically silences casters within 4 tiles for 2 seconds.",
+  "desc": "A corroded funeral chime disrupts chants and scatters arcane focus.",
+  "threat": 4
+ },
+ {
+  "id": "elite-slag-blooded",
+  "name": "Slag-Blooded",
+  "prefix_text": "Slag-Blooded",
+  "effect": "Bleeds molten slag when hit, damaging adjacent melee fighters.",
+  "desc": "Every open wound spills white-hot embers across the boots of attackers.",
+  "threat": 3
+ },
+ {
+  "id": "elite-tide-sworn",
+  "name": "Tide-Sworn",
+  "prefix_text": "Tide-Sworn",
+  "effect": "Regenerates 3% max health per second while standing in water or mud.",
+  "desc": "Draws cold vigor from shallow surf, stagnant fens, and rain-slick stone.",
+  "threat": 2
+ },
+ {
+  "id": "elite-oath-chained",
+  "name": "Oath-Chained",
+  "prefix_text": "Oath-Chained",
+  "effect": "Splits 30% of incoming damage with nearby lesser allies.",
+  "desc": "Bound by iron pacts that force subordinates to absorb lethal blows.",
+  "threat": 4
+ },
+ {
+  "id": "elite-lantern-eater",
+  "name": "Lantern-Eater",
+  "prefix_text": "Lantern-Eater",
+  "effect": "Drains 8 mana per hit and gains temporary ward strength.",
+  "desc": "Feeds on ambient aether, starving mages while thickening its own shell.",
+  "threat": 3
+ },
+ {
+  "id": "elite-pit-hound",
+  "name": "Pit-Hound",
+  "prefix_text": "Pit-Hound",
+  "effect": "Fixates on the lowest-armor target and leaps past frontliners.",
+  "desc": "Ignores heavy shields to lunge straight at archers and wounded healers.",
+  "threat": 4
+ },
+ {
+  "id": "elite-frost-locked",
+  "name": "Frost-Locked",
+  "prefix_text": "Frost-Locked",
+  "effect": "Every fourth attack freezes the target solid for 1.5 seconds.",
+  "desc": "Rime creeps along its blade until steel locks joints in brittle ice.",
+  "threat": 3
+ },
+ {
+  "id": "elite-tallow-burned",
+  "name": "Tallow-Burned",
+  "prefix_text": "Tallow-Burned",
+  "effect": "Leaves trails of slick grease that ignite when struck by fire.",
+  "desc": "Reeks of rendered fat that turns skirmish lines into sudden infernos.",
+  "threat": 2
+ },
+ {
+  "id": "elite-iron-lunged",
+  "name": "Iron-Lunged",
+  "prefix_text": "Iron-Lunged",
+  "effect": "Immune to poison, bleed, and suffocating ash-cloud effects.",
+  "desc": "Breathes sulfur and swamp-gas without slowing a single heartbeat.",
+  "threat": 1
+ },
+ {
+  "id": "elite-shield-breaker",
+  "name": "Shield-Breaker",
+  "prefix_text": "Shield-Breaker",
+  "effect": "Attacks sunder target armor by 3 per hit, stacking 5 times.",
+  "desc": "Hooks shield-rims and dents breastplates with heavy, methodical force.",
+  "threat": 3
+ },
+ {
+  "id": "elite-mirage-veiled",
+  "name": "Mirage-Veiled",
+  "prefix_text": "Mirage-Veiled",
+  "effect": "Spawns two fragile decoys at 50% health.",
+  "desc": "Heat-shimmer splits its silhouette into flickering false targets.",
+  "threat": 3
+ },
+ {
+  "id": "elite-venom-gland",
+  "name": "Venom-Gland",
+  "prefix_text": "Venom-Gland",
+  "effect": "Attacks apply stacking poison that deals damage over 6 seconds.",
+  "desc": "Bitter green ichor coats every fang and blade edge.",
+  "threat": 2
+ },
+ {
+  "id": "elite-obsidian-plated",
+  "name": "Obsidian-Plated",
+  "prefix_text": "Obsidian-Plated",
+  "effect": "Negates the first 25 damage of every incoming physical hit.",
+  "desc": "Volcanic glass scales turn aside light cuts and weak arrow volleys.",
+  "threat": 4
+ },
+ {
+  "id": "elite-ember-herald",
+  "name": "Ember-Herald",
+  "prefix_text": "Ember-Herald",
+  "effect": "Calls down delayed cinder-strikes on stationary targets.",
+  "desc": "Marks ground beneath rooted defenders before raining burning ash.",
+  "threat": 4
+ },
+ {
+  "id": "elite-cold-notary",
+  "name": "Cold-Notary",
+  "prefix_text": "Cold-Notary",
+  "effect": "Curses attackers with +20% cooldown duration on active skills.",
+  "desc": "Binds combatants in spectral red tape that slows every counterstrike.",
+  "threat": 3
+ },
+ {
+  "id": "elite-berserk-scar",
+  "name": "Berserk-Scar",
+  "prefix_text": "Berserk-Scar",
+  "effect": "Gains +50% damage and +25% attack speed below 35% health.",
+  "desc": "Fresh wounds only strip away caution and double its ferocity.",
+  "threat": 4
+ },
+ {
+  "id": "elite-copper-grounded",
+  "name": "Copper-Grounded",
+  "prefix_text": "Copper-Grounded",
+  "effect": "Immune to lightning and redirects arcs to the nearest foe.",
+  "desc": "Braided copper wires channel stray bolts harmlessly into the dirt.",
+  "threat": 2
+ },
+ {
+  "id": "elite-mire-treader",
+  "name": "Mire-Treader",
+  "prefix_text": "Mire-Treader",
+  "effect": "Summons grasping bog-roots beneath ranged attackers every 10 seconds.",
+  "desc": "Commands tangled fen-vines to pin backline archers in place.",
+  "threat": 3
+ },
+ {
+  "id": "elite-grim-standard",
+  "name": "Grim-Standard",
+  "prefix_text": "Grim-Standard",
+  "effect": "Prevents nearby allies from fleeing until the bearer falls.",
+  "desc": "Carries a tattered war-banner nailed to bone that steadies cowards.",
+  "threat": 3
+ },
+ {
+  "id": "elite-void-gazing",
+  "name": "Void-Gazing",
+  "prefix_text": "Void-Gazing",
+  "effect": "Teleports behind the furthest caster every 12 seconds.",
+  "desc": "Steps through dark folds in the air to ambush unguarded backlines.",
+  "threat": 5
+ },
+ {
+  "id": "elite-caldera-heart",
+  "name": "Caldera-Heart",
+  "prefix_text": "Caldera-Heart",
+  "effect": "Pulses fire waves every 6 seconds and resists 50% fire damage.",
+  "desc": "A furnace burns inside its ribs, venting searing waves across the melee.",
+  "threat": 4
+ },
+ {
+  "id": "elite-blood-tithe",
+  "name": "Blood-Tithe",
+  "prefix_text": "Blood-Tithe",
+  "effect": "Heals 15% max health whenever any unit dies within 6 tiles.",
+  "desc": "Drinks spilled vitality from friend and foe alike on crowded fields.",
+  "threat": 4
+ },
+ {
+  "id": "elite-first-seal",
+  "name": "First-Seal",
+  "prefix_text": "First-Seal",
+  "effect": "Immune to stun, knockback, and displacement abilities.",
+  "desc": "Anchored by ancient Threshold wards that refuse to budge an inch.",
+  "threat": 3
+ },
+ {
+  "id": "elite-ashen-sovereign",
+  "name": "Ashen-Sovereign",
+  "prefix_text": "Ashen-Sovereign",
+  "effect": "Combines fire aura, armor sunder, and heavy summon reinforcement.",
+  "desc": "An apex champion of the Ember Court capable of breaking unprepared companies.",
+  "threat": 5
+ }
+]

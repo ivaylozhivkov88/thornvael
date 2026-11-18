@@ -1,0 +1,152 @@
+[
+ {
+  "id": "help-realtime-pause",
+  "title": "Real-Time Combat & Tactical Pause",
+  "body": "Battles in Thornvael unfold in real time, yet discipline beats frantic clicking. Press Spacebar at any moment to freeze the field, inspect enemy armor, queue healing wards, and redirect vulnerable archers. Use Auto-Pause triggers in Settings to halt the clock automatically when an ally drops below 25% health or unseen ambushers emerge from fog."
+ },
+ {
+  "id": "help-party-movement",
+  "title": "Squad Movement & Formations",
+  "body": "Left-click to select individual fighters, drag a box to group your squad, or press the Select All key to move as one company. Hold right-click and drag on open ground to orient your formation facing: keep tower shields and pikemen forward while angling archers and casters thirty paces behind."
+ },
+ {
+  "id": "help-camera-controls",
+  "title": "Camera & Battlefield Sightlines",
+  "body": "Pan the battlefield using WASD, arrow keys, or screen-edge scrolling, and zoom with the mouse wheel to read tight choke points. Press Home to center the camera on your protagonist. Fog of war conceals enemies behind walls, dense reed-beds, and elevation ridges until a scout establishes line of sight."
+ },
+ {
+  "id": "help-hero-classes",
+  "title": "Protagonist Classes & Roles",
+  "body": "Your protagonist anchors every expedition across Thornvael. Warriors hold choke points with heavy plate and shield bashes; Archers pin targets and pierce visors from range; Mages control terrain with frost, lightning, and protective wards; Necromancers raise fallen foes and levy soul-debts upon enemies."
+ },
+ {
+  "id": "help-attributes",
+  "title": "Core Attributes & Derived Stats",
+  "body": "Each level grants attribute points to distribute among Strength, Dexterity, Intelligence, and Vitality. Strength boosts melee damage and heavy armor threshold; Dexterity sharpens accuracy, evasion, and critical strikes; Intelligence expands mana pools and spell potency; Vitality increases maximum health and bleed resistance."
+ },
+ {
+  "id": "help-skill-trees",
+  "title": "Skill Specializations & Respec",
+  "body": "Every class commands three distinct specialization branches unlocked by investing points in earlier tiers. Assign active abilities to your quickbar (keys 1 through 8) and right-click a slot to toggle smart autocast. If your build falters against new threats, purchase a Collegium Respec Writ at camp to refund spent points."
+ },
+ {
+  "id": "help-armor-penetration",
+  "title": "Armor, Penetration & Damage Types",
+  "body": "Flat armor subtracts directly from incoming physical hits, making lightly armed levies nearly helpless against knightly plate. Counter heavy armor with picks, arbalests, armor-sundering strikes, or elemental magic. Fire, Cold, Lightning, and Astral damage bypass physical plate and test specific elemental resistances instead."
+ },
+ {
+  "id": "help-status-effects",
+  "title": "Status Ailments & Crowd Control",
+  "body": "Battlefields are won by denying enemy actions. Stun interrupts casting and drops shield blocks; Chill slows movement and attack cadence; Frozen targets shatter under heavy blunt blows; Bleed and Poison bypass armor over time. Keep cleansing draughts or ward-casters ready to strip lethal hexes."
+ },
+ {
+  "id": "help-morale-fatigue",
+  "title": "Company Morale & March Fatigue",
+  "body": "Mercenaries are hired hands, not mindless zealots. Watching comrades fall, running low on silver, or suffering unhealed wounds erodes morale, risking panic or desertion. Long marches without rest also accumulate fatigue, reducing accuracy and speed until your squad recovers at a town tavern or camp."
+ },
+ {
+  "id": "help-hiring-mercs",
+  "title": "Recruiting & Paying Mercenaries",
+  "body": "Visit regional taverns, garrison posts, and border camps to inspect available mercenaries. Each hire requires an upfront signing fee and deducts weekly upkeep after completed missions. Always check a fighter's personal quirk—some refuse deep water without extra copper, while others skim loot or refuse stone roofs."
+ },
+ {
+  "id": "help-merc-loyalty",
+  "title": "Mercenary Loyalty & Upkeep",
+  "body": "Prompt wages, decisive victories, and keeping soldiers alive raise personal loyalty from wary tolerance to fierce devotion. High loyalty unlocks unique combat barks, steadier morale under fire, and candid camp banter. Repeatedly starving the payroll or leaving wounded veterans behind drives mercenaries to pack their kits."
+ },
+ {
+  "id": "help-downed-revive",
+  "title": "Incapacitation, Surgery & Death",
+  "body": "When a mercenary's health hits zero, they fall incapacitated rather than dying instantly—unless struck by massive overkill or abandoned when the squad retreats. Clear the field and pay a field surgeon's fee at camp to patch downed veterans, or accept permanent loss if you march onward without treatment."
+ },
+ {
+  "id": "help-inventory-stash",
+  "title": "Inventory, Weight & Camp Stash",
+  "body": "Field packs carry limited rations, potions, scrolls, and salvaged weapons. Transfer spare armor, crafting ingots, and set relics into your shared Camp Stash between missions. Use category filters and comparison tooltips (hold Shift) to spot upgrades quickly without cluttering your marching load."
+ },
+ {
+  "id": "help-gear-affixes",
+  "title": "Item Rarity & Affix Tiers",
+  "body": "Equipment ranges from plain iron to masterwork relics bearing up to two prefixes and suffixes. Lower tiers offer modest borderland bonuses like bog-stain resistance or goose-fletch accuracy, while Tier 5 Caldera and First-Watch affixes grant potent lifesteal, elemental conversion, and morale immunity."
+ },
+ {
+  "id": "help-item-sets",
+  "title": "Named Relic Sets",
+  "body": "Named armor and weapon sets grant escalating bonuses as you equip two, three, or four matching pieces. Some sets tailor their signature fourth-piece power to a specific class while still granting base defenses to others. Think twice before salvaging a duplicate piece—complete sets carry cleanly into New Game+."
+ },
+ {
+  "id": "help-gems-sockets",
+  "title": "Gems, Runes & Smithy Extraction",
+  "body": "Weapons and armor with open sockets accept cut gems or carved First-Compact runes. The same gem yields offensive effects in a weapon and defensive wards in armor. Three identical gems fuse into a higher grade at any town anvil, and smiths can extract socketed stones intact for a modest gold fee."
+ },
+ {
+  "id": "help-smithing-temper",
+  "title": "Tempering & Salvage",
+  "body": "Town blacksmiths temper weapons and breastplates using salvaged iron, alkali salts, and caldera slag, permanently boosting base damage or armor ratings. Unwanted loot can be dismantled at the anvil for raw materials rather than sold for coin—essential when commissioning Tier 5 masterworks in Act IV."
+ },
+ {
+  "id": "help-consumables-scrolls",
+  "title": "Potions, Salves & Spell Scrolls",
+  "body": "Equip healing draughts, juniper spirits, antivenoms, and single-use spell scrolls in your belt slots for instant access during combat. Any class can invoke a spell scroll—allowing a cornered warrior to unleash chain lightning or a mage to raise an emergency stone barrier when mana runs dry."
+ },
+ {
+  "id": "help-necromancy-corpses",
+  "title": "Corpse Economy & Summons",
+  "body": "Necromancers rely on intact corpses left by fallen enemies—and occasionally careless mercenaries. Heavy fire or lightning blasts can char remains beyond usable condition, so coordinate with evokers carefully. Raised thralls absorb frontline blows and persist until shattered or dismissed at mission end."
+ },
+ {
+  "id": "help-terrain-hazards",
+  "title": "Terrain, Weather & Elemental Combos",
+  "body": "Thornvael's provinces fight back. Shallow water and coastal rain amplify lightning arcs across armored ranks; dry brush and spilled lamp-oil ignite into spreading walls of flame; narrow bridges nullify cavalry flanks. Read weather forecasts before marching and turn environmental hazards against superior numbers."
+ },
+ {
+  "id": "help-world-map",
+  "title": "Campaign Map & Act Progression",
+  "body": "Navigate each province's overland map between fortified towns, side-quest ruins, and main siege objectives. Optional nodes yield crucial silver, faction standing, and Codex entries before you commit to an Act's final boss. Once you advance to a new province, earlier border roads close behind your company."
+ },
+ {
+  "id": "help-roadside-events",
+  "title": "Roadside Encounters & Consequences",
+  "body": "Between major battles, your company encounters stranded caravans, weathered shrines, tax-collectors, and smugglers. Choices may test class skills, consume rations, or set hidden campaign flags that alter alliances two acts later. There is rarely a risk-free road—weigh immediate survival against long-term reputation."
+ },
+ {
+  "id": "help-codex-bestiary",
+  "title": "The Thornvael Codex",
+  "body": "Every treaty uncovered, fortress visited, and monster slain updates your Thornvael Codex. Consulting bestiary entries reveals exact elemental vulnerabilities, armor ratings, and elite affix warnings before you enter contested zones. Highlighted cross-reference codes let you trace hidden lore connections across all four acts."
+ },
+ {
+  "id": "help-difficulty-modes",
+  "title": "Difficulty Levels",
+  "body": "Choose between Wayfarer, Sellsword, Ironbound, and Ashen Oath when starting a campaign. Higher difficulties sharpen enemy target priority, increase elite champion spawns, and tighten gold margins. You may lower difficulty mid-campaign from Settings, though certain Ironbound and Ashen Oath achievements require unbroken commitment."
+ },
+ {
+  "id": "help-new-game-plus",
+  "title": "New Game+ & Caldera Modifiers",
+  "body": "Completing the campaign unlocks New Game+ Cycles, returning your seasoned hero, stash, gold, and learned tomes to Act I against scaled threats. Activate optional Caldera Modifiers—such as faster boss enrages or denser elite packs—to multiply gold yields and Tier 5 relic drop rates."
+ },
+ {
+  "id": "help-saving-autosave",
+  "title": "Manual Saves, Quick-Save & Autosave",
+  "body": "Thornvael maintains rolling autosaves upon entering towns, resting at camp, and starting missions. Press F5 at any safe moment outside active combat for an instant Quick-Save, or create named manual saves before major moral decisions. Hardcore Iron-Ledger mode restricts you to a single overwriting save slot."
+ },
+ {
+  "id": "help-offline-play",
+  "title": "Full Offline Play & Local Data",
+  "body": "Thornvael requires no persistent connection, external account, or telemetry check to launch or complete any act. All campaign saves, Codex unlocks, and custom keybindings reside locally on your machine in plain, portable save directories so you can back up or transfer your roster freely."
+ },
+ {
+  "id": "help-keybindings",
+  "title": "Custom Keybindings & Quickbar",
+  "body": "Open Settings > Controls to rebind camera movement, tactical pause, formation toggles, and quickbar slots to match your hand placement. Number keys 1–8 trigger active abilities, F1–F6 select individual squad members, and Tab cycles cleanly between your protagonist and hired mercenaries."
+ },
+ {
+  "id": "help-visual-audio",
+  "title": "Pixel Crispness & Audio Cues",
+  "body": "Enable Pixel-Crisp scaling in Video Settings to preserve sharp 48x48 sprite silhouettes on modern high-resolution displays, or toggle dense weather particles if ash-storms obscure small projectiles. Keep Voice and SFX sliders audible—enemy casters and elite champions telegraph lethal abilities with distinct audio cues."
+ },
+ {
+  "id": "help-troubleshooting",
+  "title": "Performance & Save Recovery",
+  "body": "If dense late-game summons slow older hardware, reduce weather particle density and floating damage popups in Settings. Should a power outage interrupt a session, select 'Load Backup Save' on the title screen to restore the last verified town or camp checkpoint cleanly."
+ }
+]

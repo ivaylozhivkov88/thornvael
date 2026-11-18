@@ -1,0 +1,242 @@
+[
+ {
+  "key": "menu.title.new_campaign",
+  "text": "New Campaign"
+ },
+ {
+  "key": "menu.title.continue",
+  "text": "Continue March"
+ },
+ {
+  "key": "menu.title.load_save",
+  "text": "Load Ledger"
+ },
+ {
+  "key": "menu.title.load_backup",
+  "text": "Load Backup Save"
+ },
+ {
+  "key": "menu.title.codex",
+  "text": "Thornvael Codex"
+ },
+ {
+  "key": "menu.title.achievements",
+  "text": "Deeds & Tallies"
+ },
+ {
+  "key": "menu.title.settings",
+  "text": "Settings"
+ },
+ {
+  "key": "menu.title.credits",
+  "text": "Chronicle Credits"
+ },
+ {
+  "key": "menu.title.quit",
+  "text": "Leave the Field"
+ },
+ {
+  "key": "menu.title.subtitle",
+  "text": "A Real-Time Tactical RPG of Steel, Ash, and Unpaid Debts"
+ },
+ {
+  "key": "menu.char.create_header",
+  "text": "Muster Your Protagonist"
+ },
+ {
+  "key": "menu.char.name_prompt",
+  "text": "Inscribe Name on the Company Roll"
+ },
+ {
+  "key": "menu.char.gender_male",
+  "text": "Male"
+ },
+ {
+  "key": "menu.char.gender_female",
+  "text": "Female"
+ },
+ {
+  "key": "menu.char.class_warrior",
+  "text": "Warrior — Frontline Shield & Heavy Steel"
+ },
+ {
+  "key": "menu.char.class_archer",
+  "text": "Archer — Long-Range Marksman & Snare-Master"
+ },
+ {
+  "key": "menu.char.class_mage",
+  "text": "Mage — Elemental Evoker & Ward-Weaver"
+ },
+ {
+  "key": "menu.char.class_necromancer",
+  "text": "Necromancer — Corpse-Raiser & Soul-Notary"
+ },
+ {
+  "key": "menu.char.iron_ledger",
+  "text": "Iron-Ledger Mode (Single Overwriting Save)"
+ },
+ {
+  "key": "menu.char.begin_march",
+  "text": "Sign the Articles & March"
+ },
+ {
+  "key": "menu.pause.header",
+  "text": "Tactical Halt"
+ },
+ {
+  "key": "menu.pause.resume",
+  "text": "Resume March"
+ },
+ {
+  "key": "menu.pause.quicksave",
+  "text": "Quick-Save (F5)"
+ },
+ {
+  "key": "menu.pause.quickload",
+  "text": "Quick-Load (F9)"
+ },
+ {
+  "key": "menu.pause.save_game",
+  "text": "Record Save"
+ },
+ {
+  "key": "menu.pause.load_game",
+  "text": "Restore Save"
+ },
+ {
+  "key": "menu.pause.help_guide",
+  "text": "Field Manual"
+ },
+ {
+  "key": "menu.pause.abandon_mission",
+  "text": "Sound Retreat to Camp"
+ },
+ {
+  "key": "menu.pause.to_title",
+  "text": "Return to Title Screen"
+ },
+ {
+  "key": "menu.pause.quit_desktop",
+  "text": "Exit to Desktop"
+ },
+ {
+  "key": "menu.gameover.header",
+  "text": "The Roll Is Closed"
+ },
+ {
+  "key": "menu.gameover.subtext",
+  "text": "Your banner lies in the ash, and the crows claim the rest."
+ },
+ {
+  "key": "menu.gameover.stats_kills",
+  "text": "Foes Dispatched"
+ },
+ {
+  "key": "menu.gameover.stats_mercs_lost",
+  "text": "Mercenaries Buried"
+ },
+ {
+  "key": "menu.gameover.stats_gold_spent",
+  "text": "Silver Disbursed"
+ },
+ {
+  "key": "menu.gameover.stats_days",
+  "text": "Days on the March"
+ },
+ {
+  "key": "menu.gameover.retry_checkpoint",
+  "text": "Load Last Checkpoint"
+ },
+ {
+  "key": "menu.gameover.iron_ledger_wiped",
+  "text": "Iron-Ledger Save Struck from the Archive"
+ },
+ {
+  "key": "menu.settings.tab_audio",
+  "text": "Audio & Barks"
+ },
+ {
+  "key": "menu.settings.tab_video",
+  "text": "Display & Sprites"
+ },
+ {
+  "key": "menu.settings.tab_gameplay",
+  "text": "Combat & Auto-Pause"
+ },
+ {
+  "key": "menu.settings.tab_controls",
+  "text": "Keybindings"
+ },
+ {
+  "key": "menu.settings.fullscreen",
+  "text": "Display Mode"
+ },
+ {
+  "key": "menu.settings.resolution",
+  "text": "Screen Resolution"
+ },
+ {
+  "key": "menu.settings.vsync",
+  "text": "Vertical Sync"
+ },
+ {
+  "key": "menu.settings.combat_speed",
+  "text": "Default Combat Cadence"
+ },
+ {
+  "key": "menu.settings.reset_defaults",
+  "text": "Restore Default Ledger"
+ },
+ {
+  "key": "menu.settings.apply_changes",
+  "text": "Seal Settings"
+ },
+ {
+  "key": "menu.save.slot_empty",
+  "text": "Uninscribed Page"
+ },
+ {
+  "key": "menu.save.overwrite_confirm",
+  "text": "Overwrite existing chronicle entry?"
+ },
+ {
+  "key": "menu.save.delete_confirm",
+  "text": "Burn this save entry permanently?"
+ },
+ {
+  "key": "credits.header",
+  "text": "Thornvael — Chronicle of Makers"
+ },
+ {
+  "key": "credits.design_direction",
+  "text": "Design, Worldbuilding & Tactical Systems"
+ },
+ {
+  "key": "credits.writing_narrative",
+  "text": "Lead Narrative, Dialogues & Codex Chronicles"
+ },
+ {
+  "key": "credits.engineering",
+  "text": "Engine Architecture, AI & Combat Simulation"
+ },
+ {
+  "key": "credits.art_sprites",
+  "text": "Pixel Art, Portraits & Environmental Tilesets"
+ },
+ {
+  "key": "credits.audio_score",
+  "text": "Original Score, Foley & Weather Ambience"
+ },
+ {
+  "key": "credits.qa_testers",
+  "text": "Vanguard Playtesters & Balance Auditors"
+ },
+ {
+  "key": "credits.special_thanks",
+  "text": "Dedicated to every tactician who pauses before the charge."
+ },
+ {
+  "key": "credits.copyright",
+  "text": "All characters, provinces, and chronicles within Thornvael are original works."
+ }
+]

@@ -1,0 +1,482 @@
+[
+ {
+  "id": "book-ford-toll-daybook",
+  "title": "Alder Ford Toll Daybook",
+  "author": "Toll-Clerk Brann",
+  "act": 1,
+  "text": "Fourteen salt-wagons passed south before the thaw flooded the gravel bar, each paying three copper pence and a signed tallow chit from Morvessa's bailiffs. By dusk the river rose two cubits, carrying dead sheep and broken alder poles out of Greywood. Sergeant Garrick ordered the chain raised at compline, yet the relief riders from Thornwick never blew their horn. Half the ink on this page is smeared by river spray; the rest is a tally of crossbow quarrels we never received.",
+  "found_in": "m01-blood-at-the-ford"
+ },
+ {
+  "id": "book-fen-boardwalk-notice",
+  "title": "Peat-Cutter's Warning",
+  "author": "Foreman Odo",
+  "act": 1,
+  "text": "Whoever takes the east plank-walk after sundown must keep his lantern shuttered to a slit and count the willow-stakes at every bend. Three turf-diggers from Fenwick followed a green marsh-light off the timbers on Tuesday and left nothing behind save two wooden clogs floating upright in black water. The bog remembers every drowning since the First Compact; do not answer when a voice calls your baptismal name from beneath the reeds.",
+  "found_in": "m02-whispers-in-the-fen"
+ },
+ {
+  "id": "book-ravenwatch-duty-roster",
+  "title": "Ravenwatch Relief Roster",
+  "author": "Corporal Hobb",
+  "act": 1,
+  "text": "Week nine without pay-silver or dry firewood. Four men slipped down the west scree before moonrise, taking the iron-shod pickets from the outer ditch so the gnolls could walk straight up to the timber gate. We have two barrels of pine pitch left and thirty-six bolts between seven bowmen. If the smoke-beacon on Craghorn does not answer tonight, burn the cipher-books in the cellar brazier and bar the trapdoor from below.",
+  "found_in": "m03-nightfall-at-ravenwatch"
+ },
+ {
+  "id": "book-abbey-probate-register",
+  "title": "Sunken Sanctum Lien-Roll",
+  "author": "Brother Anselm",
+  "act": 1,
+  "text": "Let it be entered into the lower-parish ledger that Miller Tobin died owing forty bushels of winter rye and six silver groats to the Border Tithe. Pursuant to Third-Dynasty probate custom, his corpse has been anointed with gall-ink and bound to the north pier until his labor satisfies the arrears. Groundwater now stands ankle-deep in the scriptorium; the damp rots our vellum faster than the dead can pay off their interest.",
+  "found_in": "m04-the-sunken-sanctum"
+ },
+ {
+  "id": "book-hermit-wick-ledger",
+  "title": "Lantern-Keeper's Almanac",
+  "author": "Keeper Soren",
+  "act": 1,
+  "text": "A gill of whale-oil burns four hours in dry air, three in canyon mist, and barely one when things from the slate cliffs breathe against the iron cage. For forty winters my order has trimmed the wicks along Lantern Passage so supply trains need not risk the bottomless peat sinks. Tonight the third lamp burned bright blue without a breath of wind, and something heavy scraped four-toed claws across the limestone roof above my hut.",
+  "found_in": "m05-lantern-passage"
+ },
+ {
+  "id": "book-greywood-tally-slate",
+  "title": "Sawmill Haulage Manifest",
+  "author": "Factor Merrick",
+  "act": 1,
+  "text": "Stacked beneath the south shed: ninety seasoned oak planks for Oakhaven drydocks, forty ash spear-shafts, and twelve casks of pine resin. Our draft-oxen were hamstrung at dawn by irregulars wearing Morvessa's brass tax-badges on bloodied coats. We wedged the water-wheel with iron crowbars before fleeing toward Thornwick; let the timber rot in the sawdust before the Salt-Tithe Commission hauls a single beam south.",
+  "found_in": "m06-greywood-supply"
+ },
+ {
+  "id": "book-vanguard-march-orders",
+  "title": "Split Column Dispatch",
+  "author": "Captain Vaelen's Adjutant",
+  "act": 1,
+  "text": "By order of the Southern Bailiwick, the first column will force the limestone defile while outriders sweep the west gully to cut off Thornwick's scouts. Take no prisoners from the border levy; their magistrates forfeited crown protection when they withheld the autumn iron-tithe. Burn every granary and mill-weir along the Alder so the northern parishes must beg Redmarsh for salt and bread by midwinter.",
+  "found_in": "m07-split-vanguard"
+ },
+ {
+  "id": "book-alder-mason-plaque",
+  "title": "Alder Bridge Survey Notes",
+  "author": "Master Mason Dorin",
+  "act": 1,
+  "text": "Built in the forty-second year of the First Compact from dressed Craghorn granite and mortared with slaked lime and ox-blood. Three arches span the main channel, each keyed to bear twelve-ton siege culverins without settling. Should northern commanders ever need to deny the crossing, pack black powder into the hollow pier-chambers behind the western cutwater and fire the fuse from the chalk bluff.",
+  "found_in": "m08-alder-bridge"
+ },
+ {
+  "id": "book-trapper-boar-journal",
+  "title": "Ironhide Spoor Notes",
+  "author": "Huntsman Corvus",
+  "act": 1,
+  "text": "Tracked the great greywood tusk-beast three leagues through bramble thickets after it snapped two steel leg-traps and gored three hounds. Its hide is matted with dried river-clay and broken iron spear-heads that have healed straight into its shoulders. Ordinary broadheads glance harmlessly off the ridge of its spine; only a heavy ash-boar spear planted squarely under the left foreleg will reach its heart.",
+  "found_in": "m09-ironhide-hunt"
+ },
+ {
+  "id": "book-undervault-seal-writ",
+  "title": "Undervault Drainage Writ",
+  "author": "Dwarven Factor Thrain",
+  "act": 1,
+  "text": "Notice to Border Magistrates: the granite sluice-gates beneath Gallery Four hold back the spring melt from the northern ridge. Three hundred years ago your forefathers swore in iron and tallow to keep the drainage channels clear of silt. Now your tax-clerks have bricked up the inspection shafts to hide confiscated silver, and cold pressure builds behind the lead-sealed doors like a drumhead ready to burst.",
+  "found_in": "m10-undervault-links"
+ },
+ {
+  "id": "book-ashbrook-steward-letter",
+  "title": "Unsent Letter from Ashbrook",
+  "author": "Stewardess Marta",
+  "act": 1,
+  "text": "Dearest Sister in Oakhaven, the turnip fields are full of ash and freshly turned earth. Vaelen's rams broke the outer gatehouse before dawn, and our own levies burned the granary so the bailiffs could not take it. We are packing the silver candlesticks and the parish birth-rolls into two handcarts to follow the pikemen south into Redmarsh. Pray the wardstones still hold the dust back when we reach the plateau.",
+  "found_in": "m11-ashbrook-retreat"
+ },
+ {
+  "id": "book-thornwick-guild-notice",
+  "title": "Thornwick Curfew Decree",
+  "author": "Bailiff Harken",
+  "act": 1,
+  "text": "By authority of the Market Council, all town gates close at the second evening bell. Drovers arriving after dark must stable their beasts outside the palisade and pay double lantern-tax at dawn. Any citizen caught hoarding salt-fish, smelting scrap iron without a mint stamp, or speaking with hooded strangers from the Sunken Sanctum shall forfeit his stall and serve thirty days digging moat-ditches.",
+  "found_in": "town-thornwick"
+ },
+ {
+  "id": "book-border-mint-assay",
+  "title": "Clipped Coin Investigation",
+  "author": "Assayer Pell",
+  "act": 1,
+  "text": "Tested forty silver groats seized from Morvessa's tax-wagons: every single coin was shaved three grains light and re-struck with a worn Border Mint die. The missing silver was melted into unmarked bars and hauled south toward Redmarsh under cover of night. When I threatened to send my assay scales to the Capital Collegium, two bailiffs barred the furnace doors and set fire to the roof beams. The charcoal dregs still smell of sulfur and tallow.",
+  "found_in": "loc-border-mint-ruin"
+ },
+ {
+  "id": "book-weir-courier-note",
+  "title": "Waterlogged Courier Tube",
+  "author": "Scout Fenwick",
+  "act": 1,
+  "text": "Recovered from a dead rider wedged in the willow eel-weir: Grok'tar's gnoll warband did not raid Sunken Ford for plunder. They were paid in stamped Border Mint copper to slaughter the night-watch and burn the tollhouse ledgers before auditors arrived from the coast. If this tube reaches Thornwick, warn Sergeant Garrick that the enemy is already inside the tax-commission. Wet mud cakes the brass seal.",
+  "found_in": "loc-thornwick-weir"
+ },
+ {
+  "id": "book-quarry-kiln-formula",
+  "title": "Vitrified Slag Observations",
+  "author": "Alchemist Toren",
+  "act": 1,
+  "text": "When bog-iron ore is smelted with crushed river-quartz and peat-charcoal at extreme draft, the waste slag cools into translucent green glass harder than cold chisel-steel. Local miners discard it in heaps behind the old kilns, yet shards bound to ash-wood staves conduct static lightning far cleaner than raw copper. Someone has been digging through our waste pits by lantern-light every new moon. The margins are stained with damp soot and river silt.",
+  "found_in": "loc-vitrified-kilns"
+ },
+ {
+  "id": "book-redmarsh-ration-log",
+  "title": "Stockade Water-Ration Log",
+  "author": "Quartermaster Bram",
+  "act": 2,
+  "text": "Half a pint of boiled rainwater per man at sunrise, a gill of bitter vinegar-brine at dusk. The moat water turns leather boots green within three days and rots any scratch into weeping salt-ulcers. Caravan drivers arriving from the south claim three of the plateau wardstones have gone dark, and red alkali grit is already blowing north across the corduroy road. The margins are stained with damp soot and river silt.",
+  "found_in": "town-redmarsh"
+ },
+ {
+  "id": "book-boundary-stone-oath",
+  "title": "Ochre Ditch Survey",
+  "author": "Surveyor Lyra",
+  "act": 2,
+  "text": "Every iron boundary post sunk into the Redmarsh border tilts three degrees east each winter as the underlying salt-pan dissolves. Yesterday our chain-crew found willow poles hung with bleached sheep-skulls marking a hidden dry path straight through the sucking bog—placed not by royal engineers, but by Sand-Clan outriders guiding contraband iron wagons around our stockade. The margins are stained with damp soot and river silt.",
+  "found_in": "m12-redmarsh-border"
+ },
+ {
+  "id": "book-twin-passes-ambush",
+  "title": "Canyon Crossfire Report",
+  "author": "Sergeant Kael",
+  "act": 2,
+  "text": "Never split a supply column across both ledges of Twin Passes without clearing the middle spire first. Sand-Clan marksmen wedged behind the sandstone chimneys can drop hornbow shafts onto either track while rolling boulders down the scree. We lost six pack-mules and two chests of minted pay-silver before our archers climbed the sinkhole rim. The margins are stained with damp soot and river silt. Damp soot blurs the final line.",
+  "found_in": "m13-twin-passes"
+ },
+ {
+  "id": "book-scattered-scout-scrap",
+  "title": "Blood-Stained Signal Code",
+  "author": "Outrider Joren",
+  "act": 2,
+  "text": "Three short flashes from the east hummock mean dry footing; two long flashes mean dune-lurkers beneath the sand. Our vanguard rode into the tussocks before dawn fog burned off, and the signal mirrors stopped answering one by one. If anyone finds this notebook in the reeds, tell Redmarsh Outpost that the southern road is mined with buried clay firepots. The margins are stained with damp soot and river silt.",
+  "found_in": "m14-scattered-scouts"
+ },
+ {
+  "id": "book-palisade-repair-tally",
+  "title": "Stockade Timber Ledger",
+  "author": "Carpenter Vane",
+  "act": 2,
+  "text": "Drove forty sharpened oak stakes into the eastern mud-ditch today; by tomorrow morning the salt-rot will soften their points like turnips. Conscripts work knee-deep in leech water while raiders snipe from the fog banks. Without fresh pitch from Oakhaven or iron plating from the Deep Quarry, this palisade will not survive another night assault. Three sentries already shiver with marsh-fever. Damp soot blurs the final line.",
+  "found_in": "m15-outpost-palisade"
+ },
+ {
+  "id": "book-wardstone-fracture-study",
+  "title": "Wardstone Rupture Notes",
+  "author": "Scholar Zahra",
+  "act": 2,
+  "text": "The third quartz monolith did not crack from age or lightning. Crimson blood-wards were chiseled directly into its grounding grooves, reversing the harmonic lattice that pins Redmarsh's alkali storms below the passes. Static discharge now arcs three paces from the fractured crystal, and hot red dust is already drifting north toward the Border Fords. The margins are stained with damp soot and river silt.",
+  "found_in": "m16-wardstone-rupture"
+ },
+ {
+  "id": "book-mire-convoy-manifest",
+  "title": "Corduroy Road Waybill",
+  "author": "Wagon-Master Durn",
+  "act": 2,
+  "text": "Six heavy wagons bogged axle-deep where spring floods washed out the log causeway: forty barrels of salt pork, twelve crates of steel crossbow prods, and two sealed coffers of apothecary antivenom. Our draft horses broke their traces when shapes crept out of the reed-walls at midnight. We have circled the wagons and lit our last oil lanterns. The margins are stained with damp soot and river silt. Damp soot blurs the final line.",
+  "found_in": "m17-mire-convoy"
+ },
+ {
+  "id": "book-granary-stilt-accounts",
+  "title": "Redmarsh Granary Tally",
+  "author": "Storekeeper Maren",
+  "act": 2,
+  "text": "Stored above the floodline on limestone stilts: four hundred sacks of winter barley and sixty jars of rendered mutton fat. Smoke is curling up through the floor planks where raiders piled wet brush beneath the piers to smoke us out. We have barred the oak shutters and poured drinking water onto the floorboards to keep the planks from catching. Ash sifts down across the ledger margins. Damp soot blurs the final line.",
+  "found_in": "m18-granary-raid"
+ },
+ {
+  "id": "book-hexer-cauldron-notes",
+  "title": "Kaelen's Bog-Curse Formula",
+  "author": "Hexer Kaelen",
+  "act": 2,
+  "text": "Steep three willow-roots in stagnant marsh-brine until the froth turns copper-green, then bind a debtor's knuckle-bone with unbleached linen. When buried beneath a garrison well, the hex sours every drop of water within forty paces and turns minor blisters into gangrene. Let the border lords drink their own unpaid taxes. Never stir the pot with bare iron. Damp soot blurs the final line. Damp soot blurs the final line.",
+  "found_in": "m19-hexer-capture"
+ },
+ {
+  "id": "book-quarry-slave-petition",
+  "title": "Smuggled Quarry Tally",
+  "author": "Miner Gorin",
+  "act": 2,
+  "text": "Three hundred feet below the rim, chained crews cut dense black ironstone by tallow-lamp while rainwater rises around our ankles. Gorrathul's overseers whip any man who slows his pick, yet they refuse to pump the flooded lower gallery because ancient Third-Dynasty doors sit sealed behind the silt. Last night the water level dropped two inches on its own, and something knocked from the dark side of the bronze sluice.",
+  "found_in": "m20-deep-quarry"
+ },
+ {
+  "id": "book-lean-garrison-diary",
+  "title": "Blockhouse Siege Journal",
+  "author": "Lieutenant Corin",
+  "act": 2,
+  "text": "Day thirty-eight since the autumn washout cut our road. Yesterday we boiled the last spare saddle-leathers with wild onions; today we divided twelve crossbow bolts among eight men. A Sand-Clan herald shouted from the ridge that Ironheart's cisterns are full of fresh water if we surrender our banners, yet we can see empty dust-devils blowing straight through their open sluice-gates. The margins are stained with damp soot and river silt.",
+  "found_in": "m21-lean-garrison"
+ },
+ {
+  "id": "book-refugee-column-writ",
+  "title": "Magistrate's Evacuation Order",
+  "author": "Magistrate Orin",
+  "act": 2,
+  "text": "All inhabitants of the lower salt-parishes are ordered to abandon their homesteads and march north along the raised causeway before dusk. Leave heavy furniture and grain-bins behind; pack only water-skins, winter cloaks, and portable silver. Rear-guard pikemen will hold the stone culverts against dune-raiders until the last handcart clears the marsh border. The margins are stained with damp soot and river silt.",
+  "found_in": "m22-fleeing-column"
+ },
+ {
+  "id": "book-ironheart-cistern-audit",
+  "title": "Ironheart Water Audit",
+  "author": "Engineer Vesper",
+  "act": 2,
+  "text": "Confidential report to Commander Gorrathul: the eastern and western rock-cisterns beneath Ironheart Bastion have silted completely dry following the Deep Quarry tremor. Our reserves consist solely of forty casks of brackish rainwater—barely six days' supply for the garrison. Recommend immediate withdrawal to the Iron Coast before the vanguard discovers we are defending empty stone. The margins are stained with damp soot and river silt.",
+  "found_in": "m23-fork-of-spears"
+ },
+ {
+  "id": "book-embalmer-jar-ritual",
+  "title": "Third-Dynasty Canopic Writ",
+  "author": "High Embalmer Seti",
+  "act": 2,
+  "text": "By decree of the Inland Sea Throne, he who dies in arrears to the Royal Granary shall have his viscera sealed in four bitumen jars and his ribs woven with copper wire. Until his kin redeem the tally-tablet in weighed silver, his hollow frame shall patrol the salt-vaults and strike down every thief who breaches the sandstone seal. The margins are stained with damp soot and river silt. Damp soot blurs the final line.",
+  "found_in": "loc-redrock-assay-vault"
+ },
+ {
+  "id": "book-milestone-defacement",
+  "title": "Four-Faced Obelisk Rubbing",
+  "author": "Chronicler Zahra",
+  "act": 2,
+  "text": "The original imperial chiseling on the crossroads milestone reads: 'To Oakhaven Harbor, forty leagues; to the Celestial Spire, ninety leagues.' Someone has hammered out the southern mileage and carved crooked arrows pointing directly toward the deepest alkali sinkholes—a deliberate trap laid to swallow northern relief columns. The margins are stained with damp soot and river silt. Damp soot blurs the final line.",
+  "found_in": "loc-four-faced-milestone"
+ },
+ {
+  "id": "book-oakhaven-guild-tariff",
+  "title": "Oakhaven Harbor Tariff Roll",
+  "author": "Harbor-Master Tavin",
+  "act": 3,
+  "text": "Every keel crossing the Greywash bar pays one-tenth of its cargo in weighed silver or refined whale-oil before the boom-chain is lowered. Since Vesperion's black galleys closed the outer straits, drydock pitch has tripled in price and the Merchant Council has bolted the upper tower gates against refugees from Redmarsh. The margins are stained with damp soot and river silt. Damp soot blurs the final line.",
+  "found_in": "town-oakhaven"
+ },
+ {
+  "id": "book-oakhaven-truce-articles",
+  "title": "Articles of the Bailey Truce",
+  "author": "Guild Speaker Corvus",
+  "act": 3,
+  "text": "Witnessed beneath the petrified oak standards: the Oakhaven Merchant Council hereby opens its subterranean armories and grants forty casks of whale-oil to the northern vanguard, provided mercenaries clear the sunken sea-gates and break Vesperion's blockade before the autumn equinoctial gales trap our fishing fleet inside the bay. The margins are stained with damp soot and river silt. Damp soot blurs the final line.",
+  "found_in": "m24-pledge-at-oakhaven"
+ },
+ {
+  "id": "book-cinder-wards-eviction",
+  "title": "Clearance Fire Order",
+  "author": "Warden Lyra",
+  "act": 3,
+  "text": "To deny besiegers timber cover within bowshot of the curtain wall, all tenements between the Tanner's Gate and the old rope-walk shall be cleared and burned at sunset. Citizens failing to remove their belongings before the third horn forfeit compensation. Watch patrols will shoot any looter caught rummaging in the cooling cellars. The margins are stained with damp soot and river silt. Damp soot blurs the final line.",
+  "found_in": "m25-cinder-wards"
+ },
+ {
+  "id": "book-sundered-ranks-aftermath",
+  "title": "Moorland Artillery Report",
+  "author": "Captain Hale",
+  "act": 3,
+  "text": "Our shield-wall held through two infantry charges until Vesperion's fire-pots arced over the heather ridge and shattered the center ranks. Burning whale-oil ran beneath our greaves, forcing veterans to break formation or roast inside their mail. Twenty-four shields still lie locked edge-to-edge where the third company stood its ground. The margins are stained with damp soot and river silt. Damp soot blurs the final line.",
+  "found_in": "m26-sundered-ranks"
+ },
+ {
+  "id": "book-infirmary-triage-notes",
+  "title": "Chapel Nave Surgical Log",
+  "author": "Surgeon Meris",
+  "act": 3,
+  "text": "Ran out of clean linen bandages at midnight; tearing altar cloths into strips and boiling them in vinegar brine. Seventeen men need iron shrapnel extracted before gangrene sets in, while enemy scouts probe the churchyard wall every hour. If the picket line breaks, bar the vestry doors and keep the bone-saws within reach. The margins are stained with damp soot and river silt. Damp soot blurs the final line.",
+  "found_in": "m27-field-infirmary"
+ },
+ {
+  "id": "book-sunken-citadel-tide-table",
+  "title": "Citadel Tide & Flood Table",
+  "author": "Keeper Orin",
+  "act": 3,
+  "text": "High spring tide floods the lower barbican to a depth of fourteen feet within twenty minutes of the first swell. Heavy infantry caught in the kelp-slick galleries must unbuckle breastplates or drown before the ebb. Only the spiral lighthouse stair above the third sea-arch stays dry when Atlantic gales drive waves against the chalk cliffs. The margins are stained with damp soot and river silt. Damp soot blurs the final line.",
+  "found_in": "m28-sunken-citadel"
+ },
+ {
+  "id": "book-hourglass-spit-warning",
+  "title": "Shingle Spit Crossing Rules",
+  "author": "Pilot Bram",
+  "act": 3,
+  "text": "Never start across the Hourglass Spit once the white breakers cover the black anchor-rock at the harbor mouth. The current sweeps sideways across the gravel bar fast enough to knock a laden pack-horse off its legs, and the sea-caves along the cliff face flood completely to their roofs. Count every wave before stepping onto wet gravel. Damp soot blurs the final line. Damp soot blurs the final line.",
+  "found_in": "m29-hourglass-rescue"
+ },
+ {
+  "id": "book-starved-bastion-log",
+  "title": "Cliff-Watch Siege Rationing",
+  "author": "Castellan Vane",
+  "act": 3,
+  "text": "Day forty-two of the naval blockade. We slaughtered the last baggage mule on Tuesday and melted the chapel's pewter candlesticks into sling-bullets yesterday morning. Vesperion's galleys circle below the cliffs flashing truce lanterns, yet every man on the battlements knows what happened to the prisoners taken at Harborwatch. The margins are stained with damp soot and river silt. Damp soot blurs the final line.",
+  "found_in": "m30-starved-bastion"
+ },
+ {
+  "id": "book-riverlock-manual",
+  "title": "Canal Floodgate Operating Writ",
+  "author": "Lock-Master Durn",
+  "act": 3,
+  "text": "To equalize water levels between the Greywash canal and the sea-basin, two teams of four men must turn the bronze capstans in unison while the iron pawls engage every third tooth. If either counterweight chain snaps under full tidal head, the surge will tear the wooden catwalks away and flood three leagues of coastal farmland. The margins are stained with damp soot and river silt. Damp soot blurs the final line.",
+  "found_in": "m31-riverlock-crossing"
+ },
+ {
+  "id": "book-juggernaut-binding-scroll",
+  "title": "Age of Chains Rune-Tablet",
+  "author": "Arch-Artificer Sol",
+  "act": 3,
+  "text": "Carved into lead-lined slate: 'By the seven iron links of the First Empire, this bedrock frame is bound to guard the coastal pass without sleep, wage, or mercy. Should stray ley-currents ever wake its furnace core, strike the glowing rune-seams between its shoulder plates with cold arcane fire.' The margins are stained with damp soot and river silt. Damp soot blurs the final line. Damp soot blurs the final line.",
+  "found_in": "m32-elder-juggernaut"
+ },
+ {
+  "id": "book-cliff-battery-orders",
+  "title": "Sea-Cliff Culverin Orders",
+  "author": "Master Gunner Tor",
+  "act": 3,
+  "text": "Keep damp wool blankets over the powder casks and never bring an open lantern within ten paces of the loading ramp. Elevated at twelve degrees, our bronze culverins can drop solid iron shot straight through the deck of any galley entering the bay—provided we hold the narrow cliff trail behind us against marine boarders. Two misfires will crack the bronze trunnions. Damp soot blurs the final line. Damp soot blurs the final line.",
+  "found_in": "m33-high-stakes-gambit"
+ },
+ {
+  "id": "book-mercenary-contract-dispute",
+  "title": "Ironclad & Ashen Writ",
+  "author": "Paymaster Krell",
+  "act": 3,
+  "text": "Both the Ironclad Banner and the Ashen Company claim exclusive salvage rights over the coastal plain under conflicting charters signed by Oakhaven's Guild Council. Neither captain will yield a yard of turf until weighed silver is counted onto a drumhead, and both hosts have already deployed pikemen along the storm-swept ridge. The margins are stained with damp soot and river silt. Damp soot blurs the final line.",
+  "found_in": "m34-clashing-banners"
+ },
+ {
+  "id": "book-harborwatch-lighthouse-log",
+  "title": "Final Lighthouse Entry",
+  "author": "Keeper Aldous",
+  "act": 3,
+  "text": "Midnight: six black fire-hulks drifted past the outer mole under muffled oars and rammed the anchored grain-sloops. Whale-oil casks burst across the timber quays like liquid sun; the heat has already cracked the lighthouse prism-glass. I am locking the bronze spiral door and throwing the key into the boiling surf. The prism-room fills fast with choking black oil-smoke. Damp soot blurs the final line.",
+  "found_in": "m35-burning-harbor"
+ },
+ {
+  "id": "book-vane-vault-inventory",
+  "title": "Baron Vane's Smuggling Ledger",
+  "author": "Clerk Tibalt",
+  "act": 3,
+  "text": "Lowered via the manor counterweight hoist into the sea-caves at low tide: forty ingots of unstamped Deep Quarry iron, twelve crates of Conclave copper wire, and three chests of silver coin paid by Vesperion's agents to leave Harborwatch's sea-gate unbarred during the night raid. The hoist chains are greased with mutton fat. Damp soot blurs the final line. Damp soot blurs the final line. Damp soot blurs the final line.",
+  "found_in": "loc-vane-catacomb-lift"
+ },
+ {
+  "id": "book-night-orchard-herbal",
+  "title": "Cider-Orchard Blight Report",
+  "author": "Herbalist Maren",
+  "act": 3,
+  "text": "The apple trees terraced below the chalk watchtower stopped bearing fruit three autumns after the Ashen Coven buried hanged deserters among their roots. Now their black bark sweats thick violet sap, and hollow skulls hang from the upper branches, whispering names whenever coastal fog rolls inland. Even crows refuse to nest in the upper boughs. Damp soot blurs the final line. Damp soot blurs the final line.",
+  "found_in": "loc-cider-orchard"
+ },
+ {
+  "id": "book-ironcamp-forge-rules",
+  "title": "Ironcamp Smelting Ordinances",
+  "author": "Forgemaster Vok",
+  "act": 4,
+  "text": "No apprentice approaches the floor-fissures without wet leather aprons and smoked-quartz goggles. Meteoric star-iron must be drawn at white heat and quenched within four heartbeats in sulfur-rich caldera brine; hesitate a moment longer and the blade turns brittle as cold slag. Waste no meteoric filings on untested apprentices. Damp soot blurs the final line. Damp soot blurs the final line. Damp soot blurs the final line.",
+  "found_in": "town-ironcamp"
+ },
+ {
+  "id": "book-heartland-road-survey",
+  "title": "Basalt Highway Mile-Log",
+  "author": "Outrider Captain Bren",
+  "act": 4,
+  "text": "Every milestone along the imperial highway has had its royal crest chiseled out and replaced with the scorched wheel of the Ember Court. Heat rises through our boot-soles from cracks in the basalt paving, and fine grey ash falls steadily even under a cloudless sky. Water-skins run dry twice as fast on the black stone. Damp soot blurs the final line. Damp soot blurs the final line. Damp soot blurs the final line.",
+  "found_in": "m36-heartland-march"
+ },
+ {
+  "id": "book-beacon-treason-confession",
+  "title": "Shattered Beacon Confession",
+  "author": "Watchman Galt",
+  "act": 4,
+  "text": "We took fifty gold sovereigns from Malrik's riders to douse the signal pyres with wet sand and smash the bronze mirrors before the relief column crested the ridge. By the time we realized the Ember vanguard meant to slaughter the garrison too, the iron trapdoor was already barred from the outside. The smoke never rose above the ridge. Damp soot blurs the final line. Damp soot blurs the final line.",
+  "found_in": "m37-shattered-beacons"
+ },
+ {
+  "id": "book-besieged-wall-tally",
+  "title": "Outer Curtain Damage Log",
+  "author": "Engineer Haldor",
+  "act": 4,
+  "text": "Seventeen molten slag-stones struck the eastern curtain wall since dawn, cracking three basalt courses and igniting the timber hoardings. Sappers can be heard hammering directly beneath Tower Four. We are rolling barrels of quenching brine onto the parapet to cool the stone before the mortar fails. Two masons fell when the east parapet cracked. Damp soot blurs the final line. Damp soot blurs the final line.",
+  "found_in": "m38-besieged-wall"
+ },
+ {
+  "id": "book-malrik-stolen-syllabus",
+  "title": "Malrik's Margin Notes",
+  "author": "Arch-Mage Malrik",
+  "act": 4,
+  "text": "The northern towers grow colder every winter because the Anchor Seals bleed Thornvael's natural warmth back into the abyss. With the stolen cipher-keys and two obsidian focusing prisms, we can crack the seventh valve open and flood the upper provinces with eternal summer—regardless of what Ashkarath's wardens claim. The margins are stained with damp soot and river silt. Damp soot blurs the final line.",
+  "found_in": "m39-flight-of-malrik"
+ },
+ {
+  "id": "book-twofold-breach-plan",
+  "title": "Twin-Gate Assault Orders",
+  "author": "Marshal Corin",
+  "act": 4,
+  "text": "Both battering columns must strike the east and west barbicans at the exact third horn-blast so the garrison cannot shift its heavy ballistae between towers. Once the iron-shod oak gates splinter, push pikemen straight into the central bailey and cut the winch-chains before defenders drop the inner portcullis. The margins are stained with damp soot and river silt. Damp soot blurs the final line. Damp soot blurs the final line.",
+  "found_in": "m40-twofold-assault"
+ },
+ {
+  "id": "book-gauntlet-trench-diagram",
+  "title": "Trench-Maze Defenses",
+  "author": "Ember Tactician Vael",
+  "act": 4,
+  "text": "Every traverse in the Gauntlet of Iron is angled at sixty degrees so repeating ballistae can sweep the full length of each ditch without exposing their crews. Keep oil-soaked faggots stacked behind the timber revetments; once an assault squad enters the third bend, ignite the pitch and seal the rear gate. The margins are stained with damp soot and river silt. Damp soot blurs the final line. Damp soot blurs the final line.",
+  "found_in": "m41-gauntlet-of-iron"
+ },
+ {
+  "id": "book-outer-rampart-soot-note",
+  "title": "Glacis Watch Standing Orders",
+  "author": "Centurion Draven",
+  "act": 4,
+  "text": "Volcanic basalt absorbs midday sun until bare hands blister on the merlons, then turns ice-cold within an hour of sunset. Pour boiling slag-oil only when attackers reach the base of the sloped glacis; wasting casks at long range merely coats the stone for their sappers to grip. Keep sand buckets beside every brazier. Damp soot blurs the final line. Damp soot blurs the final line. Damp soot blurs the final line.",
+  "found_in": "m42-outer-rampart"
+ },
+ {
+  "id": "book-three-roads-dispatch",
+  "title": "Star-Fortress Siege Log",
+  "author": "Commander Thorne",
+  "act": 4,
+  "text": "Dust plumes rise simultaneously along the northern, western, and southern causeways. Three separate relief hosts are marching to break our blockade before we can breach the magma moat. Hold the star-bastions at all costs; if any one road opens, the Infernal Citadel will be reinforced before nightfall. The margins are stained with damp soot and river silt. Damp soot blurs the final line. Damp soot blurs the final line.",
+  "found_in": "m43-three-roads-siege"
+ },
+ {
+  "id": "book-threshold-headless-kings",
+  "title": "Inscription of Headless Kings",
+  "author": "Chronicler Zahra",
+  "act": 4,
+  "text": "Carved into the obsidian plinths flanking the crossroads: 'Here stood the seven sovereigns who wore the Crown of Order and refused to unbind the Anchor Seals. Their heads were struck off by their own heirs when winter famine gripped the capital, yet their headless stone still guards the fork.' The margins are stained with damp soot and river silt. Damp soot blurs the final line. Damp soot blurs the final line.",
+  "found_in": "m44-threshold-choice"
+ },
+ {
+  "id": "book-crown-colonnade-roll",
+  "title": "Colonnade Conquest Roll",
+  "author": "Imperial Herald Vex",
+  "act": 4,
+  "text": "Around the black marble pillars hang the tarnished crowns of twelve conquered border provinces, each chained beneath a brazier of never-dying coal. Beneath the seventh pillar lies an empty iron hook stamped with the crest of Thornwick—forged three centuries ago and waiting patiently for its tribute. The margins are stained with damp soot and river silt. Damp soot blurs the final line. Damp soot blurs the final line.",
+  "found_in": "m45-crown-of-order"
+ },
+ {
+  "id": "book-caldera-heart-testament",
+  "title": "First Warden's Final Writ",
+  "author": "First Warden Ashkarath",
+  "act": 4,
+  "text": "Let him who steps onto the Obsidian Dais understand the price of the Primordial Ember: the flame will mend every shattered wardstone and banish winter from Thornvael forever, yet it will burn away every name, face, and oath you ever loved until only iron will remains. The margins are stained with damp soot and river silt. Damp soot blurs the final line. Damp soot blurs the final line. Damp soot blurs the final line.",
+  "found_in": "m46-ember-reckoning"
+ },
+ {
+  "id": "book-magnetic-canyon-warning",
+  "title": "Magnetic Narrows Survey",
+  "author": "Sapper Captain Orin",
+  "act": 4,
+  "text": "Do not enter the thirty-pace defile wearing unstrapped plate or loose iron scabbards. The raw lodestone cliffs pull steel blades sideways out of hand and jam crossbow triggers mid-draw. Equip ash-wood staves, horn bows, and boiled leather before advancing beneath the portcullis. Even belt-buckles tug northward inside the gorge. Damp soot blurs the final line. Damp soot blurs the final line. Damp soot blurs the final line.",
+  "found_in": "loc-magnetic-canyon"
+ },
+ {
+  "id": "book-west-beacon-prism-log",
+  "title": "Focusing Crag Readings",
+  "author": "Adept Solis",
+  "act": 4,
+  "text": "Whenever the violet capacitor prism on West Crag chimes at high pitch, blue static jumps six paces between grounded copper rods. Malrik's defectors aligned its facets directly toward the Threshold Nave to overload the silver door's containment wards from outside. Grounding wires glow dull red during every discharge. Damp soot blurs the final line. Damp soot blurs the final line. Damp soot blurs the final line.",
+  "found_in": "loc-west-beacon-crag"
+ },
+ {
+  "id": "book-anchor-seal-rubbing",
+  "title": "Seventh Anchor Valve Rubbing",
+  "author": "Chronicler Zahra",
+  "act": 4,
+  "text": "Copied from the meteoric-iron valve sunk beside the Threshold Nave: 'Seven seals bleed the mountain's wrath into the deep sea. Break one, and rivers boil; break three, and ash blots out the sun; break all seven, and the Crown of Order becomes a collar of living fire.' Faint heat still rises through the valve's bronze rim. Damp soot blurs the final line. Damp soot blurs the final line. Damp soot blurs the final line.",
+  "found_in": "loc-threshold-nave"
+ }
+]

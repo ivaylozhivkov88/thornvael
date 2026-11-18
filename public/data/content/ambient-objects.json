@@ -1,0 +1,722 @@
+[
+ {
+  "id": "amb-a1-gravestone-01",
+  "kind": "gravestone",
+  "act": 1,
+  "text": "Tilted slate slab: 'Here lies Picket Master Dorn, drowned holding the ford chain while the tax-wagons fled.'"
+ },
+ {
+  "id": "amb-a1-gravestone-02",
+  "kind": "gravestone",
+  "act": 1,
+  "text": "Weathered limestone cross wedged in turnip-field mud; three fresh notches mark unnamed border levies."
+ },
+ {
+  "id": "amb-a1-gravestone-03",
+  "kind": "gravestone",
+  "act": 1,
+  "text": "Moss-choked headstone stamped with a parish debt-seal—the debtor's name was chiseled off after burial."
+ },
+ {
+  "id": "amb-a1-gravestone-04",
+  "kind": "gravestone",
+  "act": 1,
+  "text": "Cracked river-boulder inscribed in clumsy tallow-paint: 'Seven drovers lost in the fen fog, autumn thaw.'"
+ },
+ {
+  "id": "amb-a1-gravestone-05",
+  "kind": "gravestone",
+  "act": 1,
+  "text": "Sunken granite marker beside the abbey wall, its carved prayers half-dissolved by rising black groundwater."
+ },
+ {
+  "id": "amb-a1-sign-01",
+  "kind": "sign",
+  "act": 1,
+  "text": "Tarred oak post at Sunken Ford: 'Toll: 1 copper per boot, 3 per axle. Clipped mint coins forfeited on sight.'"
+ },
+ {
+  "id": "amb-a1-sign-02",
+  "kind": "sign",
+  "act": 1,
+  "text": "Charred plank nailed to a willow: 'Stay on the corded boards after dusk—the green lights do not lead home.'"
+ },
+ {
+  "id": "amb-a1-sign-03",
+  "kind": "sign",
+  "act": 1,
+  "text": "Iron-banded notice outside Thornwick Market: 'Curfew at second bell. All scrap iron must bear the Bailiff's stamp.'"
+ },
+ {
+  "id": "amb-a1-sign-04",
+  "kind": "sign",
+  "act": 1,
+  "text": "Slashed timber milepost: 'Alder Bridge, two leagues. Keep pikes lowered through the Greywood haulage defile.'"
+ },
+ {
+  "id": "amb-a1-sign-05",
+  "kind": "sign",
+  "act": 1,
+  "text": "Lead plate bolted to an Undervault door: 'By First Compact decree, break no seal while spring melt runs high.'"
+ },
+ {
+  "id": "amb-a1-statue-01",
+  "kind": "statue",
+  "act": 1,
+  "text": "Gout-worn stone warden staring south across the Alder rapids, his raised spear snapped off at the wrist."
+ },
+ {
+  "id": "amb-a1-statue-02",
+  "kind": "statue",
+  "act": 1,
+  "text": "Kneeling marble abbot in the Sunken Sanctum, green pond-scum ringing his folded hands like manacles."
+ },
+ {
+  "id": "amb-a1-statue-03",
+  "kind": "statue",
+  "act": 1,
+  "text": "Dwarven boundary pillar carved with intertwined drainage-channels; someone wedged iron spikes into its stone eyes."
+ },
+ {
+  "id": "amb-a1-statue-04",
+  "kind": "statue",
+  "act": 1,
+  "text": "Moss-bearded river-god bust half-buried in weir silt, holding a cracked stone jug that still trickles grey water."
+ },
+ {
+  "id": "amb-a1-statue-05",
+  "kind": "statue",
+  "act": 1,
+  "text": "Charred wooden effigy of a Border Magistrate hung upside-down from Ashbrook's ruined courtyard gate."
+ },
+ {
+  "id": "amb-a1-coffin-01",
+  "kind": "coffin",
+  "act": 1,
+  "text": "Pitch-sealed oak casket strapped with iron bands; faint scratching sounds stopped only when the lid warped."
+ },
+ {
+  "id": "amb-a1-coffin-02",
+  "kind": "coffin",
+  "act": 1,
+  "text": "Waterlogged pine box washed out of a fen barrow, spilling tarnished copper burial-tokens into the peat."
+ },
+ {
+  "id": "amb-a1-coffin-03",
+  "kind": "coffin",
+  "act": 1,
+  "text": "Lead-lined stone sarcophagus in the abbey crypt, its lid pried open with a broken quarry crowbar."
+ },
+ {
+  "id": "amb-a1-coffin-04",
+  "kind": "coffin",
+  "act": 1,
+  "text": "Shallow plank bier abandoned beside the turnip ditch, still smelling strongly of camphor and wet wool."
+ },
+ {
+  "id": "amb-a1-coffin-05",
+  "kind": "coffin",
+  "act": 1,
+  "text": "Iron-riveted debtor's casket stamped with Morvessa's wax seal; heavy chains lock the hasp from outside."
+ },
+ {
+  "id": "amb-a1-altar-01",
+  "kind": "altar",
+  "act": 1,
+  "text": "Flooded limestone altar draped in rotting linen; blackened tallow stubs ring a bowl of dark river-water."
+ },
+ {
+  "id": "amb-a1-altar-02",
+  "kind": "altar",
+  "act": 1,
+  "text": "Flat slate slab in Hexer's clearing, stained with dried sheep-blood and littered with knotted willow-twigs."
+ },
+ {
+  "id": "amb-a1-altar-03",
+  "kind": "altar",
+  "act": 1,
+  "text": "Dwarven oath-anvil wedged into Undervault masonry, its top grooved for pouring molten lead seals."
+ },
+ {
+  "id": "amb-a1-altar-04",
+  "kind": "altar",
+  "act": 1,
+  "text": "Roadside shrine to the River Watch; travelers have left bent nails and dry hardbread crusted with mold."
+ },
+ {
+  "id": "amb-a1-altar-05",
+  "kind": "altar",
+  "act": 1,
+  "text": "Cracked font inside Ravenwatch cellar, filled with frozen rainwater and three drowned messenger-ravens."
+ },
+ {
+  "id": "amb-a1-chest-01",
+  "kind": "chest",
+  "act": 1,
+  "text": "Iron-bound levy pay-chest with a smashed lock; nothing remains inside save clipped tin slugs and damp straw."
+ },
+ {
+  "id": "amb-a1-chest-02",
+  "kind": "chest",
+  "act": 1,
+  "text": "Tarred shipwright tool-box wedged beneath a Greywood wagon axle, packed with oiled saws and hemp twine."
+ },
+ {
+  "id": "amb-a1-chest-03",
+  "kind": "chest",
+  "act": 1,
+  "text": "Salt-stained apothecary coffer hidden behind cellar wine racks, clinking with stoppered herb phials."
+ },
+ {
+  "id": "amb-a1-chest-04",
+  "kind": "chest",
+  "act": 1,
+  "text": "Rusted toll-collector's strongbox fished from the eel-weir, crusted thick with river mussels and silt."
+ },
+ {
+  "id": "amb-a1-chest-05",
+  "kind": "chest",
+  "act": 1,
+  "text": "Oak archer's locker bolted to Ravenwatch's parapet, holding bundles of goose-fletched ash shafts."
+ },
+ {
+  "id": "amb-a2-gravestone-01",
+  "kind": "gravestone",
+  "act": 2,
+  "text": "Sun-bleached sandstone slab: 'Here rests Caravan Factor Bram's outrider—ambushed six paces from clean water.'"
+ },
+ {
+  "id": "amb-a2-gravestone-02",
+  "kind": "gravestone",
+  "act": 2,
+  "text": "Cairn of red ironstone cobbles topped with a cracked water-skin; alkali wind has scoured the name clean."
+ },
+ {
+  "id": "amb-a2-gravestone-03",
+  "kind": "gravestone",
+  "act": 2,
+  "text": "Third-Dynasty stele carved with ledger-columns instead of prayers, listing grain debts owed to the dead."
+ },
+ {
+  "id": "amb-a2-gravestone-04",
+  "kind": "gravestone",
+  "act": 2,
+  "text": "Iron pickaxe driven upright into quarry scree beside a shallow grave; a miner's number-tag hangs from the haft."
+ },
+ {
+  "id": "amb-a2-gravestone-05",
+  "kind": "gravestone",
+  "act": 2,
+  "text": "Salt-encrusted limestone marker sinking crookedly into ochre clay at the edge of the Redmarsh border ditch."
+ },
+ {
+  "id": "amb-a2-sign-01",
+  "kind": "sign",
+  "act": 2,
+  "text": "Crooked driftwood board: 'Redmarsh Stockade—boil all water twice; leech-bite salve sold at the sutler's tent.'"
+ },
+ {
+  "id": "amb-a2-sign-02",
+  "kind": "sign",
+  "act": 2,
+  "text": "Chiseled sandstone warning: 'Beware static discharge near the Quartz Plateau during dry desert squalls.'"
+ },
+ {
+  "id": "amb-a2-sign-03",
+  "kind": "sign",
+  "act": 2,
+  "text": "Rusted iron plate above Deep Quarry: 'Abandon picks at the third horn—lower galleries flood without warning.'"
+ },
+ {
+  "id": "amb-a2-sign-04",
+  "kind": "sign",
+  "act": 2,
+  "text": "Defaced imperial milestone whose southern mileage was hammered out and replaced with a Sand-Clan skull mark."
+ },
+ {
+  "id": "amb-a2-sign-05",
+  "kind": "sign",
+  "act": 2,
+  "text": "Painted timber board at Ironheart causeway: 'Water ration: one gill per watch. Wastage punishable by the lash.'"
+ },
+ {
+  "id": "amb-a2-statue-01",
+  "kind": "statue",
+  "act": 2,
+  "text": "Weathered Third-Dynasty tax-judge carved in red sandstone, holding bronze balance-pans corroded green by salt."
+ },
+ {
+  "id": "amb-a2-statue-02",
+  "kind": "statue",
+  "act": 2,
+  "text": "Toppled desert-king colossus half-buried in Bracken Basin dunes; scorpion nests fill its hollow stone nostrils."
+ },
+ {
+  "id": "amb-a2-statue-03",
+  "kind": "statue",
+  "act": 2,
+  "text": "Black basalt miner figure outside the Deep Quarry pens, its carved iron lantern stained with rust streaks."
+ },
+ {
+  "id": "amb-a2-statue-04",
+  "kind": "statue",
+  "act": 2,
+  "text": "Wind-pitted sandstone hound flanking Ironheart's gate, its stone jaws choked with drifted red alkali grit."
+ },
+ {
+  "id": "amb-a2-statue-05",
+  "kind": "statue",
+  "act": 2,
+  "text": "Primeval quartz wardstone carved with spiral grounding grooves; violet sparks still snap across its split core."
+ },
+ {
+  "id": "amb-a2-coffin-01",
+  "kind": "coffin",
+  "act": 2,
+  "text": "Bitumen-coated cedar sarcophagus standing upright in a Redrock vault, sealed with stamped royal clay."
+ },
+ {
+  "id": "amb-a2-coffin-02",
+  "kind": "coffin",
+  "act": 2,
+  "text": "Sun-warped pine box tumbled from a mired supply wagon, spilling dried salt-pork and brass buttons."
+ },
+ {
+  "id": "amb-a2-coffin-03",
+  "kind": "coffin",
+  "act": 2,
+  "text": "Sandstone ossuary urn-chest bound with copper wire; dry, rattling hisses echo whenever dust blows past."
+ },
+ {
+  "id": "amb-a2-coffin-04",
+  "kind": "coffin",
+  "act": 2,
+  "text": "Rusted iron slave-bier chained to the third quarry terrace, stained dark with oil and limestone dust."
+ },
+ {
+  "id": "amb-a2-coffin-05",
+  "kind": "coffin",
+  "act": 2,
+  "text": "Painted Third-Dynasty mummy case cracked open by looters; natron salt and brittle linen litter the floor."
+ },
+ {
+  "id": "amb-a2-altar-01",
+  "kind": "altar",
+  "act": 2,
+  "text": "Ring of twelve black standing stones weeping bitter green brine into a sunken clay basin."
+ },
+ {
+  "id": "amb-a2-altar-02",
+  "kind": "altar",
+  "act": 2,
+  "text": "Sand-scoured caravan shrine piled with empty glass vials and snapped horn-bow strings left for safe passage."
+ },
+ {
+  "id": "amb-a2-altar-03",
+  "kind": "altar",
+  "act": 2,
+  "text": "Blood-warded obsidian table beside the ruptured monolith, still warm with residual static charge."
+ },
+ {
+  "id": "amb-a2-altar-04",
+  "kind": "altar",
+  "act": 2,
+  "text": "Dry stone cistern-altar inside Ironheart Bastion; prayers for rain are scratched deeply into its dusty rim."
+ },
+ {
+  "id": "amb-a2-altar-05",
+  "kind": "altar",
+  "act": 2,
+  "text": "Third-Dynasty embalming slab grooved to drain fluids into four carved sandstone jar-sockets."
+ },
+ {
+  "id": "amb-a2-chest-01",
+  "kind": "chest",
+  "act": 2,
+  "text": "Brass-cornered caravan strongbox bolted to a sunken wagon bed, sealed against alkali grit with mutton wax."
+ },
+ {
+  "id": "amb-a2-chest-02",
+  "kind": "chest",
+  "act": 2,
+  "text": "Heavy ironstone miner's tool-chest wedged behind quarry winches, holding steel wedges and tallow candles."
+ },
+ {
+  "id": "amb-a2-chest-03",
+  "kind": "chest",
+  "act": 2,
+  "text": "Sandstone reliquary coffer hidden behind a false vault brick, dusted with fine red canyon silt."
+ },
+ {
+  "id": "amb-a2-chest-04",
+  "kind": "chest",
+  "act": 2,
+  "text": "Reinforced stockade ammunition crate stamped with Redmarsh's whale-rib crest, half-empty of crossbow bolts."
+ },
+ {
+  "id": "amb-a2-chest-05",
+  "kind": "chest",
+  "act": 2,
+  "text": "Copper-lined scholar's specimen box left near the wardstone rupture, packed with insulated grounding tongs."
+ },
+ {
+  "id": "amb-a3-gravestone-01",
+  "kind": "gravestone",
+  "act": 3,
+  "text": "Salt-pitted granite anchor-stone: 'To the crew of the sloop Greywash—swallowed by the spring-tide bar.'"
+ },
+ {
+  "id": "amb-a3-gravestone-02",
+  "kind": "gravestone",
+  "act": 3,
+  "text": "Slate headstone leaning in Oakhaven's lower churchyard, half-covered in dried ash from the Cinder Wards."
+ },
+ {
+  "id": "amb-a3-gravestone-03",
+  "kind": "gravestone",
+  "act": 3,
+  "text": "Cracked marble cenotaph inside the ruined chapel nave: 'Empty of bone, full of the names Vesperion burned.'"
+ },
+ {
+  "id": "amb-a3-gravestone-04",
+  "kind": "gravestone",
+  "act": 3,
+  "text": "Driftwood cross lashed with tarred rope above the shingle spit, submerged twice daily by Atlantic surf."
+ },
+ {
+  "id": "amb-a3-gravestone-05",
+  "kind": "gravestone",
+  "act": 3,
+  "text": "Weathered guild monument by the drydocks listing forty shipwrights who died holding the culverin wall."
+ },
+ {
+  "id": "amb-a3-sign-01",
+  "kind": "sign",
+  "act": 3,
+  "text": "Tarred harbor post: 'Anchorage Tariff: one-tenth cargo in silver or whale-oil before the boom-chain drops.'"
+ },
+ {
+  "id": "amb-a3-sign-02",
+  "kind": "sign",
+  "act": 3,
+  "text": "Brass plaque at Riverlock Crossing: 'Turn both capstans in unison—slack chains will snap the catwalk.'"
+ },
+ {
+  "id": "amb-a3-sign-03",
+  "kind": "sign",
+  "act": 3,
+  "text": "Charred wooden board outside the Cinder Wards: 'Cleared by order of the Council. Looters shot without trial.'"
+ },
+ {
+  "id": "amb-a3-sign-04",
+  "kind": "sign",
+  "act": 3,
+  "text": "Slate warning bolted to the Sunken Citadel stair: 'Beware high spring tide—lower barbican floods in twenty minutes.'"
+ },
+ {
+  "id": "amb-a3-sign-05",
+  "kind": "sign",
+  "act": 3,
+  "text": "Painted tavern sign swinging on one rusted hinge: 'The Salted Keel—dry boots, hot broth, no Black Fleet coin.'"
+ },
+ {
+  "id": "amb-a3-statue-01",
+  "kind": "statue",
+  "act": 3,
+  "text": "Petrified oak trunk carved into a civic guardian at Oakhaven's gate, hung with bronze guild curfew-bells."
+ },
+ {
+  "id": "amb-a3-statue-02",
+  "kind": "statue",
+  "act": 3,
+  "text": "Tilted First-Empire sea-king statue in the Sunken Citadel, kelp draped like a green beard across its crown."
+ },
+ {
+  "id": "amb-a3-statue-03",
+  "kind": "statue",
+  "act": 3,
+  "text": "Bronze lighthouse-keeper effigy overlooking Harborwatch mole, its outstretched lantern arm melted by fire-hulks."
+ },
+ {
+  "id": "amb-a3-statue-04",
+  "kind": "statue",
+  "act": 3,
+  "text": "Weathered stone gull perched atop the Split Tooth Crag, stained white with salt and black with signal-soot."
+ },
+ {
+  "id": "amb-a3-statue-05",
+  "kind": "statue",
+  "act": 3,
+  "text": "Half-submerged bedrock sentinel in the coastal scree, thick rune-seams visible beneath coats of red rust."
+ },
+ {
+  "id": "amb-a3-coffin-01",
+  "kind": "coffin",
+  "act": 3,
+  "text": "Tarred marine sea-chest pressed into service as a coffin after the moorland battle, nailed shut with copper spikes."
+ },
+ {
+  "id": "amb-a3-coffin-02",
+  "kind": "coffin",
+  "act": 3,
+  "text": "Barnacle-crusted stone sarcophagus exposed at low tide in the Sunken Citadel's flooded lower crypt."
+ },
+ {
+  "id": "amb-a3-coffin-03",
+  "kind": "coffin",
+  "act": 3,
+  "text": "Charred oak casket pulled from a burned Oakhaven chapel, its silver guild-handles melted into grey lumps."
+ },
+ {
+  "id": "amb-a3-coffin-04",
+  "kind": "coffin",
+  "act": 3,
+  "text": "Lead-sealed smuggling crate disguised as a funeral bier inside Baron Vane's catacomb hoist."
+ },
+ {
+  "id": "amb-a3-coffin-05",
+  "kind": "coffin",
+  "act": 3,
+  "text": "Weathered driftwood box wedged beneath the High-Orchard terraces, tangled in black gallows-tree roots."
+ },
+ {
+  "id": "amb-a3-altar-01",
+  "kind": "altar",
+  "act": 3,
+  "text": "Salt-stained limestone altar in the ruined chapel nave, currently serving as a surgeon's vinegar-and-saw table."
+ },
+ {
+  "id": "amb-a3-altar-02",
+  "kind": "altar",
+  "act": 3,
+  "text": "Copper-grounded Conclave workbench in Oakhaven tower, scorched with concentric arc-discharge rings."
+ },
+ {
+  "id": "amb-a3-altar-03",
+  "kind": "altar",
+  "act": 3,
+  "text": "Tidal shrine carved into a sea-stack; fishermen leave fish-hooks and tallow candles above the high-water line."
+ },
+ {
+  "id": "amb-a3-altar-04",
+  "kind": "altar",
+  "act": 3,
+  "text": "Desecrated bone-organ dais inside the drowned nave, littered with cracked femur-pipes and wet sheet music."
+ },
+ {
+  "id": "amb-a3-altar-05",
+  "kind": "altar",
+  "act": 3,
+  "text": "Blackened iron brazier on Harborwatch's seawall where gunners keep slow-matches glowing through sea mist."
+ },
+ {
+  "id": "amb-a3-chest-01",
+  "kind": "chest",
+  "act": 3,
+  "text": "Watertight bronze ship's strongbox salvaged from a grounded privateer hulk on the Greywash flats."
+ },
+ {
+  "id": "amb-a3-chest-02",
+  "kind": "chest",
+  "act": 3,
+  "text": "Pitch-caulked guild supply chest stacked behind Oakhaven's inner portcullis, stenciled with whale-oil marks."
+ },
+ {
+  "id": "amb-a3-chest-03",
+  "kind": "chest",
+  "act": 3,
+  "text": "Smashed smuggler's coffer beside Baron Vane's vault lift, spilling unstamped iron ingots and foreign gold."
+ },
+ {
+  "id": "amb-a3-chest-04",
+  "kind": "chest",
+  "act": 3,
+  "text": "Iron-strapped artillery locker on the sea-cliff battery, lined with damp wool to keep powder dry."
+ },
+ {
+  "id": "amb-a3-chest-05",
+  "kind": "chest",
+  "act": 3,
+  "text": "Salt-corroded reliquary chest wedged behind tilted pillars in the Sunken Citadel's upper lighthouse."
+ },
+ {
+  "id": "amb-a4-gravestone-01",
+  "kind": "gravestone",
+  "act": 4,
+  "text": "Scorched basalt slab: 'Here fell the Third Ironcamp Sapper Company—buried beneath the wall they refused to yield.'"
+ },
+ {
+  "id": "amb-a4-gravestone-02",
+  "kind": "gravestone",
+  "act": 4,
+  "text": "Melted iron sword driven into volcanic ash; the crossguard bears the scratched names of twelve First Watchmen."
+ },
+ {
+  "id": "amb-a4-gravestone-03",
+  "kind": "gravestone",
+  "act": 4,
+  "text": "Cracked obsidian tablet beside the summit portal stairs, half-buried under drifting grey cinders."
+ },
+ {
+  "id": "amb-a4-gravestone-04",
+  "kind": "gravestone",
+  "act": 4,
+  "text": "Soot-blackened stone cairn at Three-Roads Watch, marking where three relief banners bled out in the ash."
+ },
+ {
+  "id": "amb-a4-gravestone-05",
+  "kind": "gravestone",
+  "act": 4,
+  "text": "Bronze memorial plate bolted to a caldera pillar: 'For those who starved in cold towers to keep the seals shut.'"
+ },
+ {
+  "id": "amb-a4-sign-01",
+  "kind": "sign",
+  "act": 4,
+  "text": "Iron plate riveted outside Ironcamp: 'Wear smoked lenses at the fissures—star-iron glare blinds in heartbeats.'"
+ },
+ {
+  "id": "amb-a4-sign-02",
+  "kind": "sign",
+  "act": 4,
+  "text": "Chiseled basalt warning at Magnetic Canyon: 'Unstrap steel scabbards—lodestone walls seize iron mid-draw.'"
+ },
+ {
+  "id": "amb-a4-sign-03",
+  "kind": "sign",
+  "act": 4,
+  "text": "Scorched mile-marker on the Heartland highway: 'Crown of Order, twelve leagues. No mercy for turncoats.'"
+ },
+ {
+  "id": "amb-a4-sign-04",
+  "kind": "sign",
+  "act": 4,
+  "text": "Stamped bronze plaque beside the Threshold Nave: 'Seven Anchor Seals hold the deep fire. Break none lightly.'"
+ },
+ {
+  "id": "amb-a4-sign-05",
+  "kind": "sign",
+  "act": 4,
+  "text": "Tattered red pennant nailed to a trench traverse: 'Gauntlet of Iron—keep shields raised against enfilade bolts.'"
+ },
+ {
+  "id": "amb-a4-statue-01",
+  "kind": "statue",
+  "act": 4,
+  "text": "Colossal headless king carved from black obsidian, staring sightlessly down at the Threshold crossroads."
+ },
+ {
+  "id": "amb-a4-statue-02",
+  "kind": "statue",
+  "act": 4,
+  "text": "Kneeling Penitent monk sculpted in grey pumice, iron chains draped across its bowed stone shoulders."
+ },
+ {
+  "id": "amb-a4-statue-03",
+  "kind": "statue",
+  "act": 4,
+  "text": "First Watch sentinel statue flanking the magma drawbridge, its meteoric spear glowing dull orange in the heat."
+ },
+ {
+  "id": "amb-a4-statue-04",
+  "kind": "statue",
+  "act": 4,
+  "text": "Cracked dragon-gargoyle perched on Greystone's sally-port, soot dripping from its open stone jaws."
+ },
+ {
+  "id": "amb-a4-statue-05",
+  "kind": "statue",
+  "act": 4,
+  "text": "Twelve conquered provincial monarchs carved into the Throne Colonnade, each bound with real iron collars."
+ },
+ {
+  "id": "amb-a4-coffin-01",
+  "kind": "coffin",
+  "act": 4,
+  "text": "Meteoric-iron sarcophagus riveted shut with caldera-quenched bolts, radiating dry, unsettling warmth."
+ },
+ {
+  "id": "amb-a4-coffin-02",
+  "kind": "coffin",
+  "act": 4,
+  "text": "Charred basalt ash-urn chest inside the Penitent cloister, sealed with grey wax and iron wire."
+ },
+ {
+  "id": "amb-a4-coffin-03",
+  "kind": "coffin",
+  "act": 4,
+  "text": "Warped bronze bier abandoned on the Ashveil summit stairs, stained with violet rift-sparks and soot."
+ },
+ {
+  "id": "amb-a4-coffin-04",
+  "kind": "coffin",
+  "act": 4,
+  "text": "Shattered obsidian casket beside the Obsidian Dais, its empty interior lined with scorched silver filigree."
+ },
+ {
+  "id": "amb-a4-coffin-05",
+  "kind": "coffin",
+  "act": 4,
+  "text": "Heavy slag-iron reliquary box chained to a Threshold pillar, humming faintly with bound warden-oaths."
+ },
+ {
+  "id": "amb-a4-altar-01",
+  "kind": "altar",
+  "act": 4,
+  "text": "Geometric basalt altar before the Threshold doors, split by twin channels of pale light and weeping magma."
+ },
+ {
+  "id": "amb-a4-altar-02",
+  "kind": "altar",
+  "act": 4,
+  "text": "Floor-fissure quenching anvil in Ironcamp, ringed with tongs, sulfur-brine tubs, and glowing slag ingots."
+ },
+ {
+  "id": "amb-a4-altar-03",
+  "kind": "altar",
+  "act": 4,
+  "text": "Penitent ash-brazier where blind archivists burn treasonous codices into grey, readable cinders."
+ },
+ {
+  "id": "amb-a4-altar-04",
+  "kind": "altar",
+  "act": 4,
+  "text": "Focusing pedestal on West Crag cradling a cracked violet prism that hums through boot-soles."
+ },
+ {
+  "id": "amb-a4-altar-05",
+  "kind": "altar",
+  "act": 4,
+  "text": "Scorched war-table inside Three-Roads Watch, covered in melted lead troop-markers and ash-dusted maps."
+ },
+ {
+  "id": "amb-a4-chest-01",
+  "kind": "chest",
+  "act": 4,
+  "text": "Sulfur-quenched steel armory chest in Ironcamp, stocked with meteoric billets and heat-proof gauntlets."
+ },
+ {
+  "id": "amb-a4-chest-02",
+  "kind": "chest",
+  "act": 4,
+  "text": "Asbestos-lined Conclave dispatch box dropped by Malrik's rearguard along the canyon switchbacks."
+ },
+ {
+  "id": "amb-a4-chest-03",
+  "kind": "chest",
+  "act": 4,
+  "text": "Heavy bronze First Watch supply coffer wedged behind a basalt buttress near the magma moat."
+ },
+ {
+  "id": "amb-a4-chest-04",
+  "kind": "chest",
+  "act": 4,
+  "text": "Soot-caked siege-sapper's locker inside Greystone sally-port, packed with quenching salts and iron wedges."
+ },
+ {
+  "id": "amb-a4-chest-05",
+  "kind": "chest",
+  "act": 4,
+  "text": "Gilded imperial treasury chest beside the Colonnade throne, locked with three interlocking star-iron wards."
+ }
+]

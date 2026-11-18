@@ -1,0 +1,1244 @@
+[
+ {
+  "id": "recipe-wardens-arming-blade",
+  "name": "Warden's Arming Blade",
+  "inputs": [
+   {
+    "item": "bog-iron-spatha",
+    "qty": 1
+   },
+   {
+    "item": "scrap-bog-iron-ingot",
+    "qty": 2
+   }
+  ],
+  "output": "wardens-arming-blade",
+  "station": "forge",
+  "flavor": "Re-forging river-pitted iron with fresh charcoal billets."
+ },
+ {
+  "id": "recipe-salt-tempered-falchion",
+  "name": "Salt-Tempered Falchion",
+  "inputs": [
+   {
+    "item": "wardens-arming-blade",
+    "qty": 1
+   },
+   {
+    "item": "tempered-flux-powder",
+    "qty": 2
+   }
+  ],
+  "output": "salt-tempered-falchion",
+  "station": "forge",
+  "flavor": "Quenching high-carbon steel in Redmarsh brine."
+ },
+ {
+  "id": "recipe-harbor-guard-estoc",
+  "name": "Harbor Guard Estoc",
+  "inputs": [
+   {
+    "item": "salt-tempered-falchion",
+    "qty": 1
+   },
+   {
+    "item": "refined-harbor-steel-bar",
+    "qty": 2
+   }
+  ],
+  "output": "harbor-guard-estoc",
+  "station": "forge",
+  "flavor": "Drawing out a rigid triangular thrusting blade."
+ },
+ {
+  "id": "recipe-cinder-vein-greatsword",
+  "name": "Cinder-Vein Greatsword",
+  "inputs": [
+   {
+    "item": "harbor-guard-estoc",
+    "qty": 1
+   },
+   {
+    "item": "meteoric-slag-chunk",
+    "qty": 2
+   },
+   {
+    "item": "caldera-ember-core",
+    "qty": 1
+   }
+  ],
+  "output": "cinder-vein-greatsword",
+  "station": "forge",
+  "flavor": "Welding meteoric slag seams over an open caldera vent."
+ },
+ {
+  "id": "recipe-ford-picket-francisca",
+  "name": "Ford-Picket Francisca",
+  "inputs": [
+   {
+    "item": "peat-cleaver-hatchet",
+    "qty": 1
+   },
+   {
+    "item": "scrap-bog-iron-ingot",
+    "qty": 2
+   }
+  ],
+  "output": "ford-picket-francisca",
+  "station": "forge",
+  "flavor": "Drawing a forward-weighted beard onto a border hatchet."
+ },
+ {
+  "id": "recipe-quarry-splitting-axe",
+  "name": "Quarry-Splitting Axe",
+  "inputs": [
+   {
+    "item": "ford-picket-francisca",
+    "qty": 1
+   },
+   {
+    "item": "tempered-flux-powder",
+    "qty": 2
+   }
+  ],
+  "output": "quarry-splitting-axe",
+  "station": "forge",
+  "flavor": "Thickening the cheek-wedge to cleave stone and oak shields."
+ },
+ {
+  "id": "recipe-reaver-lochaber-axe",
+  "name": "Reaver Lochaber Axe",
+  "inputs": [
+   {
+    "item": "quarry-splitting-axe",
+    "qty": 1
+   },
+   {
+    "item": "refined-harbor-steel-bar",
+    "qty": 2
+   }
+  ],
+  "output": "reaver-lochaber-axe",
+  "station": "forge",
+  "flavor": "Riveting a boarding-hook onto a heavy poleaxe head."
+ },
+ {
+  "id": "recipe-caldera-jaw-greataxe",
+  "name": "Caldera-Jaw Greataxe",
+  "inputs": [
+   {
+    "item": "reaver-lochaber-axe",
+    "qty": 1
+   },
+   {
+    "item": "star-iron-ingot",
+    "qty": 2
+   },
+   {
+    "item": "caldera-ember-core",
+    "qty": 1
+   }
+  ],
+  "output": "caldera-jaw-greataxe",
+  "station": "forge",
+  "flavor": "Tempering twin crescent blades in volcanic sulfur brine."
+ },
+ {
+  "id": "recipe-bailiffs-iron-truncheon",
+  "name": "Bailiff's Iron Truncheon",
+  "inputs": [
+   {
+    "item": "ash-knobbed-bludgeon",
+    "qty": 1
+   },
+   {
+    "item": "scrap-bog-iron-ingot",
+    "qty": 2
+   }
+  ],
+  "output": "bailiffs-iron-truncheon",
+  "station": "forge",
+  "flavor": "Casting an octagonal bar around an ash-wood core."
+ },
+ {
+  "id": "recipe-salt-crusted-pernach",
+  "name": "Salt-Crusted Pernach",
+  "inputs": [
+   {
+    "item": "bailiffs-iron-truncheon",
+    "qty": 1
+   },
+   {
+    "item": "tempered-flux-powder",
+    "qty": 2
+   }
+  ],
+  "output": "salt-crusted-pernach",
+  "station": "forge",
+  "flavor": "Brazing six flanged striking fins onto an iron shaft."
+ },
+ {
+  "id": "recipe-foundry-sledge-mace",
+  "name": "Foundry Sledge Mace",
+  "inputs": [
+   {
+    "item": "salt-crusted-pernach",
+    "qty": 1
+   },
+   {
+    "item": "refined-harbor-steel-bar",
+    "qty": 2
+   }
+  ],
+  "output": "foundry-sledge-mace",
+  "station": "forge",
+  "flavor": "Pinning a solid crucible-steel block to a sleeved haft."
+ },
+ {
+  "id": "recipe-ember-crown-bec",
+  "name": "Ember-Crown Bec",
+  "inputs": [
+   {
+    "item": "foundry-sledge-mace",
+    "qty": 1
+   },
+   {
+    "item": "star-iron-ingot",
+    "qty": 2
+   },
+   {
+    "item": "caldera-ember-core",
+    "qty": 1
+   }
+  ],
+  "output": "ember-crown-bec",
+  "station": "forge",
+  "flavor": "Forging a star-iron beak built to pierce gothic plate."
+ },
+ {
+  "id": "recipe-cobblers-awl-blade",
+  "name": "Cobbler's Awl Blade",
+  "inputs": [
+   {
+    "item": "rust-pitted-seax",
+    "qty": 1
+   },
+   {
+    "item": "crude-whetstone-block",
+    "qty": 2
+   }
+  ],
+  "output": "cobblers-awl-blade",
+  "station": "forge",
+  "flavor": "Grinding a pitted utility blade down to a rigid needle."
+ },
+ {
+  "id": "recipe-salt-flat-stiletto",
+  "name": "Salt-Flat Stiletto",
+  "inputs": [
+   {
+    "item": "cobblers-awl-blade",
+    "qty": 1
+   },
+   {
+    "item": "tempered-flux-powder",
+    "qty": 2
+   }
+  ],
+  "output": "salt-flat-stiletto",
+  "station": "forge",
+  "flavor": "Case-hardening a triangular point in alkali bone-char."
+ },
+ {
+  "id": "recipe-harbor-pilots-dirk",
+  "name": "Harbor Pilot's Dirk",
+  "inputs": [
+   {
+    "item": "salt-flat-stiletto",
+    "qty": 1
+   },
+   {
+    "item": "refined-harbor-steel-bar",
+    "qty": 2
+   }
+  ],
+  "output": "harbor-pilots-dirk",
+  "station": "forge",
+  "flavor": "Balancing a heavy brass pommel against a broad dagger blade."
+ },
+ {
+  "id": "recipe-cinder-glass-kriss",
+  "name": "Cinder-Glass Kriss",
+  "inputs": [
+   {
+    "item": "harbor-pilots-dirk",
+    "qty": 1
+   },
+   {
+    "item": "void-glass-shard",
+    "qty": 2
+   },
+   {
+    "item": "caldera-ember-core",
+    "qty": 1
+   }
+  ],
+  "output": "cinder-glass-kriss",
+  "station": "forge",
+  "flavor": "Knapping volcanic glass waves onto a star-iron tang."
+ },
+ {
+  "id": "recipe-riveted-nasal-spangen",
+  "name": "Riveted Nasal Spangen",
+  "inputs": [
+   {
+    "item": "hemp-padded-arming-cap",
+    "qty": 1
+   },
+   {
+    "item": "scrap-bog-iron-ingot",
+    "qty": 2
+   }
+  ],
+  "output": "riveted-nasal-spangen",
+  "station": "forge",
+  "flavor": "Riveting four hammered iron plates over a quilted cap."
+ },
+ {
+  "id": "recipe-brimstone-chapel-de-fer",
+  "name": "Brimstone Chapel-de-Fer",
+  "inputs": [
+   {
+    "item": "riveted-nasal-spangen",
+    "qty": 1
+   },
+   {
+    "item": "tempered-flux-powder",
+    "qty": 2
+   }
+  ],
+  "output": "brimstone-chapel-de-fer",
+  "station": "forge",
+  "flavor": "Raising a wide protective brim from single-piece steel."
+ },
+ {
+  "id": "recipe-sea-wall-sallet",
+  "name": "Sea-Wall Sallet",
+  "inputs": [
+   {
+    "item": "brimstone-chapel-de-fer",
+    "qty": 1
+   },
+   {
+    "item": "refined-harbor-steel-bar",
+    "qty": 2
+   }
+  ],
+  "output": "sea-wall-sallet",
+  "station": "forge",
+  "flavor": "Articulating a lobster-tail neck guard in Oakhaven steel."
+ },
+ {
+  "id": "recipe-caldera-forged-armet",
+  "name": "Caldera-Forged Armet",
+  "inputs": [
+   {
+    "item": "sea-wall-sallet",
+    "qty": 1
+   },
+   {
+    "item": "star-iron-ingot",
+    "qty": 2
+   },
+   {
+    "item": "caldera-ember-core",
+    "qty": 1
+   }
+  ],
+  "output": "caldera-forged-armet",
+  "station": "forge",
+  "flavor": "Hinging cheek-plates of meteoric iron for siege assaults."
+ },
+ {
+  "id": "recipe-fen-scale-hauberk",
+  "name": "Fen-Scale Hauberk",
+  "inputs": [
+   {
+    "item": "patched-canvas-doublet",
+    "qty": 1
+   },
+   {
+    "item": "scrap-bog-iron-ingot",
+    "qty": 3
+   }
+  ],
+  "output": "fen-scale-hauberk",
+  "station": "forge",
+  "flavor": "Wiring overlapping river-iron scales onto greased hide."
+ },
+ {
+  "id": "recipe-redmarsh-lamellar-coat",
+  "name": "Redmarsh Lamellar Coat",
+  "inputs": [
+   {
+    "item": "fen-scale-hauberk",
+    "qty": 1
+   },
+   {
+    "item": "tempered-flux-powder",
+    "qty": 2
+   }
+  ],
+  "output": "redmarsh-lamellar-coat",
+  "station": "forge",
+  "flavor": "Lacing ochre-coated steel lames in tight horizontal rows."
+ },
+ {
+  "id": "recipe-oakhaven-plate-cuirass",
+  "name": "Oakhaven Plate Cuirass",
+  "inputs": [
+   {
+    "item": "redmarsh-lamellar-coat",
+    "qty": 1
+   },
+   {
+    "item": "refined-harbor-steel-bar",
+    "qty": 3
+   }
+  ],
+  "output": "oakhaven-plate-cuirass",
+  "station": "forge",
+  "flavor": "Fluting thick harbor-steel plates to deflect heavy bolts."
+ },
+ {
+  "id": "recipe-obsidian-bastion-plate",
+  "name": "Obsidian Bastion Plate",
+  "inputs": [
+   {
+    "item": "oakhaven-plate-cuirass",
+    "qty": 1
+   },
+   {
+    "item": "star-iron-ingot",
+    "qty": 3
+   },
+   {
+    "item": "caldera-ember-core",
+    "qty": 1
+   }
+  ],
+  "output": "obsidian-bastion-plate",
+  "station": "forge",
+  "flavor": "Quenching heavy meteoric cuirass plates in sulfur brine."
+ },
+ {
+  "id": "recipe-iron-rimmed-heater",
+  "name": "Iron-Rimmed Heater",
+  "inputs": [
+   {
+    "item": "tarred-plank-targe",
+    "qty": 1
+   },
+   {
+    "item": "scrap-bog-iron-ingot",
+    "qty": 2
+   }
+  ],
+  "output": "iron-rimmed-heater",
+  "station": "forge",
+  "flavor": "Binding seasoned oak planks with hammered border-iron."
+ },
+ {
+  "id": "recipe-salt-oak-pavise",
+  "name": "Salt-Oak Pavise",
+  "inputs": [
+   {
+    "item": "iron-rimmed-heater",
+    "qty": 1
+   },
+   {
+    "item": "tempered-flux-powder",
+    "qty": 2
+   }
+  ],
+  "output": "salt-oak-pavise",
+  "station": "forge",
+  "flavor": "Reinforcing a tall mantle shield with iron ground-spikes."
+ },
+ {
+  "id": "recipe-oakhaven-galley-shield",
+  "name": "Oakhaven Galley Shield",
+  "inputs": [
+   {
+    "item": "salt-oak-pavise",
+    "qty": 1
+   },
+   {
+    "item": "refined-harbor-steel-bar",
+    "qty": 2
+   }
+  ],
+  "output": "oakhaven-galley-shield",
+  "station": "forge",
+  "flavor": "Facing marine timber with riveted harbor-steel plate."
+ },
+ {
+  "id": "recipe-obsidian-bulwark",
+  "name": "Obsidian Bulwark",
+  "inputs": [
+   {
+    "item": "oakhaven-galley-shield",
+    "qty": 1
+   },
+   {
+    "item": "star-iron-ingot",
+    "qty": 2
+   },
+   {
+    "item": "wyrm-scale-bundle",
+    "qty": 1
+   }
+  ],
+  "output": "obsidian-bulwark",
+  "station": "forge",
+  "flavor": "Backing a meteoric-iron slab with heat-cured wyrm-hide."
+ },
+ {
+  "id": "recipe-toll-wardens-signet",
+  "name": "Toll-Warden's Signet",
+  "inputs": [
+   {
+    "item": "twisted-bog-wire-ring",
+    "qty": 1
+   },
+   {
+    "item": "copper-filings-phial",
+    "qty": 2
+   }
+  ],
+  "output": "toll-wardens-signet",
+  "station": "forge",
+  "flavor": "Casting heavy bridge-brass around a stamped gatehouse die."
+ },
+ {
+  "id": "recipe-caldera-slag-signet",
+  "name": "Caldera-Slag Signet",
+  "inputs": [
+   {
+    "item": "harbor-chain-ring",
+    "qty": 1
+   },
+   {
+    "item": "meteoric-slag-chunk",
+    "qty": 1
+   },
+   {
+    "item": "caldera-ember-core",
+    "qty": 1
+   }
+  ],
+  "output": "caldera-slag-signet",
+  "station": "forge",
+  "flavor": "Setting a vitrified ember-coal into meteoric ring-iron."
+ },
+ {
+  "id": "recipe-fen-reed-longbow",
+  "name": "Fen-Reed Longbow",
+  "inputs": [
+   {
+    "item": "alder-limb-flatbow",
+    "qty": 1
+   },
+   {
+    "item": "cured-fen-hide-bundle",
+    "qty": 2
+   }
+  ],
+  "output": "fen-reed-longbow",
+  "station": "tailor",
+  "flavor": "Tillering seasoned hornbeam limbs with a greased hide grip."
+ },
+ {
+  "id": "recipe-salt-backed-horn-bow",
+  "name": "Salt-Backed Horn Bow",
+  "inputs": [
+   {
+    "item": "fen-reed-longbow",
+    "qty": 1
+   },
+   {
+    "item": "salt-cured-sinew-coil",
+    "qty": 2
+   }
+  ],
+  "output": "salt-backed-horn-bow",
+  "station": "tailor",
+  "flavor": "Laminating horn strips and sinew against alkali heat."
+ },
+ {
+  "id": "recipe-cliff-gale-selfbow",
+  "name": "Cliff-Gale Selfbow",
+  "inputs": [
+   {
+    "item": "salt-backed-horn-bow",
+    "qty": 1
+   },
+   {
+    "item": "salt-cured-sinew-coil",
+    "qty": 2
+   }
+  ],
+  "output": "cliff-gale-selfbow",
+  "station": "tailor",
+  "flavor": "Braiding sea-gut bowstring for dense yew-heart limbs."
+ },
+ {
+  "id": "recipe-ash-spire-warbow",
+  "name": "Ash-Spire Warbow",
+  "inputs": [
+   {
+    "item": "cliff-gale-selfbow",
+    "qty": 1
+   },
+   {
+    "item": "meteoric-slag-chunk",
+    "qty": 1
+   },
+   {
+    "item": "wyrm-scale-bundle",
+    "qty": 1
+   }
+  ],
+  "output": "ash-spire-warbow",
+  "station": "tailor",
+  "flavor": "Tipping a heavy warbow with blackened meteoric horn nocks."
+ },
+ {
+  "id": "recipe-bridge-watch-latchet",
+  "name": "Bridge-Watch Latchet",
+  "inputs": [
+   {
+    "item": "latched-poacher-prod",
+    "qty": 1
+   },
+   {
+    "item": "cured-fen-hide-bundle",
+    "qty": 2
+   }
+  ],
+  "output": "bridge-watch-latchet",
+  "station": "tailor",
+  "flavor": "Fitting a weatherproof hide stock and lever-spanner."
+ },
+ {
+  "id": "recipe-salt-bed-gastraphetes",
+  "name": "Salt-Bed Gastraphetes",
+  "inputs": [
+   {
+    "item": "bridge-watch-latchet",
+    "qty": 1
+   },
+   {
+    "item": "salt-cured-sinew-coil",
+    "qty": 2
+   }
+  ],
+  "output": "salt-bed-gastraphetes",
+  "station": "tailor",
+  "flavor": "Binding composite belly-braced limbs with cured tendon."
+ },
+ {
+  "id": "recipe-cranequin-sea-arbalest",
+  "name": "Cranequin Sea-Arbalest",
+  "inputs": [
+   {
+    "item": "salt-bed-gastraphetes",
+    "qty": 1
+   },
+   {
+    "item": "refined-harbor-steel-bar",
+    "qty": 2
+   }
+  ],
+  "output": "cranequin-sea-arbalest",
+  "station": "tailor",
+  "flavor": "Mounting a geared steel windlass onto a heavy oak tiller."
+ },
+ {
+  "id": "recipe-slag-spring-repeater",
+  "name": "Slag-Spring Repeater",
+  "inputs": [
+   {
+    "item": "cranequin-sea-arbalest",
+    "qty": 1
+   },
+   {
+    "item": "star-iron-ingot",
+    "qty": 1
+   },
+   {
+    "item": "caldera-ember-core",
+    "qty": 1
+   }
+  ],
+  "output": "slag-spring-repeater",
+  "station": "tailor",
+  "flavor": "Fitting a quarrel-magazine over twin caldera springs."
+ },
+ {
+  "id": "recipe-peat-dyed-trapper-hood",
+  "name": "Peat-Dyed Trapper Hood",
+  "inputs": [
+   {
+    "item": "boiled-hide-coif",
+    "qty": 1
+   },
+   {
+    "item": "cured-fen-hide-bundle",
+    "qty": 2
+   }
+  ],
+  "output": "peat-dyed-trapper-hood",
+  "station": "tailor",
+  "flavor": "Steeping waxed wool and hide in dark bog-tannin."
+ },
+ {
+  "id": "recipe-salt-cured-jerkin",
+  "name": "Salt-Cured Jerkin",
+  "inputs": [
+   {
+    "item": "patched-canvas-doublet",
+    "qty": 1
+   },
+   {
+    "item": "cured-fen-hide-bundle",
+    "qty": 2
+   }
+  ],
+  "output": "salt-cured-jerkin",
+  "station": "tailor",
+  "flavor": "Stitching mutton-greased marsh-hound hide over canvas."
+ },
+ {
+  "id": "recipe-scriptorium-funeral-pall",
+  "name": "Scriptorium Funeral Pall",
+  "inputs": [
+   {
+    "item": "mortuary-linen-tunic",
+    "qty": 1
+   },
+   {
+    "item": "bitumen-sealant-jar",
+    "qty": 2
+   }
+  ],
+  "output": "scriptorium-funeral-pall",
+  "station": "tailor",
+  "flavor": "Weaving silver oath-threads into pitch-black wool."
+ },
+ {
+  "id": "recipe-leyline-conduit-vestment",
+  "name": "Leyline Conduit Vestment",
+  "inputs": [
+   {
+    "item": "wardstone-scholar-coat",
+    "qty": 1
+   },
+   {
+    "item": "star-iron-ingot",
+    "qty": 1
+   },
+   {
+    "item": "void-glass-shard",
+    "qty": 1
+   }
+  ],
+  "output": "leyline-conduit-vestment",
+  "station": "tailor",
+  "flavor": "Threading fine star-iron filaments through obsidian silk."
+ },
+ {
+  "id": "recipe-greased-archers-tab-gloves",
+  "name": "Greased Archer's Gloves",
+  "inputs": [
+   {
+    "item": "split-rawhide-mitts",
+    "qty": 1
+   },
+   {
+    "item": "cured-fen-hide-bundle",
+    "qty": 1
+   }
+  ],
+  "output": "greased-archers-tab-gloves",
+  "station": "tailor",
+  "flavor": "Reinforcing three drawing fingers with supple kidskin."
+ },
+ {
+  "id": "recipe-harbor-riggers-grips",
+  "name": "Harbor Rigger's Grips",
+  "inputs": [
+   {
+    "item": "greased-archers-tab-gloves",
+    "qty": 1
+   },
+   {
+    "item": "salt-cured-sinew-coil",
+    "qty": 2
+   }
+  ],
+  "output": "harbor-riggers-grips",
+  "station": "tailor",
+  "flavor": "Facing leather palms with rough coastal sharkskin."
+ },
+ {
+  "id": "recipe-ember-weave-handwraps",
+  "name": "Ember-Weave Handwraps",
+  "inputs": [
+   {
+    "item": "copper-sewn-conduit-gloves",
+    "qty": 1
+   },
+   {
+    "item": "wyrm-scale-bundle",
+    "qty": 1
+   },
+   {
+    "item": "caldera-ember-core",
+    "qty": 1
+   }
+  ],
+  "output": "ember-weave-handwraps",
+  "station": "tailor",
+  "flavor": "Lining grounded silk handwraps with heat-shedding scales."
+ },
+ {
+  "id": "recipe-fen-stalker-moccasins",
+  "name": "Fen-Stalker Moccasins",
+  "inputs": [
+   {
+    "item": "tallow-rubbed-buskins",
+    "qty": 1
+   },
+   {
+    "item": "cured-fen-hide-bundle",
+    "qty": 1
+   }
+  ],
+  "output": "fen-stalker-moccasins",
+  "station": "tailor",
+  "flavor": "Lining soft swamp-hide soles with silent felted wool."
+ },
+ {
+  "id": "recipe-salt-crust-waders",
+  "name": "Salt-Crust Waders",
+  "inputs": [
+   {
+    "item": "fen-stalker-moccasins",
+    "qty": 1
+   },
+   {
+    "item": "bitumen-sealant-jar",
+    "qty": 1
+   }
+  ],
+  "output": "salt-crust-waders",
+  "station": "tailor",
+  "flavor": "Sealing knee-high hide seams with boiled funerary pitch."
+ },
+ {
+  "id": "recipe-cliff-grip-greaves",
+  "name": "Cliff-Grip Greaves",
+  "inputs": [
+   {
+    "item": "salt-crust-waders",
+    "qty": 1
+   },
+   {
+    "item": "wyrm-scale-bundle",
+    "qty": 1
+   }
+  ],
+  "output": "cliff-grip-greaves",
+  "station": "tailor",
+  "flavor": "Studding climbing soles with jagged cliff-drake horn."
+ },
+ {
+  "id": "recipe-toll-collectors-pouch-belt",
+  "name": "Toll-Collector's Belt",
+  "inputs": [
+   {
+    "item": "tanned-oxhide-strap",
+    "qty": 1
+   },
+   {
+    "item": "cured-fen-hide-bundle",
+    "qty": 1
+   }
+  ],
+  "output": "toll-collectors-pouch-belt",
+  "station": "tailor",
+  "flavor": "Stitching brass-buckled coin and quarrel pouches."
+ },
+ {
+  "id": "recipe-salt-caravan-bandolier",
+  "name": "Salt-Caravan Bandolier",
+  "inputs": [
+   {
+    "item": "toll-collectors-pouch-belt",
+    "qty": 1
+   },
+   {
+    "item": "salt-cured-sinew-coil",
+    "qty": 1
+   }
+  ],
+  "output": "salt-caravan-bandolier",
+  "station": "tailor",
+  "flavor": "Adding reinforced glass-vial loops for desert crossings."
+ },
+ {
+  "id": "recipe-redmarsh-saline-tonic",
+  "name": "Redmarsh Saline Tonic",
+  "inputs": [
+   {
+    "item": "bog-moss-poultice",
+    "qty": 2
+   },
+   {
+    "item": "tallow-ration-hardbread",
+    "qty": 1
+   }
+  ],
+  "output": "redmarsh-saline-tonic",
+  "station": "alchemy",
+  "flavor": "Clarifying mineral brine with boiled willow-bark bitter."
+ },
+ {
+  "id": "recipe-alkali-blood-restorative",
+  "name": "Alkali-Blood Restorative",
+  "inputs": [
+   {
+    "item": "redmarsh-saline-tonic",
+    "qty": 2
+   },
+   {
+    "item": "bitumen-sealant-jar",
+    "qty": 1
+   }
+  ],
+  "output": "alkali-blood-restorative",
+  "station": "alchemy",
+  "flavor": "Distilling concentrated mineral salts into a clotting draught."
+ },
+ {
+  "id": "recipe-oakhaven-aqua-vitae",
+  "name": "Oakhaven Aqua Vitae",
+  "inputs": [
+   {
+    "item": "alkali-blood-restorative",
+    "qty": 2
+   },
+   {
+    "item": "ossuary-ash-incense",
+    "qty": 1
+   }
+  ],
+  "output": "oakhaven-aqua-vitae",
+  "station": "alchemy",
+  "flavor": "Triple-stilling spiced cordial for sea-wall field surgeons."
+ },
+ {
+  "id": "recipe-threshold-ichor-phial",
+  "name": "Threshold Ichor Phial",
+  "inputs": [
+   {
+    "item": "oakhaven-aqua-vitae",
+    "qty": 2
+   },
+   {
+    "item": "void-glass-shard",
+    "qty": 1
+   }
+  ],
+  "output": "threshold-ichor-phial",
+  "station": "alchemy",
+  "flavor": "Suspending silver ley-condensate in triple-stilled spirit."
+ },
+ {
+  "id": "recipe-viper-antivenom-phial",
+  "name": "Viper-Antivenom Phial",
+  "inputs": [
+   {
+    "item": "bog-moss-poultice",
+    "qty": 2
+   },
+   {
+    "item": "copper-filings-phial",
+    "qty": 1
+   }
+  ],
+  "output": "viper-antivenom-phial",
+  "station": "alchemy",
+  "flavor": "Precipitation of salt-viper venom with copper-mint salts."
+ },
+ {
+  "id": "recipe-galvanic-ether-ampoule",
+  "name": "Galvanic Ether Ampoule",
+  "inputs": [
+   {
+    "item": "bitter-gall-draught",
+    "qty": 2
+   },
+   {
+    "item": "copper-filings-phial",
+    "qty": 1
+   }
+  ],
+  "output": "galvanic-ether-ampoule",
+  "station": "alchemy",
+  "flavor": "Sealing volatile conductive spirit inside blown glass."
+ },
+ {
+  "id": "recipe-leyline-spark-elixir",
+  "name": "Leyline Spark Elixir",
+  "inputs": [
+   {
+    "item": "galvanic-ether-ampoule",
+    "qty": 2
+   },
+   {
+    "item": "meteoric-slag-chunk",
+    "qty": 1
+   }
+  ],
+  "output": "leyline-spark-elixir",
+  "station": "alchemy",
+  "flavor": "Charging ether distillate over crushed meteoric ore."
+ },
+ {
+  "id": "recipe-celestial-spire-distillate",
+  "name": "Celestial Spire Distillate",
+  "inputs": [
+   {
+    "item": "leyline-spark-elixir",
+    "qty": 2
+   },
+   {
+    "item": "void-glass-shard",
+    "qty": 1
+   }
+  ],
+  "output": "celestial-spire-distillate",
+  "station": "alchemy",
+  "flavor": "Condensing cold star-light inside lead-crystal flasks."
+ },
+ {
+  "id": "recipe-notarized-hex-vellum",
+  "name": "Notarized Hex Vellum",
+  "inputs": [
+   {
+    "item": "parish-ward-scroll",
+    "qty": 2
+   },
+   {
+    "item": "copper-filings-phial",
+    "qty": 1
+   }
+  ],
+  "output": "notarized-hex-vellum",
+  "station": "alchemy",
+  "flavor": "Inking binding probate clauses with copper-gall fluid."
+ },
+ {
+  "id": "recipe-scroll-of-iron-skin",
+  "name": "Scroll of Iron Skin",
+  "inputs": [
+   {
+    "item": "notarized-hex-vellum",
+    "qty": 1
+   },
+   {
+    "item": "tempered-flux-powder",
+    "qty": 1
+   }
+  ],
+  "output": "scroll-of-iron-skin",
+  "station": "alchemy",
+  "flavor": "Tracing hematite-oil wards onto cured sheepskin."
+ },
+ {
+  "id": "recipe-scroll-of-fissure-ward",
+  "name": "Scroll of Fissure Ward",
+  "inputs": [
+   {
+    "item": "scroll-of-iron-skin",
+    "qty": 1
+   },
+   {
+    "item": "ossuary-ash-incense",
+    "qty": 1
+   }
+  ],
+  "output": "scroll-of-fissure-ward",
+  "station": "alchemy",
+  "flavor": "Inscribing thermal containment glyphs on asbestos fiber."
+ },
+ {
+  "id": "recipe-first-watch-edict-scroll",
+  "name": "First-Watch Edict Scroll",
+  "inputs": [
+   {
+    "item": "scroll-of-fissure-ward",
+    "qty": 1
+   },
+   {
+    "item": "void-glass-shard",
+    "qty": 1
+   }
+  ],
+  "output": "first-watch-edict-scroll",
+  "station": "alchemy",
+  "flavor": "Etching original warden ciphers onto beaten bronze leaf."
+ },
+ {
+  "id": "recipe-tallied-bone-pointer",
+  "name": "Tallied Bone Pointer",
+  "inputs": [
+   {
+    "item": "charred-birch-twig",
+    "qty": 1
+   },
+   {
+    "item": "notarized-hex-vellum",
+    "qty": 1
+   }
+  ],
+  "output": "tallied-bone-pointer",
+  "station": "alchemy",
+  "flavor": "Binding probate numerals onto a bleached tibia focus."
+ },
+ {
+  "id": "recipe-brine-etched-spire-rod",
+  "name": "Brine-Etched Spire Rod",
+  "inputs": [
+   {
+    "item": "tallied-bone-pointer",
+    "qty": 1
+   },
+   {
+    "item": "galvanic-ether-ampoule",
+    "qty": 1
+   }
+  ],
+  "output": "brine-etched-spire-rod",
+  "station": "alchemy",
+  "flavor": "Filling a copper-clad wand core with conductive brine."
+ },
+ {
+  "id": "recipe-gravetide-ash-baton",
+  "name": "Gravetide Ash Baton",
+  "inputs": [
+   {
+    "item": "brine-etched-spire-rod",
+    "qty": 1
+   },
+   {
+    "item": "ossuary-ash-incense",
+    "qty": 1
+   }
+  ],
+  "output": "gravetide-ash-baton",
+  "station": "alchemy",
+  "flavor": "Inlaying silver funeral seals into salt-bleached driftwood."
+ },
+ {
+  "id": "recipe-threshold-key-scepter",
+  "name": "Threshold Key Scepter",
+  "inputs": [
+   {
+    "item": "gravetide-ash-baton",
+    "qty": 1
+   },
+   {
+    "item": "void-glass-shard",
+    "qty": 2
+   }
+  ],
+  "output": "threshold-key-scepter",
+  "station": "alchemy",
+  "flavor": "Capping a ley-conduit rod with resonant threshold obsidian."
+ },
+ {
+  "id": "recipe-surveyors-plumb-staff",
+  "name": "Surveyor's Plumb Staff",
+  "inputs": [
+   {
+    "item": "driftwood-crook-staff",
+    "qty": 1
+   },
+   {
+    "item": "copper-filings-phial",
+    "qty": 1
+   }
+  ],
+  "output": "surveyors-plumb-staff",
+  "station": "alchemy",
+  "flavor": "Graduating an ashwood rod with conductive sighting marks."
+ },
+ {
+  "id": "recipe-fen-abbey-crosier",
+  "name": "Fen-Abbey Crosier",
+  "inputs": [
+   {
+    "item": "surveyors-plumb-staff",
+    "qty": 1
+   },
+   {
+    "item": "bitumen-sealant-jar",
+    "qty": 1
+   }
+  ],
+  "output": "fen-abbey-crosier",
+  "station": "alchemy",
+  "flavor": "Curing bog-oak staff wood in funerary pitch and incense."
+ },
+ {
+  "id": "recipe-galvanic-coil-stave",
+  "name": "Galvanic Coil Stave",
+  "inputs": [
+   {
+    "item": "fen-abbey-crosier",
+    "qty": 1
+   },
+   {
+    "item": "leyline-spark-elixir",
+    "qty": 1
+   }
+  ],
+  "output": "galvanic-coil-stave",
+  "station": "alchemy",
+  "flavor": "Winding tarnished copper bus-bars around an ironwood shaft."
+ },
+ {
+  "id": "recipe-pyre-warden-pillar",
+  "name": "Pyre-Warden Pillar",
+  "inputs": [
+   {
+    "item": "galvanic-coil-stave",
+    "qty": 1
+   },
+   {
+    "item": "caldera-ember-core",
+    "qty": 1
+   },
+   {
+    "item": "void-glass-shard",
+    "qty": 1
+   }
+  ],
+  "output": "pyre-warden-pillar",
+  "station": "alchemy",
+  "flavor": "Crowning a basalt-ash staff with a caged cinder censer."
+ }
+]

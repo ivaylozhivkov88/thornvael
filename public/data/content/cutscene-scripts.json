@@ -1,0 +1,754 @@
+[
+ {
+  "id": "cs-act1-sunken-ford-breach",
+  "act": 1,
+  "lines": [
+   {
+    "speaker": "narrator",
+    "line": "Mist clings to Sunken Ford's shattered bridge-pilings as heavy boots churn the red-stained shallows."
+   },
+   {
+    "speaker": "npc-garrick-captain",
+    "line": "Grok'tar's raiders chained the toll-gate shut from the far bank. Archers, keep their parapet suppressed."
+   },
+   {
+    "speaker": "npc-fenwick-ferryman",
+    "line": "Watch the submerged flagstones ten paces left—slip off that shelf and full mail drags you straight under."
+   },
+   {
+    "speaker": "hero",
+    "line": "Shields lock on the causeway! Drive a wedge through the gate before their runners bring oil-pots."
+   },
+   {
+    "speaker": "npc-hobb-smith",
+    "line": "Mind those iron spikes along the timber sill—I'm not hammering dents out of every greave tonight."
+   },
+   {
+    "speaker": "narrator",
+    "line": "Pike-shafts splinter against notched broadswords as the vanguard forces the ford's central pier."
+   }
+  ],
+  "camera_notes": "Low tracking pan across water-level bridge pilings, rising to frame the bottleneck clash at the toll-gate."
+ },
+ {
+  "id": "cs-act1-sanctum-reliquary",
+  "act": 1,
+  "lines": [
+   {
+    "speaker": "narrator",
+    "line": "Black fen-water drips steadily from vaulted stone ribs inside the flooded Sunken Sanctum."
+   },
+   {
+    "speaker": "npc-marta-alchemist",
+    "line": "Don't touch the green lichen on those altar steps—one scrape burns like hot lye for three days."
+   },
+   {
+    "speaker": "hero",
+    "line": "Mordred's cultists used the lower crypt to smelt counterfeit border-scrip. Check every chest."
+   },
+   {
+    "speaker": "npc-garrick-captain",
+    "line": "Look at the wax seals on these crates—official Thornwick Mint stamps, carved fresh this season."
+   },
+   {
+    "speaker": "npc-marta-alchemist",
+    "line": "Someone inside the garrison sold the dies. Keep the plates wrapped in oiled cloth for evidence."
+   },
+   {
+    "speaker": "narrator",
+    "line": "Lantern light glints off wet flagstones as the company gathers the stamped iron plates."
+   }
+  ],
+  "camera_notes": "Slow push-in from the flooded nave toward the flickering brazier beside the cracked reliquary."
+ },
+ {
+  "id": "cs-act1-alder-bridge-stand",
+  "act": 1,
+  "lines": [
+   {
+    "speaker": "narrator",
+    "line": "Rain drums against weathered oak planks as scouts spot grey banners cresting the northern ridge."
+   },
+   {
+    "speaker": "npc-garrick-captain",
+    "line": "Vaelen's outriders moved faster than expected. If they cross Alder Bridge, Thornwick's granaries burn."
+   },
+   {
+    "speaker": "npc-hobb-smith",
+    "line": "I wedged iron spikes into the plank joints—buy me ten heartbeats and they'll break their ankles."
+   },
+   {
+    "speaker": "hero",
+    "line": "Form two ranks behind the toll-booth. Nothing crosses that timber unless it pays in iron."
+   },
+   {
+    "speaker": "npc-fenwick-ferryman",
+    "line": "I've moored the punt downstream in case the flank buckles, though my money's on your pikes."
+   },
+   {
+    "speaker": "narrator",
+    "line": "Horns bray through the drizzle as heavy infantry thunders onto the narrow wooden span."
+   }
+  ],
+  "camera_notes": "High diagonal angle overlooking the narrow bridge span, snapping down to eye-level behind the defender shield-wall."
+ },
+ {
+  "id": "cs-act1-greywood-poacher-camp",
+  "act": 1,
+  "lines": [
+   {
+    "speaker": "narrator",
+    "line": "Blue woodsmoke threads quietly beneath dripping pine boughs where Greywood's border path narrows."
+   },
+   {
+    "speaker": "npc-marta-alchemist",
+    "line": "Whoever brewed that kettle used dried willow-bark and wild bog-myrtle. Good for fever, terrible for taste."
+   },
+   {
+    "speaker": "hero",
+    "line": "Hold your blades—the snares along this trail are set for wolves, not border levies."
+   },
+   {
+    "speaker": "npc-garrick-captain",
+    "line": "Still, keep your hands near your hilts. Foresters around here hate tax-collectors worse than gnolls."
+   },
+   {
+    "speaker": "npc-hobb-smith",
+    "line": "Can't blame them. Half the timber-men lost their sledges when the crown doubled bridge-tithes."
+   },
+   {
+    "speaker": "narrator",
+    "line": "A goose-fletched arrow thuds into a pine trunk inches from the captain's boot as shadows stir."
+   }
+  ],
+  "camera_notes": "Tight woodland framing through dense pine trunks, whipping sharply to the embedded arrow on the final beat."
+ },
+ {
+  "id": "cs-act1-ashbrook-parley",
+  "act": 1,
+  "lines": [
+   {
+    "speaker": "narrator",
+    "line": "Torches sputter along Ashbrook's mud-choked palisade while siege-ladders lean against the gatehouse."
+   },
+   {
+    "speaker": "npc-garrick-captain",
+    "line": "Commander Vaelen calls for parley—says he'll spare the townsfolk if we surrender the Mint dies."
+   },
+   {
+    "speaker": "hero",
+    "line": "Look at his crossbowmen behind the baggage carts. He's buying time to flank the postern."
+   },
+   {
+    "speaker": "npc-hobb-smith",
+    "line": "My bellows are hot and the boiling pitch is ready. Say the word and we spoil his manners."
+   },
+   {
+    "speaker": "npc-marta-alchemist",
+    "line": "Drop oil on the dry brush right of the gate—one spark will cut his reserves in half."
+   },
+   {
+    "speaker": "hero",
+    "line": "No parley. Sound the horn and hit his vanguard before those ladders touch timber."
+   },
+   {
+    "speaker": "narrator",
+    "line": "War-horns split the wet night air as pitch-pots crash onto the causeway below."
+   }
+  ],
+  "camera_notes": "Over-the-shoulder shot from the palisade walkway looking down at Vaelen's torchlit vanguard, tilting up at the horn blast."
+ },
+ {
+  "id": "cs-act1-boundary-obelisk",
+  "act": 1,
+  "lines": [
+   {
+    "speaker": "narrator",
+    "line": "Where peat-bog gives way to cracked red clay, a salt-eaten obelisk marks the southern border."
+   },
+   {
+    "speaker": "npc-fenwick-ferryman",
+    "line": "Three generations of ferrymen never stepped past that stone. Nothing grows south except debt and vipers."
+   },
+   {
+    "speaker": "npc-marta-alchemist",
+    "line": "Fill every empty flask from the last sweet spring here. Beyond this ridge, water tastes like chalk."
+   },
+   {
+    "speaker": "npc-hobb-smith",
+    "line": "I wrapped the spare bowstrings in tallow-cloth. Dry wind splits ungreased hemp before noon."
+   },
+   {
+    "speaker": "hero",
+    "line": "Check your straps and leave the heavy mud-boots on the baggage cart. Redmarsh waits ahead."
+   },
+   {
+    "speaker": "npc-garrick-captain",
+    "line": "Column forward. Keep three paces between files so the dust doesn't blind the rear."
+   },
+   {
+    "speaker": "narrator",
+    "line": "Cold northern drizzle ends abruptly at the stone shadow as a dry copper gust sweeps the vanguard."
+   }
+  ],
+  "camera_notes": "Wide establishing shot contrasting green-grey northern mist on the left with arid ochre dust on the right."
+ },
+ {
+  "id": "cs-act2-twin-passes-ambush",
+  "act": 2,
+  "lines": [
+   {
+    "speaker": "narrator",
+    "line": "Red sandstone walls tower above Twin Passes where bleached wagon-ribs jut from drifted alkali."
+   },
+   {
+    "speaker": "field-warden-hale",
+    "line": "Horn-bowmen on both ledges! Keep shields angled up or they'll pin us like beetles in a jar."
+   },
+   {
+    "speaker": "npc-bram-quartermaster",
+    "line": "Forget the wagons—save the water-barrels! Each cask is worth forty crowns at the outpost!"
+   },
+   {
+    "speaker": "hero",
+    "line": "Rangers clear the west ridge first while heavy infantry holds the choke! Move!"
+   },
+   {
+    "speaker": "npc-tull-water-seller",
+    "line": "Stay out of the white powder-drifts—alkali burns wet leather straight through to the heel!"
+   },
+   {
+    "speaker": "narrator",
+    "line": "Sling-stones crack against iron helms as dust clouds swallow the narrow canyon floor."
+   }
+  ],
+  "camera_notes": "Rapid vertical tilt from the canyon floor up to shadowy bowmen perched along the jagged rim."
+ },
+ {
+  "id": "cs-act2-wardstone-rupture",
+  "act": 2,
+  "lines": [
+   {
+    "speaker": "narrator",
+    "line": "Blue lightning stutters across a fractured quartz spire atop the eastern salt-plateau."
+   },
+   {
+    "speaker": "npc-zahra-scholar",
+    "line": "Kaelen's sappers drove iron wedges straight into the primary ley-vein! Look at that hairline crack!"
+   },
+   {
+    "speaker": "hero",
+    "line": "Can your wards stabilize the stone before the whole ridge collapses into the basin?"
+   },
+   {
+    "speaker": "npc-zahra-scholar",
+    "line": "Only if you keep his hexers off my back for sixty heartbeats while I bind the fracture!"
+   },
+   {
+    "speaker": "field-warden-hale",
+    "line": "Raiders climbing the scree from the south! Form a ring around the scholar!"
+   },
+   {
+    "speaker": "narrator",
+    "line": "Gravel trembles underfoot as the wounded monolith hums with dangerous astral pressure."
+   }
+  ],
+  "camera_notes": "Dutch-angle medium shot circling Zahra and the glowing quartz crack as raiders crest the background ridge."
+ },
+ {
+  "id": "cs-act2-deep-quarry-revolt",
+  "act": 2,
+  "lines": [
+   {
+    "speaker": "narrator",
+    "line": "Iron shackles clatter against red stone terraces inside the stifling heat of Deep Quarry."
+   },
+   {
+    "speaker": "field-miner-tomas",
+    "line": "The overseers locked the upper lift-gate and flooded the lower sump with scorpion-smoke!"
+   },
+   {
+    "speaker": "npc-bram-quartermaster",
+    "line": "Break open that tool-crib—there's fifty heavy picks and iron wedges stacked behind the padlock."
+   },
+   {
+    "speaker": "hero",
+    "line": "Arm every miner who can swing a haft. We take the lift-house before Gorrathul's guards regroup."
+   },
+   {
+    "speaker": "field-miner-tomas",
+    "line": "You heard the captain, lads! Pay back three winters of ironstone dust in one shift!"
+   },
+   {
+    "speaker": "narrator",
+    "line": "Dozens of scarred miners hoist heavy picks as the rusted lift-chains groan upward."
+   }
+  ],
+  "camera_notes": "Crane shot ascending alongside the wooden quarry lift-cage as armed miners rally across stacked terraces."
+ },
+ {
+  "id": "cs-act2-salt-tithe-audit",
+  "act": 2,
+  "lines": [
+   {
+    "speaker": "narrator",
+    "line": "Inside Morvessa's canvas pavilion, brass scales gleam beside stacks of confiscated caravan ledgers."
+   },
+   {
+    "speaker": "npc-bram-quartermaster",
+    "line": "Look at those tax-writs—she taxed the same salt-convoy four times between here and the coast."
+   },
+   {
+    "speaker": "npc-zahra-scholar",
+    "line": "Worse than greed, Bram. These silver bars were bound for Oakhaven's shipwrights—paid in advance to block the harbor."
+   },
+   {
+    "speaker": "npc-tull-water-seller",
+    "line": "She starved three wells to buy privateer galleys. Let the desert vultures balance her books."
+   },
+   {
+    "speaker": "hero",
+    "line": "Pack the bullion for our war-chest and burn the false liens. Nobody in Redmarsh pays her tithe again."
+   },
+   {
+    "speaker": "narrator",
+    "line": "Parchment curls black in the brazier as red dust blows cleanly through the open tent flaps."
+   }
+  ],
+  "camera_notes": "Close-up on brass scales and burning parchment rolls, pulling back to reveal the company inspecting the bullion."
+ },
+ {
+  "id": "cs-act2-sunken-steles",
+  "act": 2,
+  "lines": [
+   {
+    "speaker": "narrator",
+    "line": "Half-buried basalt tablets jut like broken teeth from the dry bed of the ancient inland sea."
+   },
+   {
+    "speaker": "npc-zahra-scholar",
+    "line": "Hold the lantern steady—this First-Compact boundary glyph predates the Schism by four centuries."
+   },
+   {
+    "speaker": "field-warden-hale",
+    "line": "Careful around the base. Sand-lurkers nest beneath warm stone slabs during midday glare."
+   },
+   {
+    "speaker": "npc-zahra-scholar",
+    "line": "The inscription warns that the Threshold seals beneath Crown and Ember draw power from these desert aquifers."
+   },
+   {
+    "speaker": "hero",
+    "line": "Take your charcoal rubbings fast. If Gorrathul drained the cisterns to feed the caldera, we're already behind."
+   },
+   {
+    "speaker": "narrator",
+    "line": "Wind hisses across carved runes as distant thunder rolls over Ironheart Bastion."
+   }
+  ],
+  "camera_notes": "Low-angle shot framing the towering carved stele against the hazy red horizon while Zahra traces the glyphs."
+ },
+ {
+  "id": "cs-act2-ironheart-gate",
+  "act": 2,
+  "lines": [
+   {
+    "speaker": "narrator",
+    "line": "Switchback ramps wind up Ironheart Bastion's sheer cliffside beneath rusted sluice-gates."
+   },
+   {
+    "speaker": "field-warden-hale",
+    "line": "One narrow ramp, zero cover, and boiling oil-cauldrons perched above the main arch."
+   },
+   {
+    "speaker": "field-miner-tomas",
+    "line": "My quarry lads spotted an old drainage culvert ten yards right—tight squeeze, dry stone."
+   },
+   {
+    "speaker": "npc-bram-quartermaster",
+    "line": "If it spares my pack-mules from burning pitch, I'll crawl through on my belly."
+   },
+   {
+    "speaker": "hero",
+    "line": "Vanguard draws their fire on the ramp while sappers breach the culvert. Spring the trap on my horn."
+   },
+   {
+    "speaker": "narrator",
+    "line": "Shields lock overhead as the first stones clatter down from the bastion battlements."
+   }
+  ],
+  "camera_notes": "Sweeping vertical pan up the jagged cliff switchbacks toward the looming iron sluice-gate."
+ },
+ {
+  "id": "cs-act3-drydock-liberation",
+  "act": 3,
+  "lines": [
+   {
+    "speaker": "narrator",
+    "line": "Tar-smoke hangs thick over Oakhaven's timber slips where half-built carracks rest in wooden cradles."
+   },
+   {
+    "speaker": "npc-kors-shipwright",
+    "line": "Vesperion's arsonists rigged pitch-barrels under my flagship's keel! Cut those fuses before they catch!"
+   },
+   {
+    "speaker": "npc-lyra-warden",
+    "line": "Privateers swarming off the pier! Keep them away from the oak-timber sheds!"
+   },
+   {
+    "speaker": "hero",
+    "line": "Douse the barrels first, then drive every boarder back into the grey surf!"
+   },
+   {
+    "speaker": "npc-pip-mudlark",
+    "line": "I kicked two of their slow-matches into the bilge-ditch already, boss—pay up later!"
+   },
+   {
+    "speaker": "narrator",
+    "line": "Buckets of seawater hiss against smoking tar as steel clashes beside the towering hulls."
+   }
+  ],
+  "camera_notes": "Dynamic tracking shot weaving beneath massive wooden ship-ribs toward the burning pitch-barrels."
+ },
+ {
+  "id": "cs-act3-vane-vault-breach",
+  "act": 3,
+  "lines": [
+   {
+    "speaker": "narrator",
+    "line": "Salt-crusted iron bars seal Baron Vane's subterranean bullion vault beneath the harbor customs house."
+   },
+   {
+    "speaker": "npc-pip-mudlark",
+    "line": "Told you that rusty sea-grate led straight under his counting room! Smell that dry silver!"
+   },
+   {
+    "speaker": "npc-lyra-warden",
+    "line": "While Oakhaven's pickets ate boiled kelp, Vane hoarded enough coin to pay three mercenary companies."
+   },
+   {
+    "speaker": "hero",
+    "line": "Haul the chests up to Kors's drydocks. Every crown goes into hull-iron, powder, and bandages."
+   },
+   {
+    "speaker": "npc-sera-healer",
+    "line": "Set aside two bars for my surgical tent—clean vinegar and linen cost more than broadswords lately."
+   },
+   {
+    "speaker": "narrator",
+    "line": "Heavy locks give way under a pry-bar as stamped coastal crowns spill across damp flagstones."
+   }
+  ],
+  "camera_notes": "Interior dolly shot moving through the narrow culvert grate into the torchlit bullion vault."
+ },
+ {
+  "id": "cs-act3-sunken-citadel-tide",
+  "act": 3,
+  "lines": [
+   {
+    "speaker": "narrator",
+    "line": "Barnacle-encrusted arches emerge briefly from foaming grey breakers as the tide hits dead low."
+   },
+   {
+    "speaker": "npc-pip-mudlark",
+    "line": "Four bells till the swell rushes back in, boss! Whatever's inside that armory, grab it fast!"
+   },
+   {
+    "speaker": "npc-sera-healer",
+    "line": "Watch your footing on that green kelp—a broken ankle down here means drowning before sunset."
+   },
+   {
+    "speaker": "npc-kors-shipwright",
+    "line": "Those bronze ballast-plates on the altar are pre-Schism alloy. Salt water never even pitted them."
+   },
+   {
+    "speaker": "hero",
+    "line": "Sweep the side-chambers in pairs and fall back the instant the surf touches the outer steps."
+   },
+   {
+    "speaker": "narrator",
+    "line": "Cold spray bursts through cracked sea-windows as drowned sentinels stir in the shallow pools."
+   }
+  ],
+  "camera_notes": "Low angle inside the flooded archway looking out toward crashing waves and the retreating tide."
+ },
+ {
+  "id": "cs-act3-field-hospital-vigil",
+  "act": 3,
+  "lines": [
+   {
+    "speaker": "narrator",
+    "line": "Rain patters on canvas triage tents pitched behind Oakhaven's battered seawall."
+   },
+   {
+    "speaker": "npc-sera-healer",
+    "line": "Three sergeants pulled out of the breach alive, though two won't lift a tower shield again till winter."
+   },
+   {
+    "speaker": "npc-lyra-warden",
+    "line": "The city council finally unlocked their crossbow armory once they saw your banner on the pier."
+   },
+   {
+    "speaker": "hero",
+    "line": "Distribute the bolts to your seawall pickets. We sail against Kael's blockade at first light."
+   },
+   {
+    "speaker": "npc-sera-healer",
+    "line": "Take my father's bone-saw in your surgical kit—it cuts clean when rusted field blades fail."
+   },
+   {
+    "speaker": "narrator",
+    "line": "Lanterns sway gently in the coastal gale as wounded soldiers sleep beside stacked medicine chests."
+   }
+  ],
+  "camera_notes": "Quiet, intimate medium shot inside the lantern-lit surgical tent, contrasting with rain outside the flap."
+ },
+ {
+  "id": "cs-act3-harborwatch-boarding",
+  "act": 3,
+  "lines": [
+   {
+    "speaker": "narrator",
+    "line": "Grappling hooks bite deep into charred oak rails as Oakhaven's carracks lock hulls with Admiral Kael's flagship."
+   },
+   {
+    "speaker": "npc-kors-shipwright",
+    "line": "Hold the gangplanks! If their marines cut our lines, the current drifts us straight onto the reef!"
+   },
+   {
+    "speaker": "npc-lyra-warden",
+    "line": "Archers on the forecastle—clear their quarterdeck before Kael's bell-toller finishes his chant!"
+   },
+   {
+    "speaker": "hero",
+    "line": "Over the rail! Take the helm and strike his black standard!"
+   },
+   {
+    "speaker": "npc-pip-mudlark",
+    "line": "Watch the greased planks midships—they smeared whale-blubber across the boards!"
+   },
+   {
+    "speaker": "narrator",
+    "line": "Burning sails collapse into the churning bay as steel rings across blood-slick decks."
+   }
+  ],
+  "camera_notes": "High-angle swaying shipboard camera tracking across the locked gangplanks amid billowing smoke."
+ },
+ {
+  "id": "cs-act3-vesperion-wreck-shrine",
+  "act": 3,
+  "lines": [
+   {
+    "speaker": "narrator",
+    "line": "Salt-bleached ship ribs arch like a whale's skeleton above Vesperion's cliffside wreck-shrine."
+   },
+   {
+    "speaker": "npc-lyra-warden",
+    "line": "Every ship lost along the Iron Coast for twenty years had its brass bell hung in this gallery."
+   },
+   {
+    "speaker": "npc-sera-healer",
+    "line": "Listen to that low hum—he bound the drowned crews to silence anyone who sails south."
+   },
+   {
+    "speaker": "hero",
+    "line": "Shatter the master chime on the altar. Our fleet crosses the strait without his toll."
+   },
+   {
+    "speaker": "npc-kors-shipwright",
+    "line": "One swing of a shipwright's maul ought to cure that brass of singing."
+   },
+   {
+    "speaker": "narrator",
+    "line": "A deafening discordant clang echoes across the cliffs as hundreds of bells crack simultaneously."
+   }
+  ],
+  "camera_notes": "Wide symmetrical shot down the aisle of hanging ship-bells, shaking violently as the central bell shatters."
+ },
+ {
+  "id": "cs-act4-fissure-forging",
+  "act": 4,
+  "lines": [
+   {
+    "speaker": "narrator",
+    "line": "Orange glare pulses up through iron grates carved directly into Ironcamp's volcanic foundry floor."
+   },
+   {
+    "speaker": "npc-vok-forgemaster",
+    "line": "Meteor-slag from the Greystone breach and glacier-salt from the northern peaks—that's what holds an edge here."
+   },
+   {
+    "speaker": "npc-rowan-commander",
+    "line": "Vok lost half his clan keeping these vents open while High Command sealed the northern passes behind us."
+   },
+   {
+    "speaker": "hero",
+    "line": "Forge what the vanguard needs. When we march on the Gauntlet, High Command will answer for those sealed gates."
+   },
+   {
+    "speaker": "npc-vok-forgemaster",
+    "line": "Bring me an Anvilmaw jawbone if you cross the slag-pits, and I'll temper something worthy of a throne."
+   },
+   {
+    "speaker": "narrator",
+    "line": "Sparks shower across black basalt as heavy tongs plunge white-hot steel into brine-vats."
+   }
+  ],
+  "camera_notes": "Close-up on glowing blade emerging from floor fissure, pulling back to frame Vok and Rowan in orange rim-light."
+ },
+ {
+  "id": "cs-act4-obsidian-beacons",
+  "act": 4,
+  "lines": [
+   {
+    "speaker": "narrator",
+    "line": "Three jagged obsidian pylons beam crimson light toward the distant dome of the Threshold."
+   },
+   {
+    "speaker": "npc-elias-penitent",
+    "line": "Those beacons siphon heat from the deep vents to keep the Gauntlet's ward-barriers impenetrable."
+   },
+   {
+    "speaker": "field-ash-scout",
+    "line": "Each pylon is guarded by cinder-hounds and ridge-snipers—approach through the cooled lava-tubes."
+   },
+   {
+    "speaker": "npc-rowan-commander",
+    "line": "Split the company or hit them one by one—just bring those red beams down before nightfall."
+   },
+   {
+    "speaker": "hero",
+    "line": "Demolition charges at the base, wards overhead. Darken the crags."
+   },
+   {
+    "speaker": "narrator",
+    "line": "Ash swirls around silent figures descending into the black volcanic fissures."
+   }
+  ],
+  "camera_notes": "Long telephoto pan connecting the three glowing red beacons across the dark caldera ridge."
+ },
+ {
+  "id": "cs-act4-elias-syllabus",
+  "act": 4,
+  "lines": [
+   {
+    "speaker": "narrator",
+    "line": "Inside a soot-stained watch-alcove, bound vellum ledgers lie stacked beside an iron brazier."
+   },
+   {
+    "speaker": "npc-elias-penitent",
+    "line": "My own signature rests on every tax-roll that starved Thornwick to feed the Ember Court's rituals."
+   },
+   {
+    "speaker": "hero",
+    "line": "Burning the ledgers won't restore the eyes you gave to the hearth-ash, Elias."
+   },
+   {
+    "speaker": "npc-elias-penitent",
+    "line": "No—but it strips Malrik of the blood-liens he uses to bind the First Watch against us."
+   },
+   {
+    "speaker": "npc-rowan-commander",
+    "line": "Let the old bailiff burn his past. We need clear paths beneath the Threshold, not paper ghosts."
+   },
+   {
+    "speaker": "narrator",
+    "line": "Blue flames consume the inked vellum as faint spectral chimes fade into silence."
+   }
+  ],
+  "camera_notes": "Tight two-shot over the glowing brazier, watching blue embers drift upward as the pages turn to ash."
+ },
+ {
+  "id": "cs-act4-gauntlet-portcullis",
+  "act": 4,
+  "lines": [
+   {
+    "speaker": "narrator",
+    "line": "Twin colossi of blackened bronze flank the Gauntlet's triple portcullis above a river of slow magma."
+   },
+   {
+    "speaker": "npc-rowan-commander",
+    "line": "Two hundred Ironcamp veterans died on this causeway last winter. Today we finish their march."
+   },
+   {
+    "speaker": "npc-vok-forgemaster",
+    "line": "Aim for the ankle-hinges on those siege-golems—my slag-picks will crack their bronze pins."
+   },
+   {
+    "speaker": "field-ash-scout",
+    "line": "Enemy reserves massing behind the inner gate! Once the portcullis drops, there's no stepping back!"
+   },
+   {
+    "speaker": "hero",
+    "line": "Company, form wedge! Break the hinges and carry our banner through the smoke!"
+   },
+   {
+    "speaker": "narrator",
+    "line": "Prism-powder charges detonate against the iron bars as molten sparks rain across raised shields."
+   }
+  ],
+  "camera_notes": "Epic wide shot of the narrow basalt causeway over glowing magma, zooming swiftly into the exploding portcullis."
+ },
+ {
+  "id": "cs-act4-threshold-catacombs",
+  "act": 4,
+  "lines": [
+   {
+    "speaker": "narrator",
+    "line": "Rows of frost-rimed soldiers stand motionless in wall-niches along the Threshold's obsidian gallery."
+   },
+   {
+    "speaker": "npc-elias-penitent",
+    "line": "The First Watch—sealed in stasis three centuries ago when the Schism split the crown."
+   },
+   {
+    "speaker": "npc-rowan-commander",
+    "line": "Look at their unit plates. Half my sergeants carry the exact same family crests."
+   },
+   {
+    "speaker": "hero",
+    "line": "Arch-Mage Malrik plans to wake them as mindless thralls. We sever his ritual conduits first."
+   },
+   {
+    "speaker": "npc-vok-forgemaster",
+    "line": "Honest soldiers deserve quiet graves, not a sorcerer's leash. Lead on."
+   },
+   {
+    "speaker": "narrator",
+    "line": "Bootsteps echo sharply down the glass corridor as arcane lanterns flare pale violet ahead."
+   }
+  ],
+  "camera_notes": "Slow tracking shot parallel to the frozen First Watch niches, reflections gleaming on polished obsidian."
+ },
+ {
+  "id": "cs-act4-obsidian-dais-confrontation",
+  "act": 4,
+  "lines": [
+   {
+    "speaker": "narrator",
+    "line": "Beneath a cracked dome open to swirling ash, Ashkarath stands beside the blazing Anchor Seals."
+   },
+   {
+    "speaker": "npc-elias-penitent",
+    "line": "Malrik's codices lie open on the lectern—one more cycle and the caldera swallows every northern province!"
+   },
+   {
+    "speaker": "npc-rowan-commander",
+    "line": "My shield-line will hold his ember-guard! Take your company straight to the Dais!"
+   },
+   {
+    "speaker": "npc-vok-forgemaster",
+    "line": "Strike the seals while they're white-hot—cooled slag won't crack!"
+   },
+   {
+    "speaker": "hero",
+    "line": "For Thornwick, for the First Watch, and every name on the roll—end this now!"
+   },
+   {
+    "speaker": "narrator",
+    "line": "The Obsidian Dais trembles with a deafening roar as steel and sorcery collide before the throne."
+   }
+  ],
+  "camera_notes": "Dramatic circular orbit around the company stepping onto the Dais steps as magma flares behind Ashkarath."
+ }
+]

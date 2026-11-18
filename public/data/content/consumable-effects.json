@@ -1,0 +1,322 @@
+[
+ {
+  "id": "eff-bog-moss-poultice",
+  "name": "Bog-Moss Poultice",
+  "effect": "heal_flat_35",
+  "duration_s": 0,
+  "cooldown_s": 12,
+  "desc": "Restores 35 HP immediately and slows minor bleeding."
+ },
+ {
+  "id": "eff-tallow-hardbread",
+  "name": "Tallow-Ration Hardbread",
+  "effect": "regen_hp_4_per_s",
+  "duration_s": 15,
+  "cooldown_s": 20,
+  "desc": "Restores 4 HP per second for 15 seconds while out of combat."
+ },
+ {
+  "id": "eff-bitter-gall-draught",
+  "name": "Bitter-Gall Draught",
+  "effect": "restore_mana_30",
+  "duration_s": 0,
+  "cooldown_s": 12,
+  "desc": "Restores 30 Mana immediately at the cost of a sour aftertaste."
+ },
+ {
+  "id": "eff-saline-recovery-tonic",
+  "name": "Redmarsh Saline Tonic",
+  "effect": "heal_flat_85",
+  "duration_s": 0,
+  "cooldown_s": 15,
+  "desc": "Restores 85 HP and stabilizes electrolyte shock."
+ },
+ {
+  "id": "eff-alkali-blood-draught",
+  "name": "Alkali-Blood Restorative",
+  "effect": "heal_flat_165",
+  "duration_s": 0,
+  "cooldown_s": 18,
+  "desc": "Restores 165 HP and closes deep slashing wounds."
+ },
+ {
+  "id": "eff-oakhaven-cordial",
+  "name": "Oakhaven Aqua Vitae",
+  "effect": "heal_flat_280",
+  "duration_s": 0,
+  "cooldown_s": 20,
+  "desc": "Restores 280 HP and grants +10% healing received for 12s."
+ },
+ {
+  "id": "eff-threshold-ichor",
+  "name": "Threshold Ichor Phial",
+  "effect": "heal_flat_450",
+  "duration_s": 0,
+  "cooldown_s": 22,
+  "desc": "Restores 450 HP and purges active bleed and poison stacks."
+ },
+ {
+  "id": "eff-galvanic-ether",
+  "name": "Galvanic Ether Ampoule",
+  "effect": "restore_mana_75",
+  "duration_s": 0,
+  "cooldown_s": 15,
+  "desc": "Restores 75 Mana and accelerates cast speed by 8% for 10s."
+ },
+ {
+  "id": "eff-leyline-spark-elixir",
+  "name": "Leyline Spark Elixir",
+  "effect": "restore_mana_145",
+  "duration_s": 0,
+  "cooldown_s": 18,
+  "desc": "Restores 145 Mana and grants +2.5 Mana Regen/s for 12s."
+ },
+ {
+  "id": "eff-spire-distillate",
+  "name": "Celestial Spire Distillate",
+  "effect": "restore_mana_260",
+  "duration_s": 0,
+  "cooldown_s": 20,
+  "desc": "Restores 260 Mana and reduces spell mana costs by 15% for 12s."
+ },
+ {
+  "id": "eff-viper-antivenom",
+  "name": "Viper-Antivenom Phial",
+  "effect": "cleanse_poison_res_30",
+  "duration_s": 20,
+  "cooldown_s": 25,
+  "desc": "Cleanses poison and grants +30% Poison Resistance for 20s."
+ },
+ {
+  "id": "eff-brine-ward-philter",
+  "name": "Brine-Ward Philter",
+  "effect": "buff_cold_res_35",
+  "duration_s": 30,
+  "cooldown_s": 30,
+  "desc": "Grants +35% Cold Resistance and prevents chill slowing for 30s."
+ },
+ {
+  "id": "eff-slag-quench-tincture",
+  "name": "Slag-Quench Tincture",
+  "effect": "buff_fire_res_35",
+  "duration_s": 30,
+  "cooldown_s": 30,
+  "desc": "Grants +35% Fire Resistance and halves burn duration for 30s."
+ },
+ {
+  "id": "eff-copper-grounding-oil",
+  "name": "Copper-Grounding Oil",
+  "effect": "buff_lightning_res_35",
+  "duration_s": 30,
+  "cooldown_s": 30,
+  "desc": "Grants +35% Lightning Resistance and prevents static stun for 30s."
+ },
+ {
+  "id": "eff-camphor-clarity-drops",
+  "name": "Camphor Clarity Drops",
+  "effect": "buff_mind_res_35",
+  "duration_s": 30,
+  "cooldown_s": 30,
+  "desc": "Grants +35% Mind Resistance and breaks fear or confusion."
+ },
+ {
+  "id": "eff-quarry-grit-balm",
+  "name": "Quarry-Grit Balm",
+  "effect": "buff_armor_18",
+  "duration_s": 25,
+  "cooldown_s": 30,
+  "desc": "Hardens skin against shrapnel, granting +18 Armor for 25s."
+ },
+ {
+  "id": "eff-fen-runner-decoction",
+  "name": "Fen-Runner Decoction",
+  "effect": "buff_move_speed_20",
+  "duration_s": 18,
+  "cooldown_s": 25,
+  "desc": "Increases movement speed by 20% and ignores bog terrain slow."
+ },
+ {
+  "id": "eff-hawkeye-quartz-drops",
+  "name": "Hawkeye Quartz Drops",
+  "effect": "buff_accuracy_20_crit_8",
+  "duration_s": 20,
+  "cooldown_s": 30,
+  "desc": "Grants +20 Accuracy and +8% Critical Chance for 20s."
+ },
+ {
+  "id": "eff-bull-ox-tallow-brew",
+  "name": "Bull-Ox Tallow Brew",
+  "effect": "buff_str_8_melee_15",
+  "duration_s": 25,
+  "cooldown_s": 35,
+  "desc": "Grants +8 Strength and +15% Melee Damage for 25s."
+ },
+ {
+  "id": "eff-assayers-focus-tea",
+  "name": "Assayer's Focus Tea",
+  "effect": "buff_int_8_spell_15",
+  "duration_s": 25,
+  "cooldown_s": 35,
+  "desc": "Grants +8 Intelligence and +15% Spell Damage for 25s."
+ },
+ {
+  "id": "eff-scroll-parish-ward",
+  "name": "Parish Ward Scroll",
+  "effect": "shield_absorb_60",
+  "duration_s": 15,
+  "cooldown_s": 25,
+  "desc": "Wraps the party in a pale ward absorbing 60 damage for 15s."
+ },
+ {
+  "id": "eff-scroll-notarized-hex",
+  "name": "Notarized Hex Vellum",
+  "effect": "debuff_enemy_armor_12",
+  "duration_s": 16,
+  "cooldown_s": 25,
+  "desc": "Curses target foe, reducing its Armor by 12 for 16s."
+ },
+ {
+  "id": "eff-scroll-iron-skin",
+  "name": "Scroll of Iron Skin",
+  "effect": "buff_armor_32_block_10",
+  "duration_s": 20,
+  "cooldown_s": 30,
+  "desc": "Grants +32 Armor and +10% Block Chance for 20s."
+ },
+ {
+  "id": "eff-scroll-fissure-ward",
+  "name": "Scroll of Fissure Ward",
+  "effect": "buff_all_res_25",
+  "duration_s": 20,
+  "cooldown_s": 35,
+  "desc": "Grants +25% All Elemental Resistances for 20s."
+ },
+ {
+  "id": "eff-scroll-first-watch-edict",
+  "name": "First-Watch Edict Scroll",
+  "effect": "buff_party_dmg_20_armor_20",
+  "duration_s": 18,
+  "cooldown_s": 45,
+  "desc": "Grants hero and mercenaries +20% Damage and +20 Armor for 18s."
+ },
+ {
+  "id": "eff-scroll-beacon-flare",
+  "name": "Scroll of Beacon Flare",
+  "effect": "reveal_aoe_blind_4s",
+  "duration_s": 4,
+  "cooldown_s": 25,
+  "desc": "Reveals hidden foes in a wide radius and blinds them for 4s."
+ },
+ {
+  "id": "eff-scroll-salt-squall",
+  "name": "Scroll of Salt-Squall",
+  "effect": "aoe_cold_dmg_95_slow",
+  "duration_s": 6,
+  "cooldown_s": 25,
+  "desc": "Deals 95 Cold damage in an area and slows movement by 35%."
+ },
+ {
+  "id": "eff-scroll-galvanic-arc",
+  "name": "Scroll of Galvanic Arc",
+  "effect": "chain_lightning_120",
+  "duration_s": 0,
+  "cooldown_s": 22,
+  "desc": "Unleashes a 120-damage lightning bolt jumping to 3 nearby foes."
+ },
+ {
+  "id": "eff-scroll-cinder-vent",
+  "name": "Scroll of Cinder Vent",
+  "effect": "aoe_fire_dmg_140",
+  "duration_s": 0,
+  "cooldown_s": 25,
+  "desc": "Erupts a volcanic vent dealing 140 Fire damage to enemies."
+ },
+ {
+  "id": "eff-scroll-probate-summons",
+  "name": "Scroll of Probate Summons",
+  "effect": "summon_bailiff_25s",
+  "duration_s": 25,
+  "cooldown_s": 45,
+  "desc": "Binds an indentured skeleton bailiff to fight for 25 seconds."
+ },
+ {
+  "id": "eff-scroll-oath-release",
+  "name": "Scroll of Oath-Release",
+  "effect": "cleanse_all_heal_120",
+  "duration_s": 0,
+  "cooldown_s": 30,
+  "desc": "Removes all curses and debuffs from allies and heals 120 HP."
+ },
+ {
+  "id": "eff-scroll-anchor-tether",
+  "name": "Scroll of Anchor Tether",
+  "effect": "root_target_4s",
+  "duration_s": 4,
+  "cooldown_s": 22,
+  "desc": "Pins an enemy in place with spectral chains for 4 seconds."
+ },
+ {
+  "id": "eff-scroll-fog-bank",
+  "name": "Scroll of Harbor Fog",
+  "effect": "aoe_evasion_25_allies",
+  "duration_s": 14,
+  "cooldown_s": 30,
+  "desc": "Shrouds allies in dense sea-fog, granting +25% Evasion for 14s."
+ },
+ {
+  "id": "eff-scroll-rust-blight",
+  "name": "Scroll of Rust-Blight",
+  "effect": "corrode_weapon_dmg_20",
+  "duration_s": 15,
+  "cooldown_s": 28,
+  "desc": "Corrodes enemy weapons, reducing their physical damage by 20%."
+ },
+ {
+  "id": "eff-scroll-haste-march",
+  "name": "Scroll of Forced March",
+  "effect": "party_speed_25_atk_12",
+  "duration_s": 15,
+  "cooldown_s": 35,
+  "desc": "Grants +25% Movement Speed and +12% Attack Speed to the squad."
+ },
+ {
+  "id": "eff-scroll-siphon-vigor",
+  "name": "Scroll of Vigor Siphon",
+  "effect": "drain_90_hp_to_caster",
+  "duration_s": 0,
+  "cooldown_s": 24,
+  "desc": "Drains 90 HP from a target foe and transfers it to the caster."
+ },
+ {
+  "id": "eff-scroll-wardstone-pulse",
+  "name": "Scroll of Wardstone Pulse",
+  "effect": "knockback_stun_2s",
+  "duration_s": 2,
+  "cooldown_s": 28,
+  "desc": "Emits a shockwave that knocks foes back and stuns for 2s."
+ },
+ {
+  "id": "eff-ossuary-incense-cone",
+  "name": "Ossuary Ash Incense",
+  "effect": "minion_dmg_25_hp_25",
+  "duration_s": 25,
+  "cooldown_s": 35,
+  "desc": "Empowers raised servants with +25% Damage and +25% Max HP."
+ },
+ {
+  "id": "eff-whetstone-honing-paste",
+  "name": "Whetstone Honing Paste",
+  "effect": "weapon_armor_pen_14",
+  "duration_s": 30,
+  "cooldown_s": 30,
+  "desc": "Coats weapons in abrasive grit, granting +14 Armor Penetration."
+ },
+ {
+  "id": "eff-tar-pitch-flask",
+  "name": "Tar-Pitch Fireflask",
+  "effect": "ground_burn_30_per_s",
+  "duration_s": 8,
+  "cooldown_s": 20,
+  "desc": "Ignites target ground patch, burning enemies for 30 Fire/s."
+ }
+]

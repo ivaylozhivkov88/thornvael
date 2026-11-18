@@ -1,0 +1,1442 @@
+[
+ {
+  "id": "banter-levyman-warrior-fords",
+  "merc": "merc-thornwick-levyman",
+  "requires": {
+   "class": "warrior",
+   "act": 1
+  },
+  "lines": [
+   {
+    "speaker": "merc-thornwick-levyman",
+    "line": "That's a deep ford ahead, captain. My pike-contract stops at ankle-deep mud."
+   },
+   {
+    "speaker": "player",
+    "line": "Two coppers are already in my palm. Keep your shaft dry and march."
+   }
+  ]
+ },
+ {
+  "id": "banter-levyman-archer-fords",
+  "merc": "merc-thornwick-levyman",
+  "requires": {
+   "class": "archer",
+   "act": 1
+  },
+  "lines": [
+   {
+    "speaker": "merc-thornwick-levyman",
+    "line": "Stay behind my kettle-helm when the gnolls rush the ditch, bowman."
+   },
+   {
+    "speaker": "player",
+    "line": "Gladly. Just don't duck when my arrows pass an inch above your ear."
+   }
+  ]
+ },
+ {
+  "id": "banter-levyman-mage-fords",
+  "merc": "merc-thornwick-levyman",
+  "requires": {
+   "class": "mage",
+   "act": 1
+  },
+  "lines": [
+   {
+    "speaker": "merc-thornwick-levyman",
+    "line": "Any chance your cantrips can dry wet wool socks without setting them ablaze?"
+   },
+   {
+    "speaker": "player",
+    "line": "Keep marching, pikeman. Smoke gives away our position faster than squelching boots."
+   }
+  ]
+ },
+ {
+  "id": "banter-levyman-necro-fords",
+  "merc": "merc-thornwick-levyman",
+  "requires": {
+   "class": "necromancer",
+   "act": 1
+  },
+  "lines": [
+   {
+    "speaker": "merc-thornwick-levyman",
+    "line": "If I drop in these Border Fords, leave me in the peat. Don't make me walk twice."
+   },
+   {
+    "speaker": "player",
+    "line": "Relax. Your debts stay with the Thornwick bailiff; your bones would serve me."
+   }
+  ]
+ },
+ {
+  "id": "banter-poacher-warrior-fords",
+  "merc": "merc-alder-poacher",
+  "requires": {
+   "class": "warrior",
+   "act": 1
+  },
+  "lines": [
+   {
+    "speaker": "merc-alder-poacher",
+    "line": "Your greaves clang louder than a tinker's cart. Every stag in Greywood hears us."
+   },
+   {
+    "speaker": "player",
+    "line": "Let them hear. When they turn to look at my shield, you take the shot."
+   }
+  ]
+ },
+ {
+  "id": "banter-poacher-archer-fords",
+  "merc": "merc-alder-poacher",
+  "requires": {
+   "class": "archer",
+   "act": 1
+  },
+  "lines": [
+   {
+    "speaker": "merc-alder-poacher",
+    "line": "Your fletching's trimmed too wide for crosswinds off the Border Fords."
+   },
+   {
+    "speaker": "player",
+    "line": "And your bowstring's waxed with tallow. Worry about your own quiver, poacher."
+   }
+  ]
+ },
+ {
+  "id": "banter-poacher-mage-fords",
+  "merc": "merc-alder-poacher",
+  "requires": {
+   "class": "mage",
+   "act": 1
+  },
+  "lines": [
+   {
+    "speaker": "merc-alder-poacher",
+    "line": "That ozone smell on your sleeves ruins my downwind stalk every single morning."
+   },
+   {
+    "speaker": "player",
+    "line": "Better ozone than gnoll fangs in your throat. Stay ten paces to my left."
+   }
+  ]
+ },
+ {
+  "id": "banter-poacher-necro-fords",
+  "merc": "merc-alder-poacher",
+  "requires": {
+   "class": "necromancer",
+   "act": 1
+  },
+  "lines": [
+   {
+    "speaker": "merc-alder-poacher",
+    "line": "Funny how corpses seem lighter on silver rings right after you check the brush."
+   },
+   {
+    "speaker": "player",
+    "line": "Must be the swamp gas swelling their fingers, cap'n. Terribly tragic."
+   }
+  ]
+ },
+ {
+  "id": "banter-leech-warrior-fords",
+  "merc": "merc-hedge-leech",
+  "requires": {
+   "class": "warrior",
+   "act": 1
+  },
+  "lines": [
+   {
+    "speaker": "merc-hedge-leech",
+    "line": "Stop squinting at my shoulder scar. The blade missed the joint."
+   },
+   {
+    "speaker": "player",
+    "line": "It missed by a fingernail, and whoever stitched it used twine fit for grain sacks."
+   }
+  ]
+ },
+ {
+  "id": "banter-leech-archer-fords",
+  "merc": "merc-hedge-leech",
+  "requires": {
+   "class": "archer",
+   "act": 1
+  },
+  "lines": [
+   {
+    "speaker": "merc-hedge-leech",
+    "line": "Save me a handful of clean goose-quills. They make splendid drainage tubes."
+   },
+   {
+    "speaker": "player",
+    "line": "Touch my arrows before a skirmish and you'll be testing those tubes on yourself."
+   }
+  ]
+ },
+ {
+  "id": "banter-leech-mage-fords",
+  "merc": "merc-hedge-leech",
+  "requires": {
+   "class": "mage",
+   "act": 1
+  },
+  "lines": [
+   {
+    "speaker": "merc-hedge-leech",
+    "line": "Magic closes skin fast, sure, until the pus rots underneath. Leave the lancing to me."
+   },
+   {
+    "speaker": "player",
+    "line": "Keep your mutton-fat salve away from my focus-crystal and we have a deal."
+   }
+  ]
+ },
+ {
+  "id": "banter-chopper-warrior-fords",
+  "merc": "merc-greywood-chopper",
+  "requires": {
+   "class": "warrior",
+   "act": 1
+  },
+  "lines": [
+   {
+    "speaker": "merc-greywood-chopper",
+    "line": "This plank bridge looks spongy. Let me tap the pilings with my axe-poll first."
+   },
+   {
+    "speaker": "player",
+    "line": "Make it quick. If raiders catch us mid-stream, wood rot will be our smallest worry."
+   }
+  ]
+ },
+ {
+  "id": "banter-chopper-archer-fords",
+  "merc": "merc-greywood-chopper",
+  "requires": {
+   "class": "archer",
+   "act": 1
+  },
+  "lines": [
+   {
+    "speaker": "merc-greywood-chopper",
+    "line": "Give me three heartbeats to fell that dead alder across the ford—instant breastwork."
+   },
+   {
+    "speaker": "player",
+    "line": "Save your swing. I'd rather have clear sightlines than splinter cover."
+   }
+  ]
+ },
+ {
+  "id": "banter-chopper-necro-fords",
+  "merc": "merc-greywood-chopper",
+  "requires": {
+   "class": "necromancer",
+   "act": 1
+  },
+  "lines": [
+   {
+    "speaker": "merc-greywood-chopper",
+    "line": "When a pine falls, it stays down. Your corpses lack basic forest manners."
+   },
+   {
+    "speaker": "player",
+    "line": "Dead wood burns; dead men carry shields. I prefer the latter."
+   }
+  ]
+ },
+ {
+  "id": "banter-lantern-warrior-fords",
+  "merc": "merc-lantern-novice",
+  "requires": {
+   "class": "warrior",
+   "act": 1
+  },
+  "lines": [
+   {
+    "speaker": "merc-lantern-novice",
+    "line": "Did you just singe your left eyebrow again? We haven't even seen a scout."
+   },
+   {
+    "speaker": "player",
+    "line": "Static buildup in the fog! Totally normal. Just keep your oil-flasks behind me."
+   }
+  ]
+ },
+ {
+  "id": "banter-lantern-mage-fords",
+  "merc": "merc-lantern-novice",
+  "requires": {
+   "class": "mage",
+   "act": 1
+  },
+  "lines": [
+   {
+    "speaker": "merc-lantern-novice",
+    "line": "The hermit-prior claimed fire magic lacks subtlety. Clearly he never fought in knee-deep fen."
+   },
+   {
+    "speaker": "player",
+    "line": "Subtlety keeps you alive when mana runs dry. Watch your fuel."
+   }
+  ]
+ },
+ {
+  "id": "banter-lantern-necro-fords",
+  "merc": "merc-lantern-novice",
+  "requires": {
+   "class": "necromancer",
+   "act": 1
+  },
+  "lines": [
+   {
+    "speaker": "merc-lantern-novice",
+    "line": "Oops—nearly scorched that corpse you were eyeing. Still usable?"
+   },
+   {
+    "speaker": "player",
+    "line": "Charred sinew snaps easily. Aim left next time or pay the burial fee."
+   }
+  ]
+ },
+ {
+  "id": "banter-sexton-archer-fords",
+  "merc": "merc-parish-sexton",
+  "requires": {
+   "class": "archer",
+   "act": 1
+  },
+  "lines": [
+   {
+    "speaker": "merc-parish-sexton",
+    "line": "Keep your knotted measuring cord away from my quiver while we're on watch."
+   },
+   {
+    "speaker": "player",
+    "line": "Merely estimating coffin-timber for the Thornwick parish roll, bowman. Nothing personal."
+   }
+  ]
+ },
+ {
+  "id": "banter-sexton-mage-fords",
+  "merc": "merc-parish-sexton",
+  "requires": {
+   "class": "mage",
+   "act": 1
+  },
+  "lines": [
+   {
+    "speaker": "merc-parish-sexton",
+    "line": "Do you burn your dead in the academy, or leave them properly buried for collectors?"
+   },
+   {
+    "speaker": "player",
+    "line": "We reduce them to clean ash so tomb-notaries don't come knocking."
+   }
+  ]
+ },
+ {
+  "id": "banter-sexton-necro-fords",
+  "merc": "merc-parish-sexton",
+  "requires": {
+   "class": "necromancer",
+   "act": 1
+  },
+  "lines": [
+   {
+    "speaker": "merc-parish-sexton",
+    "line": "Your technique is remarkably tidy—no wasted bone, no torn ligaments."
+   },
+   {
+    "speaker": "player",
+    "line": "Learn the anatomy first, sexton. Shovels are only for beginners."
+   }
+  ]
+ },
+ {
+  "id": "banter-slinger-warrior-marsh",
+  "merc": "merc-redmarsh-slinger",
+  "requires": {
+   "class": "warrior",
+   "act": 2
+  },
+  "lines": [
+   {
+    "speaker": "merc-redmarsh-slinger",
+    "line": "Stop chewing that bitter alkali root—it makes you look like you're bleeding from the gums."
+   },
+   {
+    "speaker": "player",
+    "line": "Keeps the spit flowing when the salt-wind dries your throat, iron-back."
+   }
+  ]
+ },
+ {
+  "id": "banter-slinger-archer-marsh",
+  "merc": "merc-redmarsh-slinger",
+  "requires": {
+   "class": "archer",
+   "act": 2
+  },
+  "lines": [
+   {
+    "speaker": "merc-redmarsh-slinger",
+    "line": "Bowstrings stretch in this dry glare. Lead shot never loses its draw-weight."
+   },
+   {
+    "speaker": "player",
+    "line": "Until you run out of round pebbles. My arrows are reusable."
+   }
+  ]
+ },
+ {
+  "id": "banter-slinger-necro-marsh",
+  "merc": "merc-redmarsh-slinger",
+  "requires": {
+   "class": "necromancer",
+   "act": 2
+  },
+  "lines": [
+   {
+    "speaker": "merc-redmarsh-slinger",
+    "line": "Dune-corpses dry out like salted goat-meat. Hardly worth raising, wouldn't you say?"
+   },
+   {
+    "speaker": "player",
+    "line": "Dried sinew never rots in the heat, slinger. They march longer than you."
+   }
+  ]
+ },
+ {
+  "id": "banter-sapper-warrior-marsh",
+  "merc": "merc-quarry-sapper",
+  "requires": {
+   "class": "warrior",
+   "act": 2
+  },
+  "lines": [
+   {
+    "speaker": "merc-quarry-sapper",
+    "line": "Those sandstone ruins look solid enough for tonight's camp."
+   },
+   {
+    "speaker": "player",
+    "line": "Sleep inside if you want a ceiling on your chest. I'll take the open scrub."
+   }
+  ]
+ },
+ {
+  "id": "banter-sapper-archer-marsh",
+  "merc": "merc-quarry-sapper",
+  "requires": {
+   "class": "archer",
+   "act": 2
+  },
+  "lines": [
+   {
+    "speaker": "merc-quarry-sapper",
+    "line": "My pick cracks the carapace; your bodkin slips into the soft meat underneath."
+   },
+   {
+    "speaker": "player",
+    "line": "Simple arithmetic. Just don't block my lane when you swing."
+   }
+  ]
+ },
+ {
+  "id": "banter-sapper-mage-marsh",
+  "merc": "merc-quarry-sapper",
+  "requires": {
+   "class": "mage",
+   "act": 2
+  },
+  "lines": [
+   {
+    "speaker": "merc-quarry-sapper",
+    "line": "Gorrathul's overseers used ward-chains that burned skin on contact. Nasty work."
+   },
+   {
+    "speaker": "player",
+    "line": "Iron breaks when heated and cooled fast. Remember that if we meet their slavers."
+   }
+  ]
+ },
+ {
+  "id": "banter-houndmaster-warrior-marsh",
+  "merc": "merc-dune-houndmaster",
+  "requires": {
+   "class": "warrior",
+   "act": 2
+  },
+  "lines": [
+   {
+    "speaker": "merc-dune-houndmaster",
+    "line": "Three viper tracks crossing the salt-crust ahead. Tell your vanguard to watch their ankles."
+   },
+   {
+    "speaker": "player",
+    "line": "Good eyes. Keep twenty paces ahead and signal before we crest the ridge."
+   }
+  ]
+ },
+ {
+  "id": "banter-houndmaster-archer-marsh",
+  "merc": "merc-dune-houndmaster",
+  "requires": {
+   "class": "archer",
+   "act": 2
+  },
+  "lines": [
+   {
+    "speaker": "merc-dune-houndmaster",
+    "line": "You smell like dried lizard jerky. Are you carrying snacks in your quiver?"
+   },
+   {
+    "speaker": "player",
+    "line": "Keeps the fletching dry and feeds me on stakeouts. Want a strip?"
+   }
+  ]
+ },
+ {
+  "id": "banter-houndmaster-necro-marsh",
+  "merc": "merc-dune-houndmaster",
+  "requires": {
+   "class": "necromancer",
+   "act": 2
+  },
+  "lines": [
+   {
+    "speaker": "merc-dune-houndmaster",
+    "line": "Your dead don't breathe, which is handy in dust, though they walk like lame camels."
+   },
+   {
+    "speaker": "player",
+    "line": "They don't need grace to soak arrows meant for my scout."
+   }
+  ]
+ },
+ {
+  "id": "banter-cistern-archer-marsh",
+  "merc": "merc-cistern-acolyte",
+  "requires": {
+   "class": "archer",
+   "act": 2
+  },
+  "lines": [
+   {
+    "speaker": "merc-cistern-acolyte",
+    "line": "My bow-limbs are warping in this furnace. Can your water-ward spare some mist?"
+   },
+   {
+    "speaker": "player",
+    "line": "Hold your yew near my staff at dusk. Not too close, or the hemp will slacken."
+   }
+  ]
+ },
+ {
+  "id": "banter-cistern-mage-marsh",
+  "merc": "merc-cistern-acolyte",
+  "requires": {
+   "class": "mage",
+   "act": 2
+  },
+  "lines": [
+   {
+    "speaker": "merc-cistern-acolyte",
+    "line": "The hermitage said tapping a sacred cistern for melons was heresy. My melons fed three villages."
+   },
+   {
+    "speaker": "player",
+    "line": "Practical magic always offends the elders. Keep the wards flowing."
+   }
+  ]
+ },
+ {
+  "id": "banter-cistern-necro-marsh",
+  "merc": "merc-cistern-acolyte",
+  "requires": {
+   "class": "necromancer",
+   "act": 2
+  },
+  "lines": [
+   {
+    "speaker": "merc-cistern-acolyte",
+    "line": "Water brings life; your craft drinks the marrow dry. Strange company we keep."
+   },
+   {
+    "speaker": "player",
+    "line": "Both preserve what the desert wants to erase, acolyte."
+   }
+  ]
+ },
+ {
+  "id": "banter-notary-warrior-marsh",
+  "merc": "merc-tomb-notary",
+  "requires": {
+   "class": "warrior",
+   "act": 2
+  },
+  "lines": [
+   {
+    "speaker": "merc-tomb-notary",
+    "line": "What's that papyrus strip dangling from your belt? A shopping list?"
+   },
+   {
+    "speaker": "player",
+    "line": "An itemized tally of every brigand we've dispatched. Your vanguard owes me four entries."
+   }
+  ]
+ },
+ {
+  "id": "banter-notary-mage-marsh",
+  "merc": "merc-tomb-notary",
+  "requires": {
+   "class": "mage",
+   "act": 2
+  },
+  "lines": [
+   {
+    "speaker": "merc-tomb-notary",
+    "line": "That embalmer's hex on your left hand still pulses whenever we near tomb-ruins."
+   },
+   {
+    "speaker": "player",
+    "line": "A useful compass for old magic, though it aches terribly before rain."
+   }
+  ]
+ },
+ {
+  "id": "banter-notary-necro-marsh",
+  "merc": "merc-tomb-notary",
+  "requires": {
+   "class": "necromancer",
+   "act": 2
+  },
+  "lines": [
+   {
+    "speaker": "merc-tomb-notary",
+    "line": "Third-Dynasty liens hold surprisingly well in the Redmarsh dust."
+   },
+   {
+    "speaker": "player",
+    "line": "Royal debt outlasts flesh and bone alike, notary. Serve the writ."
+   }
+  ]
+ },
+ {
+  "id": "banter-saltmerc-warrior-marsh",
+  "merc": "merc-salt-mercenary",
+  "requires": {
+   "class": "warrior",
+   "act": 2
+  },
+  "lines": [
+   {
+    "speaker": "merc-salt-mercenary",
+    "line": "You still sleep with that kite shield strapped to your forearm?"
+   },
+   {
+    "speaker": "player",
+    "line": "Habit from the Twin Passes. Waking up alive beats waking up comfortable."
+   }
+  ]
+ },
+ {
+  "id": "banter-saltmerc-archer-marsh",
+  "merc": "merc-salt-mercenary",
+  "requires": {
+   "class": "archer",
+   "act": 2
+  },
+  "lines": [
+   {
+    "speaker": "merc-salt-mercenary",
+    "line": "Tell me our quartermaster packed extra arrow-bundles before we crossed the flats."
+   },
+   {
+    "speaker": "player",
+    "line": "Counted them myself at dawn. Nobody gets shorted while I'm watching."
+   }
+  ]
+ },
+ {
+  "id": "banter-saltmerc-mage-marsh",
+  "merc": "merc-salt-mercenary",
+  "requires": {
+   "class": "mage",
+   "act": 2
+  },
+  "lines": [
+   {
+    "speaker": "merc-salt-mercenary",
+    "line": "Redmarsh salt-crust eats iron shield-rims fast. Remember to oil yours tonight."
+   },
+   {
+    "speaker": "player",
+    "line": "Already done. Worry about keeping sand out of your spell-components."
+   }
+  ]
+ },
+ {
+  "id": "banter-saltmerc-necro-marsh",
+  "merc": "merc-salt-mercenary",
+  "requires": {
+   "class": "necromancer",
+   "act": 2
+  },
+  "lines": [
+   {
+    "speaker": "merc-salt-mercenary",
+    "line": "At least your dead don't demand silver upfront before crossing a dune."
+   },
+   {
+    "speaker": "player",
+    "line": "No, though they complain far less than shield-sergeants."
+   }
+  ]
+ },
+ {
+  "id": "banter-leech-mage-marsh",
+  "merc": "merc-hedge-leech",
+  "requires": {
+   "class": "mage",
+   "act": 2
+  },
+  "lines": [
+   {
+    "speaker": "merc-hedge-leech",
+    "line": "Heatstroke kills faster than gnolls out here. Keep your juniper gin corked till dusk."
+   },
+   {
+    "speaker": "player",
+    "line": "Medicinal dose only, mage! My suturing hand trembles worse in dry wind."
+   }
+  ]
+ },
+ {
+  "id": "banter-marine-warrior-coast",
+  "merc": "merc-oakhaven-marine",
+  "requires": {
+   "class": "warrior",
+   "act": 3
+  },
+  "lines": [
+   {
+    "speaker": "merc-oakhaven-marine",
+    "line": "Tight stone alley ahead—just like a cutter's main deck in a boarding crush."
+   },
+   {
+    "speaker": "player",
+    "line": "Good. Put shields in front and push until their backs hit the harbor wall."
+   }
+  ]
+ },
+ {
+  "id": "banter-marine-archer-coast",
+  "merc": "merc-oakhaven-marine",
+  "requires": {
+   "class": "archer",
+   "act": 3
+  },
+  "lines": [
+   {
+    "speaker": "merc-oakhaven-marine",
+    "line": "Crosswinds off the cliffs gust twice per wave. Count three before releasing."
+   },
+   {
+    "speaker": "player",
+    "line": "Already adjusted for the salt-drift, sailor. Watch your own footing."
+   }
+  ]
+ },
+ {
+  "id": "banter-marine-necro-coast",
+  "merc": "merc-oakhaven-marine",
+  "requires": {
+   "class": "necromancer",
+   "act": 3
+  },
+  "lines": [
+   {
+    "speaker": "merc-oakhaven-marine",
+    "line": "Spitting over your left shoulder won't keep drowned sailors out of the surf."
+   },
+   {
+    "speaker": "player",
+    "line": "Maybe not, necromancer, but it keeps my cutlass hand lucky."
+   }
+  ]
+ },
+ {
+  "id": "banter-arbalest-warrior-coast",
+  "merc": "merc-harbor-arbalest",
+  "requires": {
+   "class": "warrior",
+   "act": 3
+  },
+  "lines": [
+   {
+    "speaker": "merc-harbor-arbalest",
+    "line": "Give me three seconds of shield-cover while I span the windlass."
+   },
+   {
+    "speaker": "player",
+    "line": "You'll have five. Just make sure that steel prod goes through their captain."
+   }
+  ]
+ },
+ {
+  "id": "banter-arbalest-archer-coast",
+  "merc": "merc-harbor-arbalest",
+  "requires": {
+   "class": "archer",
+   "act": 3
+  },
+  "lines": [
+   {
+    "speaker": "merc-harbor-arbalest",
+    "line": "Longbows are fine for unarmored runners, but breastplates laugh at ash-shafts."
+   },
+   {
+    "speaker": "player",
+    "line": "Only when you miss the visor-slit. Still, your bolts do make a satisfying clang."
+   }
+  ]
+ },
+ {
+  "id": "banter-arbalest-mage-coast",
+  "merc": "merc-harbor-arbalest",
+  "requires": {
+   "class": "mage",
+   "act": 3
+  },
+  "lines": [
+   {
+    "speaker": "merc-harbor-arbalest",
+    "line": "If your lightning magnetizes my steel prods, they'll veer straight into the sea."
+   },
+   {
+    "speaker": "player",
+    "line": "Keep ten paces clear of my arcs and your bolts will fly true."
+   }
+  ]
+ },
+ {
+  "id": "banter-storm-warrior-coast",
+  "merc": "merc-storm-channeler",
+  "requires": {
+   "class": "warrior",
+   "act": 3
+  },
+  "lines": [
+   {
+    "speaker": "merc-storm-channeler",
+    "line": "My hair's standing straight up under my helm. Tell me you're not charging a bolt."
+   },
+   {
+    "speaker": "player",
+    "line": "Just ambient squall-static! Though you might want to lower that iron spear."
+   }
+  ]
+ },
+ {
+  "id": "banter-storm-mage-coast",
+  "merc": "merc-storm-channeler",
+  "requires": {
+   "class": "mage",
+   "act": 3
+  },
+  "lines": [
+   {
+    "speaker": "merc-storm-channeler",
+    "line": "Where did you even find rubberized boot-soles like those?"
+   },
+   {
+    "speaker": "player",
+    "line": "Borrowed from a retired lighthouse keeper. Best insulation on the Iron Coast."
+   }
+  ]
+ },
+ {
+  "id": "banter-storm-necro-coast",
+  "merc": "merc-storm-channeler",
+  "requires": {
+   "class": "necromancer",
+   "act": 3
+  },
+  "lines": [
+   {
+    "speaker": "merc-storm-channeler",
+    "line": "Lightning chars flesh too badly for clean reanimation. Leave me a few intact."
+   },
+   {
+    "speaker": "player",
+    "line": "No promises when the tide rolls in and the armor gets wet."
+   }
+  ]
+ },
+ {
+  "id": "banter-triage-warrior-coast",
+  "merc": "merc-triage-surgeon",
+  "requires": {
+   "class": "warrior",
+   "act": 3
+  },
+  "lines": [
+   {
+    "speaker": "merc-triage-surgeon",
+    "line": "Stop staring at my collarbone every time we break camp, sawbones."
+   },
+   {
+    "speaker": "player",
+    "line": "Magnificent symmetry, captain. Almost a shame to risk it on slippery sea-rocks."
+   }
+  ]
+ },
+ {
+  "id": "banter-triage-archer-coast",
+  "merc": "merc-triage-surgeon",
+  "requires": {
+   "class": "archer",
+   "act": 3
+  },
+  "lines": [
+   {
+    "speaker": "merc-triage-surgeon",
+    "line": "Salt-spray festers faster than swamp mud. Clean every graze with boiled vinegar."
+   },
+   {
+    "speaker": "player",
+    "line": "Already carrying a flask. Just keep your specimen jars out of my pack."
+   }
+  ]
+ },
+ {
+  "id": "banter-triage-necro-coast",
+  "merc": "merc-triage-surgeon",
+  "requires": {
+   "class": "necromancer",
+   "act": 3
+  },
+  "lines": [
+   {
+    "speaker": "merc-triage-surgeon",
+    "line": "If you raise one of my fresh amputations, I expect half the salvage fee."
+   },
+   {
+    "speaker": "player",
+    "line": "You can keep the jars, surgeon. I only need the parts that still hold a spear."
+   }
+  ]
+ },
+ {
+  "id": "banter-arbiter-archer-coast",
+  "merc": "merc-drowned-arbiter",
+  "requires": {
+   "class": "archer",
+   "act": 3
+  },
+  "lines": [
+   {
+    "speaker": "merc-drowned-arbiter",
+    "line": "Why refuse steamed mussels when the whole harbor reeks of fresh catch?"
+   },
+   {
+    "speaker": "player",
+    "line": "Shellfish feed on drowned men's memories, archer. I'll stick to dry biscuit."
+   }
+  ]
+ },
+ {
+  "id": "banter-arbiter-mage-coast",
+  "merc": "merc-drowned-arbiter",
+  "requires": {
+   "class": "mage",
+   "act": 3
+  },
+  "lines": [
+   {
+    "speaker": "merc-drowned-arbiter",
+    "line": "Your brass wreck-bell resonates at an unsettling pitch whenever storm-clouds gather."
+   },
+   {
+    "speaker": "player",
+    "line": "It rings on the frequency of salt-bound oaths, mage. Listen and learn."
+   }
+  ]
+ },
+ {
+  "id": "banter-arbiter-necro-coast",
+  "merc": "merc-drowned-arbiter",
+  "requires": {
+   "class": "necromancer",
+   "act": 3
+  },
+  "lines": [
+   {
+    "speaker": "merc-drowned-arbiter",
+    "line": "The drowned answer your bell faster than my own incantations raise the shore-dead."
+   },
+   {
+    "speaker": "player",
+    "line": "They owe unpaid passage to the tide, colleague. I merely call the roll."
+   }
+  ]
+ },
+ {
+  "id": "banter-turncoat-warrior-coast",
+  "merc": "merc-ironclad-turncoat",
+  "requires": {
+   "class": "warrior",
+   "act": 3
+  },
+  "lines": [
+   {
+    "speaker": "merc-ironclad-turncoat",
+    "line": "Still biting every crown before pocketing it? You'll chip a molar before dusk."
+   },
+   {
+    "speaker": "player",
+    "line": "Old habit from Sundered Ranks. Clipped tin tastes awful, captain."
+   }
+  ]
+ },
+ {
+  "id": "banter-turncoat-archer-coast",
+  "merc": "merc-ironclad-turncoat",
+  "requires": {
+   "class": "archer",
+   "act": 3
+  },
+  "lines": [
+   {
+    "speaker": "merc-ironclad-turncoat",
+    "line": "Scavenged brigandine makes a racket on wet cobbles. Keep twenty paces back."
+   },
+   {
+    "speaker": "player",
+    "line": "Quiet boots don't stop warhammers, archer. I'll take the heavy steel."
+   }
+  ]
+ },
+ {
+  "id": "banter-turncoat-mage-coast",
+  "merc": "merc-ironclad-turncoat",
+  "requires": {
+   "class": "mage",
+   "act": 3
+  },
+  "lines": [
+   {
+    "speaker": "merc-ironclad-turncoat",
+    "line": "You switched sides once when pay ran thin. What keeps you loyal here?"
+   },
+   {
+    "speaker": "player",
+    "line": "Prompt silver, dry rations, and a commander who doesn't waste men on vanity."
+   }
+  ]
+ },
+ {
+  "id": "banter-turncoat-necro-coast",
+  "merc": "merc-ironclad-turncoat",
+  "requires": {
+   "class": "necromancer",
+   "act": 3
+  },
+  "lines": [
+   {
+    "speaker": "merc-ironclad-turncoat",
+    "line": "If I catch a bolt on the seawall, make sure my pouch settles my tavern tab first."
+   },
+   {
+    "speaker": "player",
+    "line": "You'll live to spend it yourself, deserter. Keep your shield up."
+   }
+  ]
+ },
+ {
+  "id": "banter-chopper-mage-coast",
+  "merc": "merc-greywood-chopper",
+  "requires": {
+   "class": "mage",
+   "act": 3
+  },
+  "lines": [
+   {
+    "speaker": "merc-greywood-chopper",
+    "line": "Driftwood along this coast burns blue with sea-salt—bad for signaling, great for warmth."
+   },
+   {
+    "speaker": "player",
+    "line": "Hard as ironwood to split, too. Dulled two wedges before supper."
+   }
+  ]
+ },
+ {
+  "id": "banter-obsapper-warrior-ember",
+  "merc": "merc-obsidian-sapper",
+  "requires": {
+   "class": "warrior",
+   "act": 4
+  },
+  "lines": [
+   {
+    "speaker": "merc-obsidian-sapper",
+    "line": "Keep your torch three paces back—prism-powder doesn't forgive stray sparks."
+   },
+   {
+    "speaker": "player",
+    "line": "Sheathed and covered. Just crack that obsidian gate before the garrison rallies."
+   }
+  ]
+ },
+ {
+  "id": "banter-halberd-archer-ember",
+  "merc": "merc-ironcamp-halberdier",
+  "requires": {
+   "class": "archer",
+   "act": 4
+  },
+  "lines": [
+   {
+    "speaker": "merc-ironcamp-halberdier",
+    "line": "Hook their champion's shield-rim down and I'll put an arrow through his throat."
+   },
+   {
+    "speaker": "player",
+    "line": "Just don't shoot while my haft is across his chest. Wait for the yank."
+   }
+  ]
+ },
+ {
+  "id": "banter-halberd-mage-ember",
+  "merc": "merc-ironcamp-halberdier",
+  "requires": {
+   "class": "mage",
+   "act": 4
+  },
+  "lines": [
+   {
+    "speaker": "merc-ironcamp-halberdier",
+    "line": "My eyebrows never grew back after Greystone. Keep your fire-bolts high when I engage."
+   },
+   {
+    "speaker": "player",
+    "line": "Noted. Stay low and let the arcs pass overhead."
+   }
+  ]
+ },
+ {
+  "id": "banter-halberd-necro-ember",
+  "merc": "merc-ironcamp-halberdier",
+  "requires": {
+   "class": "necromancer",
+   "act": 4
+  },
+  "lines": [
+   {
+    "speaker": "merc-ironcamp-halberdier",
+    "line": "Ironcamp's wall-dead deserve rest, not another shift in the sulfur."
+   },
+   {
+    "speaker": "player",
+    "line": "Only the Ember Court's servants rise today, halberdier. Your brothers rest."
+   }
+  ]
+ },
+ {
+  "id": "banter-sniper-warrior-ember",
+  "merc": "merc-slag-hound-sniper",
+  "requires": {
+   "class": "warrior",
+   "act": 4
+  },
+  "lines": [
+   {
+    "speaker": "merc-slag-hound-sniper",
+    "line": "How do you see anything through those smoked-quartz goggles in this gloom?"
+   },
+   {
+    "speaker": "player",
+    "line": "Gloom doesn't blind you—magma-flare does. Keep your shield low."
+   }
+  ]
+ },
+ {
+  "id": "banter-obsapper-archer-ember",
+  "merc": "merc-obsidian-sapper",
+  "requires": {
+   "class": "archer",
+   "act": 4
+  },
+  "lines": [
+   {
+    "speaker": "merc-obsidian-sapper",
+    "line": "Sulfur leak twenty paces left—smells like rotten eggs beneath the basalt crust."
+   },
+   {
+    "speaker": "player",
+    "line": "Good nose, sapper. I'll keep fire-arrows out of my quiver till we pass."
+   }
+  ]
+ },
+ {
+  "id": "banter-sniper-mage-ember",
+  "merc": "merc-slag-hound-sniper",
+  "requires": {
+   "class": "mage",
+   "act": 4
+  },
+  "lines": [
+   {
+    "speaker": "merc-slag-hound-sniper",
+    "line": "Redglass drake-splinters hold an edge better than forged steel in volcanic heat."
+   },
+   {
+    "speaker": "player",
+    "line": "Careful—they also shatter violently if struck by frost-wards."
+   }
+  ]
+ },
+ {
+  "id": "banter-sniper-necro-ember",
+  "merc": "merc-slag-hound-sniper",
+  "requires": {
+   "class": "necromancer",
+   "act": 4
+  },
+  "lines": [
+   {
+    "speaker": "merc-slag-hound-sniper",
+    "line": "A clean shot through the gorget leaves the rest of the corpse intact for you."
+   },
+   {
+    "speaker": "player",
+    "line": "Thoughtful as ever, marksman. Keep aiming high."
+   }
+  ]
+ },
+ {
+  "id": "banter-ashmage-warrior-ember",
+  "merc": "merc-ash-battlemage",
+  "requires": {
+   "class": "warrior",
+   "act": 4
+  },
+  "lines": [
+   {
+    "speaker": "merc-ash-battlemage",
+    "line": "Give the word when your frost locks their magma-plate, and I'll swing the mace."
+   },
+   {
+    "speaker": "player",
+    "line": "Count two heartbeats after the steam bursts—that's when the iron turns brittle."
+   }
+  ]
+ },
+ {
+  "id": "banter-ashmage-archer-ember",
+  "merc": "merc-ash-battlemage",
+  "requires": {
+   "class": "archer",
+   "act": 4
+  },
+  "lines": [
+   {
+    "speaker": "merc-ash-battlemage",
+    "line": "Cold mist off your cuffs fogs my sightline every time we crest a sulfur ridge."
+   },
+   {
+    "speaker": "player",
+    "line": "Step three paces upwind, archer, and you'll have crystal air."
+   }
+  ]
+ },
+ {
+  "id": "banter-obsapper-mage-ember",
+  "merc": "merc-obsidian-sapper",
+  "requires": {
+   "class": "mage",
+   "act": 4
+  },
+  "lines": [
+   {
+    "speaker": "merc-obsidian-sapper",
+    "line": "Seven fingers are plenty to rig a blasting charge, provided you keep sparks off my belt."
+   },
+   {
+    "speaker": "player",
+    "line": "I'll stick to frost and wind until your quarrels are safely downrange."
+   }
+  ]
+ },
+ {
+  "id": "banter-ashmage-necro-ember",
+  "merc": "merc-ash-battlemage",
+  "requires": {
+   "class": "necromancer",
+   "act": 4
+  },
+  "lines": [
+   {
+    "speaker": "merc-ash-battlemage",
+    "line": "Flash-freezing flesh preserves every tendon. Your foundry craft suits my work."
+   },
+   {
+    "speaker": "player",
+    "line": "Just keep your thralls clear when I shatter the ice-crust."
+   }
+  ]
+ },
+ {
+  "id": "banter-penitent-warrior-ember",
+  "merc": "merc-penitent-flagellant",
+  "requires": {
+   "class": "warrior",
+   "act": 4
+  },
+  "lines": [
+   {
+    "speaker": "merc-penitent-flagellant",
+    "line": "You march into cinder-storms without a visor. How do you read the enemy's swing?"
+   },
+   {
+    "speaker": "player",
+    "line": "By the hiss of displaced air and the weight of their boots on slag."
+   }
+  ]
+ },
+ {
+  "id": "banter-penitent-archer-ember",
+  "merc": "merc-penitent-flagellant",
+  "requires": {
+   "class": "archer",
+   "act": 4
+  },
+  "lines": [
+   {
+    "speaker": "merc-penitent-flagellant",
+    "line": "Your heartbeat sounds louder than a war-drum whenever we near the lava-vents."
+   },
+   {
+    "speaker": "player",
+    "line": "It keeps time for my penance, archer. Loose your arrows over my shoulder."
+   }
+  ]
+ },
+ {
+  "id": "banter-penitent-mage-ember",
+  "merc": "merc-penitent-flagellant",
+  "requires": {
+   "class": "mage",
+   "act": 4
+  },
+  "lines": [
+   {
+    "speaker": "merc-penitent-flagellant",
+    "line": "You blinded yourself with Ember Court ash, yet you walk straighter than men with two eyes."
+   },
+   {
+    "speaker": "player",
+    "line": "Sight distracts the fearful, mage. Conviction needs no lantern."
+   }
+  ]
+ },
+ {
+  "id": "banter-obsapper-necro-ember",
+  "merc": "merc-obsidian-sapper",
+  "requires": {
+   "class": "necromancer",
+   "act": 4
+  },
+  "lines": [
+   {
+    "speaker": "merc-obsidian-sapper",
+    "line": "Prism-powder turns siege-golems to gravel, though it leaves precious little for you to raise."
+   },
+   {
+    "speaker": "player",
+    "line": "Better gravel than an intact golem crushing our frontline, demolitionist."
+   }
+  ]
+ },
+ {
+  "id": "banter-bailiff-warrior-ember",
+  "merc": "merc-catacomb-bailiff",
+  "requires": {
+   "class": "warrior",
+   "act": 4
+  },
+  "lines": [
+   {
+    "speaker": "merc-catacomb-bailiff",
+    "line": "Polishing those brass seal-weights again? We're marching into a siege, not a court."
+   },
+   {
+    "speaker": "player",
+    "line": "Authority requires proper luster, captain. The First Watch respects neat protocol."
+   }
+  ]
+ },
+ {
+  "id": "banter-bailiff-archer-ember",
+  "merc": "merc-catacomb-bailiff",
+  "requires": {
+   "class": "archer",
+   "act": 4
+  },
+  "lines": [
+   {
+    "speaker": "merc-catacomb-bailiff",
+    "line": "Those spectral watchmen you summon never blink in volcanic ash."
+   },
+   {
+    "speaker": "player",
+    "line": "They served thirty years beneath the obsidian floor; a little cinder barely registers."
+   }
+  ]
+ },
+ {
+  "id": "banter-bailiff-mage-ember",
+  "merc": "merc-catacomb-bailiff",
+  "requires": {
+   "class": "mage",
+   "act": 4
+  },
+  "lines": [
+   {
+    "speaker": "merc-catacomb-bailiff",
+    "line": "Binding ancient oaths in hot wax takes remarkable control amid this ambient fire."
+   },
+   {
+    "speaker": "player",
+    "line": "Archival discipline, mage. Panic is merely an unfiled form."
+   }
+  ]
+ },
+ {
+  "id": "banter-bailiff-necro-ember",
+  "merc": "merc-catacomb-bailiff",
+  "requires": {
+   "class": "necromancer",
+   "act": 4
+  },
+  "lines": [
+   {
+    "speaker": "merc-catacomb-bailiff",
+    "line": "Summoning the First Watch by docket number is far cleaner than raw blood-binding."
+   },
+   {
+    "speaker": "player",
+    "line": "Every soldier deserves a proper discharge paper—even three centuries late."
+   }
+  ]
+ }
+]

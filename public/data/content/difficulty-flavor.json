@@ -1,0 +1,78 @@
+[
+ {
+  "level": "easy",
+  "on_select": [
+   "The road south looks dry enough, and the tavern stew still has meat in it.",
+   "Keep your boots laced and your eyes open; Thornvael has stories worth surviving.",
+   "Even the border bailiffs seem inclined to wave you past without counting coppers.",
+   "A measured pace for those who prefer reading ruins over digging graves."
+  ],
+  "on_death": [
+   "A rare stumble on a forgiving road—dust off your cloak and try again.",
+   "Even gentle rivers hide deep holes when you march without looking.",
+   "The crows circle early, though fate grants you another turn at the dice."
+  ],
+  "on_win": [
+   "You walked from Thornwick's peat to the Obsidian Dais with your company intact.",
+   "The chronicle closes cleanly, written in steady ink rather than wasted blood.",
+   "Few travelers see all four provinces and live to tell the tale over warm ale."
+  ]
+ },
+ {
+  "level": "normal",
+  "on_select": [
+   "Honest silver for honest steel—keep your shields in front and your archers dry.",
+   "Every bridge has a price, and every flanking slip leaves a scar worth remembering.",
+   "Balance your purse, rest your veterans, and pause before the vanguard clashes.",
+   "The true Sellsword's march: neither kind nor rigged against a steady captain."
+  ],
+  "on_death": [
+   "You left your flank unguarded, and the borderlands collected their usual fee.",
+   "Good steel alone cannot save a company that marches blind into crossfire.",
+   "Another name added to the parish roll—adjust your formation and return."
+  ],
+  "on_win": [
+   "Through fen-mud, salt-glare, sea-squall, and caldera ash, your banner held.",
+   "Your mercenaries count their silver in peace, having earned every copper.",
+   "A hard-fought victory worthy of the finest mercenary companies in Thornvael."
+  ]
+ },
+ {
+  "level": "hard",
+  "on_select": [
+   "Count every arrow-bundle and weigh every crown; nobody forgives sloppy thrift here.",
+   "Ambushers wait behind every ridge, and enemy captains aim straight for your healers.",
+   "Steel bites deeper, wounds fester faster, and cowardice empties your ranks overnight.",
+   "Bring sharp tactics and a full medicine satchel—Ironbound shows no mercy."
+  ],
+  "on_death": [
+   "One unpaused heartbeat was all it took for their vanguard to shatter yours.",
+   "The Ironbound road claims another confident captain who underestimated the dark.",
+   "Your ledger ends in red ink; study their armor and tighten your line."
+  ],
+  "on_win": [
+   "Against stacked odds and merciless champions, your discipline never cracked.",
+   "Bards in Oakhaven will drink to the Ironbound company that broke the Ember Court.",
+   "You turned every ambush into a slaughter and marched out with silver to spare."
+  ]
+ },
+ {
+  "level": "nightmare",
+  "on_select": [
+   "The Ember Court has already measured your coffin; make them wait for the funeral.",
+   "Every spark kills, every copper is rationed, and single mistakes bury whole squads.",
+   "Pause every heartbeat, angle every shield, and trust nothing that breathes in the ash.",
+   "An Ashen Oath is sworn in blood and kept only by masters of the battlefield."
+  ],
+  "on_death": [
+   "Ashes to ashes—Thornvael swallowed your company without slowing its stride.",
+   "Here, hesitation is fatal and mercy is an illusion. Rewind and think sharper.",
+   "Not even bones remain for the sexton when the caldera claims the careless."
+  ],
+  "on_win": [
+   "Impossible odds bowed before cold calculation, steel nerves, and flawless command.",
+   "You walked through hellfire on Ashen Oath and forced the Obsidian Dais to kneel.",
+   "No future company will ever match the grim legend you carved across Thornvael."
+  ]
+ }
+]

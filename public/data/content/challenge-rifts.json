@@ -1,0 +1,402 @@
+[
+ {
+  "id": "rift-a1-bramble-warren",
+  "name": "The Iron-Thorn Warren",
+  "act": 1,
+  "modifiers": [
+   "All enemies inflict +2 bleed damage per second on melee hit",
+   "Fire damage dealt by party members is increased by 25%",
+   "Healing potions restore 30% less health inside the warren"
+  ],
+  "boss": "briar-hound",
+  "reward": {
+   "xp": 420,
+   "gold": 250,
+   "item": "item-bramble-fang-charm"
+  },
+  "intro": "Blood-soaked bramble tunnels wind beneath the Sunken Ford, where parasitic iron-thorns pulse like veins through rotting oak roots."
+ },
+ {
+  "id": "rift-a1-sunken-reliquary",
+  "name": "Drowned Lantern Undercroft",
+  "act": 1,
+  "modifiers": [
+   "Thick marsh-gas reduces ranged attack accuracy by 20%",
+   "Enemies release a small poison cloud on death"
+  ],
+  "boss": "mire-wisp",
+  "reward": {
+   "xp": 450,
+   "gold": 270,
+   "item": "item-marshlight-lantern"
+  },
+  "intro": "Emerald corpse-lights drift across knee-deep black water in this flooded border vault, luring iron-shod boots toward hidden sinkholes."
+ },
+ {
+  "id": "rift-a1-chert-quarry-pit",
+  "name": "The Calcified Quarry",
+  "act": 1,
+  "modifiers": [
+   "All enemies gain +4 physical armor",
+   "Lightning damage ignores 50% of enemy armor",
+   "Movement speed is reduced by 15% in loose gravel"
+  ],
+  "boss": "flintback",
+  "reward": {
+   "xp": 480,
+   "gold": 290,
+   "item": "item-chert-breaker-maul"
+  },
+  "intro": "Shattered grey chert slabs tower over an abandoned stone-pit where calcified beasts grind their dorsal plates against iron ore."
+ },
+ {
+  "id": "rift-a1-cinder-gallows",
+  "name": "Ashen Totem Hollow",
+  "act": 1,
+  "modifiers": [
+   "Non-boss enemies revive once at 35% HP unless burned",
+   "Cold spells gain +20% critical strike chance"
+  ],
+  "boss": "fallen-shaman",
+  "reward": {
+   "xp": 510,
+   "gold": 310,
+   "item": "item-charred-totem-focus"
+  },
+  "intro": "Smoking bone-totems ring a sunken clearing above Lantern Passage, rekindling fallen raiders with bitter charcoal magic."
+ },
+ {
+  "id": "rift-a1-greywood-antler-glade",
+  "name": "The Mist-Choked Thicket",
+  "act": 1,
+  "modifiers": [
+   "Shadow-mist silences casters for 2 seconds when struck",
+   "Party dodge chance is increased by 15%",
+   "Enemy movement speed is increased by 20%"
+  ],
+  "boss": "gloom-stag",
+  "reward": {
+   "xp": 540,
+   "gold": 330,
+   "item": "item-deadwood-antler-bow"
+  },
+  "intro": "Ribbons of narcotic grey fog hang motionless between gnarled oaks, muffling bowstrings while spectral antlers gleam in the dark."
+ },
+ {
+  "id": "rift-a1-weeping-web-vault",
+  "name": "The Ossuary Loom",
+  "act": 1,
+  "modifiers": [
+   "Brood-cocoons hatch spiderlings every 25 seconds",
+   "Poison resistance is reduced by 25% for all units",
+   "Fire area spells ignite floor webbing for bonus damage"
+  ],
+  "boss": "morvessa",
+  "reward": {
+   "xp": 620,
+   "gold": 400,
+   "item": "item-widow-silk-mantle"
+  },
+  "intro": "Cathedral arches of woven femurs and sticky grey silk span the deepest crypt beneath Ravenwatch, vibrating with each footstep."
+ },
+ {
+  "id": "rift-a2-alkali-glass-flats",
+  "name": "The Singing Salt-Pan",
+  "act": 2,
+  "modifiers": [
+   "Static storms deal periodic lightning damage every 15 seconds",
+   "Lightning resistance is increased by 30% for enemies",
+   "Physical attacks discharge small static arcs on hit"
+  ],
+  "boss": "dune-scarab",
+  "reward": {
+   "xp": 720,
+   "gold": 440,
+   "item": "item-leyden-copper-band"
+  },
+  "intro": "Blinding white salt-crusts crackle beneath dry wind, turning every iron helm and spear-tip into a humming lightning rod."
+ },
+ {
+  "id": "rift-a2-scimitar-canyon",
+  "name": "Red-Grit Ambush Gorge",
+  "act": 2,
+  "modifiers": [
+   "Haboob dust reduces vision and range by 2 tiles",
+   "Enemies gain +25% attack speed below 50% HP"
+  ],
+  "boss": "sand-raider",
+  "reward": {
+   "xp": 760,
+   "gold": 465,
+   "item": "item-scarab-shell-pauldron"
+  },
+  "intro": "Howling red grit scours a narrow sandstone slot where desert cutthroats strike from blind corners and vanish into dust."
+ },
+ {
+  "id": "rift-a2-viper-cistern",
+  "name": "The Venomous Basin",
+  "act": 2,
+  "modifiers": [
+   "Poison ticks 50% faster on all units",
+   "Cold damage slows enemies by an additional 20%",
+   "Water flasks and healing draughts have +5s cooldown"
+  ],
+  "boss": "claw-viper",
+  "reward": {
+   "xp": 800,
+   "gold": 490,
+   "item": "item-halberd-scale-jerkin"
+  },
+  "intro": "Cracked limestone cisterns overflow with brackish venom where hooded serpents rattle bone-blades across sun-baked stone."
+ },
+ {
+  "id": "rift-a2-twelve-stones-mire",
+  "name": "The Bile-Weeping Ring",
+  "act": 2,
+  "modifiers": [
+   "Hex circles reduce party armor by 3 while standing inside",
+   "Physical melee damage is increased by 20%"
+  ],
+  "boss": "witch-doctor",
+  "reward": {
+   "xp": 840,
+   "gold": 520,
+   "item": "item-crocodile-jaw-censer"
+  },
+  "intro": "Twelve black megaliths sweat green miasma into a stagnant willow sink while smoking skull-censers swing through the reeds."
+ },
+ {
+  "id": "rift-a2-collapsed-basalt-shaft",
+  "name": "The Shovel-Claw Gallery",
+  "act": 2,
+  "modifiers": [
+   "Earthquakes stun random units for 1 second every 20 seconds",
+   "Burrowing enemies emerge with a 2-tile knockback",
+   "Fire damage is increased by 20% in stale tunnel air"
+  ],
+  "boss": "pale-burrower",
+  "reward": {
+   "xp": 890,
+   "gold": 550,
+   "item": "item-ironstone-pick-axe"
+  },
+  "intro": "Groaning basalt pillars prop up a flooded quarry shaft where eyeless bone-diggers erupt without warning beneath iron boots."
+ },
+ {
+  "id": "rift-a2-obelisk-gullet",
+  "name": "The Sunken Obelisk Pit",
+  "act": 2,
+  "modifiers": [
+   "Unnatural frost aura slows stamina recovery by 25%",
+   "Pull effects draw units 1 tile closer toward the center",
+   "Fire spells deal +30% damage to chilled foes"
+  ],
+  "boss": "gorrathul",
+  "reward": {
+   "xp": 980,
+   "gold": 640,
+   "item": "item-obelisk-gullet-amulet"
+  },
+  "intro": "Toppled golden obelisks jut from a freezing sand-crater at the heart of Redmarsh, radiating a hollow, subterranean hunger."
+ },
+ {
+  "id": "rift-a3-barnacle-reef-vault",
+  "name": "The Low-Tide Hulks",
+  "act": 3,
+  "modifiers": [
+   "Standing water conducts lightning to adjacent allies",
+   "Enemy frontal armor is increased by 30%"
+  ],
+  "boss": "salt-crab",
+  "reward": {
+   "xp": 1120,
+   "gold": 680,
+   "item": "item-brine-pavise-shield"
+  },
+  "intro": "Broken merchant cogs tilt in sucking grey silt while towering brine-armored crustaceans clash their shield-claws in the surf."
+ },
+ {
+  "id": "rift-a3-vitreous-cliff-vents",
+  "name": "The Boiling Fumaroles",
+  "act": 3,
+  "modifiers": [
+   "Volcanic vents erupt for fire damage every 12 seconds",
+   "Cold spells cool ground hazards and deal +25% damage",
+   "Bleeding wounds cauterize instantly but deal burst fire damage"
+  ],
+  "boss": "cinderling",
+  "reward": {
+   "xp": 1180,
+   "gold": 720,
+   "item": "item-fumarole-glass-dagger"
+  },
+  "intro": "Scalding steam hisses through razor-edged sheets of black volcanic glass where slag-armed homunculi hurl molten rock."
+ },
+ {
+  "id": "rift-a3-astral-gale-spire",
+  "name": "The Void-Eye Crag",
+  "act": 3,
+  "modifiers": [
+   "Mana regeneration is reduced by 40%",
+   "Ranged physical attacks deal +25% damage",
+   "Enemies drain 8 mana per hit on unshielded targets"
+  ],
+  "boss": "rift-moth",
+  "reward": {
+   "xp": 1240,
+   "gold": 760,
+   "item": "item-astral-eye-cowl"
+  },
+  "intro": "Howling sea-gales whip around a razor-backed granite spire where giant nocturnal moths drink spell-light straight from minds."
+ },
+ {
+  "id": "rift-a3-rime-belfry",
+  "name": "The Drowned Chime-Nave",
+  "act": 3,
+  "modifiers": [
+   "Sonic bell-tolls add +4 seconds to active spell cooldowns",
+   "Blunt physical attacks shatter frozen barriers for bonus damage"
+  ],
+  "boss": "frost-bell",
+  "reward": {
+   "xp": 1300,
+   "gold": 800,
+   "item": "item-rime-clapper-medallion"
+  },
+  "intro": "Half-submerged chapel arches ring with teeth-vibrating bronze harmonics as frost-chained bells drift above black Atlantic swells."
+ },
+ {
+  "id": "rift-a3-iron-crown-crypt",
+  "name": "The Sea-Cellar Throne",
+  "act": 3,
+  "modifiers": [
+   "Enemies are immune to fear and slow effects",
+   "Fire damage melts enemy armor by 1 per hit",
+   "Party critical strike damage is increased by 25%"
+  ],
+  "boss": "hollow-king",
+  "reward": {
+   "xp": 1380,
+   "gold": 850,
+   "item": "item-hammered-iron-crown"
+  },
+  "intro": "Brine drips through rusted vault grates onto stacked bullion chests where an iron-crowned specter still exacts bloody taxes."
+ },
+ {
+  "id": "rift-a3-flooded-organ-choir",
+  "name": "The Sunken Antiphon",
+  "act": 3,
+  "modifiers": [
+   "Liturgical waves alternate between cold and lightning damage",
+   "Interrupted enemy casts grant the party +15% haste for 6s",
+   "Healing effectiveness is reduced by 20%"
+  ],
+  "boss": "vesperion",
+  "reward": {
+   "xp": 1500,
+   "gold": 950,
+   "item": "item-femur-pipe-staff"
+  },
+  "intro": "Towering pipes of hollowed human bone rise above flooded pews, channeling drowning tides into deafening spectral chords."
+ },
+ {
+  "id": "rift-a4-redglass-caldera-rim",
+  "name": "The Obsidian Razor-Ridge",
+  "act": 4,
+  "modifiers": [
+   "Burning glass patches inflict bleed and fire damage when crossed",
+   "Cold magic deals +30% damage to airborne foes"
+  ],
+  "boss": "redglass-drake",
+  "reward": {
+   "xp": 1680,
+   "gold": 1020,
+   "item": "item-redglass-wing-cuirass"
+  },
+  "intro": "Jagged sheets of crimson volcanic glass jut from choking ash-drifts where lesser drakes bank through sulfurous thermals."
+ },
+ {
+  "id": "rift-a4-split-plasma-grove",
+  "name": "The Grounding-Chain Spire",
+  "act": 4,
+  "modifiers": [
+   "Melee attacks against rooted enemies trigger chain lightning",
+   "Poison damage bypasses 40% of enemy resistances",
+   "Units standing within 2 tiles of each other share 15% shock damage"
+  ],
+  "boss": "stormtree",
+  "reward": {
+   "xp": 1760,
+   "gold": 1080,
+   "item": "item-plasma-heart-greatbow"
+  },
+  "intro": "Lightning-cleft highland pines hum with ten thousand volts above West Crag, anchored to obsidian stone by white-hot chains."
+ },
+ {
+  "id": "rift-a4-tectonic-bastion",
+  "name": "The Hexagonal Breach",
+  "act": 4,
+  "modifiers": [
+   "All enemies gain +35% knockback resistance and +20% melee damage",
+   "Cold spells reduce enemy attack speed by 30%"
+  ],
+  "boss": "basalt-brute",
+  "reward": {
+   "xp": 1840,
+   "gold": 1140,
+   "item": "item-hexagonal-ram-gauntlets"
+  },
+  "intro": "Cracked basalt ramparts tremble under the tread of walking volcanic pillars whose magma-veined arms shatter shield-walls."
+ },
+ {
+  "id": "rift-a4-cinderforge-anvil-pit",
+  "name": "The Shrapnel Foundry",
+  "act": 4,
+  "modifiers": [
+   "Molten shrapnel erupts whenever an enemy uses a special ability",
+   "Armor is reduced by 3 for all units in extreme forge heat",
+   "Cold and astral attacks deal +20% bonus damage"
+  ],
+  "boss": "anvilmaw-smith",
+  "reward": {
+   "xp": 1950,
+   "gold": 1220,
+   "item": "item-anviljaw-warhammer"
+  },
+  "intro": "White-hot slag spits from floor fissures beside chained iron anvils where chimney-backed siege titans hammer living steel."
+ },
+ {
+  "id": "rift-a4-magnetic-execution-run",
+  "name": "The Lodestone Gauntlet",
+  "act": 4,
+  "modifiers": [
+   "Heavy armor slows movement speed by an additional 20%",
+   "Ranged projectiles veer randomly unless targets are marked",
+   "Astral spells ignore all armor and magnetic deflection"
+  ],
+  "boss": "doom-knight",
+  "reward": {
+   "xp": 2080,
+   "gold": 1300,
+   "item": "item-meteoric-dread-plate"
+  },
+  "intro": "Raw magnetic ore walls tug steel scabbards sideways along a spiked defile patrolled by black-iron citadel executioners."
+ },
+ {
+  "id": "rift-a4-halo-of-cinders",
+  "name": "The Crucible of Ashkarath",
+  "act": 4,
+  "modifiers": [
+   "Rings of hellfire sweep the arena every 18 seconds",
+   "Bone prisons spawn around isolated backline units",
+   "All party damage is increased by 20% while above 75% HP"
+  ],
+  "boss": "ashkarath",
+  "reward": {
+   "xp": 2400,
+   "gold": 1600,
+   "item": "item-sovereign-ember-signet"
+  },
+  "intro": "Fused iron swords blaze like a white-hot halo above an obsidian dais suspended over the roaring heart of the caldera."
+ }
+]

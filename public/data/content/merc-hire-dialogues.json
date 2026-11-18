@@ -1,0 +1,314 @@
+[
+ {
+  "merc": "merc-thornwick-levyman",
+  "lines": {
+   "hire": "Keep the mud dry under my boots and the stew warm, and I'll hold your flank until the iron bends.",
+   "refuse": "No peat-bogs left to drain here, and I don't bleed for promises that won't buy salt.",
+   "price": "One hundred five crowns upfront, twenty-two every seventh bell—plus two coppers if you ask me to ford chest-deep water.",
+   "loyal25": "You're quick to spend another man's ribs while keeping your own cloak clean. Watch how long that lasts.",
+   "loyal50": "The coin arrives on time and the rations aren't rotten. That puts you a cut above the Thornwick bailiff.",
+   "loyal75": "I've stood behind worse captains in deeper ditches. Point the ash-shaft where you want the line to hold.",
+   "loyal100": "My bridge-tithe is cleared and my boots are dry. When the horn blows, nobody gets past my pike to reach you.",
+   "leave": "My tally's settled and my kettle-helm's dented enough. Keep your silver; I'm walking back to the bog."
+  }
+ },
+ {
+  "merc": "merc-alder-poacher",
+  "lines": {
+   "hire": "Point me toward the upwind brush and keep the heavy-armored clankers twenty paces behind my bowstring.",
+   "refuse": "Too many loud boots and too little cover in your outfit. Find someone else to scare your quarry away.",
+   "price": "One hundred fifteen crowns to string my yew, and twenty-four a week for goose-feathers, wax, and quiet.",
+   "loyal25": "Keep shouting orders like a magistrate's hound and you'll catch a stray bodkin in your own saddlebag.",
+   "loyal50": "You let me pick my own perches and don't ask where the extra rings came from. Fair enough.",
+   "loyal75": "We move clean together, captain. Say the word and the lead scout drops before his heel touches moss.",
+   "loyal100": "This branded ear aches less when I'm hunting beside someone who respects silence. You've got my last arrow.",
+   "leave": "The wind's shifted and the pickings here have gone sour. I'm fading back into the alder brush."
+  }
+ },
+ {
+  "merc": "merc-hedge-leech",
+  "lines": {
+   "hire": "Give me a dry corner out of the wind and two fingers of juniper spirit, and I'll keep your guts tucked inside.",
+   "refuse": "Look at the rust on your blades—I'm a barber-surgeon, not a miracle worker for walking corpses.",
+   "price": "One hundred twenty-five crowns for the kit, twenty-six weekly for catgut, mutton-fat salve, and clean linen.",
+   "loyal25": "My hands shake worse when you bark at me mid-suture. Keep your distance or stitch your own thigh.",
+   "loyal50": "Not a bad company, all told. Nobody's died of gangrene on my watch yet, and the gin's passable.",
+   "loyal75": "You actually listen when I say a wound needs boiling wine instead of a forced march. I'll keep you breathing.",
+   "loyal100": "Oakhaven's guild threw me out for watering laudanum, yet you trusted me with your own skin. I won't let you bleed out.",
+   "leave": "I'm out of thread, out of spirits, and out of patience for fresh holes in old meat. Find another leech."
+  }
+ },
+ {
+  "merc": "merc-greywood-chopper",
+  "lines": {
+   "hire": "Show me the thickest shield-wall they've got and stand clear when I start my backswing.",
+   "refuse": "Your timber's rotten and your march is aimless. I don't swing a broad-axe for nothing.",
+   "price": "One hundred thirty crowns down, twenty-seven each week to keep the whetstone wet and my belly full.",
+   "loyal25": "You treat men like cheap kindling tossed into a wet hearth. Careful the smoke doesn't choke you.",
+   "loyal50": "Good solid work, steady camps, and plenty of thick skulls to split. No complaints from the woods.",
+   "loyal75": "You know how to read a line the way a feller reads grain in old oak. Just point where to strike.",
+   "loyal100": "Raiders burned my camp to ash, yet this company feels like solid pine underfoot. I'll split any gate for you.",
+   "leave": "My axe-edge is notched and the timber here isn't worth the sweat. I'm heading north to real trees."
+  }
+ },
+ {
+  "merc": "merc-lantern-novice",
+  "lines": {
+   "hire": "Keep the lamp-oil corked and the dry brush behind me, and I'll turn their vanguard into cinders.",
+   "refuse": "Too damp, too cramped, and you look like the sort who counts every spark. Find a duller caster.",
+   "price": "One hundred thirty-five crowns upfront, twenty-eight weekly—and don't dock my pay for scorched bedrolls.",
+   "loyal25": "Keep lecturing me about singed eyebrows and I might forget which direction the wind is blowing.",
+   "loyal50": "You give me room to cast and don't panic when the air smells like tallow. That's rare.",
+   "loyal75": "The prior said I lacked discipline, yet you've turned my bad habits into dead enemies. I like your methods.",
+   "loyal100": "I pawned temple brass to survive, and you gave me a real furnace to feed. Say the word and I'll burn the sky.",
+   "leave": "The wick's burned down to the grease here. I'm taking my scrolls before someone blames me for the next fire."
+  }
+ },
+ {
+  "merc": "merc-parish-sexton",
+  "lines": {
+   "hire": "Keep the bodies reasonably whole and the ground soft enough for a spade, and we'll make a tidy profit.",
+   "refuse": "You leave too many ashes and broken bones behind—poor return on labor for an honest sexton.",
+   "price": "One hundred forty crowns retainer, twenty-eight a week, plus burial rights on whatever falls unclaimed.",
+   "loyal25": "I've already measured your shoulders with my knotted cord, captain. Don't make me dig early.",
+   "loyal50": "Prompt wages and fresh turf every third march. My ledger balances nicely under your command.",
+   "loyal75": "You understand that the dead owe a debt to the living who kept them fed. A rare pragmatism.",
+   "loyal100": "Twelve winters in Thornwick's flooded yard taught me loyalty belongs to those who pay the shovel-fee. I'm yours to the grave.",
+   "leave": "The soil here is too rocky and your casualties are too messy. I'm closing the parish roll."
+  }
+ },
+ {
+  "merc": "merc-redmarsh-slinger",
+  "lines": {
+   "hire": "Fill my canteen with sweet water and give me twenty paces of open salt-flat—I'll crack their helmets open.",
+   "refuse": "Dry marches with no silver at the end? I already lost my brine-pans to bandits; I won't lose my hide to you.",
+   "price": "Two hundred ninety crowns for the sling and lead shot, fifty-five weekly for water-skin and salt-tax.",
+   "loyal25": "Keep marching us into the glare without shade and I'll test my sling-stones on your canteens.",
+   "loyal50": "You know how to ration water in the flats and pick targets worth the lead. We're square.",
+   "loyal75": "My teeth are stained red from alkali root, but my aim's never been steadier than under your banner.",
+   "loyal100": "You gave a stripped drover back his pride and a pouch of good lead. No viper in Redmarsh touches you.",
+   "leave": "My tongue's like dried leather and the silver's too thin for this heat. Find another slinger."
+  }
+ },
+ {
+  "merc": "merc-quarry-sapper",
+  "lines": {
+   "hire": "Point out the thickest wall, carapace, or gatehouse, and keep everyone back when my pick finds the seam.",
+   "refuse": "If you expect me to bunk inside stone barracks, keep your coin. I've had enough ceilings over my head.",
+   "price": "Three hundred ten crowns down, fifty-eight each week—paid in silver, never iron script.",
+   "loyal25": "Order me into another cramped vault without timber props and I'll swing this pick at the door-hinges instead.",
+   "loyal50": "Open sky at night and solid stone to crack by day. You run a fair shift, captain.",
+   "loyal75": "Three years in Gorrathul's chains taught me who breaks first. You're forged harder than most.",
+   "loyal100": "I sleep under the stars without nightmares for the first time since the quarry. Every wall before you is dust.",
+   "leave": "My lungs are full of grit and your marches smell too much like prison tunnels. I'm done digging."
+  }
+ },
+ {
+  "merc": "merc-dune-houndmaster",
+  "lines": {
+   "hire": "Let me run loose ahead of the column and read the sand-drifts—your boots won't touch a single ambush.",
+   "refuse": "You march like a parade of tin kettles. Every dune-lurker in Redmarsh hears you three leagues off.",
+   "price": "Three hundred twenty-five crowns to take the trail, sixty weekly for dried meat, oil, and silence.",
+   "loyal25": "Force me back into your tight little ranks again and I'll vanish before the next watch-fire burns down.",
+   "loyal50": "You trust my eyes on the dunes and pay without haggling over every arrow. Good enough.",
+   "loyal75": "Few captains understand that a scout's worth lies twenty paces outside their sight. You've earned my trust.",
+   "loyal100": "The magistrates cheated me out of bounties, yet you've never shorted a copper. I'll track your enemies to the bone.",
+   "leave": "The wind's erasing the tracks and my quiver's down to lizard jerky. I'm taking the high ridge alone."
+  }
+ },
+ {
+  "merc": "merc-cistern-acolyte",
+  "lines": {
+   "hire": "Keep steel away from my robes and I'll keep your armored men from cooking inside their own breastplates.",
+   "refuse": "You waste water like a drunken factor and pray to nothing. My wards won't hold over ungrateful dust.",
+   "price": "Three hundred thirty crowns for the blessing, sixty-two weekly for clean flasks and salt-incense.",
+   "loyal25": "Mock my puddle-prayers one more time and see how fast your throat cracks in the midday glare.",
+   "loyal50": "You respect the cistern-wards and keep the frontline steady while I chant. Peace be upon your canteens.",
+   "loyal75": "The hermitage cast me out for watering melons, yet here my rain actually saves lives. You've given me purpose.",
+   "loyal100": "Every well we cross feels blessed under your command. So long as breath remains in me, you will never thirst.",
+   "leave": "The flasks are dry and my prayers bounce off your iron skulls. May the desert teach you humility."
+  }
+ },
+ {
+  "merc": "merc-tomb-notary",
+  "lines": {
+   "hire": "Provide the targets and keep the dust off my inkpot; I shall serve the Third Dynasty's overdue writs.",
+   "refuse": "Your campaign lacks proper documentation and your casualties leave messy ledgers. I decline.",
+   "price": "Three hundred forty-five crowns filing fee, sixty-four weekly for papyrus strips, gum-ink, and astral seal.",
+   "loyal25": "My left hand may be stiff as leather, captain, but my right still writes arrears beside your name.",
+   "loyal50": "Punctual disbursements and orderly engagements. You conduct war with admirable clerical rigor.",
+   "loyal75": "Zahra's expedition left me with a cursed hand; your company gave that hex gainful employment.",
+   "loyal100": "Every notch on my belt-papyrus honors our shared enterprise. When your final hour comes, I shall balance your book cleanly.",
+   "leave": "The ink has thickened in the heat and your accounts have grown erratic. I hereby close this file."
+  }
+ },
+ {
+  "merc": "merc-salt-mercenary",
+  "lines": {
+   "hire": "Put silver in my palm before the horn sounds, and nothing living crosses the rim of my kite shield.",
+   "refuse": "I watched twelve good men butchered because a merchant counted coppers. You smell of the same thrift.",
+   "price": "Three hundred sixty crowns upfront, sixty-six every seventh day—counted in daylight, never by torchlight.",
+   "loyal25": "Short my quiver-allowance once more and I'll step aside the next time cavalry charges your banner.",
+   "loyal50": "You buy enough arrows and pay before the blood dries. That's all I ask of any commander.",
+   "loyal75": "I sleep with my shield strapped to my arm, yet beside your campfires I actually close both eyes.",
+   "loyal100": "Bram's lot died for a miser's purse, but you spend silver to keep men alive. My shield stays yours till it splits.",
+   "leave": "My shield-rim's chewed to splinters and the margin's getting too thin. Count me out before the next pass."
+  }
+ },
+ {
+  "merc": "merc-oakhaven-marine",
+  "lines": {
+   "hire": "Point me at the tightest breach or gangplank and keep rum out of the surgeons' tent till the deck is clear.",
+   "refuse": "Too much open running and not enough shield-to-shield grit. Find a landlubber for your skirmishes.",
+   "price": "Seven hundred twenty crowns to sign articles, one hundred twenty weekly—paid in dry silver.",
+   "loyal25": "Keep flinching from a proper boarding-crush and I'll toss my cutlass overboard and swim home.",
+   "loyal50": "Steady rations, dry powder, and officers who don't hide behind the rigging. Aye, I'll stay aboard.",
+   "loyal75": "Lost two toes on the winter blockade, yet you've made mud trenches feel like a well-run cutter.",
+   "loyal100": "I've sailed under admirals who couldn't hold a candle to your nerve. Say the word and we board hell itself.",
+   "leave": "The bilge is rising and the wind's foul. I'm taking my sea-chest ashore before this tub founders."
+  }
+ },
+ {
+  "merc": "merc-harbor-arbalest",
+  "lines": {
+   "hire": "Give me three dry heartbeats to crank the windlass, and I'll punch steel straight through their breastplates.",
+   "refuse": "No parapet, no cover, and too many fools standing in my firing lane. Find another arbalestier.",
+   "price": "Seven hundred sixty crowns down, one hundred twenty-five weekly for steel prods, grease, and hemp cord.",
+   "loyal25": "Rush my reload again and the next bolt might slip off the nut while you're standing in front.",
+   "loyal50": "You hold the line long enough for my windlass to click. That's all a heavy prod needs.",
+   "loyal75": "Ten years on the customs tower never gave me cleaner targets than your flanking maneuvers do.",
+   "loyal100": "Every officer-notch on my stock was earned under your eye. Name the heaviest plate on the field; it's dead.",
+   "leave": "My windlass teeth are worn smooth and my shoulders ache in the salt damp. I'm unspanning for good."
+  }
+ },
+ {
+  "merc": "merc-storm-channeler",
+  "lines": {
+   "hire": "Keep iron pikes clear of my sleeves when the clouds gather, and I'll turn their wet armor into copper wire.",
+   "refuse": "Dry air and cautious tactics—neither conducts lightning worth a damn. Look elsewhere.",
+   "price": "Eight hundred crowns retainer, one hundred thirty-two weekly—plus extra if I ruin another pair of rubber soles.",
+   "loyal25": "Stand too close with that steel halberd when I'm charged and we'll both smell like fried harbor gull.",
+   "loyal50": "You keep the infantry grounded and give me clear sightlines when the squall hits. Fair bargain.",
+   "loyal75": "Oakhaven's weather-guild called me reckless; you call it artillery. I like working for a realist.",
+   "loyal100": "The storm answers faster when you call the strike, captain. Together we'll make the Iron Coast glow.",
+   "leave": "The static's gone dead and your caution grounds every spark I raise. I'm drifting back to the lighthouse."
+  }
+ },
+ {
+  "merc": "merc-triage-surgeon",
+  "lines": {
+   "hire": "Try to take your wounds cleanly across the muscle; ragged tears waste half my vinegar and all my patience.",
+   "refuse": "Look at the collarbone structure on your vanguard—brittle as chalk. I won't waste good sutures here.",
+   "price": "Seven hundred ninety crowns for the saw-case, one hundred thirty weekly for spirit, catgut, and silence.",
+   "loyal25": "Keep throwing men into meat-grinders without shield support and I'll start charging by the limb.",
+   "loyal50": "Decent survival odds, clean camp-ditches, and nobody rummaging through my specimen jars. Acceptable.",
+   "loyal75": "Chief Healer Sera hated my pragmatism, yet you appreciate that a living cripple beats a pretty corpse.",
+   "loyal100": "I've seen every bone in your body through my fingers, captain, and none of them belong in a ditch. I'll keep you whole.",
+   "leave": "My forceps are dulled and your survival odds just dipped below my fee. Find another sawbones."
+  }
+ },
+ {
+  "merc": "merc-drowned-arbiter",
+  "lines": {
+   "hire": "The tide remembers every oath sworn over salt water; let me ring the bell and collect what your foes owe.",
+   "refuse": "Your cause carries no weight beneath the waves, and the drowned will not stir for shallow pockets.",
+   "price": "Eight hundred twenty crowns in stamped silver, one hundred thirty-six weekly—and keep shellfish off my plate.",
+   "loyal25": "Break another promise made at low tide and my brass bell will ring for your own shroud.",
+   "loyal50": "You honor your contracts and keep the hexers pinned while I pronounce judgment. The sea approves.",
+   "loyal75": "Few living commanders command the respect of those beneath the surf. Your word carries cold authority.",
+   "loyal100": "When my brass bell tolls beside you, even the drowned stand at attention. My ledger and my life are yours.",
+   "leave": "The tide turns outward and the drowned grow quiet in your wake. I return to the wreck-shrine."
+  }
+ },
+ {
+  "merc": "merc-ironclad-turncoat",
+  "lines": {
+   "hire": "Silver weighs the same under any banner—just keep yours upright and don't try paying me in clipped tin.",
+   "refuse": "Your purse sounds light and your odds look worse. I've walked off richer losing sides than this.",
+   "price": "Eight hundred fifty crowns down, one hundred forty every seventh day—weighed on my own scale.",
+   "loyal25": "If my teeth find lead beneath your silver plating, I'll switch sides before your horn finishes blowing.",
+   "loyal50": "Honest weight, solid brigandine salvage, and no speeches about honor. Best contract I've signed this year.",
+   "loyal75": "I walked away from Sundered Ranks without looking back, yet here I actually care whether the flank holds.",
+   "loyal100": "Keep your gold—I bite your coins out of habit now, not suspicion. No warlord alive could buy me off your line.",
+   "leave": "The margin's gone sour and my brigandine's taking more dents than silver. Contract terminated."
+  }
+ },
+ {
+  "merc": "merc-ironcamp-halberdier",
+  "lines": {
+   "hire": "Keep my boots oiled against the sulfur crust and I'll hook their champions right out of the ash.",
+   "refuse": "You haven't breathed enough caldera grit to know what waits behind the vents. Come back when you're hardened.",
+   "price": "One thousand five hundred twenty crowns upfront, two hundred forty weekly—paid before we cross the slag.",
+   "loyal25": "Send me into demon-plate without flank support again and I'll leave my halberd stuck in your standard.",
+   "loyal50": "You know how to anchor a shield-line against heat and heavy steel. Ironcamp would respect that.",
+   "loyal75": "My eyebrows never grew back after Greystone, yet standing beside you feels like holding the wall all over again.",
+   "loyal100": "Tell Rowan I found a commander worth bleeding in the sulfur for. Nothing breaks through while I hold the haft.",
+   "leave": "My pumice is worn flat and my boots are cracking in the vents. I'm marching back to Ironcamp."
+  }
+ },
+ {
+  "merc": "merc-slag-hound-sniper",
+  "lines": {
+   "hire": "Mark the priority target and stay out of my sightline—heat shimmer bends arrows, never my aim.",
+   "refuse": "You move too loudly across open crags and leave your flanks exposed to updrafts. Find a noisier bow.",
+   "price": "One thousand five hundred eighty crowns to string, two hundred fifty weekly for redglass splinters and oil.",
+   "loyal25": "Keep blocking my view with erratic charges and I'll pack my smoked-quartz goggles tonight.",
+   "loyal50": "Clean target calls, steady perches, and no complaints about the ash in my rations. Good work.",
+   "loyal75": "Hunting redglass drakes taught me patience, but your tactical timing makes every shot effortless.",
+   "loyal100": "Even in the darkest vaults I see the kill clearly beside you. Name any champion; they're already dead.",
+   "leave": "The thermal winds have turned erratic and my splinters are running low. I'm taking the high crag."
+  }
+ },
+ {
+  "merc": "merc-ash-battlemage",
+  "lines": {
+   "hire": "Everything in this caldera burns white-hot; keep steel off my robes and I'll bring the glacier.",
+   "refuse": "You charge into fissure-vents without wards or sense. I won't waste good frost on cinders.",
+   "price": "One thousand six hundred fifty crowns down, two hundred sixty weekly—plus oiled felt for my ice-core.",
+   "loyal25": "One more reckless rush into magma-vents and you can quench your own armor with sweat.",
+   "loyal50": "You time your infantry strikes right as my frost locks their joints. Proper foundry discipline.",
+   "loyal75": "At Ironcamp we quenched blades; with you we shatter whole vanguard lines. My runes run cold and true.",
+   "loyal100": "My glacier-core hasn't melted an ounce since joining your banner. Together we'll freeze the Ember Court solid.",
+   "leave": "The heat's cracking my wards and my glacier-chunk is down to a pebble. I'm returning to the foundries."
+  }
+ },
+ {
+  "merc": "merc-penitent-flagellant",
+  "lines": {
+   "hire": "My debt is written in hot ash across my eyes; let me stand between your company and the flame.",
+   "refuse": "Your hands are heavy with unrepented greed. I will not walk into hellfire for another tax-collector.",
+   "price": "One thousand six hundred crowns to fund the orphans' alms, two hundred fifty-five weekly—not a copper for myself.",
+   "loyal25": "Count my heartbeat near the magma—it slows whenever you waste lives for vanity.",
+   "loyal50": "You walk into the dark with steady purpose rather than pride. My penance finds meaning here.",
+   "loyal75": "Once I blinded myself for the sins of the Ember Court; now your leadership shows me a cleaner path.",
+   "loyal100": "Every scar on my chest sings when I hold the standard beside you. Let the cinders fall; I will not yield.",
+   "leave": "My debt here is paid in blood and ash, and our paths diverge before the final gate. Walk in the quiet dark."
+  }
+ },
+ {
+  "merc": "merc-catacomb-bailiff",
+  "lines": {
+   "hire": "The First Watch never received their discharge papers; grant me leave to summon them from the ash.",
+   "refuse": "You treat sworn oaths as disposable parchment. The Threshold catacombs will not lend you their dead.",
+   "price": "One thousand seven hundred twenty crowns archival tithe, two hundred seventy weekly for brass wax and vellum.",
+   "loyal25": "Break faith with your living soldiers and see how swiftly the First Watch turns its pikes inward.",
+   "loyal50": "You honor every pact down to the last copper. The ancient watchmen respect such discipline.",
+   "loyal75": "Three decades beneath the obsidian floor taught me to recognize true authority. Your seal carries weight.",
+   "loyal100": "When I polish my brass weights beside your tent, the ancestors themselves stand ready to serve their term.",
+   "leave": "The ledger is sealed and the First Watch has fulfilled its writ. I return to the Threshold."
+  }
+ },
+ {
+  "merc": "merc-obsidian-sapper",
+  "lines": {
+   "hire": "Keep open flames three paces off my belt and I'll turn their iron golems into smoking gravel.",
+   "refuse": "Too many careless torches and sloppy marches. I've lost three fingers already; I won't lose the rest for you.",
+   "price": "One thousand seven hundred eighty crowns for prism-powder, two hundred eighty weekly—paid before every fuse is lit.",
+   "loyal25": "Wave another torch near my satchel and I'll let the next siege-golem walk straight over your tent.",
+   "loyal50": "You keep the torches back and give me clean angles on the portcullis. That's all a sapper asks.",
+   "loyal75": "Seven fingers are plenty when a commander knows exactly where to place a charge. You've got a good eye.",
+   "loyal100": "No sulfur leak escapes my nose and no fortress gate survives our partnership. Just say when to light the fuse.",
+   "leave": "My powder's damp and my remaining fingers are twitching. I'm packing my charges before something blows."
+  }
+ }
+]

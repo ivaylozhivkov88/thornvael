@@ -1,0 +1,154 @@
+[
+ {
+  "id": "fac-border-wardens",
+  "name": "The Border Fords Wardens",
+  "desc": "Remnants of Thornwick's provincial levy and bridge-pickets who held the Alder River crossings after the Salt Tithe stripped their armories. Stubborn, mud-stained pragmatists who value dry powder, honest weight, and unbroken watch-rotations above noble titles.",
+  "ranks": [
+   "Mire-Runner",
+   "Picket-Bearer",
+   "Bridge-Warden",
+   "Ford-Marshal",
+   "Keeper of the Alder"
+  ],
+  "rep_lines": {
+   "hostile": "Keep your hand off your hilt—every sentry on the Alder has orders to drop you on sight.",
+   "wary": "We know your face from the toll-rolls, stranger. State your business and keep moving.",
+   "neutral": "The mud doesn't care who wears the crown, and neither do we. Pay your toll and pass.",
+   "friendly": "Good to see dry steel at the gate. Quartermaster left extra bolts by the brazier for you.",
+   "honored": "When the river rose red, you stood on the planks with us. Every ford in the north is yours."
+  }
+ },
+ {
+  "id": "fac-redmarsh-caravaneers",
+  "name": "Redmarsh Salt-Caravaneers",
+  "desc": "Guild of alkali-haulers, cistern-guards, and dune-scouts keeping trade moving across the evaporated inland sea. Bound by strict water-sharing oaths, they despise both Morvessa's tax-bailiffs and Sand-Clan ambushers who bleed their supply trains.",
+  "ranks": [
+   "Water-Bearer",
+   "Axle-Guard",
+   "Dune-Outrider",
+   "Caravan-Factor",
+   "Master of the Salt-Road"
+  ],
+  "rep_lines": {
+   "hostile": "Not a drop of water or a pinch of salt for thieves—ride back into the alkali dust.",
+   "wary": "Keep clear of the lead wagons until the outriders check your saddlebags for tax-badges.",
+   "neutral": "Silver buys hardbread and boiled brine; trouble buys an arrow from the canyon rim.",
+   "friendly": "You cleared the corduroy road when our axles sank. Draw from the clean cask at half price.",
+   "honored": "Your name is carved on every milestone well from Redmarsh to the pass. Ride at our head."
+  }
+ },
+ {
+  "id": "fac-probate-scriptorium",
+  "name": "The Lower-Parish Scriptorium",
+  "desc": "Order of mortuary clerks, probate notarists, and debt-wardens descended from Third-Dynasty inland-sea magistrates. They treat necromancy as cold legal accounting, binding unquiet spirits only until every witnessed oath and unpaid lien is settled.",
+  "ranks": [
+   "Tallow-Clerk",
+   "Lien-Notary",
+   "Crypt-Bailiff",
+   "Probate-Arbiter",
+   "Grand Seal-Keeper"
+  ],
+  "rep_lines": {
+   "hostile": "Your name is entered in red gall-ink; even death will not discharge what you owe this parish.",
+   "wary": "Touch nothing on the probate shelves unless you carry a witnessed writ of inheritance.",
+   "neutral": "Every soul owes a final ledger-balance. Keep your accounts current and we have no quarrel.",
+   "friendly": "Your field audits saved three crypt vaults from grave-robbers. The archives are open to you.",
+   "honored": "By seal and tallow, your debts are forgiven in perpetuity, and our witnesses answer your call."
+  }
+ },
+ {
+  "id": "fac-oakhaven-maritime",
+  "name": "Oakhaven Maritime Guild",
+  "desc": "Shipwrights, lighthouse keepers, and culverin-masters governing the walled hill-city where the Greywash meets the sea. Shrewd tariff-collectors who hoarded whale-oil behind bolted gates until Vesperion's blockade forced them to arm mercenaries.",
+  "ranks": [
+   "Dock-Hand",
+   "Boom-Warden",
+   "Harbor-Pilot",
+   "Sea-Wall Captain",
+   "Admiral of the Mole"
+  ],
+  "rep_lines": {
+   "hostile": "The harbor chains stay raised against pirates and traitors—turn back before the culverins fire.",
+   "wary": "Guild curfew bells ring at dusk. Keep to the lower piers and stay away from the drydocks.",
+   "neutral": "Pay the anchorage tariff in weighed coin and Oakhaven's chandlers will fit your company.",
+   "friendly": "You broke the fire-hulks off the outer mole. Our shipwrights will temper your steel free of charge.",
+   "honored": "The lighthouse burns in your honor tonight; every keel in Oakhaven sails at your command."
+  }
+ },
+ {
+  "id": "fac-expelled-collegium",
+  "name": "The Thermodynamic Conclave",
+  "desc": "Dissident scholars and mint-assayers expelled from the Capital Collegium for proving that invocation magic obeys strict pressure and grounding laws. Armed with copper wire and quartz lenses, they repair ruptured wardstones while mocking priestly liturgy.",
+  "ranks": [
+   "Copper-Winder",
+   "Bench-Assayer",
+   "Ward-Surveyor",
+   "Conclave-Fellow",
+   "High Thermodynamicist"
+  ],
+  "rep_lines": {
+   "hostile": "Sloppy grounding and worse manners—get out of our laboratory before you short the wardstones.",
+   "wary": "Mind where you set your iron boots; that chalk circle is calibrated to three decimal grains.",
+   "neutral": "Bring intact quartz prisms or copper filings and we will trade you properly grounded runes.",
+   "friendly": "Your field readings from the plateau proved our pressure thesis. Take a calibrated focus.",
+   "honored": "You understand that magic is pure law, not superstition. The Conclave's vaults belong to you."
+  }
+ },
+ {
+  "id": "fac-ironcamp-smiths",
+  "name": "The Ironcamp Slag-Guild",
+  "desc": "Keloid-scarred weaponsmiths, siege-sappers, and quarry-liberators working the volcanic foothills beside the Ember border. Led by Forgemaster Vok, they quench meteoric star-iron in open caldera fissures to arm anyone bold enough to storm the throne.",
+  "ranks": [
+   "Bellows-Puller",
+   "Slag-Quencher",
+   "Anvil-Striker",
+   "Siege-Sapper",
+   "Master of the Fissure"
+  ],
+  "rep_lines": {
+   "hostile": "Step near the quenching troughs and we will hammer you flat like bad bog-iron.",
+   "wary": "Put on smoked goggles and keep your hands off the meteoric billets until Vok speaks for you.",
+   "neutral": "Bring clean star-iron or sulfur brine and our trip-hammers will turn out honest steel.",
+   "friendly": "Good temper in your blade and no fear of sparks—the guild will re-forge your plate at cost.",
+   "honored": "You stood in the fissure heat when the walls shook. Our finest caldera steel bears your mark."
+  }
+ },
+ {
+  "id": "fac-scorched-penitents",
+  "name": "Order of Scorched Penitents",
+  "desc": "Sightless battle-mages and ash-robed archivists following Brother Elias, wearing heavy iron collars to atone for opening the caldera's first cinder-gates centuries ago. They guard forbidden volcanic lore and tend wounded soldiers on scorched battlefields.",
+  "ranks": [
+   "Ash-Novice",
+   "Collar-Bearer",
+   "Cinder-Scribe",
+   "Vigil-Confessor",
+   "Keeper of Cold Ash"
+  ],
+  "rep_lines": {
+   "hostile": "You carry the reek of unbridled ambition—turn back before the ember consumes another fool.",
+   "wary": "Speak softly in the cloister; our ears read the tremor of every lie in your boots.",
+   "neutral": "We tend the burned and copy the warnings left by the dead. Share water and rest in peace.",
+   "friendly": "You showed mercy where others brought torches. Let Brother Elias read the ash-scrolls for you.",
+   "honored": "Through soot and trial you have proven worthy of the threshold truth. Walk in our vigil."
+  }
+ },
+ {
+  "id": "fac-first-watch-remnant",
+  "name": "The First Watch Remnant",
+  "desc": "Undying spectral wardens and ancestral oath-keepers bound to the seven meteoric Anchor Seals beneath the Obsidian Dais. Stoic, ancient, and terrifyingly literal, they recognize only those who uphold the original compact to keep Thornvael from burning.",
+  "ranks": [
+   "Oath-Witness",
+   "Seal-Bearer",
+   "Pillar-Warden",
+   "Threshold-Arbiter",
+   "First Watch Sovereign"
+  ],
+  "rep_lines": {
+   "hostile": "Oath-breakers find no mercy on the obsidian steps—only cold iron and endless watch.",
+   "wary": "The seals hum uneasily at your approach. Prove your discipline before touching the valves.",
+   "neutral": "Seven seals hold the mountain's wrath. State your purpose and respect the ancient boundary.",
+   "friendly": "You mended what traitors fractured. The pillars recognize a true defender of the soil.",
+   "honored": "By star-iron and unbroken vow, the First Watch salutes its rightful commander at the Threshold."
+  }
+ }
+]

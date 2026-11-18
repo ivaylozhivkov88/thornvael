@@ -1,0 +1,50 @@
+[
+ {
+  "class": "warrior",
+  "female": false,
+  "text": "When the final Anchor Seal cooled into dull grey slag, he did not climb the steps toward the Obsidian Throne. Instead, he unbuckled a scarred pauldron, sat upon the lowest basalt tier, and let the quiet settle into joints that had predicted rain across four provinces. In the months that followed, Thornvael was rebuilt not by royal decrees, but by weighed silver, mended bridge-pilings, and muster-rolls paid on time. Garrisons from Thornwick to Harborwatch learned that a gatehouse held by well-fed pikemen needs no divine miracle, and the empty throne stayed locked behind an iron grate guarded by tired veterans.",
+  "epilogue": "He retired to Alder Bridge with a surveyor's plumb-line and a modest pension, inspecting timber pilings and grumbling whenever autumn floods soaked his knees."
+ },
+ {
+  "class": "warrior",
+  "female": true,
+  "text": "As the caldera's deafening roar faded into the hiss of cooling stone, she planted her notched broadsword point-down before the Obsidian Dais and took stock of the living. No triumphant hymns echoed beneath the cracked dome—only the steady clink of canteens and the quiet breathing of mercenaries who had outlasted empires. Under her stern oversight, Ironcamp's trip-hammers shifted from siege-mauls to plowshares and harbor chains, while border levies received honest iron and dry boots before winter set in. She refused every offer of a crown, reminding the council that helmets belong on soldiers, not statues.",
+  "epilogue": "She drafted the new Coastal Defense Charter in Oakhaven, personally testing seawall rivets with iron calipers until masons feared her visits more than winter gales."
+ },
+ {
+  "class": "archer",
+  "female": false,
+  "text": "With the ash-plume thinning into pale coastal mist, he stood upon the cracked parapet of the Threshold and tested the breeze—a clean sou'west wind smelling of kelp and wet pine for the first time in a generation. Rather than linger among the bickering merchants of Oakhaven or the rebuilt halls of Thornwick, he paid off his company in full at the crossroads and vanished before the victory speeches began. Along the Redmarsh salt-roads and Greywood trails, extortionate toll-booths vanished overnight, replaced by quiet watch-platforms where honest travelers passed unmolested under watchful eyes.",
+  "epilogue": "He rebuilt the high watch-tower above the Redmarsh salt-road, charging two coppers for safe escort and keeping charcoal tallies that never failed to balance."
+ },
+ {
+  "class": "archer",
+  "female": true,
+  "text": "Once the last cinder-beacon darkened along the ridge, she unstrung her salt-warped yew bow and watched dawn break grey and clear over the southern straits. Titles held no appeal for someone who had spent four acts reading wind-drift and counting goose-feathers; before the recall horns finished sounding, she divided the remaining war-chest evenly among her scouts and slipped north. In the years afterward, foresters walked Greywood without losing ears to royal wardens, and brigands along the Border Fords learned to dread the sudden snap of an unseen bowstring at dusk.",
+  "epilogue": "She disappeared into the deep pine-ridges north of Thornwick, leaving Oakhaven's council three unsigned maps marking every drafty blind-spot in their new walls."
+ },
+ {
+  "class": "mage",
+  "female": false,
+  "text": "As the Obsidian Dais ceased drawing heat from the earth, he knelt beside the fractured conduit pillars with brass calipers and a soot-stained notebook, measuring the slow return of Thornvael's ley-currents to calm equilibrium. Under the civic charter he helped draft between Oakhaven's shipwrights and Ironcamp's foundries, arcane craft ceased to be hoarded as aristocratic liturgy. Grounded copper lattices shielded harbor lighthouses from summer squalls, regulated sluice-valves kept Redmarsh cisterns sweet, and apprentices learned that wild fire is merely poor engineering.",
+  "epilogue": "He founded a provincial observatory atop the Quartz Plateau, publishing twelve treatises on ley-conservation while complaining daily about red dust in his inkwell."
+ },
+ {
+  "class": "mage",
+  "female": true,
+  "text": "When the Anchor Seals shattered, she extinguished her staff and listened to the ambient aether settle like cool rain over scorched basalt. Ignoring three velvet-sealed invitations from the Capital Collegium offering reinstatement and a high chair, she turned her mind to practical reconstruction across all four provinces. Working alongside forgemasters and apothecaries, she standardized galvanic ward-stones for coastal beacons, purified alkali-poisoned wells in Redmarsh, and audited the Thornwick Mint so no false die ever funded another border war.",
+  "epilogue": "She assumed oversight of Oakhaven's galvanic works and the Thornwick Mint, ensuring every silver crown weighed true to the grain and every furnace vented cleanly."
+ },
+ {
+  "class": "necromancer",
+  "female": false,
+  "text": "The moment the final seal cracked, ten thousand frozen oaths thawed simultaneously across the obsidian nave—a silent multitude of First-Watch wardens, drowned mariners, and border levies awaiting release from centuries of unpaid duty. Dipping a bone-nibbed pen into grey caldera ash, he spent seven days and nights auditing the great mortuary roll. Every fraudulent tax-lien was voided in red ink, every forgotten sacrifice witnessed, and every bound spirit discharged with a stamped brass token until Thornvael rested in the clean stillness of a balanced ledger.",
+  "epilogue": "He reopened the lower-parish registry in Thornwick as public probate arbiter, where no magistrate dared forge a will while his bone-awl rested upon the desk."
+ },
+ {
+  "class": "necromancer",
+  "female": true,
+  "text": "As the volcanic dome cooled into silence, she walked the obsidian gallery where generations of First-Watch soldiers stood trapped in spectral arrears. Rejecting the necrotic mastery Malrik had sought, she lit a single tallow candle and spent seven nights witnessing every unfulfilled vow carved into the floor. One by one, the indentured dead laid down their rusted pikes and faded into hard-earned rest, leaving behind neither restless ghosts nor inherited blood-debts for the living provinces to bear.",
+  "epilogue": "She settled in the coastal scriptorium above Harborwatch, keeping the tide-bell oiled and recording sailors' wills so no soul need ever walk the shingle unrecorded."
+ }
+]
