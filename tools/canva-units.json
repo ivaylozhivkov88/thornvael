@@ -2,7 +2,7 @@
  "briar-hound": "Briar Hound - a dark-fantasy creature or humanoid fitting its name; gameplay role: Fast pack rusher. Distinct silhouette, one dominant colour scheme",
  "flintback": "Flintback - a dark-fantasy creature or humanoid fitting its name; gameplay role: Armoured frontliner. Distinct silhouette, one dominant colour scheme",
  "mire-wisp": "Mire Wisp - a dark-fantasy spellcasting creature or humanoid fitting its name; gameplay role: Marsh ranged caster. Distinct silhouette, one dominant colour scheme",
- "ruin-mite": "Ruin Mite - a dark-fantasy creature or humanoid fitting its name; gameplay role: Swarming burrower. Distinct silhouette, one dominant colour scheme",
+ "ruin-mite": "Ruin Mite - a tall upright chitinous mite the size of a dog, standing on four stilt legs with a domed rocky carapace of broken masonry, tall rather than wide, tiny glowing eyes, dusty grey-brown, compact body about as tall as it is wide",
  "thorn-boar": "Thorn Boar - a dark-fantasy creature or humanoid fitting its name; gameplay role: Charging bruiser. Distinct silhouette, one dominant colour scheme",
  "quill-fiend": "Quill Fiend - a dark-fantasy creature or humanoid fitting its name; gameplay role: Rapid quill sniper. Distinct silhouette, one dominant colour scheme",
  "fallen-shaman": "Cinder Shaman - a dark-fantasy spellcasting creature or humanoid fitting its name; gameplay role: Firebolt chanter & reviver. Distinct silhouette, one dominant colour scheme",
@@ -39,5 +39,16 @@
  "stormtree": "Stormtree - a dark-fantasy creature or humanoid fitting its name; gameplay role: Charged lightning colossus. Distinct silhouette, one dominant colour scheme",
  "doom-knight": "Dread Knight - a dark-fantasy creature or humanoid fitting its name; gameplay role: Heavy armored hell vanguard. Distinct silhouette, one dominant colour scheme",
  "cinderhorn": "Cinderhorn - a dark-fantasy spellcasting creature or humanoid fitting its name; gameplay role: Inferno-breathing megademon. Distinct silhouette, one dominant colour scheme",
- "anvilmaw-smith": "Anvilmaw Smith - a dark-fantasy creature or humanoid fitting its name; gameplay role: Cinderforge anvil titan. Distinct silhouette, one dominant colour scheme"
+ "anvilmaw-smith": "Anvilmaw Smith - a dark-fantasy creature or humanoid fitting its name; gameplay role: Cinderforge anvil titan. Distinct silhouette, one dominant colour scheme",
+ "morvessa": "Morvessa the Silk Widow - giant spider-woman boss, humanoid pale torso in tattered black silk robes on a bulbous spider abdomen with eight long legs, crimson eyes, bone crown, tall imposing, black and violet with silver silk",
+ "gorrathul": "Gorrathul the Sand Glutton - huge bloated ogre boss with wide gaping maw, leathery sand-coloured skin, thick arms, tattered scavenged armour plates, crude giant cleaver, ochre and brown",
+ "vesperion": "Vesperion the Hollow Choir - tall hooded spectral choir-master boss, hollow ragged white robes, empty face glowing blue, floating chain of small bells, ghostly pale blue and bone white",
+ "ashkarath": "Ashkarath the Cinder King - towering horned demon king boss in blackened iron armour with glowing orange cracks, burning crown, huge greatsword, ash-grey and ember orange",
+ "hero": "Human adventurer hero in practical leather and steel, short cloak, sword at hip, neutral standing pose, brown and teal accents, light grey placeholder armour so team colours can be tinted",
+ "warrior": "Heavily armoured human mercenary warrior, steel plate, round shield, one-handed sword, steel grey with red cloth",
+ "archer": "Hooded human mercenary archer, light green leather, longbow, quiver on back, forest green and brown",
+ "mage": "Robed human mercenary mage, wide hat or hood, staff with glowing crystal, deep blue robes with gold trim",
+ "gnoll": "Hyena-headed humanoid gnoll mercenary, lean muscular, spotted tan fur, ragged leather harness, curved blade, tan and rust",
+ "golem": "Stone golem, bulky humanoid of fitted grey rock slabs, glowing amber runes in chest, huge fists, moss patches",
+ "imp": "Small horned red imp, bat wings, thin tail, pointed ears, wicked grin, small trident, crimson and black"
 }
