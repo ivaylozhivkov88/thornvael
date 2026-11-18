@@ -1,0 +1,674 @@
+[
+ {
+  "id": "uniq-alder-bridge-pike",
+  "name": "Alder-Bridge Watchman's Edge",
+  "base": "Iron Sword",
+  "class": "warrior",
+  "tier": 1,
+  "stats": {
+   "dmg": 12,
+   "armor": 4,
+   "block_pct": 5
+  },
+  "flavor": "Notched along the spine from parrying river-raider boarding axes.",
+  "inspect": "Carried by the last sergeant who held the southern pier of Alder Bridge until the spring flood washed away his garrison's pay-chest."
+ },
+ {
+  "id": "uniq-mill-wheel-shield",
+  "name": "Garrick's Sluice-Lid",
+  "base": "Wooden Buckler",
+  "class": "warrior",
+  "tier": 1,
+  "stats": {
+   "armor": 8,
+   "block_pct": 12,
+   "hp": 18
+  },
+  "flavor": "Swollen oak boards banded with an iron wagon-tire.",
+  "inspect": "Hammered together by a Thornwick miller who defended his granary door against six starving deserters with nothing else in hand."
+ },
+ {
+  "id": "uniq-ford-wader-greaves",
+  "name": "Silt-Plodder Boots",
+  "base": "Leather Boots",
+  "class": "warrior",
+  "tier": 1,
+  "stats": {
+   "armor": 6,
+   "hp": 22,
+   "cold_res": 10
+  },
+  "flavor": "Triple-greased hide that sheds cold creek-water like duck feathers.",
+  "inspect": "Worn by border scouts who spent three winters mapping every gravel bar between Thornwick and the upper fens."
+ },
+ {
+  "id": "uniq-willow-snare-bow",
+  "name": "Willow-Creek String",
+  "base": "Ash Shortbow",
+  "class": "archer",
+  "tier": 1,
+  "stats": {
+   "dmg": 11,
+   "crit_pct": 7,
+   "accuracy": 9
+  },
+  "flavor": "Twisted sinew cord rubbed with beeswax against morning mist.",
+  "inspect": "Recovered from a hollow willow trunk where an outlawed forester hid his fletching tools from the baron's bailiffs."
+ },
+ {
+  "id": "uniq-briar-stalker-hood",
+  "name": "Thorn-Thicket Cap",
+  "base": "Leather Cap",
+  "class": "archer",
+  "tier": 1,
+  "stats": {
+   "armor": 5,
+   "dodge_pct": 6,
+   "accuracy": 7
+  },
+  "flavor": "Stitched from briar-hound hide so thick even blackthorns slide off.",
+  "inspect": "Tailored by a border trapper who crawled belly-flat through half a league of brambles to scout a brigand camp."
+ },
+ {
+  "id": "uniq-ferryman-gloves",
+  "name": "Punt-Pole Grips",
+  "base": "Leather Gloves",
+  "class": "archer",
+  "tier": 1,
+  "stats": {
+   "dmg": 3,
+   "crit_pct": 5,
+   "accuracy": 10
+  },
+  "flavor": "Calloused river-hide molded to the exact curve of a bow-stave.",
+  "inspect": "Originally worn by an Alder Ford ferryman who kept a shortbow dry beneath his floorboards for river pirates."
+ },
+ {
+  "id": "uniq-hedge-clerk-rod",
+  "name": "Border-Assessor's Oak",
+  "base": "Oak Staff",
+  "class": "mage",
+  "tier": 1,
+  "stats": {
+   "spell_dmg": 13,
+   "mana": 20,
+   "cast_speed": 6
+  },
+  "flavor": "Carved with imperial survey notches that glow faintly near ley-water.",
+  "inspect": "Left behind by an academy cartographer who went mad trying to measure the shifting banks of the Redwater."
+ },
+ {
+  "id": "uniq-tallow-candle-focus",
+  "name": "Ditch-Chapel Prism",
+  "base": "Novice Glass Focus",
+  "class": "mage",
+  "tier": 1,
+  "stats": {
+   "spell_dmg": 10,
+   "mana_regen": 4,
+   "fire_res": 12
+  },
+  "flavor": "Bubbled river-sand glass that refracts a single spark into three.",
+  "inspect": "Salvaged from the melted stained-glass window of a roadside shrine torched during the first border tax riots."
+ },
+ {
+  "id": "uniq-peat-smoke-cowl",
+  "name": "Hedge-Tutor's Hat",
+  "base": "Scholar Hat",
+  "class": "mage",
+  "tier": 1,
+  "stats": {
+   "armor": 4,
+   "mana": 25,
+   "spell_crit": 5
+  },
+  "flavor": "Wide felt brim stiffened with river-clay and old candle wax.",
+  "inspect": "Belonged to an itinerant hedge-mage who taught farmboys their letters in exchange for dry barn-lofts and cider."
+ },
+ {
+  "id": "uniq-creek-bone-wand",
+  "name": "Silt-Picker's Willow",
+  "base": "Willow Wand",
+  "class": "necromancer",
+  "tier": 1,
+  "stats": {
+   "spell_dmg": 12,
+   "minion_hp": 15,
+   "mana": 18
+  },
+  "flavor": "Peeled river-willow bound with yellowed catgut and fish-vertebrae.",
+  "inspect": "Used by a Thornwick bone-grinder to coax drowned livestock out of deep mudholes before they spoiled the wells."
+ },
+ {
+  "id": "uniq-pauper-burial-robe",
+  "name": "Lime-Ditch Cassock",
+  "base": "Cloth Robe",
+  "class": "necromancer",
+  "tier": 1,
+  "stats": {
+   "armor": 6,
+   "minion_dmg": 10,
+   "poison_res": 14
+  },
+  "flavor": "Hemmed with coarse hemp twine and dusted permanently with quicklime.",
+  "inspect": "Worn by a border parish sexton who buried forty skirmish dead in a single night and swore half of them whispered back."
+ },
+ {
+  "id": "uniq-knuckle-dice-ring",
+  "name": "Gallows-Root Band",
+  "base": "Bone Ring",
+  "class": "necromancer",
+  "tier": 1,
+  "stats": {
+   "mana": 15,
+   "minion_hp": 12,
+   "spell_dmg": 6
+  },
+  "flavor": "Whittled from a sheep's knucklebone found beneath the Crooked Willow.",
+  "inspect": "Passed among border deserters as a lucky charm until every man who wore it ended up back at the same crossroads."
+ },
+ {
+  "id": "uniq-bog-iron-cleaver",
+  "name": "Dike-Breaker's Broadaxe",
+  "base": "Bearded Battleaxe",
+  "class": "warrior",
+  "tier": 2,
+  "stats": {
+   "dmg": 21,
+   "armor_pen": 8,
+   "hp": 35
+  },
+  "flavor": "Pitted dark iron that holds a vicious, jagged edge in wet peat.",
+  "inspect": "Forged from bog-ore dredged out of Redmarsh trenches to chop through submerged timber barricades during the fen rebellion."
+ },
+ {
+  "id": "uniq-sunken-warden-plate",
+  "name": "Mire-Watch Ring Mail",
+  "base": "Interlocking Ring Mail",
+  "class": "warrior",
+  "tier": 2,
+  "stats": {
+   "armor": 22,
+   "hp": 45,
+   "poison_res": 20
+  },
+  "flavor": "Every iron link boiled in pine-pitch to keep the black rot out.",
+  "inspect": "Stripped from a sunken sentinel whose drowned corpse still stood upright at his post three seasons after the garrison fell."
+ },
+ {
+  "id": "uniq-peat-trench-shield",
+  "name": "Boardwalk Pavise",
+  "base": "Iron Shield",
+  "class": "warrior",
+  "tier": 2,
+  "stats": {
+   "armor": 18,
+   "block_pct": 16,
+   "poison_res": 15
+  },
+  "flavor": "Slotted near the top so a pikeman can thrust without raising his chin.",
+  "inspect": "Carried by Redmarsh plank-guards who held narrow log causeways against swarms of fever-maddened marsh heretics."
+ },
+ {
+  "id": "uniq-reed-whistle-bow",
+  "name": "Sedge-Bank Recurve",
+  "base": "Recurve Bow",
+  "class": "archer",
+  "tier": 2,
+  "stats": {
+   "dmg": 19,
+   "crit_pct": 11,
+   "armor_pen": 6
+  },
+  "flavor": "Laminated horn limbs wrapped in mottled plague-toad skin.",
+  "inspect": "Favored by fenland guides who hunted bloated bog-beasts from flat-bottomed punts in thick morning fog."
+ },
+ {
+  "id": "uniq-leech-hunter-boots",
+  "name": "Fen-Wader Striders",
+  "base": "Tracker Treads",
+  "class": "archer",
+  "tier": 2,
+  "stats": {
+   "armor": 11,
+   "dodge_pct": 11,
+   "poison_res": 18
+  },
+  "flavor": "Soles pegged with bog-oak spikes that bite cleanly into slick peat.",
+  "inspect": "Cured in bitter willow-tanning liquor so swamp leeches drop off the leather before reaching the laces."
+ },
+ {
+  "id": "uniq-bog-fog-mask",
+  "name": "Midge-Veil Hood",
+  "base": "Stalker Hood",
+  "class": "archer",
+  "tier": 2,
+  "stats": {
+   "armor": 10,
+   "accuracy": 14,
+   "crit_pct": 8
+  },
+  "flavor": "Fine horsehair mesh sewn across the mouth to filter foul marsh-gas.",
+  "inspect": "Worn by Redmarsh bounty hunters tracking heretic preachers through stagnant pools where a deep breath burns the throat."
+ },
+ {
+  "id": "uniq-wisp-lantern-staff",
+  "name": "False-Light Crozier",
+  "base": "Ash Staff",
+  "class": "mage",
+  "tier": 2,
+  "stats": {
+   "spell_dmg": 22,
+   "mana": 38,
+   "cold_res": 18
+  },
+  "flavor": "A rusted iron cage at the tip traps a pale, shivering marsh-flame.",
+  "inspect": "Crafted by an exiled scholar who spent seven years bottling swamp-gas spirits until one agreed to burn without fuel."
+ },
+ {
+  "id": "uniq-quartz-fen-focus",
+  "name": "Bog-Crystal Lens",
+  "base": "Chiseled Quartz Focus",
+  "class": "mage",
+  "tier": 2,
+  "stats": {
+   "spell_dmg": 19,
+   "spell_crit": 10,
+   "mana_regen": 7
+  },
+  "flavor": "Cloudy river-quartz veined with threads of tarnished bog-copper.",
+  "inspect": "Dredged from the cellar of a sunken abbey where monks once tried to distill clean drinking water from toxic mire."
+ },
+ {
+  "id": "uniq-wormwood-robe",
+  "name": "Apothecary's Oilcloth",
+  "base": "Weaver Robe",
+  "class": "mage",
+  "tier": 2,
+  "stats": {
+   "armor": 12,
+   "mana": 40,
+   "poison_res": 22
+  },
+  "flavor": "Stitched with dried wormwood pockets that rattle with every step.",
+  "inspect": "Worn by Redmarsh fever-doctors who walked the quarantine trenches long after the parish priests fled north."
+ },
+ {
+  "id": "uniq-peat-marrow-wand",
+  "name": "Drowned-Bell Yew",
+  "base": "Yew Wand",
+  "class": "necromancer",
+  "tier": 2,
+  "stats": {
+   "spell_dmg": 21,
+   "minion_dmg": 18,
+   "mana": 34
+  },
+  "flavor": "Blackened bog-yew inlaid with a sliver of cracked bronze bell-metal.",
+  "inspect": "When tapped against wet stone, it emits a muffled underwater chime that calls half-rotted corpses out of the silt."
+ },
+ {
+  "id": "uniq-bog-mummy-wraps",
+  "name": "Tannin-Stained Wraps",
+  "base": "Novice Wraps",
+  "class": "necromancer",
+  "tier": 2,
+  "stats": {
+   "armor": 9,
+   "minion_hp": 26,
+   "cast_speed": 9
+  },
+  "flavor": "Linen strips pickled dark brown by centuries beneath acidic peat.",
+  "inspect": "Unwound from a remarkably preserved bog-corpse whose fingers still twitched whenever thunder rolled over Redmarsh."
+ },
+ {
+  "id": "uniq-carrion-talisman",
+  "name": "Frog-Bone Locket",
+  "base": "Bronze Locket",
+  "class": "necromancer",
+  "tier": 2,
+  "stats": {
+   "mana": 30,
+   "minion_hp": 22,
+   "spell_dmg": 11
+  },
+  "flavor": "Tarnished green bronze enclosing a tiny skull carved from marsh-chalk.",
+  "inspect": "Found clutched inside the jaw of a giant plague-toad slain outside the Redmarsh stockade."
+ },
+ {
+  "id": "uniq-anchor-chain-flail",
+  "name": "Harbor-Chain Morning Star",
+  "base": "Heavy Morningstar",
+  "class": "warrior",
+  "tier": 3,
+  "stats": {
+   "dmg": 31,
+   "armor_pen": 14,
+   "hp": 60
+  },
+  "flavor": "Forged from a snapped harbor-boom link studded with shipwright spikes.",
+  "inspect": "Wielded by an Ironcamp dock-captain who smashed through three corsair boarding shields before his own galley sank beneath him."
+ },
+ {
+  "id": "uniq-reef-plate-cuirass",
+  "name": "Salt-Scoured Brigandine",
+  "base": "Hardened Brigandine",
+  "class": "warrior",
+  "tier": 3,
+  "stats": {
+   "armor": 34,
+   "hp": 70,
+   "cold_res": 24
+  },
+  "flavor": "Overlapping whale-oiled plates riveted onto thick seal-hide.",
+  "inspect": "Built for coastal marines who fought knee-deep in freezing surf without letting rust lock their shoulder joints."
+ },
+ {
+  "id": "uniq-gale-wall-kite",
+  "name": "Breakwater Kite Shield",
+  "base": "Steel Kite Shield",
+  "class": "warrior",
+  "tier": 3,
+  "stats": {
+   "armor": 28,
+   "block_pct": 21,
+   "lightning_res": 20
+  },
+  "flavor": "Curved steel face hammered with the emblem of a storm-lashed lighthouse.",
+  "inspect": "Stood upright on the Ironcamp sea-wall through twelve winters of pirate broadsides and winter squalls."
+ },
+ {
+  "id": "uniq-corsair-wind-bow",
+  "name": "Gale-Rigging Composite",
+  "base": "Composite War Bow",
+  "class": "archer",
+  "tier": 3,
+  "stats": {
+   "dmg": 28,
+   "crit_pct": 15,
+   "accuracy": 18
+  },
+  "flavor": "Backed with cured shark-skin that refuses to stretch in wet sea-fog.",
+  "inspect": "Taken from a mutinous crow's-nest marksman who could pick off a helmsman across eighty paces of pitching swell."
+ },
+ {
+  "id": "uniq-cliff-talon-grips",
+  "name": "Wreck-Diver's Bracers",
+  "base": "Reinforced Vambraces",
+  "class": "archer",
+  "tier": 3,
+  "stats": {
+   "armor": 16,
+   "dmg": 9,
+   "dodge_pct": 14
+  },
+  "flavor": "Striped with brass strips salvaged from a sunken royal pay-frigate.",
+  "inspect": "Worn by cliff-scavengers who climbed wet basalt chimneys with quivers strapped tight against the gale."
+ },
+ {
+  "id": "uniq-salt-spray-striders",
+  "name": "Reef-Walker Boots",
+  "base": "Windrunner Striders",
+  "class": "archer",
+  "tier": 3,
+  "stats": {
+   "armor": 17,
+   "dodge_pct": 16,
+   "cold_res": 22
+  },
+  "flavor": "Braided hemp soles stitched over oiled calfskin for wet kelp-rocks.",
+  "inspect": "Favored by coastal smugglers who outran royal dragoons across razor-sharp tidal reefs at low water."
+ },
+ {
+  "id": "uniq-storm-beacon-staff",
+  "name": "Blind-Beacon Rune Staff",
+  "base": "Rune Staff",
+  "class": "mage",
+  "tier": 3,
+  "stats": {
+   "spell_dmg": 33,
+   "mana": 58,
+   "lightning_res": 26
+  },
+  "flavor": "Charred driftwood spiral-carved with copper lightning-conductors.",
+  "inspect": "Stood atop the Ironcamp cliff-tower during a winter tempest, drinking three lightning strikes without splitting."
+ },
+ {
+  "id": "uniq-brine-mirror-focus",
+  "name": "Tide-Scryer's Sphere",
+  "base": "Astral Sphere",
+  "class": "mage",
+  "tier": 3,
+  "stats": {
+   "spell_dmg": 29,
+   "spell_crit": 14,
+   "mana_regen": 11
+  },
+  "flavor": "Hollow sea-glass orb half-filled with swirling, phosphorescent brine.",
+  "inspect": "Used by coastal navigators to read hidden shoals through thick fog until the tide-cultists stole it for darker auguries."
+ },
+ {
+  "id": "uniq-abyssal-velvet-robe",
+  "name": "Deep-Current Mantle",
+  "base": "Mystic Velvet Mantle",
+  "class": "mage",
+  "tier": 3,
+  "stats": {
+   "armor": 19,
+   "mana": 62,
+   "cold_res": 25
+  },
+  "flavor": "Salt-stiffened indigo velvet embroidered with silver wave-knots.",
+  "inspect": "Recovered from the locked cabin of a drowned academy envoy bound for the southern provinces."
+ },
+ {
+  "id": "uniq-whalebone-siphon",
+  "name": "Leviathan-Rib Focus",
+  "base": "Amber Focus Wand",
+  "class": "necromancer",
+  "tier": 3,
+  "stats": {
+   "spell_dmg": 31,
+   "minion_dmg": 25,
+   "mana": 54
+  },
+  "flavor": "Polished sea-amber capped with a shard of fossilized leviathan tooth.",
+  "inspect": "Hums like a distant foghorn whenever drowned sailors rise from the surf to answer its call."
+ },
+ {
+  "id": "uniq-barnacle-skull-cowl",
+  "name": "Ossuary-Keeper's Cowl",
+  "base": "Sage Cowl",
+  "class": "necromancer",
+  "tier": 3,
+  "stats": {
+   "armor": 17,
+   "minion_hp": 38,
+   "spell_crit": 12
+  },
+  "flavor": "Gray sailcloth weighted at the hem with salt-pitted lead net-sinkers.",
+  "inspect": "Worn by the hermit who tended the Iron Coast cliff-niches, keeping the restless sea-dead from wandering into town."
+ },
+ {
+  "id": "uniq-drowned-gold-signet",
+  "name": "Galley-Master's Seal",
+  "base": "Ring of Insight",
+  "class": "necromancer",
+  "tier": 3,
+  "stats": {
+   "mana": 48,
+   "minion_dmg": 20,
+   "cast_speed": 12
+  },
+  "flavor": "Corroded sea-gold stamped with a broken oar and a chained skull.",
+  "inspect": "Cut from the swollen finger of a slaver captain whose drowned crew still rowed his shattered hull beneath the waves."
+ },
+ {
+  "id": "uniq-cinder-throne-greatsword",
+  "name": "Pyre-Marshal's Flamberge",
+  "base": "Flamberge",
+  "class": "warrior",
+  "tier": 4,
+  "stats": {
+   "dmg": 44,
+   "armor_pen": 20,
+   "fire_res": 30
+  },
+  "flavor": "Wave-bladed steel quenched in boiling oil and blackened by brazier-soot.",
+  "inspect": "Borne by the commander of the inner citadel guard who executed three rebel lords on the steps of the Cinder Throne."
+ },
+ {
+  "id": "uniq-slag-forged-plate",
+  "name": "Ashen Citadel Cuirass",
+  "base": "Gothic Full Plate",
+  "class": "warrior",
+  "tier": 4,
+  "stats": {
+   "armor": 48,
+   "hp": 105,
+   "fire_res": 32
+  },
+  "flavor": "Fluted dark steel layered with mica plates to deflect crown-fire.",
+  "inspect": "Hammered in the royal gunpowder foundries for the Sovereign's personal bodyguard during the final purge of the capital."
+ },
+ {
+  "id": "uniq-sovereign-aegis",
+  "name": "Cinder-Crown Bulwark",
+  "base": "Aegis of the Citadel",
+  "class": "warrior",
+  "tier": 4,
+  "stats": {
+   "armor": 40,
+   "block_pct": 26,
+   "hp": 85
+  },
+  "flavor": "Heavy bronze-rimmed tower face scarred by molten slag splashes.",
+  "inspect": "Held the inner viaduct gate for six days against siege-mortars before its bearer finally succumbed to smoke inhalation."
+ },
+ {
+  "id": "uniq-obsidian-greatbow",
+  "name": "Ember-Glass Windpiercer",
+  "base": "Windpiercer Greatbow",
+  "class": "archer",
+  "tier": 4,
+  "stats": {
+   "dmg": 41,
+   "crit_pct": 20,
+   "armor_pen": 18
+  },
+  "flavor": "Steel-backed limbs inlaid with razor-sharp splinters of volcanic glass.",
+  "inspect": "Drawn only by the Sovereign's parapet marksmen, capable of punching bodkin arrows clean through knightly breastplates."
+ },
+ {
+  "id": "uniq-ash-wind-mask",
+  "name": "Inquisition Sight-Veil",
+  "base": "Shadow Mask",
+  "class": "archer",
+  "tier": 4,
+  "stats": {
+   "armor": 22,
+   "crit_pct": 18,
+   "accuracy": 24
+  },
+  "flavor": "Smoked-glass eye-lenses set into blackened, soot-proofed leather.",
+  "inspect": "Allowed royal hunters to track fugitives through blinding ash-storms without shedding a single tear."
+ },
+ {
+  "id": "uniq-cinder-stalker-gloves",
+  "name": "Ash-Runner Grips",
+  "base": "Shadowstrike Grips",
+  "class": "archer",
+  "tier": 4,
+  "stats": {
+   "dmg": 14,
+   "crit_pct": 16,
+   "dodge_pct": 18
+  },
+  "flavor": "Supple salamander-hide palms that never blister on hot iron rungs.",
+  "inspect": "Stolen from the royal armory by a disgraced scout who scaled the burning viaducts to smuggle out his family."
+ },
+ {
+  "id": "uniq-star-forge-staff",
+  "name": "Sovereign's Brazier Staff",
+  "base": "Star Staff",
+  "class": "mage",
+  "tier": 4,
+  "stats": {
+   "spell_dmg": 46,
+   "mana": 85,
+   "spell_crit": 17
+  },
+  "flavor": "Crowned with a perpetually glowing coal from the First King's hearth.",
+  "inspect": "Carried by the court archmage who channeled crown-fire across the capital walls until his own robes caught ablaze."
+ },
+ {
+  "id": "uniq-cosmos-ember-lens",
+  "name": "Molten-Bell Astrolabe",
+  "base": "Eye of the Cosmos",
+  "class": "mage",
+  "tier": 4,
+  "stats": {
+   "spell_dmg": 42,
+   "mana_regen": 16,
+   "fire_res": 28
+  },
+  "flavor": "Cast from the melted bronze of Oakhaven's great cathedral bell.",
+  "inspect": "Still vibrates with a low, mournful hum whenever destructive magic is gathered within ten paces."
+ },
+ {
+  "id": "uniq-archmage-cinder-robe",
+  "name": "Vestments of the Last Pyre",
+  "base": "Star Robe",
+  "class": "mage",
+  "tier": 4,
+  "stats": {
+   "armor": 26,
+   "mana": 90,
+   "fire_res": 30
+  },
+  "flavor": "Ashen silk woven with fine gold thread that refuses to scorch.",
+  "inspect": "Found folded neatly beside an empty throne in the high spire, untouched by the soot burying the rest of the hall."
+ },
+ {
+  "id": "uniq-chancellery-siphon-wand",
+  "name": "Inquisitor's Ash-Siphon",
+  "base": "Astral Archon Wand",
+  "class": "necromancer",
+  "tier": 4,
+  "stats": {
+   "spell_dmg": 44,
+   "minion_dmg": 34,
+   "mana": 78
+  },
+  "flavor": "Charred bone shaft capped with a vial of compressed chancellery soot.",
+  "inspect": "Binds the restless shades of condemned prisoners whose names were burned in the Sovereign's final purge."
+ },
+ {
+  "id": "uniq-crown-ossuary-diadem",
+  "name": "Coronet of Cold Clinkers",
+  "base": "Archmage Diadem",
+  "class": "necromancer",
+  "tier": 4,
+  "stats": {
+   "armor": 23,
+   "minion_hp": 55,
+   "cast_speed": 16
+  },
+  "flavor": "Blackened iron circlet set with dull, heat-cracked bloodstones.",
+  "inspect": "Worn by the royal necromancer tasked with raising fallen pyre-knights back onto the battlements during the siege."
+ },
+ {
+  "id": "uniq-sovereign-pyre-medallion",
+  "name": "Heart of the Cinder Throne",
+  "base": "Heart of the Colossus",
+  "class": "necromancer",
+  "tier": 4,
+  "stats": {
+   "hp": 75,
+   "minion_dmg": 30,
+   "minion_hp": 45
+  },
+  "flavor": "A heavy slab of vitrified slag pulsing with trapped, dying warmth.",
+  "inspect": "Chiseled from the base of the royal hearth where generations of kings burned their enemies' banners."
+ }
+]

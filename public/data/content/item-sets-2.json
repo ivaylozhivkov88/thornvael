@@ -1,0 +1,292 @@
+[
+ {
+  "id": "set-alder-ferry-marksman",
+  "name": "Alder Ford Toll-Bow",
+  "class": "archer",
+  "pieces": [
+   {
+    "name": "Toll-Post Ash Shortbow",
+    "base": "Ash Shortbow"
+   },
+   {
+    "name": "Oiled Otter-Pelt Cap",
+    "base": "Leather Cap"
+   },
+   {
+    "name": "Ferryman's Tarred Jerkin",
+    "base": "Padded Jerkin"
+   },
+   {
+    "name": "Gravel-Bar Waders",
+    "base": "Leather Boots"
+   }
+  ],
+  "bonuses": {
+   "2": "+10 Accuracy and +6% Critical Strike Chance",
+   "3": "+30 Max HP and +15% Cold Resistance",
+   "4": "Ranged attacks against targets in water or mud deal +15% Damage"
+  },
+  "lore": "Worn by the river-wardens who guarded the crossing tariffs between Thornwick and the northern border tracks before the garrisons mutinied."
+ },
+ {
+  "id": "set-border-hedge-scholar",
+  "name": "Wayshrine Hedgemage",
+  "class": "mage",
+  "pieces": [
+   {
+    "name": "Milestone Survey Oak",
+    "base": "Oak Staff"
+   },
+   {
+    "name": "Tallow-Stained Felt Hat",
+    "base": "Scholar Hat"
+   },
+   {
+    "name": "Homespun Hedge Cassock",
+    "base": "Cloth Robe"
+   },
+   {
+    "name": "Clay-Baked Amber Charm",
+    "base": "Clay Talisman"
+   }
+  ],
+  "bonuses": {
+   "2": "+14 Spell Damage and +25 Max Mana",
+   "3": "+8% Cast Speed and +12% Fire Resistance",
+   "4": "Casting a bolt spell restores 6 Mana when standing still"
+  },
+  "lore": "Assembled by wandering border tutors who traded weather-charms and literacy lessons for dry barn lofts along the Redwater."
+ },
+ {
+  "id": "set-drowned-dike-warden",
+  "name": "Sunken Dike Sentinel",
+  "class": "warrior",
+  "pieces": [
+   {
+    "name": "Peat-Trench War Axe",
+    "base": "Bearded Battleaxe"
+   },
+   {
+    "name": "Tarred Plank Pavise",
+    "base": "Iron Shield"
+   },
+   {
+    "name": "Pitch-Boiled Ring Mail",
+    "base": "Interlocking Ring Mail"
+   },
+   {
+    "name": "Sludge-Drained Basinet",
+    "base": "Steel Basinet"
+   }
+  ],
+  "bonuses": {
+   "2": "+18 Armor and +20% Poison Resistance",
+   "3": "+65 Max HP and +10% Armor Penetration",
+   "4": "Taking poison damage grants +8 Armor for 6 seconds"
+  },
+  "lore": "Forged for the penal battalions ordered to hold Redmarsh's crumbling earthen dikes against bog-beasts and heretic raiders alike."
+ },
+ {
+  "id": "set-redmarsh-bog-sexton",
+  "name": "Quicklime Parish Sexton",
+  "class": "necromancer",
+  "pieces": [
+   {
+    "name": "Drowned-Belfry Yew Wand",
+    "base": "Yew Wand"
+   },
+   {
+    "name": "Wormwood Filter Cowl",
+    "base": "Sage Cowl"
+   },
+   {
+    "name": "Lime-Dusted Burial Habit",
+    "base": "Weaver Robe"
+   },
+   {
+    "name": "Bog-Tannin Linen Wraps",
+    "base": "Novice Wraps"
+   }
+  ],
+  "bonuses": {
+   "2": "+20% Minion Max HP and +16 Spell Damage",
+   "3": "+22% Poison Resistance and +10% Cast Speed",
+   "4": "Your raised minions leave a toxic cloud on death"
+  },
+  "lore": "Garments of the grim Redmarsh grave-keepers who learned that burying corpses in wet peat only invited them to walk again."
+ },
+ {
+  "id": "set-fen-leech-apothecary",
+  "name": "Bitter-Root Fen-Doctor",
+  "class": "mage",
+  "pieces": [
+   {
+    "name": "Bog-Quartz Distiller Lens",
+    "base": "Chiseled Quartz Focus"
+   },
+   {
+    "name": "Waxed Oilcloth Mantle",
+    "base": "Weaver Robe"
+   },
+   {
+    "name": "Peat-Ash Silk Gloves",
+    "base": "Silk Gloves"
+   },
+   {
+    "name": "Leech-Jar Bronze Locket",
+    "base": "Bronze Locket"
+   }
+  ],
+  "bonuses": {
+   "2": "+18 Spell Damage and +10 Mana Regeneration",
+   "3": "+55 Max HP and +25% Poison Resistance",
+   "4": "Healing potions also grant +15% Spell Damage for 8 seconds"
+  },
+  "lore": "Worn by quarantine physicians who braved the fever-wards of Redmarsh long after royal magistrates abandoned the province."
+ },
+ {
+  "id": "set-iron-coast-marine",
+  "name": "Breakwater Boarding Corps",
+  "class": "warrior",
+  "pieces": [
+   {
+    "name": "Harbor-Boom Morningstar",
+    "base": "Heavy Morningstar"
+   },
+   {
+    "name": "Sea-Wall Kite Shield",
+    "base": "Steel Kite Shield"
+   },
+   {
+    "name": "Whale-Oiled Brigandine",
+    "base": "Hardened Brigandine"
+   },
+   {
+    "name": "Salt-Pitted War Greaves",
+    "base": "Steel Greaves"
+   }
+  ],
+  "bonuses": {
+   "2": "+26 Armor and +14% Block Chance",
+   "3": "+85 Max HP and +25% Cold/Lightning Resistance",
+   "4": "Blocking a melee hit deals 18 physical damage back to the attacker"
+  },
+  "lore": "Standard heavy kit of the Ironcamp cliff-marines who repelled corsair landing craft along the jagged basalt coves."
+ },
+ {
+  "id": "set-cliff-wreck-raider",
+  "name": "Shingle-Reef Smuggler",
+  "class": "archer",
+  "pieces": [
+   {
+    "name": "Shark-Skin Composite Bow",
+    "base": "Composite War Bow"
+   },
+   {
+    "name": "Gale-Hooded Stalker Mask",
+    "base": "Stalker Hood"
+   },
+   {
+    "name": "Seal-Hide Studded Jerkin",
+    "base": "Studded Leather Armor"
+   },
+   {
+    "name": "Kelp-Grip Reef Striders",
+    "base": "Windrunner Striders"
+   }
+  ],
+  "bonuses": {
+   "2": "+24 Ranged Damage and +12% Dodge Chance",
+   "3": "+14% Critical Strike Chance and +20 Accuracy",
+   "4": "Dodging an attack grants +15% Attack Speed for 4 seconds"
+  },
+  "lore": "Favored by Iron Coast wreck-scavengers and smugglers who navigated razor-sharp sea-cliffs under cover of winter squalls."
+ },
+ {
+  "id": "set-abyssal-tide-binder",
+  "name": "Cliff-Ossuary Tide-Caller",
+  "class": "necromancer",
+  "pieces": [
+   {
+    "name": "Leviathan-Tooth Focus Wand",
+    "base": "Amber Focus Wand"
+   },
+   {
+    "name": "Salt-Weighted Velvet Mantle",
+    "base": "Mystic Velvet Mantle"
+   },
+   {
+    "name": "Net-Sinker Channeler Wraps",
+    "base": "Velvet Channelers"
+   },
+   {
+    "name": "Corroded Galley-Master Signet",
+    "base": "Ring of Insight"
+   }
+  ],
+  "bonuses": {
+   "2": "+28% Minion Damage and +25 Spell Damage",
+   "3": "+65 Max Mana and +25% Cold Resistance",
+   "4": "Summoning a minion chills nearby enemies for 3 seconds"
+  },
+  "lore": "Relics of the solitary cliff-hermits who bound drowned mariners to guard the coastal ossuaries against pirate grave-robbers."
+ },
+ {
+  "id": "set-cinder-citadel-vanguard",
+  "name": "Pyre-Marshal's Executioners",
+  "class": "warrior",
+  "pieces": [
+   {
+    "name": "Foundry-Quenched Flamberge",
+    "base": "Flamberge"
+   },
+   {
+    "name": "Slag-Scarred Citadel Aegis",
+    "base": "Aegis of the Citadel"
+   },
+   {
+    "name": "Mica-Layered Full Plate",
+    "base": "Gothic Full Plate"
+   },
+   {
+    "name": "Soot-Blackened Dread Helm",
+    "base": "Dread Crest Helm"
+   }
+  ],
+  "bonuses": {
+   "2": "+38 Armor and +30% Fire Resistance",
+   "3": "+120 Max HP and +22 Armor Penetration",
+   "4": "Melee attacks ignite enemies for 24 fire damage over 3 seconds"
+  },
+  "lore": "Forged in the royal gunpowder foundries for the Sovereign's inner-wall shock troops during the final siege of Crown and Ember."
+ },
+ {
+  "id": "set-ashen-conclave-pyromancer",
+  "name": "Sovereign Hearth-Archon",
+  "class": "mage",
+  "pieces": [
+   {
+    "name": "First-King Brazier Staff",
+    "base": "Star Staff"
+   },
+   {
+    "name": "Molten-Bronze Bell Sphere",
+    "base": "Eye of the Cosmos"
+   },
+   {
+    "name": "Unscorched Ash-Silk Robe",
+    "base": "Star Robe"
+   },
+   {
+    "name": "Vitrified Hearth Diadem",
+    "base": "Archmage Diadem"
+   }
+  ],
+  "bonuses": {
+   "2": "+42 Spell Damage and +80 Max Mana",
+   "3": "+16% Spell Critical Chance and +35% Fire Resistance",
+   "4": "Fire spells reduce target Fire Resistance by 15% for 5 seconds"
+  },
+  "lore": "Vestments of the capital's high court pyromancers, who reduced entire rebellious districts to vitrified glass on royal decree."
+ }
+]

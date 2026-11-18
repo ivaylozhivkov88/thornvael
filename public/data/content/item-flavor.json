@@ -843,5 +843,325 @@
   "name": "Medallion of the Celestial Spire",
   "flavor": "A shard of white crystal suspended inside a ring of charcoal star-ferric.",
   "inspect": "Recovered from the ruin overlooking the Ember Court. Channels blinding celestial authority through its bearer's will."
+ },
+ "Alder Pike": {
+  "name": "Alder Pike",
+  "flavor": "Eight feet of seasoned river-ash tipped with a notched iron bodkin for holding muddy fords."
+ },
+ "Border Billhook": {
+  "name": "Border Billhook",
+  "flavor": "Originally forged for clearing riverside briars, now sharpened on both edges for unhorsing raiders."
+ },
+ "Militia Halberd": {
+  "name": "Militia Halberd",
+  "flavor": "Stained with river-mud and tallow where Thornwick watchmen rested the butt-spike during night patrols."
+ },
+ "Ferryman's Gaff": {
+  "name": "Ferryman's Gaff",
+  "flavor": "A heavy iron boat-hook balanced enough to haul drowned cargo or snag a brigand's shield-rim."
+ },
+ "Bog-Iron Falchion": {
+  "name": "Bog-Iron Falchion",
+  "flavor": "Broad, clip-pointed blade smelted from Redmarsh ore; heavy enough to cleave wet peat and leather."
+ },
+ "Peat-Cutter's Cleaver": {
+  "name": "Peat-Cutter's Cleaver",
+  "flavor": "Squared iron chopper hammered flat on the spine so it doubles as a tent-peg mallet."
+ },
+ "Sunken-Ruin Gladius": {
+  "name": "Sunken-Ruin Gladius",
+  "flavor": "Short bronze-hilted stabbing blade pulled from a fenland barrow with faint verdigris in the fuller."
+ },
+ "Fenland Sickle-Blade": {
+  "name": "Fenland Sickle-Blade",
+  "flavor": "Curved harvesting iron bound to an oak grip with tarred hemp; favored by marsh heretics."
+ },
+ "Corsair Boarding Cutlass": {
+  "name": "Corsair Boarding Cutlass",
+  "flavor": "Basket-hilted sea-iron scarred by salt spray and parried boat-hooks along the Iron Coast."
+ },
+ "Harpoon Spear": {
+  "name": "Harpoon Spear",
+  "flavor": "Barbed iron head lashed to a stout pine shaft with a ring for a trailing retrieval rope."
+ },
+ "Mariner's Belaying Club": {
+  "name": "Mariner's Belaying Club",
+  "flavor": "Dense ironwood pin weighted at the tip with poured lead for close brawls on pitching decks."
+ },
+ "Shipwright's Adze": {
+  "name": "Shipwright's Adze",
+  "flavor": "Curved timber-shaping blade sharp enough to split seasoned oak planks—or an unarmored skull."
+ },
+ "Foundry Maul": {
+  "name": "Foundry Maul",
+  "flavor": "Soot-blackened sledgehammer used to crack open cooling slag molds in the royal armories."
+ },
+ "Inquisitor's Glaive": {
+  "name": "Inquisitor's Glaive",
+  "flavor": "Long blackened polearm stamped with the Cinder Throne's judicial seal along the socket."
+ },
+ "Cinder-Guard Partisan": {
+  "name": "Cinder-Guard Partisan",
+  "flavor": "Broad-winged ceremonial spear whose gilded lugs have been ground keen for street fighting."
+ },
+ "Obsidian-Tipped Spear": {
+  "name": "Obsidian-Tipped Spear",
+  "flavor": "Knapped volcanic glass bound into an ashwood socket; brittle against plate, lethal in flesh."
+ },
+ "Willow Longbow": {
+  "name": "Willow Longbow",
+  "flavor": "Supple river-willow stave oiled against dampness; draws smooth even when mist clings to the string."
+ },
+ "Horn-Tipped Flatbow": {
+  "name": "Horn-Tipped Flatbow",
+  "flavor": "Wide-limbed border bow reinforced with boiled ox-horn nocks to handle heavy bodkin shafts."
+ },
+ "Border Patrol Crossbow": {
+  "name": "Border Patrol Crossbow",
+  "flavor": "Stirrup-cocked iron prod issued to bridge sentries who needed steady aim over long river watches."
+ },
+ "Poacher's Sling-Staff": {
+  "name": "Poacher's Sling-Staff",
+  "flavor": "Four-foot hazel rod fitted with a leather pouch for hurling smooth river cobbles silently."
+ },
+ "Reed-Wrapped Bow": {
+  "name": "Reed-Wrapped Bow",
+  "flavor": "Camouflaged with braided sedge-grass so hunters can draw unseen from Redmarsh blind-huts."
+ },
+ "Bog-Oak Crossbow": {
+  "name": "Bog-Oak Crossbow",
+  "flavor": "Stock carved from blackened fen-timber that refuses to warp in endless swamp humidity."
+ },
+ "Salt-Cured Recurve": {
+  "name": "Salt-Cured Recurve",
+  "flavor": "Sinew-backed coastal bow sealed in seal-blubber grease to keep the sea-spray out."
+ },
+ "Whalebone Arbalest": {
+  "name": "Whalebone Arbalest",
+  "flavor": "Heavy marine crossbow inlaid with scrimshaw depth-marks along its grooved bolt-track."
+ },
+ "Soot-Stained Greatbow": {
+  "name": "Soot-Stained Greatbow",
+  "flavor": "Six-foot yew warbow darkened by capital smoke; requires a steel gauntlet to draw cleanly."
+ },
+ "Citadel Siege Crossbow": {
+  "name": "Citadel Siege Crossbow",
+  "flavor": "Winch-drawn steel prod built to punch iron bolts through reinforced oak mantlets."
+ },
+ "River-Driftwood Staff": {
+  "name": "River-Driftwood Staff",
+  "flavor": "Bleached smooth by spring currents and bound at the crown with tarnished copper wire."
+ },
+ "Alder Divining Rod": {
+  "name": "Alder Divining Rod",
+  "flavor": "Forked branch cut during a new moon; hums faintly whenever groundwater or ley-streams run beneath."
+ },
+ "Peat-Charred Quarterstaff": {
+  "name": "Peat-Charred Quarterstaff",
+  "flavor": "Fire-hardened bog-oak shod with iron ferrules to keep from sinking into soft marsh turf."
+ },
+ "Mire-Wisp Lantern Rod": {
+  "name": "Mire-Wisp Lantern Rod",
+  "flavor": "Crooked ash staff fitted with a brass hook for carrying glowing marsh-gas cages safely."
+ },
+ "Sea-Glass Focus Staff": {
+  "name": "Sea-Glass Focus Staff",
+  "flavor": "Crowned with a thick chunk of wave-frosted green bottle glass that scatters lightning sparks."
+ },
+ "Brine-Bleached Crozier": {
+  "name": "Brine-Bleached Crozier",
+  "flavor": "Curved driftwood shepherd's crook crusted with dried salt crystals from coastal vigils."
+ },
+ "Cinder-Core Spire Staff": {
+  "name": "Cinder-Core Spire Staff",
+  "flavor": "Hollowed ironwood rod packed with warm foundry slag that radiates a steady, dry heat."
+ },
+ "Vitrified Slag Rod": {
+  "name": "Vitrified Slag Rod",
+  "flavor": "Twisted shaft of fused black glass pulled from the ruins of an incinerated chancellery."
+ },
+ "River-Clay Totem": {
+  "name": "River-Clay Totem",
+  "flavor": "Sun-baked tablet pressed with the crossed-hammer sigil of the First Border Compact."
+ },
+ "Tallow-Sealed Scroll Tube": {
+  "name": "Tallow-Sealed Scroll Tube",
+  "flavor": "Waterproofed leather cylinder used by border couriers to keep parchment dry through rainstorms."
+ },
+ "Bog-Amber Fetish": {
+  "name": "Bog-Amber Fetish",
+  "flavor": "Cloudy yellow resin enclosing a preserved marsh-midge; feels strangely warm in cold fog."
+ },
+ "Cracked Bronze Censer": {
+  "name": "Cracked Bronze Censer",
+  "flavor": "Smells permanently of dried wormwood and swamp-sage burned to ward off quarantine fevers."
+ },
+ "Barnacle-Encrusted Idol": {
+  "name": "Barnacle-Encrusted Idol",
+  "flavor": "Small soapstone sea-god dredged from an Iron Coast wreck, worn smooth by centuries of surf."
+ },
+ "Navigator's Brass Quadrant": {
+  "name": "Navigator's Brass Quadrant",
+  "flavor": "Salt-pitted sighting tool whose engraved degree-marks still catch stray beams of starlight."
+ },
+ "Ashen Reliquary Box": {
+  "name": "Ashen Reliquary Box",
+  "flavor": "Lead-lined miniature casket holding consecrated gray dust from Oakhaven's fallen sanctuary."
+ },
+ "Ember-Glass Prism": {
+  "name": "Ember-Glass Prism",
+  "flavor": "Faceted shard of melted cathedral window that turns dull torchlight into sharp crimson rays."
+ },
+ "Tarred Plank Buckler": {
+  "name": "Tarred Plank Buckler",
+  "flavor": "Caulked oak barrel-lid fitted with an iron boss; floats if dropped in a river skirmish."
+ },
+ "Border Watch Pavise": {
+  "name": "Border Watch Pavise",
+  "flavor": "Tall, scarred wooden shield with a pointed base-spike meant to be planted firmly in gravel."
+ },
+ "Bog-Oak Round Shield": {
+  "name": "Bog-Oak Round Shield",
+  "flavor": "Dense black timber bound in rawhide; absorbs axe blows without splitting in damp weather."
+ },
+ "Whale-Hide Targe": {
+  "name": "Whale-Hide Targe",
+  "flavor": "Stretched marine leather cured in brine until it turns harder than boiled ox-hide."
+ },
+ "Soot-Scored Heater Shield": {
+  "name": "Soot-Scored Heater Shield",
+  "flavor": "Triangular royal infantry shield whose painted crest has been blistered away by ash-winds."
+ },
+ "Militia Kettle Hat": {
+  "name": "Militia Kettle Hat",
+  "flavor": "Wide-brimmed iron helm prized by bridge sentries for keeping both rain and arrows off their necks."
+ },
+ "Otter-Pelt Trapper Cap": {
+  "name": "Otter-Pelt Trapper Cap",
+  "flavor": "Greasy fur-lined hood with ear-flaps that tie snugly beneath the chin against river gales."
+ },
+ "Peat-Stained Coif": {
+  "name": "Peat-Stained Coif",
+  "flavor": "Heavy quilted linen hood worn beneath iron helms to cushion blows and soak up swamp sweat."
+ },
+ "Beekeeper's Midge-Hood": {
+  "name": "Beekeeper's Midge-Hood",
+  "flavor": "Woven rush frame draped in fine horsehair netting to keep biting bog-flies out of the eyes."
+ },
+ "Oilskin Sou'wester": {
+  "name": "Oilskin Sou'wester",
+  "flavor": "Broad-brimmed tarred canvas hat with an elongated back-flap that channels sea-spray off the collar."
+ },
+ "Salt-Raker's Eye-Shade": {
+  "name": "Salt-Raker's Eye-Shade",
+  "flavor": "Slitted driftwood visor tied with hemp cord to prevent snow-blindness on glaring brine flats."
+ },
+ "Ash-Filter Respirator Mask": {
+  "name": "Ash-Filter Respirator Mask",
+  "flavor": "Boiled leather snout stuffed with damp charcoal and wool to strain stinging cinders from the air."
+ },
+ "Pyre-Guard Visored Helm": {
+  "name": "Pyre-Guard Visored Helm",
+  "flavor": "Heavy blackened steel sallet with narrow eye-slits built to withstand flying foundry sparks."
+ },
+ "Homespun Gambeson": {
+  "name": "Homespun Gambeson",
+  "flavor": "Stuffed with raw sheep's wool and horsehair; stiff enough to turn a glancing knife thrust."
+ },
+ "Tarred Ferryman's Coat": {
+  "name": "Tarred Ferryman's Coat",
+  "flavor": "Heavy canvas greatcoat painted with pine-pitch until it stands upright on its own."
+ },
+ "Waxed Bog-Wader Jerkin": {
+  "name": "Waxed Bog-Wader Jerkin",
+  "flavor": "Double-stitched leather vest rubbed weekly with tallow so stagnant water beads right off."
+ },
+ "Scale-Sewn Fen Coat": {
+  "name": "Scale-Sewn Fen Coat",
+  "flavor": "Overlapping plates of cured gar-fish scales riveted onto tough marsh-reed canvas."
+ },
+ "Seal-Skin Mariner Tunic": {
+  "name": "Seal-Skin Mariner Tunic",
+  "flavor": "Supple coastal hide lined with gull-down to keep out the freezing spray of the Iron Coast."
+ },
+ "Corroded Ring Hauberk": {
+  "name": "Corroded Ring Hauberk",
+  "flavor": "Salt-pitted mail shirt salvaged from a sunken patrol galley; still holds together despite the rust."
+ },
+ "Mica-Plated Brigandine": {
+  "name": "Mica-Plated Brigandine",
+  "flavor": "Layered heat-resistant mineral sheets sandwiched between blackened canvas and steel rivets."
+ },
+ "Cinder-Slicked Surcoat": {
+  "name": "Cinder-Slicked Surcoat",
+  "flavor": "Heavy wool tabard treated with alum-wash so drifting embers smolder out without catching."
+ },
+ "Fen-Wader Thigh Boots": {
+  "name": "Fen-Wader Thigh Boots",
+  "flavor": "High-laced oiled leather boots fitted with brass drainage eyelets near the ankles."
+ },
+ "Bog-Oak Clogs": {
+  "name": "Bog-Oak Clogs",
+  "flavor": "Carved wooden overshoes strapped over leather boots to keep feet dry on flooded boardwalks."
+ },
+ "Kelp-Soled Cliff Boots": {
+  "name": "Kelp-Soled Cliff Boots",
+  "flavor": "Rough-buffed calfskin soles scored with cross-hatches for grip on wet coastal basalt."
+ },
+ "Iron-Shod Ash Walkers": {
+  "name": "Iron-Shod Ash Walkers",
+  "flavor": "Thick hobnailed soles insulated with cork so hot cinders won't blister the wearer's feet."
+ },
+ "Rope-Calloused Mitts": {
+  "name": "Rope-Calloused Mitts",
+  "flavor": "Reinforced palm-guards worn by river barge-men when hauling wet hemp tow-lines."
+ },
+ "Tallow-Greased Bracers": {
+  "name": "Tallow-Greased Bracers",
+  "flavor": "Boiled leather forearm guards polished smooth so mud and swamp-slime wipe away easily."
+ },
+ "Barnacle-Scraper Gauntlets": {
+  "name": "Barnacle-Scraper Gauntlets",
+  "flavor": "Thick iron-knuckled gloves used by Ironcamp dockhands to clear hulls and break jaws."
+ },
+ "Foundry Tongs-Grips": {
+  "name": "Foundry Tongs-Grips",
+  "flavor": "Quilted asbestos-cloth mitts worn when handling red-hot crucibles in the capital's works."
+ },
+ "Tarnished Toll-Token": {
+  "name": "Tarnished Toll-Token",
+  "flavor": "Stamped brass river-pass drilled with a hole and hung on a leather thong for good luck."
+ },
+ "Alder-Seed Rosary": {
+  "name": "Alder-Seed Rosary",
+  "flavor": "Dried river-alder cones strung on waxed linen thread by border pilgrims."
+ },
+ "Dried Toad-Foot Charm": {
+  "name": "Dried Toad-Foot Charm",
+  "flavor": "Common Redmarsh folk-ward believed to turn away swamp-ague and false lantern-lights."
+ },
+ "Bog-Iron Signet": {
+  "name": "Bog-Iron Signet",
+  "flavor": "Rough-cast dark metal ring stamped with the three-reed mark of a fenland drainage guild."
+ },
+ "Sea-Glass Pendant": {
+  "name": "Sea-Glass Pendant",
+  "flavor": "Teardrop of frosted blue glass wrapped in silver wire; sailors swear it warns of sudden squalls."
+ },
+ "Shark-Tooth Ring": {
+  "name": "Shark-Tooth Ring",
+  "flavor": "Serrated fossil tooth set into a band of hammered ship-nail iron."
+ },
+ "Clinker-Ash Locket": {
+  "name": "Clinker-Ash Locket",
+  "flavor": "Small blackened iron capsule holding a pinch of gray dust from a burned ancestral hearth."
+ },
+ "Vitrified Glass Band": {
+  "name": "Vitrified Glass Band",
+  "flavor": "Smoky ring ground from sand melted by crown-fire during the capital riots."
+ },
+ "Sealed Ration Tin": {
+  "name": "Sealed Ration Tin",
+  "flavor": "Soldered pewter box holding salted hardtack and dried river-berries safe from swamp damp."
  }
 }
