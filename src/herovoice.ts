@@ -22,3 +22,13 @@ export function heroBark(kind: string, cooldownMs = 6000, now = Date.now()): str
 }
 
 export const heroIntro = (): string | null => voices[voiceId]?.intro_monologue ?? null;
+
+/** Class ending epilogue (Gemini Pack 13 class-endings.json) for the current hero; null when missing. */
+export async function heroEnding(): Promise<string | null> {
+  try {
+    const r = await fetch(`${import.meta.env.BASE_URL}data/content/class-endings.json`);
+    if (!r.ok) return null;
+    const list = await r.json() as { class: string; female: boolean; text: string }[];
+    return list.find((e) => `${e.class}-${e.female ? 'female' : 'male'}` === voiceId)?.text ?? null;
+  } catch { return null; }
+}

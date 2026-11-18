@@ -1,3 +1,4 @@
+import { heroEnding } from './herovoice';
 /** Flavour text for campaign missions (Gemini packs 4a/4b, imported to public/data/content/missions.json). Optional: the game plays without it. */
 export interface Scene { speaker: string; line: string }
 export interface MissionContent { intro_scene?: Scene[]; victory_epilogue?: Scene[]; defeat_line?: string }
@@ -47,6 +48,10 @@ export async function loadMissionContent(map: string | null): Promise<MissionCon
         const epi = (await (await fetch(`${base}data/content/act-epilogues.json`)).json() as { act: number; title: string; text: string }[]).find((e) => e.act === node.act);
         if (epi) base0.victory_epilogue = [...(base0.victory_epilogue ?? []), { speaker: 'narrator', line: `${epi.title}\n${epi.text}` }];
       } catch { /* optional */ }
+    }
+    if (node.act === 4 && missions[missions.length - 1]?.id === node.id) {
+      const ce = await heroEnding();
+      if (ce) base0.victory_epilogue = [...(base0.victory_epilogue ?? []), { speaker: 'narrator', line: ce }];
     }
     if (end && missions[missions.length - 1]?.id === node.id) {
       base0.victory_epilogue = [
