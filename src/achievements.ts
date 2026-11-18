@@ -72,3 +72,6 @@ export function achCampaign(diff: string, cls: string): void {
   check(); save();
 }
 export function achCount(): { got: number; total: number } { return { got: stats.unlocked.length, total: trigs.length }; }
+export function achList(): { name: string; desc: string; got: boolean }[] {
+  return trigs.map((t) => { const d = defs.get(t.id); return { name: d?.name ?? t.id, desc: d?.desc ?? d?.description ?? '', got: stats.unlocked.includes(t.id) }; });
+}

@@ -7,6 +7,7 @@ import {
   setSfxVolume,
   type MusicMode,
 } from './audio';
+import { achCount, achList } from './achievements';
 import { SPELLS, Tk, St, type SpellDef } from './sim/spelldata';
 import { QUALITY_NAMES } from './render';
 import { keybindManager, DEFAULT_KEYBINDS } from './keybinds';
@@ -37,7 +38,7 @@ export interface PauseMenuCtx {
   setVirtualStick?: (on: boolean) => void;
 }
 
-type MenuView = 'main' | 'controls' | 'codex' | 'settings';
+type MenuView = 'main' | 'controls' | 'codex' | 'settings' | 'achievements';
 type SphereFilter = 'all' | 'fire' | 'water' | 'air' | 'earth' | 'astral';
 
 const SCHOOL_META: Record<number, { key: SphereFilter; name: string; icon: string; color: string; border: string }> = {
@@ -144,6 +145,9 @@ export class PauseMenu {
       case 'codex':
         this.renderCodex(modal);
         break;
+      case 'achievements':
+        this.renderAchievements(modal);
+        break;
       case 'settings':
         this.renderSettings(modal);
         break;
@@ -221,6 +225,15 @@ export class PauseMenu {
         subtitle: 'The 5 Spheres, spell trees & casting rules',
         action: () => {
           this.view = 'codex';
+          this.render();
+        },
+      },
+      {
+        icon: '🏆',
+        title: 'Achievements',
+        subtitle: `${achCount().got} of ${achCount().total} unlocked`,
+        action: () => {
+          this.view = 'achievements';
           this.render();
         },
       },
@@ -527,6 +540,20 @@ export class PauseMenu {
   // ==========================================
   // VIEW: MAGIC & SPELLS CODEX
   // ==========================================
+  private renderAchievements(modal: HTMLElement): void {
+    const head = this.createSubHead('🏆 Achievements');
+    const body = document.createElement('div');
+    body.className = 'pause-body';
+    for (const a of achList()) {
+      const row = document.createElement('p');
+      row.className = 'pause-intro-note';
+      row.style.opacity = a.got ? '1' : '0.45';
+      row.textContent = `${a.got ? '✔' : '✖'} ${a.name} — ${a.desc}`;
+      body.append(row);
+    }
+    modal.append(head, body);
+  }
+
   private renderCodex(modal: HTMLElement): void {
     const head = this.createSubHead('🔮 Magic & Spells Codex');
     const body = document.createElement('div');
