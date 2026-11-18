@@ -440,6 +440,9 @@ export function townCommand(sim: Sim, cmd: TownCommand): void {
       const m = rt.def.mercs?.[v];
       if (!m || sim.hidden[m.unit] === 0 || sim.cb.hp[m.unit] <= 0) return;
       const fee = mercPrice(sim, m.price);
+      // At most 3 hired mercenaries, one of each kind.
+      const mine = (rt.def.mercs ?? []).filter((o) => o !== m && sim.hidden[o.unit] === 0 && sim.cb.hp[o.unit] > 0);
+      if (mine.length >= 3 || mine.some((o) => sim.cb.kind[o.unit] === sim.cb.kind[m.unit])) return refuse(sim, Why.Busy);
       if (fee > gold[0]) return refuse(sim, Why.Gold);
       gold[0] -= fee;
       const [dx, dy] = rt.door[Role.Tavern]!;

@@ -1,0 +1,1636 @@
+{
+ "quest_specs": [
+  {
+   "id": "sq01-tollhouse-audit",
+   "mission": "any",
+   "objectives": [
+    {
+     "type": "kill_family",
+     "args": {
+      "family": "briar-hound",
+      "count": 6
+     }
+    },
+    {
+     "type": "hold_gold",
+     "args": {
+      "amount": 500
+     }
+    }
+   ],
+   "reward_bonus": 5
+  },
+  {
+   "id": "sq02-bile-of-the-fen",
+   "mission": "any",
+   "objectives": [
+    {
+     "type": "kill_family",
+     "args": {
+      "family": "mire-wisp",
+      "count": 8
+     }
+    }
+   ],
+   "reward_bonus": 4
+  },
+  {
+   "id": "sq03-broken-picket",
+   "mission": "any",
+   "objectives": [
+    {
+     "type": "kill_family",
+     "args": {
+      "family": "ruin-mite",
+      "count": 10
+     }
+    }
+   ],
+   "reward_bonus": 5
+  },
+  {
+   "id": "sq04-night-cargo",
+   "mission": "any",
+   "objectives": [
+    {
+     "type": "kill_family",
+     "args": {
+      "family": "cinderling",
+      "count": 8
+     }
+    },
+    {
+     "type": "hold_gold",
+     "args": {
+      "amount": 800
+     }
+    }
+   ],
+   "reward_bonus": 8
+  },
+  {
+   "id": "sq05-the-quartermasters-ledger",
+   "mission": "any",
+   "objectives": [
+    {
+     "type": "kill_family",
+     "args": {
+      "family": "thorn-boar",
+      "count": 6
+     }
+    }
+   ],
+   "reward_bonus": 3
+  },
+  {
+   "id": "sq06-glass-in-the-thicket",
+   "mission": "any",
+   "objectives": [
+    {
+     "type": "kill_family",
+     "args": {
+      "family": "glasswing",
+      "count": 8
+     }
+    }
+   ],
+   "reward_bonus": 6
+  },
+  {
+   "id": "sq07-the-canyon-audit",
+   "mission": "any",
+   "objectives": [
+    {
+     "type": "kill_family",
+     "args": {
+      "family": "sand-raider",
+      "count": 10
+     }
+    },
+    {
+     "type": "hold_gold",
+     "args": {
+      "amount": 1200
+     }
+    }
+   ],
+   "reward_bonus": 10
+  },
+  {
+   "id": "sq08-rubbings-in-blood",
+   "mission": "any",
+   "objectives": [
+    {
+     "type": "kill_family",
+     "args": {
+      "family": "witch-doctor",
+      "count": 5
+     }
+    }
+   ],
+   "reward_bonus": 8
+  },
+  {
+   "id": "sq09-the-bitter-well",
+   "mission": "any",
+   "objectives": [
+    {
+     "type": "kill_family",
+     "args": {
+      "family": "maggot-swarm",
+      "count": 12
+     }
+    }
+   ],
+   "reward_bonus": 7
+  },
+  {
+   "id": "sq10-granary-smokers",
+   "mission": "any",
+   "objectives": [
+    {
+     "type": "kill_family",
+     "args": {
+      "family": "dune-lurker",
+      "count": 8
+     }
+    }
+   ],
+   "reward_bonus": 6
+  },
+  {
+   "id": "sq11-canopic-tar",
+   "mission": "any",
+   "objectives": [
+    {
+     "type": "kill_family",
+     "args": {
+      "family": "greater-mummy",
+      "count": 4
+     }
+    }
+   ],
+   "reward_bonus": 12
+  },
+  {
+   "id": "sq12-empty-waterskins",
+   "mission": "any",
+   "objectives": [
+    {
+     "type": "kill_any",
+     "args": {
+      "count": 15
+     }
+    }
+   ],
+   "reward_bonus": 5
+  },
+  {
+   "id": "sq13-the-triage-wagon",
+   "mission": "any",
+   "objectives": [
+    {
+     "type": "kill_family",
+     "args": {
+      "family": "salt-crab",
+      "count": 8
+     }
+    }
+   ],
+   "reward_bonus": 8
+  },
+  {
+   "id": "sq14-the-mountain-convoy",
+   "mission": "any",
+   "objectives": [
+    {
+     "type": "kill_family",
+     "args": {
+      "family": "hollow-knight",
+      "count": 6
+     }
+    },
+    {
+     "type": "hold_gold",
+     "args": {
+      "amount": 2500
+     }
+    }
+   ],
+   "reward_bonus": 14
+  },
+  {
+   "id": "sq15-the-bell-tower-picket",
+   "mission": "any",
+   "objectives": [
+    {
+     "type": "kill_family",
+     "args": {
+      "family": "frost-bell",
+      "count": 5
+     }
+    }
+   ],
+   "reward_bonus": 10
+  },
+  {
+   "id": "sq16-low-tide-salvage",
+   "mission": "any",
+   "objectives": [
+    {
+     "type": "kill_family",
+     "args": {
+      "family": "lantern-eel",
+      "count": 8
+     }
+    }
+   ],
+   "reward_bonus": 9
+  },
+  {
+   "id": "sq17-silencing-the-orchard",
+   "mission": "any",
+   "objectives": [
+    {
+     "type": "kill_family",
+     "args": {
+      "family": "night-orchard",
+      "count": 6
+     }
+    }
+   ],
+   "reward_bonus": 11
+  },
+  {
+   "id": "sq18-pitch-for-the-fire-ships",
+   "mission": "any",
+   "objectives": [
+    {
+     "type": "kill_family",
+     "args": {
+      "family": "spore-matron",
+      "count": 6
+     }
+    }
+   ],
+   "reward_bonus": 10
+  },
+  {
+   "id": "sq19-iron-on-the-wall",
+   "mission": "any",
+   "objectives": [
+    {
+     "type": "kill_family",
+     "args": {
+      "family": "basalt-brute",
+      "count": 6
+     }
+    },
+    {
+     "type": "hold_gold",
+     "args": {
+      "amount": 4000
+     }
+    }
+   ],
+   "reward_bonus": 18
+  },
+  {
+   "id": "sq20-the-unquenched-jaw",
+   "mission": "any",
+   "objectives": [
+    {
+     "type": "kill_family",
+     "args": {
+      "family": "anvilmaw-smith",
+      "count": 4
+     }
+    }
+   ],
+   "reward_bonus": 15
+  },
+  {
+   "id": "sq21-the-burnt-syllabus",
+   "mission": "any",
+   "objectives": [
+    {
+     "type": "kill_family",
+     "args": {
+      "family": "rift-moth",
+      "count": 10
+     }
+    }
+   ],
+   "reward_bonus": 12
+  },
+  {
+   "id": "sq22-thunder-on-the-glacis",
+   "mission": "any",
+   "objectives": [
+    {
+     "type": "kill_family",
+     "args": {
+      "family": "stormtree",
+      "count": 4
+     }
+    }
+   ],
+   "reward_bonus": 16
+  },
+  {
+   "id": "sq23-slag-trench-convoy",
+   "mission": "any",
+   "objectives": [
+    {
+     "type": "kill_family",
+     "args": {
+      "family": "cinderhorn",
+      "count": 5
+     }
+    }
+   ],
+   "reward_bonus": 14
+  },
+  {
+   "id": "sq24-the-choir-in-the-nave",
+   "mission": "any",
+   "objectives": [
+    {
+     "type": "kill_family",
+     "args": {
+      "family": "doom-knight",
+      "count": 5
+     }
+    },
+    {
+     "type": "hold_gold",
+     "args": {
+      "amount": 5500
+     }
+    }
+   ],
+   "reward_bonus": 20
+  },
+  {
+   "id": "sq25-weir-eel-traps",
+   "mission": "any",
+   "objectives": [
+    {
+     "type": "kill_family",
+     "args": {
+      "family": "rootbound",
+      "count": 6
+     }
+    }
+   ],
+   "reward_bonus": 5
+  },
+  {
+   "id": "sq26-cold-hearth-coal",
+   "mission": "any",
+   "objectives": [
+    {
+     "type": "kill_family",
+     "args": {
+      "family": "flintback",
+      "count": 8
+     }
+    }
+   ],
+   "reward_bonus": 5
+  },
+  {
+   "id": "sq27-rue-for-the-grey-itch",
+   "mission": "any",
+   "objectives": [
+    {
+     "type": "kill_family",
+     "args": {
+      "family": "gloom-stag",
+      "count": 5
+     }
+    }
+   ],
+   "reward_bonus": 6
+  },
+  {
+   "id": "sq28-broken-axle-on-alder-road",
+   "mission": "any",
+   "objectives": [
+    {
+     "type": "kill_family",
+     "args": {
+      "family": "quill-fiend",
+      "count": 8
+     }
+    }
+   ],
+   "reward_bonus": 6
+  },
+  {
+   "id": "sq29-salt-crust-beacons",
+   "mission": "any",
+   "objectives": [
+    {
+     "type": "kill_family",
+     "args": {
+      "family": "dune-scarab",
+      "count": 10
+     }
+    }
+   ],
+   "reward_bonus": 8
+  },
+  {
+   "id": "sq30-jawbone-wind-chimes",
+   "mission": "any",
+   "objectives": [
+    {
+     "type": "kill_family",
+     "args": {
+      "family": "dune-beast",
+      "count": 6
+     }
+    }
+   ],
+   "reward_bonus": 8
+  },
+  {
+   "id": "sq31-brine-barrel-reckoning",
+   "mission": "any",
+   "objectives": [
+    {
+     "type": "kill_family",
+     "args": {
+      "family": "claw-viper",
+      "count": 8
+     }
+    }
+   ],
+   "reward_bonus": 9
+  },
+  {
+   "id": "sq32-vinegar-for-highgate",
+   "mission": "any",
+   "objectives": [
+    {
+     "type": "kill_family",
+     "args": {
+      "family": "storm-kite",
+      "count": 8
+     }
+    }
+   ],
+   "reward_bonus": 8
+  },
+  {
+   "id": "sq33-quartz-splinter-harvest",
+   "mission": "any",
+   "objectives": [
+    {
+     "type": "kill_family",
+     "args": {
+      "family": "fetish-blowdart",
+      "count": 10
+     }
+    }
+   ],
+   "reward_bonus": 7
+  },
+  {
+   "id": "sq34-pit-prop-timbers",
+   "mission": "any",
+   "objectives": [
+    {
+     "type": "kill_family",
+     "args": {
+      "family": "pale-burrower",
+      "count": 8
+     }
+    }
+   ],
+   "reward_bonus": 10
+  },
+  {
+   "id": "sq35-milestone-dispatch",
+   "mission": "any",
+   "objectives": [
+    {
+     "type": "kill_family",
+     "args": {
+      "family": "fallen-shaman",
+      "count": 6
+     }
+    }
+   ],
+   "reward_bonus": 7
+  },
+  {
+   "id": "sq36-caulking-oakum",
+   "mission": "any",
+   "objectives": [
+    {
+     "type": "kill_family",
+     "args": {
+      "family": "ironbark",
+      "count": 6
+     }
+    }
+   ],
+   "reward_bonus": 11
+  },
+  {
+   "id": "sq37-fumarole-glass",
+   "mission": "any",
+   "objectives": [
+    {
+     "type": "kill_family",
+     "args": {
+      "family": "ash-weaver",
+      "count": 6
+     }
+    }
+   ],
+   "reward_bonus": 12
+  },
+  {
+   "id": "sq38-semaphore-codebooks",
+   "mission": "any",
+   "objectives": [
+    {
+     "type": "kill_family",
+     "args": {
+      "family": "wendigo-bruiser",
+      "count": 4
+     }
+    }
+   ],
+   "reward_bonus": 14
+  },
+  {
+   "id": "sq39-undertow-chains",
+   "mission": "any",
+   "objectives": [
+    {
+     "type": "kill_family",
+     "args": {
+      "family": "crowned-maw",
+      "count": 5
+     }
+    }
+   ],
+   "reward_bonus": 13
+  },
+  {
+   "id": "sq40-mill-wheel-grease",
+   "mission": "any",
+   "objectives": [
+    {
+     "type": "kill_family",
+     "args": {
+      "family": "hollow-king",
+      "count": 4
+     }
+    }
+   ],
+   "reward_bonus": 15
+  },
+  {
+   "id": "sq41-lodestone-compasses",
+   "mission": "any",
+   "objectives": [
+    {
+     "type": "kill_family",
+     "args": {
+      "family": "silt-colossus",
+      "count": 4
+     }
+    }
+   ],
+   "reward_bonus": 16
+  },
+  {
+   "id": "sq42-barons-cellar-keys",
+   "mission": "any",
+   "objectives": [
+    {
+     "type": "kill_any",
+     "args": {
+      "count": 20
+     }
+    }
+   ],
+   "reward_bonus": 12
+  },
+  {
+   "id": "sq43-sulfur-crust-markers",
+   "mission": "any",
+   "objectives": [
+    {
+     "type": "kill_family",
+     "args": {
+      "family": "redglass-drake",
+      "count": 5
+     }
+    }
+   ],
+   "reward_bonus": 15
+  },
+  {
+   "id": "sq44-prism-dust-for-the-anvil",
+   "mission": "any",
+   "objectives": [
+    {
+     "type": "kill_family",
+     "args": {
+      "family": "anvilmaw-smith",
+      "count": 4
+     }
+    }
+   ],
+   "reward_bonus": 16
+  },
+  {
+   "id": "sq45-pumice-mortar-breach",
+   "mission": "any",
+   "objectives": [
+    {
+     "type": "kill_family",
+     "args": {
+      "family": "basalt-brute",
+      "count": 6
+     }
+    }
+   ],
+   "reward_bonus": 14
+  },
+  {
+   "id": "sq46-ashveil-cleft-wardens",
+   "mission": "any",
+   "objectives": [
+    {
+     "type": "kill_family",
+     "args": {
+      "family": "rift-moth",
+      "count": 8
+     }
+    }
+   ],
+   "reward_bonus": 13
+  },
+  {
+   "id": "sq47-magnetic-vein-spikes",
+   "mission": "any",
+   "objectives": [
+    {
+     "type": "kill_family",
+     "args": {
+      "family": "doom-knight",
+      "count": 4
+     }
+    }
+   ],
+   "reward_bonus": 18
+  },
+  {
+   "id": "sq48-ashes-of-the-first-watch",
+   "mission": "any",
+   "objectives": [
+    {
+     "type": "kill_family",
+     "args": {
+      "family": "cinderhorn",
+      "count": 5
+     }
+    }
+   ],
+   "reward_bonus": 16
+  },
+  {
+   "id": "sq49-rusted-toll-chain",
+   "mission": "m01",
+   "objectives": [
+    {
+     "type": "kill_family",
+     "args": {
+      "family": "briar-hound",
+      "count": 8
+     }
+    }
+   ],
+   "reward_bonus": 10
+  },
+  {
+   "id": "sq50-peat-spade-salvage",
+   "mission": "m02",
+   "objectives": [
+    {
+     "type": "kill_family",
+     "args": {
+      "family": "mire-wisp",
+      "count": 10
+     }
+    }
+   ],
+   "reward_bonus": 10
+  },
+  {
+   "id": "sq51-cellar-tally-books",
+   "mission": "m03",
+   "objectives": [
+    {
+     "type": "kill_family",
+     "args": {
+      "family": "ruin-mite",
+      "count": 12
+     }
+    }
+   ],
+   "reward_bonus": 11
+  },
+  {
+   "id": "sq52-tallow-for-lantern-pass",
+   "mission": "m05",
+   "objectives": [
+    {
+     "type": "kill_family",
+     "args": {
+      "family": "cinderling",
+      "count": 8
+     }
+    }
+   ],
+   "reward_bonus": 10
+  },
+  {
+   "id": "sq53-crosscut-blades",
+   "mission": "m06",
+   "objectives": [
+    {
+     "type": "kill_family",
+     "args": {
+      "family": "thorn-boar",
+      "count": 8
+     }
+    }
+   ],
+   "reward_bonus": 9
+  },
+  {
+   "id": "sq54-sleet-cairn-oil",
+   "mission": "m07",
+   "objectives": [
+    {
+     "type": "kill_family",
+     "args": {
+      "family": "glasswing",
+      "count": 8
+     }
+    }
+   ],
+   "reward_bonus": 10
+  },
+  {
+   "id": "sq55-chalk-bluff-stakes",
+   "mission": "m08",
+   "objectives": [
+    {
+     "type": "kill_family",
+     "args": {
+      "family": "quill-fiend",
+      "count": 10
+     }
+    }
+   ],
+   "reward_bonus": 11
+  },
+  {
+   "id": "sq56-green-slag-cullets",
+   "mission": "m09",
+   "objectives": [
+    {
+     "type": "kill_family",
+     "args": {
+      "family": "flintback",
+      "count": 8
+     }
+    }
+   ],
+   "reward_bonus": 10
+  },
+  {
+   "id": "sq57-turnip-ditch-relics",
+   "mission": "m11",
+   "objectives": [
+    {
+     "type": "kill_family",
+     "args": {
+      "family": "gloom-stag",
+      "count": 6
+     }
+    }
+   ],
+   "reward_bonus": 11
+  },
+  {
+   "id": "sq58-weir-pike-heads",
+   "mission": "m01",
+   "objectives": [
+    {
+     "type": "kill_family",
+     "args": {
+      "family": "rootbound",
+      "count": 6
+     }
+    }
+   ],
+   "reward_bonus": 10
+  },
+  {
+   "id": "sq59-whale-rib-rawhide",
+   "mission": "m12",
+   "objectives": [
+    {
+     "type": "kill_family",
+     "args": {
+      "family": "dune-beast",
+      "count": 8
+     }
+    }
+   ],
+   "reward_bonus": 12
+  },
+  {
+   "id": "sq60-sniper-blind-tallies",
+   "mission": "m13",
+   "objectives": [
+    {
+     "type": "kill_family",
+     "args": {
+      "family": "sand-raider",
+      "count": 10
+     }
+    }
+   ],
+   "reward_bonus": 12
+  },
+  {
+   "id": "sq61-hoodoo-signal-mirrors",
+   "mission": "m14",
+   "objectives": [
+    {
+     "type": "kill_family",
+     "args": {
+      "family": "dune-lurker",
+      "count": 10
+     }
+    }
+   ],
+   "reward_bonus": 12
+  },
+  {
+   "id": "sq62-arroyo-firepot-oil",
+   "mission": "m15",
+   "objectives": [
+    {
+     "type": "kill_family",
+     "args": {
+      "family": "storm-kite",
+      "count": 8
+     }
+    }
+   ],
+   "reward_bonus": 12
+  },
+  {
+   "id": "sq63-copper-horn-capacitors",
+   "mission": "m16",
+   "objectives": [
+    {
+     "type": "kill_family",
+     "args": {
+      "family": "dune-scarab",
+      "count": 12
+     }
+    }
+   ],
+   "reward_bonus": 13
+  },
+  {
+   "id": "sq64-bitter-well-skimming",
+   "mission": "m17",
+   "objectives": [
+    {
+     "type": "kill_family",
+     "args": {
+      "family": "maggot-swarm",
+      "count": 12
+     }
+    }
+   ],
+   "reward_bonus": 12
+  },
+  {
+   "id": "sq65-redrock-silver-scales",
+   "mission": "m18",
+   "objectives": [
+    {
+     "type": "kill_family",
+     "args": {
+      "family": "claw-viper",
+      "count": 8
+     }
+    }
+   ],
+   "reward_bonus": 13
+  },
+  {
+   "id": "sq66-megalith-cauldron-soot",
+   "mission": "m19",
+   "objectives": [
+    {
+     "type": "kill_family",
+     "args": {
+      "family": "witch-doctor",
+      "count": 6
+     }
+    }
+   ],
+   "reward_bonus": 14
+  },
+  {
+   "id": "sq67-quarry-chain-keys",
+   "mission": "m20",
+   "objectives": [
+    {
+     "type": "kill_family",
+     "args": {
+      "family": "pale-burrower",
+      "count": 8
+     }
+    }
+   ],
+   "reward_bonus": 14
+  },
+  {
+   "id": "sq68-milestone-glyph-chisels",
+   "mission": "m21",
+   "objectives": [
+    {
+     "type": "kill_family",
+     "args": {
+      "family": "sand-raider",
+      "count": 10
+     }
+    }
+   ],
+   "reward_bonus": 13
+  },
+  {
+   "id": "sq69-salt-crab-carapaces",
+   "mission": "m24",
+   "objectives": [
+    {
+     "type": "kill_family",
+     "args": {
+      "family": "salt-crab",
+      "count": 8
+     }
+    }
+   ],
+   "reward_bonus": 14
+  },
+  {
+   "id": "sq70-fumarole-sulfur-cakes",
+   "mission": "m25",
+   "objectives": [
+    {
+     "type": "kill_family",
+     "args": {
+      "family": "cinderling",
+      "count": 10
+     }
+    }
+   ],
+   "reward_bonus": 14
+  },
+  {
+   "id": "sq71-split-tooth-cages",
+   "mission": "m26",
+   "objectives": [
+    {
+     "type": "kill_family",
+     "args": {
+      "family": "hollow-knight",
+      "count": 6
+     }
+    }
+   ],
+   "reward_bonus": 15
+  },
+  {
+   "id": "sq72-chapel-linen-bales",
+   "mission": "m27",
+   "objectives": [
+    {
+     "type": "kill_family",
+     "args": {
+      "family": "fetish-blowdart",
+      "count": 10
+     }
+    }
+   ],
+   "reward_bonus": 14
+  },
+  {
+   "id": "sq73-lighthouse-fresnel-lens",
+   "mission": "m28",
+   "objectives": [
+    {
+     "type": "kill_family",
+     "args": {
+      "family": "lantern-eel",
+      "count": 8
+     }
+    }
+   ],
+   "reward_bonus": 14
+  },
+  {
+   "id": "sq74-shingle-spit-beacons",
+   "mission": "m29",
+   "objectives": [
+    {
+     "type": "kill_family",
+     "args": {
+      "family": "frost-bell",
+      "count": 6
+     }
+    }
+   ],
+   "reward_bonus": 15
+  },
+  {
+   "id": "sq75-orchard-gallows-axes",
+   "mission": "m30",
+   "objectives": [
+    {
+     "type": "kill_family",
+     "args": {
+      "family": "night-orchard",
+      "count": 6
+     }
+    }
+   ],
+   "reward_bonus": 15
+  },
+  {
+   "id": "sq76-capstan-grease-drums",
+   "mission": "m31",
+   "objectives": [
+    {
+     "type": "kill_family",
+     "args": {
+      "family": "spore-matron",
+      "count": 6
+     }
+    }
+   ],
+   "reward_bonus": 15
+  },
+  {
+   "id": "sq77-vane-ledger-strongbox",
+   "mission": "m33",
+   "objectives": [
+    {
+     "type": "kill_family",
+     "args": {
+      "family": "hollow-king",
+      "count": 4
+     }
+    }
+   ],
+   "reward_bonus": 16
+  },
+  {
+   "id": "sq78-culverin-sponge-rods",
+   "mission": "m35",
+   "objectives": [
+    {
+     "type": "kill_family",
+     "args": {
+      "family": "wendigo-bruiser",
+      "count": 5
+     }
+    }
+   ],
+   "reward_bonus": 16
+  },
+  {
+   "id": "sq79-obsidian-glass-blades",
+   "mission": "m36",
+   "objectives": [
+    {
+     "type": "kill_family",
+     "args": {
+      "family": "redglass-drake",
+      "count": 6
+     }
+    }
+   ],
+   "reward_bonus": 17
+  },
+  {
+   "id": "sq80-highcrest-trench-stakes",
+   "mission": "m36",
+   "objectives": [
+    {
+     "type": "kill_family",
+     "args": {
+      "family": "crowned-maw",
+      "count": 6
+     }
+    }
+   ],
+   "reward_bonus": 17
+  },
+  {
+   "id": "sq81-capacitor-ground-wires",
+   "mission": "m37",
+   "objectives": [
+    {
+     "type": "kill_family",
+     "args": {
+      "family": "stormtree",
+      "count": 5
+     }
+    }
+   ],
+   "reward_bonus": 18
+  },
+  {
+   "id": "sq82-sallyport-slag-craters",
+   "mission": "m38",
+   "objectives": [
+    {
+     "type": "kill_family",
+     "args": {
+      "family": "basalt-brute",
+      "count": 6
+     }
+    }
+   ],
+   "reward_bonus": 17
+  },
+  {
+   "id": "sq83-ashveil-charred-grimoires",
+   "mission": "m39",
+   "objectives": [
+    {
+     "type": "kill_family",
+     "args": {
+      "family": "rift-moth",
+      "count": 10
+     }
+    }
+   ],
+   "reward_bonus": 17
+  },
+  {
+   "id": "sq84-unquenched-slag-billets",
+   "mission": "m40",
+   "objectives": [
+    {
+     "type": "kill_family",
+     "args": {
+      "family": "anvilmaw-smith",
+      "count": 5
+     }
+    }
+   ],
+   "reward_bonus": 18
+  },
+  {
+   "id": "sq85-portcullis-counterweights",
+   "mission": "m41",
+   "objectives": [
+    {
+     "type": "kill_family",
+     "args": {
+      "family": "doom-knight",
+      "count": 5
+     }
+    }
+   ],
+   "reward_bonus": 19
+  },
+  {
+   "id": "sq86-drawbridge-chain-oil",
+   "mission": "m42",
+   "objectives": [
+    {
+     "type": "kill_family",
+     "args": {
+      "family": "cinderhorn",
+      "count": 6
+     }
+    }
+   ],
+   "reward_bonus": 18
+  },
+  {
+   "id": "sq87-three-roads-signal-horns",
+   "mission": "m43",
+   "objectives": [
+    {
+     "type": "kill_family",
+     "args": {
+      "family": "ash-weaver",
+      "count": 8
+     }
+    }
+   ],
+   "reward_bonus": 18
+  },
+  {
+   "id": "sq88-anchor-seal-censers",
+   "mission": "m44",
+   "objectives": [
+    {
+     "type": "kill_family",
+     "args": {
+      "family": "silt-colossus",
+      "count": 5
+     }
+    }
+   ],
+   "reward_bonus": 20
+  },
+  {
+   "id": "sq-m07-frozen-survey",
+   "mission": "m07",
+   "objectives": [
+    {
+     "type": "kill_family",
+     "args": {
+      "family": "glasswing",
+      "count": 8
+     }
+    },
+    {
+     "type": "hold_gold",
+     "args": {
+      "amount": 600
+     }
+    }
+   ],
+   "reward_bonus": 12
+  },
+  {
+   "id": "sq-m10-dwarven-paychest",
+   "mission": "m10",
+   "objectives": [
+    {
+     "type": "kill_family",
+     "args": {
+      "family": "pale-burrower",
+      "count": 10
+     }
+    },
+    {
+     "type": "hold_gold",
+     "args": {
+      "amount": 900
+     }
+    }
+   ],
+   "reward_bonus": 13
+  },
+  {
+   "id": "sq-m25-aquifer-valves",
+   "mission": "m25",
+   "objectives": [
+    {
+     "type": "kill_family",
+     "args": {
+      "family": "cinderling",
+      "count": 10
+     }
+    }
+   ],
+   "reward_bonus": 14
+  },
+  {
+   "id": "sq-m26-spotter-mirrors",
+   "mission": "m26",
+   "objectives": [
+    {
+     "type": "kill_family",
+     "args": {
+      "family": "hollow-knight",
+      "count": 8
+     }
+    }
+   ],
+   "reward_bonus": 15
+  },
+  {
+   "id": "sq-m27-laudanum-crates",
+   "mission": "m27",
+   "objectives": [
+    {
+     "type": "kill_family",
+     "args": {
+      "family": "briar-hound",
+      "count": 10
+     }
+    }
+   ],
+   "reward_bonus": 14
+  },
+  {
+   "id": "sq-m28-harbor-charts",
+   "mission": "m28",
+   "objectives": [
+    {
+     "type": "kill_family",
+     "args": {
+      "family": "lantern-eel",
+      "count": 8
+     }
+    }
+   ],
+   "reward_bonus": 14
+  },
+  {
+   "id": "sq-m29-dropped-quivers",
+   "mission": "m29",
+   "objectives": [
+    {
+     "type": "kill_family",
+     "args": {
+      "family": "salt-crab",
+      "count": 8
+     }
+    }
+   ],
+   "reward_bonus": 14
+  },
+  {
+   "id": "sq-m30-orchard-well",
+   "mission": "m30",
+   "objectives": [
+    {
+     "type": "kill_family",
+     "args": {
+      "family": "night-orchard",
+      "count": 6
+     }
+    }
+   ],
+   "reward_bonus": 15
+  },
+  {
+   "id": "sq-m31-toll-strongbox",
+   "mission": "m31",
+   "objectives": [
+    {
+     "type": "kill_family",
+     "args": {
+      "family": "spore-matron",
+      "count": 6
+     }
+    },
+    {
+     "type": "hold_gold",
+     "args": {
+      "amount": 2800
+     }
+    }
+   ],
+   "reward_bonus": 16
+  },
+  {
+   "id": "sq-m32-binding-anchors",
+   "mission": "m32",
+   "objectives": [
+    {
+     "type": "kill_family",
+     "args": {
+      "family": "ironbark",
+      "count": 8
+     }
+    }
+   ],
+   "reward_bonus": 16
+  },
+  {
+   "id": "sq-m33-blackmail-writs",
+   "mission": "m33",
+   "objectives": [
+    {
+     "type": "kill_family",
+     "args": {
+      "family": "hollow-king",
+      "count": 4
+     }
+    }
+   ],
+   "reward_bonus": 16
+  },
+  {
+   "id": "sq-m34-salvage-manifest",
+   "mission": "m34",
+   "objectives": [
+    {
+     "type": "kill_family",
+     "args": {
+      "family": "wendigo-bruiser",
+      "count": 5
+     }
+    }
+   ],
+   "reward_bonus": 16
+  },
+  {
+   "id": "sq-m35-drydock-winches",
+   "mission": "m35",
+   "objectives": [
+    {
+     "type": "kill_family",
+     "args": {
+      "family": "frost-bell",
+      "count": 6
+     }
+    }
+   ],
+   "reward_bonus": 16
+  },
+  {
+   "id": "sq-m36-beacon-cairns",
+   "mission": "m36",
+   "objectives": [
+    {
+     "type": "kill_family",
+     "args": {
+      "family": "redglass-drake",
+      "count": 6
+     }
+    }
+   ],
+   "reward_bonus": 17
+  },
+  {
+   "id": "sq-m37-grounded-rods",
+   "mission": "m37",
+   "objectives": [
+    {
+     "type": "kill_family",
+     "args": {
+      "family": "stormtree",
+      "count": 5
+     }
+    }
+   ],
+   "reward_bonus": 18
+  },
+  {
+   "id": "sq-m38-mortar-barrels",
+   "mission": "m38",
+   "objectives": [
+    {
+     "type": "kill_family",
+     "args": {
+      "family": "basalt-brute",
+      "count": 6
+     }
+    }
+   ],
+   "reward_bonus": 17
+  },
+  {
+   "id": "sq-m39-dropped-codices",
+   "mission": "m39",
+   "objectives": [
+    {
+     "type": "kill_family",
+     "args": {
+      "family": "rift-moth",
+      "count": 10
+     }
+    }
+   ],
+   "reward_bonus": 17
+  },
+  {
+   "id": "sq-m40-leysalt-stores",
+   "mission": "m40",
+   "objectives": [
+    {
+     "type": "kill_family",
+     "args": {
+      "family": "anvilmaw-smith",
+      "count": 5
+     }
+    }
+   ],
+   "reward_bonus": 18
+  },
+  {
+   "id": "sq-m41-golem-cores",
+   "mission": "m41",
+   "objectives": [
+    {
+     "type": "kill_family",
+     "args": {
+      "family": "doom-knight",
+      "count": 5
+     }
+    }
+   ],
+   "reward_bonus": 19
+  },
+  {
+   "id": "sq-m42-slag-sluices",
+   "mission": "m42",
+   "objectives": [
+    {
+     "type": "kill_family",
+     "args": {
+      "family": "cinderhorn",
+      "count": 6
+     }
+    }
+   ],
+   "reward_bonus": 18
+  },
+  {
+   "id": "sq-m43-signal-towers",
+   "mission": "m43",
+   "objectives": [
+    {
+     "type": "kill_family",
+     "args": {
+      "family": "ash-weaver",
+      "count": 8
+     }
+    }
+   ],
+   "reward_bonus": 18
+  },
+  {
+   "id": "sq-m44-warden-tablets",
+   "mission": "m44",
+   "objectives": [
+    {
+     "type": "kill_family",
+     "args": {
+      "family": "silt-colossus",
+      "count": 5
+     }
+    }
+   ],
+   "reward_bonus": 20
+  },
+  {
+   "id": "sq-m45-fractured-resonators",
+   "mission": "m45",
+   "objectives": [
+    {
+     "type": "kill_family",
+     "args": {
+      "family": "hollow-king",
+      "count": 4
+     }
+    },
+    {
+     "type": "hold_gold",
+     "args": {
+      "amount": 5000
+     }
+    }
+   ],
+   "reward_bonus": 21
+  },
+  {
+   "id": "sq-m46-quench-braziers",
+   "mission": "m46",
+   "objectives": [
+    {
+     "type": "kill_family",
+     "args": {
+      "family": "cinderhorn",
+      "count": 6
+     }
+    },
+    {
+     "type": "hold_gold",
+     "args": {
+      "amount": 6000
+     }
+    }
+   ],
+   "reward_bonus": 22
+  }
+ ]
+}
