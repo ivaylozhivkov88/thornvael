@@ -4036,6 +4036,222 @@
       "license": "own",
       "source": "tools/sheet-build.py + Canva sheet",
       "note": "Original redglass-drake sprite; Canva-generated 5-view turnaround sheet, 96px, 16 directions, stand4/walk8/attack4/cast4/hurt2/die4, RGB masks."
+    },
+    {
+      "path": "public/sprites/night-orchard.png",
+      "license": "own",
+      "source": "tools/sheet-build.py + Canva sheet",
+      "note": "Original night-orchard sprite; Canva-generated 5-view turnaround sheet, 96px, 16 directions, stand4/walk8/attack4/cast4/hurt2/die4, RGB masks."
+    },
+    {
+      "path": "public/sprites/night-orchard-mask.png",
+      "license": "own",
+      "source": "tools/sheet-build.py + Canva sheet",
+      "note": "Original night-orchard sprite; Canva-generated 5-view turnaround sheet, 96px, 16 directions, stand4/walk8/attack4/cast4/hurt2/die4, RGB masks."
+    },
+    {
+      "path": "public/sprites/night-orchard.json",
+      "license": "own",
+      "source": "tools/sheet-build.py + Canva sheet",
+      "note": "Original night-orchard sprite; Canva-generated 5-view turnaround sheet, 96px, 16 directions, stand4/walk8/attack4/cast4/hurt2/die4, RGB masks."
+    },
+    {
+      "path": "public/sprites/stormtree.png",
+      "license": "own",
+      "source": "tools/sheet-build.py + Canva sheet",
+      "note": "Original stormtree sprite; Canva-generated 5-view turnaround sheet, 96px, 16 directions, stand4/walk8/attack4/cast4/hurt2/die4, RGB masks."
+    },
+    {
+      "path": "public/sprites/stormtree-mask.png",
+      "license": "own",
+      "source": "tools/sheet-build.py + Canva sheet",
+      "note": "Original stormtree sprite; Canva-generated 5-view turnaround sheet, 96px, 16 directions, stand4/walk8/attack4/cast4/hurt2/die4, RGB masks."
+    },
+    {
+      "path": "public/sprites/stormtree.json",
+      "license": "own",
+      "source": "tools/sheet-build.py + Canva sheet",
+      "note": "Original stormtree sprite; Canva-generated 5-view turnaround sheet, 96px, 16 directions, stand4/walk8/attack4/cast4/hurt2/die4, RGB masks."
+    },
+    {
+      "path": "public/sprites/doom-knight.png",
+      "license": "own",
+      "source": "tools/sheet-build.py + Canva sheet",
+      "note": "Original doom-knight sprite; Canva-generated 5-view turnaround sheet, 96px, 16 directions, stand4/walk8/attack4/cast4/hurt2/die4, RGB masks."
+    },
+    {
+      "path": "public/sprites/doom-knight-mask.png",
+      "license": "own",
+      "source": "tools/sheet-build.py + Canva sheet",
+      "note": "Original doom-knight sprite; Canva-generated 5-view turnaround sheet, 96px, 16 directions, stand4/walk8/attack4/cast4/hurt2/die4, RGB masks."
+    },
+    {
+      "path": "public/sprites/doom-knight.json",
+      "license": "own",
+      "source": "tools/sheet-build.py + Canva sheet",
+      "note": "Original doom-knight sprite; Canva-generated 5-view turnaround sheet, 96px, 16 directions, stand4/walk8/attack4/cast4/hurt2/die4, RGB masks."
+    },
+    {
+      "path": "public/sprites/cinderhorn.png",
+      "license": "own",
+      "source": "tools/sheet-build.py + Canva sheet",
+      "note": "Original cinderhorn sprite; Canva-generated 5-view turnaround sheet, 96px, 16 directions, stand4/walk8/attack4/cast4/hurt2/die4, RGB masks."
+    },
+    {
+      "path": "public/sprites/cinderhorn-mask.png",
+      "license": "own",
+      "source": "tools/sheet-build.py + Canva sheet",
+      "note": "Original cinderhorn sprite; Canva-generated 5-view turnaround sheet, 96px, 16 directions, stand4/walk8/attack4/cast4/hurt2/die4, RGB masks."
+    },
+    {
+      "path": "public/sprites/cinderhorn.json",
+      "license": "own",
+      "source": "tools/sheet-build.py + Canva sheet",
+      "note": "Original cinderhorn sprite; Canva-generated 5-view turnaround sheet, 96px, 16 directions, stand4/walk8/attack4/cast4/hurt2/die4, RGB masks."
+    },
+    {
+      "path": "public/sprites/anvilmaw-smith.png",
+      "license": "own",
+      "source": "tools/sheet-build.py + Canva sheet",
+      "note": "Original anvilmaw-smith sprite; Canva-generated 5-view turnaround sheet, 96px, 16 directions, stand4/walk8/attack4/cast4/hurt2/die4, RGB masks."
+    },
+    {
+      "path": "public/sprites/anvilmaw-smith-mask.png",
+      "license": "own",
+      "source": "tools/sheet-build.py + Canva sheet",
+      "note": "Original anvilmaw-smith sprite; Canva-generated 5-view turnaround sheet, 96px, 16 directions, stand4/walk8/attack4/cast4/hurt2/die4, RGB masks."
+    },
+    {
+      "path": "public/sprites/anvilmaw-smith.json",
+      "license": "own",
+      "source": "tools/sheet-build.py + Canva sheet",
+      "note": "Original anvilmaw-smith sprite; Canva-generated 5-view turnaround sheet, 96px, 16 directions, stand4/walk8/attack4/cast4/hurt2/die4, RGB masks."
+    },
+    {
+      "path": "public/sprites/ruin-mite.png",
+      "license": "own",
+      "source": "tools/sheet-build.py + Canva sheet",
+      "note": "Original ruin-mite sprite; Canva-generated 5-view turnaround sheet, 96px, 16 directions, stand4/walk8/attack4/cast4/hurt2/die4, RGB masks."
+    },
+    {
+      "path": "public/sprites/ruin-mite-mask.png",
+      "license": "own",
+      "source": "tools/sheet-build.py + Canva sheet",
+      "note": "Original ruin-mite sprite; Canva-generated 5-view turnaround sheet, 96px, 16 directions, stand4/walk8/attack4/cast4/hurt2/die4, RGB masks."
+    },
+    {
+      "path": "public/sprites/ruin-mite.json",
+      "license": "own",
+      "source": "tools/sheet-build.py + Canva sheet",
+      "note": "Original ruin-mite sprite; Canva-generated 5-view turnaround sheet, 96px, 16 directions, stand4/walk8/attack4/cast4/hurt2/die4, RGB masks."
+    },
+    {
+      "path": "public/townart/portraits/npc-peat-cutter.jpg",
+      "license": "own",
+      "source": "Gemini image generation (user subscription), original text prompt; native frame cropped off, painting placed in the shared Thornvael frame with Pillow",
+      "note": "Thornwick NPC portrait"
+    },
+    {
+      "path": "public/townart/portraits/npc-fen-hermit.jpg",
+      "license": "own",
+      "source": "Gemini image generation (user subscription), original text prompt; native frame cropped off, painting placed in the shared Thornvael frame with Pillow",
+      "note": "Thornwick NPC portrait"
+    },
+    {
+      "path": "public/townart/portraits/npc-leech-apothecary.jpg",
+      "license": "own",
+      "source": "Gemini image generation (user subscription), original text prompt; native frame cropped off, painting placed in the shared Thornvael frame with Pillow",
+      "note": "Thornwick NPC portrait"
+    },
+    {
+      "path": "public/townart/portraits/npc-dike-surveyor.jpg",
+      "license": "own",
+      "source": "Gemini image generation (user subscription), original text prompt; native frame cropped off, painting placed in the shared Thornvael frame with Pillow",
+      "note": "Thornwick NPC portrait"
+    },
+    {
+      "path": "public/townart/portraits/npc-bog-scavenger.jpg",
+      "license": "own",
+      "source": "Gemini image generation (user subscription), original text prompt; native frame cropped off, painting placed in the shared Thornvael frame with Pillow",
+      "note": "Thornwick NPC portrait"
+    },
+    {
+      "path": "public/townart/portraits/npc-marsh-flagellant.jpg",
+      "license": "own",
+      "source": "Gemini image generation (user subscription), original text prompt; native frame cropped off, painting placed in the shared Thornvael frame with Pillow",
+      "note": "Thornwick NPC portrait"
+    },
+    {
+      "path": "public/townart/portraits/npc-wreck-diver.jpg",
+      "license": "own",
+      "source": "Gemini image generation (user subscription), original text prompt; native frame cropped off, painting placed in the shared Thornvael frame with Pillow",
+      "note": "Thornwick NPC portrait"
+    },
+    {
+      "path": "public/townart/portraits/npc-salt-raker.jpg",
+      "license": "own",
+      "source": "Gemini image generation (user subscription), original text prompt; native frame cropped off, painting placed in the shared Thornvael frame with Pillow",
+      "note": "Thornwick NPC portrait"
+    },
+    {
+      "path": "public/townart/portraits/npc-escaped-oarsman.jpg",
+      "license": "own",
+      "source": "Gemini image generation (user subscription), original text prompt; native frame cropped off, painting placed in the shared Thornvael frame with Pillow",
+      "note": "Thornwick NPC portrait"
+    },
+    {
+      "path": "public/townart/portraits/npc-cliff-falconer.jpg",
+      "license": "own",
+      "source": "Gemini image generation (user subscription), original text prompt; native frame cropped off, painting placed in the shared Thornvael frame with Pillow",
+      "note": "Thornwick NPC portrait"
+    },
+    {
+      "path": "public/townart/portraits/npc-net-mender.jpg",
+      "license": "own",
+      "source": "Gemini image generation (user subscription), original text prompt; native frame cropped off, painting placed in the shared Thornvael frame with Pillow",
+      "note": "Thornwick NPC portrait"
+    },
+    {
+      "path": "public/townart/portraits/npc-lighthouse-keeper.jpg",
+      "license": "own",
+      "source": "Gemini image generation (user subscription), original text prompt; native frame cropped off, painting placed in the shared Thornvael frame with Pillow",
+      "note": "Thornwick NPC portrait"
+    },
+    {
+      "path": "public/townart/portraits/npc-ash-collector.jpg",
+      "license": "own",
+      "source": "Gemini image generation (user subscription), original text prompt; native frame cropped off, painting placed in the shared Thornvael frame with Pillow",
+      "note": "Thornwick NPC portrait"
+    },
+    {
+      "path": "public/townart/portraits/npc-disgraced-scribe.jpg",
+      "license": "own",
+      "source": "Gemini image generation (user subscription), original text prompt; native frame cropped off, painting placed in the shared Thornvael frame with Pillow",
+      "note": "Thornwick NPC portrait"
+    },
+    {
+      "path": "public/townart/portraits/npc-siege-deserter.jpg",
+      "license": "own",
+      "source": "Gemini image generation (user subscription), original text prompt; native frame cropped off, painting placed in the shared Thornvael frame with Pillow",
+      "note": "Thornwick NPC portrait"
+    },
+    {
+      "path": "public/townart/portraits/npc-cinder-apothecary.jpg",
+      "license": "own",
+      "source": "Gemini image generation (user subscription), original text prompt; native frame cropped off, painting placed in the shared Thornvael frame with Pillow",
+      "note": "Thornwick NPC portrait"
+    },
+    {
+      "path": "public/townart/portraits/npc-relic-smuggler.jpg",
+      "license": "own",
+      "source": "Gemini image generation (user subscription), original text prompt; native frame cropped off, painting placed in the shared Thornvael frame with Pillow",
+      "note": "Thornwick NPC portrait"
+    },
+    {
+      "path": "public/townart/portraits/npc-mad-prophet.jpg",
+      "license": "own",
+      "source": "Gemini image generation (user subscription), original text prompt; native frame cropped off, painting placed in the shared Thornvael frame with Pillow",
+      "note": "Thornwick NPC portrait"
     }
   ]
 }
