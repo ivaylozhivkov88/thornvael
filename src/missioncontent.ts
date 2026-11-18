@@ -191,3 +191,15 @@ export async function loadHelpAndCredits(): Promise<void> {
     if (r.ok) creditLines = (await r.json() as { key: string; text: string }[]).filter((e) => e.key.startsWith('credits.'));
   } catch { /* optional */ }
 }
+
+/** Two-line mission hints (content/objective-hints-2.json), keyed by mission id. */
+export async function loadMissionHints(mission: string): Promise<string[]> {
+  try {
+    const base = import.meta.env.BASE_URL;
+    const camp = await (await fetch(`${base}data/campaign.json`)).json() as { nodes: { id: string; map?: string }[] };
+    const id = camp.nodes.find((n) => n.map === mission)?.id;
+    const r = await fetch(`${base}data/content/objective-hints-2.json`);
+    if (id && r.ok) return ((await r.json()) as Record<string, string[]>)[id] ?? [];
+  } catch { /* optional */ }
+  return [];
+}

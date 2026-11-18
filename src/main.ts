@@ -43,7 +43,7 @@ import {
 } from './sim/script';
 import { loadGameData } from './loaddata';
 import { loadHeroVoices, heroBark } from './herovoice';
-import { loadMissionContent, loadItemFlavor, loadFlavorLists, loadMonsterCodex, loadCodexLore, loadTownBarks, loadSpellText, defeatFlavor, loadDifficultyFlavor, difficultyLine } from './missioncontent';
+import { loadMissionContent, loadMissionHints, loadItemFlavor, loadFlavorLists, loadMonsterCodex, loadCodexLore, loadTownBarks, loadSpellText, defeatFlavor, loadDifficultyFlavor, difficultyLine } from './missioncontent';
 import { DebugPanel } from './debugpanel';
 import { SPELLS, Tk } from './sim/spelldata';
 import { validTarget } from './sim/spells';
@@ -2037,6 +2037,7 @@ await loadTownBarks();
 await loadSpellText();
 if (activeChar) await loadHeroVoices(activeChar.cls, activeChar.female);
 const missionContent = loadedMission ? await loadMissionContent(missionName) : null;
+if (loadedMission && missionName) void loadMissionHints(missionName).then((h) => { if (h[0]) setTimeout(() => toast(h[0]), 6000); });
 const missionUi = loadedMission
   ? new MissionUi(loadedMission.doc, {
       pause: (on) => (userPause = on || outcome !== null),
