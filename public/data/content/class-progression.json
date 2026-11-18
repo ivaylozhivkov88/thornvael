@@ -1,0 +1,98 @@
+[
+ {
+  "class": "warrior",
+  "start_stats": {
+   "str": 14,
+   "dex": 10,
+   "int": 7,
+   "vit": 14
+  },
+  "per_level": {
+   "hp": 22,
+   "mana": 6,
+   "stamina": 5,
+   "armor": 0.5
+  },
+  "start_items": [
+   "Rusty Sword",
+   "Wooden Buckler",
+   "Padded Jerkin",
+   "Leather Boots",
+   "Healing Draught"
+  ],
+  "level_curve_note": "Front-loaded HP and Strength let warriors anchor chokes from level 1; mid-game points shift toward Vitality and Mind for resistance caps.",
+  "playstyle": "Hold narrow bridges and doorways behind heavy plate and shield walls, interrupting enemy casters while mercenaries flank."
+ },
+ {
+  "class": "archer",
+  "start_stats": {
+   "str": 9,
+   "dex": 15,
+   "int": 10,
+   "vit": 11
+  },
+  "per_level": {
+   "hp": 16,
+   "mana": 10,
+   "stamina": 6,
+   "crit_pct": 0.4
+  },
+  "start_items": [
+   "Ash Shortbow",
+   "Leather Cap",
+   "Padded Jerkin",
+   "Leather Gloves",
+   "Healing Draught"
+  ],
+  "level_curve_note": "High Dexterity scales accuracy and critical strikes rapidly through Act II; invest in Mind by Act III to sustain volley cooldowns.",
+  "playstyle": "Control sightlines from ridges and flanks, crippling advancing brutes with snares and sniping enemy hexers before lines collide."
+ },
+ {
+  "class": "mage",
+  "start_stats": {
+   "str": 7,
+   "dex": 10,
+   "int": 16,
+   "vit": 12
+  },
+  "per_level": {
+   "hp": 14,
+   "mana": 15,
+   "stamina": 3,
+   "mana_regen": 0.25
+  },
+  "start_items": [
+   "Oak Staff",
+   "Scholar Hat",
+   "Cloth Robe",
+   "Sandals",
+   "Mana Draught"
+  ],
+  "level_curve_note": "Starts fragile with tight mana pools, scaling sharply once Mind unlocks multi-target elemental combos and high-tier spell tomes.",
+  "playstyle": "Shape the battlefield with timed AoE bursts, frost slows, and wards while keeping hired shield-bearers between robes and blades."
+ },
+ {
+  "class": "necromancer",
+  "start_stats": {
+   "str": 8,
+   "dex": 10,
+   "int": 15,
+   "vit": 12
+  },
+  "per_level": {
+   "hp": 15,
+   "mana": 14,
+   "stamina": 4,
+   "mana_regen": 0.22
+  },
+  "start_items": [
+   "Willow Wand",
+   "Apprentice Circlet",
+   "Cloth Robe",
+   "Bone Ring",
+   "Mana Draught"
+  ],
+  "level_curve_note": "Steady hybrid scaling balances Mind for minion capacity and curses with Vitality to survive blood-tithes and attrition fights.",
+  "playstyle": "Audit the battlefield through patient attrition—bind fallen foes as bone shields, compound curses on elites, and siphon vigor."
+ }
+]

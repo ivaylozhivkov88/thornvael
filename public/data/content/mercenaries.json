@@ -1,0 +1,1010 @@
+[
+ {
+  "id": "merc-thornwick-levyman",
+  "name": "Thornwick Levy-Pikeman",
+  "class_hint": "warrior",
+  "act": 1,
+  "role": "shield-wall",
+  "hire_cost": 105,
+  "upkeep": 22,
+  "stats": {
+   "hp": 95,
+   "dmg": 10,
+   "armor": 9,
+   "speed": 90
+  },
+  "abilities": [
+   "Brace Pike",
+   "Shield Wall"
+  ],
+  "backstory": "An indebted peat-cutter conscripted after failing to pay three seasons of bridge-tithe. He knows nothing of swordplay, only that keeping an ash-shaft pointed forward keeps gnolls off his boots.",
+  "hire_line": "Half upfront, half after supper, and nobody puts me in front of the horses.",
+  "barks": {
+   "select": [
+    "Pike's dry. Boots aren't.",
+    "Point me at the mud.",
+    "Still on the clock."
+   ],
+   "attack": [
+    "Keep back!",
+    "Through the ribs!",
+    "Hold the ditch!"
+   ],
+   "hurt": [
+    "Dented my kettle-helm!",
+    "That'll ache till thaw!"
+   ],
+   "death": [
+    "Tell the bailiff... I'm paid...",
+    "Should've stayed... in the bog..."
+   ]
+  },
+  "quirk": "Refuses to cross deep water unless paid a two-copper bonus."
+ },
+ {
+  "id": "merc-alder-poacher",
+  "name": "Alderwood Poacher",
+  "class_hint": "archer",
+  "act": 1,
+  "role": "marksman",
+  "hire_cost": 115,
+  "upkeep": 24,
+  "stats": {
+   "hp": 68,
+   "dmg": 13,
+   "armor": 4,
+   "speed": 115
+  },
+  "abilities": [
+   "Pinning Bodkin",
+   "Briar Snare"
+  ],
+  "backstory": "Missing the tip of her left ear from a magistrate's branding iron after skinning crown venison in Greywood. She treats military service as legal poaching with slightly worse rations.",
+  "hire_line": "I supply my own goose-feathers; you supply targets that don't shoot back.",
+  "barks": {
+   "select": [
+    "Wind's steady.",
+    "Keep the clanking behind me.",
+    "Eyes on the brush."
+   ],
+   "attack": [
+    "Right in the neck!",
+    "Dropped him!",
+    "Clean draw."
+   ],
+   "hurt": [
+    "Who let them flank?!",
+    "Ruined my cloak!"
+   ],
+   "death": [
+    "Forgot... to count... arrows...",
+    "Tell the warden... nothing..."
+   ]
+  },
+  "quirk": "Skims silver rings off corpses before reporting loot totals."
+ },
+ {
+  "id": "merc-hedge-leech",
+  "name": "Fen-Barbers' Apprentice",
+  "class_hint": "mage",
+  "act": 1,
+  "role": "healer",
+  "hire_cost": 125,
+  "upkeep": 26,
+  "stats": {
+   "hp": 62,
+   "dmg": 8,
+   "armor": 3,
+   "speed": 102
+  },
+  "abilities": [
+   "Healing",
+   "Wind Ward"
+  ],
+  "backstory": "Dismissed from an Oakhaven apothecary guild for diluting laudanum with willow-water to cover gambling debts. His stitches are crooked, his salves stink of mutton fat, yet men survive them.",
+  "hire_line": "Hold still when I sew and I won't charge extra for clean thread.",
+  "barks": {
+   "select": [
+    "Keep your blood inside.",
+    "Bandages are running low.",
+    "Yes, yes, I'm coming."
+   ],
+   "attack": [
+    "Back off the litter!",
+    "Take that, filth!",
+    "Stay away!"
+   ],
+   "hurt": [
+    "I'm a surgeon, not a shield!",
+    "My jar broke!"
+   ],
+   "death": [
+    "Out of... thread...",
+    "Check... my satchel..."
+   ]
+  },
+  "quirk": "Drinks cheap gin before every battle to steady his suturing hand."
+ },
+ {
+  "id": "merc-greywood-chopper",
+  "name": "Greywood Timber-Feller",
+  "class_hint": "warrior",
+  "act": 1,
+  "role": "shock-bruiser",
+  "hire_cost": 130,
+  "upkeep": 27,
+  "stats": {
+   "hp": 110,
+   "dmg": 15,
+   "armor": 6,
+   "speed": 96
+  },
+  "abilities": [
+   "Cleaving Arc",
+   "Quarry Swing"
+  ],
+  "backstory": "Lost his logging camp when border raiders burned the timber sledges. He swings a broad felling-axe two-handed and treats armored knights like stubborn oak stumps.",
+  "hire_line": "Point out the thickest thing breathing and clear room for my backswing.",
+  "barks": {
+   "select": [
+    "Axe is sharp.",
+    "Need kindling?",
+    "Ready to chop."
+   ],
+   "attack": [
+    "Timber!",
+    "Split you clean!",
+    "Down!"
+   ],
+   "hurt": [
+    "Barely felt that!",
+    "Chipping bark!"
+   ],
+   "death": [
+    "Felled... at last...",
+    "Bury me... under pine..."
+   ]
+  },
+  "quirk": "Compulsively tests every wooden door and bridge with his axe-poll."
+ },
+ {
+  "id": "merc-lantern-novice",
+  "name": "Defrocked Lantern-Scribe",
+  "class_hint": "mage",
+  "act": 1,
+  "role": "evoker",
+  "hire_cost": 135,
+  "upkeep": 28,
+  "stats": {
+   "hp": 58,
+   "dmg": 14,
+   "armor": 3,
+   "speed": 100
+  },
+  "abilities": [
+   "Fire Bolt",
+   "Gale"
+  ],
+  "backstory": "Pawned three temple oil-lamps to pay off a Thornwick tavern tab and fled before the hermit-prior noticed. He knows four volatile fire cantrips and zero restraint.",
+  "hire_line": "Keep flammable rations three paces behind my elbows and we'll get along.",
+  "barks": {
+   "select": [
+    "Tinder is dry.",
+    "Watch the robes.",
+    "Reading the margin."
+   ],
+   "attack": [
+    "Ignite!",
+    "Ashes to you!",
+    "Burn!"
+   ],
+   "hurt": [
+    "My sleeves!",
+    "Somebody block them!"
+   ],
+   "death": [
+    "Wick's... out...",
+    "Tell the prior... sorry..."
+   ]
+  },
+  "quirk": "Singes his own eyebrows whenever nervous before an ambush."
+ },
+ {
+  "id": "merc-parish-sexton",
+  "name": "Thornwick Parish Sexton",
+  "class_hint": "necromancer",
+  "act": 1,
+  "role": "summoner",
+  "hire_cost": 140,
+  "upkeep": 28,
+  "stats": {
+   "hp": 65,
+   "dmg": 11,
+   "armor": 4,
+   "speed": 98
+  },
+  "abilities": [
+   "Splinter Writ",
+   "Raise Indentured"
+  ],
+  "backstory": "Dug graves in Thornwick's flooded churchyard for twelve winters until he realized half the town's debtors died owing him shovel-fees. Now he collects labor directly from the turf.",
+  "hire_line": "I bury what falls and bill the rest. Keep the corpses intact.",
+  "barks": {
+   "select": [
+    "Shovel's ready.",
+    "Who owes the parish?",
+    "Cold turf ahead."
+   ],
+   "attack": [
+    "Back to work!",
+    "Pay your due!",
+    "Sign the roll!"
+   ],
+   "hurt": [
+    "Mind the ledger!",
+    "Cheap blow!"
+   ],
+   "death": [
+    "Dig... mine... shallow...",
+    "Account... closed..."
+   ]
+  },
+  "quirk": "Measures every mercenary's height with a knotted cord during camp."
+ },
+ {
+  "id": "merc-redmarsh-slinger",
+  "name": "Alkali Salt-Slinger",
+  "class_hint": "archer",
+  "act": 2,
+  "role": "skirmisher",
+  "hire_cost": 290,
+  "upkeep": 55,
+  "stats": {
+   "hp": 115,
+   "dmg": 18,
+   "armor": 8,
+   "speed": 122
+  },
+  "abilities": [
+   "Crippling Tendon",
+   "Reed-Smoke Screen"
+  ],
+  "backstory": "A former salt-pan drover who learned to whip lead-cored sling-stones at dune vipers from forty paces. He joined the army after bandits seized his brine-pans for back taxes.",
+  "hire_line": "Lead shot is cheap, skulls are brittle, and my canteen's empty.",
+  "barks": {
+   "select": [
+    "Sling's spun.",
+    "Sun's at my back.",
+    "Show me a visor."
+   ],
+   "attack": [
+    "Crack!",
+    "Right between the eyes!",
+    "Drop!"
+   ],
+   "hurt": [
+    "Sand in my eyes!",
+    "Clipped my arm!"
+   ],
+   "death": [
+    "Dry... to the bone...",
+    "Leave me... in shade..."
+   ]
+  },
+  "quirk": "Chews bitter alkali root constantly, staining his teeth rust-red."
+ },
+ {
+  "id": "merc-quarry-sapper",
+  "name": "Deep Quarry Sapper",
+  "class_hint": "warrior",
+  "act": 2,
+  "role": "siege-breaker",
+  "hire_cost": 310,
+  "upkeep": 58,
+  "stats": {
+   "hp": 155,
+   "dmg": 22,
+   "armor": 14,
+   "speed": 88
+  },
+  "abilities": [
+   "Quarry Swing",
+   "Breaker's Rush"
+  ],
+  "backstory": "Escaped three years in Gorrathul's ironstone chains with a heavy miner's pick and a permanent cough. He cracks chitin shells and stone constructs with bitter enthusiasm.",
+  "hire_line": "Pay me in clean water and iron wedges, and I'll drop any wall you name.",
+  "barks": {
+   "select": [
+    "Pick's hungry.",
+    "Point out the stone.",
+    "Ready to dig."
+   ],
+   "attack": [
+    "Split the seam!",
+    "Down with it!",
+    "Crack!"
+   ],
+   "hurt": [
+    "Just dust!",
+    "Still swinging!"
+   ],
+   "death": [
+    "Cave-in...",
+    "No more... chains..."
+   ]
+  },
+  "quirk": "Refuses to sleep inside stone buildings, fearing roof collapses."
+ },
+ {
+  "id": "merc-dune-houndmaster",
+  "name": "Bracken Track-Warden",
+  "class_hint": "archer",
+  "act": 2,
+  "role": "harrier",
+  "hire_cost": 325,
+  "upkeep": 60,
+  "stats": {
+   "hp": 125,
+   "dmg": 20,
+   "armor": 10,
+   "speed": 118
+  },
+  "abilities": [
+   "Carrion Mark",
+   "Briar Snare"
+  ],
+  "backstory": "Tracked runaway convicts across the Redmarsh flats until the local magistrate stopped paying bounties. She reads sand-drifts like parchment and hates marching in formation.",
+  "hire_line": "Let me scout twenty paces ahead and you won't step on a single dune lurker.",
+  "barks": {
+   "select": [
+    "Tracks are fresh.",
+    "Downwind.",
+    "Moving."
+   ],
+   "attack": [
+    "Marked!",
+    "Bleed out!",
+    "Got the scent!"
+   ],
+   "hurt": [
+    "Too close!",
+    "Watch the flank!"
+   ],
+   "death": [
+    "Trail... goes cold...",
+    "Lost... the wind..."
+   ]
+  },
+  "quirk": "Hoards dried lizard jerky inside her quiver."
+ },
+ {
+  "id": "merc-cistern-acolyte",
+  "name": "Disgraced Aquifer-Novice",
+  "class_hint": "mage",
+  "act": 2,
+  "role": "support",
+  "hire_cost": 330,
+  "upkeep": 62,
+  "stats": {
+   "hp": 105,
+   "dmg": 16,
+   "armor": 7,
+   "speed": 104
+  },
+  "abilities": [
+   "Healing Rain",
+   "Stone Skin"
+  ],
+  "backstory": "Cast out of a desert hermitage for tapping a sacred cistern to irrigate his own melon patch. His water-wards keep armored men from cooking alive in Redmarsh heat.",
+  "hire_line": "Keep steel off my cassock and I'll keep your lungs from turning to dust.",
+  "barks": {
+   "select": [
+    "Water flows.",
+    "Stay cool.",
+    "Chanting the ward."
+   ],
+   "attack": [
+    "Drown in brine!",
+    "Wash away!",
+    "Back!"
+   ],
+   "hurt": [
+    "My flasks!",
+    "Hold the line!"
+   ],
+   "death": [
+    "Dry... at last...",
+    "The well... is empty..."
+   ]
+  },
+  "quirk": "Blesses every puddle before stepping across it."
+ },
+ {
+  "id": "merc-tomb-notary",
+  "name": "Third-Dynasty Tomb Notary",
+  "class_hint": "necromancer",
+  "act": 2,
+  "role": "curser",
+  "hire_cost": 345,
+  "upkeep": 64,
+  "stats": {
+   "hp": 110,
+   "dmg": 19,
+   "armor": 8,
+   "speed": 100
+  },
+  "abilities": [
+   "Exact Tithe",
+   "Compound Interest"
+  ],
+  "backstory": "Copied funerary liens for Zahra's expedition until an embalmer's hex left his left hand stiff as dried leather. He settles old desert debts with cold astral ink.",
+  "hire_line": "Every bandit out here owes tax to a dead king; I merely serve the writ.",
+  "barks": {
+   "select": [
+    "Ink is wet.",
+    "The ledger waits.",
+    "Audit commencing."
+   ],
+   "attack": [
+    "Interest due!",
+    "Payable now!",
+    "Sealed!"
+   ],
+   "hurt": [
+    "Torn parchment!",
+    "Keep them back!"
+   ],
+   "death": [
+    "Balance... unpaid...",
+    "Close... the book..."
+   ]
+  },
+  "quirk": "Catalogs every enemy killed on a strip of papyrus tied to his belt."
+ },
+ {
+  "id": "merc-salt-mercenary",
+  "name": "Jawbone Shield-Sergeant",
+  "class_hint": "warrior",
+  "act": 2,
+  "role": "tank",
+  "hire_cost": 360,
+  "upkeep": 66,
+  "stats": {
+   "hp": 185,
+   "dmg": 19,
+   "armor": 17,
+   "speed": 86
+  },
+  "abilities": [
+   "Lock Shields",
+   "Hold the Line"
+  ],
+  "backstory": "Sole survivor of a caravan guard butchered in the Twin Passes because the merchant refused to buy extra arrows. He carries a scarred kite shield and trusts nobody with coin.",
+  "hire_line": "Silver in my palm before we march, and nothing crosses my shield rim.",
+  "barks": {
+   "select": [
+    "Shield's up.",
+    "Form on me.",
+    "Ready."
+   ],
+   "attack": [
+    "Break on iron!",
+    "Hold fast!",
+    "Step back!"
+   ],
+   "hurt": [
+    "Good hit. My turn.",
+    "Gorget held!"
+   ],
+   "death": [
+    "Tell Bram... keep the coin...",
+    "Line... held..."
+   ]
+  },
+  "quirk": "Sleeps with his shield strapped to his left forearm."
+ },
+ {
+  "id": "merc-oakhaven-marine",
+  "name": "Oakhaven Boarding Marine",
+  "class_hint": "warrior",
+  "act": 3,
+  "role": "frontliner",
+  "hire_cost": 720,
+  "upkeep": 120,
+  "stats": {
+   "hp": 255,
+   "dmg": 28,
+   "armor": 22,
+   "speed": 98
+  },
+  "abilities": [
+   "Cleaving Arc",
+   "Shield Bash"
+  ],
+  "backstory": "Lost two toes to frostbite on a winter blockade cutter and traded sea-decks for mud trenches. He fights best in tight boarding-crushes where nobody can step backward.",
+  "hire_line": "Point me at the gangplank and keep rum out of the surgeons' tent.",
+  "barks": {
+   "select": [
+    "All hands!",
+    "Boarders ready.",
+    "Aye, captain."
+   ],
+   "attack": [
+    "Clear the deck!",
+    "Gut him!",
+    "To the crabs!"
+   ],
+   "hurt": [
+    "Salt in the cut!",
+    "Still standing!"
+   ],
+   "death": [
+    "Over... the rail...",
+    "Deep... takes all..."
+   ]
+  },
+  "quirk": "Spits over his left shoulder before drawing his cutlass."
+ },
+ {
+  "id": "merc-harbor-arbalest",
+  "name": "Seawall Arbalestier",
+  "class_hint": "archer",
+  "act": 3,
+  "role": "armor-piercer",
+  "hire_cost": 760,
+  "upkeep": 125,
+  "stats": {
+   "hp": 185,
+   "dmg": 34,
+   "armor": 14,
+   "speed": 105
+  },
+  "abilities": [
+   "Visor Split",
+   "Suppressive Arc"
+  ],
+  "backstory": "A former customs tower guard who windlassed heavy steel prods at smugglers' galleys for ten years. Slow to reload, lethal against armored knights and sea-constructs.",
+  "hire_line": "Give me a dry parapet and three seconds to crank, and I'll punch through hull-plate.",
+  "barks": {
+   "select": [
+    "Prod's spanned.",
+    "Range set.",
+    "Wind checked."
+   ],
+   "attack": [
+    "Through the plate!",
+    "Pinned!",
+    "Reloading!"
+   ],
+   "hurt": [
+    "My windlass!",
+    "Cover me!"
+   ],
+   "death": [
+    "String... snapped...",
+    "Out of... bolts..."
+   ]
+  },
+  "quirk": "Files a tiny notch into his stock for every officer dropped."
+ },
+ {
+  "id": "merc-storm-channeler",
+  "name": "Spire Storm-Channeler",
+  "class_hint": "mage",
+  "act": 3,
+  "role": "artillery",
+  "hire_cost": 800,
+  "upkeep": 132,
+  "stats": {
+   "hp": 160,
+   "dmg": 36,
+   "armor": 11,
+   "speed": 104
+  },
+  "abilities": [
+   "Chain Lightning",
+   "Galvanic Arc"
+  ],
+  "backstory": "Expelled from Oakhaven's weather-guild after accidentally frying three prize harbor gulls during a fog-clearing ritual. He treats wet coastal battlefields like copper conductors.",
+  "hire_line": "Keep iron pikes away from my cuffs when the thunder rolls.",
+  "barks": {
+   "select": [
+    "Air's charged.",
+    "Ground yourselves.",
+    "Ready."
+   ],
+   "attack": [
+    "Arc!",
+    "Conduct this!",
+    "Thunder!"
+   ],
+   "hurt": [
+    "Static discharged!",
+    "Protect the caster!"
+   ],
+   "death": [
+    "Grounded... permanently...",
+    "Too much... voltage..."
+   ]
+  },
+  "quirk": "Wears rubberized boot-soles stolen from a lighthouse keeper."
+ },
+ {
+  "id": "merc-triage-surgeon",
+  "name": "Field Triage Sawbones",
+  "class_hint": "mage",
+  "act": 3,
+  "role": "combat-medic",
+  "hire_cost": 790,
+  "upkeep": 130,
+  "stats": {
+   "hp": 175,
+   "dmg": 20,
+   "armor": 13,
+   "speed": 106
+  },
+  "abilities": [
+   "Healing",
+   "Blessing"
+  ],
+  "backstory": "Trained under Chief Healer Sera until his habit of selling amputated trophies to alchemy students got him kicked out of the tent. Fast with a tourniquet and cynical about survival odds.",
+  "hire_line": "Try to lose limbs cleanly; ragged tears waste half my vinegar.",
+  "barks": {
+   "select": [
+    "Who's leaking?",
+    "Hold still.",
+    "Forceps ready."
+   ],
+   "attack": [
+    "Stay down!",
+    "Infected!",
+    "Back off!"
+   ],
+   "hurt": [
+    "My apron!",
+    "Need a shield here!"
+   ],
+   "death": [
+    "Physician... bled out...",
+    "Drop... the saw..."
+   ]
+  },
+  "quirk": "Evaluates every ally's collarbone structure upon meeting them."
+ },
+ {
+  "id": "merc-drowned-arbiter",
+  "name": "Wreck-Bell Notary",
+  "class_hint": "necromancer",
+  "act": 3,
+  "role": "controller",
+  "hire_cost": 820,
+  "upkeep": 136,
+  "stats": {
+   "hp": 170,
+   "dmg": 29,
+   "armor": 13,
+   "speed": 100
+  },
+  "abilities": [
+   "Grave-Quiet",
+   "Cold Ledger"
+  ],
+  "backstory": "Witnessed sailors' deathbed wills on the Iron Coast until the drowned began answering his bell without being called. He silences enemy hexers with cold sea-grave authority.",
+  "hire_line": "The tide keeps every promise made over salt water; let me collect yours.",
+  "barks": {
+   "select": [
+    "The bell tolls.",
+    "Silence in court.",
+    "Listening."
+   ],
+   "attack": [
+    "Hush!",
+    "Drown in frost!",
+    "Bound!"
+   ],
+   "hurt": [
+    "Cracked brass!",
+    "Keep them off!"
+   ],
+   "death": [
+    "The tide... turns...",
+    "Sleep... at last..."
+   ]
+  },
+  "quirk": "Refuses to eat shellfish, claiming they carry drowned sailors' memories."
+ },
+ {
+  "id": "merc-ironclad-turncoat",
+  "name": "Ironclad Deserter",
+  "class_hint": "warrior",
+  "act": 3,
+  "role": "heavy-flanker",
+  "hire_cost": 850,
+  "upkeep": 140,
+  "stats": {
+   "hp": 280,
+   "dmg": 32,
+   "armor": 25,
+   "speed": 92
+  },
+  "abilities": [
+   "Breaker's Rush",
+   "Execution Sweep"
+  ],
+  "backstory": "Walked off the field at Sundered Ranks when his warlord paid the company in clipped tin coins. He wears scavenged coastal brigandine and fights solely for guaranteed silver.",
+  "hire_line": "Coin weighs the same under any banner—just make sure yours stays upright.",
+  "barks": {
+   "select": [
+    "Paid in full?",
+    "Point the way.",
+    "Ready to earn."
+   ],
+   "attack": [
+    "Nothing personal!",
+    "Fold!",
+    "Payday!"
+   ],
+   "hurt": [
+    "That costs extra!",
+    "Dented my plate!"
+   ],
+   "death": [
+    "Bad... contract...",
+    "Should've... switched sides..."
+   ]
+  },
+  "quirk": "Bites every gold coin paid to him before pocketing it."
+ },
+ {
+  "id": "merc-ironcamp-halberdier",
+  "name": "Ironcamp Halberdier",
+  "class_hint": "warrior",
+  "act": 4,
+  "role": "vanguard",
+  "hire_cost": 1520,
+  "upkeep": 240,
+  "stats": {
+   "hp": 370,
+   "dmg": 42,
+   "armor": 32,
+   "speed": 94
+  },
+  "abilities": [
+   "Sunder Hinges",
+   "Lock Shields"
+  ],
+  "backstory": "A scarred caldera veteran whose eyebrows never grew back after the Greystone wall-breach. He hooks demonic champions out of formation with a meteor-slag halberd.",
+  "hire_line": "Keep my boots oiled against the sulfur and I'll hold the gates of hell.",
+  "barks": {
+   "select": [
+    "Halberd's set.",
+    "Hold the ash.",
+    "Ready, commander."
+   ],
+   "attack": [
+    "Hook and drop!",
+    "Crack their plate!",
+    "For Ironcamp!"
+   ],
+   "hurt": [
+    "Just slag-burn!",
+    "Still anchored!"
+   ],
+   "death": [
+    "Tell Rowan... the line held...",
+    "Ash... to ash..."
+   ]
+  },
+  "quirk": "Rubs volcanic pumice on his palms before every assault."
+ },
+ {
+  "id": "merc-slag-hound-sniper",
+  "name": "Caldera Ridge-Marksman",
+  "class_hint": "archer",
+  "act": 4,
+  "role": "sniper",
+  "hire_cost": 1580,
+  "upkeep": 250,
+  "stats": {
+   "hp": 265,
+   "dmg": 48,
+   "armor": 20,
+   "speed": 116
+  },
+  "abilities": [
+   "Heartseeker",
+   "Hail of Yew"
+  ],
+  "backstory": "Hunted redglass drakes on the volcanic crags to harvest wing-splinters for Ironcamp's fletchers. She compensates for thermal updrafts without blinking.",
+  "hire_line": "Heat shimmer bends arrows, not my aim. Mark the priority target.",
+  "barks": {
+   "select": [
+    "Sightline clear.",
+    "Accounting for heat.",
+    "Nocked."
+   ],
+   "attack": [
+    "Through the gap!",
+    "Down!",
+    "Clean kill."
+   ],
+   "hurt": [
+    "Visor's cracked!",
+    "Falling back!"
+   ],
+   "death": [
+    "Wind... shifted...",
+    "Missed... the mark..."
+   ]
+  },
+  "quirk": "Wears smoked-quartz goggles even inside dark vaults."
+ },
+ {
+  "id": "merc-ash-battlemage",
+  "name": "Vok's Runesmith-Adept",
+  "class_hint": "mage",
+  "act": 4,
+  "role": "battle-caster",
+  "hire_cost": 1650,
+  "upkeep": 260,
+  "stats": {
+   "hp": 250,
+   "dmg": 52,
+   "armor": 19,
+   "speed": 104
+  },
+  "abilities": [
+   "Ice Storm",
+   "Aether Ward"
+  ],
+  "backstory": "Trained at Ironcamp's open-fissure foundries to quench white-hot blades with focused frost magic. He freezes magma-armored brutes so infantry can shatter them.",
+  "hire_line": "Everything in this caldera burns hot; I bring the cold water.",
+  "barks": {
+   "select": [
+    "Chill ready.",
+    "Watch the vents.",
+    "Focusing."
+   ],
+   "attack": [
+    "Freeze solid!",
+    "Quench them!",
+    "Shatter!"
+   ],
+   "hurt": [
+    "Ward's cracking!",
+    "Keep them off!"
+   ],
+   "death": [
+    "Too much... heat...",
+    "Runes... fading..."
+   ]
+  },
+  "quirk": "Carries a chunk of mountain glacier-ice wrapped in oiled felt."
+ },
+ {
+  "id": "merc-penitent-flagellant",
+  "name": "Scorched Penitent-Guard",
+  "class_hint": "warrior",
+  "act": 4,
+  "role": "zealot-tank",
+  "hire_cost": 1600,
+  "upkeep": 255,
+  "stats": {
+   "hp": 395,
+   "dmg": 40,
+   "armor": 30,
+   "speed": 98
+  },
+  "abilities": [
+   "Living Bastion",
+   "Unbroken Standard"
+  ],
+  "backstory": "A former Ember Court tax-bailiff who blinded himself with hot ash after realizing what his levies funded. He marches straight into hellfire without flinching.",
+  "hire_line": "My debt is paid in scars; let me stand between your company and the flame.",
+  "barks": {
+   "select": [
+    "I fear no cinder.",
+    "Lead on.",
+    "Penance awaits."
+   ],
+   "attack": [
+    "Repent in iron!",
+    "Yield!",
+    "For the quiet dark!"
+   ],
+   "hurt": [
+    "Pain is old acquaintance.",
+    "Strike harder!"
+   ],
+   "death": [
+    "Debt... finally... settled...",
+    "Peace... at last..."
+   ]
+  },
+  "quirk": "Counts his own heartbeat aloud whenever standing near magma."
+ },
+ {
+  "id": "merc-catacomb-bailiff",
+  "name": "First-Watch Debt-Collector",
+  "class_hint": "necromancer",
+  "act": 4,
+  "role": "summoner-support",
+  "hire_cost": 1720,
+  "upkeep": 270,
+  "stats": {
+   "hp": 260,
+   "dmg": 46,
+   "armor": 20,
+   "speed": 102
+  },
+  "abilities": [
+   "Phalanx of Arrears",
+   "Forgive the Oath"
+  ],
+  "backstory": "Archivist of the Threshold catacombs who survived three decades cataloging frozen oaths beneath the obsidian floor. He calls ancient watchmen out of the ash to finish their terms.",
+  "hire_line": "The First Watch never received their discharge papers; I am here to sign them.",
+  "barks": {
+   "select": [
+    "The roll is open.",
+    "Summoning witnesses.",
+    "Proceed."
+   ],
+   "attack": [
+    "Foreclosed!",
+    "Serve your term!",
+    "Account due!"
+   ],
+   "hurt": [
+    "Ink spilled!",
+    "Step back!"
+   ],
+   "death": [
+    "Discharged... at last...",
+    "Ledger... complete..."
+   ]
+  },
+  "quirk": "Polishes brass seal-weights whenever idle."
+ },
+ {
+  "id": "merc-obsidian-sapper",
+  "name": "Caldera Siege-Engineer",
+  "class_hint": "archer",
+  "act": 4,
+  "role": "demolitionist",
+  "hire_cost": 1780,
+  "upkeep": 280,
+  "stats": {
+   "hp": 280,
+   "dmg": 50,
+   "armor": 22,
+   "speed": 104
+  },
+  "abilities": [
+   "Shatter-Flint Head",
+   "Raking Volley"
+  ],
+  "backstory": "Lost three fingers on his left hand rigging blasting charges against the Gauntlet portcullises. He fires packed prism-powder quarrels that crack siege golems open.",
+  "hire_line": "Keep open flames off my belt and I'll turn their iron golems into gravel.",
+  "barks": {
+   "select": [
+    "Fuses dry.",
+    "Range measured.",
+    "Ready to blast."
+   ],
+   "attack": [
+    "Fire in the hole!",
+    "Crack the shell!",
+    "Boom!"
+   ],
+   "hurt": [
+    "Watch the powder!",
+    "Taking hits!"
+   ],
+   "death": [
+    "Short... fuse...",
+    "Clear... the blast..."
+   ]
+  },
+  "quirk": "Sniffs the wind constantly for sulfur leaks."
+ }
+]

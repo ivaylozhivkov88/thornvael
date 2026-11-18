@@ -1,0 +1,830 @@
+[
+ {
+  "id": "aff2-riveted",
+  "name": "Riveted",
+  "type": "prefix",
+  "tier": 1,
+  "stats": {
+   "armor": 4
+  },
+  "slots": [
+   "armor",
+   "shield"
+  ]
+ },
+ {
+  "id": "aff2-bog-stained",
+  "name": "Bog-Stained",
+  "type": "prefix",
+  "tier": 1,
+  "stats": {
+   "poison_res": 12
+  },
+  "slots": [
+   "armor",
+   "boots"
+  ]
+ },
+ {
+  "id": "aff2-notched",
+  "name": "Notched",
+  "type": "prefix",
+  "tier": 1,
+  "stats": {
+   "dmg": 3
+  },
+  "slots": [
+   "weapon"
+  ]
+ },
+ {
+  "id": "aff2-waxed",
+  "name": "Waxed",
+  "type": "prefix",
+  "tier": 1,
+  "stats": {
+   "accuracy": 6
+  },
+  "slots": [
+   "bow",
+   "gloves"
+  ]
+ },
+ {
+  "id": "aff2-tallow-sealed",
+  "name": "Tallow-Sealed",
+  "type": "prefix",
+  "tier": 1,
+  "stats": {
+   "cold_res": 12
+  },
+  "slots": [
+   "armor",
+   "boots"
+  ]
+ },
+ {
+  "id": "aff2-pauper-inked",
+  "name": "Pauper-Inked",
+  "type": "prefix",
+  "tier": 1,
+  "stats": {
+   "mana": 14
+  },
+  "slots": [
+   "wand",
+   "staff",
+   "robe"
+  ]
+ },
+ {
+  "id": "aff2-quarry-hewn",
+  "name": "Quarry-Hewn",
+  "type": "prefix",
+  "tier": 2,
+  "stats": {
+   "armor_pen": 5
+  },
+  "slots": [
+   "weapon"
+  ]
+ },
+ {
+  "id": "aff2-alkali-cured",
+  "name": "Alkali-Cured",
+  "type": "prefix",
+  "tier": 2,
+  "stats": {
+   "fire_res": 16,
+   "poison_res": 10
+  },
+  "slots": [
+   "armor"
+  ]
+ },
+ {
+  "id": "aff2-salt-bitten",
+  "name": "Salt-Bitten",
+  "type": "prefix",
+  "tier": 2,
+  "stats": {
+   "dmg": 6,
+   "crit_pct": 4
+  },
+  "slots": [
+   "weapon"
+  ]
+ },
+ {
+  "id": "aff2-copper-wound",
+  "name": "Copper-Wound",
+  "type": "prefix",
+  "tier": 2,
+  "stats": {
+   "lightning_res": 18,
+   "mana_regen": 0.8
+  },
+  "slots": [
+   "staff",
+   "wand",
+   "hat"
+  ]
+ },
+ {
+  "id": "aff2-fen-stalking",
+  "name": "Fen-Stalking",
+  "type": "prefix",
+  "tier": 2,
+  "stats": {
+   "evasion_pct": 7,
+   "move_speed_pct": 6
+  },
+  "slots": [
+   "boots",
+   "armor"
+  ]
+ },
+ {
+  "id": "aff2-notarized",
+  "name": "Notarized",
+  "type": "prefix",
+  "tier": 2,
+  "stats": {
+   "dot_dmg_pct": 12
+  },
+  "slots": [
+   "wand",
+   "ring",
+   "amulet"
+  ]
+ },
+ {
+  "id": "aff2-annealed",
+  "name": "Annealed",
+  "type": "prefix",
+  "tier": 3,
+  "stats": {
+   "armor": 12,
+   "max_hp": 30
+  },
+  "slots": [
+   "armor",
+   "shield"
+  ]
+ },
+ {
+  "id": "aff2-bodkin-tipped",
+  "name": "Bodkin-Tipped",
+  "type": "prefix",
+  "tier": 3,
+  "stats": {
+   "dmg": 10,
+   "armor_pen": 7
+  },
+  "slots": [
+   "bow"
+  ]
+ },
+ {
+  "id": "aff2-galvanic",
+  "name": "Galvanic",
+  "type": "prefix",
+  "tier": 3,
+  "stats": {
+   "lightning_dmg": 12,
+   "cast_speed_pct": 8
+  },
+  "slots": [
+   "staff",
+   "wand"
+  ]
+ },
+ {
+  "id": "aff2-bitumen-coated",
+  "name": "Bitumen-Coated",
+  "type": "prefix",
+  "tier": 3,
+  "stats": {
+   "poison_res": 22,
+   "max_hp": 35
+  },
+  "slots": [
+   "armor"
+  ]
+ },
+ {
+  "id": "aff2-windlass-spanned",
+  "name": "Windlass-Spanned",
+  "type": "prefix",
+  "tier": 3,
+  "stats": {
+   "dmg": 12,
+   "crit_dmg_pct": 18
+  },
+  "slots": [
+   "bow"
+  ]
+ },
+ {
+  "id": "aff2-indentured",
+  "name": "Indentured",
+  "type": "prefix",
+  "tier": 3,
+  "stats": {
+   "minion_hp_pct": 18,
+   "mana": 28
+  },
+  "slots": [
+   "wand",
+   "robe",
+   "amulet"
+  ]
+ },
+ {
+  "id": "aff2-meteor-forged",
+  "name": "Meteor-Forged",
+  "type": "prefix",
+  "tier": 4,
+  "stats": {
+   "dmg": 18,
+   "armor_pen": 10
+  },
+  "slots": [
+   "weapon"
+  ]
+ },
+ {
+  "id": "aff2-slag-quenched",
+  "name": "Slag-Quenched",
+  "type": "prefix",
+  "tier": 4,
+  "stats": {
+   "armor": 20,
+   "fire_res": 24
+  },
+  "slots": [
+   "armor",
+   "shield"
+  ]
+ },
+ {
+  "id": "aff2-pre-schism",
+  "name": "Pre-Schism",
+  "type": "prefix",
+  "tier": 4,
+  "stats": {
+   "int": 6,
+   "mana_regen": 1.6
+  },
+  "slots": [
+   "staff",
+   "wand",
+   "hat"
+  ]
+ },
+ {
+  "id": "aff2-oath-bound",
+  "name": "Oath-Bound",
+  "type": "prefix",
+  "tier": 4,
+  "stats": {
+   "minion_dmg_pct": 22,
+   "all_res": 12
+  },
+  "slots": [
+   "robe",
+   "amulet",
+   "ring"
+  ]
+ },
+ {
+  "id": "aff2-smoke-veiled",
+  "name": "Smoke-Veiled",
+  "type": "prefix",
+  "tier": 4,
+  "stats": {
+   "evasion_pct": 12,
+   "crit_pct": 8
+  },
+  "slots": [
+   "armor",
+   "boots",
+   "hat"
+  ]
+ },
+ {
+  "id": "aff2-brine-tempered",
+  "name": "Brine-Tempered",
+  "type": "prefix",
+  "tier": 4,
+  "stats": {
+   "cold_res": 26,
+   "block_pct": 10
+  },
+  "slots": [
+   "shield",
+   "armor"
+  ]
+ },
+ {
+  "id": "aff2-sovereign",
+  "name": "Sovereign",
+  "type": "prefix",
+  "tier": 5,
+  "stats": {
+   "dmg": 28,
+   "crit_pct": 10,
+   "str": 7
+  },
+  "slots": [
+   "weapon"
+  ]
+ },
+ {
+  "id": "aff2-anchor-sealed",
+  "name": "Anchor-Sealed",
+  "type": "prefix",
+  "tier": 5,
+  "stats": {
+   "armor": 32,
+   "all_res": 18
+  },
+  "slots": [
+   "armor",
+   "shield"
+  ]
+ },
+ {
+  "id": "aff2-caldera-born",
+  "name": "Caldera-Born",
+  "type": "prefix",
+  "tier": 5,
+  "stats": {
+   "fire_dmg_pct": 25,
+   "fire_res": 30
+  },
+  "slots": [
+   "staff",
+   "wand",
+   "robe"
+  ]
+ },
+ {
+  "id": "aff2-first-watch",
+  "name": "First-Watch",
+  "type": "prefix",
+  "tier": 5,
+  "stats": {
+   "max_hp": 95,
+   "morale_res": 25
+  },
+  "slots": [
+   "armor",
+   "hat",
+   "amulet"
+  ]
+ },
+ {
+  "id": "aff2-foreclosing",
+  "name": "Foreclosing",
+  "type": "prefix",
+  "tier": 5,
+  "stats": {
+   "lifesteal_pct": 6,
+   "dmg": 24
+  },
+  "slots": [
+   "weapon"
+  ]
+ },
+ {
+  "id": "aff2-star-iron",
+  "name": "Star-Iron",
+  "type": "prefix",
+  "tier": 5,
+  "stats": {
+   "all_res": 20,
+   "crit_dmg_pct": 30
+  },
+  "slots": [
+   "weapon",
+   "armor"
+  ]
+ },
+ {
+  "id": "aff2-of-the-ford",
+  "name": "of the Ford",
+  "type": "suffix",
+  "tier": 1,
+  "stats": {
+   "cold_res": 10,
+   "hp": 12
+  },
+  "slots": [
+   "boots",
+   "ring"
+  ]
+ },
+ {
+  "id": "aff2-of-tallies",
+  "name": "of Tallies",
+  "type": "suffix",
+  "tier": 1,
+  "stats": {
+   "gold_pct": 10
+  },
+  "slots": [
+   "ring",
+   "amulet"
+  ]
+ },
+ {
+  "id": "aff2-of-dry-socks",
+  "name": "of Dry Socks",
+  "type": "suffix",
+  "tier": 1,
+  "stats": {
+   "fatigue_red": 10
+  },
+  "slots": [
+   "boots"
+  ]
+ },
+ {
+  "id": "aff2-of-the-ditch",
+  "name": "of the Ditch",
+  "type": "suffix",
+  "tier": 1,
+  "stats": {
+   "armor": 3,
+   "hp": 14
+  },
+  "slots": [
+   "armor",
+   "shield"
+  ]
+ },
+ {
+  "id": "aff2-of-goose-fletch",
+  "name": "of Goose-Fletch",
+  "type": "suffix",
+  "tier": 1,
+  "stats": {
+   "accuracy": 7
+  },
+  "slots": [
+   "bow",
+   "gloves"
+  ]
+ },
+ {
+  "id": "aff2-of-gall-ink",
+  "name": "of Gall-Ink",
+  "type": "suffix",
+  "tier": 1,
+  "stats": {
+   "mana": 15
+  },
+  "slots": [
+   "wand",
+   "ring"
+  ]
+ },
+ {
+  "id": "aff2-of-the-cistern",
+  "name": "of the Cistern",
+  "type": "suffix",
+  "tier": 2,
+  "stats": {
+   "fire_res": 16,
+   "hp": 24
+  },
+  "slots": [
+   "amulet",
+   "ring"
+  ]
+ },
+ {
+  "id": "aff2-of-sinew",
+  "name": "of Sinew",
+  "type": "suffix",
+  "tier": 2,
+  "stats": {
+   "dex": 4,
+   "atk_speed_pct": 7
+  },
+  "slots": [
+   "gloves",
+   "bow"
+  ]
+ },
+ {
+  "id": "aff2-of-arrears",
+  "name": "of Arrears",
+  "type": "suffix",
+  "tier": 2,
+  "stats": {
+   "dot_dmg_pct": 14,
+   "mana": 20
+  },
+  "slots": [
+   "wand",
+   "ring"
+  ]
+ },
+ {
+  "id": "aff2-of-the-pick",
+  "name": "of the Pick",
+  "type": "suffix",
+  "tier": 2,
+  "stats": {
+   "armor_pen": 6,
+   "str": 3
+  },
+  "slots": [
+   "weapon"
+  ]
+ },
+ {
+  "id": "aff2-of-vinegar",
+  "name": "of Vinegar",
+  "type": "suffix",
+  "tier": 2,
+  "stats": {
+   "poison_res": 18,
+   "heal_recv_pct": 12
+  },
+  "slots": [
+   "armor",
+   "amulet"
+  ]
+ },
+ {
+  "id": "aff2-of-the-parapet",
+  "name": "of the Parapet",
+  "type": "suffix",
+  "tier": 2,
+  "stats": {
+   "missile_res": 14,
+   "block_pct": 6
+  },
+  "slots": [
+   "shield",
+   "hat"
+  ]
+ },
+ {
+  "id": "aff2-of-the-sluice",
+  "name": "of the Sluice",
+  "type": "suffix",
+  "tier": 3,
+  "stats": {
+   "cold_res": 22,
+   "armor": 10
+  },
+  "slots": [
+   "armor",
+   "boots"
+  ]
+ },
+ {
+  "id": "aff2-of-the-windlass",
+  "name": "of the Windlass",
+  "type": "suffix",
+  "tier": 3,
+  "stats": {
+   "crit_dmg_pct": 22,
+   "dex": 5
+  },
+  "slots": [
+   "bow",
+   "gloves"
+  ]
+ },
+ {
+  "id": "aff2-of-probate",
+  "name": "of Probate",
+  "type": "suffix",
+  "tier": 3,
+  "stats": {
+   "minion_hp_pct": 20,
+   "int": 5
+  },
+  "slots": [
+   "wand",
+   "staff",
+   "amulet"
+  ]
+ },
+ {
+  "id": "aff2-of-conduction",
+  "name": "of Conduction",
+  "type": "suffix",
+  "tier": 3,
+  "stats": {
+   "lightning_res": 22,
+   "mana_regen": 1.3
+  },
+  "slots": [
+   "ring",
+   "hat"
+  ]
+ },
+ {
+  "id": "aff2-of-the-keel",
+  "name": "of the Keel",
+  "type": "suffix",
+  "tier": 3,
+  "stats": {
+   "max_hp": 48,
+   "vit": 5
+  },
+  "slots": [
+   "armor",
+   "shield"
+  ]
+ },
+ {
+  "id": "aff2-of-sightlines",
+  "name": "of Sightlines",
+  "type": "suffix",
+  "tier": 3,
+  "stats": {
+   "vision_tiles": 2,
+   "accuracy": 14
+  },
+  "slots": [
+   "hat",
+   "bow"
+  ]
+ },
+ {
+  "id": "aff2-of-the-fissure",
+  "name": "of the Fissure",
+  "type": "suffix",
+  "tier": 4,
+  "stats": {
+   "fire_res": 26,
+   "dmg": 16
+  },
+  "slots": [
+   "weapon",
+   "armor"
+  ]
+ },
+ {
+  "id": "aff2-of-the-witness",
+  "name": "of the Witness",
+  "type": "suffix",
+  "tier": 4,
+  "stats": {
+   "mind_res": 24,
+   "heal_power_pct": 18
+  },
+  "slots": [
+   "amulet",
+   "robe"
+  ]
+ },
+ {
+  "id": "aff2-of-the-bailiff",
+  "name": "of the Bailiff",
+  "type": "suffix",
+  "tier": 4,
+  "stats": {
+   "lifesteal_pct": 5,
+   "str": 6
+  },
+  "slots": [
+   "weapon",
+   "ring"
+  ]
+ },
+ {
+  "id": "aff2-of-the-gauntlet",
+  "name": "of the Gauntlet",
+  "type": "suffix",
+  "tier": 4,
+  "stats": {
+   "armor": 22,
+   "max_hp": 65
+  },
+  "slots": [
+   "armor",
+   "boots"
+  ]
+ },
+ {
+  "id": "aff2-of-the-leyline",
+  "name": "of the Leyline",
+  "type": "suffix",
+  "tier": 4,
+  "stats": {
+   "mana": 55,
+   "cast_speed_pct": 12
+  },
+  "slots": [
+   "staff",
+   "wand",
+   "ring"
+  ]
+ },
+ {
+  "id": "aff2-of-the-cairn",
+  "name": "of the Cairn",
+  "type": "suffix",
+  "tier": 4,
+  "stats": {
+   "all_res": 14,
+   "vit": 6
+  },
+  "slots": [
+   "shield",
+   "amulet"
+  ]
+ },
+ {
+  "id": "aff2-of-the-threshold",
+  "name": "of the Threshold",
+  "type": "suffix",
+  "tier": 5,
+  "stats": {
+   "all_res": 18,
+   "max_hp": 100
+  },
+  "slots": [
+   "armor",
+   "amulet"
+  ]
+ },
+ {
+  "id": "aff2-of-liquidation",
+  "name": "of Liquidation",
+  "type": "suffix",
+  "tier": 5,
+  "stats": {
+   "crit_pct": 12,
+   "crit_dmg_pct": 32
+  },
+  "slots": [
+   "weapon"
+  ]
+ },
+ {
+  "id": "aff2-of-the-dais",
+  "name": "of the Dais",
+  "type": "suffix",
+  "tier": 5,
+  "stats": {
+   "str": 8,
+   "vit": 8,
+   "armor": 25
+  },
+  "slots": [
+   "armor",
+   "ring"
+  ]
+ },
+ {
+  "id": "aff2-of-the-void-eye",
+  "name": "of the Void-Eye",
+  "type": "suffix",
+  "tier": 5,
+  "stats": {
+   "int": 9,
+   "mana_regen": 2.4
+  },
+  "slots": [
+   "staff",
+   "hat",
+   "amulet"
+  ]
+ },
+ {
+  "id": "aff2-of-the-unbroken",
+  "name": "of the Unbroken",
+  "type": "suffix",
+  "tier": 5,
+  "stats": {
+   "block_pct": 15,
+   "max_hp": 110
+  },
+  "slots": [
+   "shield",
+   "armor"
+  ]
+ },
+ {
+  "id": "aff2-of-reckoning",
+  "name": "of Reckoning",
+  "type": "suffix",
+  "tier": 5,
+  "stats": {
+   "dmg": 26,
+   "armor_pen": 14
+  },
+  "slots": [
+   "weapon"
+  ]
+ }
+]

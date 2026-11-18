@@ -1,0 +1,292 @@
+[
+ {
+  "id": "set-thornwick-picket",
+  "name": "Thornwick Border Guard",
+  "class": "warrior",
+  "pieces": [
+   {
+    "name": "Border Picket Broadsword",
+    "base": "Iron Sword"
+   },
+   {
+    "name": "Alder-Plank Kite Shield",
+    "base": "Iron Shield"
+   },
+   {
+    "name": "Muster-Roll Ring Mail",
+    "base": "Chain Mail"
+   },
+   {
+    "name": "Ditch-Walker Kettle Helm",
+    "base": "Iron Helm"
+   }
+  ],
+  "bonuses": {
+   "2": "+12 Armor and +15% Block Chance",
+   "3": "+45 Max HP and +15% Poison/Cold Resistance",
+   "4": "Hold the Line grants nearby mercenaries +6 Armor"
+  },
+  "lore": "Standard kit issued to the twelve-year border veterans who held the Redwater fords long after the capital stopped sending pay-wagons."
+ },
+ {
+  "id": "set-ironcamp-siegebreaker",
+  "name": "Caldera Siege-Breaker",
+  "class": "warrior",
+  "pieces": [
+   {
+    "name": "Slag-Quenched Warhammer",
+    "base": "Steel Warhammer"
+   },
+   {
+    "name": "Fissure-Tempered Plate",
+    "base": "Gothic Full Plate"
+   },
+   {
+    "name": "Anvilmaw Riveted Gauntlets",
+    "base": "Titan War Gauntlets"
+   },
+   {
+    "name": "Basalt-Splitter Greaves",
+    "base": "Juggernaut War Greaves"
+   }
+  ],
+  "bonuses": {
+   "2": "+18 Melee Damage and +8 Armor Penetration",
+   "3": "+30% Fire Resistance and +80 Max HP",
+   "4": "Melee criticals sunder 6 Armor and trigger a shockwave"
+  },
+  "lore": "Hammered over open volcanic cracks in Ironcamp by Forgemaster Vok for the vanguard tasked with cracking the Gauntlet of Iron."
+ },
+ {
+  "id": "set-greywood-poacher",
+  "name": "Greywood Fen-Stalker",
+  "class": "archer",
+  "pieces": [
+   {
+    "name": "Waxed Fen-Yew Bow",
+    "base": "Recurve Bow"
+   },
+   {
+    "name": "Peat-Stained Stalker Cowl",
+    "base": "Stalker Hood"
+   },
+   {
+    "name": "Bog-Tanned Leather Jerkin",
+    "base": "Studded Leather Armor"
+   },
+   {
+    "name": "Sedge-Runner Deerhide Boots",
+    "base": "Tracker Treads"
+   }
+  ],
+  "bonuses": {
+   "2": "+12% Movement Speed and +10% Evasion",
+   "3": "+12% Critical Chance and +2 Vision Radius",
+   "4": "First shot from cover deals +50% Crit Damage and roots 2s"
+  },
+  "lore": "Worn by border poachers and Redmarsh toll-marksmen who learned that unseen boots live three winters longer than loud armor."
+ },
+ {
+  "id": "set-oakhaven-arbalest",
+  "name": "Harborwall Windlass Corps",
+  "class": "archer",
+  "pieces": [
+   {
+    "name": "Customs-Tower Steel Arbalest",
+    "base": "Heavy Arbalest"
+   },
+   {
+    "name": "Salt-Cured Brigandine Coat",
+    "base": "Hardened Brigandine"
+   },
+   {
+    "name": "Signal-Spotter Shadow Mask",
+    "base": "Shadow Mask"
+   },
+   {
+    "name": "Seawall Grip Bracers",
+    "base": "Shadowstrike Grips"
+   }
+  ],
+  "bonuses": {
+   "2": "+15% Armor Penetration and +12 Accuracy",
+   "3": "+20% Ranged Attack Speed and +20% Cold Resistance",
+   "4": "Every third bolt pierces in a line for 140% weapon damage"
+  },
+  "lore": "Tailored for Gate Warden Lyra's coastal pickets who held Oakhaven's sea-walls against armored privateers with windlass bolts and roof-slates."
+ },
+ {
+  "id": "set-collegium-assayer",
+  "name": "Collegium Thermodynamicist",
+  "class": "mage",
+  "pieces": [
+   {
+    "name": "Galvanic Assaying Staff",
+    "base": "Rune Staff"
+   },
+   {
+    "name": "Copper-Threaded Scholar Hat",
+    "base": "Wizard Hat"
+   },
+   {
+    "name": "Grounded Slate-Wool Robe",
+    "base": "Mage Robe"
+   },
+   {
+    "name": "Insulated Brass-Eyelet Gloves",
+    "base": "Velvet Channelers"
+   }
+  ],
+  "bonuses": {
+   "2": "+45 Max Mana and +1.8 Mana Regen/s",
+   "3": "+20% Fire and Lightning Spell Damage",
+   "4": "Casting a fire spell empowers your next lightning spell by +35%"
+  },
+  "lore": "Assembled by expelled mint-assayers who proved that imperial state liturgy was merely poorly documented thermal engineering."
+ },
+ {
+  "id": "set-spire-conclave",
+  "name": "Celestial Spire Magister",
+  "class": "mage",
+  "pieces": [
+   {
+    "name": "Pre-Schism Leyline Wand",
+    "base": "Astral Archon Wand"
+   },
+   {
+    "name": "Refracting Diamond Diadem",
+    "base": "Archmage Diadem"
+   },
+   {
+    "name": "Constellation-Loomed Robe",
+    "base": "Star Robe"
+   },
+   {
+    "name": "Threshold Astral Walkers",
+    "base": "Astral Walkers"
+   }
+  ],
+  "bonuses": {
+   "2": "+10 Intelligence and +20% All Elemental Resistances",
+   "3": "-20% Spell Mana Costs and +15% Cast Speed",
+   "4": "20% chance for any spell cast to trigger a free Astral Nova"
+  },
+  "lore": "Relic vestments preserved in Oakhaven's sealed vaults, woven to channel raw ley-currents without scorching the bearer's knuckles."
+ },
+ {
+  "id": "set-parish-probate",
+  "name": "Lower-Parish Probate Clerk",
+  "class": "necromancer",
+  "pieces": [
+   {
+    "name": "Notarized Bone-Awl Wand",
+    "base": "Yew Wand"
+   },
+   {
+    "name": "Tallow-Sealed Mortuary Cassock",
+    "base": "Weaver Robe"
+   },
+   {
+    "name": "Apothecary Brass Scale-Focus",
+    "base": "Chiseled Quartz Focus"
+   },
+   {
+    "name": "Unpaid-Lien Knuckle Band",
+    "base": "Bone Ring"
+   }
+  ],
+  "bonuses": {
+   "2": "+25% Raised Servant HP and +1 Max Servant",
+   "3": "+18% Curse & DoT Damage and +1.5 Mana Regen/s",
+   "4": "Slain cursed foes rise automatically as indentured skeletons"
+  },
+  "lore": "Kept by Thornwick's mortuary clerks who discovered that delinquent tax liens remain legally enforceable long after the debtor's funeral."
+ },
+ {
+  "id": "set-abbey-arbiter",
+  "name": "Coastal Abbey Oath-Keeper",
+  "class": "necromancer",
+  "pieces": [
+   {
+    "name": "Ivory Testament Ritual Rod",
+    "base": "Crystal Siphon Wand"
+   },
+   {
+    "name": "Ash-Linen Witness Wimple",
+    "base": "Sage Cowl"
+   },
+   {
+    "name": "Oath-Bound Velvet Habit",
+    "base": "Mystic Velvet Mantle"
+   },
+   {
+    "name": "Smoked-Brass Censer Focus",
+    "base": "Radiant Spell-Mirror"
+   }
+  ],
+  "bonuses": {
+   "2": "+25% Healing & Shield Power and +20% Mind Resistance",
+   "3": "+25% Astral Damage and +8% Lifesteal",
+   "4": "Forgive the Oath restores 30% Mana and grants 3s Invulnerability"
+  },
+  "lore": "Vestments of the coastal scriptorium arbiters who bound unquiet sailors' ghosts to honor deathbed promises before releasing them to rest."
+ },
+ {
+  "id": "set-redmarsh-caravan",
+  "name": "Redmarsh Salt-Caravan Guard",
+  "class": "warrior",
+  "pieces": [
+   {
+    "name": "Alkali-Tempered Sabre",
+    "base": "Steel Sword"
+   },
+   {
+    "name": "Brine-Sealed Brigandine",
+    "base": "Hardened Brigandine"
+   },
+   {
+    "name": "Sun-Visored Steel Helm",
+    "base": "Steel Helm"
+   },
+   {
+    "name": "Canteen-Keeper's Locket",
+    "base": "Bronze Locket"
+   }
+  ],
+  "bonuses": {
+   "2": "+20% Poison & Fire Resistance and +10% Movement Speed",
+   "3": "+35 Max HP and +15% Gold Found",
+   "4": "Potions heal +40% more and cleanse poison and bleed"
+  },
+  "lore": "Practical gear pieced together by Quartermaster Bram's outriders who survived the alkali flats by valuing clean water above heraldry."
+ },
+ {
+  "id": "set-first-watch-remnant",
+  "name": "First Watch Threshold Remnant",
+  "class": "necromancer",
+  "pieces": [
+   {
+    "name": "Caldera-Scored Probate Staff",
+    "base": "Thorn Staff"
+   },
+   {
+    "name": "Charred-Plate Velvet Shroud",
+    "base": "Star Robe"
+   },
+   {
+    "name": "Anchor-Seal Cosmos Eye",
+    "base": "Eye of the Cosmos"
+   },
+   {
+    "name": "First-Watch Brass Medallion",
+    "base": "Medallion of the Celestial Spire"
+   }
+  ],
+  "bonuses": {
+   "2": "+12 Intelligence and +25% Raised Servant Damage",
+   "3": "+25% All Resistances and +60 Max Mana",
+   "4": "Summons an elite First Watch Bailiff whenever a boss phase shifts"
+  },
+  "lore": "Salvaged from the obsidian steps below the Threshold Chamber, still warm with the unfulfilled oaths of Thornvael's original wardens."
+ }
+]

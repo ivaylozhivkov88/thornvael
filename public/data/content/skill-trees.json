@@ -1,0 +1,1682 @@
+[
+ {
+  "id": "war-bulwark-1",
+  "class": "warrior",
+  "tree": "Bulwark",
+  "tier": 1,
+  "name": "Riveted Plate",
+  "desc": "Reinforces armor seams, adding flat physical defense.",
+  "effect": {
+   "stat": "armor",
+   "value": 3,
+   "per_rank": 2
+  },
+  "max_rank": 5,
+  "requires": [],
+  "icon_hint": "warrior_bulwark_t1_1"
+ },
+ {
+  "id": "war-bulwark-2",
+  "class": "warrior",
+  "tree": "Bulwark",
+  "tier": 1,
+  "name": "Oak Rim Guard",
+  "desc": "Improves shield block angle against frontal strikes.",
+  "effect": {
+   "stat": "block_pct",
+   "value": 5,
+   "per_rank": 4
+  },
+  "max_rank": 5,
+  "requires": [],
+  "icon_hint": "warrior_bulwark_t1_2"
+ },
+ {
+  "id": "war-bulwark-3",
+  "class": "warrior",
+  "tree": "Bulwark",
+  "tier": 2,
+  "name": "Shield Bash",
+  "desc": "Active: Slams shield into foe, stunning 1.5s and interrupting.",
+  "effect": {
+   "stat": "stun_dur",
+   "value": 1.5,
+   "per_rank": 0.3
+  },
+  "max_rank": 3,
+  "requires": [
+   "war-bulwark-2"
+  ],
+  "icon_hint": "warrior_bulwark_t2_3"
+ },
+ {
+  "id": "war-bulwark-4",
+  "class": "warrior",
+  "tree": "Bulwark",
+  "tier": 2,
+  "name": "Brace the Ditch",
+  "desc": "Reduces knockback and incoming ranged damage while stationary.",
+  "effect": {
+   "stat": "missile_res",
+   "value": 8,
+   "per_rank": 6
+  },
+  "max_rank": 4,
+  "requires": [
+   "war-bulwark-1"
+  ],
+  "icon_hint": "warrior_bulwark_t2_4"
+ },
+ {
+  "id": "war-bulwark-5",
+  "class": "warrior",
+  "tree": "Bulwark",
+  "tier": 3,
+  "name": "Gorget of Iron",
+  "desc": "Increases maximum health and resistance to bleed effects.",
+  "effect": {
+   "stat": "max_hp",
+   "value": 35,
+   "per_rank": 25
+  },
+  "max_rank": 4,
+  "requires": [
+   "war-bulwark-4"
+  ],
+  "icon_hint": "warrior_bulwark_t3_5"
+ },
+ {
+  "id": "war-bulwark-6",
+  "class": "warrior",
+  "tree": "Bulwark",
+  "tier": 3,
+  "name": "Lock Shields",
+  "desc": "Active: Grants nearby allies +6 armor for 6s.",
+  "effect": {
+   "stat": "party_armor",
+   "value": 6,
+   "per_rank": 2
+  },
+  "max_rank": 3,
+  "requires": [
+   "war-bulwark-3"
+  ],
+  "icon_hint": "warrior_bulwark_t3_6"
+ },
+ {
+  "id": "war-bulwark-7",
+  "class": "warrior",
+  "tree": "Bulwark",
+  "tier": 4,
+  "name": "Stubborn Marrow",
+  "desc": "Survives a lethal blow once per battle at 15% HP.",
+  "effect": {
+   "stat": "cheat_death_pct",
+   "value": 15,
+   "per_rank": 5
+  },
+  "max_rank": 2,
+  "requires": [
+   "war-bulwark-5"
+  ],
+  "icon_hint": "warrior_bulwark_t4_7"
+ },
+ {
+  "id": "war-bulwark-8",
+  "class": "warrior",
+  "tree": "Bulwark",
+  "tier": 4,
+  "name": "Living Bastion",
+  "desc": "Active: Roots self for 6s, cutting all damage taken by 50%.",
+  "effect": {
+   "stat": "dmg_reduce_pct",
+   "value": 50,
+   "per_rank": 5
+  },
+  "max_rank": 2,
+  "requires": [
+   "war-bulwark-6"
+  ],
+  "icon_hint": "warrior_bulwark_t4_8"
+ },
+ {
+  "id": "war-reaver-1",
+  "class": "warrior",
+  "tree": "Reaver",
+  "tier": 1,
+  "name": "Heavy Edge",
+  "desc": "Increases melee physical weapon damage.",
+  "effect": {
+   "stat": "melee_dmg",
+   "value": 4,
+   "per_rank": 3
+  },
+  "max_rank": 5,
+  "requires": [],
+  "icon_hint": "warrior_reaver_t1_1"
+ },
+ {
+  "id": "war-reaver-2",
+  "class": "warrior",
+  "tree": "Reaver",
+  "tier": 1,
+  "name": "Quarry Swing",
+  "desc": "Adds bonus armor penetration against plated foes.",
+  "effect": {
+   "stat": "armor_pen",
+   "value": 3,
+   "per_rank": 2
+  },
+  "max_rank": 5,
+  "requires": [],
+  "icon_hint": "warrior_reaver_t1_2"
+ },
+ {
+  "id": "war-reaver-3",
+  "class": "warrior",
+  "tree": "Reaver",
+  "tier": 2,
+  "name": "Cleaving Arc",
+  "desc": "Active: Sweeps weapon in a frontal arc hitting up to 3 foes.",
+  "effect": {
+   "stat": "cleave_dmg",
+   "value": 16,
+   "per_rank": 6
+  },
+  "max_rank": 4,
+  "requires": [
+   "war-reaver-1"
+  ],
+  "icon_hint": "warrior_reaver_t2_3"
+ },
+ {
+  "id": "war-reaver-4",
+  "class": "warrior",
+  "tree": "Reaver",
+  "tier": 2,
+  "name": "Bloodied Grip",
+  "desc": "Restores health on every melee kill.",
+  "effect": {
+   "stat": "kill_heal",
+   "value": 8,
+   "per_rank": 5
+  },
+  "max_rank": 4,
+  "requires": [
+   "war-reaver-2"
+  ],
+  "icon_hint": "warrior_reaver_t2_4"
+ },
+ {
+  "id": "war-reaver-5",
+  "class": "warrior",
+  "tree": "Reaver",
+  "tier": 3,
+  "name": "Sunder Hinges",
+  "desc": "Melee critical hits reduce target armor by 4 for 6s.",
+  "effect": {
+   "stat": "sunder_armor",
+   "value": 4,
+   "per_rank": 2
+  },
+  "max_rank": 3,
+  "requires": [
+   "war-reaver-3"
+  ],
+  "icon_hint": "warrior_reaver_t3_5"
+ },
+ {
+  "id": "war-reaver-6",
+  "class": "warrior",
+  "tree": "Reaver",
+  "tier": 3,
+  "name": "Breaker's Rush",
+  "desc": "Active: Charges 4 tiles into enemy ranks, knocking back.",
+  "effect": {
+   "stat": "charge_dmg",
+   "value": 20,
+   "per_rank": 7
+  },
+  "max_rank": 3,
+  "requires": [
+   "war-reaver-4"
+  ],
+  "icon_hint": "warrior_reaver_t3_6"
+ },
+ {
+  "id": "war-reaver-7",
+  "class": "warrior",
+  "tree": "Reaver",
+  "tier": 4,
+  "name": "Grim Momentum",
+  "desc": "Each consecutive hit increases attack speed by 5% up to 25%.",
+  "effect": {
+   "stat": "atk_speed_pct",
+   "value": 5,
+   "per_rank": 3
+  },
+  "max_rank": 3,
+  "requires": [
+   "war-reaver-5"
+  ],
+  "icon_hint": "warrior_reaver_t4_7"
+ },
+ {
+  "id": "war-reaver-8",
+  "class": "warrior",
+  "tree": "Reaver",
+  "tier": 4,
+  "name": "Execution Sweep",
+  "desc": "Active: Deals double melee damage to targets below 35% HP.",
+  "effect": {
+   "stat": "exec_mult",
+   "value": 2.0,
+   "per_rank": 0.25
+  },
+  "max_rank": 2,
+  "requires": [
+   "war-reaver-6"
+  ],
+  "icon_hint": "warrior_reaver_t4_8"
+ },
+ {
+  "id": "war-banner-1",
+  "class": "warrior",
+  "tree": "Banner",
+  "tier": 1,
+  "name": "Muster Discipline",
+  "desc": "Increases squad maximum morale and fear resistance.",
+  "effect": {
+   "stat": "morale_res",
+   "value": 10,
+   "per_rank": 6
+  },
+  "max_rank": 5,
+  "requires": [],
+  "icon_hint": "warrior_banner_t1_1"
+ },
+ {
+  "id": "war-banner-2",
+  "class": "warrior",
+  "tree": "Banner",
+  "tier": 1,
+  "name": "Rationed Pace",
+  "desc": "Reduces party combat fatigue accumulation.",
+  "effect": {
+   "stat": "fatigue_red",
+   "value": 8,
+   "per_rank": 5
+  },
+  "max_rank": 5,
+  "requires": [],
+  "icon_hint": "warrior_banner_t1_2"
+ },
+ {
+  "id": "war-banner-3",
+  "class": "warrior",
+  "tree": "Banner",
+  "tier": 2,
+  "name": "Hold the Line",
+  "desc": "Active: Commands squad to hold ground, gaining +15% block.",
+  "effect": {
+   "stat": "hold_block",
+   "value": 15,
+   "per_rank": 5
+  },
+  "max_rank": 3,
+  "requires": [
+   "war-banner-1"
+  ],
+  "icon_hint": "warrior_banner_t2_3"
+ },
+ {
+  "id": "war-banner-4",
+  "class": "warrior",
+  "tree": "Banner",
+  "tier": 2,
+  "name": "Veteran's Eye",
+  "desc": "Increases mercenary accuracy and critical chance.",
+  "effect": {
+   "stat": "merc_acc",
+   "value": 5,
+   "per_rank": 3
+  },
+  "max_rank": 4,
+  "requires": [
+   "war-banner-2"
+  ],
+  "icon_hint": "warrior_banner_t2_4"
+ },
+ {
+  "id": "war-banner-5",
+  "class": "warrior",
+  "tree": "Banner",
+  "tier": 3,
+  "name": "Hardened Pay",
+  "desc": "Lowers mercenary upkeep wages per mission.",
+  "effect": {
+   "stat": "upkeep_red_pct",
+   "value": 6,
+   "per_rank": 4
+  },
+  "max_rank": 4,
+  "requires": [
+   "war-banner-4"
+  ],
+  "icon_hint": "warrior_banner_t3_5"
+ },
+ {
+  "id": "war-banner-6",
+  "class": "warrior",
+  "tree": "Banner",
+  "tier": 3,
+  "name": "Rallying Horn",
+  "desc": "Active: Cleanses fear and restores 25 stamina to allies.",
+  "effect": {
+   "stat": "rally_stam",
+   "value": 25,
+   "per_rank": 10
+  },
+  "max_rank": 3,
+  "requires": [
+   "war-banner-3"
+  ],
+  "icon_hint": "warrior_banner_t3_6"
+ },
+ {
+  "id": "war-banner-7",
+  "class": "warrior",
+  "tree": "Banner",
+  "tier": 4,
+  "name": "Iron Vanguard",
+  "desc": "Allies within 4 tiles gain +12% physical damage.",
+  "effect": {
+   "stat": "aura_dmg_pct",
+   "value": 12,
+   "per_rank": 4
+  },
+  "max_rank": 3,
+  "requires": [
+   "war-banner-5"
+  ],
+  "icon_hint": "warrior_banner_t4_7"
+ },
+ {
+  "id": "war-banner-8",
+  "class": "warrior",
+  "tree": "Banner",
+  "tier": 4,
+  "name": "Unbroken Standard",
+  "desc": "Active: Company refuses to rout and gains +25% speed for 8s.",
+  "effect": {
+   "stat": "banner_haste",
+   "value": 25,
+   "per_rank": 5
+  },
+  "max_rank": 2,
+  "requires": [
+   "war-banner-6"
+  ],
+  "icon_hint": "warrior_banner_t4_8"
+ },
+ {
+  "id": "arc-deadeye-1",
+  "class": "archer",
+  "tree": "Deadeye",
+  "tier": 1,
+  "name": "Measured Draw",
+  "desc": "Increases bow and arbalest piercing damage.",
+  "effect": {
+   "stat": "ranged_dmg",
+   "value": 4,
+   "per_rank": 3
+  },
+  "max_rank": 5,
+  "requires": [],
+  "icon_hint": "archer_deadeye_t1_1"
+ },
+ {
+  "id": "arc-deadeye-2",
+  "class": "archer",
+  "tree": "Deadeye",
+  "tier": 1,
+  "name": "Wind Reader",
+  "desc": "Improves ranged accuracy and reduces distance penalty.",
+  "effect": {
+   "stat": "accuracy",
+   "value": 6,
+   "per_rank": 4
+  },
+  "max_rank": 5,
+  "requires": [],
+  "icon_hint": "archer_deadeye_t1_2"
+ },
+ {
+  "id": "arc-deadeye-3",
+  "class": "archer",
+  "tree": "Deadeye",
+  "tier": 2,
+  "name": "Aimed Throat-Shot",
+  "desc": "Active: High-precision shot with +35% critical damage.",
+  "effect": {
+   "stat": "crit_dmg_pct",
+   "value": 35,
+   "per_rank": 15
+  },
+  "max_rank": 4,
+  "requires": [
+   "arc-deadeye-1"
+  ],
+  "icon_hint": "archer_deadeye_t2_3"
+ },
+ {
+  "id": "arc-deadeye-4",
+  "class": "archer",
+  "tree": "Deadeye",
+  "tier": 2,
+  "name": "High Ground",
+  "desc": "Grants bonus range and damage when firing from elevation.",
+  "effect": {
+   "stat": "elev_dmg_pct",
+   "value": 10,
+   "per_rank": 5
+  },
+  "max_rank": 4,
+  "requires": [
+   "arc-deadeye-2"
+  ],
+  "icon_hint": "archer_deadeye_t2_4"
+ },
+ {
+  "id": "arc-deadeye-5",
+  "class": "archer",
+  "tree": "Deadeye",
+  "tier": 3,
+  "name": "Bodkin Penetration",
+  "desc": "Ranged attacks ignore flat enemy armor.",
+  "effect": {
+   "stat": "ranged_pen",
+   "value": 4,
+   "per_rank": 3
+  },
+  "max_rank": 4,
+  "requires": [
+   "arc-deadeye-3"
+  ],
+  "icon_hint": "archer_deadeye_t3_5"
+ },
+ {
+  "id": "arc-deadeye-6",
+  "class": "archer",
+  "tree": "Deadeye",
+  "tier": 3,
+  "name": "Double Nock",
+  "desc": "Active: Fires two arrows in rapid succession at one target.",
+  "effect": {
+   "stat": "double_shot",
+   "value": 2,
+   "per_rank": 1
+  },
+  "max_rank": 2,
+  "requires": [
+   "arc-deadeye-4"
+  ],
+  "icon_hint": "archer_deadeye_t3_6"
+ },
+ {
+  "id": "arc-deadeye-7",
+  "class": "archer",
+  "tree": "Deadeye",
+  "tier": 4,
+  "name": "Lethal Cadence",
+  "desc": "Critical hits refund 4 mana and shave 2s off cooldowns.",
+  "effect": {
+   "stat": "crit_cd_red",
+   "value": 2,
+   "per_rank": 1
+  },
+  "max_rank": 3,
+  "requires": [
+   "arc-deadeye-5"
+  ],
+  "icon_hint": "archer_deadeye_t4_7"
+ },
+ {
+  "id": "arc-deadeye-8",
+  "class": "archer",
+  "tree": "Deadeye",
+  "tier": 4,
+  "name": "One Arrow, One Toll",
+  "desc": "Active: Pierces a straight line of foes for 160% weapon dmg.",
+  "effect": {
+   "stat": "line_pierce_pct",
+   "value": 160,
+   "per_rank": 20
+  },
+  "max_rank": 2,
+  "requires": [
+   "arc-deadeye-6"
+  ],
+  "icon_hint": "archer_deadeye_t4_8"
+ },
+ {
+  "id": "arc-stalker-1",
+  "class": "archer",
+  "tree": "Stalker",
+  "tier": 1,
+  "name": "Light Footing",
+  "desc": "Increases movement speed and terrain traversal.",
+  "effect": {
+   "stat": "move_speed_pct",
+   "value": 6,
+   "per_rank": 4
+  },
+  "max_rank": 5,
+  "requires": [],
+  "icon_hint": "archer_stalker_t1_1"
+ },
+ {
+  "id": "arc-stalker-2",
+  "class": "archer",
+  "tree": "Stalker",
+  "tier": 1,
+  "name": "Peat Camouflage",
+  "desc": "Boosts evasion against ranged attacks and ambushes.",
+  "effect": {
+   "stat": "evasion_pct",
+   "value": 5,
+   "per_rank": 4
+  },
+  "max_rank": 5,
+  "requires": [],
+  "icon_hint": "archer_stalker_t1_2"
+ },
+ {
+  "id": "arc-stalker-3",
+  "class": "archer",
+  "tree": "Stalker",
+  "tier": 2,
+  "name": "Backstep Vault",
+  "desc": "Active: Leaps 3 tiles backward, leaving a slowing caltrop.",
+  "effect": {
+   "stat": "vault_dist",
+   "value": 3,
+   "per_rank": 1
+  },
+  "max_rank": 3,
+  "requires": [
+   "arc-stalker-1"
+  ],
+  "icon_hint": "archer_stalker_t2_3"
+ },
+ {
+  "id": "arc-stalker-4",
+  "class": "archer",
+  "tree": "Stalker",
+  "tier": 2,
+  "name": "Fen Sightlines",
+  "desc": "Expands fog-of-war vision radius and trap detection.",
+  "effect": {
+   "stat": "vision_tiles",
+   "value": 2,
+   "per_rank": 1
+  },
+  "max_rank": 4,
+  "requires": [
+   "arc-stalker-2"
+  ],
+  "icon_hint": "archer_stalker_t2_4"
+ },
+ {
+  "id": "arc-stalker-5",
+  "class": "archer",
+  "tree": "Stalker",
+  "tier": 3,
+  "name": "Flanking Instinct",
+  "desc": "Attacks from behind or side deal +25% bonus damage.",
+  "effect": {
+   "stat": "flank_dmg_pct",
+   "value": 25,
+   "per_rank": 8
+  },
+  "max_rank": 3,
+  "requires": [
+   "arc-stalker-3"
+  ],
+  "icon_hint": "archer_stalker_t3_5"
+ },
+ {
+  "id": "arc-stalker-6",
+  "class": "archer",
+  "tree": "Stalker",
+  "tier": 3,
+  "name": "Hamstring Trap",
+  "desc": "Active: Places a concealed snare that roots foes for 3.5s.",
+  "effect": {
+   "stat": "trap_root",
+   "value": 3.5,
+   "per_rank": 0.5
+  },
+  "max_rank": 3,
+  "requires": [
+   "arc-stalker-4"
+  ],
+  "icon_hint": "archer_stalker_t3_6"
+ },
+ {
+  "id": "arc-stalker-7",
+  "class": "archer",
+  "tree": "Stalker",
+  "tier": 4,
+  "name": "Ghost in the Reeds",
+  "desc": "Entering smoke or brush grants 2s of untargetable stealth.",
+  "effect": {
+   "stat": "stealth_dur",
+   "value": 2.0,
+   "per_rank": 0.5
+  },
+  "max_rank": 3,
+  "requires": [
+   "arc-stalker-5"
+  ],
+  "icon_hint": "archer_stalker_t4_7"
+ },
+ {
+  "id": "arc-stalker-8",
+  "class": "archer",
+  "tree": "Stalker",
+  "tier": 4,
+  "name": "Ambush Volley",
+  "desc": "Active: Fires 5 rapid poisoned shafts while retreating.",
+  "effect": {
+   "stat": "ambush_arrows",
+   "value": 5,
+   "per_rank": 1
+  },
+  "max_rank": 2,
+  "requires": [
+   "arc-stalker-6"
+  ],
+  "icon_hint": "archer_stalker_t4_8"
+ },
+ {
+  "id": "arc-fletcher-1",
+  "class": "archer",
+  "tree": "Fletcher",
+  "tier": 1,
+  "name": "Goose-Wing Fletch",
+  "desc": "Increases arrow flight speed and attack rate.",
+  "effect": {
+   "stat": "ranged_spd_pct",
+   "value": 6,
+   "per_rank": 4
+  },
+  "max_rank": 5,
+  "requires": [],
+  "icon_hint": "archer_fletcher_t1_1"
+ },
+ {
+  "id": "arc-fletcher-2",
+  "class": "archer",
+  "tree": "Fletcher",
+  "tier": 1,
+  "name": "Waxed Bowstring",
+  "desc": "Reduces mana cost of archer active skills.",
+  "effect": {
+   "stat": "mana_cost_red",
+   "value": 6,
+   "per_rank": 4
+  },
+  "max_rank": 5,
+  "requires": [],
+  "icon_hint": "archer_fletcher_t1_2"
+ },
+ {
+  "id": "arc-fletcher-3",
+  "class": "archer",
+  "tree": "Fletcher",
+  "tier": 2,
+  "name": "Pitch-Tipped Shaft",
+  "desc": "Active: Fires an incendiary arrow that ignites ground.",
+  "effect": {
+   "stat": "fire_dot",
+   "value": 6,
+   "per_rank": 3
+  },
+  "max_rank": 4,
+  "requires": [
+   "arc-fletcher-1"
+  ],
+  "icon_hint": "archer_fletcher_t2_3"
+ },
+ {
+  "id": "arc-fletcher-4",
+  "class": "archer",
+  "tree": "Fletcher",
+  "tier": 2,
+  "name": "Salvage Quiver",
+  "desc": "Recovers mana and health when looting fallen enemies.",
+  "effect": {
+   "stat": "loot_mana",
+   "value": 10,
+   "per_rank": 5
+  },
+  "max_rank": 4,
+  "requires": [
+   "arc-fletcher-2"
+  ],
+  "icon_hint": "archer_fletcher_t2_4"
+ },
+ {
+  "id": "arc-fletcher-5",
+  "class": "archer",
+  "tree": "Fletcher",
+  "tier": 3,
+  "name": "Bile-Dipped Broads",
+  "desc": "Increases poison damage and duration dealt by the archer.",
+  "effect": {
+   "stat": "poison_dmg_pct",
+   "value": 15,
+   "per_rank": 8
+  },
+  "max_rank": 4,
+  "requires": [
+   "arc-fletcher-3"
+  ],
+  "icon_hint": "archer_fletcher_t3_5"
+ },
+ {
+  "id": "arc-fletcher-6",
+  "class": "archer",
+  "tree": "Fletcher",
+  "tier": 3,
+  "name": "Shatter-Flint Head",
+  "desc": "Active: Blasts target with quartz shrapnel in 2-tile radius.",
+  "effect": {
+   "stat": "shrapnel_dmg",
+   "value": 18,
+   "per_rank": 6
+  },
+  "max_rank": 3,
+  "requires": [
+   "arc-fletcher-4"
+  ],
+  "icon_hint": "archer_fletcher_t3_6"
+ },
+ {
+  "id": "arc-fletcher-7",
+  "class": "archer",
+  "tree": "Fletcher",
+  "tier": 4,
+  "name": "Master Bowyer",
+  "desc": "Adds +15% weapon damage to all equipped bows and crossbows.",
+  "effect": {
+   "stat": "bow_mastery_pct",
+   "value": 15,
+   "per_rank": 5
+  },
+  "max_rank": 3,
+  "requires": [
+   "arc-fletcher-5"
+  ],
+  "icon_hint": "archer_fletcher_t4_7"
+ },
+ {
+  "id": "arc-fletcher-8",
+  "class": "archer",
+  "tree": "Fletcher",
+  "tier": 4,
+  "name": "Storm of Bodkins",
+  "desc": "Active: Calls a 3-wave arrow barrage over a wide zone.",
+  "effect": {
+   "stat": "barrage_waves",
+   "value": 3,
+   "per_rank": 1
+  },
+  "max_rank": 2,
+  "requires": [
+   "arc-fletcher-6"
+  ],
+  "icon_hint": "archer_fletcher_t4_8"
+ },
+ {
+  "id": "mag-pyro-1",
+  "class": "mage",
+  "tree": "Pyromancy",
+  "tier": 1,
+  "name": "Thermal Gradient",
+  "desc": "Increases fire spell damage.",
+  "effect": {
+   "stat": "fire_dmg_pct",
+   "value": 6,
+   "per_rank": 5
+  },
+  "max_rank": 5,
+  "requires": [],
+  "icon_hint": "mage_pyromancy_t1_1"
+ },
+ {
+  "id": "mag-pyro-2",
+  "class": "mage",
+  "tree": "Pyromancy",
+  "tier": 1,
+  "name": "Singed Cuffs",
+  "desc": "Grants fire resistance and reduces self-burn hazard damage.",
+  "effect": {
+   "stat": "fire_res",
+   "value": 10,
+   "per_rank": 6
+  },
+  "max_rank": 5,
+  "requires": [],
+  "icon_hint": "mage_pyromancy_t1_2"
+ },
+ {
+  "id": "mag-pyro-3",
+  "class": "mage",
+  "tree": "Pyromancy",
+  "tier": 2,
+  "name": "Cinder Lance",
+  "desc": "Active: Fires a piercing bolt of white-hot slag.",
+  "effect": {
+   "stat": "lance_dmg",
+   "value": 20,
+   "per_rank": 7
+  },
+  "max_rank": 4,
+  "requires": [
+   "mag-pyro-1"
+  ],
+  "icon_hint": "mage_pyromancy_t2_3"
+ },
+ {
+  "id": "mag-pyro-4",
+  "class": "mage",
+  "tree": "Pyromancy",
+  "tier": 2,
+  "name": "Dry Tinder",
+  "desc": "Ignited enemies take +15% increased damage from all sources.",
+  "effect": {
+   "stat": "burn_amp_pct",
+   "value": 15,
+   "per_rank": 5
+  },
+  "max_rank": 3,
+  "requires": [
+   "mag-pyro-2"
+  ],
+  "icon_hint": "mage_pyromancy_t2_4"
+ },
+ {
+  "id": "mag-pyro-5",
+  "class": "mage",
+  "tree": "Pyromancy",
+  "tier": 3,
+  "name": "Exothermic Surge",
+  "desc": "Killing a burning foe restores 12 mana.",
+  "effect": {
+   "stat": "burn_kill_mana",
+   "value": 12,
+   "per_rank": 4
+  },
+  "max_rank": 3,
+  "requires": [
+   "mag-pyro-3"
+  ],
+  "icon_hint": "mage_pyromancy_t3_5"
+ },
+ {
+  "id": "mag-pyro-6",
+  "class": "mage",
+  "tree": "Pyromancy",
+  "tier": 3,
+  "name": "Slag Conduit",
+  "desc": "Active: Creates a wall of fire across 4 tiles for 5s.",
+  "effect": {
+   "stat": "wall_dur",
+   "value": 5.0,
+   "per_rank": 1.0
+  },
+  "max_rank": 3,
+  "requires": [
+   "mag-pyro-4"
+  ],
+  "icon_hint": "mage_pyromancy_t3_6"
+ },
+ {
+  "id": "mag-pyro-7",
+  "class": "mage",
+  "tree": "Pyromancy",
+  "tier": 4,
+  "name": "Controlled Meltdown",
+  "desc": "Fire AoE spells gain +25% radius and critical chance.",
+  "effect": {
+   "stat": "fire_aoe_pct",
+   "value": 25,
+   "per_rank": 8
+  },
+  "max_rank": 3,
+  "requires": [
+   "mag-pyro-5"
+  ],
+  "icon_hint": "mage_pyromancy_t4_7"
+ },
+ {
+  "id": "mag-pyro-8",
+  "class": "mage",
+  "tree": "Pyromancy",
+  "tier": 4,
+  "name": "Caldera Eruption",
+  "desc": "Active: Detonates molten rock under target for heavy AoE.",
+  "effect": {
+   "stat": "eruption_dmg",
+   "value": 38,
+   "per_rank": 12
+  },
+  "max_rank": 2,
+  "requires": [
+   "mag-pyro-6"
+  ],
+  "icon_hint": "mage_pyromancy_t4_8"
+ },
+ {
+  "id": "mag-temp-1",
+  "class": "mage",
+  "tree": "Tempest",
+  "tier": 1,
+  "name": "Copper Grounding",
+  "desc": "Increases lightning and cold spell damage.",
+  "effect": {
+   "stat": "storm_dmg_pct",
+   "value": 6,
+   "per_rank": 5
+  },
+  "max_rank": 5,
+  "requires": [],
+  "icon_hint": "mage_tempest_t1_1"
+ },
+ {
+  "id": "mag-temp-2",
+  "class": "mage",
+  "tree": "Tempest",
+  "tier": 1,
+  "name": "Static Lattice",
+  "desc": "Boosts lightning resistance and cast speed.",
+  "effect": {
+   "stat": "cast_speed_pct",
+   "value": 5,
+   "per_rank": 4
+  },
+  "max_rank": 5,
+  "requires": [],
+  "icon_hint": "mage_tempest_t1_2"
+ },
+ {
+  "id": "mag-temp-3",
+  "class": "mage",
+  "tree": "Tempest",
+  "tier": 2,
+  "name": "Galvanic Arc",
+  "desc": "Active: Zaps target and jumps to 2 nearby foes.",
+  "effect": {
+   "stat": "arc_jumps",
+   "value": 2,
+   "per_rank": 1
+  },
+  "max_rank": 3,
+  "requires": [
+   "mag-temp-1"
+  ],
+  "icon_hint": "mage_tempest_t2_3"
+ },
+ {
+  "id": "mag-temp-4",
+  "class": "mage",
+  "tree": "Tempest",
+  "tier": 2,
+  "name": "Rime Coat",
+  "desc": "Cold spells chill enemies 15% longer.",
+  "effect": {
+   "stat": "chill_dur_pct",
+   "value": 15,
+   "per_rank": 8
+  },
+  "max_rank": 4,
+  "requires": [
+   "mag-temp-2"
+  ],
+  "icon_hint": "mage_tempest_t2_4"
+ },
+ {
+  "id": "mag-temp-5",
+  "class": "mage",
+  "tree": "Tempest",
+  "tier": 3,
+  "name": "Wet Conduction",
+  "desc": "Lightning spells deal +30% damage to chilled or wet foes.",
+  "effect": {
+   "stat": "wet_amp_pct",
+   "value": 30,
+   "per_rank": 10
+  },
+  "max_rank": 3,
+  "requires": [
+   "mag-temp-3"
+  ],
+  "icon_hint": "mage_tempest_t3_5"
+ },
+ {
+  "id": "mag-temp-6",
+  "class": "mage",
+  "tree": "Tempest",
+  "tier": 3,
+  "name": "Hoarfrost Ring",
+  "desc": "Active: Freezes adjacent melee attackers solid for 2.5s.",
+  "effect": {
+   "stat": "nova_freeze",
+   "value": 2.5,
+   "per_rank": 0.5
+  },
+  "max_rank": 3,
+  "requires": [
+   "mag-temp-4"
+  ],
+  "icon_hint": "mage_tempest_t3_6"
+ },
+ {
+  "id": "mag-temp-7",
+  "class": "mage",
+  "tree": "Tempest",
+  "tier": 4,
+  "name": "Ley-Line Capacitor",
+  "desc": "Increases maximum mana and out-of-combat mana regen.",
+  "effect": {
+   "stat": "max_mana",
+   "value": 30,
+   "per_rank": 20
+  },
+  "max_rank": 4,
+  "requires": [
+   "mag-temp-5"
+  ],
+  "icon_hint": "mage_tempest_t4_7"
+ },
+ {
+  "id": "mag-temp-8",
+  "class": "mage",
+  "tree": "Tempest",
+  "tier": 4,
+  "name": "Ball Lightning",
+  "desc": "Active: Launches a slow orb that shocks every 0.5s.",
+  "effect": {
+   "stat": "orb_tick_dmg",
+   "value": 14,
+   "per_rank": 5
+  },
+  "max_rank": 2,
+  "requires": [
+   "mag-temp-6"
+  ],
+  "icon_hint": "mage_tempest_t4_8"
+ },
+ {
+  "id": "mag-ward-1",
+  "class": "mage",
+  "tree": "Wardcraft",
+  "tier": 1,
+  "name": "Chalk Geometry",
+  "desc": "Increases maximum mana pool.",
+  "effect": {
+   "stat": "max_mana",
+   "value": 20,
+   "per_rank": 15
+  },
+  "max_rank": 5,
+  "requires": [],
+  "icon_hint": "mage_wardcraft_t1_1"
+ },
+ {
+  "id": "mag-ward-2",
+  "class": "mage",
+  "tree": "Wardcraft",
+  "tier": 1,
+  "name": "Vellum Margin",
+  "desc": "Improves mana regeneration per second.",
+  "effect": {
+   "stat": "mana_regen",
+   "value": 1.2,
+   "per_rank": 0.8
+  },
+  "max_rank": 5,
+  "requires": [],
+  "icon_hint": "mage_wardcraft_t1_2"
+ },
+ {
+  "id": "mag-ward-3",
+  "class": "mage",
+  "tree": "Wardcraft",
+  "tier": 2,
+  "name": "Aether Ward",
+  "desc": "Active: Wraps caster in a barrier absorbing 55 damage.",
+  "effect": {
+   "stat": "ward_hp",
+   "value": 55,
+   "per_rank": 20
+  },
+  "max_rank": 4,
+  "requires": [
+   "mag-ward-1"
+  ],
+  "icon_hint": "mage_wardcraft_t2_3"
+ },
+ {
+  "id": "mag-ward-4",
+  "class": "mage",
+  "tree": "Wardcraft",
+  "tier": 2,
+  "name": "Steady Cadence",
+  "desc": "Reduces spell interruption chance when struck in melee.",
+  "effect": {
+   "stat": "interrupt_res",
+   "value": 15,
+   "per_rank": 10
+  },
+  "max_rank": 4,
+  "requires": [
+   "mag-ward-2"
+  ],
+  "icon_hint": "mage_wardcraft_t2_4"
+ },
+ {
+  "id": "mag-ward-5",
+  "class": "mage",
+  "tree": "Wardcraft",
+  "tier": 3,
+  "name": "Unravel Hex",
+  "desc": "Active: Purges curses from allies and strips enemy buffs.",
+  "effect": {
+   "stat": "dispel_count",
+   "value": 2,
+   "per_rank": 1
+  },
+  "max_rank": 3,
+  "requires": [
+   "mag-ward-3"
+  ],
+  "icon_hint": "mage_wardcraft_t3_5"
+ },
+ {
+  "id": "mag-ward-6",
+  "class": "mage",
+  "tree": "Wardcraft",
+  "tier": 3,
+  "name": "Conservation Law",
+  "desc": "Grants a 15% chance for any spell cast to cost zero mana.",
+  "effect": {
+   "stat": "free_cast_pct",
+   "value": 15,
+   "per_rank": 5
+  },
+  "max_rank": 3,
+  "requires": [
+   "mag-ward-4"
+  ],
+  "icon_hint": "mage_wardcraft_t3_6"
+ },
+ {
+  "id": "mag-ward-7",
+  "class": "mage",
+  "tree": "Wardcraft",
+  "tier": 4,
+  "name": "Astral Refraction",
+  "desc": "Increases all elemental resistances by +12%.",
+  "effect": {
+   "stat": "all_res",
+   "value": 12,
+   "per_rank": 4
+  },
+  "max_rank": 3,
+  "requires": [
+   "mag-ward-5"
+  ],
+  "icon_hint": "mage_wardcraft_t4_7"
+ },
+ {
+  "id": "mag-ward-8",
+  "class": "mage",
+  "tree": "Wardcraft",
+  "tier": 4,
+  "name": "Stasis Glyph",
+  "desc": "Active: Locks a 3-tile area in frozen time for 3s.",
+  "effect": {
+   "stat": "stasis_dur",
+   "value": 3.0,
+   "per_rank": 0.5
+  },
+  "max_rank": 2,
+  "requires": [
+   "mag-ward-6"
+  ],
+  "icon_hint": "mage_wardcraft_t4_8"
+ },
+ {
+  "id": "nec-bone-1",
+  "class": "necromancer",
+  "tree": "Bonecraft",
+  "tier": 1,
+  "name": "Reinforced Marrow",
+  "desc": "Increases health and armor of raised bone servants.",
+  "effect": {
+   "stat": "minion_hp_pct",
+   "value": 12,
+   "per_rank": 8
+  },
+  "max_rank": 5,
+  "requires": [],
+  "icon_hint": "necromancer_bonecraft_t1_1"
+ },
+ {
+  "id": "nec-bone-2",
+  "class": "necromancer",
+  "tree": "Bonecraft",
+  "tier": 1,
+  "name": "Sharp Awl",
+  "desc": "Increases bone and physical spell damage.",
+  "effect": {
+   "stat": "bone_dmg_pct",
+   "value": 6,
+   "per_rank": 5
+  },
+  "max_rank": 5,
+  "requires": [],
+  "icon_hint": "necromancer_bonecraft_t1_2"
+ },
+ {
+  "id": "nec-bone-3",
+  "class": "necromancer",
+  "tree": "Bonecraft",
+  "tier": 2,
+  "name": "Marrow Mend",
+  "desc": "Active: Repairs a bone servant or heals self using a corpse.",
+  "effect": {
+   "stat": "mend_hp",
+   "value": 45,
+   "per_rank": 15
+  },
+  "max_rank": 4,
+  "requires": [
+   "nec-bone-1"
+  ],
+  "icon_hint": "necromancer_bonecraft_t2_3"
+ },
+ {
+  "id": "nec-bone-4",
+  "class": "necromancer",
+  "tree": "Bonecraft",
+  "tier": 2,
+  "name": "Double Entry",
+  "desc": "Allows +1 additional raised servant active at once.",
+  "effect": {
+   "stat": "max_minions",
+   "value": 1,
+   "per_rank": 1
+  },
+  "max_rank": 2,
+  "requires": [
+   "nec-bone-2"
+  ],
+  "icon_hint": "necromancer_bonecraft_t2_4"
+ },
+ {
+  "id": "nec-bone-5",
+  "class": "necromancer",
+  "tree": "Bonecraft",
+  "tier": 3,
+  "name": "Splintering Rib",
+  "desc": "Bone spells apply 4 bleed damage/s for 4s.",
+  "effect": {
+   "stat": "bone_bleed",
+   "value": 4,
+   "per_rank": 2
+  },
+  "max_rank": 4,
+  "requires": [
+   "nec-bone-3"
+  ],
+  "icon_hint": "necromancer_bonecraft_t3_5"
+ },
+ {
+  "id": "nec-bone-6",
+  "class": "necromancer",
+  "tree": "Bonecraft",
+  "tier": 3,
+  "name": "Bone Spike Eruption",
+  "desc": "Active: Impales foes in a 2.5-tile circle from below.",
+  "effect": {
+   "stat": "spike_dmg",
+   "value": 22,
+   "per_rank": 7
+  },
+  "max_rank": 3,
+  "requires": [
+   "nec-bone-4"
+  ],
+  "icon_hint": "necromancer_bonecraft_t3_6"
+ },
+ {
+  "id": "nec-bone-7",
+  "class": "necromancer",
+  "tree": "Bonecraft",
+  "tier": 4,
+  "name": "Iron-Shod Femurs",
+  "desc": "Raised servants gain +25% attack damage and armor pen.",
+  "effect": {
+   "stat": "minion_dmg_pct",
+   "value": 25,
+   "per_rank": 8
+  },
+  "max_rank": 3,
+  "requires": [
+   "nec-bone-5"
+  ],
+  "icon_hint": "necromancer_bonecraft_t4_7"
+ },
+ {
+  "id": "nec-bone-8",
+  "class": "necromancer",
+  "tree": "Bonecraft",
+  "tier": 4,
+  "name": "Golem of Arrears",
+  "desc": "Active: Assembles a towering bone-bailiff from 3 corpses.",
+  "effect": {
+   "stat": "golem_hp",
+   "value": 260,
+   "per_rank": 60
+  },
+  "max_rank": 2,
+  "requires": [
+   "nec-bone-6"
+  ],
+  "icon_hint": "necromancer_bonecraft_t4_8"
+ },
+ {
+  "id": "nec-prob-1",
+  "class": "necromancer",
+  "tree": "Probate",
+  "tier": 1,
+  "name": "Accrued Interest",
+  "desc": "Increases astral and curse damage over time.",
+  "effect": {
+   "stat": "dot_dmg_pct",
+   "value": 8,
+   "per_rank": 5
+  },
+  "max_rank": 5,
+  "requires": [],
+  "icon_hint": "necromancer_probate_t1_1"
+ },
+ {
+  "id": "nec-prob-2",
+  "class": "necromancer",
+  "tree": "Probate",
+  "tier": 1,
+  "name": "Balanced Scales",
+  "desc": "Increases mana regeneration when an enemy is cursed.",
+  "effect": {
+   "stat": "curse_regen",
+   "value": 1.5,
+   "per_rank": 0.8
+  },
+  "max_rank": 5,
+  "requires": [],
+  "icon_hint": "necromancer_probate_t1_2"
+ },
+ {
+  "id": "nec-prob-3",
+  "class": "necromancer",
+  "tree": "Probate",
+  "tier": 2,
+  "name": "Writ of Weakness",
+  "desc": "Active: Curses foe, cutting their physical damage by 25%.",
+  "effect": {
+   "stat": "weaken_pct",
+   "value": 25,
+   "per_rank": 5
+  },
+  "max_rank": 4,
+  "requires": [
+   "nec-prob-1"
+  ],
+  "icon_hint": "necromancer_probate_t2_3"
+ },
+ {
+  "id": "nec-prob-4",
+  "class": "necromancer",
+  "tree": "Probate",
+  "tier": 2,
+  "name": "Blood Receipt",
+  "desc": "Restores health whenever a cursed enemy dies.",
+  "effect": {
+   "stat": "curse_kill_hp",
+   "value": 18,
+   "per_rank": 8
+  },
+  "max_rank": 4,
+  "requires": [
+   "nec-prob-2"
+  ],
+  "icon_hint": "necromancer_probate_t2_4"
+ },
+ {
+  "id": "nec-prob-5",
+  "class": "necromancer",
+  "tree": "Probate",
+  "tier": 3,
+  "name": "Audit the Living",
+  "desc": "Cursed enemies suffer -15% all resistances.",
+  "effect": {
+   "stat": "curse_res_red",
+   "value": 15,
+   "per_rank": 5
+  },
+  "max_rank": 3,
+  "requires": [
+   "nec-prob-3"
+  ],
+  "icon_hint": "necromancer_probate_t3_5"
+ },
+ {
+  "id": "nec-prob-6",
+  "class": "necromancer",
+  "tree": "Probate",
+  "tier": 3,
+  "name": "Transfer Balance",
+  "desc": "Active: Shifts health from a bone servant to heal an ally.",
+  "effect": {
+   "stat": "transfer_hp",
+   "value": 60,
+   "per_rank": 20
+  },
+  "max_rank": 3,
+  "requires": [
+   "nec-prob-4"
+  ],
+  "icon_hint": "necromancer_probate_t3_6"
+ },
+ {
+  "id": "nec-prob-7",
+  "class": "necromancer",
+  "tree": "Probate",
+  "tier": 4,
+  "name": "Binding Contract",
+  "desc": "Curses spread to 1 nearby foe when the primary target dies.",
+  "effect": {
+   "stat": "curse_spread",
+   "value": 1,
+   "per_rank": 1
+  },
+  "max_rank": 2,
+  "requires": [
+   "nec-prob-5"
+  ],
+  "icon_hint": "necromancer_probate_t4_7"
+ },
+ {
+  "id": "nec-prob-8",
+  "class": "necromancer",
+  "tree": "Probate",
+  "tier": 4,
+  "name": "Total Liquidation",
+  "desc": "Active: Detonates all active curses on target for burst.",
+  "effect": {
+   "stat": "burst_per_curse",
+   "value": 24,
+   "per_rank": 8
+  },
+  "max_rank": 2,
+  "requires": [
+   "nec-prob-6"
+  ],
+  "icon_hint": "necromancer_probate_t4_8"
+ },
+ {
+  "id": "nec-abbey-1",
+  "class": "necromancer",
+  "tree": "Abbey",
+  "tier": 1,
+  "name": "Salt Preservative",
+  "desc": "Grants cold and poison resistance.",
+  "effect": {
+   "stat": "cold_poison_res",
+   "value": 10,
+   "per_rank": 6
+  },
+  "max_rank": 5,
+  "requires": [],
+  "icon_hint": "necromancer_abbey_t1_1"
+ },
+ {
+  "id": "nec-abbey-2",
+  "class": "necromancer",
+  "tree": "Abbey",
+  "tier": 1,
+  "name": "Witness's Calm",
+  "desc": "Increases Mind and silence resistance.",
+  "effect": {
+   "stat": "mind_res",
+   "value": 10,
+   "per_rank": 6
+  },
+  "max_rank": 5,
+  "requires": [],
+  "icon_hint": "necromancer_abbey_t1_2"
+ },
+ {
+  "id": "nec-abbey-3",
+  "class": "necromancer",
+  "tree": "Abbey",
+  "tier": 2,
+  "name": "Censer Fumes",
+  "desc": "Active: Emits incense smoke that slows foes in 3 tiles.",
+  "effect": {
+   "stat": "censer_slow",
+   "value": 30,
+   "per_rank": 8
+  },
+  "max_rank": 4,
+  "requires": [
+   "nec-abbey-1"
+  ],
+  "icon_hint": "necromancer_abbey_t2_3"
+ },
+ {
+  "id": "nec-abbey-4",
+  "class": "necromancer",
+  "tree": "Abbey",
+  "tier": 2,
+  "name": "Last Rites",
+  "desc": "Prevents slain enemies from being revived by enemy shamans.",
+  "effect": {
+   "stat": "corpse_seal",
+   "value": 1,
+   "per_rank": 0
+  },
+  "max_rank": 1,
+  "requires": [
+   "nec-abbey-2"
+  ],
+  "icon_hint": "necromancer_abbey_t2_4"
+ },
+ {
+  "id": "nec-abbey-5",
+  "class": "necromancer",
+  "tree": "Abbey",
+  "tier": 3,
+  "name": "Vow of Quiet",
+  "desc": "Nearby allies take 12% reduced astral and shadow damage.",
+  "effect": {
+   "stat": "aura_shadow_red",
+   "value": 12,
+   "per_rank": 4
+  },
+  "max_rank": 3,
+  "requires": [
+   "nec-abbey-3"
+  ],
+  "icon_hint": "necromancer_abbey_t3_5"
+ },
+ {
+  "id": "nec-abbey-6",
+  "class": "necromancer",
+  "tree": "Abbey",
+  "tier": 3,
+  "name": "Dismiss the Watch",
+  "desc": "Active: Banishes summoned foes and deals heavy astral dmg.",
+  "effect": {
+   "stat": "banish_dmg",
+   "value": 32,
+   "per_rank": 10
+  },
+  "max_rank": 3,
+  "requires": [
+   "nec-abbey-4"
+  ],
+  "icon_hint": "necromancer_abbey_t3_6"
+ },
+ {
+  "id": "nec-abbey-7",
+  "class": "necromancer",
+  "tree": "Abbey",
+  "tier": 4,
+  "name": "Keeper of Oaths",
+  "desc": "Increases healing and shield effectiveness by +20%.",
+  "effect": {
+   "stat": "heal_power_pct",
+   "value": 20,
+   "per_rank": 7
+  },
+  "max_rank": 3,
+  "requires": [
+   "nec-abbey-5"
+  ],
+  "icon_hint": "necromancer_abbey_t4_7"
+ },
+ {
+  "id": "nec-abbey-8",
+  "class": "necromancer",
+  "tree": "Abbey",
+  "tier": 4,
+  "name": "Final Reckoning",
+  "desc": "Active: Links allies for 6s, splitting damage and healing all.",
+  "effect": {
+   "stat": "link_dur",
+   "value": 6.0,
+   "per_rank": 1.0
+  },
+  "max_rank": 2,
+  "requires": [
+   "nec-abbey-6"
+  ],
+  "icon_hint": "necromancer_abbey_t4_8"
+ }
+]

@@ -1,0 +1,322 @@
+[
+ {
+  "id": "loc-thornwick-weir",
+  "name": "Fenwick's Eel-Weir",
+  "act": 1,
+  "region_hint": "west",
+  "blurb": "Rotting wicker fish-traps wedged between mossy oak pilings below the Sunken Ford.",
+  "discovered_line": "Broken courier tubes and gnoll shields bob against the weir stakes."
+ },
+ {
+  "id": "loc-border-mint-ruin",
+  "name": "Old Border Mint",
+  "act": 1,
+  "region_hint": "southwest",
+  "blurb": "Charred stone assay-house where Salt-Tithe clerks once stamped brass tax-tokens.",
+  "discovered_line": "Cold ash fills the smelting crucibles; stamped lead seals litter the cobbles."
+ },
+ {
+  "id": "loc-willow-sink",
+  "name": "Drowned Willow Sink",
+  "act": 1,
+  "region_hint": "south",
+  "blurb": "Knee-deep black peat hollow choked with weeping willows and bobbing marsh-gas.",
+  "discovered_line": "Pale green lanterns drift ten paces ahead, luring boots off the boardwalk."
+ },
+ {
+  "id": "loc-ravenwatch-cellar",
+  "name": "Ravenwatch Guard-Cellar",
+  "act": 1,
+  "region_hint": "north",
+  "blurb": "Drafty stone basement beneath the signal tower, stacked with moldering levy-mail.",
+  "discovered_line": "A hidden trapdoor behind the wine racks leads down into older masonry."
+ },
+ {
+  "id": "loc-hermit-lamp-post",
+  "name": "Third Lantern Post",
+  "act": 1,
+  "region_hint": "northeast",
+  "blurb": "Iron-caged oil beacon bolted into sheer limestone halfway up Lantern Passage.",
+  "discovered_line": "The wick sputters blue in dead calm, throwing lunging claw-shadows on the slate."
+ },
+ {
+  "id": "loc-greywood-sawmill",
+  "name": "Greywood Water-Mill",
+  "act": 1,
+  "region_hint": "east",
+  "blurb": "Jammed timber sawmill choked with wet sawdust and overturned supply wagons.",
+  "discovered_line": "Rusted haulage chains swing silently from the crane boom above."
+ },
+ {
+  "id": "loc-craghorn-saddle",
+  "name": "Craghorn Watershed Saddle",
+  "act": 1,
+  "region_hint": "northwest",
+  "blurb": "Wind-scoured granite ridge dividing two ice-shadowed alpine defiles.",
+  "discovered_line": "Two ancient weather-cairns stand cold and unlit against driving sleet."
+ },
+ {
+  "id": "loc-alder-bluff",
+  "name": "Alder Chalk Bluff",
+  "act": 1,
+  "region_hint": "centre",
+  "blurb": "Steep white-clay embankment overlooking the sole wagon bridge across the Alder.",
+  "discovered_line": "Broken arrow-shafts bristle from the turf like dead winter grass."
+ },
+ {
+  "id": "loc-vitrified-kilns",
+  "name": "Old Quarry Glass-Kilns",
+  "act": 1,
+  "region_hint": "southeast",
+  "blurb": "Abandoned stone furnaces fused inside with translucent green silica slag.",
+  "discovered_line": "Heavy tusk-gouges score the birch trunks ringing the slag heaps."
+ },
+ {
+  "id": "loc-ashbrook-turnip-field",
+  "name": "Ashbrook South Ditch",
+  "act": 1,
+  "region_hint": "south",
+  "blurb": "Muddy drainage trench outside the burned manor walls, lined with fresh cairns.",
+  "discovered_line": "Splintered siege-rams lie half-buried in trampled turnip rows."
+ },
+ {
+  "id": "loc-whale-rib-gate",
+  "name": "Whale-Rib Stockade Gate",
+  "act": 2,
+  "region_hint": "north",
+  "blurb": "Sun-bleached leviathan jawbones lashed with rawhide above Redmarsh's mud moat.",
+  "discovered_line": "Alkali dust cakes every timber; sentries squint through green-tinted glass."
+ },
+ {
+  "id": "loc-jawbone-east-blind",
+  "name": "East Jawbone Sniper-Blind",
+  "act": 2,
+  "region_hint": "east",
+  "blurb": "Slotted sandstone bunker perched eighty feet above the eastern caravan notch.",
+  "discovered_line": "Charcoal tally-marks cover the lintel, counting every taxed water-skin."
+ },
+ {
+  "id": "loc-bracken-hoodoos",
+  "name": "Bracken Hoodoo Maze",
+  "act": 2,
+  "region_hint": "southwest",
+  "blurb": "Labyrinth of wind-carved red pillars and thorny scrub prone to blinding haboobs.",
+  "discovered_line": "Signal mirrors flash sporadically from isolated boulder rings in the grit."
+ },
+ {
+  "id": "loc-highgate-creek",
+  "name": "Highgate Dry Arroyo",
+  "act": 2,
+  "region_hint": "northeast",
+  "blurb": "Cracked clay streambed winding directly beneath Highgate Watch's timber catwalks.",
+  "discovered_line": "Shattered clay firepots and charred scaling ladders litter the gully."
+ },
+ {
+  "id": "loc-third-wardstone",
+  "name": "Third Quartz Monolith",
+  "act": 2,
+  "region_hint": "centre",
+  "blurb": "Thirty-foot spire of primeval crystal split down its core by crimson blood-wards.",
+  "discovered_line": "Static crackles off iron helms; flattened grass forms a dead ring around it."
+ },
+ {
+  "id": "loc-third-milestone-well",
+  "name": "The Bitter Milestone Well",
+  "act": 2,
+  "region_hint": "west",
+  "blurb": "Covered limestone trough beside the sunken corduroy road across the salt-pan.",
+  "discovered_line": "Thick green scum and dead beetles float atop the stagnant brine."
+ },
+ {
+  "id": "loc-redrock-assay-vault",
+  "name": "Redrock Canyon Vault",
+  "act": 2,
+  "region_hint": "southeast",
+  "blurb": "Vaulted sandstone cellar hidden behind a narrow slot canyon in the dry hills.",
+  "discovered_line": "Burst grain sacks spill golden wheat across scorched silver-scales."
+ },
+ {
+  "id": "loc-megalith-hollow",
+  "name": "The Twelve Megaliths",
+  "act": 2,
+  "region_hint": "south",
+  "blurb": "Sunken willow ring of black standing stones weeping bile-green miasma.",
+  "discovered_line": "Bone chimes clack in still air around bubbling clay cauldrons."
+ },
+ {
+  "id": "loc-quarry-third-terrace",
+  "name": "Deep Quarry Slave-Pens",
+  "act": 2,
+  "region_hint": "northwest",
+  "blurb": "Chained timber cages bolted into black ironstone ledges above a flooded pit.",
+  "discovered_line": "Broken shackles and discarded quarry-picks rattle in the updraft."
+ },
+ {
+  "id": "loc-four-faced-milestone",
+  "name": "Crossroads Milestone",
+  "act": 2,
+  "region_hint": "centre",
+  "blurb": "Weathered obelisk carved with four imperial distances at the junction of desert tracks.",
+  "discovered_line": "Chiseled-out glyphs and decoy rock-cairns point toward alkali sinkholes."
+ },
+ {
+  "id": "loc-greywash-mudflats",
+  "name": "Greywash Tidal Flats",
+  "act": 3,
+  "region_hint": "west",
+  "blurb": "Sucking black silt banks exposed twice daily between Oakhaven's piers and the reef.",
+  "discovered_line": "Grounded ironclad pontoons tilt crookedly in the kelp."
+ },
+ {
+  "id": "loc-cinder-fumaroles",
+  "name": "Cliffside Cinder Vents",
+  "act": 3,
+  "region_hint": "north",
+  "blurb": "Steaming basalt fissures above Oakhaven where ground sand fused into black glass.",
+  "discovered_line": "Sulfur fumes blister exposed skin while cracked ward-pillars cool."
+ },
+ {
+  "id": "loc-split-tooth-spire",
+  "name": "The Split Tooth Crag",
+  "act": 3,
+  "region_hint": "centre",
+  "blurb": "Razor-backed granite needle dividing the coastal road between twin arbalest forts.",
+  "discovered_line": "Rusted iron cages sway from chains beneath the customs semaphore."
+ },
+ {
+  "id": "loc-chapel-triage-nave",
+  "name": "Ruined Chapel Nave",
+  "act": 3,
+  "region_hint": "south",
+  "blurb": "Roofless stone abbey sheltering canvas hospital tents behind rain-slick walls.",
+  "discovered_line": "Lanterns glow through vinegar-stained canvas as hounds howl in the bracken."
+ },
+ {
+  "id": "loc-citadel-lighthouse",
+  "name": "Drowned Lighthouse Stair",
+  "act": 3,
+  "region_hint": "northwest",
+  "blurb": "Tilted spiral stair climbing above a half-submerged First-Empire sea-fortress.",
+  "discovered_line": "Atlantic breakers thunder through cracked embrasures twenty feet below."
+ },
+ {
+  "id": "loc-shingle-spit",
+  "name": "Hourglass Shingle Spit",
+  "act": 3,
+  "region_hint": "southwest",
+  "blurb": "Narrow gravel bar linking Iron-Gate Watchtower to the mainland at low water.",
+  "discovered_line": "White surf climbs steadily over shrinking dry stone with every wave."
+ },
+ {
+  "id": "loc-cider-orchard",
+  "name": "High-Orchard Terraces",
+  "act": 3,
+  "region_hint": "northeast",
+  "blurb": "Ash-choked apple groves terraced below a pale chalk watchtower.",
+  "discovered_line": "Gnarled black trunks creak in sea fog, hung with whispering skulls."
+ },
+ {
+  "id": "loc-twin-lock-island",
+  "name": "Riverlock Capstan Island",
+  "act": 3,
+  "region_hint": "east",
+  "blurb": "Stone redoubt wedged between roaring canal floodgates and iron counterweights.",
+  "discovered_line": "Massive bronze gears groan under fifty tons of backed-up river water."
+ },
+ {
+  "id": "loc-vane-catacomb-lift",
+  "name": "Baron Vane's Vault Lift",
+  "act": 3,
+  "region_hint": "centre",
+  "blurb": "Iron-grated counterweight hoist descending from the manor hall into sea-caves.",
+  "discovered_line": "Gold ingots lie spilled beside smashed strongboxes and dropped halberds."
+ },
+ {
+  "id": "loc-harborwatch-seawall",
+  "name": "Harborwatch Culverin Wall",
+  "act": 3,
+  "region_hint": "southeast",
+  "blurb": "Smoke-blackened stone seawall bristling with bronze coastal artillery above burning piers.",
+  "discovered_line": "Tarred hulls roar like floating furnaces across the choppy black bay."
+ },
+ {
+  "id": "loc-black-glass-coves",
+  "name": "Obsidian Landing Coves",
+  "act": 4,
+  "region_hint": "south",
+  "blurb": "Crescent beaches of crushed volcanic glass choked with drifting grey ash.",
+  "discovered_line": "Yellow sulfur crust steams ten paces inland from the boiling surf."
+ },
+ {
+  "id": "loc-highcrest-bluff",
+  "name": "Highcrest Redoubt",
+  "act": 4,
+  "region_hint": "north",
+  "blurb": "Jagged basalt plateau overlooking the scorched imperial highway into the caldera.",
+  "discovered_line": "Freshly dug trenches and iron stakes anchor the vanguard's first camp."
+ },
+ {
+  "id": "loc-west-beacon-crag",
+  "name": "West Focusing Crag",
+  "act": 4,
+  "region_hint": "west",
+  "blurb": "Lightning-lashed obsidian spire housing a humming violet capacitor prism.",
+  "discovered_line": "Blue static arcs between iron helms whenever the crystal chimes."
+ },
+ {
+  "id": "loc-greystone-sallyport",
+  "name": "Greystone East Sally-Port",
+  "act": 4,
+  "region_hint": "centre",
+  "blurb": "Pumice-mortared basalt gatehouse scarred by demonic siege-catapult impacts.",
+  "discovered_line": "Glowing slag-craters smoke across the glacis outside the iron bars."
+ },
+ {
+  "id": "loc-ashveil-portal-stair",
+  "name": "Ashveil Summit Portal",
+  "act": 4,
+  "region_hint": "northeast",
+  "blurb": "Narrow switchback stair carved into obsidian cliffs beneath a flickering rift-gate.",
+  "discovered_line": "Violet sparks trail across charred grimoires abandoned on the steps."
+ },
+ {
+  "id": "loc-unquenched-jaw-trench",
+  "name": "The Unquenched Jaw",
+  "act": 4,
+  "region_hint": "northwest",
+  "blurb": "Open magma-veined fissure straddling the western mana-cannon bastion.",
+  "discovered_line": "White-hot slag spits from floor cracks beside chained iron anvils."
+ },
+ {
+  "id": "loc-magnetic-canyon",
+  "name": "Magnetic Iron Narrows",
+  "act": 4,
+  "region_hint": "centre",
+  "blurb": "Thirty-pace defile cut straight through raw magnetic ore between spiked portcullises.",
+  "discovered_line": "Iron scabbards tug sideways against the cliffs while crossbows click above."
+ },
+ {
+  "id": "loc-magma-moat-bridge",
+  "name": "Citadel Iron Drawbridge",
+  "act": 4,
+  "region_hint": "north",
+  "blurb": "Six-inch-chained iron span suspended above a sluggish river of molten basalt.",
+  "discovered_line": "Murder-holes gape blackly above the gatehouse winches."
+ },
+ {
+  "id": "loc-three-roads-watch",
+  "name": "Three-Roads Watch",
+  "act": 4,
+  "region_hint": "southeast",
+  "blurb": "Star-shaped ash-plain fort locking down all three approaches to the inner caldera.",
+  "discovered_line": "Three converging dust plumes mark relief columns marching through soot."
+ },
+ {
+  "id": "loc-threshold-nave",
+  "name": "The Threshold Nave",
+  "act": 4,
+  "region_hint": "centre",
+  "blurb": "Geometric obsidian hall dominated by twin doors of pale silver and weeping fire.",
+  "discovered_line": "Headless statues stand silent vigil beside the cooling Anchor Seals."
+ }
+]

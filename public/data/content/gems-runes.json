@@ -1,0 +1,338 @@
+[
+ {
+  "id": "gem-chipped-garnet",
+  "name": "Chipped Border Garnet",
+  "kind": "gem",
+  "tier": 1,
+  "socket_effect": {
+   "weapon": "+4 Physical Damage",
+   "armor": "+18 Max HP"
+  },
+  "desc": "Adds raw physical bite to blades or thickens vitality in plate.",
+  "flavor": "Dug from gravel bars along the Redwater ford.",
+  "buy": 45,
+  "sell": 13
+ },
+ {
+  "id": "gem-flawed-beryl",
+  "name": "Cloudy Fen Beryl",
+  "kind": "gem",
+  "tier": 1,
+  "socket_effect": {
+   "weapon": "+5 Accuracy",
+   "armor": "+12 Max Mana"
+  },
+  "desc": "Sharpens aim on weapons or expands mana reserves in robes.",
+  "flavor": "Polished by Lantern Passage scribes to read damp ink.",
+  "buy": 45,
+  "sell": 13
+ },
+ {
+  "id": "gem-peat-amber",
+  "name": "Bog-Dredged Amber",
+  "kind": "gem",
+  "tier": 2,
+  "socket_effect": {
+   "weapon": "+6 Poison Damage/s",
+   "armor": "+16% Poison Resistance"
+  },
+  "desc": "Coats strikes in venom or wards armor against marsh-rot.",
+  "flavor": "Traps prehistoric gnats inside warm golden resin.",
+  "buy": 130,
+  "sell": 38
+ },
+ {
+  "id": "gem-river-jade",
+  "name": "Alder River Jade",
+  "kind": "gem",
+  "tier": 2,
+  "socket_effect": {
+   "weapon": "+8% Attack Speed",
+   "armor": "+8% Movement Speed"
+  },
+  "desc": "Quickens weapon swings or lightens boots on muddy roads.",
+  "flavor": "Carved by Thornwick river-pilots as a charm against drowning.",
+  "buy": 130,
+  "sell": 38
+ },
+ {
+  "id": "gem-quartz-prism",
+  "name": "Wardstone Quartz",
+  "kind": "gem",
+  "tier": 3,
+  "socket_effect": {
+   "weapon": "+12 Lightning Damage",
+   "armor": "+20% Lightning Resistance"
+  },
+  "desc": "Charges strikes with static or grounds armor against arcs.",
+  "flavor": "Splintered from a ruptured Redmarsh climate monolith.",
+  "buy": 330,
+  "sell": 96
+ },
+ {
+  "id": "gem-bloodstone-cabochon",
+  "name": "Quarry Bloodstone",
+  "kind": "gem",
+  "tier": 3,
+  "socket_effect": {
+   "weapon": "+4% Lifesteal",
+   "armor": "+35 Max HP"
+  },
+  "desc": "Siphons vigor on hit or knits torn sinew in armor.",
+  "flavor": "Flecked with crimson iron-oxide from the Deep Quarry.",
+  "buy": 330,
+  "sell": 96
+ },
+ {
+  "id": "gem-rime-sapphire",
+  "name": "Glacier-Core Sapphire",
+  "kind": "gem",
+  "tier": 3,
+  "socket_effect": {
+   "weapon": "+12 Cold Damage & Chill",
+   "armor": "+20% Cold Resistance"
+  },
+  "desc": "Chills foes on strike or insulates mail against sea-frost.",
+  "flavor": "Brought south by whalers wrecked on the Iron Coast.",
+  "buy": 330,
+  "sell": 96
+ },
+ {
+  "id": "gem-cinder-ruby",
+  "name": "Caldera Cinder-Ruby",
+  "kind": "gem",
+  "tier": 4,
+  "socket_effect": {
+   "weapon": "+20 Fire Damage",
+   "armor": "+25% Fire Resistance"
+  },
+  "desc": "Ignites weapon blows or turns aside volcanic heat.",
+  "flavor": "Pulled from cooling magma vents below Greystone Bastion.",
+  "buy": 790,
+  "sell": 230
+ },
+ {
+  "id": "gem-astral-opal",
+  "name": "Tide-Mirror Opal",
+  "kind": "gem",
+  "tier": 4,
+  "socket_effect": {
+   "weapon": "+18 Astral Damage",
+   "armor": "+18% Mind Resistance"
+  },
+  "desc": "Adds armor-ignoring astral force or steadies focus.",
+  "flavor": "Shifts color like deep harbor water before a squall.",
+  "buy": 790,
+  "sell": 230
+ },
+ {
+  "id": "gem-lodestone-heart",
+  "name": "Magnetic Lodestone",
+  "kind": "gem",
+  "tier": 4,
+  "socket_effect": {
+   "weapon": "+10 Armor Penetration",
+   "armor": "+16 Armor"
+  },
+  "desc": "Punches through plate seams or reinforces shield rims.",
+  "flavor": "Quarried from the iron-veined cliffs of the Gauntlet.",
+  "buy": 790,
+  "sell": 230
+ },
+ {
+  "id": "gem-starfall-diamond",
+  "name": "Pre-Schism Diamond",
+  "kind": "gem",
+  "tier": 5,
+  "socket_effect": {
+   "weapon": "+10% Critical Chance",
+   "armor": "+16% All Resistances"
+  },
+  "desc": "Finds fatal gaps in armor or wards against every element.",
+  "flavor": "Cut before the First Cataclysm by blind Oakhaven jewelers.",
+  "buy": 1800,
+  "sell": 522
+ },
+ {
+  "id": "gem-obsidian-sun",
+  "name": "Heart of the Anchor",
+  "kind": "gem",
+  "tier": 5,
+  "socket_effect": {
+   "weapon": "+32 Fire/Astral Damage",
+   "armor": "+95 Max HP & +50 Mana"
+  },
+  "desc": "Channels primordial ember into steel or sovereign plate.",
+  "flavor": "Pulsing volcanic glass salvaged from the Obsidian Dais.",
+  "buy": 1800,
+  "sell": 522
+ },
+ {
+  "id": "rune-tal",
+  "name": "Rune of Tally (Tal)",
+  "kind": "rune",
+  "tier": 1,
+  "socket_effect": {
+   "weapon": "+10% Gold from Kills",
+   "armor": "+8% Fatigue Reduction"
+  },
+  "desc": "Marks every fallen foe on the ledger or eases long marches.",
+  "flavor": "First glyph taught to Thornwick toll-clerks.",
+  "buy": 50,
+  "sell": 15
+ },
+ {
+  "id": "rune-kor",
+  "name": "Rune of Iron (Kor)",
+  "kind": "rune",
+  "tier": 1,
+  "socket_effect": {
+   "weapon": "+4 Armor Penetration",
+   "armor": "+6 Armor"
+  },
+  "desc": "Hardens weapon edges or reinforces riveted mail.",
+  "flavor": "Stamped onto bridge-guard pikes by Master Hobb.",
+  "buy": 50,
+  "sell": 15
+ },
+ {
+  "id": "rune-ven",
+  "name": "Rune of Draught (Ven)",
+  "kind": "rune",
+  "tier": 2,
+  "socket_effect": {
+   "weapon": "+1.0 Mana Regen/s",
+   "armor": "+12% Healing Received"
+  },
+  "desc": "Draws ambient aether or amplifies apothecary salves.",
+  "flavor": "Inscribed on Widow Marta's copper distillation stills.",
+  "buy": 140,
+  "sell": 41
+ },
+ {
+  "id": "rune-silt",
+  "name": "Rune of Silt (Silt)",
+  "kind": "rune",
+  "tier": 2,
+  "socket_effect": {
+   "weapon": "+15% Slow Duration",
+   "armor": "+12% Evasion"
+  },
+  "desc": "Bogs down struck targets or helps scouts slip past blows.",
+  "flavor": "Copied from sunken boundary steles in Redmarsh.",
+  "buy": 140,
+  "sell": 41
+ },
+ {
+  "id": "rune-gale",
+  "name": "Rune of Gale (Gale)",
+  "kind": "rune",
+  "tier": 3,
+  "socket_effect": {
+   "weapon": "+12% Cast & Attack Speed",
+   "armor": "+12% Missile Block"
+  },
+  "desc": "Accelerates strikes or deflects incoming arrows.",
+  "flavor": "Chiseled into Oakhaven lighthouse stones.",
+  "buy": 350,
+  "sell": 102
+ },
+ {
+  "id": "rune-lien",
+  "name": "Rune of Lien (Lien)",
+  "kind": "rune",
+  "tier": 3,
+  "socket_effect": {
+   "weapon": "+15% DoT & Curse Damage",
+   "armor": "+15% Curse Duration"
+  },
+  "desc": "Compounds lingering debts or extends hex bindings.",
+  "flavor": "Used by coastal abbey arbiters to seal deathbed wills.",
+  "buy": 350,
+  "sell": 102
+ },
+ {
+  "id": "rune-ward",
+  "name": "Rune of Ward (Ward)",
+  "kind": "rune",
+  "tier": 3,
+  "socket_effect": {
+   "weapon": "+15% Damage vs Summons",
+   "armor": "+15% Shadow/Astral Res"
+  },
+  "desc": "Banishes bound horrors or shields against dark rituals.",
+  "flavor": "Carved above the doors of the Sunken Sanctum.",
+  "buy": 350,
+  "sell": 102
+ },
+ {
+  "id": "rune-slag",
+  "name": "Rune of Slag (Slag)",
+  "kind": "rune",
+  "tier": 4,
+  "socket_effect": {
+   "weapon": "+22% Critical Damage",
+   "armor": "+20 Armor"
+  },
+  "desc": "Shatters fractured armor or thickens bastion plate.",
+  "flavor": "Quenched in meteor-slag at Forgemaster Vok's hearth.",
+  "buy": 840,
+  "sell": 244
+ },
+ {
+  "id": "rune-oath",
+  "name": "Rune of Oath (Oath)",
+  "kind": "rune",
+  "tier": 4,
+  "socket_effect": {
+   "weapon": "+20% Raised Servant Dmg",
+   "armor": "+20% Aura Effectiveness"
+  },
+  "desc": "Empowers bound watchmen or strengthens squad banners.",
+  "flavor": "Etched onto the brass name-plates of the First Watch.",
+  "buy": 840,
+  "sell": 244
+ },
+ {
+  "id": "rune-flux",
+  "name": "Rune of Flux (Flux)",
+  "kind": "rune",
+  "tier": 4,
+  "socket_effect": {
+   "weapon": "-12% Skill Cooldowns",
+   "armor": "-12% Spell Mana Costs"
+  },
+  "desc": "Cycles invocations faster or conserves arcane reserves.",
+  "flavor": "Decoded from Arch-Mage Malrik's forbidden ley-notes.",
+  "buy": 840,
+  "sell": 244
+ },
+ {
+  "id": "rune-crown",
+  "name": "Rune of Order (Crown)",
+  "kind": "rune",
+  "tier": 5,
+  "socket_effect": {
+   "weapon": "+25% Damage to Bosses",
+   "armor": "+25% All Resistances"
+  },
+  "desc": "Purges corruption with star-iron or fortifies against lords.",
+  "flavor": "Struck from the celestial alloy of the Crown of Order.",
+  "buy": 1900,
+  "sell": 551
+ },
+ {
+  "id": "rune-ash",
+  "name": "Rune of Ember (Ash)",
+  "kind": "rune",
+  "tier": 5,
+  "socket_effect": {
+   "weapon": "+7% Lifesteal & +20 Dmg",
+   "armor": "+120 Max HP & +25 Armor"
+  },
+  "desc": "Feeds on the fallen or turns armor into a living furnace.",
+  "flavor": "Brand of the Obsidian Throne that answers only to will.",
+  "buy": 1900,
+  "sell": 551
+ }
+]

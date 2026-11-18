@@ -1,0 +1,126 @@
+{
+ "class_endings": [
+  {
+   "id": "ending-warrior-sovereign",
+   "class": "warrior",
+   "requires_flags": [
+    "flag_rowan_committed",
+    "flag_vok_committed"
+   ],
+   "paragraphs": [
+    "When the last Anchor Seal cooled into brittle grey slag, no choirs sang from the cracked dome of the Obsidian Dais. The warrior simply unbuckled a dented pauldron, sat upon the lowest basalt step, and let the silence settle into joints that had ache-warned of rain across four provinces.",
+    "In the weeks that followed, Thornvael was measured not by prophetic hymns, but by supply manifests, mended bridge-pilings, and muster-rolls paid in weighed silver. Ironcamp's trip-hammers shifted from siege-mauls to plowshares and sluice-gears, while garrisons from Thornwick to Harborwatch learned that a gatehouse held by well-fed pikemen needs no divine miracle.",
+    "The Obsidian Throne remained cold and empty behind a locked iron grate—guarded not by zealots, but by a rotating watch of tired veterans who knew that every crown is just another heavy helmet someone eventually has to take off."
+   ],
+   "epilogue_male": "He traded the notched broadsword for a surveyor's plumb-line at Alder Bridge, collecting a modest pension and complaining loudly whenever spring floods soaked his knees.",
+   "epilogue_female": "She drafted the new border fortification charter in Oakhaven, personally inspecting every rivet along the seawall until masons learned to fear her calipers more than winter gales."
+  },
+  {
+   "id": "ending-archer-horizon",
+   "class": "archer",
+   "requires_flags": [
+    "flag_lyra_committed",
+    "flag_fenwick_road_pledge"
+   ],
+   "paragraphs": [
+    "With the caldera's ash-plume thinning into pale coastal mist, the archer stood at the cracked parapet of the Threshold and checked the wind—steady sou'west, smelling of kelp and cooling iron for the first time in a generation.",
+    "Rather than claim a seat among the bickering councilors of Oakhaven or the rebuilt halls of Thornwick, the company disbanded quietly at the crossroads, each scout carrying a full purse and clear sightlines across four pacified provinces. Toll-towers reopened along the Redmarsh salt-roads without brass-knuckled bailiffs, and foresters walked Greywood again without losing thumbs to royal wardens.",
+    "Years later, travelers along the border fords still swore they caught the faint snap of a waxed yew bowstring whenever brigands grew bold at dusk—though no banner ever flew above the treeline."
+   ],
+   "epilogue_male": "He rebuilt the watch-platform above the Redmarsh salt-road, charging two coppers for safe passage and keeping a slate of charcoal tallies that never once failed to balance.",
+   "epilogue_female": "She vanished north into the Greywood timberlands with a dry quiver and a pouch of pre-Schism silver, leaving Oakhaven's council three unsigned maps of every drafty gap in their new walls."
+  },
+  {
+   "id": "ending-mage-equilibrium",
+   "class": "mage",
+   "requires_flags": [
+    "flag_zahra_committed",
+    "flag_sera_committed"
+   ],
+   "paragraphs": [
+    "Once the Obsidian Dais stopped inhaling ambient heat, the mage knelt beside the fractured conduit pillars with a brass caliper and a water-stained notebook, recording the exact rate at which Thornvael's ley-currents returned to thermodynamic equilibrium.",
+    "Under the new charter drafted between Oakhaven's towers and Ironcamp's foundries, magic ceased to be hoarded as aristocratic liturgy and became an audited civic craft. Grounded copper lattices protected coastal lighthouses from squalls, regulated sluice-valves kept Redmarsh cisterns from boiling dry, and every apprentice learned that a misplaced syllable is merely a sloppy pressure leak.",
+    "The Capital Collegium sent three formal invitations offering reinstatement and a velvet chair; all three were returned unopened, stamped with a dry correction regarding their plumbing schematics."
+   ],
+   "epilogue_male": "He established a provincial observatory atop the Quartz Plateau, publishing twelve volumes on ley-conservation while complaining ceaselessly about sand in his inkwell.",
+   "epilogue_female": "She assumed oversight of the Thornwick Mint and Oakhaven's galvanic works, ensuring every silver crown weighed true to the grain and every furnace vented cleanly."
+  },
+  {
+   "id": "ending-necromancer-probate",
+   "class": "necromancer",
+   "requires_flags": [
+    "flag_elias_committed",
+    "flag_bram_committed"
+   ],
+   "paragraphs": [
+    "When the Anchor Seals shattered, ten thousand frozen oaths thawed simultaneously across the obsidian nave—a silent, pressing crowd of First-Watch wardens, drowned sailors, and border levies awaiting the signature that would release them from centuries of unpaid watch.",
+    "Dipping a bone-nibbed pen into grey caldera ash, the necromancer spent seven days and seven nights auditing the great mortuary roll. Every broken promise was witnessed, every illegitimate tax lien voided in red ink, and every indentured spirit formally discharged with a stamped brass token.",
+    "Thornvael grew quiet afterward—not the hollow quiet of a graveyard, but the clean stillness of a ledger balanced to the final copper, where the dead sleep untaxed and the living inherit no debts they did not sign."
+   ],
+   "epilogue_male": "He reopened the lower-parish registry in Thornwick, serving as public probate arbiter where no magistrate dared forge a widow's will while his bone-awl rested on the desk.",
+   "epilogue_female": "She returned to the coastal scriptorium above Harborwatch, keeping the tide-bell polished and witnessing sailors' vows so no soul need ever walk the shingle unrecorded."
+  }
+ ],
+ "ng_plus": {
+  "cycle_lines": [
+   "The ash settles, yet the ledger turns back to page one—heavier ink, sharper steel.",
+   "Thornwick's rain still leaks through the same rotten eaves, though your boots know every puddle.",
+   "They rebuilt the tollhouse at the Sunken Ford, and the gnolls brought thicker iron this season.",
+   "Even the crows along Alder Bridge recognize your banner before the first horn blows.",
+   "The Anchor Seals remember the hand that broke them; this time they burn hotter.",
+   "New cycle, old debts—let us see how much silver you can carry before the mud claims it."
+  ],
+  "modifiers": [
+   {
+    "id": "ngp-iron-tithe",
+    "name": "Compounded Salt-Tithe",
+    "desc": "Enemy armor +25% and physical damage +20%; gold drops increased by +40%."
+   },
+   {
+    "id": "ngp-ashen-wind",
+    "name": "Caldera Updrafts",
+    "desc": "All fire and astral hazards deal +35% damage; unique drop rate doubled."
+   },
+   {
+    "id": "ngp-unquiet-roll",
+    "name": "Unsettled Probate",
+    "desc": "Slain non-boss enemies have a 20% chance to rise once as hollow skeletons."
+   },
+   {
+    "id": "ngp-thin-rations",
+    "name": "Rationed Canteens",
+    "desc": "Potion healing reduced by 25%, but camp rest restores full stamina and mana."
+   },
+   {
+    "id": "ngp-elite-vanguard",
+    "name": "Veteran Levy",
+    "desc": "Every encounter spawns +1 elite champion carrying guaranteed Tier 4–5 salvage."
+   },
+   {
+    "id": "ngp-brittle-steel",
+    "name": "Corrosive Brine",
+    "desc": "Equipment repair costs +50%, while weapon armor penetration increases by +15%."
+   },
+   {
+    "id": "ngp-volatile-ley",
+    "name": "Overcharged Lattice",
+    "desc": "Spell damage and mana costs both increase by +30% across all schools."
+   },
+   {
+    "id": "ngp-short-fuse",
+    "name": "Tightened Hourglass",
+    "desc": "Boss enrage timers reduced by 45 seconds; boss XP and relic drops +50%."
+   },
+   {
+    "id": "ngp-fog-of-war",
+    "name": "Perpetual Fen-Mist",
+    "desc": "Squad vision radius reduced by 2 tiles; flanking critical damage +35%."
+   },
+   {
+    "id": "ngp-sovereign-mark",
+    "name": "Brand of the Dais",
+    "desc": "Hero takes +15% incoming damage but radiates +20% all-damage aura to mercenaries."
+   }
+  ]
+ }
+}

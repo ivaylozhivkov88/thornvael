@@ -1,0 +1,482 @@
+[
+ {
+  "id": "cdx-first-compact",
+  "category": "lore",
+  "title": "The First Compact",
+  "body": "Signed in iron and tallow between border lords and exiled dwarven smith-clans, the Compact bound each province to maintain the mountain drainage galleries (see cdx-undervault-galleries) and weather-wards. Three centuries of tax-skimming reduced the treaty to rotted vellum.",
+  "unlock_hint": "Inspect the boundary stone at Sunken Ford.",
+  "act": 1
+ },
+ {
+  "id": "cdx-salt-tithe",
+  "category": "lore",
+  "title": "The Salt Tithe",
+  "body": "An emergency wartime levy drafted by High Quartermaster Morvessa (see cdx-morvessa-ledger) to strip northern border parishes of brine, grain, and iron ore. Clerks weighed salt on apothecary scales while watchmen starved on promissory slips.",
+  "unlock_hint": "Find a Border Mint tax writ in Act I.",
+  "act": 1
+ },
+ {
+  "id": "cdx-wardstone-lattice",
+  "category": "lore",
+  "title": "The Climate Wardstones",
+  "body": "Twelve primeval quartz monoliths driven into the Redmarsh plateau (see cdx-plateau-spires) to anchor rain-clouds and pin alkali dust below the highland passes. When blood-chanters cracked three spires, hot grit drifted north within hours.",
+  "unlock_hint": "Examine a ruptured wardstone in m16.",
+  "act": 2
+ },
+ {
+  "id": "cdx-third-dynasty-liens",
+  "category": "lore",
+  "title": "Third-Dynasty Probate Law",
+  "body": "Before the inland sea evaporated into Redmarsh, coastal magistrates ruled that unpaid tax liens survive death. Crypt Embalmers (see cdx-crypt-embalmers) still enforce those decrees with bitumen jars and bone hooks.",
+  "unlock_hint": "Recover a funerary tablet in Redmarsh.",
+  "act": 2
+ },
+ {
+  "id": "cdx-age-of-chains",
+  "category": "lore",
+  "title": "The Age of Chains",
+  "body": "An era of geo-sorcery when border kings bound living bedrock into Elder Juggernauts (see cdx-elder-juggernauts) to patrol mountain passes without wages or rations. Most rusted into scree; a few still wake when ley-currents surge.",
+  "unlock_hint": "Defeat an Elder Juggernaut in Act III.",
+  "act": 3
+ },
+ {
+  "id": "cdx-whale-oil-monopoly",
+  "category": "lore",
+  "title": "The Whale-Oil Charter",
+  "body": "Oakhaven's merchant guild grew rich refining lamp oil for Harborwatch's great lighthouse (see cdx-harborwatch-mole). When war closed the straits, privateers hoarded the casks as naval incendiaries.",
+  "unlock_hint": "Inspect a burned pier in Harborwatch.",
+  "act": 3
+ },
+ {
+  "id": "cdx-anchor-seals",
+  "category": "lore",
+  "title": "The Anchor Seals",
+  "body": "Seven meteoric-iron valves sunk into the caldera floor to bleed primordial magma pressure away from the upper provinces. First Warden Ashkarath (see cdx-ashkarath-watch) starved the realm of warmth rather than risk unbinding them.",
+  "unlock_hint": "Read an Anchor Seal inscription in Act IV.",
+  "act": 4
+ },
+ {
+  "id": "cdx-crown-of-order",
+  "category": "lore",
+  "title": "The Crown of Order",
+  "body": "Forged from fallen star-iron and quenched in alpine snow, the diadem was meant to bind sovereigns to the soil's health. Chronicler Zahra's rubbings suggest it began as a collar of servitude.",
+  "unlock_hint": "Decipher the Threshold silver door.",
+  "act": 4
+ },
+ {
+  "id": "cdx-primal-ember",
+  "category": "lore",
+  "title": "The Primordial Ember",
+  "body": "The unquenched furnace beneath the Obsidian Throne (see cdx-obsidian-dais). It offers strength enough to reshape Thornvael's climate, yet burns away every memory not anchored by iron will.",
+  "unlock_hint": "Approach the molten seal in m44.",
+  "act": 4
+ },
+ {
+  "id": "cdx-ley-thermodynamics",
+  "category": "lore",
+  "title": "Arcane Thermodynamics",
+  "body": "Expelled Capital Collegium scholars proved that invocation syllables act as pressure valves on ambient ley-currents. Misfires occur not from divine wrath, but from damp chalk and sloppy grounding.",
+  "unlock_hint": "Speak with a mage hero or Zahra.",
+  "act": 2
+ },
+ {
+  "id": "cdx-mortuary-accounting",
+  "category": "lore",
+  "title": "Mortuary Debt-Rolls",
+  "body": "Among border abbeys, necromancy is practiced as strict probate bookkeeping: summoning dead debtors to finish unfulfilled oaths before granting final rest.",
+  "unlock_hint": "Witness a spirit binding in combat.",
+  "act": 1
+ },
+ {
+  "id": "cdx-schism-of-ash",
+  "category": "lore",
+  "title": "The Caldera Schism",
+  "body": "When Arch-Mage Malrik (see cdx-malrik-defection) traded his sight to read volcanic veins, half the Crown College followed him south, preferring eternal ash to growing cold in northern towers.",
+  "unlock_hint": "Collect Malrik's syllabus cylinders.",
+  "act": 4
+ },
+ {
+  "id": "cdx-thornwick-market",
+  "category": "place",
+  "title": "Thornwick Market",
+  "body": "A mud-walled river town straddling three peat roads and a timber toll-bridge (see cdx-alder-span). Its plank palisades bristle with sharpened stakes while merchants weigh grain behind shuttered stalls.",
+  "unlock_hint": "Enter Thornwick Market in Act I.",
+  "act": 1
+ },
+ {
+  "id": "cdx-alder-span",
+  "category": "place",
+  "title": "Alder Bridge",
+  "body": "Three-century-old oak-and-stone crossing spanning the swollen Alder River. Sole artery wide enough for wheeled artillery between Thornwick and the high moors.",
+  "unlock_hint": "Defend Alder Bridge in m08.",
+  "act": 1
+ },
+ {
+  "id": "cdx-undervault-galleries",
+  "category": "place",
+  "title": "The Undervault Links",
+  "body": "Three miles of ventilated dwarven stone tunnels cut beneath the northern granite ridge during the First Compact (see cdx-first-compact). Damp mortar and lead-sealed armories line its dark galleries.",
+  "unlock_hint": "Descend into the Undervault in m10.",
+  "act": 1
+ },
+ {
+  "id": "cdx-ashbrook-manor",
+  "category": "place",
+  "title": "Ashbrook Gatehouse",
+  "body": "Southern hinge of the Border Fords frontier, reduced to smoldering timber and turnip-field graves when Vaelen's rams broke the outer bars.",
+  "unlock_hint": "Survive the retreat at Ashbrook.",
+  "act": 1
+ },
+ {
+  "id": "cdx-redmarsh-outpost",
+  "category": "place",
+  "title": "Redmarsh Stockade",
+  "body": "A sinking timber-and-earth fort braced on oak pilings above rust-red alkali silt. Water sells by the gill while leeches fatten in the stagnant moat.",
+  "unlock_hint": "Arrive at Redmarsh Outpost in Act II.",
+  "act": 2
+ },
+ {
+  "id": "cdx-plateau-spires",
+  "category": "place",
+  "title": "The Quartz Plateau",
+  "body": "Wind-scoured alkali mesa crowned by primeval climate wardstones (see cdx-wardstone-lattice). Static discharge turns exposed steel blue before desert squalls strike.",
+  "unlock_hint": "Climb the Quartz Plateau in m16.",
+  "act": 2
+ },
+ {
+  "id": "cdx-deep-quarry",
+  "category": "place",
+  "title": "The Deep Quarry",
+  "body": "A four-hundred-foot terraced pit sunk into a volcanic fault for dense black ironstone. Flooded at the bottom with black rainwater and ringed by rusted slave-cranes.",
+  "unlock_hint": "Liberate the quarry terraces in m20.",
+  "act": 2
+ },
+ {
+  "id": "cdx-fork-of-spears",
+  "category": "place",
+  "title": "Ironheart Bastion",
+  "body": "Black-slag fortress crowning twin volcanic spires above sinking salt-bogs and cannon-swept causeways. Controls the sole mountain pass to the Iron Coast.",
+  "unlock_hint": "Storm Ironheart Bastion in m23.",
+  "act": 2
+ },
+ {
+  "id": "cdx-oakhaven-bastion",
+  "category": "place",
+  "title": "Oakhaven Bastion",
+  "body": "Walled hill-city anchored around petrified cedar pilings where the Greywash meets the sea. Slate roofs, guild curfew bells, and drydocks smelling of pine pitch.",
+  "unlock_hint": "Enter Oakhaven in Act III.",
+  "act": 3
+ },
+ {
+  "id": "cdx-sunken-citadel",
+  "category": "place",
+  "title": "The Sunken Citadel",
+  "body": "First-Empire sea-stack fortress tilted ten cubits into the Atlantic swell. Spring tides flood its lower barbican twice daily, trapping armored men in kelp-slick halls.",
+  "unlock_hint": "Breach the water-gate in m28.",
+  "act": 3
+ },
+ {
+  "id": "cdx-harborwatch-mole",
+  "category": "place",
+  "title": "Harborwatch Anchorage",
+  "body": "Deep-water port guarded by bronze sea-wall culverins and a whale-oil lighthouse visible for forty leagues. Torched during Admiral Kael's blockade.",
+  "unlock_hint": "Retake the seawall batteries in m35.",
+  "act": 3
+ },
+ {
+  "id": "cdx-obsidian-dais",
+  "category": "place",
+  "title": "The Obsidian Dais",
+  "body": "Geometric basalt sanctuary at the exact center of the volcanic caldera, split by magma moats and crowned by the glass throne of the First Emperors.",
+  "unlock_hint": "Reach the Threshold Chamber in m44.",
+  "act": 4
+ },
+ {
+  "id": "cdx-thornwick-levy",
+  "category": "faction",
+  "title": "Thornwick Border Levy",
+  "body": "Underpaid provincial pikemen and bridge-wardens commanded by Sergeant Garrick (see cdx-garrick-watch). Stubborn in mud trenches, chronically short of crossbow bolts and dry boots.",
+  "unlock_hint": "Speak with Sergeant Garrick.",
+  "act": 1
+ },
+ {
+  "id": "cdx-salt-tithe-collectors",
+  "category": "faction",
+  "title": "The Salt-Tithe Commission",
+  "body": "Armed tax-bailiffs, ledger-clerks, and arson-companies organized by Morvessa to foreclose on border granaries and iron mines.",
+  "unlock_hint": "Clashes with bailiffs in Act I.",
+  "act": 1
+ },
+ {
+  "id": "cdx-ash-coven",
+  "category": "faction",
+  "title": "The Ashen Coven",
+  "body": "Renegade hedge-mages and blood-chanters led by Mordred and Hexer Kaelen who tap subterranean ley-fissures to rot crops and animate drowned corpses.",
+  "unlock_hint": "Discover Mordred's altar in m04.",
+  "act": 1
+ },
+ {
+  "id": "cdx-sand-clans",
+  "category": "faction",
+  "title": "Redmarsh Sand-Clans",
+  "body": "Nomadic dune-raiders riding wind-scoured arroyos with horn-bows and curved scimitars. Armed with contraband Deep Quarry iron to bleed northern supply trains.",
+  "unlock_hint": "Repel a canyon ambush in Act II.",
+  "act": 2
+ },
+ {
+  "id": "cdx-oakhaven-guild",
+  "category": "faction",
+  "title": "Oakhaven Merchant Council",
+  "body": "Wealthy timber-barons and tower-adepts who tax both smugglers and royal galleys, hoarding salt-beef behind bolted gates until the blockade threatens their drydocks.",
+  "unlock_hint": "Negotiate entry at Oakhaven.",
+  "act": 3
+ },
+ {
+  "id": "cdx-ironclad-company",
+  "category": "faction",
+  "title": "The Ironclad Banner",
+  "body": "A mercenary host of coastal pike-men stitched under rust-dyed sailcloth. Loyal strictly to weighed silver and quick to turn on employers who pay in clipped tin.",
+  "unlock_hint": "Encounter the Ironclads in m34.",
+  "act": 3
+ },
+ {
+  "id": "cdx-ashen-company",
+  "category": "faction",
+  "title": "The Ashen Company",
+  "body": "Rival sellswords recruited from burned fishing towns along the Iron Coast, locked in bloody turf wars with the Ironclad Banner over harbor salvage.",
+  "unlock_hint": "Break the rival banners in m34.",
+  "act": 3
+ },
+ {
+  "id": "cdx-black-blockade",
+  "category": "faction",
+  "title": "Vesperion's Black Fleet",
+  "body": "Copper-sheeted war galleys and fire-hulks commanded by Lord Admiral Vesperion to burn coastal shipyards and prevent armies from crossing to the caldera.",
+  "unlock_hint": "Fight marine boarders in Act III.",
+  "act": 3
+ },
+ {
+  "id": "cdx-ironcamp-foundrymen",
+  "category": "faction",
+  "title": "Ironcamp Forge-Guild",
+  "body": "Keloid-scarred smiths and siege-sappers led by Forgemaster Vok who quench meteoric steel in open caldera fissures.",
+  "unlock_hint": "Visit Vok's forge in Ironcamp.",
+  "act": 4
+ },
+ {
+  "id": "cdx-penitent-order",
+  "category": "faction",
+  "title": "The Scorched Penitents",
+  "body": "Blind battle-mages and ash-robed archivists following Brother Elias, bearing iron collars to atone for opening the caldera's first cinder-gates.",
+  "unlock_hint": "Speak with Brother Elias.",
+  "act": 4
+ },
+ {
+  "id": "cdx-first-watch",
+  "category": "faction",
+  "title": "The First Watch",
+  "body": "Ancient wardens who sealed the volcanic threshold centuries ago. Many remain bound to obsidian pillars as unquiet witnesses awaiting formal discharge.",
+  "unlock_hint": "Find a First Watch plate in Act IV.",
+  "act": 4
+ },
+ {
+  "id": "cdx-ember-vanguard",
+  "category": "faction",
+  "title": "Dread Vanguard of the Throne",
+  "body": "Meteor-plated champions and magma-forged constructs guarding the Gauntlet of Iron and the Anchor Seals under First Warden Ashkarath.",
+  "unlock_hint": "Face a Dread Knight in Act IV.",
+  "act": 4
+ },
+ {
+  "id": "cdx-briar-hound",
+  "category": "creature",
+  "title": "Briar Hound",
+  "body": "Feral border curs colonized by parasitic iron-bramble growing directly through their ribs. Hunt in starving packs along river shallows; vulnerable to fire.",
+  "unlock_hint": "Slay Briar Hounds at the Sunken Ford.",
+  "act": 1
+ },
+ {
+  "id": "cdx-flintback",
+  "category": "creature",
+  "title": "Flintback",
+  "body": "Quarry-beasts whose dorsal hides calcified into overlapping slabs of grey chert. Arrows glance off; crack their posture with heavy mauls or lightning.",
+  "unlock_hint": "Encounter a Flintback in Act I.",
+  "act": 1
+ },
+ {
+  "id": "cdx-mire-wisp",
+  "category": "creature",
+  "title": "Mire Wisp",
+  "body": "Pockets of marsh methane and spiteful lingering memory anchored inside drowned livestock skulls. Disperse them with fire before corpse-gas chokes the vanguard.",
+  "unlock_hint": "Survive a fen ambush in m02.",
+  "act": 1
+ },
+ {
+  "id": "cdx-dune-lurker",
+  "category": "creature",
+  "title": "Dune Lurker",
+  "body": "Ochre-shelled desert mantids buried up to their eyes in dry creek beds. Erupt behind stragglers with serrated scythe-limbs; chill them with frost.",
+  "unlock_hint": "Cross Bracken Basin in Act II.",
+  "act": 2
+ },
+ {
+  "id": "cdx-basalt-brute",
+  "category": "creature",
+  "title": "Basalt Brute",
+  "body": "Walking siege-engines of hexagonal black rock animated by caldera pressure. Immobilize their wide feet with ice magic and chip them down from range.",
+  "unlock_hint": "Face a Basalt Brute in Act II.",
+  "act": 2
+ },
+ {
+  "id": "cdx-crypt-embalmers",
+  "category": "creature",
+  "title": "Crypt Embalmer",
+  "body": "Third-Dynasty mortuary priests whose hollowed ribs house venomous copperheads. Burn them from afar before their bitumen fumes rot wounds.",
+  "unlock_hint": "Enter the lower quarry gallery in m20.",
+  "act": 2
+ },
+ {
+  "id": "cdx-salt-crab",
+  "category": "creature",
+  "title": "Salt Crab",
+  "body": "Tidal crustaceans that cement brine-crystals and wrecked hull planks onto their shells. Flank their massive left shield-claw or boil them with lightning.",
+  "unlock_hint": "Wade the low-tide flats in m28.",
+  "act": 3
+ },
+ {
+  "id": "cdx-elder-juggernauts",
+  "category": "creature",
+  "title": "Elder Juggernaut",
+  "body": "Colossal bedrock constructs bound during the Age of Chains (see cdx-age-of-chains). Conventional steel bounces off; target glowing rune-seams with arcane fire.",
+  "unlock_hint": "Defeat the ridge sentinel in m32.",
+  "act": 3
+ },
+ {
+  "id": "cdx-frost-bell",
+  "category": "creature",
+  "title": "Frost Bell",
+  "body": "Levitating liturgical bronze bells torn from drowned chapels. Their skull-clappers ring sub-audible chimes that freeze mana and crack mortar.",
+  "unlock_hint": "Shatter a Frost Bell in Act III.",
+  "act": 3
+ },
+ {
+  "id": "cdx-night-orchard",
+  "category": "creature",
+  "title": "Night Orchard",
+  "body": "Gallows-trees animated by shadow covens, bearing screaming magenta skulls like winter fruit. Chop them down with fire-enchanted axes.",
+  "unlock_hint": "Clear the terraced grove in Act III.",
+  "act": 3
+ },
+ {
+  "id": "cdx-anvilmaw-smith",
+  "category": "creature",
+  "title": "Anvilmaw Smith",
+  "body": "Cinderforge siege-titans with iron anvils for lower jaws and smoking chimneys on their spines. Scatter when they raise their hammer-arms toward their chins.",
+  "unlock_hint": "Hunt an Anvilmaw in Act IV.",
+  "act": 4
+ },
+ {
+  "id": "cdx-redglass-drake",
+  "category": "creature",
+  "title": "Redglass Drake",
+  "body": "Volcanic ridge dragons with razor-sharp obsidian wing-membranes. Ground them with cold magic and stay clear of their molten glass breath.",
+  "unlock_hint": "Spot a Redglass Drake in Act IV.",
+  "act": 4
+ },
+ {
+  "id": "cdx-sunken-ford-ambush",
+  "category": "event",
+  "title": "Massacre at Sunken Ford",
+  "body": "Grok'tar's gnoll warband butchered the Thornwick night-watch at dawn, torching the tollhouse to hide forged Border Mint dispatches.",
+  "unlock_hint": "Complete m01-blood-at-the-ford.",
+  "act": 1
+ },
+ {
+  "id": "cdx-ravenwatch-betrayal",
+  "category": "event",
+  "title": "The Broken Picket",
+  "body": "Four watchmen abandoned Ravenwatch's outer wall before nightfall, pulling the iron stakes from inside to lure defenders away from the Sunken Sanctum.",
+  "unlock_hint": "Complete m03-nightfall-at-ravenwatch.",
+  "act": 1
+ },
+ {
+  "id": "cdx-alder-exodus",
+  "category": "event",
+  "title": "The Alder Bridge Stand",
+  "body": "Three thousand river-parish refugees crossed Alder Bridge under arrow cover while pikemen held three successive raider waves on the slick oak planks.",
+  "unlock_hint": "Complete m08-alder-bridge.",
+  "act": 1
+ },
+ {
+  "id": "cdx-ashbrook-evacuation",
+  "category": "event",
+  "title": "The Burning of Ashbrook",
+  "body": "Unable to hold shattered timber gates against Vaelen's rams, the vanguard sallied out to slay the commander and escort survivors south into Redmarsh.",
+  "unlock_hint": "Complete Act I.",
+  "act": 1
+ },
+ {
+  "id": "cdx-plateau-rupture",
+  "category": "event",
+  "title": "The Wardstone Rupture",
+  "body": "Ashen Coven sorcerers cracked three quartz wardstones to test sigil-breaking rituals, unleashing scouring copper dust storms across Bracken Basin.",
+  "unlock_hint": "Complete m16-wardstone-rupture.",
+  "act": 2
+ },
+ {
+  "id": "cdx-quarry-revolt",
+  "category": "event",
+  "title": "The Deep Quarry Revolt",
+  "body": "Chained ironstone miners broke their pens with stolen picks during the vanguard assault, flooding the pit and starving Gorrathul's forges of ore.",
+  "unlock_hint": "Complete m20-deep-quarry.",
+  "act": 2
+ },
+ {
+  "id": "cdx-dry-cistern-siege",
+  "category": "event",
+  "title": "The Lie of Ironheart",
+  "body": "Gorrathul bled two thousand men defending Ironheart's forked cisterns, only for victors to discover the lower aquifers had silted dry years earlier.",
+  "unlock_hint": "Complete Act II.",
+  "act": 2
+ },
+ {
+  "id": "cdx-oakhaven-charter",
+  "category": "event",
+  "title": "The Oakhaven Truce",
+  "body": "After mercenaries cleared the channel blockade, Oakhaven's council opened its armories and pledged coastal marines for the southern crossing.",
+  "unlock_hint": "Complete m24-pledge-at-oakhaven.",
+  "act": 3
+ },
+ {
+  "id": "cdx-harborwatch-pyre",
+  "category": "event",
+  "title": "The Burning of Harborwatch",
+  "body": "Admiral Vesperion torched drydocks and fishing sloops to deny troop transports, losing his flagship when reclaimed seawall guns shattered his rudder.",
+  "unlock_hint": "Complete Act III.",
+  "act": 3
+ },
+ {
+  "id": "cdx-malrik-defection",
+  "category": "event",
+  "title": "Flight of Arch-Mage Malrik",
+  "body": "Malrik fled Ironcamp with stolen cipher-keys and leyline codices, dying on the summit portal stairs before he could seal the inner sanctum.",
+  "unlock_hint": "Complete m39-flight-of-malrik.",
+  "act": 4
+ },
+ {
+  "id": "cdx-three-roads-rout",
+  "category": "event",
+  "title": "Battle of Three-Roads Watch",
+  "body": "Three converging relief armies were defeated in detail across the ash plains, isolating the Infernal Citadel behind its magma moats.",
+  "unlock_hint": "Complete m43-three-roads-siege.",
+  "act": 4
+ },
+ {
+  "id": "cdx-threshold-reckoning",
+  "category": "event",
+  "title": "The Threshold Reckoning",
+  "body": "At the geometric heart of the caldera, the last Anchor Seals fractured—forcing Thornvael's liberators to choose between pale starlight and living ember.",
+  "unlock_hint": "Complete Act IV.",
+  "act": 4
+ }
+]

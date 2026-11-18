@@ -1,0 +1,202 @@
+[
+ {
+  "id": "field-ashbrook-watchman",
+  "name": "Watchman Joren",
+  "act": 1,
+  "role": "gate-sentry",
+  "look": "A gaunt border militiaman in a dented kettle-helm with soot smeared across both cheeks.",
+  "prop": "A notched halberd and a cracked horn lantern.",
+  "line_first": "Keep low by the gatehouse—their archers have the cobbled lane ranged to the inch.",
+  "line_return": "Gate timbers are holding, barely. Tell Garrick we need iron wedges."
+ },
+ {
+  "id": "field-ford-tollkeeper",
+  "name": "Clerk Oswin",
+  "act": 1,
+  "role": "tax-clerk",
+  "look": "A shivering middle-aged scribe clutching a wet wool cloak over ink-stained fingers.",
+  "prop": "A brass-bound tally slate and a broken padlock.",
+  "line_first": "Three months of river tariffs sank in that ditch! Don't let the gnolls chew the box.",
+  "line_return": "If the silver's gone, Thornwick's militia won't stay past sundown."
+ },
+ {
+  "id": "field-fen-peatcutter",
+  "name": "Peat-Cutter Mara",
+  "act": 1,
+  "role": "guide",
+  "look": "A wiry woman wrapped in greased horsehide with mud dried up to her thighs.",
+  "prop": "A long iron-shod peat spade.",
+  "line_first": "Step only on the black tussocks—green moss hides sinkholes deep enough to swallow a horse.",
+  "line_return": "Keep your torches hooded; bog-lights draw things with teeth."
+ },
+ {
+  "id": "field-ravenwatch-runner",
+  "name": "Runner Talia",
+  "act": 1,
+  "role": "scout",
+  "look": "A breathless young outrider with a blood-soaked bandage wrapped around her left calf.",
+  "prop": "An empty leather dispatch tube.",
+  "line_first": "The bone totems in the pines are feeding their wards—burn them before night falls!",
+  "line_return": "My leg won't carry me back up the ridge, so make every arrow count."
+ },
+ {
+  "id": "field-greywood-sawyer",
+  "name": "Sawyer Dobb",
+  "act": 1,
+  "role": "lumberjack",
+  "look": "A broad-shouldered woodcutter missing two fingers, wearing a sawdust-caked leather apron.",
+  "prop": "A two-man crosscut saw slung over one shoulder.",
+  "line_first": "Tarn's turncoats locked our best iron axes inside the central timber shed.",
+  "line_return": "Burn their pork barrels, just leave the seasoned oak planks intact."
+ },
+ {
+  "id": "field-warden-hale",
+  "name": "Warden Hale",
+  "act": 2,
+  "role": "outpost-scout",
+  "look": "A sun-darkened ranger in salt-stiffened rawhide with a cracked spyglass hung at his neck.",
+  "prop": "A curved horn-bow and a bundle of signal flags.",
+  "line_first": "Dust storms roll off the basin without warning—keep horns close or lose half your column.",
+  "line_return": "The ridge blinds are clear for now, though raiders still prowl the dry arroyos."
+ },
+ {
+  "id": "field-miner-tomas",
+  "name": "Miner Tomas",
+  "act": 2,
+  "role": "foreman",
+  "look": "A stocky quarryman covered in black ironstone dust with raw chain-chafes around his wrists.",
+  "prop": "A heavy steel quarry-pick.",
+  "line_first": "Break the slave-pen locks on the middle terrace and three hundred picks join your line!",
+  "line_return": "Gorrathul's overseers hid the hoist keys in the pit—bury them."
+ },
+ {
+  "id": "field-alkali-drover",
+  "name": "Drover Vane",
+  "act": 2,
+  "role": "teamster",
+  "look": "A one-eyed caravan driver with cracked lips and a salt-crusted felt hat.",
+  "prop": "A braided rawhide mule-whip.",
+  "line_first": "My lead mules bolted when the sand-raiders whistled—help me haul these crates off the flats!",
+  "line_return": "Never trust a dry creek bed at noon; lurkers sleep two inches under the crust."
+ },
+ {
+  "id": "field-wardstone-surveyor",
+  "name": "Surveyor Nira",
+  "act": 2,
+  "role": "geomancer",
+  "look": "An indigo-robed scholar squinting through smoked-quartz spectacles against blowing grit.",
+  "prop": "A brass plumb-bob and charcoal rubbing-pad.",
+  "line_first": "The quartz spire is cracking! Kill the blood-chanters before the static cooks us alive!",
+  "line_return": "Keep those rubbings dry—Zahra will need every glyph on that parchment."
+ },
+ {
+  "id": "field-cistern-guard",
+  "name": "Sentry Kell",
+  "act": 2,
+  "role": "well-guard",
+  "look": "A hollow-cheeked pikeman leaning heavily on a spear beside a chained iron well-cover.",
+  "prop": "A battered copper ladle.",
+  "line_first": "One drop of beetle-bile ruins a whole cistern—keep those scourges off the stone rim!",
+  "line_return": "Water's rationed to half a pint till Bram's wagons reach the gate."
+ },
+ {
+  "id": "field-salt-corporal",
+  "name": "Corporal Brenn",
+  "act": 3,
+  "role": "marine-nco",
+  "look": "A salt-cured infantry corporal in a rusted breastplate with seaweed tangled in his greaves.",
+  "prop": "A notched boarding-axe.",
+  "line_first": "Watch the tide-lines—heavy mail sinks like an anchor when the surf rolls over the spit!",
+  "line_return": "Hold the plank-walk; Oakhaven's marines are right behind you."
+ },
+ {
+  "id": "field-harbor-pilot",
+  "name": "Pilot Maren",
+  "act": 3,
+  "role": "navigator",
+  "look": "A weather-beaten coast pilot in oiled yellow canvas with brass dividers tucked in his sash.",
+  "prop": "A salt-stained sounding lead and line.",
+  "line_first": "You have two hours before spring tide floods the lower ward—move fast or drown in plate!",
+  "line_return": "Keep off the kelp-slick steps; one slip drops you straight into the sluice."
+ },
+ {
+  "id": "field-oakhaven-surgeon",
+  "name": "Apothecary Linn",
+  "act": 3,
+  "role": "medic",
+  "look": "A pale apprentice surgeon in a vinegar-soaked apron with blood dried under her fingernails.",
+  "prop": "A wicker tray of boiled linen rolls.",
+  "line_first": "Keep those cleaver-happy raiders off the tent ropes—half our wounded can't even crawl!",
+  "line_return": "Sera's loading the last stretchers now; hold the creek trail ten more minutes."
+ },
+ {
+  "id": "field-riverlock-keeper",
+  "name": "Lock-Keeper Orin",
+  "act": 3,
+  "role": "engineer",
+  "look": "A grease-stained canal mechanic with a swollen bruised shoulder and a heavy iron wrench.",
+  "prop": "A three-foot iron gear-wedge.",
+  "line_first": "Drive these wedges into the center capstan before their sappers trip the floodgates!",
+  "line_return": "Those gears won't turn again this winter—the east bridge is safe."
+ },
+ {
+  "id": "field-harbor-firewarden",
+  "name": "Fire-Warden Cole",
+  "act": 3,
+  "role": "dock-captain",
+  "look": "A soot-blackened dockworker coughing through a wet wool scarf tied over his nose.",
+  "prop": "A hooked fire-pike and sand bucket.",
+  "line_first": "Pitch-pots are raining off Kael's flagship—clear the seawall stairs so we can douse the piers!",
+  "line_return": "Save the drydocks first; without hulls, we never cross the southern straits."
+ },
+ {
+  "id": "field-ash-scout",
+  "name": "Ash-Scout Riven",
+  "act": 4,
+  "role": "pathfinder",
+  "look": "A lean vanguard scout in soot-grey leather with smoked-glass goggles pushed onto his forehead.",
+  "prop": "A bundle of white-chalked warning stakes.",
+  "line_first": "Stay off the yellow crust—boiling sulfur sits two inches beneath that brittle shell!",
+  "line_return": "Highcrest bluff is clear, though the ash-storms are thickening to the east."
+ },
+ {
+  "id": "field-siege-sapper",
+  "name": "Sapper Garr",
+  "act": 4,
+  "role": "demolitionist",
+  "look": "A squat, burn-scarred engineer wearing thick leather welding gauntlets and an iron visor.",
+  "prop": "A keg of black prism-powder.",
+  "line_first": "Cover my team while we set the charges on the West Conduit—one spark ends us early!",
+  "line_return": "Charges are primed; clear the dais before the stone splits."
+ },
+ {
+  "id": "field-greystone-sentry",
+  "name": "Watchman Varo",
+  "act": 4,
+  "role": "wall-guard",
+  "look": "A exhausted Greystone defender in cracked basalt-dusted plate with a sling on his left arm.",
+  "prop": "A heavy steel windlass crossbow.",
+  "line_first": "Three demonic catapults are chewing our east parapet to gravel—sally out and burn them!",
+  "line_return": "Parapet's patched with pumice mortar, though my ears are still ringing."
+ },
+ {
+  "id": "field-threshold-penitent",
+  "name": "Penitent Sola",
+  "act": 4,
+  "role": "archivist",
+  "look": "A barefoot ash-robed witness carrying a chain of tarnished brass name-plates.",
+  "prop": "A small iron censer smoking with grey ash.",
+  "line_first": "Speak softly in the nave—the First Watch still stands bound to those obsidian pillars.",
+  "line_return": "Two doors, two prices. Choose which temperature you want for Thornvael."
+ },
+ {
+  "id": "field-foundry-stoker",
+  "name": "Stoker Brann",
+  "act": 4,
+  "role": "smith-mate",
+  "look": "A shirtless, keloid-scarred forge-hand wearing a heavy asbestos-lined leather apron.",
+  "prop": "Long iron crucible tongs.",
+  "line_first": "Vok needs slag-billets from the lower vents before we can re-temper your vanguard's shields!",
+  "line_return": "Keep your steel oiled; volcanic fumes pit bare iron in half an hour."
+ }
+]

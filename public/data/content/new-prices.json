@@ -1,0 +1,674 @@
+[
+ {
+  "item": "Fen-Poacher's Yew",
+  "tier": 1,
+  "buy": 72,
+  "sell": 21
+ },
+ {
+  "item": "Toll-Tower Prod",
+  "tier": 2,
+  "buy": 205,
+  "sell": 59
+ },
+ {
+  "item": "Bracken Wind-Reader",
+  "tier": 3,
+  "buy": 515,
+  "sell": 149
+ },
+ {
+  "item": "Harborwall Winch-Arbalest",
+  "tier": 4,
+  "buy": 1220,
+  "sell": 354
+ },
+ {
+  "item": "Ash-Draft Greatbow",
+  "tier": 5,
+  "buy": 2780,
+  "sell": 806
+ },
+ {
+  "item": "Peat-Sinker's Cowl",
+  "tier": 2,
+  "buy": 205,
+  "sell": 59
+ },
+ {
+  "item": "Salt-Viper Jerkin",
+  "tier": 2,
+  "buy": 205,
+  "sell": 59
+ },
+ {
+  "item": "Gorse-Thorn Brigandine",
+  "tier": 3,
+  "buy": 515,
+  "sell": 149
+ },
+ {
+  "item": "Cinder-Wing Mantle",
+  "tier": 4,
+  "buy": 1220,
+  "sell": 354
+ },
+ {
+  "item": "Sovereign Wyrmscale",
+  "tier": 5,
+  "buy": 2780,
+  "sell": 806
+ },
+ {
+  "item": "Sedge-Walker Treads",
+  "tier": 2,
+  "buy": 205,
+  "sell": 59
+ },
+ {
+  "item": "Cliff-Runner Striders",
+  "tier": 4,
+  "buy": 1220,
+  "sell": 354
+ },
+ {
+  "item": "Bowyers' Horn Bracer",
+  "tier": 2,
+  "buy": 205,
+  "sell": 59
+ },
+ {
+  "item": "Vane's Whisper Grips",
+  "tier": 4,
+  "buy": 1220,
+  "sell": 354
+ },
+ {
+  "item": "Assayer's Sight-Mask",
+  "tier": 4,
+  "buy": 1220,
+  "sell": 354
+ },
+ {
+  "item": "Redrock Misericorde",
+  "tier": 3,
+  "buy": 515,
+  "sell": 149
+ },
+ {
+  "item": "Parish Probate Wand",
+  "tier": 1,
+  "buy": 72,
+  "sell": 21
+ },
+ {
+  "item": "Salt-Oath Yew Rod",
+  "tier": 2,
+  "buy": 205,
+  "sell": 59
+ },
+ {
+  "item": "Fossilized Lien Wand",
+  "tier": 3,
+  "buy": 515,
+  "sell": 149
+ },
+ {
+  "item": "Ossuary Siphon Rod",
+  "tier": 4,
+  "buy": 1220,
+  "sell": 354
+ },
+ {
+  "item": "Warden's Seal-Wand",
+  "tier": 5,
+  "buy": 2780,
+  "sell": 806
+ },
+ {
+  "item": "Abbey Witness Staff",
+  "tier": 2,
+  "buy": 205,
+  "sell": 59
+ },
+ {
+  "item": "Gallows-Root Crozier",
+  "tier": 5,
+  "buy": 2780,
+  "sell": 806
+ },
+ {
+  "item": "Pauper-Roll Cassock",
+  "tier": 1,
+  "buy": 72,
+  "sell": 21
+ },
+ {
+  "item": "Grounded Clerk's Habit",
+  "tier": 2,
+  "buy": 205,
+  "sell": 59
+ },
+ {
+  "item": "Bitumen-Sealed Habit",
+  "tier": 3,
+  "buy": 515,
+  "sell": 149
+ },
+ {
+  "item": "Arbiter's Velvet Mantle",
+  "tier": 4,
+  "buy": 1220,
+  "sell": 354
+ },
+ {
+  "item": "Shroud of Unpaid Vows",
+  "tier": 5,
+  "buy": 2780,
+  "sell": 806
+ },
+ {
+  "item": "Scriptorium Veil-Cowl",
+  "tier": 3,
+  "buy": 515,
+  "sell": 149
+ },
+ {
+  "item": "Brass Probate Scales",
+  "tier": 2,
+  "buy": 205,
+  "sell": 59
+ },
+ {
+  "item": "Tide-Witness Mirror",
+  "tier": 4,
+  "buy": 1220,
+  "sell": 354
+ },
+ {
+  "item": "Bailiff's Knuckle-Seal",
+  "tier": 1,
+  "buy": 72,
+  "sell": 21
+ },
+ {
+  "item": "Alder-Gate Cleaver",
+  "tier": 2,
+  "buy": 205,
+  "sell": 59
+ },
+ {
+  "item": "Basalt-Splitter Maul",
+  "tier": 3,
+  "buy": 515,
+  "sell": 149
+ },
+ {
+  "item": "Caldera Trench-Flamberge",
+  "tier": 3,
+  "buy": 515,
+  "sell": 149
+ },
+ {
+  "item": "Gorrathul's Cistern-Blade",
+  "tier": 4,
+  "buy": 1220,
+  "sell": 354
+ },
+ {
+  "item": "Obsidian Dais Zweihander",
+  "tier": 5,
+  "buy": 2780,
+  "sell": 806
+ },
+ {
+  "item": "Ravenwatch Bailey Pavise",
+  "tier": 4,
+  "buy": 1220,
+  "sell": 354
+ },
+ {
+  "item": "Vok's Fissure-Plate",
+  "tier": 5,
+  "buy": 2780,
+  "sell": 806
+ },
+ {
+  "item": "Greystone Parapet Helm",
+  "tier": 4,
+  "buy": 1220,
+  "sell": 354
+ },
+ {
+  "item": "Expelled Fellow's Staff",
+  "tier": 3,
+  "buy": 515,
+  "sell": 149
+ },
+ {
+  "item": "Thornwick Mint Focus",
+  "tier": 4,
+  "buy": 1220,
+  "sell": 354
+ },
+ {
+  "item": "Ruptured Spire Lens",
+  "tier": 2,
+  "buy": 205,
+  "sell": 59
+ },
+ {
+  "item": "Black-Blockade Astrolabe",
+  "tier": 3,
+  "buy": 515,
+  "sell": 149
+ },
+ {
+  "item": "Threshold Keystone Eye",
+  "tier": 5,
+  "buy": 2780,
+  "sell": 806
+ },
+ {
+  "item": "Conclave Grounding Hat",
+  "tier": 4,
+  "buy": 1220,
+  "sell": 354
+ },
+ {
+  "item": "High Assayer's Diadem",
+  "tier": 5,
+  "buy": 2780,
+  "sell": 806
+ },
+ {
+  "item": "Insulated Assay Gloves",
+  "tier": 3,
+  "buy": 515,
+  "sell": 149
+ },
+ {
+  "item": "Border Picket Broadsword",
+  "tier": 2,
+  "buy": 196,
+  "sell": 57
+ },
+ {
+  "item": "Alder-Plank Kite Shield",
+  "tier": 2,
+  "buy": 196,
+  "sell": 57
+ },
+ {
+  "item": "Muster-Roll Ring Mail",
+  "tier": 2,
+  "buy": 196,
+  "sell": 57
+ },
+ {
+  "item": "Ditch-Walker Kettle Helm",
+  "tier": 2,
+  "buy": 196,
+  "sell": 57
+ },
+ {
+  "item": "Slag-Quenched Warhammer",
+  "tier": 5,
+  "buy": 2680,
+  "sell": 777
+ },
+ {
+  "item": "Fissure-Tempered Plate",
+  "tier": 5,
+  "buy": 2680,
+  "sell": 777
+ },
+ {
+  "item": "Anvilmaw Riveted Gauntlets",
+  "tier": 5,
+  "buy": 2680,
+  "sell": 777
+ },
+ {
+  "item": "Basalt-Splitter Greaves",
+  "tier": 5,
+  "buy": 2680,
+  "sell": 777
+ },
+ {
+  "item": "Waxed Fen-Yew Bow",
+  "tier": 2,
+  "buy": 196,
+  "sell": 57
+ },
+ {
+  "item": "Peat-Stained Stalker Cowl",
+  "tier": 2,
+  "buy": 196,
+  "sell": 57
+ },
+ {
+  "item": "Bog-Tanned Leather Jerkin",
+  "tier": 2,
+  "buy": 196,
+  "sell": 57
+ },
+ {
+  "item": "Sedge-Runner Deerhide Boots",
+  "tier": 2,
+  "buy": 196,
+  "sell": 57
+ },
+ {
+  "item": "Customs-Tower Steel Arbalest",
+  "tier": 4,
+  "buy": 1180,
+  "sell": 342
+ },
+ {
+  "item": "Salt-Cured Brigandine Coat",
+  "tier": 4,
+  "buy": 1180,
+  "sell": 342
+ },
+ {
+  "item": "Signal-Spotter Shadow Mask",
+  "tier": 4,
+  "buy": 1180,
+  "sell": 342
+ },
+ {
+  "item": "Seawall Grip Bracers",
+  "tier": 4,
+  "buy": 1180,
+  "sell": 342
+ },
+ {
+  "item": "Galvanic Assaying Staff",
+  "tier": 3,
+  "buy": 495,
+  "sell": 144
+ },
+ {
+  "item": "Copper-Threaded Scholar Hat",
+  "tier": 3,
+  "buy": 495,
+  "sell": 144
+ },
+ {
+  "item": "Grounded Slate-Wool Robe",
+  "tier": 3,
+  "buy": 495,
+  "sell": 144
+ },
+ {
+  "item": "Insulated Brass-Eyelet Gloves",
+  "tier": 3,
+  "buy": 495,
+  "sell": 144
+ },
+ {
+  "item": "Pre-Schism Leyline Wand",
+  "tier": 5,
+  "buy": 2680,
+  "sell": 777
+ },
+ {
+  "item": "Refracting Diamond Diadem",
+  "tier": 5,
+  "buy": 2680,
+  "sell": 777
+ },
+ {
+  "item": "Constellation-Loomed Robe",
+  "tier": 5,
+  "buy": 2680,
+  "sell": 777
+ },
+ {
+  "item": "Threshold Astral Walkers",
+  "tier": 5,
+  "buy": 2680,
+  "sell": 777
+ },
+ {
+  "item": "Notarized Bone-Awl Wand",
+  "tier": 2,
+  "buy": 196,
+  "sell": 57
+ },
+ {
+  "item": "Tallow-Sealed Mortuary Cassock",
+  "tier": 2,
+  "buy": 196,
+  "sell": 57
+ },
+ {
+  "item": "Apothecary Brass Scale-Focus",
+  "tier": 2,
+  "buy": 196,
+  "sell": 57
+ },
+ {
+  "item": "Unpaid-Lien Knuckle Band",
+  "tier": 2,
+  "buy": 196,
+  "sell": 57
+ },
+ {
+  "item": "Ivory Testament Ritual Rod",
+  "tier": 4,
+  "buy": 1180,
+  "sell": 342
+ },
+ {
+  "item": "Ash-Linen Witness Wimple",
+  "tier": 4,
+  "buy": 1180,
+  "sell": 342
+ },
+ {
+  "item": "Oath-Bound Velvet Habit",
+  "tier": 4,
+  "buy": 1180,
+  "sell": 342
+ },
+ {
+  "item": "Smoked-Brass Censer Focus",
+  "tier": 4,
+  "buy": 1180,
+  "sell": 342
+ },
+ {
+  "item": "Alkali-Tempered Sabre",
+  "tier": 3,
+  "buy": 495,
+  "sell": 144
+ },
+ {
+  "item": "Brine-Sealed Brigandine",
+  "tier": 3,
+  "buy": 495,
+  "sell": 144
+ },
+ {
+  "item": "Sun-Visored Steel Helm",
+  "tier": 3,
+  "buy": 495,
+  "sell": 144
+ },
+ {
+  "item": "Canteen-Keeper's Locket",
+  "tier": 3,
+  "buy": 495,
+  "sell": 144
+ },
+ {
+  "item": "Caldera-Scored Probate Staff",
+  "tier": 5,
+  "buy": 2680,
+  "sell": 777
+ },
+ {
+  "item": "Charred-Plate Velvet Shroud",
+  "tier": 5,
+  "buy": 2680,
+  "sell": 777
+ },
+ {
+  "item": "Anchor-Seal Cosmos Eye",
+  "tier": 5,
+  "buy": 2680,
+  "sell": 777
+ },
+ {
+  "item": "First-Watch Brass Medallion",
+  "tier": 5,
+  "buy": 2680,
+  "sell": 777
+ },
+ {
+  "item": "Chipped Border Garnet",
+  "tier": 1,
+  "buy": 45,
+  "sell": 13
+ },
+ {
+  "item": "Cloudy Fen Beryl",
+  "tier": 1,
+  "buy": 45,
+  "sell": 13
+ },
+ {
+  "item": "Bog-Dredged Amber",
+  "tier": 2,
+  "buy": 130,
+  "sell": 38
+ },
+ {
+  "item": "Alder River Jade",
+  "tier": 2,
+  "buy": 130,
+  "sell": 38
+ },
+ {
+  "item": "Wardstone Quartz",
+  "tier": 3,
+  "buy": 330,
+  "sell": 96
+ },
+ {
+  "item": "Quarry Bloodstone",
+  "tier": 3,
+  "buy": 330,
+  "sell": 96
+ },
+ {
+  "item": "Glacier-Core Sapphire",
+  "tier": 3,
+  "buy": 330,
+  "sell": 96
+ },
+ {
+  "item": "Caldera Cinder-Ruby",
+  "tier": 4,
+  "buy": 790,
+  "sell": 230
+ },
+ {
+  "item": "Tide-Mirror Opal",
+  "tier": 4,
+  "buy": 790,
+  "sell": 230
+ },
+ {
+  "item": "Magnetic Lodestone",
+  "tier": 4,
+  "buy": 790,
+  "sell": 230
+ },
+ {
+  "item": "Pre-Schism Diamond",
+  "tier": 5,
+  "buy": 1800,
+  "sell": 522
+ },
+ {
+  "item": "Heart of the Anchor",
+  "tier": 5,
+  "buy": 1800,
+  "sell": 522
+ },
+ {
+  "item": "Rune of Tally (Tal)",
+  "tier": 1,
+  "buy": 50,
+  "sell": 15
+ },
+ {
+  "item": "Rune of Iron (Kor)",
+  "tier": 1,
+  "buy": 50,
+  "sell": 15
+ },
+ {
+  "item": "Rune of Draught (Ven)",
+  "tier": 2,
+  "buy": 140,
+  "sell": 41
+ },
+ {
+  "item": "Rune of Silt (Silt)",
+  "tier": 2,
+  "buy": 140,
+  "sell": 41
+ },
+ {
+  "item": "Rune of Gale (Gale)",
+  "tier": 3,
+  "buy": 350,
+  "sell": 102
+ },
+ {
+  "item": "Rune of Lien (Lien)",
+  "tier": 3,
+  "buy": 350,
+  "sell": 102
+ },
+ {
+  "item": "Rune of Ward (Ward)",
+  "tier": 3,
+  "buy": 350,
+  "sell": 102
+ },
+ {
+  "item": "Rune of Slag (Slag)",
+  "tier": 4,
+  "buy": 840,
+  "sell": 244
+ },
+ {
+  "item": "Rune of Oath (Oath)",
+  "tier": 4,
+  "buy": 840,
+  "sell": 244
+ },
+ {
+  "item": "Rune of Flux (Flux)",
+  "tier": 4,
+  "buy": 840,
+  "sell": 244
+ },
+ {
+  "item": "Rune of Order (Crown)",
+  "tier": 5,
+  "buy": 1900,
+  "sell": 551
+ },
+ {
+  "item": "Rune of Ember (Ash)",
+  "tier": 5,
+  "buy": 1900,
+  "sell": 551
+ }
+]

@@ -1,0 +1,674 @@
+[
+ {
+  "id": "uniq-fen-poacher-yew",
+  "name": "Fen-Poacher's Yew",
+  "base": "Ash Shortbow",
+  "class": "archer",
+  "tier": 1,
+  "stats": {
+   "dmg": 11,
+   "crit_pct": 6,
+   "accuracy": 8
+  },
+  "flavor": "Silent draw wrapped in oiled otter-pelt.",
+  "inspect": "Stripped from a border poacher who fed three Thornwick taverns on crown venison before the bridge wardens caught him."
+ },
+ {
+  "id": "uniq-tollkeeper-prod",
+  "name": "Toll-Tower Prod",
+  "base": "Recurve Bow",
+  "class": "archer",
+  "tier": 2,
+  "stats": {
+   "dmg": 18,
+   "armor_pen": 5,
+   "reach": 1
+  },
+  "flavor": "Horn-tipped limbs notched for bridge-post distance markers.",
+  "inspect": "Issued to Redmarsh toll-marksmen who collected tariffs from forty paces across the dry salt-beds."
+ },
+ {
+  "id": "uniq-bracken-stalker-bow",
+  "name": "Bracken Wind-Reader",
+  "base": "Composite War Bow",
+  "class": "archer",
+  "tier": 3,
+  "stats": {
+   "dmg": 28,
+   "crit_pct": 9,
+   "atk_speed_pct": 10
+  },
+  "flavor": "Sinew-backed limbs lacquered against coastal squalls.",
+  "inspect": "Carried by Fen-Warden Hale through forty dust storms without a single warped nock or snapped string."
+ },
+ {
+  "id": "uniq-harbor-winch-arbalest",
+  "name": "Harborwall Winch-Arbalest",
+  "base": "Heavy Arbalest",
+  "class": "archer",
+  "tier": 4,
+  "stats": {
+   "dmg": 44,
+   "armor_pen": 12,
+   "crit_dmg_pct": 25
+  },
+  "flavor": "Steel prod stamped with Oakhaven's customs anchor.",
+  "inspect": "Spanned with a belt-hook to punch iron quarrels clean through smuggler hull-planks at low tide."
+ },
+ {
+  "id": "uniq-caldera-gale-bow",
+  "name": "Ash-Draft Greatbow",
+  "base": "Windpiercer Greatbow",
+  "class": "archer",
+  "tier": 5,
+  "stats": {
+   "dmg": 64,
+   "crit_pct": 14,
+   "reach": 2
+  },
+  "flavor": "Six-foot stave whose string hums in volcanic updrafts.",
+  "inspect": "Strung with braided wire from the shattered beacons; arrows loosed from it scream like falling slag."
+ },
+ {
+  "id": "uniq-peat-cowl",
+  "name": "Peat-Sinker's Cowl",
+  "base": "Stalker Hood",
+  "class": "archer",
+  "tier": 2,
+  "stats": {
+   "armor": 14,
+   "evasion_pct": 8,
+   "poison_res": 15
+  },
+  "flavor": "Dyed in bog-tannin to vanish against wet reeds.",
+  "inspect": "Worn by Fenwick's night-runners who poled contraband past border pickets without rippling the water."
+ },
+ {
+  "id": "uniq-viper-scale-jerkin",
+  "name": "Salt-Viper Jerkin",
+  "base": "Studded Leather Armor",
+  "class": "archer",
+  "tier": 2,
+  "stats": {
+   "armor": 18,
+   "poison_res": 20,
+   "dex": 4
+  },
+  "flavor": "Cured cobra-hide riveted with tarnished brass studs.",
+  "inspect": "Stitched by Redmarsh skinners; viper venom beads harmlessly off its overlapping scales."
+ },
+ {
+  "id": "uniq-gorse-brigandine",
+  "name": "Gorse-Thorn Brigandine",
+  "base": "Hardened Brigandine",
+  "class": "archer",
+  "tier": 3,
+  "stats": {
+   "armor": 30,
+   "crit_pct": 7,
+   "move_speed_pct": 8
+  },
+  "flavor": "Crimson canvas lined with spring-steel lames.",
+  "inspect": "Favored by outriders who needed arrow-proof ribs without sacrificing speed on loose scree."
+ },
+ {
+  "id": "uniq-drake-wing-cloak",
+  "name": "Cinder-Wing Mantle",
+  "base": "Dragon Leather Mantle",
+  "class": "archer",
+  "tier": 4,
+  "stats": {
+   "armor": 44,
+   "fire_res": 25,
+   "evasion_pct": 10
+  },
+  "flavor": "Pebbled redglass hide that sheds sparks like rain.",
+  "inspect": "Cut from a fallen drake on the Iron Coast cliffs; smells faintly of sulfur and wet ash."
+ },
+ {
+  "id": "uniq-wyrm-stalker-mail",
+  "name": "Sovereign Wyrmscale",
+  "base": "Wyrmscale Cuirass",
+  "class": "archer",
+  "tier": 5,
+  "stats": {
+   "armor": 66,
+   "all_res": 18,
+   "dex": 7
+  },
+  "flavor": "Iridescent scales bound with dried wyrm-sinew.",
+  "inspect": "As light as boiled leather yet capable of turning aside a Dread Knight's halberd."
+ },
+ {
+  "id": "uniq-bog-treads",
+  "name": "Sedge-Walker Treads",
+  "base": "Tracker Treads",
+  "class": "archer",
+  "tier": 2,
+  "stats": {
+   "armor": 12,
+   "move_speed_pct": 12,
+   "evasion_pct": 6
+  },
+  "flavor": "Soft elkhide soles that leave no print in wet clay.",
+  "inspect": "Laced crosswise by Greywood trappers who stalked wolves across thin winter ice."
+ },
+ {
+  "id": "uniq-gale-striders",
+  "name": "Cliff-Runner Striders",
+  "base": "Windrunner Striders",
+  "class": "archer",
+  "tier": 4,
+  "stats": {
+   "armor": 36,
+   "move_speed_pct": 18,
+   "dex": 5
+  },
+  "flavor": "Wing-stamped boots light as dried gull feathers.",
+  "inspect": "Enchanted in Oakhaven for dispatch runners outpacing coastal cavalry along narrow sea-cliffs."
+ },
+ {
+  "id": "uniq-string-slap-bracer",
+  "name": "Bowyers' Horn Bracer",
+  "base": "Studded Bracers",
+  "class": "archer",
+  "tier": 2,
+  "stats": {
+   "armor": 12,
+   "accuracy": 10,
+   "atk_speed_pct": 8
+  },
+  "flavor": "Grooved ox-horn guard polished smooth by bowstrings.",
+  "inspect": "Prevents string-slap during rapid volleys in freezing Border Fords sleet."
+ },
+ {
+  "id": "uniq-night-blade-grips",
+  "name": "Vane's Whisper Grips",
+  "base": "Shadowstrike Grips",
+  "class": "archer",
+  "tier": 4,
+  "stats": {
+   "armor": 34,
+   "crit_pct": 10,
+   "crit_dmg_pct": 20
+  },
+  "flavor": "Pitch-dark kidskin with lead-weighted knuckles.",
+  "inspect": "Issued to Baron Vane's night-scouts for scaling wet stone walls without a sound."
+ },
+ {
+  "id": "uniq-glass-eye-mask",
+  "name": "Assayer's Sight-Mask",
+  "base": "Shadow Mask",
+  "class": "archer",
+  "tier": 4,
+  "stats": {
+   "armor": 38,
+   "accuracy": 16,
+   "crit_pct": 9
+  },
+  "flavor": "Steeped ebon hide fitted with a smoked-quartz monocle.",
+  "inspect": "Cuts desert salt-glare and volcanic ash haze, letting marksmen pick visor slits at max range."
+ },
+ {
+  "id": "uniq-quarry-dusk-dirk",
+  "name": "Redrock Misericorde",
+  "base": "Duelist Poignard",
+  "class": "archer",
+  "tier": 3,
+  "stats": {
+   "dmg": 24,
+   "crit_pct": 11,
+   "armor_pen": 8
+  },
+  "flavor": "Narrow off-hand blade built for finishing pinned foes.",
+  "inspect": "Carried by Redmarsh archers when sand-raiders get past the snares into arm's reach."
+ },
+ {
+  "id": "uniq-parish-probate-wand",
+  "name": "Parish Probate Wand",
+  "base": "Willow Wand",
+  "class": "necromancer",
+  "tier": 1,
+  "stats": {
+   "dmg": 10,
+   "mana": 20,
+   "lifesteal_pct": 3
+  },
+  "flavor": "Notched with forty-seven unpaid pauper-liens.",
+  "inspect": "Whittled from a churchyard willow; still smells of damp tallow and wet ink."
+ },
+ {
+  "id": "uniq-salt-yew-rod",
+  "name": "Salt-Oath Yew Rod",
+  "base": "Yew Wand",
+  "class": "necromancer",
+  "tier": 2,
+  "stats": {
+   "dmg": 17,
+   "dot_dmg_pct": 14,
+   "mana_regen": 1.2
+  },
+  "flavor": "Graveyard heartwood rubbed with sea-salt and ash.",
+  "inspect": "Used by coastal scriptorium clerks to witness sailors' dying vows over open water."
+ },
+ {
+  "id": "uniq-amber-debt-wand",
+  "name": "Fossilized Lien Wand",
+  "base": "Amber Focus Wand",
+  "class": "necromancer",
+  "tier": 3,
+  "stats": {
+   "dmg": 27,
+   "minion_hp_pct": 18,
+   "mana": 35
+  },
+  "flavor": "A preserved bog-beetle gleams inside the resin knob.",
+  "inspect": "Binds lingering spirits to their unfinished contracts until every hour of labor is repaid."
+ },
+ {
+  "id": "uniq-ossuary-siphon",
+  "name": "Ossuary Siphon Rod",
+  "base": "Crystal Siphon Wand",
+  "class": "necromancer",
+  "tier": 4,
+  "stats": {
+   "dmg": 41,
+   "lifesteal_pct": 5,
+   "int": 6
+  },
+  "flavor": "Hexagonal quartz darkened by decades of incense soot.",
+  "inspect": "Draws residual vigor from fallen combatants to mend fractured bone servants."
+ },
+ {
+  "id": "uniq-first-watch-archon",
+  "name": "Warden's Seal-Wand",
+  "base": "Astral Archon Wand",
+  "class": "necromancer",
+  "tier": 5,
+  "stats": {
+   "dmg": 62,
+   "int": 9,
+   "minion_dmg_pct": 25
+  },
+  "flavor": "Inlaid with tarnished brass rings stamped with watch-numbers.",
+  "inspect": "Carried by the First Watch arbiter who cataloged the frozen oaths beneath the Threshold."
+ },
+ {
+  "id": "uniq-abbey-censer-staff",
+  "name": "Abbey Witness Staff",
+  "base": "Ash Staff",
+  "class": "necromancer",
+  "tier": 2,
+  "stats": {
+   "dmg": 18,
+   "cold_res": 15,
+   "poison_res": 15
+  },
+  "flavor": "Charred at the tip from swinging iron censers.",
+  "inspect": "Balanced for long marches along muddy border roads where unmarked graves outnumber milestones."
+ },
+ {
+  "id": "uniq-pale-gallows-staff",
+  "name": "Gallows-Root Crozier",
+  "base": "Thorn Staff",
+  "class": "necromancer",
+  "tier": 5,
+  "stats": {
+   "dmg": 64,
+   "dot_dmg_pct": 22,
+   "max_hp": 75
+  },
+  "flavor": "Coiled roots that tighten near spilled blood.",
+  "inspect": "Cut from the Night Orchards above Oakhaven; murmurs the names of unburied soldiers."
+ },
+ {
+  "id": "uniq-mortuary-cassock",
+  "name": "Pauper-Roll Cassock",
+  "base": "Cloth Robe",
+  "class": "necromancer",
+  "tier": 1,
+  "stats": {
+   "armor": 9,
+   "mana": 18,
+   "poison_res": 12
+  },
+  "flavor": "Threadbare black wool patched with grey linen.",
+  "inspect": "Worn by Thornwick's lower-parish clerks during winter plague tallies."
+ },
+ {
+  "id": "uniq-copper-stole-robe",
+  "name": "Grounded Clerk's Habit",
+  "base": "Weaver Robe",
+  "class": "necromancer",
+  "tier": 2,
+  "stats": {
+   "armor": 17,
+   "lightning_res": 18,
+   "mana_regen": 1.4
+  },
+  "flavor": "Loomed with fine copper threads to shed static.",
+  "inspect": "Keeps mortuary scribes safe when auditing wardstone ruins during Redmarsh squalls."
+ },
+ {
+  "id": "uniq-embalmer-shroud",
+  "name": "Bitumen-Sealed Habit",
+  "base": "Mage Robe",
+  "class": "necromancer",
+  "tier": 3,
+  "stats": {
+   "armor": 28,
+   "poison_res": 25,
+   "minion_hp_pct": 15
+  },
+  "flavor": "Treated with funerary pitch to repel rot and vermin.",
+  "inspect": "Taken from a Third-Dynasty crypt gallery where embalmers guarded rows of sealed jars."
+ },
+ {
+  "id": "uniq-velvet-arbiter-mantle",
+  "name": "Arbiter's Velvet Mantle",
+  "base": "Mystic Velvet Mantle",
+  "class": "necromancer",
+  "tier": 4,
+  "stats": {
+   "armor": 44,
+   "all_res": 14,
+   "int": 6
+  },
+  "flavor": "Heavy burgundy pile trimmed with ash-grey fur.",
+  "inspect": "Worn by inheritance judges of the old pale who cross-examined dead testators in court."
+ },
+ {
+  "id": "uniq-star-testament-robe",
+  "name": "Shroud of Unpaid Vows",
+  "base": "Star Robe",
+  "class": "necromancer",
+  "tier": 5,
+  "stats": {
+   "armor": 65,
+   "int": 8,
+   "mana": 70
+  },
+  "flavor": "Stitched with silver thread tracing forgotten constellations.",
+  "inspect": "Arrows seem to hesitate before striking cloth woven for the Threshold's silent keepers."
+ },
+ {
+  "id": "uniq-ink-stained-wimple",
+  "name": "Scriptorium Veil-Cowl",
+  "base": "Sage Cowl",
+  "class": "necromancer",
+  "tier": 3,
+  "stats": {
+   "armor": 26,
+   "mind_res": 20,
+   "mana_regen": 1.6
+  },
+  "flavor": "Folded ash-linen hood smelling of gall-ink and sage.",
+  "inspect": "Muffles battlefield clamor so the wearer can hear quiet debts spoken from the dust."
+ },
+ {
+  "id": "uniq-apothecary-scale-focus",
+  "name": "Brass Probate Scales",
+  "base": "Chiseled Quartz Focus",
+  "class": "necromancer",
+  "tier": 2,
+  "stats": {
+   "armor": 14,
+   "int": 4,
+   "lifesteal_pct": 3
+  },
+  "flavor": "Tarnished balance-pans suspended from a quartz beam.",
+  "inspect": "Weighs every ounce of borrowed sinew against the blood owed in return."
+ },
+ {
+  "id": "uniq-drowned-mirror",
+  "name": "Tide-Witness Mirror",
+  "base": "Radiant Spell-Mirror",
+  "class": "necromancer",
+  "tier": 4,
+  "stats": {
+   "armor": 40,
+   "cold_res": 25,
+   "int": 5
+  },
+  "flavor": "Bone-framed silver disc corroded by harbor brine.",
+  "inspect": "Reflects lingering spirits trapped along the Iron Coast reefs."
+ },
+ {
+  "id": "uniq-knuckle-tally-ring",
+  "name": "Bailiff's Knuckle-Seal",
+  "base": "Bone Ring",
+  "class": "necromancer",
+  "tier": 1,
+  "stats": {
+   "mana": 15,
+   "dot_dmg_pct": 8,
+   "cold_res": 10
+  },
+  "flavor": "Carved from a yellow knuckle-bone stamped with a tax-mark.",
+  "inspect": "Grows ice-cold whenever an enemy attempts to flee an unsettled contract."
+ },
+ {
+  "id": "uniq-alder-gate-cleaver",
+  "name": "Alder-Gate Cleaver",
+  "base": "Iron Sword",
+  "class": "warrior",
+  "tier": 2,
+  "stats": {
+   "dmg": 19,
+   "armor_pen": 5,
+   "str": 4
+  },
+  "flavor": "Notched edge ground bright on river flagstones.",
+  "inspect": "Held the eastern abutment of Alder Bridge through three waves of gnoll shield-breakers."
+ },
+ {
+  "id": "uniq-quarry-breaker-maul",
+  "name": "Basalt-Splitter Maul",
+  "base": "Heavy Morningstar",
+  "class": "warrior",
+  "tier": 3,
+  "stats": {
+   "dmg": 30,
+   "armor_pen": 9,
+   "str": 5
+  },
+  "flavor": "Iron-banded ash haft wedged with quarry steel.",
+  "inspect": "Used by freed Deep Quarry miners to crack the kneecaps of stone sentinels."
+ },
+ {
+  "id": "uniq-vanguard-flamberge",
+  "name": "Caldera Trench-Flamberge",
+  "base": "Flamberge",
+  "class": "warrior",
+  "tier": 3,
+  "stats": {
+   "dmg": 31,
+   "crit_pct": 7,
+   "max_hp": 45
+  },
+  "flavor": "Undulating blade darkened with forge-soot.",
+  "inspect": "Vibrates violently against parrying pikes, tearing shields out of numb hands."
+ },
+ {
+  "id": "uniq-ironheart-executioner",
+  "name": "Gorrathul's Cistern-Blade",
+  "base": "Executioner Blade",
+  "class": "warrior",
+  "tier": 4,
+  "stats": {
+   "dmg": 46,
+   "str": 7,
+   "armor_pen": 11
+  },
+  "flavor": "Square-tipped greatsword stamped with dry-well tallies.",
+  "inspect": "Carried by Ironheart's gate-warden who starved a valley to guard empty silt."
+ },
+ {
+  "id": "uniq-ashkarath-zweihander",
+  "name": "Obsidian Dais Zweihander",
+  "base": "Dreadnought Zweihander",
+  "class": "warrior",
+  "tier": 5,
+  "stats": {
+   "dmg": 66,
+   "str": 9,
+   "fire_res": 25
+  },
+  "flavor": "Six feet of meteoric iron weeping banked ember.",
+  "inspect": "Forged in Ironcamp's floor-fissures to cleave through Dread Knight plate."
+ },
+ {
+  "id": "uniq-ravenwatch-pavise",
+  "name": "Ravenwatch Bailey Pavise",
+  "base": "Tower Shield",
+  "class": "warrior",
+  "tier": 4,
+  "stats": {
+   "armor": 48,
+   "block_pct": 14,
+   "max_hp": 70
+  },
+  "flavor": "Scorched oak planks bolted to meteoric slag.",
+  "inspect": "Stopped forty arbalest bolts in a single morning without splitting a single iron strap."
+ },
+ {
+  "id": "uniq-ironcamp-gothic",
+  "name": "Vok's Fissure-Plate",
+  "base": "Gothic Full Plate",
+  "class": "warrior",
+  "tier": 5,
+  "stats": {
+   "armor": 72,
+   "all_res": 16,
+   "vit": 8
+  },
+  "flavor": "Rippled black steel quenched in volcanic brine.",
+  "inspect": "Turns a veteran infantryman into a walking redoubt at the cost of every copper in his purse."
+ },
+ {
+  "id": "uniq-rowan-basinet",
+  "name": "Greystone Parapet Helm",
+  "base": "Steel Basinet",
+  "class": "warrior",
+  "tier": 4,
+  "stats": {
+   "armor": 42,
+   "vit": 6,
+   "fire_res": 20
+  },
+  "flavor": "Dented nasal bar scarred by demonic catapult shrapnel.",
+  "inspect": "Kept Captain Rowan breathing when the eastern curtain wall buckled under siege."
+ },
+ {
+  "id": "uniq-collegium-ash-staff",
+  "name": "Expelled Fellow's Staff",
+  "base": "Rune Staff",
+  "class": "mage",
+  "tier": 3,
+  "stats": {
+   "dmg": 28,
+   "int": 6,
+   "mana_regen": 1.8
+  },
+  "flavor": "Inlaid glyphs copied from corrupted plumbing diagrams.",
+  "inspect": "Proves that state liturgy and basic thermodynamics obey the exact same pressure laws."
+ },
+ {
+  "id": "uniq-mint-assayer-staff",
+  "name": "Thornwick Mint Focus",
+  "base": "Star Staff",
+  "class": "mage",
+  "tier": 4,
+  "stats": {
+   "dmg": 44,
+   "lightning_res": 25,
+   "crit_pct": 8
+  },
+  "flavor": "Ashwood shaft wound tight with galvanic copper wire.",
+  "inspect": "Originally calibrated to test silver coins for clipping; works even better on plate armor."
+ },
+ {
+  "id": "uniq-wardstone-quartz",
+  "name": "Ruptured Spire Lens",
+  "base": "Chiseled Quartz Focus",
+  "class": "mage",
+  "tier": 2,
+  "stats": {
+   "armor": 14,
+   "mana": 28,
+   "int": 4
+  },
+  "flavor": "Milky crystal core humming at teeth-rattling pitch.",
+  "inspect": "Chipped from a Redmarsh climate wardstone before the blood-chanters cracked it open."
+ },
+ {
+  "id": "uniq-astral-nav-sphere",
+  "name": "Black-Blockade Astrolabe",
+  "base": "Astral Sphere",
+  "class": "mage",
+  "tier": 3,
+  "stats": {
+   "armor": 26,
+   "int": 5,
+   "mana_regen": 1.5
+  },
+  "flavor": "Salt-corroded brass rings turning toward southern straits.",
+  "inspect": "Salvaged from Vesperion's burning flagship; points unerringly toward volcanic ley-vents."
+ },
+ {
+  "id": "uniq-cosmos-caldera-eye",
+  "name": "Threshold Keystone Eye",
+  "base": "Eye of the Cosmos",
+  "class": "mage",
+  "tier": 5,
+  "stats": {
+   "armor": 60,
+   "int": 9,
+   "mana": 80
+  },
+  "flavor": "Slit-pupiled gem floating inside blackened gold.",
+  "inspect": "Reveals the pressure valves binding Crown and Ember before the final seal breaks."
+ },
+ {
+  "id": "uniq-oakhaven-wire-hat",
+  "name": "Conclave Grounding Hat",
+  "base": "Wizard Hat",
+  "class": "mage",
+  "tier": 4,
+  "stats": {
+   "armor": 38,
+   "lightning_res": 28,
+   "int": 6
+  },
+  "flavor": "Midnight felt lined with copper grounding wire.",
+  "inspect": "Prevents static backfire when channeling Chain Lightning in coastal rainstorms."
+ },
+ {
+  "id": "uniq-conclave-diadem",
+  "name": "High Assayer's Diadem",
+  "base": "Archmage Diadem",
+  "class": "mage",
+  "tier": 5,
+  "stats": {
+   "armor": 58,
+   "int": 10,
+   "mana_regen": 2.4
+  },
+  "flavor": "Interlocking silver crescents cradling a cold diamond.",
+  "inspect": "Settles icy clarity behind the eyes even when ash-storms blot out the sky."
+ },
+ {
+  "id": "uniq-galvanic-channelers",
+  "name": "Insulated Assay Gloves",
+  "base": "Velvet Channelers",
+  "class": "mage",
+  "tier": 3,
+  "stats": {
+   "armor": 24,
+   "cast_speed_pct": 12,
+   "mana": 30
+  },
+  "flavor": "Crimson gloves stitched with grounded brass eyelets.",
+  "inspect": "Keeps finger-joints from blistering when venting high-voltage arcs at close quarters."
+ }
+]

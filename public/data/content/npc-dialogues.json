@@ -1,0 +1,2242 @@
+[
+ {
+  "id": "dlg-hobb-entry-early",
+  "npc": "npc-hobb-smith",
+  "node": "entry_act_1_2",
+  "text": "Master Hobb wipes grime from stained hands and eyes your mud-caked boots. 'State your business fast—steel and ink both cost more than talk.'",
+  "choices": [
+   {
+    "label": "Ask about local supply shortages.",
+    "next": "dlg-hobb-supplies"
+   },
+   {
+    "label": "Offer coin to inspect hidden stock.",
+    "next": "dlg-hobb-stash",
+    "sets_flag": "flag_hobb_bribed"
+   },
+   {
+    "label": "Leave without buying.",
+    "next": "end"
+   }
+  ]
+ },
+ {
+  "id": "dlg-hobb-entry-mid",
+  "npc": "npc-hobb-smith",
+  "node": "entry_act_3",
+  "text": "Master Hobb nods once as the coastal wind rattles the shutters. 'Word reached us before your banners did. You're still vertical—that counts for something.'",
+  "choices": [
+   {
+    "label": "Ask what the road ahead holds.",
+    "next": "dlg-hobb-intel"
+   },
+   {
+    "label": "Mention your earlier arrangement.",
+    "next": "dlg-hobb-favored",
+    "requires_flag": "flag_hobb_bribed"
+   },
+   {
+    "label": "Step away.",
+    "next": "end"
+   }
+  ]
+ },
+ {
+  "id": "dlg-hobb-entry-late",
+  "npc": "npc-hobb-smith",
+  "node": "entry_act_4",
+  "text": "Master Hobb squints through drifting grey ash. 'Four provinces behind us and the air tastes like boiled nails. Whatever you need forged or settled, speak now.'",
+  "choices": [
+   {
+    "label": "Demand full support for the final push.",
+    "next": "dlg-hobb-reckoning",
+    "sets_flag": "flag_hobb_committed"
+   },
+   {
+    "label": "Ask about casualties and debts.",
+    "next": "dlg-hobb-debts"
+   },
+   {
+    "label": "Close the conversation.",
+    "next": "end"
+   }
+  ]
+ },
+ {
+  "id": "dlg-hobb-supplies",
+  "npc": "npc-hobb-smith",
+  "node": "supplies_talk",
+  "text": "'Half our wagons are stuck in mire and the other half were taxed twice by clerks who fled south. Bring salvage if you want discounts.'",
+  "choices": [
+   {
+    "label": "Promise to clear the supply road.",
+    "next": "dlg-hobb-pledge",
+    "sets_flag": "flag_hobb_road_pledge"
+   },
+   {
+    "label": "End talk.",
+    "next": "end"
+   }
+  ]
+ },
+ {
+  "id": "dlg-hobb-stash",
+  "npc": "npc-hobb-smith",
+  "node": "hidden_stash",
+  "text": "'Quiet now. Keep your voice below the rafters—this crate never appeared on any garrison manifest, and I expect silver before you lift the lid.'",
+  "choices": [
+   {
+    "label": "Inspect the private goods.",
+    "next": "dlg-hobb-favored"
+   },
+   {
+    "label": "Step back.",
+    "next": "end"
+   }
+  ]
+ },
+ {
+  "id": "dlg-hobb-intel",
+  "npc": "npc-hobb-smith",
+  "node": "regional_intel",
+  "text": "'Watch the high ground and never trust an unguarded bridge. Every ambush between here and the caldera was paid for in advance.'",
+  "choices": [
+   {
+    "label": "Ask who is bankrolling the enemy.",
+    "next": "dlg-hobb-debts"
+   },
+   {
+    "label": "Move on.",
+    "next": "end"
+   }
+  ]
+ },
+ {
+  "id": "dlg-hobb-favored",
+  "npc": "npc-hobb-smith",
+  "node": "favored_customer",
+  "text": "'You kept your mouth shut and your purse open. Take the best iron from the back rack—and watch your flanks out there.'",
+  "choices": [
+   {
+    "label": "Thank them and depart.",
+    "next": "end"
+   }
+  ]
+ },
+ {
+  "id": "dlg-hobb-pledge",
+  "npc": "npc-hobb-smith",
+  "node": "road_pledge",
+  "text": "'Promises don't patch cracked axles, commander, but if you actually open that trail, my best stock goes to your vanguard first.'",
+  "choices": [
+   {
+    "label": "Depart.",
+    "next": "end"
+   }
+  ]
+ },
+ {
+  "id": "dlg-hobb-debts",
+  "npc": "npc-hobb-smith",
+  "node": "old_debts",
+  "text": "'Everyone in Thornvael owes someone—silver, salt, or blood. The only difference is whether you collect before winter or after.'",
+  "choices": [
+   {
+    "label": "Leave.",
+    "next": "end"
+   }
+  ]
+ },
+ {
+  "id": "dlg-hobb-reckoning",
+  "npc": "npc-hobb-smith",
+  "node": "final_reckoning",
+  "text": "'Then let's finish it cleanly. No half-measures, no unpaid ledgers—when the ash settles, we'll see who still has a roof.'",
+  "choices": [
+   {
+    "label": "March out.",
+    "next": "end"
+   }
+  ]
+ },
+ {
+  "id": "dlg-marta-entry-early",
+  "npc": "npc-marta-alchemist",
+  "node": "entry_act_1_2",
+  "text": "Widow Marta wipes grime from stained hands and eyes your mud-caked boots. 'State your business fast—steel and ink both cost more than talk.'",
+  "choices": [
+   {
+    "label": "Ask about local supply shortages.",
+    "next": "dlg-marta-supplies"
+   },
+   {
+    "label": "Offer coin to inspect hidden stock.",
+    "next": "dlg-marta-stash",
+    "sets_flag": "flag_marta_bribed"
+   },
+   {
+    "label": "Leave without buying.",
+    "next": "end"
+   }
+  ]
+ },
+ {
+  "id": "dlg-marta-entry-mid",
+  "npc": "npc-marta-alchemist",
+  "node": "entry_act_3",
+  "text": "Widow Marta nods once as the coastal wind rattles the shutters. 'Word reached us before your banners did. You're still vertical—that counts for something.'",
+  "choices": [
+   {
+    "label": "Ask what the road ahead holds.",
+    "next": "dlg-marta-intel"
+   },
+   {
+    "label": "Mention your earlier arrangement.",
+    "next": "dlg-marta-favored",
+    "requires_flag": "flag_marta_bribed"
+   },
+   {
+    "label": "Step away.",
+    "next": "end"
+   }
+  ]
+ },
+ {
+  "id": "dlg-marta-entry-late",
+  "npc": "npc-marta-alchemist",
+  "node": "entry_act_4",
+  "text": "Widow Marta squints through drifting grey ash. 'Four provinces behind us and the air tastes like boiled nails. Whatever you need forged or settled, speak now.'",
+  "choices": [
+   {
+    "label": "Demand full support for the final push.",
+    "next": "dlg-marta-reckoning",
+    "sets_flag": "flag_marta_committed"
+   },
+   {
+    "label": "Ask about casualties and debts.",
+    "next": "dlg-marta-debts"
+   },
+   {
+    "label": "Close the conversation.",
+    "next": "end"
+   }
+  ]
+ },
+ {
+  "id": "dlg-marta-supplies",
+  "npc": "npc-marta-alchemist",
+  "node": "supplies_talk",
+  "text": "'Half our wagons are stuck in mire and the other half were taxed twice by clerks who fled south. Bring salvage if you want discounts.'",
+  "choices": [
+   {
+    "label": "Promise to clear the supply road.",
+    "next": "dlg-marta-pledge",
+    "sets_flag": "flag_marta_road_pledge"
+   },
+   {
+    "label": "End talk.",
+    "next": "end"
+   }
+  ]
+ },
+ {
+  "id": "dlg-marta-stash",
+  "npc": "npc-marta-alchemist",
+  "node": "hidden_stash",
+  "text": "'Quiet now. Keep your voice below the rafters—this crate never appeared on any garrison manifest, and I expect silver before you lift the lid.'",
+  "choices": [
+   {
+    "label": "Inspect the private goods.",
+    "next": "dlg-marta-favored"
+   },
+   {
+    "label": "Step back.",
+    "next": "end"
+   }
+  ]
+ },
+ {
+  "id": "dlg-marta-intel",
+  "npc": "npc-marta-alchemist",
+  "node": "regional_intel",
+  "text": "'Watch the high ground and never trust an unguarded bridge. Every ambush between here and the caldera was paid for in advance.'",
+  "choices": [
+   {
+    "label": "Ask who is bankrolling the enemy.",
+    "next": "dlg-marta-debts"
+   },
+   {
+    "label": "Move on.",
+    "next": "end"
+   }
+  ]
+ },
+ {
+  "id": "dlg-marta-favored",
+  "npc": "npc-marta-alchemist",
+  "node": "favored_customer",
+  "text": "'You kept your mouth shut and your purse open. Take the best iron from the back rack—and watch your flanks out there.'",
+  "choices": [
+   {
+    "label": "Thank them and depart.",
+    "next": "end"
+   }
+  ]
+ },
+ {
+  "id": "dlg-marta-pledge",
+  "npc": "npc-marta-alchemist",
+  "node": "road_pledge",
+  "text": "'Promises don't patch cracked axles, commander, but if you actually open that trail, my best stock goes to your vanguard first.'",
+  "choices": [
+   {
+    "label": "Depart.",
+    "next": "end"
+   }
+  ]
+ },
+ {
+  "id": "dlg-marta-debts",
+  "npc": "npc-marta-alchemist",
+  "node": "old_debts",
+  "text": "'Everyone in Thornvael owes someone—silver, salt, or blood. The only difference is whether you collect before winter or after.'",
+  "choices": [
+   {
+    "label": "Leave.",
+    "next": "end"
+   }
+  ]
+ },
+ {
+  "id": "dlg-marta-reckoning",
+  "npc": "npc-marta-alchemist",
+  "node": "final_reckoning",
+  "text": "'Then let's finish it cleanly. No half-measures, no unpaid ledgers—when the ash settles, we'll see who still has a roof.'",
+  "choices": [
+   {
+    "label": "March out.",
+    "next": "end"
+   }
+  ]
+ },
+ {
+  "id": "dlg-garrick-entry-early",
+  "npc": "npc-garrick-captain",
+  "node": "entry_act_1_2",
+  "text": "Sergeant-at-Arms Garrick wipes grime from stained hands and eyes your mud-caked boots. 'State your business fast—steel and ink both cost more than talk.'",
+  "choices": [
+   {
+    "label": "Ask about local supply shortages.",
+    "next": "dlg-garrick-supplies"
+   },
+   {
+    "label": "Offer coin to inspect hidden stock.",
+    "next": "dlg-garrick-stash",
+    "sets_flag": "flag_garrick_bribed"
+   },
+   {
+    "label": "Leave without buying.",
+    "next": "end"
+   }
+  ]
+ },
+ {
+  "id": "dlg-garrick-entry-mid",
+  "npc": "npc-garrick-captain",
+  "node": "entry_act_3",
+  "text": "Sergeant-at-Arms Garrick nods once as the coastal wind rattles the shutters. 'Word reached us before your banners did. You're still vertical—that counts for something.'",
+  "choices": [
+   {
+    "label": "Ask what the road ahead holds.",
+    "next": "dlg-garrick-intel"
+   },
+   {
+    "label": "Mention your earlier arrangement.",
+    "next": "dlg-garrick-favored",
+    "requires_flag": "flag_garrick_bribed"
+   },
+   {
+    "label": "Step away.",
+    "next": "end"
+   }
+  ]
+ },
+ {
+  "id": "dlg-garrick-entry-late",
+  "npc": "npc-garrick-captain",
+  "node": "entry_act_4",
+  "text": "Sergeant-at-Arms Garrick squints through drifting grey ash. 'Four provinces behind us and the air tastes like boiled nails. Whatever you need forged or settled, speak now.'",
+  "choices": [
+   {
+    "label": "Demand full support for the final push.",
+    "next": "dlg-garrick-reckoning",
+    "sets_flag": "flag_garrick_committed"
+   },
+   {
+    "label": "Ask about casualties and debts.",
+    "next": "dlg-garrick-debts"
+   },
+   {
+    "label": "Close the conversation.",
+    "next": "end"
+   }
+  ]
+ },
+ {
+  "id": "dlg-garrick-supplies",
+  "npc": "npc-garrick-captain",
+  "node": "supplies_talk",
+  "text": "'Half our wagons are stuck in mire and the other half were taxed twice by clerks who fled south. Bring salvage if you want discounts.'",
+  "choices": [
+   {
+    "label": "Promise to clear the supply road.",
+    "next": "dlg-garrick-pledge",
+    "sets_flag": "flag_garrick_road_pledge"
+   },
+   {
+    "label": "End talk.",
+    "next": "end"
+   }
+  ]
+ },
+ {
+  "id": "dlg-garrick-stash",
+  "npc": "npc-garrick-captain",
+  "node": "hidden_stash",
+  "text": "'Quiet now. Keep your voice below the rafters—this crate never appeared on any garrison manifest, and I expect silver before you lift the lid.'",
+  "choices": [
+   {
+    "label": "Inspect the private goods.",
+    "next": "dlg-garrick-favored"
+   },
+   {
+    "label": "Step back.",
+    "next": "end"
+   }
+  ]
+ },
+ {
+  "id": "dlg-garrick-intel",
+  "npc": "npc-garrick-captain",
+  "node": "regional_intel",
+  "text": "'Watch the high ground and never trust an unguarded bridge. Every ambush between here and the caldera was paid for in advance.'",
+  "choices": [
+   {
+    "label": "Ask who is bankrolling the enemy.",
+    "next": "dlg-garrick-debts"
+   },
+   {
+    "label": "Move on.",
+    "next": "end"
+   }
+  ]
+ },
+ {
+  "id": "dlg-garrick-favored",
+  "npc": "npc-garrick-captain",
+  "node": "favored_customer",
+  "text": "'You kept your mouth shut and your purse open. Take the best iron from the back rack—and watch your flanks out there.'",
+  "choices": [
+   {
+    "label": "Thank them and depart.",
+    "next": "end"
+   }
+  ]
+ },
+ {
+  "id": "dlg-garrick-pledge",
+  "npc": "npc-garrick-captain",
+  "node": "road_pledge",
+  "text": "'Promises don't patch cracked axles, commander, but if you actually open that trail, my best stock goes to your vanguard first.'",
+  "choices": [
+   {
+    "label": "Depart.",
+    "next": "end"
+   }
+  ]
+ },
+ {
+  "id": "dlg-garrick-debts",
+  "npc": "npc-garrick-captain",
+  "node": "old_debts",
+  "text": "'Everyone in Thornvael owes someone—silver, salt, or blood. The only difference is whether you collect before winter or after.'",
+  "choices": [
+   {
+    "label": "Leave.",
+    "next": "end"
+   }
+  ]
+ },
+ {
+  "id": "dlg-garrick-reckoning",
+  "npc": "npc-garrick-captain",
+  "node": "final_reckoning",
+  "text": "'Then let's finish it cleanly. No half-measures, no unpaid ledgers—when the ash settles, we'll see who still has a roof.'",
+  "choices": [
+   {
+    "label": "March out.",
+    "next": "end"
+   }
+  ]
+ },
+ {
+  "id": "dlg-fenwick-entry-early",
+  "npc": "npc-fenwick-ferryman",
+  "node": "entry_act_1_2",
+  "text": "Old Fenwick wipes grime from stained hands and eyes your mud-caked boots. 'State your business fast—steel and ink both cost more than talk.'",
+  "choices": [
+   {
+    "label": "Ask about local supply shortages.",
+    "next": "dlg-fenwick-supplies"
+   },
+   {
+    "label": "Offer coin to inspect hidden stock.",
+    "next": "dlg-fenwick-stash",
+    "sets_flag": "flag_fenwick_bribed"
+   },
+   {
+    "label": "Leave without buying.",
+    "next": "end"
+   }
+  ]
+ },
+ {
+  "id": "dlg-fenwick-entry-mid",
+  "npc": "npc-fenwick-ferryman",
+  "node": "entry_act_3",
+  "text": "Old Fenwick nods once as the coastal wind rattles the shutters. 'Word reached us before your banners did. You're still vertical—that counts for something.'",
+  "choices": [
+   {
+    "label": "Ask what the road ahead holds.",
+    "next": "dlg-fenwick-intel"
+   },
+   {
+    "label": "Mention your earlier arrangement.",
+    "next": "dlg-fenwick-favored",
+    "requires_flag": "flag_fenwick_bribed"
+   },
+   {
+    "label": "Step away.",
+    "next": "end"
+   }
+  ]
+ },
+ {
+  "id": "dlg-fenwick-entry-late",
+  "npc": "npc-fenwick-ferryman",
+  "node": "entry_act_4",
+  "text": "Old Fenwick squints through drifting grey ash. 'Four provinces behind us and the air tastes like boiled nails. Whatever you need forged or settled, speak now.'",
+  "choices": [
+   {
+    "label": "Demand full support for the final push.",
+    "next": "dlg-fenwick-reckoning",
+    "sets_flag": "flag_fenwick_committed"
+   },
+   {
+    "label": "Ask about casualties and debts.",
+    "next": "dlg-fenwick-debts"
+   },
+   {
+    "label": "Close the conversation.",
+    "next": "end"
+   }
+  ]
+ },
+ {
+  "id": "dlg-fenwick-supplies",
+  "npc": "npc-fenwick-ferryman",
+  "node": "supplies_talk",
+  "text": "'Half our wagons are stuck in mire and the other half were taxed twice by clerks who fled south. Bring salvage if you want discounts.'",
+  "choices": [
+   {
+    "label": "Promise to clear the supply road.",
+    "next": "dlg-fenwick-pledge",
+    "sets_flag": "flag_fenwick_road_pledge"
+   },
+   {
+    "label": "End talk.",
+    "next": "end"
+   }
+  ]
+ },
+ {
+  "id": "dlg-fenwick-stash",
+  "npc": "npc-fenwick-ferryman",
+  "node": "hidden_stash",
+  "text": "'Quiet now. Keep your voice below the rafters—this crate never appeared on any garrison manifest, and I expect silver before you lift the lid.'",
+  "choices": [
+   {
+    "label": "Inspect the private goods.",
+    "next": "dlg-fenwick-favored"
+   },
+   {
+    "label": "Step back.",
+    "next": "end"
+   }
+  ]
+ },
+ {
+  "id": "dlg-fenwick-intel",
+  "npc": "npc-fenwick-ferryman",
+  "node": "regional_intel",
+  "text": "'Watch the high ground and never trust an unguarded bridge. Every ambush between here and the caldera was paid for in advance.'",
+  "choices": [
+   {
+    "label": "Ask who is bankrolling the enemy.",
+    "next": "dlg-fenwick-debts"
+   },
+   {
+    "label": "Move on.",
+    "next": "end"
+   }
+  ]
+ },
+ {
+  "id": "dlg-fenwick-favored",
+  "npc": "npc-fenwick-ferryman",
+  "node": "favored_customer",
+  "text": "'You kept your mouth shut and your purse open. Take the best iron from the back rack—and watch your flanks out there.'",
+  "choices": [
+   {
+    "label": "Thank them and depart.",
+    "next": "end"
+   }
+  ]
+ },
+ {
+  "id": "dlg-fenwick-pledge",
+  "npc": "npc-fenwick-ferryman",
+  "node": "road_pledge",
+  "text": "'Promises don't patch cracked axles, commander, but if you actually open that trail, my best stock goes to your vanguard first.'",
+  "choices": [
+   {
+    "label": "Depart.",
+    "next": "end"
+   }
+  ]
+ },
+ {
+  "id": "dlg-fenwick-debts",
+  "npc": "npc-fenwick-ferryman",
+  "node": "old_debts",
+  "text": "'Everyone in Thornvael owes someone—silver, salt, or blood. The only difference is whether you collect before winter or after.'",
+  "choices": [
+   {
+    "label": "Leave.",
+    "next": "end"
+   }
+  ]
+ },
+ {
+  "id": "dlg-fenwick-reckoning",
+  "npc": "npc-fenwick-ferryman",
+  "node": "final_reckoning",
+  "text": "'Then let's finish it cleanly. No half-measures, no unpaid ledgers—when the ash settles, we'll see who still has a roof.'",
+  "choices": [
+   {
+    "label": "March out.",
+    "next": "end"
+   }
+  ]
+ },
+ {
+  "id": "dlg-bram-entry-early",
+  "npc": "npc-bram-quartermaster",
+  "node": "entry_act_1_2",
+  "text": "Quartermaster Bram wipes grime from stained hands and eyes your mud-caked boots. 'State your business fast—steel and ink both cost more than talk.'",
+  "choices": [
+   {
+    "label": "Ask about local supply shortages.",
+    "next": "dlg-bram-supplies"
+   },
+   {
+    "label": "Offer coin to inspect hidden stock.",
+    "next": "dlg-bram-stash",
+    "sets_flag": "flag_bram_bribed"
+   },
+   {
+    "label": "Leave without buying.",
+    "next": "end"
+   }
+  ]
+ },
+ {
+  "id": "dlg-bram-entry-mid",
+  "npc": "npc-bram-quartermaster",
+  "node": "entry_act_3",
+  "text": "Quartermaster Bram nods once as the coastal wind rattles the shutters. 'Word reached us before your banners did. You're still vertical—that counts for something.'",
+  "choices": [
+   {
+    "label": "Ask what the road ahead holds.",
+    "next": "dlg-bram-intel"
+   },
+   {
+    "label": "Mention your earlier arrangement.",
+    "next": "dlg-bram-favored",
+    "requires_flag": "flag_bram_bribed"
+   },
+   {
+    "label": "Step away.",
+    "next": "end"
+   }
+  ]
+ },
+ {
+  "id": "dlg-bram-entry-late",
+  "npc": "npc-bram-quartermaster",
+  "node": "entry_act_4",
+  "text": "Quartermaster Bram squints through drifting grey ash. 'Four provinces behind us and the air tastes like boiled nails. Whatever you need forged or settled, speak now.'",
+  "choices": [
+   {
+    "label": "Demand full support for the final push.",
+    "next": "dlg-bram-reckoning",
+    "sets_flag": "flag_bram_committed"
+   },
+   {
+    "label": "Ask about casualties and debts.",
+    "next": "dlg-bram-debts"
+   },
+   {
+    "label": "Close the conversation.",
+    "next": "end"
+   }
+  ]
+ },
+ {
+  "id": "dlg-bram-supplies",
+  "npc": "npc-bram-quartermaster",
+  "node": "supplies_talk",
+  "text": "'Half our wagons are stuck in mire and the other half were taxed twice by clerks who fled south. Bring salvage if you want discounts.'",
+  "choices": [
+   {
+    "label": "Promise to clear the supply road.",
+    "next": "dlg-bram-pledge",
+    "sets_flag": "flag_bram_road_pledge"
+   },
+   {
+    "label": "End talk.",
+    "next": "end"
+   }
+  ]
+ },
+ {
+  "id": "dlg-bram-stash",
+  "npc": "npc-bram-quartermaster",
+  "node": "hidden_stash",
+  "text": "'Quiet now. Keep your voice below the rafters—this crate never appeared on any garrison manifest, and I expect silver before you lift the lid.'",
+  "choices": [
+   {
+    "label": "Inspect the private goods.",
+    "next": "dlg-bram-favored"
+   },
+   {
+    "label": "Step back.",
+    "next": "end"
+   }
+  ]
+ },
+ {
+  "id": "dlg-bram-intel",
+  "npc": "npc-bram-quartermaster",
+  "node": "regional_intel",
+  "text": "'Watch the high ground and never trust an unguarded bridge. Every ambush between here and the caldera was paid for in advance.'",
+  "choices": [
+   {
+    "label": "Ask who is bankrolling the enemy.",
+    "next": "dlg-bram-debts"
+   },
+   {
+    "label": "Move on.",
+    "next": "end"
+   }
+  ]
+ },
+ {
+  "id": "dlg-bram-favored",
+  "npc": "npc-bram-quartermaster",
+  "node": "favored_customer",
+  "text": "'You kept your mouth shut and your purse open. Take the best iron from the back rack—and watch your flanks out there.'",
+  "choices": [
+   {
+    "label": "Thank them and depart.",
+    "next": "end"
+   }
+  ]
+ },
+ {
+  "id": "dlg-bram-pledge",
+  "npc": "npc-bram-quartermaster",
+  "node": "road_pledge",
+  "text": "'Promises don't patch cracked axles, commander, but if you actually open that trail, my best stock goes to your vanguard first.'",
+  "choices": [
+   {
+    "label": "Depart.",
+    "next": "end"
+   }
+  ]
+ },
+ {
+  "id": "dlg-bram-debts",
+  "npc": "npc-bram-quartermaster",
+  "node": "old_debts",
+  "text": "'Everyone in Thornvael owes someone—silver, salt, or blood. The only difference is whether you collect before winter or after.'",
+  "choices": [
+   {
+    "label": "Leave.",
+    "next": "end"
+   }
+  ]
+ },
+ {
+  "id": "dlg-bram-reckoning",
+  "npc": "npc-bram-quartermaster",
+  "node": "final_reckoning",
+  "text": "'Then let's finish it cleanly. No half-measures, no unpaid ledgers—when the ash settles, we'll see who still has a roof.'",
+  "choices": [
+   {
+    "label": "March out.",
+    "next": "end"
+   }
+  ]
+ },
+ {
+  "id": "dlg-zahra-entry-early",
+  "npc": "npc-zahra-scholar",
+  "node": "entry_act_1_2",
+  "text": "Chronicler Zahra wipes grime from stained hands and eyes your mud-caked boots. 'State your business fast—steel and ink both cost more than talk.'",
+  "choices": [
+   {
+    "label": "Ask about local supply shortages.",
+    "next": "dlg-zahra-supplies"
+   },
+   {
+    "label": "Offer coin to inspect hidden stock.",
+    "next": "dlg-zahra-stash",
+    "sets_flag": "flag_zahra_bribed"
+   },
+   {
+    "label": "Leave without buying.",
+    "next": "end"
+   }
+  ]
+ },
+ {
+  "id": "dlg-zahra-entry-mid",
+  "npc": "npc-zahra-scholar",
+  "node": "entry_act_3",
+  "text": "Chronicler Zahra nods once as the coastal wind rattles the shutters. 'Word reached us before your banners did. You're still vertical—that counts for something.'",
+  "choices": [
+   {
+    "label": "Ask what the road ahead holds.",
+    "next": "dlg-zahra-intel"
+   },
+   {
+    "label": "Mention your earlier arrangement.",
+    "next": "dlg-zahra-favored",
+    "requires_flag": "flag_zahra_bribed"
+   },
+   {
+    "label": "Step away.",
+    "next": "end"
+   }
+  ]
+ },
+ {
+  "id": "dlg-zahra-entry-late",
+  "npc": "npc-zahra-scholar",
+  "node": "entry_act_4",
+  "text": "Chronicler Zahra squints through drifting grey ash. 'Four provinces behind us and the air tastes like boiled nails. Whatever you need forged or settled, speak now.'",
+  "choices": [
+   {
+    "label": "Demand full support for the final push.",
+    "next": "dlg-zahra-reckoning",
+    "sets_flag": "flag_zahra_committed"
+   },
+   {
+    "label": "Ask about casualties and debts.",
+    "next": "dlg-zahra-debts"
+   },
+   {
+    "label": "Close the conversation.",
+    "next": "end"
+   }
+  ]
+ },
+ {
+  "id": "dlg-zahra-supplies",
+  "npc": "npc-zahra-scholar",
+  "node": "supplies_talk",
+  "text": "'Half our wagons are stuck in mire and the other half were taxed twice by clerks who fled south. Bring salvage if you want discounts.'",
+  "choices": [
+   {
+    "label": "Promise to clear the supply road.",
+    "next": "dlg-zahra-pledge",
+    "sets_flag": "flag_zahra_road_pledge"
+   },
+   {
+    "label": "End talk.",
+    "next": "end"
+   }
+  ]
+ },
+ {
+  "id": "dlg-zahra-stash",
+  "npc": "npc-zahra-scholar",
+  "node": "hidden_stash",
+  "text": "'Quiet now. Keep your voice below the rafters—this crate never appeared on any garrison manifest, and I expect silver before you lift the lid.'",
+  "choices": [
+   {
+    "label": "Inspect the private goods.",
+    "next": "dlg-zahra-favored"
+   },
+   {
+    "label": "Step back.",
+    "next": "end"
+   }
+  ]
+ },
+ {
+  "id": "dlg-zahra-intel",
+  "npc": "npc-zahra-scholar",
+  "node": "regional_intel",
+  "text": "'Watch the high ground and never trust an unguarded bridge. Every ambush between here and the caldera was paid for in advance.'",
+  "choices": [
+   {
+    "label": "Ask who is bankrolling the enemy.",
+    "next": "dlg-zahra-debts"
+   },
+   {
+    "label": "Move on.",
+    "next": "end"
+   }
+  ]
+ },
+ {
+  "id": "dlg-zahra-favored",
+  "npc": "npc-zahra-scholar",
+  "node": "favored_customer",
+  "text": "'You kept your mouth shut and your purse open. Take the best iron from the back rack—and watch your flanks out there.'",
+  "choices": [
+   {
+    "label": "Thank them and depart.",
+    "next": "end"
+   }
+  ]
+ },
+ {
+  "id": "dlg-zahra-pledge",
+  "npc": "npc-zahra-scholar",
+  "node": "road_pledge",
+  "text": "'Promises don't patch cracked axles, commander, but if you actually open that trail, my best stock goes to your vanguard first.'",
+  "choices": [
+   {
+    "label": "Depart.",
+    "next": "end"
+   }
+  ]
+ },
+ {
+  "id": "dlg-zahra-debts",
+  "npc": "npc-zahra-scholar",
+  "node": "old_debts",
+  "text": "'Everyone in Thornvael owes someone—silver, salt, or blood. The only difference is whether you collect before winter or after.'",
+  "choices": [
+   {
+    "label": "Leave.",
+    "next": "end"
+   }
+  ]
+ },
+ {
+  "id": "dlg-zahra-reckoning",
+  "npc": "npc-zahra-scholar",
+  "node": "final_reckoning",
+  "text": "'Then let's finish it cleanly. No half-measures, no unpaid ledgers—when the ash settles, we'll see who still has a roof.'",
+  "choices": [
+   {
+    "label": "March out.",
+    "next": "end"
+   }
+  ]
+ },
+ {
+  "id": "dlg-tull-entry-early",
+  "npc": "npc-tull-water-seller",
+  "node": "entry_act_1_2",
+  "text": "Cask-Master Tull wipes grime from stained hands and eyes your mud-caked boots. 'State your business fast—steel and ink both cost more than talk.'",
+  "choices": [
+   {
+    "label": "Ask about local supply shortages.",
+    "next": "dlg-tull-supplies"
+   },
+   {
+    "label": "Offer coin to inspect hidden stock.",
+    "next": "dlg-tull-stash",
+    "sets_flag": "flag_tull_bribed"
+   },
+   {
+    "label": "Leave without buying.",
+    "next": "end"
+   }
+  ]
+ },
+ {
+  "id": "dlg-tull-entry-mid",
+  "npc": "npc-tull-water-seller",
+  "node": "entry_act_3",
+  "text": "Cask-Master Tull nods once as the coastal wind rattles the shutters. 'Word reached us before your banners did. You're still vertical—that counts for something.'",
+  "choices": [
+   {
+    "label": "Ask what the road ahead holds.",
+    "next": "dlg-tull-intel"
+   },
+   {
+    "label": "Mention your earlier arrangement.",
+    "next": "dlg-tull-favored",
+    "requires_flag": "flag_tull_bribed"
+   },
+   {
+    "label": "Step away.",
+    "next": "end"
+   }
+  ]
+ },
+ {
+  "id": "dlg-tull-entry-late",
+  "npc": "npc-tull-water-seller",
+  "node": "entry_act_4",
+  "text": "Cask-Master Tull squints through drifting grey ash. 'Four provinces behind us and the air tastes like boiled nails. Whatever you need forged or settled, speak now.'",
+  "choices": [
+   {
+    "label": "Demand full support for the final push.",
+    "next": "dlg-tull-reckoning",
+    "sets_flag": "flag_tull_committed"
+   },
+   {
+    "label": "Ask about casualties and debts.",
+    "next": "dlg-tull-debts"
+   },
+   {
+    "label": "Close the conversation.",
+    "next": "end"
+   }
+  ]
+ },
+ {
+  "id": "dlg-tull-supplies",
+  "npc": "npc-tull-water-seller",
+  "node": "supplies_talk",
+  "text": "'Half our wagons are stuck in mire and the other half were taxed twice by clerks who fled south. Bring salvage if you want discounts.'",
+  "choices": [
+   {
+    "label": "Promise to clear the supply road.",
+    "next": "dlg-tull-pledge",
+    "sets_flag": "flag_tull_road_pledge"
+   },
+   {
+    "label": "End talk.",
+    "next": "end"
+   }
+  ]
+ },
+ {
+  "id": "dlg-tull-stash",
+  "npc": "npc-tull-water-seller",
+  "node": "hidden_stash",
+  "text": "'Quiet now. Keep your voice below the rafters—this crate never appeared on any garrison manifest, and I expect silver before you lift the lid.'",
+  "choices": [
+   {
+    "label": "Inspect the private goods.",
+    "next": "dlg-tull-favored"
+   },
+   {
+    "label": "Step back.",
+    "next": "end"
+   }
+  ]
+ },
+ {
+  "id": "dlg-tull-intel",
+  "npc": "npc-tull-water-seller",
+  "node": "regional_intel",
+  "text": "'Watch the high ground and never trust an unguarded bridge. Every ambush between here and the caldera was paid for in advance.'",
+  "choices": [
+   {
+    "label": "Ask who is bankrolling the enemy.",
+    "next": "dlg-tull-debts"
+   },
+   {
+    "label": "Move on.",
+    "next": "end"
+   }
+  ]
+ },
+ {
+  "id": "dlg-tull-favored",
+  "npc": "npc-tull-water-seller",
+  "node": "favored_customer",
+  "text": "'You kept your mouth shut and your purse open. Take the best iron from the back rack—and watch your flanks out there.'",
+  "choices": [
+   {
+    "label": "Thank them and depart.",
+    "next": "end"
+   }
+  ]
+ },
+ {
+  "id": "dlg-tull-pledge",
+  "npc": "npc-tull-water-seller",
+  "node": "road_pledge",
+  "text": "'Promises don't patch cracked axles, commander, but if you actually open that trail, my best stock goes to your vanguard first.'",
+  "choices": [
+   {
+    "label": "Depart.",
+    "next": "end"
+   }
+  ]
+ },
+ {
+  "id": "dlg-tull-debts",
+  "npc": "npc-tull-water-seller",
+  "node": "old_debts",
+  "text": "'Everyone in Thornvael owes someone—silver, salt, or blood. The only difference is whether you collect before winter or after.'",
+  "choices": [
+   {
+    "label": "Leave.",
+    "next": "end"
+   }
+  ]
+ },
+ {
+  "id": "dlg-tull-reckoning",
+  "npc": "npc-tull-water-seller",
+  "node": "final_reckoning",
+  "text": "'Then let's finish it cleanly. No half-measures, no unpaid ledgers—when the ash settles, we'll see who still has a roof.'",
+  "choices": [
+   {
+    "label": "March out.",
+    "next": "end"
+   }
+  ]
+ },
+ {
+  "id": "dlg-sera-entry-early",
+  "npc": "npc-sera-healer",
+  "node": "entry_act_1_2",
+  "text": "Chief Healer Sera wipes grime from stained hands and eyes your mud-caked boots. 'State your business fast—steel and ink both cost more than talk.'",
+  "choices": [
+   {
+    "label": "Ask about local supply shortages.",
+    "next": "dlg-sera-supplies"
+   },
+   {
+    "label": "Offer coin to inspect hidden stock.",
+    "next": "dlg-sera-stash",
+    "sets_flag": "flag_sera_bribed"
+   },
+   {
+    "label": "Leave without buying.",
+    "next": "end"
+   }
+  ]
+ },
+ {
+  "id": "dlg-sera-entry-mid",
+  "npc": "npc-sera-healer",
+  "node": "entry_act_3",
+  "text": "Chief Healer Sera nods once as the coastal wind rattles the shutters. 'Word reached us before your banners did. You're still vertical—that counts for something.'",
+  "choices": [
+   {
+    "label": "Ask what the road ahead holds.",
+    "next": "dlg-sera-intel"
+   },
+   {
+    "label": "Mention your earlier arrangement.",
+    "next": "dlg-sera-favored",
+    "requires_flag": "flag_sera_bribed"
+   },
+   {
+    "label": "Step away.",
+    "next": "end"
+   }
+  ]
+ },
+ {
+  "id": "dlg-sera-entry-late",
+  "npc": "npc-sera-healer",
+  "node": "entry_act_4",
+  "text": "Chief Healer Sera squints through drifting grey ash. 'Four provinces behind us and the air tastes like boiled nails. Whatever you need forged or settled, speak now.'",
+  "choices": [
+   {
+    "label": "Demand full support for the final push.",
+    "next": "dlg-sera-reckoning",
+    "sets_flag": "flag_sera_committed"
+   },
+   {
+    "label": "Ask about casualties and debts.",
+    "next": "dlg-sera-debts"
+   },
+   {
+    "label": "Close the conversation.",
+    "next": "end"
+   }
+  ]
+ },
+ {
+  "id": "dlg-sera-supplies",
+  "npc": "npc-sera-healer",
+  "node": "supplies_talk",
+  "text": "'Half our wagons are stuck in mire and the other half were taxed twice by clerks who fled south. Bring salvage if you want discounts.'",
+  "choices": [
+   {
+    "label": "Promise to clear the supply road.",
+    "next": "dlg-sera-pledge",
+    "sets_flag": "flag_sera_road_pledge"
+   },
+   {
+    "label": "End talk.",
+    "next": "end"
+   }
+  ]
+ },
+ {
+  "id": "dlg-sera-stash",
+  "npc": "npc-sera-healer",
+  "node": "hidden_stash",
+  "text": "'Quiet now. Keep your voice below the rafters—this crate never appeared on any garrison manifest, and I expect silver before you lift the lid.'",
+  "choices": [
+   {
+    "label": "Inspect the private goods.",
+    "next": "dlg-sera-favored"
+   },
+   {
+    "label": "Step back.",
+    "next": "end"
+   }
+  ]
+ },
+ {
+  "id": "dlg-sera-intel",
+  "npc": "npc-sera-healer",
+  "node": "regional_intel",
+  "text": "'Watch the high ground and never trust an unguarded bridge. Every ambush between here and the caldera was paid for in advance.'",
+  "choices": [
+   {
+    "label": "Ask who is bankrolling the enemy.",
+    "next": "dlg-sera-debts"
+   },
+   {
+    "label": "Move on.",
+    "next": "end"
+   }
+  ]
+ },
+ {
+  "id": "dlg-sera-favored",
+  "npc": "npc-sera-healer",
+  "node": "favored_customer",
+  "text": "'You kept your mouth shut and your purse open. Take the best iron from the back rack—and watch your flanks out there.'",
+  "choices": [
+   {
+    "label": "Thank them and depart.",
+    "next": "end"
+   }
+  ]
+ },
+ {
+  "id": "dlg-sera-pledge",
+  "npc": "npc-sera-healer",
+  "node": "road_pledge",
+  "text": "'Promises don't patch cracked axles, commander, but if you actually open that trail, my best stock goes to your vanguard first.'",
+  "choices": [
+   {
+    "label": "Depart.",
+    "next": "end"
+   }
+  ]
+ },
+ {
+  "id": "dlg-sera-debts",
+  "npc": "npc-sera-healer",
+  "node": "old_debts",
+  "text": "'Everyone in Thornvael owes someone—silver, salt, or blood. The only difference is whether you collect before winter or after.'",
+  "choices": [
+   {
+    "label": "Leave.",
+    "next": "end"
+   }
+  ]
+ },
+ {
+  "id": "dlg-sera-reckoning",
+  "npc": "npc-sera-healer",
+  "node": "final_reckoning",
+  "text": "'Then let's finish it cleanly. No half-measures, no unpaid ledgers—when the ash settles, we'll see who still has a roof.'",
+  "choices": [
+   {
+    "label": "March out.",
+    "next": "end"
+   }
+  ]
+ },
+ {
+  "id": "dlg-kors-entry-early",
+  "npc": "npc-kors-shipwright",
+  "node": "entry_act_1_2",
+  "text": "Iron-Wright Kors wipes grime from stained hands and eyes your mud-caked boots. 'State your business fast—steel and ink both cost more than talk.'",
+  "choices": [
+   {
+    "label": "Ask about local supply shortages.",
+    "next": "dlg-kors-supplies"
+   },
+   {
+    "label": "Offer coin to inspect hidden stock.",
+    "next": "dlg-kors-stash",
+    "sets_flag": "flag_kors_bribed"
+   },
+   {
+    "label": "Leave without buying.",
+    "next": "end"
+   }
+  ]
+ },
+ {
+  "id": "dlg-kors-entry-mid",
+  "npc": "npc-kors-shipwright",
+  "node": "entry_act_3",
+  "text": "Iron-Wright Kors nods once as the coastal wind rattles the shutters. 'Word reached us before your banners did. You're still vertical—that counts for something.'",
+  "choices": [
+   {
+    "label": "Ask what the road ahead holds.",
+    "next": "dlg-kors-intel"
+   },
+   {
+    "label": "Mention your earlier arrangement.",
+    "next": "dlg-kors-favored",
+    "requires_flag": "flag_kors_bribed"
+   },
+   {
+    "label": "Step away.",
+    "next": "end"
+   }
+  ]
+ },
+ {
+  "id": "dlg-kors-entry-late",
+  "npc": "npc-kors-shipwright",
+  "node": "entry_act_4",
+  "text": "Iron-Wright Kors squints through drifting grey ash. 'Four provinces behind us and the air tastes like boiled nails. Whatever you need forged or settled, speak now.'",
+  "choices": [
+   {
+    "label": "Demand full support for the final push.",
+    "next": "dlg-kors-reckoning",
+    "sets_flag": "flag_kors_committed"
+   },
+   {
+    "label": "Ask about casualties and debts.",
+    "next": "dlg-kors-debts"
+   },
+   {
+    "label": "Close the conversation.",
+    "next": "end"
+   }
+  ]
+ },
+ {
+  "id": "dlg-kors-supplies",
+  "npc": "npc-kors-shipwright",
+  "node": "supplies_talk",
+  "text": "'Half our wagons are stuck in mire and the other half were taxed twice by clerks who fled south. Bring salvage if you want discounts.'",
+  "choices": [
+   {
+    "label": "Promise to clear the supply road.",
+    "next": "dlg-kors-pledge",
+    "sets_flag": "flag_kors_road_pledge"
+   },
+   {
+    "label": "End talk.",
+    "next": "end"
+   }
+  ]
+ },
+ {
+  "id": "dlg-kors-stash",
+  "npc": "npc-kors-shipwright",
+  "node": "hidden_stash",
+  "text": "'Quiet now. Keep your voice below the rafters—this crate never appeared on any garrison manifest, and I expect silver before you lift the lid.'",
+  "choices": [
+   {
+    "label": "Inspect the private goods.",
+    "next": "dlg-kors-favored"
+   },
+   {
+    "label": "Step back.",
+    "next": "end"
+   }
+  ]
+ },
+ {
+  "id": "dlg-kors-intel",
+  "npc": "npc-kors-shipwright",
+  "node": "regional_intel",
+  "text": "'Watch the high ground and never trust an unguarded bridge. Every ambush between here and the caldera was paid for in advance.'",
+  "choices": [
+   {
+    "label": "Ask who is bankrolling the enemy.",
+    "next": "dlg-kors-debts"
+   },
+   {
+    "label": "Move on.",
+    "next": "end"
+   }
+  ]
+ },
+ {
+  "id": "dlg-kors-favored",
+  "npc": "npc-kors-shipwright",
+  "node": "favored_customer",
+  "text": "'You kept your mouth shut and your purse open. Take the best iron from the back rack—and watch your flanks out there.'",
+  "choices": [
+   {
+    "label": "Thank them and depart.",
+    "next": "end"
+   }
+  ]
+ },
+ {
+  "id": "dlg-kors-pledge",
+  "npc": "npc-kors-shipwright",
+  "node": "road_pledge",
+  "text": "'Promises don't patch cracked axles, commander, but if you actually open that trail, my best stock goes to your vanguard first.'",
+  "choices": [
+   {
+    "label": "Depart.",
+    "next": "end"
+   }
+  ]
+ },
+ {
+  "id": "dlg-kors-debts",
+  "npc": "npc-kors-shipwright",
+  "node": "old_debts",
+  "text": "'Everyone in Thornvael owes someone—silver, salt, or blood. The only difference is whether you collect before winter or after.'",
+  "choices": [
+   {
+    "label": "Leave.",
+    "next": "end"
+   }
+  ]
+ },
+ {
+  "id": "dlg-kors-reckoning",
+  "npc": "npc-kors-shipwright",
+  "node": "final_reckoning",
+  "text": "'Then let's finish it cleanly. No half-measures, no unpaid ledgers—when the ash settles, we'll see who still has a roof.'",
+  "choices": [
+   {
+    "label": "March out.",
+    "next": "end"
+   }
+  ]
+ },
+ {
+  "id": "dlg-lyra-entry-early",
+  "npc": "npc-lyra-warden",
+  "node": "entry_act_1_2",
+  "text": "Gate Warden Lyra wipes grime from stained hands and eyes your mud-caked boots. 'State your business fast—steel and ink both cost more than talk.'",
+  "choices": [
+   {
+    "label": "Ask about local supply shortages.",
+    "next": "dlg-lyra-supplies"
+   },
+   {
+    "label": "Offer coin to inspect hidden stock.",
+    "next": "dlg-lyra-stash",
+    "sets_flag": "flag_lyra_bribed"
+   },
+   {
+    "label": "Leave without buying.",
+    "next": "end"
+   }
+  ]
+ },
+ {
+  "id": "dlg-lyra-entry-mid",
+  "npc": "npc-lyra-warden",
+  "node": "entry_act_3",
+  "text": "Gate Warden Lyra nods once as the coastal wind rattles the shutters. 'Word reached us before your banners did. You're still vertical—that counts for something.'",
+  "choices": [
+   {
+    "label": "Ask what the road ahead holds.",
+    "next": "dlg-lyra-intel"
+   },
+   {
+    "label": "Mention your earlier arrangement.",
+    "next": "dlg-lyra-favored",
+    "requires_flag": "flag_lyra_bribed"
+   },
+   {
+    "label": "Step away.",
+    "next": "end"
+   }
+  ]
+ },
+ {
+  "id": "dlg-lyra-entry-late",
+  "npc": "npc-lyra-warden",
+  "node": "entry_act_4",
+  "text": "Gate Warden Lyra squints through drifting grey ash. 'Four provinces behind us and the air tastes like boiled nails. Whatever you need forged or settled, speak now.'",
+  "choices": [
+   {
+    "label": "Demand full support for the final push.",
+    "next": "dlg-lyra-reckoning",
+    "sets_flag": "flag_lyra_committed"
+   },
+   {
+    "label": "Ask about casualties and debts.",
+    "next": "dlg-lyra-debts"
+   },
+   {
+    "label": "Close the conversation.",
+    "next": "end"
+   }
+  ]
+ },
+ {
+  "id": "dlg-lyra-supplies",
+  "npc": "npc-lyra-warden",
+  "node": "supplies_talk",
+  "text": "'Half our wagons are stuck in mire and the other half were taxed twice by clerks who fled south. Bring salvage if you want discounts.'",
+  "choices": [
+   {
+    "label": "Promise to clear the supply road.",
+    "next": "dlg-lyra-pledge",
+    "sets_flag": "flag_lyra_road_pledge"
+   },
+   {
+    "label": "End talk.",
+    "next": "end"
+   }
+  ]
+ },
+ {
+  "id": "dlg-lyra-stash",
+  "npc": "npc-lyra-warden",
+  "node": "hidden_stash",
+  "text": "'Quiet now. Keep your voice below the rafters—this crate never appeared on any garrison manifest, and I expect silver before you lift the lid.'",
+  "choices": [
+   {
+    "label": "Inspect the private goods.",
+    "next": "dlg-lyra-favored"
+   },
+   {
+    "label": "Step back.",
+    "next": "end"
+   }
+  ]
+ },
+ {
+  "id": "dlg-lyra-intel",
+  "npc": "npc-lyra-warden",
+  "node": "regional_intel",
+  "text": "'Watch the high ground and never trust an unguarded bridge. Every ambush between here and the caldera was paid for in advance.'",
+  "choices": [
+   {
+    "label": "Ask who is bankrolling the enemy.",
+    "next": "dlg-lyra-debts"
+   },
+   {
+    "label": "Move on.",
+    "next": "end"
+   }
+  ]
+ },
+ {
+  "id": "dlg-lyra-favored",
+  "npc": "npc-lyra-warden",
+  "node": "favored_customer",
+  "text": "'You kept your mouth shut and your purse open. Take the best iron from the back rack—and watch your flanks out there.'",
+  "choices": [
+   {
+    "label": "Thank them and depart.",
+    "next": "end"
+   }
+  ]
+ },
+ {
+  "id": "dlg-lyra-pledge",
+  "npc": "npc-lyra-warden",
+  "node": "road_pledge",
+  "text": "'Promises don't patch cracked axles, commander, but if you actually open that trail, my best stock goes to your vanguard first.'",
+  "choices": [
+   {
+    "label": "Depart.",
+    "next": "end"
+   }
+  ]
+ },
+ {
+  "id": "dlg-lyra-debts",
+  "npc": "npc-lyra-warden",
+  "node": "old_debts",
+  "text": "'Everyone in Thornvael owes someone—silver, salt, or blood. The only difference is whether you collect before winter or after.'",
+  "choices": [
+   {
+    "label": "Leave.",
+    "next": "end"
+   }
+  ]
+ },
+ {
+  "id": "dlg-lyra-reckoning",
+  "npc": "npc-lyra-warden",
+  "node": "final_reckoning",
+  "text": "'Then let's finish it cleanly. No half-measures, no unpaid ledgers—when the ash settles, we'll see who still has a roof.'",
+  "choices": [
+   {
+    "label": "March out.",
+    "next": "end"
+   }
+  ]
+ },
+ {
+  "id": "dlg-pip-entry-early",
+  "npc": "npc-pip-mudlark",
+  "node": "entry_act_1_2",
+  "text": "Mudlark Pip wipes grime from stained hands and eyes your mud-caked boots. 'State your business fast—steel and ink both cost more than talk.'",
+  "choices": [
+   {
+    "label": "Ask about local supply shortages.",
+    "next": "dlg-pip-supplies"
+   },
+   {
+    "label": "Offer coin to inspect hidden stock.",
+    "next": "dlg-pip-stash",
+    "sets_flag": "flag_pip_bribed"
+   },
+   {
+    "label": "Leave without buying.",
+    "next": "end"
+   }
+  ]
+ },
+ {
+  "id": "dlg-pip-entry-mid",
+  "npc": "npc-pip-mudlark",
+  "node": "entry_act_3",
+  "text": "Mudlark Pip nods once as the coastal wind rattles the shutters. 'Word reached us before your banners did. You're still vertical—that counts for something.'",
+  "choices": [
+   {
+    "label": "Ask what the road ahead holds.",
+    "next": "dlg-pip-intel"
+   },
+   {
+    "label": "Mention your earlier arrangement.",
+    "next": "dlg-pip-favored",
+    "requires_flag": "flag_pip_bribed"
+   },
+   {
+    "label": "Step away.",
+    "next": "end"
+   }
+  ]
+ },
+ {
+  "id": "dlg-pip-entry-late",
+  "npc": "npc-pip-mudlark",
+  "node": "entry_act_4",
+  "text": "Mudlark Pip squints through drifting grey ash. 'Four provinces behind us and the air tastes like boiled nails. Whatever you need forged or settled, speak now.'",
+  "choices": [
+   {
+    "label": "Demand full support for the final push.",
+    "next": "dlg-pip-reckoning",
+    "sets_flag": "flag_pip_committed"
+   },
+   {
+    "label": "Ask about casualties and debts.",
+    "next": "dlg-pip-debts"
+   },
+   {
+    "label": "Close the conversation.",
+    "next": "end"
+   }
+  ]
+ },
+ {
+  "id": "dlg-pip-supplies",
+  "npc": "npc-pip-mudlark",
+  "node": "supplies_talk",
+  "text": "'Half our wagons are stuck in mire and the other half were taxed twice by clerks who fled south. Bring salvage if you want discounts.'",
+  "choices": [
+   {
+    "label": "Promise to clear the supply road.",
+    "next": "dlg-pip-pledge",
+    "sets_flag": "flag_pip_road_pledge"
+   },
+   {
+    "label": "End talk.",
+    "next": "end"
+   }
+  ]
+ },
+ {
+  "id": "dlg-pip-stash",
+  "npc": "npc-pip-mudlark",
+  "node": "hidden_stash",
+  "text": "'Quiet now. Keep your voice below the rafters—this crate never appeared on any garrison manifest, and I expect silver before you lift the lid.'",
+  "choices": [
+   {
+    "label": "Inspect the private goods.",
+    "next": "dlg-pip-favored"
+   },
+   {
+    "label": "Step back.",
+    "next": "end"
+   }
+  ]
+ },
+ {
+  "id": "dlg-pip-intel",
+  "npc": "npc-pip-mudlark",
+  "node": "regional_intel",
+  "text": "'Watch the high ground and never trust an unguarded bridge. Every ambush between here and the caldera was paid for in advance.'",
+  "choices": [
+   {
+    "label": "Ask who is bankrolling the enemy.",
+    "next": "dlg-pip-debts"
+   },
+   {
+    "label": "Move on.",
+    "next": "end"
+   }
+  ]
+ },
+ {
+  "id": "dlg-pip-favored",
+  "npc": "npc-pip-mudlark",
+  "node": "favored_customer",
+  "text": "'You kept your mouth shut and your purse open. Take the best iron from the back rack—and watch your flanks out there.'",
+  "choices": [
+   {
+    "label": "Thank them and depart.",
+    "next": "end"
+   }
+  ]
+ },
+ {
+  "id": "dlg-pip-pledge",
+  "npc": "npc-pip-mudlark",
+  "node": "road_pledge",
+  "text": "'Promises don't patch cracked axles, commander, but if you actually open that trail, my best stock goes to your vanguard first.'",
+  "choices": [
+   {
+    "label": "Depart.",
+    "next": "end"
+   }
+  ]
+ },
+ {
+  "id": "dlg-pip-debts",
+  "npc": "npc-pip-mudlark",
+  "node": "old_debts",
+  "text": "'Everyone in Thornvael owes someone—silver, salt, or blood. The only difference is whether you collect before winter or after.'",
+  "choices": [
+   {
+    "label": "Leave.",
+    "next": "end"
+   }
+  ]
+ },
+ {
+  "id": "dlg-pip-reckoning",
+  "npc": "npc-pip-mudlark",
+  "node": "final_reckoning",
+  "text": "'Then let's finish it cleanly. No half-measures, no unpaid ledgers—when the ash settles, we'll see who still has a roof.'",
+  "choices": [
+   {
+    "label": "March out.",
+    "next": "end"
+   }
+  ]
+ },
+ {
+  "id": "dlg-rowan-entry-early",
+  "npc": "npc-rowan-commander",
+  "node": "entry_act_1_2",
+  "text": "Captain Rowan wipes grime from stained hands and eyes your mud-caked boots. 'State your business fast—steel and ink both cost more than talk.'",
+  "choices": [
+   {
+    "label": "Ask about local supply shortages.",
+    "next": "dlg-rowan-supplies"
+   },
+   {
+    "label": "Offer coin to inspect hidden stock.",
+    "next": "dlg-rowan-stash",
+    "sets_flag": "flag_rowan_bribed"
+   },
+   {
+    "label": "Leave without buying.",
+    "next": "end"
+   }
+  ]
+ },
+ {
+  "id": "dlg-rowan-entry-mid",
+  "npc": "npc-rowan-commander",
+  "node": "entry_act_3",
+  "text": "Captain Rowan nods once as the coastal wind rattles the shutters. 'Word reached us before your banners did. You're still vertical—that counts for something.'",
+  "choices": [
+   {
+    "label": "Ask what the road ahead holds.",
+    "next": "dlg-rowan-intel"
+   },
+   {
+    "label": "Mention your earlier arrangement.",
+    "next": "dlg-rowan-favored",
+    "requires_flag": "flag_rowan_bribed"
+   },
+   {
+    "label": "Step away.",
+    "next": "end"
+   }
+  ]
+ },
+ {
+  "id": "dlg-rowan-entry-late",
+  "npc": "npc-rowan-commander",
+  "node": "entry_act_4",
+  "text": "Captain Rowan squints through drifting grey ash. 'Four provinces behind us and the air tastes like boiled nails. Whatever you need forged or settled, speak now.'",
+  "choices": [
+   {
+    "label": "Demand full support for the final push.",
+    "next": "dlg-rowan-reckoning",
+    "sets_flag": "flag_rowan_committed"
+   },
+   {
+    "label": "Ask about casualties and debts.",
+    "next": "dlg-rowan-debts"
+   },
+   {
+    "label": "Close the conversation.",
+    "next": "end"
+   }
+  ]
+ },
+ {
+  "id": "dlg-rowan-supplies",
+  "npc": "npc-rowan-commander",
+  "node": "supplies_talk",
+  "text": "'Half our wagons are stuck in mire and the other half were taxed twice by clerks who fled south. Bring salvage if you want discounts.'",
+  "choices": [
+   {
+    "label": "Promise to clear the supply road.",
+    "next": "dlg-rowan-pledge",
+    "sets_flag": "flag_rowan_road_pledge"
+   },
+   {
+    "label": "End talk.",
+    "next": "end"
+   }
+  ]
+ },
+ {
+  "id": "dlg-rowan-stash",
+  "npc": "npc-rowan-commander",
+  "node": "hidden_stash",
+  "text": "'Quiet now. Keep your voice below the rafters—this crate never appeared on any garrison manifest, and I expect silver before you lift the lid.'",
+  "choices": [
+   {
+    "label": "Inspect the private goods.",
+    "next": "dlg-rowan-favored"
+   },
+   {
+    "label": "Step back.",
+    "next": "end"
+   }
+  ]
+ },
+ {
+  "id": "dlg-rowan-intel",
+  "npc": "npc-rowan-commander",
+  "node": "regional_intel",
+  "text": "'Watch the high ground and never trust an unguarded bridge. Every ambush between here and the caldera was paid for in advance.'",
+  "choices": [
+   {
+    "label": "Ask who is bankrolling the enemy.",
+    "next": "dlg-rowan-debts"
+   },
+   {
+    "label": "Move on.",
+    "next": "end"
+   }
+  ]
+ },
+ {
+  "id": "dlg-rowan-favored",
+  "npc": "npc-rowan-commander",
+  "node": "favored_customer",
+  "text": "'You kept your mouth shut and your purse open. Take the best iron from the back rack—and watch your flanks out there.'",
+  "choices": [
+   {
+    "label": "Thank them and depart.",
+    "next": "end"
+   }
+  ]
+ },
+ {
+  "id": "dlg-rowan-pledge",
+  "npc": "npc-rowan-commander",
+  "node": "road_pledge",
+  "text": "'Promises don't patch cracked axles, commander, but if you actually open that trail, my best stock goes to your vanguard first.'",
+  "choices": [
+   {
+    "label": "Depart.",
+    "next": "end"
+   }
+  ]
+ },
+ {
+  "id": "dlg-rowan-debts",
+  "npc": "npc-rowan-commander",
+  "node": "old_debts",
+  "text": "'Everyone in Thornvael owes someone—silver, salt, or blood. The only difference is whether you collect before winter or after.'",
+  "choices": [
+   {
+    "label": "Leave.",
+    "next": "end"
+   }
+  ]
+ },
+ {
+  "id": "dlg-rowan-reckoning",
+  "npc": "npc-rowan-commander",
+  "node": "final_reckoning",
+  "text": "'Then let's finish it cleanly. No half-measures, no unpaid ledgers—when the ash settles, we'll see who still has a roof.'",
+  "choices": [
+   {
+    "label": "March out.",
+    "next": "end"
+   }
+  ]
+ },
+ {
+  "id": "dlg-vok-entry-early",
+  "npc": "npc-vok-forgemaster",
+  "node": "entry_act_1_2",
+  "text": "Forgemaster Vok wipes grime from stained hands and eyes your mud-caked boots. 'State your business fast—steel and ink both cost more than talk.'",
+  "choices": [
+   {
+    "label": "Ask about local supply shortages.",
+    "next": "dlg-vok-supplies"
+   },
+   {
+    "label": "Offer coin to inspect hidden stock.",
+    "next": "dlg-vok-stash",
+    "sets_flag": "flag_vok_bribed"
+   },
+   {
+    "label": "Leave without buying.",
+    "next": "end"
+   }
+  ]
+ },
+ {
+  "id": "dlg-vok-entry-mid",
+  "npc": "npc-vok-forgemaster",
+  "node": "entry_act_3",
+  "text": "Forgemaster Vok nods once as the coastal wind rattles the shutters. 'Word reached us before your banners did. You're still vertical—that counts for something.'",
+  "choices": [
+   {
+    "label": "Ask what the road ahead holds.",
+    "next": "dlg-vok-intel"
+   },
+   {
+    "label": "Mention your earlier arrangement.",
+    "next": "dlg-vok-favored",
+    "requires_flag": "flag_vok_bribed"
+   },
+   {
+    "label": "Step away.",
+    "next": "end"
+   }
+  ]
+ },
+ {
+  "id": "dlg-vok-entry-late",
+  "npc": "npc-vok-forgemaster",
+  "node": "entry_act_4",
+  "text": "Forgemaster Vok squints through drifting grey ash. 'Four provinces behind us and the air tastes like boiled nails. Whatever you need forged or settled, speak now.'",
+  "choices": [
+   {
+    "label": "Demand full support for the final push.",
+    "next": "dlg-vok-reckoning",
+    "sets_flag": "flag_vok_committed"
+   },
+   {
+    "label": "Ask about casualties and debts.",
+    "next": "dlg-vok-debts"
+   },
+   {
+    "label": "Close the conversation.",
+    "next": "end"
+   }
+  ]
+ },
+ {
+  "id": "dlg-vok-supplies",
+  "npc": "npc-vok-forgemaster",
+  "node": "supplies_talk",
+  "text": "'Half our wagons are stuck in mire and the other half were taxed twice by clerks who fled south. Bring salvage if you want discounts.'",
+  "choices": [
+   {
+    "label": "Promise to clear the supply road.",
+    "next": "dlg-vok-pledge",
+    "sets_flag": "flag_vok_road_pledge"
+   },
+   {
+    "label": "End talk.",
+    "next": "end"
+   }
+  ]
+ },
+ {
+  "id": "dlg-vok-stash",
+  "npc": "npc-vok-forgemaster",
+  "node": "hidden_stash",
+  "text": "'Quiet now. Keep your voice below the rafters—this crate never appeared on any garrison manifest, and I expect silver before you lift the lid.'",
+  "choices": [
+   {
+    "label": "Inspect the private goods.",
+    "next": "dlg-vok-favored"
+   },
+   {
+    "label": "Step back.",
+    "next": "end"
+   }
+  ]
+ },
+ {
+  "id": "dlg-vok-intel",
+  "npc": "npc-vok-forgemaster",
+  "node": "regional_intel",
+  "text": "'Watch the high ground and never trust an unguarded bridge. Every ambush between here and the caldera was paid for in advance.'",
+  "choices": [
+   {
+    "label": "Ask who is bankrolling the enemy.",
+    "next": "dlg-vok-debts"
+   },
+   {
+    "label": "Move on.",
+    "next": "end"
+   }
+  ]
+ },
+ {
+  "id": "dlg-vok-favored",
+  "npc": "npc-vok-forgemaster",
+  "node": "favored_customer",
+  "text": "'You kept your mouth shut and your purse open. Take the best iron from the back rack—and watch your flanks out there.'",
+  "choices": [
+   {
+    "label": "Thank them and depart.",
+    "next": "end"
+   }
+  ]
+ },
+ {
+  "id": "dlg-vok-pledge",
+  "npc": "npc-vok-forgemaster",
+  "node": "road_pledge",
+  "text": "'Promises don't patch cracked axles, commander, but if you actually open that trail, my best stock goes to your vanguard first.'",
+  "choices": [
+   {
+    "label": "Depart.",
+    "next": "end"
+   }
+  ]
+ },
+ {
+  "id": "dlg-vok-debts",
+  "npc": "npc-vok-forgemaster",
+  "node": "old_debts",
+  "text": "'Everyone in Thornvael owes someone—silver, salt, or blood. The only difference is whether you collect before winter or after.'",
+  "choices": [
+   {
+    "label": "Leave.",
+    "next": "end"
+   }
+  ]
+ },
+ {
+  "id": "dlg-vok-reckoning",
+  "npc": "npc-vok-forgemaster",
+  "node": "final_reckoning",
+  "text": "'Then let's finish it cleanly. No half-measures, no unpaid ledgers—when the ash settles, we'll see who still has a roof.'",
+  "choices": [
+   {
+    "label": "March out.",
+    "next": "end"
+   }
+  ]
+ },
+ {
+  "id": "dlg-elias-entry-early",
+  "npc": "npc-elias-penitent",
+  "node": "entry_act_1_2",
+  "text": "Brother Elias the Scorched wipes grime from stained hands and eyes your mud-caked boots. 'State your business fast—steel and ink both cost more than talk.'",
+  "choices": [
+   {
+    "label": "Ask about local supply shortages.",
+    "next": "dlg-elias-supplies"
+   },
+   {
+    "label": "Offer coin to inspect hidden stock.",
+    "next": "dlg-elias-stash",
+    "sets_flag": "flag_elias_bribed"
+   },
+   {
+    "label": "Leave without buying.",
+    "next": "end"
+   }
+  ]
+ },
+ {
+  "id": "dlg-elias-entry-mid",
+  "npc": "npc-elias-penitent",
+  "node": "entry_act_3",
+  "text": "Brother Elias the Scorched nods once as the coastal wind rattles the shutters. 'Word reached us before your banners did. You're still vertical—that counts for something.'",
+  "choices": [
+   {
+    "label": "Ask what the road ahead holds.",
+    "next": "dlg-elias-intel"
+   },
+   {
+    "label": "Mention your earlier arrangement.",
+    "next": "dlg-elias-favored",
+    "requires_flag": "flag_elias_bribed"
+   },
+   {
+    "label": "Step away.",
+    "next": "end"
+   }
+  ]
+ },
+ {
+  "id": "dlg-elias-entry-late",
+  "npc": "npc-elias-penitent",
+  "node": "entry_act_4",
+  "text": "Brother Elias the Scorched squints through drifting grey ash. 'Four provinces behind us and the air tastes like boiled nails. Whatever you need forged or settled, speak now.'",
+  "choices": [
+   {
+    "label": "Demand full support for the final push.",
+    "next": "dlg-elias-reckoning",
+    "sets_flag": "flag_elias_committed"
+   },
+   {
+    "label": "Ask about casualties and debts.",
+    "next": "dlg-elias-debts"
+   },
+   {
+    "label": "Close the conversation.",
+    "next": "end"
+   }
+  ]
+ },
+ {
+  "id": "dlg-elias-supplies",
+  "npc": "npc-elias-penitent",
+  "node": "supplies_talk",
+  "text": "'Half our wagons are stuck in mire and the other half were taxed twice by clerks who fled south. Bring salvage if you want discounts.'",
+  "choices": [
+   {
+    "label": "Promise to clear the supply road.",
+    "next": "dlg-elias-pledge",
+    "sets_flag": "flag_elias_road_pledge"
+   },
+   {
+    "label": "End talk.",
+    "next": "end"
+   }
+  ]
+ },
+ {
+  "id": "dlg-elias-stash",
+  "npc": "npc-elias-penitent",
+  "node": "hidden_stash",
+  "text": "'Quiet now. Keep your voice below the rafters—this crate never appeared on any garrison manifest, and I expect silver before you lift the lid.'",
+  "choices": [
+   {
+    "label": "Inspect the private goods.",
+    "next": "dlg-elias-favored"
+   },
+   {
+    "label": "Step back.",
+    "next": "end"
+   }
+  ]
+ },
+ {
+  "id": "dlg-elias-intel",
+  "npc": "npc-elias-penitent",
+  "node": "regional_intel",
+  "text": "'Watch the high ground and never trust an unguarded bridge. Every ambush between here and the caldera was paid for in advance.'",
+  "choices": [
+   {
+    "label": "Ask who is bankrolling the enemy.",
+    "next": "dlg-elias-debts"
+   },
+   {
+    "label": "Move on.",
+    "next": "end"
+   }
+  ]
+ },
+ {
+  "id": "dlg-elias-favored",
+  "npc": "npc-elias-penitent",
+  "node": "favored_customer",
+  "text": "'You kept your mouth shut and your purse open. Take the best iron from the back rack—and watch your flanks out there.'",
+  "choices": [
+   {
+    "label": "Thank them and depart.",
+    "next": "end"
+   }
+  ]
+ },
+ {
+  "id": "dlg-elias-pledge",
+  "npc": "npc-elias-penitent",
+  "node": "road_pledge",
+  "text": "'Promises don't patch cracked axles, commander, but if you actually open that trail, my best stock goes to your vanguard first.'",
+  "choices": [
+   {
+    "label": "Depart.",
+    "next": "end"
+   }
+  ]
+ },
+ {
+  "id": "dlg-elias-debts",
+  "npc": "npc-elias-penitent",
+  "node": "old_debts",
+  "text": "'Everyone in Thornvael owes someone—silver, salt, or blood. The only difference is whether you collect before winter or after.'",
+  "choices": [
+   {
+    "label": "Leave.",
+    "next": "end"
+   }
+  ]
+ },
+ {
+  "id": "dlg-elias-reckoning",
+  "npc": "npc-elias-penitent",
+  "node": "final_reckoning",
+  "text": "'Then let's finish it cleanly. No half-measures, no unpaid ledgers—when the ash settles, we'll see who still has a roof.'",
+  "choices": [
+   {
+    "label": "March out.",
+    "next": "end"
+   }
+  ]
+ }
+]

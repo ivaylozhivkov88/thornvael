@@ -1,0 +1,740 @@
+[
+ {
+  "id": "evt-ford-drowned-shrine",
+  "act": 1,
+  "trigger": "shrine",
+  "text": "Half-sunk in red river silt stands a boundary milestone carved with the First Compact's crossed hammers. Tarnished copper coins glint inside its mossy offering bowl.",
+  "choices": [
+   {
+    "label": "Clean the moss and leave 25 gold.",
+    "outcome": "The stone warms briefly; your vanguard marches steadier through the mud.",
+    "effect": {
+     "gold": -25,
+     "xp": 80,
+     "flag": "flag_evt_compact_blessed"
+    }
+   },
+   {
+    "label": "Pry the copper coins from the bowl.",
+    "outcome": "You pocket 45 gold, though cold river-fog clings to your boots.",
+    "effect": {
+     "gold": 45,
+     "hp": -10
+    }
+   }
+  ]
+ },
+ {
+  "id": "evt-greywood-deserter-camp",
+  "act": 1,
+  "trigger": "camp",
+  "text": "Around a smokeless charcoal pit sit three shivering militia deserters roasting turnips. One wears a stolen Thornwick corporal's sash.",
+  "choices": [
+   {
+    "label": "Conscript them back into your vanguard.",
+    "outcome": "Grumbling, they shoulder their pikes and fall in behind your banner.",
+    "effect": {
+     "xp": 95,
+     "flag": "flag_evt_deserters_drafted"
+    }
+   },
+   {
+    "label": "Confiscate their rations and let them run.",
+    "outcome": "You gain dry hardtack and 30 gold in unpaid levy scrip.",
+    "effect": {
+     "gold": 30,
+     "hp": 15
+    }
+   }
+  ]
+ },
+ {
+  "id": "evt-fen-courier-corpse",
+  "act": 1,
+  "trigger": "corpse",
+  "text": "Face-down in duckweed lies a royal dispatch rider pinned by three green-fletched gnoll shafts. His waterproofed leather satchel is still buckled tight.",
+  "choices": [
+   {
+    "label": "Cut open the satchel for intel and coin.",
+    "outcome": "You recover troop maps and 65 gold, inhaling a whiff of marsh-rot.",
+    "effect": {
+     "gold": 65,
+     "xp": 90,
+     "hp": -8
+    }
+   },
+   {
+    "label": "Bury him under stones and keep his boots.",
+    "outcome": "Properly witnessed, the dead leave decent calfskin behind.",
+    "effect": {
+     "xp": 110,
+     "item": "Leather Boots"
+    }
+   }
+  ]
+ },
+ {
+  "id": "evt-alder-tinker-wagon",
+  "act": 1,
+  "trigger": "merchant",
+  "text": "A one-wheeled tinker's cart sits wedged in an alder ditch while its owner argues with a mule. He offers salvaged border iron at half price to lighten his load.",
+  "choices": [
+   {
+    "label": "Buy his crate of tempered arrowheads (60g).",
+    "outcome": "Crisp bodkins restock your quivers and bolster ranged morale.",
+    "effect": {
+     "gold": -60,
+     "xp": 85,
+     "flag": "flag_evt_tinker_bolts"
+    }
+   },
+   {
+    "label": "Help haul his wheel out of the ditch.",
+    "outcome": "Grateful, he presses a Healing Draught and 20 gold into your palm.",
+    "effect": {
+     "gold": 20,
+     "item": "Healing Draught"
+    }
+   }
+  ]
+ },
+ {
+  "id": "evt-lantern-gorge-ambush",
+  "act": 1,
+  "trigger": "ambush",
+  "text": "The iron-caged lanterns ahead gutter out simultaneously as loose slate clatters down both canyon walls. Crossbow clicks echo from the dark ledges.",
+  "choices": [
+   {
+    "label": "Charge straight up the gorge with shields.",
+    "outcome": "Bruised by ricochets, your vanguard scatters the cutthroats and loots their camp.",
+    "effect": {
+     "hp": -22,
+     "gold": 85,
+     "xp": 120
+    }
+   },
+   {
+    "label": "Fall back and smoke them out with pitch.",
+    "outcome": "No blood spilled, though burning your last oil flask costs supplies.",
+    "effect": {
+     "gold": -20,
+     "xp": 105
+    }
+   }
+  ]
+ },
+ {
+  "id": "evt-sanctum-lead-reliquary",
+  "act": 1,
+  "trigger": "ruin",
+  "text": "Beneath a collapsed abbey arch rests a lead-sealed reliquary etched with pre-imperial warning glyphs. A faint blue hum vibrates through the flagstones.",
+  "choices": [
+   {
+    "label": "Crack the lead seal with a crowbar.",
+    "outcome": "Static shocks your knuckles, revealing an intact Mana Draught and silver.",
+    "effect": {
+     "hp": -12,
+     "gold": 55,
+     "item": "Mana Draught"
+    }
+   },
+   {
+    "label": "Copy the warning glyphs for Marta.",
+    "outcome": "Neat charcoal rubbings earn scholarly praise and experience.",
+    "effect": {
+     "xp": 115,
+     "flag": "flag_evt_sanctum_glyphs"
+    }
+   }
+  ]
+ },
+ {
+  "id": "evt-ashbrook-burned-granary",
+  "act": 1,
+  "trigger": "ruin",
+  "text": "Smoke curls from a collapsed cellar beneath a burned border farmstead. Half-charred sacks of seed-corn lie beside a locked iron strongbox.",
+  "choices": [
+   {
+    "label": "Smash the lock and take the tax silver.",
+    "outcome": "You haul out 90 gold in melted Border Mint coin.",
+    "effect": {
+     "gold": 90,
+     "xp": 75
+    }
+   },
+   {
+    "label": "Salvage the seed-corn for Thornwick refugees.",
+    "outcome": "Garrick's outriders salute your restraint; morale rises.",
+    "effect": {
+     "xp": 125,
+     "flag": "flag_evt_ashbrook_seed"
+    }
+   }
+  ]
+ },
+ {
+  "id": "evt-birch-tar-hermit",
+  "act": 1,
+  "trigger": "camp",
+  "text": "An old charcoal-burner tends a smoking clay kiln in a Greywood hollow, boiling willow-bark salve in a dented helmet.",
+  "choices": [
+   {
+    "label": "Trade 35 gold for two jars of willow-salve.",
+    "outcome": "The bitter paste knits blisters and restores company vigor.",
+    "effect": {
+     "gold": -35,
+     "hp": 30
+    }
+   },
+   {
+    "label": "Share campfire news of the northern roads.",
+    "outcome": "He warns you of hidden Briar Hound dens ahead.",
+    "effect": {
+     "xp": 95
+    }
+   }
+  ]
+ },
+ {
+  "id": "evt-redmarsh-salt-well",
+  "act": 2,
+  "trigger": "shrine",
+  "text": "A stone cistern ringed by bleached cattle skulls holds three inches of clear rainwater beneath a cracked desert-saint relief.",
+  "choices": [
+   {
+    "label": "Fill canteens and leave a silver offering.",
+    "outcome": "Cool water revives your parched vanguard.",
+    "effect": {
+     "gold": -40,
+     "hp": 35,
+     "xp": 140
+    }
+   },
+   {
+    "label": "Drain the cistern dry for your mules.",
+    "outcome": "Your column marches faster, though locals curse your greed.",
+    "effect": {
+     "hp": 25,
+     "flag": "flag_evt_cistern_drained"
+    }
+   }
+  ]
+ },
+ {
+  "id": "evt-bracken-mirage-caravan",
+  "act": 2,
+  "trigger": "merchant",
+  "text": "Out of copper dust steps a salt-crusted peddler leading two gaunt pack-lizards loaded with contraband quarry iron and warm vinegar.",
+  "choices": [
+   {
+    "label": "Buy a flask of Greater Healing Draught (85g).",
+    "outcome": "Thick red-cap moss tonic restores battle-worn veterans.",
+    "effect": {
+     "gold": -85,
+     "item": "Greater Healing Draught"
+    }
+   },
+   {
+    "label": "Threaten to report his contraband to Bram.",
+    "outcome": "He pays 110 gold in hush-money and vanishes into the dunes.",
+    "effect": {
+     "gold": 110,
+     "xp": 120
+    }
+   }
+  ]
+ },
+ {
+  "id": "evt-dynasty-tomb-alcove",
+  "act": 2,
+  "trigger": "ruin",
+  "text": "Wind-scoured sandstone reveals a Third-Dynasty burial niche sealed with black bitumen. Golden funeral scales glint behind a lattice of dry femurs.",
+  "choices": [
+   {
+    "label": "Pry out the golden probate scales.",
+    "outcome": "Worth 160 gold, though bitter mummy-dust burns your lungs.",
+    "effect": {
+     "gold": 160,
+     "hp": -25,
+     "xp": 150
+    }
+   },
+   {
+    "label": "Recite a witness prayer and leave the seal.",
+    "outcome": "A quiet chill steadies your casters' focus.",
+    "effect": {
+     "xp": 175,
+     "flag": "flag_evt_tomb_respected"
+    }
+   }
+  ]
+ },
+ {
+  "id": "evt-jawbone-rockslide",
+  "act": 2,
+  "trigger": "ambush",
+  "text": "Bone wind-chimes shriek overhead as sand-clan skirmishers roll boulders down the narrow granite notch to split your baggage train.",
+  "choices": [
+   {
+    "label": "Anchor shields and push through the dust.",
+    "outcome": "Bruised ribs, yet you scatter the ambushers and seize their bows.",
+    "effect": {
+     "hp": -28,
+     "gold": 130,
+     "xp": 180
+    }
+   },
+   {
+    "label": "Detour along the steep goat-ledge.",
+    "outcome": "Slow and exhausting, but your wagons escape unscathed.",
+    "effect": {
+     "hp": -12,
+     "xp": 160
+    }
+   }
+  ]
+ },
+ {
+  "id": "evt-quarry-escaped-convict",
+  "act": 2,
+  "trigger": "corpse",
+  "text": "Beside a dry alkali pan lies an escaped quarry miner still wearing half an iron ankle-chain, clutching a fist-sized lump of raw star-metal.",
+  "choices": [
+   {
+    "label": "Take the star-metal and bury him in cairn-stone.",
+    "outcome": "The dense ore fetches 145 gold from Ironheart smiths.",
+    "effect": {
+     "gold": 145,
+     "xp": 165
+    }
+   },
+   {
+    "label": "Search his rags for hidden overseer keys.",
+    "outcome": "You find a tarnished bronze ring and brass tally-tags.",
+    "effect": {
+     "item": "Bronze Locket",
+     "xp": 150
+    }
+   }
+  ]
+ },
+ {
+  "id": "evt-alkali-mercenary-bivouac",
+  "act": 2,
+  "trigger": "camp",
+  "text": "Three off-duty Redmarsh outriders dice over a dried viper-skin while boiling bitter desert-thorn tea over dung embers.",
+  "choices": [
+   {
+    "label": "Wager 75 gold on their bone-dice game.",
+    "outcome": "Loaded dice or luck—you walk away 150 gold richer.",
+    "effect": {
+     "gold": 75,
+     "xp": 130
+    }
+   },
+   {
+    "label": "Pay 50 gold for their trail-maps of the basin.",
+    "outcome": "Marked water-holes save your vanguard days of marching.",
+    "effect": {
+     "gold": -50,
+     "xp": 190,
+     "flag": "flag_evt_basin_maps"
+    }
+   }
+  ]
+ },
+ {
+  "id": "evt-wardstone-static-crack",
+  "act": 2,
+  "trigger": "shrine",
+  "text": "A fractured quartz boundary pillar hums violently, arcing blue sparks into a ring of glassed sand.",
+  "choices": [
+   {
+    "label": "Ground the spire with an iron pike.",
+    "outcome": "A sharp shock numbs your arm, leaving behind charged quartz.",
+    "effect": {
+     "hp": -18,
+     "item": "Chiseled Quartz Focus",
+     "xp": 170
+    }
+   },
+   {
+    "label": "Channel mana into the fissure to stabilize it.",
+    "outcome": "The hum quiets into a steady harmonic chime.",
+    "effect": {
+     "xp": 200,
+     "flag": "flag_evt_spire_calmed"
+    }
+   }
+  ]
+ },
+ {
+  "id": "evt-sunken-causeway-wagon",
+  "act": 2,
+  "trigger": "corpse",
+  "text": "Half-swallowed by rust-red mire sits an overturned supply cart from an earlier column, guarded by bloated carrion-crows.",
+  "choices": [
+   {
+    "label": "Haul out the waterproofed bolt-crates.",
+    "outcome": "You salvage 120 gold worth of steel-tipped quarrels.",
+    "effect": {
+     "gold": 120,
+     "xp": 145
+    }
+   },
+   {
+    "label": "Burn the cart to deny raiders the timber.",
+    "outcome": "Black smoke rises cleanly; your scouts gain tactical insight.",
+    "effect": {
+     "xp": 165
+    }
+   }
+  ]
+ },
+ {
+  "id": "evt-oakhaven-smuggler-cove",
+  "act": 3,
+  "trigger": "merchant",
+  "text": "In a fog-shrouded sea-cave below the cliffs, a hooded Oakhaven pilot unloads barrels of waterproofed Greek fire from a black skiff.",
+  "choices": [
+   {
+    "label": "Buy siege pitch and charts for 180 gold.",
+    "outcome": "Naval schematics give your marines an edge on the piers.",
+    "effect": {
+     "gold": -180,
+     "xp": 260,
+     "flag": "flag_evt_smuggler_charts"
+    }
+   },
+   {
+    "label": "Seize the contraband in Oakhaven's name.",
+    "outcome": "The pilot flees into the surf, leaving 240 gold behind.",
+    "effect": {
+     "gold": 240,
+     "hp": -20,
+     "xp": 230
+    }
+   }
+  ]
+ },
+ {
+  "id": "evt-drowned-chapel-bell",
+  "act": 3,
+  "trigger": "shrine",
+  "text": "At low tide, a barnacle-crusted bronze bell protrudes from the shingle, humming a low note whenever waves wash over its rim.",
+  "choices": [
+   {
+    "label": "Strike the bell once with a sword-pommel.",
+    "outcome": "Cold sea-mist clears your casters' minds; spirits stir.",
+    "effect": {
+     "xp": 270,
+     "flag": "flag_evt_tide_bell_rung"
+    }
+   },
+   {
+    "label": "Chip off the silver liturgical fittings.",
+    "outcome": "You pry loose 210 gold in salt-pitted silver.",
+    "effect": {
+     "gold": 210,
+     "hp": -15
+    }
+   }
+  ]
+ },
+ {
+  "id": "evt-sunken-citadel-vault",
+  "act": 3,
+  "trigger": "ruin",
+  "text": "A tilted First-Empire bronze door stands wedged half-open by a snapped oak beam while cold Atlantic swell laps at the threshold.",
+  "choices": [
+   {
+    "label": "Wade in before the tide turns.",
+    "outcome": "Freezing water chills your bones, but you haul out a relic ring.",
+    "effect": {
+     "hp": -30,
+     "item": "Ring of Valor",
+     "xp": 280
+    }
+   },
+   {
+    "label": "Leave the flooded vault to the crabs.",
+    "outcome": "Dry boots and steady lungs keep your squad sharp.",
+    "effect": {
+     "hp": 20,
+     "xp": 210
+    }
+   }
+  ]
+ },
+ {
+  "id": "evt-cliff-arbalest-ambush",
+  "act": 3,
+  "trigger": "ambush",
+  "text": "Fog parts suddenly on the coastal switchbacks, revealing six Ironclad arbalestiers cranking steel prods from a stone redoubt above.",
+  "choices": [
+   {
+    "label": "Rush the blind spot beneath the cliff.",
+    "outcome": "Two bolts graze your shields before you clear the ledge.",
+    "effect": {
+     "hp": -35,
+     "gold": 260,
+     "xp": 290
+    }
+   },
+   {
+    "label": "Pin them with smoke and counter-volleys.",
+    "outcome": "Clean tactical withdrawal with minimal bruises.",
+    "effect": {
+     "hp": -10,
+     "xp": 250
+    }
+   }
+  ]
+ },
+ {
+  "id": "evt-shipwreck-paymaster",
+  "act": 3,
+  "trigger": "corpse",
+  "text": "Wedged between basalt reefs lies a bloated paymaster in gold-braided coat, chained by the wrist to an ironbound sea-chest.",
+  "choices": [
+   {
+    "label": "Hack the chain and haul the chest ashore.",
+    "outcome": "Inside sit 310 gold crowns stamped with royal anchors.",
+    "effect": {
+     "gold": 310,
+     "xp": 240
+    }
+   },
+   {
+    "label": "Unclasp his salt-corroded astrolabe.",
+    "outcome": "The brass rings still turn true toward the southern straits.",
+    "effect": {
+     "item": "Astral Medallion",
+     "xp": 260
+    }
+   }
+  ]
+ },
+ {
+  "id": "evt-pine-ridge-triage",
+  "act": 3,
+  "trigger": "camp",
+  "text": "Three wounded Oakhaven marines huddle beneath a stretched sailcloth tarp, boiling sea-kelp over a driftwood fire.",
+  "choices": [
+   {
+    "label": "Share medical supplies and 90 gold for transport.",
+    "outcome": "They pledge their blades to your harbor assault.",
+    "effect": {
+     "gold": -90,
+     "xp": 280,
+     "flag": "flag_evt_marines_saved"
+    }
+   },
+   {
+    "label": "Rest beside their fire and trade rations.",
+    "outcome": "Warm broth and dry wool mend 40 HP across your squad.",
+    "effect": {
+     "hp": 40,
+     "xp": 220
+    }
+   }
+  ]
+ },
+ {
+  "id": "evt-cinder-ward-fissure",
+  "act": 3,
+  "trigger": "ruin",
+  "text": "A shattered geomancer's pillar hisses white steam above Oakhaven's timber valley, surrounded by panes of fused fumarole glass.",
+  "choices": [
+   {
+    "label": "Harvest the sterile glass panes for Sera.",
+    "outcome": "Sharp edges nick your gloves, earning 220 gold from surgeons.",
+    "effect": {
+     "hp": -15,
+     "gold": 220,
+     "xp": 250
+    }
+   },
+   {
+    "label": "Topple the cracked stone to seal the vent.",
+    "outcome": "The ground cools immediately; your vanguard breathes easier.",
+    "effect": {
+     "xp": 275
+    }
+   }
+  ]
+ },
+ {
+  "id": "evt-caldera-anvil-shrine",
+  "act": 4,
+  "trigger": "shrine",
+  "text": "An ancient First-Watch anvil stands bolted into black obsidian, weeping faint golden sparks where meteoric slag meets cold ash.",
+  "choices": [
+   {
+    "label": "Lay your blade across the warm iron.",
+    "outcome": "Banked ember tempers your steel; your squad gains vigor.",
+    "effect": {
+     "hp": 50,
+     "xp": 380,
+     "flag": "flag_evt_anvil_tempered"
+    }
+   },
+   {
+    "label": "Pry loose the meteoric slag-ingots.",
+    "outcome": "Worth 450 gold at Vok's forge, though hot ash blisters your palms.",
+    "effect": {
+     "gold": 450,
+     "hp": -35
+    }
+   }
+  ]
+ },
+ {
+  "id": "evt-ashveil-renegade-peddler",
+  "act": 4,
+  "trigger": "merchant",
+  "text": "Huddled inside a basalt cleft, a soot-masked apostate offers forbidden leyline elixirs salvaged from Malrik's abandoned camp.",
+  "choices": [
+   {
+    "label": "Buy an Elixir of Mind for 320 gold.",
+    "outcome": "Clear starlight sharpens your casters' focus permanently.",
+    "effect": {
+     "gold": -320,
+     "item": "Elixir of Mind",
+     "xp": 350
+    }
+   },
+   {
+    "label": "Confiscate his stolen Ironcamp rations.",
+    "outcome": "You recover 380 gold in garrison coin and healing draughts.",
+    "effect": {
+     "gold": 380,
+     "hp": 30
+    }
+   }
+  ]
+ },
+ {
+  "id": "evt-gauntlet-golem-husk",
+  "act": 4,
+  "trigger": "ruin",
+  "text": "A toppled iron golem blocks half the magnetic canyon, its chest cavity still pulsing with a cracked crimson capacitor core.",
+  "choices": [
+   {
+    "label": "Extract the capacitor core carefully.",
+    "outcome": "Arcane backlash scorches your vanguard, yielding 480 gold.",
+    "effect": {
+     "hp": -45,
+     "gold": 480,
+     "xp": 400
+    }
+   },
+   {
+    "label": "Collapse the cliff-scree over the husk.",
+    "outcome": "Clean tactical cover secures the canyon flank.",
+    "effect": {
+     "xp": 390
+    }
+   }
+  ]
+ },
+ {
+  "id": "evt-threshold-penitent-camp",
+  "act": 4,
+  "trigger": "camp",
+  "text": "Four blind penitents kneel around an iron brazier of grey ash, reciting the names of the First Watch from memory.",
+  "choices": [
+   {
+    "label": "Add your fallen mercenaries' names to the roll.",
+    "outcome": "A solemn calm settles over the company, restoring morale.",
+    "effect": {
+     "hp": 60,
+     "xp": 420,
+     "flag": "flag_evt_names_witnessed"
+    }
+   },
+   {
+    "label": "Trade 150 gold for consecrated ash-wards.",
+    "outcome": "Smearing the grey ash on plate blunts demonic fire.",
+    "effect": {
+     "gold": -150,
+     "xp": 400
+    }
+   }
+  ]
+ },
+ {
+  "id": "evt-slag-trench-ambush",
+  "act": 4,
+  "trigger": "ambush",
+  "text": "Yellow sulfur crust splits open ahead as three Cinderhorns erupt from magma-veined trenches, swinging white-hot chains.",
+  "choices": [
+   {
+    "label": "Hold tight shield-wall and counter with frost.",
+    "outcome": "Heavy dents in your plate, yet the fiends shatter into slag.",
+    "effect": {
+     "hp": -55,
+     "gold": 520,
+     "xp": 460
+    }
+   },
+   {
+    "label": "Disengage across the basalt ridge.",
+    "outcome": "You avoid the magma vents at the cost of trailing supplies.",
+    "effect": {
+     "gold": -180,
+     "xp": 360
+    }
+   }
+  ]
+ },
+ {
+  "id": "evt-obsidian-knight-corpse",
+  "act": 4,
+  "trigger": "corpse",
+  "text": "Slumped against a shattered Anchor Seal sits a Dread Knight whose black armor has fused shut around his collarbone.",
+  "choices": [
+   {
+    "label": "Pry off his signet ring with a quarry-pick.",
+    "outcome": "You claim a heavy Bloodstone Pendant and 410 gold.",
+    "effect": {
+     "gold": 410,
+     "item": "Bloodstone Pendant",
+     "xp": 410
+    }
+   },
+   {
+    "label": "Leave the cursed plate untouched.",
+    "outcome": "Prudence spares your hands from lingering hex-fire.",
+    "effect": {
+     "hp": 25,
+     "xp": 350
+    }
+   }
+  ]
+ },
+ {
+  "id": "evt-rampart-siege-cache",
+  "act": 4,
+  "trigger": "ruin",
+  "text": "Behind a collapsed basalt merlon lies an intact Ironcamp pioneer cache packed with quenched bolts and vulcanized oil-flasks.",
+  "choices": [
+   {
+    "label": "Distribute the gear across your squads.",
+    "outcome": "Fresh steel and bandages restore 45 HP and boost readiness.",
+    "effect": {
+     "hp": 45,
+     "xp": 410
+    }
+   },
+   {
+    "label": "Sell the surplus to Rowan's quartermaster.",
+    "outcome": "You pocket 440 gold immediately.",
+    "effect": {
+     "gold": 440,
+     "xp": 370
+    }
+   }
+  ]
+ }
+]

@@ -1,0 +1,378 @@
+[
+ {
+  "id": "cs-act1-start",
+  "act": 1,
+  "timing": "start",
+  "lines": [
+   {
+    "speaker": "narrator",
+    "line": "Cold drizzle turns Thornwick's market square into churned ochre paste as watch-bells clang from the river gate.",
+    "mood": "bleak"
+   },
+   {
+    "speaker": "npc-garrick-captain",
+    "line": "Three patrols overdue from Sunken Ford, and now smoke's rising off the tollhouse roof.",
+    "mood": "grim"
+   },
+   {
+    "speaker": "npc-hobb-smith",
+    "line": "The capital sent ceremonial plumes instead of arrowheads, Garrick. Half my pikes are bent plowshares.",
+    "mood": "cynical"
+   },
+   {
+    "speaker": "npc-marta-alchemist",
+    "line": "Keep your men out of the black reeds if they take a scratch—gnoll iron is greased with fen-rot.",
+    "mood": "weary"
+   },
+   {
+    "speaker": "npc-fenwick-ferryman",
+    "line": "River's running red past my eel-weirs. Somebody paid good silver to put warbands on the north road.",
+    "mood": "suspicious"
+   },
+   {
+    "speaker": "hero",
+    "line": "Count the dry bowstrings and muster whoever can still march. We take the ford before noon.",
+    "mood": "resolute"
+   },
+   {
+    "speaker": "npc-garrick-captain",
+    "line": "You heard the commander. Check your cinch-straps—nobody gets buried on company time.",
+    "mood": "stern"
+   },
+   {
+    "speaker": "narrator",
+    "line": "Iron-shod boots splash through the southern postern as crows lift lazily from the palisade stakes.",
+    "mood": "ominous"
+   }
+  ]
+ },
+ {
+  "id": "cs-act1-end",
+  "act": 1,
+  "timing": "end",
+  "lines": [
+   {
+    "speaker": "narrator",
+    "line": "Ashbrook's splintered gatehouse smolders against a bruised twilight as handcarts creak south toward the boundary obelisk.",
+    "mood": "somber"
+   },
+   {
+    "speaker": "npc-garrick-captain",
+    "line": "Vaelen's banners are broken, though half the town is packed onto three wagons with nothing but seed-corn.",
+    "mood": "exhausted"
+   },
+   {
+    "speaker": "npc-marta-alchemist",
+    "line": "Morvessa's hex-writs were stamped at the Border Mint. This wasn't a border raid—it was a foreclosure.",
+    "mood": "bitter"
+   },
+   {
+    "speaker": "npc-hobb-smith",
+    "line": "Pack extra rivets and lamp oil. Redmarsh alkali eats honest iron faster than a rust-mite.",
+    "mood": "pragmatic"
+   },
+   {
+    "speaker": "npc-fenwick-ferryman",
+    "line": "My punt stops at the boundary stone. Beyond here, all the rivers died five hundred years ago.",
+    "mood": "wary"
+   },
+   {
+    "speaker": "hero",
+    "line": "Burn what we cannot haul and double the outriders. Morvessa went south, and we follow.",
+    "mood": "determined"
+   },
+   {
+    "speaker": "npc-garrick-captain",
+    "line": "Forward march. Keep your canteens covered and your shields high.",
+    "mood": "resolved"
+   },
+   {
+    "speaker": "narrator",
+    "line": "Behind the column, Thornwick's distant watchtowers gutter out in the drizzle as red dust rises ahead.",
+    "mood": "bleak"
+   }
+  ]
+ },
+ {
+  "id": "cs-act2-start",
+  "act": 2,
+  "timing": "start",
+  "lines": [
+   {
+    "speaker": "narrator",
+    "line": "Heat shimmers off rust-red salt pans where Redmarsh Outpost leans crookedly on oak pilings.",
+    "mood": "arid"
+   },
+   {
+    "speaker": "npc-bram-quartermaster",
+    "line": "Welcome to the bottom of a dead sea. Water is four silver a gill, and shade costs extra.",
+    "mood": "mercenary"
+   },
+   {
+    "speaker": "npc-tull-water-seller",
+    "line": "Do not drink from unsealed troughs—desert clans poison the wells with scorpion-bile before retreating.",
+    "mood": "warning"
+   },
+   {
+    "speaker": "npc-zahra-scholar",
+    "line": "Someone is cracking the plateau wardstones to the east. If those quartz spires rupture, the alkali swallows the passes.",
+    "mood": "urgent"
+   },
+   {
+    "speaker": "field-warden-hale",
+    "line": "Sand-raiders hold the Twin Passes with horn-bows, and my vanguard scouts are pinned in Bracken Basin.",
+    "mood": "tense"
+   },
+   {
+    "speaker": "hero",
+    "line": "Open the causeway first, pull Hale's scouts out of the scrub, and secure the wardstones.",
+    "mood": "commanding"
+   },
+   {
+    "speaker": "npc-bram-quartermaster",
+    "line": "Bring back any intact brass valves you find—my mules are hauling empty barrels.",
+    "mood": "greedy"
+   },
+   {
+    "speaker": "narrator",
+    "line": "A dry copper wind rattles bleached ribs along the causeway as the vanguard steps onto the salt crust.",
+    "mood": "tense"
+   }
+  ]
+ },
+ {
+  "id": "cs-act2-end",
+  "act": 2,
+  "timing": "end",
+  "lines": [
+   {
+    "speaker": "narrator",
+    "line": "Rusted sluice-wheels shriek open atop Ironheart Bastion, revealing empty silt beds below and grey surf beyond.",
+    "mood": "ironic"
+   },
+   {
+    "speaker": "npc-bram-quartermaster",
+    "line": "Forty years guarding dry cisterns. Gorrathul starved a province to protect an empty bucket.",
+    "mood": "disgusted"
+   },
+   {
+    "speaker": "npc-zahra-scholar",
+    "line": "His last words confirmed it: Morvessa's sea-galleys are already massing along the Iron Coast.",
+    "mood": "alarmed"
+   },
+   {
+    "speaker": "npc-tull-water-seller",
+    "line": "Drink a pint of coastal rainwater for me when you reach Oakhaven. I've forgotten how water tastes without chalk.",
+    "mood": "wistful"
+   },
+   {
+    "speaker": "field-miner-tomas",
+    "line": "The Deep Quarry is flooded and our chains are broken. My lads will march with you down to the sea.",
+    "mood": "loyal"
+   },
+   {
+    "speaker": "hero",
+    "line": "Raise our banner on the high parapet so the rear guard sees the pass is clear. We descend at dawn.",
+    "mood": "resolute"
+   },
+   {
+    "speaker": "field-warden-hale",
+    "line": "Watch the switchbacks—salt gales peel careless men straight off the scree.",
+    "mood": "cautious"
+   },
+   {
+    "speaker": "narrator",
+    "line": "Far below the forked peak, black smoke curls upward from Harborwatch's distant bay.",
+    "mood": "foreboding"
+   }
+  ]
+ },
+ {
+  "id": "cs-act3-start",
+  "act": 3,
+  "timing": "start",
+  "lines": [
+   {
+    "speaker": "narrator",
+    "line": "Salt rot and wet pine smoke cling to Oakhaven's palisades while ironclad hulks block the grey harbor channel.",
+    "mood": "claustrophobic"
+   },
+   {
+    "speaker": "npc-kors-shipwright",
+    "line": "Six weeks without launching a keel, and now Vesperion's privateers are burning our marsh jetties.",
+    "mood": "angry"
+   },
+   {
+    "speaker": "npc-lyra-warden",
+    "line": "The city council hoards crossbows behind bolted doors while my pickets throw roof-slates from the seawall.",
+    "mood": "bitter"
+   },
+   {
+    "speaker": "npc-sera-healer",
+    "line": "Half my surgical tents are full of lung-blisters from those Cinder Wards on the cliffs.",
+    "mood": "grim"
+   },
+   {
+    "speaker": "npc-pip-mudlark",
+    "line": "Low tide bares the sunken causeway, boss—lots of shiny rings if the salt crabs don't nip your toes off!",
+    "mood": "opportunistic"
+   },
+   {
+    "speaker": "hero",
+    "line": "Break the channel blockade first. Once Kors's drydocks open, we push up the coast road.",
+    "mood": "decisive"
+   },
+   {
+    "speaker": "npc-lyra-warden",
+    "line": "Clear those mudflats and every marine in Oakhaven marches under your pennant.",
+    "mood": "determined"
+   },
+   {
+    "speaker": "narrator",
+    "line": "Foghorns groan across the Greywash estuary as heavy boots splash onto the tidal plank-walks.",
+    "mood": "tense"
+   }
+  ]
+ },
+ {
+  "id": "cs-act3-end",
+  "act": 3,
+  "timing": "end",
+  "lines": [
+   {
+    "speaker": "narrator",
+    "line": "Admiral Kael's flagship settles beneath boiling black foam, trailing gold braid and burning whale-oil.",
+    "mood": "somber"
+   },
+   {
+    "speaker": "npc-kors-shipwright",
+    "line": "Half the fleet is charred timber, captain, yet twelve patched carracks float ready for the crossing.",
+    "mood": "determined"
+   },
+   {
+    "speaker": "npc-sera-healer",
+    "line": "Load the vinegar casks and clean bandages below decks—nothing grows across those volcanic straits.",
+    "mood": "practical"
+   },
+   {
+    "speaker": "npc-lyra-warden",
+    "line": "Oakhaven's seawalls are secure. My archers have dry bowstrings and a score to settle in the ash.",
+    "mood": "fierce"
+   },
+   {
+    "speaker": "npc-pip-mudlark",
+    "line": "Take my lucky granite pebble for the fire-mountain, boss. It probably won't melt right away.",
+    "mood": "earnest"
+   },
+   {
+    "speaker": "hero",
+    "line": "Cast off on the noon tide. Every debt sworn since Thornwick waits across that water.",
+    "mood": "commanding"
+   },
+   {
+    "speaker": "npc-kors-shipwright",
+    "line": "All hands to the halyards! Keep your eyes on the red glare beneath the clouds.",
+    "mood": "grim"
+   },
+   {
+    "speaker": "narrator",
+    "line": "Compass needles spin wildly and lock due south as the fleet clears Harborwatch's scorched breakwater.",
+    "mood": "ominous"
+   }
+  ]
+ },
+ {
+  "id": "cs-act4-start",
+  "act": 4,
+  "timing": "start",
+  "lines": [
+   {
+    "speaker": "narrator",
+    "line": "Black glass sand crunches underfoot as grey cinders drift down from a sky without sun or stars.",
+    "mood": "apocalyptic"
+   },
+   {
+    "speaker": "npc-rowan-commander",
+    "line": "Welcome to Ironcamp. The air tastes like sulfur, and the sniper-fiends on the ridge shoot anything that salutes.",
+    "mood": "hardened"
+   },
+   {
+    "speaker": "npc-vok-forgemaster",
+    "line": "Normal steel turns soft as tallow in this heat. Stick your blades in my floor-fissures before we march.",
+    "mood": "gruff"
+   },
+   {
+    "speaker": "npc-elias-penitent",
+    "line": "Arch-Mage Malrik flees toward the summit portal with the desecration codices, while Ashkarath guards the Anchor Seals.",
+    "mood": "solemn"
+   },
+   {
+    "speaker": "field-ash-scout",
+    "line": "Stay off the yellow crust—boiling sulfur sits two inches beneath that brittle shell.",
+    "mood": "alert"
+   },
+   {
+    "speaker": "hero",
+    "line": "Shatter the focusing beacons, break the Gauntlet, and take the Threshold before their reserves muster.",
+    "mood": "unyielding"
+   },
+   {
+    "speaker": "npc-rowan-commander",
+    "line": "No banners, no speeches—just shields and spite. Move out.",
+    "mood": "grim"
+   },
+   {
+    "speaker": "narrator",
+    "line": "Trip-hammers thunder behind the vanguard as the column steps onto the scorched basalt highway.",
+    "mood": "epic"
+   }
+  ]
+ },
+ {
+  "id": "cs-act4-end",
+  "act": 4,
+  "timing": "end",
+  "lines": [
+   {
+    "speaker": "narrator",
+    "line": "Inside the Obsidian Dais, sluggish magma stills like cooling tallow as the final Anchor Seal fractures.",
+    "mood": "transcendent"
+   },
+   {
+    "speaker": "npc-elias-penitent",
+    "line": "The old penitence is ended. Look up—the ash-clouds are parting for the first time in living memory.",
+    "mood": "awed"
+   },
+   {
+    "speaker": "npc-vok-forgemaster",
+    "line": "The world's anvil has finally cooled enough to hold an honest edge.",
+    "mood": "satisfied"
+   },
+   {
+    "speaker": "npc-rowan-commander",
+    "line": "Four provinces bled to reach these steps, commander. Give the word and the banners stand down.",
+    "mood": "weary"
+   },
+   {
+    "speaker": "hero",
+    "line": "Send riders to every garrison from Thornwick to Harborwatch. The war is over; the reckoning begins.",
+    "mood": "sovereign"
+   },
+   {
+    "speaker": "npc-elias-penitent",
+    "line": "May whatever rule follows remember the weight of the iron that bought it.",
+    "mood": "solemn"
+   },
+   {
+    "speaker": "npc-rowan-commander",
+    "line": "Sound the recall horns. Let the men wash the ash from their faces.",
+    "mood": "relieved"
+   },
+   {
+    "speaker": "narrator",
+    "line": "Far beyond the cooling straits, northern watchtowers kindle their beacons one by one in pale silver dawn.",
+    "mood": "hopeful"
+   }
+  ]
+ }
+]
