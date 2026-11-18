@@ -43,7 +43,7 @@ import {
 } from './sim/script';
 import { loadGameData } from './loaddata';
 import { loadHeroVoices, heroBark } from './herovoice';
-import { loadAchievements, achKills, achHired, achLevel, achGold, achWin, achCampaign } from './achievements';
+import { loadAchievements, achKills, achTrack, achReset, achHired, achLevel, achGold, achWin, achCampaign } from './achievements';
 import { loadMissionContent, loadMissionHints, loadItemFlavor, loadFlavorLists, loadMonsterCodex, loadCodexLore, loadTownBarks, loadSpellText, defeatFlavor, loadDifficultyFlavor, difficultyLine, loadMercLines, mercHireLine, regionEnterLine, loadHeroFlavor, promotionLine, classBanter, missionRadio, missionKey } from './missioncontent';
 import { startSideQuests, sqTrack, sqFinish } from './sidequests';
 import { DebugPanel } from './debugpanel';
@@ -2057,7 +2057,8 @@ await loadTownBarks();
 await loadSpellText();
 if (activeChar) await loadHeroVoices(activeChar.cls, activeChar.female);
 const missionContent = loadedMission ? await loadMissionContent(missionName) : null;
-if (loadedMission && missionName && !isTownNode) void missionKey(missionName).then((k) => { if (k) void startSideQuests(k); });
+if (loadedMission && missionName && !isTownNode) achReset();
+  if (loadedMission && missionName && !isTownNode) void missionKey(missionName).then((k) => { if (k) void startSideQuests(k); });
 if (loadedMission && missionName) void missionRadio(missionName, 'start').then((l) => { if (l) setTimeout(() => toast(`Radio: ${l}`), 2500); });
 if (loadedMission && missionName) void loadMissionHints(missionName).then((h) => { if (h[0]) setTimeout(() => toast(h[0]), 6000); if (h[1]) setTimeout(() => toast(h[1]), 45000); });
 const missionUi = loadedMission
@@ -2863,6 +2864,7 @@ function updateStats(): void {
     const heroMana = sim.cb.kind[0] === Kind.Hero ? `  ${S.hp} ${sim.cb.hp[0]}/${sim.cb.hpMax[0]}  ${S.mana} ${sim.cb.mana[0]}/${sim.cb.manaMax[0]}` : '';
     const aliveFoes = sim.cb.alive[1] ?? 0;
     if (aliveFoes < lastFoes && !isTownNode) achKills(lastFoes - aliveFoes);
+    if (!isTownNode) achTrack(sim.count, sim.team, sim.cb.hp, sim.cb.family);
     if (!isTownNode) sqTrack(sim.count, sim.team, sim.cb.hp, sim.cb.family, sim.cb.gold[0] ?? 0);
     lastFoes = aliveFoes;
     achGold(sim.cb.gold[0] ?? 0); achLevel(sim.hero?.level ?? 0);

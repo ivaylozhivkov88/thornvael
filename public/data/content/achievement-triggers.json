@@ -2025,6 +2025,560 @@
    },
    "name": "King's Ransom in Ash",
    "desc": "Carry 9,000 gold in Ember Reckoning—if you survive the throne room, you're retiring rich."
+  },
+  {
+   "id": "fam-briar-hound",
+   "type": "family_kills",
+   "args": {
+    "family": "briar-hound",
+    "count": 50
+   },
+   "name": "Hound Skinner",
+   "desc": "Put down fifty briar hounds before their jaws find your throat."
+  },
+  {
+   "id": "fam-flintback",
+   "type": "family_kills",
+   "args": {
+    "family": "flintback",
+    "count": 50
+   },
+   "name": "Flint Breaker",
+   "desc": "Shatter fifty flintback hides upon the gravel."
+  },
+  {
+   "id": "fam-mire-wisp",
+   "type": "family_kills",
+   "args": {
+    "family": "mire-wisp",
+    "count": 50
+   },
+   "name": "Wisp Snuffer",
+   "desc": "Quench fifty marsh wisps before they lead the column into deep peat."
+  },
+  {
+   "id": "fam-ruin-mite",
+   "type": "family_kills",
+   "args": {
+    "family": "ruin-mite",
+    "count": 50
+   },
+   "name": "Mite Exterminator",
+   "desc": "Crush fifty ruin mites chewing through imperial ledgers."
+  },
+  {
+   "id": "fam-thorn-boar",
+   "type": "family_kills",
+   "args": {
+    "family": "thorn-boar",
+    "count": 50
+   },
+   "name": "Boar Bane",
+   "desc": "Fell fifty thorn boars charging through the muddy parishes."
+  },
+  {
+   "id": "fam-quill-fiend",
+   "type": "family_kills",
+   "args": {
+    "family": "quill-fiend",
+    "count": 50
+   },
+   "name": "Quill Plucker",
+   "desc": "Strip fifty quill fiends of their poisoned barbs."
+  },
+  {
+   "id": "fam-fallen-shaman",
+   "type": "family_kills",
+   "args": {
+    "family": "fallen-shaman",
+    "count": 50
+   },
+   "name": "Shaman Silencer",
+   "desc": "Silence fifty fallen shamans chanting over bone totems."
+  },
+  {
+   "id": "fam-glasswing",
+   "type": "family_kills",
+   "args": {
+    "family": "glasswing",
+    "count": 50
+   },
+   "name": "Glasswing Culler",
+   "desc": "Ground fifty glasswings circling the mountain passes."
+  },
+  {
+   "id": "fam-rootbound",
+   "type": "family_kills",
+   "args": {
+    "family": "rootbound",
+    "count": 50
+   },
+   "name": "Root Chopper",
+   "desc": "Hack fifty rootbound hulks into dry firewood."
+  },
+  {
+   "id": "fam-cinderling",
+   "type": "family_kills",
+   "args": {
+    "family": "cinderling",
+    "count": 50
+   },
+   "name": "Cinder Extinguisher",
+   "desc": "Douse fifty cinderlings before they scorch the brush."
+  },
+  {
+   "id": "fam-gloom-stag",
+   "type": "family_kills",
+   "args": {
+    "family": "gloom-stag",
+    "count": 50
+   },
+   "name": "Stag Hunter",
+   "desc": "Bring down fifty gloom stags in the misty timberlands."
+  },
+  {
+   "id": "fam-salt-crab",
+   "type": "family_kills",
+   "args": {
+    "family": "salt-crab",
+    "count": 50
+   },
+   "name": "Shell Cracker",
+   "desc": "Crack fifty calcified salt-crab shells upon the flats."
+  },
+  {
+   "id": "fam-fetish-blowdart",
+   "type": "family_kills",
+   "args": {
+    "family": "fetish-blowdart",
+    "count": 50
+   },
+   "name": "Blowdart Dodger",
+   "desc": "Eliminate fifty blowdart fetishists before they find a weak joint in your mail."
+  },
+  {
+   "id": "fam-witch-doctor",
+   "type": "family_kills",
+   "args": {
+    "family": "witch-doctor",
+    "count": 50
+   },
+   "name": "Hex Breaker",
+   "desc": "Slay fifty witch doctors boiling marrow-rot curses."
+  },
+  {
+   "id": "fam-hollow-knight",
+   "type": "family_kills",
+   "args": {
+    "family": "hollow-knight",
+    "count": 50
+   },
+   "name": "Knight Shatterer",
+   "desc": "Break fifty hollow knights guarding the coastal ruins."
+  },
+  {
+   "id": "fam-spore-matron",
+   "type": "family_kills",
+   "args": {
+    "family": "spore-matron",
+    "count": 50
+   },
+   "name": "Matron Purge",
+   "desc": "Clear fifty spore matrons filling the air with rot."
+  },
+  {
+   "id": "fam-dune-lurker",
+   "type": "family_kills",
+   "args": {
+    "family": "dune-lurker",
+    "count": 50
+   },
+   "name": "Lurker Scourer",
+   "desc": "Flush fifty dune lurkers out of the shifting alkali sands."
+  },
+  {
+   "id": "fam-storm-kite",
+   "type": "family_kills",
+   "args": {
+    "family": "storm-kite",
+    "count": 50
+   },
+   "name": "Kite Clipper",
+   "desc": "Clip the wings of fifty storm kites scouring the desert basin."
+  },
+  {
+   "id": "fam-basalt-brute",
+   "type": "family_kills",
+   "args": {
+    "family": "basalt-brute",
+    "count": 50
+   },
+   "name": "Brute Smasher",
+   "desc": "Fell fifty basalt brutes bearing down upon the curtain walls."
+  },
+  {
+   "id": "fam-sand-raider",
+   "type": "family_kills",
+   "args": {
+    "family": "sand-raider",
+    "count": 50
+   },
+   "name": "Raider Scourge",
+   "desc": "Drive off fifty sand raiders ambushing the dry arroyos."
+  },
+  {
+   "id": "fam-dune-scarab",
+   "type": "family_kills",
+   "args": {
+    "family": "dune-scarab",
+    "count": 50
+   },
+   "name": "Scarab Crusher",
+   "desc": "Crush fifty copper-horned dune scarabs under iron boots."
+  },
+  {
+   "id": "fam-claw-viper",
+   "type": "family_kills",
+   "args": {
+    "family": "claw-viper",
+    "count": 50
+   },
+   "name": "Viper Decapitation",
+   "desc": "Sever the heads of fifty claw vipers coiled in sandstone."
+  },
+  {
+   "id": "fam-dune-beast",
+   "type": "family_kills",
+   "args": {
+    "family": "dune-beast",
+    "count": 50
+   },
+   "name": "Beast Skinner",
+   "desc": "Take down fifty thick-hided dune beasts in the dust storms."
+  },
+  {
+   "id": "fam-maggot-swarm",
+   "type": "family_kills",
+   "args": {
+    "family": "maggot-swarm",
+    "count": 50
+   },
+   "name": "Swarm Burner",
+   "desc": "Purge fifty maggot swarms fouling the milestone wells."
+  },
+  {
+   "id": "fam-lantern-eel",
+   "type": "family_kills",
+   "args": {
+    "family": "lantern-eel",
+    "count": 50
+   },
+   "name": "Eel Scaler",
+   "desc": "Slice fifty lantern eels lurking in the flooded sea-stacks."
+  },
+  {
+   "id": "fam-ash-weaver",
+   "type": "family_kills",
+   "args": {
+    "family": "ash-weaver",
+    "count": 50
+   },
+   "name": "Web Cutter",
+   "desc": "Cut fifty ash weavers spinning fire-webs across the watchtowers."
+  },
+  {
+   "id": "fam-pale-burrower",
+   "type": "family_kills",
+   "args": {
+    "family": "pale-burrower",
+    "count": 50
+   },
+   "name": "Burrower Slayer",
+   "desc": "Drag fifty pale burrowers out of the quarry pit tunnels."
+  },
+  {
+   "id": "fam-ironbark",
+   "type": "family_kills",
+   "args": {
+    "family": "ironbark",
+    "count": 50
+   },
+   "name": "Ironbark Splitter",
+   "desc": "Hew fifty ironbark trunks blocking the coastal roads."
+  },
+  {
+   "id": "fam-rift-moth",
+   "type": "family_kills",
+   "args": {
+    "family": "rift-moth",
+    "count": 50
+   },
+   "name": "Moth Swatter",
+   "desc": "Swat fifty rift moths draining leyline wards in the gorges."
+  },
+  {
+   "id": "fam-greater-mummy",
+   "type": "family_kills",
+   "args": {
+    "family": "greater-mummy",
+    "count": 50
+   },
+   "name": "Mummy Unbound",
+   "desc": "Lay to rest fifty greater mummies wrapped in canopic tar."
+  },
+  {
+   "id": "fam-hollow-king",
+   "type": "family_kills",
+   "args": {
+    "family": "hollow-king",
+    "count": 50
+   },
+   "name": "King Dethroner",
+   "desc": "Dethrone fifty hollow kings rising from the salt vaults."
+  },
+  {
+   "id": "fam-wendigo-bruiser",
+   "type": "family_kills",
+   "args": {
+    "family": "wendigo-bruiser",
+    "count": 50
+   },
+   "name": "Bruiser Feller",
+   "desc": "Fell fifty wendigo bruisers battering the redoubt stairs."
+  },
+  {
+   "id": "fam-crowned-maw",
+   "type": "family_kills",
+   "args": {
+    "family": "crowned-maw",
+    "count": 50
+   },
+   "name": "Maw Sealer",
+   "desc": "Silence fifty crowned maws leaping over the ash-trenches."
+  },
+  {
+   "id": "fam-frost-bell",
+   "type": "family_kills",
+   "args": {
+    "family": "frost-bell",
+    "count": 50
+   },
+   "name": "Bell Silencer",
+   "desc": "Muffle fifty frost bells ringing across the surf."
+  },
+  {
+   "id": "fam-silt-colossus",
+   "type": "family_kills",
+   "args": {
+    "family": "silt-colossus",
+    "count": 50
+   },
+   "name": "Colossus Breaker",
+   "desc": "Shatter fifty silt colossi guarding the threshold nave."
+  },
+  {
+   "id": "fam-redglass-drake",
+   "type": "family_kills",
+   "args": {
+    "family": "redglass-drake",
+    "count": 50
+   },
+   "name": "Drake Slayer",
+   "desc": "Slay fifty redglass drakes shedding razor shards on the coves."
+  },
+  {
+   "id": "fam-night-orchard",
+   "type": "family_kills",
+   "args": {
+    "family": "night-orchard",
+    "count": 50
+   },
+   "name": "Orchard Burner",
+   "desc": "Burn fifty animated night orchards throwing skull-fruit."
+  },
+  {
+   "id": "fam-stormtree",
+   "type": "family_kills",
+   "args": {
+    "family": "stormtree",
+    "count": 50
+   },
+   "name": "Stormtree Rooter",
+   "desc": "Uproot fifty stormtrees crackling with arcing static."
+  },
+  {
+   "id": "fam-doom-knight",
+   "type": "family_kills",
+   "args": {
+    "family": "doom-knight",
+    "count": 50
+   },
+   "name": "Doom Knight Down",
+   "desc": "Strike down fifty doom knights holding the portcullis winches."
+  },
+  {
+   "id": "fam-cinderhorn",
+   "type": "family_kills",
+   "args": {
+    "family": "cinderhorn",
+    "count": 50
+   },
+   "name": "Cinderhorn Cleaver",
+   "desc": "Cleave fifty cinderhorns guarding the magma murder-holes."
+  },
+  {
+   "id": "fam-anvilmaw-smith",
+   "type": "family_kills",
+   "args": {
+    "family": "anvilmaw-smith",
+    "count": 50
+   },
+   "name": "Smith Hammer",
+   "desc": "Silence fifty anvilmaw smiths hammering meteoric slag."
+  },
+  {
+   "id": "boss-morvessa",
+   "type": "boss_kill",
+   "args": {
+    "boss": "morvessa"
+   },
+   "name": "Morvessa's End",
+   "desc": "Cut down Morvessa before her ridge-watch casting turns Ashbrook to ash."
+  },
+  {
+   "id": "boss-gorrathul",
+   "type": "boss_kill",
+   "args": {
+    "boss": "gorrathul"
+   },
+   "name": "Gorrathul Fallen",
+   "desc": "Pry the iron keys from Gorrathul's gauntlets inside Ironheart Bastion."
+  },
+  {
+   "id": "boss-vesperion",
+   "type": "boss_kill",
+   "args": {
+    "boss": "vesperion"
+   },
+   "name": "Vesperion Hushed",
+   "desc": "Hush Vesperion's bitter mocking from the smoke of Harborwatch."
+  },
+  {
+   "id": "boss-ashkarath",
+   "type": "boss_kill",
+   "args": {
+    "boss": "ashkarath"
+   },
+   "name": "Ashkarath Dethroned",
+   "desc": "Break First Warden Ashkarath upon the Obsidian Throne."
+  },
+  {
+   "id": "boss-warden-krell",
+   "type": "boss_kill",
+   "args": {
+    "boss": "warden-krell"
+   },
+   "name": "Krell Silenced",
+   "desc": "Strip Warden Krell of his rune-baked hide in the granite quarry."
+  },
+  {
+   "id": "boss-lady-selene",
+   "type": "boss_kill",
+   "args": {
+    "boss": "lady-selene"
+   },
+   "name": "Selene Shattered",
+   "desc": "Shatter Lady Selene's bleeding quartz circles on the alkali plateau."
+  },
+  {
+   "id": "boss-old-briarmaw",
+   "type": "boss_kill",
+   "args": {
+    "boss": "old-briarmaw"
+   },
+   "name": "Old Briarmaw Slain",
+   "desc": "Put down Old Briarmaw beneath the flooded cloisters of Ravenwatch."
+  },
+  {
+   "id": "boss-malakor-the-drowned",
+   "type": "boss_kill",
+   "args": {
+    "boss": "malakor-the-drowned"
+   },
+   "name": "Malakor Drowned",
+   "desc": "Send Malakor back to the silt on the Sunken Citadel lighthouse stair."
+  },
+  {
+   "id": "boss-matriarch-voss",
+   "type": "boss_kill",
+   "args": {
+    "boss": "matriarch-voss"
+   },
+   "name": "Voss Unmade",
+   "desc": "Unmake Matriarch Voss inside the fetid willow hollow."
+  },
+  {
+   "id": "boss-the-peat-monolith",
+   "type": "boss_kill",
+   "args": {
+    "boss": "the-peat-monolith"
+   },
+   "name": "Monolith Cracked",
+   "desc": "Crack the moss-grown bedrock seams of the ancient peat monolith."
+  },
+  {
+   "id": "boss-captain-draven",
+   "type": "boss_kill",
+   "args": {
+    "boss": "captain-draven"
+   },
+   "name": "Draven's Ledger",
+   "desc": "Close Captain Draven's extortion accounts at his coastal manor grate."
+  },
+  {
+   "id": "boss-high-tide-oracle",
+   "type": "boss_kill",
+   "args": {
+    "boss": "high-tide-oracle"
+   },
+   "name": "Oracle Silenced",
+   "desc": "Silence the High Tide Oracle among the twin crag bastions."
+  },
+  {
+   "id": "boss-ironclad-leviathan",
+   "type": "boss_kill",
+   "args": {
+    "boss": "ironclad-leviathan"
+   },
+   "name": "Leviathan Sunk",
+   "desc": "Sink the Ironclad Leviathan across the ash-plain relief routes."
+  },
+  {
+   "id": "boss-inquisitor-varro",
+   "type": "boss_kill",
+   "args": {
+    "boss": "inquisitor-varro"
+   },
+   "name": "Varro's Judgment",
+   "desc": "Break Inquisitor Varro's silent praetors in the obsidian nave."
+  },
+  {
+   "id": "boss-pyre-marshal-kael",
+   "type": "boss_kill",
+   "args": {
+    "boss": "pyre-marshal-kael"
+   },
+   "name": "Kael's Rudder",
+   "desc": "Shatter Pyre-Marshal Kael's copper flagship rudder in the harbor."
+  },
+  {
+   "id": "boss-the-ashen-sovereign",
+   "type": "boss_kill",
+   "args": {
+    "boss": "the-ashen-sovereign"
+   },
+   "name": "Sovereign Ash",
+   "desc": "Reduce the Ashen Sovereign to drifting cinder on the basalt heights."
   }
  ],
  "_self_check": {

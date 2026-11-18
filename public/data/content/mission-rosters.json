@@ -1,0 +1,418 @@
+{
+ "mission_rosters": [
+  {
+   "mission": "m01",
+   "families": [
+    "briar-hound",
+    "flintback",
+    "thorn-boar"
+   ],
+   "boss": null
+  },
+  {
+   "mission": "m02",
+   "families": [
+    "mire-wisp",
+    "ruin-mite",
+    "rootbound"
+   ],
+   "boss": null
+  },
+  {
+   "mission": "m03",
+   "families": [
+    "ruin-mite",
+    "quill-fiend",
+    "fallen-shaman"
+   ],
+   "boss": null
+  },
+  {
+   "mission": "m04",
+   "families": [
+    "mire-wisp",
+    "rootbound",
+    "fallen-shaman"
+   ],
+   "boss": "old-briarmaw"
+  },
+  {
+   "mission": "m05",
+   "families": [
+    "briar-hound",
+    "cinderling",
+    "glasswing"
+   ],
+   "boss": null
+  },
+  {
+   "mission": "m06",
+   "families": [
+    "thorn-boar",
+    "flintback",
+    "gloom-stag"
+   ],
+   "boss": null
+  },
+  {
+   "mission": "m07",
+   "families": [
+    "glasswing",
+    "gloom-stag",
+    "quill-fiend"
+   ],
+   "boss": null
+  },
+  {
+   "mission": "m08",
+   "families": [
+    "quill-fiend",
+    "rootbound",
+    "briar-hound"
+   ],
+   "boss": null
+  },
+  {
+   "mission": "m09",
+   "families": [
+    "flintback",
+    "cinderling",
+    "gloom-stag"
+   ],
+   "boss": "warden-krell"
+  },
+  {
+   "mission": "m10",
+   "families": [
+    "ruin-mite",
+    "fallen-shaman",
+    "rootbound"
+   ],
+   "boss": null
+  },
+  {
+   "mission": "m11",
+   "families": [
+    "gloom-stag",
+    "fallen-shaman",
+    "cinderling"
+   ],
+   "boss": "morvessa"
+  },
+  {
+   "mission": "m12",
+   "families": [
+    "salt-crab",
+    "sand-raider",
+    "dune-beast"
+   ],
+   "boss": null
+  },
+  {
+   "mission": "m13",
+   "families": [
+    "sand-raider",
+    "dune-scarab",
+    "claw-viper"
+   ],
+   "boss": null
+  },
+  {
+   "mission": "m14",
+   "families": [
+    "dune-lurker",
+    "storm-kite",
+    "fetish-blowdart"
+   ],
+   "boss": null
+  },
+  {
+   "mission": "m15",
+   "families": [
+    "storm-kite",
+    "sand-raider",
+    "witch-doctor"
+   ],
+   "boss": null
+  },
+  {
+   "mission": "m16",
+   "families": [
+    "dune-scarab",
+    "witch-doctor",
+    "greater-mummy"
+   ],
+   "boss": "lady-selene"
+  },
+  {
+   "mission": "m17",
+   "families": [
+    "maggot-swarm",
+    "salt-crab",
+    "claw-viper"
+   ],
+   "boss": null
+  },
+  {
+   "mission": "m18",
+   "families": [
+    "claw-viper",
+    "dune-beast",
+    "dune-lurker"
+   ],
+   "boss": null
+  },
+  {
+   "mission": "m19",
+   "families": [
+    "witch-doctor",
+    "fetish-blowdart",
+    "maggot-swarm"
+   ],
+   "boss": "matriarch-voss"
+  },
+  {
+   "mission": "m20",
+   "families": [
+    "pale-burrower",
+    "greater-mummy",
+    "dune-scarab"
+   ],
+   "boss": null
+  },
+  {
+   "mission": "m21",
+   "families": [
+    "sand-raider",
+    "storm-kite",
+    "salt-crab"
+   ],
+   "boss": null
+  },
+  {
+   "mission": "m22",
+   "families": [
+    "dune-beast",
+    "claw-viper",
+    "dune-lurker"
+   ],
+   "boss": null
+  },
+  {
+   "mission": "m23",
+   "families": [
+    "greater-mummy",
+    "pale-burrower",
+    "witch-doctor"
+   ],
+   "boss": "gorrathul"
+  },
+  {
+   "mission": "m24",
+   "families": [
+    "salt-crab",
+    "lantern-eel",
+    "hollow-knight"
+   ],
+   "boss": null
+  },
+  {
+   "mission": "m25",
+   "families": [
+    "cinderling",
+    "spore-matron",
+    "ironbark"
+   ],
+   "boss": null
+  },
+  {
+   "mission": "m26",
+   "families": [
+    "hollow-knight",
+    "ironbark",
+    "frost-bell"
+   ],
+   "boss": null
+  },
+  {
+   "mission": "m27",
+   "families": [
+    "fetish-blowdart",
+    "hollow-knight",
+    "spore-matron"
+   ],
+   "boss": null
+  },
+  {
+   "mission": "m28",
+   "families": [
+    "lantern-eel",
+    "salt-crab",
+    "frost-bell"
+   ],
+   "boss": "malakor-the-drowned"
+  },
+  {
+   "mission": "m29",
+   "families": [
+    "frost-bell",
+    "ironbark",
+    "hollow-king"
+   ],
+   "boss": null
+  },
+  {
+   "mission": "m30",
+   "families": [
+    "night-orchard",
+    "spore-matron",
+    "wendigo-bruiser"
+   ],
+   "boss": null
+  },
+  {
+   "mission": "m31",
+   "families": [
+    "hollow-king",
+    "lantern-eel",
+    "ironbark"
+   ],
+   "boss": null
+  },
+  {
+   "mission": "m32",
+   "families": [
+    "wendigo-bruiser",
+    "hollow-knight",
+    "spore-matron"
+   ],
+   "boss": "the-peat-monolith"
+  },
+  {
+   "mission": "m33",
+   "families": [
+    "hollow-king",
+    "wendigo-bruiser",
+    "night-orchard"
+   ],
+   "boss": "captain-draven"
+  },
+  {
+   "mission": "m34",
+   "families": [
+    "ironbark",
+    "frost-bell",
+    "hollow-knight"
+   ],
+   "boss": null
+  },
+  {
+   "mission": "m35",
+   "families": [
+    "lantern-eel",
+    "night-orchard",
+    "wendigo-bruiser"
+   ],
+   "boss": "pyre-marshal-kael"
+  },
+  {
+   "mission": "m36",
+   "families": [
+    "redglass-drake",
+    "crowned-maw",
+    "basalt-brute"
+   ],
+   "boss": null
+  },
+  {
+   "mission": "m37",
+   "families": [
+    "stormtree",
+    "rift-moth",
+    "silt-colossus"
+   ],
+   "boss": null
+  },
+  {
+   "mission": "m38",
+   "families": [
+    "basalt-brute",
+    "crowned-maw",
+    "anvilmaw-smith"
+   ],
+   "boss": null
+  },
+  {
+   "mission": "m39",
+   "families": [
+    "rift-moth",
+    "doom-knight",
+    "redglass-drake"
+   ],
+   "boss": null
+  },
+  {
+   "mission": "m40",
+   "families": [
+    "stormtree",
+    "anvilmaw-smith",
+    "silt-colossus"
+   ],
+   "boss": "high-tide-oracle"
+  },
+  {
+   "mission": "m41",
+   "families": [
+    "anvilmaw-smith",
+    "basalt-brute",
+    "doom-knight"
+   ],
+   "boss": null
+  },
+  {
+   "mission": "m42",
+   "families": [
+    "cinderhorn",
+    "redglass-drake",
+    "silt-colossus"
+   ],
+   "boss": null
+  },
+  {
+   "mission": "m43",
+   "families": [
+    "ash-weaver",
+    "doom-knight",
+    "crowned-maw"
+   ],
+   "boss": "ironclad-leviathan"
+  },
+  {
+   "mission": "m44",
+   "families": [
+    "doom-knight",
+    "rift-moth",
+    "silt-colossus"
+   ],
+   "boss": "inquisitor-varro"
+  },
+  {
+   "mission": "m45",
+   "families": [
+    "silt-colossus",
+    "stormtree",
+    "ash-weaver"
+   ],
+   "boss": "vesperion"
+  },
+  {
+   "mission": "m46",
+   "families": [
+    "cinderhorn",
+    "anvilmaw-smith",
+    "doom-knight"
+   ],
+   "boss": "ashkarath"
+  }
+ ]
+}
