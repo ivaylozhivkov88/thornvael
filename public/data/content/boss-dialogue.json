@@ -62,5 +62,149 @@
    "mage": "You measured pressure valves in books, scholar; now stand inside the furnace.",
    "necromancer": "No ledger can audit primordial fire, clerk—even the dead turn to ash here."
   }
+ },
+ {
+  "boss": "warden-krell",
+  "name": "Warden Krell",
+  "act": "Border Fords",
+  "intro": "Every cart crossing Alder Ford pays my iron tithe. You carry steel instead of silver—let us see how much blood your ribs can spare for the toll-box.",
+  "phase_lines": [
+   "Raise the floodgates! Let the cold current drag their ankles down!",
+   "My hounds have tasted better mail than yours—tear their hamstrings!",
+   "Hold the causeway, boys! None cross this river while Krell still breathes!"
+  ],
+  "defeat": "The river... takes the toll anyway... you'll drown in the mud further south..."
+ },
+ {
+  "boss": "lady-selene",
+  "name": "Lady Selene of the Mill",
+  "act": "Border Fords",
+  "intro": "The Crown starved my tenants to feed its border garrisons. Now my millstones grind bone instead of barley, and you have wandered straight into the hopper.",
+  "phase_lines": [
+   "Turn the waterwheel faster! Let the chaff choke their lungs!",
+   "You dare strike a noblewoman with muddy boots? Flay them alive!",
+   "If my house falls today, these stones will crush us all together!"
+  ],
+  "defeat": "Listen to the wheel... slowing down... at last... no more hunger..."
+ },
+ {
+  "boss": "old-briarmaw",
+  "name": "Old Briarmaw",
+  "act": "Border Fords",
+  "intro": "*A deafening roar shakes loose dead leaves and moss as the ancient, iron-barked beast drags its scarred bulk from the riverbed, yellow eyes fixed on your throat.*",
+  "phase_lines": [
+   "*Splintering timber cracks as thick brambles erupt from the muddy earth.*",
+   "*A resonant, earth-shaking bellow sends flocks of crows scattering skyward.*",
+   "*Sap-streaked jaws snap shut with the force of a falling portcullis.*"
+  ],
+  "defeat": "*With a final groaning crash like a felled oak, the great beast sinks motionless into the silt.*"
+ },
+ {
+  "boss": "malakor-the-drowned",
+  "name": "Malakor the Drowned",
+  "act": "Redmarsh",
+  "intro": "They weighted my ankles with chains and cast me into the black peat. Yet the bog refused to digest my hatred—and now I drag every living fool down into the cold.",
+  "phase_lines": [
+   "Rise, forgotten dead! Pull them beneath the black water!",
+   "Feel the marsh-chill creeping into your marrow—you cannot swing what you cannot feel!",
+   "Your breath turns to mist! The fen claims another trophy!"
+  ],
+  "defeat": "The water... grows warm... finally... let the silt cover my eyes..."
+ },
+ {
+  "boss": "matriarch-voss",
+  "name": "Matriarch Voss",
+  "act": "Redmarsh",
+  "intro": "You trample my sacred leech-beds and burn my incense reeds. Come closer, little trespasser—my venom-pots have been simmering since the last full moon.",
+  "phase_lines": [
+   "Breathe deep the green vapor! Watch your veins turn black!",
+   "My children, swarm their ankles! Leave nothing for the buzzards!",
+   "Even in death, my blood will poison every well in this wretched marsh!"
+  ],
+  "defeat": "My brews... spilled in the mud... the bog will drink my curse..."
+ },
+ {
+  "boss": "the-peat-monolith",
+  "name": "The Peat Monolith",
+  "act": "Redmarsh",
+  "intro": "*Hundreds of bog-preserved skeletons fuse together with rotting timber and black mud, rising like a towering idol of drowned centuries.*",
+  "phase_lines": [
+   "*Dozens of jawbones clatter in unison as noxious marsh-gas vents from its ribs.*",
+   "*Heavy mud-caked limbs slam down, sending waves of foul brine across the reeds.*",
+   "*Glowing wisp-lights flare inside hollow eye sockets as shattered bones knit back together.*"
+  ],
+  "defeat": "*The binding sinews snap, collapsing into a silent mound of wet peat and bleached skulls.*"
+ },
+ {
+  "boss": "captain-draven",
+  "name": "Captain Draven",
+  "act": "Iron Coast",
+  "intro": "I have weathered forty gales and hanged three mutinous crews from my yardarm. You think a handful of land-rats will take my cove? Boarders, clear the rocks!",
+  "phase_lines": [
+   "Swivel guns, fire! Turn that driftwood into splinters!",
+   "Hook their shields and drag them into the surf!",
+   "No quarter! Strip their corpses before the tide comes in!"
+  ],
+  "defeat": "A fair broadside... bury me below the tideline... where the Crown can't reach..."
+ },
+ {
+  "boss": "high-tide-oracle",
+  "name": "Oracle Nerissa",
+  "act": "Iron Coast",
+  "intro": "The salt-currents whispered your names before your boots ever touched our shingle. The abyss hungers for warm blood, and I am merely its faithful cupbearer.",
+  "phase_lines": [
+   "Let the crushing pressure of the deep break your brittle bones!",
+   "Salt burns the eyes, brine fills the throat—kneel before the endless tide!",
+   "The leviathan stirs beneath the reef! Your struggle is mere foam!"
+  ],
+  "defeat": "The waves... fall silent... what lies beneath... has abandoned me..."
+ },
+ {
+  "boss": "ironclad-leviathan",
+  "name": "The Rust-Hulk",
+  "act": "Iron Coast",
+  "intro": "*Barnacle-encrusted hull plates and fractured ship anchors groan as a colossal crab-like horror heaves itself out of the crashing surf.*",
+  "phase_lines": [
+   "*Massive rusted pincers slam shut like shipwright shears, sparking against stone.*",
+   "*Pressurized jets of scalding brine erupt from vents along its iron carapace.*",
+   "*The ground trembles as the beast rears back, crushing basalt boulders beneath its weight.*"
+  ],
+  "defeat": "*With a shriek of tearing iron and shattering shell, the leviathan topples sideways into the tide.*"
+ },
+ {
+  "boss": "inquisitor-varro",
+  "name": "Grand Inquisitor Varro",
+  "act": "Crown and Ember",
+  "intro": "Every treason leaves an ink-stain on the realm's ledger. By decree of the Cinder Throne, your names are struck from the living and consigned to purifying flame.",
+  "phase_lines": [
+   "Seize them! Let the iron brands teach them proper reverence!",
+   "Your heresy ends at the edge of my halberd!",
+   "Burn the parchment, burn the flesh—only ash remains pure!"
+  ],
+  "defeat": "My ledger... stained with my own blood... the Crown... cannot fall..."
+ },
+ {
+  "boss": "pyre-marshal-kael",
+  "name": "Pyre-Marshal Kael",
+  "act": "Crown and Ember",
+  "intro": "I forged my armor in the ashes of three rebel cities. Step onto the scorched stone, mercenary—let us see if your steel holds its temper in my furnace.",
+  "phase_lines": [
+   "Fan the coals! Turn this courtyard into a crucible!",
+   "You fight well for dead men, yet fire consumes all!",
+   "Even if my plate melts to my skin, I will drag you into the embers!"
+  ],
+  "defeat": "The forge... grows cold... at last... the smoke clears..."
+ },
+ {
+  "boss": "the-ashen-sovereign",
+  "name": "The Ashen Sovereign",
+  "act": "Crown and Ember",
+  "intro": "You marched through mud, brine, and soot to reach an empty throne. Look upon the embers of our glorious realm—and burn beside its last true king.",
+  "phase_lines": [
+   "Kneel before the cinders of your own ambition!",
+   "Let crown-fire scour every trace of your defiance from this world!",
+   "If I cannot rule these ashes, nothing living shall inherit them!"
+  ],
+  "defeat": "Only cold dust... remains... tell me... was the crown worth the smoke..."
  }
 ]

@@ -718,5 +718,645 @@
    "The ember... waits...",
    "*petrifying throne-crash*"
   ]
+ },
+ {
+  "enemy": "ford-stalker",
+  "aggro": [
+   "*wet gravel crunching*",
+   "Step off the stones, meat.",
+   "The ford tolls in blood."
+  ],
+  "hurt": [
+   "*sharp intake of breath*",
+   "My ribs!"
+  ],
+  "death": [
+   "*splashing collapse*",
+   "Cold water... takes me..."
+  ]
+ },
+ {
+  "enemy": "alder-leech",
+  "aggro": [
+   "*slimy suction pop*",
+   "*wet, rhythmic slurping*",
+   "*chittering mandibles*"
+  ],
+  "hurt": [
+   "*shrill squeal*",
+   "*bursting sac hiss*"
+  ],
+  "death": [
+   "*deflating squelch*",
+   "*oily puddle splat*"
+  ]
+ },
+ {
+  "enemy": "toll-brigand",
+  "aggro": [
+   "Purse or throat, traveler!",
+   "No passes signed here.",
+   "Drop the steel and kneel."
+  ],
+  "hurt": [
+   "Curse your blade!",
+   "*ragged cough*"
+  ],
+  "death": [
+   "Not... in the mud...",
+   "*choked rattle*"
+  ]
+ },
+ {
+  "enemy": "reeds-lurker",
+  "aggro": [
+   "*dry stalks parting*",
+   "*low amphibious croak*",
+   "*muddy lunge*"
+  ],
+  "hurt": [
+   "*hissing spit*",
+   "*leathery thwack*"
+  ],
+  "death": [
+   "*sinking bubble*",
+   "*limp thrashing*"
+  ]
+ },
+ {
+  "enemy": "border-deserter",
+  "aggro": [
+   "I won't march back!",
+   "Your boots look drier.",
+   "Stand aside or bleed."
+  ],
+  "hurt": [
+   "Damn the captain!",
+   "*armored groan*"
+  ],
+  "death": [
+   "Still... better than the trench...",
+   "*clattering fall*"
+  ]
+ },
+ {
+  "enemy": "moss-troll",
+  "aggro": [
+   "*boulder-grinding growl*",
+   "*heavy peat footsteps*",
+   "*cracking branch roar*"
+  ],
+  "hurt": [
+   "*roar of torn turf*",
+   "*dull earthen thud*"
+  ],
+  "death": [
+   "*collapsing hillock rumble*",
+   "*slow sigh of wet moss*"
+  ]
+ },
+ {
+  "enemy": "creek-widow",
+  "aggro": [
+   "*weeping ripple*",
+   "Have you seen my ring?",
+   "Join me under the silt."
+  ],
+  "hurt": [
+   "*shrieking mist*",
+   "*hollow gasp*"
+  ],
+  "death": [
+   "*fading echo on water*",
+   "Still... cold..."
+  ]
+ },
+ {
+  "enemy": "hedge-witch",
+  "aggro": [
+   "Root and rot bind you!",
+   "Fresh tallow for my pot.",
+   "*cackling wheeze*"
+  ],
+  "hurt": [
+   "Thorn-blight take you!",
+   "*bitter shriek*"
+  ],
+  "death": [
+   "The soil... remembers...",
+   "*dry rattle of charms*"
+  ]
+ },
+ {
+  "enemy": "pike-militia",
+  "aggro": [
+   "Hold the line!",
+   "Lower pikes! Advance!",
+   "For the border watch!"
+  ],
+  "hurt": [
+   "Shield wall's cracking!",
+   "*grunt of pain*"
+  ],
+  "death": [
+   "Tell Thornwick... we held...",
+   "*wooden shaft snapping*"
+  ]
+ },
+ {
+  "enemy": "silt-crawler",
+  "aggro": [
+   "*clicking chitin*",
+   "*wet sand scraping*",
+   "*rapid leg-scurry*"
+  ],
+  "hurt": [
+   "*cracking shell*",
+   "*acidic hiss*"
+  ],
+  "death": [
+   "*curling legs twitch*",
+   "*hollow carapace pop*"
+  ]
+ },
+ {
+  "enemy": "peat-ghoul",
+  "aggro": [
+   "*wet, hungry rasp*",
+   "Warm marrow...",
+   "*snapping yellow teeth*"
+  ],
+  "hurt": [
+   "*rotted flesh tearing*",
+   "*feral snarl*"
+  ],
+  "death": [
+   "*sinking back into bog*",
+   "*gurgling silence*"
+  ]
+ },
+ {
+  "enemy": "bog-lantern",
+  "aggro": [
+   "*crackling marsh-gas*",
+   "Step closer to the light...",
+   "*eerie harmonic hum*"
+  ],
+  "hurt": [
+   "*sputtering spark*",
+   "*sharp flare hiss*"
+  ],
+  "death": [
+   "*extinguished wick hiss*",
+   "*faint sulfur pop*"
+  ]
+ },
+ {
+  "enemy": "marsh-heretic",
+  "aggro": [
+   "The Mire cleanses all!",
+   "Drink the black water!",
+   "Flesh is merely peat!"
+  ],
+  "hurt": [
+   "Pain is devotion!",
+   "*ecstatic gasp*"
+  ],
+  "death": [
+   "I return... to the ooze...",
+   "*blissful sigh*"
+  ]
+ },
+ {
+  "enemy": "rot-hound",
+  "aggro": [
+   "*phlegmy, ragged growl*",
+   "*exposed ribs clicking*",
+   "*wet, foaming bark*"
+  ],
+  "hurt": [
+   "*muffled yelp*",
+   "*squelching thud*"
+  ],
+  "death": [
+   "*collapsing heap of fur*",
+   "*final wheezing breath*"
+  ]
+ },
+ {
+  "enemy": "fen-harvester",
+  "aggro": [
+   "*scythe whistling*",
+   "Time to reap the reeds.",
+   "Another bundle for the cart."
+  ],
+  "hurt": [
+   "Dull blade, sharp sting!",
+   "*raspy curse*"
+  ],
+  "death": [
+   "Harvest... cut short...",
+   "*heavy thud in mud*"
+  ]
+ },
+ {
+  "enemy": "plague-toad",
+  "aggro": [
+   "*booming throat-sac croak*",
+   "*bubbling pustule hiss*",
+   "*heavy wet flop*"
+  ],
+  "hurt": [
+   "*shrill amphibian screech*",
+   "*oozing splatter*"
+  ],
+  "death": [
+   "*deflating belly groan*",
+   "*wet belly-up flop*"
+  ]
+ },
+ {
+  "enemy": "sunken-warden",
+  "aggro": [
+   "*rusted chain clank*",
+   "None leave Redmarsh.",
+   "*waterlogged plate groan*"
+  ],
+  "hurt": [
+   "*dented iron ring*",
+   "*grinding hinge shriek*"
+  ],
+  "death": [
+   "*armored crash into mire*",
+   "*escaping air bubbles*"
+  ]
+ },
+ {
+  "enemy": "blood-reed",
+  "aggro": [
+   "*razor leaves rustling*",
+   "*whipping stalk snap*",
+   "*sap-dripping hiss*"
+  ],
+  "hurt": [
+   "*fibrous tear*",
+   "*crimson sap spurt*"
+  ],
+  "death": [
+   "*withering stem crack*",
+   "*dry rustle to ash*"
+  ]
+ },
+ {
+  "enemy": "bile-spitter",
+  "aggro": [
+   "*gurgling throat swell*",
+   "*acidic sizzle on mud*",
+   "*choking wet cough*"
+  ],
+  "hurt": [
+   "*stinging splash*",
+   "*piercing squeal*"
+  ],
+  "death": [
+   "*rupturing bile sac*",
+   "*hissing puddle*"
+  ]
+ },
+ {
+  "enemy": "mire-revenant",
+  "aggro": [
+   "You left us to drown!",
+   "*rattling drowned breath*",
+   "Share our cold grave."
+  ],
+  "hurt": [
+   "*spectral wail*",
+   "*cracking wet bone*"
+  ],
+  "death": [
+   "The cold... never lifts...",
+   "*dissolving mist hiss*"
+  ]
+ },
+ {
+  "enemy": "rust-corsair",
+  "aggro": [
+   "Strip their silver!",
+   "The tide brings fresh meat.",
+   "*cutlass scraping iron*"
+  ],
+  "hurt": [
+   "Salt in the wound!",
+   "*snarling curse*"
+  ],
+  "death": [
+   "Back to... the surf...",
+   "*boots dragging on stone*"
+  ]
+ },
+ {
+  "enemy": "barnacle-hulk",
+  "aggro": [
+   "*crushing shell grind*",
+   "*hollow sea-cave roar*",
+   "*heavy wet boulder step*"
+  ],
+  "hurt": [
+   "*shattering calcified crust*",
+   "*deep tidal groan*"
+  ],
+  "death": [
+   "*crumbling reef crash*",
+   "*gushing brine release*"
+  ]
+ },
+ {
+  "enemy": "salt-zealot",
+  "aggro": [
+   "Brine burns the wicked!",
+   "Kneel before the Tides!",
+   "Let the sea scour you!"
+  ],
+  "hurt": [
+   "A mere wave!",
+   "*hoarse chant*"
+  ],
+  "death": [
+   "The deep... claims me...",
+   "*choked saltwater gasp*"
+  ]
+ },
+ {
+  "enemy": "reef-stalker",
+  "aggro": [
+   "*clicking claws on basalt*",
+   "*guttural gill-rasp*",
+   "*rapid coastal scuttle*"
+  ],
+  "hurt": [
+   "*cracked chitin screech*",
+   "*ichor hiss*"
+  ],
+  "death": [
+   "*curling into shell*",
+   "*final tail slap*"
+  ]
+ },
+ {
+  "enemy": "iron-mariner",
+  "aggro": [
+   "Anchor down! Engage!",
+   "No quarter on this shore!",
+   "*heavy harpoon clank*"
+  ],
+  "hurt": [
+   "Hull's breached!",
+   "*grunted oath*"
+  ],
+  "death": [
+   "Sinking... fast...",
+   "*iron plate thud*"
+  ]
+ },
+ {
+  "enemy": "cliff-harpy",
+  "aggro": [
+   "*piercing wind-shriek*",
+   "*talons scraping slate*",
+   "Shiny eyes for the nest!"
+  ],
+  "hurt": [
+   "*feathered screech*",
+   "*frantic wing-flap*"
+  ],
+  "death": [
+   "*plummeting whistle*",
+   "*broken-wing thud*"
+  ]
+ },
+ {
+  "enemy": "wreck-scavenger",
+  "aggro": [
+   "My salvage, back off!",
+   "Everything washes ashore.",
+   "*crowbar clanging*"
+  ],
+  "hurt": [
+   "Watch the ribs!",
+   "*wheezing yelp*"
+  ],
+  "death": [
+   "Didn't even... check their pockets...",
+   "*clatter of stolen tools*"
+  ]
+ },
+ {
+  "enemy": "brine-elemental",
+  "aggro": [
+   "*crashing wave roar*",
+   "*hissing salt-spray*",
+   "*churning whirlpool hum*"
+  ],
+  "hurt": [
+   "*splashing dispersal*",
+   "*crackling salt-crust*"
+  ],
+  "death": [
+   "*collapsing torrent*",
+   "*foam sizzling on rock*"
+  ]
+ },
+ {
+  "enemy": "galley-slaver",
+  "aggro": [
+   "Fresh backs for the oars!",
+   "*whip cracking sharply*",
+   "Chain them alive!"
+  ],
+  "hurt": [
+   "You'll row in hell!",
+   "*sharp gasp*"
+  ],
+  "death": [
+   "Dropped... the keys...",
+   "*heavy chain rattle*"
+  ]
+ },
+ {
+  "enemy": "tide-priest",
+  "aggro": [
+   "Drown in your sins!",
+   "The abyss answers me!",
+   "*chanting over surf*"
+  ],
+  "hurt": [
+   "My ward falters!",
+   "*strained breath*"
+  ],
+  "death": [
+   "Cold... dark... below...",
+   "*staff clattering down*"
+  ]
+ },
+ {
+  "enemy": "ember-guard",
+  "aggro": [
+   "Halt at the ash-line!",
+   "For the Cinder Crown!",
+   "*halberd striking stone*"
+  ],
+  "hurt": [
+   "Armor holds!",
+   "*muffled helm groan*"
+  ],
+  "death": [
+   "Long live... the ash...",
+   "*scorched steel crash*"
+  ]
+ },
+ {
+  "enemy": "ash-hound",
+  "aggro": [
+   "*smoldering throat growl*",
+   "*cinders crackling in jaws*",
+   "*scorched paw-scrape*"
+  ],
+  "hurt": [
+   "*spark-showering yelp*",
+   "*hissing ember whine*"
+  ],
+  "death": [
+   "*pop of cooling coals*",
+   "*puff of gray ash*"
+  ]
+ },
+ {
+  "enemy": "cinder-acolyte",
+  "aggro": [
+   "Burn away the flesh!",
+   "Embrace the sacred pyre!",
+   "*chanting over crackling flame*"
+  ],
+  "hurt": [
+   "The fire tests me!",
+   "*seared gasp*"
+  ],
+  "death": [
+   "I am... smoke...",
+   "*collapsing robes*"
+  ]
+ },
+ {
+  "enemy": "slag-golem",
+  "aggro": [
+   "*molten rock grinding*",
+   "*hissing steam vent*",
+   "*earth-shaking heavy step*"
+  ],
+  "hurt": [
+   "*cracking obsidian chip*",
+   "*magma-bubble pop*"
+  ],
+  "death": [
+   "*shattering slag avalanche*",
+   "*cooling stone hiss*"
+  ]
+ },
+ {
+  "enemy": "crown-executioner",
+  "aggro": [
+   "Kneel for the block.",
+   "Your name is crossed out.",
+   "*greataxe dragging stone*"
+  ],
+  "hurt": [
+   "A scratch.",
+   "*heavy, irritated grunt*"
+  ],
+  "death": [
+   "The axe... falls...",
+   "*thunderous armored fall*"
+  ]
+ },
+ {
+  "enemy": "soot-wraith",
+  "aggro": [
+   "*suffocating ash-whisper*",
+   "Breathe the cinders...",
+   "*crackling smoke swirl*"
+  ],
+  "hurt": [
+   "*hollow wind shriek*",
+   "*dispersing ember hiss*"
+  ],
+  "death": [
+   "*fading soot-stream*",
+   "*dead hearth silence*"
+  ]
+ },
+ {
+  "enemy": "pyre-knight",
+  "aggro": [
+   "None pass the inner gate!",
+   "Your bones will feed the brazier!",
+   "*flaming blade whoosh*"
+  ],
+  "hurt": [
+   "Fuel to my wrath!",
+   "*ringing plate impact*"
+  ],
+  "death": [
+   "My flame... dies...",
+   "*smoldering armor collapse*"
+  ]
+ },
+ {
+  "enemy": "charred-thrall",
+  "aggro": [
+   "*cracking burnt skin*",
+   "*rasping, ash-choked moan*",
+   "*shuffling cinder-steps*"
+  ],
+  "hurt": [
+   "*flaking charcoal snap*",
+   "*weak, dry wheeze*"
+  ],
+  "death": [
+   "*crumbling into cinders*",
+   "*faint puff of dust*"
+  ]
+ },
+ {
+  "enemy": "magma-leech",
+  "aggro": [
+   "*sizzling rock-slither*",
+   "*bubbling lava-gurgle*",
+   "*snapping fiery jaws*"
+  ],
+  "hurt": [
+   "*spattering molten drop*",
+   "*high-pitched steam hiss*"
+  ],
+  "death": [
+   "*hardening into black glass*",
+   "*cracking basalt pop*"
+  ]
+ },
+ {
+  "enemy": "royal-inquisitor",
+  "aggro": [
+   "Confess your treason!",
+   "The Crown sees all sins.",
+   "Purge the heretic!"
+  ],
+  "hurt": [
+   "Insolent wretch!",
+   "*sharp breath through teeth*"
+  ],
+  "death": [
+   "The ledger... remains...",
+   "*gilded seal clattering*"
+  ]
  }
 ]
