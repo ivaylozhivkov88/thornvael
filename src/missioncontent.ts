@@ -11,19 +11,31 @@ export async function loadMissionContent(map: string | null): Promise<MissionCon
   if (!map) return null;
   try {
     const base = import.meta.env.BASE_URL;
-    const [camp, all, bosses, endings] = await Promise.all([
+    const [camp, all, bosses, endings, texts, bossLines] = await Promise.all([
       fetch(`${base}data/campaign.json`).then((r) => r.json()),
       fetch(`${base}data/content/missions.json`).then((r) => r.json()),
       fetch(`${base}data/content/bosses.json`).then((r) => r.json()).catch(() => ({})),
       fetch(`${base}data/content/act-endings.json`).then((r) => r.json()).catch(() => []),
+      fetch(`${base}data/content/mission-texts.json`).then((r) => r.json()).catch(() => []),
+      fetch(`${base}data/content/boss-dialogue.json`).then((r) => r.json()).catch(() => []),
     ]);
     const nodes = camp.nodes as { id: string; map?: string; act?: number; kind?: string }[];
     const node = nodes.find((n) => n.map === map);
     if (!node) return null;
     const base0: MissionContent = { ...(all[node.id] ?? {}) };
+    // Pack 11 mission texts: briefing opens the intro, win/loss debriefs close the mission.
+    const mt = (texts as { mission_id: string; briefing?: string; debrief_win?: string; debrief_loss?: string }[]).find((t) => t.mission_id === node.id);
+    if (mt) {
+      if (mt.briefing) base0.intro_scene = [{ speaker: 'narrator', line: mt.briefing }, ...(base0.intro_scene ?? [])];
+      if (mt.debrief_win) base0.victory_epilogue = [{ speaker: 'narrator', line: mt.debrief_win }, ...(base0.victory_epilogue ?? [])];
+      if (mt.debrief_loss) base0.defeat_line = base0.defeat_line ? `${mt.debrief_loss} ${base0.defeat_line}` : mt.debrief_loss;
+    }
     const boss = Object.values(bosses as Record<string, { mission: string; pre_fight?: Scene[]; death_scene?: Scene[]; hero_reaction?: string }>).find((b) => b.mission === node.id);
     if (boss) {
       base0.intro_scene = [...(base0.intro_scene ?? []), ...(boss.pre_fight ?? [])];
+      const bossKey = Object.keys(bosses as Record<string, { mission: string }>).find((k) => (bosses as Record<string, { mission: string }>)[k].mission === node.id);
+      const bl = (bossLines as { boss?: string; intro?: string }[]).find((b) => b.boss === bossKey);
+      if (bl?.intro) (base0.intro_scene as Scene[]).push({ speaker: bossKey ?? 'boss', line: bl.intro });
       const reaction = boss.hero_reaction ? [{ speaker: 'hero', line: boss.hero_reaction }] : [];
       base0.victory_epilogue = [...(base0.victory_epilogue ?? []), ...(boss.death_scene ?? []), ...reaction];
     }
@@ -65,6 +77,10 @@ export async function loadFlavorLists(): Promise<void> {
   try {
     const more = (await (await fetch(`${base}data/content/tips-2.json`)).json()) as { text: string }[];
     loadingTips = loadingTips.concat(more.map((t) => ({ tip: t.text })));
+  } catch { /* optional */ }
+  try {
+    const ls = (await (await fetch(`${base}data/content/loading-screens.json`)).json()) as { text: string }[];
+    loadingTips = loadingTips.concat(ls.map((t) => ({ tip: t.text })));
   } catch { /* optional */ }
 }
 const pick = <T,>(a: T[]): T | undefined => (a.length ? a[Math.floor(Math.random() * a.length)] : undefined);
