@@ -239,11 +239,32 @@ def frame(cv_c, cv_m, d, anim, n):
     return c, m
 
 
+def auto_crop(im):
+    """Crop to the tallest horizontal band that holds the subject strip (background may be a gradient)."""
+    a = np.asarray(im).astype(int)
+    med = np.median(a, axis=1, keepdims=True)  # per-row background colour
+    diff = np.abs(a - med).sum(axis=2) > 60
+    rows = diff.sum(axis=1) > max(6, im.width * 0.004)
+    best, cur = (0, 0), None
+    for y, on in enumerate(list(rows) + [False]):
+        if on and cur is None:
+            cur = y
+        elif not on and cur is not None:
+            if y - cur > best[1] - best[0]:
+                best = (cur, y)
+            cur = None
+    y0, y1 = best
+    pad = 12
+    return im.crop((0, max(0, y0 - pad), im.width, min(im.height, y1 + pad)))
+
+
 def main():
     sheet, unit = sys.argv[1], sys.argv[2]
     im = Image.open(sheet).convert("RGB")
     for a in sys.argv[3:]:
-        if a.startswith("crop="):
+        if a == "crop=auto":
+            im = auto_crop(im)
+        elif a.startswith("crop="):
             im = im.crop(tuple(int(v) for v in a[5:].split(",")))
     views = split_views(key_magenta(im))
     k = fit_scale(views)
