@@ -1,0 +1,138 @@
+[
+ {
+  "id": "warrior-male",
+  "silhouette": "Broad-shouldered heavy infantryman in bulky segmented plate, square kite shield on left arm, notched broadsword lowered.",
+  "palette": [
+   "#2B2E33",
+   "#5A626A",
+   "#7A3B2E",
+   "#A68A64",
+   "#18191C"
+  ],
+  "outfit": "Dented steel brigandine and layered pauldrons over worn oxblood gambeson, heavy oak-and-iron kite shield, mud-caked greaves.",
+  "face_and_hair": "Weathered square jaw, broken nose, graying cropped hair and thick stubble, tired flint-gray eyes with a brow scar.",
+  "signature_prop": "Iron-rimmed oak kite shield scarred with deep axe notches and faded paint.",
+  "portrait_prompt": "Dark fantasy painterly character portrait, 512x512, weathered middle-aged male veteran warrior, cropped graying hair, stubble, scarred brow, dented steel plate pauldrons over faded oxblood gambeson, muted desaturated palette, moody overcast rim lighting, grim realistic oil brushwork, Darkest Dungeon and Disco Elysium inspired, no text, no watermark, no logo",
+  "sprite_prompt": "3/4 top-down RPG character sprite sheet reference, 16 directions, 48x48 pixel cell grid, stocky male heavy warrior in dark steel plate armor, large square iron-rimmed kite shield on left arm, broadsword in right hand, muted steel gray and dark oxblood palette, crisp readable silhouette, dark fantasy pixel art, transparent background",
+  "negative": "anime, bright neon colors, glossy 3D render, smiling, clean pristine armor, oversized fantasy spikes, text, watermark, logo, signature, frame"
+ },
+ {
+  "id": "warrior-female",
+  "silhouette": "Sturdy upright female vanguard in articulated steel plate, square kite shield held tight, heavy war-blade braced.",
+  "palette": [
+   "#2E3238",
+   "#646D75",
+   "#6E352C",
+   "#9E8462",
+   "#17181B"
+  ],
+  "outfit": "Custom-riveted steel breastplate and high gorget over dark rust-red wool surcoat, reinforced gauntlets, square banded shield.",
+  "face_and_hair": "Sharp cheekbones, resolute set jaw, dark auburn hair braided tight into a low crown bun, soot smudge on cheek, cold hazel eyes.",
+  "signature_prop": "Heavy steel-banded kite shield with brass repair rivets along the upper rim.",
+  "portrait_prompt": "Dark fantasy painterly character portrait, 512x512, battle-hardened adult female veteran warrior, dark auburn hair in tight practical braid, sharp cheekbones, high steel gorget and custom-riveted plate armor over dark rust gambeson, muted desaturated palette, moody overcast rim lighting, grim realistic oil brushwork, Darkest Dungeon and Disco Elysium inspired, no text, no watermark, no logo",
+  "sprite_prompt": "3/4 top-down RPG character sprite sheet reference, 16 directions, 48x48 pixel cell grid, athletic female heavy warrior in dark riveted steel plate armor, square iron-rimmed kite shield on left arm, broadsword in right hand, muted steel gray and dark rust palette, crisp readable silhouette, dark fantasy pixel art, transparent background",
+  "negative": "anime, bikini armor, boob plate, makeup, bright neon colors, glossy 3D render, smiling, clean pristine armor, text, watermark, logo, frame"
+ },
+ {
+  "id": "archer-female",
+  "silhouette": "Lean, slightly crouched scout silhouette with raised asymmetrical hood, recurve yew bow held diagonally, hip quiver.",
+  "palette": [
+   "#2E382E",
+   "#4F5D48",
+   "#6B4F37",
+   "#A38B63",
+   "#1A1D19"
+  ],
+  "outfit": "Oiled moss-green wool hooded cloak over scarred brown boiled-leather jerkin, forearm bracer, fletched hip quiver, mud-stained boots.",
+  "face_and_hair": "Freckled weathered face, wry half-smirk, wind-tangled chestnut hair tucked under hood, sharp amber-green eyes.",
+  "signature_prop": "Recurve yew hunting bow wrapped in waxed linen with a leather hip quiver.",
+  "portrait_prompt": "Dark fantasy painterly character portrait, 512x512, sharp-eyed adult female frontier scout archer, raised moss-green oiled wool hood casting shadow over freckled weathered face, wry dry expression, chestnut strands, scarred brown boiled-leather jerkin, muted desaturated palette, moody overcast rim lighting, grim realistic oil brushwork, Darkest Dungeon and Disco Elysium inspired, no text, no watermark, no logo",
+  "sprite_prompt": "3/4 top-down RPG character sprite sheet reference, 16 directions, 48x48 pixel cell grid, agile female ranger in dark moss-green hooded cloak and brown boiled-leather armor, carrying curved yew bow and hip quiver, muted forest green and leather brown palette, crisp readable silhouette, dark fantasy pixel art, transparent background",
+  "negative": "anime, bright neon green, glamorous model face, cleavage, glossy 3D render, oversized glowing bow, text, watermark, logo, frame"
+ },
+ {
+  "id": "archer-male",
+  "silhouette": "Tall, narrow-shouldered fen-stalker silhouette in draped hooded cloak, long yew bow vertical at side, hip quiver.",
+  "palette": [
+   "#2B332C",
+   "#485446",
+   "#5E4632",
+   "#96805C",
+   "#181B18"
+  ],
+  "outfit": "Peat-stained olive-gray hooded mantle over patched rawhide coat, heavy leather shooting glove, mud-crusted thigh boots.",
+  "face_and_hair": "Gaunt angular face, short dark beard flecked with salt-gray, deep-set steady eyes beneath a low weathered hood.",
+  "signature_prop": "Tall fen-yew longbow with horn nocks and a waterproofed rawhide quiver.",
+  "portrait_prompt": "Dark fantasy painterly character portrait, 512x512, gaunt taciturn adult male fen-stalker archer, peat-stained olive-gray wool hood pulled low, short salt-and-pepper beard, deep-set focused eyes, patched rawhide coat and leather bracer, muted desaturated palette, moody overcast rim lighting, grim realistic oil brushwork, Darkest Dungeon and Disco Elysium inspired, no text, no watermark, no logo",
+  "sprite_prompt": "3/4 top-down RPG character sprite sheet reference, 16 directions, 48x48 pixel cell grid, lean male archer in dark olive-gray hooded cloak and brown leather coat, holding tall yew bow and hip quiver, muted peat green and bark brown palette, crisp readable silhouette, dark fantasy pixel art, transparent background",
+  "negative": "anime, bright neon colors, glossy 3D render, superhero pose, glowing arrows, text, watermark, logo, frame"
+ },
+ {
+  "id": "mage-male",
+  "silhouette": "Tall, slightly hunched scholar silhouette in layered long coat-robes, wide collar, tall crooked iron-shod staff.",
+  "palette": [
+   "#263242",
+   "#445A73",
+   "#6E5C45",
+   "#9EAAB5",
+   "#151921"
+  ],
+  "outfit": "Ink-stained slate-blue wool scholar robes with high buttoned collar, leather satchel of notebooks, ash-singed cuffs.",
+  "face_and_hair": "Thin ascetic face, spectacles perched on crooked nose, receding dark hair in a messy tie, dark circles under sharp eyes.",
+  "signature_prop": "Tall ashwood staff bound with tarnished copper coils and a smoky-quartz lens.",
+  "portrait_prompt": "Dark fantasy painterly character portrait, 512x512, gaunt middle-aged male arcana scholar mage, thin ascetic face, wire spectacles on crooked nose, receding dark hair, dark circles under intense eyes, ink-stained slate-blue high-collared wool robes, muted desaturated palette, moody overcast rim lighting, grim realistic oil brushwork, Darkest Dungeon and Disco Elysium inspired, no text, no watermark, no logo",
+  "sprite_prompt": "3/4 top-down RPG character sprite sheet reference, 16 directions, 48x48 pixel cell grid, robed male mage in slate-blue layered scholar robes and dark mantle, holding tall wooden staff with copper focal tip, muted slate blue and ash gray palette, crisp readable silhouette, dark fantasy pixel art, transparent background",
+  "negative": "anime, wizard pointy hat, flowing white Gandalf beard, bright neon magic sparkles, glossy 3D render, text, watermark, logo, frame"
+ },
+ {
+  "id": "mage-female",
+  "silhouette": "Erect, angular silhouette in tailored long coat-robes with high asymmetric collar and tall copper-wound staff.",
+  "palette": [
+   "#283445",
+   "#4A617A",
+   "#786246",
+   "#A6B2BD",
+   "#161A22"
+  ],
+  "outfit": "Prussian-slate heavy wool coat-robe trimmed with tarnished brass buttons, insulated leather gloves, grounding wire at hem.",
+  "face_and_hair": "Severe sharp features, silver-streaked black hair pulled into a severe knot with brass pins, pale piercing eyes.",
+  "signature_prop": "Tall dark-iron and ashwood staff wound with copper wire and a galvanic crystal.",
+  "portrait_prompt": "Dark fantasy painterly character portrait, 512x512, severe intelligent adult female arcana assayer mage, silver-streaked black hair pinned in a tight knot, sharp cheekbones, piercing pale eyes, high-collared slate-blue wool coat-robe with tarnished brass clasps, muted desaturated palette, moody overcast rim lighting, grim realistic oil brushwork, Darkest Dungeon and Disco Elysium inspired, no text, no watermark, no logo",
+  "sprite_prompt": "3/4 top-down RPG character sprite sheet reference, 16 directions, 48x48 pixel cell grid, robed female mage in dark slate-blue tailored coat-robes, holding tall copper-wound staff, muted slate blue and tarnished brass palette, crisp readable silhouette, dark fantasy pixel art, transparent background",
+  "negative": "anime, pointy witch hat, cleavage, bright neon lightning, glossy 3D render, glamorous makeup, text, watermark, logo, frame"
+ },
+ {
+  "id": "necromancer-male",
+  "silhouette": "Gaunt, solemn clerk silhouette in heavy charcoal cassock-robe, hanging brass balance scale at hip, bone-handled awl-rod.",
+  "palette": [
+   "#1F1D21",
+   "#3D3840",
+   "#7D7364",
+   "#9E844B",
+   "#111012"
+  ],
+  "outfit": "Threadbare charcoal-black mortuary cassock with grey linen stole, belt hung with sealed vellum scrolls and brass weights.",
+  "face_and_hair": "Hollow-cheeked pale face, lank shoulder-length dark hair, ink-stained fingers, tired heavy-lidded eyes.",
+  "signature_prop": "Tarnished brass apothecary balance scale and a carved bone-and-iron probate rod.",
+  "portrait_prompt": "Dark fantasy painterly character portrait, 512x512, gaunt pale adult male mortuary clerk necromancer, hollow cheeks, lank dark hair, tired heavy-lidded eyes, threadbare charcoal-black cassock robe with grey linen stole and tarnished brass fasteners, muted desaturated palette, moody overcast rim lighting, grim realistic oil brushwork, Darkest Dungeon and Disco Elysium inspired, no text, no watermark, no logo",
+  "sprite_prompt": "3/4 top-down RPG character sprite sheet reference, 16 directions, 48x48 pixel cell grid, gaunt male necromancer in charcoal-black cassock robes and grey stole, holding carved bone ritual rod and hanging brass scale, muted charcoal and bone ivory palette, crisp readable silhouette, dark fantasy pixel art, transparent background",
+  "negative": "anime, human skulls, skeleton face, evil grinning villain, neon green necromancy glow, scythe, horns, glossy 3D render, text, watermark, logo, frame"
+ },
+ {
+  "id": "necromancer-female",
+  "silhouette": "Tall, draped abbey-arbiter silhouette in charcoal mantle and layered dark robes, ritual censer and bone-rod in hand.",
+  "palette": [
+   "#211E24",
+   "#423C47",
+   "#857A6B",
+   "#A3894E",
+   "#121114"
+  ],
+  "outfit": "Charcoal wool abbey habit over ash-grey undertunic, knotted hemp cord belt with brass seal-stamps and bone needles.",
+  "face_and_hair": "Composed pale oval face, dark hair veiled under a folded ash-grey linen wimple, calm sorrowful dark eyes.",
+  "signature_prop": "Carved ivory-bone ritual rod paired with a smoked-brass oath-censer on a chain.",
+  "portrait_prompt": "Dark fantasy painterly character portrait, 512x512, solemn pale adult female abbey arbiter necromancer, composed oval face, dark hair framed by a folded ash-grey linen veil, calm dark eyes, layered charcoal-black wool robes with tarnished brass seal-pins, muted desaturated palette, moody overcast rim lighting, grim realistic oil brushwork, Darkest Dungeon and Disco Elysium inspired, no text, no watermark, no logo",
+  "sprite_prompt": "3/4 top-down RPG character sprite sheet reference, 16 directions, 48x48 pixel cell grid, tall female necromancer in charcoal-black robes and ash-grey veil, holding carved bone ritual rod and brass censer, muted charcoal and bone ivory palette, crisp readable silhouette, dark fantasy pixel art, transparent background",
+  "negative": "anime, human skulls, skeleton face, evil witch, neon green glow, scythe, horns, glossy 3D render, text, watermark, logo, frame"
+ }
+]

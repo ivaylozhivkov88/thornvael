@@ -1,0 +1,482 @@
+[
+ {
+  "id": "sq25-weir-eel-traps",
+  "act": 1,
+  "town": "town-thornwick",
+  "giver": "npc-fenwick-ferryman",
+  "title": "Iron in the Weir",
+  "briefing": "Old Fenwick's wicker eel-traps below the Sunken Ford have been torn apart by Bog Leeches bloated on gnoll carrion. Worse, one trap snagged a waterproofed courier-tube stamped with the Border Mint's wax. Clear the leeches out of the weir stakes and pull up the cylinder before the river-rot eats the parchment.",
+  "objective": {
+   "type": "kill",
+   "target": "bog-leech",
+   "count": 9
+  },
+  "reward": {
+   "gold": 110,
+   "xp": 190,
+   "item": null
+  },
+  "twist": "Choice A (flag_fenwick_mint_returned: Deliver the sealed courier-tube to npc-garrick-captain): Garrick rewards you with +80 gold and unlocks +1 militia archer in m08-alder-bridge. Choice B (flag_fenwick_mint_fence: Let npc-fenwick-ferryman sell the wax dies to river smugglers): You pocket +160 gold immediately, but Fenwick's river-salvage prices rise by +15%.",
+  "unlocks_after": "m02-whispers-in-the-fen"
+ },
+ {
+  "id": "sq26-cold-hearth-coal",
+  "act": 1,
+  "town": "town-thornwick",
+  "giver": "npc-hobb-smith",
+  "title": "Cold Hearth Coal",
+  "briefing": "Thornwick's smithy is down to damp birch charcoal that spits sparks and leaves iron brittle as glass. Two abandoned anthracite barrows sit just outside the Ravenwatch ditch, currently overrun by Bone Gnawers chewing the leather harness-straps. Haul four sacks of dry sea-coal back to Hobb's forge.",
+  "objective": {
+   "type": "collect",
+   "target": "Anthracite Coal Sack",
+   "count": 4
+  },
+  "reward": {
+   "gold": 135,
+   "xp": 230,
+   "item": null
+  },
+  "twist": null,
+  "unlocks_after": "m03-nightfall-at-ravenwatch"
+ },
+ {
+  "id": "sq27-rue-for-the-grey-itch",
+  "act": 1,
+  "town": "town-thornwick",
+  "giver": "npc-marta-alchemist",
+  "title": "Rue for the Grey Itch",
+  "briefing": "Half the pickets returning from the Sunken Sanctum are scratching their wrists raw with grey water-blisters. Widow Marta needs bitter marsh-rue growing along the flooded causeway steps, guarded by Drowned Thralls that rise whenever ripples touch the stone. Gather five bundles of marsh-rue before the rash reaches the archers' bow-hands.",
+  "objective": {
+   "type": "collect",
+   "target": "Bitter Marsh-Rue",
+   "count": 5
+  },
+  "reward": {
+   "gold": 165,
+   "xp": 280,
+   "item": null
+  },
+  "twist": null,
+  "unlocks_after": "m04-the-sunken-sanctum"
+ },
+ {
+  "id": "sq28-broken-axle-on-alder-road",
+  "act": 1,
+  "town": "town-thornwick",
+  "giver": "npc-garrick-captain",
+  "title": "The Broken Axle",
+  "briefing": "A two-wheeled ammunition wain carrying three hundred ash-shaft quarrels threw its iron rim half a mile east of the Greywood fork. Garrick has two sappers jacking up the axle under cover of brambles while Briar Hounds circle the scent of tallow. Defend the wain until the wheel is wedged and rolled clear.",
+  "objective": {
+   "type": "defend",
+   "target": "m06-greywood-supply",
+   "count": 1
+  },
+  "reward": {
+   "gold": 195,
+   "xp": 330,
+   "item": null
+  },
+  "twist": "Choice A (flag_alder_bolts_garrison: Deliver all three hundred quarrels to npc-garrick-captain): Garrison crossbowmen gain +15% volley damage during m08-alder-bridge and m11-ashbrook-retreat. Choice B (flag_alder_bolts_sold: Sell half the crate to private caravan guards before reporting in): You gain +140 gold immediately, but Garrick docks your next ration issue (-10% starting stamina in m08-alder-bridge).",
+  "unlocks_after": "m06-greywood-supply"
+ },
+ {
+  "id": "sq29-salt-crust-beacons",
+  "act": 2,
+  "town": "town-redmarsh",
+  "giver": "field-warden-hale",
+  "title": "Salt-Crust Beacons",
+  "briefing": "Alkali fog rolls across the Redmarsh flats every dusk, blinding supply columns straying off the stone causeway. Warden Hale's signal-braziers along the northern salt-pans have been toppled by Alkali Stalkers nesting in the dry reeds. Reach the three fallen tripod beacons and relight their oil-pans.",
+  "objective": {
+   "type": "reach",
+   "target": "Alkali Tripod Beacon",
+   "count": 3
+  },
+  "reward": {
+   "gold": 225,
+   "xp": 390,
+   "item": null
+  },
+  "twist": null,
+  "unlocks_after": "m12-redmarsh-border"
+ },
+ {
+  "id": "sq30-jawbone-wind-chimes",
+  "act": 2,
+  "town": "town-redmarsh",
+  "giver": "npc-zahra-scholar",
+  "title": "Jawbone Wind-Chimes",
+  "briefing": "Desert raiders have strung hollowed femur-flutes across the Twin Passes that shriek whenever gusts blow north, panicking pack-mules and masking ambush horns. Zahra believes the bone-carvings preserve pre-dynastic wind-wards worth studying. Clear the Sand-Clan Skirmishers guarding the ridge ledges and bring down the bone-chimes.",
+  "objective": {
+   "type": "kill",
+   "target": "sand-raider",
+   "count": 11
+  },
+  "reward": {
+   "gold": 255,
+   "xp": 440,
+   "item": null
+  },
+  "twist": "Choice A (flag_jawbone_chimes_zahra: Give the intact bone-flutes to npc-zahra-scholar): Zahra decodes the wind-cadence, granting your party +10% movement speed across Redmarsh missions (m14–m23). Choice B (flag_jawbone_chimes_smashed: Smash the cursed flutes on the rocks to quiet the pass immediately): Mules travel calmer (+120 gold caravan bonus), but Zahra calls it an act of vandalism.",
+  "unlocks_after": "m13-twin-passes"
+ },
+ {
+  "id": "sq31-brine-barrel-reckoning",
+  "act": 2,
+  "town": "town-redmarsh",
+  "giver": "npc-tull-water-seller",
+  "title": "Brine-Barrel Reckoning",
+  "briefing": "Three iron-hooped casks of distilled sweet-water fell off a panicked pack-lizard in Bracken Basin during the dust storm. Cask-Master Tull can smell clean water a league away—and so can the Dune Lurkers burrowing beneath the thorn-scrub. Recover the three brass-spigoted barrels before their staves split in the sun.",
+  "objective": {
+   "type": "collect",
+   "target": "Brass-Spigoted Water Cask",
+   "count": 3
+  },
+  "reward": {
+   "gold": 270,
+   "xp": 470,
+   "item": null
+  },
+  "twist": null,
+  "unlocks_after": "m14-scattered-scouts"
+ },
+ {
+  "id": "sq32-vinegar-for-highgate",
+  "act": 2,
+  "town": "town-redmarsh",
+  "giver": "npc-bram-quartermaster",
+  "title": "Vinegar for Highgate",
+  "briefing": "After the firepot assault on Highgate Watch, the garrison is out of sour-wine vinegar to cool blistered shields and scrub pitch off timber. Bram hired a one-eyed drover to haul four carboys from the old border cellar, but the cart is stuck near a nest of Claw Vipers. Escort the vinegar cart safely to the outpost gate.",
+  "objective": {
+   "type": "escort",
+   "target": "Sour-Wine Vinegar Cart",
+   "count": 1
+  },
+  "reward": {
+   "gold": 295,
+   "xp": 510,
+   "item": null
+  },
+  "twist": null,
+  "unlocks_after": "m15-outpost-palisade"
+ },
+ {
+  "id": "sq33-quartz-splinter-harvest",
+  "act": 2,
+  "town": "town-redmarsh",
+  "giver": "npc-marta-alchemist",
+  "title": "Quartz-Splinter Harvest",
+  "briefing": "The ruptured plateau wardstones shed finger-length slivers of charged quartz that hold lightning better than copper wire. Widow Marta wants six uncracked splinters to brew static-salve for the vanguard's boots, though Ash-Wraiths drawn to the residual hum prowl the scree. Slay the wraiths haunting the plateau rim.",
+  "objective": {
+   "type": "kill",
+   "target": "ash-wraith",
+   "count": 7
+  },
+  "reward": {
+   "gold": 325,
+   "xp": 560,
+   "item": null
+  },
+  "twist": null,
+  "unlocks_after": "m16-wardstone-rupture"
+ },
+ {
+  "id": "sq34-pit-prop-timbers",
+  "act": 2,
+  "town": "town-redmarsh",
+  "giver": "field-miner-tomas",
+  "title": "Pit-Prop Timbers",
+  "briefing": "Since the slave-revolt in the Deep Quarry, two lower galleries groan under unsupported basalt ceilings where thirty rescued miners left their tools and dead kin. Miner Tomas needs heavy cedar pit-props wedged beneath the main fault arch before the roof caves in. Defend the timber-crews while they brace the gallery.",
+  "objective": {
+   "type": "defend",
+   "target": "m20-deep-quarry",
+   "count": 2
+  },
+  "reward": {
+   "gold": 350,
+   "xp": 610,
+   "item": null
+  },
+  "twist": "Choice A (flag_quarry_gallery_braced: Hold the gallery until the miners recover their dead and iron tools): Tomas gifts you +15% physical damage for pioneer/melee units in m23-fork-of-spears. Choice B (flag_quarry_gallery_collapsed: Collapse the tunnel early to bury pursuing Pale Burrowers): You finish with zero casualties and +150 gold in salvaged ore, but Tomas mourns the unburied dead.",
+  "unlocks_after": "m20-deep-quarry"
+ },
+ {
+  "id": "sq35-milestone-dispatch",
+  "act": 2,
+  "town": "town-redmarsh",
+  "giver": "field-warden-hale",
+  "title": "The Four-Faced Milestone",
+  "briefing": "Raider outriders chipped the distance glyphs off Crossroads Redoubt's milestone and planted false trail-cairns leading supply trains into alkali sinkholes. Warden Hale needs a mounted picket to ride the four approaches and topple the decoy cairns before the baggage column marches at dawn. Destroy the four decoy rock-cairns along the desert tracks.",
+  "objective": {
+   "type": "reach",
+   "target": "Decoy Trail-Cairn",
+   "count": 4
+  },
+  "reward": {
+   "gold": 380,
+   "xp": 660,
+   "item": null
+  },
+  "twist": null,
+  "unlocks_after": "m21-lean-garrison"
+ },
+ {
+  "id": "sq36-caulking-oakum",
+  "act": 3,
+  "town": "town-oakhaven",
+  "giver": "npc-kors-shipwright",
+  "title": "Caulking Oakum",
+  "briefing": "Kors's shipwrights have green pine planks aplenty, but zero tarred hemp oakum to seal the seams of the troop barges. Three wrecked merchant cogs grounded on the Greywash mudflats still hold dry bales of hemp cordage in their forecastles, guarded by Mire Crocs. Collect four bales of dry hemp oakum from the mudflat wrecks.",
+  "objective": {
+   "type": "collect",
+   "target": "Tarred Hemp Bale",
+   "count": 4
+  },
+  "reward": {
+   "gold": 440,
+   "xp": 780,
+   "item": null
+  },
+  "twist": null,
+  "unlocks_after": "m24-pledge-at-oakhaven"
+ },
+ {
+  "id": "sq37-fumarole-glass",
+  "act": 3,
+  "town": "town-oakhaven",
+  "giver": "npc-sera-healer",
+  "title": "Fumarole Glass",
+  "briefing": "Where the Cinder Wards boiled the cliffside groundwater, the heat fused beach sand into thin sheets of sterile volcanic glass—ideal for lancing boils and suturing deep shrapnel wounds without rust fever. Chief Healer Sera needs four unshattered panes from the cooling vents, now prowled by Cinder-Hounds. Slay the hounds nesting among the fumaroles.",
+  "objective": {
+   "type": "kill",
+   "target": "cinder-hound",
+   "count": 8
+  },
+  "reward": {
+   "gold": 490,
+   "xp": 860,
+   "item": null
+  },
+  "twist": null,
+  "unlocks_after": "m25-cinder-wards"
+ },
+ {
+  "id": "sq38-semaphore-codebooks",
+  "act": 3,
+  "town": "town-oakhaven",
+  "giver": "npc-lyra-warden",
+  "title": "Semaphore Codebooks",
+  "briefing": "When Sundered Ranks fell, a signal-corporal bolted down the sea-cliffs with the iron-bound cipher tables used by coastal watchtowers. If those tables reach Admiral Kael's fleet, every lighthouse beacon between Oakhaven and the straits becomes an enemy guidepost. Track the deserter's trail and eliminate the Coastal Privateers escorting him.",
+  "objective": {
+   "type": "kill",
+   "target": "coastal-privateer",
+   "count": 10
+  },
+  "reward": {
+   "gold": 540,
+   "xp": 940,
+   "item": null
+  },
+  "twist": "Choice A (flag_semaphore_burned: Burn the cipher tables on the cliff as npc-lyra-warden ordered): Enemy naval bombardment accuracy drops by 20% in m35-burning-harbor. Choice B (flag_semaphore_kept: Keep the cipher tables to decode enemy supply signals): You gain +220 gold from intercepted smugglers, but Kael's flagship targets your piers more accurately in m35-burning-harbor.",
+  "unlocks_after": "m26-sundered-ranks"
+ },
+ {
+  "id": "sq39-undertow-chains",
+  "act": 3,
+  "town": "town-oakhaven",
+  "giver": "field-harbor-pilot",
+  "title": "Undertow Chains",
+  "briefing": "Even with the Sunken Citadel's sea-gates wedged shut, submerged harbor-chains stretched across the outer channel threaten to rip the keels off Oakhaven's troop transports at low water. The harbor pilot needs sappers protected on the barnacle-slick reef while they file through three anchor-shackles. Reach the three submerged chain-winches before the tide floods back.",
+  "objective": {
+   "type": "reach",
+   "target": "Submerged Chain-Winch",
+   "count": 3
+  },
+  "reward": {
+   "gold": 590,
+   "xp": 1020,
+   "item": null
+  },
+  "twist": null,
+  "unlocks_after": "m28-sunken-citadel"
+ },
+ {
+  "id": "sq40-mill-wheel-grease",
+  "act": 3,
+  "town": "town-oakhaven",
+  "giver": "npc-pip-mudlark",
+  "title": "Tallow for the Mill-Wheel",
+  "briefing": "With the Twin Riverlocks jammed, Oakhaven's tidal grain-mill can finally grind hardtack for the fleet—except the main wooden axle is bone-dry and smoking like a tinderbox. Mudlark Pip spotted two casks of rendered whale-tallow left behind in a smugglers' cove guarded by Bog Lurkers. Escort Pip's handcart back from the cove without spilling the casks.",
+  "objective": {
+   "type": "escort",
+   "target": "Whale-Tallow Handcart",
+   "count": 1
+  },
+  "reward": {
+   "gold": 640,
+   "xp": 1120,
+   "item": null
+  },
+  "twist": null,
+  "unlocks_after": "m31-riverlock-crossing"
+ },
+ {
+  "id": "sq41-lodestone-compasses",
+  "act": 3,
+  "town": "town-oakhaven",
+  "giver": "field-harbor-pilot",
+  "title": "Lodestone Compasses",
+  "briefing": "Near the fallen Elder Juggernaut on the pine ridge, magnetic ore veins spin iron compass needles in circles—a fatal hazard once the fleet enters the volcanic fog of the southern straits. The harbor pilot needs four fist-sized chunks of natural lodestone to re-magnetize the ships' binnacles. Collect four magnetic lodestone nodules from the shattered ridge.",
+  "objective": {
+   "type": "collect",
+   "target": "Magnetic Lodestone Nodule",
+   "count": 4
+  },
+  "reward": {
+   "gold": 710,
+   "xp": 1240,
+   "item": null
+  },
+  "twist": null,
+  "unlocks_after": "m32-elder-juggernaut"
+ },
+ {
+  "id": "sq42-barons-cellar-keys",
+  "act": 3,
+  "town": "town-oakhaven",
+  "giver": "npc-pip-mudlark",
+  "title": "The Baron's Cellar Keys",
+  "briefing": "Baron Vane's tax-bailiffs locked forty barrels of salted herring and twelve crates of crossbow strings inside his flooded sea-cellar before fleeing the keep. Tide-Ghouls drawn to the brine have nested behind the iron grate. Clear the ghouls out of the lower vault so Oakhaven's dockworkers can haul out the provisions.",
+  "objective": {
+   "type": "kill",
+   "target": "tide-ghoul",
+   "count": 9
+  },
+  "reward": {
+   "gold": 750,
+   "xp": 1320,
+   "item": null
+  },
+  "twist": "Choice A (flag_baron_cellar_town: Distribute the salted herring to Oakhaven's dockworkers): Dockworkers volunteer to crew the fire-brigades in m35-burning-harbor (+15% pier durability). Choice B (flag_baron_cellar_sold: Sell the preserved rations to privateer captains in the bay): You pocket +300 gold immediately, but Oakhaven's dockworkers jeer your vanguard.",
+  "unlocks_after": "m33-high-stakes-gambit"
+ },
+ {
+  "id": "sq43-sulfur-crust-markers",
+  "act": 4,
+  "town": "town-ironcamp",
+  "giver": "field-ash-scout",
+  "title": "Yellow Crust Markers",
+  "briefing": "Two supply teams already lost mules to boiling sulfur sinkholes between the landing coves and Highcrest bluff. Ash-Scouts have forged iron warning-stakes tipped with white chalk, but Ash-Stalkers keep ambushing anyone who strays off the basalt ridge. Reach the four thin-crust fissures and drive in the warning-stakes.",
+  "objective": {
+   "type": "reach",
+   "target": "Thin-Crust Sulfur Fissure",
+   "count": 4
+  },
+  "reward": {
+   "gold": 820,
+   "xp": 1440,
+   "item": null
+  },
+  "twist": null,
+  "unlocks_after": "m36-heartland-march"
+ },
+ {
+  "id": "sq44-prism-dust-for-the-anvil",
+  "act": 4,
+  "town": "town-ironcamp",
+  "giver": "npc-vok-forgemaster",
+  "title": "Prism Dust for the Anvil",
+  "briefing": "Shattering the Obsidian Beacons left behind heaps of vitrified prism-sand that turns ordinary quenched steel blue-hard when sprinkled into the crucible. Vok needs five pouches of ground prism-sand before his apprentices can re-edge the vanguard's halberds, though Spark Elementals still crackle around the ruins. Collect five pouches of prism-sand from the beacon crags.",
+  "objective": {
+   "type": "collect",
+   "target": "Vitrified Prism-Sand Pouch",
+   "count": 5
+  },
+  "reward": {
+   "gold": 900,
+   "xp": 1580,
+   "item": null
+  },
+  "twist": null,
+  "unlocks_after": "m37-shattered-beacons"
+ },
+ {
+  "id": "sq45-pumice-mortar-breach",
+  "act": 4,
+  "town": "town-ironcamp",
+  "giver": "field-siege-sapper",
+  "title": "Pumice Mortar",
+  "briefing": "Greystone Bastion's east wall survived the demonic catapults, but its mortar joints are cracked from parapet to footing. Siege sappers are mixing pulverized volcanic pumice with hot brine to seal the fractures before ash-squalls erode the stone. Defend the mason-sappers on the outer ledge from prowling Slag Fiends.",
+  "objective": {
+   "type": "defend",
+   "target": "m38-besieged-wall",
+   "count": 2
+  },
+  "reward": {
+   "gold": 980,
+   "xp": 1720,
+   "item": null
+  },
+  "twist": "Choice A (flag_greystone_mortar_cured: Hold the ledge until the pumice mortar cures completely): Greystone's garrison reinforces your rear guard, granting +10% armor to infantry in m41-gauntlet-of-iron. Choice B (flag_greystone_mortar_rushed: Pull the sappers back early to salvage their bronze mixing-cauldrons): You gain +280 gold in salvaged bronze, but Greystone's east wall remains fragile.",
+  "unlocks_after": "m38-besieged-wall"
+ },
+ {
+  "id": "sq46-ashveil-cleft-wardens",
+  "act": 4,
+  "town": "town-ironcamp",
+  "giver": "npc-elias-penitent",
+  "title": "Ashveil Cleft-Wardens",
+  "briefing": "When Arch-Mage Malrik fell in Ashveil Gorge, three of his bound Shadow Constructs remained anchored to obsidian monoliths in the side clefts, attacking every dispatch rider carrying wounded back to Ironcamp. Brother Elias knows the counter-sigils to unbind them cleanly. Destroy the three Shadow Constructs haunting the gorge.",
+  "objective": {
+   "type": "kill",
+   "target": "shadow-construct",
+   "count": 3
+  },
+  "reward": {
+   "gold": 1080,
+   "xp": 1900,
+   "item": null
+  },
+  "twist": null,
+  "unlocks_after": "m39-flight-of-malrik"
+ },
+ {
+  "id": "sq47-magnetic-vein-spikes",
+  "act": 4,
+  "town": "town-ironcamp",
+  "giver": "npc-rowan-commander",
+  "title": "Magnetic Vein Spikes",
+  "briefing": "The raw iron cliffs of the Gauntlet tug heavy plate armor sideways and deflect crossbow bolts mid-flight. Captain Rowan's sappers forged copper-sheathed grounding spikes to bleed off the canyon's magnetic pull before the supply train marches through. Escort the sapper-cart through the cleared checkpoint gates while they hammer in the spikes.",
+  "objective": {
+   "type": "escort",
+   "target": "Copper-Spike Sapper Cart",
+   "count": 1
+  },
+  "reward": {
+   "gold": 1220,
+   "xp": 2150,
+   "item": null
+  },
+  "twist": "Choice A (flag_gauntlet_grounded: Ground the entire canyon wall cleanly): Ranged accuracy across Act 4 missions (m42–m46) increases by +15%. Choice B (flag_gauntlet_overloaded: Overload the spikes to shatter the cliffside iron veins for Vok's forge): You gain +350 gold in raw magnetic ore, but falling rock injures two sappers.",
+  "unlocks_after": "m41-gauntlet-of-iron"
+ },
+ {
+  "id": "sq48-ashes-of-the-first-watch",
+  "act": 4,
+  "town": "town-ironcamp",
+  "giver": "npc-elias-penitent",
+  "title": "Ashes of the First Watch",
+  "briefing": "Scattered along the obsidian stair below the Threshold Chamber lie the charred brass name-plates of the original First Watch wardens who died sealing the caldera centuries ago. Elias wishes to recover five intact name-plates so their oaths are formally witnessed before the final door opens. Collect five charred brass warden-plates from the obsidian stair.",
+  "objective": {
+   "type": "collect",
+   "target": "Charred Brass Warden-Plate",
+   "count": 5
+  },
+  "reward": {
+   "gold": 1380,
+   "xp": 2450,
+   "item": null
+  },
+  "twist": null,
+  "unlocks_after": "m43-three-roads-siege"
+ }
+]

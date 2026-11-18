@@ -1,0 +1,422 @@
+[
+ {
+  "id": "ach2-groktar-bane",
+  "name": "Ford-Breaker",
+  "description": "Defeat Grok'tar and reclaim the Sunken Ford.",
+  "hidden": false,
+  "tier": "bronze"
+ },
+ {
+  "id": "ach2-mordred-purged",
+  "name": "Ashes in the Silt",
+  "description": "Slay Mordred the Ashen inside the Sunken Sanctum.",
+  "hidden": false,
+  "tier": "bronze"
+ },
+ {
+  "id": "ach2-vaelen-broken",
+  "name": "Gatehouse Stand",
+  "description": "Break Commander Vaelen's siege lines at Ashbrook.",
+  "hidden": false,
+  "tier": "silver"
+ },
+ {
+  "id": "ach2-morvessa-audit",
+  "name": "Balanced the Ledger",
+  "description": "Defeat Morvessa, High Quartermaster of the Salt Tithe.",
+  "hidden": false,
+  "tier": "silver"
+ },
+ {
+  "id": "ach2-kaelen-silenced",
+  "name": "Broken Megalith",
+  "description": "Slay Hexer Kaelen and end the Redmarsh marrow-rot.",
+  "hidden": false,
+  "tier": "silver"
+ },
+ {
+  "id": "ach2-gorrathul-cistern",
+  "name": "Keeper of Empty Wells",
+  "description": "Defeat Gorrathul atop Ironheart Bastion.",
+  "hidden": false,
+  "tier": "silver"
+ },
+ {
+  "id": "ach2-vane-toppled",
+  "name": "Foreclosed Baron",
+  "description": "Defeat Baron Vane and seize his coastal bullion vaults.",
+  "hidden": false,
+  "tier": "silver"
+ },
+ {
+  "id": "ach2-kael-sunk",
+  "name": "Flagship Down",
+  "description": "Board and slay Admiral Kael in Harborwatch Bay.",
+  "hidden": false,
+  "tier": "silver"
+ },
+ {
+  "id": "ach2-vesperion-hushed",
+  "name": "Final Amen",
+  "description": "Silence Vesperion, Lord Admiral of the Black Blockade.",
+  "hidden": false,
+  "tier": "gold"
+ },
+ {
+  "id": "ach2-ashkarath-dethroned",
+  "name": "Master of the Furnace",
+  "description": "Defeat Ashkarath upon the Obsidian Dais.",
+  "hidden": false,
+  "tier": "gold"
+ },
+ {
+  "id": "ach2-cairn-lighter",
+  "name": "Twin Flames",
+  "description": "Kindle both alpine cairns simultaneously in Split Vanguard.",
+  "hidden": false,
+  "tier": "bronze"
+ },
+ {
+  "id": "ach2-stele-scholar",
+  "name": "Stones Remember",
+  "description": "Collect all three sunken boundary rubbings in Redmarsh.",
+  "hidden": false,
+  "tier": "bronze"
+ },
+ {
+  "id": "ach2-quarry-liberator",
+  "name": "Broken Chains",
+  "description": "Free every captive miner terrace in the Deep Quarry.",
+  "hidden": false,
+  "tier": "silver"
+ },
+ {
+  "id": "ach2-citadel-diver",
+  "name": "Before the Swell",
+  "description": "Loot the Sunken Citadel's flooded armory before high tide.",
+  "hidden": false,
+  "tier": "silver"
+ },
+ {
+  "id": "ach2-beacon-breaker",
+  "name": "Darkened Crags",
+  "description": "Shatter all three Obsidian Beacons without losing a squad.",
+  "hidden": false,
+  "tier": "silver"
+ },
+ {
+  "id": "ach2-codex-complete",
+  "name": "Bestiary of Blood",
+  "description": "Unlock all 45 monster entries in the Thornvael Codex.",
+  "hidden": false,
+  "tier": "gold"
+ },
+ {
+  "id": "ach2-sidequest-act1-2",
+  "name": "Northern Errand-Runner",
+  "description": "Complete every side quest across Acts I and II.",
+  "hidden": false,
+  "tier": "silver"
+ },
+ {
+  "id": "ach2-sidequest-act3-4",
+  "name": "Southern Trouble-Shooter",
+  "description": "Complete every side quest across Acts III and IV.",
+  "hidden": false,
+  "tier": "gold"
+ },
+ {
+  "id": "ach2-hidden-culvert",
+  "name": "Sewer Rat",
+  "description": "Infiltrate Baron Vane's keep through Pip's secret grate.",
+  "hidden": true,
+  "tier": "bronze"
+ },
+ {
+  "id": "ach2-first-watch-plates",
+  "name": "Names in the Ash",
+  "description": "Recover all five First Watch plates below the Threshold.",
+  "hidden": true,
+  "tier": "silver"
+ },
+ {
+  "id": "ach2-first-temper",
+  "name": "Fresh Edge",
+  "description": "Upgrade or temper a weapon at any town smithy.",
+  "hidden": false,
+  "tier": "bronze"
+ },
+ {
+  "id": "ach2-pawn-broker",
+  "name": "Salvage Baron",
+  "description": "Earn 5,000 gold purely from selling battlefield loot.",
+  "hidden": false,
+  "tier": "bronze"
+ },
+ {
+  "id": "ach2-guild-patron",
+  "name": "Preferred Customer",
+  "description": "Unlock shop discounts with three different town merchants.",
+  "hidden": false,
+  "tier": "silver"
+ },
+ {
+  "id": "ach2-vok-masterwork",
+  "name": "Caldera Tempered",
+  "description": "Commission a Tier 5 masterwork item from Forgemaster Vok.",
+  "hidden": false,
+  "tier": "silver"
+ },
+ {
+  "id": "ach2-full-convoy",
+  "name": "Not a Crate Lost",
+  "description": "Escort all six wagons intact through the Mire Convoy.",
+  "hidden": false,
+  "tier": "silver"
+ },
+ {
+  "id": "ach2-payroll-honest",
+  "name": "Fair Share",
+  "description": "Split the low-tide payroll evenly with Mudlark Pip.",
+  "hidden": false,
+  "tier": "bronze"
+ },
+ {
+  "id": "ach2-debt-burner",
+  "name": "Ashes of Usury",
+  "description": "Burn Baron Vane's extortion ledgers instead of collecting.",
+  "hidden": true,
+  "tier": "silver"
+ },
+ {
+  "id": "ach2-quartermaster-friend",
+  "name": "Balanced Books",
+  "description": "Return the unaltered supply ledger to Master Hobb.",
+  "hidden": true,
+  "tier": "bronze"
+ },
+ {
+  "id": "ach2-mercenary-mogul",
+  "name": "Deep War-Chest",
+  "description": "Spend 25,000 gold on mercenary hires, wages, and gear.",
+  "hidden": false,
+  "tier": "gold"
+ },
+ {
+  "id": "ach2-thrifty-march",
+  "name": "Copper Pincher",
+  "description": "Finish Act I without buying a single item from merchants.",
+  "hidden": true,
+  "tier": "silver"
+ },
+ {
+  "id": "ach2-first-scroll",
+  "name": "Borrowed Thunder",
+  "description": "Cast a spell directly from a consumable scroll in combat.",
+  "hidden": false,
+  "tier": "bronze"
+ },
+ {
+  "id": "ach2-spell-singer",
+  "name": "Arcane Artillery",
+  "description": "Deal 10,000 cumulative elemental damage across a campaign.",
+  "hidden": false,
+  "tier": "silver"
+ },
+ {
+  "id": "ach2-shatter-frozen",
+  "name": "Brittle Steel",
+  "description": "Kill 25 enemies while they are frozen solid by cold magic.",
+  "hidden": false,
+  "tier": "bronze"
+ },
+ {
+  "id": "ach2-chain-conductor",
+  "name": "Grounded",
+  "description": "Strike four enemies with a single lightning arc in water.",
+  "hidden": false,
+  "tier": "silver"
+ },
+ {
+  "id": "ach2-pyromaniac",
+  "name": "Controlled Burn",
+  "description": "Ignite 50 enemies using fire spells or oil hazards.",
+  "hidden": false,
+  "tier": "bronze"
+ },
+ {
+  "id": "ach2-ward-weaver",
+  "name": "Iron Aegis",
+  "description": "Absorb 2,500 damage using protective wards and Stone Skin.",
+  "hidden": false,
+  "tier": "silver"
+ },
+ {
+  "id": "ach2-bone-accountant",
+  "name": "Foreclosed",
+  "description": "Have 6 raised undead servants active simultaneously.",
+  "hidden": false,
+  "tier": "silver"
+ },
+ {
+  "id": "ach2-hex-breaker",
+  "name": "Cleanse the Rot",
+  "description": "Dispel 30 enemy curses or poisons during combat.",
+  "hidden": false,
+  "tier": "bronze"
+ },
+ {
+  "id": "ach2-meteor-shower",
+  "name": "Skyfall",
+  "description": "Slay 8 enemies with a single Meteor cast.",
+  "hidden": true,
+  "tier": "gold"
+ },
+ {
+  "id": "ach2-mana-dry-win",
+  "name": "Empty Inkwell",
+  "description": "Win a boss fight with every caster at zero remaining mana.",
+  "hidden": true,
+  "tier": "silver"
+ },
+ {
+  "id": "ach2-no-merc-death-act1",
+  "name": "Thornwick Survivors",
+  "description": "Complete all of Act I without losing a single mercenary.",
+  "hidden": false,
+  "tier": "silver"
+ },
+ {
+  "id": "ach2-no-merc-death-campaign",
+  "name": "Not One Name Lost",
+  "description": "Finish the entire campaign with zero mercenary fatalities.",
+  "hidden": false,
+  "tier": "gold"
+ },
+ {
+  "id": "ach2-no-heal-mission",
+  "name": "Stiff Upper Lip",
+  "description": "Complete any main mission without using healing spells or potions.",
+  "hidden": false,
+  "tier": "silver"
+ },
+ {
+  "id": "ach2-speed-hourglass",
+  "name": "Beat the Tide",
+  "description": "Complete Hourglass Rescue in under six minutes.",
+  "hidden": false,
+  "tier": "silver"
+ },
+ {
+  "id": "ach2-all-four-classes",
+  "name": "Four Ways to Bleed",
+  "description": "Complete the campaign with Warrior, Archer, Mage, and Necromancer.",
+  "hidden": false,
+  "tier": "gold"
+ },
+ {
+  "id": "ach2-both-genders",
+  "name": "Two Sides of Iron",
+  "description": "Win campaigns with both a male and a female protagonist.",
+  "hidden": false,
+  "tier": "silver"
+ },
+ {
+  "id": "ach2-pacifist-escort",
+  "name": "Slip Through the Fog",
+  "description": "Complete Lantern Passage killing fewer than 12 enemies.",
+  "hidden": true,
+  "tier": "gold"
+ },
+ {
+  "id": "ach2-solo-boss",
+  "name": "One Shield Standing",
+  "description": "Land the killing blow on any Act Boss with only your hero alive.",
+  "hidden": true,
+  "tier": "gold"
+ },
+ {
+  "id": "ach2-elias-spared",
+  "name": "Ash to Wisdom",
+  "description": "Burn Elias's syllabus and unlock his hidden threshold insight.",
+  "hidden": true,
+  "tier": "silver"
+ },
+ {
+  "id": "ach2-vok-secret",
+  "name": "Blood Contract",
+  "description": "Bring Vok the Anvilmaw jaw and learn his clan's ancient debt.",
+  "hidden": true,
+  "tier": "silver"
+ },
+ {
+  "id": "ach2-sera-saw",
+  "name": "Field Surgeon",
+  "description": "Save all three sergeants to earn Chief Healer Sera's bone saw.",
+  "hidden": true,
+  "tier": "silver"
+ },
+ {
+  "id": "ach2-rowan-betrayal",
+  "name": "Sealed Behind",
+  "description": "Learn High Command's betrayal from Captain Rowan at Ironcamp.",
+  "hidden": true,
+  "tier": "silver"
+ },
+ {
+  "id": "ach2-both-endings",
+  "name": "Crown and Cinder",
+  "description": "Experience both the Order and Ember campaign endings.",
+  "hidden": false,
+  "tier": "gold"
+ },
+ {
+  "id": "ach2-skeleton-crew",
+  "name": "Skeleton Crew",
+  "description": "Win an Act IV mission with a squad of three or fewer fighters.",
+  "hidden": true,
+  "tier": "gold"
+ },
+ {
+  "id": "ach2-iron-wall-held",
+  "name": "Unbroken Parapet",
+  "description": "Complete Besieged Wall without losing a single bastion tower.",
+  "hidden": false,
+  "tier": "silver"
+ },
+ {
+  "id": "ach2-sluice-locked",
+  "name": "Rusty Gears",
+  "description": "Lock the Twin Riverlocks before a single enemy crosses east.",
+  "hidden": false,
+  "tier": "silver"
+ },
+ {
+  "id": "ach2-juggernaut-speed",
+  "name": "Quarry Demolition",
+  "description": "Shatter the Elder Juggernaut in under three minutes.",
+  "hidden": false,
+  "tier": "silver"
+ },
+ {
+  "id": "ach2-order-sovereign",
+  "name": "Pale Dawn",
+  "description": "Restore the Crown of Order and cleanse Thornvael's ash.",
+  "hidden": false,
+  "tier": "gold"
+ },
+ {
+  "id": "ach2-ember-sovereign",
+  "name": "Throne of Glass",
+  "description": "Claim the Obsidian Throne and command the primal ember.",
+  "hidden": false,
+  "tier": "gold"
+ },
+ {
+  "id": "ach2-overkill-hit",
+  "name": "Excessive Force",
+  "description": "Deal over 250 damage in a single strike or spell cast.",
+  "hidden": true,
+  "tier": "bronze"
+ }
+]

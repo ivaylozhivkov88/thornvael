@@ -62,6 +62,10 @@ export async function loadFlavorLists(): Promise<void> {
   const base = import.meta.env.BASE_URL;
   try { deathQuotes = await (await fetch(`${base}data/content/death-quotes.json`)).json(); } catch { /* optional */ }
   try { loadingTips = await (await fetch(`${base}data/content/loading-tips.json`)).json(); } catch { /* optional */ }
+  try {
+    const more = (await (await fetch(`${base}data/content/tips-2.json`)).json()) as { text: string }[];
+    loadingTips = loadingTips.concat(more.map((t) => ({ tip: t.text })));
+  } catch { /* optional */ }
 }
 const pick = <T,>(a: T[]): T | undefined => (a.length ? a[Math.floor(Math.random() * a.length)] : undefined);
 /** UI-only randomness (never feeds the sim). */

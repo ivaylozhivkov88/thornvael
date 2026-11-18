@@ -1,0 +1,990 @@
+{
+ "m01-blood-at-the-ford": [
+  {
+   "id": "obj-ford-clear-shallows",
+   "label": "Clear gnoll raiders from the ford",
+   "where": "the gravel shallows at the center crossing",
+   "region_hint": "centre",
+   "optional": false
+  },
+  {
+   "id": "obj-ford-strongbox",
+   "label": "Recover the Tollhouse Strongbox",
+   "where": "the burning tollhouse on the west bank",
+   "region_hint": "west",
+   "optional": true
+  },
+  {
+   "id": "obj-ford-slay-groktar",
+   "label": "Defeat Grok'tar on the bluff",
+   "where": "the limestone bluff overlooking the east bank",
+   "region_hint": "east",
+   "optional": false
+  }
+ ],
+ "m02-whispers-in-the-fen": [
+  {
+   "id": "obj-fen-burn-nests",
+   "label": "Clear ambushers along the sedge-line",
+   "where": "the drowned willow islands along the south trail",
+   "region_hint": "south",
+   "optional": false
+  },
+  {
+   "id": "obj-fen-harvest-bile",
+   "label": "Scrape Bile of the Fen from arrows",
+   "where": "the sunken reed-blinds west of the causeway",
+   "region_hint": "west",
+   "optional": true
+  },
+  {
+   "id": "obj-fen-reach-post",
+   "label": "Escort Scout Bren to the stone post",
+   "where": "the fortified stone watch-post in the north bog",
+   "region_hint": "north",
+   "optional": false
+  }
+ ],
+ "m03-nightfall-at-ravenwatch": [
+  {
+   "id": "obj-raven-hold-bailey",
+   "label": "Hold the inner bailey until dawn",
+   "where": "the central wellhead courtyard inside the keep",
+   "region_hint": "centre",
+   "optional": false
+  },
+  {
+   "id": "obj-raven-inspect-picket",
+   "label": "Inspect the sabotaged outer picket",
+   "where": "the breached outer curtain wall to the west",
+   "region_hint": "west",
+   "optional": true
+  },
+  {
+   "id": "obj-raven-burn-totems",
+   "label": "Destroy the three bone totems",
+   "where": "the pine treeline north of the gatehouse",
+   "region_hint": "north",
+   "optional": false
+  }
+ ],
+ "m04-the-sunken-sanctum": [
+  {
+   "id": "obj-sanctum-cross-causeways",
+   "label": "Fight across the drowned causeways",
+   "where": "the submerged stone bridges in the outer vault",
+   "region_hint": "north",
+   "optional": false
+  },
+  {
+   "id": "obj-sanctum-purge-grimoire",
+   "label": "Claim or purge Mordred's grimoire",
+   "where": "the side reliquary alcove east of the nave",
+   "region_hint": "east",
+   "optional": true
+  },
+  {
+   "id": "obj-sanctum-slay-mordred",
+   "label": "Slay Mordred the Ashen",
+   "where": "the sunken blood-altar in the southern apse",
+   "region_hint": "south",
+   "optional": false
+  }
+ ],
+ "m05-lantern-passage": [
+  {
+   "id": "obj-lantern-breach-barricade",
+   "label": "Breach the lower ravine barricade",
+   "where": "the deadfall-choked canyon entrance",
+   "region_hint": "southwest",
+   "optional": false
+  },
+  {
+   "id": "obj-lantern-rescue-corin",
+   "label": "Rescue Courier Corin at the wagon",
+   "where": "the overturned mail wagon midway up the gorge",
+   "region_hint": "centre",
+   "optional": false
+  },
+  {
+   "id": "obj-lantern-diplomatic-pouch",
+   "label": "Recover the dead outrider's pouch",
+   "where": "the narrow rock cleft off the east ledge",
+   "region_hint": "east",
+   "optional": true
+  },
+  {
+   "id": "obj-lantern-light-beacon",
+   "label": "Escort Corin to the signal beacon",
+   "where": "the stone cliff-stair at the upper pass",
+   "region_hint": "northeast",
+   "optional": false
+  }
+ ],
+ "m06-greywood-supply": [
+  {
+   "id": "obj-greywood-burn-caches",
+   "label": "Burn the three supply caches",
+   "where": "the spruce clearings across the northern hollow",
+   "region_hint": "north",
+   "optional": false
+  },
+  {
+   "id": "obj-greywood-ledger",
+   "label": "Recover the Quartermaster's Ledger",
+   "where": "the canvas command tent beside the central depot",
+   "region_hint": "centre",
+   "optional": true
+  },
+  {
+   "id": "obj-greywood-slay-tarn",
+   "label": "Eliminate Quartermaster Tarn",
+   "where": "the fortified powder-wagon camp to the east",
+   "region_hint": "east",
+   "optional": false
+  }
+ ],
+ "m07-split-vanguard": [
+  {
+   "id": "obj-split-north-cairn",
+   "label": "Clear and light the Northern Cairn",
+   "where": "the ice-shadowed granite defile on the left",
+   "region_hint": "northwest",
+   "optional": false
+  },
+  {
+   "id": "obj-split-south-cairn",
+   "label": "Clear and light the Southern Cairn",
+   "where": "the scree-choked gorge on the right",
+   "region_hint": "southeast",
+   "optional": false
+  },
+  {
+   "id": "obj-split-unite-pass",
+   "label": "Defeat the awakened stone sentinels",
+   "where": "the central watershed saddle beyond the cairns",
+   "region_hint": "centre",
+   "optional": false
+  }
+ ],
+ "m08-alder-bridge": [
+  {
+   "id": "obj-alder-hold-span",
+   "label": "Hold Alder Bridge against three waves",
+   "where": "the timber bridgehead spanning the river",
+   "region_hint": "centre",
+   "optional": false
+  },
+  {
+   "id": "obj-alder-oil-wagon",
+   "label": "Deal with the stuck guild oil-wagon",
+   "where": "the narrow mud approach on the west bank",
+   "region_hint": "west",
+   "optional": true
+  },
+  {
+   "id": "obj-alder-break-vanguard",
+   "label": "Break the final raider assault",
+   "where": "the eastern abutment and alder scrub",
+   "region_hint": "east",
+   "optional": false
+  }
+ ],
+ "m09-ironhide-hunt": [
+  {
+   "id": "obj-ironhide-clear-escort",
+   "label": "Eliminate Krag's moorland outriders",
+   "where": "the fog-shrouded peat bogs around the quarry",
+   "region_hint": "west",
+   "optional": false
+  },
+  {
+   "id": "obj-ironhide-glass-thicket",
+   "label": "Gather vitrified glass from the kilns",
+   "where": "the gorse-covered slag heaps north of the pit",
+   "region_hint": "north",
+   "optional": true
+  },
+  {
+   "id": "obj-ironhide-slay-krag",
+   "label": "Slay Krag Ironhide in the quarry",
+   "where": "the flooded granite pit at the canyon head",
+   "region_hint": "east",
+   "optional": false
+  }
+ ],
+ "m10-undervault-links": [
+  {
+   "id": "obj-undervault-purge-galleries",
+   "label": "Purge cultists from the three galleries",
+   "where": "the ventilated dwarven tunnels under the ridge",
+   "region_hint": "centre",
+   "optional": false
+  },
+  {
+   "id": "obj-undervault-armory-vault",
+   "label": "Open the sealed dwarven armory",
+   "where": "the rune-locked side chamber off the second hall",
+   "region_hint": "northwest",
+   "optional": true
+  },
+  {
+   "id": "obj-undervault-ashbrook-stair",
+   "label": "Clear the Ashbrook exit stair",
+   "where": "the blood-altar beneath the southern ascent",
+   "region_hint": "south",
+   "optional": false
+  }
+ ],
+ "m11-ashbrook-retreat": [
+  {
+   "id": "obj-ashbrook-hold-gate",
+   "label": "Hold the southern gatehouse breach",
+   "where": "the battered timber gatehouse facing the road",
+   "region_hint": "south",
+   "optional": false
+  },
+  {
+   "id": "obj-ashbrook-evac-wagons",
+   "label": "Load wounded or treasury wagons",
+   "where": "the inner ward near the northern postern",
+   "region_hint": "north",
+   "optional": true
+  },
+  {
+   "id": "obj-ashbrook-slay-vaelen",
+   "label": "Sally out and defeat Commander Vaelen",
+   "where": "the siege-ram line along the southern approach",
+   "region_hint": "southeast",
+   "optional": false
+  }
+ ],
+ "m12-redmarsh-border": [
+  {
+   "id": "obj-border-clear-causeway",
+   "label": "Secure the sunken stone causeway",
+   "where": "the raised flagstone track across the salt flats",
+   "region_hint": "centre",
+   "optional": false
+  },
+  {
+   "id": "obj-border-destroy-outposts",
+   "label": "Destroy the three border outposts",
+   "where": "the bone-pit palisades flanking the southern flats",
+   "region_hint": "south",
+   "optional": false
+  }
+ ],
+ "m13-twin-passes": [
+  {
+   "id": "obj-twin-west-blind",
+   "label": "Clear the West Pass cliff blind",
+   "where": "the granite goat-trail above the western notch",
+   "region_hint": "west",
+   "optional": false
+  },
+  {
+   "id": "obj-twin-east-blind",
+   "label": "Clear the East Pass cliff blind",
+   "where": "the high stone ledge above the eastern notch",
+   "region_hint": "east",
+   "optional": false
+  },
+  {
+   "id": "obj-twin-canyon-audit",
+   "label": "Inspect the carved iron tallies",
+   "where": "the lintel of the western watch-blind",
+   "region_hint": "northwest",
+   "optional": true
+  },
+  {
+   "id": "obj-twin-shatter-gates",
+   "label": "Shatter the central pass gates",
+   "where": "the spiked wagon barricade between the cliffs",
+   "region_hint": "centre",
+   "optional": false
+  }
+ ],
+ "m14-scattered-scouts": [
+  {
+   "id": "obj-scouts-rescue-three",
+   "label": "Rescue all three trapped scout squads",
+   "where": "the sandstone boulder rings in Bracken Basin",
+   "region_hint": "centre",
+   "optional": false
+  },
+  {
+   "id": "obj-scouts-cipher-satchel",
+   "label": "Retrieve the dead sergeant's satchel",
+   "where": "the wind-scoured dune hollow to the southwest",
+   "region_hint": "southwest",
+   "optional": true
+  },
+  {
+   "id": "obj-scouts-break-cordon",
+   "label": "Break the sand-rider encirclement",
+   "where": "the northern extraction trail out of the basin",
+   "region_hint": "north",
+   "optional": false
+  }
+ ],
+ "m15-outpost-palisade": [
+  {
+   "id": "obj-highgate-repel-ladders",
+   "label": "Repel scaling ladders on the east wall",
+   "where": "the sun-cracked pine catwalks above the creek",
+   "region_hint": "east",
+   "optional": false
+  },
+  {
+   "id": "obj-highgate-smother-fires",
+   "label": "Smother firepot blazes with sand",
+   "where": "the southern corner palisade",
+   "region_hint": "south",
+   "optional": true
+  },
+  {
+   "id": "obj-highgate-survive-dawn",
+   "label": "Hold Highgate Watch until dawn",
+   "where": "the central courtyard and main gatehouse",
+   "region_hint": "centre",
+   "optional": false
+  }
+ ],
+ "m16-wardstone-rupture": [
+  {
+   "id": "obj-wardstone-slay-binders",
+   "label": "Slay the ward-breakers at three spires",
+   "where": "the three quartz monolith circles on the plateau",
+   "region_hint": "centre",
+   "optional": false
+  },
+  {
+   "id": "obj-wardstone-rubbings",
+   "label": "Collect the blood-stained rubbings",
+   "where": "the ritual altar beside the northern quartz spire",
+   "region_hint": "north",
+   "optional": true
+  },
+  {
+   "id": "obj-wardstone-seal-fissure",
+   "label": "Re-attune the final quartz wardstone",
+   "where": "the howling fissure on the eastern plateau rim",
+   "region_hint": "east",
+   "optional": false
+  }
+ ],
+ "m17-mire-convoy": [
+  {
+   "id": "obj-convoy-escort-wagons",
+   "label": "Escort all six supply wagons",
+   "where": "the sunken timber-crib road across the salt-pan",
+   "region_hint": "centre",
+   "optional": false
+  },
+  {
+   "id": "obj-convoy-broken-axle",
+   "label": "Salvage or cut loose the mired wagon",
+   "where": "the deep red mudbank past the third milestone",
+   "region_hint": "south",
+   "optional": true
+  },
+  {
+   "id": "obj-convoy-reach-camp",
+   "label": "Bring the convoy inside camp gates",
+   "where": "the forward camp palisade at the eastern edge",
+   "region_hint": "east",
+   "optional": false
+  }
+ ],
+ "m18-granary-raid": [
+  {
+   "id": "obj-granary-breach-trench",
+   "label": "Breach the outer canyon trenches",
+   "where": "the spiked ditch at the slot-canyon mouth",
+   "region_hint": "west",
+   "optional": false
+  },
+  {
+   "id": "obj-granary-seize-vault",
+   "label": "Loot the bullion or star-metal vault",
+   "where": "the vaulted assay cellar behind the curing sheds",
+   "region_hint": "north",
+   "optional": true
+  },
+  {
+   "id": "obj-granary-burn-stores",
+   "label": "Torch the grain silos and escape",
+   "where": "the canvas-covered silos at the canyon head",
+   "region_hint": "east",
+   "optional": false
+  }
+ ],
+ "m19-hexer-capture": [
+  {
+   "id": "obj-hexer-breach-ring",
+   "label": "Cross the miasma-choked stone ring",
+   "where": "the twelve black megaliths in the hollow",
+   "region_hint": "centre",
+   "optional": false
+  },
+  {
+   "id": "obj-hexer-smash-censers",
+   "label": "Smash the perimeter ritual censers",
+   "where": "the bone-trenches ringing the outer stones",
+   "region_hint": "south",
+   "optional": true
+  },
+  {
+   "id": "obj-hexer-slay-kaelen",
+   "label": "Slay Hexer Kaelen at the center",
+   "where": "the central blood-ward inside the megaliths",
+   "region_hint": "centre",
+   "optional": false
+  }
+ ],
+ "m20-deep-quarry": [
+  {
+   "id": "obj-quarry-silence-ballistas",
+   "label": "Capture the upper ballista ledges",
+   "where": "the first switchback ramp above the pit",
+   "region_hint": "north",
+   "optional": false
+  },
+  {
+   "id": "obj-quarry-free-miners",
+   "label": "Break open the third-terrace slave-pens",
+   "where": "the chained timber cages on the middle ledge",
+   "region_hint": "west",
+   "optional": false
+  },
+  {
+   "id": "obj-quarry-overseer",
+   "label": "Defeat the chief overseer on the floor",
+   "where": "the ironstone hoist platform at the pit bottom",
+   "region_hint": "centre",
+   "optional": false
+  }
+ ],
+ "m21-lean-garrison": [
+  {
+   "id": "obj-garrison-hold-walls",
+   "label": "Defend Crossroads Redoubt from attacks",
+   "where": "the stone revetments around the four-way milestone",
+   "region_hint": "centre",
+   "optional": false
+  },
+  {
+   "id": "obj-garrison-protect-cisterns",
+   "label": "Keep arsonists off the water cisterns",
+   "where": "the stone well-houses inside the northern wall",
+   "region_hint": "north",
+   "optional": true
+  }
+ ],
+ "m22-fleeing-column": [
+  {
+   "id": "obj-fleeing-break-rearguard",
+   "label": "Punch through Vorn's rear guard",
+   "where": "the wind-scoured limestone narrows at the entrance",
+   "region_hint": "southwest",
+   "optional": false
+  },
+  {
+   "id": "obj-fleeing-intercept-vorn",
+   "label": "Slay Commander Vorn before the gate",
+   "where": "the shale track below Ironheart's portcullis",
+   "region_hint": "northeast",
+   "optional": false
+  }
+ ],
+ "m23-fork-of-spears": [
+  {
+   "id": "obj-fork-silence-redoubts",
+   "label": "Silence the cliffside artillery redoubts",
+   "where": "the basalt gun-ledges above the East Causeway",
+   "region_hint": "east",
+   "optional": false
+  },
+  {
+   "id": "obj-fork-cross-causeways",
+   "label": "Advance across the twin causeways",
+   "where": "the bog-flanked stone bridges below the peak",
+   "region_hint": "centre",
+   "optional": false
+  },
+  {
+   "id": "obj-fork-slay-gorrathul",
+   "label": "Breach the gate and defeat Gorrathul",
+   "where": "the inner cistern courtyard of Ironheart Bastion",
+   "region_hint": "north",
+   "optional": false
+  }
+ ],
+ "m24-pledge-at-oakhaven": [
+  {
+   "id": "obj-oakhaven-burn-pontoons",
+   "label": "Destroy the three blockade pontoons",
+   "where": "the fog-shrouded mudflats in the harbor channel",
+   "region_hint": "west",
+   "optional": false
+  },
+  {
+   "id": "obj-oakhaven-seize-stores",
+   "label": "Claim timber or harbor pilot charts",
+   "where": "the raider storehouses on the marsh edge",
+   "region_hint": "south",
+   "optional": true
+  },
+  {
+   "id": "obj-oakhaven-clear-hulk",
+   "label": "Storm the grounded command hulk",
+   "where": "the outer sandbar blocking the shipyard channel",
+   "region_hint": "northwest",
+   "optional": false
+  }
+ ],
+ "m25-cinder-wards": [
+  {
+   "id": "obj-cinder-break-rings",
+   "label": "Shatter the three outer ward-rings",
+   "where": "the steaming basalt ledges above Oakhaven",
+   "region_hint": "centre",
+   "optional": false
+  },
+  {
+   "id": "obj-cinder-slay-binder",
+   "label": "Kill the chief fire-binder at the altar",
+   "where": "the central volcanic vent on the high ridge",
+   "region_hint": "north",
+   "optional": false
+  }
+ ],
+ "m26-sundered-ranks": [
+  {
+   "id": "obj-sundered-west-fort",
+   "label": "Silence the western arbalest redoubt",
+   "where": "the timber-and-stone fort left of the spire",
+   "region_hint": "west",
+   "optional": false
+  },
+  {
+   "id": "obj-sundered-east-fort",
+   "label": "Silence the eastern arbalest redoubt",
+   "where": "the fortified battery right of the spire",
+   "region_hint": "east",
+   "optional": false
+  },
+  {
+   "id": "obj-sundered-take-spire",
+   "label": "Capture the Split Tooth command tent",
+   "where": "the summit of the central granite needle",
+   "region_hint": "centre",
+   "optional": false
+  }
+ ],
+ "m27-field-infirmary": [
+  {
+   "id": "obj-infirmary-hold-ring",
+   "label": "Protect the surgical tents from raiders",
+   "where": "the bracken ditch ringing the hospital clearing",
+   "region_hint": "centre",
+   "optional": false
+  },
+  {
+   "id": "obj-infirmary-cover-litters",
+   "label": "Escort wounded litters to the ridge",
+   "where": "the muddy ridge trail leading toward the wagon",
+   "region_hint": "south",
+   "optional": false
+  }
+ ],
+ "m28-sunken-citadel": [
+  {
+   "id": "obj-citadel-blow-gate",
+   "label": "Breach the drowned water-gate",
+   "where": "the kelp-slick lower barbican facing the surf",
+   "region_hint": "west",
+   "optional": false
+  },
+  {
+   "id": "obj-citadel-drowned-armory",
+   "label": "Loot the flooded relic armory",
+   "where": "the half-submerged vault off the outer ward",
+   "region_hint": "south",
+   "optional": true
+  },
+  {
+   "id": "obj-citadel-slay-castellan",
+   "label": "Defeat the Castellan before high tide",
+   "where": "the upper lighthouse rampart above the courtyard",
+   "region_hint": "east",
+   "optional": false
+  }
+ ],
+ "m29-hourglass-rescue": [
+  {
+   "id": "obj-hourglass-smash-blocks",
+   "label": "Break through three raider roadblocks",
+   "where": "the coastal canyon trail leading to the tower",
+   "region_hint": "south",
+   "optional": false
+  },
+  {
+   "id": "obj-hourglass-relieve-lyra",
+   "label": "Clear the courtyard and rescue Lyra",
+   "where": "the battered gatehouse of Iron-Gate Watchtower",
+   "region_hint": "north",
+   "optional": false
+  }
+ ],
+ "m30-starved-bastion": [
+  {
+   "id": "obj-starved-ambush-convoys",
+   "label": "Ambush both supply mule-trains",
+   "where": "the wooded switchbacks below the chalk walls",
+   "region_hint": "south",
+   "optional": false
+  },
+  {
+   "id": "obj-starved-repel-sortie",
+   "label": "Defeat the starving garrison's sortie",
+   "where": "the ridge road outside the main portcullis",
+   "region_hint": "centre",
+   "optional": false
+  },
+  {
+   "id": "obj-starved-take-keep",
+   "label": "Force the surrender of the keep",
+   "where": "the grey limestone gatehouse at the valley head",
+   "region_hint": "north",
+   "optional": false
+  }
+ ],
+ "m31-riverlock-crossing": [
+  {
+   "id": "obj-riverlock-take-island",
+   "label": "Capture the central sluice-gate island",
+   "where": "the stone redoubt between the two river spans",
+   "region_hint": "centre",
+   "optional": false
+  },
+  {
+   "id": "obj-riverlock-jam-gears",
+   "label": "Wedge the counterweight floodgate gears",
+   "where": "the bronze winch-house on the center island",
+   "region_hint": "centre",
+   "optional": false
+  },
+  {
+   "id": "obj-riverlock-clear-east",
+   "label": "Clear the eastern bridgehead garrison",
+   "where": "the fortified gatehouse on the far gorge bank",
+   "region_hint": "east",
+   "optional": false
+  }
+ ],
+ "m32-elder-juggernaut": [
+  {
+   "id": "obj-juggernaut-crack-joints",
+   "label": "Shatter the Elder Juggernaut's runes",
+   "where": "the boulder-strewn clearing on the pine ridge",
+   "region_hint": "centre",
+   "optional": false
+  },
+  {
+   "id": "obj-juggernaut-harvest-core",
+   "label": "Harvest the earth-core or lodestone",
+   "where": "the rubble of the fallen stone colossus",
+   "region_hint": "centre",
+   "optional": true
+  }
+ ],
+ "m33-high-stakes-gambit": [
+  {
+   "id": "obj-gambit-breach-gate",
+   "label": "Storm Baron Vane's manor gate",
+   "where": "the lantern-lit courtyard beyond the outer wall",
+   "region_hint": "south",
+   "optional": false
+  },
+  {
+   "id": "obj-gambit-secure-vaults",
+   "label": "Secure both flanking bullion vaults",
+   "where": "the east and west strongrooms off the great hall",
+   "region_hint": "centre",
+   "optional": false
+  },
+  {
+   "id": "obj-gambit-capture-vane",
+   "label": "Stop Baron Vane at the catacomb lift",
+   "where": "the iron grate behind the northern throne stair",
+   "region_hint": "north",
+   "optional": false
+  }
+ ],
+ "m34-clashing-banners": [
+  {
+   "id": "obj-banners-slay-ironclad",
+   "label": "Kill the Ironclad Company warlord",
+   "where": "the western flank of the muddy hollow",
+   "region_hint": "west",
+   "optional": false
+  },
+  {
+   "id": "obj-banners-slay-ashen",
+   "label": "Kill the Ashen Banner warlord",
+   "where": "the eastern flank of the trampled turf",
+   "region_hint": "east",
+   "optional": false
+  },
+  {
+   "id": "obj-banners-rout-rest",
+   "label": "Force the remaining sellswords to yield",
+   "where": "the tangled center where both standards meet",
+   "region_hint": "centre",
+   "optional": false
+  }
+ ],
+ "m35-burning-harbor": [
+  {
+   "id": "obj-harbor-retake-batteries",
+   "label": "Retake the seawall catapult batteries",
+   "where": "the smoke-choked stone seawall above the piers",
+   "region_hint": "west",
+   "optional": false
+  },
+  {
+   "id": "obj-harbor-save-crew",
+   "label": "Rescue shipwrights or volcanic charts",
+   "where": "the burning cabin of Kael's sinking flagship",
+   "region_hint": "northwest",
+   "optional": true
+  },
+  {
+   "id": "obj-harbor-board-flagship",
+   "label": "Board and defeat Admiral Kael",
+   "where": "the black-sailed flagship moored at the mole",
+   "region_hint": "north",
+   "optional": false
+  }
+ ],
+ "m36-heartland-march": [
+  {
+   "id": "obj-heartland-clear-coves",
+   "label": "Fight off ash-stalkers at the landing",
+   "where": "the black glass dunes above the landing coves",
+   "region_hint": "south",
+   "optional": false
+  },
+  {
+   "id": "obj-heartland-secure-bluff",
+   "label": "Capture and fortify Highcrest bluff",
+   "where": "the volcanic plateau overlooking the caldera road",
+   "region_hint": "north",
+   "optional": false
+  }
+ ],
+ "m37-shattered-beacons": [
+  {
+   "id": "obj-beacons-west-prism",
+   "label": "Destroy the West Obsidian Beacon",
+   "where": "the lightning-lashed crag west of the pass",
+   "region_hint": "west",
+   "optional": false
+  },
+  {
+   "id": "obj-beacons-center-prism",
+   "label": "Destroy the North Obsidian Beacon",
+   "where": "the central ridge overlooking the violet dome",
+   "region_hint": "north",
+   "optional": false
+  },
+  {
+   "id": "obj-beacons-east-prism",
+   "label": "Destroy the East Obsidian Beacon",
+   "where": "the jagged basalt outcrop east of the road",
+   "region_hint": "east",
+   "optional": false
+  }
+ ],
+ "m38-besieged-wall": [
+  {
+   "id": "obj-wall-repel-ladders",
+   "label": "Repel siege ladders on the parapet",
+   "where": "the cracked basalt curtain wall of Greystone",
+   "region_hint": "centre",
+   "optional": false
+  },
+  {
+   "id": "obj-wall-burn-catapults",
+   "label": "Sally out and burn all three catapults",
+   "where": "the ash-flats directly outside the sally-port",
+   "region_hint": "south",
+   "optional": false
+  }
+ ],
+ "m39-flight-of-malrik": [
+  {
+   "id": "obj-malrik-shatter-walls",
+   "label": "Break Malrik's obsidian barriers",
+   "where": "the narrow switchbacks of Ashveil Gorge",
+   "region_hint": "south",
+   "optional": false
+  },
+  {
+   "id": "obj-malrik-slay-archmage",
+   "label": "Catch and slay Arch-Mage Malrik",
+   "where": "the glowing portal stairs at the gorge summit",
+   "region_hint": "north",
+   "optional": false
+  }
+ ],
+ "m40-twofold-assault": [
+  {
+   "id": "obj-twofold-west-cannon",
+   "label": "Silence the West Crag mana-cannon",
+   "where": "the blind scree bastion left of the causeway",
+   "region_hint": "west",
+   "optional": false
+  },
+  {
+   "id": "obj-twofold-east-cannon",
+   "label": "Silence the East Crag mana-cannon",
+   "where": "the fortified basalt tower right of the road",
+   "region_hint": "east",
+   "optional": false
+  }
+ ],
+ "m41-gauntlet-of-iron": [
+  {
+   "id": "obj-gauntlet-first-gate",
+   "label": "Breach the first iron portcullis",
+   "where": "the southern entrance of the magnetic canyon",
+   "region_hint": "south",
+   "optional": false
+  },
+  {
+   "id": "obj-gauntlet-second-gate",
+   "label": "Destroy the golems at the second gate",
+   "where": "the narrow crossfire choke midway up the gorge",
+   "region_hint": "centre",
+   "optional": false
+  },
+  {
+   "id": "obj-gauntlet-third-gate",
+   "label": "Break the final Gauntlet checkpoint",
+   "where": "the northern portcullis beneath the outer wall",
+   "region_hint": "north",
+   "optional": false
+  }
+ ],
+ "m42-outer-rampart": [
+  {
+   "id": "obj-rampart-west-gatehouse",
+   "label": "Capture the West Gatehouse winch",
+   "where": "the western tower overlooking the magma moat",
+   "region_hint": "west",
+   "optional": false
+  },
+  {
+   "id": "obj-rampart-center-gatehouse",
+   "label": "Capture the Center Gatehouse winch",
+   "where": "the main drawbridge bastion in the curtain wall",
+   "region_hint": "centre",
+   "optional": false
+  },
+  {
+   "id": "obj-rampart-lower-bridge",
+   "label": "Lower the iron drawbridge",
+   "where": "the central winch mechanism above the lava moat",
+   "region_hint": "north",
+   "optional": false
+  }
+ ],
+ "m43-three-roads-siege": [
+  {
+   "id": "obj-roads-break-north",
+   "label": "Defeat the northern relief column",
+   "where": "the ash plain north of Three-Roads Watch",
+   "region_hint": "north",
+   "optional": false
+  },
+  {
+   "id": "obj-roads-break-west",
+   "label": "Smash the western powder-convoy host",
+   "where": "the slag-trench road west of the siege camp",
+   "region_hint": "west",
+   "optional": false
+  },
+  {
+   "id": "obj-roads-break-east",
+   "label": "Repel the eastern relief army",
+   "where": "the eastern camp barricades below the citadel",
+   "region_hint": "east",
+   "optional": false
+  }
+ ],
+ "m44-threshold-choice": [
+  {
+   "id": "obj-threshold-slay-praetors",
+   "label": "Defeat the Arch-Warden's praetor guard",
+   "where": "the geometric obsidian nave before the twin doors",
+   "region_hint": "centre",
+   "optional": false
+  },
+  {
+   "id": "obj-threshold-choose-door",
+   "label": "Unseal the Order or Ember threshold",
+   "where": "the twin silver and molten doors at the north end",
+   "region_hint": "north",
+   "optional": false
+  }
+ ],
+ "m45-crown-of-order": [
+  {
+   "id": "obj-order-bind-west-seal",
+   "label": "Bind the West Anchor Seal",
+   "where": "the star-inlaid rune stone in the western alcove",
+   "region_hint": "west",
+   "optional": false
+  },
+  {
+   "id": "obj-order-bind-east-seal",
+   "label": "Bind the East Anchor Seal",
+   "where": "the celestial pillar in the eastern alcove",
+   "region_hint": "east",
+   "optional": false
+  },
+  {
+   "id": "obj-order-place-crown",
+   "label": "Place the Crown of Order on the altar",
+   "where": "the fractured marble altar beneath the dome",
+   "region_hint": "centre",
+   "optional": false
+  }
+ ],
+ "m46-ember-reckoning": [
+  {
+   "id": "obj-ember-shatter-west",
+   "label": "Shatter the West Conduit Pillar",
+   "where": "the magma-veined column left of the dais",
+   "region_hint": "west",
+   "optional": false
+  },
+  {
+   "id": "obj-ember-shatter-east",
+   "label": "Shatter the East Conduit Pillar",
+   "where": "the fire-chained column right of the dais",
+   "region_hint": "east",
+   "optional": false
+  },
+  {
+   "id": "obj-ember-slay-ashkarath",
+   "label": "Defeat Ashkarath on the Obsidian Dais",
+   "where": "the volcanic glass throne at the chamber head",
+   "region_hint": "north",
+   "optional": false
+  }
+ ]
+}

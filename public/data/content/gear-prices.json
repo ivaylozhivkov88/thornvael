@@ -1,0 +1,776 @@
+[
+ {
+  "item_id": "rusty-sword",
+  "tier": 1,
+  "buy": 63,
+  "sell": 18
+ },
+ {
+  "item_id": "iron-sword",
+  "tier": 2,
+  "buy": 186,
+  "sell": 54
+ },
+ {
+  "item_id": "steel-sword",
+  "tier": 3,
+  "buy": 472,
+  "sell": 137
+ },
+ {
+  "item_id": "knight-sword",
+  "tier": 4,
+  "buy": 1135,
+  "sell": 329
+ },
+ {
+  "item_id": "thorn-blade",
+  "tier": 5,
+  "buy": 2580,
+  "sell": 748
+ },
+ {
+  "item_id": "oak-staff",
+  "tier": 1,
+  "buy": 65,
+  "sell": 19
+ },
+ {
+  "item_id": "ash-staff",
+  "tier": 2,
+  "buy": 190,
+  "sell": 55
+ },
+ {
+  "item_id": "rune-staff",
+  "tier": 3,
+  "buy": 480,
+  "sell": 139
+ },
+ {
+  "item_id": "star-staff",
+  "tier": 4,
+  "buy": 1155,
+  "sell": 335
+ },
+ {
+  "item_id": "thorn-staff",
+  "tier": 5,
+  "buy": 2620,
+  "sell": 760
+ },
+ {
+  "item_id": "wooden-buckler",
+  "tier": 1,
+  "buy": 64,
+  "sell": 19
+ },
+ {
+  "item_id": "iron-shield",
+  "tier": 2,
+  "buy": 188,
+  "sell": 55
+ },
+ {
+  "item_id": "tower-shield",
+  "tier": 4,
+  "buy": 1140,
+  "sell": 331
+ },
+ {
+  "item_id": "knight-shield",
+  "tier": 4,
+  "buy": 1160,
+  "sell": 336
+ },
+ {
+  "item_id": "leather-cap",
+  "tier": 1,
+  "buy": 63,
+  "sell": 18
+ },
+ {
+  "item_id": "iron-helm",
+  "tier": 2,
+  "buy": 185,
+  "sell": 54
+ },
+ {
+  "item_id": "steel-helm",
+  "tier": 3,
+  "buy": 474,
+  "sell": 137
+ },
+ {
+  "item_id": "scholar-hat",
+  "tier": 1,
+  "buy": 64,
+  "sell": 19
+ },
+ {
+  "item_id": "wizard-hat",
+  "tier": 4,
+  "buy": 1145,
+  "sell": 332
+ },
+ {
+  "item_id": "padded-jerkin",
+  "tier": 1,
+  "buy": 64,
+  "sell": 19
+ },
+ {
+  "item_id": "chain-mail",
+  "tier": 2,
+  "buy": 192,
+  "sell": 56
+ },
+ {
+  "item_id": "plate-armor",
+  "tier": 4,
+  "buy": 1165,
+  "sell": 338
+ },
+ {
+  "item_id": "cloth-robe",
+  "tier": 1,
+  "buy": 63,
+  "sell": 18
+ },
+ {
+  "item_id": "mage-robe",
+  "tier": 3,
+  "buy": 480,
+  "sell": 139
+ },
+ {
+  "item_id": "star-robe",
+  "tier": 5,
+  "buy": 2630,
+  "sell": 763
+ },
+ {
+  "item_id": "sandals",
+  "tier": 1,
+  "buy": 63,
+  "sell": 18
+ },
+ {
+  "item_id": "leather-boots",
+  "tier": 2,
+  "buy": 185,
+  "sell": 54
+ },
+ {
+  "item_id": "iron-boots",
+  "tier": 3,
+  "buy": 475,
+  "sell": 138
+ },
+ {
+  "item_id": "swift-boots",
+  "tier": 3,
+  "buy": 478,
+  "sell": 139
+ },
+ {
+  "item_id": "ring-of-might",
+  "tier": 2,
+  "buy": 186,
+  "sell": 54
+ },
+ {
+  "item_id": "ring-of-grace",
+  "tier": 2,
+  "buy": 186,
+  "sell": 54
+ },
+ {
+  "item_id": "ring-of-insight",
+  "tier": 2,
+  "buy": 188,
+  "sell": 55
+ },
+ {
+  "item_id": "ring-of-calm",
+  "tier": 2,
+  "buy": 188,
+  "sell": 55
+ },
+ {
+  "item_id": "great-ring-of-might",
+  "tier": 4,
+  "buy": 1140,
+  "sell": 331
+ },
+ {
+  "item_id": "great-ring-of-grace",
+  "tier": 4,
+  "buy": 1140,
+  "sell": 331
+ },
+ {
+  "item_id": "great-ring-of-insight",
+  "tier": 4,
+  "buy": 1150,
+  "sell": 334
+ },
+ {
+  "item_id": "great-ring-of-calm",
+  "tier": 4,
+  "buy": 1150,
+  "sell": 334
+ },
+ {
+  "item_id": "ember-charm",
+  "tier": 2,
+  "buy": 188,
+  "sell": 55
+ },
+ {
+  "item_id": "frost-charm",
+  "tier": 2,
+  "buy": 188,
+  "sell": 55
+ },
+ {
+  "item_id": "storm-charm",
+  "tier": 2,
+  "buy": 188,
+  "sell": 55
+ },
+ {
+  "item_id": "stone-charm",
+  "tier": 2,
+  "buy": 188,
+  "sell": 55
+ },
+ {
+  "item_id": "life-charm",
+  "tier": 1,
+  "buy": 64,
+  "sell": 19
+ },
+ {
+  "item_id": "mind-charm",
+  "tier": 1,
+  "buy": 64,
+  "sell": 19
+ },
+ {
+  "item_id": "ward-charm",
+  "tier": 3,
+  "buy": 476,
+  "sell": 138
+ },
+ {
+  "item_id": "leather-gloves",
+  "tier": 1,
+  "buy": 63,
+  "sell": 18
+ },
+ {
+  "item_id": "iron-gauntlets",
+  "tier": 2,
+  "buy": 190,
+  "sell": 55
+ },
+ {
+  "item_id": "steel-gauntlets",
+  "tier": 3,
+  "buy": 482,
+  "sell": 140
+ },
+ {
+  "item_id": "silk-gloves",
+  "tier": 2,
+  "buy": 188,
+  "sell": 55
+ },
+ {
+  "item_id": "mithril-gale-buckler",
+  "tier": 3,
+  "buy": 475,
+  "sell": 138
+ },
+ {
+  "item_id": "adamantium-needle",
+  "tier": 4,
+  "buy": 1145,
+  "sell": 332
+ },
+ {
+  "item_id": "dragon-leather-mantle",
+  "tier": 4,
+  "buy": 1145,
+  "sell": 332
+ },
+ {
+  "item_id": "woodcutter-handaxe",
+  "tier": 1,
+  "buy": 64,
+  "sell": 19
+ },
+ {
+  "item_id": "bearded-battleaxe",
+  "tier": 2,
+  "buy": 189,
+  "sell": 55
+ },
+ {
+  "item_id": "tempered-war-axe",
+  "tier": 3,
+  "buy": 480,
+  "sell": 139
+ },
+ {
+  "item_id": "crescent-broadaxe",
+  "tier": 4,
+  "buy": 1155,
+  "sell": 335
+ },
+ {
+  "item_id": "berserker-decapitator",
+  "tier": 5,
+  "buy": 2620,
+  "sell": 760
+ },
+ {
+  "item_id": "spiked-cudgel",
+  "tier": 1,
+  "buy": 63,
+  "sell": 18
+ },
+ {
+  "item_id": "flanged-mace",
+  "tier": 2,
+  "buy": 188,
+  "sell": 55
+ },
+ {
+  "item_id": "heavy-morningstar",
+  "tier": 3,
+  "buy": 478,
+  "sell": 139
+ },
+ {
+  "item_id": "steel-warhammer",
+  "tier": 4,
+  "buy": 1150,
+  "sell": 334
+ },
+ {
+  "item_id": "obsidian-greatmaul",
+  "tier": 5,
+  "buy": 2630,
+  "sell": 763
+ },
+ {
+  "item_id": "flint-stiletto",
+  "tier": 1,
+  "buy": 63,
+  "sell": 18
+ },
+ {
+  "item_id": "steel-rondel",
+  "tier": 2,
+  "buy": 186,
+  "sell": 54
+ },
+ {
+  "item_id": "duelist-poignard",
+  "tier": 3,
+  "buy": 474,
+  "sell": 137
+ },
+ {
+  "item_id": "main-gauche",
+  "tier": 3,
+  "buy": 476,
+  "sell": 138
+ },
+ {
+  "item_id": "shadow-dirk",
+  "tier": 5,
+  "buy": 2590,
+  "sell": 751
+ },
+ {
+  "item_id": "two-handed-claymore",
+  "tier": 1,
+  "buy": 66,
+  "sell": 19
+ },
+ {
+  "item_id": "bastard-greatsword",
+  "tier": 2,
+  "buy": 194,
+  "sell": 56
+ },
+ {
+  "item_id": "flamberge",
+  "tier": 3,
+  "buy": 488,
+  "sell": 142
+ },
+ {
+  "item_id": "executioner-blade",
+  "tier": 4,
+  "buy": 1170,
+  "sell": 339
+ },
+ {
+  "item_id": "dreadnought-zweihander",
+  "tier": 5,
+  "buy": 2650,
+  "sell": 768
+ },
+ {
+  "item_id": "willow-wand",
+  "tier": 1,
+  "buy": 64,
+  "sell": 19
+ },
+ {
+  "item_id": "yew-wand",
+  "tier": 2,
+  "buy": 188,
+  "sell": 55
+ },
+ {
+  "item_id": "amber-focus-wand",
+  "tier": 3,
+  "buy": 478,
+  "sell": 139
+ },
+ {
+  "item_id": "crystal-siphon-wand",
+  "tier": 4,
+  "buy": 1150,
+  "sell": 334
+ },
+ {
+  "item_id": "astral-archon-wand",
+  "tier": 5,
+  "buy": 2610,
+  "sell": 757
+ },
+ {
+  "item_id": "ash-shortbow",
+  "tier": 1,
+  "buy": 64,
+  "sell": 19
+ },
+ {
+  "item_id": "recurve-bow",
+  "tier": 2,
+  "buy": 190,
+  "sell": 55
+ },
+ {
+  "item_id": "composite-war-bow",
+  "tier": 3,
+  "buy": 482,
+  "sell": 140
+ },
+ {
+  "item_id": "heavy-arbalest",
+  "tier": 4,
+  "buy": 1160,
+  "sell": 336
+ },
+ {
+  "item_id": "windpiercer-greatbow",
+  "tier": 5,
+  "buy": 2620,
+  "sell": 760
+ },
+ {
+  "item_id": "steel-kite-shield",
+  "tier": 3,
+  "buy": 482,
+  "sell": 140
+ },
+ {
+  "item_id": "aegis-of-the-citadel",
+  "tier": 5,
+  "buy": 2640,
+  "sell": 766
+ },
+ {
+  "item_id": "novice-glass-focus",
+  "tier": 1,
+  "buy": 64,
+  "sell": 19
+ },
+ {
+  "item_id": "chiseled-quartz-focus",
+  "tier": 2,
+  "buy": 188,
+  "sell": 55
+ },
+ {
+  "item_id": "astral-sphere",
+  "tier": 3,
+  "buy": 480,
+  "sell": 139
+ },
+ {
+  "item_id": "radiant-spell-mirror",
+  "tier": 4,
+  "buy": 1150,
+  "sell": 334
+ },
+ {
+  "item_id": "eye-of-the-cosmos",
+  "tier": 5,
+  "buy": 2620,
+  "sell": 760
+ },
+ {
+  "item_id": "steel-basinet",
+  "tier": 4,
+  "buy": 1148,
+  "sell": 333
+ },
+ {
+  "item_id": "dread-crest-helm",
+  "tier": 5,
+  "buy": 2590,
+  "sell": 751
+ },
+ {
+  "item_id": "apprentice-circlet",
+  "tier": 1,
+  "buy": 65,
+  "sell": 19
+ },
+ {
+  "item_id": "sage-cowl",
+  "tier": 3,
+  "buy": 478,
+  "sell": 139
+ },
+ {
+  "item_id": "archmage-diadem",
+  "tier": 5,
+  "buy": 2610,
+  "sell": 757
+ },
+ {
+  "item_id": "stalker-hood",
+  "tier": 2,
+  "buy": 188,
+  "sell": 55
+ },
+ {
+  "item_id": "shadow-mask",
+  "tier": 4,
+  "buy": 1150,
+  "sell": 334
+ },
+ {
+  "item_id": "interlocking-ring-mail",
+  "tier": 3,
+  "buy": 484,
+  "sell": 140
+ },
+ {
+  "item_id": "gothic-full-plate",
+  "tier": 5,
+  "buy": 2650,
+  "sell": 768
+ },
+ {
+  "item_id": "studded-leather-armor",
+  "tier": 2,
+  "buy": 187,
+  "sell": 54
+ },
+ {
+  "item_id": "hardened-brigandine",
+  "tier": 3,
+  "buy": 476,
+  "sell": 138
+ },
+ {
+  "item_id": "wyrmscale-cuirass",
+  "tier": 5,
+  "buy": 2620,
+  "sell": 760
+ },
+ {
+  "item_id": "weaver-robe",
+  "tier": 2,
+  "buy": 189,
+  "sell": 55
+ },
+ {
+  "item_id": "mystic-velvet-mantle",
+  "tier": 4,
+  "buy": 1150,
+  "sell": 334
+ },
+ {
+  "item_id": "steel-greaves",
+  "tier": 4,
+  "buy": 1140,
+  "sell": 331
+ },
+ {
+  "item_id": "juggernaut-war-greaves",
+  "tier": 5,
+  "buy": 2600,
+  "sell": 754
+ },
+ {
+  "item_id": "tracker-treads",
+  "tier": 2,
+  "buy": 188,
+  "sell": 55
+ },
+ {
+  "item_id": "windrunner-striders",
+  "tier": 4,
+  "buy": 1150,
+  "sell": 334
+ },
+ {
+  "item_id": "scholar-slippers",
+  "tier": 1,
+  "buy": 64,
+  "sell": 19
+ },
+ {
+  "item_id": "astral-walkers",
+  "tier": 5,
+  "buy": 2610,
+  "sell": 757
+ },
+ {
+  "item_id": "titan-war-gauntlets",
+  "tier": 5,
+  "buy": 2610,
+  "sell": 757
+ },
+ {
+  "item_id": "studded-bracers",
+  "tier": 2,
+  "buy": 186,
+  "sell": 54
+ },
+ {
+  "item_id": "reinforced-vambraces",
+  "tier": 3,
+  "buy": 475,
+  "sell": 138
+ },
+ {
+  "item_id": "shadowstrike-grips",
+  "tier": 4,
+  "buy": 1145,
+  "sell": 332
+ },
+ {
+  "item_id": "novice-wraps",
+  "tier": 1,
+  "buy": 64,
+  "sell": 19
+ },
+ {
+  "item_id": "velvet-channelers",
+  "tier": 3,
+  "buy": 478,
+  "sell": 139
+ },
+ {
+  "item_id": "archon-handwraps",
+  "tier": 5,
+  "buy": 2600,
+  "sell": 754
+ },
+ {
+  "item_id": "copper-band",
+  "tier": 1,
+  "buy": 63,
+  "sell": 18
+ },
+ {
+  "item_id": "bone-ring",
+  "tier": 1,
+  "buy": 64,
+  "sell": 19
+ },
+ {
+  "item_id": "ring-of-valor",
+  "tier": 3,
+  "buy": 475,
+  "sell": 138
+ },
+ {
+  "item_id": "ring-of-the-scribe",
+  "tier": 3,
+  "buy": 478,
+  "sell": 139
+ },
+ {
+  "item_id": "ring-of-the-champions",
+  "tier": 5,
+  "buy": 2590,
+  "sell": 751
+ },
+ {
+  "item_id": "ring-of-the-high-archon",
+  "tier": 5,
+  "buy": 2610,
+  "sell": 757
+ },
+ {
+  "item_id": "signet-of-unbroken-vigor",
+  "tier": 5,
+  "buy": 2600,
+  "sell": 754
+ },
+ {
+  "item_id": "clay-talisman",
+  "tier": 1,
+  "buy": 63,
+  "sell": 18
+ },
+ {
+  "item_id": "bronze-locket",
+  "tier": 2,
+  "buy": 186,
+  "sell": 54
+ },
+ {
+  "item_id": "astral-medallion",
+  "tier": 3,
+  "buy": 480,
+  "sell": 139
+ },
+ {
+  "item_id": "bloodstone-pendant",
+  "tier": 4,
+  "buy": 1145,
+  "sell": 332
+ },
+ {
+  "item_id": "prismatic-choker",
+  "tier": 4,
+  "buy": 1155,
+  "sell": 335
+ },
+ {
+  "item_id": "heart-of-the-colossus",
+  "tier": 5,
+  "buy": 2610,
+  "sell": 757
+ },
+ {
+  "item_id": "medallion-of-the-celestial-spire",
+  "tier": 5,
+  "buy": 2630,
+  "sell": 763
+ }
+]

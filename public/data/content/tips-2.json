@@ -1,0 +1,602 @@
+[
+ {
+  "id": "tip-001",
+  "text": "Pull melee foes back toward your pikemen instead of letting archers trade shots at five paces.",
+  "context": "combat"
+ },
+ {
+  "id": "tip-002",
+  "text": "Interrupt boss telegraphs with stuns or knockbacks before the red ring finishes charging.",
+  "context": "combat"
+ },
+ {
+  "id": "tip-003",
+  "text": "Choke points multiply a single shield-bearer into an army; open fields multiply your funeral bill.",
+  "context": "combat"
+ },
+ {
+  "id": "tip-004",
+  "text": "Always kill Cinder Shamans and Witch Doctors first, or you will fight the same corpses twice.",
+  "context": "combat"
+ },
+ {
+  "id": "tip-005",
+  "text": "Spread your squad before facing Dune Scarabs or Frost Bells; chain lightning loves tight ranks.",
+  "context": "combat"
+ },
+ {
+  "id": "tip-006",
+  "text": "Fatigue slows swing speed and dodge recovery—rotate bruised frontliners behind fresh shields.",
+  "context": "combat"
+ },
+ {
+  "id": "tip-007",
+  "text": "Poison and bleed tick through heavy plate; carry antidotes or bandages into every marsh mission.",
+  "context": "combat"
+ },
+ {
+  "id": "tip-008",
+  "text": "Flanking an enemy denies their shield block chance and triggers bonus backstab criticals.",
+  "context": "combat"
+ },
+ {
+  "id": "tip-009",
+  "text": "Use Hold Position on narrow bridges so your berserkers don't chase routed gnolls into artillery.",
+  "context": "combat"
+ },
+ {
+  "id": "tip-010",
+  "text": "Focus-firing one bruised brute drops incoming damage faster than scratching three healthy ones.",
+  "context": "combat"
+ },
+ {
+  "id": "tip-011",
+  "text": "Standing in shallow water amplifies lightning strikes—step onto dry stone when Storm Kites circle.",
+  "context": "combat"
+ },
+ {
+  "id": "tip-012",
+  "text": "Shatter Bone Prisons immediately; an immobilized mercenary is free kindling for boss cleaves.",
+  "context": "combat"
+ },
+ {
+  "id": "tip-013",
+  "text": "Draw fast skirmishers onto pre-laid snares before committing your heavy infantry to the charge.",
+  "context": "combat"
+ },
+ {
+  "id": "tip-014",
+  "text": "Back-row healers draw aggro the instant they mend a wound; keep a guard within two paces.",
+  "context": "combat"
+ },
+ {
+  "id": "tip-015",
+  "text": "Armor-piercing maces and warhammers crack Flintbacks and Basalt Brutes far faster than swords.",
+  "context": "combat"
+ },
+ {
+  "id": "tip-016",
+  "text": "Retreating ten paces around a corner breaks enemy archer sightlines and forces them into melee.",
+  "context": "combat"
+ },
+ {
+  "id": "tip-017",
+  "text": "A tactical pause every ten seconds saves more mercenaries than the finest plate in Ironcamp.",
+  "context": "combat"
+ },
+ {
+  "id": "tip-018",
+  "text": "Nothing ruins a glorious cavalry charge quite like three hidden stakes and a shallow peat bog.",
+  "context": "combat"
+ },
+ {
+  "id": "tip-019",
+  "text": "Enemies telegraph heavy sweeps a heartbeat early—watch their shoulders, not their health bars.",
+  "context": "combat"
+ },
+ {
+  "id": "tip-020",
+  "text": "If your vanguard is surrounded, pop a defensive ward before swinging; dead men deal zero DPS.",
+  "context": "combat"
+ },
+ {
+  "id": "tip-021",
+  "text": "Visit town smiths before every major boss node; cracked rivets fail at the worst possible moment.",
+  "context": "town"
+ },
+ {
+  "id": "tip-022",
+  "text": "Hiring green recruits is cheap, but keeping a veteran alive pays compound interest in every act.",
+  "context": "town"
+ },
+ {
+  "id": "tip-023",
+  "text": "Compare merchant prices across towns—Oakhaven pays better for scrolls than muddy border outposts.",
+  "context": "town"
+ },
+ {
+  "id": "tip-024",
+  "text": "Check tavern rumors after completing side quests; grateful locals often unlock hidden discounts.",
+  "context": "town"
+ },
+ {
+  "id": "tip-025",
+  "text": "Never leave town with unspent skill points or empty belt slots; the road offers no refunds.",
+  "context": "town"
+ },
+ {
+  "id": "tip-026",
+  "text": "Repairing gear in town costs a fraction of replacing shattered iron on the march.",
+  "context": "town"
+ },
+ {
+  "id": "tip-027",
+  "text": "Speak to every named NPC after major story beats—new dialogue often hides free supplies.",
+  "context": "town"
+ },
+ {
+  "id": "tip-028",
+  "text": "Dismissing wounded mercenaries without severance pay sours morale across the entire company.",
+  "context": "town"
+ },
+ {
+  "id": "tip-029",
+  "text": "Stock up on healing draughts in Thornwick and Oakhaven; Redmarsh apothecaries gouge mercilessly.",
+  "context": "town"
+ },
+ {
+  "id": "tip-030",
+  "text": "Rest at town barracks to clear lingering battle fatigue before attempting multi-wave sieges.",
+  "context": "town"
+ },
+ {
+  "id": "tip-031",
+  "text": "Town fences buy unidentified salvage at steep discounts—identify relics first if you have scrolls.",
+  "context": "town"
+ },
+ {
+  "id": "tip-032",
+  "text": "Upgrading your squad banner in town boosts morale resistance against fear and hexes.",
+  "context": "town"
+ },
+ {
+  "id": "tip-033",
+  "text": "Every town merchant refreshes stock after you clear a regional stronghold.",
+  "context": "town"
+ },
+ {
+  "id": "tip-034",
+  "text": "Ironcamp's forge runs on volcanic fissures; no anvil south of the straits tempers steel harder.",
+  "context": "town"
+ },
+ {
+  "id": "tip-035",
+  "text": "Thornwick guards confiscate nothing, mostly because half of them are on the smugglers' payroll.",
+  "context": "town"
+ },
+ {
+  "id": "tip-036",
+  "text": "A quiet tavern in Oakhaven usually means the harbor just caught fire again.",
+  "context": "town"
+ },
+ {
+  "id": "tip-037",
+  "text": "Your hero's aura buffs nearby mercenaries—keep them close to the center of your formation.",
+  "context": "hero"
+ },
+ {
+  "id": "tip-038",
+  "text": "Invest in Body early if your hero leads from the front; Mind keeps casters from running dry.",
+  "context": "hero"
+ },
+ {
+  "id": "tip-039",
+  "text": "Each hero class reacts differently to world events—listen to their comments for tactical clues.",
+  "context": "hero"
+ },
+ {
+  "id": "tip-040",
+  "text": "Guard your hero's flank; if the banner-bearer falls, even hardened veterans lose heart.",
+  "context": "hero"
+ },
+ {
+  "id": "tip-041",
+  "text": "Balance primary damage stats with elemental resistances before entering Act III and Act IV.",
+  "context": "hero"
+ },
+ {
+  "id": "tip-042",
+  "text": "A warrior's shield bash interrupts casts; save it for enemy hexers and siege-engineers.",
+  "context": "hero"
+ },
+ {
+  "id": "tip-043",
+  "text": "Archers gain bonus critical chance when firing from elevated ridges or unengaged flanks.",
+  "context": "hero"
+ },
+ {
+  "id": "tip-044",
+  "text": "Mages regenerate mana faster while standing still—plant your feet between volleys.",
+  "context": "hero"
+ },
+ {
+  "id": "tip-045",
+  "text": "Necromancers turn fallen foes into frontline buffers; let enemies die near your advance.",
+  "context": "hero"
+ },
+ {
+  "id": "tip-046",
+  "text": "Equipping gear above your attribute threshold incurs heavy accuracy and cast-speed penalties.",
+  "context": "hero"
+ },
+ {
+  "id": "tip-047",
+  "text": "Respec tokens are rare in Thornvael—test new weapon types before committing all your points.",
+  "context": "hero"
+ },
+ {
+  "id": "tip-048",
+  "text": "High Mind resistance prevents fear and silence effects from shutting down your hero mid-fight.",
+  "context": "hero"
+ },
+ {
+  "id": "tip-049",
+  "text": "Your hero's passive leadership reduces mercenary upkeep wages by a small margin each level.",
+  "context": "hero"
+ },
+ {
+  "id": "tip-050",
+  "text": "Even the bravest hero kneels when three crossbowmen have clean sightlines on an unshielded back.",
+  "context": "hero"
+ },
+ {
+  "id": "tip-051",
+  "text": "Leveling up mid-mission restores a portion of health and mana—time your kills wisely.",
+  "context": "hero"
+ },
+ {
+  "id": "tip-052",
+  "text": "Scars are free in Thornvael; everything else requires silver upfront.",
+  "context": "hero"
+ },
+ {
+  "id": "tip-053",
+  "text": "Socketed charms can be swapped at camp—match elemental resistances to the next mission's foes.",
+  "context": "items"
+ },
+ {
+  "id": "tip-054",
+  "text": "Set items reveal hidden bonuses once two or more matching pieces are equipped together.",
+  "context": "items"
+ },
+ {
+  "id": "tip-055",
+  "text": "Weight matters: overloading a scout with heavy tower shields ruins their evasion and speed.",
+  "context": "items"
+ },
+ {
+  "id": "tip-056",
+  "text": "Keep at least two slots in your pack open for quest items and salvageable strongboxes.",
+  "context": "items"
+ },
+ {
+  "id": "tip-057",
+  "text": "Lifesteal weapons shine on fast-attacking dual wielders, while heavy mauls favor flat armor pen.",
+  "context": "items"
+ },
+ {
+  "id": "tip-058",
+  "text": "Identified blue and yellow items sell for triple the price of unexamined battlefield scrap.",
+  "context": "items"
+ },
+ {
+  "id": "tip-059",
+  "text": "Unique relics cannot be found twice in one run—lock favorites so you don't sell them by mistake.",
+  "context": "items"
+ },
+ {
+  "id": "tip-060",
+  "text": "Whetstones and oil flasks apply temporary weapon buffs that persist through an entire skirmish.",
+  "context": "items"
+ },
+ {
+  "id": "tip-061",
+  "text": "Cold-iron blades deal bonus damage to spectral horrors, rift moths, and summoned constructs.",
+  "context": "items"
+ },
+ {
+  "id": "tip-062",
+  "text": "Tower shields block frontal arrows reliably but offer zero protection against flankers or ground AoE.",
+  "context": "items"
+ },
+ {
+  "id": "tip-063",
+  "text": "Belt slots hold consumables for instant combat use; items in the main pack take a turn to draw.",
+  "context": "items"
+ },
+ {
+  "id": "tip-064",
+  "text": "Quivers with bodkin tips pierce heavy plate; broadheads shred unarmored beasts and cultists.",
+  "context": "items"
+ },
+ {
+  "id": "tip-065",
+  "text": "Check item flavor text—many uniques hint at which boss or ruin holds their matching pair.",
+  "context": "items"
+ },
+ {
+  "id": "tip-066",
+  "text": "Alchemical bombs ignore physical armor and clear clustered Maggot Swarms in a single throw.",
+  "context": "items"
+ },
+ {
+  "id": "tip-067",
+  "text": "Don't hoard rare elixirs for 'the real final boss'—surviving Act II comes first.",
+  "context": "items"
+ },
+ {
+  "id": "tip-068",
+  "text": "A rusty dagger in a live hand beats a legendary greatsword sitting in a dead man's pack.",
+  "context": "items"
+ },
+ {
+  "id": "tip-069",
+  "text": "Salt-corroded gear from coastal wrecks often hides tier-4 stats beneath cheap tarnish.",
+  "context": "items"
+ },
+ {
+  "id": "tip-070",
+  "text": "Your pack mule doesn't complain about weight, mostly because we couldn't afford a pack mule.",
+  "context": "items"
+ },
+ {
+  "id": "tip-071",
+  "text": "Cast Stone Skin on your vanguard before opening dungeon doors; ambushes rarely wait politely.",
+  "context": "spells"
+ },
+ {
+  "id": "tip-072",
+  "text": "Frost spells chill enemies, slowing both movement and attack animations by up to thirty percent.",
+  "context": "spells"
+ },
+ {
+  "id": "tip-073",
+  "text": "Fire spells ignite oil slicks, spore clouds, and dry marsh brush—watch where your melee stands.",
+  "context": "spells"
+ },
+ {
+  "id": "tip-074",
+  "text": "Corpse Burst scales with the fallen enemy's maximum health; detonate brutes inside tight crowds.",
+  "context": "spells"
+ },
+ {
+  "id": "tip-075",
+  "text": "Dispel Magic strips enemy ward shields and cures nasty hexes in a single cast.",
+  "context": "spells"
+ },
+ {
+  "id": "tip-076",
+  "text": "Mana pools recover slowly under pressure—drink mana draughts early rather than hitting zero.",
+  "context": "spells"
+ },
+ {
+  "id": "tip-077",
+  "text": "Haste doubles a squad's repositioning speed, letting archers kite charging Frosthorn Bruisers.",
+  "context": "spells"
+ },
+ {
+  "id": "tip-078",
+  "text": "Wind Ward deflects incoming arrows and bone quills, turning ranged ambushes into wasted volleys.",
+  "context": "spells"
+ },
+ {
+  "id": "tip-079",
+  "text": "Spell scrolls cast at fixed power without draining your mana—save them for emergencies.",
+  "context": "spells"
+ },
+ {
+  "id": "tip-080",
+  "text": "Tomes require minimum Mind thresholds to read; store high-tier tomes until your caster matures.",
+  "context": "spells"
+ },
+ {
+  "id": "tip-081",
+  "text": "Astral damage bypasses mundane armor completely, making it ideal against Hollow Kings.",
+  "context": "spells"
+ },
+ {
+  "id": "tip-082",
+  "text": "Summoned skeletons draw enemy focus fire away from fragile healers and wounded scouts.",
+  "context": "spells"
+ },
+ {
+  "id": "tip-083",
+  "text": "Casting while flanked risks spell interruption—keep a bodyguard beside your primary mage.",
+  "context": "spells"
+ },
+ {
+  "id": "tip-084",
+  "text": "Chain spells bounce to the nearest valid target; check spacing so bolts don't fizzle out.",
+  "context": "spells"
+ },
+ {
+  "id": "tip-085",
+  "text": "Quake stuns grounded foes and cracks stone constructs, though flying drakes ignore it entirely.",
+  "context": "spells"
+ },
+ {
+  "id": "tip-086",
+  "text": "Nothing teaches elemental humility faster than casting Chain Lightning while standing in a puddle.",
+  "context": "spells"
+ },
+ {
+  "id": "tip-087",
+  "text": "Silence hexes shut down enemy spellcasters for several vital heartbeats—use them on bosses.",
+  "context": "spells"
+ },
+ {
+  "id": "tip-088",
+  "text": "Dark rituals cost health when mana runs dry; watch your necromancer's red bar closely.",
+  "context": "spells"
+ },
+ {
+  "id": "tip-089",
+  "text": "Use the Navigate marker on mission objectives when fog or dust storms obscure the trail.",
+  "context": "map"
+ },
+ {
+  "id": "tip-090",
+  "text": "Optional objectives often yield unique items, extra gold, or allies for later missions.",
+  "context": "map"
+ },
+ {
+  "id": "tip-091",
+  "text": "Scout the edges of every map before triggering main boss arenas; flanks hide ambush patrols.",
+  "context": "map"
+ },
+ {
+  "id": "tip-092",
+  "text": "Environmental hazards like magma vents and rising tides damage both sides—lure foes into them.",
+  "context": "map"
+ },
+ {
+  "id": "tip-093",
+  "text": "Destroyed barricades and opened shortcuts remain clear if you backtrack during escort missions.",
+  "context": "map"
+ },
+ {
+  "id": "tip-094",
+  "text": "Watch for stone cairns and weathered signposts; they usually mark safe paths through bog or ash.",
+  "context": "map"
+ },
+ {
+  "id": "tip-095",
+  "text": "Night and storm missions reduce ranged sightlines—keep torches or light wards active.",
+  "context": "map"
+ },
+ {
+  "id": "tip-096",
+  "text": "Control groups 1 through 4 let you split forces cleanly on two-lane maps like Split Vanguard.",
+  "context": "map"
+ },
+ {
+  "id": "tip-097",
+  "text": "Check your minimap whenever horns sound; reinforcement waves often enter from behind your rear.",
+  "context": "map"
+ },
+ {
+  "id": "tip-098",
+  "text": "Bridges and causeways restrict wide formations—send shielded tanks first to anchor the far bank.",
+  "context": "map"
+ },
+ {
+  "id": "tip-099",
+  "text": "Ruined shrines scattered across side paths sometimes grant temporary blessings when cleansed.",
+  "context": "map"
+ },
+ {
+  "id": "tip-100",
+  "text": "Always clear side-tunnels in underground maps before advancing; rear ambushes end runs fast.",
+  "context": "map"
+ },
+ {
+  "id": "tip-101",
+  "text": "Coastal maps shift with the tide—check water levels before marching heavy plate onto sandbars.",
+  "context": "map"
+ },
+ {
+  "id": "tip-102",
+  "text": "Volcanic yellow crust fissures erupt when stepped on; guide troops along dark basalt stone.",
+  "context": "map"
+ },
+ {
+  "id": "tip-103",
+  "text": "If a map offers two routes, the wider road usually has twice the crossbows watching it.",
+  "context": "map"
+ },
+ {
+  "id": "tip-104",
+  "text": "Every shortcut in Thornvael was mapped by someone who didn't survive the main road.",
+  "context": "map"
+ },
+ {
+  "id": "tip-105",
+  "text": "Right-click drag pans the camera smoothly; middle-click resets orientation toward north.",
+  "context": "general"
+ },
+ {
+  "id": "tip-106",
+  "text": "Keep multiple rotating saves across acts in case a moral choice has sharper teeth than expected.",
+  "context": "general"
+ },
+ {
+  "id": "tip-107",
+  "text": "Mercenary banter in camp often hints at upcoming enemy weaknesses and regional hazards.",
+  "context": "general"
+ },
+ {
+  "id": "tip-108",
+  "text": "Examine monster entries in the Codex after your first encounter to learn elemental weaknesses.",
+  "context": "general"
+ },
+ {
+  "id": "tip-109",
+  "text": "Choices made in side quests can alter enemy spawns and shop prices two acts later.",
+  "context": "general"
+ },
+ {
+  "id": "tip-110",
+  "text": "Adjust tactical pause auto-triggers in settings to freeze action on low HP or trap detection.",
+  "context": "general"
+ },
+ {
+  "id": "tip-111",
+  "text": "Every act introduces new environmental pressures—adapt your roster instead of forcing one tactic.",
+  "context": "general"
+ },
+ {
+  "id": "tip-112",
+  "text": "Read boss dialogue carefully; their boasts almost always reveal what their throne room guards.",
+  "context": "general"
+ },
+ {
+  "id": "tip-113",
+  "text": "Veteran mercenaries earn subtle passive traits the longer they survive under your banner.",
+  "context": "general"
+ },
+ {
+  "id": "tip-114",
+  "text": "You can reorder squad deployment slots on the pre-mission screen to set your initial formation.",
+  "context": "general"
+ },
+ {
+  "id": "tip-115",
+  "text": "Sound cues warn of off-screen ambushes—listen for bone rattles, horn blasts, and bowstrings.",
+  "context": "general"
+ },
+ {
+  "id": "tip-116",
+  "text": "Ironbound and Nightmare difficulties reward patience, scouting, and ruthless resource management.",
+  "context": "general"
+ },
+ {
+  "id": "tip-117",
+  "text": "Even failed attempts teach enemy patrol timings; adjust your vanguard and strike again.",
+  "context": "general"
+ },
+ {
+  "id": "tip-118",
+  "text": "Thornvael rewards pragmatism over chivalry—bring dry socks, sharp iron, and a full purse.",
+  "context": "general"
+ },
+ {
+  "id": "tip-119",
+  "text": "Four provinces, forty-six battles, and not a single dry cloak among them.",
+  "context": "general"
+ },
+ {
+  "id": "tip-120",
+  "text": "If the music suddenly stops in a quiet ruin, save your game immediately.",
+  "context": "general"
+ }
+]
