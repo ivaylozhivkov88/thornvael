@@ -1091,6 +1091,56 @@ function fadeTrack(t: Track | null, to: number, sec: number): void {
   }
 }
 
+// Special track (boss theme, victory/defeat sting) that takes over from the mode tracks.
+let specialFile: string | null = null;
+let specialLoop = true;
+let specialTrack: Track | null = null;
+
+function stopSpecial(sec: number): void {
+  const t = specialTrack;
+  specialTrack = null;
+  if (!t) return;
+  if (t.gain && ctx && ctx.state !== 'closed') {
+    t.gain.gain.cancelScheduledValues(ctx.currentTime);
+    t.gain.gain.setValueAtTime(t.gain.gain.value, ctx.currentTime);
+    t.gain.gain.linearRampToValueAtTime(0, ctx.currentTime + sec);
+  } else t.el.volume = 0;
+  setTimeout(() => { try { t.el.pause(); } catch {} }, sec * 1000 + 50);
+}
+
+function startSpecial(): void {
+  if (!specialFile || !ctx || ctx.state === 'closed' || !musicBus || backgrounded || specialTrack) return;
+  const el = new Audio(`${base()}audio/${specialFile}.m4a`);
+  el.loop = specialLoop;
+  el.preload = 'auto';
+  el.crossOrigin = 'anonymous';
+  let gain: GainNode | null = null;
+  try {
+    const src = ctx.createMediaElementSource(el);
+    gain = ctx.createGain();
+    gain.gain.value = 0;
+    src.connect(gain).connect(musicBus);
+  } catch { el.volume = 0; }
+  const t: Track = { el, gain };
+  specialTrack = t;
+  if (gain) gain.gain.linearRampToValueAtTime(1, ctx.currentTime + 1.2);
+  else el.volume = 1;
+  playMedia(el, () => musicWanted && specialTrack === t);
+}
+
+/** Take over the music with a named track (e.g. music_boss_morvessa); null returns to the mode tracks. */
+export function setSpecialMusic(file: string | null, loop = true): void {
+  if (file === specialFile) return;
+  specialFile = file;
+  specialLoop = loop;
+  stopSpecial(1.2);
+  if (!ctx || !musicWanted) return;
+  if (file) {
+    for (const m of ['explore', 'battle', 'town'] as MusicMode[]) fadeTrack(tracks[m], 0, 1.2);
+    startSpecial();
+  } else setMusic(true, musicMode);
+}
+
 /** Start or stop the music, and crossfade between the explore, battle, and town tracks. */
 export function setMusic(on: boolean, mode: MusicMode = musicMode): void {
   if (on) unlock();
@@ -1102,7 +1152,13 @@ export function setMusic(on: boolean, mode: MusicMode = musicMode): void {
     fadeTrack(tracks.explore, 0, 0.6);
     fadeTrack(tracks.battle, 0, 0.6);
     fadeTrack(tracks.town, 0, 0.6);
+    stopSpecial(0.6);
     stopDarkFantasyAtmosphere();
+    return;
+  }
+  if (specialFile) {
+    for (const m of ['explore', 'battle', 'town'] as MusicMode[]) fadeTrack(tracks[m], 0, 1.2);
+    startSpecial();
     return;
   }
   const allModes: MusicMode[] = ['explore', 'battle', 'town'];

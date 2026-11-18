@@ -1,6 +1,7 @@
 import { registerWorker } from './updategate';
 import { createInstallController, isInstallPrompt } from './pwa-install';
-import { audioState, blip, cancelShopEntry, play, playSurfaceFootstep, playPickupRustle, playShopEntry, playNotEnoughMana, playInventoryFull, playLowHpHeartbeat, resumeAudio, setAmbience, setMusic, setMusicAct, setAmbienceAct, setSfx, suspendAudio, unlock, type MusicMode } from './audio';
+import { audioState, blip, cancelShopEntry, play, playSurfaceFootstep, playPickupRustle, playShopEntry, playNotEnoughMana, playInventoryFull, playLowHpHeartbeat, resumeAudio, setAmbience, setMusic, setMusicAct, setSpecialMusic, setAmbienceAct, setSfx, suspendAudio, unlock, type MusicMode } from './audio';
+import { isBossArt } from './sprites/units';
 import { MusicDirector, classifyWeapon, cueFor, pickPotionDrink, pickTerrainStep, type CueContext } from './audiologic';
 import { ControlGroups, GROUP_COUNT } from './groups';
 import { GestureRecognizer, pickUnit, reticle, unitsInBox, type Intent } from './input';
@@ -2752,6 +2753,20 @@ function updateMusic(now: number): void {
       if (sim.team[i] !== 0 && alive(i) && sim.visible[Math.floor(sim.y[i] / FP) * map.w + Math.floor(sim.x[i] / FP)]) seen = true;
     }
   }
+  if (outcome) {
+    setSpecialMusic(outcome === 'win' ? 'music_victory' : 'music_defeat', false);
+    return;
+  }
+  let boss: string | null = null;
+  if (seen && !isTownNode) {
+    for (let i = 0; i < sim.count && !boss; i++) {
+      if (sim.team[i] === 0 || !alive(i) || !sim.visible[Math.floor(sim.y[i] / FP) * map.w + Math.floor(sim.x[i] / FP)]) continue;
+      const art = renderer.unitArt(i)?.unit;
+      if (art && isBossArt(art)) boss = `music_boss_${art}`;
+    }
+  }
+  setSpecialMusic(boss);
+  if (boss) return;
   let mode: MusicMode;
   if (townUi.open || isTownNode) {
     mode = 'town';
