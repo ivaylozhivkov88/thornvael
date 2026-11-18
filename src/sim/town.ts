@@ -5,6 +5,7 @@ import { mercPrice } from './difficulty';
 import { getItemDef, ITEMS, Ik, itemId, transmuteItems, type ItemDef } from './items';
 import { FP } from './path';
 import { revive } from './spells';
+import { Ord } from './combat';
 import { isSetItem, ALL_SET_ITEMS } from './sets';
 import type { Sim } from './sim';
 
@@ -95,6 +96,15 @@ export function gambleCost(sim: Sim): number {
 /** Town fx (cb.emit types): 20 quest paid (v reward, el type), 21 quest failed (el type), 22 mercenary hired (v unit), 23 trade (v gold, el 0 bought 1 sold 2 learned 3 trained). */
 /** Gold to raise a fallen hired mercenary at the tavern: 60% of the hire fee, at least 1. */
 export const reviveFee = (hireFee: number): number => Math.max(1, Math.floor((hireFee * 60) / 100));
+
+/** A hired or raised mercenary escorts the hero instead of standing at the tavern door. */
+function followHero(sim: Sim, u: number): void {
+  const h = sim.hero?.id ?? -1;
+  if (h < 0 || h === u || sim.cb.hp[h] <= 0) return;
+  sim.cb.ord[u] = Ord.Defend;
+  sim.cb.aux[u] = h;
+  sim.cb.tgt[u] = -1;
+}
 
 export const Tfx = { Paid: 20, Failed: 21, Hired: 22, Trade: 23 } as const;
 
@@ -438,6 +448,7 @@ export function townCommand(sim: Sim, cmd: TownCommand): void {
       sim.y[u] = sim.ty[u] = sim.cb.py[u] = Math.round((dy + 0.5) * FP);
       sim.stop(u);
       sim.hidden[u] = 0;
+      followHero(sim, u);
       sim.cb.recount(sim.team);
       emit(sim, Tfx.Hired, u, 0);
       return;
@@ -455,6 +466,7 @@ export function townCommand(sim: Sim, cmd: TownCommand): void {
       sim.x[u] = sim.tx[u] = sim.cb.px[u] = Math.round((dx + 0.5) * FP);
       sim.y[u] = sim.ty[u] = sim.cb.py[u] = Math.round((dy + 0.5) * FP);
       sim.stop(u);
+      followHero(sim, u);
       emit(sim, Tfx.Hired, u, 1);
       return;
     }

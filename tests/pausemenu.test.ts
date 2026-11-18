@@ -205,7 +205,7 @@ describe('Gothic In-Game Pause Menu & Game Codex (#pause-menu)', () => {
 
     // Main Menu Buttons
     const buttons = root.querySelectorAll('.pause-btn');
-    expect(buttons.length).toBe(8);
+    expect(buttons.length).toBe(9);
 
     const titles = buttons.map(b => b.querySelector('.pause-btn-title')?.textContent);
     expect(titles).toContain('Resume Game');
