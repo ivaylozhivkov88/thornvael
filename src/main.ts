@@ -808,6 +808,7 @@ try { tipStore = localStorage; } catch { /* private mode */ }
 const tips = new Tips(tipStore);
 
 let lastHeroHp = 0;
+let victoryBarked = false;
 function updateGothicHud(): void {
   const hp = Math.max(0, sim.cb.hp[0] ?? 0);
   const hpMax = Math.max(1, sim.cb.hpMax[0] ?? 1);
@@ -2770,6 +2771,7 @@ function updateMusic(now: number): void {
     }
   }
   if (outcome) {
+    if (outcome === 'win' && !victoryBarked) { victoryBarked = true; const vb = heroBark('victory', 0); if (vb) toast(`"${vb}"`); }
     setSpecialMusic(outcome === 'win' ? 'music_victory' : 'music_defeat', false);
     return;
   }
@@ -3027,7 +3029,7 @@ function showVictoryScreen(winText?: string): void {
     modal.hidden = true;
     userPause = false;
     freeRoamActive = true;
-    outcome = null;
+    outcome = null; victoryBarked = false;
     const leaveHudBtn = document.getElementById('btn-leave-mission');
     if (leaveHudBtn) {
       leaveHudBtn.hidden = false;
