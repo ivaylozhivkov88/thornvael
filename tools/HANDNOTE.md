@@ -1,4 +1,4 @@
-# HANDNOTE - sprite redo via Canva (updated 2026-11-18 23:15)
+# HANDNOTE - sprite redo via Canva (updated 2026-11-19 00:26)
 
 Repo: D:/ROM 2 clone/game. Plan order: 1) ordinary monsters (5-view turnaround) 2) heroes+bosses (9 views, key-pose sheets, maybe 192 cell; test warrior first, show user) 3) map visuals 4) random-map skirmish generator (HoMM3 only as logic reference, never copy assets).
 Rules: stop at weekly usage 98%; reply to user in Bulgarian, short; push after each step; commit trailer `Co-Authored-By: Claude Sonnet 5.5 <noreply@anthropic.com>`; never touch game/src/sim/path.ts, tests/movement.test.ts, models/, tools/render-unit.py.
@@ -11,9 +11,9 @@ Rules: stop at weekly usage 98%; reply to user in Bulgarian, short; push after e
 After 3 failures on one unit: pause it, continue, report DONE/REDO at the end.
 
 ## Status
-DONE (19/52): briar-hound flintback mire-wisp ruin-mite thorn-boar quill-fiend fallen-shaman glasswing rootbound pale-burrower rift-moth greater-mummy silt-colossus redglass-drake night-orchard stormtree doom-knight cinderhorn anvilmaw-smith
+DONE (23/52): briar-hound flintback mire-wisp ruin-mite thorn-boar quill-fiend fallen-shaman glasswing rootbound cinderling gloom-stag salt-crab fetish-blowdart pale-burrower rift-moth greater-mummy silt-colossus redglass-drake night-orchard stormtree doom-knight cinderhorn anvilmaw-smith
 
-TODO (33): cinderling gloom-stag salt-crab fetish-blowdart witch-doctor hollow-knight spore-matron dune-lurker storm-kite basalt-brute sand-raider dune-scarab claw-viper dune-beast maggot-swarm lantern-eel ash-weaver ironbark hollow-king wendigo-bruiser crowned-maw frost-bell morvessa gorrathul vesperion ashkarath hero warrior archer mage gnoll golem imp
+TODO (29): witch-doctor hollow-knight spore-matron dune-lurker storm-kite basalt-brute sand-raider dune-scarab claw-viper dune-beast maggot-swarm lantern-eel ash-weaver ironbark hollow-king wendigo-bruiser crowned-maw frost-bell morvessa gorrathul vesperion ashkarath hero warrior archer mage gnoll golem imp
 
 Missing descriptions in canva-units.json (write one first): gnoll golem imp mage hero warrior archer + bosses morvessa gorrathul vesperion ashkarath. Many existing ones are generic - a better one-liner gives better art.
 
