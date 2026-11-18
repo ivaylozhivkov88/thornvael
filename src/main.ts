@@ -2057,6 +2057,7 @@ await loadTownBarks();
 await loadSpellText();
 if (activeChar) await loadHeroVoices(activeChar.cls, activeChar.female);
 const missionContent = loadedMission ? await loadMissionContent(missionName) : null;
+let radioFoes0 = 0, radioHalf = false, radioLow = false;
 if (loadedMission && missionName && !isTownNode) { achReset(); radioFoes0 = 0; radioHalf = false; radioLow = false; }
   if (loadedMission && missionName && !isTownNode) void missionKey(missionName).then((k) => { if (k) void startSideQuests(k); });
 if (loadedMission && missionName) void missionRadio(missionName, 'start').then((l) => { if (l) setTimeout(() => toast(`Radio: ${l}`), 2500); });
@@ -2853,7 +2854,6 @@ let persisted: boolean | string = '?';
 let live = { fps: 0, drawMs: 0, stepMs: 0, worstMs: 0 };
 if (diag) void import('./diag').then((m) => m.startDiag(document.body, () => live));
 
-let radioFoes0 = 0, radioHalf = false, radioLow = false;
 function updateStats(): void {
   for (const id of [...selected]) if (!alive(id)) selected.delete(id);
   if (sim.hero && alive(0) && (selected.size === 0 || !selected.has(0))) {
