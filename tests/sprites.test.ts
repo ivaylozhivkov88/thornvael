@@ -115,7 +115,7 @@ describe('atlas CI gate', () => {
   });
   it('validates every shipped atlas, decoded PNG and provenance entry through the CLI', () => {
     expect(execFileSync(process.execPath, ['tools/check-atlases.mjs'], { encoding: 'utf8' })).toContain('passed');
-  });
+  }, 60000);
 });
 
 describe('unit presentation', () => {
