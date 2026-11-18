@@ -1,0 +1,186 @@
+{
+ "m01-blood-at-the-ford": [
+  "The gravel bar is wide, yet archers perched on the limestone ridge command every step across the water.",
+  "Clear the raiders in the center crossing, search the burning tollhouse to the west, then climb the east bluff to defeat Grok'tar."
+ ],
+ "m02-whispers-in-the-fen": [
+  "Dense reeds hide more than waterfowl; watch the western blinds before advancing north with your guide.",
+  "Eliminate the ambushers along the southern willow islands, optionally gather bile from the west reed-blinds, and escort Bren to the north stone post."
+ ],
+ "m03-nightfall-at-ravenwatch": [
+  "Darkness favors the howling treeline north of the gatehouse; keep your shield-bearers near the central well.",
+  "Hold the inner bailey courtyard until dawn, inspect the western curtain wall breach, and burn the three bone totems in the north pines."
+ ],
+ "m04-the-sunken-sanctum": [
+  "Rising bog-water floods the lower nave, funneling attackers down narrow stone aisles.",
+  "Defend the high altar dais from the flooded side-chapels and smash the two corrupted reliquaries in the crypt."
+ ],
+ "m05-lantern-passage": [
+  "Not every warm glow in the mist marks a safe road; straying off the cobbles invites drowning.",
+  "Follow only the white-marked milestone lanterns across the marsh and extinguish the three false wisp-beacons."
+ ],
+ "m06-greywood-supply": [
+  "Heavy wagons bog down easily where fallen timber blocks the muddy forest track.",
+  "Clear the felled logs blocking the center road, guard the supply carts from flankers, and deliver the convoy to the east outpost."
+ ],
+ "m07-split-vanguard": [
+  "Dividing your company across two bridges leaves neither flank strong enough to weather a sudden charge.",
+  "Rally the trapped scouts on the western island first, then unite both squads to break the eastern blockade."
+ ],
+ "m08-alder-bridge": [
+  "The stone arches form a deadly bottleneck where enemy pikemen can hold off twice their number.",
+  "Use ranged fire to clear the bridgehead archers, flank across the shallow south ford, and lower the northern gate."
+ ],
+ "m09-ironhide-hunt": [
+  "Fresh gouges on the oak trunks and crushed briars reveal where the great beast beds down.",
+  "Track the blood trail into the northern hollow, lure Ironhide out of the thick brambles, and bring it down."
+ ],
+ "m10-undervault-links": [
+  "Damp cellar stonework echoes every footstep, alerting patrols behind locked iron grilles.",
+  "Retrieve the rusted turnkey from the guardroom, unlock the three drainage gates, and secure the lower vault."
+ ],
+ "m11-ashbrook-retreat": [
+  "Holding a burning village accomplishes nothing once the granaries have already collapsed.",
+  "Fall back steadily along the southern road, cover the fleeing villagers, and hold the rear-guard bridge until everyone crosses."
+ ],
+ "m12-redmarsh-border": [
+  "The border cairns sink deeper into the peat with every mile south, and the air grows thick with marsh-gas.",
+  "Clear the border checkpoint barricades, ignite the signal brazier on the dry ridge, and push into Redmarsh."
+ ],
+ "m13-twin-passes": [
+  "Two parallel gorges split the enemy warband, allowing swift companies to defeat each half separately.",
+  "Hold the narrow western pass with a small shield wall while your main force sweeps through the eastern canyon."
+ ],
+ "m14-scattered-scouts": [
+  "Faint horn blasts echo from three different thicket clusters across the fog-shrouded valley.",
+  "Locate and rescue all three missing scout teams before the roaming hound packs track them down."
+ ],
+ "m15-outpost-palisade": [
+  "Unfinished timber walls leave wide gaps where raiders can slip behind your firing line.",
+  "Patch the two breached palisade sections with timber bundles and repel three waves of attackers."
+ ],
+ "m16-wardstone-rupture": [
+  "Cracked runestones leak unstable energy that empowers nearby mire-creatures.",
+  "Slay the channeling shamans around each fractured wardstone and seal the three rifts before reinforcements arrive."
+ ],
+ "m17-mire-convoy": [
+  "Sunken planks along the dike slow loaded pack-mules to a crawl in open sight of the reeds.",
+  "Escort the supply mules across the raised boardwalk and clear ambushers from the watchtowers ahead."
+ ],
+ "m18-granary-raid": [
+  "Torches near dry grain sacks can turn vital winter rations into worthless ash within seconds.",
+  "Eliminate the arsonists inside the storehouse immediately and secure the four intact grain wagons."
+ ],
+ "m19-hexer-capture": [
+  "Slaying the coven leader outright will take her knowledge of the bog-wards to the grave.",
+  "Clear her bodyguards, weaken the Matriarch without dealing a lethal blow, and bind her with iron shackles."
+ ],
+ "m20-deep-quarry": [
+  "Steep chalk terraces allow enemy slingers to rain stones down onto the quarry floor.",
+  "Climb the wooden scaffolding ramps to clear the upper ledges before engaging the overseer in the pit."
+ ],
+ "m21-lean-garrison": [
+  "Half-starved defenders cannot hold all four walls at once without reinforcements.",
+  "Distribute the ration crates to the garrison posts and reinforce whichever gate comes under heavy assault."
+ ],
+ "m22-fleeing-column": [
+  "Panicked refugees scatter blindly into the brush whenever cavalry horns sound behind them.",
+  "Intercept the outriders chasing the column and guide the survivors safely to the fortified crossroads."
+ ],
+ "m23-fork-of-spears": [
+  "Where two muddy rivers meet, enemy spear-walls anchor both banks against frontal assaults.",
+  "Use frost or crowd-control spells to break the center phalanx and capture the command tent behind them."
+ ],
+ "m24-pledge-at-oakhaven": [
+  "Distrust hangs heavier than smoke over the council hall; actions speak louder than parchment.",
+  "Speak with the three guild captains in the square and clear the western roadblock to prove your company's worth."
+ ],
+ "m25-cinder-wards": [
+  "Glowing braziers feed protective wards that turn aside steel and arrows alike.",
+  "Extinguish the four iron fire-bowls ringing the courtyard to strip the defenders of their heat-shields."
+ ],
+ "m26-sundered-ranks": [
+  "Chaos has split the vanguard into isolated pockets fighting back-to-back amid the rubble.",
+  "Fight your way through the ruined street to link up with the trapped sergeant and reform your battle line."
+ ],
+ "m27-field-infirmary": [
+  "Wounded soldiers cannot defend themselves when raiders slip past the outer perimeter.",
+  "Guard the medical tents against infiltrating stalkers and bring three crates of bitter-root salve from the supply cart."
+ ],
+ "m28-sunken-citadel": [
+  "Salt-crusted stairways descend deep beneath the tide-line where air grows thin and cold.",
+  "Open the sea-gate sluices to drain the lower hall and defeat the drowned guardian within."
+ ],
+ "m29-hourglass-rescue": [
+  "The rising tide floods the sea-caves steadily, leaving little time before the cells go under.",
+  "Sprint through the eastern smugglers' tunnel, cut the prisoner chains, and escape before the water reaches the ceiling."
+ ],
+ "m30-starved-bastion": [
+  "Weeks of blockade have left the fortress walls intact yet empty of arrows and oil.",
+  "Smuggle the three supply skiffs past the harbor chain-boom and deliver the cargo to the inner dock."
+ ],
+ "m31-riverlock-crossing": [
+  "Heavy iron lock-gates control the water level across the entire canal network.",
+  "Capture both winch-houses on opposite banks and crank the lock-gates shut to create a dry crossing."
+ ],
+ "m32-elder-juggernaut": [
+  "Thick barnacle-crust and rusted hull-plates turn aside ordinary strikes from the front.",
+  "Lure the colossus beneath the cliffside crane and drop heavy ballast stones onto its shell to crack its armor."
+ ],
+ "m33-high-stakes-gambit": [
+  "Feigning weakness draws greedy raiders out of their fortified cove onto open shingle.",
+  "Bait the corsair captains onto the flat beach with a small vanguard, then spring your hidden archers from the rocks."
+ ],
+ "m34-clashing-banners": [
+  "Two rival warbands are already locked in brutal melee, leaving their flanks exposed.",
+  "Strike while both sides are entangled, cut down their banner-bearers, and claim the contested hill."
+ ],
+ "m35-burning-harbor": [
+  "Flaming pitch-boats drifting into the piers threaten to ignite every docked ship in the bay.",
+  "Cut the mooring lines of the burning hulks and clear the corsair boarding parties off the main pier."
+ ],
+ "m36-heartland-march": [
+  "Ash-choked plains offer scant cover from parapet ballistae watching the main highway.",
+  "Advance from ruin to ruin using collapsed stone walls for cover and silence the three siege-ballista nests."
+ ],
+ "m37-shattered-beacons": [
+  "Without lit signal-towers, allied reinforcements cannot navigate the blinding ash-storms.",
+  "Clear the soot-wraiths from the three hilltop watchtowers and relight each beacon with oil flasks."
+ ],
+ "m38-besieged-wall": [
+  "Siege ladders rising along the parapet demand swift movement between threatened battlements.",
+  "Push down the enemy scaling ladders along the south wall and destroy the battering ram at the main gate."
+ ],
+ "m39-flight-of-malrik": [
+  "The fleeing archivist clutches vital ledgers, yet he cannot outrun mounted inquisitors alone.",
+  "Intercept the pursuing riders at the viaduct arches and escort Malrik safely to the Oakhaven gate."
+ ],
+ "m40-twofold-assault": [
+  "Attacking the foundry from one side alone allows the defenders to concentrate all their fire-pots.",
+  "Breach the western postern gate while your archers suppress the eastern catwalks, then converge on the furnace hall."
+ ],
+ "m41-gauntlet-of-iron": [
+  "Narrow foundry corridors lined with molten slag vents punish careless marches.",
+  "Time your advance between steam bursts, destroy the three bellows-pumps, and breach the inner iron door."
+ ],
+ "m42-outer-rampart": [
+  "Heavy halberdiers and pyre-knights guard every stair leading up to the citadel's outer ring.",
+  "Capture the two corner gatehouses to stop reinforcements and lower the drawbridge to the inner court."
+ ],
+ "m43-three-roads-siege": [
+  "Enemy columns march simultaneously down all three paved highways toward your camp.",
+  "Hold the central barricades while dispatching fast strike teams to burn the siege-camps on the left and right roads."
+ ],
+ "m44-threshold-choice": [
+  "Standing before the scorched chancellery doors, two paths lead toward the inner keep—one swift, one merciful.",
+  "Either storm the heavily guarded main viaduct directly or rescue the trapped prisoners in the lower cisterns first."
+ ],
+ "m45-crown-of-order": [
+  "Grand Inquisitor Varro's elite guard fights in disciplined phalanxes beneath blazing braziers.",
+  "Break the inquisitor shield-line with flanking strikes, extinguish the ritual pyres, and defeat Varro."
+ ],
+ "m46-ember-reckoning": [
+  "Amid falling cinders and crumbling marble, the Ashen Sovereign draws power from the burning throne itself.",
+  "Shatter the four ember-conduits feeding the dais during phase transitions, then strike down the Ashen Sovereign."
+ ]
+}

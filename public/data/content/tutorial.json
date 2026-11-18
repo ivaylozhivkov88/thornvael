@@ -82,5 +82,125 @@
   "title": "No Crown Needed",
   "text": "Your campaign caches locally on this machine. Even when the road goes dead, your progress stays yours.",
   "hint_key": "offline"
+ },
+ {
+  "step": 15,
+  "title": "Wedge and Line",
+  "text": "Cycle formations with the command bar. Lines blunt cavalry charges; wedges punch through narrow bridgeheads.",
+  "hint_key": "formations"
+ },
+ {
+  "step": 16,
+  "title": "Control Groups",
+  "text": "Press Ctrl plus a number key to bind selected fighters. Tap that key twice to snap the camera onto their boots.",
+  "hint_key": "control_groups"
+ },
+ {
+  "step": 17,
+  "title": "Attack-Move Discipline",
+  "text": "Issue an attack-move order into fogged ground so your vanguard engages on sight instead of marching blindly into steel.",
+  "hint_key": "attack_move"
+ },
+ {
+  "step": 18,
+  "title": "Focus Fire",
+  "text": "Right-click a single enemy caster or shaman with your archers. Dead hexers cast no blights.",
+  "hint_key": "focus_fire"
+ },
+ {
+  "step": 19,
+  "title": "Flanking Angles",
+  "text": "Strikes into an enemy's rear or unshielded flank bypass block chance and hit harder.",
+  "hint_key": "flanking"
+ },
+ {
+  "step": 20,
+  "title": "High Ground Advantage",
+  "text": "Archers perched on bluffs or ramparts gain extra range and accuracy while enemies climbing below lose theirs.",
+  "hint_key": "elevation"
+ },
+ {
+  "step": 21,
+  "title": "Quick-Bar Draughts",
+  "text": "Slot healing and mana draughts onto your belt before a fight. Uncorking a vial mid-swing beats bleeding out.",
+  "hint_key": "consumables"
+ },
+ {
+  "step": 22,
+  "title": "Mercenary Upkeep",
+  "text": "Veterans demand higher wages after each contract. Dismiss wounded deadweight or keep your purse fat enough to pay.",
+  "hint_key": "merc_upkeep"
+ },
+ {
+  "step": 23,
+  "title": "Equipping Your Company",
+  "text": "Open the company roster in town to hand spare shields, boots, and charms to your hired blades.",
+  "hint_key": "merc_gear"
+ },
+ {
+  "step": 24,
+  "title": "Set Piece Synergies",
+  "text": "Wearing multiple pieces of a named armor set unlocks passive bonuses. Hover any set item to inspect its thresholds.",
+  "hint_key": "item_sets"
+ },
+ {
+  "step": 25,
+  "title": "Salvage and Smithing",
+  "text": "Break down unwanted ironware at the town anvil for scrap and whetstones instead of hauling dead weight.",
+  "hint_key": "crafting"
+ },
+ {
+  "step": 26,
+  "title": "Scrolls and Tomes",
+  "text": "Anyone with enough mind can read a single-use scroll, while permanent tomes teach spells for good.",
+  "hint_key": "scrolls"
+ },
+ {
+  "step": 27,
+  "title": "Elemental Weaknesses",
+  "text": "Bog-rotted flesh burns fiercely; flame-forged citadel guards hate frost and brine. Match your damage to the foe.",
+  "hint_key": "resistances"
+ },
+ {
+  "step": 28,
+  "title": "Interrupting Chants",
+  "text": "Heavy bashes, shield slams, and stun bolts break enemy ritual casts before the spell lands.",
+  "hint_key": "interrupts"
+ },
+ {
+  "step": 29,
+  "title": "Corpse Economy",
+  "text": "Necromancers need fresh bodies to raise thralls or detonate carcasses. Fight near fallen foes, not empty mud.",
+  "hint_key": "corpses"
+ },
+ {
+  "step": 30,
+  "title": "Managing Threat",
+  "text": "Taunts and shield-walls keep brutes glued to your heavy armor while robes and bows work unmolested.",
+  "hint_key": "aggro"
+ },
+ {
+  "step": 31,
+  "title": "Unstable Rifts",
+  "text": "Optional rifts spawn relentless waves for rich loot. Clear nearby patrols first so you aren't pinched from behind.",
+  "hint_key": "rifts"
+ },
+ {
+  "step": 32,
+  "title": "Scouting Ahead",
+  "text": "Send a single fast runner to spot patrol routes and shrine traps before committing your whole column.",
+  "hint_key": "scouting"
+ },
+ {
+  "step": 33,
+  "title": "Tactical Retreat",
+  "text": "Sounding a withdrawal toward the map edge saves surviving veterans and gear when an ambush goes sour.",
+  "hint_key": "retreat"
+ },
+ {
+  "step": 34,
+  "title": "Hardened Difficulties",
+  "text": "Higher difficulty tiers sharpen enemy AI, add elite modifiers, and starve your purse—prepare before stepping up.",
+  "hint_key": "difficulty"
  }
 ]
