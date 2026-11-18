@@ -42,6 +42,7 @@ import {
   type ZoneExitDef,
 } from './sim/script';
 import { loadGameData } from './loaddata';
+import { loadHeroVoices, heroBark } from './herovoice';
 import { loadMissionContent, loadItemFlavor, loadFlavorLists, loadMonsterCodex, loadSpellText, defeatFlavor } from './missioncontent';
 import { DebugPanel } from './debugpanel';
 import { SPELLS, Tk } from './sim/spelldata';
@@ -2024,6 +2025,7 @@ await loadItemFlavor();
 await loadFlavorLists();
 await loadMonsterCodex();
 await loadSpellText();
+if (activeChar) await loadHeroVoices(activeChar.cls, activeChar.female);
 const missionContent = loadedMission ? await loadMissionContent(missionName) : null;
 const missionUi = loadedMission
   ? new MissionUi(loadedMission.doc, {
@@ -2435,6 +2437,8 @@ const gamepadController = new GamepadController({
       cameraFollow = true;
       renderer.centerOn(px(sim, 0), py(sim, 0));
       play('select_hero', 5);
+      const line = heroBark('select');
+      if (line) toast(`"${line}"`);
     }
   },
   onL2StateChange: (held) => {
