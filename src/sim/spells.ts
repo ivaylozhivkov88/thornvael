@@ -130,7 +130,11 @@ export function spellHit(sim: Sim, t: number, sid: number, pow = 100): void {
     healUnit(sim, t, Math.floor((roll(sim, sp.min, sp.max) * pow) / 100));
     return;
   }
-  if (sp.max > 0) strike(sim, t, Math.floor((sp.min * pow) / 100), Math.floor((sp.max * pow) / 100), sp.school, 99);
+  if (sp.max > 0) {
+    // val on a pure damage spell is an execute bonus: that % extra against foes below 30% HP
+    const p = sp.st < 0 && sp.val > 0 && cb.hp[t] * 100 < cb.hpMax[t] * 30 ? Math.floor((pow * (100 + sp.val)) / 100) : pow;
+    strike(sim, t, Math.floor((sp.min * p) / 100), Math.floor((sp.max * p) / 100), sp.phys ? 0 : sp.school, 99);
+  }
   if (sp.st >= 0 && cb.hp[t] > 0) addStatus(sim, t, sp.st, sp.dur * TICKS, sp.val);
 }
 
@@ -205,7 +209,9 @@ export function castSpell(sim: Sim, i: number, sid: number, t: number, px: numbe
       area(sim, i, sid, px, py, pow);
       return;
     case Tk.Self:
-      if (sp.st >= 0) addStatus(sim, i, sp.st, sp.dur * TICKS, sp.val);
+      if (sp.heal) healUnit(sim, i, Math.floor((roll(sim, sp.min, sp.max) * pow) / 100));
+      else if (sp.radius > 0) for (let n = 0; n < Math.max(1, sp.count); n++) area(sim, i, sid, sim.x[i], sim.y[i], pow);
+      else if (sp.st >= 0) addStatus(sim, i, sp.st, sp.dur * TICKS, sp.val);
       else {
         cb.mana[i] = Math.min(cb.manaMax[i], cb.mana[i] + sp.val);
         cb.emit(10, sim.x[i], sim.y[i], 2, 5);
@@ -315,7 +321,11 @@ export function autoCast(sim: Sim, i: number): boolean {
       return true;
     }
     case Tk.Self: {
-      if (sp.st >= 0) {
+      if (sp.heal) {
+        if (cb.hp[i] * 100 >= cb.hpMax[i] * 70) return false;
+      } else if (sp.radius > 0) {
+        if (enemyNear(sim, i, sp.radius * FP, 0, 0, 0) < 0) return false;
+      } else if (sp.st >= 0) {
         if (hasStatus(sim, i, sp.st) || enemyNear(sim, i, 9 * FP, 0, 0, 0) < 0) return false;
       } else if (cb.mana[i] * 2 >= cb.manaMax[i]) return false;
       castSpell(sim, i, sid, -1, 0, 0);

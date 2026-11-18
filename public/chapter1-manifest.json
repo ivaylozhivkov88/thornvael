@@ -1,7 +1,7 @@
 {
  "id": "ch1",
  "cache": "thornvael-ch1-v1",
- "total": 9510725,
+ "total": 9516705,
  "files": [
   {
    "path": "data/campaign.json",
@@ -9,7 +9,7 @@
   },
   {
    "path": "data/items.json",
-   "size": 41767
+   "size": 44970
   },
   {
    "path": "data/monsters.json",
@@ -17,7 +17,7 @@
   },
   {
    "path": "data/spells.json",
-   "size": 3940
+   "size": 6717
   },
   {
    "path": "audio/amb_canyon_wind.m4a",

@@ -2467,6 +2467,168 @@
         2,
         0
       ]
+    },
+    {
+      "name": "Scroll of Shield Bash",
+      "kind": "learn",
+      "tier": 2,
+      "w": 1,
+      "need": "body",
+      "needv": 6,
+      "spell": "Shield Bash"
+    },
+    {
+      "name": "Scroll of Cleave Arc",
+      "kind": "learn",
+      "tier": 2,
+      "w": 1,
+      "need": "body",
+      "needv": 6,
+      "spell": "Cleave Arc"
+    },
+    {
+      "name": "Scroll of Hamstring Cut",
+      "kind": "learn",
+      "tier": 2,
+      "w": 1,
+      "need": "body",
+      "needv": 6,
+      "spell": "Hamstring Cut"
+    },
+    {
+      "name": "Scroll of Sunder Plate",
+      "kind": "learn",
+      "tier": 3,
+      "w": 1,
+      "need": "body",
+      "needv": 7,
+      "spell": "Sunder Plate"
+    },
+    {
+      "name": "Scroll of Grit Through Pain",
+      "kind": "learn",
+      "tier": 2,
+      "w": 1,
+      "need": "body",
+      "needv": 6,
+      "spell": "Grit Through Pain"
+    },
+    {
+      "name": "Scroll of Whirlwind Maul",
+      "kind": "learn",
+      "tier": 4,
+      "w": 1,
+      "need": "body",
+      "needv": 8,
+      "spell": "Whirlwind Maul"
+    },
+    {
+      "name": "Scroll of Executioner's Blow",
+      "kind": "learn",
+      "tier": 4,
+      "w": 1,
+      "need": "body",
+      "needv": 8,
+      "spell": "Executioner's Blow"
+    },
+    {
+      "name": "Scroll of Bodkin Shot",
+      "kind": "learn",
+      "tier": 2,
+      "w": 1,
+      "need": "agility",
+      "needv": 6,
+      "spell": "Bodkin Shot"
+    },
+    {
+      "name": "Scroll of Volley of Reeds",
+      "kind": "learn",
+      "tier": 3,
+      "w": 1,
+      "need": "agility",
+      "needv": 7,
+      "spell": "Volley of Reeds"
+    },
+    {
+      "name": "Scroll of Heartseeker",
+      "kind": "learn",
+      "tier": 4,
+      "w": 1,
+      "need": "agility",
+      "needv": 8,
+      "spell": "Heartseeker"
+    },
+    {
+      "name": "Scroll of Cinder Lance",
+      "kind": "learn",
+      "tier": 2,
+      "w": 1,
+      "need": "mind",
+      "needv": 6,
+      "spell": "Cinder Lance"
+    },
+    {
+      "name": "Scroll of Brine Frost",
+      "kind": "learn",
+      "tier": 3,
+      "w": 1,
+      "need": "mind",
+      "needv": 7,
+      "spell": "Brine Frost"
+    },
+    {
+      "name": "Scroll of Static Arc",
+      "kind": "learn",
+      "tier": 2,
+      "w": 1,
+      "need": "mind",
+      "needv": 6,
+      "spell": "Static Arc"
+    },
+    {
+      "name": "Scroll of Peat-Gas Blast",
+      "kind": "learn",
+      "tier": 3,
+      "w": 1,
+      "need": "mind",
+      "needv": 7,
+      "spell": "Peat-Gas Blast"
+    },
+    {
+      "name": "Scroll of Siphon Ley",
+      "kind": "learn",
+      "tier": 2,
+      "w": 1,
+      "need": "mind",
+      "needv": 6,
+      "spell": "Siphon Ley"
+    },
+    {
+      "name": "Scroll of Vitrify",
+      "kind": "learn",
+      "tier": 4,
+      "w": 1,
+      "need": "mind",
+      "needv": 8,
+      "spell": "Vitrify"
+    },
+    {
+      "name": "Scroll of Marrow Dart",
+      "kind": "learn",
+      "tier": 2,
+      "w": 1,
+      "need": "spirit",
+      "needv": 6,
+      "spell": "Marrow Dart"
+    },
+    {
+      "name": "Scroll of Grave Chill",
+      "kind": "learn",
+      "tier": 2,
+      "w": 1,
+      "need": "spirit",
+      "needv": 6,
+      "spell": "Grave Chill"
     }
   ]
 }

@@ -32,6 +32,24 @@
     {"name":"Iron Skin","school":"earth","target":"self","cost":18,"cd":60,"reach":0,"status":"shield","dur":60,"val":100},
     {"name":"Acid Rain","school":"earth","target":"ground","cost":20,"cd":55,"reach":8,"min":14,"max":20,"radius":3.5,"status":"poison","dur":16,"val":2},
     {"name":"Mana Burn","school":"astral","target":"foe","cost":15,"cd":40,"reach":7,"min":25,"max":40},
-    {"name":"Time Warp","school":"astral","target":"self","cost":25,"cd":80,"reach":0,"status":"haste","dur":40}
+    {"name":"Time Warp","school":"astral","target":"self","cost":25,"cd":80,"reach":0,"status":"haste","dur":40},
+    {"name": "Shield Bash", "school": "earth", "target": "foe", "cost": 10, "cd": 25, "reach": 1, "min": 14, "max": 20, "cls": 1, "phys": true},
+    {"name": "Cleave Arc", "school": "earth", "target": "multi", "cost": 14, "cd": 30, "reach": 2, "min": 18, "max": 26, "cls": 1, "phys": true, "radius": 2, "count": 3},
+    {"name": "Hamstring Cut", "school": "earth", "target": "foe", "cost": 9, "cd": 28, "reach": 1, "min": 12, "max": 18, "cls": 1, "phys": true, "status": "slow", "dur": 5},
+    {"name": "Sunder Plate", "school": "earth", "target": "foe", "cost": 15, "cd": 35, "reach": 1, "min": 20, "max": 28, "cls": 1, "phys": true},
+    {"name": "Grit Through Pain", "school": "water", "target": "self", "cost": 14, "cd": 50, "reach": 0, "min": 28, "max": 36, "cls": 1, "heal": true},
+    {"name": "Whirlwind Maul", "school": "earth", "target": "self", "cost": 22, "cd": 55, "reach": 0, "min": 15, "max": 22, "cls": 1, "phys": true, "radius": 2, "count": 2},
+    {"name": "Executioner's Blow", "school": "earth", "target": "foe", "cost": 24, "cd": 60, "reach": 1, "min": 34, "max": 46, "cls": 1, "phys": true, "val": 50},
+    {"name": "Bodkin Shot", "school": "earth", "target": "foe", "cost": 10, "cd": 25, "reach": 9, "min": 18, "max": 25, "cls": 4, "phys": true},
+    {"name": "Volley of Reeds", "school": "earth", "target": "ground", "cost": 16, "cd": 38, "reach": 9, "min": 14, "max": 20, "cls": 4, "phys": true, "radius": 2},
+    {"name": "Heartseeker", "school": "earth", "target": "foe", "cost": 24, "cd": 58, "reach": 10, "min": 36, "max": 48, "cls": 4, "phys": true},
+    {"name": "Cinder Lance", "school": "fire", "target": "foe", "cost": 14, "cd": 30, "reach": 8, "min": 20, "max": 28, "cls": 2, "status": "burn", "dur": 5, "val": 6},
+    {"name": "Brine Frost", "school": "water", "target": "ground", "cost": 15, "cd": 34, "reach": 7, "min": 16, "max": 22, "cls": 2, "radius": 2, "status": "slow", "dur": 4},
+    {"name": "Static Arc", "school": "air", "target": "foe", "cost": 12, "cd": 28, "reach": 6, "min": 18, "max": 26, "cls": 2},
+    {"name": "Peat-Gas Blast", "school": "fire", "target": "ground", "cost": 19, "cd": 42, "reach": 7, "min": 22, "max": 30, "cls": 2, "radius": 2},
+    {"name": "Siphon Ley", "school": "astral", "target": "foe", "cost": 6, "cd": 32, "reach": 7, "min": 14, "max": 20, "cls": 2},
+    {"name": "Vitrify", "school": "fire", "target": "foe", "cost": 28, "cd": 62, "reach": 8, "min": 38, "max": 50, "cls": 2},
+    {"name": "Marrow Dart", "school": "astral", "target": "foe", "cost": 10, "cd": 24, "reach": 8, "min": 15, "max": 22, "cls": 8, "phys": true},
+    {"name": "Grave Chill", "school": "water", "target": "self", "cost": 14, "cd": 35, "reach": 0, "min": 14, "max": 20, "cls": 8, "radius": 3, "status": "slow", "dur": 5}
   ]
 }

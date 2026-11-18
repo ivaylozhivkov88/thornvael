@@ -21,8 +21,8 @@ const cast = (ids: number[], spell: string, extra: Partial<Extract<Command, { ty
 const still = (sim: Sim, ...ids: number[]): void => ids.forEach((i) => (sim.cb.ord[i] = Ord.Still)); // targets that do not fight back
 
 describe('spell table', () => {
-  it('has 32 spells, five schools and all five targeting kinds', () => {
-    expect(SPELLS.length).toBe(32);
+  it('has 50 spells, five schools and all five targeting kinds', () => {
+    expect(SPELLS.length).toBe(50);
     expect(new Set(SPELLS.map((s) => s.school))).toEqual(new Set([1, 2, 3, 4, 5]));
     expect(new Set(SPELLS.map((s) => s.tk))).toEqual(new Set([Tk.Foe, Tk.Ally, Tk.Ground, Tk.Multi, Tk.Self, Tk.Corpse]));
     for (const s of SPELLS) expect(s.cd).toBeLessThanOrEqual(255);

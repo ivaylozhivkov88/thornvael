@@ -203,7 +203,7 @@ describe('Gothic Spellbook UI & Magic Mastery System', () => {
       'Mysticism',
     ]);
     expect(Object.keys(SPELL_DATABASE).length).toBe(32);
-    expect(SPELLS.length).toBe(32);
+    expect(SPELLS.length).toBe(50); // 32 original + 18 class skills (text only in the spell database)
   });
 
   it('opens and closes the gothic grimoire modal', () => {

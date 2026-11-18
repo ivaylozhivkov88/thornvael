@@ -19,9 +19,9 @@ function arena(kinds: number[], hpMul = 100): Sim {
 
 describe('data tables', () => {
   it('loads every spell and item from public/data, scrolls name their spell', () => {
-    expect(SPELLS.length).toBe(32);
+    expect(SPELLS.length).toBe(50);
     expect(SPELLS[0].name).toBe('Fire Bolt');
-    expect(ITEMS).toHaveLength(249);
+    expect(ITEMS).toHaveLength(267);
     expect([
       itemId('Mithril Gale Buckler'),
       itemId('Adamantium Needle'),

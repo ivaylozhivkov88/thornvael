@@ -21,13 +21,15 @@ describe('original town item illustrations', () => {
       'crown', 'helm', 'helm', 'armor', 'armor', 'armor', 'armor', 'armor', 'robe', 'robe', 'boots', 'boots',
       'boots', 'boots', 'boots', 'boots', 'gloves', 'gloves', 'gloves', 'gloves', 'gloves', 'gloves', 'gloves', 'ring',
       'ring', 'ring', 'ring', 'ring', 'ring', 'ring', 'amulet', 'amulet', 'amulet', 'amulet', 'amulet', 'amulet',
-      'amulet', 'helm', 'shield', 'armor', 'boots', 'staff', 'robe', 'amulet', 'helm', 'boots', 'gloves', 'helm',
-      'armor', 'gloves', 'boots', 'sword', 'helm', 'armor', 'gloves', 'wand', 'crown', 'robe', 'ring', 'mace',
-      'crown', 'armor', 'boots', 'gloves', 'staff', 'crown', 'robe', 'amulet', 'gloves', 'helm', 'shield', 'ring',
-      'sword', 'gloves', 'sword', 'helm', 'robe', 'boots', 'staff', 'staff', 'amulet', 'crown', 'sword', 'mace',
-      'shield', 'boots', 'armor', 'sword', 'staff', 'helm', 'ring', 'shield', 'armor', 'gloves', 'shield', 'sword',
-      'amulet', 'helm', 'shield', 'boots', 'ring', 'crown', 'robe', 'gloves', 'amulet', 'amulet', 'armor', 'gloves',
-      'mace', 'armor', 'gloves', 'amulet', 'staff', 'ring', 'boots', 'boots', 'ring',
+      'amulet', 'scroll', 'scroll', 'scroll', 'scroll', 'scroll', 'scroll', 'scroll', 'scroll', 'scroll', 'scroll', 'scroll',
+      'scroll', 'scroll', 'scroll', 'scroll', 'scroll', 'scroll', 'scroll', 'helm', 'shield', 'armor', 'boots', 'staff',
+      'robe', 'amulet', 'helm', 'boots', 'gloves', 'helm', 'armor', 'gloves', 'boots', 'sword', 'helm', 'armor',
+      'gloves', 'wand', 'crown', 'robe', 'ring', 'mace', 'crown', 'armor', 'boots', 'gloves', 'staff', 'crown',
+      'robe', 'amulet', 'gloves', 'helm', 'shield', 'ring', 'sword', 'gloves', 'sword', 'helm', 'robe', 'boots',
+      'staff', 'staff', 'amulet', 'crown', 'sword', 'mace', 'shield', 'boots', 'armor', 'sword', 'staff', 'helm',
+      'ring', 'shield', 'armor', 'gloves', 'shield', 'sword', 'amulet', 'helm', 'shield', 'boots', 'ring', 'crown',
+      'robe', 'gloves', 'amulet', 'amulet', 'armor', 'gloves', 'mace', 'armor', 'gloves', 'amulet', 'staff', 'ring',
+      'boots', 'boots', 'ring',
     ];
     expect(ITEMS).toHaveLength(expected.length);
     ITEMS.forEach((item, id) => {

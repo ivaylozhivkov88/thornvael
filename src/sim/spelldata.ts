@@ -20,6 +20,7 @@ export interface SpellDef {
   radius: number; // tiles, area and multi
   count: number; // targets of a multi spell
   heal: boolean;
+  phys?: boolean; // physical damage (armor and block apply); school then only picks the icon
   cls: number; // hero classes that may learn it: 0 any, else bit 1<<cls (1 warrior, 2 mage, 4 archer, 8 necromancer)
   st: number; // status applied, or -1
   dur: number; // seconds
