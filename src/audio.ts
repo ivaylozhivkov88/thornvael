@@ -182,10 +182,47 @@ export function unlock(): void {
   requestResume();
 }
 
+let ambBed: string | null = null;
+let ambEventTimer: ReturnType<typeof setTimeout> | null = null;
+const AMB_ACT_BED = ['river_ford', 'redmarsh_swamp', 'harbor', 'forge_ironcamp'];
+const AMB_TOWN_BED = ['town_thornwick', 'town_redmarsh', 'town_oakhaven', 'forge_ironcamp'];
+/** Pick the pack 6a ambience bed for an act (1 to 4), or its town bed; 0 keeps the generic bed. */
+export function setAmbienceAct(act: number, town = false): void {
+  const bed = act >= 1 && act <= 4 ? 'amb_' + (town ? AMB_TOWN_BED : AMB_ACT_BED)[act - 1] : null;
+  if (bed === ambBed) return;
+  ambBed = bed;
+  stopAmbience();
+  startAmbience();
+}
+function scheduleAmbEvent(context: AudioContext, bed: string): void {
+  const wait = 6000 + Math.random() * 12000;
+  ambEventTimer = setTimeout(() => {
+    ambEventTimer = null;
+    if (ctx !== context || ambBed !== bed || !ambWanted || backgrounded || context.state !== 'running') return;
+    const name = bed + '_ev0';
+    void loadBuffer(name).then(() => {
+      const b = buffers.get(name);
+      if (!b || ctx !== context || ambBed !== bed || !ambBus || backgrounded) return;
+      const src = context.createBufferSource();
+      src.buffer = b;
+      let node: AudioNode = src;
+      if (typeof context.createStereoPanner === 'function') {
+        const p = context.createStereoPanner();
+        p.pan.value = Math.random() * 1.6 - 0.8;
+        src.connect(p);
+        node = p;
+      }
+      node.connect(ambBus);
+      src.start();
+    }).catch(() => undefined).finally(() => { if (ctx === context && ambBed === bed) scheduleAmbEvent(context, bed); });
+  }, wait);
+}
+
 function stopAmbience(): void {
   try { ambSource?.stop(); } catch { /* already stopped */ }
   ambSource?.disconnect();
   ambSource = null;
+  if (ambEventTimer) { clearTimeout(ambEventTimer); ambEventTimer = null; }
 }
 
 function playMedia(el: HTMLAudioElement, wanted: () => boolean): void {
@@ -222,14 +259,16 @@ function startAmbience(): void {
   if (!ctx || ctx.state !== 'running' || backgrounded || !ambBus || !ambWanted || ambSource) return;
   const context = ctx;
   const epoch = generation;
-  void loadBuffer('ambience').then(() => {
-    const b = buffers.get('ambience');
+  const bed = ambBed ?? 'ambience';
+  void loadBuffer(bed).then(() => {
+    const b = buffers.get(bed);
     if (ctx !== context || generation !== epoch || backgrounded || context.state !== 'running' || !ambBus || !b || ambSource || !ambWanted) return;
     ambSource = ctx.createBufferSource();
     ambSource.buffer = b;
     ambSource.loop = true;
     ambSource.connect(ambBus);
     ambSource.start();
+    if (ambBed && !ambEventTimer) scheduleAmbEvent(context, ambBed);
   }).catch(() => undefined);
 }
 
