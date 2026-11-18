@@ -810,6 +810,8 @@ const tips = new Tips(tipStore);
 let lastHeroHp = 0;
 let victoryBarked = false;
 let lastHeroLevel = 0;
+let lastInputAt = Date.now();
+for (const ev of ['pointerdown', 'keydown']) window.addEventListener(ev, () => { lastInputAt = Date.now(); }, { passive: true });
 function updateGothicHud(): void {
   const hp = Math.max(0, sim.cb.hp[0] ?? 0);
   const hpMax = Math.max(1, sim.cb.hpMax[0] ?? 1);
@@ -823,6 +825,7 @@ function updateGothicHud(): void {
   const hl = sim.hero?.level ?? 0;
   if (lastHeroLevel && hl > lastHeroLevel) { const lb = heroBark('level_up', 0); if (lb) toast(`"${lb}"`); }
   lastHeroLevel = hl;
+  if (hl && Date.now() - lastInputAt > 45000) { lastInputAt = Date.now(); const ib = heroBark('idle', 0); if (ib) toast(`"${ib}"`); }
 
   const mana = Math.max(0, sim.cb.mana[0] ?? 0);
   const manaMax = Math.max(1, sim.cb.manaMax[0] ?? 1);
