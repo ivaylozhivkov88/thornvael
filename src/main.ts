@@ -44,7 +44,7 @@ import {
 import { loadGameData } from './loaddata';
 import { loadHeroVoices, heroBark } from './herovoice';
 import { loadAchievements, achKills, achHired, achLevel, achGold, achWin, achCampaign } from './achievements';
-import { loadMissionContent, loadMissionHints, loadItemFlavor, loadFlavorLists, loadMonsterCodex, loadCodexLore, loadTownBarks, loadSpellText, defeatFlavor, loadDifficultyFlavor, difficultyLine, loadMercLines, mercHireLine, regionEnterLine, loadHeroFlavor, promotionLine, classBanter } from './missioncontent';
+import { loadMissionContent, loadMissionHints, loadItemFlavor, loadFlavorLists, loadMonsterCodex, loadCodexLore, loadTownBarks, loadSpellText, defeatFlavor, loadDifficultyFlavor, difficultyLine, loadMercLines, mercHireLine, regionEnterLine, loadHeroFlavor, promotionLine, classBanter, missionRadio } from './missioncontent';
 import { DebugPanel } from './debugpanel';
 import { KNOWN_HI, SPELLS, Tk, maskHas } from './sim/spelldata';
 import { validTarget } from './sim/spells';
@@ -2056,6 +2056,7 @@ await loadTownBarks();
 await loadSpellText();
 if (activeChar) await loadHeroVoices(activeChar.cls, activeChar.female);
 const missionContent = loadedMission ? await loadMissionContent(missionName) : null;
+if (loadedMission && missionName) void missionRadio(missionName, 'start').then((l) => { if (l) setTimeout(() => toast(`Radio: ${l}`), 2500); });
 if (loadedMission && missionName) void loadMissionHints(missionName).then((h) => { if (h[0]) setTimeout(() => toast(h[0]), 6000); if (h[1]) setTimeout(() => toast(h[1]), 45000); });
 const missionUi = loadedMission
   ? new MissionUi(loadedMission.doc, {
@@ -2794,7 +2795,7 @@ function updateMusic(now: number): void {
     }
   }
   if (outcome) {
-    if (outcome === 'win' && !victoryBarked) { victoryBarked = true; recordAchWin(); const vb = heroBark('victory', 0); if (vb) toast(`"${vb}"`); }
+    if (outcome === 'win' && !victoryBarked) { victoryBarked = true; recordAchWin(); if (missionName) void missionRadio(missionName, 'win').then((l) => { if (l) toast(`Radio: ${l}`); }); const vb = heroBark('victory', 0); if (vb) toast(`"${vb}"`); }
     setSpecialMusic(outcome === 'win' ? 'music_victory' : 'music_defeat', false);
     return;
   }
@@ -3163,6 +3164,7 @@ function finish(kind: 'win' | 'lose', text?: string): void {
     showVictoryScreen(text);
   } else {
     const fx = defeatFlavor();
+    if (missionName) void missionRadio(missionName, 'lose').then((l) => { if (l) toast(`Radio: ${l}`); });
     showDefeatScreen(fx ? [text, fx].filter(Boolean).join('\n\n') : text);
   }
 }

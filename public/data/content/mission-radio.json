@@ -1,0 +1,370 @@
+[
+ {
+  "mission": "m01",
+  "start": "Tollhouse roof is caving in—wade the gravel shallows under bow cover and grab Fenwick's tax box before the floor drops.",
+  "mid": "Strongbox is clear of the embers! Reform on the bank; Grok'tar's horn is braying from the eastern bluff.",
+  "danger": "Gnoll pack on the flank! Keep shields locked in the current or the river takes the wounded!",
+  "win": "Grok'tar's down in the mud and the Thornwick road stays open. Tally the survivors and wring out your boots.",
+  "lose": "The ford is lost and the ledger burned with the tollhouse. Fall back to Thornwick before nightfall."
+ },
+ {
+  "mission": "m02",
+  "start": "Keep the peat smoke low and the litter level. Burn every willow nest before those barbed darts find a seam.",
+  "mid": "Halfway to the stone watch-post. Bren's fever is climbing—keep scraping that green bile off their shafts.",
+  "danger": "Arrows out of the mist! Form a tight ring around the stretcher—do not let them tip Bren into the bog!",
+  "win": "Watch-post gate barred behind us and Bren's on a dry cot. Good work keeping the lantern out of the fen.",
+  "lose": "The bog swallowed the litter and the poison finished the rest. No scout comes back from those willows."
+ },
+ {
+  "mission": "m03",
+  "start": "Gate's twisted off its hinges. Lock shields around the bailey wellhead—we hold until grey dawn or die wet.",
+  "mid": "First light's hitting the ridge! Coup de main into the pines—chop down all three bone totems feeding that witchfire.",
+  "danger": "They're pouring over the inner wall! Tighten on the wellhead—don't give them an inch of cobble!",
+  "win": "Last totem's kindling and the witchfire's dead. Ravenwatch still flies our rag, battered as it is.",
+  "lose": "The wellhead ran red before sunrise. Ravenwatch belongs to traitors and bone-singers now."
+ },
+ {
+  "mission": "m04",
+  "start": "Watch your footing on the slime-slick causeways. Something old is stirring under that black cloister water.",
+  "mid": "Two flooded galleries cleared. Mordred's chanting louder ahead—keep a rear guard watching the silt behind us.",
+  "danger": "Drowned thralls climbing out of the water behind the column! Turn spears—don't get pinched on the stones!",
+  "win": "Mordred's face-down on his own blood-altar and the water's gone still. Up the stairs before the air turns.",
+  "lose": "Dragged into the silt beneath Ravenwatch. Nobody down here gets a grave marker."
+ },
+ {
+  "mission": "m05",
+  "start": "No lanterns till the summit—hack through the lower deadfall and pull Corin out from under that mail wagon.",
+  "mid": "Corin's breathing and the wax seals are intact. Push up the cliff stair—the northeast beacon waits at the top.",
+  "danger": "Ambushers on the switchback! Shield the courier—if those dispatches burn, the passes fall blind!",
+  "win": "Tar's lit and the northeast beacon is roaring! Every watchtower from here to Thornwick can read the warning.",
+  "lose": "Corin's down and the dispatches are ash in the dark. The high passes won't even know what hit them."
+ },
+ {
+  "mission": "m06",
+  "start": "Salt pork first, accounting ledger second, black powder last—unless you fancy flying over the spruce tops.",
+  "mid": "Rations are smoking and Tarn's ledger is in our satchel. Clear the blast radius before you touch a torch to the kegs.",
+  "danger": "Sparks near the powder depot! Pull back from the timber wall or the whole wood goes up with us!",
+  "win": "Three craters where Tarn's depots stood, and we have every thief's name inked in his own ledger.",
+  "lose": "The powder went up with our company inside the trees. Tarn keeps his stolen iron—and his skin."
+ },
+ {
+  "mission": "m07",
+  "start": "Split into two wings at the granite horn. Keep pace in both frozen gorges—neither side takes the summit alone.",
+  "mid": "Stone sentinels cracking on both defiles! Push to the twin cairns and wait for the single horn blast.",
+  "danger": "One wing is stalled under heavy stone blows! Break through the gorge or the other flank gets butchered!",
+  "win": "Twin Cairns lit on the same breath! The alpine pass is ours from ridge to ridge.",
+  "lose": "One wing broke in the ice and the sentinels ground the rest to bone-meal."
+ },
+ {
+  "mission": "m08",
+  "start": "Drive the sharpened stakes into the mud and lock pikes across the planks. Three thousand folk are behind our backs.",
+  "mid": "Half the carts are over the crest, and the second wave's hitting the timber. Hold the bridgehead!",
+  "danger": "They're hacking at the stake-line! Plug the gap with steel—one broken plank and the refugees drown!",
+  "win": "Last farm cart cleared the ridge and the raiders are floating downstream. Drop your pikes and catch your breath.",
+  "lose": "The bridge buckled and the riders poured into the column. Alder ran red before noon."
+ },
+ {
+  "mission": "m09",
+  "start": "Peat fog's thick enough to chew. Peel off Krag's outriders and grab that vitrified glass from the old quarry kilns.",
+  "mid": "Kiln glass is packed and Krag's drums are right ahead. Aim mauls and lightning at the seams in his rune-hide!",
+  "danger": "Ironhide's charging straight through our shield-line! Scatter and hit his flanks before he tramples the casters!",
+  "win": "Krag Ironhide's down like a felled oak and the moorland drums have quit. That quarry is silent at last.",
+  "lose": "Ironhide's maul broke our line in the fog. The clans will be marching on Thornwick by dusk."
+ },
+ {
+  "mission": "m10",
+  "start": "Keep torches low in the dwarven galleries—foul air pools in the dips. Purge the blood-cultists from all three vents.",
+  "mid": "Two galleries scrubbed clean. Check the rune-locked armory doors before we push for the southern stair.",
+  "danger": "Cultists flooding out of a side shaft! Hold the archway—don't let them trap us in the dark!",
+  "win": "Southern stair is clear and the wind's blowing clean through the Undervault. Ashbrook has its lifeline back.",
+  "lose": "Trapped below the snow-choked passes. The Undervault becomes one more dwarven tomb."
+ },
+ {
+  "mission": "m11",
+  "start": "Brace the splintered postern! Hold the gatehouse until the evacuation wagons roll clear on the north road.",
+  "mid": "Townsfolk are clear! Now open the postern and sally out—take Commander Vaelen's head while Morvessa watches.",
+  "danger": "The ram just cracked the crossbeam! Hold the breach for ten more heartbeats or the wagons are caught!",
+  "win": "Vaelen's banner is in the dirt and Ashbrook's folk are safe. Let Morvessa chew on that from her ridge.",
+  "lose": "The postern gave way too soon. Ashbrook burned with its people still trapped inside the walls."
+ },
+ {
+  "mission": "m12",
+  "start": "Stay on the sunken stone causeway—step onto that pink alkali crust and it'll swallow a pack-mule whole.",
+  "mid": "First bone-pit outpost is ashes. Watch the salt glare ahead; two more block the desert road.",
+  "danger": "Men bogged down in soft alkali while raiders close in! Haul them out onto the flagstones now!",
+  "win": "All three bone-pits burned to white ash and the Redmarsh road is open. Scrape the salt off your greaves.",
+  "lose": "Swallowed by the salt pans and picked clean by bone-pit raiders. Just like the three trains before us."
+ },
+ {
+  "mission": "m13",
+  "start": "Up the blind goat-trails—stay out of the notches until those cliffside horn-bows are silenced.",
+  "mid": "Both high blinds cleared! Grab the iron audit tallies from their baskets and hit the central pass gates.",
+  "danger": "Horn-bow volley raking the ledge! Hug the red granite overhang and rush the nests!",
+  "win": "Central gates shattered and the audit tallies are ours. The Redmarsh escarpment is cracked wide open.",
+  "lose": "Pinned on the red granite like targets on a butt. Never made it past the notches."
+ },
+ {
+  "mission": "m14",
+  "start": "Tie rags over your eyes against the copper grit and watch for red flares—three scout squads are pinned out there.",
+  "mid": "Two squads pulled clear of the sandstone rings. One flare left—push through the wind before the riders regroup.",
+  "danger": "Sand-riders circling out of the dust wall! Tighten formation—don't get separated in the grit!",
+  "win": "All three vanguard squads accounted for and the encirclement broken. Spit the red dust out and march.",
+  "lose": "Lost sight of the flares in the copper storm. The sand-riders picked our squads off one by one."
+ },
+ {
+  "mission": "m15",
+  "start": "Keep sand buckets full on the catwalks—clay firepots are coming up those dry creek beds with the ladders.",
+  "mid": "Midnight's passed and the north palisade still stands. Smash every ladder crew before they hook the timber!",
+  "danger": "Firepot burst on the south catwalk! Douse the pitch before the whole palisade catches!",
+  "win": "Grey dawn over Highgate Watch and the creek beds are choked with broken ladders. Well held.",
+  "lose": "The palisade went up like dry kindling and three warbands poured through the ash."
+ },
+ {
+  "mission": "m16",
+  "start": "Cut down the coven sorcerers around those bleeding quartz spires before they split the climate-wards for good.",
+  "mid": "Two circles purged—snatch their blood-stained parchment rubbings so our mages can re-attune the stone.",
+  "danger": "The third spire is fracturing! Kill the ward-breaker now or the alkali storm flays us alive!",
+  "win": "Black blood stopped weeping and the quartz spires hum true again. Keep those rubbings dry.",
+  "lose": "The wardstones shattered and the alkali sky tore open over our heads."
+ },
+ {
+  "mission": "m17",
+  "start": "Screen both mudbanks with spears and keep every thirsty fool away from the Bitter Well—the wagons must roll.",
+  "mid": "Three axles hauled out of the muck—halfway to camp. Watch the mud for burrowing beetles!",
+  "danger": "Beetles erupting under the water-cask wagon! Protect the wheels—lose those casks and the camp dies dry!",
+  "win": "Six heavy wagons rolled through the camp gate with every bandage and sweet-water cask intact.",
+  "lose": "Axles snapped in the mire and the forward camp's supplies sank into Redmarsh mud."
+ },
+ {
+  "mission": "m18",
+  "start": "Breach the thorn-smoking ditch and stay upwind of those Granary Smokers unless you want to fight blind.",
+  "mid": "Assay vault's cracked and the silver's bagged. Now put torches to the tarred canvas and burn their stolen grain.",
+  "danger": "Wind shifted—choking smoke across the vanguard! Back out of the hollow and reform upwind!",
+  "win": "Granary's a roaring furnace and the assay bullion is clinking in our packs. Let Gorrathul's troops eat cinders.",
+  "lose": "Blinded in the smoke trench and butchered before we ever touched a grain sack."
+ },
+ {
+  "mission": "m19",
+  "start": "Wet cloth over nose and mouth—Kaelen's marrow-rot fumes will sour your blood before you reach the stones.",
+  "mid": "Outer censers smashed and the black fog's thinning. Push into the willow hollow and cut Kaelen down!",
+  "danger": "Censers flaring green—men are coughing blood! Smash the nearest brazier right now!",
+  "win": "Kaelen's dead among his broken megaliths and our wounded twenty miles back can finally breathe clean.",
+  "lose": "Marrow-rot took the vanguard before we crossed the stone ring. The hollow claims more bones."
+ },
+ {
+  "mission": "m20",
+  "start": "Take the upper ballista ledges first—nothing moves on the quarry switchbacks while those bolts fly.",
+  "mid": "Ballistas silenced! Fight down to the third terrace, smash the slave-pens, and drop the chief overseer.",
+  "danger": "Chain-gangs caught in crossfire on the ramp! Draw the guards clear of the ironstone pens!",
+  "win": "Overseer's down the shaft and the miners are striking off their own shackles. Gorrathul's smelters go cold.",
+  "lose": "Pinned on the switchbacks under ballista fire. The Deep Quarry keeps grinding bones for ironstone."
+ },
+ {
+  "mission": "m21",
+  "start": "Forty tired blades and half-built walls—save your spells and guard the inner water cisterns from torches.",
+  "mid": "Two columns blunted on the revetments! Horns on the ridge—relief is coming, just hold the cisterns!",
+  "danger": "Torch-bearers broke through to the well-cover! Cut them down before they foul the water!",
+  "win": "Relief column's pouring through the gate and the cisterns are clean. Forty sentinels held the lifeline.",
+  "lose": "Cisterns burned and the revetments crumbled. Crossroads Redoubt is an empty shell."
+ },
+ {
+  "mission": "m22",
+  "start": "Drop the heavy packs—light troops forward! Bring Vorn down in the gravel before Ironheart's portcullis drops.",
+  "mid": "Rearguard's broken and empty waterskins mark his trail! Close the gap—the fortress gate is in sight!",
+  "danger": "Vorn's nearing the portcullis chain! Loose everything you've got—do not let those blueprints inside!",
+  "win": "Vorn's in the gravel and Gorrathul's fortress blueprints are rolled tight in our belt. Now we know every weak stone.",
+  "lose": "The portcullis slammed shut behind Vorn's heels. Ironheart keeps its secrets."
+ },
+ {
+  "mission": "m23",
+  "start": "Silence the eastern cliff guns first, or those two bog-flanked causeways turn into a slaughterhouse.",
+  "mid": "Eastern redoubts quiet and the bridges are ours! Ram the citadel gate and take the keys off Gorrathul.",
+  "danger": "Artillery bracketing the narrow causeway! Rush the gatehouse—standing still on the stones is death!",
+  "win": "Gorrathul's dead and the iron keys hang from our belt. Redmarsh is broken—on to the coast!",
+  "lose": "Cut to pieces on the forked causeways beneath Ironheart's guns."
+ },
+ {
+  "mission": "m24",
+  "start": "Low water won't last—wade onto the Greywash mudflats, torch the blockade pontoons, and take the storehouses.",
+  "mid": "Pontoons burning and marsh stores secured! Now storm the grounded command hulk and clear Oakhaven's channel.",
+  "danger": "Tide's turning on the mudflats! Push onto the hulk's boarding planks before the water rises!",
+  "win": "Channel's open and Oakhaven's harbor masters are raising our colors. Ironcamp coast has a foothold.",
+  "lose": "Caught between rising tide and ironclad crossbows on the Greywash flats."
+ },
+ {
+  "mission": "m25",
+  "start": "Wet wool over your mouths—the groundwater's boiling. Shatter the three outer ward-rings on the basalt cliffs.",
+  "mid": "Outer rings cracked and the steam's easing! Rush the central vent and finish the chief fire-binder.",
+  "danger": "Steam vent erupting under the line! Clear the cracked basalt before it scalds the vanguard!",
+  "win": "Fire-binder's cold in the basalt and Oakhaven's wells are cooling down. Good work above the cliffs.",
+  "lose": "Blistered lungs and boiled boots—the geomancers turned the cliffside into a kiln."
+ },
+ {
+  "mission": "m26",
+  "start": "Split the column around Split Tooth—silence both arbalest redoubts before anyone climbs that granite spire.",
+  "mid": "Flanking batteries are quiet! Converge on the razor ridge and storm the command tent.",
+  "danger": "Crossfire pinning the east wing! Silence that battery now or the other column gets flanked!",
+  "win": "Command tent taken on Split Tooth's crest and the coastal road is open again.",
+  "lose": "Caught in the interlocking arbalest lanes with nowhere to hide on the razor rock."
+ },
+ {
+  "mission": "m27",
+  "start": "Hold the bracken around the ruined chapel—sixty crippled men are inside and raider hounds are on the scent.",
+  "mid": "Half the stretchers are aboard! Keep the hounds off the canvas while Sera hitches the Triage Wagon.",
+  "danger": "Hounds through the bracken near the hospital tents! Fall back and form a wall in front of Sera!",
+  "win": "Triage Wagon rolled over the ridge with all sixty wounded safe. Not a single stretcher left behind.",
+  "lose": "The hounds got into the chapel tents. Sera didn't make the ridge."
+ },
+ {
+  "mission": "m28",
+  "start": "Two hours till spring tide floods the lower ward chin-deep! Blow the kelp-slick water-gate and move fast.",
+  "mid": "Drowned armory looted and water's at our knees! Up the lighthouse stair—slay the Castellan before we swim!",
+  "danger": "Tide's surging through the lower arch! Climb the stair now or drown in full plate!",
+  "win": "Castellan's down on the lighthouse landing and our packs are heavy with dry armory steel.",
+  "lose": "The spring tide sealed the lower ward and took the company down with the fortress."
+ },
+ {
+  "mission": "m29",
+  "start": "Leave the baggage in the ditch—hack through three canyon roadblocks at a dead run! Lyra has fourteen bolts left.",
+  "mid": "Two roadblocks splintered and red flares are right overhead! Punch through the last barricade!",
+  "danger": "Pickets shouting from the watchtower—they're out of bolts! Charge the courtyard gate!",
+  "win": "Courtyard relieved with Lyra down to her last dagger! Drop the packs and pass the waterskins.",
+  "lose": "One roadblock too many—Iron-Gate Watchtower fell silent before we cleared the canyon."
+ },
+ {
+  "mission": "m30",
+  "start": "Noon's coming fast—ambush both supply mule-trains on the wooded switchbacks before they reach the chalk walls.",
+  "mid": "Both convoys taken and the redoubt's cisterns are dry! Brace for the garrison's desperate sortie.",
+  "danger": "Gate's flying open—starving steel charging down the slope! Hold the switchback choke!",
+  "win": "Sortie broken and High-Orchard Redoubt's white rag is going up. Didn't even need a siege engine.",
+  "lose": "The mule-trains slipped inside the chalk walls and the garrison's sortie swept us off the hill."
+ },
+ {
+  "mission": "m31",
+  "start": "Take the central sluice island and hammer iron wedges into those counterweight gears before they flood the gorge!",
+  "mid": "Gears wedged tight—the floodgates can't drop! Cross the spans and clear the eastern gatehouse.",
+  "danger": "Enemy engineers prying at the gear wedges! Clear the sluice platform before eighty feet of river drops!",
+  "win": "Eastern gatehouse secured and the black river roars harmlessly below. Solid ironwork, lads.",
+  "lose": "The floodgates tripped and the torrent swept both spans clean."
+ },
+ {
+  "mission": "m32",
+  "start": "Spread out against tectonic stomps—pour arcane fire and bodkins into the moss-grown seams of that colossus!",
+  "mid": "Stone plating's cracking and its furnace core is exposed! Keep moving and hammer those glowing joints!",
+  "danger": "It's raising both fists for a quake! Disperse the infantry now or lose the whole front rank!",
+  "win": "The Age of Chains colossus collapsed into cold boulders. Pine ridge pass is open at last.",
+  "lose": "Ground to paste beneath bedrock fists on the pine ridge."
+ },
+ {
+  "mission": "m33",
+  "start": "Smash the main gate and lock down both flanking vaults—don't let Baron Vane lift that extortion bullion!",
+  "mid": "Both vaults secured! Cut Vane off at the catacomb iron grate before he buys half the coast.",
+  "danger": "Vane's guards are lowering the catacomb lift! Rush the grate before the turncoat slips underground!",
+  "win": "Baron Vane's in irons at the grate and every bar of bullion stays right here in our ledger.",
+  "lose": "Vane dropped down the catacomb shaft with the gold—every sellsword on the coast will hunt us tomorrow."
+ },
+ {
+  "mission": "m34",
+  "start": "Drive a steel wedge straight between Ironclad Banner and Ashen Company before they stop brawling and look at us!",
+  "mid": "Standards split in the mud! Drop both warlords before their captains cobble together a truce.",
+  "danger": "Their horns are sounding a parley! Slay the warlords now before both warbands turn on our flanks!",
+  "win": "Both warlords face-down in the hollow and the harbor salvage is ours without a truce to worry over.",
+  "lose": "They settled their quarrel over our corpses in the mud."
+ },
+ {
+  "mission": "m35",
+  "start": "Retake the seawall catapults while the drydocks burn—Kael's copper flagship won't go far without a rudder!",
+  "mid": "Rudder's splinters! Grappling hooks out—board Kael's flagship through the pitch-smoke!",
+  "danger": "Pitch-pots raining onto the seawall! Keep the catapult crews covered or the deck cooks us!",
+  "win": "Flagship taken and Vesperion's mocking stopped right at the point of a blade. Harborwatch is saved.",
+  "lose": "Harborwatch burned to the waterline while Kael's flagship sailed out laughing."
+ },
+ {
+  "mission": "m36",
+  "start": "Form a tight wedge on the black glass sand—watch for yellow sulfur crust and camouflaged ash-stalkers!",
+  "mid": "Halfway across the cinder flats! Push through the stalker packs and fortify Highcrest bluff before dark.",
+  "danger": "Sulfur crust caving in on the left flank! Pull clear of the boiling vents and watch the ash-drifts!",
+  "win": "Stakes driven into Highcrest bluff as night drops. We have solid ground in the volcanic heartland.",
+  "lose": "Swallowed by boiling vents and picked apart in the cinder dark before reaching the bluff."
+ },
+ {
+  "mission": "m37",
+  "start": "Spread wide against arcing violet lightning—slay each crag beacon-warden and smash the prisms with heavy mauls!",
+  "mid": "Two prisms shattered and the static dome is flickering! Take the last crag and break the seal.",
+  "danger": "Lightning chaining down the line! Break formation—do not bunch up near the crystal beacons!",
+  "win": "All three prisms are glass dust and the obsidian pass lies open ahead.",
+  "lose": "Arcing static cooked our armor on the crags before the dome ever flickered."
+ },
+ {
+  "mission": "m38",
+  "start": "Tip those siege ladders off Greystone's parapet—pumice mortar won't take many more hits from those demonic engines!",
+  "mid": "Glacis cleared of ladders! Open the sally port and burn all three catapults to charcoal!",
+  "danger": "Siege-brutes cresting the parapet! Throw them off the wall before they open the gatehouse!",
+  "win": "Three demonic catapults burning on the glacis and Greystone Bastion still stands.",
+  "lose": "Greystone's curtain wall crumbled to gravel and the horde poured over the rubble."
+ },
+ {
+  "mission": "m39",
+  "start": "Shatter Malrik's jagged obsidian walls as fast as he raises them—don't let the blind traitor reach the portal stairs!",
+  "mid": "Two barriers down and shadow constructs are thinning! Malrik's cipher-keys are right ahead on the steps.",
+  "danger": "Obsidian shards erupting across the gorge! Cut through the constructs before Malrik opens the portal!",
+  "win": "Malrik's down on the portal stairs with the leyline codices intact in our hands.",
+  "lose": "The portal snapped shut behind Malrik—and our stolen cipher-keys went with him."
+ },
+ {
+  "mission": "m40",
+  "start": "Count twenty heartbeats between mana-cannon volleys! Sprint cover-to-cover and climb the blind scree behind both crags.",
+  "mid": "One crag gun spiked! Cross the causeway dead-ground and silence the twin battery.",
+  "danger": "Rune-barrels glowing bright—five heartbeats to volley! Get under the scree overhang now!",
+  "win": "Both mana-cannons spiked with iron wedges and the citadel causeway is ours to cross.",
+  "lose": "Caught on the open causeway when the twenty-heartbeat volley vaporized the shield-wall."
+ },
+ {
+  "mission": "m41",
+  "start": "Lock tower-shields overhead—thirty paces of magnetic iron canyon, three spiked portcullises, and cliffside crossbows!",
+  "mid": "Two gates cracked and the iron golems are scrap! Strip the cliff nests and breach the final portcullis.",
+  "danger": "Crossbow bolts hammering the shield-roof while golems close in! Keep the formation locked!",
+  "win": "Third portcullis down and the cliff nests cleared. Nothing left between us and the outer moat.",
+  "lose": "Pinned between animated iron and cliffside bolts inside the magnetic canyon."
+ },
+ {
+  "mission": "m42",
+  "start": "Wet hides over your backs—storm the West and Center gatehouses above the magma moat and cut those counterweight winches!",
+  "mid": "Winches severed! Stand clear of the chains as the heavy iron drawbridge drops across the fire.",
+  "danger": "Hides are smoking over the moat heat! Breach the gatehouse door before the embers catch!",
+  "win": "Iron drawbridge thudded home across the magma. The Citadel's outer rampart is breached!",
+  "lose": "Burned off the basalt ledge above the glowing moat before a single winch was cut."
+ },
+ {
+  "mission": "m43",
+  "start": "Three relief armies on the ash plains—hit the northern column first before they pin us against the citadel wall!",
+  "mid": "Northern column routed! Pivot west and blow their powder convoy before the eastern host closes.",
+  "danger": "Eastern host hitting Three-Roads Watch while we're out on the plain! Wheel back and hold the camp!",
+  "win": "Northern column scattered, powder convoy cratered, and the eastern host broken. The siege holds!",
+  "lose": "Crushed between three relief hosts and the basalt walls of the Citadel."
+ },
+ {
+  "mission": "m44",
+  "start": "Steady ranks in the obsidian nave—break the Arch-Warden's silent praetor phalanx before we touch either door.",
+  "mid": "Phalanx is fracturing! Clear the central dais so we can weigh the stars against the fire.",
+  "danger": "Praetors locking spears around the dais! Punch through their center before they box us in!",
+  "win": "The Arch-Warden's guard lies silent on the obsidian floor. Now step up and choose Thornvael's threshold.",
+  "lose": "Cut down in silence beneath the twin doors of the obsidian nave."
+ },
+ {
+  "mission": "m45",
+  "start": "Hold the West and East Anchor Seals under the cracked dome—keep the shadow praetorians off the marble altar!",
+  "mid": "Celestial leylines are half-aligned! Hold both seals while the pale starlight locks into place.",
+  "danger": "Shadow praetorians flooding the West Seal! Reinforce that circle or the leyline snaps!",
+  "win": "Leylines locked and the Crown of Order rests true upon the altar. Cold light sweeps the realm.",
+  "lose": "The Anchor Seals broke and shadow swallowed the marble vault."
+ },
+ {
+  "mission": "m46",
+  "start": "Watch the floor vents around the Obsidian Throne—shatter the West and East Conduit Pillars to weaken Ashkarath!",
+  "mid": "Both Conduit Pillars down and the primordial fire's guttering! Finish Ashkarath upon the dais!",
+  "danger": "Floor vents splitting wide with roaring magma! Leap clear and keep pressing the First Warden!",
+  "win": "Ashkarath's broken on the Obsidian Throne and the unchained fire dies to embers. Thornvael is free.",
+  "lose": "Consumed on the Obsidian Throne while First Warden Ashkarath kept the primordial flame."
+ }
+]

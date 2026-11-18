@@ -162,7 +162,7 @@ export const getCodexLore = (): CodexLore[] => codexLore;
 export async function loadCodexLore(): Promise<void> {
   const base = import.meta.env.BASE_URL;
   const out: CodexLore[] = [];
-  for (const f of ['codex-entries', 'codex-missing']) {
+  for (const f of ['codex-entries', 'codex-entries-2', 'codex-missing']) {
     try {
       const r = await fetch(`${base}data/content/${f}.json`);
       if (r.ok) out.push(...(await r.json() as CodexLore[]));
@@ -230,6 +230,18 @@ export async function loadMissionHints(mission: string): Promise<string[]> {
     if (id && r.ok) return ((await r.json()) as Record<string, string[]>)[id] ?? [];
   } catch { /* optional */ }
   return [];
+}
+
+/** In-mission radio line (content/mission-radio.json) for a map name and kind (start|mid|danger|win|lose). */
+export async function missionRadio(mission: string, kind: 'start' | 'mid' | 'danger' | 'win' | 'lose'): Promise<string | null> {
+  try {
+    const base = import.meta.env.BASE_URL;
+    const camp = await (await fetch(`${base}data/campaign.json`)).json() as { nodes: { id: string; map?: string }[] };
+    const key = camp.nodes.find((n) => n.map === mission)?.id.split('-')[0];
+    const r = await fetch(`${base}data/content/mission-radio.json`);
+    if (key && r.ok) return ((await r.json()) as Record<string, string>[]).find((x) => x.mission === key)?.[kind] ?? null;
+  } catch { /* optional */ }
+  return null;
 }
 
 interface MercLine { act: number; name: string; hire_line: string }

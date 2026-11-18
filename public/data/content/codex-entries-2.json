@@ -1,0 +1,200 @@
+[
+ {
+  "id": "cdx-m25",
+  "category": "place",
+  "title": "The Reversed Basalt Pillars",
+  "body": "Carved originally to cool Oakhaven's deep aquifer, these three basalt obelisks were inverted by crimson fire-binders using wedges of meteoric slag. Instead of drawing heat from the rock, they pump subterranean steam straight into the water table until wells boil at noon.",
+  "unlock_hint": "Inspect the cracked slag wedges beside the middle ward-ring in Cinder Wards.",
+  "act": 3,
+  "mission": "m25"
+ },
+ {
+  "id": "cdx-m26",
+  "category": "place",
+  "title": "Split Tooth Redoubts",
+  "body": "Named for a sixty-foot splinter of coastal granite cleaved by winter frost, Split Tooth turns a single wagon track into two narrow killing alleys. Imperial engineers built twin stone arbalest bunkers on either shoulder so every square yard of gravel can be swept twice.",
+  "unlock_hint": "Read the range-slate bolted inside the western arbalest bunker in Sundered Ranks.",
+  "act": 3,
+  "mission": "m26"
+ },
+ {
+  "id": "cdx-m27",
+  "category": "faction",
+  "title": "Sera's Field-Hospital Roll",
+  "body": "Barber-surgeon Sera keeps two ledgers in her apron: brown ink for men who need stitches, charcoal for men who need a priest. When raiders ringed the chapel bracken, she refused to abandon a single stretcher until the last splinted leg was lashed to the Triage Wagon.",
+  "unlock_hint": "Examine the blood-spotted medicine chest behind the chapel in Field Infirmary.",
+  "act": 3,
+  "mission": "m27"
+ },
+ {
+  "id": "cdx-m28",
+  "category": "place",
+  "title": "Tide-Clock of the Sunken Citadel",
+  "body": "Built atop a listing sea-stack off Ironcamp coast, the Sunken Citadel relies on a brass tide-wheel wired to its lighthouse bell. At spring flood, seawater pours through kelp-choked sluices and drowns the lower courtyard in less than two glasses.",
+  "unlock_hint": "Check the corroded brass tide-gauge by the water-gate in Sunken Citadel.",
+  "act": 3,
+  "mission": "m28"
+ },
+ {
+  "id": "cdx-m29",
+  "category": "lore",
+  "title": "Fourteen Bolts at Iron-Gate",
+  "body": "Gate Warden Lyra rationed her watchtower's last fourteen crossbow quarrels by chalking one name onto each ash shaft. None were wasted on shields; every bolt was saved for an officer's throat or a torch-bearer's oilskin.",
+  "unlock_hint": "Inspect the tally marks carved into the watchtower parapet in Hourglass Rescue.",
+  "act": 3,
+  "mission": "m29"
+ },
+ {
+  "id": "cdx-m30",
+  "category": "place",
+  "title": "High-Orchard Cisterns",
+  "body": "Perched on porous chalk above the coastal orchards, this redoubt can turn aside a month of siege-rams yet holds barely four days of rainwater in its lead-lined tanks. Every garrison commander lives in dread of an ambushed mule-train.",
+  "unlock_hint": "Check the dry lead-lined rain tank inside the courtyard in Starved Bastion.",
+  "act": 3,
+  "mission": "m30"
+ },
+ {
+  "id": "cdx-m31",
+  "category": "place",
+  "title": "Riverlock Counterweight Gears",
+  "body": "Eighty feet above black river rapids, twin stone bridges rest on hollow piers housing eight-ton iron counterweights. A single pulled pin drops the floodgates, turning a dry crossing into a roaring sluice in ten heartbeats.",
+  "unlock_hint": "Examine the greased iron gear-housing on the central sluice island in Riverlock Crossing.",
+  "act": 3,
+  "mission": "m31"
+ },
+ {
+  "id": "cdx-m32",
+  "category": "creature",
+  "title": "Age of Chains Colossus",
+  "body": "Bound with dwarf-forged links and packed with anthracite, these bedrock walkers were built to haul siege-towers across mountain passes. Centuries of pine moss hide their granite plates until an intruder wakes the furnace roaring inside their ribs.",
+  "unlock_hint": "Inspect a shattered anthracite rib-plate after felling the Elder Juggernaut.",
+  "act": 3,
+  "mission": "m32"
+ },
+ {
+  "id": "cdx-m33",
+  "category": "faction",
+  "title": "Baron Vane's Extortion Ledger",
+  "body": "Turncoat Baron Vane taxed every herring barrel and anchor chain on the Ironcamp coast, melting the silver into unmarked ingots in his manor cellar. His catacomb lift was rigged to drop straight to a smuggler's cove the moment honest steel knocked at his gate.",
+  "unlock_hint": "Read the stamped bullion manifest inside Vane's eastern vault in High-Stakes Gambit.",
+  "act": 3,
+  "mission": "m33"
+ },
+ {
+  "id": "cdx-m34",
+  "category": "faction",
+  "title": "The Salvage Quarrel",
+  "body": "The Ironclad Banner and the Ashen Company spent six months looting the same wrecked harbor hulks before falling out over three casks of phosphor-tar. Neither warlord trusted the other enough to post a sentry, leaving both camps blind to a third army.",
+  "unlock_hint": "Inspect the disputed phosphor-tar casks in the muddy hollow in Clashing Banners.",
+  "act": 3,
+  "mission": "m34"
+ },
+ {
+  "id": "cdx-m35",
+  "category": "relic",
+  "title": "Admiral Kael's Copper Sheathing",
+  "body": "To keep Harborwatch's fire-arrows from biting into his flagship's hull, Admiral Kael stripped the roofs of three coastal temples and nailed overlapping copper plates down to the waterline. Only an unarmored oak rudder left the vessel vulnerable to seawall catapults.",
+  "unlock_hint": "Examine the scorched copper hull-plates on Kael's quarterdeck in Burning Harbor.",
+  "act": 3,
+  "mission": "m35"
+ },
+ {
+  "id": "cdx-m36",
+  "category": "creature",
+  "title": "Heartland Ash-Stalkers",
+  "body": "Lean hounds with plates of fused volcanic glass along their spines, ash-stalkers bury themselves beneath black cinder drifts until boots crunch overhead. Their hides shed common broadheads unless struck at the soft sulfur-stained throat.",
+  "unlock_hint": "Inspect an ash-stalker carcass near Highcrest bluff in Heartland March.",
+  "act": 4,
+  "mission": "m36"
+ },
+ {
+  "id": "cdx-m37",
+  "category": "relic",
+  "title": "Focusing Prisms of the Pass",
+  "body": "Cut from clear mountain quartz and bound in copper wire, these three crag prisms drink ambient storm-static to weave an impassable violet dome across the obsidian pass. Each prism is chained to a branded warden whose heartbeat keeps the arc steady.",
+  "unlock_hint": "Examine the shattered copper-bound crystal shards on the north crag in Shattered Beacons.",
+  "act": 4,
+  "mission": "m37"
+ },
+ {
+  "id": "cdx-m38",
+  "category": "place",
+  "title": "Greystone's Pumice Mortar",
+  "body": "Built from light volcanic stone quarried near the heartland rim, Greystone Bastion was meant as a supply depot rather than a fortress. Its porous walls absorb small stones well enough, but demonic siege-engines chew the mortar into grey gravel within hours.",
+  "unlock_hint": "Inspect the cracked parapet masonry on Greystone's curtain wall in Besieged Wall.",
+  "act": 4,
+  "mission": "m38"
+ },
+ {
+  "id": "cdx-m39",
+  "category": "lore",
+  "title": "Malrik's Blindfold",
+  "body": "Arch-Mage Malrik burned out his own eyes reading unshielded leyline codices, trading sight for the ability to feel stone seams through the soles of his boots. Even at a dead run up Ashveil Gorge, he could raise jagged obsidian walls without glancing back.",
+  "unlock_hint": "Examine the charred silk blindfold dropped on the portal stairs in Flight of Malrik.",
+  "act": 4,
+  "mission": "m39"
+ },
+ {
+  "id": "cdx-m40",
+  "category": "relic",
+  "title": "Twenty-Heartbeat Mana-Cannons",
+  "body": "Cast from blackened bronze and etched with containment runes, the twin crag cannons drink raw ley-salt to spit bolts of white fire down the citadel causeway. Their barrels glow cherry-red after each discharge, forcing gunners to wait twenty heartbeats before firing again.",
+  "unlock_hint": "Inspect a spiked bronze barrel inside the northern crag bastion in Twofold Assault.",
+  "act": 4,
+  "mission": "m40"
+ },
+ {
+  "id": "cdx-m41",
+  "category": "place",
+  "title": "The Lodestone Canyon",
+  "body": "Cliffs of natural magnetic iron squeeze the approach to the Citadel into a thirty-pace gut where loose daggers leap from sheaths and poorly riveted mail drags against the rock. Only heavy ash-wood tower-shields keep a column moving beneath the cliffside crossbow nests.",
+  "unlock_hint": "Check the iron filings clinging to the middle portcullis in Gauntlet of Iron.",
+  "act": 4,
+  "mission": "m41"
+ },
+ {
+  "id": "cdx-m42",
+  "category": "place",
+  "title": "The Magma Moat Winches",
+  "body": "Fed by a tapped volcanic fissure, a sluggish moat of glowing slag rings the Citadel's outer basalt wall. Its heavy iron drawbridge hangs on grease-packed counterweight winches inside the West and Center gatehouses, shielded from heat by thick oak shutters.",
+  "unlock_hint": "Inspect the severed winch chains in the Center gatehouse in Outer Rampart.",
+  "act": 4,
+  "mission": "m42"
+ },
+ {
+  "id": "cdx-m43",
+  "category": "lore",
+  "title": "Three-Roads Watch",
+  "body": "Where three ash-choked wagon tracks meet outside the Citadel's outer moat, the vanguard threw up a ditch-and-gabion camp out of old powder barrels and volcanic rubble. Holding that crossroads meant fighting on three fronts with no wall at your back.",
+  "unlock_hint": "Examine the scorched powder-convoy manifest on the western road in Three-Roads Siege.",
+  "act": 4,
+  "mission": "m43"
+ },
+ {
+  "id": "cdx-m44",
+  "category": "faction",
+  "title": "The Silent Praetor Phalanx",
+  "body": "Sworn to guard the geometric obsidian nave until the end of the age, the Arch-Warden's praetors had their tongues seared out at induction so no chant or plea could distract them from their spears. They fight without horn-calls, turning on stamped heel-clicks alone.",
+  "unlock_hint": "Inspect a praetor's notched spear-butt beside the central dais in Threshold Choice.",
+  "act": 4,
+  "mission": "m44"
+ },
+ {
+  "id": "cdx-m45",
+  "category": "relic",
+  "title": "The Crown of Order",
+  "body": "Forged from cold meteoric silver rather than gold, the Crown of Order acts as a tuning fork for Thornvael's fractured leylines. When set upon the marble altar between two anchored seals, it binds wild magic back into rigid, predictable law—at the cost of mercy.",
+  "unlock_hint": "Examine the star-etched rim of the marble altar after completing Crown of Order.",
+  "act": 4,
+  "mission": "m45"
+ },
+ {
+  "id": "cdx-m46",
+  "category": "lore",
+  "title": "First Warden Ashkarath",
+  "body": "Once the chief engineer who sealed the primordial fire beneath the Citadel, Ashkarath stayed behind in the magma dark until cinder fused to his plates and his oath twisted into worship. He fed the throne room's twin conduit pillars for centuries rather than let the flame cool.",
+  "unlock_hint": "Inspect the cracked slag breastplate beside the Obsidian Throne in Ember Reckoning.",
+  "act": 4,
+  "mission": "m46"
+ }
+]

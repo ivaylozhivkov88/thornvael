@@ -1,0 +1,458 @@
+[
+ {
+  "id": "sq-m07-frozen-survey",
+  "mission": "m07",
+  "act": 1,
+  "title": "Surveyor's Brass Theodolite",
+  "giver": "Surveyor Hal",
+  "summary": "Hal's frostbitten apprentice dropped three brass survey stakes and a sighting glass in the frozen gorges before the sentinels woke. Recover the kit so Thornwick can map the pass.",
+  "objectives": [
+   "Recover the brass sighting glass in the west gorge",
+   "Collect both iron-shod survey stakes in the east defile",
+   "Return the survey kit before lighting the Twin Cairns"
+  ],
+  "reward": {
+   "xp": 150,
+   "gold": 80
+  },
+  "accept_line": "My apprentice ran when the rocks started walking—grab that brass glass before the snow buries it.",
+  "complete_line": "Not a dent on the lens! Here's your silver; now we can draw an honest road map."
+ },
+ {
+  "id": "sq-m10-dwarven-paychest",
+  "mission": "m10",
+  "act": 1,
+  "title": "Locked Miners' Paychest",
+  "giver": "Foreman Durn",
+  "summary": "Blood-cultists barricaded an old dwarven shift-office off the second gallery where three months of miners' silver still sits under a rune-bolt.",
+  "objectives": [
+   "Take the rune-key off the cultist warden in gallery two",
+   "Unlock the dwarven shift-office door",
+   "Clear the cultists guarding the iron paychest"
+  ],
+  "reward": {
+   "xp": 180,
+   "gold": 110
+  },
+  "accept_line": "That silver belongs to miners' widows in Ashbrook, not blood-chanting maniacs.",
+  "complete_line": "Seal's unbroken. Take your cut—the rest goes straight back to the widows' ledger."
+ },
+ {
+  "id": "sq-m25-aquifer-valves",
+  "mission": "m25",
+  "act": 3,
+  "title": "Relief Valves on the Cliff",
+  "giver": "Well-Wright Maren",
+  "summary": "Even after the ward-rings crack, trapped steam could burst Oakhaven's lower cistern pipes unless three bronze pressure valves are cranked open.",
+  "objectives": [
+   "Open the western cliff relief valve",
+   "Crank the central cistern vent wheel",
+   "Release the eastern basalt pressure valve"
+  ],
+  "reward": {
+   "xp": 240,
+   "gold": 150
+  },
+  "accept_line": "Wrap wet wool over your hands too—those bronze wheels will take the skin right off your palms.",
+  "complete_line": "Hear that whistle? Pipes won't burst now. Oakhaven owes you a dry cellar."
+ },
+ {
+  "id": "sq-m26-spotter-mirrors",
+  "mission": "m26",
+  "act": 3,
+  "title": "Break the Signal Mirrors",
+  "giver": "Scout Captain Corin",
+  "summary": "Hidden spotters perched along Split Tooth's flanks flash polished tin mirrors to guide arbalest volleys onto advancing infantry.",
+  "objectives": [
+   "Smash the west ridge signal mirror",
+   "Clear the spotter perch above the coastal road",
+   "Shatter the east granite signal post"
+  ],
+  "reward": {
+   "xp": 270,
+   "gold": 170
+  },
+  "accept_line": "Every glint on that granite means another volley in our teeth. Smash their tin.",
+  "complete_line": "No more flashes from the crags—their arbalest crews are shooting blind now."
+ },
+ {
+  "id": "sq-m27-laudanum-crates",
+  "mission": "m27",
+  "act": 3,
+  "title": "Salvage the Apothecary Cart",
+  "giver": "Surgeon Sera",
+  "summary": "An overturned supply cart in the drizzle holds Sera's last crates of laudanum and clean linen bandages, right where raider hounds are prowling.",
+  "objectives": [
+   "Fight through the hound pack in the south bracken",
+   "Recover the strapped laudanum crate",
+   "Haul the linen bandage bales back to the chapel"
+  ],
+  "reward": {
+   "xp": 300,
+   "gold": 190
+  },
+  "accept_line": "Sixty men on wooden planks and I'm down to torn shirts—fetch that cart before the rain ruins it!",
+  "complete_line": "Dry linen and full bottles. Half these lads will keep their legs thanks to you."
+ },
+ {
+  "id": "sq-m28-harbor-charts",
+  "mission": "m28",
+  "act": 3,
+  "title": "Drowned Chart-Room",
+  "giver": "Harbor Pilot Venn",
+  "summary": "Before the lower ward floods chin-deep, Pilot Venn wants the reef soundings locked inside the Sunken Citadel's sea-level chart-room.",
+  "objectives": [
+   "Force the swollen oak door of the lower chart-room",
+   "Retrieve the oiled-leather reef charts",
+   "Escape the lower ward before the tide rises"
+  ],
+  "reward": {
+   "xp": 330,
+   "gold": 210
+  },
+  "accept_line": "Those soundings show every hidden fang between here and Harborwatch—grab them before the sea does!",
+  "complete_line": "Oiled leather kept the ink crisp. Our ships won't tear their keels out now."
+ },
+ {
+  "id": "sq-m29-dropped-quivers",
+  "mission": "m29",
+  "act": 3,
+  "title": "Quivers on the Canyon Trail",
+  "giver": "Gate Warden Lyra",
+  "summary": "Lyra's relief runners were cut down along the canyon track, leaving three iron-bound bolt chests scattered behind the roadblocks.",
+  "objectives": [
+   "Recover the bolt chest behind the first deadfall",
+   "Reclaim the quiver bundle near the canyon bend",
+   "Deliver the quarrels to Iron-Gate Watchtower"
+  ],
+  "reward": {
+   "xp": 360,
+   "gold": 230
+  },
+  "accept_line": "Fourteen bolts won't hold a goat-pen—if you spot my runners' chests on the way up, bring every shaft!",
+  "complete_line": "Two hundred steel bodkins! Tell the raiders to come try the gate again."
+ },
+ {
+  "id": "sq-m30-orchard-well",
+  "mission": "m30",
+  "act": 3,
+  "title": "Cap the Hidden Spring",
+  "giver": "Sapper Tobb",
+  "summary": "Even with their cisterns low, High-Orchard's garrison sneaks water-bearers down a wooded gully to an old stone springhouse after dark.",
+  "objectives": [
+   "Clear the water-bearers guarding the gully",
+   "Collapse the springhouse culvert with a powder charge",
+   "Block the wooded path back to the redoubt"
+  ],
+  "reward": {
+   "xp": 390,
+   "gold": 250
+  },
+  "accept_line": "Cut off the mules and plug their secret spring—thirst will open that gate faster than rams.",
+  "complete_line": "Not a drop left for their kettles. They'll be chewing dry chalk by supper."
+ },
+ {
+  "id": "sq-m31-toll-strongbox",
+  "mission": "m31",
+  "act": 3,
+  "title": "The Bridge-Warden's Ledger",
+  "giver": "Quartermaster Bram",
+  "summary": "The riverlock's turncoat warden collected three seasons of bridge tolls in an iron chest bolted inside the western toll-booth.",
+  "objectives": [
+   "Breach the western toll-booth iron door",
+   "Slay the turncoat toll-collector",
+   "Confiscate the bridge-warden's strongbox"
+  ],
+  "reward": {
+   "xp": 420,
+   "gold": 280
+  },
+  "accept_line": "He taxed our own supply wagons twice over—go audit his strongbox while the gears are jammed.",
+  "complete_line": "Heavy with silver pennies and forged receipts. That'll pay for fresh bridge timber."
+ },
+ {
+  "id": "sq-m32-binding-anchors",
+  "mission": "m32",
+  "act": 3,
+  "title": "Shatter the Anchor Pylons",
+  "giver": "Arcanist Orin",
+  "summary": "Three ancient rune-pylons along the pine ridge feed slow regeneration into the Elder Juggernaut's anthracite core.",
+  "objectives": [
+   "Smash the west ridge binding pylon",
+   "Topple the moss-covered center rune-stone",
+   "Destroy the east cliff anchor pylon"
+  ],
+  "reward": {
+   "xp": 450,
+   "gold": 310
+  },
+  "accept_line": "Those pylons keep knitting its granite seams back together—crack them and the beast stays cracked!",
+  "complete_line": "The hum in the pine needles just died. Now hit its furnace core before it cools."
+ },
+ {
+  "id": "sq-m33-blackmail-writs",
+  "mission": "m33",
+  "act": 3,
+  "title": "Burn Vane's Debt Writs",
+  "giver": "Captain Mara",
+  "summary": "Baron Vane keeps a box of signed debt-writs in his study, holding dozens of coastal shipwrights hostage to his treason.",
+  "objectives": [
+   "Force the door to Vane's upper manor study",
+   "Seize the iron-bound debt-writ coffer",
+   "Burn the writs in the manor hearth"
+  ],
+  "reward": {
+   "xp": 480,
+   "gold": 340
+  },
+  "accept_line": "Gold buys sellswords, but paper owns shipwrights. Torch those writs before Vane slips away.",
+  "complete_line": "Nothing left in the grate but black curl and melted wax. The shipwrights owe Vane nothing."
+ },
+ {
+  "id": "sq-m34-salvage-manifest",
+  "mission": "m34",
+  "act": 3,
+  "title": "Reclaim the Stolen Cannon-Parts",
+  "giver": "Master Gunner Rolf",
+  "summary": "Among the harbor salvage the two mercenary bands are fighting over are three bronze trunnions meant for Oakhaven's seawall.",
+  "objectives": [
+   "Secure the salvage crate on the northern mudbank",
+   "Recover the bronze trunnion from the eastern camp",
+   "Tag the third crate in the hollow for haulage"
+  ],
+  "reward": {
+   "xp": 510,
+   "gold": 370
+  },
+  "accept_line": "Those idiots are bashing skulls over bronze gun-mounts they don't even know how to cast!",
+  "complete_line": "All three trunnions accounted for. Harborwatch's seawall batteries will bark again."
+ },
+ {
+  "id": "sq-m35-drydock-winches",
+  "mission": "m35",
+  "act": 3,
+  "title": "Save the Unfinished Brig",
+  "giver": "Shipwright Odo",
+  "summary": "A half-planked brig sits in Harborwatch's drydock as burning pitch-pots rain down; cutting its keel-chocks will slide it into safe water.",
+  "objectives": [
+   "Clear the pitch-throwers on the drydock catwalk",
+   "Cut the port-side keel-chocks",
+   "Knock free the starboard launch wedges"
+  ],
+  "reward": {
+   "xp": 540,
+   "gold": 400
+  },
+  "accept_line": "Six months of seasoned oak on those blocks—knock the wedges loose before Kael's fire catches her!",
+  "complete_line": "She hit the water with a hiss and not a scorch on her ribs! Best launch I ever saw."
+ },
+ {
+  "id": "sq-m36-beacon-cairns",
+  "mission": "m36",
+  "act": 4,
+  "title": "Mark Safe Paths in the Ash",
+  "giver": "Pathfinder Joren",
+  "summary": "Sulfur crust hides boiling steam vents across the black glass sand; planting iron trail-poles will save the main baggage train.",
+  "objectives": [
+   "Plant a marker pole past the western sulfur sink",
+   "Drive a stake along the central glass ridge",
+   "Set the final trail-marker below Highcrest bluff"
+  ],
+  "reward": {
+   "xp": 570,
+   "gold": 430
+  },
+  "accept_line": "One wrong step on that yellow crust boils a horse to the hock. Mark the solid stone for the wagons.",
+  "complete_line": "Three iron poles standing tall against the ash. The main column can march without losing a mule."
+ },
+ {
+  "id": "sq-m37-grounded-rods",
+  "mission": "m37",
+  "act": 4,
+  "title": "Salvage the Copper Conductors",
+  "giver": "Artificer Kel",
+  "summary": "Heavy copper grounding rods driven beside each crag beacon can be pried loose to shield our sappers against static traps ahead.",
+  "objectives": [
+   "Pry the copper rod from the west beacon crag",
+   "Recover the grounding spike on the north ridge",
+   "Collect the third copper conductor by the east prism"
+  ],
+  "reward": {
+   "xp": 600,
+   "gold": 460
+  },
+  "accept_line": "Pure drawn copper is worth its weight in gold up here—pull those spikes once the prisms crack!",
+  "complete_line": "Still warm from the lightning, and not a pit in the metal. Our sappers will thank you."
+ },
+ {
+  "id": "sq-m38-mortar-barrels",
+  "mission": "m38",
+  "act": 4,
+  "title": "Haul Quicklime to the Breach",
+  "giver": "Mason-Sergeant Vane",
+  "summary": "Greystone's curtain wall is crumbling to gravel; hauling three barrels of quicklime-grout to the parapet will keep the gate-arch standing.",
+  "objectives": [
+   "Roll the first grout barrel up the west stair",
+   "Deliver quicklime to the cracked center parapet",
+   "Reinforce the eastern gatehouse arch"
+  ],
+  "reward": {
+   "xp": 640,
+   "gold": 490
+  },
+  "accept_line": "Pumice dust won't hold an arch—get that quicklime up the steps before the next boulder lands!",
+  "complete_line": "Sets hard as iron in this heat. The wall will hold long enough for you to burn their engines."
+ },
+ {
+  "id": "sq-m39-dropped-codices",
+  "mission": "m39",
+  "act": 4,
+  "title": "Malrik's Scattered Folios",
+  "giver": "Archivist Selene",
+  "summary": "Running blind up Ashveil Gorge, Malrik shed three lead-cased leyline folios behind his jagged obsidian barricades.",
+  "objectives": [
+   "Recover the folio behind the lower obsidian wall",
+   "Reclaim the lead case in the middle gorge",
+   "Collect the third codex near the portal stairs"
+  ],
+  "reward": {
+   "xp": 680,
+   "gold": 520
+  },
+  "accept_line": "He stole those folios from Oakhaven's vault—pick up every page he drops in the ash!",
+  "complete_line": "All three lead cases intact. Now we can read the Citadel's wards before we knock."
+ },
+ {
+  "id": "sq-m40-leysalt-stores",
+  "mission": "m40",
+  "act": 4,
+  "title": "Flood the Ley-Salt Magazines",
+  "giver": "Sapper Captain Dax",
+  "summary": "Even after the mana-cannons are spiked, their underground ley-salt magazines could detonate and collapse the citadel causeway.",
+  "objectives": [
+   "Douse the ley-salt casks under the west crag",
+   "Ruin the powder-salt stores in the east bunker",
+   "Collapse the magazine vent shaft"
+  ],
+  "reward": {
+   "xp": 720,
+   "gold": 550
+  },
+  "accept_line": "One stray spark in those magazines and the causeway goes into the chasm—soak the casks!",
+  "complete_line": "Turned to grey sludge. Those bronze cannons won't bark again this century."
+ },
+ {
+  "id": "sq-m41-golem-cores",
+  "mission": "m41",
+  "act": 4,
+  "title": "Extract the Lodestone Cores",
+  "giver": "Smith-Master Tor",
+  "summary": "The animated iron golems patrolling the canyon carry fist-sized lodestone cores that can demagnetize our vanguard's blades.",
+  "objectives": [
+   "Pry the core from the first gate's iron golem",
+   "Recover the lodestone heart in the canyon narrows",
+   "Claim the third core before the final portcullis"
+  ],
+  "reward": {
+   "xp": 760,
+   "gold": 580
+  },
+  "accept_line": "Half my lads can't draw a dagger straight in this canyon—bring me those golem cores!",
+  "complete_line": "Reverse the poles and the pull drops to nothing. Now our steel swings true again."
+ },
+ {
+  "id": "sq-m42-slag-sluices",
+  "mission": "m42",
+  "act": 4,
+  "title": "Choke the Magma Feeders",
+  "giver": "Engineer Hollis",
+  "summary": "Two basalt sluice-gates feed fresh molten rock into the Citadel moat; dropping their iron portcullises will cool the crossing.",
+  "objectives": [
+   "Drop the western magma feeder gate",
+   "Jam the eastern slag-channel shutter",
+   "Clear the fire-tenders guarding the moat wall"
+  ],
+  "reward": {
+   "xp": 800,
+   "gold": 610
+  },
+  "accept_line": "Cut the feed and that moat crusts over black in minutes—drop those iron shutters!",
+  "complete_line": "Glow's fading fast. Even if a plank slips, nobody's boiling today."
+ },
+ {
+  "id": "sq-m43-signal-towers",
+  "mission": "m43",
+  "act": 4,
+  "title": "Cut the Relief Signal Flags",
+  "giver": "Captain Mara",
+  "summary": "Three ash-plain watch-towers coordinate the converging relief armies with colored smoke pots; blinding them buys precious time.",
+  "objectives": [
+   "Topple the northern signal scaffold",
+   "Smash the western smoke-pot brazier",
+   "Burn the eastern relay tower"
+  ],
+  "reward": {
+   "xp": 840,
+   "gold": 640
+  },
+  "accept_line": "Blind their signalers and those three armies will march right past each other in the ash!",
+  "complete_line": "No more colored smoke on the horizon—their generals are fighting with blindfolds on."
+ },
+ {
+  "id": "sq-m44-warden-tablets",
+  "mission": "m44",
+  "act": 4,
+  "title": "Read the Threshold Steles",
+  "giver": "Archivist Selene",
+  "summary": "Four obsidian steles ring the geometric nave, recording the true price paid by the last ruler who walked through either colossal door.",
+  "objectives": [
+   "Transcribe the silver-star stele on the west wall",
+   "Inspect the liquid-fire tablet on the east plinth",
+   "Read the central oath-stone behind the praetor line"
+  ],
+  "reward": {
+   "xp": 860,
+   "gold": 660
+  },
+  "accept_line": "Don't step through either door blind—read what the builders carved into the obsidian first!",
+  "complete_line": "Grim reading, Commander. Whatever threshold you pick, at least you go in with open eyes."
+ },
+ {
+  "id": "sq-m45-fractured-resonators",
+  "mission": "m45",
+  "act": 4,
+  "title": "Steady the Marble Resonators",
+  "giver": "Arcanist Orin",
+  "summary": "Three cracked marble chimes beneath the vault dome stabilize the leyline alignment so the Crown of Order doesn't shatter the altar.",
+  "objectives": [
+   "Clear shadow praetorians from the north chime",
+   "Bind the cracked west resonator with silver wire",
+   "Strike the south chime as the leylines align"
+  ],
+  "reward": {
+   "xp": 880,
+   "gold": 680
+  },
+  "accept_line": "If those chimes crack under the starlight, the whole dome comes down on our heads!",
+  "complete_line": "Clear as winter ice. Set the Crown—the vault will hold."
+ },
+ {
+  "id": "sq-m46-quench-braziers",
+  "mission": "m46",
+  "act": 4,
+  "title": "Smother the Oath-Braziers",
+  "giver": "Sapper Captain Dax",
+  "summary": "Four iron oath-braziers around the Obsidian Throne vent fresh sulfur gas into the chamber, feeding Ashkarath's flames.",
+  "objectives": [
+   "Tip the northwest sulfur brazier into the trench",
+   "Smother the northeast gas vent with slag-sand",
+   "Cap both southern throne-room braziers"
+  ],
+  "reward": {
+   "xp": 900,
+   "gold": 700
+  },
+  "accept_line": "Choke those four vents and Ashkarath loses half the fire in this room—smother them!",
+  "complete_line": "Air's clearing already! Now finish the First Warden before the throne cools."
+ }
+]

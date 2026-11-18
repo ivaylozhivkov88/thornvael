@@ -1431,6 +1431,600 @@
    },
    "name": "Final Audit",
    "desc": "Slay 2,000 enemies across your campaign."
+  },
+  {
+   "id": "m25-won",
+   "type": "mission_won",
+   "args": {
+    "mission": "m25"
+   },
+   "name": "Cinder Quencher",
+   "desc": "Shatter the basalt ward-rings and slay the chief fire-binder above Oakhaven."
+  },
+  {
+   "id": "m25-clean",
+   "type": "flawless_mission",
+   "args": {
+    "mission": "m25"
+   },
+   "name": "Wet Wool & Iron Lungs",
+   "desc": "Clear Cinder Wards without losing a single soldier to boiling steam or fire-binders."
+  },
+  {
+   "id": "m25-rich",
+   "type": "gold_held",
+   "args": {
+    "amount": 900
+   },
+   "name": "Soot-Stained Purse",
+   "desc": "Hold 900 gold in Cinder Wards to bribe Oakhaven's panicked well-wrights."
+  },
+  {
+   "id": "m26-won",
+   "type": "mission_won",
+   "args": {
+    "mission": "m26"
+   },
+   "name": "Split Tooth Stormed",
+   "desc": "Silence both flanking arbalest batteries and take the granite spire command tent."
+  },
+  {
+   "id": "m26-clean",
+   "type": "flawless_mission",
+   "args": {
+    "mission": "m26"
+   },
+   "name": "Not One Bolt",
+   "desc": "Win Sundered Ranks with zero casualties under interlocking arbalest fire."
+  },
+  {
+   "id": "m26-rich",
+   "type": "gold_held",
+   "args": {
+    "amount": 1200
+   },
+   "name": "Battery Paychest",
+   "desc": "Carry 1,200 gold through Sundered Ranks to buy off coastal road wardens."
+  },
+  {
+   "id": "m27-won",
+   "type": "mission_won",
+   "args": {
+    "mission": "m27"
+   },
+   "name": "Triage on the Ridge",
+   "desc": "Hold the bracken perimeter until Sera loads the stretchers and the wagon escapes."
+  },
+  {
+   "id": "m27-clean",
+   "type": "flawless_mission",
+   "args": {
+    "mission": "m27"
+   },
+   "name": "Unbroken Bandage",
+   "desc": "Complete Field Infirmary without losing a single fighter defending the chapel."
+  },
+  {
+   "id": "m27-rich",
+   "type": "gold_held",
+   "args": {
+    "amount": 1500
+   },
+   "name": "Surgeon's Retainer",
+   "desc": "Hold 1,500 gold in Field Infirmary to fund catgut, laudanum, and splint timber."
+  },
+  {
+   "id": "m28-won",
+   "type": "mission_won",
+   "args": {
+    "mission": "m28"
+   },
+   "name": "Beat the Spring Tide",
+   "desc": "Blow the kelp-slick water-gate and slay the Castellan on the lighthouse stair."
+  },
+  {
+   "id": "m28-clean",
+   "type": "flawless_mission",
+   "args": {
+    "mission": "m28"
+   },
+   "name": "Dry Boots",
+   "desc": "Conquer Sunken Citadel with zero units lost to blade or rising sea-stack surf."
+  },
+  {
+   "id": "m28-rich",
+   "type": "gold_held",
+   "args": {
+    "amount": 1800
+   },
+   "name": "Barnacle Bullion",
+   "desc": "Carry 1,800 gold out of Sunken Citadel from the drowned armory's salt-sealed chests."
+  },
+  {
+   "id": "m29-won",
+   "type": "mission_won",
+   "args": {
+    "mission": "m29"
+   },
+   "name": "Fourteen Bolts Left",
+   "desc": "Hack through three canyon roadblocks and relieve Gate Warden Lyra's watchtower."
+  },
+  {
+   "id": "m29-clean",
+   "type": "flawless_mission",
+   "args": {
+    "mission": "m29"
+   },
+   "name": "Dead Run, Full Ranks",
+   "desc": "Win Hourglass Rescue without losing a single soldier on the canyon sprint."
+  },
+  {
+   "id": "m29-rich",
+   "type": "gold_held",
+   "args": {
+    "amount": 2100
+   },
+   "name": "Light Baggage, Heavy Coin",
+   "desc": "Hold 2,100 gold in Hourglass Rescue to pay Lyra's starved pickets double arrears."
+  },
+  {
+   "id": "m30-won",
+   "type": "mission_won",
+   "args": {
+    "mission": "m30"
+   },
+   "name": "Empty Cisterns",
+   "desc": "Ambush both mule-trains on the switchbacks and starve High-Orchard Redoubt."
+  },
+  {
+   "id": "m30-clean",
+   "type": "flawless_mission",
+   "args": {
+    "mission": "m30"
+   },
+   "name": "Chalk Wall Ghost",
+   "desc": "Complete Starved Bastion with no losses during the ambush or garrison sortie."
+  },
+  {
+   "id": "m30-rich",
+   "type": "gold_held",
+   "args": {
+    "amount": 2400
+   },
+   "name": "Mule-Train Manifest",
+   "desc": "Hold 2,400 gold in Starved Bastion from intercepted garrison payroll panniers."
+  },
+  {
+   "id": "m31-won",
+   "type": "mission_won",
+   "args": {
+    "mission": "m31"
+   },
+   "name": "Wedged Gears",
+   "desc": "Capture the central sluice island, jam the floodgates, and clear the gatehouse."
+  },
+  {
+   "id": "m31-clean",
+   "type": "flawless_mission",
+   "args": {
+    "mission": "m31"
+   },
+   "name": "High & Dry Crossing",
+   "desc": "Win Riverlock Crossing without losing a soldier eighty feet above the black water."
+  },
+  {
+   "id": "m31-rich",
+   "type": "gold_held",
+   "args": {
+    "amount": 2800
+   },
+   "name": "Sluice-Master's Toll",
+   "desc": "Carry 2,800 gold across Riverlock Crossing to grease the eastern ferry guilds."
+  },
+  {
+   "id": "m32-won",
+   "type": "mission_won",
+   "args": {
+    "mission": "m32"
+   },
+   "name": "Bedrock Cracked",
+   "desc": "Shatter the moss-grown seams of the Age of Chains colossus on the pine ridge."
+  },
+  {
+   "id": "m32-clean",
+   "type": "flawless_mission",
+   "args": {
+    "mission": "m32"
+   },
+   "name": "Dodged the Stomp",
+   "desc": "Fell the Elder Juggernaut with zero casualties from tectonic shockwaves."
+  },
+  {
+   "id": "m32-rich",
+   "type": "gold_held",
+   "args": {
+    "amount": 3200
+   },
+   "name": "Slag & Sovereign",
+   "desc": "Hold 3,200 gold in Elder Juggernaut to hire ridge sappers for the pass."
+  },
+  {
+   "id": "m33-won",
+   "type": "mission_won",
+   "args": {
+    "mission": "m33"
+   },
+   "name": "Audited at the Grate",
+   "desc": "Secure both manor vaults and cut Baron Vane off at the catacomb iron grate."
+  },
+  {
+   "id": "m33-clean",
+   "type": "flawless_mission",
+   "args": {
+    "mission": "m33"
+   },
+   "name": "Clean Foreclosure",
+   "desc": "Win High-Stakes Gambit without losing a single mercenary in Vane's manor."
+  },
+  {
+   "id": "m33-rich",
+   "type": "gold_held",
+   "args": {
+    "amount": 3600
+   },
+   "name": "Outbid the Turncoat",
+   "desc": "Carry 3,600 gold in High-Stakes Gambit so Vane's sellswords stay bought off."
+  },
+  {
+   "id": "m34-won",
+   "type": "mission_won",
+   "args": {
+    "mission": "m34"
+   },
+   "name": "No Truce in the Mud",
+   "desc": "Drive a wedge between Ironclad Banner and Ashen Company and slay both warlords."
+  },
+  {
+   "id": "m34-clean",
+   "type": "flawless_mission",
+   "args": {
+    "mission": "m34"
+   },
+   "name": "Mud-Free Boots",
+   "desc": "Complete Clashing Banners with zero losses between two brawling warbands."
+  },
+  {
+   "id": "m34-rich",
+   "type": "gold_held",
+   "args": {
+    "amount": 4000
+   },
+   "name": "Salvage Broker",
+   "desc": "Hold 4,000 gold in Clashing Banners to claim the disputed harbor salvage outright."
+  },
+  {
+   "id": "m35-won",
+   "type": "mission_won",
+   "args": {
+    "mission": "m35"
+   },
+   "name": "Copper Hull Boarded",
+   "desc": "Retake the seawall catapults, shatter Kael's rudder, and board his flagship."
+  },
+  {
+   "id": "m35-clean",
+   "type": "flawless_mission",
+   "args": {
+    "mission": "m35"
+   },
+   "name": "Fireproof Company",
+   "desc": "Win Burning Harbor without losing a single unit to pitch-pots or boarding pikes."
+  },
+  {
+   "id": "m35-rich",
+   "type": "gold_held",
+   "args": {
+    "amount": 4400
+   },
+   "name": "Admiralty Prize-Money",
+   "desc": "Hold 4,400 gold in Burning Harbor to charter replacement hulls for the crossing."
+  },
+  {
+   "id": "m36-won",
+   "type": "mission_won",
+   "args": {
+    "mission": "m36"
+   },
+   "name": "Highcrest Fortified",
+   "desc": "Cut through ash-stalkers on black glass sand and hold Highcrest bluff by nightfall."
+  },
+  {
+   "id": "m36-clean",
+   "type": "flawless_mission",
+   "args": {
+    "mission": "m36"
+   },
+   "name": "Unscorched Soles",
+   "desc": "Complete Heartland March with zero casualties from sulfur vents or ambushers."
+  },
+  {
+   "id": "m36-rich",
+   "type": "gold_held",
+   "args": {
+    "amount": 4800
+   },
+   "name": "Ashland Hazard Pay",
+   "desc": "Carry 4,800 gold in Heartland March to keep veterans marching across sulfur crust."
+  },
+  {
+   "id": "m37-won",
+   "type": "mission_won",
+   "args": {
+    "mission": "m37"
+   },
+   "name": "Prisms Ground to Dust",
+   "desc": "Slay the three crag beacon-wardens and smash the prisms sealing the obsidian pass."
+  },
+  {
+   "id": "m37-clean",
+   "type": "flawless_mission",
+   "args": {
+    "mission": "m37"
+   },
+   "name": "Grounded Steel",
+   "desc": "Win Shattered Beacons without losing a single unit to arcing violet static."
+  },
+  {
+   "id": "m37-rich",
+   "type": "gold_held",
+   "args": {
+    "amount": 5200
+   },
+   "name": "Crag-Maul Bounty",
+   "desc": "Hold 5,200 gold in Shattered Beacons to pay out hazard shares after the pass opens."
+  },
+  {
+   "id": "m38-won",
+   "type": "mission_won",
+   "args": {
+    "mission": "m38"
+   },
+   "name": "Ashes on the Glacis",
+   "desc": "Tip the siege ladders off Greystone Bastion and sally out to burn all three engines."
+  },
+  {
+   "id": "m38-clean",
+   "type": "flawless_mission",
+   "args": {
+    "mission": "m38"
+   },
+   "name": "Pumice & Iron",
+   "desc": "Complete Besieged Wall without a single defender lost on the curtain wall."
+  },
+  {
+   "id": "m38-rich",
+   "type": "gold_held",
+   "args": {
+    "amount": 5600
+   },
+   "name": "Bastion Relief Chest",
+   "desc": "Carry 5,600 gold in Besieged Wall to compensate Greystone's battered masons."
+  },
+  {
+   "id": "m39-won",
+   "type": "mission_won",
+   "args": {
+    "mission": "m39"
+   },
+   "name": "No Escape up the Gorge",
+   "desc": "Shatter Malrik's obsidian barriers and catch the blind arch-mage on the portal stairs."
+  },
+  {
+   "id": "m39-clean",
+   "type": "flawless_mission",
+   "args": {
+    "mission": "m39"
+   },
+   "name": "Glass-Proof Vanguard",
+   "desc": "Win Flight of Malrik with zero losses against obsidian walls and shadow constructs."
+  },
+  {
+   "id": "m39-rich",
+   "type": "gold_held",
+   "args": {
+    "amount": 6000
+   },
+   "name": "Cipher-Key Ransom",
+   "desc": "Hold 6,000 gold in Flight of Malrik to secure defectors from Malrik's scriptorium."
+  },
+  {
+   "id": "m40-won",
+   "type": "mission_won",
+   "args": {
+    "mission": "m40"
+   },
+   "name": "Spiked the Jaws",
+   "desc": "Climb the blind scree behind both twin crag bastions and spike the mana-cannons."
+  },
+  {
+   "id": "m40-clean",
+   "type": "flawless_mission",
+   "args": {
+    "mission": "m40"
+   },
+   "name": "Between Heartbeats",
+   "desc": "Complete Twofold Assault without losing a single soldier to mana-cannon volleys."
+  },
+  {
+   "id": "m40-rich",
+   "type": "gold_held",
+   "args": {
+    "amount": 6500
+   },
+   "name": "Causeway War-Chest",
+   "desc": "Carry 6,500 gold in Twofold Assault for the final push onto the citadel causeway."
+  },
+  {
+   "id": "m41-won",
+   "type": "mission_won",
+   "args": {
+    "mission": "m41"
+   },
+   "name": "Three Gates Cracked",
+   "desc": "Advance under locked tower-shields, break three portcullises, and strip the nests."
+  },
+  {
+   "id": "m41-clean",
+   "type": "flawless_mission",
+   "args": {
+    "mission": "m41"
+   },
+   "name": "Unbent Tower-Shield",
+   "desc": "Win Gauntlet of Iron with zero losses inside the thirty-pace magnetic canyon."
+  },
+  {
+   "id": "m41-rich",
+   "type": "gold_held",
+   "args": {
+    "amount": 7000
+   },
+   "name": "Non-Magnetic Coin",
+   "desc": "Hold 7,000 gold in Gauntlet of Iron—pure gold won't stick to the canyon walls."
+  },
+  {
+   "id": "m42-won",
+   "type": "mission_won",
+   "args": {
+    "mission": "m42"
+   },
+   "name": "Bridge Over Magma",
+   "desc": "Cut the counterweight winches in both gatehouses and drop the iron drawbridge."
+  },
+  {
+   "id": "m42-clean",
+   "type": "flawless_mission",
+   "args": {
+    "mission": "m42"
+   },
+   "name": "Wet Hides Held",
+   "desc": "Complete Outer Rampart without losing a single fighter above the glowing moat."
+  },
+  {
+   "id": "m42-rich",
+   "type": "gold_held",
+   "args": {
+    "amount": 7400
+   },
+   "name": "Citadel Breach Bounty",
+   "desc": "Carry 7,400 gold in Outer Rampart to pay the promised first-over-the-wall purse."
+  },
+  {
+   "id": "m43-won",
+   "type": "mission_won",
+   "args": {
+    "mission": "m43"
+   },
+   "name": "Three Hosts Broken",
+   "desc": "Smash the northern column, western powder convoy, and eastern relief host."
+  },
+  {
+   "id": "m43-clean",
+   "type": "flawless_mission",
+   "args": {
+    "mission": "m43"
+   },
+   "name": "Watch Unbroken",
+   "desc": "Win Three-Roads Siege with zero casualties defending Three-Roads Watch."
+  },
+  {
+   "id": "m43-rich",
+   "type": "gold_held",
+   "args": {
+    "amount": 7800
+   },
+   "name": "Three-Roads Payroll",
+   "desc": "Hold 7,800 gold in Three-Roads Siege to settle every mercenary contract before dawn."
+  },
+  {
+   "id": "m44-won",
+   "type": "mission_won",
+   "args": {
+    "mission": "m44"
+   },
+   "name": "Silent Phalanx Broken",
+   "desc": "Defeat the Arch-Warden's praetors in the obsidian nave and choose Thornvael's door."
+  },
+  {
+   "id": "m44-clean",
+   "type": "flawless_mission",
+   "args": {
+    "mission": "m44"
+   },
+   "name": "Unblemished at the Dais",
+   "desc": "Complete Threshold Choice without losing a single unit to the praetor phalanx."
+  },
+  {
+   "id": "m44-rich",
+   "type": "gold_held",
+   "args": {
+    "amount": 8200
+   },
+   "name": "Obol for the Nave",
+   "desc": "Carry 8,200 gold into Threshold Choice—an old captain never enters a temple broke."
+  },
+  {
+   "id": "m45-won",
+   "type": "mission_won",
+   "args": {
+    "mission": "m45"
+   },
+   "name": "Leylines Aligned",
+   "desc": "Hold both Anchor Seals against shadow praetorians and set the Crown of Order."
+  },
+  {
+   "id": "m45-clean",
+   "type": "flawless_mission",
+   "args": {
+    "mission": "m45"
+   },
+   "name": "Starlight & Steel",
+   "desc": "Win Crown of Order with zero losses beneath the cracked marble vault."
+  },
+  {
+   "id": "m45-rich",
+   "type": "gold_held",
+   "args": {
+    "amount": 8600
+   },
+   "name": "Rebuilding Treasury",
+   "desc": "Hold 8,600 gold in Crown of Order to seed the new realm's first honest mint."
+  },
+  {
+   "id": "m46-won",
+   "type": "mission_won",
+   "args": {
+    "mission": "m46"
+   },
+   "name": "Ashkarath Broken",
+   "desc": "Shatter both Conduit Pillars and defeat First Warden Ashkarath on the Obsidian Throne."
+  },
+  {
+   "id": "m46-clean",
+   "type": "flawless_mission",
+   "args": {
+    "mission": "m46"
+   },
+   "name": "Walked Through Fire",
+   "desc": "Win Ember Reckoning without losing a single soldier to magma vents or Ashkarath."
+  },
+  {
+   "id": "m46-rich",
+   "type": "gold_held",
+   "args": {
+    "amount": 9000
+   },
+   "name": "King's Ransom in Ash",
+   "desc": "Carry 9,000 gold in Ember Reckoning—if you survive the throne room, you're retiring rich."
   }
  ],
  "_self_check": {
