@@ -193,6 +193,13 @@ export async function loadHelpAndCredits(): Promise<void> {
   const base = import.meta.env.BASE_URL;
   try { const r = await fetch(`${base}data/content/help-pages.json`); if (r.ok) helpPages = await r.json(); } catch { /* optional */ }
   try {
+    const r = await fetch(`${base}data/content/tutorial.json`);
+    if (r.ok) {
+      const steps = await r.json() as { step: number; title: string; text: string }[];
+      helpPages = helpPages.concat(steps.map((s) => ({ id: `tutorial-${s.step}`, title: `Field Lesson ${s.step}: ${s.title}`, body: s.text })));
+    }
+  } catch { /* optional */ }
+  try {
     const r = await fetch(`${base}data/content/credits-and-menu.json`);
     if (r.ok) creditLines = (await r.json() as { key: string; text: string }[]).filter((e) => e.key.startsWith('credits.'));
   } catch { /* optional */ }
