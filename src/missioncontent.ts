@@ -232,6 +232,14 @@ export async function loadMissionHints(mission: string): Promise<string[]> {
   return [];
 }
 
+/** The mXX key of a map name from campaign.json. */
+export async function missionKey(mission: string): Promise<string | null> {
+  try {
+    const camp = await (await fetch(`${import.meta.env.BASE_URL}data/campaign.json`)).json() as { nodes: { id: string; map?: string }[] };
+    return camp.nodes.find((n) => n.map === mission)?.id.split('-')[0] ?? null;
+  } catch { return null; }
+}
+
 /** In-mission radio line (content/mission-radio.json) for a map name and kind (start|mid|danger|win|lose). */
 export async function missionRadio(mission: string, kind: 'start' | 'mid' | 'danger' | 'win' | 'lose'): Promise<string | null> {
   try {
