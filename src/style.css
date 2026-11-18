@@ -4831,3 +4831,7 @@ button:disabled, #shell .sh-btn:disabled { opacity: .6; cursor: default; box-sha
   border-color: #ffd870;
 }
 
+
+/* Hero select (characters.ts) */
+#shell .sh-sub { margin: 0; text-align: center; font-size: clamp(11px, 1.4vh, 13px); color: #c8b98f; white-space: pre-line; }
+#shell .sh-input { min-height: 40px; padding: 6px 10px; font: inherit; font-size: 16px; text-align: center; color: #f0e2bd; background: #141c23; border: 1px solid #8a6b3a; border-radius: 4px; }

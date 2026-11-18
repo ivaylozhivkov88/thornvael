@@ -41,7 +41,7 @@ async function run<T>(mode: IDBTransactionMode, body: (s: IDBObjectStore) => IDB
 }
 
 /** Non-save records (the campaign progress) live in the same store under their own key; they never show in the slot list. */
-export const RECORD_KEYS = ['campaign'];
+export const RECORD_KEYS = ['campaign', 'characters'];
 export const putRecord = (key: string, value: unknown): Promise<unknown> => run('readwrite', (s) => s.put(value, key));
 export const getRecord = (key: string): Promise<unknown> => run('readonly', (s) => s.get(key));
 export const deleteRecord = (key: string): Promise<unknown> => run('readwrite', (s) => s.delete(key));

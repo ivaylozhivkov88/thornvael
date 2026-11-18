@@ -11,6 +11,7 @@ import { createMission, missionFromName, type MissionGame } from './mission';
 import { actOf, nodeOf, townHubForAct, townNodeForAct, townSeed, type Campaign } from './campaign';
 import { loadCampaign, readRecord, writeRecord } from './campaignstore';
 import { applyCarryover, extractCarryover, waivePurse } from './carryover';
+import { characterCarry, getCharacter, saveCharacter } from './characters';
 import { afterMission, afterTown, nodeUrl, saveAndExitRecord, type CampaignRecord } from './flow';
 import { ensureConnectedWorldExits, WaypointTravelModal } from './connected-world';
 import { resumeSave, type SaveFile, type SaveState } from './save';
@@ -73,6 +74,8 @@ await loadGameData(); // item and spell tables, before any sim or mission is bui
 const $ = (id: string): HTMLElement => document.getElementById(id)!;
 let spellbookUi!: SpellbookUi;
 const params = new URLSearchParams(location.search);
+/** The persistent hero that plays this page (picked on the hero screen); null for a one-off hero. */
+const activeChar = params.has('char') ? await getCharacter(params.get('char')!) : null;
 const crowd = params.has('crowd'); // 300 units, all yours, no combat: the crowd-movement benchmark
 const stress = params.has('stress');
 const battle = params.has('battle'); // 150 against 150, both sides swarm: the combat benchmark
@@ -3102,7 +3105,15 @@ function showDefeatScreen(defeatText?: string): void {
   modal.hidden = false;
 }
 
+/** Keep what the persistent hero earned: level, skills, gear, spells and the quick row. */
+function persistChar(finished: boolean): void {
+  if (!activeChar || !sim.hero) return;
+  const co = extractCarryover(sim, crec?.progress ?? ({} as Parameters<typeof extractCarryover>[1]), 0, slots);
+  void saveCharacter(activeChar.id, { hero: co.hero, items: co.items, slots: co.slots, gold: crec ? co.gold : undefined, finished });
+}
+
 function finish(kind: 'win' | 'lose', text?: string): void {
+  if (!crec) persistChar(true);
   outcome = kind;
   arm(null);
   userPause = true;
@@ -3119,6 +3130,7 @@ async function endNode(win: boolean, text: string): Promise<void> {
   const [up, size] = army();
   const carry = win && sim.hero ? extractCarryover(sim, crec!.progress, townSeed(1, crec!.progress.townVisits), slots) : null;
   if (carry?.upkeep) toast(`${S.touch.upkeep}: -${carry.upkeep} ${S.gold}`);
+  if (win) persistChar(true);
   const branch = sim.script?.st.sv[0] ?? 0;
   const lastResult: { text: string; up: number; size: number; gold: number; branch?: number } = {
     text,
@@ -3140,6 +3152,7 @@ async function toMap(): Promise<void> {
   if (campaign && crec && campaignId && nodeOf(campaign, campaignId).kind === 'town' && !outcome) {
     townUi.close();
     const carry = sim.hero ? extractCarryover(sim, crec.progress, townSeed(1, crec.progress.townVisits + 1), slots) : null;
+    persistChar(false);
     crec = afterTown(campaign, crec, campaignId, carry);
     await writeRecord(crec);
     await deleteSave(AUTO).catch(() => undefined);
@@ -3673,6 +3686,17 @@ function startHero(): void {
     const p = raw.split(',').map((s) => s.trim().toLowerCase());
     const d = ['easy', 'medium', 'hard'].indexOf(p[2] ?? 'medium');
     begin(p[0] === 'mage' ? 1 : 0, p[1] === 'f' || p[1] === 'female', d < 0 ? 1 : d);
+    if (activeChar?.hero) {
+      // A hero that has played before keeps its level, gear and spells in every skirmish; the purse is this game's.
+      const co = characterCarry(activeChar, { progress: undefined as never, shopSeed: 1 });
+      if (co && applyCarryover(sim, { ...co, gold: sim.cb.gold[0] }) >= 0) {
+        const kept = co.slots;
+        if (kept && kept.length === slots.length && kept.every(validSlot)) slots = kept.slice();
+        buildQuick();
+        heroUi.refresh(true);
+        updateStats();
+      }
+    }
     return;
   }
   userPause = true;

@@ -4,6 +4,7 @@ import { loadCampaign, readRecord, writeRecord } from './campaignstore';
 import { canEnter, newRecord, nodeUrl, RECORD_KEY, clearLast, type CampaignRecord, type HeroPick } from './flow';
 import { ARCHETYPES, buildHeroCreationScreen, findArchetypeIndex, type Archetype, type HeroCreationOptions } from './herocreation';
 import { BUILT_IN } from './mission';
+import { addCharacter, characterCarry, CLASS_NAMES, deleteCharacter, getActiveId, listCharacters, MAX_CHARACTERS, NAME_MAX, newCharacter, setActiveId, cleanName, type Character } from './characters';
 import { downloadChapter, loadManifest, removeChapter, verifyChapter, type ChapterCheck, type Env, type Manifest } from './offline';
 import { encodeSave } from './save';
 import { applyUpdate, onUpdateWaiting, updateWaiting } from './updategate';
@@ -60,9 +61,13 @@ export async function runShell(startWorker: () => void): Promise<never> {
   } catch {
     /* storage unavailable: no Continue from a slot */
   }
-  const go = (url: string): void => location.assign(url);
+  let chars = await listCharacters();
+  let active: Character | null = chars.find((x) => x.id === getActiveId()) ?? null;
+  // Every game page learns which hero plays it, so the hero keeps what it earns (see characters.ts).
+  const go = (url: string): void => location.assign(active && url.startsWith('./?') && !url.includes('free=') && !url.includes('load=') ? `${url}&char=${encodeURIComponent(active.id)}` : url);
   const screen = (...kids: HTMLElement[]): void => root.replaceChildren(...kids);
   const back = (): HTMLButtonElement => btn(T.back, menu, 'sh-small');
+  const clsName = (x: Character): string => `${x.female ? 'Female ' : 'Male '}${CLASS_NAMES[x.cls] ?? 'Hero'}`;
   // The update banner shows only on the menu and the map, never in a mission or while a sub-screen is open.
   let mode: 'menu' | 'map' | 'other' = 'other';
   const banner = (): HTMLElement[] => (updateWaiting() ? [el('p', 'sh-update', `${T.updateBanner}`), btn(T.updateNow, applyUpdate)] : []);
@@ -84,6 +89,8 @@ export async function runShell(startWorker: () => void): Promise<never> {
     col.append(
       el('h1', '', S.title),
       ...banner(),
+      el('p', 'sh-sub', active ? `Hero: ${active.name} · Level ${active.level} ${clsName(active)}` : ''),
+      btn('Change Hero', charSelect, 'sh-small'),
       btn(T.newGame, create),
       cont,
       btn(T.saves, slots),
@@ -99,8 +106,8 @@ export async function runShell(startWorker: () => void): Promise<never> {
 
   function skirmish(): void {
     mode = 'other';
-    const pick: HeroPick = { cls: 0, female: false };
-    let diff = 1;
+    const pick: HeroPick = active ? { cls: active.cls, female: active.female } : { cls: 0, female: false };
+    let diff = active ? active.diff : 1;
     let gold = 100;
     let selectedMapIdx = 0;
 
@@ -151,23 +158,27 @@ export async function runShell(startWorker: () => void): Promise<never> {
     const renderConfig = (): void => {
       configCol.replaceChildren();
 
+      if (active) {
+        configCol.append(el('div', 'sh-skirmish-section-title', 'YOUR HERO'), el('p', 'sh-sub', `${active.name} · Level ${active.level} ${clsName(active)}
+Items, skills and levels carry over.`));
+      }
       // Class section
-      configCol.append(el('div', 'sh-skirmish-section-title', 'HERO ARCHETYPE'));
+      if (!active) configCol.append(el('div', 'sh-skirmish-section-title', 'HERO ARCHETYPE'));
       const clsRow = el('div', 'sh-row');
-      clsRow.append(
+      if (!active) clsRow.append(
         btn('⚔️ Warrior', () => { pick.cls = 0; renderConfig(); }, pick.cls === 0 ? 'sh-on sh-small' : 'sh-small'),
         btn('🔮 Mage', () => { pick.cls = 1; renderConfig(); }, pick.cls === 1 ? 'sh-on sh-small' : 'sh-small'),
       );
-      configCol.append(clsRow);
+      if (!active) configCol.append(clsRow);
 
       // Gender section
-      configCol.append(el('div', 'sh-skirmish-section-title', 'GENDER'));
+      if (!active) configCol.append(el('div', 'sh-skirmish-section-title', 'GENDER'));
       const sexRow = el('div', 'sh-row');
-      sexRow.append(
+      if (!active) sexRow.append(
         btn('♂ Male', () => { pick.female = false; renderConfig(); }, !pick.female ? 'sh-on sh-small' : 'sh-small'),
         btn('♀ Female', () => { pick.female = true; renderConfig(); }, pick.female ? 'sh-on sh-small' : 'sh-small'),
       );
-      configCol.append(sexRow);
+      if (!active) configCol.append(sexRow);
 
       // Difficulty section
       configCol.append(el('div', 'sh-skirmish-section-title', 'DIFFICULTY'));
@@ -254,31 +265,126 @@ export async function runShell(startWorker: () => void): Promise<never> {
   }
 
   // ---- hero creation: class, sex, difficulty (Gothic Pillar & Campfire Champion Showcase) ----
+  async function startCampaign(pick: HeroPick, diff: number): Promise<void> {
+    rec = newRecord(c, pick, diff);
+    // A hero that has played before brings its level, gear and spells into the story.
+    if (active?.hero) rec.carry = characterCarry(active, { progress: rec.progress, shopSeed: 1 });
+    currentAct = activeAct(rec);
+    await writeRecord(rec);
+    await deleteSave(AUTO).catch(() => undefined);
+    auto = null;
+    const startNode = nodeOf(c, c.start);
+    const diffStr = (['easy', 'medium', 'hard'] as const)[diff];
+    const heroStr = `${pick.cls === 1 ? 'mage' : 'warrior'},${pick.female ? 'f' : 'm'},${diffStr}`;
+    const url = `${nodeUrl(startNode)}&hero=${encodeURIComponent(heroStr)}`;
+    const seq = sequenceForNode(startNode.id);
+    if (seq && seq.kind === 'intro') {
+      showStory(seq.id, () => go(url));
+    } else {
+      go(url);
+    }
+  }
+
   function create(): void {
     mode = 'other';
-    const container = buildHeroCreationScreen({
-      base: import.meta.env.BASE_URL,
-      onStart: async (arch, diff) => {
-        const pick: HeroPick = { cls: arch.cls, female: arch.female };
-        rec = newRecord(c, pick, diff);
-        currentAct = activeAct(rec);
-        await writeRecord(rec);
-        await deleteSave(AUTO).catch(() => undefined);
-        auto = null;
-        const startNode = nodeOf(c, c.start);
-        const diffStr = (['easy', 'medium', 'hard'] as const)[diff];
-        const heroStr = `${arch.cls === 1 ? 'mage' : 'warrior'},${arch.female ? 'f' : 'm'},${diffStr}`;
-        const url = `${nodeUrl(startNode)}&hero=${encodeURIComponent(heroStr)}`;
-        const seq = sequenceForNode(startNode.id);
-        if (seq && seq.kind === 'intro') {
-          showStory(seq.id, () => go(url));
-        } else {
-          go(url);
-        }
-      },
-      onBack: () => menu(),
+    if (active) {
+      void startCampaign({ cls: active.cls, female: active.female }, active.diff);
+      return;
+    }
+    charSelect();
+  }
+
+  // ---- start screen and hero select: the hero outlives any one game ----
+  function title(): void {
+    mode = 'other';
+    const col = el('div', 'sh-col');
+    col.append(
+      el('h1', '', S.title),
+      ...banner(),
+      btn('Single Player', charSelect),
+      btn(T.credits, credits, 'sh-small'),
+      btn('Storage & Offline', storage, 'sh-small'),
+      btn('Settings', settings, 'sh-small'),
+    );
+    screen(col);
+  }
+
+  function charSelect(): void {
+    mode = 'other';
+    let sel: Character | null = active ?? chars[0] ?? null;
+    const col = el('div', 'sh-col');
+    const list = el('div', 'sh-col');
+    const info = el('p', 'sh-sub');
+    const ok = btn('OK', () => {
+      if (!sel) return;
+      active = sel;
+      setActiveId(sel.id);
+      menu();
     });
-    screen(container);
+    const del = btn('Delete Hero', () => {
+      if (!sel) return;
+      const victim = sel;
+      if (!window.confirm(`Delete ${victim.name} forever? Level, items and skills are lost.`)) return;
+      void deleteCharacter(victim.id).then(async () => {
+        chars = await listCharacters();
+        if (active?.id === victim.id) active = null;
+        sel = chars[0] ?? null;
+        charSelect();
+      });
+    }, 'sh-small');
+    const refresh = (): void => {
+      list.replaceChildren();
+      for (const x of chars) {
+        const row = btn(`${x.name}
+Level ${x.level} ${clsName(x)}`, () => { sel = x; refresh(); }, sel?.id === x.id ? 'sh-on' : '');
+        row.ondblclick = () => ok.click();
+        list.append(row);
+      }
+      if (chars.length === 0) list.append(el('p', 'sh-sub', 'No heroes yet. Create one.'));
+      ok.disabled = !sel;
+      del.disabled = !sel;
+      info.textContent = sel ? `${sel.name} — ${sel.played} game${sel.played === 1 ? '' : 's'} finished${sel.hero ? '' : ' · not yet played'}` : '';
+    };
+    refresh();
+    const create1 = btn('Create New Hero', createChar);
+    create1.disabled = chars.length >= MAX_CHARACTERS;
+    col.append(el('h1', '', 'Select Hero'), list, info, create1, del, ok, btn('Exit', title, 'sh-small'));
+    screen(col);
+  }
+
+  function createChar(): void {
+    mode = 'other';
+    const col = el('div', 'sh-col');
+    const input = document.createElement('input');
+    input.type = 'text';
+    input.maxLength = NAME_MAX;
+    input.placeholder = 'Hero name';
+    input.className = 'sh-input';
+    col.append(
+      el('h1', '', 'New Hero'),
+      el('p', 'sh-sub', 'Name your hero.'),
+      input,
+      btn('Next', () => {
+        const name = cleanName(input.value);
+        screen(
+          buildHeroCreationScreen({
+            base: import.meta.env.BASE_URL,
+            onStart: async (arch, diff) => {
+              const ch = newCharacter(name, arch.cls, arch.female, diff);
+              await addCharacter(ch);
+              chars = await listCharacters();
+              active = ch;
+              setActiveId(ch.id);
+              menu();
+            },
+            onBack: charSelect,
+          }),
+        );
+      }),
+      btn(T.back, charSelect, 'sh-small'),
+    );
+    screen(col);
+    input.focus();
   }
 
   // ---- global map ----
@@ -881,6 +987,6 @@ export async function runShell(startWorker: () => void): Promise<never> {
     screen(col);
   }
 
-  menu();
+  title();
   return new Promise<never>(() => {});
 }
