@@ -176,3 +176,18 @@ export function townBark(townName: string): string | undefined {
   const list = townBarks.filter((b) => key.includes(b.town.replace('town-', '')));
   return pick(list)?.line;
 }
+
+/** Help pages and credits lines (content/help-pages.json, content/credits-and-menu.json). */
+export interface HelpPage { id: string; title: string; body: string }
+let helpPages: HelpPage[] = [];
+let creditLines: { key: string; text: string }[] = [];
+export const getHelpPages = (): HelpPage[] => helpPages;
+export const getCreditLines = (): { key: string; text: string }[] => creditLines;
+export async function loadHelpAndCredits(): Promise<void> {
+  const base = import.meta.env.BASE_URL;
+  try { const r = await fetch(`${base}data/content/help-pages.json`); if (r.ok) helpPages = await r.json(); } catch { /* optional */ }
+  try {
+    const r = await fetch(`${base}data/content/credits-and-menu.json`);
+    if (r.ok) creditLines = (await r.json() as { key: string; text: string }[]).filter((e) => e.key.startsWith('credits.'));
+  } catch { /* optional */ }
+}

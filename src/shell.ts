@@ -13,7 +13,7 @@ import { actTransitionForCompletedNode, advanceStory, openStory, previousStory, 
 import { S } from './strings';
 import { readPreferences, writePreference } from './preferences';
 import { CodexUi } from './codexui';
-import { loadMonsterCodex } from './missioncontent';
+import { loadMonsterCodex, loadHelpAndCredits, getHelpPages, getCreditLines } from './missioncontent';
 import { BUILDINGS, build, levelOf, nextCost } from './townbuild';
 
 export { ARCHETYPES, buildHeroCreationScreen, findArchetypeIndex, type Archetype, type HeroCreationOptions };
@@ -40,6 +40,7 @@ function btn(label: string, run: () => void, cls = ''): HTMLButtonElement {
 
 export async function runShell(startWorker: () => void): Promise<never> {
   void loadMonsterCodex();
+  void loadHelpAndCredits();
   startWorker();
   const codexUi = new CodexUi();
   const prefs = readPreferences();
@@ -97,6 +98,7 @@ export async function runShell(startWorker: () => void): Promise<never> {
       btn(T.storage, storage),
       btn(T.settings, settings),
       btn(T.credits, credits),
+      btn('Help & Guide', help),
       btn('🏆 Hall of Relics Codex', () => codexUi.show()),
       btn('Skirmish (23 Maps)', skirmish),
       btn(T.free, () => go('./?free=1'), 'sh-quiet'),
@@ -974,10 +976,22 @@ Level ${x.level} ${clsName(x)}`, () => { sel = x; refresh(); }, sel?.id === x.id
     screen(col);
   }
 
+  function help(): void {
+    mode = 'other';
+    const col = el('div', 'sh-col');
+    col.append(el('h2', '', 'Help & Guide'));
+    const list = el('div', 'sh-help');
+    list.style.cssText = 'max-width: 620px; max-height: 60vh; overflow-y: auto; text-align: left;';
+    for (const p of getHelpPages()) list.append(el('h3', '', p.title), el('p', 'note', p.body));
+    if (!getHelpPages().length) list.append(el('p', 'note', 'No help pages loaded.'));
+    col.append(list, back());
+    screen(col);
+  }
+
   function credits(): void {
     mode = 'other';
     const col = el('div', 'sh-col');
-    col.append(el('h2', '', S.credits), el('p', 'note', S.creditsBody), el('h3', '', 'Story Replay'));
+    col.append(el('h2', '', S.credits), el('p', 'note', S.creditsBody), ...getCreditLines().map((c) => el('p', 'note', c.text)), el('h3', '', 'Story Replay'));
     const row = el('div', 'sh-row sh-credits-replay');
     row.style.cssText = 'flex-wrap: wrap; justify-content: center; max-width: 580px; gap: 8px;';
     for (const seq of STORY_SEQUENCES) {
