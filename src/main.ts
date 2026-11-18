@@ -43,7 +43,7 @@ import {
 } from './sim/script';
 import { loadGameData } from './loaddata';
 import { loadHeroVoices, heroBark } from './herovoice';
-import { loadMissionContent, loadItemFlavor, loadFlavorLists, loadMonsterCodex, loadSpellText, defeatFlavor } from './missioncontent';
+import { loadMissionContent, loadItemFlavor, loadFlavorLists, loadMonsterCodex, loadCodexLore, loadTownBarks, loadSpellText, defeatFlavor } from './missioncontent';
 import { DebugPanel } from './debugpanel';
 import { SPELLS, Tk } from './sim/spelldata';
 import { validTarget } from './sim/spells';
@@ -807,11 +807,17 @@ let tipStore: Storage | null = null;
 try { tipStore = localStorage; } catch { /* private mode */ }
 const tips = new Tips(tipStore);
 
+let lastHeroHp = 0;
 function updateGothicHud(): void {
   const hp = Math.max(0, sim.cb.hp[0] ?? 0);
   const hpMax = Math.max(1, sim.cb.hpMax[0] ?? 1);
   const hpPct = Math.min(100, Math.max(0, (hp / hpMax) * 100));
   if (combatMode && sim.cb.kind[0] === Kind.Hero && hp > 0 && hpPct < LOW_HP_TIP && tips.once('lowHp')) toast(S.firstTips.lowHp);
+  if (combatMode && sim.cb.kind[0] === Kind.Hero && hp > 0) {
+    const bark = hpPct < 25 ? heroBark('low_hp', 20000) : hp < lastHeroHp ? heroBark('hurt', 12000) : null;
+    if (bark) toast(`"${bark}"`);
+  }
+  lastHeroHp = hp;
 
   const mana = Math.max(0, sim.cb.mana[0] ?? 0);
   const manaMax = Math.max(1, sim.cb.manaMax[0] ?? 1);
@@ -2024,6 +2030,8 @@ const heroPresent = combatMode && !battle && sim.cb.kind[0] === Kind.Hero;
 await loadItemFlavor();
 await loadFlavorLists();
 await loadMonsterCodex();
+await loadCodexLore();
+await loadTownBarks();
 await loadSpellText();
 if (activeChar) await loadHeroVoices(activeChar.cls, activeChar.female);
 const missionContent = loadedMission ? await loadMissionContent(missionName) : null;

@@ -111,3 +111,34 @@ export async function loadSpellText(): Promise<void> {
     if (r.ok) spellText = Object.fromEntries((await r.json() as SpellText[]).map((x) => [x.name, x]));
   } catch { /* optional */ }
 }
+
+/** Codex lore entries (content/codex-entries.json + codex-missing.json). Empty until loaded. */
+export interface CodexLore { id: string; category: string; title: string; body: string; act?: number; unlock_hint?: string }
+let codexLore: CodexLore[] = [];
+export const getCodexLore = (): CodexLore[] => codexLore;
+export async function loadCodexLore(): Promise<void> {
+  const base = import.meta.env.BASE_URL;
+  const out: CodexLore[] = [];
+  for (const f of ['codex-entries', 'codex-missing']) {
+    try {
+      const r = await fetch(`${base}data/content/${f}.json`);
+      if (r.ok) out.push(...(await r.json() as CodexLore[]));
+    } catch { /* optional */ }
+  }
+  codexLore = out;
+}
+
+/** Town ambient lines (content/town-barks.json), keyed by town name. */
+let townBarks: { town: string; kind: string; line: string }[] = [];
+export async function loadTownBarks(): Promise<void> {
+  try {
+    const r = await fetch(`${import.meta.env.BASE_URL}data/content/town-barks.json`);
+    if (r.ok) townBarks = await r.json();
+  } catch { /* optional */ }
+}
+/** One random ambient line for the town whose display name matches (UI-only randomness). */
+export function townBark(townName: string): string | undefined {
+  const key = townName.toLowerCase();
+  const list = townBarks.filter((b) => key.includes(b.town.replace('town-', '')));
+  return pick(list)?.line;
+}

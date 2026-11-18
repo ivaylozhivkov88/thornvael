@@ -1,4 +1,4 @@
-import { getMonsterCodex } from './missioncontent';
+import { getMonsterCodex, getCodexLore } from './missioncontent';
 import { getCodexProgress, isDiscovered } from './codex';
 import { formatItemTooltip } from './heroui';
 import { Ik, ITEMS, Slot, itemText } from './sim/items';
@@ -112,6 +112,21 @@ export class CodexUi {
         const p = document.createElement('p');
         p.className = 'codex-lore-text';
         p.textContent = entry.text;
+        card.append(title, subTitle, p);
+        loreList.append(card);
+      }
+      for (const e of getCodexLore()) {
+        const card = document.createElement('article');
+        card.className = 'codex-lore-entry';
+        const title = document.createElement('h3');
+        title.className = 'codex-lore-title';
+        title.textContent = e.title;
+        const subTitle = document.createElement('div');
+        subTitle.className = 'codex-lore-sub';
+        subTitle.textContent = `${e.category[0].toUpperCase()}${e.category.slice(1)}${e.act ? ` - Act ${e.act}` : ''}`;
+        const p = document.createElement('p');
+        p.className = 'codex-lore-text';
+        p.textContent = e.body;
         card.append(title, subTitle, p);
         loreList.append(card);
       }

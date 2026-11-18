@@ -1,4 +1,5 @@
 import { DEFS } from './sim/combat';
+import { townBark } from './missioncontent';
 import { mercPrice } from './sim/difficulty';
 import { INV_MAX, SKILL_MAX, SKILL_NAMES, WHY_TEXT, Why, blocker } from './sim/hero';
 import { ITEMS, getItemDef, itemText, Ik, Slot } from './sim/items';
@@ -93,6 +94,7 @@ export class TownUi {
   private shopUndoBtn: HTMLButtonElement | null = null;
   private shopBuyBtn: HTMLButtonElement | null = null;
 
+  private bark: string | undefined;
   constructor(private readonly ctx: TownUiCtx) {
     this.root = el('div', 'sheet town');
     this.root.setAttribute('role', 'dialog');
@@ -146,6 +148,7 @@ export class TownUi {
     this.detailItem = -1;
     this.mercIndex = 0;
     this.setMood(0);
+    this.bark = townBark(this.ctx.sim().towns[this.town].def.name);
     this.root.hidden = false;
     this.root.setAttribute('aria-label', S.town.roles[role]);
     this.ctx.pause(true);
@@ -251,6 +254,7 @@ export class TownUi {
     head.append(el('h2', '', `${def.name}: ${S.town.roles[this.role]}`), el('span', 'spacer'), el('b', 'gold', `${S.town.gold} ${sim.cb.gold[0]}`));
     if (this.role !== Role.Shop) head.append(button(S.town.leave, () => this.close()));
     this.root.append(head);
+    if (this.bark) this.root.append(el('p', 'muted', `"${this.bark}"`));
     if (this.role === Role.Shop) this.renderShop(sim);
     else if (this.role === Role.Tavern) this.renderTavern(sim);
     else this.renderSchool(sim);
