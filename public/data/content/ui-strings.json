@@ -1,0 +1,322 @@
+[
+ {
+  "key": "ui.skills.tree_header",
+  "text": "Allocate skill points earned on level-up across three class specializations."
+ },
+ {
+  "key": "ui.skills.rank_pip",
+  "text": "Current skill rank. Higher ranks increase potency or reduce cooldowns."
+ },
+ {
+  "key": "ui.skills.requires_locked",
+  "text": "Requires unlocked prerequisite node in the tier above."
+ },
+ {
+  "key": "ui.skills.active_badge",
+  "text": "Active ability: assign to your quickbar and cast using mana or stamina."
+ },
+ {
+  "key": "ui.skills.passive_badge",
+  "text": "Passive trait: applies continuously while your hero is standing."
+ },
+ {
+  "key": "ui.skills.reset_hint",
+  "text": "Use a Collegium Respec Writ at camp to refund spent skill points."
+ },
+ {
+  "key": "ui.skills.point_available",
+  "text": "Unspent skill points available. Open the Skill Tree before marching."
+ },
+ {
+  "key": "ui.skills.max_rank_reached",
+  "text": "Maximum rank mastered for this node."
+ },
+ {
+  "key": "ui.skills.tier_unlock",
+  "text": "Invest 4 points in earlier tiers to unlock this row."
+ },
+ {
+  "key": "ui.skills.preview_next",
+  "text": "Shows stat gains at the next rank."
+ },
+ {
+  "key": "ui.sets.piece_count",
+  "text": "Equipped pieces belonging to this named armor or weapon set."
+ },
+ {
+  "key": "ui.sets.bonus_2",
+  "text": "2-Piece Set Bonus: active when two matching relics are worn."
+ },
+ {
+  "key": "ui.sets.bonus_3",
+  "text": "3-Piece Set Bonus: active when three matching relics are worn."
+ },
+ {
+  "key": "ui.sets.bonus_4",
+  "text": "4-Piece Set Bonus: unlocks the full set's signature combat effect."
+ },
+ {
+  "key": "ui.sets.missing_piece",
+  "text": "Uncollected set piece. Check regional bosses or high-tier chests."
+ },
+ {
+  "key": "ui.sets.equipped_piece",
+  "text": "Equipped and contributing to active set thresholds."
+ },
+ {
+  "key": "ui.sets.class_restriction",
+  "text": "Tailored for a specific class; other heroes gain base stats only."
+ },
+ {
+  "key": "ui.sets.lore_toggle",
+  "text": "Inspect the historical origin of this set."
+ },
+ {
+  "key": "ui.sets.salvage_warning",
+  "text": "Warning: dismantling a set piece destroys its threshold bonus."
+ },
+ {
+  "key": "ui.sets.compare_set",
+  "text": "Hold Shift to compare with your currently equipped set item."
+ },
+ {
+  "key": "ui.gems.socket_empty",
+  "text": "Empty socket. Drag a gem or rune here to bind its effect."
+ },
+ {
+  "key": "ui.gems.socket_filled",
+  "text": "Socketed relic active. Visit a town smith to unsocket safely."
+ },
+ {
+  "key": "ui.gems.weapon_effect",
+  "text": "Effect granted when socketed into a main-hand or two-hand weapon."
+ },
+ {
+  "key": "ui.gems.armor_effect",
+  "text": "Effect granted when socketed into body armor, helm, or shield."
+ },
+ {
+  "key": "ui.gems.combine_hint",
+  "text": "Three identical gems can be fused into a higher tier at a smithy."
+ },
+ {
+  "key": "ui.gems.rune_glyph",
+  "text": "Carved First-Compact glyph granting tactical or economic bonuses."
+ },
+ {
+  "key": "ui.gems.overwrite_warn",
+  "text": "Socketing over an existing gem destroys the previous stone."
+ },
+ {
+  "key": "ui.gems.tier_label",
+  "text": "Relic grade (1–5). Higher tiers drop in deeper acts."
+ },
+ {
+  "key": "ui.gems.no_socket",
+  "text": "This item has no open sockets."
+ },
+ {
+  "key": "ui.gems.extract_cost",
+  "text": "Pay gold at a town anvil to recover socketed gems intact."
+ },
+ {
+  "key": "ui.mercs.hire_cost",
+  "text": "Upfront silver fee required to sign this mercenary onto your roll."
+ },
+ {
+  "key": "ui.mercs.upkeep_cost",
+  "text": "Wages deducted automatically after each completed mission."
+ },
+ {
+  "key": "ui.mercs.roster_full",
+  "text": "Company roster full. Dismiss or bench a fighter to hire another."
+ },
+ {
+  "key": "ui.mercs.role_badge",
+  "text": "Combat specialization and preferred position in squad formations."
+ },
+ {
+  "key": "ui.mercs.quirk_tip",
+  "text": "Personal habit or flaw affecting behavior on the march."
+ },
+ {
+  "key": "ui.mercs.morale_bar",
+  "text": "Company morale. Low morale risks desertion if the hero falls."
+ },
+ {
+  "key": "ui.mercs.fatigue_meter",
+  "text": "Accumulated march fatigue. Rest in town barracks to clear."
+ },
+ {
+  "key": "ui.mercs.revive_fee",
+  "text": "Surgeon's fee to patch a downed veteran back into fighting shape."
+ },
+ {
+  "key": "ui.mercs.dismiss_btn",
+  "text": "Release mercenary from contract. Unpaid severance lowers morale."
+ },
+ {
+  "key": "ui.mercs.ability_bar",
+  "text": "Signature abilities used automatically or on command in battle."
+ },
+ {
+  "key": "ui.codex.tab_lore",
+  "text": "Historical treaties, arcane laws, and border chronicles."
+ },
+ {
+  "key": "ui.codex.tab_places",
+  "text": "Fortresses, towns, and ruins across Thornvael's four provinces."
+ },
+ {
+  "key": "ui.codex.tab_factions",
+  "text": "Levies, merchant guilds, covens, and mercenary companies."
+ },
+ {
+  "key": "ui.codex.tab_creatures",
+  "text": "Field notes on beasts, constructs, and elemental weaknesses."
+ },
+ {
+  "key": "ui.codex.tab_events",
+  "text": "Major battles, betrayals, and turning points of the campaign."
+ },
+ {
+  "key": "ui.codex.entry_locked",
+  "text": "Undiscovered entry. Follow the hint below to unlock it."
+ },
+ {
+  "key": "ui.codex.cross_ref",
+  "text": "Click highlighted entry codes to jump to related chronicles."
+ },
+ {
+  "key": "ui.codex.unread_pip",
+  "text": "New chronicle entry recorded since your last camp rest."
+ },
+ {
+  "key": "ui.codex.progress_count",
+  "text": "Total Thornvael Codex entries uncovered in this campaign."
+ },
+ {
+  "key": "ui.codex.weakness_tag",
+  "text": "Primary elemental vulnerability observed in field combat."
+ },
+ {
+  "key": "ui.events.encounter_title",
+  "text": "Roadside encounter. Weigh supplies, health, and risk before acting."
+ },
+ {
+  "key": "ui.events.choice_risk",
+  "text": "This option may cost health, gold, or trigger an ambush."
+ },
+ {
+  "key": "ui.events.choice_reward",
+  "text": "Expected salvage, experience, or campaign flag from this choice."
+ },
+ {
+  "key": "ui.events.flag_set",
+  "text": "This decision will be remembered in later acts."
+ },
+ {
+  "key": "ui.events.req_missing",
+  "text": "Requires specific supplies, gold, or prior campaign flags."
+ },
+ {
+  "key": "ui.events.continue_btn",
+  "text": "Pack up and resume the march."
+ },
+ {
+  "key": "ui.events.shrine_icon",
+  "text": "Weathered boundary shrine or wardstone monument."
+ },
+ {
+  "key": "ui.events.merchant_icon",
+  "text": "Wandering peddler or contraband caravan."
+ },
+ {
+  "key": "ui.events.ambush_icon",
+  "text": "Hostile terrain bottleneck—prepare your vanguard."
+ },
+ {
+  "key": "ui.events.ruin_icon",
+  "text": "Collapsed vault, cellar, or ancient First-Empire structure."
+ },
+ {
+  "key": "ui.ngplus.cycle_badge",
+  "text": "New Game+ Cycle: enemies scale higher while your gear carries over."
+ },
+ {
+  "key": "ui.ngplus.mod_select",
+  "text": "Toggle active Caldera Modifiers to increase challenge and loot."
+ },
+ {
+  "key": "ui.ngplus.mod_active",
+  "text": "Modifier active for this cycle. Rewards scale with total risk."
+ },
+ {
+  "key": "ui.ngplus.carryover_info",
+  "text": "Hero level, learned tomes, gold, and stash transfer into Cycle+."
+ },
+ {
+  "key": "ui.ngplus.reset_warning",
+  "text": "Story flags and mission nodes reset to Act I: Border Fords."
+ },
+ {
+  "key": "ui.ngplus.reward_mult",
+  "text": "Bonus gold and Tier 5 relic drop rate from active modifiers."
+ },
+ {
+  "key": "ui.ngplus.enrage_note",
+  "text": "Bosses gain faster phase transitions and tighter enrage timers."
+ },
+ {
+  "key": "ui.ngplus.veteran_foes",
+  "text": "Additional elite champions spawn in every regional encounter."
+ },
+ {
+  "key": "ui.ngplus.start_cycle",
+  "text": "Begin the next cycle at Thornwick Market."
+ },
+ {
+  "key": "ui.ngplus.archive_ending",
+  "text": "View unlocked class endings from completed cycles."
+ },
+ {
+  "key": "ui.settings.master_vol",
+  "text": "Adjusts overall volume for steel, spells, and ambient weather."
+ },
+ {
+  "key": "ui.settings.sfx_vol",
+  "text": "Controls weapon impacts, bowstrings, and monster barks."
+ },
+ {
+  "key": "ui.settings.voice_vol",
+  "text": "Controls hero barks, boss taunts, and cutscene narration."
+ },
+ {
+  "key": "ui.settings.music_vol",
+  "text": "Controls orchestral score and town tavern ambience."
+ },
+ {
+  "key": "ui.settings.autopause_hp",
+  "text": "Automatically pause combat when any squad member drops below 25% HP."
+ },
+ {
+  "key": "ui.settings.autopause_enemy",
+  "text": "Pause immediately when unseen ambushers enter sight range."
+ },
+ {
+  "key": "ui.settings.pixel_crisp",
+  "text": "Use nearest-neighbor scaling for crisp 48x48 sprite edges."
+ },
+ {
+  "key": "ui.settings.weather_fx",
+  "text": "Toggle dense ash-storms, fen fog, and sea-spray particles."
+ },
+ {
+  "key": "ui.settings.screen_shake",
+  "text": "Enable camera shake on heavy maul impacts and meteor strikes."
+ },
+ {
+  "key": "ui.settings.damage_nums",
+  "text": "Display floating damage, armor-block, and resist popups."
+ }
+]

@@ -1,0 +1,26 @@
+[
+ {
+  "id": "cdx-morvessa-ledger",
+  "category": "lore",
+  "title": "Morvessa's Salt-Tithe Ledgers",
+  "body": "Brass-bound account books carried by High Quartermaster Morvessa during the border foreclosures (see cdx-salt-tithe). Every sack of grain, iron ingot, and burned parish was tallied against Thornwick's mining arrears—treating refugees as depreciated livestock.",
+  "unlock_hint": "Inspect the brass abacus after m11.",
+  "act": 1
+ },
+ {
+  "id": "cdx-ashkarath-watch",
+  "category": "faction",
+  "title": "Wardens of the Anchor Seals",
+  "body": "An ancient order of meteor-clad sentinels bound to the Obsidian Dais (see cdx-obsidian-dais) under First Warden Ashkarath. For ten reigns they choked off the caldera's warmth to keep the primordial ember from escaping—starving northern harvests in the process.",
+  "unlock_hint": "Confront Ashkarath in m46-ember-reckoning.",
+  "act": 4
+ },
+ {
+  "id": "cdx-garrick-watch",
+  "category": "faction",
+  "title": "Garrick's Border Picket",
+  "body": "The surviving core of Thornwick's provincial levy (see cdx-thornwick-levy), held together by Sergeant-at-Arms Garrick's splinted arm and mud-stained muster rolls. Paid in worthless scrip, they held Sunken Ford and Alder Bridge on sheer stubbornness.",
+  "unlock_hint": "Hold the line with Garrick in Act I.",
+  "act": 1
+ }
+]

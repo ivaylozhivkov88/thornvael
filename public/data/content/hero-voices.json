@@ -1,0 +1,674 @@
+[
+ {
+  "hero_id": "warrior-male",
+  "intro_monologue": "Twelve winters on the Thornwick border taught me two habits: grease your buckle-straps before dawn, and never trust a clerk holding a promissory note. The crown stopped paying wages three reorganizations ago, yet the mud still needs holding. Point me at the choke, keep the silver dry, and let's finish before my knees lock up.",
+  "barks": {
+   "select": [
+    "Point me at the thick end.",
+    "Shield's up. Knees aren't.",
+    "Keep the orders short.",
+    "Same mud, different banner.",
+    "Let's work before rain.",
+    "If it bleeds, I block it."
+   ],
+   "move": [
+    "Moving. Keep pace.",
+    "Another mile of gravel.",
+    "Watch the flanks.",
+    "Slow and heavy.",
+    "Eyes open, shields high.",
+    "Poor ground for dying."
+   ],
+   "attack": [
+    "Hold still for this.",
+    "Right through the collarbone.",
+    "Make room!",
+    "Sloppy guard.",
+    "Down you go.",
+    "Iron wins arguments."
+   ],
+   "hurt": [
+    "That'll bruise till thaw.",
+    "Still standing. Barely.",
+    "Felt that in my teeth.",
+    "Armor's earning its keep."
+   ],
+   "low_hp": [
+    "Bring a bandage—or a shovel.",
+    "Running thin on blood here.",
+    "Not dying in this ditch."
+   ],
+   "kill": [
+    "Next volunteer.",
+    "Stay down.",
+    "One less pike.",
+    "Clean break."
+   ],
+   "level_up": [
+    "Harder shell, same old dents.",
+    "Practice makes scar tissue.",
+    "Muscle remembers."
+   ],
+   "idle": [
+    "My boots are leaking again.",
+    "Standing still costs extra.",
+    "Quiet usually means an ambush.",
+    "Should've stayed a turnip farmer."
+   ],
+   "spell_cast": [
+    "Brace for impact!",
+    "Hold the dirt!",
+    "Shield wall—now!",
+    "Put your weight behind it!"
+   ],
+   "loot_rare": [
+    "Decent steel. No rust on the tang.",
+    "Proper metalwork, for once.",
+    "Worth every blister on the march."
+   ],
+   "death": [
+    "Tell Garrick... I want my boots back...",
+    "Finally... a place to lie down...",
+    "Contract's... void..."
+   ]
+  },
+  "town_greeting": [
+   "Dry roof, warm broth, no arrows. Don't ruin it with speeches.",
+   "Let's patch the dents before the next bell rings.",
+   "Keep your hand on your purse; town clerks bite harder than gnolls."
+  ],
+  "refusal_lines": [
+   "Not marching into that without rations and dry socks.",
+   "My shield-arm isn't lifting that today.",
+   "Find someone younger to volunteer for suicide."
+  ]
+ },
+ {
+  "hero_id": "warrior-female",
+  "intro_monologue": "They stripped my sapper commission after a magistrate loaded a watchtower with twice the stone I signed off on, then blamed me when the mortar gave. Fine. Fortresses fail because men ignore load-bearing joints, and shield-walls fail the exact same way. I don't march for songs—I march because shattered walls pay better than intact ones.",
+  "barks": {
+   "select": [
+    "Show me the weak joint.",
+    "Plate is buckled. Let's work.",
+    "Save speeches for the chaplain.",
+    "I hold the gate; you count coin.",
+    "Point to what needs breaking.",
+    "Steady shield, short day."
+   ],
+   "move": [
+    "Taking the high ground.",
+    "Keep spacing—don't bunch.",
+    "Solid footing ahead.",
+    "Advancing in good order.",
+    "Watch the crossfire.",
+    "Forward. Mind loose stone."
+   ],
+   "attack": [
+    "Found the gap!",
+    "Fold!",
+    "Too slow on recovery!",
+    "Right into the hinge!",
+    "Drop your guard—go on.",
+    "Structural failure."
+   ],
+   "hurt": [
+    "Dented the gorget. Annoying.",
+    "That'll stiffen by nightfall.",
+    "Good angle. Won't work twice.",
+    "Still anchored."
+   ],
+   "low_hp": [
+    "Straps shearing—fall back a pace!",
+    "Need a surgeon before next rush!",
+    "Not dying in borrowed mud."
+   ],
+   "kill": [
+    "Line's buckling.",
+    "Next target.",
+    "Clean demolition.",
+    "Down."
+   ],
+   "level_up": [
+    "Better leverage, cleaner strikes.",
+    "Adjusted stance. Less waste.",
+    "Another flaw hammered out."
+   ],
+   "idle": [
+    "Oiling the hinge-pins while we wait.",
+    "Poor drainage on this road.",
+    "Check straps before someone tests them.",
+    "Silence means someone's digging."
+   ],
+   "spell_cast": [
+    "Lock shields!",
+    "Shatter their front!",
+    "Hold the breach!",
+    "Anchor the line!"
+   ],
+   "loot_rare": [
+    "Properly quenched edge. No slag pockets.",
+    "Balanced to the half-ounce. Mine.",
+    "Gear forged by someone sober."
+   ],
+   "death": [
+    "Tell Hobb... the left clasp... failed...",
+    "Should have... reinforced the flank...",
+    "Off the clock..."
+   ]
+  },
+  "town_greeting": [
+   "Good mortar on these walls—let's hope the garrison knows how to use it.",
+   "Straight to the smithy. Salt air eats rivets overnight.",
+   "Keep the company fed and out of the taverns."
+  ],
+  "refusal_lines": [
+   "That angle is suicidal. Re-think it.",
+   "I don't breach walls without proper wedges.",
+   "No. Find another battering ram."
+  ]
+ },
+ {
+  "hero_id": "archer-female",
+  "intro_monologue": "Poaching crown deer in the border woods taught me two useful truths: missing a shot means going hungry, and getting caught means losing a thumb. I kept both thumbs, left the tax-assessors stuck in a peat bog, and discovered military scouting pays twice as much for half the conversation. Keep sixty paces between me and the melee, please.",
+  "barks": {
+   "select": [
+    "Wind's steady. Target's ugly.",
+    "Keep sixty paces between us.",
+    "Brought plenty of bodkins.",
+    "Point out the expensive ones.",
+    "Try not to clank so loud.",
+    "Always better from high ground."
+   ],
+   "move": [
+    "Light steps.",
+    "Taking the flank.",
+    "Watch the mud.",
+    "Ahead and unseen.",
+    "Good sightlines there.",
+    "Moving—no need to stomp."
+   ],
+   "attack": [
+    "Right through the visor.",
+    "Hold that pose.",
+    "Feather-delivered.",
+    "Missed your heart—barely.",
+    "One less shield to carry.",
+    "Wear a thicker helm next time."
+   ],
+   "hurt": [
+    "Ow! Who let them close?",
+    "Ruined a perfectly good cloak.",
+    "Rude. Truly rude.",
+    "Somebody peel them off me!"
+   ],
+   "low_hp": [
+    "Too close! Way too close!",
+    "I am not built for this!",
+    "Somebody take agro, please!"
+   ],
+   "kill": [
+    "Dropped.",
+    "Did they even see me?",
+    "Like barrels in a ditch.",
+    "Next."
+   ],
+   "level_up": [
+    "Sharper eyes, steadier hands.",
+    "Even the wind's cooperating.",
+    "Getting dangerously competent."
+   ],
+   "idle": [
+    "Checking wind. Still blowing.",
+    "Do we get paid by the hour?",
+    "Waxing bowstring—don't interrupt.",
+    "Heavy armor looks exhausting."
+   ],
+   "spell_cast": [
+    "Watch the sky!",
+    "Pinning them down!",
+    "Thread the needle!",
+    "Snare's set—spring it!"
+   ],
+   "loot_rare": [
+    "Shiny—and light enough to carry.",
+    "Draws like silk, bites like a viper.",
+    "I'm keeping this. Don't ask."
+   ],
+   "death": [
+    "Forgot... to check... behind me...",
+    "Tell them... the wind shifted...",
+    "Well... that's embarrassing..."
+   ]
+  },
+  "town_greeting": [
+   "Walls, roofs, and nobody shooting at us. Charming.",
+   "Let's sell the heavy junk before my pack breaks.",
+   "Keep your purse tucked in; I'll watch the rooftops."
+  ],
+  "refusal_lines": [
+   "Walk into an obvious crossfire? Hard pass.",
+   "I'm an archer, not a doorstop.",
+   "Not without clear sightlines and dry string."
+  ]
+ },
+ {
+  "hero_id": "archer-male",
+  "intro_monologue": "Nine years on a wooden toll-platform above the Redmarsh salt-roads taught me to read crosswinds like charcoal tallies. Nobody argued the bridge tariff twice once an ash-shaft pinned their boot to the planks. When bandit companies burned the toll-posts, I took my quiver into the reeds. Game is scarce near the ash-drifts—bounty silver buys better goose-feathers.",
+  "barks": {
+   "select": [
+    "Crosswind's two fingers left.",
+    "Mark the officer. Leave the rest.",
+    "Quiet feet, clean draw.",
+    "I'll take the ridge.",
+    "Keep them busy; I'll thin them.",
+    "Range is good."
+   ],
+   "move": [
+    "Slipping ahead.",
+    "Soft ground—good cover.",
+    "Taking the flank.",
+    "Low profile.",
+    "Moving to higher brush.",
+    "No noise."
+   ],
+   "attack": [
+    "Throat-latch.",
+    "Accounted for.",
+    "Drift compensated.",
+    "Pinned.",
+    "Clean pass-through.",
+    "Tallied."
+   ],
+   "hurt": [
+    "Clipped my ribs—get back!",
+    "Bad cover. My fault.",
+    "Bleeding on my fletching.",
+    "Need distance now."
+   ],
+   "low_hp": [
+    "Can't draw with a punctured lung!",
+    "Cover me—dropping back!",
+    "Out of room here!"
+   ],
+   "kill": [
+    "Down.",
+    "Didn't even look up.",
+    "One less.",
+    "Clean tally."
+   ],
+   "level_up": [
+    "Longer reach, tighter grouping.",
+    "Hands steady in the cold.",
+    "Better read on the gust."
+   ],
+   "idle": [
+    "Testing the fletching glue.",
+    "Thirty-four shafts left.",
+    "Soldiers talk too much on march.",
+    "Damp air slows the string."
+   ],
+   "spell_cast": [
+    "Mark and drop!",
+    "Volley out!",
+    "Hamstring him!",
+    "Threading the gap!"
+   ],
+   "loot_rare": [
+    "Straight grain. Minimal warp.",
+    "Horn-tipped and dead true.",
+    "Never trading this one."
+   ],
+   "death": [
+    "Misjudged... the drop...",
+    "Tell them... check the ridge...",
+    "Out of... shafts..."
+   ]
+  },
+  "town_greeting": [
+   "Too many chimneys, too much noise. Let's resupply fast.",
+   "Need dry goose-feathers and beeswax before we march.",
+   "Keep your back to stone in crowded markets."
+  ],
+  "refusal_lines": [
+   "No shot from here. Move me first.",
+   "I won't waste bodkins on blind fog.",
+   "That's a trap. Find another angle."
+  ]
+ },
+ {
+  "hero_id": "mage-male",
+  "intro_monologue": "The Capital Collegium expelled me for publishing a monograph proving half the state liturgy consisted of corrupted plumbing diagrams. Field research in Thornvael has been deeply inconvenient: rain warps vellum, blood ruins chalk circles, and mercenaries stand inside blast radii despite explicit warnings. Still, the caldera's ley-drift violates conservation laws—and I intend to measure it.",
+  "barks": {
+   "select": [
+    "Keep steel clear of my gestures.",
+    "Ambient pressure is concerning.",
+    "Calculate twice, incinerate once.",
+    "Please do not jostle my elbow.",
+    "Theory and practice rarely agree.",
+    "Ready. Statistically speaking."
+   ],
+   "move": [
+    "Mind the damp ground.",
+    "Repositioning—quickly.",
+    "Suboptimal footing ahead.",
+    "Proceeding with caution.",
+    "Avoid the bottleneck.",
+    "Moving before it explodes."
+   ],
+   "attack": [
+    "Observe the thermal gradient!",
+    "Hold still—skewing the arc!",
+    "Purely academic violence!",
+    "Discharge complete.",
+    "Fascinating—and flammable.",
+    "Right on the focal point."
+   ],
+   "hurt": [
+    "That disrupted my cadence!",
+    "Robes aren't rated for blades!",
+    "I'm bleeding on my notes!",
+    "Who allowed melee contact?!"
+   ],
+   "low_hp": [
+    "Vital signs trending downward!",
+    "Catastrophic margin of error!",
+    "Retreat—tactically and now!"
+   ],
+   "kill": [
+    "Hypothesis confirmed.",
+    "Within tolerances.",
+    "Variable eliminated.",
+    "Tidy result."
+   ],
+   "level_up": [
+    "Cleaner output from the formula.",
+    "Marginally less likely to backfire.",
+    "That solves the fourth variable."
+   ],
+   "idle": [
+    "Humidity is ruining my parchment.",
+    "Did anyone else hear that hum?",
+    "Should have packed dry socks.",
+    "Fascinating rock. Probably cursed."
+   ],
+   "spell_cast": [
+    "Clear the blast radius!",
+    "Igniting the lattice!",
+    "Containment failing—on purpose!",
+    "Stand back—three paces!"
+   ],
+   "loot_rare": [
+    "Intriguing resonance on this casing.",
+    "Pre-Schism workmanship!",
+    "Do not touch runes bare-handed."
+   ],
+   "death": [
+    "My calculations... were off by...",
+    "Do not... drop my satchel...",
+    "The equilibrium... collapses..."
+   ]
+  },
+  "town_greeting": [
+   "At last—dry inkwells and walls that don't hum with hex-rot.",
+   "To the apothecary first; my chalk supply is critically low.",
+   "Try not to start any tavern fires while I transcribe my notes."
+  ],
+  "refusal_lines": [
+   "Insufficient mana for that reckless maneuver.",
+   "That violates three basic safety axioms. No.",
+   "I refuse to channel while ankle-deep in brine."
+  ]
+ },
+ {
+  "hero_id": "mage-female",
+  "intro_monologue": "I trained in the Thornwick Mint to test silver purity with galvanic arcs, until I proved the treasury was shaving soldiers' pay and blaming my instruments for the variance. Bandit captains conduct lightning far better than clipped coins. Now the caldera vents are shorting out regional ley-currents—and someone has to shut the valve.",
+  "barks": {
+   "select": [
+    "State your target. Hands off my staff.",
+    "Air tastes like copper again.",
+    "Precision saves mana. Pay attention.",
+    "Stand behind iron, not in front of me.",
+    "Keep it brisk and well-grounded.",
+    "Ready. Try not to flinch."
+   ],
+   "move": [
+    "Advancing—watch the puddles.",
+    "Clear the line of sight.",
+    "Finding drier ground.",
+    "Moving to a cleaner vantage.",
+    "Keep pace, stay spread.",
+    "Stepping out of the wind."
+   ],
+   "attack": [
+    "Hold that charge!",
+    "Clean conduction!",
+    "Too slow to ground!",
+    "Right through the plate!",
+    "Singed around the edges.",
+    "Simple physics."
+   ],
+   "hurt": [
+    "Keep those filthy blades back!",
+    "You singed my cuff—bad mistake!",
+    "Interrupted on the third consonant!",
+    "Somebody hold the line!"
+   ],
+   "low_hp": [
+    "Wards flickering—fall back!",
+    "Cannot channel while bleeding out!",
+    "Critical failure imminent!"
+   ],
+   "kill": [
+    "Circuit closed.",
+    "Zero wasted charge.",
+    "Reduced to slag.",
+    "Next."
+   ],
+   "level_up": [
+    "Tighter focus, less wasted heat.",
+    "Harmonics settling nicely.",
+    "Conducting properly now."
+   ],
+   "idle": [
+    "Salt air corrodes copper in days.",
+    "Stop shuffling—building static.",
+    "Checking the grounding wire.",
+    "Everything smells of wet ash."
+   ],
+   "spell_cast": [
+    "Clear the lane!",
+    "Discharging now!",
+    "Watch the flash!",
+    "Step back—wide arc!"
+   ],
+   "loot_rare": [
+    "Clean crystal lattice. Minimal flaws.",
+    "Feel the static off that core.",
+    "Finally, a proper instrument."
+   ],
+   "death": [
+    "The circuit... broke...",
+    "Tell them... ground the... staff...",
+    "Too much... current..."
+   ]
+  },
+  "town_greeting": [
+   "Good. Let's find copper wire, dry vellum, and competent smiths.",
+   "Keep the mercenaries out of trouble while I audit our scrolls.",
+   "A roof that doesn't drip onto my focal lens—luxury."
+  ],
+  "refusal_lines": [
+   "I'm not wasting charge on an ungrounded target.",
+   "Check my mana bar before barking orders.",
+   "Sloppy positioning. Fix the line first."
+  ]
+ },
+ {
+  "hero_id": "necromancer-male",
+  "intro_monologue": "Fourteen years keeping pauper-rolls in Thornwick's lower parish taught me that tax liens outlive their debtors by three generations. When bailiffs demanded I collect from a flooded graveyard, I summoned the signatories directly. They excommunicated me for improper probate procedure—so I brought my bone-awl and brass scales to the front lines where arrears accumulate hourly.",
+  "barks": {
+   "select": [
+    "The ledger is open. Who owes?",
+    "Everything dies; few settle in full.",
+    "Keep your silver; I collect in time.",
+    "Speak clearly—the dead mumble.",
+    "Another column to balance.",
+    "Ready to call the witnesses."
+   ],
+   "move": [
+    "Walking the margin.",
+    "Cold ground preserves the tally.",
+    "Advancing—mind the graves.",
+    "Step lightly over old claims.",
+    "Proceeding to next entry.",
+    "Smells like unpaid rent."
+   ],
+   "attack": [
+    "Foreclosed!",
+    "Sign here!",
+    "Your lease is up!",
+    "Payable on sight!",
+    "Interest compounded!",
+    "Marked in red!"
+   ],
+   "hurt": [
+    "A minor deduction!",
+    "My robes are not collateral!",
+    "Hands off the clerk!",
+    "That goes on your tab!"
+   ],
+   "low_hp": [
+    "Not ready to close my own account!",
+    "Deficit critical—step back!",
+    "Cover the ledger—I'm bleeding!"
+   ],
+   "kill": [
+    "Settled.",
+    "Added to inventory.",
+    "Stamp the page.",
+    "Balance cleared."
+   ],
+   "level_up": [
+    "Cleaner handwriting, binding terms.",
+    "Dead respond faster when indexed.",
+    "Higher yield from old bone."
+   ],
+   "idle": [
+    "Nobody ever pays on time.",
+    "No, I won't raise your childhood dog.",
+    "Sharpening my bone-awl.",
+    "Just counting ribs in the ditch."
+   ],
+   "spell_cast": [
+    "Rise and work off the balance!",
+    "Calling the arrears!",
+    "By seal and sinew—serve!",
+    "Foreclosure in progress!"
+   ],
+   "loot_rare": [
+    "Still bears the previous owner's lien.",
+    "Good resonance—barely haunted.",
+    "Properly notarized in cold iron."
+   ],
+   "death": [
+    "Transfer... my balance... to...",
+    "Ink's... spilled...",
+    "Closed... in red..."
+   ]
+  },
+  "town_greeting": [
+   "Every town has two ledgers: the mayor's and the sexton's.",
+   "Let's liquidate our salvage before the ink dries.",
+   "Quiet streets make for tidy bookkeeping."
+  ],
+  "refusal_lines": [
+   "No corpses in range, no credit extended.",
+   "That violates probate protocol. Denied.",
+   "My reserves are overdrawn. Wait."
+  ]
+ },
+ {
+  "hero_id": "necromancer-female",
+  "intro_monologue": "Raised in a coastal scriptorium witnessing deathbed wills for sailors, I learned early that an oath spoken over salt and bone outlasts the lungs that uttered it. When magistrates forged wills to seize widows' cottages, I summoned dead testators to cross-examine them in court. Now thousands of sworn watchmen lie un-released across Thornvael—and I am here to witness their discharge.",
+  "barks": {
+   "select": [
+    "Every oath leaves a thread.",
+    "Speak softly; the grave listens.",
+    "I keep promises others break.",
+    "Show me who died unpaid.",
+    "The scales are balanced.",
+    "Ready to call the watch."
+   ],
+   "move": [
+    "Treading lightly.",
+    "Follow the cold draft.",
+    "Advancing in silence.",
+    "Respect the markers.",
+    "Along the boundary.",
+    "Shadows lengthen ahead."
+   ],
+   "attack": [
+    "Answer the summons!",
+    "Your debt is due!",
+    "Bound!",
+    "Return to the dust!",
+    "No escape from the vow!",
+    "Settle your account!"
+   ],
+   "hurt": [
+    "You strike a witness!",
+    "Keep back from the censer!",
+    "That will be remembered!",
+    "A shallow cut—nothing more."
+   ],
+   "low_hp": [
+    "The thread is fraying!",
+    "Step between us—now!",
+    "I will not join the roll today!"
+   ],
+   "kill": [
+    "Dismissed.",
+    "Rest now.",
+    "Oath concluded.",
+    "Quiet returns."
+   ],
+   "level_up": [
+    "Deeper roots in the quiet dark.",
+    "The dead obey a steadier voice.",
+    "The scales tip in our favor."
+   ],
+   "idle": [
+    "Polishing the brass weights.",
+    "So many unmarked stones here.",
+    "I hear three unfinished prayers.",
+    "Keep your vows affordable."
+   ],
+   "spell_cast": [
+    "Fulfill your oath!",
+    "Rise from the ash!",
+    "By ash and testament—stand!",
+    "The watch is not yet ended!"
+   ],
+   "loot_rare": [
+    "The previous bearer left no heirs.",
+    "Three hundred names hum in this iron.",
+    "I accept custody of this relic."
+   ],
+   "death": [
+    "My own... witness... arrives...",
+    "Release... the bound...",
+    "The ledger... closes..."
+   ]
+  },
+  "town_greeting": [
+   "Peace to this house, and honest scales to its merchants.",
+   "Let us tend the living before we audit the dead.",
+   "Even walled cities sit atop older graves."
+  ],
+  "refusal_lines": [
+   "I will not desecrate those who already rest.",
+   "The thread is severed; I cannot reach it.",
+   "Patience. Even the grave requires time."
+  ]
+ }
+]

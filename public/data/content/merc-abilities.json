@@ -1,0 +1,211 @@
+[
+ {
+  "name": "Brace Pike",
+  "target": "self",
+  "cost": 8,
+  "cd": 25,
+  "reach": 0,
+  "min": 0,
+  "max": 0,
+  "desc": "Plants ash-shaft into turf, reflecting 12 piercing damage to charging melee foes for 6s.",
+  "flavor": "Horses and gnolls learn the same lesson at three paces."
+ },
+ {
+  "name": "Shield Wall",
+  "target": "self",
+  "cost": 10,
+  "cd": 30,
+  "reach": 0,
+  "min": 0,
+  "max": 0,
+  "desc": "Locks oak-and-iron rim, boosting physical armor by 8 and frontal block by 25% for 6s.",
+  "flavor": "Stand shoulder to shoulder until the arrows stop."
+ },
+ {
+  "name": "Cleaving Arc",
+  "target": "foe",
+  "cost": 10,
+  "cd": 28,
+  "reach": 2,
+  "min": 14,
+  "max": 22,
+  "desc": "Sweeps a heavy blade across a 120-degree front, striking up to three adjacent enemies.",
+  "flavor": "A broad swing clears room to breathe in tight ditches."
+ },
+ {
+  "name": "Quarry Swing",
+  "target": "foe",
+  "cost": 12,
+  "cd": 32,
+  "reach": 2,
+  "min": 16,
+  "max": 24,
+  "desc": "Hammers downward with pick or maul, ignoring 6 armor and staggering plated targets.",
+  "flavor": "Every stone has a seam if you strike it hard enough."
+ },
+ {
+  "name": "Breaker's Rush",
+  "target": "foe",
+  "cost": 14,
+  "cd": 35,
+  "reach": 4,
+  "min": 18,
+  "max": 26,
+  "desc": "Charges four tiles into enemy ranks, dealing blunt damage and knocking foes back 2 tiles.",
+  "flavor": "Weight and momentum break pikes faster than speeches."
+ },
+ {
+  "name": "Lock Shields",
+  "target": "ally",
+  "cost": 12,
+  "cd": 34,
+  "reach": 3,
+  "min": 0,
+  "max": 0,
+  "desc": "Forms a tight defensive cordon, granting nearby allies within 3 tiles +6 armor for 6s.",
+  "flavor": "Overlap the rims and let their cleavers spark."
+ },
+ {
+  "name": "Hold the Line",
+  "target": "self",
+  "cost": 10,
+  "cd": 30,
+  "reach": 0,
+  "min": 0,
+  "max": 0,
+  "desc": "Roots the mercenary in place for 7s, granting immunity to knockback and +20% block chance.",
+  "flavor": "Nobody crosses this plank while I still have boots."
+ },
+ {
+  "name": "Shield Bash",
+  "target": "foe",
+  "cost": 9,
+  "cd": 26,
+  "reach": 1,
+  "min": 10,
+  "max": 16,
+  "desc": "Slams iron boss into target's jaw, stunning for 1.5s and interrupting active spells.",
+  "flavor": "Cheaper than a ward and twice as convincing."
+ },
+ {
+  "name": "Galvanic Arc",
+  "target": "foe",
+  "cost": 14,
+  "cd": 34,
+  "reach": 7,
+  "min": 16,
+  "max": 24,
+  "desc": "Discharges static lightning that jolts primary target and jumps to two nearby enemies.",
+  "flavor": "Wet mail conducts copper sparks remarkably well."
+ },
+ {
+  "name": "Execution Sweep",
+  "target": "foe",
+  "cost": 18,
+  "cd": 42,
+  "reach": 2,
+  "min": 28,
+  "max": 40,
+  "desc": "Delivers a ruthless two-handed cleave dealing double damage to foes below 35% health.",
+  "flavor": "No sense leaving wounded raiders behind your heels."
+ },
+ {
+  "name": "Sunder Hinges",
+  "target": "foe",
+  "cost": 14,
+  "cd": 36,
+  "reach": 2,
+  "min": 20,
+  "max": 28,
+  "desc": "Hooks armor straps and rivets, reducing target physical armor by 6 for 8s.",
+  "flavor": "Once the pauldron drops, the rest is easy."
+ },
+ {
+  "name": "Aether Ward",
+  "target": "ally",
+  "cost": 12,
+  "cd": 32,
+  "reach": 6,
+  "min": 0,
+  "max": 0,
+  "desc": "Wraps an ally in woven ley-static, absorbing up to 55 incoming damage for 8s.",
+  "flavor": "Keeps robes intact long enough to finish the third syllable."
+ },
+ {
+  "name": "Living Bastion",
+  "target": "self",
+  "cost": 16,
+  "cd": 45,
+  "reach": 0,
+  "min": 0,
+  "max": 0,
+  "desc": "Anchors stance for 6s, cutting all incoming physical and elemental damage by 50%.",
+  "flavor": "A wall of riveted iron that refuses to topple."
+ },
+ {
+  "name": "Unbroken Standard",
+  "target": "ally",
+  "cost": 16,
+  "cd": 44,
+  "reach": 5,
+  "min": 0,
+  "max": 0,
+  "desc": "Rallies nearby mercenaries within 5 tiles, cleansing fear and granting +25% speed for 8s.",
+  "flavor": "As long as the rag stays upright, nobody runs."
+ },
+ {
+  "name": "Shatter-Flint Head",
+  "target": "ground",
+  "cost": 16,
+  "cd": 38,
+  "reach": 8,
+  "min": 22,
+  "max": 32,
+  "desc": "Fires a packed quartz-shrapnel quarrel that bursts in a 2.5-tile radius, piercing armor.",
+  "flavor": "Ironcamp sappers pack river flint behind every bodkin."
+ },
+ {
+  "name": "Field Tourniquet",
+  "target": "ally",
+  "cost": 10,
+  "cd": 28,
+  "reach": 3,
+  "min": 24,
+  "max": 36,
+  "desc": "Binds torn arteries with carbolic linen, restoring health and halting active bleed effects.",
+  "flavor": "Hold still while I cinch it—screaming wastes breath."
+ },
+ {
+  "name": "Caltrop Scatter",
+  "target": "ground",
+  "cost": 9,
+  "cd": 30,
+  "reach": 5,
+  "min": 8,
+  "max": 12,
+  "desc": "Flings forged iron spikes across a 2.5-tile patch, slowing foes by 40% and causing bleed.",
+  "flavor": "Four-pointed iron works even in pitch-dark marsh fog."
+ },
+ {
+  "name": "Writ of Shackle",
+  "target": "foe",
+  "cost": 12,
+  "cd": 34,
+  "reach": 6,
+  "min": 12,
+  "max": 18,
+  "desc": "Binds target's ankles with astral chains, reducing movement and attack speed by 35% for 5s.",
+  "flavor": "Signed in cold ink and heavy as a millstone."
+ },
+ {
+  "name": "Fuse Satchel",
+  "target": "ground",
+  "cost": 18,
+  "cd": 42,
+  "reach": 6,
+  "min": 26,
+  "max": 38,
+  "desc": "Hurls a pitch-sealed powder charge that detonates after 1s, shattering shields and barricades.",
+  "flavor": "Count to three, toss, and keep your visor down."
+ }
+]

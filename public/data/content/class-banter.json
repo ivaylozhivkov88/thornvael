@@ -1,0 +1,58 @@
+{
+ "warrior": [
+  "Mercenary: 'My left greave is cracked.' Warrior: 'Stuff straw inside it and keep your shield up.'",
+  "Mercenary: 'Think the crown will pay our back-wages?' Warrior: 'Only if we pry it off their fingers.'",
+  "Mercenary: 'That bridge looks narrow.' Warrior: 'Good. Means only three of them can swing at once.'",
+  "Mercenary: 'My knees ache when fog rolls in.' Warrior: 'Means you're still alive to complain.'",
+  "Mercenary: 'Why don't we charge?' Warrior: 'Because pikemen love men who run onto their points.'",
+  "Mercenary: 'How many sieges have you survived?' Warrior: 'Enough to know banners don't stop arrows.'",
+  "Mercenary: 'The rations smell like wet dog.' Warrior: 'Eat it anyway; starving men drop their shields.'",
+  "Mercenary: 'Do we bury their dead?' Warrior: 'Only if someone pays extra for shovel-work.'",
+  "Mercenary: 'What if the gate holds?' Warrior: 'Then we bring heavier wedges and hit the hinges.'",
+  "Mercenary: 'You never polish your breastplate.' Warrior: 'Bright steel makes an easy target at dusk.'",
+  "Mercenary: 'Should I guard the mage?' Warrior: 'Keep two paces ahead of his elbows or get singed.'",
+  "Mercenary: 'Think we'll see spring?' Warrior: 'Check your cinch-straps and we'll find out.'"
+ ],
+ "archer": [
+  "Mercenary: 'Why do you keep checking the grass?' Archer: 'Wind shifts five degrees before the rain hits.'",
+  "Mercenary: 'My armor weighs forty pounds.' Archer: 'Sounds noisy. Try walking ten paces behind me.'",
+  "Mercenary: 'Did you see that shadow move?' Archer: 'Already put a bodkin through its shoulder.'",
+  "Mercenary: 'How many arrows do you carry?' Archer: 'Enough for them, plus two for anyone who touches my quiver.'",
+  "Mercenary: 'Should I rush their line?' Archer: 'Wait until I drop the one holding the big horn.'",
+  "Mercenary: 'You smiled when that bridge burned.' Archer: 'Saves us walking across an obvious ambush.'",
+  "Mercenary: 'Can you hit that crow on the spire?' Archer: 'Pay me a copper and I'll clip its tail-feathers.'",
+  "Mercenary: 'Why avoid the main road?' Archer: 'Wide roads are built for taxmen and cavalry.'",
+  "Mercenary: 'My shield has three arrows in it.' Archer: 'Better your oak than my ribs. Keep holding it.'",
+  "Mercenary: 'Do you ever miss?' Archer: 'Once, in sixty-four. Still irritates me.'",
+  "Mercenary: 'What's in that green vial?' Archer: 'Bog-viper bile. Don't lick your thumb after touching it.'",
+  "Mercenary: 'Are we lost?' Archer: 'No, just taking the scenic route around their crossbows.'"
+ ],
+ "mage": [
+  "Mercenary: 'My hair is standing straight up.' Mage: 'Step three paces left; you're standing on a ley-node.'",
+  "Mercenary: 'Can you light our campfire?' Mage: 'I am an arcana scholar, not a flint-and-steel.'",
+  "Mercenary: 'What was that purple flash?' Mage: 'An exothermic miscalculation. Nobody lost an eyebrow.'",
+  "Mercenary: 'Why carry so many notebooks?' Mage: 'Unrecorded anomalies are just expensive guesswork.'",
+  "Mercenary: 'Keep those sparks off my powder kegs!' Mage: 'Then stop parking your wagons inside my blast radius.'",
+  "Mercenary: 'Does magic hurt?' Mage: 'Only when a bandit interrupts the third consonant.'",
+  "Mercenary: 'Why smell like burnt copper?' Mage: 'Proper grounding prevents static backfire in drizzle.'",
+  "Mercenary: 'Can you turn lead into gold?' Mage: 'I can turn armored knights into slag; sell that instead.'",
+  "Mercenary: 'Your robes are singed at the hem.' Mage: 'Acceptable wear during field experimentation.'",
+  "Mercenary: 'What's humming in your satchel?' Mage: 'A quartz lens reacting to local stupidity.'",
+  "Mercenary: 'Should we drink the blue potion?' Mage: 'Only if you enjoy indigo teeth and mild migraines.'",
+  "Mercenary: 'Is that ruin cursed?' Mage: 'Statistically probable. Let me check the ward geometry first.'"
+ ],
+ "necromancer": [
+  "Mercenary: 'That skeleton keeps staring at me.' Necromancer: 'He's checking your boot-size; don't die near him.'",
+  "Mercenary: 'Do the dead talk back?' Necromancer: 'Mostly they complain about unpaid wages and damp soil.'",
+  "Mercenary: 'Why weigh coins on brass scales?' Necromancer: 'Habit. Every soul has an exact balance.'",
+  "Mercenary: 'Will you raise me if I fall?' Necromancer: 'Only if your contract still has hours left on it.'",
+  "Mercenary: 'This graveyard gives me chills.' Necromancer: 'Quiet neighbors. Never once started a tavern brawl.'",
+  "Mercenary: 'Why carry an awl and ink?' Necromancer: 'Unwitnessed deaths create dreadful paperwork.'",
+  "Mercenary: 'Are we the villains here?' Necromancer: 'We are merely probate auditors with sharper tools.'",
+  "Mercenary: 'That censer smells like sage and ash.' Necromancer: 'Keeps the marrow-rot out of your bandages.'",
+  "Mercenary: 'Can you curse their captain?' Necromancer: 'Already drafted the lien; watch his sword-arm droop.'",
+  "Mercenary: 'Where do those spirits go afterward?' Necromancer: 'Back to sleep, once their tally marks clear.'",
+  "Mercenary: 'Don't touch my ration pack.' Necromancer: 'Rest easy; the dead have zero appetite for salt pork.'",
+  "Mercenary: 'How long have you kept those books?' Necromancer: 'Long enough to know everyone pays eventually.'"
+ ]
+}

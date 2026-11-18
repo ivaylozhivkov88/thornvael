@@ -1,0 +1,66 @@
+[
+ {
+  "boss": "morvessa",
+  "intro": "Vaelen bled his levies on your oak doors. I came with ledgers, not battering rams, to collect every sack of grain Thornwick owes.",
+  "phase_lines": [
+   "Every bolt your archers loose was forged from stolen ore—let us audit the interest.",
+   "So the border dogs still have teeth. Bring forward the cinder-censer!",
+   "You call this victory? You only bought these people a slower death in Redmarsh."
+  ],
+  "death_line": "Look south... past the smoke... Redmarsh is already dry... you saved them for the buzzards...",
+  "taunt_class": {
+   "warrior": "Another rusty shield-post standing in the mud for a crown that forgot his name.",
+   "archer": "Hide behind your hedges, poacher—salt-tax writs reach sixty paces easily.",
+   "mage": "A disgraced clerk playing with chalk while my seals drain the entire valley.",
+   "necromancer": "You count paupers' ribs, little sexton; I foreclose on entire provinces."
+  }
+ },
+ {
+  "boss": "gorrathul",
+  "intro": "Two causeways, two thousand corpses, and still you climb toward my cisterns with dry canteens. Pry the mountain keys from my gauntlets.",
+  "phase_lines": [
+   "The stone of Ironheart has broken finer armies than yours on those narrow bridges.",
+   "You breached the outer redoubts—good. Now bleed where the air is thin.",
+   "Fools! Below this bastion lies a dry sea—you are tearing down the only dam left!"
+  ],
+  "death_line": "The lower valves... rusted shut years ago... fear kept the raiders off the coast road...",
+  "taunt_class": {
+   "warrior": "Test your border iron against mountain basalt, soldier—see which cracks first.",
+   "archer": "Your goose-feathers bounce off slag-plate like hailstones on a slate roof.",
+   "mage": "Sparks and whispers won't cool my boilers, scholar—step closer to the steam.",
+   "necromancer": "Plenty of dry bones in my ditch, clerk, and not a drop of water to wash them."
+  }
+ },
+ {
+  "boss": "vesperion",
+  "intro": "Admiral Kael bought you time with his life, land-rat, yet you still board a sinking hull. Let the tide judge between us before the powder blows.",
+  "phase_lines": [
+   "Mind the slick planks—blood and whale oil turn a good swordsman into ballast.",
+   "Stubborn bastards! Heave the pitch-pots topside and light the forecastle!",
+   "Sailing into the volcanic straits isn't victory—you are rowing straight into a furnace!"
+  ],
+  "death_line": "Look east... ash clouds already touch the horizon... I tried to sink the ferryman...",
+  "taunt_class": {
+   "warrior": "Heavy plate makes fine anchor-weight once my marines sweep you into the scuppers.",
+   "archer": "Hard to line up a clean shot when the quarterdeck rolls beneath your boots.",
+   "mage": "Salt spray dampens your sleeves, mage—one spark here and we both swim in fire.",
+   "necromancer": "The deep sea keeps no probate rolls, witness—only crabs and salt."
+  }
+ },
+ {
+  "boss": "ashkarath",
+  "intro": "Four provinces burned to bring you to my steps, and now you smash the chains holding the cinders down. Prove your flesh can hold a sun.",
+  "phase_lines": [
+   "Two conduit pillars lie in ruin, yet enough ember remains in my plate to unmake you.",
+   "You drink the unbound flame like wine—tell me, does it taste like ashes yet?",
+   "Look at your hands! Even if you strike me down, you can never leave this throne!"
+  ],
+  "death_line": "Sit, then... feel how heavy the quiet becomes when nothing left dares to burn...",
+  "taunt_class": {
+   "warrior": "You carried a shield across four provinces only to melt inside it on my dais.",
+   "archer": "Your wooden shafts turn to cinders ten paces before they ever reach my gorget.",
+   "mage": "You measured pressure valves in books, scholar; now stand inside the furnace.",
+   "necromancer": "No ledger can audit primordial fire, clerk—even the dead turn to ash here."
+  }
+ }
+]
