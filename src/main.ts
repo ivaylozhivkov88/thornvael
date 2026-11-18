@@ -43,7 +43,7 @@ import {
 } from './sim/script';
 import { loadGameData } from './loaddata';
 import { loadHeroVoices, heroBark } from './herovoice';
-import { loadMissionContent, loadMissionHints, loadItemFlavor, loadFlavorLists, loadMonsterCodex, loadCodexLore, loadTownBarks, loadSpellText, defeatFlavor, loadDifficultyFlavor, difficultyLine, loadMercLines, mercHireLine } from './missioncontent';
+import { loadMissionContent, loadMissionHints, loadItemFlavor, loadFlavorLists, loadMonsterCodex, loadCodexLore, loadTownBarks, loadSpellText, defeatFlavor, loadDifficultyFlavor, difficultyLine, loadMercLines, mercHireLine, regionEnterLine, loadHeroFlavor, promotionLine, classBanter } from './missioncontent';
 import { DebugPanel } from './debugpanel';
 import { KNOWN_HI, SPELLS, Tk, maskHas } from './sim/spelldata';
 import { validTarget } from './sim/spells';
@@ -313,6 +313,10 @@ if (campaign && campaignId) {
   try {
     const cNode = nodeOf(campaign, campaignId);
     missionAct = cNode.act ?? 1;
+    if (!isTownNode) {
+      const idx = (campaign.nodes as { kind?: string; act?: number; id: string }[]).filter((n) => n.kind === 'mission' && n.act === missionAct).findIndex((n) => n.id === campaignId);
+      void regionEnterLine(missionAct, Math.max(0, idx)).then((l) => { if (l) setTimeout(() => toast(l), 4000); });
+    }
     renderer.setBiome(cNode.act ?? 1);
     setMusicAct(cNode.act ?? 1);
     setAmbienceAct(cNode.act ?? 1, isTownNode);
@@ -812,6 +816,7 @@ const tips = new Tips(tipStore);
 let lastHeroHp = 0;
 let victoryBarked = false;
 let lastHeroLevel = 0;
+let idleN = 0;
 let lastInputAt = Date.now();
 for (const ev of ['pointerdown', 'keydown']) window.addEventListener(ev, () => { lastInputAt = Date.now(); }, { passive: true });
 function updateGothicHud(): void {
@@ -825,9 +830,9 @@ function updateGothicHud(): void {
   }
   lastHeroHp = hp;
   const hl = sim.hero?.level ?? 0;
-  if (lastHeroLevel && hl > lastHeroLevel) { const lb = heroBark('level_up', 0); if (lb) toast(`"${lb}"`); }
+  if (lastHeroLevel && hl > lastHeroLevel) { const lb = heroBark('level_up', 0); if (lb) toast(`"${lb}"`); const pl = promotionLine(hl); if (pl) setTimeout(() => toast(pl), 1800); }
   lastHeroLevel = hl;
-  if (hl && Date.now() - lastInputAt > 45000) { lastInputAt = Date.now(); const ib = heroBark('idle', 0); if (ib) toast(`"${ib}"`); }
+  if (hl && Date.now() - lastInputAt > 45000) { lastInputAt = Date.now(); const ib = heroBark('idle', 0); if (ib) toast(`"${ib}"`); if (activeChar && idleN++ % 3 === 2) { const cb = classBanter(['warrior', 'mage', 'archer', 'necromancer'][activeChar.cls] ?? 'warrior', idleN); if (cb) setTimeout(() => toast(cb), 2500); } }
 
   const mana = Math.max(0, sim.cb.mana[0] ?? 0);
   const manaMax = Math.max(1, sim.cb.manaMax[0] ?? 1);
@@ -2043,6 +2048,7 @@ await loadMonsterCodex();
 await loadCodexLore();
 await loadDifficultyFlavor();
 await loadMercLines();
+await loadHeroFlavor();
 await loadTownBarks();
 await loadSpellText();
 if (activeChar) await loadHeroVoices(activeChar.cls, activeChar.female);

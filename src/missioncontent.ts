@@ -40,6 +40,16 @@ export async function loadMissionContent(map: string | null): Promise<MissionCon
       const reaction = boss.hero_reaction ? [{ speaker: 'hero', line: boss.hero_reaction }] : [];
       base0.victory_epilogue = [...(base0.victory_epilogue ?? []), ...(boss.death_scene ?? []), ...reaction];
     }
+    // Pack 13 act cutscenes: the first mission of an act opens with the act-start scene, the last closes with the act-end scene.
+    try {
+      const cs = await (await fetch(`${base}data/content/cutscenes.json`)).json() as { act: number; timing: string; lines: Scene[] }[];
+      const first = nodes.filter((n) => n.kind === 'mission' && n.act === node.act)[0]?.id === node.id;
+      const last = nodes.filter((n) => n.kind === 'mission' && n.act === node.act).slice(-1)[0]?.id === node.id;
+      const st = first ? cs.find((c) => c.act === node.act && c.timing === 'start') : undefined;
+      const en = last ? cs.find((c) => c.act === node.act && c.timing === 'end') : undefined;
+      if (st) base0.intro_scene = [...st.lines, ...(base0.intro_scene ?? [])];
+      if (en) base0.victory_epilogue = [...(base0.victory_epilogue ?? []), ...en.lines];
+    } catch { /* optional */ }
     // The last mission of an act closes it with the act-ending text.
     const missions = nodes.filter((n) => n.kind === 'mission' && n.act === node.act);
     const end = (endings as { act: number; title: string; text: string; cliffhanger?: string }[]).find((e) => e.act === node.act);
@@ -237,3 +247,24 @@ export function mercHireLine(act: number, unit: number): string | null {
   const m = pool.length ? pool[unit % pool.length] : null;
   return m ? `${m.name}: "${m.hire_line}"` : null;
 }
+
+interface Region { act: number; enter_line: string }
+/** Region entry line for a mission (Gemini region-flavor.json); regions of the act are cycled by the mission's index. */
+export async function regionEnterLine(act: number, index: number): Promise<string | null> {
+  try {
+    const r = await fetch(`${import.meta.env.BASE_URL}data/content/region-flavor.json`);
+    if (!r.ok) return null;
+    const pool = (await r.json() as Region[]).filter((x) => x.act === act && x.enter_line);
+    return pool.length ? pool[index % pool.length].enter_line : null;
+  } catch { return null; }
+}
+let promoLines: string[] = [];
+let banterLines: Record<string, string[]> = {};
+/** Loads promotion-lines.json and class-banter.json (optional flavour). */
+export async function loadHeroFlavor(): Promise<void> {
+  const base = import.meta.env.BASE_URL;
+  try { promoLines = await (await fetch(`${base}data/content/promotion-lines.json`)).json(); } catch { /* optional */ }
+  try { banterLines = await (await fetch(`${base}data/content/class-banter.json`)).json(); } catch { /* optional */ }
+}
+export const promotionLine = (level: number): string | null => (promoLines.length && level % 5 === 0 ? promoLines[(level / 5 - 1) % promoLines.length] : null);
+export const classBanter = (cls: string, salt: number): string | null => { const l = banterLines[cls]; return l?.length ? l[salt % l.length] : null; };
