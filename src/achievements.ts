@@ -1,6 +1,6 @@
 // Achievements: Gemini-authored defs + trigger table, evaluated against small persisted counters.
 // UI-only; never touches the sim.
-type Trig = { id: string; type: string; args: Record<string, unknown> };
+type Trig = { id: string; type: string; args: Record<string, unknown>; name?: string; desc?: string };
 type Def = { id: string; name?: string; desc?: string; description?: string };
 interface Stats { kills: number; hired: number; flawless: number; won: string[]; acts: number[]; maxLevel: number; maxGold: number; done: string[]; unlocked: string[]; }
 const KEY = 'thornvael.achievements.v1';
@@ -39,18 +39,13 @@ function check(): void {
       case 'mission_won': ok = stats.won.includes(String(t.args.mission)); break;
       case 'act_done': ok = stats.acts.includes(Number(t.args.act)); break;
       case 'win_gold_zero': ok = stats.done.includes('goldzero'); break;
-      case 'campaign_done': {
-        const d = t.args.difficulty as string | undefined, c = t.args.class as string | undefined;
-        ok = stats.done.some((s) => s.startsWith('campaign:')) && stats.done.includes(`campaign:${d ?? '*'}:${c ?? '*'}`);
-        if (!ok && (d || c)) ok = stats.done.includes(`campaign:${d ?? '*'}:${c ?? '*'}`);
-        break;
-      }
+      case 'campaign_done': ok = stats.done.includes(`campaign:${t.args.difficulty ?? '*'}:${t.args.class ?? '*'}`); break;
       default: break;
     }
     if (!ok) continue;
     stats.unlocked.push(t.id); changed = true;
-    const d = defs.get(t.id);
-    if (d?.name) notify(`Achievement: ${d.name}${(d.desc ?? d.description) ? ' — ' + (d.desc ?? d.description) : ''}`);
+    const nm = t.name ?? defs.get(t.id)?.name, ds = t.desc ?? defs.get(t.id)?.desc ?? defs.get(t.id)?.description;
+    if (nm) notify(`Achievement: ${nm}${ds ? ' — ' + ds : ''}`);
   }
   if (changed) save();
 }
@@ -68,10 +63,10 @@ export function achWin(nodeId: string | null, act: number, lastOfAct: boolean, f
   check(); save();
 }
 export function achCampaign(diff: string, cls: string): void {
-  for (const k of [`campaign:${diff}:*`, `campaign:*:${cls}`]) if (!stats.done.includes(k)) stats.done.push(k);
+  for (const k of [`campaign:${diff}:*`, `campaign:*:${cls}`, `campaign:${diff}:${cls}`, 'campaign:*:*']) if (!stats.done.includes(k)) stats.done.push(k);
   check(); save();
 }
 export function achCount(): { got: number; total: number } { return { got: stats.unlocked.length, total: trigs.length }; }
 export function achList(): { name: string; desc: string; got: boolean }[] {
-  return trigs.map((t) => { const d = defs.get(t.id); return { name: d?.name ?? t.id, desc: d?.desc ?? d?.description ?? '', got: stats.unlocked.includes(t.id) }; });
+  return trigs.map((t) => { const d = defs.get(t.id); return { name: t.name ?? d?.name ?? t.id, desc: t.desc ?? d?.desc ?? d?.description ?? '', got: stats.unlocked.includes(t.id) }; });
 }

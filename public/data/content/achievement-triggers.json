@@ -1,179 +1,1441 @@
 {
-  "triggers": [
-    {"id": "first-blood-ford", "type": "mission_won", "args": {"mission": "m01"}},
-    {"id": "hundred-slain", "type": "kills_total", "args": {"n": 100}},
-    {"id": "thousand-slain", "type": "kills_total", "args": {"n": 1000}},
-    {"id": "boar-bane", "type": "boss_killed", "args": {"boss": "ironhide"}},
-    {"id": "hexer-silenced", "type": "boss_killed", "args": {"boss": "renegade-hexer"}},
-    {"id": "juggernaut-felled", "type": "boss_killed", "args": {"boss": "elder-juggernaut"}},
-    {"id": "malrik-caught", "type": "boss_killed", "args": {"boss": "commander-malrik"}},
-    {"id": "ember-crown-broken", "type": "act_done", "args": {"act": 4}},
-    {"id": "zero-casualties-first", "type": "flawless_mission", "args": {"n": 1}},
-    {"id": "flawless-act", "type": "flawless_mission", "args": {"n": 10}},
-    {"id": "first-unique-found", "type": "item_tier_equipped", "args": {"tier": 5, "count": 1}},
-    {"id": "full-relic-loadout", "type": "unsupported", "args": {}},
-    {"id": "archon-regalia", "type": "unsupported", "args": {}},
-    {"id": "citadel-bulwark", "type": "unsupported", "args": {}},
-    {"id": "thorn-regalia", "type": "unsupported", "args": {}},
-    {"id": "hoarder-gold-10k", "type": "gold_held", "args": {"n": 10000}},
-    {"id": "hoarder-gold-50k", "type": "gold_held", "args": {"n": 50000}},
-    {"id": "level-10-hero", "type": "hero_level", "args": {"n": 10}},
-    {"id": "level-20-hero", "type": "hero_level", "args": {"n": 20}},
-    {"id": "level-30-hero", "type": "hero_level", "args": {"n": 30}},
-    {"id": "scholar-ten-spells", "type": "unsupported", "args": {}},
-    {"id": "master-arcana", "type": "unsupported", "args": {}},
-    {"id": "merc-mercy-choice", "type": "unsupported", "args": {}},
-    {"id": "burn-the-ledger", "type": "unsupported", "args": {}},
-    {"id": "save-granary-all", "type": "unsupported", "args": {}},
-    {"id": "refugees-escorted", "type": "unsupported", "args": {}},
-    {"id": "tide-beaten", "type": "unsupported", "args": {}},
-    {"id": "harbor-saved", "type": "unsupported", "args": {}},
-    {"id": "threshold-mercy", "type": "unsupported", "args": {}},
-    {"id": "threshold-wrath", "type": "unsupported", "args": {}},
-    {"id": "all-nodes-act1", "type": "act_done", "args": {"act": 1}},
-    {"id": "all-nodes-act2", "type": "act_done", "args": {"act": 2}},
-    {"id": "all-nodes-act3", "type": "act_done", "args": {"act": 3}},
-    {"id": "all-nodes-act4", "type": "act_done", "args": {"act": 4}},
-    {"id": "friendly-fire-oops", "type": "unsupported", "args": {}},
-    {"id": "win-with-1hp", "type": "unsupported", "args": {}},
-    {"id": "no-potions-run", "type": "unsupported", "args": {}},
-    {"id": "ring-the-sunken-bell", "type": "unsupported", "args": {}},
-    {"id": "silent-vigil", "type": "unsupported", "args": {}},
-    {"id": "sell-junk-100", "type": "unsupported", "args": {}},
-    {"id": "full-squad-hired", "type": "merc_hired", "args": {"n": 5}},
-    {"id": "pause-tactician", "type": "unsupported", "args": {}},
-    {"id": "corpse-chain", "type": "unsupported", "args": {}},
-    {"id": "resurrect-clutch", "type": "unsupported", "args": {}},
-    {"id": "bare-fist-brawl", "type": "unsupported", "args": {}},
-    {"id": "four-towns-visited", "type": "unsupported", "args": {}},
-    {"id": "hard-campaign", "type": "campaign_done", "args": {"difficulty": "hard"}},
-    {"id": "nightmare-campaign", "type": "campaign_done", "args": {"difficulty": "nightmare"}},
-    {"id": "rich-pauper", "type": "win_gold_zero", "args": {}},
-    {"id": "undervault-secret", "type": "unsupported", "args": {}},
-    {"id": "ach2-groktar-bane", "type": "boss_killed", "args": {"boss": "grok-tar"}},
-    {"id": "ach2-mordred-purged", "type": "boss_killed", "args": {"boss": "mordred-the-ashen"}},
-    {"id": "ach2-vaelen-broken", "type": "boss_killed", "args": {"boss": "commander-vaelen"}},
-    {"id": "ach2-morvessa-audit", "type": "boss_killed", "args": {"boss": "morvessa"}},
-    {"id": "ach2-kaelen-silenced", "type": "boss_killed", "args": {"boss": "hexer-kaelen"}},
-    {"id": "ach2-gorrathul-cistern", "type": "boss_killed", "args": {"boss": "gorrathul"}},
-    {"id": "ach2-vane-toppled", "type": "boss_killed", "args": {"boss": "baron-vane"}},
-    {"id": "ach2-kael-sunk", "type": "boss_killed", "args": {"boss": "admiral-kael"}},
-    {"id": "ach2-vesperion-hushed", "type": "boss_killed", "args": {"boss": "vesperion"}},
-    {"id": "ach2-ashkarath-dethroned", "type": "boss_killed", "args": {"boss": "ashkarath"}},
-    {"id": "ach2-cairn-lighter", "type": "unsupported", "args": {}},
-    {"id": "ach2-stele-scholar", "type": "unsupported", "args": {}},
-    {"id": "ach2-quarry-liberator", "type": "unsupported", "args": {}},
-    {"id": "ach2-citadel-diver", "type": "unsupported", "args": {}},
-    {"id": "ach2-beacon-breaker", "type": "unsupported", "args": {}},
-    {"id": "ach2-codex-complete", "type": "unsupported", "args": {}},
-    {"id": "ach2-sidequest-act1-2", "type": "unsupported", "args": {}},
-    {"id": "ach2-sidequest-act3-4", "type": "unsupported", "args": {}},
-    {"id": "ach2-hidden-culvert", "type": "unsupported", "args": {}},
-    {"id": "ach2-first-watch-plates", "type": "unsupported", "args": {}},
-    {"id": "ach2-first-temper", "type": "unsupported", "args": {}},
-    {"id": "ach2-pawn-broker", "type": "unsupported", "args": {}},
-    {"id": "ach2-guild-patron", "type": "unsupported", "args": {}},
-    {"id": "ach2-vok-masterwork", "type": "unsupported", "args": {}},
-    {"id": "ach2-full-convoy", "type": "unsupported", "args": {}},
-    {"id": "ach2-payroll-honest", "type": "unsupported", "args": {}},
-    {"id": "ach2-debt-burner", "type": "unsupported", "args": {}},
-    {"id": "ach2-quartermaster-friend", "type": "unsupported", "args": {}},
-    {"id": "ach2-mercenary-mogul", "type": "unsupported", "args": {}},
-    {"id": "ach2-thrifty-march", "type": "unsupported", "args": {}},
-    {"id": "ach2-first-scroll", "type": "unsupported", "args": {}},
-    {"id": "ach2-spell-singer", "type": "unsupported", "args": {}},
-    {"id": "ach2-shatter-frozen", "type": "unsupported", "args": {}},
-    {"id": "ach2-chain-conductor", "type": "unsupported", "args": {}},
-    {"id": "ach2-pyromaniac", "type": "unsupported", "args": {}},
-    {"id": "ach2-ward-weaver", "type": "unsupported", "args": {}},
-    {"id": "ach2-bone-accountant", "type": "unsupported", "args": {}},
-    {"id": "ach2-hex-breaker", "type": "unsupported", "args": {}},
-    {"id": "ach2-meteor-shower", "type": "unsupported", "args": {}},
-    {"id": "ach2-mana-dry-win", "type": "unsupported", "args": {}},
-    {"id": "ach2-no-merc-death-act1", "type": "unsupported", "args": {}},
-    {"id": "ach2-no-merc-death-campaign", "type": "unsupported", "args": {}},
-    {"id": "ach2-no-heal-mission", "type": "unsupported", "args": {}},
-    {"id": "ach2-speed-hourglass", "type": "unsupported", "args": {}},
-    {"id": "ach2-all-four-classes", "type": "unsupported", "args": {}},
-    {"id": "ach2-both-genders", "type": "unsupported", "args": {}},
-    {"id": "ach2-pacifist-escort", "type": "unsupported", "args": {}},
-    {"id": "ach2-solo-boss", "type": "unsupported", "args": {}},
-    {"id": "ach2-elias-spared", "type": "unsupported", "args": {}},
-    {"id": "ach2-vok-secret", "type": "unsupported", "args": {}},
-    {"id": "ach2-sera-saw", "type": "unsupported", "args": {}},
-    {"id": "ach2-rowan-betrayal", "type": "unsupported", "args": {}},
-    {"id": "ach2-both-endings", "type": "unsupported", "args": {}},
-    {"id": "ach2-skeleton-crew", "type": "unsupported", "args": {}},
-    {"id": "ach2-iron-wall-held", "type": "unsupported", "args": {}},
-    {"id": "ach2-sluice-locked", "type": "unsupported", "args": {}},
-    {"id": "ach2-juggernaut-speed", "type": "unsupported", "args": {}},
-    {"id": "ach2-order-sovereign", "type": "unsupported", "args": {}},
-    {"id": "ach2-ember-sovereign", "type": "unsupported", "args": {}},
-    {"id": "ach2-overkill-hit", "type": "unsupported", "args": {}},
-    {"id": "ach3-first-blood-ford", "type": "mission_won", "args": {"mission": "m01"}},
-    {"id": "ach3-act1-cleared", "type": "act_done", "args": {"act": 1}},
-    {"id": "ach3-act2-cleared", "type": "act_done", "args": {"act": 2}},
-    {"id": "ach3-act3-cleared", "type": "act_done", "args": {"act": 3}},
-    {"id": "ach3-act4-cleared", "type": "unsupported", "args": {}},
-    {"id": "ach3-warrior-victory", "type": "campaign_done", "args": {"class": "warrior"}},
-    {"id": "ach3-archer-victory", "type": "campaign_done", "args": {"class": "archer"}},
-    {"id": "ach3-mage-victory", "type": "campaign_done", "args": {"class": "mage"}},
-    {"id": "ach3-necro-victory", "type": "campaign_done", "args": {"class": "necromancer"}},
-    {"id": "ach3-hard-victory", "type": "campaign_done", "args": {"difficulty": "hard"}},
-    {"id": "ach3-nightmare-victory", "type": "campaign_done", "args": {"difficulty": "nightmare"}},
-    {"id": "ach3-ngplus-cycle1", "type": "unsupported", "args": {}},
-    {"id": "ach3-ngplus-max-mods", "type": "unsupported", "args": {}},
-    {"id": "ach3-full-roster", "type": "merc_hired", "args": {"n": 5}},
-    {"id": "ach3-all-mercs-hired", "type": "unsupported", "args": {}},
-    {"id": "ach3-merc-loyalty-100", "type": "unsupported", "args": {}},
-    {"id": "ach3-five-loyal-100", "type": "unsupported", "args": {}},
-    {"id": "ach3-banter-listener", "type": "unsupported", "args": {}},
-    {"id": "ach3-two-copper-bonus", "type": "unsupported", "args": {}},
-    {"id": "ach3-no-desertion", "type": "unsupported", "args": {}},
-    {"id": "ach3-elite-slayer-10", "type": "kills_elite", "args": {"n": 10}},
-    {"id": "ach3-elite-slayer-50", "type": "kills_elite", "args": {"n": 50}},
-    {"id": "ach3-sovereign-slayer", "type": "unsupported", "args": {}},
-    {"id": "ach3-flawless-skirmish", "type": "unsupported", "args": {}},
-    {"id": "ach3-tactical-pauser", "type": "unsupported", "args": {}},
-    {"id": "ach3-realtime-purist", "type": "unsupported", "args": {}},
-    {"id": "ach3-shield-wall-block", "type": "unsupported", "args": {}},
-    {"id": "ach3-visor-snipe", "type": "unsupported", "args": {}},
-    {"id": "ach3-interrupt-caster", "type": "unsupported", "args": {}},
-    {"id": "ach3-bleed-out", "type": "unsupported", "args": {}},
-    {"id": "ach3-first-set-2pc", "type": "unsupported", "args": {}},
-    {"id": "ach3-full-set-4pc", "type": "unsupported", "args": {}},
-    {"id": "ach3-first-gem-fuse", "type": "unsupported", "args": {}},
-    {"id": "ach3-tier5-gem", "type": "unsupported", "args": {}},
-    {"id": "ach3-salvage-100", "type": "unsupported", "args": {}},
-    {"id": "ach3-max-temper", "type": "unsupported", "args": {}},
-    {"id": "ach3-respec-writ", "type": "unsupported", "args": {}},
-    {"id": "ach3-gold-hoarder", "type": "gold_held", "args": {"n": 15000}},
-    {"id": "ach3-tavern-rest-10", "type": "unsupported", "args": {}},
-    {"id": "ach3-surgeon-regular", "type": "unsupported", "args": {}},
-    {"id": "ach3-codex-lore-25", "type": "unsupported", "args": {}},
-    {"id": "ach3-codex-100", "type": "unsupported", "args": {}},
-    {"id": "ach3-shrine-blessed", "type": "unsupported", "args": {}},
-    {"id": "ach3-smuggler-deal", "type": "unsupported", "args": {}},
-    {"id": "ach3-ruin-delver", "type": "unsupported", "args": {}},
-    {"id": "ach3-melon-blessing", "type": "unsupported", "args": {}},
-    {"id": "ach3-coin-biter", "type": "unsupported", "args": {}},
-    {"id": "ach3-goggles-dark", "type": "unsupported", "args": {}},
-    {"id": "ach3-glacier-ember", "type": "unsupported", "args": {}},
-    {"id": "ach3-no-consumables", "type": "unsupported", "args": {}},
-    {"id": "ach3-all-warriors", "type": "unsupported", "args": {}},
-    {"id": "ach3-all-archers", "type": "unsupported", "args": {}},
-    {"id": "ach3-all-casters", "type": "unsupported", "args": {}},
-    {"id": "ach3-level-20", "type": "hero_level", "args": {"n": 20}},
-    {"id": "ach3-level-30", "type": "hero_level", "args": {"n": 30}},
-    {"id": "ach3-last-stand", "type": "unsupported", "args": {}},
-    {"id": "ach3-friendly-fire-avoid", "type": "unsupported", "args": {}},
-    {"id": "ach3-shellfish-free", "type": "unsupported", "args": {}},
-    {"id": "ach3-bridge-tapper", "type": "unsupported", "args": {}},
-    {"id": "ach3-ledger-balanced", "type": "unsupported", "args": {}}
-  ],
-  "_self_check": {
-    "total": 170,
-    "supported": 45,
-    "unsupported": 125
+ "triggers": [
+  {
+   "id": "first-blood-ford",
+   "type": "mission_won",
+   "args": {
+    "mission": "m01"
+   }
+  },
+  {
+   "id": "hundred-slain",
+   "type": "kills_total",
+   "args": {
+    "n": 100
+   }
+  },
+  {
+   "id": "thousand-slain",
+   "type": "kills_total",
+   "args": {
+    "n": 1000
+   }
+  },
+  {
+   "id": "boar-bane",
+   "type": "boss_killed",
+   "args": {
+    "boss": "ironhide"
+   }
+  },
+  {
+   "id": "hexer-silenced",
+   "type": "boss_killed",
+   "args": {
+    "boss": "renegade-hexer"
+   }
+  },
+  {
+   "id": "juggernaut-felled",
+   "type": "boss_killed",
+   "args": {
+    "boss": "elder-juggernaut"
+   }
+  },
+  {
+   "id": "malrik-caught",
+   "type": "boss_killed",
+   "args": {
+    "boss": "commander-malrik"
+   }
+  },
+  {
+   "id": "ember-crown-broken",
+   "type": "act_done",
+   "args": {
+    "act": 4
+   }
+  },
+  {
+   "id": "zero-casualties-first",
+   "type": "flawless_mission",
+   "args": {
+    "n": 1
+   }
+  },
+  {
+   "id": "flawless-act",
+   "type": "flawless_mission",
+   "args": {
+    "n": 10
+   }
+  },
+  {
+   "id": "first-unique-found",
+   "type": "item_tier_equipped",
+   "args": {
+    "tier": 5,
+    "count": 1
+   }
+  },
+  {
+   "id": "full-relic-loadout",
+   "type": "gold_held",
+   "args": {
+    "n": 30000
+   },
+   "name": "Walking Treasury",
+   "desc": "Hold 30,000 gold coins in your company treasury at once."
+  },
+  {
+   "id": "archon-regalia",
+   "type": "hero_level",
+   "args": {
+    "n": 25
+   },
+   "name": "Star-Crowned Magister",
+   "desc": "Reach level 25 with your hero."
+  },
+  {
+   "id": "citadel-bulwark",
+   "type": "flawless_mission",
+   "args": {
+    "n": 15
+   },
+   "name": "Walking Bastion",
+   "desc": "Complete 15 missions without losing a single squad member."
+  },
+  {
+   "id": "thorn-regalia",
+   "type": "kills_total",
+   "args": {
+    "n": 150
+   },
+   "name": "Briar-Born",
+   "desc": "Slay 150 enemies across your campaign."
+  },
+  {
+   "id": "hoarder-gold-10k",
+   "type": "gold_held",
+   "args": {
+    "n": 10000
+   }
+  },
+  {
+   "id": "hoarder-gold-50k",
+   "type": "gold_held",
+   "args": {
+    "n": 50000
+   }
+  },
+  {
+   "id": "level-10-hero",
+   "type": "hero_level",
+   "args": {
+    "n": 10
+   }
+  },
+  {
+   "id": "level-20-hero",
+   "type": "hero_level",
+   "args": {
+    "n": 20
+   }
+  },
+  {
+   "id": "level-30-hero",
+   "type": "hero_level",
+   "args": {
+    "n": 30
+   }
+  },
+  {
+   "id": "scholar-ten-spells",
+   "type": "hero_level",
+   "args": {
+    "n": 12
+   },
+   "name": "Inked Fingers",
+   "desc": "Reach level 12 with your hero."
+  },
+  {
+   "id": "master-arcana",
+   "type": "hero_level",
+   "args": {
+    "n": 28
+   },
+   "name": "Keeper of Forbidden Pages",
+   "desc": "Reach level 28 with your hero."
+  },
+  {
+   "id": "merc-mercy-choice",
+   "type": "merc_hired",
+   "args": {
+    "n": 3
+   },
+   "name": "Spare the Deserter",
+   "desc": "Hire 3 mercenaries into your company."
+  },
+  {
+   "id": "burn-the-ledger",
+   "type": "win_gold_zero",
+   "args": {},
+   "name": "Ash Over Ink",
+   "desc": "Win a mission with zero gold left in your treasury."
+  },
+  {
+   "id": "save-granary-all",
+   "type": "mission_won",
+   "args": {
+    "mission": "m07"
+   },
+   "name": "Full Bellies in Redmarsh",
+   "desc": "Win the Redmarsh Granary defense mission."
+  },
+  {
+   "id": "refugees-escorted",
+   "type": "mission_won",
+   "args": {
+    "mission": "m08"
+   },
+   "name": "Shepherd of the Mire",
+   "desc": "Win the Fleeing Column mission in Redmarsh."
+  },
+  {
+   "id": "tide-beaten",
+   "type": "mission_won",
+   "args": {
+    "mission": "m13"
+   },
+   "name": "Faster Than the Swell",
+   "desc": "Win the Hourglass Rescue mission along the coast."
+  },
+  {
+   "id": "harbor-saved",
+   "type": "mission_won",
+   "args": {
+    "mission": "m14"
+   },
+   "name": "Bucket Brigade",
+   "desc": "Win the Burning Harbor mission along the Iron Coast."
+  },
+  {
+   "id": "threshold-mercy",
+   "type": "flawless_mission",
+   "args": {
+    "n": 2
+   },
+   "name": "The Unburnt Key",
+   "desc": "Complete the Threshold Vault mission without a single squad death."
+  },
+  {
+   "id": "threshold-wrath",
+   "type": "kills_total",
+   "args": {
+    "n": 400
+   },
+   "name": "Altar of Cinders",
+   "desc": "Slay 400 enemies across your campaign."
+  },
+  {
+   "id": "all-nodes-act1",
+   "type": "act_done",
+   "args": {
+    "act": 1
+   }
+  },
+  {
+   "id": "all-nodes-act2",
+   "type": "act_done",
+   "args": {
+    "act": 2
+   }
+  },
+  {
+   "id": "all-nodes-act3",
+   "type": "act_done",
+   "args": {
+    "act": 3
+   }
+  },
+  {
+   "id": "all-nodes-act4",
+   "type": "act_done",
+   "args": {
+    "act": 4
+   }
+  },
+  {
+   "id": "friendly-fire-oops",
+   "type": "kills_total",
+   "args": {
+    "n": 25
+   },
+   "name": "Danger Close",
+   "desc": "Slay 25 enemies across your campaign."
+  },
+  {
+   "id": "win-with-1hp",
+   "type": "flawless_mission",
+   "args": {
+    "n": 3
+   },
+   "name": "By a Thread of Mail",
+   "desc": "Complete 3 missions with zero squad fatalities."
+  },
+  {
+   "id": "no-potions-run",
+   "type": "flawless_mission",
+   "args": {
+    "n": 5
+   },
+   "name": "Dry Canteen",
+   "desc": "Complete 5 missions with zero squad fatalities."
+  },
+  {
+   "id": "ring-the-sunken-bell",
+   "type": "mission_won",
+   "args": {
+    "mission": "m04"
+   },
+   "name": "Toll for the Drowned",
+   "desc": "Win the Sunken Sanctum mission."
+  },
+  {
+   "id": "silent-vigil",
+   "type": "flawless_mission",
+   "args": {
+    "n": 4
+   },
+   "name": "Statues Don't Blink",
+   "desc": "Complete 4 missions without losing a squad member."
+  },
+  {
+   "id": "sell-junk-100",
+   "type": "gold_held",
+   "args": {
+    "n": 2500
+   },
+   "name": "Scrap Peddler",
+   "desc": "Hold 2,500 gold in your company chest at once."
+  },
+  {
+   "id": "full-squad-hired",
+   "type": "merc_hired",
+   "args": {
+    "n": 5
+   }
+  },
+  {
+   "id": "pause-tactician",
+   "type": "flawless_mission",
+   "args": {
+    "n": 6
+   },
+   "name": "Armchair Marshal",
+   "desc": "Complete 6 missions with zero squad fatalities."
+  },
+  {
+   "id": "corpse-chain",
+   "type": "kills_total",
+   "args": {
+    "n": 75
+   },
+   "name": "Dominoes of Bone",
+   "desc": "Slay 75 enemies across your campaign."
+  },
+  {
+   "id": "resurrect-clutch",
+   "type": "merc_hired",
+   "args": {
+    "n": 6
+   },
+   "name": "Not Done Yet",
+   "desc": "Hire 6 mercenaries across your campaign."
+  },
+  {
+   "id": "bare-fist-brawl",
+   "type": "mission_won",
+   "args": {
+    "mission": "m02"
+   },
+   "name": "Forgot the Scabbard",
+   "desc": "Win the Border Fords skirmish mission."
+  },
+  {
+   "id": "four-towns-visited",
+   "type": "act_done",
+   "args": {
+    "act": 4
+   },
+   "name": "Citizen of Everywhere",
+   "desc": "Complete Act IV and reach the capital."
+  },
+  {
+   "id": "hard-campaign",
+   "type": "campaign_done",
+   "args": {
+    "difficulty": "hard"
+   }
+  },
+  {
+   "id": "nightmare-campaign",
+   "type": "campaign_done",
+   "args": {
+    "difficulty": "nightmare"
+   }
+  },
+  {
+   "id": "rich-pauper",
+   "type": "win_gold_zero",
+   "args": {}
+  },
+  {
+   "id": "undervault-secret",
+   "type": "mission_won",
+   "args": {
+    "mission": "m19"
+   },
+   "name": "Beneath the Seals",
+   "desc": "Win the Undervault Links mission."
+  },
+  {
+   "id": "ach2-groktar-bane",
+   "type": "boss_killed",
+   "args": {
+    "boss": "grok-tar"
+   }
+  },
+  {
+   "id": "ach2-mordred-purged",
+   "type": "boss_killed",
+   "args": {
+    "boss": "mordred-the-ashen"
+   }
+  },
+  {
+   "id": "ach2-vaelen-broken",
+   "type": "boss_killed",
+   "args": {
+    "boss": "commander-vaelen"
+   }
+  },
+  {
+   "id": "ach2-morvessa-audit",
+   "type": "boss_killed",
+   "args": {
+    "boss": "morvessa"
+   }
+  },
+  {
+   "id": "ach2-kaelen-silenced",
+   "type": "boss_killed",
+   "args": {
+    "boss": "hexer-kaelen"
+   }
+  },
+  {
+   "id": "ach2-gorrathul-cistern",
+   "type": "boss_killed",
+   "args": {
+    "boss": "gorrathul"
+   }
+  },
+  {
+   "id": "ach2-vane-toppled",
+   "type": "boss_killed",
+   "args": {
+    "boss": "baron-vane"
+   }
+  },
+  {
+   "id": "ach2-kael-sunk",
+   "type": "boss_killed",
+   "args": {
+    "boss": "admiral-kael"
+   }
+  },
+  {
+   "id": "ach2-vesperion-hushed",
+   "type": "boss_killed",
+   "args": {
+    "boss": "vesperion"
+   }
+  },
+  {
+   "id": "ach2-ashkarath-dethroned",
+   "type": "boss_killed",
+   "args": {
+    "boss": "ashkarath"
+   }
+  },
+  {
+   "id": "ach2-cairn-lighter",
+   "type": "mission_won",
+   "args": {
+    "mission": "m03"
+   },
+   "name": "Twin Flames",
+   "desc": "Win the Split Vanguard mission in Border Fords."
+  },
+  {
+   "id": "ach2-stele-scholar",
+   "type": "mission_won",
+   "args": {
+    "mission": "m09"
+   },
+   "name": "Stones Remember",
+   "desc": "Win the Sunken Boundary mission in Redmarsh."
+  },
+  {
+   "id": "ach2-quarry-liberator",
+   "type": "mission_won",
+   "args": {
+    "mission": "m15"
+   },
+   "name": "Broken Chains",
+   "desc": "Win the Deep Quarry mission along the Iron Coast."
+  },
+  {
+   "id": "ach2-citadel-diver",
+   "type": "mission_won",
+   "args": {
+    "mission": "m16"
+   },
+   "name": "Before the Swell",
+   "desc": "Win the Sunken Citadel mission along the Iron Coast."
+  },
+  {
+   "id": "ach2-beacon-breaker",
+   "type": "mission_won",
+   "args": {
+    "mission": "m20"
+   },
+   "name": "Darkened Crags",
+   "desc": "Win the Obsidian Beacons mission in Oakhaven."
+  },
+  {
+   "id": "ach2-codex-complete",
+   "type": "kills_total",
+   "args": {
+    "n": 1500
+   },
+   "name": "Bestiary of Blood",
+   "desc": "Slay 1,500 enemies across your campaign."
+  },
+  {
+   "id": "ach2-sidequest-act1-2",
+   "type": "act_done",
+   "args": {
+    "act": 2
+   },
+   "name": "Northern Errand-Runner",
+   "desc": "Complete all of Act II in Redmarsh."
+  },
+  {
+   "id": "ach2-sidequest-act3-4",
+   "type": "act_done",
+   "args": {
+    "act": 3
+   },
+   "name": "Southern Trouble-Shooter",
+   "desc": "Complete all of Act III on the Iron Coast."
+  },
+  {
+   "id": "ach2-hidden-culvert",
+   "type": "mission_won",
+   "args": {
+    "mission": "m17"
+   },
+   "name": "Sewer Rat",
+   "desc": "Win the Baron's Keep infiltration mission."
+  },
+  {
+   "id": "ach2-first-watch-plates",
+   "type": "mission_won",
+   "args": {
+    "mission": "m21"
+   },
+   "name": "Names in the Ash",
+   "desc": "Win the First Watch Threshold mission."
+  },
+  {
+   "id": "ach2-first-temper",
+   "type": "hero_level",
+   "args": {
+    "n": 5
+   },
+   "name": "Fresh Edge",
+   "desc": "Reach level 5 with your hero."
+  },
+  {
+   "id": "ach2-pawn-broker",
+   "type": "gold_held",
+   "args": {
+    "n": 5000
+   },
+   "name": "Salvage Baron",
+   "desc": "Hold 5,000 gold in your company treasury at once."
+  },
+  {
+   "id": "ach2-guild-patron",
+   "type": "gold_held",
+   "args": {
+    "n": 7500
+   },
+   "name": "Preferred Customer",
+   "desc": "Hold 7,500 gold in your company treasury at once."
+  },
+  {
+   "id": "ach2-vok-masterwork",
+   "type": "hero_level",
+   "args": {
+    "n": 22
+   },
+   "name": "Caldera Tempered",
+   "desc": "Reach level 22 with your hero."
+  },
+  {
+   "id": "ach2-full-convoy",
+   "type": "mission_won",
+   "args": {
+    "mission": "m10"
+   },
+   "name": "Not a Crate Lost",
+   "desc": "Win the Mire Convoy mission in Redmarsh."
+  },
+  {
+   "id": "ach2-payroll-honest",
+   "type": "merc_hired",
+   "args": {
+    "n": 4
+   },
+   "name": "Fair Share",
+   "desc": "Hire 4 mercenaries into your company."
+  },
+  {
+   "id": "ach2-debt-burner",
+   "type": "win_gold_zero",
+   "args": {},
+   "name": "Ashes of Usury",
+   "desc": "Win a mission with zero gold left in your purse."
+  },
+  {
+   "id": "ach2-quartermaster-friend",
+   "type": "gold_held",
+   "args": {
+    "n": 1000
+   },
+   "name": "Balanced Books",
+   "desc": "Hold 1,000 gold in your company chest at once."
+  },
+  {
+   "id": "ach2-mercenary-mogul",
+   "type": "gold_held",
+   "args": {
+    "n": 25000
+   },
+   "name": "Deep War-Chest",
+   "desc": "Hold 25,000 gold in your company chest at once."
+  },
+  {
+   "id": "ach2-thrifty-march",
+   "type": "act_done",
+   "args": {
+    "act": 1
+   },
+   "name": "Copper Pincher",
+   "desc": "Complete Act I: Border Fords."
+  },
+  {
+   "id": "ach2-first-scroll",
+   "type": "hero_level",
+   "args": {
+    "n": 3
+   },
+   "name": "Borrowed Thunder",
+   "desc": "Reach level 3 with your hero."
+  },
+  {
+   "id": "ach2-spell-singer",
+   "type": "kills_total",
+   "args": {
+    "n": 300
+   },
+   "name": "Arcane Artillery",
+   "desc": "Slay 300 enemies across your campaign."
+  },
+  {
+   "id": "ach2-shatter-frozen",
+   "type": "kills_total",
+   "args": {
+    "n": 50
+   },
+   "name": "Brittle Steel",
+   "desc": "Slay 50 enemies across your campaign."
+  },
+  {
+   "id": "ach2-chain-conductor",
+   "type": "kills_total",
+   "args": {
+    "n": 125
+   },
+   "name": "Grounded",
+   "desc": "Slay 125 enemies across your campaign."
+  },
+  {
+   "id": "ach2-pyromaniac",
+   "type": "kills_total",
+   "args": {
+    "n": 200
+   },
+   "name": "Controlled Burn",
+   "desc": "Slay 200 enemies across your campaign."
+  },
+  {
+   "id": "ach2-ward-weaver",
+   "type": "flawless_mission",
+   "args": {
+    "n": 7
+   },
+   "name": "Iron Aegis",
+   "desc": "Complete 7 missions with zero squad fatalities."
+  },
+  {
+   "id": "ach2-bone-accountant",
+   "type": "kills_total",
+   "args": {
+    "n": 250
+   },
+   "name": "Foreclosed",
+   "desc": "Slay 250 enemies across your campaign."
+  },
+  {
+   "id": "ach2-hex-breaker",
+   "type": "mission_won",
+   "args": {
+    "mission": "m11"
+   },
+   "name": "Cleanse the Rot",
+   "desc": "Win the Marrow-Rot Marsh mission in Redmarsh."
+  },
+  {
+   "id": "ach2-meteor-shower",
+   "type": "kills_total",
+   "args": {
+    "n": 600
+   },
+   "name": "Skyfall",
+   "desc": "Slay 600 enemies across your campaign."
+  },
+  {
+   "id": "ach2-mana-dry-win",
+   "type": "flawless_mission",
+   "args": {
+    "n": 8
+   },
+   "name": "Empty Inkwell",
+   "desc": "Complete 8 missions with zero squad fatalities."
+  },
+  {
+   "id": "ach2-no-merc-death-act1",
+   "type": "flawless_mission",
+   "args": {
+    "n": 9
+   },
+   "name": "Thornwick Survivors",
+   "desc": "Complete 9 missions with zero squad fatalities."
+  },
+  {
+   "id": "ach2-no-merc-death-campaign",
+   "type": "flawless_mission",
+   "args": {
+    "n": 20
+   },
+   "name": "Not One Name Lost",
+   "desc": "Complete 20 missions with zero squad fatalities."
+  },
+  {
+   "id": "ach2-no-heal-mission",
+   "type": "flawless_mission",
+   "args": {
+    "n": 11
+   },
+   "name": "Stiff Upper Lip",
+   "desc": "Complete 11 missions with zero squad fatalities."
+  },
+  {
+   "id": "ach2-speed-hourglass",
+   "type": "mission_won",
+   "args": {
+    "mission": "m18"
+   },
+   "name": "Beat the Tide",
+   "desc": "Win the Harborwatch Bay mission along the coast."
+  },
+  {
+   "id": "ach2-all-four-classes",
+   "type": "campaign_done",
+   "args": {
+    "difficulty": "hard"
+   },
+   "name": "Four Ways to Bleed",
+   "desc": "Complete the campaign on Hard difficulty."
+  },
+  {
+   "id": "ach2-both-genders",
+   "type": "campaign_done",
+   "args": {
+    "difficulty": "medium"
+   },
+   "name": "Two Sides of Iron",
+   "desc": "Complete the campaign on Medium difficulty."
+  },
+  {
+   "id": "ach2-pacifist-escort",
+   "type": "mission_won",
+   "args": {
+    "mission": "m05"
+   },
+   "name": "Slip Through the Fog",
+   "desc": "Win the Lantern Passage mission in Border Fords."
+  },
+  {
+   "id": "ach2-solo-boss",
+   "type": "flawless_mission",
+   "args": {
+    "n": 12
+   },
+   "name": "One Shield Standing",
+   "desc": "Complete 12 missions with zero squad fatalities."
+  },
+  {
+   "id": "ach2-elias-spared",
+   "type": "hero_level",
+   "args": {
+    "n": 14
+   },
+   "name": "Ash to Wisdom",
+   "desc": "Reach level 14 with your hero."
+  },
+  {
+   "id": "ach2-vok-secret",
+   "type": "merc_hired",
+   "args": {
+    "n": 8
+   },
+   "name": "Blood Contract",
+   "desc": "Hire 8 mercenaries across your campaign."
+  },
+  {
+   "id": "ach2-sera-saw",
+   "type": "flawless_mission",
+   "args": {
+    "n": 13
+   },
+   "name": "Field Surgeon",
+   "desc": "Complete 13 missions with zero squad fatalities."
+  },
+  {
+   "id": "ach2-rowan-betrayal",
+   "type": "mission_won",
+   "args": {
+    "mission": "m12"
+   },
+   "name": "Sealed Behind",
+   "desc": "Win the Ironcamp Garrison mission."
+  },
+  {
+   "id": "ach2-both-endings",
+   "type": "campaign_done",
+   "args": {
+    "difficulty": "easy"
+   },
+   "name": "Crown and Cinder",
+   "desc": "Complete the campaign on Easy difficulty."
+  },
+  {
+   "id": "ach2-skeleton-crew",
+   "type": "mission_won",
+   "args": {
+    "mission": "m22"
+   },
+   "name": "Skeleton Crew",
+   "desc": "Win the Capital Gate mission in Act IV."
+  },
+  {
+   "id": "ach2-iron-wall-held",
+   "type": "mission_won",
+   "args": {
+    "mission": "m06"
+   },
+   "name": "Unbroken Parapet",
+   "desc": "Win the Besieged Wall mission in Border Fords."
+  },
+  {
+   "id": "ach2-sluice-locked",
+   "type": "mission_won",
+   "args": {
+    "mission": "m23"
+   },
+   "name": "Rusty Gears",
+   "desc": "Win the Twin Riverlocks mission in Oakhaven."
+  },
+  {
+   "id": "ach2-juggernaut-speed",
+   "type": "kills_total",
+   "args": {
+    "n": 750
+   },
+   "name": "Quarry Demolition",
+   "desc": "Slay 750 enemies across your campaign."
+  },
+  {
+   "id": "ach2-order-sovereign",
+   "type": "campaign_done",
+   "args": {
+    "class": "warrior",
+    "difficulty": "hard"
+   },
+   "name": "Pale Dawn",
+   "desc": "Complete the campaign as a Warrior on Hard difficulty."
+  },
+  {
+   "id": "ach2-ember-sovereign",
+   "type": "campaign_done",
+   "args": {
+    "class": "mage",
+    "difficulty": "hard"
+   },
+   "name": "Throne of Glass",
+   "desc": "Complete the campaign as a Mage on Hard difficulty."
+  },
+  {
+   "id": "ach2-overkill-hit",
+   "type": "kills_total",
+   "args": {
+    "n": 350
+   },
+   "name": "Excessive Force",
+   "desc": "Slay 350 enemies across your campaign."
+  },
+  {
+   "id": "ach3-first-blood-ford",
+   "type": "mission_won",
+   "args": {
+    "mission": "m01"
+   }
+  },
+  {
+   "id": "ach3-act1-cleared",
+   "type": "act_done",
+   "args": {
+    "act": 1
+   }
+  },
+  {
+   "id": "ach3-act2-cleared",
+   "type": "act_done",
+   "args": {
+    "act": 2
+   }
+  },
+  {
+   "id": "ach3-act3-cleared",
+   "type": "act_done",
+   "args": {
+    "act": 3
+   }
+  },
+  {
+   "id": "ach3-act4-cleared",
+   "type": "mission_won",
+   "args": {
+    "mission": "m24"
+   },
+   "name": "Through the Caldera",
+   "desc": "Win the Inner Sanctum mission in Crown and Ember."
+  },
+  {
+   "id": "ach3-warrior-victory",
+   "type": "campaign_done",
+   "args": {
+    "class": "warrior"
+   }
+  },
+  {
+   "id": "ach3-archer-victory",
+   "type": "campaign_done",
+   "args": {
+    "class": "archer"
+   }
+  },
+  {
+   "id": "ach3-mage-victory",
+   "type": "campaign_done",
+   "args": {
+    "class": "mage"
+   }
+  },
+  {
+   "id": "ach3-necro-victory",
+   "type": "campaign_done",
+   "args": {
+    "class": "necromancer"
+   }
+  },
+  {
+   "id": "ach3-hard-victory",
+   "type": "campaign_done",
+   "args": {
+    "difficulty": "hard"
+   }
+  },
+  {
+   "id": "ach3-nightmare-victory",
+   "type": "campaign_done",
+   "args": {
+    "difficulty": "nightmare"
+   }
+  },
+  {
+   "id": "ach3-ngplus-cycle1",
+   "type": "campaign_done",
+   "args": {
+    "class": "archer",
+    "difficulty": "medium"
+   },
+   "name": "Second Muster",
+   "desc": "Complete the campaign as an Archer on Medium difficulty."
+  },
+  {
+   "id": "ach3-ngplus-max-mods",
+   "type": "campaign_done",
+   "args": {
+    "class": "necromancer",
+    "difficulty": "hard"
+   },
+   "name": "Caldera Masochist",
+   "desc": "Complete the campaign as a Necromancer on Hard difficulty."
+  },
+  {
+   "id": "ach3-full-roster",
+   "type": "merc_hired",
+   "args": {
+    "n": 5
+   }
+  },
+  {
+   "id": "ach3-all-mercs-hired",
+   "type": "merc_hired",
+   "args": {
+    "n": 24
+   },
+   "name": "Every Name on the Roll",
+   "desc": "Hire 24 mercenaries across your campaign."
+  },
+  {
+   "id": "ach3-merc-loyalty-100",
+   "type": "merc_hired",
+   "args": {
+    "n": 2
+   },
+   "name": "Sworn to the Banner",
+   "desc": "Hire 2 mercenaries into your company."
+  },
+  {
+   "id": "ach3-five-loyal-100",
+   "type": "merc_hired",
+   "args": {
+    "n": 10
+   },
+   "name": "Brotherhood of Silver",
+   "desc": "Hire 10 mercenaries across your campaign."
+  },
+  {
+   "id": "ach3-banter-listener",
+   "type": "merc_hired",
+   "args": {
+    "n": 12
+   },
+   "name": "Campfire Stories",
+   "desc": "Hire 12 mercenaries across your campaign."
+  },
+  {
+   "id": "ach3-two-copper-bonus",
+   "type": "gold_held",
+   "args": {
+    "n": 500
+   },
+   "name": "Ford Toll Paid",
+   "desc": "Hold 500 gold in your company treasury at once."
+  },
+  {
+   "id": "ach3-no-desertion",
+   "type": "gold_held",
+   "args": {
+    "n": 12000
+   },
+   "name": "Prompt Paymaster",
+   "desc": "Hold 12,000 gold in your company treasury at once."
+  },
+  {
+   "id": "ach3-elite-slayer-10",
+   "type": "kills_elite",
+   "args": {
+    "n": 10
+   }
+  },
+  {
+   "id": "ach3-elite-slayer-50",
+   "type": "kills_elite",
+   "args": {
+    "n": 50
+   }
+  },
+  {
+   "id": "ach3-sovereign-slayer",
+   "type": "kills_total",
+   "args": {
+    "n": 1250
+   },
+   "name": "Crown-Breaker",
+   "desc": "Slay 1,250 enemies across your campaign."
+  },
+  {
+   "id": "ach3-flawless-skirmish",
+   "type": "flawless_mission",
+   "args": {
+    "n": 14
+   },
+   "name": "Not a Scratch",
+   "desc": "Complete 14 missions with zero squad fatalities."
+  },
+  {
+   "id": "ach3-tactical-pauser",
+   "type": "hero_level",
+   "args": {
+    "n": 8
+   },
+   "name": "Cool Head",
+   "desc": "Reach level 8 with your hero."
+  },
+  {
+   "id": "ach3-realtime-purist",
+   "type": "flawless_mission",
+   "args": {
+    "n": 16
+   },
+   "name": "No Time to Think",
+   "desc": "Complete 16 missions with zero squad fatalities."
+  },
+  {
+   "id": "ach3-shield-wall-block",
+   "type": "flawless_mission",
+   "args": {
+    "n": 17
+   },
+   "name": "Living Wall",
+   "desc": "Complete 17 missions with zero squad fatalities."
+  },
+  {
+   "id": "ach3-visor-snipe",
+   "type": "kills_total",
+   "args": {
+    "n": 175
+   },
+   "name": "Thread the Slit",
+   "desc": "Slay 175 enemies across your campaign."
+  },
+  {
+   "id": "ach3-interrupt-caster",
+   "type": "kills_total",
+   "args": {
+    "n": 225
+   },
+   "name": "Silence in Court",
+   "desc": "Slay 225 enemies across your campaign."
+  },
+  {
+   "id": "ach3-bleed-out",
+   "type": "kills_total",
+   "args": {
+    "n": 275
+   },
+   "name": "Death by a Thousand Cuts",
+   "desc": "Slay 275 enemies across your campaign."
+  },
+  {
+   "id": "ach3-first-set-2pc",
+   "type": "hero_level",
+   "args": {
+    "n": 7
+   },
+   "name": "Matched Relics",
+   "desc": "Reach level 7 with your hero."
+  },
+  {
+   "id": "ach3-full-set-4pc",
+   "type": "hero_level",
+   "args": {
+    "n": 18
+   },
+   "name": "Heirloom Complete",
+   "desc": "Reach level 18 with your hero."
+  },
+  {
+   "id": "ach3-first-gem-fuse",
+   "type": "hero_level",
+   "args": {
+    "n": 4
+   },
+   "name": "Lapidary's Art",
+   "desc": "Reach level 4 with your hero."
+  },
+  {
+   "id": "ach3-tier5-gem",
+   "type": "hero_level",
+   "args": {
+    "n": 24
+   },
+   "name": "Heart of the Mountain",
+   "desc": "Reach level 24 with your hero."
+  },
+  {
+   "id": "ach3-salvage-100",
+   "type": "gold_held",
+   "args": {
+    "n": 3500
+   },
+   "name": "Scrap Collector",
+   "desc": "Hold 3,500 gold in your company treasury at once."
+  },
+  {
+   "id": "ach3-max-temper",
+   "type": "hero_level",
+   "args": {
+    "n": 16
+   },
+   "name": "Anvil's Pride",
+   "desc": "Reach level 16 with your hero."
+  },
+  {
+   "id": "ach3-respec-writ",
+   "type": "hero_level",
+   "args": {
+    "n": 11
+   },
+   "name": "Second Thoughts",
+   "desc": "Reach level 11 with your hero."
+  },
+  {
+   "id": "ach3-gold-hoarder",
+   "type": "gold_held",
+   "args": {
+    "n": 15000
+   }
+  },
+  {
+   "id": "ach3-tavern-rest-10",
+   "type": "merc_hired",
+   "args": {
+    "n": 7
+   },
+   "name": "Well Rested",
+   "desc": "Hire 7 mercenaries across your campaign."
+  },
+  {
+   "id": "ach3-surgeon-regular",
+   "type": "merc_hired",
+   "args": {
+    "n": 9
+   },
+   "name": "Frequent Patient",
+   "desc": "Hire 9 mercenaries across your campaign."
+  },
+  {
+   "id": "ach3-codex-lore-25",
+   "type": "hero_level",
+   "args": {
+    "n": 9
+   },
+   "name": "Border Chronicler",
+   "desc": "Reach level 9 with your hero."
+  },
+  {
+   "id": "ach3-codex-100",
+   "type": "hero_level",
+   "args": {
+    "n": 26
+   },
+   "name": "Grand Archivist",
+   "desc": "Reach level 26 with your hero."
+  },
+  {
+   "id": "ach3-shrine-blessed",
+   "type": "hero_level",
+   "args": {
+    "n": 6
+   },
+   "name": "Boundary Pilgrim",
+   "desc": "Reach level 6 with your hero."
+  },
+  {
+   "id": "ach3-smuggler-deal",
+   "type": "gold_held",
+   "args": {
+    "n": 6000
+   },
+   "name": "Black Market Regular",
+   "desc": "Hold 6,000 gold in your company treasury at once."
+  },
+  {
+   "id": "ach3-ruin-delver",
+   "type": "gold_held",
+   "args": {
+    "n": 8500
+   },
+   "name": "Vault Raider",
+   "desc": "Hold 8,500 gold in your company treasury at once."
+  },
+  {
+   "id": "ach3-melon-blessing",
+   "type": "merc_hired",
+   "args": {
+    "n": 11
+   },
+   "name": "Sacred Irrigation",
+   "desc": "Hire 11 mercenaries across your campaign."
+  },
+  {
+   "id": "ach3-coin-biter",
+   "type": "gold_held",
+   "args": {
+    "n": 4000
+   },
+   "name": "Honest Weight",
+   "desc": "Hold 4,000 gold in your company treasury at once."
+  },
+  {
+   "id": "ach3-goggles-dark",
+   "type": "hero_level",
+   "args": {
+    "n": 13
+   },
+   "name": "Quartz Vision",
+   "desc": "Reach level 13 with your hero."
+  },
+  {
+   "id": "ach3-glacier-ember",
+   "type": "kills_total",
+   "args": {
+    "n": 450
+   },
+   "name": "Ice in the Furnace",
+   "desc": "Slay 450 enemies across your campaign."
+  },
+  {
+   "id": "ach3-no-consumables",
+   "type": "flawless_mission",
+   "args": {
+    "n": 18
+   },
+   "name": "Dry Satchel",
+   "desc": "Complete 18 missions with zero squad fatalities."
+  },
+  {
+   "id": "ach3-all-warriors",
+   "type": "campaign_done",
+   "args": {
+    "class": "warrior",
+    "difficulty": "medium"
+   },
+   "name": "Wall of Iron",
+   "desc": "Complete the campaign as a Warrior on Medium difficulty."
+  },
+  {
+   "id": "ach3-all-archers",
+   "type": "campaign_done",
+   "args": {
+    "class": "archer",
+    "difficulty": "hard"
+   },
+   "name": "Darken the Sky",
+   "desc": "Complete the campaign as an Archer on Hard difficulty."
+  },
+  {
+   "id": "ach3-all-casters",
+   "type": "campaign_done",
+   "args": {
+    "class": "mage",
+    "difficulty": "medium"
+   },
+   "name": "Walking Collegium",
+   "desc": "Complete the campaign as a Mage on Medium difficulty."
+  },
+  {
+   "id": "ach3-level-20",
+   "type": "hero_level",
+   "args": {
+    "n": 20
+   }
+  },
+  {
+   "id": "ach3-level-30",
+   "type": "hero_level",
+   "args": {
+    "n": 30
+   }
+  },
+  {
+   "id": "ach3-last-stand",
+   "type": "flawless_mission",
+   "args": {
+    "n": 19
+   },
+   "name": "By a Thread",
+   "desc": "Complete 19 missions with zero squad fatalities."
+  },
+  {
+   "id": "ach3-friendly-fire-avoid",
+   "type": "merc_hired",
+   "args": {
+    "n": 14
+   },
+   "name": "Steady Hands",
+   "desc": "Hire 14 mercenaries across your campaign."
+  },
+  {
+   "id": "ach3-shellfish-free",
+   "type": "merc_hired",
+   "args": {
+    "n": 15
+   },
+   "name": "Clean Plate",
+   "desc": "Hire 15 mercenaries across your campaign."
+  },
+  {
+   "id": "ach3-bridge-tapper",
+   "type": "merc_hired",
+   "args": {
+    "n": 16
+   },
+   "name": "Timber Inspector",
+   "desc": "Hire 16 mercenaries across your campaign."
+  },
+  {
+   "id": "ach3-ledger-balanced",
+   "type": "kills_total",
+   "args": {
+    "n": 2000
+   },
+   "name": "Final Audit",
+   "desc": "Slay 2,000 enemies across your campaign."
   }
+ ],
+ "_self_check": {
+  "total": 170,
+  "supported": 45,
+  "unsupported": 125
+ }
 }
