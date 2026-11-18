@@ -1,4 +1,4 @@
-import { SPELLS, Tk } from './sim/spelldata';
+import { KNOWN_HI, SPELLS, Tk, maskHas } from './sim/spelldata';
 import { teacherOf } from './sim/town';
 import { getItemDef } from './sim/items';
 import { scribeFee, spellPrereqMet, spellSynergy, SPELL_PREREQ, spellRankOf, MAX_SPELL_RANK, SPELL_RANK_POW } from './sim/hero';
@@ -688,7 +688,7 @@ export class SpellbookUi {
   private isSpellKnown(sid: number): boolean {
     const sim = this.opt.sim();
     const heroId = sim.hero?.id ?? 0;
-    return ((sim.cb.known[heroId] >>> sid) & 1) === 1;
+    return maskHas(sim.cb.known[heroId], sim.cb.knownHi, heroId * KNOWN_HI, sid);
   }
 
   private getHeroMind(): number {

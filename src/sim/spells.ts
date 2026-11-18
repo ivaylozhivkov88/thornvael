@@ -3,7 +3,7 @@ import { heroUse, spellRankOf, spellSynergy, SPELL_RANK_POW } from './hero';
 import { FP } from './path';
 import type { Sim } from './sim';
 import { rulesOf } from './difficulty';
-import { CORPSE_TICKS, CURSES, NST, POISON_STACKS, SPELLS, St, Tk } from './spelldata';
+import { CORPSE_TICKS, CURSES, KNOWN_HI, NST, POISON_STACKS, SPELLS, St, Tk, maskHas } from './spelldata';
 
 /** Spell effects, statuses and autocast. Runs inside the sim, so everything here is integer and deterministic. */
 
@@ -11,7 +11,7 @@ const bit = (s: number): number => 1 << s;
 const TICKS = 25;
 
 export function knows(sim: Sim, i: number, sid: number): boolean {
-  return sid >= 0 && sid < SPELLS.length && ((sim.cb.known[i] >>> sid) & 1) === 1;
+  return sid >= 0 && sid < SPELLS.length && maskHas(sim.cb.known[i], sim.cb.knownHi, i * KNOWN_HI, sid);
 }
 
 export function isCorpse(sim: Sim, t: number): boolean {

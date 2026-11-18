@@ -20,6 +20,7 @@ export interface SpellDef {
   radius: number; // tiles, area and multi
   count: number; // targets of a multi spell
   heal: boolean;
+  cls: number; // hero classes that may learn it: 0 any, else bit 1<<cls (1 warrior, 2 mage, 4 archer, 8 necromancer)
   st: number; // status applied, or -1
   dur: number; // seconds
   val: number; // shield points, poison stacks added, burn damage per second, mana restored
@@ -33,7 +34,14 @@ export function setSpells(defs: readonly SpellDef[]): void {
   list.push(...defs);
 }
 
-export const MAX_SPELLS = 32; // known spells are one bit each in a Uint32
+export const MAX_SPELLS = 96; // known spells are one bit each: ids 0-31 in `known`, 32-95 in two more words (`knownHi`)
+export const KNOWN_HI = 2;
+/** True when spell `sid` is set in the low word `lo` or in the high words `hi` starting at `o`. */
+export function maskHas(lo: number, hi: ArrayLike<number> | undefined, o: number, sid: number): boolean {
+  if (sid < 0) return false;
+  if (sid < 32) return ((lo >>> sid) & 1) === 1;
+  return hi !== undefined && sid < 32 + 32 * KNOWN_HI && ((hi[o + ((sid - 32) >>> 5)] >>> (sid & 31)) & 1) === 1;
+}
 export const ALL_SPELLS = 0xffffffff;
 /** Spells a Mage/Shaman knows: Fire Bolt, Fireball, Frost Bolt, Healing, Stone Skin, Poison Cloud, Weaken, Resurrect. */
 export const MAGE_SPELLS =

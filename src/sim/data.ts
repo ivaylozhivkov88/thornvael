@@ -99,6 +99,7 @@ export function parseSpells(file: unknown): SpellDef[] {
     radius: num(e, 'radius'),
     count: num(e, 'count', 1),
     heal: e.heal === true,
+    cls: num(e, 'cls'),
     st: e.status === undefined ? -1 : word(e, 'status', STATUSES),
     dur: num(e, 'dur'),
     val: num(e, 'val'),

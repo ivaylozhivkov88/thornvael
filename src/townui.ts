@@ -1,7 +1,7 @@
 import { DEFS } from './sim/combat';
 import { townBark } from './missioncontent';
 import { mercPrice } from './sim/difficulty';
-import { INV_MAX, SKILL_MAX, SKILL_NAMES, WHY_TEXT, Why, blocker } from './sim/hero';
+import { INV_MAX, SKILL_MAX, SKILL_NAMES, WHY_TEXT, Why, blocker, heroKnowsSpell } from './sim/hero';
 import { ITEMS, getItemDef, itemText, Ik, Slot } from './sim/items';
 import { formatItemTooltip, renderItemTooltipDom } from './heroui';
 import { isSetItem } from './sim/sets';
@@ -850,7 +850,7 @@ export class TownUi {
     this.root.append(el('h3', '', S.town.spells));
     const sl = el('div', 'items');
     for (const s of def.spells ?? []) {
-      const known = ((h.known >>> s) & 1) === 1;
+      const known = heroKnowsSpell(h, s);
       const b = button(SPELLS[s].name, () => {
         const g0 = sim.cb.gold[0];
         this.cmd('learn', s);

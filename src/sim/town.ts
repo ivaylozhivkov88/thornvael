@@ -1,6 +1,6 @@
 import { isBlockedAt } from '../map';
 import { UNIQUE_ARTIFACTS } from './affixes';
-import { Did, INV_MAX, SKILL_MAX, Why, addItem, blocker, recalc, takeItem } from './hero';
+import { Did, INV_MAX, SKILL_MAX, Why, addItem, blocker, heroKnowsSpell, learnSpell, recalc, spellForHero, takeItem } from './hero';
 import { mercPrice } from './difficulty';
 import { getItemDef, ITEMS, Ik, itemId, transmuteItems, type ItemDef } from './items';
 import { FP } from './path';
@@ -460,13 +460,14 @@ export function townCommand(sim: Sim, cmd: TownCommand): void {
     }
     case 'learn': {
       if (!(rt.def.spells ?? []).includes(v)) return;
-      if ((h.known >>> v) & 1) return refuse(sim, Why.Known);
+      if (heroKnowsSpell(h, v)) return refuse(sim, Why.Known);
+      if (!spellForHero(h, v)) return refuse(sim, Why.Class);
       const t = teacherOf(v);
       if (t >= 0 && blocker(h, t) === Why.Need) return refuse(sim, Why.Need);
       const p = spellPrice(v);
       if (p > gold[0]) return refuse(sim, Why.Gold);
       gold[0] -= p;
-      h.known |= 1 << v;
+      learnSpell(h, v);
       recalc(sim);
       emit(sim, Tfx.Trade, p, 2);
       if (t >= 0) emit(sim, 14, t, Did.Learn);

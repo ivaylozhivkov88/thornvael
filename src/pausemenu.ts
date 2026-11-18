@@ -23,7 +23,7 @@ export interface PauseMenuCtx {
   isWeatherOn?: () => boolean;
   setAutoRecenter: (on: boolean) => void;
   getAutoRecenter: () => boolean;
-  heroKnownSpells: () => number;
+  heroKnownSpells: () => (sid: number) => boolean;
   openSpellbook: () => void;
   openInventory: () => void;
   openStats: () => void;
@@ -639,7 +639,7 @@ export class PauseMenu {
       if (!school) return;
       if (this.sphereFilter !== 'all' && school.key !== this.sphereFilter) return;
 
-      const isKnown = ((knownMask >>> sid) & 1) === 1;
+      const isKnown = knownMask(sid);
       const isApex = sid >= 24;
 
       const card = document.createElement('div');

@@ -5,7 +5,7 @@ import { getDifficultyCalibration } from './balance';
 import { ATTR_NAMES, CLS_MAGE, CLS_WARRIOR, Cls, ITEMS, Ik, LOOT_RULES, PART_COUNT, SIGIL_NAMES, SLOT_COUNT, Slot, WRIT_NAME, getItemDef, getUnidentifiedName, itemId, rollLoot, type ItemDef } from './items';
 import { calculateActiveSetBonuses, ALL_SET_ITEMS } from './sets';
 import { UNIQUE_ARTIFACTS, rollMagicItem, rollRareItem } from './affixes';
-import { St } from './spelldata';
+import { KNOWN_HI, MAX_SPELLS, SPELLS, St, maskHas } from './spelldata';
 import { addStatus, clearAllStatuses } from './spells';
 import { FP } from './path';
 import type { Sim } from './sim';
@@ -41,7 +41,8 @@ export interface HeroState {
   use: number[]; // uses towards the next level
   inv: Stack[];
   eq: number[]; // item id per slot, -1 when empty
-  known: number; // spells learned (bit mask)
+  known: number; // spells 0-31 learned (bit mask)
+  knownHi?: number[]; // KNOWN_HI words for spell ids 32-95; old saves lack it
   hits: number[]; // blows taken on head, torso, arms, legs since the last upkeep; old saves lack it
   mf?: number; // magic find %
   level?: number;
@@ -65,6 +66,26 @@ export interface HeroState {
 export const MAX_SPELL_RANK = 10;
 /** Extra spell power percent per rank. */
 export const SPELL_RANK_POW = 8;
+/** True when the hero has learned spell `sid`. */
+export function heroKnowsSpell(h: HeroState, sid: number): boolean {
+  return maskHas(h.known, h.knownHi, 0, sid);
+}
+
+/** Learn spell `sid` (any id below MAX_SPELLS). */
+export function learnSpell(h: HeroState, sid: number): void {
+  if (sid < 32) h.known |= 1 << sid;
+  else {
+    h.knownHi = h.knownHi ?? Array<number>(KNOWN_HI).fill(0);
+    h.knownHi[(sid - 32) >>> 5] = (h.knownHi[(sid - 32) >>> 5] | (1 << (sid & 31))) >>> 0;
+  }
+}
+
+/** Class mask of a spell: 0 for any hero, else bit 1<<cls. Hero Cls 0 warrior, 1 mage. */
+export function spellForHero(h: HeroState, sid: number): boolean {
+  const m = SPELLS[sid]?.cls ?? 0;
+  return m === 0 || (m & (1 << h.cls)) !== 0;
+}
+
 export function spellRankOf(h: HeroState | null, sid: number): number {
   return h?.spellRank?.[sid] ?? 0;
 }
@@ -322,6 +343,7 @@ export function recalc(sim: Sim): void {
   cb.manaMax[i] = d.manaMax;
   cb.mana[i] = Math.max(0, Math.min(d.manaMax, cb.mana[i] + Math.max(0, dm)));
   cb.known[i] = h.known;
+  for (let w = 0; w < KNOWN_HI; w++) cb.knownHi[i * KNOWN_HI + w] = h.knownHi?.[w] ?? 0;
 }
 
 /** The hero a new game starts with. Also used by the creation sheet to preview the choice. */
@@ -423,7 +445,8 @@ export function blocker(h: HeroState, item: number): number {
   if (d.unidentified) return Why.Unidentified;
   if (d.kind === Ik.Gear && (d.cls & (h.cls === Cls.Mage ? CLS_MAGE : CLS_WARRIOR)) === 0) return Why.Class;
   if (d.needv > 0 && totals(h)[d.need] < d.needv) return Why.Need;
-  if (d.kind === Ik.Learn && ((h.known >>> d.spell) & 1) === 1) return Why.Known;
+  if (d.kind === Ik.Learn && heroKnowsSpell(h, d.spell)) return Why.Known;
+  if (d.kind === Ik.Learn && !spellForHero(h, d.spell)) return Why.Class;
   return 0;
 }
 
@@ -488,7 +511,7 @@ function useItem(sim: Sim, item: number): void {
     const fee = scribeFee(d.tier);
     if (cb.gold[0] < fee) return refuse(sim, Why.Gold);
     cb.gold[0] -= fee;
-    h.known |= 1 << d.spell;
+    learnSpell(h, d.spell);
     recalc(sim);
   }
   takeItem(h, item);
@@ -893,8 +916,8 @@ export function heroCommand(sim: Sim, cmd: HeroCommand): void {
     }
     case 'rank': {
       const sid = cmd.spell;
-      if (Number.isInteger(sid) && sid >= 0 && sid < 32 && ((h.known >>> sid) & 1) === 1 && (h.skillPoints ?? 0) > 0 && spellRankOf(h, sid) < MAX_SPELL_RANK && spellPrereqMet(h, sid)) {
-        h.spellRank = h.spellRank ?? Array<number>(32).fill(0);
+      if (Number.isInteger(sid) && sid >= 0 && sid < MAX_SPELLS && heroKnowsSpell(h, sid) && (h.skillPoints ?? 0) > 0 && spellRankOf(h, sid) < MAX_SPELL_RANK && spellPrereqMet(h, sid)) {
+        h.spellRank = h.spellRank ?? Array<number>(MAX_SPELLS).fill(0);
         h.spellRank[sid]++;
         h.skillPoints = (h.skillPoints ?? 0) - 1;
         sim.cb.emit(6, sim.x[h.id], sim.y[h.id], 10 + sid, h.spellRank[sid]);
@@ -1299,6 +1322,7 @@ export function cloneHero(h: HeroState | null): HeroState | null {
     skillPoints: h.skillPoints ?? 0,
     skillCd: h.skillCd ? { ...h.skillCd } : {},
     ...(h.spellRank ? { spellRank: h.spellRank.slice() } : {}),
+    ...(h.knownHi ? { knownHi: h.knownHi.slice() } : {}),
   };
 }
 
@@ -1313,6 +1337,7 @@ export function hashHero(h: HeroState | null, mix: (v: number) => void): void {
     mix(s.n);
   }
   mix(h.known);
+  if (h.knownHi) h.knownHi.forEach((w, k) => { if (w) mix(w + k * 7919); }); // zero keeps older hashes unchanged
   if (h.hits.some((v) => v > 0)) for (const v of h.hits) mix(v); // zero keeps older hashes unchanged
   if (h.mf !== undefined && h.mf > 0) mix(h.mf);
   if ((h.level ?? 1) > 1) mix(h.level!);

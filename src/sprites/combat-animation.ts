@@ -1,5 +1,5 @@
 import type { Sim } from '../sim/sim';
-import { SPELLS } from '../sim/spelldata';
+import { KNOWN_HI, SPELLS, maskHas } from '../sim/spelldata';
 
 export type Clip = 'stand' | 'walk' | 'attack' | 'cast' | 'hurt' | 'die';
 
@@ -88,7 +88,7 @@ export class CombatAnimation {
       // Without fresh confirming Fx, any known spell with this cooldown remains
       // plausible. In particular Mage ordinary attacks collide with Fireball.
       for (let sid = 0; sid < SPELLS.length; sid++) {
-        if ((cb.known[i] & (1 << sid)) && cb.cd[i] === SPELLS[sid].cd) {
+        if (maskHas(cb.known[i], cb.knownHi, i * KNOWN_HI, sid) && cb.cd[i] === SPELLS[sid].cd) {
           this.edge[i] = 3;
           break;
         }
@@ -102,7 +102,7 @@ export class CombatAnimation {
       // Do NOT spatially filter before counting: a script teleport followed by
       // separation can make the real source match neither stored position.
       for (let i = 0; i < sim.count; i++) {
-        if (!this.edge[i] || !(cb.known[i] & (1 << fx.v)) || cb.cd[i] !== SPELLS[fx.v].cd) continue;
+        if (!this.edge[i] || !maskHas(cb.known[i], cb.knownHi, i * KNOWN_HI, fx.v) || cb.cd[i] !== SPELLS[fx.v].cd) continue;
         candidate = i;
         count++;
       }

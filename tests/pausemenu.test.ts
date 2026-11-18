@@ -167,7 +167,7 @@ describe('Gothic In-Game Pause Menu & Game Codex (#pause-menu)', () => {
       getQuality: vi.fn(() => quality),
       setAutoRecenter: vi.fn((on: boolean) => { autoRecenter = on; }),
       getAutoRecenter: vi.fn(() => autoRecenter),
-      heroKnownSpells: vi.fn(() => 0b10011), // knows spell 0 (Fire Bolt), 1 (Fireball), 4 (Frost Bolt)
+      heroKnownSpells: vi.fn(() => (sid: number) => ((0b10011 >>> sid) & 1) === 1), // knows spell 0 (Fire Bolt), 1 (Fireball), 4 (Frost Bolt)
       openSpellbook: vi.fn(),
       openInventory: vi.fn(),
       openStats: vi.fn(),

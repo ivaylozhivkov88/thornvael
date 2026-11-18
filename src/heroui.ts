@@ -1,6 +1,6 @@
 import { getItemFlavor } from './missioncontent';
 import { DEFS, Kind, M, MODN } from './sim/combat';
-import { DIFF_NAMES, INV_MAX, SKILL_NAMES, SKILL_TIP, SKILL_MAX, WHY_TEXT, blocker, derive, equipmentStamp, startState, totals, type EquipmentAction, type HeroState } from './sim/hero';
+import { DIFF_NAMES, INV_MAX, SKILL_NAMES, SKILL_TIP, SKILL_MAX, WHY_TEXT, blocker, derive, equipmentStamp, heroKnowsSpell, startState, totals, type EquipmentAction, type HeroState } from './sim/hero';
 import { equipmentAction, equipmentLayers, equipmentPreview, skillProgress, type EquipmentSource as Sel } from './hero-presentation';
 import { ATTR_NAMES, CLS_BOTH, CLS_MAGE, CLS_WARRIOR, Cls, ITEMS, Ik, ItemDef, PART_NAMES, SLOT_COUNT, SLOT_NAMES, Slot, getItemDef, itemText } from './sim/items';
 import { findSetByItemName, isSetItem, type SetBonus } from './sim/sets';
@@ -1531,7 +1531,7 @@ export class HeroUi {
       group(S.hero.diff, S.hero.diffs, diff, S.hero.diffTips, (n) => (diff = n));
       const st = startState(0, cls, female, diff);
       const d = derive(st);
-      const spells = SPELLS.filter((_, sid) => ((st.known >>> sid) & 1) === 1).map((s) => s.name).join(', ');
+      const spells = SPELLS.filter((_, sid) => heroKnowsSpell(st, sid)).map((s) => s.name).join(', ');
       right.append(el('h3', '', S.hero.attributes));
       const lines = el('div', 'lines');
       for (let k = 0; k < 4; k++) lines.append(line(S.hero.attrs[k], String(d.attr[k]), S.hero.attrTips[k]));

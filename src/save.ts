@@ -72,7 +72,7 @@ export function campaignSnapshot(raw: unknown): CampaignRecord {
       || !Array.isArray(co.mercs) || !co.mercs.every((m) => m && uint(m.kind) && uint(m.hpPct) && m.hpPct >= 1 && m.hpPct <= 100)
       || !uint(h.id) || ![0, 1].includes(h.cls) || typeof h.female !== 'boolean' || ![0, 1, 2].includes(h.diff)
       || !integers(h.attr) || h.attr.length !== 4 || !integers(h.skill) || h.skill.length !== 3
-      || !integers(h.use) || h.use.length !== 3 || !integers(h.eq) || h.eq.length !== 8 || !uint(h.known)
+      || !integers(h.use) || h.use.length !== 3 || !integers(h.eq) || h.eq.length !== 8 || !uint(h.known) || (h.knownHi !== undefined && !(Array.isArray(h.knownHi) && h.knownHi.length === 2 && h.knownHi.every(uint)))
       || !Array.isArray(h.inv) || !h.inv.every((s) => s && uint(s.item) && uint(s.n) && s.n > 0)
       || (h.hits !== undefined && (!integers(h.hits) || h.hits.length !== 4))
       || (co.slots !== undefined && !integers(co.slots)) || (co.upkeep !== undefined && !uint(co.upkeep))) return bad();

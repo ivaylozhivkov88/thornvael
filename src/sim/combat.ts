@@ -4,7 +4,7 @@ import type { Sim } from './sim';
 import { monsterFamilyById, monsterPaletteByTier } from './data';
 import { rulesOf } from './difficulty';
 import { calculateCalibratedResist, getDifficultyCalibration } from './balance';
-import { ALL_SPELLS, MAGE_SPELLS, NST, SPELLS, St, Tk } from './spelldata';
+import { ALL_SPELLS, KNOWN_HI, MAGE_SPELLS, NST, SPELLS, St, Tk } from './spelldata';
 import { addStatus, autoCast, castSpell, clearAllStatuses, knows, spellHit, statusTick, validTarget } from './spells';
 import { addHeroXp, dropLoot, heroTick, heroUse, pickBag, respawnHero } from './hero';
 import { PART_COUNT, PART_DMG, PART_WEIGHT, Slot, getItemDef } from './items';
@@ -118,6 +118,7 @@ export interface CombatSnap {
   auto: Uint8Array;
   pPow: Int16Array;
   known: Uint32Array;
+  knownHi?: Uint32Array; // absent in saves made before spell ids passed 31
   manaMax: Int16Array;
   hpMax: Int16Array;
   mod: Int16Array;
@@ -135,7 +136,8 @@ export class CombatState {
   hpMax: Int16Array;
   hp: Int16Array;
   manaMax: Int16Array;
-  known: Uint32Array; // spell ids known, one bit each
+  known: Uint32Array; // spell ids 0-31 known, one bit each
+  knownHi: Uint32Array; // ids 32-95, KNOWN_HI words per unit
   mod: Int16Array; // stat bonuses, see M
   pPow = new Int16Array(MAXP).fill(100); // spell power percent carried by a spell projectile
   bX = new Int32Array(MAXB); // item bags: position and item id + 1 (0 = free slot)
@@ -257,6 +259,7 @@ export class CombatState {
     this.manaMax = this.mana.slice();
     this.known = new Uint32Array(count);
     for (let i = 0; i < count; i++) this.known[i] = DEFS[this.kind[i]].known;
+    this.knownHi = new Uint32Array(count * KNOWN_HI);
     this.ord = new Uint8Array(count);
     this.tgt = new Int32Array(count).fill(-1);
     this.aux = new Int32Array(count);
@@ -296,6 +299,7 @@ export class CombatState {
       mix(this.hpMax[i]);
       mix(this.manaMax[i]);
       mix(this.known[i]);
+      for (let w = 0; w < KNOWN_HI; w++) if (this.knownHi[i * KNOWN_HI + w]) mix(this.knownHi[i * KNOWN_HI + w] + w * 7919); // zero keeps older hashes unchanged
       const m = this.stMask[i];
       if (m) {
         mix(m);
@@ -325,7 +329,7 @@ export class CombatState {
       pMin: this.pMin.slice(), pMax: this.pMax.slice(), pEl: this.pEl.slice(), pAcc: this.pAcc.slice(),
       sX: this.sX.slice(), sY: this.sY.slice(), sG: this.sG.slice(), gold: this.gold.slice(),
       pS: this.pS.slice(), pSrc: this.pSrc.slice(), stMask: this.stMask.slice(), stT: this.stT.slice(), stV: this.stV.slice(), corp: this.corp.slice(), auto: this.auto.slice(),
-      pPow: this.pPow.slice(), known: this.known.slice(), manaMax: this.manaMax.slice(), hpMax: this.hpMax.slice(), mod: this.mod.slice(),
+      pPow: this.pPow.slice(), known: this.known.slice(), knownHi: this.knownHi.slice(), manaMax: this.manaMax.slice(), hpMax: this.hpMax.slice(), mod: this.mod.slice(),
       bX: this.bX.slice(), bY: this.bY.slice(), bI: this.bI.slice(),
     };
   }
@@ -337,7 +341,7 @@ export class CombatState {
     this.pMin = s.pMin.slice(); this.pMax = s.pMax.slice(); this.pEl = s.pEl.slice(); this.pAcc = s.pAcc.slice();
     this.sX = s.sX.slice(); this.sY = s.sY.slice(); this.sG = s.sG.slice(); this.gold = s.gold.slice();
     this.pS = s.pS.slice(); this.pSrc = s.pSrc.slice(); this.stMask = s.stMask.slice(); this.stT = s.stT.slice(); this.stV = s.stV.slice(); this.corp = s.corp.slice(); this.auto = s.auto.slice();
-    this.pPow = s.pPow.slice(); this.known = s.known.slice(); this.manaMax = s.manaMax.slice(); this.hpMax = s.hpMax.slice(); this.mod = s.mod.slice();
+    this.pPow = s.pPow.slice(); this.known = s.known.slice(); this.knownHi = s.knownHi ? s.knownHi.slice() : new Uint32Array(s.known.length * KNOWN_HI); this.manaMax = s.manaMax.slice(); this.hpMax = s.hpMax.slice(); this.mod = s.mod.slice();
     this.bX = s.bX.slice(); this.bY = s.bY.slice(); this.bI = s.bI.slice();
     this.recount(team);
   }
