@@ -809,6 +809,7 @@ const tips = new Tips(tipStore);
 
 let lastHeroHp = 0;
 let victoryBarked = false;
+let lastHeroLevel = 0;
 function updateGothicHud(): void {
   const hp = Math.max(0, sim.cb.hp[0] ?? 0);
   const hpMax = Math.max(1, sim.cb.hpMax[0] ?? 1);
@@ -819,6 +820,9 @@ function updateGothicHud(): void {
     if (bark) toast(`"${bark}"`);
   }
   lastHeroHp = hp;
+  const hl = sim.hero?.level ?? 0;
+  if (lastHeroLevel && hl > lastHeroLevel) { const lb = heroBark('level_up', 0); if (lb) toast(`"${lb}"`); }
+  lastHeroLevel = hl;
 
   const mana = Math.max(0, sim.cb.mana[0] ?? 0);
   const manaMax = Math.max(1, sim.cb.manaMax[0] ?? 1);
@@ -2037,7 +2041,7 @@ await loadTownBarks();
 await loadSpellText();
 if (activeChar) await loadHeroVoices(activeChar.cls, activeChar.female);
 const missionContent = loadedMission ? await loadMissionContent(missionName) : null;
-if (loadedMission && missionName) void loadMissionHints(missionName).then((h) => { if (h[0]) setTimeout(() => toast(h[0]), 6000); });
+if (loadedMission && missionName) void loadMissionHints(missionName).then((h) => { if (h[0]) setTimeout(() => toast(h[0]), 6000); if (h[1]) setTimeout(() => toast(h[1]), 45000); });
 const missionUi = loadedMission
   ? new MissionUi(loadedMission.doc, {
       pause: (on) => (userPause = on || outcome !== null),

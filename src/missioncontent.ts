@@ -42,6 +42,12 @@ export async function loadMissionContent(map: string | null): Promise<MissionCon
     // The last mission of an act closes it with the act-ending text.
     const missions = nodes.filter((n) => n.kind === 'mission' && n.act === node.act);
     const end = (endings as { act: number; title: string; text: string; cliffhanger?: string }[]).find((e) => e.act === node.act);
+    if (missions[missions.length - 1]?.id === node.id) {
+      try {
+        const epi = (await (await fetch(`${base}data/content/act-epilogues.json`)).json() as { act: number; title: string; text: string }[]).find((e) => e.act === node.act);
+        if (epi) base0.victory_epilogue = [...(base0.victory_epilogue ?? []), { speaker: 'narrator', line: `${epi.title}\n${epi.text}` }];
+      } catch { /* optional */ }
+    }
     if (end && missions[missions.length - 1]?.id === node.id) {
       base0.victory_epilogue = [
         ...(base0.victory_epilogue ?? []),
