@@ -830,6 +830,11 @@ function updateGothicHud(): void {
   if (combatMode && sim.cb.kind[0] === Kind.Hero && hp > 0) {
     const bark = hpPct < 25 ? heroBark('low_hp', 20000) : hp < lastHeroHp ? heroBark('hurt', 12000) : null;
     if (bark) toast(`"${bark}"`);
+    if (missionName && !isTownNode && lastHeroHp > 0) {
+      const drop = (lastHeroHp - hp) / hpMax;
+      if (drop > 0.2 && Date.now() - lastBossLineAt > 25000) { lastBossLineAt = Date.now(); void bossLine(missionName, 'big_hit').then((l) => { if (l) toast(`"${l}"`); }); }
+      else if (hpPct < 40 && !bossEnraged) { bossEnraged = true; void bossLine(missionName, 'enrage').then((l) => { if (l) toast(`"${l}"`); }); }
+    }
   }
   lastHeroHp = hp;
   const hl = sim.hero?.level ?? 0;
@@ -2058,8 +2063,9 @@ await loadTownBarks();
 await loadSpellText();
 if (activeChar) await loadHeroVoices(activeChar.cls, activeChar.female);
 const missionContent = loadedMission ? await loadMissionContent(missionName) : null;
+let lastBossLineAt = 0, bossEnraged = false;
 let radioFoes0 = 0, radioHalf = false, radioLow = false;
-if (loadedMission && missionName && !isTownNode) { achReset(); radioFoes0 = 0; radioHalf = false; radioLow = false; }
+if (loadedMission && missionName && !isTownNode) { achReset(); bossEnraged = false; radioFoes0 = 0; radioHalf = false; radioLow = false; }
   if (loadedMission && missionName && !isTownNode) void missionKey(missionName).then((k) => { if (k) void startSideQuests(k); });
 if (loadedMission && missionName) void missionRadio(missionName, 'start').then((l) => { if (l) setTimeout(() => toast(`Radio: ${l}`), 2500); });
 if (loadedMission && missionName) void loadMissionHints(missionName).then((h) => { if (h[0]) setTimeout(() => toast(h[0]), 6000); if (h[1]) setTimeout(() => toast(h[1]), 45000); });
