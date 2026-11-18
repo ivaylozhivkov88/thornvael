@@ -190,5 +190,285 @@
   "tooltip": "Bends the local hour around the caster, granting haste for 40s. Cost: 25 mana, CD: 80.",
   "flavor": "To the rest of the battlefield, you are a blur; to yourself, everyone else is wading through cold molasses.",
   "cast_line": "Step between the seconds."
+ },
+ {
+  "name": "Shield Bash",
+  "class": "warrior",
+  "tooltip": "Slams your shield into an adjacent foe (reach 1), dealing 14-20 physical damage and stunning for 2s. Cost: 10 mana, CD: 25.",
+  "flavor": "A heavy oak rim to the jaw settles arguments faster than any royal writ.",
+  "cast_line": "Eat iron!"
+ },
+ {
+  "name": "Cleave Arc",
+  "class": "warrior",
+  "tooltip": "Sweeps your weapon in a wide front arc (reach 2), hitting up to 3 foes for 18-26 physical damage. Cost: 14 mana, CD: 30.",
+  "flavor": "Border pikemen learn early to swing wide when briar-hounds hunt in packs.",
+  "cast_line": "Clear the line!"
+ },
+ {
+  "name": "Rampart Stance",
+  "class": "warrior",
+  "tooltip": "Plants your boots firmly for 8s, granting +18 Armor and +25% Block Chance while reducing move speed. Cost: 12 mana, CD: 45.",
+  "flavor": "Stand like an Alder Bridge piling and let the current break itself against your ribs.",
+  "cast_line": "Hold fast!"
+ },
+ {
+  "name": "Hamstring Cut",
+  "class": "warrior",
+  "tooltip": "Slices low across a target's leg (reach 1), dealing 12-18 damage and slowing movement by 45% for 5s. Cost: 9 mana, CD: 28.",
+  "flavor": "A crippled deserter runs no faster than a wagon with a snapped axle.",
+  "cast_line": "Stay put!"
+ },
+ {
+  "name": "Rallying Horn",
+  "class": "warrior",
+  "tooltip": "Sounds a brass war-horn (radius 5), granting nearby allies +12% Damage and +10 Armor for 10s. Cost: 18 mana, CD: 60.",
+  "flavor": "Nothing steadies shaky knees like knowing the captain is still vertical.",
+  "cast_line": "On my banner!"
+ },
+ {
+  "name": "Sunder Plate",
+  "class": "warrior",
+  "tooltip": "Crushes enemy armor with a downward blow (reach 1), dealing 20-28 damage and reducing Armor by 12 for 6s. Cost: 15 mana, CD: 35.",
+  "flavor": "One good dent in a breastplate turns royal steel into a suffocating cage.",
+  "cast_line": "Crack their shell!"
+ },
+ {
+  "name": "Vanguard Charge",
+  "class": "warrior",
+  "tooltip": "Rushes up to 6 tiles toward an enemy, dealing 16-24 physical damage and knocking them back 1 tile. Cost: 16 mana, CD: 40.",
+  "flavor": "Closing forty paces before the archers reload is half the battle.",
+  "cast_line": "Break through!"
+ },
+ {
+  "name": "Grit Through Pain",
+  "class": "warrior",
+  "tooltip": "Shrugs off fresh wounds, restoring 28-36 HP and cleansing bleed effects immediately. Cost: 14 mana, CD: 50.",
+  "flavor": "Spit out the blood, tighten your belt, and finish the shift.",
+  "cast_line": "Not done yet!"
+ },
+ {
+  "name": "Whirlwind Maul",
+  "class": "warrior",
+  "tooltip": "Spins violently (radius 2), striking all surrounding enemies twice for 15-22 damage per hit. Cost: 22 mana, CD: 55.",
+  "flavor": "When surrounded in a narrow alley, turn yourself into a threshing machine.",
+  "cast_line": "Step back or bleed!"
+ },
+ {
+  "name": "Executioner's Blow",
+  "class": "warrior",
+  "tooltip": "Delivers a massive overhead strike (reach 1) for 34-46 physical damage, dealing +50% to foes below 30% HP. Cost: 24 mana, CD: 60.",
+  "flavor": "No appeals, no ledgers—just a clean parting of head and shoulders.",
+  "cast_line": "End of the road!"
+ },
+ {
+  "name": "Bodkin Shot",
+  "class": "archer",
+  "tooltip": "Fires a heavy armor-piercing arrow (reach 9), dealing 18-25 physical damage and ignoring 10 Armor. Cost: 10 mana, CD: 25.",
+  "flavor": "Forged square and needle-sharp to punch straight through brigandine links.",
+  "cast_line": "Through the plate!"
+ },
+ {
+  "name": "Volley of Reeds",
+  "class": "archer",
+  "tooltip": "Rains arrows onto a target area (reach 9, radius 2), dealing 14-20 physical damage to all foes within. Cost: 16 mana, CD: 38.",
+  "flavor": "Why pick one target when three dozen shafts darken the whole marsh?",
+  "cast_line": "Loose the sky!"
+ },
+ {
+  "name": "Caltrop Scatter",
+  "class": "archer",
+  "tooltip": "Tosses iron spikes onto the ground (reach 5, radius 2) for 12s, slowing foes by 40% and dealing 8 bleed/s. Cost: 11 mana, CD: 35.",
+  "flavor": "Four-pronged border iron always lands with one tooth pointing straight up.",
+  "cast_line": "Watch your step!"
+ },
+ {
+  "name": "Pinning Arrow",
+  "class": "archer",
+  "tooltip": "Nails a foe's boot to the dirt (reach 8), dealing 14-19 damage and rooting them in place for 3s. Cost: 12 mana, CD: 32.",
+  "flavor": "A stout ash shaft through the instep ruins any charger's momentum.",
+  "cast_line": "Pinned down!"
+ },
+ {
+  "name": "Smoke Flask",
+  "class": "archer",
+  "tooltip": "Hurls an ash-filled clay pot at your feet (radius 2), granting +35% Dodge Chance for 6s. Cost: 13 mana, CD: 42.",
+  "flavor": "Poachers vanish into gray soot faster than hounds can catch the wind.",
+  "cast_line": "Into the smoke!"
+ },
+ {
+  "name": "Viper-Bile Tip",
+  "class": "archer",
+  "tooltip": "Coats your next 3 shots in bog-venom, adding 15 poison damage over 4s to each hit. Cost: 14 mana, CD: 36.",
+  "flavor": "Scraped fresh from Redmarsh reed-blinds; even a scratch turns black by dusk.",
+  "cast_line": "Taste the fen!"
+ },
+ {
+  "name": "Hawk-Eye Focus",
+  "class": "archer",
+  "tooltip": "Steadies your breathing for 8s, granting +20 Accuracy, +15% Crit Chance, and +2 bow reach. Cost: 15 mana, CD: 48.",
+  "flavor": "Count the heartbeat, hold the draw, and let the wind carry the fletching.",
+  "cast_line": "Dead center."
+ },
+ {
+  "name": "Evasive Vault",
+  "class": "archer",
+  "tooltip": "Leaps backward 4 tiles while firing a quick parting shot for 12-16 physical damage. Cost: 14 mana, CD: 34.",
+  "flavor": "Never let a heavy axeman get close enough to grab your bow-stave.",
+  "cast_line": "Too slow!"
+ },
+ {
+  "name": "Piercing Line",
+  "class": "archer",
+  "tooltip": "Looses a full-draw greatbow shaft in a straight line (reach 10), hitting every foe for 22-30 damage. Cost: 20 mana, CD: 45.",
+  "flavor": "Drawn to the ear, an ashwood shaft punches through two men and a plank shield.",
+  "cast_line": "Line them up!"
+ },
+ {
+  "name": "Heartseeker",
+  "class": "archer",
+  "tooltip": "Takes careful aim at a single distant target (reach 10), dealing 36-48 damage with +30% Crit Chance. Cost: 24 mana, CD: 58.",
+  "flavor": "One arrow from the ridge ends a captain's speech mid-syllable.",
+  "cast_line": "Lights out."
+ },
+ {
+  "name": "Cinder Lance",
+  "class": "mage",
+  "tooltip": "Fires a compressed beam of white-hot ash (reach 8), dealing 20-28 fire damage and igniting for 6/s. Cost: 14 mana, CD: 30.",
+  "flavor": "Concentrated foundry heat melts bronze buckles before the wearer even screams.",
+  "cast_line": "Burn clean!"
+ },
+ {
+  "name": "Brine Frost",
+  "class": "mage",
+  "tooltip": "Freezes coastal spray over a target area (reach 7, radius 2), dealing 16-22 cold damage and slowing 40% for 4s. Cost: 15 mana, CD: 34.",
+  "flavor": "Sea-salt lowers the freezing point until ice bites straight into bone.",
+  "cast_line": "Freeze solid!"
+ },
+ {
+  "name": "Arcane Shackle",
+  "class": "mage",
+  "tooltip": "Binds a foe in glowing chalk runes (reach 7), silencing spellcasting and slowing movement for 4s. Cost: 13 mana, CD: 36.",
+  "flavor": "Academy wardens use these sigils to keep rogue apprentices from burning the library.",
+  "cast_line": "Hold your tongue!"
+ },
+ {
+  "name": "Static Arc",
+  "class": "mage",
+  "tooltip": "Discharges jagged copper sparks (reach 6), dealing 18-26 lightning damage; deals +30% in water or mud. Cost: 12 mana, CD: 28.",
+  "flavor": "Wet boots and iron mail turn every ford into a death trap.",
+  "cast_line": "Ground yourself!"
+ },
+ {
+  "name": "Mirror Ward",
+  "class": "mage",
+  "tooltip": "Surrounds yourself with refracting glass shards for 7s, absorbing 35 damage and reflecting 12 back. Cost: 18 mana, CD: 46.",
+  "flavor": "Smelted river-quartz turns stray arrows back toward the fools who loosed them.",
+  "cast_line": "Try again!"
+ },
+ {
+  "name": "Peat-Gas Blast",
+  "class": "mage",
+  "tooltip": "Ignites subterranean swamp fumes (reach 7, radius 2), dealing 22-30 fire damage and knocking foes back. Cost: 19 mana, CD: 42.",
+  "flavor": "Every Redmarsh peat-cutter knows a single spark turns a quiet ditch into thunder.",
+  "cast_line": "Up in smoke!"
+ },
+ {
+  "name": "Siphon Ley",
+  "class": "mage",
+  "tooltip": "Draws ambient magic from a target (reach 7), dealing 14-20 arcane damage and restoring 20 Mana. Cost: 6 mana, CD: 32.",
+  "flavor": "Why carry heavy mana draughts when enemy casters are full to bursting?",
+  "cast_line": "Mine now."
+ },
+ {
+  "name": "Slag Torrent",
+  "class": "mage",
+  "tooltip": "Sprays molten cinders in a short cone (reach 4), dealing 24-34 fire damage and melting 8 Armor. Cost: 21 mana, CD: 44.",
+  "flavor": "Borrowed straight from the royal gunpowder foundries of Crown and Ember.",
+  "cast_line": "Melt their iron!"
+ },
+ {
+  "name": "Aether Step",
+  "class": "mage",
+  "tooltip": "Steps instantly through a tear in the air up to 5 tiles away, leaving a blinding flash behind. Cost: 16 mana, CD: 38.",
+  "flavor": "A scholarly shortcut for avoiding heavy axes without ruining good velvet.",
+  "cast_line": "Not there anymore."
+ },
+ {
+  "name": "Vitrify",
+  "class": "mage",
+  "tooltip": "Superheats the ground under an enemy (reach 8), dealing 38-50 fire damage and turning sand or ash to glass. Cost: 28 mana, CD: 62.",
+  "flavor": "The Sovereign's court pyromancers left entire city squares glazed like pottery.",
+  "cast_line": "Turn to glass!"
+ },
+ {
+  "name": "Raise Peat-Thrall",
+  "class": "necromancer",
+  "tooltip": "Animates a nearby corpse into a bog-rotted thrall for 25s with 65 HP and 12 melee damage. Cost: 16 mana, CD: 30.",
+  "flavor": "The mud of Thornvael never lets go of a body without putting it back to work.",
+  "cast_line": "Up you get."
+ },
+ {
+  "name": "Marrow Dart",
+  "class": "necromancer",
+  "tooltip": "Fires a splintered bone shard (reach 8), dealing 15-22 physical/shadow damage and healing you for 8 HP. Cost: 10 mana, CD: 24.",
+  "flavor": "Every battlefield provides endless ammunition once the fighting starts.",
+  "cast_line": "Take a splinter!"
+ },
+ {
+  "name": "Grave Chill",
+  "class": "necromancer",
+  "tooltip": "Releases tomb-cold mist around you (radius 3), dealing 14-20 cold damage and slowing attack speed 25% for 5s. Cost: 14 mana, CD: 35.",
+  "flavor": "The damp cellar air of an old ossuary clings to living joints like lead.",
+  "cast_line": "Feel the grave."
+ },
+ {
+  "name": "Leech Tether",
+  "class": "necromancer",
+  "tooltip": "Links to a foe (reach 6) for 4s, draining 10 HP per second and transferring it to your lowest-HP minion. Cost: 15 mana, CD: 38.",
+  "flavor": "Fresh blood keeps old sinew stitching together long past its due date.",
+  "cast_line": "Share your vigor."
+ },
+ {
+  "name": "Bone Cage",
+  "class": "necromancer",
+  "tooltip": "Erupts jagged ribs from the soil around a target (reach 7), trapping them in place for 3.5s. Cost: 16 mana, CD: 40.",
+  "flavor": "Even beneath paved roads, old bones lie close enough to answer a sharp call.",
+  "cast_line": "Stay in the ground!"
+ },
+ {
+  "name": "Putrid Miasma",
+  "class": "necromancer",
+  "tooltip": "Curses an area with rotting swamp-fumes (reach 7, radius 2) for 6s, dealing 12 poison damage/s and reducing healing. Cost: 18 mana, CD: 42.",
+  "flavor": "Bottled straight from the quicklime trenches outside Redmarsh.",
+  "cast_line": "Breathe deep!"
+ },
+ {
+  "name": "Ossuary Shield",
+  "class": "necromancer",
+  "tooltip": "Orbits 3 bleached skulls around you for 10s, each blocking one hit and dealing 10 damage on shatter. Cost: 17 mana, CD: 45.",
+  "flavor": "Former tax-collectors make surprisingly stubborn bodyguards once stripped of flesh.",
+  "cast_line": "Guard my bones!"
+ },
+ {
+  "name": "Soul Tithe",
+  "class": "necromancer",
+  "tooltip": "Marks a weakened foe (reach 7) for 6s; if they die while marked, you gain 25 Mana and summon a wraith. Cost: 12 mana, CD: 36.",
+  "flavor": "The Crown collects silver; the grave collects everything else.",
+  "cast_line": "Your debt is due."
+ },
+ {
+  "name": "Frenzied Dead",
+  "class": "necromancer",
+  "tooltip": "Drives all active minions into a bloodlust for 7s, granting +30% Attack Speed and +25% Movement Speed. Cost: 20 mana, CD: 50.",
+  "flavor": "Remind them how much they hated the living before they drowned.",
+  "cast_line": "Tear them apart!"
+ },
+ {
+  "name": "Mass Exhumation",
+  "class": "necromancer",
+  "tooltip": "Raises up to 3 corpses in a wide area (radius 4) simultaneously as armored skeletal footmen for 30s. Cost: 32 mana, CD: 70.",
+  "flavor": "Why pay mercenary wages when an entire forgotten skirmish sleeps underfoot?",
+  "cast_line": "Rise, all of you!"
  }
 ]

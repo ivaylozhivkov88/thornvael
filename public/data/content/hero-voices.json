@@ -36,7 +36,11 @@
    "low_hp": [
     "Bring a bandage—or a shovel.",
     "Running thin on blood here.",
-    "Not dying in this ditch."
+    "Not dying in this ditch.",
+    "Shield's heavy, vision's blurring—hold the line!",
+    "Tasting copper... patch me up quick!",
+    "Not leaving my boots in this mud!",
+    "One more hit and they'll need a cart for me."
    ],
    "kill": [
     "Next volunteer.",
@@ -47,13 +51,24 @@
    "level_up": [
     "Harder shell, same old dents.",
     "Practice makes scar tissue.",
-    "Muscle remembers."
+    "Muscle remembers.",
+    "Another notch on the belt, another winter survived.",
+    "My joints ache less when the edge stays sharp.",
+    "Calluses thicken where the iron bites.",
+    "Still standing after worse odds than these.",
+    "Good. Next brute hits harder, so will I."
    ],
    "idle": [
     "My boots are leaking again.",
     "Standing still costs extra.",
     "Quiet usually means an ambush.",
-    "Should've stayed a turnip farmer."
+    "Should've stayed a turnip farmer.",
+    "Standing in wet gravel ruins good leather.",
+    "If the crows go quiet, check the brush.",
+    "Could murder a bowl of hot turnip stew right now.",
+    "My left shoulder always aches before a gale.",
+    "Check your straps while nobody's shooting.",
+    "Longer we loiter, thicker the mud gets."
    ],
    "spell_cast": [
     "Brace for impact!",
@@ -64,12 +79,22 @@
    "loot_rare": [
     "Decent steel. No rust on the tang.",
     "Proper metalwork, for once.",
-    "Worth every blister on the march."
+    "Worth every blister on the march.",
+    "Now that's proper smith-work—no slag in the fuller.",
+    "Worth hauling three leagues through the bog.",
+    "Finally, gear that won't snap on first parry.",
+    "Keep that wrapped in oilcloth till dusk."
    ],
    "death": [
     "Tell Garrick... I want my boots back...",
     "Finally... a place to lie down...",
     "Contract's... void..."
+   ],
+   "victory": [
+    "Count the living, strip the dead, keep moving.",
+    "Nobody's getting paid until we reach camp.",
+    "Clean work. Wipe your blades before they rust.",
+    "That's how border veterans settle a toll."
    ]
   },
   "town_greeting": [
@@ -120,7 +145,11 @@
    "low_hp": [
     "Straps shearing—fall back a pace!",
     "Need a surgeon before next rush!",
-    "Not dying in borrowed mud."
+    "Not dying in borrowed mud.",
+    "Ribs are cracked—cover my flank!",
+    "Bleed later, fight now!",
+    "If I drop, drag me behind the pikes!",
+    "Running out of breath and luck here!"
    ],
    "kill": [
     "Line's buckling.",
@@ -131,13 +160,24 @@
    "level_up": [
     "Better leverage, cleaner strikes.",
     "Adjusted stance. Less waste.",
-    "Another flaw hammered out."
+    "Another flaw hammered out.",
+    "Every scar teaches where not to leave a gap.",
+    "Steadier grip, heavier swing. Let them come.",
+    "I've outlasted three captains and twice as many sieges.",
+    "Strength isn't loud—it's still standing at sundown.",
+    "Good. My shield-arm feels lighter already."
    ],
    "idle": [
     "Oiling the hinge-pins while we wait.",
     "Poor drainage on this road.",
     "Check straps before someone tests them.",
-    "Silence means someone's digging."
+    "Silence means someone's digging.",
+    "A dull edge is an invitation to an early grave.",
+    "Keep your chin down even when the road looks empty.",
+    "I didn't march this far to watch grass grow.",
+    "Tighten your greaves; loose buckles trip dead men.",
+    "Silence on the border never lasts past noon.",
+    "Save your coin for whetstones, not tavern wine."
    ],
    "spell_cast": [
     "Lock shields!",
@@ -148,12 +188,22 @@
    "loot_rare": [
     "Properly quenched edge. No slag pockets.",
     "Balanced to the half-ounce. Mine.",
-    "Gear forged by someone sober."
+    "Gear forged by someone sober.",
+    "Balanced like a dream. Some lord paid dearly for this.",
+    "Solid temper. This will turn a halberd blow.",
+    "Better than anything the royal armory ever issued.",
+    "A worthy prize for honest blood."
    ],
    "death": [
     "Tell Hobb... the left clasp... failed...",
     "Should have... reinforced the flank...",
     "Off the clock..."
+   ],
+   "victory": [
+    "Catch your wind, check your wounds, reform ranks.",
+    "They underestimated a border shield-wall again.",
+    "Leave the crows to finish the paperwork.",
+    "Well fought. Nobody shamed the banner today."
    ]
   },
   "town_greeting": [
@@ -204,7 +254,11 @@
    "low_hp": [
     "Too close! Way too close!",
     "I am not built for this!",
-    "Somebody take agro, please!"
+    "Somebody take agro, please!",
+    "Pinned down—someone peel them off me!",
+    "Bleeding too fast to steady my aim!",
+    "Need a bandage before my hands start shaking!",
+    "Get me out of melee range, now!"
    ],
    "kill": [
     "Dropped.",
@@ -215,13 +269,24 @@
    "level_up": [
     "Sharper eyes, steadier hands.",
     "Even the wind's cooperating.",
-    "Getting dangerously competent."
+    "Getting dangerously competent.",
+    "Sharper eye, quicker draw, cleaner kill.",
+    "The wind and I are finally on speaking terms.",
+    "Every miss in the past made today's shot true.",
+    "Faster fingers mean fewer corpses on our side.",
+    "Let them wear thick plate—I'll find the eye-slit."
    ],
    "idle": [
     "Checking wind. Still blowing.",
     "Do we get paid by the hour?",
     "Waxing bowstring—don't interrupt.",
-    "Heavy armor looks exhausting."
+    "Heavy armor looks exhausting.",
+    "Check the wind before you trust your eyes.",
+    "If the birds scatter, nock an arrow immediately.",
+    "My boots were made for tracking, not standing still.",
+    "Keep low near the ridge—silhouettes draw fire.",
+    "Nothing wastes silver faster than a snapped bowstring.",
+    "Quiet roads just mean the ambushers are patient."
    ],
    "spell_cast": [
     "Watch the sky!",
@@ -232,12 +297,22 @@
    "loot_rare": [
     "Shiny—and light enough to carry.",
     "Draws like silk, bites like a viper.",
-    "I'm keeping this. Don't ask."
+    "I'm keeping this. Don't ask.",
+    "Smooth draw, zero creak. Whoever made this knew their craft.",
+    "Light as willow, tough as horn. Mine now.",
+    "A rare piece of work for such a wretched road.",
+    "This will punch clean through a knight's gorget."
    ],
    "death": [
     "Forgot... to check... behind me...",
     "Tell them... the wind shifted...",
     "Well... that's embarrassing..."
+   ],
+   "victory": [
+    "One arrow per throat. Efficient as always.",
+    "Anyone still twitching gets a second shaft.",
+    "Gather the salvage and watch the treeline.",
+    "That's why you never march uphill into bows."
    ]
   },
   "town_greeting": [
@@ -288,7 +363,11 @@
    "low_hp": [
     "Can't draw with a punctured lung!",
     "Cover me—dropping back!",
-    "Out of room here!"
+    "Out of room here!",
+    "Too close! Get those shields between us!",
+    "Took a nasty cut—need a draught fast!",
+    "Can't draw a bow with a punctured lung!",
+    "Fall back! Give me room to breathe!"
    ],
    "kill": [
     "Down.",
@@ -299,13 +378,24 @@
    "level_up": [
     "Longer reach, tighter grouping.",
     "Hands steady in the cold.",
-    "Better read on the gust."
+    "Better read on the gust.",
+    "Wind reads clearer every time I draw.",
+    "Steady fingers, calm heart, dead target.",
+    "Another league walked, another trick learned.",
+    "They won't even hear the string snap next time.",
+    "Good. Eighty paces feels like twenty now."
    ],
    "idle": [
     "Testing the fletching glue.",
     "Thirty-four shafts left.",
     "Soldiers talk too much on march.",
-    "Damp air slows the string."
+    "Damp air slows the string.",
+    "Damp air stretches hemp strings—keep them waxed.",
+    "High ground's wasted if nobody's watching it.",
+    "I count forty paces to that ridge. Easy shot.",
+    "Stop clanking that armor; you'll wake the whole fen.",
+    "A good poacher listens twice before stepping once.",
+    "Fletching's getting ragged; need goose feathers soon."
    ],
    "spell_cast": [
     "Mark and drop!",
@@ -316,12 +406,22 @@
    "loot_rare": [
     "Straight grain. Minimal warp.",
     "Horn-tipped and dead true.",
-    "Never trading this one."
+    "Never trading this one.",
+    "Look at the grain on that yew—draws like silk.",
+    "Fine craftsmanship. Not a single knot in the stave.",
+    "Now that's a weapon worth keeping dry.",
+    "The wardens would hang a man twice for owning this."
    ],
    "death": [
     "Misjudged... the drop...",
     "Tell them... check the ridge...",
     "Out of... shafts..."
+   ],
+   "victory": [
+    "Recover the unbroken shafts and keep moving.",
+    "Never even got within arm's reach.",
+    "Check the brush—stragglers love playing dead.",
+    "Clean volleys win fights before they start."
    ]
   },
   "town_greeting": [
@@ -372,7 +472,11 @@
    "low_hp": [
     "Vital signs trending downward!",
     "Catastrophic margin of error!",
-    "Retreat—tactically and now!"
+    "Retreat—tactically and now!",
+    "My wards are shattered—keep them back!",
+    "Can't focus a spell while bleeding onto my boots!",
+    "Shields forward! I'm exposed here!",
+    "A healing draught, before my concentration snaps!"
    ],
    "kill": [
     "Hypothesis confirmed.",
@@ -383,13 +487,24 @@
    "level_up": [
     "Cleaner output from the formula.",
     "Marginally less likely to backfire.",
-    "That solves the fourth variable."
+    "That solves the fourth variable.",
+    "The ley-lines yield more readily to a disciplined mind.",
+    "Theory is quaint; survival refines the formula.",
+    "My grasp of the aether deepens with every skirmish.",
+    "Less wasted spark, far greater devastation.",
+    "The academy expelled me too soon to see this."
    ],
    "idle": [
     "Humidity is ruining my parchment.",
     "Did anyone else hear that hum?",
     "Should have packed dry socks.",
-    "Fascinating rock. Probably cursed."
+    "Fascinating rock. Probably cursed.",
+    "This damp air plays havoc with fine chalk sigils.",
+    "I miss a dry study and an uninterrupted cup of tea.",
+    "Notice how the mist curls against the wind? Unnatural.",
+    "Keep your metal away from my focus crystals.",
+    "Every ruin in this realm smells of burnt parchment.",
+    "Idleness dulls the mind faster than cheap turnip-gin."
    ],
    "spell_cast": [
     "Clear the blast radius!",
@@ -400,12 +515,22 @@
    "loot_rare": [
     "Intriguing resonance on this casing.",
     "Pre-Schism workmanship!",
-    "Do not touch runes bare-handed."
+    "Do not touch runes bare-handed.",
+    "Fascinating resonance—pre-Compact workmanship, if I'm not mistaken.",
+    "No flaws in the crystal matrix. Remarkable.",
+    "At last, an artifact worthy of a real scholar.",
+    "Handle that carefully; the wards are still active."
    ],
    "death": [
     "My calculations... were off by...",
     "Do not... drop my satchel...",
     "The equilibrium... collapses..."
+   ],
+   "victory": [
+    "Ashes settle, equations balance. Let us proceed.",
+    "Brute force rarely survives proper geometry.",
+    "Brush the soot off your cloaks and check for scrolls.",
+    "Another messy variable neatly eliminated."
    ]
   },
   "town_greeting": [
@@ -456,7 +581,11 @@
    "low_hp": [
     "Wards flickering—fall back!",
     "Cannot channel while bleeding out!",
-    "Critical failure imminent!"
+    "Critical failure imminent!",
+    "My barrier failed—get between us!",
+    "I need healing before I lose consciousness!",
+    "Too many blades inside my casting circle!",
+    "Draw their fire away from me!"
    ],
    "kill": [
     "Circuit closed.",
@@ -467,13 +596,24 @@
    "level_up": [
     "Tighter focus, less wasted heat.",
     "Harmonics settling nicely.",
-    "Conducting properly now."
+    "Conducting properly now.",
+    "Precision turns a spark into a conflagration.",
+    "My channels widen; the elements answer quicker.",
+    "Every trial sharpens the mind beyond textbook limits.",
+    "More power, less strain. Just as I calculated.",
+    "Let the inquisitors try burning this knowledge out."
    ],
    "idle": [
     "Salt air corrodes copper in days.",
     "Stop shuffling—building static.",
     "Checking the grounding wire.",
-    "Everything smells of wet ash."
+    "Everything smells of wet ash.",
+    "The ambient mana here tastes like copper and ash.",
+    "Please tell me our next camp has a roof.",
+    "I'm surrounded by mercenaries who think runes are decorations.",
+    "Watch where you step; ley-cracks blister careless boots.",
+    "Silence lets me hear the hum beneath the stone.",
+    "Another mile of mud on perfectly good hem-stitching."
    ],
    "spell_cast": [
     "Clear the lane!",
@@ -484,12 +624,22 @@
    "loot_rare": [
     "Clean crystal lattice. Minimal flaws.",
     "Feel the static off that core.",
-    "Finally, a proper instrument."
+    "Finally, a proper instrument.",
+    "Exquisite lattice-work. Whoever forged this understood focus.",
+    "Feel that hum? Pure, uncorrupted resonance.",
+    "A genuine relic amidst all this border scrap.",
+    "This will amplify my channeling considerably."
    ],
    "death": [
     "The circuit... broke...",
     "Tell them... ground the... staff...",
     "Too much... current..."
+   ],
+   "victory": [
+    "Predictable tactics, predictable ashes.",
+    "Check the remains for intact components.",
+    "Keep moving before the smoke draws more company.",
+    "A clean demonstration of superior arcana."
    ]
   },
   "town_greeting": [
@@ -540,7 +690,11 @@
    "low_hp": [
     "Not ready to close my own account!",
     "Deficit critical—step back!",
-    "Cover the ledger—I'm bleeding!"
+    "Cover the ledger—I'm bleeding!",
+    "My own flesh is failing—thralls, to me!",
+    "I'm not joining my own retinue today!",
+    "Need blood or a potion, and quickly!",
+    "Keep them off me while I knit this wound!"
    ],
    "kill": [
     "Settled.",
@@ -551,13 +705,24 @@
    "level_up": [
     "Cleaner handwriting, binding terms.",
     "Dead respond faster when indexed.",
-    "Higher yield from old bone."
+    "Higher yield from old bone.",
+    "Death whispers clearer secrets every time we cross blades.",
+    "Even my own mortality bends a little further back.",
+    "More marrow to command, colder chill to share.",
+    "The grave teaches patience—and efficiency.",
+    "Soon the dead will march faster than the living."
    ],
    "idle": [
     "Nobody ever pays on time.",
     "No, I won't raise your childhood dog.",
     "Sharpening my bone-awl.",
-    "Just counting ribs in the ditch."
+    "Just counting ribs in the ditch.",
+    "So many unquiet bones beneath this soggy turf.",
+    "Living soldiers complain; skeletons simply march.",
+    "The smell of peat and old graves feels almost homey.",
+    "Keep your holy water away from my satchel.",
+    "Every milestone on this road marks at least three corpses.",
+    "Patience. Everything dies if you wait long enough."
    ],
    "spell_cast": [
     "Rise and work off the balance!",
@@ -568,12 +733,22 @@
    "loot_rare": [
     "Still bears the previous owner's lien.",
     "Good resonance—barely haunted.",
-    "Properly notarized in cold iron."
+    "Properly notarized in cold iron.",
+    "Cold to the touch, heavy with old sorrow. Perfect.",
+    "Someone died clutching this tightly. Their loss.",
+    "Fine bone-craft—steeped in genuine misery.",
+    "This relic will bind stubborn spirits effortlessly."
    ],
    "death": [
     "Transfer... my balance... to...",
     "Ink's... spilled...",
     "Closed... in red..."
+   ],
+   "victory": [
+    "Leave the bodies intact; we may need them later.",
+    "A rich harvest for the next engagement.",
+    "See? Even enemies become useful eventually.",
+    "Silence returns, and the dead obey."
    ]
   },
   "town_greeting": [
@@ -624,7 +799,11 @@
    "low_hp": [
     "The thread is fraying!",
     "Step between us—now!",
-    "I will not join the roll today!"
+    "I will not join the roll today!",
+    "My pulse is fading—shield me, now!",
+    "I won't bleed out in the dirt like a common levy!",
+    "Send the thralls forward—buy me a second!",
+    "A draught, quickly, before the cold takes hold!"
    ],
    "kill": [
     "Dismissed.",
@@ -635,13 +814,24 @@
    "level_up": [
     "Deeper roots in the quiet dark.",
     "The dead obey a steadier voice.",
-    "The scales tip in our favor."
+    "The scales tip in our favor.",
+    "The veil between breath and bone grows thinner at my command.",
+    "Power harvested from the fallen never demands wages.",
+    "Colder hands, steadier will, deeper dominion.",
+    "They fear the dark because they don't own it.",
+    "Another step closer to mastering the final debt."
    ],
    "idle": [
     "Polishing the brass weights.",
     "So many unmarked stones here.",
     "I hear three unfinished prayers.",
-    "Keep your vows affordable."
+    "Keep your vows affordable.",
+    "The dead are remarkably polite once properly bound.",
+    "This mist carries the voices of a hundred drowned men.",
+    "Living mercenaries tire so easily.",
+    "Don't mind the rattling; my minions are just restless.",
+    "Every province in Thornvael is one giant ossuary.",
+    "A quiet road is merely an unmarked graveyard."
    ],
    "spell_cast": [
     "Fulfill your oath!",
@@ -652,12 +842,22 @@
    "loot_rare": [
     "The previous bearer left no heirs.",
     "Three hundred names hum in this iron.",
-    "I accept custody of this relic."
+    "I accept custody of this relic.",
+    "A dark, lovely thing—tainted by centuries of grief.",
+    "The spirits around this relic are positively eager.",
+    "Rarely do grave-goods survive in such fine condition.",
+    "I shall put this cursed trinket to immediate use."
    ],
    "death": [
     "My own... witness... arrives...",
     "Release... the bound...",
     "The ledger... closes..."
+   ],
+   "victory": [
+    "Such fragile vessels the living carry.",
+    "Collect the coin; I'll keep an eye on the corpses.",
+    "Another skirmish settled in the grave's favor.",
+    "Rest now—until I have need of your bones."
    ]
   },
   "town_greeting": [
