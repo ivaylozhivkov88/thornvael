@@ -736,5 +736,748 @@
     }
    }
   ]
+ },
+ {
+  "id": "evt-ford-broken-tollbox",
+  "act": 1,
+  "trigger": "chest",
+  "text": "Half-buried in the riverbank silt lies a splintered oak toll-chest bound with rusted iron straps, its brass padlock hanging sheared in two.",
+  "choices": [
+   {
+    "label": "Sift through the wet mud inside the chest.",
+    "outcome": "You salvage tarnished silver coins wedged beneath swollen ledger pages.",
+    "effect": {
+     "gold": 40,
+     "xp": 60
+    }
+   },
+   {
+    "label": "Smash the iron bindings free for scrap.",
+    "outcome": "The heavy straps yield clean bog-iron fittings useful for reinforcing shields.",
+    "effect": {
+     "xp": 75,
+     "flag": "flag_evt_salvaged_toll_iron"
+    }
+   }
+  ]
+ },
+ {
+  "id": "evt-ford-reed-ambush",
+  "act": 1,
+  "trigger": "ambush",
+  "text": "As your vanguard nears a narrow willow-lined bend, three fletched arrows thud into the mud ahead while rough voices demand a crossing toll from the reeds.",
+  "choices": [
+   {
+    "label": "Charge straight into the brush with shields raised.",
+    "outcome": "Your sudden rush scatters the brigands, leaving behind their dropped coin-purse and bowstrings.",
+    "effect": {
+     "gold": 35,
+     "hp": -12,
+     "xp": 90
+    }
+   },
+   {
+    "label": "Toss a small pouch of silver onto the gravel and march past.",
+    "outcome": "The brigands snatch the bribe and let your company cross the ford unharmed.",
+    "effect": {
+     "gold": -20,
+     "xp": 45
+    }
+   },
+   {
+    "label": "Feign retreat to draw them onto open ground.",
+    "outcome": "Outnumbered on the bare shingle, the highwaymen drop their spears and flee.",
+    "effect": {
+     "xp": 110,
+     "flag": "flag_evt_ford_outsmarted"
+    }
+   }
+  ]
+ },
+ {
+  "id": "evt-ford-weeping-shrine",
+  "act": 1,
+  "trigger": "shrine",
+  "text": "A weathered stone altar dedicated to the River Shepherd stands beside an eddy, its basin choked with dead leaves and tangled fishing line.",
+  "choices": [
+   {
+    "label": "Clear the basin and offer a ration of dry bread.",
+    "outcome": "A calm breeze parts the river mist, lifting the fatigue from your company's limbs.",
+    "effect": {
+     "hp": 20,
+     "xp": 70,
+     "flag": "flag_evt_shepherd_grace"
+    }
+   },
+   {
+    "label": "Take the bronze offering ladle from the niche.",
+    "outcome": "You pocket the tarnished metal, though an icy chill settles deep into your boots.",
+    "effect": {
+     "gold": 30,
+     "hp": -10
+    }
+   }
+  ]
+ },
+ {
+  "id": "evt-ford-stray-courier",
+  "act": 1,
+  "trigger": "npc",
+  "text": "A limping border courier leans against a milestone, clutching a blood-soaked leather dispatch satchel and glancing nervously back toward Alder Bridge.",
+  "choices": [
+   {
+    "label": "Bind his leg with clean linen and share water.",
+    "outcome": "Grateful, he marks safe ford-crossings on your map and hands over a spare purse.",
+    "effect": {
+     "gold": 25,
+     "xp": 95,
+     "flag": "flag_evt_courier_saved"
+    }
+   },
+   {
+    "label": "Demand his dispatch satchel before leaving him.",
+    "outcome": "Inside you find royal scrip and troop orders, though the courier curses your name.",
+    "effect": {
+     "gold": 50,
+     "xp": 50
+    }
+   }
+  ]
+ },
+ {
+  "id": "evt-ford-ruined-watchpost",
+  "act": 1,
+  "trigger": "ruin",
+  "text": "Beneath the collapsed timbers of an old timber palisade, a cellar trapdoor lies half-covered by thorny briars and fallen thatch.",
+  "choices": [
+   {
+    "label": "Pry open the trapdoor and search the cellar.",
+    "outcome": "You uncover waxed crates of dry hardtack and salted pork untouched by the rain.",
+    "effect": {
+     "hp": 25,
+     "xp": 80
+    }
+   },
+   {
+    "label": "Leave the unstable timbers undisturbed.",
+    "outcome": "You bypass the ruin safely without risking a collapse.",
+    "effect": {
+     "xp": 35
+    }
+   }
+  ]
+ },
+ {
+  "id": "evt-ford-ferry-campfire",
+  "act": 1,
+  "trigger": "camp",
+  "text": "Two off-duty Thornwick pikemen sit beside a low peat fire by the riverbank, boiling river-crawfish in a dented iron helmet.",
+  "choices": [
+   {
+    "label": "Share stories and trade news of the border roads.",
+    "outcome": "Warm food and tactical warnings sharpen your company's readiness for the march ahead.",
+    "effect": {
+     "hp": 15,
+     "xp": 85
+    }
+   },
+   {
+    "label": "Buy their spare whetstones and lantern oil.",
+    "outcome": "You part with a few coins for well-kept supplies.",
+    "effect": {
+     "gold": -15,
+     "xp": 70,
+     "flag": "flag_evt_oiled_blades"
+    }
+   }
+  ]
+ },
+ {
+  "id": "evt-ford-sunken-cart",
+  "act": 1,
+  "trigger": "ruin",
+  "text": "A merchant's wain lies tipped onto its side in a muddy ditch, one axle snapped and its canvas cover torn open to the drizzle.",
+  "choices": [
+   {
+    "label": "Haul the salvageable crates out of the mire.",
+    "outcome": "Straining through the mud yields bolts of dry wool and a small strongbox.",
+    "effect": {
+     "gold": 45,
+     "hp": -8,
+     "xp": 85
+    }
+   },
+   {
+    "label": "Strip the dry oak planks for firewood.",
+    "outcome": "A brisk campfire dries out your company's sodden cloaks.",
+    "effect": {
+     "hp": 18,
+     "xp": 55
+    }
+   }
+  ]
+ },
+ {
+  "id": "evt-marsh-wisp-circle",
+  "act": 2,
+  "trigger": "shrine",
+  "text": "Seven pale green marsh-lights hover motionless over a ring of sunken standing stones, illuminating a skull filled with dark bog-water.",
+  "choices": [
+   {
+    "label": "Pour salt into the skull to break the lure.",
+    "outcome": "The lights snuff out with a sharp hiss, revealing tarnished rings in the peat beneath.",
+    "effect": {
+     "gold": 55,
+     "xp": 110
+    }
+   },
+   {
+    "label": "Step into the ring and peer into the black water.",
+    "outcome": "Visions of hidden paths flash through your mind, though cold fever numbs your fingers.",
+    "effect": {
+     "hp": -18,
+     "xp": 140,
+     "flag": "flag_evt_mire_sight"
+    }
+   }
+  ]
+ },
+ {
+  "id": "evt-marsh-sunken-coffer",
+  "act": 2,
+  "trigger": "chest",
+  "text": "Protruding from a bank of black peat is the corner of a lead-lined paymaster's coffer, chained to the skeleton of a long-drowned knight.",
+  "choices": [
+   {
+    "label": "Hack through the rusted chain and haul it ashore.",
+    "outcome": "Inside rests a pouch of stamped silver coins preserved from the bog-rot.",
+    "effect": {
+     "gold": 65,
+     "xp": 95
+    }
+   },
+   {
+    "label": "Give the knight's bones a proper cairn of stones.",
+    "outcome": "A quiet stillness settles over the reeds as you honor the forgotten soldier.",
+    "effect": {
+     "xp": 120,
+     "flag": "flag_evt_knight_buried"
+    }
+   }
+  ]
+ },
+ {
+  "id": "evt-marsh-heretic-ambush",
+  "act": 2,
+  "trigger": "ambush",
+  "text": "Mud-caked zealots rise silently from the stagnant pools flanking the plank-walk, swinging rusted sickles and chanting hymns to the Mire.",
+  "choices": [
+   {
+    "label": "Hold a tight shield-wall on the narrow boards.",
+    "outcome": "You drive the fanatics back into the deep mire, recovering crude charms and silver.",
+    "effect": {
+     "gold": 40,
+     "hp": -15,
+     "xp": 125
+    }
+   },
+   {
+    "label": "Hurl burning oil onto the marsh-gas bubbles between you.",
+    "outcome": "A sudden flash of flame scatters the ambushers in panic.",
+    "effect": {
+     "xp": 135,
+     "flag": "flag_evt_bog_ignited"
+    }
+   }
+  ]
+ },
+ {
+  "id": "evt-marsh-leech-collector",
+  "act": 2,
+  "trigger": "npc",
+  "text": "A bog-herbalist wading knee-deep in scum waves a lantern at your company, offering stoppered vials of bitter-root tincture.",
+  "choices": [
+   {
+    "label": "Purchase several vials of the swamp-ague remedy.",
+    "outcome": "The bitter draught clears the fever-chill from your mercenaries' joints.",
+    "effect": {
+     "gold": -25,
+     "hp": 30,
+     "xp": 85
+    }
+   },
+   {
+    "label": "Trade information about patrol sightings in the fen.",
+    "outcome": "He points out a dry ridge that bypasses the worst of the leech-beds.",
+    "effect": {
+     "xp": 100,
+     "flag": "flag_evt_dry_ridge_known"
+    }
+   }
+  ]
+ },
+ {
+  "id": "evt-marsh-drowned-chapel",
+  "act": 2,
+  "trigger": "ruin",
+  "text": "Inside the flooded nave of a tilting stone chapel, a dry marble lectern still holds a brass-clasped parish chronicle above the waterline.",
+  "choices": [
+   {
+    "label": "Wade in and rescue the dry chronicle.",
+    "outcome": "The entries reveal old tax-caches hidden beneath the dike foundations.",
+    "effect": {
+     "gold": 50,
+     "xp": 115
+    }
+   },
+   {
+    "label": "Rest briefly on the dry choir-steps out of the fog.",
+    "outcome": "A short respite restores your company's wind and steadies their nerves.",
+    "effect": {
+     "hp": 22,
+     "xp": 70
+    }
+   }
+  ]
+ },
+ {
+  "id": "evt-marsh-peat-fire-camp",
+  "act": 2,
+  "trigger": "camp",
+  "text": "On a rare hummock of firm turf stands an abandoned peat-cutter's brazier still glowing faintly beneath a crust of gray ash.",
+  "choices": [
+   {
+    "label": "Feed the coals with dry driftwood and tend wounds.",
+    "outcome": "Thick peat smoke drives off the midges while your vanguard bandages cuts.",
+    "effect": {
+     "hp": 28,
+     "xp": 90
+    }
+   },
+   {
+    "label": "Search the turf-stacks beside the brazier.",
+    "outcome": "Hidden inside a hollowed peat block lies a waxed pouch of emergency silver.",
+    "effect": {
+     "gold": 45,
+     "xp": 80
+    }
+   }
+  ]
+ },
+ {
+  "id": "evt-marsh-boardwalk-collapse",
+  "act": 2,
+  "trigger": "ruin",
+  "text": "A rotted section of the raised timber causeway has buckled into the black bog, forcing a choice between wading or rebuilding.",
+  "choices": [
+   {
+    "label": "Lash fallen logs together to bridge the gap.",
+    "outcome": "Patient labor carries your heavy gear across without losing a single boot.",
+    "effect": {
+     "xp": 110
+    }
+   },
+   {
+    "label": "Wade swiftly through the waist-deep mire.",
+    "outcome": "You cross quickly, though leeches and cold muck sap your company's vigor.",
+    "effect": {
+     "hp": -16,
+     "xp": 75
+    }
+   }
+  ]
+ },
+ {
+  "id": "evt-marsh-plague-cart",
+  "act": 2,
+  "trigger": "chest",
+  "text": "A white-limed quarantine wagon sits mired up to its hubs beside the dike, a sealed apothecary's chest bolted to the driver's bench.",
+  "choices": [
+   {
+    "label": "Break the wax seal and inspect the chest.",
+    "outcome": "You recover pristine surgical bandages and heavy silver apothecary weights.",
+    "effect": {
+     "gold": 55,
+     "hp": 20,
+     "xp": 105
+    }
+   },
+   {
+    "label": "Burn the wagon to prevent any lingering blight.",
+    "outcome": "The quicklime crackles cleanly in the flames as you march on unharmed.",
+    "effect": {
+     "xp": 95,
+     "flag": "flag_evt_blight_burned"
+    }
+   }
+  ]
+ },
+ {
+  "id": "evt-coast-smuggler-cache",
+  "act": 3,
+  "trigger": "chest",
+  "text": "Wedged beneath an overhanging basalt ledge above the surf sits a tarred sea-chest marked with a white corsair skull.",
+  "choices": [
+   {
+    "label": "Pick the salt-crusted lock with a dagger tip.",
+    "outcome": "Inside lie foreign silver crowns and a flask of potent spiced rum.",
+    "effect": {
+     "gold": 80,
+     "hp": 15,
+     "xp": 120
+    }
+   },
+   {
+    "label": "Smash the lid open with a heavy stone.",
+    "outcome": "You claim the silver, though a hidden spring-needle nicks your knuckles.",
+    "effect": {
+     "gold": 80,
+     "hp": -14,
+     "xp": 100
+    }
+   }
+  ]
+ },
+ {
+  "id": "evt-coast-cliff-ambush",
+  "act": 3,
+  "trigger": "ambush",
+  "text": "Loose shale clatters down the cliffside as rust-corsairs drop from hidden rope-ladders to block the narrow coastal ledge.",
+  "choices": [
+   {
+    "label": "Push forward into the gap before they form ranks.",
+    "outcome": "Your sudden assault drives the raiders over the shingle, leaving behind their loot.",
+    "effect": {
+     "gold": 65,
+     "hp": -18,
+     "xp": 145
+    }
+   },
+   {
+    "label": "Pin them down with ranged fire from behind the boulders.",
+    "outcome": "Pinned against the rock face, the corsairs abandon their gear and scramble up the ropes.",
+    "effect": {
+     "gold": 45,
+     "xp": 155
+    }
+   }
+  ]
+ },
+ {
+  "id": "evt-coast-mariner-shrine",
+  "act": 3,
+  "trigger": "shrine",
+  "text": "A driftwood cross lashed with tarred hemp stands overlooking the crashing reefs, surrounded by piles of bleached crab shells and salt-crystals.",
+  "choices": [
+   {
+    "label": "Cast a silver coin into the surf in memory of the drowned.",
+    "outcome": "The howling gale seems to calm, steadying your archers' aim along the cliffs.",
+    "effect": {
+     "gold": -15,
+     "xp": 130,
+     "flag": "flag_evt_tide_blessed"
+    }
+   },
+   {
+    "label": "Gather the dry driftwood for a sheltered windbreak.",
+    "outcome": "You rest briefly out of the biting spray, though the surf roars louder than before.",
+    "effect": {
+     "hp": 20,
+     "xp": 80
+    }
+   }
+  ]
+ },
+ {
+  "id": "evt-coast-stranded-sailor",
+  "act": 3,
+  "trigger": "npc",
+  "text": "Clinging to a shattered mast washed onto the shingle is a half-drowned merchant sailor shivering violently in soaked wool.",
+  "choices": [
+   {
+    "label": "Wrap him in a dry cloak and share warm rations.",
+    "outcome": "Revived, he guides you to a hidden tide-cave where his captain stashed the ship's strongbox.",
+    "effect": {
+     "gold": 90,
+     "xp": 140,
+     "flag": "flag_evt_sailor_rescued"
+    }
+   },
+   {
+    "label": "Point him toward Ironcamp and continue your march.",
+    "outcome": "He limps northward along the cliff-path while you keep your momentum.",
+    "effect": {
+     "xp": 75
+    }
+   }
+  ]
+ },
+ {
+  "id": "evt-coast-wrecked-galley",
+  "act": 3,
+  "trigger": "ruin",
+  "text": "At low tide, the barnacle-crusted ribs of a royal patrol galley stand exposed on the sandbar, its stern cabin still intact.",
+  "choices": [
+   {
+    "label": "Force the swollen cabin door before the tide turns.",
+    "outcome": "You recover a sealed brass chart-tube and a pouch of naval pay-silver.",
+    "effect": {
+     "gold": 75,
+     "xp": 135
+    }
+   },
+   {
+    "label": "Salvage dry oak oars and tarred canvas from the deck.",
+    "outcome": "Sturdy timber and waterproof cloth reinforce your company's packs.",
+    "effect": {
+     "hp": 22,
+     "xp": 105
+    }
+   }
+  ]
+ },
+ {
+  "id": "evt-coast-beacon-camp",
+  "act": 3,
+  "trigger": "camp",
+  "text": "Inside the stone lee of a ruined coastal watch-wall, a sheltered fire-pit holds dry kelp and stacked driftwood out of the salt wind.",
+  "choices": [
+   {
+    "label": "Kindle a warm blaze and oil salt-pitted armor.",
+    "outcome": "Dry warmth and clean joints restore your vanguard's strength.",
+    "effect": {
+     "hp": 32,
+     "xp": 115
+    }
+   },
+   {
+    "label": "Keep watch from the parapet through the night.",
+    "outcome": "Your sentries spot corsair signal-lanterns below, granting you the upper hand ahead.",
+    "effect": {
+     "xp": 145,
+     "flag": "flag_evt_corsair_signals_spotted"
+    }
+   }
+  ]
+ },
+ {
+  "id": "evt-coast-tide-pool-relic",
+  "act": 3,
+  "trigger": "shrine",
+  "text": "At the bottom of a crystal-clear tidal pool glints a heavy bronze astrolabe wedged between two black basalt boulders.",
+  "choices": [
+   {
+    "label": "Plunge into the icy brine to pry it loose.",
+    "outcome": "Shivering from the cold surf, you haul up the valuable navigator's instrument.",
+    "effect": {
+     "gold": 85,
+     "hp": -12,
+     "xp": 130
+    }
+   },
+   {
+    "label": "Use a hooked pole to fish it out from the ledge.",
+    "outcome": "With patience, you snag the astrolabe without getting a drop of spray on your boots.",
+    "effect": {
+     "gold": 85,
+     "xp": 150
+    }
+   }
+  ]
+ },
+ {
+  "id": "evt-ember-ash-shrine",
+  "act": 4,
+  "trigger": "shrine",
+  "text": "A blackened marble statue of the First King stands half-buried in gray cinders, its stone hands cupped around a bed of still-warm coals.",
+  "choices": [
+   {
+    "label": "Scatter the coals with clean water from your canteen.",
+    "outcome": "Steam rises in a quiet plume, revealing a gilded signet ring fused beneath the ash.",
+    "effect": {
+     "gold": 110,
+     "xp": 160
+    }
+   },
+   {
+    "label": "Touch your blade to the warm embers in silent oath.",
+    "outcome": "Fierce resolve steels your company for the final march toward the throne.",
+    "effect": {
+     "xp": 185,
+     "flag": "flag_evt_ember_oath"
+    }
+   }
+  ]
+ },
+ {
+  "id": "evt-ember-pyre-ambush",
+  "act": 4,
+  "trigger": "ambush",
+  "text": "From behind drifts of gray soot rise three armored pyre-knights, their halberds gleaming dull red in the smoke-choked gloom.",
+  "choices": [
+   {
+    "label": "Strike hard before they can ignite their braziers.",
+    "outcome": "A brutal clash shatters their formation, yielding royal silver and tempered steel.",
+    "effect": {
+     "gold": 95,
+     "hp": -24,
+     "xp": 190
+    }
+   },
+   {
+    "label": "Kick up a blinding cloud of ash and flank through the ruins.",
+    "outcome": "Choking in their heavy helms, the knights miss their swings as you cut them down.",
+    "effect": {
+     "gold": 75,
+     "xp": 210
+    }
+   }
+  ]
+ },
+ {
+  "id": "evt-ember-inquisitor-chest",
+  "act": 4,
+  "trigger": "chest",
+  "text": "Amid the charred ruins of a chancellery wagon sits an iron-bound inquisitor's strongbox, its wax seals melted into red puddles.",
+  "choices": [
+   {
+    "label": "Force the warped iron lid open.",
+    "outcome": "Inside rest confiscated noble coins and unburned writs of passage.",
+    "effect": {
+     "gold": 120,
+     "xp": 165
+    }
+   },
+   {
+    "label": "Burn the remaining treason-lists inside the box.",
+    "outcome": "Hundreds of condemned names turn to harmless gray flakes in the wind.",
+    "effect": {
+     "xp": 195,
+     "flag": "flag_evt_writs_destroyed"
+    }
+   }
+  ]
+ },
+ {
+  "id": "evt-ember-wounded-guardsman",
+  "act": 4,
+  "trigger": "npc",
+  "text": "Slumped against a scorched viaduct pillar is a wounded Ember Guard recruit, his breastplate cracked and his helm lying discarded beside him.",
+  "choices": [
+   {
+    "label": "Offer him water and bind his scorched shoulder.",
+    "outcome": "Whispering thanks, he reveals the patrol password for the inner gatehouse.",
+    "effect": {
+     "xp": 180,
+     "flag": "flag_evt_gate_password"
+    }
+   },
+   {
+    "label": "Take his intact steel gauntlets and move on.",
+    "outcome": "You claim the fine royal metalwork without wasting a drop of water.",
+    "effect": {
+     "gold": 65,
+     "xp": 120
+    }
+   }
+  ]
+ },
+ {
+  "id": "evt-ember-sealed-cistern",
+  "act": 4,
+  "trigger": "ruin",
+  "text": "A soot-covered brick cistern stands beside the blackened road, its heavy bronze inspection hatch wedged half-open by a snapped crowbar.",
+  "choices": [
+   {
+    "label": "Leverage the hatch fully open and draw fresh water.",
+    "outcome": "Cool, clean spring water washes the ash from your company's throats and wounds.",
+    "effect": {
+     "hp": 40,
+     "xp": 155
+    }
+   },
+   {
+    "label": "Check the dry ledges just inside the cistern rim.",
+    "outcome": "A fleeing citizen hid a leather pouch of gold sovereigns behind the brickwork.",
+    "effect": {
+     "gold": 105,
+     "xp": 150
+    }
+   }
+  ]
+ },
+ {
+  "id": "evt-ember-slag-camp",
+  "act": 4,
+  "trigger": "camp",
+  "text": "Sheltered behind a high wall of cooled foundry slag, a quiet hollow offers rare protection from the stinging ember-wind.",
+  "choices": [
+   {
+    "label": "Rest behind the slag-wall and sharpen blunted edges.",
+    "outcome": "A steady respite restores your mercenaries' endurance before the citadel.",
+    "effect": {
+     "hp": 35,
+     "xp": 160
+    }
+   },
+   {
+    "label": "Sift through the cooling slag heaps for unmelted bullion.",
+    "outcome": "You pry several lumps of heavy silver out of the glassy black crust.",
+    "effect": {
+     "gold": 90,
+     "hp": -10,
+     "xp": 170
+    }
+   }
+  ]
+ },
+ {
+  "id": "evt-ember-melted-bell",
+  "act": 4,
+  "trigger": "ruin",
+  "text": "In the center of a cracked marble square lies a fallen cathedral bell, one side melted into rippled bronze by crown-fire.",
+  "choices": [
+   {
+    "label": "Chip loose chunks of pure bell-bronze.",
+    "outcome": "Merchants and smiths will pay handsomely for fine consecrated metal.",
+    "effect": {
+     "gold": 100,
+     "xp": 155
+    }
+   },
+   {
+    "label": "Strike the intact rim with a sword pommel.",
+    "outcome": "A deep, somber chime rolls across the ash-plains, steadying your vanguard's hearts.",
+    "effect": {
+     "xp": 185,
+     "flag": "flag_evt_bell_rung"
+    }
+   }
+  ]
+ },
+ {
+  "id": "evt-ember-ash-peddler",
+  "act": 4,
+  "trigger": "npc",
+  "text": "Huddled beneath an overturned iron cart is a soot-masked peddler guarding two casks of clean hill-water and cured venison.",
+  "choices": [
+   {
+    "label": "Pay his steep price for fresh water and cured meat.",
+    "outcome": "The clean provisions revive your exhausted company completely.",
+    "effect": {
+     "gold": -45,
+     "hp": 45,
+     "xp": 150
+    }
+   },
+   {
+    "label": "Escort him safely back toward the Oakhaven road.",
+    "outcome": "Relieved to escape the ash-zone, he rewards you with a family heirloom ring.",
+    "effect": {
+     "gold": 85,
+     "xp": 175
+    }
+   }
+  ]
  }
 ]

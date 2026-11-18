@@ -1,0 +1,322 @@
+[
+ {
+  "id": "loc-alder-ferry-pier",
+  "name": "Alder Ferry Pier",
+  "act": 1,
+  "region_hint": "north",
+  "blurb": "Splintered cedar pilings jutting into the gray current where flat-bottomed barges once crossed.",
+  "discovered_line": "Snapped tow-ropes dangle into the eddies beside an overturned toll-chest."
+ },
+ {
+  "id": "loc-brier-watchtower",
+  "name": "Collapsed Brier Watchtower",
+  "act": 1,
+  "region_hint": "east",
+  "blurb": "A listing timber signal-post choked by thorny vines above the eastern wagon track.",
+  "discovered_line": "Fletched border arrows still bristle from the charred roof beams."
+ },
+ {
+  "id": "loc-miller-dam-sluice",
+  "name": "Garrick's Mill-Sluice",
+  "act": 1,
+  "region_hint": "west",
+  "blurb": "A moss-slick stone weir holding back a stagnant millpond clogged with dead reeds.",
+  "discovered_line": "The iron sluice-wheel is chained shut, backing foul water over the road."
+ },
+ {
+  "id": "loc-cairn-of-three-spears",
+  "name": "Cairn of Three Spears",
+  "act": 1,
+  "region_hint": "center",
+  "blurb": "A wind-scoured mound of river cobbles marking an ancient truce between border clans.",
+  "discovered_line": "Three rusted spearheads jut from the cairn's crown like crooked teeth."
+ },
+ {
+  "id": "loc-muddy-ford-shrine",
+  "name": "Saint Oswin's Wayshrine",
+  "act": 1,
+  "region_hint": "south",
+  "blurb": "A leaning sandstone niche housing a faceless statue draped in wet woolen ribbons.",
+  "discovered_line": "Half-burned tallow stubs float in the rainwater pooling at the saint's feet."
+ },
+ {
+  "id": "loc-tanner-hollow",
+  "name": "Old Tanner's Hollow",
+  "act": 1,
+  "region_hint": "south",
+  "blurb": "Sunken lime-pits and collapsed drying racks hidden inside a damp willow copse.",
+  "discovered_line": "The sour reek of curing hides lingers beneath freshly turned earth."
+ },
+ {
+  "id": "loc-broken-cart-ford",
+  "name": "Shattered Axle Crossing",
+  "act": 1,
+  "region_hint": "center",
+  "blurb": "A shallow gravel bar littered with splintered oak spokes and waterlogged grain sacks.",
+  "discovered_line": "Deep bootprints lead straight from the wrecked supply wagon into the brush."
+ },
+ {
+  "id": "loc-willow-gallows",
+  "name": "The Crooked Willow",
+  "act": 1,
+  "region_hint": "east",
+  "blurb": "A gnarled riverside tree whose lowest bough bears frayed hemp nooses over the mud.",
+  "discovered_line": "Crows scatter from the branches, leaving behind brass buttons in the silt."
+ },
+ {
+  "id": "loc-flint-quarry-pit",
+  "name": "Redbank Flint Pit",
+  "act": 1,
+  "region_hint": "north",
+  "blurb": "Stepped chalk excavations where border knappers once mined spark-stone for garrison tinderboxes.",
+  "discovered_line": "Abandoned iron picks lie rusting beside piles of sharp, freshly split chert."
+ },
+ {
+  "id": "loc-sunken-granary",
+  "name": "Flooded Tithe-Granary",
+  "act": 1,
+  "region_hint": "west",
+  "blurb": "A squat brick storehouse tilted half into the riverbank after last autumn's surge.",
+  "discovered_line": "Sprouting barley spills through a cracked cellar grate into the black mud."
+ },
+ {
+  "id": "loc-peat-kiln-ruins",
+  "name": "Smoldering Peat Kilns",
+  "act": 2,
+  "region_hint": "north",
+  "blurb": "Domed brick ovens sunken into the bog, venting thin tendrils of acrid yellow smoke.",
+  "discovered_line": "Charred wheelbarrows sit abandoned beside stacks of black turf bricks."
+ },
+ {
+  "id": "loc-sunken-belfry",
+  "name": "The Drowned Belfry",
+  "act": 2,
+  "region_hint": "center",
+  "blurb": "Only the stone steeple of an old parish chapel rises above the stagnant red water.",
+  "discovered_line": "A cracked bronze bell sways slightly whenever marsh gas bubbles up below."
+ },
+ {
+  "id": "loc-leech-gatherer-hut",
+  "name": "Stilt-Hut of Bog-Mire",
+  "act": 2,
+  "region_hint": "west",
+  "blurb": "A leaning reed shack perched on rotting cypress poles above a scum-covered pool.",
+  "discovered_line": "Glass jars filled with dark, writhing shapes hang from the eaves."
+ },
+ {
+  "id": "loc-bone-causeway",
+  "name": "The Rib-Bone Causeway",
+  "act": 2,
+  "region_hint": "south",
+  "blurb": "A narrow footpath paved with bleached animal ribs and split logs across bottomless mire.",
+  "discovered_line": "Every step sinks an inch, squelching black water over the ancient bones."
+ },
+ {
+  "id": "loc-drowned-battery",
+  "name": "Sunken Siege-Battery",
+  "act": 2,
+  "region_hint": "east",
+  "blurb": "Rotted timber platforms holding two half-submerged trebuchets from a forgotten rebellion.",
+  "discovered_line": "Sling-ropes hang like dead vines above crates of moss-covered stone shot."
+ },
+ {
+  "id": "loc-weeping-alder-grove",
+  "name": "Weeping Alder Thicket",
+  "act": 2,
+  "region_hint": "north",
+  "blurb": "Twisted bog-trees dripping amber sap into dark pools choked with crimson duckweed.",
+  "discovered_line": "Tattered scraps of pilgrim cloth flutter from the lowest thorns."
+ },
+ {
+  "id": "loc-plague-trench",
+  "name": "The Quicklime Trench",
+  "act": 2,
+  "region_hint": "east",
+  "blurb": "A long, sunken ditch crusted with white lime along the edge of the eastern dike.",
+  "discovered_line": "Broken wooden shovels jut from the crust like crooked grave markers."
+ },
+ {
+  "id": "loc-wisp-lantern-post",
+  "name": "False-Light Beacon",
+  "act": 2,
+  "region_hint": "west",
+  "blurb": "An iron cage mounted on a crooked pole where pale marsh-lights gather after dusk.",
+  "discovered_line": "Skeletal hands still clutch the base of the post beneath a foot of peat."
+ },
+ {
+  "id": "loc-heretic-altar",
+  "name": "Mire-Cult Stone",
+  "act": 2,
+  "region_hint": "south",
+  "blurb": "A flat slab of black basalt carved with spiral channels stained dark with dried blood.",
+  "discovered_line": "Woven reed idols sit in a ring around a bowl of foul bog-water."
+ },
+ {
+  "id": "loc-rotted-ferry-barge",
+  "name": "The Beached Fen-Barge",
+  "act": 2,
+  "region_hint": "center",
+  "blurb": "The mossy hull of a flat-bottomed troop transport wedged firmly into a peat hummock.",
+  "discovered_line": "Rusted shields still hang along the gunwales above a flooded cargo hold."
+ },
+ {
+  "id": "loc-salt-evaporation-pans",
+  "name": "Cracked Brine Pans",
+  "act": 3,
+  "region_hint": "north",
+  "blurb": "Terraced stone basins along the tidal flats crusted with dirty gray sea-salt.",
+  "discovered_line": "Wooden rakes lie snapped beside mounds of uncollected salt crystals."
+ },
+ {
+  "id": "loc-whalebone-arch",
+  "name": "Leviathan Jaw-Gate",
+  "act": 3,
+  "region_hint": "west",
+  "blurb": "Two colossal sun-bleached rib bones lashed together over a narrow cliffside smugglers' path.",
+  "discovered_line": "Salt wind whistles through carved sailor-marks etched into the bone."
+ },
+ {
+  "id": "loc-barnacle-lighthouse",
+  "name": "Blind-Beacon Tower",
+  "act": 3,
+  "region_hint": "east",
+  "blurb": "A salt-eaten stone lighthouse whose bronze mirror was smashed out during a corsair raid.",
+  "discovered_line": "Cold ash fills the fire-pan while gull nests choke the spiral stairs."
+ },
+ {
+  "id": "loc-galley-graveyard",
+  "name": "The Splintered Cove",
+  "act": 3,
+  "region_hint": "south",
+  "blurb": "A jagged reef impaling the broken hulls of three royal patrol galleys.",
+  "discovered_line": "Barnacle-covered oars wash back and forth in the red-stained surf."
+ },
+ {
+  "id": "loc-iron-chain-boom",
+  "name": "Harbor Chain-Winch",
+  "act": 3,
+  "region_hint": "center",
+  "blurb": "A squat capstan house holding one end of a rusted harbor-blocking iron chain.",
+  "discovered_line": "Thick links trail straight down into the crashing waves like a sea-serpent."
+ },
+ {
+  "id": "loc-smuggler-sea-cave",
+  "name": "Tide-Hollow Grotto",
+  "act": 3,
+  "region_hint": "south",
+  "blurb": "A basalt cavern accessible only at low water, stacked with tarred brandy casks.",
+  "discovered_line": "Wet bootprints lead deeper into the dark behind a false wall of driftwood."
+ },
+ {
+  "id": "loc-cliffside-ossuary",
+  "name": "Mariner's Cliff-Niche",
+  "act": 3,
+  "region_hint": "north",
+  "blurb": "Shallow caves cut into the sea-cliff where drowned sailors' skulls rest behind iron grilles.",
+  "discovered_line": "Salt-crusted copper coins glint inside empty eye sockets."
+ },
+ {
+  "id": "loc-anchor-forge",
+  "name": "Sea-Cliff Anchor Smithy",
+  "act": 3,
+  "region_hint": "center",
+  "blurb": "An open-air stone hearth battered by spray, flanked by half-forged iron flukes.",
+  "discovered_line": "A massive cracked anvil sits tilted in the wet shingle."
+ },
+ {
+  "id": "loc-tide-cult-pool",
+  "name": "The Abyssal Tide-Pool",
+  "act": 3,
+  "region_hint": "east",
+  "blurb": "A deep circular sinkhole in the coastal rock that churns violently even in calm weather.",
+  "discovered_line": "Carved stone steps descend straight into the black, foaming water."
+ },
+ {
+  "id": "loc-wreckers-lantern",
+  "name": "False-Harbor Gallows",
+  "act": 3,
+  "region_hint": "west",
+  "blurb": "A tall timber crane perched on a jagged headland to lure merchant ships onto the rocks.",
+  "discovered_line": "Shattered cargo crates and bleached ribs litter the coves directly below."
+ },
+ {
+  "id": "loc-cinder-viaduct",
+  "name": "The Ash-Choked Viaduct",
+  "act": 4,
+  "region_hint": "west",
+  "blurb": "A towering stone aqueduct whose dry channel is packed three feet deep with gray soot.",
+  "discovered_line": "Scorched royal banners hang limp from the arches over the barren plain."
+ },
+ {
+  "id": "loc-charred-orchard",
+  "name": "The Blackened Groves",
+  "act": 4,
+  "region_hint": "south",
+  "blurb": "Rows of petrified apple trees turned to charcoal by rolling ember-winds from the capital.",
+  "discovered_line": "Brittle branches snap like dry bones underfoot in the dead silence."
+ },
+ {
+  "id": "loc-slag-foundry",
+  "name": "Royal Gunpowder Foundry",
+  "act": 4,
+  "region_hint": "east",
+  "blurb": "A blackened stone manufactory ringed by slag heaps and shattered bronze cannon molds.",
+  "discovered_line": "Sulfur dust coats the floor beside half-filled barrels of coarse black powder."
+ },
+ {
+  "id": "loc-inquisition-gallows",
+  "name": "The Iron-Cage Crossroads",
+  "act": 4,
+  "region_hint": "center",
+  "blurb": "Tall iron gibbets creaking in the hot wind along the main highway to the inner walls.",
+  "discovered_line": "Charred parchment decrees remain nailed to the stone base of each post."
+ },
+ {
+  "id": "loc-melted-bell-plaza",
+  "name": "Square of the Molten Bell",
+  "act": 4,
+  "region_hint": "north",
+  "blurb": "A cracked marble plaza dominated by a massive cathedral bell fused into a lump of bronze.",
+  "discovered_line": "Vitrified cobbles mark where crown-fire rained down during the purge."
+ },
+ {
+  "id": "loc-ash-cistern",
+  "name": "The Soot-Sealed Cistern",
+  "act": 4,
+  "region_hint": "south",
+  "blurb": "A domed brick reservoir whose iron hatch was welded shut to keep ash from fouling the water.",
+  "discovered_line": "Scratch marks cover the bronze door where desperate hands tried to pry it open."
+ },
+ {
+  "id": "loc-pyre-knight-barracks",
+  "name": "Scorched Watch-Bastion",
+  "act": 4,
+  "region_hint": "east",
+  "blurb": "A soot-stained fortress gatehouse flanked by cold iron braziers ten feet wide.",
+  "discovered_line": "Rows of blackened halberds stand neatly racked beside piles of fused armor."
+ },
+ {
+  "id": "loc-royal-archives-ruin",
+  "name": "The Cindered Chancellery",
+  "act": 4,
+  "region_hint": "north",
+  "blurb": "Gutted marble halls where thousands of tax rolls and noble pedigrees burned to black flakes.",
+  "discovered_line": "A single iron strongbox sits untouched amid knee-deep drifts of paper ash."
+ },
+ {
+  "id": "loc-obsidian-quarry",
+  "name": "Ember-Glass Quarry",
+  "act": 4,
+  "region_hint": "west",
+  "blurb": "Jagged pits of black volcanic glass mined to tip the spears of the royal vanguard.",
+  "discovered_line": "Razor-sharp splinters glint across the churned earth like fallen stars."
+ },
+ {
+  "id": "loc-throne-causeway",
+  "name": "The Cinder Causeway",
+  "act": 4,
+  "region_hint": "center",
+  "blurb": "A wide basalt road lined with headless statues leading directly toward the smoking citadel.",
+  "discovered_line": "Hot cinders drift across the paving stones like dying fireflies."
+ }
+]
