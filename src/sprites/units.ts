@@ -3,7 +3,13 @@ import { checkSheet, frameName, type UnitSheet } from './contract';
 import { animationFrame, ARMOUR_COLORS, palette, sheetDirection, splitMask } from './palette';
 import type { AnimationPose } from './combat-animation';
 
-export const UNIT_ART = ['hero', 'archer', 'golem', 'warrior', 'mage', 'gnoll', 'imp'] as const;
+export const UNIT_ART = ['hero', 'archer', 'golem', 'warrior', 'mage', 'gnoll', 'imp',
+  'briar-hound', 'thorn-boar', 'flintback', 'mire-wisp', 'cinder-shaman', 'quill-fiend'] as const;
+/** Monster family -> dedicated body art (families without an entry use their sim kind's art). */
+export const FAMILY_ART: Readonly<Record<string, (typeof UNIT_ART)[number]>> = {
+  'briar-hound': 'briar-hound', 'thorn-boar': 'thorn-boar', 'flintback': 'flintback',
+  'mire-wisp': 'mire-wisp', 'fallen-shaman': 'cinder-shaman', 'quill-fiend': 'quill-fiend',
+};
 export const BOSS_ART = ['morvessa', 'gorrathul', 'vesperion', 'ashkarath'] as const;
 export const ALL_UNIT_ART = [...UNIT_ART, ...BOSS_ART] as const;
 export type UnitArt = typeof ALL_UNIT_ART[number];

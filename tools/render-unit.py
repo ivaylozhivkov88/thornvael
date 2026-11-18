@@ -18,7 +18,9 @@ argv = sys.argv[sys.argv.index("--") + 1:] if "--" in sys.argv else []
 OUT = os.path.abspath(argv[0] if argv else "render_out")
 CELL = int(argv[1]) if len(argv) > 1 else 48
 UNIT = argv[2] if len(argv) > 2 else "hero"
-if UNIT not in ("hero", "archer", "golem", "warrior", "mage", "gnoll", "imp"):
+NEW_UNITS = ("briar-hound", "thorn-boar", "flintback", "mire-wisp", "cinder-shaman", "quill-fiend")
+QUAD = ("briar-hound", "thorn-boar", "flintback")
+if UNIT not in ("hero", "archer", "golem", "warrior", "mage", "gnoll", "imp") + NEW_UNITS:
     raise SystemExit("unknown unit: " + UNIT)
 DIRECTIONS, ANIMS = 16, {"stand": 4, "walk": 8, "attack": 4, "cast": 4, "hurt": 2, "die": 4}
 START = time.perf_counter()
@@ -81,6 +83,10 @@ def part(kind, name, loc, scale, role):
     o.data.materials.append(mats[role])
     o["role"] = role
     return o
+
+
+def hide(o):
+    o.scale = (0.001, 0.001, 0.001)
 
 
 root = bpy.data.objects.new("root", None)
@@ -192,6 +198,129 @@ elif UNIT == "golem":
     legL.scale = legR.scale = (0.15, 0.14, 0.40)
     legL.location.x, legR.location.x = -0.19, 0.19
     legL["role"] = legR["role"] = "level"
+elif UNIT == "briar-hound":
+    body.scale, body.location = (0.20, 0.40, 0.19), (0, 0.02, 0.64)
+    body["role"] = "level"
+    head.scale, head.location = (0.15, 0.17, 0.15), (0, -0.46, 0.80)
+    head["role"] = "level"
+    cape.scale, cape.location = (0.035, 0.17, 0.035), (0, 0.52, 0.74)
+    cape["role"] = "armour"
+    hide(badge)
+    legL["role"] = legR["role"] = "dark"
+    armL["role"] = armR["role"] = "dark"
+    legL.location, legR.location = (-0.13, 0.28, 0.5), (0.13, 0.28, 0.5)
+    legL.scale = legR.scale = Vector((0.07, 0.08, 0.30))
+    armL.scale = armR.scale = Vector((0.07, 0.08, 0.30))
+    part("cube", "snout", (0, -0.64, 0.74), (0.07, 0.13, 0.065), "dark")
+    part("cube", "jaw", (0, -0.62, 0.66), (0.055, 0.10, 0.03), "armour")
+    for side in (-1, 1):
+        ear = part("cone", "ear", (side * 0.10, -0.40, 1.02), (0.05, 0.04, 0.20), "level")
+        ear.rotation_euler[1] = side * 0.30
+        part("cube", "eye", (side * 0.07, -0.58, 0.85), (0.03, 0.02, 0.025), "team")
+    for k in range(5):
+        part("cone", "spine", (0, -0.20 + 0.14 * k, 0.86 - 0.01 * k), (0.035, 0.035, 0.13), "armour")
+elif UNIT == "thorn-boar":
+    body.scale, body.location = (0.27, 0.42, 0.25), (0, 0.04, 0.68)
+    body["role"] = "level"
+    head.scale, head.location = (0.20, 0.20, 0.19), (0, -0.46, 0.72)
+    head["role"] = "level"
+    cape.scale, cape.location = (0.03, 0.10, 0.03), (0, 0.50, 0.78)
+    cape["role"] = "armour"
+    hide(badge)
+    legL["role"] = legR["role"] = "dark"
+    armL["role"] = armR["role"] = "dark"
+    legL.location, legR.location = (-0.16, 0.26, 0.5), (0.16, 0.26, 0.5)
+    legL.scale = legR.scale = Vector((0.09, 0.09, 0.30))
+    armL.scale = armR.scale = Vector((0.09, 0.09, 0.30))
+    part("cube", "snout", (0, -0.64, 0.66), (0.10, 0.10, 0.08), "skin")
+    for side in (-1, 1):
+        tusk = part("cone", "tusk", (side * 0.11, -0.66, 0.60), (0.035, 0.035, 0.14), "armour")
+        tusk.rotation_euler[0] = 2.2
+        part("cube", "eye", (side * 0.10, -0.62, 0.80), (0.03, 0.02, 0.025), "team")
+        ear = part("cone", "ear", (side * 0.14, -0.34, 0.93), (0.05, 0.04, 0.10), "level")
+        ear.rotation_euler[1] = side * 0.40
+    for k in range(6):
+        part("cone", "bristle", (0, -0.28 + 0.12 * k, 0.94 - 0.02 * abs(k - 2)), (0.045, 0.045, 0.15), "armour")
+elif UNIT == "flintback":
+    body.scale, body.location = (0.30, 0.42, 0.24), (0, 0.02, 0.62)
+    body["role"] = "dark"
+    head.scale, head.location = (0.16, 0.18, 0.15), (0, -0.52, 0.64)
+    head["role"] = "skin"
+    cape.scale, cape.location = (0.045, 0.14, 0.045), (0, 0.52, 0.50)
+    cape["role"] = "dark"
+    hide(badge)
+    legL["role"] = legR["role"] = "dark"
+    armL["role"] = armR["role"] = "dark"
+    legL.location, legR.location = (-0.20, 0.26, 0.5), (0.20, 0.26, 0.5)
+    legL.scale = legR.scale = Vector((0.11, 0.11, 0.30))
+    armL.scale = armR.scale = Vector((0.11, 0.11, 0.30))
+    part("cube", "snout", (0, -0.66, 0.58), (0.09, 0.10, 0.06), "skin")
+    for side in (-1, 1):
+        part("cube", "eye", (side * 0.09, -0.65, 0.70), (0.03, 0.02, 0.025), "team")
+    for r, y in ((0, -0.22), (1, 0.0), (2, 0.22), (3, 0.40)):
+        for side in (-1, 1):
+            part("ico_sphere", "plate", (side * 0.14, y, 0.82 + 0.03 * (r == 1)), (0.16, 0.14, 0.12), "level")
+    part("ico_sphere", "plate", (0, 0.10, 0.98), (0.20, 0.30, 0.13), "armour")
+    part("cone", "flint", (0, -0.10, 1.12), (0.07, 0.07, 0.16), "armour")
+    part("cone", "flint", (0, 0.22, 1.08), (0.06, 0.06, 0.14), "armour")
+elif UNIT == "mire-wisp":
+    body.scale, body.location = (0.26, 0.26, 0.30), (0, 0, 1.12)
+    body["role"] = "team"
+    head.scale, head.location = (0.15, 0.15, 0.15), (0, -0.02, 1.16)
+    head["role"] = "armour"
+    cape.scale, cape.location = (0.14, 0.14, 0.42), (0, 0.04, 0.55)
+    cape["role"] = "level"
+    hide(badge)
+    for o in (legL, legR, armL, armR):
+        o.scale = Vector((0.012, 0.012, 0.30))
+        o["role"] = "team"
+    legL.location, legR.location = (-0.04, 0, 0.5), (0.04, 0, 0.5)
+    for k in range(3):
+        a = k * 2.094
+        part("ico_sphere", "mote", (0.46 * math.cos(a), 0.46 * math.sin(a) - 0.02, 1.30 + 0.10 * k), (0.07, 0.07, 0.07), "armour")
+    for side in (-1, 1):
+        part("cube", "eye", (side * 0.07, -0.19, 1.20), (0.03, 0.02, 0.03), "dark")
+        part("cone", "flame", (side * 0.13, 0.0, 1.70), (0.08, 0.08, 0.22), "level")
+    part("cone", "flame", (0, 0.0, 1.84), (0.09, 0.09, 0.26), "level")
+elif UNIT == "cinder-shaman":
+    body.scale = (0.26, 0.20, 0.44)
+    body["role"] = "dark"
+    cape.scale = (0.30, 0.06, 0.48)
+    cape["role"] = "team"
+    armL["role"] = armR["role"] = "dark"
+    legL["role"] = legR["role"] = "dark"
+    head["role"] = "skin"
+    part("cube", "apron", (0, -0.21, 0.72), (0.14, 0.03, 0.36), "level")
+    part("cube", "sash", (0, -0.22, 1.25), (0.20, 0.02, 0.05), "armour")
+    part("ico_sphere", "mask", (0, -0.10, 1.80), (0.21, 0.19, 0.23), "armour")
+    for side in (-1, 1):
+        horn = part("cone", "horn", (side * 0.14, -0.02, 2.04), (0.05, 0.05, 0.17), "level")
+        horn.rotation_euler[1] = side * 0.34
+        part("cube", "eye", (side * 0.07, -0.28, 1.82), (0.04, 0.025, 0.03), "team")
+        part("ico_sphere", "shoulder", (side * 0.39, 0, 1.46), (0.15, 0.16, 0.12), "armour")
+    part("cube", "staff", (0.49, -0.15, 1.08), (0.03, 0.03, 0.44), "dark")
+    part("ico_sphere", "staff_orb", (0.49, -0.15, 1.56), (0.11, 0.11, 0.11), "team")
+    part("cone", "staff_ring", (0.49, -0.15, 1.68), (0.06, 0.06, 0.11), "level")
+elif UNIT == "quill-fiend":
+    body.scale = (0.24, 0.20, 0.38)
+    body["role"] = "level"
+    head.scale = (0.19, 0.20, 0.20)
+    head["role"] = "level"
+    cape.scale = (0.20, 0.05, 0.30)
+    cape["role"] = "armour"
+    legL["role"] = legR["role"] = "dark"
+    armL["role"] = armR["role"] = "level"
+    legL.scale = legR.scale = Vector((0.08, 0.08, 0.45))
+    part("cube", "snout", (0, -0.22, 1.72), (0.09, 0.12, 0.07), "skin")
+    for side in (-1, 1):
+        part("cube", "eye", (side * 0.08, -0.20, 1.82), (0.035, 0.025, 0.03), "team")
+        part("ico_sphere", "shoulder", (side * 0.40, 0, 1.44), (0.16, 0.16, 0.14), "armour")
+        part("ico_sphere", "fist", (side * 0.44, -0.06, 0.80), (0.12, 0.12, 0.14), "dark")
+    for y, z, h in ((0.20, 1.55, 0.26), (0.24, 1.35, 0.30), (0.22, 1.15, 0.26), (0.16, 1.88, 0.22)):
+        for side in (-0.14, 0, 0.14):
+            q = part("cone", "quill", (side, y, z), (0.04, 0.04, h), "armour")
+            q.rotation_euler[0] = -1.1
+            q.rotation_euler[1] = side * 1.6
 parts = [o for o in scene.objects if o.type == "MESH"]
 
 
@@ -215,21 +344,31 @@ def attach(obj, parent):
 torso = joint("spine_hinge", (0, 0, 0.9), root)
 for p in parts:
     attach(p, torso)
+LEG_K = {"briar-hound": 1.22, "thorn-boar": 1.22, "flintback": 1.22, "mire-wisp": 0.50}
+ARM_K = {"briar-hound": 1.80, "thorn-boar": 1.80, "flintback": 1.80, "mire-wisp": 0.50}
+HIP_Z = {"briar-hound": 1.05, "thorn-boar": 1.05, "flintback": 1.05, "mire-wisp": 0.70}
+SHOULDER = {"briar-hound": (0.13, -0.30, -0.38), "thorn-boar": (0.16, -0.28, -0.38),
+            "flintback": (0.20, -0.30, -0.38), "mire-wisp": (0.05, 0, -0.10)}
+KL, KA = LEG_K.get(UNIT, 1.0), ARM_K.get(UNIT, 1.0)
 arms, elbows, wrists, hips, knees = [], [], [], [], []
 for side, arm, leg in ((-1, armL, legL), (1, armR, legR)):
-    shoulder = joint("shoulder_hinge", (side * (0.52 if UNIT == "golem" else 0.42), 0, 0.55), torso)
-    elbow = joint("elbow_hinge", (0, 0, -0.30), shoulder)
-    wrist = joint("wrist_hinge", (0, 0, -0.30), elbow)
+    sx, sy, sz = SHOULDER.get(UNIT, (0.52 if UNIT == "golem" else 0.42, 0, 0.55))
+    shoulder = joint("shoulder_hinge", (side * sx, sy, sz), torso)
+    elbow = joint("elbow_hinge", (0, 0, -0.30 * KA), shoulder)
+    wrist = joint("wrist_hinge", (0, 0, -0.30 * KA), elbow)
     attach(arm, shoulder)
-    arm.location, arm.scale.z = (0, 0, -0.15), 0.15
-    lower = part("cube", "forearm", (0, 0, 0), (0.10, 0.13, 0.15), "armour")
-    lower.parent, lower.location = elbow, (0, 0, -0.15)
-    hip = joint("hip_hinge", (leg.location.x, 0, 0.88), root)
-    knee = joint("knee_hinge", (0, 0, -0.43), hip)
+    arm.location, arm.scale.z = (0, 0, -0.15 * KA), 0.15 * KA
+    if UNIT in NEW_UNITS:
+        lower = part("cube", "forearm", (0, 0, 0), (arm.scale.x, arm.scale.y, 0.15 * KA), arm["role"])
+    else:
+        lower = part("cube", "forearm", (0, 0, 0), (0.10, 0.13, 0.15), "armour")
+    lower.parent, lower.location = elbow, (0, 0, -0.15 * KA)
+    hip = joint("hip_hinge", (leg.location.x, leg.location.y, HIP_Z.get(UNIT, 0.88)), root)
+    knee = joint("knee_hinge", (0, 0, -0.43 * KL), hip)
     attach(leg, hip)
-    leg.location, leg.scale.z = (0, 0, -0.215), 0.215
-    shin = part("cube", "shin", (0, 0, 0), (leg.scale.x, leg.scale.y, 0.215), leg["role"])
-    shin.parent, shin.location = knee, (0, 0, -0.215)
+    leg.location, leg.scale.z = (0, 0, -0.215 * KL), 0.215 * KL
+    shin = part("cube", "shin", (0, 0, 0), (leg.scale.x, leg.scale.y, 0.215 * KL), leg["role"])
+    shin.parent, shin.location = knee, (0, 0, -0.215 * KL)
     arms.append(shoulder)
     elbows.append(elbow)
     wrists.append(wrist)
@@ -256,6 +395,41 @@ def pose(anim, i, n):
         o.location, o.rotation_euler, o.scale = loc.copy(), rot.copy(), scale.copy()
     t = i / n
     wave = math.sin(t * 2 * math.pi)
+    if UNIT in QUAD:
+        root.location.y += 0.25 + (0.05 if UNIT == "flintback" else 0)
+        torso.location.z += 0.58 + {"briar-hound": 0.38, "thorn-boar": 0.06}.get(UNIT, 0)
+        if anim == "stand":
+            torso.location.z += (0, 0.03, 0.01, 0.01)[i]
+            torso.rotation_euler.x = (0, -0.04, 0, 0.03)[i]
+        elif anim == "walk":
+            swing = wave * 0.30
+            hips[0].rotation_euler.x, hips[1].rotation_euler.x = swing, -swing
+            arms[0].rotation_euler.x, arms[1].rotation_euler.x = -swing, swing
+            knees[0].rotation_euler.x = -max(0, -wave) * 0.5
+            knees[1].rotation_euler.x = -max(0, wave) * 0.5
+            torso.location.z += abs(wave) * 0.04
+            torso.rotation_euler.z = math.cos(t * 2 * math.pi) * 0.06
+        elif anim == "attack":
+            torso.rotation_euler.x = (0.28, 0.10, -0.10, 0)[i]
+            root.location.y += (0.06, 0.03, 0.0, 0)[i]
+            arms[1].rotation_euler.x = (-1.3, -0.8, -0.3, 0)[i]
+            arms[0].rotation_euler.x = (-0.6, -0.3, -0.1, 0)[i]
+            torso.rotation_euler.z = (-0.18, -0.08, 0.10, 0)[i]
+        elif anim == "cast":
+            torso.rotation_euler.x = (-0.22, -0.18, -0.08, 0)[i]
+            arms[0].rotation_euler.x = arms[1].rotation_euler.x = (-0.5, -0.4, -0.3, -0.1)[i]
+            torso.location.z += (0.05, 0.08, 0.04, 0)[i]
+        elif anim == "hurt":
+            torso.rotation_euler.x = (-0.28, -0.06)[i]
+            torso.rotation_euler.y = (0.14, 0.03)[i]
+        elif anim == "die":
+            root.location.z = (0, -0.08, -0.25, -0.42)[i]
+            torso.rotation_euler.y = (0.20, 0.50, 0.80, 1.00)[i] * (0.55 if UNIT == "flintback" else 0.65)
+            for j in (0, 1):
+                hips[j].rotation_euler.x = (0.10, 0.30, 0.50, 0.70)[i] * (1 if j == 0 else -1)
+                arms[j].rotation_euler.x = (-0.1, -0.2, -0.3, -0.4)[i]
+            root.location.y += (0, 0.10, 0.30, 0.52)[i]
+        return
     if anim == "stand":
         torso.location.z += (0, 0.055, 0, -0.035)[i]
         arms[1].rotation_euler.x = (0, 0.10, 0, -0.08)[i]

@@ -9,7 +9,7 @@ import { SPELLS, St, Tk } from './sim/spelldata';
 import { S } from './strings';
 import { getItemDef, Slot } from './sim/items';
 import { itemRarity } from './sim/town';
-import { UnitAtlas, UnitSprite, ALL_UNIT_ART, UNIT_ART, bossSpriteDef, type HeroWeaponVisual, HERO_ARMOUR_TINTS } from './sprites/units';
+import { UnitAtlas, UnitSprite, ALL_UNIT_ART, UNIT_ART, FAMILY_ART, bossSpriteDef, type HeroWeaponVisual, HERO_ARMOUR_TINTS } from './sprites/units';
 import { ArtPreview } from './sprites/preview';
 
 export function getHeroWeaponVisual(itemDef?: { name: string; cls?: number } | null): HeroWeaponVisual {
@@ -433,7 +433,7 @@ export class Renderer {
     for (let i = 0; i < sim.count; i++) {
       const kind = sim.cb.kind[i];
       const boss = sim.cb.family[i] ? bossSpriteDef(sim.cb.family[i]) : undefined;
-      const bossAtlas = boss ? atlasByArt.get(boss.id) : undefined;
+      const bossAtlas = boss ? atlasByArt.get(boss.id) : (sim.cb.family[i] && FAMILY_ART[sim.cb.family[i]] ? atlasByArt.get(FAMILY_ART[sim.cb.family[i]]) : undefined);
       // Diagnostic presentation override only: retain the original sim kind and update path.
       const atlas = bossAtlas ?? (this.artStress ? atlases[i % atlases.length]
         : kind === Kind.Hero ? (sim.hero?.cls === 1 ? (atlasByArt.get('mage') ?? atlases[4]) : sim.hero?.cls === 2 ? (atlasByArt.get('archer') ?? atlases[1]) : (atlasByArt.get('hero') ?? atlases[0]))

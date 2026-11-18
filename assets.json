@@ -3388,6 +3388,114 @@
       "license": "own",
       "source": "Gemini image generation (user subscription), original text prompt, resized with Pillow",
       "note": "Thornwick merc/NPC portrait"
+    },
+    {
+      "path": "public/sprites/briar-hound.png",
+      "license": "own",
+      "source": "tools/render-unit.py + tools/pack-atlas.py",
+      "note": "Original primitive-built briar-hound model; Blender 5.2.3 LTS, 96px, 16 directions, stand4/walk8/attack4/cast4/hurt2/die4, RGB masks, fixed camera3.0."
+    },
+    {
+      "path": "public/sprites/briar-hound-mask.png",
+      "license": "own",
+      "source": "tools/render-unit.py + tools/pack-atlas.py",
+      "note": "Original primitive-built briar-hound model; Blender 5.2.3 LTS, 96px, 16 directions, stand4/walk8/attack4/cast4/hurt2/die4, RGB masks, fixed camera3.0."
+    },
+    {
+      "path": "public/sprites/briar-hound.json",
+      "license": "own",
+      "source": "tools/render-unit.py + tools/pack-atlas.py",
+      "note": "Original primitive-built briar-hound model; Blender 5.2.3 LTS, 96px, 16 directions, stand4/walk8/attack4/cast4/hurt2/die4, RGB masks, fixed camera3.0."
+    },
+    {
+      "path": "public/sprites/thorn-boar.png",
+      "license": "own",
+      "source": "tools/render-unit.py + tools/pack-atlas.py",
+      "note": "Original primitive-built thorn-boar model; Blender 5.2.3 LTS, 96px, 16 directions, stand4/walk8/attack4/cast4/hurt2/die4, RGB masks, fixed camera3.0."
+    },
+    {
+      "path": "public/sprites/thorn-boar-mask.png",
+      "license": "own",
+      "source": "tools/render-unit.py + tools/pack-atlas.py",
+      "note": "Original primitive-built thorn-boar model; Blender 5.2.3 LTS, 96px, 16 directions, stand4/walk8/attack4/cast4/hurt2/die4, RGB masks, fixed camera3.0."
+    },
+    {
+      "path": "public/sprites/thorn-boar.json",
+      "license": "own",
+      "source": "tools/render-unit.py + tools/pack-atlas.py",
+      "note": "Original primitive-built thorn-boar model; Blender 5.2.3 LTS, 96px, 16 directions, stand4/walk8/attack4/cast4/hurt2/die4, RGB masks, fixed camera3.0."
+    },
+    {
+      "path": "public/sprites/flintback.png",
+      "license": "own",
+      "source": "tools/render-unit.py + tools/pack-atlas.py",
+      "note": "Original primitive-built flintback model; Blender 5.2.3 LTS, 96px, 16 directions, stand4/walk8/attack4/cast4/hurt2/die4, RGB masks, fixed camera3.0."
+    },
+    {
+      "path": "public/sprites/flintback-mask.png",
+      "license": "own",
+      "source": "tools/render-unit.py + tools/pack-atlas.py",
+      "note": "Original primitive-built flintback model; Blender 5.2.3 LTS, 96px, 16 directions, stand4/walk8/attack4/cast4/hurt2/die4, RGB masks, fixed camera3.0."
+    },
+    {
+      "path": "public/sprites/flintback.json",
+      "license": "own",
+      "source": "tools/render-unit.py + tools/pack-atlas.py",
+      "note": "Original primitive-built flintback model; Blender 5.2.3 LTS, 96px, 16 directions, stand4/walk8/attack4/cast4/hurt2/die4, RGB masks, fixed camera3.0."
+    },
+    {
+      "path": "public/sprites/mire-wisp.png",
+      "license": "own",
+      "source": "tools/render-unit.py + tools/pack-atlas.py",
+      "note": "Original primitive-built mire-wisp model; Blender 5.2.3 LTS, 96px, 16 directions, stand4/walk8/attack4/cast4/hurt2/die4, RGB masks, fixed camera3.0."
+    },
+    {
+      "path": "public/sprites/mire-wisp-mask.png",
+      "license": "own",
+      "source": "tools/render-unit.py + tools/pack-atlas.py",
+      "note": "Original primitive-built mire-wisp model; Blender 5.2.3 LTS, 96px, 16 directions, stand4/walk8/attack4/cast4/hurt2/die4, RGB masks, fixed camera3.0."
+    },
+    {
+      "path": "public/sprites/mire-wisp.json",
+      "license": "own",
+      "source": "tools/render-unit.py + tools/pack-atlas.py",
+      "note": "Original primitive-built mire-wisp model; Blender 5.2.3 LTS, 96px, 16 directions, stand4/walk8/attack4/cast4/hurt2/die4, RGB masks, fixed camera3.0."
+    },
+    {
+      "path": "public/sprites/cinder-shaman.png",
+      "license": "own",
+      "source": "tools/render-unit.py + tools/pack-atlas.py",
+      "note": "Original primitive-built cinder-shaman model; Blender 5.2.3 LTS, 96px, 16 directions, stand4/walk8/attack4/cast4/hurt2/die4, RGB masks, fixed camera3.0."
+    },
+    {
+      "path": "public/sprites/cinder-shaman-mask.png",
+      "license": "own",
+      "source": "tools/render-unit.py + tools/pack-atlas.py",
+      "note": "Original primitive-built cinder-shaman model; Blender 5.2.3 LTS, 96px, 16 directions, stand4/walk8/attack4/cast4/hurt2/die4, RGB masks, fixed camera3.0."
+    },
+    {
+      "path": "public/sprites/cinder-shaman.json",
+      "license": "own",
+      "source": "tools/render-unit.py + tools/pack-atlas.py",
+      "note": "Original primitive-built cinder-shaman model; Blender 5.2.3 LTS, 96px, 16 directions, stand4/walk8/attack4/cast4/hurt2/die4, RGB masks, fixed camera3.0."
+    },
+    {
+      "path": "public/sprites/quill-fiend.png",
+      "license": "own",
+      "source": "tools/render-unit.py + tools/pack-atlas.py",
+      "note": "Original primitive-built quill-fiend model; Blender 5.2.3 LTS, 96px, 16 directions, stand4/walk8/attack4/cast4/hurt2/die4, RGB masks, fixed camera3.0."
+    },
+    {
+      "path": "public/sprites/quill-fiend-mask.png",
+      "license": "own",
+      "source": "tools/render-unit.py + tools/pack-atlas.py",
+      "note": "Original primitive-built quill-fiend model; Blender 5.2.3 LTS, 96px, 16 directions, stand4/walk8/attack4/cast4/hurt2/die4, RGB masks, fixed camera3.0."
+    },
+    {
+      "path": "public/sprites/quill-fiend.json",
+      "license": "own",
+      "source": "tools/render-unit.py + tools/pack-atlas.py",
+      "note": "Original primitive-built quill-fiend model; Blender 5.2.3 LTS, 96px, 16 directions, stand4/walk8/attack4/cast4/hurt2/die4, RGB masks, fixed camera3.0."
     }
   ]
 }
