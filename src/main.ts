@@ -44,7 +44,7 @@ import {
 import { loadGameData } from './loaddata';
 import { loadHeroVoices, heroBark } from './herovoice';
 import { loadAchievements, achKills, achTrack, achReset, achHired, achLevel, achGold, achWin, achCampaign } from './achievements';
-import { loadMissionContent, loadMissionHints, loadItemFlavor, loadFlavorLists, loadMonsterCodex, loadCodexLore, loadTownBarks, loadSpellText, defeatFlavor, loadDifficultyFlavor, difficultyLine, loadMercLines, mercHireLine, regionEnterLine, loadHeroFlavor, promotionLine, classBanter, missionRadio, missionKey, loadBarkContent, mercBark, bossLine } from './missioncontent';
+import { loadMissionContent, loadMissionHints, loadItemFlavor, loadFlavorLists, loadMonsterCodex, loadCodexLore, loadTownBarks, loadSpellText, defeatFlavor, loadDifficultyFlavor, difficultyLine, loadMercLines, mercHireLine, regionEnterLine, loadHeroFlavor, promotionLine, classBanter, missionRadio, missionKey, loadBarkContent, mercBark, bossLine, setMercAct } from './missioncontent';
 import { startSideQuests, sqTrack, sqFinish } from './sidequests';
 import { DebugPanel } from './debugpanel';
 import { KNOWN_HI, SPELLS, Tk, maskHas } from './sim/spelldata';
@@ -315,6 +315,7 @@ if (campaign && campaignId) {
   try {
     const cNode = nodeOf(campaign, campaignId);
     missionAct = cNode.act ?? 1;
+    setMercAct(missionAct);
     if (!isTownNode) {
       const idx = (campaign.nodes as { kind?: string; act?: number; id: string }[]).filter((n) => n.kind === 'mission' && n.act === missionAct).findIndex((n) => n.id === campaignId);
       void regionEnterLine(missionAct, Math.max(0, idx)).then((l) => { if (l) setTimeout(() => toast(l), 4000); });

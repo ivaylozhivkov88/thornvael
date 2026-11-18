@@ -3088,6 +3088,306 @@
       "license": "own",
       "source": "tools/gen-item-icons.py",
       "note": "Procedural item icon from base-items.json"
+    },
+    {
+      "path": "public/townart/portraits/merc-alder-poacher.jpg",
+      "license": "own",
+      "source": "Gemini image generation (user subscription), original text prompt, resized with Pillow",
+      "note": "Thornwick merc/NPC portrait"
+    },
+    {
+      "path": "public/townart/portraits/merc-ash-battlemage.jpg",
+      "license": "own",
+      "source": "Gemini image generation (user subscription), original text prompt, resized with Pillow",
+      "note": "Thornwick merc/NPC portrait"
+    },
+    {
+      "path": "public/townart/portraits/merc-catacomb-bailiff.jpg",
+      "license": "own",
+      "source": "Gemini image generation (user subscription), original text prompt, resized with Pillow",
+      "note": "Thornwick merc/NPC portrait"
+    },
+    {
+      "path": "public/townart/portraits/merc-cistern-acolyte.jpg",
+      "license": "own",
+      "source": "Gemini image generation (user subscription), original text prompt, resized with Pillow",
+      "note": "Thornwick merc/NPC portrait"
+    },
+    {
+      "path": "public/townart/portraits/merc-drowned-arbiter.jpg",
+      "license": "own",
+      "source": "Gemini image generation (user subscription), original text prompt, resized with Pillow",
+      "note": "Thornwick merc/NPC portrait"
+    },
+    {
+      "path": "public/townart/portraits/merc-dune-houndmaster.jpg",
+      "license": "own",
+      "source": "Gemini image generation (user subscription), original text prompt, resized with Pillow",
+      "note": "Thornwick merc/NPC portrait"
+    },
+    {
+      "path": "public/townart/portraits/merc-greywood-chopper.jpg",
+      "license": "own",
+      "source": "Gemini image generation (user subscription), original text prompt, resized with Pillow",
+      "note": "Thornwick merc/NPC portrait"
+    },
+    {
+      "path": "public/townart/portraits/merc-harbor-arbalest.jpg",
+      "license": "own",
+      "source": "Gemini image generation (user subscription), original text prompt, resized with Pillow",
+      "note": "Thornwick merc/NPC portrait"
+    },
+    {
+      "path": "public/townart/portraits/merc-hedge-leech.jpg",
+      "license": "own",
+      "source": "Gemini image generation (user subscription), original text prompt, resized with Pillow",
+      "note": "Thornwick merc/NPC portrait"
+    },
+    {
+      "path": "public/townart/portraits/merc-ironcamp-halberdier.jpg",
+      "license": "own",
+      "source": "Gemini image generation (user subscription), original text prompt, resized with Pillow",
+      "note": "Thornwick merc/NPC portrait"
+    },
+    {
+      "path": "public/townart/portraits/merc-ironclad-turncoat.jpg",
+      "license": "own",
+      "source": "Gemini image generation (user subscription), original text prompt, resized with Pillow",
+      "note": "Thornwick merc/NPC portrait"
+    },
+    {
+      "path": "public/townart/portraits/merc-lantern-novice.jpg",
+      "license": "own",
+      "source": "Gemini image generation (user subscription), original text prompt, resized with Pillow",
+      "note": "Thornwick merc/NPC portrait"
+    },
+    {
+      "path": "public/townart/portraits/merc-oakhaven-marine.jpg",
+      "license": "own",
+      "source": "Gemini image generation (user subscription), original text prompt, resized with Pillow",
+      "note": "Thornwick merc/NPC portrait"
+    },
+    {
+      "path": "public/townart/portraits/merc-obsidian-sapper.jpg",
+      "license": "own",
+      "source": "Gemini image generation (user subscription), original text prompt, resized with Pillow",
+      "note": "Thornwick merc/NPC portrait"
+    },
+    {
+      "path": "public/townart/portraits/merc-parish-sexton.jpg",
+      "license": "own",
+      "source": "Gemini image generation (user subscription), original text prompt, resized with Pillow",
+      "note": "Thornwick merc/NPC portrait"
+    },
+    {
+      "path": "public/townart/portraits/merc-penitent-flagellant.jpg",
+      "license": "own",
+      "source": "Gemini image generation (user subscription), original text prompt, resized with Pillow",
+      "note": "Thornwick merc/NPC portrait"
+    },
+    {
+      "path": "public/townart/portraits/merc-quarry-sapper.jpg",
+      "license": "own",
+      "source": "Gemini image generation (user subscription), original text prompt, resized with Pillow",
+      "note": "Thornwick merc/NPC portrait"
+    },
+    {
+      "path": "public/townart/portraits/merc-redmarsh-slinger.jpg",
+      "license": "own",
+      "source": "Gemini image generation (user subscription), original text prompt, resized with Pillow",
+      "note": "Thornwick merc/NPC portrait"
+    },
+    {
+      "path": "public/townart/portraits/merc-salt-mercenary.jpg",
+      "license": "own",
+      "source": "Gemini image generation (user subscription), original text prompt, resized with Pillow",
+      "note": "Thornwick merc/NPC portrait"
+    },
+    {
+      "path": "public/townart/portraits/merc-slag-hound-sniper.jpg",
+      "license": "own",
+      "source": "Gemini image generation (user subscription), original text prompt, resized with Pillow",
+      "note": "Thornwick merc/NPC portrait"
+    },
+    {
+      "path": "public/townart/portraits/merc-storm-channeler.jpg",
+      "license": "own",
+      "source": "Gemini image generation (user subscription), original text prompt, resized with Pillow",
+      "note": "Thornwick merc/NPC portrait"
+    },
+    {
+      "path": "public/townart/portraits/merc-thornwick-levyman.jpg",
+      "license": "own",
+      "source": "Gemini image generation (user subscription), original text prompt, resized with Pillow",
+      "note": "Thornwick merc/NPC portrait"
+    },
+    {
+      "path": "public/townart/portraits/merc-tomb-notary.jpg",
+      "license": "own",
+      "source": "Gemini image generation (user subscription), original text prompt, resized with Pillow",
+      "note": "Thornwick merc/NPC portrait"
+    },
+    {
+      "path": "public/townart/portraits/merc-triage-surgeon.jpg",
+      "license": "own",
+      "source": "Gemini image generation (user subscription), original text prompt, resized with Pillow",
+      "note": "Thornwick merc/NPC portrait"
+    },
+    {
+      "path": "public/townart/portraits/npc-alder-ferryman.jpg",
+      "license": "own",
+      "source": "Gemini image generation (user subscription), original text prompt, resized with Pillow",
+      "note": "Thornwick merc/NPC portrait"
+    },
+    {
+      "path": "public/townart/portraits/npc-alkali-drover.jpg",
+      "license": "own",
+      "source": "Gemini image generation (user subscription), original text prompt, resized with Pillow",
+      "note": "Thornwick merc/NPC portrait"
+    },
+    {
+      "path": "public/townart/portraits/npc-ash-scout.jpg",
+      "license": "own",
+      "source": "Gemini image generation (user subscription), original text prompt, resized with Pillow",
+      "note": "Thornwick merc/NPC portrait"
+    },
+    {
+      "path": "public/townart/portraits/npc-ashbrook-watchman.jpg",
+      "license": "own",
+      "source": "Gemini image generation (user subscription), original text prompt, resized with Pillow",
+      "note": "Thornwick merc/NPC portrait"
+    },
+    {
+      "path": "public/townart/portraits/npc-border-peddler.jpg",
+      "license": "own",
+      "source": "Gemini image generation (user subscription), original text prompt, resized with Pillow",
+      "note": "Thornwick merc/NPC portrait"
+    },
+    {
+      "path": "public/townart/portraits/npc-bridge-tinker.jpg",
+      "license": "own",
+      "source": "Gemini image generation (user subscription), original text prompt, resized with Pillow",
+      "note": "Thornwick merc/NPC portrait"
+    },
+    {
+      "path": "public/townart/portraits/npc-cairn-pilgrim.jpg",
+      "license": "own",
+      "source": "Gemini image generation (user subscription), original text prompt, resized with Pillow",
+      "note": "Thornwick merc/NPC portrait"
+    },
+    {
+      "path": "public/townart/portraits/npc-cistern-guard.jpg",
+      "license": "own",
+      "source": "Gemini image generation (user subscription), original text prompt, resized with Pillow",
+      "note": "Thornwick merc/NPC portrait"
+    },
+    {
+      "path": "public/townart/portraits/npc-fen-peatcutter.jpg",
+      "license": "own",
+      "source": "Gemini image generation (user subscription), original text prompt, resized with Pillow",
+      "note": "Thornwick merc/NPC portrait"
+    },
+    {
+      "path": "public/townart/portraits/npc-ford-herbalist.jpg",
+      "license": "own",
+      "source": "Gemini image generation (user subscription), original text prompt, resized with Pillow",
+      "note": "Thornwick merc/NPC portrait"
+    },
+    {
+      "path": "public/townart/portraits/npc-ford-tollkeeper.jpg",
+      "license": "own",
+      "source": "Gemini image generation (user subscription), original text prompt, resized with Pillow",
+      "note": "Thornwick merc/NPC portrait"
+    },
+    {
+      "path": "public/townart/portraits/npc-foundry-stoker.jpg",
+      "license": "own",
+      "source": "Gemini image generation (user subscription), original text prompt, resized with Pillow",
+      "note": "Thornwick merc/NPC portrait"
+    },
+    {
+      "path": "public/townart/portraits/npc-greystone-sentry.jpg",
+      "license": "own",
+      "source": "Gemini image generation (user subscription), original text prompt, resized with Pillow",
+      "note": "Thornwick merc/NPC portrait"
+    },
+    {
+      "path": "public/townart/portraits/npc-greywood-sawyer.jpg",
+      "license": "own",
+      "source": "Gemini image generation (user subscription), original text prompt, resized with Pillow",
+      "note": "Thornwick merc/NPC portrait"
+    },
+    {
+      "path": "public/townart/portraits/npc-harbor-firewarden.jpg",
+      "license": "own",
+      "source": "Gemini image generation (user subscription), original text prompt, resized with Pillow",
+      "note": "Thornwick merc/NPC portrait"
+    },
+    {
+      "path": "public/townart/portraits/npc-harbor-pilot.jpg",
+      "license": "own",
+      "source": "Gemini image generation (user subscription), original text prompt, resized with Pillow",
+      "note": "Thornwick merc/NPC portrait"
+    },
+    {
+      "path": "public/townart/portraits/npc-miner-tomas.jpg",
+      "license": "own",
+      "source": "Gemini image generation (user subscription), original text prompt, resized with Pillow",
+      "note": "Thornwick merc/NPC portrait"
+    },
+    {
+      "path": "public/townart/portraits/npc-oakhaven-surgeon.jpg",
+      "license": "own",
+      "source": "Gemini image generation (user subscription), original text prompt, resized with Pillow",
+      "note": "Thornwick merc/NPC portrait"
+    },
+    {
+      "path": "public/townart/portraits/npc-ravenwatch-runner.jpg",
+      "license": "own",
+      "source": "Gemini image generation (user subscription), original text prompt, resized with Pillow",
+      "note": "Thornwick merc/NPC portrait"
+    },
+    {
+      "path": "public/townart/portraits/npc-riverlock-keeper.jpg",
+      "license": "own",
+      "source": "Gemini image generation (user subscription), original text prompt, resized with Pillow",
+      "note": "Thornwick merc/NPC portrait"
+    },
+    {
+      "path": "public/townart/portraits/npc-salt-corporal.jpg",
+      "license": "own",
+      "source": "Gemini image generation (user subscription), original text prompt, resized with Pillow",
+      "note": "Thornwick merc/NPC portrait"
+    },
+    {
+      "path": "public/townart/portraits/npc-siege-sapper.jpg",
+      "license": "own",
+      "source": "Gemini image generation (user subscription), original text prompt, resized with Pillow",
+      "note": "Thornwick merc/NPC portrait"
+    },
+    {
+      "path": "public/townart/portraits/npc-threshold-penitent.jpg",
+      "license": "own",
+      "source": "Gemini image generation (user subscription), original text prompt, resized with Pillow",
+      "note": "Thornwick merc/NPC portrait"
+    },
+    {
+      "path": "public/townart/portraits/npc-warden-hale.jpg",
+      "license": "own",
+      "source": "Gemini image generation (user subscription), original text prompt, resized with Pillow",
+      "note": "Thornwick merc/NPC portrait"
+    },
+    {
+      "path": "public/townart/portraits/npc-wardstone-surveyor.jpg",
+      "license": "own",
+      "source": "Gemini image generation (user subscription), original text prompt, resized with Pillow",
+      "note": "Thornwick merc/NPC portrait"
+    },
+    {
+      "path": "public/townart/portraits/npc-willow-deserter.jpg",
+      "license": "own",
+      "source": "Gemini image generation (user subscription), original text prompt, resized with Pillow",
+      "note": "Thornwick merc/NPC portrait"
     }
   ]
 }

@@ -1,5 +1,5 @@
 import { DEFS } from './sim/combat';
-import { townBark } from './missioncontent';
+import { townBark, mercContent } from './missioncontent';
 import { mercPrice } from './sim/difficulty';
 import { INV_MAX, SKILL_MAX, SKILL_NAMES, WHY_TEXT, Why, blocker, heroKnowsSpell } from './sim/hero';
 import { ITEMS, getItemDef, itemText, Ik, Slot } from './sim/items';
@@ -781,12 +781,15 @@ export class TownUi {
     if (chosen) {
       const data = DEFS[sim.cb.kind[chosen.unit]];
       const image = el('img');
-      image.src = `${import.meta.env.BASE_URL}townart/portrait-${data.caster ? 'mage' : 'warrior'}-m.png`;
-      image.alt = data.name;
+      const content = mercContent(chosen.unit);
+      image.src = content
+        ? `${import.meta.env.BASE_URL}townart/portraits/${content.id}.jpg`
+        : `${import.meta.env.BASE_URL}townart/portrait-${data.caster ? 'mage' : 'warrior'}-m.png`;
+      image.alt = content?.name ?? data.name;
       const stats = el('dl');
       for (const [label, value] of [[S.town.health, `${sim.cb.hp[chosen.unit]} / ${sim.cb.hpMax[chosen.unit]}`], [S.town.damage, `${data.min}–${data.max}`], [S.town.accuracy, data.acc], [S.town.defence, data.def]] as const) stats.append(el('dt', '', label), el('dd', '', String(value)));
       // Do not mislabel a plate-armoured warrior portrait as an archer.
-      if (data.ranged && !data.caster) mercPanel.append(el('p', 'merc-emblem', S.town.archerEmblem));
+      if (data.ranged && !data.caster && !content) mercPanel.append(el('p', 'merc-emblem', S.town.archerEmblem));
       else mercPanel.append(image);
       mercPanel.append(el('h3', '', data.name), stats);
       const free = sim.hidden[chosen.unit] === 1 && sim.cb.hp[chosen.unit] > 0;

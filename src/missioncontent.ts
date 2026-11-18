@@ -254,8 +254,17 @@ export async function missionRadio(mission: string, kind: 'start' | 'mid' | 'dan
   return null;
 }
 
-interface MercLine { act: number; name: string; hire_line: string }
+interface MercLine { act: number; name: string; hire_line: string; id?: string }
 let mercLines: MercLine[] = [];
+let mercAct = 1;
+/** Act whose content mercenaries the tavern shows (set when a mission starts). */
+export function setMercAct(act: number): void { mercAct = act; }
+/** Content mercenary (id for the portrait file and display name) shown for a hired-unit id, same pick as mercHireLine. */
+export function mercContent(unit: number): { id: string; name: string } | null {
+  const pool = mercLines.filter((m) => m.act === mercAct && m.id);
+  const m = pool.length ? pool[unit % pool.length] : null;
+  return m ? { id: m.id!, name: m.name } : null;
+}
 /** Loads hire lines of the content mercenaries (Gemini mercenaries.json); optional. */
 export async function loadMercLines(): Promise<void> {
   try {

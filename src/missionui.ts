@@ -490,11 +490,20 @@ export class MissionUi {
   /** Speaker metadata: title, rank, and portrait SVG */
   private getSpeakerInfo(who: string): { name: string; rank: string; portraitSvg: string } {
     const lower = who.toLowerCase();
+    const pid = /^(field|merc)-([a-z-]+)$/.exec(lower);
+    if (pid && pid[2] !== 'warden-hale' && PAINTED_SPEAKERS.has(`${pid[1] === 'field' ? 'npc' : 'merc'}-${pid[2]}`)) {
+      const title = pid[2].split('-').map((w) => w[0].toUpperCase() + w.slice(1)).join(' ');
+      return {
+        name: title,
+        rank: pid[1] === 'merc' ? 'Hired Sellsword' : 'Border Folk',
+        portraitSvg: paintedPortrait(`portraits/${pid[1] === 'field' ? 'npc' : 'merc'}-${pid[2]}`, getFallbackPortraitSvg()),
+      };
+    }
     if (lower.includes('hale') || lower.includes('warden')) {
       return {
         name: 'Warden Hale',
         rank: 'High Captain of the Thornwick Border Guard & Knight-Commander',
-        portraitSvg: paintedPortrait('npc-hale', getWardenHalePortraitSvg()),
+        portraitSvg: paintedPortrait('portraits/npc-warden-hale', getWardenHalePortraitSvg()),
       };
     }
     if (lower.includes('vaelen') || lower.includes('arcanist')) {
@@ -1818,6 +1827,8 @@ export function showMissionMenu(): void {
   root.append(close);
   root.hidden = false;
 }
+
+const PAINTED_SPEAKERS = new Set<string>(["merc-alder-poacher", "merc-ash-battlemage", "merc-catacomb-bailiff", "merc-cistern-acolyte", "merc-drowned-arbiter", "merc-dune-houndmaster", "merc-greywood-chopper", "merc-harbor-arbalest", "merc-hedge-leech", "merc-ironcamp-halberdier", "merc-ironclad-turncoat", "merc-lantern-novice", "merc-oakhaven-marine", "merc-obsidian-sapper", "merc-parish-sexton", "merc-penitent-flagellant", "merc-quarry-sapper", "merc-redmarsh-slinger", "merc-salt-mercenary", "merc-slag-hound-sniper", "merc-storm-channeler", "merc-thornwick-levyman", "merc-tomb-notary", "merc-triage-surgeon", "npc-alder-ferryman", "npc-alkali-drover", "npc-ash-scout", "npc-ashbrook-watchman", "npc-border-peddler", "npc-bridge-tinker", "npc-cairn-pilgrim", "npc-cistern-guard", "npc-fen-peatcutter", "npc-ford-herbalist", "npc-ford-tollkeeper", "npc-foundry-stoker", "npc-greystone-sentry", "npc-greywood-sawyer", "npc-harbor-firewarden", "npc-harbor-pilot", "npc-miner-tomas", "npc-oakhaven-surgeon", "npc-ravenwatch-runner", "npc-riverlock-keeper", "npc-salt-corporal", "npc-siege-sapper", "npc-threshold-penitent", "npc-warden-hale", "npc-wardstone-surveyor", "npc-willow-deserter"]);
 
 /** Painted portrait (Gemini-generated, see assets.json) with the vector portrait as an offline fallback. */
 export function paintedPortrait(file: string, fallbackSvg: string): string {
