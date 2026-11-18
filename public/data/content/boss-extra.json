@@ -1,0 +1,184 @@
+{
+ "boss_extra": [
+  {
+   "boss": "old-briarmaw",
+   "hero_down": "Another carcass for the marsh silt. Your bones will feed the willow roots.",
+   "big_hit": "The swamp bears down with crushing weight!",
+   "enrage": "The beast thrashes in a frenzy of black mud and snapping tusks!",
+   "hero_after": {
+    "warrior": "Stinking mire-beast. At least my boots are ruined.",
+    "archer": "Clean the mud from the bowstring. Let's move.",
+    "mage": "Ancient filth. It belongs under the silt.",
+    "necromancer": "Even in death, that beast has no soul worth pulling."
+   }
+  },
+  {
+   "boss": "warden-krell",
+   "hero_down": "The quarry is taken. Ironhide claims what he hunts.",
+   "big_hit": "The rune-baked maul shatters your defenses!",
+   "enrage": "Krell roars, his hide glowing with intense kiln-heat!",
+   "hero_after": {
+    "warrior": "His hide was tough, but cold iron is tougher.",
+    "archer": "He never saw the bolt through his visor.",
+    "mage": "A brute with a hammer. Nothing more.",
+    "necromancer": "Rest in the quarry slag, Krag. You're done."
+   }
+  },
+  {
+   "boss": "morvessa",
+   "hero_down": "Ashbrook burns, and you burn with it. Pitiful.",
+   "big_hit": "Cold iron and dark sorcery pierce your mail!",
+   "enrage": "Morvessa's shadow swells, unleashing a storm of bitter spite!",
+   "hero_after": {
+    "warrior": "The witch talks too much. Steel speaks clearer.",
+    "archer": "That's for Ashbrook. Keep walking.",
+    "mage": "A master of malice, devoid of true discipline.",
+    "necromancer": "Your spirits were weak, Morvessa. I expected more."
+   }
+  },
+  {
+   "boss": "lady-selene",
+   "hero_down": "Freeze in the alkali dust. Your campaign ends here.",
+   "big_hit": "A shard of bleeding quartz tears through your armor!",
+   "enrage": "Selene shatters her own spires, channeling raw freezing static!",
+   "hero_after": {
+    "warrior": "Cold blood in a cold woman. She's done.",
+    "archer": "Her quartz spires are dust. Let's check the loot.",
+    "mage": "Manipulating leylines for slaughter. Disgraceful.",
+    "necromancer": "Her frost couldn't match the cold in my ribs."
+   }
+  },
+  {
+   "boss": "matriarch-voss",
+   "hero_down": "Rot takes you. The hollow claims all intruders.",
+   "big_hit": "Marrow-rot fire courses through your veins!",
+   "enrage": "Voss shrieks, shattering bone trinkets as foul vapours rise!",
+   "hero_after": {
+    "warrior": "Smells like swamp gas and dead rats. Good riddance.",
+    "archer": "Burn her hut down. Leave nothing behind.",
+    "mage": "Primitive hexes. Easily unraveled with proper focus.",
+    "necromancer": "Her curses were clumsy. Amateurs always fail."
+   }
+  },
+  {
+   "boss": "gorrathul",
+   "hero_down": "Redmarsh is ours. Your corpse feeds the smelters.",
+   "big_hit": "Gorrathul's heavy gauntlet crushes your breastplate!",
+   "enrage": "The warlord slams his fists into the causeway, raining iron shrapnel!",
+   "hero_after": {
+    "warrior": "Heavy armor, heavier fall. Take his keys.",
+    "archer": "Ironheart has lost its master. Good.",
+    "mage": "His defenses were formidable, but brittle under arcana.",
+    "necromancer": "A mountain of iron reduced to a heap of scrap."
+   }
+  },
+  {
+   "boss": "malakor-the-drowned",
+   "hero_down": "Return to the deep water. The tide takes all.",
+   "big_hit": "A rusted anchor sweeps you off the lighthouse stair!",
+   "enrage": "Malakor swells with crashing surf, howling like a gale!",
+   "hero_after": {
+    "warrior": "Let the sea keep him. I'm soaked enough.",
+    "archer": "Climb higher before the tide catches us.",
+    "mage": "Drowned in his own delusions of grandeur.",
+    "necromancer": "The sea-stack is full of corpses. He fits right in."
+   }
+  },
+  {
+   "boss": "the-peat-monolith",
+   "hero_down": "Crushed to dust beneath the weight of ages.",
+   "big_hit": "A tectonic stomp shakes the very marrow from your bones!",
+   "enrage": "The monolith's furnace core flares blinding white!",
+   "hero_after": {
+    "warrior": "Just a lot of old rock. My sword is notched.",
+    "archer": "That was an ugly climb. Glad it's over.",
+    "mage": "Bound magic collapsing into lifeless rubble.",
+    "necromancer": "Ancient chains couldn't hold it, but my blade did."
+   }
+  },
+  {
+   "boss": "captain-draven",
+   "hero_down": "Foreclosure complete. You die in debt.",
+   "big_hit": "A poisoned sabre strikes deep beneath your ribs!",
+   "enrage": "Draven laughs madly, kicking open his catacomb vault doors!",
+   "hero_after": {
+    "warrior": "Turncoat scum. Burn his ledgers.",
+    "archer": "He won't extort another copper from the coast.",
+    "mage": "Greed made him sloppy. Death made him quiet.",
+    "necromancer": "His ledger is balanced in blood now."
+   }
+  },
+  {
+   "boss": "pyre-marshal-kael",
+   "hero_down": "Burn in the harbor smoke. Victory belongs to the flame.",
+   "big_hit": "White phosphorus splatters across your armor, burning fiercely!",
+   "enrage": "Kael shatters his flagship wheel, igniting the entire deck!",
+   "hero_after": {
+    "warrior": "Arrogant captain. His ship is burning with him.",
+    "archer": "Good shot on his rigging. Now let's get ashore.",
+    "mage": "Phosphorus is a crude tool for a pyromancer.",
+    "necromancer": "He wanted fire so badly. Give him ashes."
+   }
+  },
+  {
+   "boss": "high-tide-oracle",
+   "hero_down": "The tide sweeps you away. Silence claims the crags.",
+   "big_hit": "A torrential wave of ley-salt vaporizes your shield!",
+   "enrage": "The oracle levitates, screaming prophecies of absolute ruin!",
+   "hero_after": {
+    "warrior": "Prophecies didn't save him from steel.",
+    "archer": "His tide broke against our line.",
+    "mage": "He foresaw many things, but not this blade.",
+    "necromancer": "His future is very short and very flat."
+   }
+  },
+  {
+   "boss": "ironclad-leviathan",
+   "hero_down": "Crushed beneath iron tracks. The siege is absolute.",
+   "big_hit": "Heavy ballista bolts punch straight through your barricade!",
+   "enrage": "The leviathan vents high-pressure steam, grinding forward relentlessly!",
+   "hero_after": {
+    "warrior": "Takes more than iron plates to stop us.",
+    "archer": "A massive target. Hard to miss.",
+    "mage": "Mechanical folly powered by stolen force.",
+    "necromancer": "No soul in that machine. Just gears and oil."
+   }
+  },
+  {
+   "boss": "inquisitor-varro",
+   "hero_down": "Heresy purged. You are nothing before the order.",
+   "big_hit": "A consecrated spear drives you to your knees!",
+   "enrage": "Varro smashes his altar, invoking blinding zealot fury!",
+   "hero_after": {
+    "warrior": "Fanatics are the loudest when they die.",
+    "archer": "His silent guards made more sense than he did.",
+    "mage": "Misguided zeal wrapped in old marble.",
+    "necromancer": "Your inquisitors are as hollow as your faith."
+   }
+  },
+  {
+   "boss": "vesperion",
+   "hero_down": "Starlight consumes you. The vault remains sealed.",
+   "big_hit": "Stellar fire obliterates your defenses in a blinding flash!",
+   "enrage": "Vesperion unfurls celestial wings, raining blinding light!",
+   "hero_after": {
+    "warrior": "Fallen angel, fallen foe. Let's move on.",
+    "archer": "Too bright for my eyes. Glad he's down.",
+    "mage": "A magnificent manifestation of pure starlight, extinguished.",
+    "necromancer": "Light has no power in the dark."
+   }
+  },
+  {
+   "boss": "ashkarath",
+   "hero_down": "Return to the magma. The unchained fire is eternal.",
+   "big_hit": "Magma surges from the throne vents, scorching your flesh!",
+   "enrage": "Ashkarath shatters the conduit pillars, unleashing primordial fury!",
+   "hero_after": {
+    "warrior": "The fire is out, Warden. Rest in the ash.",
+    "archer": "That's the last of them. Pack up our gear.",
+    "mage": "The primordial flame is finally contained. At last.",
+    "necromancer": "An eternity of guarding fire, ended in seconds."
+   }
+  }
+ ]
+}

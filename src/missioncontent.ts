@@ -290,3 +290,32 @@ export async function loadHeroFlavor(): Promise<void> {
 }
 export const promotionLine = (level: number): string | null => (promoLines.length && level % 5 === 0 ? promoLines[(level / 5 - 1) % promoLines.length] : null);
 export const classBanter = (cls: string, salt: number): string | null => { const l = banterLines[cls]; return l?.length ? l[salt % l.length] : null; };
+
+interface MercBark { merc: string; [k: string]: string | string[] }
+let mercBarks: MercBark[] = [];
+let mercActs: Record<string, number> = {};
+let bossExtra: Record<string, { hero_down: string; big_hit: string; enrage: string; hero_after: Record<string, string> }> = {};
+let bossOfMission: Record<string, string> = {};
+/** Loads merc-barks.json, boss-extra.json and the roster→boss map (all optional flavour). */
+export async function loadBarkContent(): Promise<void> {
+  const base = import.meta.env.BASE_URL;
+  const get = async (f: string) => { try { const r = await fetch(`${base}data/content/${f}.json`); return r.ok ? await r.json() : null; } catch { return null; } };
+  const [mb, be, ro, ml] = await Promise.all([get('merc-barks'), get('boss-extra'), get('mission-rosters'), get('mercenaries')]);
+  mercBarks = mb?.merc_barks ?? [];
+  for (const m of (ml ?? []) as { id: string; act: number }[]) mercActs[m.id] = m.act;
+  for (const b of be?.boss_extra ?? []) bossExtra[b.boss] = b;
+  for (const r of ro?.mission_rosters ?? []) if (r.boss) bossOfMission[r.mission] = r.boss;
+}
+/** A mercenary bark of the given kind for an act, stable per seed. Null when none. */
+export function mercBark(kind: string, act: number, seed: number): string | null {
+  const pool = mercBarks.filter((m) => mercActs[m.merc] === act);
+  const m = pool.length ? pool[seed % pool.length] : null;
+  const arr = m?.[kind];
+  return Array.isArray(arr) && arr.length ? arr[(seed >> 3) % arr.length] : null;
+}
+/** Boss line for a mission: hero_down / big_hit / enrage, or hero_after for the given class. Null if the mission has no boss. */
+export async function bossLine(mission: string, kind: 'hero_down' | 'big_hit' | 'enrage' | 'hero_after', cls = ''): Promise<string | null> {
+  const b = bossExtra[bossOfMission[(await missionKey(mission)) ?? ''] ?? ''];
+  if (!b) return null;
+  return kind === 'hero_after' ? b.hero_after[cls] ?? null : b[kind] ?? null;
+}

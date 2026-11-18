@@ -1,0 +1,796 @@
+{
+ "merc_barks": [
+  {
+   "merc": "merc-thornwick-levyman",
+   "hired": [
+    "Pikes ready, Captain. Lead on.",
+    "For Thornwick and the wall."
+   ],
+   "kill": [
+    "In the dirt with you!",
+    "That's one less beast.",
+    "Hold the line!"
+   ],
+   "hurt": [
+    "Shield's taking a beating!",
+    "They found a gap!"
+   ],
+   "low_hp": [
+    "My pike's slipping!",
+    "Need a patch here!"
+   ],
+   "death": [
+    "Wall... holds...",
+    "Tell my wife..."
+   ],
+   "idle": [
+    "Mud's deep today.",
+    "Keep your boots dry.",
+    "Quiet on the flank."
+   ],
+   "hero_down": [
+    "Commander's down!",
+    "Protect the captain!"
+   ]
+  },
+  {
+   "merc": "merc-alder-poacher",
+   "hired": [
+    "Arrow's true for coin.",
+    "Point me to the deer."
+   ],
+   "kill": [
+    "Right through the eye.",
+    "Never saw the shaft.",
+    "Meat for the crows."
+   ],
+   "hurt": [
+    "Close quarters, blast it!",
+    "They're too fast!"
+   ],
+   "low_hp": [
+    "Out of breath and blood!",
+    "Need distance!"
+   ],
+   "death": [
+    "Quiver... empty...",
+    "Dark wood..."
+   ],
+   "idle": [
+    "String's getting damp.",
+    "Smells like rain.",
+    "Target rich, coin poor."
+   ],
+   "hero_down": [
+    "Boss is fallen!",
+    "We're on our own now!"
+   ]
+  },
+  {
+   "merc": "merc-hedge-leech",
+   "hired": [
+    "Bandages at the ready, sir.",
+    "Try not to die too fast."
+   ],
+   "kill": [
+    "Stitched his fate closed.",
+    "No saving him.",
+    "Bleed out, then."
+   ],
+   "hurt": [
+    "Keep them off me!",
+    "I'm a healer, not a brawler!"
+   ],
+   "low_hp": [
+    "My salves won't fix this!",
+    "Protect the medicine!"
+   ],
+   "death": [
+    "All out... of lint...",
+    "Heal myself... too late..."
+   ],
+   "idle": [
+    "Check your tourniquets.",
+    "Smells like gangrene.",
+    "Keep your skin whole."
+   ],
+   "hero_down": [
+    "Commander! Let me stem the blood!",
+    "We've lost our anchor!"
+   ]
+  },
+  {
+   "merc": "merc-greywood-chopper",
+   "hired": [
+    "Time to fell some timber.",
+    "Axe is sharp. Pay is better."
+   ],
+   "kill": [
+    "Split right down the middle!",
+    "Timber falls!",
+    "Heavier than an oak."
+   ],
+   "hurt": [
+    "Hard bark!",
+    "They scratched the steel!"
+   ],
+   "low_hp": [
+    "Axe is getting heavy!",
+    "Too many blades!"
+   ],
+   "death": [
+    "Root... and branch...",
+    "Falling down..."
+   ],
+   "idle": [
+    "Needs whetting.",
+    "Good wood in these parts.",
+    "Let 'em come."
+   ],
+   "hero_down": [
+    "Who's gonna pay my wage?!",
+    "Captain's down!"
+   ]
+  },
+  {
+   "merc": "merc-lantern-novice",
+   "hired": [
+    "The flame guides us.",
+    "I'll burn the shadows."
+   ],
+   "kill": [
+    "Scorched to ash!",
+    "By the holy flame!",
+    "Purified in light."
+   ],
+   "hurt": [
+    "The light flickers!",
+    "Protect the oil!"
+   ],
+   "low_hp": [
+    "Wick is burning low!",
+    "Darkness is closing in!"
+   ],
+   "death": [
+    "Out... went... the light...",
+    "Cold... so cold..."
+   ],
+   "idle": [
+    "Keep the oil clean.",
+    "Shadows lengthen.",
+    "Patience, flame."
+   ],
+   "hero_down": [
+    "The light is out!",
+    "Commander is fallen!"
+   ]
+  },
+  {
+   "merc": "merc-parish-sexton",
+   "hired": [
+    "Graves are already dug.",
+    "Death makes no exceptions."
+   ],
+   "kill": [
+    "Ashes to ashes.",
+    "Another plot filled.",
+    "Rest in mud."
+   ],
+   "hurt": [
+    "My time isn't come yet!",
+    "Insolent wretch!"
+   ],
+   "low_hp": [
+    "The shovel awaits me...",
+    "Bones are brittle!"
+   ],
+   "death": [
+    "Dug my... own...",
+    "Bell tolls..."
+   ],
+   "idle": [
+    "Ground's hard as iron.",
+    "Who's next?",
+    "Death is patient."
+   ],
+   "hero_down": [
+    "Dig another grave.",
+    "The leader rests permanently."
+   ]
+  },
+  {
+   "merc": "merc-redmarsh-slinger",
+   "hired": [
+    "Salt stings worse than steel.",
+    "Got my sling and my grit."
+   ],
+   "kill": [
+    "Rock to the skull!",
+    "That'll smart in the morning.",
+    "Dropped like a stone."
+   ],
+   "hurt": [
+    "They're in my pouch!",
+    "Back off!"
+   ],
+   "low_hp": [
+    "Pouch is nearly empty!",
+    "Running low on stones!"
+   ],
+   "death": [
+    "Dropped... my bag...",
+    "Salt... in the wound..."
+   ],
+   "idle": [
+    "Nice smooth pebbles here.",
+    "Dust in my teeth.",
+    "Waiting for a target."
+   ],
+   "hero_down": [
+    "Captain's down, scatter!",
+    "We lost the lead!"
+   ]
+  },
+  {
+   "merc": "merc-quarry-sapper",
+   "hired": [
+    "Stand clear of the fuse.",
+    "Walls don't scare me."
+   ],
+   "kill": [
+    "Blowed 'em sky-high!",
+    "Pieces everywhere!",
+    "That cleared the rubble."
+   ],
+   "hurt": [
+    "Careful with the powder!",
+    "Blast it all!"
+   ],
+   "low_hp": [
+    "Fuse is too short!",
+    "Bleeding faster than a leak!"
+   ],
+   "death": [
+    "Bad... charge...",
+    "Boom..."
+   ],
+   "idle": [
+    "Got saltpeter? No? Pity.",
+    "Smells like sulfur.",
+    "Check the detonator."
+   ],
+   "hero_down": [
+    "Boss is blown to bits!",
+    "Retreat from the blast!"
+   ]
+  },
+  {
+   "merc": "merc-dune-houndmaster",
+   "hired": [
+    "The hounds smell blood.",
+    "Heel, beasts. We hunt."
+   ],
+   "kill": [
+    "Rip them apart!",
+    "Good hound.",
+    "Torn to ribbons."
+   ],
+   "hurt": [
+    "They're biting my pack!",
+    "Get back, beast!"
+   ],
+   "low_hp": [
+    "Hounds are panicked!",
+    "Bleeding out here!"
+   ],
+   "death": [
+    "My pack... will... avenge...",
+    "No leash..."
+   ],
+   "idle": [
+    "Quiet, boy.",
+    "Track's cold.",
+    "Good scent on the wind."
+   ],
+   "hero_down": [
+    "Leader's down! Scatter!",
+    "The pack is masterless!"
+   ]
+  },
+  {
+   "merc": "merc-cistern-acolyte",
+   "hired": [
+    "Water cleans all sins.",
+    "For the clean wells."
+   ],
+   "kill": [
+    "Drowned in the dirt!",
+    "Purified by force.",
+    "Sink down."
+   ],
+   "hurt": [
+    "The water runs red!",
+    "Help me!"
+   ],
+   "low_hp": [
+    "Well is dry...",
+    "Too much blood lost!"
+   ],
+   "death": [
+    "Into... the well...",
+    "Mud... water..."
+   ],
+   "idle": [
+    "Check the filters.",
+    "Water tastes of iron.",
+    "Stay hydrated."
+   ],
+   "hero_down": [
+    "The cistern is broken!",
+    "Captain is gone!"
+   ]
+  },
+  {
+   "merc": "merc-tomb-notary",
+   "hired": [
+    "Your name goes in the ledger.",
+    "Taxes or death. Choose."
+   ],
+   "kill": [
+    "Account settled.",
+    "Written off.",
+    "Balance is zero."
+   ],
+   "hurt": [
+    "My inkwell's upset!",
+    "Auditing hurts!"
+   ],
+   "low_hp": [
+    "Ledger's closing fast!",
+    "No more credit!"
+   ],
+   "death": [
+    "Tear... out... the page...",
+    "Unpaid..."
+   ],
+   "idle": [
+    "Everything recorded.",
+    "Prices are rising.",
+    "Sign here in blood."
+   ],
+   "hero_down": [
+    "A tragic write-off.",
+    "The chief asset is liquidated."
+   ]
+  },
+  {
+   "merc": "merc-salt-mercenary",
+   "hired": [
+    "Jawbone holds. Always.",
+    "Pay me in silver, not excuses."
+   ],
+   "kill": [
+    "Shield slammed!",
+    "Jaw cracked!",
+    "Stay down!"
+   ],
+   "hurt": [
+    "Armor held, barely!",
+    "Hard hit!"
+   ],
+   "low_hp": [
+    "Plate is dented inward!",
+    "Shield arm's numb!"
+   ],
+   "death": [
+    "Jawbone... breaks...",
+    "Iron... heavy..."
+   ],
+   "idle": [
+    "Check your straps.",
+    "Salt ruins good steel.",
+    "Keep formation."
+   ],
+   "hero_down": [
+    "Formation's broken! Boss is down!",
+    "Fall back, we're done!"
+   ]
+  },
+  {
+   "merc": "merc-oakhaven-marine",
+   "hired": [
+    "Boarding axes sharp and ready, Captain.",
+    "Oakhaven marines never retreat from the deck."
+   ],
+   "kill": [
+    "Over the side with you!",
+    "Clean sweep on deck!",
+    "That's how we clear a hull!"
+   ],
+   "hurt": [
+    "Boarding action getting rough!",
+    "They've got reach!"
+   ],
+   "low_hp": [
+    "Hull's breached, taking water!",
+    "Need a patch on these wounds!"
+   ],
+   "death": [
+    "Sinking... fast...",
+    "Abandon... ship..."
+   ],
+   "idle": [
+    "Salt on the wind.",
+    "Check your rigging.",
+    "Quiet before the storm."
+   ],
+   "hero_down": [
+    "Captain's overboard!",
+    "We've lost the helm!"
+   ]
+  },
+  {
+   "merc": "merc-harbor-arbalest",
+   "hired": [
+    "Steel bolts for heavy plate.",
+    "Seawall range is locked in."
+   ],
+   "kill": [
+    "Cracked their breastplate!",
+    "Through iron and bone.",
+    "Bolt well spent."
+   ],
+   "hurt": [
+    "Close range ruined my draw!",
+    "Get them off me!"
+   ],
+   "low_hp": [
+    "Winch arm is failing!",
+    "Can't crank the arbalest!"
+   ],
+   "death": [
+    "Drop... the bow...",
+    "Missed my... last shot..."
+   ],
+   "idle": [
+    "Wind's drifting right.",
+    "Keep the steel oiled.",
+    "Waiting for armor."
+   ],
+   "hero_down": [
+    "Commander's down! Cover the retreat!",
+    "The line is breached!"
+   ]
+  },
+  {
+   "merc": "merc-storm-channeler",
+   "hired": [
+    "The storm obeys my call.",
+    "Spire lightning crackles for coin."
+   ],
+   "kill": [
+    "Fulminated into dust!",
+    "Struck by the spire!",
+    "Arcing death!"
+   ],
+   "hurt": [
+    "The current's disturbed!",
+    "Grounding my focus!"
+   ],
+   "low_hp": [
+    "Static is burning my veins!",
+    "Failing voltage!"
+   ],
+   "death": [
+    "Grounded... forever...",
+    "The storm... fades..."
+   ],
+   "idle": [
+    "Feel the air snap.",
+    "Clouds gathering low.",
+    "Static on the skin."
+   ],
+   "hero_down": [
+    "The channel is broken!",
+    "Leader has fallen!"
+   ]
+  },
+  {
+   "merc": "merc-triage-surgeon",
+   "hired": [
+    "Saw and sutures ready.",
+    "Try to bleed neatly, please."
+   ],
+   "kill": [
+    "Anatomy rearranged.",
+    "No saving that carcass.",
+    "Clean amputation."
+   ],
+   "hurt": [
+    "Hands off the saw!",
+    "I'll stitch you last!"
+   ],
+   "low_hp": [
+    "Need my own tourniquet!",
+    "Fatal diagnosis!"
+   ],
+   "death": [
+    "Out... of... thread...",
+    "Bled... out..."
+   ],
+   "idle": [
+    "Boil those rags.",
+    "Too much gore today.",
+    "Keep breathing."
+   ],
+   "hero_down": [
+    "Even my saw can't fix this!",
+    "Commander is gone!"
+   ]
+  },
+  {
+   "merc": "merc-drowned-arbiter",
+   "hired": [
+    "The wreck-bell tolls for them.",
+    "Silence by decree."
+   ],
+   "kill": [
+    "Hushed forever.",
+    "The bell has rung.",
+    "Sunk into silence."
+   ],
+   "hurt": [
+    "Insolent disturbance!",
+    "You break the quiet!"
+   ],
+   "low_hp": [
+    "The bell cracks!",
+    "Fading into the silt!"
+   ],
+   "death": [
+    "Ring... no... more...",
+    "Deep water..."
+   ],
+   "idle": [
+    "Listen to the deep.",
+    "Quiet is a virtue.",
+    "The bell rests."
+   ],
+   "hero_down": [
+    "The bell falls silent. Commander is dead.",
+    "A quiet catastrophe."
+   ]
+  },
+  {
+   "merc": "merc-ironclad-turncoat",
+   "hired": [
+    "Ironclad banners burn nicely.",
+    "I fight for the winning side now."
+   ],
+   "kill": [
+    "Take that, old comrades!",
+    "Deserter's blade bites deep!",
+    "Better pay here anyway."
+   ],
+   "hurt": [
+    "They recognize my armor!",
+    "Tough crowd!"
+   ],
+   "low_hp": [
+    "Betrayal has a price!",
+    "Bleeding through the crest!"
+   ],
+   "death": [
+    "Traitor's... end...",
+    "No flags... left..."
+   ],
+   "idle": [
+    "Hope the Ironclad don't spot me.",
+    "Good steel, stolen fair.",
+    "Watch your backs."
+   ],
+   "hero_down": [
+    "Boss is down, time to switch sides again!",
+    "We're finished here!"
+   ]
+  },
+  {
+   "merc": "merc-ironcamp-halberdier",
+   "hired": [
+    "Halberd length keeps them honest.",
+    "Ironcamp steel never bends."
+   ],
+   "kill": [
+    "Hooked and dropped!",
+    "Swept the legs right off!",
+    "Clean chop!"
+   ],
+   "hurt": [
+    "Inside my reach!",
+    "Step back!"
+   ],
+   "low_hp": [
+    "Halberd's getting heavy!",
+    "Bleeding past the haft!"
+   ],
+   "death": [
+    "Haft... falls...",
+    "Iron... broken..."
+   ],
+   "idle": [
+    "Check the blade edge.",
+    "Good reach in open ground.",
+    "Stand tall."
+   ],
+   "hero_down": [
+    "Commander's down! Hold the point!",
+    "We're overrun!"
+   ]
+  },
+  {
+   "merc": "merc-slag-hound-sniper",
+   "hired": [
+    "Caldera sights never miss.",
+    "One shot, one cinder."
+   ],
+   "kill": [
+    "Center mass.",
+    "Dropped from the ridge.",
+    "Clean hit."
+   ],
+   "hurt": [
+    "They found my perch!",
+    "Moving nests!"
+   ],
+   "low_hp": [
+    "Scope is fogging with blood!",
+    "Need extraction!"
+   ],
+   "death": [
+    "Lost... elevation...",
+    "Falling..."
+   ],
+   "idle": [
+    "Wind's dead calm.",
+    "Scanning the tree line.",
+    "Target sighted... kidding."
+   ],
+   "hero_down": [
+    "Leader's down. Canceling the drop.",
+    "Retreat from the ridge!"
+   ]
+  },
+  {
+   "merc": "merc-ash-battlemage",
+   "hired": [
+    "Vok taught me true fire.",
+    "Runesmithing in combat."
+   ],
+   "kill": [
+    "Runed to ash!",
+    "Ignited!",
+    "Vok's wrath!"
+   ],
+   "hurt": [
+    "Ward is cracking!",
+    "Interrupted!"
+   ],
+   "low_hp": [
+    "Mana is running dry!",
+    "My runes fail!"
+   ],
+   "death": [
+    "Runes... shatter...",
+    "Cold ash..."
+   ],
+   "idle": [
+    "Trace the glyph.",
+    "Sulfur in the air.",
+    "Patience, rune-fire."
+   ],
+   "hero_down": [
+    "The spell is broken! Commander is down!",
+    "We flee the pyre!"
+   ]
+  },
+  {
+   "merc": "merc-penitent-flagellant",
+   "hired": [
+    "Pain is our penance.",
+    "Scorched skin for the realm."
+   ],
+   "kill": [
+    "Cleansed in blood!",
+    "Repent and die!",
+    "Sin purged!"
+   ],
+   "hurt": [
+    "More pain! Blessed pain!",
+    "Strike harder!"
+   ],
+   "low_hp": [
+    "The flesh fails us!",
+    "Almost at redemption!"
+   ],
+   "death": [
+    "Redemption... reached...",
+    "No... more... sins..."
+   ],
+   "idle": [
+    "Flagellate the soul.",
+    "Burn the impurities.",
+    "Suffering brings truth."
+   ],
+   "hero_down": [
+    "The leader's soul requires prayer!",
+    "A dark martyrdom!"
+   ]
+  },
+  {
+   "merc": "merc-catacomb-bailiff",
+   "hired": [
+    "First-Watch debt must be collected.",
+    "Summoning the debtors."
+   ],
+   "kill": [
+    "Asset seized!",
+    "Foreclosed!",
+    "Debt paid in bone."
+   ],
+   "hurt": [
+    "Insolvency will cost you!",
+    "Back off!"
+   ],
+   "low_hp": [
+    "My warrant expires!",
+    "Eviction notice!"
+   ],
+   "death": [
+    "Warrant... denied...",
+    "Seized by death..."
+   ],
+   "idle": [
+    "Check the tax rolls.",
+    "Everyone owes a debt.",
+    "Quiet crypts."
+   ],
+   "hero_down": [
+    "A catastrophic write-off.",
+    "The boss defaulted!"
+   ]
+  },
+  {
+   "merc": "merc-obsidian-sapper",
+   "hired": [
+    "Caldera charges set.",
+    "Show me a wall to break."
+   ],
+   "kill": [
+    "Blown to gravel!",
+    "That cleared the obstacle!",
+    "Cratered!"
+   ],
+   "hurt": [
+    "Premature detonation!",
+    "Watch the sparks!"
+   ],
+   "low_hp": [
+    "Fuse lit too close!",
+    "Bleeding out on the slag!"
+   ],
+   "death": [
+    "Big... kaboom...",
+    "Detonating..."
+   ],
+   "idle": [
+    "Keep sparks away.",
+    "Obsidian splinters nicely.",
+    "Check the detonator cord."
+   ],
+   "hero_down": [
+    "Boss is down! Cut the fuse!",
+    "Abort the mission!"
+   ]
+  }
+ ]
+}

@@ -44,7 +44,7 @@ import {
 import { loadGameData } from './loaddata';
 import { loadHeroVoices, heroBark } from './herovoice';
 import { loadAchievements, achKills, achTrack, achReset, achHired, achLevel, achGold, achWin, achCampaign } from './achievements';
-import { loadMissionContent, loadMissionHints, loadItemFlavor, loadFlavorLists, loadMonsterCodex, loadCodexLore, loadTownBarks, loadSpellText, defeatFlavor, loadDifficultyFlavor, difficultyLine, loadMercLines, mercHireLine, regionEnterLine, loadHeroFlavor, promotionLine, classBanter, missionRadio, missionKey } from './missioncontent';
+import { loadMissionContent, loadMissionHints, loadItemFlavor, loadFlavorLists, loadMonsterCodex, loadCodexLore, loadTownBarks, loadSpellText, defeatFlavor, loadDifficultyFlavor, difficultyLine, loadMercLines, mercHireLine, regionEnterLine, loadHeroFlavor, promotionLine, classBanter, missionRadio, missionKey, loadBarkContent, mercBark, bossLine } from './missioncontent';
 import { startSideQuests, sqTrack, sqFinish } from './sidequests';
 import { DebugPanel } from './debugpanel';
 import { KNOWN_HI, SPELLS, Tk, maskHas } from './sim/spelldata';
@@ -835,7 +835,7 @@ function updateGothicHud(): void {
   const hl = sim.hero?.level ?? 0;
   if (lastHeroLevel && hl > lastHeroLevel) { const lb = heroBark('level_up', 0); if (lb) toast(`"${lb}"`); const pl = promotionLine(hl); if (pl) setTimeout(() => toast(pl), 1800); }
   lastHeroLevel = hl;
-  if (hl && Date.now() - lastInputAt > 45000) { lastInputAt = Date.now(); const ib = heroBark('idle', 0); if (ib) toast(`"${ib}"`); if (activeChar && idleN++ % 3 === 2) { const cb = classBanter(['warrior', 'mage', 'archer', 'necromancer'][activeChar.cls] ?? 'warrior', idleN); if (cb) setTimeout(() => toast(cb), 2500); } }
+  if (hl && Date.now() - lastInputAt > 45000) { lastInputAt = Date.now(); const ib = heroBark('idle', 0); if (ib) toast(`"${ib}"`); { const mi = mercBark('idle', missionAct, idleN + 7); if (mi && idleN % 2 === 1) setTimeout(() => toast(`"${mi}"`), 1200); } if (activeChar && idleN++ % 3 === 2) { const cb = classBanter(['warrior', 'mage', 'archer', 'necromancer'][activeChar.cls] ?? 'warrior', idleN); if (cb) setTimeout(() => toast(cb), 2500); } }
 
   const mana = Math.max(0, sim.cb.mana[0] ?? 0);
   const manaMax = Math.max(1, sim.cb.manaMax[0] ?? 1);
@@ -2052,6 +2052,7 @@ await loadCodexLore();
 await loadDifficultyFlavor();
 await loadAchievements((m) => toast(m));
 await loadMercLines();
+await loadBarkContent();
 await loadHeroFlavor();
 await loadTownBarks();
 await loadSpellText();
@@ -2564,7 +2565,7 @@ function heroEvents(): void {
     } else if (e.type === Tfx.Hired) {
       toast(S.town.hiredToast);
       if (e.el === 0) achHired();
-      if (e.el === 0) { const hl = mercHireLine(missionAct, e.v); if (hl) setTimeout(() => toast(hl), 1200); }
+      if (e.el === 0) { const hl = mercHireLine(missionAct, e.v); if (hl) setTimeout(() => toast(hl), 1200); const mb = mercBark('hired', missionAct, e.v); if (mb) setTimeout(() => toast(`"${mb}"`), 3000); }
     } else if (e.type === 6) {
       toast(`${S.hero.skillUp}: ${SKILL_NAMES[e.v]} ${e.el}`);
       touched = true;
@@ -2799,7 +2800,7 @@ function updateMusic(now: number): void {
     }
   }
   if (outcome) {
-    if (outcome === 'win' && !victoryBarked) { victoryBarked = true; recordAchWin(); { const [up, size] = army(); for (const q of sqFinish(true, up === size)) { const extra = Math.round((sim.cb.gold[0] ?? 0) * q.bonus / 100); sim.cb.gold[0] += extra; toast(`Side quest done: ${q.title} (+${extra} gold)`); } } if (missionName) void missionRadio(missionName, 'win').then((l) => { if (l) toast(`Radio: ${l}`); void missionRadio(missionName, 'victory_flavour').then((v) => { if (v) setTimeout(() => toast(`Radio: ${v}`), 3500); }); }); const vb = heroBark('victory', 0); if (vb) toast(`"${vb}"`); }
+    if (outcome === 'win' && !victoryBarked) { victoryBarked = true; recordAchWin(); { const [up, size] = army(); for (const q of sqFinish(true, up === size)) { const extra = Math.round((sim.cb.gold[0] ?? 0) * q.bonus / 100); sim.cb.gold[0] += extra; toast(`Side quest done: ${q.title} (+${extra} gold)`); } } if (missionName) void missionRadio(missionName, 'win').then((l) => { if (l) toast(`Radio: ${l}`); void missionRadio(missionName, 'victory_flavour').then((v) => { if (v) setTimeout(() => toast(`Radio: ${v}`), 3500); }); }); const vb = heroBark('victory', 0); if (vb) toast(`"${vb}"`); if (missionName) void bossLine(missionName, 'hero_after', ['warrior', 'archer', 'mage', 'necromancer'][activeChar?.cls ?? 0] ?? 'warrior').then((ba) => { if (ba) setTimeout(() => toast(`"${ba}"`), 6500); }); }
     setSpecialMusic(outcome === 'win' ? 'music_victory' : 'music_defeat', false);
     return;
   }
@@ -3176,6 +3177,7 @@ function finish(kind: 'win' | 'lose', text?: string): void {
     showVictoryScreen(text);
   } else {
     const fx = defeatFlavor();
+    if (missionName) { void bossLine(missionName, 'hero_down').then((bd) => { if (bd) setTimeout(() => toast(`"${bd}"`), 1500); }); const md = mercBark('hero_down', missionAct, Date.now() & 255); if (md) setTimeout(() => toast(`"${md}"`), 3200); }
     if (missionName) void missionRadio(missionName, 'lose').then((l) => { if (l) toast(`Radio: ${l}`); });
     showDefeatScreen(fx ? [text, fx].filter(Boolean).join('\n\n') : text);
   }
