@@ -1,0 +1,315 @@
+{
+  "format": "thornvael-map",
+  "version": 2,
+  "name": "The Border Fords & Weeping Ossuary",
+  "w": 192,
+  "h": 192,
+  "terrain": [0, 13824, 1, 192, 0, 4224, 2, 16, 1, 8, 2, 168, 0, 4032, 4, 5760, 0, 8832],
+  "height": [1, 12288, 0, 6144, 2, 12288, 1, 6144],
+  "objects": [
+    { "kind": 1, "x": 20, "y": 86, "owner": 0, "hp": 250 },
+    { "kind": 1, "x": 26, "y": 86, "owner": 0, "hp": 250 },
+    { "kind": 1, "x": 32, "y": 86, "owner": 0, "hp": 250 },
+    { "kind": 1, "x": 70, "y": 92, "owner": 0, "hp": 150 },
+    { "kind": 1, "x": 92, "y": 158, "owner": 0, "hp": 150 },
+    { "kind": 1, "x": 54, "y": 32, "owner": 0, "hp": 180 },
+    { "kind": 1, "x": 168, "y": 170, "owner": 0, "hp": 300 },
+    { "kind": 0, "x": 46, "y": 74 },
+    { "kind": 0, "x": 52, "y": 44 },
+    { "kind": 0, "x": 64, "y": 28 },
+    { "kind": 0, "x": 88, "y": 52 },
+    { "kind": 0, "x": 114, "y": 72 }
+  ],
+  "units": [
+    { "kind": 2, "team": 0, "x": 26, "y": 94 },
+    { "kind": 0, "team": 0, "x": 18, "y": 84, "dormant": true },
+    { "kind": 1, "team": 0, "x": 19, "y": 84, "dormant": true },
+    { "kind": 3, "team": 0, "x": 20, "y": 84, "dormant": true },
+    { "kind": 0, "team": 0, "x": 21, "y": 84, "dormant": true },
+    { "kind": 4, "team": 1, "x": 76, "y": 98, "group": 1, "pack": 1, "tier": 1, "family": "briar-hound" },
+    { "kind": 4, "team": 1, "x": 78, "y": 99, "group": 1, "pack": 1, "tier": 1, "family": "briar-hound" },
+    { "kind": 1, "team": 1, "x": 84, "y": 96, "group": 1, "pack": 1, "tier": 2, "family": "quill-fiend" },
+    { "kind": 4, "team": 1, "x": 96, "y": 88, "group": 1, "pack": 2, "vip": true, "tier": 3, "family": "thorn-boar", "bossMods": ["stone_skin", "extra_fast"] },
+    { "kind": 6, "team": 1, "x": 72, "y": 148, "group": 2, "pack": 3, "tier": 2, "family": "mire-wisp" },
+    { "kind": 5, "team": 1, "x": 86, "y": 156, "group": 2, "pack": 3, "tier": 2, "family": "flintback" },
+    { "kind": 3, "team": 1, "x": 98, "y": 164, "group": 2, "pack": 4, "vip": true, "tier": 4, "family": "fallen-shaman", "bossMods": ["fire_enchanted", "magic_resistant"] },
+    { "kind": 6, "team": 1, "x": 96, "y": 166, "group": 2, "pack": 4, "tier": 2, "family": "cinderling" },
+    { "kind": 4, "team": 1, "x": 34, "y": 30, "group": 7, "pack": 5, "tier": 2, "family": "hollow-knight" },
+    { "kind": 4, "team": 1, "x": 42, "y": 36, "group": 8, "pack": 6, "vip": true, "tier": 4, "family": "briar-hound", "bossMods": ["extra_fast", "spectral_hit"] },
+    { "kind": 1, "team": 1, "x": 62, "y": 38, "group": 9, "pack": 7, "vip": true, "tier": 4, "family": "quill-fiend", "bossMods": ["cold_enchanted"] },
+    { "kind": 4, "team": 1, "x": 64, "y": 40, "group": 9, "pack": 7, "tier": 3, "family": "gloom-stag" },
+    { "kind": 5, "team": 1, "x": 138, "y": 96, "group": 5, "pack": 8, "tier": 3, "family": "rootbound" },
+    { "kind": 4, "team": 1, "x": 140, "y": 98, "group": 5, "pack": 8, "tier": 3, "family": "pale-burrower" },
+    { "kind": 5, "team": 1, "x": 162, "y": 114, "group": 10, "pack": 9, "vip": true, "tier": 5, "family": "ironbark", "bossMods": ["stone_skin", "blessed_aura"] },
+    { "kind": 0, "team": 1, "x": 136, "y": 48, "group": 3, "pack": 10, "tier": 3, "family": "hollow-knight" },
+    { "kind": 4, "team": 1, "x": 152, "y": 32, "group": 11, "pack": 11, "tier": 3, "family": "ruin-mite" },
+    { "kind": 3, "team": 1, "x": 168, "y": 20, "group": 4, "pack": 12, "vip": true, "tier": 5, "family": "morvessa", "bossMods": ["extra_fast", "magic_resistant"] },
+    { "kind": 4, "team": 1, "x": 166, "y": 22, "group": 4, "pack": 12, "tier": 4, "family": "ruin-mite" },
+    { "kind": 4, "team": 1, "x": 134, "y": 152, "group": 12, "pack": 13, "tier": 4, "family": "pale-burrower" },
+    { "kind": 0, "team": 1, "x": 172, "y": 174, "group": 6, "pack": 14, "vip": true, "tier": 4, "family": "hollow-knight", "bossMods": ["blessed_aura", "stone_skin"] },
+    { "kind": 3, "team": 1, "x": 174, "y": 176, "group": 6, "pack": 14, "tier": 4, "family": "ash-weaver" }
+  ],
+  "regions": [
+    { "name": "Thornwick Market (City Hub)", "x1": 12, "y1": 76, "x2": 44, "y2": 112 },
+    { "name": "Sunken Ford & Willow Weirs", "x1": 45, "y1": 72, "x2": 104, "y2": 128 },
+    { "name": "Fenwick Peat & Lantern Passage", "x1": 45, "y1": 129, "x2": 118, "y2": 184 },
+    { "name": "Greywood Canopy & Vitrified Kilns", "x1": 16, "y1": 12, "x2": 108, "y2": 71 },
+    { "name": "Craghorn Defile & Alder Bridge", "x1": 105, "y1": 64, "x2": 180, "y2": 132 },
+    { "name": "Ravenwatch Keep & Weeping Ossuary", "x1": 109, "y1": 12, "x2": 186, "y2": 63 },
+    { "name": "Undervault Links & Ashbrook Gate", "x1": 119, "y1": 133, "x2": 186, "y2": 186 }
+  ],
+  "players": ["Vanguard Company", "Salt-Tithe Host", "Neutral", "Frontier Wardens"],
+  "waypoints": [
+    { "id": "wp-thornwick", "name": "Thornwick Market Square", "x": 24, "y": 94, "activated": true },
+    { "id": "wp-sunken-ford", "name": "Sunken Ford Crossing", "x": 74, "y": 98 },
+    { "id": "wp-lantern-passage", "name": "Lantern Passage Ravine", "x": 96, "y": 162 },
+    { "id": "wp-greywood", "name": "Greywood Sawmill", "x": 58, "y": 36 },
+    { "id": "wp-alder-bridge", "name": "Alder Bridge Cutwater", "x": 128, "y": 96 },
+    { "id": "wp-ravenwatch", "name": "Ravenwatch Crypt Stairs", "x": 136, "y": 48 },
+    { "id": "wp-ashbrook", "name": "Ashbrook Southern Gate", "x": 160, "y": 168 }
+  ],
+  "shrines": [
+    { "x": 64, "y": 96, "kind": "healing", "cooldown": 1500 },
+    { "x": 82, "y": 154, "kind": "mana", "cooldown": 1500 },
+    { "x": 68, "y": 42, "kind": "combat", "cooldown": 1800 },
+    { "x": 132, "y": 88, "kind": "armor", "cooldown": 1800 },
+    { "x": 144, "y": 44, "kind": "ward", "cooldown": 1800 },
+    { "x": 154, "y": 160, "kind": "haste", "cooldown": 1500 }
+  ],
+  "adventureObjects": [
+    { "x": 54, "y": 82, "kind": "watermill", "rewardGold": 150 },
+    { "x": 70, "y": 146, "kind": "magic_well" },
+    { "x": 40, "y": 52, "kind": "windmill", "rewardGold": 200 },
+    { "x": 168, "y": 32, "kind": "creature_bank", "rewardGold": 500, "rewardArtifact": true }
+  ],
+  "exits": [
+    { "x": 180, "y": 182, "targetMap": "m12", "targetX": 20, "targetY": 24, "label": "Southern Salt-Road to Redmarsh Outpost", "kind": "road" }
+  ],
+  "towns": [
+    {
+      "name": "Thornwick",
+      "tavern": 0,
+      "shop": 1,
+      "school": 2,
+      "tiers": [1, 3],
+      "spells": [0, 1, 4, 7, 9, 11, 19],
+      "mercs": [
+        { "unit": 1, "price": 60 },
+        { "unit": 2, "price": 60 },
+        { "unit": 3, "price": 80 },
+        { "unit": 4, "price": 140 }
+      ],
+      "npcs": [
+        { "name": "Warden Hale", "x": 18, "y": 90, "text": "npc.hale" },
+        { "name": "Reeve Marlow", "x": 22, "y": 92, "text": "npc.marlow" },
+        { "name": "Edda the Miller", "x": 32, "y": 95, "text": "npc.miller" },
+        { "name": "Ford-Scout Bren", "x": 38, "y": 88, "text": "npc.bren" },
+        { "name": "Orlen the Grave-Tender", "x": 28, "y": 104, "text": "npc.orlen" }
+      ]
+    }
+  ],
+  "triggers": [
+    {
+      "id": "init-briefing",
+      "once": true,
+      "enabled": true,
+      "conds": [{ "a": { "k": "yes", "a": [] }, "op": 0, "b": { "k": "constant", "a": [1] } }],
+      "acts": [
+        { "k": "giveMoney", "a": [0, 300] },
+        { "k": "setSub", "a": [0, 1] },
+        { "k": "setSub", "a": [1, 1] },
+        { "k": "message", "a": [1] }
+      ]
+    },
+    {
+      "id": "mq1-01-ford-cleared",
+      "once": true,
+      "enabled": true,
+      "conds": [{ "a": { "k": "groupSize", "a": [1] }, "op": 0, "b": { "k": "constant", "a": [0] } }],
+      "acts": [
+        { "k": "setSub", "a": [0, 2] },
+        { "k": "dropGold", "a": [96, 88, 400] },
+        { "k": "incVar", "a": [0] },
+        { "k": "message", "a": [2] }
+      ]
+    },
+    {
+      "id": "mq1-02-lantern-cleared",
+      "once": true,
+      "enabled": true,
+      "conds": [{ "a": { "k": "groupSize", "a": [2] }, "op": 0, "b": { "k": "constant", "a": [0] } }],
+      "acts": [
+        { "k": "setSub", "a": [1, 2] },
+        { "k": "setSub", "a": [2, 1] },
+        { "k": "incVar", "a": [0] },
+        { "k": "message", "a": [3] }
+      ]
+    },
+    {
+      "id": "mq1-03-ravenwatch-cleared",
+      "once": true,
+      "enabled": true,
+      "conds": [{ "a": { "k": "groupSize", "a": [3] }, "op": 0, "b": { "k": "constant", "a": [0] } }],
+      "acts": [
+        { "k": "setSub", "a": [2, 2] },
+        { "k": "setSub", "a": [3, 1] },
+        { "k": "incVar", "a": [0] },
+        { "k": "message", "a": [4] }
+      ]
+    },
+    {
+      "id": "mq1-04-morvessa-slain",
+      "once": true,
+      "enabled": true,
+      "conds": [{ "a": { "k": "isVip", "a": [22] }, "op": 0, "b": { "k": "constant", "a": [0] } }],
+      "acts": [
+        { "k": "setSub", "a": [3, 2] },
+        { "k": "setSub", "a": [4, 1] },
+        { "k": "dropGold", "a": [168, 20, 1500] },
+        { "k": "message", "a": [5] }
+      ]
+    },
+    {
+      "id": "mq1-05-alder-bridge-held",
+      "once": true,
+      "enabled": true,
+      "conds": [{ "a": { "k": "groupSize", "a": [5] }, "op": 0, "b": { "k": "constant", "a": [0] } }],
+      "acts": [
+        { "k": "setSub", "a": [4, 2] },
+        { "k": "setSub", "a": [5, 1] },
+        { "k": "incVar", "a": [0] },
+        { "k": "message", "a": [6] }
+      ]
+    },
+    {
+      "id": "mq1-06-ashbrook-victory",
+      "once": true,
+      "enabled": true,
+      "conds": [
+        { "a": { "k": "groupSize", "a": [6] }, "op": 0, "b": { "k": "constant", "a": [0] } },
+        { "a": { "k": "isVip", "a": [22] }, "op": 0, "b": { "k": "constant", "a": [0] } }
+      ],
+      "acts": [
+        { "k": "setSub", "a": [5, 2] },
+        { "k": "message", "a": [7] },
+        { "k": "win", "a": [] }
+      ]
+    },
+    {
+      "id": "sq1-01-burned-mint",
+      "once": true,
+      "enabled": true,
+      "conds": [{ "a": { "k": "groupSize", "a": [7] }, "op": 0, "b": { "k": "constant", "a": [0] } }],
+      "acts": [
+        { "k": "giveMoney", "a": [0, 350] },
+        { "k": "message", "a": [8] }
+      ]
+    },
+    {
+      "id": "sq1-02-vitrified-kilns",
+      "once": true,
+      "enabled": true,
+      "conds": [{ "a": { "k": "groupSize", "a": [8] }, "op": 0, "b": { "k": "constant", "a": [0] } }],
+      "acts": [
+        { "k": "giveMoney", "a": [0, 400] },
+        { "k": "message", "a": [9] }
+      ]
+    },
+    {
+      "id": "sq1-03-greywood-mill",
+      "once": true,
+      "enabled": true,
+      "conds": [{ "a": { "k": "groupSize", "a": [9] }, "op": 0, "b": { "k": "constant", "a": [0] } }],
+      "acts": [
+        { "k": "giveMoney", "a": [0, 450] },
+        { "k": "message", "a": [10] }
+      ]
+    },
+    {
+      "id": "sq1-04-ironroot-quarry",
+      "once": true,
+      "enabled": true,
+      "conds": [{ "a": { "k": "groupSize", "a": [10] }, "op": 0, "b": { "k": "constant", "a": [0] } }],
+      "acts": [
+        { "k": "giveMoney", "a": [0, 600] },
+        { "k": "message", "a": [11] }
+      ]
+    },
+    {
+      "id": "sq1-05-probate-lien",
+      "once": true,
+      "enabled": true,
+      "conds": [{ "a": { "k": "groupSize", "a": [11] }, "op": 0, "b": { "k": "constant", "a": [0] } }],
+      "acts": [
+        { "k": "giveMoney", "a": [0, 650] },
+        { "k": "message", "a": [12] }
+      ]
+    },
+    {
+      "id": "sq1-06-undervault-sluice",
+      "once": true,
+      "enabled": true,
+      "conds": [{ "a": { "k": "groupSize", "a": [12] }, "op": 0, "b": { "k": "constant", "a": [0] } }],
+      "acts": [
+        { "k": "giveMoney", "a": [0, 800] },
+        { "k": "message", "a": [13] }
+      ]
+    },
+    {
+      "id": "hero-dead",
+      "once": true,
+      "enabled": true,
+      "conds": [{ "a": { "k": "unitAlive", "a": [0] }, "op": 0, "b": { "k": "constant", "a": [0] } }],
+      "acts": [{ "k": "lose", "a": [1] }]
+    }
+  ],
+  "text": {
+    "title": "Map I: The Border Fords & Weeping Ossuary",
+    "body": "From the fortified timber palisades of Thornwick Market, march across six interconnected frontier regions to break High Quartermaster Morvessa's Salt-Tithe cordon, purge the Weeping Ossuary beneath Ravenwatch Keep, and open the southern road to Redmarsh.",
+    "obj.0": "Main: Clear Sunken Ford and execute Chieftain Grok'tar (74, 98)",
+    "obj.1": "Main: Relight Lantern Passage and slay Malgath, Chanter of the Pyre (96, 162)",
+    "obj.2": "Main: Break the siege of Ravenwatch Keep's outer bailey (136, 48)",
+    "obj.3": "Main: Descend into the Weeping Ossuary and slay Morvessa, the Silk Widow (168, 20)",
+    "obj.4": "Main: Hold Alder Bridge cutwater against the eastern host (138, 96)",
+    "obj.5": "Main: Breach Ashbrook Southern Gatehouse and defeat Commander Vaelen (172, 174)",
+    "obj.6": "Side: Audit the Burned Border Mint ruins for Assayer Pell's scales (34, 30)",
+    "obj.7": "Side: Harvest Vitrified Slag shards from the Old Kilns and slay Krazak (42, 36)",
+    "obj.8": "Side: Liberate Greywood Sawmill and slay Skara, Matron of Frostquills (62, 38)",
+    "obj.9": "Side: Hunt Thornmaw the Ironroot in the Craghorn Granite Quarry (162, 114)",
+    "obj.10": "Side: Burn the Lower-Parish Probate Lien-Roll in the Sunken Scriptorium (152, 32)",
+    "obj.11": "Side: Relieve water pressure behind Gallery Four in the Undervault Links (134, 152)",
+    "msg.1": "Look at the driftwood wedged against the weir, Commander. Those aren't peasant hay-carts—those are Border Mint bullion wagons burned down to the iron axle-trees. Secure Sunken Ford first, then push into the marsh and the northern timber depots.",
+    "msg.1.who": "Warden Hale",
+    "msg.2": "Sunken Ford is held! Recovered toll ledgers confirm Grok'tar was paid in stamped Border Mint copper to destroy tax records before Oakhaven auditors arrived.",
+    "msg.2.who": "Ford-Scout Bren",
+    "msg.3": "Malgath's pyre-chanters lie broken in Lantern Passage. The whale-oil beacons burn bright blue once more above the peat sinks.",
+    "msg.3.who": "Warden Hale",
+    "msg.4": "Ravenwatch Keep's outer courtyard is secured and the bone totems lie shattered. The subterranean stair into the Weeping Ossuary yawns open before us.",
+    "msg.4.who": "Orlen",
+    "msg.5": "Morvessa's brass abacus clatters into the ash of the Ossuary! We have recovered her Border Mint Seal Ring and the stolen southern bullion waybills.",
+    "msg.5.who": "Orlen",
+    "msg.6": "Alder Bridge stands unbroken! Three thousand river-parish refugees have safely crossed the granite arches toward the southern road.",
+    "msg.6.who": "Warden Hale",
+    "msg.7": "Ashbrook Gatehouse is ours and Siege Commander Vaelen has fallen! The southern road into the Desiccated Marches of Redmarsh lies open.",
+    "msg.7.who": "Warden Hale",
+    "msg.8": "Assayer Pell's assay scales and the Clipped Coin Investigation ledger have been recovered from the burned Border Mint vaults.",
+    "msg.8.who": "Reeve Marlow",
+    "msg.9": "Krazak the Volt Stalker is slain! Three translucent green shards of Vitrified Slag have been harvested from the kiln heaps.",
+    "msg.9.who": "High Arcanist Vaelen",
+    "msg.10": "Skara lies dead among the sawdust and the iron crowbars have been pried from Greywood's water-wheel!",
+    "msg.10.who": "Captain Merrick",
+    "msg.11": "Thornmaw the Ironroot has crumbled into inert quarry granite! The moorland packs scatter into the crags.",
+    "msg.11.who": "Ford-Scout Bren",
+    "msg.12": "The gall-ink probate register burns to cinders on the scriptorium lectern. Miller Tobin and the indebted dead of the lower parish are finally released.",
+    "msg.12.who": "Orlen",
+    "msg.13": "The bronze pressure wheel in Undervault Gallery Four turns free, draining the meltwater and exposing the hidden tax-commission silver!",
+    "msg.13.who": "Warden Hale",
+    "npc.hale": "Hold the river crossings and keep your powder dry, Commander. If Alder Bridge falls, three northern parishes die in the mud.",
+    "npc.marlow": "Someone burned the Border Mint six winters ago to hide shaved silver groats. Bring me Assayer Pell's ledger from the northern ruins and Thornwick's treasury will reward you.",
+    "npc.miller": "Morvessa's irregulars hamstrung our draft-oxen and wedged iron crowbars into the Greywood sawmill wheel. Clear the canopy and free the mill!",
+    "npc.bren": "Grok'tar holds the eastern gravel bar at Sunken Ford, and green marsh-lights are luring turf-cutters off the boardwalks in Fenwick's Peat.",
+    "npc.orlen": "Beneath Ravenwatch Keep lies the Weeping Ossuary. Morvessa's probate clerks bound the dead in gall-ink and fed the unpaid tax-rolls to the Silk Widow.",
+    "win": "The Border Fords and the Weeping Ossuary are cleansed. Your vanguard marches south toward Redmarsh Outpost.",
+    "fail.1": "Your hero has fallen in the mud of the northern frontier."
+  }
+}

@@ -1,0 +1,143 @@
+{
+  "version": 1,
+  "chapter": "four-realms-macro",
+  "acts": [
+    "Act I: The Border Fords & Weeping Ossuary",
+    "Act II: The Redmarsh Wastes & Ironheart Cisterns",
+    "Act III: The Iron Coast & Drowned Citadel",
+    "Act IV: The Obsidian Caldera & Cinder Throne"
+  ],
+  "start": "town-thornwick",
+  "nodes": [
+    {
+      "id": "town-thornwick",
+      "act": 1,
+      "kind": "town",
+      "map": "market",
+      "title": "Thornwick Market (City Hub I)",
+      "pos": [14, 24],
+      "tiers": [1, 3],
+      "unlocksOnVictory": ["map1-border-fords"],
+      "briefing": "Thornwick Market & Frontier Garrison: Behind weathered timber palisades along the western bend of the Alder River, border wardens, peat-cutters, and exiled arcanists rally after the burning of the Border Mint. Resupply at the armory, recruit a frontier companion at the tavern, and march across the six regions of the northern marches."
+    },
+    {
+      "id": "map1-border-fords",
+      "act": 1,
+      "kind": "mission",
+      "map": "ford",
+      "title": "Map I: The Border Fords & Weeping Ossuary",
+      "pos": [34, 24],
+      "unlocksOnVictory": ["town-redmarsh", "map2-redmarsh-wastes"],
+      "briefing": "A vast 192x192 frontier spanning six interconnected regions: Sunken Ford, Fenwick's Peat & Lantern Passage, Greywood Canopy & Vitrified Kilns, Craghorn Defile & Alder Bridge, Ravenwatch Keep & the Weeping Ossuary, and the Undervault Links to Ashbrook Gatehouse. Purge High Quartermaster Morvessa's parasitic brood, hold Alder Bridge for the evacuating parishes, and break the southern siege cordon.",
+      "result": {
+        "win": "Morvessa's brass abacus lies shattered in the ash of Ashbrook Gatehouse, and her Weeping Ossuary brood is purged. Carrying the Border Mint Assay Ledger and Morvessa's Seal Ring, your vanguard marches south into the evaporated salt basin of Redmarsh.",
+        "lose": "The northern marches collapse. Overrun at the river crossings and dragged into the bone-choked vaults beneath Ravenwatch, Thornwick's defenders are bound in gall-ink to pay an eternal probate debt."
+      }
+    },
+    {
+      "id": "town-redmarsh",
+      "act": 2,
+      "kind": "town",
+      "map": "market",
+      "title": "Redmarsh Outpost (City Hub II)",
+      "pos": [34, 52],
+      "tiers": [2, 4],
+      "unlocksOnVictory": ["map2-redmarsh-wastes"],
+      "briefing": "Redmarsh Outpost: A stilt-raised stockade erected over calcified leviathan ribcages in the evaporated inland sea. Salt-caravaneers weigh boiled rainwater on apothecary scales while Lower-Parish Scriptorium notaries audit Third-Dynasty debt vaults."
+    },
+    {
+      "id": "map2-redmarsh-wastes",
+      "act": 2,
+      "kind": "mission",
+      "map": "m12",
+      "title": "Map II: The Redmarsh Wastes & Ironheart Cisterns",
+      "pos": [56, 52],
+      "unlocksOnVictory": ["town-oakhaven", "map3-iron-coast"],
+      "briefing": "A vast 192x192 arid basin spanning six regions: Ochre Ditch & the Corduroy Causeway, Twin Passes & Bracken Basin, the Quartz Plateau & Wardstone Ring, Third-Dynasty Salt-Vaults, Deep Quarry Terraces, and the Fork of Spears leading to Ironheart Bastion. Re-attune the ruptured Quartz Wardstones, spark the quarry miners' revolt, and storm Gorrathul's forked steam-sluices.",
+      "result": {
+        "win": "Gorrathul falls before the rusted sluice-wheels of Ironheart Bastion, exposing the dry silt inside his mountain reservoirs. With the Third-Dynasty hydraulic charts and Conclave quartz prism secured, the switchbacks down to the Iron Coast lie open.",
+        "lose": "Baked under a merciless copper sun and choked by alkali dust-squalls, your vanguard perishes along the salt causeways while Gorrathul's iron gates remain forever barred."
+      }
+    },
+    {
+      "id": "town-oakhaven",
+      "act": 3,
+      "kind": "town",
+      "map": "market",
+      "title": "Oakhaven Harbor (City Hub III)",
+      "pos": [56, 78],
+      "tiers": [3, 5],
+      "unlocksOnVictory": ["map3-iron-coast"],
+      "briefing": "Oakhaven Harbor: A storm-lashed promontory port governed by the Maritime Guild and the expelled Thermodynamic Conclave. Bronze sea-wall culverins thunder across a bay choked by Lord Admiral Vesperion's Black Fleet while shipwrights patch transport carracks with pine pitch."
+    },
+    {
+      "id": "map3-iron-coast",
+      "act": 3,
+      "kind": "mission",
+      "map": "m24",
+      "title": "Map III: The Iron Coast & Drowned Citadel",
+      "pos": [76, 78],
+      "unlocksOnVictory": ["town-ironcamp", "map4-obsidian-caldera"],
+      "briefing": "A vast 192x192 coastal warzone spanning six regions: the Cinder Wards & Blighted Cider-Orchard, Greywash Canal & Riverlock Crossing, Hourglass Spit & Baron Vane's Smuggling Caves, the Sunken Citadel & Drowned Choir, Starved Bastion & Sea-Cliff Culverin Batteries, and Burning Harborwatch. Drain the tidal locks, silence the Drowned Choir, and board Vesperion's burning flagship.",
+      "result": {
+        "win": "Vesperion's flagship settles beneath boiling harbor foam as the reclaimed cliff batteries shatter the Black Blockade. Guided by his salt-corroded astrolabe, twelve patched carracks clear the harbor bar and steer due south toward the volcanic plume of Crown and Ember.",
+        "lose": "Fire-hulks reduce Oakhaven's drydocks to floating charcoal, and the spring tide drowns your heavy infantry inside the kelp-choked galleries of the Sunken Citadel."
+      }
+    },
+    {
+      "id": "town-ironcamp",
+      "act": 4,
+      "kind": "town",
+      "map": "market",
+      "title": "Ironcamp Forge-Hold (City Hub IV)",
+      "pos": [76, 48],
+      "tiers": [4, 5],
+      "unlocksOnVictory": ["map4-obsidian-caldera"],
+      "briefing": "Ironcamp Forge-Hold: An industrial siege foundry built over open geothermal fissures at the foot of the basalt highway. Keloid-scarred smiths of the Slag-Guild quench meteoric star-iron in sulfur brine alongside sightless monks of the Scorched Penitents."
+    },
+    {
+      "id": "map4-obsidian-caldera",
+      "act": 4,
+      "kind": "mission",
+      "map": "m36",
+      "title": "Map IV: The Obsidian Caldera & Cinder Throne",
+      "pos": [90, 48],
+      "unlocksOnVictory": ["m44-threshold-choice"],
+      "briefing": "A vast 192x192 volcanic caldera spanning six regions: the Basalt Highway & Shattered Beacons, Besieged Wall & Ashveil Summit, Magnetic Narrows & Twofold Barbican, Gauntlet of Iron & Greystone Rampart, Three-Roads Watch & Crossroads of Headless Kings, and the Colonnade of Conquered Crowns ascending to the Obsidian Dais. Reclaim the stolen cipher-keys from Arch-Mage Malrik, break the three converging siege hosts, and face First Warden Ashkarath.",
+      "result": {
+        "win": "The Gauntlet of Iron and Three-Roads Watch are breached. You stand before the Seventh Anchor Valve at the Crossroads of Headless Kings, where the fate of Thornvael must be decided.",
+        "lose": "Crushed beneath molten slag-stones in the sixty-degree trenches of the Gauntlet, your vanguard becomes ash on the basalt highway."
+      }
+    },
+    {
+      "id": "m44-threshold-choice",
+      "act": 4,
+      "kind": "mission",
+      "map": "m44",
+      "title": "The Crossroads of Headless Kings",
+      "pos": [90, 24],
+      "unlocksOnVictory": ["m45-crown-of-order", "m46-ember-reckoning"],
+      "briefing": "Before the Colonnade of Conquered Crowns stands the Seventh Meteoric Anchor Valve. Choose whether to lock and ground the valve under the First Watch Compact (Ending A) or unlatch the seal and claim the Primordial Ember on the Obsidian Dais (Ending B)."
+    },
+    {
+      "id": "m45-crown-of-order",
+      "act": 4,
+      "kind": "mission",
+      "map": "m45",
+      "title": "Ending A: The Crown of Order",
+      "pos": [82, 12],
+      "unlocksOnVictory": [],
+      "briefing": "Ascend the Obsidian Dais with the grounded Star-Iron Compact, slay First Warden Ashkarath's corrupted shell, and vent the caldera's fury safely into the abyss to restore clear skies across Thornvael."
+    },
+    {
+      "id": "m46-ember-reckoning",
+      "act": 4,
+      "kind": "mission",
+      "map": "m46",
+      "title": "Ending B: Ember Reckoning",
+      "pos": [96, 12],
+      "unlocksOnVictory": [],
+      "briefing": "Ascend the Obsidian Dais as the Seventh Seal shatters, strike down First Warden Ashkarath, and fuse the living Primordial Ember with your own flesh to rule Thornvael from an eternal throne of ash and iron."
+    }
+  ]
+}

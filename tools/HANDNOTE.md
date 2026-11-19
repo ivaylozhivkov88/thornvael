@@ -27,5 +27,5 @@ Tune FAMILY_VISUALS in src/render.ts (~line 121) via ?art=1 (dev server thornvae
 - [x] **Step 2.2 (`map-2-redmarsh-wastes.md`)**: Completed `.planning/campaign/map-2-redmarsh-wastes.md` (192x192 map, Redmarsh hub + 6 regions, enemies, 12 quests, dialogues, music brief, rewards).
 - [x] **Step 2.3 (`map-3-iron-coast.md`)**: Completed `.planning/campaign/map-3-iron-coast.md` (192x192 map, Oakhaven hub + 6 regions, enemies, 12 quests, dialogues, music brief, rewards).
 - [x] **Step 2.4 (`map-4-obsidian-caldera.md`)**: Completed `.planning/campaign/map-4-obsidian-caldera.md` (192x192 map, Ironcamp hub + 6 regions, enemies, 12 quests, dialogues, music brief, dual endings A/B).
-- [ ] **Step 3**: `03-GAPS.md` + declarative `MapDoc` v2 schema validation.
-- [ ] **Step 4 & 5**: `01-PROGRESSION.md` & `02-PRODUCTION-PLAN.md` (after user checkpoint).
+- [x] **Step 3 (`03-GAPS.md` + declarative `MapDoc` v2)**: Completed `.planning/campaign/03-GAPS.md`, `campaign-4maps.json`, and `map1-border-fords.macro.map.json` (validated 192x192 `MapDoc` v2 with Thornwick hub, 6 regions, 12 quests).
+- [ ] **Step 4 & 5**: `01-PROGRESSION.md` & `02-PRODUCTION-PLAN.md` (at user checkpoint).
