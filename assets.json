@@ -346,20 +346,20 @@
     {
       "path": "public/sprites/ashkarath.png",
       "license": "own",
-      "source": "tools/generate-boss-sprites.py",
-      "note": "Dedicated Ashkarath Act 4 boss atlas (horned terror titan); 48px, 16 directions, combat profile, RGB masks"
+      "source": "tools/sheet-build.py + Canva sheet",
+      "note": "Original ashkarath sprite; Canva-generated turnaround sheet, 96px, 16 directions, stand4/walk8/attack4/cast4/hurt2/die4, RGB masks."
     },
     {
       "path": "public/sprites/ashkarath-mask.png",
       "license": "own",
-      "source": "tools/generate-boss-sprites.py",
-      "note": "Dedicated Ashkarath Act 4 boss mask (horned terror titan); 48px, 16 directions, combat profile, RGB masks"
+      "source": "tools/sheet-build.py + Canva sheet",
+      "note": "Original ashkarath sprite; Canva-generated turnaround sheet, 96px, 16 directions, stand4/walk8/attack4/cast4/hurt2/die4, RGB masks."
     },
     {
       "path": "public/sprites/ashkarath.json",
       "license": "own",
-      "source": "tools/generate-boss-sprites.py",
-      "note": "Dedicated Ashkarath Act 4 boss spritesheet JSON"
+      "source": "tools/sheet-build.py + Canva sheet",
+      "note": "Original ashkarath sprite; Canva-generated turnaround sheet, 96px, 16 directions, stand4/walk8/attack4/cast4/hurt2/die4, RGB masks."
     },
     {
       "path": "public/terrain/terrain-d4c025f96b76.png",
