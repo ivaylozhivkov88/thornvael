@@ -28,7 +28,11 @@ export default defineConfig({
       strategies: 'injectManifest',
       srcDir: 'src',
       filename: 'sw.ts',
-      injectManifest: { maximumFileSizeToCacheInBytes: 3 * 1024 * 1024, globPatterns: ['**/*.{js,css,html,png,svg,json}'], globIgnores: ['chapter1-manifest.json'] },
+      injectManifest: {
+        maximumFileSizeToCacheInBytes: 3 * 1024 * 1024,
+        globPatterns: ['**/*.{js,css,html,png,svg,json}'],
+        globIgnores: ['chapter1-manifest.json', 'sprites/**', 'townart/**'],
+      },
       includeAssets: ['icons/*.png'],
       manifest: {
         name: 'Thornvael',

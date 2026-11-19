@@ -45,6 +45,7 @@ export interface StreamingTrackHandle {
   play(): Promise<void> | void;
   pause(): void;
   applyTrackFade?(fadeGain: number, effectiveMusicVolume: number): void;
+  dispose?(): void;
 }
 
 export type TrackFactory = (url: string, loop: boolean) => StreamingTrackHandle;
@@ -61,8 +62,16 @@ function defaultTrackFactory(url: string, loop: boolean): StreamingTrackHandle {
     get volume() { return el.volume; },
     set volume(v: number) { el.volume = Math.max(0, Math.min(1, v)); },
     get paused() { return el.paused; },
-    play: () => el.play(),
-    pause: () => el.pause(),
+    play: () => {
+      try {
+        return Promise.resolve(el.play()).catch(() => undefined);
+      } catch {
+        return Promise.resolve();
+      }
+    },
+    pause: () => {
+      try { el.pause(); } catch { /* ignore */ }
+    },
   };
 }
 
@@ -428,6 +437,7 @@ export class AdaptiveAudioDirector {
     this.currentHandle?.pause();
     if (this.outgoingHandle) {
       this.outgoingHandle.pause();
+      this.outgoingHandle.dispose?.();
       this.outgoingHandle = null;
       this.outgoingTrackId = null;
     }
@@ -436,6 +446,7 @@ export class AdaptiveAudioDirector {
 
   stopAll(): void {
     this.pauseAll();
+    this.currentHandle?.dispose?.();
     this.currentHandle = null;
     this.currentTrackId = null;
   }
@@ -444,13 +455,19 @@ export class AdaptiveAudioDirector {
     this.paused = false;
     this.applyTrackVolumes();
     if (this.currentHandle) {
-      void Promise.resolve(this.currentHandle.play()).catch(() => undefined);
+      try {
+        void Promise.resolve(this.currentHandle.play()).catch(() => undefined);
+      } catch {
+        // silent fallback when offline or blocked on iOS Safari
+      }
     }
   }
 
   resetHandles(): void {
     this.currentHandle?.pause();
+    this.currentHandle?.dispose?.();
     this.outgoingHandle?.pause();
+    this.outgoingHandle?.dispose?.();
     this.currentHandle = null;
     this.currentTrackId = null;
     this.outgoingHandle = null;
@@ -510,6 +527,7 @@ export class AdaptiveAudioDirector {
       this.applyTrackVolumes();
       if (this.fadeProgress >= 1 && this.outgoingHandle) {
         this.outgoingHandle.pause();
+        this.outgoingHandle.dispose?.();
         this.outgoingHandle = null;
         this.outgoingTrackId = null;
       }
@@ -530,13 +548,18 @@ export class AdaptiveAudioDirector {
       if (this.paused) {
         this.paused = false;
         this.applyTrackVolumes();
-        void Promise.resolve(this.currentHandle.play()).catch(() => undefined);
+        try {
+          void Promise.resolve(this.currentHandle.play()).catch(() => undefined);
+        } catch {
+          // silent fallback
+        }
       }
       return;
     }
     this.paused = false;
     if (this.outgoingHandle) {
       this.outgoingHandle.pause();
+      this.outgoingHandle.dispose?.();
     }
     this.outgoingHandle = this.currentHandle;
     this.outgoingTrackId = this.currentTrackId;
@@ -548,7 +571,11 @@ export class AdaptiveAudioDirector {
     this.fadeStartMs = nowMs;
     this.fadeProgress = this.outgoingHandle ? 0 : 1;
     this.applyTrackVolumes();
-    void Promise.resolve(handle.play()).catch(() => undefined);
+    try {
+      void Promise.resolve(handle.play()).catch(() => undefined);
+    } catch {
+      // silent fallback
+    }
   }
 
   private applyTrackVolumes(): void {

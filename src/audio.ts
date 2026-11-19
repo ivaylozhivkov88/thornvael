@@ -48,6 +48,8 @@ const SFX_NAMES = [
   'ui_button_click', 'ui_trade_buy', 'ui_trade_sell', 'ui_inv_pick', 'ui_inv_equip', 'ui_inv_drop', 'sfx_quest_accept', 'sfx_quest_complete', 'sfx_level_up',
 ];
 const ON_DEMAND_SFX = new Set<string>(ALL_ON_DEMAND_SFX_IDS);
+const CORE_SFX_SET = new Set<string>([...SFX_NAMES, 'ambience']);
+const MAX_ON_DEMAND_BUFFERS = 48;
 const base = (): string => import.meta.env.BASE_URL ?? '/thornvael/';
 
 let ctx: AudioContext | null = null;
@@ -58,6 +60,7 @@ let musicBus: GainNode | null = null;
 let ambBus: GainNode | null = null;
 let silent: HTMLAudioElement | null = null;
 const buffers = new Map<string, AudioBuffer>();
+const onDemandOrder: string[] = [];
 const pendingBuffers = new Map<string, Promise<void>>();
 const running = new Map<Voice, AudioBufferSourceNode>();
 let limiter = new VoiceLimiter();
@@ -103,6 +106,7 @@ try {
 interface LiveTrackHandle extends StreamingTrackHandle {
   el: HTMLAudioElement;
   gain: GainNode | null;
+  sourceNode: MediaElementAudioSourceNode | null;
 }
 
 let crossfadeTimer: ReturnType<typeof setTimeout> | null = null;
@@ -115,14 +119,19 @@ function createLiveTrackHandle(url: string, loop: boolean): LiveTrackHandle {
   el.loop = loop;
   el.preload = 'auto';
   el.crossOrigin = 'anonymous';
+  // Prevent unhandled media load errors on iOS Safari when offline or missing track.
+  if (typeof el.addEventListener === 'function') {
+    el.addEventListener('error', () => { /* silent offline/missing media fallback */ });
+  }
   let gain: GainNode | null = null;
+  let sourceNode: MediaElementAudioSourceNode | null = null;
   if (ctx && ctx.state !== 'closed' && musicBus) {
     try {
       // Routing through a gain node gives volume control on iOS, where <audio>.volume is read-only.
-      const src = ctx.createMediaElementSource(el);
+      sourceNode = ctx.createMediaElementSource(el);
       gain = ctx.createGain();
       gain.gain.value = 0;
-      src.connect(gain).connect(musicBus);
+      sourceNode.connect(gain).connect(musicBus);
     } catch {
       el.volume = 0;
     }
@@ -133,6 +142,7 @@ function createLiveTrackHandle(url: string, loop: boolean): LiveTrackHandle {
   const handle: LiveTrackHandle = {
     el,
     gain,
+    sourceNode,
     get src() { return el.src; },
     get loop() { return el.loop; },
     set loop(v: boolean) { el.loop = v; },
@@ -148,15 +158,24 @@ function createLiveTrackHandle(url: string, loop: boolean): LiveTrackHandle {
     },
     get paused() { return el.paused; },
     play() {
-      if (backgrounded || !musicWanted) return;
-      return el.play().then(() => {
-        if (backgrounded || !musicWanted || (director.getActiveHandle() !== handle && director.getOutgoingHandle() !== handle)) {
-          el.pause();
-        }
-      }).catch(() => undefined);
+      if (backgrounded || !musicWanted) return Promise.resolve();
+      try {
+        return Promise.resolve(el.play()).then(() => {
+          if (backgrounded || !musicWanted || (director.getActiveHandle() !== handle && director.getOutgoingHandle() !== handle)) {
+            try { el.pause(); } catch { /* ignore */ }
+          }
+        }).catch(() => undefined);
+      } catch {
+        return Promise.resolve();
+      }
     },
     pause() {
       try { el.pause(); } catch { /* ignore */ }
+    },
+    dispose() {
+      try { el.pause(); } catch { /* ignore */ }
+      try { sourceNode?.disconnect(); } catch { /* ignore */ }
+      try { gain?.disconnect(); } catch { /* ignore */ }
     },
     applyTrackFade(fadeGain: number, effectiveMusicVolume: number) {
       trackVolume = Math.max(0, Math.min(1, fadeGain * effectiveMusicVolume));
@@ -193,23 +212,52 @@ function syncMusicBusGain(): void {
 }
 
 function silentWavUrl(): string {
-  const n = 800;
-  const b = new Uint8Array(44 + n * 2);
-  const v = new DataView(b.buffer);
-  const str = (o: number, s: string): void => [...s].forEach((c, i) => v.setUint8(o + i, c.charCodeAt(0)));
-  str(0, 'RIFF');
-  v.setUint32(4, 36 + n * 2, true);
-  str(8, 'WAVEfmt ');
-  v.setUint32(16, 16, true);
-  v.setUint16(20, 1, true);
-  v.setUint16(22, 1, true);
-  v.setUint32(24, 8000, true);
-  v.setUint32(28, 16000, true);
-  v.setUint16(32, 2, true);
-  v.setUint16(34, 16, true);
-  str(36, 'data');
-  v.setUint32(40, n * 2, true);
-  return URL.createObjectURL(new Blob([b], { type: 'audio/wav' }));
+  if (typeof URL === 'undefined' || typeof URL.createObjectURL !== 'function' || typeof Blob === 'undefined') {
+    return '';
+  }
+  try {
+    const n = 800;
+    const b = new Uint8Array(44 + n * 2);
+    const v = new DataView(b.buffer);
+    const str = (o: number, s: string): void => [...s].forEach((c, i) => v.setUint8(o + i, c.charCodeAt(0)));
+    str(0, 'RIFF');
+    v.setUint32(4, 36 + n * 2, true);
+    str(8, 'WAVEfmt ');
+    v.setUint32(16, 16, true);
+    v.setUint16(20, 1, true);
+    v.setUint16(22, 1, true);
+    v.setUint32(24, 8000, true);
+    v.setUint32(28, 16000, true);
+    v.setUint16(32, 2, true);
+    v.setUint16(34, 16, true);
+    str(36, 'data');
+    v.setUint32(40, n * 2, true);
+    return URL.createObjectURL(new Blob([b], { type: 'audio/wav' }));
+  } catch {
+    return '';
+  }
+}
+
+function recordDecodedBuffer(name: string, buffer: AudioBuffer): void {
+  buffers.set(name, buffer);
+  if (CORE_SFX_SET.has(name)) return;
+  const idx = onDemandOrder.indexOf(name);
+  if (idx !== -1) onDemandOrder.splice(idx, 1);
+  onDemandOrder.push(name);
+  while (onDemandOrder.length > MAX_ON_DEMAND_BUFFERS) {
+    const oldest = onDemandOrder.shift();
+    if (oldest !== undefined) buffers.delete(oldest);
+  }
+}
+
+/** Evicts cached non-core on-demand SFX and biome ambience beds to bound decoded PCM memory. */
+export function unloadOnDemandAudio(): number {
+  let evicted = 0;
+  while (onDemandOrder.length > 0) {
+    const key = onDemandOrder.shift()!;
+    if (buffers.delete(key)) evicted++;
+  }
+  return evicted;
 }
 
 function loadBuffer(name: string): Promise<void> {
@@ -222,12 +270,13 @@ function loadBuffer(name: string): Promise<void> {
       // A distinct URL keeps existing chapter caches from serving the previous bow cue.
       const file = name === 'bow' ? 'yew_release_01' : name;
       const res = await fetch(`${base()}audio/${file}.m4a`);
+      if (res.ok === false) return;
       const data = await res.arrayBuffer();
       if (ctx !== context || context.state === 'closed') return;
       const buffer = await context.decodeAudioData(data);
-      if (ctx === context && (context.state as string) !== 'closed') buffers.set(name, buffer);
+      if (ctx === context && (context.state as string) !== 'closed') recordDecodedBuffer(name, buffer);
     } catch {
-      // a missing or undecodable file only loses that sound
+      // a missing, offline, or undecodable file only loses that sound
     }
   })().finally(() => { if (pendingBuffers.get(name) === task) pendingBuffers.delete(name); });
   pendingBuffers.set(name, task);
@@ -250,9 +299,12 @@ export function unlock(): void {
     busVoiceCap = new BusVoiceCap();
     director.resetHandles();
     silent?.pause();
-    if (silent) URL.revokeObjectURL(silent.src);
+    if (silent) {
+      try { if (silent.src) URL.revokeObjectURL(silent.src); } catch { /* ignore */ }
+    }
     silent = null;
     buffers.clear();
+    onDemandOrder.length = 0;
     pendingBuffers.clear();
     loading = null;
     resuming = suspending = null;
@@ -280,15 +332,22 @@ export function unlock(): void {
     ambBus.gain.value = 0.22 * ambVol;
     ambBus.connect(master);
     // Retain the existing iOS silent-media workaround; device behavior is not assumed.
-    silent = new Audio(silentWavUrl());
+    const silentUrl = silentWavUrl();
+    silent = new Audio(silentUrl);
     silent.loop = true;
     // Short buffer through the context inside the gesture: the iOS unlock trick.
-    const s = ctx.createBufferSource();
-    s.buffer = ctx.createBuffer(1, 1, 22050);
-    s.connect(ctx.destination);
-    s.start(0);
+    try {
+      const s = ctx.createBufferSource();
+      s.buffer = ctx.createBuffer(1, 1, 22050);
+      s.connect(ctx.destination);
+      s.start(0);
+    } catch {
+      // ignore unlock pulse error
+    }
     const context = ctx;
-    loading = Promise.all(SFX_NAMES.map(loadBuffer)).then(() => { if (ctx === context) startAmbience(); });
+    loading = Promise.all(SFX_NAMES.map(loadBuffer))
+      .then(() => { if (ctx === context) startAmbience(); })
+      .catch(() => undefined);
     attachDefaultBlurListeners();
   }
   restorePlayback();
@@ -303,8 +362,13 @@ const AMB_TOWN_BED = ['town_thornwick', 'town_redmarsh', 'town_oakhaven', 'forge
 export function setAmbienceAct(act: number, town = false): void {
   const bed = act >= 1 && act <= 4 ? 'amb_' + (town ? AMB_TOWN_BED : AMB_ACT_BED)[act - 1] : null;
   if (bed === ambBed) return;
+  const prevBed = ambBed;
   ambBed = bed;
   stopAmbience();
+  if (prevBed) {
+    buffers.delete(prevBed);
+    buffers.delete(`${prevBed}_ev0`);
+  }
   startAmbience();
 }
 function scheduleAmbEvent(context: AudioContext, bed: string): void {
@@ -326,23 +390,29 @@ function scheduleAmbEvent(context: AudioContext, bed: string): void {
         node = p;
       }
       node.connect(ambBus);
-      src.start();
+      try { src.start(); } catch { /* ignore */ }
     }).catch(() => undefined).finally(() => { if (ctx === context && ambBed === bed) scheduleAmbEvent(context, bed); });
   }, wait);
 }
 
 function stopAmbience(): void {
   try { ambSource?.stop(); } catch { /* already stopped */ }
-  ambSource?.disconnect();
+  try { ambSource?.disconnect(); } catch { /* ignore */ }
   ambSource = null;
   if (ambEventTimer) { clearTimeout(ambEventTimer); ambEventTimer = null; }
 }
 
 function playMedia(el: HTMLAudioElement, wanted: () => boolean): void {
   if (backgrounded || !wanted()) return;
-  void el.play().then(() => {
-    if (backgrounded || !wanted()) el.pause();
-  }).catch(() => undefined);
+  try {
+    void Promise.resolve(el.play()).then(() => {
+      if (backgrounded || !wanted()) {
+        try { el.pause(); } catch { /* ignore */ }
+      }
+    }).catch(() => undefined);
+  } catch {
+    // iOS Safari / offline may throw synchronously on play()
+  }
 }
 
 function restorePlayback(): void {
@@ -391,7 +461,12 @@ function startAmbience(): void {
     ambSource.buffer = b;
     ambSource.loop = true;
     ambSource.connect(ambBus);
-    ambSource.start();
+    try {
+      ambSource.start();
+    } catch {
+      ambSource = null;
+      return;
+    }
     if (ambBed && !ambEventTimer) scheduleAmbEvent(context, ambBed);
   }).catch(() => undefined);
 }
@@ -454,8 +529,12 @@ function playDecodedBuffer(name: string, b: AudioBuffer, priority: number, at?: 
     running.set(v, src);
     src.onended = () => running.delete(v);
   }
-  src.start();
-  played++;
+  try {
+    src.start();
+    played++;
+  } catch {
+    if (r.voice) running.delete(r.voice);
+  }
 }
 
 /** Play a sound effect. `x`, `y` is the screen point of the source (omit for UI sounds); w, h the view size. */
@@ -470,7 +549,7 @@ export function play(name: string, priority = 1, at?: SpatialPoint): void {
         if (loaded && ctx === context && sfxOn && !backgrounded && ctx.state === 'running') {
           playDecodedBuffer(name, loaded, priority, at);
         }
-      });
+      }).catch(() => undefined);
       return;
     }
     // Visceral synthesized dark fantasy combat sound effects fallback
@@ -533,12 +612,12 @@ export function playShopEntry(): void {
   pendingShopEntry = request;
   requestResume();
   // The suspend finalizer starts the foreground resume before this continuation runs.
-  const ready = suspending ? suspending.then(() => resuming) : resuming;
+  const ready = (suspending ? suspending.then(() => resuming) : resuming) ?? Promise.resolve();
   void Promise.all([loadBuffer(SHOP_ENTRY_CUE), ready]).then(() => {
     if (pendingShopEntry !== request) return;
     pendingShopEntry = null;
     if (ctx === context && performance.now() < request.deadline) play(SHOP_ENTRY_CUE, 5);
-  });
+  }).catch(() => undefined);
 }
 
 export function cancelShopEntry(): void {
@@ -1620,7 +1699,7 @@ export function getBusLevels(): { master: number; sfx: number; ui: number; music
 /** Preloads Wave 2 or mission-specific SFX cues on demand without bloating initial boot decode. */
 export function preloadAudioCues(names: readonly string[]): Promise<void> {
   if (!ctx) return Promise.resolve();
-  return Promise.all(names.map(loadBuffer)).then(() => undefined);
+  return Promise.all(names.map(loadBuffer)).then(() => undefined).catch(() => undefined);
 }
 
 /** Plays a D4 dark-fantasy NPC bark cue and optionally ducks music during dialogue. */

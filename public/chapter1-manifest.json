@@ -1,7 +1,7 @@
 {
  "id": "ch1",
  "cache": "thornvael-ch1-v1",
- "total": 9516705,
+ "total": 15900882,
  "files": [
   {
    "path": "data/campaign.json",
@@ -132,6 +132,14 @@
    "size": 5916
   },
   {
+   "path": "audio/amb_weather_embers.m4a",
+   "size": 125013
+  },
+  {
+   "path": "audio/amb_weather_rain.m4a",
+   "size": 123176
+  },
+  {
    "path": "audio/ambience.m4a",
    "size": 42526
   },
@@ -144,6 +152,42 @@
    "size": 5521
   },
   {
+   "path": "audio/bark_guard.m4a",
+   "size": 6063
+  },
+  {
+   "path": "audio/bark_innkeeper.m4a",
+   "size": 7681
+  },
+  {
+   "path": "audio/bark_mage.m4a",
+   "size": 7903
+  },
+  {
+   "path": "audio/bark_merc_archer.m4a",
+   "size": 5705
+  },
+  {
+   "path": "audio/bark_merc_mage.m4a",
+   "size": 6539
+  },
+  {
+   "path": "audio/bark_merc_warrior.m4a",
+   "size": 6330
+  },
+  {
+   "path": "audio/bark_merchant.m4a",
+   "size": 6537
+  },
+  {
+   "path": "audio/bark_priest.m4a",
+   "size": 8239
+  },
+  {
+   "path": "audio/bark_smith.m4a",
+   "size": 7169
+  },
+  {
    "path": "audio/block_shield_1.m4a",
    "size": 5208
   },
@@ -154,6 +198,22 @@
   {
    "path": "audio/boom.m4a",
    "size": 5491
+  },
+  {
+   "path": "audio/boss_roar_ashkarath.m4a",
+   "size": 33314
+  },
+  {
+   "path": "audio/boss_roar_gorrathul.m4a",
+   "size": 31627
+  },
+  {
+   "path": "audio/boss_roar_morvessa.m4a",
+   "size": 29863
+  },
+  {
+   "path": "audio/boss_roar_vesperion.m4a",
+   "size": 31212
   },
   {
    "path": "audio/buff.m4a",
@@ -196,8 +256,24 @@
    "size": 9174
   },
   {
+   "path": "audio/death_caster_1.m4a",
+   "size": 9959
+  },
+  {
+   "path": "audio/death_construct_1.m4a",
+   "size": 10983
+  },
+  {
+   "path": "audio/death_insect_1.m4a",
+   "size": 7679
+  },
+  {
    "path": "audio/death_skeleton_1.m4a",
    "size": 8015
+  },
+  {
+   "path": "audio/death_undead_1.m4a",
+   "size": 9039
   },
   {
    "path": "audio/gold.m4a",
@@ -288,6 +364,42 @@
    "size": 2496
   },
   {
+   "path": "audio/mon_aggro_beast.m4a",
+   "size": 8264
+  },
+  {
+   "path": "audio/mon_aggro_caster.m4a",
+   "size": 8788
+  },
+  {
+   "path": "audio/mon_aggro_construct.m4a",
+   "size": 9645
+  },
+  {
+   "path": "audio/mon_aggro_undead.m4a",
+   "size": 8250
+  },
+  {
+   "path": "audio/mon_hit_beast.m4a",
+   "size": 5437
+  },
+  {
+   "path": "audio/mon_hit_caster.m4a",
+   "size": 6090
+  },
+  {
+   "path": "audio/mon_hit_construct.m4a",
+   "size": 6270
+  },
+  {
+   "path": "audio/mon_hit_insect.m4a",
+   "size": 4903
+  },
+  {
+   "path": "audio/mon_hit_undead.m4a",
+   "size": 5666
+  },
+  {
    "path": "audio/music_battle.m4a",
    "size": 604812
   },
@@ -316,6 +428,10 @@
    "size": 207532
   },
   {
+   "path": "audio/music_boss_ashkarath_phase2.m4a",
+   "size": 457601
+  },
+  {
    "path": "audio/music_boss_gorrathul.m4a",
    "size": 177670
   },
@@ -326,6 +442,10 @@
   {
    "path": "audio/music_boss_vesperion.m4a",
    "size": 222801
+  },
+  {
+   "path": "audio/music_char_select.m4a",
+   "size": 418858
   },
   {
    "path": "audio/music_cutscene_crown.m4a",
@@ -340,6 +460,14 @@
    "size": 136274
   },
   {
+   "path": "audio/music_ending_crown.m4a",
+   "size": 435890
+  },
+  {
+   "path": "audio/music_ending_ember.m4a",
+   "size": 394911
+  },
+  {
    "path": "audio/music_explore.m4a",
    "size": 790819
   },
@@ -352,6 +480,10 @@
    "size": 204731
   },
   {
+   "path": "audio/music_explore_act1_kilns.m4a",
+   "size": 388141
+  },
+  {
    "path": "audio/music_explore_act2_canyon.m4a",
    "size": 209924
   },
@@ -360,12 +492,24 @@
    "size": 195184
   },
   {
+   "path": "audio/music_explore_act2_vaults.m4a",
+   "size": 438990
+  },
+  {
    "path": "audio/music_explore_act3_citadel.m4a",
    "size": 228470
   },
   {
    "path": "audio/music_explore_act3_coast.m4a",
    "size": 190262
+  },
+  {
+   "path": "audio/music_explore_act3_spit.m4a",
+   "size": 375030
+  },
+  {
+   "path": "audio/music_explore_act4_caldera.m4a",
+   "size": 407856
   },
   {
    "path": "audio/music_explore_act4_heartland.m4a",
@@ -378,6 +522,26 @@
   {
    "path": "audio/music_main_menu.m4a",
    "size": 215465
+  },
+  {
+   "path": "audio/music_skirmish_crypt.m4a",
+   "size": 344640
+  },
+  {
+   "path": "audio/music_skirmish_desert.m4a",
+   "size": 589556
+  },
+  {
+   "path": "audio/music_skirmish_forest.m4a",
+   "size": 604214
+  },
+  {
+   "path": "audio/music_skirmish_marsh.m4a",
+   "size": 329085
+  },
+  {
+   "path": "audio/music_skirmish_volcanic.m4a",
+   "size": 518683
   },
   {
    "path": "audio/music_stinger_low_hp.m4a",
@@ -820,6 +984,14 @@
    "size": 1586
   },
   {
+   "path": "audio/step_ash_1.m4a",
+   "size": 3693
+  },
+  {
+   "path": "audio/step_ash_2.m4a",
+   "size": 3708
+  },
+  {
    "path": "audio/step_dirt_1.m4a",
    "size": 2915
   },
@@ -850,6 +1022,14 @@
   {
    "path": "audio/step_marsh_mud_2.m4a",
    "size": 3138
+  },
+  {
+   "path": "audio/step_snow_1.m4a",
+   "size": 3859
+  },
+  {
+   "path": "audio/step_snow_2.m4a",
+   "size": 3797
   },
   {
    "path": "audio/step_snow_ash_1.m4a",
@@ -904,6 +1084,10 @@
    "size": 6386
   },
   {
+   "path": "audio/town_market_crowd.m4a",
+   "size": 124089
+  },
+  {
    "path": "audio/town_tavern_murmur.m4a",
    "size": 7939
   },
@@ -918,6 +1102,10 @@
   {
    "path": "audio/ui_button_hover.m4a",
    "size": 2039
+  },
+  {
+   "path": "audio/ui_error.m4a",
+   "size": 4232
   },
   {
    "path": "audio/ui_inv_drop.m4a",

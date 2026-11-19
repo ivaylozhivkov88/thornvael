@@ -531,7 +531,8 @@ function logHit(sim: Sim, src: number, t: number, elem: number, part: number, ch
  * against that part's defence and loses that part's absorption; the head takes half again. Schools cannot miss but are
  * scaled by resistance.
  */
-export function strike(sim: Sim, t: number, min: number, max: number, elem: number, acc: number, src = -1): void {
+export function strike(sim: Sim, t: number, min: number, max: number, elem: number, acc: number, src = -1, depth = 0): void {
+  if (depth >= 4) return;
   const cb = sim.cb;
   if (cb.hp[t] <= 0) return;
   const d = DEFS[cb.kind[t]];
@@ -622,7 +623,7 @@ export function strike(sim: Sim, t: number, min: number, max: number, elem: numb
   if (dmg > 0 && cb.bossMods[t]?.includes('lightning_enchanted')) {
     cb.emit(6, sim.x[t], sim.y[t], 0, 0); // electric sparks
     if (src >= 0 && src !== t && sim.team[src] !== sim.team[t]) {
-      strike(sim, src, 2, 5, Elem.Air, 12, t);
+      strike(sim, src, 2, 5, Elem.Air, 12, t, depth + 1);
     }
   }
 
@@ -634,15 +635,15 @@ export function strike(sim: Sim, t: number, min: number, max: number, elem: numb
     );
     if (hasThorns) {
       const reflectDmg = Math.max(1, Math.round(dmg * 0.75));
-      strike(sim, src, reflectDmg, reflectDmg + 2, Elem.Physical, 20, t);
+      strike(sim, src, reflectDmg, reflectDmg + 2, Elem.Physical, 20, t, depth + 1);
       cb.emit(6, sim.x[src], sim.y[src], 3, Elem.Physical);
     }
   }
 
-  if (cb.hp[t] <= 0) die(sim, t, elem);
+  if (cb.hp[t] <= 0) die(sim, t, elem, depth);
 }
 
-function die(sim: Sim, t: number, elem = 0): void {
+function die(sim: Sim, t: number, elem = 0, depth = 0): void {
   if (sim.hero !== null && t === sim.hero.id) {
     respawnHero(sim);
     return;
@@ -656,7 +657,7 @@ function die(sim: Sim, t: number, elem = 0): void {
       if (sim.team[u] !== sim.team[t] && cb.hp[u] > 0) {
         const d2 = (sim.x[u] - sim.x[t]) ** 2 + (sim.y[u] - sim.y[t]) ** 2;
         if (d2 <= blastR2) {
-          strike(sim, u, 4, 10, Elem.Fire, 14, t);
+          strike(sim, u, 4, 10, Elem.Fire, 14, t, depth + 1);
         }
       }
     }

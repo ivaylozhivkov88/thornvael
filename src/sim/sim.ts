@@ -1,32 +1,36 @@
 import { isBlockedAt, type GameMap } from '../map';
 import type { ShrineDef } from '../mapdoc';
 import { dayLight } from './daynight';
-import { CombatState, DEFS, Ord, POOLS, enemyNear, lootPos, nearestLoot, think, toGuard, type CombatSnap } from './combat';
+import { CombatState, Ord, POOLS, enemyNear, lootPos, nearestLoot, think, toGuard, type CombatSnap } from './combat';
 import { cloneHero, hashHero, heroCommand, type HeroCommand, type HeroState } from './hero';
 import { NST, SPELLS, St, Tk } from './spelldata';
-import { addStatus, isCorpse, knows, resolveTarget, revive, statusSpeed } from './spells';
-import { FP, Pather, dir16, isChokepoint, lineClear, regionsOf, speedPct } from './path';
+import { addStatus, isCorpse, knows, resolveTarget, revive } from './spells';
+import { FP, Pather, isChokepoint, lineClear, regionsOf } from './path';
 import { Rng } from './rng';
 import type { ScriptRuntime, ScriptState } from './script';
 import { buildTowns, checkQuests, cloneTown, hashTown, newTownState, townCommand, type TownCommand, type TownDef, type TownRt, type TownState } from './town';
-import { DYNAMIC_ITEM_OFFSET, Slot, getItemDef, registerDynamicItem, unregisterDynamicItem, ITEMS, type ItemDef, type ItemInstance } from './items';
-import { heroSpeedPct } from './mechanics';
+import { DYNAMIC_ITEM_OFFSET, getItemDef, registerDynamicItem, unregisterDynamicItem, type ItemDef, type ItemInstance } from './items';
 import { stepAuraSystem } from './auras';
+import { applyGroupFormation, type FormationScratch } from './formation';
+import {
+  UNIT_BODY_RADIUS,
+  computeUnitMasses,
+  prepareSteeringDirections,
+  separateUnits,
+  steerUnit,
+  type SteeringContext,
+} from './steering';
 
 export { FP };
 export const TICKS_PER_SECOND = 25;
 export const UNIT_SPEED = Math.round((3.2 * FP) / TICKS_PER_SECOND); // 3.2 tiles per second
-export const UNIT_RADIUS = 77; // 0.3 tile; two units never rest closer than 2 radii
-const MIN_DIST = UNIT_RADIUS * 2;
-const MAX_PUSH = 20;
+export const UNIT_RADIUS = UNIT_BODY_RADIUS; // 0.3 tile; two units never rest closer than 2 radii
 const VISION_DAY = 8;
 const VISION_NIGHT = 6;
 const STUCK_REPATH = 25; // ticks of no progress before a unit asks for a new path
 const STUCK_GIVE_UP = 200; // 8 seconds of no progress after all repaths
 const PATHS_PER_TICK = 3; // time-slice: at most this many A* searches during unit steering
 const PATHS_PER_ORDER = 6; // extra individual searches a single order may start
-const COINC_DX = Int8Array.of(1, 1, 0, -1, -1, -1, 0, 1);
-const COINC_DY = Int8Array.of(0, 1, 1, 1, 0, -1, -1, -1);
 
 /** Order verbs of the `order` command. */
 export type OrderName = 'attack' | 'guard' | 'defend' | 'cast' | 'swarm' | 'hold' | 'retreat' | 'still' | 'pickup';
@@ -199,14 +203,10 @@ export class Sim {
   private readonly ax: Int32Array;
   private readonly ay: Int32Array;
   private readonly fogSeen: Uint32Array;
-  private readonly formUsed: Uint32Array;
-  private formStamp = 0;
-  private readonly formSlotX: Int32Array;
-  private readonly formSlotY: Int32Array;
-  private readonly formBad: Int32Array;
-  private readonly formPf: Int32Array;
-  private readonly formPr: Int32Array;
-  private readonly formOrder: Int32Array;
+  private readonly formScratch: FormationScratch;
+  private readonly unitMasses: Uint16Array;
+  private massesHeroCls = -2;
+  private readonly steerCtx: SteeringContext;
   private readonly seenStamp: Uint32Array;
   private seenCounter = 0;
 
@@ -245,13 +245,35 @@ export class Sim {
     this.cellItems = new Int32Array(n);
     this.occupied = new Int32Array(n);
     this.fogSeen = new Uint32Array(map.w * map.h);
-    this.formUsed = new Uint32Array(map.w * map.h);
-    this.formSlotX = new Int32Array(n);
-    this.formSlotY = new Int32Array(n);
-    this.formBad = new Int32Array(n);
-    this.formPf = new Int32Array(n);
-    this.formPr = new Int32Array(n);
-    this.formOrder = new Int32Array(n);
+    this.formScratch = {
+      slotX: new Int32Array(n),
+      slotY: new Int32Array(n),
+      bad: new Int32Array(n),
+      pf: new Int32Array(n),
+      pr: new Int32Array(n),
+      order: new Int32Array(n),
+      rawU: new Int32Array(n),
+      rawV: new Int32Array(n),
+      roles: new Uint8Array(n),
+      rowMeta: new Int32Array(n),
+      colMeta: new Int32Array(n),
+      used: new Uint32Array(map.w * map.h),
+      stamp: 0,
+    };
+    this.unitMasses = new Uint16Array(n);
+    this.steerCtx = {
+      masses: this.unitMasses,
+      ax: this.ax,
+      ay: this.ay,
+      dirX: new Int32Array(n),
+      dirY: new Int32Array(n),
+      unitSpeed: UNIT_SPEED,
+      buildGrid: () => this.buildGrid(),
+      getPath: (pid) => this.paths.get(pid),
+      repath: (i) => this.repath(i),
+      finish: (i) => this.finish(i),
+      hasBudget: () => this.budget > 0,
+    };
     this.seenStamp = new Uint32Array(n);
     this.combat = opts.combat ?? false;
     this.cb = new CombatState(n, opts.kinds ?? Array(n).fill(0), this.team, opts.hpMul ?? 1, opts.tiers, opts.families, opts.bossMods);
@@ -351,9 +373,12 @@ export class Sim {
     if (this.dispatchBudget < 3) this.budget = Math.max(0, this.budget - (3 - this.dispatchBudget));
     this.ox.set(this.x);
     this.oy.set(this.y);
+    this.ensureUnitMasses();
     if (this.combat) think(this);
-    for (let i = 0; i < this.count; i++) if (this.moving[i]) this.steer(i);
-    this.separate();
+    this.buildGrid();
+    prepareSteeringDirections(this, this.steerCtx);
+    for (let i = 0; i < this.count; i++) if (this.moving[i]) steerUnit(this, i, this.steerCtx);
+    separateUnits(this, this.steerCtx);
     for (let i = 0; i < this.count; i++) if (this.moving[i]) this.progress(i);
     if (this.tick === 1 || this.tick % 5 === 0) this.updateFog();
     if (this.towns.length) checkQuests(this);
@@ -711,17 +736,30 @@ export class Sim {
     if (!shared) return;
 
     const loose = n === 1 || cmd.loose === true;
-    const slotX = this.formSlotX;
-    const slotY = this.formSlotY;
+    const scratch = this.formScratch;
+    const slotX = scratch.slotX;
+    const slotY = scratch.slotY;
+    let order: Int32Array | number[];
     if (loose) {
       for (let k = 0; k < n; k++) {
         slotX[k] = goalX;
         slotY[k] = goalY;
       }
+      order = ids;
     } else {
-      this.formation(ids, leadReg, goalX, goalY, goalCx, goalCy);
+      applyGroupFormation(
+        this,
+        ids,
+        leadReg,
+        goalX,
+        goalY,
+        goalCx,
+        goalCy,
+        scratch,
+        (x, y, ok, used, stamp) => this.nearestTile(x, y, ok, used, stamp),
+      );
+      order = scratch.order;
     }
-    const order = loose ? ids : this.assign(ids, goalX, goalY);
     const sharedId = this.addPath(shared, 0);
     let own = PATHS_PER_ORDER;
     for (let k = 0; k < n; k++) {
@@ -788,212 +826,11 @@ export class Sim {
     return -1;
   }
 
-  /** Slot positions (fixed point) for a rectangular formation facing the direction of travel, written into formSlotX/Y. */
-  private formation(ids: number[], reg: number, goalX: number, goalY: number, goalCx: number, goalCy: number): void {
-    const { map, region } = this;
-    const w = map.w;
-    const n = ids.length;
-    let sx = 0;
-    let sy = 0;
-    for (let i = 0; i < n; i++) {
-      const id = ids[i];
-      sx += this.x[id];
-      sy += this.y[id];
-    }
-    const { fx, fy } = this.facing(Math.floor(sx / n), Math.floor(sy / n), goalX, goalY);
-    const rx = -fy;
-    const ry = fx;
-    const cols = Math.max(1, Math.ceil(Math.sqrt(n * 1.5)));
-    const rows = Math.ceil(n / cols);
-    const slotX = this.formSlotX;
-    const slotY = this.formSlotY;
-    const used = this.formUsed;
-    const stamp = ++this.formStamp;
-    const bad = this.formBad;
-    let badCount = 0;
-    for (let k = 0; k < n; k++) {
-      const r = Math.floor(k / cols);
-      const c = k % cols;
-      const inRow = r < rows - 1 ? cols : n - (rows - 1) * cols;
-      const u2 = 2 * c - (inRow - 1);
-      const v2 = rows - 1 - 2 * r;
-      const px = goalX + Math.round(((u2 * rx + v2 * fx) * FP) / 2048);
-      const py = goalY + Math.round(((u2 * ry + v2 * fy) * FP) / 2048);
-      const tx = Math.floor(px / FP);
-      const ty = Math.floor(py / FP);
-      const ok = !isBlockedAt(map, tx, ty) && region[ty * w + tx] === reg && lineClear(map, goalCx, goalCy, px, py);
-      slotX[k] = px;
-      slotY[k] = py;
-      if (ok) used[ty * w + tx] = stamp;
-      else bad[badCount++] = k;
-    }
-    for (let bi = 0; bi < badCount; bi++) {
-      const k = bad[bi];
-      const tx = Math.floor(slotX[k] / FP);
-      const ty = Math.floor(slotY[k] / FP);
-      const t = this.nearestTile(
-        Math.min(map.w - 1, Math.max(0, tx)),
-        Math.min(map.h - 1, Math.max(0, ty)),
-        (idx) => region[idx] === reg && lineClear(map, goalCx, goalCy, (idx % w) * FP + FP / 2, Math.floor(idx / w) * FP + FP / 2),
-        used,
-        stamp,
-      );
-      if (t >= 0) {
-        used[t] = stamp;
-        slotX[k] = (t % w) * FP + FP / 2;
-        slotY[k] = Math.floor(t / w) * FP + FP / 2;
-      } else {
-        slotX[k] = goalCx;
-        slotY[k] = goalCy;
-      }
-    }
-  }
-
-  /** Unit vector (scaled by 1024) from a point towards the goal; east when they coincide. */
-  private facing(fromX: number, fromY: number, toX: number, toY: number): { fx: number; fy: number } {
-    const dx = toX - fromX;
-    const dy = toY - fromY;
-    const len = Math.sqrt(dx * dx + dy * dy);
-    if (len < 64) return { fx: 0, fy: -1024 };
-    return { fx: Math.round((dx * 1024) / len), fy: Math.round((dy * 1024) / len) };
-  }
-
-  /** Order units so the front of the group takes the front of the formation, left to right inside a row. */
-  private assign(ids: number[], goalX: number, goalY: number): Int32Array {
-    const n = ids.length;
-    let sx = 0;
-    let sy = 0;
-    for (let i = 0; i < n; i++) {
-      const id = ids[i];
-      sx += this.x[id];
-      sy += this.y[id];
-    }
-    const cx = Math.floor(sx / n);
-    const cy = Math.floor(sy / n);
-    const { fx, fy } = this.facing(cx, cy, goalX, goalY);
-    const cols = Math.max(1, Math.ceil(Math.sqrt(n * 1.5)));
-    const pf = this.formPf;
-    const pr = this.formPr;
-    const out = this.formOrder;
-    for (let i = 0; i < n; i++) {
-      const id = ids[i];
-      pf[id] = (this.x[id] - cx) * fx + (this.y[id] - cy) * fy;
-      pr[id] = (this.x[id] - cx) * -fy + (this.y[id] - cy) * fx;
-      out[i] = id;
-    }
-    for (let i = 1; i < n; i++) {
-      const v = out[i];
-      const pfv = pf[v];
-      let j = i - 1;
-      while (j >= 0) {
-        const u = out[j];
-        const d = pfv - pf[u];
-        if (d > 0 || (d === 0 && v < u)) {
-          out[j + 1] = u;
-          j--;
-        } else break;
-      }
-      out[j + 1] = v;
-    }
-    for (let r = 0; r * cols < n; r++) {
-      const start = r * cols;
-      const end = Math.min(n, start + cols);
-      for (let i = start + 1; i < end; i++) {
-        const v = out[i];
-        const prv = pr[v];
-        let j = i - 1;
-        while (j >= start) {
-          const u = out[j];
-          const d = pr[u] - prv;
-          if (d > 0 || (d === 0 && u > v)) {
-            out[j + 1] = u;
-            j--;
-          } else break;
-        }
-        out[j + 1] = v;
-      }
-    }
-    return out;
-  }
-
-  // ---- movement ----
-
-  private steer(i: number): void {
-    const map = this.map;
-    const x = this.x[i];
-    const y = this.y[i];
-    if (this.cb.ord[i] === Ord.Retreat && this.tick - this.cb.aux[i] >= 45) {
-      this.cb.ord[i] = Ord.Guard;
-      this.moving[i] = 0;
-      return;
-    }
-    const pct = Math.max(25, speedPct(map, Math.floor(x / FP), Math.floor(y / FP)));
-    const st = this.cb.stMask[i] === 0 ? 100 : statusSpeed(this.cb.stMask[i]);
-    const extraFastMult = this.cb.bossMods[i]?.includes('extra_fast') ? 130 : 100;
-    const baseSpd = Math.floor((UNIT_SPEED * pct * DEFS[this.cb.kind[i]].speed * st * extraFastMult) / 100000000);
-    let spd = this.cb.ord[i] === Ord.Retreat ? Math.floor((baseSpd * 75) / 100) : baseSpd;
-    if (this.hero !== null && i === this.hero.id && this.hero.running) {
-      const armour = getItemDef(this.hero.eq[Slot.Armor]);
-      spd = Math.floor((spd * heroSpeedPct(true, armour?.tier ?? 0)) / 100);
-    }
-    let tgx = this.tx[i];
-    let tgy = this.ty[i];
-    const pid = this.pathId[i];
-    let rec = pid >= 0 ? this.paths.get(pid) : undefined;
-    if (rec) {
-      let k = this.wp[i];
-      let pts = rec.pts;
-      const n = pts.length / 2;
-      for (let guard = 0; guard < 3 && k < n; guard++) {
-        const wx = pts[2 * k];
-        const wy = pts[2 * k + 1];
-        if ((wx - x) ** 2 + (wy - y) ** 2 <= 102 * 102) k++;
-        else if (k + 1 < n && lineClear(map, x, y, pts[2 * k + 2], pts[2 * k + 3])) k++;
-        else break;
-      }
-      this.wp[i] = k;
-      if (k < n) {
-        tgx = pts[2 * k];
-        tgy = pts[2 * k + 1];
-        if (this.budget > 0 && this.repaths[i] < 4 && !lineClear(map, x, y, tgx, tgy) && this.repath(i)) {
-          rec = this.paths.get(this.pathId[i]);
-          if (rec) {
-            pts = rec.pts;
-            tgx = pts[0];
-            tgy = pts[1];
-          }
-        }
-      }
-    }
-    const dx = tgx - x;
-    const dy = tgy - y;
-    const d2 = dx * dx + dy * dy;
-    const atSlot = tgx === this.tx[i] && tgy === this.ty[i];
-    if (d2 <= spd * spd) {
-      if (atSlot) {
-        if (!isBlockedAt(map, Math.floor(tgx / FP), Math.floor(tgy / FP))) {
-          if (d2 > 0) this.dir[i] = dir16(dx, dy);
-          this.x[i] = tgx;
-          this.y[i] = tgy;
-        }
-        this.finish(i);
-      } else {
-        this.x[i] = tgx;
-        this.y[i] = tgy;
-      }
-      return;
-    }
-    const d = Math.sqrt(d2);
-    const sx = Math.round((dx * spd) / d);
-    const sy = Math.round((dy * spd) / d);
-    this.dir[i] = dir16(dx, dy);
-    const nx = x + sx;
-    const ny = y + sy;
-    if (!this.blockedAt(nx, ny)) {
-      this.x[i] = nx;
-      this.y[i] = ny;
-    } else if (!this.blockedAt(nx, y)) this.x[i] = nx;
-    else if (!this.blockedAt(x, ny)) this.y[i] = ny;
+  private ensureUnitMasses(): void {
+    const cls = this.hero?.cls ?? -1;
+    if (this.massesHeroCls === cls) return;
+    computeUnitMasses(this, this.unitMasses);
+    this.massesHeroCls = cls;
   }
 
   /** New individual path from the unit's tile to its slot tile. Time-sliced by a per-tick budget. */
@@ -1061,76 +898,6 @@ export class Sim {
     }
   }
 
-  private separate(): void {
-    const { map, count } = this;
-    const w = map.w;
-    const h = map.h;
-    const cs = this.cellStart;
-    const ce = this.cellEnd;
-    this.buildGrid();
-    this.ax.fill(0);
-    this.ay.fill(0);
-    const hp = this.cb.hp;
-    const x = this.x;
-    const y = this.y;
-    for (let i = 0; i < count; i++) {
-      if (hp[i] <= 0) continue;
-      const xi = x[i];
-      const yi = y[i];
-      const cx = Math.min(w - 1, Math.max(0, xi >> 8));
-      const cy = Math.min(h - 1, Math.max(0, yi >> 8));
-      const gy1 = Math.min(h - 1, cy + 1);
-      const gx0 = Math.max(0, cx - 1);
-      const gx1 = Math.min(w - 1, cx + 1);
-      for (let gy = Math.max(0, cy - 1); gy <= gy1; gy++) {
-        for (let gx = gx0; gx <= gx1; gx++) {
-          const cc = gy * w + gx;
-          for (let q = cs[cc]; q < ce[cc]; q++) {
-            const j = this.cellItems[q];
-            if (j <= i) continue;
-            let dx = xi - x[j];
-            let dy = yi - y[j];
-            const d2 = dx * dx + dy * dy;
-            if (d2 >= MIN_DIST * MIN_DIST) continue;
-            let d = Math.sqrt(d2);
-            if (d < 1) {
-              // Coincident units: split along a direction that depends on the pair, so triples do not cancel out.
-              const k = (i * 3 + j * 5) & 7;
-              dx = COINC_DX[k];
-              dy = COINC_DY[k];
-              d = k & 1 ? Math.SQRT2 : 1;
-            }
-            const push = Math.min(MAX_PUSH, Math.ceil((MIN_DIST - d) / 2) + 1);
-            const nx = dx / d;
-            const ny = dy / d;
-            // Idle units yield more; two walkers also swerve to the right so head-on pairs do not lock.
-            const mi = this.moving[i];
-            const mj = this.moving[j];
-            const wi = mi === mj ? 1 : mi ? 0.6 : 1.4;
-            const wj = mi === mj ? 1 : mj ? 0.6 : 1.4;
-            const tan = mi && mj ? 0.35 : 0;
-            this.ax[i] += Math.round((nx - tan * ny) * push * wi);
-            this.ay[i] += Math.round((ny + tan * nx) * push * wi);
-            this.ax[j] -= Math.round((nx - tan * ny) * push * wj);
-            this.ay[j] -= Math.round((ny + tan * nx) * push * wj);
-          }
-        }
-      }
-    }
-    for (let i = 0; i < count; i++) {
-      const sx = this.ax[i];
-      const sy = this.ay[i];
-      if (sx === 0 && sy === 0) continue;
-      const nx = this.x[i] + sx;
-      const ny = this.y[i] + sy;
-      if (!this.blockedAt(nx, ny)) {
-        this.x[i] = nx;
-        this.y[i] = ny;
-      } else if (!this.blockedAt(nx, this.y[i])) this.x[i] = nx;
-      else if (!this.blockedAt(this.x[i], ny)) this.y[i] = ny;
-    }
-  }
-
   /** Stuck handling: ask for a new path, accept a crowded arrival, or give up. */
   private progress(i: number): void {
     const moved = (this.x[i] - this.ox[i]) ** 2 + (this.y[i] - this.oy[i]) ** 2;
@@ -1154,10 +921,6 @@ export class Sim {
         this.finish(i);
       }
     }
-  }
-
-  private blockedAt(fx: number, fy: number): boolean {
-    return isBlockedAt(this.map, Math.floor(fx / FP), Math.floor(fy / FP));
   }
 
   // ---- fog of war ----
@@ -1301,6 +1064,7 @@ export class Sim {
     }
     if (s.nextInstanceId) this.nextInstanceId = s.nextInstanceId;
     this.cb.recount(this.team);
+    this.massesHeroCls = -2;
     this.fogVersion++;
   }
 }

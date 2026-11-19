@@ -36,7 +36,7 @@ jobs:
 
   deploy:
     if: github.ref == 'refs/heads/main' && github.event_name != 'pull_request'
-    needs: build
+    needs: [build, e2e]
     permissions:
       pages: write
       id-token: write
@@ -63,4 +63,3 @@ jobs:
           SITE_BASE: /thornvael/
       - run: npx playwright install --with-deps chromium
       - run: npm run e2e
-        continue-on-error: true
