@@ -9,7 +9,7 @@ export default defineConfig({
   build: {
     target: 'safari16',
     rollupOptions: {
-      input: { main: 'index.html', editor: 'editor.html' },
+      input: { main: 'index.html', editor: 'editor.html', wiki: 'wiki.html' },
       output: {
         manualChunks(id) {
           if (!id.includes('/src/missions/') && !id.includes('\\src\\missions\\')) return undefined;

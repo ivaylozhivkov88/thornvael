@@ -98,7 +98,14 @@ export async function runShell(startWorker: () => void): Promise<never> {
       btn(T.storage, storage),
       btn(T.settings, settings),
       btn(T.credits, credits),
-      btn('Help & Guide', help),
+      (() => {
+        const row = el('div', 'sh-row');
+        row.append(
+          btn('Help & Guide', help),
+          btn('Wiki', () => window.open(new URL('wiki.html', document.baseURI).href, '_blank', 'noopener'), 'sh-small'),
+        );
+        return row;
+      })(),
       btn('🏆 Hall of Relics Codex', () => codexUi.show()),
       btn('Skirmish (23 Maps)', skirmish),
       btn(T.free, () => go('./?free=1'), 'sh-quiet'),

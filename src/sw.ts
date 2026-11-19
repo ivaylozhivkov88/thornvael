@@ -1,6 +1,7 @@
 /// <reference lib="webworker" />
 import { cleanupOutdatedCaches, createHandlerBoundToURL, precacheAndRoute } from 'workbox-precaching';
 import { NavigationRoute, registerRoute } from 'workbox-routing';
+import { CacheFirst } from 'workbox-strategies';
 
 declare const self: ServiceWorkerGlobalScope & { __WB_MANIFEST: Array<string | { url: string; revision: string | null }> };
 
@@ -15,8 +16,11 @@ self.addEventListener('activate', (e) => e.waitUntil(self.clients.claim()));
 precacheAndRoute(self.__WB_MANIFEST);
 cleanupOutdatedCaches();
 
-// The editor is its own page, so offline navigation to it must not fall back to the game.
-registerRoute(new NavigationRoute(createHandlerBoundToURL('index.html'), { denylist: [/editor\.html$/] }));
+// The editor and wiki are their own pages, so offline navigation to them must not fall back to the game.
+registerRoute(new NavigationRoute(createHandlerBoundToURL('index.html'), { denylist: [/editor\.html$/, /wiki\.html$/] }));
+
+// Cache visited portraits and loadscreens lazily without bloating the initial precache.
+registerRoute(({ url }) => /\.(?:jpg|jpeg|webp)$/i.test(url.pathname), new CacheFirst({ cacheName: 'thornvael-media-v1' }));
 
 // Sounds are not precached: they come from the chapter cache (see offline.ts), else the network.
 registerRoute(
