@@ -1,0 +1,41 @@
+/* Thornvael Dark-Fantasy UI Skin (public/uiskin/uiskin.css) */
+.tv-panel {
+  border-style: solid;
+  border-width: 16px;
+  border-image-source: url('./panel-frame.png');
+  border-image-slice: 16 fill;
+  border-image-repeat: stretch;
+  color: #e8dcc4;
+}
+
+.tv-btn {
+  background-image: url('./btn-dark.png');
+  background-size: 100% 300%;
+  background-position: 0 0;
+  color: #f0dfb8;
+  border: none;
+  cursor: pointer;
+}
+.tv-btn:hover { background-position: 0 50%; }
+.tv-btn:active { background-position: 0 100%; }
+
+.tv-orb-hp {
+  background: url('./orb-health.png') center/contain no-repeat;
+}
+.tv-orb-mp {
+  background: url('./orb-mana.png') center/contain no-repeat;
+}
+
+.tv-rarity-common,
+.tv-rarity-magic,
+.tv-rarity-rare,
+.tv-rarity-unique,
+.tv-rarity-set {
+  background-image: url('./rarity-frames.png');
+  background-size: 500% 100%;
+}
+.tv-rarity-common { background-position: 0% 0; }
+.tv-rarity-magic  { background-position: 25% 0; }
+.tv-rarity-rare   { background-position: 50% 0; }
+.tv-rarity-unique { background-position: 75% 0; }
+.tv-rarity-set    { background-position: 100% 0; }

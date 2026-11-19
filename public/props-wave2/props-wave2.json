@@ -1,0 +1,831 @@
+{
+  "frames": {
+    "bridges/stone-v": {
+      "frame": {
+        "x": 2,
+        "y": 2,
+        "w": 64,
+        "h": 80
+      },
+      "sourceSize": {
+        "w": 64,
+        "h": 80
+      },
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 64,
+        "h": 80
+      },
+      "rotated": false,
+      "trimmed": false,
+      "anchor": {
+        "x": 0.5,
+        "y": 0.5
+      }
+    },
+    "coast/shipwreck": {
+      "frame": {
+        "x": 68,
+        "y": 2,
+        "w": 96,
+        "h": 68
+      },
+      "sourceSize": {
+        "w": 96,
+        "h": 68
+      },
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 96,
+        "h": 68
+      },
+      "rotated": false,
+      "trimmed": false,
+      "anchor": {
+        "x": 0.5,
+        "y": 0.88
+      }
+    },
+    "props/dungeon-door": {
+      "frame": {
+        "x": 166,
+        "y": 2,
+        "w": 60,
+        "h": 66
+      },
+      "sourceSize": {
+        "w": 60,
+        "h": 66
+      },
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 60,
+        "h": 66
+      },
+      "rotated": false,
+      "trimmed": false,
+      "anchor": {
+        "x": 0.5,
+        "y": 0.94
+      }
+    },
+    "banners/ironbound": {
+      "frame": {
+        "x": 228,
+        "y": 2,
+        "w": 40,
+        "h": 66
+      },
+      "sourceSize": {
+        "w": 40,
+        "h": 66
+      },
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 40,
+        "h": 66
+      },
+      "rotated": false,
+      "trimmed": false,
+      "anchor": {
+        "x": 0.5,
+        "y": 0.94
+      }
+    },
+    "banners/thornwatch": {
+      "frame": {
+        "x": 270,
+        "y": 2,
+        "w": 40,
+        "h": 66
+      },
+      "sourceSize": {
+        "w": 40,
+        "h": 66
+      },
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 40,
+        "h": 66
+      },
+      "rotated": false,
+      "trimmed": false,
+      "anchor": {
+        "x": 0.5,
+        "y": 0.94
+      }
+    },
+    "bridges/wood-h": {
+      "frame": {
+        "x": 312,
+        "y": 2,
+        "w": 80,
+        "h": 64
+      },
+      "sourceSize": {
+        "w": 80,
+        "h": 64
+      },
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 80,
+        "h": 64
+      },
+      "rotated": false,
+      "trimmed": false,
+      "anchor": {
+        "x": 0.5,
+        "y": 0.5
+      }
+    },
+    "props/cave-mouth": {
+      "frame": {
+        "x": 394,
+        "y": 2,
+        "w": 80,
+        "h": 64
+      },
+      "sourceSize": {
+        "w": 80,
+        "h": 64
+      },
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 80,
+        "h": 64
+      },
+      "rotated": false,
+      "trimmed": false,
+      "anchor": {
+        "x": 0.5,
+        "y": 0.94
+      }
+    },
+    "lights/waystone": {
+      "frame": {
+        "x": 2,
+        "y": 84,
+        "w": 56,
+        "h": 64
+      },
+      "sourceSize": {
+        "w": 56,
+        "h": 64
+      },
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 56,
+        "h": 64
+      },
+      "rotated": false,
+      "trimmed": false,
+      "anchor": {
+        "x": 0.5,
+        "y": 0.92
+      }
+    },
+    "shrines/healing": {
+      "frame": {
+        "x": 60,
+        "y": 84,
+        "w": 56,
+        "h": 64
+      },
+      "sourceSize": {
+        "w": 56,
+        "h": 64
+      },
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 56,
+        "h": 64
+      },
+      "rotated": false,
+      "trimmed": false,
+      "anchor": {
+        "x": 0.5,
+        "y": 0.92
+      }
+    },
+    "shrines/mana": {
+      "frame": {
+        "x": 118,
+        "y": 84,
+        "w": 56,
+        "h": 64
+      },
+      "sourceSize": {
+        "w": 56,
+        "h": 64
+      },
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 56,
+        "h": 64
+      },
+      "rotated": false,
+      "trimmed": false,
+      "anchor": {
+        "x": 0.5,
+        "y": 0.92
+      }
+    },
+    "shrines/war": {
+      "frame": {
+        "x": 176,
+        "y": 84,
+        "w": 56,
+        "h": 64
+      },
+      "sourceSize": {
+        "w": 56,
+        "h": 64
+      },
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 56,
+        "h": 64
+      },
+      "rotated": false,
+      "trimmed": false,
+      "anchor": {
+        "x": 0.5,
+        "y": 0.92
+      }
+    },
+    "props/well": {
+      "frame": {
+        "x": 234,
+        "y": 84,
+        "w": 60,
+        "h": 58
+      },
+      "sourceSize": {
+        "w": 60,
+        "h": 58
+      },
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 60,
+        "h": 58
+      },
+      "rotated": false,
+      "trimmed": false,
+      "anchor": {
+        "x": 0.5,
+        "y": 0.9
+      }
+    },
+    "lights/brazier": {
+      "frame": {
+        "x": 296,
+        "y": 84,
+        "w": 40,
+        "h": 58
+      },
+      "sourceSize": {
+        "w": 40,
+        "h": 58
+      },
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 40,
+        "h": 58
+      },
+      "rotated": false,
+      "trimmed": false,
+      "anchor": {
+        "x": 0.5,
+        "y": 0.92
+      }
+    },
+    "props/siege-catapult": {
+      "frame": {
+        "x": 338,
+        "y": 84,
+        "w": 74,
+        "h": 56
+      },
+      "sourceSize": {
+        "w": 74,
+        "h": 56
+      },
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 74,
+        "h": 56
+      },
+      "rotated": false,
+      "trimmed": false,
+      "anchor": {
+        "x": 0.5,
+        "y": 0.9
+      }
+    },
+    "lights/bonfire": {
+      "frame": {
+        "x": 414,
+        "y": 84,
+        "w": 56,
+        "h": 56
+      },
+      "sourceSize": {
+        "w": 56,
+        "h": 56
+      },
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 56,
+        "h": 56
+      },
+      "rotated": false,
+      "trimmed": false,
+      "anchor": {
+        "x": 0.5,
+        "y": 0.88
+      }
+    },
+    "graves/tombstone": {
+      "frame": {
+        "x": 2,
+        "y": 150,
+        "w": 48,
+        "h": 56
+      },
+      "sourceSize": {
+        "w": 48,
+        "h": 56
+      },
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 48,
+        "h": 56
+      },
+      "rotated": false,
+      "trimmed": false,
+      "anchor": {
+        "x": 0.5,
+        "y": 0.92
+      }
+    },
+    "props/signpost": {
+      "frame": {
+        "x": 52,
+        "y": 150,
+        "w": 44,
+        "h": 56
+      },
+      "sourceSize": {
+        "w": 44,
+        "h": 56
+      },
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 44,
+        "h": 56
+      },
+      "rotated": false,
+      "trimmed": false,
+      "anchor": {
+        "x": 0.5,
+        "y": 0.92
+      }
+    },
+    "props/wagon": {
+      "frame": {
+        "x": 98,
+        "y": 150,
+        "w": 72,
+        "h": 54
+      },
+      "sourceSize": {
+        "w": 72,
+        "h": 54
+      },
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 72,
+        "h": 54
+      },
+      "rotated": false,
+      "trimmed": false,
+      "anchor": {
+        "x": 0.5,
+        "y": 0.9
+      }
+    },
+    "graves/cross": {
+      "frame": {
+        "x": 172,
+        "y": 150,
+        "w": 48,
+        "h": 54
+      },
+      "sourceSize": {
+        "w": 48,
+        "h": 54
+      },
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 48,
+        "h": 54
+      },
+      "rotated": false,
+      "trimmed": false,
+      "anchor": {
+        "x": 0.5,
+        "y": 0.92
+      }
+    },
+    "props/giant-bones": {
+      "frame": {
+        "x": 222,
+        "y": 150,
+        "w": 68,
+        "h": 52
+      },
+      "sourceSize": {
+        "w": 68,
+        "h": 52
+      },
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 68,
+        "h": 52
+      },
+      "rotated": false,
+      "trimmed": false,
+      "anchor": {
+        "x": 0.5,
+        "y": 0.88
+      }
+    },
+    "flora/reeds": {
+      "frame": {
+        "x": 292,
+        "y": 150,
+        "w": 48,
+        "h": 52
+      },
+      "sourceSize": {
+        "w": 48,
+        "h": 52
+      },
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 48,
+        "h": 52
+      },
+      "rotated": false,
+      "trimmed": false,
+      "anchor": {
+        "x": 0.5,
+        "y": 0.92
+      }
+    },
+    "props/cocoon": {
+      "frame": {
+        "x": 342,
+        "y": 150,
+        "w": 48,
+        "h": 52
+      },
+      "sourceSize": {
+        "w": 48,
+        "h": 52
+      },
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 48,
+        "h": 52
+      },
+      "rotated": false,
+      "trimmed": false,
+      "anchor": {
+        "x": 0.5,
+        "y": 0.9
+      }
+    },
+    "props/fence-iron": {
+      "frame": {
+        "x": 392,
+        "y": 150,
+        "w": 56,
+        "h": 48
+      },
+      "sourceSize": {
+        "w": 56,
+        "h": 48
+      },
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 56,
+        "h": 48
+      },
+      "rotated": false,
+      "trimmed": false,
+      "anchor": {
+        "x": 0.5,
+        "y": 0.9
+      }
+    },
+    "props/fence-wood": {
+      "frame": {
+        "x": 450,
+        "y": 150,
+        "w": 56,
+        "h": 48
+      },
+      "sourceSize": {
+        "w": 56,
+        "h": 48
+      },
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 56,
+        "h": 48
+      },
+      "rotated": false,
+      "trimmed": false,
+      "anchor": {
+        "x": 0.5,
+        "y": 0.9
+      }
+    },
+    "chests/common-closed": {
+      "frame": {
+        "x": 2,
+        "y": 208,
+        "w": 48,
+        "h": 48
+      },
+      "sourceSize": {
+        "w": 48,
+        "h": 48
+      },
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 48,
+        "h": 48
+      },
+      "rotated": false,
+      "trimmed": false,
+      "anchor": {
+        "x": 0.5,
+        "y": 0.9
+      }
+    },
+    "chests/common-open": {
+      "frame": {
+        "x": 52,
+        "y": 208,
+        "w": 48,
+        "h": 48
+      },
+      "sourceSize": {
+        "w": 48,
+        "h": 48
+      },
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 48,
+        "h": 48
+      },
+      "rotated": false,
+      "trimmed": false,
+      "anchor": {
+        "x": 0.5,
+        "y": 0.9
+      }
+    },
+    "chests/rare-closed": {
+      "frame": {
+        "x": 102,
+        "y": 208,
+        "w": 48,
+        "h": 48
+      },
+      "sourceSize": {
+        "w": 48,
+        "h": 48
+      },
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 48,
+        "h": 48
+      },
+      "rotated": false,
+      "trimmed": false,
+      "anchor": {
+        "x": 0.5,
+        "y": 0.9
+      }
+    },
+    "chests/rare-open": {
+      "frame": {
+        "x": 152,
+        "y": 208,
+        "w": 48,
+        "h": 48
+      },
+      "sourceSize": {
+        "w": 48,
+        "h": 48
+      },
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 48,
+        "h": 48
+      },
+      "rotated": false,
+      "trimmed": false,
+      "anchor": {
+        "x": 0.5,
+        "y": 0.9
+      }
+    },
+    "chests/unique-closed": {
+      "frame": {
+        "x": 202,
+        "y": 208,
+        "w": 48,
+        "h": 48
+      },
+      "sourceSize": {
+        "w": 48,
+        "h": 48
+      },
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 48,
+        "h": 48
+      },
+      "rotated": false,
+      "trimmed": false,
+      "anchor": {
+        "x": 0.5,
+        "y": 0.9
+      }
+    },
+    "chests/unique-open": {
+      "frame": {
+        "x": 252,
+        "y": 208,
+        "w": 48,
+        "h": 48
+      },
+      "sourceSize": {
+        "w": 48,
+        "h": 48
+      },
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 48,
+        "h": 48
+      },
+      "rotated": false,
+      "trimmed": false,
+      "anchor": {
+        "x": 0.5,
+        "y": 0.9
+      }
+    },
+    "flora/mushrooms": {
+      "frame": {
+        "x": 302,
+        "y": 208,
+        "w": 48,
+        "h": 48
+      },
+      "sourceSize": {
+        "w": 48,
+        "h": 48
+      },
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 48,
+        "h": 48
+      },
+      "rotated": false,
+      "trimmed": false,
+      "anchor": {
+        "x": 0.5,
+        "y": 0.9
+      }
+    },
+    "graves/slab": {
+      "frame": {
+        "x": 352,
+        "y": 208,
+        "w": 52,
+        "h": 46
+      },
+      "sourceSize": {
+        "w": 52,
+        "h": 46
+      },
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 52,
+        "h": 46
+      },
+      "rotated": false,
+      "trimmed": false,
+      "anchor": {
+        "x": 0.5,
+        "y": 0.85
+      }
+    },
+    "flora/lilypads": {
+      "frame": {
+        "x": 406,
+        "y": 208,
+        "w": 44,
+        "h": 40
+      },
+      "sourceSize": {
+        "w": 44,
+        "h": 40
+      },
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 44,
+        "h": 40
+      },
+      "rotated": false,
+      "trimmed": false,
+      "anchor": {
+        "x": 0.5,
+        "y": 0.5
+      }
+    },
+    "flora/driftwood": {
+      "frame": {
+        "x": 2,
+        "y": 258,
+        "w": 64,
+        "h": 36
+      },
+      "sourceSize": {
+        "w": 64,
+        "h": 36
+      },
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 64,
+        "h": 36
+      },
+      "rotated": false,
+      "trimmed": false,
+      "anchor": {
+        "x": 0.5,
+        "y": 0.78
+      }
+    }
+  },
+  "meta": {
+    "app": "tools/gen-new-art-packs.py",
+    "version": "1.0",
+    "image": "props-wave2.png",
+    "format": "RGBA8888",
+    "size": {
+      "w": 512,
+      "h": 512
+    },
+    "scale": 1
+  }
+}

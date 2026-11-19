@@ -1,0 +1,447 @@
+{
+  "frames": {
+    "school/arcane": {
+      "frame": {
+        "x": 2,
+        "y": 2,
+        "w": 48,
+        "h": 48
+      },
+      "sourceSize": {
+        "w": 48,
+        "h": 48
+      },
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 48,
+        "h": 48
+      },
+      "rotated": false,
+      "trimmed": false,
+      "anchor": {
+        "x": 0.5,
+        "y": 0.5
+      }
+    },
+    "school/earth": {
+      "frame": {
+        "x": 52,
+        "y": 2,
+        "w": 48,
+        "h": 48
+      },
+      "sourceSize": {
+        "w": 48,
+        "h": 48
+      },
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 48,
+        "h": 48
+      },
+      "rotated": false,
+      "trimmed": false,
+      "anchor": {
+        "x": 0.5,
+        "y": 0.5
+      }
+    },
+    "school/fire": {
+      "frame": {
+        "x": 102,
+        "y": 2,
+        "w": 48,
+        "h": 48
+      },
+      "sourceSize": {
+        "w": 48,
+        "h": 48
+      },
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 48,
+        "h": 48
+      },
+      "rotated": false,
+      "trimmed": false,
+      "anchor": {
+        "x": 0.5,
+        "y": 0.5
+      }
+    },
+    "school/frost": {
+      "frame": {
+        "x": 152,
+        "y": 2,
+        "w": 48,
+        "h": 48
+      },
+      "sourceSize": {
+        "w": 48,
+        "h": 48
+      },
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 48,
+        "h": 48
+      },
+      "rotated": false,
+      "trimmed": false,
+      "anchor": {
+        "x": 0.5,
+        "y": 0.5
+      }
+    },
+    "school/holy": {
+      "frame": {
+        "x": 202,
+        "y": 2,
+        "w": 48,
+        "h": 48
+      },
+      "sourceSize": {
+        "w": 48,
+        "h": 48
+      },
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 48,
+        "h": 48
+      },
+      "rotated": false,
+      "trimmed": false,
+      "anchor": {
+        "x": 0.5,
+        "y": 0.5
+      }
+    },
+    "school/shadow": {
+      "frame": {
+        "x": 2,
+        "y": 52,
+        "w": 48,
+        "h": 48
+      },
+      "sourceSize": {
+        "w": 48,
+        "h": 48
+      },
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 48,
+        "h": 48
+      },
+      "rotated": false,
+      "trimmed": false,
+      "anchor": {
+        "x": 0.5,
+        "y": 0.5
+      }
+    },
+    "spell/fireball": {
+      "frame": {
+        "x": 52,
+        "y": 52,
+        "w": 48,
+        "h": 48
+      },
+      "sourceSize": {
+        "w": 48,
+        "h": 48
+      },
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 48,
+        "h": 48
+      },
+      "rotated": false,
+      "trimmed": false,
+      "anchor": {
+        "x": 0.5,
+        "y": 0.5
+      }
+    },
+    "spell/frost-bolt": {
+      "frame": {
+        "x": 102,
+        "y": 52,
+        "w": 48,
+        "h": 48
+      },
+      "sourceSize": {
+        "w": 48,
+        "h": 48
+      },
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 48,
+        "h": 48
+      },
+      "rotated": false,
+      "trimmed": false,
+      "anchor": {
+        "x": 0.5,
+        "y": 0.5
+      }
+    },
+    "spell/healing": {
+      "frame": {
+        "x": 152,
+        "y": 52,
+        "w": 48,
+        "h": 48
+      },
+      "sourceSize": {
+        "w": 48,
+        "h": 48
+      },
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 48,
+        "h": 48
+      },
+      "rotated": false,
+      "trimmed": false,
+      "anchor": {
+        "x": 0.5,
+        "y": 0.5
+      }
+    },
+    "spell/lightning": {
+      "frame": {
+        "x": 202,
+        "y": 52,
+        "w": 48,
+        "h": 48
+      },
+      "sourceSize": {
+        "w": 48,
+        "h": 48
+      },
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 48,
+        "h": 48
+      },
+      "rotated": false,
+      "trimmed": false,
+      "anchor": {
+        "x": 0.5,
+        "y": 0.5
+      }
+    },
+    "spell/poison-cloud": {
+      "frame": {
+        "x": 2,
+        "y": 102,
+        "w": 48,
+        "h": 48
+      },
+      "sourceSize": {
+        "w": 48,
+        "h": 48
+      },
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 48,
+        "h": 48
+      },
+      "rotated": false,
+      "trimmed": false,
+      "anchor": {
+        "x": 0.5,
+        "y": 0.5
+      }
+    },
+    "spell/stone-skin": {
+      "frame": {
+        "x": 52,
+        "y": 102,
+        "w": 48,
+        "h": 48
+      },
+      "sourceSize": {
+        "w": 48,
+        "h": 48
+      },
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 48,
+        "h": 48
+      },
+      "rotated": false,
+      "trimmed": false,
+      "anchor": {
+        "x": 0.5,
+        "y": 0.5
+      }
+    },
+    "status/burning": {
+      "frame": {
+        "x": 102,
+        "y": 102,
+        "w": 48,
+        "h": 48
+      },
+      "sourceSize": {
+        "w": 48,
+        "h": 48
+      },
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 48,
+        "h": 48
+      },
+      "rotated": false,
+      "trimmed": false,
+      "anchor": {
+        "x": 0.5,
+        "y": 0.5
+      }
+    },
+    "status/frozen": {
+      "frame": {
+        "x": 152,
+        "y": 102,
+        "w": 48,
+        "h": 48
+      },
+      "sourceSize": {
+        "w": 48,
+        "h": 48
+      },
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 48,
+        "h": 48
+      },
+      "rotated": false,
+      "trimmed": false,
+      "anchor": {
+        "x": 0.5,
+        "y": 0.5
+      }
+    },
+    "status/haste": {
+      "frame": {
+        "x": 202,
+        "y": 102,
+        "w": 48,
+        "h": 48
+      },
+      "sourceSize": {
+        "w": 48,
+        "h": 48
+      },
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 48,
+        "h": 48
+      },
+      "rotated": false,
+      "trimmed": false,
+      "anchor": {
+        "x": 0.5,
+        "y": 0.5
+      }
+    },
+    "status/poisoned": {
+      "frame": {
+        "x": 2,
+        "y": 152,
+        "w": 48,
+        "h": 48
+      },
+      "sourceSize": {
+        "w": 48,
+        "h": 48
+      },
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 48,
+        "h": 48
+      },
+      "rotated": false,
+      "trimmed": false,
+      "anchor": {
+        "x": 0.5,
+        "y": 0.5
+      }
+    },
+    "status/shield": {
+      "frame": {
+        "x": 52,
+        "y": 152,
+        "w": 48,
+        "h": 48
+      },
+      "sourceSize": {
+        "w": 48,
+        "h": 48
+      },
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 48,
+        "h": 48
+      },
+      "rotated": false,
+      "trimmed": false,
+      "anchor": {
+        "x": 0.5,
+        "y": 0.5
+      }
+    },
+    "status/stunned": {
+      "frame": {
+        "x": 102,
+        "y": 152,
+        "w": 48,
+        "h": 48
+      },
+      "sourceSize": {
+        "w": 48,
+        "h": 48
+      },
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 48,
+        "h": 48
+      },
+      "rotated": false,
+      "trimmed": false,
+      "anchor": {
+        "x": 0.5,
+        "y": 0.5
+      }
+    }
+  },
+  "meta": {
+    "app": "tools/gen-new-art-packs.py",
+    "version": "1.0",
+    "image": "spellicons.png",
+    "format": "RGBA8888",
+    "size": {
+      "w": 256,
+      "h": 256
+    },
+    "scale": 1
+  }
+}
