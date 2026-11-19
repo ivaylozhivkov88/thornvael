@@ -170,8 +170,8 @@ button:focus-visible { outline: 2px solid #9dff7a; outline-offset: 1px; }
 .saves input[type="text"] { flex: 1; min-width: 140px; min-height: 40px; background: #14100c; color: #f0e2bd; border: 1px solid #8a6b3a; border-radius: 6px; padding: 0 8px; font-size: 16px; }
 
 /* ---- campaign shell: menu, hero creation, global map, briefing, result ---- */
-#shell { position: fixed; inset: 0; z-index: 40; background: radial-gradient(ellipse at 50% 30%, #2b2014, #14100c 70%); color: #f0e2bd; overflow-y: auto; overscroll-behavior: contain; padding: env(safe-area-inset-top) env(safe-area-inset-right) env(safe-area-inset-bottom) env(safe-area-inset-left); }
-#shell .sh-col { display: flex; flex-direction: column; gap: clamp(4px, 1.1vh, 8px); align-items: stretch; width: min(92vw, 380px); margin: 0 auto; padding: clamp(8px, 1.5vh, 16px) 0; max-height: 100dvh; box-sizing: border-box; justify-content: center; }
+#shell { position: fixed; inset: 0; height: 100dvh; max-height: 100dvh; z-index: 40; background: radial-gradient(ellipse at 50% 30%, #2b2014, #14100c 70%); color: #f0e2bd; overflow: hidden; overscroll-behavior: contain; padding: env(safe-area-inset-top) env(safe-area-inset-right) env(safe-area-inset-bottom) env(safe-area-inset-left); box-sizing: border-box; }
+#shell .sh-col { display: flex; flex-direction: column; gap: clamp(4px, 1.1vh, 8px); align-items: stretch; width: min(92vw, 380px); margin: 0 auto; padding: clamp(8px, 1.5vh, 16px) 0; max-height: 100dvh; overflow-y: auto; scrollbar-width: thin; box-sizing: border-box; justify-content: safe center; }
 #shell h1 { text-align: center; font-size: clamp(22px, 3.5vh, 32px); margin: 2px 0 clamp(4px, 1vh, 8px); color: #d8b24a; }
 #shell h2 { margin: 4px 0; color: #d8b24a; }
 #shell .sh-btn { min-height: clamp(32px, 4.3vh, 44px); min-width: 44px; padding: clamp(4px, 0.7vh, 8px) 12px; font-size: clamp(12px, 1.5vh, 14px); background: #3a2c1c; border: 1px solid #8a6b3a; border-radius: 8px; color: #f0e2bd; font: inherit; white-space: pre-line; cursor: pointer; touch-action: manipulation; }
@@ -5006,5 +5006,28 @@ button:disabled, #shell .sh-btn:disabled { opacity: .6; cursor: default; box-sha
   font-size: 13px;
   line-height: 1.38;
   color: #e6dac3;
+}
+
+.quick-spell-icon,
+.quick .town-item-icon,
+.quick .town-item-icon-img {
+  width: 18px;
+  height: 18px;
+  max-width: 18px;
+  max-height: 18px;
+  flex-shrink: 0;
+  border-radius: 3px;
+  display: inline-block;
+  pointer-events: none;
+}
+
+.hud-dock .quick > button {
+  gap: 1px;
+}
+
+.hud-dock .quick .quick-label {
+  -webkit-line-clamp: 1;
+  max-height: 14px;
+  line-height: 14px;
 }
 

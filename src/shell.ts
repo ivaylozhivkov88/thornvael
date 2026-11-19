@@ -1,4 +1,4 @@
-import { setMusic, unlock } from './audio';
+import { attachBlurMuteListeners, setCharSelectMusic, setMainMenuMusic, unlock } from './audio';
 import { actOf, nodeOf, type CampaignNode } from './campaign';
 import { loadCampaign, readRecord, writeRecord } from './campaignstore';
 import { canEnter, newRecord, nodeUrl, RECORD_KEY, clearLast, type CampaignRecord, type HeroPick } from './flow';
@@ -20,7 +20,11 @@ import { actTransitionForCompletedNode, sequenceById, sequenceForNode, STORY_SEQ
 import { S } from './strings';
 import { readPreferences } from './preferences';
 import { CodexUi } from './codexui';
+import { getPlaquesByAct, loadLocationPlaques, type LocationPlaqueEntry } from './data/text/index';
 import { loadMonsterCodex, loadHelpAndCredits, getHelpPages, getCreditLines } from './missioncontent';
+import { getLoadingTip, hydrateCuratedTips } from './tips';
+import { MobileControlsHelp } from './ui-extra/mobile-controls-help';
+import { applyUxSettings, loadUxSettings } from './ui-extra/settings-panel';
 import { btn, el } from './shell/dom';
 import {
   ModalManager,
@@ -52,15 +56,32 @@ const T = S.shell;
 const MAPS: ReadonlySet<string> = new Set(Object.keys(BUILT_IN));
 
 export async function runShell(startWorker: () => void): Promise<never> {
+  applyUxSettings(loadUxSettings());
+  attachBlurMuteListeners();
+  void hydrateCuratedTips();
+  let locationPlaques: LocationPlaqueEntry[] = [];
+  void loadLocationPlaques(import.meta.env.BASE_URL)
+    .then((pack) => {
+      locationPlaques = pack.entries;
+    })
+    .catch(() => undefined);
   void loadMonsterCodex();
   void loadHelpAndCredits();
   startWorker();
   const codexUi = new CodexUi();
-  const prefs = readPreferences();
+  let audioUnlocked = false;
+  let shellMusicKind: 'menu' | 'charSelect' = 'menu';
+  const syncShellMusic = (kind: 'menu' | 'charSelect'): void => {
+    shellMusicKind = kind;
+    if (!audioUnlocked || !readPreferences().music) return;
+    if (kind === 'charSelect') setCharSelectMusic();
+    else setMainMenuMusic();
+  };
   const startShellMusic = (): void => {
-    if (prefs.music) {
+    audioUnlocked = true;
+    if (readPreferences().music) {
       unlock();
-      setMusic(true, 'town');
+      syncShellMusic(shellMusicKind);
     }
   };
   document.addEventListener('pointerdown', startShellMusic, { once: true });
@@ -80,7 +101,29 @@ export async function runShell(startWorker: () => void): Promise<never> {
   const modals = new ModalManager();
   let activeDispose: (() => void) | null = null;
   // Every game page learns which hero plays it, so the hero keeps what it earns (see characters.ts).
-  const go = (url: string): void => location.assign(active && url.startsWith('./?') && !url.includes('free=') && !url.includes('load=') ? `${url}&char=${encodeURIComponent(active.id)}` : url);
+  const LOAD_ARTS = [
+    'loadscreens/load-map1-fords.jpg',
+    'loadscreens/load-map2-redmarsh.jpg',
+    'loadscreens/load-map3-coast.jpg',
+    'loadscreens/load-map4-caldera.jpg',
+  ] as const;
+  const showLoadOverlay = (titleText: string, actNum: number): void => {
+    const idx = Math.max(0, Math.min(3, actNum - 1));
+    const overlay = el('div', 'sh-load-overlay');
+    const card = el('div', 'sh-load-card');
+    const img = document.createElement('img');
+    img.className = 'sh-load-art';
+    img.alt = titleText;
+    img.src = `${import.meta.env.BASE_URL}${LOAD_ARTS[idx]}`;
+    const tip = getLoadingTip();
+    card.append(el('h2', 'sh-load-title', titleText), img, el('p', 'sh-load-tip', tip));
+    overlay.append(card);
+    document.body.append(overlay);
+  };
+  const go = (url: string, meta?: { title?: string; act?: number }): void => {
+    if (meta?.title) showLoadOverlay(meta.title, meta.act ?? currentAct);
+    location.assign(active && url.startsWith('./?') && !url.includes('free=') && !url.includes('load=') ? `${url}&char=${encodeURIComponent(active.id)}` : url);
+  };
   const screen = (...kids: HTMLElement[]): void => {
     activeDispose?.();
     activeDispose = null;
@@ -100,6 +143,7 @@ export async function runShell(startWorker: () => void): Promise<never> {
   // ---- main menu ----
   function menu(): void {
     mode = 'menu';
+    syncShellMusic('menu');
     const canContinue = rec !== null || auto !== null;
     const cont = btn(T.continue, () => {
       if (auto && (!rec || auto.state.node)) go(`./?load=${AUTO}`);
@@ -326,6 +370,7 @@ Items, skills and levels carry over.`));
   // ---- start screen and hero select: the hero outlives any one game ----
   function title(): void {
     mode = 'other';
+    syncShellMusic('menu');
     const col = el('div', 'sh-col');
     col.append(
       el('h1', '', S.title),
@@ -340,6 +385,7 @@ Items, skills and levels carry over.`));
 
   function charSelect(): void {
     mode = 'other';
+    syncShellMusic('charSelect');
     screen(
       renderHeroSelectView({
         characters: chars,
@@ -363,6 +409,7 @@ Items, skills and levels carry over.`));
 
   function createChar(): void {
     mode = 'other';
+    syncShellMusic('charSelect');
     const view = renderHeroCreateNameView({
       base: import.meta.env.BASE_URL,
       onMountCampfire: (campfireScreen) => screen(campfireScreen),
@@ -517,16 +564,27 @@ Items, skills and levels carry over.`));
   }
 
   function briefing(n: CampaignNode): void {
+    const act = actOf(n);
+    const actPlaques = locationPlaques.length ? getPlaquesByAct(locationPlaques, act) : [];
+    const titleLower = n.title.toLowerCase();
+    const matchedPlaque =
+      actPlaques.find(
+        (p) =>
+          titleLower.includes(p.region.toLowerCase()) ||
+          p.title.toLowerCase().split(/\s+/).some((w) => w.length > 4 && titleLower.includes(w)),
+      ) ?? actPlaques[0] ?? null;
     openBriefingModal(modals, root, {
       node: n,
       record: rec,
+      plaque: matchedPlaque ? { title: matchedPlaque.title, text: matchedPlaque.text } : null,
+      tip: getLoadingTip(),
       onEnter: (handle) => {
         const seq = sequenceForNode(n.id);
         if (seq && seq.kind === 'intro') {
           handle.close();
-          showStory(seq.id, () => go(nodeUrl(n)));
+          showStory(seq.id, () => go(nodeUrl(n), { title: n.title, act }));
         } else {
-          go(nodeUrl(n));
+          go(nodeUrl(n), { title: n.title, act });
         }
       },
       onWaypointTravel: async (handle) => {
@@ -535,7 +593,7 @@ Items, skills and levels carry over.`));
         rec.progress.node = n.id;
         await writeRecord(rec);
         await deleteSave(AUTO).catch(() => undefined);
-        go(nodeUrl(n));
+        go(nodeUrl(n), { title: n.title, act });
       },
     });
   }
@@ -700,10 +758,13 @@ Items, skills and levels carry over.`));
     const col = el('div', 'sh-col');
     col.append(el('h2', '', 'Help & Guide'));
     const list = el('div', 'sh-help');
-    list.style.cssText = 'max-width: 620px; max-height: 60vh; overflow-y: auto; text-align: left;';
+    list.style.cssText = 'max-width: 620px; max-height: 58dvh; overflow-y: auto; text-align: left;';
     for (const p of getHelpPages()) list.append(el('h3', '', p.title), el('p', 'note', p.body));
     if (!getHelpPages().length) list.append(el('p', 'note', 'No help pages loaded.'));
-    col.append(list, back());
+    const touchBtn = btn('📱 Touch & Mobile Controls', () => new MobileControlsHelp().open(), 'sh-small');
+    const row = el('div', 'sh-row');
+    row.append(touchBtn, back());
+    col.append(list, row);
     screen(col);
   }
 

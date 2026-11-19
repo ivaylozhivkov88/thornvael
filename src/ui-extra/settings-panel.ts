@@ -123,11 +123,15 @@ export function applyUxSettings(state: UxSettingsState): void {
   setAtmosphereReducedMotion(state.reducedMotion);
   if (typeof document !== 'undefined' && document.documentElement) {
     const root = document.documentElement;
-    root.style.setProperty('--tv-text-scale', String(state.textScale));
-    root.dataset.textScale = String(state.textScale);
-    root.dataset.reducedMotion = String(state.reducedMotion);
-    root.dataset.colorblindBadges = String(state.colorblindRarityBadges);
-    root.dataset.graphicsQuality = state.graphicsQuality;
+    if (root.style && typeof root.style.setProperty === 'function') {
+      root.style.setProperty('--tv-text-scale', String(state.textScale));
+    }
+    if (root.dataset) {
+      root.dataset.textScale = String(state.textScale);
+      root.dataset.reducedMotion = String(state.reducedMotion);
+      root.dataset.colorblindBadges = String(state.colorblindRarityBadges);
+      root.dataset.graphicsQuality = state.graphicsQuality;
+    }
   }
 }
 

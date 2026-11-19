@@ -1,6 +1,6 @@
 import { registerWorker } from './updategate';
 import { createInstallController, isInstallPrompt } from './pwa-install';
-import { audioState, blip, cancelShopEntry, play, playSurfaceFootstep, playPickupRustle, playShopEntry, playNotEnoughMana, playInventoryFull, playLowHpHeartbeat, resumeAudio, setAmbience, setMusic, setMusicAct, setSpecialMusic, setAmbienceAct, setSfx, suspendAudio, unlock, type MusicMode } from './audio';
+import { attachBlurMuteListeners, audioState, blip, cancelShopEntry, play, playBossMusic, playEndingMusic, playMercBark, playMonsterDeathVoice, playMonsterHitVoice, playNpcBark, playSurfaceFootstep, playPickupRustle, playShopEntry, playNotEnoughMana, playInventoryFull, playLowHpHeartbeat, playUiError, resumeAudio, setAmbience, setMusic, setMusicAct, setMusicRegion, setSpecialMusic, setAmbienceAct, setSfx, setSkirmishMusic, suspendAudio, unlock, updateAdaptiveCombat, type MusicMode } from './audio';
 import { isBossArt } from './sprites/units';
 import { MusicDirector, classifyWeapon, cueFor, pickPotionDrink, pickTerrainStep, type CueContext } from './audiologic';
 import { ControlGroups, GROUP_COUNT } from './groups';
@@ -51,7 +51,11 @@ import { KNOWN_HI, SPELLS, Tk, maskHas } from './sim/spelldata';
 import { validTarget } from './sim/spells';
 import { FP, Sim, TICKS_PER_SECOND, type Command, type OrderName } from './sim/sim';
 import { S } from './strings';
-import { LOW_HP_TIP, Tips } from './tips';
+import { LOW_HP_TIP, Tips, getDefeatFlavor, hydrateCuratedTips } from './tips';
+import { getPlaquesByMap, loadLocationPlaques, type CampaignMapId, type LocationPlaqueEntry } from './data/text/index';
+import { itemIconEl } from './townicons';
+import { applyUxSettings, loadUxSettings } from './ui-extra/settings-panel';
+import spelliconsJson from '../public/spellicons/spellicons.json';
 import { readPreferences, writePreference } from './preferences';
 import { detectBiomeFromMap } from './aesthetic-vfx';
 import { DoubleTap, RadialMenu, unitsOfKind, type RadialOrder } from './touchx';
@@ -75,6 +79,15 @@ import './style.css';
 import './ui/squad-bar.css';
 
 await loadGameData(); // item and spell tables, before any sim or mission is built
+applyUxSettings(loadUxSettings());
+attachBlurMuteListeners();
+void hydrateCuratedTips();
+let loadedLocationPlaques: LocationPlaqueEntry[] = [];
+void loadLocationPlaques(import.meta.env.BASE_URL)
+  .then((pack) => {
+    loadedLocationPlaques = pack.entries;
+  })
+  .catch(() => undefined);
 
 const $ = (id: string): HTMLElement => document.getElementById(id)!;
 let spellbookUi!: SpellbookUi;
@@ -331,6 +344,8 @@ try {
 
 let missionAct = 1;
 const renderer = new Renderer($('game') as HTMLCanvasElement, map);
+const ACT_TO_BIOME = ['forest', 'desert', 'highlands', 'volcanic'] as const;
+let currentBiomeKey = 'forest';
 if (campaign && campaignId) {
   try {
     const cNode = nodeOf(campaign, campaignId);
@@ -341,15 +356,27 @@ if (campaign && campaignId) {
       void regionEnterLine(missionAct, Math.max(0, idx)).then((l) => { if (l) setTimeout(() => toast(l), 4000); });
     }
     renderer.setBiome(cNode.act ?? 1);
+    currentBiomeKey = ACT_TO_BIOME[Math.max(0, Math.min(3, (cNode.act ?? 1) - 1))] ?? 'forest';
     setMusicAct(cNode.act ?? 1);
     setAmbienceAct(cNode.act ?? 1, isTownNode);
   } catch {}
 } else if (params.has('act')) {
   const a = Number(params.get('act'));
-  if (a >= 1 && a <= 4) { renderer.setBiome(a); setMusicAct(a); setAmbienceAct(a); }
+  if (a >= 1 && a <= 4) {
+    renderer.setBiome(a);
+    currentBiomeKey = ACT_TO_BIOME[a - 1] ?? 'forest';
+    setMusicAct(a);
+    setAmbienceAct(a);
+  }
 } else if (loadedMission) {
-  renderer.setBiome(detectBiomeFromMap(loadedMission.doc.name || '', map.terrain));
+  const detectedBiome = detectBiomeFromMap(loadedMission.doc.name || '', map.terrain);
+  currentBiomeKey = detectedBiome;
+  renderer.setBiome(detectedBiome);
 }
+renderer.setRegionContext({
+  biome: currentBiomeKey,
+  ...(loadedMission?.doc.name ? { region: loadedMission.doc.name } : {}),
+});
 const cameraController = new CameraController({ viewW: renderer.viewW, viewH: renderer.viewH, zoom: renderer.zoom, camX: renderer.camX, camY: renderer.camY });
 const preferences = readPreferences();
 renderer.quality = preferences.quality;
