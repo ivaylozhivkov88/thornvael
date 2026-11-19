@@ -24,6 +24,7 @@ Tune FAMILY_VISUALS in src/render.ts (~line 121) via ?art=1 (dev server thornvae
 - [x] **Step 0**: Surveyed all existing campaign missions, monster families (`monsters.json`, `super-uniques.ts`), lore (`factions.json`, `timeline.json`, `bosses.json`, `lore-books.json`), biomes/zones (`terrain.ts`), and portrait/sprite assets (`assets.json`).
 - [x] **Step 1 (`00-BIBLE.md`)**: Completed `.planning/campaign/00-BIBLE.md` (world, tone, 4 cities, overarching threat, 4-map resolution, 8 key characters with portrait paths, full monster/biome matrix, glossary).
 - [x] **Step 2.1 (`map-1-border-fords.md`)**: Completed `.planning/campaign/map-1-border-fords.md` (192x192 map, Thornwick hub + 6 regions, enemies, 12 quests, dialogues, music brief, rewards).
-- [ ] **Step 2.2–2.4**: `map-2-redmarsh-wastes.md`, `map-3-iron-coast.md`, `map-4-obsidian-caldera.md`.
+- [x] **Step 2.2 (`map-2-redmarsh-wastes.md`)**: Completed `.planning/campaign/map-2-redmarsh-wastes.md` (192x192 map, Redmarsh hub + 6 regions, enemies, 12 quests, dialogues, music brief, rewards).
+- [ ] **Step 2.3–2.4**: `map-3-iron-coast.md`, `map-4-obsidian-caldera.md`.
 - [ ] **Step 3**: `03-GAPS.md` + declarative `MapDoc` v2 schema validation.
 - [ ] **Step 4 & 5**: `01-PROGRESSION.md` & `02-PRODUCTION-PLAN.md` (after user checkpoint).
