@@ -93,6 +93,16 @@ export const MUSIC_OUTCOME = {
   lowHpStinger: 'music_stinger_low_hp',
 } as const;
 
+export const MUSIC_ENDINGS = {
+  crown: 'music_ending_crown',
+  ember: 'music_ending_ember',
+} as const;
+
+export const WAVE2_MUSIC_TRACKS: readonly MusicTrackEntry[] = [
+  { id: MUSIC_ENDINGS.crown, category: 'outcome', loop: true, act: 4 },
+  { id: MUSIC_ENDINGS.ember, category: 'outcome', loop: true, act: 4 },
+];
+
 export const ALL_MUSIC_TRACKS: readonly MusicTrackEntry[] = [
   { id: MUSIC_MENU.mainMenu, category: 'menu', loop: true },
   { id: MUSIC_MENU.charSelect, category: 'char_select', loop: true },
@@ -133,6 +143,11 @@ export const ALL_MUSIC_TRACKS: readonly MusicTrackEntry[] = [
   { id: MUSIC_OUTCOME.cutsceneCrown, category: 'cutscene', loop: false },
   { id: MUSIC_OUTCOME.cutsceneOmen, category: 'cutscene', loop: false },
   { id: MUSIC_OUTCOME.lowHpStinger, category: 'stinger', loop: false },
+];
+
+export const ALL_CATALOG_MUSIC_TRACKS: readonly MusicTrackEntry[] = [
+  ...ALL_MUSIC_TRACKS,
+  ...WAVE2_MUSIC_TRACKS,
 ];
 
 export const SFX_UI = {
@@ -191,6 +206,14 @@ export const SFX_MONSTER_VOICES = {
     construct: 'mon_aggro_construct',
     insect: 'mon_aggro_beast',
   },
+  hit: {
+    beast: 'mon_hit_beast',
+    undead: 'mon_hit_undead',
+    skeleton: 'mon_hit_undead',
+    caster: 'mon_hit_caster',
+    construct: 'mon_hit_construct',
+    insect: 'mon_hit_insect',
+  },
   death: {
     beast: 'death_beast_1',
     skeleton: 'death_skeleton_1',
@@ -201,6 +224,39 @@ export const SFX_MONSTER_VOICES = {
     default: 'death',
   },
 } as const;
+
+export const SFX_NPC_BARKS = {
+  smith: 'bark_smith',
+  innkeeper: 'bark_innkeeper',
+  mage: 'bark_mage',
+  priest: 'bark_priest',
+  guard: 'bark_guard',
+  merchant: 'bark_merchant',
+} as const;
+
+export const SFX_MERC_BARKS = {
+  warrior: 'bark_merc_warrior',
+  archer: 'bark_merc_archer',
+  mage: 'bark_merc_mage',
+} as const;
+
+export const SFX_BOSS_ROARS = {
+  morvessa: 'boss_roar_morvessa',
+  gorrathul: 'boss_roar_gorrathul',
+  vesperion: 'boss_roar_vesperion',
+  ashkarath: 'boss_roar_ashkarath',
+} as const;
+
+export const WAVE2_SFX_IDS: readonly string[] = [
+  ...Object.values(SFX_NPC_BARKS),
+  ...Object.values(SFX_MERC_BARKS),
+  'mon_hit_beast',
+  'mon_hit_undead',
+  'mon_hit_caster',
+  'mon_hit_construct',
+  'mon_hit_insect',
+  ...Object.values(SFX_BOSS_ROARS),
+];
 
 export const SFX_SPELL_SCHOOLS = {
   fire: 'cast_fire',
@@ -247,6 +303,23 @@ export const SFX_AMBIENT_WEATHER = {
   tavern: 'town_tavern_murmur',
   watchBell: 'town_watch_bell',
 } as const;
+
+export const ALL_ON_DEMAND_SFX_IDS: readonly string[] = Array.from(
+  new Set([
+    ...WAVE2_SFX_IDS,
+    ...Object.values(SFX_UI),
+    ...Object.values(SFX_FOOTSTEPS).flat(),
+    ...Object.values(SFX_MONSTER_VOICES.aggro),
+    ...Object.values(SFX_MONSTER_VOICES.death),
+    ...Object.values(SFX_SPELL_SCHOOLS),
+    ...Object.values(SFX_SPELLS).flatMap((pair) => [pair.cast, pair.impact]),
+    ...Object.values(SFX_LOOT_RARITY),
+    ...Object.values(SFX_AMBIENT_WEATHER),
+    'sfx_chest_open',
+    'sfx_door_heavy',
+    'sfx_trap_trigger',
+  ]),
+);
 
 export function audioAssetPath(id: string, baseUrl = '/thornvael/'): string {
   const cleanBase = baseUrl.endsWith('/') ? baseUrl : `${baseUrl}/`;
@@ -349,4 +422,69 @@ export function getLootRaritySfx(rarity: string): string {
   const r = rarity.toLowerCase();
   if (r in SFX_LOOT_RARITY) return SFX_LOOT_RARITY[r as keyof typeof SFX_LOOT_RARITY];
   return SFX_LOOT_RARITY.normal;
+}
+
+export function getNpcBarkSfx(role: string): string {
+  const r = role.toLowerCase();
+  if (r.includes('smith') || r.includes('forge') || r.includes('anvil') || r.includes('hobb') || r.includes('vok')) {
+    return SFX_NPC_BARKS.smith;
+  }
+  if (r.includes('inn') || r.includes('barkeep') || r.includes('tavern') || r.includes('ale')) {
+    return SFX_NPC_BARKS.innkeeper;
+  }
+  if (r.includes('mage') || r.includes('alchem') || r.includes('scholar') || r.includes('zahra') || r.includes('quillon') || r.includes('marta')) {
+    return SFX_NPC_BARKS.mage;
+  }
+  if (r.includes('priest') || r.includes('heal') || r.includes('penitent') || r.includes('sera') || r.includes('elias') || r.includes('orlen')) {
+    return SFX_NPC_BARKS.priest;
+  }
+  if (r.includes('guard') || r.includes('captain') || r.includes('warden') || r.includes('command') || r.includes('garrick') || r.includes('hale') || r.includes('lyra') || r.includes('rowan')) {
+    return SFX_NPC_BARKS.guard;
+  }
+  return SFX_NPC_BARKS.merchant;
+}
+
+export function getMercBarkSfx(archetype: string): string {
+  const a = archetype.toLowerCase();
+  if (a.includes('archer') || a.includes('bow') || a.includes('poacher') || a.includes('arbalest') || a.includes('ranger')) {
+    return SFX_MERC_BARKS.archer;
+  }
+  if (a.includes('mage') || a.includes('novice') || a.includes('channeler') || a.includes('acolyte') || a.includes('notary') || a.includes('caster')) {
+    return SFX_MERC_BARKS.mage;
+  }
+  return SFX_MERC_BARKS.warrior;
+}
+
+export function getMonsterHitSfx(family: string): string {
+  const f = family.toLowerCase();
+  if (f.includes('construct') || f.includes('golem') || f.includes('colossus') || f.includes('brute') || f.includes('flintback')) {
+    return SFX_MONSTER_VOICES.hit.construct;
+  }
+  if (f.includes('caster') || f.includes('shaman') || f.includes('mage') || f.includes('witch') || f.includes('wisp') || f.includes('weaver')) {
+    return SFX_MONSTER_VOICES.hit.caster;
+  }
+  if (f.includes('insect') || f.includes('scarab') || f.includes('maggot') || f.includes('moth') || f.includes('mite') || f.includes('crab')) {
+    return SFX_MONSTER_VOICES.hit.insect;
+  }
+  if (f.includes('undead') || f.includes('skel') || f.includes('bone') || f.includes('mummy') || f.includes('hollow') || f.includes('knight')) {
+    return SFX_MONSTER_VOICES.hit.undead;
+  }
+  return SFX_MONSTER_VOICES.hit.beast;
+}
+
+export function getBossRoarSfx(bossId: string): string | null {
+  const b = bossId.toLowerCase();
+  if (b.includes('morvessa')) return SFX_BOSS_ROARS.morvessa;
+  if (b.includes('gorrathul')) return SFX_BOSS_ROARS.gorrathul;
+  if (b.includes('vesperion')) return SFX_BOSS_ROARS.vesperion;
+  if (b.includes('ashkarath')) return SFX_BOSS_ROARS.ashkarath;
+  return null;
+}
+
+export function getEndingMusic(ending: string): string {
+  const e = ending.toLowerCase();
+  if (e === 'b' || e.includes('ember') || e.includes('mantle') || e.includes('sovereign')) {
+    return MUSIC_ENDINGS.ember;
+  }
+  return MUSIC_ENDINGS.crown;
 }

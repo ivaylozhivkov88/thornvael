@@ -1,13 +1,23 @@
 import {
   audioAssetPath,
   getBossMusic,
+  getEndingMusic,
   getMusicForAct,
   getMusicForSkirmish,
   MUSIC_MENU,
 } from './audio-catalog';
 
 export type AudioBus = 'music' | 'sfx' | 'ambient' | 'ui';
-export type MusicContextMode = 'menu' | 'char_select' | 'hub' | 'explore' | 'battle' | 'boss' | 'skirmish';
+export type MusicContextMode =
+  | 'menu'
+  | 'char_select'
+  | 'hub'
+  | 'explore'
+  | 'battle'
+  | 'boss'
+  | 'skirmish'
+  | 'ending'
+  | 'special';
 export type DuckReason = 'dialogue' | 'boss_roar' | 'cutscene';
 
 export interface AdaptiveMusicConfig {
@@ -16,6 +26,7 @@ export interface AdaptiveMusicConfig {
   dialogueDuckGain: number;
   roarDuckGain: number;
   baseUrl: string;
+  initialAct?: number;
 }
 
 export const DEFAULT_ADAPTIVE_CONFIG: AdaptiveMusicConfig = {
@@ -33,6 +44,7 @@ export interface StreamingTrackHandle {
   paused: boolean;
   play(): Promise<void> | void;
   pause(): void;
+  applyTrackFade?(fadeGain: number, effectiveMusicVolume: number): void;
 }
 
 export type TrackFactory = (url: string, loop: boolean) => StreamingTrackHandle;
@@ -191,6 +203,9 @@ export class AdaptiveAudioDirector {
   private skirmishBiome: string | null = null;
   private bossId: string | null = null;
   private bossPhase: 1 | 2 = 1;
+  private specialTrackId: string | null = null;
+  private specialLoop = true;
+  private paused = false;
   private lastEnemySeenMs = -1e9;
 
   private currentTrackId: string | null = null;
@@ -206,11 +221,34 @@ export class AdaptiveAudioDirector {
 
   constructor(config: Partial<AdaptiveMusicConfig> = {}, factory?: TrackFactory) {
     this.cfg = { ...DEFAULT_ADAPTIVE_CONFIG, ...config };
+    if (typeof config.initialAct === 'number') {
+      this.act = config.initialAct >= 1 && config.initialAct <= 4 ? config.initialAct : 0;
+    }
     this.factory = factory ?? defaultTrackFactory;
   }
 
   getMode(): MusicContextMode {
     return this.mode;
+  }
+
+  getAct(): number {
+    return this.act;
+  }
+
+  setAct(act: number): void {
+    this.act = act >= 1 && act <= 4 ? act : 0;
+  }
+
+  getRegionIndex(): number {
+    return this.regionIndex;
+  }
+
+  getSpecialTrackId(): string | null {
+    return this.specialTrackId;
+  }
+
+  isPaused(): boolean {
+    return this.paused;
   }
 
   getCurrentTrackId(): string | null {
@@ -223,6 +261,14 @@ export class AdaptiveAudioDirector {
 
   getStingerHistory(): readonly string[] {
     return this.stingerHistory;
+  }
+
+  getActiveHandle(): StreamingTrackHandle | null {
+    return this.currentHandle;
+  }
+
+  getOutgoingHandle(): StreamingTrackHandle | null {
+    return this.outgoingHandle;
   }
 
   setBusVolume(bus: AudioBus, volume: number): void {
@@ -284,6 +330,7 @@ export class AdaptiveAudioDirector {
     this.mode = 'menu';
     this.skirmishBiome = null;
     this.bossId = null;
+    this.specialTrackId = null;
     this.crossfadeTo(MUSIC_MENU.mainMenu, true, nowMs);
   }
 
@@ -291,30 +338,44 @@ export class AdaptiveAudioDirector {
     this.mode = 'char_select';
     this.skirmishBiome = null;
     this.bossId = null;
+    this.specialTrackId = null;
     this.crossfadeTo(MUSIC_MENU.charSelect, true, nowMs);
   }
 
   transitionFieldToHub(act: number, nowMs = 0): void {
-    this.act = act;
+    this.act = act >= 1 && act <= 4 ? act : 0;
     this.mode = 'hub';
     this.skirmishBiome = null;
     this.bossId = null;
-    this.crossfadeTo(getMusicForAct(act, 'town'), true, nowMs);
+    this.specialTrackId = null;
+    this.crossfadeTo(getMusicForAct(this.act, 'town'), true, nowMs);
   }
 
   transitionHubToField(act: number, regionIndex = 0, nowMs = 0): void {
-    this.act = act;
+    this.act = act >= 1 && act <= 4 ? act : 0;
     this.regionIndex = regionIndex;
     this.mode = 'explore';
     this.skirmishBiome = null;
     this.bossId = null;
-    this.crossfadeTo(getMusicForAct(act, 'explore', regionIndex), true, nowMs);
+    this.specialTrackId = null;
+    this.crossfadeTo(getMusicForAct(this.act, 'explore', regionIndex), true, nowMs);
+  }
+
+  setModeWithAct(mode: 'explore' | 'battle' | 'hub', act: number, regionIndex = this.regionIndex, nowMs = 0): void {
+    this.act = act >= 1 && act <= 4 ? act : 0;
+    this.regionIndex = regionIndex;
+    this.mode = mode;
+    this.skirmishBiome = null;
+    this.bossId = null;
+    this.specialTrackId = null;
+    this.crossfadeTo(getMusicForAct(this.act, mode === 'hub' ? 'town' : mode, regionIndex), true, nowMs);
   }
 
   startSkirmish(biome: string, nowMs = 0): void {
     this.skirmishBiome = biome;
     this.mode = 'skirmish';
     this.bossId = null;
+    this.specialTrackId = null;
     this.crossfadeTo(getMusicForSkirmish(biome), true, nowMs);
   }
 
@@ -325,7 +386,77 @@ export class AdaptiveAudioDirector {
     if (stingerId) {
       this.stingerHistory.push(stingerId);
     }
-    this.crossfadeTo(getBossMusic(bossId, phase), true, nowMs);
+    const track = getBossMusic(bossId, phase);
+    this.specialTrackId = track;
+    this.specialLoop = true;
+    this.crossfadeTo(track, true, nowMs);
+  }
+
+  setSpecialTrack(trackId: string | null, loop = true, nowMs = 0): void {
+    this.specialTrackId = trackId;
+    this.specialLoop = loop;
+    if (trackId) {
+      if (trackId.startsWith('music_boss_')) this.mode = 'boss';
+      else if (trackId.startsWith('music_ending_')) this.mode = 'ending';
+      else this.mode = 'special';
+      this.crossfadeTo(trackId, loop, nowMs);
+      return;
+    }
+    if (this.skirmishBiome) {
+      this.mode = 'skirmish';
+      this.crossfadeTo(getMusicForSkirmish(this.skirmishBiome), true, nowMs);
+    } else if (this.mode === 'hub') {
+      this.crossfadeTo(getMusicForAct(this.act, 'town'), true, nowMs);
+    } else if (this.mode === 'battle') {
+      this.crossfadeTo(getMusicForAct(this.act, 'battle'), true, nowMs);
+    } else {
+      this.mode = 'explore';
+      this.crossfadeTo(getMusicForAct(this.act, 'explore', this.regionIndex), true, nowMs);
+    }
+  }
+
+  playEnding(ending: 'crown' | 'ember' | 'a' | 'b', nowMs = 0): void {
+    const trackId = getEndingMusic(ending);
+    this.specialTrackId = trackId;
+    this.specialLoop = true;
+    this.mode = 'ending';
+    this.crossfadeTo(trackId, true, nowMs);
+  }
+
+  pauseAll(): void {
+    this.paused = true;
+    this.currentHandle?.pause();
+    if (this.outgoingHandle) {
+      this.outgoingHandle.pause();
+      this.outgoingHandle = null;
+      this.outgoingTrackId = null;
+    }
+    this.fadeProgress = 1;
+  }
+
+  stopAll(): void {
+    this.pauseAll();
+    this.currentHandle = null;
+    this.currentTrackId = null;
+  }
+
+  resumeCurrent(): void {
+    this.paused = false;
+    this.applyTrackVolumes();
+    if (this.currentHandle) {
+      void Promise.resolve(this.currentHandle.play()).catch(() => undefined);
+    }
+  }
+
+  resetHandles(): void {
+    this.currentHandle?.pause();
+    this.outgoingHandle?.pause();
+    this.currentHandle = null;
+    this.currentTrackId = null;
+    this.outgoingHandle = null;
+    this.outgoingTrackId = null;
+    this.fadeProgress = 1;
+    this.paused = false;
   }
 
   /**
@@ -333,7 +464,14 @@ export class AdaptiveAudioDirector {
    * Returns the resolved mode.
    */
   updateCombat(enemyInView: boolean, nowMs: number): MusicContextMode {
-    if (this.mode === 'boss' || this.mode === 'hub' || this.mode === 'menu' || this.mode === 'char_select') {
+    if (
+      this.mode === 'boss' ||
+      this.mode === 'hub' ||
+      this.mode === 'menu' ||
+      this.mode === 'char_select' ||
+      this.mode === 'ending' ||
+      this.mode === 'special'
+    ) {
       return this.mode;
     }
     if (enemyInView) {
@@ -387,7 +525,16 @@ export class AdaptiveAudioDirector {
   }
 
   private crossfadeTo(trackId: string, loop: boolean, nowMs: number): void {
-    if (this.currentTrackId === trackId) return;
+    if (this.currentTrackId === trackId && this.currentHandle) {
+      this.currentHandle.loop = loop;
+      if (this.paused) {
+        this.paused = false;
+        this.applyTrackVolumes();
+        void Promise.resolve(this.currentHandle.play()).catch(() => undefined);
+      }
+      return;
+    }
+    this.paused = false;
     if (this.outgoingHandle) {
       this.outgoingHandle.pause();
     }
@@ -407,10 +554,18 @@ export class AdaptiveAudioDirector {
   private applyTrackVolumes(): void {
     const eff = this.getEffectiveMusicVolume();
     if (this.currentHandle) {
-      this.currentHandle.volume = this.fadeProgress * eff;
+      if (this.currentHandle.applyTrackFade) {
+        this.currentHandle.applyTrackFade(this.fadeProgress, eff);
+      } else {
+        this.currentHandle.volume = this.fadeProgress * eff;
+      }
     }
     if (this.outgoingHandle) {
-      this.outgoingHandle.volume = (1 - this.fadeProgress) * eff;
+      if (this.outgoingHandle.applyTrackFade) {
+        this.outgoingHandle.applyTrackFade(1 - this.fadeProgress, eff);
+      } else {
+        this.outgoingHandle.volume = (1 - this.fadeProgress) * eff;
+      }
     }
   }
 }

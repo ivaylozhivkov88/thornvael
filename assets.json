@@ -5686,6 +5686,126 @@
       "license": "own",
       "source": "tools/gen-art-wave3.py",
       "note": "Wave 3 procedural 64x64 base item icon (fills missing items.json / base-items slug)"
+    },
+    {
+      "path": "public/audio/bark_smith.m4a",
+      "license": "own",
+      "source": "tools/audio-gen-wave2.py",
+      "note": "D4 dark-fantasy blacksmith gruff vocal bark with iron anvil undertone"
+    },
+    {
+      "path": "public/audio/bark_innkeeper.m4a",
+      "license": "own",
+      "source": "tools/audio-gen-wave2.py",
+      "note": "D4 dark-fantasy innkeeper warm chuckle grunt with mug thump"
+    },
+    {
+      "path": "public/audio/bark_mage.m4a",
+      "license": "own",
+      "source": "tools/audio-gen-wave2.py",
+      "note": "D4 dark-fantasy arcanist hushed murmur with faint crystal chime"
+    },
+    {
+      "path": "public/audio/bark_priest.m4a",
+      "license": "own",
+      "source": "tools/audio-gen-wave2.py",
+      "note": "D4 dark-fantasy priest solemn low hum with distant censer bell"
+    },
+    {
+      "path": "public/audio/bark_guard.m4a",
+      "license": "own",
+      "source": "tools/audio-gen-wave2.py",
+      "note": "D4 dark-fantasy garrison guard clipped bark with chainmail jingle"
+    },
+    {
+      "path": "public/audio/bark_merchant.m4a",
+      "license": "own",
+      "source": "tools/audio-gen-wave2.py",
+      "note": "D4 dark-fantasy merchant shrewd vocal inflection with coin clink"
+    },
+    {
+      "path": "public/audio/bark_merc_warrior.m4a",
+      "license": "own",
+      "source": "tools/audio-gen-wave2.py",
+      "note": "D4 dark-fantasy mercenary warrior battle grunt with steel draw"
+    },
+    {
+      "path": "public/audio/bark_merc_archer.m4a",
+      "license": "own",
+      "source": "tools/audio-gen-wave2.py",
+      "note": "D4 dark-fantasy mercenary archer breath cue with bow creak"
+    },
+    {
+      "path": "public/audio/bark_merc_mage.m4a",
+      "license": "own",
+      "source": "tools/audio-gen-wave2.py",
+      "note": "D4 dark-fantasy mercenary mage spell-ready murmur with arc spark"
+    },
+    {
+      "path": "public/audio/mon_hit_beast.m4a",
+      "license": "own",
+      "source": "tools/audio-gen-wave2.py",
+      "note": "Beast family hurt snarl recoil voice"
+    },
+    {
+      "path": "public/audio/mon_hit_undead.m4a",
+      "license": "own",
+      "source": "tools/audio-gen-wave2.py",
+      "note": "Undead family hurt hollow rasp and bone clack voice"
+    },
+    {
+      "path": "public/audio/mon_hit_caster.m4a",
+      "license": "own",
+      "source": "tools/audio-gen-wave2.py",
+      "note": "Caster family hurt arcane ward recoil shriek"
+    },
+    {
+      "path": "public/audio/mon_hit_construct.m4a",
+      "license": "own",
+      "source": "tools/audio-gen-wave2.py",
+      "note": "Construct family hurt stone groan and iron clang"
+    },
+    {
+      "path": "public/audio/mon_hit_insect.m4a",
+      "license": "own",
+      "source": "tools/audio-gen-wave2.py",
+      "note": "Insectoid family hurt chitin snap and high chirp"
+    },
+    {
+      "path": "public/audio/boss_roar_morvessa.m4a",
+      "license": "own",
+      "source": "tools/audio-gen-wave2.py",
+      "note": "Boss roar stinger for Morvessa in F# Phrygian Dominant"
+    },
+    {
+      "path": "public/audio/boss_roar_gorrathul.m4a",
+      "license": "own",
+      "source": "tools/audio-gen-wave2.py",
+      "note": "Boss roar stinger for Gorrathul in C Locrian"
+    },
+    {
+      "path": "public/audio/boss_roar_vesperion.m4a",
+      "license": "own",
+      "source": "tools/audio-gen-wave2.py",
+      "note": "Boss roar stinger for Vesperion in B Diminished"
+    },
+    {
+      "path": "public/audio/boss_roar_ashkarath.m4a",
+      "license": "own",
+      "source": "tools/audio-gen-wave2.py",
+      "note": "Boss roar stinger for Ashkarath in C# Phrygian Dominant"
+    },
+    {
+      "path": "public/audio/music_ending_crown.m4a",
+      "license": "own",
+      "source": "tools/audio-gen-wave2.py",
+      "note": "Map 4 Ending A theme (Crown of Star-Iron) loopable D Minor Apotheosis"
+    },
+    {
+      "path": "public/audio/music_ending_ember.m4a",
+      "license": "own",
+      "source": "tools/audio-gen-wave2.py",
+      "note": "Map 4 Ending B theme (Mantle of the Living Ember) loopable C# Phrygian Dominant"
     }
   ]
 }

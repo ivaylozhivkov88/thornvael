@@ -1,8 +1,27 @@
 import { SPELL_CAST_SFX, VoiceLimiter, spatial, type Voice } from './audiologic';
+import {
+  AdaptiveAudioDirector,
+  BusVoiceCap,
+  type AudioBus,
+  type BusVolumes,
+  type CrossfadeSnapshot,
+  type DuckReason,
+  type MusicContextMode,
+  type StreamingTrackHandle,
+} from './audio-adaptive';
+import {
+  ALL_ON_DEMAND_SFX_IDS,
+  getBossRoarSfx,
+  getMercBarkSfx,
+  getMonsterAggroSfx,
+  getMonsterDeathSfx,
+  getMonsterHitSfx,
+  getNpcBarkSfx,
+} from './audio-catalog';
 
 /**
  * Web Audio engine: one context, four buses (sfx, ui, music, ambience), a voice limit and pan by screen position.
- * Sound effects are short AAC files decoded once; music is streamed through an <audio> element so it never sits in memory as PCM.
+ * Sound effects are short AAC files decoded once; music is streamed through an <audio> element via AdaptiveAudioDirector so it never sits in memory as PCM.
  * Everything starts from a real user gesture (`unlock`). A silent media workaround needs real iOS verification.
  */
 const SHOP_ENTRY_CUE = 'ledger_latch_01';
@@ -28,7 +47,8 @@ const SFX_NAMES = [
   ...SPELL_CAST_SFX,
   'ui_button_click', 'ui_trade_buy', 'ui_trade_sell', 'ui_inv_pick', 'ui_inv_equip', 'ui_inv_drop', 'sfx_quest_accept', 'sfx_quest_complete', 'sfx_level_up',
 ];
-const base = (): string => import.meta.env.BASE_URL;
+const ON_DEMAND_SFX = new Set<string>(ALL_ON_DEMAND_SFX_IDS);
+const base = (): string => import.meta.env.BASE_URL ?? '/thornvael/';
 
 let ctx: AudioContext | null = null;
 let master: GainNode | null = null;
@@ -41,12 +61,14 @@ const buffers = new Map<string, AudioBuffer>();
 const pendingBuffers = new Map<string, Promise<void>>();
 const running = new Map<Voice, AudioBufferSourceNode>();
 let limiter = new VoiceLimiter();
+let busVoiceCap = new BusVoiceCap();
 let backgrounded = false;
 let generation = 0;
 let resuming: Promise<void> | null = null;
 let suspending: Promise<void> | null = null;
 let loading: Promise<void> | null = null;
 export type MusicMode = 'explore' | 'battle' | 'town';
+export type SpatialPoint = { x: number; y: number; w: number; h: number };
 let sfxOn = true;
 let musicWanted = false;
 let musicMode: MusicMode = 'explore';
@@ -60,6 +82,8 @@ let sfxVol = 1.0;
 let uiVol = 1.0;
 let musicVol = 1.0;
 let ambVol = 1.0;
+let muteOnBlurPref = true;
+let windowBlurred = false;
 
 try {
   const mv = localStorage.getItem('thornvael.masterVol');
@@ -72,13 +96,101 @@ try {
   if (muv !== null) musicVol = parseFloat(muv) || 0;
   const av = localStorage.getItem('thornvael.ambVol');
   if (av !== null) ambVol = parseFloat(av) || 0;
+  const mob = localStorage.getItem('thornvael.muteOnBlur');
+  if (mob !== null) muteOnBlurPref = mob !== 'false';
 } catch { /* storage denied */ }
 
-interface Track {
+interface LiveTrackHandle extends StreamingTrackHandle {
   el: HTMLAudioElement;
   gain: GainNode | null;
 }
-const tracks: Record<MusicMode, Track | null> = { explore: null, battle: null, town: null };
+
+let crossfadeTimer: ReturnType<typeof setTimeout> | null = null;
+let stopMusicTimer: ReturnType<typeof setTimeout> | null = null;
+let roarDuckTimer: ReturnType<typeof setTimeout> | null = null;
+let dialogueDuckTimer: ReturnType<typeof setTimeout> | null = null;
+
+function createLiveTrackHandle(url: string, loop: boolean): LiveTrackHandle {
+  const el = new Audio(url);
+  el.loop = loop;
+  el.preload = 'auto';
+  el.crossOrigin = 'anonymous';
+  let gain: GainNode | null = null;
+  if (ctx && ctx.state !== 'closed' && musicBus) {
+    try {
+      // Routing through a gain node gives volume control on iOS, where <audio>.volume is read-only.
+      const src = ctx.createMediaElementSource(el);
+      gain = ctx.createGain();
+      gain.gain.value = 0;
+      src.connect(gain).connect(musicBus);
+    } catch {
+      el.volume = 0;
+    }
+  } else {
+    el.volume = 0;
+  }
+  let trackVolume = 0;
+  const handle: LiveTrackHandle = {
+    el,
+    gain,
+    get src() { return el.src; },
+    get loop() { return el.loop; },
+    set loop(v: boolean) { el.loop = v; },
+    get volume() { return trackVolume; },
+    set volume(v: number) {
+      const clamped = Math.max(0, Math.min(1, v));
+      trackVolume = clamped;
+      if (gain && ctx && ctx.state !== 'closed') {
+        gain.gain.setValueAtTime(clamped, ctx.currentTime);
+      } else {
+        el.volume = clamped;
+      }
+    },
+    get paused() { return el.paused; },
+    play() {
+      if (backgrounded || !musicWanted) return;
+      return el.play().then(() => {
+        if (backgrounded || !musicWanted || (director.getActiveHandle() !== handle && director.getOutgoingHandle() !== handle)) {
+          el.pause();
+        }
+      }).catch(() => undefined);
+    },
+    pause() {
+      try { el.pause(); } catch { /* ignore */ }
+    },
+    applyTrackFade(fadeGain: number, effectiveMusicVolume: number) {
+      trackVolume = Math.max(0, Math.min(1, fadeGain * effectiveMusicVolume));
+      syncMusicBusGain();
+      if (gain && ctx && ctx.state !== 'closed') {
+        gain.gain.setValueAtTime(Math.max(0, Math.min(1, fadeGain)), ctx.currentTime);
+      } else {
+        el.volume = trackVolume;
+      }
+    },
+  };
+  return handle;
+}
+
+const director = new AdaptiveAudioDirector(
+  { baseUrl: base(), initialAct: 0 },
+  createLiveTrackHandle,
+);
+director.setBusVolume('music', musicVol);
+director.setBusVolume('sfx', sfxVol);
+director.setBusVolume('ambient', ambVol);
+director.setBusVolume('ui', uiVol);
+director.setMuteOnBlur(muteOnBlurPref);
+
+function syncMasterGain(): void {
+  if (!master || !ctx || ctx.state === 'closed') return;
+  const mutedByBlur = muteOnBlurPref && windowBlurred;
+  master.gain.setValueAtTime(mutedByBlur ? 0 : masterVol * 0.9, ctx.currentTime);
+}
+
+function syncMusicBusGain(): void {
+  if (!musicBus || !ctx || ctx.state === 'closed') return;
+  musicBus.gain.setValueAtTime(0.32 * director.getEffectiveMusicVolume(), ctx.currentTime);
+}
 
 function silentWavUrl(): string {
   const n = 800;
@@ -130,13 +242,13 @@ export function unlock(): void {
     generation++;
     stopAmbience();
     stopTownAmbience();
+    clearCrossfadeTimer();
+    clearStopMusicTimer();
     for (const source of running.values()) { try { source.stop(); } catch { /* ended */ } }
     running.clear();
     limiter = new VoiceLimiter();
-    tracks.explore?.el.pause();
-    tracks.battle?.el.pause();
-    tracks.town?.el.pause();
-    tracks.explore = tracks.battle = tracks.town = null;
+    busVoiceCap = new BusVoiceCap();
+    director.resetHandles();
     silent?.pause();
     if (silent) URL.revokeObjectURL(silent.src);
     silent = null;
@@ -153,7 +265,7 @@ export function unlock(): void {
     if (!AC) return;
     ctx = new AC();
     master = ctx.createGain();
-    master.gain.value = 0.9 * masterVol;
+    master.gain.value = (muteOnBlurPref && windowBlurred) ? 0 : 0.9 * masterVol;
     master.connect(ctx.destination);
     sfxBus = ctx.createGain();
     sfxBus.gain.value = 0.8 * sfxVol;
@@ -162,7 +274,7 @@ export function unlock(): void {
     uiBus.gain.value = 0.85 * uiVol;
     uiBus.connect(master);
     musicBus = ctx.createGain();
-    musicBus.gain.value = 0.32 * musicVol;
+    musicBus.gain.value = 0.32 * director.getEffectiveMusicVolume();
     musicBus.connect(master);
     ambBus = ctx.createGain();
     ambBus.gain.value = 0.22 * ambVol;
@@ -177,6 +289,7 @@ export function unlock(): void {
     s.start(0);
     const context = ctx;
     loading = Promise.all(SFX_NAMES.map(loadBuffer)).then(() => { if (ctx === context) startAmbience(); });
+    attachDefaultBlurListeners();
   }
   restorePlayback();
   requestResume();
@@ -238,7 +351,18 @@ function restorePlayback(): void {
     const current = silent;
     playMedia(current, () => silent === current);
   }
-  if (musicWanted) fadeTrack(trackFor(musicMode), 1, 0.15);
+  if (musicWanted) {
+    clearStopMusicTimer();
+    if (director.getActiveHandle()) {
+      director.resumeCurrent();
+    } else if (specialFile) {
+      director.setSpecialTrack(specialFile, specialLoop, Date.now());
+    } else {
+      director.setModeWithAct(musicMode === 'town' ? 'hub' : musicMode, musicAct, director.getRegionIndex(), Date.now());
+    }
+    syncMusicBusGain();
+    scheduleCrossfadeTick();
+  }
   startAmbience();
 }
 
@@ -280,11 +404,75 @@ export function setAmbience(on: boolean): void {
   } else startAmbience();
 }
 
+function playDecodedBuffer(name: string, b: AudioBuffer, priority: number, at?: SpatialPoint): void {
+  if (!ctx || !sfxBus || !sfxOn || backgrounded || ctx.state !== 'running') return;
+  let gain = 1;
+  let pan = 0;
+  if (at) {
+    const s = spatial(at.x, at.y, at.w, at.h);
+    gain = s.gain;
+    pan = s.pan;
+    if (gain <= 0.02) return;
+  }
+  const now = performance.now();
+  const r = limiter.request(name, priority, now, b.duration * 1000);
+  if (r.action === 'skip') return;
+  const isUi =
+    name.startsWith('ui_') ||
+    name.startsWith('sfx_quest') ||
+    name === 'click' ||
+    name === 'select_hero' ||
+    name === SHOP_ENTRY_CUE ||
+    (name.startsWith('bark_') && !name.startsWith('bark_merc_'));
+  const busKind: AudioBus = isUi ? 'ui' : 'sfx';
+  busVoiceCap.request(busKind, name, priority, now, b.duration * 1000);
+  if (r.action === 'steal' && r.victim) {
+    const src = running.get(r.victim);
+    try {
+      src?.stop();
+    } catch {
+      // already ended
+    }
+    running.delete(r.victim);
+  }
+  const src = ctx.createBufferSource();
+  src.buffer = b;
+  const g = ctx.createGain();
+  g.gain.value = gain;
+  let node: AudioNode = g;
+  src.connect(g);
+  if (typeof ctx.createStereoPanner === 'function' && pan !== 0) {
+    const p = ctx.createStereoPanner();
+    p.pan.value = pan;
+    g.connect(p);
+    node = p;
+  }
+  const destBus = (isUi && uiBus) ? uiBus : sfxBus;
+  node.connect(destBus);
+  if (r.voice) {
+    const v = r.voice;
+    running.set(v, src);
+    src.onended = () => running.delete(v);
+  }
+  src.start();
+  played++;
+}
+
 /** Play a sound effect. `x`, `y` is the screen point of the source (omit for UI sounds); w, h the view size. */
-export function play(name: string, priority = 1, at?: { x: number; y: number; w: number; h: number }): void {
+export function play(name: string, priority = 1, at?: SpatialPoint): void {
   if (!ctx || !sfxBus || !sfxOn || backgrounded || ctx.state !== 'running') return;
   const b = buffers.get(name);
   if (!b) {
+    if (ON_DEMAND_SFX.has(name)) {
+      const context = ctx;
+      void loadBuffer(name).then(() => {
+        const loaded = buffers.get(name);
+        if (loaded && ctx === context && sfxOn && !backgrounded && ctx.state === 'running') {
+          playDecodedBuffer(name, loaded, priority, at);
+        }
+      });
+      return;
+    }
     // Visceral synthesized dark fantasy combat sound effects fallback
     if (name.startsWith('shield_block') || name === 'block') {
       playShieldBlock();
@@ -328,48 +516,7 @@ export function play(name: string, priority = 1, at?: { x: number; y: number; w:
     }
     return;
   }
-  let gain = 1;
-  let pan = 0;
-  if (at) {
-    const s = spatial(at.x, at.y, at.w, at.h);
-    gain = s.gain;
-    pan = s.pan;
-    if (gain <= 0.02) return;
-  }
-  const now = performance.now();
-  const r = limiter.request(name, priority, now, b.duration * 1000);
-  if (r.action === 'skip') return;
-  if (r.action === 'steal' && r.victim) {
-    const src = running.get(r.victim);
-    try {
-      src?.stop();
-    } catch {
-      // already ended
-    }
-    running.delete(r.victim);
-  }
-  const src = ctx.createBufferSource();
-  src.buffer = b;
-  const g = ctx.createGain();
-  g.gain.value = gain;
-  let node: AudioNode = g;
-  src.connect(g);
-  if (typeof ctx.createStereoPanner === 'function' && pan !== 0) {
-    const p = ctx.createStereoPanner();
-    p.pan.value = pan;
-    g.connect(p);
-    node = p;
-  }
-  const isUi = name.startsWith('ui_') || name.startsWith('sfx_quest') || name === 'click' || name === 'select_hero' || name === SHOP_ENTRY_CUE;
-  const destBus = (isUi && uiBus) ? uiBus : sfxBus;
-  node.connect(destBus);
-  if (r.voice) {
-    const v = r.voice;
-    running.set(v, src);
-    src.onended = () => running.delete(v);
-  }
-  src.start();
-  played++;
+  playDecodedBuffer(name, b, priority, at);
 }
 
 /** Play once when the first gesture has unlocked audio and decoded the shop cue. */
@@ -656,6 +803,9 @@ export function playTraderBark(trader: TraderRole, event: TraderEvent): void {
   unlock();
   const bus = uiBus ?? sfxBus;
   if (!ctx || !bus || !sfxOn || backgrounded || ctx.state !== 'running') return;
+  if (event === 'greet') {
+    playNpcBark(trader);
+  }
   try {
     const now = ctx.currentTime;
     const gain = ctx.createGain();
@@ -1027,105 +1177,60 @@ export function currentBiomeAmbience(): BiomeAmbience | null {
   return currentBiome;
 }
 
-const ACT_EXPLORE = ['fords', 'marsh', 'coast', 'heartland'];
-const ACT_TOWN = ['thornwick', 'redmarsh', 'oakhaven', 'ironcamp'];
 let musicAct = 0;
+let specialFile: string | null = null;
+let specialLoop = true;
+let blurListenersAttached = false;
+let detachBlurListeners: (() => void) | null = null;
+
+function clearCrossfadeTimer(): void {
+  if (crossfadeTimer !== null) {
+    clearTimeout(crossfadeTimer);
+    crossfadeTimer = null;
+  }
+}
+
+function clearStopMusicTimer(): void {
+  if (stopMusicTimer !== null) {
+    clearTimeout(stopMusicTimer);
+    stopMusicTimer = null;
+  }
+}
+
+function scheduleCrossfadeTick(): void {
+  clearCrossfadeTimer();
+  if (!director.getOutgoingHandle()) return;
+  crossfadeTimer = setTimeout(() => {
+    crossfadeTimer = null;
+    const snap = director.tick(Date.now());
+    syncMusicBusGain();
+    if (snap && snap.progress < 1 && director.getOutgoingHandle()) {
+      scheduleCrossfadeTick();
+    }
+  }, 100);
+}
+
+function rampHandleGainTo(handle: StreamingTrackHandle | null, target: number, sec: number): void {
+  const live = handle as LiveTrackHandle | null;
+  if (!live) return;
+  if (live.gain && ctx && ctx.state !== 'closed') {
+    live.gain.gain.cancelScheduledValues(ctx.currentTime);
+    live.gain.gain.setValueAtTime(live.gain.gain.value, ctx.currentTime);
+    live.gain.gain.linearRampToValueAtTime(target, ctx.currentTime + sec);
+  } else {
+    live.el.volume = target;
+  }
+}
+
 /** Pick the act-specific tracks from pack 6a (1 to 4); 0 keeps the generic ones. Call before the music starts. */
 export function setMusicAct(act: number): void {
   const a = act >= 1 && act <= 4 ? act : 0;
   if (a === musicAct) return;
   musicAct = a;
-  for (const m of ['explore', 'battle', 'town'] as MusicMode[]) {
-    const t = tracks[m];
-    if (t) { try { t.el.pause(); } catch {} tracks[m] = null; }
-  }
-}
-function musicFile(mode: MusicMode): string {
-  if (!musicAct) return `music_${mode}`;
-  if (mode === 'explore') return `music_explore_act${musicAct}_${ACT_EXPLORE[musicAct - 1]}`;
-  if (mode === 'battle') return `music_battle_act${musicAct}`;
-  return `music_town_${ACT_TOWN[musicAct - 1]}`;
-}
-
-function trackFor(mode: MusicMode): Track | null {
-  if (!ctx || ctx.state === 'closed' || !musicBus || backgrounded) return null;
-  let t = tracks[mode];
-  if (!t) {
-    const el = new Audio(`${base()}audio/${musicFile(mode)}.m4a`);
-    el.loop = true;
-    el.preload = 'auto';
-    el.crossOrigin = 'anonymous';
-    let gain: GainNode | null = null;
-    try {
-      // Routing through a gain node gives volume control on iOS, where <audio>.volume is read-only.
-      const src = ctx.createMediaElementSource(el);
-      gain = ctx.createGain();
-      gain.gain.value = 0;
-      src.connect(gain).connect(musicBus);
-    } catch {
-      el.volume = 0;
-    }
-    t = { el, gain };
-    tracks[mode] = t;
-  }
-  return t;
-}
-
-function fadeTrack(t: Track | null, to: number, sec: number): void {
-  if (!t || !ctx || ctx.state === 'closed') return;
-  if (t.gain) {
-    t.gain.gain.cancelScheduledValues(ctx.currentTime);
-    t.gain.gain.setValueAtTime(t.gain.gain.value, ctx.currentTime);
-    t.gain.gain.linearRampToValueAtTime(to, ctx.currentTime + sec);
-  } else t.el.volume = to;
-  if (to > 0) playMedia(t.el, () => musicWanted && tracks[musicMode] === t);
-  else {
-    setTimeout(() => {
-      if (!musicWanted || tracks[musicMode] !== t) {
-        t.el.pause();
-        if (t.gain && ctx && ctx.state !== 'closed') {
-          t.gain.gain.setValueAtTime(0, ctx.currentTime);
-        }
-      }
-    }, sec * 1000 + 50);
-  }
-}
-
-// Special track (boss theme, victory/defeat sting) that takes over from the mode tracks.
-let specialFile: string | null = null;
-let specialLoop = true;
-let specialTrack: Track | null = null;
-
-function stopSpecial(sec: number): void {
-  const t = specialTrack;
-  specialTrack = null;
-  if (!t) return;
-  if (t.gain && ctx && ctx.state !== 'closed') {
-    t.gain.gain.cancelScheduledValues(ctx.currentTime);
-    t.gain.gain.setValueAtTime(t.gain.gain.value, ctx.currentTime);
-    t.gain.gain.linearRampToValueAtTime(0, ctx.currentTime + sec);
-  } else t.el.volume = 0;
-  setTimeout(() => { try { t.el.pause(); } catch {} }, sec * 1000 + 50);
-}
-
-function startSpecial(): void {
-  if (!specialFile || !ctx || ctx.state === 'closed' || !musicBus || backgrounded || specialTrack) return;
-  const el = new Audio(`${base()}audio/${specialFile}.m4a`);
-  el.loop = specialLoop;
-  el.preload = 'auto';
-  el.crossOrigin = 'anonymous';
-  let gain: GainNode | null = null;
-  try {
-    const src = ctx.createMediaElementSource(el);
-    gain = ctx.createGain();
-    gain.gain.value = 0;
-    src.connect(gain).connect(musicBus);
-  } catch { el.volume = 0; }
-  const t: Track = { el, gain };
-  specialTrack = t;
-  if (gain) gain.gain.linearRampToValueAtTime(1, ctx.currentTime + 1.2);
-  else el.volume = 1;
-  playMedia(el, () => musicWanted && specialTrack === t);
+  clearCrossfadeTimer();
+  clearStopMusicTimer();
+  director.setAct(a);
+  director.resetHandles();
 }
 
 /** Take over the music with a named track (e.g. music_boss_morvessa); null returns to the mode tracks. */
@@ -1133,42 +1238,52 @@ export function setSpecialMusic(file: string | null, loop = true): void {
   if (file === specialFile) return;
   specialFile = file;
   specialLoop = loop;
-  stopSpecial(1.2);
-  if (!ctx || !musicWanted) return;
+  if (!ctx || !musicWanted) {
+    if (!file) {
+      clearCrossfadeTimer();
+      director.pauseAll();
+    }
+    return;
+  }
+  clearStopMusicTimer();
   if (file) {
-    for (const m of ['explore', 'battle', 'town'] as MusicMode[]) fadeTrack(tracks[m], 0, 1.2);
-    startSpecial();
-  } else setMusic(true, musicMode);
+    director.setSpecialTrack(file, loop, Date.now());
+  } else {
+    director.setSpecialTrack(null, true, Date.now());
+    director.setModeWithAct(musicMode === 'town' ? 'hub' : musicMode, musicAct, director.getRegionIndex(), Date.now());
+  }
+  syncMusicBusGain();
+  scheduleCrossfadeTick();
 }
 
-/** Start or stop the music, and crossfade between the explore, battle, and town tracks. */
+/** Start or stop the music, and crossfade between the explore, battle, and town tracks via streaming <audio>. */
 export function setMusic(on: boolean, mode: MusicMode = musicMode): void {
   if (on) unlock();
   musicWanted = on;
-  const changed = mode !== musicMode;
   musicMode = mode;
   if (!ctx) return;
   if (!on) {
-    fadeTrack(tracks.explore, 0, 0.6);
-    fadeTrack(tracks.battle, 0, 0.6);
-    fadeTrack(tracks.town, 0, 0.6);
-    stopSpecial(0.6);
+    clearCrossfadeTimer();
+    clearStopMusicTimer();
+    rampHandleGainTo(director.getActiveHandle(), 0, 0.6);
+    rampHandleGainTo(director.getOutgoingHandle(), 0, 0.6);
+    stopMusicTimer = setTimeout(() => {
+      stopMusicTimer = null;
+      if (!musicWanted) director.pauseAll();
+    }, 650);
     stopDarkFantasyAtmosphere();
     return;
   }
+  clearStopMusicTimer();
   if (specialFile) {
-    for (const m of ['explore', 'battle', 'town'] as MusicMode[]) fadeTrack(tracks[m], 0, 1.2);
-    startSpecial();
+    director.setSpecialTrack(specialFile, specialLoop, Date.now());
+    syncMusicBusGain();
+    scheduleCrossfadeTick();
     return;
   }
-  const allModes: MusicMode[] = ['explore', 'battle', 'town'];
-  for (const m of allModes) {
-    if (m !== mode && tracks[m]) {
-      fadeTrack(tracks[m], 0, 1.4);
-    }
-  }
-  const next = trackFor(mode);
-  fadeTrack(next, 1, changed ? 1.4 : 1.0);
+  director.setModeWithAct(mode === 'town' ? 'hub' : mode, musicAct, director.getRegionIndex(), Date.now());
+  syncMusicBusGain();
+  scheduleCrossfadeTick();
   if (mode !== 'town') {
     startDarkFantasyAtmosphere();
   } else {
@@ -1180,18 +1295,131 @@ export function currentMusic(): 'off' | MusicMode {
   return musicWanted ? musicMode : 'off';
 }
 
+export function currentAdaptiveMode(): MusicContextMode {
+  return director.getMode();
+}
+
+export function getAdaptiveDirector(): AdaptiveAudioDirector {
+  return director;
+}
+
+export function tickAudio(nowMs = Date.now()): CrossfadeSnapshot | null {
+  const snap = director.tick(nowMs);
+  syncMusicBusGain();
+  return snap;
+}
+
+/** Switch to a specific act/region exploration, battle, or town track via streaming <audio>. */
+export function setMusicRegion(act: number, mode: MusicMode = 'explore', regionIndex = 0): void {
+  unlock();
+  musicAct = act >= 1 && act <= 4 ? act : 0;
+  musicWanted = true;
+  musicMode = mode;
+  specialFile = null;
+  if (!ctx) return;
+  clearStopMusicTimer();
+  director.setModeWithAct(mode === 'town' ? 'hub' : mode, musicAct, regionIndex, Date.now());
+  syncMusicBusGain();
+  scheduleCrossfadeTick();
+}
+
+/** Stream skirmish biome music via AdaptiveAudioDirector. */
+export function setSkirmishMusic(biome: string): void {
+  unlock();
+  musicWanted = true;
+  musicMode = 'explore';
+  specialFile = null;
+  if (!ctx) return;
+  clearStopMusicTimer();
+  director.startSkirmish(biome, Date.now());
+  syncMusicBusGain();
+  scheduleCrossfadeTick();
+}
+
+/** Stream character selection campfire theme via AdaptiveAudioDirector. */
+export function setCharSelectMusic(): void {
+  unlock();
+  musicWanted = true;
+  musicMode = 'town';
+  specialFile = null;
+  if (!ctx) return;
+  clearStopMusicTimer();
+  director.setCharSelect(Date.now());
+  syncMusicBusGain();
+  scheduleCrossfadeTick();
+}
+
+/** Stream main menu theme via AdaptiveAudioDirector. */
+export function setMainMenuMusic(): void {
+  unlock();
+  musicWanted = true;
+  musicMode = 'town';
+  specialFile = null;
+  if (!ctx) return;
+  clearStopMusicTimer();
+  director.setMenu(Date.now());
+  syncMusicBusGain();
+  scheduleCrossfadeTick();
+}
+
+/** Trigger boss phase streaming music and optional boss roar stinger with automatic music ducking. */
+export function playBossMusic(bossId: string, phase: 1 | 2 = 1, roarDurationMs = 2200): void {
+  unlock();
+  musicWanted = true;
+  musicMode = 'battle';
+  const roarId = getBossRoarSfx(bossId) ?? undefined;
+  if (roarId) {
+    playBossRoar(bossId, roarDurationMs);
+  }
+  if (!ctx) return;
+  clearStopMusicTimer();
+  director.triggerBossPhase(bossId, phase, roarId, Date.now());
+  specialFile = director.getSpecialTrackId();
+  specialLoop = true;
+  syncMusicBusGain();
+  scheduleCrossfadeTick();
+}
+
+/** Stream Map 4 ending theme ('crown' | 'ember' | 'a' | 'b'). */
+export function playEndingMusic(ending: 'crown' | 'ember' | 'a' | 'b'): void {
+  unlock();
+  musicWanted = true;
+  musicMode = 'town';
+  if (!ctx) return;
+  clearStopMusicTimer();
+  director.playEnding(ending, Date.now());
+  specialFile = director.getSpecialTrackId();
+  specialLoop = true;
+  syncMusicBusGain();
+  scheduleCrossfadeTick();
+}
+
+/** Advance adaptive explore <-> battle crossfade with 6s hysteresis. */
+export function updateAdaptiveCombat(enemyInView: boolean, nowMs = Date.now()): MusicContextMode {
+  const prevTrack = director.getCurrentTrackId();
+  const mode = director.updateCombat(enemyInView, nowMs);
+  if (mode === 'battle') musicMode = 'battle';
+  else if (mode === 'explore' || mode === 'skirmish') musicMode = 'explore';
+  if (director.getCurrentTrackId() !== prevTrack) {
+    syncMusicBusGain();
+    scheduleCrossfadeTick();
+  }
+  return mode;
+}
+
 export function suspendAudio(): void {
   cancelShopEntry();
   backgrounded = true;
   generation++;
+  clearCrossfadeTimer();
+  clearStopMusicTimer();
   stopAmbience();
   stopDarkFantasyAtmosphere();
   suspendedTownHub = currentTownHubLocation;
   stopTownAmbience();
   silent?.pause();
-  tracks.explore?.el.pause();
-  tracks.battle?.el.pause();
-  tracks.town?.el.pause();
+  director.getActiveHandle()?.pause();
+  director.getOutgoingHandle()?.pause();
   const context = ctx;
   if (!context || context.state === 'closed' || suspending) return;
   const attempt = context.suspend().catch(() => undefined).finally(() => {
@@ -1229,9 +1457,7 @@ export function whenLoaded(): Promise<void> {
 export function setMasterVolume(v: number): void {
   masterVol = Math.max(0, Math.min(1, v));
   try { localStorage.setItem('thornvael.masterVol', String(masterVol)); } catch { /* storage denied */ }
-  if (master && ctx && ctx.state !== 'closed') {
-    master.gain.setValueAtTime(masterVol * 0.9, ctx.currentTime);
-  }
+  syncMasterGain();
 }
 
 export function getMasterVolume(): number {
@@ -1240,6 +1466,7 @@ export function getMasterVolume(): number {
 
 export function setSfxVolume(v: number): void {
   sfxVol = Math.max(0, Math.min(1, v));
+  director.setBusVolume('sfx', sfxVol);
   try { localStorage.setItem('thornvael.sfxVol', String(sfxVol)); } catch { /* storage denied */ }
   if (sfxBus && ctx && ctx.state !== 'closed') {
     sfxBus.gain.setValueAtTime(sfxVol * 0.8, ctx.currentTime);
@@ -1252,6 +1479,7 @@ export function getSfxVolume(): number {
 
 export function setUiVolume(v: number): void {
   uiVol = Math.max(0, Math.min(1, v));
+  director.setBusVolume('ui', uiVol);
   try { localStorage.setItem('thornvael.uiVol', String(uiVol)); } catch { /* storage denied */ }
   if (uiBus && ctx && ctx.state !== 'closed') {
     uiBus.gain.setValueAtTime(uiVol * 0.85, ctx.currentTime);
@@ -1264,10 +1492,9 @@ export function getUiVolume(): number {
 
 export function setMusicVolume(v: number): void {
   musicVol = Math.max(0, Math.min(1, v));
+  director.setBusVolume('music', musicVol);
   try { localStorage.setItem('thornvael.musicVol', String(musicVol)); } catch { /* storage denied */ }
-  if (musicBus && ctx && ctx.state !== 'closed') {
-    musicBus.gain.setValueAtTime(musicVol * 0.32, ctx.currentTime);
-  }
+  syncMusicBusGain();
 }
 
 export function getMusicVolume(): number {
@@ -1276,6 +1503,7 @@ export function getMusicVolume(): number {
 
 export function setAmbienceVolume(v: number): void {
   ambVol = Math.max(0, Math.min(1, v));
+  director.setBusVolume('ambient', ambVol);
   try { localStorage.setItem('thornvael.ambVol', String(ambVol)); } catch { /* storage denied */ }
   if (ambBus && ctx && ctx.state !== 'closed') {
     ambBus.gain.setValueAtTime(ambVol * 0.22, ctx.currentTime);
@@ -1286,6 +1514,99 @@ export function getAmbienceVolume(): number {
   return ambVol;
 }
 
+export function setBusVolume(bus: AudioBus, v: number): void {
+  if (bus === 'music') setMusicVolume(v);
+  else if (bus === 'sfx') setSfxVolume(v);
+  else if (bus === 'ambient') setAmbienceVolume(v);
+  else setUiVolume(v);
+}
+
+export function getBusVolume(bus: AudioBus): number {
+  if (bus === 'music') return musicVol;
+  if (bus === 'sfx') return sfxVol;
+  if (bus === 'ambient') return ambVol;
+  return uiVol;
+}
+
+export function getBusVolumes(): Readonly<BusVolumes> {
+  return director.getAllBusVolumes();
+}
+
+export function setMusicDucking(reason: DuckReason, active: boolean): void {
+  director.setDucking(reason, active);
+  syncMusicBusGain();
+}
+
+export function setDialogueDucking(active: boolean): void {
+  setMusicDucking('dialogue', active);
+}
+
+export function isMusicDucked(): boolean {
+  return director.isDucked();
+}
+
+export function getMusicDuckMultiplier(): number {
+  return director.getDuckMultiplier();
+}
+
+export function getEffectiveMusicGain(): number {
+  return 0.32 * director.getEffectiveMusicVolume();
+}
+
+export function setMuteOnBlur(enabled: boolean): void {
+  muteOnBlurPref = Boolean(enabled);
+  try { localStorage.setItem('thornvael.muteOnBlur', String(muteOnBlurPref)); } catch { /* storage denied */ }
+  director.setMuteOnBlur(muteOnBlurPref);
+  syncMasterGain();
+  syncMusicBusGain();
+}
+
+export function isMuteOnBlur(): boolean {
+  return muteOnBlurPref;
+}
+
+export function setWindowBlurMuted(blurred: boolean): void {
+  windowBlurred = Boolean(blurred);
+  director.handleVisibilityChange(windowBlurred);
+  syncMasterGain();
+  syncMusicBusGain();
+}
+
+export interface BlurEventTarget {
+  addEventListener(type: string, listener: () => void): void;
+  removeEventListener(type: string, listener: () => void): void;
+}
+
+export function attachBlurMuteListeners(
+  doc?: BlurEventTarget & { hidden?: boolean },
+  win?: BlurEventTarget,
+): () => void {
+  const targetDoc = doc ?? (typeof document !== 'undefined' && typeof document.addEventListener === 'function' ? document : undefined);
+  const targetWin = win ?? (typeof window !== 'undefined' && typeof window.addEventListener === 'function' ? window : undefined);
+  const onVis = () => setWindowBlurMuted(Boolean(targetDoc?.hidden));
+  const onBlur = () => setWindowBlurMuted(true);
+  const onFocus = () => setWindowBlurMuted(Boolean(targetDoc?.hidden));
+
+  targetDoc?.addEventListener('visibilitychange', onVis);
+  targetWin?.addEventListener('blur', onBlur);
+  targetWin?.addEventListener('focus', onFocus);
+  if (targetDoc) onVis();
+
+  return () => {
+    targetDoc?.removeEventListener('visibilitychange', onVis);
+    targetWin?.removeEventListener('blur', onBlur);
+    targetWin?.removeEventListener('focus', onFocus);
+  };
+}
+
+function attachDefaultBlurListeners(): void {
+  if (blurListenersAttached) return;
+  if (typeof document === 'undefined' || typeof document.addEventListener !== 'function') return;
+  blurListenersAttached = true;
+  detachBlurListeners = attachBlurMuteListeners(document, typeof window !== 'undefined' && typeof window.addEventListener === 'function' ? window : undefined);
+  void detachBlurListeners;
+}
+
 export function getBusLevels(): { master: number; sfx: number; ui: number; music: number; ambience: number } {
   return {
     master: 0.9 * masterVol,
@@ -1294,6 +1615,65 @@ export function getBusLevels(): { master: number; sfx: number; ui: number; music
     music: 0.32 * musicVol,
     ambience: 0.22 * ambVol,
   };
+}
+
+/** Preloads Wave 2 or mission-specific SFX cues on demand without bloating initial boot decode. */
+export function preloadAudioCues(names: readonly string[]): Promise<void> {
+  if (!ctx) return Promise.resolve();
+  return Promise.all(names.map(loadBuffer)).then(() => undefined);
+}
+
+/** Plays a D4 dark-fantasy NPC bark cue and optionally ducks music during dialogue. */
+export function playNpcBark(role: string, duckMs = 0, at?: SpatialPoint): void {
+  const cue = getNpcBarkSfx(role);
+  play(cue, 5, at);
+  if (duckMs > 0) {
+    if (dialogueDuckTimer !== null) clearTimeout(dialogueDuckTimer);
+    setMusicDucking('dialogue', true);
+    dialogueDuckTimer = setTimeout(() => {
+      dialogueDuckTimer = null;
+      setMusicDucking('dialogue', false);
+    }, duckMs);
+  }
+}
+
+/** Plays a D4 mercenary voice/grunt bark for the given archetype ('warrior' | 'archer' | 'mage'). */
+export function playMercBark(archetype: string, at?: SpatialPoint): void {
+  play(getMercBarkSfx(archetype), 4, at);
+}
+
+/** Plays a per-family monster hurt voice cue with spatial pan and distance falloff. */
+export function playMonsterHitVoice(family: string, at?: SpatialPoint): void {
+  play(getMonsterHitSfx(family), 2, at);
+}
+
+/** Plays a per-family monster aggro roar cue. */
+export function playMonsterAggroVoice(family: string, at?: SpatialPoint): void {
+  play(getMonsterAggroSfx(family), 3, at);
+}
+
+/** Plays a per-family monster death voice cue. */
+export function playMonsterDeathVoice(family: string, at?: SpatialPoint): void {
+  play(getMonsterDeathSfx(family), 3, at);
+}
+
+/** Plays a boss roar stinger and temporarily ducks music for dramatic impact. */
+export function playBossRoar(bossId: string, duckMs = 2200, at?: SpatialPoint): void {
+  const cue = getBossRoarSfx(bossId);
+  if (duckMs > 0) {
+    if (roarDuckTimer !== null) clearTimeout(roarDuckTimer);
+    setMusicDucking('boss_roar', true);
+    roarDuckTimer = setTimeout(() => {
+      roarDuckTimer = null;
+      setMusicDucking('boss_roar', false);
+    }, duckMs);
+  }
+  if (cue) play(cue, 6, at);
+}
+
+/** Plays the UI invalid/error buzz cue. */
+export function playUiError(): void {
+  play('ui_error', 5);
 }
 
 /**
