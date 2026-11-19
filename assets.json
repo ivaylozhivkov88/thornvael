@@ -310,20 +310,20 @@
     {
       "path": "public/sprites/gorrathul.png",
       "license": "own",
-      "source": "tools/generate-boss-sprites.py",
-      "note": "Dedicated Gorrathul Act 2 boss atlas (segmented maggot colossus); 48px, 16 directions, combat profile, RGB masks"
+      "source": "tools/sheet-build.py + Canva sheet",
+      "note": "Original gorrathul sprite; Canva-generated turnaround sheet, 96px, 16 directions, stand4/walk8/attack4/cast4/hurt2/die4, RGB masks."
     },
     {
       "path": "public/sprites/gorrathul-mask.png",
       "license": "own",
-      "source": "tools/generate-boss-sprites.py",
-      "note": "Dedicated Gorrathul Act 2 boss mask (segmented maggot colossus); 48px, 16 directions, combat profile, RGB masks"
+      "source": "tools/sheet-build.py + Canva sheet",
+      "note": "Original gorrathul sprite; Canva-generated turnaround sheet, 96px, 16 directions, stand4/walk8/attack4/cast4/hurt2/die4, RGB masks."
     },
     {
       "path": "public/sprites/gorrathul.json",
       "license": "own",
-      "source": "tools/generate-boss-sprites.py",
-      "note": "Dedicated Gorrathul Act 2 boss spritesheet JSON"
+      "source": "tools/sheet-build.py + Canva sheet",
+      "note": "Original gorrathul sprite; Canva-generated turnaround sheet, 96px, 16 directions, stand4/walk8/attack4/cast4/hurt2/die4, RGB masks."
     },
     {
       "path": "public/sprites/vesperion.png",
