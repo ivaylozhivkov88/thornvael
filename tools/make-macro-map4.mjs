@@ -1,0 +1,599 @@
+import fs from 'node:fs';
+import path from 'node:path';
+import { fileURLToPath } from 'node:url';
+
+const __dirname = path.dirname(fileURLToPath(import.meta.url));
+const OUT_PATH = path.resolve(__dirname, '../src/missions/map4-obsidian-caldera.map.json');
+
+const W = 192;
+const H = 192;
+const N = W * H;
+
+// Terrain enum: Grass: 0, Dirt: 1, Water: 2, Rock: 3, Marsh: 4
+const Terrain = { Grass: 0, Dirt: 1, Water: 2, Rock: 3, Marsh: 4 };
+// ObjectKind: Tree: 0, House: 1, Barrel: 2, Urn: 3, Sarcophagus: 4
+const ObjectKind = { Tree: 0, House: 1, Barrel: 2, Urn: 3, Sarcophagus: 4 };
+// Unit Kind: Warrior: 0, Archer: 1, Hero: 2, Mage: 3, Gnoll: 4, Golem: 5, Imp: 6
+const Kind = { Warrior: 0, Archer: 1, Hero: 2, Mage: 3, Gnoll: 4, Golem: 5, Imp: 6 };
+
+function rleEncode(a) {
+  const out = [];
+  for (let i = 0; i < a.length; ) {
+    let j = i + 1;
+    while (j < a.length && a[j] === a[i]) j++;
+    out.push(a[i], j - i);
+    i = j;
+  }
+  return out;
+}
+
+function buildTerrainAndHeight() {
+  const terrain = new Uint8Array(N).fill(Terrain.Dirt);
+  const height = new Uint8Array(N).fill(1);
+
+  const setTile = (x, y, t, h = 1) => {
+    if (x < 0 || x >= W || y < 0 || y >= H) return;
+    const i = y * W + x;
+    terrain[i] = t;
+    height[i] = h;
+  };
+
+  const fillRect = (x1, y1, x2, y2, t, h = 1) => {
+    for (let y = Math.max(0, y1); y <= Math.min(H - 1, y2); y++) {
+      for (let x = Math.max(0, x1); x <= Math.min(W - 1, x2); x++) {
+        setTile(x, y, t, h);
+      }
+    }
+  };
+
+  const drawRoad = (x1, y1, x2, y2, radius = 2, t = Terrain.Dirt, h = 1) => {
+    const steps = Math.max(Math.abs(x2 - x1), Math.abs(y2 - y1), 1);
+    for (let s = 0; s <= steps; s++) {
+      const cx = Math.round(x1 + ((x2 - x1) * s) / steps);
+      const cy = Math.round(y1 + ((y2 - y1) * s) / steps);
+      fillRect(cx - radius, cy - radius, cx + radius, cy + radius, t, h);
+    }
+  };
+
+  // Outer obsidian caldera rim walls
+  fillRect(0, 0, W - 1, 6, Terrain.Rock, 3);
+  fillRect(0, H - 5, W - 1, H - 1, Terrain.Rock, 3);
+  fillRect(0, 0, 6, H - 1, Terrain.Rock, 3);
+  fillRect(W - 5, 0, W - 1, H - 1, Terrain.Rock, 3);
+
+  // Region 0: Ironcamp Forge-Hold (12,14)..(46,52)
+  fillRect(12, 14, 46, 52, Terrain.Dirt, 2);
+
+  // Region 1: Basalt Highway & Shattered Beacons (47,12)..(118,66)
+  fillRect(47, 12, 118, 66, Terrain.Grass, 2);
+  fillRect(52, 28, 114, 40, Terrain.Dirt, 2);
+
+  // Region 2: Besieged Wall & Ashveil Summit (119,12)..(186,76)
+  fillRect(119, 12, 186, 76, Terrain.Dirt, 2);
+  fillRect(156, 16, 182, 38, Terrain.Dirt, 3); // Ashveil Summit Portal Stairs
+
+  // Region 3: Magnetic Narrows & Twofold Barbican (12,67)..(78,136)
+  fillRect(12, 67, 78, 136, Terrain.Marsh, 1); // Slag-ash floor
+  fillRect(26, 80, 74, 128, Terrain.Dirt, 1);
+
+  // Region 4: Gauntlet of Iron & Greystone Rampart (79,67)..(144,136)
+  fillRect(79, 67, 144, 136, Terrain.Dirt, 2);
+  // Magma trench pockets outside the main road
+  fillRect(84, 70, 96, 78, Terrain.Water, 0);
+  fillRect(130, 72, 140, 82, Terrain.Water, 0);
+
+  // Region 5: Three-Roads Watch & Headless Kings (16,137)..(118,186)
+  fillRect(16, 137, 118, 186, Terrain.Dirt, 1);
+  fillRect(82, 154, 114, 178, Terrain.Grass, 2); // Threshold Nave & Crossroads plaza
+
+  // Region 6: Colonnade of Crowns & Obsidian Dais (119,137)..(186,186)
+  fillRect(119, 137, 186, 186, Terrain.Dirt, 2);
+  // Flanking magma moats north and south of the Colonnade causeway
+  fillRect(122, 140, 156, 150, Terrain.Water, 0);
+  fillRect(122, 176, 156, 182, Terrain.Water, 0);
+  fillRect(160, 154, 184, 180, Terrain.Dirt, 3); // Elevated Obsidian Dais & Cinder Throne
+
+  // Primary road & magma-bridge network connecting all 7 regions
+  drawRoad(24, 34, 82, 36, 3, Terrain.Dirt, 2); // Ironcamp to Basalt Highway
+  drawRoad(82, 36, 74, 24, 2, Terrain.Dirt, 2); // To Beacon 1
+  drawRoad(82, 36, 96, 32, 2, Terrain.Dirt, 2); // To Beacon 2
+  drawRoad(96, 32, 112, 20, 2, Terrain.Dirt, 2); // To Beacon 3
+  drawRoad(96, 32, 106, 48, 2, Terrain.Dirt, 2); // To West Crag Focusing Prism
+  drawRoad(96, 32, 142, 44, 3, Terrain.Dirt, 2); // Highway to Eastern Curtain Wall
+  drawRoad(142, 44, 172, 26, 3, Terrain.Dirt, 3); // Curtain Wall to Ashveil Summit
+  drawRoad(24, 34, 34, 96, 3, Terrain.Dirt, 1); // Ironcamp south into Magnetic Narrows
+  drawRoad(34, 96, 62, 110, 3, Terrain.Dirt, 1); // Narrows to Twofold Barbican
+  drawRoad(62, 110, 44, 122, 2, Terrain.Dirt, 1); // Barbican to Cinderforge Pit
+  drawRoad(62, 110, 104, 94, 3, Terrain.Dirt, 2); // Barbican to Gauntlet of Iron
+  drawRoad(104, 94, 128, 116, 3, Terrain.Dirt, 2); // Gauntlet to Greystone Rampart
+  drawRoad(128, 116, 54, 158, 3, Terrain.Dirt, 1); // Greystone down to Three-Roads Watch
+  drawRoad(54, 158, 88, 164, 3, Terrain.Dirt, 2); // Three-Roads to Threshold Nave
+  drawRoad(88, 164, 106, 168, 4, Terrain.Dirt, 2); // Threshold Nave to Crossroads of Headless Kings
+  drawRoad(106, 168, 142, 164, 4, Terrain.Dirt, 2); // Crossroads to Colonnade of Conquered Crowns
+  drawRoad(142, 164, 172, 168, 4, Terrain.Dirt, 3); // Colonnade to Obsidian Dais & Cinder Throne
+
+  return { terrain, height };
+}
+
+const { terrain, height } = buildTerrainAndHeight();
+
+// Buildings (Houses 0..5) and environmental props
+const objects = [
+  // Ironcamp Forge-Hold Town Buildings (Houses 0, 1, 2)
+  { kind: ObjectKind.House, x: 18, y: 26, owner: 0, hp: 400 }, // House 0: Penitent Cloister & Tavern
+  { kind: ObjectKind.House, x: 24, y: 26, owner: 0, hp: 400 }, // House 1: Caldera Fissure Foundry (Shop)
+  { kind: ObjectKind.House, x: 30, y: 26, owner: 0, hp: 400 }, // House 2: First Watch War-Room (School)
+  // Regional Landmark Buildings (Houses 3, 4, 5)
+  { kind: ObjectKind.House, x: 74, y: 20, owner: 0, hp: 350 }, // House 3: Hilltop Signal Beacon Tower
+  { kind: ObjectKind.House, x: 142, y: 40, owner: 0, hp: 400 }, // House 4: Eastern Curtain Wall Tower Four
+  { kind: ObjectKind.House, x: 54, y: 152, owner: 0, hp: 450 }, // House 5: Three-Roads Star-Bastion Keep
+  // Scenery & destructible props placed safely away from units, shrines, waypoints
+  { kind: ObjectKind.Tree, x: 52, y: 18 },
+  { kind: ObjectKind.Tree, x: 60, y: 18 },
+  { kind: ObjectKind.Tree, x: 124, y: 18 },
+  { kind: ObjectKind.Tree, x: 18, y: 74 },
+  { kind: ObjectKind.Barrel, x: 16, y: 30, hp: 1 },
+  { kind: ObjectKind.Barrel, x: 138, y: 44, hp: 1 },
+  { kind: ObjectKind.Urn, x: 92, y: 160, hp: 1 },
+  { kind: ObjectKind.Sarcophagus, x: 164, y: 160, hp: 1 },
+];
+
+const units = [
+  // 0: Player Hero
+  { kind: Kind.Hero, team: 0, x: 24, y: 32 },
+  // 1..4: Ironcamp Forge-Hold Mercenaries (dormant, team 0)
+  { kind: Kind.Warrior, team: 0, x: 16, y: 24, dormant: true }, // First Watch Vanguard
+  { kind: Kind.Archer, team: 0, x: 17, y: 24, dormant: true },  // Slag-Spring Arbalestier
+  { kind: Kind.Mage, team: 0, x: 18, y: 24, dormant: true },    // Conclave Grounding Savant
+  { kind: Kind.Golem, team: 0, x: 19, y: 24, dormant: true },   // Star-Iron Siege Construct
+
+  // ================= GROUP 1: MQ4-01 (Basalt Highway & Shattered Beacons) =================
+  { kind: Kind.Imp, team: 1, x: 74, y: 24, group: 1, pack: 1, tier: 4, family: 'cinderling' },
+  { kind: Kind.Mage, team: 1, x: 76, y: 24, group: 1, pack: 1, tier: 4, family: 'ash-weaver' },
+  { kind: Kind.Gnoll, team: 1, x: 94, y: 32, group: 1, pack: 2, tier: 4, family: 'crowned-maw' },
+  { kind: Kind.Mage, team: 1, x: 96, y: 32, group: 1, pack: 2, tier: 4, family: 'ash-weaver' },
+  { kind: Kind.Imp, team: 1, x: 112, y: 20, group: 1, pack: 3, vip: true, tier: 4, family: 'redglass-drake', bossMods: ['fire_enchanted', 'extra_fast'] }, // Turncoat Captain Galt & Redglass Matriarch
+  { kind: Kind.Gnoll, team: 1, x: 110, y: 21, group: 1, pack: 3, tier: 4, family: 'crowned-maw' },
+
+  // ================= GROUP 2: MQ4-02 (Besieged Wall & Flight of Malrik - Malrik & Vaelor) =================
+  { kind: Kind.Warrior, team: 1, x: 142, y: 44, group: 2, pack: 4, tier: 4, family: 'doom-knight' },
+  { kind: Kind.Mage, team: 1, x: 144, y: 44, group: 2, pack: 4, tier: 4, family: 'ash-weaver' },
+  { kind: Kind.Mage, team: 1, x: 172, y: 26, group: 2, pack: 5, vip: true, tier: 5, family: 'ash-weaver', bossMods: ['fire_enchanted', 'magic_resistant', 'mana_burn'] }, // Arch-Mage Malrik
+  { kind: Kind.Warrior, team: 1, x: 170, y: 26, group: 2, pack: 5, vip: true, tier: 5, family: 'fallen-warden-azrael', bossMods: ['cold_enchanted', 'stone_skin', 'extra_strong'] }, // Vaelor, the Shattered Warden
+  { kind: Kind.Warrior, team: 1, x: 168, y: 27, group: 2, pack: 5, tier: 5, family: 'doom-knight' },
+  { kind: Kind.Warrior, team: 1, x: 174, y: 27, group: 2, pack: 5, tier: 5, family: 'doom-knight' },
+  { kind: Kind.Warrior, team: 1, x: 172, y: 28, group: 2, pack: 5, tier: 5, family: 'doom-knight' },
+
+  // ================= GROUP 3: MQ4-03 (Twofold Assault & Gauntlet of Iron - Gorgath) =================
+  { kind: Kind.Warrior, team: 1, x: 58, y: 114, group: 3, pack: 6, tier: 5, family: 'doom-knight' },
+  { kind: Kind.Warrior, team: 1, x: 72, y: 114, group: 3, pack: 6, tier: 5, family: 'doom-knight' },
+  { kind: Kind.Imp, team: 1, x: 104, y: 94, group: 3, pack: 7, vip: true, tier: 5, family: 'soulblight-archon', bossMods: ['extra_fast', 'fire_enchanted', 'spectral_hit'] }, // Gorgath, Harvester of Cinders
+  { kind: Kind.Imp, team: 1, x: 102, y: 93, group: 3, pack: 7, tier: 5, family: 'cinderhorn' },
+  { kind: Kind.Imp, team: 1, x: 106, y: 93, group: 3, pack: 7, tier: 5, family: 'cinderhorn' },
+  { kind: Kind.Imp, team: 1, x: 102, y: 95, group: 3, pack: 7, tier: 5, family: 'cinderhorn' },
+  { kind: Kind.Imp, team: 1, x: 106, y: 95, group: 3, pack: 7, tier: 5, family: 'cinderhorn' },
+  { kind: Kind.Golem, team: 1, x: 128, y: 116, group: 3, pack: 8, tier: 5, family: 'anvilmaw-smith' },
+
+  // ================= GROUP 4: MQ4-04 (Siege of Three-Roads Watch) =================
+  { kind: Kind.Warrior, team: 1, x: 52, y: 158, group: 4, pack: 9, tier: 5, family: 'doom-knight' },
+  { kind: Kind.Warrior, team: 1, x: 54, y: 158, group: 4, pack: 9, tier: 5, family: 'hollow-king' },
+  { kind: Kind.Imp, team: 1, x: 56, y: 158, group: 4, pack: 9, tier: 5, family: 'cinderhorn' },
+  { kind: Kind.Golem, team: 1, x: 54, y: 160, group: 4, pack: 9, vip: true, tier: 5, family: 'silt-colossus', bossMods: ['stone_skin', 'extra_strong'] },
+
+  // ================= GROUP 5: MQ4-05 (The Threshold Choice - Lord Varakh) =================
+  { kind: Kind.Warrior, team: 1, x: 106, y: 168, group: 5, pack: 10, vip: true, tier: 5, family: 'dreadlord-malakor', bossMods: ['cursed', 'blessed_aura', 'extra_strong'] }, // Lord Varakh, the Seal Keeper
+  { kind: Kind.Warrior, team: 1, x: 104, y: 167, group: 5, pack: 10, tier: 5, family: 'doom-knight' },
+  { kind: Kind.Warrior, team: 1, x: 108, y: 167, group: 5, pack: 10, tier: 5, family: 'doom-knight' },
+  { kind: Kind.Warrior, team: 1, x: 104, y: 169, group: 5, pack: 10, tier: 5, family: 'doom-knight' },
+  { kind: Kind.Warrior, team: 1, x: 108, y: 169, group: 5, pack: 10, tier: 5, family: 'doom-knight' },
+  { kind: Kind.Warrior, team: 1, x: 106, y: 170, group: 5, pack: 10, tier: 5, family: 'doom-knight' },
+
+  // ================= GROUP 6: MQ4-06 (The Obsidian Dais - Act IV Final Boss Ashkarath) =================
+  { kind: Kind.Mage, team: 1, x: 172, y: 168, group: 6, pack: 11, vip: true, tier: 5, family: 'ashkarath', bossMods: ['fire_enchanted', 'magic_resistant', 'blessed_aura', 'extra_strong'] }, // Act IV Final Boss: Ashkarath
+  { kind: Kind.Warrior, team: 1, x: 170, y: 166, group: 6, pack: 11, tier: 5, family: 'doom-knight' },
+  { kind: Kind.Warrior, team: 1, x: 174, y: 166, group: 6, pack: 11, tier: 5, family: 'doom-knight' },
+  { kind: Kind.Golem, team: 1, x: 170, y: 170, group: 6, pack: 11, tier: 5, family: 'anvilmaw-smith' },
+  { kind: Kind.Imp, team: 1, x: 174, y: 170, group: 6, pack: 11, tier: 5, family: 'cinderhorn' },
+  { kind: Kind.Imp, team: 1, x: 176, y: 168, group: 6, pack: 11, tier: 5, family: 'redglass-drake' },
+
+  // ================= GROUP 7: SQ4-01 (Quenched in Four Heartbeats - Kragg) =================
+  { kind: Kind.Golem, team: 1, x: 44, y: 122, group: 7, pack: 12, vip: true, tier: 5, family: 'hellforger-kragg', bossMods: ['extra_strong', 'extra_fast', 'spectral_hit', 'magic_resistant'] }, // Kragg, the Cinderforge Overseer
+  { kind: Kind.Golem, team: 1, x: 42, y: 121, group: 7, pack: 12, tier: 5, family: 'basalt-brute' },
+  { kind: Kind.Golem, team: 1, x: 46, y: 121, group: 7, pack: 12, tier: 5, family: 'basalt-brute' },
+  { kind: Kind.Golem, team: 1, x: 44, y: 124, group: 7, pack: 12, tier: 5, family: 'basalt-brute' },
+
+  // ================= GROUP 8: SQ4-02 (The Violet Prism of West Crag) =================
+  { kind: Kind.Mage, team: 1, x: 106, y: 48, group: 8, pack: 13, vip: true, tier: 5, family: 'ash-weaver', bossMods: ['lightning_enchanted', 'mana_burn'] },
+  { kind: Kind.Imp, team: 1, x: 104, y: 48, group: 8, pack: 13, tier: 4, family: 'redglass-drake' },
+  { kind: Kind.Imp, team: 1, x: 108, y: 48, group: 8, pack: 13, tier: 4, family: 'cinderling' },
+
+  // ================= GROUP 9: SQ4-03 (The Lodestone Gorge - Magnetic Narrows) =================
+  { kind: Kind.Golem, team: 1, x: 34, y: 96, group: 9, pack: 14, vip: true, tier: 5, family: 'anvilmaw-smith', bossMods: ['stone_skin', 'extra_strong'] },
+  { kind: Kind.Golem, team: 1, x: 32, y: 96, group: 9, pack: 14, tier: 5, family: 'basalt-brute' },
+  { kind: Kind.Gnoll, team: 1, x: 36, y: 96, group: 9, pack: 14, tier: 5, family: 'pale-burrower' },
+
+  // ================= GROUP 10: SQ4-04 (Penance of the Iron Collar) =================
+  { kind: Kind.Warrior, team: 1, x: 128, y: 28, group: 10, pack: 15, vip: true, tier: 5, family: 'hollow-king', bossMods: ['cursed', 'magic_resistant'] },
+  { kind: Kind.Warrior, team: 1, x: 126, y: 28, group: 10, pack: 15, tier: 5, family: 'doom-knight' },
+  { kind: Kind.Warrior, team: 1, x: 130, y: 28, group: 10, pack: 15, tier: 5, family: 'doom-knight' },
+
+  // ================= GROUP 11: SQ4-05 (Oath of the Seven Pillars) =================
+  { kind: Kind.Warrior, team: 1, x: 88, y: 164, group: 11, pack: 16, vip: true, tier: 5, family: 'doom-knight', bossMods: ['spectral_hit', 'blessed_aura'] },
+  { kind: Kind.Warrior, team: 1, x: 86, y: 164, group: 11, pack: 16, tier: 5, family: 'doom-knight' },
+  { kind: Kind.Warrior, team: 1, x: 90, y: 164, group: 11, pack: 16, tier: 5, family: 'doom-knight' },
+
+  // ================= GROUP 12: SQ4-06 (The Seventh Hook of Thornwick) =================
+  { kind: Kind.Imp, team: 1, x: 142, y: 164, group: 12, pack: 17, vip: true, tier: 5, family: 'cinderhorn', bossMods: ['fire_enchanted', 'extra_fast'] },
+  { kind: Kind.Golem, team: 1, x: 144, y: 164, group: 12, pack: 17, tier: 5, family: 'anvilmaw-smith' },
+];
+
+const ashkarathIdx = units.findIndex((u) => u.family === 'ashkarath');
+if (ashkarathIdx < 0) throw new Error('Ashkarath unit missing!');
+
+const regions = [
+  { name: 'Ironcamp Forge-Hold (City Hub)', x1: 12, y1: 14, x2: 46, y2: 52, biome: 'volcanic', zone: 'ruinstone', music: 'music_town_ironcamp', ambience: 'amb_forge_ironcamp' },
+  { name: 'Basalt Highway & Shattered Beacons', x1: 47, y1: 12, x2: 118, y2: 66, biome: 'volcanic', zone: 'ruinstone', music: 'music_explore_act4_heartland', ambience: 'amb_forge_ironcamp' },
+  { name: 'Besieged Wall & Ashveil Summit', x1: 119, y1: 12, x2: 186, y2: 76, biome: 'volcanic', zone: 'ruinstone', music: 'music_explore_act4_heartland', ambience: 'amb_forge_ironcamp' },
+  { name: 'Magnetic Narrows & Twofold Barbican', x1: 12, y1: 67, x2: 78, y2: 136, biome: 'volcanic', zone: 'ruinstone', music: 'music_explore_act4_heartland', ambience: 'amb_forge_ironcamp' },
+  { name: 'Gauntlet of Iron & Greystone Rampart', x1: 79, y1: 67, x2: 144, y2: 136, biome: 'volcanic', zone: 'ruinstone', music: 'music_explore_act4_rampart', ambience: 'amb_throne_hall' },
+  { name: 'Three-Roads Watch & Headless Kings', x1: 16, y1: 137, x2: 118, y2: 186, biome: 'volcanic', zone: 'ruinstone', music: 'music_explore_act4_rampart', ambience: 'amb_throne_hall' },
+  { name: 'Colonnade of Crowns & Obsidian Dais', x1: 119, y1: 137, x2: 186, y2: 186, biome: 'volcanic', zone: 'ruinstone', music: 'music_boss_ashkarath', ambience: 'amb_throne_hall' },
+];
+
+const waypoints = [
+  { id: 'wp-ironcamp', name: 'Ironcamp Quenching Trench', x: 24, y: 34, activated: true },
+  { id: 'wp-basalt-highway', name: 'Basalt Highway Milestone', x: 82, y: 36 },
+  { id: 'wp-ashveil', name: 'Ashveil Summit Stairs', x: 154, y: 34 },
+  { id: 'wp-barbican', name: 'Twofold Barbican Bailey', x: 62, y: 110 },
+  { id: 'wp-gauntlet', name: 'Gauntlet of Iron Glacis', x: 116, y: 108 },
+  { id: 'wp-threshold', name: 'Crossroads of Headless Kings', x: 102, y: 166 },
+  { id: 'wp-obsidian-dais', name: 'Colonnade of Conquered Crowns', x: 138, y: 166 },
+];
+
+const shrines = [
+  { x: 68, y: 38, kind: 'healing', cooldown: 1500 },
+  { x: 148, y: 38, kind: 'mana', cooldown: 1500 },
+  { x: 52, y: 102, kind: 'combat', cooldown: 1800 },
+  { x: 112, y: 104, kind: 'haste', cooldown: 1500 },
+  { x: 96, y: 162, kind: 'ward', cooldown: 1800 },
+  { x: 136, y: 164, kind: 'armor', cooldown: 1800 },
+];
+
+const adventureObjects = [
+  { x: 134, y: 52, kind: 'magic_well' },
+  { x: 24, y: 118, kind: 'creature_bank', rewardGold: 1200, rewardArtifact: true },
+  { x: 90, y: 84, kind: 'fountain_of_youth' },
+  { x: 66, y: 152, kind: 'watermill', rewardGold: 400 },
+];
+
+const towns = [
+  {
+    name: 'Ironcamp Forge-Hold',
+    tavern: 0,
+    shop: 1,
+    school: 2,
+    tiers: [4, 5],
+    spells: [0, 1, 2, 3, 4, 7, 9, 11, 14, 18, 19, 22],
+    mercs: [
+      { unit: 1, price: 250 },
+      { unit: 2, price: 250 },
+      { unit: 3, price: 300 },
+      { unit: 4, price: 400 },
+    ],
+    npcs: [
+      { name: 'Forgemaster Vok', x: 20, y: 30, text: 'npc.vok' },
+      { name: 'Brother Elias', x: 26, y: 30, text: 'npc.elias' },
+      { name: 'Commander Rowan', x: 32, y: 30, text: 'npc.rowan' },
+      { name: 'Sir Aldren', x: 22, y: 36, text: 'npc.aldren' },
+      { name: 'Centurion Draven', x: 30, y: 36, text: 'npc.draven' },
+    ],
+  },
+];
+
+const triggers = [
+  {
+    id: 'init-briefing',
+    once: true,
+    enabled: true,
+    conds: [{ a: { k: 'yes', a: [] }, op: 0, b: { k: 'constant', a: [1] } }],
+    acts: [
+      { k: 'giveMoney', a: [0, 900] },
+      { k: 'setSub', a: [0, 1] },
+      { k: 'setVar', a: [14, 1] },
+      { k: 'message', a: [1] },
+    ],
+  },
+  {
+    id: 'mq4-01-beacons-rekindled',
+    once: true,
+    enabled: true,
+    conds: [{ a: { k: 'groupSize', a: [1] }, op: 0, b: { k: 'constant', a: [0] } }],
+    acts: [
+      { k: 'setSub', a: [0, 2] },
+      { k: 'setSub', a: [1, 1] },
+      { k: 'dropGold', a: [96, 32, 1000] },
+      { k: 'message', a: [2] },
+    ],
+  },
+  {
+    id: 'mq4-02-malrik-slain',
+    once: true,
+    enabled: true,
+    conds: [{ a: { k: 'groupSize', a: [2] }, op: 0, b: { k: 'constant', a: [0] } }],
+    acts: [
+      { k: 'setSub', a: [1, 2] },
+      { k: 'setSub', a: [2, 1] },
+      { k: 'dropGold', a: [172, 26, 1400] },
+      { k: 'message', a: [3] },
+    ],
+  },
+  {
+    id: 'mq4-03-gauntlet-breached',
+    once: true,
+    enabled: true,
+    conds: [{ a: { k: 'groupSize', a: [3] }, op: 0, b: { k: 'constant', a: [0] } }],
+    acts: [
+      { k: 'setSub', a: [2, 2] },
+      { k: 'setSub', a: [3, 1] },
+      { k: 'dropGold', a: [104, 94, 1600] },
+      { k: 'message', a: [4] },
+    ],
+  },
+  {
+    id: 'mq4-04-three-roads-held',
+    once: true,
+    enabled: true,
+    conds: [{ a: { k: 'groupSize', a: [4] }, op: 0, b: { k: 'constant', a: [0] } }],
+    acts: [
+      { k: 'setSub', a: [3, 2] },
+      { k: 'setSub', a: [4, 1] },
+      { k: 'dropGold', a: [54, 158, 1800] },
+      { k: 'message', a: [5] },
+    ],
+  },
+  {
+    id: 'mq4-05-threshold-choice-unlocked',
+    once: true,
+    enabled: true,
+    conds: [{ a: { k: 'groupSize', a: [5] }, op: 0, b: { k: 'constant', a: [0] } }],
+    acts: [
+      { k: 'setSub', a: [4, 2] },
+      { k: 'setSub', a: [5, 1] },
+      { k: 'dropGold', a: [106, 168, 2000] },
+      { k: 'message', a: [6] },
+    ],
+  },
+  // Spatial fallback triggers at the Crossroads of Headless Kings so both headless simulation and UI choices set vars[14] & sv[14]
+  {
+    id: 'threshold-branch-a-order-plinth',
+    once: false,
+    enabled: true,
+    conds: [
+      { a: { k: 'subobjective', a: [4] }, op: 0, b: { k: 'constant', a: [2] } },
+      { a: { k: 'unitInBox', a: [0, 102, 160, 108, 166] }, op: 0, b: { k: 'constant', a: [1] } },
+    ],
+    acts: [
+      { k: 'setVar', a: [14, 1] },
+      { k: 'setScenarioVar', a: [14, 1] },
+    ],
+  },
+  {
+    id: 'threshold-branch-b-ember-plinth',
+    once: false,
+    enabled: true,
+    conds: [
+      { a: { k: 'subobjective', a: [4] }, op: 0, b: { k: 'constant', a: [2] } },
+      { a: { k: 'unitInBox', a: [0, 102, 170, 110, 176] }, op: 0, b: { k: 'constant', a: [1] } },
+    ],
+    acts: [
+      { k: 'setVar', a: [14, 2] },
+      { k: 'setScenarioVar', a: [14, 2] },
+    ],
+  },
+  {
+    id: 'mq4-06a-ending-a-crown-of-order',
+    once: true,
+    enabled: true,
+    conds: [
+      { a: { k: 'groupSize', a: [6] }, op: 0, b: { k: 'constant', a: [0] } },
+      { a: { k: 'isVip', a: [ashkarathIdx] }, op: 0, b: { k: 'constant', a: [0] } },
+      { a: { k: 'variable', a: [14] }, op: 1, b: { k: 'constant', a: [2] } },
+    ],
+    acts: [
+      { k: 'setSub', a: [5, 2] },
+      { k: 'setScenarioVar', a: [15, 1] },
+      { k: 'message', a: [7] },
+      { k: 'win', a: [] },
+    ],
+  },
+  {
+    id: 'mq4-06b-ending-b-ember-reckoning',
+    once: true,
+    enabled: true,
+    conds: [
+      { a: { k: 'groupSize', a: [6] }, op: 0, b: { k: 'constant', a: [0] } },
+      { a: { k: 'isVip', a: [ashkarathIdx] }, op: 0, b: { k: 'constant', a: [0] } },
+      { a: { k: 'variable', a: [14] }, op: 0, b: { k: 'constant', a: [2] } },
+    ],
+    acts: [
+      { k: 'setSub', a: [5, 2] },
+      { k: 'setScenarioVar', a: [15, 2] },
+      { k: 'message', a: [8] },
+      { k: 'win', a: [] },
+    ],
+  },
+  {
+    id: 'sq4-01-cinderforge-billets',
+    once: true,
+    enabled: true,
+    conds: [{ a: { k: 'groupSize', a: [7] }, op: 0, b: { k: 'constant', a: [0] } }],
+    acts: [
+      { k: 'setSub', a: [6, 2] },
+      { k: 'giveMoney', a: [0, 2500] },
+      { k: 'message', a: [9] },
+    ],
+  },
+  {
+    id: 'sq4-02-west-crag-prism',
+    once: true,
+    enabled: true,
+    conds: [{ a: { k: 'groupSize', a: [8] }, op: 0, b: { k: 'constant', a: [0] } }],
+    acts: [
+      { k: 'setSub', a: [7, 2] },
+      { k: 'giveMoney', a: [0, 2000] },
+      { k: 'message', a: [10] },
+    ],
+  },
+  {
+    id: 'sq4-03-magnetic-narrows',
+    once: true,
+    enabled: true,
+    conds: [{ a: { k: 'groupSize', a: [9] }, op: 0, b: { k: 'constant', a: [0] } }],
+    acts: [
+      { k: 'setSub', a: [8, 2] },
+      { k: 'giveMoney', a: [0, 2200] },
+      { k: 'message', a: [11] },
+    ],
+  },
+  {
+    id: 'sq4-04-penance-iron-collar',
+    once: true,
+    enabled: true,
+    conds: [{ a: { k: 'groupSize', a: [10] }, op: 0, b: { k: 'constant', a: [0] } }],
+    acts: [
+      { k: 'setSub', a: [9, 2] },
+      { k: 'giveMoney', a: [0, 2400] },
+      { k: 'message', a: [12] },
+    ],
+  },
+  {
+    id: 'sq4-05-oath-seven-pillars',
+    once: true,
+    enabled: true,
+    conds: [{ a: { k: 'groupSize', a: [11] }, op: 0, b: { k: 'constant', a: [0] } }],
+    acts: [
+      { k: 'setSub', a: [10, 2] },
+      { k: 'giveMoney', a: [0, 2600] },
+      { k: 'message', a: [13] },
+    ],
+  },
+  {
+    id: 'sq4-06-seventh-hook-thornwick',
+    once: true,
+    enabled: true,
+    conds: [{ a: { k: 'groupSize', a: [12] }, op: 0, b: { k: 'constant', a: [0] } }],
+    acts: [
+      { k: 'setSub', a: [11, 2] },
+      { k: 'giveMoney', a: [0, 3000] },
+      { k: 'message', a: [14] },
+    ],
+  },
+  {
+    id: 'hero-dead',
+    once: true,
+    enabled: true,
+    conds: [{ a: { k: 'unitAlive', a: [0] }, op: 0, b: { k: 'constant', a: [0] } }],
+    acts: [{ k: 'lose', a: [1] }],
+  },
+];
+
+const text = {
+  title: 'Map IV: The Obsidian Caldera & Cinder Throne',
+  body: 'From the geothermal quenching trenches of Ironcamp Forge-Hold, march down the Basalt Highway to relight the Shattered Beacons, run Arch-Mage Malrik down on the Ashveil Summit stairs, breach the Gauntlet of Iron, hold Three-Roads Watch, choose Thornvael\'s destiny at the Crossroads of Headless Kings, and ascend the Obsidian Dais to face First Warden Ashkarath.',
+  'obj.0': 'Main: March down the Basalt Highway and re-ignite the three Shattered Beacons (96, 32)',
+  'obj.0.pos': '96,32',
+  'obj.0.kind': 'main',
+  'obj.1': 'Main: Cool the Eastern Curtain Wall and slay Arch-Mage Malrik & Vaelor on Ashveil Summit (172, 26)',
+  'obj.1.pos': '172,26',
+  'obj.1.kind': 'main',
+  'obj.2': 'Main: Breach the Twofold Barbican, fight through the Gauntlet of Iron, and slay Gorgath (104, 94)',
+  'obj.2.pos': '104,94',
+  'obj.2.kind': 'main',
+  'obj.3': 'Main: Hold the star-bastions of Three-Roads Watch against the converging relief hosts (54, 158)',
+  'obj.3.pos': '54,158',
+  'obj.3.kind': 'main',
+  'obj.4': 'Main: Defeat Lord Varakh and make the Threshold Choice at the Crossroads of Headless Kings (106, 168)',
+  'obj.4.pos': '106,168',
+  'obj.4.kind': 'main',
+  'obj.5': 'Main: Ascend the Colonnade of Conquered Crowns to the Obsidian Dais and defeat First Warden Ashkarath (172, 168)',
+  'obj.5.pos': '172,168',
+  'obj.5.kind': 'main',
+  'obj.6': 'Side: Slay Kragg in the Cinderforge Pit and recover three Meteoric Star-Iron Billets (44, 122)',
+  'obj.6.pos': '44,122',
+  'obj.6.kind': 'side',
+  'obj.7': 'Side: Climb West Beacon Crag and sever the copper grounding wires on the Violet Prism (106, 48)',
+  'obj.7.pos': '106,48',
+  'obj.7.kind': 'side',
+  'obj.8': 'Side: Clear the raw lodestone defile of Magnetic Narrows and free the pinned sappers (34, 96)',
+  'obj.8.pos': '34,96',
+  'obj.8.kind': 'side',
+  'obj.9': 'Side: Recover the three penitent iron collars along the Ashveil ridge for Brother Elias (128, 28)',
+  'obj.9.pos': '128,28',
+  'obj.9.kind': 'side',
+  'obj.10': 'Side: Defend the seven ancestral rune-plinths encircling the Threshold Nave (88, 164)',
+  'obj.10.pos': '88,164',
+  'obj.10.kind': 'side',
+  'obj.11': 'Side: Shatter the empty seventh iron hook of Thornwick in the Colonnade of Crowns (142, 164)',
+  'obj.11.pos': '142,164',
+  'obj.11.kind': 'side',
+  'msg.1': '[VETERAN FLESH] *(Heat rises through the iron floor-grates of the foundry, smelling of sulfur brine and scorched tallow. Forgemaster Vok lowers his smoked-quartz goggles while sightless Brother Elias rests a hand on his heavy iron collar.)* "Meteoric star-iron has to be drawn at white heat and quenched in four heartbeats, Commander. Malrik stole the cipher-keys to crack the seventh Anchor Valve—relight the hilltop beacons and run him down on the Ashveil stairs before the mountain inhales us all."\n1. [Quartermaster\'s Eye] "Tell me where to find clean star-iron billets, Vok. My vanguard needs blades that won\'t bend against caldera plate."\n2. [Astral Shiver] "The bedrock is humming at the same frequency as the ruptured wardstones in Redmarsh. All seven seals are straining."\n3. [Iron Will] "First we relight the hilltop beacons and corner Malrik on Ashveil Summit. Nobody opens that valve while I\'m breathing."',
+  'msg.1.who': 'Forgemaster Vok',
+  'msg.2': '[WAR LOGIC] *(Three columns of white-hot beacon fire roar across the basalt ridge as Turncoat Galt\'s drake-riders fall.)* "All three hilltop signal towers burn clear! Our landing columns have the range—advance on the Eastern Curtain Wall!"',
+  'msg.2.who': 'Commander Rowan',
+  'msg.3': '[ASTRAL SHIVER] *(Arch-Mage Malrik and Vaelor collapse at the top of the Ashveil portal stairs, dropping the stolen star-iron cipher-keys onto the obsidian steps.)* "We have the Anchor cipher-keys! Malrik\'s delusion ends here—now pivot south through the Twofold Barbican and the Gauntlet of Iron!"',
+  'msg.3.who': 'Brother Elias',
+  'msg.4': '[TACTICAL CALCULUS] *(Gorgath\'s inferno stampede breaks against your shield line in the sixty-degree trenches of the Gauntlet.)* "The sloped glacis of Greystone Rampart is ours! Consolidate inside Three-Roads Star-Fortress before the Ember Court relief hosts converge!"',
+  'msg.4.who': 'Commander Rowan',
+  'msg.5': '[COHORT MEMORY] *(The last of the three converging Ember Court columns shatters before the star-bastions of Three-Roads Watch.)* "The causeways are held! Only Lord Varakh\'s phalanx stands between us and the Seventh Anchor Valve at the Crossroads of Headless Kings."',
+  'msg.5.who': 'Sir Aldren',
+  'msg.6': '[PRIMORDIAL RECKONING] *(Three headless basalt kings tower over the crossroads fork as Lord Varakh falls. At their feet, the Seventh Anchor Valve glows dull cherry-red, venting rhythmic sighs of superheated steam.)* "The cipher-key fits the bronze rim, Commander. Lock the valve counter-clockwise with the Conclave grounding rod to vent the magma into the abyss and restore the Crown of Order—or leave the seal unlatched, ascend the Dais, and take the living Ember into your own breast!"\n1. [War Logic — Branch 1: The Crown of Order] "Lock the valve and ground the current. We marched four hundred leagues to save Thornvael, not to become its next tyrant."\n2. [Primordial Reckoning — Branch 2: Ember Reckoning] "The old compact starved the north and rotted in its own debt ledgers. Unlatch the seal—I will bear the Ember myself."\n3. [Tactical Calculus — Default to Order] "Ground the seventh valve and form ranks. Ashkarath waits at the top of the Colonnade."',
+  'msg.6.who': 'Brother Elias & Commander Rowan',
+  'msg.6.var': '14',
+  'msg.7': '[IRON WILL — ENDING A: THE CROWN OF ORDER] *(Ashkarath\'s blackened meteoric armor fractures across the Obsidian Dais as the grounded Seventh Anchor Valve vents four centuries of magma pressure into the deep ocean trench. Above the caldera, the choking crimson eclipse parts before clean northern stars.)* "The furnace goes dark, First Warden. Your watch is over—and Thornvael breathes free air tonight!"',
+  'msg.7.who': 'Expeditionary Commander',
+  'msg.8': '[PRIMORDIAL RECKONING — ENDING B: EMBER RECKONING] *(Ashkarath falls before the Cinder Throne as the unlatched Seventh Anchor Valve floods the Obsidian Dais with liquid solar fire. You step into the white-hot current, binding the Primordial Ember to your own flesh and banner.)* "Four hundred years of winter and debt ledgers burn away tonight. Kneel before the Cinder Throne!"',
+  'msg.8.who': 'Expeditionary Commander',
+  'msg.9': '[QUARTERMASTER\'S EYE] *(Kragg\'s anvil-hammer crashes into the slag pit, leaving three white-hot Meteoric Star-Iron Billets and a cask of sulfur caldera brine.)* "Quenched in four heartbeats! Forgemaster Vok has drawn a masterwork caldera blade from the star-iron billets!"',
+  'msg.9.who': 'Forgemaster Vok',
+  'msg.10': '[ASTRAL SHIVER] *(The glowing red copper grounding wires snap across West Beacon Crag, discharging the violet capacitor prism into the basalt bedrock.)* "The overload circuit on the Threshold Nave doors is severed, and the Astral Prism Medallion is yours!"',
+  'msg.10.who': 'Brother Elias',
+  'msg.11': '[WAR LOGIC] *(With the Anvilmaw wardens crushed in the thirty-pace lodestone defile, Sapper Captain Orin wedges iron chocks into the magnetic portcullis gears.)* "The Magnetic Narrows are clear and the Caldera Slag Signet will shield our mail from the lodestone pull!"',
+  'msg.11.who': 'Centurion Draven',
+  'msg.12': '[COHORT MEMORY] *(Three iron penitent collars and ash-scrolls are laid upon the cloister altar, witnessing the truth of the Year -24 Caldera Schism.)* "May the blind confessors rest in cold ash. Carry this Ash-Urn Reliquary onto the Dais, Commander."',
+  'msg.12.who': 'Brother Elias',
+  'msg.13': '[ASTRAL SHIVER] *(All seven ancestral rune-plinths chime in deep meteoric harmony around the Threshold Nave as the oath-breakers dissolve.)* "The First Watch Remnant salutes you, Commander. Wear the First Watch Oath Ring and Threshold Ward Mirror onto the Dais!"',
+  'msg.13.who': 'Sir Aldren',
+  'msg.14': '[IRON WILL] *(Your blade shatters the empty seventh iron hook stamped with Thornwick\'s crest beneath the black marble pillars of the Colonnade.)* "Never again shall the northern border pay blood or silver to a southern throne! For Thornwick—charge the Dais!"',
+  'msg.14.who': 'Sir Aldren',
+  'npc.vok': 'Meteoric star-iron must be drawn at white heat and quenched within four heartbeats in caldera sulfur brine. Bring me three billets from Kragg\'s Cinderforge pit and I will forge you a weapon fit to crack a god\'s breastplate.',
+  'npc.elias': 'Twenty-four winters ago Malrik traded his eyes to read the magma veins and split our Conclave in two. Listen to the iron grates, Commander—all seven Anchor Seals are screaming under the mountain.',
+  'npc.rowan': 'Three hilltop beacons along the Basalt Highway went dark an hour before our carracks landed. Turncoat Galt sold the watchtowers—relight those pyres or our rear columns march blind.',
+  'npc.aldren': 'In the Colonnade of Conquered Crowns hang six royal circlets on iron hooks—and a seventh empty hook stamped with Thornwick\'s crest. Shatter that hook before you step onto the Obsidian Dais.',
+  'npc.draven': 'The Magnetic Narrows pull crossbows and plate mail toward the gorge walls, and the Gauntlet of Iron beyond is a sixty-degree trench-maze of ballistas and Cinderhorns. Keep your vanguard moving.',
+  win: 'First Warden Ashkarath has fallen on the Obsidian Dais, and the fate of the Seven Anchor Seals is sealed forever.',
+  'fail.1': 'Your commander has been consumed by the volcanic ash of the Obsidian Caldera.',
+};
+
+const doc = {
+  format: 'thornvael-map',
+  version: 2,
+  name: 'The Obsidian Caldera & Cinder Throne',
+  w: W,
+  h: H,
+  day: 1800,
+  terrain: rleEncode(terrain),
+  height: rleEncode(height),
+  objects,
+  units,
+  regions,
+  players: ['Expeditionary Vanguard', 'Caldera Warden Host', 'Neutral', 'First Watch Remnant'],
+  waypoints,
+  shrines,
+  adventureObjects,
+  towns,
+  triggers,
+  text,
+};
+
+fs.writeFileSync(OUT_PATH, JSON.stringify(doc, null, 2) + '\n', 'utf8');
+console.log(`Wrote ${OUT_PATH} (${units.length} units, ${triggers.length} triggers, ${regions.length} regions).`);
