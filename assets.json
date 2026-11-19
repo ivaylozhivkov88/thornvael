@@ -256,20 +256,20 @@
     {
       "path": "public/sprites/gnoll.png",
       "license": "own",
-      "source": "tools/render-unit.py + tools/pack-atlas.py",
-      "note": "Original articulated gnoll PILOT model; Blender 5.2.3 LTS, 48px, 16 directions, stand4/walk8/attack4/cast4/hurt2/die4, RGB masks, fixed camera3.0. Reproduce: docs/UNIT-ART.md"
+      "source": "tools/sheet-build.py + Canva sheet",
+      "note": "Original gnoll sprite; Canva-generated 5-view turnaround sheet, 96px, 16 directions, stand4/walk8/attack4/cast4/hurt2/die4, RGB masks."
     },
     {
       "path": "public/sprites/gnoll-mask.png",
       "license": "own",
-      "source": "tools/render-unit.py + tools/pack-atlas.py",
-      "note": "Original articulated gnoll PILOT model; Blender 5.2.3 LTS, 48px, 16 directions, stand4/walk8/attack4/cast4/hurt2/die4, RGB masks, fixed camera3.0. Reproduce: docs/UNIT-ART.md"
+      "source": "tools/sheet-build.py + Canva sheet",
+      "note": "Original gnoll sprite; Canva-generated 5-view turnaround sheet, 96px, 16 directions, stand4/walk8/attack4/cast4/hurt2/die4, RGB masks."
     },
     {
       "path": "public/sprites/gnoll.json",
       "license": "own",
-      "source": "tools/render-unit.py + tools/pack-atlas.py",
-      "note": "Original articulated gnoll PILOT model; Blender 5.2.3 LTS, 48px, 16 directions, stand4/walk8/attack4/cast4/hurt2/die4, RGB masks, fixed camera3.0. Reproduce: docs/UNIT-ART.md"
+      "source": "tools/sheet-build.py + Canva sheet",
+      "note": "Original gnoll sprite; Canva-generated 5-view turnaround sheet, 96px, 16 directions, stand4/walk8/attack4/cast4/hurt2/die4, RGB masks."
     },
     {
       "path": "public/sprites/imp.png",
