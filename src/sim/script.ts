@@ -1,4 +1,4 @@
-import { addItem, dropLoot } from './hero';
+import { addHeroXp, addItem, dropLoot } from './hero';
 import { launch } from './combat';
 import { SPELLS, St, NST } from './spelldata';
 import { FP } from './path';
@@ -438,6 +438,7 @@ export const ACTIONS: ActionDef[] = [
     },
   },
   { key: 'gSuspend', label: 'Group: stand down', params: [GRP], run: (c, [g]) => groupOrder(c, g, (ids) => ({ type: 'order', order: 'still', ids })) },
+  { key: 'giveXp', label: 'Give experience to the hero', params: [UNIT(), NUM('XP')], run: (c, [u, xp]) => void (c.sim.hero && c.sim.hero.id === u && addHeroXp(c.sim, xp)) },
 ];
 
 const CHECK_BY = new Map(CHECKS.map((d) => [d.key, d]));
@@ -454,7 +455,7 @@ export function newState(def: MissionDef): ScriptState {
     cause: 0,
     vars: Array(32).fill(0),
     sv: Array(16).fill(0),
-    sub: Array(8).fill(0),
+    sub: Array(16).fill(0),
     fired: Array(def.triggers.length).fill(0),
     on: def.triggers.map((t) => (t.enabled ? 1 : 0)),
     timers: [],

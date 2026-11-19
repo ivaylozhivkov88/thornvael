@@ -2,6 +2,7 @@ import { ATTR_NAMES, CLS_BOTH, CLS_MAGE, CLS_WARRIOR, Ik, PART_NAMES, SLOT_NAMES
 import { ALL_SET_ITEMS } from './sets';
 import { UNIQUE_ARTIFACTS } from './affixes';
 import { MAX_SPELLS, SPELLS, St, Tk, setSpells, type SpellDef } from './spelldata';
+import { superUniqueAsFamilyDef } from './super-uniques';
 
 /**
  * Game data tables (items.json, spells.json) turned into the typed arrays the sim reads.
@@ -48,7 +49,7 @@ export function monsterPaletteByTier(tier: number): MonsterPaletteDef | undefine
 }
 
 export function monsterFamilyById(id: string): MonsterFamilyDef | undefined {
-  return MONSTER_FAMILIES.find((f) => f.id === id) ?? BOSS_FAMILIES.find((f) => f.id === id);
+  return MONSTER_FAMILIES.find((f) => f.id === id) ?? BOSS_FAMILIES.find((f) => f.id === id) ?? superUniqueAsFamilyDef(id);
 }
 
 const SCHOOLS = ['fire', 'water', 'air', 'earth', 'astral'];

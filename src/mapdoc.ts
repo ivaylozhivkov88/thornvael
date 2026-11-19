@@ -4,6 +4,7 @@ import { DEFS, Kind } from './sim/combat';
 import { MONSTER_FAMILIES, monsterFamilyById } from './sim/data';
 import { ITEMS } from './sim/items';
 import { SPELLS } from './sim/spelldata';
+import { getSuperUniqueById } from './sim/super-uniques';
 import type { TownDef } from './sim/town';
 import {
   actionDef,
@@ -43,6 +44,11 @@ export const BOSS_MOD_IDS = [
   'magic_resistant',
   'spectral_hit',
   'blessed_aura',
+  'lightning_enchanted',
+  'extra_strong',
+  'cursed',
+  'mana_burn',
+  'teleporting',
 ] as const;
 export type BossModId = (typeof BOSS_MOD_IDS)[number];
 
@@ -75,6 +81,10 @@ export interface Region {
   y1: number;
   x2: number;
   y2: number;
+  biome?: string;
+  zone?: string;
+  music?: string;
+  ambience?: string;
 }
 export interface MapDoc {
   format: typeof MAP_FORMAT;
@@ -213,7 +223,10 @@ export function validate(doc: MapDoc): string[] {
   const blocked = bakeBlocked(doc.w, doc.h, terrain, doc.objects);
   if (doc.terrain.reduce((s, v, i) => s + (i % 2 ? v : 0), 0) !== n) errs.push('Terrain does not cover the whole map.');
   if (doc.height.reduce((s, v, i) => s + (i % 2 ? v : 0), 0) !== n) errs.push('Height does not cover the whole map.');
-  if (doc.units.length < 1 || doc.units.length > 300) errs.push('A map holds 1 to 300 units.');
+  const activeUnits = doc.units.filter((u) => !u.dormant).length;
+  if (doc.units.length < 1 || doc.units.length > 512 || activeUnits > 300) {
+    errs.push('A map holds 1 to 300 active units (up to 512 total with dormant units).');
+  }
   const taken = new Set<number>();
   const groups = new Set<number>();
   doc.units.forEach((u, i) => {
@@ -224,7 +237,7 @@ export function validate(doc: MapDoc): string[] {
     else if (taken.has(u.y * doc.w + u.x)) errs.push(`Unit ${i}: shares a tile with another unit.`);
     else taken.add(u.y * doc.w + u.x);
     if (u.tier !== undefined && (!Number.isInteger(u.tier) || u.tier < 1 || u.tier > 5)) errs.push(`Unit ${i}: tier must be 1 to 5.`);
-    if (u.family !== undefined && MONSTER_FAMILIES.length > 0 && !monsterFamilyById(u.family)) errs.push(`Unit ${i}: unknown monster family "${u.family}".`);
+    if (u.family !== undefined && MONSTER_FAMILIES.length > 0 && !monsterFamilyById(u.family) && !getSuperUniqueById(u.family)) errs.push(`Unit ${i}: unknown monster family "${u.family}".`);
     if (u.bossMods !== undefined) {
       if (!Array.isArray(u.bossMods) || u.bossMods.some((m) => typeof m !== 'string' || !BOSS_MOD_IDS.includes(m as BossModId))) {
         errs.push(`Unit ${i}: invalid bossMods.`);

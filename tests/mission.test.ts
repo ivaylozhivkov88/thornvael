@@ -20,9 +20,9 @@ function run(g: { sim: Sim; ai: { commands(s: Sim): Command[] } }, ticks: number
 const squad = (sim: Sim): number[] => [...Array(sim.count).keys()].filter((i) => sim.team[i] === 0);
 
 describe('script registry', () => {
-  it('has the 27 checks and 49 actions, unique and well formed', () => {
+  it('has the 27 checks and 50 actions, unique and well formed', () => {
     expect(CHECKS.length).toBe(27);
-    expect(ACTIONS.length).toBe(49);
+    expect(ACTIONS.length).toBe(50);
     for (const list of [CHECKS, ACTIONS]) expect(new Set(list.map((d) => d.key)).size).toBe(list.length);
     const kinds: ParamKind[] = ['num', 'group', 'player', 'unit', 'x', 'y', 'item', 'building', 'spell', 'enum'];
     for (const d of [...CHECKS, ...ACTIONS]) for (const p of d.params) expect(kinds).toContain(p.kind);

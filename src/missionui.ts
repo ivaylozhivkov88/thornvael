@@ -420,12 +420,13 @@ export class MissionUi {
   private readonly dialogueModal = document.createElement('div');
   private readonly questJournalModal = document.createElement('div');
 
-  private queue: { who: string; text: string }[] = [];
+  private queue: { who: string; text: string; msgId?: number }[] = [];
   private cursor = 0;
   private dialogueActive = false;
   private journalOpen = false;
   private activeQuestId = 'main-scourge';
   private lastSim: Sim | null = null;
+  private currentMsgId: number | undefined = undefined;
   private typingTimer: number | null = null;
   private fullTypingText = '';
   private typingCallback: (() => void) | null = null;
@@ -873,6 +874,17 @@ export class MissionUi {
       choiceBtn.innerHTML = `<span class="choice-num">${c.num}.</span> <span class="choice-tag">${c.tag}</span> <span class="choice-text">"${c.text}"</span>`;
       choiceBtn.onclick = (e) => {
         e.stopPropagation();
+        const st = this.lastSim?.script?.st;
+        if (st) {
+          st.vars[31] = c.num;
+          const varSpec = this.currentMsgId !== undefined ? this.doc.text[`msg.${this.currentMsgId}.var`] : undefined;
+          if (varSpec !== undefined) {
+            const varIdx = Number.parseInt(varSpec, 10);
+            if (Number.isInteger(varIdx) && varIdx >= 0 && varIdx < st.vars.length) {
+              st.vars[varIdx] = c.num;
+            }
+          }
+        }
         try { blip(); } catch {}
         advance();
       };
@@ -964,13 +976,16 @@ export class MissionUi {
       this.queue.push({
         who: this.t(`msg.${n}.who`, 'Warden Hale'),
         text: this.t(`msg.${n}`, `(${S.mission.noText} ${n})`),
+        msgId: n,
       });
     }
 
     // Display next dialogue in queue
     if (!this.dialogueActive && this.queue.length) {
       const m = this.queue.shift()!;
+      this.currentMsgId = m.msgId;
       this.showDialogue(m.who, m.text, this.queue.length ? S.mission.next : S.mission.go, () => {
+        this.currentMsgId = undefined;
         if (!this.queue.length) {
           this.host.pause(false);
         } else {
@@ -1087,14 +1102,28 @@ export class MissionUi {
         [8, 28],  // Granary Supply Cache
       ];
       if (st) {
-        for (let i = 0; this.doc.text[`obj.${i}`] !== undefined; i++) {
+        for (let i = 0; i < 16 && this.doc.text[`obj.${i}`] !== undefined; i++) {
           const text = this.doc.text[`obj.${i}`];
           const isCompleted = st.sub[i] === 2;
-          const isOptional = text.toLowerCase().includes('recover') || text.toLowerCase().includes('purify') || text.toLowerCase().includes('optional');
-          const coords = fordCoords[i] ?? [32, 32];
+          const kindSpec = (this.doc.text[`obj.${i}.kind`] ?? '').toLowerCase();
+          const isOptional =
+            kindSpec === 'side' ||
+            (kindSpec !== 'main' &&
+              (text.toLowerCase().includes('recover') ||
+                text.toLowerCase().includes('purify') ||
+                text.toLowerCase().includes('optional') ||
+                text.toLowerCase().startsWith('side:')));
+          let coords: [number, number] = fordCoords[i] ?? [32, 32];
+          const posSpec = this.doc.text[`obj.${i}.pos`];
+          if (posSpec) {
+            const parts = posSpec.split(',').map((s) => Number.parseInt(s.trim(), 10));
+            if (parts.length === 2 && Number.isInteger(parts[0]) && Number.isInteger(parts[1])) {
+              coords = [parts[0], parts[1]];
+            }
+          }
           customObjs.push({
             id: `obj-${i}`,
-            text: isOptional && !text.toLowerCase().includes('optional') ? `Optional: ${text}` : text,
+            text: isOptional && !text.toLowerCase().includes('optional') && !text.toLowerCase().startsWith('side:') ? `Optional: ${text}` : text,
             completed: isCompleted,
             current: isCompleted ? 1 : 0,
             total: 1,
@@ -1178,25 +1207,44 @@ export class MissionUi {
     // Generic fallback for custom / other campaign maps
     const genericObjs: QuestObjective[] = [];
     if (st) {
-      for (let i = 0; this.doc.text[`obj.${i}`] !== undefined; i++) {
+      for (let i = 0; i < 16 && this.doc.text[`obj.${i}`] !== undefined; i++) {
+        const text = this.doc.text[`obj.${i}`];
         const state = st.sub[i] ?? 0;
+        const kindSpec = (this.doc.text[`obj.${i}.kind`] ?? '').toLowerCase();
+        const isOptional =
+          kindSpec === 'side' ||
+          (kindSpec !== 'main' &&
+            (text.toLowerCase().includes('optional') || text.toLowerCase().startsWith('side:')));
         let gx = Math.round(this.doc.w / 2);
         let gy = Math.round(this.doc.h / 2);
-        if (this.doc.regions && this.doc.regions[i]) {
-          const reg = this.doc.regions[i];
-          gx = Math.round((reg.x1 + reg.x2) / 2);
-          gy = Math.round((reg.y1 + reg.y2) / 2);
-        } else if (this.doc.units && this.doc.units.length > 0) {
-          const u = this.doc.units[i % this.doc.units.length];
-          gx = u.x;
-          gy = u.y;
+        const posSpec = this.doc.text[`obj.${i}.pos`];
+        let parsedPos = false;
+        if (posSpec) {
+          const parts = posSpec.split(',').map((s) => Number.parseInt(s.trim(), 10));
+          if (parts.length === 2 && Number.isInteger(parts[0]) && Number.isInteger(parts[1])) {
+            gx = parts[0];
+            gy = parts[1];
+            parsedPos = true;
+          }
+        }
+        if (!parsedPos) {
+          if (this.doc.regions && this.doc.regions[i]) {
+            const reg = this.doc.regions[i];
+            gx = Math.round((reg.x1 + reg.x2) / 2);
+            gy = Math.round((reg.y1 + reg.y2) / 2);
+          } else if (this.doc.units && this.doc.units.length > 0) {
+            const u = this.doc.units[i % this.doc.units.length];
+            gx = u.x;
+            gy = u.y;
+          }
         }
         genericObjs.push({
           id: `gen-obj-${i}`,
-          text: this.doc.text[`obj.${i}`],
+          text,
           completed: state === 2,
           current: state === 2 ? 1 : 0,
           total: 1,
+          optional: isOptional,
           targetX: gx,
           targetY: gy,
         });

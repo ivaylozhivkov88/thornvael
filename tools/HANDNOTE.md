@@ -30,3 +30,4 @@ Tune FAMILY_VISUALS in src/render.ts (~line 121) via ?art=1 (dev server thornvae
 - [x] **Step 3 (`03-GAPS.md` + declarative `MapDoc` v2)**: Completed `.planning/campaign/03-GAPS.md`, `campaign-4maps.json`, and `map1-border-fords.macro.map.json` (validated 192x192 `MapDoc` v2 with Thornwick hub, 6 regions, 12 quests).
 - [x] **Step 4 (`01-PROGRESSION.md`)**: Completed `.planning/campaign/01-PROGRESSION.md` (Lv 1–50 curve, Warrior/Mage balance, Skirmish carryover rule, Character Roster v2 fields).
 - [x] **Step 5 (`02-PRODUCTION-PLAN.md`)**: Completed `.planning/campaign/02-PRODUCTION-PLAN.md` (16 atomic GSD tasks across Phases 15.1–15.5 with dependencies, effort estimates, and non-overlapping file ownership).
+- [x] **Task 1 (`P15.1-01..04` — Resolve Engine Gaps GAP-01..06)**: Resolved GAP-01..06 in `src/mapdoc.ts`, `src/sim/data.ts`, `src/sim/script.ts`, `src/missionui.ts`, updated `tests/mission.test.ts`, and added `tests/macro-engine-gaps.test.ts` (all green).
