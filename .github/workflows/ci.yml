@@ -24,8 +24,20 @@ jobs:
           node-version: 24
           cache: npm
       - run: npm ci
+      - run: npm run check:repo
       - run: npm run typecheck
       - run: npm run check:atlases
+      - name: Biome lint & QA formatting check
+        run: |
+          npx --yes @biomejs/biome lint --reporter=summary
+          npx --yes @biomejs/biome check \
+            biome.json \
+            playwright.smoke.config.ts \
+            tests/biome-seeds-all.test.ts \
+            tests/pwa-smoke.spec.ts \
+            tools/rebuild-and-check.mjs \
+            tools/perf-profile-300.mjs \
+            tools/seed-gallery.mjs
       - run: npm test -- --maxWorkers=1
 
   playwright-smoke:
@@ -42,15 +54,7 @@ jobs:
         env:
           SITE_BASE: /thornvael/
       - run: npx playwright install --with-deps chromium webkit
-      - name: Run PWA smoke tests (Chromium & WebKit)
+      - name: Run PWA & biome smoke tests (Chromium & WebKit)
         run: |
-          cat <<'EOF' > /tmp/pw-smoke.config.mjs
-          import base from '${{ github.workspace }}/playwright.config.ts';
-          export default {
-            ...base,
-            testDir: '${{ github.workspace }}/tests',
-            testMatch: /pwa-smoke\.spec\.ts/,
-          };
-          EOF
-          npx playwright test -c /tmp/pw-smoke.config.mjs --browser=chromium
-          npx playwright test -c /tmp/pw-smoke.config.mjs --browser=webkit
+          npx playwright test -c playwright.smoke.config.ts --project=chromium
+          npx playwright test -c playwright.smoke.config.ts --project=webkit

@@ -1,0 +1,109 @@
+{
+  "$schema": "https://biomejs.dev/schemas/2.6.8/schema.json",
+  "vcs": {
+    "enabled": true,
+    "clientKind": "git",
+    "useIgnoreFile": true
+  },
+  "files": {
+    "includes": [
+      "src/**",
+      "tests/**",
+      "e2e/**",
+      "tools/**",
+      "*.ts",
+      "biome.json",
+      "!src/missions",
+      "!tools/.canva-sheets",
+      "!tools/.mesh-out",
+      "!tools/render-unit.py"
+    ]
+  },
+  "formatter": {
+    "enabled": true,
+    "indentStyle": "space",
+    "indentWidth": 2,
+    "lineWidth": 120
+  },
+  "javascript": {
+    "formatter": {
+      "quoteStyle": "single",
+      "semicolons": "always",
+      "trailingCommas": "all"
+    }
+  },
+  "json": {
+    "formatter": {
+      "indentStyle": "space",
+      "indentWidth": 2
+    }
+  },
+  "linter": {
+    "enabled": true,
+    "rules": {
+      "preset": "recommended",
+      "correctness": {
+        "noVoidTypeReturn": "warn",
+        "noUnusedImports": "warn",
+        "noUnusedVariables": "warn",
+        "noUnusedFunctionParameters": "warn",
+        "noUnusedPrivateClassMembers": "warn"
+      },
+      "suspicious": {
+        "noAssignInExpressions": "warn",
+        "useIterableCallbackReturn": "warn",
+        "noShadowRestrictedNames": "warn",
+        "noDuplicateProperties": "warn",
+        "noShorthandPropertyOverrides": "warn",
+        "noControlCharactersInRegex": "warn",
+        "noExplicitAny": "warn"
+      },
+      "style": {
+        "noNonNullAssertion": "off",
+        "useImportType": "warn",
+        "useConst": "warn",
+        "noDescendingSpecificity": "off"
+      },
+      "complexity": {
+        "useOptionalChain": "warn",
+        "noCommaOperator": "off",
+        "noImportantStyles": "off"
+      },
+      "a11y": {
+        "noNoninteractiveElementToInteractiveRole": "warn",
+        "useAriaPropsSupportedByRole": "warn",
+        "useFocusableInteractive": "warn",
+        "useSemanticElements": "warn"
+      }
+    }
+  },
+  "overrides": [
+    {
+      "includes": [
+        "biome.json",
+        "playwright.smoke.config.ts",
+        "tests/biome-seeds-all.test.ts",
+        "tests/pwa-smoke.spec.ts",
+        "tools/rebuild-and-check.mjs",
+        "tools/perf-profile-300.mjs",
+        "tools/seed-gallery.mjs"
+      ],
+      "linter": {
+        "rules": {
+          "correctness": {
+            "noVoidTypeReturn": "error",
+            "noUnusedImports": "error",
+            "noUnusedVariables": "error"
+          },
+          "suspicious": {
+            "noAssignInExpressions": "error",
+            "useIterableCallbackReturn": "error"
+          },
+          "style": {
+            "useConst": "error"
+          }
+        }
+      }
+    }
+  ]
+}
