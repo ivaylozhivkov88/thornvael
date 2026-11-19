@@ -127,6 +127,20 @@ if (!resumed && !loadedMission && expeditionSeed && !crowd && !stress && !battle
     missionError = (e as Error).message;
   }
 }
+const skirmishSeed = params.get('randskirmish');
+if (!resumed && !loadedMission && skirmishSeed && !crowd && !stress && !battle) {
+  try {
+    const seed = Number.parseInt(skirmishSeed, 10) || 12345;
+    const biome = (params.get('biome') as 'forest' | 'marsh' | 'desert' | 'crypt' | 'oasis' | 'highlands' | 'volcanic') || 'forest';
+    const pc = Number.parseInt(params.get('players') ?? '2', 10);
+    const players = pc >= 4 ? 4 : pc === 3 ? 3 : 2;
+    const { generateSkirmishMap } = await import('./skirmish-generator');
+    const { loadDoc } = await import('./mapdoc');
+    loadedMission = loadDoc(generateSkirmishMap({ seed, biome, players, size: players === 4 ? 80 : 64 }));
+  } catch (e) {
+    missionError = (e as Error).message;
+  }
+}
 const depthsSeed = params.get('depths');
 if (!resumed && !loadedMission && depthsSeed && !crowd && !stress && !battle) {
   try {
