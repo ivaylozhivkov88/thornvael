@@ -1,0 +1,56 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ci-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+          cache: npm
+      - run: npm ci
+      - run: npm run typecheck
+      - run: npm run check:atlases
+      - run: npm test -- --maxWorkers=1
+
+  playwright-smoke:
+    needs: validate
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+          cache: npm
+      - run: npm ci
+      - run: npm run build
+        env:
+          SITE_BASE: /thornvael/
+      - run: npx playwright install --with-deps chromium webkit
+      - name: Run PWA smoke tests (Chromium & WebKit)
+        run: |
+          cat <<'EOF' > /tmp/pw-smoke.config.mjs
+          import base from '${{ github.workspace }}/playwright.config.ts';
+          export default {
+            ...base,
+            testDir: '${{ github.workspace }}/tests',
+            testMatch: /pwa-smoke\.spec\.ts/,
+          };
+          EOF
+          npx playwright test -c /tmp/pw-smoke.config.mjs --browser=chromium
+          npx playwright test -c /tmp/pw-smoke.config.mjs --browser=webkit
