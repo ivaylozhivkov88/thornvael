@@ -116,7 +116,7 @@ export function ArticleView({ entryType, id, isSpoiled, onShowSpoilers }: Props)
         </section>
       ) : (
         <div class="wiki-article-layout">
-          <aside class="wiki-infobox" aria-label="Article infobox">
+          <aside class={`wiki-infobox ${entry.tags.rarity ? `rarity-${entry.tags.rarity}` : ''}`.trim()} aria-label="Article infobox">
             <div class="infobox-title">{entry.title}</div>
             <div class="infobox-media">
               <WikiPicture img={entry.img} type={entry.type} alt={entry.title} size={180} />

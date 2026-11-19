@@ -1,4 +1,4 @@
-import { readFileSync } from 'node:fs';
+import { existsSync, readFileSync } from 'node:fs';
 import { join } from 'node:path';
 import { describe, expect, it } from 'vitest';
 import { buildWikiData, renderMissing, serialise } from '../tools/build-wiki-data.mjs';
@@ -65,6 +65,22 @@ describe('wiki data pipeline', () => {
     expect((out as Record<string, WikiEntry[]>).cities).toHaveLength(4);
     expect((out as Record<string, WikiEntry[]>).classes.filter((c) => !c.id.startsWith('hero-'))).toHaveLength(4);
     expect((out as Record<string, WikiEntry[]>).uniques.length).toBeGreaterThanOrEqual(132);
+  });
+
+  it('resolves art for all 132+ unique items and all bestiary entries on disk', () => {
+    const uniques = (out as Record<string, WikiEntry[]>).uniques;
+    for (const u of uniques) {
+      expect(u.img, `unique ${u.id} missing icon`).toBeTruthy();
+      expect(existsSync(join(ROOT, 'public', u.img!.src)), `missing file ${u.img!.src} for ${u.id}`).toBe(true);
+    }
+    const bestiary = (out as Record<string, WikiEntry[]>).bestiary;
+    for (const b of bestiary) {
+      expect(b.img, `bestiary ${b.id} missing image`).toBeTruthy();
+      expect(existsSync(join(ROOT, 'public', b.img!.src)), `missing file ${b.img!.src} for ${b.id}`).toBe(true);
+      if (b.sprite) {
+        expect(existsSync(join(ROOT, 'public', b.sprite.src)), `missing sprite ${b.sprite.src} for ${b.id}`).toBe(true);
+      }
+    }
   });
 
   it('contains zero banned reference names in generated files', () => {

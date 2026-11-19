@@ -535,10 +535,41 @@ select:focus-visible {
 
 .wiki-card-media {
   flex: 0 0 auto;
+  width: 66px;
+  height: 66px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   border-radius: 6px;
   overflow: hidden;
   border: 1px solid #4d391e;
   background: #100c08;
+}
+
+.wiki-card-media .wiki-img {
+  width: 64px;
+  height: 64px;
+  object-fit: contain;
+}
+
+.wiki-card.rarity-unique {
+  border-color: #a88035;
+  background: linear-gradient(135deg, #241a0d 0%, var(--surface) 78%);
+}
+
+.wiki-card.rarity-unique:hover {
+  border-color: #e4bf6a;
+  box-shadow: 0 0 14px rgba(228, 191, 106, 0.2);
+}
+
+.wiki-card.rarity-unique .wiki-card-media {
+  border-color: #d4a64a;
+  background: radial-gradient(circle, rgba(228, 191, 106, 0.22) 0%, #140e08 75%);
+  box-shadow: inset 0 0 10px rgba(228, 191, 106, 0.2);
+}
+
+.wiki-card.rarity-unique h3 {
+  color: #ffe08a;
 }
 
 .wiki-card-body {
@@ -738,6 +769,29 @@ select:focus-visible {
   margin-bottom: 6px;
 }
 
+.wiki-infobox.rarity-unique {
+  border-color: #d4a64a;
+  box-shadow: 0 0 24px rgba(228, 191, 106, 0.2), var(--shadow);
+}
+
+.wiki-infobox.rarity-unique .infobox-title {
+  background: linear-gradient(180deg, #573d14, #2b1d09);
+  border-bottom-color: #d4a64a;
+  color: #ffe28f;
+  text-shadow: 0 1px 6px rgba(228, 191, 106, 0.35);
+}
+
+.wiki-infobox.rarity-unique .infobox-media {
+  background: radial-gradient(circle, rgba(212, 166, 74, 0.16) 0%, #130e09 74%);
+  border-bottom-color: #7d5f2b;
+}
+
+.wiki-infobox.rarity-unique .wiki-img.is-hires-icon {
+  border: 2px solid #d4a64a;
+  background: radial-gradient(circle, rgba(228, 191, 106, 0.24) 0%, #181108 72%);
+  box-shadow: inset 0 0 20px rgba(228, 191, 106, 0.22), 0 0 18px rgba(228, 191, 106, 0.24);
+}
+
 /* Images & Placeholders */
 .wiki-img {
   max-width: 100%;
@@ -745,6 +799,17 @@ select:focus-visible {
   display: block;
   object-fit: contain;
   border-radius: 4px;
+}
+
+.wiki-img.is-hires-icon {
+  width: 168px;
+  height: 168px;
+  padding: 10px;
+  object-fit: contain;
+  image-rendering: auto;
+  background: radial-gradient(circle, #241b11 0%, #110c08 75%);
+  border: 1px solid var(--border);
+  border-radius: 10px;
 }
 
 .wiki-atlas-pic {

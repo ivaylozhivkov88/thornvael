@@ -67,7 +67,7 @@ export function SearchPage({ query, isSpoiled }: Props) {
           {filtered.slice(0, 100).map((item) => {
             const spoiled = isSpoiled(item.g);
             return (
-              <a key={item.r} class={`wiki-card ${spoiled ? 'is-spoiler' : ''}`} href={`#/${item.r}`}>
+              <a key={item.r} class={`wiki-card ${item.tag.rarity ? `rarity-${item.tag.rarity}` : ''} ${spoiled ? 'is-spoiler' : ''}`.trim()} href={`#/${item.r}`}>
                 <div class="wiki-card-media">
                   <WikiPicture img={spoiled ? null : item.img} type={item.t} alt={item.n} size={64} />
                 </div>

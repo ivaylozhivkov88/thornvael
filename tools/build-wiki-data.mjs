@@ -269,16 +269,93 @@ export function buildWikiData() {
     });
   }
 
+  const EXTRA_BESTIARY_ART = {
+    'peat-leech-matron': { sprite: 'maggot-swarm' },
+    'alder-gnoll-skirmisher': { sprite: 'gnoll' },
+    'tollhouse-ghoul': { sprite: 'hollow-knight' },
+    'weir-pike-stalker': { sprite: 'lantern-eel' },
+    'bog-tallow-wight': { sprite: 'greater-mummy' },
+    'slate-cliff-harpy': { sprite: 'storm-kite' },
+    'charcoal-imp': { sprite: 'imp' },
+    'bramble-stag': { sprite: 'gloom-stag' },
+    'ditch-rat-pack': { sprite: 'ruin-mite' },
+    'parish-debt-shade': { sprite: 'mire-wisp' },
+    'quarry-chert-crawler': { sprite: 'flintback' },
+    'ashbrook-scarecrow': { sprite: 'night-orchard' },
+    'mire-toad-bloater': { sprite: 'spore-matron' },
+    'undervault-rust-slug': { sprite: 'pale-burrower' },
+    'gnoll-torchbearer': { sprite: 'gnoll' },
+    'alkali-dust-devil': { sprite: 'mire-wisp' },
+    'salt-viper-spitter': { sprite: 'claw-viper' },
+    'quarry-chain-revenant': { sprite: 'hollow-knight' },
+    'wardstone-spark-wisp': { sprite: 'mire-wisp' },
+    'sand-clan-outrider': { sprite: 'sand-raider' },
+    'canopic-jackal-guard': { sprite: 'greater-mummy' },
+    'brine-scale-basilisk': { sprite: 'dune-beast' },
+    'redrock-sling-bandit': { sprite: 'sand-raider', portrait: 'townart/portraits/merc-redmarsh-slinger.jpg' },
+    'silt-leech-colony': { sprite: 'maggot-swarm' },
+    'hex-cairn-sentinel': { sprite: 'golem' },
+    'dune-scorpion-stalker': { sprite: 'dune-scarab' },
+    'embalmed-scribe': { sprite: 'greater-mummy', portrait: 'townart/portraits/merc-tomb-notary.jpg' },
+    'ironheart-crossbowman': { sprite: 'archer', portrait: 'townart/portraits/merc-harbor-arbalest.jpg' },
+    'mirage-weaver-jackal': { sprite: 'dune-beast' },
+    'tar-pit-crawler': { sprite: 'pale-burrower' },
+    'kelp-wrapped-drowned': { sprite: 'hollow-knight' },
+    'harbor-privateer': { sprite: 'sand-raider', portrait: 'townart/portraits/merc-oakhaven-marine.jpg' },
+    'razor-gull-flock': { sprite: 'storm-kite' },
+    'barnacle-shell-golem': { sprite: 'silt-colossus' },
+    'sea-cave-lurker': { sprite: 'dune-lurker' },
+    'oakhaven-turncoat-adept': { sprite: 'mage', portrait: 'townart/portraits/merc-lantern-novice.jpg' },
+    'wreck-hull-mimic': { sprite: 'flintback' },
+    'brine-phantom': { sprite: 'frost-bell' },
+    'fumarole-cinder-crab': { sprite: 'salt-crab' },
+    'black-fleet-marine': { sprite: 'warrior', portrait: 'townart/portraits/merc-oakhaven-marine.jpg' },
+    'siren-buoy-bell': { sprite: 'frost-bell' },
+    'gallows-crow-matriarch': { sprite: 'storm-kite' },
+    'floodgate-rust-hound': { sprite: 'briar-hound' },
+    'tidal-undine-wraith': { sprite: 'mire-wisp' },
+    'catacomb-ghast': { sprite: 'wendigo-bruiser' },
+    'slag-vein-hound': { sprite: 'cinderhorn' },
+    'ember-court-inquisitor': { sprite: 'ash-weaver', portrait: 'townart/portraits/merc-drowned-arbiter.jpg' },
+    'obsidian-gargoyle': { sprite: 'redglass-drake' },
+    'caldera-ash-wraith': { sprite: 'ash-weaver' },
+    'magnetic-iron-golem': { sprite: 'golem' },
+    'cinder-vanguard-halberdier': { sprite: 'doom-knight', portrait: 'townart/portraits/merc-ironcamp-halberdier.jpg' },
+    'fissure-wyvern': { sprite: 'redglass-drake' },
+    'penitent-flagellant': { sprite: 'fallen-shaman', portrait: 'townart/portraits/merc-penitent-flagellant.jpg' },
+    'void-rift-stalker': { sprite: 'rift-moth' },
+    'magma-slug-behemoth': { sprite: 'pale-burrower' },
+    'threshold-sentinel': { sprite: 'basalt-brute' },
+    'soot-lung-leech': { sprite: 'maggot-swarm' },
+    'balefire-pyromancer': { sprite: 'cinder-shaman', portrait: 'townart/portraits/merc-ash-battlemage.jpg' },
+    'anchor-chain-specter': { sprite: 'hollow-king' },
+    'redglass-hatchling': { sprite: 'redglass-drake' },
+  };
+
   for (const e of extra) {
+    const art = EXTRA_BESTIARY_ART[e.id];
+    const portrait =
+      portraitFor(e.id) ??
+      (art?.portrait && has(art.portrait) ? { src: art.portrait } : null) ??
+      (art?.sprite ? portraitFor(art.sprite) : null);
+    const sprite = (art?.sprite ? atlasPic(art.sprite) : null) ?? atlasPic(e.id);
+    const img = portrait ?? sprite ?? pic('bestiary', e.id, 'infobox/portrait', `townart/mon/${e.id}.jpg`);
     bestiary.push({
       id: e.id,
       type: 'bestiary',
       title: e.name,
       summary: e.behavior,
-      img: pic('bestiary', e.id, 'infobox/portrait', `townart/mon/${e.id}.jpg`),
-      infobox: [['Kind', 'Creature (Field)'], ['Family', cap(e.family)], ['Act', String(e.act)], ['Weakness', cap(e.weakness)]],
+      img,
+      ...(portrait && sprite ? { sprite } : {}),
+      infobox: [
+        ['Kind', 'Creature (Field)'],
+        ['Family', cap(e.family)],
+        ...(art?.sprite ? [['Sprite family', cap(art.sprite.replace(/-/g, ' '))]] : []),
+        ['Act', String(e.act)],
+        ['Weakness', cap(e.weakness)],
+      ],
       sections: [{ h: 'Behavior', p: [e.behavior] }, { h: 'Lore', p: [e.lore || 'No lore yet.'] }],
-      related: [`map/map${e.act}`],
+      related: [`map/map${e.act}`, ...(art?.sprite ? [`bestiary/${art.sprite}`] : [])],
       tags: { family: e.family, level: e.act * 5, act: e.act, core: false },
       gate: { a: e.act },
     });
@@ -287,8 +364,14 @@ export function buildWikiData() {
 
   // ---------- items, uniques, sets, affixes, gems/runes ----------
   const itemEntries = [];
-  const iconFor = (type, id, name, where, rawId = '') =>
-    pic(type, id, where, rawId ? `itemicons/${rawId}.png` : '', `itemicons/${slug(name)}.png`);
+  const iconFor = (type, id, name, where, ...extraSlugs) =>
+    pic(
+      type,
+      id,
+      where,
+      ...extraSlugs.filter(Boolean).map((s) => `itemicons/${s}.png`),
+      `itemicons/${slug(name)}.png`,
+    );
 
   const gearList = readJson('public/data/items.json', { items: [] }).items;
   const itemLore = readJson('src/data/text/item-lore.json', {});
@@ -385,7 +468,7 @@ export function buildWikiData() {
       type: 'unique',
       title: u.name,
       summary: `Unique ${u.base} · ${cap(u.cls ?? u.class)}`,
-      img: iconFor('unique', id, u.name, 'infobox/icon', id),
+      img: iconFor('unique', id, u.name, 'infobox/icon', id, u.base ? slug(u.base) : ''),
       infobox: [
         ['Rarity', 'Unique'],
         ['Base', u.base],

@@ -325,7 +325,7 @@ export function CategoryPage({ cat, entryType, isSpoiled }: Props) {
           {filtered.map((entry) => {
             const spoiled = Boolean(isSpoiled?.(entry.gate));
             return (
-              <a key={entry.id} class={`wiki-card ${spoiled ? 'is-spoiler' : ''}`} href={`#/${entry.type}/${entry.id}`}>
+              <a key={entry.id} class={`wiki-card ${entry.tags.rarity ? `rarity-${entry.tags.rarity}` : ''} ${spoiled ? 'is-spoiler' : ''}`.trim()} href={`#/${entry.type}/${entry.id}`}>
                 <div class="wiki-card-media">
                   <WikiPicture img={spoiled ? null : entry.img} type={entry.type} alt={entry.title} size={64} />
                 </div>

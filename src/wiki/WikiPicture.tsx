@@ -74,11 +74,16 @@ export function WikiPicture({ img, type, alt, size = 160, className = '' }: Prop
     );
   }
 
+  const isItemIcon = img.src.startsWith('itemicons/');
+  const hiResIcon = isItemIcon && size >= 96;
+
   return (
     <img
-      class={`wiki-img ${className}`.trim()}
+      class={`wiki-img ${isItemIcon ? 'is-item-icon' : ''} ${hiResIcon ? 'is-hires-icon' : ''} ${className}`.trim()}
       src={url}
       alt={alt}
+      width={hiResIcon ? size : undefined}
+      height={hiResIcon ? size : undefined}
       loading="lazy"
       onError={() => setFailed(true)}
     />
