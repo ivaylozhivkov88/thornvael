@@ -328,20 +328,20 @@
     {
       "path": "public/sprites/vesperion.png",
       "license": "own",
-      "source": "tools/generate-boss-sprites.py",
-      "note": "Dedicated Vesperion Act 3 boss atlas (floating skeletal tormentor); 48px, 16 directions, combat profile, RGB masks"
+      "source": "tools/sheet-build.py + Canva sheet",
+      "note": "Original vesperion sprite; Canva-generated turnaround sheet, 96px, 16 directions, stand4/walk8/attack4/cast4/hurt2/die4, RGB masks."
     },
     {
       "path": "public/sprites/vesperion-mask.png",
       "license": "own",
-      "source": "tools/generate-boss-sprites.py",
-      "note": "Dedicated Vesperion Act 3 boss mask (floating skeletal tormentor); 48px, 16 directions, combat profile, RGB masks"
+      "source": "tools/sheet-build.py + Canva sheet",
+      "note": "Original vesperion sprite; Canva-generated turnaround sheet, 96px, 16 directions, stand4/walk8/attack4/cast4/hurt2/die4, RGB masks."
     },
     {
       "path": "public/sprites/vesperion.json",
       "license": "own",
-      "source": "tools/generate-boss-sprites.py",
-      "note": "Dedicated Vesperion Act 3 boss spritesheet JSON"
+      "source": "tools/sheet-build.py + Canva sheet",
+      "note": "Original vesperion sprite; Canva-generated turnaround sheet, 96px, 16 directions, stand4/walk8/attack4/cast4/hurt2/die4, RGB masks."
     },
     {
       "path": "public/sprites/ashkarath.png",
