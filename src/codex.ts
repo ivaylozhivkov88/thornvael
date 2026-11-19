@@ -1,10 +1,19 @@
 import { ITEMS, getItemDef, DYNAMIC_ITEM_OFFSET } from './sim/items';
+import { ALL_SETS, findSetByItemName } from './sim/sets';
 import type { Sim } from './sim/sim';
+import {
+  type BestiaryEntry,
+  type JsonFetcher,
+  ITEM_LORE_PACK,
+  getBestiaryEntry,
+  loadBestiary,
+} from './data/text/index';
 
 /**
- * Hall of Relics Codex system for Thornvael, inspired by classic ARPG relic hunts.
+ * Hall of Relics Codex & Bestiary system for Thornvael, inspired by classic ARPG relic hunts.
  * Persistently tracks every unique base and artifact item discovered by the player
- * across campaigns, skirmishes, and procedural expeditions.
+ * across campaigns, skirmishes, and procedural expeditions, and exposes live accessors
+ * for all 52 bestiary lore entries and 273 curated item-lore strings.
  */
 
 export const CODEX_STORAGE_KEY = 'thornvael_codex_v1';
@@ -121,4 +130,601 @@ export function resetCodex(): void {
       // Ignore
     }
   }
+}
+
+/** Synchronous bundled fallback of all 52 unit & boss bestiary lore entries (`public/data/text/bestiary-52.json`). */
+export const BUNDLED_BESTIARY: readonly BestiaryEntry[] = [
+  {
+    id: 'anvilmaw-smith',
+    nameKey: 'bestiary.anvilmaw-smith.name',
+    name: 'Anvilmaw Smith',
+    loreKey: 'bestiary.anvilmaw-smith.lore',
+    lore: 'Forged from slag-iron and chained to geothermal floor-vents, these lumbering constructs hammer fallen shields back into caldera armor. Their furnace chests hiss with sulfur brine before every crushing overhead blow.',
+    weakness: 'Frost magic and kiting between heavy hammer swings.',
+  },
+  {
+    id: 'archer',
+    nameKey: 'bestiary.archer.name',
+    name: 'Frontier Marksman',
+    loreKey: 'bestiary.archer.lore',
+    lore: 'Trained on the sleet-swept palisades of Thornwick, frontier marksmen keep their bowstrings waxed with mutton tallow and count every bodkin arrow against their pay. In open skirmishes they pick off casters before closing ranks.',
+    weakness: 'Fast cavalry or pack rushers that close the gap.',
+  },
+  {
+    id: 'ash-weaver',
+    nameKey: 'bestiary.ash-weaver.name',
+    name: 'Ash Weaver',
+    loreKey: 'bestiary.ash-weaver.lore',
+    lore: 'Disgraced arcanists of the Caldera Schism who stitched copper grounding-wire into their own robes to channel magma pressure. They unravel ward-lines from afar, leaving scorched ozone and brittle cinder in their wake.',
+    weakness: 'Interrupting casts and closing into melee range.',
+  },
+  {
+    id: 'ashkarath',
+    nameKey: 'bestiary.ashkarath.name',
+    name: 'Ashkarath, the Cinder King',
+    loreKey: 'bestiary.ashkarath.lore',
+    lore: 'First Warden of the Seven Anchor Seals, Ashkarath has stood watch over the Obsidian Dais for four centuries as his flesh calcified into meteoric slag. He burns all challengers to keep the Primordial Ember from consuming the northern realm.',
+    weakness: 'Frost damage, disciplined dispersion against fire rings, and focus fire during vents.',
+  },
+  {
+    id: 'basalt-brute',
+    nameKey: 'bestiary.basalt-brute.name',
+    name: 'Basalt Brute',
+    loreKey: 'bestiary.basalt-brute.lore',
+    lore: 'Quarried from volcanic fault-lines and animated by third-dynasty telluric wedges, a basalt brute feels neither cold nor blade-nick. Its stone fists shatter shield walls like dry slate.',
+    weakness: 'Arcane and lightning spells that crack its mineral seams.',
+  },
+  {
+    id: 'briar-hound',
+    nameKey: 'bestiary.briar-hound.name',
+    name: 'Briar Hound',
+    loreKey: 'bestiary.briar-hound.lore',
+    lore: 'Lean, thorn-matted curs that hunt the bog-iron ditches along the Alder River in starving packs. They scent spilled tallow and bloodied bandages from half a league downwind.',
+    weakness: 'Sweeping melee cleaves and fire.',
+  },
+  {
+    id: 'cinder-shaman',
+    nameKey: 'bestiary.cinder-shaman.name',
+    name: 'Cinder Shaman',
+    loreKey: 'bestiary.cinder-shaman.lore',
+    lore: 'Hunched pyromancers who carry clay braziers of peat-charcoal to ignite ambush lines in damp timberlands. Once their kind falls, scattered warbands lose both cohesion and torchlight.',
+    weakness: 'Frost bolts and early sniping before they rally allies.',
+  },
+  {
+    id: 'cinderhorn',
+    nameKey: 'bestiary.cinderhorn.name',
+    name: 'Cinderhorn',
+    loreKey: 'bestiary.cinderhorn.lore',
+    lore: 'Horned beasts born in the sulfurous vents beneath the Gauntlet of Iron, their ribs glowing like banked forge coals. They charge through smoke clouds and exhale superheated grit.',
+    weakness: 'Cold magic and armored frontliners holding choke points.',
+  },
+  {
+    id: 'cinderling',
+    nameKey: 'bestiary.cinderling.name',
+    name: 'Cinderling',
+    loreKey: 'bestiary.cinderling.lore',
+    lore: 'Skittering sparks given sinew around cracked ley-valves, cinderlings swarm overpowder wagons and dry thatch. A single crushed ember-sac scatters harmlessly, yet dozens overwhelm careless squads.',
+    weakness: 'Area-of-effect frost and water-soaked wards.',
+  },
+  {
+    id: 'claw-viper',
+    nameKey: 'bestiary.claw-viper.name',
+    name: 'Scale Viper',
+    loreKey: 'bestiary.claw-viper.lore',
+    lore: 'Alkali-crusted serpents that coil beneath sun-baked limestone slabs along the Redmarsh causeways. Their hooked fangs inject a coagulant venom that turns blood to silt within minutes.',
+    weakness: 'Fire and ranged volleys before they close to strike.',
+  },
+  {
+    id: 'crowned-maw',
+    nameKey: 'bestiary.crowned-maw.name',
+    name: 'Crowned Maw',
+    loreKey: 'bestiary.crowned-maw.lore',
+    lore: 'Crested apex predators of the high basalt ridges, scarred by decades of territorial duels over hot-spring carrion. Their jagged jaws snap bronze greaves in a single lunge.',
+    weakness: 'Stuns, slow effects, and concentrated ranged fire.',
+  },
+  {
+    id: 'doom-knight',
+    nameKey: 'bestiary.doom-knight.name',
+    name: 'Dread Knight',
+    loreKey: 'bestiary.doom-knight.lore',
+    lore: 'Oath-bound champions of the First Watch whose plates were riveted shut after the Caldera Schism. They march in dead silence, answering only to iron-stamped probate warrants.',
+    weakness: 'Armor-piercing spells and sustained lightning arcs.',
+  },
+  {
+    id: 'dune-beast',
+    nameKey: 'bestiary.dune-beast.name',
+    name: 'Dune Beast',
+    loreKey: 'bestiary.dune-beast.lore',
+    lore: "Broad-pawed stalkers of the evaporated inland sea, capable of bounding across shifting salt-crusts without sinking. Caravaneers hang copper bells on their mules to warn of a pack's approach.",
+    weakness: 'Earth-binding slows and disciplined spear formations.',
+  },
+  {
+    id: 'dune-lurker',
+    nameKey: 'bestiary.dune-lurker.name',
+    name: 'Dune Lurker',
+    loreKey: 'bestiary.dune-lurker.lore',
+    lore: 'Scavengers wrapped in salt-stiffened hides who bury themselves beside dry cisterns to ambush stray outriders. They strip canteens and copper fittings before dragging bodies into the scree.',
+    weakness: 'Area sweeps and keeping scouts ahead of the column.',
+  },
+  {
+    id: 'dune-scarab',
+    nameKey: 'bestiary.dune-scarab.name',
+    name: 'Dune Scarab',
+    loreKey: 'bestiary.dune-scarab.lore',
+    lore: 'Carapaced beetles that graze on vitrified slag near shattered quartz wardstones, storing static charge in their wing-cases. When cracked open, they vent sharp arcs of blue lightning.',
+    weakness: 'Ranged attacks that avoid close-quarters static bursts.',
+  },
+  {
+    id: 'fallen-shaman',
+    nameKey: 'bestiary.fallen-shaman.name',
+    name: 'Ash-Tongue Shaman',
+    loreKey: 'bestiary.fallen-shaman.lore',
+    lore: 'Outcast ritualists who barter salt-rations for stolen mint copper and chant over bone talismans in ruined tollhouses. Their firebolts blister wet leather and panic poorly trained levies.',
+    weakness: 'Quick flanking strikes and silencing magic.',
+  },
+  {
+    id: 'fetish-blowdart',
+    nameKey: 'bestiary.fetish-blowdart.name',
+    name: 'Bog Dartblower',
+    loreKey: 'bestiary.fetish-blowdart.lore',
+    lore: 'Wiry reed-hunters of the coastal fens who dip bone needles in fermented marsh-toad bile. They dart between sunken pilings, bleeding armored soldiers through visor slits.',
+    weakness: 'Wide-arc melee attacks and fire.',
+  },
+  {
+    id: 'flintback',
+    nameKey: 'bestiary.flintback.name',
+    name: 'Flintback',
+    loreKey: 'bestiary.flintback.lore',
+    lore: 'Thick-shelled mire beasts whose dorsal plates spark when struck by steel, earning their name from desperate border pickets. They anchor enemy lines while lighter scavengers flank.',
+    weakness: 'Elemental magic that bypasses heavy physical plating.',
+  },
+  {
+    id: 'frost-bell',
+    nameKey: 'bestiary.frost-bell.name',
+    name: 'Frost Bell',
+    loreKey: 'bestiary.frost-bell.lore',
+    lore: 'Hollow bronze resonators torn from drowned coastal belfries and hung with rime-crusted telluric wire. Every chime drains warmth from the air and numbs bow-hands.',
+    weakness: 'Fire spells and shattering blunt weapons.',
+  },
+  {
+    id: 'glasswing',
+    nameKey: 'bestiary.glasswing.name',
+    name: 'Glasswing',
+    loreKey: 'bestiary.glasswing.lore',
+    lore: 'Translucent coastal flyers whose wings hum like taut copper wire in storm squalls. They dive out of sea-fog to slash exposed necks and scatter pack animals.',
+    weakness: 'Ranged archers and rapid lightning strikes.',
+  },
+  {
+    id: 'gloom-stag',
+    nameKey: 'bestiary.gloom-stag.name',
+    name: 'Gloom Stag',
+    loreKey: 'bestiary.gloom-stag.lore',
+    lore: 'Gaunt antlered beasts of the Greywood timberlands, their racks draped in black moss and corroded iron snares. Driven mad by winter starvation, they gore loggers and patrols alike.',
+    weakness: 'Fire and braced polearms.',
+  },
+  {
+    id: 'gnoll',
+    nameKey: 'bestiary.gnoll.name',
+    name: 'Border Gnoll',
+    loreKey: 'bestiary.gnoll.lore',
+    lore: 'Hired by Morvessa with stamped mint copper, these hunched raiders haunt the Sunken Ford and Alder River toll-roads. They fight viciously for looted rations but break when their chieftains fall.',
+    weakness: 'Disciplined melee lines and targeting pack leaders.',
+  },
+  {
+    id: 'golem',
+    nameKey: 'bestiary.golem.name',
+    name: 'Wardstone Golem',
+    loreKey: 'bestiary.golem.lore',
+    lore: 'A towering frame of quarried granite bound with copper bands and calibrated quartz lenses by Conclave artificers. Built to absorb siege bolts, it marches without fatigue or fear.',
+    weakness: 'Sustained lightning and high-tier armor-piercing strikes.',
+  },
+  {
+    id: 'gorrathul',
+    nameKey: 'bestiary.gorrathul.name',
+    name: 'Gorrathul, the Sand Glutton',
+    loreKey: 'bestiary.gorrathul.lore',
+    lore: 'Castellan of Ironheart Bastion, Gorrathul locked the mountain sluices and starved the salt-parishes to hide that his legendary cisterns silted dry years ago. Swollen with alkali brine and ancient wards, he crushes any army climbing the twin causeways.',
+    weakness: 'Fire damage, mobility to evade subterranean charges, and breaking his freeze aura.',
+  },
+  {
+    id: 'greater-mummy',
+    nameKey: 'bestiary.greater-mummy.name',
+    name: 'Crypt Embalmer',
+    loreKey: 'bestiary.greater-mummy.lore',
+    lore: 'Third-Dynasty probate bailiffs preserved in bitumen and copper-wire shrouds to audit unpaid granary liens beyond death. They raise fallen debtors until their tally-tablets are shattered.',
+    weakness: 'Fire that ignites their pitch-soaked wrappings.',
+  },
+  {
+    id: 'hollow-king',
+    nameKey: 'bestiary.hollow-king.name',
+    name: 'Hollow King',
+    loreKey: 'bestiary.hollow-king.lore',
+    lore: 'Crowned remnants of sovereigns who defaulted on the caldera maintenance tithe and were beheaded in iron collars. Cold frost bleeds from their empty ribcages with every sweeping greatsword arc.',
+    weakness: 'Fire magic and kiting during heavy swings.',
+  },
+  {
+    id: 'hollow-knight',
+    nameKey: 'bestiary.hollow-knight.name',
+    name: 'Hollow Knight',
+    loreKey: 'bestiary.hollow-knight.lore',
+    lore: 'Indebted men-at-arms whose skeletons remain legally bound to guard ossuary gates under Probate Debt Law. Rusted mail still clings to their ribs, rattling in strict formation.',
+    weakness: 'Blunt crushing weapons and fire.',
+  },
+  {
+    id: 'imp',
+    nameKey: 'bestiary.imp.name',
+    name: 'Spite Imp',
+    loreKey: 'bestiary.imp.lore',
+    lore: 'Wiry, soot-stained familiars conjured from unstable telluric vents to harass supply trains and siphon lamp oil. They cackle from rooftops and fling sparks before darting out of reach.',
+    weakness: 'Frost bolts and fast ranged volleys.',
+  },
+  {
+    id: 'ironbark',
+    nameKey: 'bestiary.ironbark.name',
+    name: 'Ironbark',
+    loreKey: 'bestiary.ironbark.lore',
+    lore: 'Centuries-old oaks rooted over bog-iron seams, their sap thickened with mineral ore until axes ring uselessly against their trunks. They awaken only when wildfires or warbands threaten deep groves.',
+    weakness: 'Fire magic and sustained slashing blows.',
+  },
+  {
+    id: 'lantern-eel',
+    nameKey: 'bestiary.lantern-eel.name',
+    name: 'Lantern Eel',
+    loreKey: 'bestiary.lantern-eel.lore',
+    lore: 'Blind, pale eels that drift above flooded canal locks, lured by the telluric hum of copper sluice-chains. Their jawless mouths discharge stored static bolts across wet stone.',
+    weakness: 'Earth-based strikes and insulated ranged attacks.',
+  },
+  {
+    id: 'mage',
+    nameKey: 'bestiary.mage.name',
+    name: 'Conclave Arcanist',
+    loreKey: 'bestiary.mage.lore',
+    lore: 'Trained in the expelled Thermodynamic Conclave, these scholars carry copper grounding-staves and smoked quartz lenses. They treat every spell as a high-pressure valve waiting to burst.',
+    weakness: 'Ambushes and fast melee rushers that break their concentration.',
+  },
+  {
+    id: 'maggot-swarm',
+    nameKey: 'bestiary.maggot-swarm.name',
+    name: 'Maggot Swarm',
+    loreKey: 'bestiary.maggot-swarm.lore',
+    lore: 'Blind, bloated larvae breeding in the rank sump-pits beneath Deep Quarry and Redmarsh tombs. Though slow individually, their corrosive bile eats through boot leather in seconds.',
+    weakness: 'Area-of-effect fire and sweeping attacks.',
+  },
+  {
+    id: 'mire-wisp',
+    nameKey: 'bestiary.mire-wisp.name',
+    name: 'Mire Wisp',
+    loreKey: 'bestiary.mire-wisp.lore',
+    lore: 'Pocketed marsh-gas ignited by stray ley currents above peat bogs and flooded ditches. Travelers who mistake their pale glow for watch-lanterns rarely find dry footing again.',
+    weakness: 'Physical arrows and non-elemental strikes.',
+  },
+  {
+    id: 'morvessa',
+    nameKey: 'bestiary.morvessa.name',
+    name: 'Morvessa, the Silk Widow',
+    loreKey: 'bestiary.morvessa.lore',
+    lore: 'High Quartermaster of the Salt Tithe, Morvessa burned the Thornwick Border Mint to conceal shaved silver groats and bred a parasitic silk-brood in the Weeping Ossuary. She audits living and dead alike with gall-ink writs and venom.',
+    weakness: 'Fire magic, cleansing poison quickly, and bursting down hatched broodlings.',
+  },
+  {
+    id: 'night-orchard',
+    nameKey: 'bestiary.night-orchard.name',
+    name: 'Night Orchard',
+    loreKey: 'bestiary.night-orchard.lore',
+    lore: 'Gnarled, leafless fruit trees fertilized by coastal battlefields and draped in hex-knots of salted twine. Their roots drink spilled blood and spit shadowy thorns at trespassers.',
+    weakness: 'Fire and heavy axes.',
+  },
+  {
+    id: 'pale-burrower',
+    nameKey: 'bestiary.pale-burrower.name',
+    name: 'Pale Burrower',
+    loreKey: 'bestiary.pale-burrower.lore',
+    lore: 'Sightless subterranean crawlers unearthed when chained miners cut too deep into ironstone seams. Their chitinous foreclaws shear through timber pit-props as easily as bone.',
+    weakness: 'Fire and frost slowing their burrowing lunge.',
+  },
+  {
+    id: 'quill-fiend',
+    nameKey: 'bestiary.quill-fiend.name',
+    name: 'Quill Fiend',
+    loreKey: 'bestiary.quill-fiend.lore',
+    lore: 'Bristled scavengers that nest in felled brushwood along the border marches, flicking barbed spines with whip-like snaps of their backs. Scouts check tree-lines twice before crossing open clearings.',
+    weakness: 'Shielded frontliners and closing into melee.',
+  },
+  {
+    id: 'redglass-drake',
+    nameKey: 'bestiary.redglass-drake.name',
+    name: 'Redglass Drake',
+    loreKey: 'bestiary.redglass-drake.lore',
+    lore: 'Winged lizards whose scales fuse with airborne volcanic silica, catching torchlight like stained glass. They roost on basalt spires and rain molten cinders onto marching columns.',
+    weakness: 'Frost magic and concentrated ranged volleys.',
+  },
+  {
+    id: 'rift-moth',
+    nameKey: 'bestiary.rift-moth.name',
+    name: 'Rift Moth',
+    loreKey: 'bestiary.rift-moth.lore',
+    lore: 'Velvet-winged moths drawn to open ley-fissures and fractured wardstones, drinking ambient mana like nectar. Their dusted wings leave a numbing static across sword-arms.',
+    weakness: 'Physical projectiles and fire.',
+  },
+  {
+    id: 'rootbound',
+    nameKey: 'bestiary.rootbound.name',
+    name: 'Rootbound',
+    loreKey: 'bestiary.rootbound.lore',
+    lore: 'Shattered boundary stones entangled in living ash-roots and bound by old First Compact oaths. They guard forgotten forest trails long after the lords who raised them turned to dust.',
+    weakness: 'Fire and lightning.',
+  },
+  {
+    id: 'ruin-mite',
+    nameKey: 'bestiary.ruin-mite.name',
+    name: 'Ruin Mite',
+    loreKey: 'bestiary.ruin-mite.lore',
+    lore: 'Fist-sized parasites infesting damp masonry in burned tollhouses and sunken vaults. Alone they are a nuisance; in swarms they strip a fallen soldier to clean bone before dawn.',
+    weakness: 'Area damage and fire.',
+  },
+  {
+    id: 'salt-crab',
+    nameKey: 'bestiary.salt-crab.name',
+    name: 'Salt Crab',
+    loreKey: 'bestiary.salt-crab.lore',
+    lore: "Armored crustaceans swollen to the size of millstones along Oakhaven's whale-oil breakwaters. Their calcified shells turn aside careless sword cuts while their pincers crush boat hulls.",
+    weakness: 'Blunt trauma and lightning conducted through wet shells.',
+  },
+  {
+    id: 'sand-raider',
+    nameKey: 'bestiary.sand-raider.name',
+    name: 'Sand Raider',
+    loreKey: 'bestiary.sand-raider.lore',
+    lore: 'Deserters and salt-exiles armed with twin curved blades who prey on water-convoys crossing the Redmarsh flats. They strike fast at dusk and vanish into alkali squalls.',
+    weakness: 'Frost slows and braced armored troops.',
+  },
+  {
+    id: 'silt-colossus',
+    nameKey: 'bestiary.silt-colossus.name',
+    name: 'Silt Colossus',
+    loreKey: 'bestiary.silt-colossus.lore',
+    lore: 'Massive harbor-dredge automatons choked with river-mud and drowned chain links inside the Sunken Citadel. Each lumbering step shakes wet flagstones and crushes anything beneath its iron heels.',
+    weakness: 'Lightning magic and kiting around slow swing animations.',
+  },
+  {
+    id: 'spore-matron',
+    nameKey: 'bestiary.spore-matron.name',
+    name: 'Spore Matron',
+    loreKey: 'bestiary.spore-matron.lore',
+    lore: "Blighted fungal elders rooted in the dampest galleries of Redmarsh's undervaults, exhaling yellow clouds of choking rot. Miners seal side-tunnels with tallow-soaked planks at the first sign of their caps.",
+    weakness: 'Fire and ranged bursts from upwind.',
+  },
+  {
+    id: 'storm-kite',
+    nameKey: 'bestiary.storm-kite.name',
+    name: 'Storm Kite',
+    loreKey: 'bestiary.storm-kite.lore',
+    lore: 'Razor-winged sea-raptors that ride gale-force squalls above the Iron Coast, gathering static charge in their bronze-flecked plumage. They wheel just out of sword-reach and loose jagged arcs.',
+    weakness: 'Archers and earth-grounded wards.',
+  },
+  {
+    id: 'stormtree',
+    nameKey: 'bestiary.stormtree.name',
+    name: 'Stormtree',
+    loreKey: 'bestiary.stormtree.lore',
+    lore: "Lightning-split coastal pines whose charred heartwood still crackles with trapped atmospheric charge. Approaching within ten paces raises the hair on a soldier's neck before the branches strike.",
+    weakness: 'Fire and ranged focus outside static discharge range.',
+  },
+  {
+    id: 'thorn-boar',
+    nameKey: 'bestiary.thorn-boar.name',
+    name: 'Thorn Boar',
+    loreKey: 'bestiary.thorn-boar.lore',
+    lore: 'Tusks notched by rusty arrowheads, these scarred boars barrel through bramble thickets along the Greywood logging tracks. Their thick hides turn aside light glancing shots.',
+    weakness: 'Spears, heavy strikes, and fire.',
+  },
+  {
+    id: 'vesperion',
+    nameKey: 'bestiary.vesperion.name',
+    name: 'Vesperion, the Hollow Choir',
+    loreKey: 'bestiary.vesperion.lore',
+    lore: "Lord Admiral of the Black Fleet, Vesperion torched Oakhaven's drydocks in a ruthless quarantine to stop mainland armies from shattering the southern caldera seals. Drowned mariners sing in his wake as lightning arcs from his flagship's copper hull.",
+    weakness: 'Spread formations against ball lightning and high mana reserves to endure Soul Siphon.',
+  },
+  {
+    id: 'warrior',
+    nameKey: 'bestiary.warrior.name',
+    name: 'Vanguard Man-at-Arms',
+    loreKey: 'bestiary.warrior.lore',
+    lore: 'Stalwart sellswords of the northern frontier who value dry bowstrings, honest silver groats, and unbroken shield lines. They hold the breach while arcanists vent telluric fire behind them.',
+    weakness: 'Ranged kiting and sustained elemental magic.',
+  },
+  {
+    id: 'wendigo-bruiser',
+    nameKey: 'bestiary.wendigo-bruiser.name',
+    name: 'Frosthorn Bruiser',
+    loreKey: 'bestiary.wendigo-bruiser.lore',
+    lore: 'Hulking mountain beasts driven down from alpine snowlines by four centuries of cooling winters. Frost cakes their matted shoulders, slowing the blood of any warrior caught in their grip.',
+    weakness: 'Fire magic and keeping distance.',
+  },
+  {
+    id: 'witch-doctor',
+    nameKey: 'bestiary.witch-doctor.name',
+    name: 'Fen Hexer',
+    loreKey: 'bestiary.witch-doctor.lore',
+    lore: "Masked marsh elders who brew bitter root-tonics and bind copper-wire fetishes to ward off coastal press-gangs. Their curses rot leather straps and sap a company's endurance.",
+    weakness: 'Immediate focus fire and stun effects.',
+  },
+];
+
+let activeBestiary: readonly BestiaryEntry[] = BUNDLED_BESTIARY;
+
+/**
+ * Hydrate the 52-entry bestiary lore cache from `public/data/text/bestiary-52.json`,
+ * preserving the synchronous bundled fallback when offline or unavailable.
+ */
+export async function hydrateCodexBestiary(
+  baseUrl?: string,
+  fetcher?: JsonFetcher,
+): Promise<number> {
+  try {
+    const pack = await loadBestiary(baseUrl, fetcher);
+    if (Array.isArray(pack?.entries) && pack.entries.length > 0) {
+      activeBestiary = pack.entries;
+    }
+  } catch {
+    // Keep bundled bestiary fallback
+  }
+  return activeBestiary.length;
+}
+
+/** Reset the active bestiary cache back to the bundled 52-entry fallback. */
+export function resetCodexBestiaryCache(): void {
+  activeBestiary = BUNDLED_BESTIARY;
+}
+
+/** Return all active bestiary lore entries (52 entries synchronously). */
+export function getAllBestiaryLore(): readonly BestiaryEntry[] {
+  return activeBestiary;
+}
+
+/** Return the total count of cataloged bestiary entries. */
+export function getBestiaryCount(): number {
+  return activeBestiary.length;
+}
+
+/** Look up a curated bestiary entry by unit/sprite ID (e.g. 'morvessa', 'briar-hound') or display name. */
+export function getBestiaryLore(unitIdOrName: string): BestiaryEntry | undefined {
+  const raw = unitIdOrName.trim();
+  if (!raw) return undefined;
+  const normalized = raw.toLowerCase().replace(/^beast-/, '');
+  const byId = getBestiaryEntry(activeBestiary, normalized);
+  if (byId) return byId;
+  const lower = raw.toLowerCase();
+  return activeBestiary.find(
+    (entry) => entry.name.toLowerCase() === lower || entry.id.toLowerCase() === lower,
+  );
+}
+
+/** Search curated bestiary entries across id, name, lore, and weakness text. */
+export function searchBestiaryLore(query: string): BestiaryEntry[] {
+  const q = query.trim().toLowerCase();
+  if (!q) return [...activeBestiary];
+  return activeBestiary.filter(
+    (e) =>
+      e.id.toLowerCase().includes(q) ||
+      e.name.toLowerCase().includes(q) ||
+      e.lore.toLowerCase().includes(q) ||
+      e.weakness.toLowerCase().includes(q),
+  );
+}
+
+function toSnakeCase(value: string): string {
+  return value
+    .trim()
+    .toLowerCase()
+    .replace(/['\u2019]/g, '')
+    .replace(/[^a-z0-9]+/g, '_')
+    .replace(/^_|_$/g, '');
+}
+
+function collectLoreKeyLines(prefix: string): string[] {
+  if (ITEM_LORE_PACK[prefix]) return [ITEM_LORE_PACK[prefix]];
+  const numbered = Object.keys(ITEM_LORE_PACK)
+    .filter((k) => k.startsWith(`${prefix}.`))
+    .sort()
+    .map((k) => ITEM_LORE_PACK[k]);
+  return numbered;
+}
+
+/**
+ * Look up all curated lore lines for an item by numeric `ITEMS` id, exact key
+ * (`item.unique.*` / `item.set.*`), unique/set id (`uniq-*` / `set-*`), or item display name.
+ */
+export function getItemLoreLines(idOrKeyOrName: number | string): string[] {
+  if (typeof idOrKeyOrName === 'number') {
+    const def = getItemDef(idOrKeyOrName);
+    if (!def) return [];
+    const setDef = findSetByItemName(def.name);
+    if (setDef) {
+      const pieceKey = `item.set.${setDef.id}.${toSnakeCase(def.name)}.lore`;
+      const setLines = collectLoreKeyLines(pieceKey);
+      if (setLines.length > 0) return setLines;
+    }
+    const snake = toSnakeCase(def.name);
+    for (const [k, v] of Object.entries(ITEM_LORE_PACK)) {
+      if (k.endsWith(`.${snake}.lore`) || k.includes(`.${snake}.lore.`)) {
+        return collectLoreKeyLines(k.replace(/\.\d+$/, ''));
+      }
+      if (k === `item.unique.${def.name}.lore`) return [v];
+    }
+    return def.lore ? [def.lore] : [];
+  }
+
+  const query = idOrKeyOrName.trim();
+  if (!query) return [];
+
+  // 1. Direct key or multi-part key prefix (e.g. 'item.unique.uniq-tollkeeper-bill.lore')
+  const direct = collectLoreKeyLines(query);
+  if (direct.length > 0) return direct;
+
+  // 2. Unique or Set ID shorthand ('uniq-*', 'set-*', 'iron_warden', etc.)
+  const uniqPrefix = `item.unique.${query}.lore`;
+  const uniqLines = collectLoreKeyLines(uniqPrefix);
+  if (uniqLines.length > 0) return uniqLines;
+
+  const setPrefix = `item.set.${query}.lore`;
+  const setLines = collectLoreKeyLines(setPrefix);
+  if (setLines.length > 0) return setLines;
+
+  // 3. Sim set or set-piece display name lookup
+  const bySetName = ALL_SETS.find(
+    (s) => s.id === query || s.name.toLowerCase() === query.toLowerCase(),
+  );
+  if (bySetName) {
+    const found = collectLoreKeyLines(`item.set.${bySetName.id}.lore`);
+    if (found.length > 0) return found;
+  }
+
+  const owningSet = findSetByItemName(query);
+  if (owningSet) {
+    const pieceLines = collectLoreKeyLines(`item.set.${owningSet.id}.${toSnakeCase(query)}.lore`);
+    if (pieceLines.length > 0) return pieceLines;
+  }
+
+  // 4. Normalized snake-case piece suffix match across all item-lore keys
+  const snake = toSnakeCase(query);
+  if (snake) {
+    for (const key of Object.keys(ITEM_LORE_PACK)) {
+      if (key.endsWith(`.${snake}.lore`) || key.includes(`.${snake}.lore.`)) {
+        return collectLoreKeyLines(key.replace(/\.\d+$/, ''));
+      }
+    }
+  }
+
+  // 5. Fallback to inline ItemDef.lore if present on static items
+  const itemMatch = ITEMS.find((it) => it.name.toLowerCase() === query.toLowerCase());
+  return itemMatch?.lore ? [itemMatch.lore] : [];
+}
+
+/** Return joined curated lore text for an item ID, key, or name, or undefined if none exists. */
+export function getItemLore(idOrKeyOrName: number | string): string | undefined {
+  const lines = getItemLoreLines(idOrKeyOrName);
+  return lines.length > 0 ? lines.join(' ') : undefined;
+}
+
+/** Return curated overview lore for an item set by set ID or display name. */
+export function getSetLore(setIdOrName: string): string | undefined {
+  const q = setIdOrName.trim();
+  if (!q) return undefined;
+  const direct = ITEM_LORE_PACK[`item.set.${q}.lore`];
+  if (direct) return direct;
+  const setDef = ALL_SETS.find((s) => s.id === q || s.name.toLowerCase() === q.toLowerCase());
+  if (setDef) return ITEM_LORE_PACK[`item.set.${setDef.id}.lore`];
+  return undefined;
+}
+
+/** Return all bundled `item-lore.json` keys (273 entries). */
+export function getAllItemLoreKeys(): readonly string[] {
+  return Object.keys(ITEM_LORE_PACK);
+}
+
+/** Return the number of entries in `item-lore.json`. */
+export function getItemLoreCount(): number {
+  return Object.keys(ITEM_LORE_PACK).length;
 }

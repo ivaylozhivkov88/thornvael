@@ -1,8 +1,9 @@
 /**
- * Unified FX Engine Facade for Thornvael (WISHLIST A1-A4, A9-A10).
+ * Unified FX Engine Facade for Thornvael (WISHLIST A1-A5, A7-A10).
  * Self-contained, zero-allocation pooled, mobile-safe, and reducedMotion-aware.
  */
 
+import { CameraPolishSystem } from './camera-polish';
 import {
   type FxConfig,
   type FxConfigOptions,
@@ -12,9 +13,11 @@ import {
 } from './config';
 import { CursorTargetSystem } from './cursor-target';
 import { DeathFxSystem } from './death-fx';
+import { DynamicLightingSystem } from './dynamic-lighting';
 import { FootstepSystem } from './footsteps';
 import { HitFeedbackSystem } from './hit-feedback';
 import { LootDropSystem } from './loot-drop';
+import { RegionGradeSystem } from './region-grade';
 import { SpellVfxSystem } from './spell-vfx';
 
 export * from './config';
@@ -25,6 +28,9 @@ export * from './footsteps';
 export * from './spell-vfx';
 export * from './cursor-target';
 export * from './loot-drop';
+export * from './dynamic-lighting';
+export * from './region-grade';
+export * from './camera-polish';
 
 export interface FxEngineStats {
   quality: FxQuality;
@@ -43,6 +49,13 @@ export interface FxEngineStats {
   lootBeams: number;
   maxBeams: number;
   timeScale: number;
+  lightingEnabled: boolean;
+  spellLights: number;
+  maxLights: number;
+  gradeTintColor: number;
+  gradeTintAlpha: number;
+  cameraRecoilActive: boolean;
+  introPanActive: boolean;
 }
 
 export class FxEngine {
@@ -54,6 +67,9 @@ export class FxEngine {
   readonly spellVfx: SpellVfxSystem;
   readonly cursorTarget: CursorTargetSystem;
   readonly lootDrop: LootDropSystem;
+  readonly dynamicLighting: DynamicLightingSystem;
+  readonly regionGrade: RegionGradeSystem;
+  readonly cameraPolish: CameraPolishSystem;
 
   constructor(options: FxConfigOptions = {}) {
     this.config = createFxConfig(options);
@@ -63,6 +79,9 @@ export class FxEngine {
     this.spellVfx = new SpellVfxSystem(this.config);
     this.cursorTarget = new CursorTargetSystem(this.config);
     this.lootDrop = new LootDropSystem(this.config);
+    this.dynamicLighting = new DynamicLightingSystem(this.config);
+    this.regionGrade = new RegionGradeSystem(this.config);
+    this.cameraPolish = new CameraPolishSystem(this.config);
   }
 
   getConfig(): FxConfig {
@@ -100,6 +119,9 @@ export class FxEngine {
     this.spellVfx.setConfig(next);
     this.cursorTarget.setConfig(next);
     this.lootDrop.setConfig(next);
+    this.dynamicLighting.setConfig(next);
+    this.regionGrade.setConfig(next);
+    this.cameraPolish.setConfig(next);
   }
 
   /** Advance all FX subsystems by dtMs. */
@@ -110,6 +132,9 @@ export class FxEngine {
     this.spellVfx.update(dtMs);
     this.cursorTarget.update(dtMs);
     this.lootDrop.update(dtMs);
+    this.dynamicLighting.update(dtMs);
+    this.regionGrade.update(dtMs);
+    this.cameraPolish.update(dtMs);
   }
 
   /** Clear all active FX pools and timers. */
@@ -120,9 +145,15 @@ export class FxEngine {
     this.spellVfx.clear();
     this.cursorTarget.clear();
     this.lootDrop.clear();
+    this.dynamicLighting.clear();
+    this.regionGrade.clear();
+    this.cameraPolish.clear();
   }
 
   getStats(): FxEngineStats {
+    const grade = this.regionGrade.getCurrentGrade();
+    const recoil = this.cameraPolish.getRecoilOffset();
+    const intro = this.cameraPolish.getIntroState();
     return {
       quality: this.config.quality,
       reducedMotion: this.config.reducedMotion,
@@ -140,6 +171,13 @@ export class FxEngine {
       lootBeams: this.lootDrop.beams.activeCount,
       maxBeams: this.config.maxBeams,
       timeScale: this.deathFx.getTimeScale(),
+      lightingEnabled: this.dynamicLighting.isEnabled(),
+      spellLights: this.dynamicLighting.spellLights.activeCount,
+      maxLights: this.dynamicLighting.getMaxLights(),
+      gradeTintColor: grade.tintColor,
+      gradeTintAlpha: grade.tintAlpha,
+      cameraRecoilActive: Math.hypot(recoil.x, recoil.y) > 0,
+      introPanActive: intro.active,
     };
   }
 }

@@ -53,3 +53,14 @@ Tune FAMILY_VISUALS in src/render.ts (~line 121) via ?art=1 (dev server thornvae
 | Agent F | QA rebuild, seed gallery, `perf-profile-300`, `ci.yml`, `pwa-smoke.spec.ts` | **NEEDS-FIX** (CI path) | `477cd5a` | 12:55Z | `playwright.config.ts` `testDir: 'e2e'` skips `tests/pwa-smoke.spec.ts` |
 | Gameplay-AI (Gemini) | `src/sim/ai/*` (E3–E7, E10–E15) + `tests/gameplay-*.test.ts` | **FILE-ONLY / PUSHED** (16/16 + 118/118 PASS) | `f5d5b13` | 13:04Z | Verified 0 `Math.random`/DOM/time; awaits sim/hero hook |
 | Wiki Builder (Gemini) | `wiki.html`, `src/wiki/*`, `build-wiki-data.mjs`, minimaps, offline SW, smoke | **IN PROGRESS (Step 2)** | `263ad1c` | 18:26Z | Step 1 pushed (`263ad1c`); Step 2 ready (`wiki.html`, Vite/SW, `shell.ts` Wiki btn, 12-section UI). Pending Step 3 (search, filters, spoilers, minimaps, smoke). Foreign `tsc` error in untracked `tests/text-integration.test.ts(62,35)` noted; untracked `public/itemicons/*` affects local `wiki-data.test.ts` until Art Wave 3 commits. |
+
+
+### Wave 2 — Agent E2
+| Step | Status | Commit | Notes |
+|---|---|---|---|
+| `public/data/text/location-plaques-40.json` + `src/data/text/index.ts` (all 9 packs) + `tools/check-text.mjs` + `src/tips.ts` (50 tips + 30 death lines sync fallback & accessors) + `src/codex.ts` (52 bestiary + 273 item-lore live helpers) + `tests/text-integration.test.ts` + `tools/INTEGRATION-NOTES-TEXT.md` | **DONE** | pending commit | `check-text.mjs` PASS (3 src [587 keys], 6 public [272 entries, 384 keys], 971 total keys, 0 errors); `check-repo.mjs` PASS; `check:atlases` PASS; `tests/{tips,lore-text,codex,text-integration}.test.ts` 17/17 PASS; `tsc --noEmit` 0 errors in Agent E2 files (foreign `src/audio.ts` TS errors & foreign `tests/wiki-data.test.ts` staleness from untracked `public/itemicons/*` noted). Pending: UI hook pass in `shell.ts`/`missionui.ts`/`codexui.ts` per `tools/INTEGRATION-NOTES-TEXT.md`. |
+
+### Wave 2 — Agent A2
+| Step | Status | Commit | Notes |
+|---|---|---|---|
+| Step 1: A5 (`src/fx/dynamic-lighting.ts`), A7 (`src/fx/region-grade.ts`), A8 (`src/fx/camera-polish.ts`), `src/fx/index.ts` facade + `tests/fx-wave2.test.ts` | **DONE** | pending commit | 23/23 FX tests PASS (`fx-suite` 14/14 + `fx-wave2` 9/9); `check-repo.mjs` PASS; `check:atlases` PASS; 0 `tsc` errors in Agent A2 files (foreign `src/audio.ts` TS errors noted). Next: Step 2 live hook in `src/render.ts` + `tools/INTEGRATION-NOTES-FX.md`. |

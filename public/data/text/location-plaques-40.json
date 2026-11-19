@@ -1,0 +1,325 @@
+{
+  "version": 1,
+  "entries": [
+    {
+      "key": "plaque.map1.thornwick_palisade",
+      "mapId": "map1-border-fords",
+      "act": 1,
+      "region": "Thornwick Market",
+      "title": "Thornwick East Gatepost",
+      "text": "Charred pine stakes ringed with notched iron spikes mark the market palisade. Bailiffs chalk unpaid Salt Tithe tallies on the gatebeam each dawn so drovers know who still owes coin."
+    },
+    {
+      "key": "plaque.map1.sunken_ford_weir",
+      "mapId": "map1-border-fords",
+      "act": 1,
+      "region": "Sunken Ford",
+      "title": "Sunken Ford Toll Marker",
+      "text": "An alder stake driven into river shingle bears three copper rings and an axe scar. Here the border watch once weighed salt barges before Grok'tar's raiders burned the ledger house."
+    },
+    {
+      "key": "plaque.map1.fenwick_boardwalk",
+      "mapId": "map1-border-fords",
+      "act": 1,
+      "region": "Fenwick's Peat",
+      "title": "Fenwick Plank-Walk Sign",
+      "text": "A tarred oak board nailed crookedly above black peat water warns pickets to keep lanterns hooded past sunset, for mire wisps follow open flames across sunken turf ditches."
+    },
+    {
+      "key": "plaque.map1.lantern_passage",
+      "mapId": "map1-border-fords",
+      "act": 1,
+      "region": "Lantern Passage",
+      "title": "Caged Beacon Pillar",
+      "text": "A rusted iron post holds a whale-oil cage stained blue with copperas soot. Keeper Soren etched tick-marks into the limestone base for every supply train lost to canyon fog."
+    },
+    {
+      "key": "plaque.map1.greywood_sawmill",
+      "mapId": "map1-border-fords",
+      "act": 1,
+      "region": "Greywood Canopy",
+      "title": "Greywood Mill Tally-Post",
+      "text": "Sawdust crusts the stone bollard beside the dry millrace. Iron crowbars wedge the oak paddle-wheel fast so Morvessa's bailiffs cannot float stolen hull-timber downstream."
+    },
+    {
+      "key": "plaque.map1.burned_border_mint",
+      "mapId": "map1-border-fords",
+      "act": 1,
+      "region": "Vitrified Kilns",
+      "title": "Border Mint Assay Stone",
+      "text": "Scorched granite slabs frame the collapsed coin-foundry where green vitrified slag pooled across cracked furnace bricks. Shaved silver dies lie buried beneath six years of cold soot."
+    },
+    {
+      "key": "plaque.map1.craghorn_ley_cairns",
+      "mapId": "map1-border-fords",
+      "act": 1,
+      "region": "Craghorn Defile",
+      "title": "Craghorn Ley-Cairn Plinth",
+      "text": "Quartz-veined boulders stacked by First Compact surveyors hum faintly when sleet hits the ridge. Copper wire pinned beneath the capstone bleeds static harmlessly into damp turf."
+    },
+    {
+      "key": "plaque.map1.alder_bridge_cutwater",
+      "mapId": "map1-border-fords",
+      "act": 1,
+      "region": "Alder Bridge",
+      "title": "Alder Bridge Cutwater Plaque",
+      "text": "Chiseled into dressed granite above the central arch: Built to carry twelve-ton siege guns in lime and ox-blood mortar; behind the west pier sleep powder chambers for retreat."
+    },
+    {
+      "key": "plaque.map1.weeping_ossuary_vault",
+      "mapId": "map1-border-fords",
+      "act": 1,
+      "region": "Weeping Ossuary",
+      "title": "Ravenwatch Ossuary Lintel",
+      "text": "Cold condensation beads along the slate archway descending beneath Ravenwatch Keep. Lead probate tags dangle from copper nails inside the jamb, each stamped with a granary lien."
+    },
+    {
+      "key": "plaque.map1.undervault_ashbrook",
+      "mapId": "map1-border-fords",
+      "act": 1,
+      "region": "Undervault Links",
+      "title": "Gallery Four Sluice Marker",
+      "text": "Bronze dwarven numerals cast beside the drainage wheel warn border magistrates to keep spring melt channels clear. Thick tallow seals show where tax-clerks bricked the tunnel shut."
+    },
+    {
+      "key": "plaque.map2.redmarsh_stilts",
+      "mapId": "map2-redmarsh-wastes",
+      "act": 2,
+      "region": "Redmarsh Outpost",
+      "title": "Outpost Stilt Ration-Board",
+      "text": "Bolted to a bleached leviathan rib above the alkali moat, brass tally-slides track boiled rainwater by the gill. Red dust cakes every crevice of the dry limestone stockade."
+    },
+    {
+      "key": "plaque.map2.ochre_ditch_posts",
+      "mapId": "map2-redmarsh-wastes",
+      "act": 2,
+      "region": "Ochre Ditch",
+      "title": "Tilted Boundary Post",
+      "text": "An iron league-marker leans three degrees east as dissolving salt beds shift beneath the marsh. Sheep-skulls hung on willow stakes by Sand-Clan smugglers mark hidden dry footing."
+    },
+    {
+      "key": "plaque.map2.corduroy_causeway",
+      "mapId": "map2-redmarsh-wastes",
+      "act": 2,
+      "region": "Corduroy Causeway",
+      "title": "Corduroy Log Milepost",
+      "text": "Split pine trunks lashed with rawhide keep iron wagon wheels from sinking into sucking alkali mud. Wheel-ruts end abruptly where bogged Salt-Caravaneer convoys burned broken axles."
+    },
+    {
+      "key": "plaque.map2.twin_passes_spire",
+      "mapId": "map2-redmarsh-wastes",
+      "act": 2,
+      "region": "Twin Passes",
+      "title": "Middle Spire Watch-Slate",
+      "text": "High above parallel canyon tracks, red sandstone chimneys retain furnace heat long after sunset. Chipped obsidian arrowheads wedged in the ledges betray decades of Sand-Clan ambushes."
+    },
+    {
+      "key": "plaque.map2.four_faced_obelisk",
+      "mapId": "map2-redmarsh-wastes",
+      "act": 2,
+      "region": "Bracken Basin",
+      "title": "Four-Faced Milestone",
+      "text": "Imperial chiseling once measured leagues to Oakhaven and the southern coast. Someone hammered the southern arrows askew to lure northern relief columns straight into alkali sinkholes."
+    },
+    {
+      "key": "plaque.map2.quartz_wardstone_ring",
+      "mapId": "map2-redmarsh-wastes",
+      "act": 2,
+      "region": "Quartz Plateau",
+      "title": "Third Wardstone Plinth",
+      "text": "A towering monolith of milky quartz hums with jagged blue static. Fresh crimson blood-wards cut into its grounding grooves reverse the lattice and whip dust-squalls across the basin."
+    },
+    {
+      "key": "plaque.map2.redrock_salt_vaults",
+      "mapId": "map2-redmarsh-wastes",
+      "act": 2,
+      "region": "Salt-Vaults",
+      "title": "Redrock Canopic Lintel",
+      "text": "Stranded limestone piers jut from dry salt-crusts where inland galleys once moored. Bitumen-sealed probate jars line the cellar niches beside copper-wired skeletons on eternal watch."
+    },
+    {
+      "key": "plaque.map2.deep_quarry_terraces",
+      "mapId": "map2-redmarsh-wastes",
+      "act": 2,
+      "region": "Deep Quarry",
+      "title": "Quarry Hoist Tally-Stone",
+      "text": "Stepped terraces of black ironstone plunge three hundred feet toward flooded third-dynasty bronze doors. Rusted winch-chains rattle whenever rising groundwater knocks against the sluice."
+    },
+    {
+      "key": "plaque.map2.fork_of_spears",
+      "mapId": "map2-redmarsh-wastes",
+      "act": 2,
+      "region": "Fork of Spears",
+      "title": "Forked Causeway Marker",
+      "text": "Twin basalt bridges span the scree ravine beneath steaming iron boiler-pipes. Carved spear-notches along the parapet mark where two thousand vanguard levies stalled in freezing mist."
+    },
+    {
+      "key": "plaque.map2.ironheart_cisterns",
+      "mapId": "map2-redmarsh-wastes",
+      "act": 2,
+      "region": "Ironheart Bastion",
+      "title": "Ironheart Sluice-Gate Seal",
+      "text": "Rusted bronze wheels lock the twin mountain aqueducts shut behind plates of salt-rimed iron. Through dry archways, warm desert dust whistles across reservoirs silted empty years ago."
+    },
+    {
+      "key": "plaque.map3.oakhaven_drydocks",
+      "mapId": "map3-iron-coast",
+      "act": 3,
+      "region": "Oakhaven Harbor",
+      "title": "Whale-Oil Charter Brass Plate",
+      "text": "Riveted to the drydock sea-gate, tarnished brass letters record the Year -156 monopoly that funded Oakhaven's culverins. Pine pitch and boiled vinegar hang thick over the triage quays."
+    },
+    {
+      "key": "plaque.map3.cinder_wards_gate",
+      "mapId": "map3-iron-coast",
+      "act": 3,
+      "region": "Cinder Wards",
+      "title": "Tanner's Gate Clearance Post",
+      "text": "Blackened timber beams lie stacked outside the curtain wall under a stamped eviction writ. Watch pickets torched every tenement within bowshot so raiders could find no wooden cover."
+    },
+    {
+      "key": "plaque.map3.blighted_orchard",
+      "mapId": "map3-iron-coast",
+      "act": 3,
+      "region": "Blighted Orchard",
+      "title": "Chalk Watchtower Orchard Stone",
+      "text": "Terraced apple trees drip thick violet sap onto gravel paths beneath a salt-pitted watchtower. Iron gallows-hooks buried among the roots bind coastal fog tight against crooked trunks."
+    },
+    {
+      "key": "plaque.map3.greywash_riverlock",
+      "mapId": "map3-iron-coast",
+      "act": 3,
+      "region": "Greywash Canal",
+      "title": "Riverlock Capstan Ordinance",
+      "text": "Bronze teeth gleam beneath slick kelp beside twin floodgate winches. Engraved rules order lock-crews to turn both capstans together lest tidal headwater tear timber catwalks loose."
+    },
+    {
+      "key": "plaque.map3.age_of_chains_pass",
+      "mapId": "map3-iron-coast",
+      "act": 3,
+      "region": "Age-of-Chains Pass",
+      "title": "Lead-Lined Juggernaut Slate",
+      "text": "Bolted into sea-cliff granite above the northern pass, lead lettering names the seven iron bindings of an ancient construct. Arcing sparks dance along its copper rivets in wet salt air."
+    },
+    {
+      "key": "plaque.map3.hourglass_spit",
+      "mapId": "map3-iron-coast",
+      "act": 3,
+      "region": "Hourglass Spit",
+      "title": "Black Anchor-Rock Tide Post",
+      "text": "Iron rings pounded into dark reef basalt serve as high-water warning gauges for crossing scouts. When white surf tops the third ring, rip-currents swallow the gravel spit within minutes."
+    },
+    {
+      "key": "plaque.map3.sunken_citadel_nave",
+      "mapId": "map3-iron-coast",
+      "act": 3,
+      "region": "Sunken Citadel",
+      "title": "Drowned Choir Sea-Arch",
+      "text": "Barnacles crust the carved stone ribs of a submerged gothic nave exposed only at low ebb. Saltwater drips down bronze frost-bells that chime whenever deep swells shake the foundations."
+    },
+    {
+      "key": "plaque.map3.starved_bastion_wall",
+      "mapId": "map3-iron-coast",
+      "act": 3,
+      "region": "Starved Bastion",
+      "title": "Cliff-Watch Ration Tablet",
+      "text": "Scratch-marks on the slate parapet count forty-two days of Black Fleet blockade without a supply boat. Melted pewter sling-shot litters the embrasures above crashing grey surf."
+    },
+    {
+      "key": "plaque.map3.cliff_culverin_batteries",
+      "mapId": "map3-iron-coast",
+      "act": 3,
+      "region": "Cliff Batteries",
+      "title": "Culverin Elevation Marker",
+      "text": "Twelve-degree bronze wedges sit greased beside damp wool powder-covers on the chalk bluff. From here gunners drop solid iron shot straight onto enemy hulls clogging Harborwatch Bay."
+    },
+    {
+      "key": "plaque.map3.harborwatch_lighthouse",
+      "mapId": "map3-iron-coast",
+      "act": 3,
+      "region": "Burning Harborwatch",
+      "title": "Great Prism Beacon Plinth",
+      "text": "Smoke from burning whale-oil slicks stains the granite steps of the outer mole lighthouse. Inside the tower, heat-cracked quartz lenses await recalibration to guide carracks seaward."
+    },
+    {
+      "key": "plaque.map4.ironcamp_quenching_trough",
+      "mapId": "map4-obsidian-caldera",
+      "act": 4,
+      "region": "Ironcamp Forge-Hold",
+      "title": "Star-Iron Quenching Trough",
+      "text": "Geothermal floor-grates vent sulfur steam around basalt troughs filled with caldera brine. Stamped rules warn smiths that white-hot star-iron must be quenched in four heartbeats or snap."
+    },
+    {
+      "key": "plaque.map4.basalt_highway_milestone",
+      "mapId": "map4-obsidian-caldera",
+      "act": 4,
+      "region": "Basalt Highway",
+      "title": "Defaced Imperial Milepost",
+      "text": "Black paving stones radiate dry furnace heat up through hobnailed boot-soles. Every royal crest along the highway has been chiseled out and stamped with Malrik's scorched wheel."
+    },
+    {
+      "key": "plaque.map4.shattered_beacons",
+      "mapId": "map4-obsidian-caldera",
+      "act": 4,
+      "region": "Shattered Beacons",
+      "title": "West Crag Prism Stand",
+      "text": "Shattered bronze mirrors lie cold beside doused signal braziers on the volcanic ridge. Grounding wires bolted to a violet capacitor prism glow dull cherry-red before each static arc."
+    },
+    {
+      "key": "plaque.map4.ashveil_curtain_wall",
+      "mapId": "map4-obsidian-caldera",
+      "act": 4,
+      "region": "Ashveil Summit",
+      "title": "Tower Four Sapper Marker",
+      "text": "Molten slag scars three basalt courses of the eastern curtain wall above the portal stairs. Brine barrels sit wedged beside the merlons where engineers fought to cool crumbling mortar."
+    },
+    {
+      "key": "plaque.map4.magnetic_narrows",
+      "mapId": "map4-obsidian-caldera",
+      "act": 4,
+      "region": "Magnetic Narrows",
+      "title": "Lodestone Gorge Warning Post",
+      "text": "A copper plate bolted to oak warns soldiers against entering the thirty-pace gorge in unstrapped plate. Raw magnetic cliffs wrench steel blades sideways and jam crossbows mid-draw."
+    },
+    {
+      "key": "plaque.map4.twofold_barbican_forge",
+      "mapId": "map4-obsidian-caldera",
+      "act": 4,
+      "region": "Twofold Barbican",
+      "title": "Barbican Winch Anchor",
+      "text": "Thick iron portcullis chains run through twin basalt gatehouses overlooking Cinderforge Pit. Horn-blast signals carved in slate coordinate twin breaches before defenders shift ballistae."
+    },
+    {
+      "key": "plaque.map4.gauntlet_trench_maze",
+      "mapId": "map4-obsidian-caldera",
+      "act": 4,
+      "region": "Gauntlet of Iron",
+      "title": "Sixty-Degree Traverse Stone",
+      "text": "Angled siege trenches cut cleanly into volcanic rock let repeating ballistae sweep every ditch without blind spots. Charred faggots stacked along revetments still reek of boiled pitch."
+    },
+    {
+      "key": "plaque.map4.three_roads_bastion",
+      "mapId": "map4-obsidian-caldera",
+      "act": 4,
+      "region": "Three-Roads Watch",
+      "title": "Star-Bastion Dispatch Pillar",
+      "text": "Three converging causeways meet beneath jagged star-bastions guarding the magma moat. Dust plumes on every approach testify to Ember Court armies marching to reinforce the citadel."
+    },
+    {
+      "key": "plaque.map4.crossroads_headless_kings",
+      "mapId": "map4-obsidian-caldera",
+      "act": 4,
+      "region": "Threshold Nave",
+      "title": "Plinth of Headless Kings",
+      "text": "Three decapitated basalt kings stand sentinel beside the Seventh Anchor Valve where sovereigns died for refusing caldera tithes. Steam hisses through bronze rims as the mountain groans."
+    },
+    {
+      "key": "plaque.map4.colonnade_obsidian_dais",
+      "mapId": "map4-obsidian-caldera",
+      "act": 4,
+      "region": "Obsidian Dais",
+      "title": "Seventh Iron Crown Hook",
+      "text": "Black marble columns display twelve chained border crowns beneath undying coal braziers. Below the seventh pillar waits an empty hook stamped with Thornwick's crest above the Cinder Throne."
+    }
+  ]
+}
