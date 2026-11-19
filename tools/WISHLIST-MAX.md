@@ -1,6 +1,6 @@
 # WISHLIST-MAX - everything we want to add or improve (Thornvael, 2026-11-19)
 
-Purpose: a big backlog for other agents (Antigravity models) so Claude tokens are not spent. Every item says what, why it makes the game better, how to produce it with free/own tools, and where it plugs in. Agents: first INVENTORY what already exists (public/audio, public/sprites, public/townart, public/icons, src/*), mark items already done, then work top-down by value/effort. Rules: original assets only (no Rage of Mages/Diablo/HoMM files or text), every binary has an `assets.json` entry, binaries < 3 MiB, English in-game text, deterministic sim, push after each step, never touch `src/sim/path.ts`, `tests/movement.test.ts`, `models/`, `tools/render-unit.py`.
+Purpose: a big backlog for other agents (Antigravity models) so Claude tokens are not spent. Every item says what, why it makes the game better, how to produce it with free/own tools, and where it plugs in. Agents: first INVENTORY what already exists (public/audio, public/sprites, public/townart, public/icons, src/*), mark items already done, then work top-down by value/effort. Rules: original assets only (no the original game/a classic ARPG/HoMM files or text), every binary has an `assets.json` entry, binaries < 3 MiB, English in-game text, deterministic sim, push after each step, never touch `src/sim/path.ts`, `tests/movement.test.ts`, `models/`, `tools/render-unit.py`.
 Tags: [S] small <1h, [M] a few hours, [L] a day+. Value 1-5 in (v).
 
 ## A. FEEL / JUICE (cheapest way to make the game feel expensive)
