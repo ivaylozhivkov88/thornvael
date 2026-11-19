@@ -1,0 +1,354 @@
+/* ==========================================================================
+   Squad Bar HUD (1-Tap Party & Mercenary Selection Strip)
+   Strict 100dvh containment, >= 44x44px touch targets, zero vertical scroll.
+   ========================================================================== */
+
+.squad-bar {
+  position: fixed;
+  left: calc(10px + env(safe-area-inset-left));
+  top: calc(var(--hud-top, 56px) + 34px + env(safe-area-inset-top));
+  z-index: 9;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 5px;
+  max-width: min(176px, calc(100vw - 20px - env(safe-area-inset-left) - env(safe-area-inset-right)));
+  max-height: calc(100dvh - var(--hud-top, 56px) - var(--hud-bottom, 96px) - 52px - env(safe-area-inset-top) - env(safe-area-inset-bottom));
+  overflow: hidden;
+  pointer-events: none;
+  touch-action: none;
+  user-select: none;
+  -webkit-user-select: none;
+  -webkit-touch-callout: none;
+  font-family: "Segoe UI", system-ui, sans-serif;
+}
+
+.squad-bar > * {
+  pointer-events: auto;
+  touch-action: none;
+  user-select: none;
+  -webkit-user-select: none;
+}
+
+.squad-bar-toggle {
+  min-width: 44px;
+  min-height: 44px;
+  padding: 6px 10px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  background: linear-gradient(135deg, rgba(24, 20, 15, 0.94), rgba(12, 10, 8, 0.96));
+  color: var(--gold, #e4bf80);
+  border: 1px solid var(--bronze, #957550);
+  border-left: 3px solid var(--gold, #e4bf80);
+  border-radius: 5px;
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.3px;
+  box-shadow: 0 3px 10px rgba(0, 0, 0, 0.72), inset 0 1px 0 rgba(255, 215, 128, 0.16);
+  cursor: pointer;
+  touch-action: none;
+  user-select: none;
+  -webkit-user-select: none;
+}
+
+.squad-bar-toggle:hover {
+  border-color: #ffd770;
+  color: #fff6df;
+}
+
+.squad-bar-list {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  width: 100%;
+  overflow: hidden;
+  touch-action: none;
+}
+
+.squad-bar.is-collapsed .squad-bar-list {
+  display: none;
+}
+
+.squad-member {
+  position: relative;
+  min-width: 152px;
+  min-height: 48px;
+  width: 100%;
+  padding: 4px 7px 4px 5px;
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  text-align: left;
+  background: linear-gradient(150deg, rgba(31, 41, 49, 0.92), rgba(16, 22, 28, 0.95));
+  border: 2px solid var(--bronze, #957550);
+  border-radius: 6px;
+  box-shadow: 0 3px 10px rgba(0, 0, 0, 0.7), inset 0 1px 0 rgba(255, 255, 255, 0.08);
+  color: var(--text, #eee5d4);
+  cursor: pointer;
+  touch-action: none;
+  user-select: none;
+  -webkit-user-select: none;
+  transition: border-color 0.14s ease, box-shadow 0.14s ease, transform 0.12s ease;
+}
+
+.squad-member.is-hero {
+  border-color: #c29b4a;
+}
+
+.squad-member.is-selected {
+  background: linear-gradient(150deg, rgba(72, 57, 30, 0.95), rgba(32, 26, 16, 0.97));
+  border-color: #ffd770;
+  box-shadow:
+    0 0 0 2px rgba(255, 215, 112, 0.45),
+    0 0 14px rgba(228, 191, 128, 0.42),
+    inset 0 0 8px rgba(255, 215, 112, 0.22);
+}
+
+.squad-member.is-selected::after {
+  content: "";
+  position: absolute;
+  inset: -4px;
+  border-radius: 8px;
+  border: 1.5px solid rgba(255, 230, 140, 0.85);
+  pointer-events: none;
+}
+
+.squad-member.is-low-hp:not(.is-dead) {
+  animation: squad-low-hp 1.2s ease-in-out infinite;
+}
+
+@keyframes squad-low-hp {
+  0%, 100% { box-shadow: 0 0 0 1px rgba(220, 50, 40, 0.55), 0 3px 10px rgba(0, 0, 0, 0.7); }
+  50% { box-shadow: 0 0 12px rgba(235, 64, 52, 0.85), 0 3px 10px rgba(0, 0, 0, 0.7); }
+}
+
+.squad-member.is-dead {
+  opacity: 0.55;
+  filter: grayscale(0.75);
+}
+
+.squad-portrait-wrap {
+  position: relative;
+  width: 38px;
+  height: 38px;
+  flex: 0 0 38px;
+  border-radius: 5px;
+  border: 1px solid rgba(228, 191, 128, 0.45);
+  background: #121920;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.squad-portrait-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: 50% 18%;
+  display: block;
+  pointer-events: none;
+}
+
+.squad-fallback-icon {
+  font-size: 18px;
+  line-height: 1;
+  pointer-events: none;
+}
+
+.squad-level-badge {
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  padding: 0 3px;
+  font-size: 8px;
+  font-weight: 700;
+  line-height: 1.25;
+  color: #ffd770;
+  background: rgba(12, 16, 20, 0.9);
+  border-top-left-radius: 3px;
+  pointer-events: none;
+}
+
+.squad-status-badges {
+  position: absolute;
+  left: 1px;
+  top: 1px;
+  display: flex;
+  gap: 1px;
+  pointer-events: none;
+}
+
+.squad-status-chip {
+  font-size: 9px;
+  line-height: 1;
+  padding: 1px;
+  border-radius: 3px;
+  background: rgba(10, 14, 18, 0.82);
+}
+
+.squad-status-chip.is-warn {
+  background: rgba(120, 20, 20, 0.9);
+}
+
+.squad-member-meta {
+  flex: 1 1 auto;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  pointer-events: none;
+}
+
+.squad-member-name {
+  font-size: 11px;
+  font-weight: 600;
+  line-height: 1.15;
+  color: #f4ebd8;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.squad-bar-track {
+  position: relative;
+  width: 100%;
+  height: 5px;
+  border-radius: 3px;
+  background: #0c1014;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  overflow: hidden;
+}
+
+.squad-bar-track.is-empty {
+  opacity: 0.3;
+}
+
+.squad-bar-fill {
+  height: 100%;
+  transition: width 0.12s linear;
+}
+
+.squad-hp-fill {
+  background: linear-gradient(90deg, #a61e22, #e04a3f);
+}
+
+.squad-mana-fill {
+  background: linear-gradient(90deg, #1b4f9c, #4997ff);
+}
+
+.squad-bar-overflow {
+  padding: 2px 7px;
+  border-radius: 4px;
+  background: rgba(16, 22, 28, 0.9);
+  border: 1px solid var(--bronze, #957550);
+  color: var(--gold, #e4bf80);
+  font-size: 10px;
+  font-weight: 600;
+}
+
+/* Compact / Mobile Landscape Layout: horizontal icon-tile strip, >= 44x44px touch targets */
+.squad-bar.is-compact {
+  flex-direction: row;
+  align-items: center;
+  max-width: calc(100vw - 170px - env(safe-area-inset-left) - env(safe-area-inset-right));
+  max-height: 62px;
+  gap: 4px;
+}
+
+.squad-bar.is-compact .squad-bar-toggle {
+  min-width: 44px;
+  min-height: 44px;
+  padding: 4px 8px;
+  font-size: 11px;
+  flex-shrink: 0;
+}
+
+.squad-bar.is-compact .squad-bar-list {
+  flex-direction: row;
+  flex-wrap: nowrap;
+  gap: 4px;
+  width: auto;
+}
+
+.squad-bar.is-compact .squad-member {
+  min-width: 46px;
+  width: 48px;
+  min-height: 48px;
+  height: 50px;
+  padding: 3px;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: 2px;
+  flex-shrink: 0;
+}
+
+.squad-bar.is-compact .squad-portrait-wrap {
+  width: 34px;
+  height: 30px;
+  flex: 0 0 30px;
+}
+
+.squad-bar.is-compact .squad-member-meta {
+  width: 100%;
+  gap: 2px;
+}
+
+.squad-bar.is-compact .squad-member-name {
+  display: none;
+}
+
+.squad-bar.is-compact .squad-bar-track {
+  height: 4px;
+}
+
+@media (max-width: 900px), (max-height: 540px) {
+  .squad-bar {
+    flex-direction: row;
+    align-items: center;
+    top: calc(var(--hud-top, 56px) + 30px + env(safe-area-inset-top));
+    max-width: calc(100vw - 170px - env(safe-area-inset-left) - env(safe-area-inset-right));
+    max-height: 62px;
+    gap: 4px;
+  }
+
+  .squad-bar-list {
+    flex-direction: row;
+    flex-wrap: nowrap;
+    gap: 4px;
+    width: auto;
+  }
+
+  .squad-member {
+    min-width: 46px;
+    width: 48px;
+    min-height: 48px;
+    height: 50px;
+    padding: 3px;
+    flex-direction: column;
+    justify-content: space-between;
+    gap: 2px;
+    flex-shrink: 0;
+  }
+
+  .squad-portrait-wrap {
+    width: 34px;
+    height: 30px;
+    flex: 0 0 30px;
+  }
+
+  .squad-member-meta {
+    width: 100%;
+    gap: 2px;
+  }
+
+  .squad-member-name {
+    display: none;
+  }
+
+  .squad-bar-track {
+    height: 4px;
+  }
+}
