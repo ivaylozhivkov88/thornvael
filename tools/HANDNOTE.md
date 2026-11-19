@@ -19,3 +19,10 @@ Missing descriptions in canva-units.json (write one first): gnoll golem imp mage
 
 ## End of run
 Tune FAMILY_VISUALS in src/render.ts (~line 121) via ?art=1 (dev server thornvael-dev port 5199), full vitest, update PROGRESS.md, final Bulgarian report with DONE/REDO.
+
+## Campaign Deep Design Log (2026-11-19)
+- [x] **Step 0**: Surveyed all existing campaign missions, monster families (`monsters.json`, `super-uniques.ts`), lore (`factions.json`, `timeline.json`, `bosses.json`, `lore-books.json`), biomes/zones (`terrain.ts`), and portrait/sprite assets (`assets.json`).
+- [x] **Step 1 (`00-BIBLE.md`)**: Completed `.planning/campaign/00-BIBLE.md` (world, tone, 4 cities, overarching threat, 4-map resolution, 8 key characters with portrait paths, full monster/biome matrix, glossary).
+- [ ] **Step 2**: `map-1-border-fords.md`, `map-2-redmarsh-wastes.md`, `map-3-iron-coast.md`, `map-4-obsidian-caldera.md`.
+- [ ] **Step 3**: `03-GAPS.md` + declarative `MapDoc` v2 schema validation.
+- [ ] **Step 4 & 5**: `01-PROGRESSION.md` & `02-PRODUCTION-PLAN.md` (after user checkpoint).
