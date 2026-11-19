@@ -1,0 +1,495 @@
+{
+  "frames": {
+    "ironcamp/watchtower": {
+      "frame": {
+        "x": 2,
+        "y": 2,
+        "w": 88,
+        "h": 128
+      },
+      "sourceSize": {
+        "w": 88,
+        "h": 128
+      },
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 88,
+        "h": 128
+      },
+      "rotated": false,
+      "trimmed": false,
+      "anchor": {
+        "x": 0.5,
+        "y": 0.9
+      }
+    },
+    "oakhaven/watchtower": {
+      "frame": {
+        "x": 92,
+        "y": 2,
+        "w": 88,
+        "h": 128
+      },
+      "sourceSize": {
+        "w": 88,
+        "h": 128
+      },
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 88,
+        "h": 128
+      },
+      "rotated": false,
+      "trimmed": false,
+      "anchor": {
+        "x": 0.5,
+        "y": 0.9
+      }
+    },
+    "redmarsh/watchtower": {
+      "frame": {
+        "x": 182,
+        "y": 2,
+        "w": 88,
+        "h": 128
+      },
+      "sourceSize": {
+        "w": 88,
+        "h": 128
+      },
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 88,
+        "h": 128
+      },
+      "rotated": false,
+      "trimmed": false,
+      "anchor": {
+        "x": 0.5,
+        "y": 0.9
+      }
+    },
+    "thornwick/watchtower": {
+      "frame": {
+        "x": 272,
+        "y": 2,
+        "w": 88,
+        "h": 128
+      },
+      "sourceSize": {
+        "w": 88,
+        "h": 128
+      },
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 88,
+        "h": 128
+      },
+      "rotated": false,
+      "trimmed": false,
+      "anchor": {
+        "x": 0.5,
+        "y": 0.9
+      }
+    },
+    "ironcamp/temple": {
+      "frame": {
+        "x": 362,
+        "y": 2,
+        "w": 112,
+        "h": 120
+      },
+      "sourceSize": {
+        "w": 112,
+        "h": 120
+      },
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 112,
+        "h": 120
+      },
+      "rotated": false,
+      "trimmed": false,
+      "anchor": {
+        "x": 0.5,
+        "y": 0.9
+      }
+    },
+    "oakhaven/temple": {
+      "frame": {
+        "x": 476,
+        "y": 2,
+        "w": 112,
+        "h": 120
+      },
+      "sourceSize": {
+        "w": 112,
+        "h": 120
+      },
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 112,
+        "h": 120
+      },
+      "rotated": false,
+      "trimmed": false,
+      "anchor": {
+        "x": 0.5,
+        "y": 0.9
+      }
+    },
+    "redmarsh/temple": {
+      "frame": {
+        "x": 590,
+        "y": 2,
+        "w": 112,
+        "h": 120
+      },
+      "sourceSize": {
+        "w": 112,
+        "h": 120
+      },
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 112,
+        "h": 120
+      },
+      "rotated": false,
+      "trimmed": false,
+      "anchor": {
+        "x": 0.5,
+        "y": 0.9
+      }
+    },
+    "thornwick/temple": {
+      "frame": {
+        "x": 704,
+        "y": 2,
+        "w": 112,
+        "h": 120
+      },
+      "sourceSize": {
+        "w": 112,
+        "h": 120
+      },
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 112,
+        "h": 120
+      },
+      "rotated": false,
+      "trimmed": false,
+      "anchor": {
+        "x": 0.5,
+        "y": 0.9
+      }
+    },
+    "ironcamp/gate": {
+      "frame": {
+        "x": 818,
+        "y": 2,
+        "w": 128,
+        "h": 112
+      },
+      "sourceSize": {
+        "w": 128,
+        "h": 112
+      },
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 128,
+        "h": 112
+      },
+      "rotated": false,
+      "trimmed": false,
+      "anchor": {
+        "x": 0.5,
+        "y": 0.9
+      }
+    },
+    "oakhaven/gate": {
+      "frame": {
+        "x": 2,
+        "y": 132,
+        "w": 128,
+        "h": 112
+      },
+      "sourceSize": {
+        "w": 128,
+        "h": 112
+      },
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 128,
+        "h": 112
+      },
+      "rotated": false,
+      "trimmed": false,
+      "anchor": {
+        "x": 0.5,
+        "y": 0.9
+      }
+    },
+    "redmarsh/gate": {
+      "frame": {
+        "x": 132,
+        "y": 132,
+        "w": 128,
+        "h": 112
+      },
+      "sourceSize": {
+        "w": 128,
+        "h": 112
+      },
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 128,
+        "h": 112
+      },
+      "rotated": false,
+      "trimmed": false,
+      "anchor": {
+        "x": 0.5,
+        "y": 0.9
+      }
+    },
+    "thornwick/gate": {
+      "frame": {
+        "x": 262,
+        "y": 132,
+        "w": 128,
+        "h": 112
+      },
+      "sourceSize": {
+        "w": 128,
+        "h": 112
+      },
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 128,
+        "h": 112
+      },
+      "rotated": false,
+      "trimmed": false,
+      "anchor": {
+        "x": 0.5,
+        "y": 0.9
+      }
+    },
+    "ironcamp/smithy": {
+      "frame": {
+        "x": 392,
+        "y": 132,
+        "w": 112,
+        "h": 112
+      },
+      "sourceSize": {
+        "w": 112,
+        "h": 112
+      },
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 112,
+        "h": 112
+      },
+      "rotated": false,
+      "trimmed": false,
+      "anchor": {
+        "x": 0.5,
+        "y": 0.9
+      }
+    },
+    "ironcamp/tavern": {
+      "frame": {
+        "x": 506,
+        "y": 132,
+        "w": 112,
+        "h": 112
+      },
+      "sourceSize": {
+        "w": 112,
+        "h": 112
+      },
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 112,
+        "h": 112
+      },
+      "rotated": false,
+      "trimmed": false,
+      "anchor": {
+        "x": 0.5,
+        "y": 0.9
+      }
+    },
+    "oakhaven/smithy": {
+      "frame": {
+        "x": 620,
+        "y": 132,
+        "w": 112,
+        "h": 112
+      },
+      "sourceSize": {
+        "w": 112,
+        "h": 112
+      },
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 112,
+        "h": 112
+      },
+      "rotated": false,
+      "trimmed": false,
+      "anchor": {
+        "x": 0.5,
+        "y": 0.9
+      }
+    },
+    "oakhaven/tavern": {
+      "frame": {
+        "x": 734,
+        "y": 132,
+        "w": 112,
+        "h": 112
+      },
+      "sourceSize": {
+        "w": 112,
+        "h": 112
+      },
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 112,
+        "h": 112
+      },
+      "rotated": false,
+      "trimmed": false,
+      "anchor": {
+        "x": 0.5,
+        "y": 0.9
+      }
+    },
+    "redmarsh/smithy": {
+      "frame": {
+        "x": 848,
+        "y": 132,
+        "w": 112,
+        "h": 112
+      },
+      "sourceSize": {
+        "w": 112,
+        "h": 112
+      },
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 112,
+        "h": 112
+      },
+      "rotated": false,
+      "trimmed": false,
+      "anchor": {
+        "x": 0.5,
+        "y": 0.9
+      }
+    },
+    "redmarsh/tavern": {
+      "frame": {
+        "x": 2,
+        "y": 246,
+        "w": 112,
+        "h": 112
+      },
+      "sourceSize": {
+        "w": 112,
+        "h": 112
+      },
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 112,
+        "h": 112
+      },
+      "rotated": false,
+      "trimmed": false,
+      "anchor": {
+        "x": 0.5,
+        "y": 0.9
+      }
+    },
+    "thornwick/smithy": {
+      "frame": {
+        "x": 116,
+        "y": 246,
+        "w": 112,
+        "h": 112
+      },
+      "sourceSize": {
+        "w": 112,
+        "h": 112
+      },
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 112,
+        "h": 112
+      },
+      "rotated": false,
+      "trimmed": false,
+      "anchor": {
+        "x": 0.5,
+        "y": 0.9
+      }
+    },
+    "thornwick/tavern": {
+      "frame": {
+        "x": 230,
+        "y": 246,
+        "w": 112,
+        "h": 112
+      },
+      "sourceSize": {
+        "w": 112,
+        "h": 112
+      },
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 112,
+        "h": 112
+      },
+      "rotated": false,
+      "trimmed": false,
+      "anchor": {
+        "x": 0.5,
+        "y": 0.9
+      }
+    }
+  },
+  "meta": {
+    "app": "tools/gen-art-wave3.py",
+    "version": "1.0",
+    "image": "city-buildings.png",
+    "format": "RGBA8888",
+    "size": {
+      "w": 1024,
+      "h": 512
+    },
+    "scale": 1
+  }
+}

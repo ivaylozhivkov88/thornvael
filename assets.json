@@ -4534,6 +4534,1158 @@
       "license": "own",
       "source": "tools/gen-new-art-packs.py",
       "note": "Map 4 Obsidian Caldera loading screen key painting"
+    },
+    {
+      "path": "public/art-wave3/boss-telegraphs.png",
+      "license": "own",
+      "source": "tools/gen-art-wave3.py",
+      "note": "Wave 3 boss AoE telegraph decals & rune glyphs (shared + morvessa, gorrathul, vesperion, ashkarath)"
+    },
+    {
+      "path": "public/art-wave3/city-buildings.png",
+      "license": "own",
+      "source": "tools/gen-art-wave3.py",
+      "note": "Wave 3 unified 4-city architectural building silhouettes (thornwick, redmarsh, oakhaven, ironcamp)"
+    },
+    {
+      "path": "public/art-wave3/env-anims.png",
+      "license": "own",
+      "source": "tools/gen-art-wave3.py",
+      "note": "Wave 3 environmental animation atlas (torches, banners, smoke, water-wheel, bonfire, cauldron)"
+    },
+    {
+      "path": "public/itemicons/adamantium-needle.png",
+      "license": "own",
+      "source": "tools/gen-art-wave3.py",
+      "note": "Wave 3 procedural 64x64 base item icon (fills missing items.json / base-items slug)"
+    },
+    {
+      "path": "public/itemicons/aegis-of-the-citadel.png",
+      "license": "own",
+      "source": "tools/gen-art-wave3.py",
+      "note": "Wave 3 procedural 64x64 base item icon (fills missing items.json / base-items slug)"
+    },
+    {
+      "path": "public/itemicons/amber-focus-wand.png",
+      "license": "own",
+      "source": "tools/gen-art-wave3.py",
+      "note": "Wave 3 procedural 64x64 base item icon (fills missing items.json / base-items slug)"
+    },
+    {
+      "path": "public/itemicons/apprentice-circlet.png",
+      "license": "own",
+      "source": "tools/gen-art-wave3.py",
+      "note": "Wave 3 procedural 64x64 base item icon (fills missing items.json / base-items slug)"
+    },
+    {
+      "path": "public/itemicons/archmage-diadem.png",
+      "license": "own",
+      "source": "tools/gen-art-wave3.py",
+      "note": "Wave 3 procedural 64x64 base item icon (fills missing items.json / base-items slug)"
+    },
+    {
+      "path": "public/itemicons/archon-handwraps.png",
+      "license": "own",
+      "source": "tools/gen-art-wave3.py",
+      "note": "Wave 3 procedural 64x64 base item icon (fills missing items.json / base-items slug)"
+    },
+    {
+      "path": "public/itemicons/ash-shortbow.png",
+      "license": "own",
+      "source": "tools/gen-art-wave3.py",
+      "note": "Wave 3 procedural 64x64 base item icon (fills missing items.json / base-items slug)"
+    },
+    {
+      "path": "public/itemicons/ash-staff.png",
+      "license": "own",
+      "source": "tools/gen-art-wave3.py",
+      "note": "Wave 3 procedural 64x64 base item icon (fills missing items.json / base-items slug)"
+    },
+    {
+      "path": "public/itemicons/astral-archon-wand.png",
+      "license": "own",
+      "source": "tools/gen-art-wave3.py",
+      "note": "Wave 3 procedural 64x64 base item icon (fills missing items.json / base-items slug)"
+    },
+    {
+      "path": "public/itemicons/astral-medallion.png",
+      "license": "own",
+      "source": "tools/gen-art-wave3.py",
+      "note": "Wave 3 procedural 64x64 base item icon (fills missing items.json / base-items slug)"
+    },
+    {
+      "path": "public/itemicons/astral-sphere.png",
+      "license": "own",
+      "source": "tools/gen-art-wave3.py",
+      "note": "Wave 3 procedural 64x64 base item icon (fills missing items.json / base-items slug)"
+    },
+    {
+      "path": "public/itemicons/astral-walkers.png",
+      "license": "own",
+      "source": "tools/gen-art-wave3.py",
+      "note": "Wave 3 procedural 64x64 base item icon (fills missing items.json / base-items slug)"
+    },
+    {
+      "path": "public/itemicons/bastard-greatsword.png",
+      "license": "own",
+      "source": "tools/gen-art-wave3.py",
+      "note": "Wave 3 procedural 64x64 base item icon (fills missing items.json / base-items slug)"
+    },
+    {
+      "path": "public/itemicons/bearded-battleaxe.png",
+      "license": "own",
+      "source": "tools/gen-art-wave3.py",
+      "note": "Wave 3 procedural 64x64 base item icon (fills missing items.json / base-items slug)"
+    },
+    {
+      "path": "public/itemicons/berserker-decapitator.png",
+      "license": "own",
+      "source": "tools/gen-art-wave3.py",
+      "note": "Wave 3 procedural 64x64 base item icon (fills missing items.json / base-items slug)"
+    },
+    {
+      "path": "public/itemicons/bloodstone-pendant.png",
+      "license": "own",
+      "source": "tools/gen-art-wave3.py",
+      "note": "Wave 3 procedural 64x64 base item icon (fills missing items.json / base-items slug)"
+    },
+    {
+      "path": "public/itemicons/bone-ring.png",
+      "license": "own",
+      "source": "tools/gen-art-wave3.py",
+      "note": "Wave 3 procedural 64x64 base item icon (fills missing items.json / base-items slug)"
+    },
+    {
+      "path": "public/itemicons/bronze-locket.png",
+      "license": "own",
+      "source": "tools/gen-art-wave3.py",
+      "note": "Wave 3 procedural 64x64 base item icon (fills missing items.json / base-items slug)"
+    },
+    {
+      "path": "public/itemicons/chain-mail.png",
+      "license": "own",
+      "source": "tools/gen-art-wave3.py",
+      "note": "Wave 3 procedural 64x64 base item icon (fills missing items.json / base-items slug)"
+    },
+    {
+      "path": "public/itemicons/chiseled-quartz-focus.png",
+      "license": "own",
+      "source": "tools/gen-art-wave3.py",
+      "note": "Wave 3 procedural 64x64 base item icon (fills missing items.json / base-items slug)"
+    },
+    {
+      "path": "public/itemicons/clay-talisman.png",
+      "license": "own",
+      "source": "tools/gen-art-wave3.py",
+      "note": "Wave 3 procedural 64x64 base item icon (fills missing items.json / base-items slug)"
+    },
+    {
+      "path": "public/itemicons/cloth-robe.png",
+      "license": "own",
+      "source": "tools/gen-art-wave3.py",
+      "note": "Wave 3 procedural 64x64 base item icon (fills missing items.json / base-items slug)"
+    },
+    {
+      "path": "public/itemicons/composite-war-bow.png",
+      "license": "own",
+      "source": "tools/gen-art-wave3.py",
+      "note": "Wave 3 procedural 64x64 base item icon (fills missing items.json / base-items slug)"
+    },
+    {
+      "path": "public/itemicons/copper-band.png",
+      "license": "own",
+      "source": "tools/gen-art-wave3.py",
+      "note": "Wave 3 procedural 64x64 base item icon (fills missing items.json / base-items slug)"
+    },
+    {
+      "path": "public/itemicons/copper-sewn-gloves.png",
+      "license": "own",
+      "source": "tools/gen-art-wave3.py",
+      "note": "Wave 3 procedural 64x64 base item icon (fills missing items.json / base-items slug)"
+    },
+    {
+      "path": "public/itemicons/crescent-broadaxe.png",
+      "license": "own",
+      "source": "tools/gen-art-wave3.py",
+      "note": "Wave 3 procedural 64x64 base item icon (fills missing items.json / base-items slug)"
+    },
+    {
+      "path": "public/itemicons/crystal-siphon-wand.png",
+      "license": "own",
+      "source": "tools/gen-art-wave3.py",
+      "note": "Wave 3 procedural 64x64 base item icon (fills missing items.json / base-items slug)"
+    },
+    {
+      "path": "public/itemicons/dragon-leather-mantle.png",
+      "license": "own",
+      "source": "tools/gen-art-wave3.py",
+      "note": "Wave 3 procedural 64x64 base item icon (fills missing items.json / base-items slug)"
+    },
+    {
+      "path": "public/itemicons/dread-crest-helm.png",
+      "license": "own",
+      "source": "tools/gen-art-wave3.py",
+      "note": "Wave 3 procedural 64x64 base item icon (fills missing items.json / base-items slug)"
+    },
+    {
+      "path": "public/itemicons/dreadnought-zweihander.png",
+      "license": "own",
+      "source": "tools/gen-art-wave3.py",
+      "note": "Wave 3 procedural 64x64 base item icon (fills missing items.json / base-items slug)"
+    },
+    {
+      "path": "public/itemicons/duelist-poignard.png",
+      "license": "own",
+      "source": "tools/gen-art-wave3.py",
+      "note": "Wave 3 procedural 64x64 base item icon (fills missing items.json / base-items slug)"
+    },
+    {
+      "path": "public/itemicons/elixir-of-agility.png",
+      "license": "own",
+      "source": "tools/gen-art-wave3.py",
+      "note": "Wave 3 procedural 64x64 base item icon (fills missing items.json / base-items slug)"
+    },
+    {
+      "path": "public/itemicons/elixir-of-body.png",
+      "license": "own",
+      "source": "tools/gen-art-wave3.py",
+      "note": "Wave 3 procedural 64x64 base item icon (fills missing items.json / base-items slug)"
+    },
+    {
+      "path": "public/itemicons/elixir-of-mind.png",
+      "license": "own",
+      "source": "tools/gen-art-wave3.py",
+      "note": "Wave 3 procedural 64x64 base item icon (fills missing items.json / base-items slug)"
+    },
+    {
+      "path": "public/itemicons/elixir-of-spirit.png",
+      "license": "own",
+      "source": "tools/gen-art-wave3.py",
+      "note": "Wave 3 procedural 64x64 base item icon (fills missing items.json / base-items slug)"
+    },
+    {
+      "path": "public/itemicons/ember-charm.png",
+      "license": "own",
+      "source": "tools/gen-art-wave3.py",
+      "note": "Wave 3 procedural 64x64 base item icon (fills missing items.json / base-items slug)"
+    },
+    {
+      "path": "public/itemicons/executioner-blade.png",
+      "license": "own",
+      "source": "tools/gen-art-wave3.py",
+      "note": "Wave 3 procedural 64x64 base item icon (fills missing items.json / base-items slug)"
+    },
+    {
+      "path": "public/itemicons/eye-of-the-cosmos.png",
+      "license": "own",
+      "source": "tools/gen-art-wave3.py",
+      "note": "Wave 3 procedural 64x64 base item icon (fills missing items.json / base-items slug)"
+    },
+    {
+      "path": "public/itemicons/flamberge.png",
+      "license": "own",
+      "source": "tools/gen-art-wave3.py",
+      "note": "Wave 3 procedural 64x64 base item icon (fills missing items.json / base-items slug)"
+    },
+    {
+      "path": "public/itemicons/flanged-mace.png",
+      "license": "own",
+      "source": "tools/gen-art-wave3.py",
+      "note": "Wave 3 procedural 64x64 base item icon (fills missing items.json / base-items slug)"
+    },
+    {
+      "path": "public/itemicons/flint-stiletto.png",
+      "license": "own",
+      "source": "tools/gen-art-wave3.py",
+      "note": "Wave 3 procedural 64x64 base item icon (fills missing items.json / base-items slug)"
+    },
+    {
+      "path": "public/itemicons/frost-charm.png",
+      "license": "own",
+      "source": "tools/gen-art-wave3.py",
+      "note": "Wave 3 procedural 64x64 base item icon (fills missing items.json / base-items slug)"
+    },
+    {
+      "path": "public/itemicons/gothic-full-plate.png",
+      "license": "own",
+      "source": "tools/gen-art-wave3.py",
+      "note": "Wave 3 procedural 64x64 base item icon (fills missing items.json / base-items slug)"
+    },
+    {
+      "path": "public/itemicons/greased-archers-gloves.png",
+      "license": "own",
+      "source": "tools/gen-art-wave3.py",
+      "note": "Wave 3 procedural 64x64 base item icon (fills missing items.json / base-items slug)"
+    },
+    {
+      "path": "public/itemicons/great-ring-of-calm.png",
+      "license": "own",
+      "source": "tools/gen-art-wave3.py",
+      "note": "Wave 3 procedural 64x64 base item icon (fills missing items.json / base-items slug)"
+    },
+    {
+      "path": "public/itemicons/great-ring-of-grace.png",
+      "license": "own",
+      "source": "tools/gen-art-wave3.py",
+      "note": "Wave 3 procedural 64x64 base item icon (fills missing items.json / base-items slug)"
+    },
+    {
+      "path": "public/itemicons/great-ring-of-insight.png",
+      "license": "own",
+      "source": "tools/gen-art-wave3.py",
+      "note": "Wave 3 procedural 64x64 base item icon (fills missing items.json / base-items slug)"
+    },
+    {
+      "path": "public/itemicons/great-ring-of-might.png",
+      "license": "own",
+      "source": "tools/gen-art-wave3.py",
+      "note": "Wave 3 procedural 64x64 base item icon (fills missing items.json / base-items slug)"
+    },
+    {
+      "path": "public/itemicons/greater-healing-draught.png",
+      "license": "own",
+      "source": "tools/gen-art-wave3.py",
+      "note": "Wave 3 procedural 64x64 base item icon (fills missing items.json / base-items slug)"
+    },
+    {
+      "path": "public/itemicons/greater-mana-draught.png",
+      "license": "own",
+      "source": "tools/gen-art-wave3.py",
+      "note": "Wave 3 procedural 64x64 base item icon (fills missing items.json / base-items slug)"
+    },
+    {
+      "path": "public/itemicons/hardened-brigandine.png",
+      "license": "own",
+      "source": "tools/gen-art-wave3.py",
+      "note": "Wave 3 procedural 64x64 base item icon (fills missing items.json / base-items slug)"
+    },
+    {
+      "path": "public/itemicons/healing-draught.png",
+      "license": "own",
+      "source": "tools/gen-art-wave3.py",
+      "note": "Wave 3 procedural 64x64 base item icon (fills missing items.json / base-items slug)"
+    },
+    {
+      "path": "public/itemicons/heart-of-the-colossus.png",
+      "license": "own",
+      "source": "tools/gen-art-wave3.py",
+      "note": "Wave 3 procedural 64x64 base item icon (fills missing items.json / base-items slug)"
+    },
+    {
+      "path": "public/itemicons/heavy-arbalest.png",
+      "license": "own",
+      "source": "tools/gen-art-wave3.py",
+      "note": "Wave 3 procedural 64x64 base item icon (fills missing items.json / base-items slug)"
+    },
+    {
+      "path": "public/itemicons/heavy-morningstar.png",
+      "license": "own",
+      "source": "tools/gen-art-wave3.py",
+      "note": "Wave 3 procedural 64x64 base item icon (fills missing items.json / base-items slug)"
+    },
+    {
+      "path": "public/itemicons/interlocking-ring-mail.png",
+      "license": "own",
+      "source": "tools/gen-art-wave3.py",
+      "note": "Wave 3 procedural 64x64 base item icon (fills missing items.json / base-items slug)"
+    },
+    {
+      "path": "public/itemicons/iron-boots.png",
+      "license": "own",
+      "source": "tools/gen-art-wave3.py",
+      "note": "Wave 3 procedural 64x64 base item icon (fills missing items.json / base-items slug)"
+    },
+    {
+      "path": "public/itemicons/iron-gauntlets.png",
+      "license": "own",
+      "source": "tools/gen-art-wave3.py",
+      "note": "Wave 3 procedural 64x64 base item icon (fills missing items.json / base-items slug)"
+    },
+    {
+      "path": "public/itemicons/iron-helm.png",
+      "license": "own",
+      "source": "tools/gen-art-wave3.py",
+      "note": "Wave 3 procedural 64x64 base item icon (fills missing items.json / base-items slug)"
+    },
+    {
+      "path": "public/itemicons/iron-shield.png",
+      "license": "own",
+      "source": "tools/gen-art-wave3.py",
+      "note": "Wave 3 procedural 64x64 base item icon (fills missing items.json / base-items slug)"
+    },
+    {
+      "path": "public/itemicons/iron-sword.png",
+      "license": "own",
+      "source": "tools/gen-art-wave3.py",
+      "note": "Wave 3 procedural 64x64 base item icon (fills missing items.json / base-items slug)"
+    },
+    {
+      "path": "public/itemicons/juggernaut-war-greaves.png",
+      "license": "own",
+      "source": "tools/gen-art-wave3.py",
+      "note": "Wave 3 procedural 64x64 base item icon (fills missing items.json / base-items slug)"
+    },
+    {
+      "path": "public/itemicons/knight-shield.png",
+      "license": "own",
+      "source": "tools/gen-art-wave3.py",
+      "note": "Wave 3 procedural 64x64 base item icon (fills missing items.json / base-items slug)"
+    },
+    {
+      "path": "public/itemicons/knight-sword.png",
+      "license": "own",
+      "source": "tools/gen-art-wave3.py",
+      "note": "Wave 3 procedural 64x64 base item icon (fills missing items.json / base-items slug)"
+    },
+    {
+      "path": "public/itemicons/leather-boots.png",
+      "license": "own",
+      "source": "tools/gen-art-wave3.py",
+      "note": "Wave 3 procedural 64x64 base item icon (fills missing items.json / base-items slug)"
+    },
+    {
+      "path": "public/itemicons/leather-cap.png",
+      "license": "own",
+      "source": "tools/gen-art-wave3.py",
+      "note": "Wave 3 procedural 64x64 base item icon (fills missing items.json / base-items slug)"
+    },
+    {
+      "path": "public/itemicons/leather-gloves.png",
+      "license": "own",
+      "source": "tools/gen-art-wave3.py",
+      "note": "Wave 3 procedural 64x64 base item icon (fills missing items.json / base-items slug)"
+    },
+    {
+      "path": "public/itemicons/life-charm.png",
+      "license": "own",
+      "source": "tools/gen-art-wave3.py",
+      "note": "Wave 3 procedural 64x64 base item icon (fills missing items.json / base-items slug)"
+    },
+    {
+      "path": "public/itemicons/mage-robe.png",
+      "license": "own",
+      "source": "tools/gen-art-wave3.py",
+      "note": "Wave 3 procedural 64x64 base item icon (fills missing items.json / base-items slug)"
+    },
+    {
+      "path": "public/itemicons/main-gauche.png",
+      "license": "own",
+      "source": "tools/gen-art-wave3.py",
+      "note": "Wave 3 procedural 64x64 base item icon (fills missing items.json / base-items slug)"
+    },
+    {
+      "path": "public/itemicons/mana-draught.png",
+      "license": "own",
+      "source": "tools/gen-art-wave3.py",
+      "note": "Wave 3 procedural 64x64 base item icon (fills missing items.json / base-items slug)"
+    },
+    {
+      "path": "public/itemicons/medallion-of-the-celestial-spire.png",
+      "license": "own",
+      "source": "tools/gen-art-wave3.py",
+      "note": "Wave 3 procedural 64x64 base item icon (fills missing items.json / base-items slug)"
+    },
+    {
+      "path": "public/itemicons/mind-charm.png",
+      "license": "own",
+      "source": "tools/gen-art-wave3.py",
+      "note": "Wave 3 procedural 64x64 base item icon (fills missing items.json / base-items slug)"
+    },
+    {
+      "path": "public/itemicons/mithril-gale-buckler.png",
+      "license": "own",
+      "source": "tools/gen-art-wave3.py",
+      "note": "Wave 3 procedural 64x64 base item icon (fills missing items.json / base-items slug)"
+    },
+    {
+      "path": "public/itemicons/mystic-velvet-mantle.png",
+      "license": "own",
+      "source": "tools/gen-art-wave3.py",
+      "note": "Wave 3 procedural 64x64 base item icon (fills missing items.json / base-items slug)"
+    },
+    {
+      "path": "public/itemicons/novice-glass-focus.png",
+      "license": "own",
+      "source": "tools/gen-art-wave3.py",
+      "note": "Wave 3 procedural 64x64 base item icon (fills missing items.json / base-items slug)"
+    },
+    {
+      "path": "public/itemicons/novice-wraps.png",
+      "license": "own",
+      "source": "tools/gen-art-wave3.py",
+      "note": "Wave 3 procedural 64x64 base item icon (fills missing items.json / base-items slug)"
+    },
+    {
+      "path": "public/itemicons/oak-staff.png",
+      "license": "own",
+      "source": "tools/gen-art-wave3.py",
+      "note": "Wave 3 procedural 64x64 base item icon (fills missing items.json / base-items slug)"
+    },
+    {
+      "path": "public/itemicons/obsidian-greatmaul.png",
+      "license": "own",
+      "source": "tools/gen-art-wave3.py",
+      "note": "Wave 3 procedural 64x64 base item icon (fills missing items.json / base-items slug)"
+    },
+    {
+      "path": "public/itemicons/padded-jerkin.png",
+      "license": "own",
+      "source": "tools/gen-art-wave3.py",
+      "note": "Wave 3 procedural 64x64 base item icon (fills missing items.json / base-items slug)"
+    },
+    {
+      "path": "public/itemicons/plate-armor.png",
+      "license": "own",
+      "source": "tools/gen-art-wave3.py",
+      "note": "Wave 3 procedural 64x64 base item icon (fills missing items.json / base-items slug)"
+    },
+    {
+      "path": "public/itemicons/prismatic-choker.png",
+      "license": "own",
+      "source": "tools/gen-art-wave3.py",
+      "note": "Wave 3 procedural 64x64 base item icon (fills missing items.json / base-items slug)"
+    },
+    {
+      "path": "public/itemicons/radiant-spell-mirror.png",
+      "license": "own",
+      "source": "tools/gen-art-wave3.py",
+      "note": "Wave 3 procedural 64x64 base item icon (fills missing items.json / base-items slug)"
+    },
+    {
+      "path": "public/itemicons/recurve-bow.png",
+      "license": "own",
+      "source": "tools/gen-art-wave3.py",
+      "note": "Wave 3 procedural 64x64 base item icon (fills missing items.json / base-items slug)"
+    },
+    {
+      "path": "public/itemicons/reinforced-vambraces.png",
+      "license": "own",
+      "source": "tools/gen-art-wave3.py",
+      "note": "Wave 3 procedural 64x64 base item icon (fills missing items.json / base-items slug)"
+    },
+    {
+      "path": "public/itemicons/ring-of-calm.png",
+      "license": "own",
+      "source": "tools/gen-art-wave3.py",
+      "note": "Wave 3 procedural 64x64 base item icon (fills missing items.json / base-items slug)"
+    },
+    {
+      "path": "public/itemicons/ring-of-grace.png",
+      "license": "own",
+      "source": "tools/gen-art-wave3.py",
+      "note": "Wave 3 procedural 64x64 base item icon (fills missing items.json / base-items slug)"
+    },
+    {
+      "path": "public/itemicons/ring-of-insight.png",
+      "license": "own",
+      "source": "tools/gen-art-wave3.py",
+      "note": "Wave 3 procedural 64x64 base item icon (fills missing items.json / base-items slug)"
+    },
+    {
+      "path": "public/itemicons/ring-of-might.png",
+      "license": "own",
+      "source": "tools/gen-art-wave3.py",
+      "note": "Wave 3 procedural 64x64 base item icon (fills missing items.json / base-items slug)"
+    },
+    {
+      "path": "public/itemicons/ring-of-the-champions.png",
+      "license": "own",
+      "source": "tools/gen-art-wave3.py",
+      "note": "Wave 3 procedural 64x64 base item icon (fills missing items.json / base-items slug)"
+    },
+    {
+      "path": "public/itemicons/ring-of-the-high-archon.png",
+      "license": "own",
+      "source": "tools/gen-art-wave3.py",
+      "note": "Wave 3 procedural 64x64 base item icon (fills missing items.json / base-items slug)"
+    },
+    {
+      "path": "public/itemicons/ring-of-the-scribe.png",
+      "license": "own",
+      "source": "tools/gen-art-wave3.py",
+      "note": "Wave 3 procedural 64x64 base item icon (fills missing items.json / base-items slug)"
+    },
+    {
+      "path": "public/itemicons/ring-of-valor.png",
+      "license": "own",
+      "source": "tools/gen-art-wave3.py",
+      "note": "Wave 3 procedural 64x64 base item icon (fills missing items.json / base-items slug)"
+    },
+    {
+      "path": "public/itemicons/rune-staff.png",
+      "license": "own",
+      "source": "tools/gen-art-wave3.py",
+      "note": "Wave 3 procedural 64x64 base item icon (fills missing items.json / base-items slug)"
+    },
+    {
+      "path": "public/itemicons/rusty-sword.png",
+      "license": "own",
+      "source": "tools/gen-art-wave3.py",
+      "note": "Wave 3 procedural 64x64 base item icon (fills missing items.json / base-items slug)"
+    },
+    {
+      "path": "public/itemicons/sage-cowl.png",
+      "license": "own",
+      "source": "tools/gen-art-wave3.py",
+      "note": "Wave 3 procedural 64x64 base item icon (fills missing items.json / base-items slug)"
+    },
+    {
+      "path": "public/itemicons/sandals.png",
+      "license": "own",
+      "source": "tools/gen-art-wave3.py",
+      "note": "Wave 3 procedural 64x64 base item icon (fills missing items.json / base-items slug)"
+    },
+    {
+      "path": "public/itemicons/scholar-hat.png",
+      "license": "own",
+      "source": "tools/gen-art-wave3.py",
+      "note": "Wave 3 procedural 64x64 base item icon (fills missing items.json / base-items slug)"
+    },
+    {
+      "path": "public/itemicons/scholar-slippers.png",
+      "license": "own",
+      "source": "tools/gen-art-wave3.py",
+      "note": "Wave 3 procedural 64x64 base item icon (fills missing items.json / base-items slug)"
+    },
+    {
+      "path": "public/itemicons/scroll-of-acid-rain.png",
+      "license": "own",
+      "source": "tools/gen-art-wave3.py",
+      "note": "Wave 3 procedural 64x64 base item icon (fills missing items.json / base-items slug)"
+    },
+    {
+      "path": "public/itemicons/scroll-of-blessing.png",
+      "license": "own",
+      "source": "tools/gen-art-wave3.py",
+      "note": "Wave 3 procedural 64x64 base item icon (fills missing items.json / base-items slug)"
+    },
+    {
+      "path": "public/itemicons/scroll-of-bodkin-shot.png",
+      "license": "own",
+      "source": "tools/gen-art-wave3.py",
+      "note": "Wave 3 procedural 64x64 base item icon (fills missing items.json / base-items slug)"
+    },
+    {
+      "path": "public/itemicons/scroll-of-brine-frost.png",
+      "license": "own",
+      "source": "tools/gen-art-wave3.py",
+      "note": "Wave 3 procedural 64x64 base item icon (fills missing items.json / base-items slug)"
+    },
+    {
+      "path": "public/itemicons/scroll-of-chain-frost.png",
+      "license": "own",
+      "source": "tools/gen-art-wave3.py",
+      "note": "Wave 3 procedural 64x64 base item icon (fills missing items.json / base-items slug)"
+    },
+    {
+      "path": "public/itemicons/scroll-of-cinder-lance.png",
+      "license": "own",
+      "source": "tools/gen-art-wave3.py",
+      "note": "Wave 3 procedural 64x64 base item icon (fills missing items.json / base-items slug)"
+    },
+    {
+      "path": "public/itemicons/scroll-of-cleave-arc.png",
+      "license": "own",
+      "source": "tools/gen-art-wave3.py",
+      "note": "Wave 3 procedural 64x64 base item icon (fills missing items.json / base-items slug)"
+    },
+    {
+      "path": "public/itemicons/scroll-of-corpse-burst.png",
+      "license": "own",
+      "source": "tools/gen-art-wave3.py",
+      "note": "Wave 3 procedural 64x64 base item icon (fills missing items.json / base-items slug)"
+    },
+    {
+      "path": "public/itemicons/scroll-of-executioners-blow.png",
+      "license": "own",
+      "source": "tools/gen-art-wave3.py",
+      "note": "Wave 3 procedural 64x64 base item icon (fills missing items.json / base-items slug)"
+    },
+    {
+      "path": "public/itemicons/scroll-of-fire-bolt.png",
+      "license": "own",
+      "source": "tools/gen-art-wave3.py",
+      "note": "Wave 3 procedural 64x64 base item icon (fills missing items.json / base-items slug)"
+    },
+    {
+      "path": "public/itemicons/scroll-of-fireball.png",
+      "license": "own",
+      "source": "tools/gen-art-wave3.py",
+      "note": "Wave 3 procedural 64x64 base item icon (fills missing items.json / base-items slug)"
+    },
+    {
+      "path": "public/itemicons/scroll-of-flame-burst.png",
+      "license": "own",
+      "source": "tools/gen-art-wave3.py",
+      "note": "Wave 3 procedural 64x64 base item icon (fills missing items.json / base-items slug)"
+    },
+    {
+      "path": "public/itemicons/scroll-of-frost-bolt.png",
+      "license": "own",
+      "source": "tools/gen-art-wave3.py",
+      "note": "Wave 3 procedural 64x64 base item icon (fills missing items.json / base-items slug)"
+    },
+    {
+      "path": "public/itemicons/scroll-of-gale.png",
+      "license": "own",
+      "source": "tools/gen-art-wave3.py",
+      "note": "Wave 3 procedural 64x64 base item icon (fills missing items.json / base-items slug)"
+    },
+    {
+      "path": "public/itemicons/scroll-of-grave-chill.png",
+      "license": "own",
+      "source": "tools/gen-art-wave3.py",
+      "note": "Wave 3 procedural 64x64 base item icon (fills missing items.json / base-items slug)"
+    },
+    {
+      "path": "public/itemicons/scroll-of-grit-through-pain.png",
+      "license": "own",
+      "source": "tools/gen-art-wave3.py",
+      "note": "Wave 3 procedural 64x64 base item icon (fills missing items.json / base-items slug)"
+    },
+    {
+      "path": "public/itemicons/scroll-of-hamstring-cut.png",
+      "license": "own",
+      "source": "tools/gen-art-wave3.py",
+      "note": "Wave 3 procedural 64x64 base item icon (fills missing items.json / base-items slug)"
+    },
+    {
+      "path": "public/itemicons/scroll-of-haste.png",
+      "license": "own",
+      "source": "tools/gen-art-wave3.py",
+      "note": "Wave 3 procedural 64x64 base item icon (fills missing items.json / base-items slug)"
+    },
+    {
+      "path": "public/itemicons/scroll-of-healing.png",
+      "license": "own",
+      "source": "tools/gen-art-wave3.py",
+      "note": "Wave 3 procedural 64x64 base item icon (fills missing items.json / base-items slug)"
+    },
+    {
+      "path": "public/itemicons/scroll-of-heartseeker.png",
+      "license": "own",
+      "source": "tools/gen-art-wave3.py",
+      "note": "Wave 3 procedural 64x64 base item icon (fills missing items.json / base-items slug)"
+    },
+    {
+      "path": "public/itemicons/scroll-of-ignite.png",
+      "license": "own",
+      "source": "tools/gen-art-wave3.py",
+      "note": "Wave 3 procedural 64x64 base item icon (fills missing items.json / base-items slug)"
+    },
+    {
+      "path": "public/itemicons/scroll-of-inferno.png",
+      "license": "own",
+      "source": "tools/gen-art-wave3.py",
+      "note": "Wave 3 procedural 64x64 base item icon (fills missing items.json / base-items slug)"
+    },
+    {
+      "path": "public/itemicons/scroll-of-lightning.png",
+      "license": "own",
+      "source": "tools/gen-art-wave3.py",
+      "note": "Wave 3 procedural 64x64 base item icon (fills missing items.json / base-items slug)"
+    },
+    {
+      "path": "public/itemicons/scroll-of-mana-burn.png",
+      "license": "own",
+      "source": "tools/gen-art-wave3.py",
+      "note": "Wave 3 procedural 64x64 base item icon (fills missing items.json / base-items slug)"
+    },
+    {
+      "path": "public/itemicons/scroll-of-marrow-dart.png",
+      "license": "own",
+      "source": "tools/gen-art-wave3.py",
+      "note": "Wave 3 procedural 64x64 base item icon (fills missing items.json / base-items slug)"
+    },
+    {
+      "path": "public/itemicons/scroll-of-meditation.png",
+      "license": "own",
+      "source": "tools/gen-art-wave3.py",
+      "note": "Wave 3 procedural 64x64 base item icon (fills missing items.json / base-items slug)"
+    },
+    {
+      "path": "public/itemicons/scroll-of-peat-gas-blast.png",
+      "license": "own",
+      "source": "tools/gen-art-wave3.py",
+      "note": "Wave 3 procedural 64x64 base item icon (fills missing items.json / base-items slug)"
+    },
+    {
+      "path": "public/itemicons/scroll-of-poison-cloud.png",
+      "license": "own",
+      "source": "tools/gen-art-wave3.py",
+      "note": "Wave 3 procedural 64x64 base item icon (fills missing items.json / base-items slug)"
+    },
+    {
+      "path": "public/itemicons/scroll-of-rock-throw.png",
+      "license": "own",
+      "source": "tools/gen-art-wave3.py",
+      "note": "Wave 3 procedural 64x64 base item icon (fills missing items.json / base-items slug)"
+    },
+    {
+      "path": "public/itemicons/scroll-of-shield-bash.png",
+      "license": "own",
+      "source": "tools/gen-art-wave3.py",
+      "note": "Wave 3 procedural 64x64 base item icon (fills missing items.json / base-items slug)"
+    },
+    {
+      "path": "public/itemicons/scroll-of-siphon-ley.png",
+      "license": "own",
+      "source": "tools/gen-art-wave3.py",
+      "note": "Wave 3 procedural 64x64 base item icon (fills missing items.json / base-items slug)"
+    },
+    {
+      "path": "public/itemicons/scroll-of-static-arc.png",
+      "license": "own",
+      "source": "tools/gen-art-wave3.py",
+      "note": "Wave 3 procedural 64x64 base item icon (fills missing items.json / base-items slug)"
+    },
+    {
+      "path": "public/itemicons/scroll-of-stone-skin.png",
+      "license": "own",
+      "source": "tools/gen-art-wave3.py",
+      "note": "Wave 3 procedural 64x64 base item icon (fills missing items.json / base-items slug)"
+    },
+    {
+      "path": "public/itemicons/scroll-of-sunder-plate.png",
+      "license": "own",
+      "source": "tools/gen-art-wave3.py",
+      "note": "Wave 3 procedural 64x64 base item icon (fills missing items.json / base-items slug)"
+    },
+    {
+      "path": "public/itemicons/scroll-of-vitrify.png",
+      "license": "own",
+      "source": "tools/gen-art-wave3.py",
+      "note": "Wave 3 procedural 64x64 base item icon (fills missing items.json / base-items slug)"
+    },
+    {
+      "path": "public/itemicons/scroll-of-volley-of-reeds.png",
+      "license": "own",
+      "source": "tools/gen-art-wave3.py",
+      "note": "Wave 3 procedural 64x64 base item icon (fills missing items.json / base-items slug)"
+    },
+    {
+      "path": "public/itemicons/scroll-of-weaken.png",
+      "license": "own",
+      "source": "tools/gen-art-wave3.py",
+      "note": "Wave 3 procedural 64x64 base item icon (fills missing items.json / base-items slug)"
+    },
+    {
+      "path": "public/itemicons/scroll-of-whirlwind-maul.png",
+      "license": "own",
+      "source": "tools/gen-art-wave3.py",
+      "note": "Wave 3 procedural 64x64 base item icon (fills missing items.json / base-items slug)"
+    },
+    {
+      "path": "public/itemicons/scroll-of-wind-ward.png",
+      "license": "own",
+      "source": "tools/gen-art-wave3.py",
+      "note": "Wave 3 procedural 64x64 base item icon (fills missing items.json / base-items slug)"
+    },
+    {
+      "path": "public/itemicons/shadow-dirk.png",
+      "license": "own",
+      "source": "tools/gen-art-wave3.py",
+      "note": "Wave 3 procedural 64x64 base item icon (fills missing items.json / base-items slug)"
+    },
+    {
+      "path": "public/itemicons/shadow-mask.png",
+      "license": "own",
+      "source": "tools/gen-art-wave3.py",
+      "note": "Wave 3 procedural 64x64 base item icon (fills missing items.json / base-items slug)"
+    },
+    {
+      "path": "public/itemicons/shadowstrike-grips.png",
+      "license": "own",
+      "source": "tools/gen-art-wave3.py",
+      "note": "Wave 3 procedural 64x64 base item icon (fills missing items.json / base-items slug)"
+    },
+    {
+      "path": "public/itemicons/signet-of-unbroken-vigor.png",
+      "license": "own",
+      "source": "tools/gen-art-wave3.py",
+      "note": "Wave 3 procedural 64x64 base item icon (fills missing items.json / base-items slug)"
+    },
+    {
+      "path": "public/itemicons/silk-gloves.png",
+      "license": "own",
+      "source": "tools/gen-art-wave3.py",
+      "note": "Wave 3 procedural 64x64 base item icon (fills missing items.json / base-items slug)"
+    },
+    {
+      "path": "public/itemicons/spiked-cudgel.png",
+      "license": "own",
+      "source": "tools/gen-art-wave3.py",
+      "note": "Wave 3 procedural 64x64 base item icon (fills missing items.json / base-items slug)"
+    },
+    {
+      "path": "public/itemicons/stalker-hood.png",
+      "license": "own",
+      "source": "tools/gen-art-wave3.py",
+      "note": "Wave 3 procedural 64x64 base item icon (fills missing items.json / base-items slug)"
+    },
+    {
+      "path": "public/itemicons/star-robe.png",
+      "license": "own",
+      "source": "tools/gen-art-wave3.py",
+      "note": "Wave 3 procedural 64x64 base item icon (fills missing items.json / base-items slug)"
+    },
+    {
+      "path": "public/itemicons/star-staff.png",
+      "license": "own",
+      "source": "tools/gen-art-wave3.py",
+      "note": "Wave 3 procedural 64x64 base item icon (fills missing items.json / base-items slug)"
+    },
+    {
+      "path": "public/itemicons/steel-basinet.png",
+      "license": "own",
+      "source": "tools/gen-art-wave3.py",
+      "note": "Wave 3 procedural 64x64 base item icon (fills missing items.json / base-items slug)"
+    },
+    {
+      "path": "public/itemicons/steel-gauntlets.png",
+      "license": "own",
+      "source": "tools/gen-art-wave3.py",
+      "note": "Wave 3 procedural 64x64 base item icon (fills missing items.json / base-items slug)"
+    },
+    {
+      "path": "public/itemicons/steel-greaves.png",
+      "license": "own",
+      "source": "tools/gen-art-wave3.py",
+      "note": "Wave 3 procedural 64x64 base item icon (fills missing items.json / base-items slug)"
+    },
+    {
+      "path": "public/itemicons/steel-helm.png",
+      "license": "own",
+      "source": "tools/gen-art-wave3.py",
+      "note": "Wave 3 procedural 64x64 base item icon (fills missing items.json / base-items slug)"
+    },
+    {
+      "path": "public/itemicons/steel-kite-shield.png",
+      "license": "own",
+      "source": "tools/gen-art-wave3.py",
+      "note": "Wave 3 procedural 64x64 base item icon (fills missing items.json / base-items slug)"
+    },
+    {
+      "path": "public/itemicons/steel-rondel.png",
+      "license": "own",
+      "source": "tools/gen-art-wave3.py",
+      "note": "Wave 3 procedural 64x64 base item icon (fills missing items.json / base-items slug)"
+    },
+    {
+      "path": "public/itemicons/steel-sword.png",
+      "license": "own",
+      "source": "tools/gen-art-wave3.py",
+      "note": "Wave 3 procedural 64x64 base item icon (fills missing items.json / base-items slug)"
+    },
+    {
+      "path": "public/itemicons/steel-warhammer.png",
+      "license": "own",
+      "source": "tools/gen-art-wave3.py",
+      "note": "Wave 3 procedural 64x64 base item icon (fills missing items.json / base-items slug)"
+    },
+    {
+      "path": "public/itemicons/stone-charm.png",
+      "license": "own",
+      "source": "tools/gen-art-wave3.py",
+      "note": "Wave 3 procedural 64x64 base item icon (fills missing items.json / base-items slug)"
+    },
+    {
+      "path": "public/itemicons/storm-charm.png",
+      "license": "own",
+      "source": "tools/gen-art-wave3.py",
+      "note": "Wave 3 procedural 64x64 base item icon (fills missing items.json / base-items slug)"
+    },
+    {
+      "path": "public/itemicons/studded-bracers.png",
+      "license": "own",
+      "source": "tools/gen-art-wave3.py",
+      "note": "Wave 3 procedural 64x64 base item icon (fills missing items.json / base-items slug)"
+    },
+    {
+      "path": "public/itemicons/studded-leather-armor.png",
+      "license": "own",
+      "source": "tools/gen-art-wave3.py",
+      "note": "Wave 3 procedural 64x64 base item icon (fills missing items.json / base-items slug)"
+    },
+    {
+      "path": "public/itemicons/swift-boots.png",
+      "license": "own",
+      "source": "tools/gen-art-wave3.py",
+      "note": "Wave 3 procedural 64x64 base item icon (fills missing items.json / base-items slug)"
+    },
+    {
+      "path": "public/itemicons/tempered-war-axe.png",
+      "license": "own",
+      "source": "tools/gen-art-wave3.py",
+      "note": "Wave 3 procedural 64x64 base item icon (fills missing items.json / base-items slug)"
+    },
+    {
+      "path": "public/itemicons/thorn-blade.png",
+      "license": "own",
+      "source": "tools/gen-art-wave3.py",
+      "note": "Wave 3 procedural 64x64 base item icon (fills missing items.json / base-items slug)"
+    },
+    {
+      "path": "public/itemicons/thorn-staff.png",
+      "license": "own",
+      "source": "tools/gen-art-wave3.py",
+      "note": "Wave 3 procedural 64x64 base item icon (fills missing items.json / base-items slug)"
+    },
+    {
+      "path": "public/itemicons/titan-war-gauntlets.png",
+      "license": "own",
+      "source": "tools/gen-art-wave3.py",
+      "note": "Wave 3 procedural 64x64 base item icon (fills missing items.json / base-items slug)"
+    },
+    {
+      "path": "public/itemicons/toll-collectors-belt.png",
+      "license": "own",
+      "source": "tools/gen-art-wave3.py",
+      "note": "Wave 3 procedural 64x64 base item icon (fills missing items.json / base-items slug)"
+    },
+    {
+      "path": "public/itemicons/tome-of-blizzard.png",
+      "license": "own",
+      "source": "tools/gen-art-wave3.py",
+      "note": "Wave 3 procedural 64x64 base item icon (fills missing items.json / base-items slug)"
+    },
+    {
+      "path": "public/itemicons/tome-of-chain-lightning.png",
+      "license": "own",
+      "source": "tools/gen-art-wave3.py",
+      "note": "Wave 3 procedural 64x64 base item icon (fills missing items.json / base-items slug)"
+    },
+    {
+      "path": "public/itemicons/tome-of-healing-rain.png",
+      "license": "own",
+      "source": "tools/gen-art-wave3.py",
+      "note": "Wave 3 procedural 64x64 base item icon (fills missing items.json / base-items slug)"
+    },
+    {
+      "path": "public/itemicons/tome-of-ice-storm.png",
+      "license": "own",
+      "source": "tools/gen-art-wave3.py",
+      "note": "Wave 3 procedural 64x64 base item icon (fills missing items.json / base-items slug)"
+    },
+    {
+      "path": "public/itemicons/tome-of-meteor.png",
+      "license": "own",
+      "source": "tools/gen-art-wave3.py",
+      "note": "Wave 3 procedural 64x64 base item icon (fills missing items.json / base-items slug)"
+    },
+    {
+      "path": "public/itemicons/tome-of-quake.png",
+      "license": "own",
+      "source": "tools/gen-art-wave3.py",
+      "note": "Wave 3 procedural 64x64 base item icon (fills missing items.json / base-items slug)"
+    },
+    {
+      "path": "public/itemicons/tome-of-resurrect.png",
+      "license": "own",
+      "source": "tools/gen-art-wave3.py",
+      "note": "Wave 3 procedural 64x64 base item icon (fills missing items.json / base-items slug)"
+    },
+    {
+      "path": "public/itemicons/tome-of-stone-curse.png",
+      "license": "own",
+      "source": "tools/gen-art-wave3.py",
+      "note": "Wave 3 procedural 64x64 base item icon (fills missing items.json / base-items slug)"
+    },
+    {
+      "path": "public/itemicons/tome-of-thunderstorm.png",
+      "license": "own",
+      "source": "tools/gen-art-wave3.py",
+      "note": "Wave 3 procedural 64x64 base item icon (fills missing items.json / base-items slug)"
+    },
+    {
+      "path": "public/itemicons/tome-of-time-warp.png",
+      "license": "own",
+      "source": "tools/gen-art-wave3.py",
+      "note": "Wave 3 procedural 64x64 base item icon (fills missing items.json / base-items slug)"
+    },
+    {
+      "path": "public/itemicons/tower-shield.png",
+      "license": "own",
+      "source": "tools/gen-art-wave3.py",
+      "note": "Wave 3 procedural 64x64 base item icon (fills missing items.json / base-items slug)"
+    },
+    {
+      "path": "public/itemicons/tracker-treads.png",
+      "license": "own",
+      "source": "tools/gen-art-wave3.py",
+      "note": "Wave 3 procedural 64x64 base item icon (fills missing items.json / base-items slug)"
+    },
+    {
+      "path": "public/itemicons/two-handed-claymore.png",
+      "license": "own",
+      "source": "tools/gen-art-wave3.py",
+      "note": "Wave 3 procedural 64x64 base item icon (fills missing items.json / base-items slug)"
+    },
+    {
+      "path": "public/itemicons/velvet-channelers.png",
+      "license": "own",
+      "source": "tools/gen-art-wave3.py",
+      "note": "Wave 3 procedural 64x64 base item icon (fills missing items.json / base-items slug)"
+    },
+    {
+      "path": "public/itemicons/ward-charm.png",
+      "license": "own",
+      "source": "tools/gen-art-wave3.py",
+      "note": "Wave 3 procedural 64x64 base item icon (fills missing items.json / base-items slug)"
+    },
+    {
+      "path": "public/itemicons/weaver-robe.png",
+      "license": "own",
+      "source": "tools/gen-art-wave3.py",
+      "note": "Wave 3 procedural 64x64 base item icon (fills missing items.json / base-items slug)"
+    },
+    {
+      "path": "public/itemicons/willow-wand.png",
+      "license": "own",
+      "source": "tools/gen-art-wave3.py",
+      "note": "Wave 3 procedural 64x64 base item icon (fills missing items.json / base-items slug)"
+    },
+    {
+      "path": "public/itemicons/windpiercer-greatbow.png",
+      "license": "own",
+      "source": "tools/gen-art-wave3.py",
+      "note": "Wave 3 procedural 64x64 base item icon (fills missing items.json / base-items slug)"
+    },
+    {
+      "path": "public/itemicons/windrunner-striders.png",
+      "license": "own",
+      "source": "tools/gen-art-wave3.py",
+      "note": "Wave 3 procedural 64x64 base item icon (fills missing items.json / base-items slug)"
+    },
+    {
+      "path": "public/itemicons/wizard-hat.png",
+      "license": "own",
+      "source": "tools/gen-art-wave3.py",
+      "note": "Wave 3 procedural 64x64 base item icon (fills missing items.json / base-items slug)"
+    },
+    {
+      "path": "public/itemicons/woodcutter-handaxe.png",
+      "license": "own",
+      "source": "tools/gen-art-wave3.py",
+      "note": "Wave 3 procedural 64x64 base item icon (fills missing items.json / base-items slug)"
+    },
+    {
+      "path": "public/itemicons/wooden-buckler.png",
+      "license": "own",
+      "source": "tools/gen-art-wave3.py",
+      "note": "Wave 3 procedural 64x64 base item icon (fills missing items.json / base-items slug)"
+    },
+    {
+      "path": "public/itemicons/wyrmscale-cuirass.png",
+      "license": "own",
+      "source": "tools/gen-art-wave3.py",
+      "note": "Wave 3 procedural 64x64 base item icon (fills missing items.json / base-items slug)"
+    },
+    {
+      "path": "public/itemicons/yew-wand.png",
+      "license": "own",
+      "source": "tools/gen-art-wave3.py",
+      "note": "Wave 3 procedural 64x64 base item icon (fills missing items.json / base-items slug)"
     }
   ]
 }
