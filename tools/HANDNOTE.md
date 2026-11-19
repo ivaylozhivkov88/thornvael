@@ -38,3 +38,18 @@ Tune FAMILY_VISUALS in src/render.ts (~line 121) via ?art=1 (dev server thornvae
 - [x] **Task 5 (`P15.2-05` — Macro Campaign Wiring)**: Registered `map1-border-fords`..`map4-obsidian-caldera` in `src/mission.ts` (`BUILT_IN`), verified by `tests/macro-campaign-wiring.test.ts` (all green).
 - [x] **Asset Consolidation (`D:/downloads` -> `tools/.canva-sheets/`)**: Moved and renamed all 35 raw Thornvael files from `D:/downloads` into `tools/.canva-sheets/` (`tile-*.jpg`, `obj-*.jpg`, 18 `npc-*-raw.jpg`, `portrait-prompts-complete.md`, `thornvael-notes.md`, `gemini-boss-extra-barks.json`, `gemini-merc-barks.json`), removed 4 identical `(1)` duplicates, and updated `tools/.canva-sheets/mkportraits.py`.
 - [x] **Step 0 (`tools/INVENTORY.md` + `tools/WISHLIST-MAX.md` markup)**: Created `tools/gen-inventory.mjs` and generated `tools/INVENTORY.md` (233 audio, 53 sprite atlases, 68 portraits, 161 itemicons, 92 content JSONs, 98 src modules); marked baseline statuses in `tools/WISHLIST-MAX.md` before launching Orchestrator Waves (Agents A–F).
+
+## Supervisor Dashboard (Updated 2026-11-19 15:03)
+| Agent | Task | Status | Last Commit | Time | Issue / Note |
+|---|---|---|---|---|---|
+| Campaign Map 1–4 | Macro campaign maps + `src/mission.ts` wiring | **INTEGRATED** | `02cf75e` | 12:45Z | `5a648ab` circular `Kind.Mage` init fixed by Supervisor |
+| Agent A | Modular FX (`src/fx/*`) | **FILE-ONLY** (14/14 PASS) | `ee3afcc` | 12:43Z | Awaiting render/main hook; commit index shared with E |
+| Agent B | 27 `.m4a` + catalog + streaming adaptive audio | **FILE-ONLY** (7/7 PASS) | `4fde3a9` | 12:46Z | Awaiting audio.ts/main wiring |
+| Agent C | 6 wave-2 art packs + 3 Gemini briefs + notes | **FILE-ONLY** (6/6 PASS) | `fc5f169` | 12:44Z | Awaiting integration (`tools/INTEGRATION-NOTES.md`) |
+| Agent D | `docs/design/loot-and-skills.md` + `src/items/*` + `src/skills/*` | **FILE-ONLY** (14/14 PASS) | `f03280d` | 12:51Z | Awaiting `savedb.ts`/hero/UI hook |
+| Agent E | `public/data/text/*` (52/60/50/30/40) + `src/data/text/index.ts` | **FILE-ONLY** (5/5 PASS) | `6ce0b3e` | 12:43Z | Consumed by Wiki; commit message had FX title |
+| Agent Text-2 | `src/data/text/{barks,item-lore,spell-flavor}.json` + `check-text.mjs` | **FILE-ONLY** (587 keys PASS) | `68c352e` | 12:50Z | Ready for Wiki & localization wiring |
+| Agent Atmo-UX | `src/atmosphere.ts` (`render.ts` hooked) + `src/ui-extra/*` | **PARTIAL-INTEGRATED** (8/8 PASS) | `9161447` | 12:44Z | Atmosphere live in `render.ts`; `ui-extra` awaits `shell.ts` |
+| Agent F | QA rebuild, seed gallery, `perf-profile-300`, `ci.yml`, `pwa-smoke.spec.ts` | **NEEDS-FIX** (CI path) | `477cd5a` | 12:55Z | `playwright.config.ts` `testDir: 'e2e'` skips `tests/pwa-smoke.spec.ts` |
+| Gameplay-AI (Gemini) | `src/sim/ai/*` (E3–E7, E10–E15) + `tests/gameplay-*.test.ts` | **FILE-ONLY / PUSHED** (16/16 + 118/118 PASS) | `f5d5b13` | 13:04Z | Verified 0 `Math.random`/DOM/time; awaits sim/hero hook |
+| Wiki Builder (Gemini) | `wiki.html`, `src/wiki/*`, `build-wiki-data.mjs`, minimaps, offline SW, smoke | **IN PROGRESS** | — | 13:00Z | Reassigned after `429` quota on Sonnet |

@@ -1,5 +1,8 @@
 import type { Pack } from './bot';
-import { DEFS, Elem, Kind, M, MODN } from './combat';
+import { DEFS, M, MODN } from './combat';
+// Mirror combat.ts Kind/Elem ordinals to break the ESM circular init (combat -> data -> super-uniques -> combat).
+const K = { Warrior: 0, Archer: 1, Hero: 2, Mage: 3, Gnoll: 4, Golem: 5, Imp: 6 } as const;
+const E = { Physical: 0, Fire: 1, Water: 2, Air: 3, Earth: 4, Astral: 5 } as const;
 import { monsterFamilyById, monsterPaletteByTier, type MonsterFamilyDef } from './data';
 import type { Sim } from './sim';
 import { MAGE_SPELLS } from './spelldata';
@@ -54,11 +57,11 @@ export const SUPER_UNIQUES: readonly SuperUniqueDef[] = [
     title: 'Chanter of the Pyre',
     act: 1,
     family: 'fallen-shaman',
-    kind: Kind.Mage,
-    elem: Elem.Fire,
+    kind: K.Mage,
+    elem: E.Fire,
     tier: 4,
     mods: ['fire_enchanted', 'magic_resistant'],
-    retinue: { family: 'cinderling', count: 5, kind: Kind.Imp, tier: 2 },
+    retinue: { family: 'cinderling', count: 5, kind: K.Imp, tier: 2 },
     ai: 'shaman_reviver',
     visual: { scale: 1.45, tint: 0xff4500, auraColor: 0xff6a00, crown: 'flame' },
     signatureAbilities: [
@@ -74,11 +77,11 @@ export const SUPER_UNIQUES: readonly SuperUniqueDef[] = [
     title: 'the Volt Stalker',
     act: 1,
     family: 'briar-hound',
-    kind: Kind.Gnoll,
-    elem: Elem.Air,
+    kind: K.Gnoll,
+    elem: E.Air,
     tier: 4,
     mods: ['lightning_enchanted', 'extra_fast'],
-    retinue: { family: 'briar-hound', count: 5, kind: Kind.Gnoll, tier: 2 },
+    retinue: { family: 'briar-hound', count: 5, kind: K.Gnoll, tier: 2 },
     ai: 'berserker_charger',
     visual: { scale: 1.4, tint: 0x38b6ff, auraColor: 0x00d8ff, crown: 'lightning' },
     signatureAbilities: [
@@ -94,11 +97,11 @@ export const SUPER_UNIQUES: readonly SuperUniqueDef[] = [
     title: 'Matron of Frostquills',
     act: 1,
     family: 'quill-fiend',
-    kind: Kind.Archer,
-    elem: Elem.Water,
+    kind: K.Archer,
+    elem: E.Water,
     tier: 4,
     mods: ['cold_enchanted', 'extra_strong'],
-    retinue: { family: 'quill-fiend', count: 4, kind: Kind.Archer, tier: 2 },
+    retinue: { family: 'quill-fiend', count: 4, kind: K.Archer, tier: 2 },
     ai: 'ranged_kiter',
     visual: { scale: 1.38, tint: 0x60b8ff, auraColor: 0x4da6ff, crown: 'frost' },
     signatureAbilities: [
@@ -114,11 +117,11 @@ export const SUPER_UNIQUES: readonly SuperUniqueDef[] = [
     title: 'the Ironroot',
     act: 1,
     family: 'ironbark',
-    kind: Kind.Golem,
-    elem: Elem.Earth,
+    kind: K.Golem,
+    elem: E.Earth,
     tier: 5,
     mods: ['extra_strong', 'stone_skin', 'cursed'],
-    retinue: { family: 'rootbound', count: 3, kind: Kind.Golem, tier: 3 },
+    retinue: { family: 'rootbound', count: 3, kind: K.Golem, tier: 3 },
     ai: 'juggernaut_tank',
     visual: { scale: 1.65, tint: 0x6b8e23, auraColor: 0x8fbc8f, crown: 'thorns' },
     signatureAbilities: [
@@ -136,11 +139,11 @@ export const SUPER_UNIQUES: readonly SuperUniqueDef[] = [
     title: 'the Arc Carapace',
     act: 2,
     family: 'dune-scarab',
-    kind: Kind.Imp,
-    elem: Elem.Air,
+    kind: K.Imp,
+    elem: E.Air,
     tier: 4,
     mods: ['lightning_enchanted', 'stone_skin'],
-    retinue: { family: 'dune-scarab', count: 4, kind: Kind.Imp, tier: 3 },
+    retinue: { family: 'dune-scarab', count: 4, kind: K.Imp, tier: 3 },
     ai: 'ranged_kiter',
     visual: { scale: 1.45, tint: 0xffd700, auraColor: 0xffe066, crown: 'lightning' },
     signatureAbilities: [
@@ -156,11 +159,11 @@ export const SUPER_UNIQUES: readonly SuperUniqueDef[] = [
     title: 'the Venom Patriarch',
     act: 2,
     family: 'claw-viper',
-    kind: Kind.Gnoll,
-    elem: Elem.Earth,
+    kind: K.Gnoll,
+    elem: E.Earth,
     tier: 5,
     mods: ['extra_fast', 'lightning_enchanted', 'spectral_hit'],
-    retinue: { family: 'claw-viper', count: 4, kind: Kind.Gnoll, tier: 3 },
+    retinue: { family: 'claw-viper', count: 4, kind: K.Gnoll, tier: 3 },
     ai: 'ambush_lunger',
     visual: { scale: 1.5, tint: 0x00fa9a, auraColor: 0x2ecc71, crown: 'venom' },
     signatureAbilities: [
@@ -176,11 +179,11 @@ export const SUPER_UNIQUES: readonly SuperUniqueDef[] = [
     title: 'the Sunken Embalmer',
     act: 2,
     family: 'greater-mummy',
-    kind: Kind.Mage,
-    elem: Elem.Earth,
+    kind: K.Mage,
+    elem: E.Earth,
     tier: 5,
     mods: ['extra_fast', 'cursed', 'mana_burn'],
-    retinue: { family: 'hollow-knight', count: 4, kind: Kind.Warrior, tier: 3 },
+    retinue: { family: 'hollow-knight', count: 4, kind: K.Warrior, tier: 3 },
     ai: 'shaman_reviver',
     visual: { scale: 1.6, tint: 0xd4af37, auraColor: 0x9b59b6, crown: 'skull' },
     signatureAbilities: [
@@ -196,11 +199,11 @@ export const SUPER_UNIQUES: readonly SuperUniqueDef[] = [
     title: 'the Crimson Prowler',
     act: 2,
     family: 'dune-lurker',
-    kind: Kind.Gnoll,
-    elem: Elem.Fire,
+    kind: K.Gnoll,
+    elem: E.Fire,
     tier: 4,
     mods: ['extra_strong', 'cursed', 'fire_enchanted'],
-    retinue: { family: 'sand-raider', count: 4, kind: Kind.Warrior, tier: 3 },
+    retinue: { family: 'sand-raider', count: 4, kind: K.Warrior, tier: 3 },
     ai: 'berserker_charger',
     visual: { scale: 1.42, tint: 0xdc143c, auraColor: 0xff2400, crown: 'blood' },
     signatureAbilities: [
@@ -218,11 +221,11 @@ export const SUPER_UNIQUES: readonly SuperUniqueDef[] = [
     title: 'High Hexer of the Mire',
     act: 3,
     family: 'witch-doctor',
-    kind: Kind.Mage,
-    elem: Elem.Fire,
+    kind: K.Mage,
+    elem: E.Fire,
     tier: 5,
     mods: ['fire_enchanted', 'magic_resistant', 'blessed_aura'],
-    retinue: { family: 'fetish-blowdart', count: 6, kind: Kind.Archer, tier: 3 },
+    retinue: { family: 'fetish-blowdart', count: 6, kind: K.Archer, tier: 3 },
     ai: 'shaman_reviver',
     visual: { scale: 1.48, tint: 0xff8c00, auraColor: 0xff4500, crown: 'skull' },
     signatureAbilities: [
@@ -238,11 +241,11 @@ export const SUPER_UNIQUES: readonly SuperUniqueDef[] = [
     title: 'the Storm Bough',
     act: 3,
     family: 'stormtree',
-    kind: Kind.Golem,
-    elem: Elem.Air,
+    kind: K.Golem,
+    elem: E.Air,
     tier: 5,
     mods: ['lightning_enchanted', 'extra_fast', 'stone_skin'],
-    retinue: { family: 'rootbound', count: 4, kind: Kind.Golem, tier: 4 },
+    retinue: { family: 'rootbound', count: 4, kind: K.Golem, tier: 4 },
     ai: 'juggernaut_tank',
     visual: { scale: 1.7, tint: 0x7df9ff, auraColor: 0x00ffff, crown: 'lightning' },
     signatureAbilities: [
@@ -258,11 +261,11 @@ export const SUPER_UNIQUES: readonly SuperUniqueDef[] = [
     title: 'the Burning Matron',
     act: 3,
     family: 'spore-matron',
-    kind: Kind.Mage,
-    elem: Elem.Fire,
+    kind: K.Mage,
+    elem: E.Fire,
     tier: 4,
     mods: ['fire_enchanted', 'extra_strong', 'cursed'],
-    retinue: { family: 'maggot-swarm', count: 5, kind: Kind.Gnoll, tier: 3 },
+    retinue: { family: 'maggot-swarm', count: 5, kind: K.Gnoll, tier: 3 },
     ai: 'hexer_caster',
     visual: { scale: 1.5, tint: 0xff3300, auraColor: 0xff6600, crown: 'flame' },
     signatureAbilities: [
@@ -278,11 +281,11 @@ export const SUPER_UNIQUES: readonly SuperUniqueDef[] = [
     title: 'the Rimewing',
     act: 3,
     family: 'glasswing',
-    kind: Kind.Imp,
-    elem: Elem.Water,
+    kind: K.Imp,
+    elem: E.Water,
     tier: 4,
     mods: ['cold_enchanted', 'teleporting', 'extra_fast'],
-    retinue: { family: 'rift-moth', count: 4, kind: Kind.Imp, tier: 3 },
+    retinue: { family: 'rift-moth', count: 4, kind: K.Imp, tier: 3 },
     ai: 'ranged_kiter',
     visual: { scale: 1.42, tint: 0x87cefa, auraColor: 0x00bfff, crown: 'frost' },
     signatureAbilities: [
@@ -300,11 +303,11 @@ export const SUPER_UNIQUES: readonly SuperUniqueDef[] = [
     title: 'the Shattered Warden',
     act: 4,
     family: 'hollow-king',
-    kind: Kind.Warrior,
-    elem: Elem.Water,
+    kind: K.Warrior,
+    elem: E.Water,
     tier: 5,
     mods: ['cold_enchanted', 'stone_skin', 'extra_strong'],
-    retinue: { family: 'doom-knight', count: 3, kind: Kind.Warrior, tier: 4 },
+    retinue: { family: 'doom-knight', count: 3, kind: K.Warrior, tier: 4 },
     ai: 'juggernaut_tank',
     visual: { scale: 1.72, tint: 0x4169e1, auraColor: 0x00ffff, crown: 'frost' },
     signatureAbilities: [
@@ -320,11 +323,11 @@ export const SUPER_UNIQUES: readonly SuperUniqueDef[] = [
     title: 'the Cinderforge Overseer',
     act: 4,
     family: 'anvilmaw-smith',
-    kind: Kind.Golem,
-    elem: Elem.Fire,
+    kind: K.Golem,
+    elem: E.Fire,
     tier: 5,
     mods: ['extra_strong', 'extra_fast', 'spectral_hit', 'magic_resistant'],
-    retinue: { family: 'basalt-brute', count: 3, kind: Kind.Golem, tier: 4 },
+    retinue: { family: 'basalt-brute', count: 3, kind: K.Golem, tier: 4 },
     ai: 'berserker_charger',
     visual: { scale: 1.75, tint: 0xb22222, auraColor: 0xff4500, crown: 'flame' },
     signatureAbilities: [
@@ -340,11 +343,11 @@ export const SUPER_UNIQUES: readonly SuperUniqueDef[] = [
     title: 'the Seal Keeper',
     act: 4,
     family: 'doom-knight',
-    kind: Kind.Warrior,
-    elem: Elem.Astral,
+    kind: K.Warrior,
+    elem: E.Astral,
     tier: 5,
     mods: ['cursed', 'blessed_aura', 'extra_strong'],
-    retinue: { family: 'doom-knight', count: 5, kind: Kind.Warrior, tier: 4 },
+    retinue: { family: 'doom-knight', count: 5, kind: K.Warrior, tier: 4 },
     ai: 'hexer_caster',
     visual: { scale: 1.58, tint: 0xffd700, auraColor: 0xda70d6, crown: 'skull' },
     signatureAbilities: [
@@ -360,11 +363,11 @@ export const SUPER_UNIQUES: readonly SuperUniqueDef[] = [
     title: 'Harvester of Cinders',
     act: 4,
     family: 'cinderhorn',
-    kind: Kind.Imp,
-    elem: Elem.Fire,
+    kind: K.Imp,
+    elem: E.Fire,
     tier: 5,
     mods: ['extra_fast', 'fire_enchanted', 'spectral_hit'],
-    retinue: { family: 'cinderhorn', count: 5, kind: Kind.Imp, tier: 4 },
+    retinue: { family: 'cinderhorn', count: 5, kind: K.Imp, tier: 4 },
     ai: 'berserker_charger',
     visual: { scale: 1.68, tint: 0xff1493, auraColor: 0xff0055, crown: 'flame' },
     signatureAbilities: [
@@ -394,7 +397,7 @@ export function superUniqueAsFamilyDef(id: string): MonsterFamilyDef | undefined
   const su = SUPER_UNIQUE_MAP.get(id);
   if (!su) return undefined;
   const baseFam = monsterFamilyById(su.family);
-  const def = DEFS[su.kind] ?? DEFS[Kind.Gnoll];
+  const def = DEFS[su.kind] ?? DEFS[K.Gnoll];
   const isCaster = su.ai === 'shaman_reviver' || su.ai === 'hexer_caster' || (baseFam?.caster ?? def.caster);
   const isRanged = su.ai === 'ranged_kiter' || isCaster || (baseFam?.ranged ?? def.ranged);
   return {
