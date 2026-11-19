@@ -61,6 +61,25 @@ export function loadTerrainArt(): Promise<HTMLImageElement> {
   return pending;
 }
 
+/** Biome skin: a 128x32 strip (4 tiles) that replaces the Dirt ground tiles. Set before the renderer bakes chunks. */
+export const BIOME_SKINS: Record<string, string> = { desert: 'sand', crypt: 'crypt', highlands: 'highland' };
+let skinImage: HTMLImageElement | null = null;
+
+export async function setTerrainSkin(name: string | null): Promise<void> {
+  skinImage = null;
+  if (!name) return;
+  try {
+    skinImage = await new Promise<HTMLImageElement>((resolve, reject) => {
+      const image = new Image();
+      image.onload = () => resolve(image);
+      image.onerror = () => reject(new Error(`skin ${name}`));
+      image.src = `${import.meta.env.BASE_URL}terrain/skin-${name}.png`;
+    });
+  } catch {
+    skinImage = null; // fall back to the default atlas tiles
+  }
+}
+
 function draw(g: CanvasRenderingContext2D, art: CanvasImageSource, name: string, x: number, y: number): void {
   const f = TERRAIN_SHEET.frames[name];
   g.drawImage(art, f.x, f.y, f.w, f.h, x, y, f.w, f.h);
@@ -234,7 +253,8 @@ export function paintTerrainChunk(
       const kind = map.terrain[i];
       const px = tx * TILE;
       const py = ty * TILE;
-      draw(g, art, `${NAMES[kind]}/${terrainVariant(x, y, kind)}`, px, py);
+      if (skinImage && kind === Terrain.Dirt) g.drawImage(skinImage, terrainVariant(x, y, kind) * 32, 0, 32, 32, px, py, TILE, TILE);
+      else draw(g, art, `${NAMES[kind]}/${terrainVariant(x, y, kind)}`, px, py);
       for (let side = 0; side < 4; side++) {
         const next = terrainEdge(map, x, y, side);
         if (next < 0) continue;

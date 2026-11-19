@@ -4252,6 +4252,36 @@
       "license": "own",
       "source": "Gemini image generation (user subscription), original text prompt; native frame cropped off, painting placed in the shared Thornvael frame with Pillow",
       "note": "Thornwick NPC portrait"
+    },
+    {
+      "path": "public/terrain/skin-sand.png",
+      "license": "own",
+      "source": "tools/tile-cut.py",
+      "note": "Biome ground skin: AI-generated texture swatch (Gemini, our own prompt in tools/GEMINI-TILES-BRIEF.md) cut into 4 seamless 32px tiles"
+    },
+    {
+      "path": "public/terrain/skin-crypt.png",
+      "license": "own",
+      "source": "tools/tile-cut.py",
+      "note": "Biome ground skin: AI-generated texture swatch (Gemini, our own prompt in tools/GEMINI-TILES-BRIEF.md) cut into 4 seamless 32px tiles"
+    },
+    {
+      "path": "public/terrain/skin-highland.png",
+      "license": "own",
+      "source": "tools/tile-cut.py",
+      "note": "Biome ground skin: AI-generated texture swatch (Gemini, our own prompt in tools/GEMINI-TILES-BRIEF.md) cut into 4 seamless 32px tiles"
+    },
+    {
+      "path": "public/terrain/skin-snow.png",
+      "license": "own",
+      "source": "tools/tile-cut.py",
+      "note": "Biome ground skin: AI-generated texture swatch (Gemini, our own prompt in tools/GEMINI-TILES-BRIEF.md) cut into 4 seamless 32px tiles"
+    },
+    {
+      "path": "public/terrain/skin-ruinstone.png",
+      "license": "own",
+      "source": "tools/tile-cut.py",
+      "note": "Biome ground skin: AI-generated texture swatch (Gemini, our own prompt in tools/GEMINI-TILES-BRIEF.md) cut into 4 seamless 32px tiles"
     }
   ]
 }

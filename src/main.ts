@@ -123,6 +123,8 @@ if (!resumed && !loadedMission && expeditionSeed && !crowd && !stress && !battle
     const { loadDoc } = await import('./mapdoc');
     const doc = generateExpeditionMap({ seed, biome, size: 64 });
     loadedMission = loadDoc(doc);
+    const { setTerrainSkin, BIOME_SKINS } = await import('./terrain');
+    await setTerrainSkin(BIOME_SKINS[biome] ?? null);
   } catch (e) {
     missionError = (e as Error).message;
   }
@@ -137,6 +139,8 @@ if (!resumed && !loadedMission && skirmishSeed && !crowd && !stress && !battle) 
     const { generateSkirmishMap } = await import('./skirmish-generator');
     const { loadDoc } = await import('./mapdoc');
     loadedMission = loadDoc(generateSkirmishMap({ seed, biome, players, size: players === 4 ? 80 : 64 }));
+    const { setTerrainSkin, BIOME_SKINS } = await import('./terrain');
+    await setTerrainSkin(BIOME_SKINS[biome] ?? null);
   } catch (e) {
     missionError = (e as Error).message;
   }
