@@ -12,6 +12,15 @@ Parallel safety rule: NEVER touch `src/characters.ts`, `src/shell.ts`, `src/main
 - [x] **Step 2.4 (`map-4-obsidian-caldera.md`)**: Authored `.planning/campaign/map-4-obsidian-caldera.md` (192x192 tiles, Ironcamp Forge-Hold hub + 6 regions, full enemy & Super-Unique placement, Ashkarath boss encounter, 12 quests [6 main + 6 side], Disco Elysium cognitive dialogues, lore books, procedural music specification, and dual endings A/B).
 - [x] **Step 3 (`03-GAPS.md` + declarative map data)**: Authored `.planning/campaign/03-GAPS.md` (6 prioritized engine gaps GAP-01..GAP-06 with exact LOC & file locations), `.planning/campaign/campaign-4maps.json` (4-hub + 4-macro-map `parseCampaign` schema), and `.planning/campaign/map1-border-fords.macro.map.json` (192x192 declarative `MapDoc` v2 prototype passing `loadDoc` & `validate` with 0 errors).
 - [x] **Step 4 (`01-PROGRESSION.md`)**: Authored `.planning/campaign/01-PROGRESSION.md` (Lv 1–50 XP & item curve across the 4 huge maps, Warrior/Mage + 1 Mercenary balance, Skirmish carryover contract [items/XP saved, campaign progress untouched], and Character Roster v2 persistence schema with `furthestMapId`, `furthestRegion`, `completedQuests`, `bossesSlain`, `keyItems`).
+- [x] **Step 5 (`02-PRODUCTION-PLAN.md`)**: Authored `.planning/campaign/02-PRODUCTION-PLAN.md` (16 atomic GSD tasks across Phases 15.1–15.5 with exact target files, dependency DAG, effort estimates, and verification gates).
 
-## Next Pending Steps
-- [ ] **Step 5 (`02-PRODUCTION-PLAN.md`)**: Granular GSD phase task breakdown with execution order, dependencies, and effort estimates across maps, missions, music, dialogues, and art.
+## Status
+**ALL 5 CAMPAIGN DESIGN STEPS COMPLETE (100%)**:
+- `00-BIBLE.md`
+- `map-1-border-fords.md`
+- `map-2-redmarsh-wastes.md`
+- `map-3-iron-coast.md`
+- `map-4-obsidian-caldera.md`
+- `03-GAPS.md` + `campaign-4maps.json` + `map1-border-fords.macro.map.json`
+- `01-PROGRESSION.md`
+- `02-PRODUCTION-PLAN.md`

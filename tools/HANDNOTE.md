@@ -29,4 +29,4 @@ Tune FAMILY_VISUALS in src/render.ts (~line 121) via ?art=1 (dev server thornvae
 - [x] **Step 2.4 (`map-4-obsidian-caldera.md`)**: Completed `.planning/campaign/map-4-obsidian-caldera.md` (192x192 map, Ironcamp hub + 6 regions, enemies, 12 quests, dialogues, music brief, dual endings A/B).
 - [x] **Step 3 (`03-GAPS.md` + declarative `MapDoc` v2)**: Completed `.planning/campaign/03-GAPS.md`, `campaign-4maps.json`, and `map1-border-fords.macro.map.json` (validated 192x192 `MapDoc` v2 with Thornwick hub, 6 regions, 12 quests).
 - [x] **Step 4 (`01-PROGRESSION.md`)**: Completed `.planning/campaign/01-PROGRESSION.md` (Lv 1–50 curve, Warrior/Mage balance, Skirmish carryover rule, Character Roster v2 fields).
-- [ ] **Step 5**: `02-PRODUCTION-PLAN.md`.
+- [x] **Step 5 (`02-PRODUCTION-PLAN.md`)**: Completed `.planning/campaign/02-PRODUCTION-PLAN.md` (16 atomic GSD tasks across Phases 15.1–15.5 with dependencies, effort estimates, and non-overlapping file ownership).
