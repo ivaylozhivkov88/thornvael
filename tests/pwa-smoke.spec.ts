@@ -81,7 +81,7 @@ for (const [label, descriptor] of [
 
       await page.evaluate(() => navigator.serviceWorker.ready.then(() => true));
       await page.reload();
-      await page.waitForFunction(() => navigator.serviceWorker.controller !== null);
+      await page.waitForFunction(() => navigator.serviceWorker.controller !== null && Boolean((window as GameWindow).__game));
 
       await context.setOffline(true);
       try {

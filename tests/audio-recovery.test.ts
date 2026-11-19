@@ -219,4 +219,31 @@ describe('audio public lifecycle recovery', () => {
     expect(ContextMock.all[0].decodeAudioData).toHaveBeenCalledTimes(110); // 109 SFX plus ambience
     expect(MediaMock.all.filter(m => m.src.includes('music_'))).toHaveLength(1);
   });
+
+  it('guards against offline 503/network failures and sync/async play() errors without unhandled rejections', async () => {
+    audio.unlock(); await audio.whenLoaded(); await settle();
+    vi.mocked(fetch).mockResolvedValueOnce({ ok: false, status: 503, arrayBuffer: async () => new ArrayBuffer(0) } as unknown as Response);
+    vi.mocked(fetch).mockRejectedValueOnce(new TypeError('Load failed'));
+    await expect(audio.preloadAudioCues(['bark_elder', 'bark_smith'])).resolves.toBeUndefined();
+    audio.play('bark_elder', 3);
+    audio.setMusic(true, 'explore');
+    const music = MediaMock.all.find(m => m.src.includes('music_'))!;
+    music.play.mockImplementationOnce(() => { throw new Error('NotAllowedError'); });
+    expect(() => audio.getAdaptiveDirector().resumeCurrent()).not.toThrow();
+    music.play.mockRejectedValueOnce(new Error('Load failed'));
+    expect(() => audio.getAdaptiveDirector().resumeCurrent()).not.toThrow();
+    await settle();
+  });
+
+  it('evicts non-core on-demand audio buffers via LRU cap and unloadOnDemandAudio()', async () => {
+    audio.unlock(); await audio.whenLoaded(); await settle();
+    const coreCount = audio.audioStats().loaded;
+    const cues = Array.from({ length: 55 }, (_, i) => `on_demand_cue_${i}`);
+    await audio.preloadAudioCues(cues);
+    // Non-core buffers are capped at 48 so decoded PCM memory stays bounded across acts.
+    expect(audio.audioStats().loaded).toBe(coreCount + 48);
+    const evicted = audio.unloadOnDemandAudio();
+    expect(evicted).toBe(48);
+    expect(audio.audioStats().loaded).toBe(coreCount);
+  });
 });
