@@ -44,7 +44,7 @@ import {
 import { loadGameData } from './loaddata';
 import { loadHeroVoices, heroBark } from './herovoice';
 import { loadAchievements, achKills, achTrack, achReset, achHired, achLevel, achGold, achWin, achCampaign } from './achievements';
-import { loadMissionContent, loadMissionHints, loadItemFlavor, loadFlavorLists, loadMonsterCodex, loadCodexLore, loadTownBarks, loadSpellText, defeatFlavor, loadDifficultyFlavor, difficultyLine, loadMercLines, mercHireLine, regionEnterLine, loadHeroFlavor, promotionLine, classBanter, missionRadio, missionKey, loadBarkContent, mercBark, bossLine, setMercAct } from './missioncontent';
+import { loadMissionContent, loadMissionHints, loadItemFlavor, loadFlavorLists, loadMonsterCodex, loadCodexLore, loadTownBarks, loadSpellText, defeatFlavor, loadDifficultyFlavor, difficultyLine, loadMercLines, mercContent, mercHireLine, regionEnterLine, loadHeroFlavor, promotionLine, classBanter, missionRadio, missionKey, loadBarkContent, mercBark, bossLine, setMercAct } from './missioncontent';
 import { startSideQuests, sqTrack, sqFinish } from './sidequests';
 import { DebugPanel } from './debugpanel';
 import { KNOWN_HI, SPELLS, Tk, maskHas } from './sim/spelldata';
@@ -54,7 +54,8 @@ import { S } from './strings';
 import { LOW_HP_TIP, Tips } from './tips';
 import { readPreferences, writePreference } from './preferences';
 import { detectBiomeFromMap } from './aesthetic-vfx';
-import { DoubleTap, PortraitStrip, RadialMenu, portraitIds, unitsOfKind, type RadialOrder } from './touchx';
+import { DoubleTap, RadialMenu, unitsOfKind, type RadialOrder } from './touchx';
+import { SquadBar, extractSquadMembers } from './ui/squad-bar';
 import { monsterInfo } from './monster-info';
 import { CameraController } from './camera';
 import { LootOverlayManager } from './loot-overlay';
@@ -71,6 +72,7 @@ import {
 import { VirtualStick } from './virtualstick';
 import { keybindManager } from './keybinds';
 import './style.css';
+import './ui/squad-bar.css';
 
 await loadGameData(); // item and spell tables, before any sim or mission is built
 
@@ -1845,27 +1847,27 @@ function refreshQuick(): void {
   $('btn-auto').classList.toggle('on', who.length > 0 && who.every((i) => sim.cb.auto[i] === curSpell + 1));
   $('btn-auto').textContent = `${S.autoBtn}: ${SPELLS[curSpell].name}`;
 }
-// --- portraits: your units as 48 px chips; drag an ally spell from the quick row onto one to cast on that unit ---
-const portraits = new PortraitStrip(document.body, (id) => select([id], addMode));
+// --- squad bar: hero + active party portraits for 1-tap selection, double-tap camera focus & spell drops ---
+const squadBar = new SquadBar(document.body, {
+  onSelect: (id, additive) => select([id], additive),
+  onFocus: (id) => {
+    if (!alive(id)) return;
+    cameraFollow = id === (sim.hero?.id ?? 0);
+    renderer.centerOn(px(sim, id), py(sim, id));
+  },
+  isAdditive: () => addMode,
+});
 function refreshPortraits(): void {
-  const mine: number[] = [];
-  for (let i = 0; i < sim.count && mine.length < 64; i++) if (sim.team[i] === 0 && alive(i) && !sim.hidden[i]) mine.push(i);
-  const heroId = sim.hero?.id ?? -1;
-  portraits.update(
-    portraitIds(mine, heroId).map((id) => ({
-      id,
-      label: id === heroId ? 'H' : S.kinds[sim.cb.kind[id]].slice(0, 2),
-      hpPct: Math.max(1, Math.min(100, Math.floor((sim.cb.hp[id] * 100) / Math.max(1, sim.cb.hpMax[id])))),
-      hero: id === heroId,
-      selected: selected.has(id),
-    })),
-  );
+  const { members, totalCount } = extractSquadMembers(sim, selected, {
+    getMercInfo: (id) => mercContent(id),
+  });
+  squadBar.update(members, totalCount);
 }
 let dragSlot = -1;
 let dragClick = false; // swallow the click that ends a drag
 function dropSpell(n: number, cx: number, cy: number): void {
   const sid = slots[n];
-  const unit = portraits.unitAt(cx, cy);
+  const unit = squadBar.unitAt(cx, cy);
   if (unit < 0 || sid < 0 || sid >= ITEM_BASE) return;
   if (SPELLS[sid].tk !== Tk.Ally) return void toast(S.touch.notAlly);
   const who = casters(sid);
@@ -2882,8 +2884,7 @@ if (diag) void import('./diag').then((m) => m.startDiag(document.body, () => liv
 
 function updateStats(): void {
   for (const id of [...selected]) if (!alive(id)) selected.delete(id);
-  if (sim.hero && alive(0) && (selected.size === 0 || !selected.has(0))) {
-    selected.clear();
+  if (sim.hero && alive(0) && selected.size === 0) {
     selected.add(0);
   }
   refreshGroupButtons();
