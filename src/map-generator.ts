@@ -142,7 +142,7 @@ function hash2(seed: number, x: number, y: number): number {
   return ((h ^ (h >>> 16)) >>> 0) / 4294967296;
 }
 
-function smoothNoise(seed: number, x: number, y: number, cell: number): number {
+export function smoothNoise(seed: number, x: number, y: number, cell: number): number {
   const gx = Math.floor(x / cell);
   const gy = Math.floor(y / cell);
   const fx = x / cell - gx;
