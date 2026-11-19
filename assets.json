@@ -4260,6 +4260,18 @@
       "note": "Biome ground skin: AI-generated texture swatch (Gemini, our own prompt in tools/GEMINI-TILES-BRIEF.md) cut into 4 seamless 32px tiles"
     },
     {
+      "path": "public/objects/objects.png",
+      "license": "own",
+      "source": "tools/obj-cut.py",
+      "note": "Biome object atlas: AI-generated sprite sheets (Gemini, our own prompts in tools/GEMINI-OBJECTS-BRIEF.md) keyed from magenta and packed"
+    },
+    {
+      "path": "public/objects/objects.json",
+      "license": "own",
+      "source": "tools/obj-cut.py",
+      "note": "Frame map for public/objects/objects.png"
+    },
+    {
       "path": "public/terrain/skin-crypt.png",
       "license": "own",
       "source": "tools/tile-cut.py",

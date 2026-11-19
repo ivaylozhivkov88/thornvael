@@ -1,5 +1,6 @@
 /** Static scenery only: no Pixi objects, simulation RNG or frame-time work. */
 import sheet from '../public/terrain/terrain.json';
+import objSheet from '../public/objects/objects.json';
 import { ObjectKind, TILE, Terrain, type GameMap, type MapObject } from './map';
 
 export interface TerrainFrame {
@@ -76,6 +77,17 @@ export const BIOME_ZONES: Record<string, string[]> = {
 const skins = new Map<string, HTMLImageElement>();
 let mainSkin: HTMLImageElement | null = null;
 let zoneSkins: HTMLImageElement[] = [];
+let zoneNames: string[] = [];
+let objImage: HTMLImageElement | null = null;
+
+/** Low ground props (baked into chunks, no collision) that belong to each zone ground. */
+const ZONE_DECOR: Record<string, string[]> = {
+  crypt: ['bones/tombstone', 'bones/tombstone', 'bones/tombstone', 'bones/pile', 'bones/ribcage', 'bones/skullspike', 'bones/sarcophagus', 'bones/candles', 'ruins/rubble'],
+  ruinstone: ['ruins/rubble', 'ruins/rubble', 'ruins/column-broken', 'ruins/wall', 'ruins/statue', 'rocks/slab'],
+  highland: ['rocks/cluster', 'rocks/boulder-m', 'highland/log', 'highland/gorse', 'highland/standing-stone'],
+  sand: ['desert/stump', 'rocks/cluster', 'desert/thorn', 'bones/ribcage'],
+  snow: ['rocks/cluster', 'rocks/boulder-m', 'highland/log'],
+};
 let zoneSeed = 0;
 
 function loadSkin(name: string): Promise<HTMLImageElement | null> {
@@ -98,7 +110,21 @@ export async function setTerrainTheme(biome: string, seed: number): Promise<void
   const main = BIOME_SKINS[biome];
   mainSkin = main ? await loadSkin(main) : null;
   const loaded = await Promise.all((BIOME_ZONES[biome] ?? []).map(loadSkin));
-  zoneSkins = loaded.filter((i): i is HTMLImageElement => i !== null);
+  const names = BIOME_ZONES[biome] ?? [];
+  zoneSkins = [];
+  zoneNames = [];
+  loaded.forEach((img, i) => {
+    if (img) {
+      zoneSkins.push(img);
+      zoneNames.push(names[i]!);
+    }
+  });
+  objImage = await new Promise<HTMLImageElement | null>((resolve) => {
+    const image = new Image();
+    image.onload = () => resolve(image);
+    image.onerror = () => resolve(null);
+    image.src = `${import.meta.env.BASE_URL}objects/${objSheet.image}`;
+  });
 }
 
 function cellHash01(x: number, y: number, k: number): number {
@@ -200,6 +226,8 @@ function draw(g: CanvasRenderingContext2D, art: CanvasImageSource, name: string,
 
 export interface SceneryPlacement {
   frame: string;
+  /** Frame lives in the object atlas instead of the terrain atlas. */
+  obj?: boolean;
   x: number;
   y: number;
   w: number;
@@ -221,10 +249,43 @@ export function sceneryPlacement(map: GameMap, o: MapObject): SceneryPlacement |
 
 /** Prepare once per map, without sorting/mutating the gameplay object array. */
 export function prepareScenery(map: GameMap): SceneryPlacement[] {
-  return [...map.objects]
+  const list = [...map.objects]
     .sort((a, b) => a.y - b.y || a.x - b.x || a.kind - b.kind)
     .map((o) => sceneryPlacement(map, o))
     .filter((p): p is SceneryPlacement => p !== null);
+  return [...list, ...zoneDecor(map)];
+}
+
+/** Seed-derived props inside the feature zones (gravestones, bones, rubble...). Visual only. */
+function zoneDecor(map: GameMap): SceneryPlacement[] {
+  if (!objImage || !zoneSkins.length) return [];
+  const fields = zoneField(map);
+  const vw = map.w + 1;
+  const taken = new Set<number>();
+  for (const o of map.objects) for (let dy = -1; dy <= 1; dy++) for (let dx = -1; dx <= 1; dx++) taken.add((o.y + dy) * map.w + o.x + dx);
+  const out: SceneryPlacement[] = [];
+  for (let y = 2; y < map.h - 2; y++) {
+    for (let x = 2; x < map.w - 2; x++) {
+      const kind = map.terrain[y * map.w + x];
+      if (kind === Terrain.Water || kind === Terrain.Rock || taken.has(y * map.w + x)) continue;
+      if (Math.hypot(x - 8, y - 8) < 7) continue;
+      for (let z = 0; z < fields.length; z++) {
+        const wgt = fields[z]![y * vw + x]!;
+        if (wgt < 0.15) continue;
+        const chance = wgt > 0.55 ? 0.09 : 0.02;
+        if (cellHash01(x, y, 40 + z + zoneSeed) > chance) continue;
+        const set = ZONE_DECOR[zoneNames[z]!];
+        if (!set) continue;
+        const name = set[Math.floor(cellHash01(x, y, 60 + z) * set.length)]!;
+        const f = objSheet.frames[name as keyof typeof objSheet.frames] as TerrainFrame | undefined;
+        if (!f) continue;
+        taken.add(y * map.w + x);
+        out.push({ frame: name, obj: true, x: x * TILE + TILE / 2 - f.anchor![0], y: y * TILE + TILE - f.anchor![1], w: f.w, h: f.h });
+        break;
+      }
+    }
+  }
+  return out.sort((a, b) => a.y + a.h - (b.y + b.h));
 }
 
 function cellHash(x: number, y: number, k: number): number {
@@ -416,7 +477,10 @@ export function paintTerrainChunk(
     const x = p.x - originX;
     const y = p.y - originY;
     if (x + p.w <= 0 || y + p.h <= 0 || x >= size || y >= size) continue;
-    draw(g, art, p.frame, x, y);
+    if (p.obj) {
+      const f = objSheet.frames[p.frame as keyof typeof objSheet.frames];
+      if (objImage) g.drawImage(objImage, f.x, f.y, f.w, f.h, x, y, f.w, f.h);
+    } else draw(g, art, p.frame, x, y);
   }
   g.restore();
 }
