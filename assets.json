@@ -4294,6 +4294,246 @@
       "license": "own",
       "source": "tools/tile-cut.py",
       "note": "Biome ground skin: AI-generated texture swatch (Gemini, our own prompt in tools/GEMINI-TILES-BRIEF.md) cut into 4 seamless 32px tiles"
+    },
+    {
+      "path": "public/audio/ui_error.m4a",
+      "license": "own",
+      "source": "tools/audio-gen-sfx.py",
+      "note": "Synthesised UI error buzz cue"
+    },
+    {
+      "path": "public/audio/step_snow_1.m4a",
+      "license": "own",
+      "source": "tools/audio-gen-sfx.py",
+      "note": "Synthesised snow crunch footstep variant 1"
+    },
+    {
+      "path": "public/audio/step_snow_2.m4a",
+      "license": "own",
+      "source": "tools/audio-gen-sfx.py",
+      "note": "Synthesised snow crunch footstep variant 2"
+    },
+    {
+      "path": "public/audio/step_ash_1.m4a",
+      "license": "own",
+      "source": "tools/audio-gen-sfx.py",
+      "note": "Synthesised volcanic ash footstep variant 1"
+    },
+    {
+      "path": "public/audio/step_ash_2.m4a",
+      "license": "own",
+      "source": "tools/audio-gen-sfx.py",
+      "note": "Synthesised volcanic ash footstep variant 2"
+    },
+    {
+      "path": "public/audio/mon_aggro_beast.m4a",
+      "license": "own",
+      "source": "tools/audio-gen-sfx.py",
+      "note": "Synthesised beast family aggro growl"
+    },
+    {
+      "path": "public/audio/mon_aggro_undead.m4a",
+      "license": "own",
+      "source": "tools/audio-gen-sfx.py",
+      "note": "Synthesised undead family aggro rattle and hiss"
+    },
+    {
+      "path": "public/audio/mon_aggro_caster.m4a",
+      "license": "own",
+      "source": "tools/audio-gen-sfx.py",
+      "note": "Synthesised caster family aggro arcane chant"
+    },
+    {
+      "path": "public/audio/mon_aggro_construct.m4a",
+      "license": "own",
+      "source": "tools/audio-gen-sfx.py",
+      "note": "Synthesised construct family aggro stone/iron groan"
+    },
+    {
+      "path": "public/audio/death_caster_1.m4a",
+      "license": "own",
+      "source": "tools/audio-gen-sfx.py",
+      "note": "Synthesised caster death arcane implosion"
+    },
+    {
+      "path": "public/audio/death_construct_1.m4a",
+      "license": "own",
+      "source": "tools/audio-gen-sfx.py",
+      "note": "Synthesised construct death stone/metal collapse"
+    },
+    {
+      "path": "public/audio/death_undead_1.m4a",
+      "license": "own",
+      "source": "tools/audio-gen-sfx.py",
+      "note": "Synthesised undead death bone scatter"
+    },
+    {
+      "path": "public/audio/death_insect_1.m4a",
+      "license": "own",
+      "source": "tools/audio-gen-sfx.py",
+      "note": "Synthesised insectoid death carapace crunch"
+    },
+    {
+      "path": "public/audio/amb_weather_rain.m4a",
+      "license": "own",
+      "source": "tools/audio-gen-sfx.py",
+      "note": "Synthesised loopable rain weather ambient bed"
+    },
+    {
+      "path": "public/audio/amb_weather_embers.m4a",
+      "license": "own",
+      "source": "tools/audio-gen-sfx.py",
+      "note": "Synthesised loopable volcanic embers weather ambient bed"
+    },
+    {
+      "path": "public/audio/town_market_crowd.m4a",
+      "license": "own",
+      "source": "tools/audio-gen-sfx.py",
+      "note": "Synthesised loopable town market crowd murmur bed"
+    },
+    {
+      "path": "public/audio/music_char_select.m4a",
+      "license": "own",
+      "source": "tools/audio-gen-music.py",
+      "note": "Synthesised loopable character select campfire theme"
+    },
+    {
+      "path": "public/audio/music_explore_act1_kilns.m4a",
+      "license": "own",
+      "source": "tools/audio-gen-music.py",
+      "note": "Synthesised loopable Act 1 Kilns exploration theme"
+    },
+    {
+      "path": "public/audio/music_explore_act2_vaults.m4a",
+      "license": "own",
+      "source": "tools/audio-gen-music.py",
+      "note": "Synthesised loopable Act 2 Vaults exploration theme"
+    },
+    {
+      "path": "public/audio/music_explore_act3_spit.m4a",
+      "license": "own",
+      "source": "tools/audio-gen-music.py",
+      "note": "Synthesised loopable Act 3 Spit exploration theme"
+    },
+    {
+      "path": "public/audio/music_explore_act4_caldera.m4a",
+      "license": "own",
+      "source": "tools/audio-gen-music.py",
+      "note": "Synthesised loopable Act 4 Caldera exploration theme"
+    },
+    {
+      "path": "public/audio/music_skirmish_forest.m4a",
+      "license": "own",
+      "source": "tools/audio-gen-music.py",
+      "note": "Synthesised loopable skirmish forest biome theme"
+    },
+    {
+      "path": "public/audio/music_skirmish_marsh.m4a",
+      "license": "own",
+      "source": "tools/audio-gen-music.py",
+      "note": "Synthesised loopable skirmish marsh biome theme"
+    },
+    {
+      "path": "public/audio/music_skirmish_desert.m4a",
+      "license": "own",
+      "source": "tools/audio-gen-music.py",
+      "note": "Synthesised loopable skirmish desert biome theme"
+    },
+    {
+      "path": "public/audio/music_skirmish_crypt.m4a",
+      "license": "own",
+      "source": "tools/audio-gen-music.py",
+      "note": "Synthesised loopable skirmish crypt biome theme"
+    },
+    {
+      "path": "public/audio/music_skirmish_volcanic.m4a",
+      "license": "own",
+      "source": "tools/audio-gen-music.py",
+      "note": "Synthesised loopable skirmish volcanic biome theme"
+    },
+    {
+      "path": "public/audio/music_boss_ashkarath_phase2.m4a",
+      "license": "own",
+      "source": "tools/audio-gen-music.py",
+      "note": "Synthesised loopable Ashkarath phase 2 boss battle theme"
+    },
+    {
+      "path": "public/props-wave2/props-wave2.png",
+      "license": "own",
+      "source": "tools/gen-new-art-packs.py",
+      "note": "World props wave 2 spritesheet atlas (shrines, 3-rarity chests, bridges, lights, banners, shipwrecks, graves, flora)"
+    },
+    {
+      "path": "public/spellicons/spellicons.png",
+      "license": "own",
+      "source": "tools/gen-new-art-packs.py",
+      "note": "Spell school, status effect, and core spell icon atlas"
+    },
+    {
+      "path": "public/uiskin/panel-frame.png",
+      "license": "own",
+      "source": "tools/gen-new-art-packs.py",
+      "note": "Dark-fantasy 9-slice UI window frame"
+    },
+    {
+      "path": "public/uiskin/btn-dark.png",
+      "license": "own",
+      "source": "tools/gen-new-art-packs.py",
+      "note": "Dark-fantasy 3-state button strip (normal, hover, pressed)"
+    },
+    {
+      "path": "public/uiskin/orb-health.png",
+      "license": "own",
+      "source": "tools/gen-new-art-packs.py",
+      "note": "Ornate crimson health resource orb"
+    },
+    {
+      "path": "public/uiskin/orb-mana.png",
+      "license": "own",
+      "source": "tools/gen-new-art-packs.py",
+      "note": "Ornate sapphire mana resource orb"
+    },
+    {
+      "path": "public/uiskin/rarity-frames.png",
+      "license": "own",
+      "source": "tools/gen-new-art-packs.py",
+      "note": "5-tier item rarity border strip (common, magic, rare, unique, set)"
+    },
+    {
+      "path": "public/projectiles/projectiles.png",
+      "license": "own",
+      "source": "tools/gen-new-art-packs.py",
+      "note": "Projectile spritesheet atlas (arrow, bolt, fireball, frost-shard, shadow-orb, thrown-axe + trails)"
+    },
+    {
+      "path": "public/townnpcs/townnpcs.png",
+      "license": "own",
+      "source": "tools/gen-new-art-packs.py",
+      "note": "Town NPC idle animation spritesheet (smith, innkeeper, mage, priest, guard, villager)"
+    },
+    {
+      "path": "public/loadscreens/load-map1-fords.jpg",
+      "license": "own",
+      "source": "tools/gen-new-art-packs.py",
+      "note": "Map 1 Oakhaven & Border Fords loading screen key painting"
+    },
+    {
+      "path": "public/loadscreens/load-map2-redmarsh.jpg",
+      "license": "own",
+      "source": "tools/gen-new-art-packs.py",
+      "note": "Map 2 Redmarsh Fen loading screen key painting"
+    },
+    {
+      "path": "public/loadscreens/load-map3-coast.jpg",
+      "license": "own",
+      "source": "tools/gen-new-art-packs.py",
+      "note": "Map 3 Iron Coast loading screen key painting"
+    },
+    {
+      "path": "public/loadscreens/load-map4-caldera.jpg",
+      "license": "own",
+      "source": "tools/gen-new-art-packs.py",
+      "note": "Map 4 Obsidian Caldera loading screen key painting"
     }
   ]
 }
