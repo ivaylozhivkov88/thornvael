@@ -1,0 +1,245 @@
+{
+  "version": 1,
+  "entries": [
+    {
+      "key": "rumor.act1.01",
+      "stage": 1,
+      "hub": "town-thornwick",
+      "text": "Grok'tar's gnolls aren't raiding for cattle anymore—someone's paying them in fresh-stamped mint copper from before the fire."
+    },
+    {
+      "key": "rumor.act1.02",
+      "stage": 1,
+      "hub": "town-thornwick",
+      "text": "Every third sack of barley taxed under Morvessa's Salt Tithe heads south past Alder Bridge, never toward the capital granaries."
+    },
+    {
+      "key": "rumor.act1.03",
+      "stage": 1,
+      "hub": "town-thornwick",
+      "text": "Sawyers in Greywood found bog-iron ore sweating green slag near the old First Compact boundary stones."
+    },
+    {
+      "key": "rumor.act1.04",
+      "stage": 1,
+      "hub": "town-thornwick",
+      "text": "Orlen refuses to bury anyone after sundown; he swears something in the Weeping Ossuary is spinning silk around the coffins."
+    },
+    {
+      "key": "rumor.act1.05",
+      "stage": 1,
+      "hub": "town-thornwick",
+      "text": "Shaved silver groats turned up in the miller's lockbox—someone at the Border Mint clipped the dies six years ago."
+    },
+    {
+      "key": "rumor.act1.06",
+      "stage": 1,
+      "hub": "town-thornwick",
+      "text": "Warden Hale hasn't slept since the Sunken Ford watch stopped sending tallies; he's hiring any blade that can hold a line."
+    },
+    {
+      "key": "rumor.act1.07",
+      "stage": 1,
+      "hub": "town-thornwick",
+      "text": "Don't follow pale lights off the peat-road at dusk. Those aren't ford-scouts; mire wisps feed on stray Ley leaks."
+    },
+    {
+      "key": "rumor.act1.08",
+      "stage": 1,
+      "hub": "town-thornwick",
+      "text": "The dwarven Undervault drains beneath Ravenwatch still carry dry air if you know which rusted sluice-wheel to turn."
+    },
+    {
+      "key": "rumor.act1.09",
+      "stage": 1,
+      "hub": "town-thornwick",
+      "text": "Ashbrook Gatehouse was reinforced with ironwood beams last week—Morvessa expects a siege, not a tax audit."
+    },
+    {
+      "key": "rumor.act1.10",
+      "stage": 1,
+      "hub": "town-thornwick",
+      "text": "Keep a spare flask of lamp oil if you enter the ossuary; fire clears Morvessa's silk-brood faster than cold steel."
+    },
+    {
+      "key": "rumor.act2.01",
+      "stage": 2,
+      "hub": "town-redmarsh",
+      "text": "Water-Seller Tull weighs every gill of boiled rainwater on apothecary scales—cross him and you drink alkali silt."
+    },
+    {
+      "key": "rumor.act2.02",
+      "stage": 2,
+      "hub": "town-redmarsh",
+      "text": "Someone chiseled reverse blood-wards into three of the twelve Quartz Wardstones; that's why the dust-squalls won't settle."
+    },
+    {
+      "key": "rumor.act2.03",
+      "stage": 2,
+      "hub": "town-redmarsh",
+      "text": "Lower-Parish clerks are binding indebted corpses with copper wire again to patrol the salt-vaults under Third-Dynasty law."
+    },
+    {
+      "key": "rumor.act2.04",
+      "stage": 2,
+      "hub": "town-redmarsh",
+      "text": "Sabik says the dune scarabs near the broken monoliths store enough static to knock a mailed knight off his boots."
+    },
+    {
+      "key": "rumor.act2.05",
+      "stage": 2,
+      "hub": "town-redmarsh",
+      "text": "Word from Deep Quarry is that chained miners broke into a Third-Dynasty probate vault—and nobody came back up the hoist."
+    },
+    {
+      "key": "rumor.act2.06",
+      "stage": 2,
+      "hub": "town-redmarsh",
+      "text": "Gorrathul hasn't opened Ironheart Bastion's twin sluice-gates in two winters. Some whisper his mountain cisterns silted completely dry."
+    },
+    {
+      "key": "rumor.act2.07",
+      "stage": 2,
+      "hub": "town-redmarsh",
+      "text": "Caravaneers found Morvessa's northern bullion chests stamped with Ironheart's seal—she was buying Gorrathul's silence with Border Mint silver."
+    },
+    {
+      "key": "rumor.act2.08",
+      "stage": 2,
+      "hub": "town-redmarsh",
+      "text": "If you march on the Gullet of Dunes, pack fire salts; Gorrathul's freeze aura stiffens bowstrings before you draw."
+    },
+    {
+      "key": "rumor.act2.09",
+      "stage": 2,
+      "hub": "town-redmarsh",
+      "text": "Chronicler Zahra claims the twelve wardstones aren't monuments at all—they're pressure anchors holding coastal rain over the plateau."
+    },
+    {
+      "key": "rumor.act2.10",
+      "stage": 2,
+      "hub": "town-redmarsh",
+      "text": "Never camp beside dry limestone slabs in Redmarsh; scale vipers wait beneath them for the warmth of a dying fire."
+    },
+    {
+      "key": "rumor.act3.01",
+      "stage": 3,
+      "hub": "town-oakhaven",
+      "text": "Lord Admiral Vesperion's Black Fleet isn't looting Oakhaven—he's burning every sea-going hull so no army can cross the southern straits."
+    },
+    {
+      "key": "rumor.act3.02",
+      "stage": 3,
+      "hub": "town-oakhaven",
+      "text": "Kors needs three barrels of refined whale-oil just to grease the drydock slipways before the fire-hulks drift into Harborwatch."
+    },
+    {
+      "key": "rumor.act3.03",
+      "stage": 3,
+      "hub": "town-oakhaven",
+      "text": "The Thermodynamic Conclave has been stringing copper wire along the sea-wall culverins—Sage Quillon calls it 'capacitance.'"
+    },
+    {
+      "key": "rumor.act3.04",
+      "stage": 3,
+      "hub": "town-oakhaven",
+      "text": "When the tide drops at the Sunken Citadel, you can hear bronze frost-bells tolling under the drowned barbican."
+    },
+    {
+      "key": "rumor.act3.05",
+      "stage": 3,
+      "hub": "town-oakhaven",
+      "text": "The Bailey Truce barely holds; merchant captains want coin up front before risking a carrack against Vesperion's copper-sheeted rams."
+    },
+    {
+      "key": "rumor.act3.06",
+      "stage": 3,
+      "hub": "town-oakhaven",
+      "text": "Hourglass Spit got cut off at high water—half a vanguard company is still holding the ruined prism lighthouse."
+    },
+    {
+      "key": "rumor.act3.07",
+      "stage": 3,
+      "hub": "town-oakhaven",
+      "text": "Fen hexers from the Greywash marshes have been trading root-tonics for culverin powder; nobody knows which side they'll poison next."
+    },
+    {
+      "key": "rumor.act3.08",
+      "stage": 3,
+      "hub": "town-oakhaven",
+      "text": "Silt colossi still patrol the flooded canal locks, grinding drowned chains under their heels like it's still Year -156."
+    },
+    {
+      "key": "rumor.act3.09",
+      "stage": 3,
+      "hub": "town-oakhaven",
+      "text": "Surgeon Sera says glasswing cuts fester faster than ordinary steel—wrap every scratch in vinegar-soaked linen."
+    },
+    {
+      "key": "rumor.act3.10",
+      "stage": 3,
+      "hub": "town-oakhaven",
+      "text": "Vesperion's flagship carries a salt-corroded astrolabe locked due south toward the caldera plume. Take it, and we can sail."
+    },
+    {
+      "key": "rumor.act4.01",
+      "stage": 4,
+      "hub": "town-ironcamp",
+      "text": "Forgemaster Vok quenches star-iron blades in sulfur brine within four heartbeats—any slower and the metal turns brittle as glass."
+    },
+    {
+      "key": "rumor.act4.02",
+      "stage": 4,
+      "hub": "town-ironcamp",
+      "text": "Brother Elias and the Scorched Penitents blinded themselves voluntarily, claiming sightless eyes read the Anchor Seals' hum truer."
+    },
+    {
+      "key": "rumor.act4.03",
+      "stage": 4,
+      "hub": "town-ironcamp",
+      "text": "Arch-Mage Malrik's Ember Court is already climbing the Ashveil stairs with focusing prisms to crack the seventh Anchor Seal."
+    },
+    {
+      "key": "rumor.act4.04",
+      "stage": 4,
+      "hub": "town-ironcamp",
+      "text": "Ashkarath isn't a demon—he's the First Warden, four hundred years calcified, burning anyone who tries to uncap the magma core."
+    },
+    {
+      "key": "rumor.act4.05",
+      "stage": 4,
+      "hub": "town-ironcamp",
+      "text": "Three northern kings lost their heads at the Crossroads of Headless Kings for refusing the caldera maintenance tithe."
+    },
+    {
+      "key": "rumor.act4.06",
+      "stage": 4,
+      "hub": "town-ironcamp",
+      "text": "The Magnetic Narrows pull iron buckles straight toward the basalt cliffs—leave cheap scrap behind before crossing."
+    },
+    {
+      "key": "rumor.act4.07",
+      "stage": 4,
+      "hub": "town-ironcamp",
+      "text": "Anvilmaw smiths never leave their floor-fissures; listen for the hiss of their chest-furnaces before stepping into smoke."
+    },
+    {
+      "key": "rumor.act4.08",
+      "stage": 4,
+      "hub": "town-ironcamp",
+      "text": "Commander Rowan says the First Watch remnant still answers to the Crown of Order, provided you bring unbroken star-iron."
+    },
+    {
+      "key": "rumor.act4.09",
+      "stage": 4,
+      "hub": "town-ironcamp",
+      "text": "If Malrik shatters the seventh valve, northern harvests might thaw—or the whole continent could burn to vitrified slag."
+    },
+    {
+      "key": "rumor.act4.10",
+      "stage": 4,
+      "hub": "town-ironcamp",
+      "text": "Drink cold water while you still have it, captain. Above Three-Roads Watch, even the wind tastes of sulfur and iron."
+    }
+  ]
+}

@@ -1,0 +1,545 @@
+{
+  "version": 1,
+  "entries": [
+    {
+      "id": "first_blood",
+      "titleKey": "ach.first_blood.title",
+      "title": "Cold Iron Receipt",
+      "descKey": "ach.first_blood.desc",
+      "desc": "Slay your first hostile creature on the Border Fords.",
+      "category": "combat",
+      "condition": { "metric": "kills_total", "target": 1 }
+    },
+    {
+      "id": "skirmish_hundred",
+      "titleKey": "ach.skirmish_hundred.title",
+      "title": "Salt-Ledger Tally",
+      "descKey": "ach.skirmish_hundred.desc",
+      "desc": "Defeat 100 enemies across any missions or skirmishes.",
+      "category": "combat",
+      "condition": { "metric": "kills_total", "target": 100 }
+    },
+    {
+      "id": "skirmish_thousand",
+      "titleKey": "ach.skirmish_thousand.title",
+      "title": "Quartermaster's Reckoning",
+      "descKey": "ach.skirmish_thousand.desc",
+      "desc": "Defeat 1,000 enemies in defense of the Vanguard.",
+      "category": "combat",
+      "condition": { "metric": "kills_total", "target": 1000 }
+    },
+    {
+      "id": "slaughter_five_thousand",
+      "titleKey": "ach.slaughter_five_thousand.title",
+      "title": "Butcher of the Fords",
+      "descKey": "ach.slaughter_five_thousand.desc",
+      "desc": "Defeat 5,000 hostile foes across all campaigns.",
+      "category": "combat",
+      "condition": { "metric": "kills_total", "target": 5000 }
+    },
+    {
+      "id": "elite_hunter_25",
+      "titleKey": "ach.elite_hunter_25.title",
+      "title": "Broken Standards",
+      "descKey": "ach.elite_hunter_25.desc",
+      "desc": "Slay 25 elite or champion monsters.",
+      "category": "combat",
+      "condition": { "metric": "elite_kills", "target": 25 }
+    },
+    {
+      "id": "elite_hunter_100",
+      "titleKey": "ach.elite_hunter_100.title",
+      "title": "Bane of Champions",
+      "descKey": "ach.elite_hunter_100.desc",
+      "desc": "Slay 100 elite or champion monsters.",
+      "category": "combat",
+      "condition": { "metric": "elite_kills", "target": 100 }
+    },
+    {
+      "id": "spell_valves_250",
+      "titleKey": "ach.spell_valves_250.title",
+      "title": "Telluric Discharge",
+      "descKey": "ach.spell_valves_250.desc",
+      "desc": "Cast 250 spells in active combat.",
+      "category": "combat",
+      "condition": { "metric": "spells_cast", "target": 250 }
+    },
+    {
+      "id": "spell_valves_2000",
+      "titleKey": "ach.spell_valves_2000.title",
+      "title": "Arcane Thermodynamicist",
+      "descKey": "ach.spell_valves_2000.desc",
+      "desc": "Cast 2,000 spells across your expeditions.",
+      "category": "combat",
+      "condition": { "metric": "spells_cast", "target": 2000 }
+    },
+    {
+      "id": "gnoll_breaker",
+      "titleKey": "ach.gnoll_breaker.title",
+      "title": "No Mint Copper Left",
+      "descKey": "ach.gnoll_breaker.desc",
+      "desc": "Slay 150 border gnolls along the northern marches.",
+      "category": "combat",
+      "condition": { "metric": "family_kills_gnoll", "target": 150 }
+    },
+    {
+      "id": "ossuary_purger",
+      "titleKey": "ach.ossuary_purger.title",
+      "title": "Debt Discharged",
+      "descKey": "ach.ossuary_purger.desc",
+      "desc": "Destroy 200 hollow knights or crypt embalmers.",
+      "category": "combat",
+      "condition": { "metric": "undead_kills", "target": 200 }
+    },
+    {
+      "id": "act1_complete",
+      "titleKey": "ach.act1_complete.title",
+      "title": "The Silk Widow Audited",
+      "descKey": "ach.act1_complete.desc",
+      "desc": "Defeat Morvessa at Ashbrook Gatehouse and reclaim the Border Mint ledger.",
+      "category": "campaign",
+      "condition": { "metric": "boss_kill", "target": "morvessa" }
+    },
+    {
+      "id": "act2_complete",
+      "titleKey": "ach.act2_complete.title",
+      "title": "Dry Sluices Unsealed",
+      "descKey": "ach.act2_complete.desc",
+      "desc": "Slay Gorrathul within Ironheart Bastion and open the coastal pass.",
+      "category": "campaign",
+      "condition": { "metric": "boss_kill", "target": "gorrathul" }
+    },
+    {
+      "id": "act3_complete",
+      "titleKey": "ach.act3_complete.title",
+      "title": "Silence the Black Fleet",
+      "descKey": "ach.act3_complete.desc",
+      "desc": "Board Vesperion's flagship at Harborwatch and end the naval blockade.",
+      "category": "campaign",
+      "condition": { "metric": "boss_kill", "target": "vesperion" }
+    },
+    {
+      "id": "act4_complete",
+      "titleKey": "ach.act4_complete.title",
+      "title": "Warden of the Dais",
+      "descKey": "ach.act4_complete.desc",
+      "desc": "Defeat Ashkarath atop the Obsidian Dais and decide Thornvael's fate.",
+      "category": "campaign",
+      "condition": { "metric": "boss_kill", "target": "ashkarath" }
+    },
+    {
+      "id": "sunken_ford_held",
+      "titleKey": "ach.sunken_ford_held.title",
+      "title": "Hold the Sunken Ford",
+      "descKey": "ach.sunken_ford_held.desc",
+      "desc": "Repel Grok'tar's vanguard and secure the river crossing for Thornwick.",
+      "category": "campaign",
+      "condition": { "metric": "quest_complete", "target": "sunken_ford" }
+    },
+    {
+      "id": "wardstones_repaired",
+      "titleKey": "ach.wardstones_repaired.title",
+      "title": "Grounded in Quartz",
+      "descKey": "ach.wardstones_repaired.desc",
+      "desc": "Restore all three fractured quartz wardstones across the Redmarsh flats.",
+      "category": "campaign",
+      "condition": { "metric": "quest_complete", "target": "quartz_wardstones" }
+    },
+    {
+      "id": "bailey_truce_signed",
+      "titleKey": "ach.bailey_truce_signed.title",
+      "title": "The Bailey Truce",
+      "descKey": "ach.bailey_truce_signed.desc",
+      "desc": "Broker the whale-oil compact with Oakhaven's Maritime Guild.",
+      "category": "campaign",
+      "condition": { "metric": "quest_complete", "target": "bailey_truce" }
+    },
+    {
+      "id": "ending_crown_order",
+      "titleKey": "ach.ending_crown_order.title",
+      "title": "The Crown of Order",
+      "descKey": "ach.ending_crown_order.desc",
+      "desc": "Vent the caldera pressure into the abyss and preserve the Anchor Seals.",
+      "category": "campaign",
+      "condition": { "metric": "ending_reached", "target": "crown_of_order" }
+    },
+    {
+      "id": "ending_ember_reckoning",
+      "titleKey": "ach.ending_ember_reckoning.title",
+      "title": "Ember Reckoning",
+      "descKey": "ach.ending_ember_reckoning.desc",
+      "desc": "Shatter the final Anchor Seal and claim the Primordial Ember.",
+      "category": "campaign",
+      "condition": { "metric": "ending_reached", "target": "ember_reckoning" }
+    },
+    {
+      "id": "campaign_all_quests",
+      "titleKey": "ach.campaign_all_quests.title",
+      "title": "No Unfinished Writs",
+      "descKey": "ach.campaign_all_quests.desc",
+      "desc": "Complete 30 campaign and side quests across all four provinces.",
+      "category": "campaign",
+      "condition": { "metric": "quests_completed", "target": 30 }
+    },
+    {
+      "id": "waypoints_8",
+      "titleKey": "ach.waypoints_8.title",
+      "title": "Post-Road Cartographer",
+      "descKey": "ach.waypoints_8.desc",
+      "desc": "Unlock 8 fast-travel waypoints across the provinces.",
+      "category": "exploration",
+      "condition": { "metric": "waypoints_unlocked", "target": 8 }
+    },
+    {
+      "id": "waypoints_all",
+      "titleKey": "ach.waypoints_all.title",
+      "title": "Master of the High Roads",
+      "descKey": "ach.waypoints_all.desc",
+      "desc": "Unlock every waypoint across all four campaign maps.",
+      "category": "exploration",
+      "condition": { "metric": "waypoints_unlocked", "target": 16 }
+    },
+    {
+      "id": "shrines_10",
+      "titleKey": "ach.shrines_10.title",
+      "title": "Touched by Telluric Law",
+      "descKey": "ach.shrines_10.desc",
+      "desc": "Activate 10 field shrines during expeditions.",
+      "category": "exploration",
+      "condition": { "metric": "shrines_activated", "target": 10 }
+    },
+    {
+      "id": "dungeons_cleared_5",
+      "titleKey": "ach.dungeons_cleared_5.title",
+      "title": "Undervault Delver",
+      "descKey": "ach.dungeons_cleared_5.desc",
+      "desc": "Clear 5 subterranean crypts or side dungeons.",
+      "category": "exploration",
+      "condition": { "metric": "dungeons_cleared", "target": 5 }
+    },
+    {
+      "id": "chests_opened_50",
+      "titleKey": "ach.chests_opened_50.title",
+      "title": "Ironbound Lockbreaker",
+      "descKey": "ach.chests_opened_50.desc",
+      "desc": "Open 50 supply chests and ossuary strongboxes.",
+      "category": "exploration",
+      "condition": { "metric": "chests_opened", "target": 50 }
+    },
+    {
+      "id": "skirmish_first_win",
+      "titleKey": "ach.skirmish_first_win.title",
+      "title": "Field Exercise",
+      "descKey": "ach.skirmish_first_win.desc",
+      "desc": "Win your first random skirmish map.",
+      "category": "exploration",
+      "condition": { "metric": "skirmish_wins", "target": 1 }
+    },
+    {
+      "id": "skirmish_ten_wins",
+      "titleKey": "ach.skirmish_ten_wins.title",
+      "title": "Seasoned Outrider",
+      "descKey": "ach.skirmish_ten_wins.desc",
+      "desc": "Win 10 skirmish maps across any biomes.",
+      "category": "exploration",
+      "condition": { "metric": "skirmish_wins", "target": 10 }
+    },
+    {
+      "id": "biome_explorer",
+      "titleKey": "ach.biome_explorer.title",
+      "title": "Seven Winds of Thornvael",
+      "descKey": "ach.biome_explorer.desc",
+      "desc": "Complete skirmishes in all 7 distinct terrain biomes.",
+      "category": "exploration",
+      "condition": { "metric": "biomes_won", "target": 7 }
+    },
+    {
+      "id": "quarry_miners_freed",
+      "titleKey": "ach.quarry_miners_freed.title",
+      "title": "Chains of Deep Quarry",
+      "descKey": "ach.quarry_miners_freed.desc",
+      "desc": "Liberate the captive ironstone miners in Redmarsh's Deep Quarry.",
+      "category": "exploration",
+      "condition": { "metric": "quest_complete", "target": "deep_quarry_rescue" }
+    },
+    {
+      "id": "citadel_drained",
+      "titleKey": "ach.citadel_drained.title",
+      "title": "Greywash Lockmaster",
+      "descKey": "ach.citadel_drained.desc",
+      "desc": "Open the tidal sluices and drain the Sunken Citadel.",
+      "category": "exploration",
+      "condition": { "metric": "quest_complete", "target": "drain_citadel" }
+    },
+    {
+      "id": "gold_1000",
+      "titleKey": "ach.gold_1000.title",
+      "title": "Honest Silver Weight",
+      "descKey": "ach.gold_1000.desc",
+      "desc": "Hold 1,000 silver groats in your company purse at one time.",
+      "category": "economy",
+      "condition": { "metric": "gold_held", "target": 1000 }
+    },
+    {
+      "id": "gold_25000",
+      "titleKey": "ach.gold_25000.title",
+      "title": "Border Mint Baron",
+      "descKey": "ach.gold_25000.desc",
+      "desc": "Accumulate 25,000 silver groats across your warchest.",
+      "category": "economy",
+      "condition": { "metric": "gold_held", "target": 25000 }
+    },
+    {
+      "id": "salvage_25",
+      "titleKey": "ach.salvage_25.title",
+      "title": "Scrap & Tallow",
+      "descKey": "ach.salvage_25.desc",
+      "desc": "Salvage 25 pieces of surplus gear into crafting essences.",
+      "category": "economy",
+      "condition": { "metric": "items_salvaged", "target": 25 }
+    },
+    {
+      "id": "salvage_200",
+      "titleKey": "ach.salvage_200.title",
+      "title": "Slag-Guild Recycler",
+      "descKey": "ach.salvage_200.desc",
+      "desc": "Salvage 200 items at town anvils.",
+      "category": "economy",
+      "condition": { "metric": "items_salvaged", "target": 200 }
+    },
+    {
+      "id": "smith_upgrade_5",
+      "titleKey": "ach.smith_upgrade_5.title",
+      "title": "Quenched in Brine",
+      "descKey": "ach.smith_upgrade_5.desc",
+      "desc": "Temper any weapon or armor piece to +5 at a forge.",
+      "category": "economy",
+      "condition": { "metric": "max_upgrade_tier", "target": 5 }
+    },
+    {
+      "id": "gem_socketed",
+      "titleKey": "ach.gem_socketed.title",
+      "title": "Capacitor Set",
+      "descKey": "ach.gem_socketed.desc",
+      "desc": "Socket a rune or ward-crystal into slotted gear.",
+      "category": "economy",
+      "condition": { "metric": "gems_socketed", "target": 1 }
+    },
+    {
+      "id": "merc_hired_1",
+      "titleKey": "ach.merc_hired_1.title",
+      "title": "Contract in Blood & Coin",
+      "descKey": "ach.merc_hired_1.desc",
+      "desc": "Hire your first mercenary companion at a town tavern.",
+      "category": "economy",
+      "condition": { "metric": "mercs_hired", "target": 1 }
+    },
+    {
+      "id": "merc_hired_10",
+      "titleKey": "ach.merc_hired_10.title",
+      "title": "Leader of the Twelve",
+      "descKey": "ach.merc_hired_10.desc",
+      "desc": "Sign 10 mercenary contracts across your campaigns.",
+      "category": "economy",
+      "condition": { "metric": "mercs_hired", "target": 10 }
+    },
+    {
+      "id": "vendor_gamble",
+      "titleKey": "ach.vendor_gamble.title",
+      "title": "Blind Crate Bargain",
+      "descKey": "ach.vendor_gamble.desc",
+      "desc": "Purchase 10 unidentified salvage lots from quartermasters.",
+      "category": "economy",
+      "condition": { "metric": "items_gambled", "target": 10 }
+    },
+    {
+      "id": "win_broke",
+      "titleKey": "ach.win_broke.title",
+      "title": "Empty Purse, Full Steel",
+      "descKey": "ach.win_broke.desc",
+      "desc": "Complete a mission while carrying zero silver groats.",
+      "category": "economy",
+      "condition": { "metric": "win_gold_zero", "target": 1 }
+    },
+    {
+      "id": "bestiary_10",
+      "titleKey": "ach.bestiary_10.title",
+      "title": "Scout's Fieldbook",
+      "descKey": "ach.bestiary_10.desc",
+      "desc": "Record 10 distinct enemy families in the Bestiary.",
+      "category": "codex",
+      "condition": { "metric": "bestiary_unlocked", "target": 10 }
+    },
+    {
+      "id": "bestiary_30",
+      "titleKey": "ach.bestiary_30.title",
+      "title": "Warden's Compendium",
+      "descKey": "ach.bestiary_30.desc",
+      "desc": "Record 30 distinct enemy families in the Bestiary.",
+      "category": "codex",
+      "condition": { "metric": "bestiary_unlocked", "target": 30 }
+    },
+    {
+      "id": "bestiary_all",
+      "titleKey": "ach.bestiary_all.title",
+      "title": "Ledger of All Flesh",
+      "descKey": "ach.bestiary_all.desc",
+      "desc": "Unlock every monster and boss entry in the Thornvael Bestiary.",
+      "category": "codex",
+      "condition": { "metric": "bestiary_unlocked", "target": 52 }
+    },
+    {
+      "id": "relics_15",
+      "titleKey": "ach.relics_15.title",
+      "title": "Curio Collector",
+      "descKey": "ach.relics_15.desc",
+      "desc": "Discover 15 unique or set artifacts in the Hall of Relics.",
+      "category": "codex",
+      "condition": { "metric": "relics_discovered", "target": 15 }
+    },
+    {
+      "id": "relics_50",
+      "titleKey": "ach.relics_50.title",
+      "title": "Archivist of Star-Iron",
+      "descKey": "ach.relics_50.desc",
+      "desc": "Discover 50 unique or set artifacts in the Hall of Relics.",
+      "category": "codex",
+      "condition": { "metric": "relics_discovered", "target": 50 }
+    },
+    {
+      "id": "set_bonus_active",
+      "titleKey": "ach.set_bonus_active.title",
+      "title": "Regimental Kit",
+      "descKey": "ach.set_bonus_active.desc",
+      "desc": "Equip enough pieces of a named armor set to activate a set bonus.",
+      "category": "codex",
+      "condition": { "metric": "set_bonus_activated", "target": 1 }
+    },
+    {
+      "id": "lore_pages_10",
+      "titleKey": "ach.lore_pages_10.title",
+      "title": "Torn Writs & Margins",
+      "descKey": "ach.lore_pages_10.desc",
+      "desc": "Recover 10 lore plaques or field journals across the provinces.",
+      "category": "codex",
+      "condition": { "metric": "lore_pages_found", "target": 10 }
+    },
+    {
+      "id": "lore_pages_30",
+      "titleKey": "ach.lore_pages_30.title",
+      "title": "Collegium Historian",
+      "descKey": "ach.lore_pages_30.desc",
+      "desc": "Recover 30 lore plaques or field journals across Thornvael.",
+      "category": "codex",
+      "condition": { "metric": "lore_pages_found", "target": 30 }
+    },
+    {
+      "id": "unique_drop_first",
+      "titleKey": "ach.unique_drop_first.title",
+      "title": "Stamped in Star-Iron",
+      "descKey": "ach.unique_drop_first.desc",
+      "desc": "Loot your first unique artifact from a fallen foe or chest.",
+      "category": "codex",
+      "condition": { "metric": "uniques_looted", "target": 1 }
+    },
+    {
+      "id": "rumors_heard_20",
+      "titleKey": "ach.rumors_heard_20.title",
+      "title": "Tavern Ear",
+      "descKey": "ach.rumors_heard_20.desc",
+      "desc": "Hear 20 local rumors from tavern keepers and scouts across the four hubs.",
+      "category": "codex",
+      "condition": { "metric": "rumors_heard", "target": 20 }
+    },
+    {
+      "id": "level_10",
+      "titleKey": "ach.level_10.title",
+      "title": "Blooded Corporal",
+      "descKey": "ach.level_10.desc",
+      "desc": "Reach hero level 10 with any commander.",
+      "category": "mastery",
+      "condition": { "metric": "hero_level", "target": 10 }
+    },
+    {
+      "id": "level_25",
+      "titleKey": "ach.level_25.title",
+      "title": "Veteran Captain",
+      "descKey": "ach.level_25.desc",
+      "desc": "Reach hero level 25 with any commander.",
+      "category": "mastery",
+      "condition": { "metric": "hero_level", "target": 25 }
+    },
+    {
+      "id": "level_40",
+      "titleKey": "ach.level_40.title",
+      "title": "Marshal of the Compact",
+      "descKey": "ach.level_40.desc",
+      "desc": "Reach hero level 40 with any commander.",
+      "category": "mastery",
+      "condition": { "metric": "hero_level", "target": 40 }
+    },
+    {
+      "id": "flawless_mission_1",
+      "titleKey": "ach.flawless_mission_1.title",
+      "title": "Not One Man Lost",
+      "descKey": "ach.flawless_mission_1.desc",
+      "desc": "Complete a mission without losing a single squad member.",
+      "category": "mastery",
+      "condition": { "metric": "flawless_missions", "target": 1 }
+    },
+    {
+      "id": "flawless_mission_5",
+      "titleKey": "ach.flawless_mission_5.title",
+      "title": "Ironclad Discipline",
+      "descKey": "ach.flawless_mission_5.desc",
+      "desc": "Complete 5 missions without a single squad casualty.",
+      "category": "mastery",
+      "condition": { "metric": "flawless_missions", "target": 5 }
+    },
+    {
+      "id": "veteran_tier_clear",
+      "titleKey": "ach.veteran_tier_clear.title",
+      "title": "Tested in Alkali",
+      "descKey": "ach.veteran_tier_clear.desc",
+      "desc": "Complete the campaign on Veteran difficulty.",
+      "category": "mastery",
+      "condition": { "metric": "campaign_difficulty", "target": "veteran" }
+    },
+    {
+      "id": "doomed_tier_clear",
+      "titleKey": "ach.doomed_tier_clear.title",
+      "title": "Doomed & Unbroken",
+      "descKey": "ach.doomed_tier_clear.desc",
+      "desc": "Complete the campaign on Doomed difficulty.",
+      "category": "mastery",
+      "condition": { "metric": "campaign_difficulty", "target": "doomed" }
+    },
+    {
+      "id": "warrior_campaign",
+      "titleKey": "ach.warrior_campaign.title",
+      "title": "Steel Over Sorcery",
+      "descKey": "ach.warrior_campaign.desc",
+      "desc": "Complete the full campaign with a Warrior commander.",
+      "category": "mastery",
+      "condition": { "metric": "campaign_class", "target": "warrior" }
+    },
+    {
+      "id": "mage_campaign",
+      "titleKey": "ach.mage_campaign.title",
+      "title": "Master of Pressure Valves",
+      "descKey": "ach.mage_campaign.desc",
+      "desc": "Complete the full campaign with a Mage commander.",
+      "category": "mastery",
+      "condition": { "metric": "campaign_class", "target": "mage" }
+    },
+    {
+      "id": "hardcore_survivor",
+      "titleKey": "ach.hardcore_survivor.title",
+      "title": "One Life, One Ledger",
+      "descKey": "ach.hardcore_survivor.desc",
+      "desc": "Defeat Ashkarath on Hardcore mode without falling in battle.",
+      "category": "mastery",
+      "condition": { "metric": "hardcore_clear", "target": 1 }
+    }
+  ]
+}
