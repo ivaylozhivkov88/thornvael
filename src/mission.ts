@@ -66,6 +66,10 @@ import ossuary from './missions/weeping-ossuary.map.json';
 import gullet from './missions/gullet-of-dunes.map.json';
 import drowned from './missions/drowned-choir.map.json';
 import cinder from './missions/cinder-throne.map.json';
+import map1_border_fords from './missions/map1-border-fords.map.json';
+import map2_redmarsh_wastes from './missions/map2-redmarsh-wastes.map.json';
+import map3_iron_coast from './missions/map3-iron-coast.map.json';
+import map4_obsidian_caldera from './missions/map4-obsidian-caldera.map.json';
 
 import sk_skirmish_twin_fords from './missions/skirmish-twin-fords.map.json';
 import sk_skirmish_ash_hourglass from './missions/skirmish-ash-hourglass.map.json';
@@ -106,6 +110,10 @@ export const BUILT_IN: Record<string, unknown> = {
   'gullet-of-dunes': gullet,
   'drowned-choir': drowned,
   'cinder-throne': cinder,
+  'map1-border-fords': map1_border_fords,
+  'map2-redmarsh-wastes': map2_redmarsh_wastes,
+  'map3-iron-coast': map3_iron_coast,
+  'map4-obsidian-caldera': map4_obsidian_caldera,
   'skirmish-twin-fords': sk_skirmish_twin_fords,
   'skirmish-ash-hourglass': sk_skirmish_ash_hourglass,
   'skirmish-sunken-causeway': sk_skirmish_sunken_causeway,
