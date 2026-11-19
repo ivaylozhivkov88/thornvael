@@ -1,5 +1,6 @@
 import { Terrain, type GameMap } from './map';
 import { FP, type Sim } from './sim/sim';
+import { MinimapPingQueue, drawMinimapPings, type MinimapPingKind } from './ui-extra/minimap-pings';
 
 const COLOR: Record<number, [number, number, number]> = {
   [Terrain.Grass]: [70, 104, 52],
@@ -18,6 +19,7 @@ export class Minimap {
   private readonly img: ImageData;
   private fogSeen = -1;
   private readonly scale: number;
+  readonly pingQueue = new MinimapPingQueue({ maxPings: 12, defaultDurationMs: 3200, maxPulseRadius: 14 });
 
   constructor(
     private readonly canvas: HTMLCanvasElement,
@@ -166,6 +168,9 @@ export class Minimap {
       }
       g.restore?.();
     }
+    if (this.pingQueue.size() > 0) {
+      drawMinimapPings(g, this.pingQueue, s);
+    }
     g.strokeStyle = '#ffffff';
     g.lineWidth = 1;
     g.strokeRect(
@@ -174,6 +179,15 @@ export class Minimap {
       Math.round((view.x1 - view.x0) * s),
       Math.round((view.y1 - view.y0) * s),
     );
+  }
+
+  /** Push an animated tactical radar ping onto the minimap. */
+  addPing(tileX: number, tileY: number, kind: MinimapPingKind = 'alert', label?: string, nowMs?: number): void {
+    this.pingQueue.push(tileX, tileY, kind, nowMs, label);
+  }
+
+  clearPings(): void {
+    this.pingQueue.clear();
   }
 
   /** Map tile coordinates for a pointer position given in client pixels. */

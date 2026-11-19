@@ -1,20 +1,45 @@
-import { blip, setMusic, unlock } from './audio';
+import { setMusic, unlock } from './audio';
 import { actOf, nodeOf, type CampaignNode } from './campaign';
 import { loadCampaign, readRecord, writeRecord } from './campaignstore';
 import { canEnter, newRecord, nodeUrl, RECORD_KEY, clearLast, type CampaignRecord, type HeroPick } from './flow';
-import { ARCHETYPES, buildHeroCreationScreen, findArchetypeIndex, type Archetype, type HeroCreationOptions } from './herocreation';
 import { BUILT_IN } from './mission';
-import { addCharacter, characterCarry, CLASS_NAMES, deleteCharacter, getActiveId, listCharacters, MAX_CHARACTERS, NAME_MAX, newCharacter, setActiveId, cleanName, type Character } from './characters';
+import {
+  addCharacter,
+  characterCarry,
+  deleteCharacter,
+  getActiveId,
+  listCharacters,
+  setActiveId,
+  type Character,
+} from './characters';
 import { downloadChapter, loadManifest, removeChapter, verifyChapter, type ChapterCheck, type Env, type Manifest } from './offline';
 import { encodeSave } from './save';
 import { applyUpdate, onUpdateWaiting, updateWaiting } from './updategate';
 import { AUTO, deleteRecord, deleteSave, exportAllSaves, getSave, importSaveText, listSaves } from './savedb';
-import { actTransitionForCompletedNode, advanceStory, openStory, previousStory, replayStory, sequenceById, sequenceForNode, skipStory, STORY_SEQUENCES, type StorySequence } from './story';
+import { actTransitionForCompletedNode, sequenceById, sequenceForNode, STORY_SEQUENCES, type StorySequence } from './story';
 import { S } from './strings';
-import { readPreferences, writePreference } from './preferences';
+import { readPreferences } from './preferences';
 import { CodexUi } from './codexui';
 import { loadMonsterCodex, loadHelpAndCredits, getHelpPages, getCreditLines } from './missioncontent';
-import { BUILDINGS, build, levelOf, nextCost } from './townbuild';
+import { btn, el } from './shell/dom';
+import {
+  ModalManager,
+  openBriefingModal,
+  openHoldingsModal,
+  openResultModal,
+  openStorySlideshowModal,
+} from './shell/modals';
+import {
+  ARCHETYPES,
+  buildHeroCreationScreen,
+  findArchetypeIndex,
+  formatCharacterClass,
+  renderHeroCreateNameView,
+  renderHeroSelectView,
+  type Archetype,
+  type HeroCreationOptions,
+} from './shell/hero-select-view';
+import { renderSettingsView } from './shell/settings-binder';
 
 export { ARCHETYPES, buildHeroCreationScreen, findArchetypeIndex, type Archetype, type HeroCreationOptions };
 
@@ -25,18 +50,6 @@ export { ARCHETYPES, buildHeroCreationScreen, findArchetypeIndex, type Archetype
  */
 const T = S.shell;
 const MAPS: ReadonlySet<string> = new Set(Object.keys(BUILT_IN));
-
-function el<K extends keyof HTMLElementTagNameMap>(tag: K, cls = '', text = ''): HTMLElementTagNameMap[K] {
-  const e = document.createElement(tag);
-  if (cls) e.className = cls;
-  if (text) e.textContent = text;
-  return e;
-}
-function btn(label: string, run: () => void, cls = ''): HTMLButtonElement {
-  const b = el('button', `sh-btn ${cls}`.trim(), label);
-  b.onclick = run;
-  return b;
-}
 
 export async function runShell(startWorker: () => void): Promise<never> {
   void loadMonsterCodex();
@@ -64,11 +77,18 @@ export async function runShell(startWorker: () => void): Promise<never> {
   }
   let chars = await listCharacters();
   let active: Character | null = chars.find((x) => x.id === getActiveId()) ?? null;
+  const modals = new ModalManager();
+  let activeDispose: (() => void) | null = null;
   // Every game page learns which hero plays it, so the hero keeps what it earns (see characters.ts).
   const go = (url: string): void => location.assign(active && url.startsWith('./?') && !url.includes('free=') && !url.includes('load=') ? `${url}&char=${encodeURIComponent(active.id)}` : url);
-  const screen = (...kids: HTMLElement[]): void => root.replaceChildren(...kids);
+  const screen = (...kids: HTMLElement[]): void => {
+    activeDispose?.();
+    activeDispose = null;
+    modals.closeAll();
+    root.replaceChildren(...kids);
+  };
   const back = (): HTMLButtonElement => btn(T.back, menu, 'sh-small');
-  const clsName = (x: Character): string => `${x.female ? 'Female ' : 'Male '}${CLASS_NAMES[x.cls] ?? 'Hero'}`;
+  const clsName = (x: Character): string => formatCharacterClass(x);
   // The update banner shows only on the menu and the map, never in a mission or while a sub-screen is open.
   let mode: 'menu' | 'map' | 'other' = 'other';
   const banner = (): HTMLElement[] => (updateWaiting() ? [el('p', 'sh-update', `${T.updateBanner}`), btn(T.updateNow, applyUpdate)] : []);
@@ -320,80 +340,43 @@ Items, skills and levels carry over.`));
 
   function charSelect(): void {
     mode = 'other';
-    let sel: Character | null = active ?? chars[0] ?? null;
-    const col = el('div', 'sh-col');
-    const list = el('div', 'sh-col');
-    const info = el('p', 'sh-sub');
-    const ok = btn('OK', () => {
-      if (!sel) return;
-      active = sel;
-      setActiveId(sel.id);
-      menu();
-    });
-    const del = btn('Delete Hero', () => {
-      if (!sel) return;
-      const victim = sel;
-      if (!window.confirm(`Delete ${victim.name} forever? Level, items and skills are lost.`)) return;
-      void deleteCharacter(victim.id).then(async () => {
-        chars = await listCharacters();
-        if (active?.id === victim.id) active = null;
-        sel = chars[0] ?? null;
-        charSelect();
-      });
-    }, 'sh-small');
-    const refresh = (): void => {
-      list.replaceChildren();
-      for (const x of chars) {
-        const row = btn(`${x.name}
-Level ${x.level} ${clsName(x)}`, () => { sel = x; refresh(); }, sel?.id === x.id ? 'sh-on' : '');
-        row.ondblclick = () => ok.click();
-        list.append(row);
-      }
-      if (chars.length === 0) list.append(el('p', 'sh-sub', 'No heroes yet. Create one.'));
-      ok.disabled = !sel;
-      del.disabled = !sel;
-      info.textContent = sel ? `${sel.name} — ${sel.played} game${sel.played === 1 ? '' : 's'} finished${sel.hero ? '' : ' · not yet played'}` : '';
-    };
-    refresh();
-    const create1 = btn('Create New Hero', createChar);
-    create1.disabled = chars.length >= MAX_CHARACTERS;
-    col.append(el('h1', '', 'Select Hero'), list, info, create1, del, ok, btn('Exit', title, 'sh-small'));
-    screen(col);
+    screen(
+      renderHeroSelectView({
+        characters: chars,
+        activeCharacter: active,
+        onSelect: (sel) => {
+          active = sel;
+          setActiveId(sel.id);
+          menu();
+        },
+        onDelete: async (victim) => {
+          await deleteCharacter(victim.id);
+          chars = await listCharacters();
+          if (active?.id === victim.id) active = null;
+          charSelect();
+        },
+        onCreateNew: createChar,
+        onExit: title,
+      }),
+    );
   }
 
   function createChar(): void {
     mode = 'other';
-    const col = el('div', 'sh-col');
-    const input = document.createElement('input');
-    input.type = 'text';
-    input.maxLength = NAME_MAX;
-    input.placeholder = 'Hero name';
-    input.className = 'sh-input';
-    col.append(
-      el('h1', '', 'New Hero'),
-      el('p', 'sh-sub', 'Name your hero.'),
-      input,
-      btn('Next', () => {
-        const name = cleanName(input.value);
-        screen(
-          buildHeroCreationScreen({
-            base: import.meta.env.BASE_URL,
-            onStart: async (arch, diff) => {
-              const ch = newCharacter(name, arch.cls, arch.female, diff);
-              await addCharacter(ch);
-              chars = await listCharacters();
-              active = ch;
-              setActiveId(ch.id);
-              menu();
-            },
-            onBack: charSelect,
-          }),
-        );
-      }),
-      btn(T.back, charSelect, 'sh-small'),
-    );
-    screen(col);
-    input.focus();
+    const view = renderHeroCreateNameView({
+      base: import.meta.env.BASE_URL,
+      onMountCampfire: (campfireScreen) => screen(campfireScreen),
+      onHeroCreated: async (ch) => {
+        await addCharacter(ch);
+        chars = await listCharacters();
+        active = ch;
+        setActiveId(ch.id);
+        menu();
+      },
+      onBack: charSelect,
+    });
+    screen(view.element);
+    view.focusInput();
   }
 
   // ---- global map ----
@@ -520,300 +503,56 @@ Level ${x.level} ${clsName(x)}`, () => { sel = x; refresh(); }, sel?.id === x.id
     if (r.last) result(r.last);
   }
 
-  function storyBanner(seqId: StorySequence['id'], backdrop: string): HTMLElement {
-    const themeMap: Record<StorySequence['id'], { key: string; c1: string; c2: string; path: string }> = {
-      'act-1': {
-        key: 'ford-dawn',
-        c1: '#384b32',
-        c2: '#1a2718',
-        path: 'M10 44 Q40 38 80 44 T150 44 M50 44 L50 24 M70 44 L70 20 M90 44 L90 20 M110 44 L110 24 M44 26 L116 26 M76 12 L84 12 L80 32 Z',
-      },
-      'act-2': {
-        key: 'parched-marshes',
-        c1: '#553f2f',
-        c2: '#231811',
-        path: 'M10 48 Q35 44 60 46 T120 45 T160 48 M40 46 L55 36 L70 46 M80 46 L95 38 L110 46 M20 38 Q50 24 85 36 T150 32 M80 8 A6 6 0 1 0 80 20 A6 6 0 1 0 80 8 M80 4 L80 7 M80 21 L80 24 M68 14 L71 14 M89 14 L92 14',
-      },
-      'act-3': {
-        key: 'sunless-caverns',
-        c1: '#2d4154',
-        c2: '#121d28',
-        path: 'M30 48 L30 22 Q80 6 130 22 L130 48 M45 48 L45 28 Q80 14 115 28 L115 48 M20 0 L24 16 L28 0 M60 0 L64 20 L68 0 M92 0 L96 22 L100 0 M132 0 L136 15 L140 0 M80 22 L86 32 L80 42 L74 32 Z',
-      },
-      'act-4': {
-        key: 'infernal-sanctuary',
-        c1: '#4a2b31',
-        c2: '#1f1115',
-        path: 'M24 48 L24 18 L36 10 L48 18 L48 48 M112 48 L112 18 L124 10 L136 18 L136 48 M48 30 L112 30 M56 48 L56 22 Q80 12 104 22 L104 48 M80 14 L88 26 L80 38 L72 26 Z M80 10 L84 18 L76 18 Z',
-      },
-      'ending-a': {
-        key: 'cleansing-thornvael',
-        c1: '#2e4152',
-        c2: '#142029',
-        path: 'M50 36 Q60 18 80 28 Q100 18 110 36 M44 42 Q80 34 116 42 M80 10 L84 20 L94 22 L86 30 L88 40 L80 34 L72 40 L74 30 L66 22 L76 20 Z',
-      },
-      'ending-b': {
-        key: 'dark-sovereign',
-        c1: '#522c24',
-        c2: '#24110d',
-        path: 'M50 44 L60 16 L72 28 L80 12 L88 28 L100 16 L110 44 Z M42 46 L118 46 M80 26 L86 36 L80 42 L74 36 Z',
-      },
-    };
-    const t = themeMap[seqId];
-    const baseColor = backdrop.startsWith('#') ? backdrop : t.c1;
-    const art = el('div', 'sh-story-art sh-slideshow-art');
-    art.dataset.backdrop = t.key;
-    art.style.background = `radial-gradient(circle at 50% 35%, #ffd8702b, ${baseColor} 70%), linear-gradient(135deg, ${baseColor}, ${t.c2})`;
-    const svg = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
-    svg.setAttribute('viewBox', '0 0 160 54');
-    const p = document.createElementNS('http://www.w3.org/2000/svg', 'path');
-    p.setAttribute('d', t.path);
-    p.setAttribute('fill', 'none');
-    p.setAttribute('stroke', '#ffd870');
-    p.setAttribute('stroke-width', '2');
-    p.setAttribute('stroke-linecap', 'round');
-    p.setAttribute('stroke-linejoin', 'round');
-    svg.append(p);
-    art.append(svg);
-    return art;
-  }
-
   function showStory(id: StorySequence['id'], onFinish?: () => void): void {
-    blip();
-    let player = openStory(id);
-    const overlay = el('div', 'sh-slideshow-overlay');
-    const frame = el('div', 'sh-slideshow-frame');
-    const content = el('div', 'sh-slideshow-content');
-    let isTransitioning = false;
-
-    const close = (): void => {
-      window.removeEventListener('keydown', handleKey);
-      overlay.remove();
-      onFinish?.();
-    };
-
-    const handleKey = (e: KeyboardEvent): void => {
-      if (e.key === 'Escape' || e.code === 'Space') {
-        e.preventDefault();
-        e.stopPropagation();
-        blip();
-        player = skipStory(player);
-        close();
-      } else if (e.key === 'Enter' || e.key === 'ArrowRight') {
-        e.preventDefault();
-        e.stopPropagation();
-        stepNext();
-      } else if (e.key === 'ArrowLeft') {
-        e.preventDefault();
-        e.stopPropagation();
-        stepPrev();
-      }
-    };
-    window.addEventListener('keydown', handleKey);
-
-    const stepNext = (): void => {
-      if (isTransitioning) return;
-      blip();
-      if (player.index + 1 < player.sequence.slides.length) {
-        animateTransition(() => {
-          player = advanceStory(player);
-          draw();
-        });
-      } else {
-        player = advanceStory(player);
-        close();
-      }
-    };
-
-    const stepPrev = (): void => {
-      if (isTransitioning || player.index === 0) return;
-      blip();
-      animateTransition(() => {
-        player = previousStory(player);
-        draw();
-      });
-    };
-
-    const animateTransition = (fn: () => void): void => {
-      isTransitioning = true;
-      content.classList.add('fading');
-      setTimeout(() => {
-        fn();
-        content.classList.remove('fading');
-        setTimeout(() => {
-          isTransitioning = false;
-        }, 120);
-      }, 120);
-    };
-
-    const draw = (): void => {
-      frame.replaceChildren();
-      const slide = player.sequence.slides[player.index];
-
-      // Header
-      const header = el('div', 'sh-slideshow-header');
-      const title = el('h2', 'sh-slideshow-title', player.sequence.title);
-      header.append(title);
-      if (player.sequence.subtitle) {
-        header.append(el('div', 'sh-slideshow-subtitle', player.sequence.subtitle));
-      }
-
-      // Center Content (fade target)
-      content.replaceChildren();
-      const art = storyBanner(player.sequence.id, slide.backdrop);
-
-      const textWrap = el('div', 'sh-slideshow-text');
-      const heading = el('h3', 'sh-slideshow-heading', slide.heading);
-      const caption = el('p', 'sh-slideshow-caption', slide.caption);
-      if (slide.reflection) {
-        const refl = el('blockquote', 'sh-slideshow-reflection', slide.reflection);
-        textWrap.append(heading, caption, refl);
-      } else {
-        textWrap.append(heading, caption);
-      }
-
-      const pips = el('div', 'sh-slideshow-pips');
-      for (let i = 0; i < player.sequence.slides.length; i++) {
-        pips.append(el('span', `sh-slideshow-pip${i === player.index ? ' active' : ''}`));
-      }
-
-      textWrap.append(pips);
-      content.append(art, textWrap);
-
-      // Controls
-      const controls = el('div', 'sh-slideshow-controls');
-      const isLast = player.index + 1 >= player.sequence.slides.length;
-
-      const skipBtn = btn('Skip [Space / Esc]', () => {
-        blip();
-        player = skipStory(player);
-        close();
-      }, 'sh-slideshow-btn sh-slideshow-btn-secondary');
-
-      const replayBtn = btn('Replay', () => {
-        blip();
-        animateTransition(() => {
-          player = replayStory(player);
-          draw();
-        });
-      }, 'sh-slideshow-btn sh-slideshow-btn-secondary');
-
-      const nextBtn = btn(isLast ? 'Finish' : 'Next →', stepNext, 'sh-slideshow-btn sh-slideshow-btn-primary');
-
-      controls.append(skipBtn, replayBtn, nextBtn);
-      frame.append(header, content, controls);
-    };
-
-    draw();
-    overlay.append(frame);
-    root.append(overlay);
+    openStorySlideshowModal(modals, root, id, onFinish);
   }
 
   // ---- briefing modal ----
   function holdings(): void {
     if (!rec) return;
-    const r = rec;
-    const m = el('div', 'sh-modal sh-holdings-modal');
-    const box = el('div', 'sh-box sh-holdings-box');
-    const draw = (): void => {
-      const carry = r.carry;
-      box.replaceChildren(
-        el('h2', '', T.holdings),
-        el('p', 'sh-holdings-intro', carry ? `${T.holdingsIntro} ${T.gold}: ${carry.gold}` : T.holdingsNone),
-      );
-      const list = el('div', 'sh-holdings-list');
-      for (const b of BUILDINGS) {
-        const lv = levelOf(r.progress.builds, b.id);
-        const cost = nextCost(r.progress.builds, b.id);
-        const row = el('div', 'sh-row sh-hold');
-        row.append(el('b', '', `${T.building[b.id]} · ${T.buildLevel} ${lv}/${b.cost.length}`), el('span', '', T.buildingInfo[b.id]));
-        if (cost === null) row.append(el('span', 'sh-hold-max', T.buildMax));
-        else {
-          const buy = btn(`${T.buildFor} ${cost}`, () => {
-            if (!carry) return;
-            const out = build(r.progress, carry.gold, b.id);
-            if (!out) return;
-            r.progress = out.progress;
-            carry.gold = out.gold;
-            carry.progress = { ...carry.progress, builds: out.progress.builds }; // the next node reads builds from the carryover
-            void writeRecord(r);
-            draw();
-          }, 'sh-small sh-hold-btn');
-          buy.disabled = !carry || carry.gold < cost;
-          row.append(buy);
-        }
-        list.append(row);
-      }
-      box.append(list);
-      box.append(btn(T.back, () => m.remove(), 'sh-small sh-hold-back'));
-    };
-    draw();
-    m.append(box);
-    root.append(m);
+    openHoldingsModal(modals, root, {
+      record: rec,
+      onSaveRecord: (r) => writeRecord(r),
+    });
   }
 
   function briefing(n: CampaignNode): void {
-    const m = el('div', 'sh-modal');
-    const box = el('div', 'sh-box homm-dossier-box');
-    const enter = (): void => {
-      const seq = sequenceForNode(n.id);
-      if (seq && seq.kind === 'intro') {
-        m.remove();
-        showStory(seq.id, () => go(nodeUrl(n)));
-      } else {
-        go(nodeUrl(n));
-      }
-    };
-
-    const hasWp = (rec?.progress.waypoints?.includes(n.id) ?? false) || n.kind === 'town';
-    const isHere = n.id === rec?.progress.node;
-
-    const btnRow = el('div', 'sh-row');
-    const enterBtn = btn(n.kind === 'town' ? `🏰 ${T.enterTown}` : `⚔ ${T.enter}`, enter, 'sh-on');
-    btnRow.append(enterBtn);
-
-    if (hasWp && !isHere && rec) {
-      const targetRec = rec;
-      const wpBtn = btn('⚡ Fast Travel via Waypoint', async () => {
-        m.remove();
-        targetRec.progress.node = n.id;
-        await writeRecord(targetRec);
+    openBriefingModal(modals, root, {
+      node: n,
+      record: rec,
+      onEnter: (handle) => {
+        const seq = sequenceForNode(n.id);
+        if (seq && seq.kind === 'intro') {
+          handle.close();
+          showStory(seq.id, () => go(nodeUrl(n)));
+        } else {
+          go(nodeUrl(n));
+        }
+      },
+      onWaypointTravel: async (handle) => {
+        handle.close();
+        if (!rec) return;
+        rec.progress.node = n.id;
+        await writeRecord(rec);
         await deleteSave(AUTO).catch(() => undefined);
         go(nodeUrl(n));
-      }, 'sh-small');
-      btnRow.append(wpBtn);
-    }
-    btnRow.append(btn(T.back, () => m.remove(), 'sh-small'));
-
-    box.append(
-      el('h2', '', `${n.kind === 'town' ? '🏰 ' : '⚔ '}${n.title}`),
-      el('p', '', n.briefing),
-      btnRow,
-    );
-    m.append(box);
-    root.append(m);
+      },
+    });
   }
 
   // ---- result screen: shown once after a mission or when leaving it ----
   function result(last: NonNullable<CampaignRecord['last']>): void {
     const n = nodeOf(c, last.node);
-    const m = el('div', 'sh-modal');
-    const box = el('div', 'sh-box');
-    const text = last.text || (last.win ? n.result?.win : n.result?.lose) || '';
-    const carry = rec?.carry;
-    const lines = [`${T.stats}: ${last.up}/${last.size}`, `${T.gold}: ${last.gold}`];
-    if (carry) lines.push(`${T.mercs}: ${carry.mercs.length}`, `${T.loot}: ${carry.hero.inv.length}`);
-    box.append(
-      el('h2', '', `${last.win ? T.victory : T.defeat}: ${n.title}`),
-      el('p', '', text),
-      el('p', 'note', lines.join('\n')),
-      btn(last.win ? T.toMap : T.retry, async () => {
+    openResultModal(modals, root, {
+      node: n,
+      last,
+      record: rec,
+      onAcknowledge: async () => {
         if (rec) {
           rec = clearLast(rec);
           await writeRecord(rec);
           currentAct = activeAct(rec);
         }
-        m.remove();
         map();
         const ending = last.win ? sequenceForNode(n.id) : null;
         if (ending && ending.kind === 'ending') {
@@ -822,10 +561,8 @@ Level ${x.level} ${clsName(x)}`, () => { sel = x; refresh(); }, sel?.id === x.id
           const transition = actTransitionForCompletedNode(n.id);
           if (transition) showStory(transition.id);
         }
-      }),
-    );
-    m.append(box);
-    root.append(m);
+      },
+    });
   }
 
   // ---- saves: load or export a slot ----
@@ -946,41 +683,16 @@ Level ${x.level} ${clsName(x)}`, () => { sel = x; refresh(); }, sel?.id === x.id
 
   function settings(): void {
     mode = 'other';
-    const col = el('div', 'sh-col');
-    col.append(el('h2', '', T.settings), el('p', 'note', T.soundInfo));
-    const prefs = readPreferences();
-    const notice = el('p', 'note');
-    for (const key of ['sound', 'music'] as const) {
-      const control = btn('', () => {
-        prefs[key] = !prefs[key];
-        if (!writePreference(key, prefs[key])) notice.textContent = T.preferenceStorage;
-        if (key === 'music') setMusic(prefs[key], 'town');
-        refresh();
-      });
-      const refresh = (): void => {
-        control.textContent = `${T.preferenceLabels[key]}: ${prefs[key] ? T.preferenceOn : T.preferenceOff}`;
-        control.setAttribute('aria-pressed', String(prefs[key]));
-      };
-      refresh();
-      col.append(control);
-    }
-    const quality = btn('', () => {
-      prefs.quality = (prefs.quality + 1) % 3;
-      if (!writePreference('quality', prefs.quality)) notice.textContent = T.preferenceStorage;
-      quality.textContent = `${S.quality}: ${T.preferenceQuality[prefs.quality]}`;
-    });
-    quality.textContent = `${S.quality}: ${T.preferenceQuality[prefs.quality]}`;
-    col.append(quality, notice);
-    const ask = btn(T.reset, () => {
-      const sure = btn(T.resetSure, async () => {
+    const view = renderSettingsView({
+      onBack: menu,
+      onEraseCampaign: async () => {
         await deleteRecord(RECORD_KEY);
         rec = null;
         menu();
-      });
-      ask.replaceWith(el('p', 'note', T.resetAsk), sure);
+      },
     });
-    col.append(ask, back());
-    screen(col);
+    screen(view.element);
+    activeDispose = view.dispose;
   }
 
   function help(): void {

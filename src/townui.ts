@@ -9,10 +9,11 @@ import type { Sim } from './sim/sim';
 import { SPELLS } from './sim/spelldata';
 import { OFFERS, isUnlimited, QuestType, reviveFee, ROLE_COUNT, Role, SHELF, gambleCost, priceOf, sellPrice, spellPrice, trainPrice, type Quest, type TownCommand } from './sim/town';
 import { S } from './strings';
-import { itemIcon } from './townicons';
+import { createRarityBadgeEl, itemIconEl } from './townicons';
+import { getRumorsByStage, loadTavernRumors, type CampaignStage, type TavernRumorEntry } from './data/text/index';
 import { equipmentLayers } from './hero-presentation';
 import { buildDoll, dollSet, lookFor } from './doll';
-import { play, playTraderBark, playTownAmbience, stopTownAmbience, playEquipSfx, blip, playSpeakerSwitchThrill } from './audio';
+import { play, playNpcBark, playTraderBark, playTownAmbience, stopTownAmbience, playEquipSfx, blip, playSpeakerSwitchThrill, setDialogueDucking } from './audio';
 import {
   getWardenHalePortraitSvg,
   getHighArcanistVaelenPortraitSvg,
@@ -93,6 +94,7 @@ export class TownUi {
   private lastLoreSpeakerIdx = -1;
   private shopUndoBtn: HTMLButtonElement | null = null;
   private shopBuyBtn: HTMLButtonElement | null = null;
+  private tavernRumors: TavernRumorEntry[] = [];
 
   private bark: string | undefined;
   constructor(private readonly ctx: TownUiCtx) {
@@ -149,6 +151,12 @@ export class TownUi {
     this.mercIndex = 0;
     this.setMood(0);
     this.bark = townBark(this.ctx.sim().towns[this.town].def.name);
+    if (!this.tavernRumors.length && typeof fetch === 'function') {
+      const base = (typeof import.meta !== 'undefined' && import.meta.env?.BASE_URL) ? import.meta.env.BASE_URL : './';
+      void loadTavernRumors(base).then((p) => {
+        if (Array.isArray(p?.entries)) this.tavernRumors = p.entries;
+      }).catch(() => undefined);
+    }
     this.root.hidden = false;
     this.root.setAttribute('aria-label', S.town.roles[role]);
     this.ctx.pause(true);
@@ -203,6 +211,7 @@ export class TownUi {
   close(): void {
     this.hideCardTooltip();
     this.loreModal.hidden = true;
+    try { setDialogueDucking(false); } catch {}
     if (this.loreTypingTimer !== null) {
       clearInterval(this.loreTypingTimer);
       this.loreTypingTimer = null;
@@ -281,7 +290,7 @@ export class TownUi {
         if (!ghost && Math.hypot(e.clientX - x0, e.clientY - y0) > 8) {
           this.hideCardTooltip();
           ghost = el('div', 'drag-ghost');
-          ghost.append(itemIcon(id));
+          ghost.append(itemIconEl(id));
           document.body.append(ghost);
           b.dataset.dragging = '1';
         }
@@ -400,7 +409,7 @@ export class TownUi {
       const swapped = layer.slot === trySlot;
       const badge = el('span', `doll-badge${swapped ? ' preview-override' : ''}`);
       badge.style.cursor = 'pointer';
-      badge.append(itemIcon(swapped ? this.tryOn : layer.item));
+      badge.append(itemIconEl(swapped ? this.tryOn : layer.item));
       badge.addEventListener('click', (e) => {
         e.stopPropagation();
         this.detailItem = layer.item;
@@ -410,7 +419,7 @@ export class TownUi {
     }
     if (trySlot >= 0 && !h.eq.some((_, i) => i === trySlot && h.eq[i] >= 0)) {
       const badge = el('span', 'doll-badge preview-badge');
-      badge.append(itemIcon(this.tryOn));
+      badge.append(itemIconEl(this.tryOn));
       doll.append(badge);
     }
     figure.classList.toggle('trying', this.tryOn >= 0);
@@ -540,13 +549,15 @@ export class TownUi {
     if (!item) return;
     const label = el('span', 'item-name', item.name);
     const price = b.querySelector('small');
-    b.replaceChildren(itemIcon(id), label);
+    const isSet = isSetItem(item.name);
+    const rarity = isSet ? 'set' : (item.rarity ?? (item.tier >= 5 ? 'unique' : item.tier >= 4 ? 'rare' : item.tier >= 2 ? 'magic' : 'normal'));
+    const cbBadge = createRarityBadgeEl(rarity);
+    if (cbBadge) label.prepend?.(cbBadge);
+    b.replaceChildren(itemIconEl(id), label);
     if (price) b.append(price);
     b.setAttribute('aria-label', `${item.name}, ${price?.textContent ?? ''}`);
     b.setAttribute('aria-pressed', String(b.classList.contains('sel')));
     b.dataset.item = String(id);
-    const isSet = isSetItem(item.name);
-    const rarity = isSet ? 'set' : (item.rarity ?? (item.tier >= 5 ? 'unique' : item.tier >= 4 ? 'rare' : item.tier >= 2 ? 'magic' : 'normal'));
     b.dataset.rarity = rarity;
     if (isSet) b.classList.add('rarity-set');
   }
@@ -1045,6 +1056,27 @@ export class TownUi {
           ],
         },
       ];
+      if (this.tavernRumors.length > 0) {
+        const townName = (this.ctx.sim().towns[this.town]?.def.name ?? '').toLowerCase();
+        const stage: CampaignStage = townName.includes('redmarsh') ? 2 : townName.includes('oakhaven') ? 3 : townName.includes('ironcamp') ? 4 : (Math.max(1, Math.min(4, this.town + 1)) as CampaignStage);
+        const stageRumors = getRumorsByStage(this.tavernRumors, stage);
+        const corin = speakers[2];
+        if (corin && stageRumors.length > 0) {
+          const sample = stageRumors.slice(0, 4).map((r) => `• "${r.text}"`).join('  ');
+          corin.topics.push({
+            label: `Act ${stage} Tavern Rumors`,
+            skillTag: 'FRONTIER SKEPTICISM - Easy: Success',
+            badgeClass: 'de-skepticism',
+            sensoryBeat: '*(Master Corin lowers his flagon and rattles off the freshest gossip whispered along the caravan route.)*',
+            speech: sample,
+            choices: [
+              { tag: '[Quartermaster\'s Eye]', text: 'Keep your ears open for supply raids and warband movements.' },
+              { tag: '[War Logic]', text: 'Every rumor hides an ambush or an unguarded cache.' },
+              { tag: '[Iron Will]', text: 'Steel settles what whispered warnings start.' },
+            ],
+          });
+        }
+      }
     } else if (context === 'school') {
       speakers = [
         {
@@ -1153,9 +1185,15 @@ export class TownUi {
       if (isSwitch) {
         try {
           playSpeakerSwitchThrill();
+          playNpcBark(currentSpeaker.name, 0);
         } catch {
           // Safe in headless or audio-disabled test runs
         }
+      }
+      try {
+        setDialogueDucking(true);
+      } catch {
+        // Safe in headless tests
       }
 
       const frame = el('div', `gothic-dialogue-frame${isSwitch ? ' speaker-switch-thrill' : ''}`);
@@ -1223,6 +1261,7 @@ export class TownUi {
       const closeBtn = button('Close [Esc]', () => {
         this.loreModal.hidden = true;
         this.lastLoreSpeakerIdx = -1;
+        try { setDialogueDucking(false); } catch {}
         if (this.loreTypingTimer !== null) {
           clearInterval(this.loreTypingTimer);
           this.loreTypingTimer = null;

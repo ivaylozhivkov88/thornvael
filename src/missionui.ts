@@ -1,9 +1,10 @@
 import type { MapDoc } from './mapdoc';
 import { speakerName, type MissionContent } from './missioncontent';
+import { getPlaquesByAct, loadLocationPlaques, type CampaignStage, type LocationPlaqueEntry } from './data/text/index';
 import { Kind } from './sim/combat';
 import type { Sim } from './sim/sim';
 import { S } from './strings';
-import { blip, play, playSpeakerSwitchThrill } from './audio';
+import { blip, play, playNpcBark, playSpeakerSwitchThrill, setDialogueDucking } from './audio';
 
 /** Host callbacks: the game owns the pause flag. */
 export interface MissionHost {
@@ -432,6 +433,7 @@ export class MissionUi {
   private typingCallback: (() => void) | null = null;
   private finishCurrentTyping: (() => void) | null = null;
   private lastSpeaker: string | null = null;
+  private plaques: LocationPlaqueEntry[] = [];
 
   constructor(
     private readonly doc: MapDoc,
@@ -775,9 +777,15 @@ export class MissionUi {
     if (isSpeakerSwitch) {
       try {
         playSpeakerSwitchThrill();
+        playNpcBark(who, 0);
       } catch {
         // Safe in headless or audio-disabled test runs
       }
+    }
+    try {
+      setDialogueDucking(true);
+    } catch {
+      // Safe in headless or audio-disabled test runs
     }
 
     const frame = document.createElement('div');
@@ -862,6 +870,11 @@ export class MissionUi {
         this.dialogueActive = false;
         if (this.queue.length === 0) {
           this.lastSpeaker = null;
+          try {
+            setDialogueDucking(false);
+          } catch {
+            // Safe in headless tests
+          }
         }
         done();
       }
@@ -1293,6 +1306,17 @@ export class MissionUi {
     this.journalOpen = true;
     this.renderQuestJournal();
     this.questJournalModal.hidden = false;
+    if (!this.plaques.length && typeof fetch === 'function') {
+      const base = (typeof import.meta !== 'undefined' && import.meta.env?.BASE_URL) ? import.meta.env.BASE_URL : './';
+      void loadLocationPlaques(base).then((pack) => {
+        if (Array.isArray(pack?.entries)) {
+          this.plaques = pack.entries;
+          if (this.journalOpen && this.activeQuestId === 'field-plaques') {
+            this.renderQuestJournal();
+          }
+        }
+      }).catch(() => undefined);
+    }
     try {
       play('click', 3);
     } catch {
@@ -1478,7 +1502,23 @@ export class MissionUi {
       this.renderQuestJournal();
     };
 
-    questList.append(mainItem, sideItem, relicItem, lieutenantItem, act2Item, act3Item, act4Item, completedItem);
+    // Quest Item 9: Field Plaques & Regional Gazetteer
+    const plaquesItem = document.createElement('div');
+    plaquesItem.className = `journal-quest-card ${this.activeQuestId === 'field-plaques' ? 'selected' : ''}`;
+    plaquesItem.innerHTML = `
+      <div class="quest-seal-icon">${getSilverWaxSealSvg()}</div>
+      <div class="quest-card-meta">
+        <div class="quest-card-title">Field Plaques & Landmarks</div>
+        <div class="quest-card-chapter">Provincial Gazetteer</div>
+        <div class="quest-card-status">${this.plaques.length ? `${this.plaques.length} Monuments` : 'Archive'}</div>
+      </div>
+    `;
+    plaquesItem.onclick = () => {
+      this.activeQuestId = 'field-plaques';
+      this.renderQuestJournal();
+    };
+
+    questList.append(mainItem, sideItem, relicItem, lieutenantItem, act2Item, act3Item, act4Item, completedItem, plaquesItem);
     leftPane.append(mainQuestsLabel, questList);
 
     // Right Pane: Detailed Quest Dossier
@@ -1788,6 +1828,48 @@ export class MissionUi {
           this.host.navigateTo?.(50, 15, 'Infernal Citadel');
         };
       }
+    } else if (this.activeQuestId === 'field-plaques') {
+      const actNum: CampaignStage = mainDossier.actTitle.includes('IV')
+        ? 4
+        : mainDossier.actTitle.includes('III')
+          ? 3
+          : mainDossier.actTitle.includes('II')
+            ? 2
+            : 1;
+      const entries = this.plaques.length ? getPlaquesByAct(this.plaques, actNum) : [];
+      rightPane.innerHTML = `
+        <div class="dossier-header">
+          <div class="dossier-act">Act ${actNum} · Imperial Frontier Gazetteer</div>
+          <h1 class="dossier-title">Field Plaques & Landmarks</h1>
+          <div class="dossier-location">📍 Surveyed Markers Across the Province</div>
+        </div>
+        <div class="dossier-divider">✦ ─── ❖ ─── ✦</div>
+      `;
+      const list = document.createElement('div');
+      list.className = 'journal-plaques-grid';
+      if (!entries.length) {
+        const note = document.createElement('p');
+        note.className = 'dossier-narrative';
+        note.textContent = 'Regional cartography entries are loading from the imperial ledger...';
+        list.append(note);
+      } else {
+        for (const p of entries) {
+          const card = document.createElement('article');
+          card.className = 'journal-plaque-card';
+          const reg = document.createElement('div');
+          reg.className = 'journal-plaque-region';
+          reg.textContent = p.region;
+          const title = document.createElement('h3');
+          title.className = 'journal-plaque-title';
+          title.textContent = p.title;
+          const body = document.createElement('p');
+          body.className = 'journal-plaque-text';
+          body.textContent = p.text;
+          card.append(reg, title, body);
+          list.append(card);
+        }
+      }
+      rightPane.append(list);
     } else {
       rightPane.innerHTML = `
         <div class="dossier-header">

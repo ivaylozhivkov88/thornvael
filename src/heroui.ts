@@ -1,4 +1,5 @@
 import { getItemFlavor } from './missioncontent';
+import { getItemLore } from './codex';
 import { DEFS, Kind, M, MODN } from './sim/combat';
 import { DIFF_NAMES, INV_MAX, SKILL_NAMES, SKILL_TIP, SKILL_MAX, WHY_TEXT, blocker, derive, equipmentStamp, heroKnowsSpell, startState, totals, type EquipmentAction, type HeroState } from './sim/hero';
 import { equipmentAction, equipmentLayers, equipmentPreview, skillProgress, type EquipmentSource as Sel } from './hero-presentation';
@@ -7,7 +8,7 @@ import { findSetByItemName, isSetItem, type SetBonus } from './sim/sets';
 import type { Command, Sim } from './sim/sim';
 import { SPELLS } from './sim/spelldata';
 import { S } from './strings';
-import { itemIcon } from './townicons';
+import { createRarityBadgeEl, itemIconEl } from './townicons';
 import { CodexUi } from './codexui';
 import { playPickupRustle, playEquipSfx } from './audio';
 
@@ -157,6 +158,11 @@ export function formatItemTooltip(itemOrId: number | ItemDef, hero?: HeroState |
     }
   }
 
+  const flText = getItemFlavor(d.name)?.flavor || getItemLore(typeof itemOrId === 'number' ? itemOrId : d.name);
+  if (flText) {
+    p.push(flText);
+  }
+
   // Set Item info
   const setDef = findSetByItemName(d.name);
   if (setDef) {
@@ -267,7 +273,9 @@ export function renderItemTooltipDom(itemOrId: number | ItemDef, hero?: HeroStat
   // Header: Item Name with Rarity Class
   const title = document.createElement('div');
   title.className = `item-title rarity-${rarity}`;
-  title.textContent = d.name;
+  const titleBadge = createRarityBadgeEl(rarity);
+  if (titleBadge) title.append(titleBadge, ' ', d.name);
+  else title.textContent = d.name;
   root.append(title);
 
   // Ornate Gold Filigree Divider
@@ -409,11 +417,12 @@ export function renderItemTooltipDom(itemOrId: number | ItemDef, hero?: HeroStat
   }
 
   const fl = getItemFlavor(d.name);
-  if (fl?.flavor) {
+  const loreText = fl?.flavor || getItemLore(typeof itemOrId === 'number' ? itemOrId : d.name);
+  if (loreText) {
     const f = document.createElement('div');
     f.className = 'item-flavor';
     f.style.cssText = 'font-style:italic;opacity:.8;margin-top:8px;font-size:.9em;line-height:1.35';
-    f.textContent = fl.flavor;
+    f.textContent = loreText;
     root.append(f);
   }
 
@@ -1212,10 +1221,12 @@ export class HeroUi {
       bt.dataset.k = `eq${s}`;
       if (id >= 0 && d) {
         bt.className = 'slot-btn slot-equipped';
-        bt.append(itemIcon(id));
+        bt.append(itemIconEl(id));
         const isSet = isSetItem(d.name);
         const rarity = isSet ? 'set' : (d.rarity ?? (d.tier >= 5 ? 'unique' : d.tier >= 4 ? 'rare' : d.tier >= 2 ? 'magic' : 'normal'));
         bt.dataset.rarity = rarity;
+        const cbBadge = createRarityBadgeEl(rarity);
+        if (cbBadge) bt.append(cbBadge);
         if (isSet) bt.classList.add('rarity-set');
         bt.addEventListener('pointerenter', (e) => {
           if ((e as PointerEvent).pointerType !== 'touch') this.showCardTooltip(id, bt);
@@ -1368,7 +1379,7 @@ export class HeroUi {
       const bt = el('button', 'slot-btn slot-equipped hero-pack-slot');
       bt.type = 'button';
       bt.dataset.k = `inv${n}`;
-      bt.append(itemIcon(st.item));
+      bt.append(itemIconEl(st.item));
       if (st.n > 1) {
         const countBadge = el('span', 'slot-stack-count', String(st.n));
         bt.append(countBadge);
@@ -1415,6 +1426,8 @@ export class HeroUi {
       const isSet = isSetItem(d.name);
       const rarity = isSet ? 'set' : (d.rarity ?? (d.tier >= 5 ? 'unique' : d.tier >= 4 ? 'rare' : d.tier >= 2 ? 'magic' : 'normal'));
       bt.dataset.rarity = rarity;
+      const packBadge = createRarityBadgeEl(rarity);
+      if (packBadge) bt.append(packBadge);
       if (isSet) bt.classList.add('rarity-set');
       bt.addEventListener('pointerenter', (e) => {
         if ((e as PointerEvent).pointerType !== 'touch') this.showCardTooltip(st.item, bt);

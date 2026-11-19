@@ -1,16 +1,23 @@
 import {
+  getAmbienceVolume,
   getMasterVolume,
   getMusicVolume,
   getSfxVolume,
+  getUiVolume,
+  isMuteOnBlur,
+  setAmbienceVolume,
   setMasterVolume,
   setMusicVolume,
+  setMuteOnBlur,
   setSfxVolume,
-  type MusicMode,
+  setUiVolume,
 } from './audio';
 import { achCount, achList } from './achievements';
+import { getSpellFlavorLine } from './data/text/index';
 import { SPELLS, Tk, St, type SpellDef } from './sim/spelldata';
-import { QUALITY_NAMES } from './render';
 import { keybindManager, DEFAULT_KEYBINDS } from './keybinds';
+import { MobileControlsHelp } from './ui-extra/mobile-controls-help';
+import { applyUxSettings, loadUxSettings, saveUxSettings, type TextScalePreset } from './ui-extra/settings-panel';
 
 export interface PauseMenuCtx {
   resume: () => void;
@@ -73,8 +80,10 @@ export class PauseMenu {
   private readonly root: HTMLElement;
   private view: MenuView = 'main';
   private sphereFilter: SphereFilter = 'all';
+  private mobileHelp: MobileControlsHelp | null = null;
 
   constructor(private readonly ctx: PauseMenuCtx) {
+    applyUxSettings(loadUxSettings());
     let el = document.getElementById('pause-menu');
     if (!el) {
       el = document.createElement('div');
@@ -93,6 +102,14 @@ export class PauseMenu {
         this.ctx.resume();
       }
     });
+  }
+
+  private openMobileHelp(): void {
+    if (typeof document === 'undefined' || !document.head) return;
+    if (!this.mobileHelp) {
+      this.mobileHelp = new MobileControlsHelp();
+    }
+    this.mobileHelp.open();
   }
 
   get isOpen(): boolean {
@@ -320,6 +337,16 @@ export class PauseMenu {
     intro.className = 'pause-intro-note';
     intro.textContent = 'Command your hero and mercenaries seamlessly with mouse, touch gestures, keyboard hotkeys, and Gamepad / PS5 DualSense controllers.';
     body.append(intro);
+
+    const touchBar = document.createElement('div');
+    touchBar.className = 'pause-aux-bar';
+    const touchHelpBtn = document.createElement('button');
+    touchHelpBtn.type = 'button';
+    touchHelpBtn.className = 'pause-ux-btn';
+    touchHelpBtn.textContent = '📱 Touch & Mobile Controls Guide';
+    touchHelpBtn.onclick = () => this.openMobileHelp();
+    touchBar.append(touchHelpBtn);
+    body.append(touchBar);
 
     const sections: Array<{
       category: string;
@@ -722,7 +749,9 @@ export class PauseMenu {
         effects.push(`Instantly restores ${spell.val} Mana`);
       }
 
-      sEffect.textContent = effects.join(' · ') || 'Mystical enchantment.';
+      const flavorLine = getSpellFlavorLine(spell.name);
+      const effectText = effects.join(' · ') || 'Mystical enchantment.';
+      sEffect.textContent = flavorLine ? `${effectText} — "${flavorLine}"` : effectText;
 
       card.append(sHead, sStats, sEffect);
       grid.append(card);
@@ -793,7 +822,45 @@ export class PauseMenu {
       }
     );
 
-    audioBox.append(masterRow, sfxRow, musicRow);
+    // Ambient Bus Volume
+    const ambRow = this.createSliderRow(
+      'Ambient Atmosphere',
+      Math.round(getAmbienceVolume() * 100),
+      (val) => {
+        setAmbienceVolume(val / 100);
+        try { localStorage.setItem('thornvael.ambientVol', String(val / 100)); } catch {}
+      },
+    );
+
+    // UI Bus Volume
+    const uiRow = this.createSliderRow(
+      'UI & Prompts Volume',
+      Math.round(getUiVolume() * 100),
+      (val) => {
+        setUiVolume(val / 100);
+        try { localStorage.setItem('thornvael.uiVol', String(val / 100)); } catch {}
+      },
+    );
+
+    // Mute on Blur toggle
+    const blurRow = document.createElement('div');
+    blurRow.className = 'pause-setting-row';
+    const blurLabel = document.createElement('div');
+    blurLabel.className = 'pause-setting-label';
+    blurLabel.innerHTML = '<b>Mute When Tab Unfocused</b><small>Silence game audio automatically when switching windows or apps</small>';
+    const isBlurMute = isMuteOnBlur();
+    const blurToggle = document.createElement('button');
+    blurToggle.type = 'button';
+    blurToggle.className = `pause-ux-btn ${isBlurMute ? 'active' : ''}`;
+    blurToggle.textContent = isBlurMute ? 'ON' : 'OFF';
+    blurToggle.setAttribute('aria-pressed', String(isBlurMute));
+    blurToggle.onclick = () => {
+      setMuteOnBlur(!isBlurMute);
+      this.render();
+    };
+    blurRow.append(blurLabel, blurToggle);
+
+    audioBox.append(masterRow, sfxRow, musicRow, ambRow, uiRow, blurRow);
 
     // 2. Display & Graphics Section
     const displayBox = document.createElement('div');
@@ -803,6 +870,8 @@ export class PauseMenu {
     displayTitle.className = 'pause-sec-title';
     displayTitle.innerHTML = '<span class="sec-icon">🖥</span> Display & Graphics';
     displayBox.append(displayTitle);
+
+    const ux = loadUxSettings();
 
     const qualityRow = document.createElement('div');
     qualityRow.className = 'pause-setting-row';
@@ -828,6 +897,9 @@ export class PauseMenu {
       qb.textContent = item.label;
       qb.onclick = () => {
         this.ctx.setQuality(item.q);
+        const next = { ...loadUxSettings(), graphicsQuality: (item.q === 0 ? 'low' : 'high') as 'low' | 'high' };
+        saveUxSettings(next);
+        applyUxSettings(next);
         this.render();
       };
       qButtons.append(qb);
@@ -853,7 +925,68 @@ export class PauseMenu {
     };
 
     weatherRow.append(weatherLabel, weatherToggle);
-    displayBox.append(qualityRow, weatherRow);
+
+    const motionRow = document.createElement('div');
+    motionRow.className = 'pause-setting-row';
+    const motionLabel = document.createElement('div');
+    motionLabel.className = 'pause-setting-label';
+    motionLabel.innerHTML = '<b>Reduced Motion</b><small>Soften camera shake, screen flashes, and heavy UI motion</small>';
+    const motionBtn = document.createElement('button');
+    motionBtn.type = 'button';
+    motionBtn.className = `pause-ux-btn ${ux.reducedMotion ? 'active' : ''}`;
+    motionBtn.textContent = ux.reducedMotion ? 'ON' : 'OFF';
+    motionBtn.setAttribute('aria-pressed', String(ux.reducedMotion));
+    motionBtn.onclick = () => {
+      const next = { ...loadUxSettings(), reducedMotion: !ux.reducedMotion };
+      saveUxSettings(next);
+      applyUxSettings(next);
+      this.render();
+    };
+    motionRow.append(motionLabel, motionBtn);
+
+    const scaleRow = document.createElement('div');
+    scaleRow.className = 'pause-setting-row';
+    const scaleLabel = document.createElement('div');
+    scaleLabel.className = 'pause-setting-label';
+    scaleLabel.innerHTML = '<b>Text Size</b><small>Scale UI typography readability across menus & panels</small>';
+    const scaleGroup = document.createElement('div');
+    scaleGroup.className = 'pause-ux-group';
+    const scales: readonly TextScalePreset[] = [0.9, 1, 1.15, 1.3];
+    scales.forEach((sc) => {
+      const sb = document.createElement('button');
+      sb.type = 'button';
+      sb.className = `pause-ux-btn ${ux.textScale === sc ? 'active' : ''}`;
+      sb.textContent = `${Math.round(sc * 100)}%`;
+      sb.setAttribute('aria-pressed', String(ux.textScale === sc));
+      sb.onclick = () => {
+        const next = { ...loadUxSettings(), textScale: sc };
+        saveUxSettings(next);
+        applyUxSettings(next);
+        this.render();
+      };
+      scaleGroup.append(sb);
+    });
+    scaleRow.append(scaleLabel, scaleGroup);
+
+    const cbRow = document.createElement('div');
+    cbRow.className = 'pause-setting-row';
+    const cbLabel = document.createElement('div');
+    cbLabel.className = 'pause-setting-label';
+    cbLabel.innerHTML = '<b>Colorblind Rarity Badges</b><small>Show geometric rarity symbols (▲ ◆ ❖ ★) on item cards & icons</small>';
+    const cbBtn = document.createElement('button');
+    cbBtn.type = 'button';
+    cbBtn.className = `pause-ux-btn ${ux.colorblindRarityBadges ? 'active' : ''}`;
+    cbBtn.textContent = ux.colorblindRarityBadges ? '◆ ON' : 'OFF';
+    cbBtn.setAttribute('aria-pressed', String(ux.colorblindRarityBadges));
+    cbBtn.onclick = () => {
+      const next = { ...loadUxSettings(), colorblindRarityBadges: !ux.colorblindRarityBadges };
+      saveUxSettings(next);
+      applyUxSettings(next);
+      this.render();
+    };
+    cbRow.append(cbLabel, cbBtn);
+
+    displayBox.append(qualityRow, weatherRow, motionRow, scaleRow, cbRow);
 
     // 3. Gameplay & Camera Section
     const gameBox = document.createElement('div');
@@ -901,7 +1034,20 @@ export class PauseMenu {
     };
 
     stickRow.append(stickLabel, stickToggle);
-    gameBox.append(cameraRow, stickRow);
+
+    const touchGuideRow = document.createElement('div');
+    touchGuideRow.className = 'pause-setting-row';
+    const touchGuideLabel = document.createElement('div');
+    touchGuideLabel.className = 'pause-setting-label';
+    touchGuideLabel.innerHTML = '<b>Mobile & Touch Controls</b><small>View tap, long-press, drag-box and pinch gesture diagrams</small>';
+    const touchGuideBtn = document.createElement('button');
+    touchGuideBtn.type = 'button';
+    touchGuideBtn.className = 'pause-ux-btn';
+    touchGuideBtn.textContent = '📱 Open Guide';
+    touchGuideBtn.onclick = () => this.openMobileHelp();
+    touchGuideRow.append(touchGuideLabel, touchGuideBtn);
+
+    gameBox.append(cameraRow, stickRow, touchGuideRow);
 
     body.append(audioBox, displayBox, gameBox);
     modal.append(head, body);

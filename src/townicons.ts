@@ -1,5 +1,6 @@
-import { CLS_MAGE, Ik, getItemDef, ItemDef, Slot } from './sim/items';
+import { CLS_MAGE, Ik, ITEMS, getItemDef, ItemDef, Slot } from './sim/items';
 import { SPELLS } from './sim/spelldata';
+import { getRarityBadge, loadUxSettings, type ItemRarityTier } from './ui-extra/settings-panel';
 
 export type ItemIconCategory = 'empty' | 'sword' | 'axe' | 'mace' | 'bow' | 'staff' | 'wand' | 'shield' | 'helm' | 'hat' | 'crown' | 'armor' | 'robe' | 'boots' | 'ring' | 'amulet' | 'gloves' | 'healing' | 'mana' | 'elixir' | 'scroll' | 'tome';
 export type ItemIconTone = 'neutral' | 'fire' | 'water' | 'air' | 'earth' | 'astral' | 'healing' | 'mana' | 'body' | 'agility' | 'mind' | 'spirit';
@@ -278,4 +279,87 @@ export function itemIcon(itemOrId: number | ItemDef): SVGSVGElement {
   // A small rivet row communicates level even when enamel hues are hard to distinguish.
   for (let i = 0; i < tier; i++) make('circle', { cx: 32 + (i - (tier - 1) / 2) * 5, cy: 61, r: 1.3, fill: '#e6c68a', stroke: '#3b2b1b', 'stroke-width': 0.6 });
   return svg;
+}
+
+/** Convert an item name (stripping apostrophes and +N upgrade prefixes) into a kebab-case icon slug. */
+export function slugifyItemName(name: string): string {
+  return name
+    .replace(/^\+\d+\s+/, '')
+    .replace(/['\u2019]/g, '')
+    .toLowerCase()
+    .replace(/[^a-z0-9]+/g, '-')
+    .replace(/^-|-$/g, '');
+}
+
+/** Resolve the primary painted PNG icon slug for a static or named item. */
+export function itemIconSlug(itemOrId: number | ItemDef): string | null {
+  const def = typeof itemOrId === 'number' ? getItemDef(itemOrId) : itemOrId;
+  if (!def || !def.name) return null;
+  const slug = slugifyItemName(def.name);
+  return slug || null;
+}
+
+/** Match an affixed dynamic item back to its longest matching base item slug for PNG lookup fallback. */
+function fallbackBaseItemSlug(def: ItemDef): string | null {
+  const lower = def.name.toLowerCase();
+  let best = '';
+  for (const base of ITEMS) {
+    if (!base.name) continue;
+    if (base.name.length > best.length && lower.includes(base.name.toLowerCase())) {
+      best = base.name;
+    }
+  }
+  return best ? slugifyItemName(best) : null;
+}
+
+/**
+ * Painted 64x64 item icon (`public/itemicons/<slug>.png`) with transparent automatic fallback
+ * to the matched base item PNG (for affixed dynamic gear) or the vector `itemIcon()` SVG.
+ */
+export function itemIconEl(itemOrId: number | ItemDef): HTMLElement | SVGSVGElement {
+  const def = typeof itemOrId === 'number' ? getItemDef(itemOrId) : itemOrId;
+  const slug = itemIconSlug(itemOrId);
+  if (!def || !slug) return itemIcon(itemOrId);
+  const base = (typeof import.meta !== 'undefined' && import.meta.env?.BASE_URL) ? import.meta.env.BASE_URL : './';
+  const img = document.createElement('img');
+  img.className = 'town-item-icon town-item-icon-img';
+  img.alt = '';
+  img.width = 64;
+  img.height = 64;
+  img.setAttribute('aria-hidden', 'true');
+  img.setAttribute('draggable', 'false');
+  img.style.pointerEvents = 'none';
+  img.src = `${base}itemicons/${slug}.png`;
+
+  const baseSlug = fallbackBaseItemSlug(def);
+  let triedBase = false;
+  img.onerror = () => {
+    if (!triedBase && baseSlug && baseSlug !== slug) {
+      triedBase = true;
+      img.src = `${base}itemicons/${baseSlug}.png`;
+      return;
+    }
+    img.onerror = null;
+    img.replaceWith?.(itemIcon(itemOrId));
+  };
+  return img;
+}
+
+/** Create a compact colorblind rarity badge chip when enabled in UX settings. */
+export function createRarityBadgeEl(rarity: string): HTMLElement | null {
+  const ux = loadUxSettings();
+  if (!ux.colorblindRarityBadges) return null;
+  const normalized: ItemRarityTier =
+    rarity === 'magic' || rarity === 'rare' || rarity === 'set' || rarity === 'unique'
+      ? rarity
+      : 'common';
+  const info = getRarityBadge(normalized, true);
+  if (!info.symbol) return null;
+  const span = document.createElement('span');
+  span.className = 'tv-rarity-badge';
+  span.textContent = info.symbol;
+  span.style.color = info.color;
+  span.setAttribute('aria-label', info.label);
+  span.title = info.label;
+  return span;
 }

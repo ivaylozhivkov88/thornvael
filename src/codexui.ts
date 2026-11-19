@@ -1,10 +1,10 @@
 import { getMonsterCodex, getCodexLore } from './missioncontent';
-import { getCodexProgress, isDiscovered } from './codex';
+import { getAllBestiaryLore, getCodexProgress, hydrateCodexBestiary, isDiscovered } from './codex';
 import { formatItemTooltip } from './heroui';
 import { Ik, ITEMS, Slot, itemText } from './sim/items';
 import { findSetByItemName, isSetItem } from './sim/sets';
 import { S } from './strings';
-import { itemIcon } from './townicons';
+import { createRarityBadgeEl, itemIconEl } from './townicons';
 
 /**
  * Hall of Relics & Imperial Codex UI for Thornvael.
@@ -27,6 +27,12 @@ export class CodexUi {
     }
     this.render();
     this.overlay.hidden = false;
+    const base = (typeof import.meta !== 'undefined' && import.meta.env?.BASE_URL) ? import.meta.env.BASE_URL : './';
+    void hydrateCodexBestiary(base).then(() => {
+      if (this.overlay && !this.overlay.hidden && this.filter === 'bestiary') {
+        this.render();
+      }
+    }).catch(() => undefined);
   }
 
   hide(): void {
@@ -137,52 +143,74 @@ export class CodexUi {
     if (this.filter === 'bestiary') {
       const loreList = document.createElement('div');
       loreList.className = 'codex-lore-list';
+      const seenNames = new Set<string>();
       const pack = getMonsterCodex();
-      if (pack.length) {
-        for (const m of pack) {
-          const card = document.createElement('article');
-          card.className = 'codex-lore-entry';
-          const title = document.createElement('h3');
-          title.className = 'codex-lore-title';
-          title.textContent = m.name;
-          const meta = document.createElement('div');
-          meta.className = 'codex-bestiary-meta';
-          for (const t of [m.weakness && `Weakness: ${m.weakness}`, m.special && `Special: ${typeof m.special === 'string' ? m.special : (m.special as { name?: string }).name}`]) {
-            if (!t) continue;
-            const b = document.createElement('span');
-            b.className = 'codex-bestiary-badge';
-            b.textContent = t;
-            meta.append(b);
-          }
-          const p = document.createElement('p');
-          p.className = 'codex-lore-text';
-          p.textContent = m.codex;
-          card.append(title, meta, p);
-          loreList.append(card);
-        }
-        this.overlay.append(head, meter, filters, loreList);
-        return;
-      }
-      for (const beast of S.codex.bestiary) {
+      for (const m of pack) {
+        seenNames.add(m.name.toLowerCase());
         const card = document.createElement('article');
         card.className = 'codex-lore-entry';
         const title = document.createElement('h3');
         title.className = 'codex-lore-title';
-        title.textContent = beast.name;
+        title.textContent = m.name;
         const meta = document.createElement('div');
         meta.className = 'codex-bestiary-meta';
-        const b1 = document.createElement('span');
-        b1.className = 'codex-bestiary-badge';
-        b1.textContent = beast.classification;
-        const b2 = document.createElement('span');
-        b2.className = 'codex-bestiary-badge';
-        b2.textContent = beast.role;
-        meta.append(b1, b2);
+        for (const t of [m.weakness && `Weakness: ${m.weakness}`, m.special && `Special: ${typeof m.special === 'string' ? m.special : (m.special as { name?: string }).name}`]) {
+          if (!t) continue;
+          const b = document.createElement('span');
+          b.className = 'codex-bestiary-badge';
+          b.textContent = t;
+          meta.append(b);
+        }
         const p = document.createElement('p');
         p.className = 'codex-lore-text';
-        p.textContent = beast.lore;
+        p.textContent = m.codex;
         card.append(title, meta, p);
         loreList.append(card);
+      }
+      for (const entry of getAllBestiaryLore()) {
+        if (seenNames.has(entry.name.toLowerCase())) continue;
+        seenNames.add(entry.name.toLowerCase());
+        const card = document.createElement('article');
+        card.className = 'codex-lore-entry';
+        const title = document.createElement('h3');
+        title.className = 'codex-lore-title';
+        title.textContent = entry.name;
+        const meta = document.createElement('div');
+        meta.className = 'codex-bestiary-meta';
+        if (entry.weakness) {
+          const b = document.createElement('span');
+          b.className = 'codex-bestiary-badge';
+          b.textContent = `Weakness: ${entry.weakness}`;
+          meta.append(b);
+        }
+        const p = document.createElement('p');
+        p.className = 'codex-lore-text';
+        p.textContent = entry.lore;
+        card.append(title, meta, p);
+        loreList.append(card);
+      }
+      if (!seenNames.size) {
+        for (const beast of S.codex.bestiary) {
+          const card = document.createElement('article');
+          card.className = 'codex-lore-entry';
+          const title = document.createElement('h3');
+          title.className = 'codex-lore-title';
+          title.textContent = beast.name;
+          const meta = document.createElement('div');
+          meta.className = 'codex-bestiary-meta';
+          const b1 = document.createElement('span');
+          b1.className = 'codex-bestiary-badge';
+          b1.textContent = beast.classification;
+          const b2 = document.createElement('span');
+          b2.className = 'codex-bestiary-badge';
+          b2.textContent = beast.role;
+          meta.append(b1, b2);
+          const p = document.createElement('p');
+          p.className = 'codex-lore-text';
+          p.textContent = beast.lore;
+          card.append(title, meta, p);
+          loreList.append(card);
+        }
       }
       this.overlay.append(head, meter, filters, loreList);
       return;
@@ -206,11 +234,13 @@ export class CodexUi {
       if (discoveredNow) {
         const rarity = isSet ? 'set' : item.tier >= 5 ? 'unique' : item.tier >= 4 ? 'rare' : item.tier >= 2 ? 'magic' : 'normal';
         card.dataset.rarity = rarity;
-        card.append(itemIcon(id));
+        card.append(itemIconEl(id));
 
         const name = document.createElement('span');
         name.className = 'item-name';
-        name.textContent = item.name;
+        const badge = createRarityBadgeEl(rarity);
+        if (badge) name.append(badge, item.name);
+        else name.textContent = item.name;
         card.append(name);
 
         const tierBadge = document.createElement('small');

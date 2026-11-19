@@ -1,3 +1,5 @@
+import { loadAchievements as loadAchievementsPack } from './data/text/index';
+
 // Achievements: Gemini-authored defs + trigger table, evaluated against small persisted counters.
 // UI-only; never touches the sim.
 type Trig = { id: string; type: string; args: Record<string, unknown>; name?: string; desc?: string };
@@ -25,6 +27,31 @@ export async function loadAchievements(toast: (m: string) => void): Promise<void
   for (const f of ['achievements', 'achievements-2', 'achievements-3']) {
     const a = (await get(`${f}.json`)) as Record<string, Def[]> | null;
     if (a) for (const k of Object.keys(a)) if (Array.isArray(a[k])) for (const d of a[k]) if (d?.id) defs.set(d.id, d);
+  }
+  try {
+    const curated = await loadAchievementsPack(import.meta.env.BASE_URL);
+    const seenIds = new Set(trigs.map((x) => x.id));
+    for (const entry of curated.entries ?? []) {
+      defs.set(entry.id, { id: entry.id, name: entry.title, desc: entry.desc });
+      if (!seenIds.has(entry.id) && entry.condition?.metric) {
+        const metric = entry.condition.metric;
+        const target = entry.condition.target;
+        const args: Record<string, unknown> =
+          metric === 'act_done' ? { act: target }
+            : metric === 'mission_won' ? { mission: target }
+            : metric === 'boss_kill' ? { boss: target }
+            : { n: target };
+        if (metric === 'kills_total' || metric === 'merc_hired' || metric === 'flawless_mission' ||
+            metric === 'hero_level' || metric === 'gold_held' || metric === 'mission_won' ||
+            metric === 'act_done' || metric === 'boss_kill' || metric === 'win_gold_zero' ||
+            metric === 'campaign_done') {
+          trigs.push({ id: entry.id, type: metric, args, name: entry.title, desc: entry.desc });
+          seenIds.add(entry.id);
+        }
+      }
+    }
+  } catch {
+    /* offline or missing optional curated pack */
   }
 }
 
