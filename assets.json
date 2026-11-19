@@ -292,20 +292,20 @@
     {
       "path": "public/sprites/morvessa.png",
       "license": "own",
-      "source": "tools/generate-boss-sprites.py",
-      "note": "Dedicated Morvessa Act 1 boss atlas (arachnid demon queen); 48px, 16 directions, combat profile, RGB masks"
+      "source": "tools/sheet-build.py + Canva sheet",
+      "note": "Original morvessa sprite; Canva-generated turnaround sheet, 96px, 16 directions, stand4/walk8/attack4/cast4/hurt2/die4, RGB masks."
     },
     {
       "path": "public/sprites/morvessa-mask.png",
       "license": "own",
-      "source": "tools/generate-boss-sprites.py",
-      "note": "Dedicated Morvessa Act 1 boss mask (arachnid demon queen); 48px, 16 directions, combat profile, RGB masks"
+      "source": "tools/sheet-build.py + Canva sheet",
+      "note": "Original morvessa sprite; Canva-generated turnaround sheet, 96px, 16 directions, stand4/walk8/attack4/cast4/hurt2/die4, RGB masks."
     },
     {
       "path": "public/sprites/morvessa.json",
       "license": "own",
-      "source": "tools/generate-boss-sprites.py",
-      "note": "Dedicated Morvessa Act 1 boss spritesheet JSON"
+      "source": "tools/sheet-build.py + Canva sheet",
+      "note": "Original morvessa sprite; Canva-generated turnaround sheet, 96px, 16 directions, stand4/walk8/attack4/cast4/hurt2/die4, RGB masks."
     },
     {
       "path": "public/sprites/gorrathul.png",
