@@ -43,6 +43,7 @@ import { CombatAnimation, type AnimationPose } from './sprites/combat-animation'
 import { VfxSystem } from './vfx';
 import { CombatFeelSystem } from './feel';
 import { AestheticVfxSystem, detectBiomeFromMap, type BiomeWeatherType, type BiomeAct } from './aesthetic-vfx';
+import { updateAtmosphere } from './atmosphere';
 
 const SHRINE_COLORS: Record<string, number> = {
   healing: 0xe84a5f,
@@ -1018,6 +1019,7 @@ export class Renderer {
     }
     this.vfx?.updateAndDraw(sim, now, dtMs, this.zoom, this.camX, this.camY, this.overlay, this.viewW, this.viewH);
     (this.aestheticVfx as AestheticVfxSystem | undefined)?.updateAndDraw(now, dtMs, this.camX, this.camY, this.zoom, this.viewW, this.viewH);
+    updateAtmosphere(this.app?.stage, this.aestheticVfx?.getBiome?.() ?? 'swamp', dtMs, this.camX, this.camY, this.zoom, this.viewW, this.viewH, this.quality);
     const mw = this.map.w;
     const cb = sim.cb;
     const z = this.zoom;
