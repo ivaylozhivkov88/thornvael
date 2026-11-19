@@ -63,21 +63,134 @@ export function loadTerrainArt(): Promise<HTMLImageElement> {
 
 /** Biome skin: a 128x32 strip (4 tiles) that replaces the Dirt ground tiles. Set before the renderer bakes chunks. */
 export const BIOME_SKINS: Record<string, string> = { desert: 'sand', crypt: 'crypt', highlands: 'highland' };
-let skinImage: HTMLImageElement | null = null;
+/** Feature zones: soft-edged patches of another ground (graveyard, ruined paving, snow...) that the map walks into. */
+export const BIOME_ZONES: Record<string, string[]> = {
+  forest: ['crypt', 'highland'],
+  marsh: ['ruinstone'],
+  desert: ['ruinstone', 'highland'],
+  crypt: ['ruinstone'],
+  highlands: ['crypt', 'snow'],
+  volcanic: ['ruinstone'],
+  oasis: ['sand'],
+};
+const skins = new Map<string, HTMLImageElement>();
+let mainSkin: HTMLImageElement | null = null;
+let zoneSkins: HTMLImageElement[] = [];
+let zoneSeed = 0;
 
-export async function setTerrainSkin(name: string | null): Promise<void> {
-  skinImage = null;
-  if (!name) return;
-  try {
-    skinImage = await new Promise<HTMLImageElement>((resolve, reject) => {
-      const image = new Image();
-      image.onload = () => resolve(image);
-      image.onerror = () => reject(new Error(`skin ${name}`));
-      image.src = `${import.meta.env.BASE_URL}terrain/skin-${name}.png`;
-    });
-  } catch {
-    skinImage = null; // fall back to the default atlas tiles
+function loadSkin(name: string): Promise<HTMLImageElement | null> {
+  const cached = skins.get(name);
+  if (cached) return Promise.resolve(cached);
+  return new Promise<HTMLImageElement | null>((resolve) => {
+    const image = new Image();
+    image.onload = () => {
+      skins.set(name, image);
+      resolve(image);
+    };
+    image.onerror = () => resolve(null); // fall back to the default atlas tiles
+    image.src = `${import.meta.env.BASE_URL}terrain/skin-${name}.png`;
+  });
+}
+
+/** Load the biome skin and its zone skins. Call before the renderer bakes chunks. */
+export async function setTerrainTheme(biome: string, seed: number): Promise<void> {
+  zoneSeed = seed >>> 0;
+  const main = BIOME_SKINS[biome];
+  mainSkin = main ? await loadSkin(main) : null;
+  const loaded = await Promise.all((BIOME_ZONES[biome] ?? []).map(loadSkin));
+  zoneSkins = loaded.filter((i): i is HTMLImageElement => i !== null);
+}
+
+function cellHash01(x: number, y: number, k: number): number {
+  let h = Math.imul(x + 374761393, 668265263) ^ Math.imul(y + 144665, 2246822519) ^ Math.imul(k + 1, 3266489917);
+  h = Math.imul(h ^ (h >>> 13), 1274126177);
+  return ((h ^ (h >>> 16)) >>> 0) / 4294967296;
+}
+
+function valueNoise(x: number, y: number, cell: number, k: number): number {
+  const gx = x / cell;
+  const gy = y / cell;
+  const x0 = Math.floor(gx);
+  const y0 = Math.floor(gy);
+  const fx = gx - x0;
+  const fy = gy - y0;
+  const sx = fx * fx * (3 - 2 * fx);
+  const sy = fy * fy * (3 - 2 * fy);
+  const a = cellHash01(x0, y0, k);
+  const b = cellHash01(x0 + 1, y0, k);
+  const c = cellHash01(x0, y0 + 1, k);
+  const d = cellHash01(x0 + 1, y0 + 1, k);
+  return (a * (1 - sx) + b * sx) * (1 - sy) + (c * (1 - sx) + d * sx) * sy;
+}
+
+/** Per-vertex zone weights (0..1), (w+1)*(h+1) per zone. Derived from the seed only, never stored in map data. */
+const zoneFields = new WeakMap<GameMap, Float32Array[]>();
+function zoneField(map: GameMap): Float32Array[] {
+  let fields = zoneFields.get(map);
+  if (fields) return fields;
+  fields = [];
+  const vw = map.w + 1;
+  const size = Math.min(map.w, map.h);
+  for (let z = 0; z < zoneSkins.length; z++) {
+    const f = new Float32Array(vw * (map.h + 1));
+    // Centre away from the start corner and the outer border; larger maps get bigger patches.
+    let cx = 0;
+    let cy = 0;
+    for (let t = 0; t < 12; t++) {
+      cx = size * (0.25 + 0.55 * cellHash01(zoneSeed, z, 10 + t * 2));
+      cy = size * (0.25 + 0.55 * cellHash01(zoneSeed, z, 11 + t * 2));
+      if (Math.hypot(cx - 8, cy - 8) > 16) break;
+    }
+    const r = size * (0.12 + 0.08 * cellHash01(zoneSeed, z, 3));
+    for (let vy = 0; vy <= map.h; vy++) {
+      for (let vx = 0; vx <= map.w; vx++) {
+        const wob = valueNoise(vx, vy, 5, zoneSeed + z * 7) - 0.5; // ragged outline
+        const d = Math.hypot(vx - cx, vy - cy) + wob * r * 0.9;
+        const t = Math.max(0, Math.min(1, (r - d) / 4)); // ~4-tile soft transition
+        f[vy * vw + vx] = t * t * (3 - 2 * t);
+      }
+    }
+    fields.push(f);
   }
+  zoneFields.set(map, fields);
+  return fields;
+}
+
+function paintZones(g: CanvasRenderingContext2D, map: GameMap, x: number, y: number, px: number, py: number): number {
+  if (!zoneSkins.length) return 0;
+  const fields = zoneField(map);
+  const vw = map.w + 1;
+  let strongest = 0;
+  for (let z = 0; z < fields.length; z++) {
+    const f = fields[z]!;
+    const a = f[y * vw + x]!;
+    const b = f[y * vw + x + 1]!;
+    const c = f[(y + 1) * vw + x]!;
+    const d = f[(y + 1) * vw + x + 1]!;
+    if (a + b + c + d < 0.004) continue;
+    const img = zoneSkins[z]!;
+    const sx = terrainVariant(x, y, 9 + z) * 32;
+    const mean = (a + b + c + d) / 4;
+    strongest = Math.max(strongest, mean);
+    if (a > 0.995 && b > 0.995 && c > 0.995 && d > 0.995) {
+      g.drawImage(img, sx, 0, 32, 32, px, py, TILE, TILE);
+      continue;
+    }
+    const N = 4;
+    const cell = TILE / N;
+    for (let j = 0; j < N; j++) {
+      const v = (j + 0.5) / N;
+      for (let i = 0; i < N; i++) {
+        const u = (i + 0.5) / N;
+        const l = (a * (1 - u) + b * u) * (1 - v) + (c * (1 - u) + d * u) * v;
+        if (l < 0.01) continue;
+        g.globalAlpha = l;
+        g.drawImage(img, sx + i * 8, j * 8, 8, 8, px + i * cell, py + j * cell, cell, cell);
+      }
+    }
+    g.globalAlpha = 1;
+  }
+  return strongest;
 }
 
 function draw(g: CanvasRenderingContext2D, art: CanvasImageSource, name: string, x: number, y: number): void {
@@ -253,7 +366,7 @@ export function paintTerrainChunk(
       const kind = map.terrain[i];
       const px = tx * TILE;
       const py = ty * TILE;
-      if (skinImage && kind === Terrain.Dirt) g.drawImage(skinImage, terrainVariant(x, y, kind) * 32, 0, 32, 32, px, py, TILE, TILE);
+      if (mainSkin && kind === Terrain.Dirt) g.drawImage(mainSkin, terrainVariant(x, y, kind) * 32, 0, 32, 32, px, py, TILE, TILE);
       else draw(g, art, `${NAMES[kind]}/${terrainVariant(x, y, kind)}`, px, py);
       for (let side = 0; side < 4; side++) {
         const next = terrainEdge(map, x, y, side);
@@ -280,7 +393,8 @@ export function paintTerrainChunk(
           g.fillRect(px, py, TILE, TILE);
           break;
       }
-      paintDecals(g, kind, x, y, px, py);
+      const zoneMix = kind === Terrain.Water || kind === Terrain.Rock ? 0 : paintZones(g, map, x, y, px, py);
+      if (zoneMix < 0.5) paintDecals(g, kind, x, y, px, py);
       // Preserve map slope lighting and height brightening; all applied at bake time.
       paintSmoothLight(g, map, x, y, px, py);
       if (map.height[i]) {
