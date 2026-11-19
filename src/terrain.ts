@@ -179,6 +179,38 @@ function paintDecals(g: CanvasRenderingContext2D, kind: number, x: number, y: nu
   }
 }
 
+/** Corner light = mean of the 4 tiles around the vertex, bilinear over 8px cells: soft relief, no tile steps. */
+function cornerLight(map: GameMap, vx: number, vy: number): number {
+  let sum = 0;
+  for (let k = 0; k < 4; k++) {
+    const x = Math.max(0, Math.min(map.w - 1, vx - 1 + (k & 1)));
+    const y = Math.max(0, Math.min(map.h - 1, vy - 1 + (k >> 1)));
+    sum += map.light[y * map.w + x];
+  }
+  return sum / 4;
+}
+
+function paintSmoothLight(g: CanvasRenderingContext2D, map: GameMap, x: number, y: number, px: number, py: number): void {
+  const a = cornerLight(map, x, y);
+  const b = cornerLight(map, x + 1, y);
+  const c = cornerLight(map, x, y + 1);
+  const d = cornerLight(map, x + 1, y + 1);
+  if (a >= 254.5 && b >= 254.5 && c >= 254.5 && d >= 254.5) return;
+  const N = 4;
+  const cell = TILE / N;
+  for (let j = 0; j < N; j++) {
+    const v = (j + 0.5) / N;
+    for (let i = 0; i < N; i++) {
+      const u = (i + 0.5) / N;
+      const l = (a * (1 - u) + b * u) * (1 - v) + (c * (1 - u) + d * u) * v;
+      const alpha = 1 - l / 255;
+      if (alpha < 0.004) continue;
+      g.fillStyle = `rgba(0,0,0,${alpha.toFixed(3)})`;
+      g.fillRect(px + i * cell, py + j * cell, cell, cell);
+    }
+  }
+}
+
 /** Called only while baking a chunk. Canvas clips shared overhangs at chunk boundaries. */
 export function paintTerrainChunk(
   g: CanvasRenderingContext2D,
@@ -230,10 +262,7 @@ export function paintTerrainChunk(
       }
       paintDecals(g, kind, x, y, px, py);
       // Preserve map slope lighting and height brightening; all applied at bake time.
-      if (map.light[i] < 255) {
-        g.fillStyle = `rgba(0,0,0,${1 - map.light[i] / 255})`;
-        g.fillRect(px, py, TILE, TILE);
-      }
+      paintSmoothLight(g, map, x, y, px, py);
       if (map.height[i]) {
         g.globalCompositeOperation = 'lighter';
         g.fillStyle = `rgba(255,255,255,${map.height[i] * 4 / 255})`;

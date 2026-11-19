@@ -87,7 +87,10 @@ describe('procedural terrain contract', () => {
     expect(c.draws.map((d) => [d.x, d.y])).toEqual([[0, 0], [0, 32]]);
     expect(c.fills).toContainEqual({ style: 'rgba(0,0,0,.35)', op: 'source-over', x: 0, y: 27, w: 32, h: 5 });
     expect(c.fills.some((f) => f.op === 'lighter')).toBe(true);
-    expect(c.fills.some((f) => f.style === `rgba(0,0,0,${1 - 128 / 255})`)).toBe(true);
+    // Smooth relief: bilinear 8px light cells (soft falloff, not one flat tile fill).
+    const soft = c.fills.filter((f) => f.w === 8 && f.h === 8 && /^rgba\(0,0,0,0\.\d+\)$/.test(f.style));
+    expect(soft.length).toBeGreaterThan(0);
+    expect(new Set(soft.map((f) => f.style)).size).toBeGreaterThan(1);
     expect(c.g.imageSmoothingEnabled).toBe(false);
     expect(c.g.restore).toHaveBeenCalledOnce();
     expect(m).toEqual(before);
