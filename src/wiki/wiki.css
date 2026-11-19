@@ -489,6 +489,21 @@ select:focus-visible {
   min-width: 140px;
 }
 
+.wiki-view-switch {
+  display: inline-flex;
+  gap: 6px;
+}
+
+.wiki-hero-status {
+  margin-bottom: 10px;
+  padding: 8px 10px;
+  border-radius: 6px;
+  background: var(--surface-2);
+  border: 1px solid var(--border);
+  font-size: 0.82rem;
+  color: var(--gold-soft);
+}
+
 .wiki-card-grid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));

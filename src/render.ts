@@ -43,7 +43,39 @@ import { CombatAnimation, type AnimationPose } from './sprites/combat-animation'
 import { VfxSystem } from './vfx';
 import { CombatFeelSystem } from './feel';
 import { AestheticVfxSystem, detectBiomeFromMap, type BiomeWeatherType, type BiomeAct } from './aesthetic-vfx';
-import { updateAtmosphere } from './atmosphere';
+import { updateAtmosphere, isReducedMotionActive } from './atmosphere';
+import { FxEngine, type WeatherKind } from './fx';
+
+function resolveFxBiomeName(biomeOrAct: BiomeWeatherType | BiomeAct | number | string): string {
+  if (typeof biomeOrAct === 'number') {
+    if (biomeOrAct === 2) return 'desert';
+    if (biomeOrAct === 3) return 'crypt';
+    if (biomeOrAct === 4) return 'caldera';
+    return 'marsh';
+  }
+  const key = biomeOrAct.trim().toLowerCase();
+  if (key === 'swamp') return 'marsh';
+  if (key === 'caves') return 'crypt';
+  if (key === 'hell' || key === 'volcanic') return 'caldera';
+  return key || 'forest';
+}
+
+function biomeToDefaultWeather(biome: string): WeatherKind {
+  switch (biome) {
+    case 'marsh':
+      return 'rain';
+    case 'desert':
+      return 'dust';
+    case 'crypt':
+      return 'fog';
+    case 'caldera':
+      return 'ash';
+    case 'highlands':
+      return 'snow';
+    default:
+      return 'clear';
+  }
+}
 
 const SHRINE_COLORS: Record<string, number> = {
   healing: 0xe84a5f,
@@ -354,6 +386,30 @@ export class Renderer {
   vfx?: VfxSystem;
   readonly feel: CombatFeelSystem;
   readonly aestheticVfx: AestheticVfxSystem;
+  readonly fxEngine: FxEngine;
+  private readonly fxGroundGfx = new Graphics();
+  private readonly fxWorldGfx = new Graphics();
+  private readonly fxAddGfx = new Graphics();
+  private readonly gradeOverlay = new Graphics();
+  private dynLightMulCv?: HTMLCanvasElement;
+  private dynLightMulCtx?: CanvasRenderingContext2D | null;
+  private dynLightMulTex?: Texture;
+  private dynLightMulSprite?: Sprite;
+  private dynLightAddCv?: HTMLCanvasElement;
+  private dynLightAddCtx?: CanvasRenderingContext2D | null;
+  private dynLightAddTex?: Texture;
+  private dynLightAddSprite?: Sprite;
+  private prevUnitPx: Float32Array = new Float32Array(0);
+  private prevUnitPy: Float32Array = new Float32Array(0);
+  private prevUnitValid: Uint8Array = new Uint8Array(0);
+  private readonly activeLootKeys = new Set<string>();
+  private readonly seenLootKeys = new Set<string>();
+  private lastPingX = Number.NaN;
+  private lastPingY = Number.NaN;
+  private lastPingAge = 2;
+  private currentBiomeName = 'forest';
+  private currentRegionName = '';
+  private currentWeather: WeatherKind = 'clear';
   private lastDrawNow = 0;
   private lastCastSid = -1;
   zoom = 1;
@@ -365,9 +421,25 @@ export class Renderer {
     private readonly map: GameMap,
   ) {
     this.swingTrailGraphics.blendMode = 'add';
+    this.fxAddGfx.blendMode = 'add';
+    this.gradeOverlay.eventMode = 'none';
     this.feel = new CombatFeelSystem(map.w, map.h);
     this.aestheticVfx = new AestheticVfxSystem();
-    this.aestheticVfx.setBiome(detectBiomeFromMap('', map.terrain));
+    const detected = detectBiomeFromMap('', map.terrain);
+    this.aestheticVfx.setBiome(detected);
+    this.currentBiomeName = resolveFxBiomeName(detected);
+    this.currentWeather = biomeToDefaultWeather(this.currentBiomeName);
+    this.fxEngine = new FxEngine({
+      quality: this.quality === 0 ? 'low' : 'high',
+      reducedMotion: isReducedMotionActive(),
+    });
+    this.fxEngine.dynamicLighting.setBiome(this.currentBiomeName);
+    this.fxEngine.regionGrade.setContext({
+      biome: this.currentBiomeName,
+      weather: this.currentWeather,
+      daylight: 255,
+    });
+    this.fxEngine.regionGrade.snapToTarget();
   }
 
   /** Static world labels: town buildings and people to talk to (x, y in tiles). Call after init. */
@@ -418,10 +490,13 @@ export class Renderer {
     this.vfx = new VfxSystem();
     this.vfx.init();
     this.aestheticVfx?.init();
-    this.world.addChild(this.chunks, this.rings, this.feel.bloodGraphics, this.dustGraphics, this.feel.auraGraphics, this.vfx.groundLayer);
+    this.world.addChild(this.chunks, this.rings, this.feel.bloodGraphics, this.dustGraphics, this.fxGroundGfx, this.feel.auraGraphics, this.vfx.groundLayer);
     this.fog = fog;
     this.unitAngles = new Float32Array(sim.count);
     this.wasAlive = Array.from({ length: sim.count }, (_, i) => sim.cb.hp[i] > 0);
+    this.prevUnitPx = new Float32Array(sim.count);
+    this.prevUnitPy = new Float32Array(sim.count);
+    this.prevUnitValid = new Uint8Array(sim.count);
     for (let i = 0; i < sim.count; i++) {
       this.unitAngles[i] = (sim.dir[i] * 2 * Math.PI) / 16;
     }
@@ -471,19 +546,42 @@ export class Renderer {
     }
     this.dbgGrid.visible = false;
     this.dbgPath.visible = false;
-    this.world.addChild(this.shots, this.feel.sparkGraphics, this.feel.bubbleGraphics, this.feel.slashGraphics, this.swingTrailGraphics, this.heroGearGraphics, this.vfx.airLayer, fog, this.dbgGrid, this.dbgPath);
-    if (this.feel.lightSprite) {
-      const stageItems = [this.world, this.feel.lightSprite];
-      if (this.aestheticVfx) stageItems.push(this.aestheticVfx.weatherLayer);
-      stageItems.push(this.feel.floaterContainer, this.floaterLayer, this.nameplates.container, this.overlay);
-      this.app.stage.addChild(...stageItems);
+    this.world.addChild(this.shots, this.feel.sparkGraphics, this.feel.bubbleGraphics, this.feel.slashGraphics, this.swingTrailGraphics, this.heroGearGraphics, this.fxWorldGfx, this.fxAddGfx, this.vfx.airLayer, fog, this.dbgGrid, this.dbgPath);
+    if (typeof document !== 'undefined') {
+      this.dynLightMulCv = document.createElement('canvas');
+      this.dynLightMulCv.width = 384;
+      this.dynLightMulCv.height = 216;
+      this.dynLightMulCtx = this.dynLightMulCv.getContext('2d');
+      this.dynLightMulTex = Texture.from(this.dynLightMulCv);
+      this.dynLightMulSprite = new Sprite(this.dynLightMulTex);
+      this.dynLightMulSprite.blendMode = 'multiply';
+      this.dynLightMulSprite.eventMode = 'none';
+
+      this.dynLightAddCv = document.createElement('canvas');
+      this.dynLightAddCv.width = 384;
+      this.dynLightAddCv.height = 216;
+      this.dynLightAddCtx = this.dynLightAddCv.getContext('2d');
+      this.dynLightAddTex = Texture.from(this.dynLightAddCv);
+      this.dynLightAddSprite = new Sprite(this.dynLightAddTex);
+      this.dynLightAddSprite.blendMode = 'add';
+      this.dynLightAddSprite.eventMode = 'none';
+    }
+
+    const stageItems: Container[] = [this.world];
+    if (this.dynLightMulSprite && this.dynLightAddSprite) {
+      if (this.feel.lightSprite) this.feel.lightSprite.visible = false;
+      stageItems.push(this.dynLightMulSprite, this.dynLightAddSprite);
+    } else if (this.feel.lightSprite) {
+      stageItems.push(this.feel.lightSprite);
     } else {
       this.light.blendMode = 'multiply';
-      const stageItems = [this.world, this.light];
-      if (this.aestheticVfx) stageItems.push(this.aestheticVfx.weatherLayer);
-      stageItems.push(this.floaterLayer, this.nameplates.container, this.overlay);
-      this.app.stage.addChild(...stageItems);
+      stageItems.push(this.light);
     }
+    stageItems.push(this.gradeOverlay);
+    if (this.aestheticVfx) stageItems.push(this.aestheticVfx.weatherLayer);
+    if (this.feel.floaterContainer) stageItems.push(this.feel.floaterContainer);
+    stageItems.push(this.floaterLayer, this.nameplates.container, this.overlay);
+    this.app.stage.addChild(...stageItems);
     if (new URLSearchParams(location.search).get('art') === '1') {
       this.artPreview = new ArtPreview(atlases);
       this.app.stage.addChild(this.artPreview.layer);
@@ -498,17 +596,25 @@ export class Renderer {
     this.quality = Math.max(0, Math.min(2, q));
     this.vfx?.setQuality(this.quality);
     this.aestheticVfx?.setQuality(this.quality);
-    const dpr = window.devicePixelRatio || 1;
+    this.fxEngine.setQuality(this.quality === 0 ? 'low' : 'high');
+    this.fxEngine.setReducedMotion(isReducedMotionActive());
+    const dpr = typeof window !== 'undefined' ? window.devicePixelRatio || 1 : 1;
     const res = [1, Math.min(dpr, 1.5), Math.min(dpr, 2)][this.quality];
     try {
-      if (this.app.renderer.resolution !== res) {
+      if (this.app.renderer && this.app.renderer.resolution !== res) {
         this.app.renderer.resolution = res;
-        this.app.renderer.resize(window.innerWidth, window.innerHeight);
+        if (typeof window !== 'undefined') {
+          this.app.renderer.resize(window.innerWidth, window.innerHeight);
+        }
       }
     } catch {
       // a renderer that cannot change resolution keeps the old one
     }
-    this.light.visible = this.quality > 0;
+    const lightOn = this.quality > 0 && this.fxEngine.dynamicLighting.isEnabled();
+    this.light.visible = lightOn;
+    if (this.dynLightMulSprite) this.dynLightMulSprite.visible = lightOn;
+    if (this.dynLightAddSprite) this.dynLightAddSprite.visible = lightOn;
+    if (this.feel.lightSprite) this.feel.lightSprite.visible = false;
     this.lightKey = '';
   }
 
@@ -535,8 +641,52 @@ export class Renderer {
     return [fx * k * this.zoom - this.camX, fy * k * this.zoom - this.camY];
   }
 
-  setBiome(biomeOrAct: BiomeWeatherType | BiomeAct | number): void {
-    (this.aestheticVfx as AestheticVfxSystem | undefined)?.setBiome(biomeOrAct);
+  setBiome(biomeOrAct: BiomeWeatherType | BiomeAct | number | string): void {
+    if (typeof biomeOrAct === 'number') {
+      (this.aestheticVfx as AestheticVfxSystem | undefined)?.setBiome(biomeOrAct);
+    } else if (biomeOrAct === 'swamp' || biomeOrAct === 'desert' || biomeOrAct === 'caves' || biomeOrAct === 'hell') {
+      (this.aestheticVfx as AestheticVfxSystem | undefined)?.setBiome(biomeOrAct);
+    } else {
+      const fx = resolveFxBiomeName(biomeOrAct);
+      const act = fx === 'desert' ? 2 : fx === 'crypt' ? 3 : fx === 'caldera' ? 4 : 1;
+      (this.aestheticVfx as AestheticVfxSystem | undefined)?.setBiome(act);
+    }
+    this.currentBiomeName = resolveFxBiomeName(biomeOrAct);
+    this.currentWeather = biomeToDefaultWeather(this.currentBiomeName);
+    this.fxEngine.dynamicLighting.setBiome(this.currentBiomeName);
+    this.fxEngine.regionGrade.setContext({
+      biome: this.currentBiomeName,
+      region: this.currentRegionName,
+      weather: this.currentWeather,
+    });
+  }
+
+  /** Set region name and optional weather override for A7 region color grading. */
+  setRegionContext(ctx: { biome?: string; region?: string; weather?: WeatherKind }): void {
+    if (ctx.biome !== undefined) {
+      this.currentBiomeName = resolveFxBiomeName(ctx.biome);
+      this.fxEngine.dynamicLighting.setBiome(this.currentBiomeName);
+    }
+    if (ctx.region !== undefined) this.currentRegionName = ctx.region;
+    if (ctx.weather !== undefined) this.currentWeather = ctx.weather;
+    this.fxEngine.regionGrade.setContext({
+      biome: this.currentBiomeName,
+      region: this.currentRegionName,
+      weather: this.currentWeather,
+    });
+  }
+
+  /** Start a region intro camera pan from (fromTx, fromTy) back to (toTx, toTy) in tile coordinates. */
+  triggerIntroPan(fromTx: number, fromTy: number, toTx: number, toTy: number, regionName: string, durationMs = 2200): boolean {
+    return this.fxEngine.cameraPolish.startIntroPan(
+      fromTx * TILE,
+      fromTy * TILE,
+      toTx * TILE,
+      toTy * TILE,
+      regionName,
+      durationMs,
+      this.zoom,
+    );
   }
 
   getBiome(): BiomeWeatherType {
@@ -615,6 +765,18 @@ export class Renderer {
           } else if (isHero) {
             this.feel?.addTrauma(0.2);
           }
+
+          this.fxEngine.hitFeedback.onHit({
+            x: wx,
+            y: wy + 12,
+            dirX,
+            dirY,
+            damage: e.v,
+            maxHp: hitIdx >= 0 ? sim.cb.hpMax[hitIdx] : Math.max(1, e.v * 2),
+            isCrit,
+            unitId: hitIdx >= 0 ? hitIdx : undefined,
+            family: hitIdx >= 0 ? sim.cb.family[hitIdx] : undefined,
+          });
         }
         else if (e.type === 1) this.feel.addDamageFloater('miss', wx, wy, 0xbbbbbb, false, false, now);
         else if (e.type === 3) this.feel.addDamageFloater(`+${e.v} gold`, wx, wy, 0xffd84a, false, false, now);
@@ -624,10 +786,20 @@ export class Renderer {
         else if (e.type === 11) this.feel.addDamageFloater('blocked', wx, wy, 0x70c8ff, false, false, now);
         else if (e.type === 6) this.feel.addDamageFloater(`${SKILL_NAMES[e.v]} ${e.el}`, wx, wy, 0xffd84a, false, false, now);
         else if (e.type === 5) {
-          if (!this.vfx?.isApexCast(this.lastCastSid)) this.burst(e.x * k, e.y * k, (e.v / 10) * TILE, 480, ELEM_COLOR[e.el], true, now, e.el);
+          const radPx = Math.max(24, (e.v / 10) * TILE);
+          if (!this.vfx?.isApexCast(this.lastCastSid)) this.burst(e.x * k, e.y * k, radPx, 480, ELEM_COLOR[e.el], true, now, e.el);
+          this.fxEngine.spellVfx.emitGroundLightBurst(e.x * k, e.y * k, e.el, radPx * 0.95, 380);
+          this.fxEngine.dynamicLighting.emitSpellLight(e.x * k, e.y * k, e.el, radPx * 1.45, 420, 1.05);
         } else if (e.type === 9) {
           this.lastCastSid = e.v;
           if (!this.vfx?.isApexCast(e.v)) this.burst(e.x * k, e.y * k - 8, 14, 260, ELEM_COLOR[e.el], false, now, e.el);
+          this.fxEngine.spellVfx.emitGroundLightBurst(e.x * k, e.y * k - 8, e.el, 44, 260);
+          this.fxEngine.dynamicLighting.emitSpellLight(e.x * k, e.y * k - 10, e.el, 105, 320, 0.85);
+          const heroId = sim.hero?.id ?? 0;
+          if (sim.count > heroId && Math.hypot(sim.x[heroId] - e.x, sim.y[heroId] - e.y) < FP * 1.5) {
+            const dirIdx = sim.dir[heroId] & 15;
+            this.fxEngine.cameraPolish.triggerSpellRecoil(DIR_COS[dirIdx], DIR_SIN[dirIdx], 4.5);
+          }
         } else if (e.type === 10) this.burst(e.x * k, e.y * k - 6, 22, 420, e.v === 1 ? BUFF_COLOR : ELEM_COLOR[5], e.v !== 2, now, e.v === 1 ? 0 : 5);
       }
     }
@@ -676,14 +848,23 @@ export class Renderer {
 
   /** Change zoom by whole steps, keeping the world point under (sx, sy) fixed. */
   zoomBy(dir: 1 | -1, sx: number, sy: number): void {
-    const z = Math.max(MIN_ZOOM, Math.min(MAX_ZOOM, this.zoom + dir));
-    if (z === this.zoom) return;
-    const wx = (sx + this.camX) / this.zoom;
-    const wy = (sy + this.camY) / this.zoom;
-    this.zoom = z;
-    this.camX = wx * z - sx;
-    this.camY = wy * z - sy;
-    this.clamp();
+    const solved = this.fxEngine.cameraPolish.solveZoomAroundPoint(
+      this.camX,
+      this.camY,
+      this.zoom,
+      Math.max(MIN_ZOOM, Math.min(MAX_ZOOM, this.zoom + dir)),
+      sx,
+      sy,
+      this.map.w,
+      this.map.h,
+      this.viewW,
+      this.viewH,
+      TILE,
+    );
+    if (solved.zoom === this.zoom) return;
+    this.zoom = solved.zoom;
+    this.camX = solved.camX;
+    this.camY = solved.camY;
   }
 
   /** F3 overlay: tile grid with blocked tiles (built once) and the A* paths of the given units (redrawn per frame). */
@@ -918,7 +1099,7 @@ export class Renderer {
   }
 
   private updateFog(sim: Sim): void {
-    if (sim.fogVersion === this.fogSeen) return;
+    if (!this.fogBuf32 || sim.fogVersion === this.fogSeen) return;
     this.fogSeen = sim.fogVersion;
     const buf32 = this.fogBuf32;
     const vis = sim.visible;
@@ -988,39 +1169,135 @@ export class Renderer {
     const now = performance.now();
     const dtMs = this.lastDrawNow > 0 ? Math.min(100, now - this.lastDrawNow) : 16;
     this.lastDrawNow = now;
+    this.ensureFxState();
+
+    // Sync quality & reducedMotion with FxEngine (covers direct renderer.quality writes from main.ts)
+    const wantFxQuality = this.quality === 0 ? 'low' : 'high';
+    if (this.fxEngine.getConfig().quality !== wantFxQuality) {
+      this.fxEngine.setQuality(wantFxQuality);
+    }
+    const reducedMotion = isReducedMotionActive();
+    if (this.fxEngine.getConfig().reducedMotion !== reducedMotion) {
+      this.fxEngine.setReducedMotion(reducedMotion);
+    }
+
     this.runFx(sim, now);
+    this.fxEngine.update(dtMs);
+    this.fxEngine.regionGrade.setDaylight(sim.daylight);
+
     const [rx, ry] = this.vfx?.rumbleOffset() ?? [0, 0];
     this.feel?.update(dtMs / 1000, now, this.camX, this.camY, this.zoom);
+    const fxShake = this.fxEngine.hitFeedback.getShake();
+    const camPolish = this.fxEngine.cameraPolish.getTotalOffset();
     this.world.scale.set(this.zoom);
-    this.world.position.set(-this.camX + rx + (this.feel?.shakeX ?? 0), -this.camY + ry + (this.feel?.shakeY ?? 0));
+    this.world.position.set(
+      -this.camX + rx + (this.feel?.shakeX ?? 0) + fxShake.x * 0.5 + camPolish.x,
+      -this.camY + ry + (this.feel?.shakeY ?? 0) + fxShake.y * 0.5 + camPolish.y,
+    );
     this.updateChunks();
     if (this.quality > 0 || (this.fogTick++ & 1) === 0) this.updateFog(sim);
     const k = TILE / FP;
     this.feel?.renderAuras(sim, now, k);
-    if (this.quality > 0 && this.feel?.lightSprite) {
-      const heroX = (sim.hero ? sim.x[sim.hero.id] : sim.x[0]) * k;
-      const heroY = (sim.hero ? sim.y[sim.hero.id] : sim.y[0]) * k;
-      const extraLights: Array<{ x: number; y: number; r: number }> = [];
+
+    const vt = this.viewTiles();
+    const mw = this.map.w;
+    const minTx = Math.max(0, Math.floor(vt.x0));
+    const maxTx = Math.min(mw - 1, Math.ceil(vt.x1));
+    const minTy = Math.max(0, Math.floor(vt.y0));
+    const maxTy = Math.min(this.map.h - 1, Math.ceil(vt.y1));
+
+    if (this.quality > 0 && this.fxEngine.dynamicLighting.isEnabled()) {
+      const dl = this.fxEngine.dynamicLighting;
+      dl.beginFrame();
+      const heroIdx = sim.hero ? sim.hero.id : 0;
+      if (sim.count > heroIdx && sim.cb.hp[heroIdx] > 0) {
+        dl.setHeroLight(sim.x[heroIdx] * k, sim.y[heroIdx] * k, 195);
+      } else {
+        dl.clearHeroLight();
+      }
       for (let n = 0; n < sim.shrines.length; n++) {
         if (sim.shrineCd[n] === 0) {
-          extraLights.push({ x: (sim.shrines[n].x + 0.5) * TILE, y: (sim.shrines[n].y + 0.5) * TILE, r: 75 * this.zoom });
+          const sh = sim.shrines[n];
+          dl.addLight({
+            kind: 'shrine',
+            x: (sh.x + 0.5) * TILE,
+            y: (sh.y + 0.5) * TILE,
+            radius: 90,
+            color: SHRINE_COLORS[sh.kind] ?? 0x68d8ff,
+          });
         }
       }
       if (sim.towns?.length) {
         for (const town of sim.towns) {
-          for (const c of town.centre) {
-            if (c) extraLights.push({ x: c[0] * TILE, y: (c[1] + 0.6) * TILE, r: 120 * this.zoom });
+          for (let role = 0; role < town.centre.length; role++) {
+            const c = town.centre[role];
+            if (!c) continue;
+            dl.addLight({
+              kind: 'torch',
+              x: c[0] * TILE,
+              y: (c[1] + 0.6) * TILE,
+              radius: 130,
+              color: role === 2 ? 0x58c8ff : 0xff8c28,
+            });
           }
         }
       }
-      this.feel.renderLighting(this.viewW, this.viewH, heroX, heroY, this.camX, this.camY, this.zoom, sim.daylight, now, extraLights);
+      if (this.currentBiomeName === 'caldera') {
+        for (let ty = minTy; ty <= maxTy; ty += 2) {
+          for (let tx = minTx; tx <= maxTx; tx += 2) {
+            const idx = ty * mw + tx;
+            if (this.map.terrain[idx] === Terrain.Water && sim.explored[idx]) {
+              dl.addLight({
+                kind: 'lava',
+                x: (tx + 0.5) * TILE,
+                y: (ty + 0.5) * TILE,
+                radius: 78,
+                color: 0xff4410,
+              });
+            }
+          }
+        }
+      }
+      if (this.dynLightMulCtx && this.dynLightMulCv && this.dynLightMulTex && this.dynLightMulSprite && this.dynLightAddCtx && this.dynLightAddTex && this.dynLightAddSprite) {
+        dl.renderToCanvases(
+          this.dynLightMulCtx,
+          this.dynLightAddCtx,
+          this.dynLightMulCv.width,
+          this.dynLightMulCv.height,
+          this.camX,
+          this.camY,
+          this.zoom,
+          this.viewW,
+          this.viewH,
+          sim.daylight,
+        );
+        this.dynLightMulTex.source.update();
+        this.dynLightAddTex.source.update();
+        this.dynLightMulSprite.width = this.viewW;
+        this.dynLightMulSprite.height = this.viewH;
+        this.dynLightMulSprite.visible = true;
+        this.dynLightAddSprite.width = this.viewW;
+        this.dynLightAddSprite.height = this.viewH;
+        this.dynLightAddSprite.visible = true;
+      } else {
+        this.updateLight(sim.daylight);
+      }
     } else {
-      this.updateLight(sim.daylight);
+      if (this.dynLightMulSprite) this.dynLightMulSprite.visible = false;
+      if (this.dynLightAddSprite) this.dynLightAddSprite.visible = false;
+      if (this.light) this.light.visible = false;
     }
+
+    // A7 Region / Weather / Daylight Color Grade overlay
+    const grade = this.fxEngine.regionGrade.getCurrentGrade();
+    this.gradeOverlay.clear();
+    if (grade.tintAlpha > 0.004) {
+      this.gradeOverlay.rect(0, 0, this.viewW, this.viewH).fill({ color: grade.tintColor, alpha: grade.tintAlpha });
+    }
+
     this.vfx?.updateAndDraw(sim, now, dtMs, this.zoom, this.camX, this.camY, this.overlay, this.viewW, this.viewH);
     (this.aestheticVfx as AestheticVfxSystem | undefined)?.updateAndDraw(now, dtMs, this.camX, this.camY, this.zoom, this.viewW, this.viewH);
     updateAtmosphere(this.app?.stage, this.aestheticVfx?.getBiome?.() ?? 'swamp', dtMs, this.camX, this.camY, this.zoom, this.viewW, this.viewH, this.quality);
-    const mw = this.map.w;
     const cb = sim.cb;
     const z = this.zoom;
     const r = this.rings;
@@ -1028,11 +1305,6 @@ export class Renderer {
     const frame8 = (sim.tick >> 2) & 7;
 
     // Micro-animation: Shoreline water foam 8-frame ripple loop
-    const vt = this.viewTiles();
-    const minTx = Math.max(0, Math.floor(vt.x0));
-    const maxTx = Math.min(mw - 1, Math.ceil(vt.x1));
-    const minTy = Math.max(0, Math.floor(vt.y0));
-    const maxTy = Math.min(this.map.h - 1, Math.ceil(vt.y1));
     const foamPhase = frame8 / 8;
     const foamDist = foamPhase * 4;
     const foamAlpha = (1 - foamPhase) * 0.55;
@@ -1064,18 +1336,31 @@ export class Renderer {
       r.rect(sx - 2, sy - 10, 4, 3).fill(0xe0c060);
       drawGlint(r, sx, sy - 8, sim.tick, n);
     }
-    // Item bags: a satchel with colored clasp and vertical light beam for higher rarities (D2 loot pillar).
+    // Item bags: a satchel with colored clasp, parabolic A10 bounce arc, and rarity-filtered vertical light beam.
+    this.activeLootKeys.clear();
     for (let n = 0; n < cb.bI.length; n++) {
       if (!cb.bI[n]) continue;
       if (!sim.explored[Math.floor(cb.bY[n] / FP) * mw + Math.floor(cb.bX[n] / FP)]) continue;
-      const bx = cb.bX[n] * k;
-      const by = cb.bY[n] * k;
+      const groundX = cb.bX[n] * k;
+      const groundY = cb.bY[n] * k;
       const itemId = cb.bI[n] - 1;
       const item = getItemDef(itemId);
       const rarity = item ? itemRarity(item) : 'normal';
-      const beam = LOOT_BEAM_COLORS[rarity];
+      const lootKey = `b${n}:${cb.bI[n]}`;
+      this.activeLootKeys.add(lootKey);
+      if (!this.seenLootKeys.has(lootKey)) {
+        this.seenLootKeys.add(lootKey);
+        this.fxEngine.lootDrop.spawnDrop(lootKey, groundX, groundY, rarity);
+      }
+      const arc = this.fxEngine.lootDrop.getDrop(lootKey);
+      const bx = arc && !arc.settled ? arc.x : groundX;
+      const by = arc && !arc.settled ? arc.y : groundY;
+      const liftZ = arc ? Math.max(0, arc.z * 0.42) : 0;
+      const bagY = by - liftZ;
+      const beam = this.fxEngine.lootDrop.isRarityVisible(rarity) ? LOOT_BEAM_COLORS[rarity] : undefined;
 
-      r.ellipse(bx, by + 2, 7, 3).fill({ color: 0x000000, alpha: 0.35 });
+      const shadowScale = Math.max(0.55, 1 - liftZ * 0.025);
+      r.ellipse(bx, by + 2, 7 * shadowScale, 3 * shadowScale).fill({ color: 0x000000, alpha: 0.35 * shadowScale });
       if (beam) {
         const h = beam.height;
         const pulse = 0.85 + 0.15 * Math.sin(sim.tick * 0.15 + n);
@@ -1120,8 +1405,8 @@ export class Renderer {
           }
 
           // Satchel body tinted by rarity
-          r.roundRect(bx - 6, by - 9, 12, 10, 3).fill(0x283850).stroke({ color: beam.outer, width: 1.8, alpha: 0.95 });
-          r.rect(bx - 2, by - 6, 4, 3).fill(beam.inner);
+          r.roundRect(bx - 6, bagY - 9, 12, 10, 3).fill(0x283850).stroke({ color: beam.outer, width: 1.8, alpha: 0.95 });
+          r.rect(bx - 2, bagY - 6, 4, 3).fill(beam.inner);
         } else {
           // Standard magic/rare light beam pillar
           r.moveTo(bx - 3.5, by - 6)
@@ -1140,15 +1425,21 @@ export class Renderer {
           // Pulsing ground light aura
           r.ellipse(bx, by + 2, 9 * pulse, 4.5 * pulse).stroke({ color: beam.outer, width: 1.5, alpha: 0.7 * pulse });
           // Satchel body tinted by rarity
-          r.roundRect(bx - 6, by - 9, 12, 10, 3).fill(0x283850).stroke({ color: beam.outer, width: 1.5, alpha: 0.9 });
-          r.rect(bx - 2, by - 6, 4, 3).fill(beam.inner);
+          r.roundRect(bx - 6, bagY - 9, 12, 10, 3).fill(0x283850).stroke({ color: beam.outer, width: 1.5, alpha: 0.9 });
+          r.rect(bx - 2, bagY - 6, 4, 3).fill(beam.inner);
         }
       } else {
         // Standard normal satchel
-        r.roundRect(bx - 6, by - 9, 12, 10, 3).fill(0x3c5a8c).stroke({ color: 0x1a2a48, width: 1 });
-        r.rect(bx - 2, by - 6, 4, 3).fill(0xd8e4f4);
+        r.roundRect(bx - 6, bagY - 9, 12, 10, 3).fill(0x3c5a8c).stroke({ color: 0x1a2a48, width: 1 });
+        r.rect(bx - 2, bagY - 6, 4, 3).fill(0xd8e4f4);
       }
-      drawGlint(r, bx, by - 12, sim.tick, n + 50);
+      drawGlint(r, bx, bagY - 12, sim.tick, n + 50);
+    }
+    for (const prevKey of this.seenLootKeys) {
+      if (!this.activeLootKeys.has(prevKey)) {
+        this.seenLootKeys.delete(prevKey);
+        this.fxEngine.lootDrop.removeDrop(prevKey);
+      }
     }
     // Interactive world shrines: carved pedestal with a glowing crystal when ready (8-frame micro-animation).
     for (let n = 0; n < sim.shrines.length; n++) {
@@ -1274,33 +1565,47 @@ export class Renderer {
     while (this.wasAlive.length < sim.count) {
       this.wasAlive.push(cb.hp[this.wasAlive.length] > 0);
     }
+    if (this.prevUnitValid.length < sim.count) {
+      this.prevUnitPx = new Float32Array(sim.count);
+      this.prevUnitPy = new Float32Array(sim.count);
+      const nextValid = new Uint8Array(sim.count);
+      nextValid.set(this.prevUnitValid);
+      this.prevUnitValid = nextValid;
+    }
     this.heroGearGraphics.clear();
 
     for (let i = 0; i < sim.count; i++) {
       const s = this.sprites[i];
+      if (!s) continue;
       const dead = cb.hp[i] <= 0;
 
-      // Track unit death for visceral gore & bone debris spawning
+      // Track unit death for visceral gore, bone scatter, caster motes & corpse decals (A2)
       if (this.wasAlive[i] && dead) {
-        const isElite = (cb.bossMods[i]?.length ?? 0) > 0 || (cb.family[i] ? !!bossSpriteDef(cb.family[i]) : false);
-        const isUndead = cb.family[i] === 'hollow-knight' || cb.family[i] === 'restless-dead';
+        const famId = cb.family[i];
+        const isBoss = famId ? !!bossSpriteDef(famId) : false;
+        const isElite = (cb.bossMods[i]?.length ?? 0) > 0 || isBoss;
+        const isUndead = famId === 'hollow-knight' || famId === 'restless-dead';
         this.feel?.spawnDeathGore(s.x, s.y, isElite, isUndead);
+        this.fxEngine.deathFx.onUnitDeath(s.x, s.y, famId, isBoss);
       }
       this.wasAlive[i] = !dead;
 
       if (sim.hidden[i] || (dead && (cb.corp[i] <= 0 || (s instanceof UnitSprite && !s.atlas.hasClip('die'))))) {
         s.visible = false;
+        this.prevUnitValid[i] = 0;
         continue;
       }
+      const isFlashing = !dead && this.fxEngine.hitFeedback.isFlashing(i);
       let statusTint = 0;
       const mask = cb.stMask[i];
       if (mask & (1 << St.Stone)) statusTint = 0x8a8a8a;
       else if (mask & (1 << St.Poison)) statusTint = 0x2ecc71;
       else if (mask & (1 << St.Slow)) statusTint = 0x60c0ff;
       else if (mask & (1 << St.Burn)) statusTint = 0xff7722;
+      const effectiveStatusTint = isFlashing ? 0xffffff : statusTint;
 
       if (s instanceof Sprite) {
-        const want = dead ? DEAD_TINT : statusTint > 0 ? statusTint : this.baseTint[i];
+        const want = dead ? DEAD_TINT : effectiveStatusTint > 0 ? effectiveStatusTint : this.baseTint[i];
         if (s.tint !== want) s.tint = want;
         // Death fallback for sprites without a die clip: topple sideways with a short ease-out.
         if (dead) {
@@ -1326,9 +1631,26 @@ export class Renderer {
       const sx = s.x * z - this.camX;
       const sy = s.y * z - this.camY;
       const onScreen = sx > -40 && sy > -40 && sx < this.viewW + 40 && sy < this.viewH + 40;
-      const tile = Math.floor(sim.y[i] / FP) * mw + Math.floor(sim.x[i] / FP);
+      const tileX = Math.max(0, Math.min(mw - 1, Math.floor(sim.x[i] / FP)));
+      const tileY = Math.max(0, Math.min(this.map.h - 1, Math.floor(sim.y[i] / FP)));
+      const tile = tileY * mw + tileX;
       s.visible = onScreen && (dead ? !!sim.explored[tile] : sim.team[i] === 0 || sim.visible[tile] === 1);
       s.alpha = dead ? Math.min(1, cb.corp[i] / 200) : 1;
+
+      if (s.visible && !dead) {
+        if (this.prevUnitValid[i] && sim.moving[i]) {
+          const dxMove = s.x - this.prevUnitPx[i];
+          const dyMove = s.y - this.prevUnitPy[i];
+          const terr = this.map.terrain[tile];
+          const surface = terr === Terrain.Water ? 'water' : terr === Terrain.Marsh ? 'marsh' : this.currentBiomeName;
+          this.fxEngine.footsteps.recordMove(i, s.x, s.y, dxMove, dyMove, surface);
+        }
+        this.prevUnitPx[i] = s.x;
+        this.prevUnitPy[i] = s.y;
+        this.prevUnitValid[i] = 1;
+      } else {
+        this.prevUnitValid[i] = 0;
+      }
 
       // Smooth 16-direction angle interpolation without snapping
       const targetAngle = (sim.dir[i] * 2 * Math.PI) / 16;
@@ -1367,8 +1689,8 @@ export class Renderer {
         const armorTier = isHero ? getHeroArmorVisualTier(armorDef) : 1;
         this.animation?.sample(sim, i, this.pose);
         const stone = !!(mask & (1 << St.Stone));
-        s.update(sim.tick, !!sim.moving[i], smoothDir, sim.team[i], armorTier, sim.cb.tier[i] || 1, stone, this.pose, statusTint, isHero, weaponVisual);
-        if (!stone && statusTint === 0) {
+        s.update(sim.tick, !!sim.moving[i], smoothDir, sim.team[i], armorTier, sim.cb.tier[i] || 1, stone, this.pose, effectiveStatusTint, isHero, weaponVisual);
+        if (!stone && effectiveStatusTint === 0) {
           // Preserve unmasked full-RGB details on layer 0 and apply distinct family / hero color harmony
           const ch = s.layers;
           if (ch[0]) ch[0].tint = 0xffffff;
@@ -1549,7 +1871,7 @@ export class Renderer {
     // Hit-point bars: Low draws them only for selected units, Medium adds hurt units, High draws every hurt unit in view.
     for (let i = 0; i < sim.count; i++) {
       const s = this.sprites[i];
-      if (!s.visible || cb.hp[i] <= 0) continue;
+      if (!s || !s.visible || cb.hp[i] <= 0) continue;
       if (this.nameplates?.hasPlate(i)) continue;
       const hurt = cb.hp[i] < cb.hpMax[i];
       const sel = v.selected.has(i);
@@ -1563,7 +1885,7 @@ export class Renderer {
     // Status pips above the bar, a ring for a live shield, and a mana bar under the hit-point bar of selected casters.
     for (let i = 0; i < sim.count; i++) {
       const s = this.sprites[i];
-      if (!s.visible || cb.hp[i] <= 0) continue;
+      if (!s || !s.visible || cb.hp[i] <= 0) continue;
       const m = cb.stMask[i];
       const y = s.y - (s instanceof UnitSprite ? 52 : 36) * s.scale.y;
       if (m) {
@@ -1583,7 +1905,7 @@ export class Renderer {
       }
     }
     for (let i = 0; i < sim.count; i++) {
-      if ((!cb.bossMods[i]?.length && !cb.family[i]) || cb.hp[i] <= 0 || !this.sprites[i].visible) continue;
+      if ((!cb.bossMods[i]?.length && !cb.family[i]) || cb.hp[i] <= 0 || !this.sprites[i]?.visible) continue;
       const famId = cb.family[i];
       const boss = famId ? bossSpriteDef(famId) : undefined;
       const famVis = famId ? FAMILY_VISUALS[famId] : undefined;
@@ -1793,20 +2115,44 @@ export class Renderer {
     }
     for (const id of v.selected) {
       const s = this.sprites[id];
-      if (!s.visible || cb.hp[id] <= 0) continue;
+      if (!s || !s.visible || cb.hp[id] <= 0) continue;
       const radX = (s instanceof UnitSprite ? 13 : 11) * s.scale.x;
       const radY = radX * 0.48;
       // Dual-ring subtle grounded selection indicator (clean RoM2/D2 style, no crude white vector line)
       r.ellipse(s.x, s.y, radX * 1.15, radY * 1.15).stroke({ color: 0x22c55e, width: 1.0, alpha: 0.35 });
       r.ellipse(s.x, s.y, radX, radY).stroke({ color: 0x86efac, width: 1.4, alpha: 0.85 });
     }
+    const hoverUnitId = v.hover?.id ?? v.hoverUnit ?? null;
+    if (hoverUnitId !== null && hoverUnitId >= 0 && hoverUnitId < sim.count && cb.hp[hoverUnitId] > 0) {
+      const fam = cb.family[hoverUnitId];
+      const isBoss = fam ? !!bossSpriteDef(fam) : false;
+      const isElite = (cb.bossMods[hoverUnitId]?.length ?? 0) > 0;
+      const enemyRank = isBoss ? 'boss' : isElite ? 'elite' : 'normal';
+      this.fxEngine.cursorTarget.updateHover({
+        kind: sim.team[hoverUnitId] !== 0 ? 'enemy' : 'npc',
+        unitId: hoverUnitId,
+        enemyRank,
+        casting: !!v.aim,
+      });
+    } else if (v.aim) {
+      this.fxEngine.cursorTarget.updateHover({
+        kind: v.aim.ok ? 'ground' : 'blocked',
+        casting: true,
+      });
+    } else {
+      this.fxEngine.cursorTarget.updateHover({ kind: 'none' });
+    }
+
+    const hoverOutline = this.fxEngine.cursorTarget.getHoverOutline();
     if (v.hover) {
       const s = this.sprites[v.hover.id];
-      if (s.visible && cb.hp[v.hover.id] > 0) {
+      if (s && s.visible && cb.hp[v.hover.id] > 0) {
         const radX = (s instanceof UnitSprite ? 13.5 : 12) * s.scale.x;
         const radY = radX * 0.48;
-        const col = v.hover.ok ? 0xef4444 : 0x94a3b8;
-        r.ellipse(s.x, s.y, radX, radY).stroke({ color: col, width: 1.2, alpha: 0.7 });
+        const col = hoverOutline ? hoverOutline.color : v.hover.ok ? 0xef4444 : 0x94a3b8;
+        const thick = hoverOutline ? hoverOutline.thickness : 1.2;
+        const alp = hoverOutline ? hoverOutline.alpha : 0.7;
+        r.ellipse(s.x, s.y, radX, radY).stroke({ color: col, width: thick, alpha: alp });
       }
     }
     for (let p = 0; p < cb.pAlive.length; p++) {
@@ -1898,11 +2244,19 @@ export class Renderer {
         .stroke({ color: 0x9dff7a, width: 1 });
     }
     if (v.ping) {
+      if (v.ping.age < this.lastPingAge || v.ping.x !== this.lastPingX || v.ping.y !== this.lastPingY) {
+        this.fxEngine.cursorTarget.emitClickRipple(v.ping.x * TILE, v.ping.y * TILE, 'move');
+      }
+      this.lastPingAge = v.ping.age;
+      this.lastPingX = v.ping.x;
+      this.lastPingY = v.ping.y;
       const sx = v.ping.x * TILE * this.zoom - this.camX;
       const sy = v.ping.y * TILE * this.zoom - this.camY;
       o.circle(sx, sy, (6 + v.ping.age * 22) * this.zoom).stroke({ color: 0xffd700, width: 2.5, alpha: 1 - v.ping.age });
       o.circle(sx, sy, (3 + v.ping.age * 12) * this.zoom).stroke({ color: 0xffe680, width: 1.5, alpha: (1 - v.ping.age) * 0.8 });
       o.moveTo(sx, sy - 6).lineTo(sx + 6, sy).lineTo(sx, sy + 6).lineTo(sx - 6, sy).closePath().stroke({ color: 0xffd700, width: 1.5, alpha: 1 - v.ping.age });
+    } else {
+      this.lastPingAge = 2;
     }
     if (v.goal) {
       const gx = v.goal.x * TILE * this.zoom - this.camX;
@@ -1974,6 +2328,97 @@ export class Renderer {
         }
       }
     }
-    this.app.render();
+    this.renderFxEngineLayers();
+    if (this.app.renderer) {
+      this.app.render();
+    }
+  }
+
+  private ensureFxState(): void {
+    const self = this as unknown as {
+      fxEngine?: FxEngine;
+      fxGroundGfx?: Graphics;
+      fxWorldGfx?: Graphics;
+      fxAddGfx?: Graphics;
+      gradeOverlay?: Graphics;
+      activeLootKeys?: Set<string>;
+      seenLootKeys?: Set<string>;
+      prevUnitPx?: Float32Array;
+      prevUnitPy?: Float32Array;
+      prevUnitValid?: Uint8Array;
+    };
+    self.fxEngine ??= new FxEngine({
+      quality: this.quality === 0 ? 'low' : 'high',
+      reducedMotion: isReducedMotionActive(),
+    });
+    self.fxGroundGfx ??= new Graphics();
+    self.fxWorldGfx ??= new Graphics();
+    self.fxAddGfx ??= new Graphics();
+    self.gradeOverlay ??= new Graphics();
+    self.activeLootKeys ??= new Set();
+    self.seenLootKeys ??= new Set();
+    self.prevUnitPx ??= new Float32Array(0);
+    self.prevUnitPy ??= new Float32Array(0);
+    self.prevUnitValid ??= new Uint8Array(0);
+  }
+
+  private renderFxEngineLayers(): void {
+    const fg = this.fxGroundGfx;
+    const fw = this.fxWorldGfx;
+    const fa = this.fxAddGfx;
+    fg.clear();
+    fw.clear();
+    fa.clear();
+
+    // A2 corpse decals & bone scatter + A3 footsteps
+    this.fxEngine.deathFx.decals.forEachActive((d) => {
+      fg.ellipse(d.x, d.y, d.radius, d.radius * 0.55).fill({ color: d.color, alpha: d.alpha * 0.65 });
+    });
+
+    this.fxEngine.deathFx.bones.forEachActive((b) => {
+      const cos = Math.cos(b.rot);
+      const sin = Math.sin(b.rot);
+      const len = b.kind === 1 ? 5.5 : b.kind === 2 ? 4.5 : 3.5;
+      const drawY = b.y - b.z * 0.45;
+      if (b.z > 0.5) {
+        fg.ellipse(b.x, b.y + 1, 3, 1.5).fill({ color: 0x000000, alpha: b.alpha * 0.35 });
+      }
+      fg.moveTo(b.x - cos * len, drawY - sin * len)
+        .lineTo(b.x + cos * len, drawY + sin * len)
+        .stroke({ color: 0xe6dcc4, width: b.kind === 2 ? 2.4 : 1.6, alpha: b.alpha });
+    });
+
+    this.fxEngine.footsteps.footsteps.forEachActive((f) => {
+      if (f.kind === 'ripple') {
+        fg.ellipse(f.x, f.y, f.radius, f.radius * 0.52).stroke({ color: f.color, width: 1.2, alpha: f.alpha * 0.8 });
+      } else {
+        fg.ellipse(f.x, f.y, f.radius, f.radius * 0.65).fill({ color: f.color, alpha: f.alpha * 0.55 });
+      }
+    });
+
+    // A1 directional hit particles + A2 caster motes + A9 click ripples
+    this.fxEngine.hitFeedback.particles.forEachActive((p) => {
+      fw.circle(p.x, p.y, p.size).fill({ color: p.color, alpha: p.alpha });
+    });
+
+    this.fxEngine.deathFx.motes.forEachActive((m) => {
+      fw.circle(m.x, m.y, m.radius * 1.8).fill({ color: m.color, alpha: m.alpha * 0.25 });
+      fw.circle(m.x, m.y, m.radius).fill({ color: m.color, alpha: m.alpha * 0.9 });
+    });
+
+    this.fxEngine.cursorTarget.ripples.forEachActive((rp) => {
+      fw.ellipse(rp.x, rp.y, rp.radius, rp.radius * 0.52).stroke({ color: rp.color, width: 1.6, alpha: rp.alpha });
+    });
+
+    // A4 spell ground light bursts + A10 loot beam additive halos
+    this.fxEngine.spellVfx.lightBursts.forEachActive((b) => {
+      fa.ellipse(b.x, b.y, b.currentRadius, b.currentRadius * 0.6).fill({ color: b.color, alpha: b.alpha * 0.22 });
+      fa.ellipse(b.x, b.y, b.currentRadius * 0.45, b.currentRadius * 0.28).fill({ color: b.coreColor, alpha: b.alpha * 0.35 });
+    });
+
+    this.fxEngine.lootDrop.beams.forEachActive((beam) => {
+      if (!this.fxEngine.lootDrop.isRarityVisible(beam.rarity)) return;
+      fa.ellipse(beam.x, beam.y, beam.width * 1.4, beam.width * 0.6).fill({ color: beam.color, alpha: beam.alpha * 0.22 });
+    });
   }
 }

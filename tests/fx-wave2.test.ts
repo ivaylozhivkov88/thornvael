@@ -1,10 +1,16 @@
-import { describe, expect, it, vi } from 'vitest';
+import { Sprite } from 'pixi.js';
+import { afterEach, describe, expect, it, vi } from 'vitest';
+import { setAtmosphereReducedMotion } from '../src/atmosphere';
 import {
   type Canvas2DLike,
   FxEngine,
   getLightingBiomeProfile,
   lerpRgbColor,
 } from '../src/fx';
+import { generateMap, TILE } from '../src/map';
+import { MAX_ZOOM, MIN_ZOOM, Renderer } from '../src/render';
+import { Kind } from '../src/sim/combat';
+import { FP, Sim } from '../src/sim/sim';
 
 function createMockCtx(): Canvas2DLike & {
   ops: string[];
@@ -290,5 +296,156 @@ describe('FxEngine Wave 2 Facade Integration', () => {
 
     engine.clear();
     expect(engine.getStats().spellLights).toBe(0);
+  });
+});
+
+describe('Renderer Live FxEngine Integration (A1-A10)', () => {
+  afterEach(() => {
+    setAtmosphereReducedMotion(null);
+  });
+
+  it('wires Renderer quality, biome, region grade, zoom clamping, and intro pan to FxEngine', () => {
+    setAtmosphereReducedMotion(false);
+    const map = generateMap(7);
+    const renderer = new Renderer({} as HTMLCanvasElement, map);
+
+    expect(renderer.fxEngine.dynamicLighting.isEnabled()).toBe(true);
+
+    renderer.setBiome('crypt');
+    expect(renderer.fxEngine.dynamicLighting.getBiome()).toBe('crypt');
+    expect(renderer.fxEngine.regionGrade.getCurrentGrade().biome).toBe('crypt');
+
+    renderer.setRegionContext({ biome: 'volcanic', region: 'Cinder Throne', weather: 'ash' });
+    expect(renderer.fxEngine.regionGrade.getTargetGrade().id).toBe('caldera:cinder-throne:ash');
+
+    renderer.setQuality(0);
+    expect(renderer.fxEngine.getConfig().quality).toBe('low');
+    expect(renderer.fxEngine.dynamicLighting.isEnabled()).toBe(false);
+
+    renderer.setQuality(2);
+    expect(renderer.fxEngine.getConfig().quality).toBe('high');
+    expect(renderer.fxEngine.dynamicLighting.isEnabled()).toBe(true);
+
+    // Zoom bounds via cameraPolish
+    renderer.zoomBy(-1, 400, 300);
+    expect(renderer.zoom).toBe(MIN_ZOOM);
+    for (let i = 0; i < 6; i++) renderer.zoomBy(1, 400, 300);
+    expect(renderer.zoom).toBe(MAX_ZOOM);
+
+    expect(renderer.triggerIntroPan(10, 10, 8, 40, 'Border Fords', 1200)).toBe(true);
+    expect(renderer.fxEngine.cameraPolish.getIntroState().active).toBe(true);
+  });
+
+  it('invokes hit, flash, death, footsteps, spell bursts, spell lights, loot arcs, cursor ripples, and reducedMotion inside draw()', () => {
+    setAtmosphereReducedMotion(false);
+    const map = generateMap(7);
+    const sim = new Sim(map, 7, [0, 1], {
+      kinds: [Kind.Hero, Kind.Warrior],
+      families: ['hero', 'hollow-knight'],
+      combat: true,
+    });
+    sim.x[0] = 8 * FP;
+    sim.y[0] = 40 * FP;
+    sim.x[1] = 10 * FP;
+    sim.y[1] = 40 * FP;
+    sim.visible.fill(1);
+    sim.explored.fill(1);
+
+    const renderer = new Renderer({} as HTMLCanvasElement, map);
+    const rAny = renderer as unknown as {
+      sprites: Sprite[];
+      baseTint: number[];
+      wasAlive: boolean[];
+    };
+    const s0 = new Sprite();
+    const s1 = new Sprite();
+    rAny.sprites = [s0, s1];
+    rAny.baseTint = [0xffd86a, 0xff6a5a];
+    rAny.wasAlive = [true, true];
+
+    renderer.centerOn(9, 40);
+
+    // Trigger combat hit on unit 1, hero spell cast, and area impact
+    sim.cb.tgt[0] = 1;
+    sim.cb.fx.push(
+      { type: 0, x: sim.x[1], y: sim.y[1], v: 24, el: 0 },
+      { type: 9, x: sim.x[0], y: sim.y[0], v: 1, el: 1 },
+      { type: 5, x: sim.x[1], y: sim.y[1], v: 25, el: 1 },
+    );
+
+    // Spawn loot bag and simulate movement + enemy death
+    sim.cb.bI[0] = 1;
+    sim.cb.bX[0] = 9 * FP;
+    sim.cb.bY[0] = 40 * FP;
+    sim.cb.hp[1] = 0;
+
+    const prevX = new Int32Array([8 * FP, 10 * FP]);
+    const prevY = new Int32Array([40 * FP, 40 * FP]);
+
+    renderer.draw(sim, prevX, prevY, 1, {
+      selected: new Set([0]),
+      box: null,
+      ping: { x: 11, y: 40, age: 0.05 },
+      hover: { id: 0, ok: false },
+      aim: null,
+    });
+
+    expect(renderer.fxEngine.hitFeedback.particles.activeCount).toBeGreaterThan(0);
+    expect(renderer.fxEngine.hitFeedback.isFlashing(1)).toBe(true);
+    expect(renderer.fxEngine.deathFx.bones.activeCount).toBeGreaterThan(0);
+    expect(renderer.fxEngine.deathFx.decals.activeCount).toBeGreaterThan(0);
+    expect(renderer.fxEngine.spellVfx.lightBursts.activeCount).toBeGreaterThan(0);
+    expect(renderer.fxEngine.dynamicLighting.spellLights.activeCount).toBeGreaterThan(0);
+    expect(renderer.fxEngine.cursorTarget.ripples.activeCount).toBe(1);
+    expect(renderer.fxEngine.lootDrop.getDrop('b0:1')).toBeDefined();
+    expect(
+      Math.hypot(
+        renderer.fxEngine.cameraPolish.getRecoilOffset().x,
+        renderer.fxEngine.cameraPolish.getRecoilOffset().y,
+      ),
+    ).toBeGreaterThan(0);
+
+    // Step movement across 2 frames to cross stride threshold for footsteps (A3)
+    sim.moving[0] = 1;
+    sim.x[0] = 9 * FP;
+    prevX[0] = 9 * FP;
+    renderer.draw(sim, prevX, prevY, 1, {
+      selected: new Set([0]),
+      box: null,
+      ping: null,
+      hover: null,
+      aim: null,
+    });
+    expect(renderer.fxEngine.footsteps.footsteps.activeCount).toBeGreaterThan(0);
+
+    // Alive hit target gets white flash tint on sprite
+    sim.cb.hp[1] = 50;
+    rAny.wasAlive[1] = true;
+    sim.cb.fx.push({ type: 0, x: sim.x[1], y: sim.y[1], v: 12, el: 0 });
+    renderer.draw(sim, prevX, prevY, 1, {
+      selected: new Set([0]),
+      box: null,
+      ping: null,
+      hover: { id: 1, ok: true },
+      aim: null,
+    });
+    expect(s1.tint).toBe(0xffffff);
+    expect(renderer.fxEngine.cursorTarget.state).toBe('attack');
+
+    // Reduced motion sync inside draw() zeroes recoil & intro pan
+    renderer.triggerIntroPan(2, 2, 9, 40, 'Border Fords', 1500);
+    setAtmosphereReducedMotion(true);
+    renderer.draw(sim, prevX, prevY, 1, {
+      selected: new Set([0]),
+      box: null,
+      ping: null,
+      hover: null,
+      aim: null,
+    });
+    expect(renderer.fxEngine.getConfig().reducedMotion).toBe(true);
+    expect(renderer.fxEngine.cameraPolish.getTotalOffset()).toEqual({ x: 0, y: 0 });
+    expect(renderer.fxEngine.hitFeedback.getShake().trauma).toBe(0);
+    // Keep unused TILE import clean if needed
+    expect(TILE).toBe(32);
   });
 });

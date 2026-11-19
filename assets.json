@@ -5806,6 +5806,48 @@
       "license": "own",
       "source": "tools/audio-gen-wave2.py",
       "note": "Map 4 Ending B theme (Mantle of the Living Ember) loopable C# Phrygian Dominant"
+    },
+    {
+      "path": "public/wiki/minimaps/forest.png",
+      "license": "own",
+      "source": "tools/make-wiki-minimaps.mjs",
+      "note": "Generated seeded skirmish minimap for the forest biome"
+    },
+    {
+      "path": "public/wiki/minimaps/marsh.png",
+      "license": "own",
+      "source": "tools/make-wiki-minimaps.mjs",
+      "note": "Generated seeded skirmish minimap for the marsh biome"
+    },
+    {
+      "path": "public/wiki/minimaps/desert.png",
+      "license": "own",
+      "source": "tools/make-wiki-minimaps.mjs",
+      "note": "Generated seeded skirmish minimap for the desert biome"
+    },
+    {
+      "path": "public/wiki/minimaps/crypt.png",
+      "license": "own",
+      "source": "tools/make-wiki-minimaps.mjs",
+      "note": "Generated seeded skirmish minimap for the crypt biome"
+    },
+    {
+      "path": "public/wiki/minimaps/highlands.png",
+      "license": "own",
+      "source": "tools/make-wiki-minimaps.mjs",
+      "note": "Generated seeded skirmish minimap for the highlands biome"
+    },
+    {
+      "path": "public/wiki/minimaps/volcanic.png",
+      "license": "own",
+      "source": "tools/make-wiki-minimaps.mjs",
+      "note": "Generated seeded skirmish minimap for the volcanic biome"
+    },
+    {
+      "path": "public/wiki/minimaps/oasis.png",
+      "license": "own",
+      "source": "tools/make-wiki-minimaps.mjs",
+      "note": "Generated seeded skirmish minimap for the oasis biome"
     }
   ]
 }
