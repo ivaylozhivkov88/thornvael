@@ -81,7 +81,9 @@ for (const [label, descriptor] of [
 
       await page.evaluate(() => navigator.serviceWorker.ready.then(() => true));
       await page.reload();
-      await page.waitForFunction(() => navigator.serviceWorker.controller !== null && Boolean((window as GameWindow).__game));
+      await page.waitForFunction(
+        () => navigator.serviceWorker.controller !== null && Boolean((window as GameWindow).__game),
+      );
 
       await context.setOffline(true);
       try {
@@ -98,7 +100,9 @@ for (const [label, descriptor] of [
 }
 
 test.describe('Act 1 Campaign Flow E2E', () => {
-  test('Main Menu -> Hero Creation -> Act 1 Mission 1 -> Victory -> Thornwick Town -> World Map -> Mission 2', async ({ page }) => {
+  test('Main Menu -> Hero Creation -> Act 1 Mission 1 -> Victory -> Thornwick Town -> World Map -> Mission 2', async ({
+    page,
+  }) => {
     const errors: string[] = [];
     page.on('pageerror', (e) => errors.push(e.message));
     page.on('console', (msg) => {

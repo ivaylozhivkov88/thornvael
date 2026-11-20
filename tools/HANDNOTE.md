@@ -121,3 +121,41 @@ Tune FAMILY_VISUALS in src/render.ts (~line 121) via ?art=1 (dev server thornvae
 | Step | Status | Commit | Notes |
 |---|---|---|---|
 | Streamline Main Menu -> Hero Creation (`src/shell.ts` `createChar`, `startCampaign`, `title`, `?menu=map` routing) -> Act 1 Mission 1 (`m01-blood-at-the-ford`) -> Victory/Defeat -> Thornwick Town (`town-thornwick`) & World Map carryover (`src/main.ts` `await persistChar`, `endNode`, `showVictoryScreen`, `toMap`, `withCharParam`, `#quest-all-missions`, `smart()` town tap) + guard empty speaker tokens (`src/missioncontent.ts` `prettySpeaker`) + add `Act 1 Campaign Flow E2E` (`tests/pwa-smoke.spec.ts`) | **DONE & PUSHED** | `feat(campaign)` | `npm run build` PASS (`dist/sw.js` 562 entries / `8773.43 KiB`); `npx tsc --noEmit` + `tsconfig.sw.json` PASS; `node tools/check-repo.mjs` PASS (`1650` files); `npm run check:atlases` PASS; Vitest campaign/flow/town/mission suites (`13/13` files, `132/132` tests PASS); Playwright Chromium smoke (`playwright.smoke.config.ts --project=chromium`: `13/13` tests PASS incl. `Act 1 Campaign Flow E2E`). |
+
+
+## QUOTA PAUSE HANDNOTE & RESUME SPEC (2026-11-20 06:23 UTC+2)
+**Trigger**: Gemini 4 Argon quota reached 1% safety margin (resets in 6d 7h). Claude/GPT at 0%. Immediate stabilization, commit & pause per `Strict Limit Safety Margin Rule`.
+
+### 1. Current State & CI Investigation
+- **Commit `f30d17e`**: CI failed on GitHub Actions (`validate` job: Biome formatting check failed on `tests/pwa-smoke.spec.ts`).
+- **Biome Fix**: Locally formatted `tests/pwa-smoke.spec.ts` via `@biomejs/biome check --write`. QA formatting check now passes cleanly (0 errors across all 7 QA files).
+- **WebKit Smoke Test Audit (`playwright.smoke.config.ts --project=webkit`)**:
+  - Tests 1–9 and 11 passed (skirmish seeds, expedition telemetry, shell navigation).
+  - Tests 10 & 12 (Mobile offline reload): Failed due to `no-response: no-response :: [{"url":".../townart/portraits/npc-warden-hale.jpg", "error":{}}]` and `merc-*.jpg`. The Service Worker runtime cache for `townart/**` had not yet fetched these portraits before `setOffline(true)`.
+  - Test 13 (`Act 1 Campaign Flow E2E`): Timed out at 60s under WebKit execution speed.
+- **Uncalled Code Audit (`tools/audit-imports.mjs`)**:
+  - `src/fx/`: 100% wired (all 12 files imported by `render.ts`, `world-overlays.ts`, `camera-controller.ts`, `lighting-pass.ts`).
+  - `src/items/`: 100% wired (all 5 files imported by 28+ files in `sim/`, `render/`, `shell/`, `ui/`).
+  - `src/skills/`: `engine.ts`, `trees.ts`, `types.ts` uncalled from outside.
+  - `src/sim/ai/`: `boss-phases.ts`, `companion-orders.ts`, `dungeon-layout.ts`, `elite-director.ts`, `shrines-events.ts`, `skirmish-modes.ts` uncalled from outside.
+
+### 2. Auto-Resume Next Steps (Immediately upon Quota Reset / Next Wakeup)
+1. **Fix Offline Portraits in `src/sw.ts` / `tests/pwa-smoke.spec.ts`**:
+   - In `src/sw.ts`: Handle `townart/**` image fetch failures when offline gracefully (return empty transparent PNG/SVG or 204 instead of throwing unhandled Workbox `no-response` error), or warmup required portraits in `pwa-smoke.spec.ts` prior to `context.setOffline(true)`.
+   - In `tests/pwa-smoke.spec.ts`: Increase Act 1 Flow test timeout for WebKit (`test.setTimeout(120000)`).
+2. **Commit & Push WebKit & Biome fixes**:
+   - `git add tests/pwa-smoke.spec.ts src/sw.ts tools/HANDNOTE.md`
+   - `git commit -m "fix(ci): format pwa smoke test and handle offline portrait fallback" --trailer "Co-Authored-By: Gemini <noreply@google.com>"`
+   - `git push origin main`
+   - Confirm via `gh run list --limit 6 --json headSha,name,status,conclusion` that CI is green (`success`).
+3. **Step 2 (Wire Uncalled Code)**:
+   - Wire `src/skills/{engine,trees,types}.ts` into `src/heroui.ts` or `src/spellbookui.ts`.
+   - Wire `src/sim/ai/{boss-phases,companion-orders,elite-director,shrines-events,skirmish-modes}.ts` into `src/sim/combat.ts` or `src/mission.ts`.
+   - Document table in `HANDNOTE.md`: module -> file where wired -> commit hash.
+4. **Step 3 (Live Browser Verification)**:
+   - Run `npm run build && npm run preview`.
+   - Walk through Main Menu -> Single Player -> Hero Creation -> BEGIN CAMPAIGN -> Mission 1 -> Victory -> Thornwick Town -> Mission 2 on Chromium.
+   - Verify `0` console errors and report observed screens.
+5. **Step 4 (Final CI & Deploy Green Gate)**:
+   - Run all checks (`tsc`, `vitest`, `check-repo`, `check-text`, `check:atlases`, `playwright`).
+   - Push and wait until `gh run list` shows BOTH `CI` and `Deploy` with `success`.
