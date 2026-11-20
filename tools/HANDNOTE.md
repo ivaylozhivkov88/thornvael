@@ -159,3 +159,23 @@ Tune FAMILY_VISUALS in src/render.ts (~line 121) via ?art=1 (dev server thornvae
 5. **Step 4 (Final CI & Deploy Green Gate)**:
    - Run all checks (`tsc`, `vitest`, `check-repo`, `check-text`, `check:atlases`, `playwright`).
    - Push and wait until `gh run list` shows BOTH `CI` and `Deploy` with `success`.
+
+### Lead CI & Integration Engineer — WebKit Smoke Fixes & Module Wiring (2026-11-20)
+- **WebKit Offline Portrait Fix (`vite.config.ts`, `tests/pwa-smoke.spec.ts`)**:
+  - Root cause (Tests 10 & 12): `vite.config.ts` previously ignored all `townart/**`, so `npc-warden-hale.jpg` and `merc-*.jpg` (fetched lazily after `loadMercLines()`) were not yet cached before `context.setOffline(true)` in WebKit, causing Workbox `no-response` `pageerror`s.
+  - Fix: Explicitly precache `townart/portraits/npc-warden-hale.jpg` and `townart/portraits/merc-*.jpg` in `vite.config.ts` `VitePWA.injectManifest` (`globPatterns` + `globIgnores` excluding non-Hale `npc-*`) and wait for `Array.from(document.images).every((img) => img.complete)` in `tests/pwa-smoke.spec.ts` before `setOffline(true)`.
+- **WebKit Act 1 E2E Race Fix (`tests/pwa-smoke.spec.ts`)**:
+  - Root cause (Test 13): In `thornwick-market.map.json`, `msg.1` (`Reeve Marlow`) fires on tick 1 after dismissing `msg.0` (`Warden Hale`). `missionUi.update(sim)` polls asynchronously, so exiting the dismissal loop at `sim.tick >= 1 && !contBtn.isVisible()` let Reeve Marlow's `#gothic-dialogue` pop up behind `.sheet.town` and intercept `#btn-missions.click()`.
+  - Fix: Wait for `(g?.sim.tick ?? 0) >= 2 && (g?.sim.script?.st.msgs.length ?? 0) >= 2` and both `contBtn` and `#gothic-dialogue` hidden before continuing (no timeout inflation needed).
+- **Wired Uncalled Modules**:
+
+| Module | Wired Into | Entrypoint / Call | Commit |
+|---|---|---|---|
+| `src/skills/engine.ts` | `src/heroui.ts` | `createSkillTreeState`, `computePassiveBonuses`, `getTotalAllocatedPoints` in `HeroUi.renderStats` | `fix(ci,wiring)` (this commit) |
+| `src/skills/trees.ts` | `src/heroui.ts` | `getSkillTreeForClass` in `HeroUi.renderStats` | `fix(ci,wiring)` (this commit) |
+| `src/skills/types.ts` | `src/heroui.ts` | `type SkillClass`, `type SkillTreeState` in `HeroUi.renderStats` | `fix(ci,wiring)` (this commit) |
+| `src/sim/ai/boss-phases.ts` | `src/mission.ts` | `BOSS_PROFILES`, `BossPhaseController`, `type CampaignBossId` in `initMissionDirectors` | `fix(ci,wiring)` (this commit) |
+| `src/sim/ai/companion-orders.ts` | `src/mission.ts` | `CompanionController` in `initMissionDirectors` | `fix(ci,wiring)` (this commit) |
+| `src/sim/ai/elite-director.ts` | `src/mission.ts` | `EliteDirector` in `initMissionDirectors` | `fix(ci,wiring)` (this commit) |
+| `src/sim/ai/shrines-events.ts` | `src/mission.ts` | `WORLD_SHRINE_KINDS`, `WorldEventsDirector` in `initMissionDirectors` | `fix(ci,wiring)` (this commit) |
+| `src/sim/ai/skirmish-modes.ts` | `src/mission.ts` | `DIFFICULTY_TIERS`, `SkirmishModeController` in `initMissionDirectors` | `fix(ci,wiring)` (this commit) |

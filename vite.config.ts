@@ -30,8 +30,19 @@ export default defineConfig({
       filename: 'sw.ts',
       injectManifest: {
         maximumFileSizeToCacheInBytes: 3 * 1024 * 1024,
-        globPatterns: ['**/*.{js,css,html,png,svg,json}'],
-        globIgnores: ['chapter1-manifest.json', 'sprites/**', 'townart/**'],
+        globPatterns: [
+          '**/*.{js,css,html,png,svg,json}',
+          'townart/portraits/npc-warden-hale.jpg',
+          'townart/portraits/merc-*.jpg',
+        ],
+        globIgnores: [
+          'chapter1-manifest.json',
+          'sprites/**',
+          'townart/*',
+          'townart/doll/**',
+          'townart/mon/**',
+          'townart/portraits/npc-!(warden-hale).jpg',
+        ],
       },
       includeAssets: ['icons/*.png'],
       manifest: {

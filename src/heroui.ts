@@ -1,5 +1,8 @@
 import { getItemFlavor } from './missioncontent';
 import { getItemLore } from './codex';
+import { computePassiveBonuses, createSkillTreeState, getTotalAllocatedPoints } from './skills/engine';
+import { getSkillTreeForClass } from './skills/trees';
+import type { SkillClass, SkillTreeState } from './skills/types';
 import { DEFS, Kind, M, MODN } from './sim/combat';
 import { DIFF_NAMES, INV_MAX, SKILL_NAMES, SKILL_TIP, SKILL_MAX, WHY_TEXT, blocker, derive, equipmentStamp, heroKnowsSpell, startState, totals, type EquipmentAction, type HeroState } from './sim/hero';
 import { equipmentAction, equipmentLayers, equipmentPreview, skillProgress, type EquipmentSource as Sel } from './hero-presentation';
@@ -1192,6 +1195,12 @@ export class HeroUi {
       this.ctx.tipOn(chip, tip);
       skillsStrip.append(chip);
     }
+    const treeCls: SkillClass = h.cls === 1 ? 'mage' : 'warrior';
+    const treeState: SkillTreeState = createSkillTreeState(treeCls, h.level ?? 1);
+    const treeNodes = getSkillTreeForClass(treeCls);
+    const treePassives = computePassiveBonuses(treeState);
+    const treeSpent = getTotalAllocatedPoints(treeState);
+    skillsStrip.dataset.skillTree = `${treeCls}:${treeNodes.length}:${treeSpent}/${treeState.availablePoints}:m${treePassives.meleeDmgPct}:f${treePassives.firePowPct}`;
     b.append(skillsStrip);
 
     return b;

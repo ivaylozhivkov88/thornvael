@@ -1,5 +1,11 @@
 import { loadDoc, type LoadedMission } from './mapdoc';
 import { MonsterAi, SkirmishDirector, placeScenario } from './sim/bot';
+import { Kind } from './sim/combat';
+import { BOSS_PROFILES, BossPhaseController, type CampaignBossId } from './sim/ai/boss-phases';
+import { CompanionController } from './sim/ai/companion-orders';
+import { EliteDirector } from './sim/ai/elite-director';
+import { WORLD_SHRINE_KINDS, WorldEventsDirector } from './sim/ai/shrines-events';
+import { DIFFICULTY_TIERS, SkirmishModeController } from './sim/ai/skirmish-modes';
 import { ScriptRuntime } from './sim/script';
 import { Sim } from './sim/sim';
 import { applyDynamicSessionRespawn } from './sim/respawn';
@@ -160,10 +166,50 @@ export const SKIRMISH_MAP_NAMES = new Set([
   'Grand Iron Estuary',
 ]);
 
+export interface MissionDirectors {
+  elites: EliteDirector;
+  events: WorldEventsDirector;
+  bosses: BossPhaseController[];
+  companions: CompanionController[];
+  skirmishMode: SkirmishModeController | null;
+  tierName: string;
+}
+
 export interface MissionGame {
   loaded: LoadedMission;
   sim: Sim;
   ai: MonsterAi;
+  directors?: MissionDirectors;
+}
+
+function initMissionDirectors(loaded: LoadedMission, sim: Sim, seed: number, useDirector: boolean): MissionDirectors {
+  const elites = new EliteDirector(seed);
+  const events = new WorldEventsDirector(seed);
+  const bosses: BossPhaseController[] = [];
+  const companions: CompanionController[] = [];
+
+  for (let i = 0; i < (loaded.doc.shrines?.length ?? 0); i++) {
+    const sh = loaded.doc.shrines![i];
+    events.addShrine(WORLD_SHRINE_KINDS[i % WORLD_SHRINE_KINDS.length], sh.x * 256, sh.y * 256);
+  }
+
+  for (let i = 0; i < sim.count; i++) {
+    const fam = loaded.scenario.families?.[i] as CampaignBossId | undefined;
+    if (fam && fam in BOSS_PROFILES) {
+      bosses.push(new BossPhaseController(fam, sim.cb.hpMax[i], seed + i));
+    }
+    const tier = loaded.scenario.tiers?.[i] ?? 0;
+    if (sim.team[i] === 1 && tier >= 3) {
+      elites.spawnPack([{ id: i, x: sim.x[i], y: sim.y[i], maxHp: sim.cb.hpMax[i] }], 1);
+    }
+    if (sim.team[i] === 0 && sim.cb.kind[i] !== Kind.Hero) {
+      const arch = sim.cb.kind[i] === Kind.Archer ? 'archer' : sim.cb.kind[i] === Kind.Mage ? 'mage' : 'warrior';
+      companions.push(new CompanionController(i, arch, sim.x[i], sim.y[i], sim.cb.hpMax[i]));
+    }
+  }
+
+  const skirmishMode = useDirector ? new SkirmishModeController('capture_shrines') : null;
+  return { elites, events, bosses, companions, skirmishMode, tierName: DIFFICULTY_TIERS[0].name };
 }
 
 /** Build the sim for a loaded mission: units placed, script attached, monsters on watch. */
@@ -201,7 +247,8 @@ export function createMission(
   const ai = useDirector
     ? new SkirmishDirector(structuredClone(scenario.packs), { seed, team: 1 })
     : new MonsterAi(structuredClone(scenario.packs));
-  return { loaded, sim, ai };
+  const directors = initMissionDirectors(loaded, sim, seed, useDirector);
+  return { loaded, sim, ai, directors };
 }
 
 /** The mission a page asked for: a built-in name, or `test` for the map the editor stored. Throws a readable error. */

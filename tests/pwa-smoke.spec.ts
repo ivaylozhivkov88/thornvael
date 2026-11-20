@@ -82,7 +82,10 @@ for (const [label, descriptor] of [
       await page.evaluate(() => navigator.serviceWorker.ready.then(() => true));
       await page.reload();
       await page.waitForFunction(
-        () => navigator.serviceWorker.controller !== null && Boolean((window as GameWindow).__game),
+        () =>
+          navigator.serviceWorker.controller !== null &&
+          Boolean((window as GameWindow).__game) &&
+          Array.from(document.images).every((img) => img.complete),
       );
 
       await context.setOffline(true);
@@ -179,9 +182,15 @@ test.describe('Act 1 Campaign Flow E2E', () => {
 
     await page.waitForURL(/\?mission=market&campaign=town-thornwick/);
     await page.waitForFunction(() => Boolean((window as GameWindow).__game));
-    for (let i = 0; i < 40; i++) {
-      const ticked = await page.evaluate(() => ((window as GameWindow).__game?.sim.tick ?? 0) >= 1);
-      if (ticked && !(await contBtn.isVisible())) break;
+    const dialogueModal = page.locator('#gothic-dialogue');
+    for (let i = 0; i < 60; i++) {
+      const ready = await page.evaluate(() => {
+        const g = (window as GameWindow).__game as unknown as
+          | { sim: { tick: number; script?: { st: { msgs: number[] } } } }
+          | undefined;
+        return (g?.sim.tick ?? 0) >= 2 && (g?.sim.script?.st.msgs.length ?? 0) >= 2;
+      });
+      if (ready && !(await contBtn.isVisible()) && !(await dialogueModal.isVisible())) break;
       if (await contBtn.isVisible()) {
         await contBtn.click();
         await page.waitForTimeout(40);
