@@ -36,7 +36,8 @@ async function boot(page: Page, query = 'crowd') {
   await page.waitForFunction(() => (window as unknown as { __game?: ControlsGame }).__game);
   // A fixed future instant avoids a race with a slow browser/automation roundtrip.
   await page.clock.pauseAt(new Date('2030-01-01T01:00:00Z'));
-  if (!(await state(page)).paused) await page.keyboard.press('Space');
+  await page.locator('#btn-controls').click();
+  if (!(await state(page)).paused) await page.keyboard.press('Pause');
 }
 
 async function units(page: Page, team = 0) {
@@ -107,9 +108,7 @@ async function playerDelta(page: Page, from: number) {
 }
 async function tick(page: Page) {
   const before = await state(page);
-  // Synthetic touch does not move DOM focus; Space may activate the last focused
-  // command button instead of the game's pause shortcut. Use the real Pause UI.
-  if (before.paused) await button(page, '#btn-pause');
+  if (before.paused) await page.keyboard.press('Pause');
   expect((await state(page)).paused).toBe(false);
   await page.clock.fastForward(160);
   expect((await state(page)).tick).toBeGreaterThan(before.tick);
@@ -219,16 +218,15 @@ test('groups 1–9 assign, replace, add, deduplicate, recall and center only on 
   }
 });
 
-test('orders: right-click, M and Move button dispatch exactly one move; cancellation dispatches none', async ({ page }) => {
+test('orders: right-click and M dispatch exactly one move; cancellation dispatches none', async ({ page }) => {
   await boot(page, 'hero=warrior,m,medium');
   const [a] = await units(page); expect(a).toBeTruthy(); await clickUnit(page, a.id);
-  for (const via of ['right', 'key', 'button']) {
+  for (const via of ['right', 'key']) {
     const p = await emptyPoint(page), tile = await targetTile(page, p);
     const before = await state(page);
     const pos = await page.evaluate((id) => (window as unknown as { __game: ControlsGame }).__game.posTiles(id), a.id);
-    if (via === 'key') await page.keyboard.press('m');
-    if (via === 'button') await button(page, '[data-ord="move"]');
-    if (via !== 'right') {
+    if (via === 'key') {
+      await page.keyboard.press('m');
       expect((await state(page)).armed).toBe('move'); await expect(page.locator('#armed')).toBeVisible();
     }
     await page.mouse.click(...p, { button: via === 'right' ? 'right' : 'left' });
@@ -268,7 +266,7 @@ test('orders: smart enemy attack, Alt forced move and Ctrl friendly attack prese
   await canvasPoint(page, approach); await page.mouse.click(...approach, { button: 'right' });
   await tick(page);
   for (let i = 0; i < 6 && (await units(page, 1)).length === 0; i++) await advanceClock(page, 1000);
-  await page.keyboard.press('Space');
+  await page.keyboard.press('Pause');
   const enemies = await units(page, 1); expect(enemies.length).toBeGreaterThan(0);
   const enemy = enemies[0]; await canvasPoint(page, enemy.p);
   const first = await state(page);
@@ -277,7 +275,7 @@ test('orders: smart enemy attack, Alt forced move and Ctrl friendly attack prese
   expect(expectedBox).toEqual([]); expect((await state(page)).selected).toEqual([]);
   await page.keyboard.press('1');
   await tick(page); expect(await playerDelta(page, first.log)).toEqual([]);
-  await page.keyboard.press('Space');
+  await page.keyboard.press('Pause');
   const target = (await units(page, 1))[0]; expect(target).toBeTruthy();
   for (const forced of [false, true]) {
     const before = await state(page), tile = await targetTile(page, target.p);
@@ -289,7 +287,7 @@ test('orders: smart enemy attack, Alt forced move and Ctrl friendly attack prese
       ? [{ type: 'move', ids: [a.id], ...tile, loose: false }]
       : [{ type: 'order', order: 'attack', ids: [a.id], target: target.id }]);
     expect((await state(page)).selected).toEqual([a.id]);
-    await page.keyboard.press('Space');
+    await page.keyboard.press('Pause');
   }
   const p = await page.evaluate((id) => (window as unknown as { __game: ControlsGame }).__game.unitScreen(id), ally.id);
   expect(p).not.toBeNull(); await canvasPoint(page, p!);
@@ -300,60 +298,45 @@ test('orders: smart enemy attack, Alt forced move and Ctrl friendly attack prese
   expect((await state(page)).selected).toEqual([a.id]);
 });
 
-test('orders: Defend rejects ground, accepts a friendly target; Hold and Still keys/buttons stay distinct', async ({ page }) => {
+test('orders: Defend rejects ground, accepts a friendly target; Hold and Still keys stay distinct', async ({ page }) => {
   await boot(page, 'hero=warrior,m,medium');
   const [a, ally] = await units(page); expect(a && ally).toBeTruthy(); await clickUnit(page, a.id);
-  for (const via of ['key', 'button']) {
-    const start = await state(page);
-    if (via === 'key') await page.keyboard.press('d'); else await button(page, '[data-ord="defend"]');
-    expect((await state(page)).armed).toBe('defend');
-    await expect(page.locator('#armed')).toBeVisible();
-    await page.mouse.click(...await emptyPoint(page));
-    await tick(page); expect(await playerDelta(page, start.log)).toEqual([]);
-    expect((await state(page)).armed).toBe('defend');
+  const start = await state(page);
+  await page.keyboard.press('d');
+  expect((await state(page)).armed).toBe('defend');
+  await expect(page.locator('#armed')).toBeVisible();
+  await page.mouse.click(...await emptyPoint(page));
+  await tick(page); expect(await playerDelta(page, start.log)).toEqual([]);
+  expect((await state(page)).armed).toBe('defend');
+  const before = await state(page);
+  const p = await page.evaluate((id) => (window as unknown as { __game: ControlsGame }).__game.unitScreen(id), ally.id);
+  expect(p).not.toBeNull(); await canvasPoint(page, p!); await page.mouse.click(...p!);
+  await tick(page);
+  expect(await playerDelta(page, before.log)).toEqual([{ type: 'order', order: 'defend', ids: [a.id], target: ally.id }]);
+  expect((await state(page)).armed).toBeNull();
+  for (const [key, order] of [['h', 'hold'], ['s', 'still']]) {
     const before = await state(page);
-    const p = await page.evaluate((id) => (window as unknown as { __game: ControlsGame }).__game.unitScreen(id), ally.id);
-    expect(p).not.toBeNull(); await canvasPoint(page, p!); await page.mouse.click(...p!);
+    await page.keyboard.press(key);
     await tick(page);
-    expect(await playerDelta(page, before.log)).toEqual([{ type: 'order', order: 'defend', ids: [a.id], target: ally.id }]);
-    expect((await state(page)).armed).toBeNull();
-    for (const [key, order] of [['h', 'hold'], ['s', 'still']]) {
-      const before = await state(page);
-      if (via === 'key') await page.keyboard.press(key); else await button(page, `[data-ord="${order}"]`);
-      await tick(page);
-      expect(await playerDelta(page, before.log)).toEqual([{ type: 'order', order, ids: [a.id] }]);
-      expect((await state(page)).selected).toEqual([a.id]);
-    }
+    expect(await playerDelta(page, before.log)).toEqual([{ type: 'order', order, ids: [a.id] }]);
+    expect((await state(page)).selected).toEqual([a.id]);
   }
 });
 
-test('touch (synthetic Pointer Events): tap, move, pan, Box+Add, same-kind double tap and hold-release safety', async ({ page }) => {
+test('touch (synthetic Pointer Events): tap, move, pan, same-kind double tap and hold-release safety', async ({ page }) => {
   await boot(page);
   const [a] = await units(page); expect(a).toBeTruthy();
   await tap(page, a.p); expect((await state(page)).selected).toEqual([a.id]);
   const ground = await emptyPoint(page), tile = await targetTile(page, ground), before = await state(page);
   await tap(page, ground); await tick(page);
   expect(await playerDelta(page, before.log)).toEqual([{ type: 'move', ids: [a.id], ...tile, loose: false }]);
-  await page.keyboard.press('Space');
+  await page.keyboard.press('Pause');
   const pan = await state(page), end: [number, number] = [ground[0] - 70, ground[1] + 30];
   await touch(page, 'down', ground); await touch(page, 'move', end); await touch(page, 'up', end);
   expect((await state(page)).tile).not.toEqual(pan.tile);
   await tick(page); expect(await playerDelta(page, pan.log)).toEqual([]);
-  await page.keyboard.press('Space');
+  await page.keyboard.press('Pause');
   const [b] = await units(page); expect(b).toBeTruthy();
-  await tap(page, b.p); expect((await state(page)).selected).toEqual([b.id]);
-  await button(page, '#btn-box'); await button(page, '#btn-add');
-  const lo: [number, number] = [b.p[0] - 8, b.p[1] - 8], hi: [number, number] = [b.p[0] + 8, b.p[1] + 8];
-  await touch(page, 'down', lo); await touch(page, 'move', hi); await touch(page, 'up', hi);
-  expect((await state(page)).selected).toEqual([b.id]);
-  const other = (await units(page)).find((u) => u.id !== b.id)!;
-  expect(other).toBeTruthy();
-  const otherLo: [number, number] = [other.p[0] - 8, other.p[1] - 8];
-  const otherHi: [number, number] = [other.p[0] + 8, other.p[1] + 8];
-  await canvasPoint(page, otherLo); await canvasPoint(page, otherHi);
-  await touch(page, 'down', otherLo); await touch(page, 'move', otherHi); await touch(page, 'up', otherHi);
-  expect((await state(page)).selected).toEqual(sorted([b.id, other.id]));
-  await button(page, '#btn-box'); await button(page, '#btn-add'); await page.clock.fastForward(400);
   await tap(page, b.p); await page.clock.fastForward(100); await tap(page, b.p);
   const sameKind = await page.evaluate((kind) => {
     const g = (window as unknown as { __game: ControlsGame }).__game;
@@ -374,10 +357,14 @@ test('touch (synthetic Pointer Events): tap, move, pan, Box+Add, same-kind doubl
   expect((await state(page)).selected).toEqual(hold.selected);
 });
 
-test('combat portraits, groups and commands have 44px width and height', async ({ page }) => {
-  // The peaceful crowd scene intentionally has no combat command/portrait UI.
+test('squad bar and primary combat HUD targets have >= 44px touch geometry', async ({ page }) => {
   await boot(page, 'hero=warrior,m,medium');
-  for (const [selector, count] of [['.portraits > button', 6], ['#groups > button', 9], ['#cmds > button', 10]] as const) {
+  const squadBoxes = await page.locator('.squad-bar .squad-member').evaluateAll((els) => els.map((el) => {
+    const r = el.getBoundingClientRect(); return [r.width, r.height];
+  }));
+  expect(squadBoxes.length).toBeGreaterThanOrEqual(4);
+  for (const [w, h] of squadBoxes) expect(Math.min(w, h), '.squad-member').toBeGreaterThanOrEqual(44);
+  for (const [selector, count] of [['#gothic-hud .belt-slot', 4], ['#gothic-hud .skill-slot', 2], ['#btn-run', 1]] as const) {
     const boxes = await page.locator(selector).evaluateAll((els) => els.map((el) => {
       const r = el.getBoundingClientRect(); return [r.width, r.height];
     }));
@@ -386,7 +373,7 @@ test('combat portraits, groups and commands have 44px width and height', async (
   }
 });
 
-test('group membership edits reset stale recall history for keyboard Set and button Add', async ({ page }) => {
+test('group membership edits reset stale recall history for keyboard Set and Add', async ({ page }) => {
   await boot(page);
   const [a, b] = await units(page); expect(a && b).toBeTruthy();
   for (const edit of ['set', 'add'] as const) {
@@ -394,11 +381,7 @@ test('group membership edits reset stale recall history for keyboard Set and but
     await page.keyboard.press('1'); await page.clock.fastForward(100);
     await clickUnit(page, b.id);
     if (edit === 'set') await page.keyboard.press('Control+1');
-    else {
-      await button(page, '#btn-set'); await button(page, '#btn-add');
-      await button(page, '#groups button:nth-child(1)');
-      await button(page, '#btn-set'); await button(page, '#btn-add');
-    }
+    else await page.keyboard.press('Shift+1');
     const before = (await state(page)).tile;
     await page.keyboard.press('1');
     expect.soft((await state(page)).selected, `${edit}: first recall selects edited membership`).toEqual(edit === 'set' ? [b.id] : sorted([a.id, b.id]));

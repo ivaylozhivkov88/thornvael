@@ -1230,6 +1230,7 @@ export class HeroUi {
       bt.dataset.k = `eq${s}`;
       if (id >= 0 && d) {
         bt.className = 'slot-btn slot-equipped';
+        bt.setAttribute('aria-label', `${SLOT_NAMES[s]}: ${d.name}`);
         bt.append(itemIconEl(id));
         const isSet = isSetItem(d.name);
         const rarity = isSet ? 'set' : (d.rarity ?? (d.tier >= 5 ? 'unique' : d.tier >= 4 ? 'rare' : d.tier >= 2 ? 'magic' : 'normal'));
@@ -1388,6 +1389,7 @@ export class HeroUi {
       const bt = el('button', 'slot-btn slot-equipped hero-pack-slot');
       bt.type = 'button';
       bt.dataset.k = `inv${n}`;
+      bt.setAttribute('aria-label', d.name);
       bt.append(itemIconEl(st.item));
       if (st.n > 1) {
         const countBadge = el('span', 'slot-stack-count', String(st.n));

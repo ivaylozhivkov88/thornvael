@@ -2,6 +2,7 @@ import { expect, test } from '@playwright/test';
 import { writeFileSync } from 'node:fs';
 import { readFileSync } from 'node:fs';
 import type { Renderer } from '../src/render';
+import { ALL_UNIT_ART } from '../src/sprites/units';
 
 type Metrics = ReturnType<Renderer['artMetrics']>;
 interface BudgetGame {
@@ -11,7 +12,7 @@ interface BudgetGame {
   stats(): { fps: number; drawMs: number; stepMs: number; worstMs: number; reportAtMs: number;
     quality: number; resolution: number; paused: boolean };
 }
-const FAMILIES = ['hero', 'archer', 'golem', 'warrior', 'mage', 'gnoll', 'imp'];
+const FAMILIES = ALL_UNIT_ART;
 
 test('desktop budget: 300 real animated units, shared atlas sources, bounded timings', async ({ page }, testInfo) => {
   // Fits the entire 64x48 world at zoom 1: a count of 300 isn't sufficient if most are culled.

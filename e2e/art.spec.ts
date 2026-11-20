@@ -1,5 +1,5 @@
 import { expect, test } from '@playwright/test';
-import { UNIT_ART } from '../src/sprites/units';
+import { ALL_UNIT_ART } from '../src/sprites/units';
 
 interface Art {
   unit: string; frame: string; colors: number[]; sources: number; source: number; filters: boolean; visible: boolean;
@@ -10,19 +10,19 @@ interface ArtGame {
   unitScreen(id: number): [number, number];
 }
 
-test('seven in-game models, all facings, independent palettes and shared batch sources', async ({ page }) => {
+test('all in-game models, all facings, independent palettes and shared batch sources', async ({ page }) => {
   const errors: string[] = [];
   page.on('pageerror', (e) => errors.push(e.message));
   await page.goto('/thornvael/?hero=warrior,m,medium&art=1');
   await page.waitForFunction(() => (window as unknown as { __game?: ArtGame }).__game?.previewArt()?.[0]?.frame);
   const art = () => page.evaluate(() => (window as unknown as { __game: ArtGame }).__game.previewArt());
   const first = await art();
-  expect(first.map((a) => a.unit)).toEqual([...UNIT_ART]);
-  expect(new Set(first.map((a) => a.source)).size).toBe(UNIT_ART.length);
+  expect(first.map((a) => a.unit)).toEqual([...ALL_UNIT_ART]);
+  expect(new Set(first.map((a) => a.source)).size).toBe(ALL_UNIT_ART.length);
   for (const a of first) { expect(a.sources).toBe(1); expect(a.filters).toBe(false); }
   for (let d = 0; d < 16; d++) {
     await page.getByLabel('Facing', { exact: true }).selectOption(String(d));
-    await expect.poll(async () => (await art()).map((a) => a.frame.split('/')[2])).toEqual(Array(UNIT_ART.length).fill(String((d + 12) % 16).padStart(2, '0')));
+    await expect.poll(async () => (await art()).map((a) => a.frame.split('/')[2])).toEqual(Array(ALL_UNIT_ART.length).fill(String((d + 12) % 16).padStart(2, '0')));
   }
   await page.getByLabel('Animation', { exact: true }).selectOption('1');
   await expect.poll(async () => (await art())[0].frame).toContain('/walk/');
@@ -56,11 +56,12 @@ test('seven in-game models, all facings, independent palettes and shared batch s
 test('normal hero animates after a mouse order and freezes on keyboard pause', async ({ page }) => {
   await page.goto('/thornvael/?hero=warrior,m,medium');
   await page.waitForFunction(() => (window as unknown as { __game?: ArtGame }).__game?.unitArt(0)?.frame);
+  await page.locator('#btn-controls').click();
   const [x, y] = await page.evaluate(() => (window as unknown as { __game: ArtGame }).__game.unitScreen(0));
   await page.mouse.click(x, y);
-  await page.mouse.click(x + 130, y - 60, { button: 'right' });
+  await page.mouse.click(x + 130, y + 30, { button: 'right' });
   await expect.poll(() => page.evaluate(() => (window as unknown as { __game: ArtGame }).__game.unitArt(0)?.frame)).toContain('/walk/');
-  await page.keyboard.press('Space');
+  await page.keyboard.press('Pause');
   const frozen = await page.evaluate(() => (window as unknown as { __game: ArtGame }).__game.unitArt(0)?.frame);
   await page.waitForTimeout(250);
   expect(await page.evaluate(() => (window as unknown as { __game: ArtGame }).__game.unitArt(0)?.frame)).toBe(frozen);

@@ -400,7 +400,7 @@ const rec = new GestureRecognizer({
   boxMode: () => boxMode,
   additive: () => addMode,
   aimMode: () => armed === 'spell',
-  dragSteer: () => !boxMode && armed === null,
+  dragSteer: () => controlMode === 'wasd' && !boxMode && armed === null,
 });
 const d2Controller = new D2InteractionController();
 
@@ -1244,11 +1244,11 @@ function handle(intents: Intent[]): void {
       }
       case 'move-to':
         if (armed) arm(null);
-        else if (activeRmbSkill !== null && sim.hero && alive(sim.hero.id)) {
+        else if (controlMode === 'wasd' && activeRmbSkill !== null && sim.hero && alive(sim.hero.id)) {
           const [wx, wy] = renderer.toTile(it.x, it.y);
           const targetFoe = pickUnit(sim.count, posEnemy, it.x, it.y, PICK);
           queue({ type: 'hero', op: 'skill', skill: activeRmbSkill, x: wx, y: wy, target: targetFoe >= 0 ? targetFoe : undefined });
-        } else if (activeRmbSpell !== null && casters(activeRmbSpell).length > 0) {
+        } else if (controlMode === 'wasd' && activeRmbSpell !== null && casters(activeRmbSpell).length > 0) {
           castAt(activeRmbSpell, it.x, it.y, PICK);
         } else {
           smart(it.x, it.y);

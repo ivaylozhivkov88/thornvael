@@ -28,22 +28,33 @@ async function storage(page: Page, campaign?: CampaignRecord): Promise<Record<st
 }
 
 async function newCampaign(page: Page, mage: boolean): Promise<CampaignRecord> {
-  await page.getByRole('button', { name: /New Game/i }).click();
-  const campfireChampion = page.locator(mage ? '.champion-f-mage, .champion-m-mage' : '.champion-m-warrior, .champion-f-warrior');
-  if (await campfireChampion.first().isVisible().catch(() => false)) {
-    await campfireChampion.first().click();
-    await page.getByRole('button', { name: mage ? 'Hard' : 'Easy', exact: true }).click();
-    await page.getByRole('button', { name: /(Begin Campaign|Start|Begin)/i }).click();
-  } else {
-    await page.getByRole('button', { name: mage ? 'Mage' : 'Warrior', exact: true }).click();
-    if (await page.getByRole('button', { name: mage ? 'Female' : 'Male', exact: true }).isVisible().catch(() => false)) {
-      await page.getByRole('button', { name: mage ? 'Female' : 'Male', exact: true }).click();
-    }
-    await page.getByRole('button', { name: mage ? 'Hard' : 'Easy', exact: true }).click();
-    await page.getByRole('button', { name: /(Start|Begin Campaign|Begin)/i }).click();
-  }
+  await page.getByRole('button', { name: 'Single Player', exact: true }).click();
+  await page.getByRole('button', { name: 'Create New Hero', exact: true }).click();
+  await page.getByRole('button', { name: 'Next', exact: true }).click();
+  await page.getByRole('button', { name: mage ? '🔮 Mage' : '⚔ Warrior', exact: true }).click();
+  await page.getByRole('button', { name: mage ? '♀ Female' : '♂ Male', exact: true }).click();
+  await page.getByRole('button', { name: mage ? 'Hard' : 'Easy', exact: true }).click();
+  await page.getByRole('button', { name: 'BEGIN CAMPAIGN', exact: true }).click();
+  const skipBtn = page.getByRole('button', { name: /^Skip/i });
+  if (await skipBtn.isVisible({ timeout: 3000 }).catch(() => false)) await skipBtn.click();
+  await page.waitForFunction(() => Boolean((window as unknown as { __game?: unknown }).__game));
+  await page.goto('/thornvael/?menu=map');
   await expect(page.locator('.sh-map')).toBeVisible();
   return (await storage(page)).campaign as CampaignRecord;
+}
+
+async function finishDialogue(page: Page): Promise<void> {
+  const begin = page.getByRole('button', { name: 'Begin the mission', exact: true });
+  const next = page.locator('#gothic-dialogue').getByRole('button', { name: 'Next', exact: true });
+  for (let i = 0; i < 12; i++) {
+    if (await begin.isVisible().catch(() => false)) {
+      await begin.click();
+      return;
+    }
+    if (await next.isVisible().catch(() => false)) await next.click();
+    else await page.waitForTimeout(100);
+  }
+  await begin.click();
 }
 
 function advanceToTown(record: CampaignRecord): CampaignRecord {
@@ -58,17 +69,16 @@ test('actual campaign save capture → New Game B → load A restores A and exit
   // Seed earned map progress only; capture and loading run through the actual production UI.
   await storage(page, a);
   await page.reload();
-  await page.getByRole('button', { name: 'Continue', exact: true }).click();
   await page.getByRole('button', { name: /Thornwick Market/ }).click();
   await page.getByRole('button', { name: 'Enter the town', exact: true }).click();
   await page.waitForFunction(() => window.__game);
-  await page.getByRole('button', { name: 'Begin the mission', exact: true }).click();
+  await finishDialogue(page);
   // A returning town visit waives the opening purse/dialogue; handle either opening flow.
-  await page.waitForFunction(() => window.__game!.sim.tick >= 8 || (window.__game!.sim.tick > 0 && !document.getElementById('mission')!.hidden));
-  if (await page.locator('#mission').isVisible()) {
-    await page.locator('#mission').getByRole('button', { name: 'Continue', exact: true }).click();
+  await page.waitForFunction(() => window.__game!.sim.tick >= 8 || (window.__game!.sim.tick > 0 && !document.getElementById('gothic-dialogue')!.hidden));
+  if (await page.locator('#gothic-dialogue').isVisible()) {
+    await page.locator('#gothic-dialogue').getByRole('button', { name: 'Continue', exact: true }).click();
   }
-  await expect(page.locator('#mission')).toBeHidden();
+  await expect(page.locator('#gothic-dialogue')).toBeHidden();
   await page.locator('#btn-saves').click();
   await page.locator('.saves input[type=text]').fill('Campaign A');
   await page.getByRole('button', { name: 'Save as new slot', exact: true }).click();
@@ -98,8 +108,8 @@ test('actual campaign save capture → New Game B → load A restores A and exit
   await expect(page.locator('#btn-missions')).toHaveText('To the map');
   // This uses the restored in-memory record too, proving the load did not just repair IndexedDB.
   await page.locator('#btn-missions').click();
-  // toMap navigates to the bare address, whose initial screen is the main menu.
-  await expect(page.getByRole('button', { name: 'New Game', exact: true })).toBeVisible();
+  // toMap navigates to the global campaign map.
+  await expect(page.locator('.sh-map')).toBeVisible();
   const afterTown = (await storage(page)).campaign as CampaignRecord;
   expect(afterTown.hero).toEqual(a.hero);
   expect(afterTown.progress.difficulty).toBe(2);
@@ -114,6 +124,7 @@ test('campaign-only Export All → fresh browser context → import UI restores 
   const a = advanceToTown(await newCampaign(page, true));
   await storage(page, a);
   await page.reload();
+  await page.getByRole('button', { name: 'Back', exact: true }).click();
   await page.getByRole('button', { name: 'Storage & Offline', exact: true }).click();
   const downloading = page.waitForEvent('download');
   await page.getByRole('button', { name: 'Export all saves', exact: true }).click();
@@ -131,6 +142,8 @@ test('campaign-only Export All → fresh browser context → import UI restores 
     const errors: string[] = [];
     restoredPage.on('pageerror', (e) => errors.push(e.message));
     await restoredPage.goto(new URL('/thornvael/', page.url()).href);
+    await restoredPage.getByRole('button', { name: 'Settings', exact: true }).click();
+    await restoredPage.getByRole('button', { name: 'Back', exact: true }).click();
     await expect(restoredPage.getByRole('button', { name: 'New Game', exact: true })).toBeVisible();
     expect(await storage(restoredPage)).toEqual({});
     await restoredPage.getByRole('button', { name: 'Load / Export Save', exact: true }).click();

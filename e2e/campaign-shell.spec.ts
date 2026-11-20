@@ -1,20 +1,22 @@
 import { expect, test } from '@playwright/test';
 
 test.describe('campaign shell, skirmish list, and story slideshows', () => {
-  test('opens 11-map skirmish selector and launches Blackwater Reach cleanly', async ({ page }) => {
+  test('opens 23-map skirmish selector and launches Blackwater Reach cleanly', async ({ page }) => {
     const errors: string[] = [];
     page.on('pageerror', (e) => errors.push(String(e)));
 
     await page.goto('/thornvael/');
-    await page.getByRole('button', { name: 'Skirmish (11 Maps)' }).click();
-    await expect(page.getByRole('heading', { name: 'Skirmish Maps' })).toBeVisible();
+    await page.getByRole('button', { name: 'Settings', exact: true }).click();
+    await page.getByRole('button', { name: 'Back', exact: true }).click();
+    await page.getByRole('button', { name: 'Skirmish (23 Maps)' }).click();
+    await expect(page.getByRole('heading', { name: /SKIRMISH PREPARATION/i })).toBeVisible();
 
-    await expect(page.locator('.sh-skirmish-opts button')).toHaveCount(7);
-    const mapButtons = page.locator('.sh-col > button');
-    // 11 skirmish map buttons + Back button = 12 buttons
-    await expect(mapButtons).toHaveCount(12);
+    await expect(page.locator('.sh-skirmish-config button')).toHaveCount(11);
+    const mapItems = page.locator('.sh-skirmish-modal .sh-map-item');
+    await expect(mapItems).toHaveCount(23);
 
-    await page.getByRole('button', { name: /Blackwater/i }).click();
+    await mapItems.filter({ hasText: /Blackwater/i }).click();
+    await page.getByRole('button', { name: /Deploy Hero to Battle/i }).click();
     await page.waitForFunction(() => Boolean((window as unknown as { __game?: { step: (n: number) => void } }).__game));
     await expect(page.locator('canvas').first()).toBeVisible();
     expect(errors).toEqual([]);
@@ -46,8 +48,15 @@ test.describe('campaign shell, skirmish list, and story slideshows', () => {
   test('renders non-overlapping global map nodes across Acts 1-4 on 844x390 mobile viewport', async ({ page }) => {
     await page.setViewportSize({ width: 844, height: 390 });
     await page.goto('/thornvael/');
-    await page.locator('#shell').getByRole('button', { name: 'New game' }).click();
-    await page.locator('#shell').getByRole('button', { name: /(Begin Campaign|Start|Begin)/i }).click();
+    await page.locator('#shell').getByRole('button', { name: 'Single Player', exact: true }).click();
+    await page.locator('#shell').getByRole('button', { name: 'Create New Hero', exact: true }).click();
+    await page.locator('#shell').getByRole('button', { name: 'Next', exact: true }).click();
+    await page.locator('#shell').getByRole('button', { name: 'BEGIN CAMPAIGN', exact: true }).click();
+    const skipBtn = page.getByRole('button', { name: /^Skip/i });
+    if (await skipBtn.isVisible({ timeout: 3000 }).catch(() => false)) await skipBtn.click();
+    await page.waitForFunction(() => Boolean((window as unknown as { __game?: unknown }).__game));
+    await page.goto('/thornvael/?menu=map');
+    await expect(page.locator('#shell .sh-map')).toBeVisible();
 
     for (const act of [1, 2, 3, 4]) {
       await page.locator('#shell .sh-bar').getByRole('button', { name: new RegExp(`^Act ${act}`) }).click();

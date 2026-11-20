@@ -17,13 +17,13 @@ const shield = itemData.items.findIndex((item) => item.name === 'Wooden Buckler'
 async function setup(page: Page) {
   await page.goto('/thornvael/?hero=warrior,m,medium');
   await page.waitForFunction(() => (window as unknown as GameWindow).__game);
-  if (!await page.evaluate(() => (window as unknown as GameWindow).__game.paused())) await page.keyboard.press('Space');
+  if (!await page.evaluate(() => (window as unknown as GameWindow).__game.paused())) await page.keyboard.press('Pause');
   await expect.poll(() => page.evaluate(() => (window as unknown as GameWindow).__game.paused())).toBe(true);
   await page.evaluate(({ helm, shield }) => {
     const { sim } = (window as unknown as GameWindow).__game;
     sim.hero!.inv.unshift({ item: helm, n: 1 }, { item: shield, n: 1 });
   }, { helm, shield });
-  await page.locator('#btn-hero').click();
+  await page.locator('#btn-inv').click();
 }
 
 const snapshot = (page: Page) => page.evaluate(() => {
@@ -64,8 +64,8 @@ test('mouse equip and keyboard fallback use one guarded command after a paused r
   await page.mouse.up();
   await expect(page.getByRole('status').filter({ hasText: 'Equipment order queued.' })).toBeVisible();
   await expect(page.locator('.hero-figure [data-layer="2"]')).toHaveCount(before.eq[Slot.Helm] < 0 ? 0 : 1);
-  await control(page, 'close').click();
-  await page.locator('#btn-hero').click();
+  await control(page, 'close-inv').click();
+  await page.locator('#btn-inv').click();
   await control(page, 'inv0').press('Enter');
   await expect(control(page, 'act-use')).toBeDisabled();
   expect(await snapshot(page)).toEqual(before);
@@ -123,20 +123,20 @@ test('a replaced drag source cannot enqueue an otherwise valid drop', async ({ p
 test.describe('finger input', () => {
   test.use({ hasTouch: true, isMobile: true, viewport: { width: 390, height: 844 } });
 
-  test('a swipe on a gear face scrolls the sheet without dragging', async ({ page, context }) => {
+  test('a swipe on a panel heading scrolls the sheet without dragging', async ({ page, context }) => {
+    await page.setViewportSize({ width: 390, height: 480 });
     await setup(page);
-    await page.locator('#sheet').evaluate((sheet) => {
-      sheet.querySelector<HTMLDetailsElement>('.hero-stats')!.open = true;
-      sheet.scrollTop = 0;
+    await page.locator('#sheet-body').evaluate((body) => {
+      body.scrollTop = 0;
     });
-    const from = await center(control(page, 'inv0'));
+    const from = await center(page.locator('#sheet-body .hero-pack-panel h3'));
     const cdp = await context.newCDPSession(page);
     await cdp.send('Input.dispatchTouchEvent', { type: 'touchStart', touchPoints: [from] });
     for (const delta of [20, 50, 90, 140]) {
       await cdp.send('Input.dispatchTouchEvent', { type: 'touchMove', touchPoints: [{ x: from.x, y: from.y - delta }] });
     }
     await cdp.send('Input.dispatchTouchEvent', { type: 'touchEnd', touchPoints: [] });
-    await expect.poll(() => page.locator('#sheet').evaluate((sheet) => sheet.scrollTop)).toBeGreaterThan(0);
+    await expect.poll(() => page.locator('#sheet-body').evaluate((body) => body.scrollTop)).toBeGreaterThan(0);
     await expect(page.locator('.hero-drag-ghost')).toHaveCount(0);
     await expect(control(page, 'act-use')).toHaveCount(0);
   });
@@ -144,17 +144,17 @@ test.describe('finger input', () => {
   test('a held finger can reach a slot above the pack in a short viewport', async ({ page, context }) => {
     await page.setViewportSize({ width: 390, height: 480 });
     await setup(page);
-    const source = control(page, 'drag-inv0');
+    const source = control(page, 'inv0');
     await source.scrollIntoViewIfNeeded();
-    const sheet = page.locator('#sheet');
-    const sheetBox = (await sheet.boundingBox())!;
-    const initialScroll = await sheet.evaluate((element) => element.scrollTop);
+    const sheetBody = page.locator('#sheet-body');
+    const bodyBox = (await sheetBody.boundingBox())!;
+    const initialScroll = await sheetBody.evaluate((element) => element.scrollTop);
     expect(initialScroll).toBeGreaterThan(0);
     const from = await center(source);
     const cdp = await context.newCDPSession(page);
     await cdp.send('Input.dispatchTouchEvent', { type: 'touchStart', touchPoints: [from] });
-    await cdp.send('Input.dispatchTouchEvent', { type: 'touchMove', touchPoints: [{ x: from.x, y: Math.ceil(sheetBox.y) + 8 }] });
-    await expect.poll(() => sheet.evaluate((element) => element.scrollTop)).toBe(0);
+    await cdp.send('Input.dispatchTouchEvent', { type: 'touchMove', touchPoints: [{ x: from.x, y: Math.ceil(bodyBox.y) + 8 }] });
+    await expect.poll(() => sheetBody.evaluate((element) => element.scrollTop)).toBe(0);
     const to = await center(control(page, 'eq2'));
     await cdp.send('Input.dispatchTouchEvent', { type: 'touchMove', touchPoints: [to] });
     await expect(page.locator('[data-equipment-target="eq2"]')).toHaveAttribute('data-drop-state', 'valid');
@@ -167,11 +167,13 @@ test.describe('finger input', () => {
     await setup(page);
     const cdp = await context.newCDPSession(page);
     async function drag(source: Locator, destination: Locator, cancel = false) {
+      await source.scrollIntoViewIfNeeded();
       const from = await center(source);
-      const to = await center(destination);
       const box = (await source.boundingBox())!;
       expect(Math.min(box.width, box.height)).toBeGreaterThanOrEqual(44);
       await cdp.send('Input.dispatchTouchEvent', { type: 'touchStart', touchPoints: [from] });
+      await destination.scrollIntoViewIfNeeded();
+      const to = await center(destination);
       await cdp.send('Input.dispatchTouchEvent', { type: 'touchMove', touchPoints: [to] });
       await expect(page.locator('.hero-drag-ghost')).toBeVisible();
       await expect(page.locator('[data-drop-state="valid"]')).toHaveCount(1);
@@ -180,14 +182,14 @@ test.describe('finger input', () => {
     }
 
     const before = await snapshot(page);
-    await drag(control(page, 'drag-inv1'), control(page, 'eq1'), true);
+    await drag(control(page, 'inv1'), control(page, 'eq1'), true);
     await step(page);
     expect(await snapshot(page)).toEqual(before);
-    await drag(control(page, 'drag-inv1'), control(page, 'eq1'));
+    await drag(control(page, 'inv1'), control(page, 'eq1'));
     expect(await snapshot(page)).toEqual(before);
     await step(page);
     await expect(page.locator('.hero-figure [data-layer="1"]')).toHaveAttribute('data-item', String(shield));
-    await drag(control(page, 'drag-eq1'), page.locator('#sheet .hero-return'));
+    await drag(control(page, 'eq1'), page.locator('#sheet .hero-return'));
     await step(page);
     await expect(page.locator('.hero-figure [data-layer="1"]')).toHaveCount(0);
     const after = await snapshot(page);

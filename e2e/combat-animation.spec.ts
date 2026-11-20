@@ -20,7 +20,8 @@ const step = (page: Page, n = 1) => page.evaluate((n) => (window as unknown as {
 async function boot(page: Page, hero = 'warrior', extra = '') {
   await page.goto(`/thornvael/?hero=${hero},m,medium${extra}`);
   await page.waitForFunction(() => (window as unknown as { __game?: Game }).__game?.unitArt(0));
-  await page.locator('#btn-pause').click();
+  await page.locator('#btn-controls').click();
+  await page.keyboard.press('Pause');
   expect(await page.evaluate(() => (window as unknown as { __game: Game }).__game.paused())).toBe(true);
 }
 async function selectHero(page: Page) {
@@ -54,7 +55,7 @@ test('real queued orders distinguish chase from strike; pause freezes the shippe
   expect(await read(page)).toEqual(frozen);
   await step(page, 5);
   expect((await read(page)).pose).toMatchObject({ clip: 'attack', age: 5, frame: 2 });
-  await page.locator('#btn-pause').click();
+  await page.keyboard.press('Pause');
   const refused = await page.evaluate(() => {
     try { (window as unknown as { __game: Game }).__game.step(); return false; } catch { return true; }
   });
@@ -64,9 +65,11 @@ test('real queued orders distinguish chase from strike; pause freezes the shippe
 test('spellbook casts drive the observer; a real insufficient-mana refusal creates no cast edge', async ({ page }) => {
   await boot(page, 'mage'); await selectHero(page);
   const cast = async () => {
-    await page.locator('#btn-spells').click();
-    // Healing is learned by a fresh hero; Fireball is not.
-    await page.locator('#book [data-spell="7"]').click();
+    await page.locator('#btn-spells-hud').click();
+    // Healing (Water / Cryomancy school) is learned by a fresh hero; Fireball is not.
+    await page.locator('.spellbook-modal .sphere-tab-btn').filter({ hasText: 'Cryomancy' }).click();
+    await page.locator('.spellbook-modal .spell-tree-node').filter({ hasText: 'Healing' }).click();
+    await page.locator('.spellbook-modal .dossier-btn.cast-btn').click();
     const point = await page.evaluate(() => {
       const g = (window as unknown as { __game: Game }).__game;
       return g.tile(...g.posTiles(0));

@@ -182,3 +182,55 @@ Tune FAMILY_VISUALS in src/render.ts (~line 121) via ?art=1 (dev server thornvae
 | `src/sim/ai/elite-director.ts` | `src/mission.ts` | `EliteDirector` in `initMissionDirectors` | `8ae48d2` |
 | `src/sim/ai/shrines-events.ts` | `src/mission.ts` | `WORLD_SHRINE_KINDS`, `WorldEventsDirector` in `initMissionDirectors` | `8ae48d2` |
 | `src/sim/ai/skirmish-modes.ts` | `src/mission.ts` | `DIFFICULTY_TIERS`, `SkirmishModeController` in `initMissionDirectors` | `8ae48d2` |
+
+---
+
+## 2026-11-20 08:55 — Quota Safety Pause & Complete State Handoff
+
+### 1. Commits Pushed in this Session
+- **`8ae48d2`**:
+  - WebKit offline portrait precache in `vite.config.ts` (`npc-warden-hale.jpg` + 24 `merc-*.jpg`).
+  - Fixed Reeve Marlow dialogue race condition (`tests/pwa-smoke.spec.ts`).
+  - Wired `src/skills` into `src/heroui.ts` and `src/sim/ai` into `src/mission.ts`.
+- **`6f229b9`**:
+  - Split `playwright-smoke` into parallel matrix jobs (`[chromium, webkit]`) in `.github/workflows/ci.yml`.
+  - Blocked redundant SW registration on 11 non-offline smoke tests (`serviceWorkers: 'block'`) and added WebGL cleanup in `afterEach`.
+  - Result: `validate` (`1m 48s`) and `playwright-smoke (chromium)` (`2m 49s`) passed 100% GREEN on GitHub Actions!
+
+### 2. Diagnosis of Current CI / Deploy Status
+- **CI WebKit Runner on Ubuntu**:
+  - `validate` and `playwright-smoke (chromium)` are both `✓ success`.
+  - `playwright-smoke (webkit)` exceeded the 20-minute timeout on Ubuntu because headless Linux uses software WebGL rendering via CPU (Mesa llvmpipe on 2 vCPUs), which makes 13 full PixiJS WebGL scenes crawl.
+  - **Fix needed in `playwright.smoke.config.ts` / `.github/workflows/ci.yml`**:
+    - For WebKit on Linux in CI: either increase `timeout-minutes` to 35 for the WebKit job, OR run WebKit with `--disable-gl-drawing-for-tests` / reduced viewport/resolution in `playwright.smoke.config.ts`, or shard the 13 tests across 2 workers.
+- **Deploy `e2e` Test Fixes (Staged / in working tree)**:
+  - `e2e/art.spec.ts`: Updated to expect `ALL_UNIT_ART` (which includes 4 bosses: `morvessa, gorrathul, vesperion, ashkarath`).
+  - `e2e/campaign-shell.spec.ts`: Updated to expect 23 skirmish maps instead of 11.
+  - `e2e/combat-animation.spec.ts`: Updated Cryomancy school tab name.
+  - `src/main.ts`: Guarded `dragSteer` with `controlMode === 'wasd'`.
+  - `src/heroui.ts`: Added accessible `aria-label`s on inventory/equipped slots.
+  - `src/paperdoll.ts`: Corrected scroller element bounding box.
+  - `src/render.ts`: `artMetrics()` now reports `ALL_UNIT_ART`.
+
+### 3. Verification State Before Quota Pause
+- `npm run typecheck` (`tsc --noEmit && tsc --noEmit -p tsconfig.sw.json`): **PASS (0 errors)**.
+- `node tools/check-repo.mjs`: **PASS (1651 files)**.
+- `node tools/check-text.mjs`: **PASS (971 keys, 0 errors)**.
+- `npm run check:atlases`: **PASS (PNG pixels & provenance OK)**.
+- Biome check on 7 QA files: **PASS (14ms, 0 errors)**.
+- Vitest suite: **PASS (129 files, 1017 tests green)**.
+
+### 4. Auto-Resume Next Steps (Immediately Upon Quota Reset)
+1. **Adjust WebKit CI Timeout / Sharding**:
+   - In `.github/workflows/ci.yml`, set `timeout-minutes: 35` for `playwright-smoke (webkit)`.
+2. **Commit and Push the E2E and UI Fixes**:
+   - `git add e2e/*.spec.ts src/heroui.ts src/main.ts src/paperdoll.ts src/render.ts .github/workflows/ci.yml tools/HANDNOTE.md`
+   - `git commit -m "fix(e2e): align test expectations with boss art, 23 skirmish maps, and Cryomancy tab" --trailer "Co-Authored-By: Gemini <noreply@google.com>"`
+   - `git push origin main`
+3. **Monitor CI & Deploy**:
+   - `gh run list --limit 6 --json headSha,name,status,conclusion`
+   - Wait until BOTH `CI` and `Deploy` show `status: "completed"`, `conclusion: "success"`.
+4. **Live Browser Walkthrough (Chromium)**:
+   - Run `npm run build && npm run preview` on `http://localhost:4173/thornvael/`.
+   - Verify: Main Menu -> Single Player -> Hero Creation -> Mission 1 -> Victory -> Thornwick Market -> Mission 2 (Whispers in the Fen).
+   - Verify 0 console errors and report observed screens.

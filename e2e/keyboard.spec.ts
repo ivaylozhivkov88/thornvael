@@ -26,9 +26,17 @@ test('typing i in the actual save name leaves Hero closed and the sheet open', a
   // Saving requires a loaded mission and a created hero, not the free-fight field.
   await page.goto('/thornvael/?mission=ford&hero=warrior,m,medium');
   await page.waitForFunction(() => (window as unknown as { __game?: KeyboardGame }).__game);
-  await page.getByRole('button', { name: 'Begin the mission', exact: true }).click();
-  await page.locator('#mission').getByRole('button', { name: 'Continue', exact: true }).click();
-  await expect(page.locator('#mission')).toBeHidden();
+  const begin = page.getByRole('button', { name: 'Begin the mission', exact: true });
+  const next = page.locator('#gothic-dialogue').getByRole('button', { name: 'Next', exact: true });
+  for (let i = 0; i < 12; i++) {
+    if (await begin.isVisible().catch(() => false)) {
+      await begin.click();
+      break;
+    }
+    if (await next.isVisible().catch(() => false)) await next.click();
+    else await page.waitForTimeout(100);
+  }
+  await expect(page.locator('#gothic-dialogue')).toBeHidden();
   await page.locator('#btn-saves').click();
   const name = page.locator('.saves input:not([type=file])');
   await name.fill('');
@@ -69,13 +77,13 @@ for (const kind of ['input', 'textarea', 'select', 'contenteditable', 'inherited
   });
 }
 
-test('holding Space pauses once; a fresh press resumes; repeated I does not retoggle Hero', async ({ page }) => {
-  await page.keyboard.down('Space');
+test('holding Pause pauses once; a fresh press resumes; repeated I does not retoggle Hero', async ({ page }) => {
+  await page.keyboard.down('Pause');
   expect((await game(page)).paused).toBe(true);
-  await page.keyboard.down('Space'); // Playwright marks a second down as repeat.
+  await page.keyboard.down('Pause'); // Playwright marks a second down as repeat.
   expect((await game(page)).paused).toBe(true);
-  await page.keyboard.up('Space');
-  await page.keyboard.press('Space');
+  await page.keyboard.up('Pause');
+  await page.keyboard.press('Pause');
   expect((await game(page)).paused).toBe(false);
   await page.keyboard.down('i');
   expect((await game(page)).heroOpen).toBe(true);
@@ -88,6 +96,7 @@ test('holding Space pauses once; a fresh press resumes; repeated I does not reto
 
 for (const interruption of ['keyup', 'blur', 'hidden']) {
   test(`held arrows pan continuously and stop after ${interruption}`, async ({ page }) => {
+    await page.locator('#btn-controls').click();
     const before = (await game(page)).tile;
     await page.keyboard.down('ArrowRight');
     await expect.poll(async () => (await game(page)).tile[0]).toBeLessThan(before[0]);
@@ -112,6 +121,7 @@ for (const interruption of ['keyup', 'blur', 'hidden']) {
 
 for (const interruption of ['blur', 'hidden']) {
   test(`${interruption} cancels an unfinished mouse selection before its delayed pointerup`, async ({ page }) => {
+    await page.locator('#btn-controls').click();
     const [x, y] = await page.evaluate(() => (window as unknown as { __game: KeyboardGame }).__game.unitScreen(0));
     await page.mouse.click(x, y);
     expect((await game(page)).selected).toEqual([0]);

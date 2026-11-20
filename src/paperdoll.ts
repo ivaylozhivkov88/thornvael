@@ -191,16 +191,17 @@ export class PaperdollController {
 
   private scrollDrag(drag: Drag, e: PointerEvent): void {
     cancelAnimationFrame(drag.scrollFrame);
-    const { top, bottom, left, right } = this.host.sheet.getBoundingClientRect();
+    const scroller = this.host.body;
+    const { top, bottom, left, right } = scroller.getBoundingClientRect();
     const { clientX: x, clientY: y } = e;
     if (x < left || x >= right || y < top || y >= bottom) return;
     const edge = 28;
     const delta = y < top + edge ? -6 : y >= bottom - edge ? 6 : 0;
     if (!delta) return;
     drag.scrollFrame = requestAnimationFrame(() => {
-      const before = this.host.sheet.scrollTop;
-      this.host.sheet.scrollTop += delta;
-      if (this.host.sheet.scrollTop !== before) this.moveDrag(e);
+      const before = scroller.scrollTop;
+      scroller.scrollTop += delta;
+      if (scroller.scrollTop !== before) this.moveDrag(e);
     });
   }
 

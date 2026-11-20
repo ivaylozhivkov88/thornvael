@@ -9,7 +9,7 @@ import { FP, type Sim } from './sim/sim';
 import { St } from './sim/spelldata';
 import { S } from './strings';
 import { getItemDef, Slot } from './sim/items';
-import { UnitAtlas, UnitSprite, ALL_UNIT_ART, UNIT_ART, FAMILY_ART, bossSpriteDef, type HeroWeaponVisual, HERO_ARMOUR_TINTS } from './sprites/units';
+import { UnitAtlas, UnitSprite, ALL_UNIT_ART, FAMILY_ART, bossSpriteDef, type HeroWeaponVisual, HERO_ARMOUR_TINTS } from './sprites/units';
 import { loadAllExtraAtlases, type ExtraAtlases } from './sprites/extra-atlases';
 import { ArtPreview } from './sprites/preview';
 import { AtlasOverlayPass, type RenderBossTelegraph } from './render/atlas-overlays';
@@ -956,7 +956,7 @@ export class Renderer {
 
   /** On-demand snapshot only; atlas bytes estimate RGBA storage, not total GPU/process memory. */
   artMetrics() {
-    const families: Record<string, number> = Object.fromEntries(UNIT_ART.map((u) => [u, 0]));
+    const families: Record<string, number> = Object.fromEntries(ALL_UNIT_ART.map((u) => [u, 0]));
     const sources = new Set<number>();
     let artSprites = 0;
     let visibleArtSprites = 0;
