@@ -220,17 +220,23 @@ Tune FAMILY_VISUALS in src/render.ts (~line 121) via ?art=1 (dev server thornvae
 - Biome check on 7 QA files: **PASS (14ms, 0 errors)**.
 - Vitest suite: **PASS (129 files, 1017 tests green)**.
 
-### 4. Auto-Resume Next Steps (Immediately Upon Quota Reset)
-1. **Adjust WebKit CI Timeout / Sharding**:
-   - In `.github/workflows/ci.yml`, set `timeout-minutes: 35` for `playwright-smoke (webkit)`.
-2. **Commit and Push the E2E and UI Fixes**:
-   - `git add e2e/*.spec.ts src/heroui.ts src/main.ts src/paperdoll.ts src/render.ts .github/workflows/ci.yml tools/HANDNOTE.md`
-   - `git commit -m "fix(e2e): align test expectations with boss art, 23 skirmish maps, and Cryomancy tab" --trailer "Co-Authored-By: Gemini <noreply@google.com>"`
+### 4. Progress Update (2026-11-20 09:18)
+- **Commit `72ef03d` Results**:
+  - `validate`: **SUCCESS** (1m 43s)
+  - `playwright-smoke (chromium)`: **SUCCESS** (4m 21s)
+  - `playwright-smoke (webkit)`: Hit 20m timeout on Ubuntu CPU Mesa llvmpipe rasterization (started at 07:04:13, hit timeout at 07:16:19).
+  - Increased `timeout-minutes: 35` in `.github/workflows/ci.yml`.
+  - Deploy `44691088514`: `build` **SUCCESS** (1m 48s), `e2e` in progress.
+
+### 5. Auto-Resume Next Steps (Immediately Upon Quota Reset)
+1. **Commit and Push `.github/workflows/ci.yml` and `tools/HANDNOTE.md`**:
+   - `git add .github/workflows/ci.yml tools/HANDNOTE.md`
+   - `git commit -m "ci(webkit): increase playwright-smoke timeout to 35m for Ubuntu software WebGL" --trailer "Co-Authored-By: Gemini <noreply@google.com>"`
    - `git push origin main`
-3. **Monitor CI & Deploy**:
-   - `gh run list --limit 6 --json headSha,name,status,conclusion`
+2. **Monitor Both GitHub Actions Runs**:
+   - `gh run list --limit 4 --json headSha,name,status,conclusion`
    - Wait until BOTH `CI` and `Deploy` show `status: "completed"`, `conclusion: "success"`.
-4. **Live Browser Walkthrough (Chromium)**:
+3. **Live Browser Walkthrough (Chromium)**:
    - Run `npm run build && npm run preview` on `http://localhost:4173/thornvael/`.
    - Verify: Main Menu -> Single Player -> Hero Creation -> Mission 1 -> Victory -> Thornwick Market -> Mission 2 (Whispers in the Fen).
-   - Verify 0 console errors and report observed screens.
+   - Check 0 console errors and report observed screens.
