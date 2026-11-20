@@ -240,3 +240,8 @@ Tune FAMILY_VISUALS in src/render.ts (~line 121) via ?art=1 (dev server thornvae
    - Run `npm run build && npm run preview` on `http://localhost:4173/thornvael/`.
    - Verify: Main Menu -> Single Player -> Hero Creation -> Mission 1 -> Victory -> Thornwick Market -> Mission 2 (Whispers in the Fen).
    - Check 0 console errors and report observed screens.
+
+## TODO (2026-11-20, from user): restore e2e as a deploy gate
+Deploy now publishes after `build` only; `e2e` is `continue-on-error` in `.github/workflows/deploy.yml` (private use, not public yet).
+Before going public: fix failing e2e specs (`#shell .sh-map` wait, duplicate "Healing" spell node selector, `.hero-drag-ghost`, paperdoll scrollTop, console issues), then set `needs: [build, e2e]` and remove `continue-on-error`.
+Also: `ci.yml` `cancel-in-progress: true` kills the slow WebKit job on every new push; remove it or keep WebKit non-blocking.
