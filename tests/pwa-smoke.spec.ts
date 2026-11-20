@@ -96,3 +96,134 @@ for (const [label, descriptor] of [
     });
   });
 }
+
+test.describe('Act 1 Campaign Flow E2E', () => {
+  test('Main Menu -> Hero Creation -> Act 1 Mission 1 -> Victory -> Thornwick Town -> World Map -> Mission 2', async ({ page }) => {
+    const errors: string[] = [];
+    page.on('pageerror', (e) => errors.push(e.message));
+    page.on('console', (msg) => {
+      if (msg.type() === 'error') errors.push(msg.text());
+    });
+
+    await page.goto('/thornvael/');
+    await page.getByRole('button', { name: /single player/i }).click();
+    await page.getByRole('button', { name: /create new hero/i }).click();
+    await page.locator('input.sh-input').fill('Aldric');
+    await page.getByRole('button', { name: /^next$/i }).click();
+
+    await page.getByRole('button', { name: /mage/i }).click();
+    await page.getByRole('button', { name: /female/i }).click();
+    await page.getByRole('button', { name: /begin campaign/i }).click();
+
+    const skipStory = page.getByRole('button', { name: /skip/i });
+    await expect(skipStory).toBeVisible();
+    await skipStory.click();
+
+    await page.waitForURL(/\?mission=ford&campaign=m01-blood-at-the-ford/);
+    await page.waitForFunction(() => Boolean((window as GameWindow).__game));
+
+    const contBtn = page.locator('.gothic-continue-btn');
+    for (let i = 0; i < 80; i++) {
+      const ticked = await page.evaluate(() => ((window as GameWindow).__game?.sim.tick ?? 0) >= 1);
+      if (ticked && !(await contBtn.isVisible())) break;
+      if (await contBtn.isVisible()) {
+        await contBtn.click();
+        await page.waitForTimeout(40);
+      } else {
+        await page.waitForTimeout(80);
+      }
+    }
+
+    await page.waitForFunction(() => ((window as GameWindow).__game?.sim.tick ?? 0) >= 1);
+    const missionState = await page.evaluate(() => {
+      const g = (window as GameWindow).__game as unknown as {
+        sim: { hero: { cls: number; female: boolean } | null; count: number; script?: { st: { status: number } } };
+      };
+      return {
+        heroCls: g.sim.hero?.cls,
+        heroFemale: g.sim.hero?.female,
+        unitCount: g.sim.count,
+        status: g.sim.script?.st.status,
+      };
+    });
+    expect(missionState.heroCls).toBe(1);
+    expect(missionState.heroFemale).toBe(true);
+    expect(missionState.unitCount).toBeGreaterThan(20);
+    expect(missionState.status).toBe(0);
+
+    await page.evaluate(() => {
+      const g = (window as GameWindow).__game as unknown as {
+        sim: { cb: { gold: number[]; hp: number[]; recount: (t: number[]) => void }; team: number[] };
+      };
+      g.sim.cb.gold[0] += 250;
+      g.sim.cb.hp[12] = 0;
+      g.sim.cb.recount(g.sim.team);
+    });
+
+    const townBtn = page.getByRole('button', { name: /return to thornwick market/i });
+    for (let i = 0; i < 40; i++) {
+      if (await townBtn.isVisible()) break;
+      if (await contBtn.isVisible()) {
+        await contBtn.click();
+        await page.waitForTimeout(40);
+      } else {
+        await page.waitForTimeout(100);
+      }
+    }
+    await expect(townBtn).toBeVisible({ timeout: 10000 });
+    await townBtn.click();
+
+    await page.waitForURL(/\?mission=market&campaign=town-thornwick/);
+    await page.waitForFunction(() => Boolean((window as GameWindow).__game));
+    for (let i = 0; i < 40; i++) {
+      const ticked = await page.evaluate(() => ((window as GameWindow).__game?.sim.tick ?? 0) >= 1);
+      if (ticked && !(await contBtn.isVisible())) break;
+      if (await contBtn.isVisible()) {
+        await contBtn.click();
+        await page.waitForTimeout(40);
+      } else {
+        await page.waitForTimeout(80);
+      }
+    }
+    await page.waitForFunction(() => ((window as GameWindow).__game?.sim.tick ?? 0) >= 1);
+
+    const townState = await page.evaluate(() => {
+      const g = (window as GameWindow).__game as unknown as {
+        sim: { hero: { cls: number } | null; cb: { gold: number[] }; towns: { def: { npcs?: { name: string }[] } }[] };
+      };
+      return {
+        cls: g.sim.hero?.cls,
+        gold: g.sim.cb.gold[0],
+        towns: g.sim.towns.length,
+        npcs: g.sim.towns[0]?.def.npcs?.map((n) => n.name) ?? [],
+      };
+    });
+    expect(townState.cls).toBe(1);
+    expect(townState.gold).toBeGreaterThanOrEqual(250);
+    expect(townState.towns).toBe(1);
+    expect(townState.npcs).toContain('Reeve Marlow');
+
+    await page.evaluate(() => {
+      const g = (window as GameWindow).__game as unknown as {
+        sim: { x: number[]; y: number[] };
+        townUi: { enter: (town: number, role: number) => boolean };
+      };
+      g.sim.x[0] = 15 * 256;
+      g.sim.y[0] = 9 * 256;
+      g.townUi.enter(0, 1);
+    });
+    await expect(page.locator('.sheet.town')).toBeVisible();
+    await page.locator('.sheet.town button', { hasText: /exit/i }).first().click();
+
+    await page.locator('#btn-missions').click();
+    await page.waitForURL(/\?menu=map/);
+    const fenNode = page.locator('.sh-node', { hasText: /whispers in the fen/i });
+    await expect(fenNode).toBeEnabled();
+    await fenNode.click();
+    await page.getByRole('button', { name: /go/i }).click();
+    await page.waitForURL(/\?mission=fen&campaign=m02-whispers-in-the-fen/);
+    await page.waitForFunction(() => Boolean((window as GameWindow).__game));
+
+    expect(errors).toEqual([]);
+  });
+});

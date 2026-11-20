@@ -600,6 +600,11 @@ const activeWaypoints = new Set<string>();
 const waypointModal = new WaypointTravelModal();
 let isTransitioning = false;
 
+const withCharParam = (url: string): string =>
+  activeChar && !url.includes('char=')
+    ? `${url}${url.includes('?') ? '&' : '?'}char=${encodeURIComponent(activeChar.id)}`
+    : url;
+
 async function castTownPortal(): Promise<void> {
   if (outcome) return;
   if (!sim.hero || !alive(sim.hero.id)) {
@@ -638,7 +643,7 @@ async function castTownPortal(): Promise<void> {
     crec.carry = carry;
     await writeRecord(crec);
     await deleteSave(AUTO).catch(() => undefined);
-    location.assign(`${nodeUrl(townNode)}&tpReturn=1`);
+    location.assign(withCharParam(`${nodeUrl(townNode)}&tpReturn=1`));
   }
 }
 
@@ -655,7 +660,7 @@ async function returnThroughTownPortal(): Promise<void> {
   crec.carry = carry;
   await writeRecord(crec);
   await deleteSave(AUTO).catch(() => undefined);
-  location.assign(`${nodeUrl(targetNode)}&spawnX=${tp.x}&spawnY=${tp.y}&session=${crec.progress.sessionSeed ?? 1234567}`);
+  location.assign(withCharParam(`${nodeUrl(targetNode)}&spawnX=${tp.x}&spawnY=${tp.y}&session=${crec.progress.sessionSeed ?? 1234567}`));
 }
 
 function triggerWaypointTravel(): void {
@@ -676,7 +681,7 @@ function triggerWaypointTravel(): void {
         crec!.carry = carry;
         await writeRecord(crec!);
         await deleteSave(AUTO).catch(() => undefined);
-        const url = `${nodeUrl(targetNode)}&session=${crec!.progress.sessionSeed ?? 1234567}`;
+        const url = withCharParam(`${nodeUrl(targetNode)}&session=${crec!.progress.sessionSeed ?? 1234567}`);
         location.assign(url);
       })();
     },
@@ -704,7 +709,7 @@ async function transitionToZone(exit: ZoneExitDef): Promise<void> {
       crec.carry = carry;
       await writeRecord(crec);
       await deleteSave(AUTO).catch(() => undefined);
-      const url = `${nodeUrl(targetNode)}&spawnX=${exit.targetX}&spawnY=${exit.targetY}&session=${crec.progress.sessionSeed ?? 1234567}`;
+      const url = withCharParam(`${nodeUrl(targetNode)}&spawnX=${exit.targetX}&spawnY=${exit.targetY}&session=${crec.progress.sessionSeed ?? 1234567}`);
       location.assign(url);
       return;
     }
@@ -1039,11 +1044,15 @@ function initGothicHud(): void {
   const questClose = document.getElementById('quest-close');
   if (questClose) questClose.onclick = () => { const q = document.getElementById('quest-modal'); if (q) q.hidden = true; };
   const questAll = document.getElementById('quest-all-missions');
-  if (questAll) questAll.onclick = () => {
-    const q = document.getElementById('quest-modal');
-    if (q) q.hidden = true;
-    showMissionMenu();
-  };
+  if (questAll) {
+    if (campaign) questAll.textContent = S.shell.toMap;
+    questAll.onclick = () => {
+      const q = document.getElementById('quest-modal');
+      if (q) q.hidden = true;
+      if (campaign) void toMap();
+      else showMissionMenu();
+    };
+  }
 }
 
 function castSlot(n: number): void {
@@ -1144,6 +1153,7 @@ function smashProp(obj: MapObject): void {
 
 /** The order a plain click or tap means: pickup if near loot, forced move, forced attack, attack when an enemy is under the pointer, else move. */
 function smart(sx: number, sy: number): void {
+  if (townTap(sx, sy)) return;
   const [wx, wy] = renderer.toTile(sx, sy);
   const loot = nearestLoot(sim, Math.round(wx * FP), Math.round(wy * FP), 2.0 * FP);
   if (loot >= 0) {
@@ -3103,22 +3113,50 @@ function showVictoryScreen(winText?: string): void {
   const actionsBar = document.createElement('div');
   actionsBar.className = 'victory-actions-bar';
 
+  const currentNode = campaign && campaignId ? nodeOf(campaign, campaignId) : null;
+  const actTown = currentNode && currentNode.kind === 'mission' ? townNodeForAct(campaign!, actOf(currentNode)) : null;
+  const canReturnToTown = Boolean(
+    campaign &&
+      crec &&
+      currentNode &&
+      actTown &&
+      (crec.progress.unlocked.includes(actTown.id) || currentNode.unlocksOnVictory.includes(actTown.id)),
+  );
+
   const leaveBtn = document.createElement('button');
   leaveBtn.className = 'btn-gothic btn-victory-primary';
-  leaveBtn.textContent = 'Return to Camp / World Map ❯';
-  leaveBtn.onclick = () => {
+  leaveBtn.textContent = canReturnToTown && actTown
+    ? `Return to ${actTown.title} 🏰`
+    : campaign && crec && campaignId
+      ? 'Return to World Map ❯'
+      : 'Return to Menu ❯';
+
+  const mapBtn = canReturnToTown ? document.createElement('button') : null;
+  if (mapBtn) {
+    mapBtn.className = 'btn-gothic btn-victory-secondary';
+    mapBtn.textContent = 'World Map 🗺️';
+  }
+
+  const freeRoamBtn = document.createElement('button');
+  freeRoamBtn.className = 'btn-gothic btn-victory-secondary';
+  freeRoamBtn.textContent = 'Explore Map (Free Roam) 🔍';
+
+  const finalizeVictory = (dest: 'town' | 'map'): void => {
+    leaveBtn.disabled = true;
+    if (mapBtn) mapBtn.disabled = true;
+    freeRoamBtn.disabled = true;
     modal.hidden = true;
     if (campaign && crec && campaignId && !victoryFinalized) {
       victoryFinalized = true;
-      void endNode(true, narrative);
+      void endNode(true, narrative, dest);
     } else {
       location.assign('./');
     }
   };
 
-  const freeRoamBtn = document.createElement('button');
-  freeRoamBtn.className = 'btn-gothic btn-victory-secondary';
-  freeRoamBtn.textContent = 'Explore Map (Free Roam) 🔍';
+  leaveBtn.onclick = () => finalizeVictory(canReturnToTown ? 'town' : 'map');
+  if (mapBtn) mapBtn.onclick = () => finalizeVictory('map');
+
   freeRoamBtn.onclick = () => {
     modal.hidden = true;
     userPause = false;
@@ -3127,10 +3165,11 @@ function showVictoryScreen(winText?: string): void {
     const leaveHudBtn = document.getElementById('btn-leave-mission');
     if (leaveHudBtn) {
       leaveHudBtn.hidden = false;
+      if (canReturnToTown && actTown) leaveHudBtn.textContent = `Return to ${actTown.title} 🏰`;
       leaveHudBtn.onclick = () => {
         if (campaign && crec && campaignId && !victoryFinalized) {
           victoryFinalized = true;
-          void endNode(true, narrative);
+          void endNode(true, narrative, canReturnToTown ? 'town' : 'map');
         } else {
           location.assign('./');
         }
@@ -3139,7 +3178,7 @@ function showVictoryScreen(winText?: string): void {
     toast('Free Roam Active: Explore the map, gather loot, and return when ready.');
   };
 
-  actionsBar.append(leaveBtn, freeRoamBtn);
+  actionsBar.append(leaveBtn, ...(mapBtn ? [mapBtn] : []), freeRoamBtn);
   frame.append(header, aftermathBox, spoilsGrid, actionsBar);
   modal.append(frame);
   modal.hidden = false;
@@ -3201,8 +3240,10 @@ function showDefeatScreen(defeatText?: string): void {
   leaveBtn.className = 'btn-gothic btn-victory-secondary';
   leaveBtn.textContent = 'Return to World Map ❯';
   leaveBtn.onclick = () => {
+    retryBtn.disabled = true;
+    leaveBtn.disabled = true;
     if (campaign && crec && campaignId) {
-      void endNode(false, defeatText ?? '');
+      void endNode(false, defeatText ?? '', 'map');
     } else {
       location.assign('./');
     }
@@ -3215,14 +3256,14 @@ function showDefeatScreen(defeatText?: string): void {
 }
 
 /** Keep what the persistent hero earned: level, skills, gear, spells and the quick row. */
-function persistChar(finished: boolean): void {
-  if (!activeChar || !sim.hero) return;
+function persistChar(finished: boolean): Promise<boolean> {
+  if (!activeChar || !sim.hero) return Promise.resolve(false);
   const co = extractCarryover(sim, crec?.progress ?? ({} as Parameters<typeof extractCarryover>[1]), 0, slots);
-  void saveCharacter(activeChar.id, { hero: co.hero, items: co.items, slots: co.slots, gold: crec ? co.gold : undefined, finished });
+  return saveCharacter(activeChar.id, { hero: co.hero, items: co.items, slots: co.slots, gold: crec ? co.gold : undefined, finished });
 }
 
 function finish(kind: 'win' | 'lose', text?: string): void {
-  if (!crec) persistChar(true);
+  if (!crec) void persistChar(true);
   outcome = kind;
   arm(null);
   userPause = true;
@@ -3236,12 +3277,12 @@ function finish(kind: 'win' | 'lose', text?: string): void {
   }
 }
 
-/** Campaign: a mission is over. Record the result (a win also keeps the hero's new state) and send the player back to the map. */
-async function endNode(win: boolean, text: string): Promise<void> {
+/** Campaign: a mission is over. Record the result (a win also keeps the hero's new state) and send the player to town or the map. */
+async function endNode(win: boolean, text: string, dest: 'town' | 'map' = 'map'): Promise<void> {
   const [up, size] = army();
   const carry = win && sim.hero ? extractCarryover(sim, crec!.progress, townSeed(1, crec!.progress.townVisits), slots) : null;
   if (carry?.upkeep) toast(`${S.touch.upkeep}: -${carry.upkeep} ${S.gold}`);
-  if (win) persistChar(true);
+  if (win) await persistChar(true).catch(() => false);
   const branch = sim.script?.st.sv[0] ?? 0;
   const lastResult: { text: string; up: number; size: number; gold: number; branch?: number } = {
     text,
@@ -3251,11 +3292,27 @@ async function endNode(win: boolean, text: string): Promise<void> {
     ...(branch ? { branch } : {}),
   };
   crec = afterMission(campaign!, crec!, campaignId!, win, carry, lastResult);
+  const currentNode = nodeOf(campaign!, campaignId!);
+  const townNode = win && dest === 'town' && currentNode.kind === 'mission'
+    ? townNodeForAct(campaign!, actOf(currentNode))
+    : null;
+  const canGoTown = Boolean(townNode && crec.progress.unlocked.includes(townNode.id));
+  if (canGoTown && townNode) {
+    const nextProgress = { ...crec.progress, node: townNode.id };
+    crec = {
+      ...crec,
+      progress: nextProgress,
+      carry: crec.carry ? { ...crec.carry, progress: nextProgress } : crec.carry,
+      last: null,
+    };
+  }
   await writeRecord(crec);
   await deleteSave(AUTO).catch(() => undefined); // the mid-mission autosave is obsolete
-  const b = $('panel-restart');
-  b.textContent = S.shell.toMap;
-  b.onclick = () => location.assign('./');
+  if (canGoTown && townNode) {
+    location.assign(withCharParam(nodeUrl(townNode)));
+  } else {
+    location.assign('./?menu=map');
+  }
 }
 
 /** Campaign: the Map button. In a town it keeps what was bought, learned or hired; in a mission it just walks away (the autosave stays). */
@@ -3263,12 +3320,12 @@ async function toMap(): Promise<void> {
   if (campaign && crec && campaignId && nodeOf(campaign, campaignId).kind === 'town' && !outcome) {
     townUi.close();
     const carry = sim.hero ? extractCarryover(sim, crec.progress, townSeed(1, crec.progress.townVisits + 1), slots) : null;
-    persistChar(false);
+    await persistChar(false).catch(() => false);
     crec = afterTown(campaign, crec, campaignId, carry);
     await writeRecord(crec);
     await deleteSave(AUTO).catch(() => undefined);
   }
-  location.assign('./');
+  location.assign('./?menu=map');
 }
 
 function isAnyModalOpen(): boolean {

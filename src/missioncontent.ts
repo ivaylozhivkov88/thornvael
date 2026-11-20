@@ -4,7 +4,16 @@ export interface Scene { speaker: string; line: string }
 export interface MissionContent { intro_scene?: Scene[]; victory_epilogue?: Scene[]; defeat_line?: string }
 
 const prettySpeaker = (s: string): string =>
-  s === 'narrator' ? 'Narrator' : s === 'hero' ? 'Hero' : s.replace(/^npc-/, '').split('-').map((w) => w[0].toUpperCase() + w.slice(1)).join(' ');
+  s === 'narrator'
+    ? 'Narrator'
+    : s === 'hero'
+      ? 'Hero'
+      : s
+          .replace(/^npc-/, '')
+          .split('-')
+          .filter(Boolean)
+          .map((w) => w[0].toUpperCase() + w.slice(1))
+          .join(' ') || 'Narrator';
 export const speakerName = prettySpeaker;
 
 /** Looks the mission up by its map name (the campaign node's `map`). Returns null when anything is missing. */

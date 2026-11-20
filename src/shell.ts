@@ -352,9 +352,9 @@ Items, skills and levels carry over.`));
     const url = `${nodeUrl(startNode)}&hero=${encodeURIComponent(heroStr)}`;
     const seq = sequenceForNode(startNode.id);
     if (seq && seq.kind === 'intro') {
-      showStory(seq.id, () => go(url));
+      showStory(seq.id, () => go(url, { title: startNode.title, act: actOf(startNode) }));
     } else {
-      go(url);
+      go(url, { title: startNode.title, act: actOf(startNode) });
     }
   }
 
@@ -372,9 +372,22 @@ Items, skills and levels carry over.`));
     mode = 'other';
     syncShellMusic('menu');
     const col = el('div', 'sh-col');
+    const canResume = rec !== null || auto !== null;
     col.append(
       el('h1', '', S.title),
       ...banner(),
+      ...(canResume
+        ? [
+            btn(
+              'Continue Campaign',
+              () => {
+                if (auto && (!rec || auto.state.node)) go(`./?load=${AUTO}`);
+                else map();
+              },
+              'sh-on',
+            ),
+          ]
+        : []),
       btn('Single Player', charSelect),
       btn(T.credits, credits, 'sh-small'),
       btn('Storage & Offline', storage, 'sh-small'),
@@ -418,7 +431,7 @@ Items, skills and levels carry over.`));
         chars = await listCharacters();
         active = ch;
         setActiveId(ch.id);
-        menu();
+        await startCampaign({ cls: ch.cls, female: ch.female }, ch.diff);
       },
       onBack: charSelect,
     });
@@ -781,6 +794,15 @@ Items, skills and levels carry over.`));
     screen(col);
   }
 
-  title();
+  const shellView = new URLSearchParams(location.search).get('menu');
+  if (shellView === 'map' && rec) {
+    map();
+  } else if (shellView === 'hub' && rec) {
+    menu();
+  } else if (rec?.last) {
+    map();
+  } else {
+    title();
+  }
   return new Promise<never>(() => {});
 }
