@@ -373,6 +373,134 @@ export function buildWikiData() {
       `itemicons/${slug(name)}.png`,
     );
 
+  const SIM_BASE_ICON = {
+    dagger: 'flint-stiletto',
+    kris: 'cinder-glass-kriss',
+    short_sword: 'iron-sword',
+    crystal_sword: 'adamantium-needle',
+    broad_sword: 'steel-sword',
+    phase_blade: 'harbor-guard-estoc',
+    claymore: 'two-handed-claymore',
+    colossus_blade: 'dreadnought-zweihander',
+    hand_axe: 'woodcutter-handaxe',
+    berserker_axe: 'berserker-decapitator',
+    mace: 'flanged-mace',
+    flail: 'heavy-morningstar',
+    scepter: 'threshold-key-scepter',
+    colossus_voulge: 'reaver-lochaber-axe',
+    short_bow: 'ash-shortbow',
+    hydra_bow: 'windpiercer-greatbow',
+    short_staff: 'oak-staff',
+    archon_staff: 'star-staff',
+    bone_wand: 'tallied-bone-pointer',
+    quilted_armor: 'patched-canvas-doublet',
+    leather_armor: 'salt-cured-jerkin',
+    breast_plate: 'oakhaven-plate-cuirass',
+    mage_plate: 'wardstone-scholar-coat',
+    archon_plate: 'obsidian-bastion-plate',
+    ring_mail: 'interlocking-ring-mail',
+    chain_mail: 'chain-mail',
+    field_plate: 'redmarsh-lamellar-coat',
+    full_plate: 'gothic-full-plate',
+    sacred_armor: 'plate-armor',
+    skull_cap: 'boiled-hide-coif',
+    great_helm: 'caldera-forged-armet',
+    tiara: 'assayers-copper-circlet',
+    diadem: 'archmage-diadem',
+    buckler: 'wooden-buckler',
+    small_shield: 'tarred-plank-targe',
+    kite_shield: 'steel-kite-shield',
+    monarch: 'aegis-of-the-citadel',
+    sash: 'hemp-rope-girdle',
+    light_belt: 'tanned-oxhide-strap',
+    belt: 'iron-studded-war-sash',
+    plated_belt: 'caldera-plate-girdle',
+    colossus_girdle: 'ember-core-cincture',
+    small_charm: 'clay-talisman',
+    large_charm: 'amber-fen-beetle-charm',
+    grand_charm: 'astral-prism-medallion',
+  };
+
+  const GEM_FAMILY_ICON = {
+    ruby: ['cinder-heart-talisman', 'ember-charm', 'caldera-ember-core', 'bloodstone-pendant', 'caldera-ember-core'],
+    sapphire: ['brine-vial-pendant', 'frost-charm', 'astral-sphere', 'threshold-ward-mirror', 'astral-sphere'],
+    topaz: ['amber-fen-beetle-charm', 'copper-plumb-amulet', 'salt-crystal-pendulum', 'beacon-lens-signet', 'amber-fen-beetle-charm'],
+    emerald: ['viper-antivenom-phial', 'life-charm', 'stone-charm', 'leyline-spark-elixir', 'life-charm'],
+    skull: ['ossuary-bone-ward', 'bone-ring', 'ossuary-ash-incense', 'ossuary-seal-ring', 'ossuary-bone-ward'],
+    diamond: ['novice-glass-focus', 'chiseled-quartz-focus', 'radiant-spell-mirror', 'astral-prism-medallion', 'astral-prism-medallion'],
+    amethyst: ['mind-charm', 'smoked-quartz-monocle', 'salt-crystal-pendulum', 'eye-of-the-cosmos', 'eye-of-the-cosmos'],
+  };
+
+  const RUNE_ICON_POOL = [
+    'leaden-parish-token',
+    'iron-ration-tag',
+    'chipped-flint-gorget',
+    'crude-whetstone-block',
+    'void-glass-shard',
+    'meteoric-slag-chunk',
+    'ward-charm',
+    'stone-charm',
+    'tallow-wax-signet',
+    'beacon-lens-signet',
+    'spire-keystone-band',
+    'threshold-seal-gorget',
+    'first-watch-oath-ring',
+    'ossuary-seal-ring',
+    'salt-crystal-pendulum',
+    'clay-talisman',
+  ];
+
+  const SPECIAL_ICON_OVERRIDE = {
+    'scroll-of-town-portal': 'parish-ward-scroll',
+    'scroll-of-identification': 'notarized-hex-vellum',
+    'identification-scroll': 'notarized-hex-vellum',
+    'greater-healing-potion': 'greater-healing-draught',
+    'greater-mana-potion': 'greater-mana-draught',
+    'rejuvenation-potion': 'redmarsh-saline-tonic',
+    'full-rejuvenation-potion': 'oakhaven-aqua-vitae',
+    'small-talisman-charm': 'clay-talisman',
+    'large-relic-charm': 'amber-fen-beetle-charm',
+    'grand-mystic-charm': 'astral-prism-medallion',
+    'sigil-of-ash': 'caldera-slag-signet',
+    'sigil-of-hollow': 'ossuary-seal-ring',
+    'sigil-of-tide': 'sea-wall-anchor-charm',
+    'pinnacle-writ': 'first-watch-edict-scroll',
+    'gem-chipped-garnet': 'cinder-heart-talisman',
+    'gem-flawed-beryl': 'novice-glass-focus',
+    'gem-peat-amber': 'amber-fen-beetle-charm',
+    'gem-river-jade': 'river-pebble-band',
+    'gem-quartz-prism': 'chiseled-quartz-focus',
+    'gem-bloodstone-cabochon': 'bloodstone-pendant',
+    'gem-rime-sapphire': 'frost-charm',
+    'gem-cinder-ruby': 'ember-charm',
+    'gem-astral-opal': 'astral-sphere',
+    'gem-lodestone-heart': 'heart-of-the-colossus',
+    'gem-starfall-diamond': 'astral-prism-medallion',
+    'gem-obsidian-sun': 'eye-of-the-cosmos',
+  };
+
+  const gemSlugFor = (id, name) => {
+    if (SPECIAL_ICON_OVERRIDE[id]) return SPECIAL_ICON_OVERRIDE[id];
+    const clean = slug(name);
+    for (const [fam, icons] of Object.entries(GEM_FAMILY_ICON)) {
+      if (clean === fam || clean.endsWith('-' + fam)) {
+        const gradeIdx = clean.startsWith('chipped-') ? 0 : clean.startsWith('flawed-') ? 1 : clean.startsWith('flawless-') ? 3 : clean.startsWith('perfect-') ? 4 : 2;
+        return icons[gradeIdx];
+      }
+    }
+    return null;
+  };
+
+  const runeIdBySlug = Object.fromEntries(runesMod.ALL_RUNES.map((r) => [slug(r.name), r.id]));
+  const runeSlugFor = (id, name) => {
+    if (SPECIAL_ICON_OVERRIDE[id]) return SPECIAL_ICON_OVERRIDE[id];
+    const clean = slug(name);
+    if (runeIdBySlug[clean] != null) return RUNE_ICON_POOL[(runeIdBySlug[clean] - 1) % RUNE_ICON_POOL.length];
+    let hash = 0;
+    for (const ch of id) hash = (hash * 31 + ch.charCodeAt(0)) >>> 0;
+    return RUNE_ICON_POOL[hash % RUNE_ICON_POOL.length];
+  };
+
   const gearList = readJson('public/data/items.json', { items: [] }).items;
   const itemLore = readJson('src/data/text/item-lore.json', {});
   const loreOf = (key) => Object.keys(itemLore).filter((k) => k === key || k.startsWith(key + '.')).map((k) => itemLore[k]);
@@ -428,7 +556,7 @@ export function buildWikiData() {
       type: 'item',
       title: b.name,
       summary: `Base ${slotLabel} · tier ${b.tier}`,
-      img: iconFor('item', id, b.name, 'infobox/icon', b.id),
+      img: iconFor('item', id, b.name, 'infobox/icon', b.id, slug(b.id), SIM_BASE_ICON[b.id]),
       infobox: inf,
       sections: [{ h: 'Description', p: ['No lore yet.'] }],
       related: [],
@@ -438,12 +566,13 @@ export function buildWikiData() {
   for (const sp of itemsMod.SPECIAL_ITEMS) {
     const id = slug(sp.name);
     if (itemEntries.some((x) => x.id === id)) continue;
+    const extra = SPECIAL_ICON_OVERRIDE[id] ?? gemSlugFor(id, sp.name) ?? (id.startsWith('rune-') ? runeSlugFor(id, sp.name) : null);
     itemEntries.push({
       id,
       type: 'item',
       title: sp.name,
       summary: `Special item · tier ${sp.tier}`,
-      img: iconFor('item', id, sp.name, 'infobox/icon'),
+      img: iconFor('item', id, sp.name, 'infobox/icon', extra),
       infobox: [['Type', 'Special'], ['Tier', String(sp.tier)], ['Weight', String(sp.w)]],
       sections: [{ h: 'Description', p: [sp.lore || 'No lore yet.'] }],
       related: [],
@@ -490,7 +619,13 @@ export function buildWikiData() {
     type: 'set',
     title: s.name,
     summary: `${cap(s.class)} set · ${s.pieces.length} pieces`,
-    img: pic('set', s.id, 'infobox/icon', ...s.pieces.map((p) => `itemicons/${slug(p.name)}.png`)),
+    img: pic(
+      'set',
+      s.id,
+      'infobox/icon',
+      ...s.pieces.map((p) => `itemicons/${slug(p.name)}.png`),
+      ...s.pieces.map((p) => `itemicons/${slug(p.base)}.png`),
+    ),
     infobox: [['Class', cap(s.class)], ['Pieces', String(s.pieces.length)]],
     sections: [
       { h: 'Pieces', list: s.pieces.map((p) => `${p.name} (${p.base})`) },
@@ -500,6 +635,26 @@ export function buildWikiData() {
     related: [],
     tags: { rarity: 'set', level: s.pieces.length, cls: s.class },
   }));
+  const SIM_SET_ICON = {
+    iron_warden: 'gothic-full-plate',
+    pyromancer: 'leyline-conduit-vestment',
+    shadow_stalker: 'stalker-hood',
+    alder_vanguard: 'sea-wall-sallet',
+    redmarsh_reaver: 'reaver-lochaber-axe',
+    boreal_frostweaver: 'crystal-siphon-wand',
+    crown_forged: 'obsidian-greatmaul',
+    astral_sovereign: 'archmage-diadem',
+  };
+  const SET_SLOT_FALLBACK = {
+    Weapon: 'steel-sword',
+    Shield: 'tower-shield',
+    Helm: 'steel-helm',
+    Armor: 'plate-armor',
+    Boots: 'iron-boots',
+    Ring: 'ring-of-valor',
+    Amulet: 'ember-charm',
+    Gloves: 'iron-gauntlets',
+  };
   const simSets = setsMod.ALL_SETS.map((s) => {
     const id = 'sim-' + slug(s.id);
     const cls = s.pieces[0] ? CLS_FROM_MASK(s.pieces[0].cls) : 'All';
@@ -520,7 +675,14 @@ export function buildWikiData() {
       type: 'set',
       title: s.name,
       summary: `${cls} set · ${s.pieces.length} pieces`,
-      img: pic('set', id, 'infobox/icon', ...s.pieces.map((p) => `itemicons/${slug(p.name)}.png`)),
+      img: pic(
+        'set',
+        id,
+        'infobox/icon',
+        ...s.pieces.map((p) => `itemicons/${slug(p.name)}.png`),
+        SIM_SET_ICON[s.id] ? `itemicons/${SIM_SET_ICON[s.id]}.png` : null,
+        ...s.pieces.map((p) => `itemicons/${SET_SLOT_FALLBACK[SLOT_NAME[p.slot]] ?? 'iron-sword'}.png`),
+      ),
       infobox: [['Class', cls], ['Pieces', String(s.pieces.length)]],
       sections: [
         { h: 'Pieces', list: s.pieces.map((p) => `${p.name} (${SLOT_NAME[p.slot] ?? 'Gear'}, T${p.tier})${p.lore ? ` — ${p.lore}` : ''}`) },
@@ -580,25 +742,29 @@ export function buildWikiData() {
       .map(([k, v]) => (Array.isArray(v) ? `${k}: ${v.join('/')}` : v === true ? k : `${k}: +${v}`))
       .join(', ') || '-';
   };
-  const jsonGems = C('gems-runes').map((g) => ({
-    id: g.id,
-    type: 'gem',
-    title: g.name,
-    summary: `${cap(g.kind)} · tier ${g.tier}`,
-    img: pic('gem', g.id, 'infobox/icon', `itemicons/${slug(g.name)}.png`),
-    infobox: [['Kind', cap(g.kind)], ['Tier', String(g.tier)], ['In weapon', g.socket_effect?.weapon ?? '-'], ['In armor', g.socket_effect?.armor ?? '-'], ['Buy', String(g.buy)], ['Sell', String(g.sell)]],
-    sections: [{ h: 'Description', p: [g.desc || 'No lore yet.'] }, ...(g.flavor ? [{ h: 'Lore', p: [g.flavor] }] : [])],
-    related: [],
-    tags: { rarity: 'socket', level: g.tier, slot: 'socket', cls: '' },
-  }));
+  const jsonGems = C('gems-runes').map((g) => {
+    const fallbackSlug = g.kind === 'rune' ? runeSlugFor(g.id, g.name) : gemSlugFor(g.id, g.name);
+    return {
+      id: g.id,
+      type: 'gem',
+      title: g.name,
+      summary: `${cap(g.kind)} · tier ${g.tier}`,
+      img: pic('gem', g.id, 'infobox/icon', `itemicons/${slug(g.name)}.png`, fallbackSlug ? `itemicons/${fallbackSlug}.png` : null),
+      infobox: [['Kind', cap(g.kind)], ['Tier', String(g.tier)], ['In weapon', g.socket_effect?.weapon ?? '-'], ['In armor', g.socket_effect?.armor ?? '-'], ['Buy', String(g.buy)], ['Sell', String(g.sell)]],
+      sections: [{ h: 'Description', p: [g.desc || 'No lore yet.'] }, ...(g.flavor ? [{ h: 'Lore', p: [g.flavor] }] : [])],
+      related: [],
+      tags: { rarity: 'socket', level: g.tier, slot: 'socket', cls: '' },
+    };
+  });
   const d2Gems = d2Mod.D2_GEMS.map((g) => {
     const id = 'gem-' + slug(g.name);
+    const fallbackSlug = gemSlugFor(id, g.name);
     return {
       id,
       type: 'gem',
       title: g.name,
       summary: `${cap(g.quality)} ${cap(g.type)} · tier ${g.tier}`,
-      img: pic('gem', id, 'infobox/icon', `itemicons/${slug(g.name)}.png`),
+      img: pic('gem', id, 'infobox/icon', `itemicons/${slug(g.name)}.png`, fallbackSlug ? `itemicons/${fallbackSlug}.png` : null),
       infobox: [
         ['Kind', 'Gem'],
         ['Quality', cap(g.quality)],
@@ -615,12 +781,13 @@ export function buildWikiData() {
   const runeById = Object.fromEntries(runesMod.ALL_RUNES.map((r) => [r.id, r]));
   const simRunes = runesMod.ALL_RUNES.map((r) => {
     const id = 'rune-' + slug(r.name);
+    const fallbackSlug = runeSlugFor(id, r.name);
     return {
       id,
       type: 'gem',
       title: r.name,
       summary: `Rune #${r.id} · Req Lv ${r.clvl}`,
-      img: pic('gem', id, 'infobox/icon', `itemicons/${slug(r.name)}.png`),
+      img: pic('gem', id, 'infobox/icon', `itemicons/${slug(r.name)}.png`, fallbackSlug ? `itemicons/${fallbackSlug}.png` : null),
       infobox: [
         ['Kind', 'Rune'],
         ['Rank', String(r.id)],
@@ -667,7 +834,39 @@ export function buildWikiData() {
   const spellAll = [...spellsBase, ...C('spells-new')];
   const spIconFrames = readJson('public/spellicons/spellicons.json', { frames: {} }).frames ?? {};
   const spritesheet = readJson('public/spellicons/spellicons.json', { meta: { size: { w: 1, h: 1 } } }).meta.size;
-  const SCHOOL_ICON_ALIAS = { water: 'frost', astral: 'arcane' };
+  const SCHOOL_ICON_ALIAS = {
+    water: 'frost',
+    astral: 'arcane',
+    air: 'arcane',
+    marksman: 'holy',
+    wild: 'earth',
+    bone: 'shadow',
+    debt: 'shadow',
+    grave: 'shadow',
+  };
+  const SPELL_FRAME_OVERRIDE = {
+    'chain-lightning': 'spell/lightning',
+    thunderstorm: 'spell/lightning',
+    'static-arc': 'spell/lightning',
+    haste: 'status/haste',
+    gale: 'school/frost',
+    'wind-ward': 'status/shield',
+    'pinning-bodkin': 'status/stunned',
+    'briar-snare': 'status/stunned',
+    'marsh-adder-venom': 'status/poisoned',
+    'spore-pod-shot': 'status/poisoned',
+    'gale-step': 'status/haste',
+    'ribcage-bulwark': 'status/shield',
+    'ossuary-cage': 'status/stunned',
+    'cold-ledger': 'status/frozen',
+    'grave-quiet': 'status/frozen',
+    'forgive-the-oath': 'school/holy',
+  };
+  const spellAtlasPic = (frameKey) => {
+    const f = spIconFrames[frameKey];
+    if (!f) return null;
+    return { src: 'spellicons/spellicons.png', atlas: { x: f.frame.x, y: f.frame.y, w: f.frame.w, h: f.frame.h, sw: spritesheet.w, sh: spritesheet.h } };
+  };
 
   out.spells = uniqBy(
     spellAll.map((s) => {
@@ -676,13 +875,16 @@ export function buildWikiData() {
       const t = spText[s.name];
       const fl = spFlavor[key] ?? t?.flavor ?? s.flavor;
       const mappedSchool = SCHOOL_ICON_ALIAS[s.school] ?? s.school;
-      const frame = spIconFrames[`spell/${id}`] ?? spIconFrames[`school/${mappedSchool}`];
+      const frameImg =
+        spellAtlasPic(SPELL_FRAME_OVERRIDE[id]) ??
+        spellAtlasPic(`spell/${id}`) ??
+        spellAtlasPic(`school/${mappedSchool}`);
       return {
         id,
         type: 'spell',
         title: s.name,
         summary: t?.tooltip ?? s.desc ?? `${cap(s.school)} spell`,
-        img: frame ? { src: 'spellicons/spellicons.png', atlas: { x: frame.frame.x, y: frame.frame.y, w: frame.frame.w, h: frame.frame.h, sw: spritesheet.w, sh: spritesheet.h } } : pic('spell', id, 'infobox/icon'),
+        img: frameImg ?? pic('spell', id, 'infobox/icon', `itemicons/scroll-of-${id}.png`, `itemicons/tome-of-${id}.png`),
         infobox: [
           ['School', cap(s.school)],
           ['Target', cap(s.target)],
@@ -706,13 +908,39 @@ export function buildWikiData() {
     'id',
   );
 
+  const SKILL_TREE_ICONS = {
+    Bulwark: ['wooden-buckler', 'tarred-plank-targe', 'iron-shield', 'iron-rimmed-heater', 'steel-kite-shield', 'tower-shield', 'obsidian-bulwark', 'aegis-of-the-citadel'],
+    Reaver: ['rusty-sword', 'peat-cleaver-hatchet', 'iron-sword', 'bearded-battleaxe', 'steel-sword', 'flamberge', 'reaver-lochaber-axe', 'berserker-decapitator'],
+    Banner: ['iron-helm', 'steel-basinet', 'ring-of-valor', 'first-watch-oath-ring', 'first-watch-edict-scroll', 'dread-crest-helm', 'crown-ember-coronet', 'ring-of-the-champions'],
+    Deadeye: ['ash-shortbow', 'alder-limb-flatbow', 'fen-reed-longbow', 'recurve-bow', 'salt-backed-horn-bow', 'composite-war-bow', 'ash-spire-warbow', 'windpiercer-greatbow'],
+    Stalker: ['leather-cap', 'peat-dyed-trapper-hood', 'stalker-hood', 'tracker-treads', 'fen-stalker-moccasins', 'shadow-mask', 'shadowstrike-grips', 'windrunner-striders'],
+    Fletcher: ['latched-poacher-prod', 'bridge-watch-latchet', 'split-rawhide-mitts', 'greased-archers-gloves', 'salt-bed-gastraphetes', 'heavy-arbalest', 'cranequin-sea-arbalest', 'slag-spring-repeater'],
+    Pyromancy: ['atlas:spell/fireball', 'atlas:status/burning', 'atlas:school/fire', 'scroll-of-fire-bolt', 'scroll-of-ignite', 'scroll-of-flame-burst', 'tome-of-meteor', 'scroll-of-inferno'],
+    Tempest: ['atlas:spell/lightning', 'atlas:status/haste', 'atlas:spell/frost-bolt', 'atlas:school/arcane', 'scroll-of-gale', 'scroll-of-static-arc', 'tome-of-chain-lightning', 'tome-of-thunderstorm'],
+    Wardcraft: ['atlas:status/shield', 'atlas:school/holy', 'atlas:spell/stone-skin', 'ward-charm', 'novice-glass-focus', 'radiant-spell-mirror', 'archmage-diadem', 'astral-prism-medallion'],
+    Bonecraft: ['atlas:school/shadow', 'tallied-bone-pointer', 'ossuary-bone-ward', 'bone-knuckle-grips', 'bone-ring', 'gravetide-ash-baton', 'ossuary-scribe-miter', 'scroll-of-corpse-burst'],
+    Probate: ['atlas:status/poisoned', 'notarized-hex-vellum', 'leaden-parish-token', 'probate-bailiffs-band', 'probate-seal-sash', 'bailiffs-iron-truncheon', 'scroll-of-weaken', 'scroll-of-mana-burn'],
+    Abbey: ['atlas:status/frozen', 'fen-abbey-crosier', 'parish-ward-scroll', 'ossuary-ash-incense', 'scriptorium-funeral-pall', 'ossuary-seal-ring', 'scroll-of-grave-chill', 'tome-of-resurrect'],
+  };
+  const skillImgFor = (k) => {
+    const idxMatch = k.id.match(/-(\d+)$/);
+    const slotIdx = idxMatch ? Math.max(0, Number(idxMatch[1]) - 1) : Math.max(0, (k.tier ?? 1) - 1);
+    const pool = SKILL_TREE_ICONS[k.tree];
+    const choice = pool?.[slotIdx % pool.length];
+    if (choice?.startsWith('atlas:')) {
+      const a = spellAtlasPic(choice.slice(6));
+      if (a) return a;
+    }
+    return pic('skill', k.id, 'infobox/icon', `icons/skills/${k.icon_hint}.png`, choice && !choice.startsWith('atlas:') ? `itemicons/${choice}.png` : null);
+  };
+
   const skills = [...C('skill-trees')];
   out.skills = skills.map((k) => ({
     id: k.id,
     type: 'skill',
     title: k.name,
     summary: `${cap(k.class)} · ${k.tree} tree · tier ${k.tier}`,
-    img: pic('skill', k.id, 'infobox/icon', `icons/skills/${k.icon_hint}.png`),
+    img: skillImgFor(k),
     infobox: [['Class', cap(k.class)], ['Tree', k.tree], ['Tier', String(k.tier)], ['Max rank', String(k.max_rank)], ['Effect', `${statName(k.effect.stat)} ${k.effect.value}, +${k.effect.per_rank} per rank`], ['Requires', (k.requires ?? []).join(', ') || 'None']],
     sections: [{ h: 'Description', p: [k.desc || 'No lore yet.'] }],
     related: [...(k.requires ?? []).map((r) => `skill/${r}`), `class/${k.class}`],
@@ -726,7 +954,7 @@ export function buildWikiData() {
     warrior: ['townart/portrait-warrior-m.png', 'townart/hero-dain.png', 'townart/frame-hero-warrior.jpg'],
     archer: ['townart/friend-archer.jpg', 'townart/portrait-warrior-f.png', 'townart/hero-selena.png'],
     mage: ['townart/portrait-mage-f.png', 'townart/portrait-mage-m.png', 'townart/hero-valerius.png', 'townart/hero-morrigan.png'],
-    necromancer: [],
+    necromancer: ['townart/portraits/merc-tomb-notary.jpg', 'townart/portraits/merc-parish-sexton.jpg'],
   };
   const classEntries = C('class-progression').map((c) => {
     const h = heroes[c.class];

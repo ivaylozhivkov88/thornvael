@@ -572,6 +572,26 @@ select:focus-visible {
   color: #ffe08a;
 }
 
+.wiki-card.rarity-set {
+  border-color: #4f8f4a;
+  background: linear-gradient(135deg, #102010 0%, var(--surface) 78%);
+}
+
+.wiki-card.rarity-set:hover {
+  border-color: #7cd475;
+  box-shadow: 0 0 14px rgba(124, 212, 117, 0.2);
+}
+
+.wiki-card.rarity-set .wiki-card-media {
+  border-color: #5ca856;
+  background: radial-gradient(circle, rgba(124, 212, 117, 0.22) 0%, #0d150d 75%);
+  box-shadow: inset 0 0 10px rgba(124, 212, 117, 0.2);
+}
+
+.wiki-card.rarity-set h3 {
+  color: #9be894;
+}
+
 .wiki-card-body {
   min-width: 0;
   flex: 1;
@@ -790,6 +810,29 @@ select:focus-visible {
   border: 2px solid #d4a64a;
   background: radial-gradient(circle, rgba(228, 191, 106, 0.24) 0%, #181108 72%);
   box-shadow: inset 0 0 20px rgba(228, 191, 106, 0.22), 0 0 18px rgba(228, 191, 106, 0.24);
+}
+
+.wiki-infobox.rarity-set {
+  border-color: #5ca856;
+  box-shadow: 0 0 24px rgba(124, 212, 117, 0.2), var(--shadow);
+}
+
+.wiki-infobox.rarity-set .infobox-title {
+  background: linear-gradient(180deg, #1d421b, #10240f);
+  border-bottom-color: #5ca856;
+  color: #9be894;
+  text-shadow: 0 1px 6px rgba(124, 212, 117, 0.35);
+}
+
+.wiki-infobox.rarity-set .infobox-media {
+  background: radial-gradient(circle, rgba(92, 168, 86, 0.16) 0%, #0d150d 74%);
+  border-bottom-color: #3f733b;
+}
+
+.wiki-infobox.rarity-set .wiki-img.is-hires-icon {
+  border: 2px solid #5ca856;
+  background: radial-gradient(circle, rgba(124, 212, 117, 0.24) 0%, #0d160d 72%);
+  box-shadow: inset 0 0 20px rgba(124, 212, 117, 0.22), 0 0 18px rgba(124, 212, 117, 0.24);
 }
 
 /* Images & Placeholders */
