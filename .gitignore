@@ -17,3 +17,4 @@ __pycache__/
 *.pyc
 tools/.mesh-out/
 tools/.canva-sheets/
+tools/dns-proxy.py
