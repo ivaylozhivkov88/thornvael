@@ -167,15 +167,18 @@ Tune FAMILY_VISUALS in src/render.ts (~line 121) via ?art=1 (dev server thornvae
 - **WebKit Act 1 E2E Race Fix (`tests/pwa-smoke.spec.ts`)**:
   - Root cause (Test 13): In `thornwick-market.map.json`, `msg.1` (`Reeve Marlow`) fires on tick 1 after dismissing `msg.0` (`Warden Hale`). `missionUi.update(sim)` polls asynchronously, so exiting the dismissal loop at `sim.tick >= 1 && !contBtn.isVisible()` let Reeve Marlow's `#gothic-dialogue` pop up behind `.sheet.town` and intercept `#btn-missions.click()`.
   - Fix: Wait for `(g?.sim.tick ?? 0) >= 2 && (g?.sim.script?.st.msgs.length ?? 0) >= 2` and both `contBtn` and `#gothic-dialogue` hidden before continuing (no timeout inflation needed).
-- **Wired Uncalled Modules**:
+- **CI Ubuntu Runner WebKit Isolation (`.github/workflows/ci.yml`, `tests/pwa-smoke.spec.ts`)**:
+  - Root cause (`44676137483`): Running Chromium + WebKit sequentially in one job while all 13 Playwright contexts registered the 587-entry Service Worker caused CPU/memory starvation on Ubuntu hosted runners.
+  - Fix: Split `playwright-smoke` into a `matrix: { project: [chromium, webkit] }` with `timeout-minutes: 20`; set `serviceWorkers: 'block'` on the 11 non-offline smoke tests (keeping SW enabled on Tests 10 & 12) and navigate to `about:blank` in `afterEach` to tear down WebGL/RAF cleanly.
+- **Wired Uncalled Modules (`8ae48d2`)**:
 
 | Module | Wired Into | Entrypoint / Call | Commit |
 |---|---|---|---|
-| `src/skills/engine.ts` | `src/heroui.ts` | `createSkillTreeState`, `computePassiveBonuses`, `getTotalAllocatedPoints` in `HeroUi.renderStats` | `fix(ci,wiring)` (this commit) |
-| `src/skills/trees.ts` | `src/heroui.ts` | `getSkillTreeForClass` in `HeroUi.renderStats` | `fix(ci,wiring)` (this commit) |
-| `src/skills/types.ts` | `src/heroui.ts` | `type SkillClass`, `type SkillTreeState` in `HeroUi.renderStats` | `fix(ci,wiring)` (this commit) |
-| `src/sim/ai/boss-phases.ts` | `src/mission.ts` | `BOSS_PROFILES`, `BossPhaseController`, `type CampaignBossId` in `initMissionDirectors` | `fix(ci,wiring)` (this commit) |
-| `src/sim/ai/companion-orders.ts` | `src/mission.ts` | `CompanionController` in `initMissionDirectors` | `fix(ci,wiring)` (this commit) |
-| `src/sim/ai/elite-director.ts` | `src/mission.ts` | `EliteDirector` in `initMissionDirectors` | `fix(ci,wiring)` (this commit) |
-| `src/sim/ai/shrines-events.ts` | `src/mission.ts` | `WORLD_SHRINE_KINDS`, `WorldEventsDirector` in `initMissionDirectors` | `fix(ci,wiring)` (this commit) |
-| `src/sim/ai/skirmish-modes.ts` | `src/mission.ts` | `DIFFICULTY_TIERS`, `SkirmishModeController` in `initMissionDirectors` | `fix(ci,wiring)` (this commit) |
+| `src/skills/engine.ts` | `src/heroui.ts` | `createSkillTreeState`, `computePassiveBonuses`, `getTotalAllocatedPoints` in `HeroUi.renderStats` | `8ae48d2` |
+| `src/skills/trees.ts` | `src/heroui.ts` | `getSkillTreeForClass` in `HeroUi.renderStats` | `8ae48d2` |
+| `src/skills/types.ts` | `src/heroui.ts` | `type SkillClass`, `type SkillTreeState` in `HeroUi.renderStats` | `8ae48d2` |
+| `src/sim/ai/boss-phases.ts` | `src/mission.ts` | `BOSS_PROFILES`, `BossPhaseController`, `type CampaignBossId` in `initMissionDirectors` | `8ae48d2` |
+| `src/sim/ai/companion-orders.ts` | `src/mission.ts` | `CompanionController` in `initMissionDirectors` | `8ae48d2` |
+| `src/sim/ai/elite-director.ts` | `src/mission.ts` | `EliteDirector` in `initMissionDirectors` | `8ae48d2` |
+| `src/sim/ai/shrines-events.ts` | `src/mission.ts` | `WORLD_SHRINE_KINDS`, `WorldEventsDirector` in `initMissionDirectors` | `8ae48d2` |
+| `src/sim/ai/skirmish-modes.ts` | `src/mission.ts` | `DIFFICULTY_TIERS`, `SkirmishModeController` in `initMissionDirectors` | `8ae48d2` |

@@ -11,7 +11,13 @@ const BIOMES = ['forest', 'marsh', 'desert', 'crypt', 'highlands', 'volcanic', '
 const { defaultBrowserType: _pixelBrowser, ...pixel5 } = devices['Pixel 5'];
 const { defaultBrowserType: _iphoneBrowser, ...iphone13 } = devices['iPhone 13'];
 
+test.afterEach(async ({ page }) => {
+  await page.goto('about:blank').catch(() => {});
+});
+
 test.describe('Biome seed skirmish smoke (H2)', () => {
+  test.use({ serviceWorkers: 'block' });
+
   for (const biome of BIOMES) {
     test(`boots biome seed ${biome} cleanly`, async ({ page }) => {
       const errors: string[] = [];
@@ -27,6 +33,8 @@ test.describe('Biome seed skirmish smoke (H2)', () => {
 });
 
 test.describe('Expedition & debug overlay smoke', () => {
+  test.use({ serviceWorkers: 'block' });
+
   test('boots expedition map with ?debug=1 telemetry and advances ticks', async ({ page }) => {
     const errors: string[] = [];
     page.on('pageerror', (e) => errors.push(e.message));
@@ -53,23 +61,30 @@ for (const [label, descriptor] of [
   test.describe(`Mobile PWA smoke: ${label} (F9)`, () => {
     test.use({ ...descriptor });
 
-    test('menu shell, roster entry & debug skirmish load without errors', async ({ page }) => {
-      const errors: string[] = [];
-      page.on('pageerror', (e) => errors.push(e.message));
+    test('menu shell, roster entry & debug skirmish load without errors', async ({ browser }) => {
+      const context = await browser.newContext({ ...descriptor, serviceWorkers: 'block' });
+      const page = await context.newPage();
+      try {
+        const errors: string[] = [];
+        page.on('pageerror', (e) => errors.push(e.message));
 
-      await page.goto('/thornvael/');
-      await expect(page.getByRole('heading', { name: /thornvael/i })).toBeVisible();
-      const singlePlayer = page.getByRole('button', { name: /single player/i });
-      await expect(singlePlayer).toBeVisible();
-      await singlePlayer.click();
-      await expect(page.getByRole('heading', { name: /select hero/i })).toBeVisible();
-      await expect(page.getByRole('button', { name: /create new hero/i })).toBeVisible();
+        await page.goto('/thornvael/');
+        await expect(page.getByRole('heading', { name: /thornvael/i })).toBeVisible();
+        const singlePlayer = page.getByRole('button', { name: /single player/i });
+        await expect(singlePlayer).toBeVisible();
+        await singlePlayer.click();
+        await expect(page.getByRole('heading', { name: /select hero/i })).toBeVisible();
+        await expect(page.getByRole('button', { name: /create new hero/i })).toBeVisible();
 
-      await page.goto('/thornvael/?randskirmish=7&players=2&biome=forest&hero=warrior,m,medium&debug=1');
-      await page.waitForFunction(() => Boolean((window as GameWindow).__game));
-      await expect(page.locator('#debug')).toBeVisible();
-      expect(await page.evaluate(() => (window as GameWindow).__game!.sim.tick)).toBeGreaterThanOrEqual(0);
-      expect(errors).toEqual([]);
+        await page.goto('/thornvael/?randskirmish=7&players=2&biome=forest&hero=warrior,m,medium&debug=1');
+        await page.waitForFunction(() => Boolean((window as GameWindow).__game));
+        await expect(page.locator('#debug')).toBeVisible();
+        expect(await page.evaluate(() => (window as GameWindow).__game!.sim.tick)).toBeGreaterThanOrEqual(0);
+        expect(errors).toEqual([]);
+      } finally {
+        await page.goto('about:blank').catch(() => {});
+        await context.close();
+      }
     });
 
     test('offline reload works after service worker registration', async ({ page, context }) => {
@@ -103,6 +118,8 @@ for (const [label, descriptor] of [
 }
 
 test.describe('Act 1 Campaign Flow E2E', () => {
+  test.use({ serviceWorkers: 'block' });
+
   test('Main Menu -> Hero Creation -> Act 1 Mission 1 -> Victory -> Thornwick Town -> World Map -> Mission 2', async ({
     page,
   }) => {

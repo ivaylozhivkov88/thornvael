@@ -43,6 +43,11 @@ jobs:
   playwright-smoke:
     needs: validate
     runs-on: ubuntu-latest
+    timeout-minutes: 20
+    strategy:
+      fail-fast: false
+      matrix:
+        project: [chromium, webkit]
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
@@ -53,8 +58,6 @@ jobs:
       - run: npm run build
         env:
           SITE_BASE: /thornvael/
-      - run: npx playwright install --with-deps chromium webkit
-      - name: Run PWA & biome smoke tests (Chromium & WebKit)
-        run: |
-          npx playwright test -c playwright.smoke.config.ts --project=chromium
-          npx playwright test -c playwright.smoke.config.ts --project=webkit
+      - run: npx playwright install --with-deps ${{ matrix.project }}
+      - name: Run PWA & biome smoke tests (${{ matrix.project }})
+        run: npx playwright test -c playwright.smoke.config.ts --project=${{ matrix.project }}
