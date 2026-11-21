@@ -245,3 +245,18 @@ Tune FAMILY_VISUALS in src/render.ts (~line 121) via ?art=1 (dev server thornvae
 Deploy now publishes after `build` only; `e2e` is `continue-on-error` in `.github/workflows/deploy.yml` (private use, not public yet).
 Before going public: fix failing e2e specs (`#shell .sh-map` wait, duplicate "Healing" spell node selector, `.hero-drag-ghost`, paperdoll scrollTop, console issues), then set `needs: [build, e2e]` and remove `continue-on-error`.
 Also: `ci.yml` `cancel-in-progress: true` kills the slow WebKit job on every new push; remove it or keep WebKit non-blocking.
+
+## Spell & Unique Icon Artisan Progress (2026-11-21)
+- [x] **Priority 3a (Spell Icons)**: Generated all 38 missing individual 64x64 PNG spell icons under `public/spellicons/<id>.png` (`chain-lightning`, `haste`, `gale`, `wind-ward`, `thunderstorm`, `static-arc`, `pinning-bodkin`, `visor-split`, `serrated-broadhead`, `crippling-tendon`, `raking-volley`, `suppressive-arc`, `heartseeker`, `hail-of-yew`, `briar-snare`, `marsh-adder-venom`, `reed-smoke-screen`, `carrion-mark`, `gale-step`, `spore-pod-shot`, `falcons-bearing`, `thornwood-ambush`, `splinter-writ`, `raise-indentured`, `ribcage-bulwark`, `marrow-shrapnel`, `ossuary-cage`, `phalanx-of-arrears`, `exact-tithe`, `compound-interest`, `garnish-vigor`, `lien-of-blood`, `foreclosure`, `cold-ledger`, `witness-the-fallen`, `grave-quiet`, `toll-of-the-pale`, `forgive-the-oath`). Standard: 64x64 PNG, 100% transparent border, retro dark outline, and school glow accents (air, marksman/wild, bone, debt, grave).
+- [x] **Priority 3b (Unique Item Icons - Batch 1 of 20)**: Generated 20 dedicated 64x64 PNG unique item icons under `public/itemicons/uniq-*.png` (`uniq-tollkeeper-bill`, `uniq-mordred-tallow-wand`, `uniq-ravenwatch-gate-door`, `uniq-greywood-poacher-bow`, `uniq-krag-jawbone`, `uniq-undervault-lantern-helm`, `uniq-morvessa-spindle`, `uniq-quarry-overseer-maul`, `uniq-wardstone-shard-focus`, `uniq-bram-axle-shield`, `uniq-sera-bone-saw`, `uniq-sunken-castellan-plate`, `uniq-lyra-last-arbalest`, `uniq-stormtree-amber-staff`, `uniq-drowned-choir-bell`, `uniq-vesperion-organ-pipe`, `uniq-anvilmaw-slag-maul`, `uniq-redglass-fletched-bow`, `uniq-hollow-monarch-blade`, `uniq-ashkarath-crown-shard`).
+- [x] **Documentation & Wiring**: Created `docs/wiki-visual-style-samples.md` and updated `tools/INTEGRATION-NOTES.md` clarifying that `public/spellicons/` now contains both the 18-frame overlay atlas (`spellicons.png`/`.json`) and individual 64x64 icons. Updated `tools/build-wiki-data.mjs` to prioritize individual spell icons.
+- [x] **Assets & Wiki Data**: Added 58 `own` provenance entries to `assets.json` (`tools/gen-spell-icons.py` & `tools/gen-unique-icons.py`). Re-synced wiki data (20 files, 2,190 articles, 0 missing placeholders).
+- [x] **Verifications**:
+  - `node tools/check-repo.mjs`: **PASS (1959 files, 0 errors)**
+  - `npm run check:atlases`: **PASS (PNG pixels & provenance OK)**
+  - `npx tsc --noEmit`: **PASS (0 errors)**
+  - `npx biome check`: **PASS (0 errors)**
+  - `npx vitest run tests/wiki-data.test.ts tests/art-packs.test.ts`: **PASS (11/11 tests)**
+  - `npm run build`: **PASS (Vite + PWA SW 638 entries precached)**
+- **Remaining**: 112 unique items remaining for future batches (112/132 currently use base icons; 20/132 now have dedicated custom art).
+

@@ -24,16 +24,18 @@ All packs below are generated reproducibly by `tools/gen-new-art-packs.py`, regi
 
 ---
 
-## 2. `public/spellicons/` -> `src/render.ts` / HUD / `src/shell.ts`
+## 2. `public/spellicons/` -> `src/render.ts` / HUD / `src/shell.ts` / Wiki
 
-- **Files**: `public/spellicons/spellicons.png` + `public/spellicons/spellicons.json` (18 48x48 frames).
-- **Frame keys**:
+- **Files**:
+  - Atlas: `public/spellicons/spellicons.png` + `public/spellicons/spellicons.json` (18 48x48 frames for status effects, schools, and legacy core spells).
+  - Individual icons: `public/spellicons/<id>.png` (38 dedicated 64x64 individual spell icons with transparent background, retro dark outline, and school glow accents: Air, Marksman, Wild/Earth, Bone, Debt, Grave).
+- **Frame keys in atlas**:
   - Schools: `school/fire`, `school/frost`, `school/arcane`, `school/shadow`, `school/holy`, `school/earth`
   - Status effects: `status/burning`, `status/frozen`, `status/poisoned`, `status/stunned`, `status/shield`, `status/haste`
   - Core spells: `spell/fireball`, `spell/frost-bolt`, `spell/lightning`, `spell/healing`, `spell/poison-cloud`, `spell/stone-skin`
 - **Drop-in wiring**:
   - In Pixi unit status overlays (`src/render.ts` / `src/nameplate.ts`), draw the unit's active debuff/buff texture from `sheet.textures['status/' + statusKey]` above the nameplate.
-  - In DOM spellbook/hotbar (`src/shell.ts` or HUD), slice via CSS `background-image: url('/thornvael/spellicons/spellicons.png')` using `frame.x`, `frame.y`, `frame.w`, `frame.h` from `spellicons.json`.
+  - In DOM spellbook/hotbar (`src/shell.ts` or HUD) and Wiki (`src/wiki/`), individual icons `public/spellicons/<id>.png` provide crisp, standalone 64x64 art for all spells, with the atlas serving as status effect overlay source.
 
 ---
 

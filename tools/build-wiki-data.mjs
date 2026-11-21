@@ -54,7 +54,12 @@ const readJson = (rel, fallback = null) => {
   }
 };
 const has = (rel) => existsSync(P('public', rel));
-const slug = (s) => String(s).toLowerCase().replace(/['’]/g, '').replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '');
+const slug = (s) =>
+  String(s)
+    .toLowerCase()
+    .replace(/['’]/g, '')
+    .replace(/[^a-z0-9]+/g, '-')
+    .replace(/^-|-$/g, '');
 const cap = (s) => (s ? String(s)[0].toUpperCase() + String(s).slice(1) : '');
 const C = (n) => readJson(`public/data/content/${n}.json`, []);
 const uniqBy = (arr, key) => {
@@ -87,7 +92,249 @@ const fmtStats = (o) => Object.entries(o ?? {}).map(([k, v]) => `${Number(v) > 0
 const CLASS_LABEL = { warrior: 'Warrior', archer: 'Archer', mage: 'Mage', necromancer: 'Necromancer' };
 const SLOT_NAME = ['Weapon', 'Shield', 'Helm', 'Armor', 'Boots', 'Ring', 'Amulet', 'Gloves'];
 const ELEM_NAME = ['Physical', 'Fire', 'Water', 'Air', 'Earth', 'Astral'];
-const CLS_FROM_MASK = (m) => (m === 1 ? 'Warrior' : m === 2 ? 'Mage' : m === 3 ? 'All' : m === 4 ? 'Archer' : m === 8 ? 'Necromancer' : 'All');
+const CLS_FROM_MASK = (m) =>
+  m === 1 ? 'Warrior' : m === 2 ? 'Mage' : m === 3 ? 'All' : m === 4 ? 'Archer' : m === 8 ? 'Necromancer' : 'All';
+
+const SUPER_UNIQUE_LORE = {
+  'pyre-chanter-malgath':
+    'Former choir-tender of the Greywood border beacons who burned his own parish ledger when the first raiders crossed the Alder. From blackened cairns he chants dead cinderlings upright again, shielding his coven behind wards of scorched bone.',
+  'volt-stalker-krazak':
+    'An alpha briar-hound scarred along both flanks by Fallen-Spire copper grounding rods during an autumn storm. Static arcs crackle through its matted bristles with every lunge, scattering frontier pickets faster than crossbows can wind.',
+  'frostquill-skara':
+    'Nesting high along the sleet-bitten crags above Ravenwatch, Skara dips her dorsal spines in winter river-rime before every ambush. Caravaneers find frozen pack-mules pinned neatly to birch trunks days before her pack strikes.',
+  'bramblefist-oakhulk':
+    'Bound together from ancient Alder boundary oaks fed with battle-spilled marrow and shattered iron shields. Where its root-knuckles strike the road, earth-wards fracture and curses cling like wet bog-moss.',
+  'arc-carapace-vekor':
+    'A gilded dune-scarab nested atop ruptured Redmarsh quartz conduits until its shell magnetized every brass rivet in the basin. Pursuers who close to sword-reach eat arcs of stored desert lightning off its chitin.',
+  'venomscale-ssorath':
+    'Patriarch of the alkali-pit vipers that drove three Redmarsh tax-garrisons out of their silt trenches. His fangs weep a pale mineral venom honed to slip past leather vambraces and drop unwary arcanists mid-incantation.',
+  'ash-embalmer-khepri':
+    'Third-Dynasty mortuary warden whose bitumen-soaked wrappings survived the fault-shift that sank the Salt-Vaults. Whenever hollow knights shatter beneath heavy mauls, Khepri binds their dry joints back together with probate wire.',
+  'crimson-prowler-zara':
+    'Outcast captain of the Sand-Clan reavers who painted her scimitars in red ochre mud and swore no quarter to northern levies. Wounded, she sheds shield discipline altogether for a relentless berserk charge.',
+  'bog-hexer-zulmar':
+    'Exiled fen-apothecary who turned coastal marsh-gas vents into blistered altars of blister-fire and blowdart ambush. Even his sniper retinue fights beneath an inherited blessing-ward stolen from a dead Oakhaven chaplain.',
+  'thunderbough-elder':
+    'Lightning struck this coastal ironwood three winters running during the Black Fleet blockade, fusing copper mast-chains deep inside its heartwood. Every stride shakes loose tectonic tremors along the ridge.',
+  'cinderweb-arachna':
+    'She spun oiled hemp and volcanic brimstone threads across the cratered orchard eaves behind Oakhaven. One spark from her spinnerets turns whole thickets of web into clinging poison fire.',
+  'rimewing-valkor':
+    'Born in the shattered quartz eddies above Hourglass Spit where coastal spray freezes before touching stone. Valkor blinks cleanly across tide-pools between icy volleys, leaving footmen swinging at sleet.',
+  'fallen-warden-azrael':
+    'Once knight-commander of the First Watch picket holding the Obsidian Approach before the Anchor Seals cracked. Still clad in frost-rimmed coronation plate, Vaelor guards the caldera stair against living and traitor alike.',
+  'hellforger-kragg':
+    'Master smith of the deep Cinderforge foundries who quenched star-iron ingots in his own molten veins rather than surrender his anvil. His double-headed hammer splits basalt ramparts and shields with equal fury.',
+  'dreadlord-malakor':
+    'Last Keeper of the Seventh Seal who traded his living name to hold the Dread Knight phalanx unbroken through four sieges. From behind locked tower shields he rains Slow and Weaken hexes down the marble colonnade.',
+  'soulblight-archon':
+    'Gorgath leads the inner caldera cinderhorn pack across cooling magma channels on hoof and horn. Every wound he takes only stokes his berserk furnace brighter until the obsidian dais itself runs red.',
+};
+
+const SPECIAL_ITEM_LORE = {
+  'scroll-of-town-portal':
+    'Inscribed by First Watch wayfarers with twin salt-chalk return sigils, tearing open a brief azure threshold straight back to the nearest fortified town hearth.',
+  'greater-healing-potion':
+    'Double-distilled bog-sweet, willow bark, and copper-kettle cordial sealed in thick green glass for frontline pikemen taking heavy siege trauma.',
+  'greater-mana-potion':
+    'Concentrated wardstone condensate bottled in faceted sapphire glass, restoring deep arcane reserves to battle-mages sustaining prolonged barrages.',
+  'identification-scroll':
+    'A field-trimmed vellum slip stamped with the Eye of Vaelen, issued in bundles to quartermasters appraising uncataloged relics.',
+};
+
+function synthesizeSpecialGemLore(id, name, tier) {
+  const gradeNotes = {
+    1: 'A raw, chipped fracture still dusty with quarry matrix, prized by frontier smiths for first-tier socket work.',
+    2: 'Roughly ground on an iron treadle wheel to sharpen its facets without losing the stone’s inner resonance.',
+    3: 'Cleanly cut to guild standard for reliable weapon and armor socketing or three-for-one Transmutation Cube refinement.',
+    4: 'Master-faceted in Oakhaven lapidary workshops until light refracts through every bevel without clouding.',
+    5: 'A peerless crown-cut jewel annealed in the Transmutation Cube, holding pure elemental charge in minimal weight.',
+  };
+  const famOrigin = id.includes('ruby')
+    ? 'Recovered from caldera slag seams where cooling magma fuses corundum around iron pockets.'
+    : id.includes('sapphire')
+      ? 'Dredged from frost-rimed coastal basalt veins along the northern cliffs of Iron Coast.'
+      : id.includes('topaz')
+        ? 'Sieved from amber-stained Redmarsh gravel bars and polished with alkali salt.'
+        : id.includes('emerald')
+          ? 'Cut from deep Greywood serpentine rock veined with mineral copper and old fen-sap.'
+          : 'Carved from calcified First-Dynasty ossuary bone steeped in silver ash and probate incense.';
+  return `${famOrigin} ${gradeNotes[tier] ?? gradeNotes[3]} (${name}).`;
+}
+
+function synthesizeBaseItemLore(b) {
+  const tierForge = [
+    'Thornwick border-smiths forge this tier-1',
+    'Alder garrison armorers temper this tier-2',
+    'Oakhaven naval workshops finish this tier-3',
+    'Ironcamp siege-foundries alloy this tier-4',
+    'Caldera star-iron masters consecrate this tier-5',
+  ][Math.max(0, Math.min(4, (b.tier ?? 1) - 1))];
+  const socketNote =
+    b.maxSockets > 0 ? ` Bored to hold up to ${b.maxSockets} socket${b.maxSockets > 1 ? 's' : ''}.` : '';
+  const reqParts = [];
+  if (b.reqStr) reqParts.push(`Body ${b.reqStr}`);
+  if (b.reqDex) reqParts.push(`Agility ${b.reqDex}`);
+  const reqNote = reqParts.length ? ` Demands ${reqParts.join(' and ')} to wield steadily.` : '';
+
+  if (b.charmSize) {
+    return `${tierForge} ${b.name}: a ${b.charmSize} pack-ward etched with frontier runes that blesses its bearer simply by being carried.`;
+  }
+  if (b.beltSlots) {
+    return `${tierForge} ${b.name} (${b.def ?? 0} Def) with reinforced leather loops carrying ${b.beltSlots} quick-draw potion slots.${reqNote}`;
+  }
+  if (b.minDmg != null && b.maxDmg != null) {
+    const styleMap = {
+      dagger: 'short close-quarters blade built to slip past mail gaps',
+      sword_1h: 'balanced one-handed blade weighted for shield-wall parries',
+      sword_2h: 'heavy two-handed war-sword built to cleave pike shafts',
+      axe_1h: 'bearded chopping axe honed to split timber shields and helmets',
+      mace: 'flanged crushing head meant to dent plate rather than cut',
+      polearm: 'long-shafted crescent blade built to check charging beasts',
+      scepter: 'consecrated war-scepter balancing blunt impact with ward-channels',
+      bow: 'laminated hunting stave strung with waxed sinew for volleys',
+      staff: 'runed casting quarterstaff channeling elemental surges',
+      wand: 'carved focus rod favored by probate necromancers and clerks',
+    };
+    const role = styleMap[b.weaponSubtype] ?? 'campaign weapon balanced for frontier patrols';
+    return `${tierForge} ${b.name} (${b.minDmg}-${b.maxDmg} damage): a ${role}.${socketNote}${reqNote}`;
+  }
+  const weightNote =
+    b.armorWeight === 'heavy'
+      ? 'Heavy articulated plates trade -10% run speed for steadfast protection'
+      : b.armorWeight === 'medium'
+        ? 'Medium riveted mail balances solid deflection against -5% stride weight'
+        : b.armorWeight === 'light'
+          ? 'Supple light tailoring preserves full marching speed across muddy terrain'
+          : b.slot === 1
+            ? 'Sturdy rim-bound defense built to turn aside arrows and heavy blows'
+            : 'Fitted headgear protecting the crown and brow in close skirmishes';
+  const defPart = b.def != null ? ` (${b.def} Def${b.abs ? `, ${b.abs} Abs` : ''})` : '';
+  return `${tierForge} ${b.name}${defPart}: ${weightNote}.${socketNote}${reqNote}`;
+}
+
+function affixDomain(a) {
+  const txt = `${a.name} ${a.line}`.toLowerCase();
+  if (/fire|caldera|cinder|fiery|volcanic|glowing|fissure/.test(txt)) return 'fire';
+  if (/cold|frost|chilly|glacial|brine|sluice|water/.test(txt)) return 'cold';
+  if (/lightning|storm|breezy|galvanic|conduction|static|air/.test(txt)) return 'lightning';
+  if (/poison|bog|bitumen|vinegar|earthen|granite|dot/.test(txt)) return 'poison';
+  if (/minion|probate|indentured|oath-bound/.test(txt)) return 'minion';
+  if (
+    /mana|mind|astral|void|leyline|pre-schism|glimmering|luminescent|celestial|thought|wisdom|archmage|witness|notarized|gall-ink|pauper-inked/.test(
+      txt,
+    )
+  )
+    return 'astral';
+  if (/gold|tallies|lifesteal|bailiff|foreclosing|liquidation|dry socks|fatigue/.test(txt)) return 'fortune';
+  if (
+    /armor|def|abs|block|parapet|stout|hardened|tempered|indomitable|annealed|anchor|unbroken|protection|warding|aegis|riveted|tallow/.test(
+      txt,
+    )
+  )
+    return 'defense';
+  if (/hp|health|regen|immortality|ox|bear|behemoth|keel|ditch|first-watch|cistern|alkali/.test(txt)) return 'vitality';
+  if (/acc|evasion|dex|grace|nirvana|speed|stalking|waxed|sinew|sightlines|windlass|smoke-veiled/.test(txt))
+    return 'agility';
+  return 'physical';
+}
+
+function synthesizeAffixLore(a) {
+  const slotsText = (a.slots ?? []).length ? (a.slots ?? []).map(cap).join(', ').toLowerCase() : 'all battle gear';
+  const dom = affixDomain(a);
+  const craftMap = {
+    fire: 'Tempered over caldera slag-coals and rubbed with brimstone oil so heat clings along every seam.',
+    cold: 'Quenched in winter river-rime and coastal brine to bleed warmth from incoming blows and chill exposed steel.',
+    lightning: 'Wound with hair-fine copper grounding filaments copied from Thermodynamic Conclave coils.',
+    poison: 'Cured in acidic fen-tannin and mineral pitch to turn away rot while coating edges in lingering venom.',
+    astral: 'Etched with fine silver survey-sigils that draw stray ley-current straight out of the air.',
+    defense:
+      'Peened and double-riveted on Ironcamp anvils to turn aside lance tips, shrapnel, and crushing warhammers.',
+    vitality: 'Stamped with First Watch endurance wards prized by vanguard pikemen holding narrow river crossings.',
+    agility: 'Balanced and shaved to feather-light tolerances so scouts and archers loose without hesitation.',
+    minion: 'Notarized in Lower-Parish probate ink, binding summoned skeletons and mercs tighter to the bearer’s will.',
+    fortune: 'Inlaid with stamped assay marks and copper tally-rings favored by Redmarsh caravaneers and bailiffs.',
+    physical: 'Ground on wet quarry whetstones until the bevel bites straight through iron rings and boiled leather.',
+  };
+  return `"${a.name}" (${cap(a.kind)}, tier ${a.tier}) — ${craftMap[dom]} Bound to ${slotsText}, conferring ${a.line}.`;
+}
+
+const REGION_FLAVOR_IDS = {
+  'map1-thornwick-market-city-hub': ['rf-a1-02'],
+  'map1-sunken-ford-willow-weirs': ['rf-a1-01'],
+  'map1-fenwick-peat-lantern-passage': ['rf-a1-03', 'rf-a1-06'],
+  'map1-greywood-canopy-vitrified-kilns': ['rf-a1-07'],
+  'map1-craghorn-defile-alder-bridge': ['rf-a1-08', 'rf-a1-09'],
+  'map1-ravenwatch-keep-weeping-ossuary': ['rf-a1-04', 'rf-a1-05'],
+  'map1-undervault-links-ashbrook-gate': ['rf-a1-10'],
+  'map2-redmarsh-outpost-city-hub': ['rf-a2-01'],
+  'map2-ochre-ditch-corduroy-causeway': ['rf-a2-02', 'rf-a2-06'],
+  'map2-twin-passes-bracken-basin': ['rf-a2-03', 'rf-a2-04'],
+  'map2-quartz-plateau-wardstone-ring': ['rf-a2-05'],
+  'map2-third-dynasty-salt-vaults': ['rf-a2-07', 'rf-a2-08'],
+  'map2-deep-quarry-flooded-sluice': ['rf-a2-09'],
+  'map2-fork-of-spears-ironheart-bastion': ['rf-a2-10'],
+  'map3-oakhaven-harbor-city-hub': ['rf-a3-01'],
+  'map3-cinder-wards-blighted-orchard': ['rf-a3-02', 'rf-a3-03'],
+  'map3-greywash-canal-riverlock': ['rf-a3-07'],
+  'map3-hourglass-spit-smuggler-caves': ['rf-a3-06'],
+  'map3-sunken-citadel-drowned-choir': ['rf-a3-05'],
+  'map3-starved-bastion-cliff-batteries': ['rf-a3-04', 'rf-a3-08', 'rf-a3-09'],
+  'map3-burning-harborwatch-flagship': ['rf-a3-10'],
+  'map4-ironcamp-forge-hold-city-hub': ['rf-a4-01'],
+  'map4-basalt-highway-shattered-beacons': ['rf-a4-02', 'rf-a4-03'],
+  'map4-besieged-wall-ashveil-summit': ['rf-a4-04', 'rf-a4-05'],
+  'map4-magnetic-narrows-twofold-barbican': ['rf-a4-07'],
+  'map4-gauntlet-of-iron-greystone-rampart': ['rf-a4-06'],
+  'map4-three-roads-watch-headless-kings': ['rf-a4-08'],
+  'map4-colonnade-of-crowns-obsidian-dais': ['rf-a4-09', 'rf-a4-10'],
+};
+
+const ACH_CAT_MAP = {
+  combat: 'combat',
+  campaign: 'campaign',
+  exploration: 'exploration',
+  economy: 'economy',
+  codex: 'codex',
+  mastery: 'mastery',
+  classes: 'classes',
+  mercenaries: 'mercenaries',
+  gear: 'gear',
+};
+
+function achievementAssetFor(a) {
+  const text = `${a.title ?? ''} ${a.desc ?? ''}`.toLowerCase();
+  const isSecret = a.extra?.some(([k, v]) => (k === 'Secret' || k === 'Hidden') && v === 'Yes');
+  let iconTier = 'bronze';
+  const tierRow = a.extra?.find(([k]) => k === 'Tier')?.[1]?.toLowerCase();
+  if (tierRow && ['bronze', 'silver', 'gold'].includes(tierRow)) {
+    iconTier = tierRow;
+  } else if (['bronze', 'silver', 'gold'].includes(String(a.cat).toLowerCase())) {
+    iconTier = String(a.cat).toLowerCase();
+  } else {
+    const targetNum = Number(a.extra?.find(([k]) => k === 'Target')?.[1] ?? 0);
+    if (isSecret || targetNum >= 100 || /hardcore|nightmare|all |complete act 4|malrik|ashkarath|master/i.test(text)) {
+      iconTier = 'gold';
+    } else if (targetNum >= 10 || /act 2|act 3|veteran|elite|super/i.test(text)) {
+      iconTier = 'silver';
+    }
+  }
+
+  let iconCat = ACH_CAT_MAP[String(a.cat).toLowerCase()];
+  if (!iconCat) {
+    if (isSecret) iconCat = 'secret';
+    else if (/slay|kill|crit|damage|boss|blood|arena|combat|flawless|clear/i.test(text)) iconCat = 'combat';
+    else if (/gold|coin|shop|merchant|buy|sell|wealth/i.test(text)) iconCat = 'economy';
+    else if (/lore|book|codex|rumor|read|chronicle/i.test(text)) iconCat = 'codex';
+    else if (/discover|explore|waypoint|shrine|landmark|region|map/i.test(text)) iconCat = 'exploration';
+    else if (/craft|cube|rune|gem|socket|unique|set|forge|item/i.test(text)) iconCat = 'gear';
+    else if (/merc|recruit|squad|hire|retinue/i.test(text)) iconCat = 'mercenaries';
+    else if (/class|warrior|archer|mage|necromancer|level/i.test(text)) iconCat = 'classes';
+    else if (/master|speed|no death|hard|solo/i.test(text)) iconCat = 'mastery';
+    else iconCat = 'campaign';
+  }
+  if (isSecret && iconCat === 'campaign') iconCat = 'secret';
+  return `wiki/icons/achievement-${iconCat}-${iconTier}.png`;
+}
 
 export function buildWikiData() {
   const missing = []; // { id, type, where }
@@ -120,7 +367,9 @@ export function buildWikiData() {
   }
   const foundBiomes = {};
   for (const [bName, cfg] of Object.entries(mapGenMod.BIOMES)) {
-    const fams = new Set([...(cfg.mobFamilies ?? []), cfg.mobFamily, ...(cfg.bossFamilies ?? []), cfg.bossFamily].filter(Boolean));
+    const fams = new Set(
+      [...(cfg.mobFamilies ?? []), cfg.mobFamily, ...(cfg.bossFamilies ?? []), cfg.bossFamily].filter(Boolean),
+    );
     for (const f of fams) (foundBiomes[f] ??= []).push(bName);
   }
 
@@ -128,17 +377,27 @@ export function buildWikiData() {
   const dropsOf = {};
   for (const u of uniques) if (u.drop_from) (dropsOf[u.drop_from] ??= []).push(u.id);
   const bossInfo = readJson('public/data/content/bosses.json', {});
-  const bossExtra = Object.fromEntries((readJson('public/data/content/boss-extra.json', { boss_extra: [] }).boss_extra ?? []).map((b) => [b.boss, b]));
+  const bossExtra = Object.fromEntries(
+    (readJson('public/data/content/boss-extra.json', { boss_extra: [] }).boss_extra ?? []).map((b) => [b.boss, b]),
+  );
   const atlasCache = {};
   const atlasPic = (id) => {
     if (!has(`sprites/${id}.json`) || !has(`sprites/${id}.png`)) return null;
     const j = (atlasCache[id] ??= readJson(`public/sprites/${id}.json`));
     const f = j?.frames?.[`${id}/stand/00/00`] ?? Object.values(j?.frames ?? {})[0];
     if (!f) return null;
-    return { src: `sprites/${id}.png`, atlas: { x: f.frame.x, y: f.frame.y, w: f.frame.w, h: f.frame.h, sw: j.meta.size.w, sh: j.meta.size.h } };
+    return {
+      src: `sprites/${id}.png`,
+      atlas: { x: f.frame.x, y: f.frame.y, w: f.frame.w, h: f.frame.h, sw: j.meta.size.w, sh: j.meta.size.h },
+    };
   };
   const portraitFor = (id) => {
-    for (const c of [`townart/mon/${id}.jpg`, `townart/frame-${id}.jpg`, `townart/friend-${id}.jpg`, `townart/frame-hero-${id}.jpg`]) {
+    for (const c of [
+      `townart/mon/${id}.jpg`,
+      `townart/frame-${id}.jpg`,
+      `townart/friend-${id}.jpg`,
+      `townart/frame-hero-${id}.jpg`,
+    ]) {
       if (has(c)) return { src: c };
     }
     return null;
@@ -155,7 +414,19 @@ export function buildWikiData() {
     const baseMin = s?.baseMin ?? kd?.min;
     const baseMax = s?.baseMax ?? kd?.max;
     const speed = s?.speed ?? kd?.speed;
-    const attackKind = s ? (s.caster ? 'Spell' : s.ranged ? 'Ranged' : 'Melee') : kd ? (kd.caster ? 'Spell' : kd.ranged ? 'Ranged' : 'Melee') : undefined;
+    const attackKind = s
+      ? s.caster
+        ? 'Spell'
+        : s.ranged
+          ? 'Ranged'
+          : 'Melee'
+      : kd
+        ? kd.caster
+          ? 'Spell'
+          : kd.ranged
+            ? 'Ranged'
+            : 'Melee'
+        : undefined;
     const cx = codex[b.id];
     const isBoss = mons.bosses.some((m) => m.id === b.id);
     const whereMissions = (foundIn[b.id] ?? []).map((m) => missionOf(m)).filter(Boolean);
@@ -165,8 +436,9 @@ export function buildWikiData() {
     if (b.lore) sections.push({ h: 'Lore', p: [b.lore] });
     if (cx?.codex) sections.push({ h: 'Field notes', p: [cx.codex] });
     if (cx?.special) {
-      const spDesc = typeof cx.special === 'string' ? [cx.special] : [cx.special.desc, cx.special.telegraph].filter(Boolean);
-      const spTitle = typeof cx.special === 'string' ? 'Special ability' : cx.special.name ?? 'Special ability';
+      const spDesc =
+        typeof cx.special === 'string' ? [cx.special] : [cx.special.desc, cx.special.telegraph].filter(Boolean);
+      const spTitle = typeof cx.special === 'string' ? 'Special ability' : (cx.special.name ?? 'Special ability');
       if (spDesc.length) sections.push({ h: spTitle, p: spDesc });
     }
     if (cx?.loot_theme) sections.push({ h: 'Loot theme', p: [cx.loot_theme] });
@@ -219,13 +491,34 @@ export function buildWikiData() {
       ...(portrait && sprite ? { sprite } : {}),
       infobox: [
         ['Kind', isBoss ? 'Boss' : PLAYER_SIDE.has(b.id) ? 'Hero-side unit' : 'Creature'],
-        ...(baseHp != null ? [['Base HP', String(baseHp)], ['Damage', `${baseMin}-${baseMax}`], ['Speed', String(speed)], ['Attack', attackKind ?? 'Melee']] : []),
+        ...(baseHp != null
+          ? [
+              ['Base HP', String(baseHp)],
+              ['Damage', `${baseMin}-${baseMax}`],
+              ['Speed', String(speed)],
+              ['Attack', attackKind ?? 'Melee'],
+            ]
+          : []),
         ...(s?.elem ? [['Element', ELEM_NAME[s.elem] ?? String(s.elem)]] : []),
         ['Weakness', b.weakness || cx?.weakness || 'Unknown'],
-        ['Found in', whereMissions.length ? whereMissions.slice(0, 3).map((n) => n.title).join(', ') + (whereMissions.length > 3 ? ` +${whereMissions.length - 3}` : '') : whereBiomes.length ? whereBiomes.map(cap).join(', ') : 'Unknown'],
+        [
+          'Found in',
+          whereMissions.length
+            ? whereMissions
+                .slice(0, 3)
+                .map((n) => n.title)
+                .join(', ') + (whereMissions.length > 3 ? ` +${whereMissions.length - 3}` : '')
+            : whereBiomes.length
+              ? whereBiomes.map(cap).join(', ')
+              : 'Unknown',
+        ],
       ],
       sections,
-      related: [...drops, ...whereMissions.slice(0, 4).map((n) => `mission/${n.id}`), ...whereBiomes.map((bm) => `biome/${bm}`)],
+      related: [
+        ...drops,
+        ...whereMissions.slice(0, 4).map((n) => `mission/${n.id}`),
+        ...whereBiomes.map((bm) => `biome/${bm}`),
+      ],
       tags: {
         family: isBoss ? 'boss' : PLAYER_SIDE.has(b.id) ? 'ally' : 'creature',
         level: baseHp ? Math.round(baseHp / 10) : 0,
@@ -261,7 +554,7 @@ export function buildWikiData() {
       sections: [
         { h: 'Overview', p: [su.summary] },
         { h: 'Signature abilities', list: [...su.signatureAbilities] },
-        { h: 'Lore', p: ['No lore yet.'] },
+        { h: 'Lore', p: [SUPER_UNIQUE_LORE[su.id] ?? `${su.name} stalks the borderlands of Act ${su.act}.`] },
       ],
       related: [`bestiary/${su.family}`, `map/map${su.act}`],
       tags: { family: 'super-unique', level: su.tier * 12, act: su.act, core: false },
@@ -354,7 +647,10 @@ export function buildWikiData() {
         ['Act', String(e.act)],
         ['Weakness', cap(e.weakness)],
       ],
-      sections: [{ h: 'Behavior', p: [e.behavior] }, { h: 'Lore', p: [e.lore || 'No lore yet.'] }],
+      sections: [
+        { h: 'Behavior', p: [e.behavior] },
+        { h: 'Lore', p: [e.lore || 'No lore yet.'] },
+      ],
       related: [`map/map${e.act}`, ...(art?.sprite ? [`bestiary/${art.sprite}`] : [])],
       tags: { family: e.family, level: e.act * 5, act: e.act, core: false },
       gate: { a: e.act },
@@ -365,13 +661,7 @@ export function buildWikiData() {
   // ---------- items, uniques, sets, affixes, gems/runes ----------
   const itemEntries = [];
   const iconFor = (type, id, name, where, ...extraSlugs) =>
-    pic(
-      type,
-      id,
-      where,
-      ...extraSlugs.filter(Boolean).map((s) => `itemicons/${s}.png`),
-      `itemicons/${slug(name)}.png`,
-    );
+    pic(type, id, where, ...extraSlugs.filter(Boolean).map((s) => `itemicons/${s}.png`), `itemicons/${slug(name)}.png`);
 
   const SIM_BASE_ICON = {
     dagger: 'flint-stiletto',
@@ -424,11 +714,29 @@ export function buildWikiData() {
   const GEM_FAMILY_ICON = {
     ruby: ['cinder-heart-talisman', 'ember-charm', 'caldera-ember-core', 'bloodstone-pendant', 'caldera-ember-core'],
     sapphire: ['brine-vial-pendant', 'frost-charm', 'astral-sphere', 'threshold-ward-mirror', 'astral-sphere'],
-    topaz: ['amber-fen-beetle-charm', 'copper-plumb-amulet', 'salt-crystal-pendulum', 'beacon-lens-signet', 'amber-fen-beetle-charm'],
+    topaz: [
+      'amber-fen-beetle-charm',
+      'copper-plumb-amulet',
+      'salt-crystal-pendulum',
+      'beacon-lens-signet',
+      'amber-fen-beetle-charm',
+    ],
     emerald: ['viper-antivenom-phial', 'life-charm', 'stone-charm', 'leyline-spark-elixir', 'life-charm'],
     skull: ['ossuary-bone-ward', 'bone-ring', 'ossuary-ash-incense', 'ossuary-seal-ring', 'ossuary-bone-ward'],
-    diamond: ['novice-glass-focus', 'chiseled-quartz-focus', 'radiant-spell-mirror', 'astral-prism-medallion', 'astral-prism-medallion'],
-    amethyst: ['mind-charm', 'smoked-quartz-monocle', 'salt-crystal-pendulum', 'eye-of-the-cosmos', 'eye-of-the-cosmos'],
+    diamond: [
+      'novice-glass-focus',
+      'chiseled-quartz-focus',
+      'radiant-spell-mirror',
+      'astral-prism-medallion',
+      'astral-prism-medallion',
+    ],
+    amethyst: [
+      'mind-charm',
+      'smoked-quartz-monocle',
+      'salt-crystal-pendulum',
+      'eye-of-the-cosmos',
+      'eye-of-the-cosmos',
+    ],
   };
 
   const RUNE_ICON_POOL = [
@@ -484,7 +792,15 @@ export function buildWikiData() {
     const clean = slug(name);
     for (const [fam, icons] of Object.entries(GEM_FAMILY_ICON)) {
       if (clean === fam || clean.endsWith('-' + fam)) {
-        const gradeIdx = clean.startsWith('chipped-') ? 0 : clean.startsWith('flawed-') ? 1 : clean.startsWith('flawless-') ? 3 : clean.startsWith('perfect-') ? 4 : 2;
+        const gradeIdx = clean.startsWith('chipped-')
+          ? 0
+          : clean.startsWith('flawed-')
+            ? 1
+            : clean.startsWith('flawless-')
+              ? 3
+              : clean.startsWith('perfect-')
+                ? 4
+                : 2;
         return icons[gradeIdx];
       }
     }
@@ -502,18 +818,63 @@ export function buildWikiData() {
   };
 
   const gearList = readJson('public/data/items.json', { items: [] }).items;
+  const itemFlavor = readJson('public/data/content/item-flavor.json', {});
   const itemLore = readJson('src/data/text/item-lore.json', {});
-  const loreOf = (key) => Object.keys(itemLore).filter((k) => k === key || k.startsWith(key + '.')).map((k) => itemLore[k]);
+  const loreOf = (key) =>
+    Object.keys(itemLore)
+      .filter((k) => k === key || k.startsWith(key + '.'))
+      .map((k) => itemLore[k]);
+  const spFlavor = readJson('src/data/text/spell-flavor.json', {});
+  const spText = Object.fromEntries(C('spell-text').map((t) => [t.name, t]));
+  const spellsBase = readJson('public/data/spells.json', { spells: [] }).spells;
+  const spellAll = [...spellsBase, ...C('spells-new')];
+  const spellByName = Object.fromEntries(spellAll.map((s) => [s.name, s]));
 
   for (const it of gearList) {
     const id = slug(it.name);
-    const inf = [['Type', cap(it.kind)], ['Tier', String(it.tier)], ['Weight', String(it.w)]];
+    const inf = [
+      ['Type', cap(it.kind)],
+      ['Tier', String(it.tier)],
+      ['Weight', String(it.w)],
+    ];
     if (it.slot) inf.push(['Slot', cap(it.slot)]);
     if (it.cls) inf.push(['Class', cap(it.cls)]);
     if (it.min != null) inf.push(['Damage', `${it.min}-${it.max}`]);
     if (it.need) inf.push(['Requires', `${cap(it.need)} ${it.needv}`]);
     if (it.heal) inf.push(['Heals', String(it.heal)]);
     for (const k of ['armor', 'block', 'acc', 'hp', 'mana']) if (it[k] != null) inf.push([cap(k), String(it[k])]);
+
+    const fl = itemFlavor[it.name];
+    const sections = [];
+    const related = [];
+    if (it.kind === 'learn' && it.spell) {
+      const sp = spellByName[it.spell];
+      const st = spText[it.spell];
+      const spKey = `spell.${it.spell
+        .toLowerCase()
+        .replace(/[^a-z0-9]+/g, '_')
+        .replace(/^_|_$/g, '')}.flavor`;
+      const spFl = spFlavor[spKey] ?? st?.flavor ?? sp?.flavor;
+      const descParts = [...new Set([fl?.flavor, sp?.desc, st?.tooltip].filter(Boolean))];
+      sections.push({
+        h: 'Description',
+        p: descParts.length ? descParts : [`Inscribed academy parchment teaching ${it.spell}.`],
+      });
+      if (spFl || fl?.inspect) {
+        sections.push({ h: 'Inscribed lore', p: [fl?.inspect, spFl].filter(Boolean) });
+      }
+      related.push(`spell/${slug(it.spell)}`);
+    } else if (fl) {
+      sections.push({ h: 'Description', p: [fl.flavor] });
+      if (fl.inspect) sections.push({ h: 'Quartermaster notes', p: [fl.inspect] });
+    } else {
+      const l = loreOf(`item.${id}.lore`);
+      sections.push({
+        h: 'Description',
+        p: l.length ? l : [`Tier ${it.tier} ${it.slot ?? it.kind} issued through Thornvael border quartermasters.`],
+      });
+    }
+
     itemEntries.push({
       id,
       type: 'item',
@@ -521,21 +882,29 @@ export function buildWikiData() {
       summary: `${cap(it.kind)}${it.slot ? ' · ' + it.slot : ''} · tier ${it.tier}`,
       img: iconFor('item', id, it.name, 'infobox/icon'),
       infobox: inf,
-      sections: [{ h: 'Description', p: ['No lore yet.'] }],
-      related: [],
+      sections,
+      related,
       tags: { rarity: 'common', level: it.tier, slot: it.slot ?? it.kind, cls: it.cls ?? '' },
     });
   }
   for (const b of C('base-items')) {
     const id = 'base-' + b.id;
+    const fl = itemFlavor[b.name];
+    const sections = [{ h: 'Description', p: [b.flavor || fl?.flavor || `Tier ${b.tier} base ${b.slot}.`] }];
+    if (fl?.inspect) sections.push({ h: 'Quartermaster notes', p: [fl.inspect] });
     itemEntries.push({
       id,
       type: 'item',
       title: b.name,
       summary: `Base item · ${b.slot} · tier ${b.tier}`,
       img: iconFor('item', id, b.name, 'infobox/icon', b.id),
-      infobox: [['Type', 'Base item'], ['Slot', cap(b.slot)], ['Tier', String(b.tier)], ['Class', cap(b.class_hint)]],
-      sections: [{ h: 'Description', p: [b.flavor || 'No lore yet.'] }],
+      infobox: [
+        ['Type', 'Base item'],
+        ['Slot', cap(b.slot)],
+        ['Tier', String(b.tier)],
+        ['Class', cap(b.class_hint)],
+      ],
+      sections,
       related: [],
       tags: { rarity: 'base', level: b.tier, slot: b.slot, cls: b.class_hint ?? '' },
     });
@@ -544,13 +913,23 @@ export function buildWikiData() {
   for (const b of d2Mod.BASE_ITEMS) {
     const id = 'sim-' + slug(b.id);
     if (itemEntries.some((x) => x.title.toLowerCase() === b.name.toLowerCase())) continue;
-    const slotLabel = b.charmSize ? `${cap(b.charmSize)} Charm` : b.beltSlots ? 'Belt' : SLOT_NAME[b.slot] ?? 'Gear';
-    const inf = [['Type', 'Base item'], ['Slot', slotLabel], ['Tier', String(b.tier)], ['Max sockets', String(b.maxSockets)]];
+    const slotLabel = b.charmSize ? `${cap(b.charmSize)} Charm` : b.beltSlots ? 'Belt' : (SLOT_NAME[b.slot] ?? 'Gear');
+    const inf = [
+      ['Type', 'Base item'],
+      ['Slot', slotLabel],
+      ['Tier', String(b.tier)],
+      ['Max sockets', String(b.maxSockets)],
+    ];
     if (b.minDmg != null) inf.push(['Damage', `${b.minDmg}-${b.maxDmg}`]);
     if (b.def != null) inf.push(['Defense', String(b.def)]);
     if (b.abs != null) inf.push(['Absorption', String(b.abs)]);
     if (b.beltSlots) inf.push(['Potion slots', String(b.beltSlots)]);
-    if (b.reqStr || b.reqDex) inf.push(['Requires', [b.reqStr ? `Body ${b.reqStr}` : '', b.reqDex ? `Agility ${b.reqDex}` : ''].filter(Boolean).join(', ')]);
+    if (b.reqStr || b.reqDex)
+      inf.push([
+        'Requires',
+        [b.reqStr ? `Body ${b.reqStr}` : '', b.reqDex ? `Agility ${b.reqDex}` : ''].filter(Boolean).join(', '),
+      ]);
+    const fl = itemFlavor[b.name];
     itemEntries.push({
       id,
       type: 'item',
@@ -558,7 +937,10 @@ export function buildWikiData() {
       summary: `Base ${slotLabel} · tier ${b.tier}`,
       img: iconFor('item', id, b.name, 'infobox/icon', b.id, slug(b.id), SIM_BASE_ICON[b.id]),
       infobox: inf,
-      sections: [{ h: 'Description', p: ['No lore yet.'] }],
+      sections: [
+        { h: 'Description', p: [fl?.flavor || synthesizeBaseItemLore(b)] },
+        ...(fl?.inspect ? [{ h: 'Quartermaster notes', p: [fl.inspect] }] : []),
+      ],
       related: [],
       tags: { rarity: 'base', level: b.tier, slot: slotLabel.toLowerCase(), cls: '' },
     });
@@ -566,15 +948,28 @@ export function buildWikiData() {
   for (const sp of itemsMod.SPECIAL_ITEMS) {
     const id = slug(sp.name);
     if (itemEntries.some((x) => x.id === id)) continue;
-    const extra = SPECIAL_ICON_OVERRIDE[id] ?? gemSlugFor(id, sp.name) ?? (id.startsWith('rune-') ? runeSlugFor(id, sp.name) : null);
+    const extra =
+      SPECIAL_ICON_OVERRIDE[id] ??
+      gemSlugFor(id, sp.name) ??
+      (id.startsWith('rune-') ? runeSlugFor(id, sp.name) : null);
+    const specialLore =
+      SPECIAL_ITEM_LORE[id] ||
+      sp.lore ||
+      (gemSlugFor(id, sp.name)
+        ? synthesizeSpecialGemLore(id, sp.name, sp.tier)
+        : `Specialized tier-${sp.tier} frontier supply item (${sp.name}).`);
     itemEntries.push({
       id,
       type: 'item',
       title: sp.name,
       summary: `Special item · tier ${sp.tier}`,
       img: iconFor('item', id, sp.name, 'infobox/icon', extra),
-      infobox: [['Type', 'Special'], ['Tier', String(sp.tier)], ['Weight', String(sp.w)]],
-      sections: [{ h: 'Description', p: [sp.lore || 'No lore yet.'] }],
+      infobox: [
+        ['Type', 'Special'],
+        ['Tier', String(sp.tier)],
+        ['Weight', String(sp.w)],
+      ],
+      sections: [{ h: 'Description', p: [specialLore] }],
       related: [],
       tags: { rarity: sp.rarity ?? 'common', level: sp.tier, slot: 'special', cls: '' },
     });
@@ -585,7 +980,9 @@ export function buildWikiData() {
   for (const u of uniques) {
     const id = u.id;
     const lore = loreOf(`item.unique.${id}.lore`);
-    const stats = u.mods ? u.mods.map((m) => `${m.value > 0 ? '+' : ''}${m.value} ${statName(m.stat)}`) : fmtStats(u.stats);
+    const stats = u.mods
+      ? u.mods.map((m) => `${m.value > 0 ? '+' : ''}${m.value} ${statName(m.stat)}`)
+      : fmtStats(u.stats);
     const sections = [
       ...(u.quirk ? [{ h: 'Quirk', p: [u.quirk] }] : []),
       ...[u.lore, u.flavor, u.inspect].filter(Boolean).map((t, i) => ({ h: i === 0 ? 'Lore' : 'Inspect', p: [t] })),
@@ -608,7 +1005,13 @@ export function buildWikiData() {
       ],
       sections,
       related: u.drop_from && statsOf[u.drop_from] ? [`bestiary/${u.drop_from}`] : [],
-      tags: { rarity: 'unique', level: u.act ?? u.tier ?? 0, slot: '', cls: u.cls ?? u.class ?? '', act: u.act ?? u.tier ?? 0 },
+      tags: {
+        rarity: 'unique',
+        level: u.act ?? u.tier ?? 0,
+        slot: '',
+        cls: u.cls ?? u.class ?? '',
+        act: u.act ?? u.tier ?? 0,
+      },
       gate: u.drop_from && firstMission(u.drop_from) ? { m: firstMission(u.drop_from) } : { a: u.act ?? u.tier ?? 1 },
     });
   }
@@ -626,7 +1029,10 @@ export function buildWikiData() {
       ...s.pieces.map((p) => `itemicons/${slug(p.name)}.png`),
       ...s.pieces.map((p) => `itemicons/${slug(p.base)}.png`),
     ),
-    infobox: [['Class', cap(s.class)], ['Pieces', String(s.pieces.length)]],
+    infobox: [
+      ['Class', cap(s.class)],
+      ['Pieces', String(s.pieces.length)],
+    ],
     sections: [
       { h: 'Pieces', list: s.pieces.map((p) => `${p.name} (${p.base})`) },
       { h: 'Set bonuses', list: Object.entries(s.bonuses ?? {}).map(([n, t]) => `${n} pieces: ${t}`) },
@@ -683,9 +1089,17 @@ export function buildWikiData() {
         SIM_SET_ICON[s.id] ? `itemicons/${SIM_SET_ICON[s.id]}.png` : null,
         ...s.pieces.map((p) => `itemicons/${SET_SLOT_FALLBACK[SLOT_NAME[p.slot]] ?? 'iron-sword'}.png`),
       ),
-      infobox: [['Class', cls], ['Pieces', String(s.pieces.length)]],
+      infobox: [
+        ['Class', cls],
+        ['Pieces', String(s.pieces.length)],
+      ],
       sections: [
-        { h: 'Pieces', list: s.pieces.map((p) => `${p.name} (${SLOT_NAME[p.slot] ?? 'Gear'}, T${p.tier})${p.lore ? ` — ${p.lore}` : ''}`) },
+        {
+          h: 'Pieces',
+          list: s.pieces.map(
+            (p) => `${p.name} (${SLOT_NAME[p.slot] ?? 'Gear'}, T${p.tier})${p.lore ? ` — ${p.lore}` : ''}`,
+          ),
+        },
         { h: 'Set bonuses', list: s.bonuses.map(fmtBonus) },
       ],
       related: [],
@@ -716,31 +1130,68 @@ export function buildWikiData() {
     };
   });
   const affixes = [
-    ...C('affixes').map((a) => ({ id: a.id, name: a.name, kind: a.kind, slots: a.slots, tier: String(a.tier), tierNum: a.tier, line: `${statName(a.stat)} ${a.min}${a.max !== a.min ? '-' + a.max : ''}`, flavor: a.flavor })),
-    ...C('affixes-2').map((a) => ({ id: a.id, name: a.name, kind: a.type, slots: a.slots, tier: String(a.tier), tierNum: a.tier, line: fmtStats(a.stats).join(', '), flavor: a.flavor })),
+    ...C('affixes').map((a) => ({
+      id: a.id,
+      name: a.name,
+      kind: a.kind,
+      slots: a.slots,
+      tier: String(a.tier),
+      tierNum: a.tier,
+      line: `${statName(a.stat)} ${a.min}${a.max !== a.min ? '-' + a.max : ''}`,
+      flavor: a.flavor,
+    })),
+    ...C('affixes-2').map((a) => ({
+      id: a.id,
+      name: a.name,
+      kind: a.type,
+      slots: a.slots,
+      tier: String(a.tier),
+      tierNum: a.tier,
+      line: fmtStats(a.stats).join(', '),
+      flavor: a.flavor,
+    })),
     ...simAffixes,
   ];
   out.affixes = uniqBy(
-    affixes.map((a) => ({
-      id: a.id,
-      type: 'affix',
-      title: a.name,
-      summary: `${cap(a.kind)} · tier ${a.tier} · ${a.line}`,
-      img: null,
-      infobox: [['Kind', cap(a.kind)], ['Tier', a.tier], ['Effect', a.line], ['Slots', (a.slots ?? []).map(cap).join(', ') || 'All gear']],
-      sections: [{ h: 'Description', p: [a.flavor || 'No lore yet.'] }],
-      related: [],
-      tags: { rarity: 'magic', level: a.tierNum, slot: (a.slots ?? [])[0]?.toLowerCase() ?? '', cls: '' },
-    })),
+    affixes.map((a) => {
+      const kind = String(a.kind).toLowerCase() === 'suffix' ? 'suffix' : 'prefix';
+      const domain = affixDomain(a);
+      const slotsText = (a.slots ?? []).length ? (a.slots ?? []).map(cap).join(', ').toLowerCase() : 'all battle gear';
+      const rawFlavor = a.flavor ? String(a.flavor).trim() : '';
+      const desc =
+        rawFlavor.length >= 45
+          ? rawFlavor
+          : rawFlavor
+            ? `${rawFlavor} Forged onto ${slotsText} (tier ${a.tier}) to confer ${a.line}.`
+            : synthesizeAffixLore(a);
+      return {
+        id: a.id,
+        type: 'affix',
+        title: a.name,
+        summary: `${cap(a.kind)} · tier ${a.tier} · ${a.line}`,
+        img: pic('affix', a.id, 'infobox/icon', `wiki/icons/affix-${kind}-${domain}.png`),
+        infobox: [
+          ['Kind', cap(a.kind)],
+          ['Tier', a.tier],
+          ['Effect', a.line],
+          ['Slots', (a.slots ?? []).map(cap).join(', ') || 'All gear'],
+        ],
+        sections: [{ h: 'Description', p: [desc] }],
+        related: [],
+        tags: { rarity: 'magic', level: a.tierNum, slot: (a.slots ?? [])[0]?.toLowerCase() ?? '', cls: '' },
+      };
+    }),
     'id',
   );
 
   const fmtBonusObj = (b) => {
     if (!b) return '-';
-    return Object.entries(b)
-      .filter(([, v]) => v != null && v !== false)
-      .map(([k, v]) => (Array.isArray(v) ? `${k}: ${v.join('/')}` : v === true ? k : `${k}: +${v}`))
-      .join(', ') || '-';
+    return (
+      Object.entries(b)
+        .filter(([, v]) => v != null && v !== false)
+        .map(([k, v]) => (Array.isArray(v) ? `${k}: ${v.join('/')}` : v === true ? k : `${k}: +${v}`))
+        .join(', ') || '-'
+    );
   };
   const jsonGems = C('gems-runes').map((g) => {
     const fallbackSlug = g.kind === 'rune' ? runeSlugFor(g.id, g.name) : gemSlugFor(g.id, g.name);
@@ -749,9 +1200,25 @@ export function buildWikiData() {
       type: 'gem',
       title: g.name,
       summary: `${cap(g.kind)} · tier ${g.tier}`,
-      img: pic('gem', g.id, 'infobox/icon', `itemicons/${slug(g.name)}.png`, fallbackSlug ? `itemicons/${fallbackSlug}.png` : null),
-      infobox: [['Kind', cap(g.kind)], ['Tier', String(g.tier)], ['In weapon', g.socket_effect?.weapon ?? '-'], ['In armor', g.socket_effect?.armor ?? '-'], ['Buy', String(g.buy)], ['Sell', String(g.sell)]],
-      sections: [{ h: 'Description', p: [g.desc || 'No lore yet.'] }, ...(g.flavor ? [{ h: 'Lore', p: [g.flavor] }] : [])],
+      img: pic(
+        'gem',
+        g.id,
+        'infobox/icon',
+        `itemicons/${slug(g.name)}.png`,
+        fallbackSlug ? `itemicons/${fallbackSlug}.png` : null,
+      ),
+      infobox: [
+        ['Kind', cap(g.kind)],
+        ['Tier', String(g.tier)],
+        ['In weapon', g.socket_effect?.weapon ?? '-'],
+        ['In armor', g.socket_effect?.armor ?? '-'],
+        ['Buy', String(g.buy)],
+        ['Sell', String(g.sell)],
+      ],
+      sections: [
+        { h: 'Description', p: [g.desc || 'No lore yet.'] },
+        ...(g.flavor ? [{ h: 'Lore', p: [g.flavor] }] : []),
+      ],
       related: [],
       tags: { rarity: 'socket', level: g.tier, slot: 'socket', cls: '' },
     };
@@ -764,7 +1231,13 @@ export function buildWikiData() {
       type: 'gem',
       title: g.name,
       summary: `${cap(g.quality)} ${cap(g.type)} · tier ${g.tier}`,
-      img: pic('gem', id, 'infobox/icon', `itemicons/${slug(g.name)}.png`, fallbackSlug ? `itemicons/${fallbackSlug}.png` : null),
+      img: pic(
+        'gem',
+        id,
+        'infobox/icon',
+        `itemicons/${slug(g.name)}.png`,
+        fallbackSlug ? `itemicons/${fallbackSlug}.png` : null,
+      ),
       infobox: [
         ['Kind', 'Gem'],
         ['Quality', cap(g.quality)],
@@ -787,7 +1260,13 @@ export function buildWikiData() {
       type: 'gem',
       title: r.name,
       summary: `Rune #${r.id} · Req Lv ${r.clvl}`,
-      img: pic('gem', id, 'infobox/icon', `itemicons/${slug(r.name)}.png`, fallbackSlug ? `itemicons/${fallbackSlug}.png` : null),
+      img: pic(
+        'gem',
+        id,
+        'infobox/icon',
+        `itemicons/${slug(r.name)}.png`,
+        fallbackSlug ? `itemicons/${fallbackSlug}.png` : null,
+      ),
       infobox: [
         ['Kind', 'Rune'],
         ['Rank', String(r.id)],
@@ -797,7 +1276,9 @@ export function buildWikiData() {
         ['In shield', fmtBonusObj(r.shieldBonus)],
       ],
       sections: [{ h: 'Description', p: ['Socketable rune used individually or chained in runeword recipes.'] }],
-      related: runesMod.RUNEWORDS.filter((rw) => rw.runeIds.includes(r.id)).slice(0, 5).map((rw) => `gem/rw-${rw.id}`),
+      related: runesMod.RUNEWORDS.filter((rw) => rw.runeIds.includes(r.id))
+        .slice(0, 5)
+        .map((rw) => `gem/rw-${rw.id}`),
       tags: { rarity: 'socket', level: r.clvl, slot: 'rune', cls: '' },
     };
   });
@@ -810,7 +1291,7 @@ export function buildWikiData() {
       type: 'gem',
       title: rw.name,
       summary: `Runeword (${recipeNames.join(' + ')}) · ${slotNames}`,
-      img: null,
+      img: pic('gem', id, 'infobox/icon', `wiki/icons/${id}.png`),
       infobox: [
         ['Kind', 'Runeword'],
         ['Runes', recipeNames.join(' → ')],
@@ -828,10 +1309,6 @@ export function buildWikiData() {
   out.gems = uniqBy([...jsonGems, ...d2Gems, ...simRunes, ...simRunewords], 'id');
 
   // ---------- spells & skills ----------
-  const spFlavor = readJson('src/data/text/spell-flavor.json', {});
-  const spText = Object.fromEntries(C('spell-text').map((t) => [t.name, t]));
-  const spellsBase = readJson('public/data/spells.json', { spells: [] }).spells;
-  const spellAll = [...spellsBase, ...C('spells-new')];
   const spIconFrames = readJson('public/spellicons/spellicons.json', { frames: {} }).frames ?? {};
   const spritesheet = readJson('public/spellicons/spellicons.json', { meta: { size: { w: 1, h: 1 } } }).meta.size;
   const SCHOOL_ICON_ALIAS = {
@@ -865,17 +1342,25 @@ export function buildWikiData() {
   const spellAtlasPic = (frameKey) => {
     const f = spIconFrames[frameKey];
     if (!f) return null;
-    return { src: 'spellicons/spellicons.png', atlas: { x: f.frame.x, y: f.frame.y, w: f.frame.w, h: f.frame.h, sw: spritesheet.w, sh: spritesheet.h } };
+    return {
+      src: 'spellicons/spellicons.png',
+      atlas: { x: f.frame.x, y: f.frame.y, w: f.frame.w, h: f.frame.h, sw: spritesheet.w, sh: spritesheet.h },
+    };
   };
 
   out.spells = uniqBy(
     spellAll.map((s) => {
       const id = slug(s.name);
-      const key = `spell.${s.name.toLowerCase().replace(/[^a-z0-9]+/g, '_').replace(/^_|_$/g, '')}.flavor`;
+      const key = `spell.${s.name
+        .toLowerCase()
+        .replace(/[^a-z0-9]+/g, '_')
+        .replace(/^_|_$/g, '')}.flavor`;
       const t = spText[s.name];
       const fl = spFlavor[key] ?? t?.flavor ?? s.flavor;
       const mappedSchool = SCHOOL_ICON_ALIAS[s.school] ?? s.school;
+      const individualIcon = has(`spellicons/${id}.png`) ? { src: `spellicons/${id}.png` } : null;
       const frameImg =
+        individualIcon ??
         spellAtlasPic(SPELL_FRAME_OVERRIDE[id]) ??
         spellAtlasPic(`spell/${id}`) ??
         spellAtlasPic(`school/${mappedSchool}`);
@@ -884,7 +1369,8 @@ export function buildWikiData() {
         type: 'spell',
         title: s.name,
         summary: t?.tooltip ?? s.desc ?? `${cap(s.school)} spell`,
-        img: frameImg ?? pic('spell', id, 'infobox/icon', `itemicons/scroll-of-${id}.png`, `itemicons/tome-of-${id}.png`),
+        img:
+          frameImg ?? pic('spell', id, 'infobox/icon', `itemicons/scroll-of-${id}.png`, `itemicons/tome-of-${id}.png`),
         infobox: [
           ['School', cap(s.school)],
           ['Target', cap(s.target)],
@@ -893,7 +1379,12 @@ export function buildWikiData() {
           ['Range', String(s.reach)],
           ...(s.min != null ? [['Damage', `${s.min}-${s.max}`]] : []),
           ...(s.status ? [['Status', `${s.status} (${s.dur})`]] : []),
-          ...(s.class ? [['Class', cap(s.class)], ['Level', String(s.level_req)]] : []),
+          ...(s.class
+            ? [
+                ['Class', cap(s.class)],
+                ['Level', String(s.level_req)],
+              ]
+            : []),
         ],
         sections: [
           ...(s.desc && s.desc !== t?.tooltip ? [{ h: 'Effect', p: [s.desc] }] : []),
@@ -909,18 +1400,126 @@ export function buildWikiData() {
   );
 
   const SKILL_TREE_ICONS = {
-    Bulwark: ['wooden-buckler', 'tarred-plank-targe', 'iron-shield', 'iron-rimmed-heater', 'steel-kite-shield', 'tower-shield', 'obsidian-bulwark', 'aegis-of-the-citadel'],
-    Reaver: ['rusty-sword', 'peat-cleaver-hatchet', 'iron-sword', 'bearded-battleaxe', 'steel-sword', 'flamberge', 'reaver-lochaber-axe', 'berserker-decapitator'],
-    Banner: ['iron-helm', 'steel-basinet', 'ring-of-valor', 'first-watch-oath-ring', 'first-watch-edict-scroll', 'dread-crest-helm', 'crown-ember-coronet', 'ring-of-the-champions'],
-    Deadeye: ['ash-shortbow', 'alder-limb-flatbow', 'fen-reed-longbow', 'recurve-bow', 'salt-backed-horn-bow', 'composite-war-bow', 'ash-spire-warbow', 'windpiercer-greatbow'],
-    Stalker: ['leather-cap', 'peat-dyed-trapper-hood', 'stalker-hood', 'tracker-treads', 'fen-stalker-moccasins', 'shadow-mask', 'shadowstrike-grips', 'windrunner-striders'],
-    Fletcher: ['latched-poacher-prod', 'bridge-watch-latchet', 'split-rawhide-mitts', 'greased-archers-gloves', 'salt-bed-gastraphetes', 'heavy-arbalest', 'cranequin-sea-arbalest', 'slag-spring-repeater'],
-    Pyromancy: ['atlas:spell/fireball', 'atlas:status/burning', 'atlas:school/fire', 'scroll-of-fire-bolt', 'scroll-of-ignite', 'scroll-of-flame-burst', 'tome-of-meteor', 'scroll-of-inferno'],
-    Tempest: ['atlas:spell/lightning', 'atlas:status/haste', 'atlas:spell/frost-bolt', 'atlas:school/arcane', 'scroll-of-gale', 'scroll-of-static-arc', 'tome-of-chain-lightning', 'tome-of-thunderstorm'],
-    Wardcraft: ['atlas:status/shield', 'atlas:school/holy', 'atlas:spell/stone-skin', 'ward-charm', 'novice-glass-focus', 'radiant-spell-mirror', 'archmage-diadem', 'astral-prism-medallion'],
-    Bonecraft: ['atlas:school/shadow', 'tallied-bone-pointer', 'ossuary-bone-ward', 'bone-knuckle-grips', 'bone-ring', 'gravetide-ash-baton', 'ossuary-scribe-miter', 'scroll-of-corpse-burst'],
-    Probate: ['atlas:status/poisoned', 'notarized-hex-vellum', 'leaden-parish-token', 'probate-bailiffs-band', 'probate-seal-sash', 'bailiffs-iron-truncheon', 'scroll-of-weaken', 'scroll-of-mana-burn'],
-    Abbey: ['atlas:status/frozen', 'fen-abbey-crosier', 'parish-ward-scroll', 'ossuary-ash-incense', 'scriptorium-funeral-pall', 'ossuary-seal-ring', 'scroll-of-grave-chill', 'tome-of-resurrect'],
+    Bulwark: [
+      'wooden-buckler',
+      'tarred-plank-targe',
+      'iron-shield',
+      'iron-rimmed-heater',
+      'steel-kite-shield',
+      'tower-shield',
+      'obsidian-bulwark',
+      'aegis-of-the-citadel',
+    ],
+    Reaver: [
+      'rusty-sword',
+      'peat-cleaver-hatchet',
+      'iron-sword',
+      'bearded-battleaxe',
+      'steel-sword',
+      'flamberge',
+      'reaver-lochaber-axe',
+      'berserker-decapitator',
+    ],
+    Banner: [
+      'iron-helm',
+      'steel-basinet',
+      'ring-of-valor',
+      'first-watch-oath-ring',
+      'first-watch-edict-scroll',
+      'dread-crest-helm',
+      'crown-ember-coronet',
+      'ring-of-the-champions',
+    ],
+    Deadeye: [
+      'ash-shortbow',
+      'alder-limb-flatbow',
+      'fen-reed-longbow',
+      'recurve-bow',
+      'salt-backed-horn-bow',
+      'composite-war-bow',
+      'ash-spire-warbow',
+      'windpiercer-greatbow',
+    ],
+    Stalker: [
+      'leather-cap',
+      'peat-dyed-trapper-hood',
+      'stalker-hood',
+      'tracker-treads',
+      'fen-stalker-moccasins',
+      'shadow-mask',
+      'shadowstrike-grips',
+      'windrunner-striders',
+    ],
+    Fletcher: [
+      'latched-poacher-prod',
+      'bridge-watch-latchet',
+      'split-rawhide-mitts',
+      'greased-archers-gloves',
+      'salt-bed-gastraphetes',
+      'heavy-arbalest',
+      'cranequin-sea-arbalest',
+      'slag-spring-repeater',
+    ],
+    Pyromancy: [
+      'atlas:spell/fireball',
+      'atlas:status/burning',
+      'atlas:school/fire',
+      'scroll-of-fire-bolt',
+      'scroll-of-ignite',
+      'scroll-of-flame-burst',
+      'tome-of-meteor',
+      'scroll-of-inferno',
+    ],
+    Tempest: [
+      'atlas:spell/lightning',
+      'atlas:status/haste',
+      'atlas:spell/frost-bolt',
+      'atlas:school/arcane',
+      'scroll-of-gale',
+      'scroll-of-static-arc',
+      'tome-of-chain-lightning',
+      'tome-of-thunderstorm',
+    ],
+    Wardcraft: [
+      'atlas:status/shield',
+      'atlas:school/holy',
+      'atlas:spell/stone-skin',
+      'ward-charm',
+      'novice-glass-focus',
+      'radiant-spell-mirror',
+      'archmage-diadem',
+      'astral-prism-medallion',
+    ],
+    Bonecraft: [
+      'atlas:school/shadow',
+      'tallied-bone-pointer',
+      'ossuary-bone-ward',
+      'bone-knuckle-grips',
+      'bone-ring',
+      'gravetide-ash-baton',
+      'ossuary-scribe-miter',
+      'scroll-of-corpse-burst',
+    ],
+    Probate: [
+      'atlas:status/poisoned',
+      'notarized-hex-vellum',
+      'leaden-parish-token',
+      'probate-bailiffs-band',
+      'probate-seal-sash',
+      'bailiffs-iron-truncheon',
+      'scroll-of-weaken',
+      'scroll-of-mana-burn',
+    ],
+    Abbey: [
+      'atlas:status/frozen',
+      'fen-abbey-crosier',
+      'parish-ward-scroll',
+      'ossuary-ash-incense',
+      'scriptorium-funeral-pall',
+      'ossuary-seal-ring',
+      'scroll-of-grave-chill',
+      'tome-of-resurrect',
+    ],
   };
   const skillImgFor = (k) => {
     const idxMatch = k.id.match(/-(\d+)$/);
@@ -931,7 +1530,13 @@ export function buildWikiData() {
       const a = spellAtlasPic(choice.slice(6));
       if (a) return a;
     }
-    return pic('skill', k.id, 'infobox/icon', `icons/skills/${k.icon_hint}.png`, choice && !choice.startsWith('atlas:') ? `itemicons/${choice}.png` : null);
+    return pic(
+      'skill',
+      k.id,
+      'infobox/icon',
+      `icons/skills/${k.icon_hint}.png`,
+      choice && !choice.startsWith('atlas:') ? `itemicons/${choice}.png` : null,
+    );
   };
 
   const skills = [...C('skill-trees')];
@@ -941,7 +1546,14 @@ export function buildWikiData() {
     title: k.name,
     summary: `${cap(k.class)} · ${k.tree} tree · tier ${k.tier}`,
     img: skillImgFor(k),
-    infobox: [['Class', cap(k.class)], ['Tree', k.tree], ['Tier', String(k.tier)], ['Max rank', String(k.max_rank)], ['Effect', `${statName(k.effect.stat)} ${k.effect.value}, +${k.effect.per_rank} per rank`], ['Requires', (k.requires ?? []).join(', ') || 'None']],
+    infobox: [
+      ['Class', cap(k.class)],
+      ['Tree', k.tree],
+      ['Tier', String(k.tier)],
+      ['Max rank', String(k.max_rank)],
+      ['Effect', `${statName(k.effect.stat)} ${k.effect.value}, +${k.effect.per_rank} per rank`],
+      ['Requires', (k.requires ?? []).join(', ') || 'None'],
+    ],
     sections: [{ h: 'Description', p: [k.desc || 'No lore yet.'] }],
     related: [...(k.requires ?? []).map((r) => `skill/${r}`), `class/${k.class}`],
     tags: { school: k.tree, level: k.tier, cls: k.class, rarity: '' },
@@ -953,19 +1565,32 @@ export function buildWikiData() {
   const classCards = {
     warrior: ['townart/portrait-warrior-m.png', 'townart/hero-dain.png', 'townart/frame-hero-warrior.jpg'],
     archer: ['townart/friend-archer.jpg', 'townart/portrait-warrior-f.png', 'townart/hero-selena.png'],
-    mage: ['townart/portrait-mage-f.png', 'townart/portrait-mage-m.png', 'townart/hero-valerius.png', 'townart/hero-morrigan.png'],
-    necromancer: ['townart/portraits/merc-tomb-notary.jpg', 'townart/portraits/merc-parish-sexton.jpg'],
+    mage: [
+      'townart/portrait-mage-f.png',
+      'townart/portrait-mage-m.png',
+      'townart/hero-valerius.png',
+      'townart/hero-morrigan.png',
+    ],
+    necromancer: [
+      'townart/portrait-necromancer.png',
+      'townart/portraits/merc-tomb-notary.jpg',
+      'townart/portraits/merc-parish-sexton.jpg',
+    ],
   };
   const classEntries = C('class-progression').map((c) => {
     const h = heroes[c.class];
     const variants = heroes8.filter((x) => x.class === c.class);
     const firstVar = variants[0];
     const sections = [];
-    if (h?.description || firstVar?.description) sections.push({ h: 'Description', p: [h?.description ?? firstVar.description] });
+    if (h?.description || firstVar?.description)
+      sections.push({ h: 'Description', p: [h?.description ?? firstVar.description] });
     sections.push({ h: 'Playstyle', p: [c.playstyle, c.level_curve_note].filter(Boolean) });
     if (h?.backstory) sections.push({ h: 'Backstory', p: h.backstory });
     for (const v of variants) {
-      sections.push({ h: `${cap(v.gender)} ${CLASS_LABEL[c.class] ?? cap(c.class)}`, p: [v.tagline, ...(v.backstory ?? [])].filter(Boolean) });
+      sections.push({
+        h: `${cap(v.gender)} ${CLASS_LABEL[c.class] ?? cap(c.class)}`,
+        p: [v.tagline, ...(v.backstory ?? [])].filter(Boolean),
+      });
     }
     if (!h && !variants.length) sections.push({ h: 'Lore', p: ['No lore yet.'] });
 
@@ -981,15 +1606,56 @@ export function buildWikiData() {
         ['Start items', c.start_items.join(', ')],
       ],
       sections,
-      related: [...out.skills.filter((s) => s.tags.cls === c.class).slice(0, 4).map((s) => `skill/${s.id}`), ...out.spells.filter((s) => s.tags.cls === c.class).slice(0, 4).map((s) => `spell/${s.id}`)],
+      related: [
+        ...out.skills
+          .filter((s) => s.tags.cls === c.class)
+          .slice(0, 4)
+          .map((s) => `skill/${s.id}`),
+        ...out.spells
+          .filter((s) => s.tags.cls === c.class)
+          .slice(0, 4)
+          .map((s) => `spell/${s.id}`),
+      ],
       tags: { cls: c.class, level: 1, rarity: '' },
     };
   });
   const NAMED_HEROES = [
-    { id: 'hero-dain', title: 'Dain Ironclad', cls: 'warrior', epithet: 'Vanguard Paladin', img: 'townart/hero-dain.png', portrait: 'townart/portrait-warrior-m.png', summary: 'A battle-hardened defender of Thornwick in tempered gothic plate.' },
-    { id: 'hero-selena', title: 'Selena Swiftblade', cls: 'warrior', epithet: 'Borderlands Ranger', img: 'townart/hero-selena.png', portrait: 'townart/portrait-warrior-f.png', summary: 'A mercenary duelist and ranger wielding twin curved daggers.' },
-    { id: 'hero-valerius', title: 'Valerius Pyremaster', cls: 'mage', epithet: 'Flame Archmage', img: 'townart/hero-valerius.png', portrait: 'townart/portrait-mage-m.png', summary: 'An ordained fire scholar from the Citadel of Embers.' },
-    { id: 'hero-morrigan', title: 'Morrigan Frostweaver', cls: 'mage', epithet: 'Glacial Sorceress', img: 'townart/hero-morrigan.png', portrait: 'townart/portrait-mage-f.png', summary: 'Keeper of ancient tide-runes who freezes charging hordes.' },
+    {
+      id: 'hero-dain',
+      title: 'Dain Ironclad',
+      cls: 'warrior',
+      epithet: 'Vanguard Paladin',
+      img: 'townart/hero-dain.png',
+      portrait: 'townart/portrait-warrior-m.png',
+      summary: 'A battle-hardened defender of Thornwick in tempered gothic plate.',
+    },
+    {
+      id: 'hero-selena',
+      title: 'Selena Swiftblade',
+      cls: 'warrior',
+      epithet: 'Borderlands Ranger',
+      img: 'townart/hero-selena.png',
+      portrait: 'townart/portrait-warrior-f.png',
+      summary: 'A mercenary duelist and ranger wielding twin curved daggers.',
+    },
+    {
+      id: 'hero-valerius',
+      title: 'Valerius Pyremaster',
+      cls: 'mage',
+      epithet: 'Flame Archmage',
+      img: 'townart/hero-valerius.png',
+      portrait: 'townart/portrait-mage-m.png',
+      summary: 'An ordained fire scholar from the Citadel of Embers.',
+    },
+    {
+      id: 'hero-morrigan',
+      title: 'Morrigan Frostweaver',
+      cls: 'mage',
+      epithet: 'Glacial Sorceress',
+      img: 'townart/hero-morrigan.png',
+      portrait: 'townart/portrait-mage-f.png',
+      summary: 'Keeper of ancient tide-runes who freezes charging hordes.',
+    },
   ];
   for (const nh of NAMED_HEROES) {
     classEntries.push({
@@ -998,7 +1664,10 @@ export function buildWikiData() {
       title: nh.title,
       summary: `${nh.epithet} · ${cap(nh.cls)} archetype`,
       img: pic('class', nh.id, 'infobox/portrait', nh.img, nh.portrait),
-      infobox: [['Archetype', nh.epithet], ['Class', cap(nh.cls)]],
+      infobox: [
+        ['Archetype', nh.epithet],
+        ['Class', cap(nh.cls)],
+      ],
       sections: [{ h: 'Overview', p: [nh.summary] }],
       related: [`class/${nh.cls}`],
       tags: { cls: nh.cls, level: 1, rarity: '' },
@@ -1025,7 +1694,9 @@ export function buildWikiData() {
         ['Abilities', (m.abilities ?? []).join(', ')],
       ],
       sections: [
-        ...(mb?.backstory || m.backstory ? [{ h: 'Backstory', p: [mb?.backstory, m.backstory].filter(Boolean) }] : [{ h: 'Backstory', p: ['No lore yet.'] }]),
+        ...(mb?.backstory || m.backstory
+          ? [{ h: 'Backstory', p: [mb?.backstory, m.backstory].filter(Boolean) }]
+          : [{ h: 'Backstory', p: ['No lore yet.'] }]),
         ...(m.hire_line ? [{ h: 'Hire line', p: [m.hire_line] }] : []),
         ...(mb?.battle_barks?.length ? [{ h: 'Battle barks', list: mb.battle_barks }] : []),
         ...(m.quirk ? [{ h: 'Quirk', p: [typeof m.quirk === 'string' ? m.quirk : JSON.stringify(m.quirk)] }] : []),
@@ -1044,6 +1715,16 @@ export function buildWikiData() {
     ['map4-obsidian-caldera', 4, 'loadscreens/load-map4-caldera.jpg', 'town-ironcamp'],
   ];
   const regionFlavor = C('region-flavor');
+  const regionFlavorById = Object.fromEntries(regionFlavor.map((r) => [r.id, r]));
+  const locationPlaques = readJson('public/data/text/location-plaques-40.json', { entries: [] }).entries;
+  const PLAQUE_STOP = new Set(['the', 'and', 'of', 'city', 'hub', 'keep', 'gate', 'pass']);
+  const plaqueTokens = (s) =>
+    String(s)
+      .toLowerCase()
+      .replace(/[^a-z0-9]+/g, ' ')
+      .trim()
+      .split(/\s+/)
+      .filter((w) => w.length > 2 && !PLAQUE_STOP.has(w));
   const mapEntries = [];
   const regionEntries = [];
   const cityEntries = [];
@@ -1076,22 +1757,64 @@ export function buildWikiData() {
         ...(m.text?.body ? [{ h: 'Overview', p: [m.text.body] }] : []),
         { h: 'Regions', list: regs.map((r) => `${r.name} (${r.biome})`) },
       ],
-      related: [...regs.map((r) => `region/${mid}-${slug(r.name)}`), ...(m.towns ?? []).map((t) => `city/${slug(t.name)}`)],
+      related: [
+        ...regs.map((r) => `region/${mid}-${slug(r.name)}`),
+        ...(m.towns ?? []).map((t) => `city/${slug(t.name)}`),
+      ],
       tags: { act, level: act, rarity: '' },
       gate: { a: act },
     });
 
     regs.forEach((r) => {
       const rid = `${mid}-${slug(r.name)}`;
-      const flavor = rf.find((x) => slug(x.name) === slug(r.name));
+      const mappedFlavors = (REGION_FLAVOR_IDS[rid] ?? []).map((rfId) => regionFlavorById[rfId]).filter(Boolean);
+      const rToks = plaqueTokens(r.name);
+      const matchedFlavors = mappedFlavors.length
+        ? mappedFlavors
+        : rf.filter((x) => plaqueTokens(x.name).some((t) => rToks.includes(t)));
+      const matchedPlaques = locationPlaques.filter(
+        (p) =>
+          p.act === act &&
+          (slug(r.name).includes(slug(p.region)) || plaqueTokens(p.region).some((t) => rToks.includes(t))),
+      );
+
+      const sections = [];
+      const enterLines = [...new Set(matchedFlavors.map((x) => x.enter_line).filter(Boolean))];
+      const weatherLines = [...new Set(matchedFlavors.flatMap((x) => x.weather_lines ?? []))];
+      const ambientLines = [...new Set(matchedFlavors.flatMap((x) => x.ambient_sounds_text ?? []))];
+      if (enterLines.length) sections.push({ h: 'Enter line', p: enterLines });
+      if (weatherLines.length) sections.push({ h: 'Weather & Atmosphere', list: weatherLines });
+      if (ambientLines.length) sections.push({ h: 'Ambient sounds', list: ambientLines });
+      if (matchedPlaques.length) {
+        sections.push({
+          h: 'Landmarks & Plaques',
+          list: matchedPlaques.map((p) => `${p.title}: ${p.text}`),
+        });
+      }
+      if (!sections.length) {
+        sections.push({
+          h: 'Survey notes',
+          p: [
+            `${r.name} spans the ${r.biome} frontier of ${m.name} (Act ${act}), across ${r.zone ?? 'contested'} terrain.`,
+          ],
+        });
+      }
+
       regionEntries.push({
         id: rid,
         type: 'region',
         title: r.name,
-        summary: `${cap(r.biome)} region of ${m.name}`,
-        img: pic('region', rid, 'infobox/image', img),
-        infobox: [['Map', m.name], ['Act', String(act)], ['Biome', cap(r.biome)], ['Ground zone', cap(r.zone ?? '-')], ['Bounds', `${r.x1},${r.y1} - ${r.x2},${r.y2}`], ['Music', r.music ?? '-']],
-        sections: [...(flavor ? [{ h: 'Enter line', p: [flavor.enter_line] }, { h: 'Weather', list: flavor.weather_lines ?? [] }] : [{ h: 'Lore', p: ['No lore yet.'] }])],
+        summary: enterLines[0] ?? `${cap(r.biome)} region of ${m.name}`,
+        img: pic('region', rid, 'infobox/minimap', `wiki/minimaps/regions/${rid}.png`, img),
+        infobox: [
+          ['Map', m.name],
+          ['Act', String(act)],
+          ['Biome', cap(r.biome)],
+          ['Ground zone', cap(r.zone ?? '-')],
+          ['Bounds', `${r.x1},${r.y1} - ${r.x2},${r.y2}`],
+          ['Music', r.music ?? '-'],
+        ],
+        sections,
         related: [`map/${mid}`, ...(r.biome ? [`biome/${r.biome}`] : [])],
         tags: { act, level: act, biome: r.biome, rarity: '' },
         gate: { a: act },
@@ -1130,7 +1853,13 @@ export function buildWikiData() {
           ['Residents', [...new Set([...mapNpcNames, ...hubNpcs.map((np) => np.name)])].join(', ') || '-'],
         ],
         sections,
-        related: [`map/${mid}`, ...out.mercs.filter((mc) => mc.tags.act === act).slice(0, 4).map((mc) => `merc/${mc.id}`)],
+        related: [
+          `map/${mid}`,
+          ...out.mercs
+            .filter((mc) => mc.tags.act === act)
+            .slice(0, 4)
+            .map((mc) => `merc/${mc.id}`),
+        ],
         tags: { act, level: act, rarity: '' },
         gate: { a: act },
       });
@@ -1165,7 +1894,10 @@ export function buildWikiData() {
         ['Map URL option', `?randskirmish=7&biome=${id}`],
       ],
       sections: [
-        { h: 'Description', p: [`Random skirmish maps in the ${name.toLowerCase()} biome use ${zones.toLowerCase()}.`] },
+        {
+          h: 'Description',
+          p: [`Random skirmish maps in the ${name.toLowerCase()} biome use ${zones.toLowerCase()}.`],
+        },
         ...(natives.length ? [{ h: 'Native creatures', list: natives }] : []),
       ],
       related: natives.filter((f) => best52.some((b) => b.id === f)).map((f) => `bestiary/${f}`),
@@ -1183,8 +1915,13 @@ export function buildWikiData() {
       type: 'mission',
       title: n.title,
       summary: t?.blurb ?? n.briefing?.slice(0, 160) ?? '',
-      img: null,
-      infobox: [['Act', String(n.act)], ['Code', mNum.toUpperCase()], ['Map', n.map], ...(t?.mood ? [['Mood', t.mood]] : [])],
+      img: pic('mission', n.id, 'infobox/minimap', `wiki/minimaps/missions/${n.id}.png`),
+      infobox: [
+        ['Act', String(n.act)],
+        ['Code', mNum.toUpperCase()],
+        ['Map', n.map],
+        ...(t?.mood ? [['Mood', t.mood]] : []),
+      ],
       sections: [
         ...(n.briefing ? [{ h: 'Briefing', p: [n.briefing] }] : []),
         ...(t?.lore ? [{ h: 'Lore', p: [t.lore] }] : []),
@@ -1193,7 +1930,11 @@ export function buildWikiData() {
       ],
       related: [
         `map/map${n.act}`,
-        ...rosters.filter((r) => n.id.startsWith(r.mission + '-')).flatMap((r) => [...r.families, r.boss].filter((f) => f && best52.some((b) => b.id === f)).map((f) => `bestiary/${f}`)),
+        ...rosters
+          .filter((r) => n.id.startsWith(r.mission + '-'))
+          .flatMap((r) =>
+            [...r.families, r.boss].filter((f) => f && best52.some((b) => b.id === f)).map((f) => `bestiary/${f}`),
+          ),
       ],
       tags: { act: n.act, level: n.act, rarity: '' },
       gate: { m: mNum },
@@ -1207,9 +1948,14 @@ export function buildWikiData() {
     type: 'lore',
     title: 'Timeline of the Border',
     summary: 'Recorded events, oldest first.',
-    img: null,
-    infobox: [['Kind', 'Chronicle'], ['Events', String(C('timeline').length)]],
-    sections: [{ h: 'Events', table: { head: ['Year', 'Event'], rows: C('timeline').map((e) => [String(e.year), e.event]) } }],
+    img: pic('lore', 'timeline', 'infobox/emblem', 'wiki/icons/lore-timeline.png'),
+    infobox: [
+      ['Kind', 'Chronicle'],
+      ['Events', String(C('timeline').length)],
+    ],
+    sections: [
+      { h: 'Events', table: { head: ['Year', 'Event'], rows: C('timeline').map((e) => [String(e.year), e.event]) } },
+    ],
     related: [],
     tags: { act: 0, level: 0, rarity: '' },
   });
@@ -1219,9 +1965,17 @@ export function buildWikiData() {
       type: 'lore',
       title: f.name,
       summary: f.desc,
-      img: null,
-      infobox: [['Kind', 'Faction'], ['Ranks', (f.ranks ?? []).join(', ') || '-']],
-      sections: [{ h: 'About', p: [f.desc] }, ...(f.rep_lines ? [{ h: 'Reputation', list: Object.entries(f.rep_lines).map(([k, v]) => `${cap(k)}: ${v}`) }] : [])],
+      img: pic('lore', f.id, 'infobox/emblem', `wiki/icons/faction-${f.id}.png`),
+      infobox: [
+        ['Kind', 'Faction'],
+        ['Ranks', (f.ranks ?? []).join(', ') || '-'],
+      ],
+      sections: [
+        { h: 'About', p: [f.desc] },
+        ...(f.rep_lines
+          ? [{ h: 'Reputation', list: Object.entries(f.rep_lines).map(([k, v]) => `${cap(k)}: ${v}`) }]
+          : []),
+      ],
       related: [],
       tags: { act: 0, level: 0, rarity: '' },
     });
@@ -1232,10 +1986,17 @@ export function buildWikiData() {
       type: 'lore',
       title: b.title,
       summary: `Book by ${b.author}, Act ${b.act}`,
-      img: null,
-      infobox: [['Kind', 'Lore book'], ['Author', b.author], ['Act', String(b.act)], ['Found in', b.found_in]],
+      img: pic('lore', b.id, 'infobox/emblem', `wiki/icons/lore-book-act${b.act}.png`),
+      infobox: [
+        ['Kind', 'Lore book'],
+        ['Author', b.author],
+        ['Act', String(b.act)],
+        ['Found in', b.found_in],
+      ],
       sections: [{ h: 'Text', p: [b.text] }],
-      related: nodeByPrefix(String(b.found_in).split('-')[0]) ? [`mission/${nodeByPrefix(String(b.found_in).split('-')[0]).id}`] : [],
+      related: nodeByPrefix(String(b.found_in).split('-')[0])
+        ? [`mission/${nodeByPrefix(String(b.found_in).split('-')[0]).id}`]
+        : [],
       tags: { act: b.act, level: b.act, rarity: '' },
       gate: { a: b.act },
     });
@@ -1246,8 +2007,19 @@ export function buildWikiData() {
       type: 'lore',
       title: c.title,
       summary: `Codex: ${c.category}, Act ${c.act}`,
-      img: null,
-      infobox: [['Kind', 'Codex entry'], ['Category', cap(c.category)], ['Act', String(c.act)], ['Unlock', c.unlock_hint ?? '-']],
+      img: pic(
+        'lore',
+        c.id,
+        'infobox/emblem',
+        `wiki/icons/lore-codex-${c.category}.png`,
+        'wiki/icons/lore-codex-lore.png',
+      ),
+      infobox: [
+        ['Kind', 'Codex entry'],
+        ['Category', cap(c.category)],
+        ['Act', String(c.act)],
+        ['Unlock', c.unlock_hint ?? '-'],
+      ],
       sections: [{ h: 'Text', p: [c.body] }],
       related: [`map/map${c.act}`],
       tags: { act: c.act, level: c.act, rarity: '' },
@@ -1261,9 +2033,14 @@ export function buildWikiData() {
       type: 'lore',
       title: 'Tavern rumors',
       summary: `${rumors.length} rumors heard in the hubs.`,
-      img: null,
-      infobox: [['Kind', 'Rumors'], ['Count', String(rumors.length)]],
-      sections: [1, 2, 3, 4].map((a) => ({ h: `Act ${a}`, list: rumors.filter((r) => r.stage === a).map((r) => r.text) })).filter((s) => s.list.length),
+      img: pic('lore', 'tavern-rumors', 'infobox/emblem', 'wiki/icons/lore-rumors.png'),
+      infobox: [
+        ['Kind', 'Rumors'],
+        ['Count', String(rumors.length)],
+      ],
+      sections: [1, 2, 3, 4]
+        .map((a) => ({ h: `Act ${a}`, list: rumors.filter((r) => r.stage === a).map((r) => r.text) }))
+        .filter((s) => s.list.length),
       related: [],
       tags: { act: 0, level: 0, rarity: '' },
     });
@@ -1274,8 +2051,11 @@ export function buildWikiData() {
       type: 'lore',
       title: `Act ${ae.act} Chronicle: ${ae.title}`,
       summary: ae.cliffhanger || ae.title,
-      img: null,
-      infobox: [['Kind', 'Act Ending'], ['Act', String(ae.act)]],
+      img: pic('lore', `act-${ae.act}-ending`, 'infobox/emblem', `wiki/icons/lore-act-ending-${ae.act}.png`),
+      infobox: [
+        ['Kind', 'Act Ending'],
+        ['Act', String(ae.act)],
+      ],
       sections: [
         { h: 'Story', p: [ae.text] },
         ...(ae.cliffhanger ? [{ h: 'Cliffhanger', p: [ae.cliffhanger] }] : []),
@@ -1292,8 +2072,11 @@ export function buildWikiData() {
       type: 'lore',
       title: `Act ${ep.act} Epilogue: ${ep.title}`,
       summary: ep.text.slice(0, 140),
-      img: null,
-      infobox: [['Kind', 'Act Epilogue'], ['Act', String(ep.act)]],
+      img: pic('lore', `act-${ep.act}-epilogue`, 'infobox/emblem', `wiki/icons/lore-act-epilogue-${ep.act}.png`),
+      infobox: [
+        ['Kind', 'Act Epilogue'],
+        ['Act', String(ep.act)],
+      ],
       sections: [{ h: 'Epilogue', p: [ep.text] }],
       related: [`map/map${ep.act}`],
       tags: { act: ep.act, level: ep.act, rarity: '' },
@@ -1307,8 +2090,12 @@ export function buildWikiData() {
       type: 'lore',
       title: `Ending: ${cap(end.class)} (${slug(end.id).replace('ending-' + end.class + '-', '')})`,
       summary: `${cap(end.class)} campaign ending`,
-      img: null,
-      infobox: [['Kind', 'Campaign Ending'], ['Class', cap(end.class)], ['Act', '4']],
+      img: pic('lore', end.id, 'infobox/emblem', `wiki/icons/lore-ending-${end.class}.png`),
+      infobox: [
+        ['Kind', 'Campaign Ending'],
+        ['Class', cap(end.class)],
+        ['Act', '4'],
+      ],
       sections: [
         { h: 'Finale', p: end.paragraphs ?? [] },
         { h: 'Epilogues', list: [end.epilogue_male, end.epilogue_female].filter(Boolean) },
@@ -1324,8 +2111,12 @@ export function buildWikiData() {
       type: 'lore',
       title: 'New Game+ (Second Cycle)',
       summary: 'Modifiers and chronicle lines unlocked after completing Act IV.',
-      img: null,
-      infobox: [['Kind', 'Endgame Cycle'], ['Modifiers', String(endingsPack.ng_plus.modifiers.length)], ['Act', '4']],
+      img: pic('lore', 'ng-plus-cycle', 'infobox/emblem', 'wiki/icons/lore-ng-plus.png'),
+      infobox: [
+        ['Kind', 'Endgame Cycle'],
+        ['Modifiers', String(endingsPack.ng_plus.modifiers.length)],
+        ['Act', '4'],
+      ],
       sections: [
         { h: 'Cycle lines', list: endingsPack.ng_plus.cycle_lines ?? [] },
         { h: 'Modifiers', list: endingsPack.ng_plus.modifiers.map((m) => `${m.name}: ${m.desc}`) },
@@ -1341,7 +2132,7 @@ export function buildWikiData() {
       type: 'lore',
       title: sq.title,
       summary: `Act ${sq.act} quest · ${sq.town ?? sq.mission ?? 'Frontier'}`,
-      img: null,
+      img: pic('lore', sq.id, 'infobox/emblem', `wiki/icons/lore-quest-act${sq.act}.png`),
       infobox: [
         ['Kind', 'Side quest'],
         ['Act', String(sq.act)],
@@ -1349,7 +2140,7 @@ export function buildWikiData() {
         ...(sq.reward ? [['Reward', `${sq.reward.gold ?? 0} gold, ${sq.reward.xp ?? 0} XP`]] : []),
       ],
       sections: [
-        { h: 'Briefing', p: [sq.briefing || sq.summary || 'No lore yet.'] },
+        { h: 'Briefing', p: [sq.briefing || sq.summary || `Frontier commission recorded in Act ${sq.act}.`] },
         ...(sq.objectives ? [{ h: 'Objectives', list: sq.objectives }] : []),
         ...(sq.twist ? [{ h: 'Choices & outcome', p: [sq.twist] }] : []),
       ],
@@ -1364,8 +2155,12 @@ export function buildWikiData() {
       type: 'lore',
       title: loc.name,
       summary: loc.blurb,
-      img: null,
-      infobox: [['Kind', 'Landmark'], ['Act', String(loc.act)], ['Direction', cap(loc.region_hint ?? '-')]],
+      img: pic('lore', loc.id, 'infobox/emblem', `wiki/icons/lore-landmark-act${loc.act}.png`),
+      infobox: [
+        ['Kind', 'Landmark'],
+        ['Act', String(loc.act)],
+        ['Direction', cap(loc.region_hint ?? '-')],
+      ],
       sections: [
         { h: 'Description', p: [loc.blurb] },
         ...(loc.discovered_line ? [{ h: 'Discovery note', p: [loc.discovered_line] }] : []),
@@ -1383,7 +2178,11 @@ export function buildWikiData() {
       title: fn.name,
       summary: `Act ${fn.act} ${fn.role}`,
       img: pic('lore', fn.id, 'infobox/portrait', `townart/portraits/${portId}.jpg`),
-      infobox: [['Kind', 'Field NPC'], ['Role', cap(fn.role)], ['Act', String(fn.act)]],
+      infobox: [
+        ['Kind', 'Field NPC'],
+        ['Role', cap(fn.role)],
+        ['Act', String(fn.act)],
+      ],
       sections: [
         { h: 'Appearance', p: [fn.look, fn.prop ? `Carries: ${fn.prop}` : ''].filter(Boolean) },
         { h: 'Dialogue', list: [fn.line_first, fn.line_return].filter(Boolean) },
@@ -1402,7 +2201,10 @@ export function buildWikiData() {
       title: a.title,
       desc: a.desc,
       cat: a.category,
-      extra: [['Metric', String(a.condition?.metric ?? '-')], ['Target', String(a.condition?.target ?? '-')]],
+      extra: [
+        ['Metric', String(a.condition?.metric ?? '-')],
+        ['Target', String(a.condition?.target ?? '-')],
+      ],
     })),
     ...C('achievements').map((a) => ({
       id: a.id,
@@ -1410,14 +2212,20 @@ export function buildWikiData() {
       desc: a.desc,
       cat: a.tier ?? 'campaign',
       flavor: a.flavor,
-      extra: [['Tier', cap(a.tier ?? 'bronze')], ['Secret', a.secret ? 'Yes' : 'No']],
+      extra: [
+        ['Tier', cap(a.tier ?? 'bronze')],
+        ['Secret', a.secret ? 'Yes' : 'No'],
+      ],
     })),
     ...C('achievements-2').map((a) => ({
       id: a.id,
       title: a.name,
       desc: a.description,
       cat: a.tier ?? 'campaign',
-      extra: [['Tier', cap(a.tier ?? 'bronze')], ['Hidden', a.hidden ? 'Yes' : 'No']],
+      extra: [
+        ['Tier', cap(a.tier ?? 'bronze')],
+        ['Hidden', a.hidden ? 'Yes' : 'No'],
+      ],
     })),
     ...C('achievements-3').map((a) => ({
       id: a.id,
@@ -1433,7 +2241,7 @@ export function buildWikiData() {
       type: 'achievement',
       title: a.title,
       summary: a.desc,
-      img: null,
+      img: pic('achievement', a.id, 'infobox/crest', achievementAssetFor(a)),
       infobox: [['Category', cap(a.cat)], ...a.extra],
       sections: [{ h: 'Unlock condition', p: [a.desc] }, ...(a.flavor ? [{ h: 'Flavor', p: [a.flavor] }] : [])],
       related: [],
@@ -1474,7 +2282,7 @@ export function buildWikiData() {
       type: 'tip',
       title: t.title,
       summary: t.text,
-      img: null,
+      img: pic('tip', t.id, 'infobox/emblem', `wiki/icons/tip-${t.cat}.png`, 'wiki/icons/tip-general.png'),
       infobox: [['Category', cap(t.cat)]],
       sections: [{ h: t.cat === 'guide' ? 'Guide' : 'Tip', p: [t.text] }],
       related: [],
@@ -1486,24 +2294,60 @@ export function buildWikiData() {
   const schools = [...new Set(out.spells.map((s) => s.tags.school))];
   const gl = [];
   const term = (id, title, text, related = [], infobox = [['Kind', 'Term']]) =>
-    gl.push({ id, type: 'glossary', title, summary: text, img: null, infobox, sections: [{ h: 'Definition', p: [text] }], related, tags: { level: 0, rarity: '' } });
+    gl.push({
+      id,
+      type: 'glossary',
+      title,
+      summary: text,
+      img: pic('glossary', id, 'infobox/emblem', `wiki/icons/glossary-${id}.png`),
+      infobox,
+      sections: [{ h: 'Definition', p: [text] }],
+      related,
+      tags: { level: 0, rarity: '' },
+    });
 
   for (const sc of schools) {
     term(
       `school-${sc}`,
       `${cap(sc)} school`,
       `Spell school with ${out.spells.filter((s) => s.tags.school === sc).length} spells in the game tables.`,
-      out.spells.filter((s) => s.tags.school === sc).slice(0, 6).map((s) => `spell/${s.id}`),
-      [['Kind', 'Spell school'], ['Spells', String(out.spells.filter((s) => s.tags.school === sc).length)]],
+      out.spells
+        .filter((s) => s.tags.school === sc)
+        .slice(0, 6)
+        .map((s) => `spell/${s.id}`),
+      [
+        ['Kind', 'Spell school'],
+        ['Spells', String(out.spells.filter((s) => s.tags.school === sc).length)],
+      ],
     );
   }
   for (const r of ['common', 'magic', 'unique', 'set', 'base', 'socket', 'runeword']) {
-    const cnt = out.items.concat(out.uniques, out.sets, out.affixes, out.gems).filter((i) => i.tags.rarity === r).length;
-    term(`rarity-${r}`, `${cap(r)} items`, `${cnt} entries in the wiki carry the ${r} classification.`, [], [['Kind', 'Rarity'], ['Entries', String(cnt)]]);
+    const cnt = out.items
+      .concat(out.uniques, out.sets, out.affixes, out.gems)
+      .filter((i) => i.tags.rarity === r).length;
+    term(
+      `rarity-${r}`,
+      `${cap(r)} items`,
+      `${cnt} entries in the wiki carry the ${r} classification.`,
+      [],
+      [
+        ['Kind', 'Rarity'],
+        ['Entries', String(cnt)],
+      ],
+    );
   }
   for (const k of ['prefix', 'suffix']) {
     const cnt = out.affixes.filter((a) => a.infobox[0][1].toLowerCase() === k).length;
-    term(`affix-${k}`, cap(k), `${cnt} ${k} affixes exist in the item tables.`, [], [['Kind', 'Affix class'], ['Count', String(cnt)]]);
+    term(
+      `affix-${k}`,
+      cap(k),
+      `${cnt} ${k} affixes exist in the item tables.`,
+      [],
+      [
+        ['Kind', 'Affix class'],
+        ['Count', String(cnt)],
+      ],
+    );
   }
   for (const d of C('difficulty')) {
     term(
@@ -1511,7 +2355,10 @@ export function buildWikiData() {
       `Difficulty: ${d.name}`,
       d.desc,
       [],
-      [['Kind', 'Difficulty tier'], ['Flavor', d.flavor]],
+      [
+        ['Kind', 'Difficulty tier'],
+        ['Flavor', d.flavor],
+      ],
     );
   }
   for (const [cName, st] of Object.entries(d2Mod.CHAMPION_TYPES)) {
@@ -1520,30 +2367,55 @@ export function buildWikiData() {
       `Champion: ${cap(cName)}`,
       `Champion monster variant: ${st.hpMult}x HP, ${st.dmgMult}x Damage, ${st.speedMult}x Speed, ${st.xpMult}x XP.`,
       [],
-      [['Kind', 'Champion type'], ['HP multiplier', `${st.hpMult}x`], ['Damage multiplier', `${st.dmgMult}x`]],
+      [
+        ['Kind', 'Champion type'],
+        ['HP multiplier', `${st.hpMult}x`],
+        ['Damage multiplier', `${st.dmgMult}x`],
+      ],
     );
   }
   for (const ba of d2Mod.BOSS_AFFIXES) {
-    term(
-      `boss-mod-${slug(ba.id)}`,
-      `Elite Mod: ${ba.name}`,
-      ba.description,
-      [],
-      [['Kind', 'Elite boss modifier']],
-    );
+    term(`boss-mod-${slug(ba.id)}`, `Elite Mod: ${ba.name}`, ba.description, [], [['Kind', 'Elite boss modifier']]);
   }
   const craftCount = C('crafting-recipes').length;
   term(
     'crafting-cube',
     'Transmutation Cube & Crafting',
     `Combine gems (3 identical -> next grade), upgrade runes, brew Rejuvenation Potions, punch sockets, reroll gear, and craft items across ${craftCount} smithy & forge recipes.`,
-    out.gems.filter((g) => g.tags.rarity === 'runeword').slice(0, 4).map((g) => `gem/${g.id}`),
-    [['Kind', 'System'], ['Forge recipes', String(craftCount)], ['Runewords', String(runesMod.RUNEWORDS.length)]],
+    out.gems
+      .filter((g) => g.tags.rarity === 'runeword')
+      .slice(0, 4)
+      .map((g) => `gem/${g.id}`),
+    [
+      ['Kind', 'System'],
+      ['Forge recipes', String(craftCount)],
+      ['Runewords', String(runesMod.RUNEWORDS.length)],
+    ],
   );
   out.glossary = uniqBy(gl, 'id');
 
   // ---------- index & link validation ----------
-  const cats = ['bestiary', 'items', 'uniques', 'sets', 'affixes', 'gems', 'spells', 'skills', 'classes', 'mercs', 'cities', 'maps', 'regions', 'biomes', 'missions', 'lore', 'achievements', 'tips', 'glossary'];
+  const cats = [
+    'bestiary',
+    'items',
+    'uniques',
+    'sets',
+    'affixes',
+    'gems',
+    'spells',
+    'skills',
+    'classes',
+    'mercs',
+    'cities',
+    'maps',
+    'regions',
+    'biomes',
+    'missions',
+    'lore',
+    'achievements',
+    'tips',
+    'glossary',
+  ];
   const validRoutes = new Set();
   for (const c of cats) for (const e of out[c] ?? []) validRoutes.add(`${e.type}/${e.id}`);
   for (const c of cats) {
@@ -1557,7 +2429,16 @@ export function buildWikiData() {
   for (const c of cats) {
     counts[c] = (out[c] ?? []).length;
     for (const e of out[c] ?? []) {
-      index.push({ r: `${e.type}/${e.id}`, t: e.type, id: e.id, n: e.title, s: (e.summary ?? '').slice(0, 140), img: e.img, tag: e.tags, g: e.gate });
+      index.push({
+        r: `${e.type}/${e.id}`,
+        t: e.type,
+        id: e.id,
+        n: e.title,
+        s: (e.summary ?? '').slice(0, 140),
+        img: e.img,
+        tag: e.tags,
+        g: e.gate,
+      });
     }
   }
   const actMap = {};
@@ -1568,13 +2449,43 @@ export function buildWikiData() {
 
 export function renderMissing(missing) {
   const seen = new Set();
-  const rows = missing.filter((m) => (seen.has(`${m.type}/${m.id}/${m.where}`) ? false : (seen.add(`${m.type}/${m.id}/${m.where}`), true)));
-  const lines = ['# Wiki missing images', '', 'Generated by `node tools/build-wiki-data.mjs`. Input for the art agent: entries shown with a placeholder.', '', '| id | type | where needed |', '|---|---|---|'];
+  const rows = missing.filter((m) =>
+    seen.has(`${m.type}/${m.id}/${m.where}`) ? false : (seen.add(`${m.type}/${m.id}/${m.where}`), true),
+  );
+  const lines = [
+    '# Wiki missing images',
+    '',
+    'Generated by `node tools/build-wiki-data.mjs`. Input for the art agent: entries shown with a placeholder.',
+    '',
+    '| id | type | where needed |',
+    '|---|---|---|',
+  ];
   for (const r of rows) lines.push(`| ${r.id} | ${r.type} | ${r.where} |`);
   return lines.join('\n') + '\n';
 }
 
-const FILES = ['bestiary', 'items', 'uniques', 'sets', 'affixes', 'gems', 'spells', 'skills', 'classes', 'mercs', 'cities', 'maps', 'regions', 'biomes', 'missions', 'lore', 'achievements', 'tips', 'glossary', 'index'];
+const FILES = [
+  'bestiary',
+  'items',
+  'uniques',
+  'sets',
+  'affixes',
+  'gems',
+  'spells',
+  'skills',
+  'classes',
+  'mercs',
+  'cities',
+  'maps',
+  'regions',
+  'biomes',
+  'missions',
+  'lore',
+  'achievements',
+  'tips',
+  'glossary',
+  'index',
+];
 /** Serialised files as { name: text }, stable key order, for writing and for the staleness test. */
 export function serialise(out) {
   return Object.fromEntries(FILES.map((f) => [`${f}.json`, JSON.stringify(out[f]) + '\n']));
@@ -1587,5 +2498,7 @@ if (process.argv[1] && resolve(process.argv[1]) === fileURLToPath(import.meta.ur
   const files = serialise(out);
   for (const [name, text] of Object.entries(files)) writeFileSync(join(dir, name), text);
   writeFileSync(P('tools', 'WIKI-MISSING-IMAGES.md'), renderMissing(miss));
-  console.log(`wiki data: ${Object.keys(files).length} files, ${out.index.entries.length} entries, ${new Set(miss.map((m) => m.type + m.id)).size} placeholders`);
+  console.log(
+    `wiki data: ${Object.keys(files).length} files, ${out.index.entries.length} entries, ${new Set(miss.map((m) => m.type + m.id)).size} placeholders`,
+  );
 }

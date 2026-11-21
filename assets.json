@@ -5848,6 +5848,1818 @@
       "license": "own",
       "source": "tools/make-wiki-minimaps.mjs",
       "note": "Generated seeded skirmish minimap for the oasis biome"
+    },
+    {
+      "path": "public/wiki/minimaps/regions/map1-thornwick-market-city-hub.png",
+      "license": "own",
+      "source": "tools/make-wiki-minimaps.mjs",
+      "note": "Generated macro region minimap crop for Thornwick Market (City Hub)"
+    },
+    {
+      "path": "public/wiki/minimaps/regions/map1-sunken-ford-willow-weirs.png",
+      "license": "own",
+      "source": "tools/make-wiki-minimaps.mjs",
+      "note": "Generated macro region minimap crop for Sunken Ford & Willow Weirs"
+    },
+    {
+      "path": "public/wiki/minimaps/regions/map1-fenwick-peat-lantern-passage.png",
+      "license": "own",
+      "source": "tools/make-wiki-minimaps.mjs",
+      "note": "Generated macro region minimap crop for Fenwick Peat & Lantern Passage"
+    },
+    {
+      "path": "public/wiki/minimaps/regions/map1-greywood-canopy-vitrified-kilns.png",
+      "license": "own",
+      "source": "tools/make-wiki-minimaps.mjs",
+      "note": "Generated macro region minimap crop for Greywood Canopy & Vitrified Kilns"
+    },
+    {
+      "path": "public/wiki/minimaps/regions/map1-craghorn-defile-alder-bridge.png",
+      "license": "own",
+      "source": "tools/make-wiki-minimaps.mjs",
+      "note": "Generated macro region minimap crop for Craghorn Defile & Alder Bridge"
+    },
+    {
+      "path": "public/wiki/minimaps/regions/map1-ravenwatch-keep-weeping-ossuary.png",
+      "license": "own",
+      "source": "tools/make-wiki-minimaps.mjs",
+      "note": "Generated macro region minimap crop for Ravenwatch Keep & Weeping Ossuary"
+    },
+    {
+      "path": "public/wiki/minimaps/regions/map1-undervault-links-ashbrook-gate.png",
+      "license": "own",
+      "source": "tools/make-wiki-minimaps.mjs",
+      "note": "Generated macro region minimap crop for Undervault Links & Ashbrook Gate"
+    },
+    {
+      "path": "public/wiki/minimaps/regions/map2-redmarsh-outpost-city-hub.png",
+      "license": "own",
+      "source": "tools/make-wiki-minimaps.mjs",
+      "note": "Generated macro region minimap crop for Redmarsh Outpost (City Hub)"
+    },
+    {
+      "path": "public/wiki/minimaps/regions/map2-ochre-ditch-corduroy-causeway.png",
+      "license": "own",
+      "source": "tools/make-wiki-minimaps.mjs",
+      "note": "Generated macro region minimap crop for Ochre Ditch & Corduroy Causeway"
+    },
+    {
+      "path": "public/wiki/minimaps/regions/map2-twin-passes-bracken-basin.png",
+      "license": "own",
+      "source": "tools/make-wiki-minimaps.mjs",
+      "note": "Generated macro region minimap crop for Twin Passes & Bracken Basin"
+    },
+    {
+      "path": "public/wiki/minimaps/regions/map2-quartz-plateau-wardstone-ring.png",
+      "license": "own",
+      "source": "tools/make-wiki-minimaps.mjs",
+      "note": "Generated macro region minimap crop for Quartz Plateau & Wardstone Ring"
+    },
+    {
+      "path": "public/wiki/minimaps/regions/map2-third-dynasty-salt-vaults.png",
+      "license": "own",
+      "source": "tools/make-wiki-minimaps.mjs",
+      "note": "Generated macro region minimap crop for Third-Dynasty Salt-Vaults"
+    },
+    {
+      "path": "public/wiki/minimaps/regions/map2-deep-quarry-flooded-sluice.png",
+      "license": "own",
+      "source": "tools/make-wiki-minimaps.mjs",
+      "note": "Generated macro region minimap crop for Deep Quarry & Flooded Sluice"
+    },
+    {
+      "path": "public/wiki/minimaps/regions/map2-fork-of-spears-ironheart-bastion.png",
+      "license": "own",
+      "source": "tools/make-wiki-minimaps.mjs",
+      "note": "Generated macro region minimap crop for Fork of Spears & Ironheart Bastion"
+    },
+    {
+      "path": "public/wiki/minimaps/regions/map3-oakhaven-harbor-city-hub.png",
+      "license": "own",
+      "source": "tools/make-wiki-minimaps.mjs",
+      "note": "Generated macro region minimap crop for Oakhaven Harbor (City Hub)"
+    },
+    {
+      "path": "public/wiki/minimaps/regions/map3-cinder-wards-blighted-orchard.png",
+      "license": "own",
+      "source": "tools/make-wiki-minimaps.mjs",
+      "note": "Generated macro region minimap crop for Cinder Wards & Blighted Orchard"
+    },
+    {
+      "path": "public/wiki/minimaps/regions/map3-greywash-canal-riverlock.png",
+      "license": "own",
+      "source": "tools/make-wiki-minimaps.mjs",
+      "note": "Generated macro region minimap crop for Greywash Canal & Riverlock"
+    },
+    {
+      "path": "public/wiki/minimaps/regions/map3-hourglass-spit-smuggler-caves.png",
+      "license": "own",
+      "source": "tools/make-wiki-minimaps.mjs",
+      "note": "Generated macro region minimap crop for Hourglass Spit & Smuggler Caves"
+    },
+    {
+      "path": "public/wiki/minimaps/regions/map3-sunken-citadel-drowned-choir.png",
+      "license": "own",
+      "source": "tools/make-wiki-minimaps.mjs",
+      "note": "Generated macro region minimap crop for Sunken Citadel & Drowned Choir"
+    },
+    {
+      "path": "public/wiki/minimaps/regions/map3-starved-bastion-cliff-batteries.png",
+      "license": "own",
+      "source": "tools/make-wiki-minimaps.mjs",
+      "note": "Generated macro region minimap crop for Starved Bastion & Cliff Batteries"
+    },
+    {
+      "path": "public/wiki/minimaps/regions/map3-burning-harborwatch-flagship.png",
+      "license": "own",
+      "source": "tools/make-wiki-minimaps.mjs",
+      "note": "Generated macro region minimap crop for Burning Harborwatch & Flagship"
+    },
+    {
+      "path": "public/wiki/minimaps/regions/map4-ironcamp-forge-hold-city-hub.png",
+      "license": "own",
+      "source": "tools/make-wiki-minimaps.mjs",
+      "note": "Generated macro region minimap crop for Ironcamp Forge-Hold (City Hub)"
+    },
+    {
+      "path": "public/wiki/minimaps/regions/map4-basalt-highway-shattered-beacons.png",
+      "license": "own",
+      "source": "tools/make-wiki-minimaps.mjs",
+      "note": "Generated macro region minimap crop for Basalt Highway & Shattered Beacons"
+    },
+    {
+      "path": "public/wiki/minimaps/regions/map4-besieged-wall-ashveil-summit.png",
+      "license": "own",
+      "source": "tools/make-wiki-minimaps.mjs",
+      "note": "Generated macro region minimap crop for Besieged Wall & Ashveil Summit"
+    },
+    {
+      "path": "public/wiki/minimaps/regions/map4-magnetic-narrows-twofold-barbican.png",
+      "license": "own",
+      "source": "tools/make-wiki-minimaps.mjs",
+      "note": "Generated macro region minimap crop for Magnetic Narrows & Twofold Barbican"
+    },
+    {
+      "path": "public/wiki/minimaps/regions/map4-gauntlet-of-iron-greystone-rampart.png",
+      "license": "own",
+      "source": "tools/make-wiki-minimaps.mjs",
+      "note": "Generated macro region minimap crop for Gauntlet of Iron & Greystone Rampart"
+    },
+    {
+      "path": "public/wiki/minimaps/regions/map4-three-roads-watch-headless-kings.png",
+      "license": "own",
+      "source": "tools/make-wiki-minimaps.mjs",
+      "note": "Generated macro region minimap crop for Three-Roads Watch & Headless Kings"
+    },
+    {
+      "path": "public/wiki/minimaps/regions/map4-colonnade-of-crowns-obsidian-dais.png",
+      "license": "own",
+      "source": "tools/make-wiki-minimaps.mjs",
+      "note": "Generated macro region minimap crop for Colonnade of Crowns & Obsidian Dais"
+    },
+    {
+      "path": "public/wiki/minimaps/missions/m01-blood-at-the-ford.png",
+      "license": "own",
+      "source": "tools/make-wiki-minimaps.mjs",
+      "note": "Generated campaign mission minimap for Blood at the Ford"
+    },
+    {
+      "path": "public/wiki/minimaps/missions/m02-whispers-in-the-fen.png",
+      "license": "own",
+      "source": "tools/make-wiki-minimaps.mjs",
+      "note": "Generated campaign mission minimap for Whispers in the Fen"
+    },
+    {
+      "path": "public/wiki/minimaps/missions/m03-nightfall-at-ravenwatch.png",
+      "license": "own",
+      "source": "tools/make-wiki-minimaps.mjs",
+      "note": "Generated campaign mission minimap for Nightfall at Ravenwatch"
+    },
+    {
+      "path": "public/wiki/minimaps/missions/m04-the-sunken-sanctum.png",
+      "license": "own",
+      "source": "tools/make-wiki-minimaps.mjs",
+      "note": "Generated campaign mission minimap for The Sunken Sanctum"
+    },
+    {
+      "path": "public/wiki/minimaps/missions/m05-lantern-passage.png",
+      "license": "own",
+      "source": "tools/make-wiki-minimaps.mjs",
+      "note": "Generated campaign mission minimap for Lantern Passage"
+    },
+    {
+      "path": "public/wiki/minimaps/missions/m06-greywood-supply.png",
+      "license": "own",
+      "source": "tools/make-wiki-minimaps.mjs",
+      "note": "Generated campaign mission minimap for Greywood Supply"
+    },
+    {
+      "path": "public/wiki/minimaps/missions/m07-split-vanguard.png",
+      "license": "own",
+      "source": "tools/make-wiki-minimaps.mjs",
+      "note": "Generated campaign mission minimap for Split Vanguard"
+    },
+    {
+      "path": "public/wiki/minimaps/missions/m08-alder-bridge.png",
+      "license": "own",
+      "source": "tools/make-wiki-minimaps.mjs",
+      "note": "Generated campaign mission minimap for Alder Bridge"
+    },
+    {
+      "path": "public/wiki/minimaps/missions/m09-ironhide-hunt.png",
+      "license": "own",
+      "source": "tools/make-wiki-minimaps.mjs",
+      "note": "Generated campaign mission minimap for Ironhide Hunt"
+    },
+    {
+      "path": "public/wiki/minimaps/missions/m10-undervault-links.png",
+      "license": "own",
+      "source": "tools/make-wiki-minimaps.mjs",
+      "note": "Generated campaign mission minimap for Undervault Links"
+    },
+    {
+      "path": "public/wiki/minimaps/missions/m11-ashbrook-retreat.png",
+      "license": "own",
+      "source": "tools/make-wiki-minimaps.mjs",
+      "note": "Generated campaign mission minimap for Ashbrook Retreat"
+    },
+    {
+      "path": "public/wiki/minimaps/missions/m12-redmarsh-border.png",
+      "license": "own",
+      "source": "tools/make-wiki-minimaps.mjs",
+      "note": "Generated campaign mission minimap for Redmarsh Border"
+    },
+    {
+      "path": "public/wiki/minimaps/missions/m13-twin-passes.png",
+      "license": "own",
+      "source": "tools/make-wiki-minimaps.mjs",
+      "note": "Generated campaign mission minimap for Twin Passes"
+    },
+    {
+      "path": "public/wiki/minimaps/missions/m14-scattered-scouts.png",
+      "license": "own",
+      "source": "tools/make-wiki-minimaps.mjs",
+      "note": "Generated campaign mission minimap for Scattered Scouts"
+    },
+    {
+      "path": "public/wiki/minimaps/missions/m15-outpost-palisade.png",
+      "license": "own",
+      "source": "tools/make-wiki-minimaps.mjs",
+      "note": "Generated campaign mission minimap for Outpost Palisade"
+    },
+    {
+      "path": "public/wiki/minimaps/missions/m16-wardstone-rupture.png",
+      "license": "own",
+      "source": "tools/make-wiki-minimaps.mjs",
+      "note": "Generated campaign mission minimap for Wardstone Rupture"
+    },
+    {
+      "path": "public/wiki/minimaps/missions/m17-mire-convoy.png",
+      "license": "own",
+      "source": "tools/make-wiki-minimaps.mjs",
+      "note": "Generated campaign mission minimap for Mire Convoy"
+    },
+    {
+      "path": "public/wiki/minimaps/missions/m18-granary-raid.png",
+      "license": "own",
+      "source": "tools/make-wiki-minimaps.mjs",
+      "note": "Generated campaign mission minimap for Granary Raid"
+    },
+    {
+      "path": "public/wiki/minimaps/missions/m19-hexer-capture.png",
+      "license": "own",
+      "source": "tools/make-wiki-minimaps.mjs",
+      "note": "Generated campaign mission minimap for Hexer's Hollow"
+    },
+    {
+      "path": "public/wiki/minimaps/missions/m20-deep-quarry.png",
+      "license": "own",
+      "source": "tools/make-wiki-minimaps.mjs",
+      "note": "Generated campaign mission minimap for Deep Quarry"
+    },
+    {
+      "path": "public/wiki/minimaps/missions/m21-lean-garrison.png",
+      "license": "own",
+      "source": "tools/make-wiki-minimaps.mjs",
+      "note": "Generated campaign mission minimap for Lean Garrison"
+    },
+    {
+      "path": "public/wiki/minimaps/missions/m22-fleeing-column.png",
+      "license": "own",
+      "source": "tools/make-wiki-minimaps.mjs",
+      "note": "Generated campaign mission minimap for Fleeing Column"
+    },
+    {
+      "path": "public/wiki/minimaps/missions/m23-fork-of-spears.png",
+      "license": "own",
+      "source": "tools/make-wiki-minimaps.mjs",
+      "note": "Generated campaign mission minimap for Fork of Spears"
+    },
+    {
+      "path": "public/wiki/minimaps/missions/m24-pledge-at-oakhaven.png",
+      "license": "own",
+      "source": "tools/make-wiki-minimaps.mjs",
+      "note": "Generated campaign mission minimap for Pledge at Oakhaven"
+    },
+    {
+      "path": "public/wiki/minimaps/missions/m25-cinder-wards.png",
+      "license": "own",
+      "source": "tools/make-wiki-minimaps.mjs",
+      "note": "Generated campaign mission minimap for Cinder Wards"
+    },
+    {
+      "path": "public/wiki/minimaps/missions/m26-sundered-ranks.png",
+      "license": "own",
+      "source": "tools/make-wiki-minimaps.mjs",
+      "note": "Generated campaign mission minimap for Sundered Ranks"
+    },
+    {
+      "path": "public/wiki/minimaps/missions/m27-field-infirmary.png",
+      "license": "own",
+      "source": "tools/make-wiki-minimaps.mjs",
+      "note": "Generated campaign mission minimap for Field Infirmary"
+    },
+    {
+      "path": "public/wiki/minimaps/missions/m28-sunken-citadel.png",
+      "license": "own",
+      "source": "tools/make-wiki-minimaps.mjs",
+      "note": "Generated campaign mission minimap for Sunken Citadel"
+    },
+    {
+      "path": "public/wiki/minimaps/missions/m29-hourglass-rescue.png",
+      "license": "own",
+      "source": "tools/make-wiki-minimaps.mjs",
+      "note": "Generated campaign mission minimap for Hourglass Rescue"
+    },
+    {
+      "path": "public/wiki/minimaps/missions/m30-starved-bastion.png",
+      "license": "own",
+      "source": "tools/make-wiki-minimaps.mjs",
+      "note": "Generated campaign mission minimap for Starved Bastion"
+    },
+    {
+      "path": "public/wiki/minimaps/missions/m31-riverlock-crossing.png",
+      "license": "own",
+      "source": "tools/make-wiki-minimaps.mjs",
+      "note": "Generated campaign mission minimap for Riverlock Crossing"
+    },
+    {
+      "path": "public/wiki/minimaps/missions/m32-elder-juggernaut.png",
+      "license": "own",
+      "source": "tools/make-wiki-minimaps.mjs",
+      "note": "Generated campaign mission minimap for Elder Juggernaut"
+    },
+    {
+      "path": "public/wiki/minimaps/missions/m33-high-stakes-gambit.png",
+      "license": "own",
+      "source": "tools/make-wiki-minimaps.mjs",
+      "note": "Generated campaign mission minimap for High-Stakes Gambit"
+    },
+    {
+      "path": "public/wiki/minimaps/missions/m34-clashing-banners.png",
+      "license": "own",
+      "source": "tools/make-wiki-minimaps.mjs",
+      "note": "Generated campaign mission minimap for Clashing Banners"
+    },
+    {
+      "path": "public/wiki/minimaps/missions/m35-burning-harbor.png",
+      "license": "own",
+      "source": "tools/make-wiki-minimaps.mjs",
+      "note": "Generated campaign mission minimap for Burning Harbor"
+    },
+    {
+      "path": "public/wiki/minimaps/missions/m36-heartland-march.png",
+      "license": "own",
+      "source": "tools/make-wiki-minimaps.mjs",
+      "note": "Generated campaign mission minimap for Heartland March"
+    },
+    {
+      "path": "public/wiki/minimaps/missions/m37-shattered-beacons.png",
+      "license": "own",
+      "source": "tools/make-wiki-minimaps.mjs",
+      "note": "Generated campaign mission minimap for Shattered Beacons"
+    },
+    {
+      "path": "public/wiki/minimaps/missions/m38-besieged-wall.png",
+      "license": "own",
+      "source": "tools/make-wiki-minimaps.mjs",
+      "note": "Generated campaign mission minimap for Besieged Wall"
+    },
+    {
+      "path": "public/wiki/minimaps/missions/m39-flight-of-malrik.png",
+      "license": "own",
+      "source": "tools/make-wiki-minimaps.mjs",
+      "note": "Generated campaign mission minimap for Flight of Malrik"
+    },
+    {
+      "path": "public/wiki/minimaps/missions/m40-twofold-assault.png",
+      "license": "own",
+      "source": "tools/make-wiki-minimaps.mjs",
+      "note": "Generated campaign mission minimap for Twofold Assault"
+    },
+    {
+      "path": "public/wiki/minimaps/missions/m41-gauntlet-of-iron.png",
+      "license": "own",
+      "source": "tools/make-wiki-minimaps.mjs",
+      "note": "Generated campaign mission minimap for Gauntlet of Iron"
+    },
+    {
+      "path": "public/wiki/minimaps/missions/m42-outer-rampart.png",
+      "license": "own",
+      "source": "tools/make-wiki-minimaps.mjs",
+      "note": "Generated campaign mission minimap for Outer Rampart"
+    },
+    {
+      "path": "public/wiki/minimaps/missions/m43-three-roads-siege.png",
+      "license": "own",
+      "source": "tools/make-wiki-minimaps.mjs",
+      "note": "Generated campaign mission minimap for Three-Roads Siege"
+    },
+    {
+      "path": "public/wiki/minimaps/missions/m44-threshold-choice.png",
+      "license": "own",
+      "source": "tools/make-wiki-minimaps.mjs",
+      "note": "Generated campaign mission minimap for Threshold Choice"
+    },
+    {
+      "path": "public/wiki/minimaps/missions/m45-crown-of-order.png",
+      "license": "own",
+      "source": "tools/make-wiki-minimaps.mjs",
+      "note": "Generated campaign mission minimap for Crown of Order"
+    },
+    {
+      "path": "public/wiki/minimaps/missions/m46-ember-reckoning.png",
+      "license": "own",
+      "source": "tools/make-wiki-minimaps.mjs",
+      "note": "Generated campaign mission minimap for Ember Reckoning"
+    },
+    {
+      "path": "public/townart/portrait-necromancer.png",
+      "license": "own",
+      "source": "Gemini image generation (user subscription), original text prompt, cutout with Pillow",
+      "note": "Original full-body Necromancer RGBA cutout, 788x1056"
+    },
+    {
+      "path": "public/wiki/icons/rw-stealth.png",
+      "license": "own",
+      "source": "tools/gen-wiki-art.py",
+      "note": "Runeword plate icon for rw-stealth"
+    },
+    {
+      "path": "public/wiki/icons/rw-steel.png",
+      "license": "own",
+      "source": "tools/gen-wiki-art.py",
+      "note": "Runeword plate icon for rw-steel"
+    },
+    {
+      "path": "public/wiki/icons/rw-lore.png",
+      "license": "own",
+      "source": "tools/gen-wiki-art.py",
+      "note": "Runeword plate icon for rw-lore"
+    },
+    {
+      "path": "public/wiki/icons/rw-spirit-sword.png",
+      "license": "own",
+      "source": "tools/gen-wiki-art.py",
+      "note": "Runeword plate icon for rw-spirit-sword"
+    },
+    {
+      "path": "public/wiki/icons/rw-insight.png",
+      "license": "own",
+      "source": "tools/gen-wiki-art.py",
+      "note": "Runeword plate icon for rw-insight"
+    },
+    {
+      "path": "public/wiki/icons/rw-ancients-pledge.png",
+      "license": "own",
+      "source": "tools/gen-wiki-art.py",
+      "note": "Runeword plate icon for rw-ancients-pledge"
+    },
+    {
+      "path": "public/wiki/icons/rw-rhyme.png",
+      "license": "own",
+      "source": "tools/gen-wiki-art.py",
+      "note": "Runeword plate icon for rw-rhyme"
+    },
+    {
+      "path": "public/wiki/icons/rw-smoke.png",
+      "license": "own",
+      "source": "tools/gen-wiki-art.py",
+      "note": "Runeword plate icon for rw-smoke"
+    },
+    {
+      "path": "public/wiki/icons/rw-leaf.png",
+      "license": "own",
+      "source": "tools/gen-wiki-art.py",
+      "note": "Runeword plate icon for rw-leaf"
+    },
+    {
+      "path": "public/wiki/icons/rw-white.png",
+      "license": "own",
+      "source": "tools/gen-wiki-art.py",
+      "note": "Runeword plate icon for rw-white"
+    },
+    {
+      "path": "public/wiki/icons/rw-treachery.png",
+      "license": "own",
+      "source": "tools/gen-wiki-art.py",
+      "note": "Runeword plate icon for rw-treachery"
+    },
+    {
+      "path": "public/wiki/icons/rw-duress.png",
+      "license": "own",
+      "source": "tools/gen-wiki-art.py",
+      "note": "Runeword plate icon for rw-duress"
+    },
+    {
+      "path": "public/wiki/icons/rw-sanctuary.png",
+      "license": "own",
+      "source": "tools/gen-wiki-art.py",
+      "note": "Runeword plate icon for rw-sanctuary"
+    },
+    {
+      "path": "public/wiki/icons/rw-crescent-moon.png",
+      "license": "own",
+      "source": "tools/gen-wiki-art.py",
+      "note": "Runeword plate icon for rw-crescent-moon"
+    },
+    {
+      "path": "public/wiki/icons/rw-call-to-arms.png",
+      "license": "own",
+      "source": "tools/gen-wiki-art.py",
+      "note": "Runeword plate icon for rw-call-to-arms"
+    },
+    {
+      "path": "public/wiki/icons/rw-enigma.png",
+      "license": "own",
+      "source": "tools/gen-wiki-art.py",
+      "note": "Runeword plate icon for rw-enigma"
+    },
+    {
+      "path": "public/wiki/icons/rw-infinity.png",
+      "license": "own",
+      "source": "tools/gen-wiki-art.py",
+      "note": "Runeword plate icon for rw-infinity"
+    },
+    {
+      "path": "public/wiki/icons/rw-fortitude.png",
+      "license": "own",
+      "source": "tools/gen-wiki-art.py",
+      "note": "Runeword plate icon for rw-fortitude"
+    },
+    {
+      "path": "public/wiki/icons/rw-grief.png",
+      "license": "own",
+      "source": "tools/gen-wiki-art.py",
+      "note": "Runeword plate icon for rw-grief"
+    },
+    {
+      "path": "public/wiki/icons/rw-heart-of-the-oak.png",
+      "license": "own",
+      "source": "tools/gen-wiki-art.py",
+      "note": "Runeword plate icon for rw-heart-of-the-oak"
+    },
+    {
+      "path": "public/wiki/icons/rw-breath-of-the-dying.png",
+      "license": "own",
+      "source": "tools/gen-wiki-art.py",
+      "note": "Runeword plate icon for rw-breath-of-the-dying"
+    },
+    {
+      "path": "public/wiki/icons/rw-faith.png",
+      "license": "own",
+      "source": "tools/gen-wiki-art.py",
+      "note": "Runeword plate icon for rw-faith"
+    },
+    {
+      "path": "public/wiki/icons/rw-chains-of-honor.png",
+      "license": "own",
+      "source": "tools/gen-wiki-art.py",
+      "note": "Runeword plate icon for rw-chains-of-honor"
+    },
+    {
+      "path": "public/wiki/icons/rw-beast.png",
+      "license": "own",
+      "source": "tools/gen-wiki-art.py",
+      "note": "Runeword plate icon for rw-beast"
+    },
+    {
+      "path": "public/wiki/icons/rw-death.png",
+      "license": "own",
+      "source": "tools/gen-wiki-art.py",
+      "note": "Runeword plate icon for rw-death"
+    },
+    {
+      "path": "public/wiki/icons/affix-prefix-fire.png",
+      "license": "own",
+      "source": "tools/gen-wiki-art.py",
+      "note": "Runic prefix seal for fire affixes"
+    },
+    {
+      "path": "public/wiki/icons/affix-prefix-cold.png",
+      "license": "own",
+      "source": "tools/gen-wiki-art.py",
+      "note": "Runic prefix seal for cold affixes"
+    },
+    {
+      "path": "public/wiki/icons/affix-prefix-lightning.png",
+      "license": "own",
+      "source": "tools/gen-wiki-art.py",
+      "note": "Runic prefix seal for lightning affixes"
+    },
+    {
+      "path": "public/wiki/icons/affix-prefix-poison.png",
+      "license": "own",
+      "source": "tools/gen-wiki-art.py",
+      "note": "Runic prefix seal for poison affixes"
+    },
+    {
+      "path": "public/wiki/icons/affix-prefix-astral.png",
+      "license": "own",
+      "source": "tools/gen-wiki-art.py",
+      "note": "Runic prefix seal for astral affixes"
+    },
+    {
+      "path": "public/wiki/icons/affix-prefix-physical.png",
+      "license": "own",
+      "source": "tools/gen-wiki-art.py",
+      "note": "Runic prefix seal for physical affixes"
+    },
+    {
+      "path": "public/wiki/icons/affix-prefix-defense.png",
+      "license": "own",
+      "source": "tools/gen-wiki-art.py",
+      "note": "Runic prefix seal for defense affixes"
+    },
+    {
+      "path": "public/wiki/icons/affix-prefix-vitality.png",
+      "license": "own",
+      "source": "tools/gen-wiki-art.py",
+      "note": "Runic prefix seal for vitality affixes"
+    },
+    {
+      "path": "public/wiki/icons/affix-prefix-agility.png",
+      "license": "own",
+      "source": "tools/gen-wiki-art.py",
+      "note": "Runic prefix seal for agility affixes"
+    },
+    {
+      "path": "public/wiki/icons/affix-prefix-minion.png",
+      "license": "own",
+      "source": "tools/gen-wiki-art.py",
+      "note": "Runic prefix seal for minion affixes"
+    },
+    {
+      "path": "public/wiki/icons/affix-prefix-fortune.png",
+      "license": "own",
+      "source": "tools/gen-wiki-art.py",
+      "note": "Runic prefix seal for fortune affixes"
+    },
+    {
+      "path": "public/wiki/icons/affix-suffix-fire.png",
+      "license": "own",
+      "source": "tools/gen-wiki-art.py",
+      "note": "Runic suffix seal for fire affixes"
+    },
+    {
+      "path": "public/wiki/icons/affix-suffix-cold.png",
+      "license": "own",
+      "source": "tools/gen-wiki-art.py",
+      "note": "Runic suffix seal for cold affixes"
+    },
+    {
+      "path": "public/wiki/icons/affix-suffix-lightning.png",
+      "license": "own",
+      "source": "tools/gen-wiki-art.py",
+      "note": "Runic suffix seal for lightning affixes"
+    },
+    {
+      "path": "public/wiki/icons/affix-suffix-poison.png",
+      "license": "own",
+      "source": "tools/gen-wiki-art.py",
+      "note": "Runic suffix seal for poison affixes"
+    },
+    {
+      "path": "public/wiki/icons/affix-suffix-astral.png",
+      "license": "own",
+      "source": "tools/gen-wiki-art.py",
+      "note": "Runic suffix seal for astral affixes"
+    },
+    {
+      "path": "public/wiki/icons/affix-suffix-physical.png",
+      "license": "own",
+      "source": "tools/gen-wiki-art.py",
+      "note": "Runic suffix seal for physical affixes"
+    },
+    {
+      "path": "public/wiki/icons/affix-suffix-defense.png",
+      "license": "own",
+      "source": "tools/gen-wiki-art.py",
+      "note": "Runic suffix seal for defense affixes"
+    },
+    {
+      "path": "public/wiki/icons/affix-suffix-vitality.png",
+      "license": "own",
+      "source": "tools/gen-wiki-art.py",
+      "note": "Runic suffix seal for vitality affixes"
+    },
+    {
+      "path": "public/wiki/icons/affix-suffix-agility.png",
+      "license": "own",
+      "source": "tools/gen-wiki-art.py",
+      "note": "Runic suffix seal for agility affixes"
+    },
+    {
+      "path": "public/wiki/icons/affix-suffix-minion.png",
+      "license": "own",
+      "source": "tools/gen-wiki-art.py",
+      "note": "Runic suffix seal for minion affixes"
+    },
+    {
+      "path": "public/wiki/icons/affix-suffix-fortune.png",
+      "license": "own",
+      "source": "tools/gen-wiki-art.py",
+      "note": "Runic suffix seal for fortune affixes"
+    },
+    {
+      "path": "public/wiki/icons/achievement-combat-bronze.png",
+      "license": "own",
+      "source": "tools/gen-wiki-art.py",
+      "note": "Bronze achievement crest for combat"
+    },
+    {
+      "path": "public/wiki/icons/achievement-combat-silver.png",
+      "license": "own",
+      "source": "tools/gen-wiki-art.py",
+      "note": "Silver achievement crest for combat"
+    },
+    {
+      "path": "public/wiki/icons/achievement-combat-gold.png",
+      "license": "own",
+      "source": "tools/gen-wiki-art.py",
+      "note": "Gold achievement crest for combat"
+    },
+    {
+      "path": "public/wiki/icons/achievement-campaign-bronze.png",
+      "license": "own",
+      "source": "tools/gen-wiki-art.py",
+      "note": "Bronze achievement crest for campaign"
+    },
+    {
+      "path": "public/wiki/icons/achievement-campaign-silver.png",
+      "license": "own",
+      "source": "tools/gen-wiki-art.py",
+      "note": "Silver achievement crest for campaign"
+    },
+    {
+      "path": "public/wiki/icons/achievement-campaign-gold.png",
+      "license": "own",
+      "source": "tools/gen-wiki-art.py",
+      "note": "Gold achievement crest for campaign"
+    },
+    {
+      "path": "public/wiki/icons/achievement-exploration-bronze.png",
+      "license": "own",
+      "source": "tools/gen-wiki-art.py",
+      "note": "Bronze achievement crest for exploration"
+    },
+    {
+      "path": "public/wiki/icons/achievement-exploration-silver.png",
+      "license": "own",
+      "source": "tools/gen-wiki-art.py",
+      "note": "Silver achievement crest for exploration"
+    },
+    {
+      "path": "public/wiki/icons/achievement-exploration-gold.png",
+      "license": "own",
+      "source": "tools/gen-wiki-art.py",
+      "note": "Gold achievement crest for exploration"
+    },
+    {
+      "path": "public/wiki/icons/achievement-economy-bronze.png",
+      "license": "own",
+      "source": "tools/gen-wiki-art.py",
+      "note": "Bronze achievement crest for economy"
+    },
+    {
+      "path": "public/wiki/icons/achievement-economy-silver.png",
+      "license": "own",
+      "source": "tools/gen-wiki-art.py",
+      "note": "Silver achievement crest for economy"
+    },
+    {
+      "path": "public/wiki/icons/achievement-economy-gold.png",
+      "license": "own",
+      "source": "tools/gen-wiki-art.py",
+      "note": "Gold achievement crest for economy"
+    },
+    {
+      "path": "public/wiki/icons/achievement-codex-bronze.png",
+      "license": "own",
+      "source": "tools/gen-wiki-art.py",
+      "note": "Bronze achievement crest for codex"
+    },
+    {
+      "path": "public/wiki/icons/achievement-codex-silver.png",
+      "license": "own",
+      "source": "tools/gen-wiki-art.py",
+      "note": "Silver achievement crest for codex"
+    },
+    {
+      "path": "public/wiki/icons/achievement-codex-gold.png",
+      "license": "own",
+      "source": "tools/gen-wiki-art.py",
+      "note": "Gold achievement crest for codex"
+    },
+    {
+      "path": "public/wiki/icons/achievement-mastery-bronze.png",
+      "license": "own",
+      "source": "tools/gen-wiki-art.py",
+      "note": "Bronze achievement crest for mastery"
+    },
+    {
+      "path": "public/wiki/icons/achievement-mastery-silver.png",
+      "license": "own",
+      "source": "tools/gen-wiki-art.py",
+      "note": "Silver achievement crest for mastery"
+    },
+    {
+      "path": "public/wiki/icons/achievement-mastery-gold.png",
+      "license": "own",
+      "source": "tools/gen-wiki-art.py",
+      "note": "Gold achievement crest for mastery"
+    },
+    {
+      "path": "public/wiki/icons/achievement-classes-bronze.png",
+      "license": "own",
+      "source": "tools/gen-wiki-art.py",
+      "note": "Bronze achievement crest for classes"
+    },
+    {
+      "path": "public/wiki/icons/achievement-classes-silver.png",
+      "license": "own",
+      "source": "tools/gen-wiki-art.py",
+      "note": "Silver achievement crest for classes"
+    },
+    {
+      "path": "public/wiki/icons/achievement-classes-gold.png",
+      "license": "own",
+      "source": "tools/gen-wiki-art.py",
+      "note": "Gold achievement crest for classes"
+    },
+    {
+      "path": "public/wiki/icons/achievement-mercenaries-bronze.png",
+      "license": "own",
+      "source": "tools/gen-wiki-art.py",
+      "note": "Bronze achievement crest for mercenaries"
+    },
+    {
+      "path": "public/wiki/icons/achievement-mercenaries-silver.png",
+      "license": "own",
+      "source": "tools/gen-wiki-art.py",
+      "note": "Silver achievement crest for mercenaries"
+    },
+    {
+      "path": "public/wiki/icons/achievement-mercenaries-gold.png",
+      "license": "own",
+      "source": "tools/gen-wiki-art.py",
+      "note": "Gold achievement crest for mercenaries"
+    },
+    {
+      "path": "public/wiki/icons/achievement-gear-bronze.png",
+      "license": "own",
+      "source": "tools/gen-wiki-art.py",
+      "note": "Bronze achievement crest for gear"
+    },
+    {
+      "path": "public/wiki/icons/achievement-gear-silver.png",
+      "license": "own",
+      "source": "tools/gen-wiki-art.py",
+      "note": "Silver achievement crest for gear"
+    },
+    {
+      "path": "public/wiki/icons/achievement-gear-gold.png",
+      "license": "own",
+      "source": "tools/gen-wiki-art.py",
+      "note": "Gold achievement crest for gear"
+    },
+    {
+      "path": "public/wiki/icons/achievement-secret-bronze.png",
+      "license": "own",
+      "source": "tools/gen-wiki-art.py",
+      "note": "Bronze achievement crest for secret"
+    },
+    {
+      "path": "public/wiki/icons/achievement-secret-silver.png",
+      "license": "own",
+      "source": "tools/gen-wiki-art.py",
+      "note": "Silver achievement crest for secret"
+    },
+    {
+      "path": "public/wiki/icons/achievement-secret-gold.png",
+      "license": "own",
+      "source": "tools/gen-wiki-art.py",
+      "note": "Gold achievement crest for secret"
+    },
+    {
+      "path": "public/wiki/icons/faction-fac-border-wardens.png",
+      "license": "own",
+      "source": "tools/gen-wiki-art.py",
+      "note": "Faction heraldry crest for fac-border-wardens"
+    },
+    {
+      "path": "public/wiki/icons/faction-fac-redmarsh-caravaneers.png",
+      "license": "own",
+      "source": "tools/gen-wiki-art.py",
+      "note": "Faction heraldry crest for fac-redmarsh-caravaneers"
+    },
+    {
+      "path": "public/wiki/icons/faction-fac-probate-scriptorium.png",
+      "license": "own",
+      "source": "tools/gen-wiki-art.py",
+      "note": "Faction heraldry crest for fac-probate-scriptorium"
+    },
+    {
+      "path": "public/wiki/icons/faction-fac-oakhaven-maritime.png",
+      "license": "own",
+      "source": "tools/gen-wiki-art.py",
+      "note": "Faction heraldry crest for fac-oakhaven-maritime"
+    },
+    {
+      "path": "public/wiki/icons/faction-fac-expelled-collegium.png",
+      "license": "own",
+      "source": "tools/gen-wiki-art.py",
+      "note": "Faction heraldry crest for fac-expelled-collegium"
+    },
+    {
+      "path": "public/wiki/icons/faction-fac-ironcamp-smiths.png",
+      "license": "own",
+      "source": "tools/gen-wiki-art.py",
+      "note": "Faction heraldry crest for fac-ironcamp-smiths"
+    },
+    {
+      "path": "public/wiki/icons/faction-fac-scorched-penitents.png",
+      "license": "own",
+      "source": "tools/gen-wiki-art.py",
+      "note": "Faction heraldry crest for fac-scorched-penitents"
+    },
+    {
+      "path": "public/wiki/icons/faction-fac-first-watch-remnant.png",
+      "license": "own",
+      "source": "tools/gen-wiki-art.py",
+      "note": "Faction heraldry crest for fac-first-watch-remnant"
+    },
+    {
+      "path": "public/wiki/icons/lore-timeline.png",
+      "license": "own",
+      "source": "tools/gen-wiki-art.py",
+      "note": "Timeline chronicle hourglass crest"
+    },
+    {
+      "path": "public/wiki/icons/lore-rumors.png",
+      "license": "own",
+      "source": "tools/gen-wiki-art.py",
+      "note": "Tavern rumors lantern crest"
+    },
+    {
+      "path": "public/wiki/icons/lore-ng-plus.png",
+      "license": "own",
+      "source": "tools/gen-wiki-art.py",
+      "note": "Second Cycle endgame crest"
+    },
+    {
+      "path": "public/wiki/icons/lore-book-act1.png",
+      "license": "own",
+      "source": "tools/gen-wiki-art.py",
+      "note": "Act 1 illuminated lore book"
+    },
+    {
+      "path": "public/wiki/icons/lore-quest-act1.png",
+      "license": "own",
+      "source": "tools/gen-wiki-art.py",
+      "note": "Act 1 side quest writ"
+    },
+    {
+      "path": "public/wiki/icons/lore-landmark-act1.png",
+      "license": "own",
+      "source": "tools/gen-wiki-art.py",
+      "note": "Act 1 weathered landmark obelisk"
+    },
+    {
+      "path": "public/wiki/icons/lore-act-ending-1.png",
+      "license": "own",
+      "source": "tools/gen-wiki-art.py",
+      "note": "Act 1 chronicle ending banner"
+    },
+    {
+      "path": "public/wiki/icons/lore-act-epilogue-1.png",
+      "license": "own",
+      "source": "tools/gen-wiki-art.py",
+      "note": "Act 1 epilogue medallion"
+    },
+    {
+      "path": "public/wiki/icons/lore-book-act2.png",
+      "license": "own",
+      "source": "tools/gen-wiki-art.py",
+      "note": "Act 2 illuminated lore book"
+    },
+    {
+      "path": "public/wiki/icons/lore-quest-act2.png",
+      "license": "own",
+      "source": "tools/gen-wiki-art.py",
+      "note": "Act 2 side quest writ"
+    },
+    {
+      "path": "public/wiki/icons/lore-landmark-act2.png",
+      "license": "own",
+      "source": "tools/gen-wiki-art.py",
+      "note": "Act 2 weathered landmark obelisk"
+    },
+    {
+      "path": "public/wiki/icons/lore-act-ending-2.png",
+      "license": "own",
+      "source": "tools/gen-wiki-art.py",
+      "note": "Act 2 chronicle ending banner"
+    },
+    {
+      "path": "public/wiki/icons/lore-act-epilogue-2.png",
+      "license": "own",
+      "source": "tools/gen-wiki-art.py",
+      "note": "Act 2 epilogue medallion"
+    },
+    {
+      "path": "public/wiki/icons/lore-book-act3.png",
+      "license": "own",
+      "source": "tools/gen-wiki-art.py",
+      "note": "Act 3 illuminated lore book"
+    },
+    {
+      "path": "public/wiki/icons/lore-quest-act3.png",
+      "license": "own",
+      "source": "tools/gen-wiki-art.py",
+      "note": "Act 3 side quest writ"
+    },
+    {
+      "path": "public/wiki/icons/lore-landmark-act3.png",
+      "license": "own",
+      "source": "tools/gen-wiki-art.py",
+      "note": "Act 3 weathered landmark obelisk"
+    },
+    {
+      "path": "public/wiki/icons/lore-act-ending-3.png",
+      "license": "own",
+      "source": "tools/gen-wiki-art.py",
+      "note": "Act 3 chronicle ending banner"
+    },
+    {
+      "path": "public/wiki/icons/lore-act-epilogue-3.png",
+      "license": "own",
+      "source": "tools/gen-wiki-art.py",
+      "note": "Act 3 epilogue medallion"
+    },
+    {
+      "path": "public/wiki/icons/lore-book-act4.png",
+      "license": "own",
+      "source": "tools/gen-wiki-art.py",
+      "note": "Act 4 illuminated lore book"
+    },
+    {
+      "path": "public/wiki/icons/lore-quest-act4.png",
+      "license": "own",
+      "source": "tools/gen-wiki-art.py",
+      "note": "Act 4 side quest writ"
+    },
+    {
+      "path": "public/wiki/icons/lore-landmark-act4.png",
+      "license": "own",
+      "source": "tools/gen-wiki-art.py",
+      "note": "Act 4 weathered landmark obelisk"
+    },
+    {
+      "path": "public/wiki/icons/lore-act-ending-4.png",
+      "license": "own",
+      "source": "tools/gen-wiki-art.py",
+      "note": "Act 4 chronicle ending banner"
+    },
+    {
+      "path": "public/wiki/icons/lore-act-epilogue-4.png",
+      "license": "own",
+      "source": "tools/gen-wiki-art.py",
+      "note": "Act 4 epilogue medallion"
+    },
+    {
+      "path": "public/wiki/icons/lore-codex-lore.png",
+      "license": "own",
+      "source": "tools/gen-wiki-art.py",
+      "note": "Codex emblem for lore"
+    },
+    {
+      "path": "public/wiki/icons/lore-codex-place.png",
+      "license": "own",
+      "source": "tools/gen-wiki-art.py",
+      "note": "Codex emblem for place"
+    },
+    {
+      "path": "public/wiki/icons/lore-codex-faction.png",
+      "license": "own",
+      "source": "tools/gen-wiki-art.py",
+      "note": "Codex emblem for faction"
+    },
+    {
+      "path": "public/wiki/icons/lore-codex-creature.png",
+      "license": "own",
+      "source": "tools/gen-wiki-art.py",
+      "note": "Codex emblem for creature"
+    },
+    {
+      "path": "public/wiki/icons/lore-codex-event.png",
+      "license": "own",
+      "source": "tools/gen-wiki-art.py",
+      "note": "Codex emblem for event"
+    },
+    {
+      "path": "public/wiki/icons/lore-codex-relic.png",
+      "license": "own",
+      "source": "tools/gen-wiki-art.py",
+      "note": "Codex emblem for relic"
+    },
+    {
+      "path": "public/wiki/icons/lore-ending-warrior.png",
+      "license": "own",
+      "source": "tools/gen-wiki-art.py",
+      "note": "Campaign finale crest for warrior"
+    },
+    {
+      "path": "public/wiki/icons/lore-ending-archer.png",
+      "license": "own",
+      "source": "tools/gen-wiki-art.py",
+      "note": "Campaign finale crest for archer"
+    },
+    {
+      "path": "public/wiki/icons/lore-ending-mage.png",
+      "license": "own",
+      "source": "tools/gen-wiki-art.py",
+      "note": "Campaign finale crest for mage"
+    },
+    {
+      "path": "public/wiki/icons/lore-ending-necromancer.png",
+      "license": "own",
+      "source": "tools/gen-wiki-art.py",
+      "note": "Campaign finale crest for necromancer"
+    },
+    {
+      "path": "public/wiki/icons/tip-loading.png",
+      "license": "own",
+      "source": "tools/gen-wiki-art.py",
+      "note": "Compendium tip emblem for loading"
+    },
+    {
+      "path": "public/wiki/icons/tip-combat.png",
+      "license": "own",
+      "source": "tools/gen-wiki-art.py",
+      "note": "Compendium tip emblem for combat"
+    },
+    {
+      "path": "public/wiki/icons/tip-town.png",
+      "license": "own",
+      "source": "tools/gen-wiki-art.py",
+      "note": "Compendium tip emblem for town"
+    },
+    {
+      "path": "public/wiki/icons/tip-hero.png",
+      "license": "own",
+      "source": "tools/gen-wiki-art.py",
+      "note": "Compendium tip emblem for hero"
+    },
+    {
+      "path": "public/wiki/icons/tip-items.png",
+      "license": "own",
+      "source": "tools/gen-wiki-art.py",
+      "note": "Compendium tip emblem for items"
+    },
+    {
+      "path": "public/wiki/icons/tip-spells.png",
+      "license": "own",
+      "source": "tools/gen-wiki-art.py",
+      "note": "Compendium tip emblem for spells"
+    },
+    {
+      "path": "public/wiki/icons/tip-map.png",
+      "license": "own",
+      "source": "tools/gen-wiki-art.py",
+      "note": "Compendium tip emblem for map"
+    },
+    {
+      "path": "public/wiki/icons/tip-general.png",
+      "license": "own",
+      "source": "tools/gen-wiki-art.py",
+      "note": "Compendium tip emblem for general"
+    },
+    {
+      "path": "public/wiki/icons/tip-guide.png",
+      "license": "own",
+      "source": "tools/gen-wiki-art.py",
+      "note": "Compendium tip emblem for guide"
+    },
+    {
+      "path": "public/wiki/icons/tip-epitaph.png",
+      "license": "own",
+      "source": "tools/gen-wiki-art.py",
+      "note": "Compendium tip emblem for epitaph"
+    },
+    {
+      "path": "public/wiki/icons/glossary-school-fire.png",
+      "license": "own",
+      "source": "tools/gen-wiki-art.py",
+      "note": "Glossary lexicon plate for school-fire"
+    },
+    {
+      "path": "public/wiki/icons/glossary-school-water.png",
+      "license": "own",
+      "source": "tools/gen-wiki-art.py",
+      "note": "Glossary lexicon plate for school-water"
+    },
+    {
+      "path": "public/wiki/icons/glossary-school-air.png",
+      "license": "own",
+      "source": "tools/gen-wiki-art.py",
+      "note": "Glossary lexicon plate for school-air"
+    },
+    {
+      "path": "public/wiki/icons/glossary-school-earth.png",
+      "license": "own",
+      "source": "tools/gen-wiki-art.py",
+      "note": "Glossary lexicon plate for school-earth"
+    },
+    {
+      "path": "public/wiki/icons/glossary-school-astral.png",
+      "license": "own",
+      "source": "tools/gen-wiki-art.py",
+      "note": "Glossary lexicon plate for school-astral"
+    },
+    {
+      "path": "public/wiki/icons/glossary-school-marksman.png",
+      "license": "own",
+      "source": "tools/gen-wiki-art.py",
+      "note": "Glossary lexicon plate for school-marksman"
+    },
+    {
+      "path": "public/wiki/icons/glossary-school-wild.png",
+      "license": "own",
+      "source": "tools/gen-wiki-art.py",
+      "note": "Glossary lexicon plate for school-wild"
+    },
+    {
+      "path": "public/wiki/icons/glossary-school-bone.png",
+      "license": "own",
+      "source": "tools/gen-wiki-art.py",
+      "note": "Glossary lexicon plate for school-bone"
+    },
+    {
+      "path": "public/wiki/icons/glossary-school-debt.png",
+      "license": "own",
+      "source": "tools/gen-wiki-art.py",
+      "note": "Glossary lexicon plate for school-debt"
+    },
+    {
+      "path": "public/wiki/icons/glossary-school-grave.png",
+      "license": "own",
+      "source": "tools/gen-wiki-art.py",
+      "note": "Glossary lexicon plate for school-grave"
+    },
+    {
+      "path": "public/wiki/icons/glossary-rarity-common.png",
+      "license": "own",
+      "source": "tools/gen-wiki-art.py",
+      "note": "Glossary lexicon plate for rarity-common"
+    },
+    {
+      "path": "public/wiki/icons/glossary-rarity-magic.png",
+      "license": "own",
+      "source": "tools/gen-wiki-art.py",
+      "note": "Glossary lexicon plate for rarity-magic"
+    },
+    {
+      "path": "public/wiki/icons/glossary-rarity-unique.png",
+      "license": "own",
+      "source": "tools/gen-wiki-art.py",
+      "note": "Glossary lexicon plate for rarity-unique"
+    },
+    {
+      "path": "public/wiki/icons/glossary-rarity-set.png",
+      "license": "own",
+      "source": "tools/gen-wiki-art.py",
+      "note": "Glossary lexicon plate for rarity-set"
+    },
+    {
+      "path": "public/wiki/icons/glossary-rarity-base.png",
+      "license": "own",
+      "source": "tools/gen-wiki-art.py",
+      "note": "Glossary lexicon plate for rarity-base"
+    },
+    {
+      "path": "public/wiki/icons/glossary-rarity-socket.png",
+      "license": "own",
+      "source": "tools/gen-wiki-art.py",
+      "note": "Glossary lexicon plate for rarity-socket"
+    },
+    {
+      "path": "public/wiki/icons/glossary-rarity-runeword.png",
+      "license": "own",
+      "source": "tools/gen-wiki-art.py",
+      "note": "Glossary lexicon plate for rarity-runeword"
+    },
+    {
+      "path": "public/wiki/icons/glossary-affix-prefix.png",
+      "license": "own",
+      "source": "tools/gen-wiki-art.py",
+      "note": "Glossary lexicon plate for affix-prefix"
+    },
+    {
+      "path": "public/wiki/icons/glossary-affix-suffix.png",
+      "license": "own",
+      "source": "tools/gen-wiki-art.py",
+      "note": "Glossary lexicon plate for affix-suffix"
+    },
+    {
+      "path": "public/wiki/icons/glossary-difficulty-easy.png",
+      "license": "own",
+      "source": "tools/gen-wiki-art.py",
+      "note": "Glossary lexicon plate for difficulty-easy"
+    },
+    {
+      "path": "public/wiki/icons/glossary-difficulty-normal.png",
+      "license": "own",
+      "source": "tools/gen-wiki-art.py",
+      "note": "Glossary lexicon plate for difficulty-normal"
+    },
+    {
+      "path": "public/wiki/icons/glossary-difficulty-hard.png",
+      "license": "own",
+      "source": "tools/gen-wiki-art.py",
+      "note": "Glossary lexicon plate for difficulty-hard"
+    },
+    {
+      "path": "public/wiki/icons/glossary-difficulty-nightmare.png",
+      "license": "own",
+      "source": "tools/gen-wiki-art.py",
+      "note": "Glossary lexicon plate for difficulty-nightmare"
+    },
+    {
+      "path": "public/wiki/icons/glossary-champion-champion.png",
+      "license": "own",
+      "source": "tools/gen-wiki-art.py",
+      "note": "Glossary lexicon plate for champion-champion"
+    },
+    {
+      "path": "public/wiki/icons/glossary-champion-berserker.png",
+      "license": "own",
+      "source": "tools/gen-wiki-art.py",
+      "note": "Glossary lexicon plate for champion-berserker"
+    },
+    {
+      "path": "public/wiki/icons/glossary-champion-possessed.png",
+      "license": "own",
+      "source": "tools/gen-wiki-art.py",
+      "note": "Glossary lexicon plate for champion-possessed"
+    },
+    {
+      "path": "public/wiki/icons/glossary-champion-fanatic.png",
+      "license": "own",
+      "source": "tools/gen-wiki-art.py",
+      "note": "Glossary lexicon plate for champion-fanatic"
+    },
+    {
+      "path": "public/wiki/icons/glossary-champion-ghostly.png",
+      "license": "own",
+      "source": "tools/gen-wiki-art.py",
+      "note": "Glossary lexicon plate for champion-ghostly"
+    },
+    {
+      "path": "public/wiki/icons/glossary-boss-mod-lightning-enchanted.png",
+      "license": "own",
+      "source": "tools/gen-wiki-art.py",
+      "note": "Glossary lexicon plate for boss-mod-lightning-enchanted"
+    },
+    {
+      "path": "public/wiki/icons/glossary-boss-mod-cold-enchanted.png",
+      "license": "own",
+      "source": "tools/gen-wiki-art.py",
+      "note": "Glossary lexicon plate for boss-mod-cold-enchanted"
+    },
+    {
+      "path": "public/wiki/icons/glossary-boss-mod-fire-enchanted.png",
+      "license": "own",
+      "source": "tools/gen-wiki-art.py",
+      "note": "Glossary lexicon plate for boss-mod-fire-enchanted"
+    },
+    {
+      "path": "public/wiki/icons/glossary-boss-mod-stone-skin.png",
+      "license": "own",
+      "source": "tools/gen-wiki-art.py",
+      "note": "Glossary lexicon plate for boss-mod-stone-skin"
+    },
+    {
+      "path": "public/wiki/icons/glossary-boss-mod-extra-fast.png",
+      "license": "own",
+      "source": "tools/gen-wiki-art.py",
+      "note": "Glossary lexicon plate for boss-mod-extra-fast"
+    },
+    {
+      "path": "public/wiki/icons/glossary-boss-mod-extra-strong.png",
+      "license": "own",
+      "source": "tools/gen-wiki-art.py",
+      "note": "Glossary lexicon plate for boss-mod-extra-strong"
+    },
+    {
+      "path": "public/wiki/icons/glossary-boss-mod-mana-burn.png",
+      "license": "own",
+      "source": "tools/gen-wiki-art.py",
+      "note": "Glossary lexicon plate for boss-mod-mana-burn"
+    },
+    {
+      "path": "public/wiki/icons/glossary-boss-mod-cursed.png",
+      "license": "own",
+      "source": "tools/gen-wiki-art.py",
+      "note": "Glossary lexicon plate for boss-mod-cursed"
+    },
+    {
+      "path": "public/wiki/icons/glossary-boss-mod-teleporting.png",
+      "license": "own",
+      "source": "tools/gen-wiki-art.py",
+      "note": "Glossary lexicon plate for boss-mod-teleporting"
+    },
+    {
+      "path": "public/wiki/icons/glossary-boss-mod-spectral-hit.png",
+      "license": "own",
+      "source": "tools/gen-wiki-art.py",
+      "note": "Glossary lexicon plate for boss-mod-spectral-hit"
+    },
+    {
+      "path": "public/wiki/icons/glossary-boss-mod-multi-shot.png",
+      "license": "own",
+      "source": "tools/gen-wiki-art.py",
+      "note": "Glossary lexicon plate for boss-mod-multi-shot"
+    },
+    {
+      "path": "public/wiki/icons/glossary-boss-mod-aura-enchanted.png",
+      "license": "own",
+      "source": "tools/gen-wiki-art.py",
+      "note": "Glossary lexicon plate for boss-mod-aura-enchanted"
+    },
+    {
+      "path": "public/wiki/icons/glossary-crafting-cube.png",
+      "license": "own",
+      "source": "tools/gen-wiki-art.py",
+      "note": "Glossary lexicon plate for crafting-cube"
+    },
+    {
+      "path": "public/spellicons/chain-lightning.png",
+      "license": "own",
+      "source": "tools/gen-spell-icons.py",
+      "note": "Individual 64x64 spell icon for chain-lightning"
+    },
+    {
+      "path": "public/spellicons/haste.png",
+      "license": "own",
+      "source": "tools/gen-spell-icons.py",
+      "note": "Individual 64x64 spell icon for haste"
+    },
+    {
+      "path": "public/spellicons/gale.png",
+      "license": "own",
+      "source": "tools/gen-spell-icons.py",
+      "note": "Individual 64x64 spell icon for gale"
+    },
+    {
+      "path": "public/spellicons/wind-ward.png",
+      "license": "own",
+      "source": "tools/gen-spell-icons.py",
+      "note": "Individual 64x64 spell icon for wind-ward"
+    },
+    {
+      "path": "public/spellicons/thunderstorm.png",
+      "license": "own",
+      "source": "tools/gen-spell-icons.py",
+      "note": "Individual 64x64 spell icon for thunderstorm"
+    },
+    {
+      "path": "public/spellicons/static-arc.png",
+      "license": "own",
+      "source": "tools/gen-spell-icons.py",
+      "note": "Individual 64x64 spell icon for static-arc"
+    },
+    {
+      "path": "public/spellicons/pinning-bodkin.png",
+      "license": "own",
+      "source": "tools/gen-spell-icons.py",
+      "note": "Individual 64x64 spell icon for pinning-bodkin"
+    },
+    {
+      "path": "public/spellicons/visor-split.png",
+      "license": "own",
+      "source": "tools/gen-spell-icons.py",
+      "note": "Individual 64x64 spell icon for visor-split"
+    },
+    {
+      "path": "public/spellicons/serrated-broadhead.png",
+      "license": "own",
+      "source": "tools/gen-spell-icons.py",
+      "note": "Individual 64x64 spell icon for serrated-broadhead"
+    },
+    {
+      "path": "public/spellicons/crippling-tendon.png",
+      "license": "own",
+      "source": "tools/gen-spell-icons.py",
+      "note": "Individual 64x64 spell icon for crippling-tendon"
+    },
+    {
+      "path": "public/spellicons/raking-volley.png",
+      "license": "own",
+      "source": "tools/gen-spell-icons.py",
+      "note": "Individual 64x64 spell icon for raking-volley"
+    },
+    {
+      "path": "public/spellicons/suppressive-arc.png",
+      "license": "own",
+      "source": "tools/gen-spell-icons.py",
+      "note": "Individual 64x64 spell icon for suppressive-arc"
+    },
+    {
+      "path": "public/spellicons/heartseeker.png",
+      "license": "own",
+      "source": "tools/gen-spell-icons.py",
+      "note": "Individual 64x64 spell icon for heartseeker"
+    },
+    {
+      "path": "public/spellicons/hail-of-yew.png",
+      "license": "own",
+      "source": "tools/gen-spell-icons.py",
+      "note": "Individual 64x64 spell icon for hail-of-yew"
+    },
+    {
+      "path": "public/spellicons/briar-snare.png",
+      "license": "own",
+      "source": "tools/gen-spell-icons.py",
+      "note": "Individual 64x64 spell icon for briar-snare"
+    },
+    {
+      "path": "public/spellicons/marsh-adder-venom.png",
+      "license": "own",
+      "source": "tools/gen-spell-icons.py",
+      "note": "Individual 64x64 spell icon for marsh-adder-venom"
+    },
+    {
+      "path": "public/spellicons/reed-smoke-screen.png",
+      "license": "own",
+      "source": "tools/gen-spell-icons.py",
+      "note": "Individual 64x64 spell icon for reed-smoke-screen"
+    },
+    {
+      "path": "public/spellicons/carrion-mark.png",
+      "license": "own",
+      "source": "tools/gen-spell-icons.py",
+      "note": "Individual 64x64 spell icon for carrion-mark"
+    },
+    {
+      "path": "public/spellicons/gale-step.png",
+      "license": "own",
+      "source": "tools/gen-spell-icons.py",
+      "note": "Individual 64x64 spell icon for gale-step"
+    },
+    {
+      "path": "public/spellicons/spore-pod-shot.png",
+      "license": "own",
+      "source": "tools/gen-spell-icons.py",
+      "note": "Individual 64x64 spell icon for spore-pod-shot"
+    },
+    {
+      "path": "public/spellicons/falcons-bearing.png",
+      "license": "own",
+      "source": "tools/gen-spell-icons.py",
+      "note": "Individual 64x64 spell icon for falcons-bearing"
+    },
+    {
+      "path": "public/spellicons/thornwood-ambush.png",
+      "license": "own",
+      "source": "tools/gen-spell-icons.py",
+      "note": "Individual 64x64 spell icon for thornwood-ambush"
+    },
+    {
+      "path": "public/spellicons/splinter-writ.png",
+      "license": "own",
+      "source": "tools/gen-spell-icons.py",
+      "note": "Individual 64x64 spell icon for splinter-writ"
+    },
+    {
+      "path": "public/spellicons/raise-indentured.png",
+      "license": "own",
+      "source": "tools/gen-spell-icons.py",
+      "note": "Individual 64x64 spell icon for raise-indentured"
+    },
+    {
+      "path": "public/spellicons/ribcage-bulwark.png",
+      "license": "own",
+      "source": "tools/gen-spell-icons.py",
+      "note": "Individual 64x64 spell icon for ribcage-bulwark"
+    },
+    {
+      "path": "public/spellicons/marrow-shrapnel.png",
+      "license": "own",
+      "source": "tools/gen-spell-icons.py",
+      "note": "Individual 64x64 spell icon for marrow-shrapnel"
+    },
+    {
+      "path": "public/spellicons/ossuary-cage.png",
+      "license": "own",
+      "source": "tools/gen-spell-icons.py",
+      "note": "Individual 64x64 spell icon for ossuary-cage"
+    },
+    {
+      "path": "public/spellicons/phalanx-of-arrears.png",
+      "license": "own",
+      "source": "tools/gen-spell-icons.py",
+      "note": "Individual 64x64 spell icon for phalanx-of-arrears"
+    },
+    {
+      "path": "public/spellicons/exact-tithe.png",
+      "license": "own",
+      "source": "tools/gen-spell-icons.py",
+      "note": "Individual 64x64 spell icon for exact-tithe"
+    },
+    {
+      "path": "public/spellicons/compound-interest.png",
+      "license": "own",
+      "source": "tools/gen-spell-icons.py",
+      "note": "Individual 64x64 spell icon for compound-interest"
+    },
+    {
+      "path": "public/spellicons/garnish-vigor.png",
+      "license": "own",
+      "source": "tools/gen-spell-icons.py",
+      "note": "Individual 64x64 spell icon for garnish-vigor"
+    },
+    {
+      "path": "public/spellicons/lien-of-blood.png",
+      "license": "own",
+      "source": "tools/gen-spell-icons.py",
+      "note": "Individual 64x64 spell icon for lien-of-blood"
+    },
+    {
+      "path": "public/spellicons/foreclosure.png",
+      "license": "own",
+      "source": "tools/gen-spell-icons.py",
+      "note": "Individual 64x64 spell icon for foreclosure"
+    },
+    {
+      "path": "public/spellicons/cold-ledger.png",
+      "license": "own",
+      "source": "tools/gen-spell-icons.py",
+      "note": "Individual 64x64 spell icon for cold-ledger"
+    },
+    {
+      "path": "public/spellicons/witness-the-fallen.png",
+      "license": "own",
+      "source": "tools/gen-spell-icons.py",
+      "note": "Individual 64x64 spell icon for witness-the-fallen"
+    },
+    {
+      "path": "public/spellicons/grave-quiet.png",
+      "license": "own",
+      "source": "tools/gen-spell-icons.py",
+      "note": "Individual 64x64 spell icon for grave-quiet"
+    },
+    {
+      "path": "public/spellicons/toll-of-the-pale.png",
+      "license": "own",
+      "source": "tools/gen-spell-icons.py",
+      "note": "Individual 64x64 spell icon for toll-of-the-pale"
+    },
+    {
+      "path": "public/spellicons/forgive-the-oath.png",
+      "license": "own",
+      "source": "tools/gen-spell-icons.py",
+      "note": "Individual 64x64 spell icon for forgive-the-oath"
+    },
+    {
+      "path": "public/itemicons/uniq-tollkeeper-bill.png",
+      "license": "own",
+      "source": "tools/gen-unique-icons.py",
+      "note": "Dedicated 64x64 unique item icon for uniq-tollkeeper-bill"
+    },
+    {
+      "path": "public/itemicons/uniq-mordred-tallow-wand.png",
+      "license": "own",
+      "source": "tools/gen-unique-icons.py",
+      "note": "Dedicated 64x64 unique item icon for uniq-mordred-tallow-wand"
+    },
+    {
+      "path": "public/itemicons/uniq-ravenwatch-gate-door.png",
+      "license": "own",
+      "source": "tools/gen-unique-icons.py",
+      "note": "Dedicated 64x64 unique item icon for uniq-ravenwatch-gate-door"
+    },
+    {
+      "path": "public/itemicons/uniq-greywood-poacher-bow.png",
+      "license": "own",
+      "source": "tools/gen-unique-icons.py",
+      "note": "Dedicated 64x64 unique item icon for uniq-greywood-poacher-bow"
+    },
+    {
+      "path": "public/itemicons/uniq-krag-jawbone.png",
+      "license": "own",
+      "source": "tools/gen-unique-icons.py",
+      "note": "Dedicated 64x64 unique item icon for uniq-krag-jawbone"
+    },
+    {
+      "path": "public/itemicons/uniq-undervault-lantern-helm.png",
+      "license": "own",
+      "source": "tools/gen-unique-icons.py",
+      "note": "Dedicated 64x64 unique item icon for uniq-undervault-lantern-helm"
+    },
+    {
+      "path": "public/itemicons/uniq-morvessa-spindle.png",
+      "license": "own",
+      "source": "tools/gen-unique-icons.py",
+      "note": "Dedicated 64x64 unique item icon for uniq-morvessa-spindle"
+    },
+    {
+      "path": "public/itemicons/uniq-quarry-overseer-maul.png",
+      "license": "own",
+      "source": "tools/gen-unique-icons.py",
+      "note": "Dedicated 64x64 unique item icon for uniq-quarry-overseer-maul"
+    },
+    {
+      "path": "public/itemicons/uniq-wardstone-shard-focus.png",
+      "license": "own",
+      "source": "tools/gen-unique-icons.py",
+      "note": "Dedicated 64x64 unique item icon for uniq-wardstone-shard-focus"
+    },
+    {
+      "path": "public/itemicons/uniq-bram-axle-shield.png",
+      "license": "own",
+      "source": "tools/gen-unique-icons.py",
+      "note": "Dedicated 64x64 unique item icon for uniq-bram-axle-shield"
+    },
+    {
+      "path": "public/itemicons/uniq-sera-bone-saw.png",
+      "license": "own",
+      "source": "tools/gen-unique-icons.py",
+      "note": "Dedicated 64x64 unique item icon for uniq-sera-bone-saw"
+    },
+    {
+      "path": "public/itemicons/uniq-sunken-castellan-plate.png",
+      "license": "own",
+      "source": "tools/gen-unique-icons.py",
+      "note": "Dedicated 64x64 unique item icon for uniq-sunken-castellan-plate"
+    },
+    {
+      "path": "public/itemicons/uniq-lyra-last-arbalest.png",
+      "license": "own",
+      "source": "tools/gen-unique-icons.py",
+      "note": "Dedicated 64x64 unique item icon for uniq-lyra-last-arbalest"
+    },
+    {
+      "path": "public/itemicons/uniq-stormtree-amber-staff.png",
+      "license": "own",
+      "source": "tools/gen-unique-icons.py",
+      "note": "Dedicated 64x64 unique item icon for uniq-stormtree-amber-staff"
+    },
+    {
+      "path": "public/itemicons/uniq-drowned-choir-bell.png",
+      "license": "own",
+      "source": "tools/gen-unique-icons.py",
+      "note": "Dedicated 64x64 unique item icon for uniq-drowned-choir-bell"
+    },
+    {
+      "path": "public/itemicons/uniq-vesperion-organ-pipe.png",
+      "license": "own",
+      "source": "tools/gen-unique-icons.py",
+      "note": "Dedicated 64x64 unique item icon for uniq-vesperion-organ-pipe"
+    },
+    {
+      "path": "public/itemicons/uniq-anvilmaw-slag-maul.png",
+      "license": "own",
+      "source": "tools/gen-unique-icons.py",
+      "note": "Dedicated 64x64 unique item icon for uniq-anvilmaw-slag-maul"
+    },
+    {
+      "path": "public/itemicons/uniq-redglass-fletched-bow.png",
+      "license": "own",
+      "source": "tools/gen-unique-icons.py",
+      "note": "Dedicated 64x64 unique item icon for uniq-redglass-fletched-bow"
+    },
+    {
+      "path": "public/itemicons/uniq-hollow-monarch-blade.png",
+      "license": "own",
+      "source": "tools/gen-unique-icons.py",
+      "note": "Dedicated 64x64 unique item icon for uniq-hollow-monarch-blade"
+    },
+    {
+      "path": "public/itemicons/uniq-ashkarath-crown-shard.png",
+      "license": "own",
+      "source": "tools/gen-unique-icons.py",
+      "note": "Dedicated 64x64 unique item icon for uniq-ashkarath-crown-shard"
     }
   ]
 }
