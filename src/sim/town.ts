@@ -222,6 +222,7 @@ export function isSetPiece(d: ItemDef): boolean {
 export type ItemRarity = 'normal' | 'magic' | 'rare' | 'set' | 'unique';
 
 export function itemRarity(d: ItemDef): ItemRarity {
+  if (!d) return 'normal';
   if (d.rarity) {
     const r = d.rarity.toLowerCase();
     if (r === 'unique' || r === 'artifact') return 'unique';
@@ -563,20 +564,18 @@ export function townCommand(sim: Sim, cmd: TownCommand): void {
 
       const targetSlot = cmd.v !== undefined && cmd.v >= 0 ? cmd.v : undefined;
 
-      // ARPG Gambling Probabilities:
-      // Magic (70%), Rare (22%), Set (5%), Unique (3%) and smartGrailPityBias
-      let roll = sim.rng.int(10000);
-      const pityBias = (h as any).grailPityBias ?? 0;
-      if (pityBias > 0) {
-        roll = Math.min(9999, roll + pityBias * 50);
-      }
-
+      // classic ARPG Gambling Probabilities:
+      // 89.0% Magic (roll < 8900)
+      // 10.0% Rare (8900 <= roll < 9900)
+      // 0.8% Set (9900 <= roll < 9980)
+      // 0.2% Unique (9980 <= roll < 10000)
+      const roll = sim.rng.int(10000);
       let wonId = -1;
       let wonQuality: 'magic' | 'rare' | 'set' | 'unique' = 'magic';
       let targetDef: ItemDef | undefined;
 
-      if (roll >= 9700) {
-        // 3.0% Unique Artifact
+      if (roll >= 9980) {
+        // 0.2% Unique Artifact
         wonQuality = 'unique';
         let cand = UNIQUE_ARTIFACTS.map((u) => ({ id: itemId(u.name), def: u as ItemDef })).filter((x) => x.id >= 0);
         if (targetSlot !== undefined) {
@@ -590,8 +589,8 @@ export function townCommand(sim: Sim, cmd: TownCommand): void {
         }
       }
 
-      if (wonId < 0 && roll >= 9200) {
-        // 5.0% Set Piece
+      if (wonId < 0 && roll >= 9900) {
+        // 0.8% Set Piece
         wonQuality = 'set';
         let cand = ALL_SET_ITEMS.map((s) => ({ id: itemId(s.name), def: s as ItemDef })).filter((x) => x.id >= 0);
         if (targetSlot !== undefined) {
@@ -605,10 +604,10 @@ export function townCommand(sim: Sim, cmd: TownCommand): void {
         }
       }
 
-      if (wonId < 0 && roll >= 7000) {
-        // 22.0% Rare Gear (tier 4..5)
+      if (wonId < 0 && roll >= 8900) {
+        // 10% Rare Gear (tier 4..5)
         wonQuality = 'rare';
-        let cand: { id: number; def: ItemDef }[] = [];
+        const cand: { id: number; def: ItemDef }[] = [];
         ITEMS.forEach((d, id) => {
           if (d.kind === Ik.Gear && !isUniqueItem(d) && !isSetPiece(d)) {
             if (d.tier >= 4 && d.tier <= 5) {
@@ -629,9 +628,9 @@ export function townCommand(sim: Sim, cmd: TownCommand): void {
       }
 
       if (wonId < 0) {
-        // 70.0% Magic Gear (tier 1..3)
+        // 89% Magic Gear (tier 1..3)
         wonQuality = 'magic';
-        let cand: { id: number; def: ItemDef }[] = [];
+        const cand: { id: number; def: ItemDef }[] = [];
         ITEMS.forEach((d, id) => {
           if (d.kind === Ik.Gear && !isUniqueItem(d) && !isSetPiece(d)) {
             if (d.tier >= 1 && d.tier <= 3) {
@@ -667,16 +666,9 @@ export function townCommand(sim: Sim, cmd: TownCommand): void {
         targetDef = getItemDef(wonId);
       }
 
-      // Update pity bias
-      if (wonQuality === 'unique' || wonQuality === 'set') {
-        (h as any).grailPityBias = 0;
-      } else {
-        (h as any).grailPityBias = ((h as any).grailPityBias ?? 0) + 1;
-      }
-
-      // Create unidentified instance for mystery gamble
+      // Create unidentified instance for slot-targeted mystery gamble
       let finalWonId = wonId;
-      if (targetDef) {
+      if (targetSlot !== undefined && targetDef && typeof sim.createItemInstance === 'function') {
         const unIdName = getUnidentifiedName(targetDef);
         const unIdDef: ItemDef = {
           ...targetDef,
