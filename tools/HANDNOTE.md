@@ -331,6 +331,33 @@ Also: `ci.yml` `cancel-in-progress: true` kills the slow WebKit job on every new
   - `npm run check:atlases`: **PASS (Atlas contract, PNG pixels and provenance passed)**.
   - Commit: `0cf40d8` (`git push origin main` successful).
 
+## Combat Juice & Biome Atmosphere Lead (2026-11-21)
+- [x] **Biome Atmospheric Overlays (`src/atmosphere.ts`, `src/render.ts`, `src/aesthetic-vfx.ts`)**:
+  - Implemented lightweight, mobile-safe additive atmospheric particle layers configured per biome:
+    - **Marsh / Crypt**: Drifting volumetric mist/fog wisps with multi-lobed organic shapes, gentle horizontal drift, and undulating vertical sway.
+    - **Volcanic**: Rising glowing embers with incandescent cores and warm halos, accompanied by rising shimmering heat ripples across the lower viewport.
+    - **Desert**: Gentle drifting dust motes with horizontal desert breeze and subtle Brownian float.
+    - **Highlands**: Light highland rain/snow flurries with delicate diagonal drift and fluttering needle streaks.
+  - Added `setLowSpec(enabled)` and `isLowSpec()` to `AtmosphereSystem` for instant low-spec mobile disabling (clears particles and costs 0 draw calls).
+- [x] **Monster Family Death FX & Corpse Decals (`src/feel.ts`, `src/render.ts`)**:
+  - **Skeletons**: Collapse into bouncing/rotating fractured bone fragments (`BoneDebris`), curved rib arcs, joint nubs, ivory stroke highlights, and drop shadows.
+  - **Beasts**: Leave temporary ground corpse decals (`GroundCorpseDecal`) with visceral organic stain pooling on the terrain that gently fades out over ~10-15s.
+  - **Casters / Undead**: Burst into luminous spectral ethereal motes (`EtherealMote`) floating upward in ethereal violet, cyan, and emerald.
+  - **Bosses**: Crisp hit-stop micro-freeze (slow-mo 2-4 frames, ~70ms) + heavy screen shake trauma (`0.85`) + 360-degree radial loot pop (`LootPopParticle`) spraying sparkling gold coins and gems.
+  - Implemented `onMonsterDeath(x, y, family?, isBoss?, isElite?, now?)` and enhanced `spawnDeathGore(...)` with full family routing.
+- [x] **Projectile Visual Trails (`src/vfx.ts`)**:
+  - Added crisp, distinct projectile trails and wake streaks:
+    - **Fireballs / Fire Spells**: Backward-shedding glowing ember trail (`TEX_SPARK`), expanding billowing smoke motes (`TEX_SMOKE`), and a hot orange/yellow additive streak.
+    - **Frost Shards / Water Spells**: Crystalline diamond shard trail (`TEX_SHARD`), cold ice crystal mist (`TEX_GLOW`/`TEX_SMOKE` in cyan/white), and crisp icy glint streak.
+    - **Shadow Orbs / Astral Spells**: Swirling dark wisps (`TEX_SMOKE`) with undulating perpendicular curl, occult violet motes (`TEX_GLOW`), and deep void core wake.
+- [x] **Quality Verifications & Tests**:
+  - Added dedicated test suite `tests/combat-juice.test.ts` (8/8 tests PASS).
+  - Verified `tests/atmosphere-ux.test.ts` (8/8 PASS), `tests/feel.test.ts` (4/4 PASS), `tests/aesthetic-vfx.test.ts` (3/3 PASS).
+  - All 23 tests PASS.
+  - `npx tsc --noEmit`: **PASS (0 errors)**.
+  - Commits: `e5bcbe1` & `ea746a5` pushed to `origin main`.
+
+
 
 
 
