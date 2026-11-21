@@ -17,6 +17,20 @@ TODO (0):
 
 Missing descriptions in canva-units.json (write one first): gnoll golem imp mage hero warrior archer + bosses morvessa gorrathul vesperion ashkarath. Many existing ones are generic - a better one-liner gives better art.
 
+## Phase 4: Holy Grail & Imperial Reliquary System (Completed 2026-11-21)
+- [x] Implemented Holy Grail system v2 (`src/codex.ts`) organizing relics into 5 Tomes: Uniques (132), Sets (28 sets, 112 pieces), Runes & Runewords (33 runes + 25 runewords), Boss Trophies (20 seals), and Armory (187 base items) totaling over 500 collectible relics.
+- [x] Preserved 100% backward compatibility with `thornvael_codex_v1` while storing canonical records in `thornvael_grail_v2`.
+- [x] Resolved dynamic item collapsing so dynamic uniques, sets, and runewords retain full canonical Grail identity.
+- [x] Implemented Provenance Stamp (`heroName`, `heroClass`, `heroLevel`, `missionName`, `droppedBy`, `discoveredAt`) and Roll Perfection (`computeRollPerfection`, 0..100%).
+- [x] Automatic roll upgrades on higher roll finding, with Primal Perfect foil frame flag (`isPrimalPerfect: true`) for rolls >= 98%.
+- [x] Specific target-farming drop clues via `getGrailDropClue()` eliminating all "???".
+- [x] Pinned Grail Targets (max 3 targets via `togglePinGrailTarget` and `thornvael_grail_pins_v1`).
+- [x] Account-Wide Milestone Boons at 10%, 25%, 50%, 75%, 100% (MF bonus, titles, pity bias, replica forging, bounties, sovereign crown).
+- [x] Export / Import Grail save data (`exportGrailState`, `importGrailState`).
+- [x] Built Gothic Imperial Reliquary UI (`src/codexui.ts`) with 100dvh viewport containment, Tomes & Pinned tabs, dark silhouettes for undiscovered items with clues & pin toggle, and glowing primal foil frames.
+- [x] Updated `src/loot-overlay.ts` with `🏆 NEW GRAIL!` prefix and pulsing golden-purple beam/label on undiscovered ground drops.
+- [x] Added comprehensive test suite `tests/codex-holy-grail.test.ts` (12 tests, 100% pass) alongside `tests/codex.test.ts` (5 tests, 100% pass). All repo checks and atlas contracts passed.
+
 ## End of run
 Tune FAMILY_VISUALS in src/render.ts (~line 121) via ?art=1 (dev server thornvael-dev port 5199), full vitest, update PROGRESS.md, final Bulgarian report with DONE/REDO.
 

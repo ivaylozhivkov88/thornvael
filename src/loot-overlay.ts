@@ -1,6 +1,7 @@
-import { FP, type Sim } from './sim/sim';
+import { isGrailDiscovered } from './codex';
 import { POOLS } from './sim/combat';
 import { getItemDef } from './sim/items';
+import { FP, type Sim } from './sim/sim';
 import { itemRarity } from './sim/town';
 
 export interface VisibleLootItem {
@@ -29,6 +30,27 @@ export class LootOverlayManager {
         this.lootOverlayEl = document.createElement('div');
         this.lootOverlayEl.id = 'loot-overlay';
         document.body.appendChild(this.lootOverlayEl);
+      }
+      if (!document.getElementById('relic-loot-grail-style')) {
+        const style = document.createElement('style');
+        style.id = 'relic-loot-grail-style';
+        style.textContent = `
+          @keyframes grailPulseBeam {
+            0% { box-shadow: 0 0 5px #ffd700, 0 0 12px rgba(168, 85, 247, 0.7); border-color: #ffd700; transform: translate(-50%, -100%) scale(1); }
+            50% { box-shadow: 0 0 16px #ffd700, 0 0 28px rgba(168, 85, 247, 0.95); border-color: #fef08a; transform: translate(-50%, -100%) scale(1.05); }
+            100% { box-shadow: 0 0 5px #ffd700, 0 0 12px rgba(168, 85, 247, 0.7); border-color: #ffd700; transform: translate(-50%, -100%) scale(1); }
+          }
+          .relic-loot-new-grail {
+            animation: grailPulseBeam 1.3s infinite ease-in-out !important;
+            font-weight: 700 !important;
+            border: 2px solid #ffd700 !important;
+            background: radial-gradient(circle, rgba(58, 12, 85, 0.95) 0%, rgba(18, 6, 32, 0.98) 100%) !important;
+            color: #fef9c3 !important;
+            text-shadow: 0 0 6px rgba(255, 215, 0, 0.9), 0 0 12px rgba(168, 85, 247, 0.85) !important;
+            z-index: 100 !important;
+          }
+        `;
+        document.head.appendChild(style);
       }
     }
     return this.lootOverlayEl;
@@ -165,7 +187,7 @@ export class LootOverlayManager {
 
       const key = 's' + s;
       const dropTime = this.lootDropTimes.get(key) ?? 0;
-      const isRecent = (now - dropTime) < 3500;
+      const isRecent = now - dropTime < 3500;
       if (!isAltActive && !isRecent) continue;
 
       const pt = pointScreen(cb.sX[s], cb.sY[s]);
@@ -194,7 +216,7 @@ export class LootOverlayManager {
 
       const key = 'b' + b;
       const dropTime = this.lootDropTimes.get(key) ?? 0;
-      const isRecent = (now - dropTime) < 3500;
+      const isRecent = now - dropTime < 3500;
       if (!isAltActive && !isRecent) continue;
 
       const pt = pointScreen(cb.bX[b], cb.bY[b]);
@@ -205,10 +227,19 @@ export class LootOverlayManager {
       const itemId = itemCode - 1;
       const def = sim.getItemDef(itemId) ?? getItemDef(itemId);
       const rarity = def ? itemRarity(def) : 'normal';
-      const name = def?.name ?? 'Item';
+      let name = def?.name ?? 'Item';
       let cssClass = `relic-loot-label relic-loot-${rarity}`;
       if (def?.unidentified) {
         cssClass += ' relic-loot-unidentified';
+      }
+
+      try {
+        if (!isGrailDiscovered(itemId, sim)) {
+          name = `🏆 NEW GRAIL! ${name}`;
+          cssClass += ' relic-loot-new-grail';
+        }
+      } catch {
+        // Safe fallback if codex not ready
       }
 
       itemsToRender.push({
