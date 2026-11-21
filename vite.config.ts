@@ -1,5 +1,5 @@
-import { defineConfig } from 'vitest/config';
 import { VitePWA } from 'vite-plugin-pwa';
+import { defineConfig } from 'vitest/config';
 
 // The only place the deployed path is set. Override with SITE_BASE=/other/ at build time.
 const base = process.env.SITE_BASE ?? '/thornvael/';
@@ -16,7 +16,12 @@ export default defineConfig({
           if (/m(1[2-9]|2[0-3])-/.test(id)) return 'missions-act2';
           if (/m(2[4-9]|3[0-5])-/.test(id)) return 'missions-act3';
           if (/m(3[6-9]|4[0-6])-/.test(id)) return 'missions-act4';
-          if (/m0[5-9]-|m1[01]-|blood-at-the-ford|thornwick-market|whispers-in-the-fen|nightfall-at-ravenwatch|the-sunken-sanctum|kids-paradise-opening/.test(id)) return 'missions-act1';
+          if (
+            /m0[5-9]-|m1[01]-|blood-at-the-ford|thornwick-market|whispers-in-the-fen|nightfall-at-ravenwatch|the-sunken-sanctum|kids-paradise-opening/.test(
+              id,
+            )
+          )
+            return 'missions-act1';
           return 'missions-skirmish';
         },
       },
@@ -39,9 +44,11 @@ export default defineConfig({
           'chapter1-manifest.json',
           'sprites/**',
           'townart/*',
+          'townart/portrait-necromancer.png',
           'townart/doll/**',
           'townart/mon/**',
           'townart/portraits/npc-!(warden-hale).jpg',
+          'wiki/**',
         ],
       },
       includeAssets: ['icons/*.png'],

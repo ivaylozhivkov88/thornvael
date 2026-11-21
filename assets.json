@@ -7661,5 +7661,2009 @@
       "source": "tools/gen-unique-icons.py",
       "note": "Dedicated 64x64 unique item icon for uniq-ashkarath-crown-shard"
     }
-  ]
+  ],
+  "townart/portrait-necromancer.png": {
+    "license": "own",
+    "source": "tools/gen-wiki-art.py"
+  },
+  "wiki/icons/achievement-campaign-bronze.png": {
+    "license": "own",
+    "source": "tools/gen-wiki-art.py"
+  },
+  "wiki/icons/achievement-campaign-gold.png": {
+    "license": "own",
+    "source": "tools/gen-wiki-art.py"
+  },
+  "wiki/icons/achievement-campaign-silver.png": {
+    "license": "own",
+    "source": "tools/gen-wiki-art.py"
+  },
+  "wiki/icons/achievement-classes-bronze.png": {
+    "license": "own",
+    "source": "tools/gen-wiki-art.py"
+  },
+  "wiki/icons/achievement-classes-gold.png": {
+    "license": "own",
+    "source": "tools/gen-wiki-art.py"
+  },
+  "wiki/icons/achievement-classes-silver.png": {
+    "license": "own",
+    "source": "tools/gen-wiki-art.py"
+  },
+  "wiki/icons/achievement-codex-bronze.png": {
+    "license": "own",
+    "source": "tools/gen-wiki-art.py"
+  },
+  "wiki/icons/achievement-codex-gold.png": {
+    "license": "own",
+    "source": "tools/gen-wiki-art.py"
+  },
+  "wiki/icons/achievement-codex-silver.png": {
+    "license": "own",
+    "source": "tools/gen-wiki-art.py"
+  },
+  "wiki/icons/achievement-combat-bronze.png": {
+    "license": "own",
+    "source": "tools/gen-wiki-art.py"
+  },
+  "wiki/icons/achievement-combat-gold.png": {
+    "license": "own",
+    "source": "tools/gen-wiki-art.py"
+  },
+  "wiki/icons/achievement-combat-silver.png": {
+    "license": "own",
+    "source": "tools/gen-wiki-art.py"
+  },
+  "wiki/icons/achievement-economy-bronze.png": {
+    "license": "own",
+    "source": "tools/gen-wiki-art.py"
+  },
+  "wiki/icons/achievement-economy-gold.png": {
+    "license": "own",
+    "source": "tools/gen-wiki-art.py"
+  },
+  "wiki/icons/achievement-economy-silver.png": {
+    "license": "own",
+    "source": "tools/gen-wiki-art.py"
+  },
+  "wiki/icons/achievement-exploration-bronze.png": {
+    "license": "own",
+    "source": "tools/gen-wiki-art.py"
+  },
+  "wiki/icons/achievement-exploration-gold.png": {
+    "license": "own",
+    "source": "tools/gen-wiki-art.py"
+  },
+  "wiki/icons/achievement-exploration-silver.png": {
+    "license": "own",
+    "source": "tools/gen-wiki-art.py"
+  },
+  "wiki/icons/achievement-gear-bronze.png": {
+    "license": "own",
+    "source": "tools/gen-wiki-art.py"
+  },
+  "wiki/icons/achievement-gear-gold.png": {
+    "license": "own",
+    "source": "tools/gen-wiki-art.py"
+  },
+  "wiki/icons/achievement-gear-silver.png": {
+    "license": "own",
+    "source": "tools/gen-wiki-art.py"
+  },
+  "wiki/icons/achievement-mastery-bronze.png": {
+    "license": "own",
+    "source": "tools/gen-wiki-art.py"
+  },
+  "wiki/icons/achievement-mastery-gold.png": {
+    "license": "own",
+    "source": "tools/gen-wiki-art.py"
+  },
+  "wiki/icons/achievement-mastery-silver.png": {
+    "license": "own",
+    "source": "tools/gen-wiki-art.py"
+  },
+  "wiki/icons/achievement-mercenaries-bronze.png": {
+    "license": "own",
+    "source": "tools/gen-wiki-art.py"
+  },
+  "wiki/icons/achievement-mercenaries-gold.png": {
+    "license": "own",
+    "source": "tools/gen-wiki-art.py"
+  },
+  "wiki/icons/achievement-mercenaries-silver.png": {
+    "license": "own",
+    "source": "tools/gen-wiki-art.py"
+  },
+  "wiki/icons/achievement-secret-bronze.png": {
+    "license": "own",
+    "source": "tools/gen-wiki-art.py"
+  },
+  "wiki/icons/achievement-secret-gold.png": {
+    "license": "own",
+    "source": "tools/gen-wiki-art.py"
+  },
+  "wiki/icons/achievement-secret-silver.png": {
+    "license": "own",
+    "source": "tools/gen-wiki-art.py"
+  },
+  "wiki/icons/affix-prefix-agility.png": {
+    "license": "own",
+    "source": "tools/gen-wiki-art.py"
+  },
+  "wiki/icons/affix-prefix-astral.png": {
+    "license": "own",
+    "source": "tools/gen-wiki-art.py"
+  },
+  "wiki/icons/affix-prefix-cold.png": {
+    "license": "own",
+    "source": "tools/gen-wiki-art.py"
+  },
+  "wiki/icons/affix-prefix-defense.png": {
+    "license": "own",
+    "source": "tools/gen-wiki-art.py"
+  },
+  "wiki/icons/affix-prefix-fire.png": {
+    "license": "own",
+    "source": "tools/gen-wiki-art.py"
+  },
+  "wiki/icons/affix-prefix-fortune.png": {
+    "license": "own",
+    "source": "tools/gen-wiki-art.py"
+  },
+  "wiki/icons/affix-prefix-lightning.png": {
+    "license": "own",
+    "source": "tools/gen-wiki-art.py"
+  },
+  "wiki/icons/affix-prefix-minion.png": {
+    "license": "own",
+    "source": "tools/gen-wiki-art.py"
+  },
+  "wiki/icons/affix-prefix-physical.png": {
+    "license": "own",
+    "source": "tools/gen-wiki-art.py"
+  },
+  "wiki/icons/affix-prefix-poison.png": {
+    "license": "own",
+    "source": "tools/gen-wiki-art.py"
+  },
+  "wiki/icons/affix-prefix-vitality.png": {
+    "license": "own",
+    "source": "tools/gen-wiki-art.py"
+  },
+  "wiki/icons/affix-suffix-agility.png": {
+    "license": "own",
+    "source": "tools/gen-wiki-art.py"
+  },
+  "wiki/icons/affix-suffix-astral.png": {
+    "license": "own",
+    "source": "tools/gen-wiki-art.py"
+  },
+  "wiki/icons/affix-suffix-cold.png": {
+    "license": "own",
+    "source": "tools/gen-wiki-art.py"
+  },
+  "wiki/icons/affix-suffix-defense.png": {
+    "license": "own",
+    "source": "tools/gen-wiki-art.py"
+  },
+  "wiki/icons/affix-suffix-fire.png": {
+    "license": "own",
+    "source": "tools/gen-wiki-art.py"
+  },
+  "wiki/icons/affix-suffix-fortune.png": {
+    "license": "own",
+    "source": "tools/gen-wiki-art.py"
+  },
+  "wiki/icons/affix-suffix-lightning.png": {
+    "license": "own",
+    "source": "tools/gen-wiki-art.py"
+  },
+  "wiki/icons/affix-suffix-minion.png": {
+    "license": "own",
+    "source": "tools/gen-wiki-art.py"
+  },
+  "wiki/icons/affix-suffix-physical.png": {
+    "license": "own",
+    "source": "tools/gen-wiki-art.py"
+  },
+  "wiki/icons/affix-suffix-poison.png": {
+    "license": "own",
+    "source": "tools/gen-wiki-art.py"
+  },
+  "wiki/icons/affix-suffix-vitality.png": {
+    "license": "own",
+    "source": "tools/gen-wiki-art.py"
+  },
+  "wiki/icons/faction-fac-border-wardens.png": {
+    "license": "own",
+    "source": "tools/gen-wiki-art.py"
+  },
+  "wiki/icons/faction-fac-expelled-collegium.png": {
+    "license": "own",
+    "source": "tools/gen-wiki-art.py"
+  },
+  "wiki/icons/faction-fac-first-watch-remnant.png": {
+    "license": "own",
+    "source": "tools/gen-wiki-art.py"
+  },
+  "wiki/icons/faction-fac-ironcamp-smiths.png": {
+    "license": "own",
+    "source": "tools/gen-wiki-art.py"
+  },
+  "wiki/icons/faction-fac-oakhaven-maritime.png": {
+    "license": "own",
+    "source": "tools/gen-wiki-art.py"
+  },
+  "wiki/icons/faction-fac-probate-scriptorium.png": {
+    "license": "own",
+    "source": "tools/gen-wiki-art.py"
+  },
+  "wiki/icons/faction-fac-redmarsh-caravaneers.png": {
+    "license": "own",
+    "source": "tools/gen-wiki-art.py"
+  },
+  "wiki/icons/faction-fac-scorched-penitents.png": {
+    "license": "own",
+    "source": "tools/gen-wiki-art.py"
+  },
+  "wiki/icons/glossary-affix-prefix.png": {
+    "license": "own",
+    "source": "tools/gen-wiki-art.py"
+  },
+  "wiki/icons/glossary-affix-suffix.png": {
+    "license": "own",
+    "source": "tools/gen-wiki-art.py"
+  },
+  "wiki/icons/glossary-boss-mod-aura-enchanted.png": {
+    "license": "own",
+    "source": "tools/gen-wiki-art.py"
+  },
+  "wiki/icons/glossary-boss-mod-cold-enchanted.png": {
+    "license": "own",
+    "source": "tools/gen-wiki-art.py"
+  },
+  "wiki/icons/glossary-boss-mod-cursed.png": {
+    "license": "own",
+    "source": "tools/gen-wiki-art.py"
+  },
+  "wiki/icons/glossary-boss-mod-extra-fast.png": {
+    "license": "own",
+    "source": "tools/gen-wiki-art.py"
+  },
+  "wiki/icons/glossary-boss-mod-extra-strong.png": {
+    "license": "own",
+    "source": "tools/gen-wiki-art.py"
+  },
+  "wiki/icons/glossary-boss-mod-fire-enchanted.png": {
+    "license": "own",
+    "source": "tools/gen-wiki-art.py"
+  },
+  "wiki/icons/glossary-boss-mod-lightning-enchanted.png": {
+    "license": "own",
+    "source": "tools/gen-wiki-art.py"
+  },
+  "wiki/icons/glossary-boss-mod-mana-burn.png": {
+    "license": "own",
+    "source": "tools/gen-wiki-art.py"
+  },
+  "wiki/icons/glossary-boss-mod-multi-shot.png": {
+    "license": "own",
+    "source": "tools/gen-wiki-art.py"
+  },
+  "wiki/icons/glossary-boss-mod-spectral-hit.png": {
+    "license": "own",
+    "source": "tools/gen-wiki-art.py"
+  },
+  "wiki/icons/glossary-boss-mod-stone-skin.png": {
+    "license": "own",
+    "source": "tools/gen-wiki-art.py"
+  },
+  "wiki/icons/glossary-boss-mod-teleporting.png": {
+    "license": "own",
+    "source": "tools/gen-wiki-art.py"
+  },
+  "wiki/icons/glossary-champion-berserker.png": {
+    "license": "own",
+    "source": "tools/gen-wiki-art.py"
+  },
+  "wiki/icons/glossary-champion-champion.png": {
+    "license": "own",
+    "source": "tools/gen-wiki-art.py"
+  },
+  "wiki/icons/glossary-champion-fanatic.png": {
+    "license": "own",
+    "source": "tools/gen-wiki-art.py"
+  },
+  "wiki/icons/glossary-champion-ghostly.png": {
+    "license": "own",
+    "source": "tools/gen-wiki-art.py"
+  },
+  "wiki/icons/glossary-champion-possessed.png": {
+    "license": "own",
+    "source": "tools/gen-wiki-art.py"
+  },
+  "wiki/icons/glossary-crafting-cube.png": {
+    "license": "own",
+    "source": "tools/gen-wiki-art.py"
+  },
+  "wiki/icons/glossary-difficulty-easy.png": {
+    "license": "own",
+    "source": "tools/gen-wiki-art.py"
+  },
+  "wiki/icons/glossary-difficulty-hard.png": {
+    "license": "own",
+    "source": "tools/gen-wiki-art.py"
+  },
+  "wiki/icons/glossary-difficulty-nightmare.png": {
+    "license": "own",
+    "source": "tools/gen-wiki-art.py"
+  },
+  "wiki/icons/glossary-difficulty-normal.png": {
+    "license": "own",
+    "source": "tools/gen-wiki-art.py"
+  },
+  "wiki/icons/glossary-rarity-base.png": {
+    "license": "own",
+    "source": "tools/gen-wiki-art.py"
+  },
+  "wiki/icons/glossary-rarity-common.png": {
+    "license": "own",
+    "source": "tools/gen-wiki-art.py"
+  },
+  "wiki/icons/glossary-rarity-magic.png": {
+    "license": "own",
+    "source": "tools/gen-wiki-art.py"
+  },
+  "wiki/icons/glossary-rarity-runeword.png": {
+    "license": "own",
+    "source": "tools/gen-wiki-art.py"
+  },
+  "wiki/icons/glossary-rarity-set.png": {
+    "license": "own",
+    "source": "tools/gen-wiki-art.py"
+  },
+  "wiki/icons/glossary-rarity-socket.png": {
+    "license": "own",
+    "source": "tools/gen-wiki-art.py"
+  },
+  "wiki/icons/glossary-rarity-unique.png": {
+    "license": "own",
+    "source": "tools/gen-wiki-art.py"
+  },
+  "wiki/icons/glossary-school-air.png": {
+    "license": "own",
+    "source": "tools/gen-wiki-art.py"
+  },
+  "wiki/icons/glossary-school-astral.png": {
+    "license": "own",
+    "source": "tools/gen-wiki-art.py"
+  },
+  "wiki/icons/glossary-school-bone.png": {
+    "license": "own",
+    "source": "tools/gen-wiki-art.py"
+  },
+  "wiki/icons/glossary-school-debt.png": {
+    "license": "own",
+    "source": "tools/gen-wiki-art.py"
+  },
+  "wiki/icons/glossary-school-earth.png": {
+    "license": "own",
+    "source": "tools/gen-wiki-art.py"
+  },
+  "wiki/icons/glossary-school-fire.png": {
+    "license": "own",
+    "source": "tools/gen-wiki-art.py"
+  },
+  "wiki/icons/glossary-school-grave.png": {
+    "license": "own",
+    "source": "tools/gen-wiki-art.py"
+  },
+  "wiki/icons/glossary-school-marksman.png": {
+    "license": "own",
+    "source": "tools/gen-wiki-art.py"
+  },
+  "wiki/icons/glossary-school-water.png": {
+    "license": "own",
+    "source": "tools/gen-wiki-art.py"
+  },
+  "wiki/icons/glossary-school-wild.png": {
+    "license": "own",
+    "source": "tools/gen-wiki-art.py"
+  },
+  "wiki/icons/lore-act-ending-1.png": {
+    "license": "own",
+    "source": "tools/gen-wiki-art.py"
+  },
+  "wiki/icons/lore-act-ending-2.png": {
+    "license": "own",
+    "source": "tools/gen-wiki-art.py"
+  },
+  "wiki/icons/lore-act-ending-3.png": {
+    "license": "own",
+    "source": "tools/gen-wiki-art.py"
+  },
+  "wiki/icons/lore-act-ending-4.png": {
+    "license": "own",
+    "source": "tools/gen-wiki-art.py"
+  },
+  "wiki/icons/lore-act-epilogue-1.png": {
+    "license": "own",
+    "source": "tools/gen-wiki-art.py"
+  },
+  "wiki/icons/lore-act-epilogue-2.png": {
+    "license": "own",
+    "source": "tools/gen-wiki-art.py"
+  },
+  "wiki/icons/lore-act-epilogue-3.png": {
+    "license": "own",
+    "source": "tools/gen-wiki-art.py"
+  },
+  "wiki/icons/lore-act-epilogue-4.png": {
+    "license": "own",
+    "source": "tools/gen-wiki-art.py"
+  },
+  "wiki/icons/lore-book-act1.png": {
+    "license": "own",
+    "source": "tools/gen-wiki-art.py"
+  },
+  "wiki/icons/lore-book-act2.png": {
+    "license": "own",
+    "source": "tools/gen-wiki-art.py"
+  },
+  "wiki/icons/lore-book-act3.png": {
+    "license": "own",
+    "source": "tools/gen-wiki-art.py"
+  },
+  "wiki/icons/lore-book-act4.png": {
+    "license": "own",
+    "source": "tools/gen-wiki-art.py"
+  },
+  "wiki/icons/lore-codex-creature.png": {
+    "license": "own",
+    "source": "tools/gen-wiki-art.py"
+  },
+  "wiki/icons/lore-codex-event.png": {
+    "license": "own",
+    "source": "tools/gen-wiki-art.py"
+  },
+  "wiki/icons/lore-codex-faction.png": {
+    "license": "own",
+    "source": "tools/gen-wiki-art.py"
+  },
+  "wiki/icons/lore-codex-lore.png": {
+    "license": "own",
+    "source": "tools/gen-wiki-art.py"
+  },
+  "wiki/icons/lore-codex-place.png": {
+    "license": "own",
+    "source": "tools/gen-wiki-art.py"
+  },
+  "wiki/icons/lore-codex-relic.png": {
+    "license": "own",
+    "source": "tools/gen-wiki-art.py"
+  },
+  "wiki/icons/lore-ending-archer.png": {
+    "license": "own",
+    "source": "tools/gen-wiki-art.py"
+  },
+  "wiki/icons/lore-ending-mage.png": {
+    "license": "own",
+    "source": "tools/gen-wiki-art.py"
+  },
+  "wiki/icons/lore-ending-necromancer.png": {
+    "license": "own",
+    "source": "tools/gen-wiki-art.py"
+  },
+  "wiki/icons/lore-ending-warrior.png": {
+    "license": "own",
+    "source": "tools/gen-wiki-art.py"
+  },
+  "wiki/icons/lore-landmark-act1.png": {
+    "license": "own",
+    "source": "tools/gen-wiki-art.py"
+  },
+  "wiki/icons/lore-landmark-act2.png": {
+    "license": "own",
+    "source": "tools/gen-wiki-art.py"
+  },
+  "wiki/icons/lore-landmark-act3.png": {
+    "license": "own",
+    "source": "tools/gen-wiki-art.py"
+  },
+  "wiki/icons/lore-landmark-act4.png": {
+    "license": "own",
+    "source": "tools/gen-wiki-art.py"
+  },
+  "wiki/icons/lore-ng-plus.png": {
+    "license": "own",
+    "source": "tools/gen-wiki-art.py"
+  },
+  "wiki/icons/lore-quest-act1.png": {
+    "license": "own",
+    "source": "tools/gen-wiki-art.py"
+  },
+  "wiki/icons/lore-quest-act2.png": {
+    "license": "own",
+    "source": "tools/gen-wiki-art.py"
+  },
+  "wiki/icons/lore-quest-act3.png": {
+    "license": "own",
+    "source": "tools/gen-wiki-art.py"
+  },
+  "wiki/icons/lore-quest-act4.png": {
+    "license": "own",
+    "source": "tools/gen-wiki-art.py"
+  },
+  "wiki/icons/lore-rumors.png": {
+    "license": "own",
+    "source": "tools/gen-wiki-art.py"
+  },
+  "wiki/icons/lore-timeline.png": {
+    "license": "own",
+    "source": "tools/gen-wiki-art.py"
+  },
+  "wiki/icons/rw-ancients-pledge.png": {
+    "license": "own",
+    "source": "tools/gen-wiki-art.py"
+  },
+  "wiki/icons/rw-beast.png": {
+    "license": "own",
+    "source": "tools/gen-wiki-art.py"
+  },
+  "wiki/icons/rw-breath-of-the-dying.png": {
+    "license": "own",
+    "source": "tools/gen-wiki-art.py"
+  },
+  "wiki/icons/rw-call-to-arms.png": {
+    "license": "own",
+    "source": "tools/gen-wiki-art.py"
+  },
+  "wiki/icons/rw-chains-of-honor.png": {
+    "license": "own",
+    "source": "tools/gen-wiki-art.py"
+  },
+  "wiki/icons/rw-crescent-moon.png": {
+    "license": "own",
+    "source": "tools/gen-wiki-art.py"
+  },
+  "wiki/icons/rw-death.png": {
+    "license": "own",
+    "source": "tools/gen-wiki-art.py"
+  },
+  "wiki/icons/rw-duress.png": {
+    "license": "own",
+    "source": "tools/gen-wiki-art.py"
+  },
+  "wiki/icons/rw-enigma.png": {
+    "license": "own",
+    "source": "tools/gen-wiki-art.py"
+  },
+  "wiki/icons/rw-faith.png": {
+    "license": "own",
+    "source": "tools/gen-wiki-art.py"
+  },
+  "wiki/icons/rw-fortitude.png": {
+    "license": "own",
+    "source": "tools/gen-wiki-art.py"
+  },
+  "wiki/icons/rw-grief.png": {
+    "license": "own",
+    "source": "tools/gen-wiki-art.py"
+  },
+  "wiki/icons/rw-heart-of-the-oak.png": {
+    "license": "own",
+    "source": "tools/gen-wiki-art.py"
+  },
+  "wiki/icons/rw-infinity.png": {
+    "license": "own",
+    "source": "tools/gen-wiki-art.py"
+  },
+  "wiki/icons/rw-insight.png": {
+    "license": "own",
+    "source": "tools/gen-wiki-art.py"
+  },
+  "wiki/icons/rw-leaf.png": {
+    "license": "own",
+    "source": "tools/gen-wiki-art.py"
+  },
+  "wiki/icons/rw-lore.png": {
+    "license": "own",
+    "source": "tools/gen-wiki-art.py"
+  },
+  "wiki/icons/rw-rhyme.png": {
+    "license": "own",
+    "source": "tools/gen-wiki-art.py"
+  },
+  "wiki/icons/rw-sanctuary.png": {
+    "license": "own",
+    "source": "tools/gen-wiki-art.py"
+  },
+  "wiki/icons/rw-smoke.png": {
+    "license": "own",
+    "source": "tools/gen-wiki-art.py"
+  },
+  "wiki/icons/rw-spirit-sword.png": {
+    "license": "own",
+    "source": "tools/gen-wiki-art.py"
+  },
+  "wiki/icons/rw-stealth.png": {
+    "license": "own",
+    "source": "tools/gen-wiki-art.py"
+  },
+  "wiki/icons/rw-steel.png": {
+    "license": "own",
+    "source": "tools/gen-wiki-art.py"
+  },
+  "wiki/icons/rw-treachery.png": {
+    "license": "own",
+    "source": "tools/gen-wiki-art.py"
+  },
+  "wiki/icons/rw-white.png": {
+    "license": "own",
+    "source": "tools/gen-wiki-art.py"
+  },
+  "wiki/icons/tip-combat.png": {
+    "license": "own",
+    "source": "tools/gen-wiki-art.py"
+  },
+  "wiki/icons/tip-epitaph.png": {
+    "license": "own",
+    "source": "tools/gen-wiki-art.py"
+  },
+  "wiki/icons/tip-general.png": {
+    "license": "own",
+    "source": "tools/gen-wiki-art.py"
+  },
+  "wiki/icons/tip-guide.png": {
+    "license": "own",
+    "source": "tools/gen-wiki-art.py"
+  },
+  "wiki/icons/tip-hero.png": {
+    "license": "own",
+    "source": "tools/gen-wiki-art.py"
+  },
+  "wiki/icons/tip-items.png": {
+    "license": "own",
+    "source": "tools/gen-wiki-art.py"
+  },
+  "wiki/icons/tip-loading.png": {
+    "license": "own",
+    "source": "tools/gen-wiki-art.py"
+  },
+  "wiki/icons/tip-map.png": {
+    "license": "own",
+    "source": "tools/gen-wiki-art.py"
+  },
+  "wiki/icons/tip-spells.png": {
+    "license": "own",
+    "source": "tools/gen-wiki-art.py"
+  },
+  "wiki/icons/tip-town.png": {
+    "license": "own",
+    "source": "tools/gen-wiki-art.py"
+  },
+  "wiki/minimaps/crypt.png": {
+    "license": "own",
+    "source": "tools/gen-wiki-art.py"
+  },
+  "wiki/minimaps/desert.png": {
+    "license": "own",
+    "source": "tools/gen-wiki-art.py"
+  },
+  "wiki/minimaps/forest.png": {
+    "license": "own",
+    "source": "tools/gen-wiki-art.py"
+  },
+  "wiki/minimaps/highlands.png": {
+    "license": "own",
+    "source": "tools/gen-wiki-art.py"
+  },
+  "wiki/minimaps/marsh.png": {
+    "license": "own",
+    "source": "tools/gen-wiki-art.py"
+  },
+  "wiki/minimaps/missions/m01-blood-at-the-ford.png": {
+    "license": "own",
+    "source": "tools/gen-wiki-art.py"
+  },
+  "wiki/minimaps/missions/m02-whispers-in-the-fen.png": {
+    "license": "own",
+    "source": "tools/gen-wiki-art.py"
+  },
+  "wiki/minimaps/missions/m03-nightfall-at-ravenwatch.png": {
+    "license": "own",
+    "source": "tools/gen-wiki-art.py"
+  },
+  "wiki/minimaps/missions/m04-the-sunken-sanctum.png": {
+    "license": "own",
+    "source": "tools/gen-wiki-art.py"
+  },
+  "wiki/minimaps/missions/m05-lantern-passage.png": {
+    "license": "own",
+    "source": "tools/gen-wiki-art.py"
+  },
+  "wiki/minimaps/missions/m06-greywood-supply.png": {
+    "license": "own",
+    "source": "tools/gen-wiki-art.py"
+  },
+  "wiki/minimaps/missions/m07-split-vanguard.png": {
+    "license": "own",
+    "source": "tools/gen-wiki-art.py"
+  },
+  "wiki/minimaps/missions/m08-alder-bridge.png": {
+    "license": "own",
+    "source": "tools/gen-wiki-art.py"
+  },
+  "wiki/minimaps/missions/m09-ironhide-hunt.png": {
+    "license": "own",
+    "source": "tools/gen-wiki-art.py"
+  },
+  "wiki/minimaps/missions/m10-undervault-links.png": {
+    "license": "own",
+    "source": "tools/gen-wiki-art.py"
+  },
+  "wiki/minimaps/missions/m11-ashbrook-retreat.png": {
+    "license": "own",
+    "source": "tools/gen-wiki-art.py"
+  },
+  "wiki/minimaps/missions/m12-redmarsh-border.png": {
+    "license": "own",
+    "source": "tools/gen-wiki-art.py"
+  },
+  "wiki/minimaps/missions/m13-twin-passes.png": {
+    "license": "own",
+    "source": "tools/gen-wiki-art.py"
+  },
+  "wiki/minimaps/missions/m14-scattered-scouts.png": {
+    "license": "own",
+    "source": "tools/gen-wiki-art.py"
+  },
+  "wiki/minimaps/missions/m15-outpost-palisade.png": {
+    "license": "own",
+    "source": "tools/gen-wiki-art.py"
+  },
+  "wiki/minimaps/missions/m16-wardstone-rupture.png": {
+    "license": "own",
+    "source": "tools/gen-wiki-art.py"
+  },
+  "wiki/minimaps/missions/m17-mire-convoy.png": {
+    "license": "own",
+    "source": "tools/gen-wiki-art.py"
+  },
+  "wiki/minimaps/missions/m18-granary-raid.png": {
+    "license": "own",
+    "source": "tools/gen-wiki-art.py"
+  },
+  "wiki/minimaps/missions/m19-hexer-capture.png": {
+    "license": "own",
+    "source": "tools/gen-wiki-art.py"
+  },
+  "wiki/minimaps/missions/m20-deep-quarry.png": {
+    "license": "own",
+    "source": "tools/gen-wiki-art.py"
+  },
+  "wiki/minimaps/missions/m21-lean-garrison.png": {
+    "license": "own",
+    "source": "tools/gen-wiki-art.py"
+  },
+  "wiki/minimaps/missions/m22-fleeing-column.png": {
+    "license": "own",
+    "source": "tools/gen-wiki-art.py"
+  },
+  "wiki/minimaps/missions/m23-fork-of-spears.png": {
+    "license": "own",
+    "source": "tools/gen-wiki-art.py"
+  },
+  "wiki/minimaps/missions/m24-pledge-at-oakhaven.png": {
+    "license": "own",
+    "source": "tools/gen-wiki-art.py"
+  },
+  "wiki/minimaps/missions/m25-cinder-wards.png": {
+    "license": "own",
+    "source": "tools/gen-wiki-art.py"
+  },
+  "wiki/minimaps/missions/m26-sundered-ranks.png": {
+    "license": "own",
+    "source": "tools/gen-wiki-art.py"
+  },
+  "wiki/minimaps/missions/m27-field-infirmary.png": {
+    "license": "own",
+    "source": "tools/gen-wiki-art.py"
+  },
+  "wiki/minimaps/missions/m28-sunken-citadel.png": {
+    "license": "own",
+    "source": "tools/gen-wiki-art.py"
+  },
+  "wiki/minimaps/missions/m29-hourglass-rescue.png": {
+    "license": "own",
+    "source": "tools/gen-wiki-art.py"
+  },
+  "wiki/minimaps/missions/m30-starved-bastion.png": {
+    "license": "own",
+    "source": "tools/gen-wiki-art.py"
+  },
+  "wiki/minimaps/missions/m31-riverlock-crossing.png": {
+    "license": "own",
+    "source": "tools/gen-wiki-art.py"
+  },
+  "wiki/minimaps/missions/m32-elder-juggernaut.png": {
+    "license": "own",
+    "source": "tools/gen-wiki-art.py"
+  },
+  "wiki/minimaps/missions/m33-high-stakes-gambit.png": {
+    "license": "own",
+    "source": "tools/gen-wiki-art.py"
+  },
+  "wiki/minimaps/missions/m34-clashing-banners.png": {
+    "license": "own",
+    "source": "tools/gen-wiki-art.py"
+  },
+  "wiki/minimaps/missions/m35-burning-harbor.png": {
+    "license": "own",
+    "source": "tools/gen-wiki-art.py"
+  },
+  "wiki/minimaps/missions/m36-heartland-march.png": {
+    "license": "own",
+    "source": "tools/gen-wiki-art.py"
+  },
+  "wiki/minimaps/missions/m37-shattered-beacons.png": {
+    "license": "own",
+    "source": "tools/gen-wiki-art.py"
+  },
+  "wiki/minimaps/missions/m38-besieged-wall.png": {
+    "license": "own",
+    "source": "tools/gen-wiki-art.py"
+  },
+  "wiki/minimaps/missions/m39-flight-of-malrik.png": {
+    "license": "own",
+    "source": "tools/gen-wiki-art.py"
+  },
+  "wiki/minimaps/missions/m40-twofold-assault.png": {
+    "license": "own",
+    "source": "tools/gen-wiki-art.py"
+  },
+  "wiki/minimaps/missions/m41-gauntlet-of-iron.png": {
+    "license": "own",
+    "source": "tools/gen-wiki-art.py"
+  },
+  "wiki/minimaps/missions/m42-outer-rampart.png": {
+    "license": "own",
+    "source": "tools/gen-wiki-art.py"
+  },
+  "wiki/minimaps/missions/m43-three-roads-siege.png": {
+    "license": "own",
+    "source": "tools/gen-wiki-art.py"
+  },
+  "wiki/minimaps/missions/m44-threshold-choice.png": {
+    "license": "own",
+    "source": "tools/gen-wiki-art.py"
+  },
+  "wiki/minimaps/missions/m45-crown-of-order.png": {
+    "license": "own",
+    "source": "tools/gen-wiki-art.py"
+  },
+  "wiki/minimaps/missions/m46-ember-reckoning.png": {
+    "license": "own",
+    "source": "tools/gen-wiki-art.py"
+  },
+  "wiki/minimaps/oasis.png": {
+    "license": "own",
+    "source": "tools/gen-wiki-art.py"
+  },
+  "wiki/minimaps/regions/map1-craghorn-defile-alder-bridge.png": {
+    "license": "own",
+    "source": "tools/gen-wiki-art.py"
+  },
+  "wiki/minimaps/regions/map1-fenwick-peat-lantern-passage.png": {
+    "license": "own",
+    "source": "tools/gen-wiki-art.py"
+  },
+  "wiki/minimaps/regions/map1-greywood-canopy-vitrified-kilns.png": {
+    "license": "own",
+    "source": "tools/gen-wiki-art.py"
+  },
+  "wiki/minimaps/regions/map1-ravenwatch-keep-weeping-ossuary.png": {
+    "license": "own",
+    "source": "tools/gen-wiki-art.py"
+  },
+  "wiki/minimaps/regions/map1-sunken-ford-willow-weirs.png": {
+    "license": "own",
+    "source": "tools/gen-wiki-art.py"
+  },
+  "wiki/minimaps/regions/map1-thornwick-market-city-hub.png": {
+    "license": "own",
+    "source": "tools/gen-wiki-art.py"
+  },
+  "wiki/minimaps/regions/map1-undervault-links-ashbrook-gate.png": {
+    "license": "own",
+    "source": "tools/gen-wiki-art.py"
+  },
+  "wiki/minimaps/regions/map2-deep-quarry-flooded-sluice.png": {
+    "license": "own",
+    "source": "tools/gen-wiki-art.py"
+  },
+  "wiki/minimaps/regions/map2-fork-of-spears-ironheart-bastion.png": {
+    "license": "own",
+    "source": "tools/gen-wiki-art.py"
+  },
+  "wiki/minimaps/regions/map2-ochre-ditch-corduroy-causeway.png": {
+    "license": "own",
+    "source": "tools/gen-wiki-art.py"
+  },
+  "wiki/minimaps/regions/map2-quartz-plateau-wardstone-ring.png": {
+    "license": "own",
+    "source": "tools/gen-wiki-art.py"
+  },
+  "wiki/minimaps/regions/map2-redmarsh-outpost-city-hub.png": {
+    "license": "own",
+    "source": "tools/gen-wiki-art.py"
+  },
+  "wiki/minimaps/regions/map2-third-dynasty-salt-vaults.png": {
+    "license": "own",
+    "source": "tools/gen-wiki-art.py"
+  },
+  "wiki/minimaps/regions/map2-twin-passes-bracken-basin.png": {
+    "license": "own",
+    "source": "tools/gen-wiki-art.py"
+  },
+  "wiki/minimaps/regions/map3-burning-harborwatch-flagship.png": {
+    "license": "own",
+    "source": "tools/gen-wiki-art.py"
+  },
+  "wiki/minimaps/regions/map3-cinder-wards-blighted-orchard.png": {
+    "license": "own",
+    "source": "tools/gen-wiki-art.py"
+  },
+  "wiki/minimaps/regions/map3-greywash-canal-riverlock.png": {
+    "license": "own",
+    "source": "tools/gen-wiki-art.py"
+  },
+  "wiki/minimaps/regions/map3-hourglass-spit-smuggler-caves.png": {
+    "license": "own",
+    "source": "tools/gen-wiki-art.py"
+  },
+  "wiki/minimaps/regions/map3-oakhaven-harbor-city-hub.png": {
+    "license": "own",
+    "source": "tools/gen-wiki-art.py"
+  },
+  "wiki/minimaps/regions/map3-starved-bastion-cliff-batteries.png": {
+    "license": "own",
+    "source": "tools/gen-wiki-art.py"
+  },
+  "wiki/minimaps/regions/map3-sunken-citadel-drowned-choir.png": {
+    "license": "own",
+    "source": "tools/gen-wiki-art.py"
+  },
+  "wiki/minimaps/regions/map4-basalt-highway-shattered-beacons.png": {
+    "license": "own",
+    "source": "tools/gen-wiki-art.py"
+  },
+  "wiki/minimaps/regions/map4-besieged-wall-ashveil-summit.png": {
+    "license": "own",
+    "source": "tools/gen-wiki-art.py"
+  },
+  "wiki/minimaps/regions/map4-colonnade-of-crowns-obsidian-dais.png": {
+    "license": "own",
+    "source": "tools/gen-wiki-art.py"
+  },
+  "wiki/minimaps/regions/map4-gauntlet-of-iron-greystone-rampart.png": {
+    "license": "own",
+    "source": "tools/gen-wiki-art.py"
+  },
+  "wiki/minimaps/regions/map4-ironcamp-forge-hold-city-hub.png": {
+    "license": "own",
+    "source": "tools/gen-wiki-art.py"
+  },
+  "wiki/minimaps/regions/map4-magnetic-narrows-twofold-barbican.png": {
+    "license": "own",
+    "source": "tools/gen-wiki-art.py"
+  },
+  "wiki/minimaps/regions/map4-three-roads-watch-headless-kings.png": {
+    "license": "own",
+    "source": "tools/gen-wiki-art.py"
+  },
+  "wiki/minimaps/volcanic.png": {
+    "license": "own",
+    "source": "tools/gen-wiki-art.py"
+  },
+  "wiki\\icons\\achievement-campaign-bronze.png": {
+    "license": "own",
+    "source": "tools/gen-wiki-art.py"
+  },
+  "wiki\\icons\\achievement-campaign-gold.png": {
+    "license": "own",
+    "source": "tools/gen-wiki-art.py"
+  },
+  "wiki\\icons\\achievement-campaign-silver.png": {
+    "license": "own",
+    "source": "tools/gen-wiki-art.py"
+  },
+  "wiki\\icons\\achievement-classes-bronze.png": {
+    "license": "own",
+    "source": "tools/gen-wiki-art.py"
+  },
+  "wiki\\icons\\achievement-classes-gold.png": {
+    "license": "own",
+    "source": "tools/gen-wiki-art.py"
+  },
+  "wiki\\icons\\achievement-classes-silver.png": {
+    "license": "own",
+    "source": "tools/gen-wiki-art.py"
+  },
+  "wiki\\icons\\achievement-codex-bronze.png": {
+    "license": "own",
+    "source": "tools/gen-wiki-art.py"
+  },
+  "wiki\\icons\\achievement-codex-gold.png": {
+    "license": "own",
+    "source": "tools/gen-wiki-art.py"
+  },
+  "wiki\\icons\\achievement-codex-silver.png": {
+    "license": "own",
+    "source": "tools/gen-wiki-art.py"
+  },
+  "wiki\\icons\\achievement-combat-bronze.png": {
+    "license": "own",
+    "source": "tools/gen-wiki-art.py"
+  },
+  "wiki\\icons\\achievement-combat-gold.png": {
+    "license": "own",
+    "source": "tools/gen-wiki-art.py"
+  },
+  "wiki\\icons\\achievement-combat-silver.png": {
+    "license": "own",
+    "source": "tools/gen-wiki-art.py"
+  },
+  "wiki\\icons\\achievement-economy-bronze.png": {
+    "license": "own",
+    "source": "tools/gen-wiki-art.py"
+  },
+  "wiki\\icons\\achievement-economy-gold.png": {
+    "license": "own",
+    "source": "tools/gen-wiki-art.py"
+  },
+  "wiki\\icons\\achievement-economy-silver.png": {
+    "license": "own",
+    "source": "tools/gen-wiki-art.py"
+  },
+  "wiki\\icons\\achievement-exploration-bronze.png": {
+    "license": "own",
+    "source": "tools/gen-wiki-art.py"
+  },
+  "wiki\\icons\\achievement-exploration-gold.png": {
+    "license": "own",
+    "source": "tools/gen-wiki-art.py"
+  },
+  "wiki\\icons\\achievement-exploration-silver.png": {
+    "license": "own",
+    "source": "tools/gen-wiki-art.py"
+  },
+  "wiki\\icons\\achievement-gear-bronze.png": {
+    "license": "own",
+    "source": "tools/gen-wiki-art.py"
+  },
+  "wiki\\icons\\achievement-gear-gold.png": {
+    "license": "own",
+    "source": "tools/gen-wiki-art.py"
+  },
+  "wiki\\icons\\achievement-gear-silver.png": {
+    "license": "own",
+    "source": "tools/gen-wiki-art.py"
+  },
+  "wiki\\icons\\achievement-mastery-bronze.png": {
+    "license": "own",
+    "source": "tools/gen-wiki-art.py"
+  },
+  "wiki\\icons\\achievement-mastery-gold.png": {
+    "license": "own",
+    "source": "tools/gen-wiki-art.py"
+  },
+  "wiki\\icons\\achievement-mastery-silver.png": {
+    "license": "own",
+    "source": "tools/gen-wiki-art.py"
+  },
+  "wiki\\icons\\achievement-mercenaries-bronze.png": {
+    "license": "own",
+    "source": "tools/gen-wiki-art.py"
+  },
+  "wiki\\icons\\achievement-mercenaries-gold.png": {
+    "license": "own",
+    "source": "tools/gen-wiki-art.py"
+  },
+  "wiki\\icons\\achievement-mercenaries-silver.png": {
+    "license": "own",
+    "source": "tools/gen-wiki-art.py"
+  },
+  "wiki\\icons\\achievement-secret-bronze.png": {
+    "license": "own",
+    "source": "tools/gen-wiki-art.py"
+  },
+  "wiki\\icons\\achievement-secret-gold.png": {
+    "license": "own",
+    "source": "tools/gen-wiki-art.py"
+  },
+  "wiki\\icons\\achievement-secret-silver.png": {
+    "license": "own",
+    "source": "tools/gen-wiki-art.py"
+  },
+  "wiki\\icons\\affix-prefix-agility.png": {
+    "license": "own",
+    "source": "tools/gen-wiki-art.py"
+  },
+  "wiki\\icons\\affix-prefix-astral.png": {
+    "license": "own",
+    "source": "tools/gen-wiki-art.py"
+  },
+  "wiki\\icons\\affix-prefix-cold.png": {
+    "license": "own",
+    "source": "tools/gen-wiki-art.py"
+  },
+  "wiki\\icons\\affix-prefix-defense.png": {
+    "license": "own",
+    "source": "tools/gen-wiki-art.py"
+  },
+  "wiki\\icons\\affix-prefix-fire.png": {
+    "license": "own",
+    "source": "tools/gen-wiki-art.py"
+  },
+  "wiki\\icons\\affix-prefix-fortune.png": {
+    "license": "own",
+    "source": "tools/gen-wiki-art.py"
+  },
+  "wiki\\icons\\affix-prefix-lightning.png": {
+    "license": "own",
+    "source": "tools/gen-wiki-art.py"
+  },
+  "wiki\\icons\\affix-prefix-minion.png": {
+    "license": "own",
+    "source": "tools/gen-wiki-art.py"
+  },
+  "wiki\\icons\\affix-prefix-physical.png": {
+    "license": "own",
+    "source": "tools/gen-wiki-art.py"
+  },
+  "wiki\\icons\\affix-prefix-poison.png": {
+    "license": "own",
+    "source": "tools/gen-wiki-art.py"
+  },
+  "wiki\\icons\\affix-prefix-vitality.png": {
+    "license": "own",
+    "source": "tools/gen-wiki-art.py"
+  },
+  "wiki\\icons\\affix-suffix-agility.png": {
+    "license": "own",
+    "source": "tools/gen-wiki-art.py"
+  },
+  "wiki\\icons\\affix-suffix-astral.png": {
+    "license": "own",
+    "source": "tools/gen-wiki-art.py"
+  },
+  "wiki\\icons\\affix-suffix-cold.png": {
+    "license": "own",
+    "source": "tools/gen-wiki-art.py"
+  },
+  "wiki\\icons\\affix-suffix-defense.png": {
+    "license": "own",
+    "source": "tools/gen-wiki-art.py"
+  },
+  "wiki\\icons\\affix-suffix-fire.png": {
+    "license": "own",
+    "source": "tools/gen-wiki-art.py"
+  },
+  "wiki\\icons\\affix-suffix-fortune.png": {
+    "license": "own",
+    "source": "tools/gen-wiki-art.py"
+  },
+  "wiki\\icons\\affix-suffix-lightning.png": {
+    "license": "own",
+    "source": "tools/gen-wiki-art.py"
+  },
+  "wiki\\icons\\affix-suffix-minion.png": {
+    "license": "own",
+    "source": "tools/gen-wiki-art.py"
+  },
+  "wiki\\icons\\affix-suffix-physical.png": {
+    "license": "own",
+    "source": "tools/gen-wiki-art.py"
+  },
+  "wiki\\icons\\affix-suffix-poison.png": {
+    "license": "own",
+    "source": "tools/gen-wiki-art.py"
+  },
+  "wiki\\icons\\affix-suffix-vitality.png": {
+    "license": "own",
+    "source": "tools/gen-wiki-art.py"
+  },
+  "wiki\\icons\\faction-fac-border-wardens.png": {
+    "license": "own",
+    "source": "tools/gen-wiki-art.py"
+  },
+  "wiki\\icons\\faction-fac-expelled-collegium.png": {
+    "license": "own",
+    "source": "tools/gen-wiki-art.py"
+  },
+  "wiki\\icons\\faction-fac-first-watch-remnant.png": {
+    "license": "own",
+    "source": "tools/gen-wiki-art.py"
+  },
+  "wiki\\icons\\faction-fac-ironcamp-smiths.png": {
+    "license": "own",
+    "source": "tools/gen-wiki-art.py"
+  },
+  "wiki\\icons\\faction-fac-oakhaven-maritime.png": {
+    "license": "own",
+    "source": "tools/gen-wiki-art.py"
+  },
+  "wiki\\icons\\faction-fac-probate-scriptorium.png": {
+    "license": "own",
+    "source": "tools/gen-wiki-art.py"
+  },
+  "wiki\\icons\\faction-fac-redmarsh-caravaneers.png": {
+    "license": "own",
+    "source": "tools/gen-wiki-art.py"
+  },
+  "wiki\\icons\\faction-fac-scorched-penitents.png": {
+    "license": "own",
+    "source": "tools/gen-wiki-art.py"
+  },
+  "wiki\\icons\\glossary-affix-prefix.png": {
+    "license": "own",
+    "source": "tools/gen-wiki-art.py"
+  },
+  "wiki\\icons\\glossary-affix-suffix.png": {
+    "license": "own",
+    "source": "tools/gen-wiki-art.py"
+  },
+  "wiki\\icons\\glossary-boss-mod-aura-enchanted.png": {
+    "license": "own",
+    "source": "tools/gen-wiki-art.py"
+  },
+  "wiki\\icons\\glossary-boss-mod-cold-enchanted.png": {
+    "license": "own",
+    "source": "tools/gen-wiki-art.py"
+  },
+  "wiki\\icons\\glossary-boss-mod-cursed.png": {
+    "license": "own",
+    "source": "tools/gen-wiki-art.py"
+  },
+  "wiki\\icons\\glossary-boss-mod-extra-fast.png": {
+    "license": "own",
+    "source": "tools/gen-wiki-art.py"
+  },
+  "wiki\\icons\\glossary-boss-mod-extra-strong.png": {
+    "license": "own",
+    "source": "tools/gen-wiki-art.py"
+  },
+  "wiki\\icons\\glossary-boss-mod-fire-enchanted.png": {
+    "license": "own",
+    "source": "tools/gen-wiki-art.py"
+  },
+  "wiki\\icons\\glossary-boss-mod-lightning-enchanted.png": {
+    "license": "own",
+    "source": "tools/gen-wiki-art.py"
+  },
+  "wiki\\icons\\glossary-boss-mod-mana-burn.png": {
+    "license": "own",
+    "source": "tools/gen-wiki-art.py"
+  },
+  "wiki\\icons\\glossary-boss-mod-multi-shot.png": {
+    "license": "own",
+    "source": "tools/gen-wiki-art.py"
+  },
+  "wiki\\icons\\glossary-boss-mod-spectral-hit.png": {
+    "license": "own",
+    "source": "tools/gen-wiki-art.py"
+  },
+  "wiki\\icons\\glossary-boss-mod-stone-skin.png": {
+    "license": "own",
+    "source": "tools/gen-wiki-art.py"
+  },
+  "wiki\\icons\\glossary-boss-mod-teleporting.png": {
+    "license": "own",
+    "source": "tools/gen-wiki-art.py"
+  },
+  "wiki\\icons\\glossary-champion-berserker.png": {
+    "license": "own",
+    "source": "tools/gen-wiki-art.py"
+  },
+  "wiki\\icons\\glossary-champion-champion.png": {
+    "license": "own",
+    "source": "tools/gen-wiki-art.py"
+  },
+  "wiki\\icons\\glossary-champion-fanatic.png": {
+    "license": "own",
+    "source": "tools/gen-wiki-art.py"
+  },
+  "wiki\\icons\\glossary-champion-ghostly.png": {
+    "license": "own",
+    "source": "tools/gen-wiki-art.py"
+  },
+  "wiki\\icons\\glossary-champion-possessed.png": {
+    "license": "own",
+    "source": "tools/gen-wiki-art.py"
+  },
+  "wiki\\icons\\glossary-crafting-cube.png": {
+    "license": "own",
+    "source": "tools/gen-wiki-art.py"
+  },
+  "wiki\\icons\\glossary-difficulty-easy.png": {
+    "license": "own",
+    "source": "tools/gen-wiki-art.py"
+  },
+  "wiki\\icons\\glossary-difficulty-hard.png": {
+    "license": "own",
+    "source": "tools/gen-wiki-art.py"
+  },
+  "wiki\\icons\\glossary-difficulty-nightmare.png": {
+    "license": "own",
+    "source": "tools/gen-wiki-art.py"
+  },
+  "wiki\\icons\\glossary-difficulty-normal.png": {
+    "license": "own",
+    "source": "tools/gen-wiki-art.py"
+  },
+  "wiki\\icons\\glossary-rarity-base.png": {
+    "license": "own",
+    "source": "tools/gen-wiki-art.py"
+  },
+  "wiki\\icons\\glossary-rarity-common.png": {
+    "license": "own",
+    "source": "tools/gen-wiki-art.py"
+  },
+  "wiki\\icons\\glossary-rarity-magic.png": {
+    "license": "own",
+    "source": "tools/gen-wiki-art.py"
+  },
+  "wiki\\icons\\glossary-rarity-runeword.png": {
+    "license": "own",
+    "source": "tools/gen-wiki-art.py"
+  },
+  "wiki\\icons\\glossary-rarity-set.png": {
+    "license": "own",
+    "source": "tools/gen-wiki-art.py"
+  },
+  "wiki\\icons\\glossary-rarity-socket.png": {
+    "license": "own",
+    "source": "tools/gen-wiki-art.py"
+  },
+  "wiki\\icons\\glossary-rarity-unique.png": {
+    "license": "own",
+    "source": "tools/gen-wiki-art.py"
+  },
+  "wiki\\icons\\glossary-school-air.png": {
+    "license": "own",
+    "source": "tools/gen-wiki-art.py"
+  },
+  "wiki\\icons\\glossary-school-astral.png": {
+    "license": "own",
+    "source": "tools/gen-wiki-art.py"
+  },
+  "wiki\\icons\\glossary-school-bone.png": {
+    "license": "own",
+    "source": "tools/gen-wiki-art.py"
+  },
+  "wiki\\icons\\glossary-school-debt.png": {
+    "license": "own",
+    "source": "tools/gen-wiki-art.py"
+  },
+  "wiki\\icons\\glossary-school-earth.png": {
+    "license": "own",
+    "source": "tools/gen-wiki-art.py"
+  },
+  "wiki\\icons\\glossary-school-fire.png": {
+    "license": "own",
+    "source": "tools/gen-wiki-art.py"
+  },
+  "wiki\\icons\\glossary-school-grave.png": {
+    "license": "own",
+    "source": "tools/gen-wiki-art.py"
+  },
+  "wiki\\icons\\glossary-school-marksman.png": {
+    "license": "own",
+    "source": "tools/gen-wiki-art.py"
+  },
+  "wiki\\icons\\glossary-school-water.png": {
+    "license": "own",
+    "source": "tools/gen-wiki-art.py"
+  },
+  "wiki\\icons\\glossary-school-wild.png": {
+    "license": "own",
+    "source": "tools/gen-wiki-art.py"
+  },
+  "wiki\\icons\\lore-act-ending-1.png": {
+    "license": "own",
+    "source": "tools/gen-wiki-art.py"
+  },
+  "wiki\\icons\\lore-act-ending-2.png": {
+    "license": "own",
+    "source": "tools/gen-wiki-art.py"
+  },
+  "wiki\\icons\\lore-act-ending-3.png": {
+    "license": "own",
+    "source": "tools/gen-wiki-art.py"
+  },
+  "wiki\\icons\\lore-act-ending-4.png": {
+    "license": "own",
+    "source": "tools/gen-wiki-art.py"
+  },
+  "wiki\\icons\\lore-act-epilogue-1.png": {
+    "license": "own",
+    "source": "tools/gen-wiki-art.py"
+  },
+  "wiki\\icons\\lore-act-epilogue-2.png": {
+    "license": "own",
+    "source": "tools/gen-wiki-art.py"
+  },
+  "wiki\\icons\\lore-act-epilogue-3.png": {
+    "license": "own",
+    "source": "tools/gen-wiki-art.py"
+  },
+  "wiki\\icons\\lore-act-epilogue-4.png": {
+    "license": "own",
+    "source": "tools/gen-wiki-art.py"
+  },
+  "wiki\\icons\\lore-book-act1.png": {
+    "license": "own",
+    "source": "tools/gen-wiki-art.py"
+  },
+  "wiki\\icons\\lore-book-act2.png": {
+    "license": "own",
+    "source": "tools/gen-wiki-art.py"
+  },
+  "wiki\\icons\\lore-book-act3.png": {
+    "license": "own",
+    "source": "tools/gen-wiki-art.py"
+  },
+  "wiki\\icons\\lore-book-act4.png": {
+    "license": "own",
+    "source": "tools/gen-wiki-art.py"
+  },
+  "wiki\\icons\\lore-codex-creature.png": {
+    "license": "own",
+    "source": "tools/gen-wiki-art.py"
+  },
+  "wiki\\icons\\lore-codex-event.png": {
+    "license": "own",
+    "source": "tools/gen-wiki-art.py"
+  },
+  "wiki\\icons\\lore-codex-faction.png": {
+    "license": "own",
+    "source": "tools/gen-wiki-art.py"
+  },
+  "wiki\\icons\\lore-codex-lore.png": {
+    "license": "own",
+    "source": "tools/gen-wiki-art.py"
+  },
+  "wiki\\icons\\lore-codex-place.png": {
+    "license": "own",
+    "source": "tools/gen-wiki-art.py"
+  },
+  "wiki\\icons\\lore-codex-relic.png": {
+    "license": "own",
+    "source": "tools/gen-wiki-art.py"
+  },
+  "wiki\\icons\\lore-ending-archer.png": {
+    "license": "own",
+    "source": "tools/gen-wiki-art.py"
+  },
+  "wiki\\icons\\lore-ending-mage.png": {
+    "license": "own",
+    "source": "tools/gen-wiki-art.py"
+  },
+  "wiki\\icons\\lore-ending-necromancer.png": {
+    "license": "own",
+    "source": "tools/gen-wiki-art.py"
+  },
+  "wiki\\icons\\lore-ending-warrior.png": {
+    "license": "own",
+    "source": "tools/gen-wiki-art.py"
+  },
+  "wiki\\icons\\lore-landmark-act1.png": {
+    "license": "own",
+    "source": "tools/gen-wiki-art.py"
+  },
+  "wiki\\icons\\lore-landmark-act2.png": {
+    "license": "own",
+    "source": "tools/gen-wiki-art.py"
+  },
+  "wiki\\icons\\lore-landmark-act3.png": {
+    "license": "own",
+    "source": "tools/gen-wiki-art.py"
+  },
+  "wiki\\icons\\lore-landmark-act4.png": {
+    "license": "own",
+    "source": "tools/gen-wiki-art.py"
+  },
+  "wiki\\icons\\lore-ng-plus.png": {
+    "license": "own",
+    "source": "tools/gen-wiki-art.py"
+  },
+  "wiki\\icons\\lore-quest-act1.png": {
+    "license": "own",
+    "source": "tools/gen-wiki-art.py"
+  },
+  "wiki\\icons\\lore-quest-act2.png": {
+    "license": "own",
+    "source": "tools/gen-wiki-art.py"
+  },
+  "wiki\\icons\\lore-quest-act3.png": {
+    "license": "own",
+    "source": "tools/gen-wiki-art.py"
+  },
+  "wiki\\icons\\lore-quest-act4.png": {
+    "license": "own",
+    "source": "tools/gen-wiki-art.py"
+  },
+  "wiki\\icons\\lore-rumors.png": {
+    "license": "own",
+    "source": "tools/gen-wiki-art.py"
+  },
+  "wiki\\icons\\lore-timeline.png": {
+    "license": "own",
+    "source": "tools/gen-wiki-art.py"
+  },
+  "wiki\\icons\\rw-ancients-pledge.png": {
+    "license": "own",
+    "source": "tools/gen-wiki-art.py"
+  },
+  "wiki\\icons\\rw-beast.png": {
+    "license": "own",
+    "source": "tools/gen-wiki-art.py"
+  },
+  "wiki\\icons\\rw-breath-of-the-dying.png": {
+    "license": "own",
+    "source": "tools/gen-wiki-art.py"
+  },
+  "wiki\\icons\\rw-call-to-arms.png": {
+    "license": "own",
+    "source": "tools/gen-wiki-art.py"
+  },
+  "wiki\\icons\\rw-chains-of-honor.png": {
+    "license": "own",
+    "source": "tools/gen-wiki-art.py"
+  },
+  "wiki\\icons\\rw-crescent-moon.png": {
+    "license": "own",
+    "source": "tools/gen-wiki-art.py"
+  },
+  "wiki\\icons\\rw-death.png": {
+    "license": "own",
+    "source": "tools/gen-wiki-art.py"
+  },
+  "wiki\\icons\\rw-duress.png": {
+    "license": "own",
+    "source": "tools/gen-wiki-art.py"
+  },
+  "wiki\\icons\\rw-enigma.png": {
+    "license": "own",
+    "source": "tools/gen-wiki-art.py"
+  },
+  "wiki\\icons\\rw-faith.png": {
+    "license": "own",
+    "source": "tools/gen-wiki-art.py"
+  },
+  "wiki\\icons\\rw-fortitude.png": {
+    "license": "own",
+    "source": "tools/gen-wiki-art.py"
+  },
+  "wiki\\icons\\rw-grief.png": {
+    "license": "own",
+    "source": "tools/gen-wiki-art.py"
+  },
+  "wiki\\icons\\rw-heart-of-the-oak.png": {
+    "license": "own",
+    "source": "tools/gen-wiki-art.py"
+  },
+  "wiki\\icons\\rw-infinity.png": {
+    "license": "own",
+    "source": "tools/gen-wiki-art.py"
+  },
+  "wiki\\icons\\rw-insight.png": {
+    "license": "own",
+    "source": "tools/gen-wiki-art.py"
+  },
+  "wiki\\icons\\rw-leaf.png": {
+    "license": "own",
+    "source": "tools/gen-wiki-art.py"
+  },
+  "wiki\\icons\\rw-lore.png": {
+    "license": "own",
+    "source": "tools/gen-wiki-art.py"
+  },
+  "wiki\\icons\\rw-rhyme.png": {
+    "license": "own",
+    "source": "tools/gen-wiki-art.py"
+  },
+  "wiki\\icons\\rw-sanctuary.png": {
+    "license": "own",
+    "source": "tools/gen-wiki-art.py"
+  },
+  "wiki\\icons\\rw-smoke.png": {
+    "license": "own",
+    "source": "tools/gen-wiki-art.py"
+  },
+  "wiki\\icons\\rw-spirit-sword.png": {
+    "license": "own",
+    "source": "tools/gen-wiki-art.py"
+  },
+  "wiki\\icons\\rw-stealth.png": {
+    "license": "own",
+    "source": "tools/gen-wiki-art.py"
+  },
+  "wiki\\icons\\rw-steel.png": {
+    "license": "own",
+    "source": "tools/gen-wiki-art.py"
+  },
+  "wiki\\icons\\rw-treachery.png": {
+    "license": "own",
+    "source": "tools/gen-wiki-art.py"
+  },
+  "wiki\\icons\\rw-white.png": {
+    "license": "own",
+    "source": "tools/gen-wiki-art.py"
+  },
+  "wiki\\icons\\tip-combat.png": {
+    "license": "own",
+    "source": "tools/gen-wiki-art.py"
+  },
+  "wiki\\icons\\tip-epitaph.png": {
+    "license": "own",
+    "source": "tools/gen-wiki-art.py"
+  },
+  "wiki\\icons\\tip-general.png": {
+    "license": "own",
+    "source": "tools/gen-wiki-art.py"
+  },
+  "wiki\\icons\\tip-guide.png": {
+    "license": "own",
+    "source": "tools/gen-wiki-art.py"
+  },
+  "wiki\\icons\\tip-hero.png": {
+    "license": "own",
+    "source": "tools/gen-wiki-art.py"
+  },
+  "wiki\\icons\\tip-items.png": {
+    "license": "own",
+    "source": "tools/gen-wiki-art.py"
+  },
+  "wiki\\icons\\tip-loading.png": {
+    "license": "own",
+    "source": "tools/gen-wiki-art.py"
+  },
+  "wiki\\icons\\tip-map.png": {
+    "license": "own",
+    "source": "tools/gen-wiki-art.py"
+  },
+  "wiki\\icons\\tip-spells.png": {
+    "license": "own",
+    "source": "tools/gen-wiki-art.py"
+  },
+  "wiki\\icons\\tip-town.png": {
+    "license": "own",
+    "source": "tools/gen-wiki-art.py"
+  },
+  "wiki\\minimaps\\crypt.png": {
+    "license": "own",
+    "source": "tools/gen-wiki-art.py"
+  },
+  "wiki\\minimaps\\desert.png": {
+    "license": "own",
+    "source": "tools/gen-wiki-art.py"
+  },
+  "wiki\\minimaps\\forest.png": {
+    "license": "own",
+    "source": "tools/gen-wiki-art.py"
+  },
+  "wiki\\minimaps\\highlands.png": {
+    "license": "own",
+    "source": "tools/gen-wiki-art.py"
+  },
+  "wiki\\minimaps\\marsh.png": {
+    "license": "own",
+    "source": "tools/gen-wiki-art.py"
+  },
+  "wiki\\minimaps\\missions\\m01-blood-at-the-ford.png": {
+    "license": "own",
+    "source": "tools/gen-wiki-art.py"
+  },
+  "wiki\\minimaps\\missions\\m02-whispers-in-the-fen.png": {
+    "license": "own",
+    "source": "tools/gen-wiki-art.py"
+  },
+  "wiki\\minimaps\\missions\\m03-nightfall-at-ravenwatch.png": {
+    "license": "own",
+    "source": "tools/gen-wiki-art.py"
+  },
+  "wiki\\minimaps\\missions\\m04-the-sunken-sanctum.png": {
+    "license": "own",
+    "source": "tools/gen-wiki-art.py"
+  },
+  "wiki\\minimaps\\missions\\m05-lantern-passage.png": {
+    "license": "own",
+    "source": "tools/gen-wiki-art.py"
+  },
+  "wiki\\minimaps\\missions\\m06-greywood-supply.png": {
+    "license": "own",
+    "source": "tools/gen-wiki-art.py"
+  },
+  "wiki\\minimaps\\missions\\m07-split-vanguard.png": {
+    "license": "own",
+    "source": "tools/gen-wiki-art.py"
+  },
+  "wiki\\minimaps\\missions\\m08-alder-bridge.png": {
+    "license": "own",
+    "source": "tools/gen-wiki-art.py"
+  },
+  "wiki\\minimaps\\missions\\m09-ironhide-hunt.png": {
+    "license": "own",
+    "source": "tools/gen-wiki-art.py"
+  },
+  "wiki\\minimaps\\missions\\m10-undervault-links.png": {
+    "license": "own",
+    "source": "tools/gen-wiki-art.py"
+  },
+  "wiki\\minimaps\\missions\\m11-ashbrook-retreat.png": {
+    "license": "own",
+    "source": "tools/gen-wiki-art.py"
+  },
+  "wiki\\minimaps\\missions\\m12-redmarsh-border.png": {
+    "license": "own",
+    "source": "tools/gen-wiki-art.py"
+  },
+  "wiki\\minimaps\\missions\\m13-twin-passes.png": {
+    "license": "own",
+    "source": "tools/gen-wiki-art.py"
+  },
+  "wiki\\minimaps\\missions\\m14-scattered-scouts.png": {
+    "license": "own",
+    "source": "tools/gen-wiki-art.py"
+  },
+  "wiki\\minimaps\\missions\\m15-outpost-palisade.png": {
+    "license": "own",
+    "source": "tools/gen-wiki-art.py"
+  },
+  "wiki\\minimaps\\missions\\m16-wardstone-rupture.png": {
+    "license": "own",
+    "source": "tools/gen-wiki-art.py"
+  },
+  "wiki\\minimaps\\missions\\m17-mire-convoy.png": {
+    "license": "own",
+    "source": "tools/gen-wiki-art.py"
+  },
+  "wiki\\minimaps\\missions\\m18-granary-raid.png": {
+    "license": "own",
+    "source": "tools/gen-wiki-art.py"
+  },
+  "wiki\\minimaps\\missions\\m19-hexer-capture.png": {
+    "license": "own",
+    "source": "tools/gen-wiki-art.py"
+  },
+  "wiki\\minimaps\\missions\\m20-deep-quarry.png": {
+    "license": "own",
+    "source": "tools/gen-wiki-art.py"
+  },
+  "wiki\\minimaps\\missions\\m21-lean-garrison.png": {
+    "license": "own",
+    "source": "tools/gen-wiki-art.py"
+  },
+  "wiki\\minimaps\\missions\\m22-fleeing-column.png": {
+    "license": "own",
+    "source": "tools/gen-wiki-art.py"
+  },
+  "wiki\\minimaps\\missions\\m23-fork-of-spears.png": {
+    "license": "own",
+    "source": "tools/gen-wiki-art.py"
+  },
+  "wiki\\minimaps\\missions\\m24-pledge-at-oakhaven.png": {
+    "license": "own",
+    "source": "tools/gen-wiki-art.py"
+  },
+  "wiki\\minimaps\\missions\\m25-cinder-wards.png": {
+    "license": "own",
+    "source": "tools/gen-wiki-art.py"
+  },
+  "wiki\\minimaps\\missions\\m26-sundered-ranks.png": {
+    "license": "own",
+    "source": "tools/gen-wiki-art.py"
+  },
+  "wiki\\minimaps\\missions\\m27-field-infirmary.png": {
+    "license": "own",
+    "source": "tools/gen-wiki-art.py"
+  },
+  "wiki\\minimaps\\missions\\m28-sunken-citadel.png": {
+    "license": "own",
+    "source": "tools/gen-wiki-art.py"
+  },
+  "wiki\\minimaps\\missions\\m29-hourglass-rescue.png": {
+    "license": "own",
+    "source": "tools/gen-wiki-art.py"
+  },
+  "wiki\\minimaps\\missions\\m30-starved-bastion.png": {
+    "license": "own",
+    "source": "tools/gen-wiki-art.py"
+  },
+  "wiki\\minimaps\\missions\\m31-riverlock-crossing.png": {
+    "license": "own",
+    "source": "tools/gen-wiki-art.py"
+  },
+  "wiki\\minimaps\\missions\\m32-elder-juggernaut.png": {
+    "license": "own",
+    "source": "tools/gen-wiki-art.py"
+  },
+  "wiki\\minimaps\\missions\\m33-high-stakes-gambit.png": {
+    "license": "own",
+    "source": "tools/gen-wiki-art.py"
+  },
+  "wiki\\minimaps\\missions\\m34-clashing-banners.png": {
+    "license": "own",
+    "source": "tools/gen-wiki-art.py"
+  },
+  "wiki\\minimaps\\missions\\m35-burning-harbor.png": {
+    "license": "own",
+    "source": "tools/gen-wiki-art.py"
+  },
+  "wiki\\minimaps\\missions\\m36-heartland-march.png": {
+    "license": "own",
+    "source": "tools/gen-wiki-art.py"
+  },
+  "wiki\\minimaps\\missions\\m37-shattered-beacons.png": {
+    "license": "own",
+    "source": "tools/gen-wiki-art.py"
+  },
+  "wiki\\minimaps\\missions\\m38-besieged-wall.png": {
+    "license": "own",
+    "source": "tools/gen-wiki-art.py"
+  },
+  "wiki\\minimaps\\missions\\m39-flight-of-malrik.png": {
+    "license": "own",
+    "source": "tools/gen-wiki-art.py"
+  },
+  "wiki\\minimaps\\missions\\m40-twofold-assault.png": {
+    "license": "own",
+    "source": "tools/gen-wiki-art.py"
+  },
+  "wiki\\minimaps\\missions\\m41-gauntlet-of-iron.png": {
+    "license": "own",
+    "source": "tools/gen-wiki-art.py"
+  },
+  "wiki\\minimaps\\missions\\m42-outer-rampart.png": {
+    "license": "own",
+    "source": "tools/gen-wiki-art.py"
+  },
+  "wiki\\minimaps\\missions\\m43-three-roads-siege.png": {
+    "license": "own",
+    "source": "tools/gen-wiki-art.py"
+  },
+  "wiki\\minimaps\\missions\\m44-threshold-choice.png": {
+    "license": "own",
+    "source": "tools/gen-wiki-art.py"
+  },
+  "wiki\\minimaps\\missions\\m45-crown-of-order.png": {
+    "license": "own",
+    "source": "tools/gen-wiki-art.py"
+  },
+  "wiki\\minimaps\\missions\\m46-ember-reckoning.png": {
+    "license": "own",
+    "source": "tools/gen-wiki-art.py"
+  },
+  "wiki\\minimaps\\oasis.png": {
+    "license": "own",
+    "source": "tools/gen-wiki-art.py"
+  },
+  "wiki\\minimaps\\regions\\map1-craghorn-defile-alder-bridge.png": {
+    "license": "own",
+    "source": "tools/gen-wiki-art.py"
+  },
+  "wiki\\minimaps\\regions\\map1-fenwick-peat-lantern-passage.png": {
+    "license": "own",
+    "source": "tools/gen-wiki-art.py"
+  },
+  "wiki\\minimaps\\regions\\map1-greywood-canopy-vitrified-kilns.png": {
+    "license": "own",
+    "source": "tools/gen-wiki-art.py"
+  },
+  "wiki\\minimaps\\regions\\map1-ravenwatch-keep-weeping-ossuary.png": {
+    "license": "own",
+    "source": "tools/gen-wiki-art.py"
+  },
+  "wiki\\minimaps\\regions\\map1-sunken-ford-willow-weirs.png": {
+    "license": "own",
+    "source": "tools/gen-wiki-art.py"
+  },
+  "wiki\\minimaps\\regions\\map1-thornwick-market-city-hub.png": {
+    "license": "own",
+    "source": "tools/gen-wiki-art.py"
+  },
+  "wiki\\minimaps\\regions\\map1-undervault-links-ashbrook-gate.png": {
+    "license": "own",
+    "source": "tools/gen-wiki-art.py"
+  },
+  "wiki\\minimaps\\regions\\map2-deep-quarry-flooded-sluice.png": {
+    "license": "own",
+    "source": "tools/gen-wiki-art.py"
+  },
+  "wiki\\minimaps\\regions\\map2-fork-of-spears-ironheart-bastion.png": {
+    "license": "own",
+    "source": "tools/gen-wiki-art.py"
+  },
+  "wiki\\minimaps\\regions\\map2-ochre-ditch-corduroy-causeway.png": {
+    "license": "own",
+    "source": "tools/gen-wiki-art.py"
+  },
+  "wiki\\minimaps\\regions\\map2-quartz-plateau-wardstone-ring.png": {
+    "license": "own",
+    "source": "tools/gen-wiki-art.py"
+  },
+  "wiki\\minimaps\\regions\\map2-redmarsh-outpost-city-hub.png": {
+    "license": "own",
+    "source": "tools/gen-wiki-art.py"
+  },
+  "wiki\\minimaps\\regions\\map2-third-dynasty-salt-vaults.png": {
+    "license": "own",
+    "source": "tools/gen-wiki-art.py"
+  },
+  "wiki\\minimaps\\regions\\map2-twin-passes-bracken-basin.png": {
+    "license": "own",
+    "source": "tools/gen-wiki-art.py"
+  },
+  "wiki\\minimaps\\regions\\map3-burning-harborwatch-flagship.png": {
+    "license": "own",
+    "source": "tools/gen-wiki-art.py"
+  },
+  "wiki\\minimaps\\regions\\map3-cinder-wards-blighted-orchard.png": {
+    "license": "own",
+    "source": "tools/gen-wiki-art.py"
+  },
+  "wiki\\minimaps\\regions\\map3-greywash-canal-riverlock.png": {
+    "license": "own",
+    "source": "tools/gen-wiki-art.py"
+  },
+  "wiki\\minimaps\\regions\\map3-hourglass-spit-smuggler-caves.png": {
+    "license": "own",
+    "source": "tools/gen-wiki-art.py"
+  },
+  "wiki\\minimaps\\regions\\map3-oakhaven-harbor-city-hub.png": {
+    "license": "own",
+    "source": "tools/gen-wiki-art.py"
+  },
+  "wiki\\minimaps\\regions\\map3-starved-bastion-cliff-batteries.png": {
+    "license": "own",
+    "source": "tools/gen-wiki-art.py"
+  },
+  "wiki\\minimaps\\regions\\map3-sunken-citadel-drowned-choir.png": {
+    "license": "own",
+    "source": "tools/gen-wiki-art.py"
+  },
+  "wiki\\minimaps\\regions\\map4-basalt-highway-shattered-beacons.png": {
+    "license": "own",
+    "source": "tools/gen-wiki-art.py"
+  },
+  "wiki\\minimaps\\regions\\map4-besieged-wall-ashveil-summit.png": {
+    "license": "own",
+    "source": "tools/gen-wiki-art.py"
+  },
+  "wiki\\minimaps\\regions\\map4-colonnade-of-crowns-obsidian-dais.png": {
+    "license": "own",
+    "source": "tools/gen-wiki-art.py"
+  },
+  "wiki\\minimaps\\regions\\map4-gauntlet-of-iron-greystone-rampart.png": {
+    "license": "own",
+    "source": "tools/gen-wiki-art.py"
+  },
+  "wiki\\minimaps\\regions\\map4-ironcamp-forge-hold-city-hub.png": {
+    "license": "own",
+    "source": "tools/gen-wiki-art.py"
+  },
+  "wiki\\minimaps\\regions\\map4-magnetic-narrows-twofold-barbican.png": {
+    "license": "own",
+    "source": "tools/gen-wiki-art.py"
+  },
+  "wiki\\minimaps\\regions\\map4-three-roads-watch-headless-kings.png": {
+    "license": "own",
+    "source": "tools/gen-wiki-art.py"
+  },
+  "wiki\\minimaps\\volcanic.png": {
+    "license": "own",
+    "source": "tools/gen-wiki-art.py"
+  }
 }

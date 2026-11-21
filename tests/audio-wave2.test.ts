@@ -278,7 +278,7 @@ describe('Wave 2 Live Integration in src/audio.ts', () => {
 
     audio.setSkirmishMusic('volcanic');
     expect(audio.getAdaptiveDirector().getCurrentTrackId()).toBe('music_skirmish_volcanic');
-    vi.advanceTimersByTime(1400);
+    vi.advanceTimersByTime(1800);
 
     const kilnsEl = MediaMock.all.find((m) => m.src.includes('music_explore_act1_kilns.m4a'));
     expect(kilnsEl?.paused).toBe(true);
@@ -355,8 +355,8 @@ describe('Wave 2 Live Integration in src/audio.ts', () => {
 
     audio.setDialogueDucking(true);
     expect(audio.isMusicDucked()).toBe(true);
-    expect(audio.getMusicDuckMultiplier()).toBeCloseTo(0.35, 5);
-    expect(musicBus.gain.value).toBeCloseTo(0.32 * 0.8 * 0.35, 5);
+    expect(audio.getMusicDuckMultiplier()).toBeCloseTo(audio.DIALOGUE_SHOP_DUCK_GAIN, 4);
+    expect(musicBus.gain.value).toBeCloseTo(0.32 * 0.8 * audio.DIALOGUE_SHOP_DUCK_GAIN, 4);
 
     // Boss roar overrides dialogue duck with deeper 0.25 multiplier and triggers roar stinger
     audio.playBossRoar('ashkarath', 2000);
@@ -368,8 +368,8 @@ describe('Wave 2 Live Integration in src/audio.ts', () => {
     // After boss roar finishes, dialogue ducking remains active until dismissed
     vi.advanceTimersByTime(2100);
     expect(audio.isMusicDucked()).toBe(true);
-    expect(audio.getMusicDuckMultiplier()).toBeCloseTo(0.35, 5);
-    expect(musicBus.gain.value).toBeCloseTo(0.32 * 0.8 * 0.35, 5);
+    expect(audio.getMusicDuckMultiplier()).toBeCloseTo(audio.DIALOGUE_SHOP_DUCK_GAIN, 4);
+    expect(musicBus.gain.value).toBeCloseTo(0.32 * 0.8 * audio.DIALOGUE_SHOP_DUCK_GAIN, 4);
 
     audio.setDialogueDucking(false);
     expect(audio.isMusicDucked()).toBe(false);

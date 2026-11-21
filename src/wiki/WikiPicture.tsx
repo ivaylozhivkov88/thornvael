@@ -10,7 +10,8 @@ interface Props {
 }
 
 const SILHOUETTE_GLYPH: Record<WikiEntryType, string> = {
-  bestiary: 'M32 10c-9 0-15 7-15 15 0 6 3 10 6 13l-2 14h22l-2-14c3-3 6-7 6-13 0-8-6-15-15-15zm-6 14a3 3 0 110 6 3 3 0 010-6zm12 0a3 3 0 110 6 3 3 0 010-6z',
+  bestiary:
+    'M32 10c-9 0-15 7-15 15 0 6 3 10 6 13l-2 14h22l-2-14c3-3 6-7 6-13 0-8-6-15-15-15zm-6 14a3 3 0 110 6 3 3 0 010-6zm12 0a3 3 0 110 6 3 3 0 010-6z',
   item: 'M44 10L20 34l10 10L54 20 44 10zm-26 26l-8 8 10 10 8-8-10-10z',
   unique: 'M32 8l7 16 17 2-12 12 3 17-15-8-15 8 3-17-12-12 17-2 7-16z',
   set: 'M18 14h28l4 14-18 26L14 28l4-14zm6 6l-2 8 10 15 10-15-2-8H24z',
@@ -26,7 +27,8 @@ const SILHOUETTE_GLYPH: Record<WikiEntryType, string> = {
   biome: 'M10 46L24 22l10 12 10-16 10 28H10z',
   mission: 'M18 10v44h6V32l24-9-24-13h-6z',
   lore: 'M16 12h30a4 4 0 014 4v34a4 4 0 01-4 4H16a4 4 0 01-4-4V16a4 4 0 014-4zm6 12h20v4H22v-4zm0 10h20v4H22v-4z',
-  achievement: 'M20 12h24v12a12 12 0 01-24 0V12zm-8 4h8v8a8 8 0 01-8-8zm32 0h8a8 8 0 01-8 8v-8zM28 36h8v8h8v8H20v-8h8v-8z',
+  achievement:
+    'M20 12h24v12a12 12 0 01-24 0V12zm-8 4h8v8a8 8 0 01-8-8zm32 0h8a8 8 0 01-8 8v-8zM28 36h8v8h8v8H20v-8h8v-8z',
   tip: 'M32 10a14 14 0 00-7 26v6h14v-6a14 14 0 00-7-26zm-5 38h10v4H27v-4z',
   glossary: 'M14 14h16a6 6 0 016 6v30a4 4 0 00-4-4H14V14zm36 0H34a6 6 0 00-6 6v30a4 4 0 014-4h18V14z',
 };
@@ -74,7 +76,7 @@ export function WikiPicture({ img, type, alt, size = 160, className = '' }: Prop
     );
   }
 
-  const isItemIcon = img.src.startsWith('itemicons/');
+  const isItemIcon = img.src.startsWith('itemicons/') || img.src.startsWith('wiki/icons/');
   const hiResIcon = isItemIcon && size >= 96;
 
   return (

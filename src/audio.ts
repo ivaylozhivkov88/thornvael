@@ -113,6 +113,9 @@ let crossfadeTimer: ReturnType<typeof setTimeout> | null = null;
 let stopMusicTimer: ReturnType<typeof setTimeout> | null = null;
 let roarDuckTimer: ReturnType<typeof setTimeout> | null = null;
 let dialogueDuckTimer: ReturnType<typeof setTimeout> | null = null;
+let shopDuckTimer: ReturnType<typeof setTimeout> | null = null;
+let lastCombatEventMs = -1e9;
+let activeNearbyEnemyCount = 0;
 
 function createLiveTrackHandle(url: string, loop: boolean): LiveTrackHandle {
   const el = new Audio(url);
@@ -190,8 +193,30 @@ function createLiveTrackHandle(url: string, loop: boolean): LiveTrackHandle {
   return handle;
 }
 
+/** Dynamic combat crossfade transition duration in milliseconds (1.5 - 2.0s). */
+export const COMBAT_CROSSFADE_DURATION_MS = 1600;
+
+/** Cooldown hysteresis in milliseconds before fading from battle back to exploration (4+ seconds). */
+export const COMBAT_HYSTERESIS_MS = 4000;
+
+/** Dialog and town shop ducking in decibels (-4 dB) to ensure clarity. */
+export const DIALOGUE_SHOP_DUCK_DB = -4;
+
+/** Linear gain multiplier corresponding to -4 dB: 10^(-4/20) ≈ 0.630957. */
+export const DIALOGUE_SHOP_DUCK_GAIN = Math.pow(10, DIALOGUE_SHOP_DUCK_DB / 20);
+
+/** Boss roar ducking multiplier: 0.25 (-12 dB) for dramatic impact. */
+export const BOSS_ROAR_DUCK_GAIN = 0.25;
+
 const director = new AdaptiveAudioDirector(
-  { baseUrl: base(), initialAct: 0 },
+  {
+    baseUrl: base(),
+    initialAct: 0,
+    fadeDurationMs: COMBAT_CROSSFADE_DURATION_MS,
+    hysteresisMs: COMBAT_HYSTERESIS_MS,
+    dialogueDuckGain: DIALOGUE_SHOP_DUCK_GAIN,
+    roarDuckGain: BOSS_ROAR_DUCK_GAIN,
+  },
   createLiveTrackHandle,
 );
 director.setBusVolume('music', musicVol);
@@ -598,9 +623,17 @@ export function play(name: string, priority = 1, at?: SpatialPoint): void {
   playDecodedBuffer(name, b, priority, at);
 }
 
-/** Play once when the first gesture has unlocked audio and decoded the shop cue. */
-export function playShopEntry(): void {
+/** Play once when the first gesture has unlocked audio and decoded the shop cue. Slightly ducks music (-4dB) for shop clarity. */
+export function playShopEntry(duckMs = 3500): void {
   cancelShopEntry();
+  if (duckMs > 0) {
+    setShopDucking(true);
+    if (shopDuckTimer !== null) clearTimeout(shopDuckTimer);
+    shopDuckTimer = setTimeout(() => {
+      shopDuckTimer = null;
+      setShopDucking(false);
+    }, duckMs);
+  }
   const context = ctx;
   if (!context || !sfxOn || backgrounded) return;
   if (!suspending && context.state === 'running' && buffers.has(SHOP_ENTRY_CUE)) {
@@ -622,6 +655,11 @@ export function playShopEntry(): void {
 
 export function cancelShopEntry(): void {
   pendingShopEntry = null;
+  if (shopDuckTimer !== null) {
+    clearTimeout(shopDuckTimer);
+    shopDuckTimer = null;
+    setShopDucking(false);
+  }
 }
 
 /** The UI click. */
@@ -1441,14 +1479,63 @@ export function setMainMenuMusic(): void {
   scheduleCrossfadeTick();
 }
 
-/** Trigger boss phase streaming music and optional boss roar stinger with automatic music ducking. */
+/** Synthesizes a brief dramatic dark-fantasy cinematic impact boom for boss encounters. */
+export function playBossDramaticImpact(): void {
+  unlock();
+  const bus = musicBus ?? sfxBus;
+  if (!ctx || !bus || backgrounded || ctx.state !== 'running') return;
+  try {
+    const now = ctx.currentTime;
+    const subOsc = ctx.createOscillator();
+    const subGain = ctx.createGain();
+    subOsc.type = 'sine';
+    subOsc.frequency.setValueAtTime(110, now);
+    subOsc.frequency.exponentialRampToValueAtTime(32, now + 0.8);
+    subGain.gain.setValueAtTime(0.55 * masterVol, now);
+    subGain.gain.exponentialRampToValueAtTime(0.001, now + 1.2);
+    subOsc.connect(subGain);
+    subGain.connect(bus);
+    subOsc.start(now);
+    subOsc.stop(now + 1.2);
+
+    const brassOsc = ctx.createOscillator();
+    const brassFilter = ctx.createBiquadFilter();
+    const brassGain = ctx.createGain();
+    brassOsc.type = 'sawtooth';
+    brassOsc.frequency.setValueAtTime(55, now);
+    brassFilter.type = 'lowpass';
+    brassFilter.frequency.setValueAtTime(380, now);
+    brassFilter.frequency.exponentialRampToValueAtTime(120, now + 0.9);
+    brassGain.gain.setValueAtTime(0.38 * masterVol, now);
+    brassGain.gain.exponentialRampToValueAtTime(0.001, now + 1.0);
+    brassOsc.connect(brassFilter);
+    brassFilter.connect(brassGain);
+    brassGain.connect(bus);
+    brassOsc.start(now);
+    brassOsc.stop(now + 1.0);
+  } catch {
+    // silent fallback
+  }
+}
+
+/** Trigger boss phase streaming music and brief dramatic transition with automatic music ducking. */
 export function playBossMusic(bossId: string, phase: 1 | 2 = 1, roarDurationMs = 2200): void {
   unlock();
   musicWanted = true;
   musicMode = 'battle';
+  lastCombatEventMs = Date.now();
+  playBossDramaticImpact();
   const roarId = getBossRoarSfx(bossId) ?? undefined;
   if (roarId) {
     playBossRoar(bossId, roarDurationMs);
+  } else {
+    // Duck music during brief dramatic entrance even without pre-rendered roar file
+    setMusicDucking('boss_roar', true);
+    if (roarDuckTimer !== null) clearTimeout(roarDuckTimer);
+    roarDuckTimer = setTimeout(() => {
+      roarDuckTimer = null;
+      setMusicDucking('boss_roar', false);
+    }, roarDurationMs);
   }
   if (!ctx) return;
   clearStopMusicTimer();
@@ -1473,10 +1560,55 @@ export function playEndingMusic(ending: 'crown' | 'ember' | 'a' | 'b'): void {
   scheduleCrossfadeTick();
 }
 
-/** Advance adaptive explore <-> battle crossfade with 6s hysteresis. */
-export function updateAdaptiveCombat(enemyInView: boolean, nowMs = Date.now()): MusicContextMode {
+export type CombatEventType = 'aggro' | 'damage_taken' | 'damage_dealt' | 'enemy_spotted';
+
+export interface CombatStateUpdate {
+  enemyInView?: boolean;
+  enemiesAggro?: boolean;
+  heroDamaged?: boolean;
+  heroDealtDamage?: boolean;
+  nearbyEnemies?: number;
+}
+
+/**
+ * Triggers or updates adaptive combat music crossfade.
+ * When combat starts (enemies aggro / hero takes or deals damage), smoothly crossfades (1.5 - 2s) to combat music (music_battle_*).
+ * When all nearby enemies are defeated or combat ends for 4+ seconds, smoothly fades back to exploration music.
+ */
+export function updateAdaptiveCombat(
+  stateOrEnemyInView: boolean | number | CombatStateUpdate,
+  nowMs = Date.now(),
+): MusicContextMode {
+  let inCombat = false;
+  if (typeof stateOrEnemyInView === 'boolean') {
+    inCombat = stateOrEnemyInView;
+    if (inCombat) {
+      lastCombatEventMs = nowMs;
+    }
+  } else if (typeof stateOrEnemyInView === 'number') {
+    activeNearbyEnemyCount = Math.max(0, stateOrEnemyInView);
+    inCombat = activeNearbyEnemyCount > 0;
+    if (inCombat) {
+      lastCombatEventMs = nowMs;
+    }
+  } else if (stateOrEnemyInView && typeof stateOrEnemyInView === 'object') {
+    if (typeof stateOrEnemyInView.nearbyEnemies === 'number') {
+      activeNearbyEnemyCount = Math.max(0, stateOrEnemyInView.nearbyEnemies);
+    }
+    inCombat = Boolean(
+      stateOrEnemyInView.enemyInView ||
+      stateOrEnemyInView.enemiesAggro ||
+      stateOrEnemyInView.heroDamaged ||
+      stateOrEnemyInView.heroDealtDamage ||
+      activeNearbyEnemyCount > 0,
+    );
+    if (inCombat) {
+      lastCombatEventMs = nowMs;
+    }
+  }
+
   const prevTrack = director.getCurrentTrackId();
-  const mode = director.updateCombat(enemyInView, nowMs);
+  const mode = director.updateCombat(inCombat, nowMs);
   if (mode === 'battle') musicMode = 'battle';
   else if (mode === 'explore' || mode === 'skirmish') musicMode = 'explore';
   if (director.getCurrentTrackId() !== prevTrack) {
@@ -1484,6 +1616,23 @@ export function updateAdaptiveCombat(enemyInView: boolean, nowMs = Date.now()): 
     scheduleCrossfadeTick();
   }
   return mode;
+}
+
+/** Explicit combat event notifier (e.g. enemy aggro, hero deals or takes damage). */
+export function notifyCombatEvent(event: CombatEventType, nowMs = Date.now()): MusicContextMode {
+  lastCombatEventMs = nowMs;
+  return updateAdaptiveCombat(true, nowMs);
+}
+
+/** Updates nearby enemy count; when 0, starts the 4+ second hysteresis countdown. */
+export function notifyNearbyEnemies(count: number, nowMs = Date.now()): MusicContextMode {
+  activeNearbyEnemyCount = Math.max(0, count);
+  return updateAdaptiveCombat(activeNearbyEnemyCount > 0, nowMs);
+}
+
+/** Returns whether the player is currently considered in combat. */
+export function isCombatActive(nowMs = Date.now()): boolean {
+  return director.getMode() === 'battle' || (nowMs - lastCombatEventMs < COMBAT_HYSTERESIS_MS);
 }
 
 export function suspendAudio(): void {
@@ -1617,6 +1766,19 @@ export function setMusicDucking(reason: DuckReason, active: boolean): void {
 }
 
 export function setDialogueDucking(active: boolean): void {
+  if (dialogueDuckTimer !== null && !active) {
+    clearTimeout(dialogueDuckTimer);
+    dialogueDuckTimer = null;
+  }
+  setMusicDucking('dialogue', active);
+}
+
+/** Slightly ducks background music (-4dB) when town shops are open. */
+export function setShopDucking(active: boolean): void {
+  if (shopDuckTimer !== null && !active) {
+    clearTimeout(shopDuckTimer);
+    shopDuckTimer = null;
+  }
   setMusicDucking('dialogue', active);
 }
 
@@ -1721,13 +1883,15 @@ export function playMercBark(archetype: string, at?: SpatialPoint): void {
   play(getMercBarkSfx(archetype), 4, at);
 }
 
-/** Plays a per-family monster hurt voice cue with spatial pan and distance falloff. */
+/** Plays a per-family monster hurt voice cue with spatial pan and starts adaptive combat transition. */
 export function playMonsterHitVoice(family: string, at?: SpatialPoint): void {
+  notifyCombatEvent('damage_dealt');
   play(getMonsterHitSfx(family), 2, at);
 }
 
-/** Plays a per-family monster aggro roar cue. */
+/** Plays a per-family monster aggro roar cue and starts adaptive combat transition. */
 export function playMonsterAggroVoice(family: string, at?: SpatialPoint): void {
+  notifyCombatEvent('aggro');
   play(getMonsterAggroSfx(family), 3, at);
 }
 

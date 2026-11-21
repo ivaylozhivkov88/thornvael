@@ -260,3 +260,25 @@ Also: `ci.yml` `cancel-in-progress: true` kills the slow WebKit job on every new
   - `npm run build`: **PASS (Vite + PWA SW 638 entries precached)**
 - **Remaining**: 112 unique items remaining for future batches (112/132 currently use base icons; 20/132 now have dedicated custom art).
 
+## Adaptive Audio & Music Director — Dynamic Combat & Crossfade (2026-11-21)
+- [x] **Dynamic Combat <-> Exploration Crossfade (`src/audio.ts`)**:
+  - Configured `COMBAT_CROSSFADE_DURATION_MS = 1600` (1.6s, within the 1.5 - 2s specification) for smooth gain transitions between ambient/exploration and combat music (`music_battle_*`).
+  - Implemented 4+ seconds hysteresis (`COMBAT_HYSTERESIS_MS = 4000`) before fading back to exploration music when all nearby enemies are defeated or combat ends.
+  - Enhanced `updateAdaptiveCombat(stateOrEnemyInView, nowMs)` supporting booleans, nearby enemy count, and `CombatStateUpdate` (`{ enemyInView, enemiesAggro, heroDamaged, heroDealtDamage, nearbyEnemies }`).
+  - Added `notifyCombatEvent('aggro' | 'damage_taken' | 'damage_dealt')`, `notifyNearbyEnemies(count)`, and `isCombatActive(nowMs)`.
+  - Wired combat transition triggers into `playMonsterAggroVoice(family)` and `playMonsterHitVoice(family)`.
+- [x] **Boss Encounter Dramatic Transition**:
+  - Implemented `playBossDramaticImpact()` with procedural sub-bass impact boom and dark brass drone for cinematic boss entrances.
+  - Enhanced `playBossMusic(bossId, phase, roarDurationMs)`: immediate ducking of outgoing music to 0.25 (-12 dB) for dramatic tension, boss dramatic impact cue, boss roar stinger, and smooth transition into boss theme.
+- [x] **Dialogue & Town Shop Music Ducking (-4dB)**:
+  - Configured `DIALOGUE_SHOP_DUCK_DB = -4` and `DIALOGUE_SHOP_DUCK_GAIN = 10^(-4/20) ≈ 0.630957` (-4 dB).
+  - Added `setShopDucking(active: boolean)` and enhanced `playShopEntry(duckMs)` to slightly duck background music (-4dB) when opening town shops.
+  - Enhanced `setDialogueDucking(active: boolean)` with automatic timer cleanup.
+- [x] **Companion Tests & Quality Gates**:
+  - Added dedicated test suite `tests/audio-combat-crossfade.test.ts` (6 tests covering crossfade duration, aggro/damage triggers, 4s hysteresis, boss transition, and dialog/shop -4dB ducking).
+  - Updated companion tests `tests/audio-wave2.test.ts` and `tests/audio-balance.test.ts` for the 1.6s crossfade window and -4dB duck multiplier.
+  - All audio tests passing: `6` test files, `51/51` tests PASS (`tests/audio*.test.ts`).
+  - `npx tsc --noEmit`: PASS (0 errors).
+  - `node tools/check-repo.mjs`: PASS (1960 files).
+
+

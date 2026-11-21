@@ -3,7 +3,9 @@ import { cleanupOutdatedCaches, createHandlerBoundToURL, precacheAndRoute } from
 import { NavigationRoute, registerRoute } from 'workbox-routing';
 import { CacheFirst } from 'workbox-strategies';
 
-declare const self: ServiceWorkerGlobalScope & { __WB_MANIFEST: Array<string | { url: string; revision: string | null }> };
+declare const self: ServiceWorkerGlobalScope & {
+  __WB_MANIFEST: Array<string | { url: string; revision: string | null }>;
+};
 
 // Safe update: a new worker waits until the page asks for it (SKIP_WAITING from the menu or map banner).
 // There is deliberately no automatic skipWaiting, so an update can never swap code under a running mission.
@@ -17,12 +19,23 @@ precacheAndRoute(self.__WB_MANIFEST);
 cleanupOutdatedCaches();
 
 // The editor and wiki are their own pages, so offline navigation to them must not fall back to the game.
-registerRoute(new NavigationRoute(createHandlerBoundToURL('index.html'), { denylist: [/editor\.html$/, /wiki\.html$/] }));
-
-// Cache visited portraits, townart, and loadscreens lazily without bloating the initial precache.
 registerRoute(
-  ({ url }) => /\.(?:jpg|jpeg|webp)$/i.test(url.pathname) || (url.pathname.includes('/townart/') && /\.png$/i.test(url.pathname)),
-  new CacheFirst({ cacheName: 'thornvael-media-v1' }),
+  new NavigationRoute(createHandlerBoundToURL('index.html'), { denylist: [/editor\.html$/, /wiki\.html$/] }),
+);
+
+// Cache visited portraits, townart, wiki illustrations/minimaps, and loadscreens lazily without bloating the initial precache.
+registerRoute(
+  ({ url }) =>
+    /\.(?:jpg|jpeg|webp)$/i.test(url.pathname) ||
+    ((url.pathname.includes('/townart/') || url.pathname.includes('/wiki/')) && /\.png$/i.test(url.pathname)),
+  new CacheFirst({
+    cacheName: 'thornvael-media-v1',
+    plugins: [
+      {
+        handlerDidError: async () => new Response(null, { status: 503, statusText: 'Offline' }),
+      },
+    ],
+  }),
 );
 
 // Unit sprite atlases are loaded on demand per mission and cached lazily instead of upfront precache.

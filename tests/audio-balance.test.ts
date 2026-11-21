@@ -227,8 +227,8 @@ describe('Soundtrack Looping & Crossfading', () => {
     expect(battleMedia).toBeDefined();
     expect(battleMedia?.loop).toBe(true);
 
-    // Advance time past the crossfade window (1.4s + 50ms)
-    vi.advanceTimersByTime(1500);
+    // Advance time past the crossfade window (1.6s + 200ms)
+    vi.advanceTimersByTime(1800);
 
     // The old explore track must be paused
     expect(exploreMedia?.paused).toBe(true);
@@ -240,7 +240,7 @@ describe('Soundtrack Looping & Crossfading', () => {
     expect(townMedia).toBeDefined();
     expect(townMedia?.loop).toBe(true);
 
-    vi.advanceTimersByTime(1500);
+    vi.advanceTimersByTime(1800);
     expect(battleMedia?.paused).toBe(true);
 
     // Turning off music fades out and pauses all tracks

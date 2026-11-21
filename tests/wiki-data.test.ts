@@ -1,8 +1,8 @@
 import { existsSync, readFileSync } from 'node:fs';
 import { join } from 'node:path';
 import { describe, expect, it } from 'vitest';
-import { buildWikiData, renderMissing, serialise } from '../tools/build-wiki-data.mjs';
 import type { WikiEntry, WikiIndex } from '../src/wiki/types';
+import { buildWikiData, renderMissing, serialise } from '../tools/build-wiki-data.mjs';
 
 const ROOT = join(import.meta.dirname, '..');
 const BANNED = [
@@ -67,20 +67,57 @@ describe('wiki data pipeline', () => {
     expect((out as Record<string, WikiEntry[]>).uniques.length).toBeGreaterThanOrEqual(132);
   });
 
-  it('resolves art for all 132+ unique items and all bestiary entries on disk', () => {
-    const uniques = (out as Record<string, WikiEntry[]>).uniques;
-    for (const u of uniques) {
-      expect(u.img, `unique ${u.id} missing icon`).toBeTruthy();
-      expect(existsSync(join(ROOT, 'public', u.img!.src)), `missing file ${u.img!.src} for ${u.id}`).toBe(true);
-    }
-    const bestiary = (out as Record<string, WikiEntry[]>).bestiary;
-    for (const b of bestiary) {
-      expect(b.img, `bestiary ${b.id} missing image`).toBeTruthy();
-      expect(existsSync(join(ROOT, 'public', b.img!.src)), `missing file ${b.img!.src} for ${b.id}`).toBe(true);
-      if (b.sprite) {
-        expect(existsSync(join(ROOT, 'public', b.sprite.src)), `missing sprite ${b.sprite.src} for ${b.id}`).toBe(true);
+  it('resolves art for 100% of all 2,190 entries across all 19 categories and contains zero placeholder text', () => {
+    const idx = out.index as WikiIndex;
+    expect(idx.cats).toHaveLength(19);
+    expect(idx.entries.length).toBeGreaterThanOrEqual(2190);
+    expect(missing, `expected 0 missing images, found ${missing.length}`).toHaveLength(0);
+
+    for (const cat of idx.cats) {
+      const list = (out as Record<string, WikiEntry[]>)[cat] ?? [];
+      for (const entry of list) {
+        expect(entry.img, `${cat}/${entry.id} missing img`).toBeTruthy();
+        expect(
+          existsSync(join(ROOT, 'public', entry.img!.src)),
+          `missing file ${entry.img!.src} for ${cat}/${entry.id}`,
+        ).toBe(true);
+        if (entry.sprite) {
+          expect(
+            existsSync(join(ROOT, 'public', entry.sprite.src)),
+            `missing sprite ${entry.sprite.src} for ${cat}/${entry.id}`,
+          ).toBe(true);
+        }
+        const blob = JSON.stringify({
+          title: entry.title,
+          summary: entry.summary,
+          infobox: entry.infobox,
+          sections: entry.sections,
+        });
+        expect(blob, `${cat}/${entry.id} contains "No lore yet."`).not.toContain('No lore yet.');
+        expect(blob, `${cat}/${entry.id} contains "No art yet"`).not.toContain('No art yet');
+        expect(blob, `${cat}/${entry.id} contains banned placeholder token`).not.toMatch(
+          /\b(todo|lorem|placeholder)\b/i,
+        );
       }
     }
+
+    for (const cat of ['bestiary', 'items', 'affixes', 'regions']) {
+      const list = (out as Record<string, WikiEntry[]>)[cat] ?? [];
+      const seenDesc = new Map<string, string>();
+      for (const entry of list) {
+        const descSec =
+          entry.sections.find((s) => ['Description', 'Lore', 'Enter line', 'Survey notes'].includes(s.h)) ??
+          entry.sections[0];
+        const txt = [...(descSec?.p ?? []), ...(descSec?.list ?? [])].join(' ').trim();
+        expect(txt.length, `${cat}/${entry.id} description too short (${txt.length} chars)`).toBeGreaterThanOrEqual(40);
+        expect(seenDesc.has(txt), `${cat}/${entry.id} duplicates description of ${seenDesc.get(txt)}`).toBe(false);
+        seenDesc.set(txt, entry.id);
+      }
+    }
+
+    const classes = (out as Record<string, WikiEntry[]>).classes;
+    const necro = classes.find((c) => c.id === 'necromancer');
+    expect(necro?.img?.src).toBe('townart/portrait-necromancer.png');
   });
 
   it('contains zero banned reference names in generated files', () => {
