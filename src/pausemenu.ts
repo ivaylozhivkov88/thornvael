@@ -1,3 +1,4 @@
+import { achCount, achList } from './achievements';
 import {
   getAmbienceVolume,
   getMasterVolume,
@@ -12,10 +13,10 @@ import {
   setSfxVolume,
   setUiVolume,
 } from './audio';
-import { achCount, achList } from './achievements';
 import { getSpellFlavorLine } from './data/text/index';
-import { SPELLS, Tk, St, type SpellDef } from './sim/spelldata';
-import { keybindManager, DEFAULT_KEYBINDS } from './keybinds';
+import { DEFAULT_KEYBINDS, keybindManager } from './keybinds';
+import { type AutoCastMode, type AutoFightMode, readPreferences, writePreference } from './preferences';
+import { SPELLS, type SpellDef, St, Tk } from './sim/spelldata';
 import { MobileControlsHelp } from './ui-extra/mobile-controls-help';
 import { applyUxSettings, loadUxSettings, saveUxSettings, type TextScalePreset } from './ui-extra/settings-panel';
 
@@ -190,7 +191,8 @@ export class PauseMenu {
 
     const divider = document.createElement('div');
     divider.className = 'gothic-divider';
-    divider.innerHTML = '<span class="filigree-line"></span><span class="filigree-glyph">❖</span><span class="filigree-line"></span>';
+    divider.innerHTML =
+      '<span class="filigree-line"></span><span class="filigree-glyph">❖</span><span class="filigree-line"></span>';
 
     titleBox.append(h2, divider);
 
@@ -335,7 +337,8 @@ export class PauseMenu {
 
     const intro = document.createElement('p');
     intro.className = 'pause-intro-note';
-    intro.textContent = 'Command your hero and mercenaries seamlessly with mouse, touch gestures, keyboard hotkeys, and Gamepad / PS5 DualSense controllers.';
+    intro.textContent =
+      'Command your hero and mercenaries seamlessly with mouse, touch gestures, keyboard hotkeys, and Gamepad / PS5 DualSense controllers.';
     body.append(intro);
 
     const touchBar = document.createElement('div');
@@ -357,64 +360,180 @@ export class PauseMenu {
         category: 'Hero Movement & Targeting',
         icon: '🧭',
         keys: [
-          { key: 'WASD / RMB', label: 'Move Hero', detail: 'Walk hero towards destination. Right-Click gives instant move-to.' },
-          { key: 'LMB', label: 'Attack / Interact / Loot', detail: 'Strike targeted foe, talk to townsfolk, or pick up ground items.' },
-          { key: 'Space', label: 'Recenter Camera', detail: 'Instantly refocus the viewport camera directly onto your hero.' },
+          {
+            key: 'WASD / RMB',
+            label: 'Move Hero',
+            detail: 'Walk hero towards destination. Right-Click gives instant move-to.',
+          },
+          {
+            key: 'LMB',
+            label: 'Attack / Interact / Loot',
+            detail: 'Strike targeted foe, talk to townsfolk, or pick up ground items.',
+          },
+          {
+            key: 'Space',
+            label: 'Recenter Camera',
+            detail: 'Instantly refocus the viewport camera directly onto your hero.',
+          },
         ],
       },
       {
         category: 'Gamepad & DualSense Controller Layout',
         icon: '🎮',
         keys: [
-          { key: 'Left Stick', label: '360° Hero Movement', detail: 'Direct analog real-time movement for your hero and company.' },
-          { key: 'Right Stick', label: 'Camera Pan / Aiming', detail: 'Smooth analog camera panning and directional aim.' },
-          { key: '✕', label: 'Primary Action / Attack / Move', detail: 'Slot 0: Strike nearest enemy, interact, or advance forward.' },
+          {
+            key: 'Left Stick',
+            label: '360° Hero Movement',
+            detail: 'Direct analog real-time movement for your hero and company.',
+          },
+          {
+            key: 'Right Stick',
+            label: 'Camera Pan / Aiming',
+            detail: 'Smooth analog camera panning and directional aim.',
+          },
+          {
+            key: '✕',
+            label: 'Primary Action / Attack / Move',
+            detail: 'Slot 0: Strike nearest enemy, interact, or advance forward.',
+          },
           { key: '▢', label: 'Action Bar Skill 1', detail: 'Slot 1: Quick cast assigned primary skill/spell.' },
           { key: '△', label: 'Action Bar Skill 2', detail: 'Slot 2: Quick cast assigned secondary offensive spell.' },
           { key: '◯', label: 'Action Bar Skill 3', detail: 'Slot 3: Quick cast defensive or healing ability.' },
           { key: 'R1', label: 'Action Bar Skill 4', detail: 'Slot 4: Quick cast special grimoire spell.' },
           { key: 'R2', label: 'Action Bar Skill 5', detail: 'Slot 5: Quick cast ultimate or area-of-effect spell.' },
-          { key: 'L2 (Hold)', label: 'Secondary Skill Bar (Modifier)', detail: 'Hold L2 to switch to secondary 6 slots: L2+✕, L2+▢, L2+△, L2+◯, L2+R1, L2+R2.' },
-          { key: 'D-Pad Up', label: 'Potion 1 (Health)', detail: 'Quaff Belt Potion 1 (Healing Draught) for immediate HP restoration.' },
-          { key: 'D-Pad Right', label: 'Potion 2 (Mana)', detail: 'Quaff Belt Potion 2 (Mana Draught) to replenish mana reserves.' },
-          { key: 'D-Pad Down', label: 'Potion 3 (Rejuvenation)', detail: 'Quaff Belt Potion 3 (Greater Healing / Rejuvenation / Buffs).' },
-          { key: 'D-Pad Left', label: 'Potion 4 (Utility / Portal)', detail: 'Use Belt Potion 4 (Elixirs / Utility Draughts).' },
-          { key: 'R3', label: 'Highlight Ground Loot', detail: 'Right stick click: Toggle ground item pillars with rarity color beams.' },
-          { key: 'Touchpad', label: 'Inventory / Hero Sheet', detail: 'DualSense touchpad click: Toggle character equipment and backpack.' },
-          { key: 'Options', label: 'Game Menu (Save & Exit)', detail: 'Pause simulation cleanly and access Gothic game options.' },
-          { key: 'Share / Select', label: 'Quest Journal', detail: 'View current chapter objectives, subquests, and campaign progress.' },
-          { key: 'L1', label: 'Select Hero / Rebind Skills', detail: 'Center viewport on hero or access controller skill assignment.' },
+          {
+            key: 'L2 (Hold)',
+            label: 'Secondary Skill Bar (Modifier)',
+            detail: 'Hold L2 to switch to secondary 6 slots: L2+✕, L2+▢, L2+△, L2+◯, L2+R1, L2+R2.',
+          },
+          {
+            key: 'D-Pad Up',
+            label: 'Potion 1 (Health)',
+            detail: 'Quaff Belt Potion 1 (Healing Draught) for immediate HP restoration.',
+          },
+          {
+            key: 'D-Pad Right',
+            label: 'Potion 2 (Mana)',
+            detail: 'Quaff Belt Potion 2 (Mana Draught) to replenish mana reserves.',
+          },
+          {
+            key: 'D-Pad Down',
+            label: 'Potion 3 (Rejuvenation)',
+            detail: 'Quaff Belt Potion 3 (Greater Healing / Rejuvenation / Buffs).',
+          },
+          {
+            key: 'D-Pad Left',
+            label: 'Potion 4 (Utility / Portal)',
+            detail: 'Use Belt Potion 4 (Elixirs / Utility Draughts).',
+          },
+          {
+            key: 'R3',
+            label: 'Highlight Ground Loot',
+            detail: 'Right stick click: Toggle ground item pillars with rarity color beams.',
+          },
+          {
+            key: 'Touchpad',
+            label: 'Inventory / Hero Sheet',
+            detail: 'DualSense touchpad click: Toggle character equipment and backpack.',
+          },
+          {
+            key: 'Options',
+            label: 'Game Menu (Save & Exit)',
+            detail: 'Pause simulation cleanly and access Gothic game options.',
+          },
+          {
+            key: 'Share / Select',
+            label: 'Quest Journal',
+            detail: 'View current chapter objectives, subquests, and campaign progress.',
+          },
+          {
+            key: 'L1',
+            label: 'Select Hero / Rebind Skills',
+            detail: 'Center viewport on hero or access controller skill assignment.',
+          },
         ],
       },
       {
         category: 'Belt & Survival',
         icon: '🧪',
         keys: [
-          { key: '1, 2, 3, 4', label: 'Drink Belt Potions', detail: 'Quaff potions: 1 = Healing Draught, 2 = Mana Draught, 3 = Rejuvenation, 4 = Elixirs.' },
-          { key: 'ALT (Hold)', label: 'Highlight Ground Loot', detail: 'Reveal and highlight all dropped loot pillars on ground with rarity glow colors.' },
+          {
+            key: '1, 2, 3, 4',
+            label: 'Drink Belt Potions',
+            detail: 'Quaff potions: 1 = Healing Draught, 2 = Mana Draught, 3 = Rejuvenation, 4 = Elixirs.',
+          },
+          {
+            key: 'ALT (Hold)',
+            label: 'Highlight Ground Loot',
+            detail: 'Reveal and highlight all dropped loot pillars on ground with rarity glow colors.',
+          },
         ],
       },
       {
         category: 'Panels & Codex Screens',
         icon: '📜',
         keys: [
-          { key: 'Q', label: 'Quest Journal / Objectives', detail: 'Toggle HUD quest tracker banner [Q/O] or open full Quest Journal.' },
-          { key: 'M', label: 'Toggle Minimap Size', detail: 'Toggle minimap between compact tactical view and large strategic overview.' },
-          { key: 'Tab', label: 'Vector Automap Overlay', detail: 'Toggle semi-transparent full-screen tactical vector automap.' },
-          { key: 'I', label: 'Inventory & Equipment', detail: 'Open Hero pack, equipment slots, gear inspect, and Hall of Relics Codex.' },
-          { key: 'S', label: 'Spellbook & Spheres', detail: 'Open your learned Grimoire to view and cast spells or assign them to quick slots.' },
-          { key: 'C', label: 'Character Stats', detail: 'Toggle detailed attributes (Body, Agility, Mind, Spirit) and combat ratings.' },
-          { key: 'ESC', label: 'Pause / Game Menu', detail: 'Pause the game simulation cleanly and open this Gothic Codex menu.' },
+          {
+            key: 'Q',
+            label: 'Quest Journal / Objectives',
+            detail: 'Toggle HUD quest tracker banner [Q/O] or open full Quest Journal.',
+          },
+          {
+            key: 'M',
+            label: 'Toggle Minimap Size',
+            detail: 'Toggle minimap between compact tactical view and large strategic overview.',
+          },
+          {
+            key: 'Tab',
+            label: 'Vector Automap Overlay',
+            detail: 'Toggle semi-transparent full-screen tactical vector automap.',
+          },
+          {
+            key: 'I',
+            label: 'Inventory & Equipment',
+            detail: 'Open Hero pack, equipment slots, gear inspect, and Hall of Relics Codex.',
+          },
+          {
+            key: 'S',
+            label: 'Spellbook & Spheres',
+            detail: 'Open your learned Grimoire to view and cast spells or assign them to quick slots.',
+          },
+          {
+            key: 'C',
+            label: 'Character Stats',
+            detail: 'Toggle detailed attributes (Body, Agility, Mind, Spirit) and combat ratings.',
+          },
+          {
+            key: 'ESC',
+            label: 'Pause / Game Menu',
+            detail: 'Pause the game simulation cleanly and open this Gothic Codex menu.',
+          },
         ],
       },
       {
         category: 'Combat & Spells Quickbar',
         icon: '⚡',
         keys: [
-          { key: 'F4 - F12', label: 'Quickbar Slots 1-9', detail: 'Cast assigned spells or use quickbar scrolls & potions directly.' },
-          { key: 'Ctrl + A', label: 'Toggle Autocast', detail: 'Set current armed spell to automatically cast on enemies in range.' },
-          { key: '1 - 9 (Ctrl/Alt)', label: 'Squad Groups', detail: 'Ctrl+Num saves selection to group; Shift+Num adds; Num recalls group.' },
-          { key: 'F3', label: 'Diagnostic Overlay', detail: 'Toggle technical frame timings, unit counts, coordinates and state hash.' },
+          {
+            key: 'F4 - F12',
+            label: 'Quickbar Slots 1-9',
+            detail: 'Cast assigned spells or use quickbar scrolls & potions directly.',
+          },
+          {
+            key: 'Ctrl + A',
+            label: 'Toggle Autocast',
+            detail: 'Set current armed spell to automatically cast on enemies in range.',
+          },
+          {
+            key: '1 - 9 (Ctrl/Alt)',
+            label: 'Squad Groups',
+            detail: 'Ctrl+Num saves selection to group; Shift+Num adds; Num recalls group.',
+          },
+          {
+            key: 'F3',
+            label: 'Diagnostic Overlay',
+            detail: 'Toggle technical frame timings, unit counts, coordinates and state hash.',
+          },
         ],
       },
     ];
@@ -594,7 +713,8 @@ export class PauseMenu {
       {
         icon: '🌌',
         title: 'The Five Spheres of Magic',
-        text: 'All arcane forces in Thornvael flow from five primordial spheres:\n' +
+        text:
+          'All arcane forces in Thornvael flow from five primordial spheres:\n' +
           '• 🔥 Fire: Raw destruction, searing burst damage, and persistent burning status.\n' +
           '• 💧 Water: Restorative life healing, freezing frost bolts, and chilling area blizzards.\n' +
           '• ⚡ Air: Lightning strikes, jumping chain voltage, and supernatural haste enchantments.\n' +
@@ -604,7 +724,8 @@ export class PauseMenu {
       {
         icon: '⚡',
         title: 'How to Cast Spells',
-        text: 'To unleash magic in combat:\n' +
+        text:
+          'To unleash magic in combat:\n' +
           '1. Assign spells from your Grimoire (S) to the Quickbar slots (F4-F12 or bottom buttons).\n' +
           '2. Click or tap a Quickbar slot to arm the spell (crosshair reticle appears).\n' +
           '3. Target an enemy (Foe), friendly unit (Ally), ground point (Area), or fallen corpse.\n' +
@@ -613,7 +734,8 @@ export class PauseMenu {
       {
         icon: '📜',
         title: 'How to Learn New Spells & The Scroll System',
-        text: 'New magic cannot be conjured from thin air — it must be studied and transcribed:\n' +
+        text:
+          'New magic cannot be conjured from thin air — it must be studied and transcribed:\n' +
           '• Ancient Spell Scrolls & Grimoires: Discovered in hidden wilderness chests, dropped by rare bosses, or purchased from Town Arcanists.\n' +
           '• Inscribing: Using a Spell Scroll from your pack consumes the scroll and permanently records the spell into your Grimoire.\n' +
           '• Requirements: Advanced spells demand sufficient Mind and Spirit attributes to cast effectively.',
@@ -621,8 +743,9 @@ export class PauseMenu {
       {
         icon: '💧',
         title: 'Mana Management & Regeneration',
-        text: 'Casting spells expends Mana reserves:\n' +
-          '• Natural Recovery: Mana constantly regenerates over time based on your hero\'s Mind and Spirit attributes.\n' +
+        text:
+          'Casting spells expends Mana reserves:\n' +
+          "• Natural Recovery: Mana constantly regenerates over time based on your hero's Mind and Spirit attributes.\n" +
           '• Blue Mana Draughts: Drink belt potions (Key 2) for rapid mana replenishment during frantic boss encounters.\n' +
           '• Shrines of Restoration: Ancient shrines dotting the wilderness fully restore Mana and Health when activated.',
       },
@@ -745,7 +868,8 @@ export class PauseMenu {
       }
       if (spell.val > 0 && spell.st === St.Shield) {
         effects.push(`Shield absorption: ${spell.val} damage`);
-      } else if (spell.val > 0 && sid === 23) { // Meditation
+      } else if (spell.val > 0 && sid === 23) {
+        // Meditation
         effects.push(`Instantly restores ${spell.val} Mana`);
       }
 
@@ -779,14 +903,12 @@ export class PauseMenu {
     audioBox.append(audioTitle);
 
     // Master Volume
-    const masterRow = this.createSliderRow(
-      'Master Volume',
-      Math.round(getMasterVolume() * 100),
-      (val) => {
-        setMasterVolume(val / 100);
-        try { localStorage.setItem('thornvael.masterVol', String(val / 100)); } catch {}
-      }
-    );
+    const masterRow = this.createSliderRow('Master Volume', Math.round(getMasterVolume() * 100), (val) => {
+      setMasterVolume(val / 100);
+      try {
+        localStorage.setItem('thornvael.masterVol', String(val / 100));
+      } catch {}
+    });
 
     // SFX Volume
     const sfxRow = this.createSliderRow(
@@ -794,7 +916,9 @@ export class PauseMenu {
       Math.round(getSfxVolume() * 100),
       (val) => {
         setSfxVolume(val / 100);
-        try { localStorage.setItem('thornvael.sfxVol', String(val / 100)); } catch {}
+        try {
+          localStorage.setItem('thornvael.sfxVol', String(val / 100));
+        } catch {}
       },
       {
         toggleLabel: this.ctx.isSfxOn() ? 'Mute' : 'Unmute',
@@ -802,7 +926,7 @@ export class PauseMenu {
           this.ctx.toggleSfx();
           this.render();
         },
-      }
+      },
     );
 
     // Music Volume
@@ -811,7 +935,9 @@ export class PauseMenu {
       Math.round(getMusicVolume() * 100),
       (val) => {
         setMusicVolume(val / 100);
-        try { localStorage.setItem('thornvael.musicVol', String(val / 100)); } catch {}
+        try {
+          localStorage.setItem('thornvael.musicVol', String(val / 100));
+        } catch {}
       },
       {
         toggleLabel: this.ctx.isMusicOn() ? 'Mute' : 'Unmute',
@@ -819,35 +945,32 @@ export class PauseMenu {
           this.ctx.toggleMusic();
           this.render();
         },
-      }
+      },
     );
 
     // Ambient Bus Volume
-    const ambRow = this.createSliderRow(
-      'Ambient Atmosphere',
-      Math.round(getAmbienceVolume() * 100),
-      (val) => {
-        setAmbienceVolume(val / 100);
-        try { localStorage.setItem('thornvael.ambientVol', String(val / 100)); } catch {}
-      },
-    );
+    const ambRow = this.createSliderRow('Ambient Atmosphere', Math.round(getAmbienceVolume() * 100), (val) => {
+      setAmbienceVolume(val / 100);
+      try {
+        localStorage.setItem('thornvael.ambientVol', String(val / 100));
+      } catch {}
+    });
 
     // UI Bus Volume
-    const uiRow = this.createSliderRow(
-      'UI & Prompts Volume',
-      Math.round(getUiVolume() * 100),
-      (val) => {
-        setUiVolume(val / 100);
-        try { localStorage.setItem('thornvael.uiVol', String(val / 100)); } catch {}
-      },
-    );
+    const uiRow = this.createSliderRow('UI & Prompts Volume', Math.round(getUiVolume() * 100), (val) => {
+      setUiVolume(val / 100);
+      try {
+        localStorage.setItem('thornvael.uiVol', String(val / 100));
+      } catch {}
+    });
 
     // Mute on Blur toggle
     const blurRow = document.createElement('div');
     blurRow.className = 'pause-setting-row';
     const blurLabel = document.createElement('div');
     blurLabel.className = 'pause-setting-label';
-    blurLabel.innerHTML = '<b>Mute When Tab Unfocused</b><small>Silence game audio automatically when switching windows or apps</small>';
+    blurLabel.innerHTML =
+      '<b>Mute When Tab Unfocused</b><small>Silence game audio automatically when switching windows or apps</small>';
     const isBlurMute = isMuteOnBlur();
     const blurToggle = document.createElement('button');
     blurToggle.type = 'button';
@@ -912,7 +1035,8 @@ export class PauseMenu {
 
     const weatherLabel = document.createElement('div');
     weatherLabel.className = 'pause-setting-label';
-    weatherLabel.innerHTML = '<b>Weather & Atmospheric VFX</b><small>Biome rain, drifting sand, cave spores and infernal embers</small>';
+    weatherLabel.innerHTML =
+      '<b>Weather & Atmospheric VFX</b><small>Biome rain, drifting sand, cave spores and infernal embers</small>';
 
     const weatherToggle = document.createElement('button');
     weatherToggle.type = 'button';
@@ -930,7 +1054,8 @@ export class PauseMenu {
     motionRow.className = 'pause-setting-row';
     const motionLabel = document.createElement('div');
     motionLabel.className = 'pause-setting-label';
-    motionLabel.innerHTML = '<b>Reduced Motion</b><small>Soften camera shake, screen flashes, and heavy UI motion</small>';
+    motionLabel.innerHTML =
+      '<b>Reduced Motion</b><small>Soften camera shake, screen flashes, and heavy UI motion</small>';
     const motionBtn = document.createElement('button');
     motionBtn.type = 'button';
     motionBtn.className = `pause-ux-btn ${ux.reducedMotion ? 'active' : ''}`;
@@ -972,7 +1097,8 @@ export class PauseMenu {
     cbRow.className = 'pause-setting-row';
     const cbLabel = document.createElement('div');
     cbLabel.className = 'pause-setting-label';
-    cbLabel.innerHTML = '<b>Colorblind Rarity Badges</b><small>Show geometric rarity symbols (▲ ◆ ❖ ★) on item cards & icons</small>';
+    cbLabel.innerHTML =
+      '<b>Colorblind Rarity Badges</b><small>Show geometric rarity symbols (▲ ◆ ❖ ★) on item cards & icons</small>';
     const cbBtn = document.createElement('button');
     cbBtn.type = 'button';
     cbBtn.className = `pause-ux-btn ${ux.colorblindRarityBadges ? 'active' : ''}`;
@@ -1002,7 +1128,8 @@ export class PauseMenu {
 
     const camLabel = document.createElement('div');
     camLabel.className = 'pause-setting-label';
-    camLabel.innerHTML = '<b>Auto-recenter Camera</b><small>Keep camera viewport centered smoothly on your hero as you walk</small>';
+    camLabel.innerHTML =
+      '<b>Auto-recenter Camera</b><small>Keep camera viewport centered smoothly on your hero as you walk</small>';
 
     const camToggle = document.createElement('button');
     camToggle.type = 'button';
@@ -1021,7 +1148,8 @@ export class PauseMenu {
 
     const stickLabel = document.createElement('div');
     stickLabel.className = 'pause-setting-label';
-    stickLabel.innerHTML = '<b>Virtual Movement Stick (Touch / Mobile)</b><small>On-screen translucent 360° joystick for direct hero movement</small>';
+    stickLabel.innerHTML =
+      '<b>Virtual Movement Stick (Touch / Mobile)</b><small>On-screen translucent 360° joystick for direct hero movement</small>';
 
     const stickToggle = document.createElement('button');
     stickToggle.type = 'button';
@@ -1039,7 +1167,8 @@ export class PauseMenu {
     touchGuideRow.className = 'pause-setting-row';
     const touchGuideLabel = document.createElement('div');
     touchGuideLabel.className = 'pause-setting-label';
-    touchGuideLabel.innerHTML = '<b>Mobile & Touch Controls</b><small>View tap, long-press, drag-box and pinch gesture diagrams</small>';
+    touchGuideLabel.innerHTML =
+      '<b>Mobile & Touch Controls</b><small>View tap, long-press, drag-box and pinch gesture diagrams</small>';
     const touchGuideBtn = document.createElement('button');
     touchGuideBtn.type = 'button';
     touchGuideBtn.className = 'pause-ux-btn';
@@ -1049,7 +1178,118 @@ export class PauseMenu {
 
     gameBox.append(cameraRow, stickRow, touchGuideRow);
 
-    body.append(audioBox, displayBox, gameBox);
+    // 4. Optional Gameplay Assists Section ("Play Your Way")
+    const prefs = readPreferences();
+    const assistsBox = document.createElement('div');
+    assistsBox.className = 'pause-section-box';
+    const assistsTitle = document.createElement('h3');
+    assistsTitle.className = 'pause-sec-title';
+    assistsTitle.innerHTML = '<span class="sec-icon">✨</span> Gameplay Assists (Optional)';
+    assistsBox.append(assistsTitle);
+
+    // Auto-Cast Mode Row
+    const castRow = document.createElement('div');
+    castRow.className = 'pause-setting-row';
+    const castLabel = document.createElement('div');
+    castLabel.className = 'pause-setting-label';
+    castLabel.innerHTML =
+      '<b>Auto-Cast Mode</b><small>Automatic spellcasting for healing, defensive buffs, and combat</small>';
+    const castBtn = document.createElement('button');
+    castBtn.type = 'button';
+    castBtn.className = 'pause-ux-btn';
+    castBtn.textContent = `Auto-Cast: ${prefs.autoCastMode ?? 'per-spell'}`;
+    castBtn.onclick = () => {
+      const modes: AutoCastMode[] = ['off', 'per-spell', 'smart'];
+      const curIdx = modes.indexOf(prefs.autoCastMode ?? 'per-spell');
+      const next = modes[(curIdx + 1) % modes.length]!;
+      prefs.autoCastMode = next;
+      writePreference('autoCastMode', next);
+      this.render();
+    };
+    castRow.append(castLabel, castBtn);
+
+    // Auto-Go to Objectives Row
+    const navRow = document.createElement('div');
+    navRow.className = 'pause-setting-row';
+    const navLabel = document.createElement('div');
+    navLabel.className = 'pause-setting-label';
+    navLabel.innerHTML =
+      '<b>Auto-Go to Mission Target</b><small>Automatically march to quest targets with ambush stop guard</small>';
+    const navBtn = document.createElement('button');
+    navBtn.type = 'button';
+    const isNav = prefs.autoNavigateObjectives ?? false;
+    navBtn.className = `pause-toggle-btn ${isNav ? 'on' : ''}`;
+    navBtn.textContent = isNav ? 'ON' : 'OFF';
+    navBtn.onclick = () => {
+      prefs.autoNavigateObjectives = !isNav;
+      writePreference('autoNavigateObjectives', !isNav);
+      this.render();
+    };
+    navRow.append(navLabel, navBtn);
+
+    // Auto-Fight Mode Row
+    const fightRow = document.createElement('div');
+    fightRow.className = 'pause-setting-row';
+    const fightLabel = document.createElement('div');
+    fightLabel.className = 'pause-setting-label';
+    fightLabel.innerHTML = '<b>Auto-Fight Mode</b><small>Autonomous combat response (self-defense or tactical)</small>';
+    const fightBtn = document.createElement('button');
+    fightBtn.type = 'button';
+    fightBtn.className = 'pause-ux-btn';
+    fightBtn.textContent = `Auto-Fight: ${prefs.autoFightMode ?? 'off'}`;
+    fightBtn.onclick = () => {
+      const modes: AutoFightMode[] = ['off', 'self-defense', 'tactical'];
+      const curIdx = modes.indexOf(prefs.autoFightMode ?? 'off');
+      const next = modes[(curIdx + 1) % modes.length]!;
+      prefs.autoFightMode = next;
+      writePreference('autoFightMode', next);
+      this.render();
+    };
+    fightRow.append(fightLabel, fightBtn);
+
+    // Auto-Loot Sweep Row
+    const lootRow = document.createElement('div');
+    lootRow.className = 'pause-setting-row';
+    const lootLabel = document.createElement('div');
+    lootLabel.className = 'pause-setting-label';
+    lootLabel.innerHTML =
+      '<b>Auto-Loot Sweep</b><small>Automatically collect nearby gold and gear after battle clears</small>';
+    const lootBtn = document.createElement('button');
+    lootBtn.type = 'button';
+    const isLoot = prefs.autoLootSweep ?? false;
+    lootBtn.className = `pause-toggle-btn ${isLoot ? 'on' : ''}`;
+    lootBtn.textContent = isLoot ? 'ON' : 'OFF';
+    lootBtn.onclick = () => {
+      prefs.autoLootSweep = !isLoot;
+      writePreference('autoLootSweep', !isLoot);
+      this.render();
+    };
+    lootRow.append(lootLabel, lootBtn);
+
+    // Auto-Heal & Mana Reserve Row
+    const healRow = document.createElement('div');
+    healRow.className = 'pause-setting-row';
+    const healLabel = document.createElement('div');
+    healLabel.className = 'pause-setting-label';
+    healLabel.innerHTML =
+      '<b>Auto-Heal & Mana Reserve</b><small>HP threshold for auto-healing and mana reserve percentage</small>';
+    const healBtn = document.createElement('button');
+    healBtn.type = 'button';
+    healBtn.className = 'pause-ux-btn';
+    healBtn.textContent = `Heal <= ${prefs.autoHealThresholdPct ?? 65}% HP | Reserve: ${prefs.manaReservePct ?? 15}%`;
+    healBtn.onclick = () => {
+      const thresholds = [50, 65, 80];
+      const cur = prefs.autoHealThresholdPct ?? 65;
+      const next = thresholds[(thresholds.indexOf(cur) + 1) % thresholds.length] ?? 65;
+      prefs.autoHealThresholdPct = next;
+      writePreference('autoHealThresholdPct', next);
+      this.render();
+    };
+    healRow.append(healLabel, healBtn);
+
+    assistsBox.append(castRow, navRow, fightRow, lootRow, healRow);
+
+    body.append(audioBox, displayBox, gameBox, assistsBox);
     modal.append(head, body);
   }
 
@@ -1088,7 +1328,7 @@ export class PauseMenu {
     label: string,
     initialVal: number,
     onChange: (val: number) => void,
-    toggle?: { toggleLabel: string; onToggle: () => void }
+    toggle?: { toggleLabel: string; onToggle: () => void },
   ): HTMLElement {
     const row = document.createElement('div');
     row.className = 'pause-setting-row';

@@ -9,22 +9,23 @@ import {
   setAmbienceVolume,
   setMainMenuMusic,
   setMasterVolume,
+  setMusic,
   setMusicVolume,
   setMuteOnBlur,
-  setMusic,
   setSfxVolume,
   setUiVolume,
 } from '../audio';
 import { DEFAULT_KEYBINDS, keybindManager } from '../keybinds';
-import { readPreferences, writePreference, type Preferences } from '../preferences';
+import {
+  type AutoCastMode,
+  type AutoFightMode,
+  type Preferences,
+  readPreferences,
+  writePreference,
+} from '../preferences';
 import { S } from '../strings';
 import { MobileControlsHelp } from '../ui-extra/mobile-controls-help';
-import {
-  applyUxSettings,
-  loadUxSettings,
-  saveUxSettings,
-  type TextScalePreset,
-} from '../ui-extra/settings-panel';
+import { applyUxSettings, loadUxSettings, saveUxSettings, type TextScalePreset } from '../ui-extra/settings-panel';
 import { btn, el } from './dom';
 
 const T = S.shell;
@@ -149,10 +150,7 @@ export function bindQualityControl(
 /**
  * Binds reduced-motion accessibility state across AtmosphereSystem, FxEngine, and DOM attributes.
  */
-export function bindReducedMotionToggle(
-  button: HTMLButtonElement,
-  onToggle?: (reduced: boolean) => void,
-): () => void {
+export function bindReducedMotionToggle(button: HTMLButtonElement, onToggle?: (reduced: boolean) => void): () => void {
   let reduced = isReducedMotionActive();
 
   const apply = (next: boolean): void => {
@@ -421,30 +419,42 @@ export function renderSettingsView(opts: SettingsViewOptions): {
 
   const ux = loadUxSettings();
   const TEXT_SCALES: readonly TextScalePreset[] = [0.9, 1, 1.15, 1.3];
-  const scaleBtn = btn('', () => {
-    const idx = TEXT_SCALES.indexOf(ux.textScale);
-    ux.textScale = TEXT_SCALES[(idx + 1) % TEXT_SCALES.length]!;
-    saveUxSettings(ux);
-    applyUxSettings(ux);
-    refreshUxBtns();
-  }, 'sh-small');
-  const cbBtn = btn('', () => {
-    ux.colorblindRarityBadges = !ux.colorblindRarityBadges;
-    saveUxSettings(ux);
-    applyUxSettings(ux);
-    refreshUxBtns();
-  }, 'sh-small');
+  const scaleBtn = btn(
+    '',
+    () => {
+      const idx = TEXT_SCALES.indexOf(ux.textScale);
+      ux.textScale = TEXT_SCALES[(idx + 1) % TEXT_SCALES.length]!;
+      saveUxSettings(ux);
+      applyUxSettings(ux);
+      refreshUxBtns();
+    },
+    'sh-small',
+  );
+  const cbBtn = btn(
+    '',
+    () => {
+      ux.colorblindRarityBadges = !ux.colorblindRarityBadges;
+      saveUxSettings(ux);
+      applyUxSettings(ux);
+      refreshUxBtns();
+    },
+    'sh-small',
+  );
   const refreshUxBtns = (): void => {
     scaleBtn.textContent = `Text Size: ${Math.round(ux.textScale * 100)}%`;
     cbBtn.textContent = `Rarity Badges: ${ux.colorblindRarityBadges ? T.preferenceOn : T.preferenceOff}`;
     cbBtn.setAttribute?.('aria-pressed', String(ux.colorblindRarityBadges));
   };
   refreshUxBtns();
-  const touchHelpBtn = btn('Touch Controls Guide', () => {
-    if (typeof document !== 'undefined' && document.head) {
-      new MobileControlsHelp().open();
-    }
-  }, 'sh-small');
+  const touchHelpBtn = btn(
+    'Touch Controls Guide',
+    () => {
+      if (typeof document !== 'undefined' && document.head) {
+        new MobileControlsHelp().open();
+      }
+    },
+    'sh-small',
+  );
   displayCard.append(scaleBtn, cbBtn, touchHelpBtn);
 
   // Audio Mix Sliders Card
@@ -470,10 +480,14 @@ export function renderSettingsView(opts: SettingsViewOptions): {
     row.append(nameEl, slider, pctEl);
     audioCard.append(row);
   }
-  const blurMuteBtn = btn('', () => {
-    setMuteOnBlur(!isMuteOnBlur());
-    refreshBlurMute();
-  }, 'sh-small');
+  const blurMuteBtn = btn(
+    '',
+    () => {
+      setMuteOnBlur(!isMuteOnBlur());
+      refreshBlurMute();
+    },
+    'sh-small',
+  );
   const refreshBlurMute = (): void => {
     const on = isMuteOnBlur();
     blurMuteBtn.textContent = `Mute on Blur: ${on ? T.preferenceOn : T.preferenceOff}`;
@@ -486,8 +500,111 @@ export function renderSettingsView(opts: SettingsViewOptions): {
   const keybindsCard = el('div', 'sh-settings-card');
   cleanups.push(bindKeybindingsList(keybindsCard));
 
+  // Gameplay Assists (Optional) Card
+  const assistsCard = el('div', 'sh-settings-card');
+  assistsCard.append(el('h3', '', 'Gameplay Assists (Optional)'));
+
+  const autoCastBtn = btn(
+    '',
+    () => {
+      const modes: AutoCastMode[] = ['off', 'per-spell', 'smart'];
+      const curIdx = modes.indexOf(prefs.autoCastMode ?? 'per-spell');
+      const nextMode = modes[(curIdx + 1) % modes.length]!;
+      prefs.autoCastMode = nextMode;
+      if (!writePreference('autoCastMode', nextMode)) notice.textContent = T.preferenceStorage;
+      refreshAssists();
+    },
+    'sh-small',
+  );
+
+  const autoNavBtn = btn(
+    '',
+    () => {
+      prefs.autoNavigateObjectives = !prefs.autoNavigateObjectives;
+      if (!writePreference('autoNavigateObjectives', prefs.autoNavigateObjectives))
+        notice.textContent = T.preferenceStorage;
+      refreshAssists();
+    },
+    'sh-small',
+  );
+
+  const autoFightBtn = btn(
+    '',
+    () => {
+      const modes: AutoFightMode[] = ['off', 'self-defense', 'tactical'];
+      const curIdx = modes.indexOf(prefs.autoFightMode ?? 'off');
+      const nextMode = modes[(curIdx + 1) % modes.length]!;
+      prefs.autoFightMode = nextMode;
+      if (!writePreference('autoFightMode', nextMode)) notice.textContent = T.preferenceStorage;
+      refreshAssists();
+    },
+    'sh-small',
+  );
+
+  const autoLootBtn = btn(
+    '',
+    () => {
+      prefs.autoLootSweep = !prefs.autoLootSweep;
+      if (!writePreference('autoLootSweep', prefs.autoLootSweep)) notice.textContent = T.preferenceStorage;
+      refreshAssists();
+    },
+    'sh-small',
+  );
+
+  const autoHealBtn = btn(
+    '',
+    () => {
+      const thresholds = [50, 65, 80];
+      const cur = prefs.autoHealThresholdPct ?? 65;
+      const next = thresholds[(thresholds.indexOf(cur) + 1) % thresholds.length] ?? 65;
+      prefs.autoHealThresholdPct = next;
+      if (!writePreference('autoHealThresholdPct', next)) notice.textContent = T.preferenceStorage;
+      refreshAssists();
+    },
+    'sh-small',
+  );
+
+  const manaResBtn = btn(
+    '',
+    () => {
+      const reserves = [10, 15, 25];
+      const cur = prefs.manaReservePct ?? 15;
+      const next = reserves[(reserves.indexOf(cur) + 1) % reserves.length] ?? 15;
+      prefs.manaReservePct = next;
+      if (!writePreference('manaReservePct', next)) notice.textContent = T.preferenceStorage;
+      refreshAssists();
+    },
+    'sh-small',
+  );
+
+  const autoPotionBtn = btn(
+    '',
+    () => {
+      const pots = [0, 30, 45];
+      const cur = prefs.autoPotionThresholdPct ?? 0;
+      const next = pots[(pots.indexOf(cur) + 1) % pots.length] ?? 0;
+      prefs.autoPotionThresholdPct = next;
+      if (!writePreference('autoPotionThresholdPct', next)) notice.textContent = T.preferenceStorage;
+      refreshAssists();
+    },
+    'sh-small',
+  );
+
+  const refreshAssists = (): void => {
+    autoCastBtn.textContent = `Auto-Cast: ${prefs.autoCastMode ?? 'per-spell'}`;
+    autoNavBtn.textContent = `Auto-Go: ${prefs.autoNavigateObjectives ? 'ON' : 'OFF'}`;
+    autoFightBtn.textContent = `Auto-Fight: ${prefs.autoFightMode ?? 'off'}`;
+    autoLootBtn.textContent = `Auto-Loot Sweep: ${prefs.autoLootSweep ? 'ON' : 'OFF'}`;
+    autoHealBtn.textContent = `Auto-Heal: ${prefs.autoHealThresholdPct ?? 65}% HP`;
+    manaResBtn.textContent = `Mana Reserve: ${prefs.manaReservePct ?? 15}%`;
+    autoPotionBtn.textContent = `Auto-Potion: ${(prefs.autoPotionThresholdPct ?? 0) > 0 ? `${prefs.autoPotionThresholdPct}% HP` : 'OFF'}`;
+  };
+  refreshAssists();
+
+  assistsCard.append(autoCastBtn, autoNavBtn, autoFightBtn, autoLootBtn, autoHealBtn, manaResBtn, autoPotionBtn);
+
   const grid = el('div', 'sh-settings-grid');
-  grid.append(displayCard, audioCard, keybindsCard);
+  grid.append(displayCard, audioCard, keybindsCard, assistsCard);
 
   // Footer with Erase Campaign confirmation and Back button
   const foot = el('div', 'sh-settings-foot');

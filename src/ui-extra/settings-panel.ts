@@ -1,3 +1,4 @@
+import { setAtmosphereReducedMotion } from '../atmosphere';
 import {
   getAmbienceVolume,
   getMusicVolume,
@@ -8,7 +9,7 @@ import {
   setSfxVolume,
   setUiVolume,
 } from '../audio';
-import { setAtmosphereReducedMotion } from '../atmosphere';
+import { type AutoCastMode, type AutoFightMode, readPreferences, writePreference } from '../preferences';
 
 export type GraphicsQualityPreset = 'high' | 'low';
 export type TextScalePreset = 0.9 | 1 | 1.15 | 1.3;
@@ -354,6 +355,7 @@ export class SettingsPanel {
 
   private render(): void {
     const s = this.state;
+    const prefs = readPreferences();
     const pct = (v: number) => `${Math.round(v * 100)}%`;
 
     this.root.innerHTML = `
@@ -418,6 +420,34 @@ export class SettingsPanel {
               </button>
             </div>
           </section>
+
+          <section class="tv-settings-section">
+            <h3>Gameplay Assists (Optional)</h3>
+            <div class="tv-toggle-row">
+              <span>Auto-Cast</span>
+              <button type="button" class="tv-pill-btn" data-action="toggle-autocast">
+                ${prefs.autoCastMode ?? 'per-spell'}
+              </button>
+            </div>
+            <div class="tv-toggle-row">
+              <span>Auto-Go to Mission</span>
+              <button type="button" class="tv-pill-btn" data-action="toggle-autogo" aria-pressed="${Boolean(prefs.autoNavigateObjectives)}">
+                ${prefs.autoNavigateObjectives ? 'On' : 'Off'}
+              </button>
+            </div>
+            <div class="tv-toggle-row">
+              <span>Auto-Fight</span>
+              <button type="button" class="tv-pill-btn" data-action="toggle-autofight">
+                ${prefs.autoFightMode ?? 'off'}
+              </button>
+            </div>
+            <div class="tv-toggle-row">
+              <span>Auto-Loot Sweep</span>
+              <button type="button" class="tv-pill-btn" data-action="toggle-autoloot" aria-pressed="${Boolean(prefs.autoLootSweep)}">
+                ${prefs.autoLootSweep ? 'On' : 'Off'}
+              </button>
+            </div>
+          </section>
         </div>
         <div class="tv-settings-foot">
           <button type="button" class="tv-action-btn" data-action="close">Done</button>
@@ -456,6 +486,36 @@ export class SettingsPanel {
 
     this.root.querySelector('button[data-toggle="colorblind"]')?.addEventListener('click', () => {
       this.updateSettings({ colorblindRarityBadges: !this.state.colorblindRarityBadges });
+    });
+
+    this.root.querySelector('button[data-action="toggle-autocast"]')?.addEventListener('click', () => {
+      const modes: AutoCastMode[] = ['off', 'per-spell', 'smart'];
+      const cur = prefs.autoCastMode ?? 'per-spell';
+      const next = modes[(modes.indexOf(cur) + 1) % modes.length]!;
+      prefs.autoCastMode = next;
+      writePreference('autoCastMode', next);
+      this.render();
+    });
+
+    this.root.querySelector('button[data-action="toggle-autogo"]')?.addEventListener('click', () => {
+      prefs.autoNavigateObjectives = !prefs.autoNavigateObjectives;
+      writePreference('autoNavigateObjectives', prefs.autoNavigateObjectives);
+      this.render();
+    });
+
+    this.root.querySelector('button[data-action="toggle-autofight"]')?.addEventListener('click', () => {
+      const modes: AutoFightMode[] = ['off', 'self-defense', 'tactical'];
+      const cur = prefs.autoFightMode ?? 'off';
+      const next = modes[(modes.indexOf(cur) + 1) % modes.length]!;
+      prefs.autoFightMode = next;
+      writePreference('autoFightMode', next);
+      this.render();
+    });
+
+    this.root.querySelector('button[data-action="toggle-autoloot"]')?.addEventListener('click', () => {
+      prefs.autoLootSweep = !prefs.autoLootSweep;
+      writePreference('autoLootSweep', prefs.autoLootSweep);
+      this.render();
     });
 
     this.root.querySelectorAll('button[data-action="close"]').forEach((btn) => {
