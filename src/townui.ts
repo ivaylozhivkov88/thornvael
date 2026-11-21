@@ -264,6 +264,12 @@ export class TownUi {
     if (this.role !== Role.Shop) head.append(button(S.town.leave, () => this.close()));
     this.root.append(head);
     if (this.bark) this.root.append(el('p', 'muted', `"${this.bark}"`));
+    const vigil = el('div', 'town-guard-vigil');
+    vigil.append(
+      el('span', 'guard-shield-icon', '🛡'),
+      el('span', 'guard-status', `${def.name} Palisade · Gate Guards on vigilant watch`),
+    );
+    this.root.append(vigil);
     if (this.role === Role.Shop) this.renderShop(sim);
     else if (this.role === Role.Tavern) this.renderTavern(sim);
     else this.renderSchool(sim);
@@ -386,11 +392,20 @@ export class TownUi {
     background.alt = S.town.scene[kind];
     const actor = el('img', 'merchant-actor');
     actor.alt = '';
-    actor.hidden = true; // the painted scene already contains its keeper
+    actor.src = `${import.meta.env.BASE_URL}townart/merchant-${kind}.png`;
+    actor.hidden = false;
     const say = el('div', 'say');
     say.setAttribute('role', 'status');
     const art = el('div', 'scene-art');
     art.append(background, actor);
+    if (kind === 'shop') {
+      const forgeGlow = el('div', 'forge-glow');
+      const sparks = el('div', 'anvil-sparks');
+      art.append(forgeGlow, sparks);
+    } else {
+      const hearth = el('div', 'hearth-flicker');
+      art.append(hearth);
+    }
     keeper.append(art, say);
     this.paintKeeper(keeper);
     return keeper;
@@ -842,7 +857,13 @@ export class TownUi {
       ql.append(l);
     }
     quests.append(sim.town.quests.length ? ql : el('p', 'note', S.town.none));
-    layout.append(mercPanel, this.scene('tavern'), this.portrait(sim), controls, quests);
+    const patrons = el('div', 'tavern-patrons');
+    patrons.append(
+      el('span', 'patron-badge', '🍺 Old Veteran (drinking ale)'),
+      el('span', 'patron-badge', '🗡 Border Scout (sharpening blade)'),
+      el('span', 'patron-badge', '🎲 Mercenary Gambler (rolling dice)'),
+    );
+    layout.append(mercPanel, this.scene('tavern'), this.portrait(sim), controls, quests, patrons);
     this.root.append(layout);
   }
 
@@ -854,9 +875,15 @@ export class TownUi {
     const banner = el('div', 'school-banner');
     const crest = el('div', 'school-crest', '✦');
     const copy = el('div', 'school-copy');
+    const priestFigure = el('div', 'temple-priest-figure');
+    priestFigure.append(
+      el('div', 'priest-idle-aura', '✨'),
+      el('span', 'priest-tag', '✧ Temple Hierophant (Astral Meditation)'),
+    );
     copy.append(
       el('strong', '', `${def.name} Arcane Sanctum`),
       el('p', 'note', S.town.keeper[this.mood]),
+      priestFigure,
       button('✨ Lore of the Astral Veil', () => this.openLoreDialogue('school')),
     );
     banner.append(crest, copy, this.portrait(sim));

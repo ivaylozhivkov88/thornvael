@@ -2111,3 +2111,129 @@
 .sheet.town--shop .tray-minus { min-width: 44px; text-align: center; font-size: 18px; }
 .sheet.town--shop .deal-btn { min-height: 44px; }
 .sheet.town--shop .trade-actions button { min-height: 44px; }
+
+/* Town Hub NPC Ambient Effects & Living Scene Visuals */
+.scene-art .forge-glow {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: radial-gradient(circle at 65% 65%, rgba(255, 120, 40, 0.28) 0%, rgba(200, 60, 10, 0.12) 40%, transparent 70%);
+  animation: town-forge-glow 3.6s ease-in-out infinite;
+  mix-blend-mode: screen;
+}
+@keyframes town-forge-glow {
+  0%, 100% { opacity: 0.55; }
+  50% { opacity: 0.95; filter: brightness(1.2); }
+}
+
+.scene-art .anvil-sparks {
+  position: absolute;
+  right: 28%;
+  bottom: 25%;
+  width: 40px;
+  height: 40px;
+  pointer-events: none;
+  background: radial-gradient(circle, #fff7b3 20%, #ff8800 60%, transparent 80%);
+  border-radius: 50%;
+  opacity: 0;
+  animation: town-anvil-strike 4.8s cubic-bezier(0.1, 0.9, 0.2, 1) infinite;
+}
+@keyframes town-anvil-strike {
+  0%, 46% { opacity: 0; transform: scale(0.2); }
+  48% { opacity: 0.9; transform: scale(1.1); filter: drop-shadow(0 0 8px #ffaa00); }
+  52% { opacity: 0.3; transform: scale(0.6) translateY(-6px); }
+  55%, 100% { opacity: 0; }
+}
+
+.scene-art .hearth-flicker {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: radial-gradient(circle at 75% 70%, rgba(255, 140, 50, 0.25) 0%, rgba(180, 50, 10, 0.1) 45%, transparent 75%);
+  animation: town-hearth-flicker 2.4s ease-in-out infinite alternate;
+  mix-blend-mode: screen;
+}
+@keyframes town-hearth-flicker {
+  0% { opacity: 0.5; transform: scale(0.99); }
+  100% { opacity: 0.85; transform: scale(1.02); }
+}
+
+.town-guard-vigil {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin: 2px 0 6px 0;
+  padding: 4px 10px;
+  background: linear-gradient(90deg, rgba(45, 35, 25, 0.85), rgba(20, 15, 10, 0.6));
+  border: 1px solid rgba(205, 165, 90, 0.35);
+  border-radius: 4px;
+  font-size: 11px;
+  color: #eeddbb;
+  letter-spacing: 0.3px;
+}
+.guard-shield-icon {
+  font-size: 14px;
+  color: #ffd77a;
+  filter: drop-shadow(0 0 4px #ffc04088);
+}
+
+.tavern-patrons {
+  grid-column: 1 / -1;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin: 4px 0;
+  padding: 6px 8px;
+  background: rgba(25, 18, 12, 0.7);
+  border: 1px solid #6b4d24;
+  border-radius: 5px;
+}
+.patron-badge {
+  font-size: 11px;
+  padding: 3px 8px;
+  background: rgba(60, 42, 26, 0.85);
+  border: 1px solid #8e6833;
+  border-radius: 3px;
+  color: #ffeedd;
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  animation: town-patron-sway 4s ease-in-out infinite alternate;
+}
+.patron-badge:nth-child(2) { animation-delay: 1.3s; }
+.patron-badge:nth-child(3) { animation-delay: 2.6s; }
+@keyframes town-patron-sway {
+  0% { transform: translateY(0); }
+  100% { transform: translateY(-1.5px); }
+}
+
+.temple-priest-figure {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  margin-top: 6px;
+}
+.priest-idle-aura {
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(160, 210, 255, 0.45) 0%, rgba(90, 140, 240, 0.2) 50%, transparent 70%);
+  border: 1px solid rgba(180, 220, 255, 0.5);
+  box-shadow: 0 0 16px rgba(130, 190, 255, 0.4);
+  animation: town-altar-pulse 3.2s ease-in-out infinite alternate;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 20px;
+}
+@keyframes town-altar-pulse {
+  0% { transform: scale(0.94); box-shadow: 0 0 10px rgba(130, 190, 255, 0.3); }
+  100% { transform: scale(1.06); box-shadow: 0 0 22px rgba(160, 225, 255, 0.65); }
+}
+.priest-tag {
+  font-size: 11px;
+  color: #b0d8ff;
+  font-style: italic;
+  text-shadow: 0 0 6px rgba(80, 160, 255, 0.6);
+}

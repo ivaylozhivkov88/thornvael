@@ -47,11 +47,26 @@ export interface TownDef {
   npcs?: NpcDef[];
 }
 
+export type TownNpcRole = 'smith' | 'innkeeper' | 'mage' | 'priest' | 'guard' | 'villager';
+export type TownNpcPose = 'anvil' | 'counter' | 'patron' | 'altar' | 'gate_vigil';
+
+export interface TownHubNpc {
+  id: string;
+  name: string;
+  role: TownNpcRole;
+  x: number;
+  y: number;
+  pose: TownNpcPose;
+  frameOffset: number;
+  ambientBark?: string;
+}
+
 /** A town with its buildings resolved to tiles. Built from the map, never saved. */
 export interface TownRt {
   def: TownDef;
   centre: ([number, number] | null)[]; // by role, in tiles
   door: ([number, number] | null)[]; // free tile in front of each building
+  hubNpcs?: TownHubNpc[];
 }
 
 export const QuestType = { Slay: 0, Cull: 1, Clear: 2, Hunt: 3, Timed: 4, Scout: 5, Patrol: 6, Deliver: 7, Fetch: 8, Wealth: 9, Gather: 10, Practice: 11, Guard: 12 } as const;
@@ -206,10 +221,10 @@ export function upkeepFee(hits: readonly number[], eq: readonly number[]): numbe
 
 // ---- setup ----
 
-/** Resolve the towns of a map: building centres and a free tile in front of each. */
+/** Resolve the towns of a map: building centres, doors, and ambient town hub NPCs. */
 export function buildTowns(sim: Sim, defs: readonly TownDef[]): TownRt[] {
   const houses = sim.map.objects.filter((o) => o.kind === 1);
-  return defs.map((def) => {
+  return defs.map((def, idx) => {
     const centre: TownRt['centre'] = [];
     const door: TownRt['door'] = [];
     [def.tavern, def.shop, def.school].forEach((b, role) => {
@@ -217,8 +232,134 @@ export function buildTowns(sim: Sim, defs: readonly TownDef[]): TownRt[] {
       centre[role] = h ? [h.x + 1, h.y + 1] : null;
       door[role] = h ? freeNear(sim, h.x, h.y + 2) : null;
     });
-    return { def, centre, door };
+    const hubNpcs = generateTownHubNpcs(sim, idx, def, centre);
+    return { def, centre, door, hubNpcs };
   });
+}
+
+/**
+ * Deterministically populate ambient town hub characters with idle poses:
+ * - Smith at the anvil near the smithy/shop
+ * - Innkeeper and tavern patrons near the tavern door
+ * - Priest / temple figure in contemplation near the arcane sanctum/school
+ * - Gate guards standing vigilant watch at the perimeter
+ */
+export function generateTownHubNpcs(
+  sim: Sim,
+  townIndex: number,
+  def: TownDef,
+  centre: ([number, number] | null)[],
+): TownHubNpc[] {
+  const list: TownHubNpc[] = [];
+  const occupied = new Set<string>();
+  const mark = (pos: [number, number]): [number, number] => {
+    occupied.add(`${pos[0]},${pos[1]}`);
+    return pos;
+  };
+  const findFree = (cx: number, cy: number, preferredDx = 0, preferredDy = 1): [number, number] => {
+    for (let r = 0; r < 7; r++) {
+      for (let dy = -r; dy <= r; dy++) {
+        for (let dx = -r; dx <= r; dx++) {
+          if (Math.max(Math.abs(dx), Math.abs(dy)) !== r) continue;
+          const tx = cx + dx;
+          const ty = cy + dy;
+          if (occupied.has(`${tx},${ty}`)) continue;
+          if (!isBlockedAt(sim.map, tx, ty)) {
+            return mark([tx, ty]);
+          }
+        }
+      }
+    }
+    return mark([cx + preferredDx, cy + preferredDy]);
+  };
+
+  // 1. Smith at anvil near the shop/forge
+  const shopPos = centre[Role.Shop];
+  if (shopPos) {
+    const pos = findFree(shopPos[0], shopPos[1] + 1);
+    list.push({
+      id: `town-${townIndex}-smith`,
+      name: `${def.name} Blacksmith`,
+      role: 'smith',
+      x: pos[0],
+      y: pos[1],
+      pose: 'anvil',
+      frameOffset: 0,
+      ambientBark: 'Cold iron tempers best with steady breath and heavy blows.',
+    });
+  }
+
+  // 2. Innkeeper and Tavern patrons near tavern
+  const tavernPos = centre[Role.Tavern];
+  if (tavernPos) {
+    const posKeeper = findFree(tavernPos[0], tavernPos[1] + 1);
+    list.push({
+      id: `town-${townIndex}-innkeeper`,
+      name: `${def.name} Innkeeper`,
+      role: 'innkeeper',
+      x: posKeeper[0],
+      y: posKeeper[1],
+      pose: 'counter',
+      frameOffset: 1,
+      ambientBark: 'Warm stew and dry straw await, weary traveler.',
+    });
+    const posPatron = findFree(tavernPos[0] + 1, tavernPos[1] + 1);
+    list.push({
+      id: `town-${townIndex}-patron`,
+      name: 'Tavern Patron',
+      role: 'villager',
+      x: posPatron[0],
+      y: posPatron[1],
+      pose: 'patron',
+      frameOffset: 2,
+      ambientBark: 'Another flagon of heather ale before the night watch begins.',
+    });
+  }
+
+  // 3. Priest / Temple figure near school/temple
+  const schoolPos = centre[Role.School];
+  if (schoolPos) {
+    const posPriest = findFree(schoolPos[0], schoolPos[1] + 1);
+    list.push({
+      id: `town-${townIndex}-priest`,
+      name: `${def.name} Temple Priest`,
+      role: 'priest',
+      x: posPriest[0],
+      y: posPriest[1],
+      pose: 'altar',
+      frameOffset: 3,
+      ambientBark: 'The astral ward holds true as long as we keep vigil.',
+    });
+  }
+
+  // 4. Gate Guards at the perimeter / approaches
+  const baseAnchor = shopPos ?? tavernPos ?? schoolPos;
+  if (baseAnchor) {
+    const guard1 = findFree(baseAnchor[0] - 3, baseAnchor[1] + 2);
+    list.push({
+      id: `town-${townIndex}-guard-gate`,
+      name: `${def.name} Gate Guard`,
+      role: 'guard',
+      x: guard1[0],
+      y: guard1[1],
+      pose: 'gate_vigil',
+      frameOffset: 0,
+      ambientBark: 'Halt, traveler. Sheathe your blades inside the settlement.',
+    });
+    const guard2 = findFree(baseAnchor[0] + 3, baseAnchor[1] - 2);
+    list.push({
+      id: `town-${townIndex}-guard-watch`,
+      name: `${def.name} Watch Guard`,
+      role: 'guard',
+      x: guard2[0],
+      y: guard2[1],
+      pose: 'gate_vigil',
+      frameOffset: 2,
+      ambientBark: 'Keep a watchful eye on the ridges. Raiders scout the borders.',
+    });
+  }
+
+  return list;
 }
 
 function freeNear(sim: Sim, x: number, y: number): [number, number] {

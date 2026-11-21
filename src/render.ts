@@ -13,6 +13,24 @@ import { UnitAtlas, UnitSprite, ALL_UNIT_ART, FAMILY_ART, bossSpriteDef, type He
 import { loadAllExtraAtlases, type ExtraAtlases } from './sprites/extra-atlases';
 import { ArtPreview } from './sprites/preview';
 import { AtlasOverlayPass, type RenderBossTelegraph } from './render/atlas-overlays';
+import {
+  getTorchFlickerFrame,
+  getBonfireFrame,
+  getBannerFrame,
+  getWaterWheelFrame,
+  getCauldronFrame,
+  getSmokeColumnFrame,
+  isDungeonBiome,
+} from './art-wave3';
+export {
+  getTorchFlickerFrame,
+  getBonfireFrame,
+  getBannerFrame,
+  getWaterWheelFrame,
+  getCauldronFrame,
+  getSmokeColumnFrame,
+  isDungeonBiome,
+};
 import { CombatAnimation, type AnimationPose } from './sprites/combat-animation';
 import { VfxSystem } from './vfx';
 import { CombatFeelSystem } from './feel';
@@ -433,6 +451,10 @@ export class Renderer {
 
   private ensureAtlasOverlay(): AtlasOverlayPass {
     return (this._atlasOverlay ??= new AtlasOverlayPass());
+  }
+
+  get extraAtlasSet(): ExtraAtlases | null {
+    return this.extraAtlases;
   }
 
   setBossTelegraphs(list: readonly RenderBossTelegraph[]): void {
@@ -1179,7 +1201,7 @@ export class Renderer {
         const isBoss = famId ? !!bossSpriteDef(famId) : false;
         const isElite = (cb.bossMods[i]?.length ?? 0) > 0 || isBoss;
         const isUndead = famId === 'hollow-knight' || famId === 'restless-dead';
-        this.feel?.spawnDeathGore(s.x, s.y, isElite, isUndead);
+        this.feel?.spawnDeathGore(s.x, s.y, isElite, isUndead, famId, isBoss);
         this.fxEngine.deathFx.onUnitDeath(s.x, s.y, famId, isBoss);
       }
       this.wasAlive[i] = !dead;
