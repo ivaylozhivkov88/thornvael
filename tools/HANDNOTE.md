@@ -299,5 +299,38 @@ Also: `ci.yml` `cancel-in-progress: true` kills the slow WebKit job on every new
   - `node tools/check-repo.mjs`: **PASS (1963 files, 0 errors)**
   - Commit: `e5bcbe1b1bd8309dd6dfd1ff676f056545675ac8`
 
+## Town NPC & Environmental Prop Lead (2026-11-21)
+- [x] **Town Hub NPC Idle Animations & Ambient Poses (`src/sim/town.ts`, `src/town.ts`, `src/townui.ts`, `src/townstyle.css`)**:
+  - Implemented deterministic `generateTownHubNpcs` in `src/sim/town.ts`, populating each town with:
+    - **Smith at the anvil**: `role: 'smith'`, `pose: 'anvil'`, positioned on free ground near the shop/forge with rhythmic breathing/hammering idle cycle.
+    - **Innkeeper & Tavern Patrons**: `role: 'innkeeper'`, `pose: 'counter'` and `role: 'villager'`, `pose: 'patron'` near the tavern entrance with mug raising and ambient chatting.
+    - **Priest / Temple Figures**: `role: 'priest'`, `pose: 'altar'` near the arcane sanctum/school with celestial contemplation and prayer poses.
+    - **Gate Guards**: `role: 'guard'`, `pose: 'gate_vigil'` with watchful vigilance scanning the settlement perimeter and palisades.
+  - Created `src/town.ts` re-exporting town simulation types, `TOWN_NPC_POSE_DESCRIPTIONS`, `TOWN_NPC_ROLE_TITLES`, and helper utilities.
+  - Wired `TownUi` (`src/townui.ts`) with active living characters:
+    - Shop: un-hid and animated `merchant-actor` with `.forge-glow` and `.anvil-sparks` particle pulse.
+    - Tavern: activated `merchant-actor` with `.hearth-flicker` and a living `tavern-patrons` lounge with animated patron badges.
+    - Arcane Sanctum: added `temple-priest-figure` with pulsating astral aura (`.priest-idle-aura`) and hierophant meditation banner.
+    - Town Palisade: added `town-guard-vigil` banner displaying active gate guard watch status.
+- [x] **World Environmental Animations (`src/art-wave3.ts`, `src/render/atlas-overlays.ts`, `src/render.ts`)**:
+  - Created `src/art-wave3.ts` implementing frame resolution helpers from `public/art-wave3/env-anims.json`:
+    - `torch-flicker`: 6 frames for dungeon corridors, subterranean sarcophagi, crypt waystones, and town sconces.
+    - `bonfire`: 6 frames for garrison campsites, creature banks, and central town squares.
+    - `banner`: 4 frames across 3 factions (`thornwatch`, `ironbound`, `conclave`) fluttering at gates and garrison buildings.
+    - `water-wheel`: 6 frames rotating smoothly at watermills and river channels.
+    - `cauldron`: 6 frames bubbling at alchemical sanctums, apothecary counters, and creature bank lairs.
+    - `smoke-column`: 6 frames billowing from forge chimneys and tavern hearths.
+  - In `AtlasOverlayPass` (`src/render/atlas-overlays.ts`):
+    - Rendered `town.hubNpcs` and custom `town.def.npcs` using `atlases.townnpcs`.
+    - Wired environmental props for dungeons/crypts (sarcophagi wall torches, urn cauldrons), creature banks, watermills, and waystones.
+  - Re-exported environmental animation helpers and `extraAtlasSet` from `src/render.ts`.
+- [x] **Quality Verifications & Tests**:
+  - Added dedicated test suite `tests/town-hub-npc-env-anims.test.ts` (7/7 tests PASS).
+  - Verified `tests/art-wave3.test.ts`, `tests/town.test.ts`, `tests/town-economy.test.ts`, `tests/shop-equip-paperdoll.test.ts`, `tests/arpg-drag-tooltip-shop.test.ts` (56/56 PASS).
+  - `npx tsc --noEmit`: **PASS (0 errors)**.
+  - `npm run check:atlases`: **PASS (Atlas contract, PNG pixels and provenance passed)**.
+  - Commit: `0cf40d8` (`git push origin main` successful).
+
+
 
 
