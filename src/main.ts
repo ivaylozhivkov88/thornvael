@@ -2136,9 +2136,13 @@ const missionUi = loadedMission
         if (ids.length > 0) {
           queue({ type: 'move', ids, x: tx, y: ty, loose: true });
         }
+        cameraFollow = false;
         renderer.centerOn(tx, ty);
+        cameraController.camX = renderer.camX;
+        cameraController.camY = renderer.camY;
         ping = { x: tx, y: ty, t: performance.now() };
         questGoal = { x: tx, y: ty };
+        minimap.setQuestGoal(tx, ty);
         try {
           blip();
         } catch {}
@@ -3616,6 +3620,7 @@ function frame(): void {
   if (questGoal && sim.hero !== null && alive(0) && Math.hypot(sim.x[0] / FP - questGoal.x, sim.y[0] / FP - questGoal.y) < 2.5) {
     toast('🧭 You have arrived');
     questGoal = null;
+    minimap.setQuestGoal(null, null);
   }
   const age = ping ? (now - ping.t) / 600 : 2;
   if (age >= 1) ping = null;

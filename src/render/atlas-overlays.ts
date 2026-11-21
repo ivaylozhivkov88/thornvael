@@ -1,10 +1,19 @@
 import { Container, Sprite, type Texture } from 'pixi.js';
-import { TILE, type GameMap } from '../map';
+import { PropKind, TILE, type GameMap } from '../map';
 import type { AdventureObjectDef, WaypointDef } from '../mapdoc';
 import type { ExtraAtlases, PackedAtlas } from '../sprites/extra-atlases';
 import { bossSpriteDef, UnitSprite } from '../sprites/units';
 import { FP, type Sim } from '../sim/sim';
 import { St } from '../sim/spelldata';
+import {
+  getTorchFlickerFrame,
+  getBonfireFrame,
+  getBannerFrame,
+  getWaterWheelFrame,
+  getCauldronFrame,
+  getSmokeColumnFrame,
+  isDungeonBiome,
+} from '../art-wave3';
 
 export type TelegraphBossId = 'morvessa' | 'gorrathul' | 'vesperion' | 'ashkarath';
 export type TelegraphShape = 'ring' | 'cone' | 'line' | 'glyph';
@@ -152,8 +161,8 @@ export class AtlasOverlayPass {
   private readonly telegraphPool = new SpritePool(16);
   private readonly propPool = new SpritePool(24);
   private readonly cityPool = new SpritePool(16);
-  private readonly envPool = new SpritePool(24);
-  private readonly npcPool = new SpritePool(12);
+  private readonly envPool = new SpritePool(64);
+  private readonly npcPool = new SpritePool(32);
   private readonly projPool = new SpritePool(24);
   private readonly statusPool = new SpritePool(24);
 
@@ -291,23 +300,38 @@ export class AtlasOverlayPass {
         }
 
         // 3. Town NPCs idle animations
-        if (atlases.townnpcs && town.def.npcs?.length) {
-          for (const npc of town.def.npcs) {
-            if (!inViewTile(Math.floor(npc.x), Math.floor(npc.y))) continue;
-            const roleKey = resolveTownNpcKey(`${npc.name ?? ''} ${npc.text ?? ''}`);
-            this.npcPool.acquire(
-              atlases.townnpcs,
-              `${roleKey}/idle/${frame4}`,
-              (npc.x + 0.5) * TILE,
-              (npc.y + 0.5) * TILE,
-              { scaleX: 0.72, scaleY: 0.72, anchorX: 0.5, anchorY: 0.88 },
-            );
+        if (atlases.townnpcs) {
+          if (town.def.npcs?.length) {
+            for (const npc of town.def.npcs) {
+              if (!inViewTile(Math.floor(npc.x), Math.floor(npc.y))) continue;
+              const roleKey = resolveTownNpcKey(`${npc.name ?? ''} ${npc.text ?? ''}`);
+              this.npcPool.acquire(
+                atlases.townnpcs,
+                `${roleKey}/idle/${frame4}`,
+                (npc.x + 0.5) * TILE,
+                (npc.y + 0.5) * TILE,
+                { scaleX: 0.72, scaleY: 0.72, anchorX: 0.5, anchorY: 0.88 },
+              );
+            }
+          }
+          if (town.hubNpcs?.length) {
+            for (const npc of town.hubNpcs) {
+              if (!inViewTile(Math.floor(npc.x), Math.floor(npc.y))) continue;
+              const animFrame = animate ? ((sim.tick >> 2) + npc.frameOffset) % 4 : 0;
+              this.npcPool.acquire(
+                atlases.townnpcs,
+                `${npc.role}/idle/${animFrame}`,
+                (npc.x + 0.5) * TILE,
+                (npc.y + 0.5) * TILE,
+                { scaleX: 0.72, scaleY: 0.72, anchorX: 0.5, anchorY: 0.88 },
+              );
+            }
           }
         }
       }
     }
 
-    // 4. Shrines, Adventure Objects, Waypoints (props-wave2)
+    // 4. Shrines, Adventure Objects, Waypoints, Dungeons (props-wave2 & env-anims)
     if (atlases.propsWave2) {
       const props = atlases.propsWave2;
       for (let n = 0; n < sim.shrines.length; n++) {
@@ -332,10 +356,15 @@ export class AtlasOverlayPass {
             this.propPool.acquire(props, 'props/well', px, py, { scaleX: 0.65, scaleY: 0.65, tint: obj.visited ? 0xa8a49c : 0xffffff });
           } else if (obj.kind === 'creature_bank') {
             this.propPool.acquire(props, obj.visited ? 'chests/rare-open' : 'props/cave-mouth', px, py, { scaleX: 0.68, scaleY: 0.68 });
+            if (atlases.envAnims) {
+              this.envPool.acquire(atlases.envAnims, getBonfireFrame(sim.tick, 1, animate), px - 22, py + 12, { scaleX: 0.5, scaleY: 0.5 });
+              this.envPool.acquire(atlases.envAnims, getCauldronFrame(sim.tick, 2, animate), px + 22, py + 10, { scaleX: 0.48, scaleY: 0.48 });
+              this.envPool.acquire(atlases.envAnims, getSmokeColumnFrame(sim.tick, 0, animate), px - 22, py - 18, { scaleX: 0.5, scaleY: 0.5, alpha: 0.7 });
+            }
           } else {
             this.propPool.acquire(props, obj.visited ? 'chests/common-open' : 'chests/common-closed', px, py, { scaleX: 0.68, scaleY: 0.68 });
             if (atlases.envAnims && obj.kind === 'watermill') {
-              this.envPool.acquire(atlases.envAnims, `water-wheel/${frame6}`, px + 14, py - 4, { scaleX: 0.56, scaleY: 0.56 });
+              this.envPool.acquire(atlases.envAnims, getWaterWheelFrame(sim.tick, 0, animate), px + 14, py - 4, { scaleX: 0.56, scaleY: 0.56 });
             }
           }
         }
@@ -348,6 +377,27 @@ export class AtlasOverlayPass {
             scaleX: 0.66,
             scaleY: 0.66,
           });
+          if (atlases.envAnims) {
+            this.envPool.acquire(atlases.envAnims, getTorchFlickerFrame(sim.tick, Math.floor(wp.x), animate), (wp.x + 0.5) * TILE, (wp.y + 0.2) * TILE, {
+              scaleX: 0.45,
+              scaleY: 0.45,
+            });
+          }
+        }
+      }
+    }
+
+    // 4b. Subterranean & Dungeon wall torches / ritual cauldrons
+    if (atlases.envAnims && isDungeonBiome(biomeName)) {
+      for (const obj of map.objects) {
+        if (obj.destroyed || !inViewTile(obj.x, obj.y)) continue;
+        const ox = (obj.x + 0.5) * TILE;
+        const oy = (obj.y + 0.5) * TILE;
+        if (obj.kind === PropKind.Sarcophagus) {
+          this.envPool.acquire(atlases.envAnims, getTorchFlickerFrame(sim.tick, obj.x, animate), ox - 20, oy - 12, { scaleX: 0.48, scaleY: 0.48 });
+          this.envPool.acquire(atlases.envAnims, getTorchFlickerFrame(sim.tick, obj.x + 3, animate), ox + 20, oy - 12, { scaleX: 0.48, scaleY: 0.48 });
+        } else if (obj.kind === PropKind.Urn && (obj.x + obj.y) % 3 === 0) {
+          this.envPool.acquire(atlases.envAnims, getCauldronFrame(sim.tick, obj.y, animate), ox, oy - 4, { scaleX: 0.45, scaleY: 0.45 });
         }
       }
     }

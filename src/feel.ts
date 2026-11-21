@@ -37,6 +37,10 @@ export interface DamageFloater {
   kind: FloaterKind;
 }
 
+const BOSS_FAMILIES = new Set(['boss', 'super_unique', 'champion', 'groktar', 'ashkarath']);
+const SKELETON_FAMILIES = new Set(['skeleton', 'undead_warrior', 'bone_guard', 'ossuary']);
+const CASTER_FAMILIES = new Set(['caster', 'necromancer', 'shaman', 'cultist', 'wraith', 'spectre']);
+
 type FloaterKind = 0 | 1 | 2; // normal, hero, crit
 
 /** One white bitmap font per kind; colour comes from tint, so no re-rasterising per hit. */
@@ -89,6 +93,42 @@ export interface SlashArc {
   lifeMs: number;
 }
 
+export interface GroundCorpseDecal {
+  x: number;
+  y: number;
+  rx: number;
+  ry: number;
+  rot: number;
+  color: number;
+  alpha: number;
+  decayRate: number; // persists and fades gently over ~8-15s
+}
+
+export interface EtherealMote {
+  x: number;
+  y: number;
+  vx: number;
+  vy: number;
+  size: number;
+  color: number;
+  alpha: number;
+  born: number;
+  lifeMs: number;
+}
+
+export interface LootPopParticle {
+  x: number;
+  y: number;
+  vx: number;
+  vy: number;
+  vz: number;
+  z: number;
+  color: number;
+  size: number;
+  born: number;
+  lifeMs: number;
+}
+
 export interface StatusBubble {
   x: number;
   y: number;
@@ -123,7 +163,10 @@ export class CombatFeelSystem {
   // Active pools
   private splatters: GroundSplatter[] = [];
   private boneFragments: BoneDebris[] = [];
+  private corpseDecals: GroundCorpseDecal[] = [];
   private sparks: SparkParticle[] = [];
+  private etherealMotes: EtherealMote[] = [];
+  private lootPops: LootPopParticle[] = [];
   private slashes: SlashArc[] = [];
   private bubbles: StatusBubble[] = [];
   private floaters: DamageFloater[] = [];
@@ -319,8 +362,167 @@ export class CombatFeelSystem {
     }
   }
 
+  /** Spawn ground corpse decal that gently fades out over ~10-15 seconds */
+  spawnCorpseDecal(x: number, y: number, radius = 14, color = 0x5a0e0e): void {
+    if (this.corpseDecals.length > 80) {
+      this.corpseDecals.shift();
+    }
+    const rot = Math.random() * Math.PI * 2;
+    this.corpseDecals.push({
+      x,
+      y,
+      rx: radius * (0.85 + Math.random() * 0.3),
+      ry: radius * 0.58 * (0.85 + Math.random() * 0.3),
+      rot,
+      color,
+      alpha: 0.8,
+      decayRate: 0.00007 + Math.random() * 0.00003, // gently fades out over ~10-14 seconds
+    });
+  }
+
+  /** Spawn scatter of fractured skeletal bone fragments */
+  spawnBoneScatter(x: number, y: number, count = 7): void {
+    if (this.boneFragments.length + count > 200) {
+      this.boneFragments.splice(0, count);
+    }
+    for (let k = 0; k < count; k++) {
+      const bDist = Math.random() * 22 + 4;
+      const bAng = Math.random() * Math.PI * 2;
+      const fx = x + Math.cos(bAng) * bDist;
+      const fy = y + Math.sin(bAng) * (bDist * 0.55);
+      const type = (k % 3) as 0 | 1 | 2;
+      this.boneFragments.push({
+        x: fx,
+        y: fy,
+        rot: Math.random() * Math.PI * 2,
+        length: type === 1 ? 9 + Math.random() * 5 : 5 + Math.random() * 4,
+        width: type === 2 ? 3 : 1.8,
+        type,
+        alpha: 0.95,
+        decayRate: 0.00002, // persists ~45 seconds
+      });
+    }
+  }
+
+  /** Spawn ethereal spectral motes bursting upward (casters & undead) */
+  spawnEtherealMotes(x: number, y: number, count = 12, color = 0xb868ff): void {
+    if (this.etherealMotes.length + count > 150) {
+      this.etherealMotes.splice(0, count);
+    }
+    const now = performance.now();
+    for (let i = 0; i < count; i++) {
+      const ang = (i / Math.max(1, count)) * Math.PI * 2 + (Math.random() - 0.5) * 0.5;
+      const spd = 20 + Math.random() * 55;
+      this.etherealMotes.push({
+        x: x + Math.cos(ang) * 6,
+        y: y + Math.sin(ang) * 4,
+        vx: Math.cos(ang) * spd,
+        vy: -35 - Math.random() * 60, // buoyant upward burst
+        size: 2.2 + Math.random() * 2.2,
+        color,
+        alpha: 1.0,
+        born: now,
+        lifeMs: 500 + Math.random() * 400,
+      });
+    }
+  }
+
+  /** Trigger boss death: crisp hit-stop (slow-mo 2-4 frames) + heavy screen shake + radial loot pop */
+  triggerBossDeathPop(x: number, y: number, count = 12, now = performance.now()): void {
+    // 2-4 frames micro-freeze (slow-mo hit-stop)
+    this.triggerHitStop(70, now);
+    // Heavy cinematic screen shake
+    this.addTrauma(0.85);
+
+    // Radial loot pop: coins & gems burst outward 360 degrees
+    if (this.lootPops.length + count > 100) {
+      this.lootPops.splice(0, count);
+    }
+    for (let i = 0; i < count; i++) {
+      const ang = (i / Math.max(1, count)) * Math.PI * 2 + (Math.random() - 0.5) * 0.4;
+      const spd = 50 + Math.random() * 70;
+      const isGold = i % 3 !== 0;
+      this.lootPops.push({
+        x,
+        y,
+        vx: Math.cos(ang) * spd,
+        vy: Math.sin(ang) * spd * 0.7,
+        vz: 110 + Math.random() * 75,
+        z: 4,
+        color: isGold ? 0xffd700 : i % 2 === 0 ? 0x00e5ff : 0xe040fb,
+        size: isGold ? 2.5 + Math.random() * 1.5 : 3.0 + Math.random() * 1.5,
+        born: now,
+        lifeMs: 700 + Math.random() * 400,
+      });
+    }
+  }
+
+  /**
+   * Handle Monster Family Death FX & Corpse Decals:
+   * - Skeletons: collapse into bone fragments
+   * - Beasts: leave temporary ground corpse decals that gently fade out
+   * - Casters / Undead: burst into ethereal motes
+   * - Bosses: crisp hit-stop (2-4 frames) + screen shake + radial loot pop
+   */
+  onMonsterDeath(
+    x: number,
+    y: number,
+    family?: string,
+    isBoss = false,
+    isElite = false,
+    now = performance.now(),
+  ): void {
+    const fam = (family ?? '').toLowerCase();
+    const isBossMonster = isBoss || fam === 'boss' || BOSS_FAMILIES.has(fam);
+    const isSkeleton = fam === 'skeleton' || SKELETON_FAMILIES.has(fam);
+    const isCaster = fam === 'caster' || CASTER_FAMILIES.has(fam);
+
+    if (isBossMonster) {
+      this.triggerBossDeathPop(x, y, 14, now);
+      this.spawnCorpseDecal(x, y, 20, 0x6a0e0e);
+      this.spawnEtherealMotes(x, y, 16, 0xffa726);
+      this.spawnBoneScatter(x, y, 8);
+    } else if (isSkeleton) {
+      this.spawnBoneScatter(x, y, isElite ? 10 : 7);
+      this.spawnCorpseDecal(x, y, 12, 0x3d3024);
+      this.spawnEtherealMotes(x, y, 8, 0x90caf9);
+    } else if (isCaster) {
+      this.spawnEtherealMotes(x, y, isElite ? 16 : 12, 0xb868ff);
+      this.spawnCorpseDecal(x, y, 12, 0x2e183d);
+    } else {
+      // Beast default: leaves temporary ground corpse decal that gently fades out
+      this.spawnCorpseDecal(x, y, isElite ? 18 : 14, 0x5a0e0e);
+      this.spawnBlood(x, y, 0, 0, isElite ? 7 : 4);
+    }
+  }
+
   /** Spawn persistent death gore: dark pooled blood splatters and fractured bone fragments on terrain */
-  spawnDeathGore(x: number, y: number, isElite = false, isUndead = false): void {
+  spawnDeathGore(
+    x: number,
+    y: number,
+    isElite = false,
+    isUndead = false,
+    family?: string,
+    isBoss = false,
+    now = performance.now(),
+  ): void {
+    if (family !== undefined || isBoss) {
+      this.onMonsterDeath(x, y, family, isBoss, isElite, now);
+      return;
+    }
+
+    // Default routing when family is unspecified
+    if (isUndead) {
+      this.spawnBoneScatter(x, y, isElite ? 9 : 6);
+      this.spawnEtherealMotes(x, y, isElite ? 12 : 8, 0x70c8ff);
+      this.spawnCorpseDecal(x, y, isElite ? 14 : 10, 0x3d3024);
+    } else if (isElite) {
+      this.triggerBossDeathPop(x, y, 10, now);
+      this.spawnCorpseDecal(x, y, 16, 0x640c0c);
+    } else {
+      this.spawnCorpseDecal(x, y, 13, 0x580a0a);
+    }
+
     const bloodCount = isElite ? 8 : 5;
     const colors = [0x500000, 0x6e0000, 0x880808, 0x3d0000];
 
@@ -388,8 +590,26 @@ export class CombatFeelSystem {
       this.trauma = 0;
     }
 
-    // Update Ground Blood Splatters
+    // Update Ground Blood Splatters and Corpse Decals
     this.bloodGraphics.clear();
+
+    // 1. Temporary ground corpse decals (fade gently)
+    for (let i = this.corpseDecals.length - 1; i >= 0; i--) {
+      const d = this.corpseDecals[i];
+      d.alpha -= d.decayRate * (dt * 1000);
+      if (d.alpha <= 0) {
+        this.corpseDecals.splice(i, 1);
+        continue;
+      }
+      this.bloodGraphics.ellipse(d.x, d.y, d.rx, d.ry).fill({ color: d.color, alpha: d.alpha });
+      const cos = Math.cos(d.rot);
+      const sin = Math.sin(d.rot);
+      this.bloodGraphics
+        .ellipse(d.x + cos * 3, d.y + sin * 2, d.rx * 0.6, d.ry * 0.65)
+        .fill({ color: 0x220404, alpha: d.alpha * 0.7 });
+    }
+
+    // 2. Splatters
     for (let i = this.splatters.length - 1; i >= 0; i--) {
       const s = this.splatters[i];
       s.alpha -= s.decayRate * (dt * 1000);
@@ -458,6 +678,47 @@ export class CombatFeelSystem {
       p.vy += 80 * dt; // gravity
       const fade = 1 - age;
       this.sparkGraphics.circle(p.x, p.y, p.size * fade).fill({ color: p.color, alpha: fade });
+    }
+
+    // Update Ethereal Motes (casters & undead bursting into ethereal motes)
+    for (let i = this.etherealMotes.length - 1; i >= 0; i--) {
+      const m = this.etherealMotes[i];
+      const age = (now - m.born) / m.lifeMs;
+      if (age >= 1) {
+        this.etherealMotes.splice(i, 1);
+        continue;
+      }
+      m.x += m.vx * dt;
+      m.y += m.vy * dt;
+      m.vy += 10 * dt; // gentle deceleration
+      const fade = 1 - age;
+      this.sparkGraphics.circle(m.x, m.y, m.size * 1.8).fill({ color: m.color, alpha: 0.22 * fade });
+      this.sparkGraphics.circle(m.x, m.y, m.size * fade).fill({ color: m.color, alpha: 0.9 * fade });
+      this.sparkGraphics.circle(m.x, m.y, m.size * 0.45 * fade).fill({ color: 0xffffff, alpha: fade });
+    }
+
+    // Update Radial Loot Pop (boss death)
+    for (let i = this.lootPops.length - 1; i >= 0; i--) {
+      const lp = this.lootPops[i];
+      const age = (now - lp.born) / lp.lifeMs;
+      if (age >= 1) {
+        this.lootPops.splice(i, 1);
+        continue;
+      }
+      lp.vz -= 360 * dt; // gravity
+      lp.x += lp.vx * dt;
+      lp.y += lp.vy * dt;
+      lp.z = Math.max(0, lp.z + lp.vz * dt);
+      if (lp.z <= 0 && lp.vz < -30) {
+        lp.vz = -lp.vz * 0.45; // bounce
+        lp.vx *= 0.6;
+        lp.vy *= 0.6;
+      }
+      const fade = age > 0.7 ? (1 - age) / 0.3 : 1.0;
+      const drawY = lp.y - lp.z;
+      this.sparkGraphics.circle(lp.x, drawY, lp.size * 1.7).fill({ color: lp.color, alpha: 0.3 * fade });
+      this.sparkGraphics.circle(lp.x, drawY, lp.size).fill({ color: lp.color, alpha: fade });
+      this.sparkGraphics.circle(lp.x, drawY, lp.size * 0.4).fill({ color: 0xffffff, alpha: fade });
     }
 
     // Update Melee Weapon Slashes (sweep arcs and crits)

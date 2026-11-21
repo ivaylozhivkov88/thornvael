@@ -14,35 +14,8 @@ export interface MissionHost {
 
 const OBJ_MARK = ['', '◻', '✔', '✖'];
 
-export interface QuestObjective {
-  readonly id: string;
-  readonly text: string;
-  readonly completed: boolean;
-  readonly current: number;
-  readonly total: number;
-  readonly optional?: boolean;
-  readonly targetX?: number;
-  readonly targetY?: number;
-}
-
-export interface QuestReward {
-  readonly gold: number;
-  readonly xp: number;
-  readonly renown: string;
-  readonly item: string;
-}
-
-export interface QuestDossier {
-  readonly id: string;
-  readonly category: 'main' | 'side' | 'completed';
-  readonly actTitle: string;
-  readonly title: string;
-  readonly location: string;
-  readonly narrative: string;
-  readonly objectives: readonly QuestObjective[];
-  readonly rewards: QuestReward;
-  readonly sealText: string;
-}
+import type { QuestObjective, QuestReward, QuestDossier } from './questlog';
+export type { QuestObjective, QuestReward, QuestDossier };
 
 /** SVG Vector Portraits for Gothic Characters */
 export function getWardenHalePortraitSvg(): string {

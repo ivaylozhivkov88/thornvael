@@ -19,6 +19,7 @@ export class Minimap {
   private readonly img: ImageData;
   private fogSeen = -1;
   private readonly scale: number;
+  private questGoal: { x: number; y: number } | null = null;
   readonly pingQueue = new MinimapPingQueue({ maxPings: 12, defaultDurationMs: 3200, maxPulseRadius: 14 });
 
   constructor(
@@ -171,6 +172,95 @@ export class Minimap {
     if (this.pingQueue.size() > 0) {
       drawMinimapPings(g, this.pingQueue, s);
     }
+
+    // --- Quest Objective Goal & Directional Indicator ---
+    const goal = this.questGoal;
+    if (goal) {
+      const gx = goal.x * s;
+      const gy = goal.y * s;
+      const now = typeof performance !== 'undefined' ? performance.now() : 0;
+      const pulsePhase = (now % 1200) / 1200;
+      const pulseAlpha = Math.max(0, 1 - pulsePhase);
+
+      g.save?.();
+
+      // Outer expanding aura
+      if (g.beginPath && g.arc && g.stroke) {
+        g.strokeStyle = `rgba(255, 215, 0, ${pulseAlpha * 0.9})`;
+        g.lineWidth = 1.8;
+        g.beginPath();
+        g.arc(gx, gy, 3 + pulsePhase * 8, 0, Math.PI * 2);
+        g.stroke();
+
+        // Inner glowing ring
+        g.strokeStyle = `rgba(255, 245, 160, ${pulseAlpha * 0.7})`;
+        g.lineWidth = 1;
+        g.beginPath();
+        g.arc(gx, gy, 2 + pulsePhase * 4, 0, Math.PI * 2);
+        g.stroke();
+      }
+
+      // Objective core diamond marker
+      if (g.beginPath && g.moveTo && g.lineTo && g.fill) {
+        const d = 4.5;
+        g.beginPath();
+        g.moveTo(gx, gy - d);
+        g.lineTo(gx + d, gy);
+        g.lineTo(gx, gy + d);
+        g.lineTo(gx - d, gy);
+        g.closePath();
+        g.fillStyle = '#ffe066';
+        g.fill();
+        g.strokeStyle = '#5a3800';
+        g.lineWidth = 1.2;
+        g.stroke?.();
+      }
+
+      // Edge-of-viewport indicator arrow on minimap when objective is outside current camera view
+      const isOutsideView =
+        goal.x < view.x0 ||
+        goal.x > view.x1 ||
+        goal.y < view.y0 ||
+        goal.y > view.y1;
+
+      if (isOutsideView && g.beginPath && g.moveTo && g.lineTo && g.fill) {
+        const vx0 = view.x0 * s;
+        const vy0 = view.y0 * s;
+        const vx1 = view.x1 * s;
+        const vy1 = view.y1 * s;
+        const cx = (vx0 + vx1) / 2;
+        const cy = (vy0 + vy1) / 2;
+        const dx = gx - cx;
+        const dy = gy - cy;
+        const angle = Math.atan2(dy, dx);
+
+        const halfW = Math.max(2, (vx1 - vx0) / 2);
+        const halfH = Math.max(2, (vy1 - vy0) / 2);
+        const kEdge = Math.min(halfW / Math.max(Math.abs(dx), 1e-3), halfH / Math.max(Math.abs(dy), 1e-3));
+        const edgeX = cx + dx * kEdge;
+        const edgeY = cy + dy * kEdge;
+
+        const pulseGlow = 0.6 + 0.4 * Math.sin(now / 180);
+        g.fillStyle = `rgba(255, 215, 0, ${pulseGlow})`;
+        g.strokeStyle = '#3a2000';
+        g.lineWidth = 1.2;
+
+        const arrowLen = 5;
+        const sideAngle1 = angle + 2.4;
+        const sideAngle2 = angle - 2.4;
+        g.beginPath();
+        g.moveTo(edgeX + Math.cos(angle) * arrowLen, edgeY + Math.sin(angle) * arrowLen);
+        g.lineTo(edgeX + Math.cos(sideAngle1) * arrowLen, edgeY + Math.sin(sideAngle1) * arrowLen);
+        g.lineTo(edgeX, edgeY);
+        g.lineTo(edgeX + Math.cos(sideAngle2) * arrowLen, edgeY + Math.sin(sideAngle2) * arrowLen);
+        g.closePath();
+        g.fill();
+        g.stroke?.();
+      }
+
+      g.restore?.();
+    }
+
     g.strokeStyle = '#ffffff';
     g.lineWidth = 1;
     g.strokeRect(
@@ -179,6 +269,18 @@ export class Minimap {
       Math.round((view.x1 - view.x0) * s),
       Math.round((view.y1 - view.y0) * s),
     );
+  }
+
+  setQuestGoal(x: number | null, y: number | null): void {
+    if (x !== null && y !== null) {
+      this.questGoal = { x, y };
+    } else {
+      this.questGoal = null;
+    }
+  }
+
+  getQuestGoal(): { x: number; y: number } | null {
+    return this.questGoal;
   }
 
   /** Push an animated tactical radar ping onto the minimap. */

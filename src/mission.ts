@@ -9,6 +9,7 @@ import { DIFFICULTY_TIERS, SkirmishModeController } from './sim/ai/skirmish-mode
 import { ScriptRuntime } from './sim/script';
 import { Sim } from './sim/sim';
 import { applyDynamicSessionRespawn } from './sim/respawn';
+import { placeCampaignGoldPiles } from './sim/loot';
 import ashentier from './missions/ashen-tier.map.json';
 import blackwater from './missions/blackwater-reach.map.json';
 import blood from './missions/blood-at-the-ford.map.json';
@@ -237,6 +238,8 @@ export function createMission(
   sim.attachTowns(doc.towns ?? []);
   if (doc.shrines?.length) sim.attachShrines(doc.shrines);
   sim.attachScript(new ScriptRuntime(structuredClone(def)));
+  // Spawn interactive clickable gold piles alongside chests and monster camps
+  placeCampaignGoldPiles(sim, doc, sim.rng);
 
   // If dynamic session respawn is requested for a wilderness mission, apply it
   if (options?.sessionSeed && (!doc.towns || doc.towns.length === 0)) {
