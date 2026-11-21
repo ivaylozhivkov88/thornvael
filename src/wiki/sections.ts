@@ -113,7 +113,7 @@ export const WIKI_SECTIONS: readonly WikiSectionDef[] = [
     label: 'Tips',
     route: 'tips',
     icon: '💡',
-    desc: 'Tactical loading tips, combat guides, and epitaphs.',
+    desc: 'Tactical loading tips, gameplay assists, squad guides, Holy Grail hints, and epitaphs.',
     types: ['tip'],
   },
   {
@@ -121,7 +121,7 @@ export const WIKI_SECTIONS: readonly WikiSectionDef[] = [
     label: 'Glossary',
     route: 'glossary',
     icon: '📖',
-    desc: 'Schools, rarities, difficulties, elite modifiers, and cube crafting.',
+    desc: 'Schools, rarities, gameplay assists, stances, Holy Grail, bounties, and crafting.',
     types: ['glossary'],
   },
 ];

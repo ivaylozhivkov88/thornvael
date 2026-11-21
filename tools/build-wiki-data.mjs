@@ -822,7 +822,7 @@ export function buildWikiData() {
   const itemLore = readJson('src/data/text/item-lore.json', {});
   const loreOf = (key) =>
     Object.keys(itemLore)
-      .filter((k) => k === key || k.startsWith(key + '.'))
+      .filter((k) => k === key || k.startsWith(`${key}.`))
       .map((k) => itemLore[k]);
   const spFlavor = readJson('src/data/text/spell-flavor.json', {});
   const spText = Object.fromEntries(C('spell-text').map((t) => [t.name, t]));
@@ -830,12 +830,38 @@ export function buildWikiData() {
   const spellAll = [...spellsBase, ...C('spells-new')];
   const spellByName = Object.fromEntries(spellAll.map((s) => [s.name, s]));
 
-  for (const it of gearList) {
+  const actSpanForTier = (tier) => {
+    const t = Number(tier) || 1;
+    if (t <= 1) return 'Act I';
+    if (t === 2) return 'Act I–II';
+    if (t === 3) return 'Act II–III';
+    if (t === 4) return 'Act III–IV';
+    return 'Act IV & Hard+ Endgame';
+  };
+  const dropClueForSupply = (kind, tier, slot) => {
+    const span = actSpanForTier(tier);
+    if (kind === 'learn') return `${span} Arcane Sanctums, Library Chests & Academy Drops`;
+    if (kind === 'potion' || kind === 'scroll' || kind === 'identify' || kind === 'portal') {
+      return `${span} Quartermasters, Belt Drops & Field Loot Sacks`;
+    }
+    return `${span} ${slot ? `${cap(slot)} ` : ''}Drops, Town Merchants & Mystery Gamble`;
+  };
+  const gearTierByName = Object.fromEntries(gearList.map((it) => [it.name.toLowerCase(), it.tier ?? 1]));
+
+  for (const [idx, it] of gearList.entries()) {
     const id = slug(it.name);
+    const grailTome =
+      it.kind === 'learn'
+        ? 'Tome V — Imperial Armory (Arcane Tomes)'
+        : it.kind === 'potion' || it.kind === 'scroll' || it.kind === 'identify' || it.kind === 'portal'
+          ? 'Frontier Supply Ledger (Non-Grail)'
+          : 'Tome V — Imperial Armory';
     const inf = [
       ['Type', cap(it.kind)],
       ['Tier', String(it.tier)],
       ['Weight', String(it.w)],
+      ['Grail Tome', grailTome],
+      ['Drop Clue', dropClueForSupply(it.kind, it.tier, it.slot)],
     ];
     if (it.slot) inf.push(['Slot', cap(it.slot)]);
     if (it.cls) inf.push(['Class', cap(it.cls)]);
@@ -879,16 +905,16 @@ export function buildWikiData() {
       id,
       type: 'item',
       title: it.name,
-      summary: `${cap(it.kind)}${it.slot ? ' · ' + it.slot : ''} · tier ${it.tier}`,
+      summary: `${cap(it.kind)}${it.slot ? ` · ${it.slot}` : ''} · tier ${it.tier}`,
       img: iconFor('item', id, it.name, 'infobox/icon'),
       infobox: inf,
       sections,
       related,
-      tags: { rarity: 'common', level: it.tier, slot: it.slot ?? it.kind, cls: it.cls ?? '' },
+      tags: { rarity: 'common', level: it.tier, slot: it.slot ?? it.kind, cls: it.cls ?? '', codexId: idx },
     });
   }
   for (const b of C('base-items')) {
-    const id = 'base-' + b.id;
+    const id = `base-${b.id}`;
     const fl = itemFlavor[b.name];
     const sections = [{ h: 'Description', p: [b.flavor || fl?.flavor || `Tier ${b.tier} base ${b.slot}.`] }];
     if (fl?.inspect) sections.push({ h: 'Quartermaster notes', p: [fl.inspect] });
@@ -903,6 +929,8 @@ export function buildWikiData() {
         ['Slot', cap(b.slot)],
         ['Tier', String(b.tier)],
         ['Class', cap(b.class_hint)],
+        ['Grail Tome', 'Tome V — Imperial Armory'],
+        ['Drop Clue', `${actSpanForTier(b.tier)} Weapon/Armor Racks, Elite Drops & Smithy Upgrade`],
       ],
       sections,
       related: [],
@@ -911,7 +939,7 @@ export function buildWikiData() {
   }
   // Sim D2 base items & endgame keys
   for (const b of d2Mod.BASE_ITEMS) {
-    const id = 'sim-' + slug(b.id);
+    const id = `sim-${slug(b.id)}`;
     if (itemEntries.some((x) => x.title.toLowerCase() === b.name.toLowerCase())) continue;
     const slotLabel = b.charmSize ? `${cap(b.charmSize)} Charm` : b.beltSlots ? 'Belt' : (SLOT_NAME[b.slot] ?? 'Gear');
     const inf = [
@@ -919,6 +947,11 @@ export function buildWikiData() {
       ['Slot', slotLabel],
       ['Tier', String(b.tier)],
       ['Max sockets', String(b.maxSockets)],
+      ['Grail Tome', 'Tome V — Imperial Armory'],
+      [
+        'Drop Clue',
+        `${actSpanForTier(b.tier)} Socketed Bases, Elite Chests & Mystery Gamble (Max ${b.maxSockets} Sockets)`,
+      ],
     ];
     if (b.minDmg != null) inf.push(['Damage', `${b.minDmg}-${b.maxDmg}`]);
     if (b.def != null) inf.push(['Defense', String(b.def)]);
@@ -958,6 +991,18 @@ export function buildWikiData() {
       (gemSlugFor(id, sp.name)
         ? synthesizeSpecialGemLore(id, sp.name, sp.tier)
         : `Specialized tier-${sp.tier} frontier supply item (${sp.name}).`);
+    const isVaultKey = id === 'pinnacle-writ' || id.startsWith('sigil-of-');
+    const isSocketable = Boolean(gemSlugFor(id, sp.name) || id.startsWith('rune-'));
+    const specialTome = isVaultKey
+      ? 'Tome IV — Boss Trophies & Vault Keys'
+      : isSocketable
+        ? 'Tome III — Runes & Socketables'
+        : 'Frontier Supply Ledger (Special)';
+    const specialClue = isVaultKey
+      ? 'Act IV Obsidian Caldera, Hard+ Elites & Transmutation Cube (Pinnacle Vault)'
+      : isSocketable
+        ? `${actSpanForTier(sp.tier)} Treasure Chests, Tavern Bounties & Cube Transmutation`
+        : `${actSpanForTier(sp.tier)} Quartermasters, Alchemists & Field Loot Sacks`;
     itemEntries.push({
       id,
       type: 'item',
@@ -968,6 +1013,8 @@ export function buildWikiData() {
         ['Type', 'Special'],
         ['Tier', String(sp.tier)],
         ['Weight', String(sp.w)],
+        ['Grail Tome', specialTome],
+        ['Drop Clue', specialClue],
       ],
       sections: [{ h: 'Description', p: [specialLore] }],
       related: [],
@@ -976,6 +1023,8 @@ export function buildWikiData() {
   }
   out.items = uniqBy(itemEntries, 'id');
 
+  const bestiaryById = Object.fromEntries(out.bestiary.map((b) => [b.id, b]));
+  const missionById = Object.fromEntries(missionNodes.map((n) => [n.id, n]));
   const uniqueEntries = [];
   for (const u of uniques) {
     const id = u.id;
@@ -989,6 +1038,13 @@ export function buildWikiData() {
       ...(lore.length ? [{ h: 'Chronicle lore', p: lore }] : []),
     ];
     if (!sections.length) sections.push({ h: 'Lore', p: ['No lore yet.'] });
+    const actNum = u.act ?? u.tier ?? 1;
+    const dropMission = u.drop_from ? firstMission(u.drop_from) : '';
+    const dropMissionTitle = dropMission ? (missionById[dropMission]?.title ?? dropMission.toUpperCase()) : '';
+    const dropSourceName = u.drop_from ? (bestiaryById[u.drop_from]?.title ?? cap(u.drop_from.replace(/-/g, ' '))) : '';
+    const uniqueDropClue = dropSourceName
+      ? `${dropSourceName} (Act ${actNum}${dropMissionTitle ? ` · ${dropMissionTitle}` : ''}), Tavern Bounties & Mystery Gamble`
+      : `Act ${actNum} Bosses, Super-Uniques, Tavern Bounties & Mystery Gamble (Smart Grail Pity at 25%)`;
     uniqueEntries.push({
       id,
       type: 'unique',
@@ -1000,7 +1056,9 @@ export function buildWikiData() {
         ['Base', u.base],
         ['Class', cap(u.cls ?? u.class)],
         ['Act / Tier', String(u.act ?? u.tier ?? '')],
-        ...(u.drop_from ? [['Dropped by', u.drop_from]] : []),
+        ['Grail Tome', 'Tome I — Unique Artifacts'],
+        ['Drop Clue', uniqueDropClue],
+        ...(u.drop_from ? [['Dropped by', dropSourceName]] : []),
         ...stats.map((s) => ['Stat', s]),
       ],
       sections,
@@ -1017,30 +1075,43 @@ export function buildWikiData() {
   }
   out.uniques = uniqBy(uniqueEntries, 'id');
 
-  const jsonSets = [...C('item-sets'), ...C('item-sets-2')].map((s) => ({
-    id: s.id,
-    type: 'set',
-    title: s.name,
-    summary: `${cap(s.class)} set · ${s.pieces.length} pieces`,
-    img: pic(
-      'set',
-      s.id,
-      'infobox/icon',
-      ...s.pieces.map((p) => `itemicons/${slug(p.name)}.png`),
-      ...s.pieces.map((p) => `itemicons/${slug(p.base)}.png`),
-    ),
-    infobox: [
-      ['Class', cap(s.class)],
-      ['Pieces', String(s.pieces.length)],
-    ],
-    sections: [
-      { h: 'Pieces', list: s.pieces.map((p) => `${p.name} (${p.base})`) },
-      { h: 'Set bonuses', list: Object.entries(s.bonuses ?? {}).map(([n, t]) => `${n} pieces: ${t}`) },
-      { h: 'Lore', p: [s.lore || 'No lore yet.'] },
-    ],
-    related: [],
-    tags: { rarity: 'set', level: s.pieces.length, cls: s.class },
-  }));
+  const jsonSetFiles = [
+    ...C('item-sets').map((s) => ({ s, baseTier: 2 })),
+    ...C('item-sets-2').map((s) => ({ s, baseTier: 3 })),
+  ];
+  const jsonSets = jsonSetFiles.map(({ s, baseTier }) => {
+    const pieceTiers = s.pieces.map((p) => gearTierByName[p.base?.toLowerCase()] ?? baseTier).filter(Boolean);
+    const maxTier = pieceTiers.length ? Math.max(...pieceTiers) : baseTier;
+    return {
+      id: s.id,
+      type: 'set',
+      title: s.name,
+      summary: `${cap(s.class)} set · ${s.pieces.length} pieces`,
+      img: pic(
+        'set',
+        s.id,
+        'infobox/icon',
+        ...s.pieces.map((p) => `itemicons/${slug(p.name)}.png`),
+        ...s.pieces.map((p) => `itemicons/${slug(p.base)}.png`),
+      ),
+      infobox: [
+        ['Class', cap(s.class)],
+        ['Pieces', String(s.pieces.length)],
+        ['Grail Tome', 'Tome II — Sacred Sets'],
+        [
+          'Drop Clue',
+          `${actSpanForTier(maxTier)} Champions, Boss Chests, Tavern Bounties & Mystery Gamble (${s.pieces.length}-Piece ${cap(s.class)} Set)`,
+        ],
+      ],
+      sections: [
+        { h: 'Pieces', list: s.pieces.map((p) => `${p.name} (${p.base})`) },
+        { h: 'Set bonuses', list: Object.entries(s.bonuses ?? {}).map(([n, t]) => `${n} pieces: ${t}`) },
+        { h: 'Lore', p: [s.lore || 'No lore yet.'] },
+      ],
+      related: [],
+      tags: { rarity: 'set', level: s.pieces.length, cls: s.class },
+    };
+  });
   const SIM_SET_ICON = {
     iron_warden: 'gothic-full-plate',
     pyromancer: 'leyline-conduit-vestment',
@@ -1062,8 +1133,9 @@ export function buildWikiData() {
     Gloves: 'iron-gauntlets',
   };
   const simSets = setsMod.ALL_SETS.map((s) => {
-    const id = 'sim-' + slug(s.id);
+    const id = `sim-${slug(s.id)}`;
     const cls = s.pieces[0] ? CLS_FROM_MASK(s.pieces[0].cls) : 'All';
+    const maxTier = Math.max(1, ...s.pieces.map((p) => p.tier ?? 1));
     const fmtBonus = (b) => {
       const parts = [];
       if (b.hp) parts.push(`+${b.hp} HP`);
@@ -1092,6 +1164,11 @@ export function buildWikiData() {
       infobox: [
         ['Class', cls],
         ['Pieces', String(s.pieces.length)],
+        ['Grail Tome', 'Tome II — Sacred Sets'],
+        [
+          'Drop Clue',
+          `${actSpanForTier(maxTier)} Elite Packs, Super-Uniques & Mystery Gamble (${s.pieces.length}-Piece ${cls} Set)`,
+        ],
       ],
       sections: [
         {
@@ -1195,6 +1272,7 @@ export function buildWikiData() {
   };
   const jsonGems = C('gems-runes').map((g) => {
     const fallbackSlug = g.kind === 'rune' ? runeSlugFor(g.id, g.name) : gemSlugFor(g.id, g.name);
+    const gemTome = g.kind === 'rune' ? 'Tome III — Runes & Crafted Runewords' : 'Tome III — Socketables & Gems';
     return {
       id: g.id,
       type: 'gem',
@@ -1210,6 +1288,8 @@ export function buildWikiData() {
       infobox: [
         ['Kind', cap(g.kind)],
         ['Tier', String(g.tier)],
+        ['Grail Tome', gemTome],
+        ['Drop Clue', `${actSpanForTier(g.tier)} Mineral Nodes, Treasure Chests, Tavern Bounties & Cube Upgrades`],
         ['In weapon', g.socket_effect?.weapon ?? '-'],
         ['In armor', g.socket_effect?.armor ?? '-'],
         ['Buy', String(g.buy)],
@@ -1224,7 +1304,7 @@ export function buildWikiData() {
     };
   });
   const d2Gems = d2Mod.D2_GEMS.map((g) => {
-    const id = 'gem-' + slug(g.name);
+    const id = `gem-${slug(g.name)}`;
     const fallbackSlug = gemSlugFor(id, g.name);
     return {
       id,
@@ -1242,6 +1322,8 @@ export function buildWikiData() {
         ['Kind', 'Gem'],
         ['Quality', cap(g.quality)],
         ['Tier', String(g.tier)],
+        ['Grail Tome', 'Tome III — Socketables & Gems'],
+        ['Drop Clue', `${actSpanForTier(g.tier)} Gem Shrines, Elite Drops & 3-for-1 Transmutation Cube Upgrades`],
         ['In weapon', fmtBonusObj(g.weaponBonus)],
         ['In armor', fmtBonusObj(g.armorBonus)],
         ['In shield', fmtBonusObj(g.shieldBonus)],
@@ -1252,8 +1334,13 @@ export function buildWikiData() {
     };
   });
   const runeById = Object.fromEntries(runesMod.ALL_RUNES.map((r) => [r.id, r]));
+  const runeDropClue = (rank) => {
+    if (rank <= 11) return 'Act I–II Monsters, Bounty Chests & 3-for-1 Cube Upgrades (Low Rune)';
+    if (rank <= 22) return 'Act II–IV Super-Uniques, Tavern Bounties & Cube Rune Transmutation (Mid Rune)';
+    return 'Act IV Obsidian Caldera Bosses, Hard/Nightmare Elites & Pinnacle Vault (High Rune)';
+  };
   const simRunes = runesMod.ALL_RUNES.map((r) => {
-    const id = 'rune-' + slug(r.name);
+    const id = `rune-${slug(r.name)}`;
     const fallbackSlug = runeSlugFor(id, r.name);
     return {
       id,
@@ -1271,6 +1358,8 @@ export function buildWikiData() {
         ['Kind', 'Rune'],
         ['Rank', String(r.id)],
         ['Required Level', String(r.clvl)],
+        ['Grail Tome', 'Tome III — Runes & Crafted Runewords'],
+        ['Drop Clue', runeDropClue(r.id)],
         ['In weapon', fmtBonusObj(r.weaponBonus)],
         ['In armor', fmtBonusObj(r.armorBonus)],
         ['In shield', fmtBonusObj(r.shieldBonus)],
@@ -1297,6 +1386,8 @@ export function buildWikiData() {
         ['Runes', recipeNames.join(' → ')],
         ['Allowed slots', slotNames],
         ['Required Level', String(rw.clvl)],
+        ['Grail Tome', 'Tome III — Runes & Crafted Runewords'],
+        ['Drop Clue', `Crafted by socketing ${recipeNames.join(' → ')} into ${slotNames} (Unlocks on forge)`],
       ],
       sections: [
         { h: 'Recipe order', list: recipeNames },
@@ -2250,30 +2341,122 @@ export function buildWikiData() {
     'id',
   );
 
+  const newGameplayTips = [
+    {
+      id: 'tip-assist-auto-cast',
+      title: 'Auto-Cast Spells & Per-Spell Toggle',
+      cat: 'spells',
+      text: 'Right-click (desktop) or long-press (mobile) any learned spell to bind Auto-Cast. When enabled in Settings, healing spells trigger at 65% squad HP while offensive casts respect your 15% mana reserve.',
+      related: ['glossary/auto-cast-spells', 'glossary/auto-fight-modes'],
+    },
+    {
+      id: 'tip-assist-auto-go',
+      title: 'Auto-Go & Ambush Guard Safety',
+      cat: 'map',
+      text: 'Enable Auto-Go in Settings to march along the shortest A* path toward mission objectives; Ambush Guard automatically halts your squad in formation the moment any enemy enters sight, and any manual click cancels immediately.',
+      related: ['glossary/auto-go-objective', 'glossary/regroup-to-hero'],
+    },
+    {
+      id: 'tip-assist-auto-fight',
+      title: 'Choosing an Auto-Fight Mode',
+      cat: 'combat',
+      text: 'Switch Auto-Fight between Off / Manual (strict classic orders), Self-Defense (retaliate when struck), and Tactical AI (full autonomous engagement and spell priority) anytime from the Pause Menu or Main Menu Settings.',
+      related: ['glossary/auto-fight-modes', 'glossary/squad-stances'],
+    },
+    {
+      id: 'tip-assist-loot-sweep',
+      title: 'Post-Combat Loot Sweep & Belt Potions',
+      cat: 'items',
+      text: 'Press F (or toggle Auto-Loot Sweep in Settings) after clearing an encounter to gather nearby gold piles, loot sacks, and belt potions, while Auto-Potion Threshold drinks belt charges automatically below 30% or 45% HP.',
+      related: ['glossary/auto-loot-sweep', 'glossary/auto-potion-threshold'],
+    },
+    {
+      id: 'tip-tactical-stances',
+      title: 'Hold Bridges with H / G / A & Regroup [R]',
+      cat: 'combat',
+      text: 'Set bridge blockers to Hold Ground [H] for zero melee chase, use Guard [G] for a 3-tile leash or Aggressive [A] for 9-tile pursuit, and press R to pull scattered mercenaries back into a two-rank formation around your hero.',
+      related: ['glossary/squad-stances', 'glossary/regroup-to-hero'],
+    },
+    {
+      id: 'tip-tactical-high-ground',
+      title: 'Seize Ridge Elevation for Bonus Crit & Range',
+      cat: 'combat',
+      text: 'Position archers and mages at least 2 height steps above foes to gain +1.5 tile range, +15% accuracy, and +10% crit chance; firing uphill by 2 or more steps imposes a -15% accuracy penalty.',
+      related: ['glossary/high-ground-advantage', 'glossary/squad-stances'],
+    },
+    {
+      id: 'tip-merc-veterancy',
+      title: 'Build Veteran Mercenary Perks',
+      cat: 'hero',
+      text: 'Keep hired mercenaries alive across battles so kills and survived missions promote them from Recruit to Veteran, Elite, and Champion Guard, unlocking Shield Wall, Double Draw, and Arcane Conduit perks.',
+      related: ['glossary/mercenary-veterancy', 'glossary/mercenary-gear-slots'],
+    },
+    {
+      id: 'tip-merc-sanctuary',
+      title: 'Revive Fallen Veterans at the Temple',
+      cat: 'town',
+      text: 'When a veteran mercenary falls in battle, visit the town Temple to pay a gold tithe for Temple Resurrection, restoring your fallen companion with their full kill count, veterancy rank, and charm slot intact.',
+      related: ['glossary/temple-resurrection', 'glossary/mercenary-veterancy'],
+    },
+    {
+      id: 'tip-holy-grail-hunt',
+      title: 'Track All Five Tomes in the Imperial Holy Grail',
+      cat: 'items',
+      text: 'Open the Hall of Relics Codex to track 132 Uniques, 28 Sacred Sets, 33 Runes & 25 Runewords, 20 Boss Trophies, and 187 Armory Bases; rolls at 98% Perfection or higher earn an everlasting Primal Foil frame.',
+      related: ['glossary/holy-grail-tomes', 'glossary/grail-roll-perfection'],
+    },
+    {
+      id: 'tip-holy-grail-pins',
+      title: 'Pin Up to 3 Grail Targets for Drop Clues',
+      cat: 'guide',
+      text: 'Pin up to three missing relics as active Grail Targets on the Codex or Wiki to highlight matching campaign missions, Tavern Bounty targets, and drop clues across every act.',
+      related: ['glossary/grail-target-pinning', 'glossary/holy-grail-boons'],
+    },
+    {
+      id: 'tip-town-bounties',
+      title: 'Check Tavern Bounties Before Redeploying',
+      cat: 'town',
+      text: 'Town taverns post regional Super-Unique Bounty Contracts offering guaranteed rune, rare, or unique drops — an efficient way to target-farm pinned Holy Grail items.',
+      related: ['glossary/tavern-bounties', 'glossary/grail-target-pinning'],
+    },
+    {
+      id: 'tip-town-gamble',
+      title: 'Mystery Gamble & Smart Grail Pity',
+      cat: 'town',
+      text: 'Spend surplus gold on town Mystery Gamble slots once you unlock the 25% Holy Grail Milestone, activating Smart Grail Pity (+25% weight toward uncollected Uniques and Sacred Set pieces).',
+      related: ['glossary/mystery-gamble', 'glossary/holy-grail-boons'],
+    },
+  ];
+
   const tipsAll = [
     ...readJson('public/data/text/loading-tips-50.json', { entries: [] }).entries.map((t, i) => ({
       id: t.key,
       title: `Field Tip ${i + 1}`,
       text: t.text,
       cat: 'loading',
+      related: [],
     })),
     ...C('tips-2').map((t, i) => ({
       id: t.id || `tip2-${i}`,
       title: `${cap(t.context ?? 'combat')} Tip ${i + 1}`,
       text: t.text,
       cat: t.context ?? 'combat',
+      related: [],
     })),
     ...C('help-pages').map((h) => ({
       id: h.id,
       title: h.title,
       text: h.body,
       cat: 'guide',
+      related: [],
     })),
+    ...newGameplayTips,
     ...readJson('public/data/text/death-messages-30.json', { entries: [] }).entries.map((d, i) => ({
       id: d.key || `death-${i}`,
       title: `Epitaph ${i + 1}`,
       text: d.text,
       cat: 'epitaph',
+      related: [],
     })),
   ];
   out.tips = uniqBy(
@@ -2285,7 +2468,7 @@ export function buildWikiData() {
       img: pic('tip', t.id, 'infobox/emblem', `wiki/icons/tip-${t.cat}.png`, 'wiki/icons/tip-general.png'),
       infobox: [['Category', cap(t.cat)]],
       sections: [{ h: t.cat === 'guide' ? 'Guide' : 'Tip', p: [t.text] }],
-      related: [],
+      related: t.related ?? [],
       tags: { cat: t.cat, level: 0, rarity: '' },
     })),
     'id',
@@ -2293,15 +2476,23 @@ export function buildWikiData() {
 
   const schools = [...new Set(out.spells.map((s) => s.tags.school))];
   const gl = [];
-  const term = (id, title, text, related = [], infobox = [['Kind', 'Term']]) =>
+  const term = (
+    id,
+    title,
+    text,
+    related = [],
+    infobox = [['Kind', 'Term']],
+    extraSections = [],
+    iconPath = `wiki/icons/glossary-${id}.png`,
+  ) =>
     gl.push({
       id,
       type: 'glossary',
       title,
       summary: text,
-      img: pic('glossary', id, 'infobox/emblem', `wiki/icons/glossary-${id}.png`),
+      img: pic('glossary', id, 'infobox/emblem', iconPath),
       infobox,
-      sections: [{ h: 'Definition', p: [text] }],
+      sections: [{ h: 'Overview', p: [text] }, ...extraSections],
       related,
       tags: { level: 0, rarity: '' },
     });
@@ -2392,6 +2583,374 @@ export function buildWikiData() {
       ['Runewords', String(runesMod.RUNEWORDS.length)],
     ],
   );
+
+  // ---- Optional Gameplay Assists (Settings) ----
+  term(
+    'auto-cast-spells',
+    'Auto-Cast Spells',
+    'Optional deterministic spell automation toggled in Settings (Off, Per-Spell, or Smart) and bound per spell via desktop Right-Click or mobile Long-Press, marked with a rotating rune border on the hotkey bar.',
+    ['glossary/auto-fight-modes', 'glossary/auto-potion-threshold', 'tip/tip-assist-auto-cast'],
+    [
+      ['Kind', 'Gameplay Assist'],
+      ['Toggle', 'Right-Click / Long-Press + Settings'],
+      ['Heal Threshold', '65% HP (default)'],
+      ['Mana Reserve', '15% Mana (default)'],
+    ],
+    [
+      {
+        h: 'Priority Rules (Evaluated Every 8 Ticks)',
+        list: [
+          'Healing spells (Healing, Healing Rain) target the lowest-HP squad member at or below 65% HP within cast range.',
+          'Defensive buffs (Stone Skin, Blessing, Haste, Wind Ward) refresh unbuffed allies while actively in combat.',
+          'Offensive bolts (Fire Bolt, Frost Bolt, Lightning, Marrow Dart) fire in place of wand shots while conserving the 15% mana reserve for emergencies.',
+        ],
+      },
+    ],
+    'wiki/icons/tip-spells.png',
+  );
+  term(
+    'auto-go-objective',
+    'Auto-Go to Objective',
+    'Optional A* path-navigation assist (Off or On in Settings) that marches the hero and squad toward the active mission waypoint while Ambush Guard halts in combat-ready formation the instant any foe enters sight.',
+    ['glossary/auto-fight-modes', 'glossary/regroup-to-hero', 'tip/tip-assist-auto-go'],
+    [
+      ['Kind', 'Gameplay Assist'],
+      ['Pathing', 'A* Shortest Route'],
+      ['Safety Interrupt', 'Ambush Guard on Enemy Sight'],
+      ['Cancel', 'Any manual move or order click'],
+    ],
+    [
+      {
+        h: 'Operational Behavior',
+        p: [
+          'Designed for effortless mobile traversal across cleared corridors without walking blindly into ambushes. Manual right-clicks or touch commands cancel Auto-Go immediately so purists always retain command.',
+        ],
+      },
+    ],
+    'wiki/icons/tip-map.png',
+  );
+  term(
+    'auto-fight-modes',
+    'Auto-Fight Modes',
+    'Configurable squad autonomy selector in Main Menu and Pause Menu Settings with three modes: Off / Manual for pure classic RTS control, Self-Defense for adjacent retaliation, and Tactical AI for autonomous engagements.',
+    ['glossary/auto-cast-spells', 'glossary/squad-stances', 'tip/tip-assist-auto-fight'],
+    [
+      ['Kind', 'Gameplay Assist'],
+      ['Modes', 'Off / Manual · Self-Defense · Tactical AI'],
+      ['Availability', 'Main Menu & In-Game Pause Menu'],
+    ],
+    [
+      {
+        h: 'Mode Breakdown',
+        list: [
+          'Off / Manual: Zero automated combat decisions; every move, target switch, and cast stays 100% manual.',
+          'Self-Defense: Squad units strike back when attacked in reach without breaking formation or chasing across the map.',
+          'Tactical AI: Hero and mercenaries acquire visible enemies, prioritize dangerous casters or wounded targets, and weave assigned skills.',
+        ],
+      },
+    ],
+    'wiki/icons/tip-combat.png',
+  );
+  term(
+    'auto-loot-sweep',
+    'Auto-Loot Sweep & Loot Sweep [F]',
+    'Optional post-combat item pickup setting (and manual F hotkey / HUD button) that sweeps nearby gold piles, belt potions, and loot sacks once no enemies remain within an 8-tile radius.',
+    ['glossary/auto-potion-threshold', 'glossary/holy-grail-tomes', 'tip/tip-assist-loot-sweep'],
+    [
+      ['Kind', 'Gameplay Assist & Hotkey'],
+      ['Hotkey', 'F / HUD Sweep Button'],
+      ['Safety Radius', 'No hostiles within 8 tiles'],
+    ],
+    [
+      {
+        h: 'Collected Items',
+        p: [
+          'Automatically routes belt-eligible healing and mana potions into open belt slots, adds gold directly to the war chest, and bags dropped equipment sacks into hero inventory without tedious individual taps on mobile screens.',
+        ],
+      },
+    ],
+    'wiki/icons/tip-items.png',
+  );
+  term(
+    'auto-potion-threshold',
+    'Auto-Potion Belt Threshold',
+    'Optional Settings assist allowing belt healing potions to fire automatically when hero health falls below 0 (Off), 30%, or 45%, protecting commanders during hectic multi-front fights.',
+    ['glossary/auto-loot-sweep', 'glossary/mercenary-gear-slots', 'tip/tip-assist-loot-sweep'],
+    [
+      ['Kind', 'Gameplay Assist'],
+      ['Thresholds', '0 (Off) · 30% HP · 45% HP'],
+      ['Source', 'Equipped Belt Potion Slots'],
+    ],
+    [
+      {
+        h: 'Purist Control',
+        p: [
+          'Set the threshold to 0 (Off) for strict manual hotkey potion timing, or select 30% / 45% on mobile touchscreens where quick-slotting during AoE targeting is tight.',
+        ],
+      },
+    ],
+    'wiki/icons/achievement-gear-silver.png',
+  );
+
+  // ---- Tactical Squad Control & Terrain ----
+  term(
+    'squad-stances',
+    'Squad Stances (H / G / A)',
+    'Classic three-tier tactical leash system letting players switch selected mercenaries between Hold Ground [H] (0-tile melee chase for bridge blocks), Guard / Defensive [G] (3-tile anchor leash), and Aggressive [A] (9-tile pursuit).',
+    ['glossary/regroup-to-hero', 'glossary/high-ground-advantage', 'tip/tip-tactical-stances'],
+    [
+      ['Kind', 'Tactical Control'],
+      ['Hold Ground [H]', '0-tile melee chase · full range fire'],
+      ['Guard [G]', '3-tile leash around anchor/hero'],
+      ['Aggressive [A]', 'Up to 9-tile pursuit'],
+    ],
+    [
+      {
+        h: 'Bridge & Choke Discipline',
+        p: [
+          'Hold Ground prevents melee spear-carriers and shield guards from stepping off narrow bridges or gate gaps, letting archers and mages bombard trapped packs in safety.',
+        ],
+      },
+    ],
+    'wiki/icons/achievement-combat-silver.png',
+  );
+  term(
+    'regroup-to-hero',
+    'Regroup to Hero [R]',
+    'Squad emergency formation command triggered by [R] or the mobile HUD Regroup button, initiating a 1.5-second disengage that rallies allies into a disciplined two-rank guard around the hero.',
+    ['glossary/squad-stances', 'glossary/auto-go-objective', 'tip/tip-tactical-stances'],
+    [
+      ['Kind', 'Tactical Control'],
+      ['Hotkey', 'R / Mobile HUD Button'],
+      ['Disengage', '1.5s pullback into 2-rank screen'],
+    ],
+    [
+      {
+        h: 'Two-Rank Formation',
+        p: [
+          'Heavy melee warriors and frontliners snap to the forward arc facing threats while ranged bowmen and spellcasters settle behind the hero, rescuing overextended mercenaries before boss cleaves.',
+        ],
+      },
+    ],
+    'wiki/icons/tip-hero.png',
+  );
+  term(
+    'high-ground-advantage',
+    'High Ground Tactical Advantage',
+    'Terrain elevation combat modifier using map height differences: firing downhill with >= +2 height steps grants +1.5 tile range, +15% accuracy, and +10% crit chance, while firing uphill by >= 2 steps applies a -15% accuracy penalty.',
+    ['glossary/squad-stances', 'glossary/auto-fight-modes', 'tip/tip-tactical-high-ground'],
+    [
+      ['Kind', 'Terrain Combat Rule'],
+      ['High Ground (dh >= +2)', '+1.5 range · +15% acc · +10% crit'],
+      ['Uphill Shot (dh <= -2)', '-15% accuracy penalty'],
+      ['Indicator', 'HUD Elevation Badge'],
+    ],
+    [
+      {
+        h: 'Tactical Positioning',
+        p: [
+          'Claiming quarry ledges, river bluffs, and caldera terraces swings skirmishes decisively in your favor — especially when pairing archers with Hold Ground [H] blockers below.',
+        ],
+      },
+    ],
+    'wiki/icons/achievement-exploration-gold.png',
+  );
+
+  // ---- Mercenary Veterancy & Sanctuary ----
+  term(
+    'mercenary-veterancy',
+    'Mercenary Veterancy Ranks & Perks',
+    'Persistent mercenary progression tracking lifetime kills and survived missions across four ranks — Recruit, Veteran, Elite, and Champion Guard — displaying SquadBar chevron badges and unlocking passive class perks.',
+    ['glossary/temple-resurrection', 'glossary/mercenary-gear-slots', 'tip/tip-merc-veterancy'],
+    [
+      ['Kind', 'Mercenary Progression'],
+      ['Ranks', 'Recruit -> Veteran -> Elite -> Champion Guard'],
+      ['Class Perks', 'Shield Wall · Double Draw · Arcane Conduit'],
+    ],
+    [
+      {
+        h: 'Passive Class Perks',
+        list: [
+          'Shield Wall: Frontline guards mitigate incoming physical cleaves and brace adjacent allies in tight formations.',
+          'Double Draw: Veteran archers gain rapid-nock volley cadence and heightened target priority on ranged foes.',
+          'Arcane Conduit: Battle mages and adepts siphon mana faster and amplify elemental bolt potency.',
+        ],
+      },
+    ],
+    'wiki/icons/achievement-mercenaries-gold.png',
+  );
+  term(
+    'temple-resurrection',
+    'Temple Resurrection',
+    'Town Arcane Sanctum and Temple service that revives fallen mercenaries for a gold tithe, preserving their persistent kill tally, veterancy chevrons, perks, and personal equipment instead of replacing them with raw recruits.',
+    ['glossary/mercenary-veterancy', 'glossary/mercenary-gear-slots', 'tip/tip-merc-sanctuary'],
+    [
+      ['Kind', 'Town Service'],
+      ['Location', 'Town Arcane Sanctum / Temple'],
+      ['Preserved State', 'Veterancy Rank · Kills · Perks · Loadout'],
+    ],
+    [
+      {
+        h: 'Why Resurrect Veterans',
+        p: [
+          'While cheap recruits can be hired afresh, a Champion Guard carrying hard-won perks and a high-tier charm slot is far stronger and retains continuity across the campaign and Endgame Vault.',
+        ],
+      },
+    ],
+    'wiki/icons/achievement-mercenaries-silver.png',
+  );
+  term(
+    'mercenary-gear-slots',
+    'Mercenary Charm & Auto-Potion Slots',
+    'Personal mercenary inventory slots granting each companion one Charm or Ring slot for passive resistances and stats plus two healing potion slots that auto-trigger whenever the mercenary drops below 30% HP.',
+    ['glossary/mercenary-veterancy', 'glossary/auto-potion-threshold', 'tip/tip-merc-veterancy'],
+    [
+      ['Kind', 'Mercenary Loadout'],
+      ['Trinket Slot', '1 Charm or Ring per mercenary'],
+      ['Belt Potions', '2 Healing Potions (auto-used < 30% HP)'],
+    ],
+    [
+      {
+        h: 'Sustaining Your Frontline',
+        p: [
+          'Stocking belt potions on tank mercenaries lets them weather Act III–IV boss bursts autonomously without consuming hero spell cooldowns every few seconds.',
+        ],
+      },
+    ],
+    'wiki/icons/achievement-mercenaries-bronze.png',
+  );
+
+  // ---- The Holy Grail & Imperial Reliquary ----
+  term(
+    'holy-grail-tomes',
+    'The Holy Grail & Five Imperial Tomes',
+    'Account-wide endgame collector compendium tracking every distinct Unique Artifact (132), Sacred Set (28), Rune & Crafted Runeword (33 + 25), Boss Trophy (20), and Imperial Armory Base (187) with full Live Wiki Sync and Save Backup export.',
+    ['glossary/grail-target-pinning', 'glossary/grail-roll-perfection', 'glossary/holy-grail-boons'],
+    [
+      ['Kind', 'Endgame Collector System'],
+      ['Storage Key', 'thornvael_grail_v2 (codex_v1 compat)'],
+      ['Five Tomes', 'Uniques · Sets · Runes & RW · Bosses · Armory'],
+    ],
+    [
+      {
+        h: 'Five Grail Tomes',
+        list: [
+          'Tome I — Unique Artifacts: 132 named relics across all four acts.',
+          'Tome II — Sacred Sets: 28 multi-piece class sets and set completion racks.',
+          'Tome III — Runes & Crafted Runewords: 33 runes and 25 socketed runewords unlocked upon forging.',
+          'Tome IV — Boss Trophies & Super-Uniques: 20 apex boss seals across Normal, Hard, and Nightmare.',
+          'Tome V — Imperial Armory: 187 base weapons, armors, shields, charms, and arcane tomes.',
+        ],
+      },
+    ],
+    'wiki/icons/achievement-codex-gold.png',
+  );
+  term(
+    'grail-target-pinning',
+    'Target-Farming Clues & Grail Pins',
+    'Discovery guidance replacing blank ??? slots with icon silhouettes, rumored Act/Boss Drop Clues, and the ability to pin up to 3 missing items as Active Grail Targets to highlight matching missions, Tavern Bounties, and Wiki panels.',
+    ['glossary/holy-grail-tomes', 'glossary/tavern-bounties', 'tip/tip-holy-grail-pins'],
+    [
+      ['Kind', 'Grail Hunting Feature'],
+      ['Max Active Pins', '3 Targets (thornvael_grail_pins_v1)'],
+      ['Map Integration', 'Campaign Map · Tavern Bounties · Wiki'],
+    ],
+    [
+      {
+        h: 'Live Wiki Pinning & Ground Beams',
+        p: [
+          'Every item, unique, set, gem, and bestiary article displays its live Grail status and lets you Pin Grail Targets directly. On the battlefield, uncollected Grail items drop with a gold-purple star beam and choral discovery chime.',
+        ],
+      },
+    ],
+    'wiki/icons/achievement-codex-silver.png',
+  );
+  term(
+    'grail-roll-perfection',
+    'Roll Perfection & Primal Foil Frames',
+    'Provenance and quality tracking attached to every Grail discovery ({ hero, class, level, mission, boss, rollPerfectionPct }), firing Grail Record Broken alerts on upgrades and awarding a Primal Gold-Purple Foil Frame for >= 98% rolls.',
+    ['glossary/holy-grail-tomes', 'glossary/holy-grail-boons', 'tip/tip-holy-grail-hunt'],
+    [
+      ['Kind', 'Grail Provenance'],
+      ['Primal Threshold', '>= 98% Roll Perfection'],
+      ['Recorded Stamp', 'Hero · Class · Level · Mission · Monster'],
+    ],
+    [
+      {
+        h: 'Chasing Primal Rolls',
+        p: [
+          'Even after finding a Unique relic once, higher-rolled drops break your personal % Perfection record and stamp the Live Wiki banner with your victorious hero and encounter provenance.',
+        ],
+      },
+    ],
+    'wiki/icons/glossary-rarity-unique.png',
+  );
+  term(
+    'holy-grail-boons',
+    'Holy Grail Milestone Boons & Replica Forging',
+    'Account-wide progression rewards unlocked at 10%, 25%, 50%, 75%, and 100% Holy Grail completion, granting escalating Magic Find, Smart Grail Pity, Reliquary Replica Forging, and exclusive Grail Guardian Bounties.',
+    ['glossary/holy-grail-tomes', 'glossary/mystery-gamble', 'glossary/tavern-bounties'],
+    [
+      ['Kind', 'Account-Wide Progression'],
+      ['10% Milestone', '+8% Magic Find & Bronze Reliquary Seal'],
+      ['25% Milestone', 'Smart Grail Pity (+25% uncollected weight)'],
+      ['50% Milestone', '+18% MF & Reliquary Replica Forging'],
+      ['75% Milestone', '+30% MF & 4 Grail Guardian Bounties'],
+      ['100% Milestone', 'Sovereign Crown · Town Aura · Hall of Fame'],
+    ],
+    [
+      {
+        h: 'Replica Forging & Endgame Incentives',
+        p: [
+          'At 50% Grail completion, Reliquary Replica Forging lets new heroes commission a replica of a previously discovered Unique once per Act using gold and runes, turning Grail mastery into tangible power across fresh runs.',
+        ],
+      },
+    ],
+    'wiki/icons/achievement-mastery-gold.png',
+  );
+
+  // ---- Tavern Bounties & Mystery Gamble ----
+  term(
+    'tavern-bounties',
+    'Tavern Bounty Contracts',
+    'Regional Super-Unique hunting contracts posted in town taverns across all four acts, sending squads after named apex monsters for guaranteed rune, rare, or unique rewards — flagged automatically when matching pinned Grail Targets.',
+    ['glossary/grail-target-pinning', 'glossary/mystery-gamble', 'tip/tip-town-bounties'],
+    [
+      ['Kind', 'Replayable Town Contract'],
+      ['Posted At', 'Act I–IV Town Taverns'],
+      ['Rewards', 'Guaranteed Runes, Rares & Unique Chances'],
+    ],
+    [
+      {
+        h: 'Target-Farming Integration',
+        p: [
+          'Once you pass the 25% Grail milestone, Smart Grail Pity biases Bounty Boss loot toward missing relics, and reaching 75% unlocks four high-stakes Grail Guardian Bounty Contracts.',
+        ],
+      },
+    ],
+    'wiki/icons/tip-town.png',
+  );
+  term(
+    'mystery-gamble',
+    'Mystery Gamble & Smart Grail Pity',
+    'Town merchant gold-sink tab letting commanders wager gold on mystery item slots with chances at magic, rare, Sacred Set, and Unique outcomes — boosted by Smart Grail Pity (+25% weight toward missing Grail items) once 25% Grail is reached.',
+    ['glossary/holy-grail-boons', 'glossary/tavern-bounties', 'tip/tip-town-gamble'],
+    [
+      ['Kind', 'Town Economy Feature'],
+      ['Currency', 'Gold Coin'],
+      ['Smart Grail Pity', '+25% Uncollected Weight at 25% Grail'],
+    ],
+    [
+      {
+        h: 'Smart Gold Sink',
+        p: [
+          'Turns late-campaign gold surpluses into focused target-farming rolls for specific weapon or armor slots needed to complete Sacred Sets and the Five Tomes.',
+        ],
+      },
+    ],
+    'wiki/icons/achievement-economy-gold.png',
+  );
+
   out.glossary = uniqBy(gl, 'id');
 
   // ---------- index & link validation ----------

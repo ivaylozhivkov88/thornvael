@@ -72,7 +72,8 @@ select:focus-visible {
   align-items: center;
   flex-wrap: wrap;
   gap: 10px;
-  padding: calc(10px + env(safe-area-inset-top)) calc(16px + env(safe-area-inset-right)) 10px calc(16px + env(safe-area-inset-left));
+  padding: calc(10px + env(safe-area-inset-top)) calc(16px + env(safe-area-inset-right)) 10px
+    calc(16px + env(safe-area-inset-left));
   background: linear-gradient(180deg, #251b11 0%, #17110b 100%);
   border-bottom: 1px solid var(--border);
   box-shadow: 0 4px 18px rgba(0, 0, 0, 0.65);
@@ -390,7 +391,9 @@ select:focus-visible {
   border: 1px solid var(--border);
   border-radius: 8px;
   color: var(--text);
-  transition: border-color 0.15s ease, transform 0.15s ease;
+  transition:
+    border-color 0.15s ease,
+    transform 0.15s ease;
 }
 
 .wiki-sec-card:hover {
@@ -791,7 +794,9 @@ select:focus-visible {
 
 .wiki-infobox.rarity-unique {
   border-color: #d4a64a;
-  box-shadow: 0 0 24px rgba(228, 191, 106, 0.2), var(--shadow);
+  box-shadow:
+    0 0 24px rgba(228, 191, 106, 0.2),
+    var(--shadow);
 }
 
 .wiki-infobox.rarity-unique .infobox-title {
@@ -809,12 +814,16 @@ select:focus-visible {
 .wiki-infobox.rarity-unique .wiki-img.is-hires-icon {
   border: 2px solid #d4a64a;
   background: radial-gradient(circle, rgba(228, 191, 106, 0.24) 0%, #181108 72%);
-  box-shadow: inset 0 0 20px rgba(228, 191, 106, 0.22), 0 0 18px rgba(228, 191, 106, 0.24);
+  box-shadow:
+    inset 0 0 20px rgba(228, 191, 106, 0.22),
+    0 0 18px rgba(228, 191, 106, 0.24);
 }
 
 .wiki-infobox.rarity-set {
   border-color: #5ca856;
-  box-shadow: 0 0 24px rgba(124, 212, 117, 0.2), var(--shadow);
+  box-shadow:
+    0 0 24px rgba(124, 212, 117, 0.2),
+    var(--shadow);
 }
 
 .wiki-infobox.rarity-set .infobox-title {
@@ -832,7 +841,9 @@ select:focus-visible {
 .wiki-infobox.rarity-set .wiki-img.is-hires-icon {
   border: 2px solid #5ca856;
   background: radial-gradient(circle, rgba(124, 212, 117, 0.24) 0%, #0d160d 72%);
-  box-shadow: inset 0 0 20px rgba(124, 212, 117, 0.22), 0 0 18px rgba(124, 212, 117, 0.24);
+  box-shadow:
+    inset 0 0 20px rgba(124, 212, 117, 0.22),
+    0 0 18px rgba(124, 212, 117, 0.24);
 }
 
 /* Images & Placeholders */
@@ -1031,4 +1042,261 @@ select:focus-visible {
     order: 1;
     min-width: 0;
   }
+}
+
+/* Live Holy Grail UI */
+.wiki-grail-banner {
+  margin-bottom: 16px;
+  padding: 12px 16px;
+  border-radius: 8px;
+  border: 1px solid var(--border);
+  background: linear-gradient(135deg, #21180f 0%, #17110b 100%);
+  box-shadow: var(--shadow);
+}
+
+.wiki-grail-banner.is-discovered {
+  border-color: #d4a64a;
+  background: linear-gradient(135deg, #2b2111 0%, #1a140c 100%);
+}
+
+.wiki-grail-banner.is-primal {
+  border-color: #d28eff;
+  background: linear-gradient(135deg, #2a1833 0%, #1e150e 55%, #2a2010 100%);
+  box-shadow: 0 0 18px rgba(196, 128, 255, 0.28);
+}
+
+.grail-banner-row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.grail-banner-badges {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px;
+}
+
+.grail-pill {
+  display: inline-flex;
+  align-items: center;
+  padding: 3px 10px;
+  border-radius: 999px;
+  font-size: 0.8rem;
+  font-weight: 700;
+  border: 1px solid var(--border-bright);
+  background: #2b2013;
+  color: var(--gold);
+}
+
+.grail-pill.discovered {
+  border-color: #e4bf6a;
+  color: #ffe39a;
+}
+
+.grail-pill.perfection {
+  border-color: #88c97a;
+  color: #bfe8b5;
+}
+
+.grail-pill.primal {
+  border-color: #d696ff;
+  background: #351d47;
+  color: #f1d4ff;
+}
+
+.grail-pill.missing {
+  border-color: #9e7a46;
+  color: #ebd09b;
+}
+
+.grail-pin-count {
+  font-size: 0.82rem;
+  color: var(--muted);
+}
+
+.grail-banner-meta {
+  margin: 6px 0 0;
+  font-size: 0.88rem;
+  color: var(--muted);
+}
+
+.grail-pin-limit {
+  margin: 6px 0 0;
+  font-size: 0.84rem;
+  color: var(--danger);
+}
+
+.grail-pin-btn.is-pinned {
+  border-color: #e4bf6a;
+  background: #3c2b15;
+  color: var(--gold);
+}
+
+.wiki-grail-home {
+  margin: 18px 0 22px;
+  padding: 16px;
+  border-radius: 10px;
+  border: 1px solid var(--border-bright);
+  background: linear-gradient(145deg, #221910 0%, #15100a 100%);
+  box-shadow: var(--shadow);
+}
+
+.grail-home-head {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  margin-bottom: 10px;
+}
+
+.grail-home-head h2 {
+  margin: 0;
+  font-family: var(--font-serif);
+  font-size: 1.15rem;
+  color: var(--gold);
+}
+
+.grail-home-sub {
+  margin: 3px 0 0;
+  font-size: 0.88rem;
+}
+
+.grail-home-filters {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  border: 0;
+  margin: 0;
+  padding: 0;
+}
+
+.grail-progress-bar {
+  height: 10px;
+  border-radius: 999px;
+  background: #100c08;
+  border: 1px solid var(--border);
+  overflow: hidden;
+  margin-bottom: 12px;
+}
+
+.grail-progress-fill {
+  height: 100%;
+  min-width: 0;
+  background: linear-gradient(90deg, #b88732 0%, #f1cc6f 70%, #d396ff 100%);
+  transition: width 0.25s ease;
+}
+
+.grail-tome-strip {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  gap: 8px;
+}
+
+.grail-tome-pill {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  min-height: 44px;
+  padding: 6px 12px;
+  border-radius: 6px;
+  border: 1px solid var(--border);
+  background: var(--surface);
+  color: var(--text);
+  font-size: 0.84rem;
+}
+
+.grail-tome-pill:hover {
+  border-color: var(--border-bright);
+  background: var(--surface-2);
+  text-decoration: none;
+}
+
+.grail-tome-pill strong {
+  color: var(--gold);
+}
+
+.grail-pinned-wrap {
+  margin-top: 12px;
+  padding-top: 12px;
+  border-top: 1px solid rgba(183, 141, 68, 0.28);
+}
+
+.grail-pinned-empty {
+  margin: 0;
+  font-size: 0.88rem;
+}
+
+.grail-pinned-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
+  gap: 10px;
+}
+
+.grail-pinned-card {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  padding: 8px 10px;
+  border-radius: 8px;
+  border: 1px solid var(--border);
+  background: var(--surface);
+}
+
+.grail-pinned-card.is-discovered {
+  border-color: #d4a64a;
+}
+
+.grail-pinned-link {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  min-width: 0;
+  flex: 1;
+  color: var(--text);
+}
+
+.grail-pinned-link:hover {
+  text-decoration: none;
+}
+
+.grail-pinned-meta {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  gap: 2px;
+}
+
+.grail-pinned-meta strong {
+  color: var(--gold);
+  font-size: 0.9rem;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.grail-pinned-state {
+  font-size: 0.76rem;
+  color: var(--muted);
+}
+
+.grail-unpin-btn {
+  min-width: 44px;
+  min-height: 44px;
+  border-radius: 6px;
+  border: 1px solid var(--border);
+  background: var(--surface-2);
+  color: var(--muted);
+  cursor: pointer;
+}
+
+.grail-unpin-btn:hover {
+  color: var(--danger);
+  border-color: var(--danger);
 }

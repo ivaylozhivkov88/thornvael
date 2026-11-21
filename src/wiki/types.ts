@@ -56,6 +56,7 @@ export interface WikiTags {
   biome?: string;
   cat?: string;
   core?: boolean;
+  codexId?: number;
 }
 
 export interface WikiGate {
