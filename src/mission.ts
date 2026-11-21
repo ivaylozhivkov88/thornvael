@@ -238,8 +238,8 @@ export function createMission(
   sim.attachTowns(doc.towns ?? []);
   if (doc.shrines?.length) sim.attachShrines(doc.shrines);
   sim.attachScript(new ScriptRuntime(structuredClone(def)));
-  // Spawn interactive clickable gold piles alongside chests and monster camps
-  placeCampaignGoldPiles(sim, doc, sim.rng);
+  // Spawn interactive clickable gold piles alongside chests and monster camps (isolated PRNG)
+  placeCampaignGoldPiles(sim, doc);
 
   // If dynamic session respawn is requested for a wilderness mission, apply it
   if (options?.sessionSeed && (!doc.towns || doc.towns.length === 0)) {

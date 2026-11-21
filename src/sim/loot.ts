@@ -118,18 +118,34 @@ export function collectGoldPile(sim: Sim, slot: number, team: number = 0): numbe
   return amount;
 }
 
+function hashDocSeed(name: string): number {
+  let h = 2166136261 >>> 0;
+  for (let i = 0; i < name.length; i++) {
+    h = Math.imul(h ^ name.charCodeAt(i), 16777619);
+  }
+  return (h >>> 0) || 1;
+}
+
 /**
  * Wires interactive gold pile loot entities into campaign map placement.
  * Automatically spawns clickable gold piles on campaign maps alongside chests,
- * adventure objects, and monster camps.
+ * adventure objects, and monster camps. Uses its own deterministic local PRNG
+ * without mutating sim.rng.
  */
 export function placeCampaignGoldPiles(
   sim: Sim,
   doc?: MapDoc,
-  rng: Rng = sim.rng,
+  rng?: Rng,
   options?: GoldPlacementOptions,
 ): number {
+  const docName = (doc?.name ?? '').toLowerCase();
+  // Do not place automatic gold piles on the test/skirmish benchmark map 'glade'
+  if (docName.includes('glade')) {
+    return 0;
+  }
+
   const map = sim.map;
+  const localRng = rng ?? new Rng(hashDocSeed(doc?.name ?? 'campaign_gold'));
   const maxPiles = options?.maxPiles ?? 12;
   const minGold = options?.minGold ?? 25;
   const maxGold = options?.maxGold ?? 150;
@@ -139,16 +155,32 @@ export function placeCampaignGoldPiles(
   const markUsed = (tx: number, ty: number) => usedLocations.add(ty * map.w + tx);
   const isUsed = (tx: number, ty: number) => usedLocations.has(ty * map.w + tx);
 
+  // Proximity check: Never place gold piles within 5 tiles of starting/live units
+  const isTooCloseToUnits = (tx: number, ty: number, minTiles: number = 5): boolean => {
+    if (doc?.units) {
+      for (const u of doc.units) {
+        if (Math.hypot(tx - u.x, ty - u.y) < minTiles) return true;
+      }
+    }
+    for (let i = 0; i < sim.count; i++) {
+      if (sim.cb.hp[i] <= 0) continue;
+      const ux = sim.x[i] / FP;
+      const uy = sim.y[i] / FP;
+      if (Math.hypot(tx - ux, ty - uy) < minTiles) return true;
+    }
+    return false;
+  };
+
   // 1. Spawn gold piles alongside adventure objects / chests
   if (options?.nearChests !== false && doc?.adventureObjects?.length) {
     for (const obj of doc.adventureObjects) {
       if (placedCount >= maxPiles) break;
-      const countForObj = 1 + rng.int(2); // 1 to 2 gold piles near each chest / mill
+      const countForObj = 1 + localRng.int(2); // 1 to 2 gold piles near each chest / mill
       for (let k = 0; k < countForObj; k++) {
         if (placedCount >= maxPiles) break;
-        const spot = findNearbyWalkableTile(map, obj.x, obj.y, 1, 3, rng);
-        if (spot && !isUsed(spot[0], spot[1])) {
-          const goldAmount = minGold + rng.int(maxGold - minGold + 1);
+        const spot = findNearbyWalkableTile(map, obj.x, obj.y, 1, 3, localRng);
+        if (spot && !isUsed(spot[0], spot[1]) && !isTooCloseToUnits(spot[0], spot[1], 5)) {
+          const goldAmount = minGold + localRng.int(maxGold - minGold + 1);
           const slot = spawnGoldPile(sim, spot[0], spot[1], goldAmount);
           if (slot >= 0) {
             markUsed(spot[0], spot[1]);
@@ -159,11 +191,9 @@ export function placeCampaignGoldPiles(
     }
   }
 
-  // 2. Spawn gold piles alongside enemy encampments and monster clusters
+  // 2. Spawn gold piles in guarded enemy encampments, but safely away from starting positions
   if (options?.nearEnemyCamps !== false && doc?.units?.length) {
-    // Collect enemy positions (team != 0)
     const enemies = doc.units.filter((u) => u.team !== 0);
-    // Cluster enemies into camp anchors
     const campAnchors: { x: number; y: number; count: number }[] = [];
     for (const u of enemies) {
       let foundCamp = false;
@@ -179,15 +209,13 @@ export function placeCampaignGoldPiles(
       }
     }
 
-    // Sort camps by density/importance
     campAnchors.sort((a, b) => b.count - a.count);
 
     for (const camp of campAnchors) {
       if (placedCount >= maxPiles) break;
-      const spot = findNearbyWalkableTile(map, camp.x, camp.y, 1, 4, rng);
-      if (spot && !isUsed(spot[0], spot[1])) {
-        // Camp spoils are richer
-        const goldAmount = Math.round((minGold + rng.int(maxGold - minGold + 1)) * 1.25);
+      const spot = findNearbyWalkableTile(map, camp.x, camp.y, 5, 8, localRng);
+      if (spot && !isUsed(spot[0], spot[1]) && !isTooCloseToUnits(spot[0], spot[1], 5)) {
+        const goldAmount = Math.round((minGold + localRng.int(maxGold - minGold + 1)) * 1.25);
         const slot = spawnGoldPile(sim, spot[0], spot[1], goldAmount);
         if (slot >= 0) {
           markUsed(spot[0], spot[1]);
@@ -197,17 +225,17 @@ export function placeCampaignGoldPiles(
     }
   }
 
-  // 3. Fallback: if fewer than 4 piles were placed, sprinkle across explored points of interest
+  // 3. Fallback: if fewer than 4 piles were placed, sprinkle across open spots not near units
   if (placedCount < Math.min(4, maxPiles)) {
     const needed = Math.min(4, maxPiles) - placedCount;
     for (let i = 0; i < needed; i++) {
       let attempts = 0;
       while (attempts < 50) {
         attempts++;
-        const tx = 2 + rng.int(map.w - 4);
-        const ty = 2 + rng.int(map.h - 4);
-        if (isTilePassable(map, tx, ty) && !isUsed(tx, ty)) {
-          const goldAmount = minGold + rng.int(maxGold - minGold + 1);
+        const tx = 2 + localRng.int(map.w - 4);
+        const ty = 2 + localRng.int(map.h - 4);
+        if (isTilePassable(map, tx, ty) && !isUsed(tx, ty) && !isTooCloseToUnits(tx, ty, 5)) {
+          const goldAmount = minGold + localRng.int(maxGold - minGold + 1);
           const slot = spawnGoldPile(sim, tx, ty, goldAmount);
           if (slot >= 0) {
             markUsed(tx, ty);
