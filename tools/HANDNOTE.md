@@ -281,4 +281,23 @@ Also: `ci.yml` `cancel-in-progress: true` kills the slow WebKit job on every new
   - `npx tsc --noEmit`: PASS (0 errors).
   - `node tools/check-repo.mjs`: PASS (1960 files).
 
+## Campaign Navigation & Gold Lead (2026-11-21)
+- [x] **Quest Log "Navigate" Button**:
+  - Implemented `QuestNavigator` (`src/questlog.ts`) managing active navigation targets, arrival detection, tile viewport edge indicator calculations, screen pixel edge arrows, and pulse wave phase.
+  - Re-exported clean `QuestObjective`, `QuestReward`, `QuestDossier` types from `src/questlog.ts` to `src/missionui.ts`.
+  - In `src/main.ts`: clicking "Navigate" centers the camera on the target coordinates, disengages `cameraFollow` so the camera stays centered on the objective, updates `cameraController`, sets `questGoal = { x: tx, y: ty }`, and synchronizes `minimap.setQuestGoal(tx, ty)`. Automatically clears on arrival within 2.5 tiles (`toast('🧭 You have arrived')`).
+  - In `src/minimap.ts`: implemented pulsing glowing marker with expanding aura and central gold diamond at the objective coordinates, plus an edge-of-screen indicator arrow pointing toward the objective when outside the current camera view.
+  - In `src/render/world-overlays.ts`: verified existing objective pulsing beacon rings and edge chevron pointing toward off-screen objectives.
+- [x] **Interactive Gold Piles**:
+  - Created `src/sim/loot.ts` providing `spawnGoldPile`, `getActiveGoldPiles`, `collectGoldPile`, and `placeCampaignGoldPiles`.
+  - Spawns interactive clickable gold piles directly into simulation loot pool `cb.sG[s]` alongside chests/mills (`adventureObjects`), enemy encampments, and wilderness landmarks.
+  - Wired into campaign mission initialization (`src/mission.ts:createMission`) so gold piles automatically populate campaign maps including Blood at the Ford.
+  - Gold pickup (via hero proximity vacuum or clicking) grants gold to team treasury, emits event 3, displays floating text (`+<amount>g`), and plays pickup sound.
+- [x] **Quality Verifications**:
+  - `npx vitest run tests/questlog.test.ts`: **PASS (13/13 tests)**
+  - `npx tsc --noEmit`: **PASS (0 errors)**
+  - `node tools/check-repo.mjs`: **PASS (1963 files, 0 errors)**
+  - Commit: `e5bcbe1b1bd8309dd6dfd1ff676f056545675ac8`
+
+
 
