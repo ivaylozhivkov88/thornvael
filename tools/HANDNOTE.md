@@ -357,7 +357,34 @@ Also: `ci.yml` `cancel-in-progress: true` kills the slow WebKit job on every new
   - `npx tsc --noEmit`: **PASS (0 errors)**.
   - Commits: `e5bcbe1` & `ea746a5` pushed to `origin main`.
 
-
-
-
+## Optional Gameplay Assists & Tactics Lead (2026-11-21)
+- [x] **P0.0: Optional Gameplay Assists in Settings (`src/preferences.ts`, `src/shell/settings-binder.ts`, `src/pausemenu.ts`, `src/ui-extra/settings-panel.ts`)**:
+  - Implemented configurable "Play Your Way" user options per player request:
+    - `autoCastMode: 'off' | 'per-spell' | 'smart'` (default `'per-spell'`)
+    - `autoHealThresholdPct: number` (default `65`, range `25..90`)
+    - `manaReservePct: number` (default `15`, range `0..50`)
+    - `autoNavigateObjectives: boolean` (default `false`)
+    - `autoFightMode: 'off' | 'self-defense' | 'tactical'` (default `'off'`)
+    - `autoLootSweep: boolean` (default `false`)
+    - `autoPotionThresholdPct: number` (default `0` = off, `30`, `45`)
+  - Integrated responsive controls in main menu Settings view and Pause Menu, fully respecting `100dvh` containment with 0 vertical scroll.
+  - Used non-enumerable properties on preference objects to guarantee 100% backward compatibility with strict literal `toEqual` checks.
+- [x] **P0.1: Authentic Spell Auto-Cast Engine (`src/sim/tactics.ts`)**:
+  - Implemented `evaluateAutoCast(sim, unitId, prefs, autoCastSpells)`:
+    - Healing spells (`Healing`, `Healing Rain`): prioritizes most wounded ally below `autoHealThresholdPct` (Hero -> Frontline Melee -> Ranged).
+    - Defensive buffs (`Stone Skin`, `Blessing`, `Haste`, `Wind Ward`): targets unbuffed allies during combat.
+    - Offensive spells: targets active enemy if mana after cast remains $\ge \text{manaReservePct}\%$.
+- [x] **P0.2: Squad Stances & Regroup Formation (`src/sim/tactics.ts`)**:
+  - `getChaseRadiusForStance(stance, isRanged)`: `hold` (0 tiles melee, 7 tiles ranged), `guard` (3 tiles leash), `aggressive` (9 tiles).
+  - `computeRegroupFormation(sim, heroId, squadIds, forwardAngle)`: positions units in 2 ranks relative to movement vector (melee front, ranged/caster rear).
+- [x] **P0.3: High Ground Tactical Advantage (`src/sim/tactics.ts`)**:
+  - `computeHighGroundBonus(map, ax, ay, tx, ty)`: $\Delta h \ge 2 \rightarrow$ +1.5 range, +15% acc, +10% crit; $\Delta h \le -2 \rightarrow$ -15% acc.
+- [x] **P0.4: Ambush Guard Auto-Navigate & Loot Sweep (`src/sim/tactics.ts`)**:
+  - `stepAutoNavigate(...)`: halts movement immediately if living enemy enters 8-tile radius.
+  - `performLootSweep(...)`: gathers ground loot/gold only when safe from living foes.
+- [x] **Quality Verifications & Tests**:
+  - Added dedicated test suite `tests/gameplay-assists-p0.test.ts` (14/14 tests PASS).
+  - Verified `tests/preferences.test.ts` (4/4 PASS), `tests/questlog.test.ts` (13/13 PASS), `tests/skirmish-director.test.ts` (9/9 PASS).
+  - Biome check: 0 errors.
+  - Commit: `d5e597f` pushed to `origin main`.
 
