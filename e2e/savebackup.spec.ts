@@ -36,7 +36,8 @@ async function newCampaign(page: Page, mage: boolean): Promise<CampaignRecord> {
   await page.getByRole('button', { name: mage ? 'Hard' : 'Easy', exact: true }).click();
   await page.getByRole('button', { name: 'BEGIN CAMPAIGN', exact: true }).click();
   const skipBtn = page.getByRole('button', { name: /^Skip/i });
-  if (await skipBtn.isVisible({ timeout: 3000 }).catch(() => false)) await skipBtn.click();
+  await expect(skipBtn).toBeVisible();
+  await skipBtn.click();
   await page.waitForFunction(() => Boolean((window as unknown as { __game?: unknown }).__game));
   await page.goto('/thornvael/?menu=map');
   await expect(page.locator('.sh-map')).toBeVisible();
@@ -44,17 +45,18 @@ async function newCampaign(page: Page, mage: boolean): Promise<CampaignRecord> {
 }
 
 async function finishDialogue(page: Page): Promise<void> {
-  const begin = page.getByRole('button', { name: 'Begin the mission', exact: true });
-  const next = page.locator('#gothic-dialogue').getByRole('button', { name: 'Next', exact: true });
-  for (let i = 0; i < 12; i++) {
-    if (await begin.isVisible().catch(() => false)) {
-      await begin.click();
-      return;
+  const dialogue = page.locator('#gothic-dialogue');
+  const contBtn = dialogue.locator('.gothic-continue-btn');
+  for (let i = 0; i < 16; i++) {
+    if (!(await dialogue.isVisible().catch(() => false))) return;
+    if (await contBtn.isVisible().catch(() => false)) {
+      await contBtn.click();
+      await page.waitForTimeout(40);
+    } else {
+      await page.waitForTimeout(80);
     }
-    if (await next.isVisible().catch(() => false)) await next.click();
-    else await page.waitForTimeout(100);
   }
-  await begin.click();
+  await expect(dialogue).toBeHidden();
 }
 
 function advanceToTown(record: CampaignRecord): CampaignRecord {
@@ -70,13 +72,13 @@ test('actual campaign save capture → New Game B → load A restores A and exit
   await storage(page, a);
   await page.reload();
   await page.getByRole('button', { name: /Thornwick Market/ }).click();
-  await page.getByRole('button', { name: 'Enter the town', exact: true }).click();
+  await page.getByRole('button', { name: /Enter the town/i }).click();
   await page.waitForFunction(() => window.__game);
   await finishDialogue(page);
   // A returning town visit waives the opening purse/dialogue; handle either opening flow.
   await page.waitForFunction(() => window.__game!.sim.tick >= 8 || (window.__game!.sim.tick > 0 && !document.getElementById('gothic-dialogue')!.hidden));
-  if (await page.locator('#gothic-dialogue').isVisible()) {
-    await page.locator('#gothic-dialogue').getByRole('button', { name: 'Continue', exact: true }).click();
+  for (let i = 0; i < 6 && (await page.locator('#gothic-dialogue').isVisible()); i++) {
+    await page.locator('#gothic-dialogue .gothic-continue-btn').click();
   }
   await expect(page.locator('#gothic-dialogue')).toBeHidden();
   await page.locator('#btn-saves').click();
@@ -86,7 +88,7 @@ test('actual campaign save capture → New Game B → load A restores A and exit
   const entries = Object.entries(await storage(page));
   const [id, raw] = entries.find(([, value]) => 'name' in value && value.name === 'Campaign A')!;
   const captured = raw as SaveFile;
-  expect(captured.saveVersion).toBe(4);
+  expect(captured.saveVersion).toBe(5);
   expect(captured.state.node).toBe(town);
   expect(captured.state.campaign).toEqual(a);
 

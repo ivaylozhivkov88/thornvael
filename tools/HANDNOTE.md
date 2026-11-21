@@ -402,3 +402,20 @@ Also: `ci.yml` `cancel-in-progress: true` kills the slow WebKit job on every new
   - Biome check: 0 errors.
   - Commit: `d5e597f` pushed to `origin main`.
 
+
+## Auto-Resume Quota Checkpoint (2026-11-21 23:02 EET)
+- **Status at Quota Pause (`RESOURCE_EXHAUSTED 429` on Flash worker `aed1eac4`, resets in `3h7m47s`)**:
+  1. **COMPLETED & PUSHED TO `origin/main`**:
+     - `77a889a`: 38 individual `64x64` spell icons + 20 unique item icons (`public/spellicons/*.png`, `public/itemicons/uniq-*.png`, `assets.json`).
+     - `9ce125a`: Wiki 100% Art, Minimaps & Lore (`251` new PNGs in `public/wiki/`, `portrait-necromancer.png`) + Adaptive Audio 1.6s combat crossfade & -4dB ducking (`src/audio.ts`, `51/51` tests PASS).
+     - `e5bcbe1` & `cb92628`: Quest Log `Navigate` button, pulsing minimap beacon & edge arrow, and isolated-PRNG campaign gold piles (`22/22` tests PASS including `tests/skirmish-director.test.ts`).
+     - `0cf40d8`: Town Hub NPC idle animations and world environmental animations (`33/33` tests PASS).
+     - `ea746a5`: Biome atmosphere overlays, monster family death gore/decals, and projectile trails (`23/23` tests PASS).
+     - `b84a98e`: Parallel Wiki Live Sync with Playability Master Plan (`2,219/2,219` entries with valid images, `0` missing, +29 Glossary/Tips articles, `Grail Tome` & `Drop Clue` infobox rows, live `src/wiki/grail-status.ts` & `#/home` Grail progress widget, `13/13` Vitest + `2/2` Playwright `wiki-smoke.spec.ts` PASS).
+     - `d5e597f` & `84b2187`: Phase 1 (P0) Optional Gameplay Assists in Settings (`Auto-Cast`, `Auto-Go`, `Auto-Fight`, `Auto-Loot`, `Auto-Potion`) + `src/sim/tactics.ts` (`evaluateAutoCast`, 3 Squad Stances, `computeRegroupFormation`, `computeHighGroundBonus`, `stepAutoNavigate`, `performLootSweep` — `40/40` tests PASS).
+     - `81335f3`: Phase 4 (`🏆 THE HOLY GRAIL & Imperial Reliquary System`) in `src/codex.ts`, `src/codexui.ts`, `src/loot-overlay.ts`, `tests/codex-holy-grail.test.ts` (5 Grail Tomes, dynamic items preserved without baseId collapse, `% Roll Perfection`, Primal Foil `>=98%`, 3-target pinning, Drop Clues, Milestone Boons `10/25/50/75/100%`, `🏆 NEW GRAIL!` ground beam — `17/17` tests PASS).
+     - `9671d35`: Phase 2/3/5 (`Mercenary Veterancy, Temple Resurrection, Runeword Assistant, Tavern Bounties & Gamble`) in `src/sim/mercs.ts`, `src/sim/town.ts`, `src/town.ts`, `src/townui.ts`, `src/townstyle.css`, `src/ui/squad-bar.ts`, `tests/veterancy-bounties-runewords.test.ts` (`30/30` tests PASS, `0` TS errors).
+     - **Stage 2 Master Gameplay Integration & Blocking E2E Gate (Completed 2026-11-21)**:
+       - Wired `src/sim/tactics.ts` (`evaluateAutoCast`, `computeRegroupFormation` on `Shift+R`, `performLootSweep` on `F` and `autoLootSweep`, `stepAutoNavigate` on `autoNavigateObjectives`) into `src/main.ts`.
+       - Wired `src/town.ts` (`computeItemComparison` & `getCompatibleRunewordsForItem`) into `formatItemTooltip` in `src/heroui.ts`.
+       - Committed verified E2E & core fixes (`e2e/*.spec.ts`, `src/{audio,camera,heroui,main,paperdoll,style}.ts`, `.github/workflows/ci.yml`) after 2 consecutive 100% green `npm run e2e` runs (`69/69` PASS) and `13/13` WebKit smoke tests, and restored blocking `needs: [build, e2e]` gate in `.github/workflows/deploy.yml`.

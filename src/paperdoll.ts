@@ -125,9 +125,7 @@ export class PaperdollController {
     // Check direct target with data-equipment-target
     const directTarget = elUnder.closest<HTMLElement>('[data-equipment-target]');
     if (directTarget && this.host.body.contains(directTarget)) {
-      if (directTarget.dataset.equipmentTarget === preview.target) {
-        return directTarget;
-      }
+      return directTarget;
     }
 
     // Natural ARPG drop: dragging an item from pack onto the paperdoll figure, board, or gear area
@@ -148,7 +146,8 @@ export class PaperdollController {
       }
     }
 
-    return directTarget && this.host.body.contains(directTarget) ? directTarget : null;
+    // return null if nothing matches
+    return null;
   }
 
   moveDrag(e: PointerEvent): void {
@@ -162,6 +161,7 @@ export class PaperdollController {
       } catch { /* ignore capture failure */ }
       const ghost = document.createElement('div');
       ghost.className = 'hero-drag-ghost';
+      ghost.style.pointerEvents = 'none';
       ghost.textContent = getItemDef(drag.intent.source.item)?.name ?? '';
       ghost.setAttribute('aria-hidden', 'true');
       ghost.prepend(itemIcon(drag.intent.source.item));

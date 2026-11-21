@@ -116,12 +116,34 @@ let dialogueDuckTimer: ReturnType<typeof setTimeout> | null = null;
 let shopDuckTimer: ReturnType<typeof setTimeout> | null = null;
 let lastCombatEventMs = -1e9;
 let activeNearbyEnemyCount = 0;
+let pageUnloading = false;
+const inFlightFetches = new Set<AbortController>();
+let unloadListenersAttached = false;
+
+function ensureUnloadAbortListeners(): void {
+  if (unloadListenersAttached || typeof window === 'undefined' || typeof window.addEventListener !== 'function') return;
+  unloadListenersAttached = true;
+  const abortAll = (): void => {
+    pageUnloading = true;
+    for (const ac of inFlightFetches) {
+      try { ac.abort(); } catch { /* ignore */ }
+    }
+    inFlightFetches.clear();
+  };
+  window.addEventListener('pagehide', abortAll);
+  window.addEventListener('beforeunload', abortAll);
+  window.addEventListener('pageshow', () => { pageUnloading = false; });
+}
 
 function createLiveTrackHandle(url: string, loop: boolean): LiveTrackHandle {
   const el = new Audio(url);
   el.loop = loop;
   el.preload = 'auto';
-  el.crossOrigin = 'anonymous';
+  try {
+    if (typeof location !== 'undefined' && /^https?:\/\//i.test(url) && new URL(url, location.href).origin !== location.origin) {
+      el.crossOrigin = 'anonymous';
+    }
+  } catch { /* ignore invalid URL */ }
   // Prevent unhandled media load errors on iOS Safari when offline or missing track.
   if (typeof el.addEventListener === 'function') {
     el.addEventListener('error', () => { /* silent offline/missing media fallback */ });
@@ -286,15 +308,19 @@ export function unloadOnDemandAudio(): number {
 }
 
 function loadBuffer(name: string): Promise<void> {
-  if (!ctx || buffers.has(name)) return Promise.resolve();
+  if (!ctx || buffers.has(name) || pageUnloading) return Promise.resolve();
   const pending = pendingBuffers.get(name);
   if (pending) return pending;
+  ensureUnloadAbortListeners();
   const context = ctx;
+  const ac = typeof AbortController !== 'undefined' ? new AbortController() : null;
+  if (ac) inFlightFetches.add(ac);
   const task = (async () => {
     try {
       // A distinct URL keeps existing chapter caches from serving the previous bow cue.
       const file = name === 'bow' ? 'yew_release_01' : name;
-      const res = await fetch(`${base()}audio/${file}.m4a`);
+      const url = `${base()}audio/${file}.m4a`;
+      const res = await (ac ? fetch(url, { signal: ac.signal }) : fetch(url));
       if (res.ok === false) return;
       const data = await res.arrayBuffer();
       if (ctx !== context || context.state === 'closed') return;
@@ -302,6 +328,8 @@ function loadBuffer(name: string): Promise<void> {
       if (ctx === context && (context.state as string) !== 'closed') recordDecodedBuffer(name, buffer);
     } catch {
       // a missing, offline, or undecodable file only loses that sound
+    } finally {
+      if (ac) inFlightFetches.delete(ac);
     }
   })().finally(() => { if (pendingBuffers.get(name) === task) pendingBuffers.delete(name); });
   pendingBuffers.set(name, task);

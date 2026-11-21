@@ -56,7 +56,7 @@ test('shop lists the whole stock and pack in scroll boxes, with layered shop art
   const backdrop = scene.locator('img.town-backdrop');
   const merchant = scene.locator('img.merchant-actor');
   await expect(backdrop).toBeVisible();
-  await expect(merchant).toBeHidden(); // the painted scene already contains its keeper
+  await expect(merchant).toBeVisible(); // animated merchant cutout overlays the counter since 0cf40d8
   await expect(backdrop).toHaveCSS('object-fit', 'contain');
   const backdropRatio = await backdrop.evaluate((img: HTMLImageElement) => img.naturalWidth / img.naturalHeight);
   expect(backdropRatio).toBeCloseTo(4 / 3, 3);

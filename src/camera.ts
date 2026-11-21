@@ -52,8 +52,8 @@ export class CameraController {
   }
 
   keyPan(keys: Set<string>, speed = 10): boolean {
-    const kx = (keys.has('arrowleft') ? 1 : 0) - (keys.has('arrowright') ? 1 : 0);
-    const ky = (keys.has('arrowup') ? 1 : 0) - (keys.has('arrowdown') ? 1 : 0);
+    const kx = (keys.has('arrowright') ? 1 : 0) - (keys.has('arrowleft') ? 1 : 0);
+    const ky = (keys.has('arrowdown') ? 1 : 0) - (keys.has('arrowup') ? 1 : 0);
     if (kx !== 0 || ky !== 0) {
       this.cameraFollow = false;
       this.pan(kx * speed, ky * speed);

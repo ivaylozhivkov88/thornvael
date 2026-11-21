@@ -27,6 +27,7 @@ import { Bot, MonsterAi, battleScenario, fightScenario, placeScenario, setupCrow
 import { DEFS, Kind, M, MODN, POOLS, lootPos, nearestLoot, partAbs, partDef } from './sim/combat';
 import { dir16 } from './sim/path';
 import { D2InteractionController, type D2Interactable } from './sim/movement';
+import { evaluateAutoCast, computeRegroupFormation, performLootSweep, stepAutoNavigate } from './sim/tactics';
 import { DAY_TICKS, clockText } from './sim/daynight';
 import { HeroUi, tabStrip } from './heroui';
 import { staminaMax } from './sim/mechanics';
@@ -1376,7 +1377,7 @@ canvas.addEventListener('pointerdown', (e) => {
   const [x, y] = local(e);
   const [wx, wy] = renderer.toTile(x, y);
 
-  if (e.button === 0 || e.button === 2) {
+  if (controlMode === 'wasd' && (e.button === 0 || e.button === 2)) {
     const enemy = pickUnit(sim.count, posEnemy, x, y, PICK);
     const loot = nearestLoot(sim, Math.round(wx * FP), Math.round(wy * FP), 2.0 * FP);
     let interactable: D2Interactable | undefined;
@@ -1422,7 +1423,7 @@ canvas.addEventListener('pointermove', (e) => {
   const [wx, wy] = renderer.toTile(x, y);
   mods.alt = e.altKey;
   mods.ctrl = e.ctrlKey || e.metaKey;
-  if (d2Controller.isHolding) {
+  if (controlMode === 'wasd' && d2Controller.isHolding) {
     d2Controller.onPointerMove(wx, wy, e.shiftKey);
   }
   if (downAt && Math.hypot(x - downAt[0], y - downAt[1]) > 10) {
@@ -1433,7 +1434,7 @@ canvas.addEventListener('pointermove', (e) => {
   handle(rec.move(e.pointerId, x, y));
 });
 canvas.addEventListener('pointerup', (e) => {
-  d2Controller.onPointerUp(e.button);
+  if (controlMode === 'wasd') d2Controller.onPointerUp(e.button);
   mods.alt = e.altKey;
   mods.ctrl = e.ctrlKey || e.metaKey;
   updateAltButtonStates(mods.alt || altMobileToggle);
@@ -1580,7 +1581,19 @@ window.addEventListener('keydown', (e) => {
   const code = e.code;
   const keyLower = e.key.toLowerCase();
   if (code === 'KeyR' && !e.repeat && !e.ctrlKey && !e.metaKey) {
-    toggleRun();
+    if (e.shiftKey && sim.hero && alive(sim.hero.id)) {
+      const squadIds: number[] = [];
+      for (let i = 0; i < sim.count; i++) {
+        if (i !== sim.hero.id && sim.team[i] === 0 && !sim.hidden[i] && alive(i)) squadIds.push(i);
+      }
+      const formation = computeRegroupFormation(sim, sim.hero.id, squadIds);
+      for (const pos of formation) {
+        queue({ type: 'move', ids: [pos.id], x: pos.targetX, y: pos.targetY });
+      }
+      if (formation.length > 0) toast('🛡 Squad regrouping into formation!');
+    } else {
+      toggleRun();
+    }
     return;
   }
   const isMoveKey =
@@ -1603,22 +1616,27 @@ window.addEventListener('keydown', (e) => {
     return;
   }
   unlock();
-  if (keybindManager.matches('potion1', e.code, e.key)) {
+  const noMod = !e.ctrlKey && !e.altKey && !e.shiftKey && !e.metaKey;
+  const matchesPotion = (id: string): boolean =>
+    noMod &&
+    keybindManager.matches(id, e.code, e.key) &&
+    (controlMode === 'wasd' || !/^(?:Digit|Numpad)[1-4]$/.test(e.code));
+  if (matchesPotion('potion1')) {
     e.preventDefault();
     drinkBelt(1);
     return;
   }
-  if (keybindManager.matches('potion2', e.code, e.key)) {
+  if (matchesPotion('potion2')) {
     e.preventDefault();
     drinkBelt(2);
     return;
   }
-  if (keybindManager.matches('potion3', e.code, e.key)) {
+  if (matchesPotion('potion3')) {
     e.preventDefault();
     drinkBelt(3);
     return;
   }
-  if (keybindManager.matches('potion4', e.code, e.key)) {
+  if (matchesPotion('potion4')) {
     e.preventDefault();
     drinkBelt(4);
     return;
@@ -1626,7 +1644,7 @@ window.addEventListener('keydown', (e) => {
   const digit = /^(?:Digit|Numpad)([1-9])$/.exec(e.code);
   if (digit) {
     const d = Number(digit[1]);
-    if (!e.ctrlKey && !e.altKey && !e.shiftKey && d >= 1 && d <= 4) {
+    if (controlMode === 'wasd' && noMod && d >= 1 && d <= 4) {
       e.preventDefault();
       drinkBelt(d);
       return;
@@ -1683,7 +1701,11 @@ window.addEventListener('keydown', (e) => {
     e.preventDefault();
     if (missionUi) missionUi.toggleObjectives();
     else toggleQuestLog();
-  } else if ((keybindManager.matches('minimap', e.code, e.key) || e.key.toLowerCase() === 'm') && !e.ctrlKey && !e.altKey && !e.metaKey) {
+  } else if (
+    noMod &&
+    !(controlMode === 'mouse' && keyLower === 'm' && keybindManager.getBinding('minimap').code === 'KeyM') &&
+    (keybindManager.matches('minimap', e.code, e.key) || keyLower === 'm')
+  ) {
     e.preventDefault();
     toggleMinimap();
   } else if (e.key.toLowerCase() === 'w' && !e.ctrlKey && !e.altKey && controlMode !== 'wasd') {
@@ -1701,7 +1723,12 @@ window.addEventListener('keydown', (e) => {
   } else if ((keybindManager.matches('character', e.code, e.key) || e.key.toLowerCase() === 'c') && !e.ctrlKey && !e.altKey) {
     e.preventDefault();
     heroUi.toggleStats();
-  } else if ((keybindManager.matches('spellbook', e.code, e.key) || e.key.toLowerCase() === 's') && !e.ctrlKey && !e.altKey && !e.metaKey && controlMode !== 'wasd') {
+  } else if (
+    noMod &&
+    controlMode !== 'wasd' &&
+    !(controlMode === 'mouse' && keyLower === 's' && keybindManager.getBinding('spellbook').code === 'KeyS') &&
+    (keybindManager.matches('spellbook', e.code, e.key) || keyLower === 's')
+  ) {
     e.preventDefault();
     openBook(-1);
   } else if ((keybindManager.matches('inventory', e.code, e.key) || e.key.toLowerCase() === 'i' || e.key.toLowerCase() === 'b') && !e.ctrlKey && !e.altKey) {
@@ -1711,7 +1738,16 @@ window.addEventListener('keydown', (e) => {
   else if (e.key.toLowerCase() === 'i' && !e.ctrlKey && !e.altKey && !e.metaKey) {
     e.preventDefault();
     heroUi.toggleInventory();
-  } else if (e.key.toLowerCase() === 'f' && !e.ctrlKey && !e.altKey) toggleLoose();
+  } else if (e.key.toLowerCase() === 'f' && !e.ctrlKey && !e.altKey) {
+    toggleLoose();
+    if (sim.hero && alive(sim.hero.id)) {
+      const sweep = performLootSweep(sim, sim.hero.id, 8);
+      if (sweep.canLoot && sweep.targets.length > 0) {
+        const lid = nearestLoot(sim, sim.x[sim.hero.id], sim.y[sim.hero.id], 8 * FP);
+        if (lid >= 0) orderPickupLoot(lid);
+      }
+    }
+  }
   else if (!e.ctrlKey && !e.altKey && !e.metaKey && (controlMode === 'wasd' ? WASD_ORDER_KEYS : CLASSIC_ORDER_KEYS)[keyLower]) {
     orderButton((controlMode === 'wasd' ? WASD_ORDER_KEYS : CLASSIC_ORDER_KEYS)[keyLower]);
   } else {
@@ -3426,7 +3462,7 @@ function advanceStep(): void {
 
   // Classic ARPG Mouse-Hold Steering, Target Locking & Stand-Ground Attack
   const heroLeadId = sim.hero ? sim.hero.id : (alive(0) ? 0 : -1);
-  if (heroLeadId >= 0 && alive(heroLeadId) && d2Controller.isHolding) {
+  if (controlMode === 'wasd' && heroLeadId >= 0 && alive(heroLeadId) && d2Controller.isHolding) {
     const isTyping = document.activeElement && (
       document.activeElement.matches('input, textarea, select') ||
       (document.activeElement as HTMLElement).isContentEditable
@@ -3507,6 +3543,43 @@ function advanceStep(): void {
   if (sim.hero && sim.tick % 25 === 0) {
     for (const stack of sim.hero.inv) discoverItem(stack.item);
     for (const id of sim.hero.eq) if (id >= 0) discoverItem(id);
+
+    if (alive(sim.hero.id) && !outcome) {
+      if (preferences.autoCastMode === 'smart') {
+        const ac = evaluateAutoCast(sim, sim.hero.id, preferences);
+        if (ac && heroKnowsSpell(sim.hero, ac.spellId)) {
+          queue({
+            type: 'order',
+            order: 'cast',
+            ids: [sim.hero.id],
+            spell: ac.spellId,
+            target: ac.targetId,
+            x: ac.targetX,
+            y: ac.targetY,
+          });
+        }
+      }
+      if (preferences.autoLootSweep) {
+        const sweep = performLootSweep(sim, sim.hero.id, 4);
+        if (sweep.canLoot && sweep.targets.length > 0) {
+          const lid = nearestLoot(sim, sim.x[sim.hero.id], sim.y[sim.hero.id], 4 * FP);
+          if (lid >= 0) orderPickupLoot(lid);
+        }
+      }
+      if (preferences.autoNavigateObjectives && sim.town.quests.length > 0 && !d2Controller.isHolding && heldMoveKeys.size === 0) {
+        const q = sim.town.quests[0];
+        if (q && q.pts.length >= 2) {
+          const squadIds: number[] = [];
+          for (let i = 0; i < sim.count; i++) {
+            if (i !== sim.hero.id && sim.team[i] === 0 && !sim.hidden[i] && alive(i)) squadIds.push(i);
+          }
+          const nav = stepAutoNavigate(sim, sim.hero.id, squadIds, q.pts[0], q.pts[1]);
+          if (!nav.haltedByEnemy && !nav.arrived && nav.nextX !== undefined && nav.nextY !== undefined) {
+            queue({ type: 'move', ids: [sim.hero.id, ...squadIds], x: nav.nextX, y: nav.nextY });
+          }
+        }
+      }
+    }
   }
 
   // Interactive Adventure Objects, Waypoints, and Zone Exits
@@ -3589,6 +3662,7 @@ function frame(): void {
       cameraFollow = false;
       renderer.camX = cameraController.camX;
       renderer.camY = cameraController.camY;
+      renderer.clamp();
     }
   }
 
@@ -3600,6 +3674,7 @@ function frame(): void {
       cameraFollow = false;
       renderer.camX = cameraController.camX;
       renderer.camY = cameraController.camY;
+      renderer.clamp();
     }
   }
 
@@ -3794,6 +3869,7 @@ function updateControlModeUI(): void {
 if (btnControls) {
   btnControls.onclick = () => {
     controlMode = controlMode === 'wasd' ? 'mouse' : 'wasd';
+    d2Controller.reset();
     try { localStorage.setItem('thornvael.controls', controlMode); } catch {}
     updateControlModeUI();
     toast(controlMode === 'wasd' ? 'Controls: WASD & Mouse' : 'Controls: Mouse (Classic)');
@@ -3974,6 +4050,7 @@ void renderer.init(sim).then(() => {
     controls: () => controlMode,
     setControls: (mode: 'wasd' | 'mouse') => {
       controlMode = mode;
+      d2Controller.reset();
       try { localStorage.setItem('thornvael.controls', controlMode); } catch {}
       updateControlModeUI();
     },

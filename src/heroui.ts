@@ -10,6 +10,7 @@ import { ATTR_NAMES, CLS_BOTH, CLS_MAGE, CLS_WARRIOR, Cls, ITEMS, Ik, ItemDef, P
 import { findSetByItemName, isSetItem, type SetBonus } from './sim/sets';
 import type { Command, Sim } from './sim/sim';
 import { SPELLS } from './sim/spelldata';
+import { computeItemComparison, getCompatibleRunewordsForItem } from './town';
 import { S } from './strings';
 import { createRarityBadgeEl, itemIconEl } from './townicons';
 import { CodexUi } from './codexui';
@@ -253,10 +254,32 @@ export function formatItemTooltip(itemOrId: number | ItemDef, hero?: HeroState |
         }
         if (diffs.length > 0) p.push(...diffs);
         else p.push('Stats are identical');
+
+        const smartComp = computeItemComparison(d, eqDef);
+        if (smartComp.hasEquipped && smartComp.summary) {
+          p.push(`Verdict: ${smartComp.summary}`);
+        }
       }
     } else {
       p.push('');
       p.push(`--- [${SLOT_NAMES[d.slot]} Slot Empty] ---`);
+    }
+  }
+
+  // Compatible Runewords preview for socketed base items
+  const sockets = (d as ItemDef & { sockets?: number }).sockets ?? 0;
+  if (d.kind === Ik.Gear && sockets >= 2) {
+    const ownedRunes = hero
+      ? (hero.inv.map((s) => getItemDef(s.item)?.name).filter(Boolean) as string[])
+      : [];
+    const rwMatches = getCompatibleRunewordsForItem(d, sockets, ownedRunes);
+    if (rwMatches.length > 0) {
+      p.push('');
+      p.push(`--- RUNEWORDS (${sockets} Sockets) ---`);
+      for (const rw of rwMatches.slice(0, 3)) {
+        p.push(`  ${rw.name} [${rw.runes.join(' + ')}]${rw.canComplete ? ' (Ready!)' : ''}`);
+      }
+      if (rwMatches[0]?.warning) p.push(`  ${rwMatches[0].warning}`);
     }
   }
 
@@ -832,7 +855,7 @@ export class HeroUi {
     if (this.isStatsOpen) {
       this.closeStats();
     } else {
-      if (typeof window !== 'undefined' && window.innerWidth < 900 && this.isInventoryOpen) {
+      if (typeof window !== 'undefined' && window.innerWidth <= 900 && this.isInventoryOpen) {
         this.closeInventory();
       }
       this.openStats();
@@ -840,7 +863,7 @@ export class HeroUi {
   }
 
   openInventory(): void {
-    if (typeof window !== 'undefined' && window.innerWidth < 900 && this.isStatsOpen) {
+    if (typeof window !== 'undefined' && window.innerWidth <= 900 && this.isStatsOpen) {
       this.closeStats();
     }
     const h = this.ctx.sim().hero;
@@ -867,7 +890,7 @@ export class HeroUi {
     if (this.isInventoryOpen) {
       this.closeInventory();
     } else {
-      if (typeof window !== 'undefined' && window.innerWidth < 900 && this.isStatsOpen) {
+      if (typeof window !== 'undefined' && window.innerWidth <= 900 && this.isStatsOpen) {
         this.closeStats();
       }
       this.openInventory();
@@ -875,7 +898,7 @@ export class HeroUi {
   }
 
   open(tab: Tab = 'pack'): void {
-    if (typeof window !== 'undefined' && window.innerWidth < 900) {
+    if (typeof window !== 'undefined' && window.innerWidth <= 900) {
       if (tab === 'hero') {
         if (this.isInventoryOpen) this.closeInventory();
       } else {

@@ -53,7 +53,8 @@ test.describe('campaign shell, skirmish list, and story slideshows', () => {
     await page.locator('#shell').getByRole('button', { name: 'Next', exact: true }).click();
     await page.locator('#shell').getByRole('button', { name: 'BEGIN CAMPAIGN', exact: true }).click();
     const skipBtn = page.getByRole('button', { name: /^Skip/i });
-    if (await skipBtn.isVisible({ timeout: 3000 }).catch(() => false)) await skipBtn.click();
+    await expect(skipBtn).toBeVisible();
+    await skipBtn.click();
     await page.waitForFunction(() => Boolean((window as unknown as { __game?: unknown }).__game));
     await page.goto('/thornvael/?menu=map');
     await expect(page.locator('#shell .sh-map')).toBeVisible();

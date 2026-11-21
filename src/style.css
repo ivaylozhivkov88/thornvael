@@ -3195,7 +3195,7 @@ button:disabled, #shell .sh-btn:disabled { opacity: .6; cursor: default; box-sha
 #btn-alt {
   position: fixed;
   z-index: 6;
-  right: calc(128px + env(safe-area-inset-right));
+  right: calc(var(--edge, 8px) + clamp(140px, 18vw, 200px) + 12px + env(safe-area-inset-right));
   top: calc(var(--hud-top, 64px) + env(safe-area-inset-top));
   min-width: 64px;
   height: 32px;
@@ -3231,12 +3231,6 @@ button:disabled, #shell .sh-btn:disabled { opacity: .6; cursor: default; box-sha
   color: #ffe066;
   border-color: #ffd700;
   box-shadow: 0 0 8px rgba(255, 215, 0, 0.45), inset 0 0 6px rgba(255, 215, 0, 0.25);
-}
-
-@media (min-width: 960px) {
-  #btn-alt {
-    right: calc(188px + env(safe-area-inset-right));
-  }
 }
 
 
@@ -3605,6 +3599,7 @@ button:disabled, #shell .sh-btn:disabled { opacity: .6; cursor: default; box-sha
 }
 
 .gothic-nameplate {
+  flex-shrink: 0;
   margin-bottom: 8px;
   border-bottom: 1px solid rgba(143, 114, 68, 0.45);
   padding-bottom: 6px;
@@ -3795,6 +3790,7 @@ button:disabled, #shell .sh-btn:disabled { opacity: .6; cursor: default; box-sha
 }
 
 .gothic-dialogue-footer {
+  flex-shrink: 0;
   display: flex;
   align-items: center;
   justify-content: space-between;

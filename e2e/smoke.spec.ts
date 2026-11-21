@@ -17,14 +17,19 @@ for (const name of ['ford', 'market', 'fen', 'ravenwatch', 'sanctum']) {
     page.on('pageerror', (e) => errors.push(e.message));
     await page.goto(`/thornvael/?mission=${name}&hero=warrior,m,medium`);
     await page.waitForFunction(() => window.__game);
-    const begin = page.getByRole('button', { name: /begin the mission/i });
-    const next = page.locator('#gothic-dialogue').getByRole('button', { name: 'Next', exact: true });
-    for (let i = 0; i < 12; i++) {
-      if (await begin.isVisible().catch(() => false)) { await begin.click(); break; }
-      if (await next.isVisible().catch(() => false)) await next.click();
-      else await page.waitForTimeout(100);
+    const dialogue = page.locator('#gothic-dialogue');
+    const contBtn = dialogue.locator('.gothic-continue-btn');
+    for (let i = 0; i < 40; i++) {
+      const ticked = await page.evaluate(() => (window.__game?.sim.tick ?? 0) >= 1);
+      const open = await dialogue.isVisible().catch(() => false);
+      if (ticked && !open) break;
+      if (await contBtn.isVisible().catch(() => false)) {
+        await contBtn.click();
+        await page.waitForTimeout(40);
+      } else {
+        await page.waitForTimeout(80);
+      }
     }
-    if (await begin.isVisible().catch(() => false)) await begin.click();
     // The opening script message pauses the clock within a few ticks, so ticking at all proves the mission runs.
     await page.waitForFunction(() => window.__game!.sim.tick >= 1);
     expect(errors).toEqual([]);
@@ -77,10 +82,15 @@ test('load, select, move, offline reload', async ({ page, context }) => {
   await page.mouse.click(sx + 90, sy + 20, { button: 'right' });
   await page.waitForFunction((x) => window.__game!.posTiles(0)[0] > x + 1, before[0]);
 
-  // service worker takes control, then reload without a network
+  // service worker takes control and runtime-caches the scene's sprites, then reload without a network
   await page.evaluate(() => navigator.serviceWorker.ready.then(() => true));
   await page.reload();
-  await page.waitForFunction(() => navigator.serviceWorker.controller !== null);
+  await page.waitForFunction(
+    () =>
+      navigator.serviceWorker.controller !== null &&
+      Boolean(window.__game) &&
+      Array.from(document.images).every((img) => img.complete),
+  );
   await context.setOffline(true);
   await page.reload();
   await page.waitForFunction(() => window.__game);

@@ -68,7 +68,7 @@ test('spellbook casts drive the observer; a real insufficient-mana refusal creat
     await page.locator('#btn-spells-hud').click();
     // Healing (Water / Cryomancy school) is learned by a fresh hero; Fireball is not.
     await page.locator('.spellbook-modal .sphere-tab-btn').filter({ hasText: 'Cryomancy' }).click();
-    await page.locator('.spellbook-modal .spell-tree-node').filter({ hasText: 'Healing' }).click();
+    await page.locator('.spellbook-modal .spell-tree-node').filter({ has: page.locator('.node-name', { hasText: /^Healing$/ }) }).click();
     await page.locator('.spellbook-modal .dossier-btn.cast-btn').click();
     const point = await page.evaluate(() => {
       const g = (window as unknown as { __game: Game }).__game;

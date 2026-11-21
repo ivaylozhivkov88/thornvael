@@ -1,44 +1,46 @@
-# HANDOFF for Antigravity - Thornvael (2026-11-19)
+# HANDOFF — Antigravity / Thornvael Master State (Updated 2026-11-21 23:08 EET)
 
-Repo `D:\ROM 2 clone\game`, branch `codex/release-plan`. Last pushed commit by Claude: `1814455`. Language with the user: Bulgarian, short. Game text: English only.
-Hard rules (from project memory): push after each step; commit trailer `Co-Authored-By: Claude Sonnet 5.5 <noreply@anthropic.com>` (use your own tool's trailer if different); never touch `src/sim/path.ts`, `tests/movement.test.ts`, `models/`, `tools/render-unit.py` (Carson's unstaged files); no copied assets (original the original game / HoMM3 only as logic reference); every binary needs an `assets.json` entry (license "own", source, note); `MAX_BINARY` is 3 MiB; sim stays deterministic (no Math.random in `src/sim`).
-Checks before every commit: `npx tsc --noEmit`, `node tools/check-repo.mjs`, `npm run check:atlases`, `npx vitest run` (full run before big pushes).
-Dev server: name `game` in `.claude/launch.json`, port 5199, base `/thornvael/`. Test URL: `http://localhost:5199/thornvael/?randskirmish=7&players=2&biome=forest` (biomes: forest, marsh, desert, crypt, highlands, volcanic, oasis). `?expedition` is the other map path. `?art=1` is the art tuning mode.
+> **2% Quota Safety Margin Rule:** При достигане на <= 2% остатъчен лимит текущата стъпка се стабилизира, комитва и пушва веднага, този файл (`tools/HANDOFF-ANTIGRAVITY.md`) и `tools/HANDNOTE.md` се обновяват с точния следващ ред, и задачата се предава на следващия наличен агент/модел за незабавно продължаване без изчакване на потребителя.
 
-## 1. THE USER'S NEW VISION (top priority, not started)
-The user (latest message, translated): "We have a main story with 4 cities; there must be 4 huge maps, each with different regions, enemies, music, story and lore. Separately, skirmish has only a random map generator, but I want a list of the heroes already created there. Like a classic ARPG, the game needs a character selector screen showing already generated heroes, each with how far they got and what they found, plus creating a new hero. In skirmish you pick which of those existing heroes plays the random map."
-Break down:
-1. **Campaign**: 4 city hubs, 4 huge hand-designed (or semi-generated, seeded) maps. Each needs a region layout (named regions with biome/zone mix), enemy roster, music, story beats, lore text, quests. Today there are only generated expedition and skirmish maps. Check `src/mapdoc.ts`, `src/map-generator.ts`, `src/missionui.ts`, `public/` for existing mission data before designing; reuse the declarative mission format (see skill `declarative-mission-author`, phase 9 skill `phase9-campaign-pwa`).
-2. **Character selector**: much of it ALREADY EXISTS. `src/characters.ts` has `Character`, `listCharacters`, `addCharacter`, `deleteCharacter`, `saveCharacter` (hero state, items, slots, gold, finished), `getActiveId/setActiveId`, `characterCarry`, max 8 heroes, name max 16. `src/shell.ts` (~lines 65-380) has the selection and creation UI (`sel`, `newCharacter(name, arch.cls, arch.female, diff)`); `src/main.ts` loads `?char=<id>` and saves progress back (~lines 81, 3193, 3784). First step: run it, look at the screen, and list what is missing versus the request: progress summary per hero (furthest mission/map, level, found items), a classic-ARPG-like roster look.
-3. **Skirmish hero pick**: the random skirmish (`?randskirmish=...`, `src/skirmish-generator.ts`, started from `src/shell.ts`) must offer the roster and play with the chosen saved hero (carry via `characterCarry`). Decide whether skirmish results write back to the hero (suggest: items/xp yes, campaign progress no).
-Suggested order: (a) audit characters.ts + shell.ts and write a short gap list, (b) add progress summary fields to `Character` (with save-version migration, see `savedb.ts`), (c) roster UI polish, (d) skirmish hero picker, (e) campaign structure and the 4 maps (large, split per map into its own plan).
+---
 
-## 2. MAP VISUALS - WHAT IS DONE (all pushed)
-Pipeline: Gemini/Canva images -> cut by Python tools -> atlases -> chunk baking in `src/terrain.ts`.
-- **Ground skins** (`public/terrain/skin-<sand|crypt|highland|snow|ruinstone>.png`, 128x32 strips of 4 seamless tiles, cut by `tools/tile-cut.py`; brief in `tools/GEMINI-TILES-BRIEF.md`). `BIOME_SKINS` replaces Dirt tiles for desert->sand, crypt->crypt, highlands->highland.
-- **Biome zones (classic-ARPG-style transitions)**: `BIOME_ZONES` in `src/terrain.ts` gives each biome 1-2 feature-zone skins (forest: crypt+highland; marsh: ruinstone; desert: ruinstone+highland; crypt: ruinstone; highlands: crypt+snow; volcanic: ruinstone; oasis: sand). Each zone is a seeded per-vertex weight field (`zoneField`, cached in a WeakMap), blob radius size*0.12..0.20 with noise-wobbled outline and ~4 tile smoothstep edge. `paintZones` blends with a 4x4 sub-cell alpha grid. Zones skip Water/Rock; keep away from start corner (8,8) and borders. `setTerrainTheme(biome, seed)` is awaited in `src/main.ts` in both the `?expedition` and `?randskirmish` branches.
-- **Object atlas** (NEW, commit 1814455): `public/objects/objects.png` (512x512) + `objects.json`, 42 frames named `<group>/<name>` (bones: pile ribcage skullspike tombstone sarcophagus candles; ruins: column-broken column wall statue arch rubble; camp: tent fire banner rack crates palisade; rocks: boulder-l boulder-m cluster slab spire crystal; desert: palm-a palm-b dead thorn cactus stump; volcanic: dead-a dead-b stump logs obsidian vent; highland: pine-a pine-b oak gorse standing-stone log). Cut by `tools/obj-cut.py` from `tools/.canva-sheets/obj-*.jpg` (magenta keying, despill, per-sheet scale 0.10/0.12). Frames have `anchor [w/2, h-2]`. Brief: `tools/GEMINI-OBJECTS-BRIEF.md`. `obj-rocks-alt.jpg` is unused.
-- **Zone decor wiring**: `zoneDecor(map)` in `src/terrain.ts` scatters `ZONE_DECOR[zoneName]` props (visual only, baked into chunks, no collision) where zone weight >= 0.15 (chance 0.09 inside, 0.02 on edges, avoiding existing objects and the start area). Verified visually on forest seed 7 via offscreen render: bones/sarcophagus in the grey crypt zone, rocks/standing stones/logs in the tan highland zone.
-- Verification recipe (fog of war hides the map in game): in page JS, `import('/thornvael/src/terrain.ts')`, `skirmish-generator.ts`, `mapdoc.ts`; `await setTerrainTheme(biome, seed)`; `map = loadDoc(generateSkirmishMap({seed, biome, players:2, size:64})).map`; `art = await loadTerrainArt()`; `sc = prepareScenery(map)`; loop `paintTerrainChunk(ctx, map, cx, cy, art, sc, 16)` over 4x4 chunks into a 2048 canvas and attach as fixed overlay.
+## 1. Какво е ЗАВЪРШЕНО и ПУШНАТО в `origin/main` (`D:\ROM 2 clone\game`)
 
-## 3. MAP VISUALS - STILL OPEN
-1. **Tune object scale/density** in game (sprite scales 0.10/0.12 untested at real zoom; crypt zone density just raised). Props currently only appear in zones: biome-wide objects are not wired yet.
-2. **Wire biome-specific main objects**: desert palms/cactus/dead trees, volcanic charred trees/obsidian/vents, highland pines/oak, rocks, camp props (tents/fires/banners for camps and enemy bases), ruins (arches/columns) as real scenery. Real obstacles must go through the map `objects` / `reserved` logic in `src/map-generator.ts` and `skirmish-generator.ts` (so paths and collisions stay correct) - the current decor is non-collidable only. Needs an `ObjectKind` extension (currently `Tree`, `House`, drawn via `sceneryPlacement`) or a new decor kind, plus Y-sorted drawing for tall sprites (baked chunks cannot overlap units).
-3. **Path tiles** in skinned biomes still look green/mossy on the new grounds; crypt zone looks washed out grey (colour balance in `paintTerrainChunk`).
-4. **Missing art** (Gemini refused ash): volcanic ash ground (brief in `tools/GEMINI-TILES-BRIEF.md`, or make it procedurally in `tools/make-terrain.py`); atmosphere overlays fog / embers / dust (prompts in `tools/GEMINI-OBJECTS-BRIEF.md`, black background for additive blend) and a renderer pass for them (parallax drifting layers, per biome, cheap on mobile).
-5. `snow` and `ruinstone` skins are only used as zone skins (not as main grounds).
-6. Tune `FAMILY_VISUALS` in `src/render.ts` (~line 121) via `?art=1`.
+1. **`77a889a` — Spell & Unique Item Icons (Priority 3a & 3b)**:
+   - 38 индивидуални `64x64` PNG икони за заклинания в `public/spellicons/*.png` + 20 уникални предмета в `public/itemicons/uniq-*.png`, всички регистрирани в `assets.json` (`license: "own"`).
+2. **`9ce125a` — Wiki 100% Art, Minimaps, Lore & Adaptive Audio Crossfade**:
+   - 251 нови графични актива в `public/wiki/minimaps/` (7 биома, 28 региона, 46 мисии) и `public/wiki/icons/` (169 икони) + `public/townart/portrait-necromancer.png`.
+   - Adaptive Audio (`src/audio.ts`): 1.6s кросфейд между изследване и бой, 4.0s хистерезис, драматичен бос преход и -4dB приглушаване при магазин/диалог (`51/51` теста PASS).
+3. **`e5bcbe1` & `cb92628` — Quest Log Navigate & Isolated Campaign Gold Piles**:
+   - Бутон `Navigate` в Quest Log-а центрира камерата, рисува пулсиращ фар на миникартата и стрелка по ръба на екрана (`src/questlog.ts`, `src/minimap.ts`, `src/main.ts`).
+   - Интерактивни златни купчини (`src/sim/loot.ts`, `src/mission.ts`) с изолиран детерминистичен PRNG и изключване на `glade` (`22/22` теста PASS вкл. `tests/skirmish-director.test.ts`).
+4. **`0cf40d8` — Town Hub NPC Idle Animations & World Environmental Animations**:
+   - Живи градски сцени (ковач с искри, страноприемница с камина и гости, храм с медитиращ жрец, стражи) и анимирани факли, лагерни огньове, знамена и водно колело (`src/art-wave3.ts`, `src/render/atlas-overlays.ts` — `33/33` теста PASS).
+5. **`ea746a5` — Biome Atmosphere Overlays, Monster Family Death FX & Projectile Trails**:
+   - Атмосферни слоеве по биоми (`src/atmosphere.ts`), специфични смъртни ефекти по семейства и бос hit-stop + loot pop (`src/feel.ts`), и следи за снаряди (`src/vfx.ts` — `23/23` теста PASS).
+6. **`b84a98e` — Parallel Wiki Live Sync & Live Holy Grail Status in `wiki.html`**:
+   - **2,219 / 2,219 статии** в 19 категории със 100% валидни изображения (`0` липсващи, `0` `"No lore yet."`).
+   - Добавени 29 нови статии за всички нови механики + редове `Grail Tome` и `Drop Clue` във всички инфобоксове.
+   - Жив Holy Grail статус и `🎯 Pin Grail Target` (до 3 цели) в `src/wiki/grail-status.ts`, `src/wiki/ArticleView.tsx` и `src/wiki/HomePage.tsx` (`13/13` Vitest + `2/2` Playwright `wiki-smoke.spec.ts` PASS).
+7. **`d5e597f` & `84b2187` — Phase 1 (P0): Optional Gameplay Assists in Settings + Tactics Engine**:
+   - Избираеми настройки в `src/preferences.ts`, `src/shell/settings-binder.ts`, `src/pausemenu.ts`, `src/ui-extra/settings-panel.ts` (`autoCastMode`, `autoHealThresholdPct`, `manaReservePct`, `autoNavigateObjectives`, `autoFightMode`, `autoLootSweep`, `autoPotionThresholdPct`).
+   - Детерминистично тактическо ядро в `src/sim/tactics.ts`: `evaluateAutoCast`, 3 стойки (`hold`, `guard`, `aggressive`), `computeRegroupFormation`, `computeHighGroundBonus` ($\Delta h \ge 2 \rightarrow +1.5$ обсег, $+15\%$ точност, $+10\%$ крит), `stepAutoNavigate` и `performLootSweep` (`40/40` теста PASS).
+8. **`81335f3` — Phase 4: 🏆 THE HOLY GRAIL & Imperial Reliquary System**:
+   - 5 Колекционерски Тома в `src/codex.ts` и `src/codexui.ts` (`thornvael_grail_v2`), запазване на динамичните уникати/сетове без свиване до `baseId`, `% Roll Perfection` (`0..100%`), Primal рамка ($\ge 98\%$), ловни следи (`getGrailDropClue`), пинване до 3 цели, Account-Wide награди по прагове (`10/25/50/75/100%`) и наземен лъч `🏆 NEW GRAIL!` в `src/loot-overlay.ts` (`17/17` теста PASS).
 
-## 4. OTHER STATE
-- Sprite redo via Canva: 52/52 units DONE (see `tools/HANDNOTE.md`). Remaining notes there: better one-line descriptions for generic units, tune FAMILY_VISUALS, update PROGRESS.md.
-- Portraits: all 68 DONE (memory file `task-portraits-remaining.md` is outdated: it says 50/68). Gemini content packs up to Pack 20 briefs exist (`docs:` commits); Pack 20 barks still need wiring.
-- Audio: see `.claude/CLAUDE.md` handoff (2026-11-05); human listening and physical-device checks remain open.
-- Uncommitted: `tools/render-unit.py` (Carson's, leave alone), `models/` untracked, `.planning/masterpiece-log.md` modified earlier.
-- Housekeeping left: update `PROGRESS.md` and `tools/HANDNOTE.md` with sections 2-3 above; close the Chrome/Gemini tabs and stop `srv.py` if still running; the user's Claude usage rule (98% weekly stop) applies only to Claude Code sessions.
+---
 
-## 5. Pitfalls learned
-- `check-repo` fails on any binary without an `assets.json` entry.
-- Fog of war hides ground checks in game: use the offscreen render.
-- Dialog click order to start a mission in the browser pane: "Begin the mission", "Start", then "Continue" several times; a "Resume where you left off?" popup shifts clicks.
-- Canva generate has ~400 s cooldown per call; Gemini needs ~2 min pauses between prompts; images arrive in `D:\Downloads` (user downloads them).
-- TypeScript is 7 (native `tsc`, type-check only), Biome for lint, Vitest 5.
+## 2. Активни агенти в момента (Какво да продължи следващият агент)
+
+1. **Subagent `c6d78b04-c20a-46cd-9636-0d1dbae081ec` (`Veterancy, Bounties & Master Gameplay Integrator` — Argon)**:
+   - **Stage 1**: Финализира 5-те тестови корекции в `src/sim/town.ts`, `src/town.ts`, `tests/veterancy-bounties-runewords.test.ts` (Mercenary Veterancy, Temple Resurrection, Runeword Assistant, Item Compare, Tavern Bounties & Mystery Gamble), минава `30/30` теста и пушва.
+   - **Stage 2**: Навързва `src/sim/tactics.ts`, `src/town.ts` и Holy Grail в `src/main.ts` и `src/heroui.ts` + комитва готовите E2E и `src/` фиксове (`e2e/*.spec.ts`, `src/paperdoll.ts`, `src/camera.ts`, `src/style.css`, `.github/workflows/ci.yml`).
+2. **Subagent `b875ff98-0149-4866-a86f-3d894bde188a` (`Chief Project Critic & Deep Auditor` — Argon)**:
+   - Изготвя максимално критичния технически и геймплеен одит на проекта (с проверка за мъртъв код, реални дроп таблици за 132-та униката от Граала, стилово единство на арта, `100dvh` спазване и монолитни модули).
+3. **Автоматичен таймер `task-10571`**:
+   - Настроен да събуди сесията след ресета на 5-часовия прозорец, ако нещо е останало недовършено.
+
+---
+
+## 3. Забранени файлове (НИКОГА не се пипат или комитват)
+- `src/sim/path.ts`, `tests/movement.test.ts`, `models/`, `tools/render-unit.py`, чужди промени в `src/terrain.ts`.

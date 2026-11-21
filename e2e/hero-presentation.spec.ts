@@ -41,6 +41,7 @@ test('named equipment keeps its icon and command action when moved into the pack
 });
 
 test('skill thresholds and growth explanations are visible in Character Stats, including the cap', async ({ page }) => {
+  await page.locator('#sheet [data-k="close-inv"]').click();
   await page.locator('#btn-char').click();
   await page.evaluate(() => {
     const g = (window as unknown as { __game: HeroGame }).__game;

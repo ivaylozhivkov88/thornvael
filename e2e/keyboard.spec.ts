@@ -26,17 +26,19 @@ test('typing i in the actual save name leaves Hero closed and the sheet open', a
   // Saving requires a loaded mission and a created hero, not the free-fight field.
   await page.goto('/thornvael/?mission=ford&hero=warrior,m,medium');
   await page.waitForFunction(() => (window as unknown as { __game?: KeyboardGame }).__game);
-  const begin = page.getByRole('button', { name: 'Begin the mission', exact: true });
-  const next = page.locator('#gothic-dialogue').getByRole('button', { name: 'Next', exact: true });
-  for (let i = 0; i < 12; i++) {
-    if (await begin.isVisible().catch(() => false)) {
-      await begin.click();
-      break;
+  const dialogue = page.locator('#gothic-dialogue');
+  const contBtn = dialogue.locator('.gothic-continue-btn');
+  for (let i = 0; i < 60; i++) {
+    const ticked = await page.evaluate(() => (window as unknown as { __game?: { sim: { tick: number } } }).__game?.sim.tick ?? 0);
+    if (ticked >= 8 && !(await dialogue.isVisible().catch(() => false))) break;
+    if (await contBtn.isVisible().catch(() => false)) {
+      await contBtn.click();
+      await page.waitForTimeout(40);
+    } else {
+      await page.waitForTimeout(80);
     }
-    if (await next.isVisible().catch(() => false)) await next.click();
-    else await page.waitForTimeout(100);
   }
-  await expect(page.locator('#gothic-dialogue')).toBeHidden();
+  await expect(dialogue).toBeHidden();
   await page.locator('#btn-saves').click();
   const name = page.locator('.saves input:not([type=file])');
   await name.fill('');

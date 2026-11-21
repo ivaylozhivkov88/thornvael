@@ -37,6 +37,7 @@ const step = (page: Page) => page.evaluate(() => {
 });
 
 async function center(locator: Locator) {
+  await locator.scrollIntoViewIfNeeded();
   const box = await locator.boundingBox();
   if (!box) throw new Error('Missing drag endpoint');
   return { x: Math.round(box.x + box.width / 2), y: Math.round(box.y + box.height / 2) };
@@ -47,7 +48,8 @@ function control(page: Page, key: string) {
 }
 
 async function startMouse(page: Page, key: string) {
-  const start = await center(control(page, key));
+  const c = control(page, key);
+  const start = await center(c);
   await page.mouse.move(start.x, start.y);
   await page.mouse.down();
   await page.mouse.move(start.x + 8, start.y);
@@ -57,8 +59,8 @@ async function startMouse(page: Page, key: string) {
 test('mouse equip and keyboard fallback use one guarded command after a paused reopen', async ({ page }) => {
   await setup(page);
   const before = await snapshot(page);
-  const target = await center(control(page, 'eq2'));
   await startMouse(page, 'inv0');
+  const target = await center(control(page, 'eq2'));
   await page.mouse.move(target.x, target.y);
   await expect(page.locator('[data-equipment-target="eq2"]')).toHaveAttribute('data-drop-state', 'valid');
   await page.mouse.up();
@@ -86,8 +88,8 @@ test('mouse equip and keyboard fallback use one guarded command after a paused r
 test('wrong target, Escape and structural refresh return gear without a command', async ({ page }) => {
   await setup(page);
   const before = await snapshot(page);
-  const wrong = await center(control(page, 'eq1'));
   await startMouse(page, 'inv0');
+  const wrong = await center(control(page, 'eq1'));
   await page.mouse.move(wrong.x, wrong.y);
   await expect(page.locator('[data-equipment-target="eq1"]')).toHaveAttribute('data-drop-state', 'invalid');
   await page.mouse.up();
@@ -107,8 +109,8 @@ test('wrong target, Escape and structural refresh return gear without a command'
 test('a replaced drag source cannot enqueue an otherwise valid drop', async ({ page }) => {
   await setup(page);
   const before = await snapshot(page);
-  const target = await center(control(page, 'eq2'));
   await startMouse(page, 'inv0');
+  const target = await center(control(page, 'eq2'));
   const changed = await page.evaluate(() => {
     const { sim } = (window as unknown as GameWindow).__game;
     sim.hero!.inv.reverse();
