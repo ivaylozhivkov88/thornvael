@@ -55,6 +55,7 @@ export interface AtmosphereParticle {
 
 export interface AtmosphereOptions {
   lowEnd?: boolean;
+  lowSpec?: boolean;
   reducedMotion?: boolean;
   quality?: number; // 0 = low, 1 = medium, 2 = high
 }
@@ -297,9 +298,19 @@ export function detectLowEndDevice(): boolean {
 }
 
 let globalReducedMotionOverride: boolean | null = null;
+let globalLowSpecOverride: boolean | null = null;
 
 export function setAtmosphereReducedMotion(enabled: boolean | null): void {
   globalReducedMotionOverride = enabled;
+}
+
+export function setAtmosphereLowSpec(enabled: boolean | null): void {
+  globalLowSpecOverride = enabled;
+}
+
+export function isAtmosphereLowSpecActive(): boolean {
+  if (globalLowSpecOverride !== null) return globalLowSpecOverride;
+  return detectLowEndDevice();
 }
 
 export function isReducedMotionActive(): boolean {
@@ -330,6 +341,7 @@ export class AtmosphereSystem {
   private biome: AtmosphereBiome = 'forest';
   private quality = 2;
   private lowEnd = false;
+  private lowSpec = false;
   private reducedMotion = false;
   private seed = 0x9e3779b9;
   private lastCamX = 0;
@@ -340,6 +352,7 @@ export class AtmosphereSystem {
 
   constructor(opts: AtmosphereOptions & { headless?: boolean } = {}) {
     this.lowEnd = opts.lowEnd ?? detectLowEndDevice();
+    this.lowSpec = opts.lowSpec ?? (globalLowSpecOverride ?? this.lowEnd);
     this.reducedMotion = opts.reducedMotion ?? isReducedMotionActive();
     this.quality = opts.quality ?? 2;
 
@@ -404,13 +417,22 @@ export class AtmosphereSystem {
     if (!this.isActive()) this.clearParticles();
   }
 
+  setLowSpec(lowSpec: boolean): void {
+    this.lowSpec = lowSpec;
+    if (!this.isActive()) this.clearParticles();
+  }
+
+  isLowSpec(): boolean {
+    return this.lowSpec || this.lowEnd || (globalLowSpecOverride ?? false);
+  }
+
   setReducedMotion(reducedMotion: boolean): void {
     this.reducedMotion = reducedMotion;
     if (!this.isActive()) this.clearParticles();
   }
 
   isActive(): boolean {
-    return !this.lowEnd && !this.reducedMotion && this.quality > 0;
+    return !this.lowEnd && !this.lowSpec && !this.reducedMotion && this.quality > 0;
   }
 
   getActiveCap(): number {
@@ -438,6 +460,7 @@ export class AtmosphereSystem {
     }
     for (const g of this.layerGraphics) g.clear();
     if (this.layer) this.layer.visible = false;
+    this.initialized = false;
   }
 
   private seedParticles(viewW: number, viewH: number): void {
@@ -515,6 +538,12 @@ export class AtmosphereSystem {
       const sway =
         p.effect === 'fireflies' || p.effect === 'spores' || p.effect === 'leaves' || p.effect === 'embers'
           ? Math.sin(this.elapsed * 2.1 + p.phase) * 14
+          : p.effect === 'fog'
+          ? Math.sin(this.elapsed * 0.9 + p.phase) * 8
+          : p.effect === 'dust'
+          ? Math.sin(this.elapsed * 1.5 + p.phase) * 6
+          : p.effect === 'snow'
+          ? Math.sin(this.elapsed * 2.6 + p.phase) * 8
           : 0;
 
       p.x += (p.vx + sway) * dt - dCamX * p.parallax;
@@ -531,17 +560,34 @@ export class AtmosphereSystem {
       } else if (p.effect === 'embers') {
         const flicker = 0.7 + 0.3 * Math.sin(this.elapsed * 6.0 + p.phase);
         p.alpha = p.baseAlpha * flicker;
+      } else if (p.effect === 'fog') {
+        const breathe = 0.85 + 0.15 * Math.sin(this.elapsed * 1.2 + p.phase);
+        p.alpha = p.baseAlpha * breathe;
       } else {
         p.alpha = p.baseAlpha;
       }
     }
 
-    this.draw();
+    this.draw(w, h);
   }
 
-  private draw(): void {
+  private draw(viewW = 800, viewH = 600): void {
     if (!this.layer || this.layerGraphics.length === 0) return;
     for (const g of this.layerGraphics) g.clear();
+
+    // Rising volcanic heat ripple waves
+    if (this.biome === 'volcanic' && this.layerGraphics.length > 0) {
+      const hg = this.layerGraphics[0];
+      const t = this.elapsed;
+      for (let r = 0; r < 2; r++) {
+        const ry = (((viewH - (t * 40 + r * (viewH * 0.5))) % (viewH + 100)) + viewH + 100) % (viewH + 100) - 50;
+        const shimmer = Math.sin(t * 3.4 + r * 2.3) * 6;
+        hg.ellipse(viewW * 0.5 + Math.sin(t * 1.2 + r) * 25, ry + shimmer, viewW * 0.45, 5).fill({
+          color: 0xff6611,
+          alpha: 0.035 + 0.018 * Math.sin(t * 2.4 + r),
+        });
+      }
+    }
 
     for (let i = 0; i < MAX_POOL; i++) {
       const p = this.particles[i];
@@ -549,7 +595,16 @@ export class AtmosphereSystem {
       const g = this.layerGraphics[p.layerIndex] ?? this.layerGraphics[0];
 
       if (p.effect === 'fog') {
-        g.ellipse(p.x, p.y, p.size * 1.8, p.size * 0.55).fill({ color: p.color, alpha: p.alpha });
+        // Drifting volumetric mist/fog wisps
+        g.ellipse(p.x, p.y, p.size * 2.0, p.size * 0.58).fill({ color: p.color, alpha: p.alpha * 0.75 });
+        g.ellipse(p.x - p.size * 0.65, p.y + Math.sin(p.phase) * 4, p.size * 1.15, p.size * 0.4).fill({
+          color: p.color,
+          alpha: p.alpha * 0.45,
+        });
+        g.ellipse(p.x + p.size * 0.65, p.y - Math.sin(p.phase) * 3, p.size * 0.95, p.size * 0.35).fill({
+          color: p.color,
+          alpha: p.alpha * 0.4,
+        });
       } else if (p.effect === 'leaves') {
         const dx = Math.cos(p.phase + this.elapsed * 2.0) * p.size;
         const dy = Math.sin(p.phase + this.elapsed * 2.0) * p.size * 0.6;
@@ -557,11 +612,23 @@ export class AtmosphereSystem {
           color: p.color,
           alpha: p.alpha,
         });
-      } else if (p.effect === 'fireflies' || p.effect === 'spores' || p.effect === 'embers') {
+      } else if (p.effect === 'embers') {
+        // Rising glowing embers with warm halo and incandescent core
+        g.circle(p.x, p.y, p.size * 2.2).fill({ color: 0xff3b00, alpha: p.alpha * 0.28 });
+        g.circle(p.x, p.y, p.size).fill({ color: p.color, alpha: p.alpha });
+        g.circle(p.x, p.y, p.size * 0.45).fill({ color: 0xfff0a0, alpha: p.alpha * 0.95 });
+      } else if (p.effect === 'fireflies' || p.effect === 'spores') {
         g.circle(p.x, p.y, p.size * 2.2).fill({ color: p.color, alpha: p.alpha * 0.24 });
         g.circle(p.x, p.y, p.size).fill({ color: p.color, alpha: p.alpha });
+      } else if (p.effect === 'dust') {
+        // Gentle drifting dust motes
+        g.circle(p.x, p.y, p.size * 1.7).fill({ color: p.color, alpha: p.alpha * 0.25 });
+        g.circle(p.x, p.y, p.size).fill({ color: p.color, alpha: p.alpha });
+      } else if (p.effect === 'snow') {
+        // Light highland rain/snow flurries
+        g.circle(p.x, p.y, p.size).fill({ color: p.color, alpha: p.alpha });
+        g.moveTo(p.x, p.y).lineTo(p.x - 2.5, p.y - 4.5).stroke({ color: p.color, width: 0.8, alpha: p.alpha * 0.45 });
       } else {
-        // dust & snow
         g.circle(p.x, p.y, p.size).fill({ color: p.color, alpha: p.alpha });
       }
     }

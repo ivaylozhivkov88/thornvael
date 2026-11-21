@@ -1244,13 +1244,24 @@ export class VfxSystem {
         }
       }
 
-      // Flying projectile micro-particles (e.g. Fireball trailing embers & smoke)
-      if (alive && s === 2) {
-        const px = cb.pX[p] * k;
-        const py = cb.pY[p] * k - 12;
-        if ((sim.tick + p) % 2 === 0) {
-          this.spawnParticle(TEX_SPARK, px, py, (Math.random() - 0.5) * 18, (Math.random() - 0.5) * 18, 0xff7700, 0.65, 0.15, 0.35, 1, 0, 0, 0, 0.94);
-          this.spawnParticle(TEX_SMOKE, px, py, (Math.random() - 0.5) * 10, -8 - Math.random() * 8, 0x3d3228, 0.65, 1.3, 0.45, 0.5, 0, 0, 0, 0.95);
+      // Projectile Visual Trails:
+      // - fireballs / fire spells: ember trail & burning wake
+      // - frost shards / frost spells: ice crystal mist & glint
+      // - shadow orbs / astral / dark spells: swirling dark wisps
+      if (alive) {
+        const el = cb.pEl[p];
+        const sid = s > 0 ? s - 1 : -1;
+        const isFire = s === 2 || sid === 0 || sid === 1 || sid === 45 || el === 1;
+        const isFrost = sid === 4 || sid === 6 || sid === 46 || el === 2;
+        const isShadow = sid === 30 || sid === 23 || sid === 51 || el === 5;
+
+        if (isFire || isFrost || isShadow) {
+          const px = cb.pX[p] * k;
+          const py = cb.pY[p] * k - 12;
+          const prevX = (this.prevProjAlive[p] ? this.prevProjX[p] : cb.pX[p]) * k;
+          const prevY = (this.prevProjAlive[p] ? this.prevProjY[p] : cb.pY[p]) * k - 12;
+          const kind = isFire ? 'fireball' : isFrost ? 'frost' : 'shadow';
+          this.emitProjectileTrail(px, py, prevX, prevY, kind, sim.tick + p);
         }
       }
 
@@ -1259,6 +1270,180 @@ export class VfxSystem {
       this.prevProjT[p] = cb.pT[p];
       this.prevProjX[p] = cb.pX[p];
       this.prevProjY[p] = cb.pY[p];
+    }
+  }
+
+  /**
+   * Projectile Visual Trails:
+   * - fireballs: ember trail (trailing incandescent sparks, fiery core, smoke)
+   * - frost shards: ice crystal mist (spinning ice shards, cold mist, sharp glint)
+   * - shadow orbs: dark wisps (swirling ethereal violet wisps, void core)
+   */
+  emitProjectileTrail(
+    px: number,
+    py: number,
+    prevX: number,
+    prevY: number,
+    kind: 'fireball' | 'frost' | 'shadow',
+    tick = 0,
+  ): void {
+    const dx = px - prevX;
+    const dy = py - prevY;
+    const dist = Math.hypot(dx, dy);
+    const nx = dist > 0.001 ? -dx / dist : 0;
+    const ny = dist > 0.001 ? -dy / dist : 0;
+
+    if (kind === 'fireball') {
+      // 1. Fireball Ember Trail
+      if (dist > 1) {
+        this.airGfx
+          .moveTo(prevX, prevY)
+          .lineTo(px, py)
+          .stroke({ color: 0xff4500, width: 4.5, alpha: 0.65 });
+        this.airGfx
+          .moveTo(prevX, prevY)
+          .lineTo(px, py)
+          .stroke({ color: 0xffaa00, width: 2.2, alpha: 0.9 });
+        this.airGfx.circle(px, py, 3.2).fill({ color: 0xfff0a0, alpha: 0.95 });
+      }
+
+      if (tick % 2 === 0) {
+        const emberCol = Math.random() < 0.4 ? 0xfff070 : Math.random() < 0.8 ? 0xff6600 : 0xd50000;
+        this.spawnParticle(
+          TEX_SPARK,
+          px,
+          py,
+          nx * (25 + Math.random() * 35) + (Math.random() - 0.5) * 16,
+          ny * (25 + Math.random() * 35) + (Math.random() - 0.5) * 16 - 6,
+          emberCol,
+          0.7,
+          0.15,
+          0.38,
+          1,
+          0,
+          0,
+          0,
+          0.94,
+        );
+        this.spawnParticle(
+          TEX_SMOKE,
+          px,
+          py,
+          nx * 10 + (Math.random() - 0.5) * 10,
+          -10 - Math.random() * 8,
+          0x3d2817,
+          0.6,
+          1.4,
+          0.48,
+          0.5,
+          0,
+          0,
+          0,
+          0.95,
+        );
+      }
+    } else if (kind === 'frost') {
+      // 2. Frost Shard Ice Crystal Mist
+      if (dist > 1) {
+        this.airGfx
+          .moveTo(prevX, prevY)
+          .lineTo(px, py)
+          .stroke({ color: 0x38bdf8, width: 4.2, alpha: 0.6 });
+        this.airGfx
+          .moveTo(prevX, prevY)
+          .lineTo(px, py)
+          .stroke({ color: 0xe0f8ff, width: 1.8, alpha: 0.95 });
+        this.airGfx.circle(px, py, 2.8).fill({ color: 0xffffff, alpha: 0.95 });
+      }
+
+      if (tick % 2 === 0) {
+        const shardCol = Math.random() < 0.5 ? 0x7dd3fc : 0xffffff;
+        const ang = Math.random() * Math.PI * 2;
+        this.spawnParticle(
+          TEX_SHARD,
+          px,
+          py,
+          nx * (18 + Math.random() * 24) + (Math.random() - 0.5) * 14,
+          ny * (18 + Math.random() * 24) + (Math.random() - 0.5) * 14,
+          shardCol,
+          0.75,
+          0.2,
+          0.35,
+          0.95,
+          0,
+          ang,
+          (Math.random() - 0.5) * 8,
+          0.93,
+        );
+        this.spawnParticle(
+          TEX_GLOW,
+          px,
+          py,
+          nx * 8 + (Math.random() - 0.5) * 8,
+          (Math.random() - 0.5) * 8,
+          0xb9f2ff,
+          0.8,
+          1.3,
+          0.4,
+          0.4,
+          0,
+          0,
+          0,
+          0.96,
+        );
+      }
+    } else if (kind === 'shadow') {
+      // 3. Shadow Orb Dark Wisps
+      if (dist > 1) {
+        this.airGfx
+          .moveTo(prevX, prevY)
+          .lineTo(px, py)
+          .stroke({ color: 0x7c3aed, width: 5.0, alpha: 0.65 });
+        this.airGfx
+          .moveTo(prevX, prevY)
+          .lineTo(px, py)
+          .stroke({ color: 0x1e0736, width: 2.4, alpha: 0.95 });
+        this.airGfx.circle(px, py, 3.5).stroke({ color: 0xc084fc, width: 1.5, alpha: 0.9 });
+      }
+
+      if (tick % 2 === 0) {
+        const perpX = -ny;
+        const perpY = nx;
+        const curl = Math.sin(tick * 0.5) * 20;
+        const wispCol = Math.random() < 0.6 ? 0x2e0854 : 0x8e24aa;
+        this.spawnParticle(
+          TEX_SMOKE,
+          px,
+          py,
+          nx * 12 + perpX * curl,
+          ny * 12 + perpY * curl,
+          wispCol,
+          0.75,
+          1.5,
+          0.45,
+          0.75,
+          0,
+          0,
+          0,
+          0.94,
+        );
+        this.spawnParticle(
+          TEX_GLOW,
+          px,
+          py,
+          (Math.random() - 0.5) * 12,
+          (Math.random() - 0.5) * 12,
+          0xa855f7,
+          0.6,
+          0.15,
+          0.3,
+          0.85,
+          0,
+          0,
+          0,
+          0.95,
+        );
+      }
     }
   }
 

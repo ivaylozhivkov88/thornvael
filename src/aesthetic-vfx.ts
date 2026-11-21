@@ -50,10 +50,10 @@ export function detectBiomeFromMap(mapNameOrTitle: string, terrain?: Uint8Array)
   const name = mapNameOrTitle.toLowerCase();
 
   // Keyword detection based on map naming conventions
-  if (/cinder|ember|ash|hell|inferno|fire|lava|reckoning/.test(name)) return 'hell';
+  if (/cinder|ember|ash|hell|inferno|fire|lava|reckoning|volcanic/.test(name)) return 'hell';
   if (/dune|desert|sand|redmarsh|arid|wasteland|quarry/.test(name)) return 'desert';
-  if (/cave|vault|sunken|ossuary|drowned|sanctum|undervault|lantern/.test(name)) return 'caves';
-  if (/fen|marsh|swamp|ford|glade|bog|mire|water|river|reach|tide/.test(name)) return 'swamp';
+  if (/cave|vault|sunken|ossuary|drowned|sanctum|undervault|lantern|crypt/.test(name)) return 'caves';
+  if (/fen|marsh|swamp|ford|glade|bog|mire|water|river|reach|tide|highland|snow/.test(name)) return 'swamp';
 
   // Terrain tile histogram fallback if provided (Terrain: 0 Grass, 1 Dirt, 2 Water, 3 Rock, 4 Marsh)
   if (terrain && terrain.length > 0) {
