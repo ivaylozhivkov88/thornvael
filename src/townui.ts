@@ -8,6 +8,8 @@ import { isSetItem } from './sim/sets';
 import type { Sim } from './sim/sim';
 import { SPELLS } from './sim/spelldata';
 import { OFFERS, isUnlimited, QuestType, reviveFee, ROLE_COUNT, Role, SHELF, gambleCost, priceOf, sellPrice, spellPrice, trainPrice, type Quest, type TownCommand } from './sim/town';
+import { computeItemComparison, getCompatibleRunewordsForItem } from './town';
+import { VETERAN_RANKS, templeResurrectionCost } from './sim/mercs';
 import { S } from './strings';
 import { createRarityBadgeEl, itemIconEl } from './townicons';
 import { getRumorsByStage, loadTavernRumors, type CampaignStage, type TavernRumorEntry } from './data/text/index';
@@ -684,7 +686,37 @@ export class TownUi {
     }, `-${gCost}`);
     gamble.disabled = sim.cb.gold[0] < gCost || h.inv.length >= INV_MAX;
     this.ctx.tipOn(gamble, `${S.town.gambleHelp} (${gCost} ${S.town.gold})`);
-    acts.append(deal, undo, gamble, button('💬 Lore & Spoils', () => this.openLoreDialogue('shop')), exit);
+
+    // Mystery Gamble Slot Buttons
+    const gambleSlotBar = el('div', 'mystery-gamble-bar');
+    const gambleSlots: Array<{ label: string; slot: number }> = [
+      { label: 'Wpn', slot: Slot.Weapon },
+      { label: 'Arm', slot: Slot.Armor },
+      { label: 'Hlm', slot: Slot.Helm },
+      { label: 'Shd', slot: Slot.Shield },
+      { label: 'Bts', slot: Slot.Boots },
+      { label: 'Glv', slot: Slot.Gloves },
+      { label: 'Rng', slot: Slot.Ring },
+      { label: 'Amu', slot: Slot.Amulet },
+    ];
+    for (const gs of gambleSlots) {
+      const slotBtn = el('button', 'btn-gamble-slot', gs.label);
+      slotBtn.type = 'button';
+      slotBtn.title = `Gamble for mystery ${gs.label} (-${gCost} gold)`;
+      slotBtn.disabled = sim.cb.gold[0] < gCost || h.inv.length >= INV_MAX;
+      slotBtn.onclick = () => {
+        const g0 = sim.cb.gold[0];
+        this.cmd('gamble', gs.slot);
+        const won = sim.cb.gold[0] < g0;
+        if (won) playTraderBark('blacksmith', 'buy');
+        this.setMood(won ? 1 : 2);
+        this.ctx.changed();
+        this.render();
+      };
+      gambleSlotBar.append(slotBtn);
+    }
+
+    acts.append(deal, undo, gamble, gambleSlotBar, button('💬 Lore & Spoils', () => this.openLoreDialogue('shop')), exit);
     const details = el('section', 'trade-details');
     details.setAttribute('aria-label', S.town.itemDetails);
     details.append(this.renderTray(sim), this.renderDetailView(h), el('p', 'note', S.town.shopHelp));
@@ -702,9 +734,47 @@ export class TownUi {
     const tip = renderItemTooltipDom(this.detailItem, h);
     wrap.append(tip);
 
+    const d = getItemDef(this.detailItem);
+    if (d && d.kind === Ik.Gear && d.slot >= 0) {
+      const eqId = h.eq[d.slot];
+      const comp = computeItemComparison(d, eqId >= 0 ? eqId : null);
+      if (comp.diffs.length > 0) {
+        const compPanel = el('div', 'item-comparison-panel');
+        compPanel.append(el('h4', 'comp-title', `vs Equipped (${comp.equippedName ?? 'Empty'})`));
+        const diffList = el('div', 'comp-diff-list');
+        for (const diff of comp.diffs) {
+          const deltaEl = el('span', `comp-diff-tag ${diff.isPositive ? 'is-pos' : 'is-neg'}`, diff.formatted);
+          diffList.append(deltaEl);
+        }
+        compPanel.append(diffList);
+        wrap.append(compPanel);
+      }
+
+      // Runeword Assistant
+      const sockets = (d as any).sockets ?? (d.tier >= 3 ? 2 : 0);
+      if (sockets >= 2) {
+        const ownedRunes = h.inv.map((s) => getItemDef(s.item)?.name).filter(Boolean) as string[];
+        const rwList = getCompatibleRunewordsForItem(d.slot, sockets, ownedRunes);
+        if (rwList.length > 0) {
+          const rwPanel = el('div', 'runeword-assistant-panel');
+          rwPanel.append(el('h4', 'rw-title', `ᚱ Compatible Runewords (${rwList.length})`));
+          for (const rw of rwList.slice(0, 3)) {
+            const rwCard = el('div', 'rw-match-card');
+            const runesText = rw.runeDetails.map((r) => (r.owned ? `✓ ${r.d2Name}` : `○ ${r.d2Name}`)).join(' + ');
+            rwCard.append(
+              el('strong', 'rw-name', rw.name),
+              el('span', 'rw-formula', ` [${runesText}]`),
+              el('small', 'rw-bonus', rw.statSummary.length > 0 ? ` ${rw.statSummary.join(', ')}` : ''),
+            );
+            rwPanel.append(rwCard);
+          }
+          wrap.append(rwPanel);
+        }
+      }
+    }
+
     const invIdx = h.inv.findIndex((s) => s.item === this.detailItem);
     if (invIdx >= 0) {
-      const d = getItemDef(this.detailItem);
       const isGear = d?.kind === Ik.Gear;
       const why = isGear ? blocker(h, this.detailItem) : 0;
       const btn = button(isGear ? S.hero.equip : S.hero.use, () => {
@@ -857,6 +927,42 @@ export class TownUi {
       ql.append(l);
     }
     quests.append(sim.town.quests.length ? ql : el('p', 'note', S.town.none));
+
+    // Tavern Bounty Board (Regional Super-Unique Boss Hunts)
+    const bountyPanel = el('section', 'bounty-panel');
+    bountyPanel.append(el('h3', '', '⚔ Bounty Board (Elite Hunts)'));
+    const townBounties = sim.town.bounties?.[this.town] ?? [];
+    if (townBounties.length > 0) {
+      const bl = el('div', 'lines bounty-lines');
+      townBounties.forEach((bounty, k) => {
+        const l = el('div', `line bounty-card${bounty.isGrailTarget ? ' is-grail' : ''}${bounty.completed ? ' is-completed' : ''}`);
+        const info = el('div', 'bounty-info');
+        const header = el('strong', 'bounty-title', `${bounty.isGrailTarget ? '🏆 Grail Target: ' : ''}${bounty.name}`);
+        const desc = el('small', 'bounty-desc', bounty.summary);
+        info.append(header, desc);
+        const rewardText = `${bounty.rewardGold}g${bounty.rewardRune ? ` + Rune [${bounty.rewardRune}]` : ''}`;
+        const rew = el('b', 'bounty-reward', rewardText);
+        const btn = button(
+          bounty.completed ? 'Claimed' : bounty.accepted ? 'Accepted' : 'Accept Hunt',
+          () => {
+            if (!bounty.accepted) {
+              this.cmd('accept_bounty', k);
+              play('sfx_quest_accept', 5);
+              playTraderBark('guildmaster', 'buy');
+              this.render();
+            }
+          }
+        );
+        btn.disabled = bounty.accepted || bounty.completed;
+        l.append(info, rew, btn);
+        bl.append(l);
+      });
+      bountyPanel.append(bl);
+    } else {
+      bountyPanel.append(el('p', 'note', 'No active bounty notices posted for this region.'));
+    }
+    quests.append(bountyPanel);
+
     const patrons = el('div', 'tavern-patrons');
     patrons.append(
       el('span', 'patron-badge', '🍺 Old Veteran (drinking ale)'),
@@ -923,6 +1029,31 @@ export class TownUi {
       tl.append(b);
     });
     this.root.append(tl);
+
+    // Temple Resurrection for Fallen Veterans
+    const fallenVets = sim.town.fallenVeterans ?? [];
+    if (fallenVets.length > 0) {
+      this.root.append(el('h3', 'temple-revive-header', '⚱ Temple Resurrection (Fallen Veterans)'));
+      const fl = el('div', 'items fallen-vets-list');
+      fallenVets.forEach((vet, k) => {
+        const cost = templeResurrectionCost(vet.rank);
+        const perkText = vet.perkName ? ` [${vet.perkName}]` : '';
+        const rankDef = VETERAN_RANKS[vet.rank];
+        const b = button(
+          `Revive ${vet.name} (${rankDef.title}${perkText})`,
+          () => {
+            this.cmd('temple_revive', k);
+            playTraderBark('alchemist', 'buy');
+            this.ctx.changed();
+            this.render();
+          },
+          `${cost} ${S.town.gold.toLowerCase()}`
+        );
+        if (cost > sim.cb.gold[0]) b.classList.add('no');
+        fl.append(b);
+      });
+      this.root.append(fl);
+    }
   }
 
   // ---- Interactive Dark Fantasy Lore & Rumors Dialogue System ----

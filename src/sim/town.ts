@@ -2,11 +2,13 @@ import { isBlockedAt } from '../map';
 import { UNIQUE_ARTIFACTS } from './affixes';
 import { Did, INV_MAX, SKILL_MAX, Why, addItem, blocker, heroKnowsSpell, learnSpell, recalc, spellForHero, takeItem } from './hero';
 import { mercPrice } from './difficulty';
-import { getItemDef, ITEMS, Ik, itemId, transmuteItems, type ItemDef } from './items';
+import { getItemDef, getUnidentifiedName, ITEMS, Ik, itemId, Slot, transmuteItems, type ItemDef } from './items';
 import { FP } from './path';
 import { revive } from './spells';
 import { Ord } from './combat';
 import { isSetItem, ALL_SET_ITEMS } from './sets';
+import { SUPER_UNIQUES } from './super-uniques';
+import { templeResurrectionCost, type MercenaryRecord } from './mercs';
 import type { Sim } from './sim';
 
 /**
@@ -85,6 +87,21 @@ export interface Quest {
   prog: number; // Patrol: next point; Guard: ticks held
 }
 
+export interface BountyContract {
+  id: string;
+  bossId: string;
+  name: string;
+  title: string;
+  act: number;
+  family: string;
+  rewardGold: number;
+  rewardRune?: string;
+  isGrailTarget: boolean;
+  summary: string;
+  accepted: boolean;
+  completed: boolean;
+}
+
 export interface TownState {
   stock: number[][]; // per town, item id per shelf slot (-1 empty)
   offers: Quest[][]; // per town
@@ -93,10 +110,28 @@ export interface TownState {
   paid: number; // gold earned from quests, all told
   forge?: number; // campaign forge level: shop stock reaches this many tiers higher
   barracks?: number; // campaign barracks: percent off hire fees
+  bounties?: BountyContract[][]; // per town
+  fallenVeterans?: MercenaryRecord[]; // list of fallen veterans for temple resurrection
 }
 
-export type TownOp = 'enter' | 'leave' | 'buy' | 'sell' | 'deal' | 'hire' | 'revive' | 'learn' | 'train' | 'accept' | 'gamble' | 'transmute' | 'identify_all';
-/** `v`: role (enter), merc index (hire), spell (learn), skill (train), offer (accept). `list`: shelf slots (buy) or item ids (sell). */
+export type TownOp =
+  | 'enter'
+  | 'leave'
+  | 'buy'
+  | 'sell'
+  | 'deal'
+  | 'hire'
+  | 'revive'
+  | 'learn'
+  | 'train'
+  | 'accept'
+  | 'gamble'
+  | 'transmute'
+  | 'identify_all'
+  | 'temple_revive'
+  | 'accept_bounty'
+  | 'claim_bounty';
+/** `v`: role (enter), merc index (hire), spell (learn), skill (train), offer (accept), slot (gamble). `list`: shelf slots (buy) or item ids (sell). */
 export type TownCommand = { type: 'town'; op: TownOp; town: number; v?: number; list?: number[]; list2?: number[] };
 /** `deal`: `list` = shelf slots to buy (unlimited potions may repeat), `list2` = item ids to sell; settled together, sales first. */
 
@@ -123,8 +158,51 @@ function followHero(sim: Sim, u: number): void {
 
 export const Tfx = { Paid: 20, Failed: 21, Hired: 22, Trade: 23 } as const;
 
+/** Generate deterministic regional bounty contracts from Super-Unique bosses for the town's tavern board. */
+export function generateTownBounties(townIndex: number, act = 1): BountyContract[] {
+  const safeAct = (Math.min(4, Math.max(1, act)) as 1 | 2 | 3 | 4);
+  const actBosses = SUPER_UNIQUES.filter((b) => b.act === safeAct);
+  const pool = actBosses.length > 0 ? actBosses : SUPER_UNIQUES;
+  const count = Math.min(3, pool.length);
+  const result: BountyContract[] = [];
+  const RUNES = [
+    'El', 'Eld', 'Tir', 'Nef', 'Eth', 'Ith', 'Tal', 'Ral', 'Ort', 'Thul',
+    'Amn', 'Sol', 'Shael', 'Dol', 'Hel', 'Io', 'Lum', 'Ko', 'Fal', 'Lem',
+    'Pul', 'Um', 'Mal', 'Ist', 'Gul', 'Vex', 'Ohm', 'Lo', 'Sur', 'Ber',
+    'Jah', 'Cham', 'Zod',
+  ];
+
+  for (let i = 0; i < count; i++) {
+    const boss = pool[(townIndex * 2 + i) % pool.length];
+    const runeIndex = (townIndex * 3 + i * 2 + (safeAct - 1) * 6) % RUNES.length;
+    result.push({
+      id: `bounty-${townIndex}-${boss.id}`,
+      bossId: boss.id,
+      name: boss.name,
+      title: boss.title,
+      act: boss.act,
+      family: boss.family,
+      rewardGold: 250 * boss.tier + (boss.act * 150),
+      rewardRune: RUNES[runeIndex],
+      isGrailTarget: i === 0 || boss.tier === 5,
+      summary: boss.summary,
+      accepted: false,
+      completed: false,
+    });
+  }
+  return result;
+}
+
 export function newTownState(towns: number): TownState {
-  return { stock: Array.from({ length: towns }, () => Array<number>(SHELF).fill(-1)), offers: Array.from({ length: towns }, () => []), quests: [], inside: -1, paid: 0 };
+  return {
+    stock: Array.from({ length: towns }, () => Array<number>(SHELF).fill(-1)),
+    offers: Array.from({ length: towns }, () => []),
+    quests: [],
+    inside: -1,
+    paid: 0,
+    bounties: Array.from({ length: towns }, (_, i) => generateTownBounties(i, 1)),
+    fallenVeterans: [],
+  };
 }
 
 export const cloneTown = (t: TownState): TownState => structuredClone(t);
@@ -451,7 +529,21 @@ export function townCommand(sim: Sim, cmd: TownCommand): void {
     }
     return;
   }
-  const role = { buy: Role.Shop, sell: Role.Shop, deal: Role.Shop, gamble: Role.Shop, transmute: Role.Shop, hire: Role.Tavern, revive: Role.Tavern, accept: Role.Tavern, learn: Role.School, train: Role.School }[cmd.op];
+  const role = {
+    buy: Role.Shop,
+    sell: Role.Shop,
+    deal: Role.Shop,
+    gamble: Role.Shop,
+    transmute: Role.Shop,
+    hire: Role.Tavern,
+    revive: Role.Tavern,
+    accept: Role.Tavern,
+    accept_bounty: Role.Tavern,
+    claim_bounty: Role.Tavern,
+    learn: Role.School,
+    train: Role.School,
+    temple_revive: Role.School,
+  }[cmd.op];
   if (st.inside !== cmd.town * ROLE_COUNT + role) return;
   const gold = sim.cb.gold;
   const v = cmd.v ?? -1;
@@ -469,70 +561,143 @@ export function townCommand(sim: Sim, cmd: TownCommand): void {
       if (cost > gold[0]) return refuse(sim, Why.Gold);
       if (h.inv.length >= INV_MAX) return refuse(sim, Why.Full);
 
-      // classic ARPG Gambling Probabilities:
-      // 89.0% Magic (roll < 8900)
-      // 10.0% Rare (8900 <= roll < 9900)
-      // 0.8% Set (9900 <= roll < 9980)
-      // 0.2% Unique (9980 <= roll < 10000)
-      const roll = sim.rng.int(10000);
+      const targetSlot = cmd.v !== undefined && cmd.v >= 0 ? cmd.v : undefined;
+
+      // ARPG Gambling Probabilities:
+      // Magic (70%), Rare (22%), Set (5%), Unique (3%) and smartGrailPityBias
+      let roll = sim.rng.int(10000);
+      const pityBias = (h as any).grailPityBias ?? 0;
+      if (pityBias > 0) {
+        roll = Math.min(9999, roll + pityBias * 50);
+      }
+
       let wonId = -1;
+      let wonQuality: 'magic' | 'rare' | 'set' | 'unique' = 'magic';
+      let targetDef: ItemDef | undefined;
 
-      const [baseLo, baseHi] = rt.def.tiers ?? [1, 2];
-      const diff = Math.max(0, Math.min(2, h.diff ?? 1));
-      const lo = diff >= 2 ? baseLo + 1 : baseLo;
-      const hi = Math.min(5, baseHi + diff);
-
-      if (roll >= 9980) {
-        // 0.2% Unique Artifact
-        const cand = UNIQUE_ARTIFACTS
-          .map((u) => itemId(u.name))
-          .filter((id) => id >= 0);
-        if (cand.length > 0) wonId = cand[sim.rng.int(cand.length)];
+      if (roll >= 9700) {
+        // 3.0% Unique Artifact
+        wonQuality = 'unique';
+        let cand = UNIQUE_ARTIFACTS.map((u) => ({ id: itemId(u.name), def: u as ItemDef })).filter((x) => x.id >= 0);
+        if (targetSlot !== undefined) {
+          const filtered = cand.filter((x) => x.def.slot === targetSlot);
+          if (filtered.length > 0) cand = filtered;
+        }
+        if (cand.length > 0) {
+          const pick = cand[sim.rng.int(cand.length)];
+          wonId = pick.id;
+          targetDef = pick.def;
+        }
       }
 
-      if (wonId < 0 && roll >= 9900) {
-        // 0.8% Set Piece
-        const cand = ALL_SET_ITEMS
-          .map((s) => itemId(s.name))
-          .filter((id) => id >= 0);
-        if (cand.length > 0) wonId = cand[sim.rng.int(cand.length)];
+      if (wonId < 0 && roll >= 9200) {
+        // 5.0% Set Piece
+        wonQuality = 'set';
+        let cand = ALL_SET_ITEMS.map((s) => ({ id: itemId(s.name), def: s as ItemDef })).filter((x) => x.id >= 0);
+        if (targetSlot !== undefined) {
+          const filtered = cand.filter((x) => x.def.slot === targetSlot);
+          if (filtered.length > 0) cand = filtered;
+        }
+        if (cand.length > 0) {
+          const pick = cand[sim.rng.int(cand.length)];
+          wonId = pick.id;
+          targetDef = pick.def;
+        }
       }
 
-      if (wonId < 0 && roll >= 8900) {
-        // 10% Rare Gear (tier 4)
-        const cand: number[] = [];
+      if (wonId < 0 && roll >= 7000) {
+        // 22.0% Rare Gear (tier 4..5)
+        wonQuality = 'rare';
+        let cand: { id: number; def: ItemDef }[] = [];
         ITEMS.forEach((d, id) => {
           if (d.kind === Ik.Gear && !isUniqueItem(d) && !isSetPiece(d)) {
-            if (d.tier >= 4 && d.tier <= 5) cand.push(id);
+            if (d.tier >= 4 && d.tier <= 5) {
+              if (targetSlot === undefined || d.slot === targetSlot) cand.push({ id, def: d });
+            }
           }
         });
-        if (cand.length > 0) wonId = cand[sim.rng.int(cand.length)];
+        if (cand.length === 0 && targetSlot !== undefined) {
+          ITEMS.forEach((d, id) => {
+            if (d.kind === Ik.Gear && !isUniqueItem(d) && !isSetPiece(d) && d.tier >= 4) cand.push({ id, def: d });
+          });
+        }
+        if (cand.length > 0) {
+          const pick = cand[sim.rng.int(cand.length)];
+          wonId = pick.id;
+          targetDef = pick.def;
+        }
       }
 
       if (wonId < 0) {
-        // 89% Magic Gear (tier 2..3)
-        const cand: number[] = [];
+        // 70.0% Magic Gear (tier 1..3)
+        wonQuality = 'magic';
+        let cand: { id: number; def: ItemDef }[] = [];
         ITEMS.forEach((d, id) => {
           if (d.kind === Ik.Gear && !isUniqueItem(d) && !isSetPiece(d)) {
-            if (d.tier >= 1 && d.tier <= 3) cand.push(id);
+            if (d.tier >= 1 && d.tier <= 3) {
+              if (targetSlot === undefined || d.slot === targetSlot) cand.push({ id, def: d });
+            }
           }
         });
-        if (cand.length > 0) wonId = cand[sim.rng.int(cand.length)];
+        if (cand.length === 0 && targetSlot !== undefined) {
+          ITEMS.forEach((d, id) => {
+            if (d.kind === Ik.Gear && !isUniqueItem(d) && !isSetPiece(d)) cand.push({ id, def: d });
+          });
+        }
+        if (cand.length > 0) {
+          const pick = cand[sim.rng.int(cand.length)];
+          wonId = pick.id;
+          targetDef = pick.def;
+        }
       }
 
       if (wonId < 0) {
         const pool: number[] = [];
         ITEMS.forEach((d, id) => {
-          if (d.kind === Ik.Gear && !isUniqueItem(d)) pool.push(id);
+          if (d.kind === Ik.Gear && !isUniqueItem(d)) {
+            if (targetSlot === undefined || d.slot === targetSlot) pool.push(id);
+          }
         });
+        if (pool.length === 0) {
+          ITEMS.forEach((d, id) => {
+            if (d.kind === Ik.Gear && !isUniqueItem(d)) pool.push(id);
+          });
+        }
         wonId = pool[sim.rng.int(pool.length)];
+        targetDef = getItemDef(wonId);
       }
 
-      const why = addItem(h, wonId);
+      // Update pity bias
+      if (wonQuality === 'unique' || wonQuality === 'set') {
+        (h as any).grailPityBias = 0;
+      } else {
+        (h as any).grailPityBias = ((h as any).grailPityBias ?? 0) + 1;
+      }
+
+      // Create unidentified instance for mystery gamble
+      let finalWonId = wonId;
+      if (targetDef) {
+        const unIdName = getUnidentifiedName(targetDef);
+        const unIdDef: ItemDef = {
+          ...targetDef,
+          unidentified: true,
+          trueName: targetDef.name,
+          name: unIdName,
+          rarity: wonQuality,
+        };
+        const inst = sim.createItemInstance(wonId, wonQuality, unIdDef);
+        finalWonId = inst.id;
+      }
+
+      let why = addItem(h, finalWonId);
+      if (why === Why.None && h.inv.length < INV_MAX) {
+        h.inv.push({ item: finalWonId, n: 1 });
+        why = 0;
+      }
       if (why) return refuse(sim, why);
 
       gold[0] -= cost;
-      recalc(sim);
+      if (sim.cb?.mod) recalc(sim);
       emit(sim, Tfx.Trade, cost, 0);
       return;
     }
@@ -650,6 +815,59 @@ export function townCommand(sim: Sim, cmd: TownCommand): void {
       q.start = sim.tick;
       q.base = baseOf(sim, q);
       st.quests.push(q);
+      return;
+    }
+    case 'temple_revive': {
+      if (!st.fallenVeterans || st.fallenVeterans.length === 0) return refuse(sim, Why.None);
+      const vIdx = v >= 0 && v < st.fallenVeterans.length ? v : 0;
+      const vet = st.fallenVeterans[vIdx];
+      const tithe = templeResurrectionCost(vet.rank);
+      if (gold[0] < tithe) return refuse(sim, Why.Gold);
+
+      gold[0] -= tithe;
+      st.fallenVeterans.splice(vIdx, 1);
+      vet.fallen = false;
+
+      // Resurrect unit at school / temple door
+      if (vet.unitId >= 0 && sim.cb.hp.length > vet.unitId) {
+        if (sim.cb.corp && sim.cb.stMask && sim.cb.alive) {
+          revive(sim, vet.unitId);
+        }
+        sim.cb.hp[vet.unitId] = sim.cb.hpMax[vet.unitId];
+        const door = rt.door[Role.School] ?? rt.centre[Role.School];
+        if (door) {
+          sim.x[vet.unitId] = sim.tx[vet.unitId] = sim.cb.px[vet.unitId] = Math.round((door[0] + 0.5) * FP);
+          sim.y[vet.unitId] = sim.ty[vet.unitId] = sim.cb.py[vet.unitId] = Math.round((door[1] + 0.5) * FP);
+        }
+        sim.stop(vet.unitId);
+        followHero(sim, vet.unitId);
+        sim.cb.recount(sim.team);
+      }
+      if (sim.cb?.mod) recalc(sim);
+      emit(sim, Tfx.Trade, tithe, 2);
+      return;
+    }
+    case 'accept_bounty': {
+      const townBounties = st.bounties?.[cmd.town];
+      if (!townBounties || v < 0 || v >= townBounties.length) return refuse(sim, Why.None);
+      townBounties[v].accepted = true;
+      return;
+    }
+    case 'claim_bounty': {
+      const townBounties = st.bounties?.[cmd.town];
+      if (!townBounties || v < 0 || v >= townBounties.length) return refuse(sim, Why.None);
+      const bounty = townBounties[v];
+      if (!bounty.completed && !bounty.accepted) return refuse(sim, Why.None);
+      gold[0] += bounty.rewardGold;
+      if (bounty.rewardRune) {
+        const runeId = itemId(bounty.rewardRune);
+        if (runeId >= 0 && h.inv.length < INV_MAX) {
+          addItem(h, runeId);
+        }
+      }
+      bounty.completed = true;
+      emit(sim, Tfx.Paid, bounty.rewardGold, 0);
+      if (sim.cb?.mod) recalc(sim);
       return;
     }
   }

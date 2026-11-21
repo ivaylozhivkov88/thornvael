@@ -37,6 +37,9 @@ export interface SquadMember {
   portraitUrl?: string;
   fallbackIcon: string;
   statusBadges: SquadStatusBadge[];
+  veteranRank?: 0 | 1 | 2 | 3;
+  chevron?: 'bronze' | 'silver' | 'gold';
+  perkName?: string;
 }
 
 export interface SquadBarOptions {
@@ -59,6 +62,11 @@ export interface ExtractSquadOptions {
   maxMembers?: number;
   includeFallen?: boolean;
   getMercInfo?: (unitId: number) => { id: string; name: string } | null;
+  getMercVeterancy?: (unitId: number) => {
+    rank: 0 | 1 | 2 | 3;
+    chevron?: 'bronze' | 'silver' | 'gold';
+    perkName?: string;
+  } | null;
 }
 
 interface CardRefs {
@@ -66,6 +74,7 @@ interface CardRefs {
   img: HTMLImageElement;
   fallback: HTMLSpanElement;
   lvl: HTMLSpanElement;
+  chevronBadge: HTMLSpanElement;
   badges: HTMLDivElement;
   name: HTMLDivElement;
   hpTrack: HTMLDivElement;
@@ -220,6 +229,7 @@ export function extractSquadMembers(
       ? Math.max(1, sim.hero.level ?? sim.hero.skill.reduce((acc, v) => acc + v, 0) - 2)
       : Math.max(1, sim.cb.tier[id] || 1);
     const name = isHero ? (sim.hero?.name || resolved.defaultName) : resolved.defaultName;
+    const vet = isHero ? null : (opts.getMercVeterancy?.(id) ?? null);
 
     return {
       id,
@@ -238,6 +248,9 @@ export function extractSquadMembers(
       portraitUrl: resolved.portraitUrl,
       fallbackIcon: resolved.fallbackIcon,
       statusBadges: buildStatusBadges(sim.cb.stMask[id] ?? 0, hp, hpMax),
+      veteranRank: vet?.rank,
+      chevron: vet?.chevron,
+      perkName: vet?.perkName,
     };
   });
 
@@ -441,10 +454,14 @@ export class SquadBar {
     const lvl = document.createElement('span');
     lvl.className = 'squad-level-badge';
 
+    const chevronBadge = document.createElement('span');
+    chevronBadge.className = 'squad-chevron-badge';
+    chevronBadge.hidden = true;
+
     const badges = document.createElement('div');
     badges.className = 'squad-status-badges';
 
-    portraitWrap.append(img, fallback, lvl, badges);
+    portraitWrap.append(img, fallback, lvl, chevronBadge, badges);
 
     const meta = document.createElement('div');
     meta.className = 'squad-member-meta';
@@ -474,6 +491,7 @@ export class SquadBar {
       img,
       fallback,
       lvl,
+      chevronBadge,
       badges,
       name,
       hpTrack,
@@ -517,6 +535,17 @@ export class SquadBar {
     card.name.textContent = m.name;
     card.lvl.textContent = `Lv ${m.level}`;
     card.fallback.textContent = m.fallbackIcon;
+
+    if (m.chevron) {
+      card.chevronBadge.hidden = false;
+      card.chevronBadge.className = `squad-chevron-badge is-${m.chevron}`;
+      card.chevronBadge.textContent = m.chevron === 'gold' ? '★' : m.chevron === 'silver' ? '▲▲' : '▲';
+      card.chevronBadge.title = `Rank ${m.veteranRank ?? 1}: ${m.perkName ?? 'Veteran'}`;
+      card.chevronBadge.setAttribute('aria-label', `Rank ${m.veteranRank ?? 1}: ${m.perkName ?? 'Veteran'}`);
+    } else {
+      card.chevronBadge.hidden = true;
+      card.chevronBadge.className = 'squad-chevron-badge';
+    }
 
     const url = m.portraitUrl ?? '';
     if (url !== card.lastUrl) {
