@@ -448,9 +448,23 @@ describe('D2R PS5 Controller Engine & Edge-Triggering', () => {
       openedModalSlot = slot;
     });
 
+    // Hidden by default when no physical gamepad is connected
+    expect(controller.hasConnectedGamepad()).toBe(false);
+    const barEl = document.getElementById('d2r-action-bar')!;
+    expect(barEl.hidden).toBe(true);
+    expect(barEl.style.display).toBe('none');
+
+    // Shows automatically when a gamepad connects
+    mockGamepad = createMockGamepad();
+    bar.syncVisibility();
+    expect(controller.hasConnectedGamepad()).toBe(true);
+    expect(barEl.hidden).toBe(false);
+    expect(barEl.style.display).toBe('');
+
     // Test secondary toggle on action bar
     bar.setSecondary(true);
     bar.setSecondary(false);
+    bar.destroy();
     expect(bar).toBeDefined();
   });
 });

@@ -137,11 +137,12 @@ export function renderHeroCreateNameView(opts: HeroCreateViewOptions): {
   input.className = 'sh-input';
 
   const proceedToCampfire = (): void => {
-    const name = cleanName(input.value);
+    const enteredName = cleanName(input.value);
     const campfireScreen = buildCampfireHeroCreator({
       base: opts.base ?? import.meta.env.BASE_URL,
-      onStart: async (arch, diff) => {
-        const ch = newCharacter(name, arch.cls, arch.female, diff);
+      heroName: enteredName || undefined,
+      onStart: async (arch, diff, chosenName) => {
+        const ch = newCharacter(chosenName || enteredName || arch.name, arch.cls, arch.female, diff);
         await opts.onHeroCreated(ch);
       },
       onBack: opts.onBack,

@@ -6,15 +6,15 @@
 .squad-bar {
   position: fixed;
   left: calc(10px + env(safe-area-inset-left));
-  top: calc(var(--hud-top, 56px) + 34px + env(safe-area-inset-top));
+  top: calc(var(--hud-top, 56px) + 26px + env(safe-area-inset-top));
   z-index: 9;
   display: flex;
   flex-direction: column;
   align-items: flex-start;
-  gap: 5px;
+  gap: 3px;
   max-width: min(176px, calc(100vw - 20px - env(safe-area-inset-left) - env(safe-area-inset-right)));
-  max-height: calc(100dvh - var(--hud-top, 56px) - var(--hud-bottom, 96px) - 52px - env(safe-area-inset-top) - env(safe-area-inset-bottom));
-  overflow: hidden;
+  max-height: calc(100dvh - var(--hud-top, 56px) - var(--hud-bottom, 96px) - 34px - env(safe-area-inset-top) - env(safe-area-inset-bottom));
+  overflow: visible;
   pointer-events: none;
   touch-action: none;
   user-select: none;
@@ -61,9 +61,11 @@
 .squad-bar-list {
   display: flex;
   flex-direction: column;
-  gap: 5px;
+  gap: 3px;
   width: 100%;
-  overflow: hidden;
+  flex: 0 1 auto;
+  min-height: 0;
+  overflow: visible;
   touch-action: none;
 }
 
@@ -74,9 +76,9 @@
 .squad-member {
   position: relative;
   min-width: 152px;
-  min-height: 48px;
+  min-height: 44px;
   width: 100%;
-  padding: 4px 7px 4px 5px;
+  padding: 2px 7px 2px 5px;
   display: flex;
   align-items: center;
   gap: 7px;
@@ -131,9 +133,9 @@
 
 .squad-portrait-wrap {
   position: relative;
-  width: 38px;
-  height: 38px;
-  flex: 0 0 38px;
+  width: 34px;
+  height: 34px;
+  flex: 0 0 34px;
   border-radius: 5px;
   border: 1px solid rgba(228, 191, 128, 0.45);
   background: #121920;
@@ -258,8 +260,8 @@
 }
 
 .squad-tactic-btn {
-  min-width: 0;
-  min-height: 30px;
+  min-width: 44px;
+  min-height: 44px;
   padding: 4px 3px;
   font-size: 10px;
   font-weight: 600;
@@ -292,16 +294,22 @@
   grid-column: 1 / -1;
 }
 
-/* Compact / Mobile Landscape Layout: horizontal icon-tile strip, >= 44x44px touch targets */
+/* Compact / Mobile Landscape Layout: 2-row compact horizontal strip, >= 44x44px touch targets */
 .squad-bar.is-compact {
-  flex-direction: row;
+  display: grid;
+  grid-template-columns: auto auto auto;
+  grid-auto-rows: auto;
+  justify-items: start;
   align-items: center;
-  max-width: calc(100vw - 170px - env(safe-area-inset-left) - env(safe-area-inset-right));
-  max-height: 62px;
+  top: calc(var(--hud-top, 56px) + 18px + env(safe-area-inset-top));
+  max-width: calc(100vw - clamp(140px, 18vw, 200px) - 96px - env(safe-area-inset-left) - env(safe-area-inset-right));
+  max-height: calc(100dvh - var(--hud-top, 56px) - var(--hud-bottom, 96px) - 24px - env(safe-area-inset-top) - env(safe-area-inset-bottom));
   gap: 4px;
 }
 
 .squad-bar.is-compact .squad-bar-toggle {
+  grid-row: 1;
+  grid-column: 1;
   min-width: 44px;
   min-height: 44px;
   padding: 4px 8px;
@@ -310,17 +318,24 @@
 }
 
 .squad-bar.is-compact .squad-bar-list {
+  grid-row: 1;
+  grid-column: 2;
   flex-direction: row;
   flex-wrap: nowrap;
-  gap: 4px;
+  gap: 3px;
   width: auto;
+}
+
+.squad-bar.is-compact .squad-bar-overflow {
+  grid-row: 1;
+  grid-column: 3;
 }
 
 .squad-bar.is-compact .squad-member {
   min-width: 46px;
-  width: 48px;
-  min-height: 48px;
-  height: 50px;
+  width: 46px;
+  min-height: 46px;
+  height: 48px;
   padding: 3px;
   flex-direction: column;
   justify-content: space-between;
@@ -330,8 +345,8 @@
 
 .squad-bar.is-compact .squad-portrait-wrap {
   width: 34px;
-  height: 30px;
-  flex: 0 0 30px;
+  height: 28px;
+  flex: 0 0 28px;
 }
 
 .squad-bar.is-compact .squad-member-meta {
@@ -348,6 +363,9 @@
 }
 
 .squad-bar.is-compact .squad-tactics-bar {
+  grid-row: 2;
+  grid-column: 1 / -1;
+  justify-self: start;
   display: flex;
   flex-direction: row;
   width: auto;
@@ -362,26 +380,46 @@
 
 @media (max-width: 900px), (max-height: 540px) {
   .squad-bar {
-    flex-direction: row;
+    display: grid;
+    grid-template-columns: auto auto auto;
+    grid-auto-rows: auto;
+    justify-items: start;
     align-items: center;
-    top: calc(var(--hud-top, 56px) + 30px + env(safe-area-inset-top));
-    max-width: calc(100vw - 170px - env(safe-area-inset-left) - env(safe-area-inset-right));
-    max-height: 62px;
+    top: calc(var(--hud-top, 56px) + 18px + env(safe-area-inset-top));
+    max-width: calc(100vw - clamp(140px, 18vw, 200px) - 96px - env(safe-area-inset-left) - env(safe-area-inset-right));
+    max-height: calc(100dvh - var(--hud-top, 56px) - var(--hud-bottom, 96px) - 24px - env(safe-area-inset-top) - env(safe-area-inset-bottom));
     gap: 4px;
   }
 
+  .squad-bar-toggle {
+    grid-row: 1;
+    grid-column: 1;
+    min-width: 44px;
+    min-height: 44px;
+    padding: 4px 8px;
+    font-size: 11px;
+    flex-shrink: 0;
+  }
+
   .squad-bar-list {
+    grid-row: 1;
+    grid-column: 2;
     flex-direction: row;
     flex-wrap: nowrap;
-    gap: 4px;
+    gap: 3px;
     width: auto;
+  }
+
+  .squad-bar-overflow {
+    grid-row: 1;
+    grid-column: 3;
   }
 
   .squad-member {
     min-width: 46px;
-    width: 48px;
-    min-height: 48px;
-    height: 50px;
+    width: 46px;
+    min-height: 46px;
+    height: 48px;
     padding: 3px;
     flex-direction: column;
     justify-content: space-between;
@@ -391,8 +429,8 @@
 
   .squad-portrait-wrap {
     width: 34px;
-    height: 30px;
-    flex: 0 0 30px;
+    height: 28px;
+    flex: 0 0 28px;
   }
 
   .squad-member-meta {
@@ -406,5 +444,21 @@
 
   .squad-bar-track {
     height: 4px;
+  }
+
+  .squad-tactics-bar {
+    grid-row: 2;
+    grid-column: 1 / -1;
+    justify-self: start;
+    display: flex;
+    flex-direction: row;
+    width: auto;
+    flex-shrink: 0;
+  }
+
+  .squad-tactic-btn {
+    min-width: 44px;
+    min-height: 44px;
+    padding: 4px 6px;
   }
 }

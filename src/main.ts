@@ -1587,9 +1587,9 @@ window.addEventListener('keydown', (e) => {
   // Editors own all their keys, including sheet shortcuts such as I and Escape.
   if (e.target instanceof Element && (e.target.closest('input, textarea, select') || (e.target instanceof HTMLElement && e.target.isContentEditable))) return;
   if (e.target instanceof HTMLButtonElement && e.key === ' ') return;
-  // Inside a sheet the keys belong to the sheet (Tab, Enter, arrows), except Esc and I which close it.
-  const inSheet = e.target instanceof Element && e.target.closest('.sheet, .spellbook-modal') !== null;
-  if (inSheet && e.key !== 'Escape' && e.key.toLowerCase() !== 'i' && e.key.toLowerCase() !== 's' && e.key.toLowerCase() !== 'b') return;
+  // Inside a visible sheet the keys belong to the sheet (Tab, Enter, arrows), except Esc, Pause and sheet toggles.
+  const inSheet = e.target instanceof Element && e.target.closest('.sheet:not([hidden]), .spellbook-modal:not([hidden])') !== null;
+  if (inSheet && e.key !== 'Escape' && e.key !== 'Pause' && e.code !== 'Pause' && e.key.toLowerCase() !== 'i' && e.key.toLowerCase() !== 's' && e.key.toLowerCase() !== 'b') return;
   if (heroUi.creating) return;
   if (e.key === 'Tab') {
     e.preventDefault();
@@ -2288,11 +2288,13 @@ function arrive(town: number, role: number, npc: number): boolean {
   if (npc >= 0) {
     const n = t.def.npcs![npc];
     if (!heroNear(n.x + 0.5, n.y + 0.5, TALK_REACH)) return false;
+    $('toast').hidden = true;
     openPanel(n.name, loadedMission?.doc.text[n.text] ?? '');
     return true;
   }
   const c = t.centre[role]!;
   if (!heroNear(c[0], c[1], 4.5)) return false;
+  $('toast').hidden = true;
   closeCompetingModals();
   return townUi.enter(town, role);
 }
@@ -2718,11 +2720,15 @@ setInterval(() => {
 }, 5000);
 window.addEventListener('pagehide', autosave);
 
+let fxTickConsumed = -1;
+let fxIdxConsumed = 0;
+
 /** Toast text and refresh for the hero events of this frame (bags picked up, gear worn, spells learned, refusals, skills). */
-function heroEvents(): void {
+function heroEvents(startIdx: number): void {
   if (!heroPresent) return;
   let touched = false;
-  for (const e of sim.cb.fx) {
+  for (let idx = startIdx; idx < sim.cb.fx.length; idx++) {
+    const e = sim.cb.fx[idx];
     if (e.type === 14) {
       const d = getItemDef(e.v);
       if (!d) continue;
@@ -2755,7 +2761,7 @@ function heroEvents(): void {
   }
   if (touched) {
     buildQuick();
-    heroUi.refresh(true);
+    heroUi.refresh();
   }
 }
 
@@ -2925,10 +2931,18 @@ $('btn-music').onclick = () => {
 
 /** Sound effects for this frame's combat events, panned and faded by where they happen on screen. */
 function playFx(): void {
-  heroEvents();
+  if (fxTickConsumed !== sim.tick || fxIdxConsumed > sim.cb.fx.length) {
+    fxTickConsumed = sim.tick;
+    fxIdxConsumed = 0;
+  }
+  const startIdx = fxIdxConsumed;
+  if (startIdx >= sim.cb.fx.length) return;
+  fxIdxConsumed = sim.cb.fx.length;
+  heroEvents(startIdx);
   const w = renderer.viewW;
   const h = renderer.viewH;
-  for (const e of sim.cb.fx) {
+  for (let idx = startIdx; idx < fxIdxConsumed; idx++) {
+    const e = sim.cb.fx[idx];
     let ctx: CueContext | undefined;
     if (e.type === 0 && e.el === 0) {
       if (heroPresent && sim.hero) {
@@ -3457,6 +3471,14 @@ async function toMap(): Promise<void> {
   location.assign('./?menu=map');
 }
 
+let modalFrameDirty = true;
+let lastPauseSig = '';
+function getPauseRenderSig(): string {
+  const firstSel = selected.values().next().value ?? -1;
+  const aimKey = aimView ? `${aimView.x | 0},${aimView.y | 0},${aimView.ok ? 1 : 0},${aimView.target}` : '';
+  const hoverKey = hover ? `${hover.id},${hover.ok ? 1 : 0}` : '';
+  return `${sim.tick}|${sim.cb.mana[0]}|${sim.cb.hp[0]}|${sim.cb.cd[0]}|${renderer.camX | 0},${renderer.camY | 0},${renderer.zoom},${renderer.viewW}x${renderer.viewH},${renderer.quality}|${armed ?? ''},${curSpell},${aimKey}|${hoverKey},${hoveredUnit ?? -1}|${selected.size},${firstSel}|${pending.length}|${ping ? 1 : 0}|${boxDrag ? 1 : 0}`;
+}
 function isAnyModalOpen(): boolean {
   const pmOpen = pauseMenu
     ? (typeof (pauseMenu as unknown as { isOpen?: (() => boolean) | boolean }).isOpen === 'function'
@@ -3807,17 +3829,24 @@ function frame(): void {
   playFx();
   if (!hidden && !userPause) playSteps(now);
   updateMusic(now);
-  renderer.draw(sim, prevX, prevY, hidden || userPause ? 1 : acc / STEP_MS, {
-    selected,
-    box: boxDrag,
-    ping: ping ? { x: ping.x, y: ping.y, age } : null,
-    goal: questGoal,
-    hover,
-    hoverUnit: hoveredUnit,
-    aim: armed === 'spell' ? aimView : null,
-  });
+  const pauseSig = userPause ? getPauseRenderSig() : '';
+  const pauseUnchanged = userPause && !ping && !boxDrag && !renderer.previewArt() && !modalFrameDirty && pauseSig === lastPauseSig;
+  const freezeWorldDraw = hidden || pauseUnchanged || (userPause && isAnyModalOpen() && !modalFrameDirty);
+  if (!freezeWorldDraw) {
+    renderer.draw(sim, prevX, prevY, hidden || userPause ? 1 : acc / STEP_MS, {
+      selected,
+      box: boxDrag,
+      ping: ping ? { x: ping.x, y: ping.y, age } : null,
+      goal: questGoal,
+      hover,
+      hoverUnit: hoveredUnit,
+      aim: armed === 'spell' ? aimView : null,
+    });
+    lastPauseSig = pauseSig;
+    modalFrameDirty = false;
+    automap.draw(sim, map, renderer);
+  }
   updateLootOverlay(now);
-  automap.draw(sim, map, renderer);
   if (now - lastMini >= 125) {
     lastMini = now;
     minimap.draw(sim, renderer.viewTiles(), selected);
@@ -3871,7 +3900,9 @@ function recordAchWin(): void {
   achWin(campaignId, missionAct, last, up === size, sim.cb.gold[0] ?? 0);
   if (last && missionAct === 4) achCampaign(['easy', 'medium', 'hard'][crec?.progress.difficulty ?? 1] ?? 'medium', ['warrior', 'mage', 'archer', 'necromancer'][activeChar?.cls ?? 0] ?? 'warrior');
 }
+let toastTimer = 0;
 function toast(msg: string, action?: { label: string; run: () => void }): void {
+  clearTimeout(toastTimer);
   const t = $('toast');
   t.textContent = msg + ' ';
   if (action) {
@@ -3881,7 +3912,7 @@ function toast(msg: string, action?: { label: string; run: () => void }): void {
     t.append(b);
   }
   t.hidden = false;
-  if (!action) setTimeout(() => (t.hidden = true), 3000);
+  if (!action) toastTimer = window.setTimeout(() => (t.hidden = true), 3000);
 }
 onDiscovery((id) => {
   const item = getItemDef(id);
@@ -4134,6 +4165,7 @@ void renderer.init(sim).then(() => {
       if (!userPause || hidden || !Number.isSafeInteger(n) || n < 1 || n > 125)
         throw new Error('Diagnostic stepping requires an explicit pause and 1..125 steps');
       for (let i = 0; i < n; i++) advanceStep();
+      modalFrameDirty = true;
       return sim.tick;
     },
     previewArt: () => renderer.previewArt(),
@@ -4187,16 +4219,29 @@ void renderer.init(sim).then(() => {
   else toast(`${S.mission.loadFailed} ${msg}`);
 });
 
-// HUD: keep --hud-top just under the (possibly wrapped) top bar so quest tracker, objectives and minimap never overlap it.
+// HUD: keep --hud-top just under the (possibly wrapped) top bar and --minimap-bottom under the minimap so quest tracker, objectives, minimap and #btn-alt never overlap.
 {
   const barEl = document.querySelector<HTMLElement>('.bar');
-  if (barEl) {
-    const sync = (): void => {
+  const miniEl = document.getElementById('minimap');
+  const sync = (): void => {
+    if (barEl) {
       const r = barEl.getBoundingClientRect();
       document.documentElement.style.setProperty('--hud-top', `${Math.ceil(r.bottom) + 6}px`);
-    };
+    }
+    if (miniEl) {
+      const mr = miniEl.getBoundingClientRect();
+      if (mr.height > 0) {
+        document.documentElement.style.setProperty('--minimap-bottom', `${Math.ceil(mr.bottom) + 6}px`);
+      }
+    }
+  };
+  if (barEl || miniEl) {
     sync();
-    if (typeof ResizeObserver !== 'undefined') new ResizeObserver(sync).observe(barEl);
+    if (typeof ResizeObserver !== 'undefined') {
+      const ro = new ResizeObserver(sync);
+      if (barEl) ro.observe(barEl);
+      if (miniEl) ro.observe(miniEl);
+    }
     window.addEventListener('resize', sync);
   }
 }

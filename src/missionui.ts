@@ -589,6 +589,13 @@ export class MissionUi {
         portraitSvg: paintedPortrait('frame-morvessa', getHighNecromancerPortraitSvg()),
       };
     }
+    if (lower.includes('narrator') || lower === 'chronicle') {
+      return {
+        name: 'Chronicle of Thornvael',
+        rank: 'Campaign Record',
+        portraitSvg: paintedPortrait('portraits/npc-disgraced-scribe', getCaptainMerrickPortraitSvg()),
+      };
+    }
     if (lower.includes('hero') || lower.includes('you')) {
       return {
         name: 'Expeditionary Commander',
@@ -648,7 +655,7 @@ export class MissionUi {
   }
 
   /** Formats dialogues into rich literary prose with internal voices, sensory action beats, and player stances */
-  private formatDiscoDialogue(who: string, text: string): {
+  private formatDiscoDialogue(who: string, text: string, allowChoices = false): {
     badgeTag: string;
     badgeClass: string;
     sensoryBeat: string;
@@ -678,105 +685,130 @@ export class MissionUi {
 
     const sensoryMatch = speech.match(/^\*\((.*?)\)\*\s*/s);
     if (sensoryMatch) {
-      sensoryBeat = `*(${sensoryMatch[1]})*`;
+      sensoryBeat = sensoryMatch[1].trim();
       speech = speech.slice(sensoryMatch[0].length);
     }
 
     // Default cognitive framing if not explicitly present in raw text
     if (!badgeTag) {
-      if (lower.includes('hale') || lower.includes('warden')) {
+      if (lower.includes('narrator') || lower === 'chronicle') {
+        badgeTag = 'CHRONICLE OF THE MARCH';
+        badgeClass = 'de-cohort';
+      } else if (lower.includes('garrick')) {
+        badgeTag = "WATCH CAPTAIN'S REPORT - Medium: Success";
+        badgeClass = 'de-war-logic';
+        if (!sensoryBeat) sensoryBeat = 'Rain streaks the blackened rivets of his brigandine as he gestures toward the mist-choked shallows.';
+      } else if (lower.includes('hobb')) {
+        badgeTag = 'ANVIL & REQUISITIONS - Easy: Success';
+        badgeClass = 'de-quartermaster';
+        if (!sensoryBeat) sensoryBeat = 'Charcoal grit and forge-scale cling to his leather apron while he tests the balance of a spare spearhead.';
+      } else if (lower.includes('marta')) {
+        badgeTag = 'HEARTH & VIGIL - Medium: Success';
+        badgeClass = 'de-skepticism';
+        if (!sensoryBeat) sensoryBeat = 'Her eyes measure the cohort over glass phials of peat distillate, sharp as cold iron.';
+      } else if (lower.includes('fenwick')) {
+        badgeTag = 'RIVERMAN LORE - Easy: Success';
+        badgeClass = 'de-tactical';
+        if (!sensoryBeat) sensoryBeat = 'River silt stains his oilskin cloak; his gaze tracks every swirl of current along the piling stones.';
+      } else if (lower.includes('hero') || lower.includes('commander') || lower === 'you') {
+        badgeTag = "COMMANDER'S RESOLVE - Easy: Success";
+        badgeClass = 'de-war-logic';
+        if (!sensoryBeat) sensoryBeat = 'Your gauntlet settles onto the hilt as the company waits in silence for the order to advance.';
+      } else if (lower.includes('hale') || lower.includes('warden')) {
         badgeTag = 'WAR LOGIC - Medium: Success';
         badgeClass = 'de-war-logic';
-        if (!sensoryBeat) sensoryBeat = '*(A damp mountain gale rattles the tarnished plates of his gorget. He exhales a gray plume smelling of bitter chicory and cold tallow.)*';
+        if (!sensoryBeat) sensoryBeat = 'A damp mountain gale rattles the tarnished plates of his gorget. He exhales a gray plume smelling of bitter chicory and cold tallow.';
       } else if (lower.includes('bren') || lower.includes('scout')) {
         badgeTag = 'TACTICAL CALCULUS - Easy: Success';
         badgeClass = 'de-tactical';
-        if (!sensoryBeat) sensoryBeat = '*(His breath comes in ragged, shallow gasps. Mud is caked to his brow and his fingers nervously trace the fletching of an arrow.)*';
+        if (!sensoryBeat) sensoryBeat = 'His breath comes in ragged, shallow gasps. Mud is caked to his brow and his fingers nervously trace the fletching of an arrow.';
       } else if (lower.includes('vaelen') || lower.includes('arcanist')) {
         badgeTag = 'ASTRAL SHIVER - Challenging: Success';
         badgeClass = 'de-astral';
-        if (!sensoryBeat) sensoryBeat = '*(The air around his sleeves vibrates with the faint metallic taste of ozone. His pale eyes reflect runic calculations invisible to mortal sight.)*';
+        if (!sensoryBeat) sensoryBeat = 'The air around his sleeves vibrates with the faint metallic taste of ozone. His pale eyes reflect runic calculations invisible to mortal sight.';
       } else if (lower.includes('merrick')) {
         badgeTag = "QUARTERMASTER'S EYE - Easy: Success";
         badgeClass = 'de-quartermaster';
-        if (!sensoryBeat) sensoryBeat = '*(He taps the pommel of his broadsword against iron greaves, calculating tensile strength and the physics of blunt impact.)*';
+        if (!sensoryBeat) sensoryBeat = 'He taps the pommel of his broadsword against iron greaves, calculating tensile strength and the physics of blunt impact.';
       } else if (lower.includes('corin') || lower.includes('patron') || lower.includes('barkeep')) {
         badgeTag = 'FRONTIER SKEPTICISM - Formidable: Success';
         badgeClass = 'de-skepticism';
-        if (!sensoryBeat) sensoryBeat = '*(He wrings a grease-blackened rag over the timber counter, his eyes darting to the locked coffer beneath the shelf.)*';
+        if (!sensoryBeat) sensoryBeat = 'He wrings a grease-blackened rag over the timber counter, his eyes darting to the locked coffer beneath the shelf.';
       } else if (lower.includes('grok') || lower.includes('boss') || lower.includes('chief')) {
         badgeTag = 'VISCERAL DREAD - Extreme: Success';
         badgeClass = 'de-dread';
-        if (!sensoryBeat) sensoryBeat = '*(Yellowed fangs glisten with spit and bile. A scarred chest heaves like a dying furnace beneath soot-blackened leather straps.)*';
+        if (!sensoryBeat) sensoryBeat = 'Yellowed fangs glisten with spit and bile. A scarred chest heaves like a dying furnace beneath soot-blackened leather straps.';
       } else if (lower.includes('vorak') || lower.includes('ashkarath') || lower.includes('cinder') || lower.includes('ember')) {
         badgeTag = 'PRIMORDIAL RECKONING - Heroic: Success';
         badgeClass = 'de-primordial';
-        if (!sensoryBeat) sensoryBeat = '*(The air before him shimmers with white heat, scorching the eyes. The bedrock groans under magma veins answering his heartbeat.)*';
+        if (!sensoryBeat) sensoryBeat = 'The air before him shimmers with white heat, scorching the eyes. The bedrock groans under magma veins answering his heartbeat.';
       } else if (lower.includes('malgath') || lower.includes('necro') || lower.includes('mordred') || lower.includes('vesperion')) {
         badgeTag = 'CHILL OF THE VEIL - Challenging: Success';
         badgeClass = 'de-astral';
-        if (!sensoryBeat) sensoryBeat = '*(A profound, unnatural stillness falls over the hall. The air drops below freezing, drawing frost across the edges of your mail.)*';
+        if (!sensoryBeat) sensoryBeat = 'A profound, unnatural stillness falls over the hall. The air drops below freezing, drawing frost across the edges of your mail.';
       } else if (lower.includes('cache') || lower.includes('coffer') || lower.includes('granary') || lower.includes('lockbox')) {
         badgeTag = 'LOGISTICS - Trivial: Success';
         badgeClass = 'de-quartermaster';
-        if (!sensoryBeat) sensoryBeat = '*(Prying back the iron-reinforced lid reveals the tangible spoils of frontier warfare.)*';
+        if (!sensoryBeat) sensoryBeat = 'Prying back the iron-reinforced lid reveals the tangible spoils of frontier warfare.';
       } else {
-        badgeTag = 'COHORT MEMORY - Easy: Success';
+        badgeTag = 'FIELD REPORT - Easy: Success';
         badgeClass = 'de-cohort';
-        if (!sensoryBeat) sensoryBeat = '*(The company halts in tight order, shields overlapping as the frontier wind lashes their tabards.)*';
+        if (!sensoryBeat) sensoryBeat = 'The company watches the skyline through drifting mist as steel and leather settle into battle trim.';
       }
     }
 
-    // Generate 3 evocative Commander Stance responses
+    // Commander stance responses appear only when choices are explicitly appropriate
     let choices: Array<{ num: number; tag: string; text: string }> = [];
-    if (lower.includes('hale') || lower.includes('warden')) {
-      choices = [
-        { num: 1, tag: '[War Logic]', text: 'Understood, Captain. Vanguard maintains wedge formation and secures the choke points.' },
-        { num: 2, tag: '[Frontier Skepticism]', text: 'Another ditch to drown in for a High Council that wouldn\'t know our graves.' },
-        { num: 3, tag: '[Iron Will]', text: 'Sound the advance. We do not yield an inch of this ground.' },
-      ];
-    } else if (lower.includes('bren') || lower.includes('scout')) {
-      choices = [
-        { num: 1, tag: '[Tactical Calculus]', text: 'Report enemy dispositions, Bren. Where is their flanking reserve?' },
-        { num: 2, tag: '[Frontier Skepticism]', text: 'If their bowmen hold the high bluff, we are marching into a slaughterhouse.' },
-        { num: 3, tag: '[Iron Will]', text: 'Keep your nerve, scout. Lead the vanguard through the reeds.' },
-      ];
-    } else if (lower.includes('vaelen') || lower.includes('arcanist')) {
-      choices = [
-        { num: 1, tag: '[Astral Shiver]', text: 'I can feel the cold vibration in my teeth. The Veil is tearing.' },
-        { num: 2, tag: '[War Logic]', text: 'Channel the ley-energy into protective wards. We need defense, not theories.' },
-        { num: 3, tag: '[Veteran Flesh]', text: 'Sorcery or cold iron, blood spilled on stones dries the same.' },
-      ];
-    } else if (lower.includes('merrick')) {
-      choices = [
-        { num: 1, tag: '[Quartermaster\'s Eye]', text: 'Are the shields braced for heavy blunt trauma?' },
-        { num: 2, tag: '[War Logic]', text: 'Tighten the vanguard harness. We push step by step.' },
-        { num: 3, tag: '[Iron Will]', text: 'Frontier steel will hold. To the line!' },
-      ];
-    } else if (lower.includes('corin') || lower.includes('patron') || lower.includes('barkeep')) {
-      choices = [
-        { num: 1, tag: '[Frontier Skepticism]', text: 'Watered ale and exaggerated terror—the frontier never changes.' },
-        { num: 2, tag: '[Quartermaster\'s Eye]', text: 'What is the true price of these rumors, barkeep?' },
-        { num: 3, tag: '[Iron Will]', text: 'Give me the truth. My cohort moves at first light.' },
-      ];
-    } else if (lower.includes('grok') || lower.includes('vorak') || lower.includes('malgath') || lower.includes('boss') || lower.includes('chief') || lower.includes('mordred')) {
-      choices = [
-        { num: 1, tag: '[War Logic]', text: 'Your flanks are overextended. Your reign ends in this dirt.' },
-        { num: 2, tag: '[Visceral Dread]', text: 'Steel against fang. Let\'s see whose marrow splinters first.' },
-        { num: 3, tag: '[Iron Will]', text: 'For Thornwick and the fallen. To the death.' },
-      ];
-    } else if (lower.includes('cache') || lower.includes('coffer') || lower.includes('granary') || lower.includes('lockbox')) {
-      choices = [
-        { num: 1, tag: '[Quartermaster\'s Eye]', text: 'Secure the coinage and inspect the requisition scrolls.' },
-        { num: 2, tag: '[War Logic]', text: 'Distribute the silver among the mercenary cohort.' },
-        { num: 3, tag: '[Iron Will]', text: 'Lock the coffer in the baggage train. We press on.' },
-      ];
-    } else {
-      choices = [
-        { num: 1, tag: '[War Logic]', text: 'Understood. Deploy the archers and hold the line.' },
-        { num: 2, tag: '[Frontier Skepticism]', text: 'They promise glory, but deliver only mud and grave-markers.' },
-        { num: 3, tag: '[Iron Will]', text: 'Forward. Not one step back.' },
-      ];
+    if (allowChoices) {
+      if (lower.includes('hale') || lower.includes('warden') || lower.includes('garrick')) {
+        choices = [
+          { num: 1, tag: '[War Logic]', text: 'Understood, Captain. Vanguard maintains wedge formation and secures the choke points.' },
+          { num: 2, tag: '[Frontier Skepticism]', text: 'Another ditch to drown in for a High Council that wouldn\'t know our graves.' },
+          { num: 3, tag: '[Iron Will]', text: 'Sound the advance. We do not yield an inch of this ground.' },
+        ];
+      } else if (lower.includes('bren') || lower.includes('scout') || lower.includes('fenwick')) {
+        choices = [
+          { num: 1, tag: '[Tactical Calculus]', text: 'Report enemy dispositions. Where is their flanking reserve?' },
+          { num: 2, tag: '[Frontier Skepticism]', text: 'If their bowmen hold the high bluff, we are marching into a slaughterhouse.' },
+          { num: 3, tag: '[Iron Will]', text: 'Keep your nerve. Lead the vanguard through the reeds.' },
+        ];
+      } else if (lower.includes('vaelen') || lower.includes('arcanist')) {
+        choices = [
+          { num: 1, tag: '[Astral Shiver]', text: 'I can feel the cold vibration in my teeth. The Veil is tearing.' },
+          { num: 2, tag: '[War Logic]', text: 'Channel the ley-energy into protective wards. We need defense, not theories.' },
+          { num: 3, tag: '[Veteran Flesh]', text: 'Sorcery or cold iron, blood spilled on stones dries the same.' },
+        ];
+      } else if (lower.includes('merrick') || lower.includes('hobb')) {
+        choices = [
+          { num: 1, tag: '[Quartermaster\'s Eye]', text: 'Are the shields braced for heavy blunt trauma?' },
+          { num: 2, tag: '[War Logic]', text: 'Tighten the vanguard harness. We push step by step.' },
+          { num: 3, tag: '[Iron Will]', text: 'Frontier steel will hold. To the line!' },
+        ];
+      } else if (lower.includes('corin') || lower.includes('patron') || lower.includes('barkeep') || lower.includes('marta')) {
+        choices = [
+          { num: 1, tag: '[Frontier Skepticism]', text: 'Watered ale and exaggerated terror—the frontier never changes.' },
+          { num: 2, tag: '[Quartermaster\'s Eye]', text: 'What is the true price of these rumors?' },
+          { num: 3, tag: '[Iron Will]', text: 'Give me the truth. My cohort moves at first light.' },
+        ];
+      } else if (lower.includes('grok') || lower.includes('vorak') || lower.includes('malgath') || lower.includes('boss') || lower.includes('chief') || lower.includes('mordred')) {
+        choices = [
+          { num: 1, tag: '[War Logic]', text: 'Your flanks are overextended. Your reign ends in this dirt.' },
+          { num: 2, tag: '[Visceral Dread]', text: 'Steel against fang. Let\'s see whose marrow splinters first.' },
+          { num: 3, tag: '[Iron Will]', text: 'For Thornwick and the fallen. To the death.' },
+        ];
+      } else if (lower.includes('cache') || lower.includes('coffer') || lower.includes('granary') || lower.includes('lockbox')) {
+        choices = [
+          { num: 1, tag: '[Quartermaster\'s Eye]', text: 'Secure the coinage and inspect the requisition scrolls.' },
+          { num: 2, tag: '[War Logic]', text: 'Distribute the silver among the mercenary cohort.' },
+          { num: 3, tag: '[Iron Will]', text: 'Lock the coffer in the baggage train. We press on.' },
+        ];
+      } else {
+        choices = [
+          { num: 1, tag: '[War Logic]', text: 'Understood. Deploy the archers and hold the line.' },
+          { num: 2, tag: '[Frontier Skepticism]', text: 'They promise glory, but deliver only mud and grave-markers.' },
+          { num: 3, tag: '[Iron Will]', text: 'Forward. Not one step back.' },
+        ];
+      }
     }
 
     return { badgeTag, badgeClass, sensoryBeat, speech, choices };
@@ -787,13 +819,26 @@ export class MissionUi {
    * Speaker portrait on left, gold filigree nameplate, typewriter typography with typing sound cue.
    */
   private showDialogue(who: string, text: string, buttonText: string, done: () => void): void {
+    const loadingEl = typeof document !== 'undefined' ? document.getElementById('tv-loading-screen') : null;
+    if (loadingEl) {
+      loadingEl.classList?.remove('is-hiding');
+      loadingEl.hidden = true;
+      loadingEl.style.display = 'none';
+    }
     this.dialogueActive = true;
     this.host.pause(true);
     this.dialogueModal.hidden = false;
     this.dialogueModal.replaceChildren();
 
+    const lowerWho = who.toLowerCase();
+    const isNarrator = lowerWho.includes('narrator') || lowerWho === 'chronicle';
+    const hasRealChoiceVar =
+      this.currentMsgId !== undefined && this.doc.text[`msg.${this.currentMsgId}.var`] !== undefined;
+    const isFinalBriefingLine = buttonText === S.mission.begin;
+    const allowChoices = !isNarrator && (hasRealChoiceVar || isFinalBriefingLine);
+
     const info = this.getSpeakerInfo(who);
-    const formatted = this.formatDiscoDialogue(who, text);
+    const formatted = this.formatDiscoDialogue(who, text, allowChoices);
     const voiceClip = resolveDialogueVoiceClip(who, text, this.doc.name);
 
     const isSpeakerSwitch = this.lastSpeaker === null || this.lastSpeaker.toLowerCase() !== who.toLowerCase();
@@ -852,6 +897,7 @@ export class MissionUi {
     const sensoryEl = document.createElement('div');
     sensoryEl.className = 'de-sensory-beat';
     sensoryEl.textContent = formatted.sensoryBeat;
+    sensoryEl.hidden = !formatted.sensoryBeat;
 
     const speechEl = document.createElement('div');
     speechEl.className = 'de-speech-text';
@@ -859,6 +905,7 @@ export class MissionUi {
 
     const choicesEl = document.createElement('div');
     choicesEl.className = 'commander-responses-container';
+    choicesEl.hidden = formatted.choices.length === 0;
     choicesEl.style.display = 'none';
 
     const footer = document.createElement('div');
@@ -891,7 +938,13 @@ export class MissionUi {
       }
       speechEl.textContent = this.fullTypingText;
       isTyping = false;
-      choicesEl.style.display = 'flex';
+      if (formatted.choices.length > 0) {
+        choicesEl.hidden = false;
+        choicesEl.style.display = 'flex';
+      } else {
+        choicesEl.hidden = true;
+        choicesEl.style.display = 'none';
+      }
       const firstChoice = choicesEl.querySelector<HTMLButtonElement>('.commander-choice-btn');
       if (firstChoice) firstChoice.focus();
       else contBtn.focus();

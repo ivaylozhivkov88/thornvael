@@ -160,6 +160,9 @@ export class TownUi {
       }).catch(() => undefined);
     }
     this.root.hidden = false;
+    if (typeof document !== 'undefined' && document.body?.classList) {
+      document.body.classList.add('town-open');
+    }
     this.root.setAttribute('aria-label', S.town.roles[role]);
     this.ctx.pause(true);
     this.ctx.onOpen();
@@ -231,6 +234,9 @@ export class TownUi {
     stopTownAmbience();
     this.cmd('leave');
     this.root.hidden = true;
+    if (typeof document !== 'undefined' && document.body?.classList) {
+      document.body.classList.remove('town-open');
+    }
     for (const [node, wasInert] of this.inertSiblings) node.inert = wasInert;
     this.inertSiblings = [];
     clearTimeout(this.moodTimer);
@@ -890,6 +896,7 @@ export class TownUi {
       mercPanel.append(el('h3', '', data.name), stats);
       const free = sim.hidden[chosen.unit] === 1 && sim.cb.hp[chosen.unit] > 0;
       const fallen = sim.hidden[chosen.unit] === 0 && sim.cb.hp[chosen.unit] <= 0;
+      const mercCost = fallen ? reviveFee(mercPrice(sim, chosen.price)) : mercPrice(sim, chosen.price);
       const hire = button(free ? S.town.hire : fallen ? S.town.revive : S.town.hired, () => {
         this.cmd(fallen ? 'revive' : 'hire', this.mercIndex);
         const hired = sim.hidden[chosen.unit] === 0 && sim.cb.hp[chosen.unit] > 0;
@@ -897,7 +904,7 @@ export class TownUi {
         if (hired) playTraderBark('guildmaster', 'buy');
         this.ctx.changed();
         this.render();
-      }, String(fallen ? reviveFee(mercPrice(sim, chosen.price)) : mercPrice(sim, chosen.price)));
+      }, String(mercCost));
       hire.disabled = !free && !fallen;
       controls.append(hire);
     }
@@ -1407,7 +1414,9 @@ export class TownUi {
       const bodyEl = el('div', 'gothic-dialogue-body');
 
       const badgeEl = el('div', `de-skill-badge ${currentTopic.badgeClass}`, currentTopic.skillTag);
-      const sensoryEl = el('div', 'de-sensory-beat', currentTopic.sensoryBeat);
+      const cleanSensory = currentTopic.sensoryBeat.replace(/^\*\((.*)\)\*$/s, '$1').trim();
+      const sensoryEl = el('div', 'de-sensory-beat', cleanSensory);
+      sensoryEl.hidden = !cleanSensory;
       const speechEl = el('div', 'de-speech-text', '');
 
       const choicesEl = el('div', 'commander-responses-container');

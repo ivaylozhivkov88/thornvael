@@ -893,7 +893,15 @@ export class HeroUi {
     this.charHead.querySelector<HTMLElement>('[data-k="close-char"]')?.focus();
   }
 
+  private blurSheetFocus(el: HTMLElement): void {
+    const active = typeof document !== 'undefined' ? (document.activeElement as (Element & { blur?: () => void }) | null) : null;
+    if (active && typeof active.blur === 'function' && (typeof el.contains !== 'function' || el.contains(active))) {
+      active.blur();
+    }
+  }
+
   closeStats(): void {
+    this.blurSheetFocus(this.charSheet);
     this.charSheet.hidden = true;
   }
 
@@ -926,6 +934,7 @@ export class HeroUi {
   }
 
   closeInventory(): void {
+    this.blurSheetFocus(this.sheet);
     this.hideMobilePopover();
     this.cancelDrag();
     this.hideCardTooltip();
@@ -994,7 +1003,7 @@ export class HeroUi {
   private act(c: Command): void {
     this.hideMobilePopover();
     this.ctx.queue(c);
-    window.setTimeout(() => this.refresh(true), 160);
+    window.setTimeout(() => this.refresh(), 160);
   }
 
   private renderStats(force: boolean): void {
@@ -1010,12 +1019,15 @@ export class HeroUi {
     this.sigStats = sig;
 
     this.charHead.replaceChildren();
+    const titleWrap = el('div', 'sheet-head-title-wrap');
     const title = el('h2', 'sheet-title', 'Character Stats');
     const info = el('span', 'hero-sub-meta', `${S.hero.classes[h.cls]}, ${S.hero.sexes[h.female ? 1 : 0].toLowerCase()} · ${DIFF_NAMES[h.diff]}`);
-    const sp = el('span', 'spacer');
+    titleWrap.append(title, info);
+    const actionsWrap = el('div', 'sheet-head-actions');
     const codex = button('🏆 Codex', 'codex', () => this.codexUi.toggle());
     const close = button(S.hero.close, 'close-char', () => this.closeStats());
-    this.charHead.append(title, info, sp, codex, close);
+    actionsWrap.append(codex, close);
+    this.charHead.append(titleWrap, actionsWrap);
 
     this.charBody.replaceChildren();
     this.charBody.append(this.renderHero(h, sim));
@@ -1286,15 +1298,20 @@ export class HeroUi {
     treeToggle.onclick = () => {
       this.skillTreeOpen = !this.skillTreeOpen;
       this.renderStats(true);
+      if (this.skillTreeOpen) {
+        this.charBody
+          .querySelector<HTMLElement>('[data-k="class-skill-tree"]')
+          ?.scrollIntoView?.({ behavior: 'smooth', block: 'nearest' });
+      }
     };
     skillsStrip.append(treeToggle);
     b.append(skillsStrip);
 
-    // 6. Interactive Class Skill Tree Drawer (compact, viewport-contained)
+    // 6. Interactive Class Skill Tree Drawer (single outer #char-sheet-body scroll, no nested scrollbar)
     const treeDrawer = el('div', 'class-skill-tree-drawer');
     treeDrawer.dataset.k = 'class-skill-tree';
     treeDrawer.hidden = !this.skillTreeOpen;
-    treeDrawer.style.cssText = 'margin-top:4px; padding:6px; background:rgba(18,12,8,0.95); border:1px solid #6b4c28; border-radius:4px; max-height:195px; overflow-y:auto;';
+    treeDrawer.style.cssText = 'margin-top:6px; padding:6px; background:rgba(18,12,8,0.95); border:1px solid #6b4c28; border-radius:4px; overflow:visible; max-height:none;';
 
     const treeHdr = el('div', 'skill-tree-hdr');
     treeHdr.style.cssText = 'display:flex; justify-content:space-between; align-items:center; margin-bottom:4px; font-size:11px; color:#ffd77a;';

@@ -151,6 +151,35 @@ describe('Hero Creation Pillar & Giant Showcase Screen', () => {
     expect(startedWith).toEqual({ name: 'Valerius Pyremaster', diff: 1 });
   });
 
+  it('preserves player-entered heroName when switching class and gender on Campfire', () => {
+    let started: { arch: string; diff: number; heroName?: string } | null = null;
+    const screen = buildHeroCreationScreen({
+      base: '/',
+      heroName: 'Borislav',
+      createCampfire: () => ({
+        canvas: new MockElement('canvas') as unknown as HTMLElement,
+        start: () => undefined,
+        stop: () => undefined,
+      }),
+      onStart: (arch, diff, heroName) => {
+        started = { arch: arch.name, diff, heroName };
+      },
+      onBack: () => undefined,
+    }) as unknown as MockElement;
+
+    expect(screen.findByClass('sh-champion-name')?.textContent).toBe('Borislav');
+    expect(screen.findByClass('sh-dossier-name')?.textContent).toBe('Borislav');
+
+    const mageBtn = screen.findAll((e) => e.className.includes('sh-select-cls') && e.className.includes('mage'))[0];
+    mageBtn.onclick?.();
+    expect(screen.findByClass('sh-champion-name')?.textContent).toBe('Borislav');
+    expect(screen.findByClass('sh-dossier-name')?.textContent).toBe('Borislav');
+
+    const startBtn = screen.findByClass('sh-btn-start');
+    startBtn?.onclick?.();
+    expect(started).toEqual({ arch: 'Valerius Pyremaster', diff: 1, heroName: 'Borislav' });
+  });
+
   it('enforces giant figure dimensions and strict 100dvh viewport containment in style.css', () => {
     const styleCss = readFileSync(resolve(__dirname, '../src/style.css'), 'utf8');
     expect(styleCss).toMatch(/\.sh-champion-figure-wrap\s*\{[^}]*width:\s*clamp\(340px,\s*42vw,\s*680px\);/);

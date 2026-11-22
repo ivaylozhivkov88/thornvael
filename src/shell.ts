@@ -73,9 +73,10 @@ export async function runShell(startWorker: () => void): Promise<never> {
   let shellMusicKind: 'menu' | 'charSelect' = 'menu';
   const root = el('div');
   root.id = 'shell';
+  root.style.setProperty('--shell-bg-image', `url("${import.meta.env.BASE_URL}loadscreens/load-map1-fords.jpg")`);
   document.body.append(root);
 
-  const musicBtn = btn('🔊 Music', () => {
+  const musicBtn = btn('♪ Music', () => {
     const prefs = readPreferences();
     if (!prefs.music) {
       writePreference('music', true);
@@ -102,14 +103,14 @@ export async function runShell(startWorker: () => void): Promise<never> {
   const refreshMusicBtn = (): void => {
     const wantMusic = readPreferences().music;
     if (!wantMusic) {
-      musicBtn.textContent = '🔇 Music: Off';
+      musicBtn.textContent = '✕ Music: Off';
       musicBtn.classList.remove('is-playing', 'is-pending');
       musicBtn.setAttribute('aria-pressed', 'false');
       musicBtn.title = 'Enable menu music';
       return;
     }
     const playing = isMusicPlaying();
-    musicBtn.textContent = playing ? '🔊 Music: On' : '🔊 Music';
+    musicBtn.textContent = playing ? '♫ Music: On' : '♪ Music';
     musicBtn.classList.toggle('is-playing', playing);
     musicBtn.classList.toggle('is-pending', !playing);
     musicBtn.setAttribute('aria-pressed', String(playing));

@@ -213,9 +213,9 @@ test.describe('Act 1 Campaign Flow E2E', () => {
         return false;
       }
       const g = (window as GameWindow).__game as unknown as
-        | { sim: { tick: number; script?: { st: { msgs: number[] } } } }
+        | { sim: { tick: number; script?: { st: { msgs: number[] } } }; paused?: () => boolean }
         | undefined;
-      return Boolean(g && g.sim.tick >= 2 && (g.sim.script?.st.msgs.length ?? 0) >= 2);
+      return Boolean(g && g.sim.tick >= 10 && !g.paused?.() && (g.sim.script?.st.msgs.length ?? 0) >= 2);
     });
 
     const townState = await page.evaluate(() => {

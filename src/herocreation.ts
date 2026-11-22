@@ -103,7 +103,8 @@ export function findArchetypeIndex(cls: 0 | 1, female: boolean): number {
 
 export interface HeroCreationOptions {
   base?: string;
-  onStart: (arch: Archetype, diff: number) => void;
+  heroName?: string;
+  onStart: (arch: Archetype, diff: number, heroName?: string) => void;
   onBack: () => void;
   createCampfire?: () => { canvas: HTMLElement; start(): void; stop(): void };
 }
@@ -111,6 +112,7 @@ export interface HeroCreationOptions {
 export function buildHeroCreationScreen(opts: HeroCreationOptions): HTMLElement {
   let selIdx = 0;
   let diff = 1;
+  const customName = (opts.heroName ?? '').trim();
 
   const base = opts.base ?? import.meta.env.BASE_URL ?? '/';
   const container = el('div', 'sh-campfire-screen');
@@ -212,8 +214,8 @@ export function buildHeroCreationScreen(opts: HeroCreationOptions): HTMLElement 
     const dHdr = el('div', 'sh-dossier-header');
     const dBadge = el('span', `sh-dossier-class-seal ${arch.cls === 1 ? 'mage' : 'warrior'}`, arch.classLabel);
     const dTitleWrap = el('div', 'sh-dossier-title-wrap');
-    const dName = el('h3', 'sh-dossier-name', arch.name);
-    const dEpithet = el('span', 'sh-dossier-epithet', arch.epithet);
+    const dName = el('h3', 'sh-dossier-name', customName || arch.name);
+    const dEpithet = el('span', 'sh-dossier-epithet', customName ? `${arch.name} · ${arch.epithet}` : arch.epithet);
     dTitleWrap.append(dName, dEpithet);
     dHdr.append(dBadge, dTitleWrap);
 
@@ -283,8 +285,8 @@ export function buildHeroCreationScreen(opts: HeroCreationOptions): HTMLElement 
     const genderBadge = el('span', `sh-champion-gender-badge ${arch.female ? 'female' : 'male'}`, arch.female ? '♀ FEMALE' : '♂ MALE');
     badgeRow.append(badge, genderBadge);
 
-    const name = el('span', 'sh-champion-name', arch.name);
-    const epithet = el('span', 'sh-champion-epithet', arch.epithet);
+    const name = el('span', 'sh-champion-name', customName || arch.name);
+    const epithet = el('span', 'sh-champion-epithet', customName ? `${arch.name} · ${arch.epithet}` : arch.epithet);
     nameplate.append(badgeRow, name, epithet);
 
     // Quick 4-hero roster strip under the nameplate
@@ -344,7 +346,7 @@ export function buildHeroCreationScreen(opts: HeroCreationOptions): HTMLElement 
     () => {
       blip();
       campfire.stop();
-      opts.onStart(ARCHETYPES[selIdx], diff);
+      opts.onStart(ARCHETYPES[selIdx], diff, customName || undefined);
     },
     'sh-btn-start',
   );

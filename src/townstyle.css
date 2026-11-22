@@ -1,10 +1,11 @@
-/* Town presentation only. School retains the shared sheet styles.
+/* Town presentation for Shop, Tavern, and Arcane School / Sanctum.
  * Images are supplied by TownUi; no private reference assets are shipped here. */
-.sheet.town:is(.town--shop, .town--tavern) {
+.sheet.town:is(.town--shop, .town--tavern, .town--school) {
   --town-brass: #a3824f;
   --town-gold: #f1d69b;
   --town-paper: #f0e6d0;
   --town-dim: #c5b99f;
+  z-index: 45;
   left: 50%;
   top: calc(12px + env(safe-area-inset-top));
   bottom: auto;
@@ -28,35 +29,35 @@
   line-height: 1.35;
 }
 
-.sheet:is(.town--shop, .town--tavern) *,
-.sheet:is(.town--shop, .town--tavern) *::before,
-.sheet:is(.town--shop, .town--tavern) *::after { box-sizing: border-box; }
+.sheet:is(.town--shop, .town--tavern, .town--school) *,
+.sheet:is(.town--shop, .town--tavern, .town--school) *::before,
+.sheet:is(.town--shop, .town--tavern, .town--school) *::after { box-sizing: border-box; }
 
-.sheet:is(.town--shop, .town--tavern) .sheet-head {
+.sheet:is(.town--shop, .town--tavern, .town--school) .sheet-head {
   gap: 8px;
   margin: 0 0 10px;
   padding: 0 2px 8px;
   border-bottom: 2px groove var(--town-brass);
 }
-.sheet:is(.town--shop, .town--tavern) .sheet-head h2 {
+.sheet:is(.town--shop, .town--tavern, .town--school) .sheet-head h2 {
   min-width: 0;
   margin: 0;
   font-size: clamp(18px, 2.3vw, 25px);
   color: var(--town-gold);
   text-shadow: 0 2px 2px #000;
 }
-.sheet:is(.town--shop, .town--tavern) :is(h3, p, figcaption) { overflow-wrap: anywhere; }
-.sheet:is(.town--shop, .town--tavern) h3 {
+.sheet:is(.town--shop, .town--tavern, .town--school) :is(h3, p, figcaption) { overflow-wrap: anywhere; }
+.sheet:is(.town--shop, .town--tavern, .town--school) h3 {
   margin: 0 0 7px;
   color: var(--town-gold);
   font: 600 15px/1.3 Georgia, "Times New Roman", serif;
   text-align: center;
   letter-spacing: .035em;
 }
-.sheet:is(.town--shop, .town--tavern) :is(small, .note) { color: var(--town-dim); opacity: 1; }
-.sheet:is(.town--shop, .town--tavern) .gold { color: var(--town-gold); }
-.sheet:is(.town--shop, .town--tavern) .neg { color: #ffb4a3; }
-.sheet:is(.town--shop, .town--tavern) button {
+.sheet:is(.town--shop, .town--tavern, .town--school) :is(small, .note) { color: var(--town-dim); opacity: 1; }
+.sheet:is(.town--shop, .town--tavern, .town--school) .gold { color: var(--town-gold); }
+.sheet:is(.town--shop, .town--tavern, .town--school) .neg { color: #ffb4a3; }
+.sheet:is(.town--shop, .town--tavern, .town--school) button {
   min-width: 44px;
   min-height: 44px;
   max-width: 100%;
@@ -70,17 +71,17 @@
   overflow-wrap: anywhere;
   touch-action: manipulation;
 }
-.sheet:is(.town--shop, .town--tavern) button:focus-visible {
+.sheet:is(.town--shop, .town--tavern, .town--school) button:focus-visible {
   outline: 3px solid #fff0bc;
   outline-offset: 2px;
   position: relative;
   z-index: 3;
 }
-.sheet:is(.town--shop, .town--tavern) button:not(:disabled):active {
+.sheet:is(.town--shop, .town--tavern, .town--school) button:not(:disabled):active {
   background: #594329;
   box-shadow: inset 0 2px 5px #000a;
 }
-.sheet:is(.town--shop, .town--tavern) button:disabled {
+.sheet:is(.town--shop, .town--tavern, .town--school) button:disabled {
   opacity: 1;
   color: #b1a58e;
   border-color: #6b5b43;
@@ -422,7 +423,40 @@
 }
 #char-sheet > .sheet-head {
   flex-shrink: 0;
+  flex-wrap: nowrap;
+  align-items: center;
+  gap: 8px;
   margin-bottom: 4px;
+}
+#char-sheet .sheet-head-title-wrap {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  flex: 1 1 auto;
+  gap: 1px;
+}
+#char-sheet .sheet-head-title-wrap .sheet-title {
+  margin: 0;
+  font-size: 17px;
+  line-height: 1.15;
+}
+#char-sheet .sheet-head-title-wrap .hero-sub-meta {
+  font-size: 11px;
+  color: #c5b99f;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+#char-sheet .sheet-head-actions {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  margin-left: auto;
+  flex-shrink: 0;
+}
+#char-sheet .sheet-head-actions > button {
+  white-space: nowrap;
+  padding: 4px 10px;
 }
 #char-sheet > #char-sheet-body {
   flex: 1 1 auto;
@@ -748,6 +782,21 @@
 .sheet.town--school .hero-portrait figcaption {
   color: var(--town-gold);
   font-size: 11px;
+}
+.sheet.town--school .items {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(175px, 1fr));
+  gap: 8px;
+  margin-bottom: 12px;
+}
+.sheet.town--school .items > button {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 2px;
+  min-height: 48px;
+  text-align: center;
 }
 
 /* ---- Item Rarities & Prestige Visuals (gothic relic aesthetic) ---- */

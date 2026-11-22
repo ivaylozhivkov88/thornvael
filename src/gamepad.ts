@@ -224,6 +224,16 @@ export class GamepadController {
     return this.isL2Held;
   }
 
+  hasConnectedGamepad(): boolean {
+    if (this.connectedCount > 0) return true;
+    const list = this.getGamepadsFn
+      ? this.getGamepadsFn()
+      : typeof navigator !== 'undefined' && typeof navigator.getGamepads === 'function'
+        ? Array.from(navigator.getGamepads())
+        : [];
+    return list.some((gp) => gp !== null && gp.connected !== false);
+  }
+
   getBindings(): readonly ControllerSlotBinding[] {
     return this.bindings;
   }
@@ -699,6 +709,9 @@ export class SkillAssignmentModal {
 export class D2RActionBarUi {
   private readonly root: HTMLElement;
   private isSecondary = false;
+  private readonly onSyncHandler = (): void => {
+    this.syncVisibility();
+  };
 
   constructor(
     private readonly controller: GamepadController,
@@ -712,7 +725,26 @@ export class D2RActionBarUi {
     }
     this.root = el;
     this.root.className = 'd2r-action-bar';
+    if (typeof window !== 'undefined' && typeof window.addEventListener === 'function') {
+      window.addEventListener('gamepadconnected', this.onSyncHandler);
+      window.addEventListener('gamepaddisconnected', this.onSyncHandler);
+    }
     this.render();
+  }
+
+  syncVisibility(): void {
+    const visible = this.controller.hasConnectedGamepad();
+    this.root.hidden = !visible;
+    if (this.root.style) {
+      this.root.style.display = visible ? '' : 'none';
+    }
+  }
+
+  destroy(): void {
+    if (typeof window !== 'undefined' && typeof window.removeEventListener === 'function') {
+      window.removeEventListener('gamepadconnected', this.onSyncHandler);
+      window.removeEventListener('gamepaddisconnected', this.onSyncHandler);
+    }
   }
 
   setSecondary(secondary: boolean): void {
@@ -724,6 +756,7 @@ export class D2RActionBarUi {
 
   render(): void {
     this.root.replaceChildren();
+    this.syncVisibility();
 
     const startIdx = this.isSecondary ? 6 : 0;
     const bindings = this.controller.getBindings();
