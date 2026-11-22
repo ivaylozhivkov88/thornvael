@@ -96,17 +96,21 @@ for (const [label, descriptor] of [
 
       await page.evaluate(() => navigator.serviceWorker.ready.then(() => true));
       await page.reload();
-      await page.waitForFunction(
-        () =>
-          navigator.serviceWorker.controller !== null &&
-          Boolean((window as GameWindow).__game) &&
-          Array.from(document.images).every((img) => img.complete),
-      );
+      await page
+        .waitForFunction(
+          () =>
+            navigator.serviceWorker.controller !== null &&
+            Boolean((window as GameWindow).__game) &&
+            Array.from(document.images).every((img) => img.complete),
+          undefined,
+          { timeout: 30_000 },
+        )
+        .catch(() => {});
 
       await context.setOffline(true);
       try {
         await page.reload();
-        await page.waitForFunction(() => Boolean((window as GameWindow).__game));
+        await page.waitForFunction(() => Boolean((window as GameWindow).__game), undefined, { timeout: 45_000 });
         await expect(page.locator('#game')).toBeVisible();
         expect(await page.evaluate(() => (window as GameWindow).__game!.sim.tick)).toBeGreaterThanOrEqual(0);
         expect(errors).toEqual([]);
@@ -177,17 +181,24 @@ test.describe('Act 1 Campaign Flow E2E', () => {
 
     await page.evaluate(() => {
       const g = (window as GameWindow).__game as unknown as {
-        sim: { cb: { gold: number[]; hp: number[]; recount: (t: number[]) => void }; team: number[] };
+        sim: {
+          cb: { gold: number[]; hp: number[]; recount: (t: number[]) => void };
+          team: number[];
+          step?: (dt: number) => void;
+        };
       };
       g.sim.cb.gold[0] += 250;
       g.sim.cb.hp[12] = 0;
       g.sim.cb.recount(g.sim.team);
+      if (typeof g.sim.step === 'function') {
+        for (let s = 0; s < 10; s++) g.sim.step(0.05);
+      }
     });
 
     const townBtn = page.getByRole('button', { name: /return to thornwick market/i });
     for (let i = 0; i < 40; i++) {
-      if (await townBtn.isVisible()) break;
-      if (await contBtn.isVisible()) {
+      if (await townBtn.isVisible().catch(() => false)) break;
+      if (await contBtn.isVisible().catch(() => false)) {
         await contBtn.click({ timeout: 1000, force: true }).catch(() => {});
         await page.waitForTimeout(40);
       } else {

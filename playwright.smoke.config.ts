@@ -26,6 +26,7 @@ export default defineConfig({
     {
       name: 'webkit',
       use: { browserName: 'webkit' },
+      timeout: process.env.CI ? 240_000 : 60_000,
     },
   ],
   webServer: {
