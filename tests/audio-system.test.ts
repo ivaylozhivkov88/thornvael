@@ -3,6 +3,7 @@ import { join } from 'node:path';
 import { describe, expect, it } from 'vitest';
 import {
   ALL_MUSIC_TRACKS,
+  DIALOGUE_VOICE_CLIPS,
   SFX_AMBIENT_WEATHER,
   SFX_FOOTSTEPS,
   SFX_LOOT_RARITY,
@@ -18,6 +19,7 @@ import {
   getMonsterDeathSfx,
   getMusicForAct,
   getMusicForSkirmish,
+  resolveDialogueVoiceClip,
 } from '../src/audio-catalog';
 import {
   AdaptiveAudioDirector,
@@ -242,5 +244,43 @@ describe('spatial audio and per-bus voice cap', () => {
     // After expiration, pool is free again
     cap.prune(300);
     expect(cap.activeCount('sfx')).toBe(0);
+  });
+
+  it('ships Mission 1 neural dialogue voiceovers on disk and resolves speakers cleanly', () => {
+    for (const clipId of DIALOGUE_VOICE_CLIPS) {
+      const voicePath = join(AUDIO_DIR, 'voices', `${clipId}.m4a`);
+      expect(existsSync(voicePath), `Missing dialogue voice file: ${voicePath}`).toBe(true);
+      expect(statSync(voicePath).size).toBeGreaterThan(0);
+    }
+
+    expect(
+      resolveDialogueVoiceClip(
+        'Warden Hale',
+        'Blood at the Ford: The gnoll horde has breached the river border.',
+        'Blood at the Ford',
+      ),
+    ).toBe('m01_briefing_hale');
+    expect(
+      resolveDialogueVoiceClip(
+        'Narrator',
+        "Cold drizzle turns Thornwick's market square into churned ochre paste.",
+        'Blood at the Ford',
+      ),
+    ).toBe('cs_act1_start_01_narrator');
+    expect(
+      resolveDialogueVoiceClip(
+        'Garrick Captain',
+        'Three patrols overdue from Sunken Ford, and now smoke is rising.',
+        'Blood at the Ford',
+      ),
+    ).toBe('cs_act1_start_02_garrick');
+    expect(
+      resolveDialogueVoiceClip(
+        'Garrick Captain',
+        'You heard the commander. Check your cinch-straps—nobody gets buried on company time.',
+        'Blood at the Ford',
+      ),
+    ).toBe('cs_act1_start_03_garrick');
+    expect(resolveDialogueVoiceClip('Warden Hale', 'Some later mission line.', 'Thornwick Market')).toBeNull();
   });
 });

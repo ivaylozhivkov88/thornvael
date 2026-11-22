@@ -4,7 +4,16 @@ import { getPlaquesByAct, loadLocationPlaques, type CampaignStage, type Location
 import { Kind } from './sim/combat';
 import type { Sim } from './sim/sim';
 import { S } from './strings';
-import { blip, play, playNpcBark, playSpeakerSwitchThrill, setDialogueDucking } from './audio';
+import {
+  blip,
+  play,
+  playDialogueVoice,
+  playNpcBark,
+  playSpeakerSwitchThrill,
+  setDialogueDucking,
+  stopDialogueVoice,
+} from './audio';
+import { resolveDialogueVoiceClip } from './audio-catalog';
 
 /** Host callbacks: the game owns the pause flag. */
 export interface MissionHost {
@@ -785,14 +794,27 @@ export class MissionUi {
 
     const info = this.getSpeakerInfo(who);
     const formatted = this.formatDiscoDialogue(who, text);
+    const voiceClip = resolveDialogueVoiceClip(who, text, this.doc.name);
 
     const isSpeakerSwitch = this.lastSpeaker === null || this.lastSpeaker.toLowerCase() !== who.toLowerCase();
     this.lastSpeaker = who;
 
+    try {
+      stopDialogueVoice();
+    } catch {
+      // Safe in headless or audio-disabled test runs
+    }
     if (isSpeakerSwitch) {
       try {
         playSpeakerSwitchThrill();
-        playNpcBark(who, 0);
+        if (!voiceClip) playNpcBark(who, 0);
+      } catch {
+        // Safe in headless or audio-disabled test runs
+      }
+    }
+    if (voiceClip) {
+      try {
+        playDialogueVoice(voiceClip);
       } catch {
         // Safe in headless or audio-disabled test runs
       }
@@ -881,6 +903,11 @@ export class MissionUi {
       if (isTyping) {
         finishTyping();
       } else {
+        try {
+          stopDialogueVoice();
+        } catch {
+          // Safe in headless tests
+        }
         this.dialogueModal.hidden = true;
         this.dialogueActive = false;
         if (this.queue.length === 0) {

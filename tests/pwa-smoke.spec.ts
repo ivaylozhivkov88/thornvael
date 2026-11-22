@@ -60,6 +60,10 @@ for (const [label, descriptor] of [
 ] as const) {
   test.describe(`Mobile PWA smoke: ${label} (F9)`, () => {
     test.use({ ...descriptor });
+    test.skip(
+      ({ browserName }) => browserName === 'webkit' && label.includes('Android'),
+      'Android Pixel 5 runs on Chromium; Safari WebKit targets iOS devices.',
+    );
 
     test('menu shell, roster entry & debug skirmish load without errors', async ({ browser }) => {
       const context = await browser.newContext({ ...descriptor, serviceWorkers: 'block' });

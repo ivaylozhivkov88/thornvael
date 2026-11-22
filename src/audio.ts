@@ -1682,6 +1682,7 @@ export function isCombatActive(nowMs = Date.now()): boolean {
 
 export function suspendAudio(): void {
   cancelShopEntry();
+  stopDialogueVoice();
   backgrounded = true;
   generation++;
   clearCrossfadeTimer();
@@ -1907,6 +1908,65 @@ export function getBusLevels(): { master: number; sfx: number; ui: number; music
 export function preloadAudioCues(names: readonly string[]): Promise<void> {
   if (!ctx) return Promise.resolve();
   return Promise.all(names.map(loadBuffer)).then(() => undefined).catch(() => undefined);
+}
+
+let activeVoiceEl: HTMLAudioElement | null = null;
+let activeVoiceSource: MediaElementAudioSourceNode | null = null;
+let activeVoiceGain: GainNode | null = null;
+
+/** Stops any currently playing human dialogue voiceover stream cleanly. */
+export function stopDialogueVoice(): void {
+  if (activeVoiceEl) {
+    try {
+      activeVoiceEl.pause();
+      activeVoiceEl.removeAttribute('src');
+      activeVoiceEl.load();
+    } catch { /* ignore */ }
+    activeVoiceEl = null;
+  }
+  if (activeVoiceSource) {
+    try { activeVoiceSource.disconnect(); } catch { /* ignore */ }
+    activeVoiceSource = null;
+  }
+  if (activeVoiceGain) {
+    try { activeVoiceGain.disconnect(); } catch { /* ignore */ }
+    activeVoiceGain = null;
+  }
+}
+
+/** Streams a neural human voiceover line from `public/audio/voices/<clipId>.m4a` on the UI/dialogue bus. */
+export function playDialogueVoice(clipId: string): void {
+  stopDialogueVoice();
+  if (!clipId || !sfxOn || backgrounded || typeof Audio === 'undefined') return;
+  if (canAutoUnlock()) unlock();
+  try {
+    const url = `${base()}audio/voices/${clipId}.m4a`;
+    const el = new Audio(url);
+    el.preload = 'auto';
+    activeVoiceEl = el;
+    const cleanup = (): void => {
+      if (activeVoiceEl === el) stopDialogueVoice();
+    };
+    if (typeof el.addEventListener === 'function') {
+      el.addEventListener('error', cleanup, { once: true });
+      el.addEventListener('ended', cleanup, { once: true });
+    }
+    if (ctx && ctx.state !== 'closed' && uiBus) {
+      try {
+        activeVoiceSource = ctx.createMediaElementSource(el);
+        activeVoiceGain = ctx.createGain();
+        activeVoiceGain.gain.value = 1.0;
+        activeVoiceSource.connect(activeVoiceGain).connect(uiBus);
+      } catch {
+        el.volume = Math.max(0, Math.min(1, masterVol * uiVol));
+      }
+    } else {
+      el.volume = Math.max(0, Math.min(1, masterVol * uiVol));
+    }
+    void Promise.resolve(el.play()).catch(() => undefined);
+  } catch {
+    stopDialogueVoice();
+  }
 }
 
 /** Plays a D4 dark-fantasy NPC bark cue and optionally ducks music during dialogue. */

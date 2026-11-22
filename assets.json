@@ -7660,6 +7660,30 @@
       "license": "own",
       "source": "tools/gen-unique-icons.py",
       "note": "Dedicated 64x64 unique item icon for uniq-ashkarath-crown-shard"
+    },
+    {
+      "path": "public/audio/voices/cs_act1_start_01_narrator.m4a",
+      "license": "own",
+      "source": "tools/generate-mission1-voices.py",
+      "note": "Neural human speech dialogue line for Act 1 opening (Narrator)"
+    },
+    {
+      "path": "public/audio/voices/cs_act1_start_02_garrick.m4a",
+      "license": "own",
+      "source": "tools/generate-mission1-voices.py",
+      "note": "Neural human speech dialogue line for Garrick Captain"
+    },
+    {
+      "path": "public/audio/voices/cs_act1_start_03_garrick.m4a",
+      "license": "own",
+      "source": "tools/generate-mission1-voices.py",
+      "note": "Neural human speech dialogue line for Garrick Captain"
+    },
+    {
+      "path": "public/audio/voices/m01_briefing_hale.m4a",
+      "license": "own",
+      "source": "tools/generate-mission1-voices.py",
+      "note": "Neural human speech dialogue line for Warden Hale mission 1 briefing"
     }
   ],
   "townart/portrait-necromancer.png": {

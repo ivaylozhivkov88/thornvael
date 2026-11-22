@@ -488,3 +488,44 @@ export function getEndingMusic(ending: string): string {
   }
   return MUSIC_ENDINGS.crown;
 }
+
+export const DIALOGUE_VOICE_CLIPS = [
+  'm01_briefing_hale',
+  'cs_act1_start_01_narrator',
+  'cs_act1_start_02_garrick',
+  'cs_act1_start_03_garrick',
+] as const;
+
+const MISSION1_VOICE_MATCHERS: readonly {
+  clipId: (typeof DIALOGUE_VOICE_CLIPS)[number];
+  match: (whoLower: string, text: string, docName: string) => boolean;
+}[] = [
+  {
+    clipId: 'm01_briefing_hale',
+    match: (whoLower, text, docName) =>
+      docName === 'Blood at the Ford' &&
+      whoLower.includes('hale') &&
+      (text.startsWith('Blood at the Ford:') || text.includes('frontier riverbanks') || text.includes('gnoll horde')),
+  },
+  {
+    clipId: 'cs_act1_start_01_narrator',
+    match: (whoLower, text) => whoLower === 'narrator' && text.includes('Cold drizzle turns'),
+  },
+  {
+    clipId: 'cs_act1_start_02_garrick',
+    match: (whoLower, text) => whoLower.includes('garrick') && text.includes('Three patrols overdue'),
+  },
+  {
+    clipId: 'cs_act1_start_03_garrick',
+    match: (whoLower, text) => whoLower.includes('garrick') && text.includes('Check your cinch-straps'),
+  },
+];
+
+/** Resolves Mission 1 / Act 1 neural human voiceover clip ID (`public/audio/voices/<id>.m4a`), or null. */
+export function resolveDialogueVoiceClip(who: string, text: string, docName = ''): string | null {
+  const whoLower = who.trim().toLowerCase();
+  for (const entry of MISSION1_VOICE_MATCHERS) {
+    if (entry.match(whoLower, text, docName)) return entry.clipId;
+  }
+  return null;
+}
