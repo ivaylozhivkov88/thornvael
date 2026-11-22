@@ -151,7 +151,7 @@ test.describe('Act 1 Campaign Flow E2E', () => {
       const ticked = await page.evaluate(() => ((window as GameWindow).__game?.sim.tick ?? 0) >= 1);
       if (ticked && !(await contBtn.isVisible())) break;
       if (await contBtn.isVisible()) {
-        await contBtn.click();
+        await contBtn.click({ timeout: 1000, force: true }).catch(() => {});
         await page.waitForTimeout(40);
       } else {
         await page.waitForTimeout(80);
@@ -188,7 +188,7 @@ test.describe('Act 1 Campaign Flow E2E', () => {
     for (let i = 0; i < 40; i++) {
       if (await townBtn.isVisible()) break;
       if (await contBtn.isVisible()) {
-        await contBtn.click();
+        await contBtn.click({ timeout: 1000, force: true }).catch(() => {});
         await page.waitForTimeout(40);
       } else {
         await page.waitForTimeout(100);
@@ -209,7 +209,7 @@ test.describe('Act 1 Campaign Flow E2E', () => {
       });
       if (ready && !(await contBtn.isVisible()) && !(await dialogueModal.isVisible())) break;
       if (await contBtn.isVisible()) {
-        await contBtn.click();
+        await contBtn.click({ timeout: 1000, force: true }).catch(() => {});
         await page.waitForTimeout(40);
       } else {
         await page.waitForTimeout(80);

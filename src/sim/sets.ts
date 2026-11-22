@@ -1,5 +1,5 @@
-import sets1 from '../../public/data/content/item-sets.json';
-import sets2 from '../../public/data/content/item-sets-2.json';
+import sets1 from '../../public/data/content/item-sets.json' with { type: 'json' };
+import sets2 from '../../public/data/content/item-sets-2.json' with { type: 'json' };
 import { buildBaseItemDefFromJson } from './affixes';
 import { Ik, ItemDef, Slot, CLS_WARRIOR, CLS_MAGE, CLS_BOTH } from './item-types';
 

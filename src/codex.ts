@@ -1,8 +1,8 @@
-import sets1 from '../public/data/content/item-sets.json';
-import sets2 from '../public/data/content/item-sets-2.json';
-import uniques1 from '../public/data/content/uniques.json';
-import uniques2 from '../public/data/content/uniques-2.json';
-import uniques3 from '../public/data/content/uniques-3.json';
+import sets1 from '../public/data/content/item-sets.json' with { type: 'json' };
+import sets2 from '../public/data/content/item-sets-2.json' with { type: 'json' };
+import uniques1 from '../public/data/content/uniques.json' with { type: 'json' };
+import uniques2 from '../public/data/content/uniques-2.json' with { type: 'json' };
+import uniques3 from '../public/data/content/uniques-3.json' with { type: 'json' };
 import {
   type BestiaryEntry,
   getBestiaryEntry,

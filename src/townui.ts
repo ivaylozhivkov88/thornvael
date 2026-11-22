@@ -716,10 +716,10 @@ export class TownUi {
       gambleSlotBar.append(slotBtn);
     }
 
-    acts.append(deal, undo, gamble, gambleSlotBar, button('💬 Lore & Spoils', () => this.openLoreDialogue('shop')), exit);
+    acts.append(deal, undo, gamble, button('💬 Lore & Spoils', () => this.openLoreDialogue('shop')), exit);
     const details = el('section', 'trade-details');
     details.setAttribute('aria-label', S.town.itemDetails);
-    details.append(this.renderTray(sim), this.renderDetailView(h), el('p', 'note', S.town.shopHelp));
+    details.append(gambleSlotBar, this.renderTray(sim), this.renderDetailView(h), el('p', 'note', S.town.shopHelp));
     const layout = el('div', 'trade-layout');
     layout.append(stockPanel, keeper, acts, this.portrait(sim), packPanel, details);
     this.root.append(layout);

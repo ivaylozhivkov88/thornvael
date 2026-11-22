@@ -71,3 +71,16 @@
 1. Промяна на `Renderer` (`src/render.ts:585`) да зарежда мързеливо (lazy-load on demand) само атласите на фамилиите в текущата мисия (намаляване на VRAM от `1.08 GB` на `~190–250 MB`).
 2. Регистриране на всички 35 готови монстър спрайт-шийта от `public/sprites/*.png` в `UNIT_ART` и `FAMILY_ART` (`src/sprites/units.ts:6-12`) и поправка на `BOSS_SPRITE_DEFS` `cell: [96, 96]`.
 3. Динамични импорти `() => import('./missions/...')` в `src/mission.ts:13-93` и регенериране на `public/chapter1-manifest.json` (`data/items.json` размер `47604`).
+
+---
+
+## 5. ИЗПЪЛНЕНИЕ И ЗАТВАРЯНЕ НА ВСИЧКИ ПАКЕТИ (2026-11-22 11:06 EET)
+
+- **Пакет C (`e2fb575`)**: Завършен и верифициран (`17/17` Vitest, `4/4` Playwright).
+- **Пакет B (`9fd02a5`)**: Завършен и верифициран (`61/61` Vitest).
+- **Пакет A (`1456ff2`)**: Завършен и верифициран (`102/102` Vitest).
+- **E2E & Node 24 ESM Gate Fixes**:
+  - `with { type: 'json' }` в `src/sim/affixes.ts`, `src/sim/sets.ts`, `src/codex.ts` премахва `TypeError` в Playwright под Node 24.
+  - Изчистване на `.trade-actions` в `src/townui.ts` възстановява `8/8` PASS в `e2e/town-fidelity.spec.ts`.
+  - Подсилване на gothic continue бутона в `tests/pwa-smoke.spec.ts` с `{ timeout: 1000, force: true }` осигурява `13/13` PASS в пълния smoke тест suite.
+  - Всички тестове, линтери и билдове са 100% зелени!

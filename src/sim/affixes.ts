@@ -1,7 +1,7 @@
-import itemsData from '../../public/data/items.json';
-import uniques1 from '../../public/data/content/uniques.json';
-import uniques2 from '../../public/data/content/uniques-2.json';
-import uniques3 from '../../public/data/content/uniques-3.json';
+import itemsData from '../../public/data/items.json' with { type: 'json' };
+import uniques1 from '../../public/data/content/uniques.json' with { type: 'json' };
+import uniques2 from '../../public/data/content/uniques-2.json' with { type: 'json' };
+import uniques3 from '../../public/data/content/uniques-3.json' with { type: 'json' };
 import { ATTR_NAMES, CLS_BOTH, CLS_MAGE, CLS_WARRIOR, Ik, type ItemDef, PART_NAMES, Slot, SLOT_NAMES } from './item-types';
 
 /**
