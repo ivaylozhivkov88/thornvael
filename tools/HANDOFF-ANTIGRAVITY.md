@@ -44,3 +44,30 @@
 
 ## 3. Забранени файлове (НИКОГА не се пипат или комитват)
 - `src/sim/path.ts`, `tests/movement.test.ts`, `models/`, `tools/render-unit.py`, чужди промени в `src/terrain.ts`.
+
+---
+
+## 4. ОПАЗВАНЕ НА СЕДМИЧНИЯ ЛИМИТ И ПЛАН ЗА GEMINI FLASH СЛЕД РЕСЕТА НА 5-ЧАСОВИЯ ЛИМИТ (След ~2ч 47м)
+
+**Решение за квотата (2026-11-21 23:23 EET):**
+- Седмичният лимит на Argon падна от 91% на **46%** (ресет след 6д 21ч). За да не се изчерпи седмичният резерв на Argon, спираме всякакво пускане на Argon агенти веднага!
+- 5-часовият лимит на **Gemini Flash** се ресетира след **2ч 47м** (при 71% наличен седмичен лимит).
+- При автоматичното събуждане след ресета, водещият агент пуска специализирани субагенти с **`Model: "flash"`** по трите пакета от критичния одит (`critical-project-audit.md`):
+
+### Пакет А (`Model: "flash"` — Holy Grail 100% Obtainability & 0 HTTP 404s):
+1. Обединяване на `UNIQUE_ARTIFACTS` (`src/sim/affixes.ts`) и 132-та униката от `public/data/content/uniques*.json` + `ALL_SETS` (`src/sim/sets.ts`) и 20-те сета от `public/data/content/item-sets*.json`, така че всички 132 униката и 28 сета от Том I и Том II на Граала реално да падат в `dropLoot()` (`src/sim/hero.ts`) и `gamble` (`src/sim/town.ts`).
+2. Добавяне на дроп на `ALL_RUNES` и `BUILTIN_GEMS` в `dropLoot()` и уеднаквяване на ключовете `rune:${slug(r.name)}` между `getGrailCatalog()` и `discoverRune()` в `src/codex.ts`.
+3. Извикване на `discoverBossTrophy()` при убийство на бос или Super-Unique в `src/sim/combat.ts:646`.
+4. Подаване на `sim` в `discoverItem(stack.item, sim)` в `src/main.ts:3522, 3837` и използване на `def.trueName ?? def.name` в `src/codex.ts:634`.
+5. Премахване на грешния префикс `'public/'` от иконите в `src/codex.ts:396-468` (за 0 HTTP 404 грешки в браузъра).
+
+### Пакет Б (`Model: "flash"` — Full Sim Wiring for Veterancy, High Ground, Bounties & Skill Trees):
+1. Извикване на `computeHighGroundBonus` и `getChaseRadiusForStance` от `src/sim/tactics.ts` директно в `stepCombat()` (`src/sim/combat.ts`).
+2. Свързване на `registerMercenaryKill`, `checkAndConsumeMercAutoPotion` и записването на загинали наемници в `sim.town.fallenVeterans` по време на битка в `src/sim/combat.ts`.
+3. Завършване на Bounty цикъла: маркиране на `bounty.completed = true` при убийство на Super-Unique целта, добавяне на бутон `Claim Bounty` в `src/townui.ts` и поправка на `bounty.rewardRune` в `src/sim/town.ts`.
+4. Отваряне на реален интерактивен UI таб за 30-те класови умения (`src/skills/*`) в `src/heroui.ts`, за да могат Воинът и всички класове реално да разпределят своите `skillPoints`.
+
+### Пакет В (`Model: "flash"` — Lazy-Loading на 52-та Монстър Спрайта & PWA Offline Manifest):
+1. Промяна на `Renderer` (`src/render.ts:585`) да зарежда мързеливо (lazy-load on demand) само атласите на фамилиите в текущата мисия (намаляване на VRAM от `1.08 GB` на `~190–250 MB`).
+2. Регистриране на всички 35 готови монстър спрайт-шийта от `public/sprites/*.png` в `UNIT_ART` и `FAMILY_ART` (`src/sprites/units.ts:6-12`) и поправка на `BOSS_SPRITE_DEFS` `cell: [96, 96]`.
+3. Динамични импорти `() => import('./missions/...')` в `src/mission.ts:13-93` и регенериране на `public/chapter1-manifest.json` (`data/items.json` размер `47604`).
