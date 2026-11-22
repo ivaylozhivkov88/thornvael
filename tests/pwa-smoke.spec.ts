@@ -184,14 +184,14 @@ test.describe('Act 1 Campaign Flow E2E', () => {
         sim: {
           cb: { gold: number[]; hp: number[]; recount: (t: number[]) => void };
           team: number[];
-          step?: (dt: number) => void;
+          step?: (cmds?: unknown[]) => void;
         };
       };
       g.sim.cb.gold[0] += 250;
       g.sim.cb.hp[12] = 0;
       g.sim.cb.recount(g.sim.team);
       if (typeof g.sim.step === 'function') {
-        for (let s = 0; s < 10; s++) g.sim.step(0.05);
+        for (let s = 0; s < 10; s++) g.sim.step([]);
       }
     });
 
