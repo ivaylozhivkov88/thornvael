@@ -3,6 +3,7 @@ import type { Preferences } from '../preferences';
 import { Kind } from './combat';
 import { FP, type Sim } from './sim';
 import { SPELLS, type SpellDef, St } from './spelldata';
+import { cosLut, sinLut } from './trig';
 
 export type SquadStance = 'hold' | 'guard' | 'aggressive';
 
@@ -239,11 +240,11 @@ export function computeRegroupFormation(
   const hy = sim.y[heroId] / FP;
   const angle = forwardAngle ?? ((sim.dir[heroId] ?? 0) * Math.PI) / 8;
 
-  // Forward and perpendicular normal vectors
-  const fx = Math.cos(angle);
-  const fy = Math.sin(angle);
-  const nx = -Math.sin(angle);
-  const ny = Math.cos(angle);
+  // Forward and perpendicular normal vectors (deterministic LUT)
+  const fx = cosLut(angle);
+  const fy = sinLut(angle);
+  const nx = -fy;
+  const ny = fx;
 
   const melee: number[] = [];
   const ranged: number[] = [];
@@ -376,8 +377,8 @@ export function stepAutoNavigate(
   // Advance step toward goal
   const angle = Math.atan2(goalY - hy, goalX - hx);
   const stepDist = Math.min(distToGoal, 2.5);
-  const nextX = hx + Math.cos(angle) * stepDist;
-  const nextY = hy + Math.sin(angle) * stepDist;
+  const nextX = hx + cosLut(angle) * stepDist;
+  const nextY = hy + sinLut(angle) * stepDist;
 
   return {
     haltedByEnemy: false,

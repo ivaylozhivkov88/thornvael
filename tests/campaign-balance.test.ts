@@ -68,7 +68,7 @@ describe('Campaign & Skirmish Comprehensive Balance Sweep', () => {
     sim.cb.hp[1] = 0;
     dropLoot(sim, 1);
 
-    // Boss drops 3 loot bags
+    // Boss drops 3 loot bags (+ optional 60% Hard-difficulty Key/Sigil drop)
     let bagCount = 0;
     for (let b = 0; b < sim.cb.bI.length; b++) {
       if (sim.cb.bI[b] > 0) {
@@ -78,7 +78,8 @@ describe('Campaign & Skirmish Comprehensive Balance Sweep', () => {
         expect(def).toBeDefined();
       }
     }
-    expect(bagCount).toBe(3);
+    expect(bagCount).toBeGreaterThanOrEqual(3);
+    expect(bagCount).toBeLessThanOrEqual(4);
   });
 
   it('verifies campaign carryover preserves full progression and equipped gear', () => {

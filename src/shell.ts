@@ -2,7 +2,7 @@ import { attachBlurMuteListeners, isMusicPlaying, setCharSelectMusic, setMainMen
 import { actOf, nodeOf, type CampaignNode } from './campaign';
 import { loadCampaign, readRecord, writeRecord } from './campaignstore';
 import { canEnter, newRecord, nodeUrl, RECORD_KEY, clearLast, type CampaignRecord, type HeroPick } from './flow';
-import { BUILT_IN } from './mission';
+import { BUILT_IN_NAMES } from './mission-runtime';
 import {
   addCharacter,
   characterCarry,
@@ -53,7 +53,7 @@ export { ARCHETYPES, buildHeroCreationScreen, findArchetypeIndex, type Archetype
  * The campaign record lives in IndexedDB (see flow.ts). All text is set with textContent.
  */
 const T = S.shell;
-const MAPS: ReadonlySet<string> = new Set(Object.keys(BUILT_IN));
+const MAPS: ReadonlySet<string> = BUILT_IN_NAMES;
 
 export async function runShell(startWorker: () => void): Promise<never> {
   applyUxSettings(loadUxSettings());

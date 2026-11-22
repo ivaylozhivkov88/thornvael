@@ -119,11 +119,10 @@ export interface PairSeparationImpulse {
   jy: number;
 }
 
-/**
- * Compute deterministic damped separation impulses between overlapping units `i` and `j`.
- * Ensures heavy/boss units hold their ground while lighter/ranged/idle units yield cleanly.
- */
-export function computePairSeparation(
+const PAIR_SCRATCH = new Int32Array(4);
+
+function computePairSeparationInto(
+  out: Int32Array,
   dx: number,
   dy: number,
   massI: number,
@@ -135,10 +134,11 @@ export function computePairSeparation(
   sameDir: boolean,
   inChokepoint: boolean,
   pairSeed: number,
-): PairSeparationImpulse {
+): boolean {
   const d2 = dx * dx + dy * dy;
   if (d2 >= MIN_SEPARATION_DIST * MIN_SEPARATION_DIST) {
-    return { ix: 0, iy: 0, jx: 0, jy: 0 };
+    out[0] = out[1] = out[2] = out[3] = 0;
+    return false;
   }
 
   let rx = dx;
@@ -153,7 +153,8 @@ export function computePairSeparation(
 
   const overlap = MIN_SEPARATION_DIST - d;
   if (!movingI && !movingJ && overlap <= IDLE_SEPARATION_DEADBAND) {
-    return { ix: 0, iy: 0, jx: 0, jy: 0 };
+    out[0] = out[1] = out[2] = out[3] = 0;
+    return false;
   }
 
   // Smoothly damped overlap resolution prevents jitter/overshoot at resting separation,
@@ -178,11 +179,49 @@ export function computePairSeparation(
   const fx = nx + tan * ny;
   const fy = ny - tan * nx;
 
+  out[0] = Math.round(fx * push * wi);
+  out[1] = Math.round(fy * push * wi);
+  out[2] = -Math.round(fx * push * wj);
+  out[3] = -Math.round(fy * push * wj);
+  return true;
+}
+
+/**
+ * Compute deterministic damped separation impulses between overlapping units `i` and `j`.
+ * Ensures heavy/boss units hold their ground while lighter/ranged/idle units yield cleanly.
+ */
+export function computePairSeparation(
+  dx: number,
+  dy: number,
+  massI: number,
+  massJ: number,
+  movingI: boolean,
+  movingJ: boolean,
+  holdI: boolean,
+  holdJ: boolean,
+  sameDir: boolean,
+  inChokepoint: boolean,
+  pairSeed: number,
+): PairSeparationImpulse {
+  computePairSeparationInto(
+    PAIR_SCRATCH,
+    dx,
+    dy,
+    massI,
+    massJ,
+    movingI,
+    movingJ,
+    holdI,
+    holdJ,
+    sameDir,
+    inChokepoint,
+    pairSeed,
+  );
   return {
-    ix: Math.round(fx * push * wi),
-    iy: Math.round(fy * push * wi),
-    jx: -Math.round(fx * push * wj),
-    jy: -Math.round(fy * push * wj),
+    ix: PAIR_SCRATCH[0],
+    iy: PAIR_SCRATCH[1],
+    jx: PAIR_SCRATCH[2],
+    jy: PAIR_SCRATCH[3],
   };
 }
 
@@ -336,10 +375,13 @@ export function steerUnit(sim: Sim, i: number, ctx: SteeringContext): void {
     const gy1 = Math.min(h - 1, cy + 1);
     const gx0 = Math.max(0, cx - 1);
     const gx1 = Math.min(w - 1, cx + 1);
+    const rc = sim.spatialHash.rowCount;
 
     for (let gy = gy0; gy <= gy1; gy++) {
+      if (rc[gy] === 0) continue;
+      const row = gy * w;
       for (let gx = gx0; gx <= gx1; gx++) {
-        const cc = gy * w + gx;
+        const cc = row + gx;
         for (let q = cs[cc]; q < ce[cc]; q++) {
           const j = ci[q];
           if (j === i) continue;
@@ -450,7 +492,16 @@ export function steerUnit(sim: Sim, i: number, ctx: SteeringContext): void {
   else if (!isBlockedAt(map, Math.floor(x / FP), Math.floor(ny / FP))) sim.y[i] = ny;
 }
 
-function safeSlideSeparation(map: GameMap, x0: number, y0: number, sx: number, sy: number): [number, number] {
+function applySafeSlideSeparation(
+  map: GameMap,
+  x: Int32Array,
+  y: Int32Array,
+  i: number,
+  sx: number,
+  sy: number,
+): void {
+  const x0 = x[i];
+  const y0 = y[i];
   const maxX = map.w * FP - 1;
   const maxY = map.h * FP - 1;
   let nx = Math.min(maxX, Math.max(0, x0 + sx));
@@ -476,10 +527,22 @@ function safeSlideSeparation(map: GameMap, x0: number, y0: number, sx: number, s
     if (ny > limit) ny = y0 <= limit ? limit : Math.min(y0, ny);
   }
 
-  if (!isBlockedAt(map, Math.floor(nx / FP), Math.floor(ny / FP))) return [nx, ny];
-  if (!isBlockedAt(map, Math.floor(nx / FP), Math.floor(y0 / FP))) return [nx, y0];
-  if (!isBlockedAt(map, Math.floor(x0 / FP), Math.floor(ny / FP))) return [x0, ny];
-  return [x0, y0];
+  const nxTile = Math.floor(nx / FP);
+  const nyTile = Math.floor(ny / FP);
+  if (!isBlockedAt(map, nxTile, nyTile)) {
+    x[i] = nx;
+    y[i] = ny;
+    return;
+  }
+  const y0Tile = Math.floor(y0 / FP);
+  if (!isBlockedAt(map, nxTile, y0Tile)) {
+    x[i] = nx;
+    return;
+  }
+  const x0Tile = Math.floor(x0 / FP);
+  if (!isBlockedAt(map, x0Tile, nyTile)) {
+    y[i] = ny;
+  }
 }
 
 /**
@@ -493,6 +556,7 @@ export function separateUnits(sim: Sim, ctx: SteeringContext): void {
   const cs = sim.cellStart;
   const ce = sim.cellEnd;
   const ci = sim.cellItems;
+  const rc = sim.spatialHash.rowCount;
   ctx.buildGrid();
 
   const ax = ctx.ax;
@@ -527,9 +591,12 @@ export function separateUnits(sim: Sim, ctx: SteeringContext): void {
     let chokeCached = -1;
 
     for (let gy = gy0; gy <= gy1; gy++) {
+      if (rc[gy] === 0) continue;
+      const row = gy * w;
       for (let gx = gx0; gx <= gx1; gx++) {
-        const cc = gy * w + gx;
-        for (let q = cs[cc]; q < ce[cc]; q++) {
+        const cc = row + gx;
+        const end = ce[cc];
+        for (let q = cs[cc]; q < end; q++) {
           const j = ci[q];
           if (j <= i) continue;
           const dx = xi - x[j];
@@ -547,26 +614,26 @@ export function separateUnits(sim: Sim, ctx: SteeringContext): void {
               isChokepoint(map, Math.min(w - 1, Math.max(0, x[j] >> 8)), Math.min(h - 1, Math.max(0, y[j] >> 8)));
           }
 
-          const imp = computePairSeparation(
-            dx,
-            dy,
-            massI,
-            masses[j] || 100,
-            mi,
-            mj,
-            holdI,
-            holdJ,
-            sameDir,
-            chokePair,
-            i * 3 + j * 5,
-          );
-          if (imp.ix !== 0 || imp.iy !== 0) {
-            ax[i] += imp.ix;
-            ay[i] += imp.iy;
-          }
-          if (imp.jx !== 0 || imp.jy !== 0) {
-            ax[j] += imp.jx;
-            ay[j] += imp.jy;
+          if (
+            computePairSeparationInto(
+              PAIR_SCRATCH,
+              dx,
+              dy,
+              massI,
+              masses[j] || 100,
+              mi,
+              mj,
+              holdI,
+              holdJ,
+              sameDir,
+              chokePair,
+              i * 3 + j * 5,
+            )
+          ) {
+            ax[i] += PAIR_SCRATCH[0];
+            ay[i] += PAIR_SCRATCH[1];
+            ax[j] += PAIR_SCRATCH[2];
+            ay[j] += PAIR_SCRATCH[3];
           }
         }
       }
@@ -583,8 +650,6 @@ export function separateUnits(sim: Sim, ctx: SteeringContext): void {
       sx = Math.round((sx * MAX_COMBINED_SEPARATION) / mag);
       sy = Math.round((sy * MAX_COMBINED_SEPARATION) / mag);
     }
-    const [nx, ny] = safeSlideSeparation(map, x[i], y[i], sx, sy);
-    x[i] = nx;
-    y[i] = ny;
+    applySafeSlideSeparation(map, x, y, i, sx, sy);
   }
 }

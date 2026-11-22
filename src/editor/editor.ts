@@ -1,6 +1,6 @@
 import { ObjectKind, Terrain } from '../map';
 import { MAP_VERSION, MAX_SIDE, MIN_SIDE, blankDoc, loadDoc, migrate, rleDecode, rleEncode, validate, type MapDoc, type UnitDef } from '../mapdoc';
-import { TEST_KEY } from '../mission';
+import { TEST_KEY } from '../mission-runtime';
 import { DEFS } from '../sim/combat';
 import { ITEMS } from '../sim/items';
 import { ACTIONS, CHECKS, OPS, actionDef, checkDef, type Param, type Ref, type Trigger } from '../sim/script';

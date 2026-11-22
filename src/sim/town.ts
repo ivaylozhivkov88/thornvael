@@ -568,12 +568,14 @@ export function townCommand(sim: Sim, cmd: TownCommand): void {
 
       const targetSlot = cmd.v !== undefined && cmd.v >= 0 ? cmd.v : undefined;
 
+      const lootRng = sim.lootRng ?? sim.rng;
+
       // classic ARPG Gambling Probabilities:
       // 89.0% Magic (roll < 8900)
       // 10.0% Rare (8900 <= roll < 9900)
       // 0.8% Set (9900 <= roll < 9980)
       // 0.2% Unique (9980 <= roll < 10000)
-      const roll = sim.rng.int(10000);
+      const roll = lootRng.int(10000);
       let wonId = -1;
       let wonQuality: 'magic' | 'rare' | 'set' | 'unique' = 'magic';
       let targetDef: ItemDef | undefined;
@@ -587,7 +589,7 @@ export function townCommand(sim: Sim, cmd: TownCommand): void {
           if (filtered.length > 0) cand = filtered;
         }
         if (cand.length > 0) {
-          const pick = cand[sim.rng.int(cand.length)];
+          const pick = cand[lootRng.int(cand.length)];
           wonId = pick.id;
           targetDef = pick.def;
         }
@@ -602,7 +604,7 @@ export function townCommand(sim: Sim, cmd: TownCommand): void {
           if (filtered.length > 0) cand = filtered;
         }
         if (cand.length > 0) {
-          const pick = cand[sim.rng.int(cand.length)];
+          const pick = cand[lootRng.int(cand.length)];
           wonId = pick.id;
           targetDef = pick.def;
         }
@@ -625,7 +627,7 @@ export function townCommand(sim: Sim, cmd: TownCommand): void {
           });
         }
         if (cand.length > 0) {
-          const pick = cand[sim.rng.int(cand.length)];
+          const pick = cand[lootRng.int(cand.length)];
           wonId = pick.id;
           targetDef = pick.def;
         }
@@ -648,7 +650,7 @@ export function townCommand(sim: Sim, cmd: TownCommand): void {
           });
         }
         if (cand.length > 0) {
-          const pick = cand[sim.rng.int(cand.length)];
+          const pick = cand[lootRng.int(cand.length)];
           wonId = pick.id;
           targetDef = pick.def;
         }
@@ -666,7 +668,7 @@ export function townCommand(sim: Sim, cmd: TownCommand): void {
             if (d.kind === Ik.Gear && !isUniqueItem(d)) pool.push(id);
           });
         }
-        wonId = pool[sim.rng.int(pool.length)];
+        wonId = pool[lootRng.int(pool.length)];
         targetDef = getItemDef(wonId);
       }
 
@@ -938,36 +940,37 @@ export function rollStock(sim: Sim, town: number): void {
     }
   });
 
-  const n = Math.min(SHELF, k + 14 + sim.rng.int(9));
+  const lootRng = sim.lootRng ?? sim.rng;
+  const n = Math.min(SHELF, k + 14 + lootRng.int(9));
   while (k < n) {
     let chosenId = -1;
-    const roll = sim.rng.int(100);
+    const roll = lootRng.int(100);
 
     if (diff === 0) {
       // Easy (0): 90% common (tier 1) / 10% magic (tier 2)
       const targetTier = roll < 90 ? 1 : 2;
       const candidates = byTier[targetTier]?.length ? byTier[targetTier] : pool;
-      chosenId = candidates[sim.rng.int(candidates.length)];
+      chosenId = candidates[lootRng.int(candidates.length)];
     } else if (diff === 1) {
       // Normal (1): 65% common (tier 1) / 30% magic (tier 2) / 5% rare (tier 3)
       const targetTier = roll < 65 ? 1 : roll < 95 ? 2 : 3;
       const candidates = byTier[targetTier]?.length ? byTier[targetTier] : pool;
-      chosenId = candidates[sim.rng.int(candidates.length)];
+      chosenId = candidates[lootRng.int(candidates.length)];
     } else {
       // Hard (2): 40% common (tier 2) / 45% magic (tier 3) / 14% rare (tier 4) / 1% rare set piece opportunity
       if (roll === 99 && setPool.length > 0) {
-        chosenId = setPool[sim.rng.int(setPool.length)];
+        chosenId = setPool[lootRng.int(setPool.length)];
       } else {
         const targetTier = roll < 40 ? 2 : roll < 85 ? 3 : 4;
         const candidates = byTier[targetTier]?.length ? byTier[targetTier] : pool;
-        chosenId = candidates[sim.rng.int(candidates.length)];
+        chosenId = candidates[lootRng.int(candidates.length)];
       }
     }
 
     if (forge && chosenId >= 0) {
       // The forge reworks some wares one tier up (no extra draws without a forge, so old runs replay unchanged).
       const up = byTier[ITEMS[chosenId].tier + 1];
-      if (up?.length && sim.rng.int(100) < 30 * forge) chosenId = up[sim.rng.int(up.length)];
+      if (up?.length && lootRng.int(100) < 30 * forge) chosenId = up[lootRng.int(up.length)];
     }
     shelf[k++] = chosenId;
   }

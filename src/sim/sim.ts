@@ -12,6 +12,7 @@ import { buildTowns, checkQuests, cloneTown, hashTown, newTownState, townCommand
 import { DYNAMIC_ITEM_OFFSET, getItemDef, registerDynamicItem, unregisterDynamicItem, type ItemDef, type ItemInstance } from './items';
 import { stepAuraSystem } from './auras';
 import { applyGroupFormation, type FormationScratch } from './formation';
+import { FlatSpatialHash } from './spatial-hash';
 import {
   UNIT_BODY_RADIUS,
   computeUnitMasses,
@@ -63,6 +64,8 @@ interface PathRec {
 export interface Snapshot {
   tick: number;
   rng: number;
+  lootRng?: number;
+  cosmeticRng?: number;
   x: Int32Array;
   y: Int32Array;
   tx: Int32Array;
@@ -111,10 +114,19 @@ const RING: [number, number][] = [];
 for (let dy = -8; dy <= 8; dy++) for (let dx = -8; dx <= 8; dx++) if (dx * dx + dy * dy <= 64) RING.push([dx, dy]);
 RING.sort((a, b) => a[0] * a[0] + a[1] * a[1] - (b[0] * b[0] + b[1] * b[1]) || a[1] - b[1] || a[0] - b[0]);
 
+const LOOT_RNG_SALT = 0x9e3779b9;
+const COSMETIC_RNG_SALT = 0x85ebca6b;
+
 /** Deterministic world state. No DOM, no renderer, no Math.random, no float state. */
 export class Sim {
   tick = 0;
   readonly rng: Rng;
+  readonly lootRng: Rng;
+  readonly cosmeticRng: Rng;
+  /** Semantic alias for the primary combat/AI simulation PRNG stream. */
+  get simRng(): Rng {
+    return this.rng;
+  }
   readonly count: number;
   readonly team: Uint8Array;
   x: Int32Array;
@@ -151,15 +163,14 @@ export class Sim {
   shrineCd: Uint16Array = new Uint16Array(0);
   private nextInstanceId = DYNAMIC_ITEM_OFFSET;
   readonly instances = new Map<number, ItemInstance>();
+  private readonly usedSerials = new Set<number>();
 
   createItemInstance(baseId: number, quality: 'magic' | 'rare' | string, def: ItemDef): ItemInstance {
     const id = this.nextInstanceId++;
-    // Serial: uint32 mixed from the rng state and the id. It reads the stream without advancing it, so
-    // existing replays and hashes stay exactly as they were.
-    const used = new Set<number>();
-    for (const o of this.instances.values()) if (o.serial !== undefined) used.add(o.serial);
-    let serial = Math.imul(this.rng.state ^ Math.imul(id, 0x9e3779b1), 0x85ebca6b) >>> 0;
-    while (used.has(serial)) serial = (serial + 0x6d2b79f5) >>> 0;
+    // Serial: uint32 mixed from the lootRng state and the id. Reads the stream without advancing it.
+    let serial = Math.imul(this.lootRng.state ^ Math.imul(id, 0x9e3779b1), 0x85ebca6b) >>> 0;
+    while (this.usedSerials.has(serial)) serial = (serial + 0x6d2b79f5) >>> 0;
+    this.usedSerials.add(serial);
     const inst: ItemInstance = {
       id,
       serial,
@@ -180,17 +191,18 @@ export class Sim {
 
   destroyItemInstance(id: number): void {
     if (id >= DYNAMIC_ITEM_OFFSET) {
+      const existing = this.instances.get(id);
+      if (existing?.serial !== undefined) this.usedSerials.delete(existing.serial);
       this.instances.delete(id);
       unregisterDynamicItem(id);
     }
   }
-  /** Uniform grid of living units, rebuilt every tick; used for collision and target search. */
+  /** Flat Int32Array spatial hash of living units, rebuilt each tick for collision and target search. */
+  readonly spatialHash: FlatSpatialHash;
   readonly cellStart: Int32Array;
-  /** End (exclusive) of each cell's range in cellItems. Only cells in `occupied` are non-empty; all others stay 0/0. */
+  /** End (exclusive) of each cell's range in cellItems. Only occupied cells are non-empty; all others stay 0/0. */
   readonly cellEnd: Int32Array;
   readonly cellItems: Int32Array;
-  private readonly occupied: Int32Array;
-  private occupiedN = 0;
 
   private paths = new Map<number, PathRec>();
   private nextPath = 1;
@@ -217,6 +229,8 @@ export class Sim {
     opts: SimOptions = {},
   ) {
     this.rng = new Rng(seed);
+    this.lootRng = new Rng(((seed ^ LOOT_RNG_SALT) >>> 0) || 1);
+    this.cosmeticRng = new Rng(((seed ^ COSMETIC_RNG_SALT) >>> 0) || 1);
     this.dayOffset = opts.dayOffset ?? 0;
     this.count = teams.length;
     const n = this.count;
@@ -240,10 +254,10 @@ export class Sim {
     this.oy = new Int32Array(n);
     this.ax = new Int32Array(n);
     this.ay = new Int32Array(n);
-    this.cellStart = new Int32Array(map.w * map.h + 1);
-    this.cellEnd = new Int32Array(map.w * map.h + 1);
-    this.cellItems = new Int32Array(n);
-    this.occupied = new Int32Array(n);
+    this.spatialHash = new FlatSpatialHash(map.w, map.h, n);
+    this.cellStart = this.spatialHash.cellStart;
+    this.cellEnd = this.spatialHash.cellEnd;
+    this.cellItems = this.spatialHash.cellItems;
     this.fogSeen = new Uint32Array(map.w * map.h);
     this.formScratch = {
       slotX: new Int32Array(n),
@@ -855,47 +869,12 @@ export class Sim {
     return true;
   }
 
-  /** Soft collision: overlapping units push each other apart. Idle units yield more than walkers. */
-  private cellOf(i: number): number {
-    const { w, h } = this.map;
-    return Math.min(h - 1, Math.max(0, Math.floor(this.y[i] / FP))) * w + Math.min(w - 1, Math.max(0, Math.floor(this.x[i] / FP)));
-  }
-
   /**
-   * Bucket the living units by tile (sparse counting sort). Cost is O(units), not O(map tiles):
-   * only the cells used last tick are cleared, so a 640x480 map steps as fast as a 64x48 one.
-   * Within a cell units stay in ascending id order, exactly as before (determinism).
+   * Bucket the living units by tile (flat Int32Array sparse counting sort). Cost is O(units), not O(map tiles).
+   * Within a cell units stay in ascending id order for determinism.
    */
   private buildGrid(): void {
-    const { count, occupied } = this;
-    const cs = this.cellStart;
-    const ce = this.cellEnd;
-    const hp = this.cb.hp;
-    const hid = this.hidden;
-    for (let k = 0; k < this.occupiedN; k++) {
-      const c = occupied[k];
-      cs[c] = 0;
-      ce[c] = 0;
-    }
-    let m = 0;
-    for (let i = 0; i < count; i++) {
-      if (hp[i] <= 0 || hid[i]) continue;
-      const c = this.cellOf(i);
-      if (ce[c]++ === 0) occupied[m++] = c;
-    }
-    this.occupiedN = m;
-    let run = 0;
-    for (let k = 0; k < m; k++) {
-      const c = occupied[k];
-      const n = ce[c];
-      cs[c] = run;
-      ce[c] = run; // becomes the write cursor, ends up as the exclusive end
-      run += n;
-    }
-    for (let i = 0; i < count; i++) {
-      if (hp[i] <= 0 || hid[i]) continue;
-      this.cellItems[ce[this.cellOf(i)]++] = i;
-    }
+    this.spatialHash.rebuild(this.count, this.x, this.y, this.cb.hp, this.hidden);
   }
 
   /** Stuck handling: ask for a new path, accept a crowded arrival, or give up. */
@@ -974,6 +953,7 @@ export class Sim {
     };
     mix(this.tick);
     mix(this.rng.state);
+    mix(this.lootRng.state);
     for (let i = 0; i < this.count; i++) {
       mix(this.x[i]);
       mix(this.y[i]);
@@ -1002,6 +982,8 @@ export class Sim {
     return {
       tick: this.tick,
       rng: this.rng.state,
+      lootRng: this.lootRng.state,
+      cosmeticRng: this.cosmeticRng.state,
       x: this.x.slice(),
       y: this.y.slice(),
       tx: this.tx.slice(),
@@ -1032,6 +1014,8 @@ export class Sim {
   restore(s: Snapshot): void {
     this.tick = s.tick;
     this.rng.state = s.rng;
+    this.lootRng.state = (s.lootRng ?? (s.rng ^ LOOT_RNG_SALT)) >>> 0 || 1;
+    this.cosmeticRng.state = (s.cosmeticRng ?? (s.rng ^ COSMETIC_RNG_SALT)) >>> 0 || 1;
     this.x = s.x.slice();
     this.y = s.y.slice();
     this.tx = s.tx.slice();
@@ -1056,9 +1040,11 @@ export class Sim {
     if (s.shrineCd && this.shrines.length) this.shrineCd = s.shrineCd.slice();
     else this.shrineCd = new Uint16Array(this.shrines.length);
     this.instances.clear();
+    this.usedSerials.clear();
     if (s.instances) {
       for (const inst of s.instances) {
         this.instances.set(inst.id, inst);
+        if (inst.serial !== undefined) this.usedSerials.add(inst.serial);
         registerDynamicItem(inst.id, inst.def);
       }
     }

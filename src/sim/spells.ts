@@ -155,19 +155,46 @@ function area(sim: Sim, caster: number, sid: number, px: number, py: number, pow
   }
 }
 
-/** The target plus the nearest other enemies within the spell's radius of it, nearest first. */
+const CHAIN_MAX = 32;
+const chainBestD2 = new Int32Array(CHAIN_MAX);
+const chainBestId = new Int32Array(CHAIN_MAX);
+
+/** The target plus the nearest other enemies within the spell's radius of it, nearest first (zero-alloc insertion sort). */
 function chain(sim: Sim, t: number, sid: number, team: number): number[] {
   const sp = SPELLS[sid];
+  const need = Math.min(CHAIN_MAX - 1, Math.max(0, sp.count - 1));
+  if (need === 0) return [t];
   const r2 = (sp.radius * FP) ** 2;
-  const best: [number, number][] = [];
+  const tx = sim.x[t];
+  const ty = sim.y[t];
+  const sx = sim.x;
+  const sy = sim.y;
+  const hp = sim.cb.hp;
+  const teams = sim.team;
+  let filled = 0;
+
   for (let j = 0; j < sim.count; j++) {
-    if (j === t || sim.cb.hp[j] <= 0 || sim.team[j] === team) continue;
-    const d2 = dist2(sim, j, sim.x[t], sim.y[t]);
+    if (j === t || hp[j] <= 0 || teams[j] === team) continue;
+    const dx = sx[j] - tx;
+    const dy = sy[j] - ty;
+    const d2 = dx * dx + dy * dy;
     if (d2 > r2) continue;
-    best.push([d2, j]);
+    if (filled < need || d2 < chainBestD2[filled - 1]) {
+      let pos = filled < need ? filled++ : filled - 1;
+      while (pos > 0 && (d2 < chainBestD2[pos - 1] || (d2 === chainBestD2[pos - 1] && j < chainBestId[pos - 1]))) {
+        chainBestD2[pos] = chainBestD2[pos - 1];
+        chainBestId[pos] = chainBestId[pos - 1];
+        pos--;
+      }
+      chainBestD2[pos] = d2;
+      chainBestId[pos] = j;
+    }
   }
-  best.sort((a, b) => a[0] - b[0] || a[1] - b[1]);
-  return [t, ...best.slice(0, sp.count - 1).map((b) => b[1])];
+
+  const out = new Array<number>(1 + filled);
+  out[0] = t;
+  for (let k = 0; k < filled; k++) out[k + 1] = chainBestId[k];
+  return out;
 }
 
 export function revive(sim: Sim, t: number): void {

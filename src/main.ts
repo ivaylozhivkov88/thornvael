@@ -8,7 +8,7 @@ import { ControlGroups, GROUP_COUNT } from './groups';
 import { GestureRecognizer, pickUnit, reticle, unitsInBox, type Intent } from './input';
 import { TILE, generateMap, ObjectKind, PropKind, type MapObject } from './map';
 import type { LoadedMission } from './mapdoc';
-import { createMission, missionFromName, type MissionGame } from './mission';
+import { createMission, loadMissionByName, type MissionGame } from './mission-runtime';
 import { actOf, nodeOf, townHubForAct, townNodeForAct, townSeed, type Campaign } from './campaign';
 import { loadCampaign, readRecord, writeRecord } from './campaignstore';
 import { applyCarryover, extractCarryover, waivePurse } from './carryover';
@@ -138,7 +138,7 @@ if (loadId && !crowd && !stress && !battle) {
 }
 if (!resumed && missionName && !crowd && !stress && !battle) {
   try {
-    loadedMission = missionFromName(missionName);
+    loadedMission = await loadMissionByName(missionName);
   } catch (e) {
     missionError = (e as Error).message;
   }
@@ -813,8 +813,25 @@ function toggleMinimap(): void {
   }
 }
 
+function closeCompetingModals(except?: 'hero' | 'spellbook' | 'quest'): void {
+  if (except !== 'hero' && heroUi.isOpen) heroUi.close();
+  if (except !== 'spellbook') {
+    if (spellbookUi?.isOpen) spellbookUi.close();
+    if (!bookEl.hidden) closeBook();
+  }
+  if (except !== 'quest') {
+    if (missionUi?.isJournalOpen()) missionUi.closeJournal();
+    const qm = document.getElementById('quest-modal');
+    if (qm) qm.hidden = true;
+  }
+  if (townUi.open) townUi.close();
+  if (saveUi.open) saveUi.close();
+}
+
 function toggleQuestLog(): void {
   if (missionUi) {
+    const opening = !missionUi.isJournalOpen();
+    if (opening) closeCompetingModals('quest');
     missionUi.toggleJournal(sim);
     return;
   }
@@ -824,6 +841,7 @@ function toggleQuestLog(): void {
     qm.hidden = true;
     return;
   }
+  closeCompetingModals('quest');
   const title = loadedMission?.doc.name || (campaign && campaignId ? campaign.nodes.find((n) => n.id === campaignId)?.title : null) || 'Adventure';
   const titleEl = document.getElementById('quest-title');
   if (titleEl) titleEl.textContent = title;
@@ -1556,18 +1574,15 @@ document.addEventListener('visibilitychange', () => {
   if (document.hidden) resetDesktopInput();
 });
 window.addEventListener('keydown', (e) => {
-  // Advance gothic character dialogue if open
+  // Block all other UI/game shortcuts while gothic character dialogue is open so sheets cannot open behind it
   if (missionUi?.isDialogueOpen()) {
     if (e.key === ' ' || e.key === 'Enter') {
-      e.preventDefault();
       missionUi.advanceDialogue();
-      return;
-    }
-    if (e.key === '1' || e.key === '2' || e.key === '3') {
-      e.preventDefault();
+    } else if (e.key === '1' || e.key === '2' || e.key === '3') {
       missionUi.selectStance(Number(e.key));
-      return;
     }
+    e.preventDefault();
+    return;
   }
   // Editors own all their keys, including sheet shortcuts such as I and Escape.
   if (e.target instanceof Element && (e.target.closest('input, textarea, select') || (e.target instanceof HTMLElement && e.target.isContentEditable))) return;
@@ -2083,9 +2098,7 @@ spellbookUi = new SpellbookUi({
   queue,
   toast,
   onOpen: () => {
-    if (heroUi.isOpen) heroUi.close();
-    if (townUi.open) townUi.close();
-    if (saveUi.open) saveUi.close();
+    closeCompetingModals('spellbook');
   },
 });
 
@@ -2199,8 +2212,7 @@ const heroUi = new HeroUi({
   },
   openBook: () => spellbookUi.open(),
   onOpen: () => {
-    if (spellbookUi.isOpen) spellbookUi.close();
-    if (!bookEl.hidden) closeBook();
+    closeCompetingModals('hero');
   },
 });
 $('btn-hero').onclick = () => heroUi.toggle();
@@ -2280,7 +2292,9 @@ function arrive(town: number, role: number, npc: number): boolean {
     return true;
   }
   const c = t.centre[role]!;
-  return heroNear(c[0], c[1], 4.5) && townUi.enter(town, role);
+  if (!heroNear(c[0], c[1], 4.5)) return false;
+  closeCompetingModals();
+  return townUi.enter(town, role);
 }
 
 /** A tap on the map: true when it hit a town building or a person (then the hero walks there). */
@@ -3937,12 +3951,14 @@ if (btnSaveExit) {
 const btnQuestsEl = document.getElementById('btn-quests');
 if (btnQuestsEl) {
   btnQuestsEl.onclick = () => {
-    if (missionUi) missionUi.toggleJournal(sim);
-    else toggleQuestLog();
+    toggleQuestLog();
   };
 }
 $('btn-saves').textContent = S.save.open;
-$('btn-saves').onclick = () => saveUi.toggle();
+$('btn-saves').onclick = () => {
+  if (!saveUi.open) closeCompetingModals();
+  saveUi.toggle();
+};
 const btnControls = document.getElementById('btn-controls') as HTMLButtonElement | null;
 function updateControlModeUI(): void {
   if (btnControls) {

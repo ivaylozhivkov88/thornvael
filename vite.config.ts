@@ -13,11 +13,11 @@ export default defineConfig({
       output: {
         manualChunks(id) {
           if (!id.includes('/src/missions/') && !id.includes('\\src\\missions\\')) return undefined;
-          if (/m(1[2-9]|2[0-3])-/.test(id)) return 'missions-act2';
-          if (/m(2[4-9]|3[0-5])-/.test(id)) return 'missions-act3';
-          if (/m(3[6-9]|4[0-6])-/.test(id)) return 'missions-act4';
+          if (/m(1[2-9]|2[0-3])-|gullet-of-dunes|map2-redmarsh-wastes/.test(id)) return 'missions-act2';
+          if (/m(2[4-9]|3[0-5])-|drowned-choir|map3-iron-coast/.test(id)) return 'missions-act3';
+          if (/m(3[6-9]|4[0-6])-|cinder-throne|map4-obsidian-caldera/.test(id)) return 'missions-act4';
           if (
-            /m0[5-9]-|m1[01]-|blood-at-the-ford|thornwick-market|whispers-in-the-fen|nightfall-at-ravenwatch|the-sunken-sanctum|kids-paradise-opening/.test(
+            /m0[5-9]-|m1[01]-|blood-at-the-ford|thornwick-market|whispers-in-the-fen|nightfall-at-ravenwatch|the-sunken-sanctum|kids-paradise-opening|weeping-ossuary|map1-border-fords/.test(
               id,
             )
           )

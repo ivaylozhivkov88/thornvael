@@ -2,7 +2,7 @@ import type { CarryoverState } from './carryover';
 import type { Campaign, CampaignProgress } from './campaign';
 import { parseRecord, type CampaignRecord } from './flow';
 import { loadDoc, type MapDoc } from './mapdoc';
-import { createMission, type MissionGame } from './mission';
+import { createMission, type MissionGame } from './mission-runtime';
 import type { MonsterAiExtra } from './sim/bot';
 import type { Snapshot } from './sim/sim';
 import { hasDuplicateInstance } from './sim/items';

@@ -1207,6 +1207,7 @@ export function evaluateQualityHierarchy(
 export function dropLoot(sim: Sim, t: number): void {
   if (sim.hero === null || sim.team[t] === 0) return;
   const rank = getMonsterRank(sim, t);
+  const lootRng = sim.lootRng ?? sim.rng;
   const diff = sim.hero.diff ?? 1;
   const monsterTier = sim.cb.tier[t] || 1;
   const mf = getHeroMF(sim);
@@ -1225,7 +1226,7 @@ export function dropLoot(sim: Sim, t: number): void {
     const rule = LOOT_RULES[sim.cb.kind[t]];
     if (!rule || rule[0] === 0) return;
     const noDropRate = calculateNoDropRate(rule[0], diff);
-    if (sim.rng.int(100) < noDropRate) return;
+    if (lootRng.int(100) < noDropRate) return;
   }
 
   let lo: number;
@@ -1261,13 +1262,13 @@ export function dropLoot(sim: Sim, t: number): void {
   ] as const;
 
   for (let pick = 0; pick < picks; pick++) {
-    const baseItemId = rollLoot((n) => sim.rng.int(n), lo, hi);
-    let drop = evaluateQualityHierarchy(baseItemId, monsterTier, rank, mf, (n) => sim.rng.int(n), diff);
+    const baseItemId = rollLoot((n) => lootRng.int(n), lo, hi);
+    let drop = evaluateQualityHierarchy(baseItemId, monsterTier, rank, mf, (n) => lootRng.int(n), diff);
 
     if (isActBoss && pick === 0 && drop.quality !== 'unique' && drop.quality !== 'set') {
       const highTierUniques = ALL_UNIQUE_ARTIFACTS.filter((a) => a.tier >= 4);
       if (highTierUniques.length > 0) {
-        const u = highTierUniques[sim.rng.int(highTierUniques.length)];
+        const u = highTierUniques[lootRng.int(highTierUniques.length)];
         const regId = itemId(u.name);
         drop = { quality: 'unique', itemId: regId >= 0 ? regId : baseItemId, itemDef: u };
       }
@@ -1275,18 +1276,18 @@ export function dropLoot(sim: Sim, t: number): void {
 
     // Secondary relic roll on boss/champion kills when a pick lands on Normal: allow Runes & Gems from SPECIAL_ITEMS
     if ((rank === 'boss' || rank === 'champion') && drop.quality === 'normal') {
-      const relicRoll = sim.rng.int(100);
+      const relicRoll = lootRng.int(100);
       if (relicRoll < 35) {
         const eligibleRunes = ALL_RUNES.filter((r) => Math.min(5, Math.ceil(r.id / 7)) <= hi);
         if (eligibleRunes.length > 0) {
-          const r = eligibleRunes[sim.rng.int(eligibleRunes.length)];
+          const r = eligibleRunes[lootRng.int(eligibleRunes.length)];
           const rid = itemId(r.name);
           if (rid >= 0) drop = { quality: 'normal', itemId: rid, itemDef: getItemDef(rid) };
         }
       } else if (relicRoll < 65) {
         const eligibleGems = BUILTIN_GEMS.filter((g) => g.tier <= hi);
         if (eligibleGems.length > 0) {
-          const g = eligibleGems[sim.rng.int(eligibleGems.length)];
+          const g = eligibleGems[lootRng.int(eligibleGems.length)];
           const gid = itemId(g.name);
           if (gid >= 0) drop = { quality: 'normal', itemId: gid, itemDef: getItemDef(gid) };
         }
@@ -1323,8 +1324,8 @@ export function dropLoot(sim: Sim, t: number): void {
     }
   }
   // Hard elites carry sigils for the endgame cube recipe.
-  if (diff === 2 && rank !== 'normal' && !isPinnacle && sim.rng.int(100) < (rank === 'boss' ? 60 : 20)) {
-    const kid = itemId(SIGIL_NAMES[sim.rng.int(SIGIL_NAMES.length)]);
+  if (diff === 2 && rank !== 'normal' && !isPinnacle && lootRng.int(100) < (rank === 'boss' ? 60 : 20)) {
+    const kid = itemId(SIGIL_NAMES[lootRng.int(SIGIL_NAMES.length)]);
     for (let b = 0; b < cb.bI.length; b++) {
       if (cb.bI[b]) continue;
       cb.bX[b] = sim.x[t] - 40;

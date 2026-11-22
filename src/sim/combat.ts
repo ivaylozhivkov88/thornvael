@@ -369,9 +369,15 @@ export function enemyNear(sim: Sim, i: number, range: number, cx: number, cy: nu
   const cs = sim.cellStart;
   const ce = sim.cellEnd;
   const ci = sim.cellItems;
-  const x = sim.x[i];
-  const y = sim.y[i];
-  const me = sim.team[i];
+  const rc = sim.spatialHash.rowCount;
+  const sx = sim.x;
+  const sy = sim.y;
+  const teams = sim.team;
+  const peace = sim.peace;
+  const x = sx[i];
+  const y = sy[i];
+  const me = teams[i];
+  const peaceOff = me * 4;
   const r = Math.ceil(range / FP);
   const tx = x >> 8;
   const ty = y >> 8;
@@ -382,28 +388,39 @@ export function enemyNear(sim: Sim, i: number, range: number, cx: number, cy: nu
   const hunt = me !== 0 && rulesOf(sim).hunt;
   const l2 = leash * leash;
   const maxR2 = range * range;
-
-  const scanCell = (gx: number, gy: number): void => {
-    const c = gy * w + gx;
-    for (let q = cs[c]; q < ce[c]; q++) {
-      const j = ci[q];
-      if (sim.team[j] === me || hp[j] <= 0 || sim.peace[me * 4 + sim.team[j]]) continue;
-      const dx = sim.x[j] - x;
-      const dy = sim.y[j] - y;
-      const d2 = dx * dx + dy * dy;
-      if (d2 > maxR2) continue;
-      if (leash > 0 && (sim.x[j] - cx) ** 2 + (sim.y[j] - cy) ** 2 > l2) continue;
-      const arm = hunt ? partAbs(sim, j, 0) + partAbs(sim, j, 1) : 0;
-      if (arm > bw || (arm === bw && (d2 > bd || (d2 === bd && j > best && best >= 0)))) continue;
-      bw = arm;
-      bd = d2;
-      best = j;
-    }
-  };
+  const hasLeash = leash > 0;
 
   if (hunt) {
-    for (let gy = Math.max(0, ty - r); gy <= Math.min(h - 1, ty + r); gy++) {
-      for (let gx = Math.max(0, tx - r); gx <= Math.min(w - 1, tx + r); gx++) scanCell(gx, gy);
+    const gy0 = Math.max(0, ty - r);
+    const gy1 = Math.min(h - 1, ty + r);
+    const gx0 = Math.max(0, tx - r);
+    const gx1 = Math.min(w - 1, tx + r);
+    for (let gy = gy0; gy <= gy1; gy++) {
+      if (rc[gy] === 0) continue;
+      const row = gy * w;
+      for (let gx = gx0; gx <= gx1; gx++) {
+        const c = row + gx;
+        const end = ce[c];
+        for (let q = cs[c]; q < end; q++) {
+          const j = ci[q];
+          const tj = teams[j];
+          if (tj === me || hp[j] <= 0 || peace[peaceOff + tj]) continue;
+          const dx = sx[j] - x;
+          const dy = sy[j] - y;
+          const d2 = dx * dx + dy * dy;
+          if (d2 > maxR2) continue;
+          if (hasLeash) {
+            const lx = sx[j] - cx;
+            const ly = sy[j] - cy;
+            if (lx * lx + ly * ly > l2) continue;
+          }
+          const arm = partAbs(sim, j, 0) + partAbs(sim, j, 1);
+          if (arm > bw || (arm === bw && (d2 > bd || (d2 === bd && j > best && best >= 0)))) continue;
+          bw = arm;
+          bd = d2;
+          best = j;
+        }
+      }
     }
     return best;
   }
@@ -414,19 +431,133 @@ export function enemyNear(sim: Sim, i: number, range: number, cx: number, cy: nu
       if (minD * minD > bd) break;
     }
     if (ring === 0) {
-      if (tx >= 0 && tx < w && ty >= 0 && ty < h) scanCell(tx, ty);
+      if (tx >= 0 && tx < w && ty >= 0 && ty < h) {
+        const c = ty * w + tx;
+        const end = ce[c];
+        for (let q = cs[c]; q < end; q++) {
+          const j = ci[q];
+          const tj = teams[j];
+          if (tj === me || hp[j] <= 0 || peace[peaceOff + tj]) continue;
+          const dx = sx[j] - x;
+          const dy = sy[j] - y;
+          const d2 = dx * dx + dy * dy;
+          if (d2 > maxR2) continue;
+          if (hasLeash) {
+            const lx = sx[j] - cx;
+            const ly = sy[j] - cy;
+            if (lx * lx + ly * ly > l2) continue;
+          }
+          if (d2 > bd || (d2 === bd && j > best && best >= 0)) continue;
+          bd = d2;
+          best = j;
+        }
+      }
       continue;
     }
     const yTop = ty - ring;
     const yBot = ty + ring;
     const xL = Math.max(0, tx - ring);
     const xR = Math.min(w - 1, tx + ring);
-    if (yTop >= 0 && yTop < h) for (let gx = xL; gx <= xR; gx++) scanCell(gx, yTop);
-    if (yBot >= 0 && yBot < h) for (let gx = xL; gx <= xR; gx++) scanCell(gx, yBot);
+    if (yTop >= 0 && yTop < h && rc[yTop] > 0) {
+      const row = yTop * w;
+      for (let gx = xL; gx <= xR; gx++) {
+        const c = row + gx;
+        const end = ce[c];
+        for (let q = cs[c]; q < end; q++) {
+          const j = ci[q];
+          const tj = teams[j];
+          if (tj === me || hp[j] <= 0 || peace[peaceOff + tj]) continue;
+          const dx = sx[j] - x;
+          const dy = sy[j] - y;
+          const d2 = dx * dx + dy * dy;
+          if (d2 > maxR2) continue;
+          if (hasLeash) {
+            const lx = sx[j] - cx;
+            const ly = sy[j] - cy;
+            if (lx * lx + ly * ly > l2) continue;
+          }
+          if (d2 > bd || (d2 === bd && j > best && best >= 0)) continue;
+          bd = d2;
+          best = j;
+        }
+      }
+    }
+    if (yBot >= 0 && yBot < h && rc[yBot] > 0) {
+      const row = yBot * w;
+      for (let gx = xL; gx <= xR; gx++) {
+        const c = row + gx;
+        const end = ce[c];
+        for (let q = cs[c]; q < end; q++) {
+          const j = ci[q];
+          const tj = teams[j];
+          if (tj === me || hp[j] <= 0 || peace[peaceOff + tj]) continue;
+          const dx = sx[j] - x;
+          const dy = sy[j] - y;
+          const d2 = dx * dx + dy * dy;
+          if (d2 > maxR2) continue;
+          if (hasLeash) {
+            const lx = sx[j] - cx;
+            const ly = sy[j] - cy;
+            if (lx * lx + ly * ly > l2) continue;
+          }
+          if (d2 > bd || (d2 === bd && j > best && best >= 0)) continue;
+          bd = d2;
+          best = j;
+        }
+      }
+    }
     const yMid0 = Math.max(0, yTop + 1);
     const yMid1 = Math.min(h - 1, yBot - 1);
-    if (tx - ring >= 0 && tx - ring < w) for (let gy = yMid0; gy <= yMid1; gy++) scanCell(tx - ring, gy);
-    if (tx + ring >= 0 && tx + ring < w) for (let gy = yMid0; gy <= yMid1; gy++) scanCell(tx + ring, gy);
+    const xLeftCol = tx - ring;
+    if (xLeftCol >= 0 && xLeftCol < w) {
+      for (let gy = yMid0; gy <= yMid1; gy++) {
+        if (rc[gy] === 0) continue;
+        const c = gy * w + xLeftCol;
+        const end = ce[c];
+        for (let q = cs[c]; q < end; q++) {
+          const j = ci[q];
+          const tj = teams[j];
+          if (tj === me || hp[j] <= 0 || peace[peaceOff + tj]) continue;
+          const dx = sx[j] - x;
+          const dy = sy[j] - y;
+          const d2 = dx * dx + dy * dy;
+          if (d2 > maxR2) continue;
+          if (hasLeash) {
+            const lx = sx[j] - cx;
+            const ly = sy[j] - cy;
+            if (lx * lx + ly * ly > l2) continue;
+          }
+          if (d2 > bd || (d2 === bd && j > best && best >= 0)) continue;
+          bd = d2;
+          best = j;
+        }
+      }
+    }
+    const xRightCol = tx + ring;
+    if (xRightCol >= 0 && xRightCol < w) {
+      for (let gy = yMid0; gy <= yMid1; gy++) {
+        if (rc[gy] === 0) continue;
+        const c = gy * w + xRightCol;
+        const end = ce[c];
+        for (let q = cs[c]; q < end; q++) {
+          const j = ci[q];
+          const tj = teams[j];
+          if (tj === me || hp[j] <= 0 || peace[peaceOff + tj]) continue;
+          const dx = sx[j] - x;
+          const dy = sy[j] - y;
+          const d2 = dx * dx + dy * dy;
+          if (d2 > maxR2) continue;
+          if (hasLeash) {
+            const lx = sx[j] - cx;
+            const ly = sy[j] - cy;
+            if (lx * lx + ly * ly > l2) continue;
+          }
+          if (d2 > bd || (d2 === bd && j > best && best >= 0)) continue;
+          bd = d2;
+          best = j;
+        }
+      }
+    }
   }
   return best;
 }
