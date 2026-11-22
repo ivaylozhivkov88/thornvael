@@ -818,6 +818,9 @@ select:focus-visible {
 
 .wiki-turnaround-strip {
   width: 100%;
+  border: 0;
+  padding: 0;
+  margin: 0;
   display: grid;
   grid-template-columns: repeat(4, minmax(0, 1fr));
   gap: 6px;
@@ -836,7 +839,9 @@ select:focus-visible {
   background: #1a130c;
   cursor: pointer;
   touch-action: manipulation;
-  transition: border-color 0.15s ease, background 0.15s ease;
+  transition:
+    border-color 0.15s ease,
+    background 0.15s ease;
 }
 
 .wiki-turnaround-thumb:hover {

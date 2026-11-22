@@ -7,6 +7,7 @@ interface Props {
   alt: string;
   size?: number;
   className?: string;
+  eager?: boolean;
 }
 
 const SILHOUETTE_GLYPH: Record<WikiEntryType, string> = {
@@ -66,7 +67,7 @@ function AtlasFrameBox({
   );
 }
 
-export function WikiPicture({ img, type, alt, size = 160, className = '' }: Props) {
+export function WikiPicture({ img, type, alt, size = 160, className = '', eager = false }: Props) {
   const [failed, setFailed] = useState(false);
 
   if (!img || failed) {
@@ -102,7 +103,7 @@ export function WikiPicture({ img, type, alt, size = 160, className = '' }: Prop
       alt={alt}
       width={hiResIcon ? size : undefined}
       height={hiResIcon ? size : undefined}
-      loading="lazy"
+      loading={eager ? 'eager' : 'lazy'}
       onError={() => setFailed(true)}
     />
   );
@@ -149,7 +150,7 @@ export function WikiSpriteTurnaround({
         {current.label && <span class="wiki-turnaround-angle">{current.label}</span>}
       </div>
       {views.length > 1 && (
-        <div class="wiki-turnaround-strip" role="group" aria-label="In-game figure turnaround angles">
+        <fieldset class="wiki-turnaround-strip" aria-label="In-game figure turnaround angles">
           {views.map((v, i) => {
             const active = i === activeIdx;
             const label = v.label ?? `Dir ${i + 1}`;
@@ -168,7 +169,7 @@ export function WikiSpriteTurnaround({
               </button>
             );
           })}
-        </div>
+        </fieldset>
       )}
     </div>
   );

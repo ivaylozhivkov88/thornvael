@@ -74,6 +74,28 @@ test.describe('Thornvael Wiki smoke & offline PWA', () => {
     await expect(page.getByLabel('Article infobox')).toBeVisible();
     await expect(page.getByRole('heading', { name: 'See also' })).toBeVisible();
 
+    for (const dualRoute of [
+      '#/bestiary/hollow-knight',
+      '#/bestiary/thorn-boar',
+      '#/bestiary/anvilmaw-smith',
+      '#/mercs/merc-thornwick-levyman',
+      '#/classes/necromancer',
+      '#/classes/hero-dain',
+    ]) {
+      await page.goto(`/thornvael/wiki.html${dualRoute}`);
+      await expect(page.locator('.wiki-loading')).toHaveCount(0);
+      const portrait = page.locator('.infobox-portrait-frame img');
+      await expect(portrait, `${dualRoute} missing portrait`).toBeVisible();
+      await expect.poll(async () => portrait.evaluate((el) => (el as HTMLImageElement).naturalWidth > 0)).toBe(true);
+      const figurePanel = page.locator('.infobox-figure-panel');
+      await expect(figurePanel, `${dualRoute} missing in-game figure panel`).toBeVisible();
+      await expect(figurePanel.locator('.wiki-turnaround-stage .wiki-atlas-pic')).toBeVisible();
+      const thumbs = figurePanel.locator('.wiki-turnaround-thumb');
+      await expect(thumbs).toHaveCount(4);
+      await thumbs.nth(2).click();
+      await expect(figurePanel.locator('.wiki-turnaround-angle')).toHaveText('Back');
+    }
+
     for (const check of ROUTE_CHECKS) {
       await assertRouteRenderedWithImages(page, check);
     }
