@@ -1,155 +1,74 @@
-# THORNVAEL: CLAUDE CODE LIVE CONTINUOUS HANDOFF
-**Updated At:** 2026-11-16T09:20:00+02:00  
-**Status:** In active development (Masterpiece Drive — P22, P11, P14 & Biome VFX Completed)  
-**Git Branch:** `main`  
+# THORNVAEL: LIVE CONTINUOUS HANDOFF & CAMPAIGN HARMONIZATION
+**Updated At:** 2026-11-22T17:35:00+02:00  
+**Status:** In active development (Act I–IV Narrative Harmonization & Full Voice Overhaul)  
+**Git Branch:** `main` (game repo) / `codex/release-plan` (planning repo)  
 **Live Application URL:** https://ivaylozhivkov88.github.io/thornvael/
 
 ---
 
 ## 1. Quick Start for Resumption
 ```bash
-# Verify local test baseline:
+# Verify local baseline:
+cd "d:\ROM 2 clone\game"
 git status
 npm run typecheck
-npm test -- --maxWorkers=1
-npm run check:repo
+npx biome check src/
+npm run check:atlases
+node tools/check-repo.mjs
 npm run build
 ```
 
 ---
 
-## 2. Proven Verification Results (Hard Numbers, No Estimates)
-Run at 2026-11-16:
-- `npm run typecheck`: **PASSED (0 errors)**
-- `npm test -- --maxWorkers=1`: **PASSED (82 test files, 677 passed, 1 skipped, 0 failed)** [duration: 43.96s]
-- `npm run check:repo`: **PASSED (487 files)**
-- `npm run build`: **PASSED (dist built in 453ms, 117 precache entries in sw.js)**
+## 2. Latest Committed Milestones (Hard Numbers, No Estimates)
+- **Commit `39478a9` (Audio & Voices Overhaul)**:
+  * Removed typewriter `blip()` sound from `src/missionui.ts` and `src/townui.ts`.
+  * Boosted dialogue music ducking from -4 dB to **-14 dB** (`DIALOGUE_SHOP_DUCK_DB = -14`, multiplier ~0.20) in `src/audio.ts`.
+  * Boosted active voice gain to **1.6x** (`activeVoiceGain.gain.value = 1.6`).
+  * Synthesized **1,138** neural voice clips (`.m4a` AAC-LC) via `tools/generate-all-voices.py` covering all 79 mission map texts, 264 mercenary barks, cutscenes, and town dialogues.
+  * 54/54 Vitest audio & UI tests PASSED.
+- **Commit `577c4fc` (Wiki Visual & Sprite Harmonization)**:
+  * Updated `tools/build-wiki-data.mjs`, `ArticleView.tsx`, `WikiPicture.tsx`, `types.ts`, and `wiki.css`.
+  * Harmonized dual visual representation (painted oil portrait + 16-direction animated sprite figure) across all 128 Bestiary creatures, 24 Mercenaries, and 8 Classes.
+  * Added 28 new painted townart portraits in `public/townart/mon/*.jpg`.
+  * Passed `check:atlases`, `tests/wiki-data.test.ts` (9/9 passed), and `check-repo.mjs` (3,148 files checked).
+- **Commit `07e5800` (Planning Repo)**:
+  * Created all four canonical narrative chronicles:
+    - [ACT-1-COMPLETE-CHRONICLE.md](file:///d:/ROM%202%20clone/ACT-1-COMPLETE-CHRONICLE.md) (*"The Ledger of Salt and Ash"*)
+    - [ACT-2-COMPLETE-CHRONICLE.md](file:///d:/ROM%202%20clone/ACT-2-COMPLETE-CHRONICLE.md) (*"The Mirage of the Silted Well"*)
+    - [ACT-3-COMPLETE-CHRONICLE.md](file:///d:/ROM%202%20clone/ACT-3-COMPLETE-CHRONICLE.md) (*"The Iron Coast & The Drowned Citadel"*)
+    - [ACT-4-COMPLETE-CHRONICLE.md](file:///d:/ROM%202%20clone/ACT-4-COMPLETE-CHRONICLE.md) (*"Gates of the Infernal Sanctuary"*)
 
 ---
 
-## 3. Git Status & Repository Sync
-- **Repository `game/`**:
-  * Branch: `main`
-  * Remote sync: Tracking `origin/main`
-- **Carson Guard Constraint**:
-  * `src/sim/path.ts` and `tests/movement.test.ts` **MUST NOT BE TOUCHED** unless explicitly requested by the user. Neither file has been modified since commit `d3421a2`.
+## 3. Active Background Subagents
+- **Subagent `f4da5afb-e01f-4129-9bf8-e1ae7a6b0a9f`**:
+  * **Role:** *Act 3 & 4 Overhaul & Audio Lead* (Model: `flash`)
+  * **Scope:**
+    1. Overhauling all 12 mission map JSON files in Act III (`m24` to `m35`).
+    2. Overhauling all 11 mission map JSON files in Act IV (`m36` to `m46`).
+    3. Weaving the 7 persistent campaign threads (Morvessa's Signet Ring, Ravenwatch traitor, Deep Quarry miners, Thornwick refugees, Zahra's harmonics, Marshal Veyra's rearguard, Threshold Choice).
+    4. Regenerating neural voice clips via `tools/generate-all-voices.py` for updated lines.
+    5. Story slides in `src/story.ts` for Act 3, Act 4, and the dual endings (Ending A: The Purging vs Ending B: Dark Sovereign).
 
 ---
 
-## 4. Work Accomplished by Claude Code (Milestone Summary)
-1. **Combat Feel**:
-   - `95979bd`: Float texts migrated to pooled BitmapText (significant performance optimization).
-   - `a7ab8d1`: Render-only hit recoil (struck units shove away from attacker and spring back over 170ms; larger on crits; sim-hash safe).
-   - `d448559`: Death topple fallback (units without a 'die' clip topple sideways and darken instead of vanishing behind a bone mark).
-2. **Deterministic Save & Monster AI**:
-   - `607d861`: Persisted monster AI timers (resurrection cooldowns, raised minion counters, boss attack windups) in `SaveState.aix`.
-3. **Legal Scrub & Neutrality**:
-   - `6727c99`: Scrubbed third-party trademarks/names, renamed CSS classes to `relic-loot-*`, `check-repo.mjs` enforces name bans.
-4. **Town Holdings / Campaign Metagame**:
-   - `2ac3178`: Town building rules (`townbuild.ts`: Barracks, Forge, Shrine).
-   - `f104069`: Shrine heals returning mercenaries (+20%/level) between nodes.
-   - `4e01c11`: Forge lifts town shop stock by a tier.
-   - `f69d00d`: Barracks discounts mercenary hire fees (-10%/level).
-   - `e32c961` & `da1731d`: Holdings screen on global campaign map (`shell.ts`), two-column grid with 44px touch buy buttons.
-   - **Campaign Holdings Integration Across All 4 Acts (`m01` to `m46`)**:
-     * Verified `carryover.ts` propagates Barracks discount, Forge tier enhancement, and Shrine healing across all 46 campaign missions.
-     * Extended `sim/town.ts` `makeQuest` (Fetch quests) to respect Forge tier bonuses and added `forge`/`barracks` to `hashTown`.
-     * Added `tests/campaign-holdings-integration.test.ts` (8 comprehensive tests, 100% passing).
-5. **Flagship Skirmish Maps Integrity**:
-   - Verified `Kids Paradise III` (`glade`), `Red Hat` (`scarlet`), and `Turtle Beach` (`tidebreak`):
-     * Objectives, triggers, and reward structures (`dropGold`, `dropAll`, `giveMoney`) are deterministic with zero dangling/unresolved references.
-     * Validated map doc schemas, region bounds, shrine coordinates, town house indices, and merc unit references.
-6. **Onboarding Tips**:
-   - `5b20d14`: `src/tips.ts` — one-time contextual tips for low health (<35%), first loot pickup, first spell learned (saved in localStorage `thornvael.tips`).
-7. **Portraits & Art Assets**:
-   - `1385f01`: Added 8 new painted dark fantasy bust portraits (3:4 vertical bust with gilded gothic gold frame, Pillow resized to 384x512 q85, registered in `assets.json`):
-     * Allies: `friend-archer.jpg`, `friend-imp.jpg` (wired into `main.ts` `unitPortraits`)
-     * Monster families: `sand-raider.jpg`, `dune-scarab.jpg`, `claw-viper.jpg`, `doom-knight.jpg`, `quill-fiend.jpg`, `maggot-swarm.jpg`
-   - Previous portraits: Sabik, Quillon, Aldren, Scout, Orlen, Groktar, Hale, Commander; Cinderhorn, Cinderling, Flintback, Glasswing, Ironbark, Rootbound, Stormtree; Friend Golem.
-   - Paperdoll: tier tints on shared layers; female/mage base bodies; round shield layer.
-   - Terrain: baked ground decals (tufts, flowers, pebbles, reeds).
-   - Music: own soundtrack generator `tools/gen-soundtrack.py` (procedural town/explore/battle loops).
-8. **Audio Architecture & Acoustic Balance (Items 5 & 6)**:
-   - 4-bus WebAudio gain architecture: `masterBus` (0.9), `sfxBus` (0.8), `uiBus` (0.85), `musicBus` (0.32), `ambBus` (0.22).
-   - Acoustic Level Balance: Combat SFX (0.80) and UI trader speech barks (0.85) provide a +8 to +9 dB margin above the music bed (0.32), preventing music from drowning out combat effects, spells, and trader dialogue.
-   - Biome Ambience routing: Act 1-4 environmental soundscapes (`act1_marsh`, `act2_desert`, `act3_cavern`, `act4_hell`) and town hub layers rerouted to dedicated `ambBus` with `ambVol` control.
-   - Clean Crossfades & Music Looping: `setMusic()` guarantees all non-selected modes ramp to 0 and pause, preventing overlapping or orphaned audio streams.
-   - Mobile / iOS Lifecycle: `suspendAudio()` stops timers, pauses tracks, and frees context; `resumeAudio()` and touch `unlock()` seamlessly recover playback, re-arm AudioContext, and restore active biome ambiances.
-   - Automated Verification: New test suite `tests/audio-balance.test.ts` (7 comprehensive tests passing).
-9. **UI & Ergonomics: Holdings Modal Viewport Containment, HUD Quest Tracker & Minimap (Items 2 & 5)**:
-   - Holdings Modal 100dvh Containment: Enforced `max-height: calc(100dvh - 16px)` and `overflow: hidden` on `#shell .sh-holdings-modal` and `#shell .sh-holdings-box`, guaranteeing zero vertical page scroll on standard 1080p, 720p, and mobile viewports.
-   - Mobile Landscape Two-Column Grid: Activated `@media (max-height: 520px) and (min-width: 540px)` transforming holdings buildings into a compact 2-column grid with 44px-48px touch buy buttons.
-   - Gothic HUD Quest Tracker (#objectives / .gothic-hud-tracker): Eliminated legacy conflicting ID selector rules that stretched across the top bar. Anchored to `left: calc(10px + env(safe-area-inset-left))` with `right: auto !important;`, bounded expanded height to prevent covering bottom globes and action dock.
-   - Minimap Smooth Toggle & Readability: Added smooth CSS width/height/shadow transition, `#minimap.large` state (expands from compact 140-200px to 250-380px), dedicated toggle button (`.btn-minimap-toggle`) with $\ge 44\times 44$px touch hitbox, 'M' hotkey binding, and minimap double-click support. Shrines rendered on minimap as gold indicators.
-   - Mobile Paperdoll Ergonomics: Ensured gear buttons in compact landscape viewports ($\le 500$px) have $\ge 44$px touch hitboxes without overflowing.
-   - Automated Verification: New test suite `tests/holdings-ui.test.ts` (9 comprehensive tests passing).
-10. **Packet P22 — Narrative & Campaign Slideshow Interludes (Story Architecture)**:
-    - Authored story interludes and transitions between Acts I–IV and both endings:
-      * Act 1 intro: "Act I — Граничните бродове (The Border Fords)"
-      * Transition Act 1 -> Act 2: "Act II — Пътят през пресъхващите блата към пустинята" (`m12-redmarsh-border` entry; auto-triggered upon completing `m11-ashbrook-retreat`)
-      * Transition Act 2 -> Act 3: "Act III — Слизане в безслънчевите пещери и подземия" (`m24-pledge-at-oakhaven` entry; auto-triggered upon completing `m23-fork-of-spears`)
-      * Transition Act 3 -> Act 4: "Act IV — Портите на Инферналното светилище" (`m36-heartland-march` entry; auto-triggered upon completing `m35-burning-harbor`)
-      * Ending A (Victory): "Победа — Пречистването на Торнваел" (triggered upon winning `m45-crown-of-order`)
-      * Ending B (Alternative): "Алтернативен край — Възкачването на Тъмния Владетел" (triggered upon winning `m46-ember-reckoning`)
-    - Strict UI Viewport Containment Rule:
-      * Fullscreen slideshow overlay `#shell .sh-slideshow-overlay` constrained to `100dvh` and `overflow: hidden`.
-      * Gothic frame `#shell .sh-slideshow-frame` capped at `92dvh` and `overflow: hidden`, zero vertical page scroll across desktop (1080p, 720p) and mobile landscape/portrait.
-      * Adaptive touch targets strictly >= 44px (`.sh-slideshow-btn`: `min-height: 44px; min-width: 44px`).
-      * Clear buttons: "Пропусни [Space / Esc]" and "Напред →" / "Край".
-      * Smooth fade-in/fade-out transitions with `.fading`.
-      * Keyboard hotkeys: Space / Escape skips, Enter / ArrowRight advances, ArrowLeft steps back.
-      * Thematic gothic SVG illustrations in `storyBanner` with tailored radial gradients.
-    - Automated Verification: New test suite `tests/act-transitions.test.ts` (7 comprehensive tests passing).
-11. **D2R PS5 DualSense & Gamepad Controller System (Masterpiece Ergonomics)**:
-    - Implemented `src/gamepad.ts` with authentic console ARPG control mapping:
-      * 12 Action Bar Skill Slots: Primary Bar (✕, ▢, △, ◯, R1, R2) and Secondary Bar toggled dynamically by holding L2 modifier (L2+✕, L2+▢, L2+△, L2+◯, L2+R1, L2+R2).
-      * Analog Left Stick 360° Hero Movement: Direct directional movement injected deterministically into the fixed-tick simulation loop (`advanceStep()`) with radial 0.20 deadzone filtering.
-      * Analog Right Stick: Smooth camera panning and targeting.
-      * D-Pad Belt Potions: Up = Potion 1 (Healing Draught), Right = Potion 2 (Mana Draught), Down = Potion 3 (Rejuvenation / Buff), Left = Potion 4 (Utility / Portal).
-      * Utility Buttons: R3 click toggles ground loot highlight, DualSense Touchpad toggles Hero Inventory sheet, Options opens Gothic pause menu (with Save & Exit), Share/Select opens Quest Journal, L1 selects main hero.
-      * Rising Edge Triggering: Strict edge-detection prevents repeated triggers while buttons are held down.
-      * D2R Skill Assignment Modal (`SkillAssignmentModal`): Accessible via Pause Menu or Action Bar click; lets players assign any known Grimoire spell, hero class skill, or utility action to any of the 12 controller slots with persistent `localStorage` saving.
-      * On-screen D2R Action Bar HUD widget (`D2RActionBarUi`): Renders 6 active skill slots with button badges and icons; flips dynamically to secondary skills when L2 is held.
-      * Connect / Disconnect Toast Notifications: Native events display Bulgarian status messages (`🎮 Контролер свързан: ...` / `🎮 Контролер изключен: ...`).
-      * Added Gothic D2R controls cheat sheet to `src/pausemenu.ts`.
-      * Automated Verification: New test suite `tests/gamepad.test.ts` (11 comprehensive tests passing, 100%).
+## 4. Master Harmonization Plan Checklist
+Detailed in [.planning/MASTER-CAMPAIGN-ACTS-HARMONIZATION-PLAN.md](file:///d:/ROM%202%20clone/.planning/MASTER-CAMPAIGN-ACTS-HARMONIZATION-PLAN.md):
+- [x] Canonical Acts I, II, III, IV written and saved.
+- [x] Audio engine silenced typewriter blip, adjusted -14 dB ducking and 1.6x voice volume.
+- [x] Wiki dual presentation (portrait + 16-direction animated figure) deployed.
+- [ ] Act III missions m24–m35 dialogue and objectives aligned with chronicle.
+- [ ] Act IV missions m36–m46 dialogue, Threshold Choice, and dual endings aligned.
+- [ ] Cross-act thread verification (items, dialogue flags, characters).
+- [ ] Full voice generation for all newly scripted dialogues.
+- [ ] Vitest test suite 100% green & production build verified.
+- [ ] Git commit and push to `main` for automatic GitHub Pages deployment.
 
 ---
 
-## 5. What Remains To Be Done (Step-by-Step)
-- **Item 5 Polish**:
-   1. Visual inspection of Holdings modal, hit recoil, death topple, and damage floaters in live browser.
-   2. Mobile paperdoll & HUD inspection on touch viewports ($\le 650$px).
-   3. Phone performance audit (ensuring 60 FPS on real mobile hardware).
-
----
-
-## 6. Known Issues and Risks
-- **Slow Tests**:
-  * `tests/hero-motion-proof.test.ts` takes ~16.2s.
-  * `tests/ford-playability.test.ts` runs 8006 simulation ticks (~15-20s).
-- **Procedural Soundtrack Provenance**:
-  * Music is generated via `tools/gen-soundtrack.py`, but has not been human-audited for acoustic balance yet.
-- **Unattended Visuals**:
-  * Recent visual additions (recoil, topple, floaters, Holdings modal) passed automated Vitest and build gates, but were built in unattended runs and need live visual review.
-
----
-
-## 7. What Is EXPLICITLY NOT VERIFIED (Do NOT Mark as Done)
-- **Physical Phone / Mobile Testing**: Not tested on real Android/iPhone devices yet.
-- **Acoustic Listening**: New AAC soundtrack loops generated by `tools/gen-soundtrack.py` have not been listened to by human ear.
-- **Live User Playtest**: Live site playtest with user present is pending.
-
----
-
-## 8. Next Concrete Step
-- **Action**: Run `npm run preview` on `http://127.0.0.1:4173/thornvael/` and visually inspect the **Holdings modal** on the global map and the **combat hit recoil/topple** in mission 1.
-- **Verification of Done**: Holdings modal opens without CSS overflow, rows align cleanly in 2 columns, buy buttons are easily clickable ($\ge 44$px), and hit recoil animates smoothly without visual glitching.
-
----
-
-## 9. Inviolable Rules
-1. **Simulation Determinism**: No `Math.random()` in `src/sim/`. Must use mulberry32 seeded PRNG.
-2. **Zero Copied Art / Audio**: All assets must be procedurally generated or licensed, tracked in `assets.json`.
-3. **No New Features Until Verified**: Do not add new features until current step is verified.
-4. **Do Not Touch Carson Files**: `src/sim/path.ts` and `tests/movement.test.ts` remain untouched.
+## 5. Strict Guardrails & Safety Policy
+- **Forbidden Files**: Never touch `src/sim/path.ts`, `tests/movement.test.ts`, `models/`, `tools/render-unit.py`, `src/terrain.ts`.
+- **Subagent Model Policy**: All subagents must run on `Model: "flash"`.
+- **UI Containment**: Strict `100dvh` containment without unwanted scrollbars on 720p/1080p and mobile landscape.
+- **Git Protocol**: Clean commits, rebase before push, no `git add -A`.
