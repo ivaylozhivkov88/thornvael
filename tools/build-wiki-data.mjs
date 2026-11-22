@@ -38,7 +38,7 @@ if (!process.env.VITEST && !globalThis.__thornvaelWikiTsHook) {
   });
 }
 
-const [combatMod, suMod, runesMod, setsMod, d2Mod, affixMod, itemsMod, diffMod, mapGenMod] = await Promise.all([
+const [combatMod, suMod, runesMod, setsMod, d2Mod, affixMod, itemsMod, diffMod, mapGenMod, storyMod] = await Promise.all([
   import('../src/sim/combat.ts'),
   import('../src/sim/super-uniques.ts'),
   import('../src/sim/runes.ts'),
@@ -48,6 +48,7 @@ const [combatMod, suMod, runesMod, setsMod, d2Mod, affixMod, itemsMod, diffMod, 
   import('../src/sim/items.ts'),
   import('../src/sim/difficulty.ts'),
   import('../src/map-generator.ts'),
+  import('../src/story.ts'),
 ]);
 
 const readJson = (rel, fallback = null) => {
@@ -554,6 +555,104 @@ export function buildWikiData() {
         core: true,
       },
       gate: firstMission(b.id) ? { m: firstMission(b.id) } : undefined,
+    });
+  }
+
+  // Act III–IV Campaign & Chronicle Bosses from public/data/content/bosses.json
+  const bossDialogueMap = Object.fromEntries(C('boss-dialogue').map((d) => [d.boss, d]));
+  const CHRONICLE_BOSSES = [
+    {
+      id: 'elder-juggernaut',
+      name: 'Elder Juggernaut',
+      act: 3,
+      spriteFamily: 'ironbark',
+      elem: 'Earth',
+      weakness: 'Arcane fire and sustained armor-breaking strikes along its glowing rune-seams.',
+      lore: 'Bound during the Age of Chains with dwarf-forged links and packed with anthracite, this primeval bedrock colossus slumbered beneath a moss-bound highland cairn above Oakhaven. Awakened in tectonic agony as the Obsidian Caldera fractured the realm, its glowing rune-seams must be shattered before its tremors collapse Harborwatch’s sea-walls.',
+    },
+    {
+      id: 'lord-captain-korvus',
+      name: 'Lord-Captain Korvus',
+      act: 3,
+      spriteFamily: 'basalt-brute',
+      elem: 'Physical / Fire',
+      weakness: 'Spread squads clear of burning pitch pools and break formation around his hooked anchor pulls.',
+      lore: 'Warlord of Harborwatch’s blazing eastern war pier during the exodus of the Iron Coast. Convinced that Thornvael must burn together rather than flee across the Western Sea, Korvus dragged twin sea-tempered iron anchors across scorched granite until Marshal Veyra’s rearguard cast him into the black surf.',
+    },
+    {
+      id: 'arch-mage-malrik',
+      name: 'Arch-Mage Malrik',
+      act: 4,
+      spriteFamily: 'night-orchard',
+      elem: 'Astral / Fire',
+      weakness: 'Advance swiftly up the switchbacks and interrupt his violet cipher casts before he reaches the summit portal.',
+      lore: 'Architect of the Caldera Schism who burned out his own eyes reading unshielded leyline codices, trading sight to feel volcanic seams through the soles of his boots. Having diverted Morvessa’s Salt Tithe to fund the Iron Pact, Malrik fled Ironcamp with the Royal Cipher-Keys and fell on the summit stairs of Ashveil Gorge.',
+    },
+    {
+      id: 'arch-warden-korrath',
+      name: 'Arch-Warden Korrath',
+      act: 4,
+      spriteFamily: 'silt-colossus',
+      elem: 'Water / Astral',
+      weakness: 'Sunder the West and East Resonance Anchors first to strip his granite invulnerability, then cleanse Petrifying Stasis.',
+      lore: 'Three centuries of unbroken vigil inside the frozen marble cathedral of the Crown Vault turned Arch-Warden Korrath’s flesh to pale granite. Convinced that mortal freedom breeds only slaughter, he guarded the twin Resonance Anchors and the necrotic tether choking the Obsidian Caldera until the rearguard sundered his living law.',
+    },
+    {
+      id: 'ember-overlord-vorak',
+      name: 'Ember Overlord Vorak',
+      act: 4,
+      spriteFamily: 'night-orchard',
+      elem: 'Fire',
+      weakness: 'Shatter the West and East Obsidian Conduit Pillars to sever his molten regeneration and evade Meteor Rain.',
+      lore: 'Colossal warlord of the Furnace Heart who preached the Great Cleansing—that cities are slag, treaties are dry paper, and only volcanic fire reveals what deserves to endure. Standing before the screaming Crown of Thorns and Cinder, Vorak fed his throne on twin obsidian conduit pillars until the rearguard shattered his pylons.',
+    },
+  ];
+  for (const cb of CHRONICLE_BOSSES) {
+    const boss = bossInfo[cb.id];
+    const dlg = bossDialogueMap[cb.id];
+    const mNode = boss?.mission ? nodes.find((n) => n.id === boss.mission) : null;
+    const portrait = portraitFor(cb.id) ?? pic('bestiary', cb.id, 'infobox/portrait', `townart/mon/${cb.id}.jpg`);
+    const sprite = atlasPic(cb.spriteFamily) ?? pic('bestiary', cb.id, 'infobox/figure');
+    const preFightNarrator = (boss?.pre_fight ?? []).find((l) => l.speaker === 'narrator')?.line;
+    const quotes = [
+      dlg?.intro,
+      ...(dlg?.phase_lines ?? []),
+      dlg?.death_line,
+    ].filter(Boolean);
+    const callouts = (boss?.special_callouts ?? []).map((c) => `${c.name}: ${c.telegraph_line} — ${c.hit_line}`);
+
+    bestiary.push({
+      id: cb.id,
+      type: 'bestiary',
+      title: cb.name,
+      summary: boss?.title ?? `Act ${cb.act} Chronicle Boss`,
+      img: portrait,
+      ...(sprite ? { sprite } : {}),
+      infobox: [
+        ['Kind', 'Boss'],
+        ['Title', boss?.title ?? cb.name],
+        ['Act', String(cb.act)],
+        ['Element', cb.elem],
+        ['Weakness', cb.weakness],
+        ['Found in', mNode ? mNode.title : `Act ${cb.act}`],
+      ],
+      sections: [
+        { h: 'Lore', p: [cb.lore] },
+        ...(preFightNarrator || boss?.hero_reaction
+          ? [{ h: 'Encounter notes', p: [preFightNarrator, boss?.hero_reaction].filter(Boolean) }]
+          : []),
+        ...(callouts.length ? [{ h: 'Signature abilities', list: callouts }] : []),
+        ...(quotes.length ? [{ h: 'Battle quotes', list: quotes }] : []),
+        ...(boss?.loot_flavor ? [{ h: 'Trophy & relic flavor', p: [boss.loot_flavor] }] : []),
+      ],
+      related: [
+        ...(mNode ? [`mission/${mNode.id}`] : []),
+        `lore/chronicle-act-${cb.act}`,
+        `lore/act-${cb.act}-ending`,
+        `map/map${cb.act}`,
+      ],
+      tags: { family: 'boss', level: cb.act === 3 ? 82 : 95, act: cb.act, core: false },
+      gate: boss?.mission ? { m: boss.mission.split('-')[0] } : { a: cb.act },
     });
   }
 
@@ -2199,9 +2298,61 @@ export function buildWikiData() {
         ...(ae.cliffhanger ? [{ h: 'Cliffhanger', p: [ae.cliffhanger] }] : []),
         ...(ae.unlocks_hint ? [{ h: 'What follows', p: [ae.unlocks_hint] }] : []),
       ],
-      related: [`map/map${ae.act}`],
+      related: [`lore/chronicle-act-${ae.act}`, `lore/act-${ae.act}-epilogue`, `map/map${ae.act}`],
       tags: { act: ae.act, level: ae.act, rarity: '' },
       gate: { a: ae.act },
+    });
+  }
+
+  // Canonical Story Chronicles (Acts I-IV & Threshold Endings) from src/story.ts
+  const storySlidesComplete = storyMod.STORY_SLIDES ?? [];
+  for (const seq of storyMod.STORY_SEQUENCES ?? []) {
+    const isActIntro = seq.kind === 'intro';
+    const entryId = isActIntro ? `chronicle-${seq.id}` : `chronicle-${seq.id}`;
+    const firstSlideImg = seq.slides[0]?.backdrop?.replace(/^\/+/, '') || 'art/slides/slide_act1_thornwick_rain.jpg';
+    const actCompleteSlide = isActIntro
+      ? storySlidesComplete.find((s) => s.act === seq.act && s.trigger === 'act_end')
+      : undefined;
+    const bossRefs =
+      seq.act === 1
+        ? ['bestiary/morvessa']
+        : seq.act === 2
+          ? ['bestiary/gorrathul']
+          : seq.act === 3
+            ? ['bestiary/vesperion', 'bestiary/elder-juggernaut', 'bestiary/lord-captain-korvus']
+            : ['bestiary/ashkarath', 'bestiary/arch-mage-malrik', 'bestiary/arch-warden-korrath', 'bestiary/ember-overlord-vorak'];
+
+    lore.push({
+      id: entryId,
+      type: 'lore',
+      title: isActIntro ? `Canonical Chronicle — ${seq.title}` : `Threshold Chronicle — ${seq.title}`,
+      summary: seq.subtitle || seq.title,
+      img: pic('lore', entryId, 'infobox/emblem', firstSlideImg),
+      infobox: [
+        ['Kind', isActIntro ? 'Canonical Act Chronicle' : 'Canonical Ending Chronicle'],
+        ['Act', String(seq.act)],
+        ['Slides', String(seq.slides.length)],
+        ...(seq.triggerNode ? [['Trigger', seq.triggerNode]] : []),
+      ],
+      sections: [
+        ...seq.slides.map((sl) => ({
+          h: sl.heading,
+          p: [sl.caption, ...(sl.reflection ? [sl.reflection] : [])],
+        })),
+        ...(actCompleteSlide
+          ? [{ h: `${actCompleteSlide.title} — ${actCompleteSlide.subtitle}`, p: [actCompleteSlide.caption, actCompleteSlide.reflection] }]
+          : []),
+      ],
+      related: [
+        `lore/act-${seq.act}-ending`,
+        `lore/act-${seq.act}-epilogue`,
+        `map/map${seq.act}`,
+        ...(seq.triggerNode ? [`mission/${seq.triggerNode}`] : []),
+        ...(seq.completedNodeTrigger ? [`mission/${seq.completedNodeTrigger}`] : []),
+        ...bossRefs,
+      ],
+      tags: { act: seq.act, level: seq.act, rarity: '' },
+      gate: { a: seq.act },
     });
   }
   for (const ep of C('act-epilogues')) {

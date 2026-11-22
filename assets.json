@@ -14494,6 +14494,90 @@
       "license": "own",
       "source": "tools/generate-all-voices.py",
       "note": "Story slideshow narration for ending-b (eb-2)"
+    },
+    {
+      "path": "public/townart/mon/elder-juggernaut.jpg",
+      "license": "own",
+      "source": "tools/gen-chronicle-art.py",
+      "note": "Painted chiaroscuro oil portrait for Act III boss Elder Juggernaut"
+    },
+    {
+      "path": "public/townart/mon/lord-captain-korvus.jpg",
+      "license": "own",
+      "source": "tools/gen-chronicle-art.py",
+      "note": "Painted chiaroscuro oil portrait for Act III boss Lord-Captain Korvus"
+    },
+    {
+      "path": "public/townart/mon/arch-mage-malrik.jpg",
+      "license": "own",
+      "source": "tools/gen-chronicle-art.py",
+      "note": "Painted chiaroscuro oil portrait for Act IV traitor Arch-Mage Malrik"
+    },
+    {
+      "path": "public/townart/mon/arch-warden-korrath.jpg",
+      "license": "own",
+      "source": "tools/gen-chronicle-art.py",
+      "note": "Painted chiaroscuro oil portrait for Act IV Path of Order boss Arch-Warden Korrath"
+    },
+    {
+      "path": "public/townart/mon/ember-overlord-vorak.jpg",
+      "license": "own",
+      "source": "tools/gen-chronicle-art.py",
+      "note": "Painted chiaroscuro oil portrait for Act IV Path of Ember boss Ember Overlord Vorak"
+    },
+    {
+      "path": "public/art/slides/slide_act1_thornwick_rain.jpg",
+      "license": "own",
+      "source": "tools/gen-chronicle-art.py",
+      "note": "Act I gothic rain-swept Border Fords story slide backdrop (1280x720)"
+    },
+    {
+      "path": "public/art/slides/slide_act1_ashbrook_gate.jpg",
+      "license": "own",
+      "source": "tools/gen-chronicle-art.py",
+      "note": "Act I Ashbrook Gatehouse twilight siege story slide backdrop (1280x720)"
+    },
+    {
+      "path": "public/art/slides/slide_act2_redmarsh_stilts.jpg",
+      "license": "own",
+      "source": "tools/gen-chronicle-art.py",
+      "note": "Act II Redmarsh stilt outpost and alkali flats story slide backdrop (1280x720)"
+    },
+    {
+      "path": "public/art/slides/slide_act2_dry_cistern.jpg",
+      "license": "own",
+      "source": "tools/gen-chronicle-art.py",
+      "note": "Act II dry Ironheart cistern canyon story slide backdrop (1280x720)"
+    },
+    {
+      "path": "public/art/slides/slide_act3_oakhaven_cliffs.jpg",
+      "license": "own",
+      "source": "tools/gen-chronicle-art.py",
+      "note": "Act III Oakhaven coastal cliffs and shipwright slipways story slide backdrop (1280x720)"
+    },
+    {
+      "path": "public/art/slides/slide_act3_burning_harbor.jpg",
+      "license": "own",
+      "source": "tools/gen-chronicle-art.py",
+      "note": "Act III Burning Harbor pier and departing evacuation sails story slide backdrop (1280x720)"
+    },
+    {
+      "path": "public/art/slides/slide_act4_highcrest_spire.jpg",
+      "license": "own",
+      "source": "tools/gen-chronicle-art.py",
+      "note": "Act IV Highcrest Citadel and Obsidian Caldera story slide backdrop (1280x720)"
+    },
+    {
+      "path": "public/art/slides/slide_ending_a_purging.jpg",
+      "license": "own",
+      "source": "tools/gen-chronicle-art.py",
+      "note": "Ending A Purging of Thornvael dawn story slide backdrop (1280x720)"
+    },
+    {
+      "path": "public/art/slides/slide_ending_b_sovereign.jpg",
+      "license": "own",
+      "source": "tools/gen-chronicle-art.py",
+      "note": "Ending B Dark Sovereign Obsidian Throne story slide backdrop (1280x720)"
     }
   ],
   "townart/portrait-necromancer.png": {

@@ -1,4 +1,5 @@
-import { readFileSync } from 'node:fs';
+import { existsSync, readFileSync } from 'node:fs';
+import { join } from 'node:path';
 import { describe, expect, it } from 'vitest';
 import { completeNode, nodeOf, parseCampaign, type CampaignProgress } from '../src/campaign';
 import {
@@ -121,7 +122,8 @@ describe('Campaign Act Transitions & Slideshow System (P22)', () => {
 
         expect(slide.heading.length).toBeGreaterThan(3);
         expect(slide.caption.length).toBeGreaterThan(15);
-        expect(slide.backdrop).toMatch(/^#[0-9a-fA-F]{6}$/);
+        expect(slide.backdrop).toMatch(/^\/art\/slides\/[\w.-]+\.jpg$/);
+        expect(existsSync(join(import.meta.dirname, '..', 'public', slide.backdrop.replace(/^\/+/, '')))).toBe(true);
         expect(validCues.has(slide.cue)).toBe(true);
       }
     }

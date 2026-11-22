@@ -409,48 +409,56 @@ export function buildStoryBanner(seqId: StorySequence['id'], backdrop: string): 
       key: 'ford-dawn',
       c1: '#384b32',
       c2: '#1a2718',
-      img: 'loadscreens/load-map1-fords.jpg',
+      img: 'art/slides/slide_act1_thornwick_rain.jpg',
     },
     'act-2': {
       key: 'parched-marshes',
       c1: '#553f2f',
       c2: '#231811',
-      img: 'loadscreens/load-map2-redmarsh.jpg',
+      img: 'art/slides/slide_act2_redmarsh_stilts.jpg',
     },
     'act-3': {
       key: 'sunless-caverns',
       c1: '#2d4154',
       c2: '#121d28',
-      img: 'loadscreens/load-map3-coast.jpg',
+      img: 'art/slides/slide_act3_oakhaven_cliffs.jpg',
     },
     'act-4': {
       key: 'infernal-sanctuary',
       c1: '#4a2b31',
       c2: '#1f1115',
-      img: 'loadscreens/load-map4-caldera.jpg',
+      img: 'art/slides/slide_act4_highcrest_spire.jpg',
     },
     'ending-a': {
       key: 'cleansing-thornvael',
       c1: '#2e4152',
       c2: '#142029',
-      img: 'loadscreens/load-map1-fords.jpg',
+      img: 'art/slides/slide_ending_a_purging.jpg',
     },
     'ending-b': {
       key: 'dark-sovereign',
       c1: '#522c24',
       c2: '#24110d',
-      img: 'loadscreens/load-map4-caldera.jpg',
+      img: 'art/slides/slide_ending_b_sovereign.jpg',
     },
   };
   const t = themeMap[seqId];
-  const baseColor = backdrop.startsWith('#') ? backdrop : t.c1;
+  const isHex = backdrop.startsWith('#');
+  const baseColor = isHex ? backdrop : t.c1;
   const art = el('div', 'sh-story-art sh-slideshow-art');
   art.dataset.backdrop = t.key;
+  art.style.overflow = 'hidden';
   art.style.background = `radial-gradient(circle at 50% 35%, #ffd8702b, ${baseColor} 70%), linear-gradient(135deg, ${baseColor}, ${t.c2})`;
-  const baseUrl = (typeof import.meta !== 'undefined' && import.meta.env?.BASE_URL) ? import.meta.env.BASE_URL : './';
+  const rawBase = (typeof import.meta !== 'undefined' && import.meta.env?.BASE_URL) ? import.meta.env.BASE_URL : './';
+  const baseUrl = rawBase.endsWith('/') ? rawBase : `${rawBase}/`;
+  const imgPath = !isHex && backdrop ? backdrop.replace(/^\/+/, '') : t.img;
   const img = el('img', 'sh-slideshow-img');
-  img.src = `${baseUrl}${t.img}`;
+  img.src = `${baseUrl}${imgPath}`;
   img.alt = '';
+  img.style.width = '100%';
+  img.style.height = '100%';
+  img.style.objectFit = 'cover';
+  img.style.display = 'block';
   art.append(img);
   return art;
 }
