@@ -195,14 +195,22 @@ export class PaperdollController {
     const { top, bottom, left, right } = scroller.getBoundingClientRect();
     const { clientX: x, clientY: y } = e;
     if (x < left || x >= right || y < top || y >= bottom) return;
-    const edge = 28;
-    const delta = y < top + edge ? -6 : y >= bottom - edge ? 6 : 0;
+    const edge = 36;
+    const delta = y < top + edge ? -16 : y >= bottom - edge ? 16 : 0;
     if (!delta) return;
-    drag.scrollFrame = requestAnimationFrame(() => {
-      const before = scroller.scrollTop;
+    const before = scroller.scrollTop;
+    scroller.scrollTop += delta;
+    const tick = () => {
+      if (this.drag !== drag) return;
+      const prev = scroller.scrollTop;
       scroller.scrollTop += delta;
-      if (scroller.scrollTop !== before) this.moveDrag(e);
-    });
+      if (scroller.scrollTop !== prev) {
+        this.moveDrag(e);
+      }
+    };
+    if (scroller.scrollTop !== before) {
+      drag.scrollFrame = requestAnimationFrame(tick);
+    }
   }
 
   endDrag(e: PointerEvent): void {

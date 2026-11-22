@@ -252,6 +252,8 @@ export class LoadingScreen {
   showError(message: string): void {
     this.stopTimers();
     this.el.classList.remove('is-hiding');
+    this.el.hidden = false;
+    this.el.style.display = '';
     this.hidden = false;
     this.statusEl.textContent = 'Failed to unseal region';
     this.barFillEl.style.width = '100%';
@@ -268,7 +270,7 @@ export class LoadingScreen {
 
     const retryBtn = document.createElement('button');
     retryBtn.type = 'button';
-    retryBtn.className = 'tv-loading-btn tv-loading-btn-primary';
+    retryBtn.className = 'tv-loading-btn tv-loading-btn-primary tv-loading-retry-btn';
     retryBtn.textContent = 'Retry';
     retryBtn.onclick = () => location.reload();
 
@@ -289,9 +291,10 @@ export class LoadingScreen {
     this.stopTimers();
     this.barFillEl.style.width = '100%';
     this.el.classList.add('is-hiding');
+    this.el.hidden = true;
+    this.el.style.display = 'none';
     this.hideTimer = setTimeout(() => {
       this.hideTimer = null;
-      this.el.hidden = true;
       this.el.remove();
     }, 360);
   }

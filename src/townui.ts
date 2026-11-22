@@ -398,15 +398,16 @@ export class TownUi {
     const background = el('img', 'town-backdrop');
     background.src = `${import.meta.env.BASE_URL}townart/scene-${kind}.jpg`;
     background.alt = S.town.scene[kind];
-    const actor = el('img', 'merchant-actor');
-    actor.alt = '';
-    actor.src = `${import.meta.env.BASE_URL}townart/merchant-${kind}.png`;
-    actor.hidden = false;
     const say = el('div', 'say');
     say.setAttribute('role', 'status');
     const art = el('div', 'scene-art');
-    art.append(background, actor);
+    art.append(background);
     if (kind === 'shop') {
+      const actor = el('img', 'merchant-actor');
+      actor.alt = '';
+      actor.src = `${import.meta.env.BASE_URL}townart/merchant-${kind}.png`;
+      actor.hidden = false;
+      art.append(actor);
       const forgeGlow = el('div', 'forge-glow');
       const sparks = el('div', 'anvil-sparks');
       art.append(forgeGlow, sparks);
@@ -654,7 +655,7 @@ export class TownUi {
         if (index >= 0) picks.splice(index, 1);
       }
       this.updateShopSelections(sim);
-    }, String(sim.cb.gold[0]));
+    });
     undo.disabled = this.picks.length === 0;
     this.shopUndoBtn = undo;
     const t0 = this.tradeBalance(sim);
@@ -679,7 +680,7 @@ export class TownUi {
     const exit = button(S.town.leave, () => {
       this.setMood(3);
       this.exitTimer = window.setTimeout(() => this.close(), 350);
-    }, String(sim.cb.gold[0]));
+    });
     const gCost = gambleCost(sim);
     const gamble = button(S.town.gamble, () => {
       const g0 = sim.cb.gold[0];
@@ -883,16 +884,21 @@ export class TownUi {
     if (chosen) {
       const data = DEFS[sim.cb.kind[chosen.unit]];
       const image = el('img');
-      const content = mercContent(chosen.unit);
+      const kindHint: 'warrior' | 'archer' | 'mage' = data.caster ? 'mage' : data.ranged ? 'archer' : 'warrior';
+      const content = mercContent(chosen.unit, kindHint);
+      const fallbackFile =
+        kindHint === 'mage'
+          ? 'portraits/merc-lantern-novice.jpg'
+          : kindHint === 'archer'
+            ? 'portraits/merc-alder-poacher.jpg'
+            : 'portraits/merc-thornwick-levyman.jpg';
       image.src = content
         ? `${import.meta.env.BASE_URL}townart/portraits/${content.id}.jpg`
-        : `${import.meta.env.BASE_URL}townart/portrait-${data.caster ? 'mage' : 'warrior'}-m.png`;
+        : `${import.meta.env.BASE_URL}townart/${fallbackFile}`;
       image.alt = content?.name ?? data.name;
       const stats = el('dl');
       for (const [label, value] of [[S.town.health, `${sim.cb.hp[chosen.unit]} / ${sim.cb.hpMax[chosen.unit]}`], [S.town.damage, `${data.min}–${data.max}`], [S.town.accuracy, data.acc], [S.town.defence, data.def]] as const) stats.append(el('dt', '', label), el('dd', '', String(value)));
-      // Do not mislabel a plate-armoured warrior portrait as an archer.
-      if (data.ranged && !data.caster && !content) mercPanel.append(el('p', 'merc-emblem', S.town.archerEmblem));
-      else mercPanel.append(image);
+      mercPanel.append(image);
       mercPanel.append(el('h3', '', data.name), stats);
       const free = sim.hidden[chosen.unit] === 1 && sim.cb.hp[chosen.unit] > 0;
       const fallen = sim.hidden[chosen.unit] === 0 && sim.cb.hp[chosen.unit] <= 0;
@@ -916,7 +922,7 @@ export class TownUi {
     const ol = el('div', 'lines');
     offers.slice(0, OFFERS).forEach((q, k) => {
       const l = el('div', 'line');
-      l.append(el('span', 'grow', questText(sim, q)), el('b', '', `${S.town.reward} ${q.reward}`), button(S.town.accept, () => {
+      l.append(el('span', 'grow', questText(sim, q)), el('b', '', `${S.town.reward}: ${q.reward} ${S.town.gold}`), button(S.town.accept, () => {
         this.cmd('accept', k);
         play('sfx_quest_accept', 5);
         playTraderBark('barkeep', 'buy');
@@ -930,7 +936,7 @@ export class TownUi {
     const ql = el('div', 'lines');
     for (const q of sim.town.quests) {
       const l = el('div', 'line');
-      l.append(el('span', 'grow', questText(sim, q)), el('b', '', `${S.town.reward} ${q.reward}`));
+      l.append(el('span', 'grow', questText(sim, q)), el('b', '', `${S.town.reward}: ${q.reward} ${S.town.gold}`));
       ql.append(l);
     }
     quests.append(sim.town.quests.length ? ql : el('p', 'note', S.town.none));

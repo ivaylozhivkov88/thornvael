@@ -228,7 +228,7 @@ test('duplicate gear slots stay independent in one scrolling pack; Undo and Conf
   await shop.locator('.deal-btn').click();
   expect(await gold(page)).toBe(before + fee * 2);
   expect(await page.evaluate(() => (window as unknown as { __game: TownGame }).__game.sim.hero!.inv.length)).toBe(9);
-  await expect(shop.locator('.trade-actions button').nth(4).locator('small')).toHaveText(String(before + fee * 2));
+  await expect(shop.locator('.sheet-head .gold')).toHaveText(`Gold ${before + fee * 2}`);
   await shop.locator('.trade-actions button').nth(4).click();
   await expect(shop).toBeHidden();
   expect(await gold(page)).toBe(before + fee * 2);

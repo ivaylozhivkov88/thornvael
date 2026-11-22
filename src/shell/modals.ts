@@ -403,42 +403,42 @@ export function openResultModal(
 }
 
 export function buildStoryBanner(seqId: StorySequence['id'], backdrop: string): HTMLElement {
-  const themeMap: Record<StorySequence['id'], { key: string; c1: string; c2: string; path: string }> = {
+  const themeMap: Record<StorySequence['id'], { key: string; c1: string; c2: string; img: string }> = {
     'act-1': {
       key: 'ford-dawn',
       c1: '#384b32',
       c2: '#1a2718',
-      path: 'M10 44 Q40 38 80 44 T150 44 M50 44 L50 24 M70 44 L70 20 M90 44 L90 20 M110 44 L110 24 M44 26 L116 26 M76 12 L84 12 L80 32 Z',
+      img: 'loadscreens/load-map1-fords.jpg',
     },
     'act-2': {
       key: 'parched-marshes',
       c1: '#553f2f',
       c2: '#231811',
-      path: 'M10 48 Q35 44 60 46 T120 45 T160 48 M40 46 L55 36 L70 46 M80 46 L95 38 L110 46 M20 38 Q50 24 85 36 T150 32 M80 8 A6 6 0 1 0 80 20 A6 6 0 1 0 80 8 M80 4 L80 7 M80 21 L80 24 M68 14 L71 14 M89 14 L92 14',
+      img: 'loadscreens/load-map2-redmarsh.jpg',
     },
     'act-3': {
       key: 'sunless-caverns',
       c1: '#2d4154',
       c2: '#121d28',
-      path: 'M30 48 L30 22 Q80 6 130 22 L130 48 M45 48 L45 28 Q80 14 115 28 L115 48 M20 0 L24 16 L28 0 M60 0 L64 20 L68 0 M92 0 L96 22 L100 0 M132 0 L136 15 L140 0 M80 22 L86 32 L80 42 L74 32 Z',
+      img: 'loadscreens/load-map3-coast.jpg',
     },
     'act-4': {
       key: 'infernal-sanctuary',
       c1: '#4a2b31',
       c2: '#1f1115',
-      path: 'M24 48 L24 18 L36 10 L48 18 L48 48 M112 48 L112 18 L124 10 L136 18 L136 48 M48 30 L112 30 M56 48 L56 22 Q80 12 104 22 L104 48 M80 14 L88 26 L80 38 L72 26 Z M80 10 L84 18 L76 18 Z',
+      img: 'loadscreens/load-map4-caldera.jpg',
     },
     'ending-a': {
       key: 'cleansing-thornvael',
       c1: '#2e4152',
       c2: '#142029',
-      path: 'M50 36 Q60 18 80 28 Q100 18 110 36 M44 42 Q80 34 116 42 M80 10 L84 20 L94 22 L86 30 L88 40 L80 34 L72 40 L74 30 L66 22 L76 20 Z',
+      img: 'loadscreens/load-map1-fords.jpg',
     },
     'ending-b': {
       key: 'dark-sovereign',
       c1: '#522c24',
       c2: '#24110d',
-      path: 'M50 44 L60 16 L72 28 L80 12 L88 28 L100 16 L110 44 Z M42 46 L118 46 M80 26 L86 36 L80 42 L74 36 Z',
+      img: 'loadscreens/load-map4-caldera.jpg',
     },
   };
   const t = themeMap[seqId];
@@ -446,17 +446,11 @@ export function buildStoryBanner(seqId: StorySequence['id'], backdrop: string): 
   const art = el('div', 'sh-story-art sh-slideshow-art');
   art.dataset.backdrop = t.key;
   art.style.background = `radial-gradient(circle at 50% 35%, #ffd8702b, ${baseColor} 70%), linear-gradient(135deg, ${baseColor}, ${t.c2})`;
-  const svg = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
-  svg.setAttribute('viewBox', '0 0 160 54');
-  const p = document.createElementNS('http://www.w3.org/2000/svg', 'path');
-  p.setAttribute('d', t.path);
-  p.setAttribute('fill', 'none');
-  p.setAttribute('stroke', '#ffd870');
-  p.setAttribute('stroke-width', '2');
-  p.setAttribute('stroke-linecap', 'round');
-  p.setAttribute('stroke-linejoin', 'round');
-  svg.append(p);
-  art.append(svg);
+  const baseUrl = (typeof import.meta !== 'undefined' && import.meta.env?.BASE_URL) ? import.meta.env.BASE_URL : './';
+  const img = el('img', 'sh-slideshow-img');
+  img.src = `${baseUrl}${t.img}`;
+  img.alt = '';
+  art.append(img);
   return art;
 }
 

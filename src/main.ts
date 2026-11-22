@@ -2009,7 +2009,11 @@ const squadBar = new SquadBar(document.body, {
 });
 function refreshPortraits(): void {
   const { members, totalCount } = extractSquadMembers(sim, selected, {
-    getMercInfo: (id) => mercContent(id),
+    getMercInfo: (id) => {
+      const k = sim.cb.kind[id];
+      const hint = k === Kind.Archer ? 'archer' : k === Kind.Mage ? 'mage' : 'warrior';
+      return mercContent(id, hint);
+    },
   });
   squadBar.update(members, totalCount);
 }
@@ -3960,7 +3964,20 @@ void nav.storage?.persist?.().then(
 );
 
 document.title = S.title;
-$('hint').textContent = matchMedia('(pointer: fine)').matches ? (combatMode ? S.desktopHintCombat : S.desktopHint) : (combatMode ? S.hintCombat : S.hint);
+const WASD_HINT_COMBAT = 'WASD moves hero; click or hold LMB to attack or interact; RMB casts skill. Space recenter; I opens Hero.';
+const WASD_HINT = 'WASD moves hero; click or hold LMB to steer. Wheel zooms. Space recenter.';
+function syncHintText(): void {
+  if (!matchMedia('(pointer: fine)').matches) {
+    $('hint').textContent = combatMode ? S.hintCombat : S.hint;
+    return;
+  }
+  if (controlMode === 'wasd') {
+    $('hint').textContent = combatMode ? WASD_HINT_COMBAT : WASD_HINT;
+  } else {
+    $('hint').textContent = combatMode ? S.desktopHintCombat : S.desktopHint;
+  }
+}
+syncHintText();
 $('cmds').hidden = !combatMode;
 $('quick').hidden = !combatMode;
 $('stats').hidden = !combatMode;
@@ -3992,6 +4009,7 @@ $('btn-saves').onclick = () => {
 };
 const btnControls = document.getElementById('btn-controls') as HTMLButtonElement | null;
 function updateControlModeUI(): void {
+  syncHintText();
   if (btnControls) {
     btnControls.textContent = controlMode === 'wasd' ? 'WASD' : 'Mouse';
     tipOn(

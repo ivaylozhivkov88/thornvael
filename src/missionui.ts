@@ -2032,12 +2032,17 @@ export function showMissionMenu(): void {
   const h = document.createElement('h2');
   h.textContent = S.mission.menu;
   root.append(h);
+  const isDebug = typeof location !== 'undefined' && location.search.includes('debug');
   const links: [string, string][] = [
-    [S.mission.free, './?free=1'],
+    ...(isDebug ? [[S.mission.free, './?free=1'] as [string, string]] : []),
     [S.mission.ford, './?mission=ford'],
     [S.mission.market, './?mission=market'],
-    [S.mission.test, './?mission=test'],
-    [S.mission.editor, './editor.html'],
+    ...(isDebug
+      ? ([
+          [S.mission.test, './?mission=test'],
+          [S.mission.editor, './editor.html'],
+        ] as [string, string][])
+      : []),
   ];
   for (const [label, href] of links) {
     const a = document.createElement('a');

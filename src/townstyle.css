@@ -280,6 +280,7 @@
   flex-direction: column;
   align-items: center;
   justify-content: center;
+  align-self: start;
   gap: 6px;
   min-width: 0;
   padding: 8px;
@@ -309,6 +310,8 @@
 .sheet.town--tavern .merc-panel { grid-area: merc; }
 .sheet.town--tavern .hero-portrait { grid-area: portrait; }
 .sheet.town--tavern .tavern-controls { grid-area: controls; display: grid; align-content: start; gap: 8px; }
+.sheet.town--tavern .tavern-controls button { display: inline-flex; align-items: center; justify-content: center; gap: 6px; }
+.sheet.town--tavern .tavern-controls button small::after { content: 'g'; margin-left: 1px; }
 .sheet.town--tavern .quest-panel { grid-area: quests; }
 .sheet.town--tavern .merc-panel img { display: block; width: 100%; max-height: 170px; object-fit: contain; margin: 6px auto; }
 .sheet.town--tavern .merc-panel :is(.items, .choice) { display: grid; grid-template-columns: minmax(0, 1fr); gap: 6px; }
@@ -1876,7 +1879,8 @@
     gap: 6px;
   }
   #sheet .hero-gear-board {
-    grid-template: repeat(4, minmax(46px, auto)) / minmax(80px, 1fr) minmax(105px, 1.2fr) minmax(80px, 1fr);
+    grid-template-columns: 52px 64px 52px;
+    grid-template-rows: repeat(4, 52px);
     gap: 4px;
     padding: 4px;
   }
@@ -1884,7 +1888,13 @@
     min-height: 185px;
   }
   /* Expand effective touch hitboxes for small slots (Rings, Amulets) to >= 48x48px */
+  #sheet .hero-gear-cell {
+    width: 52px;
+    height: 52px;
+  }
   #sheet .hero-gear-cell > button:first-child {
+    width: 52px;
+    height: 52px;
     min-height: 48px;
     min-width: 48px;
   }
@@ -1932,15 +1942,23 @@
     gap: 6px;
   }
   #sheet .hero-gear-board {
-    grid-template: repeat(4, minmax(38px, auto)) / minmax(75px, 1fr) minmax(95px, 1.2fr) minmax(75px, 1fr);
+    grid-template-columns: 48px 60px 48px;
+    grid-template-rows: repeat(4, 48px);
     gap: 3px;
     padding: 4px;
   }
   #sheet .hero-figure {
     min-height: 150px;
   }
+  #sheet .hero-gear-cell {
+    width: 48px;
+    height: 48px;
+  }
   #sheet .hero-gear-cell > button:first-child {
+    width: 48px;
+    height: 48px;
     min-height: 44px;
+    min-width: 44px;
     padding: 2px 4px;
   }
 }
@@ -2054,8 +2072,8 @@
 .sheet .hero-portrait.trying .doll-stack {
   box-shadow: 0 0 20px #ffcf6a99;
 }
-.doll-badges { display: flex; flex-wrap: wrap; gap: 4px; justify-content: center; min-height: 34px; }
-.doll-badge { width: 32px; height: 32px; border: 1px solid #b7995d; border-radius: 6px; background: #120c07; display: grid; place-items: center; cursor: pointer; transition: border-color .15s, transform .15s; }
+.doll-badges { display: flex; flex-wrap: wrap; gap: 4px; justify-content: center; align-items: center; align-content: center; min-height: 34px; max-height: 76px; }
+.doll-badge { width: 32px; height: 32px; max-height: 32px; flex: 0 0 32px; border: 1px solid #b7995d; border-radius: 6px; background: #120c07; display: grid; place-items: center; cursor: pointer; transition: border-color .15s, transform .15s; }
 .doll-badge:hover { border-color: #ffd77a; transform: scale(1.08); }
 .doll-badge > * { width: 26px; height: 26px; }
 .doll-badge.replaced { border-color: #ffe08a; box-shadow: 0 0 10px #ffcf6a; animation: badge-pop .35s ease-out; }
@@ -2441,8 +2459,10 @@
   margin: 4px 0;
 }
 .btn-gamble-slot {
+  min-width: 44px;
+  min-height: 44px;
   font-size: 11px;
-  padding: 2px 6px;
+  padding: 4px 8px;
   background: #2a1e14;
   border: 1px solid #634320;
   border-radius: 3px;

@@ -4739,10 +4739,14 @@ button:disabled, #shell .sh-btn:disabled { opacity: .6; cursor: default; box-sha
   overflow: hidden;
 }
 
-#shell .sh-slideshow-art svg {
+#shell .sh-slideshow-art svg,
+#shell .sh-slideshow-art .sh-slideshow-img {
   width: 100%;
   height: 100%;
-  max-height: 170px;
+  max-height: 190px;
+  object-fit: cover;
+  object-position: center 30%;
+  display: block;
 }
 
 #shell .sh-slideshow-text {
@@ -5146,12 +5150,17 @@ body:has(#shell .sh-modal, #codex-modal:not([hidden])) #sh-music-btn {
   background: #090807;
   color: #f2e5cb;
   opacity: 1;
+  pointer-events: none;
   transition: opacity 0.32s ease;
 }
 
 .tv-loading-screen.is-hiding {
   opacity: 0;
   pointer-events: none;
+}
+
+.tv-loading-screen[hidden] {
+  display: none !important;
 }
 
 .tv-loading-backdrop {
@@ -5328,7 +5337,8 @@ body:has(#shell .sh-modal, #codex-modal:not([hidden])) #sh-music-btn {
   flex-wrap: wrap;
 }
 
-.tv-loading-btn {
+.tv-loading-btn,
+.tv-loading-retry-btn {
   padding: 7px 14px;
   border-radius: 4px;
   border: 1px solid #8a6b3a;
@@ -5336,6 +5346,7 @@ body:has(#shell .sh-modal, #codex-modal:not([hidden])) #sh-music-btn {
   color: #f2e5cb;
   font-size: 13px;
   cursor: pointer;
+  pointer-events: auto;
 }
 
 .tv-loading-btn-primary {
