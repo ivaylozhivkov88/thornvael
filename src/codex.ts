@@ -10,9 +10,10 @@ import {
   type JsonFetcher,
   loadBestiary,
 } from './data/text/index';
-import { DYNAMIC_ITEM_OFFSET, getItemDef, ITEMS } from './sim/items';
-import { ALL_RUNES, getRuneById, getRuneByName, RUNEWORDS } from './sim/runes';
-import { ALL_SETS, findSetByItemName, isSetItem } from './sim/sets';
+import { UNIQUE_ARTIFACTS } from './sim/affixes';
+import { CLS_MAGE, DYNAMIC_ITEM_OFFSET, getItemDef, ITEMS, Slot, SLOT_NAMES, type ItemDef } from './sim/items';
+import { ALL_RUNES, getRuneById, getRuneByName, RUNEWORDS, type RunewordDef } from './sim/runes';
+import { ALL_SETS, ALL_SET_ITEMS, COMBINED_SETS, findSetByItemName, isSetItem } from './sim/sets';
 import type { Sim } from './sim/sim';
 import { getSuperUniqueById, SUPER_UNIQUES } from './sim/super-uniques';
 
@@ -119,6 +120,84 @@ function slug(s: string): string {
     .replace(/^-|-$/g, '');
 }
 
+function slugNoApos(s: string): string {
+  return s
+    .toLowerCase()
+    .replace(/['\u2019]/g, '')
+    .replace(/[^a-z0-9]+/g, '-')
+    .replace(/^-|-$/g, '');
+}
+
+const BESPOKE_UNIQUE_ICONS = new Set([
+  'uniq-tollkeeper-bill',
+  'uniq-mordred-tallow-wand',
+  'uniq-ravenwatch-gate-door',
+  'uniq-greywood-poacher-bow',
+  'uniq-krag-jawbone',
+  'uniq-undervault-lantern-helm',
+  'uniq-morvessa-spindle',
+  'uniq-quarry-overseer-maul',
+  'uniq-wardstone-shard-focus',
+  'uniq-bram-axle-shield',
+  'uniq-sera-bone-saw',
+  'uniq-sunken-castellan-plate',
+  'uniq-lyra-last-arbalest',
+  'uniq-stormtree-amber-staff',
+  'uniq-drowned-choir-bell',
+  'uniq-vesperion-organ-pipe',
+  'uniq-anvilmaw-slag-maul',
+  'uniq-redglass-fletched-bow',
+  'uniq-hollow-monarch-blade',
+  'uniq-ashkarath-crown-shard',
+]);
+
+function iconForItemDef(def: ItemDef): string {
+  const lower = def.name.toLowerCase();
+  switch (def.slot) {
+    case Slot.Weapon:
+      if (def.cls === CLS_MAGE) {
+        return lower.includes('wand') ? 'itemicons/willow-wand.png' : 'itemicons/ash-staff.png';
+      }
+      if (lower.includes('bow') || lower.includes('bough') || lower.includes('arbalest')) {
+        return 'itemicons/ash-shortbow.png';
+      }
+      if (lower.includes('axe') || lower.includes('cleaver')) {
+        return 'itemicons/bearded-battleaxe.png';
+      }
+      if (lower.includes('hammer') || lower.includes('maul') || lower.includes('cudgel')) {
+        return 'itemicons/steel-warhammer.png';
+      }
+      return 'itemicons/steel-sword.png';
+    case Slot.Shield:
+      return def.cls === CLS_MAGE ? 'itemicons/novice-glass-focus.png' : 'itemicons/tower-shield.png';
+    case Slot.Helm:
+      if (lower.includes('crown') || lower.includes('diadem') || lower.includes('circlet')) {
+        return 'itemicons/archmage-diadem.png';
+      }
+      if (lower.includes('cowl') || lower.includes('hood')) {
+        return 'itemicons/sage-cowl.png';
+      }
+      return def.cls === CLS_MAGE ? 'itemicons/scholar-hat.png' : 'itemicons/iron-helm.png';
+    case Slot.Armor:
+      return def.cls === CLS_MAGE ? 'itemicons/mage-robe.png' : 'itemicons/chain-mail.png';
+    case Slot.Boots:
+      return 'itemicons/leather-boots.png';
+    case Slot.Ring:
+      return 'itemicons/ring-of-might.png';
+    case Slot.Amulet:
+      return 'itemicons/ward-charm.png';
+    case Slot.Gloves:
+      return def.cls === CLS_MAGE ? 'itemicons/silk-gloves.png' : 'itemicons/leather-gloves.png';
+    default:
+      return 'itemicons/ward-charm.png';
+  }
+}
+
+const BUILTIN_SPECIAL_ITEM_NAMES = new Set<string>([
+  ...UNIQUE_ARTIFACTS.map((u) => u.name),
+  ...ALL_SET_ITEMS.map((s) => s.name),
+]);
+
 function getStorage(): Storage | null {
   try {
     return typeof localStorage !== 'undefined' ? localStorage : null;
@@ -199,10 +278,25 @@ export function saveGrailEntries(entries: Map<string, GrailEntry>): void {
   }
 }
 
+function resolveCanonicalGrailKey(key: string): string {
+  if (memoryGrail.has(key)) return key;
+  if (key.startsWith('rune:')) {
+    const sub = key.slice(5);
+    const r = ALL_RUNES.find((x) => slug(x.name) === sub || slug(x.d2Name) === sub);
+    if (r) return `rune:${slug(r.d2Name)}`;
+  }
+  if (key.startsWith('runeword:')) {
+    const sub = key.slice(9);
+    const rw = RUNEWORDS.find((x) => slug(x.name) === sub || slug(x.d2Name) === sub || x.id === sub);
+    if (rw) return `runeword:${slug(rw.d2Name)}`;
+  }
+  return key;
+}
+
 /** Get a single Grail record by unique canonical key. */
 export function getGrailEntry(key: string): GrailEntry | undefined {
   loadGrailEntries();
-  return memoryGrail.get(key);
+  return memoryGrail.get(resolveCanonicalGrailKey(key));
 }
 
 /** Return an array of all discovered Grail entries. */
@@ -297,20 +391,51 @@ interface RawUnique {
   quirk?: string;
   lore?: string;
   inspect?: string;
+  slot?: number;
+  icon?: string;
 }
 
 const RAW_UNIQUES: readonly RawUnique[] = [...(uniques1 as any[]), ...(uniques2 as any[]), ...(uniques3 as any[])];
 
+const BUILTIN_UNIQUE_CATALOG: readonly RawUnique[] = UNIQUE_ARTIFACTS.map((art) => ({
+  id: slug(art.name),
+  name: art.name,
+  base: SLOT_NAMES[art.slot] ?? 'Relic',
+  act: art.tier,
+  tier: art.tier,
+  cls: art.cls === 1 ? 'warrior' : art.cls === 2 ? 'mage' : 'any',
+  lore: art.lore,
+  slot: art.slot,
+  icon: iconForItemDef(art),
+}));
+
+const ALL_CATALOG_UNIQUES: readonly RawUnique[] = [...RAW_UNIQUES, ...BUILTIN_UNIQUE_CATALOG];
+
 function findUniqueInCatalog(uniqueId?: string, name?: string): RawUnique | undefined {
   if (uniqueId) {
-    const byId = RAW_UNIQUES.find((u) => u.id === uniqueId);
+    const uLow = uniqueId.toLowerCase();
+    const uSlug = slug(uniqueId);
+    const byId = ALL_CATALOG_UNIQUES.find((u) => u.id === uniqueId || u.id === uSlug || u.name.toLowerCase() === uLow);
     if (byId) return byId;
   }
   if (name) {
     const nLow = name.toLowerCase();
-    return RAW_UNIQUES.find((u) => u.name.toLowerCase() === nLow);
+    const nSlug = slug(name);
+    return ALL_CATALOG_UNIQUES.find((u) => u.name.toLowerCase() === nLow || u.id === nSlug);
   }
   return undefined;
+}
+
+function findRunewordInCatalog(name?: string): RunewordDef | undefined {
+  if (!name) return undefined;
+  const nLow = name.trim().toLowerCase();
+  return RUNEWORDS.find(
+    (rw) =>
+      rw.name.toLowerCase() === nLow ||
+      rw.d2Name.toLowerCase() === nLow ||
+      rw.id.toLowerCase() === nLow ||
+      nLow.startsWith(`${rw.name.toLowerCase()} (`),
+  );
 }
 
 interface CatalogSetPiece {
@@ -321,13 +446,23 @@ interface CatalogSetPiece {
   act: number;
   tier: number;
   cls: string;
+  icon: string;
+}
+
+const JSON_SET_PIECE_BASE = new Map<string, string>();
+for (const s of [...(sets1 as any[]), ...(sets2 as any[])]) {
+  for (const p of s.pieces ?? []) {
+    if (p?.name && p?.base) {
+      JSON_SET_PIECE_BASE.set(String(p.name).toLowerCase(), String(p.base));
+    }
+  }
 }
 
 const ALL_GRAIL_SET_PIECES: readonly CatalogSetPiece[] = (() => {
   const pieces: CatalogSetPiece[] = [];
-  // 8 sim sets
-  for (const set of ALL_SETS) {
+  for (const set of COMBINED_SETS) {
     for (const p of set.pieces) {
+      const jsonBase = JSON_SET_PIECE_BASE.get(p.name.toLowerCase());
       pieces.push({
         key: `set:${slug(set.id)}:${slug(p.name)}`,
         name: p.name,
@@ -336,22 +471,7 @@ const ALL_GRAIL_SET_PIECES: readonly CatalogSetPiece[] = (() => {
         act: p.tier ?? 1,
         tier: p.tier ?? 1,
         cls: p.cls === 1 ? 'warrior' : p.cls === 2 ? 'mage' : 'both',
-      });
-    }
-  }
-  // 20 JSON sets
-  const jsonSets = [...(sets1 as any[]), ...(sets2 as any[])];
-  for (const s of jsonSets) {
-    const sId = s.id ?? slug(s.name);
-    for (const p of s.pieces ?? []) {
-      pieces.push({
-        key: `set:${slug(sId)}:${slug(p.name)}`,
-        name: p.name,
-        setId: sId,
-        setName: s.name,
-        act: s.tier ?? 1,
-        tier: s.tier ?? 1,
-        cls: s.class ?? 'any',
+        icon: jsonBase ? `itemicons/${slugNoApos(jsonBase)}.png` : iconForItemDef(p),
       });
     }
   }
@@ -378,9 +498,14 @@ export function getGrailCatalog(): readonly GrailCatalogItem[] {
 
   const catalog: GrailCatalogItem[] = [];
 
-  // Tome I: Uniques (132)
-  for (const u of RAW_UNIQUES) {
+  // Tome I: Uniques (132 JSON + 48 built-in = 180)
+  for (const u of ALL_CATALOG_UNIQUES) {
     const act = u.act ?? u.tier ?? 1;
+    const icon = u.icon
+      ? u.icon
+      : BESPOKE_UNIQUE_ICONS.has(u.id)
+        ? `itemicons/${u.id}.png`
+        : `itemicons/${slugNoApos(u.base)}.png`;
     catalog.push({
       key: `unique:${u.id}`,
       tome: 'uniques',
@@ -388,12 +513,13 @@ export function getGrailCatalog(): readonly GrailCatalogItem[] {
       baseName: u.base,
       act,
       tier: act,
+      ...(u.slot !== undefined ? { slot: u.slot } : {}),
       cls: u.cls ?? u.class ?? 'any',
       dropFrom: u.drop_from,
       clue: u.drop_from
         ? `Target Farm: Dropped by ${u.drop_from.replace(/-/g, ' ')} in Act ${act}.`
         : `Target Farm: Act ${act} expeditions, reliquary chests, and dungeon champions.`,
-      icon: `public/itemicons/${u.id}.png`,
+      icon,
     });
   }
 
@@ -409,7 +535,7 @@ export function getGrailCatalog(): readonly GrailCatalogItem[] {
       tier: p.tier,
       cls: p.cls,
       clue: `Target Farm: Part of ${p.setName}. Dropped by Act ${p.act} elites, shrines, and high-tier chests.`,
-      icon: `public/itemicons/${slug(p.name)}.png`,
+      icon: p.icon,
     });
   }
 
@@ -417,9 +543,9 @@ export function getGrailCatalog(): readonly GrailCatalogItem[] {
   for (const r of ALL_RUNES) {
     const tier = r.id <= 10 ? 1 : r.id <= 20 ? 2 : r.id <= 28 ? 3 : 4;
     catalog.push({
-      key: `rune:${slug(r.name)}`,
+      key: `rune:${slug(r.d2Name)}`,
       tome: 'runewords',
-      name: `${r.name} Rune`,
+      name: `${r.name} (${r.d2Name})`,
       tier,
       act: tier,
       clue:
@@ -428,21 +554,21 @@ export function getGrailCatalog(): readonly GrailCatalogItem[] {
           : r.id <= 20
             ? 'Mid rune found in Act 2 & 3 dungeons, boss chests, or Cube transmutation.'
             : 'High rune: Extremely rare Act 4 Hell drop / Horadric Cube upgrade.',
-      icon: `public/wiki/icons/rune-${slug(r.d2Name)}.png`,
+      icon: 'itemicons/ward-charm.png',
     });
   }
 
   for (const rw of RUNEWORDS) {
     const runeNames = rw.runeIds.map((id) => ALL_RUNES.find((r) => r.id === id)?.d2Name ?? `Rune #${id}`);
     catalog.push({
-      key: `runeword:${slug(rw.name)}`,
+      key: `runeword:${slug(rw.d2Name)}`,
       tome: 'runewords',
       name: rw.name,
       runes: runeNames,
       tier: rw.clvl <= 25 ? 1 : rw.clvl <= 45 ? 2 : rw.clvl <= 60 ? 3 : 4,
       act: rw.clvl <= 25 ? 1 : rw.clvl <= 45 ? 2 : rw.clvl <= 60 ? 3 : 4,
       clue: `Horadric Runeword: Socket ${runeNames.join(' + ')} into an open-socketed base item.`,
-      icon: 'public/wiki/icons/runeword-seal.png',
+      icon: `wiki/icons/rw-${rw.id}.png`,
     });
   }
 
@@ -454,7 +580,7 @@ export function getGrailCatalog(): readonly GrailCatalogItem[] {
       name: `${b.name} Trophy Seal`,
       act: b.act,
       clue: `Target Farm: Slay ${b.name} in Act ${b.act} (${b.loc}) on any difficulty.`,
-      icon: `public/wiki/icons/trophy-${b.id}.png`,
+      icon: 'wiki/icons/achievement-combat-gold.png',
     });
   }
 
@@ -465,12 +591,15 @@ export function getGrailCatalog(): readonly GrailCatalogItem[] {
       name: `${su.name} Trophy Seal`,
       act: su.act,
       clue: `Target Farm: Slay Super-Unique ${su.name} in Act ${su.act} territory.`,
-      icon: `public/wiki/icons/trophy-${su.id}.png`,
+      icon: 'wiki/icons/achievement-combat-silver.png',
     });
   }
 
-  // Tome V: Imperial Armory (187 Base Items)
+  // Tome V: Imperial Armory (ITEMS)
   ITEMS.forEach((it, idx) => {
+    const icon = BUILTIN_SPECIAL_ITEM_NAMES.has(it.name)
+      ? iconForItemDef(it)
+      : `itemicons/${slugNoApos(it.name)}.png`;
     catalog.push({
       key: `armory:${idx}`,
       tome: 'armory',
@@ -480,7 +609,7 @@ export function getGrailCatalog(): readonly GrailCatalogItem[] {
       act: it.tier,
       slot: it.slot,
       clue: `Target Farm: Standard military base equipment from Act ${it.tier} vendors, weapon racks, and crates.`,
-      icon: `public/itemicons/${slug(it.name)}.png`,
+      icon,
     });
   });
 
@@ -631,8 +760,9 @@ function recordGrailDiscoveryFromItem(
   def: any,
   meta?: Partial<GrailDiscoveryMeta>,
 ): DiscoveryResult | null {
-  const name = inst?.name ?? def?.name;
-  if (!name) {
+  const rawName: string =
+    inst?.def?.trueName ?? def?.trueName ?? def?.name ?? inst?.def?.name ?? inst?.name ?? '';
+  if (!rawName) {
     if (itemId >= 0 && itemId < ITEMS.length) {
       return recordGrailDiscovery(`armory:${itemId}`, 'armory', ITEMS[itemId].name, {
         baseId: itemId,
@@ -647,11 +777,45 @@ function recordGrailDiscoveryFromItem(
     return null;
   }
 
-  // 1. Check if Unique
-  const uniqueMatch = findUniqueInCatalog(inst?.uniqueId, name);
-  if (uniqueMatch || inst?.quality === 'unique' || def?.quality === 'unique') {
-    const uId = uniqueMatch ? uniqueMatch.id : slug(name);
-    const uName = uniqueMatch?.name ?? name;
+  // 1. Check if Runeword (must come before Unique because applyRunewordToItem sets rarity: 'unique')
+  const runewordMatch = findRunewordInCatalog(rawName);
+  if (runewordMatch || inst?.runeword) {
+    const rwKey = runewordMatch ? slug(runewordMatch.d2Name) : slug(rawName);
+    const rwName = runewordMatch?.name ?? rawName;
+    return recordGrailDiscovery(`runeword:${rwKey}`, 'runewords', rwName, {
+      baseId: inst?.baseId,
+      itemId,
+      tier: runewordMatch ? (runewordMatch.clvl <= 25 ? 1 : runewordMatch.clvl <= 45 ? 2 : runewordMatch.clvl <= 60 ? 3 : 4) : 1,
+      slot: def?.slot,
+      inst,
+      def,
+      meta,
+    });
+  }
+
+  // 2. Check if Set item (check before Unique so set pieces are never misclassified)
+  const setPieceMatch = findSetPieceInCatalog(rawName);
+  if (setPieceMatch || inst?.quality === 'set' || def?.rarity === 'set') {
+    if (setPieceMatch) {
+      return recordGrailDiscovery(setPieceMatch.key, 'sets', setPieceMatch.name, {
+        setId: setPieceMatch.setId,
+        setName: setPieceMatch.setName,
+        baseId: inst?.baseId,
+        itemId,
+        tier: setPieceMatch.tier,
+        slot: def?.slot,
+        inst,
+        def,
+        meta,
+      });
+    }
+  }
+
+  // 3. Check if Unique
+  const uniqueMatch = findUniqueInCatalog(inst?.uniqueId, rawName);
+  if (uniqueMatch || inst?.quality === 'unique' || def?.quality === 'unique' || def?.rarity === 'unique') {
+    const uId = uniqueMatch ? uniqueMatch.id : slug(rawName);
+    const uName = uniqueMatch?.name ?? rawName;
     return recordGrailDiscovery(`unique:${uId}`, 'uniques', uName, {
       baseName: uniqueMatch?.base ?? def?.name,
       baseId: inst?.baseId,
@@ -664,44 +828,15 @@ function recordGrailDiscoveryFromItem(
     });
   }
 
-  // 2. Check if Set item
-  const setPieceMatch = findSetPieceInCatalog(name);
-  if (setPieceMatch) {
-    return recordGrailDiscovery(setPieceMatch.key, 'sets', setPieceMatch.name, {
-      setId: setPieceMatch.setId,
-      setName: setPieceMatch.setName,
-      baseId: inst?.baseId,
-      itemId,
-      tier: setPieceMatch.tier,
-      slot: def?.slot,
-      inst,
-      def,
-      meta,
-    });
-  }
-
-  // 3. Check if Runeword
-  const runewordMatch = RUNEWORDS.find((rw) => rw.name.toLowerCase() === name.toLowerCase());
-  if (runewordMatch || inst?.runeword) {
-    const rwName = runewordMatch?.name ?? name;
-    return recordGrailDiscovery(`runeword:${slug(rwName)}`, 'runewords', rwName, {
-      baseId: inst?.baseId,
-      itemId,
-      slot: def?.slot,
-      inst,
-      def,
-      meta,
-    });
-  }
-
   // 4. Check if Rune
   const runeMatch = ALL_RUNES.find(
-    (r) => r.name.toLowerCase() === name.toLowerCase() || r.d2Name.toLowerCase() === name.toLowerCase(),
+    (r) => r.name.toLowerCase() === rawName.toLowerCase() || r.d2Name.toLowerCase() === rawName.toLowerCase(),
   );
   if (runeMatch) {
-    return recordGrailDiscovery(`rune:${slug(runeMatch.name)}`, 'runewords', `${runeMatch.name} Rune`, {
+    return recordGrailDiscovery(`rune:${slug(runeMatch.d2Name)}`, 'runewords', `${runeMatch.name} (${runeMatch.d2Name})`, {
       baseId: inst?.baseId,
       itemId,
+      tier: runeMatch.id <= 10 ? 1 : runeMatch.id <= 20 ? 2 : runeMatch.id <= 28 ? 3 : 4,
       inst,
       def,
       meta,
@@ -738,7 +873,7 @@ export function discoverItem(itemId: number, sim?: Sim, meta?: Partial<GrailDisc
 
   if (itemId >= DYNAMIC_ITEM_OFFSET) {
     inst = sim ? sim.instances.get(itemId) : undefined;
-    def = getItemDef(itemId);
+    def = inst?.def ?? getItemDef(itemId);
     if (inst) {
       targetBaseId = inst.baseId;
     } else if (def) {
@@ -787,7 +922,7 @@ export function discoverGrailItem(
 ): DiscoveryResult | null {
   if (typeof itemId !== 'number' || itemId < 0) return null;
   const inst = sim ? sim.instances.get(itemId) : undefined;
-  const def = getItemDef(itemId);
+  const def = inst?.def ?? getItemDef(itemId);
   // Also discover in legacy
   discoverItem(itemId, sim, meta);
   return recordGrailDiscoveryFromItem(itemId, inst, def, meta);
@@ -831,11 +966,11 @@ export function discoverSetPiece(
 
 /** Explicitly discover a completed Runeword. */
 export function discoverRuneword(runewordName: string, meta?: Partial<GrailDiscoveryMeta>): DiscoveryResult {
-  const match = RUNEWORDS.find((rw) => rw.name.toLowerCase() === runewordName.toLowerCase());
+  const match = findRunewordInCatalog(runewordName);
   const name = match?.name ?? runewordName;
-  const key = `runeword:${slug(name)}`;
+  const key = `runeword:${slug(match?.d2Name ?? runewordName)}`;
   return recordGrailDiscovery(key, 'runewords', name, {
-    tier: match ? (match.clvl <= 25 ? 1 : match.clvl <= 45 ? 2 : 3) : 1,
+    tier: match ? (match.clvl <= 25 ? 1 : match.clvl <= 45 ? 2 : match.clvl <= 60 ? 3 : 4) : 1,
     meta,
   });
 }
@@ -846,7 +981,7 @@ export function discoverRune(runeNameOrId: string | number, meta?: Partial<Grail
   const name = r ? `${r.name} (${r.d2Name})` : String(runeNameOrId);
   const key = `rune:${slug(r?.d2Name ?? String(runeNameOrId))}`;
   return recordGrailDiscovery(key, 'runewords', name, {
-    tier: r ? (r.id <= 10 ? 1 : r.id <= 20 ? 2 : 3) : 1,
+    tier: r ? (r.id <= 10 ? 1 : r.id <= 20 ? 2 : r.id <= 28 ? 3 : 4) : 1,
     meta,
   });
 }
@@ -875,25 +1010,36 @@ export function discoverBossTrophy(
 export function isGrailDiscovered(keyOrItemId: string | number, sim?: Sim): boolean {
   loadGrailEntries();
   if (typeof keyOrItemId === 'string') {
-    return memoryGrail.has(keyOrItemId);
+    return memoryGrail.has(resolveCanonicalGrailKey(keyOrItemId));
   }
 
   // Number: check if it's dynamic
   if (keyOrItemId >= DYNAMIC_ITEM_OFFSET) {
     const inst = sim ? sim.instances.get(keyOrItemId) : undefined;
-    const def = getItemDef(keyOrItemId);
-    const name = inst?.name ?? def?.name;
+    const def = inst?.def ?? getItemDef(keyOrItemId);
+    const name: string | undefined =
+      inst?.def?.trueName ?? def?.trueName ?? def?.name ?? inst?.def?.name ?? inst?.name;
     if (name) {
-      const u = findUniqueInCatalog(undefined, name);
-      if (u && memoryGrail.has(`unique:${u.id}`)) return true;
+      const rw = findRunewordInCatalog(name);
+      if (rw && memoryGrail.has(`runeword:${slug(rw.d2Name)}`)) return true;
       const sp = findSetPieceInCatalog(name);
       if (sp && memoryGrail.has(sp.key)) return true;
-      const rw = RUNEWORDS.find((r) => r.name.toLowerCase() === name.toLowerCase());
-      if (rw && memoryGrail.has(`runeword:${slug(rw.name)}`)) return true;
+      const u = findUniqueInCatalog(undefined, name);
+      if (u && memoryGrail.has(`unique:${u.id}`)) return true;
+      if (memoryGrail.has(`unique:${slug(name)}`)) return true;
     }
     const baseId = inst?.baseId ?? -1;
     if (baseId >= 0 && (memoryGrail.has(`armory:${baseId}`) || memoryDiscovered.has(baseId))) return true;
     return false;
+  }
+
+  // Special item (e.g. Rune from SPECIAL_ITEMS at 500+)
+  const specDef = getItemDef(keyOrItemId);
+  if (specDef) {
+    const runeMatch = ALL_RUNES.find(
+      (r) => r.name.toLowerCase() === specDef.name.toLowerCase() || r.d2Name.toLowerCase() === specDef.name.toLowerCase(),
+    );
+    if (runeMatch && memoryGrail.has(`rune:${slug(runeMatch.d2Name)}`)) return true;
   }
 
   // Static item id

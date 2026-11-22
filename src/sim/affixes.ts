@@ -1,4 +1,8 @@
-import { Ik, type ItemDef, Slot } from './item-types';
+import itemsData from '../../public/data/items.json';
+import uniques1 from '../../public/data/content/uniques.json';
+import uniques2 from '../../public/data/content/uniques-2.json';
+import uniques3 from '../../public/data/content/uniques-3.json';
+import { ATTR_NAMES, CLS_BOTH, CLS_MAGE, CLS_WARRIOR, Ik, type ItemDef, PART_NAMES, Slot, SLOT_NAMES } from './item-types';
 
 /**
  * Procedural Magic Affixes inspired by classic ARPG (MagicPrefix.txt, MagicSuffix.txt) & RoM2.
@@ -566,3 +570,221 @@ export const UNIQUE_ARTIFACTS: readonly ItemDef[] = [
     res: [18,18,18,18,18], attr: [1,1,1,1],
   },
 ];
+
+interface RawJsonItemEntry {
+  readonly name: string;
+  readonly kind?: string;
+  readonly slot?: string;
+  readonly cls?: string;
+  readonly tier?: number;
+  readonly w?: number;
+  readonly need?: string;
+  readonly needv?: number;
+  readonly min?: number;
+  readonly max?: number;
+  readonly acc?: number;
+  readonly cover?: readonly string[];
+  readonly def?: number;
+  readonly abs?: number;
+  readonly res?: readonly number[];
+  readonly attr?: readonly number[];
+  readonly hp?: number;
+  readonly mana?: number;
+  readonly pow?: number;
+  readonly sockets?: number;
+}
+
+interface RawJsonUniqueEntry {
+  readonly id: string;
+  readonly name: string;
+  readonly base: string;
+  readonly act?: number;
+  readonly tier?: number;
+  readonly cls?: string;
+  readonly class?: string;
+  readonly mods?: readonly { readonly stat: string; readonly value: number }[];
+  readonly lore?: string;
+}
+
+const SLOTS_LOWER = SLOT_NAMES.map((s) => s.toLowerCase());
+const ATTRS_LOWER = ATTR_NAMES.map((s) => s.toLowerCase());
+const BASE_ITEMS_BY_NAME = new Map<string, RawJsonItemEntry>(
+  ((itemsData as { items: RawJsonItemEntry[] }).items ?? []).map((it) => [it.name.toLowerCase(), it]),
+);
+
+function mapClsMask(cls?: string): number {
+  const c = (cls ?? 'both').toLowerCase();
+  if (c === 'warrior') return CLS_WARRIOR;
+  if (c === 'mage' || c === 'necromancer') return CLS_MAGE;
+  return CLS_BOTH;
+}
+
+/** Build an ItemDef from a base item entry in `public/data/items.json`. */
+export function buildBaseItemDefFromJson(baseName: string): ItemDef | undefined {
+  const raw = BASE_ITEMS_BY_NAME.get(baseName.toLowerCase());
+  if (!raw) return undefined;
+  const slotIdx = SLOTS_LOWER.indexOf(String(raw.slot ?? 'weapon').toLowerCase());
+  let coverMask = 0;
+  if (Array.isArray(raw.cover)) {
+    for (const part of raw.cover) {
+      const idx = PART_NAMES.indexOf(String(part) as (typeof PART_NAMES)[number]);
+      if (idx >= 0) coverMask |= 1 << idx;
+    }
+  }
+  const needIdx = ATTRS_LOWER.indexOf(String(raw.need ?? 'body').toLowerCase());
+  return {
+    name: raw.name,
+    kind: Ik.Gear,
+    slot: slotIdx >= 0 ? slotIdx : Slot.Weapon,
+    tier: Math.max(1, Math.min(5, raw.tier ?? 1)),
+    w: raw.w ?? 1,
+    cls: mapClsMask(raw.cls),
+    need: needIdx >= 0 ? needIdx : 0,
+    needv: raw.needv ?? 0,
+    min: raw.min ?? 0,
+    max: raw.max ?? 0,
+    acc: raw.acc ?? 0,
+    cover: coverMask,
+    def: raw.def ?? 0,
+    abs: raw.abs ?? 0,
+    res: [
+      raw.res?.[0] ?? 0,
+      raw.res?.[1] ?? 0,
+      raw.res?.[2] ?? 0,
+      raw.res?.[3] ?? 0,
+      raw.res?.[4] ?? 0,
+    ],
+    attr: [
+      raw.attr?.[0] ?? 0,
+      raw.attr?.[1] ?? 0,
+      raw.attr?.[2] ?? 0,
+      raw.attr?.[3] ?? 0,
+    ],
+    hp: raw.hp ?? 0,
+    mana: raw.mana ?? 0,
+    pow: raw.pow ?? 0,
+    heal: 0,
+    restore: 0,
+    grow: 0,
+    spell: -1,
+    sockets: typeof raw.sockets === 'number' ? raw.sockets : undefined,
+  };
+}
+
+function buildUniqueFromJson(u: RawJsonUniqueEntry): ItemDef {
+  const base = buildBaseItemDefFromJson(u.base);
+  const tier = Math.max(1, Math.min(5, u.act ?? u.tier ?? base?.tier ?? 1));
+  const res: [number, number, number, number, number] = base ? [...base.res] : [0, 0, 0, 0, 0];
+  const attr: [number, number, number, number] = base ? [...base.attr] : [0, 0, 0, 0];
+  let min = base?.min ?? 0;
+  let max = base?.max ?? 0;
+  let acc = base?.acc ?? 0;
+  let def = base?.def ?? 0;
+  let abs = base?.abs ?? 0;
+  let hp = base?.hp ?? 0;
+  let mana = base?.mana ?? 0;
+  let pow = base?.pow ?? 0;
+  let lifesteal = 0;
+  let crit = 0;
+  let ias = 0;
+
+  for (const mod of u.mods ?? []) {
+    const v = mod.value ?? 0;
+    switch (mod.stat) {
+      case 'body':
+        attr[0] += v;
+        break;
+      case 'agility':
+        attr[1] += v;
+        break;
+      case 'mind':
+        attr[2] += v;
+        break;
+      case 'spirit':
+        attr[3] += v;
+        break;
+      case 'accuracy':
+        acc += v;
+        break;
+      case 'lifesteal':
+        lifesteal += v;
+        break;
+      case 'speed':
+        ias += v;
+        break;
+      case 'fire_res':
+        res[0] += v;
+        break;
+      case 'cold_res':
+        res[1] += v;
+        break;
+      case 'lightning_res':
+        res[2] += v;
+        break;
+      case 'poison_res':
+        res[3] += v;
+        break;
+      case 'astral_res':
+        res[4] += v;
+        break;
+      case 'hp':
+        hp += v;
+        break;
+      case 'mana':
+        mana += v;
+        break;
+      case 'armor':
+        def += Math.max(1, Math.round(v / 2));
+        abs += Math.max(1, Math.floor(v / 2));
+        break;
+      case 'crit':
+        crit += v;
+        break;
+      case 'mana_regen':
+        pow += v;
+        break;
+    }
+  }
+
+  return {
+    name: u.name,
+    kind: Ik.Gear,
+    slot: base?.slot ?? Slot.Weapon,
+    tier,
+    w: base?.w ?? 1,
+    cls: mapClsMask(u.cls ?? u.class),
+    need: base?.need ?? 0,
+    needv: base?.needv ?? Math.max(0, tier * 3),
+    min,
+    max,
+    acc,
+    cover: base?.cover ?? 0,
+    def,
+    abs,
+    res,
+    attr,
+    hp,
+    mana,
+    pow,
+    heal: 0,
+    restore: 0,
+    grow: 0,
+    spell: -1,
+    sockets: base?.sockets ?? (tier >= 3 && (base?.slot === Slot.Weapon || base?.slot === Slot.Armor || base?.slot === Slot.Shield) ? 1 : undefined),
+    ...(lifesteal > 0 ? { lifesteal } : {}),
+    ...(crit > 0 ? { crit } : {}),
+    ...(ias > 0 ? { ias } : {}),
+    rarity: 'unique',
+    ...(u.lore ? { lore: u.lore } : {}),
+  };
+}
+
+/** 132 JSON Uniques from `public/data/content/uniques*.json` converted to ItemDefs. */
+export const JSON_UNIQUE_ARTIFACTS: readonly ItemDef[] = [
+  ...(uniques1 as readonly RawJsonUniqueEntry[]),
+  ...(uniques2 as readonly RawJsonUniqueEntry[]),
+  ...(uniques3 as readonly RawJsonUniqueEntry[]),
+].map(buildUniqueFromJson);
+
+/** Unified pool of all 180 Unique items (48 built-in + 132 JSON uniques). */
+export const ALL_UNIQUE_ARTIFACTS: readonly ItemDef[] = [...UNIQUE_ARTIFACTS, ...JSON_UNIQUE_ARTIFACTS];

@@ -3541,8 +3541,8 @@ function advanceStep(): void {
   simSteps++;
   renderer.observe(sim); // presentation timing is deliberately outside the sim budget
   if (sim.hero && sim.tick % 25 === 0) {
-    for (const stack of sim.hero.inv) discoverItem(stack.item);
-    for (const id of sim.hero.eq) if (id >= 0) discoverItem(id);
+    for (const stack of sim.hero.inv) discoverItem(stack.item, sim);
+    for (const id of sim.hero.eq) if (id >= 0) discoverItem(id, sim);
 
     if (alive(sim.hero.id) && !outcome) {
       if (preferences.autoCastMode === 'smart') {
@@ -3893,8 +3893,8 @@ function startHero(): void {
     }
     renderer.resetAnimation(sim);
     if (sim.hero) {
-      for (const stack of sim.hero.inv) discoverItem(stack.item);
-      for (const id of sim.hero.eq) if (id >= 0) discoverItem(id);
+      for (const stack of sim.hero.inv) discoverItem(stack.item, sim);
+      for (const id of sim.hero.eq) if (id >= 0) discoverItem(id, sim);
     }
     if (!savedSlots) {
       const heal = ITEM_BASE + itemId('Healing Draught');

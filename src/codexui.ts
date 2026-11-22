@@ -599,7 +599,9 @@ export class CodexUi {
       } else {
         const img = document.createElement('img');
         img.className = isDisc ? 'grail-icon-img' : 'grail-icon-img grail-silhouette';
-        img.src = item.icon ?? '';
+        const base = typeof import.meta !== 'undefined' && import.meta.env?.BASE_URL ? import.meta.env.BASE_URL : './';
+        const iconPath = item.icon ?? '';
+        img.src = iconPath && !iconPath.startsWith('http') && !iconPath.startsWith('/') ? `${base}${iconPath}` : iconPath;
         img.alt = item.name;
         img.onerror = () => {
           img.style.display = 'none';

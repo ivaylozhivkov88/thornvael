@@ -2,9 +2,10 @@ import { STAMINA_DRAIN, STAMINA_REGEN_IDLE, STAMINA_REGEN_WALK, calculateMaxroll
 import { DEFS, Elem, M, MODN, Ord, MAXS, strike } from './combat';
 import { rulesOf } from './difficulty';
 import { getDifficultyCalibration } from './balance';
-import { ATTR_NAMES, CLS_MAGE, CLS_WARRIOR, Cls, ITEMS, Ik, LOOT_RULES, PART_COUNT, SIGIL_NAMES, SLOT_COUNT, Slot, WRIT_NAME, getItemDef, getUnidentifiedName, itemId, rollLoot, type ItemDef } from './items';
-import { calculateActiveSetBonuses, ALL_SET_ITEMS } from './sets';
-import { UNIQUE_ARTIFACTS, rollMagicItem, rollRareItem } from './affixes';
+import { ATTR_NAMES, BUILTIN_GEMS, CLS_MAGE, CLS_WARRIOR, Cls, ITEMS, Ik, LOOT_RULES, PART_COUNT, SIGIL_NAMES, SLOT_COUNT, Slot, WRIT_NAME, getItemDef, getUnidentifiedName, itemId, rollLoot, type ItemDef } from './items';
+import { calculateActiveSetBonuses, ALL_SET_ITEMS, COMBINED_SET_ITEMS } from './sets';
+import { ALL_UNIQUE_ARTIFACTS, UNIQUE_ARTIFACTS, rollMagicItem, rollRareItem } from './affixes';
+import { ALL_RUNES } from './runes';
 import { KNOWN_HI, MAX_SPELLS, SPELLS, St, maskHas } from './spelldata';
 import { addStatus, clearAllStatuses } from './spells';
 import { FP } from './path';
@@ -1101,9 +1102,13 @@ export function evaluateQualityHierarchy(
   );
   const chanceUnique = calculateQualityChance(divUnique, effMFUnique);
   if (rollQualitySuccess(chanceUnique, rnd)) {
-    // Pick from UNIQUE_ARTIFACTS matching slot/tier if available
-    const exactMatches = UNIQUE_ARTIFACTS.filter((a) => a.slot === baseItem.slot && a.tier === baseItem.tier);
-    const slotMatches = exactMatches.length > 0 ? exactMatches : UNIQUE_ARTIFACTS.filter((a) => a.slot === baseItem.slot);
+    // Pick from unified ALL_UNIQUE_ARTIFACTS matching slot/tier if available
+    const exactMatches = ALL_UNIQUE_ARTIFACTS.filter((a) => a.slot === baseItem.slot && a.tier === baseItem.tier);
+    let slotMatches = exactMatches.length > 0 ? exactMatches : ALL_UNIQUE_ARTIFACTS.filter((a) => a.slot === baseItem.slot);
+    if (exactMatches.length > 0 && !exactMatches.some((a) => UNIQUE_ARTIFACTS.includes(a))) {
+      const fallbackBuiltin = UNIQUE_ARTIFACTS.find((a) => a.slot === baseItem.slot);
+      if (fallbackBuiltin) slotMatches = [fallbackBuiltin, ...exactMatches];
+    }
     if (slotMatches.length > 0) {
       const match = slotMatches[rnd(slotMatches.length)];
       const regId = itemId(match.name);
@@ -1128,9 +1133,13 @@ export function evaluateQualityHierarchy(
   );
   const chanceSet = calculateQualityChance(divSet, effMFSet);
   if (rollQualitySuccess(chanceSet, rnd)) {
-    // Pick from ALL_SET_ITEMS matching slot/tier if available
-    const exactMatches = ALL_SET_ITEMS.filter((s) => s.slot === baseItem.slot && s.tier === baseItem.tier);
-    const slotMatches = exactMatches.length > 0 ? exactMatches : ALL_SET_ITEMS.filter((s) => s.slot === baseItem.slot);
+    // Pick from unified COMBINED_SET_ITEMS matching slot/tier if available
+    const exactMatches = COMBINED_SET_ITEMS.filter((s) => s.slot === baseItem.slot && s.tier === baseItem.tier);
+    let slotMatches = exactMatches.length > 0 ? exactMatches : COMBINED_SET_ITEMS.filter((s) => s.slot === baseItem.slot);
+    if (exactMatches.length > 0 && !exactMatches.some((s) => ALL_SET_ITEMS.includes(s))) {
+      const fallbackBuiltin = ALL_SET_ITEMS.find((s) => s.slot === baseItem.slot);
+      if (fallbackBuiltin) slotMatches = [fallbackBuiltin, ...exactMatches];
+    }
     if (slotMatches.length > 0) {
       const match = slotMatches[rnd(slotMatches.length)];
       const regId = itemId(match.name);
@@ -1256,11 +1265,31 @@ export function dropLoot(sim: Sim, t: number): void {
     let drop = evaluateQualityHierarchy(baseItemId, monsterTier, rank, mf, (n) => sim.rng.int(n), diff);
 
     if (isActBoss && pick === 0 && drop.quality !== 'unique' && drop.quality !== 'set') {
-      const highTierUniques = UNIQUE_ARTIFACTS.filter((a) => a.tier >= 4);
+      const highTierUniques = ALL_UNIQUE_ARTIFACTS.filter((a) => a.tier >= 4);
       if (highTierUniques.length > 0) {
         const u = highTierUniques[sim.rng.int(highTierUniques.length)];
         const regId = itemId(u.name);
         drop = { quality: 'unique', itemId: regId >= 0 ? regId : baseItemId, itemDef: u };
+      }
+    }
+
+    // Secondary relic roll on boss/champion kills when a pick lands on Normal: allow Runes & Gems from SPECIAL_ITEMS
+    if ((rank === 'boss' || rank === 'champion') && drop.quality === 'normal') {
+      const relicRoll = sim.rng.int(100);
+      if (relicRoll < 35) {
+        const eligibleRunes = ALL_RUNES.filter((r) => Math.min(5, Math.ceil(r.id / 7)) <= hi);
+        if (eligibleRunes.length > 0) {
+          const r = eligibleRunes[sim.rng.int(eligibleRunes.length)];
+          const rid = itemId(r.name);
+          if (rid >= 0) drop = { quality: 'normal', itemId: rid, itemDef: getItemDef(rid) };
+        }
+      } else if (relicRoll < 65) {
+        const eligibleGems = BUILTIN_GEMS.filter((g) => g.tier <= hi);
+        if (eligibleGems.length > 0) {
+          const g = eligibleGems[sim.rng.int(eligibleGems.length)];
+          const gid = itemId(g.name);
+          if (gid >= 0) drop = { quality: 'normal', itemId: gid, itemDef: getItemDef(gid) };
+        }
       }
     }
 

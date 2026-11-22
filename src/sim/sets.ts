@@ -1,3 +1,6 @@
+import sets1 from '../../public/data/content/item-sets.json';
+import sets2 from '../../public/data/content/item-sets-2.json';
+import { buildBaseItemDefFromJson } from './affixes';
 import { Ik, ItemDef, Slot, CLS_WARRIOR, CLS_MAGE, CLS_BOTH } from './item-types';
 
 /**
@@ -1144,17 +1147,127 @@ export const ALL_SETS: readonly ItemSetDef[] = [
   SET_ASTRAL_SOVEREIGN,
 ];
 
-/** All unique individual set piece items across all sets */
+/** All unique individual set piece items across the 8 core sets */
 export const ALL_SET_ITEMS: readonly ItemDef[] = ALL_SETS.flatMap((s) => s.pieces);
+
+interface RawJsonSetPiece {
+  readonly name: string;
+  readonly base: string;
+}
+
+interface RawJsonSetDef {
+  readonly id: string;
+  readonly name: string;
+  readonly class?: string;
+  readonly pieces: readonly RawJsonSetPiece[];
+  readonly bonuses?: Record<string, string>;
+  readonly lore?: string;
+}
+
+function parseJsonSetBonus(piecesCount: number, text: string): SetBonus {
+  const hpMatch = text.match(/\+(\d+)\s*Max\s*HP/i);
+  const manaMatch = text.match(/\+(\d+)\s*Max\s*Mana/i);
+  const armorMatch = text.match(/\+(\d+)\s*Armor(?!\s*Penetration)/i);
+  const dmgMatch = text.match(/\+(\d+)\s*(?:Melee|Physical|Ranged)?\s*Damage/i);
+  const spellMatch = text.match(/\+(\d+)\s*Spell\s*Damage/i);
+  const accMatch = text.match(/\+(\d+)\s*Accuracy/i);
+  const resAllMatch = text.match(/\+(\d+)%\s*All\s*Resist/i);
+  const fireRes = text.match(/\+(\d+)%\s*Fire/i);
+  const coldRes = text.match(/\+(\d+)%\s*Cold/i);
+  const lightRes = text.match(/\+(\d+)%\s*Lightning/i);
+  const poisonRes = text.match(/\+(\d+)%\s*Poison/i);
+  const resArr: [number, number, number, number, number] = [
+    Number(resAllMatch?.[1] ?? fireRes?.[1] ?? 0),
+    Number(resAllMatch?.[1] ?? coldRes?.[1] ?? 0),
+    Number(resAllMatch?.[1] ?? lightRes?.[1] ?? 0),
+    Number(resAllMatch?.[1] ?? poisonRes?.[1] ?? 0),
+    Number(resAllMatch?.[1] ?? 0),
+  ];
+  const hasRes = resArr.some((v) => v > 0);
+  const armorVal = armorMatch ? Number(armorMatch[1]) : 0;
+  const dmgVal = dmgMatch ? Number(dmgMatch[1]) : 0;
+  return {
+    pieces: piecesCount,
+    ...(hpMatch ? { hp: Number(hpMatch[1]) } : {}),
+    ...(manaMatch ? { mana: Number(manaMatch[1]) } : {}),
+    ...(armorVal > 0 ? { def: Math.max(1, Math.round(armorVal / 4)), abs: Math.max(1, Math.floor(armorVal / 6)) } : {}),
+    ...(dmgVal > 0 ? { min: Math.max(1, Math.floor(dmgVal / 4)), max: Math.max(2, Math.round(dmgVal / 3)) } : {}),
+    ...(spellMatch ? { pow: Number(spellMatch[1]) } : {}),
+    ...(accMatch ? { acc: Number(accMatch[1]) } : {}),
+    ...(hasRes ? { res: resArr } : {}),
+  };
+}
+
+function buildJsonSet(raw: RawJsonSetDef): ItemSetDef {
+  const clsMask =
+    raw.class === 'warrior' ? CLS_WARRIOR : raw.class === 'mage' || raw.class === 'necromancer' ? CLS_MAGE : CLS_BOTH;
+  const pieces: ItemDef[] = raw.pieces.map((p) => {
+    const base = buildBaseItemDefFromJson(p.base);
+    const tier = base?.tier ?? 1;
+    return {
+      name: p.name,
+      kind: Ik.Gear,
+      slot: base?.slot ?? Slot.Weapon,
+      tier,
+      w: base?.w ?? 2,
+      cls: base?.cls ?? clsMask,
+      need: base?.need ?? 0,
+      needv: base?.needv ?? Math.max(0, tier * 3),
+      min: (base?.min ?? 0) + (base?.slot === Slot.Weapon ? 1 : 0),
+      max: (base?.max ?? 0) + (base?.slot === Slot.Weapon ? 2 : 0),
+      acc: (base?.acc ?? 0) + 1,
+      cover: base?.cover ?? 0,
+      def: (base?.def ?? 0) + (base && base.cover > 0 ? 1 : 0),
+      abs: (base?.abs ?? 0) + (base && base.cover > 0 ? 1 : 0),
+      res: base ? [...base.res] : [0, 0, 0, 0, 0],
+      attr: base ? [...base.attr] : [0, 0, 0, 0],
+      hp: (base?.hp ?? 0) + 10 * tier,
+      mana: (base?.mana ?? 0) + (clsMask === CLS_MAGE ? 10 * tier : 0),
+      pow: (base?.pow ?? 0) + (clsMask === CLS_MAGE ? 4 * tier : 0),
+      heal: 0,
+      restore: 0,
+      grow: 0,
+      spell: -1,
+      sockets: base?.sockets,
+      rarity: 'set',
+      set: raw.id,
+      ...(raw.lore ? { lore: raw.lore } : {}),
+    };
+  });
+
+  const bonuses: SetBonus[] = Object.entries(raw.bonuses ?? {})
+    .map(([k, v]) => parseJsonSetBonus(Number(k), v))
+    .filter((b) => Number.isFinite(b.pieces) && b.pieces >= 2)
+    .sort((a, b) => a.pieces - b.pieces);
+
+  return {
+    id: raw.id,
+    name: raw.name,
+    pieces,
+    bonuses,
+  };
+}
+
+/** 20 JSON Item Sets from `public/data/content/item-sets*.json` (80 pieces). */
+export const JSON_SETS: readonly ItemSetDef[] = [
+  ...(sets1 as readonly RawJsonSetDef[]),
+  ...(sets2 as readonly RawJsonSetDef[]),
+].map(buildJsonSet);
+
+/** Unified collection of all 28 Item Sets (8 core + 20 JSON sets). */
+export const COMBINED_SETS: readonly ItemSetDef[] = [...ALL_SETS, ...JSON_SETS];
+
+/** All 112 set pieces across all 28 sets. */
+export const COMBINED_SET_ITEMS: readonly ItemDef[] = COMBINED_SETS.flatMap((s) => s.pieces);
 
 /** Find set definition by an item's exact name */
 export function findSetByItemName(name: string): ItemSetDef | undefined {
-  return ALL_SETS.find((s) => s.pieces.some((p) => p.name === name));
+  return COMBINED_SETS.find((s) => s.pieces.some((p) => p.name === name));
 }
 
 /** Check if an item name belongs to any set */
 export function isSetItem(name: string): boolean {
-  return ALL_SETS.some((s) => s.pieces.some((p) => p.name === name));
+  return COMBINED_SETS.some((s) => s.pieces.some((p) => p.name === name));
 }
 
 /**
@@ -1164,7 +1277,7 @@ export function isSetItem(name: string): boolean {
 export function calculateActiveSetBonuses(equippedNames: readonly string[]): SetBonus[] {
   const activeBonuses: SetBonus[] = [];
 
-  for (const set of ALL_SETS) {
+  for (const set of COMBINED_SETS) {
     let count = 0;
     for (const piece of set.pieces) {
       if (equippedNames.includes(piece.name)) {
