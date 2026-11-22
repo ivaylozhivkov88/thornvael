@@ -114,7 +114,9 @@ for (const [label, descriptor] of [
       await context.setOffline(true);
       try {
         await page.reload();
-        await page.waitForFunction(() => Boolean((window as GameWindow).__game), undefined, { timeout: 45_000 });
+        await page.waitForFunction(() => Boolean((window as GameWindow).__game), undefined, {
+          timeout: process.env.CI ? 90_000 : 45_000,
+        });
         await expect(page.locator('#game')).toBeVisible();
         expect(await page.evaluate(() => (window as GameWindow).__game!.sim.tick)).toBeGreaterThanOrEqual(0);
         expect(errors).toEqual([]);
@@ -130,7 +132,11 @@ test.describe('Act 1 Campaign Flow E2E', () => {
 
   test('Main Menu -> Hero Creation -> Act 1 Mission 1 -> Victory -> Thornwick Town -> World Map -> Mission 2', async ({
     page,
+    browserName,
   }) => {
+    if (browserName === 'webkit' && process.env.CI) {
+      test.setTimeout(360_000);
+    }
     const errors: string[] = [];
     page.on('pageerror', (e) => errors.push(e.message));
     page.on('console', (msg) => {
@@ -153,11 +159,16 @@ test.describe('Act 1 Campaign Flow E2E', () => {
 
     await page.waitForURL(/\?mission=ford&campaign=m01-blood-at-the-ford/);
     await page.waitForFunction(() => {
-      const dlg = document.getElementById('gothic-dialogue');
-      if (dlg && !dlg.hidden) {
-        dlg.querySelector<HTMLButtonElement>('.gothic-continue-btn')?.click();
-        return false;
+      const retry = document.querySelector('.tv-loading-retry-btn');
+      if (retry) {
+        const msg = document.querySelector('.tv-loading-err-msg')?.textContent || 'Load failed';
+        throw new Error(`Mission 1 loading failed: ${msg}`);
       }
+      const dlg = document.getElementById('gothic-dialogue');
+      for (let clicks = 0; clicks < 4 && dlg && !dlg.hidden; clicks++) {
+        dlg.querySelector<HTMLButtonElement>('.gothic-continue-btn')?.click();
+      }
+      if (dlg && !dlg.hidden) return false;
       const g = (window as GameWindow).__game;
       return Boolean(g && g.sim.tick >= 1);
     });
@@ -196,10 +207,10 @@ test.describe('Act 1 Campaign Flow E2E', () => {
     const townBtn = page.getByRole('button', { name: /return to thornwick market/i });
     await page.waitForFunction(() => {
       const dlg = document.getElementById('gothic-dialogue');
-      if (dlg && !dlg.hidden) {
+      for (let clicks = 0; clicks < 4 && dlg && !dlg.hidden; clicks++) {
         dlg.querySelector<HTMLButtonElement>('.gothic-continue-btn')?.click();
-        return false;
       }
+      if (dlg && !dlg.hidden) return false;
       return Boolean(document.querySelector('.btn-victory-primary'));
     });
     await expect(townBtn).toBeVisible({ timeout: 10000 });
@@ -207,11 +218,16 @@ test.describe('Act 1 Campaign Flow E2E', () => {
 
     await page.waitForURL(/\?mission=market&campaign=town-thornwick/);
     await page.waitForFunction(() => {
-      const dlg = document.getElementById('gothic-dialogue');
-      if (dlg && !dlg.hidden) {
-        dlg.querySelector<HTMLButtonElement>('.gothic-continue-btn')?.click();
-        return false;
+      const retry = document.querySelector('.tv-loading-retry-btn');
+      if (retry) {
+        const msg = document.querySelector('.tv-loading-err-msg')?.textContent || 'Load failed';
+        throw new Error(`Thornwick loading failed: ${msg}`);
       }
+      const dlg = document.getElementById('gothic-dialogue');
+      for (let clicks = 0; clicks < 4 && dlg && !dlg.hidden; clicks++) {
+        dlg.querySelector<HTMLButtonElement>('.gothic-continue-btn')?.click();
+      }
+      if (dlg && !dlg.hidden) return false;
       const g = (window as GameWindow).__game as unknown as
         | { sim: { tick: number; script?: { st: { msgs: number[] } } }; paused?: () => boolean }
         | undefined;

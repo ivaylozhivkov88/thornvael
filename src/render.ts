@@ -317,6 +317,7 @@ export class Renderer {
   private extendedAtlases = new Map<ExtendedMonsterArt, UnitAtlas>();
   private extendedAtlasPromises = new Map<ExtendedMonsterArt, Promise<UnitAtlas | null>>();
   private failedExtendedAtlases = new Set<ExtendedMonsterArt>();
+  private activeExtendedArt = new Set<ExtendedMonsterArt>();
   private animation?: CombatAnimation;
   private readonly pose: AnimationPose = { clip: 'stand', frame: 0, age: 0, finished: false, unresolved: false };
   private fogCv!: HTMLCanvasElement;
@@ -459,12 +460,17 @@ export class Renderer {
     }
     this.sprites.length = 0;
     this.baseTint.length = 0;
+    this.activeExtendedArt?.clear();
     this.releaseUnusedExtendedAtlases([]);
     this._vram?.clear(false);
   }
 
   private ensureVram(): LruVramManager {
     return (this._vram ??= new LruVramManager());
+  }
+
+  private isVramKeyEvictable(key: string): boolean {
+    return !key.startsWith('ext:') || !this.isExtendedArtInUse(key.slice(4) as ExtendedMonsterArt);
   }
 
   getVramStats(): VramStats {
@@ -480,6 +486,7 @@ export class Renderer {
   }
 
   private isExtendedArtInUse(artId: ExtendedMonsterArt): boolean {
+    if (this.activeExtendedArt?.has(artId)) return true;
     const atlas = this.extendedAtlases.get(artId);
     if (!atlas) return false;
     return this.sprites.some((s) => s instanceof UnitSprite && s.atlas === atlas);
@@ -497,6 +504,7 @@ export class Renderer {
     if (this.baselineArtOnly) return null;
     const artId = this.resolveExtendedArtId(famId);
     if (!artId) return null;
+    this.activeExtendedArt.add(artId);
     const vramKey = `ext:${artId}`;
     const vram = this.ensureVram();
     const cached = this.extendedAtlases.get(artId);
@@ -524,7 +532,7 @@ export class Renderer {
               }
             },
           },
-          (key) => !key.startsWith('ext:') || !this.isExtendedArtInUse(key.slice(4) as ExtendedMonsterArt),
+          (key) => this.isVramKeyEvictable(key),
         );
         return atlas;
       })
@@ -545,6 +553,7 @@ export class Renderer {
       const artId = this.resolveExtendedArtId(fam);
       if (artId) keepArt.add(artId);
     }
+    this.activeExtendedArt = keepArt;
     const vram = this.ensureVram();
     let released = 0;
     for (const [artId, atlas] of this.extendedAtlases.entries()) {
@@ -799,31 +808,40 @@ export class Renderer {
     this.extraAtlases = extraAtlases;
     const vram = this.ensureVram();
     for (const atlas of atlases) {
-      vram.register({
-        key: `core:${atlas.unit}`,
-        bytes: this.textureFootprint(atlas.source),
-        pinned: true,
-        onEvict: () => {},
-      });
+      vram.register(
+        {
+          key: `core:${atlas.unit}`,
+          bytes: this.textureFootprint(atlas.source),
+          pinned: true,
+          onEvict: () => {},
+        },
+        (key) => this.isVramKeyEvictable(key),
+      );
     }
     if (extraAtlases) {
       for (const [k, packed] of Object.entries(extraAtlases)) {
         if (packed?.baseTexture) {
-          vram.register({
-            key: `extra:${k}`,
-            bytes: this.textureFootprint(packed.baseTexture),
-            pinned: true,
-            onEvict: () => {},
-          });
+          vram.register(
+            {
+              key: `extra:${k}`,
+              bytes: this.textureFootprint(packed.baseTexture),
+              pinned: true,
+              onEvict: () => {},
+            },
+            (key) => this.isVramKeyEvictable(key),
+          );
         }
       }
     }
-    vram.register({
-      key: 'core:fog',
-      bytes: this.textureFootprint(this.fogTex),
-      pinned: true,
-      onEvict: () => {},
-    });
+    vram.register(
+      {
+        key: 'core:fog',
+        bytes: this.textureFootprint(this.fogTex),
+        pinned: true,
+        onEvict: () => {},
+      },
+      (key) => this.isVramKeyEvictable(key),
+    );
     this.atlasByArt = new Map<string, UnitAtlas>(atlases.map((a) => [a.unit, a]));
     for (let i = 0; i < sim.count; i++) {
       const { sprite, baseTint } = this.createUnitSprite(sim, i);
@@ -1686,6 +1704,7 @@ export class Renderer {
       extendedAtlases?: Map<ExtendedMonsterArt, UnitAtlas>;
       extendedAtlasPromises?: Map<ExtendedMonsterArt, Promise<UnitAtlas | null>>;
       failedExtendedAtlases?: Set<ExtendedMonsterArt>;
+      activeExtendedArt?: Set<ExtendedMonsterArt>;
     };
     self.fxEngine ??= new FxEngine({
       quality: this.quality === 0 ? 'low' : 'high',
@@ -1713,6 +1732,7 @@ export class Renderer {
     self.extendedAtlases ??= new Map();
     self.extendedAtlasPromises ??= new Map();
     self.failedExtendedAtlases ??= new Set();
+    self.activeExtendedArt ??= new Set();
     this.ensureCamera();
     this.ensureLightingPass();
     this.ensureChunkCache();
