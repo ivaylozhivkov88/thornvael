@@ -13,6 +13,49 @@ export const FAMILY_ART: Readonly<Record<string, (typeof UNIT_ART)[number]>> = {
 export const BOSS_ART = ['morvessa', 'gorrathul', 'vesperion', 'ashkarath'] as const;
 export const ALL_UNIT_ART = [...UNIT_ART, ...BOSS_ART] as const;
 export type UnitArt = typeof ALL_UNIT_ART[number];
+export const EXTENDED_MONSTER_ART = [
+  'anvilmaw-smith',
+  'ash-weaver',
+  'basalt-brute',
+  'cinderhorn',
+  'cinderling',
+  'claw-viper',
+  'crowned-maw',
+  'doom-knight',
+  'dune-beast',
+  'dune-lurker',
+  'dune-scarab',
+  'fetish-blowdart',
+  'frost-bell',
+  'glasswing',
+  'gloom-stag',
+  'greater-mummy',
+  'hollow-king',
+  'hollow-knight',
+  'ironbark',
+  'lantern-eel',
+  'maggot-swarm',
+  'night-orchard',
+  'pale-burrower',
+  'redglass-drake',
+  'rift-moth',
+  'rootbound',
+  'ruin-mite',
+  'salt-crab',
+  'sand-raider',
+  'silt-colossus',
+  'spore-matron',
+  'storm-kite',
+  'stormtree',
+  'wendigo-bruiser',
+  'witch-doctor',
+] as const;
+export type ExtendedMonsterArt = typeof EXTENDED_MONSTER_ART[number];
+export type AnyUnitArt = UnitArt | ExtendedMonsterArt;
+/** Extended monster families -> dedicated sprite sheet id (lazy-loaded per mission). */
+export const EXTENDED_FAMILY_ART: Readonly<Record<string, ExtendedMonsterArt>> = Object.fromEntries(
+  EXTENDED_MONSTER_ART.map((id) => [id, id]),
+) as Readonly<Record<string, ExtendedMonsterArt>>;
 export type BossArt = typeof BOSS_ART[number];
 export type HeroWeaponVisual = 'sword' | 'bow' | 'staff';
 export const HERO_ARMOUR_TINTS = [
@@ -139,7 +182,7 @@ export class UnitAtlas {
   private readonly frames = new Map<string, readonly Texture[]>();
   readonly cell: readonly [number, number];
   readonly animations: Readonly<Record<string, number>>;
-  private constructor(readonly unit: UnitArt, readonly source: Texture, sheet: UnitSheet) {
+  private constructor(readonly unit: AnyUnitArt, readonly source: Texture, sheet: UnitSheet) {
     this.cell = Object.freeze([...sheet.meta.thornvael!.cell]) as readonly [number, number];
     this.animations = Object.freeze({ ...sheet.meta.thornvael!.anims });
     const { w, h } = sheet.meta.size;
@@ -152,7 +195,7 @@ export class UnitAtlas {
     }
   }
 
-  static async load(unit: UnitArt): Promise<UnitAtlas> {
+  static async load(unit: AnyUnitArt): Promise<UnitAtlas> {
     const base = `${import.meta.env.BASE_URL}sprites/`;
     const response = await fetch(`${base}${unit}.json`);
     if (!response.ok) throw new Error(`Unit atlas ${unit}: HTTP ${response.status}`);

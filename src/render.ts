@@ -9,7 +9,18 @@ import { FP, type Sim } from './sim/sim';
 import { St } from './sim/spelldata';
 import { S } from './strings';
 import { getItemDef, Slot } from './sim/items';
-import { UnitAtlas, UnitSprite, ALL_UNIT_ART, FAMILY_ART, bossSpriteDef, type HeroWeaponVisual, HERO_ARMOUR_TINTS } from './sprites/units';
+import {
+  UnitAtlas,
+  UnitSprite,
+  ALL_UNIT_ART,
+  FAMILY_ART,
+  EXTENDED_FAMILY_ART,
+  bossSpriteDef,
+  type ExtendedMonsterArt,
+  type HeroWeaponVisual,
+  HERO_ARMOUR_TINTS,
+} from './sprites/units';
+import { getSuperUniqueById } from './sim/super-uniques';
 import { loadAllExtraAtlases, type ExtraAtlases } from './sprites/extra-atlases';
 import { ArtPreview } from './sprites/preview';
 import { AtlasOverlayPass, type RenderBossTelegraph } from './render/atlas-overlays';
@@ -298,8 +309,13 @@ export class Renderer {
   quality = 2;
   private sprites: (Sprite | UnitSprite)[] = [];
   private artStress = false;
+  private baselineArtOnly = false;
   private artPreview?: ArtPreview;
   private loadedAtlases: UnitAtlas[] = [];
+  private atlasByArt = new Map<string, UnitAtlas>();
+  private extendedAtlases = new Map<ExtendedMonsterArt, UnitAtlas>();
+  private extendedAtlasPromises = new Map<ExtendedMonsterArt, Promise<UnitAtlas | null>>();
+  private failedExtendedAtlases = new Set<ExtendedMonsterArt>();
   private animation?: CombatAnimation;
   private readonly pose: AnimationPose = { clip: 'stand', frame: 0, age: 0, finished: false, unresolved: false };
   private fogCv!: HTMLCanvasElement;
@@ -419,6 +435,9 @@ export class Renderer {
     for (const atlas of this.loadedAtlases) {
       atlas.source?.source?.update();
     }
+    for (const atlas of this.extendedAtlases?.values() ?? []) {
+      atlas.source?.source?.update();
+    }
     for (const child of this.ensureChunkCache().chunks.children) {
       const sprite = child as Sprite;
       sprite.texture?.source?.update();
@@ -432,6 +451,124 @@ export class Renderer {
 
   destroy(): void {
     this.attachContextListeners(null, true);
+    for (const s of this.sprites) {
+      this.world.removeChild(s);
+      s.destroy({ children: true });
+    }
+    this.sprites.length = 0;
+    this.baseTint.length = 0;
+    this.releaseUnusedExtendedAtlases([]);
+  }
+
+  private resolveExtendedArtId(famId: string | undefined): ExtendedMonsterArt | undefined {
+    if (!famId) return undefined;
+    const resolved = getSuperUniqueById(famId)?.family ?? famId;
+    return EXTENDED_FAMILY_ART[resolved];
+  }
+
+  /** Lazily load and cache an extended monster family atlas on demand (no-op in art/crowd baseline modes). */
+  async loadExtendedFamilyAtlas(famId: string): Promise<UnitAtlas | null> {
+    this.ensureFxState();
+    if (this.baselineArtOnly) return null;
+    const artId = this.resolveExtendedArtId(famId);
+    if (!artId) return null;
+    const cached = this.extendedAtlases.get(artId);
+    if (cached) return cached;
+    if (this.failedExtendedAtlases.has(artId)) return null;
+    const pending = this.extendedAtlasPromises.get(artId);
+    if (pending) return pending;
+    const promise = UnitAtlas.load(artId)
+      .then((atlas) => {
+        this.extendedAtlases.set(artId, atlas);
+        this.extendedAtlasPromises.delete(artId);
+        return atlas;
+      })
+      .catch(() => {
+        this.failedExtendedAtlases.add(artId);
+        this.extendedAtlasPromises.delete(artId);
+        return null;
+      });
+    this.extendedAtlasPromises.set(artId, promise);
+    return promise;
+  }
+
+  /** Release GPU textures for extended monster atlases no longer used by the active mission. */
+  releaseUnusedExtendedAtlases(activeFamilies: Iterable<string> = []): number {
+    this.ensureFxState();
+    const keepArt = new Set<ExtendedMonsterArt>();
+    for (const fam of activeFamilies) {
+      const artId = this.resolveExtendedArtId(fam);
+      if (artId) keepArt.add(artId);
+    }
+    let released = 0;
+    for (const [artId, atlas] of this.extendedAtlases.entries()) {
+      if (keepArt.has(artId)) continue;
+      const inUse = this.sprites.some((s) => s instanceof UnitSprite && s.atlas === atlas);
+      if (inUse) continue;
+      atlas.source.destroy(true);
+      this.extendedAtlases.delete(artId);
+      released++;
+    }
+    return released;
+  }
+
+  private createUnitSprite(sim: Sim, i: number): { sprite: Sprite | UnitSprite; baseTint: number } {
+    const kind = sim.cb.kind[i];
+    const rawFam = sim.cb.family[i];
+    const resolvedFam = rawFam ? (getSuperUniqueById(rawFam)?.family ?? rawFam) : '';
+    const boss = resolvedFam ? bossSpriteDef(resolvedFam) : undefined;
+    const extArtId = !this.baselineArtOnly && resolvedFam ? EXTENDED_FAMILY_ART[resolvedFam] : undefined;
+    const bossAtlas = boss
+      ? this.atlasByArt.get(boss.id)
+      : resolvedFam && FAMILY_ART[resolvedFam]
+        ? this.atlasByArt.get(FAMILY_ART[resolvedFam])
+        : extArtId
+          ? this.extendedAtlases.get(extArtId)
+          : undefined;
+    const atlases = this.loadedAtlases;
+    const atlas =
+      bossAtlas ??
+      (this.artStress
+        ? atlases[i % atlases.length]
+        : kind === Kind.Hero
+          ? sim.hero?.cls === 1
+            ? this.atlasByArt.get('mage') ?? atlases[4]
+            : sim.hero?.cls === 2
+              ? this.atlasByArt.get('archer') ?? atlases[1]
+              : this.atlasByArt.get('hero') ?? atlases[0]
+          : kind === Kind.Archer
+            ? atlases[1]
+            : kind === Kind.Golem
+              ? atlases[2]
+              : kind === Kind.Warrior
+                ? atlases[3]
+                : kind === Kind.Mage
+                  ? atlases[4]
+                  : kind === Kind.Gnoll
+                    ? atlases[5]
+                    : kind === Kind.Imp
+                      ? atlases[6]
+                      : null);
+    const s = atlas ? new UnitSprite(atlas, boss) : new Sprite(this.fallbackUnitTex);
+    if (s instanceof Sprite) s.anchor.set(0.5, 0.88);
+    const look = KIND_LOOK[kind] ?? { scale: 1 };
+    const famVis = rawFam ? FAMILY_VISUALS[rawFam] : undefined;
+    const isChamp = (sim.cb.bossMods[i]?.length ?? 0) > 0 && !boss;
+    const champMul = isChamp ? 1.2 : 1;
+    if (boss) {
+      s.scale.set(boss.scale);
+    } else if (famVis) {
+      s.scale.set(famVis.scaleX * champMul * 1.32, famVis.scaleY * champMul * 1.32);
+    } else {
+      s.scale.set(look.scale * champMul);
+    }
+    if (s instanceof Sprite) {
+      if (sim.team[i] === 0) s.tint = kind === Kind.Hero || kind === Kind.Mage ? look.tint! : TEAM_TINT[0];
+      else if (boss?.signatureColor) s.tint = boss.signatureColor;
+      else if (famVis) s.tint = famVis.auraColor;
+      else s.tint = kind === Kind.Archer ? TEAM_TINT[1] : look.tint ?? TEAM_TINT[1];
+    }
+    return { sprite: s, baseTint: s.tint as number };
   }
 
   private ensureCamera(): RenderCameraController {
@@ -579,70 +716,43 @@ export class Renderer {
       this.unitAngles[i] = (sim.dir[i] * 2 * Math.PI) / 16;
     }
 
+    for (const prev of this.sprites) {
+      this.world.removeChild(prev);
+      prev.destroy({ children: true });
+    }
+    this.sprites.length = 0;
+    this.baseTint.length = 0;
+
     const tex = unitTexture();
     this.fallbackUnitTex = tex;
+    const params = typeof location !== 'undefined' ? new URLSearchParams(location.search) : new URLSearchParams();
+    this.baselineArtOnly = params.has('crowd') || params.get('art') === '1' || params.get('artstress') === '1';
+    this.artStress = params.get('artstress') === '1' && (params.has('crowd') || params.has('battle'));
+
+    const neededExtended = new Set<string>();
+    if (!this.baselineArtOnly) {
+      for (let i = 0; i < sim.count; i++) {
+        const fam = sim.cb.family[i];
+        if (fam && this.resolveExtendedArtId(fam)) neededExtended.add(fam);
+      }
+    }
+    this.releaseUnusedExtendedAtlases(neededExtended);
+
     const [atlases, extraAtlases] = await Promise.all([
       Promise.all(ALL_UNIT_ART.map((unit) => UnitAtlas.load(unit))),
       loadAllExtraAtlases(),
+      ...(!this.baselineArtOnly
+        ? [...neededExtended].map((fam) => this.loadExtendedFamilyAtlas(fam))
+        : []),
     ]);
     this.loadedAtlases = atlases;
     this.extraAtlases = extraAtlases;
-    const atlasByArt = new Map<string, UnitAtlas>(atlases.map((a) => [a.unit, a]));
-    const params = new URLSearchParams(location.search);
-    this.artStress = params.get('artstress') === '1' && (params.has('crowd') || params.has('battle'));
+    this.atlasByArt = new Map<string, UnitAtlas>(atlases.map((a) => [a.unit, a]));
     for (let i = 0; i < sim.count; i++) {
-      const kind = sim.cb.kind[i];
-      const boss = sim.cb.family[i] ? bossSpriteDef(sim.cb.family[i]) : undefined;
-      const bossAtlas = boss
-        ? atlasByArt.get(boss.id)
-        : sim.cb.family[i] && FAMILY_ART[sim.cb.family[i]]
-          ? atlasByArt.get(FAMILY_ART[sim.cb.family[i]])
-          : undefined;
-      const atlas =
-        bossAtlas ??
-        (this.artStress
-          ? atlases[i % atlases.length]
-          : kind === Kind.Hero
-            ? sim.hero?.cls === 1
-              ? atlasByArt.get('mage') ?? atlases[4]
-              : sim.hero?.cls === 2
-                ? atlasByArt.get('archer') ?? atlases[1]
-                : atlasByArt.get('hero') ?? atlases[0]
-            : kind === Kind.Archer
-              ? atlases[1]
-              : kind === Kind.Golem
-                ? atlases[2]
-                : kind === Kind.Warrior
-                  ? atlases[3]
-                  : kind === Kind.Mage
-                    ? atlases[4]
-                    : kind === Kind.Gnoll
-                      ? atlases[5]
-                      : kind === Kind.Imp
-                        ? atlases[6]
-                        : null);
-      const s = atlas ? new UnitSprite(atlas, boss) : new Sprite(tex);
-      if (s instanceof Sprite) s.anchor.set(0.5, 0.88);
-      const look = KIND_LOOK[kind] ?? { scale: 1 };
-      const famVis = sim.cb.family[i] ? FAMILY_VISUALS[sim.cb.family[i]] : undefined;
-      const isChamp = (sim.cb.bossMods[i]?.length ?? 0) > 0 && !boss;
-      const champMul = isChamp ? 1.2 : 1;
-      if (boss) {
-        s.scale.set(boss.scale);
-      } else if (famVis) {
-        s.scale.set(famVis.scaleX * champMul * 1.32, famVis.scaleY * champMul * 1.32);
-      } else {
-        s.scale.set(look.scale * champMul);
-      }
-      if (s instanceof Sprite) {
-        if (sim.team[i] === 0) s.tint = kind === Kind.Hero || kind === Kind.Mage ? look.tint! : TEAM_TINT[0];
-        else if (boss?.signatureColor) s.tint = boss.signatureColor;
-        else if (famVis) s.tint = famVis.auraColor;
-        else s.tint = kind === Kind.Archer ? TEAM_TINT[1] : look.tint ?? TEAM_TINT[1];
-      }
-      this.baseTint.push(s.tint as number);
-      this.sprites.push(s);
-      this.world.addChild(s);
+      const { sprite, baseTint } = this.createUnitSprite(sim, i);
+      this.baseTint.push(baseTint);
+      this.sprites.push(sprite);
+      this.world.addChild(sprite);
     }
 
     this.dbgGrid.visible = false;
@@ -988,7 +1098,7 @@ export class Renderer {
     for (const s of this.sprites) {
       if (!(s instanceof UnitSprite)) continue;
       artSprites++;
-      families[s.atlas.unit]++;
+      families[s.atlas.unit] = (families[s.atlas.unit] ?? 0) + 1;
       const info = s.inspect();
       if (info.filters || s.filters) filteredArtSprites++;
       if (s.visible) {
@@ -1010,8 +1120,18 @@ export class Renderer {
         approxAtlasBytes += source.pixelWidth * source.pixelHeight * 4;
       }
     }
+    for (const atlas of this.extendedAtlases?.values() ?? []) {
+      const source = atlas.source.source;
+      if (!sources.has(source.uid)) {
+        sources.add(source.uid);
+        approxAtlasBytes += source.pixelWidth * source.pixelHeight * 4;
+      }
+    }
     return {
-      loadedFamilies: this.loadedAtlases.map((a) => a.unit),
+      loadedFamilies: [
+        ...this.loadedAtlases.map((a) => a.unit),
+        ...(this.extendedAtlases ? [...this.extendedAtlases.keys()] : []),
+      ],
       stress: this.artStress,
       totalSprites: this.sprites.length,
       artSprites,
@@ -1192,7 +1312,30 @@ export class Renderer {
     this.heroGearGraphics.clear();
 
     for (let i = 0; i < sim.count; i++) {
-      const s = this.sprites[i];
+      let s = this.sprites[i];
+      if (!this.baselineArtOnly && this.fallbackUnitTex && this.loadedAtlases?.length) {
+        const rawFam = cb.family[i];
+        const extArtId = this.resolveExtendedArtId(rawFam);
+        if (extArtId && (!(s instanceof UnitSprite) || s.atlas.unit !== extArtId)) {
+          if (this.extendedAtlases?.has(extArtId)) {
+            const { sprite: upgraded, baseTint } = this.createUnitSprite(sim, i);
+            if (s) {
+              const childIdx = this.world.getChildIndex(s);
+              if (childIdx >= 0) this.world.addChildAt(upgraded, childIdx);
+              else this.world.addChild(upgraded);
+              this.world.removeChild(s);
+              s.destroy({ children: true });
+            } else {
+              this.world.addChild(upgraded);
+            }
+            this.sprites[i] = upgraded;
+            this.baseTint[i] = baseTint;
+            s = upgraded;
+          } else if (rawFam) {
+            void this.loadExtendedFamilyAtlas(rawFam);
+          }
+        }
+      }
       if (!s) continue;
       const dead = cb.hp[i] <= 0;
 
@@ -1458,6 +1601,10 @@ export class Renderer {
       swingTrailGraphics?: Graphics;
       dustPuffs?: Array<{ x: number; y: number; vx: number; vy: number; size: number; alpha: number; born: number; lifeMs: number; color: number }>;
       swingTrails?: Array<{ x: number; y: number; angle: number; radius: number; color: number; born: number; lifeMs: number }>;
+      atlasByArt?: Map<string, UnitAtlas>;
+      extendedAtlases?: Map<ExtendedMonsterArt, UnitAtlas>;
+      extendedAtlasPromises?: Map<ExtendedMonsterArt, Promise<UnitAtlas | null>>;
+      failedExtendedAtlases?: Set<ExtendedMonsterArt>;
     };
     self.fxEngine ??= new FxEngine({
       quality: this.quality === 0 ? 'low' : 'high',
@@ -1481,6 +1628,10 @@ export class Renderer {
     self.swingTrailGraphics ??= new Graphics();
     self.dustPuffs ??= [];
     self.swingTrails ??= [];
+    self.atlasByArt ??= new Map();
+    self.extendedAtlases ??= new Map();
+    self.extendedAtlasPromises ??= new Map();
+    self.failedExtendedAtlases ??= new Set();
     this.ensureCamera();
     this.ensureLightingPass();
     this.ensureChunkCache();
