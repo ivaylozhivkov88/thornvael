@@ -1,6 +1,7 @@
 /** Static scenery only: no Pixi objects, simulation RNG or frame-time work. */
 import sheet from '../public/terrain/terrain.json';
 import objSheet from '../public/objects/objects.json';
+import propsWave2Sheet from '../public/props-wave2/props-wave2.json';
 import { ObjectKind, TILE, Terrain, type GameMap, type MapObject } from './map';
 
 export interface TerrainFrame {
@@ -79,6 +80,12 @@ let mainSkin: HTMLImageElement | null = null;
 let zoneSkins: HTMLImageElement[] = [];
 let zoneNames: string[] = [];
 let objImage: HTMLImageElement | null = null;
+let propsWave2Img: HTMLImageElement | null = null;
+
+interface Wave2FrameEntry {
+  frame: { x: number; y: number; w: number; h: number };
+  anchor?: { x: number; y: number };
+}
 
 /** Low ground props (baked into chunks, no collision) that belong to each zone ground. */
 const ZONE_DECOR: Record<string, string[]> = {
@@ -87,6 +94,14 @@ const ZONE_DECOR: Record<string, string[]> = {
   highland: ['rocks/cluster', 'rocks/boulder-m', 'highland/log', 'highland/gorse', 'highland/standing-stone'],
   sand: ['desert/stump', 'rocks/cluster', 'desert/thorn', 'bones/ribcage'],
   snow: ['rocks/cluster', 'rocks/boulder-m', 'highland/log'],
+};
+
+const WAVE2_ZONE_DECOR: Record<string, string[]> = {
+  crypt: ['graves/tombstone', 'graves/cross', 'graves/slab', 'flora/mushrooms', 'props/fence-iron'],
+  ruinstone: ['props/well', 'props/fence-iron', 'flora/mushrooms', 'props/giant-bones', 'flora/reeds'],
+  highland: ['flora/driftwood', 'props/fence-wood', 'props/signpost', 'props/wagon'],
+  sand: ['props/giant-bones', 'flora/driftwood', 'props/signpost'],
+  snow: ['props/fence-wood', 'flora/driftwood', 'props/signpost'],
 };
 let zoneSeed = 0;
 
@@ -119,12 +134,22 @@ export async function setTerrainTheme(biome: string, seed: number): Promise<void
       zoneNames.push(names[i]!);
     }
   });
-  objImage = await new Promise<HTMLImageElement | null>((resolve) => {
-    const image = new Image();
-    image.onload = () => resolve(image);
-    image.onerror = () => resolve(null);
-    image.src = `${import.meta.env.BASE_URL}objects/${objSheet.image}`;
-  });
+  const [objRes, wave2Res] = await Promise.all([
+    new Promise<HTMLImageElement | null>((resolve) => {
+      const image = new Image();
+      image.onload = () => resolve(image);
+      image.onerror = () => resolve(null);
+      image.src = `${import.meta.env.BASE_URL}objects/${objSheet.image}`;
+    }),
+    new Promise<HTMLImageElement | null>((resolve) => {
+      const image = new Image();
+      image.onload = () => resolve(image);
+      image.onerror = () => resolve(null);
+      image.src = `${import.meta.env.BASE_URL}props-wave2/${propsWave2Sheet.meta.image}`;
+    }),
+  ]);
+  objImage = objRes;
+  propsWave2Img = wave2Res;
 }
 
 function cellHash01(x: number, y: number, k: number): number {
@@ -228,6 +253,8 @@ export interface SceneryPlacement {
   frame: string;
   /** Frame lives in the object atlas instead of the terrain atlas. */
   obj?: boolean;
+  /** Frame lives in the Wave 2 props atlas (`public/props-wave2/`). */
+  wave2?: boolean;
   x: number;
   y: number;
   w: number;
@@ -258,11 +285,17 @@ export function prepareScenery(map: GameMap): SceneryPlacement[] {
 
 /** Seed-derived props inside the feature zones (gravestones, bones, rubble...). Visual only. */
 function zoneDecor(map: GameMap): SceneryPlacement[] {
-  if (!objImage || !zoneSkins.length) return [];
+  if ((!objImage && !propsWave2Img) || !zoneSkins.length) return [];
   const fields = zoneField(map);
   const vw = map.w + 1;
   const taken = new Set<number>();
   for (const o of map.objects) for (let dy = -1; dy <= 1; dy++) for (let dx = -1; dx <= 1; dx++) taken.add((o.y + dy) * map.w + o.x + dx);
+  const wave2Frames = propsWave2Sheet.frames as Record<string, Wave2FrameEntry>;
+  const nearWater = (x: number, y: number): boolean =>
+    map.terrain[(y - 1) * map.w + x] === Terrain.Water ||
+    map.terrain[(y + 1) * map.w + x] === Terrain.Water ||
+    map.terrain[y * map.w + (x - 1)] === Terrain.Water ||
+    map.terrain[y * map.w + (x + 1)] === Terrain.Water;
   const out: SceneryPlacement[] = [];
   for (let y = 2; y < map.h - 2; y++) {
     for (let x = 2; x < map.w - 2; x++) {
@@ -274,6 +307,22 @@ function zoneDecor(map: GameMap): SceneryPlacement[] {
         if (wgt < 0.15) continue;
         const chance = wgt > 0.55 ? 0.09 : 0.02;
         if (cellHash01(x, y, 40 + z + zoneSeed) > chance) continue;
+        const w2Set = WAVE2_ZONE_DECOR[zoneNames[z]!];
+        if (propsWave2Img && w2Set && cellHash01(x, y, 52 + z) < 0.38) {
+          const coastPick = nearWater(x, y) && cellHash01(x, y, 53 + z) < 0.35
+            ? (cellHash01(x, y, 54 + z) < 0.22 ? 'coast/shipwreck' : 'flora/reeds')
+            : null;
+          const w2Name = coastPick ?? w2Set[Math.floor(cellHash01(x, y, 61 + z) * w2Set.length)]!;
+          const w2Frame = wave2Frames[w2Name];
+          if (w2Frame) {
+            const ax = Math.round(w2Frame.frame.w * (w2Frame.anchor?.x ?? 0.5));
+            const ay = Math.round(w2Frame.frame.h * (w2Frame.anchor?.y ?? 0.9));
+            taken.add(y * map.w + x);
+            out.push({ frame: w2Name, wave2: true, x: x * TILE + TILE / 2 - ax, y: y * TILE + TILE - ay, w: w2Frame.frame.w, h: w2Frame.frame.h });
+            break;
+          }
+        }
+        if (!objImage) continue;
         const set = ZONE_DECOR[zoneNames[z]!];
         if (!set) continue;
         const name = set[Math.floor(cellHash01(x, y, 60 + z) * set.length)]!;
@@ -473,11 +522,15 @@ export function paintTerrainChunk(
   const originX = startX * TILE;
   const originY = startY * TILE;
   const size = chunk * TILE;
+  const wave2Frames = propsWave2Sheet.frames as Record<string, Wave2FrameEntry>;
   for (const p of scenery) {
     const x = p.x - originX;
     const y = p.y - originY;
     if (x + p.w <= 0 || y + p.h <= 0 || x >= size || y >= size) continue;
-    if (p.obj) {
+    if (p.wave2) {
+      const f = wave2Frames[p.frame]?.frame;
+      if (propsWave2Img && f) g.drawImage(propsWave2Img, f.x, f.y, f.w, f.h, x, y, f.w, f.h);
+    } else if (p.obj) {
       const f = objSheet.frames[p.frame as keyof typeof objSheet.frames];
       if (objImage) g.drawImage(objImage, f.x, f.y, f.w, f.h, x, y, f.w, f.h);
     } else draw(g, art, p.frame, x, y);

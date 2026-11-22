@@ -1,6 +1,7 @@
 import { DEFS, Kind } from '../sim/combat';
 import type { Sim } from '../sim/sim';
 import { St } from '../sim/spelldata';
+import type { SquadStance } from '../sim/tactics';
 import { S } from '../strings';
 
 /** Maximum portrait cards rendered in the on-screen Squad Bar at once. */
@@ -55,6 +56,12 @@ export interface SquadBarOptions {
   doubleTapMs?: number;
   /** Initial collapsed state. */
   collapsed?: boolean;
+  /** Optional callback when player selects Hold / Guard / Aggressive stance. */
+  onStanceChange?: (stance: SquadStance) => void;
+  /** Optional callback when player clicks Regroup. */
+  onRegroup?: () => void;
+  /** Initial stance (defaults to 'guard'). */
+  initialStance?: SquadStance;
 }
 
 export interface ExtractSquadOptions {
@@ -267,12 +274,15 @@ export class SquadBar {
   private readonly toggleText: HTMLSpanElement;
   private readonly listEl: HTMLDivElement;
   private readonly overflowEl: HTMLDivElement;
+  private readonly tacticsEl: HTMLDivElement | null = null;
+  private readonly stanceBtns = new Map<SquadStance, HTMLButtonElement>();
   private readonly cards = new Map<number, CardRefs>();
   private readonly now: () => number;
   private readonly doubleTapMs: number;
   private readonly onResizeBound: () => void;
 
   private collapsed: boolean;
+  private currentStance: SquadStance;
   private compact = false;
   private mobileLandscape = false;
   private lastTapId = -1;
@@ -284,6 +294,7 @@ export class SquadBar {
     this.now = opts.now ?? (() => (typeof performance !== 'undefined' ? performance.now() : Date.now()));
     this.doubleTapMs = opts.doubleTapMs ?? SQUAD_DOUBLE_TAP_MS;
     this.collapsed = Boolean(opts.collapsed);
+    this.currentStance = opts.initialStance ?? 'guard';
 
     this.el = document.createElement('aside');
     this.el.id = 'squad-bar';
@@ -311,7 +322,53 @@ export class SquadBar {
     this.overflowEl.className = 'squad-bar-overflow';
     this.overflowEl.hidden = true;
 
-    this.el.append(this.toggleBtn, this.listEl, this.overflowEl);
+    if (opts.onStanceChange || opts.onRegroup) {
+      const tacticsEl = document.createElement('div');
+      tacticsEl.className = 'squad-tactics-bar';
+      tacticsEl.setAttribute('role', 'toolbar');
+      tacticsEl.setAttribute('aria-label', 'Squad Stances and Regroup');
+
+      if (opts.onStanceChange) {
+        const stances: readonly { id: SquadStance; label: string; title: string }[] = [
+          { id: 'hold', label: 'Hold', title: 'Hold Ground [H]' },
+          { id: 'guard', label: 'Guard', title: 'Guard Position [G]' },
+          { id: 'aggressive', label: 'Aggro', title: 'Aggressive Pursuit' },
+        ];
+        for (const st of stances) {
+          const btn = document.createElement('button');
+          btn.type = 'button';
+          btn.className = 'squad-tactic-btn';
+          btn.dataset.stance = st.id;
+          btn.textContent = st.label;
+          btn.title = st.title;
+          btn.setAttribute('aria-label', st.title);
+          btn.setAttribute('aria-pressed', String(this.currentStance === st.id));
+          if (this.currentStance === st.id) btn.classList.add('is-active');
+          btn.onclick = () => {
+            this.setStance(st.id);
+            this.opts.onStanceChange?.(st.id);
+          };
+          this.stanceBtns.set(st.id, btn);
+          tacticsEl.append(btn);
+        }
+      }
+
+      if (opts.onRegroup) {
+        const regBtn = document.createElement('button');
+        regBtn.type = 'button';
+        regBtn.className = 'squad-tactic-btn squad-regroup-btn';
+        regBtn.textContent = '🛡 Regroup';
+        regBtn.title = 'Regroup into Formation [Shift+R]';
+        regBtn.setAttribute('aria-label', 'Regroup Squad Formation [Shift+R]');
+        regBtn.onclick = () => this.opts.onRegroup?.();
+        tacticsEl.append(regBtn);
+      }
+
+      this.tacticsEl = tacticsEl;
+      this.el.append(this.toggleBtn, this.listEl, this.overflowEl, tacticsEl);
+    } else {
+      this.el.append(this.toggleBtn, this.listEl, this.overflowEl);
+    }
     this.applyCollapsedState();
     host.append(this.el);
 
@@ -339,6 +396,15 @@ export class SquadBar {
   setCollapsed(collapsed: boolean): void {
     this.collapsed = collapsed;
     this.applyCollapsedState();
+  }
+
+  setStance(stance: SquadStance): void {
+    this.currentStance = stance;
+    for (const [id, btn] of this.stanceBtns) {
+      const active = id === stance;
+      btn.classList.toggle('is-active', active);
+      btn.setAttribute('aria-pressed', String(active));
+    }
   }
 
   toggleCollapsed(): boolean {
@@ -427,6 +493,7 @@ export class SquadBar {
     this.el.classList.toggle('is-collapsed', this.collapsed);
     this.toggleBtn.setAttribute('aria-expanded', String(!this.collapsed));
     this.listEl.hidden = this.collapsed;
+    if (this.tacticsEl) this.tacticsEl.hidden = this.collapsed;
     const count = this.currentMembers.length;
     this.toggleText.textContent = `Squad (${count}) ${this.collapsed ? '▸' : '▾'}`;
     if (this.collapsed) this.overflowEl.hidden = true;

@@ -14,7 +14,7 @@ import {
 import { formatItemTooltip } from './heroui';
 import { getCodexLore, getMonsterCodex } from './missioncontent';
 import { S } from './strings';
-import { itemIconEl } from './townicons';
+import { itemIcon } from './townicons';
 
 /**
  * Hall of Relics & Imperial Reliquary UI for Thornvael (Holy Grail v2).
@@ -592,22 +592,30 @@ export class CodexUi {
       const iconBox = document.createElement('div');
       iconBox.className = 'grail-icon-box';
 
-      if (item.baseId !== undefined && item.tome === 'armory') {
-        const iconEl = itemIconEl(item.baseId);
-        if (!isDisc) iconEl.classList.add('grail-silhouette');
-        iconBox.append(iconEl);
-      } else {
+      const base = typeof import.meta !== 'undefined' && import.meta.env?.BASE_URL ? import.meta.env.BASE_URL : './';
+      const iconPath = item.icon ?? '';
+      if (iconPath) {
         const img = document.createElement('img');
         img.className = isDisc ? 'grail-icon-img' : 'grail-icon-img grail-silhouette';
-        const base = typeof import.meta !== 'undefined' && import.meta.env?.BASE_URL ? import.meta.env.BASE_URL : './';
-        const iconPath = item.icon ?? '';
-        img.src = iconPath && !iconPath.startsWith('http') && !iconPath.startsWith('/') ? `${base}${iconPath}` : iconPath;
+        img.src = !iconPath.startsWith('http') && !iconPath.startsWith('/') ? `${base}${iconPath}` : iconPath;
         img.alt = item.name;
         img.onerror = () => {
           img.style.display = 'none';
-          iconBox.textContent = isDisc ? '✨' : '❓';
+          if (item.baseId !== undefined) {
+            const svg = itemIcon(item.baseId);
+            if (!isDisc) svg.classList.add('grail-silhouette');
+            iconBox.replaceChildren(svg);
+          } else {
+            iconBox.textContent = isDisc ? '✨' : '❓';
+          }
         };
         iconBox.append(img);
+      } else if (item.baseId !== undefined) {
+        const svg = itemIcon(item.baseId);
+        if (!isDisc) svg.classList.add('grail-silhouette');
+        iconBox.append(svg);
+      } else {
+        iconBox.textContent = isDisc ? '✨' : '❓';
       }
       card.append(iconBox);
 

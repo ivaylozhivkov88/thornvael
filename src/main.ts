@@ -1,6 +1,7 @@
 import { registerWorker } from './updategate';
+import { LoadingScreen } from './loadingscreen';
 import { createInstallController, isInstallPrompt } from './pwa-install';
-import { attachBlurMuteListeners, audioState, blip, cancelShopEntry, play, playBossMusic, playEndingMusic, playMercBark, playMonsterDeathVoice, playMonsterHitVoice, playNpcBark, playSurfaceFootstep, playPickupRustle, playShopEntry, playNotEnoughMana, playInventoryFull, playLowHpHeartbeat, playUiError, resumeAudio, setAmbience, setMusic, setMusicAct, setMusicRegion, setSpecialMusic, setAmbienceAct, setSfx, setSkirmishMusic, suspendAudio, unlock, updateAdaptiveCombat, type MusicMode } from './audio';
+import { attachBlurMuteListeners, audioState, blip, cancelShopEntry, isAudioRunning, isMusicPlaying, play, playBossMusic, playEndingMusic, playMercBark, playMonsterDeathVoice, playMonsterHitVoice, playNpcBark, playSurfaceFootstep, playPickupRustle, playShopEntry, playNotEnoughMana, playInventoryFull, playLowHpHeartbeat, playUiError, resumeAudio, setAmbience, setMusic, setMusicAct, setMusicRegion, setSpecialMusic, setAmbienceAct, setSfx, setSkirmishMusic, suspendAudio, unlock, updateAdaptiveCombat, type MusicMode } from './audio';
 import { isBossArt } from './sprites/units';
 import { MusicDirector, classifyWeapon, cueFor, pickPotionDrink, pickTerrainStep, type CueContext } from './audiologic';
 import { ControlGroups, GROUP_COUNT } from './groups';
@@ -27,11 +28,11 @@ import { Bot, MonsterAi, battleScenario, fightScenario, placeScenario, setupCrow
 import { DEFS, Kind, M, MODN, POOLS, lootPos, nearestLoot, partAbs, partDef } from './sim/combat';
 import { dir16 } from './sim/path';
 import { D2InteractionController, type D2Interactable } from './sim/movement';
-import { evaluateAutoCast, computeRegroupFormation, performLootSweep, stepAutoNavigate } from './sim/tactics';
+import { evaluateAutoCast, computeRegroupFormation, performLootSweep, stepAutoNavigate, type SquadStance } from './sim/tactics';
 import { DAY_TICKS, clockText } from './sim/daynight';
 import { HeroUi, tabStrip } from './heroui';
 import { staminaMax } from './sim/mechanics';
-import { SKILL_NAMES, WHY_TEXT, createHero, heroKnowsSpell, takeItem, type HeroSkillId } from './sim/hero';
+import { SKILL_MAX, SKILL_NAMES, WHY_TEXT, createHero, heroKnowsSpell, takeItem, type HeroSkillId } from './sim/hero';
 import { Cls, getItemDef, itemId, itemText, Ik, Slot } from './sim/items';
 import {
   openTownPortal,
@@ -79,6 +80,16 @@ import { keybindManager } from './keybinds';
 import './style.css';
 import './ui/squad-bar.css';
 
+const initialParams = new URLSearchParams(location.search);
+const loadingScreen = initialParams.size > 0 && !initialParams.has('menu')
+  ? new LoadingScreen({
+      mission: initialParams.get('mission'),
+      campaign: initialParams.get('campaign'),
+      biome: initialParams.get('biome'),
+    })
+  : null;
+loadingScreen?.setStatus('Loading realm chronicles...', 18);
+
 await loadGameData(); // item and spell tables, before any sim or mission is built
 applyUxSettings(loadUxSettings());
 attachBlurMuteListeners();
@@ -92,7 +103,7 @@ void loadLocationPlaques(import.meta.env.BASE_URL)
 
 const $ = (id: string): HTMLElement => document.getElementById(id)!;
 let spellbookUi!: SpellbookUi;
-const params = new URLSearchParams(location.search);
+const params = initialParams;
 /** The persistent hero that plays this page (picked on the hero screen); null for a one-off hero. */
 const activeChar = params.has('char') ? await getCharacter(params.get('char')!) : null;
 const crowd = params.has('crowd'); // 300 units, all yours, no combat: the crowd-movement benchmark
@@ -102,9 +113,11 @@ const diag = params.has('diag'); // self-test panel for phones
 const debug = params.has('debug') || stress || crowd || battle;
 // A bare address (or ?menu) opens the campaign shell: main menu, hero creation, global map. Nodes start through ?mission=..&campaign=..
 if (params.size === 0 || params.has('menu')) {
+  loadingScreen?.hide();
   const { runShell } = await import('./shell');
   await runShell(registerWorker);
 }
+loadingScreen?.setStatus('Unfolding campaign atlas...', 42);
 
 // --- world ---
 const missionName = params.get('mission');
@@ -1581,16 +1594,8 @@ window.addEventListener('keydown', (e) => {
   const code = e.code;
   const keyLower = e.key.toLowerCase();
   if (code === 'KeyR' && !e.repeat && !e.ctrlKey && !e.metaKey) {
-    if (e.shiftKey && sim.hero && alive(sim.hero.id)) {
-      const squadIds: number[] = [];
-      for (let i = 0; i < sim.count; i++) {
-        if (i !== sim.hero.id && sim.team[i] === 0 && !sim.hidden[i] && alive(i)) squadIds.push(i);
-      }
-      const formation = computeRegroupFormation(sim, sim.hero.id, squadIds);
-      for (const pos of formation) {
-        queue({ type: 'move', ids: [pos.id], x: pos.targetX, y: pos.targetY });
-      }
-      if (formation.length > 0) toast('🛡 Squad regrouping into formation!');
+    if (e.shiftKey) {
+      regroupSquad();
     } else {
       toggleRun();
     }
@@ -1780,6 +1785,8 @@ function orderButton(ord: string): void {
       return;
     }
     queue({ type: 'order', order: ord as OrderName, ids });
+    if (ord === 'hold') squadBar.setStance('hold');
+    else if (ord === 'swarm') squadBar.setStance('aggressive');
     blip();
     arm(null);
     return;
@@ -1920,14 +1927,69 @@ function refreshQuick(): void {
   $('btn-auto').classList.toggle('on', who.length > 0 && who.every((i) => sim.cb.auto[i] === curSpell + 1));
   $('btn-auto').textContent = `${S.autoBtn}: ${SPELLS[curSpell].name}`;
 }
-// --- squad bar: hero + active party portraits for 1-tap selection, double-tap camera focus & spell drops ---
+// --- squad bar: hero + active party portraits for 1-tap selection, double-tap camera focus, stances & regroup ---
+let squadStance: SquadStance = 'guard';
+
+function squadAllyIds(): number[] {
+  const heroId = sim.hero?.id ?? -1;
+  const allies: number[] = [];
+  for (let i = 0; i < sim.count; i++) {
+    if (i !== heroId && sim.team[i] === 0 && !sim.hidden[i] && alive(i)) allies.push(i);
+  }
+  return allies;
+}
+
+function applySquadStance(stance: SquadStance): void {
+  if (outcome) return;
+  squadStance = stance;
+  squadBar.setStance(stance);
+  const heroId = sim.hero?.id ?? -1;
+  const selAllies = selectedIds().filter((id) => id !== heroId);
+  const allies = selAllies.length > 0 ? selAllies : squadAllyIds();
+  const targets = allies.length > 0 ? allies : (heroId >= 0 && alive(heroId) ? [heroId] : []);
+  if (targets.length === 0) return;
+
+  if (stance === 'hold') {
+    queue({ type: 'order', order: 'hold', ids: targets });
+    toast('🛡 Squad Stance: Hold Ground');
+  } else if (stance === 'aggressive') {
+    queue({ type: 'order', order: 'swarm', ids: targets });
+    toast('⚔ Squad Stance: Aggressive Pursuit');
+  } else {
+    const anchorId = heroId >= 0 && alive(heroId) ? heroId : targets[0];
+    queue({ type: 'order', order: 'guard', ids: targets, x: sim.x[anchorId] / FP, y: sim.y[anchorId] / FP });
+    toast('⚖ Squad Stance: Guard Position');
+  }
+  blip();
+}
+
+function regroupSquad(): void {
+  if (outcome || !sim.hero || !alive(sim.hero.id)) return;
+  const allies = squadAllyIds();
+  if (allies.length === 0) {
+    toast('🛡 Squad in formation (solo hero).');
+    return;
+  }
+  const formation = computeRegroupFormation(sim, sim.hero.id, allies);
+  for (const pos of formation) {
+    queue({ type: 'move', ids: [pos.id], x: pos.targetX, y: pos.targetY });
+  }
+  if (formation.length > 0) {
+    toast('🛡 Squad regrouping into formation!');
+    blip();
+  }
+}
+
 const squadBar = new SquadBar(document.body, {
+  initialStance: squadStance,
   onSelect: (id, additive) => select([id], additive),
   onFocus: (id) => {
     if (!alive(id)) return;
     cameraFollow = id === (sim.hero?.id ?? 0);
     renderer.centerOn(px(sim, id), py(sim, id));
   },
+  onStanceChange: (stance) => applySquadStance(stance),
+  onRegroup: () => regroupSquad(),
   isAdditive: () => addMode,
 });
 function refreshPortraits(): void {
@@ -2671,8 +2733,10 @@ function heroEvents(): void {
       if (e.el === 0) achHired();
       if (e.el === 0) { const hl = mercHireLine(missionAct, e.v); if (hl) setTimeout(() => toast(hl), 1200); const mb = mercBark('hired', missionAct, e.v); if (mb) setTimeout(() => toast(`"${mb}"`), 3000); }
     } else if (e.type === 6) {
-      toast(`${S.hero.skillUp}: ${SKILL_NAMES[e.v]} ${e.el}`);
-      touched = true;
+      if (e.el >= 2 && e.el <= SKILL_MAX && e.v >= 0 && e.v < SKILL_NAMES.length) {
+        toast(`${S.hero.skillUp}: ${SKILL_NAMES[e.v]} ${e.el}`);
+        touched = true;
+      }
     }
   }
   if (touched) {
@@ -2822,9 +2886,20 @@ let musicOn = preferences.music;
 let musicMode: MusicMode = isTownNode ? 'town' : 'explore';
 const musicDir = new MusicDirector();
 // Restore intent, but start audio only inside a real player gesture (mobile autoplay).
-const startPreferredMusic = (): void => { if (musicOn) setMusic(true, musicMode); };
-window.addEventListener('pointerdown', startPreferredMusic, { once: true });
-window.addEventListener('keydown', startPreferredMusic, { once: true });
+const startPreferredMusic = (): void => {
+  unlock();
+  if (musicOn) setMusic(true, musicMode);
+  setTimeout(() => {
+    if (isAudioRunning() && (!musicOn || isMusicPlaying())) {
+      window.removeEventListener('pointerdown', startPreferredMusic, true);
+      window.removeEventListener('click', startPreferredMusic, true);
+      window.removeEventListener('keydown', startPreferredMusic, true);
+    }
+  }, 200);
+};
+window.addEventListener('pointerdown', startPreferredMusic, { capture: true, passive: true });
+window.addEventListener('click', startPreferredMusic, { capture: true, passive: true });
+window.addEventListener('keydown', startPreferredMusic, { capture: true, passive: true });
 $('btn-music').onclick = () => {
   unlock();
   musicOn = !musicOn;
@@ -3545,6 +3620,21 @@ function advanceStep(): void {
     for (const id of sim.hero.eq) if (id >= 0) discoverItem(id, sim);
 
     if (alive(sim.hero.id) && !outcome) {
+      const autoPotPct = preferences.autoPotionThresholdPct ?? 0;
+      if (autoPotPct > 0 && !userPause) {
+        const hpMax = Math.max(1, sim.cb.hpMax[sim.hero.id]);
+        const hpPct = (sim.cb.hp[sim.hero.id] / hpMax) * 100;
+        if (hpPct > 0 && hpPct <= autoPotPct) {
+          const belt = getBeltPotions();
+          if (belt.heal.count > 0 && hudController.canDrinkBelt(1)) {
+            drinkBelt(1);
+            toast(`🧪 Auto-Potion (${Math.round(hpPct)}% HP)`);
+          } else if (belt.greater.count > 0 && hudController.canDrinkBelt(3)) {
+            drinkBelt(3);
+            toast(`🧪 Auto-Potion (${Math.round(hpPct)}% HP)`);
+          }
+        }
+      }
       if (preferences.autoCastMode === 'smart') {
         const ac = evaluateAutoCast(sim, sim.hero.id, preferences);
         if (ac && heroKnowsSpell(sim.hero, ac.spellId)) {
@@ -3962,7 +4052,9 @@ function startHero(): void {
   heroUi.showCreate(begin);
 }
 
+loadingScreen?.setStatus('Forging terrain & summoning cohort...', 72);
 void renderer.init(sim).then(() => {
+  loadingScreen?.setStatus('Preparing spells & unsealing world...', 94);
   ensureLootOverlay();
   initAltButton();
   setQuality(renderer.quality, true);
@@ -4002,6 +4094,18 @@ void renderer.init(sim).then(() => {
   }
   lastNow = performance.now();
   renderer.resetAnimation(sim);
+  renderer.draw(sim, prevX, prevY, 1, {
+    selected,
+    box: boxDrag,
+    ping: null,
+    goal: questGoal,
+    hover,
+    hoverUnit: hoveredUnit,
+    aim: armed === 'spell' ? aimView : null,
+  });
+  minimap.draw(sim, renderer.viewTiles(), selected);
+  loadingScreen?.setStatus('Ready', 100);
+  loadingScreen?.hide();
   requestAnimationFrame(frame);
   // Test and debug hook: deterministic access for the Playwright smoke test and the device bench.
   (window as unknown as { __game: unknown }).__game = {
@@ -4060,7 +4164,12 @@ void renderer.init(sim).then(() => {
     skillAssignment: () => skillAssignmentModal,
     d2rActionBar: () => d2rActionBarUi,
   };
-}).catch((e) => { console.error('renderer init failed', e); });
+}).catch((e) => {
+  console.error('renderer init failed', e);
+  const msg = e instanceof Error ? e.message : String(e);
+  if (loadingScreen) loadingScreen.showError(msg);
+  else toast(`${S.mission.loadFailed} ${msg}`);
+});
 
 // HUD: keep --hud-top just under the (possibly wrapped) top bar so quest tracker, objectives and minimap never overlap it.
 {

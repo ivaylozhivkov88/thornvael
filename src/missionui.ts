@@ -133,17 +133,35 @@ export function getHeroPortraitSvg(): string {
 export function getFallbackPortraitSvg(): string {
   return `<svg viewBox="0 0 120 120" preserveAspectRatio="xMidYMid slice" xmlns="http://www.w3.org/2000/svg" class="portrait-svg">
   <defs>
-    <radialGradient id="bg-scout" cx="50%" cy="40%" r="60%">
-      <stop offset="0%" stop-color="#243328"/>
-      <stop offset="100%" stop-color="#0c140e"/>
+    <radialGradient id="bg-fallback-sentinel" cx="50%" cy="35%" r="65%">
+      <stop offset="0%" stop-color="#2d3748"/>
+      <stop offset="60%" stop-color="#1a202c"/>
+      <stop offset="100%" stop-color="#0a0d12"/>
     </radialGradient>
+    <linearGradient id="fallback-iron" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#a0aec0"/>
+      <stop offset="45%" stop-color="#718096"/>
+      <stop offset="70%" stop-color="#4a5568"/>
+      <stop offset="100%" stop-color="#2d3748"/>
+    </linearGradient>
+    <linearGradient id="fallback-gold" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#ecc94b"/>
+      <stop offset="100%" stop-color="#b7791f"/>
+    </linearGradient>
   </defs>
-  <rect width="120" height="120" fill="url(#bg-scout)"/>
-  <path d="M 20 120 Q 35 80 60 76 Q 85 80 100 120 Z" fill="#1f2c22" stroke="#0e1711" stroke-width="2"/>
-  <path d="M 34 50 C 30 20 90 20 86 50 C 86 66 78 76 60 78 C 42 76 34 66 34 50 Z" fill="#2d3d30" stroke="#131c15" stroke-width="2"/>
-  <ellipse cx="50" cy="48" rx="3" ry="2" fill="#70c482"/>
-  <ellipse cx="70" cy="48" rx="3" ry="2" fill="#70c482"/>
-  <rect x="2" y="2" width="116" height="116" rx="4" fill="none" stroke="#5a7a60" stroke-width="2"/>
+  <rect width="120" height="120" fill="url(#bg-fallback-sentinel)"/>
+  <path d="M 12 120 C 25 88 42 82 60 82 C 78 82 95 88 108 120 Z" fill="url(#fallback-iron)" stroke="#1a202c" stroke-width="2.5"/>
+  <path d="M 32 86 C 45 92 75 92 88 86 C 80 105 40 105 32 86 Z" fill="#2d3748" stroke="#1a202c" stroke-width="1.5"/>
+  <path d="M 38 46 C 36 22 84 22 82 46 C 82 64 78 78 60 80 C 42 78 38 64 38 46 Z" fill="url(#fallback-iron)" stroke="#1a202c" stroke-width="2.5"/>
+  <path d="M 57 24 L 63 24 L 63 78 L 57 78 Z" fill="url(#fallback-gold)"/>
+  <line x1="42" y1="46" x2="78" y2="46" stroke="#1a202c" stroke-width="3"/>
+  <line x1="44" y1="46" x2="55" y2="46" stroke="#1a202c" stroke-width="2.5"/>
+  <line x1="65" y1="46" x2="76" y2="46" stroke="#1a202c" stroke-width="2.5"/>
+  <circle cx="51" cy="58" r="1.5" fill="#1a202c"/>
+  <circle cx="69" cy="58" r="1.5" fill="#1a202c"/>
+  <circle cx="53" cy="66" r="1.5" fill="#1a202c"/>
+  <circle cx="67" cy="66" r="1.5" fill="#1a202c"/>
+  <rect x="2" y="2" width="116" height="116" rx="4" fill="none" stroke="url(#fallback-gold)" stroke-width="2"/>
 </svg>`;
 }
 
@@ -466,13 +484,23 @@ export class MissionUi {
   /** Speaker metadata: title, rank, and portrait SVG */
   private getSpeakerInfo(who: string): { name: string; rank: string; portraitSvg: string } {
     const lower = who.toLowerCase();
-    const pid = /^(field|merc)-([a-z-]+)$/.exec(lower);
-    if (pid && pid[2] !== 'warden-hale' && PAINTED_SPEAKERS.has(`${pid[1] === 'field' ? 'npc' : 'merc'}-${pid[2]}`)) {
-      const title = pid[2].split('-').map((w) => w[0].toUpperCase() + w.slice(1)).join(' ');
+    const pid = /^(field|merc|npc)-([a-z-]+)$/.exec(lower);
+    if (pid && pid[2] !== 'warden-hale') {
+      const artKey = `${pid[1] === 'merc' ? 'merc' : 'npc'}-${pid[2]}`;
+      if (PAINTED_SPEAKERS.has(artKey)) {
+        const title = pid[2].split('-').map((w) => w[0].toUpperCase() + w.slice(1)).join(' ');
+        return {
+          name: title,
+          rank: pid[1] === 'merc' ? 'Hired Sellsword' : 'Border Folk',
+          portraitSvg: paintedPortrait(`portraits/${artKey}`, getFallbackPortraitSvg()),
+        };
+      }
+    }
+    if (lower.includes('garrick')) {
       return {
-        name: title,
-        rank: pid[1] === 'merc' ? 'Hired Sellsword' : 'Border Folk',
-        portraitSvg: paintedPortrait(`portraits/${pid[1] === 'field' ? 'npc' : 'merc'}-${pid[2]}`, getFallbackPortraitSvg()),
+        name: 'Captain Garrick',
+        rank: 'Highland Border Sentinel & Commander of the Sunken Ford Picket',
+        portraitSvg: paintedPortrait('portraits/npc-ashbrook-watchman', getCaptainMerrickPortraitSvg()),
       };
     }
     if (lower.includes('hale') || lower.includes('warden')) {
@@ -559,20 +587,34 @@ export class MissionUi {
         portraitSvg: paintedPortrait('npc-commander', getHeroPortraitSvg()),
       };
     }
-    const named: Array<[string, string, string]> = [
-      ['orlen', 'Orlen the Grave-Tender', 'Marsh Herbalist & Master of Rot-Wards'],
-      ['sabik', 'Sabik the Sand-Walker', 'Chief Dune Scout of the Glass Wastes'],
-      ['quillon', 'Sage Quillon', 'High Sage of the Drowned Coast & Tide-Caller'],
-      ['aldren', 'Sir Aldren the Iron-Willed', 'Veteran Knight-Commander of the Burnt Keep'],
-      ['isolde', 'Captain Isolde', 'Vanguard Commander of the Ashbrook Relief Cohort'],
-      ['vance', 'Marshal Vance', 'Supreme Commander of the Highcrest Vanguard'],
-      ['veyra', 'Harbor Marshal Veyra', 'Defender of the Drowned Bastions & Sea Lanes'],
-      ['marlow', 'Reeve Marlow', 'Frontier Bailiff of Thornwick Market'],
-      ['outpost scout', 'Frontier Ranger', 'Highland Reconnaissance Scout'],
+    const named: Array<[string, string, string, string]> = [
+      ['garrick', 'Captain Garrick', 'Highland Border Sentinel & Commander of the Sunken Ford Picket', 'portraits/npc-ashbrook-watchman'],
+      ['fenwick', 'Ferryman Fenwick', 'Master of the Border Shallows & River Ferry', 'portraits/npc-alder-ferryman'],
+      ['bram', 'Quartermaster Bram', 'Provincial Requisition Officer & Camp Purveyor', 'portraits/npc-border-peddler'],
+      ['elias', 'Brother Elias the Scorched', 'Penitent Cleric of the Ashen Way', 'portraits/npc-threshold-penitent'],
+      ['hobb', 'Hobb the Smith', 'Frontier Armorer & Anvil Master', 'portraits/npc-foundry-stoker'],
+      ['kors', 'Shipwright Kors', 'Master Carpenter of the Drowned Coast', 'portraits/npc-harbor-pilot'],
+      ['lyra', 'Warden Lyra', 'Shield-Captain of the Highland Patrols', 'portraits/npc-warden-hale'],
+      ['marta', 'Alchemist Marta', 'Keeper of Vials & Peat Distillates', 'portraits/npc-leech-apothecary'],
+      ['pip', 'Pip the Mudlark', 'Canal Scavenger & Fen Runner', 'portraits/npc-fen-peatcutter'],
+      ['rowan', 'Commander Rowan', 'Garrison Commander of the Caldera Redoubts', 'portraits/npc-greystone-sentry'],
+      ['sera', 'Healer Sera', 'Field Chirurgeon of the Border Levies', 'portraits/npc-ford-herbalist'],
+      ['tull', 'Tull the Water-Seller', 'Alkali Basin Carver & Sump Trader', 'portraits/npc-alkali-drover'],
+      ['vok', 'Forgemaster Vok', 'Imperial Smith & Blade Hardener', 'portraits/npc-foundry-stoker'],
+      ['zahra', 'Scholar Zahra', 'Antiquarian & Chronicle Notary', 'portraits/npc-disgraced-scribe'],
+      ['orlen', 'Orlen the Grave-Tender', 'Marsh Herbalist & Master of Rot-Wards', 'npc-orlen'],
+      ['sabik', 'Sabik the Sand-Walker', 'Chief Dune Scout of the Glass Wastes', 'npc-sabik'],
+      ['quillon', 'Sage Quillon', 'High Sage of the Drowned Coast & Tide-Caller', 'npc-quillon'],
+      ['aldren', 'Sir Aldren the Iron-Willed', 'Veteran Knight-Commander of the Burnt Keep', 'npc-aldren'],
+      ['isolde', 'Captain Isolde', 'Vanguard Commander of the Ashbrook Relief Cohort', 'npc-commander'],
+      ['vance', 'Marshal Vance', 'Supreme Commander of the Highcrest Vanguard', 'npc-commander'],
+      ['veyra', 'Harbor Marshal Veyra', 'Defender of the Drowned Bastions & Sea Lanes', 'npc-quillon'],
+      ['marlow', 'Reeve Marlow', 'Frontier Bailiff of Thornwick Market', 'npc-hale'],
+      ['outpost scout', 'Frontier Ranger', 'Highland Reconnaissance Scout', 'npc-scout'],
     ];
-    for (const [key, name, rank] of named) {
+    for (const [key, name, rank, imgKey] of named) {
       if (lower.includes(key)) {
-        return { name, rank, portraitSvg: paintedPortrait(`npc-${key.split(' ')[0] === 'outpost' ? 'scout' : key.split(' ')[0]}`, getFallbackPortraitSvg()) };
+        return { name, rank, portraitSvg: paintedPortrait(imgKey, getCaptainMerrickPortraitSvg()) };
       }
     }
     if (lower.includes('cache') || lower.includes('coffer') || lower.includes('granary') || lower.includes('lockbox')) {
@@ -592,7 +634,7 @@ export class MissionUi {
     return {
       name: who || 'Garrison Scout',
       rank: 'Highland Border Sentinel',
-      portraitSvg: getFallbackPortraitSvg(),
+      portraitSvg: paintedPortrait('portraits/npc-ashbrook-watchman', getCaptainMerrickPortraitSvg()),
     };
   }
 

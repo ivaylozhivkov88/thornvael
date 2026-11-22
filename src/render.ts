@@ -953,7 +953,11 @@ export class Renderer {
         else if (e.type === 7 && e.v > 0) this.feel.addDamageFloater(`+${e.v}`, wx, wy, BUFF_COLOR, false, false, now);
         else if (e.type === 8 && e.v < 16) this.feel.addDamageFloater(S.statuses[e.v], wx, wy, STATUS_COLORS[e.v], false, false, now);
         else if (e.type === 11) this.feel.addDamageFloater('blocked', wx, wy, 0x70c8ff, false, false, now);
-        else if (e.type === 6) this.feel.addDamageFloater(`${SKILL_NAMES[e.v]} ${e.el}`, wx, wy, 0xffd84a, false, false, now);
+        else if (e.type === 6) {
+          if (e.el >= 2 && e.el <= 10 && e.v >= 0 && e.v < SKILL_NAMES.length) {
+            this.feel.addDamageFloater(`${SKILL_NAMES[e.v]} ${e.el}`, wx, wy, 0xffd84a, false, false, now);
+          }
+        }
         else if (e.type === 5) {
           const radPx = Math.max(24, (e.v / 10) * TILE);
           if (!this.vfx?.isApexCast(this.lastCastSid)) this.burst(e.x * k, e.y * k, radPx, 480, ELEM_COLOR[e.el], true, now, e.el);

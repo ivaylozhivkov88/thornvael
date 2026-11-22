@@ -5027,3 +5027,273 @@ button:disabled, #shell .sh-btn:disabled { opacity: .6; cursor: default; box-sha
   line-height: 14px;
 }
 
+/* --- Main Menu Unobtrusive Music Button (#sh-music-btn) --- */
+.sh-music-btn {
+  position: fixed;
+  top: max(10px, env(safe-area-inset-top));
+  right: max(12px, env(safe-area-inset-right));
+  z-index: 60;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 12px;
+  font-size: clamp(11px, 1.4vh, 13px);
+  font-weight: 600;
+  letter-spacing: 0.03em;
+  color: #ead8b5;
+  background: rgba(15, 19, 25, 0.86);
+  border: 1px solid rgba(164, 130, 74, 0.55);
+  border-radius: 999px;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.55);
+  backdrop-filter: blur(4px);
+  cursor: pointer;
+  transition: border-color 0.2s ease, background 0.2s ease, color 0.2s ease;
+}
+
+.sh-music-btn:hover {
+  border-color: #ffd870;
+  color: #fff2cc;
+}
+
+.sh-music-btn.is-playing {
+  border-color: #c9a14a;
+  color: #ffd870;
+}
+
+.sh-music-btn.is-pending {
+  border-color: rgba(255, 216, 112, 0.72);
+  animation: tv-music-pulse 2.2s ease-in-out infinite;
+}
+
+.sh-music-btn.is-inline {
+  position: static;
+  flex-shrink: 0;
+}
+
+.sh-music-btn.is-campfire {
+  left: max(12px, env(safe-area-inset-left));
+  right: auto;
+}
+
+@keyframes tv-music-pulse {
+  0%, 100% { box-shadow: 0 4px 14px rgba(0, 0, 0, 0.55), 0 0 0 0 rgba(255, 216, 112, 0.25); }
+  50% { box-shadow: 0 4px 14px rgba(0, 0, 0, 0.55), 0 0 12px 2px rgba(255, 216, 112, 0.28); }
+}
+
+/* --- Atmospheric Mission Loading Screen (#tv-loading-screen) --- */
+.tv-loading-screen {
+  position: fixed;
+  inset: 0;
+  width: 100vw;
+  height: 100dvh;
+  max-height: 100dvh;
+  overflow: hidden;
+  z-index: 980;
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  padding: clamp(10px, 2.5vh, 28px) clamp(12px, 3vw, 32px) calc(clamp(10px, 2.5vh, 28px) + env(safe-area-inset-bottom));
+  box-sizing: border-box;
+  background: #090807;
+  color: #f2e5cb;
+  opacity: 1;
+  transition: opacity 0.32s ease;
+}
+
+.tv-loading-screen.is-hiding {
+  opacity: 0;
+  pointer-events: none;
+}
+
+.tv-loading-backdrop {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  pointer-events: none;
+}
+
+.tv-loading-bg-img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center 30%;
+  opacity: 0;
+  transform: scale(1.04);
+  transition: opacity 0.9s ease, transform 6s ease-out;
+}
+
+.tv-loading-bg-img.is-visible {
+  opacity: 0.88;
+  transform: scale(1);
+}
+
+.tv-loading-vignette {
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(ellipse at center 35%, rgba(10, 12, 16, 0.15) 0%, rgba(8, 9, 12, 0.72) 70%, rgba(6, 7, 10, 0.96) 100%),
+    linear-gradient(180deg, rgba(8, 9, 12, 0.55) 0%, rgba(8, 9, 12, 0.1) 35%, rgba(8, 9, 12, 0.88) 78%, rgba(6, 7, 10, 0.98) 100%);
+}
+
+.tv-loading-panel {
+  position: relative;
+  z-index: 2;
+  width: min(760px, 94vw);
+  max-height: 92dvh;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  gap: clamp(8px, 1.4vh, 14px);
+  padding: clamp(12px, 2vh, 20px) clamp(14px, 2.5vw, 24px);
+  background: linear-gradient(180deg, rgba(19, 24, 31, 0.86) 0%, rgba(10, 13, 18, 0.94) 100%);
+  border: 1.5px solid rgba(168, 132, 74, 0.65);
+  border-radius: 8px;
+  box-shadow: 0 20px 64px rgba(0, 0, 0, 0.88), inset 0 1px 0 rgba(255, 224, 150, 0.16);
+  backdrop-filter: blur(6px);
+  box-sizing: border-box;
+}
+
+.tv-loading-header {
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.tv-loading-crest {
+  font-size: clamp(10px, 1.3vh, 12px);
+  letter-spacing: 0.22em;
+  color: #c9a14a;
+  font-weight: 700;
+}
+
+.tv-loading-title {
+  margin: 0;
+  font-size: clamp(18px, 3vh, 28px);
+  line-height: 1.15;
+  color: #ffd870;
+  text-shadow: 0 2px 10px rgba(0, 0, 0, 0.85);
+}
+
+.tv-loading-subtitle {
+  font-size: clamp(11px, 1.5vh, 14px);
+  color: #cbb996;
+}
+
+.tv-loading-progress-wrap {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.tv-loading-status-row {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  font-size: clamp(12px, 1.6vh, 14px);
+  color: #ead8b5;
+}
+
+.tv-loading-rune-spinner {
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  border: 2px solid rgba(255, 216, 112, 0.25);
+  border-top-color: #ffd870;
+  animation: tv-spin 0.9s linear infinite;
+  flex-shrink: 0;
+}
+
+@keyframes tv-spin {
+  to { transform: rotate(360deg); }
+}
+
+.tv-loading-bar-track {
+  width: 100%;
+  height: 7px;
+  border-radius: 999px;
+  background: rgba(8, 10, 14, 0.9);
+  border: 1px solid rgba(164, 130, 74, 0.4);
+  overflow: hidden;
+}
+
+.tv-loading-bar-fill {
+  height: 100%;
+  width: 18%;
+  border-radius: 999px;
+  background: linear-gradient(90deg, #8b6826 0%, #e5b84b 55%, #fff0a8 100%);
+  box-shadow: 0 0 10px rgba(255, 216, 112, 0.45);
+  transition: width 0.35s ease;
+}
+
+.tv-loading-bar-fill.is-error {
+  background: linear-gradient(90deg, #7f1d1d 0%, #ef4444 100%);
+  box-shadow: none;
+}
+
+.tv-loading-tip-box {
+  border-top: 1px solid rgba(164, 130, 74, 0.28);
+  padding-top: clamp(6px, 1.1vh, 10px);
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.tv-loading-tip-label {
+  font-size: clamp(10px, 1.2vh, 11px);
+  letter-spacing: 0.14em;
+  color: #c9a14a;
+  font-weight: 700;
+}
+
+.tv-loading-tip {
+  margin: 0;
+  font-size: clamp(12px, 1.65vh, 14px);
+  line-height: 1.4;
+  color: #e6dac3;
+  font-style: italic;
+}
+
+.tv-loading-error {
+  padding: 10px 12px;
+  border-radius: 6px;
+  background: rgba(65, 16, 16, 0.72);
+  border: 1px solid rgba(239, 68, 68, 0.55);
+  text-align: center;
+}
+
+.tv-loading-err-msg {
+  margin: 0 0 8px;
+  font-size: 13px;
+  color: #fecaca;
+}
+
+.tv-loading-err-actions {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.tv-loading-btn {
+  padding: 7px 14px;
+  border-radius: 4px;
+  border: 1px solid #8a6b3a;
+  background: #1b222a;
+  color: #f2e5cb;
+  font-size: 13px;
+  cursor: pointer;
+}
+
+.tv-loading-btn-primary {
+  background: linear-gradient(180deg, #8b6826 0%, #5b4216 100%);
+  border-color: #ffd870;
+  color: #fff5d6;
+  font-weight: 600;
+}
+
+

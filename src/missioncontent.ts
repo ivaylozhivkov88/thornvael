@@ -16,20 +16,34 @@ const prettySpeaker = (s: string): string =>
           .join(' ') || 'Narrator';
 export const speakerName = prettySpeaker;
 
+type CampaignNodeRef = { id: string; map?: string; act?: number; kind?: string };
+let cachedCampaignNodes: Promise<{ nodes: CampaignNodeRef[] }> | null = null;
+function fetchCampaignData(): Promise<{ nodes: CampaignNodeRef[] }> {
+  if (!cachedCampaignNodes) {
+    cachedCampaignNodes = fetch(`${import.meta.env.BASE_URL}data/campaign.json`)
+      .then((r) => r.json() as Promise<{ nodes: CampaignNodeRef[] }>)
+      .catch((err) => {
+        cachedCampaignNodes = null;
+        throw err;
+      });
+  }
+  return cachedCampaignNodes;
+}
+
 /** Looks the mission up by its map name (the campaign node's `map`). Returns null when anything is missing. */
 export async function loadMissionContent(map: string | null): Promise<MissionContent | null> {
   if (!map) return null;
   try {
     const base = import.meta.env.BASE_URL;
     const [camp, all, bosses, endings, texts, bossLines] = await Promise.all([
-      fetch(`${base}data/campaign.json`).then((r) => r.json()),
+      fetchCampaignData(),
       fetch(`${base}data/content/missions.json`).then((r) => r.json()),
       fetch(`${base}data/content/bosses.json`).then((r) => r.json()).catch(() => ({})),
       fetch(`${base}data/content/act-endings.json`).then((r) => r.json()).catch(() => []),
       fetch(`${base}data/content/mission-texts.json`).then((r) => r.json()).catch(() => []),
       fetch(`${base}data/content/boss-dialogue.json`).then((r) => r.json()).catch(() => []),
     ]);
-    const nodes = camp.nodes as { id: string; map?: string; act?: number; kind?: string }[];
+    const nodes = camp.nodes;
     const node = nodes.find((n) => n.map === map);
     if (!node) return null;
     const base0: MissionContent = { ...(all[node.id] ?? {}) };
@@ -233,7 +247,7 @@ export async function loadHelpAndCredits(): Promise<void> {
 export async function loadMissionHints(mission: string): Promise<string[]> {
   try {
     const base = import.meta.env.BASE_URL;
-    const camp = await (await fetch(`${base}data/campaign.json`)).json() as { nodes: { id: string; map?: string }[] };
+    const camp = await fetchCampaignData();
     const id = camp.nodes.find((n) => n.map === mission)?.id;
     const r = await fetch(`${base}data/content/objective-hints-2.json`);
     if (id && r.ok) return ((await r.json()) as Record<string, string[]>)[id] ?? [];
@@ -244,7 +258,7 @@ export async function loadMissionHints(mission: string): Promise<string[]> {
 /** The mXX key of a map name from campaign.json. */
 export async function missionKey(mission: string): Promise<string | null> {
   try {
-    const camp = await (await fetch(`${import.meta.env.BASE_URL}data/campaign.json`)).json() as { nodes: { id: string; map?: string }[] };
+    const camp = await fetchCampaignData();
     return camp.nodes.find((n) => n.map === mission)?.id.split('-')[0] ?? null;
   } catch { return null; }
 }
@@ -253,7 +267,7 @@ export async function missionKey(mission: string): Promise<string | null> {
 export async function missionRadio(mission: string, kind: 'start' | 'mid' | 'danger' | 'win' | 'lose' | 'reinforce' | 'low_hp' | 'half_cleared' | 'boss_spawn' | 'boss_low' | 'victory_flavour'): Promise<string | null> {
   try {
     const base = import.meta.env.BASE_URL;
-    const camp = await (await fetch(`${base}data/campaign.json`)).json() as { nodes: { id: string; map?: string }[] };
+    const camp = await fetchCampaignData();
     const key = camp.nodes.find((n) => n.map === mission)?.id.split('-')[0];
     const extra = ['reinforce', 'low_hp', 'half_cleared', 'boss_spawn', 'boss_low', 'victory_flavour'].includes(kind);
     const r = await fetch(`${base}data/content/${extra ? 'mission-radio-extra' : 'mission-radio'}.json`);

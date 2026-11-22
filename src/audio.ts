@@ -336,6 +336,23 @@ function loadBuffer(name: string): Promise<void> {
   return task;
 }
 
+function canAutoUnlock(): boolean {
+  if (ctx && ctx.state !== 'closed') return true;
+  if (typeof navigator === 'undefined') return false;
+  const ua = (navigator as Navigator & { userActivation?: { hasBeenActive?: boolean; isActive?: boolean } }).userActivation;
+  if (ua) return Boolean(ua.hasBeenActive || ua.isActive);
+  return true;
+}
+
+export function isAudioRunning(): boolean {
+  return Boolean(ctx && ctx.state === 'running');
+}
+
+export function isMusicPlaying(): boolean {
+  const h = director.getActiveHandle();
+  return Boolean(musicWanted && ctx && ctx.state === 'running' && h && !h.paused);
+}
+
 /** Call from a real user gesture. Safe to call repeatedly. */
 export function unlock(): void {
   if (backgrounded) return;
@@ -837,7 +854,7 @@ export function playInventoryFull(): void {
 
 /** Procedural cue: Low HP heartbeat (sub-bass lub-dub pulse). */
 export function playLowHpHeartbeat(): void {
-  unlock();
+  if (canAutoUnlock()) unlock();
   const bus = sfxBus ?? uiBus;
   if (!ctx || !bus || !sfxOn || backgrounded || ctx.state !== 'running') return;
   try {
@@ -878,7 +895,7 @@ export function playLowHpHeartbeat(): void {
  * a dark resonant iron bell / bass pulse when the speaker changes or enters.
  */
 export function playSpeakerSwitchThrill(): void {
-  unlock();
+  if (canAutoUnlock()) unlock();
   const bus = uiBus ?? sfxBus;
   if (!ctx || !bus || !sfxOn || backgrounded || ctx.state !== 'running') return;
   try {

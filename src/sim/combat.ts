@@ -897,12 +897,26 @@ function stepProjectiles(sim: Sim): void {
 
 // ---- unit behaviour ----
 
+const HG_RANGE_BONUS = Math.round(1.5 * FP);
+
+function effectiveReach(sim: Sim, src: number, tgt: number, baseReach: number, ranged: boolean): number {
+  const h = sim.map?.height;
+  if (!ranged || !h) return baseReach;
+  const w = sim.map.w;
+  const mh = sim.map.h;
+  const ax = Math.max(0, Math.min(w - 1, sim.x[src] >> 8));
+  const ay = Math.max(0, Math.min(mh - 1, sim.y[src] >> 8));
+  const tx = Math.max(0, Math.min(w - 1, sim.x[tgt] >> 8));
+  const ty = Math.max(0, Math.min(mh - 1, sim.y[tgt] >> 8));
+  return h[ay * w + ax] - h[ty * w + tx] >= 2 ? baseReach + HG_RANGE_BONUS : baseReach;
+}
+
 /** Close in on `t` and attack when in reach. */
 function fight(sim: Sim, i: number, t: number): void {
   const cb = sim.cb;
   const d = DEFS[cb.kind[i]];
   const dd = dist(sim, i, sim.x[t], sim.y[t]);
-  if (dd <= d.reach) {
+  if (dd <= effectiveReach(sim, i, t, d.reach, d.ranged)) {
     if (sim.moving[i]) sim.stop(i);
     sim.dir[i] = dir16(sim.x[t] - sim.x[i], sim.y[t] - sim.y[i]);
     if (cb.cd[i] === 0) attack(sim, i, t);
@@ -950,7 +964,11 @@ function unitThink(sim: Sim, i: number): void {
       return;
     }
     case Ord.Hold: {
-      if (!valid(sim, t) || dist(sim, i, sim.x[t], sim.y[t]) > d.reach) t = (sim.tick + i) & 1 ? -1 : enemyNear(sim, i, d.reach, 0, 0, 0);
+      if (!valid(sim, t) || dist(sim, i, sim.x[t], sim.y[t]) > effectiveReach(sim, i, t, d.reach, d.ranged)) {
+        const scanReach = d.ranged && sim.map?.height ? d.reach + Math.round(1.5 * FP) : d.reach;
+        const cand = (sim.tick + i) & 1 ? -1 : enemyNear(sim, i, scanReach, 0, 0, 0);
+        t = cand >= 0 && dist(sim, i, sim.x[cand], sim.y[cand]) <= effectiveReach(sim, i, cand, d.reach, d.ranged) ? cand : -1;
+      }
       cb.tgt[i] = t;
       if (t >= 0) {
         sim.dir[i] = dir16(sim.x[t] - sim.x[i], sim.y[t] - sim.y[i]);

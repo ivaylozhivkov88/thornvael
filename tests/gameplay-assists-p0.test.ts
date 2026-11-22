@@ -9,7 +9,7 @@ import {
   writePreference,
 } from '../src/preferences';
 import { Kind } from '../src/sim/combat';
-import { FP, Sim } from '../src/sim/sim';
+import { FP, Sim, replay } from '../src/sim/sim';
 import {
   computeHighGroundBonus,
   computeRegroupFormation,
@@ -314,5 +314,40 @@ describe('Auto-Go with Ambush Guard & Auto-Loot Sweep (src/sim/tactics.ts)', () 
     expect(sweep.collectedGold).toBe(75);
     expect(sweep.targets.length).toBe(1);
     expect(sweep.targets[0]!.kind).toBe('gold');
+  });
+
+  it('high ground grants ranged units +1.5 tile attack reach in Hold stance deterministically', () => {
+    const map = createTestMap(24, 24);
+    // Elevate archer at (4, 10) to height 4, target at (12, 10) height 1 -> dh = 3, distance = 8 tiles (> base 7, <= 8.5)
+    map.height[10 * map.w + 4] = 4;
+    map.height[10 * map.w + 12] = 1;
+
+    const makeSim = () => {
+      const s = new Sim(map, 42, [0, 1], { combat: true, kinds: [Kind.Archer, Kind.Warrior] });
+      s.place(0, 4, 10);
+      s.place(1, 12, 10);
+      return s;
+    };
+
+    const sim = makeSim();
+    const startX = sim.x[0];
+    sim.step([{ type: 'order', order: 'hold', ids: [0] }, { type: 'order', order: 'still', ids: [1] }]);
+    const startHp = sim.cb.hp[1];
+    for (let t = 0; t < 80; t++) sim.step([]);
+
+    // Archer did not move from Hold post and still hit the target 8 tiles away
+    expect(sim.x[0]).toBe(startX);
+    expect(sim.cb.hp[1]).toBeLessThan(startHp);
+
+    // Determinism check: replay and snapshot/restore match exact hash
+    const snap = sim.snapshot();
+    const expectedHash = sim.hash();
+    const replayed = makeSim();
+    replay(replayed, sim.log, sim.tick);
+    expect(replayed.hash()).toBe(expectedHash);
+
+    const restored = makeSim();
+    restored.restore(snap);
+    expect(restored.hash()).toBe(expectedHash);
   });
 });

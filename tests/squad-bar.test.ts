@@ -374,4 +374,38 @@ describe('SquadBar HUD', () => {
     expect(css).toMatch(/min-width:\s*44px/);
     expect(css).toMatch(/min-height:\s*44px/);
   });
+
+  it('renders squad stance & regroup buttons and fires callbacks cleanly', () => {
+    const onStanceChange = vi.fn();
+    const onRegroup = vi.fn();
+    const bar = new SquadBar(mockBody as unknown as HTMLElement, {
+      onSelect: vi.fn(),
+      onStanceChange,
+      onRegroup,
+      initialStance: 'guard',
+    });
+    const sim = makeTestSim();
+    const { members, totalCount } = extractSquadMembers(sim, new Set([0]), { baseUrl: './' });
+    bar.update(members, totalCount);
+
+    const stanceBtns = (bar.el as unknown as MockElement).querySelectorAll('.squad-tactic-btn');
+    expect(stanceBtns.length).toBe(4);
+    const holdBtn = stanceBtns[0]!;
+    const guardBtn = stanceBtns[1]!;
+    const aggrBtn = stanceBtns[2]!;
+    const regroupBtn = stanceBtns[3]!;
+
+    expect(guardBtn.classList.contains('is-active')).toBe(true);
+    holdBtn.onclick?.();
+    expect(onStanceChange).toHaveBeenCalledWith('hold');
+    expect(holdBtn.classList.contains('is-active')).toBe(true);
+    expect(guardBtn.classList.contains('is-active')).toBe(false);
+
+    aggrBtn.onclick?.();
+    expect(onStanceChange).toHaveBeenCalledWith('aggressive');
+    expect(aggrBtn.classList.contains('is-active')).toBe(true);
+
+    regroupBtn.onclick?.();
+    expect(onRegroup).toHaveBeenCalledTimes(1);
+  });
 });

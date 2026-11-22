@@ -1,4 +1,4 @@
-import { attachBlurMuteListeners, setCharSelectMusic, setMainMenuMusic, unlock } from './audio';
+import { attachBlurMuteListeners, isMusicPlaying, setCharSelectMusic, setMainMenuMusic, setMusic, unlock } from './audio';
 import { actOf, nodeOf, type CampaignNode } from './campaign';
 import { loadCampaign, readRecord, writeRecord } from './campaignstore';
 import { canEnter, newRecord, nodeUrl, RECORD_KEY, clearLast, type CampaignRecord, type HeroPick } from './flow';
@@ -18,7 +18,7 @@ import { applyUpdate, onUpdateWaiting, updateWaiting } from './updategate';
 import { AUTO, deleteRecord, deleteSave, exportAllSaves, getSave, importSaveText, listSaves } from './savedb';
 import { actTransitionForCompletedNode, sequenceById, sequenceForNode, STORY_SEQUENCES, type StorySequence } from './story';
 import { S } from './strings';
-import { readPreferences } from './preferences';
+import { readPreferences, writePreference } from './preferences';
 import { CodexUi } from './codexui';
 import { getPlaquesByAct, loadLocationPlaques, type LocationPlaqueEntry } from './data/text/index';
 import { loadMonsterCodex, loadHelpAndCredits, getHelpPages, getCreditLines } from './missioncontent';
@@ -71,23 +71,95 @@ export async function runShell(startWorker: () => void): Promise<never> {
   const codexUi = new CodexUi();
   let audioUnlocked = false;
   let shellMusicKind: 'menu' | 'charSelect' = 'menu';
-  const syncShellMusic = (kind: 'menu' | 'charSelect'): void => {
-    shellMusicKind = kind;
-    if (!audioUnlocked || !readPreferences().music) return;
-    if (kind === 'charSelect') setCharSelectMusic();
-    else setMainMenuMusic();
-  };
-  const startShellMusic = (): void => {
-    audioUnlocked = true;
-    if (readPreferences().music) {
-      unlock();
-      syncShellMusic(shellMusicKind);
-    }
-  };
-  document.addEventListener('pointerdown', startShellMusic, { once: true });
   const root = el('div');
   root.id = 'shell';
   document.body.append(root);
+
+  const musicBtn = btn('🔊 Music', () => {
+    const prefs = readPreferences();
+    if (!prefs.music) {
+      writePreference('music', true);
+      audioUnlocked = true;
+      unlock();
+      syncShellMusic(shellMusicKind);
+      attachShellGestureUnlock();
+    } else if (!isMusicPlaying()) {
+      audioUnlocked = true;
+      unlock();
+      syncShellMusic(shellMusicKind);
+    } else {
+      writePreference('music', false);
+      setMusic(false);
+    }
+    refreshMusicBtn();
+    setTimeout(refreshMusicBtn, 160);
+    setTimeout(refreshMusicBtn, 600);
+  }, 'sh-music-btn');
+  musicBtn.id = 'sh-music-btn';
+  musicBtn.type = 'button';
+  document.body.append(musicBtn);
+
+  const refreshMusicBtn = (): void => {
+    const wantMusic = readPreferences().music;
+    if (!wantMusic) {
+      musicBtn.textContent = '🔇 Music: Off';
+      musicBtn.classList.remove('is-playing', 'is-pending');
+      musicBtn.setAttribute('aria-pressed', 'false');
+      musicBtn.title = 'Enable menu music';
+      return;
+    }
+    const playing = isMusicPlaying();
+    musicBtn.textContent = playing ? '🔊 Music: On' : '🔊 Music';
+    musicBtn.classList.toggle('is-playing', playing);
+    musicBtn.classList.toggle('is-pending', !playing);
+    musicBtn.setAttribute('aria-pressed', String(playing));
+    musicBtn.title = playing ? 'Mute menu music' : 'Click to start menu music';
+  };
+
+  const syncShellMusic = (kind: 'menu' | 'charSelect'): void => {
+    shellMusicKind = kind;
+    if (!audioUnlocked || !readPreferences().music) {
+      refreshMusicBtn();
+      return;
+    }
+    if (kind === 'charSelect') setCharSelectMusic();
+    else setMainMenuMusic();
+    refreshMusicBtn();
+    setTimeout(refreshMusicBtn, 160);
+  };
+
+  let gestureAttached = false;
+  const onShellGesture = (e: Event): void => {
+    if (typeof Node !== 'undefined' && e.target instanceof Node && musicBtn.contains(e.target)) return;
+    if (!readPreferences().music) {
+      detachShellGestureUnlock();
+      refreshMusicBtn();
+      return;
+    }
+    audioUnlocked = true;
+    unlock();
+    syncShellMusic(shellMusicKind);
+    setTimeout(() => {
+      refreshMusicBtn();
+      if (isMusicPlaying()) detachShellGestureUnlock();
+    }, 200);
+  };
+  const attachShellGestureUnlock = (): void => {
+    if (gestureAttached) return;
+    gestureAttached = true;
+    document.addEventListener('pointerdown', onShellGesture, { capture: true, passive: true });
+    document.addEventListener('click', onShellGesture, { capture: true, passive: true });
+    document.addEventListener('keydown', onShellGesture, { capture: true, passive: true });
+  };
+  const detachShellGestureUnlock = (): void => {
+    if (!gestureAttached) return;
+    gestureAttached = false;
+    document.removeEventListener('pointerdown', onShellGesture, { capture: true });
+    document.removeEventListener('click', onShellGesture, { capture: true });
+    document.removeEventListener('keydown', onShellGesture, { capture: true });
+  };
+  attachShellGestureUnlock();
+  refreshMusicBtn();
   const c = await loadCampaign();
   let rec = await readRecord();
   let auto = null as Awaited<ReturnType<typeof getSave>>;
@@ -129,6 +201,11 @@ export async function runShell(startWorker: () => void): Promise<never> {
     activeDispose = null;
     modals.closeAll();
     root.replaceChildren(...kids);
+    musicBtn.classList.toggle('is-campfire', kids.some((k) => k.classList.contains('sh-campfire-screen')));
+    if (mode !== 'map' && musicBtn.parentElement !== document.body) {
+      musicBtn.classList.remove('is-inline');
+      document.body.append(musicBtn);
+    }
   };
   const back = (): HTMLButtonElement => btn(T.back, menu, 'sh-small');
   const clsName = (x: Character): string => formatCharacterClass(x);
@@ -455,6 +532,7 @@ Items, skills and levels carry over.`));
   function map(): void {
     if (!rec) return menu();
     mode = 'map';
+    syncShellMusic('menu');
     const r = rec;
     const acts = [...new Set(c.nodes.map((n) => actOf(n)))].sort((a, b) => a - b) as (1 | 2 | 3 | 4)[];
     if (!acts.includes(currentAct)) currentAct = acts[0] ?? 1;
@@ -558,7 +636,8 @@ Items, skills and levels carry over.`));
     }
     const seqId = (`act-${currentAct}`) as StorySequence['id'];
     actTabs.append(btn('Story', () => showStory(seqId), 'sh-small'));
-    bar.append(el('b', '', `${T.mapTitle} · ${T.diff[r.progress.difficulty]}`), actTabs, btn('🏆 Codex', () => codexUi.show(), 'sh-small'), btn(T.holdings, holdings, 'sh-small'), ...banner(), btn(T.back, menu, 'sh-small'));
+    musicBtn.classList.add('is-inline');
+    bar.append(el('b', '', `${T.mapTitle} · ${T.diff[r.progress.difficulty]}`), actTabs, btn('🏆 Codex', () => codexUi.show(), 'sh-small'), btn(T.holdings, holdings, 'sh-small'), ...banner(), musicBtn, btn(T.back, menu, 'sh-small'));
     screen(bar, stage);
     if (r.last) result(r.last);
   }

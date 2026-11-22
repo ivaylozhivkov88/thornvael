@@ -1287,7 +1287,29 @@ export class PauseMenu {
     };
     healRow.append(healLabel, healBtn);
 
-    assistsBox.append(castRow, navRow, fightRow, lootRow, healRow);
+    // Auto-Potion Threshold Row
+    const potRow = document.createElement('div');
+    potRow.className = 'pause-setting-row';
+    const potLabel = document.createElement('div');
+    potLabel.className = 'pause-setting-label';
+    potLabel.innerHTML =
+      '<b>Auto-Potion</b><small>Automatically drink a belt Healing Draught when hero HP drops below threshold</small>';
+    const potBtn = document.createElement('button');
+    potBtn.type = 'button';
+    potBtn.className = 'pause-ux-btn';
+    const potPct = prefs.autoPotionThresholdPct ?? 0;
+    potBtn.textContent = `Auto-Potion: ${potPct > 0 ? `${potPct}% HP` : 'OFF'}`;
+    potBtn.onclick = () => {
+      const tiers = [0, 30, 45];
+      const cur = prefs.autoPotionThresholdPct ?? 0;
+      const next = tiers[(tiers.indexOf(cur) + 1) % tiers.length] ?? 0;
+      prefs.autoPotionThresholdPct = next;
+      writePreference('autoPotionThresholdPct', next);
+      this.render();
+    };
+    potRow.append(potLabel, potBtn);
+
+    assistsBox.append(castRow, navRow, fightRow, lootRow, healRow, potRow);
 
     body.append(audioBox, displayBox, gameBox, assistsBox);
     modal.append(head, body);

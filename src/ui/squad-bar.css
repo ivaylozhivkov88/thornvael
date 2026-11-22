@@ -249,6 +249,49 @@
   font-weight: 600;
 }
 
+.squad-tactics-bar {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 4px;
+  width: 100%;
+  touch-action: none;
+}
+
+.squad-tactic-btn {
+  min-width: 0;
+  min-height: 30px;
+  padding: 4px 3px;
+  font-size: 10px;
+  font-weight: 600;
+  color: var(--text, #eee5d4);
+  background: linear-gradient(150deg, rgba(28, 22, 17, 0.94), rgba(14, 11, 9, 0.96));
+  border: 1px solid var(--bronze, #957550);
+  border-radius: 4px;
+  cursor: pointer;
+  touch-action: none;
+  user-select: none;
+  -webkit-user-select: none;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.squad-tactic-btn:hover {
+  border-color: #ffd770;
+  color: #fff6df;
+}
+
+.squad-tactic-btn.is-active {
+  background: linear-gradient(150deg, rgba(84, 58, 24, 0.95), rgba(45, 30, 12, 0.98));
+  border-color: var(--gold, #e4bf80);
+  color: #ffd770;
+  box-shadow: 0 0 8px rgba(228, 191, 128, 0.35);
+}
+
+.squad-regroup-btn {
+  grid-column: 1 / -1;
+}
+
 /* Compact / Mobile Landscape Layout: horizontal icon-tile strip, >= 44x44px touch targets */
 .squad-bar.is-compact {
   flex-direction: row;
@@ -302,6 +345,19 @@
 
 .squad-bar.is-compact .squad-bar-track {
   height: 4px;
+}
+
+.squad-bar.is-compact .squad-tactics-bar {
+  display: flex;
+  flex-direction: row;
+  width: auto;
+  flex-shrink: 0;
+}
+
+.squad-bar.is-compact .squad-tactic-btn {
+  min-width: 44px;
+  min-height: 44px;
+  padding: 4px 6px;
 }
 
 @media (max-width: 900px), (max-height: 540px) {

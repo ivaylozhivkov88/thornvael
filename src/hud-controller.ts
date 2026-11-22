@@ -84,6 +84,10 @@ export class HudController {
 
   constructor(private readonly host: HudHost) {}
 
+  canDrinkBelt(slot: number): boolean {
+    return performance.now() >= (this.beltCooldowns[slot] ?? 0);
+  }
+
   drinkBelt(slot: number): void {
     if (this.host.isOutcome()) return;
     const sim = this.host.getSim();

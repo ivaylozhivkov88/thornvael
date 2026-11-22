@@ -148,21 +148,15 @@ test.describe('Act 1 Campaign Flow E2E', () => {
     await skipStory.click();
 
     await page.waitForURL(/\?mission=ford&campaign=m01-blood-at-the-ford/);
-    await page.waitForFunction(() => Boolean((window as GameWindow).__game));
-
-    const contBtn = page.locator('.gothic-continue-btn');
-    for (let i = 0; i < 80; i++) {
-      const ticked = await page.evaluate(() => ((window as GameWindow).__game?.sim.tick ?? 0) >= 1);
-      if (ticked && !(await contBtn.isVisible())) break;
-      if (await contBtn.isVisible()) {
-        await contBtn.click({ timeout: 1000, force: true }).catch(() => {});
-        await page.waitForTimeout(40);
-      } else {
-        await page.waitForTimeout(80);
+    await page.waitForFunction(() => {
+      const dlg = document.getElementById('gothic-dialogue');
+      if (dlg && !dlg.hidden) {
+        dlg.querySelector<HTMLButtonElement>('.gothic-continue-btn')?.click();
+        return false;
       }
-    }
-
-    await page.waitForFunction(() => ((window as GameWindow).__game?.sim.tick ?? 0) >= 1);
+      const g = (window as GameWindow).__game;
+      return Boolean(g && g.sim.tick >= 1);
+    });
     const missionState = await page.evaluate(() => {
       const g = (window as GameWindow).__game as unknown as {
         sim: { hero: { cls: number; female: boolean } | null; count: number; script?: { st: { status: number } } };
@@ -196,37 +190,29 @@ test.describe('Act 1 Campaign Flow E2E', () => {
     });
 
     const townBtn = page.getByRole('button', { name: /return to thornwick market/i });
-    for (let i = 0; i < 40; i++) {
-      if (await townBtn.isVisible().catch(() => false)) break;
-      if (await contBtn.isVisible().catch(() => false)) {
-        await contBtn.click({ timeout: 1000, force: true }).catch(() => {});
-        await page.waitForTimeout(40);
-      } else {
-        await page.waitForTimeout(100);
+    await page.waitForFunction(() => {
+      const dlg = document.getElementById('gothic-dialogue');
+      if (dlg && !dlg.hidden) {
+        dlg.querySelector<HTMLButtonElement>('.gothic-continue-btn')?.click();
+        return false;
       }
-    }
+      return Boolean(document.querySelector('.btn-victory-primary'));
+    });
     await expect(townBtn).toBeVisible({ timeout: 10000 });
-    await townBtn.click();
+    await townBtn.click({ force: true });
 
     await page.waitForURL(/\?mission=market&campaign=town-thornwick/);
-    await page.waitForFunction(() => Boolean((window as GameWindow).__game));
-    const dialogueModal = page.locator('#gothic-dialogue');
-    for (let i = 0; i < 60; i++) {
-      const ready = await page.evaluate(() => {
-        const g = (window as GameWindow).__game as unknown as
-          | { sim: { tick: number; script?: { st: { msgs: number[] } } } }
-          | undefined;
-        return (g?.sim.tick ?? 0) >= 2 && (g?.sim.script?.st.msgs.length ?? 0) >= 2;
-      });
-      if (ready && !(await contBtn.isVisible()) && !(await dialogueModal.isVisible())) break;
-      if (await contBtn.isVisible()) {
-        await contBtn.click({ timeout: 1000, force: true }).catch(() => {});
-        await page.waitForTimeout(40);
-      } else {
-        await page.waitForTimeout(80);
+    await page.waitForFunction(() => {
+      const dlg = document.getElementById('gothic-dialogue');
+      if (dlg && !dlg.hidden) {
+        dlg.querySelector<HTMLButtonElement>('.gothic-continue-btn')?.click();
+        return false;
       }
-    }
-    await page.waitForFunction(() => ((window as GameWindow).__game?.sim.tick ?? 0) >= 1);
+      const g = (window as GameWindow).__game as unknown as
+        | { sim: { tick: number; script?: { st: { msgs: number[] } } } }
+        | undefined;
+      return Boolean(g && g.sim.tick >= 2 && (g.sim.script?.st.msgs.length ?? 0) >= 2);
+    });
 
     const townState = await page.evaluate(() => {
       const g = (window as GameWindow).__game as unknown as {
@@ -254,14 +240,15 @@ test.describe('Act 1 Campaign Flow E2E', () => {
       g.townUi.enter(0, 1);
     });
     await expect(page.locator('.sheet.town')).toBeVisible();
-    await page.locator('.sheet.town button', { hasText: /exit/i }).first().click();
+    await page.locator('.sheet.town button', { hasText: /exit/i }).first().click({ force: true });
+    await expect(page.locator('.sheet.town')).toBeHidden();
 
     await page.locator('#btn-missions').click();
     await page.waitForURL(/\?menu=map/);
     const fenNode = page.locator('.sh-node', { hasText: /whispers in the fen/i });
     await expect(fenNode).toBeEnabled();
-    await fenNode.click();
-    await page.getByRole('button', { name: /go/i }).click();
+    await fenNode.click({ force: true });
+    await page.getByRole('button', { name: /go/i }).click({ force: true });
     await page.waitForURL(/\?mission=fen&campaign=m02-whispers-in-the-fen/);
     await page.waitForFunction(() => Boolean((window as GameWindow).__game));
 
