@@ -222,7 +222,7 @@
  "vesperion": {
   "id": "vesperion",
   "title": "Lord Admiral of the Black Blockade",
-  "mission": "m35-burning-harbor",
+  "mission": "drowned-choir",
   "pre_fight": [
    {
     "speaker": "narrator",
@@ -332,7 +332,7 @@
  "ashkarath": {
   "id": "ashkarath",
   "title": "First Warden of the Anchor Seals",
-  "mission": "m46-ember-reckoning",
+  "mission": "cinder-throne",
   "pre_fight": [
    {
     "speaker": "narrator",
@@ -438,5 +438,414 @@
   ],
   "hero_reaction": "He spent centuries guarding a furnace he was too afraid to light. Now the matches are mine.",
   "loot_flavor": "A crown-band of blackened meteoric iron, pulsing with a slow, steady heat like a sleeping heart."
+ },
+ "elder-juggernaut": {
+  "id": "elder-juggernaut",
+  "title": "Primeval Titan of the Highland Cairn",
+  "mission": "m32-elder-juggernaut",
+  "pre_fight": [
+   {
+    "speaker": "narrator",
+    "line": "Pebbles rattle off the fractured granite ridge as an ancient colossus heaves itself upward from a moss-bound cairn."
+   },
+   {
+    "speaker": "npc-kael-huntsman",
+    "line": "Hold your fire—look at its runes! That colossus isn't serving the Caldera. It's the bedrock itself thrashing in agony as the earth tears apart."
+   },
+   {
+    "speaker": "hero",
+    "line": "Tragic or not, its tremors will collapse Harborwatch's sea-walls before the ships sail. Ready earth-breaking spells."
+   },
+   {
+    "speaker": "elder-juggernaut",
+    "line": "*A tectonic groan splits the highland granite like thunder, rattling shields and ribs alike.*"
+   }
+  ],
+  "phases": [
+   {
+    "hp_pct": 100,
+    "line": "*Twin granite wardens step forward in lockstep as the colossus raises stone-slab fists.*",
+    "taunt_barks": [
+     "*Stone grinds against stone with the shriek of a falling cliff.*",
+     "*Earth fissures spiderweb beneath your boots.*"
+    ]
+   },
+   {
+    "hp_pct": 50,
+    "line": "*Incandescent runic fractures flare across its chest as boulders cascade down the ridge.*",
+    "taunt_barks": [
+     "*A deafening stomp sends shockwaves across the highland cairn!*",
+     "*Ordinary steel sparks harmlessly off living basalt.*"
+    ]
+   }
+  ],
+  "special_callouts": [
+   {
+    "name": "Tectonic Stomp",
+    "telegraph_line": "*The Elder Juggernaut raises both monolith fists skyward!*",
+    "hit_line": "*Jagged fissures rip across the cairn!*"
+   }
+  ],
+  "death_scene": [
+   {
+    "speaker": "narrator",
+    "line": "With a resonant sigh like settling mountain shale, the Elder Juggernaut's glowing core fractures and dims into dormant gray stone."
+   },
+   {
+    "speaker": "npc-kael-huntsman",
+    "line": "Rest easy, old mountain. Look inside the cracked chest—ancient runic coins older than the kingdom."
+   },
+   {
+    "speaker": "hero",
+    "line": "Take the bullion for Kors's fleet and march down to the coast. The ridge is quiet."
+   }
+  ],
+  "hero_reaction": "Even the stones of Thornvael were screaming against the Caldera. All we could do was grant it silence.",
+  "loot_flavor": "A palm-sized fragment of resonant highland granite humming softly with primeval earth-wards."
+ },
+ "lord-captain-korvus": {
+  "id": "lord-captain-korvus",
+  "title": "The Iron Anchor, Warlord of the Eastern War Pier",
+  "mission": "m35-burning-harbor",
+  "pre_fight": [
+   {
+    "speaker": "narrator",
+    "line": "Volcanic ash falls like hot sleet across Harborwatch's blazing eastern war pier as twin hooked anchors drag sparks across scorched granite."
+   },
+   {
+    "speaker": "lord-captain-korvus",
+    "line": "Cowards! Running across the sea like rats off a burning hull! If Thornvael must drown in fire, then no one leaves this pier alive!"
+   },
+   {
+    "speaker": "npc-veyra-marshal",
+    "line": "They are away! May the salt winds carry them past the Western Rim! Now, Commander—let us show Korvus and his vultures how the rearguard of Thornvael fights!"
+   },
+   {
+    "speaker": "hero",
+    "line": "The ships are already beyond your reach, Korvus. The only thing left on this quay is you and my blade."
+   }
+  ],
+  "phases": [
+   {
+    "hp_pct": 100,
+    "line": "Drag them into the pitch! Anchor their bones!",
+    "taunt_barks": [
+     "Drag them into the pitch! Anchor their bones!",
+     "No ship leaves while I hold the quay!",
+     "Thornvael burns together!"
+    ]
+   },
+   {
+    "hp_pct": 66,
+    "line": "You dare hold the pier against me? Cut the oil-barrels—light the whole eastern jetty!",
+    "taunt_barks": [
+     "Let the harbor choke on black smoke!",
+     "Your fleet is sailing into nothing!",
+     "Chain-hooks—reel them in!"
+    ]
+   },
+   {
+    "hp_pct": 33,
+    "line": "Every coward sails west while the bedrock melts! Fight me on cracked granite, butcher!",
+    "taunt_barks": [
+     "I will anchor your corpses to the sea floor!",
+     "No mercy on the war pier!",
+     "Die with the continent!"
+    ]
+   },
+   {
+    "hp_pct": 10,
+    "line": "The chains... snapping... no—the sails are already clear of the rim...",
+    "taunt_barks": [
+     "One last swing of the Iron Anchor!",
+     "Still standing?!",
+     "Come down into the surf with me!"
+    ]
+   }
+  ],
+  "special_callouts": [
+   {
+    "name": "Hooked Anchor Pull",
+    "telegraph_line": "Chains whistle through the ash-smoke—brace your footing!",
+    "hit_line": "Yanked straight into the burning pitch!"
+   },
+   {
+    "name": "Quay-Breaker Slam",
+    "telegraph_line": "Both iron anchors crash down to split the granite pier!",
+    "hit_line": "Shattered stone and splintered ribs!"
+   }
+  ],
+  "death_scene": [
+   {
+    "speaker": "lord-captain-korvus",
+    "line": "The sails... past the horizon... you let them... escape a dying world..."
+   },
+   {
+    "speaker": "npc-veyra-marshal",
+    "line": "The people are safe. Their dawn is on the water. We have bought them their morning—now let us march east into the night."
+   },
+   {
+    "speaker": "hero",
+    "line": "Let the black tide take his chains. Muster whoever is left on the quay—we march east at once."
+   },
+   {
+    "speaker": "narrator",
+    "line": "Lord-Captain Korvus topples backward into the churning black surf, dragged beneath the waves by the weight of his own twin anchors."
+   }
+  ],
+  "hero_reaction": "He thought tearing down the lifeboats was courage. The people he tried to burn are already beyond his reach.",
+  "loot_flavor": "A blackened naval chain-link forged from sea-tempered iron, still warm with harbor pitch."
+ },
+ "arch-mage-malrik": {
+  "id": "arch-mage-malrik",
+  "title": "Grand Conspirator of the Iron Pact",
+  "mission": "m39-flight-of-malrik",
+  "pre_fight": [
+   {
+    "speaker": "narrator",
+    "line": "Violet sparks scar the wind-scoured flagstones of Ashveil Gorge as a hooded sorcerer sprints toward the summit teleportation shrine."
+   },
+   {
+    "speaker": "arch-mage-malrik",
+    "line": "Sniper-guards, pin them to the switchbacks! One more minute at the summit shrine and Thornvael's ledgers vanish forever!"
+   },
+   {
+    "speaker": "npc-vance-marshal",
+    "line": "He sold the northern border ciphers to the Iron Pact! Cut him off before he reaches the shrine!"
+   },
+   {
+    "speaker": "hero",
+    "line": "Box him in on the summit stone. Take those ledgers alive or dead."
+   }
+  ],
+  "phases": [
+   {
+    "hp_pct": 100,
+    "line": "You chased a ghost across four provinces only to die on a mountain switchback!",
+    "taunt_barks": [
+     "Snipers—cover my retreat!",
+     "The Iron Pact pays in obsidian, not copper!",
+     "Stay back from the shrine!"
+    ]
+   },
+   {
+    "hp_pct": 40,
+    "line": "No! The teleport circle is three paces away—burn them to cinders!",
+    "taunt_barks": [
+     "You cannot read the ledger you bled for!",
+     "Shield me, fools!",
+     "I will not die on this ridge!"
+    ]
+   }
+  ],
+  "special_callouts": [
+   {
+    "name": "Cipher Bolt",
+    "telegraph_line": "Malrik weaves violet static around the summit shrine!",
+    "hit_line": "Seared by stolen arcane ciphers!"
+   }
+  ],
+  "death_scene": [
+   {
+    "speaker": "arch-mage-malrik",
+    "line": "The satchel... keep your hands off... the Pact will burn the vault before..."
+   },
+   {
+    "speaker": "npc-orla-archivist",
+    "line": "Here are the Royal Cipher-Keys and the Iron Pact Ledger! Look—Morvessa's Salt Tithe was meant for the Order Seals before Malrik diverted the treasury here!"
+   },
+   {
+    "speaker": "hero",
+    "line": "Then every dead villager in Thornwick died for this traitor's ink. Burn his shrine and move out."
+   }
+  ],
+  "hero_reaction": "From the Border Mint to the Caldera, every betrayal wore a neat ledger and a clean cloak.",
+  "loot_flavor": "A scorched leather cipher-satchel stamped with both the Southern Crown and the Iron Pact."
+ },
+ "arch-warden-korrath": {
+  "id": "arch-warden-korrath",
+  "title": "The Living Law, Eternal Sentinel of the Crown Vault",
+  "mission": "m45-crown-of-order",
+  "pre_fight": [
+   {
+    "speaker": "narrator",
+    "line": "Inside the frozen marble cathedral of the Crown Vault, dust hangs motionless in pale azure light before a towering sentinel of living granite."
+   },
+   {
+    "speaker": "arch-warden-korrath",
+    "line": "Three centuries I have stood in granite silence to hold chaos at bay. You shatter anchors and call it mercy, yet without iron law, mortals are only dust in the wind!"
+   },
+   {
+    "speaker": "npc-orla-archivist",
+    "line": "Sunder the West and East Resonance Anchors with the Sigil of Order! While those conduits sing, his granite plate is invulnerable!"
+   },
+   {
+    "speaker": "hero",
+    "line": "A frozen world isn't peace, Korrath—it's a tomb! Let Thornvael breathe again, even if it has to bleed to learn!"
+   }
+  ],
+  "phases": [
+   {
+    "hp_pct": 100,
+    "line": "Be still! Turn to stone!",
+    "taunt_barks": [
+     "Be still! Turn to stone!",
+     "Hold the phalanx, retainers!",
+     "Kneel before eternal stillness!"
+    ]
+   },
+   {
+    "hp_pct": 66,
+    "line": "Both anchors sundered... very well. Taste the twin blades of Petrified Judgment!",
+    "taunt_barks": [
+     "Feel stasis creep into your limbs!",
+     "Every heartbeat is disobedience!",
+     "Become stone beside me!"
+    ]
+   },
+   {
+    "hp_pct": 33,
+    "line": "If you snap the necrotic tether, the world will stumble, bleed, and war again! Why save a broken race?!",
+    "taunt_barks": [
+     "Order demands absolute silence!",
+     "My granite has outlasted ten kings!",
+     "Freeze where you stand!"
+    ]
+   },
+   {
+    "hp_pct": 10,
+    "line": "Fractures... in the white stone... after three hundred years...",
+    "taunt_barks": [
+     "Law... cannot... fall...",
+     "One final judgment!",
+     "Stand still!"
+    ]
+   }
+  ],
+  "special_callouts": [
+   {
+    "name": "Petrifying Stasis",
+    "telegraph_line": "Twin white-granite greatswords chime with freezing azure frost!",
+    "hit_line": "Stone creeps up your greaves—cleanse the stasis!"
+   },
+   {
+    "name": "Judgment of the Vault",
+    "telegraph_line": "Korrath sweeps a shockwave of frozen marble across the nave!",
+    "hit_line": "Crushed under three centuries of law!"
+   }
+  ],
+  "death_scene": [
+   {
+    "speaker": "arch-warden-korrath",
+    "line": "The empire was peace... without stone... you are only... dust..."
+   },
+   {
+    "speaker": "npc-orla-archivist",
+    "line": "The necrotic tether is snapped! Feel that cold mountain air rushing in—the Caldera is cooling into harmless basalt!"
+   },
+   {
+    "speaker": "hero",
+    "line": "Let it cool. And let the fleet come home to a world that gets to choose its own dawn."
+   },
+   {
+    "speaker": "narrator",
+    "line": "Golden-blue light pours through Korrath's splitting breastplate as the ancient sentinel dissolves into quiet gray dust."
+   }
+  ],
+  "hero_reaction": "He turned himself to stone so he would never watch another city fall. Peace isn't a tomb.",
+  "loot_flavor": "A shard of pale marble etched with the Sigil of Order, cool to the touch and faintly humming."
+ },
+ "ember-overlord-vorak": {
+  "id": "ember-overlord-vorak",
+  "title": "The Living Kiln, Overlord of the Furnace Heart",
+  "mission": "m46-ember-reckoning",
+  "pre_fight": [
+   {
+    "speaker": "narrator",
+    "line": "Blinding orange magma churns beneath an obsidian altar as a colossal armored warlord rises before the screaming Crown of Thorns and Cinder."
+   },
+   {
+    "speaker": "ember-overlord-vorak",
+    "line": "Look upon the kiln, little borderer! Your cities are slag, your treaties are dry paper—only fire reveals what deserves to endure! Step into the magma and prove your worth!"
+   },
+   {
+    "speaker": "npc-vance-marshal",
+    "line": "Break the West and East Obsidian Conduit Pillars feeding his throne! Sever his molten regeneration before he turns the caldera into an open crematorium!"
+   },
+   {
+    "speaker": "hero",
+    "line": "I watched tax collectors starve the North and titans guard empty wells. Never again, Vorak—if fire is the only law this world respects, then I will hold the flame myself!"
+   }
+  ],
+  "phases": [
+   {
+    "hp_pct": 100,
+    "line": "Melt! Burn away the weakness!",
+    "taunt_barks": [
+     "Melt! Burn away the weakness!",
+     "Step into the kiln!",
+     "My magma never cools!"
+    ]
+   },
+   {
+    "hp_pct": 66,
+    "line": "Both pylons shattered?! Good! Watch black iron liquefy into white-hot wrath!",
+    "taunt_barks": [
+     "Let the cavern ceiling rain meteors!",
+     "Run across the molten rock!",
+     "Feel the Great Cleansing!"
+    ]
+   },
+   {
+    "hp_pct": 33,
+    "line": "You do not fight to cool the mountain—I see that hunger in your eyes! You want the Crown!",
+    "taunt_barks": [
+     "Try to lift fire with mortal hands!",
+     "Burn until only iron remains!",
+     "The Furnace Heart answers strength alone!"
+    ]
+   },
+   {
+    "hp_pct": 10,
+    "line": "My helm... cracking in the slag... take it, then, conqueror...",
+    "taunt_barks": [
+     "One last eruption!",
+     "Let the caldera swallow us both!",
+     "Prove your will!"
+    ]
+   }
+  ],
+  "special_callouts": [
+   {
+    "name": "Meteor Rain",
+    "telegraph_line": "Vorak roars skyward as incandescent magma boulders tear loose from the cavern dome!",
+    "hit_line": "Crushed beneath falling volcanic fire!"
+   },
+   {
+    "name": "Slag Wave",
+    "telegraph_line": "Vorak cleaves the flagstones, sending a rolling tide of liquid rock across the arena!",
+    "hit_line": "Scorched to the bone by molten slag!"
+   }
+  ],
+  "death_scene": [
+   {
+    "speaker": "ember-overlord-vorak",
+    "line": "Burn, then... conqueror... take the Crown... and see if it does not melt your bones as it melted mine..."
+   },
+   {
+    "speaker": "npc-vance-marshal",
+    "line": "The magma vents aren't cooling—they're bending toward the altar! What are you doing with that Crown?!"
+   },
+   {
+    "speaker": "hero",
+    "line": "Never again will tax collectors starve the North or cities burn on a pier. Every border in Thornvael answers to iron and ember now."
+   },
+   {
+    "speaker": "narrator",
+    "line": "Vorak topples backward into the glowing fissure as the hero lifts the blazing Crown of Thorns and Cinder onto brow and bone."
+   }
+  ],
+  "hero_reaction": "Vorak wanted to melt the world into nothing. I will forge it into something no storm can ever break.",
+  "loot_flavor": "The Crown of Thorns and Cinder—blackened meteoric iron fused with living volcanic fire."
  }
 }

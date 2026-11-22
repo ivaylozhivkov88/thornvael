@@ -1,4 +1,6 @@
 import type { Builds } from './townbuild';
+import type { EndingBranch, StoryFlags } from './story-complete';
+import { DEFAULT_STORY_FLAGS } from './story-complete';
 
 /** Campaign data and progress: which nodes exist, which are open, which are done. Pure data, no browser access. */
 
@@ -44,6 +46,7 @@ export interface CampaignProgress {
   waypoints?: string[]; // list of unlocked Waypoint node IDs (always includes towns of unlocked acts)
   sessionSeed?: number; // current session seed; rotates on every Save & Exit!
   townPortal?: TownPortalRecord | null;
+  storyFlags?: StoryFlags;
 }
 
 export function parseCampaign(raw: unknown): Campaign {
@@ -66,6 +69,7 @@ export function newProgress(c: Campaign, difficulty: number): CampaignProgress {
     waypoints: [townHubForAct(1)],
     sessionSeed: 1234567,
     townPortal: null,
+    storyFlags: { ...DEFAULT_STORY_FLAGS },
   };
 }
 
@@ -90,7 +94,22 @@ export function completeNode(c: Campaign, p: CampaignProgress, id: string, branc
         : n.unlocksOnVictory;
   for (const u of next) if (!unlocked.includes(u)) unlocked.push(u);
   const completed = p.completed.includes(id) ? p.completed : [...p.completed, id];
-  return { ...p, unlocked, completed, node: id };
+  const storyFlags = p.storyFlags ? { ...p.storyFlags } : { ...DEFAULT_STORY_FLAGS };
+  if (id === 'm44-threshold-choice') {
+    if (branch === 1) storyFlags.chosenBranch = 'order';
+    else if (branch === 2) storyFlags.chosenBranch = 'ember';
+  } else if (id === 'm10-undervault-links') {
+    storyFlags.hasMorvessaRing = true;
+  } else if (id === 'm16-wardstone-rupture') {
+    storyFlags.cleansedQuartzWardstones = true;
+  } else if (id === 'm20-deep-quarry') {
+    storyFlags.evacuatedQuarryMiners = true;
+  } else if (id === 'm28-sunken-citadel') {
+    storyFlags.rescuedTidalShipwrights = true;
+  } else if (id === 'm35-burning-harbor') {
+    storyFlags.allEvacuationShipsSailed = true;
+  }
+  return { ...p, unlocked, completed, node: id, storyFlags };
 }
 
 /** Leaving a town: counts the visit (the shop and tavern refresh from this number). */

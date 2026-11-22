@@ -194,42 +194,42 @@
   "lines": [
    {
     "speaker": "narrator",
-    "line": "Salt rot and wet pine smoke cling to Oakhaven's palisades while ironclad hulks block the grey harbor channel.",
-    "mood": "claustrophobic"
+    "line": "Freshly split pine sap and cold salt spray sweep Oakhaven's cliffs as shipwright axes echo ceaselessly through the ironwood groves.",
+    "mood": "urgent"
    },
    {
-    "speaker": "npc-kors-shipwright",
-    "line": "Six weeks without launching a keel, and now Vesperion's privateers are burning our marsh jetties.",
-    "mood": "angry"
-   },
-   {
-    "speaker": "npc-lyra-warden",
-    "line": "The city council hoards crossbows behind bolted doors while my pickets throw roof-slates from the seawall.",
-    "mood": "bitter"
-   },
-   {
-    "speaker": "npc-sera-healer",
-    "line": "Half my surgical tents are full of lung-blisters from those Cinder Wards on the cliffs.",
+    "speaker": "npc-aldric-bailiff",
+    "line": "Ironheart's cisterns were dry silt, and now tens of thousands pour down from the wastes. Every hull has a waterline, commander—not everyone on the pier will ever board.",
     "mood": "grim"
    },
    {
-    "speaker": "npc-pip-mudlark",
-    "line": "Low tide bares the sunken causeway, boss—lots of shiny rings if the salt crabs don't nip your toes off!",
-    "mood": "opportunistic"
-   },
-   {
-    "speaker": "hero",
-    "line": "Break the channel blockade first. Once Kors's drydocks open, we push up the coast road.",
-    "mood": "decisive"
-   },
-   {
-    "speaker": "npc-lyra-warden",
-    "line": "Clear those mudflats and every marine in Oakhaven marches under your pennant.",
+    "speaker": "npc-kors-shipwright",
+    "line": "Miner Gorin and his freed quarry smiths are already hammering black-ironstone plates onto our caravels, yet raider packs choke the northern frontier pass.",
     "mood": "determined"
    },
    {
+    "speaker": "npc-elowen-scholar",
+    "line": "Chronicler Zahra sent me her quartz wardstone notes from Redmarsh. Unless we break the corrupted cinder-wards on the cliffs, the bedrock itself will shear into the sea.",
+    "mood": "urgent"
+   },
+   {
+    "speaker": "npc-sera-healer",
+    "line": "Familiar faces from Thornwick—Reeve Marlow and Father Cael among them—are limping into my canvas tents. Keep the road open while I bind their wounds.",
+    "mood": "compassionate"
+   },
+   {
+    "speaker": "hero",
+    "line": "Re-arm at Toren's forge and hold the frontier pass. We are the Shield of the Departing—every minute we buy in blood floats another keel.",
+    "mood": "resolute"
+   },
+   {
+    "speaker": "npc-aldric-bailiff",
+    "line": "Bailiff's gate is open. Relieve Captain Bram at the Northern Post before his banner falls.",
+    "mood": "stern"
+   },
+   {
     "speaker": "narrator",
-    "line": "Foghorns groan across the Greywash estuary as heavy boots splash onto the tidal plank-walks.",
+    "line": "Distant tectonic tremors shake pine needles onto the mud-churned staging ground as the vanguard marches north.",
     "mood": "tense"
    }
   ]
@@ -241,43 +241,43 @@
   "lines": [
    {
     "speaker": "narrator",
-    "line": "Admiral Kael's flagship settles beneath boiling black foam, trailing gold braid and burning whale-oil.",
+    "line": "The choking pitch-smoke over Harborwatch thins beneath a freezing western gale as the last caravel clears the shattered breakwater.",
     "mood": "somber"
    },
    {
-    "speaker": "npc-kors-shipwright",
-    "line": "Half the fleet is charred timber, captain, yet twelve patched carracks float ready for the crossing.",
-    "mood": "determined"
-   },
-   {
-    "speaker": "npc-sera-healer",
-    "line": "Load the vinegar casks and clean bandages below decks—nothing grows across those volcanic straits.",
-    "mood": "practical"
-   },
-   {
-    "speaker": "npc-lyra-warden",
-    "line": "Oakhaven's seawalls are secure. My archers have dry bowstrings and a score to settle in the ash.",
-    "mood": "fierce"
-   },
-   {
-    "speaker": "npc-pip-mudlark",
-    "line": "Take my lucky granite pebble for the fire-mountain, boss. It probably won't melt right away.",
-    "mood": "earnest"
-   },
-   {
-    "speaker": "hero",
-    "line": "Cast off on the noon tide. Every debt sworn since Thornwick waits across that water.",
-    "mood": "commanding"
+    "speaker": "npc-veyra-marshal",
+    "line": "Lord-Captain Korvus lies in the black surf, and the evacuation armada is past the horizon. Look out there—their dawn is on the water.",
+    "mood": "resolute"
    },
    {
     "speaker": "npc-kors-shipwright",
-    "line": "All hands to the halyards! Keep your eyes on the red glare beneath the clouds.",
+    "line": "The slipways are utterly empty. Only severed mooring ropes sway in the black tide, yet every child and seed-cask sailed untouched.",
+    "mood": "exhausted"
+   },
+   {
+    "speaker": "npc-orson-quartermaster",
+    "line": "All surviving histories and seed-grain vaults made the hulls. What remains on this stone quay are weapons, ash, and those who refused a berth.",
+    "mood": "pragmatic"
+   },
+   {
+    "speaker": "npc-aldric-bailiff",
+    "line": "Fifty leagues east, the sky has torn open into incandescent violet. As long as the Iron Pact's ritual burns in the Caldera, this coast will never cool.",
     "mood": "grim"
    },
    {
+    "speaker": "hero",
+    "line": "Turn your backs to the ocean. We bought them their morning—now we march east into the night.",
+    "mood": "commanding"
+   },
+   {
+    "speaker": "npc-veyra-marshal",
+    "line": "My Harborwatch veterans march beside you. Let us finish what began at Thornwick.",
+    "mood": "fierce"
+   },
+   {
     "speaker": "narrator",
-    "line": "Compass needles spin wildly and lock due south as the fleet clears Harborwatch's scorched breakwater.",
-    "mood": "ominous"
+    "line": "From the ash-choked sky, a tiny column of steel turns away from the empty harbor and marches straight along the cracked obsidian road toward the volcano.",
+    "mood": "epic"
    }
   ]
  },
@@ -288,42 +288,42 @@
   "lines": [
    {
     "speaker": "narrator",
-    "line": "Black glass sand crunches underfoot as grey cinders drift down from a sky without sun or stars.",
+    "line": "Freezing alpine wind lashes Highcrest Citadel's granite spires, colliding with gray volcanic ash rising from the Obsidian Caldera.",
     "mood": "apocalyptic"
    },
    {
-    "speaker": "npc-rowan-commander",
-    "line": "Welcome to Ironcamp. The air tastes like sulfur, and the sniper-fiends on the ridge shoot anything that salutes.",
-    "mood": "hardened"
+    "speaker": "npc-vance-marshal",
+    "line": "The evacuation fleet is beyond the Western Rim. Fear has nothing left to hold over us—we are here to settle this war cleanly.",
+    "mood": "stoic"
    },
    {
-    "speaker": "npc-vok-forgemaster",
-    "line": "Normal steel turns soft as tallow in this heat. Stick your blades in my floor-fissures before we march.",
+    "speaker": "npc-veyra-marshal",
+    "line": "My Harborwatch rearguard didn't stay behind to watch from a parapet, Vance. Point us at the Iron Pact's outer passes.",
+    "mood": "fierce"
+   },
+   {
+    "speaker": "npc-elda-smith",
+    "line": "Ordinary steel melts like tallow in the caldera vents. Take Tier 5 meteoric ironplate and armor-sundering halberds before you climb.",
     "mood": "gruff"
    },
    {
-    "speaker": "npc-elias-penitent",
-    "line": "Arch-Mage Malrik flees toward the summit portal with the desecration codices, while Ashkarath guards the Anchor Seals.",
+    "speaker": "npc-orla-archivist",
+    "line": "That brass seal on your hand—Morvessa's Signet Ring—is the missing key. Her Salt Tithe was meant to reinforce the Order Seals before the Iron Pact hijacked the treasury.",
     "mood": "solemn"
    },
    {
-    "speaker": "field-ash-scout",
-    "line": "Stay off the yellow crust—boiling sulfur sits two inches beneath that brittle shell.",
-    "mood": "alert"
-   },
-   {
     "speaker": "hero",
-    "line": "Shatter the focusing beacons, break the Gauntlet, and take the Threshold before their reserves muster.",
+    "line": "Sweep the forward scouts, shatter the runic beacons with Zahra's calculations, and break the Infernal Citadel's gates.",
     "mood": "unyielding"
    },
    {
-    "speaker": "npc-rowan-commander",
-    "line": "No banners, no speeches—just shields and spite. Move out.",
-    "mood": "grim"
+    "speaker": "npc-vance-marshal",
+    "line": "No civilians left to shield, only steel and will. Forward march into Ashveil Gorge.",
+    "mood": "commanding"
    },
    {
     "speaker": "narrator",
-    "line": "Trip-hammers thunder behind the vanguard as the column steps onto the scorched basalt highway.",
+    "line": "Blue wardstones hum above the citadel parapet as the united rearguard steps onto the ash-draped highland pass.",
     "mood": "epic"
    }
   ]
@@ -335,42 +335,42 @@
   "lines": [
    {
     "speaker": "narrator",
-    "line": "Inside the Obsidian Dais, sluggish magma stills like cooling tallow as the final Anchor Seal fractures.",
+    "line": "Deep beneath the sundered Infernal Sanctuary, the deafening roar of the Obsidian Caldera settles into an ancient, resonant stillness.",
     "mood": "transcendent"
    },
    {
-    "speaker": "npc-elias-penitent",
-    "line": "The old penitence is ended. Look up—the ash-clouds are parting for the first time in living memory.",
+    "speaker": "npc-orla-archivist",
+    "line": "From Morvessa's ledgers to Gorrathul's dry mountain and Harborwatch's burning piers, the final entry in the Threshold Chamber is written.",
     "mood": "awed"
    },
    {
-    "speaker": "npc-vok-forgemaster",
-    "line": "The world's anvil has finally cooled enough to hold an honest edge.",
-    "mood": "satisfied"
+    "speaker": "npc-veyra-marshal",
+    "line": "Every ship that sailed west will hear what happened here—whether they return to a quiet shore or kneel before an iron throne.",
+    "mood": "solemn"
    },
    {
-    "speaker": "npc-rowan-commander",
-    "line": "Four provinces bled to reach these steps, commander. Give the word and the banners stand down.",
+    "speaker": "npc-vance-marshal",
+    "line": "The Iron Pact is dust. The rearguard has fulfilled its oath to the last blade.",
     "mood": "weary"
    },
    {
     "speaker": "hero",
-    "line": "Send riders to every garrison from Thornwick to Harborwatch. The war is over; the reckoning begins.",
+    "line": "Send word along the basalt highway from Highcrest to the Border Fords. The reckoning of Thornvael is finished.",
     "mood": "sovereign"
    },
    {
-    "speaker": "npc-elias-penitent",
-    "line": "May whatever rule follows remember the weight of the iron that bought it.",
+    "speaker": "npc-orla-archivist",
+    "line": "May whatever dawn follows remember the price paid in salt, stone, and ash.",
     "mood": "solemn"
    },
    {
-    "speaker": "npc-rowan-commander",
-    "line": "Sound the recall horns. Let the men wash the ash from their faces.",
+    "speaker": "npc-vance-marshal",
+    "line": "Sound the recall horns across the ridge. Lower the shields.",
     "mood": "relieved"
    },
    {
     "speaker": "narrator",
-    "line": "Far beyond the cooling straits, northern watchtowers kindle their beacons one by one in pale silver dawn.",
+    "line": "Across four scarred provinces, the long night of Thornvael turns toward its new age.",
     "mood": "hopeful"
    }
   ]

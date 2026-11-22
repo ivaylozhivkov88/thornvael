@@ -65,15 +65,15 @@ def pick_profile(speaker: str, context_hint: str = '') -> VoiceProfile:
     s = f'{speaker} {context_hint}'.lower()
     if any(w in s for w in ('morvessa', 'morwyn')):
         return PROFILES['morvessa']
-    if any(w in s for w in ('grok', 'gorrathul', 'ashkarath', 'vorak', 'colossus', 'warlord')):
+    if any(w in s for w in ('grok', 'gorrathul', 'ashkarath', 'vorak', 'korvus', 'iron anchor', 'juggernaut', 'colossus', 'warlord')):
         return PROFILES['boss']
-    if 'vesperion' in s:
+    if any(w in s for w in ('vesperion', 'korrath', 'arch-warden', 'malrik')):
         return PROFILES['vesperion']
     if any(w in s for w in ('hale', 'warden hale')):
         return PROFILES['hale']
     if 'garrick' in s or 'garrik' in s:
         return PROFILES['garrick']
-    if 'marlow' in s or 'bailiff' in s:
+    if any(w in s for w in ('marlow', 'bailiff', 'aldric')):
         return PROFILES['reeve_marlow']
     if 'alda' in s:
         return PROFILES['reeve_alda']
@@ -83,9 +83,9 @@ def pick_profile(speaker: str, context_hint: str = '') -> VoiceProfile:
         return PROFILES['marta']
     if any(w in s for w in ('lyra', 'isolde', 'veyra', 'linna', 'tessa')):
         return PROFILES['female_warrior']
-    if any(w in s for w in ('sera', 'orla', 'elowen', 'zahra', 'wren', 'acolyte', 'novice')):
+    if any(w in s for w in ('sera', 'orla', 'elowen', 'zahra', 'wren', 'archivist', 'acolyte', 'novice')):
         return PROFILES['female_scholar']
-    if any(w in s for w in ('hobb', 'smith', 'vok', 'dunstan', 'sapper')):
+    if any(w in s for w in ('hobb', 'smith', 'vok', 'elda', 'gorin', 'dunstan', 'sapper')):
         return PROFILES['smith']
     if any(w in s for w in ('merrick', 'draven', 'toren', 'halberdier')):
         return PROFILES['merrick']
@@ -93,7 +93,7 @@ def pick_profile(speaker: str, context_hint: str = '') -> VoiceProfile:
         return PROFILES['bram']
     if any(w in s for w in ('barkeep', 'corin', 'innkeeper')):
         return PROFILES['barkeep']
-    if any(w in s for w in ('quillon', 'vaelen', 'vane', 'aldren', 'elias', 'orlen', 'notary', 'battlemage', 'channeler')):
+    if any(w in s for w in ('quillon', 'vaelen', 'vane', 'aldren', 'elias', 'orlen', 'seti', 'cael', 'notary', 'battlemage', 'channeler')):
         return PROFILES['scholar']
     if any(w in s for w in ('bren', 'kael', 'sabik', 'poacher', 'arbalest', 'scout', 'outrider', 'ranger')):
         return PROFILES['scout']
@@ -403,6 +403,32 @@ def collect_clips() -> tuple[
     for cid, sp, line in TOWN_LORE_LINES:
         add_clip(cid, line, sp, f'Thornwick town dialogue line ({sp})')
 
+    # 6. Story slideshow sequences (src/story.ts)
+    story_ts = os.path.join(ROOT_DIR, 'src', 'story.ts')
+    if os.path.exists(story_ts):
+        story_url = 'file:///' + story_ts.replace('\\', '/')
+        res = subprocess.run(
+            [
+                'node',
+                '-e',
+                f"import('{story_url}').then(m => console.log(JSON.stringify(m.STORY_SEQUENCES)))",
+            ],
+            capture_output=True,
+            text=True,
+            encoding='utf-8',
+            check=True,
+        )
+        for seq in json.loads(res.stdout):
+            seq_id = str(seq.get('id', 'story'))
+            for slide in seq.get('slides', []):
+                slide_id = str(slide.get('id', 'slide'))
+                heading = str(slide.get('heading', '')).strip()
+                caption = str(slide.get('caption', '')).strip()
+                reflection = str(slide.get('reflection', '') or '').strip()
+                speech = f'{heading}. {caption}' + (f' {reflection}' if reflection else '')
+                cid = f'story__{slugify(seq_id)}__{slugify(slide_id)}'
+                add_clip(cid, speech, 'Narrator', f'Story slideshow narration for {seq_id} ({slide_id})')
+
     return clips, map_index, bark_index, text_index
 
 
@@ -457,7 +483,10 @@ async def generate_audio(clips: dict[str, ClipSpec], force: bool, concurrency: i
                         check=True,
                     )
                     if os.path.exists(mp3):
-                        os.remove(mp3)
+                        try:
+                            os.remove(mp3)
+                        except Exception:
+                            pass
                     done_count += 1
                     if done_count % 50 == 0 or done_count == len(todo):
                         print(f'  Synthesized {done_count}/{len(todo)} clips...', flush=True)
@@ -465,7 +494,10 @@ async def generate_audio(clips: dict[str, ClipSpec], force: bool, concurrency: i
                 except Exception as exc:
                     last_err = str(exc)
                     if os.path.exists(mp3):
-                        os.remove(mp3)
+                        try:
+                            os.remove(mp3)
+                        except Exception:
+                            pass
                     await asyncio.sleep(1.0 * (attempt + 1))
             failed.append((spec.clip_id, last_err))
 

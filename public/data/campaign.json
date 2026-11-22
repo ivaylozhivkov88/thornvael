@@ -1,952 +1,952 @@
 {
-  "version": 1,
-  "chapter": "all-acts",
-  "acts": [
-    "Act I: The Border Fords",
-    "Act II: Into the Redmarsh",
-    "Act III: The Iron Coast",
-    "Act IV: Crown and Ember"
-  ],
-  "start": "m01-blood-at-the-ford",
-  "nodes": [
-    {
-      "id": "m01-blood-at-the-ford",
-      "kind": "mission",
-      "map": "ford",
-      "title": "Blood at the Ford",
-      "pos": [
-        38,
-        20
-      ],
-      "unlocksOnVictory": [
-        "town-thornwick",
-        "m02-whispers-in-the-fen"
-      ],
-      "briefing": "Frontier Dispatch: The highland gnoll horde under Chieftain Grok'tar has forced the river shallows, slaughtering the border watch and firing the toll house. If the crossing is lost, the road to Thornwick lies wide open and thousands of settler families will be put to the blade. Gather your company, wade the red-stained shallows under covering arrow fire, and execute Grok'tar upon his own command bluff to shatter enemy morale.",
-      "result": {
-        "win": "The Sunken Ford is held. Chieftain Grok'tar's severed banner drifts down the red rapids, and the surviving raiders scatter into the misty marshes of the north. Intelligence recovered from the burned watchtower confirms an organized malice is orchestrating the highland incursions.",
-        "lose": "The ford is overrun. Screaming warbands swarm the southern bank, cutting down your vanguard and marching unopposed toward the defenseless farmsteads of Thornwick."
-      },
-      "act": 1
-    },
-    {
-      "id": "town-thornwick",
-      "kind": "town",
-      "map": "market",
-      "title": "Thornwick Market",
-      "pos": [
-        14,
-        20
-      ],
-      "unlocksOnVictory": [],
-      "briefing": "Thornwick Market & Frontier Garrison: Behind weathered timber ramparts and soot-blackened bastions, border merchants, veteran quartermasters, and tavern chroniclers gather. Resupply provisions, hire hardened sellswords, inscribe newly found spell scrolls at the academy, and consult the garrison quest board between bloody expeditions into the frontier.",
-      "act": 1
-    },
-    {
-      "id": "m02-whispers-in-the-fen",
-      "kind": "mission",
-      "map": "fen",
-      "title": "Whispers in the Fen",
-      "pos": [
-        62,
-        20
-      ],
-      "unlocksOnVictory": [
-        "m03-nightfall-at-ravenwatch"
-      ],
-      "briefing": "Scout Bren limps through the mire with dire reconnaissance: a coordinated host gathers deep in the marsh. We must escort the surviving scout through the mist-choked fen to the old stone watch post. Raider archers hold the sunken willow ridges, targeting the slow column with poisoned iron arrows. Keep heavy shields to the flanks and purge the swamp nests before advancing.",
-      "result": {
-        "win": "The watch post is secured. Bren's fevered reports and recovered garrison ledgers reveal that the border attacks are mere diversions—the true enemy vanguard is fortifying the ruined fastness of Ravenwatch.",
-        "lose": "The fen claims your column. Sunk in fetid mire and pinned under relentless volley fire, your squad is butchered one by one in the dark."
-      },
-      "act": 1
-    },
-    {
-      "id": "m03-nightfall-at-ravenwatch",
-      "kind": "mission",
-      "map": "ravenwatch",
-      "title": "Nightfall at Ravenwatch",
-      "pos": [
-        86,
-        20
-      ],
-      "unlocksOnVictory": [
-        "m04-the-sunken-sanctum"
-      ],
-      "briefing": "Ravenwatch Keep was built to withstand centuries of border siege, but its courtyards now reek of char and butchered crows. Hostile packs circle like starving wolves outside the sundered portcullis. Form an unyielding shield-wall in the inner bailey and hold the perimeter until dawn, then launch an immediate sally into the woods to sunder the three bone totems channeling witchfire into the courtyard.",
-      "result": {
-        "win": "The bone totems shatter into splintered dust, breaking the sorcerous curse. The surviving raiders break and flee into the pines, exposing a subterranean flight of stone stairs descending beneath the keep's foundations.",
-        "lose": "Ravenwatch falls. The inner gates buckle under the howling horde, and your surrounded soldiers are consumed by the shadows of the ancient courtyard."
-      },
-      "act": 1
-    },
-    {
-      "id": "m04-the-sunken-sanctum",
-      "kind": "mission",
-      "map": "sanctum",
-      "title": "The Sunken Sanctum",
-      "pos": [
-        86,
-        50
-      ],
-      "unlocksOnVictory": [
-        "m05-lantern-passage"
-      ],
-      "briefing": "Beneath the foundations of Ravenwatch lies the Sunken Sanctum—a submerged temple where the renegade warlord Mordred the Ashen conducts forbidden blood rituals. Narrow stone bridges span bottomless black water; Mordred commands heavily armored retainers and will summon flankers from behind your rear guard when wounded. Advance methodically, guard your casters, and sever his unholy line.",
-      "result": {
-        "win": "Mordred the Ashen falls with a final curse, his blood hissing upon the sanctum's consecrated stones. With his coven broken, the northern border road is temporarily secured, opening the imperial trade routes through the frontier.",
-        "lose": "The sanctum keeps its dark master. Flanked on the narrow causeways and dragged into the sunless waters, your fallen warriors become fresh offerings for Mordred's altar."
-      },
-      "act": 1
-    },
-    {
-      "id": "m05-lantern-passage",
-      "act": 1,
-      "kind": "mission",
-      "map": "m05",
-      "title": "Lantern Passage",
-      "pos": [
-        62,
-        50
-      ],
-      "unlocksOnVictory": [
-        "m06-greywood-supply"
-      ],
-      "briefing": "An imperial courier bearing sealed diplomatic dispatches has been ambushed and pinned inside Lantern Passage—a treacherous, moonless ravine choked with deadfalls. The Ravine Warden has garrisoned the upper cliffs with bowmen to starve out the courier. Move your detachment into the gorge, breach the upper barricades, liberate the courier, and escort him safely to the north-east lantern beacon.",
-      "result": {
-        "win": "Lantern Passage is cleared. Courier Corin survives to deliver his blood-spattered seals, containing urgent warnings of an impending general uprising across the high passes.",
-        "lose": "The courier's throat is slit and your vanguard is ambushed in the darkness of the ravine. Without the dispatches, Thornwick marches blindly into catastrophe."
-      }
-    },
-    {
-      "id": "m06-greywood-supply",
-      "act": 1,
-      "kind": "mission",
-      "map": "m06",
-      "title": "Greywood Supply",
-      "pos": [
-        38,
-        50
-      ],
-      "unlocksOnVictory": [
-        "m07-split-vanguard"
-      ],
-      "briefing": "Three hidden supply depots buried beneath the dense canopy of Greywood sustain every raiding column along the imperial border road. Without these stockpiles of salted meat, stolen iron, and black powder, the enemy cannot mount a winter campaign. Infiltrate the forest, butcher Quartermaster Tarn's elite garrison, and torch every warehouse to the foundations.",
-      "result": {
-        "win": "Smoke from the burning depots billows above the pine tops. Quartermaster Tarn lies dead among his scorched ledgers, leaving the highland warbands starved of food and munitions.",
-        "lose": "Your raid is repelled. Tarn's heavily reinforced garrison surrounds your soldiers in the dense thickets, extinguishing your company under a hail of poisoned arrows."
-      }
-    },
-    {
-      "id": "m07-split-vanguard",
-      "act": 1,
-      "kind": "mission",
-      "map": "m07",
-      "title": "Split Vanguard",
-      "pos": [
-        14,
-        50
-      ],
-      "unlocksOnVictory": [
-        "m08-alder-bridge"
-      ],
-      "briefing": "A towering granite crag cleaves the high mountain road into two narrow, mutually unsupporting passes. Ancient stone monoliths—animated by residual earth sorcery—block both gorges. You must divide your company into two balanced strike forces to engage the stone sentinels simultaneously and rekindle the Northern and Southern Cairns to restore the highland warding leylines.",
-      "result": {
-        "win": "Both ancient cairns blaze with golden ley-fire, restoring the frontier wards. The stone guardians crumble into inert rock, clearing the alpine road for our forward supply train.",
-        "lose": "Divided and isolated in the twin defiles, both wings of your vanguard are crushed beneath falling boulders and the crushing fists of the stone sentinels."
-      }
-    },
-    {
-      "id": "m08-alder-bridge",
-      "act": 1,
-      "kind": "mission",
-      "map": "m08",
-      "title": "Alder Bridge",
-      "pos": [
-        14,
-        80
-      ],
-      "unlocksOnVictory": [
-        "m09-ironhide-hunt"
-      ],
-      "briefing": "Massive warbands have congregated along the eastern banks of the Alder River, preparing to sweep across Alder Bridge and cut the western retreat lines of the imperial peasantry. We must fortify the western bridgehead against three successive assault waves. Establish archers on the elevated bluff, plant pikemen across the roadway, and allow not a single enemy to breach the reserve line.",
-      "result": {
-        "win": "Alder Bridge holds firm. Hundreds of enemy corpses clog the timber arches, and the routed survivors flee into the deep wilderness, leaving the civilian convoy safely beyond their reach.",
-        "lose": "The bridgehead collapses. A tidal wave of howling warriors breaches your barricades, scattering the rear guard and butchering the refugee trains retreating toward Thornwick."
-      }
-    },
-    {
-      "id": "m09-ironhide-hunt",
-      "act": 1,
-      "kind": "mission",
-      "map": "m09",
-      "title": "Ironhide Hunt",
-      "pos": [
-        38,
-        80
-      ],
-      "unlocksOnVictory": [
-        "m10-undervault-links"
-      ],
-      "briefing": "Krag Ironhide—a towering colossus endowed with rock-like enchanted skin—is gathering the broken remnants of the frontier packs in the abandoned granite quarry. If he finishes rallying them, he will march on the border villages with an unstoppable host. Hunt him across the treacherous boggy moors, isolate his escort, and shatter his stony carapace before dusk falls.",
-      "result": {
-        "win": "Krag Ironhide's rocky form shatters under hammer blows and arcane lightning. With their invincible warlord broken into rubble, the demoralized moorland clans dissolve into the crags.",
-        "lose": "Krag's colossal stone maul pulverizes your frontline. Your company is smashed into the moorland mud, leaving the mountain clans united under an unstoppable titan."
-      }
-    },
-    {
-      "id": "m10-undervault-links",
-      "act": 1,
-      "kind": "mission",
-      "map": "m10",
-      "title": "Undervault Links",
-      "pos": [
-        62,
-        80
-      ],
-      "unlocksOnVictory": [
-        "m11-ashbrook-retreat"
-      ],
-      "briefing": "Beneath the canyon ridge run the Undervault Links—three vast subterranean galleries carved by an ancient dwarven kingdom, now infested by blood cultists and corrupted guardians. These tunnels provide the only protected passage beneath the high mountains to Ashbrook. Purge the vaulted galleries, eliminate the cultist commanders, and secure the subterranean way.",
-      "result": {
-        "win": "The Undervault Links are purged of corruption. Torchlight once again illuminates the ancient stone arches, opening a secure underground march to the besieged garrison at Ashbrook.",
-        "lose": "The darkness of the Undervault swallows your expedition. Trapped in pitch-black galleries and hunted by subterranean horrors, your company is eradicated beneath the earth."
-      }
-    },
-    {
-      "id": "m11-ashbrook-retreat",
-      "act": 1,
-      "kind": "mission",
-      "map": "m11",
-      "title": "Ashbrook Retreat",
-      "pos": [
-        86,
-        80
-      ],
-      "unlocksOnVictory": [
-        "town-redmarsh",
-        "m12-redmarsh-border"
-      ],
-      "briefing": "The climax of the border war is at hand: a massive siege host led by Siege Commander Vaelen is battering the southern gatehouse of Ashbrook. The garrison is exhausted and out of ammunition; refugees are trapped within the inner ward. You must hold the gate against punishing assault waves, then mount a furious counter-thrust up the valley to eliminate Vaelen and cover the strategic withdrawal into Act II.",
-      "result": {
-        "win": "Ashbrook Gate stands battered but unbroken. Siege Commander Vaelen lies dead upon the bloody road, his host fleeing in disarray. The road south into the Desiccated Marches of Act II is won.",
-        "lose": "The gates of Ashbrook give way with a deafening crash. The siege host floods into the town, slaughtering soldier and civilian alike and leaving the border province in smoking ruin."
-      }
-    },
-    {
-      "id": "town-redmarsh",
-      "kind": "town",
-      "map": "market",
-      "title": "Redmarsh Outpost",
-      "pos": [
-        15,
-        20
-      ],
-      "unlocksOnVictory": [],
-      "tiers": [
-        2,
-        3
-      ],
-      "briefing": "Redmarsh Encampment: A fortified outpost erected upon the drying salt flats and sun-bleached ribcages of the deep mire. Desert caravans trade hardened scale armor, ancient dune charms, and water flasks. Re-equip your troops and recruit desert scouts accustomed to the furnace winds.",
-      "act": 2
-    },
-    {
-      "id": "m12-redmarsh-border",
-      "act": 2,
-      "kind": "mission",
-      "map": "m12",
-      "title": "Redmarsh Border",
-      "pos": [
-        38,
-        20
-      ],
-      "unlocksOnVictory": [
-        "m13-twin-passes"
-      ],
-      "briefing": "Beyond the ancient border boundary stone lies the Redmarsh—a desolate, rust-colored basin where stagnant water covers primeval bone pits and salt flats. Imperial supply lines have been severed by desert raiders and giant vermin. Your company must secure the causeway, eliminate the border outposts, and establish a firm bridgehead into the scorching wastes of the south.",
-      "result": {
-        "win": "The Redmarsh border crossing is secured. The red silt is trampled with the retreat of enemy scouts, establishing our primary staging depot for the desert campaign.",
-        "lose": "Your company is bogged down in the alkaline mire. Stalked by unseen predators and baked under the merciless sun, your expedition is slaughtered in the salt marshes."
-      }
-    },
-    {
-      "id": "m13-twin-passes",
-      "act": 2,
-      "kind": "mission",
-      "map": "m13",
-      "title": "Twin Passes",
-      "pos": [
-        62,
-        20
-      ],
-      "unlocksOnVictory": [
-        "m14-scattered-scouts"
-      ],
-      "briefing": "A towering granite escarpment bisects the Redmarsh basin, passable only via the West and East Passes. Both choke points are fortified with spiked barricades and held by veteran desert skirmishers aiming composite bows from high stone blinds. Coordinated maneuvers are essential: clear the high lookouts before storming the central barricades.",
-      "result": {
-        "win": "Both passes are cleared of hostile presence. Imperial sentinels take position atop the granite crest, granting complete visual mastery over the arid plains below.",
-        "lose": "Crossfire from the pass battlements pins your troops against the cliff face. Decimated by plunging arrows and rolling boulders, your company is forced into a humiliating rout."
-      }
-    },
-    {
-      "id": "m14-scattered-scouts",
-      "act": 2,
-      "kind": "mission",
-      "map": "m14",
-      "title": "Scattered Scouts",
-      "pos": [
-        85,
-        20
-      ],
-      "unlocksOnVictory": [
-        "m15-outpost-palisade"
-      ],
-      "briefing": "Three vanguard scouting squads were surrounded and cut off in the dense scrub of Bracken Basin when a desert warband swept out of the dust storms. They hold defensive rings among the sandstone boulders with dwindling arrows. Move swiftly to relieve each team before they are overrun, then crush the enemy encirclement.",
-      "result": {
-        "win": "All surviving scouts are recovered. Their reconnaissance reveals that the desert clans are excavating ancient elemental wardstones across the northern crags.",
-        "lose": "You arrive too late. The scouts are butchered and their bodies impaled upon desert cactus poles, leaving your army blind in hostile territory."
-      }
-    },
-    {
-      "id": "m15-outpost-palisade",
-      "act": 2,
-      "kind": "mission",
-      "map": "m15",
-      "title": "Outpost Palisade",
-      "pos": [
-        94,
-        50
-      ],
-      "unlocksOnVictory": [
-        "m16-wardstone-rupture"
-      ],
-      "briefing": "Night falls over the precarious timber palisade at Highgate Watch. Three desert warbands are advancing across the dry creek beds, carrying scaling ladders and firepots. The timber wall cannot survive sustained assault; place your archers along the raised catwalks, dispatch shock troops to intercept ladder-bearers, and withstand the siege until morning light.",
-      "result": {
-        "win": "Highgate Watch endures. The morning sun illuminates hundreds of slain raiders sprawled beneath the charred palisade, securing the northern frontier of Redmarsh.",
-        "lose": "Firepots ignite the dry timber wall. Screaming raiders pour through the flaming breaches, slaughtering the garrison and putting the outpost to the torch."
-      }
-    },
-    {
-      "id": "m16-wardstone-rupture",
-      "act": 2,
-      "kind": "mission",
-      "map": "m16",
-      "title": "Wardstone Rupture",
-      "pos": [
-        72,
-        50
-      ],
-      "unlocksOnVictory": [
-        "m17-mire-convoy"
-      ],
-      "briefing": "Three colossal wardstones carved from primeval quartz anchor the climate wards of the desert plateau. Defiled by blood sorcerers, their cracked surfaces now spew toxic sandstorms that ravage local settlements. You must assault the three ritual circles, slay the ward-breakers, and re-attune the monoliths before the land is rendered permanently uninhabitable.",
-      "result": {
-        "win": "The wardstones resonate once more with pure azure energy. The violent dust squalls subside, revealing clear roads and ancient stone ruins throughout the plateau.",
-        "lose": "The wardstones rupture in catastrophic elemental detonations. A wall of boiling sand and arcane fire engulfs the plateau, obliterating your army in an instant."
-      }
-    },
-    {
-      "id": "m17-mire-convoy",
-      "act": 2,
-      "kind": "mission",
-      "map": "m17",
-      "title": "Mire Convoy",
-      "pos": [
-        50,
-        50
-      ],
-      "unlocksOnVictory": [
-        "m18-granary-raid"
-      ],
-      "briefing": "Quartermaster Bram leads an indispensable ammunition and medical convoy through the sunken causeway toward the front. Dune scourges and giant marsh beetles have gathered along the mudbanks to ambush the lumbering wagons. Form an impenetrable escort screen, neutralize roadside ambushes, and guide the supply train to the forward encampment.",
-      "result": {
-        "win": "The convoy arrives safely with every wagon intact. Fresh steel, restorative potions, and ammunition replenish the garrison, boosting the morale of the entire army.",
-        "lose": "The convoy wagons are overturned and burned in the mud. Without medicine and fresh munitions, the imperial campaign in Redmarsh grinds to a fatal halt."
-      }
-    },
-    {
-      "id": "m18-granary-raid",
-      "act": 2,
-      "kind": "mission",
-      "map": "m18",
-      "title": "Granary Raid",
-      "pos": [
-        28,
-        50
-      ],
-      "unlocksOnVictory": [
-        "m19-hexer-capture"
-      ],
-      "briefing": "Deep within a hidden sandstone box canyon, the desert marauders maintain a massive grain and supply depot looted from border farmsteads. While their main raiding parties are deployed elsewhere, launch a rapid preemptive strike: breach their perimeter trenches, burn their storehouses, and recover the stolen gold reserves.",
-      "result": {
-        "win": "The granary depot is burned to cinders. Stolen provisions are redistributed to starving refugees, and the captured chests of gold enrich the expeditionary coffers.",
-        "lose": "Your assault bogs down in the outer trenchworks. Enemy reinforcements return from the wastes, boxing your forces inside the canyon walls for a merciless slaughter."
-      }
-    },
-    {
-      "id": "m19-hexer-capture",
-      "act": 2,
-      "kind": "mission",
-      "map": "m19",
-      "title": "Hexer's Hollow",
-      "pos": [
-        6,
-        50
-      ],
-      "unlocksOnVictory": [
-        "m20-deep-quarry"
-      ],
-      "briefing": "Hexer Kaelen—a fanatical arcanist versed in necrotic curses—orchestrates the desert covens from a secluded megalithic stone circle. His rituals rot the marrow of our wounded soldiers from leagues away. Advance through his enchanted perimeter wards, withstand his poisonous cloud spells, and bring Kaelen down before his ritual claims more lives.",
-      "result": {
-        "win": "Hexer Kaelen is vanquished and his dark ritual circles are cleansed. The necrotic plague lifting from the troops restores strength to dozens of ailing soldiers.",
-        "lose": "Kaelen's dark magic consumes your vanguard. Choked in vile miasma and withered by decay, your company collapses before the ancient stone ring."
-      }
-    },
-    {
-      "id": "m20-deep-quarry",
-      "act": 2,
-      "kind": "mission",
-      "map": "m20",
-      "title": "Deep Quarry",
-      "pos": [
-        15,
-        80
-      ],
-      "unlocksOnVictory": [
-        "m21-lean-garrison"
-      ],
-      "briefing": "In the tiered depths of the Deep Quarry, hundreds of enslaved imperial captives are forced to excavate black ironstone for the enemy war engine. Armed guards and overseers patrol the switchback terraces, protected by ballistas. Fight down terrace by terrace, shatter the slave-pens, and liberate the captive miners.",
-      "result": {
-        "win": "The Deep Quarry is liberated. Grateful miners take up picks and sledgehammers to join your auxiliary ranks, while the flow of black ironstone to enemy forges is severed.",
-        "lose": "Heavy fire from the quarry cranes and barricades pins your vanguard on the upper ledge. Your company is cut down and the surviving captives remain chained in the dark."
-      }
-    },
-    {
-      "id": "m21-lean-garrison",
-      "act": 2,
-      "kind": "mission",
-      "map": "m21",
-      "title": "Lean Garrison",
-      "pos": [
-        38,
-        80
-      ],
-      "unlocksOnVictory": [
-        "m22-fleeing-column"
-      ],
-      "briefing": "With our main battle group maneuvering along the eastern road, only a depleted sentinel force holds Crossroads Redoubt. Enemy scout columns have realized the weakness and launched a lightning assault to seize this vital junction. Dig in behind stone revetments, conserve your spells, and hold the crossroads against overwhelming odds.",
-      "result": {
-        "win": "Crossroads Redoubt holds through sheer grit and discipline. The enemy assault shatters against your steadfast line, preserving the arterial route to the south.",
-        "lose": "The redoubt is overwhelmed. The thin sentinel line buckles under relentless assaults, allowing the enemy to slice our campaign lines in two."
-      }
-    },
-    {
-      "id": "m22-fleeing-column",
-      "act": 2,
-      "kind": "mission",
-      "map": "m22",
-      "title": "Fleeing Column",
-      "pos": [
-        62,
-        80
-      ],
-      "unlocksOnVictory": [
-        "m23-fork-of-spears"
-      ],
-      "briefing": "Commander Vorn is fleeing up Spearwind Gorge with an elite retinue, carrying confidential operational maps detailing the stronghold defenses of the mountain lords. If he reaches the fortress gates, the element of surprise is permanently lost. Pursue his retreating column through the wind-carved canyon and cut down his retinue before he reaches safety.",
-      "result": {
-        "win": "Commander Vorn is brought down before the canyon exit. The recovered tactical maps reveal the hidden structural flaws of Ironheart Bastion at the Fork of Spears.",
-        "lose": "Vorn slips through the mountain gates, locking the iron portcullis behind him. The enemy garrison is alerted, doubling their battlements and preparing for your approach."
-      }
-    },
-    {
-      "id": "m23-fork-of-spears",
-      "act": 2,
-      "kind": "mission",
-      "map": "m23",
-      "title": "Fork of Spears",
-      "pos": [
-        85,
-        80
-      ],
-      "unlocksOnVictory": [
-        "town-oakhaven",
-        "m24-pledge-at-oakhaven"
-      ],
-      "briefing": "The gateway to Act III: Ironheart Bastion crowns the colossal forked peak at the end of the desert. The West Causeway crosses treacherous marsh, while the East Causeway runs under heavy artillery fire from cliffside redoubts. Sunder the outer redoubts, cross the causeways, and breach the main citadel gates to conclude the Redmarsh campaign.",
-      "result": {
-        "win": "Ironheart Bastion falls! The banner of Thornvael flies from the highest parapet of the forked mountain, opening the grand coastal descent into Act III: The Iron Coast.",
-        "lose": "Your assault on Ironheart Bastion fails with catastrophic losses. Shivered on the causeways by catapult fire and counter-attacking knights, your army is broken upon the rocks."
-      }
-    },
-    {
-      "id": "town-oakhaven",
-      "kind": "town",
-      "map": "market",
-      "title": "Oakhaven Bastion",
-      "pos": [
-        15,
-        20
-      ],
-      "unlocksOnVictory": [],
-      "tiers": [
-        3,
-        4
-      ],
-      "briefing": "Oakhaven Coastal Citadel: A towering haven of stone keeps and maritime shipwrights overlooking the churning Iron Coast. Coastal arcanists teach high elemental magic, armories forge tempered steel, and salty taverns house seasoned veterans of the sea.",
-      "act": 3
-    },
-    {
-      "id": "m24-pledge-at-oakhaven",
-      "act": 3,
-      "kind": "mission",
-      "map": "m24",
-      "title": "Pledge at Oakhaven",
-      "pos": [
-        38,
-        20
-      ],
-      "unlocksOnVictory": [
-        "m25-cinder-wards"
-      ],
-      "briefing": "Below the mountain passes lies Oakhaven—a coastal haven of great timber keeps and salt-hardened mariners, currently blockaded by ironclad sea-raiders. Reorganize your troops in town, resupply from the maritime docks, and push south-east across the coastal wetlands to purge the raider forward camps threatening the harbor.",
-      "result": {
-        "win": "The coastal camps are eliminated and the blockade around Oakhaven is broken. The town council pledges their veteran sea-soldiers and maritime transports to your expedition.",
-        "lose": "The raiders storm the lower town of Oakhaven. Driven into the sea, your vanguard suffers a bloody defeat, leaving the harbor in hostile hands."
-      }
-    },
-    {
-      "id": "m25-cinder-wards",
-      "act": 3,
-      "kind": "mission",
-      "map": "m25",
-      "title": "Cinder Wards",
-      "pos": [
-        62,
-        20
-      ],
-      "unlocksOnVictory": [
-        "m26-sundered-ranks"
-      ],
-      "briefing": "Three ancient cinder-ward circles set upon the cliffs harness the volcanic subterranean veins below, shielding the central enemy altar behind a wall of white-hot heat. You must breach each outer circle, slay the elemental binders, and shatter the ward-pillars before the central coven can immolate the coastal plain.",
-      "result": {
-        "win": "The cinder-wards collapse in cascades of cold ash. Deprived of their elemental barrier, the cultist coven is swiftly eradicated by your forward infantry.",
-        "lose": "The cinder-wards reach full resonance, unleashing a tempest of molten rock and ash that scorches your vanguard to bone and cinders."
-      }
-    },
-    {
-      "id": "m26-sundered-ranks",
-      "act": 3,
-      "kind": "mission",
-      "map": "m26",
-      "title": "Sundered Ranks",
-      "pos": [
-        85,
-        20
-      ],
-      "unlocksOnVictory": [
-        "m27-field-infirmary"
-      ],
-      "briefing": "Two heavily fortified opposing encampments guard the cliffside approaches around a central granite spire, covering each other with interlocking crossbow fire. Attempting a frontal assault down the center will result in total slaughter. Methodically cleave through both flanking camps before converging on the command tent atop the central spire.",
-      "result": {
-        "win": "Both flanking camps are annihilated and the command spire is taken. The enemy's coastal communications network is shattered beyond repair.",
-        "lose": "Caught in the lethal crossfire between the two encampments, your ranks are shredded on the rocky approach, forcing a chaotic and bloody retreat."
-      }
-    },
-    {
-      "id": "m27-field-infirmary",
-      "act": 3,
-      "kind": "mission",
-      "map": "m27",
-      "title": "Field Infirmary",
-      "pos": [
-        94,
-        50
-      ],
-      "unlocksOnVictory": [
-        "m28-sunken-citadel"
-      ],
-      "briefing": "Dozens of wounded soldiers shelter inside a woodland field hospital under Chief Healer Sera. Enemy raiding patrols have detected the hospital and are closing in from multiple directions to execute the defenseless wounded. Establish perimeter defenses around the woodland clearings and protect the hospital until evacuation transports arrive.",
-      "result": {
-        "win": "The field hospital is protected from slaughter. Chief Healer Sera safely evacuates every wounded warrior, providing potent restorative draughts to your frontline heroes in gratitude.",
-        "lose": "Enemy raiders overrun the woodland infirmary, butchering the wounded and medical staff in an atrocity that severely demoralizes your remaining troops."
-      }
-    },
-    {
-      "id": "m28-sunken-citadel",
-      "act": 3,
-      "kind": "mission",
-      "map": "m28",
-      "title": "Sunken Citadel",
-      "pos": [
-        72,
-        50
-      ],
-      "unlocksOnVictory": [
-        "m29-hourglass-rescue"
-      ],
-      "briefing": "An ancient sunken fortress carved into tidal sea-cliffs bars the coastal road with twin basalt ramparts. At high tide, seawater floods the lower courtyards, creating deadly aquatic hazards. Breach the outer water-gate, storm the flooded ramparts, and slay the Citadel Castellan before the rising tide cuts off your retreat.",
-      "result": {
-        "win": "The Sunken Citadel is breached and its ramparts secured. The ancient coastal highway is open, granting safe passage for the heavy siege train.",
-        "lose": "The rising tide traps your soldiers against the basalt sea-walls. Pinned under heavy missile fire and drowning in the surf, your company is washed into the abyss."
-      }
-    },
-    {
-      "id": "m29-hourglass-rescue",
-      "act": 3,
-      "kind": "mission",
-      "map": "m29",
-      "title": "Hourglass Rescue",
-      "pos": [
-        50,
-        50
-      ],
-      "unlocksOnVictory": [
-        "m30-starved-bastion"
-      ],
-      "briefing": "Gate Warden Lyra and her garrison are trapped in the northern coastal gatehouse, running out of crossbow bolts and surrounded by waves of armored abominations. Time is running out: you must force a rapid breakthrough through three fortified roadblock lines before the gatehouse doors buckle.",
-      "result": {
-        "win": "You break through just as the gatehouse doors shatter. Warden Lyra and her veteran archers join your column, praising your timely intervention in the face of certain doom.",
-        "lose": "The gatehouse falls before your vanguard can arrive. Lyra's command is wiped out, leaving the northern pass blocked by victorious enemy hordes."
-      }
-    },
-    {
-      "id": "m30-starved-bastion",
-      "act": 3,
-      "kind": "mission",
-      "map": "m30",
-      "title": "Starved Bastion",
-      "pos": [
-        28,
-        50
-      ],
-      "unlocksOnVictory": [
-        "m31-riverlock-crossing"
-      ],
-      "briefing": "An enemy stone redoubt at the head of the maritime valley relies on twin supply convoys arriving from mountain depots. Rather than bleeding our company against its towering walls, intercept both supply trains along the switchback trails to starve out the bastion, then launch the final assault upon its weakened garrison.",
-      "result": {
-        "win": "Both supply convoys are intercepted and captured. Deprived of food and arrows, the starved bastion surrenders after a brief, desperate skirmish.",
-        "lose": "Both supply trains slip past your pickets and enter the fortress. Re-supplied and heavily reinforced, the bastion's defenders sally forth and rout your lines."
-      }
-    },
-    {
-      "id": "m31-riverlock-crossing",
-      "act": 3,
-      "kind": "mission",
-      "map": "m31",
-      "title": "Riverlock Crossing",
-      "pos": [
-        6,
-        50
-      ],
-      "unlocksOnVictory": [
-        "m32-elder-juggernaut"
-      ],
-      "briefing": "A roaring, deep river gorge bisects the frontier, crossed only by the West and East Riverlock bridges. Automated floodgate controls allow the enemy to submerge either bridge at will. Seize the central sluice controls on the island redoubt to lock the bridges open, then cross in force to smash the opposing garrison.",
-      "result": {
-        "win": "The riverlocks are permanently secured under imperial control. The river gorge is crossed, placing our army within striking distance of the deep harbor.",
-        "lose": "The enemy opens the riverlock sluices, washing your vanguard downstream in a torrent of crushing water and drowning your elite warriors."
-      }
-    },
-    {
-      "id": "m32-elder-juggernaut",
-      "act": 3,
-      "kind": "mission",
-      "map": "m32",
-      "title": "Elder Juggernaut",
-      "pos": [
-        15,
-        80
-      ],
-      "unlocksOnVictory": [
-        "m33-high-stakes-gambit"
-      ],
-      "briefing": "High on the windswept pine ridge, an ancient stone colossus—the Elder Juggernaut—guards the mountain approach. Imbued with deep-earth sorcery, it is impervious to conventional iron blades and unleashes seismic shockwaves that level entire infantry formations. Use armor-piercing magic and nimble tactics to shatter this primeval sentinel.",
-      "result": {
-        "win": "The Elder Juggernaut crumbles into harmless boulders under concentrated magical fire. The mountain path is clear, opening the road to the coast.",
-        "lose": "The Juggernaut's seismic stomps shatter your formations. Crushed beneath tectonic shockwaves and falling stones, your company is annihilated upon the ridge."
-      }
-    },
-    {
-      "id": "m33-high-stakes-gambit",
-      "act": 3,
-      "kind": "mission",
-      "map": "m33",
-      "title": "High-Stakes Gambit",
-      "pos": [
-        38,
-        80
-      ],
-      "unlocksOnVictory": [
-        "m34-clashing-banners"
-      ],
-      "briefing": "Two heavily guarded treasure vaults flank the central keep of a rogue baron who has declared allegiance to the shadow coven. He possesses the gold necessary to hire every mercenary in the archipelago. Push aggressively through the center to breach the keep before his treasurers can escape with the war-chests into the catacombs.",
-      "result": {
-        "win": "The rogue baron's keep is stormed and both treasure vaults are seized intact. An immense fortune in gold and ancient magical regalia fills the company treasury.",
-        "lose": "Your central thrust is bogged down by elite halberdiers. The baron escapes with the gold reserves, leaving your forces depleted and empty-handed."
-      }
-    },
-    {
-      "id": "m34-clashing-banners",
-      "act": 3,
-      "kind": "mission",
-      "map": "m34",
-      "title": "Clashing Banners",
-      "pos": [
-        62,
-        80
-      ],
-      "unlocksOnVictory": [
-        "m35-burning-harbor"
-      ],
-      "briefing": "Two ruthless rival mercenary legions—the Ironclad Banner and the Ashen Banner—have met on the coastal hills, warring over the spoils of fallen towns. While they clash, advance your forces into the valley, exploit their disordered battle lines, and crush both factions before they can unite against you.",
-      "result": {
-        "win": "Both mercenary banners lie trampled in the mud. With their warlords eliminated, the rogue mercenaries surrender their gear and pledge obedience to the realm.",
-        "lose": "The rival banners cease their infighting and unite against your intrusion. Flanked by both mercenary armies, your troops are overwhelmed and cut down."
-      }
-    },
-    {
-      "id": "m35-burning-harbor",
-      "act": 3,
-      "kind": "mission",
-      "map": "m35",
-      "title": "Burning Harbor",
-      "pos": [
-        85,
-        80
-      ],
-      "unlocksOnVictory": [
-        "town-ironcamp",
-        "m36-heartland-march"
-      ],
-      "briefing": "The culmination of Act III: Harborwatch is engulfed in flames as the enemy fleet blockades the port and fires burning pitch onto the docks. You must fight through the burning harbor avenues, reclaim the sea-wall batteries, and board the enemy flagship to defeat Admiral Kael. Victory here opens the road into Act IV: Crown and Ember.",
-      "result": {
-        "win": "The harbor batteries are reclaimed and the enemy flagship burns to the waterline! Harborwatch is liberated, and your fleet stands ready to transport the army to the volcanic core of Act IV.",
-        "lose": "Harborwatch burns to ashes. Trapped along the flaming piers with no route of escape, your soldiers are pushed into the harbor waters and decimated."
-      }
-    },
-    {
-      "id": "town-ironcamp",
-      "kind": "town",
-      "map": "market",
-      "title": "Ironcamp Citadel",
-      "pos": [
-        14,
-        20
-      ],
-      "unlocksOnVictory": [],
-      "tiers": [
-        4,
-        5
-      ],
-      "briefing": "Ironcamp Volcanic Outpost: The final forward bastion erected upon obsidian crags beneath the smoldering caldera. Blacksmiths forge meteoric plate and flame-tempered weaponry, while grim battle-mages prepare ancient rites for the final descent into the Infernal Citadel.",
-      "act": 4
-    },
-    {
-      "id": "m36-heartland-march",
-      "act": 4,
-      "kind": "mission",
-      "map": "m36",
-      "title": "Heartland March",
-      "pos": [
-        38,
-        20
-      ],
-      "unlocksOnVictory": [
-        "m37-shattered-beacons"
-      ],
-      "briefing": "We have landed upon the volcanic heartland of Thornvael, where the sky is suffocated in ash and the earth weeps molten magma. Resupply at Highcrest Encampment, sweep the volcanic ridges of enemy vanguard patrols, and establish a permanent base of operations before advancing toward the Infernal Sanctuary.",
-      "result": {
-        "win": "Highcrest Encampment is firmly established atop the volcanic bluff. Patrols have cleared the immediate plateau, providing a secure staging ground for the final campaign.",
-        "lose": "Your vanguard is overwhelmed by fiery volcanic abominations upon the landing beaches. Pushed back into the burning surf, your expedition faces imminent ruin."
-      }
-    },
-    {
-      "id": "m37-shattered-beacons",
-      "act": 4,
-      "kind": "mission",
-      "map": "m37",
-      "title": "Shattered Beacons",
-      "pos": [
-        62,
-        20
-      ],
-      "unlocksOnVictory": [
-        "m38-besieged-wall"
-      ],
-      "briefing": "Three arcane signal beacons atop the jagged obsidian ridges project an impenetrable dome of kinetic energy across the mountain pass. Slay the three beacon wardens and shatter the focusing crystals to collapse the energy shield before the citadel can muster its reserve legions.",
-      "result": {
-        "win": "All three signal beacons shatter in blinding flashes of magical discharge. The kinetic barrier dissolves, opening the road through the volcanic pass.",
-        "lose": "The signal beacons focus their energy into searing beams of arcane fire, incinerating your vanguard on the rocky slopes and sealing the pass forever."
-      }
-    },
-    {
-      "id": "m38-besieged-wall",
-      "act": 4,
-      "kind": "mission",
-      "map": "m38",
-      "title": "Besieged Wall",
-      "pos": [
-        86,
-        20
-      ],
-      "unlocksOnVictory": [
-        "m39-flight-of-malrik"
-      ],
-      "briefing": "Greystone Bastion holds the narrow neck of the volcanic valley. Captain Rowan's veteran garrison is assaulted by colossal siege engines hurled by demonic brutes. Stand beside Rowan's defenders on the battlements, repel the assault ladders, and launch a sortie to destroy the three siege catapults.",
-      "result": {
-        "win": "Greystone Bastion withstands the fury of the siege. The enemy catapults are reduced to smoking kindling, securing the army's supply lines for the march on the core.",
-        "lose": "Greystone Bastion's walls crumble under relentless bombardment. The fortress falls, cutting off your forward troops in the heart of hostile territory."
-      }
-    },
-    {
-      "id": "m39-flight-of-malrik",
-      "act": 4,
-      "kind": "mission",
-      "map": "m39",
-      "title": "Flight of Malrik",
-      "pos": [
-        86,
-        50
-      ],
-      "unlocksOnVictory": [
-        "m40-twofold-assault"
-      ],
-      "briefing": "Arch-Mage Malrik—the corrupted sorcerer who orchestrated the desecration of the elemental shrines—is fleeing through Ashveil Gorge toward a summit teleport gate. If he reaches the gate, he will carry his grim grimoires into the inner sanctum. Pursue him through the gorge and slay him before he can activate the portal.",
-      "result": {
-        "win": "Malrik is struck down on the steps of the teleport gate! His forbidden grimoires are seized, revealing the exact leyline conduits powering the Arch-Warden's defenses.",
-        "lose": "Malrik steps through the shimmering portal, triggering an arcane collapse that buries your pursuit column beneath hundreds of tons of falling obsidian."
-      }
-    },
-    {
-      "id": "m40-twofold-assault",
-      "act": 4,
-      "kind": "mission",
-      "map": "m40",
-      "title": "Twofold Assault",
-      "pos": [
-        62,
-        50
-      ],
-      "unlocksOnVictory": [
-        "m41-gauntlet-of-iron"
-      ],
-      "briefing": "Twin towering crag bastions dominate the final approach to the Infernal Citadel, each equipped with heavy mana-cannons that sweep the roadway. You must split your forces or systematically assault each crag in succession, neutralizing both cannon redoubts before the main column can advance.",
-      "result": {
-        "win": "Both crag bastions are silenced. The mana-cannons are dismantled, leaving the road to the citadel gates free of artillery bombardment.",
-        "lose": "Concentrated fire from the twin mana-cannons vaporizes your assault lines. Your broken company is forced to withdraw down the blood-soaked road."
-      }
-    },
-    {
-      "id": "m41-gauntlet-of-iron",
-      "act": 4,
-      "kind": "mission",
-      "map": "m41",
-      "title": "Gauntlet of Iron",
-      "pos": [
-        38,
-        50
-      ],
-      "unlocksOnVictory": [
-        "m42-outer-rampart"
-      ],
-      "briefing": "A razor-narrow canyon known as the Gauntlet of Iron leads directly to the outer citadel rampart. Barred by three fortified checkpoints and reinforced by heavy iron golems, every inch of ground must be bought with blood. Advance behind heavy shields, counter enemy ambushers on the cliffs, and break the gauntlet.",
-      "result": {
-        "win": "The Gauntlet of Iron is broken. The three checkpoints are captured, clearing the final obstacle before the massive outer walls of the Infernal Citadel.",
-        "lose": "Your troops are trapped within the narrow defile of the Gauntlet. Pinned between falling portcullises and barrage fire, your elite company is mercilessly annihilated."
-      }
-    },
-    {
-      "id": "m42-outer-rampart",
-      "act": 4,
-      "kind": "mission",
-      "map": "m42",
-      "title": "Outer Rampart",
-      "pos": [
-        14,
-        50
-      ],
-      "unlocksOnVictory": [
-        "m43-three-roads-siege"
-      ],
-      "briefing": "The Outer Rampart of the citadel looms hundreds of cubits above the caldera, guarded by veteran shadow legions and towering stone brutes. To open the main courtyard, you must breach at least two of the three colossal outer gatehouses and lower the massive iron drawbridge across the lava moat.",
-      "result": {
-        "win": "Two gatehouses are breached and the drawbridge crashes down over the lava moat! The outer defenses are shattered, granting entry to the inner citadel grounds.",
-        "lose": "Boiling pitch and relentless crossbow fire from the ramparts decimate your siege parties. The drawbridge remains sealed and your army is repelled with grievous losses."
-      }
-    },
-    {
-      "id": "m43-three-roads-siege",
-      "act": 4,
-      "kind": "mission",
-      "map": "m43",
-      "title": "Three-Roads Siege",
-      "pos": [
-        14,
-        80
-      ],
-      "unlocksOnVictory": [
-        "m44-threshold-choice"
-      ],
-      "briefing": "As your vanguard prepares to storm the inner sanctum, three massive enemy relief columns converge on Three-Roads Watch from the north, west, and east. If they surround your siege camp, the army will be destroyed from behind. Deploy strike teams along all three avenues and shatter each relief force in turn.",
-      "result": {
-        "win": "All three relief columns are broken and scattered across the ash fields. With all outside reinforcements eliminated, the inner sanctum stands completely isolated.",
-        "lose": "The three relief columns smash into your exposed flanks simultaneously. Your siege camp is overrun and your army is crushed against the citadel walls."
-      }
-    },
-    {
-      "id": "m44-threshold-choice",
-      "act": 4,
-      "kind": "mission",
-      "map": "m44",
-      "title": "Threshold Choice",
-      "pos": [
-        38,
-        80
-      ],
-      "unlocksOnVictory": [
-        "m45-crown-of-order",
-        "m46-ember-reckoning"
-      ],
-      "briefing": "Penultimate Mission: You stand in the Threshold Chamber of the Crown Vault, having vanquished the Arch-Warden's elite praetors. Ahead lie two distinct paths that will determine the ultimate destiny of Thornvael: the Path of Order (restore the Crown of Order and purge the shadow) or the Path of Ember (seize the primal flame and claim the Dark Throne). Prepare your weapons—the fate of the world hangs in the balance.",
-      "result": {
-        "win": "The Threshold Chamber is conquered. The path forward is unlocked, leaving the ultimate choice of Thornvael's future in your hands.",
-        "lose": "You fall upon the threshold of destiny. The dark forces within the vault consume your soul, leaving Thornvael to burn in eternal chaos."
-      }
-    },
-    {
-      "id": "m45-crown-of-order",
-      "act": 4,
-      "kind": "mission",
-      "map": "m45",
-      "title": "Crown of Order",
-      "pos": [
-        62,
-        80
-      ],
-      "unlocksOnVictory": [],
-      "briefing": "Final Chapter — Path of Order (Ending A): Cleanse the desecrated altar of the Crown of Order. Bind the West and East Anchor Seals to stabilize the ancient celestial leylines, withstand the desperate final assault of the Shadow Sovereign's praetorians, and place the Crown upon the altar to banish the darkness from Thornvael forever.",
-      "result": {
-        "win": "Victory! The Crown of Order blazes with transcendent celestial radiance, purging all corruption from the lands of Thornvael. Peace and light return to the reborn realm!",
-        "lose": "The Anchor Seals shatter. Darkness consumes the altar and the realm of Thornvael falls into an eternal, unyielding age of night."
-      }
-    },
-    {
-      "id": "m46-ember-reckoning",
-      "act": 4,
-      "kind": "mission",
-      "map": "m46",
-      "title": "Ember Reckoning",
-      "pos": [
-        86,
-        80
-      ],
-      "unlocksOnVictory": [],
-      "briefing": "Final Chapter — Path of Ember (Ending B): Sunder the celestial Anchor Seals and embrace the primordial fire. Shatter the West and East Conduit Pillars feeding the ancient wardens, subjugate the infernal manifestations to your sovereign command, and ascend the Obsidian Throne as the supreme master of shadow and flame.",
-      "result": {
-        "win": "Ascension! The primordial embers fuse with your sovereign spirit. The armies of light and dark bow before your iron dominion as the Dark Sovereign of Thornvael!",
-        "lose": "The untamed flames consume your mind and body. Incinerated by the very power you sought to master, you leave the world to burn without a master."
-      }
-    }
-  ]
+ "version": 1,
+ "chapter": "all-acts",
+ "acts": [
+  "Act I: The Border Fords",
+  "Act II: Into the Redmarsh",
+  "Act III: The Iron Coast",
+  "Act IV: Crown and Ember"
+ ],
+ "start": "m01-blood-at-the-ford",
+ "nodes": [
+  {
+   "id": "m01-blood-at-the-ford",
+   "kind": "mission",
+   "map": "ford",
+   "title": "Blood at the Ford",
+   "pos": [
+    38,
+    20
+   ],
+   "unlocksOnVictory": [
+    "town-thornwick",
+    "m02-whispers-in-the-fen"
+   ],
+   "briefing": "Frontier Dispatch: The highland gnoll horde under Chieftain Grok'tar has forced the river shallows, slaughtering the border watch and firing the toll house. If the crossing is lost, the road to Thornwick lies wide open and thousands of settler families will be put to the blade. Gather your company, wade the red-stained shallows under covering arrow fire, and execute Grok'tar upon his own command bluff to shatter enemy morale.",
+   "result": {
+    "win": "The Sunken Ford is held. Chieftain Grok'tar's severed banner drifts down the red rapids, and the surviving raiders scatter into the misty marshes of the north. Intelligence recovered from the burned watchtower confirms an organized malice is orchestrating the highland incursions.",
+    "lose": "The ford is overrun. Screaming warbands swarm the southern bank, cutting down your vanguard and marching unopposed toward the defenseless farmsteads of Thornwick."
+   },
+   "act": 1
+  },
+  {
+   "id": "town-thornwick",
+   "kind": "town",
+   "map": "market",
+   "title": "Thornwick Market",
+   "pos": [
+    14,
+    20
+   ],
+   "unlocksOnVictory": [],
+   "briefing": "Thornwick Market & Frontier Garrison: Behind weathered timber ramparts and soot-blackened bastions, border merchants, veteran quartermasters, and tavern chroniclers gather. Resupply provisions, hire hardened sellswords, inscribe newly found spell scrolls at the academy, and consult the garrison quest board between bloody expeditions into the frontier.",
+   "act": 1
+  },
+  {
+   "id": "m02-whispers-in-the-fen",
+   "kind": "mission",
+   "map": "fen",
+   "title": "Whispers in the Fen",
+   "pos": [
+    62,
+    20
+   ],
+   "unlocksOnVictory": [
+    "m03-nightfall-at-ravenwatch"
+   ],
+   "briefing": "Scout Bren limps through the mire with dire reconnaissance: a coordinated host gathers deep in the marsh. We must escort the surviving scout through the mist-choked fen to the old stone watch post. Raider archers hold the sunken willow ridges, targeting the slow column with poisoned iron arrows. Keep heavy shields to the flanks and purge the swamp nests before advancing.",
+   "result": {
+    "win": "The watch post is secured. Bren's fevered reports and recovered garrison ledgers reveal that the border attacks are mere diversions—the true enemy vanguard is fortifying the ruined fastness of Ravenwatch.",
+    "lose": "The fen claims your column. Sunk in fetid mire and pinned under relentless volley fire, your squad is butchered one by one in the dark."
+   },
+   "act": 1
+  },
+  {
+   "id": "m03-nightfall-at-ravenwatch",
+   "kind": "mission",
+   "map": "ravenwatch",
+   "title": "Nightfall at Ravenwatch",
+   "pos": [
+    86,
+    20
+   ],
+   "unlocksOnVictory": [
+    "m04-the-sunken-sanctum"
+   ],
+   "briefing": "Ravenwatch Keep was built to withstand centuries of border siege, but its courtyards now reek of char and butchered crows. Hostile packs circle like starving wolves outside the sundered portcullis. Form an unyielding shield-wall in the inner bailey and hold the perimeter until dawn, then launch an immediate sally into the woods to sunder the three bone totems channeling witchfire into the courtyard.",
+   "result": {
+    "win": "The bone totems shatter into splintered dust, breaking the sorcerous curse. The surviving raiders break and flee into the pines, exposing a subterranean flight of stone stairs descending beneath the keep's foundations.",
+    "lose": "Ravenwatch falls. The inner gates buckle under the howling horde, and your surrounded soldiers are consumed by the shadows of the ancient courtyard."
+   },
+   "act": 1
+  },
+  {
+   "id": "m04-the-sunken-sanctum",
+   "kind": "mission",
+   "map": "sanctum",
+   "title": "The Sunken Sanctum",
+   "pos": [
+    86,
+    50
+   ],
+   "unlocksOnVictory": [
+    "m05-lantern-passage"
+   ],
+   "briefing": "Beneath the foundations of Ravenwatch lies the Sunken Sanctum—a submerged temple where the renegade warlord Mordred the Ashen conducts forbidden blood rituals. Narrow stone bridges span bottomless black water; Mordred commands heavily armored retainers and will summon flankers from behind your rear guard when wounded. Advance methodically, guard your casters, and sever his unholy line.",
+   "result": {
+    "win": "Mordred the Ashen falls with a final curse, his blood hissing upon the sanctum's consecrated stones. With his coven broken, the northern border road is temporarily secured, opening the imperial trade routes through the frontier.",
+    "lose": "The sanctum keeps its dark master. Flanked on the narrow causeways and dragged into the sunless waters, your fallen warriors become fresh offerings for Mordred's altar."
+   },
+   "act": 1
+  },
+  {
+   "id": "m05-lantern-passage",
+   "act": 1,
+   "kind": "mission",
+   "map": "m05",
+   "title": "Lantern Passage",
+   "pos": [
+    62,
+    50
+   ],
+   "unlocksOnVictory": [
+    "m06-greywood-supply"
+   ],
+   "briefing": "An imperial courier bearing sealed diplomatic dispatches has been ambushed and pinned inside Lantern Passage—a treacherous, moonless ravine choked with deadfalls. The Ravine Warden has garrisoned the upper cliffs with bowmen to starve out the courier. Move your detachment into the gorge, breach the upper barricades, liberate the courier, and escort him safely to the north-east lantern beacon.",
+   "result": {
+    "win": "Lantern Passage is cleared. Courier Corin survives to deliver his blood-spattered seals, containing urgent warnings of an impending general uprising across the high passes.",
+    "lose": "The courier's throat is slit and your vanguard is ambushed in the darkness of the ravine. Without the dispatches, Thornwick marches blindly into catastrophe."
+   }
+  },
+  {
+   "id": "m06-greywood-supply",
+   "act": 1,
+   "kind": "mission",
+   "map": "m06",
+   "title": "Greywood Supply",
+   "pos": [
+    38,
+    50
+   ],
+   "unlocksOnVictory": [
+    "m07-split-vanguard"
+   ],
+   "briefing": "Three hidden supply depots buried beneath the dense canopy of Greywood sustain every raiding column along the imperial border road. Without these stockpiles of salted meat, stolen iron, and black powder, the enemy cannot mount a winter campaign. Infiltrate the forest, butcher Quartermaster Tarn's elite garrison, and torch every warehouse to the foundations.",
+   "result": {
+    "win": "Smoke from the burning depots billows above the pine tops. Quartermaster Tarn lies dead among his scorched ledgers, leaving the highland warbands starved of food and munitions.",
+    "lose": "Your raid is repelled. Tarn's heavily reinforced garrison surrounds your soldiers in the dense thickets, extinguishing your company under a hail of poisoned arrows."
+   }
+  },
+  {
+   "id": "m07-split-vanguard",
+   "act": 1,
+   "kind": "mission",
+   "map": "m07",
+   "title": "Split Vanguard",
+   "pos": [
+    14,
+    50
+   ],
+   "unlocksOnVictory": [
+    "m08-alder-bridge"
+   ],
+   "briefing": "A towering granite crag cleaves the high mountain road into two narrow, mutually unsupporting passes. Ancient stone monoliths—animated by residual earth sorcery—block both gorges. You must divide your company into two balanced strike forces to engage the stone sentinels simultaneously and rekindle the Northern and Southern Cairns to restore the highland warding leylines.",
+   "result": {
+    "win": "Both ancient cairns blaze with golden ley-fire, restoring the frontier wards. The stone guardians crumble into inert rock, clearing the alpine road for our forward supply train.",
+    "lose": "Divided and isolated in the twin defiles, both wings of your vanguard are crushed beneath falling boulders and the crushing fists of the stone sentinels."
+   }
+  },
+  {
+   "id": "m08-alder-bridge",
+   "act": 1,
+   "kind": "mission",
+   "map": "m08",
+   "title": "Alder Bridge",
+   "pos": [
+    14,
+    80
+   ],
+   "unlocksOnVictory": [
+    "m09-ironhide-hunt"
+   ],
+   "briefing": "Massive warbands have congregated along the eastern banks of the Alder River, preparing to sweep across Alder Bridge and cut the western retreat lines of the imperial peasantry. We must fortify the western bridgehead against three successive assault waves. Establish archers on the elevated bluff, plant pikemen across the roadway, and allow not a single enemy to breach the reserve line.",
+   "result": {
+    "win": "Alder Bridge holds firm. Hundreds of enemy corpses clog the timber arches, and the routed survivors flee into the deep wilderness, leaving the civilian convoy safely beyond their reach.",
+    "lose": "The bridgehead collapses. A tidal wave of howling warriors breaches your barricades, scattering the rear guard and butchering the refugee trains retreating toward Thornwick."
+   }
+  },
+  {
+   "id": "m09-ironhide-hunt",
+   "act": 1,
+   "kind": "mission",
+   "map": "m09",
+   "title": "Ironhide Hunt",
+   "pos": [
+    38,
+    80
+   ],
+   "unlocksOnVictory": [
+    "m10-undervault-links"
+   ],
+   "briefing": "Krag Ironhide—a towering colossus endowed with rock-like enchanted skin—is gathering the broken remnants of the frontier packs in the abandoned granite quarry. If he finishes rallying them, he will march on the border villages with an unstoppable host. Hunt him across the treacherous boggy moors, isolate his escort, and shatter his stony carapace before dusk falls.",
+   "result": {
+    "win": "Krag Ironhide's rocky form shatters under hammer blows and arcane lightning. With their invincible warlord broken into rubble, the demoralized moorland clans dissolve into the crags.",
+    "lose": "Krag's colossal stone maul pulverizes your frontline. Your company is smashed into the moorland mud, leaving the mountain clans united under an unstoppable titan."
+   }
+  },
+  {
+   "id": "m10-undervault-links",
+   "act": 1,
+   "kind": "mission",
+   "map": "m10",
+   "title": "Undervault Links",
+   "pos": [
+    62,
+    80
+   ],
+   "unlocksOnVictory": [
+    "m11-ashbrook-retreat"
+   ],
+   "briefing": "Beneath the canyon ridge run the Undervault Links—three vast subterranean galleries carved by an ancient dwarven kingdom, now infested by blood cultists and corrupted guardians. These tunnels provide the only protected passage beneath the high mountains to Ashbrook. Purge the vaulted galleries, eliminate the cultist commanders, and secure the subterranean way.",
+   "result": {
+    "win": "The Undervault Links are purged of corruption. Torchlight once again illuminates the ancient stone arches, opening a secure underground march to the besieged garrison at Ashbrook.",
+    "lose": "The darkness of the Undervault swallows your expedition. Trapped in pitch-black galleries and hunted by subterranean horrors, your company is eradicated beneath the earth."
+   }
+  },
+  {
+   "id": "m11-ashbrook-retreat",
+   "act": 1,
+   "kind": "mission",
+   "map": "m11",
+   "title": "Ashbrook Retreat",
+   "pos": [
+    86,
+    80
+   ],
+   "unlocksOnVictory": [
+    "town-redmarsh",
+    "m12-redmarsh-border"
+   ],
+   "briefing": "The climax of the border war is at hand: a massive siege host led by Siege Commander Vaelen is battering the southern gatehouse of Ashbrook. The garrison is exhausted and out of ammunition; refugees are trapped within the inner ward. You must hold the gate against punishing assault waves, then mount a furious counter-thrust up the valley to eliminate Vaelen and cover the strategic withdrawal into Act II.",
+   "result": {
+    "win": "Ashbrook Gate stands battered but unbroken. Siege Commander Vaelen lies dead upon the bloody road, his host fleeing in disarray. The road south into the Desiccated Marches of Act II is won.",
+    "lose": "The gates of Ashbrook give way with a deafening crash. The siege host floods into the town, slaughtering soldier and civilian alike and leaving the border province in smoking ruin."
+   }
+  },
+  {
+   "id": "town-redmarsh",
+   "kind": "town",
+   "map": "market",
+   "title": "Redmarsh Outpost",
+   "pos": [
+    15,
+    20
+   ],
+   "unlocksOnVictory": [],
+   "tiers": [
+    2,
+    3
+   ],
+   "briefing": "Redmarsh Encampment: A fortified outpost erected upon the drying salt flats and sun-bleached ribcages of the deep mire. Desert caravans trade hardened scale armor, ancient dune charms, and water flasks. Re-equip your troops and recruit desert scouts accustomed to the furnace winds.",
+   "act": 2
+  },
+  {
+   "id": "m12-redmarsh-border",
+   "act": 2,
+   "kind": "mission",
+   "map": "m12",
+   "title": "Redmarsh Border",
+   "pos": [
+    38,
+    20
+   ],
+   "unlocksOnVictory": [
+    "m13-twin-passes"
+   ],
+   "briefing": "Beyond the ancient border boundary stone lies the Redmarsh—a desolate, rust-colored basin where stagnant water covers primeval bone pits and salt flats. Imperial supply lines have been severed by desert raiders and giant vermin. Your company must secure the causeway, eliminate the border outposts, and establish a firm bridgehead into the scorching wastes of the south.",
+   "result": {
+    "win": "The Redmarsh border crossing is secured. The red silt is trampled with the retreat of enemy scouts, establishing our primary staging depot for the desert campaign.",
+    "lose": "Your company is bogged down in the alkaline mire. Stalked by unseen predators and baked under the merciless sun, your expedition is slaughtered in the salt marshes."
+   }
+  },
+  {
+   "id": "m13-twin-passes",
+   "act": 2,
+   "kind": "mission",
+   "map": "m13",
+   "title": "Twin Passes",
+   "pos": [
+    62,
+    20
+   ],
+   "unlocksOnVictory": [
+    "m14-scattered-scouts"
+   ],
+   "briefing": "A towering granite escarpment bisects the Redmarsh basin, passable only via the West and East Passes. Both choke points are fortified with spiked barricades and held by veteran desert skirmishers aiming composite bows from high stone blinds. Coordinated maneuvers are essential: clear the high lookouts before storming the central barricades.",
+   "result": {
+    "win": "Both passes are cleared of hostile presence. Imperial sentinels take position atop the granite crest, granting complete visual mastery over the arid plains below.",
+    "lose": "Crossfire from the pass battlements pins your troops against the cliff face. Decimated by plunging arrows and rolling boulders, your company is forced into a humiliating rout."
+   }
+  },
+  {
+   "id": "m14-scattered-scouts",
+   "act": 2,
+   "kind": "mission",
+   "map": "m14",
+   "title": "Scattered Scouts",
+   "pos": [
+    85,
+    20
+   ],
+   "unlocksOnVictory": [
+    "m15-outpost-palisade"
+   ],
+   "briefing": "Three vanguard scouting squads were surrounded and cut off in the dense scrub of Bracken Basin when a desert warband swept out of the dust storms. They hold defensive rings among the sandstone boulders with dwindling arrows. Move swiftly to relieve each team before they are overrun, then crush the enemy encirclement.",
+   "result": {
+    "win": "All surviving scouts are recovered. Their reconnaissance reveals that the desert clans are excavating ancient elemental wardstones across the northern crags.",
+    "lose": "You arrive too late. The scouts are butchered and their bodies impaled upon desert cactus poles, leaving your army blind in hostile territory."
+   }
+  },
+  {
+   "id": "m15-outpost-palisade",
+   "act": 2,
+   "kind": "mission",
+   "map": "m15",
+   "title": "Outpost Palisade",
+   "pos": [
+    94,
+    50
+   ],
+   "unlocksOnVictory": [
+    "m16-wardstone-rupture"
+   ],
+   "briefing": "Night falls over the precarious timber palisade at Highgate Watch. Three desert warbands are advancing across the dry creek beds, carrying scaling ladders and firepots. The timber wall cannot survive sustained assault; place your archers along the raised catwalks, dispatch shock troops to intercept ladder-bearers, and withstand the siege until morning light.",
+   "result": {
+    "win": "Highgate Watch endures. The morning sun illuminates hundreds of slain raiders sprawled beneath the charred palisade, securing the northern frontier of Redmarsh.",
+    "lose": "Firepots ignite the dry timber wall. Screaming raiders pour through the flaming breaches, slaughtering the garrison and putting the outpost to the torch."
+   }
+  },
+  {
+   "id": "m16-wardstone-rupture",
+   "act": 2,
+   "kind": "mission",
+   "map": "m16",
+   "title": "Wardstone Rupture",
+   "pos": [
+    72,
+    50
+   ],
+   "unlocksOnVictory": [
+    "m17-mire-convoy"
+   ],
+   "briefing": "Three colossal wardstones carved from primeval quartz anchor the climate wards of the desert plateau. Defiled by blood sorcerers, their cracked surfaces now spew toxic sandstorms that ravage local settlements. You must assault the three ritual circles, slay the ward-breakers, and re-attune the monoliths before the land is rendered permanently uninhabitable.",
+   "result": {
+    "win": "The wardstones resonate once more with pure azure energy. The violent dust squalls subside, revealing clear roads and ancient stone ruins throughout the plateau.",
+    "lose": "The wardstones rupture in catastrophic elemental detonations. A wall of boiling sand and arcane fire engulfs the plateau, obliterating your army in an instant."
+   }
+  },
+  {
+   "id": "m17-mire-convoy",
+   "act": 2,
+   "kind": "mission",
+   "map": "m17",
+   "title": "Mire Convoy",
+   "pos": [
+    50,
+    50
+   ],
+   "unlocksOnVictory": [
+    "m18-granary-raid"
+   ],
+   "briefing": "Quartermaster Bram leads an indispensable ammunition and medical convoy through the sunken causeway toward the front. Dune scourges and giant marsh beetles have gathered along the mudbanks to ambush the lumbering wagons. Form an impenetrable escort screen, neutralize roadside ambushes, and guide the supply train to the forward encampment.",
+   "result": {
+    "win": "The convoy arrives safely with every wagon intact. Fresh steel, restorative potions, and ammunition replenish the garrison, boosting the morale of the entire army.",
+    "lose": "The convoy wagons are overturned and burned in the mud. Without medicine and fresh munitions, the imperial campaign in Redmarsh grinds to a fatal halt."
+   }
+  },
+  {
+   "id": "m18-granary-raid",
+   "act": 2,
+   "kind": "mission",
+   "map": "m18",
+   "title": "Granary Raid",
+   "pos": [
+    28,
+    50
+   ],
+   "unlocksOnVictory": [
+    "m19-hexer-capture"
+   ],
+   "briefing": "Deep within a hidden sandstone box canyon, the desert marauders maintain a massive grain and supply depot looted from border farmsteads. While their main raiding parties are deployed elsewhere, launch a rapid preemptive strike: breach their perimeter trenches, burn their storehouses, and recover the stolen gold reserves.",
+   "result": {
+    "win": "The granary depot is burned to cinders. Stolen provisions are redistributed to starving refugees, and the captured chests of gold enrich the expeditionary coffers.",
+    "lose": "Your assault bogs down in the outer trenchworks. Enemy reinforcements return from the wastes, boxing your forces inside the canyon walls for a merciless slaughter."
+   }
+  },
+  {
+   "id": "m19-hexer-capture",
+   "act": 2,
+   "kind": "mission",
+   "map": "m19",
+   "title": "Hexer's Hollow",
+   "pos": [
+    6,
+    50
+   ],
+   "unlocksOnVictory": [
+    "m20-deep-quarry"
+   ],
+   "briefing": "Hexer Kaelen—a fanatical arcanist versed in necrotic curses—orchestrates the desert covens from a secluded megalithic stone circle. His rituals rot the marrow of our wounded soldiers from leagues away. Advance through his enchanted perimeter wards, withstand his poisonous cloud spells, and bring Kaelen down before his ritual claims more lives.",
+   "result": {
+    "win": "Hexer Kaelen is vanquished and his dark ritual circles are cleansed. The necrotic plague lifting from the troops restores strength to dozens of ailing soldiers.",
+    "lose": "Kaelen's dark magic consumes your vanguard. Choked in vile miasma and withered by decay, your company collapses before the ancient stone ring."
+   }
+  },
+  {
+   "id": "m20-deep-quarry",
+   "act": 2,
+   "kind": "mission",
+   "map": "m20",
+   "title": "Deep Quarry",
+   "pos": [
+    15,
+    80
+   ],
+   "unlocksOnVictory": [
+    "m21-lean-garrison"
+   ],
+   "briefing": "In the tiered depths of the Deep Quarry, hundreds of enslaved imperial captives are forced to excavate black ironstone for the enemy war engine. Armed guards and overseers patrol the switchback terraces, protected by ballistas. Fight down terrace by terrace, shatter the slave-pens, and liberate the captive miners.",
+   "result": {
+    "win": "The Deep Quarry is liberated. Grateful miners take up picks and sledgehammers to join your auxiliary ranks, while the flow of black ironstone to enemy forges is severed.",
+    "lose": "Heavy fire from the quarry cranes and barricades pins your vanguard on the upper ledge. Your company is cut down and the surviving captives remain chained in the dark."
+   }
+  },
+  {
+   "id": "m21-lean-garrison",
+   "act": 2,
+   "kind": "mission",
+   "map": "m21",
+   "title": "Lean Garrison",
+   "pos": [
+    38,
+    80
+   ],
+   "unlocksOnVictory": [
+    "m22-fleeing-column"
+   ],
+   "briefing": "With our main battle group maneuvering along the eastern road, only a depleted sentinel force holds Crossroads Redoubt. Enemy scout columns have realized the weakness and launched a lightning assault to seize this vital junction. Dig in behind stone revetments, conserve your spells, and hold the crossroads against overwhelming odds.",
+   "result": {
+    "win": "Crossroads Redoubt holds through sheer grit and discipline. The enemy assault shatters against your steadfast line, preserving the arterial route to the south.",
+    "lose": "The redoubt is overwhelmed. The thin sentinel line buckles under relentless assaults, allowing the enemy to slice our campaign lines in two."
+   }
+  },
+  {
+   "id": "m22-fleeing-column",
+   "act": 2,
+   "kind": "mission",
+   "map": "m22",
+   "title": "Fleeing Column",
+   "pos": [
+    62,
+    80
+   ],
+   "unlocksOnVictory": [
+    "m23-fork-of-spears"
+   ],
+   "briefing": "Commander Vorn is fleeing up Spearwind Gorge with an elite retinue, carrying confidential operational maps detailing the stronghold defenses of the mountain lords. If he reaches the fortress gates, the element of surprise is permanently lost. Pursue his retreating column through the wind-carved canyon and cut down his retinue before he reaches safety.",
+   "result": {
+    "win": "Commander Vorn is brought down before the canyon exit. The recovered tactical maps reveal the hidden structural flaws of Ironheart Bastion at the Fork of Spears.",
+    "lose": "Vorn slips through the mountain gates, locking the iron portcullis behind him. The enemy garrison is alerted, doubling their battlements and preparing for your approach."
+   }
+  },
+  {
+   "id": "m23-fork-of-spears",
+   "act": 2,
+   "kind": "mission",
+   "map": "m23",
+   "title": "Fork of Spears",
+   "pos": [
+    85,
+    80
+   ],
+   "unlocksOnVictory": [
+    "town-oakhaven",
+    "m24-pledge-at-oakhaven"
+   ],
+   "briefing": "The gateway to Act III: Ironheart Bastion crowns the colossal forked peak at the end of the desert. The West Causeway crosses treacherous marsh, while the East Causeway runs under heavy artillery fire from cliffside redoubts. Sunder the outer redoubts, cross the causeways, and breach the main citadel gates to conclude the Redmarsh campaign.",
+   "result": {
+    "win": "Ironheart Bastion falls! The banner of Thornvael flies from the highest parapet of the forked mountain, opening the grand coastal descent into Act III: The Iron Coast.",
+    "lose": "Your assault on Ironheart Bastion fails with catastrophic losses. Shivered on the causeways by catapult fire and counter-attacking knights, your army is broken upon the rocks."
+   }
+  },
+  {
+   "id": "town-oakhaven",
+   "kind": "town",
+   "map": "market",
+   "title": "Oakhaven Bastion",
+   "pos": [
+    15,
+    20
+   ],
+   "unlocksOnVictory": [],
+   "tiers": [
+    3,
+    4
+   ],
+   "briefing": "Oakhaven Coastal Frontier: Perched beneath towering ironwood groves overlooking the Western Sea, where Bailiff Aldric, Ward-Scholar Elowen, Master-at-Arms Toren, and Chief Healer Sera marshal refugees and armor caravels for the great evacuation.",
+   "act": 3
+  },
+  {
+   "id": "m24-pledge-at-oakhaven",
+   "act": 3,
+   "kind": "mission",
+   "map": "m24",
+   "title": "Pledge at Oakhaven",
+   "pos": [
+    38,
+    20
+   ],
+   "unlocksOnVictory": [
+    "m25-cinder-wards"
+   ],
+   "briefing": "Beyond the mountain descent, Oakhaven's timber frontier is buckling under starving raider packs while Master Shipwright Kors—aided by Miner Gorin's freed quarry smiths—hammers ironstone onto the evacuation fleet. Rearm at Toren's Ironwood Armory and relieve Captain Bram at the Northern Watch Post.",
+   "result": {
+    "win": "Captain Bram's torn standard rises again over the pass, holding the northern gateway to the Iron Coast.",
+    "lose": "Captain Bram's post falls, exposing Oakhaven's shipyards and refugees to the raider horde."
+   }
+  },
+  {
+   "id": "m25-cinder-wards",
+   "act": 3,
+   "kind": "mission",
+   "map": "m25",
+   "title": "Cinder Wards",
+   "pos": [
+    62,
+    20
+   ],
+   "unlocksOnVictory": [
+    "m26-sundered-ranks"
+   ],
+   "briefing": "Three corrupted rune-circles threaten to shear Oakhaven's coastal cliffs into the sea. Guided by Chronicler Zahra's Redmarsh wardstone notes, Ward-Scholar Elowen directs you to shatter West, North, and East before breaking the Central Altar Warden.",
+   "result": {
+    "win": "The corrupted altar shatters and Oakhaven's cliffside wards hum back to steady blue resonance.",
+    "lose": "The cinder-wards rupture, shearing Oakhaven's granite cliffs into the boiling sea."
+   }
+  },
+  {
+   "id": "m26-sundered-ranks",
+   "act": 3,
+   "kind": "mission",
+   "map": "m26",
+   "title": "Sundered Ranks",
+   "pos": [
+    85,
+    20
+   ],
+   "unlocksOnVictory": [
+    "m27-field-infirmary"
+   ],
+   "briefing": "Two heavily fortified opposing encampments guard the cliffside approaches around a central granite spire, covering each other with interlocking crossbow fire. Attempting a frontal assault down the center will result in total slaughter. Methodically cleave through both flanking camps before converging on the command tent atop the central spire.",
+   "result": {
+    "win": "Both flanking camps are annihilated and the command spire is taken. The enemy's coastal communications network is shattered beyond repair.",
+    "lose": "Caught in the lethal crossfire between the two encampments, your ranks are shredded on the rocky approach, forcing a chaotic and bloody retreat."
+   }
+  },
+  {
+   "id": "m27-field-infirmary",
+   "act": 3,
+   "kind": "mission",
+   "map": "m27",
+   "title": "Field Infirmary",
+   "pos": [
+    94,
+    50
+   ],
+   "unlocksOnVictory": [
+    "m28-sunken-citadel"
+   ],
+   "briefing": "Deep inside an ironwood glade, Chief Healer Sera tends dozens of burned borderers—including Reeve Marlow and Father Cael from Thornwick—beneath canvas pavilions. Hold a 360-degree shield wall against three converging raider warbands.",
+   "result": {
+    "win": "All three warbands break against your shield wall, and Sera's wounded—including Thornwick's survivors—reach Harborwatch intact.",
+    "lose": "Raiders overrun the canvas pavilions, claiming Chief Healer Sera and the wounded."
+   }
+  },
+  {
+   "id": "m28-sunken-citadel",
+   "act": 3,
+   "kind": "mission",
+   "map": "m28",
+   "title": "Sunken Citadel",
+   "pos": [
+    72,
+    50
+   ],
+   "unlocksOnVictory": [
+    "m29-hourglass-rescue"
+   ],
+   "briefing": "An ancient sunken fortress carved into tidal sea-cliffs bars the coastal road with twin basalt ramparts. At high tide, seawater floods the lower courtyards, creating deadly aquatic hazards. Breach the outer water-gate, storm the flooded ramparts, and slay the Citadel Castellan before the rising tide cuts off your retreat.",
+   "result": {
+    "win": "The Sunken Citadel is breached and its ramparts secured. The ancient coastal highway is open, granting safe passage for the heavy siege train.",
+    "lose": "The rising tide traps your soldiers against the basalt sea-walls. Pinned under heavy missile fire and drowning in the surf, your company is washed into the abyss."
+   }
+  },
+  {
+   "id": "m29-hourglass-rescue",
+   "act": 3,
+   "kind": "mission",
+   "map": "m29",
+   "title": "Hourglass Rescue",
+   "pos": [
+    50,
+    50
+   ],
+   "unlocksOnVictory": [
+    "m30-starved-bastion"
+   ],
+   "briefing": "Imperial inquisitors have locked Gate Warden Lyra alongside a company of Thornwick craftsmen and Oakhaven shipwrights inside flooded tidal vaults as high tide surges in. Break every barricade before the countdown empties.",
+   "result": {
+    "win": "The drowned locks burst open in time; the freed shipwrights march straight to Master Kors's slipways, doubling hull construction.",
+    "lose": "High tide submerges the lower vaults before relief arrives, drowning Oakhaven's last shipwrights."
+   }
+  },
+  {
+   "id": "m30-starved-bastion",
+   "act": 3,
+   "kind": "mission",
+   "map": "m30",
+   "title": "Starved Bastion",
+   "pos": [
+    28,
+    50
+   ],
+   "unlocksOnVictory": [
+    "m31-riverlock-crossing"
+   ],
+   "briefing": "An enemy stone redoubt at the head of the maritime valley relies on twin supply convoys arriving from mountain depots. Rather than bleeding our company against its towering walls, intercept both supply trains along the switchback trails to starve out the bastion, then launch the final assault upon its weakened garrison.",
+   "result": {
+    "win": "Both supply convoys are intercepted and captured. Deprived of food and arrows, the starved bastion surrenders after a brief, desperate skirmish.",
+    "lose": "Both supply trains slip past your pickets and enter the fortress. Re-supplied and heavily reinforced, the bastion's defenders sally forth and rout your lines."
+   }
+  },
+  {
+   "id": "m31-riverlock-crossing",
+   "act": 3,
+   "kind": "mission",
+   "map": "m31",
+   "title": "Riverlock Crossing",
+   "pos": [
+    6,
+    50
+   ],
+   "unlocksOnVictory": [
+    "m32-elder-juggernaut"
+   ],
+   "briefing": "A roaring, deep river gorge bisects the frontier, crossed only by the West and East Riverlock bridges. Automated floodgate controls allow the enemy to submerge either bridge at will. Seize the central sluice controls on the island redoubt to lock the bridges open, then cross in force to smash the opposing garrison.",
+   "result": {
+    "win": "The riverlocks are permanently secured under imperial control. The river gorge is crossed, placing our army within striking distance of the deep harbor.",
+    "lose": "The enemy opens the riverlock sluices, washing your vanguard downstream in a torrent of crushing water and drowning your elite warriors."
+   }
+  },
+  {
+   "id": "m32-elder-juggernaut",
+   "act": 3,
+   "kind": "mission",
+   "map": "m32",
+   "title": "Elder Juggernaut",
+   "pos": [
+    15,
+    80
+   ],
+   "unlocksOnVictory": [
+    "m33-high-stakes-gambit"
+   ],
+   "briefing": "High on the windswept pine ridge, an ancient stone colossus—the Elder Juggernaut—guards the mountain approach. Imbued with deep-earth sorcery, it is impervious to conventional iron blades and unleashes seismic shockwaves that level entire infantry formations. Use armor-piercing magic and nimble tactics to shatter this primeval sentinel.",
+   "result": {
+    "win": "The Elder Juggernaut crumbles into harmless boulders under concentrated magical fire. The mountain path is clear, opening the road to the coast.",
+    "lose": "The Juggernaut's seismic stomps shatter your formations. Crushed beneath tectonic shockwaves and falling stones, your company is annihilated upon the ridge."
+   }
+  },
+  {
+   "id": "m33-high-stakes-gambit",
+   "act": 3,
+   "kind": "mission",
+   "map": "m33",
+   "title": "High-Stakes Gambit",
+   "pos": [
+    38,
+    80
+   ],
+   "unlocksOnVictory": [
+    "m34-clashing-banners"
+   ],
+   "briefing": "Two heavily guarded treasure vaults flank the central keep of a rogue baron who has declared allegiance to the shadow coven. He possesses the gold necessary to hire every mercenary in the archipelago. Push aggressively through the center to breach the keep before his treasurers can escape with the war-chests into the catacombs.",
+   "result": {
+    "win": "The rogue baron's keep is stormed and both treasure vaults are seized intact. An immense fortune in gold and ancient magical regalia fills the company treasury.",
+    "lose": "Your central thrust is bogged down by elite halberdiers. The baron escapes with the gold reserves, leaving your forces depleted and empty-handed."
+   }
+  },
+  {
+   "id": "m34-clashing-banners",
+   "act": 3,
+   "kind": "mission",
+   "map": "m34",
+   "title": "Clashing Banners",
+   "pos": [
+    62,
+    80
+   ],
+   "unlocksOnVictory": [
+    "m35-burning-harbor"
+   ],
+   "briefing": "Two ruthless rival mercenary legions—the Ironclad Banner and the Ashen Banner—have met on the coastal hills, warring over the spoils of fallen towns. While they clash, advance your forces into the valley, exploit their disordered battle lines, and crush both factions before they can unite against you.",
+   "result": {
+    "win": "Both mercenary banners lie trampled in the mud. With their warlords eliminated, the rogue mercenaries surrender their gear and pledge obedience to the realm.",
+    "lose": "The rival banners cease their infighting and unite against your intrusion. Flanked by both mercenary armies, your troops are overwhelmed and cut down."
+   }
+  },
+  {
+   "id": "m35-burning-harbor",
+   "act": 3,
+   "kind": "mission",
+   "map": "m35",
+   "title": "Burning Harbor",
+   "pos": [
+    85,
+    80
+   ],
+   "unlocksOnVictory": [
+    "town-ironcamp",
+    "m36-heartland-march"
+   ],
+   "briefing": "Act III Climax: Ash falls like sleet over Harborwatch as mutineers breach the seawall. Clear the Burning Plaza, hold the Western Evacuation Pier beside Harbor Marshal Veyra until the last caravel sails west, then slay Lord-Captain Korvus ('The Iron Anchor') on the Eastern War Pier.",
+   "result": {
+    "win": "Lord-Captain Korvus topples into the black surf and the evacuation fleet sails untouched past the Western Rim. Turn east with Marshal Veyra toward the Obsidian Caldera!",
+    "lose": "Harbor Marshal Veyra falls on the burning quay as torches consume the last evacuation ships."
+   }
+  },
+  {
+   "id": "town-ironcamp",
+   "kind": "town",
+   "map": "market",
+   "title": "Highcrest Citadel",
+   "pos": [
+    14,
+    20
+   ],
+   "unlocksOnVictory": [],
+   "tiers": [
+    4,
+    5
+   ],
+   "briefing": "Highcrest Citadel: Carved into the razor granite spine dividing the coast from the Obsidian Caldera, where Marshal Vance, Harbor Marshal Veyra, Weaponsmith Elda, and Archivist Orla prepare the rearguard's final march.",
+   "act": 4
+  },
+  {
+   "id": "m36-heartland-march",
+   "act": 4,
+   "kind": "mission",
+   "map": "m36",
+   "title": "Heartland March",
+   "pos": [
+    38,
+    20
+   ],
+   "unlocksOnVictory": [
+    "m37-shattered-beacons"
+   ],
+   "briefing": "With the evacuation armada safely beyond the Western Rim, the rearguard climbs to Highcrest Citadel. Rearm at Elda's meteoric forge, sweep Iron Pact scouts from the ash-draped pine trail, and shatter the gorge ambush sealing the Northern Pass.",
+   "result": {
+    "win": "The Northern Pass falls, opening the road into the volcanic heartland of the Obsidian Caldera.",
+    "lose": "Overwhelmed on the ash-draped switchbacks, the rearguard stalls before reaching the Caldera."
+   }
+  },
+  {
+   "id": "m37-shattered-beacons",
+   "act": 4,
+   "kind": "mission",
+   "map": "m37",
+   "title": "Shattered Beacons",
+   "pos": [
+    62,
+    20
+   ],
+   "unlocksOnVictory": [
+    "m38-besieged-wall"
+   ],
+   "briefing": "Three towering runic beacons project a lethal barrier of violet lightning across the valley floor. Armed with Ward-Scholar Elowen's and Chronicler Zahra's harmonic calculations, Marshal Vance orders a strike against West, Center, and East.",
+   "result": {
+    "win": "All three pylons collapse into smoking glass, revealing the towering black silhouette of the Infernal Citadel.",
+    "lose": "Violet lightning vaporizes your column across the obsidian valley floor."
+   }
+  },
+  {
+   "id": "m38-besieged-wall",
+   "act": 4,
+   "kind": "mission",
+   "map": "m38",
+   "title": "Besieged Wall",
+   "pos": [
+    86,
+    20
+   ],
+   "unlocksOnVictory": [
+    "m39-flight-of-malrik"
+   ],
+   "briefing": "Greystone Bastion holds the narrow neck of the volcanic valley. Captain Rowan's veteran garrison is assaulted by colossal siege engines hurled by demonic brutes. Stand beside Rowan's defenders on the battlements, repel the assault ladders, and launch a sortie to destroy the three siege catapults.",
+   "result": {
+    "win": "Greystone Bastion withstands the fury of the siege. The enemy catapults are reduced to smoking kindling, securing the army's supply lines for the march on the core.",
+    "lose": "Greystone Bastion's walls crumble under relentless bombardment. The fortress falls, cutting off your forward troops in the heart of hostile territory."
+   }
+  },
+  {
+   "id": "m39-flight-of-malrik",
+   "act": 4,
+   "kind": "mission",
+   "map": "m39",
+   "title": "Flight of Malrik",
+   "pos": [
+    86,
+    50
+   ],
+   "unlocksOnVictory": [
+    "m40-twofold-assault"
+   ],
+   "briefing": "Arch-Mage Malrik—the grand conspirator who leaked the northern border ciphers and sold Thornvael to the Iron Pact—flees up Ashveil Gorge toward a summit teleportation shrine. Cut him down before he vanishes with the secrets of the Caldera ritual.",
+   "result": {
+    "win": "Malrik falls on the summit flagstones; his Royal Cipher-Keys and Iron Pact Ledger reveal that Morvessa's Salt Tithe was meant for the Order Seals before the Pact hijacked it.",
+    "lose": "Malrik steps into the summit shrine, erasing the final truth of the Iron Pact conspiracy."
+   }
+  },
+  {
+   "id": "m40-twofold-assault",
+   "act": 4,
+   "kind": "mission",
+   "map": "m40",
+   "title": "Twofold Assault",
+   "pos": [
+    62,
+    50
+   ],
+   "unlocksOnVictory": [
+    "m41-gauntlet-of-iron"
+   ],
+   "briefing": "Twin towering crag bastions dominate the final approach to the Infernal Citadel, each equipped with heavy mana-cannons that sweep the roadway. You must split your forces or systematically assault each crag in succession, neutralizing both cannon redoubts before the main column can advance.",
+   "result": {
+    "win": "Both crag bastions are silenced. The mana-cannons are dismantled, leaving the road to the citadel gates free of artillery bombardment.",
+    "lose": "Concentrated fire from the twin mana-cannons vaporizes your assault lines. Your broken company is forced to withdraw down the blood-soaked road."
+   }
+  },
+  {
+   "id": "m41-gauntlet-of-iron",
+   "act": 4,
+   "kind": "mission",
+   "map": "m41",
+   "title": "Gauntlet of Iron",
+   "pos": [
+    38,
+    50
+   ],
+   "unlocksOnVictory": [
+    "m42-outer-rampart"
+   ],
+   "briefing": "A razor-narrow canyon known as the Gauntlet of Iron leads directly to the outer citadel rampart. Barred by three fortified checkpoints and reinforced by heavy iron golems, every inch of ground must be bought with blood. Advance behind heavy shields, counter enemy ambushers on the cliffs, and break the gauntlet.",
+   "result": {
+    "win": "The Gauntlet of Iron is broken. The three checkpoints are captured, clearing the final obstacle before the massive outer walls of the Infernal Citadel.",
+    "lose": "Your troops are trapped within the narrow defile of the Gauntlet. Pinned between falling portcullises and barrage fire, your elite company is mercilessly annihilated."
+   }
+  },
+  {
+   "id": "m42-outer-rampart",
+   "act": 4,
+   "kind": "mission",
+   "map": "m42",
+   "title": "Outer Rampart",
+   "pos": [
+    14,
+    50
+   ],
+   "unlocksOnVictory": [
+    "m43-three-roads-siege"
+   ],
+   "briefing": "The three-hundred-foot basalt wall of the Infernal Citadel looms against a blood-red sky. While Marshal Vance and Harbor Marshal Veyra lead the diversion, breach at least two of the three gatehouses to crack the Inner Bailey.",
+   "result": {
+    "win": "The basalt rampart breaks and the Inner Bailey garrison falls, opening the doorway into the heart of the mountain.",
+    "lose": "Boiling pitch and heavy quarrels repel your siege parties beneath the Outer Rampart."
+   }
+  },
+  {
+   "id": "m43-three-roads-siege",
+   "act": 4,
+   "kind": "mission",
+   "map": "m43",
+   "title": "Three-Roads Siege",
+   "pos": [
+    14,
+    80
+   ],
+   "unlocksOnVictory": [
+    "m44-threshold-choice"
+   ],
+   "briefing": "As your vanguard prepares to storm the inner sanctum, three massive enemy relief columns converge on Three-Roads Watch from the north, west, and east. If they surround your siege camp, the army will be destroyed from behind. Deploy strike teams along all three avenues and shatter each relief force in turn.",
+   "result": {
+    "win": "All three relief columns are broken and scattered across the ash fields. With all outside reinforcements eliminated, the inner sanctum stands completely isolated.",
+    "lose": "The three relief columns smash into your exposed flanks simultaneously. Your siege camp is overrun and your army is crushed against the citadel walls."
+   }
+  },
+  {
+   "id": "m44-threshold-choice",
+   "act": 4,
+   "kind": "mission",
+   "map": "m44",
+   "title": "Threshold Choice",
+   "pos": [
+    38,
+    80
+   ],
+   "unlocksOnVictory": [
+    "m45-crown-of-order",
+    "m46-ember-reckoning"
+   ],
+   "briefing": "Penultimate Mission: Beneath the sundered bailey lies the Threshold Chamber where fire and frost hang in silent balance. Defeat the Threshold Wardens, then step onto the West Altar of Order or the East Altar of Ember to decide Thornvael's fate.",
+   "result": {
+    "win": "The Threshold is crossed—your irreversible step opens either the frozen Crown Vault or the blazing Furnace Heart.",
+    "lose": "You fall between fire and frost on the Threshold flagstones while Thornvael burns unchallenged."
+   }
+  },
+  {
+   "id": "m45-crown-of-order",
+   "act": 4,
+   "kind": "mission",
+   "map": "m45",
+   "title": "Crown of Order",
+   "pos": [
+    62,
+    80
+   ],
+   "unlocksOnVictory": [],
+   "briefing": "Final Chapter — Path of Order (Ending A): Inside the frozen marble Crown Vault, sunder the West and East Resonance Anchors with the Sigil of Order, then defeat Arch-Warden Korrath ('The Living Law') to snap the necrotic tether choking the Caldera.",
+   "result": {
+    "win": "Ending A — The Purging of Thornvael: Korrath dissolves into gray dust, the Caldera cools into still basalt, and the returning fleet sails home to a living dawn!",
+    "lose": "Turned to white granite by Petrifying Stasis, you stand frozen forever inside the Crown Vault."
+   }
+  },
+  {
+   "id": "m46-ember-reckoning",
+   "act": 4,
+   "kind": "mission",
+   "map": "m46",
+   "title": "Ember Reckoning",
+   "pos": [
+    86,
+    80
+   ],
+   "unlocksOnVictory": [],
+   "briefing": "Final Chapter — Path of Ember (Ending B): Inside the blazing Furnace Heart, demolish the West and East Obsidian Conduit Pillars, then strike down Ember Overlord Vorak ('The Living Kiln') and claim the Crown of Thorns and Cinder.",
+   "result": {
+    "win": "Ending B — Rise of the Dark Sovereign: Vorak sinks beneath the magma as you lift the Crown of Thorns and Cinder, binding Thornvael under an unbreakable sovereign will!",
+    "lose": "Consumed by Vorak's meteor rain and molten rock, nothing remains of your vanguard inside the Furnace Heart."
+   }
+  }
+ ]
 }

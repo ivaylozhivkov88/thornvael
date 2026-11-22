@@ -1,11 +1,11 @@
 {
  "id": "ch1",
  "cache": "thornvael-ch1-v1",
- "total": 15900882,
+ "total": 15895867,
  "files": [
   {
    "path": "data/campaign.json",
-   "size": 48894
+   "size": 43879
   },
   {
    "path": "data/items.json",

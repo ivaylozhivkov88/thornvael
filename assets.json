@@ -7662,6 +7662,174 @@
       "note": "Dedicated 64x64 unique item icon for uniq-ashkarath-crown-shard"
     },
     {
+      "path": "public/townart/mon/anvilmaw-smith.jpg",
+      "license": "own",
+      "source": "Generated dark-fantasy painted monster portrait, formatted with Pillow",
+      "note": "Original painted monster portrait for anvilmaw-smith, 2026-11-22; 384x512 framed bust"
+    },
+    {
+      "path": "public/townart/mon/ash-weaver.jpg",
+      "license": "own",
+      "source": "Generated dark-fantasy painted monster portrait, formatted with Pillow",
+      "note": "Original painted monster portrait for ash-weaver, 2026-11-22; 384x512 framed bust"
+    },
+    {
+      "path": "public/townart/mon/basalt-brute.jpg",
+      "license": "own",
+      "source": "tools/.canva-sheets/basalt-brute.png turnaround painted art, composited with Pillow",
+      "note": "Original monster portrait for basalt-brute extracted from turnaround sheet onto chiaroscuro backdrop, 2026-11-22"
+    },
+    {
+      "path": "public/townart/mon/cinder-shaman.jpg",
+      "license": "own",
+      "source": "tools/.canva-sheets/cinder-shaman.png turnaround painted art, composited with Pillow",
+      "note": "Original monster portrait for cinder-shaman extracted from turnaround sheet onto chiaroscuro backdrop, 2026-11-22"
+    },
+    {
+      "path": "public/townart/mon/crowned-maw.jpg",
+      "license": "own",
+      "source": "tools/.canva-sheets/crowned-maw.png turnaround painted art, composited with Pillow",
+      "note": "Original monster portrait for crowned-maw extracted from turnaround sheet onto chiaroscuro backdrop, 2026-11-22"
+    },
+    {
+      "path": "public/townart/mon/dune-beast.jpg",
+      "license": "own",
+      "source": "Generated dark-fantasy painted monster portrait, formatted with Pillow",
+      "note": "Original painted monster portrait for dune-beast, 2026-11-22; 384x512 framed bust"
+    },
+    {
+      "path": "public/townart/mon/dune-lurker.jpg",
+      "license": "own",
+      "source": "Generated dark-fantasy painted monster portrait, formatted with Pillow",
+      "note": "Original painted monster portrait for dune-lurker, 2026-11-22; 384x512 framed bust"
+    },
+    {
+      "path": "public/townart/mon/fallen-shaman.jpg",
+      "license": "own",
+      "source": "tools/.canva-sheets/fallen-shaman.png turnaround painted art, composited with Pillow",
+      "note": "Original monster portrait for fallen-shaman extracted from turnaround sheet onto chiaroscuro backdrop, 2026-11-22"
+    },
+    {
+      "path": "public/townart/mon/fetish-blowdart.jpg",
+      "license": "own",
+      "source": "Generated dark-fantasy painted monster portrait, formatted with Pillow",
+      "note": "Original painted monster portrait for fetish-blowdart, 2026-11-22; 384x512 framed bust"
+    },
+    {
+      "path": "public/townart/mon/frost-bell.jpg",
+      "license": "own",
+      "source": "Generated dark-fantasy painted monster portrait, formatted with Pillow",
+      "note": "Original painted monster portrait for frost-bell, 2026-11-22; 384x512 framed bust"
+    },
+    {
+      "path": "public/townart/mon/gloom-stag.jpg",
+      "license": "own",
+      "source": "tools/.canva-sheets/gloom-stag.png turnaround painted art, composited with Pillow",
+      "note": "Original monster portrait for gloom-stag extracted from turnaround sheet onto chiaroscuro backdrop, 2026-11-22"
+    },
+    {
+      "path": "public/townart/mon/greater-mummy.jpg",
+      "license": "own",
+      "source": "Generated dark-fantasy painted monster portrait, formatted with Pillow",
+      "note": "Original painted monster portrait for greater-mummy, 2026-11-22; 384x512 framed bust"
+    },
+    {
+      "path": "public/townart/mon/hollow-king.jpg",
+      "license": "own",
+      "source": "Generated dark-fantasy painted monster portrait, formatted with Pillow",
+      "note": "Original painted monster portrait for hollow-king, 2026-11-22; 384x512 framed bust"
+    },
+    {
+      "path": "public/townart/mon/hollow-knight.jpg",
+      "license": "own",
+      "source": "tools/.canva-sheets/hollow-knight.png turnaround painted art, composited with Pillow",
+      "note": "Original monster portrait for hollow-knight extracted from turnaround sheet onto chiaroscuro backdrop, 2026-11-22"
+    },
+    {
+      "path": "public/townart/mon/lantern-eel.jpg",
+      "license": "own",
+      "source": "tools/.canva-sheets/lantern-eel.png turnaround painted art, composited with Pillow",
+      "note": "Original monster portrait for lantern-eel extracted from turnaround sheet onto chiaroscuro backdrop, 2026-11-22"
+    },
+    {
+      "path": "public/townart/mon/mire-wisp.jpg",
+      "license": "own",
+      "source": "tools/.canva-sheets/mire-wisp.png turnaround painted art, composited with Pillow",
+      "note": "Original monster portrait for mire-wisp extracted from turnaround sheet onto chiaroscuro backdrop, 2026-11-22"
+    },
+    {
+      "path": "public/townart/mon/night-orchard.jpg",
+      "license": "own",
+      "source": "tools/.canva-sheets/night-orchard.png turnaround painted art, composited with Pillow",
+      "note": "Original monster portrait for night-orchard extracted from turnaround sheet onto chiaroscuro backdrop, 2026-11-22"
+    },
+    {
+      "path": "public/townart/mon/pale-burrower.jpg",
+      "license": "own",
+      "source": "Generated dark-fantasy painted monster portrait, formatted with Pillow",
+      "note": "Original painted monster portrait for pale-burrower, 2026-11-22; 384x512 framed bust"
+    },
+    {
+      "path": "public/townart/mon/redglass-drake.jpg",
+      "license": "own",
+      "source": "tools/.canva-sheets/redglass-drake.png turnaround painted art, composited with Pillow",
+      "note": "Original monster portrait for redglass-drake extracted from turnaround sheet onto chiaroscuro backdrop, 2026-11-22"
+    },
+    {
+      "path": "public/townart/mon/rift-moth.jpg",
+      "license": "own",
+      "source": "tools/.canva-sheets/rift-moth.png turnaround painted art, composited with Pillow",
+      "note": "Original monster portrait for rift-moth extracted from turnaround sheet onto chiaroscuro backdrop, 2026-11-22"
+    },
+    {
+      "path": "public/townart/mon/ruin-mite.jpg",
+      "license": "own",
+      "source": "Generated dark-fantasy painted monster portrait, formatted with Pillow",
+      "note": "Original painted monster portrait for ruin-mite, 2026-11-22; 384x512 framed bust"
+    },
+    {
+      "path": "public/townart/mon/salt-crab.jpg",
+      "license": "own",
+      "source": "Generated dark-fantasy painted monster portrait, formatted with Pillow",
+      "note": "Original painted monster portrait for salt-crab, 2026-11-22; 384x512 framed bust"
+    },
+    {
+      "path": "public/townart/mon/silt-colossus.jpg",
+      "license": "own",
+      "source": "Generated dark-fantasy painted monster portrait, formatted with Pillow",
+      "note": "Original painted monster portrait for silt-colossus, 2026-11-22; 384x512 framed bust"
+    },
+    {
+      "path": "public/townart/mon/spore-matron.jpg",
+      "license": "own",
+      "source": "tools/.canva-sheets/spore-matron.png turnaround painted art, composited with Pillow",
+      "note": "Original monster portrait for spore-matron extracted from turnaround sheet onto chiaroscuro backdrop, 2026-11-22"
+    },
+    {
+      "path": "public/townart/mon/storm-kite.jpg",
+      "license": "own",
+      "source": "tools/.canva-sheets/storm-kite.png turnaround painted art, composited with Pillow",
+      "note": "Original monster portrait for storm-kite extracted from turnaround sheet onto chiaroscuro backdrop, 2026-11-22"
+    },
+    {
+      "path": "public/townart/mon/thorn-boar.jpg",
+      "license": "own",
+      "source": "Blender 5.2 procedural sculpt render, composited with Pillow",
+      "note": "Original monster portrait for thorn-boar rendered from procedural model, 2026-11-22"
+    },
+    {
+      "path": "public/townart/mon/wendigo-bruiser.jpg",
+      "license": "own",
+      "source": "tools/.canva-sheets/wendigo-bruiser.png turnaround painted art, composited with Pillow",
+      "note": "Original monster portrait for wendigo-bruiser extracted from turnaround sheet onto chiaroscuro backdrop, 2026-11-22"
+    },
+    {
+      "path": "public/townart/mon/witch-doctor.jpg",
+      "license": "own",
+      "source": "tools/.canva-sheets/witch-doctor.png turnaround painted art, composited with Pillow",
+      "note": "Original monster portrait for witch-doctor extracted from turnaround sheet onto chiaroscuro backdrop, 2026-11-22"
+    },
+    {
       "path": "public/audio/voices/m01_briefing_hale.m4a",
       "license": "own",
       "source": "tools/generate-all-voices.py",
@@ -8403,7 +8571,7 @@
       "path": "public/audio/voices/map__wardstone_rupture__msg_4.m4a",
       "license": "own",
       "source": "tools/generate-all-voices.py",
-      "note": "Mission dialogue msg.4 for Wardstone Rupture (Scholar Vane)"
+      "note": "Mission dialogue msg.4 for Wardstone Rupture (Chronicler Zahra)"
     },
     {
       "path": "public/audio/voices/map__mire_convoy__body.m4a",
@@ -8613,19 +8781,19 @@
       "path": "public/audio/voices/map__pledge_at_oakhaven__msg_2.m4a",
       "license": "own",
       "source": "tools/generate-all-voices.py",
-      "note": "Mission dialogue msg.2 for Pledge at Oakhaven (Warden Hale)"
+      "note": "Mission dialogue msg.2 for Pledge at Oakhaven (Bailiff Aldric)"
     },
     {
       "path": "public/audio/voices/map__pledge_at_oakhaven__msg_3.m4a",
       "license": "own",
       "source": "tools/generate-all-voices.py",
-      "note": "Mission dialogue msg.3 for Pledge at Oakhaven (Warden Hale)"
+      "note": "Mission dialogue msg.3 for Pledge at Oakhaven (Bailiff Aldric)"
     },
     {
       "path": "public/audio/voices/map__pledge_at_oakhaven__msg_4.m4a",
       "license": "own",
       "source": "tools/generate-all-voices.py",
-      "note": "Mission dialogue msg.4 for Pledge at Oakhaven (Warden Hale)"
+      "note": "Mission dialogue msg.4 for Pledge at Oakhaven (Bailiff Aldric)"
     },
     {
       "path": "public/audio/voices/map__pledge_at_oakhaven__msg_5.m4a",
@@ -8655,31 +8823,31 @@
       "path": "public/audio/voices/map__cinder_wards__msg_2.m4a",
       "license": "own",
       "source": "tools/generate-all-voices.py",
-      "note": "Mission dialogue msg.2 for Cinder Wards (Warden Hale)"
+      "note": "Mission dialogue msg.2 for Cinder Wards (Ward-Scholar Elowen)"
     },
     {
       "path": "public/audio/voices/map__cinder_wards__msg_3.m4a",
       "license": "own",
       "source": "tools/generate-all-voices.py",
-      "note": "Mission dialogue msg.3 for Cinder Wards (Warden Hale)"
+      "note": "Mission dialogue msg.3 for Cinder Wards (Ward-Scholar Elowen)"
     },
     {
       "path": "public/audio/voices/map__cinder_wards__msg_4.m4a",
       "license": "own",
       "source": "tools/generate-all-voices.py",
-      "note": "Mission dialogue msg.4 for Cinder Wards (Warden Hale)"
+      "note": "Mission dialogue msg.4 for Cinder Wards (Ward-Scholar Elowen)"
     },
     {
       "path": "public/audio/voices/map__cinder_wards__msg_5.m4a",
       "license": "own",
       "source": "tools/generate-all-voices.py",
-      "note": "Mission dialogue msg.5 for Cinder Wards (Warden Hale)"
+      "note": "Mission dialogue msg.5 for Cinder Wards (Ward-Scholar Elowen)"
     },
     {
       "path": "public/audio/voices/map__cinder_wards__msg_6.m4a",
       "license": "own",
       "source": "tools/generate-all-voices.py",
-      "note": "Mission dialogue msg.6 for Cinder Wards (Warden Hale)"
+      "note": "Mission dialogue msg.6 for Cinder Wards (Ward-Scholar Elowen)"
     },
     {
       "path": "public/audio/voices/map__sundered_ranks__body.m4a",
@@ -8697,25 +8865,25 @@
       "path": "public/audio/voices/map__sundered_ranks__msg_2.m4a",
       "license": "own",
       "source": "tools/generate-all-voices.py",
-      "note": "Mission dialogue msg.2 for Sundered Ranks (Warden Hale)"
+      "note": "Mission dialogue msg.2 for Sundered Ranks (Master-at-Arms Toren)"
     },
     {
       "path": "public/audio/voices/map__sundered_ranks__msg_3.m4a",
       "license": "own",
       "source": "tools/generate-all-voices.py",
-      "note": "Mission dialogue msg.3 for Sundered Ranks (Warden Hale)"
+      "note": "Mission dialogue msg.3 for Sundered Ranks (Master-at-Arms Toren)"
     },
     {
       "path": "public/audio/voices/map__sundered_ranks__msg_4.m4a",
       "license": "own",
       "source": "tools/generate-all-voices.py",
-      "note": "Mission dialogue msg.4 for Sundered Ranks (Warden Hale)"
+      "note": "Mission dialogue msg.4 for Sundered Ranks (Master-at-Arms Toren)"
     },
     {
       "path": "public/audio/voices/map__sundered_ranks__msg_5.m4a",
       "license": "own",
       "source": "tools/generate-all-voices.py",
-      "note": "Mission dialogue msg.5 for Sundered Ranks (Warden Hale)"
+      "note": "Mission dialogue msg.5 for Sundered Ranks (Master-at-Arms Toren)"
     },
     {
       "path": "public/audio/voices/map__field_infirmary__body.m4a",
@@ -8733,19 +8901,19 @@
       "path": "public/audio/voices/map__field_infirmary__msg_2.m4a",
       "license": "own",
       "source": "tools/generate-all-voices.py",
-      "note": "Mission dialogue msg.2 for Field Infirmary (Warden Hale)"
+      "note": "Mission dialogue msg.2 for Field Infirmary (Chief Healer Sera)"
     },
     {
       "path": "public/audio/voices/map__field_infirmary__msg_3.m4a",
       "license": "own",
       "source": "tools/generate-all-voices.py",
-      "note": "Mission dialogue msg.3 for Field Infirmary (Warden Hale)"
+      "note": "Mission dialogue msg.3 for Field Infirmary (Chief Healer Sera)"
     },
     {
       "path": "public/audio/voices/map__field_infirmary__msg_4.m4a",
       "license": "own",
       "source": "tools/generate-all-voices.py",
-      "note": "Mission dialogue msg.4 for Field Infirmary (Warden Hale)"
+      "note": "Mission dialogue msg.4 for Field Infirmary (Chief Healer Sera)"
     },
     {
       "path": "public/audio/voices/map__field_infirmary__msg_5.m4a",
@@ -8769,19 +8937,19 @@
       "path": "public/audio/voices/map__sunken_citadel__msg_2.m4a",
       "license": "own",
       "source": "tools/generate-all-voices.py",
-      "note": "Mission dialogue msg.2 for Sunken Citadel (Warden Hale)"
+      "note": "Mission dialogue msg.2 for Sunken Citadel (Sapper Hale)"
     },
     {
       "path": "public/audio/voices/map__sunken_citadel__msg_3.m4a",
       "license": "own",
       "source": "tools/generate-all-voices.py",
-      "note": "Mission dialogue msg.3 for Sunken Citadel (Warden Hale)"
+      "note": "Mission dialogue msg.3 for Sunken Citadel (Sapper Hale)"
     },
     {
       "path": "public/audio/voices/map__sunken_citadel__msg_4.m4a",
       "license": "own",
       "source": "tools/generate-all-voices.py",
-      "note": "Mission dialogue msg.4 for Sunken Citadel (Warden Hale)"
+      "note": "Mission dialogue msg.4 for Sunken Citadel (Sapper Hale)"
     },
     {
       "path": "public/audio/voices/map__sunken_citadel__npc_sapper.m4a",
@@ -8835,13 +9003,13 @@
       "path": "public/audio/voices/map__starved_bastion__msg_2.m4a",
       "license": "own",
       "source": "tools/generate-all-voices.py",
-      "note": "Mission dialogue msg.2 for Starved Bastion (Warden Hale)"
+      "note": "Mission dialogue msg.2 for Starved Bastion (Scout Corin)"
     },
     {
       "path": "public/audio/voices/map__starved_bastion__msg_3.m4a",
       "license": "own",
       "source": "tools/generate-all-voices.py",
-      "note": "Mission dialogue msg.3 for Starved Bastion (Warden Hale)"
+      "note": "Mission dialogue msg.3 for Starved Bastion (Scout Corin)"
     },
     {
       "path": "public/audio/voices/map__riverlock_crossing__body.m4a",
@@ -8859,19 +9027,19 @@
       "path": "public/audio/voices/map__riverlock_crossing__msg_2.m4a",
       "license": "own",
       "source": "tools/generate-all-voices.py",
-      "note": "Mission dialogue msg.2 for Riverlock Crossing (Warden Hale)"
+      "note": "Mission dialogue msg.2 for Riverlock Crossing (Bridgewright Hal)"
     },
     {
       "path": "public/audio/voices/map__riverlock_crossing__msg_3.m4a",
       "license": "own",
       "source": "tools/generate-all-voices.py",
-      "note": "Mission dialogue msg.3 for Riverlock Crossing (Warden Hale)"
+      "note": "Mission dialogue msg.3 for Riverlock Crossing (Bridgewright Hal)"
     },
     {
       "path": "public/audio/voices/map__riverlock_crossing__msg_4.m4a",
       "license": "own",
       "source": "tools/generate-all-voices.py",
-      "note": "Mission dialogue msg.4 for Riverlock Crossing (Warden Hale)"
+      "note": "Mission dialogue msg.4 for Riverlock Crossing (Bridgewright Hal)"
     },
     {
       "path": "public/audio/voices/map__elder_juggernaut__body.m4a",
@@ -8889,13 +9057,13 @@
       "path": "public/audio/voices/map__elder_juggernaut__msg_2.m4a",
       "license": "own",
       "source": "tools/generate-all-voices.py",
-      "note": "Mission dialogue msg.2 for Elder Juggernaut (Warden Hale)"
+      "note": "Mission dialogue msg.2 for Elder Juggernaut (Huntsman Kael)"
     },
     {
       "path": "public/audio/voices/map__elder_juggernaut__msg_3.m4a",
       "license": "own",
       "source": "tools/generate-all-voices.py",
-      "note": "Mission dialogue msg.3 for Elder Juggernaut (Warden Hale)"
+      "note": "Mission dialogue msg.3 for Elder Juggernaut (Huntsman Kael)"
     },
     {
       "path": "public/audio/voices/map__high_stakes_gambit__body.m4a",
@@ -8913,19 +9081,19 @@
       "path": "public/audio/voices/map__high_stakes_gambit__msg_2.m4a",
       "license": "own",
       "source": "tools/generate-all-voices.py",
-      "note": "Mission dialogue msg.2 for High-Stakes Gambit (Warden Hale)"
+      "note": "Mission dialogue msg.2 for High-Stakes Gambit (Quartermaster Orson)"
     },
     {
       "path": "public/audio/voices/map__high_stakes_gambit__msg_3.m4a",
       "license": "own",
       "source": "tools/generate-all-voices.py",
-      "note": "Mission dialogue msg.3 for High-Stakes Gambit (Warden Hale)"
+      "note": "Mission dialogue msg.3 for High-Stakes Gambit (Quartermaster Orson)"
     },
     {
       "path": "public/audio/voices/map__high_stakes_gambit__msg_4.m4a",
       "license": "own",
       "source": "tools/generate-all-voices.py",
-      "note": "Mission dialogue msg.4 for High-Stakes Gambit (Warden Hale)"
+      "note": "Mission dialogue msg.4 for High-Stakes Gambit (Quartermaster Orson)"
     },
     {
       "path": "public/audio/voices/map__clashing_banners__body.m4a",
@@ -8937,31 +9105,31 @@
       "path": "public/audio/voices/map__clashing_banners__msg_1.m4a",
       "license": "own",
       "source": "tools/generate-all-voices.py",
-      "note": "Mission dialogue msg.1 for Clashing Banners (Marshal Veyra)"
+      "note": "Mission dialogue msg.1 for Clashing Banners (Harbor Marshal Veyra)"
     },
     {
       "path": "public/audio/voices/map__clashing_banners__msg_2.m4a",
       "license": "own",
       "source": "tools/generate-all-voices.py",
-      "note": "Mission dialogue msg.2 for Clashing Banners (Warden Hale)"
+      "note": "Mission dialogue msg.2 for Clashing Banners (Harbor Marshal Veyra)"
     },
     {
       "path": "public/audio/voices/map__clashing_banners__msg_3.m4a",
       "license": "own",
       "source": "tools/generate-all-voices.py",
-      "note": "Mission dialogue msg.3 for Clashing Banners (Warden Hale)"
+      "note": "Mission dialogue msg.3 for Clashing Banners (Harbor Marshal Veyra)"
     },
     {
       "path": "public/audio/voices/map__clashing_banners__msg_4.m4a",
       "license": "own",
       "source": "tools/generate-all-voices.py",
-      "note": "Mission dialogue msg.4 for Clashing Banners (Warden Hale)"
+      "note": "Mission dialogue msg.4 for Clashing Banners (Harbor Marshal Veyra)"
     },
     {
       "path": "public/audio/voices/map__clashing_banners__msg_5.m4a",
       "license": "own",
       "source": "tools/generate-all-voices.py",
-      "note": "Mission dialogue msg.5 for Clashing Banners (Warden Hale)"
+      "note": "Mission dialogue msg.5 for Clashing Banners (Harbor Marshal Veyra)"
     },
     {
       "path": "public/audio/voices/map__burning_harbor__body.m4a",
@@ -8979,7 +9147,7 @@
       "path": "public/audio/voices/map__burning_harbor__msg_2.m4a",
       "license": "own",
       "source": "tools/generate-all-voices.py",
-      "note": "Mission dialogue msg.2 for Burning Harbor (Warden Hale)"
+      "note": "Mission dialogue msg.2 for Burning Harbor (Harbor Marshal Veyra)"
     },
     {
       "path": "public/audio/voices/map__burning_harbor__msg_3.m4a",
@@ -8991,13 +9159,13 @@
       "path": "public/audio/voices/map__burning_harbor__msg_4.m4a",
       "license": "own",
       "source": "tools/generate-all-voices.py",
-      "note": "Mission dialogue msg.4 for Burning Harbor (Warden Hale)"
+      "note": "Mission dialogue msg.4 for Burning Harbor (Hero)"
     },
     {
       "path": "public/audio/voices/map__burning_harbor__msg_5.m4a",
       "license": "own",
       "source": "tools/generate-all-voices.py",
-      "note": "Mission dialogue msg.5 for Burning Harbor (Warden Hale)"
+      "note": "Mission dialogue msg.5 for Burning Harbor (Harbor Marshal Veyra)"
     },
     {
       "path": "public/audio/voices/map__burning_harbor__npc_orson.m4a",
@@ -9021,19 +9189,19 @@
       "path": "public/audio/voices/map__heartland_march__msg_2.m4a",
       "license": "own",
       "source": "tools/generate-all-voices.py",
-      "note": "Mission dialogue msg.2 for Heartland March (Warden Hale)"
+      "note": "Mission dialogue msg.2 for Heartland March (Marshal Vance)"
     },
     {
       "path": "public/audio/voices/map__heartland_march__msg_3.m4a",
       "license": "own",
       "source": "tools/generate-all-voices.py",
-      "note": "Mission dialogue msg.3 for Heartland March (Warden Hale)"
+      "note": "Mission dialogue msg.3 for Heartland March (Marshal Vance)"
     },
     {
       "path": "public/audio/voices/map__heartland_march__msg_4.m4a",
       "license": "own",
       "source": "tools/generate-all-voices.py",
-      "note": "Mission dialogue msg.4 for Heartland March (Warden Hale)"
+      "note": "Mission dialogue msg.4 for Heartland March (Marshal Vance)"
     },
     {
       "path": "public/audio/voices/map__heartland_march__npc_elda.m4a",
@@ -9057,25 +9225,25 @@
       "path": "public/audio/voices/map__shattered_beacons__msg_2.m4a",
       "license": "own",
       "source": "tools/generate-all-voices.py",
-      "note": "Mission dialogue msg.2 for Shattered Beacons (Warden Hale)"
+      "note": "Mission dialogue msg.2 for Shattered Beacons (Marshal Vance)"
     },
     {
       "path": "public/audio/voices/map__shattered_beacons__msg_3.m4a",
       "license": "own",
       "source": "tools/generate-all-voices.py",
-      "note": "Mission dialogue msg.3 for Shattered Beacons (Warden Hale)"
+      "note": "Mission dialogue msg.3 for Shattered Beacons (Marshal Vance)"
     },
     {
       "path": "public/audio/voices/map__shattered_beacons__msg_4.m4a",
       "license": "own",
       "source": "tools/generate-all-voices.py",
-      "note": "Mission dialogue msg.4 for Shattered Beacons (Warden Hale)"
+      "note": "Mission dialogue msg.4 for Shattered Beacons (Marshal Vance)"
     },
     {
       "path": "public/audio/voices/map__shattered_beacons__msg_5.m4a",
       "license": "own",
       "source": "tools/generate-all-voices.py",
-      "note": "Mission dialogue msg.5 for Shattered Beacons (Warden Hale)"
+      "note": "Mission dialogue msg.5 for Shattered Beacons (Marshal Vance)"
     },
     {
       "path": "public/audio/voices/map__besieged_wall__body.m4a",
@@ -9093,19 +9261,19 @@
       "path": "public/audio/voices/map__besieged_wall__msg_2.m4a",
       "license": "own",
       "source": "tools/generate-all-voices.py",
-      "note": "Mission dialogue msg.2 for Besieged Wall (Warden Hale)"
+      "note": "Mission dialogue msg.2 for Besieged Wall (Captain Rowan)"
     },
     {
       "path": "public/audio/voices/map__besieged_wall__msg_3.m4a",
       "license": "own",
       "source": "tools/generate-all-voices.py",
-      "note": "Mission dialogue msg.3 for Besieged Wall (Warden Hale)"
+      "note": "Mission dialogue msg.3 for Besieged Wall (Captain Rowan)"
     },
     {
       "path": "public/audio/voices/map__besieged_wall__msg_4.m4a",
       "license": "own",
       "source": "tools/generate-all-voices.py",
-      "note": "Mission dialogue msg.4 for Besieged Wall (Warden Hale)"
+      "note": "Mission dialogue msg.4 for Besieged Wall (Captain Rowan)"
     },
     {
       "path": "public/audio/voices/map__flight_of_malrik__body.m4a",
@@ -9123,19 +9291,19 @@
       "path": "public/audio/voices/map__flight_of_malrik__msg_2.m4a",
       "license": "own",
       "source": "tools/generate-all-voices.py",
-      "note": "Mission dialogue msg.2 for Flight of Malrik (Warden Hale)"
+      "note": "Mission dialogue msg.2 for Flight of Malrik (Marshal Vance)"
     },
     {
       "path": "public/audio/voices/map__flight_of_malrik__msg_3.m4a",
       "license": "own",
       "source": "tools/generate-all-voices.py",
-      "note": "Mission dialogue msg.3 for Flight of Malrik (Warden Hale)"
+      "note": "Mission dialogue msg.3 for Flight of Malrik (Marshal Vance)"
     },
     {
       "path": "public/audio/voices/map__flight_of_malrik__msg_4.m4a",
       "license": "own",
       "source": "tools/generate-all-voices.py",
-      "note": "Mission dialogue msg.4 for Flight of Malrik (Warden Hale)"
+      "note": "Mission dialogue msg.4 for Flight of Malrik (Archivist Orla)"
     },
     {
       "path": "public/audio/voices/map__twofold_assault__body.m4a",
@@ -9153,19 +9321,19 @@
       "path": "public/audio/voices/map__twofold_assault__msg_2.m4a",
       "license": "own",
       "source": "tools/generate-all-voices.py",
-      "note": "Mission dialogue msg.2 for Twofold Assault (Warden Hale)"
+      "note": "Mission dialogue msg.2 for Twofold Assault (Marshal Vance)"
     },
     {
       "path": "public/audio/voices/map__twofold_assault__msg_3.m4a",
       "license": "own",
       "source": "tools/generate-all-voices.py",
-      "note": "Mission dialogue msg.3 for Twofold Assault (Warden Hale)"
+      "note": "Mission dialogue msg.3 for Twofold Assault (Marshal Vance)"
     },
     {
       "path": "public/audio/voices/map__twofold_assault__msg_4.m4a",
       "license": "own",
       "source": "tools/generate-all-voices.py",
-      "note": "Mission dialogue msg.4 for Twofold Assault (Warden Hale)"
+      "note": "Mission dialogue msg.4 for Twofold Assault (Marshal Vance)"
     },
     {
       "path": "public/audio/voices/map__gauntlet_of_iron__body.m4a",
@@ -9183,25 +9351,25 @@
       "path": "public/audio/voices/map__gauntlet_of_iron__msg_2.m4a",
       "license": "own",
       "source": "tools/generate-all-voices.py",
-      "note": "Mission dialogue msg.2 for Gauntlet of Iron (Warden Hale)"
+      "note": "Mission dialogue msg.2 for Gauntlet of Iron (Marshal Vance)"
     },
     {
       "path": "public/audio/voices/map__gauntlet_of_iron__msg_3.m4a",
       "license": "own",
       "source": "tools/generate-all-voices.py",
-      "note": "Mission dialogue msg.3 for Gauntlet of Iron (Warden Hale)"
+      "note": "Mission dialogue msg.3 for Gauntlet of Iron (Marshal Vance)"
     },
     {
       "path": "public/audio/voices/map__gauntlet_of_iron__msg_4.m4a",
       "license": "own",
       "source": "tools/generate-all-voices.py",
-      "note": "Mission dialogue msg.4 for Gauntlet of Iron (Warden Hale)"
+      "note": "Mission dialogue msg.4 for Gauntlet of Iron (Marshal Vance)"
     },
     {
       "path": "public/audio/voices/map__gauntlet_of_iron__msg_5.m4a",
       "license": "own",
       "source": "tools/generate-all-voices.py",
-      "note": "Mission dialogue msg.5 for Gauntlet of Iron (Warden Hale)"
+      "note": "Mission dialogue msg.5 for Gauntlet of Iron (Marshal Vance)"
     },
     {
       "path": "public/audio/voices/map__outer_rampart__body.m4a",
@@ -9213,31 +9381,31 @@
       "path": "public/audio/voices/map__outer_rampart__msg_1.m4a",
       "license": "own",
       "source": "tools/generate-all-voices.py",
-      "note": "Mission dialogue msg.1 for Outer Rampart (Marshal Vance)"
+      "note": "Mission dialogue msg.1 for Outer Rampart (Harbor Marshal Veyra)"
     },
     {
       "path": "public/audio/voices/map__outer_rampart__msg_2.m4a",
       "license": "own",
       "source": "tools/generate-all-voices.py",
-      "note": "Mission dialogue msg.2 for Outer Rampart (Warden Hale)"
+      "note": "Mission dialogue msg.2 for Outer Rampart (Harbor Marshal Veyra)"
     },
     {
       "path": "public/audio/voices/map__outer_rampart__msg_3.m4a",
       "license": "own",
       "source": "tools/generate-all-voices.py",
-      "note": "Mission dialogue msg.3 for Outer Rampart (Warden Hale)"
+      "note": "Mission dialogue msg.3 for Outer Rampart (Marshal Vance)"
     },
     {
       "path": "public/audio/voices/map__outer_rampart__msg_4.m4a",
       "license": "own",
       "source": "tools/generate-all-voices.py",
-      "note": "Mission dialogue msg.4 for Outer Rampart (Warden Hale)"
+      "note": "Mission dialogue msg.4 for Outer Rampart (Harbor Marshal Veyra)"
     },
     {
       "path": "public/audio/voices/map__outer_rampart__msg_5.m4a",
       "license": "own",
       "source": "tools/generate-all-voices.py",
-      "note": "Mission dialogue msg.5 for Outer Rampart (Warden Hale)"
+      "note": "Mission dialogue msg.5 for Outer Rampart (Marshal Vance)"
     },
     {
       "path": "public/audio/voices/map__three_roads_siege__body.m4a",
@@ -9255,13 +9423,13 @@
       "path": "public/audio/voices/map__three_roads_siege__msg_2.m4a",
       "license": "own",
       "source": "tools/generate-all-voices.py",
-      "note": "Mission dialogue msg.2 for Three-Roads Siege (Warden Hale)"
+      "note": "Mission dialogue msg.2 for Three-Roads Siege (Warden Tessa)"
     },
     {
       "path": "public/audio/voices/map__three_roads_siege__msg_3.m4a",
       "license": "own",
       "source": "tools/generate-all-voices.py",
-      "note": "Mission dialogue msg.3 for Three-Roads Siege (Warden Hale)"
+      "note": "Mission dialogue msg.3 for Three-Roads Siege (Warden Tessa)"
     },
     {
       "path": "public/audio/voices/map__threshold_choice__body.m4a",
@@ -9279,19 +9447,19 @@
       "path": "public/audio/voices/map__threshold_choice__msg_2.m4a",
       "license": "own",
       "source": "tools/generate-all-voices.py",
-      "note": "Mission dialogue msg.2 for Threshold Choice (Warden Hale)"
+      "note": "Mission dialogue msg.2 for Threshold Choice (Archivist Orla)"
     },
     {
       "path": "public/audio/voices/map__threshold_choice__msg_3.m4a",
       "license": "own",
       "source": "tools/generate-all-voices.py",
-      "note": "Mission dialogue msg.3 for Threshold Choice (Warden Hale)"
+      "note": "Mission dialogue msg.3 for Threshold Choice (Archivist Orla)"
     },
     {
       "path": "public/audio/voices/map__threshold_choice__msg_4.m4a",
       "license": "own",
       "source": "tools/generate-all-voices.py",
-      "note": "Mission dialogue msg.4 for Threshold Choice (Warden Hale)"
+      "note": "Mission dialogue msg.4 for Threshold Choice (Marshal Vance)"
     },
     {
       "path": "public/audio/voices/map__crown_of_order__body.m4a",
@@ -9309,25 +9477,25 @@
       "path": "public/audio/voices/map__crown_of_order__msg_2.m4a",
       "license": "own",
       "source": "tools/generate-all-voices.py",
-      "note": "Mission dialogue msg.2 for Crown of Order (Warden Hale)"
+      "note": "Mission dialogue msg.2 for Crown of Order (Archivist Orla)"
     },
     {
       "path": "public/audio/voices/map__crown_of_order__msg_3.m4a",
       "license": "own",
       "source": "tools/generate-all-voices.py",
-      "note": "Mission dialogue msg.3 for Crown of Order (Warden Hale)"
+      "note": "Mission dialogue msg.3 for Crown of Order (Archivist Orla)"
     },
     {
       "path": "public/audio/voices/map__crown_of_order__msg_4.m4a",
       "license": "own",
       "source": "tools/generate-all-voices.py",
-      "note": "Mission dialogue msg.4 for Crown of Order (Warden Hale)"
+      "note": "Mission dialogue msg.4 for Crown of Order (Arch-Warden Korrath)"
     },
     {
       "path": "public/audio/voices/map__crown_of_order__msg_5.m4a",
       "license": "own",
       "source": "tools/generate-all-voices.py",
-      "note": "Mission dialogue msg.5 for Crown of Order (Warden Hale)"
+      "note": "Mission dialogue msg.5 for Crown of Order (Arch-Warden Korrath)"
     },
     {
       "path": "public/audio/voices/map__ember_reckoning__body.m4a",
@@ -9345,31 +9513,31 @@
       "path": "public/audio/voices/map__ember_reckoning__msg_2.m4a",
       "license": "own",
       "source": "tools/generate-all-voices.py",
-      "note": "Mission dialogue msg.2 for Ember Reckoning (Warden Hale)"
+      "note": "Mission dialogue msg.2 for Ember Reckoning (Marshal Vance)"
     },
     {
       "path": "public/audio/voices/map__ember_reckoning__msg_3.m4a",
       "license": "own",
       "source": "tools/generate-all-voices.py",
-      "note": "Mission dialogue msg.3 for Ember Reckoning (Warden Hale)"
+      "note": "Mission dialogue msg.3 for Ember Reckoning (Marshal Vance)"
     },
     {
       "path": "public/audio/voices/map__ember_reckoning__msg_4.m4a",
       "license": "own",
       "source": "tools/generate-all-voices.py",
-      "note": "Mission dialogue msg.4 for Ember Reckoning (Warden Hale)"
+      "note": "Mission dialogue msg.4 for Ember Reckoning (Marshal Vance)"
     },
     {
       "path": "public/audio/voices/map__ember_reckoning__msg_5.m4a",
       "license": "own",
       "source": "tools/generate-all-voices.py",
-      "note": "Mission dialogue msg.5 for Ember Reckoning (Warden Hale)"
+      "note": "Mission dialogue msg.5 for Ember Reckoning (Ember Overlord Vorak)"
     },
     {
       "path": "public/audio/voices/map__ember_reckoning__msg_6.m4a",
       "license": "own",
       "source": "tools/generate-all-voices.py",
-      "note": "Mission dialogue msg.6 for Ember Reckoning (Warden Hale)"
+      "note": "Mission dialogue msg.6 for Ember Reckoning (Ember Overlord Vorak)"
     },
     {
       "path": "public/audio/voices/map__the_border_fords_weeping_ossuary__body.m4a",
@@ -12108,28 +12276,28 @@
       "note": "Act 3 start cutscene line 1 (narrator)"
     },
     {
-      "path": "public/audio/voices/cs_act3_start_02_npc_kors_shipwright.m4a",
+      "path": "public/audio/voices/cs_act3_start_02_npc_aldric_bailiff.m4a",
       "license": "own",
       "source": "tools/generate-all-voices.py",
-      "note": "Act 3 start cutscene line 2 (npc-kors-shipwright)"
+      "note": "Act 3 start cutscene line 2 (npc-aldric-bailiff)"
     },
     {
-      "path": "public/audio/voices/cs_act3_start_03_npc_lyra_warden.m4a",
+      "path": "public/audio/voices/cs_act3_start_03_npc_kors_shipwright.m4a",
       "license": "own",
       "source": "tools/generate-all-voices.py",
-      "note": "Act 3 start cutscene line 3 (npc-lyra-warden)"
+      "note": "Act 3 start cutscene line 3 (npc-kors-shipwright)"
     },
     {
-      "path": "public/audio/voices/cs_act3_start_04_npc_sera_healer.m4a",
+      "path": "public/audio/voices/cs_act3_start_04_npc_elowen_scholar.m4a",
       "license": "own",
       "source": "tools/generate-all-voices.py",
-      "note": "Act 3 start cutscene line 4 (npc-sera-healer)"
+      "note": "Act 3 start cutscene line 4 (npc-elowen-scholar)"
     },
     {
-      "path": "public/audio/voices/cs_act3_start_05_npc_pip_mudlark.m4a",
+      "path": "public/audio/voices/cs_act3_start_05_npc_sera_healer.m4a",
       "license": "own",
       "source": "tools/generate-all-voices.py",
-      "note": "Act 3 start cutscene line 5 (npc-pip-mudlark)"
+      "note": "Act 3 start cutscene line 5 (npc-sera-healer)"
     },
     {
       "path": "public/audio/voices/cs_act3_start_06_hero.m4a",
@@ -12138,10 +12306,10 @@
       "note": "Act 3 start cutscene line 6 (hero)"
     },
     {
-      "path": "public/audio/voices/cs_act3_start_07_npc_lyra_warden.m4a",
+      "path": "public/audio/voices/cs_act3_start_07_npc_aldric_bailiff.m4a",
       "license": "own",
       "source": "tools/generate-all-voices.py",
-      "note": "Act 3 start cutscene line 7 (npc-lyra-warden)"
+      "note": "Act 3 start cutscene line 7 (npc-aldric-bailiff)"
     },
     {
       "path": "public/audio/voices/cs_act3_start_08_narrator.m4a",
@@ -12156,28 +12324,28 @@
       "note": "Act 3 end cutscene line 1 (narrator)"
     },
     {
-      "path": "public/audio/voices/cs_act3_end_02_npc_kors_shipwright.m4a",
+      "path": "public/audio/voices/cs_act3_end_02_npc_veyra_marshal.m4a",
       "license": "own",
       "source": "tools/generate-all-voices.py",
-      "note": "Act 3 end cutscene line 2 (npc-kors-shipwright)"
+      "note": "Act 3 end cutscene line 2 (npc-veyra-marshal)"
     },
     {
-      "path": "public/audio/voices/cs_act3_end_03_npc_sera_healer.m4a",
+      "path": "public/audio/voices/cs_act3_end_03_npc_kors_shipwright.m4a",
       "license": "own",
       "source": "tools/generate-all-voices.py",
-      "note": "Act 3 end cutscene line 3 (npc-sera-healer)"
+      "note": "Act 3 end cutscene line 3 (npc-kors-shipwright)"
     },
     {
-      "path": "public/audio/voices/cs_act3_end_04_npc_lyra_warden.m4a",
+      "path": "public/audio/voices/cs_act3_end_04_npc_orson_quartermaster.m4a",
       "license": "own",
       "source": "tools/generate-all-voices.py",
-      "note": "Act 3 end cutscene line 4 (npc-lyra-warden)"
+      "note": "Act 3 end cutscene line 4 (npc-orson-quartermaster)"
     },
     {
-      "path": "public/audio/voices/cs_act3_end_05_npc_pip_mudlark.m4a",
+      "path": "public/audio/voices/cs_act3_end_05_npc_aldric_bailiff.m4a",
       "license": "own",
       "source": "tools/generate-all-voices.py",
-      "note": "Act 3 end cutscene line 5 (npc-pip-mudlark)"
+      "note": "Act 3 end cutscene line 5 (npc-aldric-bailiff)"
     },
     {
       "path": "public/audio/voices/cs_act3_end_06_hero.m4a",
@@ -12186,10 +12354,10 @@
       "note": "Act 3 end cutscene line 6 (hero)"
     },
     {
-      "path": "public/audio/voices/cs_act3_end_07_npc_kors_shipwright.m4a",
+      "path": "public/audio/voices/cs_act3_end_07_npc_veyra_marshal.m4a",
       "license": "own",
       "source": "tools/generate-all-voices.py",
-      "note": "Act 3 end cutscene line 7 (npc-kors-shipwright)"
+      "note": "Act 3 end cutscene line 7 (npc-veyra-marshal)"
     },
     {
       "path": "public/audio/voices/cs_act3_end_08_narrator.m4a",
@@ -12204,28 +12372,28 @@
       "note": "Act 4 start cutscene line 1 (narrator)"
     },
     {
-      "path": "public/audio/voices/cs_act4_start_02_npc_rowan_commander.m4a",
+      "path": "public/audio/voices/cs_act4_start_02_npc_vance_marshal.m4a",
       "license": "own",
       "source": "tools/generate-all-voices.py",
-      "note": "Act 4 start cutscene line 2 (npc-rowan-commander)"
+      "note": "Act 4 start cutscene line 2 (npc-vance-marshal)"
     },
     {
-      "path": "public/audio/voices/cs_act4_start_03_npc_vok_forgemaster.m4a",
+      "path": "public/audio/voices/cs_act4_start_03_npc_veyra_marshal.m4a",
       "license": "own",
       "source": "tools/generate-all-voices.py",
-      "note": "Act 4 start cutscene line 3 (npc-vok-forgemaster)"
+      "note": "Act 4 start cutscene line 3 (npc-veyra-marshal)"
     },
     {
-      "path": "public/audio/voices/cs_act4_start_04_npc_elias_penitent.m4a",
+      "path": "public/audio/voices/cs_act4_start_04_npc_elda_smith.m4a",
       "license": "own",
       "source": "tools/generate-all-voices.py",
-      "note": "Act 4 start cutscene line 4 (npc-elias-penitent)"
+      "note": "Act 4 start cutscene line 4 (npc-elda-smith)"
     },
     {
-      "path": "public/audio/voices/cs_act4_start_05_field_ash_scout.m4a",
+      "path": "public/audio/voices/cs_act4_start_05_npc_orla_archivist.m4a",
       "license": "own",
       "source": "tools/generate-all-voices.py",
-      "note": "Act 4 start cutscene line 5 (field-ash-scout)"
+      "note": "Act 4 start cutscene line 5 (npc-orla-archivist)"
     },
     {
       "path": "public/audio/voices/cs_act4_start_06_hero.m4a",
@@ -12234,10 +12402,10 @@
       "note": "Act 4 start cutscene line 6 (hero)"
     },
     {
-      "path": "public/audio/voices/cs_act4_start_07_npc_rowan_commander.m4a",
+      "path": "public/audio/voices/cs_act4_start_07_npc_vance_marshal.m4a",
       "license": "own",
       "source": "tools/generate-all-voices.py",
-      "note": "Act 4 start cutscene line 7 (npc-rowan-commander)"
+      "note": "Act 4 start cutscene line 7 (npc-vance-marshal)"
     },
     {
       "path": "public/audio/voices/cs_act4_start_08_narrator.m4a",
@@ -12252,22 +12420,22 @@
       "note": "Act 4 end cutscene line 1 (narrator)"
     },
     {
-      "path": "public/audio/voices/cs_act4_end_02_npc_elias_penitent.m4a",
+      "path": "public/audio/voices/cs_act4_end_02_npc_orla_archivist.m4a",
       "license": "own",
       "source": "tools/generate-all-voices.py",
-      "note": "Act 4 end cutscene line 2 (npc-elias-penitent)"
+      "note": "Act 4 end cutscene line 2 (npc-orla-archivist)"
     },
     {
-      "path": "public/audio/voices/cs_act4_end_03_npc_vok_forgemaster.m4a",
+      "path": "public/audio/voices/cs_act4_end_03_npc_veyra_marshal.m4a",
       "license": "own",
       "source": "tools/generate-all-voices.py",
-      "note": "Act 4 end cutscene line 3 (npc-vok-forgemaster)"
+      "note": "Act 4 end cutscene line 3 (npc-veyra-marshal)"
     },
     {
-      "path": "public/audio/voices/cs_act4_end_04_npc_rowan_commander.m4a",
+      "path": "public/audio/voices/cs_act4_end_04_npc_vance_marshal.m4a",
       "license": "own",
       "source": "tools/generate-all-voices.py",
-      "note": "Act 4 end cutscene line 4 (npc-rowan-commander)"
+      "note": "Act 4 end cutscene line 4 (npc-vance-marshal)"
     },
     {
       "path": "public/audio/voices/cs_act4_end_05_hero.m4a",
@@ -12276,16 +12444,16 @@
       "note": "Act 4 end cutscene line 5 (hero)"
     },
     {
-      "path": "public/audio/voices/cs_act4_end_06_npc_elias_penitent.m4a",
+      "path": "public/audio/voices/cs_act4_end_06_npc_orla_archivist.m4a",
       "license": "own",
       "source": "tools/generate-all-voices.py",
-      "note": "Act 4 end cutscene line 6 (npc-elias-penitent)"
+      "note": "Act 4 end cutscene line 6 (npc-orla-archivist)"
     },
     {
-      "path": "public/audio/voices/cs_act4_end_07_npc_rowan_commander.m4a",
+      "path": "public/audio/voices/cs_act4_end_07_npc_vance_marshal.m4a",
       "license": "own",
       "source": "tools/generate-all-voices.py",
-      "note": "Act 4 end cutscene line 7 (npc-rowan-commander)"
+      "note": "Act 4 end cutscene line 7 (npc-vance-marshal)"
     },
     {
       "path": "public/audio/voices/cs_act4_end_08_narrator.m4a",
@@ -12948,6 +13116,12 @@
       "note": "Campaign intro dialogue for m12-redmarsh-border line 5 (hero)"
     },
     {
+      "path": "public/audio/voices/mc_m12_redmarsh_border_intro_06_npc_seti_notary.m4a",
+      "license": "own",
+      "source": "tools/generate-all-voices.py",
+      "note": "Campaign intro dialogue for m12-redmarsh-border line 6 (npc-seti-notary)"
+    },
+    {
       "path": "public/audio/voices/mc_m13_twin_passes_intro_01_narrator.m4a",
       "license": "own",
       "source": "tools/generate-all-voices.py",
@@ -13302,34 +13476,28 @@
       "note": "Campaign intro dialogue for m24-pledge-at-oakhaven line 1 (narrator)"
     },
     {
-      "path": "public/audio/voices/mc_m24_pledge_at_oakhaven_intro_02_npc_kors_shipwright.m4a",
+      "path": "public/audio/voices/mc_m24_pledge_at_oakhaven_intro_02_npc_aldric_bailiff.m4a",
       "license": "own",
       "source": "tools/generate-all-voices.py",
-      "note": "Campaign intro dialogue for m24-pledge-at-oakhaven line 2 (npc-kors-shipwright)"
+      "note": "Campaign intro dialogue for m24-pledge-at-oakhaven line 2 (npc-aldric-bailiff)"
     },
     {
-      "path": "public/audio/voices/mc_m24_pledge_at_oakhaven_intro_03_npc_lyra_warden.m4a",
+      "path": "public/audio/voices/mc_m24_pledge_at_oakhaven_intro_03_npc_kors_shipwright.m4a",
       "license": "own",
       "source": "tools/generate-all-voices.py",
-      "note": "Campaign intro dialogue for m24-pledge-at-oakhaven line 3 (npc-lyra-warden)"
+      "note": "Campaign intro dialogue for m24-pledge-at-oakhaven line 3 (npc-kors-shipwright)"
     },
     {
-      "path": "public/audio/voices/mc_m24_pledge_at_oakhaven_intro_04_hero.m4a",
+      "path": "public/audio/voices/mc_m24_pledge_at_oakhaven_intro_04_npc_aldric_bailiff.m4a",
       "license": "own",
       "source": "tools/generate-all-voices.py",
-      "note": "Campaign intro dialogue for m24-pledge-at-oakhaven line 4 (hero)"
+      "note": "Campaign intro dialogue for m24-pledge-at-oakhaven line 4 (npc-aldric-bailiff)"
     },
     {
-      "path": "public/audio/voices/mc_m24_pledge_at_oakhaven_intro_05_npc_kors_shipwright.m4a",
+      "path": "public/audio/voices/mc_m24_pledge_at_oakhaven_intro_05_hero.m4a",
       "license": "own",
       "source": "tools/generate-all-voices.py",
-      "note": "Campaign intro dialogue for m24-pledge-at-oakhaven line 5 (npc-kors-shipwright)"
-    },
-    {
-      "path": "public/audio/voices/mc_m24_pledge_at_oakhaven_intro_06_npc_lyra_warden.m4a",
-      "license": "own",
-      "source": "tools/generate-all-voices.py",
-      "note": "Campaign intro dialogue for m24-pledge-at-oakhaven line 6 (npc-lyra-warden)"
+      "note": "Campaign intro dialogue for m24-pledge-at-oakhaven line 5 (hero)"
     },
     {
       "path": "public/audio/voices/mc_m25_cinder_wards_intro_01_narrator.m4a",
@@ -13338,16 +13506,16 @@
       "note": "Campaign intro dialogue for m25-cinder-wards line 1 (narrator)"
     },
     {
-      "path": "public/audio/voices/mc_m25_cinder_wards_intro_02_npc_sera_healer.m4a",
+      "path": "public/audio/voices/mc_m25_cinder_wards_intro_02_npc_elowen_scholar.m4a",
       "license": "own",
       "source": "tools/generate-all-voices.py",
-      "note": "Campaign intro dialogue for m25-cinder-wards line 2 (npc-sera-healer)"
+      "note": "Campaign intro dialogue for m25-cinder-wards line 2 (npc-elowen-scholar)"
     },
     {
-      "path": "public/audio/voices/mc_m25_cinder_wards_intro_03_npc_pip_mudlark.m4a",
+      "path": "public/audio/voices/mc_m25_cinder_wards_intro_03_npc_zahra_scholar.m4a",
       "license": "own",
       "source": "tools/generate-all-voices.py",
-      "note": "Campaign intro dialogue for m25-cinder-wards line 3 (npc-pip-mudlark)"
+      "note": "Campaign intro dialogue for m25-cinder-wards line 3 (npc-zahra-scholar)"
     },
     {
       "path": "public/audio/voices/mc_m25_cinder_wards_intro_04_hero.m4a",
@@ -13356,52 +13524,22 @@
       "note": "Campaign intro dialogue for m25-cinder-wards line 4 (hero)"
     },
     {
-      "path": "public/audio/voices/mc_m25_cinder_wards_intro_05_npc_sera_healer.m4a",
-      "license": "own",
-      "source": "tools/generate-all-voices.py",
-      "note": "Campaign intro dialogue for m25-cinder-wards line 5 (npc-sera-healer)"
-    },
-    {
-      "path": "public/audio/voices/mc_m25_cinder_wards_intro_06_npc_pip_mudlark.m4a",
-      "license": "own",
-      "source": "tools/generate-all-voices.py",
-      "note": "Campaign intro dialogue for m25-cinder-wards line 6 (npc-pip-mudlark)"
-    },
-    {
       "path": "public/audio/voices/mc_m26_sundered_ranks_intro_01_narrator.m4a",
       "license": "own",
       "source": "tools/generate-all-voices.py",
       "note": "Campaign intro dialogue for m26-sundered-ranks line 1 (narrator)"
     },
     {
-      "path": "public/audio/voices/mc_m26_sundered_ranks_intro_02_npc_lyra_warden.m4a",
+      "path": "public/audio/voices/mc_m26_sundered_ranks_intro_02_npc_toren_armorer.m4a",
       "license": "own",
       "source": "tools/generate-all-voices.py",
-      "note": "Campaign intro dialogue for m26-sundered-ranks line 2 (npc-lyra-warden)"
+      "note": "Campaign intro dialogue for m26-sundered-ranks line 2 (npc-toren-armorer)"
     },
     {
-      "path": "public/audio/voices/mc_m26_sundered_ranks_intro_03_field_salt_corporal.m4a",
+      "path": "public/audio/voices/mc_m26_sundered_ranks_intro_03_hero.m4a",
       "license": "own",
       "source": "tools/generate-all-voices.py",
-      "note": "Campaign intro dialogue for m26-sundered-ranks line 3 (field-salt-corporal)"
-    },
-    {
-      "path": "public/audio/voices/mc_m26_sundered_ranks_intro_04_hero.m4a",
-      "license": "own",
-      "source": "tools/generate-all-voices.py",
-      "note": "Campaign intro dialogue for m26-sundered-ranks line 4 (hero)"
-    },
-    {
-      "path": "public/audio/voices/mc_m26_sundered_ranks_intro_05_npc_lyra_warden.m4a",
-      "license": "own",
-      "source": "tools/generate-all-voices.py",
-      "note": "Campaign intro dialogue for m26-sundered-ranks line 5 (npc-lyra-warden)"
-    },
-    {
-      "path": "public/audio/voices/mc_m26_sundered_ranks_intro_06_hero.m4a",
-      "license": "own",
-      "source": "tools/generate-all-voices.py",
-      "note": "Campaign intro dialogue for m26-sundered-ranks line 6 (hero)"
+      "note": "Campaign intro dialogue for m26-sundered-ranks line 3 (hero)"
     },
     {
       "path": "public/audio/voices/mc_m27_field_infirmary_intro_01_narrator.m4a",
@@ -13416,28 +13554,10 @@
       "note": "Campaign intro dialogue for m27-field-infirmary line 2 (npc-sera-healer)"
     },
     {
-      "path": "public/audio/voices/mc_m27_field_infirmary_intro_03_field_salt_corporal.m4a",
+      "path": "public/audio/voices/mc_m27_field_infirmary_intro_03_hero.m4a",
       "license": "own",
       "source": "tools/generate-all-voices.py",
-      "note": "Campaign intro dialogue for m27-field-infirmary line 3 (field-salt-corporal)"
-    },
-    {
-      "path": "public/audio/voices/mc_m27_field_infirmary_intro_04_npc_sera_healer.m4a",
-      "license": "own",
-      "source": "tools/generate-all-voices.py",
-      "note": "Campaign intro dialogue for m27-field-infirmary line 4 (npc-sera-healer)"
-    },
-    {
-      "path": "public/audio/voices/mc_m27_field_infirmary_intro_05_hero.m4a",
-      "license": "own",
-      "source": "tools/generate-all-voices.py",
-      "note": "Campaign intro dialogue for m27-field-infirmary line 5 (hero)"
-    },
-    {
-      "path": "public/audio/voices/mc_m27_field_infirmary_intro_06_npc_sera_healer.m4a",
-      "license": "own",
-      "source": "tools/generate-all-voices.py",
-      "note": "Campaign intro dialogue for m27-field-infirmary line 6 (npc-sera-healer)"
+      "note": "Campaign intro dialogue for m27-field-infirmary line 3 (hero)"
     },
     {
       "path": "public/audio/voices/mc_m28_sunken_citadel_intro_01_narrator.m4a",
@@ -13446,34 +13566,16 @@
       "note": "Campaign intro dialogue for m28-sunken-citadel line 1 (narrator)"
     },
     {
-      "path": "public/audio/voices/mc_m28_sunken_citadel_intro_02_field_harbor_pilot.m4a",
+      "path": "public/audio/voices/mc_m28_sunken_citadel_intro_02_npc_hale_sapper.m4a",
       "license": "own",
       "source": "tools/generate-all-voices.py",
-      "note": "Campaign intro dialogue for m28-sunken-citadel line 2 (field-harbor-pilot)"
+      "note": "Campaign intro dialogue for m28-sunken-citadel line 2 (npc-hale-sapper)"
     },
     {
-      "path": "public/audio/voices/mc_m28_sunken_citadel_intro_03_npc_kors_shipwright.m4a",
+      "path": "public/audio/voices/mc_m28_sunken_citadel_intro_03_hero.m4a",
       "license": "own",
       "source": "tools/generate-all-voices.py",
-      "note": "Campaign intro dialogue for m28-sunken-citadel line 3 (npc-kors-shipwright)"
-    },
-    {
-      "path": "public/audio/voices/mc_m28_sunken_citadel_intro_04_hero.m4a",
-      "license": "own",
-      "source": "tools/generate-all-voices.py",
-      "note": "Campaign intro dialogue for m28-sunken-citadel line 4 (hero)"
-    },
-    {
-      "path": "public/audio/voices/mc_m28_sunken_citadel_intro_05_field_harbor_pilot.m4a",
-      "license": "own",
-      "source": "tools/generate-all-voices.py",
-      "note": "Campaign intro dialogue for m28-sunken-citadel line 5 (field-harbor-pilot)"
-    },
-    {
-      "path": "public/audio/voices/mc_m28_sunken_citadel_intro_06_npc_kors_shipwright.m4a",
-      "license": "own",
-      "source": "tools/generate-all-voices.py",
-      "note": "Campaign intro dialogue for m28-sunken-citadel line 6 (npc-kors-shipwright)"
+      "note": "Campaign intro dialogue for m28-sunken-citadel line 3 (hero)"
     },
     {
       "path": "public/audio/voices/mc_m29_hourglass_rescue_intro_01_narrator.m4a",
@@ -13482,34 +13584,16 @@
       "note": "Campaign intro dialogue for m29-hourglass-rescue line 1 (narrator)"
     },
     {
-      "path": "public/audio/voices/mc_m29_hourglass_rescue_intro_02_npc_pip_mudlark.m4a",
+      "path": "public/audio/voices/mc_m29_hourglass_rescue_intro_02_npc_lyra_warden.m4a",
       "license": "own",
       "source": "tools/generate-all-voices.py",
-      "note": "Campaign intro dialogue for m29-hourglass-rescue line 2 (npc-pip-mudlark)"
+      "note": "Campaign intro dialogue for m29-hourglass-rescue line 2 (npc-lyra-warden)"
     },
     {
-      "path": "public/audio/voices/mc_m29_hourglass_rescue_intro_03_field_salt_corporal.m4a",
+      "path": "public/audio/voices/mc_m29_hourglass_rescue_intro_03_hero.m4a",
       "license": "own",
       "source": "tools/generate-all-voices.py",
-      "note": "Campaign intro dialogue for m29-hourglass-rescue line 3 (field-salt-corporal)"
-    },
-    {
-      "path": "public/audio/voices/mc_m29_hourglass_rescue_intro_04_hero.m4a",
-      "license": "own",
-      "source": "tools/generate-all-voices.py",
-      "note": "Campaign intro dialogue for m29-hourglass-rescue line 4 (hero)"
-    },
-    {
-      "path": "public/audio/voices/mc_m29_hourglass_rescue_intro_05_npc_pip_mudlark.m4a",
-      "license": "own",
-      "source": "tools/generate-all-voices.py",
-      "note": "Campaign intro dialogue for m29-hourglass-rescue line 5 (npc-pip-mudlark)"
-    },
-    {
-      "path": "public/audio/voices/mc_m29_hourglass_rescue_intro_06_hero.m4a",
-      "license": "own",
-      "source": "tools/generate-all-voices.py",
-      "note": "Campaign intro dialogue for m29-hourglass-rescue line 6 (hero)"
+      "note": "Campaign intro dialogue for m29-hourglass-rescue line 3 (hero)"
     },
     {
       "path": "public/audio/voices/mc_m30_starved_bastion_intro_01_narrator.m4a",
@@ -13518,34 +13602,16 @@
       "note": "Campaign intro dialogue for m30-starved-bastion line 1 (narrator)"
     },
     {
-      "path": "public/audio/voices/mc_m30_starved_bastion_intro_02_npc_lyra_warden.m4a",
+      "path": "public/audio/voices/mc_m30_starved_bastion_intro_02_npc_corin_scout.m4a",
       "license": "own",
       "source": "tools/generate-all-voices.py",
-      "note": "Campaign intro dialogue for m30-starved-bastion line 2 (npc-lyra-warden)"
+      "note": "Campaign intro dialogue for m30-starved-bastion line 2 (npc-corin-scout)"
     },
     {
-      "path": "public/audio/voices/mc_m30_starved_bastion_intro_03_npc_pip_mudlark.m4a",
+      "path": "public/audio/voices/mc_m30_starved_bastion_intro_03_hero.m4a",
       "license": "own",
       "source": "tools/generate-all-voices.py",
-      "note": "Campaign intro dialogue for m30-starved-bastion line 3 (npc-pip-mudlark)"
-    },
-    {
-      "path": "public/audio/voices/mc_m30_starved_bastion_intro_04_hero.m4a",
-      "license": "own",
-      "source": "tools/generate-all-voices.py",
-      "note": "Campaign intro dialogue for m30-starved-bastion line 4 (hero)"
-    },
-    {
-      "path": "public/audio/voices/mc_m30_starved_bastion_intro_05_npc_lyra_warden.m4a",
-      "license": "own",
-      "source": "tools/generate-all-voices.py",
-      "note": "Campaign intro dialogue for m30-starved-bastion line 5 (npc-lyra-warden)"
-    },
-    {
-      "path": "public/audio/voices/mc_m30_starved_bastion_intro_06_npc_pip_mudlark.m4a",
-      "license": "own",
-      "source": "tools/generate-all-voices.py",
-      "note": "Campaign intro dialogue for m30-starved-bastion line 6 (npc-pip-mudlark)"
+      "note": "Campaign intro dialogue for m30-starved-bastion line 3 (hero)"
     },
     {
       "path": "public/audio/voices/mc_m31_riverlock_crossing_intro_01_narrator.m4a",
@@ -13554,34 +13620,16 @@
       "note": "Campaign intro dialogue for m31-riverlock-crossing line 1 (narrator)"
     },
     {
-      "path": "public/audio/voices/mc_m31_riverlock_crossing_intro_02_npc_kors_shipwright.m4a",
+      "path": "public/audio/voices/mc_m31_riverlock_crossing_intro_02_npc_hal_bridgewright.m4a",
       "license": "own",
       "source": "tools/generate-all-voices.py",
-      "note": "Campaign intro dialogue for m31-riverlock-crossing line 2 (npc-kors-shipwright)"
+      "note": "Campaign intro dialogue for m31-riverlock-crossing line 2 (npc-hal-bridgewright)"
     },
     {
-      "path": "public/audio/voices/mc_m31_riverlock_crossing_intro_03_field_harbor_pilot.m4a",
+      "path": "public/audio/voices/mc_m31_riverlock_crossing_intro_03_hero.m4a",
       "license": "own",
       "source": "tools/generate-all-voices.py",
-      "note": "Campaign intro dialogue for m31-riverlock-crossing line 3 (field-harbor-pilot)"
-    },
-    {
-      "path": "public/audio/voices/mc_m31_riverlock_crossing_intro_04_hero.m4a",
-      "license": "own",
-      "source": "tools/generate-all-voices.py",
-      "note": "Campaign intro dialogue for m31-riverlock-crossing line 4 (hero)"
-    },
-    {
-      "path": "public/audio/voices/mc_m31_riverlock_crossing_intro_05_npc_kors_shipwright.m4a",
-      "license": "own",
-      "source": "tools/generate-all-voices.py",
-      "note": "Campaign intro dialogue for m31-riverlock-crossing line 5 (npc-kors-shipwright)"
-    },
-    {
-      "path": "public/audio/voices/mc_m31_riverlock_crossing_intro_06_field_harbor_pilot.m4a",
-      "license": "own",
-      "source": "tools/generate-all-voices.py",
-      "note": "Campaign intro dialogue for m31-riverlock-crossing line 6 (field-harbor-pilot)"
+      "note": "Campaign intro dialogue for m31-riverlock-crossing line 3 (hero)"
     },
     {
       "path": "public/audio/voices/mc_m32_elder_juggernaut_intro_01_narrator.m4a",
@@ -13590,34 +13638,16 @@
       "note": "Campaign intro dialogue for m32-elder-juggernaut line 1 (narrator)"
     },
     {
-      "path": "public/audio/voices/mc_m32_elder_juggernaut_intro_02_npc_pip_mudlark.m4a",
+      "path": "public/audio/voices/mc_m32_elder_juggernaut_intro_02_npc_kael_huntsman.m4a",
       "license": "own",
       "source": "tools/generate-all-voices.py",
-      "note": "Campaign intro dialogue for m32-elder-juggernaut line 2 (npc-pip-mudlark)"
+      "note": "Campaign intro dialogue for m32-elder-juggernaut line 2 (npc-kael-huntsman)"
     },
     {
-      "path": "public/audio/voices/mc_m32_elder_juggernaut_intro_03_npc_lyra_warden.m4a",
+      "path": "public/audio/voices/mc_m32_elder_juggernaut_intro_03_hero.m4a",
       "license": "own",
       "source": "tools/generate-all-voices.py",
-      "note": "Campaign intro dialogue for m32-elder-juggernaut line 3 (npc-lyra-warden)"
-    },
-    {
-      "path": "public/audio/voices/mc_m32_elder_juggernaut_intro_04_hero.m4a",
-      "license": "own",
-      "source": "tools/generate-all-voices.py",
-      "note": "Campaign intro dialogue for m32-elder-juggernaut line 4 (hero)"
-    },
-    {
-      "path": "public/audio/voices/mc_m32_elder_juggernaut_intro_05_npc_pip_mudlark.m4a",
-      "license": "own",
-      "source": "tools/generate-all-voices.py",
-      "note": "Campaign intro dialogue for m32-elder-juggernaut line 5 (npc-pip-mudlark)"
-    },
-    {
-      "path": "public/audio/voices/mc_m32_elder_juggernaut_intro_06_npc_lyra_warden.m4a",
-      "license": "own",
-      "source": "tools/generate-all-voices.py",
-      "note": "Campaign intro dialogue for m32-elder-juggernaut line 6 (npc-lyra-warden)"
+      "note": "Campaign intro dialogue for m32-elder-juggernaut line 3 (hero)"
     },
     {
       "path": "public/audio/voices/mc_m33_high_stakes_gambit_intro_01_narrator.m4a",
@@ -13626,34 +13656,16 @@
       "note": "Campaign intro dialogue for m33-high-stakes-gambit line 1 (narrator)"
     },
     {
-      "path": "public/audio/voices/mc_m33_high_stakes_gambit_intro_02_npc_pip_mudlark.m4a",
+      "path": "public/audio/voices/mc_m33_high_stakes_gambit_intro_02_npc_orson_quartermaster.m4a",
       "license": "own",
       "source": "tools/generate-all-voices.py",
-      "note": "Campaign intro dialogue for m33-high-stakes-gambit line 2 (npc-pip-mudlark)"
+      "note": "Campaign intro dialogue for m33-high-stakes-gambit line 2 (npc-orson-quartermaster)"
     },
     {
-      "path": "public/audio/voices/mc_m33_high_stakes_gambit_intro_03_field_salt_corporal.m4a",
+      "path": "public/audio/voices/mc_m33_high_stakes_gambit_intro_03_hero.m4a",
       "license": "own",
       "source": "tools/generate-all-voices.py",
-      "note": "Campaign intro dialogue for m33-high-stakes-gambit line 3 (field-salt-corporal)"
-    },
-    {
-      "path": "public/audio/voices/mc_m33_high_stakes_gambit_intro_04_hero.m4a",
-      "license": "own",
-      "source": "tools/generate-all-voices.py",
-      "note": "Campaign intro dialogue for m33-high-stakes-gambit line 4 (hero)"
-    },
-    {
-      "path": "public/audio/voices/mc_m33_high_stakes_gambit_intro_05_npc_pip_mudlark.m4a",
-      "license": "own",
-      "source": "tools/generate-all-voices.py",
-      "note": "Campaign intro dialogue for m33-high-stakes-gambit line 5 (npc-pip-mudlark)"
-    },
-    {
-      "path": "public/audio/voices/mc_m33_high_stakes_gambit_intro_06_hero.m4a",
-      "license": "own",
-      "source": "tools/generate-all-voices.py",
-      "note": "Campaign intro dialogue for m33-high-stakes-gambit line 6 (hero)"
+      "note": "Campaign intro dialogue for m33-high-stakes-gambit line 3 (hero)"
     },
     {
       "path": "public/audio/voices/mc_m34_clashing_banners_intro_01_narrator.m4a",
@@ -13662,34 +13674,16 @@
       "note": "Campaign intro dialogue for m34-clashing-banners line 1 (narrator)"
     },
     {
-      "path": "public/audio/voices/mc_m34_clashing_banners_intro_02_npc_kors_shipwright.m4a",
+      "path": "public/audio/voices/mc_m34_clashing_banners_intro_02_npc_veyra_marshal.m4a",
       "license": "own",
       "source": "tools/generate-all-voices.py",
-      "note": "Campaign intro dialogue for m34-clashing-banners line 2 (npc-kors-shipwright)"
+      "note": "Campaign intro dialogue for m34-clashing-banners line 2 (npc-veyra-marshal)"
     },
     {
-      "path": "public/audio/voices/mc_m34_clashing_banners_intro_03_field_salt_corporal.m4a",
+      "path": "public/audio/voices/mc_m34_clashing_banners_intro_03_hero.m4a",
       "license": "own",
       "source": "tools/generate-all-voices.py",
-      "note": "Campaign intro dialogue for m34-clashing-banners line 3 (field-salt-corporal)"
-    },
-    {
-      "path": "public/audio/voices/mc_m34_clashing_banners_intro_04_npc_kors_shipwright.m4a",
-      "license": "own",
-      "source": "tools/generate-all-voices.py",
-      "note": "Campaign intro dialogue for m34-clashing-banners line 4 (npc-kors-shipwright)"
-    },
-    {
-      "path": "public/audio/voices/mc_m34_clashing_banners_intro_05_hero.m4a",
-      "license": "own",
-      "source": "tools/generate-all-voices.py",
-      "note": "Campaign intro dialogue for m34-clashing-banners line 5 (hero)"
-    },
-    {
-      "path": "public/audio/voices/mc_m34_clashing_banners_intro_06_field_salt_corporal.m4a",
-      "license": "own",
-      "source": "tools/generate-all-voices.py",
-      "note": "Campaign intro dialogue for m34-clashing-banners line 6 (field-salt-corporal)"
+      "note": "Campaign intro dialogue for m34-clashing-banners line 3 (hero)"
     },
     {
       "path": "public/audio/voices/mc_m35_burning_harbor_intro_01_narrator.m4a",
@@ -13698,46 +13692,22 @@
       "note": "Campaign intro dialogue for m35-burning-harbor line 1 (narrator)"
     },
     {
-      "path": "public/audio/voices/mc_m35_burning_harbor_intro_02_npc_kors_shipwright.m4a",
+      "path": "public/audio/voices/mc_m35_burning_harbor_intro_02_npc_orson_quartermaster.m4a",
       "license": "own",
       "source": "tools/generate-all-voices.py",
-      "note": "Campaign intro dialogue for m35-burning-harbor line 2 (npc-kors-shipwright)"
+      "note": "Campaign intro dialogue for m35-burning-harbor line 2 (npc-orson-quartermaster)"
     },
     {
-      "path": "public/audio/voices/mc_m35_burning_harbor_intro_03_npc_lyra_warden.m4a",
+      "path": "public/audio/voices/mc_m35_burning_harbor_intro_03_npc_veyra_marshal.m4a",
       "license": "own",
       "source": "tools/generate-all-voices.py",
-      "note": "Campaign intro dialogue for m35-burning-harbor line 3 (npc-lyra-warden)"
+      "note": "Campaign intro dialogue for m35-burning-harbor line 3 (npc-veyra-marshal)"
     },
     {
-      "path": "public/audio/voices/mc_m35_burning_harbor_intro_04_vesperion.m4a",
+      "path": "public/audio/voices/mc_m35_burning_harbor_intro_04_hero.m4a",
       "license": "own",
       "source": "tools/generate-all-voices.py",
-      "note": "Campaign intro dialogue for m35-burning-harbor line 4 (vesperion)"
-    },
-    {
-      "path": "public/audio/voices/mc_m35_burning_harbor_intro_05_hero.m4a",
-      "license": "own",
-      "source": "tools/generate-all-voices.py",
-      "note": "Campaign intro dialogue for m35-burning-harbor line 5 (hero)"
-    },
-    {
-      "path": "public/audio/voices/mc_m35_burning_harbor_intro_06_npc_sera_healer.m4a",
-      "license": "own",
-      "source": "tools/generate-all-voices.py",
-      "note": "Campaign intro dialogue for m35-burning-harbor line 6 (npc-sera-healer)"
-    },
-    {
-      "path": "public/audio/voices/mc_m35_burning_harbor_intro_07_npc_kors_shipwright.m4a",
-      "license": "own",
-      "source": "tools/generate-all-voices.py",
-      "note": "Campaign intro dialogue for m35-burning-harbor line 7 (npc-kors-shipwright)"
-    },
-    {
-      "path": "public/audio/voices/mc_m35_burning_harbor_intro_08_hero.m4a",
-      "license": "own",
-      "source": "tools/generate-all-voices.py",
-      "note": "Campaign intro dialogue for m35-burning-harbor line 8 (hero)"
+      "note": "Campaign intro dialogue for m35-burning-harbor line 4 (hero)"
     },
     {
       "path": "public/audio/voices/mc_m36_heartland_march_intro_01_narrator.m4a",
@@ -13746,16 +13716,16 @@
       "note": "Campaign intro dialogue for m36-heartland-march line 1 (narrator)"
     },
     {
-      "path": "public/audio/voices/mc_m36_heartland_march_intro_02_npc_rowan_commander.m4a",
+      "path": "public/audio/voices/mc_m36_heartland_march_intro_02_npc_vance_marshal.m4a",
       "license": "own",
       "source": "tools/generate-all-voices.py",
-      "note": "Campaign intro dialogue for m36-heartland-march line 2 (npc-rowan-commander)"
+      "note": "Campaign intro dialogue for m36-heartland-march line 2 (npc-vance-marshal)"
     },
     {
-      "path": "public/audio/voices/mc_m36_heartland_march_intro_03_field_ash_scout.m4a",
+      "path": "public/audio/voices/mc_m36_heartland_march_intro_03_npc_veyra_marshal.m4a",
       "license": "own",
       "source": "tools/generate-all-voices.py",
-      "note": "Campaign intro dialogue for m36-heartland-march line 3 (field-ash-scout)"
+      "note": "Campaign intro dialogue for m36-heartland-march line 3 (npc-veyra-marshal)"
     },
     {
       "path": "public/audio/voices/mc_m36_heartland_march_intro_04_hero.m4a",
@@ -13764,52 +13734,22 @@
       "note": "Campaign intro dialogue for m36-heartland-march line 4 (hero)"
     },
     {
-      "path": "public/audio/voices/mc_m36_heartland_march_intro_05_npc_rowan_commander.m4a",
-      "license": "own",
-      "source": "tools/generate-all-voices.py",
-      "note": "Campaign intro dialogue for m36-heartland-march line 5 (npc-rowan-commander)"
-    },
-    {
-      "path": "public/audio/voices/mc_m36_heartland_march_intro_06_field_ash_scout.m4a",
-      "license": "own",
-      "source": "tools/generate-all-voices.py",
-      "note": "Campaign intro dialogue for m36-heartland-march line 6 (field-ash-scout)"
-    },
-    {
       "path": "public/audio/voices/mc_m37_shattered_beacons_intro_01_narrator.m4a",
       "license": "own",
       "source": "tools/generate-all-voices.py",
       "note": "Campaign intro dialogue for m37-shattered-beacons line 1 (narrator)"
     },
     {
-      "path": "public/audio/voices/mc_m37_shattered_beacons_intro_02_npc_vok_forgemaster.m4a",
+      "path": "public/audio/voices/mc_m37_shattered_beacons_intro_02_npc_vance_marshal.m4a",
       "license": "own",
       "source": "tools/generate-all-voices.py",
-      "note": "Campaign intro dialogue for m37-shattered-beacons line 2 (npc-vok-forgemaster)"
+      "note": "Campaign intro dialogue for m37-shattered-beacons line 2 (npc-vance-marshal)"
     },
     {
-      "path": "public/audio/voices/mc_m37_shattered_beacons_intro_03_field_siege_sapper.m4a",
+      "path": "public/audio/voices/mc_m37_shattered_beacons_intro_03_hero.m4a",
       "license": "own",
       "source": "tools/generate-all-voices.py",
-      "note": "Campaign intro dialogue for m37-shattered-beacons line 3 (field-siege-sapper)"
-    },
-    {
-      "path": "public/audio/voices/mc_m37_shattered_beacons_intro_04_hero.m4a",
-      "license": "own",
-      "source": "tools/generate-all-voices.py",
-      "note": "Campaign intro dialogue for m37-shattered-beacons line 4 (hero)"
-    },
-    {
-      "path": "public/audio/voices/mc_m37_shattered_beacons_intro_05_npc_vok_forgemaster.m4a",
-      "license": "own",
-      "source": "tools/generate-all-voices.py",
-      "note": "Campaign intro dialogue for m37-shattered-beacons line 5 (npc-vok-forgemaster)"
-    },
-    {
-      "path": "public/audio/voices/mc_m37_shattered_beacons_intro_06_field_siege_sapper.m4a",
-      "license": "own",
-      "source": "tools/generate-all-voices.py",
-      "note": "Campaign intro dialogue for m37-shattered-beacons line 6 (field-siege-sapper)"
+      "note": "Campaign intro dialogue for m37-shattered-beacons line 3 (hero)"
     },
     {
       "path": "public/audio/voices/mc_m38_besieged_wall_intro_01_narrator.m4a",
@@ -13824,28 +13764,10 @@
       "note": "Campaign intro dialogue for m38-besieged-wall line 2 (npc-rowan-commander)"
     },
     {
-      "path": "public/audio/voices/mc_m38_besieged_wall_intro_03_npc_vok_forgemaster.m4a",
+      "path": "public/audio/voices/mc_m38_besieged_wall_intro_03_hero.m4a",
       "license": "own",
       "source": "tools/generate-all-voices.py",
-      "note": "Campaign intro dialogue for m38-besieged-wall line 3 (npc-vok-forgemaster)"
-    },
-    {
-      "path": "public/audio/voices/mc_m38_besieged_wall_intro_04_hero.m4a",
-      "license": "own",
-      "source": "tools/generate-all-voices.py",
-      "note": "Campaign intro dialogue for m38-besieged-wall line 4 (hero)"
-    },
-    {
-      "path": "public/audio/voices/mc_m38_besieged_wall_intro_05_npc_rowan_commander.m4a",
-      "license": "own",
-      "source": "tools/generate-all-voices.py",
-      "note": "Campaign intro dialogue for m38-besieged-wall line 5 (npc-rowan-commander)"
-    },
-    {
-      "path": "public/audio/voices/mc_m38_besieged_wall_intro_06_hero.m4a",
-      "license": "own",
-      "source": "tools/generate-all-voices.py",
-      "note": "Campaign intro dialogue for m38-besieged-wall line 6 (hero)"
+      "note": "Campaign intro dialogue for m38-besieged-wall line 3 (hero)"
     },
     {
       "path": "public/audio/voices/mc_m39_flight_of_malrik_intro_01_narrator.m4a",
@@ -13854,34 +13776,16 @@
       "note": "Campaign intro dialogue for m39-flight-of-malrik line 1 (narrator)"
     },
     {
-      "path": "public/audio/voices/mc_m39_flight_of_malrik_intro_02_npc_elias_penitent.m4a",
+      "path": "public/audio/voices/mc_m39_flight_of_malrik_intro_02_npc_vance_marshal.m4a",
       "license": "own",
       "source": "tools/generate-all-voices.py",
-      "note": "Campaign intro dialogue for m39-flight-of-malrik line 2 (npc-elias-penitent)"
+      "note": "Campaign intro dialogue for m39-flight-of-malrik line 2 (npc-vance-marshal)"
     },
     {
-      "path": "public/audio/voices/mc_m39_flight_of_malrik_intro_03_field_ash_scout.m4a",
+      "path": "public/audio/voices/mc_m39_flight_of_malrik_intro_03_hero.m4a",
       "license": "own",
       "source": "tools/generate-all-voices.py",
-      "note": "Campaign intro dialogue for m39-flight-of-malrik line 3 (field-ash-scout)"
-    },
-    {
-      "path": "public/audio/voices/mc_m39_flight_of_malrik_intro_04_hero.m4a",
-      "license": "own",
-      "source": "tools/generate-all-voices.py",
-      "note": "Campaign intro dialogue for m39-flight-of-malrik line 4 (hero)"
-    },
-    {
-      "path": "public/audio/voices/mc_m39_flight_of_malrik_intro_05_npc_elias_penitent.m4a",
-      "license": "own",
-      "source": "tools/generate-all-voices.py",
-      "note": "Campaign intro dialogue for m39-flight-of-malrik line 5 (npc-elias-penitent)"
-    },
-    {
-      "path": "public/audio/voices/mc_m39_flight_of_malrik_intro_06_hero.m4a",
-      "license": "own",
-      "source": "tools/generate-all-voices.py",
-      "note": "Campaign intro dialogue for m39-flight-of-malrik line 6 (hero)"
+      "note": "Campaign intro dialogue for m39-flight-of-malrik line 3 (hero)"
     },
     {
       "path": "public/audio/voices/mc_m40_twofold_assault_intro_01_narrator.m4a",
@@ -13890,34 +13794,16 @@
       "note": "Campaign intro dialogue for m40-twofold-assault line 1 (narrator)"
     },
     {
-      "path": "public/audio/voices/mc_m40_twofold_assault_intro_02_npc_vok_forgemaster.m4a",
+      "path": "public/audio/voices/mc_m40_twofold_assault_intro_02_npc_vance_marshal.m4a",
       "license": "own",
       "source": "tools/generate-all-voices.py",
-      "note": "Campaign intro dialogue for m40-twofold-assault line 2 (npc-vok-forgemaster)"
+      "note": "Campaign intro dialogue for m40-twofold-assault line 2 (npc-vance-marshal)"
     },
     {
-      "path": "public/audio/voices/mc_m40_twofold_assault_intro_03_field_siege_sapper.m4a",
+      "path": "public/audio/voices/mc_m40_twofold_assault_intro_03_hero.m4a",
       "license": "own",
       "source": "tools/generate-all-voices.py",
-      "note": "Campaign intro dialogue for m40-twofold-assault line 3 (field-siege-sapper)"
-    },
-    {
-      "path": "public/audio/voices/mc_m40_twofold_assault_intro_04_npc_vok_forgemaster.m4a",
-      "license": "own",
-      "source": "tools/generate-all-voices.py",
-      "note": "Campaign intro dialogue for m40-twofold-assault line 4 (npc-vok-forgemaster)"
-    },
-    {
-      "path": "public/audio/voices/mc_m40_twofold_assault_intro_05_hero.m4a",
-      "license": "own",
-      "source": "tools/generate-all-voices.py",
-      "note": "Campaign intro dialogue for m40-twofold-assault line 5 (hero)"
-    },
-    {
-      "path": "public/audio/voices/mc_m40_twofold_assault_intro_06_npc_rowan_commander.m4a",
-      "license": "own",
-      "source": "tools/generate-all-voices.py",
-      "note": "Campaign intro dialogue for m40-twofold-assault line 6 (npc-rowan-commander)"
+      "note": "Campaign intro dialogue for m40-twofold-assault line 3 (hero)"
     },
     {
       "path": "public/audio/voices/mc_m41_gauntlet_of_iron_intro_01_narrator.m4a",
@@ -13926,34 +13812,16 @@
       "note": "Campaign intro dialogue for m41-gauntlet-of-iron line 1 (narrator)"
     },
     {
-      "path": "public/audio/voices/mc_m41_gauntlet_of_iron_intro_02_npc_rowan_commander.m4a",
+      "path": "public/audio/voices/mc_m41_gauntlet_of_iron_intro_02_npc_vance_marshal.m4a",
       "license": "own",
       "source": "tools/generate-all-voices.py",
-      "note": "Campaign intro dialogue for m41-gauntlet-of-iron line 2 (npc-rowan-commander)"
+      "note": "Campaign intro dialogue for m41-gauntlet-of-iron line 2 (npc-vance-marshal)"
     },
     {
-      "path": "public/audio/voices/mc_m41_gauntlet_of_iron_intro_03_npc_elias_penitent.m4a",
+      "path": "public/audio/voices/mc_m41_gauntlet_of_iron_intro_03_hero.m4a",
       "license": "own",
       "source": "tools/generate-all-voices.py",
-      "note": "Campaign intro dialogue for m41-gauntlet-of-iron line 3 (npc-elias-penitent)"
-    },
-    {
-      "path": "public/audio/voices/mc_m41_gauntlet_of_iron_intro_04_hero.m4a",
-      "license": "own",
-      "source": "tools/generate-all-voices.py",
-      "note": "Campaign intro dialogue for m41-gauntlet-of-iron line 4 (hero)"
-    },
-    {
-      "path": "public/audio/voices/mc_m41_gauntlet_of_iron_intro_05_npc_vok_forgemaster.m4a",
-      "license": "own",
-      "source": "tools/generate-all-voices.py",
-      "note": "Campaign intro dialogue for m41-gauntlet-of-iron line 5 (npc-vok-forgemaster)"
-    },
-    {
-      "path": "public/audio/voices/mc_m41_gauntlet_of_iron_intro_06_npc_rowan_commander.m4a",
-      "license": "own",
-      "source": "tools/generate-all-voices.py",
-      "note": "Campaign intro dialogue for m41-gauntlet-of-iron line 6 (npc-rowan-commander)"
+      "note": "Campaign intro dialogue for m41-gauntlet-of-iron line 3 (hero)"
     },
     {
       "path": "public/audio/voices/mc_m42_outer_rampart_intro_01_narrator.m4a",
@@ -13962,16 +13830,16 @@
       "note": "Campaign intro dialogue for m42-outer-rampart line 1 (narrator)"
     },
     {
-      "path": "public/audio/voices/mc_m42_outer_rampart_intro_02_npc_vok_forgemaster.m4a",
+      "path": "public/audio/voices/mc_m42_outer_rampart_intro_02_npc_veyra_marshal.m4a",
       "license": "own",
       "source": "tools/generate-all-voices.py",
-      "note": "Campaign intro dialogue for m42-outer-rampart line 2 (npc-vok-forgemaster)"
+      "note": "Campaign intro dialogue for m42-outer-rampart line 2 (npc-veyra-marshal)"
     },
     {
-      "path": "public/audio/voices/mc_m42_outer_rampart_intro_03_field_siege_sapper.m4a",
+      "path": "public/audio/voices/mc_m42_outer_rampart_intro_03_npc_vance_marshal.m4a",
       "license": "own",
       "source": "tools/generate-all-voices.py",
-      "note": "Campaign intro dialogue for m42-outer-rampart line 3 (field-siege-sapper)"
+      "note": "Campaign intro dialogue for m42-outer-rampart line 3 (npc-vance-marshal)"
     },
     {
       "path": "public/audio/voices/mc_m42_outer_rampart_intro_04_hero.m4a",
@@ -13980,52 +13848,22 @@
       "note": "Campaign intro dialogue for m42-outer-rampart line 4 (hero)"
     },
     {
-      "path": "public/audio/voices/mc_m42_outer_rampart_intro_05_npc_rowan_commander.m4a",
-      "license": "own",
-      "source": "tools/generate-all-voices.py",
-      "note": "Campaign intro dialogue for m42-outer-rampart line 5 (npc-rowan-commander)"
-    },
-    {
-      "path": "public/audio/voices/mc_m42_outer_rampart_intro_06_npc_vok_forgemaster.m4a",
-      "license": "own",
-      "source": "tools/generate-all-voices.py",
-      "note": "Campaign intro dialogue for m42-outer-rampart line 6 (npc-vok-forgemaster)"
-    },
-    {
       "path": "public/audio/voices/mc_m43_three_roads_siege_intro_01_narrator.m4a",
       "license": "own",
       "source": "tools/generate-all-voices.py",
       "note": "Campaign intro dialogue for m43-three-roads-siege line 1 (narrator)"
     },
     {
-      "path": "public/audio/voices/mc_m43_three_roads_siege_intro_02_field_ash_scout.m4a",
+      "path": "public/audio/voices/mc_m43_three_roads_siege_intro_02_npc_tessa_warden.m4a",
       "license": "own",
       "source": "tools/generate-all-voices.py",
-      "note": "Campaign intro dialogue for m43-three-roads-siege line 2 (field-ash-scout)"
+      "note": "Campaign intro dialogue for m43-three-roads-siege line 2 (npc-tessa-warden)"
     },
     {
-      "path": "public/audio/voices/mc_m43_three_roads_siege_intro_03_npc_rowan_commander.m4a",
+      "path": "public/audio/voices/mc_m43_three_roads_siege_intro_03_hero.m4a",
       "license": "own",
       "source": "tools/generate-all-voices.py",
-      "note": "Campaign intro dialogue for m43-three-roads-siege line 3 (npc-rowan-commander)"
-    },
-    {
-      "path": "public/audio/voices/mc_m43_three_roads_siege_intro_04_field_siege_sapper.m4a",
-      "license": "own",
-      "source": "tools/generate-all-voices.py",
-      "note": "Campaign intro dialogue for m43-three-roads-siege line 4 (field-siege-sapper)"
-    },
-    {
-      "path": "public/audio/voices/mc_m43_three_roads_siege_intro_05_hero.m4a",
-      "license": "own",
-      "source": "tools/generate-all-voices.py",
-      "note": "Campaign intro dialogue for m43-three-roads-siege line 5 (hero)"
-    },
-    {
-      "path": "public/audio/voices/mc_m43_three_roads_siege_intro_06_npc_rowan_commander.m4a",
-      "license": "own",
-      "source": "tools/generate-all-voices.py",
-      "note": "Campaign intro dialogue for m43-three-roads-siege line 6 (npc-rowan-commander)"
+      "note": "Campaign intro dialogue for m43-three-roads-siege line 3 (hero)"
     },
     {
       "path": "public/audio/voices/mc_m44_threshold_choice_intro_01_narrator.m4a",
@@ -14034,34 +13872,16 @@
       "note": "Campaign intro dialogue for m44-threshold-choice line 1 (narrator)"
     },
     {
-      "path": "public/audio/voices/mc_m44_threshold_choice_intro_02_npc_elias_penitent.m4a",
+      "path": "public/audio/voices/mc_m44_threshold_choice_intro_02_npc_orla_archivist.m4a",
       "license": "own",
       "source": "tools/generate-all-voices.py",
-      "note": "Campaign intro dialogue for m44-threshold-choice line 2 (npc-elias-penitent)"
+      "note": "Campaign intro dialogue for m44-threshold-choice line 2 (npc-orla-archivist)"
     },
     {
-      "path": "public/audio/voices/mc_m44_threshold_choice_intro_03_npc_vok_forgemaster.m4a",
+      "path": "public/audio/voices/mc_m44_threshold_choice_intro_03_hero.m4a",
       "license": "own",
       "source": "tools/generate-all-voices.py",
-      "note": "Campaign intro dialogue for m44-threshold-choice line 3 (npc-vok-forgemaster)"
-    },
-    {
-      "path": "public/audio/voices/mc_m44_threshold_choice_intro_04_hero.m4a",
-      "license": "own",
-      "source": "tools/generate-all-voices.py",
-      "note": "Campaign intro dialogue for m44-threshold-choice line 4 (hero)"
-    },
-    {
-      "path": "public/audio/voices/mc_m44_threshold_choice_intro_05_npc_elias_penitent.m4a",
-      "license": "own",
-      "source": "tools/generate-all-voices.py",
-      "note": "Campaign intro dialogue for m44-threshold-choice line 5 (npc-elias-penitent)"
-    },
-    {
-      "path": "public/audio/voices/mc_m44_threshold_choice_intro_06_npc_vok_forgemaster.m4a",
-      "license": "own",
-      "source": "tools/generate-all-voices.py",
-      "note": "Campaign intro dialogue for m44-threshold-choice line 6 (npc-vok-forgemaster)"
+      "note": "Campaign intro dialogue for m44-threshold-choice line 3 (hero)"
     },
     {
       "path": "public/audio/voices/mc_m45_crown_of_order_intro_01_narrator.m4a",
@@ -14070,16 +13890,16 @@
       "note": "Campaign intro dialogue for m45-crown-of-order line 1 (narrator)"
     },
     {
-      "path": "public/audio/voices/mc_m45_crown_of_order_intro_02_npc_elias_penitent.m4a",
+      "path": "public/audio/voices/mc_m45_crown_of_order_intro_02_npc_orla_archivist.m4a",
       "license": "own",
       "source": "tools/generate-all-voices.py",
-      "note": "Campaign intro dialogue for m45-crown-of-order line 2 (npc-elias-penitent)"
+      "note": "Campaign intro dialogue for m45-crown-of-order line 2 (npc-orla-archivist)"
     },
     {
-      "path": "public/audio/voices/mc_m45_crown_of_order_intro_03_npc_rowan_commander.m4a",
+      "path": "public/audio/voices/mc_m45_crown_of_order_intro_03_arch_warden_korrath.m4a",
       "license": "own",
       "source": "tools/generate-all-voices.py",
-      "note": "Campaign intro dialogue for m45-crown-of-order line 3 (npc-rowan-commander)"
+      "note": "Campaign intro dialogue for m45-crown-of-order line 3 (arch-warden-korrath)"
     },
     {
       "path": "public/audio/voices/mc_m45_crown_of_order_intro_04_hero.m4a",
@@ -14088,64 +13908,76 @@
       "note": "Campaign intro dialogue for m45-crown-of-order line 4 (hero)"
     },
     {
-      "path": "public/audio/voices/mc_m45_crown_of_order_intro_05_npc_elias_penitent.m4a",
-      "license": "own",
-      "source": "tools/generate-all-voices.py",
-      "note": "Campaign intro dialogue for m45-crown-of-order line 5 (npc-elias-penitent)"
-    },
-    {
-      "path": "public/audio/voices/mc_m45_crown_of_order_intro_06_hero.m4a",
-      "license": "own",
-      "source": "tools/generate-all-voices.py",
-      "note": "Campaign intro dialogue for m45-crown-of-order line 6 (hero)"
-    },
-    {
       "path": "public/audio/voices/mc_m46_ember_reckoning_intro_01_narrator.m4a",
       "license": "own",
       "source": "tools/generate-all-voices.py",
       "note": "Campaign intro dialogue for m46-ember-reckoning line 1 (narrator)"
     },
     {
-      "path": "public/audio/voices/mc_m46_ember_reckoning_intro_02_ashkarath.m4a",
+      "path": "public/audio/voices/mc_m46_ember_reckoning_intro_02_npc_vance_marshal.m4a",
       "license": "own",
       "source": "tools/generate-all-voices.py",
-      "note": "Campaign intro dialogue for m46-ember-reckoning line 2 (ashkarath)"
+      "note": "Campaign intro dialogue for m46-ember-reckoning line 2 (npc-vance-marshal)"
     },
     {
-      "path": "public/audio/voices/mc_m46_ember_reckoning_intro_03_npc_vok_forgemaster.m4a",
+      "path": "public/audio/voices/mc_m46_ember_reckoning_intro_03_ember_overlord_vorak.m4a",
       "license": "own",
       "source": "tools/generate-all-voices.py",
-      "note": "Campaign intro dialogue for m46-ember-reckoning line 3 (npc-vok-forgemaster)"
+      "note": "Campaign intro dialogue for m46-ember-reckoning line 3 (ember-overlord-vorak)"
     },
     {
-      "path": "public/audio/voices/mc_m46_ember_reckoning_intro_04_npc_rowan_commander.m4a",
+      "path": "public/audio/voices/mc_m46_ember_reckoning_intro_04_hero.m4a",
       "license": "own",
       "source": "tools/generate-all-voices.py",
-      "note": "Campaign intro dialogue for m46-ember-reckoning line 4 (npc-rowan-commander)"
+      "note": "Campaign intro dialogue for m46-ember-reckoning line 4 (hero)"
     },
     {
-      "path": "public/audio/voices/mc_m46_ember_reckoning_intro_05_ashkarath.m4a",
+      "path": "public/audio/voices/boss_arch_mage_malrik_pre_01_narrator.m4a",
       "license": "own",
       "source": "tools/generate-all-voices.py",
-      "note": "Campaign intro dialogue for m46-ember-reckoning line 5 (ashkarath)"
+      "note": "Boss pre-fight line for arch-mage-malrik (narrator)"
     },
     {
-      "path": "public/audio/voices/mc_m46_ember_reckoning_intro_06_hero.m4a",
+      "path": "public/audio/voices/boss_arch_mage_malrik_pre_02_arch_mage_malrik.m4a",
       "license": "own",
       "source": "tools/generate-all-voices.py",
-      "note": "Campaign intro dialogue for m46-ember-reckoning line 6 (hero)"
+      "note": "Boss pre-fight line for arch-mage-malrik (arch-mage-malrik)"
     },
     {
-      "path": "public/audio/voices/mc_m46_ember_reckoning_intro_07_field_siege_sapper.m4a",
+      "path": "public/audio/voices/boss_arch_mage_malrik_pre_03_npc_vance_marshal.m4a",
       "license": "own",
       "source": "tools/generate-all-voices.py",
-      "note": "Campaign intro dialogue for m46-ember-reckoning line 7 (field-siege-sapper)"
+      "note": "Boss pre-fight line for arch-mage-malrik (npc-vance-marshal)"
     },
     {
-      "path": "public/audio/voices/mc_m46_ember_reckoning_intro_08_ashkarath.m4a",
+      "path": "public/audio/voices/boss_arch_mage_malrik_pre_04_hero.m4a",
       "license": "own",
       "source": "tools/generate-all-voices.py",
-      "note": "Campaign intro dialogue for m46-ember-reckoning line 8 (ashkarath)"
+      "note": "Boss pre-fight line for arch-mage-malrik (hero)"
+    },
+    {
+      "path": "public/audio/voices/boss_arch_warden_korrath_pre_01_narrator.m4a",
+      "license": "own",
+      "source": "tools/generate-all-voices.py",
+      "note": "Boss pre-fight line for arch-warden-korrath (narrator)"
+    },
+    {
+      "path": "public/audio/voices/boss_arch_warden_korrath_pre_02_arch_warden_korrath.m4a",
+      "license": "own",
+      "source": "tools/generate-all-voices.py",
+      "note": "Boss pre-fight line for arch-warden-korrath (arch-warden-korrath)"
+    },
+    {
+      "path": "public/audio/voices/boss_arch_warden_korrath_pre_03_npc_orla_archivist.m4a",
+      "license": "own",
+      "source": "tools/generate-all-voices.py",
+      "note": "Boss pre-fight line for arch-warden-korrath (npc-orla-archivist)"
+    },
+    {
+      "path": "public/audio/voices/boss_arch_warden_korrath_pre_04_hero.m4a",
+      "license": "own",
+      "source": "tools/generate-all-voices.py",
+      "note": "Boss pre-fight line for arch-warden-korrath (hero)"
     },
     {
       "path": "public/audio/voices/boss_ashkarath_pre_01_narrator.m4a",
@@ -14184,6 +14016,54 @@
       "note": "Boss pre-fight line for ashkarath (ashkarath)"
     },
     {
+      "path": "public/audio/voices/boss_elder_juggernaut_pre_01_narrator.m4a",
+      "license": "own",
+      "source": "tools/generate-all-voices.py",
+      "note": "Boss pre-fight line for elder-juggernaut (narrator)"
+    },
+    {
+      "path": "public/audio/voices/boss_elder_juggernaut_pre_02_npc_kael_huntsman.m4a",
+      "license": "own",
+      "source": "tools/generate-all-voices.py",
+      "note": "Boss pre-fight line for elder-juggernaut (npc-kael-huntsman)"
+    },
+    {
+      "path": "public/audio/voices/boss_elder_juggernaut_pre_03_hero.m4a",
+      "license": "own",
+      "source": "tools/generate-all-voices.py",
+      "note": "Boss pre-fight line for elder-juggernaut (hero)"
+    },
+    {
+      "path": "public/audio/voices/boss_elder_juggernaut_pre_04_elder_juggernaut.m4a",
+      "license": "own",
+      "source": "tools/generate-all-voices.py",
+      "note": "Boss pre-fight line for elder-juggernaut (elder-juggernaut)"
+    },
+    {
+      "path": "public/audio/voices/boss_ember_overlord_vorak_pre_01_narrator.m4a",
+      "license": "own",
+      "source": "tools/generate-all-voices.py",
+      "note": "Boss pre-fight line for ember-overlord-vorak (narrator)"
+    },
+    {
+      "path": "public/audio/voices/boss_ember_overlord_vorak_pre_02_ember_overlord_vorak.m4a",
+      "license": "own",
+      "source": "tools/generate-all-voices.py",
+      "note": "Boss pre-fight line for ember-overlord-vorak (ember-overlord-vorak)"
+    },
+    {
+      "path": "public/audio/voices/boss_ember_overlord_vorak_pre_03_npc_vance_marshal.m4a",
+      "license": "own",
+      "source": "tools/generate-all-voices.py",
+      "note": "Boss pre-fight line for ember-overlord-vorak (npc-vance-marshal)"
+    },
+    {
+      "path": "public/audio/voices/boss_ember_overlord_vorak_pre_04_hero.m4a",
+      "license": "own",
+      "source": "tools/generate-all-voices.py",
+      "note": "Boss pre-fight line for ember-overlord-vorak (hero)"
+    },
+    {
       "path": "public/audio/voices/boss_gorrathul_pre_01_narrator.m4a",
       "license": "own",
       "source": "tools/generate-all-voices.py",
@@ -14218,6 +14098,30 @@
       "license": "own",
       "source": "tools/generate-all-voices.py",
       "note": "Boss pre-fight line for gorrathul (gorrathul)"
+    },
+    {
+      "path": "public/audio/voices/boss_lord_captain_korvus_pre_01_narrator.m4a",
+      "license": "own",
+      "source": "tools/generate-all-voices.py",
+      "note": "Boss pre-fight line for lord-captain-korvus (narrator)"
+    },
+    {
+      "path": "public/audio/voices/boss_lord_captain_korvus_pre_02_lord_captain_korvus.m4a",
+      "license": "own",
+      "source": "tools/generate-all-voices.py",
+      "note": "Boss pre-fight line for lord-captain-korvus (lord-captain-korvus)"
+    },
+    {
+      "path": "public/audio/voices/boss_lord_captain_korvus_pre_03_npc_veyra_marshal.m4a",
+      "license": "own",
+      "source": "tools/generate-all-voices.py",
+      "note": "Boss pre-fight line for lord-captain-korvus (npc-veyra-marshal)"
+    },
+    {
+      "path": "public/audio/voices/boss_lord_captain_korvus_pre_04_hero.m4a",
+      "license": "own",
+      "source": "tools/generate-all-voices.py",
+      "note": "Boss pre-fight line for lord-captain-korvus (hero)"
     },
     {
       "path": "public/audio/voices/boss_morvessa_pre_01_narrator.m4a",
@@ -14388,6 +14292,36 @@
       "note": "Boss intro line for the-ashen-sovereign"
     },
     {
+      "path": "public/audio/voices/bd_elder_juggernaut_intro.m4a",
+      "license": "own",
+      "source": "tools/generate-all-voices.py",
+      "note": "Boss intro line for elder-juggernaut"
+    },
+    {
+      "path": "public/audio/voices/bd_lord_captain_korvus_intro.m4a",
+      "license": "own",
+      "source": "tools/generate-all-voices.py",
+      "note": "Boss intro line for lord-captain-korvus"
+    },
+    {
+      "path": "public/audio/voices/bd_arch_mage_malrik_intro.m4a",
+      "license": "own",
+      "source": "tools/generate-all-voices.py",
+      "note": "Boss intro line for arch-mage-malrik"
+    },
+    {
+      "path": "public/audio/voices/bd_arch_warden_korrath_intro.m4a",
+      "license": "own",
+      "source": "tools/generate-all-voices.py",
+      "note": "Boss intro line for arch-warden-korrath"
+    },
+    {
+      "path": "public/audio/voices/bd_ember_overlord_vorak_intro.m4a",
+      "license": "own",
+      "source": "tools/generate-all-voices.py",
+      "note": "Boss intro line for ember-overlord-vorak"
+    },
+    {
       "path": "public/audio/voices/lore__warden_hale_1.m4a",
       "license": "own",
       "source": "tools/generate-all-voices.py",
@@ -14490,172 +14424,76 @@
       "note": "Thornwick town dialogue line (Master Corin)"
     },
     {
-      "path": "public/townart/mon/anvilmaw-smith.jpg",
+      "path": "public/audio/voices/story__act_1__a1_1.m4a",
       "license": "own",
-      "source": "Generated dark-fantasy painted monster portrait, formatted with Pillow",
-      "note": "Original painted monster portrait for anvilmaw-smith, 2026-11-22; 384x512 framed bust"
+      "source": "tools/generate-all-voices.py",
+      "note": "Story slideshow narration for act-1 (a1-1)"
     },
     {
-      "path": "public/townart/mon/ash-weaver.jpg",
+      "path": "public/audio/voices/story__act_1__a1_2.m4a",
       "license": "own",
-      "source": "Generated dark-fantasy painted monster portrait, formatted with Pillow",
-      "note": "Original painted monster portrait for ash-weaver, 2026-11-22; 384x512 framed bust"
+      "source": "tools/generate-all-voices.py",
+      "note": "Story slideshow narration for act-1 (a1-2)"
     },
     {
-      "path": "public/townart/mon/basalt-brute.jpg",
+      "path": "public/audio/voices/story__act_2__a2_1.m4a",
       "license": "own",
-      "source": "tools/.canva-sheets/basalt-brute.png turnaround painted art, composited with Pillow",
-      "note": "Original monster portrait for basalt-brute extracted from turnaround sheet onto chiaroscuro backdrop, 2026-11-22"
+      "source": "tools/generate-all-voices.py",
+      "note": "Story slideshow narration for act-2 (a2-1)"
     },
     {
-      "path": "public/townart/mon/cinder-shaman.jpg",
+      "path": "public/audio/voices/story__act_2__a2_2.m4a",
       "license": "own",
-      "source": "tools/.canva-sheets/cinder-shaman.png turnaround painted art, composited with Pillow",
-      "note": "Original monster portrait for cinder-shaman extracted from turnaround sheet onto chiaroscuro backdrop, 2026-11-22"
+      "source": "tools/generate-all-voices.py",
+      "note": "Story slideshow narration for act-2 (a2-2)"
     },
     {
-      "path": "public/townart/mon/crowned-maw.jpg",
+      "path": "public/audio/voices/story__act_3__a3_1.m4a",
       "license": "own",
-      "source": "tools/.canva-sheets/crowned-maw.png turnaround painted art, composited with Pillow",
-      "note": "Original monster portrait for crowned-maw extracted from turnaround sheet onto chiaroscuro backdrop, 2026-11-22"
+      "source": "tools/generate-all-voices.py",
+      "note": "Story slideshow narration for act-3 (a3-1)"
     },
     {
-      "path": "public/townart/mon/dune-beast.jpg",
+      "path": "public/audio/voices/story__act_3__a3_2.m4a",
       "license": "own",
-      "source": "Generated dark-fantasy painted monster portrait, formatted with Pillow",
-      "note": "Original painted monster portrait for dune-beast, 2026-11-22; 384x512 framed bust"
+      "source": "tools/generate-all-voices.py",
+      "note": "Story slideshow narration for act-3 (a3-2)"
     },
     {
-      "path": "public/townart/mon/dune-lurker.jpg",
+      "path": "public/audio/voices/story__act_4__a4_1.m4a",
       "license": "own",
-      "source": "Generated dark-fantasy painted monster portrait, formatted with Pillow",
-      "note": "Original painted monster portrait for dune-lurker, 2026-11-22; 384x512 framed bust"
+      "source": "tools/generate-all-voices.py",
+      "note": "Story slideshow narration for act-4 (a4-1)"
     },
     {
-      "path": "public/townart/mon/fallen-shaman.jpg",
+      "path": "public/audio/voices/story__act_4__a4_2.m4a",
       "license": "own",
-      "source": "tools/.canva-sheets/fallen-shaman.png turnaround painted art, composited with Pillow",
-      "note": "Original monster portrait for fallen-shaman extracted from turnaround sheet onto chiaroscuro backdrop, 2026-11-22"
+      "source": "tools/generate-all-voices.py",
+      "note": "Story slideshow narration for act-4 (a4-2)"
     },
     {
-      "path": "public/townart/mon/fetish-blowdart.jpg",
+      "path": "public/audio/voices/story__ending_a__ea_1.m4a",
       "license": "own",
-      "source": "Generated dark-fantasy painted monster portrait, formatted with Pillow",
-      "note": "Original painted monster portrait for fetish-blowdart, 2026-11-22; 384x512 framed bust"
+      "source": "tools/generate-all-voices.py",
+      "note": "Story slideshow narration for ending-a (ea-1)"
     },
     {
-      "path": "public/townart/mon/frost-bell.jpg",
+      "path": "public/audio/voices/story__ending_a__ea_2.m4a",
       "license": "own",
-      "source": "Generated dark-fantasy painted monster portrait, formatted with Pillow",
-      "note": "Original painted monster portrait for frost-bell, 2026-11-22; 384x512 framed bust"
+      "source": "tools/generate-all-voices.py",
+      "note": "Story slideshow narration for ending-a (ea-2)"
     },
     {
-      "path": "public/townart/mon/gloom-stag.jpg",
+      "path": "public/audio/voices/story__ending_b__eb_1.m4a",
       "license": "own",
-      "source": "tools/.canva-sheets/gloom-stag.png turnaround painted art, composited with Pillow",
-      "note": "Original monster portrait for gloom-stag extracted from turnaround sheet onto chiaroscuro backdrop, 2026-11-22"
+      "source": "tools/generate-all-voices.py",
+      "note": "Story slideshow narration for ending-b (eb-1)"
     },
     {
-      "path": "public/townart/mon/greater-mummy.jpg",
+      "path": "public/audio/voices/story__ending_b__eb_2.m4a",
       "license": "own",
-      "source": "Generated dark-fantasy painted monster portrait, formatted with Pillow",
-      "note": "Original painted monster portrait for greater-mummy, 2026-11-22; 384x512 framed bust"
-    },
-    {
-      "path": "public/townart/mon/hollow-king.jpg",
-      "license": "own",
-      "source": "Generated dark-fantasy painted monster portrait, formatted with Pillow",
-      "note": "Original painted monster portrait for hollow-king, 2026-11-22; 384x512 framed bust"
-    },
-    {
-      "path": "public/townart/mon/hollow-knight.jpg",
-      "license": "own",
-      "source": "tools/.canva-sheets/hollow-knight.png turnaround painted art, composited with Pillow",
-      "note": "Original monster portrait for hollow-knight extracted from turnaround sheet onto chiaroscuro backdrop, 2026-11-22"
-    },
-    {
-      "path": "public/townart/mon/lantern-eel.jpg",
-      "license": "own",
-      "source": "tools/.canva-sheets/lantern-eel.png turnaround painted art, composited with Pillow",
-      "note": "Original monster portrait for lantern-eel extracted from turnaround sheet onto chiaroscuro backdrop, 2026-11-22"
-    },
-    {
-      "path": "public/townart/mon/mire-wisp.jpg",
-      "license": "own",
-      "source": "tools/.canva-sheets/mire-wisp.png turnaround painted art, composited with Pillow",
-      "note": "Original monster portrait for mire-wisp extracted from turnaround sheet onto chiaroscuro backdrop, 2026-11-22"
-    },
-    {
-      "path": "public/townart/mon/night-orchard.jpg",
-      "license": "own",
-      "source": "tools/.canva-sheets/night-orchard.png turnaround painted art, composited with Pillow",
-      "note": "Original monster portrait for night-orchard extracted from turnaround sheet onto chiaroscuro backdrop, 2026-11-22"
-    },
-    {
-      "path": "public/townart/mon/pale-burrower.jpg",
-      "license": "own",
-      "source": "Generated dark-fantasy painted monster portrait, formatted with Pillow",
-      "note": "Original painted monster portrait for pale-burrower, 2026-11-22; 384x512 framed bust"
-    },
-    {
-      "path": "public/townart/mon/redglass-drake.jpg",
-      "license": "own",
-      "source": "tools/.canva-sheets/redglass-drake.png turnaround painted art, composited with Pillow",
-      "note": "Original monster portrait for redglass-drake extracted from turnaround sheet onto chiaroscuro backdrop, 2026-11-22"
-    },
-    {
-      "path": "public/townart/mon/rift-moth.jpg",
-      "license": "own",
-      "source": "tools/.canva-sheets/rift-moth.png turnaround painted art, composited with Pillow",
-      "note": "Original monster portrait for rift-moth extracted from turnaround sheet onto chiaroscuro backdrop, 2026-11-22"
-    },
-    {
-      "path": "public/townart/mon/ruin-mite.jpg",
-      "license": "own",
-      "source": "Generated dark-fantasy painted monster portrait, formatted with Pillow",
-      "note": "Original painted monster portrait for ruin-mite, 2026-11-22; 384x512 framed bust"
-    },
-    {
-      "path": "public/townart/mon/salt-crab.jpg",
-      "license": "own",
-      "source": "Generated dark-fantasy painted monster portrait, formatted with Pillow",
-      "note": "Original painted monster portrait for salt-crab, 2026-11-22; 384x512 framed bust"
-    },
-    {
-      "path": "public/townart/mon/silt-colossus.jpg",
-      "license": "own",
-      "source": "Generated dark-fantasy painted monster portrait, formatted with Pillow",
-      "note": "Original painted monster portrait for silt-colossus, 2026-11-22; 384x512 framed bust"
-    },
-    {
-      "path": "public/townart/mon/spore-matron.jpg",
-      "license": "own",
-      "source": "tools/.canva-sheets/spore-matron.png turnaround painted art, composited with Pillow",
-      "note": "Original monster portrait for spore-matron extracted from turnaround sheet onto chiaroscuro backdrop, 2026-11-22"
-    },
-    {
-      "path": "public/townart/mon/storm-kite.jpg",
-      "license": "own",
-      "source": "tools/.canva-sheets/storm-kite.png turnaround painted art, composited with Pillow",
-      "note": "Original monster portrait for storm-kite extracted from turnaround sheet onto chiaroscuro backdrop, 2026-11-22"
-    },
-    {
-      "path": "public/townart/mon/thorn-boar.jpg",
-      "license": "own",
-      "source": "Blender 5.2 procedural sculpt render, composited with Pillow",
-      "note": "Original monster portrait for thorn-boar rendered from procedural model, 2026-11-22"
-    },
-    {
-      "path": "public/townart/mon/wendigo-bruiser.jpg",
-      "license": "own",
-      "source": "tools/.canva-sheets/wendigo-bruiser.png turnaround painted art, composited with Pillow",
-      "note": "Original monster portrait for wendigo-bruiser extracted from turnaround sheet onto chiaroscuro backdrop, 2026-11-22"
-    },
-    {
-      "path": "public/townart/mon/witch-doctor.jpg",
-      "license": "own",
-      "source": "tools/.canva-sheets/witch-doctor.png turnaround painted art, composited with Pillow",
-      "note": "Original monster portrait for witch-doctor extracted from turnaround sheet onto chiaroscuro backdrop, 2026-11-22"
+      "source": "tools/generate-all-voices.py",
+      "note": "Story slideshow narration for ending-b (eb-2)"
     }
   ],
   "townart/portrait-necromancer.png": {

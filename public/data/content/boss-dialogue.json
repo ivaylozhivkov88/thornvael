@@ -206,5 +206,85 @@
    "If I cannot rule these ashes, nothing living shall inherit them!"
   ],
   "defeat": "Only cold dust... remains... tell me... was the crown worth the smoke..."
+ },
+ {
+  "boss": "elder-juggernaut",
+  "intro": "*Twin granite fists slam into the highland cairn as the dying continent's tectonic agony shakes loose a storm of ancient stone.*",
+  "phase_lines": [
+   "*Living basalt groans beneath primeval runes, splitting the ridge with jagged fissures.*",
+   "*Twin granite wardens lock shields beside the colossus as boulders cascade down the pass.*",
+   "*Its chest-core flares with blinding earth-fire—one final fracture away from eternal stillness.*"
+  ],
+  "death_line": "*With a long, resonant sigh of settling shale, the Elder Juggernaut returns to silent mountain stone.*",
+  "taunt_class": {
+   "warrior": "*Your steel sword rings against primeval granite like a twig against a cliffside.*",
+   "archer": "*Arrow shafts splinter into dust against the living bedrock of the cairn.*",
+   "mage": "*Earth-breaking sorcery stirs a deep, sorrowful rumble inside the ancient core.*",
+   "necromancer": "*No bone or soul binds this titan—only the wounded stone of Thornvael itself.*"
+  }
+ },
+ {
+  "boss": "lord-captain-korvus",
+  "intro": "Cowards! Running across the sea like rats off a burning hull! If Thornvael must drown in fire, then no one leaves this pier alive!",
+  "phase_lines": [
+   "Drag them into the pitch! Anchor their bones!",
+   "Torch the eastern war pier! No mercy for the rearguard!",
+   "Every sail out there is a betrayal of the dead! Stay and burn with the continent!"
+  ],
+  "death_line": "The sails... past the horizon... you let them... escape a dying world...",
+  "taunt_class": {
+   "warrior": "Heavy plate just helps you sink faster once my anchor chains hook your gorget.",
+   "archer": "Try drawing a bowstring when the war pier splits beneath your boots.",
+   "mage": "Sparks don't quench harbor pitch, scholar—step closer to the edge.",
+   "necromancer": "The black surf swallows flesh and bone alike—no corpses left to raise here."
+  }
+ },
+ {
+  "boss": "arch-mage-malrik",
+  "intro": "You bled through three provinces to chase a shadow up Ashveil Gorge! One step onto that summit shrine and every secret of the Iron Pact vanishes!",
+  "phase_lines": [
+   "Snipers on the switchbacks—bleed their vanguard dry!",
+   "The border ciphers were only the first ledger—you are too late to stop the Caldera!",
+   "Keep back from the teleport flagstones! I will not die on this freezing pass!"
+  ],
+  "death_line": "My satchel... the Royal Cipher-Keys... no, you cannot unravel what the Pact has lit...",
+  "taunt_class": {
+   "warrior": "All that meteoric ironplate won't catch a man who walks through ley-doors.",
+   "archer": "Shoot faster, ranger—my teleport circle is already humming.",
+   "mage": "You read wardstone primers while I rewrote the Crown Vault's ciphers.",
+   "necromancer": "You haggle with single corpses; I sold an entire kingdom's coffers."
+  }
+ },
+ {
+  "boss": "arch-warden-korrath",
+  "intro": "Three centuries of unbroken vigil turned my flesh to granite so law might outlive mortal folly. Sunder my anchors if you dare—and answer for the chaos you unchain.",
+  "phase_lines": [
+   "While the West and East Resonance Anchors sing, no mortal blade can scratch eternal stone.",
+   "Both anchors shattered—draw close, then, and taste the twin blades of Petrified Judgment!",
+   "Without law, without stone, humanity will bleed again before the century turns!"
+  ],
+  "death_line": "The empire was peace... without law... without stone... you are only... dust in the wind...",
+  "taunt_class": {
+   "warrior": "Your shield arm grows heavy with granite stasis—soon you too will stand forever.",
+   "archer": "Bolts shatter against white marble tempered by three hundred winters.",
+   "mage": "Your fragile sparks only warm the frost of the Crown Vault for a heartbeat.",
+   "necromancer": "Even death submits to stillness inside these walls, sexton."
+  }
+ },
+ {
+  "boss": "ember-overlord-vorak",
+  "intro": "Look through the eye of a smelter's kiln, mortal! Your cities are slag and your blood is fuel for the Great Cleansing—break my obsidian pylons if your bones can survive the fire!",
+  "phase_lines": [
+   "Two obsidian conduit pillars feed my throne—cinder-imps, bury them in ash!",
+   "Both conduits broken?! Then let the cavern roof rain meteors and liquid rock!",
+   "I see your ambition beneath the soot! Reach for the Crown of Thorns and Cinder and see if it melts your hand!"
+  ],
+  "death_line": "Burn, then... conqueror... take the fire... and see if the crown does not melt your bones as it melted mine...",
+  "taunt_class": {
+   "warrior": "Meteoric plate turns white-hot inside my Furnace Heart—melt inside your shell!",
+   "archer": "Wooden shafts ignite before they cross half the magma chasm.",
+   "mage": "You brought books to a volcano, scholar—watch your wards evaporate.",
+   "necromancer": "No bones survive the kiln, clerk—only cinders and sovereign iron."
+  }
  }
 ]

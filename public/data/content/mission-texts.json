@@ -162,163 +162,163 @@
  },
  {
   "mission_id": "m24-pledge-at-oakhaven",
-  "briefing": "Three ironclad hulks block Oakhaven's channel while coastal raiders burn the marsh jetties. Wade onto the Greywash mudflats at low water, torch the blockade pontoons, seize the marsh storehouses, and clear the grounded command hulk.",
-  "debrief_win": "The channel lies open, Kors's carpenters are caulking troop barges, and Oakhaven's council signed the marine charter.",
-  "debrief_loss": "Oakhaven's timber walls crack inward under iron rams, turning the harbor waters black with ash and blood.",
+  "briefing": "Oakhaven's ironwood frontier is buckling under starving raider packs while Master Shipwright Kors races to build the evacuation armada. Rearm at Toren's armory, clear the canyon roadblock, and relieve Captain Bram at the Northern Watch Post.",
+  "debrief_win": "Captain Bram's torn banner rises over the pass once more, securing Oakhaven's northern gateway while Gorin's freed miners armor the ship hulls.",
+  "debrief_loss": "Captain Bram falls at the Northern Post, opening Oakhaven's timber yards to raiders before the evacuation hulls can take shape.",
   "mid_event_line": "Boots sink knee-deep in black silt—keep moving or drown in plate before the tide turns!"
  },
  {
   "mission_id": "m25-cinder-wards",
-  "briefing": "Reversed geomancer pillars on the basalt cliffs above Oakhaven boil the groundwater and blister soldiers' lungs. Wrap wet wool over your mouths, shatter the three outer ward-rings, and slay the chief fire-binder at the central vent.",
-  "debrief_win": "The pillars cracked cold like cheap pottery, sparing Oakhaven's timber valleys and yielding scorched obsidian shards.",
-  "debrief_loss": "The three wards chime in unison, and a river of white-hot slag washes down the cliffside over your screaming lines.",
+  "briefing": "Three corrupted rune-circles threaten to shear Oakhaven's cliffs into the ocean. Guided by Chronicler Zahra's Redmarsh wardstone notes, Ward-Scholar Elowen sends you to extinguish West, North, and East before breaking the Central Altar Warden.",
+  "debrief_win": "The corrupted altar shatters and the coastal cliff-wards hum back to steady blue resonance.",
+  "debrief_loss": "The volcanic cinder-wards detonate, tearing Oakhaven's cliffs into the Western Sea.",
   "mid_event_line": "Cinder-hounds erupt from the steaming fumaroles—keep the wounded clear of their ash-breath!"
  },
  {
   "mission_id": "m26-sundered-ranks",
-  "briefing": "A razor needle of granite called Split Tooth divides the coastal road between two arbalest redoubts with interlocking fire. Split your column to silence both flanking batteries before storming the command tent on the spire.",
-  "debrief_win": "Semaphore mirrors lie smashed and codebooks burned; the coastal road north to the infirmary stands clear.",
-  "debrief_loss": "Caught in a scissor of steel bolts between the twin forts, your broken column bleeds out upon bare granite.",
+  "briefing": "Renegade southern legions have fortified twin flanking camps around a coastal crag to starve Oakhaven. Master-at-Arms Toren orders both flanks sundered before charging the Northern Commander and his War-Golem.",
+  "debrief_win": "Both flanking camps scatter and the War-Golem's stone core fractures, opening the coastal highway south.",
+  "debrief_loss": "Pinned between the twin flanking camps, your vanguard falls beneath the coastal crag.",
   "mid_event_line": "West redoubt's firing slits are choked—pivot heavy infantry toward the eastern battery!"
  },
  {
   "mission_id": "m27-field-infirmary",
-  "briefing": "Sixty crippled soldiers lie inside canvas hospital tents behind a ruined chapel while raider hounds scent blood on the drizzle. Hold the bracken perimeter until Sera loads the stretchers and the Triage Wagon reaches the ridge.",
-  "debrief_win": "Every stretcher made the wagons, and Sera's apothecaries brewed their strongest poppy-iron draughts in gratitude.",
-  "debrief_loss": "The canvas tents collapse in flames as raider blades silence the groans of the helpless inside.",
+  "briefing": "Inside an ironwood glade, Chief Healer Sera tends burned refugees—including familiar survivors from Thornwick like Reeve Marlow and Father Cael. Hold a 360-degree shield wall against three converging raider warbands.",
+  "debrief_win": "All three warbands break against your shields, ensuring Sera and every stretcher reach Harborwatch intact.",
+  "debrief_loss": "Raiders break the glade perimeter, claiming Chief Healer Sera and the wounded survivors of Thornwick.",
   "mid_event_line": "More cleaver-men creep up the creek trail—hold the ditch while they splint the wounded!"
  },
  {
   "mission_id": "m28-sunken-citadel",
-  "briefing": "Spring tide thunders into the tilted sea-stack fortress of the Sunken Citadel, giving you two hours before the lower ward floods chin-deep. Blow the kelp-slick water-gate, loot the drowned armory, and slay the Castellan on the lighthouse stair.",
-  "debrief_win": "The Castellan went over the parapet in full plate and the sea-gates are wedged shut, opening the coastal siege road.",
-  "debrief_loss": "The sea surges through the breached gate, pinning armored men against basalt walls until the surf stills.",
+  "briefing": "A half-drowned imperial fortress carved into sea-caves blocks the subterranean aqueducts to Harborwatch. Force the outer ramparts through knee-deep brine and submerged spearmen, then topple the Citadel Warden.",
+  "debrief_win": "The Sunken Citadel is purged, unsealing the subterranean sea-galleries straight to Harborwatch's riverlocks.",
+  "debrief_loss": "Dragged beneath black tidewater by barnacled spearmen, your company vanishes inside the Sunken Citadel.",
   "mid_event_line": "Saltwater is waist-deep in the outer ward—climb the lighthouse steps before the gate seals!"
  },
  {
   "mission_id": "m29-hourglass-rescue",
-  "briefing": "Red signal flares sputter through coastal fog where Gate Warden Lyra's pickets hold Iron-Gate Watchtower with fourteen bolts left. Leave the baggage behind, hack through three canyon roadblocks at a dead run, and relieve the courtyard.",
-  "debrief_win": "Five minutes later and crows would have picked their ribs; Lyra's sharp-eyed archers fall in with your main column.",
-  "debrief_loss": "The gatehouse doors splinter inward with a roar, and Lyra's signal horn cuts off mid-note.",
+  "briefing": "Imperial inquisitors have locked Gate Warden Lyra and a company of Thornwick craftsmen and Oakhaven shipwrights inside flooded tidal vaults as high tide surges in. Smash every barricade before the countdown empties.",
+  "debrief_win": "The drowned locks burst open with water lapping at the prisoners' chins; the freed shipwrights march to Harborwatch and double hull output.",
+  "debrief_loss": "The hourglass runs dry as freezing seawater submerges the tidal vaults and Oakhaven's last shipwrights.",
   "mid_event_line": "Outer oak door just split down the hinges—strike the raiders' rear before they take the tower stair!"
  },
  {
   "mission_id": "m30-starved-bastion",
-  "briefing": "High-Orchard Redoubt's grey chalk walls bristle with steel, yet its cisterns are low and two supply mule-trains are due by noon. Ambush both convoys on the wooded switchbacks, break the garrison's sortie, and starve the keep into surrender.",
-  "debrief_win": "Half the defenders collapsed at the smell of our cookfires, trading the keep's keys for hardtack and clean water.",
-  "debrief_loss": "The supply wagons roll beneath the raised portcullis, and fresh volleys sweep your exposed camp.",
+  "briefing": "Highgate Bastion has been cut off for three weeks while defenders boil boot-leather for broth. Cut both enemy supply escorts on the ravine flanks, recover the iron-plated grain wagons, and break the Redoubt Commander.",
+  "debrief_win": "The grain wagons roll through Highgate's gate and green relief flares ignite against the storm clouds, securing Harborwatch's outer ring.",
+  "debrief_loss": "Highgate Bastion starves and collapses, leaving Harborwatch's landward approaches defenseless.",
   "mid_event_line": "Both mule-trains captured—the garrison is sallying out through the main gate to retake them!"
  },
  {
   "mission_id": "m31-riverlock-crossing",
-  "briefing": "Black river water roars eighty feet below two stone spans regulated by iron floodgates. Capture the central sluice island, drive iron wedges into the counterweight gears before enemy engineers trip them, and clear the eastern gatehouse.",
-  "debrief_win": "Those bronze gears won't turn again without six months of scaffolding, leaving the deep harbor road secure.",
-  "debrief_loss": "Iron chains scream as floodgates drop, and a wall of black river water sweeps your vanguard into the gorge.",
+  "briefing": "Corrupt canal mercenaries led by the Lockmaster have seized the twin parallel riverlocks supplying Harborwatch's fresh water, extorting silver for every ship cask. Capture both banks and defeat the Lockmaster.",
+  "debrief_win": "Clean freshwater roars back into Harborwatch's cisterns, filling the ship casks for the voyage past the Western Rim.",
+  "debrief_loss": "Cranked open by the Lockmaster, raging sluice torrents sweep your vanguard down the canal.",
   "mid_event_line": "Enemy sappers swim toward the island with crowbars—guard the winch-house gears!"
  },
  {
   "mission_id": "m32-elder-juggernaut",
-  "briefing": "An ancient bedrock colossus bound during the Age of Chains blocks the pine ridge pass, its furnace core glowing through moss-grown seams. Disperse infantry against tectonic stomps and crack its glowing joints with arcane fire and bodkins.",
-  "debrief_win": "The giant crumbled into grey gravel, opening the mountain pass and yielding pulsing earth-core crystal dust.",
-  "debrief_loss": "A tectonic stomp splits the granite ridge beneath your boots, burying the expedition under tons of ancient stone.",
+  "briefing": "Above the pine line, the primeval Elder Juggernaut—awakened by the dying continent's tectonic agony—shakes the highland cairn beside twin granite wardens. Shatter its glowing core to still the ridge above Harborwatch.",
+  "debrief_win": "Returning to silent stone, the tragic titan yields a thousand ancient runic coins and stills the seismic threat above the harbor.",
+  "debrief_loss": "Splitting fissures and cascading boulders bury your company upon the highland cairn.",
   "mid_event_line": "Left knee-joint is smoking—pour every arcane charge into that rune-fissure now!"
  },
  {
   "mission_id": "m33-high-stakes-gambit",
-  "briefing": "Turncoat Baron Vane is loading extortion bullion onto catacomb lifts inside his coastal manor to buy every sellsword on the coast. Smash the main gate, secure both flanking vaults, and cut Vane off at the iron grate.",
-  "debrief_win": "Stamped gold fills the war-chest, and half the mercenary guilds along the Iron Coast just lost their paymaster.",
-  "debrief_loss": "Baron Vane's halberdiers hold the stair while the last iron lift drops into dark catacombs with the gold.",
+  "briefing": "Two golem-guarded reliquary crypts flank a central pass fortress as Caldera tremors threaten to seal them forever. Punch straight into the keep or split cohorts to plunder the flanking crypts.",
+  "debrief_win": "The Vault Keep Commander falls and your company marches down to Harborwatch armed with ancestral steel and bullion.",
+  "debrief_loss": "Overwhelmed between the reliquary crypts and central keep, your assault bleeds out in the pass.",
   "mid_event_line": "West vault secured—treasurers are sprinting toward the catacomb grate with the royal seals!"
  },
  {
   "mission_id": "m34-clashing-banners",
-  "briefing": "The Ironclad Banner and Ashen Company are butchering each other across a muddy hollow over looted harbor salvage. Drive a wedge straight between their standards and slay both warlords before they form a truce.",
-  "debrief_win": "Three hundred sellswords threw down their pikes the moment both standards hit the mud, earning pardons in your vanguard.",
-  "debrief_loss": "The rival banners lock shields around your surrounded column, turning the muddy hollow into a killing pen.",
+  "briefing": "The Ironclad Banner and fanatical Ashen Banner butcher each other over boarding manifests before Harborwatch while executing trapped refugees. Marshal Veyra orders both predatory warbands crushed.",
+  "debrief_win": "Both rival banners lie trampled in the mud, opening the final road into Harborwatch's war-docks.",
+  "debrief_loss": "Caught between two blood-mad armies, your vanguard is broken outside Harborwatch.",
   "mid_event_line": "Ironclad warlord is down—break the Ashen standard before the survivors link pikes!"
  },
  {
   "mission_id": "m35-burning-harbor",
-  "briefing": "Harborwatch's drydocks roar like furnaces under pitch-pots rained from Admiral Kael's copper-sheeted flagship while Vesperion mocks from the smoke. Retake the seawall catapults, shatter Kael's rudder, and board the flagship.",
-  "debrief_win": "Kael's flagship sinks in boiling foam and twelve patched carracks float ready to carry your host across the volcanic straits.",
-  "debrief_loss": "Driven onto blazing piers with burning oil behind and deep water ahead, your army is consumed by flames.",
+  "briefing": "Ash falls like sleet over Harborwatch as raiders breach the seawall. Clear the Burning Plaza, hold the Western Evacuation Pier beside Marshal Veyra until the iron-plated caravels sail west, then slay Lord-Captain Korvus ('The Iron Anchor') on the Eastern War Pier.",
+  "debrief_win": "Korvus falls into the black surf, the evacuation armada sails untouched beyond the rim, and the rearguard turns east toward the Obsidian Caldera.",
+  "debrief_loss": "Marshal Veyra falls upon the burning quay as mutineer torches devour the last evacuation ships.",
   "mid_event_line": "Seawall batteries reclaimed—smash Kael's rudder and throw grappling hooks across the rail!"
  },
  {
   "mission_id": "m36-heartland-march",
-  "briefing": "Black glass sand and drifting cinder greet your landing in the volcanic heartland where yellow sulfur crust hides boiling vents. Form a defensive wedge, fight off camouflaged ash-stalkers, and fortify Highcrest bluff before nightfall.",
-  "debrief_win": "Trenches and windbreaks anchor Highcrest plateau, looking across the blackened caldera toward the Infernal Sanctuary.",
-  "debrief_loss": "Pinned on the black volcanic beach with boiling surf behind and ash-demons ahead, the expedition is butchered.",
+  "briefing": "Leaving the empty harbor behind, the rearguard climbs to Highcrest Citadel. Rearm at Elda's meteoric forge, sweep Iron Pact scouts from the ash-draped pine trail, and shatter the Northern Pass ambush.",
+  "debrief_win": "The Northern Pass falls, opening the basalt highway into the Obsidian Caldera.",
+  "debrief_loss": "Ambushed along the ash-draped switchbacks, the rearguard stalls before reaching the Caldera.",
   "mid_event_line": "Stay off the yellow sulfur crust—plant iron stakes halfway up the basalt ridge!"
  },
  {
   "mission_id": "m37-shattered-beacons",
-  "briefing": "A dome of violet static seals the obsidian pass, fed by three crystal focusing beacons on surrounding crags. Spread out against arcing lightning, slay each bound beacon-warden, and smash the prisms with heavy mauls.",
-  "debrief_win": "The static dome shatters into ozone and cold glass, opening the pass before citadel reserves can form ranks.",
-  "debrief_loss": "The three beacons converge their beams into a blinding lance of white fire, vaporizing your vanguard.",
+  "briefing": "Three runic beacons project a lethal violet barrier across the valley floor. Guided by Ward-Scholar Elowen's and Chronicler Zahra's harmonic notes, shatter the West, Center, and East beacon garrisons.",
+  "debrief_win": "All three pylons collapse into smoking glass, revealing the looming black silhouette of the Infernal Citadel.",
+  "debrief_loss": "Violet ley-arcs vaporize your column across the obsidian valley flats.",
   "mid_event_line": "Two prisms shattered—citadel outriders charge down the pass to relieve the last warden!"
  },
  {
   "mission_id": "m38-besieged-wall",
-  "briefing": "Three demonic catapults hammer Greystone Bastion's pumice-mortared curtain wall to gravel while siege-brutes haul ladders up the glacis. Tip the ladders from the parapet, then sally out to burn all three engines.",
-  "debrief_win": "Greystone stands bruised and smoking, keeping your sole supply road back to the coastal fleet unbroken.",
-  "debrief_loss": "Greystone's curtain wall collapses in a thunderous avalanche of basalt, burying Rowan's garrison beneath rubble.",
+  "briefing": "Greystone Bastion guards the sole highland artery into the caldera. Stand beside Captain Rowan's garrison and repel three converging Iron Pact siege cohorts including iron-plated Stonebreaker war-golems.",
+  "debrief_win": "Greystone's banners stay upright as the Iron Pact's field siege host shatters against its walls.",
+  "debrief_loss": "Stonebreakers batter down Greystone's gatehouse, severing the rearguard's artery into the caldera.",
   "mid_event_line": "First catapult ablaze—hold the east breach while our sally team hits the center battery!"
  },
  {
   "mission_id": "m39-flight-of-malrik",
-  "briefing": "Blind turncoat Arch-Mage Malrik flees up Ashveil Gorge with stolen cipher-keys and leyline codices, raising jagged obsidian walls behind him. Shatter his barriers, cut through shadow constructs, and catch him on the portal stairs.",
-  "debrief_win": "The summit portal collapsed the instant Malrik fell, leaving his lead-bound grimoires mapping every citadel conduit.",
-  "debrief_loss": "Malrik vanishes into the blinding portal with a mocking laugh as canyon walls cave inward atop your column.",
+  "briefing": "Arch-Mage Malrik—the traitor who leaked the northern border ciphers—flees up Ashveil Gorge toward a summit teleportation shrine. Cut him down before he vanishes with the Iron Pact's ledgers.",
+  "debrief_win": "Malrik collapses on the summit flagstones; his Royal Cipher-Keys expose how the Iron Pact hijacked Morvessa's Salt Tithe to awaken the Caldera.",
+  "debrief_loss": "Malrik vanishes through the summit shrine, erasing the final proof of the Iron Pact's conspiracy.",
   "mid_event_line": "Malrik's crimson robe climbs the upper switchback—he is already chanting the portal keystone!"
  },
  {
   "mission_id": "m40-twofold-assault",
-  "briefing": "Twin crag bastions straddle the citadel causeway like iron jaws, housing rune-engraved mana-cannons that vaporize shield-walls. Move between twenty-heartbeat volleys, climb the blind scree behind both crags, and spike the guns.",
-  "debrief_win": "Cold-iron wedges cracked both mana-barrels, clearing the causeway for heavy infantry to march in full formation.",
-  "debrief_loss": "Twin beams of compressed mana sweep the causeway in crossfire, reducing your assault columns to grey ash.",
+  "briefing": "West Crag and East Crag straddle a mile-deep volcanic chasm barring the Infernal Citadel. Storm both fortresses across swaying stone causeways and crush their reserve counter-charge.",
+  "debrief_win": "Allied standards whip in the thermal gale above both Twin Crags, securing the crossing to the Citadel.",
+  "debrief_loss": "Pushed off the narrow chasm bridges, your vanguard plunges into the volcanic abyss.",
   "mid_event_line": "West mana-cannon is spiked and burning—pivot everything onto the east crag now!"
  },
  {
   "mission_id": "m41-gauntlet-of-iron",
-  "briefing": "Sheer magnetic iron cliffs squeeze the canyon road to thirty paces wide, barred by three spiked portcullises and animated iron golems. Advance under locked tower-shields, crack each gate, and strip the cliffside crossbow nests.",
-  "debrief_win": "Three checkpoints lie in scrap iron; your battered vanguard stands directly beneath the Infernal Citadel's Outer Rampart.",
-  "debrief_loss": "Heavy iron portcullises slam shut behind and ahead, trapping your vanguard in a canyon of crushing steel.",
+  "briefing": "A canyon kill-zone of white-hot quarrels and boiling pitch leads to the Citadel's outer walls. Smash the First Gate, cross the Crossfire Pit, force the Iron Bridge, and slay the Gauntlet Commander.",
+  "debrief_win": "The Gauntlet Commander falls into the slag trench, opening the approach beneath the Outer Rampart.",
+  "debrief_loss": "Pinned under elevated mortar fire and boiling pitch, your column burns inside the Gauntlet of Iron.",
   "mid_event_line": "Second portcullis blown—iron golems step from the side alcoves with white-hot chests!"
  },
  {
   "mission_id": "m42-outer-rampart",
-  "briefing": "Sluggish magma glows in the moat below the Citadel's towering basalt wall. Storm the West and Center gatehouses under wet hides, cut the counterweight winches, and drop the heavy iron drawbridge across the fire.",
-  "debrief_win": "The iron span slammed down across the magma lip, throwing the Citadel's inner courtyard wide open.",
-  "debrief_loss": "Boiling pitch and stone boulders shatter your siege rams at the moat's edge, leaving the drawbridge raised.",
+  "briefing": "The three-hundred-foot basalt wall of the Infernal Citadel looms ahead. While Marshal Vance and Marshal Veyra lead the diversion, breach at least two of the three gatehouses and defeat the Inner Bailey garrison.",
+  "debrief_win": "The basalt rampart breaks and the Inner Bailey falls, opening the descent into the heart of the mountain.",
+  "debrief_loss": "Crossbow volleys and boiling pitch repel your siege teams below the Outer Rampart.",
   "mid_event_line": "West gatehouse winch is cut—push into the Center tower before stone brutes sweep the wall-walk!"
  },
  {
   "mission_id": "m43-three-roads-siege",
-  "briefing": "Three enemy relief armies converge across the ash plains toward Three-Roads Watch to crush your camp against the citadel walls. Strike the northern column first, hit the western powder convoy, and repel the eastern host.",
-  "debrief_win": "Three relief armies lie scattered across the soot, leaving the Infernal Citadel completely isolated inside the caldera.",
-  "debrief_loss": "Three relief armies slam into your camp simultaneously, crushing your surrounded host against the basalt walls.",
+  "briefing": "Three Iron Pact siege columns converge on Three-Roads Watch to sever Vance's rear supply line. Hold the redoubt beside Warden Tessa, break all three columns, then raze their northern staging camp.",
+  "debrief_win": "The Iron Pact's last field reserves collapse in ash, securing the allied rear for the final descent.",
+  "debrief_loss": "Three-Roads Watch is overrun, trapping the allied army inside the Obsidian Caldera.",
   "mid_event_line": "North road cleared—wheel the cavalry west to hit their powder-dray column on the march!"
  },
  {
   "mission_id": "m44-threshold-choice",
-  "briefing": "Inside the geometric obsidian nave, twin colossal doors of pale silver stars and weeping liquid fire flank the central dais. Defeat the Arch-Warden's silent praetor phalanx and choose which threshold Thornvael will cross.",
-  "debrief_win": "The last praetor falls upon the runes, leaving the twin doors of Order and Ember awaiting your hand.",
-  "debrief_loss": "Struck down upon the Threshold dais, your blood feeds the twin seals while Thornvael burns unchallenged.",
+  "briefing": "Beneath the bailey lies the Threshold Chamber where fire and frost hang in balance. Clear the Threshold Wardens, then step onto the West Altar of Order or the East Altar of Ember.",
+  "debrief_win": "The irreversible step is taken, unsealing either the frozen marble Crown Vault or the blazing Furnace Heart.",
+  "debrief_loss": "Struck down between fire and frost, your vanguard dies on the Threshold flagstones.",
   "mid_event_line": "Heat from the Ember Door blisters our shields—break the Arch-Warden's lockstep guard!"
  },
  {
   "mission_id": "m45-crown-of-order",
-  "briefing": "Pale starlight pierces the cracked vault dome above a fractured marble altar. Hold the West and East Anchor Seals against surging shadow praetorians until the celestial leylines align, then set the Crown of Order in place.",
-  "debrief_win": "White-gold radiance washes across the caldera, turning falling ash into grey rain beneath Thornvael's first blue sky.",
-  "debrief_loss": "The Anchor Seals shatter into black dust, and an unyielding tide of shadow extinguishes the last starlight.",
+  "briefing": "Final Chapter — Path of Order: Inside the frozen Crown Vault, sunder the West and East Resonance Anchors with the Sigil of Order and defeat Arch-Warden Korrath to snap the necrotic tether choking Thornvael.",
+  "debrief_win": "Korrath dissolves into harmless gray dust; the Caldera cools into still basalt as clean mountain air ushers in a fragile living dawn.",
+  "debrief_loss": "Turned to white granite by Petrifying Stasis, you stand frozen forever inside the Crown Vault.",
   "mid_event_line": "West Seal bound—form a steel crescent around the East Anchor while harmonics align!"
  },
  {
   "mission_id": "m46-ember-reckoning",
-  "briefing": "Roaring magma lights the Obsidian Throne where First Warden Ashkarath guards the unchained primordial fire. Shatter the West and East Conduit Pillars, survive the splitting floor vents, and break Ashkarath upon the dais.",
-  "debrief_win": "Ashkarath's empty armor collapses into grey dust as obedient ember coils silently around your gauntlets.",
-  "debrief_loss": "Unchained fire surges through your veins, leaving nothing upon the Obsidian Throne but a hollow suit of blackened plate.",
+  "briefing": "Final Chapter — Path of Ember: Inside the blazing Furnace Heart, shatter the West and East Obsidian Conduit Pillars and strike down Ember Overlord Vorak to claim the Crown of Thorns and Cinder.",
+  "debrief_win": "Vorak sinks beneath the magma, leaving the blazing Crown of Thorns and Cinder fused to a single unyielding sovereign will.",
+  "debrief_loss": "Consumed by Vorak's meteor rain and liquid rock, your bones turn to slag inside the Furnace Heart.",
   "mid_event_line": "Both conduit pillars shattered—push onto the Obsidian Dais before magma swallows the floor!"
  }
 ]

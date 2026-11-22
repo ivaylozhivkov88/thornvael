@@ -554,6 +554,27 @@ export class MissionUi {
         portraitSvg: paintedPortrait('npc-groktar', getChieftainGroktarPortraitSvg()),
       };
     }
+    if (lower.includes('korvus') || lower.includes('iron anchor')) {
+      return {
+        name: 'Lord-Captain Korvus',
+        rank: 'The Iron Anchor, Warlord of the Eastern War Pier',
+        portraitSvg: paintedPortrait('frame-ashkarath', getBossOverlordPortraitSvg()),
+      };
+    }
+    if (lower.includes('malrik')) {
+      return {
+        name: 'Arch-Mage Malrik',
+        rank: 'Grand Conspirator of the Iron Pact',
+        portraitSvg: paintedPortrait('frame-vesperion', getHighNecromancerPortraitSvg()),
+      };
+    }
+    if (lower.includes('juggernaut')) {
+      return {
+        name: 'Elder Juggernaut',
+        rank: 'Primeval Titan of the Highland Cairn',
+        portraitSvg: paintedPortrait('frame-gorrathul', getBossOverlordPortraitSvg()),
+      };
+    }
     if (lower.includes('vorak') || lower.includes('ashkarath') || lower.includes('cinder') || lower.includes('ember')) {
       return {
         name: who.includes('Ashkarath') ? 'Ashkarath the Cinder King' : 'Ember Overlord Vorak',
@@ -626,6 +647,18 @@ export class MissionUi {
       ['vance', 'Marshal Vance', 'Supreme Commander of the Highcrest Vanguard', 'npc-commander'],
       ['veyra', 'Harbor Marshal Veyra', 'Defender of the Drowned Bastions & Sea Lanes', 'npc-quillon'],
       ['marlow', 'Reeve Marlow', 'Frontier Bailiff of Thornwick Market', 'npc-hale'],
+      ['aldric', 'Bailiff Aldric', 'Harbor Bailiff & Civic Auditor of Oakhaven', 'portraits/npc-ashbrook-watchman'],
+      ['orla', 'Archivist Orla', 'Keeper of the Highcrest Pre-Calamity Archives', 'portraits/npc-disgraced-scribe'],
+      ['elowen', 'Ward-Scholar Elowen', 'Keeper of Coastal Harmonics at Oakhaven', 'portraits/npc-disgraced-scribe'],
+      ['toren', 'Master-at-Arms Toren', 'Arms Instructor of Oakhaven Ironwood Armory', 'npc-commander'],
+      ['orson', 'Quartermaster Orson', 'Requisition Officer of Harborwatch', 'portraits/npc-border-peddler'],
+      ['elda', 'Weaponsmith Elda', 'Master Meteoric Forger of Highcrest Citadel', 'portraits/npc-foundry-stoker'],
+      ['tessa', 'Warden Tessa', 'Outrider Captain of Three-Roads Watch', 'npc-commander'],
+      ['hal', 'Bridgewright Hal', 'Canal Engineer of the Harborwatch Riverlocks', 'portraits/npc-harbor-pilot'],
+      ['kael', 'Huntsman Kael', 'Highland Tracker of the Iron Coast', 'npc-scout'],
+      ['gorin', 'Miner Gorin', 'Foreman of the Freed Deep Quarry Smiths', 'portraits/npc-foundry-stoker'],
+      ['seti', 'Tomb-Notary Seti', 'Chronicler & Bailiff of Redmarsh Outpost', 'portraits/npc-disgraced-scribe'],
+      ['cael', 'Father Cael', 'Northern Parish Priest of Thornwick', 'portraits/npc-disgraced-scribe'],
       ['outpost scout', 'Frontier Ranger', 'Highland Reconnaissance Scout', 'npc-scout'],
     ];
     for (const [key, name, rank, imgKey] of named) {

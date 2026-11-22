@@ -1,4 +1,5 @@
-import { blip } from '../audio';
+import { blip, playDialogueVoice, setDialogueDucking, stopDialogueVoice } from '../audio';
+import { resolveDialogueVoiceClip } from '../audio-catalog';
 import { type CampaignNode } from '../campaign';
 import { type CampaignRecord } from '../flow';
 import {
@@ -484,7 +485,15 @@ export function openStorySlideshowModal(
     ariaLabel: player.sequence.title,
     closeOnEscape: false,
     closeOnBackdrop: false,
-    onClose: onFinish,
+    onClose: () => {
+      try {
+        stopDialogueVoice();
+        setDialogueDucking(false);
+      } catch {
+        // Safe in headless or audio-disabled runs
+      }
+      onFinish?.();
+    },
     onKeyDown: (e, h) => {
       if (e.key === 'Escape' || e.code === 'Space') {
         e.preventDefault();
@@ -536,6 +545,19 @@ export function openStorySlideshowModal(
   const draw = (): void => {
     handle.box.replaceChildren();
     const slide = player.sequence.slides[player.index];
+    const speechText = `${slide.heading}. ${slide.caption}${slide.reflection ? ` ${slide.reflection}` : ''}`;
+    try {
+      stopDialogueVoice();
+      const clipId = resolveDialogueVoiceClip('Narrator', speechText);
+      if (clipId) {
+        setDialogueDucking(true);
+        playDialogueVoice(clipId);
+      } else {
+        setDialogueDucking(false);
+      }
+    } catch {
+      // Safe in headless or audio-disabled runs
+    }
 
     const header = el('div', 'sh-slideshow-header');
     header.append(el('h2', 'sh-slideshow-title', player.sequence.title));

@@ -242,5 +242,5 @@ export function replayStory(player: StoryPlayer): StoryPlayer {
 }
 
 // Re-export complete narrative continuity module (Acts I-IV complete story flags, dialogue scenes, barks, hub evolution)
-export * from './story-complete';
+export * from './story-complete.ts';
 
