@@ -12,7 +12,7 @@ const { defaultBrowserType: _pixelBrowser, ...pixel5 } = devices['Pixel 5'];
 const { defaultBrowserType: _iphoneBrowser, ...iphone13 } = devices['iPhone 13'];
 
 test.afterEach(async ({ page }) => {
-  await page.goto('about:blank').catch(() => {});
+  await page.goto('about:blank', { timeout: 5_000, waitUntil: 'commit' }).catch(() => {});
 });
 
 test.describe('Biome seed skirmish smoke (H2)', () => {
@@ -86,7 +86,7 @@ for (const [label, descriptor] of [
         expect(await page.evaluate(() => (window as GameWindow).__game!.sim.tick)).toBeGreaterThanOrEqual(0);
         expect(errors).toEqual([]);
       } finally {
-        await page.goto('about:blank').catch(() => {});
+        await page.goto('about:blank', { timeout: 5_000, waitUntil: 'commit' }).catch(() => {});
         await context.close();
       }
     });
@@ -95,26 +95,32 @@ for (const [label, descriptor] of [
       const errors: string[] = [];
       page.on('pageerror', (e) => errors.push(e.message));
 
-      await page.goto('/thornvael/?randskirmish=7&players=2&biome=forest&hero=warrior,m,medium');
-      await page.waitForFunction(() => Boolean((window as GameWindow).__game));
-
+      // Register & activate Service Worker on the lightweight menu first (no WebGL contention).
+      await page.goto('/thornvael/');
       await page.evaluate(() => navigator.serviceWorker.ready.then(() => true));
       await page.reload();
-      await page
-        .waitForFunction(
-          () =>
-            navigator.serviceWorker.controller !== null &&
-            Boolean((window as GameWindow).__game) &&
-            Array.from(document.images).every((img) => img.complete),
-          undefined,
-          { timeout: 30_000 },
-        )
-        .catch(() => {});
+      await page.waitForFunction(() => navigator.serviceWorker.controller !== null, undefined, {
+        polling: 200,
+        timeout: 30_000,
+      });
+
+      // Warm the runtime sprite/audio caches for the skirmish map once while online.
+      await page.goto('/thornvael/?randskirmish=7&players=2&biome=forest&hero=warrior,m,medium');
+      await page.waitForFunction(
+        () => Boolean((window as GameWindow).__game) && Array.from(document.images).every((img) => img.complete),
+        undefined,
+        { polling: 250, timeout: process.env.CI ? 90_000 : 45_000 },
+      );
+
+      // Tear down the active WebGL loop before toggling WebKit offline mode so NetworkProcess IPC never stalls.
+      await page.goto('/thornvael/', { waitUntil: 'domcontentloaded' });
+      await page.waitForTimeout(300);
 
       await context.setOffline(true);
       try {
-        await page.reload();
+        await page.goto('/thornvael/?randskirmish=7&players=2&biome=forest&hero=warrior,m,medium');
         await page.waitForFunction(() => Boolean((window as GameWindow).__game), undefined, {
+          polling: 250,
           timeout: process.env.CI ? 90_000 : 45_000,
         });
         await expect(page.locator('#game')).toBeVisible();
@@ -158,20 +164,24 @@ test.describe('Act 1 Campaign Flow E2E', () => {
     await skipStory.click();
 
     await page.waitForURL(/\?mission=ford&campaign=m01-blood-at-the-ford/);
-    await page.waitForFunction(() => {
-      const retry = document.querySelector('.tv-loading-retry-btn');
-      if (retry) {
-        const msg = document.querySelector('.tv-loading-err-msg')?.textContent || 'Load failed';
-        throw new Error(`Mission 1 loading failed: ${msg}`);
-      }
-      const dlg = document.getElementById('gothic-dialogue');
-      for (let clicks = 0; clicks < 4 && dlg && !dlg.hidden; clicks++) {
-        dlg.querySelector<HTMLButtonElement>('.gothic-continue-btn')?.click();
-      }
-      if (dlg && !dlg.hidden) return false;
-      const g = (window as GameWindow).__game;
-      return Boolean(g && g.sim.tick >= 1);
-    });
+    await page.waitForFunction(
+      () => {
+        const retry = document.querySelector('.tv-loading-retry-btn');
+        if (retry) {
+          const msg = document.querySelector('.tv-loading-err-msg')?.textContent || 'Load failed';
+          throw new Error(`Mission 1 loading failed: ${msg}`);
+        }
+        const dlg = document.getElementById('gothic-dialogue');
+        for (let clicks = 0; clicks < 4 && dlg && !dlg.hidden; clicks++) {
+          dlg.querySelector<HTMLButtonElement>('.gothic-continue-btn')?.click();
+        }
+        if (dlg && !dlg.hidden) return false;
+        const g = (window as GameWindow).__game;
+        return Boolean(g && g.sim.tick >= 1);
+      },
+      undefined,
+      { polling: 200 },
+    );
     const missionState = await page.evaluate(() => {
       const g = (window as GameWindow).__game as unknown as {
         sim: { hero: { cls: number; female: boolean } | null; count: number; script?: { st: { status: number } } };
@@ -205,34 +215,42 @@ test.describe('Act 1 Campaign Flow E2E', () => {
     });
 
     const townBtn = page.getByRole('button', { name: /return to thornwick market/i });
-    await page.waitForFunction(() => {
-      const dlg = document.getElementById('gothic-dialogue');
-      for (let clicks = 0; clicks < 4 && dlg && !dlg.hidden; clicks++) {
-        dlg.querySelector<HTMLButtonElement>('.gothic-continue-btn')?.click();
-      }
-      if (dlg && !dlg.hidden) return false;
-      return Boolean(document.querySelector('.btn-victory-primary'));
-    });
+    await page.waitForFunction(
+      () => {
+        const dlg = document.getElementById('gothic-dialogue');
+        for (let clicks = 0; clicks < 4 && dlg && !dlg.hidden; clicks++) {
+          dlg.querySelector<HTMLButtonElement>('.gothic-continue-btn')?.click();
+        }
+        if (dlg && !dlg.hidden) return false;
+        return Boolean(document.querySelector('.btn-victory-primary'));
+      },
+      undefined,
+      { polling: 200 },
+    );
     await expect(townBtn).toBeVisible({ timeout: 10000 });
     await townBtn.click({ force: true });
 
     await page.waitForURL(/\?mission=market&campaign=town-thornwick/);
-    await page.waitForFunction(() => {
-      const retry = document.querySelector('.tv-loading-retry-btn');
-      if (retry) {
-        const msg = document.querySelector('.tv-loading-err-msg')?.textContent || 'Load failed';
-        throw new Error(`Thornwick loading failed: ${msg}`);
-      }
-      const dlg = document.getElementById('gothic-dialogue');
-      for (let clicks = 0; clicks < 4 && dlg && !dlg.hidden; clicks++) {
-        dlg.querySelector<HTMLButtonElement>('.gothic-continue-btn')?.click();
-      }
-      if (dlg && !dlg.hidden) return false;
-      const g = (window as GameWindow).__game as unknown as
-        | { sim: { tick: number; script?: { st: { msgs: number[] } } }; paused?: () => boolean }
-        | undefined;
-      return Boolean(g && g.sim.tick >= 10 && !g.paused?.() && (g.sim.script?.st.msgs.length ?? 0) >= 2);
-    });
+    await page.waitForFunction(
+      () => {
+        const retry = document.querySelector('.tv-loading-retry-btn');
+        if (retry) {
+          const msg = document.querySelector('.tv-loading-err-msg')?.textContent || 'Load failed';
+          throw new Error(`Thornwick loading failed: ${msg}`);
+        }
+        const dlg = document.getElementById('gothic-dialogue');
+        for (let clicks = 0; clicks < 4 && dlg && !dlg.hidden; clicks++) {
+          dlg.querySelector<HTMLButtonElement>('.gothic-continue-btn')?.click();
+        }
+        if (dlg && !dlg.hidden) return false;
+        const g = (window as GameWindow).__game as unknown as
+          | { sim: { tick: number; script?: { st: { msgs: number[] } } }; paused?: () => boolean }
+          | undefined;
+        return Boolean(g && g.sim.tick >= 10 && !g.paused?.() && (g.sim.script?.st.msgs.length ?? 0) >= 2);
+      },
+      undefined,
+      { polling: 200 },
+    );
 
     const townState = await page.evaluate(() => {
       const g = (window as GameWindow).__game as unknown as {
@@ -270,7 +288,7 @@ test.describe('Act 1 Campaign Flow E2E', () => {
     await fenNode.click({ force: true });
     await page.getByRole('button', { name: /go/i }).click({ force: true });
     await page.waitForURL(/\?mission=fen&campaign=m02-whispers-in-the-fen/);
-    await page.waitForFunction(() => Boolean((window as GameWindow).__game));
+    await page.waitForFunction(() => Boolean((window as GameWindow).__game), undefined, { polling: 200 });
 
     expect(errors).toEqual([]);
   });
