@@ -15,7 +15,8 @@ import { createRarityBadgeEl, itemIconEl } from './townicons';
 import { getRumorsByStage, loadTavernRumors, type CampaignStage, type TavernRumorEntry } from './data/text/index';
 import { equipmentLayers } from './hero-presentation';
 import { buildDoll, dollSet, lookFor } from './doll';
-import { play, playNpcBark, playTraderBark, playTownAmbience, stopTownAmbience, playEquipSfx, blip, playSpeakerSwitchThrill, setDialogueDucking } from './audio';
+import { play, playNpcBark, playTraderBark, playTownAmbience, stopTownAmbience, playEquipSfx, blip, playSpeakerSwitchThrill, setDialogueDucking, playDialogueVoice, stopDialogueVoice } from './audio';
+import { resolveBarkVoiceClip, resolveDialogueVoiceClip } from './audio-catalog';
 import {
   getWardenHalePortraitSvg,
   getHighArcanistVaelenPortraitSvg,
@@ -171,13 +172,18 @@ export class TownUi {
     this.root.scrollTop = 0;
     if (role === Role.Shop) {
       playTraderBark('blacksmith', 'greet');
+      const smithClip = resolveBarkVoiceClip(`npc.hobb_smith.greet.${(this.town % 2) + 1}`);
+      if (smithClip) playDialogueVoice(smithClip);
       playTownAmbience('blacksmith');
       this.ctx.onShopEnter();
     } else if (role === Role.Tavern) {
       playTraderBark('barkeep', 'greet');
+      playDialogueVoice(`town__barkeep_greet_${(this.town % 2) + 1}`);
       playTownAmbience('tavern');
     } else if (role === Role.School) {
       playTraderBark('alchemist', 'greet');
+      const sorcClip = resolveBarkVoiceClip(`npc.marta_alchemist.greet.${(this.town % 2) + 1}`);
+      if (sorcClip) playDialogueVoice(sorcClip);
       playTownAmbience('dungeon');
     }
     return true;
@@ -216,6 +222,7 @@ export class TownUi {
   close(): void {
     this.hideCardTooltip();
     this.loreModal.hidden = true;
+    try { stopDialogueVoice(); } catch {}
     try { setDialogueDucking(false); } catch {}
     if (this.loreTypingTimer !== null) {
       clearInterval(this.loreTypingTimer);
@@ -1365,10 +1372,23 @@ export class TownUi {
       const isSwitch = this.lastLoreSpeakerIdx !== activeSpeakerIdx;
       this.lastLoreSpeakerIdx = activeSpeakerIdx;
 
+      const loreClip = resolveDialogueVoiceClip(currentSpeaker.name, currentTopic.speech);
+      try {
+        stopDialogueVoice();
+      } catch {
+        // Safe in headless or audio-disabled test runs
+      }
       if (isSwitch) {
         try {
           playSpeakerSwitchThrill();
-          playNpcBark(currentSpeaker.name, 0);
+          if (!loreClip) playNpcBark(currentSpeaker.name, 0);
+        } catch {
+          // Safe in headless or audio-disabled test runs
+        }
+      }
+      if (loreClip) {
+        try {
+          playDialogueVoice(loreClip);
         } catch {
           // Safe in headless or audio-disabled test runs
         }
@@ -1446,6 +1466,7 @@ export class TownUi {
       const closeBtn = button('Close [Esc]', () => {
         this.loreModal.hidden = true;
         this.lastLoreSpeakerIdx = -1;
+        try { stopDialogueVoice(); } catch {}
         try { setDialogueDucking(false); } catch {}
         if (this.loreTypingTimer !== null) {
           clearInterval(this.loreTypingTimer);
@@ -1471,7 +1492,7 @@ export class TownUi {
         }
       };
 
-      // Typewriter animation
+      // Silent typewriter animation (no synthesized per-letter blips)
       if (this.loreTypingTimer !== null) clearInterval(this.loreTypingTimer);
       let charIdx = 0;
       const fullText = currentTopic.speech;
@@ -1479,9 +1500,6 @@ export class TownUi {
       this.loreTypingTimer = window.setInterval(() => {
         if (charIdx < fullText.length) {
           speechEl.textContent += fullText[charIdx];
-          if (charIdx % 3 === 0 && fullText[charIdx] !== ' ') {
-            try { blip(); } catch {}
-          }
           charIdx++;
         } else {
           if (this.loreTypingTimer !== null) {

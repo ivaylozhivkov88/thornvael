@@ -816,9 +816,9 @@ export class MissionUi {
 
   /**
    * Character Portrait Dialogue Box (#gothic-dialogue):
-   * Speaker portrait on left, gold filigree nameplate, typewriter typography with typing sound cue.
+   * Speaker portrait on left, gold filigree nameplate, clean silent typewriter typography.
    */
-  private showDialogue(who: string, text: string, buttonText: string, done: () => void): void {
+  private showDialogue(who: string, text: string, buttonText: string, done: () => void, msgKey?: string): void {
     const loadingEl = typeof document !== 'undefined' ? document.getElementById('tv-loading-screen') : null;
     if (loadingEl) {
       loadingEl.classList?.remove('is-hiding');
@@ -839,7 +839,8 @@ export class MissionUi {
 
     const info = this.getSpeakerInfo(who);
     const formatted = this.formatDiscoDialogue(who, text, allowChoices);
-    const voiceClip = resolveDialogueVoiceClip(who, text, this.doc.name);
+    const explicitOrCurrentKey = msgKey ?? (this.currentMsgId !== undefined ? `msg.${this.currentMsgId}` : '');
+    const voiceClip = resolveDialogueVoiceClip(who, text, this.doc.name, explicitOrCurrentKey);
 
     const isSpeakerSwitch = this.lastSpeaker === null || this.lastSpeaker.toLowerCase() !== who.toLowerCase();
     this.lastSpeaker = who;
@@ -1011,17 +1012,10 @@ export class MissionUi {
       }
     };
 
-    // Typewriter interval with audio cue
+    // Silent typewriter reveal (no synthesized per-letter blips)
     this.typingTimer = window.setInterval(() => {
       if (charIdx < formatted.speech.length) {
         speechEl.textContent += formatted.speech[charIdx];
-        if (charIdx % 3 === 0 && formatted.speech[charIdx] !== ' ') {
-          try {
-            blip();
-          } catch {
-            // Audio context safely ignored in test/headless
-          }
-        }
         charIdx++;
       } else {
         finishTyping();
@@ -1069,7 +1063,7 @@ export class MissionUi {
       if (i >= scene.length) return go();
       this.showDialogue(speakerName(scene[i].speaker), scene[i].line, i + 1 < scene.length ? S.mission.next : S.mission.begin, () => play(i + 1));
     };
-    this.showDialogue('Warden Hale', `${title}: ${body}`, scene.length ? S.mission.next : S.mission.begin, () => play(0));
+    this.showDialogue('Warden Hale', `${title}: ${body}`, scene.length ? S.mission.next : S.mission.begin, () => play(0), 'body');
   }
 
   /** Called a few times a second: handles dialogue queue and live HUD objectives */

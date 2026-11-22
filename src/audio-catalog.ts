@@ -2,6 +2,7 @@
  * Typed audio catalog mapping all Thornvael music themes and SFX categories
  * to their canonical `public/audio/<id>.m4a` asset IDs.
  */
+import { BARK_VOICE_INDEX, MAP_VOICE_INDEX, TEXT_VOICE_INDEX, VOICE_CLIP_IDS } from './voice-clips';
 
 export type MusicCategory =
   | 'menu'
@@ -489,15 +490,10 @@ export function getEndingMusic(ending: string): string {
   return MUSIC_ENDINGS.crown;
 }
 
-export const DIALOGUE_VOICE_CLIPS = [
-  'm01_briefing_hale',
-  'cs_act1_start_01_narrator',
-  'cs_act1_start_02_garrick',
-  'cs_act1_start_03_garrick',
-] as const;
+export const DIALOGUE_VOICE_CLIPS = VOICE_CLIP_IDS;
 
 const MISSION1_VOICE_MATCHERS: readonly {
-  clipId: (typeof DIALOGUE_VOICE_CLIPS)[number];
+  clipId: string;
   match: (whoLower: string, text: string, docName: string) => boolean;
 }[] = [
   {
@@ -521,11 +517,58 @@ const MISSION1_VOICE_MATCHERS: readonly {
   },
 ];
 
-/** Resolves Mission 1 / Act 1 neural human voiceover clip ID (`public/audio/voices/<id>.m4a`), or null. */
-export function resolveDialogueVoiceClip(who: string, text: string, docName = ''): string | null {
+export function slugifyVoiceKey(value: string): string {
+  return value
+    .toLowerCase()
+    .replace(/[^a-z0-9]+/g, '_')
+    .replace(/^_+|_+$/g, '');
+}
+
+export function normalizeVoiceHashKey(text: string): string {
+  let speech = text.trim().replace(/^\[([A-Z\s/-]+(?::\s*[A-Za-z]+)?)\]\s*/, '');
+  speech = speech.replace(/^\*\((.*?)\)\*\s*/s, '').trim();
+  const clean = speech.toLowerCase().replace(/[^a-z0-9]+/g, '');
+  let h1 = 0x811c9dc5;
+  let h2 = 0x811c9dc5;
+  for (let i = 0; i < clean.length; i++) {
+    const c = clean.charCodeAt(i);
+    h1 ^= c;
+    h1 = Math.imul(h1, 0x01000193) >>> 0;
+    h2 ^= c ^ (i & 0xff);
+    h2 = Math.imul(h2, 0x01000193) >>> 0;
+  }
+  return `${h1.toString(16).padStart(8, '0')}${h2.toString(16).padStart(8, '0')}`;
+}
+
+/** Resolves neural human voiceover clip ID (`public/audio/voices/<id>.m4a`), or null. */
+export function resolveDialogueVoiceClip(
+  who: string,
+  text: string,
+  docName = '',
+  msgKey = '',
+): string | null {
+  if (docName && msgKey) {
+    const mapClip = MAP_VOICE_INDEX[`${slugifyVoiceKey(docName)}::${msgKey}`];
+    if (mapClip) return mapClip;
+  }
   const whoLower = who.trim().toLowerCase();
   for (const entry of MISSION1_VOICE_MATCHERS) {
     if (entry.match(whoLower, text, docName)) return entry.clipId;
   }
+  const byText = TEXT_VOICE_INDEX[normalizeVoiceHashKey(text)];
+  if (byText) return byText;
+  if (docName && text.startsWith(`${docName}:`)) {
+    const stripped = text.slice(docName.length + 1).trim();
+    const byBody = TEXT_VOICE_INDEX[normalizeVoiceHashKey(stripped)];
+    if (byBody) return byBody;
+  }
   return null;
+}
+
+/** Resolves a mercenary or NPC bark clip ID from `barks.json` key or bark text, or null. */
+export function resolveBarkVoiceClip(barkKeyOrText: string): string | null {
+  if (!barkKeyOrText) return null;
+  const byKey = BARK_VOICE_INDEX[barkKeyOrText];
+  if (byKey) return byKey;
+  return TEXT_VOICE_INDEX[normalizeVoiceHashKey(barkKeyOrText)] ?? null;
 }

@@ -19,8 +19,10 @@ import {
   getMonsterDeathSfx,
   getMusicForAct,
   getMusicForSkirmish,
+  resolveBarkVoiceClip,
   resolveDialogueVoiceClip,
 } from '../src/audio-catalog';
+import { BARKS_PACK } from '../src/data/text/index';
 import {
   AdaptiveAudioDirector,
   BusVoiceCap,
@@ -282,5 +284,27 @@ describe('spatial audio and per-bus voice cap', () => {
       ),
     ).toBe('cs_act1_start_03_garrick');
     expect(resolveDialogueVoiceClip('Warden Hale', 'Some later mission line.', 'Thornwick Market')).toBeNull();
+  });
+
+  it('resolves all campaign mission dialogues, town lore, and barks across the full catalog', () => {
+    expect(resolveDialogueVoiceClip('Warden Hale', 'Whispers in the Fen: ...', 'Whispers in the Fen', 'body')).toBe(
+      'map__whispers_in_the_fen__body',
+    );
+    expect(resolveDialogueVoiceClip('Scout Wren', 'The first nest is ash.', 'Whispers in the Fen', 'msg.2')).toBe(
+      'map__whispers_in_the_fen__msg_2',
+    );
+    expect(resolveDialogueVoiceClip('Reeve Marlow', '...', 'Thornwick Market', 'npc.reeve')).toBe(
+      'map__thornwick_market__npc_reeve',
+    );
+    expect(
+      resolveDialogueVoiceClip(
+        'Warden Hale',
+        "[WAR LOGIC - Medium: Success] *(A damp mountain gale rattles the tarnished plates of his gorget. He exhales a gray plume smelling of bitter chicory and cold tallow.)* Look at the driftwood wedged against the weir, Commander. Those aren't peasant hay-carts—those are Border Mint bullion wagons burned down to the iron axle-trees. Secure Sunken Ford first, then push into the marsh and the northern timber depots.",
+        'The Border Fords & Weeping Ossuary',
+      ),
+    ).toBe('map__the_border_fords_weeping_ossuary__msg_1');
+    for (const barkKey of Object.keys(BARKS_PACK)) {
+      expect(resolveBarkVoiceClip(barkKey), `Missing bark clip for ${barkKey}`).toBeTruthy();
+    }
   });
 });

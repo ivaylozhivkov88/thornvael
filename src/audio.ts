@@ -221,10 +221,10 @@ export const COMBAT_CROSSFADE_DURATION_MS = 1600;
 /** Cooldown hysteresis in milliseconds before fading from battle back to exploration (4+ seconds). */
 export const COMBAT_HYSTERESIS_MS = 4000;
 
-/** Dialog and town shop ducking in decibels (-4 dB) to ensure clarity. */
-export const DIALOGUE_SHOP_DUCK_DB = -4;
+/** Dialog and town shop ducking in decibels (-14 dB) to ensure voice clarity. */
+export const DIALOGUE_SHOP_DUCK_DB = -14;
 
-/** Linear gain multiplier corresponding to -4 dB: 10^(-4/20) ≈ 0.630957. */
+/** Linear gain multiplier corresponding to -14 dB: 10^(-14/20) ≈ 0.199526. */
 export const DIALOGUE_SHOP_DUCK_GAIN = Math.pow(10, DIALOGUE_SHOP_DUCK_DB / 20);
 
 /** Boss roar ducking multiplier: 0.25 (-12 dB) for dramatic impact. */
@@ -1819,7 +1819,7 @@ export function setDialogueDucking(active: boolean): void {
   setMusicDucking('dialogue', active);
 }
 
-/** Slightly ducks background music (-4dB) when town shops are open. */
+/** Ducks background music (-14dB) when dialogues or town shops open. */
 export function setShopDucking(active: boolean): void {
   if (shopDuckTimer !== null && !active) {
     clearTimeout(shopDuckTimer);
@@ -1955,7 +1955,7 @@ export function playDialogueVoice(clipId: string): void {
       try {
         activeVoiceSource = ctx.createMediaElementSource(el);
         activeVoiceGain = ctx.createGain();
-        activeVoiceGain.gain.value = 1.0;
+        activeVoiceGain.gain.value = 1.6;
         activeVoiceSource.connect(activeVoiceGain).connect(uiBus);
       } catch {
         el.volume = Math.max(0, Math.min(1, masterVol * uiVol));

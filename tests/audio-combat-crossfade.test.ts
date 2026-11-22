@@ -112,6 +112,9 @@ class MediaMock {
   pause = vi.fn(() => {
     this.paused = true;
   });
+  addEventListener = vi.fn();
+  removeAttribute = vi.fn();
+  load = vi.fn();
   constructor(public src: string) {
     MediaMock.all.push(this);
   }
@@ -161,8 +164,8 @@ describe('Adaptive Audio & Dynamic Combat Transitions', () => {
     expect(COMBAT_HYSTERESIS_MS).toBe(4000);
     expect(COMBAT_HYSTERESIS_MS).toBeGreaterThanOrEqual(4000);
 
-    expect(DIALOGUE_SHOP_DUCK_DB).toBe(-4);
-    expect(DIALOGUE_SHOP_DUCK_GAIN).toBeCloseTo(0.630957, 5);
+    expect(DIALOGUE_SHOP_DUCK_DB).toBe(-14);
+    expect(DIALOGUE_SHOP_DUCK_GAIN).toBeCloseTo(Math.pow(10, -14 / 20), 5);
     expect(BOSS_ROAR_DUCK_GAIN).toBe(0.25);
   });
 
@@ -294,7 +297,7 @@ describe('Adaptive Audio & Dynamic Combat Transitions', () => {
     expect(musicBus.gain.value).toBeCloseTo(0.32 * 1.0, 4);
   });
 
-  it('slightly ducks background music (-4dB) when dialogs or town shops open and restores on close', async () => {
+  it('ducks background music (-14dB) when dialogs or town shops open and restores on close', async () => {
     audio.unlock();
     await audio.whenLoaded();
     await settle();
@@ -307,7 +310,7 @@ describe('Adaptive Audio & Dynamic Combat Transitions', () => {
     audio.setDialogueDucking(true);
     expect(audio.isMusicDucked()).toBe(true);
     expect(audio.getMusicDuckMultiplier()).toBeCloseTo(DIALOGUE_SHOP_DUCK_GAIN, 4);
-    expect(audio.getMusicDuckMultiplier()).toBeCloseTo(Math.pow(10, -4 / 20), 4);
+    expect(audio.getMusicDuckMultiplier()).toBeCloseTo(Math.pow(10, -14 / 20), 4);
     expect(musicBus.gain.value).toBeCloseTo(0.32 * DIALOGUE_SHOP_DUCK_GAIN, 4);
 
     // Dialogue closes
@@ -334,5 +337,20 @@ describe('Adaptive Audio & Dynamic Combat Transitions', () => {
     vi.advanceTimersByTime(2100);
     expect(audio.isMusicDucked()).toBe(false);
     expect(musicBus.gain.value).toBeCloseTo(0.32, 5);
+  });
+
+  it('boosts human dialogue voice gain to 1.6 on the UI bus', async () => {
+    audio.unlock();
+    await audio.whenLoaded();
+    await settle();
+
+    const [, , uiBus] = ContextMock.all[0].gainNodes;
+    const beforeCount = ContextMock.all[0].gainNodes.length;
+    audio.playDialogueVoice('m01_briefing_hale');
+
+    const voiceGain = ContextMock.all[0].gainNodes.slice(beforeCount).find((g) => g.connectedTo.includes(uiBus));
+    expect(voiceGain).toBeDefined();
+    expect(voiceGain?.gain.value).toBeCloseTo(1.6, 5);
+    audio.stopDialogueVoice();
   });
 });

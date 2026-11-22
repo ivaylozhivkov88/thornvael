@@ -1,7 +1,8 @@
 import { registerWorker } from './updategate';
 import { LoadingScreen } from './loadingscreen';
 import { createInstallController, isInstallPrompt } from './pwa-install';
-import { attachBlurMuteListeners, audioState, blip, cancelShopEntry, isAudioRunning, isMusicPlaying, play, playBossMusic, playEndingMusic, playMercBark, playMonsterDeathVoice, playMonsterHitVoice, playNpcBark, playSurfaceFootstep, playPickupRustle, playShopEntry, playNotEnoughMana, playInventoryFull, playLowHpHeartbeat, playUiError, resumeAudio, setAmbience, setMusic, setMusicAct, setMusicRegion, setSpecialMusic, setAmbienceAct, setSfx, setSkirmishMusic, suspendAudio, unlock, updateAdaptiveCombat, type MusicMode } from './audio';
+import { attachBlurMuteListeners, audioState, blip, cancelShopEntry, isAudioRunning, isMusicPlaying, play, playBossMusic, playDialogueVoice, playEndingMusic, playMercBark, playMonsterDeathVoice, playMonsterHitVoice, playNpcBark, playSurfaceFootstep, playPickupRustle, playShopEntry, playNotEnoughMana, playInventoryFull, playLowHpHeartbeat, playUiError, resumeAudio, setAmbience, setDialogueDucking, setMusic, setMusicAct, setMusicRegion, setSpecialMusic, setAmbienceAct, setSfx, setSkirmishMusic, stopDialogueVoice, suspendAudio, unlock, updateAdaptiveCombat, type MusicMode } from './audio';
+import { resolveBarkVoiceClip, resolveDialogueVoiceClip } from './audio-catalog';
 import { isBossArt } from './sprites/units';
 import { MusicDirector, classifyWeapon, cueFor, pickPotionDrink, pickTerrainStep, type CueContext } from './audiologic';
 import { ControlGroups, GROUP_COUNT } from './groups';
@@ -468,10 +469,12 @@ function execute(kind: ArmKind, sx: number, sy: number): boolean {
   switch (kind) {
     case 'move':
       queue({ type: 'move', ids, x, y, loose: looseMode });
+      playMercVoiceBark(ids, 'order');
       break;
     case 'attack': {
       const t = forced() === 2 ? pickUnit(sim.count, posAny, sx, sy, PICK) : enemy;
       queue(t >= 0 ? { type: 'order', order: 'attack', ids, target: t } : { type: 'order', order: 'attack', ids, x, y });
+      playMercVoiceBark(ids, t >= 0 ? 'combat' : 'order');
       break;
     }
     case 'guard':
@@ -1230,12 +1233,41 @@ function arm(kind: ArmKind | null): void {
   canvas.style.cursor = kind ? 'crosshair' : '';
 }
 
+let lastMercVoiceAt = 0;
+let mercVoiceSeq = 0;
+const ACT_MERC_BARK_IDS: Record<number, { warrior: string; archer: string; mage: string }> = {
+  1: { warrior: 'thornwick_levyman', archer: 'alder_poacher', mage: 'lantern_novice' },
+  2: { warrior: 'quarry_sapper', archer: 'cistern_acolyte', mage: 'tomb_notary' },
+  3: { warrior: 'oakhaven_marine', archer: 'harbor_arbalest', mage: 'storm_channeler' },
+  4: { warrior: 'ironcamp_halberdier', archer: 'penitent_flagellant', mage: 'ash_battlemage' },
+};
+
+function playMercVoiceBark(ids: readonly number[], category: 'select' | 'order' | 'combat'): void {
+  if (ids.length === 0) return;
+  if (townUi.open || !$('panel').hidden || missionUi?.isDialogueOpen()) return;
+  const now = performance.now();
+  if (now - lastMercVoiceAt < 4500) return;
+  const mercId = ids.find((id) => alive(id) && sim.team[id] === 0 && sim.cb.kind[id] !== Kind.Hero);
+  if (mercId === undefined) return;
+  const k = sim.cb.kind[mercId];
+  const role = k === Kind.Archer ? 'archer' : k === Kind.Mage || k === Kind.Imp ? 'mage' : 'warrior';
+  const actPack = ACT_MERC_BARK_IDS[missionAct] ?? ACT_MERC_BARK_IDS[1];
+  const arch = actPack[role];
+  const idx = (mercVoiceSeq++ % 2) + 1;
+  const clip = resolveBarkVoiceClip(`merc.${arch}.${category}.${idx}`);
+  if (clip) {
+    lastMercVoiceAt = now;
+    playDialogueVoice(clip);
+  }
+}
+
 function select(ids: number[], additive: boolean, toggleSingle = true): void {
   if (!additive) selected.clear();
   for (const id of ids) {
     if (additive && toggleSingle && ids.length === 1 && selected.has(id)) selected.delete(id);
     else selected.add(id);
   }
+  playMercVoiceBark(ids, 'select');
 }
 
 let holdShown = false;
@@ -2293,7 +2325,13 @@ function arrive(town: number, role: number, npc: number): boolean {
     const n = t.def.npcs![npc];
     if (!heroNear(n.x + 0.5, n.y + 0.5, TALK_REACH)) return false;
     $('toast').hidden = true;
-    openPanel(n.name, loadedMission?.doc.text[n.text] ?? '');
+    const npcText = loadedMission?.doc.text[n.text] ?? '';
+    openPanel(n.name, npcText);
+    const npcClip = resolveDialogueVoiceClip(n.name, npcText, loadedMission?.doc.name ?? '', n.text);
+    if (npcClip) {
+      setDialogueDucking(true);
+      playDialogueVoice(npcClip);
+    }
     return true;
   }
   const c = t.centre[role]!;
@@ -3930,6 +3968,8 @@ function openPanel(title: string, body: string, restart = false): void {
 }
 $('panel-close').onclick = () => {
   $('panel').hidden = true;
+  stopDialogueVoice();
+  setDialogueDucking(false);
 };
 $('panel-restart').onclick = () => location.reload();
 $('btn-credits').onclick = () => openPanel(S.credits, S.creditsBody);
