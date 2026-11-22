@@ -1,8 +1,8 @@
 import { getItemFlavor } from './missioncontent';
 import { getItemLore } from './codex';
-import { computePassiveBonuses, createSkillTreeState, getTotalAllocatedPoints } from './skills/engine';
+import { allocateSkill, canAllocateSkill, computePassiveBonuses, createSkillTreeState, getTotalAllocatedPoints } from './skills/engine';
 import { getSkillTreeForClass } from './skills/trees';
-import type { SkillClass, SkillTreeState } from './skills/types';
+import type { ComputedPassiveBonuses, SkillClass, SkillNodeDef, SkillTreeState } from './skills/types';
 import { DEFS, Kind, M, MODN } from './sim/combat';
 import { DIFF_NAMES, INV_MAX, SKILL_NAMES, SKILL_TIP, SKILL_MAX, WHY_TEXT, blocker, derive, equipmentStamp, heroKnowsSpell, startState, totals, type EquipmentAction, type HeroState } from './sim/hero';
 import { equipmentAction, equipmentLayers, equipmentPreview, skillProgress, type EquipmentSource as Sel } from './hero-presentation';
@@ -91,6 +91,51 @@ export function tabStrip(active: number, go: (n: number) => void): HTMLElement {
 }
 
 const SCHOOL_NAMES = ['fire', 'water', 'air', 'earth', 'astral'] as const;
+
+function applyClassSkillPassiveDelta(
+  sim: Sim,
+  heroUnitId: number,
+  prev: ComputedPassiveBonuses,
+  next: ComputedPassiveBonuses,
+): void {
+  const cb = sim.cb;
+  if (!cb?.mod) return;
+  const o = heroUnitId * MODN;
+  const dDef = next.def - prev.def;
+  if (dDef) cb.mod[o + M.Def] += dDef;
+  const dAbs = next.abs - prev.abs;
+  if (dAbs) cb.mod[o + M.Abs] += dAbs;
+  const dAcc = next.acc - prev.acc;
+  if (dAcc) cb.mod[o + M.Acc] += dAcc;
+  const dFireRes = next.fireResPct - prev.fireResPct;
+  if (dFireRes) cb.mod[o + M.Res + 0] += dFireRes;
+  const dPow = (next.firePowPct + next.waterPowPct) - (prev.firePowPct + prev.waterPowPct);
+  if (dPow) cb.mod[o + M.Pow] += dPow;
+
+  const dMelee = next.meleeDmgPct - prev.meleeDmgPct;
+  if (dMelee !== 0) {
+    const curMin = DEFS[Kind.Hero].min + cb.mod[o + M.Min];
+    const curMax = DEFS[Kind.Hero].max + cb.mod[o + M.Max];
+    cb.mod[o + M.Min] += Math.max(1, Math.round((curMin * dMelee) / 100));
+    cb.mod[o + M.Max] += Math.max(1, Math.round((curMax * dMelee) / 100));
+  }
+
+  const dHp = next.maxHp - prev.maxHp;
+  if (dHp !== 0) {
+    cb.hpMax[heroUnitId] = Math.min(32000, cb.hpMax[heroUnitId] + dHp);
+    if (cb.hp[heroUnitId] > 0) {
+      cb.hp[heroUnitId] = Math.min(cb.hpMax[heroUnitId], cb.hp[heroUnitId] + Math.max(0, dHp));
+    }
+  }
+
+  const dMana = next.maxMana - prev.maxMana;
+  if (dMana !== 0) {
+    cb.manaMax[heroUnitId] = Math.min(32000, cb.manaMax[heroUnitId] + dMana);
+    cb.mana[heroUnitId] = Math.min(cb.manaMax[heroUnitId], cb.mana[heroUnitId] + Math.max(0, dMana));
+  }
+
+  cb.emit(6, sim.x[heroUnitId], sim.y[heroUnitId], 0, 0);
+}
 
 function formatBonusStats(b: SetBonus): string {
   const parts: string[] = [];
@@ -605,6 +650,7 @@ export class HeroUi {
   private sel: Sel | null = null;
   private sigInv = '';
   private sigStats = '';
+  private skillTreeOpen = false;
   private readonly sheet = document.getElementById('sheet')!;
   private readonly head = document.getElementById('sheet-head')!;
   private readonly body = document.getElementById('sheet-body')!;
@@ -959,7 +1005,7 @@ export class HeroUi {
       return;
     }
     const cb = sim.cb;
-    const sig = JSON.stringify([h, cb.hp[h.id], cb.hpMax[h.id], cb.mana[h.id], cb.manaMax[h.id], h.statPoints]);
+    const sig = JSON.stringify([h, cb.hp[h.id], cb.hpMax[h.id], cb.mana[h.id], cb.manaMax[h.id], h.statPoints, h.skillPoints, this.skillTreeOpen]);
     if (!force && sig === this.sigStats) return;
     this.sigStats = sig;
 
@@ -1219,12 +1265,99 @@ export class HeroUi {
       skillsStrip.append(chip);
     }
     const treeCls: SkillClass = h.cls === 1 ? 'mage' : 'warrior';
-    const treeState: SkillTreeState = createSkillTreeState(treeCls, h.level ?? 1);
+    const hExt = h as HeroState & { classSkills?: Record<string, number> };
+    const savedRanks = hExt.classSkills ?? {};
+    const baseTreeState: SkillTreeState = createSkillTreeState(treeCls, h.level ?? 1, savedRanks);
+    const treeState: SkillTreeState = h.skillPoints !== undefined
+      ? { ...baseTreeState, availablePoints: h.skillPoints }
+      : baseTreeState;
     const treeNodes = getSkillTreeForClass(treeCls);
     const treePassives = computePassiveBonuses(treeState);
     const treeSpent = getTotalAllocatedPoints(treeState);
     skillsStrip.dataset.skillTree = `${treeCls}:${treeNodes.length}:${treeSpent}/${treeState.availablePoints}:m${treePassives.meleeDmgPct}:f${treePassives.firePowPct}`;
+
+    const treeToggle = el('button', `skill-tree-toggle-btn${treeState.availablePoints > 0 ? ' has-pts' : ''}`);
+    treeToggle.type = 'button';
+    treeToggle.dataset.k = 'skill-tree-toggle';
+    treeToggle.style.cssText = 'min-height:24px; min-width:auto; padding:2px 7px; font-size:10px; border:1px solid #8c6230; border-radius:4px; background:#2b1e12; color:#ffd77a; cursor:pointer;';
+    treeToggle.textContent = treeState.availablePoints > 0
+      ? `🌳 Skill Tree (+${treeState.availablePoints})`
+      : `🌳 Skill Tree (${treeSpent})`;
+    treeToggle.onclick = () => {
+      this.skillTreeOpen = !this.skillTreeOpen;
+      this.renderStats(true);
+    };
+    skillsStrip.append(treeToggle);
     b.append(skillsStrip);
+
+    // 6. Interactive Class Skill Tree Drawer (compact, viewport-contained)
+    const treeDrawer = el('div', 'class-skill-tree-drawer');
+    treeDrawer.dataset.k = 'class-skill-tree';
+    treeDrawer.hidden = !this.skillTreeOpen;
+    treeDrawer.style.cssText = 'margin-top:4px; padding:6px; background:rgba(18,12,8,0.95); border:1px solid #6b4c28; border-radius:4px; max-height:195px; overflow-y:auto;';
+
+    const treeHdr = el('div', 'skill-tree-hdr');
+    treeHdr.style.cssText = 'display:flex; justify-content:space-between; align-items:center; margin-bottom:4px; font-size:11px; color:#ffd77a;';
+    const passiveSummary: string[] = [];
+    if (treePassives.meleeDmgPct) passiveSummary.push(`+${treePassives.meleeDmgPct}% Melee`);
+    if (treePassives.def) passiveSummary.push(`+${treePassives.def} Def`);
+    if (treePassives.abs) passiveSummary.push(`+${treePassives.abs} Abs`);
+    if (treePassives.maxHp) passiveSummary.push(`+${treePassives.maxHp} HP`);
+    if (treePassives.critPct) passiveSummary.push(`+${treePassives.critPct}% Crit`);
+    if (treePassives.acc) passiveSummary.push(`+${treePassives.acc} Acc`);
+    if (treePassives.firePowPct) passiveSummary.push(`+${treePassives.firePowPct}% Fire`);
+    if (treePassives.waterPowPct) passiveSummary.push(`+${treePassives.waterPowPct}% Cold`);
+    if (treePassives.maxMana) passiveSummary.push(`+${treePassives.maxMana} Mana`);
+    treeHdr.innerHTML = `<strong>${treeCls === 'warrior' ? '⚔ Warrior' : '🔮 Mage'} Skill Tree</strong><span>Points: <b>${treeState.availablePoints}</b>${passiveSummary.length ? ` · <small>${passiveSummary.join(', ')}</small>` : ''}</span>`;
+    treeDrawer.append(treeHdr);
+
+    const branchesWrap = el('div', 'skill-tree-branches');
+    branchesWrap.style.cssText = 'display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:4px;';
+    const branchOrder: string[] = [];
+    const byBranch = new Map<string, SkillNodeDef[]>();
+    for (const node of treeNodes) {
+      if (!byBranch.has(node.branch)) {
+        branchOrder.push(node.branch);
+        byBranch.set(node.branch, []);
+      }
+      byBranch.get(node.branch)!.push(node);
+    }
+
+    for (const branchName of branchOrder) {
+      const col = el('div', 'skill-tree-branch');
+      col.style.cssText = 'display:flex; flex-direction:column; gap:3px; background:rgba(0,0,0,0.3); padding:4px; border:1px solid #3c2a19; border-radius:3px;';
+      const bh = el('div', 'skill-branch-title', branchName);
+      bh.style.cssText = 'font-size:10px; font-weight:700; color:#d4a759; text-align:center; border-bottom:1px solid #3c2a19; padding-bottom:2px;';
+      col.append(bh);
+
+      for (const node of byBranch.get(branchName)!) {
+        const curRank = treeState.ranks[node.id] ?? 0;
+        const check = canAllocateSkill(treeState, node.id);
+        const nb = el('button', `skill-node-btn${check.ok ? ' is-ready' : ''}${curRank > 0 ? ' is-learned' : ''}`);
+        nb.type = 'button';
+        nb.dataset.skillNode = node.id;
+        nb.disabled = !check.ok;
+        nb.style.cssText = `min-height:26px; min-width:auto; width:100%; display:flex; justify-content:space-between; align-items:center; gap:4px; padding:2px 5px; font-size:10px; text-align:left; border-radius:3px; border:1px solid ${check.ok ? '#c89b3c' : curRank > 0 ? '#6e5633' : '#3a2b1c'}; background:${curRank > 0 ? '#2b2013' : '#19120b'}; color:${curRank > 0 ? '#ffe5a3' : '#bfa888'}; cursor:${check.ok ? 'pointer' : 'default'};`;
+        nb.innerHTML = `<span style="overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">${node.name}</span><b>${curRank}/${node.maxRank}</b>`;
+        this.ctx.tipOn(nb, `${node.name} (${node.type}, Rank ${curRank}/${node.maxRank}): ${node.desc}${check.ok ? '' : ` [${check.reason}]`}`);
+        nb.onclick = (e) => {
+          e.stopPropagation();
+          const nextState = allocateSkill(treeState, node.id);
+          if (!nextState) return;
+          hExt.classSkills = { ...nextState.ranks };
+          h.skillPoints = nextState.availablePoints;
+          const nextPassives = computePassiveBonuses(nextState);
+          applyClassSkillPassiveDelta(sim, i, treePassives, nextPassives);
+          this.ctx.toast(`${node.name} Rank ${nextState.ranks[node.id]}/${node.maxRank}`);
+          this.renderStats(true);
+        };
+        col.append(nb);
+      }
+      branchesWrap.append(col);
+    }
+
+    treeDrawer.append(branchesWrap);
+    b.append(treeDrawer);
 
     return b;
   }

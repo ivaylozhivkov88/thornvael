@@ -1,6 +1,11 @@
 import { describe, expect, it } from 'vitest';
-import { Kind } from '../src/sim/combat';
+import type { GameMap } from '../src/map';
+import { Elem, Kind, strike } from '../src/sim/combat';
 import { Slot, Ik, itemId, getItemDef, type ItemDef } from '../src/sim/items';
+import { ALL_RUNES } from '../src/sim/runes';
+import { Sim } from '../src/sim/sim';
+import { createHero } from '../src/sim/hero';
+import { isGrailDiscovered } from '../src/codex';
 import {
   VETERAN_RANKS,
   MERCENARY_PERKS,
@@ -26,7 +31,6 @@ import {
   Role,
   type TownState,
 } from '../src/sim/town';
-import type { Sim } from '../src/sim/sim';
 import type { HeroState } from '../src/sim/hero';
 
 function makeTestHero(): HeroState {
@@ -381,6 +385,146 @@ describe('Tavern Bounty Contracts & Board', () => {
     townCommand(mockSim, { type: 'town', op: 'claim_bounty', town: 0, v: 0 });
     expect(b.completed).toBe(true);
     expect(mockSim.cb.gold[0]).toBe(goldBefore + b.rewardGold);
+    expect(mockSim.hero!.xp).toBeGreaterThan(0);
+    const expectedRune = ALL_RUNES.find((r) => r.d2Name === b.rewardRune || r.name === b.rewardRune);
+    expect(expectedRune).toBeDefined();
+    expect(mockSim.hero!.inv.some((s) => s.item === itemId(expectedRune!.name))).toBe(true);
+  });
+});
+
+function flatField(w = 20, h = 20): GameMap {
+  return {
+    w,
+    h,
+    terrain: new Uint8Array(w * h),
+    height: new Uint8Array(w * h),
+    blocked: new Uint8Array(w * h),
+    objects: [],
+    light: new Uint8Array(w * h).fill(200),
+  };
+}
+
+describe('Combat Integration: Fallen Veterans, Boss Bounties & High Ground', () => {
+  it('populates sim.town.fallenVeterans when a player-team mercenary dies and tracks mercenary kills', () => {
+    const sim = new Sim(flatField(), 42, [0, 0, 1], {
+      kinds: [Kind.Hero, Kind.Warrior, Kind.Gnoll],
+      combat: true,
+    });
+    sim.place(0, 5, 5);
+    sim.place(1, 6, 5);
+    sim.place(2, 7, 5);
+    createHero(sim, 0, 0, false, 1);
+
+    // Mercenary unit 1 kills enemy unit 2
+    strike(sim, 2, 500, 500, Elem.Physical, 100, 1);
+    expect(sim.cb.hp[2]).toBe(0);
+    expect(sim.town.mercenaries?.length).toBe(1);
+    expect(sim.town.mercenaries![0].unitId).toBe(1);
+    expect(sim.town.mercenaries![0].kills).toBe(1);
+
+    // Mercenary unit 1 dies in combat -> recorded in sim.town.fallenVeterans
+    strike(sim, 1, 500, 500, Elem.Physical, 100, 2);
+    expect(sim.cb.hp[1]).toBe(0);
+    expect(sim.town.fallenVeterans?.length).toBe(1);
+    expect(sim.town.fallenVeterans![0].unitId).toBe(1);
+    expect(sim.town.fallenVeterans![0].fallen).toBe(true);
+  });
+
+  it('marks accepted bounty completed on boss kill and awards gold, XP, and actual rune on claim_bounty', () => {
+    const sim = new Sim(flatField(), 77, [0, 1], {
+      kinds: [Kind.Hero, Kind.Gnoll],
+      combat: true,
+      families: ['', 'morvessa'],
+      bossMods: [[], ['fire_enchanted', 'extra_fast']],
+    });
+    sim.place(0, 5, 5);
+    sim.place(1, 6, 5);
+    createHero(sim, 0, 0, false, 1);
+    sim.town = {
+      ...newTownState(1),
+      inside: Role.Tavern,
+    };
+    sim.towns = [{ def: { name: 'Thornwick' }, centre: [[5, 5], [5, 5], [5, 5]], door: [[5, 5], [5, 5], [5, 5]] }];
+
+    const bounty = sim.town.bounties![0][0];
+    townCommand(sim, { type: 'town', op: 'accept_bounty', town: 0, v: 0 });
+    expect(bounty.accepted).toBe(true);
+    expect(bounty.completed).toBe(false);
+
+    // Kill the boss
+    strike(sim, 1, 5000, 5000, Elem.Fire, 100, 0);
+    expect(sim.cb.hp[1]).toBe(0);
+    expect(bounty.completed).toBe(true);
+    expect(isGrailDiscovered('trophy:morvessa')).toBe(true);
+
+    const goldBefore = sim.cb.gold[0];
+    const xpBefore = sim.hero!.xp ?? 0;
+    townCommand(sim, { type: 'town', op: 'claim_bounty', town: 0, v: 0 });
+
+    expect(sim.cb.gold[0]).toBe(goldBefore + bounty.rewardGold);
+    expect((sim.hero!.xp ?? 0) + (sim.hero!.level! > 1 ? 100 : 0)).toBeGreaterThan(xpBefore);
+    const runeDef = ALL_RUNES.find((r) => r.d2Name === bounty.rewardRune || r.name === bounty.rewardRune);
+    expect(runeDef).toBeDefined();
+    const expectedItemId = itemId(runeDef!.name);
+    expect(expectedItemId).toBeGreaterThanOrEqual(0);
+    expect(sim.hero!.inv.some((s) => s.item === expectedItemId && s.n >= 1)).toBe(true);
+  });
+
+  it('applies high ground (+15% accuracy, +10% crit) and low ground (-15% accuracy) modifiers in strike', () => {
+    const mapHigh = flatField();
+    // Attacker at (5,5) height 3, Defender at (6,5) height 0 -> dh = +3 (>= 2)
+    mapHigh.height[5 * mapHigh.w + 5] = 3;
+    mapHigh.height[5 * mapHigh.w + 6] = 0;
+
+    const simHigh = new Sim(mapHigh, 123, [0, 1], {
+      kinds: [Kind.Warrior, Kind.Golem],
+      combat: true,
+      hpMul: 100,
+    });
+    simHigh.place(0, 5, 5);
+    simHigh.place(1, 6, 5);
+    simHigh.cb.log = [];
+
+    const simFlat = new Sim(flatField(), 123, [0, 1], {
+      kinds: [Kind.Warrior, Kind.Golem],
+      combat: true,
+      hpMul: 100,
+    });
+    simFlat.place(0, 5, 5);
+    simFlat.place(1, 6, 5);
+    simFlat.cb.log = [];
+
+    const mapLow = flatField();
+    // Attacker at (5,5) height 0, Defender at (6,5) height 3 -> dh = -3 (<= -2)
+    mapLow.height[5 * mapLow.w + 5] = 0;
+    mapLow.height[5 * mapLow.w + 6] = 3;
+
+    const simLow = new Sim(mapLow, 123, [0, 1], {
+      kinds: [Kind.Warrior, Kind.Golem],
+      combat: true,
+      hpMul: 100,
+    });
+    simLow.place(0, 5, 5);
+    simLow.place(1, 6, 5);
+    simLow.cb.log = [];
+
+    let highCrits = 0;
+    for (let i = 0; i < 120; i++) {
+      simHigh.cb.fx = [];
+      simHigh.cb.recordFx = true;
+      strike(simHigh, 1, 10, 10, Elem.Physical, 8, 0);
+      if (simHigh.cb.fx.some((f) => f.type === 6)) highCrits++;
+      strike(simFlat, 1, 10, 10, Elem.Physical, 8, 0);
+      strike(simLow, 1, 10, 10, Elem.Physical, 8, 0);
+    }
+
+    const highChance = simHigh.cb.log![0].chance;
+    const flatChance = simFlat.cb.log![0].chance;
+    const lowChance = simLow.cb.log![0].chance;
+
+    expect(highChance).toBeGreaterThan(flatChance);
+    expect(lowChance).toBeLessThan(flatChance);
+    expect(highCrits).toBeGreaterThan(0);
   });
 });
 

@@ -8,6 +8,10 @@ import { ALL_SPELLS, KNOWN_HI, MAGE_SPELLS, NST, SPELLS, St, Tk } from './spelld
 import { addStatus, autoCast, castSpell, clearAllStatuses, knows, spellHit, statusTick, validTarget } from './spells';
 import { addHeroXp, dropLoot, heroTick, heroUse, pickBag, respawnHero } from './hero';
 import { PART_COUNT, PART_DMG, PART_WEIGHT, Slot, getItemDef } from './items';
+import { computeHighGroundBonus } from './tactics';
+import { checkAndConsumeMercAutoPotion, createMercenaryRecord, registerMercenaryKill } from './mercs';
+import { getSuperUniqueForUnit } from './super-uniques';
+import { discoverBossTrophy } from '../codex';
 
 /** Per-unit stat bonuses (hero gear, attributes, skills), MODN entries per unit. Def and Abs count on every part; PDef and PAbs are four entries, one per body part. */
 export const M = { Min: 0, Max: 1, Acc: 2, Def: 3, Abs: 4, Res: 5, Pow: 10, Regen: 11, PDef: 12, PAbs: 16 } as const;
@@ -548,7 +552,17 @@ export function strike(sim: Sim, t: number, min: number, max: number, elem: numb
     // Reference-checked formula on an AR/Def scale (stat points x AR_SCALE); equal stats and levels give about 70%, as before.
     const aLvl = unitLevel(sim, src);
     const dLvl = unitLevel(sim, t);
+    let hgAccMult = 1.0;
+    let hgCritBonus = 0;
+    if (src >= 0 && sim.map?.height) {
+      const hg = computeHighGroundBonus(sim.map, sim.x[src] / FP, sim.y[src] / FP, sim.x[t] / FP, sim.y[t] / FP);
+      hgAccMult = hg.accuracyMult;
+      hgCritBonus = hg.critBonusPct;
+    }
     chance = Math.max(15, Math.min(95, Math.floor(calculateD2HitChance(acc * AR_SCALE + 40, dfn * AR_SCALE, aLvl, dLvl) * 1.4)));
+    if (hgAccMult !== 1.0) {
+      chance = Math.max(15, Math.min(95, Math.floor(chance * hgAccMult)));
+    }
     roll = sim.rng.int(100);
     if (roll >= chance) {
       if (cb.log) logHit(sim, src, t, elem, part, chance, roll, raw, 0, -1);
@@ -560,9 +574,12 @@ export function strike(sim: Sim, t: number, min: number, max: number, elem: numb
       cb.emit(11, sim.x[t], sim.y[t], 0, 0); // shield turns the blow aside
       return;
     }
-    if (src >= 0 && sim.hero !== null && src === sim.hero.id) {
-      const wep = sim.hero.eq[0];
-      const crit = Math.floor(combineCritChance(Math.floor(sim.hero.attr[1] / 8), (wep >= 0 ? getItemDef(wep)?.crit : 0) ?? 0));
+    const isHeroSrc = src >= 0 && sim.hero !== null && src === sim.hero.id;
+    if (isHeroSrc || (src >= 0 && hgCritBonus > 0)) {
+      const baseCrit = isHeroSrc
+        ? combineCritChance(Math.floor(sim.hero!.attr[1] / 8), (sim.hero!.eq[0] >= 0 ? getItemDef(sim.hero!.eq[0])?.crit : 0) ?? 0)
+        : 0;
+      const crit = Math.min(100, Math.floor(baseCrit) + hgCritBonus);
       if (crit > 0 && sim.rng.int(100) < crit) {
         dmg *= 2; // critical strike
         cb.emit(6, sim.x[t], sim.y[t], 1, Elem.Physical);
@@ -640,10 +657,23 @@ export function strike(sim: Sim, t: number, min: number, max: number, elem: numb
     }
   }
 
-  if (cb.hp[t] <= 0) die(sim, t, elem, depth);
+  if (cb.hp[t] > 0 && sim.team[t] === 0 && (sim.hero === null || t !== sim.hero.id) && sim.town?.mercenaries?.length) {
+    const merc = sim.town.mercenaries.find((m) => m.unitId === t && !m.fallen);
+    if (merc) {
+      checkAndConsumeMercAutoPotion(merc, cb.hp[t], cb.hpMax[t], (potId) => {
+        const pDef = getItemDef(potId);
+        const healAmt = pDef?.heal && pDef.heal > 0 ? pDef.heal : Math.max(20, Math.floor(cb.hpMax[t] * 0.4));
+        cb.hp[t] = Math.min(cb.hpMax[t], cb.hp[t] + healAmt);
+        cb.emit(7, sim.x[t], sim.y[t], healAmt, 0);
+        return true;
+      });
+    }
+  }
+
+  if (cb.hp[t] <= 0) die(sim, t, elem, depth, src);
 }
 
-function die(sim: Sim, t: number, elem = 0, depth = 0): void {
+function die(sim: Sim, t: number, elem = 0, depth = 0, src = -1): void {
   if (sim.hero !== null && t === sim.hero.id) {
     respawnHero(sim);
     return;
@@ -680,7 +710,67 @@ function die(sim: Sim, t: number, elem = 0, depth = 0): void {
   clearAllStatuses(sim, t);
   sim.stop(t);
   cb.emit(2, sim.x[t], sim.y[t], 0, 0);
+  if (sim.team[t] === 0 && (sim.hero === null || t !== sim.hero.id) && sim.town) {
+    sim.town.fallenVeterans = sim.town.fallenVeterans ?? [];
+    const existingMerc = sim.town.mercenaries?.find((m) => m.unitId === t);
+    if (existingMerc) {
+      existingMerc.fallen = true;
+      if (!sim.town.fallenVeterans.some((v) => v.unitId === t)) {
+        sim.town.fallenVeterans.push(existingMerc);
+      }
+    } else if (!sim.town.fallenVeterans.some((v) => v.unitId === t)) {
+      const vet = createMercenaryRecord(`merc-${t}`, DEFS[cb.kind[t]]?.name ?? 'Mercenary', cb.kind[t], t);
+      vet.fallen = true;
+      sim.town.fallenVeterans.push(vet);
+    }
+  }
   if (sim.team[t] !== 0) {
+    if (src >= 0 && src < sim.count && sim.team[src] === 0 && (sim.hero === null || src !== sim.hero.id) && sim.town) {
+      sim.town.mercenaries = sim.town.mercenaries ?? [];
+      let mercRec = sim.town.mercenaries.find((m) => m.unitId === src);
+      if (!mercRec) {
+        mercRec = createMercenaryRecord(`merc-${src}`, DEFS[cb.kind[src]]?.name ?? 'Mercenary', cb.kind[src], src);
+        sim.town.mercenaries.push(mercRec);
+      }
+      if (registerMercenaryKill(mercRec)) {
+        cb.emit(6, sim.x[src], sim.y[src], mercRec.rank, 0);
+      }
+    }
+    const fam = cb.family[t] ?? '';
+    const su = getSuperUniqueForUnit(sim, t);
+    const isActBoss = fam === 'morvessa' || fam === 'gorrathul' || fam === 'vesperion' || fam === 'ashkarath';
+    const isBoss = isActBoss || Boolean(su) || (cb.bossMods[t]?.length ?? 0) > 0;
+    if (isBoss) {
+      const trophyId = su?.id || fam;
+      if (trophyId) {
+        discoverBossTrophy(trophyId, 'normal', {
+          heroName: sim.hero?.name,
+          heroLevel: sim.hero?.level,
+          droppedBy: su?.name || fam,
+        });
+      }
+      if (sim.town?.bounties) {
+        let matchedSpecific = false;
+        for (const townList of sim.town.bounties) {
+          for (const bounty of townList) {
+            if (!bounty.accepted || bounty.completed) continue;
+            if ((su && (bounty.bossId === su.id || bounty.family === su.family)) || (fam && (bounty.bossId === fam || bounty.family === fam))) {
+              bounty.completed = true;
+              matchedSpecific = true;
+            }
+          }
+        }
+        if (!matchedSpecific) {
+          for (const townList of sim.town.bounties) {
+            for (const bounty of townList) {
+              if (bounty.accepted && !bounty.completed) {
+                bounty.completed = true;
+              }
+            }
+          }
+        }
+      }
+    }
     if (sim.hero !== null) {
       const tier = cb.tier[t] || 1;
       const bmods = cb.bossMods[t];

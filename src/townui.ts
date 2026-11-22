@@ -942,18 +942,30 @@ export class TownUi {
         info.append(header, desc);
         const rewardText = `${bounty.rewardGold}g${bounty.rewardRune ? ` + Rune [${bounty.rewardRune}]` : ''}`;
         const rew = el('b', 'bounty-reward', rewardText);
-        const btn = button(
-          bounty.completed ? 'Claimed' : bounty.accepted ? 'Accepted' : 'Accept Hunt',
-          () => {
-            if (!bounty.accepted) {
-              this.cmd('accept_bounty', k);
-              play('sfx_quest_accept', 5);
-              playTraderBark('guildmaster', 'buy');
-              this.render();
-            }
+        const canClaim = Boolean(bounty.completed && !bounty.claimed);
+        const inProgress = Boolean(bounty.accepted && !bounty.completed);
+        const btnLabel = bounty.claimed
+          ? 'Claimed'
+          : canClaim
+            ? '🏆 Claim Reward'
+            : inProgress
+              ? '⏳ In Progress'
+              : 'Accept Hunt';
+        const btn = button(btnLabel, () => {
+          if (canClaim) {
+            this.cmd('claim_bounty', k);
+            play('sfx_quest_complete', 5);
+            playTraderBark('guildmaster', 'buy');
+            this.ctx.changed();
+            this.render();
+          } else if (!bounty.accepted && !bounty.completed) {
+            this.cmd('accept_bounty', k);
+            play('sfx_quest_accept', 5);
+            playTraderBark('guildmaster', 'buy');
+            this.render();
           }
-        );
-        btn.disabled = bounty.accepted || bounty.completed;
+        });
+        btn.disabled = Boolean(bounty.claimed || inProgress);
         l.append(info, rew, btn);
         bl.append(l);
       });

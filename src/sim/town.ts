@@ -1,14 +1,15 @@
 import { isBlockedAt } from '../map';
 import { UNIQUE_ARTIFACTS } from './affixes';
-import { Did, INV_MAX, SKILL_MAX, Why, addItem, blocker, heroKnowsSpell, learnSpell, recalc, spellForHero, takeItem } from './hero';
+import { Did, INV_MAX, SKILL_MAX, Why, addHeroXp, addItem, blocker, heroKnowsSpell, learnSpell, recalc, spellForHero, takeItem } from './hero';
 import { mercPrice } from './difficulty';
 import { getItemDef, getUnidentifiedName, ITEMS, Ik, itemId, Slot, transmuteItems, type ItemDef } from './items';
 import { FP } from './path';
+import { ALL_RUNES } from './runes';
 import { revive } from './spells';
-import { Ord } from './combat';
+import { DEFS, Ord } from './combat';
 import { isSetItem, ALL_SET_ITEMS } from './sets';
 import { SUPER_UNIQUES } from './super-uniques';
-import { templeResurrectionCost, type MercenaryRecord } from './mercs';
+import { createMercenaryRecord, templeResurrectionCost, type MercenaryRecord } from './mercs';
 import type { Sim } from './sim';
 
 /**
@@ -100,6 +101,7 @@ export interface BountyContract {
   summary: string;
   accepted: boolean;
   completed: boolean;
+  claimed?: boolean;
 }
 
 export interface TownState {
@@ -111,6 +113,7 @@ export interface TownState {
   forge?: number; // campaign forge level: shop stock reaches this many tiers higher
   barracks?: number; // campaign barracks: percent off hire fees
   bounties?: BountyContract[][]; // per town
+  mercenaries?: MercenaryRecord[]; // active hired mercenary veterancy records
   fallenVeterans?: MercenaryRecord[]; // list of fallen veterans for temple resurrection
 }
 
@@ -201,6 +204,7 @@ export function newTownState(towns: number): TownState {
     inside: -1,
     paid: 0,
     bounties: Array.from({ length: towns }, (_, i) => generateTownBounties(i, 1)),
+    mercenaries: [],
     fallenVeterans: [],
   };
 }
@@ -749,6 +753,10 @@ export function townCommand(sim: Sim, cmd: TownCommand): void {
       sim.y[u] = sim.ty[u] = sim.cb.py[u] = Math.round((dy + 0.5) * FP);
       sim.stop(u);
       sim.hidden[u] = 0;
+      st.mercenaries = st.mercenaries ?? [];
+      if (!st.mercenaries.some((rec) => rec.unitId === u)) {
+        st.mercenaries.push(createMercenaryRecord(`merc-${u}`, DEFS[sim.cb.kind[u]]?.name ?? 'Mercenary', sim.cb.kind[u], u, fee));
+      }
       followHero(sim, u);
       sim.cb.recount(sim.team);
       emit(sim, Tfx.Hired, u, 0);
@@ -764,6 +772,12 @@ export function townCommand(sim: Sim, cmd: TownCommand): void {
       const u = m.unit;
       revive(sim, u);
       sim.cb.hp[u] = sim.cb.hpMax[u];
+      if (st.fallenVeterans) {
+        const fvIdx = st.fallenVeterans.findIndex((vet) => vet.unitId === u);
+        if (fvIdx >= 0) st.fallenVeterans.splice(fvIdx, 1);
+      }
+      const mercRec = st.mercenaries?.find((rec) => rec.unitId === u);
+      if (mercRec) mercRec.fallen = false;
       sim.x[u] = sim.tx[u] = sim.cb.px[u] = Math.round((dx + 0.5) * FP);
       sim.y[u] = sim.ty[u] = sim.cb.py[u] = Math.round((dy + 0.5) * FP);
       sim.stop(u);
@@ -819,6 +833,8 @@ export function townCommand(sim: Sim, cmd: TownCommand): void {
       gold[0] -= tithe;
       st.fallenVeterans.splice(vIdx, 1);
       vet.fallen = false;
+      const mercRec = st.mercenaries?.find((rec) => rec.unitId === vet.unitId);
+      if (mercRec) mercRec.fallen = false;
 
       // Resurrect unit at school / temple door
       if (vet.unitId >= 0 && sim.cb.hp.length > vet.unitId) {
@@ -849,15 +865,24 @@ export function townCommand(sim: Sim, cmd: TownCommand): void {
       const townBounties = st.bounties?.[cmd.town];
       if (!townBounties || v < 0 || v >= townBounties.length) return refuse(sim, Why.None);
       const bounty = townBounties[v];
+      if (bounty.claimed) return refuse(sim, Why.NoEffect);
       if (!bounty.completed && !bounty.accepted) return refuse(sim, Why.None);
       gold[0] += bounty.rewardGold;
+      const xpReward = bounty.act * 150;
+      if (sim.cb?.hpMax && sim.cb?.manaMax && sim.cb?.mana) {
+        addHeroXp(sim, xpReward);
+      } else {
+        h.xp = (h.xp ?? 0) + xpReward;
+      }
       if (bounty.rewardRune) {
-        const runeId = itemId(bounty.rewardRune);
+        const runeDef = ALL_RUNES.find((r) => r.d2Name === bounty.rewardRune || r.name === bounty.rewardRune);
+        const runeId = itemId(runeDef ? runeDef.name : bounty.rewardRune);
         if (runeId >= 0 && h.inv.length < INV_MAX) {
           addItem(h, runeId);
         }
       }
       bounty.completed = true;
+      bounty.claimed = true;
       emit(sim, Tfx.Paid, bounty.rewardGold, 0);
       if (sim.cb?.mod) recalc(sim);
       return;
@@ -1180,5 +1205,30 @@ export function hashTown(t: TownState, mix: (v: number) => void): void {
     mix(q.reward);
     for (const v of q.ids) mix(v);
     for (const v of q.pts) mix(v);
+  }
+  if (t.mercenaries?.length) {
+    for (const m of t.mercenaries) {
+      mix(m.unitId + 1);
+      mix(m.kills);
+      mix(m.missionsSurvived);
+      mix(m.rank);
+      mix(m.fallen ? 1 : 0);
+    }
+  }
+  if (t.fallenVeterans?.length) {
+    for (const m of t.fallenVeterans) {
+      mix(m.unitId + 1);
+      mix(m.kills);
+      mix(m.rank);
+    }
+  }
+  if (t.bounties?.length) {
+    for (const list of t.bounties) {
+      for (const b of list) {
+        if (b.accepted || b.completed || b.claimed) {
+          mix(b.act * 8 + (b.accepted ? 1 : 0) + (b.completed ? 2 : 0) + (b.claimed ? 4 : 0));
+        }
+      }
+    }
   }
 }
