@@ -131,6 +131,20 @@ describe('wiki data pipeline', () => {
     const classes = (out as Record<string, WikiEntry[]>).classes;
     const necro = classes.find((c) => c.id === 'necromancer');
     expect(necro?.img?.src).toBe('townart/portrait-necromancer.png');
+
+    // Every bestiary creature (128), mercenary (24), and class/named hero (8) MUST have BOTH:
+    //   1) a real non-atlas painted portrait (`img`)
+    //   2) an in-game figure sprite (`sprite` with atlas + 4 turnaround frames)
+    for (const cat of ['bestiary', 'mercs', 'classes'] as const) {
+      const list = (out as Record<string, WikiEntry[]>)[cat] ?? [];
+      expect(list.length, `expected non-empty ${cat}`).toBeGreaterThan(0);
+      for (const entry of list) {
+        expect(entry.img?.atlas, `${cat}/${entry.id} portrait img must not fall back to sprite atlas`).toBeUndefined();
+        expect(entry.sprite, `${cat}/${entry.id} missing in-game figure sprite`).toBeTruthy();
+        expect(entry.sprite?.atlas, `${cat}/${entry.id} sprite missing atlas coords`).toBeTruthy();
+        expect(entry.sprite?.turnaround?.length, `${cat}/${entry.id} sprite missing 4-way turnaround`).toBe(4);
+      }
+    }
   });
 
   it('includes Holy Grail, Gameplay Assists, High Ground, Veterancy, and Bounty articles plus Grail Tome/Drop Clues on gear', () => {

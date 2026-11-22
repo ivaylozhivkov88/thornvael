@@ -1,5 +1,5 @@
-import { useState } from 'preact/hooks';
-import type { WikiEntryType, WikiImage } from './types';
+import { useEffect, useState } from 'preact/hooks';
+import type { WikiEntryType, WikiImage, WikiImageAtlas } from './types';
 
 interface Props {
   img: WikiImage | null | undefined;
@@ -33,6 +33,39 @@ const SILHOUETTE_GLYPH: Record<WikiEntryType, string> = {
   glossary: 'M14 14h16a6 6 0 016 6v30a4 4 0 00-4-4H14V14zm36 0H34a6 6 0 00-6 6v30a4 4 0 014-4h18V14z',
 };
 
+function AtlasFrameBox({
+  url,
+  atlas,
+  alt,
+  size,
+  className = '',
+}: {
+  url: string;
+  atlas: WikiImageAtlas;
+  alt: string;
+  size: number;
+  className?: string;
+}) {
+  const { x, y, w, h, sw, sh } = atlas;
+  const scale = size / Math.max(w, h);
+  const boxW = Math.round(w * scale);
+  const boxH = Math.round(h * scale);
+  return (
+    <div
+      class={`wiki-atlas-pic ${className}`.trim()}
+      role="img"
+      aria-label={alt}
+      style={{
+        width: `${boxW}px`,
+        height: `${boxH}px`,
+        backgroundImage: `url("${url}")`,
+        backgroundSize: `${(sw * scale).toFixed(2)}px ${(sh * scale).toFixed(2)}px`,
+        backgroundPosition: `${(-x * scale).toFixed(2)}px ${(-y * scale).toFixed(2)}px`,
+      }}
+    />
+  );
+}
+
 export function WikiPicture({ img, type, alt, size = 160, className = '' }: Props) {
   const [failed, setFailed] = useState(false);
 
@@ -56,24 +89,7 @@ export function WikiPicture({ img, type, alt, size = 160, className = '' }: Prop
   const url = `${base}${img.src.replace(/^\/+/, '')}`;
 
   if (img.atlas) {
-    const { x, y, w, h, sw, sh } = img.atlas;
-    const scale = size / Math.max(w, h);
-    const boxW = Math.round(w * scale);
-    const boxH = Math.round(h * scale);
-    return (
-      <div
-        class={`wiki-atlas-pic ${className}`.trim()}
-        role="img"
-        aria-label={alt}
-        style={{
-          width: `${boxW}px`,
-          height: `${boxH}px`,
-          backgroundImage: `url("${url}")`,
-          backgroundSize: `${(sw * scale).toFixed(2)}px ${(sh * scale).toFixed(2)}px`,
-          backgroundPosition: `${(-x * scale).toFixed(2)}px ${(-y * scale).toFixed(2)}px`,
-        }}
-      />
-    );
+    return <AtlasFrameBox url={url} atlas={img.atlas} alt={alt} size={size} className={className} />;
   }
 
   const isItemIcon = img.src.startsWith('itemicons/') || img.src.startsWith('wiki/icons/');
@@ -89,5 +105,71 @@ export function WikiPicture({ img, type, alt, size = 160, className = '' }: Prop
       loading="lazy"
       onError={() => setFailed(true)}
     />
+  );
+}
+
+export function WikiSpriteTurnaround({
+  img,
+  type,
+  alt,
+  stageSize = 96,
+  thumbSize = 48,
+}: {
+  img: WikiImage;
+  type: WikiEntryType;
+  alt: string;
+  stageSize?: number;
+  thumbSize?: number;
+}) {
+  const views: WikiImageAtlas[] =
+    img.turnaround && img.turnaround.length > 0 ? img.turnaround : img.atlas ? [img.atlas] : [];
+  const [activeIdx, setActiveIdx] = useState(0);
+
+  useEffect(() => {
+    setActiveIdx(0);
+  }, [img.src, img.atlas?.x, img.atlas?.y]);
+
+  if (views.length === 0) {
+    return <WikiPicture img={img} type={type} alt={alt} size={stageSize} />;
+  }
+
+  const base = import.meta.env.BASE_URL ?? '/';
+  const url = `${base}${img.src.replace(/^\/+/, '')}`;
+  const current = views[Math.min(activeIdx, views.length - 1)];
+
+  return (
+    <div class="wiki-turnaround">
+      <div class="wiki-turnaround-stage">
+        <AtlasFrameBox
+          url={url}
+          atlas={current}
+          alt={`${alt}${current.label ? ` (${current.label})` : ''}`}
+          size={stageSize}
+        />
+        {current.label && <span class="wiki-turnaround-angle">{current.label}</span>}
+      </div>
+      {views.length > 1 && (
+        <div class="wiki-turnaround-strip" role="group" aria-label="In-game figure turnaround angles">
+          {views.map((v, i) => {
+            const active = i === activeIdx;
+            const label = v.label ?? `Dir ${i + 1}`;
+            return (
+              <button
+                key={`${label}-${i}`}
+                type="button"
+                class={`wiki-turnaround-thumb ${active ? 'active' : ''}`}
+                aria-pressed={active}
+                aria-label={`View ${label}`}
+                title={label}
+                onClick={() => setActiveIdx(i)}
+              >
+                <AtlasFrameBox url={url} atlas={v} alt={`${alt} ${label}`} size={thumbSize} />
+                <span class="wiki-turnaround-thumb-lbl">{label}</span>
+              </button>
+            );
+          })}
+        </div>
+      )}
+    </div>
   );
 }

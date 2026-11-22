@@ -7,9 +7,9 @@
  *   - Bundled packs (`src/data/text/*.json`): barks, item-lore, spell-flavor
  */
 
-import barksJson from './barks.json';
-import itemLoreJson from './item-lore.json';
-import spellFlavorJson from './spell-flavor.json';
+import barksJson from './barks.json' with { type: 'json' };
+import itemLoreJson from './item-lore.json' with { type: 'json' };
+import spellFlavorJson from './spell-flavor.json' with { type: 'json' };
 
 export type FlatTextPack = Readonly<Record<string, string>>;
 

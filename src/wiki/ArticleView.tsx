@@ -13,7 +13,7 @@ import {
 } from './grail-status';
 import { sectionForType, TYPE_LABEL, TYPE_TO_CAT } from './sections';
 import type { WikiEntry, WikiEntryType, WikiGate, WikiIndexEntry } from './types';
-import { WikiPicture } from './WikiPicture';
+import { WikiPicture, WikiSpriteTurnaround } from './WikiPicture';
 
 interface Props {
   entryType: WikiEntryType;
@@ -240,11 +240,25 @@ export function ArticleView({ entryType, id, isSpoiled, onShowSpoilers }: Props)
             >
               <div class="infobox-title">{entry.title}</div>
               <div class="infobox-media">
-                <WikiPicture img={entry.img} type={entry.type} alt={entry.title} size={180} />
+                <div class="infobox-portrait-frame">
+                  {entry.sprite && <span class="infobox-media-kicker">Portrait</span>}
+                  <WikiPicture img={entry.img} type={entry.type} alt={entry.title} size={180} />
+                </div>
                 {entry.sprite && (
-                  <div class="infobox-sprite-row">
-                    <span class="infobox-sprite-label">In-game sprite</span>
-                    <WikiPicture img={entry.sprite} type={entry.type} alt={`${entry.title} sprite`} size={72} />
+                  <div class="infobox-figure-panel">
+                    <div class="infobox-figure-head">
+                      <span class="infobox-sprite-label">In-game figure</span>
+                      {entry.sprite.turnaround && entry.sprite.turnaround.length > 1 && (
+                        <span class="infobox-figure-badge">Turnaround</span>
+                      )}
+                    </div>
+                    <WikiSpriteTurnaround
+                      img={entry.sprite}
+                      type={entry.type}
+                      alt={`${entry.title} in-game figure`}
+                      stageSize={96}
+                      thumbSize={44}
+                    />
                   </div>
                 )}
               </div>

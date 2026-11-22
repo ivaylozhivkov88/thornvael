@@ -26,11 +26,13 @@ export interface WikiImageAtlas {
   h: number;
   sw: number;
   sh: number;
+  label?: string;
 }
 
 export interface WikiImage {
   src: string;
   atlas?: WikiImageAtlas;
+  turnaround?: WikiImageAtlas[];
 }
 
 export interface WikiTable {

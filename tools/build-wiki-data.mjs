@@ -29,6 +29,10 @@ if (!process.env.VITEST && !globalThis.__thornvaelWikiTsHook) {
         const out = transformSync(file, readFileSync(file, 'utf8'), { lang: 'ts' });
         return { format: 'module', source: out.code, shortCircuit: true };
       }
+      if (url.startsWith('file:') && url.endsWith('.json')) {
+        const file = fileURLToPath(url);
+        return { format: 'module', source: `export default ${readFileSync(file, 'utf8')};`, shortCircuit: true };
+      }
       return nextLoad(url, context);
     },
   });
@@ -384,11 +388,35 @@ export function buildWikiData() {
   const atlasPic = (id) => {
     if (!has(`sprites/${id}.json`) || !has(`sprites/${id}.png`)) return null;
     const j = (atlasCache[id] ??= readJson(`public/sprites/${id}.json`));
-    const f = j?.frames?.[`${id}/stand/00/00`] ?? Object.values(j?.frames ?? {})[0];
-    if (!f) return null;
+    const frames = j?.frames ?? {};
+    const sw = j?.meta?.size?.w ?? 2048;
+    const sh = j?.meta?.size?.h ?? 2048;
+    const toBox = (f, label) => ({
+      x: f.frame.x,
+      y: f.frame.y,
+      w: f.frame.w,
+      h: f.frame.h,
+      sw,
+      sh,
+      ...(label ? { label } : {}),
+    });
+    const mainFrame = frames[`${id}/stand/02/00`] ?? frames[`${id}/stand/00/00`] ?? Object.values(frames)[0];
+    if (!mainFrame) return null;
+    const turnaround = [
+      ['00', 'Front'],
+      ['04', 'Left'],
+      ['08', 'Back'],
+      ['12', 'Right'],
+    ]
+      .map(([dir, label]) => {
+        const f = frames[`${id}/stand/${dir}/00`];
+        return f ? toBox(f, label) : null;
+      })
+      .filter(Boolean);
     return {
       src: `sprites/${id}.png`,
-      atlas: { x: f.frame.x, y: f.frame.y, w: f.frame.w, h: f.frame.h, sw: j.meta.size.w, sh: j.meta.size.h },
+      atlas: toBox(mainFrame),
+      ...(turnaround.length ? { turnaround } : {}),
     };
   };
   const portraitFor = (id) => {
@@ -479,8 +507,8 @@ export function buildWikiData() {
     }
 
     const portrait = portraitFor(b.id);
-    const sprite = atlasPic(b.id);
-    const img = portrait ?? sprite ?? pic('bestiary', b.id, 'infobox/portrait');
+    const sprite = atlasPic(b.id) ?? pic('bestiary', b.id, 'infobox/figure');
+    const img = portrait ?? pic('bestiary', b.id, 'infobox/portrait');
 
     bestiary.push({
       id: b.id,
@@ -488,7 +516,7 @@ export function buildWikiData() {
       title: b.name,
       summary: s?.role ?? (PLAYER_SIDE.has(b.id) ? 'Playable or allied unit.' : `${cap(kd?.name ?? b.name)} unit.`),
       img,
-      ...(portrait && sprite ? { sprite } : {}),
+      ...(sprite ? { sprite } : {}),
       infobox: [
         ['Kind', isBoss ? 'Boss' : PLAYER_SIDE.has(b.id) ? 'Hero-side unit' : 'Creature'],
         ...(baseHp != null
@@ -533,15 +561,15 @@ export function buildWikiData() {
   for (const su of suMod.SUPER_UNIQUES) {
     const id = `su-${su.id}`;
     const portrait = portraitFor(su.family);
-    const sprite = atlasPic(su.family);
-    const img = portrait ?? sprite ?? pic('bestiary', id, 'infobox/portrait');
+    const sprite = atlasPic(su.family) ?? pic('bestiary', id, 'infobox/figure');
+    const img = portrait ?? pic('bestiary', id, 'infobox/portrait');
     bestiary.push({
       id,
       type: 'bestiary',
       title: su.name,
       summary: `${su.title} · Act ${su.act} Super Unique`,
       img,
-      ...(portrait && sprite ? { sprite } : {}),
+      ...(sprite ? { sprite } : {}),
       infobox: [
         ['Kind', 'Super Unique'],
         ['Act', String(su.act)],
@@ -631,15 +659,16 @@ export function buildWikiData() {
       portraitFor(e.id) ??
       (art?.portrait && has(art.portrait) ? { src: art.portrait } : null) ??
       (art?.sprite ? portraitFor(art.sprite) : null);
-    const sprite = (art?.sprite ? atlasPic(art.sprite) : null) ?? atlasPic(e.id);
-    const img = portrait ?? sprite ?? pic('bestiary', e.id, 'infobox/portrait', `townart/mon/${e.id}.jpg`);
+    const sprite =
+      (art?.sprite ? atlasPic(art.sprite) : null) ?? atlasPic(e.id) ?? pic('bestiary', e.id, 'infobox/figure');
+    const img = portrait ?? pic('bestiary', e.id, 'infobox/portrait', `townart/mon/${e.id}.jpg`);
     bestiary.push({
       id: e.id,
       type: 'bestiary',
       title: e.name,
       summary: e.behavior,
       img,
-      ...(portrait && sprite ? { sprite } : {}),
+      ...(sprite ? { sprite } : {}),
       infobox: [
         ['Kind', 'Creature (Field)'],
         ['Family', cap(e.family)],
@@ -1668,6 +1697,12 @@ export function buildWikiData() {
       'townart/portraits/merc-parish-sexton.jpg',
     ],
   };
+  const CLASS_SPRITE = {
+    warrior: 'warrior',
+    archer: 'archer',
+    mage: 'mage',
+    necromancer: 'ash-weaver',
+  };
   const classEntries = C('class-progression').map((c) => {
     const h = heroes[c.class];
     const variants = heroes8.filter((x) => x.class === c.class);
@@ -1685,12 +1720,15 @@ export function buildWikiData() {
     }
     if (!h && !variants.length) sections.push({ h: 'Lore', p: ['No lore yet.'] });
 
+    const spriteId = CLASS_SPRITE[c.class] ?? c.class;
+    const sprite = atlasPic(spriteId) ?? pic('class', c.class, 'infobox/figure');
     return {
       id: c.class,
       type: 'class',
       title: CLASS_LABEL[c.class] ?? cap(c.class),
       summary: h?.tagline ?? firstVar?.tagline ?? c.playstyle,
       img: pic('class', c.class, 'infobox/portrait', ...(classCards[c.class] ?? [])),
+      ...(sprite ? { sprite } : {}),
       infobox: [
         ...Object.entries(c.start_stats).map(([k, v]) => [`Start ${k.toUpperCase()}`, String(v)]),
         ...Object.entries(c.per_level).map(([k, v]) => [`Per level ${statName(k)}`, String(v)]),
@@ -1715,6 +1753,7 @@ export function buildWikiData() {
       id: 'hero-dain',
       title: 'Dain Ironclad',
       cls: 'warrior',
+      spriteId: 'hero',
       epithet: 'Vanguard Paladin',
       img: 'townart/hero-dain.png',
       portrait: 'townart/portrait-warrior-m.png',
@@ -1724,6 +1763,7 @@ export function buildWikiData() {
       id: 'hero-selena',
       title: 'Selena Swiftblade',
       cls: 'warrior',
+      spriteId: 'archer',
       epithet: 'Borderlands Ranger',
       img: 'townart/hero-selena.png',
       portrait: 'townart/portrait-warrior-f.png',
@@ -1733,6 +1773,7 @@ export function buildWikiData() {
       id: 'hero-valerius',
       title: 'Valerius Pyremaster',
       cls: 'mage',
+      spriteId: 'mage',
       epithet: 'Flame Archmage',
       img: 'townart/hero-valerius.png',
       portrait: 'townart/portrait-mage-m.png',
@@ -1742,6 +1783,7 @@ export function buildWikiData() {
       id: 'hero-morrigan',
       title: 'Morrigan Frostweaver',
       cls: 'mage',
+      spriteId: 'mage',
       epithet: 'Glacial Sorceress',
       img: 'townart/hero-morrigan.png',
       portrait: 'townart/portrait-mage-f.png',
@@ -1749,12 +1791,14 @@ export function buildWikiData() {
     },
   ];
   for (const nh of NAMED_HEROES) {
+    const sprite = atlasPic(nh.spriteId) ?? pic('class', nh.id, 'infobox/figure');
     classEntries.push({
       id: nh.id,
       type: 'class',
       title: nh.title,
       summary: `${nh.epithet} · ${cap(nh.cls)} archetype`,
       img: pic('class', nh.id, 'infobox/portrait', nh.img, nh.portrait),
+      ...(sprite ? { sprite } : {}),
       infobox: [
         ['Archetype', nh.epithet],
         ['Class', cap(nh.cls)],
@@ -1769,12 +1813,15 @@ export function buildWikiData() {
   const mercBack = Object.fromEntries(C('merc-backstories').map((b) => [b.merc, b]));
   out.mercs = C('mercenaries').map((m) => {
     const mb = mercBack[m.id];
+    const spriteId = CLASS_SPRITE[m.class_hint] ?? m.class_hint;
+    const sprite = atlasPic(spriteId) ?? pic('merc', m.id, 'infobox/figure');
     return {
       id: m.id,
       type: 'merc',
       title: m.name,
       summary: `${cap(m.class_hint)} · ${m.role} · Act ${m.act}`,
       img: pic('merc', m.id, 'infobox/portrait', `townart/portraits/${m.id}.jpg`),
+      ...(sprite ? { sprite } : {}),
       infobox: [
         ['Class', cap(m.class_hint)],
         ['Role', m.role],
