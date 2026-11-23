@@ -18,7 +18,7 @@ import {
   type HubActId,
   type HubEvolutionStage,
   type HubParticles,
-} from './data/hub-evolution';
+} from './data/hub-evolution.ts';
 
 export {
   HUB_EVOLUTION,
