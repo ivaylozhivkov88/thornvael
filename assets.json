@@ -7916,20 +7916,20 @@
     {
       "path": "public/sprites/necromancer.png",
       "license": "own",
-      "source": "tools/gen-necromancer-sprites.py",
-      "note": "Original necromancer sprite atlas; 96px, 16 directions, stand4 walk8 attack4 cast4 hurt2 die4, RGB masks."
+      "source": "tools/necromancer-from-weaver.py",
+      "note": "Original necromancer sprite atlas, recoloured from our own ash-weaver frames plus procedural necrotic burst; 96px, 16 directions, stand4 walk8 attack4 cast4 hurt2 die4, RGB masks."
     },
     {
       "path": "public/sprites/necromancer-mask.png",
       "license": "own",
-      "source": "tools/gen-necromancer-sprites.py",
-      "note": "Original necromancer sprite atlas; 96px, 16 directions, stand4 walk8 attack4 cast4 hurt2 die4, RGB masks."
+      "source": "tools/necromancer-from-weaver.py",
+      "note": "Original necromancer sprite atlas, recoloured from our own ash-weaver frames plus procedural necrotic burst; 96px, 16 directions, stand4 walk8 attack4 cast4 hurt2 die4, RGB masks."
     },
     {
       "path": "public/sprites/necromancer.json",
       "license": "own",
-      "source": "tools/gen-necromancer-sprites.py",
-      "note": "Original necromancer sprite atlas; 96px, 16 directions, stand4 walk8 attack4 cast4 hurt2 die4, RGB masks."
+      "source": "tools/necromancer-from-weaver.py",
+      "note": "Original necromancer sprite atlas, recoloured from our own ash-weaver frames plus procedural necrotic burst; 96px, 16 directions, stand4 walk8 attack4 cast4 hurt2 die4, RGB masks."
     },
     {
       "path": "public/audio/voices/m01_briefing_hale.m4a",
