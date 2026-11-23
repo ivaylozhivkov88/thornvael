@@ -370,8 +370,8 @@ export function startState(id: number, cls: number, female: boolean, diff: numbe
     skillPoints: 0,
     skillCd: {},
   };
-  h.eq[Slot.Weapon] = itemId(caster ? 'Oak Staff' : 'Rusty Sword');
-  h.eq[Slot.Armor] = itemId(caster ? 'Cloth Robe' : 'Padded Jerkin');
+  h.eq[Slot.Weapon] = itemId(caster ? 'Oak Staff' : cls === 2 ? 'Short Bow' : 'Rusty Sword');
+  h.eq[Slot.Armor] = itemId(caster ? 'Cloth Robe' : cls === 2 ? 'Leather Jerkin' : 'Padded Jerkin');
   h.inv.push({ item: itemId('Healing Draught'), n: START_DRAUGHTS[diff] });
   if (caster) h.inv.push({ item: itemId('Mana Draught'), n: 1 });
   return h;

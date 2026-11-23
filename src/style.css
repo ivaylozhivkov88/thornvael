@@ -5403,3 +5403,15 @@ body:has(#shell .sh-modal, #codex-modal:not([hidden])) #sh-music-btn {
 }
 
 
+
+.sh-selector-group .sh-select-cls.archer.sh-on {
+  background: linear-gradient(180deg, #4d6b2a 0%, #1f2f10 100%);
+  border-color: #b9e07a;
+  color: #f6ffe6;
+  box-shadow: 0 0 14px rgba(150, 210, 90, 0.5), inset 0 1px 0 rgba(230, 255, 190, 0.3);
+}
+.sh-champion-badge.archer {
+  color: #d3f0a8;
+  background: #1f2f10;
+  border: 1px solid #6b8c3a;
+}

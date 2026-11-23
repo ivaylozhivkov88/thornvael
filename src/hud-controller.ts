@@ -208,7 +208,7 @@ export class HudController {
     if (sim.hero) {
       const heroImg = document.getElementById('hud-hero-img') as HTMLImageElement | null;
       if (heroImg) {
-        const clsName = sim.hero.cls === 3 ? 'necromancer' : sim.hero.cls ? 'mage' : 'warrior';
+        const clsName = sim.hero.cls === 3 ? 'necromancer' : sim.hero.cls === 2 ? 'archer' : sim.hero.cls ? 'mage' : 'warrior';
         const gen = sim.hero.female ? 'f' : 'm';
         const src = `${import.meta.env.BASE_URL}townart/portrait-${clsName}-${gen}.png`;
         if (!heroImg.src.endsWith(src)) heroImg.src = src;
@@ -220,7 +220,7 @@ export class HudController {
       }
       const heroName = document.getElementById('hud-hero-name');
       if (heroName) {
-        heroName.textContent = sim.hero.cls === 3 ? 'Necromancer' : sim.hero.cls ? 'Mage' : 'Warrior';
+        heroName.textContent = sim.hero.cls === 3 ? 'Necromancer' : sim.hero.cls === 2 ? 'Archer' : sim.hero.cls ? 'Mage' : 'Warrior';
       }
     }
 

@@ -18,7 +18,7 @@ function btn(label: string, run: () => void, cls = ''): HTMLButtonElement {
 }
 
 export interface Archetype {
-  cls: 0 | 1 | 3;
+  cls: 0 | 1 | 2 | 3;
   female: boolean;
   name: string;
   epithet: string;
@@ -95,6 +95,36 @@ export const ARCHETYPES: readonly Archetype[] = [
     sound: 'cast_water',
   },
   {
+    cls: 2,
+    female: false,
+    name: 'Corvin Thornwick',
+    epithet: 'Greenwood Warden',
+    classLabel: 'ARCHER',
+    portraitFile: 'portrait-archer-m.png',
+    bio: 'A lean marksman of the Thornwood, hooded in forest-green leathers, a longbow across his back and a quiver of black-fletched arrows. Picks off enemy casters from afar and never fights fair.',
+    gear: ['Elm Longbow', 'Greenwood Leathers', 'Piercing Shot', 'Healing Draught'],
+    perks: ['Eagle Eye', 'Swift Volley', 'Trapper'],
+    hp: 110,
+    mp: 50,
+    bars: { hp: '65%', mp: '45%', atk: '78%', magic: '30%', def: '50%' },
+    sound: 'cast_fire',
+  },
+  {
+    cls: 2,
+    female: true,
+    name: 'Elowen Ashdrake',
+    epithet: 'Stormfeather Ranger',
+    classLabel: 'ARCHER',
+    portraitFile: 'portrait-archer-f.png',
+    bio: 'A swift scout of the high passes, braided hair and a feathered cloak of storm-grey, a recurve bow strung with silver thread. Strikes from cover and vanishes before the first arrow lands.',
+    gear: ['Stormfeather Recurve', 'Scout Cloak', 'Piercing Shot', 'Healing Draught'],
+    perks: ['Quick Draw', 'Windstep', 'Hawk Sight'],
+    hp: 105,
+    mp: 55,
+    bars: { hp: '62%', mp: '50%', atk: '80%', magic: '32%', def: '45%' },
+    sound: 'cast_water',
+  },
+  {
     cls: 3,
     female: false,
     name: 'Malachar Gravewhisper',
@@ -127,12 +157,12 @@ export const ARCHETYPES: readonly Archetype[] = [
 ];
 
 /** Class styling key: sim class ids are 0 warrior, 1 mage, 2 archer, 3 necromancer. */
-export function classKey(cls: number): 'warrior' | 'mage' | 'necromancer' {
-  return cls === 1 ? 'mage' : cls === 3 ? 'necromancer' : 'warrior';
+export function classKey(cls: number): 'warrior' | 'mage' | 'archer' | 'necromancer' {
+  return cls === 1 ? 'mage' : cls === 3 ? 'necromancer' : cls === 2 ? 'archer' : 'warrior';
 }
-const CLASS_ICON = { warrior: '⚔', mage: '🔮', necromancer: '💀' } as const;
+const CLASS_ICON = { warrior: '⚔', mage: '🔮', archer: '🏹', necromancer: '💀' } as const;
 
-export function findArchetypeIndex(cls: 0 | 1 | 3, female: boolean): number {
+export function findArchetypeIndex(cls: 0 | 1 | 2 | 3, female: boolean): number {
   const idx = ARCHETYPES.findIndex((a) => a.cls === cls && a.female === female);
   return idx >= 0 ? idx : 0;
 }
@@ -225,6 +255,11 @@ export function buildHeroCreationScreen(opts: HeroCreationOptions): HTMLElement 
         '🔮 Mage',
         () => selectArchetype(findArchetypeIndex(1, ARCHETYPES[selIdx].female)),
         `sh-select-cls mage ${arch.cls === 1 ? 'sh-on' : ''}`.trim(),
+      ),
+      btn(
+        '🏹 Archer',
+        () => selectArchetype(findArchetypeIndex(2, ARCHETYPES[selIdx].female)),
+        `sh-select-cls archer ${arch.cls === 2 ? 'sh-on' : ''}`.trim(),
       ),
       btn(
         '💀 Necromancer',

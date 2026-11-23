@@ -994,7 +994,7 @@ function updateGothicHud(): void {
   if (sim.hero) {
     const heroImg = document.getElementById('hud-hero-img') as HTMLImageElement | null;
     if (heroImg) {
-      const clsName = sim.hero.cls === 3 ? 'necromancer' : sim.hero.cls ? 'mage' : 'warrior';
+      const clsName = sim.hero.cls === 3 ? 'necromancer' : sim.hero.cls === 2 ? 'archer' : sim.hero.cls ? 'mage' : 'warrior';
       const gen = sim.hero.female ? 'f' : 'm';
       const src = `${import.meta.env.BASE_URL}townart/portrait-${clsName}-${gen}.png`;
       if (!heroImg.src.endsWith(src)) heroImg.src = src;
@@ -1006,7 +1006,7 @@ function updateGothicHud(): void {
     }
     const heroName = document.getElementById('hud-hero-name');
     if (heroName) {
-      heroName.textContent = sim.hero.cls === 3 ? 'Necromancer' : sim.hero.cls ? 'Mage' : 'Warrior';
+      heroName.textContent = sim.hero.cls === 3 ? 'Necromancer' : sim.hero.cls === 2 ? 'Archer' : sim.hero.cls ? 'Mage' : 'Warrior';
     }
   }
 
@@ -4161,7 +4161,7 @@ function startHero(): void {
   if (raw !== null) {
     const p = raw.split(',').map((s) => s.trim().toLowerCase());
     const d = ['easy', 'medium', 'hard'].indexOf(p[2] ?? 'medium');
-    begin(p[0] === 'mage' ? 1 : p[0] === 'necromancer' ? 3 : 0, p[1] === 'f' || p[1] === 'female', d < 0 ? 1 : d);
+    begin(p[0] === 'mage' ? 1 : p[0] === 'necromancer' ? 3 : p[0] === 'archer' ? 2 : 0, p[1] === 'f' || p[1] === 'female', d < 0 ? 1 : d);
     if (activeChar?.hero) {
       // A hero that has played before keeps its level, gear and spells in every skirmish; the purse is this game's.
       const co = characterCarry(activeChar, { progress: undefined as never, shopSeed: 1 });
