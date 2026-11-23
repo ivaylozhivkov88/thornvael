@@ -1,0 +1,722 @@
+[
+  {
+    "id": "ach-first-blood",
+    "name": "First Blood",
+    "description": "Defeat your first enemy in Thornvael.",
+    "condition": {
+      "metric": "kills",
+      "op": ">=",
+      "target": 1
+    },
+    "hidden": false,
+    "category": "combat"
+  },
+  {
+    "id": "ach-hound-culler",
+    "name": "Hound Culler",
+    "description": "Slay 25 Briar Hounds along the border roads.",
+    "condition": {
+      "metric": "kills_briar_hound",
+      "op": ">=",
+      "target": 25
+    },
+    "hidden": false,
+    "category": "combat"
+  },
+  {
+    "id": "ach-flint-breaker",
+    "name": "Flint Breaker",
+    "description": "Defeat 15 armored Flintbacks.",
+    "condition": {
+      "metric": "kills_flintback",
+      "op": ">=",
+      "target": 15
+    },
+    "hidden": false,
+    "category": "combat"
+  },
+  {
+    "id": "ach-ghoul-bane",
+    "name": "Tollhouse Watch",
+    "description": "Purge 30 Tollhouse Ghouls.",
+    "condition": {
+      "metric": "kills_tollhouse_ghoul",
+      "op": ">=",
+      "target": 30
+    },
+    "hidden": false,
+    "category": "combat"
+  },
+  {
+    "id": "ach-gnoll-router",
+    "name": "Banner Breaker",
+    "description": "Defeat 50 gnoll raiders across Act 1.",
+    "condition": {
+      "metric": "kills_gnoll",
+      "op": ">=",
+      "target": 50
+    },
+    "hidden": false,
+    "category": "combat"
+  },
+  {
+    "id": "ach-slayer-100",
+    "name": "Seasoned Levy",
+    "description": "Reach 100 total enemy kills.",
+    "condition": {
+      "metric": "kills",
+      "op": ">=",
+      "target": 100
+    },
+    "hidden": false,
+    "category": "combat"
+  },
+  {
+    "id": "ach-slayer-500",
+    "name": "Vanguard Veteran",
+    "description": "Reach 500 total enemy kills.",
+    "condition": {
+      "metric": "kills",
+      "op": ">=",
+      "target": 500
+    },
+    "hidden": false,
+    "category": "combat"
+  },
+  {
+    "id": "ach-slayer-2000",
+    "name": "Scourge of the Border",
+    "description": "Reach 2,000 total enemy kills.",
+    "condition": {
+      "metric": "kills",
+      "op": ">=",
+      "target": 2000
+    },
+    "hidden": false,
+    "category": "combat"
+  },
+  {
+    "id": "ach-crit-50",
+    "name": "Keen Edge",
+    "description": "Land 50 critical strikes.",
+    "condition": {
+      "metric": "crits",
+      "op": ">=",
+      "target": 50
+    },
+    "hidden": false,
+    "category": "combat"
+  },
+  {
+    "id": "ach-fire-kills",
+    "name": "Torchbearer",
+    "description": "Defeat 40 enemies using fire damage.",
+    "condition": {
+      "metric": "kills_fire",
+      "op": ">=",
+      "target": 40
+    },
+    "hidden": false,
+    "category": "combat"
+  },
+  {
+    "id": "ach-lightning-kills",
+    "name": "Storm Caller",
+    "description": "Defeat 40 enemies using lightning damage.",
+    "condition": {
+      "metric": "kills_lightning",
+      "op": ">=",
+      "target": 40
+    },
+    "hidden": false,
+    "category": "combat"
+  },
+  {
+    "id": "ach-poison-kills",
+    "name": "Apothecary Bane",
+    "description": "Defeat 30 enemies via poison or bleed.",
+    "condition": {
+      "metric": "kills_dot",
+      "op": ">=",
+      "target": 30
+    },
+    "hidden": false,
+    "category": "combat"
+  },
+  {
+    "id": "ach-ford-cleared",
+    "name": "Blood at the Ford",
+    "description": "Complete the Sunken Ford opening battle.",
+    "condition": {
+      "metric": "mission_m01_win",
+      "op": "==",
+      "target": true
+    },
+    "hidden": false,
+    "category": "quests"
+  },
+  {
+    "id": "ach-alder-bridge",
+    "name": "Hold the Bridge",
+    "description": "Defend Alder Bridge with Garrick.",
+    "condition": {
+      "metric": "mission_alder_bridge_win",
+      "op": "==",
+      "target": true
+    },
+    "hidden": false,
+    "category": "quests"
+  },
+  {
+    "id": "ach-morvessa-fall",
+    "name": "Ashes of Ashbrook",
+    "description": "Defeat Morvessa at Ashbrook Gate.",
+    "condition": {
+      "metric": "boss_morvessa_killed",
+      "op": "==",
+      "target": true
+    },
+    "hidden": false,
+    "category": "combat"
+  },
+  {
+    "id": "ach-saelen-fall",
+    "name": "Cauldron Shattered",
+    "description": "Defeat Hexer Saelen in the Bracken Alkali Basin.",
+    "condition": {
+      "metric": "boss_saelen_killed",
+      "op": "==",
+      "target": true
+    },
+    "hidden": false,
+    "category": "combat"
+  },
+  {
+    "id": "ach-khepri-fall",
+    "name": "Probate Voided",
+    "description": "Defeat Khepri, the Sunken Embalmer.",
+    "condition": {
+      "metric": "boss_khepri_killed",
+      "op": "==",
+      "target": true
+    },
+    "hidden": false,
+    "category": "combat"
+  },
+  {
+    "id": "ach-gorrathul-fall",
+    "name": "Cisterns Reclaimed",
+    "description": "Defeat Overlord Gorrathul at Ironheart Bastion.",
+    "condition": {
+      "metric": "boss_gorrathul_killed",
+      "op": "==",
+      "target": true
+    },
+    "hidden": false,
+    "category": "combat"
+  },
+  {
+    "id": "ach-vargash-fall",
+    "name": "Harbor Saved",
+    "description": "Defeat Admiral Vargash at Burning Harbor.",
+    "condition": {
+      "metric": "boss_vargash_killed",
+      "op": "==",
+      "target": true
+    },
+    "hidden": false,
+    "category": "combat"
+  },
+  {
+    "id": "ach-juggernaut-fall",
+    "name": "Boiler Cooled",
+    "description": "Defeat the Iron Juggernaut of Riverlock.",
+    "condition": {
+      "metric": "boss_juggernaut_killed",
+      "op": "==",
+      "target": true
+    },
+    "hidden": false,
+    "category": "combat"
+  },
+  {
+    "id": "ach-malrik-fall",
+    "name": "Ember Reckoning",
+    "description": "Defeat Arch-Mage Malrik and seal the Caldera.",
+    "condition": {
+      "metric": "boss_malrik_killed",
+      "op": "==",
+      "target": true
+    },
+    "hidden": false,
+    "category": "combat"
+  },
+  {
+    "id": "ach-act1-quests",
+    "name": "Thornwick Champion",
+    "description": "Complete 10 Act 1 side quests.",
+    "condition": {
+      "metric": "act1_quests_done",
+      "op": ">=",
+      "target": 10
+    },
+    "hidden": false,
+    "category": "quests"
+  },
+  {
+    "id": "ach-act1-all-quests",
+    "name": "Quartermaster of Thornwick",
+    "description": "Complete all 22 Act 1 side quests.",
+    "condition": {
+      "metric": "act1_quests_done",
+      "op": ">=",
+      "target": 22
+    },
+    "hidden": false,
+    "category": "quests"
+  },
+  {
+    "id": "ach-act2-quests",
+    "name": "Redmarsh Envoy",
+    "description": "Complete 12 Act 2 quests.",
+    "condition": {
+      "metric": "act2_quests_done",
+      "op": ">=",
+      "target": 12
+    },
+    "hidden": false,
+    "category": "quests"
+  },
+  {
+    "id": "ach-act3-quests",
+    "name": "Coastline Marshal",
+    "description": "Complete 12 Act 3 quests.",
+    "condition": {
+      "metric": "act3_quests_done",
+      "op": ">=",
+      "target": 12
+    },
+    "hidden": false,
+    "category": "quests"
+  },
+  {
+    "id": "ach-garrick-loyal",
+    "name": "Honest Tariff",
+    "description": "Return the sealed strongbox to Sergeant Garrick.",
+    "condition": {
+      "metric": "flag_garrick_paid",
+      "op": "==",
+      "target": true
+    },
+    "hidden": true,
+    "category": "quests"
+  },
+  {
+    "id": "ach-fenwick-cut",
+    "name": "River Silver",
+    "description": "Split Collector Harlon silver with Old Fenwick.",
+    "condition": {
+      "metric": "flag_fenwick_split",
+      "op": "==",
+      "target": true
+    },
+    "hidden": true,
+    "category": "quests"
+  },
+  {
+    "id": "ach-copper-hoard",
+    "name": "Silver Pouch",
+    "description": "Accumulate 1,000 total gold earned.",
+    "condition": {
+      "metric": "gold_earned",
+      "op": ">=",
+      "target": 1000
+    },
+    "hidden": false,
+    "category": "economy"
+  },
+  {
+    "id": "ach-gold-10k",
+    "name": "War Chest",
+    "description": "Accumulate 10,000 total gold earned.",
+    "condition": {
+      "metric": "gold_earned",
+      "op": ">=",
+      "target": 10000
+    },
+    "hidden": false,
+    "category": "economy"
+  },
+  {
+    "id": "ach-gold-50k",
+    "name": "Royal Treasury",
+    "description": "Accumulate 50,000 total gold earned.",
+    "condition": {
+      "metric": "gold_earned",
+      "op": ">=",
+      "target": 50000
+    },
+    "hidden": false,
+    "category": "economy"
+  },
+  {
+    "id": "ach-shopper",
+    "name": "Regular Customer",
+    "description": "Purchase 25 items from town shops.",
+    "condition": {
+      "metric": "items_bought",
+      "op": ">=",
+      "target": 25
+    },
+    "hidden": false,
+    "category": "economy"
+  },
+  {
+    "id": "ach-salvager",
+    "name": "Scrap Merchant",
+    "description": "Sell 50 looted items to merchants.",
+    "condition": {
+      "metric": "items_sold",
+      "op": ">=",
+      "target": 50
+    },
+    "hidden": false,
+    "category": "economy"
+  },
+  {
+    "id": "ach-repair-20",
+    "name": "Well-Kept Plate",
+    "description": "Repair gear 20 times at town smithies.",
+    "condition": {
+      "metric": "repairs",
+      "op": ">=",
+      "target": 20
+    },
+    "hidden": false,
+    "category": "economy"
+  },
+  {
+    "id": "ach-merc-hire",
+    "name": "Company Captain",
+    "description": "Hire 10 mercenaries from taverns.",
+    "condition": {
+      "metric": "mercs_hired",
+      "op": ">=",
+      "target": 10
+    },
+    "hidden": false,
+    "category": "economy"
+  },
+  {
+    "id": "ach-merc-survivor",
+    "name": "No Soldier Left Behind",
+    "description": "Finish a mission with all hired mercenaries alive.",
+    "condition": {
+      "metric": "flawless_merc_mission",
+      "op": "==",
+      "target": true
+    },
+    "hidden": false,
+    "category": "challenge"
+  },
+  {
+    "id": "ach-shrine-5",
+    "name": "Pilgrim of the Road",
+    "description": "Activate 5 roadside shrines.",
+    "condition": {
+      "metric": "shrines_used",
+      "op": ">=",
+      "target": 5
+    },
+    "hidden": false,
+    "category": "exploration"
+  },
+  {
+    "id": "ach-shrine-25",
+    "name": "Shrine Keeper",
+    "description": "Activate 25 roadside shrines.",
+    "condition": {
+      "metric": "shrines_used",
+      "op": ">=",
+      "target": 25
+    },
+    "hidden": false,
+    "category": "exploration"
+  },
+  {
+    "id": "ach-crates-50",
+    "name": "Forager",
+    "description": "Smash 50 supply crates and barrels.",
+    "condition": {
+      "metric": "crates_broken",
+      "op": ">=",
+      "target": 50
+    },
+    "hidden": false,
+    "category": "exploration"
+  },
+  {
+    "id": "ach-skirmish-1",
+    "name": "Border Skirmisher",
+    "description": "Win a Skirmish match against the AI.",
+    "condition": {
+      "metric": "skirmish_wins",
+      "op": ">=",
+      "target": 1
+    },
+    "hidden": false,
+    "category": "exploration"
+  },
+  {
+    "id": "ach-skirmish-6",
+    "name": "Master Tactician",
+    "description": "Win 6 Skirmish matches across different maps.",
+    "condition": {
+      "metric": "skirmish_maps_won",
+      "op": ">=",
+      "target": 6
+    },
+    "hidden": false,
+    "category": "exploration"
+  },
+  {
+    "id": "ach-codex-25",
+    "name": "Field Chronicler",
+    "description": "Discover 25 entries in the Codex.",
+    "condition": {
+      "metric": "codex_entries",
+      "op": ">=",
+      "target": 25
+    },
+    "hidden": false,
+    "category": "exploration"
+  },
+  {
+    "id": "ach-codex-100",
+    "name": "Grand Archivist",
+    "description": "Discover 100 entries in the Codex.",
+    "condition": {
+      "metric": "codex_entries",
+      "op": ">=",
+      "target": 100
+    },
+    "hidden": false,
+    "category": "exploration"
+  },
+  {
+    "id": "ach-level-5",
+    "name": "Blooded Recruit",
+    "description": "Reach Hero Level 5.",
+    "condition": {
+      "metric": "hero_level",
+      "op": ">=",
+      "target": 5
+    },
+    "hidden": false,
+    "category": "progression"
+  },
+  {
+    "id": "ach-level-15",
+    "name": "Redmarsh Veteran",
+    "description": "Reach Hero Level 15.",
+    "condition": {
+      "metric": "hero_level",
+      "op": ">=",
+      "target": 15
+    },
+    "hidden": false,
+    "category": "progression"
+  },
+  {
+    "id": "ach-level-30",
+    "name": "Caldera Champion",
+    "description": "Reach Hero Level 30.",
+    "condition": {
+      "metric": "hero_level",
+      "op": ">=",
+      "target": 30
+    },
+    "hidden": false,
+    "category": "progression"
+  },
+  {
+    "id": "ach-tier5-skill",
+    "name": "Grandmaster Art",
+    "description": "Unlock a Tier 5 class skill or spell.",
+    "condition": {
+      "metric": "max_skill_tier",
+      "op": ">=",
+      "target": 5
+    },
+    "hidden": false,
+    "category": "progression"
+  },
+  {
+    "id": "ach-first-unique",
+    "name": "Relic Finder",
+    "description": "Equip your first Unique item.",
+    "condition": {
+      "metric": "uniques_equipped",
+      "op": ">=",
+      "target": 1
+    },
+    "hidden": false,
+    "category": "progression"
+  },
+  {
+    "id": "ach-set-bonus",
+    "name": "Matched Regalia",
+    "description": "Activate a full or partial Item Set bonus.",
+    "condition": {
+      "metric": "active_set_bonuses",
+      "op": ">=",
+      "target": 1
+    },
+    "hidden": false,
+    "category": "progression"
+  },
+  {
+    "id": "ach-rune-socket",
+    "name": "Runesmith",
+    "description": "Socket a rune or gem into equipment.",
+    "condition": {
+      "metric": "runes_socketed",
+      "op": ">=",
+      "target": 1
+    },
+    "hidden": false,
+    "category": "progression"
+  },
+  {
+    "id": "ach-all-classes",
+    "name": "Four Banners",
+    "description": "Win a mission with Warrior, Archer, Mage, and Necromancer.",
+    "condition": {
+      "metric": "classes_won_count",
+      "op": ">=",
+      "target": 4
+    },
+    "hidden": false,
+    "category": "progression"
+  },
+  {
+    "id": "ach-flawless",
+    "name": "Untouched Vanguard",
+    "description": "Complete any campaign mission without losing a unit.",
+    "condition": {
+      "metric": "flawless_missions",
+      "op": ">=",
+      "target": 1
+    },
+    "hidden": false,
+    "category": "challenge"
+  },
+  {
+    "id": "ach-hard-win",
+    "name": "Iron Discipline",
+    "description": "Complete a campaign mission on Hard difficulty.",
+    "condition": {
+      "metric": "hard_missions_won",
+      "op": ">=",
+      "target": 1
+    },
+    "hidden": false,
+    "category": "challenge"
+  },
+  {
+    "id": "ach-hard-campaign",
+    "name": "Legend of Thornvael",
+    "description": "Defeat Arch-Mage Malrik on Hard difficulty.",
+    "condition": {
+      "metric": "hard_malrik_killed",
+      "op": "==",
+      "target": true
+    },
+    "hidden": true,
+    "category": "challenge"
+  },
+  {
+    "id": "ach-speedrun-m01",
+    "name": "Swift Crossing",
+    "description": "Clear the Sunken Ford in under 4 minutes.",
+    "condition": {
+      "metric": "m01_best_seconds",
+      "op": "<=",
+      "target": 240
+    },
+    "hidden": true,
+    "category": "challenge"
+  },
+  {
+    "id": "ach-close-call",
+    "name": "Hanging by a Thread",
+    "description": "Survive a mission victory with your hero below 5% HP.",
+    "condition": {
+      "metric": "survived_under_5pct",
+      "op": "==",
+      "target": true
+    },
+    "hidden": true,
+    "category": "challenge"
+  },
+  {
+    "id": "ach-lime-cleanser",
+    "name": "Cleanse the Bile",
+    "description": "Shatter 3 lime-casks during the Hexer Saelen fight.",
+    "condition": {
+      "metric": "saelen_casks_broken",
+      "op": ">=",
+      "target": 3
+    },
+    "hidden": true,
+    "category": "challenge"
+  },
+  {
+    "id": "ach-altar-breaker",
+    "name": "Three Silver Altars",
+    "description": "Strip Khepri Bitumen Ward within 60 seconds.",
+    "condition": {
+      "metric": "khepri_fast_strip",
+      "op": "==",
+      "target": true
+    },
+    "hidden": true,
+    "category": "challenge"
+  },
+  {
+    "id": "ach-sluice-trap",
+    "name": "Steam Vent",
+    "description": "Lure the Iron Juggernaut onto flooded sluice grates.",
+    "condition": {
+      "metric": "juggernaut_cooled",
+      "op": "==",
+      "target": true
+    },
+    "hidden": true,
+    "category": "challenge"
+  },
+  {
+    "id": "ach-no-pots",
+    "name": "Dry Canteen",
+    "description": "Win a mission without drinking any healing potions.",
+    "condition": {
+      "metric": "no_potion_win",
+      "op": "==",
+      "target": true
+    },
+    "hidden": true,
+    "category": "challenge"
+  },
+  {
+    "id": "ach-rumor-skeptic",
+    "name": "Salt and Lies",
+    "description": "Hear 20 different tavern rumors across Acts 1 and 2.",
+    "condition": {
+      "metric": "rumors_heard",
+      "op": ">=",
+      "target": 20
+    },
+    "hidden": true,
+    "category": "exploration"
+  }
+]

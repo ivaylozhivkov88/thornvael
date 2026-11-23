@@ -115,3 +115,110 @@ export function achCount(): { got: number; total: number } { return { got: stats
 export function achList(): { name: string; desc: string; got: boolean }[] {
   return trigs.map((t) => { const d = defs.get(t.id); return { name: t.name ?? d?.name ?? t.id, desc: t.desc ?? d?.desc ?? d?.description ?? '', got: stats.unlocked.includes(t.id) }; });
 }
+
+// ---------------------------------------------------------------------------
+// Pure achievement evaluator for src/data/achievements.json (no UI/DOM)
+// ---------------------------------------------------------------------------
+
+export type ConditionOp = '>=' | '<=' | '==' | 'in';
+
+export interface AchievementCondition {
+  metric: string;
+  op: ConditionOp;
+  target: number | string | boolean | (string | number)[];
+}
+
+export interface AchievementDef {
+  id: string;
+  name: string;
+  description: string;
+  condition: AchievementCondition;
+  hidden: boolean;
+  category: string;
+}
+
+export type AchievementMetrics = Record<string, number | string | boolean | undefined>;
+
+export interface EvaluationResult {
+  unlockedIds: string[];
+  newlyUnlocked: AchievementDef[];
+}
+
+export interface AchievementDisplay {
+  id: string;
+  name: string;
+  description: string;
+  unlocked: boolean;
+  hidden: boolean;
+  category: string;
+}
+
+/** Check whether a single condition spec is satisfied by the given metrics snapshot. */
+export function matchesCondition(
+  cond: AchievementCondition,
+  metrics: AchievementMetrics,
+): boolean {
+  const val = metrics[cond.metric];
+  if (val === undefined) return false;
+
+  switch (cond.op) {
+    case '>=':
+      return typeof val === 'number' && typeof cond.target === 'number' && val >= cond.target;
+    case '<=':
+      return typeof val === 'number' && typeof cond.target === 'number' && val > 0 && val <= cond.target;
+    case '==':
+      return val === cond.target;
+    case 'in':
+      return Array.isArray(cond.target) && (cond.target as (string | number)[]).includes(val as string | number);
+    default:
+      return false;
+  }
+}
+
+/** Purely evaluate achievements against metrics, preserving previously unlocked IDs. */
+export function evaluateAchievements(
+  defsList: readonly AchievementDef[],
+  metrics: AchievementMetrics,
+  alreadyUnlocked: readonly string[] = [],
+): EvaluationResult {
+  const unlockedSet = new Set(alreadyUnlocked);
+  const newlyUnlocked: AchievementDef[] = [];
+
+  for (const def of defsList) {
+    if (unlockedSet.has(def.id)) continue;
+    if (matchesCondition(def.condition, metrics)) {
+      unlockedSet.add(def.id);
+      newlyUnlocked.push(def);
+    }
+  }
+
+  return {
+    unlockedIds: Array.from(unlockedSet),
+    newlyUnlocked,
+  };
+}
+
+/** Format an achievement for display, masking hidden locked entries. */
+export function formatAchievementForDisplay(
+  def: AchievementDef,
+  unlocked: boolean,
+): AchievementDisplay {
+  if (def.hidden && !unlocked) {
+    return {
+      id: def.id,
+      name: 'Hidden Achievement',
+      description: 'Continue your campaign in Thornvael to uncover this deed.',
+      unlocked: false,
+      hidden: true,
+      category: def.category,
+    };
+  }
+  return {
+    id: def.id,
+    name: def.name,
+    description: def.description,
+    unlocked,
+    hidden: def.hidden,
+    category: def.category,
+  };
+}
