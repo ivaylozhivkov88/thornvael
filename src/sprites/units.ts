@@ -4,7 +4,7 @@ import { animationFrame, ARMOUR_COLORS, palette, sheetDirection, splitMask } fro
 import type { AnimationPose } from './combat-animation';
 
 export const UNIT_ART = ['hero', 'archer', 'golem', 'warrior', 'mage', 'gnoll', 'imp',
-  'briar-hound', 'thorn-boar', 'flintback', 'mire-wisp', 'cinder-shaman', 'quill-fiend'] as const;
+  'briar-hound', 'thorn-boar', 'flintback', 'mire-wisp', 'cinder-shaman', 'quill-fiend', 'necromancer'] as const;
 /** Monster family -> dedicated body art (families without an entry use their sim kind's art). */
 export const FAMILY_ART: Readonly<Record<string, (typeof UNIT_ART)[number]>> = {
   'briar-hound': 'briar-hound', 'thorn-boar': 'thorn-boar', 'flintback': 'flintback',

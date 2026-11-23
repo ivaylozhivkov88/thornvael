@@ -594,7 +594,9 @@ export class Renderer {
             ? this.atlasByArt.get('mage') ?? atlases[4]
             : sim.hero?.cls === 2
               ? this.atlasByArt.get('archer') ?? atlases[1]
-              : this.atlasByArt.get('hero') ?? atlases[0]
+              : sim.hero?.cls === 3
+                ? this.atlasByArt.get('necromancer') ?? atlases[0]
+                : this.atlasByArt.get('hero') ?? atlases[0]
           : kind === Kind.Archer
             ? atlases[1]
             : kind === Kind.Golem
