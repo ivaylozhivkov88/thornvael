@@ -185,19 +185,19 @@
       "path": "public/sprites/archer.png",
       "license": "own",
       "source": "tools/sheet-build.py + Canva sheet",
-      "note": "Original archer sprite; Canva-generated turnaround sheet, 96px, 16 directions, stand4/walk8/attack4/cast4/hurt2/die4, RGB masks."
+      "note": "Original archer sprite; Canva-generated turnaround sheet, bow draw/loose overlay on attack frames by tools/archer-attack-overlay.py (own code), 96px, 16 directions, stand4/walk8/attack4/cast4/hurt2/die4, RGB masks."
     },
     {
       "path": "public/sprites/archer-mask.png",
       "license": "own",
       "source": "tools/sheet-build.py + Canva sheet",
-      "note": "Original archer sprite; Canva-generated turnaround sheet, 96px, 16 directions, stand4/walk8/attack4/cast4/hurt2/die4, RGB masks."
+      "note": "Original archer sprite; Canva-generated turnaround sheet, bow draw/loose overlay on attack frames by tools/archer-attack-overlay.py (own code), 96px, 16 directions, stand4/walk8/attack4/cast4/hurt2/die4, RGB masks."
     },
     {
       "path": "public/sprites/archer.json",
       "license": "own",
       "source": "tools/sheet-build.py + Canva sheet",
-      "note": "Original archer sprite; Canva-generated turnaround sheet, 96px, 16 directions, stand4/walk8/attack4/cast4/hurt2/die4, RGB masks."
+      "note": "Original archer sprite; Canva-generated turnaround sheet, bow draw/loose overlay on attack frames by tools/archer-attack-overlay.py (own code), 96px, 16 directions, stand4/walk8/attack4/cast4/hurt2/die4, RGB masks."
     },
     {
       "path": "public/sprites/golem.png",
