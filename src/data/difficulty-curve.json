@@ -1,0 +1,40 @@
+{
+  "difficulties": [
+    {
+      "id": "easy",
+      "diffIndex": 0,
+      "label": "Easy (Border Levy)",
+      "enemyHpMult": 0.75,
+      "enemyDamageMult": 0.80,
+      "xpMult": 1.15,
+      "goldMult": 1.25,
+      "dropRateMult": 1.00
+    },
+    {
+      "id": "normal",
+      "diffIndex": 1,
+      "label": "Normal (Vanguard Standard)",
+      "enemyHpMult": 1.00,
+      "enemyDamageMult": 1.00,
+      "xpMult": 1.00,
+      "goldMult": 1.00,
+      "dropRateMult": 1.00
+    },
+    {
+      "id": "hard",
+      "diffIndex": 2,
+      "label": "Hard (Iron Discipline)",
+      "enemyHpMult": 1.35,
+      "enemyDamageMult": 1.25,
+      "xpMult": 1.25,
+      "goldMult": 1.15,
+      "dropRateMult": 1.25
+    }
+  ],
+  "zones": [
+    { "id": "act1", "name": "Act 1: Thornwick & Sunken Ford", "enemyBaseHp": 65, "enemyBaseArmor": 2, "heroDps": 18 },
+    { "id": "act2", "name": "Act 2: Redmarsh & Salt-Vaults", "enemyBaseHp": 165, "enemyBaseArmor": 5, "heroDps": 36 },
+    { "id": "act3", "name": "Act 3: Burning Harbor & Rampart", "enemyBaseHp": 320, "enemyBaseArmor": 9, "heroDps": 58 },
+    { "id": "act4", "name": "Act 4: Ember Threshold & Caldera", "enemyBaseHp": 540, "enemyBaseArmor": 14, "heroDps": 82 }
+  ]
+}
