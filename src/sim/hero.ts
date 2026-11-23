@@ -2,7 +2,7 @@ import { STAMINA_DRAIN, STAMINA_REGEN_IDLE, STAMINA_REGEN_WALK, calculateMaxroll
 import { DEFS, Elem, M, MODN, Ord, MAXS, strike } from './combat';
 import { rulesOf } from './difficulty';
 import { getDifficultyCalibration } from './balance';
-import { ATTR_NAMES, BUILTIN_GEMS, CLS_MAGE, CLS_WARRIOR, Cls, ITEMS, Ik, LOOT_RULES, PART_COUNT, SIGIL_NAMES, SLOT_COUNT, Slot, WRIT_NAME, getItemDef, getUnidentifiedName, itemId, rollLoot, type ItemDef } from './items';
+import { ATTR_NAMES, BUILTIN_GEMS, CLS_MAGE, CLS_WARRIOR, Cls, kitCls, ITEMS, Ik, LOOT_RULES, PART_COUNT, SIGIL_NAMES, SLOT_COUNT, Slot, WRIT_NAME, getItemDef, getUnidentifiedName, itemId, rollLoot, type ItemDef } from './items';
 import { calculateActiveSetBonuses, ALL_SET_ITEMS, COMBINED_SET_ITEMS } from './sets';
 import { ALL_UNIQUE_ARTIFACTS, UNIQUE_ARTIFACTS, rollMagicItem, rollRareItem } from './affixes';
 import { ALL_RUNES } from './runes';
@@ -84,7 +84,7 @@ export function learnSpell(h: HeroState, sid: number): void {
 /** Class mask of a spell: 0 for any hero, else bit 1<<cls. Hero Cls 0 warrior, 1 mage. */
 export function spellForHero(h: HeroState, sid: number): boolean {
   const m = SPELLS[sid]?.cls ?? 0;
-  return m === 0 || (m & (1 << h.cls)) !== 0;
+  return m === 0 || (m & (1 << kitCls(h.cls))) !== 0;
 }
 
 export function spellRankOf(h: HeroState | null, sid: number): number {
@@ -295,7 +295,7 @@ export function derive(h: HeroState): Derived {
     }
   }
   const [blade, guard, sorc] = h.skill;
-  const mage = h.cls === Cls.Mage;
+  const mage = kitCls(h.cls) === Cls.Mage;
   const dmgMin = min + (t[0] >> 1) + Math.floor((base.min * blade * 5) / 100) - (mage ? 4 : 0);
   const dmgMax = max + (t[0] >> 1) + Math.floor((base.max * blade * 5) / 100) - (mage ? 6 : 0);
   return {
@@ -445,7 +445,7 @@ export function blocker(h: HeroState, item: number): number {
   const d = getItemDef(item);
   if (!d) return Why.None;
   if (d.unidentified) return Why.Unidentified;
-  if (d.kind === Ik.Gear && (d.cls & (h.cls === Cls.Mage ? CLS_MAGE : CLS_WARRIOR)) === 0) return Why.Class;
+  if (d.kind === Ik.Gear && (d.cls & (kitCls(h.cls) === Cls.Mage ? CLS_MAGE : CLS_WARRIOR)) === 0) return Why.Class;
   if (d.needv > 0 && totals(h)[d.need] < d.needv) return Why.Need;
   if (d.kind === Ik.Learn && heroKnowsSpell(h, d.spell)) return Why.Known;
   if (d.kind === Ik.Learn && !spellForHero(h, d.spell)) return Why.Class;

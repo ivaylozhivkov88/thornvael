@@ -16,6 +16,8 @@ export const PART_DMG = [150, 100, 100, 100] as const;
 /** Gear is worn; potions are used up; learn items (scroll or tome) teach a spell for good; portal opens a rift; gem socketed into gear; identify unmasks relics. */
 export const Ik = { Gear: 0, Potion: 1, Learn: 2, Portal: 3, Gem: 4, Identify: 5, Key: 6 } as const;
 export const Cls = { Warrior: 0, Mage: 1 } as const;
+/** Item/spell kit of a hero class: archer (2) wields warrior gear and spells, necromancer (3) mage ones — re-qualified, no new items. */
+export const kitCls = (cls: number): number => (cls === 3 ? Cls.Mage : cls === 2 ? Cls.Warrior : cls);
 export const Attr = { Body: 0, Agility: 1, Mind: 2, Spirit: 3 } as const;
 export const ATTR_NAMES = ['Body', 'Agility', 'Mind', 'Spirit'] as const;
 export const CLS_WARRIOR = 1;

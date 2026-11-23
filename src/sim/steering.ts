@@ -1,7 +1,7 @@
 import { isBlockedAt, type GameMap } from '../map';
 import { DEFS, Kind, Ord } from './combat';
 import { monsterFamilyById } from './data';
-import { Cls, Slot, getItemDef } from './items';
+import { Cls, Slot, getItemDef, kitCls } from './items';
 import { heroSpeedPct } from './mechanics';
 import { FP, dir16, isChokepoint, lineClear, speedPct } from './path';
 import type { Sim } from './sim';
@@ -64,7 +64,7 @@ function kindBaseMass(kind: number): number {
  */
 export function unitPushMass(sim: Sim, id: number): number {
   if (sim.hero !== null && id === sim.hero.id) {
-    return sim.hero.cls === Cls.Mage ? 150 : 240;
+    return kitCls(sim.hero.cls) === Cls.Mage ? 150 : 240;
   }
 
   const cb = sim.cb;

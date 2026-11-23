@@ -1,7 +1,7 @@
 import { isBlockedAt } from '../map';
 import { DEFS, Kind } from './combat';
 import { monsterFamilyById } from './data';
-import { Cls } from './items';
+import { Cls, kitCls } from './items';
 import { FP, lineClear, regionsOf } from './path';
 import type { Sim } from './sim';
 
@@ -59,7 +59,7 @@ const VANGUARD_ARC_PULL = Math.round(0.35 * FP); // 0.35 tile outer-flank cresce
  */
 export function unitFormationRole(sim: Sim, id: number): FormationRole {
   if (sim.hero !== null && id === sim.hero.id) {
-    return sim.hero.cls === Cls.Mage ? FormationRole.Rearguard : FormationRole.Vanguard;
+    return kitCls(sim.hero.cls) === Cls.Mage ? FormationRole.Rearguard : FormationRole.Vanguard;
   }
 
   const famId = sim.cb.family[id];
