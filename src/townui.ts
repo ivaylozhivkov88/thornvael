@@ -752,7 +752,18 @@ export class TownUi {
       gambleSlotBar.append(slotBtn);
     }
 
-    acts.append(deal, undo, gamble, button('💬 Lore & Spoils', () => this.openLoreDialogue('shop')), exit);
+    let unid = 0;
+    for (const st of h.inv) if (getItemDef(st.item)?.unidentified) unid++;
+    for (const eqId of h.eq) if (eqId >= 0 && getItemDef(eqId)?.unidentified) unid++;
+    const identify = button('🔍 Identify', () => {
+      this.cmd('identify_all');
+      this.ctx.changed();
+      this.render();
+    }, unid > 0 ? `×${unid}` : '');
+    identify.disabled = unid === 0;
+    this.ctx.tipOn(identify, 'Reveal all unidentified items (pack and equipped) — free');
+
+    acts.append(deal, undo, gamble, identify, button('💬 Lore & Spoils', () => this.openLoreDialogue('shop')), exit);
     const details = el('section', 'trade-details');
     details.setAttribute('aria-label', S.town.itemDetails);
     details.append(gambleSlotBar, this.renderTray(sim), this.renderDetailView(h), el('p', 'note', S.town.shopHelp));
