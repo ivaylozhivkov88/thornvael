@@ -558,18 +558,24 @@ export class TownUi {
       const counts = new Map<number, number>();
       for (const k of keys) counts.set(k, (counts.get(k) ?? 0) + 1);
       if (!counts.size) box.append(el('p', 'tray-empty', kind === 'b' ? S.town.trayBuyEmpty : S.town.traySellEmpty));
+      const tiles = el('div', 'tray-tiles');
       for (const [k, n] of counts) {
         const id = idOf(k);
         const name = getItemDef(id)?.name ?? '';
-        const row = el('div', 'tray-row');
-        const label = button(`${name}${n > 1 ? ` x${n}` : ''}  ${unit(id) * n}`, () => { this.detailItem = id; this.updateShopSelections(sim); });
-        label.className = 'tray-item';
-        const minus = button('−', () => { this.hideCardTooltip(); this.removeOne(kind, k); this.updateShopSelections(sim); });
-        minus.className = 'tray-minus';
-        minus.setAttribute('aria-label', `${S.town.removeOne}: ${name}`);
-        row.append(label, minus);
-        box.append(row);
+        const tile = button('', () => { this.hideCardTooltip(); this.removeOne(kind, k); this.updateShopSelections(sim); });
+        tile.className = 'tray-row tray-item';
+        tile.title = `${name} — ${unit(id) * n}`;
+        tile.setAttribute('aria-label', `${S.town.removeOne}: ${name}, ${unit(id) * n}`);
+        tile.append(itemIconEl(id));
+        if (n > 1) tile.append(el('b', 'tray-n', `x${n}`));
+        tile.append(el('small', 'tray-price', String(unit(id) * n)));
+        tile.addEventListener('pointerenter', (e) => {
+          if ((e as PointerEvent).pointerType !== 'touch') this.showCardTooltip(id, tile);
+        });
+        tile.addEventListener('pointerleave', () => this.hideCardTooltip());
+        tiles.append(tile);
       }
+      if (counts.size) box.append(tiles);
       return box;
     };
     const sides = el('div', 'tray-sides');

@@ -94,6 +94,9 @@
   display: grid;
   grid-template-columns: minmax(0, 1.05fr) minmax(0, 1.65fr) minmax(0, .85fr);
   grid-template-areas: "stock scene actions" "stock tray portrait" "pack pack pack" "details details details";
+  grid-template-rows: minmax(0, 1fr) auto auto auto;
+  flex: 1 1 auto;
+  min-height: 0;
   gap: 10px;
   align-items: stretch;
 }
@@ -2513,3 +2516,34 @@
 .sheet.town--shop .gamble-slot { min-height: 44px; min-width: 44px; background: #2a1e14; color: #d6b37a; border: 1px solid #634320; border-radius: 3px; font-size: 13px; }
 .sheet.town--shop .bill { display: flex; justify-content: space-between; gap: 8px; font-size: 12px; font-variant-numeric: tabular-nums; }
 .sheet.town--shop .bill .neg { color: #ff8a7a; }
+
+/* One-screen shop (desktop): sheet fills the viewport, only the shelf and pack scroll internally. */
+@media (min-width: 641px) and (min-height: 640px) {
+  .sheet.town.town--shop { display: flex; flex-direction: column; overflow: hidden; height: min(760px, calc(100dvh - 24px - env(safe-area-inset-top) - env(safe-area-inset-bottom))); scrollbar-gutter: auto; }
+  .sheet.town--shop .trade-details { display: none; }
+  .sheet.town--shop .trade-layout { grid-template-areas: "stock scene actions" "stock tray portrait" "pack pack pack"; grid-template-rows: minmax(215px, 1fr) auto auto; }
+  .sheet.town.town--shop .keeper { align-self: stretch; display: flex; flex-direction: column; min-height: 0; }
+  .sheet.town.town--shop .keeper .scene-art { flex: 1 1 0; min-height: 0; aspect-ratio: 4 / 3; width: auto; max-width: 100%; align-self: center; }
+  .sheet.town.town--shop .keeper .say { flex: 0 0 auto; max-height: 3.6em; overflow: hidden; }
+  .sheet.town--shop .stock-panel { display: flex; flex-direction: column; min-height: 0; overflow: hidden; }
+  .sheet.town--shop .stock-panel .scroll-wrap { flex: 1 1 0; min-height: 0; grid-template-rows: minmax(0, 1fr); align-items: stretch; }
+  .sheet.town--shop .stock-panel .scroll-box { max-height: none; height: 100%; min-height: 0; }
+  .sheet.town--shop .grid.shelf .cell { min-height: 70px; }
+  .sheet.town--shop .grid.pack { grid-template-columns: repeat(8, minmax(44px, 1fr)); }
+  .sheet.town--shop .grid.pack .cell { min-height: 64px; }
+  .sheet.town--shop .pack-panel .scroll-box { max-height: 136px; }
+  .sheet.town--shop .trade-actions { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 6px; align-content: start; }
+  .sheet.town--shop .trade-actions .deal-btn { grid-column: 1 / -1; }
+  .sheet.town--shop .trade-actions button, .sheet.town--shop .trade-actions select { min-height: 44px; padding: 4px 6px; font-size: 13px; }
+  .sheet.town.town--shop .hero-portrait { padding: 4px; align-self: stretch; }
+  .sheet.town.town--shop .hero-portrait .doll-stack { height: 96px; }
+  .sheet.town.town--shop .hero-portrait { justify-content: flex-start; }
+  .sheet.town--shop .hero-portrait figcaption { display: none; }
+  .sheet.town--shop .trade-tray { align-self: end; }
+  .sheet.town--shop .tray-sides .tray-side { max-height: none; overflow: visible; min-height: 100px; }
+}
+.sheet.town--shop .tray-tiles { display: grid; grid-template-columns: repeat(auto-fill, 48px); gap: 5px; }
+.sheet.town--shop .tray-tiles .tray-row { position: relative; width: 48px; height: 48px; min-width: 44px; min-height: 44px; padding: 2px; display: flex; align-items: center; justify-content: center; text-align: center; }
+.sheet.town--shop .tray-tiles .town-item-icon { width: 30px; height: 30px; pointer-events: none; }
+.sheet.town--shop .tray-n { position: absolute; left: 2px; top: 1px; font-size: 11px; color: var(--town-gold); text-shadow: 0 1px 2px #000; }
+.sheet.town--shop .tray-price { position: absolute; right: 2px; bottom: 1px; font-size: 10px; line-height: 1.1; padding: 0 2px; border-radius: 2px; background: #17120be8; color: var(--town-gold); }
