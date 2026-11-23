@@ -2,7 +2,7 @@
  {
   "id": "briar-hound",
   "name": "Briar Hound",
-  "codex": "Feral border curs colonized by parasitic iron-bramble that grows directly through their ribs. They hunt in starving packs along the Sunken Ford; cut them down with fire or wide-sweeping blades before they surround isolated archers.",
+  "codex": "Feral border curs colonized by parasitic iron-bramble that grows directly through their ribs. They hunt in starving packs along the Sunken Ford; cut them down with fire or wide-sweeping blades before they surround isolated archers. They shrug off cold and damp, making fire the cleanest way to drop them.",
   "weakness": "fire",
   "special": {
    "name": "Bramble Pounce",
@@ -24,12 +24,13 @@
     "choked whine"
    ]
   },
-  "loot_theme": "Light hides, thorny kindling, and copper coins swallowed from dead scouts."
+  "loot_theme": "Light hides, thorny kindling, and copper coins swallowed from dead scouts.",
+  "resistance": "cold and damp"
  },
  {
   "id": "flintback",
   "name": "Flintback",
-  "codex": "Lumbering quarry-beasts whose dorsal hides have calcified into overlapping slabs of grey chert. Arrows and light swords glance harmlessly off their posture; soften them with crushing maces or lightning magic.",
+  "codex": "Lumbering quarry-beasts whose dorsal hides have calcified into overlapping slabs of grey chert. Arrows and light swords glance harmlessly off their posture; soften them with crushing maces or lightning magic. They shrug off earth and blunt, making lightning the cleanest way to drop them.",
   "weakness": "lightning",
   "special": {
    "name": "Shoulder Crag Slam",
@@ -51,12 +52,13 @@
     "cracking slate sigh"
    ]
   },
-  "loot_theme": "Heavy shields, iron ore fragments, and dented warrior helms."
+  "loot_theme": "Heavy shields, iron ore fragments, and dented warrior helms.",
+  "resistance": "earth and blunt"
  },
  {
   "id": "mire-wisp",
   "name": "Mire Wisp",
-  "codex": "Pockets of marsh methane and spiteful lingering memory anchored inside drowned livestock skulls. Keep your formation spread out so their corpse-gas volleys cannot rot the entire vanguard at once.",
+  "codex": "Pockets of marsh methane and spiteful lingering memory anchored inside drowned livestock skulls. Keep your formation spread out so their corpse-gas volleys cannot rot the entire vanguard at once. They shrug off cold and damp, making fire the cleanest way to drop them.",
   "weakness": "fire",
   "special": {
    "name": "Drowned Lantern Flare",
@@ -78,12 +80,13 @@
     "The water is warm..."
    ]
   },
-  "loot_theme": "Mana draughts, apprentice wands, and tarnished brass charms."
+  "loot_theme": "Mana draughts, apprentice wands, and tarnished brass charms.",
+  "resistance": "cold and damp"
  },
  {
   "id": "ruin-mite",
   "name": "Ruin Mite",
-  "codex": "Blind, sandstone-chewing arthropods that nest in the foundations of abandoned watchtowers. Individually trivial, their serrated mandibles can saw through greaves if allowed to swarm a stationary tank.",
+  "codex": "Blind, sandstone-chewing arthropods that nest in the foundations of abandoned watchtowers. Individually trivial, their serrated mandibles can saw through greaves if allowed to swarm a stationary tank. They shrug off fire and ash, making cold the cleanest way to drop them.",
   "weakness": "cold",
   "special": {
    "name": "Saw-Mandible Clamp",
@@ -105,12 +108,13 @@
     "fading leg-twitches"
    ]
   },
-  "loot_theme": "Low-tier boots, chipped flint daggers, and small healing draughts."
+  "loot_theme": "Low-tier boots, chipped flint daggers, and small healing draughts.",
+  "resistance": "fire and ash"
  },
  {
   "id": "thorn-boar",
   "name": "Thorn Boar",
-  "codex": "Ill-tempered greywood swine grown massive on a diet of unburied border skirmishers and witch-hazel roots. Sidestep their straight-line gore attacks and strike their unarmored flanks.",
+  "codex": "Ill-tempered greywood swine grown massive on a diet of unburied border skirmishers and witch-hazel roots. Sidestep their straight-line gore attacks and strike their unarmored flanks. They shrug off cold and damp, making fire the cleanest way to drop them.",
   "weakness": "fire",
   "special": {
    "name": "Root-Tusk Gore",
@@ -132,12 +136,13 @@
     "heavy mud-slump"
    ]
   },
-  "loot_theme": "Padded jerkins, axes, and hearty stamina-restoring rations."
+  "loot_theme": "Padded jerkins, axes, and hearty stamina-restoring rations.",
+  "resistance": "cold and damp"
  },
  {
   "id": "quill-fiend",
   "name": "Quill Fiend",
-  "codex": "Hunched, sinewy scavengers that fire calcified ribs through a hollow bone trough fused to their right forearm. Close the distance immediately with fast cavalry or hasted infantry before they pin your casters.",
+  "codex": "Hunched, sinewy scavengers that fire calcified ribs through a hollow bone trough fused to their right forearm. Close the distance immediately with fast cavalry or hasted infantry before they pin your casters. They shrug off elemental wards, making physical the cleanest way to drop them.",
   "weakness": "physical",
   "special": {
    "name": "Bone-Volley Fan",
@@ -159,12 +164,13 @@
     "wet cough"
    ]
   },
-  "loot_theme": "Shortbows, arrows, light gloves, and bone rings."
+  "loot_theme": "Shortbows, arrows, light gloves, and bone rings.",
+  "resistance": "elemental wards"
  },
  {
   "id": "fallen-shaman",
   "name": "Cinder Shaman",
-  "codex": "Hedge-priests of the ash-cults who carry burning bone-totems strapped to their spines. Always kill the Shaman first; if left chanting in the rear, he will endlessly re-ignite fallen hounds and raiders.",
+  "codex": "Hedge-priests of the ash-cults who carry burning bone-totems strapped to their spines. Always kill the Shaman first; if left chanting in the rear, he will endlessly re-ignite fallen hounds and raiders. They shrug off fire and ash, making cold the cleanest way to drop them.",
   "weakness": "cold",
   "special": {
    "name": "Ashen Revival",
@@ -186,12 +192,13 @@
     "crumbling charcoal sigh"
    ]
   },
-  "loot_theme": "Spell scrolls, mage staves, ember charms, and mana potions."
+  "loot_theme": "Spell scrolls, mage staves, ember charms, and mana potions.",
+  "resistance": "fire and ash"
  },
  {
   "id": "glasswing",
   "name": "Glasswing",
-  "codex": "High-altitude predators with four razor-edged wings of translucent silica. They hover over impassable terrain to pelt troops with obsidian tail-shards; bring them down with accurate bowfire or instant lightning spells.",
+  "codex": "High-altitude predators with four razor-edged wings of translucent silica. They hover over impassable terrain to pelt troops with obsidian tail-shards; bring them down with accurate bowfire or instant lightning spells. They shrug off elemental wards, making physical the cleanest way to drop them.",
   "weakness": "physical",
   "special": {
    "name": "Obsidian Stinger Dart",
@@ -213,12 +220,13 @@
     "fading chime"
    ]
   },
-  "loot_theme": "Quartz focuses, swift boots, and high-accuracy daggers."
+  "loot_theme": "Quartz focuses, swift boots, and high-accuracy daggers.",
+  "resistance": "elemental wards"
  },
  {
   "id": "rootbound",
   "name": "Rootbound",
-  "codex": "Ancient boundary cairns overgrown by strangler-oaks that absorbed the frontier's spilled blood. Extremely slow but capable of flattening a shield-wall in two swings; kite them across open ground with fire magic.",
+  "codex": "Ancient boundary cairns overgrown by strangler-oaks that absorbed the frontier's spilled blood. Extremely slow but capable of flattening a shield-wall in two swings; kite them across open ground with fire magic. They shrug off cold and damp, making fire the cleanest way to drop them.",
   "weakness": "fire",
   "special": {
    "name": "Monolith Root-Slam",
@@ -240,12 +248,13 @@
     "Back... to dirt..."
    ]
   },
-  "loot_theme": "Oak staves, heavy shields, stone charms, and earth scrolls."
+  "loot_theme": "Oak staves, heavy shields, stone charms, and earth scrolls.",
+  "resistance": "cold and damp"
  },
  {
   "id": "cinderling",
   "name": "Cinderling",
-  "codex": "Malformed volcanic homunculi with smoking chimney-skulls and a dragging left arm of molten slag. They scurry around the edges of battle hurling magma globs; a single Frost Bolt will crack their brittle crust.",
+  "codex": "Malformed volcanic homunculi with smoking chimney-skulls and a dragging left arm of molten slag. They scurry around the edges of battle hurling magma globs; a single Frost Bolt will crack their brittle crust. They shrug off fire and ash, making cold the cleanest way to drop them.",
   "weakness": "cold",
   "special": {
    "name": "Slag Lob",
@@ -267,12 +276,13 @@
     "Cold... so dark..."
    ]
   },
-  "loot_theme": "Fire scrolls, ember charms, and small piles of fused gold."
+  "loot_theme": "Fire scrolls, ember charms, and small piles of fused gold.",
+  "resistance": "fire and ash"
  },
  {
   "id": "gloom-stag",
   "name": "Gloom Stag",
-  "codex": "Gaunt, long-legged cervids of the deep Greywood whose deadwood antlers trail ribbons of narcotic shadow-mist. They ignore the frontline to gore back-row mages; keep a reserve pikeman or Stone Curse ready.",
+  "codex": "Gaunt, long-legged cervids of the deep Greywood whose deadwood antlers trail ribbons of narcotic shadow-mist. They ignore the frontline to gore back-row mages; keep a reserve pikeman or Stone Curse ready. They shrug off cold and damp, making fire the cleanest way to drop them.",
   "weakness": "fire",
   "special": {
    "name": "Shadow-Antler Rush",
@@ -294,12 +304,13 @@
     "dissolving mist-sigh"
    ]
   },
-  "loot_theme": "Stalker hoods, bows, agility rings, and astral charms."
+  "loot_theme": "Stalker hoods, bows, agility rings, and astral charms.",
+  "resistance": "cold and damp"
  },
  {
   "id": "salt-crab",
   "name": "Salt Crab",
-  "codex": "Tidal crustaceans that build towering shells from brine-crystals and wrecked Oakhaven hull planks. Frontal physical attacks bounce off their massive left shield-claw; flank them or boil them inside their shells with lightning.",
+  "codex": "Tidal crustaceans that build towering shells from brine-crystals and wrecked Oakhaven hull planks. Frontal physical attacks bounce off their massive left shield-claw; flank them or boil them inside their shells with lightning. They shrug off earth and blunt, making lightning the cleanest way to drop them.",
   "weakness": "lightning",
   "special": {
    "name": "Brine-Shield Guard",
@@ -321,12 +332,13 @@
     "gurgling brine-drain"
    ]
   },
-  "loot_theme": "Heavy armor, bucklers, and salt-preserved rations."
+  "loot_theme": "Heavy armor, bucklers, and salt-preserved rations.",
+  "resistance": "earth and blunt"
  },
  {
   "id": "fetish-blowdart",
   "name": "Bog Dartblower",
-  "codex": "Diminutive swamp-dwellers concealed behind ritual masks twice their own height. They kite relentlessly through the reeds while spitting neurotoxic needles; use area-of-effect Fireballs or fast archers to sweep them clear.",
+  "codex": "Diminutive swamp-dwellers concealed behind ritual masks twice their own height. They kite relentlessly through the reeds while spitting neurotoxic needles; use area-of-effect Fireballs or fast archers to sweep them clear. They shrug off cold and damp, making fire the cleanest way to drop them.",
   "weakness": "fire",
   "special": {
    "name": "Paralyzing Reed-Dart",
@@ -348,12 +360,13 @@
     "Back to the mud..."
    ]
   },
-  "loot_theme": "Stilettos, poison scrolls, light boots, and wooden charms."
+  "loot_theme": "Stilettos, poison scrolls, light boots, and wooden charms.",
+  "resistance": "cold and damp"
  },
  {
   "id": "witch-doctor",
   "name": "Witch Doctor",
-  "codex": "Tribal elders of the Redmarsh fringes draped in crocodile jaws and bubbling alembic flasks. Their hexes rot armor and turn healing potions sour; interrupt their censer-swings or silence them from afar.",
+  "codex": "Tribal elders of the Redmarsh fringes draped in crocodile jaws and bubbling alembic flasks. Their hexes rot armor and turn healing potions sour; interrupt their censer-swings or silence them from afar. They shrug off elemental wards, making physical the cleanest way to drop them.",
   "weakness": "physical",
   "special": {
    "name": "Mire-Marrow Hex",
@@ -375,12 +388,13 @@
     "rattling crocodile-bone collapse"
    ]
   },
-  "loot_theme": "Potions, elixirs, hexing wands, and scholar hats."
+  "loot_theme": "Potions, elixirs, hexing wands, and scholar hats.",
+  "resistance": "elemental wards"
  },
  {
   "id": "hollow-knight",
   "name": "Hollow Knight",
-  "codex": "Suits of imperial border-plate animated by the muscle-memory of soldiers who refused to yield their posts. Though missing their left arms, they drag greatswords that cleave through two ranks at once; melt their joints with fire or acid.",
+  "codex": "Suits of imperial border-plate animated by the muscle-memory of soldiers who refused to yield their posts. Though missing their left arms, they drag greatswords that cleave through two ranks at once; melt their joints with fire or acid. They shrug off cold and damp, making fire the cleanest way to drop them.",
   "weakness": "fire",
   "special": {
    "name": "One-Armed Execution Sweep",
@@ -402,12 +416,13 @@
     "Relieved... of watch..."
    ]
   },
-  "loot_theme": "Knight swords, plate armor, steel helms, and gauntlets."
+  "loot_theme": "Knight swords, plate armor, steel helms, and gauntlets.",
+  "resistance": "cold and damp"
  },
  {
   "id": "spore-matron",
   "name": "Spore Matron",
-  "codex": "Bloated fungal colonies shaped vaguely like bent washerwomen, carrying umbrella-caps dripping with yellow mycotoxins. Never fight them in narrow corridors; burn them from maximum bow-range before their right-side sacs rupture.",
+  "codex": "Bloated fungal colonies shaped vaguely like bent washerwomen, carrying umbrella-caps dripping with yellow mycotoxins. Never fight them in narrow corridors; burn them from maximum bow-range before their right-side sacs rupture. They shrug off cold and damp, making fire the cleanest way to drop them.",
   "weakness": "fire",
   "special": {
    "name": "Mycotoxin Vent",
@@ -429,12 +444,13 @@
     "Mulch... for the cap..."
    ]
   },
-  "loot_theme": "Earth scrolls, mage robes, and alchemical draughts."
+  "loot_theme": "Earth scrolls, mage robes, and alchemical draughts.",
+  "resistance": "cold and damp"
  },
  {
   "id": "dune-lurker",
   "name": "Dune Lurker",
-  "codex": "Ochre-shelled desert mantids that lie buried up to their eyes in the dry creek beds of Bracken Basin. They erupt beneath stragglers with cross-scythe slashes; keep Stone Skin on your rear guard when crossing sand.",
+  "codex": "Ochre-shelled desert mantids that lie buried up to their eyes in the dry creek beds of Bracken Basin. They erupt beneath stragglers with cross-scythe slashes; keep Stone Skin on your rear guard when crossing sand. They shrug off fire and ash, making cold the cleanest way to drop them.",
   "weakness": "cold",
   "special": {
    "name": "Sand-Trap Ambush",
@@ -456,12 +472,13 @@
     "fading mandible click"
    ]
   },
-  "loot_theme": "Poignards, studded leather, and agility gear."
+  "loot_theme": "Poignards, studded leather, and agility gear.",
+  "resistance": "fire and ash"
  },
  {
   "id": "storm-kite",
   "name": "Storm Kite",
-  "codex": "Leathery sky-rays that ride the thermal updrafts of the Redmarsh escarpments, storing static charge in their bronze-veined left wingtips. Ground them quickly or equip Storm Charms before they link lightning across your squad.",
+  "codex": "Leathery sky-rays that ride the thermal updrafts of the Redmarsh escarpments, storing static charge in their bronze-veined left wingtips. Ground them quickly or equip Storm Charms before they link lightning across your squad. They shrug off poison, making poison the cleanest way to drop them.",
   "weakness": "poison",
   "special": {
    "name": "Wingtip Arc-Discharge",
@@ -483,12 +500,13 @@
     "grounding thud"
    ]
   },
-  "loot_theme": "Storm charms, air scrolls, and composite bows."
+  "loot_theme": "Storm charms, air scrolls, and composite bows.",
+  "resistance": "poison"
  },
  {
   "id": "basalt-brute",
   "name": "Basalt Brute",
-  "codex": "Walking siege-engines of hexagonal black rock animated by the caldera's deep pressure. Their battering-ram right arms can shatter a shield-wall in one blow; immobilize their wide feet with ice magic and chip them down from range.",
+  "codex": "Walking siege-engines of hexagonal black rock animated by the caldera's deep pressure. Their battering-ram right arms can shatter a shield-wall in one blow; immobilize their wide feet with ice magic and chip them down from range. They shrug off fire and ash, making cold the cleanest way to drop them.",
   "weakness": "cold",
   "special": {
    "name": "Tectonic Ram",
@@ -510,12 +528,13 @@
     "COOLING... STONE..."
    ]
   },
-  "loot_theme": "Warhammers, greatmauls, tower shields, and plate mail."
+  "loot_theme": "Warhammers, greatmauls, tower shields, and plate mail.",
+  "resistance": "fire and ash"
  },
  {
   "id": "sand-raider",
   "name": "Sand Raider",
-  "codex": "Salt-bitten desert cutthroats wearing scarab-shell pauldrons and wielding twin curved scimitars. They sprint past slow heavy infantry to butcher archers; catch them with Haste or snare them in narrow choke points.",
+  "codex": "Salt-bitten desert cutthroats wearing scarab-shell pauldrons and wielding twin curved scimitars. They sprint past slow heavy infantry to butcher archers; catch them with Haste or snare them in narrow choke points. They shrug off poison, making poison the cleanest way to drop them.",
   "weakness": "poison",
   "special": {
    "name": "Dune-Dervishes' Cross-Cut",
@@ -537,12 +556,13 @@
     "choking in the dust"
    ]
   },
-  "loot_theme": "Curved blades, leather boots, gold pouches, and water draughts."
+  "loot_theme": "Curved blades, leather boots, gold pouches, and water draughts.",
+  "resistance": "poison"
  },
  {
   "id": "dune-scarab",
   "name": "Dune Scarab",
-  "codex": "Carapace-plated beetles with forked copper horns that act as living Leyden jars. Striking their cracked right shell with metal weapons triggers a static backfire; engage them with ranged magic or wooden staves.",
+  "codex": "Carapace-plated beetles with forked copper horns that act as living Leyden jars. Striking their cracked right shell with metal weapons triggers a static backfire; engage them with ranged magic or wooden staves. They shrug off elemental wards, making physical the cleanest way to drop them.",
   "weakness": "physical",
   "special": {
    "name": "Ball-Lightning Horn",
@@ -564,12 +584,13 @@
     "smoking shell-hiss"
    ]
   },
-  "loot_theme": "Rings, amulets, lightning scrolls, and copper bands."
+  "loot_theme": "Rings, amulets, lightning scrolls, and copper bands.",
+  "resistance": "elemental wards"
  },
  {
   "id": "claw-viper",
   "name": "Scale Viper",
-  "codex": "Armored desert serpents that rear up on clawed forelimbs and sweep with a halberd-like bone blade at the tip of their tails. Their venom blinds and weakens; keep antidotes or Blessing active on your point man.",
+  "codex": "Armored desert serpents that rear up on clawed forelimbs and sweep with a halberd-like bone blade at the tip of their tails. Their venom blinds and weakens; keep antidotes or Blessing active on your point man. They shrug off fire and ash, making cold the cleanest way to drop them.",
   "weakness": "cold",
   "special": {
    "name": "Halberd-Tail Whip",
@@ -591,12 +612,13 @@
     "deflating hiss"
    ]
   },
-  "loot_theme": "Scale armor, poison charms, and agile weapons."
+  "loot_theme": "Scale armor, poison charms, and agile weapons.",
+  "resistance": "fire and ash"
  },
  {
   "id": "dune-beast",
   "name": "Dune Beast",
-  "codex": "Sail-backed oasis predators whose crocodile jaws occupy nearly half their body length. They leap over frontline shields to snap at wounded soldiers; focus fire on them the moment their dorsal fin breaks the scrub.",
+  "codex": "Sail-backed oasis predators whose crocodile jaws occupy nearly half their body length. They leap over frontline shields to snap at wounded soldiers; focus fire on them the moment their dorsal fin breaks the scrub. They shrug off cold and damp, making fire the cleanest way to drop them.",
   "weakness": "fire",
   "special": {
    "name": "Oasis-Clearing Leap",
@@ -618,12 +640,13 @@
     "gurgling wheeze"
    ]
   },
-  "loot_theme": "Heavy hides, brigandines, and body-enhancing gear."
+  "loot_theme": "Heavy hides, brigandines, and body-enhancing gear.",
+  "resistance": "cold and damp"
  },
  {
   "id": "maggot-swarm",
   "name": "Maggot Swarm",
-  "codex": "A churning carpet of pale carrion-larvae piloting a half-digested ribcage through the alkaline mud. Single-target arrows and swords are wasted on the mass; incinerate the entire cluster with Fireball or Flame Burst.",
+  "codex": "A churning carpet of pale carrion-larvae piloting a half-digested ribcage through the alkaline mud. Single-target arrows and swords are wasted on the mass; incinerate the entire cluster with Fireball or Flame Burst. They shrug off cold and damp, making fire the cleanest way to drop them.",
   "weakness": "fire",
   "special": {
    "name": "Acid-Bile Surge",
@@ -645,12 +668,13 @@
     "collapsing ribcage clatter"
    ]
   },
-  "loot_theme": "Bone rings, acid scrolls, and half-digested jewelry."
+  "loot_theme": "Bone rings, acid scrolls, and half-digested jewelry.",
+  "resistance": "cold and damp"
  },
  {
   "id": "lantern-eel",
   "name": "Lantern Eel",
-  "codex": "Amphibious bog-serpents that slither onto the flooded causeways of the Iron Coast at high tide. Their angler-lures discharge lethal arcs through standing water; lure them onto dry paving stones before engaging.",
+  "codex": "Amphibious bog-serpents that slither onto the flooded causeways of the Iron Coast at high tide. Their angler-lures discharge lethal arcs through standing water; lure them onto dry paving stones before engaging. They shrug off poison, making poison the cleanest way to drop them.",
   "weakness": "poison",
   "special": {
    "name": "Tidal Arc-Lure",
@@ -672,12 +696,13 @@
     "limp mud-slump"
    ]
   },
-  "loot_theme": "Mana potions, astral spheres, and lightning-resistant gear."
+  "loot_theme": "Mana potions, astral spheres, and lightning-resistant gear.",
+  "resistance": "poison"
  },
  {
   "id": "ash-weaver",
   "name": "Ash Weaver",
-  "codex": "Four-armed cinder-cultists who spin incandescent filaments of glass and soot above their cowls. Their fire-webs entangle and immolate entire squads; snipe them early or use Wind Ward to deflect their casts.",
+  "codex": "Four-armed cinder-cultists who spin incandescent filaments of glass and soot above their cowls. Their fire-webs entangle and immolate entire squads; snipe them early or use Wind Ward to deflect their casts. They shrug off fire and ash, making cold the cleanest way to drop them.",
   "weakness": "cold",
   "special": {
    "name": "Cinder-Silk Net",
@@ -699,12 +724,13 @@
     "collapsing ash-whisper"
    ]
   },
-  "loot_theme": "Silk gloves, velvet mantles, fire tomes, and wands."
+  "loot_theme": "Silk gloves, velvet mantles, fire tomes, and wands.",
+  "resistance": "fire and ash"
  },
  {
   "id": "pale-burrower",
   "name": "Pale Burrower",
-  "codex": "Eyeless subterranean hulks from the Deep Quarry whose hands have ossified into broad bone shovels. They tunnel beneath shield-walls to toss infantry into the air; watch the dirt ripples and stun them as they surface.",
+  "codex": "Eyeless subterranean hulks from the Deep Quarry whose hands have ossified into broad bone shovels. They tunnel beneath shield-walls to toss infantry into the air; watch the dirt ripples and stun them as they surface. They shrug off cold and damp, making fire the cleanest way to drop them.",
   "weakness": "fire",
   "special": {
    "name": "Upheaval Scoop",
@@ -726,12 +752,13 @@
     "limp claw-scrape"
    ]
   },
-  "loot_theme": "Heavy axes, iron boots, and raw quarry gemstones."
+  "loot_theme": "Heavy axes, iron boots, and raw quarry gemstones.",
+  "resistance": "cold and damp"
  },
  {
   "id": "ironbark",
   "name": "Ironbark",
-  "codex": "Centuries-old coastal ward-trees whose sap has been replaced by bog-iron and whose left trunks are armored with ancient bronze shields. Conventional arrows cannot pierce them; use armor-shredding mauls or intense fire.",
+  "codex": "Centuries-old coastal ward-trees whose sap has been replaced by bog-iron and whose left trunks are armored with ancient bronze shields. Conventional arrows cannot pierce them; use armor-shredding mauls or intense fire. They shrug off cold and damp, making fire the cleanest way to drop them.",
   "weakness": "fire",
   "special": {
    "name": "Fortress-Bough Sweep",
@@ -753,12 +780,13 @@
     "Felled... at last..."
    ]
   },
-  "loot_theme": "Tower shields, thorn staves, and high-tier defensive charms."
+  "loot_theme": "Tower shields, thorn staves, and high-tier defensive charms.",
+  "resistance": "cold and damp"
  },
  {
   "id": "rift-moth",
   "name": "Rift Moth",
-  "codex": "Silent nocturnal lepidopterans from the high passes whose wing-patterns resemble staring astral eyes. Their gaze drains mana directly from casters' minds; have your archers shoot them down before your mages run dry.",
+  "codex": "Silent nocturnal lepidopterans from the high passes whose wing-patterns resemble staring astral eyes. Their gaze drains mana directly from casters' minds; have your archers shoot them down before your mages run dry. They shrug off elemental wards, making physical the cleanest way to drop them.",
   "weakness": "physical",
   "special": {
    "name": "Void-Eye Siphon",
@@ -780,12 +808,13 @@
     "scattering star-dust sigh"
    ]
   },
-  "loot_theme": "Astral wands, mana potions, sage cowls, and mind rings."
+  "loot_theme": "Astral wands, mana potions, sage cowls, and mind rings.",
+  "resistance": "elemental wards"
  },
  {
   "id": "greater-mummy",
   "name": "Crypt Embalmer",
-  "codex": "High mortuary priests of the Redmarsh dynasties whose hollowed left ribs house nests of venomous copperheads. They raise fallen skeletons and suffocate the living in bitumen fumes; cleanse them from afar with fire.",
+  "codex": "High mortuary priests of the Redmarsh dynasties whose hollowed left ribs house nests of venomous copperheads. They raise fallen skeletons and suffocate the living in bitumen fumes; cleanse them from afar with fire. They shrug off cold and damp, making fire the cleanest way to drop them.",
   "weakness": "fire",
   "special": {
    "name": "Canopic Serpent Breath",
@@ -807,12 +836,13 @@
     "collapsing gold and dust"
    ]
   },
-  "loot_theme": "Ancient gold rings, tomes of resurrection, and ornate staves."
+  "loot_theme": "Ancient gold rings, tomes of resurrection, and ornate staves.",
+  "resistance": "cold and damp"
  },
  {
   "id": "hollow-king",
   "name": "Hollow King",
-  "codex": "Fallen petty-monarchs of the coastal keeps whose iron crowns were hammered directly into their skulls. Impervious to fear and cold, their royal maces shatter bone; kite them with Haste and melt their plate with fire.",
+  "codex": "Fallen petty-monarchs of the coastal keeps whose iron crowns were hammered directly into their skulls. Impervious to fear and cold, their royal maces shatter bone; kite them with Haste and melt their plate with fire. They shrug off cold and damp, making fire the cleanest way to drop them.",
   "weakness": "fire",
   "special": {
    "name": "Sovereign Decree Smash",
@@ -834,12 +864,13 @@
     "heavy plate collapse"
    ]
   },
-  "loot_theme": "Executioner blades, gothic plate, dread helms, and royal signets."
+  "loot_theme": "Executioner blades, gothic plate, dread helms, and royal signets.",
+  "resistance": "cold and damp"
  },
  {
   "id": "wendigo-bruiser",
   "name": "Frosthorn Bruiser",
-  "codex": "Hulking alpine beasts from the peaks above Oakhaven with a solid gauntlet of blue glacier-ice encasing their left arms. Every blow chills the blood; keep Ember or Frost Charms equipped and burn through their thick white pelts.",
+  "codex": "Hulking alpine beasts from the peaks above Oakhaven with a solid gauntlet of blue glacier-ice encasing their left arms. Every blow chills the blood; keep Ember or Frost Charms equipped and burn through their thick white pelts. They shrug off cold and damp, making fire the cleanest way to drop them.",
   "weakness": "fire",
   "special": {
    "name": "Glacier-Fist Haymaker",
@@ -861,12 +892,13 @@
     "freezing rattle"
    ]
   },
-  "loot_theme": "Frost charms, heavy axes, furs, and giant gauntlets."
+  "loot_theme": "Frost charms, heavy axes, furs, and giant gauntlets.",
+  "resistance": "cold and damp"
  },
  {
   "id": "crowned-maw",
   "name": "Crowned Maw",
-  "codex": "Apex pack-leaders of the volcanic foothills bearing a jagged collar of bone horns behind their half-flayed skulls. They smell wounded soldiers across the map and sprint to finish them; guard your injured behind Stone Skin.",
+  "codex": "Apex pack-leaders of the volcanic foothills bearing a jagged collar of bone horns behind their half-flayed skulls. They smell wounded soldiers across the map and sprint to finish them; guard your injured behind Stone Skin. They shrug off fire and ash, making cold the cleanest way to drop them.",
   "weakness": "cold",
   "special": {
    "name": "Blood-Scent Lunge",
@@ -888,12 +920,13 @@
     "bloody wheeze"
    ]
   },
-  "loot_theme": "High-tier daggers, shadow masks, and lifesteal rings."
+  "loot_theme": "High-tier daggers, shadow masks, and lifesteal rings.",
+  "resistance": "fire and ash"
  },
  {
   "id": "frost-bell",
   "name": "Frost Bell",
-  "codex": "Haunted liturgical bronze bells torn from drowned coastal chapels, levitating on chains of rime. When their skull-clappers strike, the sound freezes mana and muscle alike; shatter their cracked right flanks with heavy maces.",
+  "codex": "Haunted liturgical bronze bells torn from drowned coastal chapels, levitating on chains of rime. When their skull-clappers strike, the sound freezes mana and muscle alike; shatter their cracked right flanks with heavy maces. They shrug off elemental wards, making physical the cleanest way to drop them.",
   "weakness": "physical",
   "special": {
    "name": "Vesper Toll of Rime",
@@ -915,12 +948,13 @@
     "fading liturgical chime"
    ]
   },
-  "loot_theme": "Spell-mirrors, astral medallions, and water tomes."
+  "loot_theme": "Spell-mirrors, astral medallions, and water tomes.",
+  "resistance": "elemental wards"
  },
  {
   "id": "silt-colossus",
   "name": "Silt Colossus",
-  "codex": "Towering citadel guardians formed from compressed river-silt and the masonry of ruined watchtowers. Physical blades sink uselessly into their mud-and-stone bulk; crack them open with Quake or concentrated Lightning.",
+  "codex": "Towering citadel guardians formed from compressed river-silt and the masonry of ruined watchtowers. Physical blades sink uselessly into their mud-and-stone bulk; crack them open with Quake or concentrated Lightning. They shrug off earth and blunt, making lightning the cleanest way to drop them.",
   "weakness": "lightning",
   "special": {
    "name": "Temple-Pillar Sweep",
@@ -942,12 +976,13 @@
     "RETURN... TO... SILT..."
    ]
   },
-  "loot_theme": "Aegis shields, colossus amulets, and high-tier earth tomes."
+  "loot_theme": "Aegis shields, colossus amulets, and high-tier earth tomes.",
+  "resistance": "earth and blunt"
  },
  {
   "id": "redglass-drake",
   "name": "Redglass Drake",
-  "codex": "Lesser volcanic dragons of the Act IV ridges whose wing-membranes are sheets of razor-sharp red obsidian. Stay out of their frontal cone when their throats glow orange, and ground them with cold magic.",
+  "codex": "Lesser volcanic dragons of the Act IV ridges whose wing-membranes are sheets of razor-sharp red obsidian. Stay out of their frontal cone when their throats glow orange, and ground them with cold magic. They shrug off fire and ash, making cold the cleanest way to drop them.",
   "weakness": "cold",
   "special": {
    "name": "Vitreous Flame-Breath",
@@ -969,12 +1004,13 @@
     "gurgling magma-cough"
    ]
   },
-  "loot_theme": "Wyrmscale cuirasses, dragon leather mantles, and meteor tomes."
+  "loot_theme": "Wyrmscale cuirasses, dragon leather mantles, and meteor tomes.",
+  "resistance": "fire and ash"
  },
  {
   "id": "night-orchard",
   "name": "Night Orchard",
-  "codex": "Gnarled black gallows-trees animated by the shadow covens, bearing glowing magenta skulls like ripe plums. They hurl screaming skull-fruit into your backline; chop them down with fire-enchanted axes.",
+  "codex": "Gnarled black gallows-trees animated by the shadow covens, bearing glowing magenta skulls like ripe plums. They hurl screaming skull-fruit into your backline; chop them down with fire-enchanted axes. They shrug off cold and damp, making fire the cleanest way to drop them.",
   "weakness": "fire",
   "special": {
    "name": "Harvest of Skulls",
@@ -996,12 +1032,13 @@
     "The orchard... withers..."
    ]
   },
-  "loot_theme": "Astral staves, archon wands, and dark velvet robes."
+  "loot_theme": "Astral staves, archon wands, and dark velvet robes.",
+  "resistance": "cold and damp"
  },
  {
   "id": "stormtree",
   "name": "Stormtree",
-  "codex": "Colossal highland pines split down the center by perpetual lightning, holding a crackling plasma core between their halves. Never clump melee troops around their grounding chains; use earth shields and ranged fire.",
+  "codex": "Colossal highland pines split down the center by perpetual lightning, holding a crackling plasma core between their halves. Never clump melee troops around their grounding chains; use earth shields and ranged fire. They shrug off poison, making poison the cleanest way to drop them.",
   "weakness": "poison",
   "special": {
    "name": "Grounding-Chain Surge",
@@ -1023,12 +1060,13 @@
     "two-halves timber crash"
    ]
   },
-  "loot_theme": "Thunderstorm tomes, greatbows, and high-tier lightning charms."
+  "loot_theme": "Thunderstorm tomes, greatbows, and high-tier lightning charms.",
+  "resistance": "poison"
  },
  {
   "id": "doom-knight",
   "name": "Dread Knight",
-  "codex": "Elite vanguard champions of the Infernal Citadel clad in meteoric black iron and skull-faced pauldrons. Their two-handed battleaxes cleave through shields; slow them with Blizzard and focus them down with astral magic.",
+  "codex": "Elite vanguard champions of the Infernal Citadel clad in meteoric black iron and skull-faced pauldrons. Their two-handed battleaxes cleave through shields; slow them with Blizzard and focus them down with astral magic. They shrug off fire and ash, making cold the cleanest way to drop them.",
   "weakness": "cold",
   "special": {
    "name": "Hell-Vanguard Cleave",
@@ -1050,12 +1088,13 @@
     "internal furnace-collapse"
    ]
   },
-  "loot_theme": "Zweihanders, decapitator axes, full plate, and champion rings."
+  "loot_theme": "Zweihanders, decapitator axes, full plate, and champion rings.",
+  "resistance": "fire and ash"
  },
  {
   "id": "cinderhorn",
   "name": "Cinderhorn",
-  "codex": "Towering furnace-chested megademons of the caldera floor, swinging chained cast-iron weights from their right arms. Stay clear of their mid-range flail sweeps and douse their open ribcage fires with Ice Storm or Blizzard.",
+  "codex": "Towering furnace-chested megademons of the caldera floor, swinging chained cast-iron weights from their right arms. Stay clear of their mid-range flail sweeps and douse their open ribcage fires with Ice Storm or Blizzard. They shrug off fire and ash, making cold the cleanest way to drop them.",
   "weakness": "cold",
   "special": {
    "name": "Furnace-Rib Breath",
@@ -1077,12 +1116,13 @@
     "THE FIRE... CHOKES..."
    ]
   },
-  "loot_theme": "Endgame weapons, fire-resistant greaves, and demon-forged charms."
+  "loot_theme": "Endgame weapons, fire-resistant greaves, and demon-forged charms.",
+  "resistance": "fire and ash"
  },
  {
   "id": "anvilmaw-smith",
   "name": "Anvilmaw Smith",
-  "codex": "Living siege-titans of the Cinderforge with iron anvils for lower jaws and smoking chimneys protruding from their spines. When they strike their own jaws with their hammer-arms, scatter immediately to avoid the shrapnel.",
+  "codex": "Living siege-titans of the Cinderforge with iron anvils for lower jaws and smoking chimneys protruding from their spines. When they strike their own jaws with their hammer-arms, scatter immediately to avoid the shrapnel. They shrug off fire and ash, making cold the cleanest way to drop them.",
   "weakness": "cold",
   "special": {
    "name": "Anvil-Jaw Shrapnel Strike",
@@ -1104,7 +1144,8 @@
     "THE FORGE... CRACKS..."
    ]
   },
-  "loot_theme": "Titan gauntlets, obsidian mauls, gothic plate, and tier-5 gear."
+  "loot_theme": "Titan gauntlets, obsidian mauls, gothic plate, and tier-5 gear.",
+  "resistance": "fire and ash"
  },
  {
   "id": "morvessa",
@@ -1131,12 +1172,13 @@
     "collapsing bone-canopy crash"
    ]
   },
-  "loot_theme": "Act I Unique items, rare staves, and enchanted silks."
+  "loot_theme": "Act I Unique items, rare staves, and enchanted silks.",
+  "resistance": "cold and damp"
  },
  {
   "id": "gorrathul",
   "name": "Gorrathul, the Sand Glutton",
-  "codex": "BOSS (Act II). A four-armed desert abomination crowned with golden obelisks, possessing a second vertical maw down its belly that radiates an unnatural heat-sink chill. Avoid standing directly in front of its belly-maw and scatter when it burrows.",
+  "codex": "BOSS (Act II). A four-armed desert abomination crowned with golden obelisks, possessing a second vertical maw down its belly that radiates an unnatural heat-sink chill. Avoid standing directly in front of its belly-maw and scatter when it burrows. They shrug off cold and damp, making fire the cleanest way to drop them.",
   "weakness": "fire",
   "special": {
    "name": "Gullet of the Dunes",
@@ -1158,12 +1200,13 @@
     "sinking sand-crater collapse"
    ]
   },
-  "loot_theme": "Act II Unique items, ancient desert gold, and high-tier charms."
+  "loot_theme": "Act II Unique items, ancient desert gold, and high-tier charms.",
+  "resistance": "cold and damp"
  },
  {
   "id": "vesperion",
   "name": "Vesperion, the Hollow Choir",
-  "codex": "BOSS (Act III). A six-winged spectral arch-prelate hovering above the flooded nave, bearing a towering pipe-organ of human femurs above its cowl. Interrupt its liturgical crescendos and spread out to avoid bouncing Ball Lightning and Frost Novas.",
+  "codex": "BOSS (Act III). A six-winged spectral arch-prelate hovering above the flooded nave, bearing a towering pipe-organ of human femurs above its cowl. Interrupt its liturgical crescendos and spread out to avoid bouncing Ball Lightning and Frost Novas. They shrug off elemental wards, making physical the cleanest way to drop them.",
   "weakness": "physical",
   "special": {
    "name": "Antiphon of the Drowned",
@@ -1185,12 +1228,13 @@
     "fading organ-wheeze"
    ]
   },
-  "loot_theme": "Act III Unique items, archmage regalia, and high-tier spell tomes."
+  "loot_theme": "Act III Unique items, archmage regalia, and high-tier spell tomes.",
+  "resistance": "elemental wards"
  },
  {
   "id": "ashkarath",
   "name": "Ashkarath, the Cinder King",
-  "codex": "BOSS (Act IV). The three-meter sovereign of the Obsidian Throne, crowned with a blazing halo of fused iron swords and wielding four arms. Break his Bone Prisons immediately so your squad is not trapped inside his Hellfire Breath and Red Lightning rings.",
+  "codex": "BOSS (Act IV). The three-meter sovereign of the Obsidian Throne, crowned with a blazing halo of fused iron swords and wielding four arms. Break his Bone Prisons immediately so your squad is not trapped inside his Hellfire Breath and Red Lightning rings. They shrug off fire and ash, making cold the cleanest way to drop them.",
   "weakness": "cold",
   "special": {
    "name": "Decree of Crown and Ember",
@@ -1212,6 +1256,7 @@
     "petrifying magma-throne crash"
    ]
   },
-  "loot_theme": "Act IV Unique items, sovereign artifacts, and tier-5 masterworks."
+  "loot_theme": "Act IV Unique items, sovereign artifacts, and tier-5 masterworks.",
+  "resistance": "fire and ash"
  }
 ]

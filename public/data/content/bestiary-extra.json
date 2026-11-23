@@ -6,7 +6,8 @@
   "family": "vermin",
   "behavior": "Ambushes waders from black bog-pools, latching on to drain stamina and spawn smaller bloodsuckers.",
   "weakness": "fire",
-  "lore": "Swollen to the size of a butcher's apron on drowned livestock, these blind annelids secrete a numbing saliva that keeps victims from feeling their boots fill with blood."
+  "lore": "Swollen to the size of a butcher's apron on drowned livestock, these blind annelids secrete a numbing saliva that keeps victims from feeling their boots fill with blood. Thornwick scouts mark their trails with charred ash-stakes along the river reeds. Their hides resist poison and mire-rot, so seasoned squads break them quickly with fire strikes.",
+  "resistance": "poison and mire-rot"
  },
  {
   "id": "alder-gnoll-skirmisher",
@@ -15,7 +16,8 @@
   "family": "humanoid",
   "behavior": "Flanks shield-walls using short curved hatchets and stolen Border Levy bucklers, retreating when outnumbered.",
   "weakness": "fire",
-  "lore": "Paid in clipped mint copper to harass northern toll-posts, these river-hyena raiders grease their pelts with mutton fat to slip free of grappling pikemen."
+  "lore": "Paid in clipped mint copper to harass northern toll-posts, these river-hyena raiders grease their pelts with mutton fat to slip free of grappling pikemen. Thornwick scouts mark their trails with charred ash-stakes along the river reeds. Their hides resist light slashing, so seasoned squads break them quickly with fire strikes.",
+  "resistance": "light slashing"
  },
  {
   "id": "tollhouse-ghoul",
@@ -24,7 +26,8 @@
   "family": "undead",
   "behavior": "Lurks beneath collapsed bridge piers, lunging at wounded stragglers with ragged iron-stained claws.",
   "weakness": "fire",
-  "lore": "Former night-watchmen starved during the Salt Tithe who turned to gnawing tallow candles and river-carrion before rising with unbroken hunger."
+  "lore": "Former night-watchmen starved during the Salt Tithe who turned to gnawing tallow candles and river-carrion before rising with unbroken hunger. Thornwick scouts mark their trails with charred ash-stakes along the river reeds. Their hides resist poison and cold, so seasoned squads break them quickly with fire strikes.",
+  "resistance": "poison and cold"
  },
  {
   "id": "weir-pike-stalker",
@@ -33,7 +36,8 @@
   "family": "beast",
   "behavior": "Darts out from submerged wicker fish-traps to snap at ankles and drag light infantry into deep channels.",
   "weakness": "lightning",
-  "lore": "Armored in mossy olive scales and sporting a jaw like a bear-trap, these ancient river-fish grow monstrous feeding on battle-corpses washed down from the fords."
+  "lore": "Armored in mossy olive scales and sporting a jaw like a bear-trap, these ancient river-fish grow monstrous feeding on battle-corpses washed down from the fords. Thornwick scouts mark their trails with charred ash-stakes along the river reeds. Their hides resist cold and bruising, so seasoned squads break them quickly with lightning strikes.",
+  "resistance": "cold and bruising"
  },
  {
   "id": "bog-tallow-wight",
@@ -42,7 +46,8 @@
   "family": "undead",
   "behavior": "Advances steadily through knee-deep water, radiating a corpse-chill that stiffens bowstrings and joints.",
   "weakness": "fire",
-  "lore": "Preserved intact for centuries in airless peat bogs, these blackened corpses walk again whenever Ashen Coven chanters disturb the boundary cairns."
+  "lore": "Preserved intact for centuries in airless peat bogs, these blackened corpses walk again whenever Ashen Coven chanters disturb the boundary cairns. Thornwick scouts mark their trails with charred ash-stakes along the river reeds. Their hides resist poison and cold, so seasoned squads break them quickly with fire strikes.",
+  "resistance": "poison and cold"
  },
  {
   "id": "slate-cliff-harpy",
@@ -51,7 +56,8 @@
   "family": "beast",
   "behavior": "Swoops down canyon walls in Lantern Passage to snatch helmets and drop loose scree onto casters.",
   "weakness": "physical",
-  "lore": "Leathery, bat-winged scavengers nesting in limestone crevices above trade defiles; they mimic guttering lantern-clicks to lure travelers off narrow ledges."
+  "lore": "Leathery, bat-winged scavengers nesting in limestone crevices above trade defiles; they mimic guttering lantern-clicks to lure travelers off narrow ledges. Thornwick scouts mark their trails with charred ash-stakes along the river reeds. Their hides resist cold and bruising, so seasoned squads break them quickly with physical strikes.",
+  "resistance": "cold and bruising"
  },
  {
   "id": "charcoal-imp",
@@ -60,7 +66,8 @@
   "family": "construct",
   "behavior": "Scampers around abandoned quarry kilns hurling hot cinders and igniting oil-soaked brush.",
   "weakness": "cold",
-  "lore": "Kneaded from furnace soot and vitrified glass-slag by rogue apprentices, these spiteful homunculi cackle like popping pine-knots until doused."
+  "lore": "Kneaded from furnace soot and vitrified glass-slag by rogue apprentices, these spiteful homunculi cackle like popping pine-knots until doused. Thornwick scouts mark their trails with charred ash-stakes along the river reeds. Their hides resist poison, bleed, and fear, so seasoned squads break them quickly with cold strikes.",
+  "resistance": "poison, bleed, and fear"
  },
  {
   "id": "bramble-stag",
@@ -69,7 +76,8 @@
   "family": "beast",
   "behavior": "Charges down forest trails with iron-hard thorns tangled in its velvet rack, impaling frontline scouts.",
   "weakness": "fire",
-  "lore": "Greywood elk whose antlers became colonized by parasitic border-briar; driven mad by constant pain, they attack anything moving along logging roads."
+  "lore": "Greywood elk whose antlers became colonized by parasitic border-briar; driven mad by constant pain, they attack anything moving along logging roads. Thornwick scouts mark their trails with charred ash-stakes along the river reeds. Their hides resist cold and bruising, so seasoned squads break them quickly with fire strikes.",
+  "resistance": "cold and bruising"
  },
  {
   "id": "ditch-rat-pack",
@@ -78,7 +86,8 @@
   "family": "vermin",
   "behavior": "Swarms isolated archers in tight cellars, inflicting festering bites that halve potion effectiveness.",
   "weakness": "fire",
-  "lore": "Fattened on damp grain sacks in Thornwick's lower cellars, these mangy rodents travel in disciplined packs led by scarred, half-blind alphas."
+  "lore": "Fattened on damp grain sacks in Thornwick's lower cellars, these mangy rodents travel in disciplined packs led by scarred, half-blind alphas. Thornwick scouts mark their trails with charred ash-stakes along the river reeds. Their hides resist poison and mire-rot, so seasoned squads break them quickly with fire strikes.",
+  "resistance": "poison and mire-rot"
  },
  {
   "id": "parish-debt-shade",
@@ -87,7 +96,8 @@
   "family": "undead",
   "behavior": "Phases through wooden barricades to chill targets and drain mana with spectral tally-chains.",
   "weakness": "astral",
-  "lore": "Bound to the Sunken Sanctum by unpaid mortuary liens, these translucent clerks endlessly rattle phantom coins while seeking living debtors to replace them."
+  "lore": "Bound to the Sunken Sanctum by unpaid mortuary liens, these translucent clerks endlessly rattle phantom coins while seeking living debtors to replace them. Thornwick scouts mark their trails with charred ash-stakes along the river reeds. Their hides resist poison and cold, so seasoned squads break them quickly with astral strikes.",
+  "resistance": "poison and cold"
  },
  {
   "id": "quarry-chert-crawler",
@@ -96,7 +106,8 @@
   "family": "beast",
   "behavior": "Clings motionless to grey stone walls until prey passes beneath, then drops with crushing pincers.",
   "weakness": "lightning",
-  "lore": "Six-legged cave scorpions whose flat backs resemble cracked limestone slabs; miners tap every ceiling beam with iron picks before entering old galleries."
+  "lore": "Six-legged cave scorpions whose flat backs resemble cracked limestone slabs; miners tap every ceiling beam with iron picks before entering old galleries. Thornwick scouts mark their trails with charred ash-stakes along the river reeds. Their hides resist cold and bruising, so seasoned squads break them quickly with lightning strikes.",
+  "resistance": "cold and bruising"
  },
  {
   "id": "ashbrook-scarecrow",
@@ -105,7 +116,8 @@
   "family": "construct",
   "behavior": "Stands immobile in burned turnip rows before lashing out with rusted scythe-blades when flanked.",
   "weakness": "fire",
-  "lore": "Stuffed with hex-soaked straw and mounted on stolen levy pikes by Coven raiders to guard the smoldering approaches to Ashbrook Manor."
+  "lore": "Stuffed with hex-soaked straw and mounted on stolen levy pikes by Coven raiders to guard the smoldering approaches to Ashbrook Manor. Thornwick scouts mark their trails with charred ash-stakes along the river reeds. Their hides resist poison, bleed, and fear, so seasoned squads break them quickly with fire strikes.",
+  "resistance": "poison, bleed, and fear"
  },
  {
   "id": "mire-toad-bloater",
@@ -114,7 +126,8 @@
   "family": "beast",
   "behavior": "Puffs its throat sac to belch clouds of stinging marsh-bile across narrow boardwalks.",
   "weakness": "cold",
-  "lore": "Wart-backed amphibians thriving in stagnant fen-ditches; their acidic skin mucus blisters bare hands and corrodes ungreased chainmail."
+  "lore": "Wart-backed amphibians thriving in stagnant fen-ditches; their acidic skin mucus blisters bare hands and corrodes ungreased chainmail. Thornwick scouts mark their trails with charred ash-stakes along the river reeds. Their hides resist cold and bruising, so seasoned squads break them quickly with cold strikes.",
+  "resistance": "cold and bruising"
  },
  {
   "id": "undervault-rust-slug",
@@ -123,7 +136,8 @@
   "family": "vermin",
   "behavior": "Crawls slowly along damp brick arches, secreting an enzyme that pits iron weapons on contact.",
   "weakness": "cold",
-  "lore": "Pale, blind mollusks bred by dwarven smiths to clear slag-scale from drainage pipes, now overgrown into arm-thick pests in abandoned tunnels."
+  "lore": "Pale, blind mollusks bred by dwarven smiths to clear slag-scale from drainage pipes, now overgrown into arm-thick pests in abandoned tunnels. Thornwick scouts mark their trails with charred ash-stakes along the river reeds. Their hides resist poison and mire-rot, so seasoned squads break them quickly with cold strikes.",
+  "resistance": "poison and mire-rot"
  },
  {
   "id": "gnoll-torchbearer",
@@ -132,7 +146,8 @@
   "family": "humanoid",
   "behavior": "Hurls pitch-soaked firebrands at wooden palisades and buffs nearby raiders with howling war-chants.",
   "weakness": "cold",
-  "lore": "Marked with soot-streaks across their snouts, these pack-leaders carry iron braziers filled with pine resin to burn out stubborn border pickets."
+  "lore": "Marked with soot-streaks across their snouts, these pack-leaders carry iron braziers filled with pine resin to burn out stubborn border pickets. Thornwick scouts mark their trails with charred ash-stakes along the river reeds. Their hides resist light slashing, so seasoned squads break them quickly with cold strikes.",
+  "resistance": "light slashing"
  },
  {
   "id": "alkali-dust-devil",
@@ -141,7 +156,8 @@
   "family": "elemental",
   "behavior": "Spins rapidly across salt-pans, blinding archers with stinging white grit and deflecting arrows.",
   "weakness": "cold",
-  "lore": "Born where ruptured wardstones leak static into dry desert thermals, these shrieking vortices strip paint from shields and choke unprotected lungs."
+  "lore": "Born where ruptured wardstones leak static into dry desert thermals, these shrieking vortices strip paint from shields and choke unprotected lungs. Redmarsh salt-caravans carry lime-poultices specifically to keep these packs off the causeway. Their hides resist non-magical iron, so seasoned squads break them quickly with cold strikes.",
+  "resistance": "non-magical iron"
  },
  {
   "id": "salt-viper-spitter",
@@ -150,7 +166,8 @@
   "family": "beast",
   "behavior": "Coils behind red sandstone hoodoos, spitting blinding venom at casters from medium range.",
   "weakness": "cold",
-  "lore": "Chalk-white adders adapted to Redmarsh's brine flats; they concentrate ingested salt into a caustic venom that sears eyes on contact."
+  "lore": "Chalk-white adders adapted to Redmarsh's brine flats; they concentrate ingested salt into a caustic venom that sears eyes on contact. Redmarsh salt-caravans carry lime-poultices specifically to keep these packs off the causeway. Their hides resist cold and bruising, so seasoned squads break them quickly with cold strikes.",
+  "resistance": "cold and bruising"
  },
  {
   "id": "quarry-chain-revenant",
@@ -159,7 +176,8 @@
   "family": "undead",
   "behavior": "Swings twenty-foot lengths of rusted ironstone shackles in wide arcs to trip and drag infantry.",
   "weakness": "astral",
-  "lore": "Drowned ironstone miners risen from the flooded Deep Quarry pit, still wearing the heavy iron collars that anchored them to the lower ledges."
+  "lore": "Drowned ironstone miners risen from the flooded Deep Quarry pit, still wearing the heavy iron collars that anchored them to the lower ledges. Redmarsh salt-caravans carry lime-poultices specifically to keep these packs off the causeway. Their hides resist poison and cold, so seasoned squads break them quickly with astral strikes.",
+  "resistance": "poison and cold"
  },
  {
   "id": "wardstone-spark-wisp",
@@ -168,7 +186,8 @@
   "family": "elemental",
   "behavior": "Orbits fractured quartz monoliths, discharging sudden arcs of static lightning into armored targets.",
   "weakness": "poison",
-  "lore": "Fragments of severed climate-ward magic crackling loose from broken spires; they are drawn irresistibly to iron helms and copper-wound staves."
+  "lore": "Fragments of severed climate-ward magic crackling loose from broken spires; they are drawn irresistibly to iron helms and copper-wound staves. Redmarsh salt-caravans carry lime-poultices specifically to keep these packs off the causeway. Their hides resist non-magical iron, so seasoned squads break them quickly with poison strikes.",
+  "resistance": "non-magical iron"
  },
  {
   "id": "sand-clan-outrider",
@@ -177,7 +196,8 @@
   "family": "humanoid",
   "behavior": "Circles slow infantry columns, firing barbed horn-bow volleys before darting behind dunes.",
   "weakness": "cold",
-  "lore": "Nomadic marksmen wrapped in ochre-dyed linen veils who know every hidden cistern and alkali sinkhole across the Redmarsh plateau."
+  "lore": "Nomadic marksmen wrapped in ochre-dyed linen veils who know every hidden cistern and alkali sinkhole across the Redmarsh plateau. Redmarsh salt-caravans carry lime-poultices specifically to keep these packs off the causeway. Their hides resist light slashing, so seasoned squads break them quickly with cold strikes.",
+  "resistance": "light slashing"
  },
  {
   "id": "canopic-jackal-guard",
@@ -186,7 +206,8 @@
   "family": "construct",
   "behavior": "Stands rigid beside sandstone vault doors until seals are broken, then strikes with bronze khopeshes.",
   "weakness": "lightning",
-  "lore": "Third-Dynasty tomb guardians sculpted from bitumen-hardened clay and animated by sealed visceral jars set behind their ribcages."
+  "lore": "Third-Dynasty tomb guardians sculpted from bitumen-hardened clay and animated by sealed visceral jars set behind their ribcages. Redmarsh salt-caravans carry lime-poultices specifically to keep these packs off the causeway. Their hides resist poison, bleed, and fear, so seasoned squads break them quickly with lightning strikes.",
+  "resistance": "poison, bleed, and fear"
  },
  {
   "id": "brine-scale-basilisk",
@@ -195,7 +216,8 @@
   "family": "beast",
   "behavior": "Fixes a single target with a calcifying glare that slows movement before lunging with crushing jaws.",
   "weakness": "fire",
-  "lore": "Eight-legged desert lizards encrusted in cubic salt crystals; their heavy eyelids reflect sunlight in blinding flashes across dry arroyos."
+  "lore": "Eight-legged desert lizards encrusted in cubic salt crystals; their heavy eyelids reflect sunlight in blinding flashes across dry arroyos. Redmarsh salt-caravans carry lime-poultices specifically to keep these packs off the causeway. Their hides resist cold and bruising, so seasoned squads break them quickly with fire strikes.",
+  "resistance": "cold and bruising"
  },
  {
   "id": "redrock-sling-bandit",
@@ -204,7 +226,8 @@
   "family": "humanoid",
   "behavior": "Perches high on canyon ledges, pelting exposed heads with leaden bullets that stun through light caps.",
   "weakness": "physical",
-  "lore": "Deserters from Morvessa's tax-companies who turned to highway robbery along the caravan tracks, trading heavy steel for light goatskin cloaks."
+  "lore": "Deserters from Morvessa's tax-companies who turned to highway robbery along the caravan tracks, trading heavy steel for light goatskin cloaks. Redmarsh salt-caravans carry lime-poultices specifically to keep these packs off the causeway. Their hides resist light slashing, so seasoned squads break them quickly with physical strikes.",
+  "resistance": "light slashing"
  },
  {
   "id": "silt-leech-colony",
@@ -213,7 +236,8 @@
   "family": "vermin",
   "behavior": "Burrows beneath muddy causeways, erupting around stationary tanks to sap health and slow retreats.",
   "weakness": "fire",
-  "lore": "Knotted masses of red-bellied marsh worms that hunt by sensing rhythmic boot-steps through waterlogged corduroy timbers."
+  "lore": "Knotted masses of red-bellied marsh worms that hunt by sensing rhythmic boot-steps through waterlogged corduroy timbers. Redmarsh salt-caravans carry lime-poultices specifically to keep these packs off the causeway. Their hides resist poison and mire-rot, so seasoned squads break them quickly with fire strikes.",
+  "resistance": "poison and mire-rot"
  },
  {
   "id": "hex-cairn-sentinel",
@@ -222,7 +246,8 @@
   "family": "construct",
   "behavior": "Pulses necrotic waves every few seconds, weakening nearby healing spells until shattered.",
   "weakness": "physical",
-  "lore": "Piles of skull-topped boundary stones bound with gall-inked cords by Ashen Coven scouts to mark cursed ambush zones."
+  "lore": "Piles of skull-topped boundary stones bound with gall-inked cords by Ashen Coven scouts to mark cursed ambush zones. Redmarsh salt-caravans carry lime-poultices specifically to keep these packs off the causeway. Their hides resist poison, bleed, and fear, so seasoned squads break them quickly with physical strikes.",
+  "resistance": "poison, bleed, and fear"
  },
  {
   "id": "dune-scorpion-stalker",
@@ -231,7 +256,8 @@
   "family": "beast",
   "behavior": "Clamps frontline warriors in heavy pincers while striking over its back with a paralyzing stinger.",
   "weakness": "cold",
-  "lore": "Ochre-plated arachnids larger than warhounds that dig shallow pits beside milestone wells to ambush thirsty pack-animals."
+  "lore": "Ochre-plated arachnids larger than warhounds that dig shallow pits beside milestone wells to ambush thirsty pack-animals. Redmarsh salt-caravans carry lime-poultices specifically to keep these packs off the causeway. Their hides resist cold and bruising, so seasoned squads break them quickly with cold strikes.",
+  "resistance": "cold and bruising"
  },
  {
   "id": "embalmed-scribe",
@@ -240,7 +266,8 @@
   "family": "undead",
   "behavior": "Hangs back behind tomb guards, casting hexes that increase mana costs and rot leather armor.",
   "weakness": "fire",
-  "lore": "Preserved Third-Dynasty clerks whose dry, resin-coated fingers still clutch bronze styluses dipped in paralyzing nightshade ink."
+  "lore": "Preserved Third-Dynasty clerks whose dry, resin-coated fingers still clutch bronze styluses dipped in paralyzing nightshade ink. Redmarsh salt-caravans carry lime-poultices specifically to keep these packs off the causeway. Their hides resist poison and cold, so seasoned squads break them quickly with fire strikes.",
+  "resistance": "poison and cold"
  },
  {
   "id": "ironheart-crossbowman",
@@ -249,7 +276,8 @@
   "family": "humanoid",
   "behavior": "Fires heavy steel-tipped quarrels from behind tower pavises, retreating to reload between volleys.",
   "weakness": "fire",
-  "lore": "Veteran mercenaries hired by Gorrathul to hold the mountain approach, drilled to shoot through narrow stone embrasures in alternating ranks."
+  "lore": "Veteran mercenaries hired by Gorrathul to hold the mountain approach, drilled to shoot through narrow stone embrasures in alternating ranks. Redmarsh salt-caravans carry lime-poultices specifically to keep these packs off the causeway. Their hides resist light slashing, so seasoned squads break them quickly with fire strikes.",
+  "resistance": "light slashing"
  },
  {
   "id": "mirage-weaver-jackal",
@@ -258,7 +286,8 @@
   "family": "beast",
   "behavior": "Projects shimmering heat-decoys ahead of itself to draw fire while flanking isolated healers.",
   "weakness": "cold",
-  "lore": "Gaunt, silver-furred desert canines whose hollow guard-hairs refract harsh plateau sunlight into confusing double images."
+  "lore": "Gaunt, silver-furred desert canines whose hollow guard-hairs refract harsh plateau sunlight into confusing double images. Redmarsh salt-caravans carry lime-poultices specifically to keep these packs off the causeway. Their hides resist cold and bruising, so seasoned squads break them quickly with cold strikes.",
+  "resistance": "cold and bruising"
  },
  {
   "id": "tar-pit-crawler",
@@ -267,7 +296,8 @@
   "family": "elemental",
   "behavior": "Slouches out of bubbling bitumen seeps, slinging sticky pitch globs that root units and amplify fire damage.",
   "weakness": "cold",
-  "lore": "Animated clots of natural asphalt and bleached animal bones that rise near volcanic fault-lines along the Deep Quarry rim."
+  "lore": "Animated clots of natural asphalt and bleached animal bones that rise near volcanic fault-lines along the Deep Quarry rim. Redmarsh salt-caravans carry lime-poultices specifically to keep these packs off the causeway. Their hides resist non-magical iron, so seasoned squads break them quickly with cold strikes.",
+  "resistance": "non-magical iron"
  },
  {
   "id": "kelp-wrapped-drowned",
@@ -276,7 +306,8 @@
   "family": "undead",
   "behavior": "Wades ashore with the rising tide, entangling melee fighters in wet, strangling sea-wrack.",
   "weakness": "fire",
-  "lore": "Sailors lost when Vesperion's blockade sank merchant sloops in the Greywash; barnacles crust their swollen mail and broken oars."
+  "lore": "Sailors lost when Vesperion's blockade sank merchant sloops in the Greywash; barnacles crust their swollen mail and broken oars. Oakhaven quartermasters log heavy losses whenever vanguard columns meet them unprepared. Their hides resist poison and cold, so seasoned squads break them quickly with fire strikes.",
+  "resistance": "poison and cold"
  },
  {
   "id": "harbor-privateer",
@@ -285,7 +316,8 @@
   "family": "humanoid",
   "behavior": "Uses boarding hooks to pull casters out of formation before slashing with heavy cutlasses.",
   "weakness": "lightning",
-  "lore": "Cutthroats crewed from Iron Coast smuggler coves who fight barefoot on wet timber decks for a share of salvaged guild silver."
+  "lore": "Cutthroats crewed from Iron Coast smuggler coves who fight barefoot on wet timber decks for a share of salvaged guild silver. Oakhaven quartermasters log heavy losses whenever vanguard columns meet them unprepared. Their hides resist light slashing, so seasoned squads break them quickly with lightning strikes.",
+  "resistance": "light slashing"
  },
  {
   "id": "razor-gull-flock",
@@ -294,7 +326,8 @@
   "family": "beast",
   "behavior": "Dives relentlessly on wounded targets, inflicting bleeding scratches and disrupting spellcasting.",
   "weakness": "fire",
-  "lore": "Coastal scavenger birds grown bold and vicious feeding on floating wreckage after the burning of Harborwatch."
+  "lore": "Coastal scavenger birds grown bold and vicious feeding on floating wreckage after the burning of Harborwatch. Oakhaven quartermasters log heavy losses whenever vanguard columns meet them unprepared. Their hides resist cold and bruising, so seasoned squads break them quickly with fire strikes.",
+  "resistance": "cold and bruising"
  },
  {
   "id": "barnacle-shell-golem",
@@ -303,7 +336,8 @@
   "family": "construct",
   "behavior": "Advances slowly with high physical resistance, periodically venting scalding steam from chest cracks.",
   "weakness": "lightning",
-  "lore": "Tidal reef-stone cemented together by millions of razor-edged barnacles and woken by drowned chapel bells."
+  "lore": "Tidal reef-stone cemented together by millions of razor-edged barnacles and woken by drowned chapel bells. Oakhaven quartermasters log heavy losses whenever vanguard columns meet them unprepared. Their hides resist poison, bleed, and fear, so seasoned squads break them quickly with lightning strikes.",
+  "resistance": "poison, bleed, and fear"
  },
  {
   "id": "sea-cave-lurker",
@@ -312,7 +346,8 @@
   "family": "beast",
   "behavior": "Clings to wet cavern ceilings above tidal causeways, dropping onto stragglers with paralyzing tentacles.",
   "weakness": "fire",
-  "lore": "Translucent, multi-armed cephalopods that crawl out of deep Atlantic fissures during equinoctial spring tides."
+  "lore": "Translucent, multi-armed cephalopods that crawl out of deep Atlantic fissures during equinoctial spring tides. Oakhaven quartermasters log heavy losses whenever vanguard columns meet them unprepared. Their hides resist cold and bruising, so seasoned squads break them quickly with fire strikes.",
+  "resistance": "cold and bruising"
  },
  {
   "id": "oakhaven-turncoat-adept",
@@ -321,7 +356,8 @@
   "family": "humanoid",
   "behavior": "Channels arcing lightning bolts between metal-armored units and erects static barriers.",
   "weakness": "physical",
-  "lore": "Expelled tower-apprentices who sold Oakhaven's sea-gate cipher-bells to the Black Fleet for chests of foreign gold."
+  "lore": "Expelled tower-apprentices who sold Oakhaven's sea-gate cipher-bells to the Black Fleet for chests of foreign gold. Oakhaven quartermasters log heavy losses whenever vanguard columns meet them unprepared. Their hides resist light slashing, so seasoned squads break them quickly with physical strikes.",
+  "resistance": "light slashing"
  },
  {
   "id": "wreck-hull-mimic",
@@ -330,7 +366,8 @@
   "family": "construct",
   "behavior": "Disguises itself as a washed-up sea-chest or pitched cargo barrel before snapping shut on looters.",
   "weakness": "fire",
-  "lore": "Ship-timber parasites that fuse splintered oak planks and rusted iron bands around a gaping, teeth-lined maw."
+  "lore": "Ship-timber parasites that fuse splintered oak planks and rusted iron bands around a gaping, teeth-lined maw. Oakhaven quartermasters log heavy losses whenever vanguard columns meet them unprepared. Their hides resist poison, bleed, and fear, so seasoned squads break them quickly with fire strikes.",
+  "resistance": "poison, bleed, and fear"
  },
  {
   "id": "brine-phantom",
@@ -339,7 +376,8 @@
   "family": "undead",
   "behavior": "Floats above deep water ignoring terrain obstacles, chilling targets with ghostly fog-touch.",
   "weakness": "astral",
-  "lore": "Restless spirits of lighthouse keepers and lock-wardens drowned at their posts during coastal storms."
+  "lore": "Restless spirits of lighthouse keepers and lock-wardens drowned at their posts during coastal storms. Oakhaven quartermasters log heavy losses whenever vanguard columns meet them unprepared. Their hides resist poison and cold, so seasoned squads break them quickly with astral strikes.",
+  "resistance": "poison and cold"
  },
  {
   "id": "fumarole-cinder-crab",
@@ -348,7 +386,8 @@
   "family": "beast",
   "behavior": "Scuttles out of steaming basalt vents above Oakhaven, spitting boiling seawater at close range.",
   "weakness": "cold",
-  "lore": "Red-shelled coastal crabs whose carapaces are fused with volcanic glass grit from feeding near underwater vents."
+  "lore": "Red-shelled coastal crabs whose carapaces are fused with volcanic glass grit from feeding near underwater vents. Oakhaven quartermasters log heavy losses whenever vanguard columns meet them unprepared. Their hides resist cold and bruising, so seasoned squads break them quickly with cold strikes.",
+  "resistance": "cold and bruising"
  },
  {
   "id": "black-fleet-marine",
@@ -357,7 +396,8 @@
   "family": "humanoid",
   "behavior": "Advances behind copper-plated boarding shields while hurling glass incendiary flasks.",
   "weakness": "cold",
-  "lore": "Disciplined naval infantry of Lord Admiral Vesperion, clad in salt-proofed brigandine and trained to storm sea-walls under fire."
+  "lore": "Disciplined naval infantry of Lord Admiral Vesperion, clad in salt-proofed brigandine and trained to storm sea-walls under fire. Oakhaven quartermasters log heavy losses whenever vanguard columns meet them unprepared. Their hides resist light slashing, so seasoned squads break them quickly with cold strikes.",
+  "resistance": "light slashing"
  },
  {
   "id": "siren-buoy-bell",
@@ -366,7 +406,8 @@
   "family": "construct",
   "behavior": "Tolls a hypnotic maritime chime that pulls nearby units toward deep water hazards.",
   "weakness": "lightning",
-  "lore": "Corroded bronze channel-markers enchanted by Vesperion's navigators to lure relief ships onto the Greywash reefs."
+  "lore": "Corroded bronze channel-markers enchanted by Vesperion's navigators to lure relief ships onto the Greywash reefs. Oakhaven quartermasters log heavy losses whenever vanguard columns meet them unprepared. Their hides resist poison, bleed, and fear, so seasoned squads break them quickly with lightning strikes.",
+  "resistance": "poison, bleed, and fear"
  },
  {
   "id": "gallows-crow-matriarch",
@@ -375,7 +416,8 @@
   "family": "beast",
   "behavior": "Circles above Night Orchards, screeching to buff undead minions and peck at blinded foes.",
   "weakness": "fire",
-  "lore": "Huge, ragged-winged ravens nested in the crooked branches of hanging-trees, bearing silver rings stolen from corpses."
+  "lore": "Huge, ragged-winged ravens nested in the crooked branches of hanging-trees, bearing silver rings stolen from corpses. Oakhaven quartermasters log heavy losses whenever vanguard columns meet them unprepared. Their hides resist cold and bruising, so seasoned squads break them quickly with fire strikes.",
+  "resistance": "cold and bruising"
  },
  {
   "id": "floodgate-rust-hound",
@@ -384,7 +426,8 @@
   "family": "construct",
   "behavior": "Sprints along narrow iron catwalks, biting through shields and shredding armor.",
   "weakness": "lightning",
-  "lore": "Clockwork watch-beasts built by Oakhaven engineers from spare lock-gears and spring-steel to guard canal capstans."
+  "lore": "Clockwork watch-beasts built by Oakhaven engineers from spare lock-gears and spring-steel to guard canal capstans. Oakhaven quartermasters log heavy losses whenever vanguard columns meet them unprepared. Their hides resist poison, bleed, and fear, so seasoned squads break them quickly with lightning strikes.",
+  "resistance": "poison, bleed, and fear"
  },
  {
   "id": "tidal-undine-wraith",
@@ -393,7 +436,8 @@
   "family": "elemental",
   "behavior": "Surges forward in a wave of freezing surf that knocks back frontline pikemen.",
   "weakness": "lightning",
-  "lore": "Condensed spirits of winter Atlantic gales trapped inside shattered lighthouse prisms along the sunken coast."
+  "lore": "Condensed spirits of winter Atlantic gales trapped inside shattered lighthouse prisms along the sunken coast. Oakhaven quartermasters log heavy losses whenever vanguard columns meet them unprepared. Their hides resist non-magical iron, so seasoned squads break them quickly with lightning strikes.",
+  "resistance": "non-magical iron"
  },
  {
   "id": "catacomb-ghast",
@@ -402,7 +446,8 @@
   "family": "undead",
   "behavior": "Exhales a grave-stench aura that saps stamina regeneration while clawing ferociously.",
   "weakness": "fire",
-  "lore": "Flesh-eating horrors dwelling in the sea-caves beneath Baron Vane's manor, fattened on smuggled prisoners."
+  "lore": "Flesh-eating horrors dwelling in the sea-caves beneath Baron Vane's manor, fattened on smuggled prisoners. Oakhaven quartermasters log heavy losses whenever vanguard columns meet them unprepared. Their hides resist poison and cold, so seasoned squads break them quickly with fire strikes.",
+  "resistance": "poison and cold"
  },
  {
   "id": "slag-vein-hound",
@@ -411,7 +456,8 @@
   "family": "elemental",
   "behavior": "Leaps across magma cracks, leaving burning paw-prints and biting with white-hot obsidian fangs.",
   "weakness": "cold",
-  "lore": "Four-legged magma constructs shaped like gaunt mastiffs, bred in Ironcamp's floor-fissures to hunt deserters."
+  "lore": "Four-legged magma constructs shaped like gaunt mastiffs, bred in Ironcamp's floor-fissures to hunt deserters. Caldera wardens treat every sighting near the ash-ridges as a sign of deeper fissure activity. Their hides resist non-magical iron, so seasoned squads break them quickly with cold strikes.",
+  "resistance": "non-magical iron"
  },
  {
   "id": "ember-court-inquisitor",
@@ -420,7 +466,8 @@
   "family": "humanoid",
   "behavior": "Brands targets with searing runes that detonate if the victim casts a spell within four seconds.",
   "weakness": "cold",
-  "lore": "Ash-robed judges of the Crown of Order carrying red-hot iron censers to purge unorthodox ley-channelers."
+  "lore": "Ash-robed judges of the Crown of Order carrying red-hot iron censers to purge unorthodox ley-channelers. Caldera wardens treat every sighting near the ash-ridges as a sign of deeper fissure activity. Their hides resist light slashing, so seasoned squads break them quickly with cold strikes.",
+  "resistance": "light slashing"
  },
  {
   "id": "obsidian-gargoyle",
@@ -429,7 +476,8 @@
   "family": "construct",
   "behavior": "Perches motionless on basalt battlements until enemies pass, then dives with razor-sharp wings.",
   "weakness": "physical",
-  "lore": "Winged sentinels carved from volcanic glass by First Watch masons to guard the upper approaches to the caldera."
+  "lore": "Winged sentinels carved from volcanic glass by First Watch masons to guard the upper approaches to the caldera. Caldera wardens treat every sighting near the ash-ridges as a sign of deeper fissure activity. Their hides resist poison, bleed, and fear, so seasoned squads break them quickly with physical strikes.",
+  "resistance": "poison, bleed, and fear"
  },
  {
   "id": "caldera-ash-wraith",
@@ -438,7 +486,8 @@
   "family": "undead",
   "behavior": "Reforms from drifting cinders unless slain with cold or astral magic, choking lungs with soot.",
   "weakness": "cold",
-  "lore": "Echoes of scholars who followed Malrik into the volcanic fissures and burned to cinders reading forbidden veins."
+  "lore": "Echoes of scholars who followed Malrik into the volcanic fissures and burned to cinders reading forbidden veins. Caldera wardens treat every sighting near the ash-ridges as a sign of deeper fissure activity. Their hides resist poison and cold, so seasoned squads break them quickly with cold strikes.",
+  "resistance": "poison and cold"
  },
  {
   "id": "magnetic-iron-golem",
@@ -447,7 +496,8 @@
   "family": "construct",
   "behavior": "Pulls metal-armored warriors inward every few seconds while slamming the ground with lodestone fists.",
   "weakness": "lightning",
-  "lore": "Hewn from raw lodestone in the Magnetic Narrows, these hulking guardians turn heavy plate armor into a fatal liability."
+  "lore": "Hewn from raw lodestone in the Magnetic Narrows, these hulking guardians turn heavy plate armor into a fatal liability. Caldera wardens treat every sighting near the ash-ridges as a sign of deeper fissure activity. Their hides resist poison, bleed, and fear, so seasoned squads break them quickly with lightning strikes.",
+  "resistance": "poison, bleed, and fear"
  },
  {
   "id": "cinder-vanguard-halberdier",
@@ -456,7 +506,8 @@
   "family": "humanoid",
   "behavior": "Holds narrow obsidian bridges in tight formation, hooking shields and thrusting with burning polearms.",
   "weakness": "cold",
-  "lore": "Handpicked heavy infantry of Ashkarath's inner guard, their meteoric armor quenched in sulfur brine to shrug off fire."
+  "lore": "Handpicked heavy infantry of Ashkarath's inner guard, their meteoric armor quenched in sulfur brine to shrug off fire. Caldera wardens treat every sighting near the ash-ridges as a sign of deeper fissure activity. Their hides resist light slashing, so seasoned squads break them quickly with cold strikes.",
+  "resistance": "light slashing"
  },
  {
   "id": "fissure-wyvern",
@@ -465,7 +516,8 @@
   "family": "beast",
   "behavior": "Straifes battlements with toxic sulfur-spit and lashes tails tipped with glowing slag-barbs.",
   "weakness": "cold",
-  "lore": "Leathery-winged ridge predators that nest in warm volcanic chimneys above the Gauntlet of Iron."
+  "lore": "Leathery-winged ridge predators that nest in warm volcanic chimneys above the Gauntlet of Iron. Caldera wardens treat every sighting near the ash-ridges as a sign of deeper fissure activity. Their hides resist cold and bruising, so seasoned squads break them quickly with cold strikes.",
+  "resistance": "cold and bruising"
  },
  {
   "id": "penitent-flagellant",
@@ -474,7 +526,8 @@
   "family": "humanoid",
   "behavior": "Charges recklessly swinging red-hot censer chains, growing faster and deadlier as its health drops.",
   "weakness": "cold",
-  "lore": "Renegade zealots who broke away from Brother Elias, searing their own flesh with coals to prove devotion to the Primordial Ember."
+  "lore": "Renegade zealots who broke away from Brother Elias, searing their own flesh with coals to prove devotion to the Primordial Ember. Caldera wardens treat every sighting near the ash-ridges as a sign of deeper fissure activity. Their hides resist light slashing, so seasoned squads break them quickly with cold strikes.",
+  "resistance": "light slashing"
  },
  {
   "id": "void-rift-stalker",
@@ -483,7 +536,8 @@
   "family": "astral",
   "behavior": "Teleports behind backline casters from shimmering air-cracks, slashing with silver-edged claws.",
   "weakness": "physical",
-  "lore": "Predators drawn through weakening Anchor Seals near the Threshold Nave, visible only as heat-shimmer until they strike."
+  "lore": "Predators drawn through weakening Anchor Seals near the Threshold Nave, visible only as heat-shimmer until they strike. Caldera wardens treat every sighting near the ash-ridges as a sign of deeper fissure activity. Their hides resist elemental wards, so seasoned squads break them quickly with physical strikes.",
+  "resistance": "elemental wards"
  },
  {
   "id": "magma-slug-behemoth",
@@ -492,7 +546,8 @@
   "family": "beast",
   "behavior": "Crawls slowly across basalt bridges, leaving wide trails of molten slag that block infantry advances.",
   "weakness": "cold",
-  "lore": "Armored volcanic mollusks feeding on sulfur crusts along the citadel's magma moat; their shells glow dull cherry in the dark."
+  "lore": "Armored volcanic mollusks feeding on sulfur crusts along the citadel's magma moat; their shells glow dull cherry in the dark. Caldera wardens treat every sighting near the ash-ridges as a sign of deeper fissure activity. Their hides resist cold and bruising, so seasoned squads break them quickly with cold strikes.",
+  "resistance": "cold and bruising"
  },
  {
   "id": "threshold-sentinel",
@@ -501,7 +556,8 @@
   "family": "construct",
   "behavior": "Projects a rotating arcane shield that reflects frontal projectiles while firing astral beams.",
   "weakness": "physical",
-  "lore": "Tall bronze-and-obsidian automatons left by the First Watch to test whether claimants to the dais possess true discipline."
+  "lore": "Tall bronze-and-obsidian automatons left by the First Watch to test whether claimants to the dais possess true discipline. Caldera wardens treat every sighting near the ash-ridges as a sign of deeper fissure activity. Their hides resist poison, bleed, and fear, so seasoned squads break them quickly with physical strikes.",
+  "resistance": "poison, bleed, and fear"
  },
  {
   "id": "soot-lung-leech",
@@ -510,7 +566,8 @@
   "family": "vermin",
   "behavior": "Drops from ash-choked rafters onto distracted archers, draining mana and inflicting coughing stuns.",
   "weakness": "cold",
-  "lore": "Blind, charcoal-grey parasites thriving in the warm chimneys of Ironcamp's outer bastions."
+  "lore": "Blind, charcoal-grey parasites thriving in the warm chimneys of Ironcamp's outer bastions. Caldera wardens treat every sighting near the ash-ridges as a sign of deeper fissure activity. Their hides resist poison and mire-rot, so seasoned squads break them quickly with cold strikes.",
+  "resistance": "poison and mire-rot"
  },
  {
   "id": "balefire-pyromancer",
@@ -519,7 +576,8 @@
   "family": "humanoid",
   "behavior": "Calls down delayed pillars of white caldera flame on clustered squads while shielded by ember-wards.",
   "weakness": "cold",
-  "lore": "High-ranking defectors from the Crown College who traded their eyesight for the ability to read subterranean magma currents."
+  "lore": "High-ranking defectors from the Crown College who traded their eyesight for the ability to read subterranean magma currents. Caldera wardens treat every sighting near the ash-ridges as a sign of deeper fissure activity. Their hides resist light slashing, so seasoned squads break them quickly with cold strikes.",
+  "resistance": "light slashing"
  },
  {
   "id": "anchor-chain-specter",
@@ -528,7 +586,8 @@
   "family": "undead",
   "behavior": "Tethers itself to a party member, transferring half of all damage it takes to the bound victim.",
   "weakness": "astral",
-  "lore": "Unquiet spirits of First Watch wardens chained to the seven meteoric valves, bound by oath to test all who approach."
+  "lore": "Unquiet spirits of First Watch wardens chained to the seven meteoric valves, bound by oath to test all who approach. Caldera wardens treat every sighting near the ash-ridges as a sign of deeper fissure activity. Their hides resist poison and cold, so seasoned squads break them quickly with astral strikes.",
+  "resistance": "poison and cold"
  },
  {
   "id": "redglass-hatchling",
@@ -537,6 +596,7 @@
   "family": "beast",
   "behavior": "Darts swiftly in packs around elder drakes, snapping with molten-glass jaws that inflict heavy bleed.",
   "weakness": "cold",
-  "lore": "Newly hatched ridge-drakes whose wing-membranes have not yet hardened into full obsidian plates, making them fast and vicious."
+  "lore": "Newly hatched ridge-drakes whose wing-membranes have not yet hardened into full obsidian plates, making them fast and vicious. Caldera wardens treat every sighting near the ash-ridges as a sign of deeper fissure activity. Their hides resist cold and bruising, so seasoned squads break them quickly with cold strikes.",
+  "resistance": "cold and bruising"
  }
 ]
