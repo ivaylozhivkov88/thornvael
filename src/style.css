@@ -394,6 +394,41 @@ body.town-open :is(#objectives, .gothic-hud-tracker, #minimap, #btn-minimap-togg
   border-radius: 12px;
   box-shadow: 0 10px 40px #000000ee, inset 0 0 30px #00000099;
 }
+#shell .homm-dossier-box.is-town-dossier.hub-particles-rain { border-color: #6b8cae; }
+#shell .homm-dossier-box.is-town-dossier.hub-particles-ash_light { border-color: #8b8680; }
+#shell .homm-dossier-box.is-town-dossier.hub-particles-alkali_storm { border-color: #c89d54; }
+#shell .homm-dossier-box.is-town-dossier.hub-particles-clear_heat { border-color: #d49b42; }
+#shell .homm-dossier-box.is-town-dossier.hub-particles-sea_spray { border-color: #5b93a8; }
+#shell .homm-dossier-box.is-town-dossier.hub-particles-embers { border-color: #c85a32; }
+#shell .homm-dossier-box.is-town-dossier.hub-particles-cinder_snow { border-color: #8c98a6; }
+#shell .sh-hub-description {
+  margin: 0 0 8px;
+  line-height: 1.4;
+}
+#shell .sh-hub-atmosphere {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  padding: 6px 10px;
+  margin-bottom: 8px;
+  border-left: 3px solid #d4af37;
+  background: rgba(12, 9, 6, 0.55);
+  border-radius: 4px;
+  font-size: 12px;
+}
+#shell .sh-hub-badge {
+  font-weight: 700;
+  color: #f3d27a;
+  letter-spacing: 0.02em;
+}
+#shell .sh-hub-ambient {
+  font-style: italic;
+  color: #d6cbb3;
+}
+#shell .sh-hub-meta {
+  font-size: 11px;
+  color: #a9d18e;
+}
 #shell .sh-skirmish-opts { display: flex; flex-direction: column; gap: 6px; }
 
 /* --- Skirmish Preparation Modal --- */

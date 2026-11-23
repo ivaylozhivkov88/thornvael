@@ -1,6 +1,7 @@
 import { blip, playDialogueVoice, playEndingMusic, setDialogueDucking, setSpecialMusic, stopDialogueVoice } from '../audio';
 import { resolveDialogueVoiceClip } from '../audio-catalog';
 import { type CampaignNode } from '../campaign';
+import { getHubEvolutionStage, type HubParticles } from '../data/hub-evolution';
 import { type CampaignRecord } from '../flow';
 import { readPreferences } from '../preferences';
 import {
@@ -299,20 +300,45 @@ export interface BriefingModalOptions {
   onWaypointTravel: (handle: ModalHandle) => Promise<unknown> | void;
 }
 
+const HUB_PARTICLE_LABELS: Readonly<Record<HubParticles, string>> = {
+  rain: '🌧 Steady Rain',
+  ash_light: '🌫 Ash Drift',
+  alkali_storm: '🌪 Alkali Storm',
+  clear_heat: '☀ Clear Heat',
+  sea_spray: '🌊 Sea Spray',
+  embers: '🔥 Falling Embers',
+  cinder_snow: '❄ Cinder Snow',
+};
+
 export function openBriefingModal(
   modals: ModalManager,
   root: HTMLElement,
   opts: BriefingModalOptions,
 ): ModalHandle {
   const { node: n, record } = opts;
+  const hubStage =
+    n.kind === 'town' ? getHubEvolutionStage(n.id, record?.progress.completed ?? []) : null;
+  const displayTitle = hubStage ? hubStage.hubName : n.title;
+
   const handle = modals.open({
     root,
     className: 'sh-modal',
-    boxClassName: 'sh-box homm-dossier-box',
-    ariaLabel: n.title,
+    boxClassName: hubStage
+      ? `sh-box homm-dossier-box is-town-dossier hub-particles-${hubStage.particles}`
+      : 'sh-box homm-dossier-box',
+    ariaLabel: displayTitle,
     closeOnEscape: true,
     closeOnBackdrop: true,
   });
+
+  if (hubStage) {
+    if (handle.box.dataset) {
+      handle.box.dataset.hubStage = hubStage.id;
+      handle.box.dataset.hubParticles = hubStage.particles;
+      handle.box.dataset.hubMilestone = hubStage.milestone;
+    }
+    handle.box.style?.setProperty?.('--hub-visual-filter', hubStage.visualFilter);
+  }
 
   const hasWp = (record?.progress.waypoints?.includes(n.id) ?? false) || n.kind === 'town';
   const isHere = n.id === record?.progress.node;
@@ -332,10 +358,21 @@ export function openBriefingModal(
   }
   btnRow.append(btn(T.back, () => handle.close(), 'sh-small'));
 
-  handle.box.append(
-    el('h2', '', `${n.kind === 'town' ? '🏰 ' : '⚔ '}${n.title}`),
-    el('p', '', n.briefing),
-  );
+  handle.box.append(el('h2', '', `${n.kind === 'town' ? '🏰 ' : '⚔ '}${displayTitle}`));
+  if (hubStage) {
+    handle.box.append(el('p', 'sh-hub-description', hubStage.townDescription));
+    const atmo = el('div', 'sh-hub-atmosphere');
+    atmo.style?.setProperty?.('filter', hubStage.visualFilter);
+    const badge = el('span', 'sh-hub-badge', HUB_PARTICLE_LABELS[hubStage.particles] ?? hubStage.particles);
+    const ambient = el('span', 'sh-hub-ambient', hubStage.ambientNote);
+    atmo.append(badge, ambient);
+    if (hubStage.unlockedMercenary) {
+      atmo.append(el('div', 'sh-hub-meta', `Mercenary Available: ${hubStage.unlockedMercenary}`));
+    }
+    handle.box.append(atmo);
+  } else {
+    handle.box.append(el('p', '', n.briefing));
+  }
   if (opts.plaque) {
     const pq = el('div', 'sh-briefing-plaque');
     pq.append(el('strong', '', `${opts.plaque.title}: `), document.createTextNode(opts.plaque.text));

@@ -17,6 +17,14 @@ export {
   generateTownBounties,
 } from './sim/town';
 
+export {
+  HUB_EVOLUTION,
+  getHubEvolutionStage,
+  isCanonicalHubId,
+  normalizeHubId,
+  type HubEvolutionStage,
+} from './data/hub-evolution';
+
 import { getItemDef, type ItemDef } from './sim/items';
 import { RUNEWORDS, getRuneById, type RunewordDef } from './sim/runes';
 

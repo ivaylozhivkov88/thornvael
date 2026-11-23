@@ -2484,3 +2484,23 @@
   gap: 4px;
   margin-top: 4px;
 }
+
+.town-hub-evolution {
+  margin: 4px 0 8px;
+  padding: 6px 10px;
+  border-left: 3px solid var(--town-brass);
+  background: rgba(18, 12, 8, 0.55);
+  border-radius: 4px;
+  font-size: 12px;
+  line-height: 1.35;
+}
+.town-hub-evolution .town-hub-desc {
+  margin: 0 0 2px;
+  color: var(--town-paper);
+}
+.town-hub-evolution .town-hub-ambient {
+  margin: 0;
+  color: var(--town-dim);
+  font-style: italic;
+  font-size: 11px;
+}

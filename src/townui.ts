@@ -13,6 +13,7 @@ import { VETERAN_RANKS, templeResurrectionCost } from './sim/mercs';
 import { S } from './strings';
 import { createRarityBadgeEl, itemIconEl } from './townicons';
 import { getRumorsByStage, loadTavernRumors, type CampaignStage, type TavernRumorEntry } from './data/text/index';
+import { getHubEvolutionStage, isCanonicalHubId } from './data/hub-evolution';
 import { equipmentLayers } from './hero-presentation';
 import { buildDoll, dollSet, lookFor } from './doll';
 import { play, playNpcBark, playTraderBark, playTownAmbience, stopTownAmbience, playEquipSfx, blip, playSpeakerSwitchThrill, setDialogueDucking, playDialogueVoice, stopDialogueVoice } from './audio';
@@ -41,6 +42,10 @@ export interface TownUiCtx {
   onOpen: () => void;
   onShopEnter: () => void;
   onShopLeave: () => void;
+  /** Optional completed mission IDs for dynamic living-hub evolution headers. */
+  completedMissions?: () => readonly string[];
+  /** Optional campaign hub node ID override (e.g. 'town-thornwick'). */
+  hubId?: () => string | undefined;
 }
 
 function el<K extends keyof HTMLElementTagNameMap>(tag: K, cls = '', text = ''): HTMLElementTagNameMap[K] {
@@ -272,19 +277,36 @@ export class TownUi {
     const scrollTop = this.root.scrollTop;
     const sim = this.ctx.sim();
     const def = sim.towns[this.town].def;
+    const completed = [...(this.ctx.completedMissions?.() ?? [])];
+    const hubKey = this.ctx.hubId?.() ?? def.name;
+    const hubStage = isCanonicalHubId(hubKey) ? getHubEvolutionStage(hubKey, completed) : null;
+    const displayHubName = hubStage?.hubName ?? def.name;
+
     this.root.replaceChildren();
     this.root.className = `sheet town town--${this.role === Role.Shop ? 'shop' : this.role === Role.Tavern ? 'tavern' : 'school'}`;
     const head = el('div', 'sheet-head');
-    head.append(el('h2', '', `${def.name}: ${S.town.roles[this.role]}`), el('span', 'spacer'), el('b', 'gold', `${S.town.gold} ${sim.cb.gold[0]}`));
+    head.append(el('h2', '', `${displayHubName}: ${S.town.roles[this.role]}`), el('span', 'spacer'), el('b', 'gold', `${S.town.gold} ${sim.cb.gold[0]}`));
     if (this.role !== Role.Shop) head.append(button(S.town.leave, () => this.close()));
     this.root.append(head);
     if (this.bark) this.root.append(el('p', 'muted', `"${this.bark}"`));
     const vigil = el('div', 'town-guard-vigil');
     vigil.append(
       el('span', 'guard-shield-icon', '🛡'),
-      el('span', 'guard-status', `${def.name} Palisade · Gate Guards on vigilant watch`),
+      el('span', 'guard-status', `${displayHubName} Palisade · Gate Guards on vigilant watch`),
     );
     this.root.append(vigil);
+    if (hubStage) {
+      const evo = el('div', 'town-hub-evolution');
+      if (evo.dataset) {
+        evo.dataset.hubStage = hubStage.id;
+        evo.dataset.hubParticles = hubStage.particles;
+      }
+      evo.append(
+        el('p', 'town-hub-desc', hubStage.townDescription),
+        el('p', 'town-hub-ambient', hubStage.ambientNote),
+      );
+      this.root.append(evo);
+    }
     if (this.role === Role.Shop) this.renderShop(sim);
     else if (this.role === Role.Tavern) this.renderTavern(sim);
     else this.renderSchool(sim);

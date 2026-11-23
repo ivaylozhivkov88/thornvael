@@ -1,0 +1,528 @@
+[
+  {
+    "id": "thornwick-start",
+    "act": 1,
+    "hubId": "town-thornwick",
+    "hubName": "Thornwick Market",
+    "milestone": "START",
+    "afterMission": "START",
+    "requiredMissions": [],
+    "townDescription": "Cold drizzle slicks the palisade logs along the Alder River. Reeve Marlow counts empty grain sacks while Kaelen the Smith hammers iron in the mud amidst tense whispers of the Salt Tithe.",
+    "ambientNote": "Cold rain, wet wool, distant river rush, and muted forge hammer.",
+    "visualFilter": "saturate(0.85) brightness(0.92)",
+    "particles": "rain",
+    "activeNpcs": [
+      "Reeve Marlow",
+      "Dunstan the Barkeep",
+      "Kaelen the Smith",
+      "Warden Hale",
+      "High Arcanist Vaelen",
+      "Father Cael",
+      "Orlen the Grave-Tender"
+    ]
+  },
+  {
+    "id": "thornwick-m01",
+    "act": 1,
+    "hubId": "town-thornwick",
+    "hubName": "Thornwick Market",
+    "milestone": "m01",
+    "afterMission": "m01",
+    "requiredMissions": [
+      "m01-blood-at-the-ford",
+      "MQ1-01"
+    ],
+    "townDescription": "The first wounded border scouts from Sunken Ford arrive at The Three Elms Tavern. Dunstan stops telling jokes and begins watering down the ale while rumors of freshly minted Border Mint copper ripple along the palisade.",
+    "ambientNote": "Drumming rain on tavern eaves, low groans of wounded scouts, clinking tankards.",
+    "visualFilter": "saturate(0.80) brightness(0.90)",
+    "particles": "rain",
+    "activeNpcs": [
+      "Reeve Marlow",
+      "Dunstan the Barkeep",
+      "Kaelen the Smith",
+      "Warden Hale",
+      "Ford-Scout Bren"
+    ]
+  },
+  {
+    "id": "thornwick-m04",
+    "act": 1,
+    "hubId": "town-thornwick",
+    "hubName": "Thornwick Market",
+    "milestone": "m04",
+    "afterMission": "MQ1-02",
+    "requiredMissions": [
+      "m04-the-sunken-sanctum",
+      "MQ1-02"
+    ],
+    "townDescription": "Mud-soaked refugees from Fenwick’s Peat and Ravenwatch crowd beneath the eaves. Dozens of small wax candles burn before Father Cael’s shrine for those lost in the Sunken Sanctum and the flooded fens.",
+    "ambientNote": "Quiet weeping, crackling vigil candles, heavy rain against timber roofs.",
+    "visualFilter": "saturate(0.75) brightness(0.88)",
+    "particles": "rain",
+    "unlockedMercenary": "Defrocked Lantern-Scribe",
+    "activeNpcs": [
+      "Reeve Marlow",
+      "Dunstan the Barkeep",
+      "Father Cael",
+      "Orlen the Grave-Tender",
+      "High Arcanist Vaelen"
+    ]
+  },
+  {
+    "id": "thornwick-m06",
+    "act": 1,
+    "hubId": "town-thornwick",
+    "hubName": "Thornwick Market",
+    "milestone": "m06",
+    "afterMission": "m06",
+    "requiredMissions": [
+      "m06-greywood-supply",
+      "SQ1-03"
+    ],
+    "townDescription": "With Greywood’s supply roads cleared and the mill wheel turning once more, Thornwick smells of freshly baked bread for the first time. Salvaged grain wagons crowd the market square while Warden Hale drills the reinforced watch.",
+    "ambientNote": "Crackling hearth ovens, turning waterwheel in the distance, steady hammer of Kaelen’s forge.",
+    "visualFilter": "saturate(0.90) brightness(0.95)",
+    "particles": "rain",
+    "activeNpcs": [
+      "Reeve Marlow",
+      "Miller Edda",
+      "Dunstan the Barkeep",
+      "Kaelen the Smith",
+      "Warden Hale"
+    ]
+  },
+  {
+    "id": "thornwick-m07",
+    "act": 1,
+    "hubId": "town-thornwick",
+    "hubName": "Thornwick Market",
+    "milestone": "m07",
+    "afterMission": "m07",
+    "requiredMissions": [
+      "m07-split-vanguard"
+    ],
+    "townDescription": "Golden ley-fire from the rekindled Craghorn cairns glimmers along the southern passes, yet no cheers rise in Thornwick. Scouts report imperial columns massing toward Alder Bridge as High Arcanist Vaelen’s brow darkens.",
+    "ambientNote": "Drizzle thinning to cold mist, distant rumble of thunder, low hum of border wards.",
+    "visualFilter": "saturate(0.78) brightness(0.90)",
+    "particles": "rain",
+    "activeNpcs": [
+      "High Arcanist Vaelen",
+      "Warden Hale",
+      "Reeve Marlow",
+      "Kaelen the Smith"
+    ]
+  },
+  {
+    "id": "thornwick-m11",
+    "act": 1,
+    "hubId": "town-thornwick",
+    "hubName": "Thornwick Market",
+    "milestone": "m11",
+    "afterMission": "MQ1-04",
+    "requiredMissions": [
+      "m11-ashbrook-retreat",
+      "MQ1-04"
+    ],
+    "townDescription": "Ashbrook Gate holds and the northern border is free, yet an eerie silence falls over Thornwick. For the first time, pale gray ash drifts down on the southern wind as Reeve Marlow sits alone on Bailiff’s Hall steps with an open ledger—free from the tithe, yet facing an impossible winter.",
+    "ambientNote": "Eerie stillness, dry southern gusts carrying pale ash, distant tolling chapel bell.",
+    "visualFilter": "saturate(0.65) sepia(0.12)",
+    "particles": "ash_light",
+    "activeNpcs": [
+      "Reeve Marlow",
+      "High Arcanist Vaelen",
+      "Father Cael",
+      "Orlen the Grave-Tender",
+      "Warden Hale"
+    ]
+  },
+  {
+    "id": "redmarsh-start",
+    "act": 2,
+    "hubId": "town-redmarsh",
+    "hubName": "Redmarsh Outpost",
+    "milestone": "START",
+    "afterMission": "START",
+    "requiredMissions": [],
+    "townDescription": "Perched precariously on thirty-foot limestone stilts above boiling alkali mud, Redmarsh Outpost endures blistering white heat and whirling dust-devils. A single tin dipper of boiled brine costs a silver piece at Jassim’s counter.",
+    "ambientNote": "Howling alkali sandstorm, creaking rope bridges, wind whistling through bleached leviathan ribs.",
+    "visualFilter": "sepia(0.28) contrast(1.08)",
+    "particles": "alkali_storm",
+    "activeNpcs": [
+      "Barkeep Jassim",
+      "Forgemaster Vok",
+      "Tomb-Notary Seti",
+      "Surveyor Lyra",
+      "Sabik the Sand-Walker",
+      "Chronicler Zahra"
+    ]
+  },
+  {
+    "id": "redmarsh-m13",
+    "act": 2,
+    "hubId": "town-redmarsh",
+    "hubName": "Redmarsh Outpost",
+    "milestone": "m13",
+    "afterMission": "m13",
+    "requiredMissions": [
+      "m13-twin-passes",
+      "MQ2-02"
+    ],
+    "townDescription": "With the sniper blinds at Twin Passes shattered and Outrider Joren’s scouts relieved, supply caravans risk the high canyon road again. Sabik the Sand-Walker marks safer trails across the salt flats while Vok’s brine-tempered anvil rings steadily.",
+    "ambientNote": "Gusting canyon grit, rhythmic forge strikes, low rattle of caravan harness bells.",
+    "visualFilter": "sepia(0.24) contrast(1.06)",
+    "particles": "alkali_storm",
+    "activeNpcs": [
+      "Barkeep Jassim",
+      "Forgemaster Vok",
+      "Surveyor Lyra",
+      "Sabik the Sand-Walker",
+      "Outrider Joren"
+    ]
+  },
+  {
+    "id": "redmarsh-m16",
+    "act": 2,
+    "hubId": "town-redmarsh",
+    "hubName": "Redmarsh Outpost",
+    "milestone": "m16",
+    "afterMission": "MQ2-03",
+    "requiredMissions": [
+      "m16-wardstone-rupture",
+      "MQ2-03"
+    ],
+    "townDescription": "With the three Quartz Wardstones re-attuned by Chronicler Zahra, the suffocating alkali sandstorm vanishes completely. A raw, copper-blue sky opens above the stilts, revealing the looming dark basalt peak of Ironheart in the south.",
+    "ambientNote": "Crisp desert wind, crystalline hum from the plateau, Forgemaster Vok’s rhythmic anvil.",
+    "visualFilter": "saturate(1.05) contrast(1.05)",
+    "particles": "clear_heat",
+    "unlockedMercenary": "Third-Dynasty Tomb Notary",
+    "activeNpcs": [
+      "Chronicler Zahra",
+      "Tomb-Notary Seti",
+      "Forgemaster Vok",
+      "Surveyor Lyra",
+      "Barkeep Jassim"
+    ]
+  },
+  {
+    "id": "redmarsh-m17",
+    "act": 2,
+    "hubId": "town-redmarsh",
+    "hubName": "Redmarsh Outpost",
+    "milestone": "m17",
+    "afterMission": "m17",
+    "requiredMissions": [
+      "m17-mire-convoy",
+      "MQ2-01"
+    ],
+    "townDescription": "Quartermaster Bram’s supply wagons roll up the corduroy causeway to secure the stilt granary. Water rations ease by half a gill, medicine chests reach the infirmary tents, and garrison soldiers sharpen fresh steel under the clear desert sky.",
+    "ambientNote": "Creaking wagon wheels, relieved shouts at the granary, clinking water dippers.",
+    "visualFilter": "saturate(1.06) contrast(1.04)",
+    "particles": "clear_heat",
+    "activeNpcs": [
+      "Quartermaster Bram",
+      "Barkeep Jassim",
+      "Forgemaster Vok",
+      "Surveyor Lyra",
+      "Chronicler Zahra"
+    ]
+  },
+  {
+    "id": "redmarsh-m20",
+    "act": 2,
+    "hubId": "town-redmarsh",
+    "hubName": "Redmarsh Outpost",
+    "milestone": "m20",
+    "afterMission": "MQ2-04",
+    "requiredMissions": [
+      "m20-deep-quarry",
+      "MQ2-04"
+    ],
+    "townDescription": "Freed Deep Quarry miners with snapped iron collar-chains fill Redmarsh’s lower stilt platforms. Led by Miner Gorin, they stack stolen black-ironstone picks and heavy shields along the weapon racks for the assault on Ironheart.",
+    "ambientNote": "Grinding whetstones, defiant low voices, hammering of black-ironstone plate.",
+    "visualFilter": "saturate(1.00) contrast(1.05)",
+    "particles": "clear_heat",
+    "unlockedMercenary": "Deep Quarry Sapper",
+    "activeNpcs": [
+      "Miner Gorin",
+      "Forgemaster Vok",
+      "Chronicler Zahra",
+      "Tomb-Notary Seti",
+      "Sabik the Sand-Walker"
+    ]
+  },
+  {
+    "id": "redmarsh-m23",
+    "act": 2,
+    "hubId": "town-redmarsh",
+    "hubName": "Redmarsh Outpost",
+    "milestone": "m23",
+    "afterMission": "MQ2-06",
+    "requiredMissions": [
+      "m23-fork-of-spears",
+      "MQ2-06"
+    ],
+    "townDescription": "The brutal truth of Ironheart’s dry cisterns lands like a blade. Instead of celebration, an agonizing stillness settles over the outpost; caravan leaders quietly pack their camels west toward the sea while Zahra gazes toward Oakhaven and the fleet.",
+    "ambientNote": "Dead desert silence, dry wind rasping across empty water casks, soft creak of packing leather.",
+    "visualFilter": "saturate(0.75) sepia(0.20) contrast(1.06)",
+    "particles": "ash_light",
+    "activeNpcs": [
+      "Chronicler Zahra",
+      "Surveyor Lyra",
+      "Miner Gorin",
+      "Barkeep Jassim"
+    ]
+  },
+  {
+    "id": "oakhaven-start",
+    "act": 3,
+    "hubId": "town-oakhaven",
+    "hubName": "Oakhaven Frontier",
+    "milestone": "START",
+    "afterMission": "START",
+    "requiredMissions": [],
+    "townDescription": "Towering ancient ironwood groves ring Oakhaven above the cold, slate-gray Western Sea. Ironwood axes ring ceaselessly along the cliffs as Bailiff Aldric tallies arriving refugees against shrinking bread stores.",
+    "ambientNote": "Crashing surf below the cliffs, timber saws, gulls crying in the cold salt gale.",
+    "visualFilter": "saturate(0.90) hue-rotate(-5deg)",
+    "particles": "sea_spray",
+    "activeNpcs": [
+      "Bailiff Aldric",
+      "Ward-Scholar Elowen",
+      "Master-at-Arms Toren",
+      "Chief Healer Sera"
+    ]
+  },
+  {
+    "id": "oakhaven-m27",
+    "act": 3,
+    "hubId": "town-oakhaven",
+    "hubName": "Oakhaven Frontier",
+    "milestone": "m27",
+    "afterMission": "m27",
+    "requiredMissions": [
+      "m27-field-infirmary"
+    ],
+    "townDescription": "Chief Healer Sera’s canvas infirmary tents fill Oakhaven’s square with rescued borderers. Familiar northern faces—among them Father Cael and Reeve Marlow—shelter beside coastal survivors while Ward-Scholar Elowen integrates Zahra’s wardstone notes.",
+    "ambientNote": "Canvas snapping in the sea wind, quiet murmurs of the wounded, distant timber saws.",
+    "visualFilter": "saturate(0.92) brightness(0.96)",
+    "particles": "sea_spray",
+    "activeNpcs": [
+      "Chief Healer Sera",
+      "Bailiff Aldric",
+      "Ward-Scholar Elowen",
+      "Reeve Marlow",
+      "Father Cael"
+    ]
+  },
+  {
+    "id": "harborwatch-m29",
+    "act": 3,
+    "hubId": "town-oakhaven",
+    "hubName": "Harborwatch War-Docks",
+    "milestone": "m29",
+    "afterMission": "m29",
+    "requiredMissions": [
+      "m29-hourglass-rescue"
+    ],
+    "townDescription": "Half of Oakhaven’s ancient ironwood forest stands felled into jagged stumps. At Harborwatch’s granite slipways, the shipwrights rescued from the flooded tidal vaults double hull output day and night beside Miner Gorin’s ironstone smiths.",
+    "ambientNote": "Roar of timber saws, rapid caulking mallets, clang of black-ironstone hull plates.",
+    "visualFilter": "contrast(1.06) sepia(0.08)",
+    "particles": "sea_spray",
+    "activeNpcs": [
+      "Master Shipwright Kors",
+      "Harbor Marshal Veyra",
+      "Quartermaster Orson",
+      "Miner Gorin"
+    ]
+  },
+  {
+    "id": "harborwatch-m30",
+    "act": 3,
+    "hubId": "town-oakhaven",
+    "hubName": "Harborwatch War-Docks",
+    "milestone": "m30",
+    "afterMission": "m30",
+    "requiredMissions": [
+      "m30-starved-bastion"
+    ],
+    "townDescription": "Granite seawalls groan under the Western Sea as captured mountain convoys replenish the harbor stores. Master Kors’s iron cranes swing day and night to load the Great Evacuation caravels while Harbor Marshal Veyra marshals the boarding marines.",
+    "ambientNote": "Clanging alarm bells, creaking iron cranes, shouting boarding marines over breaking surf.",
+    "visualFilter": "contrast(1.10) sepia(0.15)",
+    "particles": "embers",
+    "unlockedMercenary": "Oakhaven Boarding Marine",
+    "activeNpcs": [
+      "Harbor Marshal Veyra",
+      "Master Shipwright Kors",
+      "Quartermaster Orson",
+      "Master-at-Arms Toren"
+    ]
+  },
+  {
+    "id": "harborwatch-m32",
+    "act": 3,
+    "hubId": "town-oakhaven",
+    "hubName": "Harborwatch War-Docks",
+    "milestone": "m32",
+    "afterMission": "m32",
+    "requiredMissions": [
+      "m32-elder-juggernaut"
+    ],
+    "townDescription": "With the Elder Juggernaut shattered on the coastal ridge, the eastern horizon turns a bruised violet. Fine black volcanic ash begins drifting across the harbor onto the white evacuation sails like warm gray snow.",
+    "ambientNote": "Hissing ash settling on salt water, taut rigging groaning, urgent embarkation whistles.",
+    "visualFilter": "contrast(1.12) saturate(0.84) sepia(0.16)",
+    "particles": "ash_light",
+    "activeNpcs": [
+      "Harbor Marshal Veyra",
+      "Master Shipwright Kors",
+      "Quartermaster Orson",
+      "Ward-Scholar Elowen"
+    ]
+  },
+  {
+    "id": "harborwatch-m35",
+    "act": 3,
+    "hubId": "town-oakhaven",
+    "hubName": "Harborwatch War-Docks",
+    "milestone": "m35",
+    "afterMission": "m35",
+    "requiredMissions": [
+      "m35-burning-harbor"
+    ],
+    "townDescription": "The slipways are utterly empty, the white sails of the fleet safely past the Western Rim. Only severed mooring ropes sway in the black water as half the harbor smolders, the bells fall silent, and bloodied veterans turn east beside Marshal Veyra.",
+    "ambientNote": "Crackling embers along charred piers, lapping black waves, grim silence of the rearguard.",
+    "visualFilter": "contrast(1.16) saturate(0.75) sepia(0.22)",
+    "particles": "embers",
+    "activeNpcs": [
+      "Harbor Marshal Veyra",
+      "Chief Healer Sera",
+      "Master-at-Arms Toren"
+    ]
+  },
+  {
+    "id": "highcrest-start",
+    "act": 4,
+    "hubId": "town-ironcamp",
+    "hubName": "Highcrest Citadel",
+    "milestone": "START",
+    "afterMission": "START",
+    "requiredMissions": [],
+    "townDescription": "Razor-cold alpine air lashes Highcrest’s granite spires while its wardstones glow steady blue. Harbor Marshal Veyra’s coastal rearguard sharpens steel beside Marshal Vance’s mountain veterans and Weaponsmith Elda’s meteoric forge.",
+    "ambientNote": "Freezing alpine wind, humming blue wardstones, clean chime of meteoric steel.",
+    "visualFilter": "contrast(1.15) saturate(0.85)",
+    "particles": "cinder_snow",
+    "unlockedMercenary": "Ironcamp Halberdier",
+    "activeNpcs": [
+      "Marshal Vance",
+      "Harbor Marshal Veyra",
+      "Weaponsmith Elda",
+      "Archivist Orla",
+      "Warden Tessa"
+    ]
+  },
+  {
+    "id": "highcrest-m37",
+    "act": 4,
+    "hubId": "town-ironcamp",
+    "hubName": "Highcrest Citadel",
+    "milestone": "m37",
+    "afterMission": "m37",
+    "requiredMissions": [
+      "m37-shattered-beacons"
+    ],
+    "townDescription": "The blinding violet glare over the central valley snaps out. From Highcrest’s parapet, the colossal black silhouette of the Infernal Citadel becomes visible across the caldera for the first time.",
+    "ambientNote": "Howling thermal drafts from the valley, low wardstone resonance, hushed lookout calls.",
+    "visualFilter": "contrast(1.16) saturate(0.88)",
+    "particles": "cinder_snow",
+    "activeNpcs": [
+      "Marshal Vance",
+      "Harbor Marshal Veyra",
+      "Archivist Orla",
+      "Weaponsmith Elda"
+    ]
+  },
+  {
+    "id": "highcrest-m39",
+    "act": 4,
+    "hubId": "town-ironcamp",
+    "hubName": "Highcrest Citadel",
+    "milestone": "m39",
+    "afterMission": "m39",
+    "requiredMissions": [
+      "m39-flight-of-malrik"
+    ],
+    "townDescription": "Archivist Orla spreads Malrik’s stolen cipher-ledgers across the war table—connecting the burned Border Mint of Act I, the diverted iron of Act II, and the Iron Pact’s final ritual into one devastating map.",
+    "ambientNote": "Rustling vellum over stone maps, steady alpine gale, distant rumble beneath the obsidian plateau.",
+    "visualFilter": "contrast(1.18) saturate(0.82) sepia(0.10)",
+    "particles": "cinder_snow",
+    "activeNpcs": [
+      "Archivist Orla",
+      "Marshal Vance",
+      "Harbor Marshal Veyra",
+      "Captain Rowan",
+      "Warden Tessa"
+    ]
+  },
+  {
+    "id": "highcrest-m42",
+    "act": 4,
+    "hubId": "town-ironcamp",
+    "hubName": "Highcrest Citadel",
+    "milestone": "m42",
+    "afterMission": "m42",
+    "requiredMissions": [
+      "m42-outer-rampart"
+    ],
+    "townDescription": "The Outer Rampart is breached and the sky turns incandescent crimson. Ash falls thick as winter snow inside the courtyard; Elda’s forge never cools as the final surviving soldiers write farewell letters and leave them on the stone parapet.",
+    "ambientNote": "Low volcanic thunder, roaring furnace bellows, thick ash drifting onto meteoric steel.",
+    "visualFilter": "contrast(1.20) sepia(0.20)",
+    "particles": "embers",
+    "unlockedMercenary": "Caldera Siege-Engineer",
+    "activeNpcs": [
+      "Marshal Vance",
+      "Harbor Marshal Veyra",
+      "Archivist Orla",
+      "Weaponsmith Elda"
+    ]
+  },
+  {
+    "id": "highcrest-m45",
+    "act": 4,
+    "hubId": "town-ironcamp",
+    "hubName": "Highcrest Citadel",
+    "milestone": "m45",
+    "afterMission": "m45",
+    "requiredMissions": [
+      "m45-crown-of-order"
+    ],
+    "townDescription": "With the necrotic tether sundered, molten fissures below Highcrest cool into harmless black basalt. Clean mountain winds sweep the granite spires as the sky clears to blue and distant horns hail the returning sails in the west.",
+    "ambientNote": "Clean alpine breeze, wardstones chiming at rest, distant garrison horns.",
+    "visualFilter": "saturate(1.08) brightness(1.02)",
+    "particles": "clear_heat",
+    "activeNpcs": [
+      "Marshal Vance",
+      "Harbor Marshal Veyra",
+      "Archivist Orla",
+      "Weaponsmith Elda"
+    ]
+  },
+  {
+    "id": "highcrest-m46",
+    "act": 4,
+    "hubId": "town-ironcamp",
+    "hubName": "Highcrest Citadel",
+    "milestone": "m46",
+    "afterMission": "m46",
+    "requiredMissions": [
+      "m46-ember-reckoning"
+    ],
+    "townDescription": "Standards of crimson velvet and smoking steel rise above Highcrest’s basalt battlements. Beneath the Crown of Thorns and Cinder, every leyline of the Caldera hums in hushed, iron obedience.",
+    "ambientNote": "Deep volcanic pulse, snapping crimson standards, measured iron-shod footsteps on stone.",
+    "visualFilter": "contrast(1.22) sepia(0.28) saturate(1.08)",
+    "particles": "embers",
+    "activeNpcs": [
+      "Marshal Vance",
+      "Harbor Marshal Veyra",
+      "Archivist Orla",
+      "Weaponsmith Elda"
+    ]
+  }
+]

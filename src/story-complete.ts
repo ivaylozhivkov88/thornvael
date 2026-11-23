@@ -8,6 +8,30 @@
  * - Story slides: Full-screen art with title, subtitle, poetic caption, and italic reflection.
  */
 
+import {
+  HUB_EVOLUTION,
+  getHubEvolutionStage,
+  isCanonicalHubId,
+  missionMatches,
+  normalizeHubId,
+  type CanonicalHubId,
+  type HubActId,
+  type HubEvolutionStage,
+  type HubParticles,
+} from './data/hub-evolution';
+
+export {
+  HUB_EVOLUTION,
+  getHubEvolutionStage,
+  isCanonicalHubId,
+  missionMatches,
+  normalizeHubId,
+  type CanonicalHubId,
+  type HubActId,
+  type HubEvolutionStage,
+  type HubParticles,
+};
+
 export type ActId = 1 | 2 | 3 | 4;
 export type EndingBranch = 'order' | 'ember';
 
@@ -84,18 +108,6 @@ export interface CombatBark {
   trigger: 'aggro' | 'phase2' | 'ability' | 'low_hp' | 'death';
   text: string;
   voiceId?: string;
-}
-
-export interface HubEvolutionStage {
-  act: ActId;
-  hubId: string;
-  hubName: string;
-  afterMission: string;
-  visualFilter: string;
-  particles: 'rain' | 'ash_light' | 'alkali_storm' | 'clear_heat' | 'sea_spray' | 'embers' | 'cinder_snow';
-  townDescription: string;
-  ambientNote: string;
-  unlockedMercenary?: string;
 }
 
 // ============================================================================
@@ -651,124 +663,8 @@ export const BOSS_COMBAT_BARKS: Record<string, CombatBark[]> = {
 };
 
 // ============================================================================
-// 4. LIVING HUB EVOLUTION (FOR src/townui.ts)
+// 4. LIVING HUB EVOLUTION (re-exported from src/data/hub-evolution.ts)
 // ============================================================================
-
-export const HUB_EVOLUTION: HubEvolutionStage[] = [
-  // Act I — Thornwick Market
-  {
-    act: 1,
-    hubId: 'thornwick',
-    hubName: 'Thornwick Market',
-    afterMission: 'START',
-    visualFilter: 'saturate(0.85) brightness(0.92)',
-    particles: 'rain',
-    townDescription: 'Cold drizzle slicks the palisade logs. Reeve Marlow counts empty grain sacks while Master Kaelen hammers iron in the mud.',
-    ambientNote: 'Steady rain, distant river rush, muted forge hammer.',
-  },
-  {
-    act: 1,
-    hubId: 'thornwick',
-    hubName: 'Thornwick Market',
-    afterMission: 'MQ1-02',
-    visualFilter: 'saturate(0.75) brightness(0.88)',
-    particles: 'rain',
-    townDescription: 'Mud-soaked refugees from the fen huddle under the eaves. Dozens of wax candles flicker before Father Cael’s shrine.',
-    ambientNote: 'Quiet weeping, crackling vigil candles, heavy rain.',
-    unlockedMercenary: 'Defrocked Lantern-Scribe',
-  },
-  {
-    act: 1,
-    hubId: 'thornwick',
-    hubName: 'Thornwick Market',
-    afterMission: 'MQ1-04',
-    visualFilter: 'saturate(0.65) sepia(0.12)',
-    particles: 'ash_light',
-    townDescription: 'Morvessa is dead, yet no one celebrates. For the first time, pale gray ash drifts down from the southern wind onto Thornwick’s roofs.',
-    ambientNote: 'Eerie stillness, dry southern gusts, distant church bell.',
-  },
-
-  // Act II — Redmarsh Outpost
-  {
-    act: 2,
-    hubId: 'redmarsh',
-    hubName: 'Redmarsh Outpost',
-    afterMission: 'START',
-    visualFilter: 'sepia(0.28) contrast(1.08)',
-    particles: 'alkali_storm',
-    townDescription: 'Blinding alkali dust whips across the limestone stilts. A single tin dipper of boiled brine costs a silver piece at Jassim’s counter.',
-    ambientNote: 'Howling sandstorm, creaking rope bridges.',
-  },
-  {
-    act: 2,
-    hubId: 'redmarsh',
-    hubName: 'Redmarsh Outpost',
-    afterMission: 'MQ2-03',
-    visualFilter: 'saturate(1.05) contrast(1.05)',
-    particles: 'clear_heat',
-    townDescription: 'With the Quartz Wardstones cleansed, the toxic storm vanishes. A raw copper-blue sky reveals the black peak of Ironheart in the south.',
-    ambientNote: 'Crisp desert wind, Forgemaster Vok’s rhythmic anvil.',
-    unlockedMercenary: 'Third-Dynasty Tomb Notary',
-  },
-  {
-    act: 2,
-    hubId: 'redmarsh',
-    hubName: 'Redmarsh Outpost',
-    afterMission: 'MQ2-04',
-    visualFilter: 'saturate(1.0) contrast(1.05)',
-    particles: 'clear_heat',
-    townDescription: 'Freed quarry miners with snapped iron collars crowd the lower stilts, sharpening stolen black-ironstone picks.',
-    ambientNote: 'Grinding whetstones, defiant low voices.',
-    unlockedMercenary: 'Deep Quarry Sapper',
-  },
-
-  // Act III — Oakhaven & Harborwatch
-  {
-    act: 3,
-    hubId: 'oakhaven',
-    hubName: 'Oakhaven Frontier',
-    afterMission: 'START',
-    visualFilter: 'saturate(0.9) hue-rotate(-5deg)',
-    particles: 'sea_spray',
-    townDescription: 'Ironwood axes ring along the cliffs as Bailiff Aldric tallies incoming refugees against shrinking bread stores.',
-    ambientNote: 'Crashing surf, timber saws, gulls in the gale.',
-  },
-  {
-    act: 3,
-    hubId: 'harborwatch',
-    hubName: 'Harborwatch War-Docks',
-    afterMission: 'm30',
-    visualFilter: 'contrast(1.1) sepia(0.15)',
-    particles: 'embers',
-    townDescription: 'Granite seawalls groan under the Western Sea. Master Kors’s iron cranes swing day and night to load the Great Evacuation caravels.',
-    ambientNote: 'Clanging alarm bells, creaking cranes, shouting marines.',
-    unlockedMercenary: 'Oakhaven Boarding Marine',
-  },
-
-  // Act IV — Highcrest Citadel
-  {
-    act: 4,
-    hubId: 'highcrest',
-    hubName: 'Highcrest Citadel',
-    afterMission: 'START',
-    visualFilter: 'contrast(1.15) saturate(0.85)',
-    particles: 'cinder_snow',
-    townDescription: 'Gray cinder-snow drifts across the granite spires. Marshal Vance and Harbor Marshal Veyra stand over the caldera maps in grim silence.',
-    ambientNote: 'Freezing alpine wind, distant tectonic rumble.',
-    unlockedMercenary: 'Ironcamp Halberdier',
-  },
-  {
-    act: 4,
-    hubId: 'highcrest',
-    hubName: 'Highcrest Citadel',
-    afterMission: 'm42',
-    visualFilter: 'contrast(1.2) sepia(0.2)',
-    particles: 'embers',
-    townDescription: 'The Outer Rampart is breached. The eastern horizon glows incandescent violet as the rearguard sharpens meteoric steel for the Threshold.',
-    ambientNote: 'Low volcanic thunder, humming wardstones.',
-    unlockedMercenary: 'Caldera Siege-Engineer',
-  },
-];
 
 // ============================================================================
 // 5. ENGINE HELPER FUNCTIONS (CAMPAIGN & UI INTEGRATION)
@@ -798,15 +694,15 @@ export function getCurrentHubStage(
   act: ActId,
   completedMissions: string[]
 ): HubEvolutionStage | undefined {
-  const actStages = HUB_EVOLUTION.filter((s) => s.act === act);
-  let active = actStages[0];
-
-  for (const stage of actStages) {
-    if (stage.afterMission === 'START' || completedMissions.includes(stage.afterMission)) {
-      active = stage;
-    }
-  }
-  return active;
+  const hubId =
+    act === 1
+      ? 'town-thornwick'
+      : act === 2
+        ? 'town-redmarsh'
+        : act === 3
+          ? 'town-oakhaven'
+          : 'town-ironcamp';
+  return getHubEvolutionStage(hubId, completedMissions);
 }
 
 /**

@@ -79,6 +79,7 @@ import {
 import { VirtualStick } from './virtualstick';
 import { keybindManager } from './keybinds';
 import { endingForCompletedNode } from './story';
+import { getHubEvolutionStage } from './data/hub-evolution';
 import './style.css';
 import './ui/squad-bar.css';
 
@@ -375,6 +376,17 @@ if (campaign && campaignId) {
     currentBiomeKey = ACT_TO_BIOME[Math.max(0, Math.min(3, (cNode.act ?? 1) - 1))] ?? 'forest';
     setMusicAct(cNode.act ?? 1);
     setAmbienceAct(cNode.act ?? 1, isTownNode);
+    if (isTownNode) {
+      const hubStage = getHubEvolutionStage(campaignId, crec?.progress.completed ?? []);
+      const gameCanvas = $('game') as HTMLCanvasElement | null;
+      if (gameCanvas?.style) {
+        gameCanvas.style.filter = hubStage.visualFilter;
+      }
+      if (document.body?.dataset) {
+        document.body.dataset.hubStage = hubStage.id;
+        document.body.dataset.hubParticles = hubStage.particles;
+      }
+    }
   } catch {}
 } else if (params.has('act')) {
   const a = Number(params.get('act'));
@@ -2314,6 +2326,8 @@ const townUi = new TownUi({
   },
   onShopEnter: playShopEntry,
   onShopLeave: cancelShopEntry,
+  completedMissions: () => crec?.progress.completed ?? [],
+  hubId: () => (isTownNode ? (campaignId ?? undefined) : undefined),
 });
 let visit: { town: number; role: number; npc: number; until: number } | null = null;
 const TALK_REACH = 3;
