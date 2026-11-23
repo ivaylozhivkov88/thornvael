@@ -263,6 +263,17 @@ export interface SceneryPlacement {
 
 /** World pixel bounds, including canopy/roof/shadow overhang on every side. */
 export function sceneryPlacement(map: GameMap, o: MapObject): SceneryPlacement | null {
+  if (o.frame && o.frame in objSheet.frames) {
+    const f = objSheet.frames[o.frame as keyof typeof objSheet.frames];
+    return {
+      frame: o.frame,
+      obj: true,
+      x: o.x * TILE - f.anchor[0],
+      y: o.y * TILE - f.anchor[1],
+      w: f.w,
+      h: f.h,
+    };
+  }
   let name: string;
   if (o.kind === ObjectKind.Tree) {
     const marsh = map.terrain[o.y * map.w + o.x] === Terrain.Marsh;
@@ -277,10 +288,9 @@ export function sceneryPlacement(map: GameMap, o: MapObject): SceneryPlacement |
 /** Prepare once per map, without sorting/mutating the gameplay object array. */
 export function prepareScenery(map: GameMap): SceneryPlacement[] {
   const list = [...map.objects]
-    .sort((a, b) => a.y - b.y || a.x - b.x || a.kind - b.kind)
     .map((o) => sceneryPlacement(map, o))
     .filter((p): p is SceneryPlacement => p !== null);
-  return [...list, ...zoneDecor(map)];
+  return [...list, ...zoneDecor(map)].sort((a, b) => (a.y + a.h) - (b.y + b.h) || a.x - b.x);
 }
 
 /** Seed-derived props inside the feature zones (gravestones, bones, rubble...). Visual only. */
@@ -491,7 +501,7 @@ export function paintTerrainChunk(
           g.fillRect(px, py, TILE, TILE);
           break;
         case Terrain.Dirt:
-          g.fillStyle = 'rgba(235, 170, 70, 0.09)';
+          g.fillStyle = mainSkin ? 'rgba(0, 0, 0, 0.04)' : 'rgba(235, 170, 70, 0.09)';
           g.fillRect(px, py, TILE, TILE);
           break;
         case Terrain.Water:

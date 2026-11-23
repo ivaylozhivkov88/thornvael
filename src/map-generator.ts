@@ -526,14 +526,27 @@ export function generateExpeditionMap(opts: ExpeditionOptions): MapDoc {
     }
   }
 
+const BIOME_SCENERY_FRAMES: Record<string, readonly string[]> = {
+  forest: ['highland/oak', 'rocks/boulder-m', 'highland/log'],
+  marsh: ['ruins/column-broken', 'ruins/rubble', 'rocks/slab'],
+  desert: ['desert/palm-a', 'desert/palm-b', 'desert/cactus', 'desert/thorn', 'rocks/cluster'],
+  oasis: ['desert/palm-a', 'desert/stump', 'desert/thorn', 'rocks/cluster'],
+  crypt: ['bones/tombstone', 'bones/sarcophagus', 'bones/skullspike', 'ruins/column-broken'],
+  highlands: ['highland/pine-a', 'highland/pine-b', 'highland/standing-stone', 'rocks/spire'],
+  volcanic: ['volcanic/dead-a', 'volcanic/dead-b', 'volcanic/obsidian', 'volcanic/stump', 'volcanic/vent'],
+};
+
   // 4. Place Scenery Trees / Pillars / Obstacles outside reserved paths
   const treeDensity = biome.hasTrees ? (w === 96 ? 240 : 120) : (w === 96 ? 60 : 30);
+  const biomeFrames = BIOME_SCENERY_FRAMES[biomeKey];
   for (let i = 0; i < treeDensity; i++) {
     const tx = randInt(2, w - 3);
     const ty = randInt(2, h - 3);
     const idx = ty * w + tx;
     if (!reserved[idx] && terrain[idx] !== biome.barrierWater && terrain[idx] !== biome.barrierRock) {
-      objects.push({ kind: ObjectKind.Tree, x: tx, y: ty });
+      const useProp = biomeFrames && (!biome.hasTrees || i % 3 === 0);
+      const frame = useProp ? biomeFrames[randInt(0, biomeFrames.length - 1)] : undefined;
+      objects.push(frame ? { kind: ObjectKind.Tree, x: tx, y: ty, frame } : { kind: ObjectKind.Tree, x: tx, y: ty });
     }
   }
 

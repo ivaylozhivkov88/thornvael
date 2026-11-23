@@ -13,6 +13,7 @@ export interface MapObject {
   kind: number;
   x: number;
   y: number;
+  frame?: string;
   hp?: number;
   maxHp?: number;
   destroyed?: boolean;

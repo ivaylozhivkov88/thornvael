@@ -1,5 +1,5 @@
 {
-  "step": "C1.3",
-  "done": ["C0", "C1.1", "C1.2"],
-  "notes": "C1.1 generated public/terrain/skin-ash.png via tools/make-skin-ash.py and wired volcanic:'ash' in BIOME_SKINS + assets.json. C1.2 verified all 42 biome props from 00-BIBLE.md §5.1 exist in public/objects/objects.json."
+  "step": "C2.1",
+  "done": ["C0", "C1.1", "C1.2", "C1.3", "C1.4", "C1.5"],
+  "notes": "C1 complete: skin-ash.png + BIOME_SKINS.volcanic, all 42 biome props verified, collidable/Y-sorted biome decor in map-generator & skirmish-generator, path tinting tuned on skinned grounds, tests/world-decor.test.ts green."
 }

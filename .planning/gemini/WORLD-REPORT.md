@@ -15,4 +15,5 @@
 
 ## Completed Steps
 - **C0 (`50fbf18`):** Researched free, licence-clean tools & PixiJS 8 patterns; recorded verdicts in `.planning/world-visuals/TOOLS.md`.
-- **C1.1–C1.2:** Generated `public/terrain/skin-ash.png` via `tools/make-skin-ash.py`, registered in `assets.json` & `BIOME_SKINS` (`src/terrain.ts`), and verified all 42 `00-BIBLE.md §5.1` props exist in `public/objects/objects.json`.
+- **C1.1–C1.2 (`ee0ec14`):** Generated `public/terrain/skin-ash.png` via `tools/make-skin-ash.py`, registered in `assets.json` & `BIOME_SKINS` (`src/terrain.ts`), and verified all 42 `00-BIBLE.md §5.1` props exist in `public/objects/objects.json`.
+- **C1.3–C1.5:** Added optional `frame` to `MapObject` (`src/map.ts`), Y-sorted `prepareScenery` + `mainSkin`-aware path tinting in `src/terrain.ts`, biome-specific collidable decor placement in `src/map-generator.ts` & `src/skirmish-generator.ts`, and `tests/world-decor.test.ts` (2/2 green).

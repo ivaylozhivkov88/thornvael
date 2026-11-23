@@ -127,13 +127,25 @@ export function generateSkirmishMap(opts: SkirmishOptions): MapDoc {
     }
   }
 
+  const SKIRMISH_FRAMES: Record<string, readonly string[]> = {
+    forest: ['highland/oak', 'rocks/boulder-m', 'highland/log'],
+    marsh: ['ruins/column-broken', 'ruins/rubble', 'rocks/slab'],
+    desert: ['desert/palm-a', 'desert/palm-b', 'desert/cactus', 'rocks/cluster'],
+    oasis: ['desert/palm-a', 'desert/stump', 'rocks/cluster'],
+    crypt: ['bones/tombstone', 'bones/sarcophagus', 'bones/skullspike'],
+    highlands: ['highland/pine-a', 'highland/pine-b', 'highland/standing-stone'],
+    volcanic: ['volcanic/dead-a', 'volcanic/dead-b', 'volcanic/obsidian', 'volcanic/vent'],
+  };
+  const frames = SKIRMISH_FRAMES[biomeKey];
   const trees = biome.hasTrees ? Math.round((w * w) / 32) : Math.round((w * w) / 140);
   for (let t = 0; t < trees; t++) {
     const x = randInt(2, w - 3);
     const y = randInt(2, h - 3);
     const i = y * w + x;
     if (!reserved[i] && terrain[i] !== biome.barrierWater && terrain[i] !== biome.barrierRock) {
-      objects.push({ kind: ObjectKind.Tree, x, y });
+      const useProp = frames && (!biome.hasTrees || t % 3 === 0);
+      const frame = useProp ? frames[randInt(0, frames.length - 1)] : undefined;
+      objects.push(frame ? { kind: ObjectKind.Tree, x, y, frame } : { kind: ObjectKind.Tree, x, y });
     }
   }
 
