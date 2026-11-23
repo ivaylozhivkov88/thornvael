@@ -1,0 +1,17 @@
+# Thornvael World Visuals Report (`gemini/world-visuals`)
+
+**Branch:** `gemini/world-visuals` (never pushed to `main`)  
+**Current Step:** `C1.1`
+
+## Unfinished Steps
+- **C1** (`C1.1`..`C1.5`): Terrain + Decor Foundation
+- **C2** (`C2.1`..`C2.4`): Region Metadata & Atmosphere/Audio Crossfade
+- **C3** (`C3.1`..`C3.7`): Thornwick as a Real Town
+- **C4** (`C4.1`..`C4.6`): Map 1 Regions (Border Fords)
+- **C5** (`C5.1`..`C5.3`): Maps 2, 3, 4 Regions
+- **C6** (`C6.1`..`C6.2`): Other Towns, Hubs & Camps
+- **C7**: Skirmish Maps Decor & Atmosphere
+- **C8** (`C8.1`..`C8.4`): Polish, Empty-Areas Audit, Mobile, Offline & `FINAL.md`
+
+## Completed Steps
+- **C0:** Researched free, licence-clean tools & PixiJS 8 patterns; recorded verdicts in `.planning/world-visuals/TOOLS.md`.
