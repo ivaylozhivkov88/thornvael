@@ -3,6 +3,7 @@ import sheet from '../public/terrain/terrain.json';
 import objSheet from '../public/objects/objects.json';
 import propsWave2Sheet from '../public/props-wave2/props-wave2.json';
 import { ObjectKind, TILE, Terrain, type GameMap, type MapObject } from './map';
+import type { Region } from './mapdoc';
 
 export interface TerrainFrame {
   x: number;
@@ -104,6 +105,7 @@ const WAVE2_ZONE_DECOR: Record<string, string[]> = {
   snow: ['props/fence-wood', 'flora/driftwood', 'props/signpost'],
 };
 let zoneSeed = 0;
+let themeRegions: readonly Region[] = [];
 
 function loadSkin(name: string): Promise<HTMLImageElement | null> {
   const cached = skins.get(name);
@@ -120,8 +122,9 @@ function loadSkin(name: string): Promise<HTMLImageElement | null> {
 }
 
 /** Load the biome skin and its zone skins. Call before the renderer bakes chunks. */
-export async function setTerrainTheme(biome: string, seed: number): Promise<void> {
+export async function setTerrainTheme(biome: string, seed: number, regions: readonly Region[] = []): Promise<void> {
   zoneSeed = seed >>> 0;
+  themeRegions = regions;
   const main = BIOME_SKINS[biome];
   mainSkin = main ? await loadSkin(main) : null;
   const loaded = await Promise.all((BIOME_ZONES[biome] ?? []).map(loadSkin));
@@ -193,12 +196,25 @@ function zoneField(map: GameMap): Float32Array[] {
       if (Math.hypot(cx - 8, cy - 8) > 16) break;
     }
     const r = size * (0.12 + 0.08 * cellHash01(zoneSeed, z, 3));
+    const zName = zoneNames[z];
+    const matchingRegions = zName ? themeRegions.filter((reg) => reg.zone === zName) : [];
     for (let vy = 0; vy <= map.h; vy++) {
       for (let vx = 0; vx <= map.w; vx++) {
         const wob = valueNoise(vx, vy, 5, zoneSeed + z * 7) - 0.5; // ragged outline
         const d = Math.hypot(vx - cx, vy - cy) + wob * r * 0.9;
         const t = Math.max(0, Math.min(1, (r - d) / 4)); // ~4-tile soft transition
-        f[vy * vw + vx] = t * t * (3 - 2 * t);
+        let val = t * t * (3 - 2 * t);
+        for (const reg of matchingRegions) {
+          const dx = Math.max(reg.x1 - vx, 0, vx - reg.x2);
+          const dy = Math.max(reg.y1 - vy, 0, vy - reg.y2);
+          const dist = Math.hypot(dx, dy);
+          if (dist < 3.5) {
+            const rt = Math.max(0, Math.min(1, (3.5 - dist) / 3.5));
+            const regVal = rt * rt * (3 - 2 * rt);
+            if (regVal > val) val = regVal;
+          }
+        }
+        f[vy * vw + vx] = val;
       }
     }
     fields.push(f);

@@ -85,6 +85,8 @@ export interface Region {
   zone?: string;
   music?: string;
   ambience?: string;
+  light?: string;
+  weather?: string;
 }
 export interface MapDoc {
   format: typeof MAP_FORMAT;

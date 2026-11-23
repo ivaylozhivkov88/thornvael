@@ -1,4 +1,5 @@
 import { Container, Graphics } from 'pixi.js';
+import type { Region } from './mapdoc';
 
 export type AtmosphereBiome =
   | 'forest'
@@ -636,10 +637,59 @@ export class AtmosphereSystem {
 }
 
 const stageSystems = new WeakMap<Container, AtmosphereSystem>();
+const stageFade = new WeakMap<Container, { lastBiome: string; alpha: number }>();
+
+/** Find the first region containing tile (tx, ty). */
+export function regionAtTile(
+  regions: readonly Region[] | undefined,
+  tx: number,
+  ty: number,
+): Region | undefined {
+  if (!regions) return undefined;
+  for (const r of regions) {
+    if (tx >= r.x1 && tx <= r.x2 && ty >= r.y1 && ty <= r.y2) return r;
+  }
+  return undefined;
+}
+
+const WEATHER_TO_BIOME: Record<string, AtmosphereBiome> = {
+  fog: 'marsh',
+  spores: 'marsh',
+  dust: 'desert',
+  'salt wind': 'desert',
+  salt_wind: 'desert',
+  embers: 'volcanic',
+  ash: 'volcanic',
+  rain: 'highlands',
+  snow: 'highlands',
+};
+
+/** Resolve region lighting & weather overrides onto an AtmosphereBiome. */
+export function resolveRegionAtmosphere(
+  region: Region | undefined,
+  fallbackBiome: string,
+): { biome: AtmosphereBiome; weather?: string; light?: string } {
+  const valid = (b: string | undefined): b is AtmosphereBiome =>
+    b === 'forest' ||
+    b === 'marsh' ||
+    b === 'desert' ||
+    b === 'crypt' ||
+    b === 'highlands' ||
+    b === 'volcanic' ||
+    b === 'oasis';
+
+  let biome: AtmosphereBiome = valid(fallbackBiome) ? fallbackBiome : 'forest';
+  if (region?.biome && valid(region.biome)) biome = region.biome;
+  if (region?.weather) {
+    const w = region.weather.toLowerCase();
+    if (WEATHER_TO_BIOME[w]) biome = WEATHER_TO_BIOME[w];
+  }
+  return { biome, weather: region?.weather, light: region?.light };
+}
 
 /**
  * Single-call hook for src/render.ts. Manages a per-stage AtmosphereSystem
- * with automatic low-end & reduced-motion disabling.
+ * with automatic low-end & reduced-motion disabling and border crossfade.
  */
 export function updateAtmosphere(
   stage: Container | undefined,
@@ -651,6 +701,7 @@ export function updateAtmosphere(
   viewW: number,
   viewH: number,
   quality: number,
+  region?: Region,
 ): void {
   if (!stage) return;
   let sys = stageSystems.get(stage);
@@ -662,7 +713,20 @@ export function updateAtmosphere(
       stage.addChildAt(sys.layer, insertAt);
     }
   }
-  sys.setBiome(biome);
+  const resolved = resolveRegionAtmosphere(region, biome);
+  let fade = stageFade.get(stage);
+  if (!fade) {
+    fade = { lastBiome: resolved.biome, alpha: 1 };
+    stageFade.set(stage, fade);
+  } else if (fade.lastBiome !== resolved.biome) {
+    fade.lastBiome = resolved.biome;
+    fade.alpha = 0.15;
+  } else if (fade.alpha < 1) {
+    fade.alpha = Math.min(1, fade.alpha + Math.max(0.01, dtMs / 1000) * 1.25);
+  }
+  if (sys.layer) sys.layer.alpha = fade.alpha;
+
+  sys.setBiome(resolved.biome);
   sys.setQuality(quality);
   sys.setReducedMotion(isReducedMotionActive());
   sys.update(dtMs, camX, camY, zoom, viewW, viewH);

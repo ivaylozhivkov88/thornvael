@@ -1,5 +1,5 @@
 {
-  "step": "C2.1",
-  "done": ["C0", "C1.1", "C1.2", "C1.3", "C1.4", "C1.5"],
-  "notes": "C1 complete: skin-ash.png + BIOME_SKINS.volcanic, all 42 biome props verified, collidable/Y-sorted biome decor in map-generator & skirmish-generator, path tinting tuned on skinned grounds, tests/world-decor.test.ts green."
+  "step": "C3.1",
+  "done": ["C0", "C1.1", "C1.2", "C1.3", "C1.4", "C1.5", "C2.1", "C2.2", "C2.3", "C2.4"],
+  "notes": "C2 complete: extended Region with light/weather in src/mapdoc.ts, region.zone bias in src/terrain.ts, regionAtTile/resolveRegionAtmosphere/border crossfade in src/atmosphere.ts, pure music/ambience crossfade in src/region-audio.ts, and documented src/main.ts hookup in WORLD-NEEDS-CLAUDE.md."
 }
