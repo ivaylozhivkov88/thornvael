@@ -98,4 +98,16 @@ describe('Combat AI Leashing & Fleeing Controls (Classic ARPG Standard)', () => 
     expect(pack.hunting).toBe(false);
     expect(cmds.some((c) => c.type === 'order' && c.order === 'guard' && c.x === 20 && c.y === 20)).toBe(true);
   });
+
+  it('pack gives up and sleeps once the hero is off screen', () => {
+    const sim = arena([[0, Kind.Warrior, 50, 20], [1, Kind.Gnoll, 28, 20]]);
+    const pack = { ids: [1], x: 28, y: 20, hunting: true, calm: 0 };
+    const ai = new MonsterAi([pack]);
+    let guard = false;
+    for (let t = 0; t < 400; t++) {
+      sim.step(ai.commands(sim));
+      if (!pack.hunting) guard = true;
+    }
+    expect(guard).toBe(true);
+  });
 });
