@@ -51,7 +51,13 @@ export function canEnter(rec: CampaignRecord, id: string, maps: ReadonlySet<stri
 export function afterMission(c: Campaign, rec: CampaignRecord, id: string, win: boolean, carry: CarryoverState | null, last: Omit<LastResult, 'node' | 'win'>): CampaignRecord {
   const result: LastResult = { node: id, win, ...last };
   if (!win) return { ...rec, last: result };
-  const progress = completeNode(c, rec.progress, id, last.branch);
+  let progress = completeNode(c, rec.progress, id, last.branch);
+  // Act I is one connected world entered as m01: clearing it opens what m11 would have opened.
+  const m11 = c.nodes.find((n) => n.id === 'm11-ashbrook-retreat');
+  if (id === 'm01-blood-at-the-ford' && m11) {
+    const unlocked = [...new Set([...progress.unlocked, ...m11.unlocksOnVictory])];
+    progress = { ...progress, unlocked };
+  }
   return { ...rec, progress, carry: carry ? { ...carry, progress } : rec.carry, last: result };
 }
 
