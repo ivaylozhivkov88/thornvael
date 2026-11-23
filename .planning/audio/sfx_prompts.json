@@ -1,0 +1,322 @@
+[
+  {
+    "key": "sfx-wpn-sword-swing",
+    "prompt": "crisp steel broadsword whoosh cutting air, dry medieval combat foley, clean mono"
+  },
+  {
+    "key": "sfx-wpn-axe-cleave",
+    "prompt": "heavy two-handed battleaxe swing with low air rush, dark fantasy foley"
+  },
+  {
+    "key": "sfx-wpn-mace-swing",
+    "prompt": "blunt iron mace heavy whistle through air, short punchy foley"
+  },
+  {
+    "key": "sfx-wpn-dagger-slash",
+    "prompt": "fast light dagger flick slash, sharp metallic air zip"
+  },
+  {
+    "key": "sfx-wpn-pike-thrust",
+    "prompt": "long wooden spear thrust snap with cloth rustle, dry studio foley"
+  },
+  {
+    "key": "sfx-wpn-bow-release",
+    "prompt": "taut yew bowstring twang and arrow fletching zip, crisp medieval foley"
+  },
+  {
+    "key": "sfx-wpn-crossbow-fire",
+    "prompt": "heavy steel crossbow trigger snap and bolt launch thump"
+  },
+  {
+    "key": "sfx-wpn-sling-whirl",
+    "prompt": "leather sling cord whip crack launching lead shot"
+  },
+  {
+    "key": "sfx-wpn-staff-cast",
+    "prompt": "wooden wizard staff hollow tap with subtle arcane shimmer"
+  },
+  {
+    "key": "sfx-wpn-halberd-sweep",
+    "prompt": "long polearm sweeping air whoosh followed by iron rattle"
+  },
+  {
+    "key": "sfx-wpn-pick-swing",
+    "prompt": "heavy ironstone miner pickaxe swing through dry air"
+  },
+  {
+    "key": "sfx-wpn-arrow-fly",
+    "prompt": "single barbed arrow whistling briefly past ear, dry foley"
+  },
+  {
+    "key": "sfx-wpn-bolt-impact-wood",
+    "prompt": "crossbow bolt thudding solidly into oak shield"
+  },
+  {
+    "key": "sfx-wpn-sword-draw",
+    "prompt": "steel blade drawn cleanly from leather scabbard"
+  },
+  {
+    "key": "sfx-hit-flesh-light",
+    "prompt": "dry blunt sword impact on leather and flesh, short combat thud"
+  },
+  {
+    "key": "sfx-hit-flesh-heavy",
+    "prompt": "visceral heavy axe cleave impact with dull bone crunch"
+  },
+  {
+    "key": "sfx-hit-plate-clang",
+    "prompt": "sharp steel-on-steel plate armor clang, short metallic ring"
+  },
+  {
+    "key": "sfx-hit-shield-block",
+    "prompt": "solid wooden tower shield bash absorbing heavy blow"
+  },
+  {
+    "key": "sfx-hit-crit-crunch",
+    "prompt": "dramatic critical strike metallic ring layered with deep low thud"
+  },
+  {
+    "key": "sfx-hit-bleed-tick",
+    "prompt": "subtle wet rip and hiss for bleed damage tick"
+  },
+  {
+    "key": "sfx-hit-rock-shell",
+    "prompt": "heavy weapon bouncing off hard stone carapace, dull granite clack"
+  },
+  {
+    "key": "sfx-hit-undead-bone",
+    "prompt": "dry brittle bones cracking and clattering on impact"
+  },
+  {
+    "key": "sfx-hit-arrow-flesh",
+    "prompt": "crisp arrow thump landing in padded jerkin"
+  },
+  {
+    "key": "sfx-hit-parry-spark",
+    "prompt": "high crisp sword-on-sword parry ring, short decay"
+  },
+  {
+    "key": "sfx-spl-fire-cast",
+    "prompt": "whooshing flame ignition burst for fireball spell cast"
+  },
+  {
+    "key": "sfx-spl-fire-impact",
+    "prompt": "resonant fiery explosion boom with brief ember crackle"
+  },
+  {
+    "key": "sfx-spl-flame-wall",
+    "prompt": "crackling roaring fire pillar loopable burst, 1 second"
+  },
+  {
+    "key": "sfx-spl-lightning-cast",
+    "prompt": "sharp electric static snap building into thunder crack"
+  },
+  {
+    "key": "sfx-spl-lightning-arc",
+    "prompt": "high-voltage electrical zap arcing between targets"
+  },
+  {
+    "key": "sfx-spl-ice-cast",
+    "prompt": "chilling crystalline frost chime and cold wind rush"
+  },
+  {
+    "key": "sfx-spl-ice-shatter",
+    "prompt": "crisp ice shard explosion shattering into tiny crystals"
+  },
+  {
+    "key": "sfx-spl-heal-chime",
+    "prompt": "warm golden harp and bell harmonic chime for healing spell"
+  },
+  {
+    "key": "sfx-spl-bless-aura",
+    "prompt": "gentle uplifting choir-bell shimmer for shrine blessing"
+  },
+  {
+    "key": "sfx-spl-poison-cloud",
+    "prompt": "bubbling toxic cauldron hiss and wet chemical spray"
+  },
+  {
+    "key": "sfx-spl-curse-hex",
+    "prompt": "low ominous reversed whispered drone with dark bell toll"
+  },
+  {
+    "key": "sfx-spl-bone-spear",
+    "prompt": "sharp osseous whistle and splintering bone projectile impact"
+  },
+  {
+    "key": "sfx-spl-raise-dead",
+    "prompt": "eerie subterranean rumble with dry gravel shifting"
+  },
+  {
+    "key": "sfx-spl-mana-shield",
+    "prompt": "resonant glassy dome hum activating around caster"
+  },
+  {
+    "key": "sfx-spl-teleport-blink",
+    "prompt": "quick airy vacuum pop and arcane chime"
+  },
+  {
+    "key": "sfx-spl-earth-slam",
+    "prompt": "deep seismic stone thud shaking gravel"
+  },
+  {
+    "key": "sfx-mon-hound-aggro",
+    "prompt": "feral wolf-like snarl with dry woody thorn rattle"
+  },
+  {
+    "key": "sfx-mon-hound-death",
+    "prompt": "short choked canine yelp fading into rustling brush"
+  },
+  {
+    "key": "sfx-mon-gnoll-bark",
+    "prompt": "raspy hyena-like war bark and leather armor creak"
+  },
+  {
+    "key": "sfx-mon-gnoll-horn",
+    "prompt": "rough brass border-horn blast signaling ambush"
+  },
+  {
+    "key": "sfx-mon-ghoul-hiss",
+    "prompt": "wet ragged undead rasp and scraping claws on stone"
+  },
+  {
+    "key": "sfx-mon-ghoul-death",
+    "prompt": "hollow groaning exhale collapsing onto gravel"
+  },
+  {
+    "key": "sfx-mon-flintback-roar",
+    "prompt": "deep gravelly quarry beast bellow with stone grinding"
+  },
+  {
+    "key": "sfx-mon-flintback-slam",
+    "prompt": "massive heavy boulder-like shoulder slam on dirt"
+  },
+  {
+    "key": "sfx-mon-leech-squelch",
+    "prompt": "wet bog-mire suction squelch and slither"
+  },
+  {
+    "key": "sfx-mon-wight-lantern",
+    "prompt": "eerie hollow metallic lantern clink with cold wind groan"
+  },
+  {
+    "key": "sfx-mon-hollow-knight",
+    "prompt": "hollow iron armor clanking with deep metallic breath"
+  },
+  {
+    "key": "sfx-mon-saelen-laugh",
+    "prompt": "dry raspy alchemist chuckle over bubbling flask"
+  },
+  {
+    "key": "sfx-mon-khepri-chant",
+    "prompt": "deep echoing stone-tomb resonant chant tone"
+  },
+  {
+    "key": "sfx-mon-gorrathul-roar",
+    "prompt": "colossal warlord bellow echoing off basalt walls"
+  },
+  {
+    "key": "sfx-mon-vargash-whistle",
+    "prompt": "shrill brass naval boatswain whistle over creaking timber"
+  },
+  {
+    "key": "sfx-mon-malrik-surge",
+    "prompt": "dark crackling obsidian arcane surge roar"
+  },
+  {
+    "key": "sfx-ui-click",
+    "prompt": "crisp dark-wood and parchment UI button click, 80ms"
+  },
+  {
+    "key": "sfx-ui-hover",
+    "prompt": "subtle soft parchment brush tick, 50ms"
+  },
+  {
+    "key": "sfx-ui-gold-clink",
+    "prompt": "bright handful of silver and copper coins jingling"
+  },
+  {
+    "key": "sfx-ui-equip-metal",
+    "prompt": "heavy iron cuirass buckle snap and mail clink"
+  },
+  {
+    "key": "sfx-ui-equip-leather",
+    "prompt": "supple oiled leather strap tightening"
+  },
+  {
+    "key": "sfx-ui-potion-drink",
+    "prompt": "glass cork pop followed by quick liquid gulp"
+  },
+  {
+    "key": "sfx-ui-scroll-open",
+    "prompt": "stiff vellum scroll unrolling with crisp paper crinkle"
+  },
+  {
+    "key": "sfx-ui-quest-accept",
+    "prompt": "solemn low brass horn and parchment stamp"
+  },
+  {
+    "key": "sfx-ui-quest-complete",
+    "prompt": "warm triumphant lute chord and silver chime"
+  },
+  {
+    "key": "sfx-ui-level-up",
+    "prompt": "resonant heroic brass and chime flourish, 900ms"
+  },
+  {
+    "key": "sfx-ui-error-buzz",
+    "prompt": "muted dull wooden thud indicating invalid action"
+  },
+  {
+    "key": "sfx-ui-repair-anvil",
+    "prompt": "two crisp blacksmith hammer rings on glowing anvil"
+  },
+  {
+    "key": "sfx-amb-ford-river",
+    "prompt": "gentle shallow river water rushing over smooth ford stones"
+  },
+  {
+    "key": "sfx-amb-alkali-wind",
+    "prompt": "dry whistling desert salt-flat wind across sand"
+  },
+  {
+    "key": "sfx-amb-forge-bellows",
+    "prompt": "rhythmic leather blacksmith bellows puff and glowing coal hiss"
+  },
+  {
+    "key": "sfx-amb-tavern-murmur",
+    "prompt": "low warm medieval tavern crowd murmur and wooden mug clink"
+  },
+  {
+    "key": "sfx-amb-shrine-hum",
+    "prompt": "soft mystical low stone harmonic hum"
+  },
+  {
+    "key": "sfx-amb-crate-smash",
+    "prompt": "dry wooden supply crate splintering apart on impact"
+  },
+  {
+    "key": "sfx-amb-gate-creak",
+    "prompt": "heavy iron-bound timber fortress gate groaning open"
+  },
+  {
+    "key": "sfx-amb-campfire",
+    "prompt": "steady gentle dry wood campfire crackle"
+  },
+  {
+    "key": "sfx-amb-rain-light",
+    "prompt": "soft steady rain pattering on canvas tent and mud"
+  },
+  {
+    "key": "sfx-amb-caldera-rumble",
+    "prompt": "distant deep volcanic underground rumble"
+  },
+  {
+    "key": "sfx-amb-harbor-waves",
+    "prompt": "saltwater waves lapping against tarred wooden dock pilings"
+  },
+  {
+    "key": "sfx-amb-bell-toll",
+    "prompt": "distant weathered bronze town watch-bell single toll"
+  }
+]
