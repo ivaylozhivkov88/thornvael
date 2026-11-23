@@ -7917,19 +7917,19 @@
       "path": "public/sprites/necromancer.png",
       "license": "own",
       "source": "tools/gen-necromancer-sprites.py",
-      "note": "Original necromancer attack sprite atlas; 96px, 16 directions, attack4, RGB masks."
+      "note": "Original necromancer sprite atlas; 96px, 16 directions, stand4 walk8 attack4 cast4 hurt2 die4, RGB masks."
     },
     {
       "path": "public/sprites/necromancer-mask.png",
       "license": "own",
       "source": "tools/gen-necromancer-sprites.py",
-      "note": "Original necromancer attack sprite atlas; 96px, 16 directions, attack4, RGB masks."
+      "note": "Original necromancer sprite atlas; 96px, 16 directions, stand4 walk8 attack4 cast4 hurt2 die4, RGB masks."
     },
     {
       "path": "public/sprites/necromancer.json",
       "license": "own",
       "source": "tools/gen-necromancer-sprites.py",
-      "note": "Original necromancer attack sprite atlas; 96px, 16 directions, attack4, RGB masks."
+      "note": "Original necromancer sprite atlas; 96px, 16 directions, stand4 walk8 attack4 cast4 hurt2 die4, RGB masks."
     },
     {
       "path": "public/audio/voices/m01_briefing_hale.m4a",

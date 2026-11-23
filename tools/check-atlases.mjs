@@ -41,12 +41,9 @@ export function decodePng(bytes) {
 
 export function checkAtlasFiles(root = 'public/sprites', provenance = 'assets.json') {
   const errors = [], seen = new Set();
-  const exemptSheets = new Set(['necromancer.json']);
-  const exemptImages = new Set(['necromancer.png', 'necromancer-mask.png', '_necromancer-sheet-preview.png']);
   const manifest = JSON.parse(readFileSync(provenance, 'utf8')).assets;
   const files = readdirSync(root);
   for (const name of files.filter((f) => f.endsWith('.json'))) {
-    if (exemptSheets.has(name)) continue;
     try {
       const sheet = JSON.parse(readFileSync(`${root}/${name}`, 'utf8'));
       const issues = checkCombatSheet(sheet);
@@ -100,7 +97,7 @@ export function checkAtlasFiles(root = 'public/sprites', provenance = 'assets.js
     } catch (error) { errors.push(`${root}/${name}: ${error.message}`); }
   }
   for (const unit of ['hero', 'archer', 'golem']) if (!files.includes(`${unit}.json`)) errors.push(`missing required unit ${unit}`);
-  for (const file of files.filter((f) => f.endsWith('.png'))) if (!seen.has(file) && !exemptImages.has(file)) errors.push(`orphan atlas image ${file}`);
+  for (const file of files.filter((f) => f.endsWith('.png'))) if (!seen.has(file)) errors.push(`orphan atlas image ${file}`);
   return errors;
 }
 

@@ -224,59 +224,64 @@ class VoxelCanvas:
             )
 
 
-def render_necromancer_attack_frame(facing_angle: float, frame_idx: int):
+CLIPS = {"stand": 4, "walk": 8, "attack": 4, "cast": 4, "hurt": 2, "die": 4}
+
+
+def necro_pose(clip: str, f: int):
+    p = dict(torso_y=0.0, torso_z=20.5, torso_pitch=0.0, staff_rot_y=0.4, staff_rot_z=0.0,
+             staff_reach=0.5, necrotic_glow=0.45, blast_size=0.0, leg_swing=0.0)
+    if clip == "stand":
+        k = math.sin(f / 4 * 2 * math.pi)
+        p.update(torso_z=19.3 + 0.3 * k, necrotic_glow=0.45 + 0.12 * k, staff_rot_z=0.3 * k)
+    elif clip == "walk":
+        ph = f / 8 * 2 * math.pi
+        sw = math.sin(ph)
+        p.update(torso_z=20.5 + 0.55 * abs(math.sin(ph)), leg_swing=2.0 * sw, staff_reach=0.5 - 1.2 * sw,
+                 staff_rot_y=0.4 + 0.5 * sw, torso_pitch=0.08 * sw, necrotic_glow=0.45 + 0.1 * abs(sw))
+    elif clip == "attack":
+        t = [
+            dict(torso_y=-0.5, torso_z=20.8, torso_pitch=-0.15, staff_rot_y=-2.2, staff_rot_z=1.0, staff_reach=-1.2, necrotic_glow=0.45, blast_size=0.0),
+            dict(torso_y=-0.8, torso_z=21.8, torso_pitch=-0.28, staff_rot_y=-3.8, staff_rot_z=3.6, staff_reach=-2.0, necrotic_glow=0.85, blast_size=0.0),
+            dict(torso_y=1.8, torso_z=19.5, torso_pitch=0.35, staff_rot_y=4.2, staff_rot_z=-3.2, staff_reach=4.8, necrotic_glow=1.0, blast_size=3.8),
+            dict(torso_y=0.6, torso_z=20.5, torso_pitch=0.1, staff_rot_y=1.6, staff_rot_z=-1.0, staff_reach=1.8, necrotic_glow=0.5, blast_size=1.2),
+        ][f]
+        p.update(t)
+    elif clip == "cast":
+        p.update([
+            dict(torso_z=20.6, staff_rot_z=2.0, staff_reach=0.8, staff_rot_y=-0.5, necrotic_glow=0.6),
+            dict(torso_z=21.4, staff_rot_z=4.2, staff_reach=1.2, staff_rot_y=-1.0, necrotic_glow=0.9, torso_pitch=-0.15),
+            dict(torso_z=21.8, staff_rot_z=4.8, staff_reach=2.2, staff_rot_y=0.8, necrotic_glow=1.0, blast_size=3.2, torso_pitch=-0.2),
+            dict(torso_z=21.0, staff_rot_z=3.0, staff_reach=1.0, staff_rot_y=0.2, necrotic_glow=0.7, blast_size=1.0),
+        ][f])
+    elif clip == "hurt":
+        p.update([
+            dict(torso_y=-1.4, torso_z=20.0, torso_pitch=-0.4, staff_rot_y=-1.0, staff_reach=-1.0, necrotic_glow=0.15),
+            dict(torso_y=-0.7, torso_z=20.3, torso_pitch=-0.2, staff_rot_y=-0.4, staff_reach=-0.4, necrotic_glow=0.3),
+        ][f])
+    elif clip == "die":
+        p.update([
+            dict(torso_y=-1.0, torso_z=18.0, torso_pitch=-0.4, staff_rot_y=-1.5, staff_rot_z=-1.0, staff_reach=-1.0, necrotic_glow=0.3),
+            dict(torso_y=-2.0, torso_z=13.5, torso_pitch=-0.7, staff_rot_y=-2.5, staff_rot_z=-2.5, staff_reach=-2.0, necrotic_glow=0.15, leg_swing=1.2),
+            dict(torso_y=-2.8, torso_z=8.5, torso_pitch=-1.0, staff_rot_y=-3.0, staff_rot_z=-4.0, staff_reach=-2.5, necrotic_glow=0.05, leg_swing=1.8),
+            dict(torso_y=-3.0, torso_z=6.0, torso_pitch=-1.2, staff_rot_y=-3.2, staff_rot_z=-4.5, staff_reach=-2.8, necrotic_glow=0.0, leg_swing=2.0),
+        ][f])
+    return p
+
+
+def render_necromancer_frame(facing_angle: float, clip: str, frame_idx: int):
     vc = VoxelCanvas()
     vc.draw_ground_shadow(10.5, 5.2, 39.0)
-
-    # 4-frame strike cycle:
-    # 00: windup (замах)
-    # 01: apex (връх)
-    # 02: impact (УДАР)
-    # 03: recovery (откат)
-    if frame_idx == 0:
-        torso_y = -0.5
-        torso_z = 20.8
-        torso_pitch = -0.15
-        staff_rot_y = -2.2
-        staff_rot_z = 1.0
-        staff_reach = -1.2
-        necrotic_glow = 0.45
-        blast_size = 0.0
-    elif frame_idx == 1:
-        torso_y = -0.8
-        torso_z = 21.8
-        torso_pitch = -0.28
-        staff_rot_y = -3.8
-        staff_rot_z = 3.6
-        staff_reach = -2.0
-        necrotic_glow = 0.85
-        blast_size = 0.0
-    elif frame_idx == 2:
-        # IMPACT! The strike hit
-        torso_y = 1.8
-        torso_z = 19.5
-        torso_pitch = 0.35
-        staff_rot_y = 4.2
-        staff_rot_z = -3.2
-        staff_reach = 4.8
-        necrotic_glow = 1.0
-        blast_size = 3.8
-    else: # frame_idx == 3: recovery
-        torso_y = 0.6
-        torso_z = 20.5
-        torso_pitch = 0.1
-        staff_rot_y = 1.6
-        staff_rot_z = -1.0
-        staff_reach = 1.8
-        necrotic_glow = 0.5
-        blast_size = 1.2
+    P = necro_pose(clip, frame_idx)
+    torso_y, torso_z, torso_pitch = P["torso_y"], P["torso_z"], P["torso_pitch"]
+    staff_rot_y, staff_rot_z, staff_reach = P["staff_rot_y"], P["staff_rot_z"], P["staff_reach"]
+    necrotic_glow, blast_size, leg_swing = P["necrotic_glow"], P["blast_size"], P["leg_swing"]
 
     tz = torso_z
     ty = torso_y
 
     # 1. Dark flowing cultist robe lower hem & boots
     for side in (-1, 1):
-        vc.draw_part(side * 1.7, ty + 0.3, 1.2, 1.1, 2.0, 1.1, (24, 22, 28), "none", facing_angle, tex_mode="cloth")
+        vc.draw_part(side * 1.7, ty + 0.3 + side * leg_swing * 0.6, 1.2, 1.1, 2.0, 1.1, (24, 22, 28), "none", facing_angle, tex_mode="cloth")
 
     # Cascading layered robe skirt (dark charcoal obsidian)
     vc.draw_part(0, ty, tz - 11.8, 4.4, 3.8, 2.9, (26, 28, 34), "none", facing_angle, tex_mode="cloth")
@@ -418,51 +423,40 @@ def build_necromancer_attack_atlas():
 
     color_atlas = Image.new("RGBA", (ATLAS_SIZE, ATLAS_SIZE), (0, 0, 0, 0))
     mask_atlas = Image.new("RGBA", (ATLAS_SIZE, ATLAS_SIZE), (0, 0, 0, 0))
-
-    # Contact sheet preview: 16 rows (directions 00..15) x 4 columns (frames 00..03)
-    preview_w = 4 * CELL
-    preview_h = DIRECTIONS * CELL
-    preview_sheet = Image.new("RGBA", (preview_w, preview_h), (18, 20, 24, 255))
+    per_row = ATLAS_SIZE // CELL
+    preview_sheet = Image.new("RGBA", (ATLAS_SIZE, ATLAS_SIZE), (18, 20, 24, 255))
 
     frames_json = {}
-    attack_anim_seq = []
-
-    print(f"Generating Necromancer 16-direction attack animation (64 frames)...")
-
-    for d in range(DIRECTIONS):
-        facing_angle = d * (2.0 * math.pi / 16.0)
-
-        for f in range(4):
-            fname = f"necromancer/attack/{d:02d}/{f:02d}"
-            attack_anim_seq.append(fname)
-
-            col_arr, msk_arr = render_necromancer_attack_frame(facing_angle, f)
-
-            c_img = Image.fromarray(col_arr, "RGBA")
-            m_img = Image.fromarray(msk_arr, "RGBA")
-
-            x = f * CELL
-            y = d * CELL
-
-            color_atlas.paste(c_img, (x, y))
-            mask_atlas.paste(m_img, (x, y))
-
-            preview_sheet.paste(c_img, (x, y), c_img)
-
-            frames_json[fname] = {
-                "frame": {"x": x, "y": y, "w": CELL, "h": CELL},
-                "sourceSize": {"w": CELL, "h": CELL},
-                "spriteSourceSize": {"x": 0, "y": 0, "w": CELL, "h": CELL},
-                "rotated": False,
-                "trimmed": False,
-                "anchor": {"x": 0.5, "y": 0.85},
-            }
+    seqs = {c: [] for c in CLIPS}
+    idx = 0
+    print("Generating Necromancer full atlas (416 frames)...")
+    for clip, count in CLIPS.items():
+        for d in range(DIRECTIONS):
+            facing_angle = d * (2.0 * math.pi / 16.0)
+            for f in range(count):
+                fname = f"necromancer/{clip}/{d:02d}/{f:02d}"
+                seqs[clip].append(fname)
+                col_arr, msk_arr = render_necromancer_frame(facing_angle, clip, f)
+                c_img = Image.fromarray(col_arr, "RGBA")
+                m_img = Image.fromarray(msk_arr, "RGBA")
+                x = (idx % per_row) * CELL
+                y = (idx // per_row) * CELL
+                idx += 1
+                color_atlas.paste(c_img, (x, y))
+                mask_atlas.paste(m_img, (x, y))
+                preview_sheet.paste(c_img, (x, y), c_img)
+                frames_json[fname] = {
+                    "frame": {"x": x, "y": y, "w": CELL, "h": CELL},
+                    "sourceSize": {"w": CELL, "h": CELL},
+                    "spriteSourceSize": {"x": 0, "y": 0, "w": CELL, "h": CELL},
+                    "rotated": False,
+                    "trimmed": False,
+                    "anchor": {"x": 0.5, "y": 0.85},
+                }
 
     sheet_json = {
         "frames": frames_json,
-        "animations": {
-            "attack": attack_anim_seq,
-        },
+        "animations": seqs,
         "meta": {
             "image": "necromancer.png",
             "format": "RGBA8888",
@@ -473,7 +467,7 @@ def build_necromancer_attack_atlas():
                 "unit": "necromancer",
                 "directions": DIRECTIONS,
                 "cell": [CELL, CELL],
-                "anims": {"attack": 4},
+                "anims": dict(CLIPS),
                 "mask": "necromancer-mask.png",
             },
         },
@@ -482,7 +476,8 @@ def build_necromancer_attack_atlas():
     png_path = os.path.join(out_sprites_dir, "necromancer.png")
     mask_path = os.path.join(out_sprites_dir, "necromancer-mask.png")
     json_path = os.path.join(out_sprites_dir, "necromancer.json")
-    preview_path = os.path.join(out_sprites_dir, "_necromancer-sheet-preview.png")
+    os.makedirs(".planning/evidence", exist_ok=True) if os.path.exists(".planning") else None
+    preview_path = ".planning/evidence/necromancer-sheet-preview.png" if os.path.exists(".planning") else "../.planning/evidence/necromancer-sheet-preview.png"
 
     color_atlas.save(png_path, "PNG", optimize=True)
     mask_atlas.save(mask_path, "PNG", optimize=True)
@@ -502,7 +497,7 @@ def build_necromancer_attack_atlas():
     with open(assets_path, "r", encoding="utf-8") as f:
         manifest = json.load(f)
 
-    note = "Original necromancer attack sprite atlas; 96px, 16 directions, attack4, RGB masks."
+    note = "Original necromancer sprite atlas; 96px, 16 directions, stand4 walk8 attack4 cast4 hurt2 die4, RGB masks."
     for ext in (".png", "-mask.png", ".json"):
         entry_path = f"public/sprites/necromancer{ext}"
         new_entry = {

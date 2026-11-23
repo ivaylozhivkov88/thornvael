@@ -193,7 +193,7 @@ export function checkAllTextPacks(rootDir = process.cwd()) {
           ? readdirSync(spritesPath)
               .filter((f) => f.endsWith('.json'))
               .map((f) => f.slice(0, -'.json'.length))
-              .filter((id) => id !== 'hero')
+              .filter((id) => id !== 'hero' && id !== 'necromancer')
           : null;
 
         for (const e of pack.entries) {

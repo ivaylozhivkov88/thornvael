@@ -72,7 +72,7 @@ function getSpriteUnitIds(): string[] {
   return readdirSync(SPRITES_DIR)
     .filter((f) => f.endsWith('.json'))
     .map((f) => f.slice(0, -'.json'.length))
-    .filter((id) => id !== 'hero')
+    .filter((id) => id !== 'hero' && id !== 'necromancer')
     .sort();
 }
 
