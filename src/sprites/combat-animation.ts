@@ -16,6 +16,8 @@ export interface AnimationPose {
 const COUNTS: Record<Clip, number> = { stand: 4, walk: 8, attack: 4, cast: 4, hurt: 2, die: 4 };
 const TICKS: Record<Clip, number> = { stand: 10, walk: 3, attack: 2, cast: 2, hurt: 3, die: 3 };
 const NONE = -1;
+/** Attack frame 02 is the impact frame; it must show on the tick damage lands. */
+export const ATTACK_IMPACT_FRAME = 2;
 
 /** Presentation only. Observe immediately after EVERY step, before Fx consumers clear
  * the list. Call clearedFx after clearing; call reset after an in-place load.
@@ -148,7 +150,10 @@ export class CombatAnimation {
     out.clip = clip;
     out.age = age;
     out.finished = clip === 'die' && age >= count * tpf;
-    out.frame = clip === 'die' ? Math.min(count - 1, Math.floor(age / tpf)) : Math.floor(age / tpf) % count;
+    // Damage is applied on the same sim step that starts the clip, so the attack clip
+    // opens on frame 2 (impact) and then plays recovery, windup, apex while on cooldown.
+    const phase = clip === 'attack' ? ATTACK_IMPACT_FRAME : 0;
+    out.frame = clip === 'die' ? Math.min(count - 1, Math.floor(age / tpf)) : (Math.floor(age / tpf) + phase) % count;
     out.unresolved = unresolved;
   }
 }

@@ -36,14 +36,14 @@ describe('CombatAnimation actual Sim', () => {
     let ticks = 0;
     while (!s.cb.cd[0] && ticks++ < 80) step(s, a);
     expect(s.cb.cd[0]).toBeGreaterThan(0);
-    expect(pose(a, s)).toMatchObject({ clip: 'attack', age: 0, frame: 0 });
+    expect(pose(a, s)).toMatchObject({ clip: 'attack', age: 0, frame: 2 });
     const out = pose(a, s);
     expect(a.sample(s, 0, out)).toBeUndefined();
     expect(out).toEqual(pose(a, s));
     a.observe(s);
     expect(pose(a, s)).toEqual(out);
     step(s, a, [], 5);
-    expect(pose(a, s)).toMatchObject({ clip: 'attack', age: 5, frame: 2 });
+    expect(pose(a, s)).toMatchObject({ clip: 'attack', age: 5, frame: 0 });
     step(s, a, [], 3);
     expect(pose(a, s).clip).toBe('stand');
   });
@@ -164,7 +164,7 @@ describe('CombatAnimation actual Sim', () => {
     expect(s.cb.hp[0]).toBeLessThan(s.cb.hpMax[0]);
     expect(pose(a, s)).toMatchObject({ clip: 'attack', age: 0 });
     step(s, a, [], 7);
-    expect(pose(a, s, 1)).toMatchObject({ clip: 'attack', age: 7, frame: 3 });
+    expect(pose(a, s, 1)).toMatchObject({ clip: 'attack', age: 7, frame: 1 });
     step(s, a);
     expect(pose(a, s, 1).clip).toBe('stand');
     s.hidden[0] = 1;
