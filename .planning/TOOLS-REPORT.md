@@ -43,3 +43,9 @@
 - Piper: противоречиви данни (MIT/GPL, лицензът на гласа е отделен) — не ползваме.
 - Не проверени: XTTS-v2 (според познания — некомерсиален), Stable Audio Open, Mixamo — проверка само ако решим да ги ползваме.
 - Реална полза сега: нито един нов инструмент. Остават Kokoro, Blender, ffmpeg, jsfxr/zzfx.
+
+## Свободни без атрибуция (CC0) — източници без разход на токени
+- Kenney.nl — всичко CC0 (спрайтове, UI, звуци). Quaternius, KayKit — CC0 3D модели (за Blender→спрайт). PolyHaven, ambientCG — CC0 текстури/HDRI.
+- OpenGameArt — лиценз за всеки файл поотделно; само „CC0“ без проверка не е достатъчно. Freesound — лиценз за всеки клип (CC0/CC-BY/NC).
+- Правило: в репото само CC0 или наше; записваме източник+лиценз в assets.json provenance.
+- Инструменти (кодът им е свободен, без токени): Blender, ffmpeg, jsfxr/zzfx, Kokoro (Apache-2.0), sharp, Playwright, Vitest.
