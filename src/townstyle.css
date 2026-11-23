@@ -2504,3 +2504,10 @@
   font-style: italic;
   font-size: 11px;
 }
+
+/* Performance: no always-on animated blend layers behind the shop and tavern panels. */
+.sheet.town :is(.forge-glow, .hearth-glow, .anvil-spark, .altar-glow, .patron-badge, .merchant-actor) { animation: none !important; }
+.sheet.town .scene-art :is([class*="glow"], [class*="spark"], [class*="flicker"]) { display: none; }
+.sheet.town--shop .gamble-slot { min-height: 44px; min-width: 44px; background: #2a1e14; color: #d6b37a; border: 1px solid #634320; border-radius: 3px; font-size: 13px; }
+.sheet.town--shop .bill { display: flex; justify-content: space-between; gap: 8px; font-size: 12px; font-variant-numeric: tabular-nums; }
+.sheet.town--shop .bill .neg { color: #ff8a7a; }

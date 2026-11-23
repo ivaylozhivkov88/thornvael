@@ -289,13 +289,7 @@ export class TownUi {
     if (this.role !== Role.Shop) head.append(button(S.town.leave, () => this.close()));
     this.root.append(head);
     if (this.bark) this.root.append(el('p', 'muted', `"${this.bark}"`));
-    const vigil = el('div', 'town-guard-vigil');
-    vigil.append(
-      el('span', 'guard-shield-icon', '🛡'),
-      el('span', 'guard-status', `${displayHubName} Palisade · Gate Guards on vigilant watch`),
-    );
-    this.root.append(vigil);
-    if (hubStage) {
+    if (hubStage && this.role === Role.School) {
       const evo = el('div', 'town-hub-evolution');
       if (evo.dataset) {
         evo.dataset.hubStage = hubStage.id;
@@ -319,6 +313,7 @@ export class TownUi {
 
   /** Item being tried on the hero oval (drag onto the portrait, or tap the oval while an item is selected). */
   private tryOn = -1;
+  private gambleSlot = -1;
 
   /** Pointer-drag an item cell onto the hero oval to try it on; a plain tap still selects as before. */
   private dragToHero(b: HTMLElement, id: number, fromPack = false, toTray?: () => void): void {
@@ -437,12 +432,6 @@ export class TownUi {
       actor.src = `${import.meta.env.BASE_URL}townart/merchant-${kind}.png`;
       actor.hidden = false;
       art.append(actor);
-      const forgeGlow = el('div', 'forge-glow');
-      const sparks = el('div', 'anvil-sparks');
-      art.append(forgeGlow, sparks);
-    } else {
-      const hearth = el('div', 'hearth-flicker');
-      art.append(hearth);
     }
     keeper.append(art, say);
     this.paintKeeper(keeper);
@@ -588,12 +577,8 @@ export class TownUi {
       side('tray-buy', S.town.toBuy, 'b', this.buys, (k) => shelf[k], priceOf, t.buy),
       side('tray-sell', S.town.toSell, 's', this.sells, (k) => h.inv[k].item, sellPrice, t.sell),
     );
-    const bill = el('div', 'bill lines');
-    for (const [label, v] of [[S.town.buying, t.buy], [S.town.selling, t.sell], [S.town.balance, t.bal], [S.town.after, t.after]] as const) {
-      const l = el('div', 'line');
-      l.append(el('span', 'grow', label), el('b', v < 0 && label === S.town.after ? 'neg' : '', String(v)));
-      bill.append(l);
-    }
+    const bill = el('div', 'bill');
+    bill.append(el('span', '', `${S.town.balance}: ${t.bal >= 0 ? '+' : ''}${t.bal}`), el('b', t.after < 0 ? 'neg' : '', `${S.town.after}: ${t.after}`));
     tray.append(sides, bill);
     return tray;
   }
@@ -713,7 +698,7 @@ export class TownUi {
     const gCost = gambleCost(sim);
     const gamble = button(S.town.gamble, () => {
       const g0 = sim.cb.gold[0];
-      this.cmd('gamble');
+      if (this.gambleSlot >= 0) this.cmd('gamble', this.gambleSlot); else this.cmd('gamble');
       const won = sim.cb.gold[0] < g0;
       if (won) playTraderBark('blacksmith', 'buy');
       this.setMood(won ? 1 : 2);
@@ -723,34 +708,22 @@ export class TownUi {
     gamble.disabled = sim.cb.gold[0] < gCost || h.inv.length >= INV_MAX;
     this.ctx.tipOn(gamble, `${S.town.gambleHelp} (${gCost} ${S.town.gold})`);
 
-    // Mystery Gamble Slot Buttons
-    const gambleSlotBar = el('div', 'mystery-gamble-bar');
     const gambleSlots: Array<{ label: string; slot: number }> = [
-      { label: 'Wpn', slot: Slot.Weapon },
-      { label: 'Arm', slot: Slot.Armor },
-      { label: 'Hlm', slot: Slot.Helm },
-      { label: 'Shd', slot: Slot.Shield },
-      { label: 'Bts', slot: Slot.Boots },
-      { label: 'Glv', slot: Slot.Gloves },
-      { label: 'Rng', slot: Slot.Ring },
-      { label: 'Amu', slot: Slot.Amulet },
+      { label: 'Any', slot: -1 },
+      { label: 'Weapon', slot: Slot.Weapon },
+      { label: 'Armor', slot: Slot.Armor },
+      { label: 'Helm', slot: Slot.Helm },
+      { label: 'Shield', slot: Slot.Shield },
+      { label: 'Boots', slot: Slot.Boots },
+      { label: 'Gloves', slot: Slot.Gloves },
+      { label: 'Ring', slot: Slot.Ring },
+      { label: 'Amulet', slot: Slot.Amulet },
     ];
-    for (const gs of gambleSlots) {
-      const slotBtn = el('button', 'btn-gamble-slot', gs.label);
-      slotBtn.type = 'button';
-      slotBtn.title = `Gamble for mystery ${gs.label} (-${gCost} gold)`;
-      slotBtn.disabled = sim.cb.gold[0] < gCost || h.inv.length >= INV_MAX;
-      slotBtn.onclick = () => {
-        const g0 = sim.cb.gold[0];
-        this.cmd('gamble', gs.slot);
-        const won = sim.cb.gold[0] < g0;
-        if (won) playTraderBark('blacksmith', 'buy');
-        this.setMood(won ? 1 : 2);
-        this.ctx.changed();
-        this.render();
-      };
-      gambleSlotBar.append(slotBtn);
-    }
+    const slotPick = el('select', 'gamble-slot') as HTMLSelectElement;
+    slotPick.setAttribute('aria-label', 'Gamble for slot');
+    for (const gs of gambleSlots) slotPick.append(new Option(gs.label, String(gs.slot)));
+    slotPick.value = String(this.gambleSlot);
+    slotPick.onchange = () => { this.gambleSlot = Number(slotPick.value); };
 
     let unid = 0;
     for (const st of h.inv) if (getItemDef(st.item)?.unidentified) unid++;
@@ -763,10 +736,10 @@ export class TownUi {
     identify.disabled = unid === 0;
     this.ctx.tipOn(identify, 'Reveal all unidentified items (pack and equipped) — free');
 
-    acts.append(deal, undo, gamble, identify, button('💬 Lore & Spoils', () => this.openLoreDialogue('shop')), exit);
+    acts.append(deal, undo, slotPick, gamble, identify, button('💬 Lore & Spoils', () => this.openLoreDialogue('shop')), exit);
     const details = el('section', 'trade-details');
     details.setAttribute('aria-label', S.town.itemDetails);
-    details.append(gambleSlotBar, this.renderTray(sim), this.renderDetailView(h), el('p', 'note', S.town.shopHelp));
+    details.append(this.renderTray(sim), this.renderDetailView(h));
     const layout = el('div', 'trade-layout');
     layout.append(stockPanel, keeper, acts, this.portrait(sim), packPanel, details);
     this.root.append(layout);
@@ -972,14 +945,13 @@ export class TownUi {
     });
     quests.append(offers.length ? ol : el('p', 'note', S.town.noQuests));
 
-    quests.append(el('h3', '', S.town.yourQuests));
     const ql = el('div', 'lines');
     for (const q of sim.town.quests) {
       const l = el('div', 'line');
       l.append(el('span', 'grow', questText(sim, q)), el('b', '', `${S.town.reward}: ${q.reward} ${S.town.gold}`));
       ql.append(l);
     }
-    quests.append(sim.town.quests.length ? ql : el('p', 'note', S.town.none));
+    if (sim.town.quests.length) quests.append(el('h3', '', S.town.yourQuests), ql);
 
     // Tavern Bounty Board (Regional Super-Unique Boss Hunts)
     const bountyPanel = el('section', 'bounty-panel');
@@ -991,8 +963,8 @@ export class TownUi {
         const l = el('div', `line bounty-card${bounty.isGrailTarget ? ' is-grail' : ''}${bounty.completed ? ' is-completed' : ''}`);
         const info = el('div', 'bounty-info');
         const header = el('strong', 'bounty-title', `${bounty.isGrailTarget ? '🏆 Grail Target: ' : ''}${bounty.name}`);
-        const desc = el('small', 'bounty-desc', bounty.summary);
-        info.append(header, desc);
+        info.title = bounty.summary;
+        info.append(header);
         const rewardText = `${bounty.rewardGold}g${bounty.rewardRune ? ` + Rune [${bounty.rewardRune}]` : ''}`;
         const rew = el('b', 'bounty-reward', rewardText);
         const canClaim = Boolean(bounty.completed && !bounty.claimed);
@@ -1023,18 +995,10 @@ export class TownUi {
         bl.append(l);
       });
       bountyPanel.append(bl);
-    } else {
-      bountyPanel.append(el('p', 'note', 'No active bounty notices posted for this region.'));
+      quests.append(bountyPanel);
     }
-    quests.append(bountyPanel);
 
-    const patrons = el('div', 'tavern-patrons');
-    patrons.append(
-      el('span', 'patron-badge', '🍺 Old Veteran (drinking ale)'),
-      el('span', 'patron-badge', '🗡 Border Scout (sharpening blade)'),
-      el('span', 'patron-badge', '🎲 Mercenary Gambler (rolling dice)'),
-    );
-    layout.append(mercPanel, this.scene('tavern'), this.portrait(sim), controls, quests, patrons);
+    layout.append(mercPanel, this.scene('tavern'), this.portrait(sim), controls, quests);
     this.root.append(layout);
   }
 

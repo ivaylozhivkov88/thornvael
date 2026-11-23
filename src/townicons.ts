@@ -328,6 +328,8 @@ export function itemIconEl(itemOrId: number | ItemDef): HTMLElement | SVGSVGElem
   img.height = 64;
   img.setAttribute('aria-hidden', 'true');
   img.setAttribute('draggable', 'false');
+  img.loading = 'lazy';
+  img.decoding = 'async';
   img.style.pointerEvents = 'none';
   img.src = `${base}itemicons/${slug}.png`;
 

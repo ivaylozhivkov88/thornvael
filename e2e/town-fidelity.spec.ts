@@ -45,7 +45,7 @@ test('shop lists the whole stock and pack in scroll boxes, with layered shop art
   const shop = page.locator('.town--shop');
   expect(await shop.locator('.shelf > *').count()).toBeGreaterThan(6);
   expect(await shop.locator('.pack > *').count()).toBe(await page.evaluate(() => (window as unknown as { __game: TownGame }).__game.sim.hero!.inv.length));
-  await expect(shop.locator('.trade-actions > button')).toHaveCount(5);
+  await expect(shop.locator('.trade-actions > button')).toHaveCount(6);
   await expect(shop.locator('.scroll-btn')).toHaveCount(4);
   await expect(shop.locator('.tray-buy')).toBeVisible();
   await expect(shop.locator('.tray-sell')).toBeVisible();
@@ -101,7 +101,7 @@ test('tray: tap, Undo, and only Confirm deal moves gold; stock refreshes on retu
   await shop.locator('.deal-btn').click();
   expect(await gold(page)).toBe(beforeSale + sale);
   const stockBefore = await page.evaluate(() => [...(window as unknown as { __game: TownGame }).__game.sim.town.stock[0]]);
-  await shop.locator('.trade-actions button').nth(4).click();
+  await shop.locator('.trade-actions > button').last().click();
   await expect(shop).toBeHidden();
   await enter(page);
   const stockAfter = await page.evaluate(() => [...(window as unknown as { __game: TownGame }).__game.sim.town.stock[0]]);
@@ -133,7 +133,7 @@ test('landscape phone can reach every shop control and tavern hiring/quests', as
     expect(rect!.x).toBeGreaterThanOrEqual(0);
     expect(rect!.x + rect!.width).toBeLessThanOrEqual(845);
   }
-  await shop.locator('.trade-actions button').nth(4).click();
+  await shop.locator('.trade-actions > button').last().click();
   await expect(shop).toBeHidden();
   await enter(page, 0);
   const tavern = page.locator('.town--tavern');
@@ -229,7 +229,7 @@ test('duplicate gear slots stay independent in one scrolling pack; Undo and Conf
   expect(await gold(page)).toBe(before + fee * 2);
   expect(await page.evaluate(() => (window as unknown as { __game: TownGame }).__game.sim.hero!.inv.length)).toBe(9);
   await expect(shop.locator('.sheet-head .gold')).toHaveText(`Gold ${before + fee * 2}`);
-  await shop.locator('.trade-actions button').nth(4).click();
+  await shop.locator('.trade-actions > button').last().click();
   await expect(shop).toBeHidden();
   expect(await gold(page)).toBe(before + fee * 2);
 });
