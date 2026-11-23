@@ -3741,6 +3741,342 @@
       "x": 164,
       "y": 160,
       "hp": 1
+    },
+    {
+      "kind": 0,
+      "x": 56,
+      "y": 13,
+      "frame": "volcanic/dead-a"
+    },
+    {
+      "kind": 0,
+      "x": 67,
+      "y": 13,
+      "frame": "ruins/column-broken"
+    },
+    {
+      "kind": 0,
+      "x": 74,
+      "y": 13,
+      "frame": "volcanic/vent"
+    },
+    {
+      "kind": 0,
+      "x": 94,
+      "y": 14,
+      "frame": "ruins/column-broken"
+    },
+    {
+      "kind": 0,
+      "x": 104,
+      "y": 12,
+      "frame": "ruins/column-broken"
+    },
+    {
+      "kind": 0,
+      "x": 52,
+      "y": 21,
+      "frame": "ruins/column-broken"
+    },
+    {
+      "kind": 0,
+      "x": 70,
+      "y": 26,
+      "frame": "volcanic/vent"
+    },
+    {
+      "kind": 0,
+      "x": 82,
+      "y": 24,
+      "frame": "volcanic/dead-a"
+    },
+    {
+      "kind": 0,
+      "x": 95,
+      "y": 21,
+      "frame": "volcanic/obsidian"
+    },
+    {
+      "kind": 0,
+      "x": 107,
+      "y": 19,
+      "frame": "volcanic/dead-b"
+    },
+    {
+      "kind": 0,
+      "x": 115,
+      "y": 19,
+      "frame": "ruins/column-broken"
+    },
+    {
+      "kind": 0,
+      "x": 49,
+      "y": 31,
+      "frame": "volcanic/dead-a"
+    },
+    {
+      "kind": 0,
+      "x": 64,
+      "y": 42,
+      "frame": "ruins/column-broken"
+    },
+    {
+      "kind": 0,
+      "x": 87,
+      "y": 42,
+      "frame": "volcanic/dead-b"
+    },
+    {
+      "kind": 0,
+      "x": 115,
+      "y": 31,
+      "frame": "volcanic/dead-b"
+    },
+    {
+      "kind": 0,
+      "x": 53,
+      "y": 45,
+      "frame": "volcanic/dead-a"
+    },
+    {
+      "kind": 0,
+      "x": 69,
+      "y": 55,
+      "frame": "volcanic/vent"
+    },
+    {
+      "kind": 0,
+      "x": 78,
+      "y": 48,
+      "frame": "volcanic/vent"
+    },
+    {
+      "kind": 0,
+      "x": 93,
+      "y": 45,
+      "frame": "volcanic/vent"
+    },
+    {
+      "kind": 0,
+      "x": 110,
+      "y": 56,
+      "frame": "volcanic/dead-a"
+    },
+    {
+      "kind": 0,
+      "x": 116,
+      "y": 56,
+      "frame": "volcanic/obsidian"
+    },
+    {
+      "kind": 0,
+      "x": 14,
+      "y": 67,
+      "frame": "ruins/column-broken"
+    },
+    {
+      "kind": 0,
+      "x": 24,
+      "y": 67,
+      "frame": "volcanic/obsidian"
+    },
+    {
+      "kind": 0,
+      "x": 36,
+      "y": 67,
+      "frame": "volcanic/obsidian"
+    },
+    {
+      "kind": 0,
+      "x": 46,
+      "y": 69,
+      "frame": "volcanic/obsidian"
+    },
+    {
+      "kind": 0,
+      "x": 70,
+      "y": 62,
+      "frame": "volcanic/dead-a"
+    },
+    {
+      "kind": 0,
+      "x": 73,
+      "y": 68,
+      "frame": "volcanic/vent"
+    },
+    {
+      "kind": 0,
+      "x": 91,
+      "y": 64,
+      "frame": "volcanic/obsidian"
+    },
+    {
+      "kind": 0,
+      "x": 111,
+      "y": 62,
+      "frame": "ruins/column-broken"
+    },
+    {
+      "kind": 0,
+      "x": 115,
+      "y": 60,
+      "frame": "volcanic/dead-a"
+    },
+    {
+      "kind": 0,
+      "x": 13,
+      "y": 76,
+      "frame": "volcanic/dead-b"
+    },
+    {
+      "kind": 0,
+      "x": 25,
+      "y": 76,
+      "frame": "volcanic/dead-b"
+    },
+    {
+      "kind": 0,
+      "x": 40,
+      "y": 78,
+      "frame": "volcanic/vent"
+    },
+    {
+      "kind": 0,
+      "x": 55,
+      "y": 74,
+      "frame": "volcanic/obsidian"
+    },
+    {
+      "kind": 0,
+      "x": 67,
+      "y": 79,
+      "frame": "ruins/column-broken"
+    },
+    {
+      "kind": 0,
+      "x": 78,
+      "y": 84,
+      "frame": "volcanic/dead-b"
+    },
+    {
+      "kind": 0,
+      "x": 13,
+      "y": 97,
+      "frame": "ruins/column-broken"
+    },
+    {
+      "kind": 0,
+      "x": 19,
+      "y": 90,
+      "frame": "ruins/column-broken"
+    },
+    {
+      "kind": 0,
+      "x": 76,
+      "y": 97,
+      "frame": "volcanic/dead-b"
+    },
+    {
+      "kind": 0,
+      "x": 12,
+      "y": 108,
+      "frame": "volcanic/dead-b"
+    },
+    {
+      "kind": 0,
+      "x": 17,
+      "y": 101,
+      "frame": "volcanic/obsidian"
+    },
+    {
+      "kind": 0,
+      "x": 77,
+      "y": 112,
+      "frame": "ruins/column-broken"
+    },
+    {
+      "kind": 0,
+      "x": 13,
+      "y": 115,
+      "frame": "ruins/column-broken"
+    },
+    {
+      "kind": 0,
+      "x": 25,
+      "y": 126,
+      "frame": "ruins/column-broken"
+    },
+    {
+      "kind": 0,
+      "x": 76,
+      "y": 126,
+      "frame": "volcanic/dead-a"
+    },
+    {
+      "kind": 0,
+      "x": 13,
+      "y": 134,
+      "frame": "volcanic/dead-b"
+    },
+    {
+      "kind": 0,
+      "x": 25,
+      "y": 135,
+      "frame": "volcanic/obsidian"
+    },
+    {
+      "kind": 0,
+      "x": 39,
+      "y": 134,
+      "frame": "volcanic/vent"
+    },
+    {
+      "kind": 0,
+      "x": 49,
+      "y": 131,
+      "frame": "volcanic/vent"
+    },
+    {
+      "kind": 0,
+      "x": 65,
+      "y": 133,
+      "frame": "ruins/column-broken"
+    },
+    {
+      "kind": 0,
+      "x": 78,
+      "y": 133,
+      "frame": "ruins/column-broken"
+    },
+    {
+      "kind": 0,
+      "x": 96,
+      "y": 159,
+      "frame": "volcanic/vent"
+    },
+    {
+      "kind": 0,
+      "x": 110,
+      "y": 157,
+      "frame": "volcanic/vent"
+    },
+    {
+      "kind": 0,
+      "x": 83,
+      "y": 175,
+      "frame": "volcanic/dead-b"
+    },
+    {
+      "kind": 0,
+      "x": 95,
+      "y": 177,
+      "frame": "volcanic/vent"
+    },
+    {
+      "kind": 0,
+      "x": 109,
+      "y": 175,
+      "frame": "volcanic/dead-a"
     }
   ],
   "units": [
@@ -4412,7 +4748,9 @@
       "biome": "volcanic",
       "zone": "ruinstone",
       "music": "music_town_ironcamp",
-      "ambience": "amb_forge_ironcamp"
+      "ambience": "amb_forge_ironcamp",
+      "light": "dusk",
+      "weather": "embers"
     },
     {
       "name": "Basalt Highway & Shattered Beacons",
@@ -4423,7 +4761,9 @@
       "biome": "volcanic",
       "zone": "ruinstone",
       "music": "music_explore_act4_heartland",
-      "ambience": "amb_forge_ironcamp"
+      "ambience": "amb_forge_ironcamp",
+      "light": "dusk",
+      "weather": "embers"
     },
     {
       "name": "Besieged Wall & Ashveil Summit",
@@ -4434,7 +4774,9 @@
       "biome": "volcanic",
       "zone": "ruinstone",
       "music": "music_explore_act4_heartland",
-      "ambience": "amb_forge_ironcamp"
+      "ambience": "amb_forge_ironcamp",
+      "light": "dusk",
+      "weather": "embers"
     },
     {
       "name": "Magnetic Narrows & Twofold Barbican",
@@ -4445,7 +4787,9 @@
       "biome": "volcanic",
       "zone": "ruinstone",
       "music": "music_explore_act4_heartland",
-      "ambience": "amb_forge_ironcamp"
+      "ambience": "amb_forge_ironcamp",
+      "light": "dusk",
+      "weather": "embers"
     },
     {
       "name": "Gauntlet of Iron & Greystone Rampart",
@@ -4456,7 +4800,9 @@
       "biome": "volcanic",
       "zone": "ruinstone",
       "music": "music_explore_act4_rampart",
-      "ambience": "amb_throne_hall"
+      "ambience": "amb_throne_hall",
+      "light": "dusk",
+      "weather": "embers"
     },
     {
       "name": "Three-Roads Watch & Headless Kings",
@@ -4467,7 +4813,9 @@
       "biome": "volcanic",
       "zone": "ruinstone",
       "music": "music_explore_act4_rampart",
-      "ambience": "amb_throne_hall"
+      "ambience": "amb_throne_hall",
+      "light": "dusk",
+      "weather": "embers"
     },
     {
       "name": "Colonnade of Crowns & Obsidian Dais",
@@ -4478,7 +4826,9 @@
       "biome": "volcanic",
       "zone": "ruinstone",
       "music": "music_boss_ashkarath",
-      "ambience": "amb_throne_hall"
+      "ambience": "amb_throne_hall",
+      "light": "dusk",
+      "weather": "embers"
     }
   ],
   "players": [
