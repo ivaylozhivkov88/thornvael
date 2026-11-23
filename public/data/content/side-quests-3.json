@@ -1,695 +1,1247 @@
 [
- {
-  "id": "sq49-rusted-toll-chain",
-  "act": 1,
-  "title": "The Rusted Toll-Chain",
-  "giver": "field-ford-tollkeeper",
-  "summary": "Gnoll raiders dragged the heavy iron ferry-chain into the shallows below the Old Border Mint, halving river crossings. Haul the chain links back before high water.",
-  "objectives": [
-   "Clear the Briar Hounds scavenging near loc-border-mint-ruin",
-   "Recover 3 Heavy Toll-Chain Links from the river mud",
-   "Return the chain links to Clerk Oswin"
-  ],
-  "reward": {
-   "xp": 180,
-   "gold": 105
+  {
+    "id": "sq49-rusted-toll-chain",
+    "act": 1,
+    "title": "The Rusted Toll-Chain",
+    "giver": "field-ford-tollkeeper",
+    "summary": "Gnoll raiders dragged the heavy iron ferry-chain into the shallows below the Old Border Mint, halving river crossings. Haul the chain links back before high water.",
+    "objectives": [
+      "Clear the Briar Hounds scavenging near loc-border-mint-ruin",
+      "Recover 3 Heavy Toll-Chain Links from the river mud",
+      "Return the chain links to Clerk Oswin"
+    ],
+    "reward": {
+      "xp": 180,
+      "gold": 105
+    },
+    "accept_line": "That iron took three smiths a winter to forge; drag it out before the mud swallows it.",
+    "complete_line": "Greased and riveted—the ferry runs again, though my ledger will never recover.",
+    "steps": [
+      {
+        "id": "step-1",
+        "kind": "talk",
+        "target": "field-ford-tollkeeper",
+        "trigger": {
+          "type": "talk_npc",
+          "ref": "field-ford-tollkeeper"
+        },
+        "journal": "Clerk Oswin needs the heavy iron ferry-chain dragged back from the shallows below the ruined Border Mint.",
+        "next": "step-2"
+      },
+      {
+        "id": "step-2",
+        "kind": "kill",
+        "target": "briar-hound",
+        "count": 6,
+        "trigger": {
+          "type": "kill_count",
+          "ref": "briar-hound",
+          "requires_step": "step-1"
+        },
+        "journal": "Drove off the Briar Hounds scavenging near the Border Mint ruins.",
+        "next": "step-3"
+      },
+      {
+        "id": "step-3",
+        "kind": "fetch",
+        "target": "Heavy Toll-Chain Link",
+        "count": 3,
+        "trigger": {
+          "type": "collect_item",
+          "ref": "Heavy Toll-Chain Link",
+          "requires_step": "step-2"
+        },
+        "journal": "Pulled three forged iron chain links out of the river silt.",
+        "next": "step-4"
+      },
+      {
+        "id": "step-4",
+        "kind": "talk",
+        "target": "field-ford-tollkeeper",
+        "trigger": {
+          "type": "talk_npc",
+          "ref": "field-ford-tollkeeper",
+          "requires_step": "step-3"
+        },
+        "journal": "Returned the iron links to Clerk Oswin so the ford ferry can winch across again.",
+        "next": null,
+        "reward": {
+          "xp": 180,
+          "gold": 105
+        }
+      }
+    ]
   },
-  "accept_line": "That iron took three smiths a winter to forge; drag it out before the mud swallows it.",
-  "complete_line": "Greased and riveted—the ferry runs again, though my ledger will never recover."
- },
- {
-  "id": "sq50-peat-spade-salvage",
-  "act": 1,
-  "title": "Sunken Peat-Spades",
-  "giver": "field-fen-peatcutter",
-  "summary": "Bog-gas flares drove Mara's cutters from the southern hollow, leaving five iron-shod spades behind. Extinguish the Mire Wisps and retrieve the tools.",
-  "objectives": [
-   "Disperse 6 Mire Wisps in loc-willow-sink",
-   "Collect 5 Iron-Shod Peat Spades"
-  ],
-  "reward": {
-   "xp": 200,
-   "gold": 115
+  {
+    "id": "sq50-peat-spade-salvage",
+    "act": 1,
+    "title": "Sunken Peat-Spades",
+    "giver": "field-fen-peatcutter",
+    "summary": "Bog-gas flares drove Mara's cutters from the southern hollow, leaving five iron-shod spades behind. Extinguish the Mire Wisps and retrieve the tools.",
+    "objectives": [
+      "Disperse 6 Mire Wisps in loc-willow-sink",
+      "Collect 5 Iron-Shod Peat Spades"
+    ],
+    "reward": {
+      "xp": 200,
+      "gold": 115
+    },
+    "accept_line": "Without dry peat, Thornwick's ovens go cold by Newmoon. Watch where you plant your boots.",
+    "complete_line": "Not a bend in the blades. My crew goes back to cutting at first light.",
+    "steps": [
+      {
+        "id": "step-1",
+        "kind": "talk",
+        "target": "field-fen-peatcutter",
+        "trigger": {
+          "type": "talk_npc",
+          "ref": "field-fen-peatcutter"
+        },
+        "journal": "Peat-Cutter Mara's crew dropped five iron-shod spades when Mire Wisps rose out of Willow Sink.",
+        "next": "step-2"
+      },
+      {
+        "id": "step-2",
+        "kind": "kill",
+        "target": "mire-wisp",
+        "count": 6,
+        "trigger": {
+          "type": "kill_count",
+          "ref": "mire-wisp",
+          "requires_step": "step-1"
+        },
+        "journal": "Dispersed six Mire Wisps flickering over Willow Sink.",
+        "next": "step-3"
+      },
+      {
+        "id": "step-3",
+        "kind": "fetch",
+        "target": "Iron-Shod Peat Spade",
+        "count": 5,
+        "trigger": {
+          "type": "collect_item",
+          "ref": "Iron-Shod Peat Spade",
+          "requires_step": "step-2"
+        },
+        "journal": "Recovered all five iron-shod spades from the sunken peat banks.",
+        "next": "step-4"
+      },
+      {
+        "id": "step-4",
+        "kind": "talk",
+        "target": "field-fen-peatcutter",
+        "trigger": {
+          "type": "talk_npc",
+          "ref": "field-fen-peatcutter",
+          "requires_step": "step-3"
+        },
+        "journal": "Handed the spades back to Peat-Cutter Mara so Thornwick's turf fires stay lit.",
+        "next": null,
+        "reward": {
+          "xp": 200,
+          "gold": 115
+        }
+      }
+    ]
   },
-  "accept_line": "Without dry peat, Thornwick's ovens go cold by Newmoon. Watch where you plant your boots.",
-  "complete_line": "Not a bend in the blades. My crew goes back to cutting at first light."
- },
- {
-  "id": "sq51-cellar-tally-books",
-  "act": 1,
-  "title": "Mildewed Muster-Rolls",
-  "giver": "npc-garrick-captain",
-  "summary": "Ruin Mites are chewing through the old levy-rolls stored in Ravenwatch's guard-cellar. Exterminate the nest and save the surviving muster ledgers.",
-  "objectives": [
-   "Slay 10 Ruin Mites inside loc-ravenwatch-cellar",
-   "Recover 4 Vellum Muster-Rolls",
-   "Deliver the rolls to Captain Garrick"
-  ],
-  "reward": {
-   "xp": 220,
-   "gold": 130,
-   "item": "item-iron-buckler"
+  {
+    "id": "sq51-cellar-tally-books",
+    "act": 1,
+    "title": "Mildewed Muster-Rolls",
+    "giver": "npc-garrick-captain",
+    "summary": "Ruin Mites are chewing through the old levy-rolls stored in Ravenwatch's guard-cellar. Exterminate the nest and save the surviving muster ledgers.",
+    "objectives": [
+      "Slay 10 Ruin Mites inside loc-ravenwatch-cellar",
+      "Recover 4 Vellum Muster-Rolls",
+      "Deliver the rolls to Captain Garrick"
+    ],
+    "reward": {
+      "xp": 220,
+      "gold": 130,
+      "item": "item-iron-buckler"
+    },
+    "accept_line": "Half the border families owe widow-silver on those pages. Do not let beetles eat their names.",
+    "complete_line": "Ink's smeared, yet the seals hold. At least the dead will be paid properly.",
+    "steps": [
+      {
+        "id": "step-1",
+        "kind": "talk",
+        "target": "npc-garrick-captain",
+        "trigger": {
+          "type": "talk_npc",
+          "ref": "npc-garrick-captain"
+        },
+        "journal": "Garrick needs four vellum muster-rolls pulled from the flooded cellar beneath Ravenwatch Keep.",
+        "next": "step-2"
+      },
+      {
+        "id": "step-2",
+        "kind": "kill",
+        "target": "ruin-mite",
+        "count": 10,
+        "trigger": {
+          "type": "kill_count",
+          "ref": "ruin-mite",
+          "requires_step": "step-1"
+        },
+        "journal": "Exterminated ten Ruin Mites chewing through the Ravenwatch cellar racks.",
+        "next": "step-3"
+      },
+      {
+        "id": "step-3",
+        "kind": "fetch",
+        "target": "Vellum Muster-Roll",
+        "count": 4,
+        "trigger": {
+          "type": "collect_item",
+          "ref": "Vellum Muster-Roll",
+          "requires_step": "step-2"
+        },
+        "journal": "Salvaged four mildewed vellum muster-rolls from the upper shelves.",
+        "next": "step-4"
+      },
+      {
+        "id": "step-4",
+        "kind": "talk",
+        "target": "npc-garrick-captain",
+        "trigger": {
+          "type": "talk_npc",
+          "ref": "npc-garrick-captain",
+          "requires_step": "step-3"
+        },
+        "journal": "Delivered the muster-rolls to Sergeant Garrick, proving the border rosters were padded.",
+        "next": null,
+        "reward": {
+          "xp": 220,
+          "gold": 130,
+          "item": "item-iron-buckler"
+        }
+      }
+    ]
   },
-  "accept_line": "Half the border families owe widow-silver on those pages. Do not let beetles eat their names.",
-  "complete_line": "Ink's smeared, yet the seals hold. At least the dead will be paid properly."
- },
- {
-  "id": "sq52-tallow-for-lantern-pass",
-  "act": 1,
-  "title": "Tallow for the Third Post",
-  "giver": "field-ashbrook-watchman",
-  "summary": "The limestone beacon along Lantern Passage burned dry after Cinder Shamans fouled its oil-cistern. Carry fresh tallow-casks up the switchback and relight the cage.",
-  "objectives": [
-   "Eliminate the Cinder Shaman near loc-hermit-lamp-post",
-   "Refill and ignite the Third Lantern Post"
-  ],
-  "reward": {
-   "xp": 245,
-   "gold": 140
+  {
+    "id": "sq52-tallow-for-lantern-pass",
+    "act": 1,
+    "title": "Tallow for the Third Post",
+    "giver": "field-ashbrook-watchman",
+    "summary": "The limestone beacon along Lantern Passage burned dry after Cinder Shamans fouled its oil-cistern. Carry fresh tallow-casks up the switchback and relight the cage.",
+    "objectives": [
+      "Eliminate the Cinder Shaman near loc-hermit-lamp-post",
+      "Refill and ignite the Third Lantern Post"
+    ],
+    "reward": {
+      "xp": 245,
+      "gold": 140
+    },
+    "accept_line": "Without that high flame, night patrols walk blind straight off the slate ledge.",
+    "complete_line": "Saw the blue spark catch from the gatehouse. Good work keeping the pass lit.",
+    "steps": [
+      {
+        "id": "step-1",
+        "kind": "talk",
+        "target": "field-ashbrook-watchman",
+        "trigger": {
+          "type": "talk_npc",
+          "ref": "field-ashbrook-watchman"
+        },
+        "journal": "Watchman Joren needs the Third Lantern Post re-lit before night-fog swallows the Ashbrook pass.",
+        "next": "step-2"
+      },
+      {
+        "id": "step-2",
+        "kind": "kill",
+        "target": "cinder-shaman",
+        "count": 1,
+        "trigger": {
+          "type": "kill_count",
+          "ref": "cinder-shaman",
+          "requires_step": "step-1"
+        },
+        "journal": "Struck down the Cinder Shaman snuffing out the pass beacons.",
+        "next": "step-3"
+      },
+      {
+        "id": "step-3",
+        "kind": "fetch",
+        "target": "Sealed Tallow Cask",
+        "count": 1,
+        "trigger": {
+          "type": "collect_item",
+          "ref": "Sealed Tallow Cask",
+          "requires_step": "step-2"
+        },
+        "journal": "Refilled and ignited the Third Lantern Post with clean tallow.",
+        "next": "step-4"
+      },
+      {
+        "id": "step-4",
+        "kind": "talk",
+        "target": "field-ashbrook-watchman",
+        "trigger": {
+          "type": "talk_npc",
+          "ref": "field-ashbrook-watchman",
+          "requires_step": "step-3"
+        },
+        "journal": "Reported the lit beacon to Watchman Joren.",
+        "next": null,
+        "reward": {
+          "xp": 245,
+          "gold": 140
+        }
+      }
+    ]
   },
-  "accept_line": "Without that high flame, night patrols walk blind straight off the slate ledge.",
-  "complete_line": "Saw the blue spark catch from the gatehouse. Good work keeping the pass lit."
- },
- {
-  "id": "sq53-crosscut-blades",
-  "act": 1,
-  "title": "Teeth of the Greywood Mill",
-  "giver": "field-greywood-sawyer",
-  "summary": "Thorn Boars rooted up the timber yard outside Greywood Water-Mill, scattering Dobb's tempered crosscut blades. Drive off the beasts and gather the steel.",
-  "objectives": [
-   "Kill 5 Thorn Boars around loc-greywood-sawmill",
-   "Retrieve 3 Tempered Crosscut Blades"
-  ],
-  "reward": {
-   "xp": 265,
-   "gold": 155
+  {
+    "id": "sq53-crosscut-blades",
+    "act": 1,
+    "title": "Teeth of the Greywood Mill",
+    "giver": "field-greywood-sawyer",
+    "summary": "Thorn Boars rooted up the timber yard outside Greywood Water-Mill, scattering Dobb's tempered crosscut blades. Drive off the beasts and gather the steel.",
+    "objectives": [
+      "Kill 5 Thorn Boars around loc-greywood-sawmill",
+      "Retrieve 3 Tempered Crosscut Blades"
+    ],
+    "reward": {
+      "xp": 265,
+      "gold": 155
+    },
+    "accept_line": "Those sows tusked straight through two-inch ash planks. Mind your shins in the sawdust.",
+    "complete_line": "Not a chip on the teeth. We'll have palisade stakes stacked by sundown.",
+    "steps": [
+      {
+        "id": "step-1",
+        "kind": "talk",
+        "target": "field-greywood-sawyer",
+        "trigger": {
+          "type": "talk_npc",
+          "ref": "field-greywood-sawyer"
+        },
+        "journal": "Sawyer Dobb asked me to clear Thorn Boars out of Greywood Sawmill and recover three tempered crosscut blades.",
+        "next": "step-2"
+      },
+      {
+        "id": "step-2",
+        "kind": "kill",
+        "target": "thorn-boar",
+        "count": 5,
+        "trigger": {
+          "type": "kill_count",
+          "ref": "thorn-boar",
+          "requires_step": "step-1"
+        },
+        "journal": "Cleared five Thorn Boars rooting around the Greywood millrace.",
+        "next": "step-3"
+      },
+      {
+        "id": "step-3",
+        "kind": "fetch",
+        "target": "Tempered Crosscut Blade",
+        "count": 3,
+        "trigger": {
+          "type": "collect_item",
+          "ref": "Tempered Crosscut Blade",
+          "requires_step": "step-2"
+        },
+        "journal": "Retrieved three tempered steel crosscut blades from the timber shed.",
+        "next": "step-4"
+      },
+      {
+        "id": "step-4",
+        "kind": "talk",
+        "target": "field-greywood-sawyer",
+        "trigger": {
+          "type": "talk_npc",
+          "ref": "field-greywood-sawyer",
+          "requires_step": "step-3"
+        },
+        "journal": "Returned the saw blades to Sawyer Dobb so the palisade timber cut can resume.",
+        "next": null,
+        "reward": {
+          "xp": 265,
+          "gold": 155
+        }
+      }
+    ]
   },
-  "accept_line": "Those sows tusked straight through two-inch ash planks. Mind your shins in the sawdust.",
-  "complete_line": "Not a chip on the teeth. We'll have palisade stakes stacked by sundown."
- },
- {
-  "id": "sq54-sleet-cairn-oil",
-  "act": 1,
-  "title": "Pitch for the Craghorn Cairns",
-  "giver": "field-ravenwatch-runner",
-  "summary": "Early sleet blinded the watershed ridge above Ravenwatch, leaving scouts stranded in the pass. Haul pine-pitch barrels to relight the twin weather-cairns.",
-  "objectives": [
-   "Reach loc-craghorn-saddle",
-   "Slay 4 Glasswings circling the ridge",
-   "Ignite both Craghorn Weather-Cairns"
-  ],
-  "reward": {
-   "xp": 290,
-   "gold": 170
+  {
+    "id": "sq54-sleet-cairn-oil",
+    "act": 1,
+    "title": "Pitch for the Craghorn Cairns",
+    "giver": "field-ravenwatch-runner",
+    "summary": "Early sleet blinded the watershed ridge above Ravenwatch, leaving scouts stranded in the pass. Haul pine-pitch barrels to relight the twin weather-cairns.",
+    "objectives": [
+      "Reach loc-craghorn-saddle",
+      "Slay 4 Glasswings circling the ridge",
+      "Ignite both Craghorn Weather-Cairns"
+    ],
+    "reward": {
+      "xp": 290,
+      "gold": 170
+    },
+    "accept_line": "If the ridge beacons stay dark, our northern pickets freeze before dawn.",
+    "complete_line": "Two orange plumes against the sleet—every runner in the valley can steer by them now.",
+    "steps": [
+      {
+        "id": "step-1",
+        "kind": "talk",
+        "target": "field-ravenwatch-runner",
+        "trigger": {
+          "type": "talk_npc",
+          "ref": "field-ravenwatch-runner"
+        },
+        "journal": "Runner Talia needs the two Craghorn Weather-Cairns lit with pitch oil to guide stragglers through the sleet.",
+        "next": "step-2"
+      },
+      {
+        "id": "step-2",
+        "kind": "kill",
+        "target": "glasswing",
+        "count": 4,
+        "trigger": {
+          "type": "kill_count",
+          "ref": "glasswing",
+          "requires_step": "step-1"
+        },
+        "journal": "Cleared four Glasswings circling the Craghorn ridge.",
+        "next": "step-3"
+      },
+      {
+        "id": "step-3",
+        "kind": "fetch",
+        "target": "Craghorn Pitch Flask",
+        "count": 2,
+        "trigger": {
+          "type": "collect_item",
+          "ref": "Craghorn Pitch Flask",
+          "requires_step": "step-2"
+        },
+        "journal": "Ignited both Craghorn Weather-Cairns; orange smoke rose above the sleet line.",
+        "next": "step-4"
+      },
+      {
+        "id": "step-4",
+        "kind": "talk",
+        "target": "field-ravenwatch-runner",
+        "trigger": {
+          "type": "talk_npc",
+          "ref": "field-ravenwatch-runner",
+          "requires_step": "step-3"
+        },
+        "journal": "Reported the lit cairns to Runner Talia.",
+        "next": null,
+        "reward": {
+          "xp": 290,
+          "gold": 170
+        }
+      }
+    ]
   },
-  "accept_line": "If the ridge beacons stay dark, our northern pickets freeze before dawn.",
-  "complete_line": "Two orange plumes against the sleet—every runner in the valley can steer by them now."
- },
- {
-  "id": "sq55-chalk-bluff-stakes",
-  "act": 1,
-  "title": "Stakes on Alder Bluff",
-  "giver": "npc-garrick-captain",
-  "summary": "Quill Fiends nested in the white-clay gullies above Alder Bridge, sniping baggage mules from cover. Clear the ridge and plant sharpened ash stakes.",
-  "objectives": [
-   "Slay 8 Quill Fiends at loc-alder-bluff",
-   "Place 4 Sharpened Ash Stakes along the embankment"
-  ],
-  "reward": {
-   "xp": 310,
-   "gold": 185
+  {
+    "id": "sq55-chalk-bluff-stakes",
+    "act": 1,
+    "title": "Stakes on Alder Bluff",
+    "giver": "npc-garrick-captain",
+    "summary": "Quill Fiends nested in the white-clay gullies above Alder Bridge, sniping baggage mules from cover. Clear the ridge and plant sharpened ash stakes.",
+    "objectives": [
+      "Slay 8 Quill Fiends at loc-alder-bluff",
+      "Place 4 Sharpened Ash Stakes along the embankment"
+    ],
+    "reward": {
+      "xp": 310,
+      "gold": 185
+    },
+    "accept_line": "My archers can't trade shots uphill against bone-spitters. Sweep that bluff clean.",
+    "complete_line": "Stakes are set and the clay is quiet. Wagons can cross without hugging their shields.",
+    "steps": [
+      {
+        "id": "step-1",
+        "kind": "talk",
+        "target": "npc-garrick-captain",
+        "trigger": {
+          "type": "talk_npc",
+          "ref": "npc-garrick-captain"
+        },
+        "journal": "Garrick ordered sharpened ash stakes planted along Alder Bluff to break any flank rush.",
+        "next": "step-2"
+      },
+      {
+        "id": "step-2",
+        "kind": "kill",
+        "target": "quill-fiend",
+        "count": 8,
+        "trigger": {
+          "type": "kill_count",
+          "ref": "quill-fiend",
+          "requires_step": "step-1"
+        },
+        "journal": "Drove eight Quill Fiends off the chalk embankment at Alder Bluff.",
+        "next": "step-3"
+      },
+      {
+        "id": "step-3",
+        "kind": "fetch",
+        "target": "Sharpened Ash Stake",
+        "count": 4,
+        "trigger": {
+          "type": "collect_item",
+          "ref": "Sharpened Ash Stake",
+          "requires_step": "step-2"
+        },
+        "journal": "Hammered four sharpened ash stakes deep into the bluff embankment.",
+        "next": "step-4"
+      },
+      {
+        "id": "step-4",
+        "kind": "talk",
+        "target": "npc-garrick-captain",
+        "trigger": {
+          "type": "talk_npc",
+          "ref": "npc-garrick-captain",
+          "requires_step": "step-3"
+        },
+        "journal": "Confirmed the Alder Bluff stakes are set with Sergeant Garrick.",
+        "next": null,
+        "reward": {
+          "xp": 310,
+          "gold": 185
+        }
+      }
+    ]
   },
-  "accept_line": "My archers can't trade shots uphill against bone-spitters. Sweep that bluff clean.",
-  "complete_line": "Stakes are set and the clay is quiet. Wagons can cross without hugging their shields."
- },
- {
-  "id": "sq56-green-slag-cullets",
-  "act": 1,
-  "title": "Green Slag Cullets",
-  "giver": "npc-marta-alchemist",
-  "summary": "Widow Marta needs chunks of vitrified green silica from the old quarry kilns to grind into eye-salve powder, though Flintbacks sleep among the cold furnaces.",
-  "objectives": [
-   "Gather 6 Green Silica Slag Chunks from loc-vitrified-kilns",
-   "Defeat 3 Flintbacks guarding the slag heaps",
-   "Bring the slag chunks to Widow Marta"
-  ],
-  "reward": {
-   "xp": 335,
-   "gold": 200,
-   "item": "item-alchemist-mortar"
+  {
+    "id": "sq56-green-slag-cullets",
+    "act": 1,
+    "title": "Green Slag Cullets",
+    "giver": "npc-marta-alchemist",
+    "summary": "Widow Marta needs chunks of vitrified green silica from the old quarry kilns to grind into eye-salve powder, though Flintbacks sleep among the cold furnaces.",
+    "objectives": [
+      "Gather 6 Green Silica Slag Chunks from loc-vitrified-kilns",
+      "Defeat 3 Flintbacks guarding the slag heaps",
+      "Bring the slag chunks to Widow Marta"
+    ],
+    "reward": {
+      "xp": 335,
+      "gold": 200,
+      "item": "item-alchemist-mortar"
+    },
+    "accept_line": "Crushed kiln-glass clears bog-film from sentry eyes better than boiled alum.",
+    "complete_line": "Clean, bubble-free glass. Give my mortar an hour and the pickets will see clearly again.",
+    "steps": [
+      {
+        "id": "step-1",
+        "kind": "talk",
+        "target": "npc-marta-alchemist",
+        "trigger": {
+          "type": "talk_npc",
+          "ref": "npc-marta-alchemist"
+        },
+        "journal": "Widow Marta wants six chunks of green vitrified kiln-slag from the old bell-smelting pits.",
+        "next": "step-2"
+      },
+      {
+        "id": "step-2",
+        "kind": "kill",
+        "target": "flintback",
+        "count": 3,
+        "trigger": {
+          "type": "kill_count",
+          "ref": "flintback",
+          "requires_step": "step-1"
+        },
+        "journal": "Defeated three Flintbacks guarding the vitrified slag heaps.",
+        "next": "step-3"
+      },
+      {
+        "id": "step-3",
+        "kind": "fetch",
+        "target": "Green Silica Slag Chunk",
+        "count": 6,
+        "trigger": {
+          "type": "collect_item",
+          "ref": "Green Silica Slag Chunk",
+          "requires_step": "step-2"
+        },
+        "journal": "Collected six glassy chunks of green kiln-slag.",
+        "next": "step-4"
+      },
+      {
+        "id": "step-4",
+        "kind": "talk",
+        "target": "npc-marta-alchemist",
+        "trigger": {
+          "type": "talk_npc",
+          "ref": "npc-marta-alchemist",
+          "requires_step": "step-3"
+        },
+        "journal": "Delivered the green slag cullets to Widow Marta for her mortar.",
+        "next": null,
+        "reward": {
+          "xp": 335,
+          "gold": 200,
+          "item": "item-alchemist-mortar"
+        }
+      }
+    ]
   },
-  "accept_line": "Crushed kiln-glass clears bog-film from sentry eyes better than boiled alum.",
-  "complete_line": "Clean, bubble-free glass. Give my mortar an hour and the pickets will see clearly again."
- },
- {
-  "id": "sq57-turnip-ditch-relics",
-  "act": 1,
-  "title": "Dog-Tags in the Turnip Rows",
-  "giver": "npc-hobb-smith",
-  "summary": "After the Ashbrook skirmish, dozens of fallen militiamen were buried hastily in the south ditch with their stamped brass pay-disks. Recover the disks before Gloom Stags desecrate the cairns.",
-  "objectives": [
-   "Drive off 3 Gloom Stags prowling loc-ashbrook-turnip-field",
-   "Collect 7 Stamped Brass Pay-Disks"
-  ],
-  "reward": {
-   "xp": 350,
-   "gold": 210
+  {
+    "id": "sq57-turnip-ditch-relics",
+    "act": 1,
+    "title": "Dog-Tags in the Turnip Rows",
+    "giver": "npc-hobb-smith",
+    "summary": "After the Ashbrook skirmish, dozens of fallen militiamen were buried hastily in the south ditch with their stamped brass pay-disks. Recover the disks before Gloom Stags desecrate the cairns.",
+    "objectives": [
+      "Drive off 3 Gloom Stags prowling loc-ashbrook-turnip-field",
+      "Collect 7 Stamped Brass Pay-Disks"
+    ],
+    "reward": {
+      "xp": 350,
+      "gold": 210
+    },
+    "accept_line": "Hobb stamped every one of those disks on his own anvil. Their mothers deserve the metal back.",
+    "complete_line": "Seven names accounted for. I'll polish the mud off before the widow-bell rings.",
+    "steps": [
+      {
+        "id": "step-1",
+        "kind": "talk",
+        "target": "npc-hobb-smith",
+        "trigger": {
+          "type": "talk_npc",
+          "ref": "npc-hobb-smith"
+        },
+        "journal": "Master Hobb asked me to recover stamped brass pay-disks from the Ashbrook turnip ditches so families can claim death-tally coin.",
+        "next": "step-2"
+      },
+      {
+        "id": "step-2",
+        "kind": "kill",
+        "target": "gloom-stag",
+        "count": 3,
+        "trigger": {
+          "type": "kill_count",
+          "ref": "gloom-stag",
+          "requires_step": "step-1"
+        },
+        "journal": "Drove three Gloom Stags out of the Ashbrook turnip rows.",
+        "next": "step-3"
+      },
+      {
+        "id": "step-3",
+        "kind": "fetch",
+        "target": "Stamped Brass Pay-Disk",
+        "count": 7,
+        "trigger": {
+          "type": "collect_item",
+          "ref": "Stamped Brass Pay-Disk",
+          "requires_step": "step-2"
+        },
+        "journal": "Collected seven mud-caked brass pay-disks from the furrows.",
+        "next": "step-4"
+      },
+      {
+        "id": "step-4",
+        "kind": "talk",
+        "target": "npc-hobb-smith",
+        "trigger": {
+          "type": "talk_npc",
+          "ref": "npc-hobb-smith",
+          "requires_step": "step-3"
+        },
+        "journal": "Turned the seven pay-disks over to Master Hobb for the garrison ledger.",
+        "next": null,
+        "reward": {
+          "xp": 350,
+          "gold": 210
+        }
+      }
+    ]
   },
-  "accept_line": "Hobb stamped every one of those disks on his own anvil. Their mothers deserve the metal back.",
-  "complete_line": "Seven names accounted for. I'll polish the mud off before the widow-bell rings."
- },
- {
-  "id": "sq58-weir-pike-heads",
-  "act": 1,
-  "title": "Bent Pikes of the Sunken Ford",
-  "giver": "npc-hobb-smith",
-  "summary": "Rootbound hulks snapped half the garrison's boar-spears during the last ford patrol. Recover the broken steel heads from the creek bed so Hobb can re-weld them.",
-  "objectives": [
-   "Destroy 2 Rootbound lurking near loc-thornwick-weir",
-   "Salvage 6 Snapped Pike-Heads"
-  ],
-  "reward": {
-   "xp": 370,
-   "gold": 225
+  {
+    "id": "sq58-weir-pike-heads",
+    "act": 1,
+    "title": "Bent Pikes of the Sunken Ford",
+    "giver": "npc-hobb-smith",
+    "summary": "Rootbound hulks snapped half the garrison's boar-spears during the last ford patrol. Recover the broken steel heads from the creek bed so Hobb can re-weld them.",
+    "objectives": [
+      "Destroy 2 Rootbound lurking near loc-thornwick-weir",
+      "Salvage 6 Snapped Pike-Heads"
+    ],
+    "reward": {
+      "xp": 370,
+      "gold": 225
+    },
+    "accept_line": "Good border steel costs three silver a pound; I won't leave it rusting under trout.",
+    "complete_line": "Bent, not cracked. Give me bellows-time till midnight and you'll have fresh points.",
+    "steps": [
+      {
+        "id": "step-1",
+        "kind": "talk",
+        "target": "npc-hobb-smith",
+        "trigger": {
+          "type": "talk_npc",
+          "ref": "npc-hobb-smith"
+        },
+        "journal": "Master Hobb is short on bar-iron and wants six snapped pike-heads salvaged from Thornwick Weir.",
+        "next": "step-2"
+      },
+      {
+        "id": "step-2",
+        "kind": "kill",
+        "target": "rootbound",
+        "count": 2,
+        "trigger": {
+          "type": "kill_count",
+          "ref": "rootbound",
+          "requires_step": "step-1"
+        },
+        "journal": "Destroyed two Rootbound lurking among the weir pilings.",
+        "next": "step-3"
+      },
+      {
+        "id": "step-3",
+        "kind": "fetch",
+        "target": "Snapped Pike-Head",
+        "count": 6,
+        "trigger": {
+          "type": "collect_item",
+          "ref": "Snapped Pike-Head",
+          "requires_step": "step-2"
+        },
+        "journal": "Pulled six bent iron pike-heads out of the tangled driftwood.",
+        "next": "step-4"
+      },
+      {
+        "id": "step-4",
+        "kind": "talk",
+        "target": "npc-hobb-smith",
+        "trigger": {
+          "type": "talk_npc",
+          "ref": "npc-hobb-smith",
+          "requires_step": "step-3"
+        },
+        "journal": "Delivered the scrap steel to Master Hobb's anvil.",
+        "next": null,
+        "reward": {
+          "xp": 370,
+          "gold": 225
+        }
+      }
+    ]
   },
-  "accept_line": "Good border steel costs three silver a pound; I won't leave it rusting under trout.",
-  "complete_line": "Bent, not cracked. Give me bellows-time till midnight and you'll have fresh points."
- },
- {
-  "id": "sq59-whale-rib-rawhide",
-  "act": 2,
-  "title": "Rawhide for the Jawbone Gate",
-  "giver": "field-warden-hale",
-  "summary": "Dry desert winds split the rawhide lashings binding Redmarsh's leviathan-bone gate. Harvest tough Dune Beast hides to re-lash the timbers before the next dust squall.",
-  "objectives": [
-   "Slay 4 Dune Beasts near loc-whale-rib-gate",
-   "Deliver 4 Thick Dune-Beast Hides to Warden Hale"
-  ],
-  "reward": {
-   "xp": 410,
-   "gold": 240
+  {
+    "id": "sq59-whale-rib-rawhide",
+    "act": 2,
+    "title": "Rawhide for the Jawbone Gate",
+    "giver": "field-warden-hale",
+    "summary": "Dry desert winds split the rawhide lashings binding Redmarsh's leviathan-bone gate. Harvest tough Dune Beast hides to re-lash the timbers before the next dust squall.",
+    "objectives": [
+      "Slay 4 Dune Beasts near loc-whale-rib-gate",
+      "Deliver 4 Thick Dune-Beast Hides to Warden Hale"
+    ],
+    "reward": {
+      "xp": 410,
+      "gold": 240
+    },
+    "accept_line": "Iron nails snap in alkali salt; soaked rawhide shrinks tighter than forge-bands.",
+    "complete_line": "Stretched wet and pegged tight. That gate will hold against a battering ram now."
   },
-  "accept_line": "Iron nails snap in alkali salt; soaked rawhide shrinks tighter than forge-bands.",
-  "complete_line": "Stretched wet and pegged tight. That gate will hold against a battering ram now."
- },
- {
-  "id": "sq60-sniper-blind-tallies",
-  "act": 2,
-  "title": "Ash from the East Blind",
-  "giver": "npc-zahra-scholar",
-  "summary": "Sand-clan spotters etched caravan schedules and tribal clan-marks into the sandstone lintel of the East Jawbone Blind. Make charcoal rubbings before wind scours the stone.",
-  "objectives": [
-   "Clear the Sand Raiders holding loc-jawbone-east-blind",
-   "Take 3 Charcoal Lintel Rubbings",
-   "Return the rubbings to Zahra"
-  ],
-  "reward": {
-   "xp": 435,
-   "gold": 255
+  {
+    "id": "sq60-sniper-blind-tallies",
+    "act": 2,
+    "title": "Ash from the East Blind",
+    "giver": "npc-zahra-scholar",
+    "summary": "Sand-clan spotters etched caravan schedules and tribal clan-marks into the sandstone lintel of the East Jawbone Blind. Make charcoal rubbings before wind scours the stone.",
+    "objectives": [
+      "Clear the Sand Raiders holding loc-jawbone-east-blind",
+      "Take 3 Charcoal Lintel Rubbings",
+      "Return the rubbings to Zahra"
+    ],
+    "reward": {
+      "xp": 435,
+      "gold": 255
+    },
+    "accept_line": "Every notch on that sandstone tells us which water-hole their warbands plan to hit next.",
+    "complete_line": "Remarkable—they track moon-tides alongside caravan weights. Now we know where to ambush them."
   },
-  "accept_line": "Every notch on that sandstone tells us which water-hole their warbands plan to hit next.",
-  "complete_line": "Remarkable—they track moon-tides alongside caravan weights. Now we know where to ambush them."
- },
- {
-  "id": "sq61-hoodoo-signal-mirrors",
-  "act": 2,
-  "title": "Shattered Heliographs",
-  "giver": "field-alkali-drover",
-  "summary": "Raider scouts use polished bronze mirrors hidden in the Bracken Hoodoo Maze to flash ambush signals across the basin. Smash the mirror stands.",
-  "objectives": [
-   "Navigate loc-bracken-hoodoos and destroy 4 Bronze Heliograph Stands",
-   "Eliminate 6 Dune Lurkers nesting in the maze"
-  ],
-  "reward": {
-   "xp": 460,
-   "gold": 270
+  {
+    "id": "sq61-hoodoo-signal-mirrors",
+    "act": 2,
+    "title": "Shattered Heliographs",
+    "giver": "field-alkali-drover",
+    "summary": "Raider scouts use polished bronze mirrors hidden in the Bracken Hoodoo Maze to flash ambush signals across the basin. Smash the mirror stands.",
+    "objectives": [
+      "Navigate loc-bracken-hoodoos and destroy 4 Bronze Heliograph Stands",
+      "Eliminate 6 Dune Lurkers nesting in the maze"
+    ],
+    "reward": {
+      "xp": 460,
+      "gold": 270
+    },
+    "accept_line": "Every time copper winks off those red pillars, an arrow finds one of my wheel-mules.",
+    "complete_line": "No more flashes in the grit. My drivers can finally breathe between dust squalls."
   },
-  "accept_line": "Every time copper winks off those red pillars, an arrow finds one of my wheel-mules.",
-  "complete_line": "No more flashes in the grit. My drivers can finally breathe between dust squalls."
- },
- {
-  "id": "sq62-arroyo-firepot-oil",
-  "act": 2,
-  "title": "Unbroken Naphtha Jars",
-  "giver": "npc-bram-quartermaster",
-  "summary": "Unexploded clay firepots from the Highgate assault still lie half-buried in the dry arroyo. Recover the intact jars before Storm Kites spark the brush.",
-  "objectives": [
-   "Slay 5 Storm Kites above loc-highgate-creek",
-   "Recover 5 Intact Clay Firepots"
-  ],
-  "reward": {
-   "xp": 490,
-   "gold": 285,
-   "item": "item-naphtha-flask"
+  {
+    "id": "sq62-arroyo-firepot-oil",
+    "act": 2,
+    "title": "Unbroken Naphtha Jars",
+    "giver": "npc-bram-quartermaster",
+    "summary": "Unexploded clay firepots from the Highgate assault still lie half-buried in the dry arroyo. Recover the intact jars before Storm Kites spark the brush.",
+    "objectives": [
+      "Slay 5 Storm Kites above loc-highgate-creek",
+      "Recover 5 Intact Clay Firepots"
+    ],
+    "reward": {
+      "xp": 490,
+      "gold": 285,
+      "item": "item-naphtha-flask"
+    },
+    "accept_line": "Handle the stoppers like eggshells—one dropped jar turns that gully into a kiln.",
+    "complete_line": "Five sealed pots, not a hairline crack. Highgate's wall-braziers are stocked for a month."
   },
-  "accept_line": "Handle the stoppers like eggshells—one dropped jar turns that gully into a kiln.",
-  "complete_line": "Five sealed pots, not a hairline crack. Highgate's wall-braziers are stocked for a month."
- },
- {
-  "id": "sq63-copper-horn-capacitors",
-  "act": 2,
-  "title": "Leyden Horns of the Monolith",
-  "giver": "field-wardstone-surveyor",
-  "summary": "Dune Scarabs drawn to the Third Quartz Monolith have grown charged copper horns capable of grounding wild static. Harvest their forked horns for Surveyor Nira.",
-  "objectives": [
-   "Kill 8 Dune Scarabs around loc-third-wardstone",
-   "Collect 6 Forked Copper Beetle-Horns"
-  ],
-  "reward": {
-   "xp": 520,
-   "gold": 305
+  {
+    "id": "sq63-copper-horn-capacitors",
+    "act": 2,
+    "title": "Leyden Horns of the Monolith",
+    "giver": "field-wardstone-surveyor",
+    "summary": "Dune Scarabs drawn to the Third Quartz Monolith have grown charged copper horns capable of grounding wild static. Harvest their forked horns for Surveyor Nira.",
+    "objectives": [
+      "Kill 8 Dune Scarabs around loc-third-wardstone",
+      "Collect 6 Forked Copper Beetle-Horns"
+    ],
+    "reward": {
+      "xp": 520,
+      "gold": 305
+    },
+    "accept_line": "Without copper lightning-rods, the monolith's static will cook our survey instruments.",
+    "complete_line": "Pure, conductive copper grown in carapace—Nira can ground the entire camp perimeter now."
   },
-  "accept_line": "Without copper lightning-rods, the monolith's static will cook our survey instruments.",
-  "complete_line": "Pure, conductive copper grown in carapace—Nira can ground the entire camp perimeter now."
- },
- {
-  "id": "sq64-bitter-well-skimming",
-  "act": 2,
-  "title": "Skimming the Milestone Well",
-  "giver": "field-cistern-guard",
-  "summary": "Maggot Swarms fouled the Bitter Milestone Well along the corduroy road, tainting the sole watering trough for ten leagues. Purge the larvae and drop quicklime bags.",
-  "objectives": [
-   "Burn 4 Maggot Swarms around loc-third-milestone-well",
-   "Lower 3 Quicklime Purifying Sacks into the well"
-  ],
-  "reward": {
-   "xp": 550,
-   "gold": 320
+  {
+    "id": "sq64-bitter-well-skimming",
+    "act": 2,
+    "title": "Skimming the Milestone Well",
+    "giver": "field-cistern-guard",
+    "summary": "Maggot Swarms fouled the Bitter Milestone Well along the corduroy road, tainting the sole watering trough for ten leagues. Purge the larvae and drop quicklime bags.",
+    "objectives": [
+      "Burn 4 Maggot Swarms around loc-third-milestone-well",
+      "Lower 3 Quicklime Purifying Sacks into the well"
+    ],
+    "reward": {
+      "xp": 550,
+      "gold": 320
+    },
+    "accept_line": "Half the vanguard is chewing dry salt-beef because nobody dares dip a cup in that trough.",
+    "complete_line": "The scum's settled and the lime is fizzing. By tomorrow noon the water will run sweet."
   },
-  "accept_line": "Half the vanguard is chewing dry salt-beef because nobody dares dip a cup in that trough.",
-  "complete_line": "The scum's settled and the lime is fizzing. By tomorrow noon the water will run sweet."
- },
- {
-  "id": "sq65-redrock-silver-scales",
-  "act": 2,
-  "title": "The Assay-Vault Balances",
-  "giver": "npc-tull-water-seller",
-  "summary": "Cask-Master Tull needs the precision brass balance-beams locked inside Redrock Canyon Vault to weigh salt-tax silver fairly, though Scale Vipers coil in the cool sandstone.",
-  "objectives": [
-   "Slay 6 Scale Vipers inside loc-redrock-assay-vault",
-   "Recover the Brass Assay Balance-Set"
-  ],
-  "reward": {
-   "xp": 580,
-   "gold": 340
+  {
+    "id": "sq65-redrock-silver-scales",
+    "act": 2,
+    "title": "The Assay-Vault Balances",
+    "giver": "npc-tull-water-seller",
+    "summary": "Cask-Master Tull needs the precision brass balance-beams locked inside Redrock Canyon Vault to weigh salt-tax silver fairly, though Scale Vipers coil in the cool sandstone.",
+    "objectives": [
+      "Slay 6 Scale Vipers inside loc-redrock-assay-vault",
+      "Recover the Brass Assay Balance-Set"
+    ],
+    "reward": {
+      "xp": 580,
+      "gold": 340
+    },
+    "accept_line": "Caravan masters cheat me two ounces on every bar with their filed-down pocket scales.",
+    "complete_line": "True imperial weights, stamped and balanced. Let them try palming lead slugs now."
   },
-  "accept_line": "Caravan masters cheat me two ounces on every bar with their filed-down pocket scales.",
-  "complete_line": "True imperial weights, stamped and balanced. Let them try palming lead slugs now."
- },
- {
-  "id": "sq66-megalith-cauldron-soot",
-  "act": 2,
-  "title": "Bitumen from the Twelve Stones",
-  "giver": "npc-marta-alchemist",
-  "summary": "Witch Doctors at the Twelve Megaliths boil marsh bitumen with willow-ash to coat hex-stones. Scrape three jars of the thick residue for Widow Marta's counter-salves.",
-  "objectives": [
-   "Defeat 3 Witch Doctors at loc-megalith-hollow",
-   "Collect 3 Jars of Boiled Marsh-Bitumen"
-  ],
-  "reward": {
-   "xp": 620,
-   "gold": 365
+  {
+    "id": "sq66-megalith-cauldron-soot",
+    "act": 2,
+    "title": "Bitumen from the Twelve Stones",
+    "giver": "npc-marta-alchemist",
+    "summary": "Witch Doctors at the Twelve Megaliths boil marsh bitumen with willow-ash to coat hex-stones. Scrape three jars of the thick residue for Widow Marta's counter-salves.",
+    "objectives": [
+      "Defeat 3 Witch Doctors at loc-megalith-hollow",
+      "Collect 3 Jars of Boiled Marsh-Bitumen"
+    ],
+    "reward": {
+      "xp": 620,
+      "gold": 365
+    },
+    "accept_line": "To break a Redmarsh marrow-hex, you need the exact pitch they boiled their fetishes in.",
+    "complete_line": "Stinks of rotted willow and snake-bile—precisely what I needed for the antidote."
   },
-  "accept_line": "To break a Redmarsh marrow-hex, you need the exact pitch they boiled their fetishes in.",
-  "complete_line": "Stinks of rotted willow and snake-bile—precisely what I needed for the antidote."
- },
- {
-  "id": "sq67-quarry-chain-keys",
-  "act": 2,
-  "title": "Iron Keys of the Third Terrace",
-  "giver": "field-miner-tomas",
-  "summary": "Crypt Embalmers patrolling the Deep Quarry slave-pens still carry the heavy iron ward-keys to the lower tool-cribs. Recover the keys so Tomas's men can arm themselves.",
-  "objectives": [
-   "Destroy 3 Crypt Embalmers in loc-quarry-third-terrace",
-   "Retrieve 3 Rusted Iron Tool-Crib Keys"
-  ],
-  "reward": {
-   "xp": 650,
-   "gold": 385,
-   "item": "item-quarry-pickaxe"
+  {
+    "id": "sq67-quarry-chain-keys",
+    "act": 2,
+    "title": "Iron Keys of the Third Terrace",
+    "giver": "field-miner-tomas",
+    "summary": "Crypt Embalmers patrolling the Deep Quarry slave-pens still carry the heavy iron ward-keys to the lower tool-cribs. Recover the keys so Tomas's men can arm themselves.",
+    "objectives": [
+      "Destroy 3 Crypt Embalmers in loc-quarry-third-terrace",
+      "Retrieve 3 Rusted Iron Tool-Crib Keys"
+    ],
+    "reward": {
+      "xp": 650,
+      "gold": 385,
+      "item": "item-quarry-pickaxe"
+    },
+    "accept_line": "Two hundred sledgehammers and crowbars sit behind those bars—better weapons than bare fists.",
+    "complete_line": "Every lock turns! My quarrymen will crack basalt skulls like limestone now."
   },
-  "accept_line": "Two hundred sledgehammers and crowbars sit behind those bars—better weapons than bare fists.",
-  "complete_line": "Every lock turns! My quarrymen will crack basalt skulls like limestone now."
- },
- {
-  "id": "sq68-milestone-glyph-chisels",
-  "act": 2,
-  "title": "Re-Carving the Crossroads",
-  "giver": "field-warden-hale",
-  "summary": "With the decoy cairns gone, Crossroads Milestone still lacks legible league-marks for incoming relief columns. Escort a stone-cutter to re-chisel the four imperial glyphs.",
-  "objectives": [
-   "Guard the mason at loc-four-faced-milestone against 2 waves of Sand Raiders",
-   "Verify all four directional glyphs are re-cut"
-  ],
-  "reward": {
-   "xp": 680,
-   "gold": 405
+  {
+    "id": "sq68-milestone-glyph-chisels",
+    "act": 2,
+    "title": "Re-Carving the Crossroads",
+    "giver": "field-warden-hale",
+    "summary": "With the decoy cairns gone, Crossroads Milestone still lacks legible league-marks for incoming relief columns. Escort a stone-cutter to re-chisel the four imperial glyphs.",
+    "objectives": [
+      "Guard the mason at loc-four-faced-milestone against 2 waves of Sand Raiders",
+      "Verify all four directional glyphs are re-cut"
+    ],
+    "reward": {
+      "xp": 680,
+      "gold": 405
+    },
+    "accept_line": "One wrong turn in an alkali fog marches a whole company straight into salt-quicksand.",
+    "complete_line": "Deep, clean chiseling—even a half-blind courier can read the league-counts at a gallop."
   },
-  "accept_line": "One wrong turn in an alkali fog marches a whole company straight into salt-quicksand.",
-  "complete_line": "Deep, clean chiseling—even a half-blind courier can read the league-counts at a gallop."
- },
- {
-  "id": "sq69-salt-crab-carapaces",
-  "act": 3,
-  "title": "Brine-Shield Pavises",
-  "giver": "npc-kors-shipwright",
-  "summary": "Giant Salt Crabs on the Greywash flats grow meter-wide shields of calcified salt and oak planking. Harvest four intact claws for Kors's marine boarding parties.",
-  "objectives": [
-   "Slay 6 Salt Crabs on loc-greywash-mudflats",
-   "Collect 4 Intact Brine-Shield Claws"
-  ],
-  "reward": {
-   "xp": 740,
-   "gold": 420
+  {
+    "id": "sq69-salt-crab-carapaces",
+    "act": 3,
+    "title": "Brine-Shield Pavises",
+    "giver": "npc-kors-shipwright",
+    "summary": "Giant Salt Crabs on the Greywash flats grow meter-wide shields of calcified salt and oak planking. Harvest four intact claws for Kors's marine boarding parties.",
+    "objectives": [
+      "Slay 6 Salt Crabs on loc-greywash-mudflats",
+      "Collect 4 Intact Brine-Shield Claws"
+    ],
+    "reward": {
+      "xp": 740,
+      "gold": 420
+    },
+    "accept_line": "Crossbow bolts glance right off those salt-crusted shells—cheaper than hammering iron pavises.",
+    "complete_line": "Heavy as oak doors and twice as hard. My marines will thank you on the gangplanks."
   },
-  "accept_line": "Crossbow bolts glance right off those salt-crusted shells—cheaper than hammering iron pavises.",
-  "complete_line": "Heavy as oak doors and twice as hard. My marines will thank you on the gangplanks."
- },
- {
-  "id": "sq70-fumarole-sulfur-cakes",
-  "act": 3,
-  "title": "Yellow Cakes from the Vents",
-  "giver": "npc-sera-healer",
-  "summary": "Cinderlings nesting in the cliffside fumaroles hoard pure sulfur crusts that Chief Healer Sera burns to fumigate gangrene wards. Gather five sulfur cakes.",
-  "objectives": [
-   "Kill 7 Cinderlings at loc-cinder-fumaroles",
-   "Gather 5 Pure Sulfur Crust Cakes"
-  ],
-  "reward": {
-   "xp": 810,
-   "gold": 460
+  {
+    "id": "sq70-fumarole-sulfur-cakes",
+    "act": 3,
+    "title": "Yellow Cakes from the Vents",
+    "giver": "npc-sera-healer",
+    "summary": "Cinderlings nesting in the cliffside fumaroles hoard pure sulfur crusts that Chief Healer Sera burns to fumigate gangrene wards. Gather five sulfur cakes.",
+    "objectives": [
+      "Kill 7 Cinderlings at loc-cinder-fumaroles",
+      "Gather 5 Pure Sulfur Crust Cakes"
+    ],
+    "reward": {
+      "xp": 810,
+      "gold": 460
+    },
+    "accept_line": "Nothing kills trench-rot in wet bandages faster than sharp sulfur smoke.",
+    "complete_line": "Clean yellow brimstone—we can smoke out the lower triage tents before nightfall."
   },
-  "accept_line": "Nothing kills trench-rot in wet bandages faster than sharp sulfur smoke.",
-  "complete_line": "Clean yellow brimstone—we can smoke out the lower triage tents before nightfall."
- },
- {
-  "id": "sq71-split-tooth-cages",
-  "act": 3,
-  "title": "Chains of the Split Tooth",
-  "giver": "npc-lyra-warden",
-  "summary": "Privateers strung rusted gibbet-cages across the Split Tooth pass, rattling nerves and blocking supply wains. Cut down the cages and clear the Hollow Knights.",
-  "objectives": [
-   "Defeat 4 Hollow Knights guarding loc-split-tooth-spire",
-   "Cut down 3 Rusted Gibbet-Cages"
-  ],
-  "reward": {
-   "xp": 890,
-   "gold": 510
+  {
+    "id": "sq71-split-tooth-cages",
+    "act": 3,
+    "title": "Chains of the Split Tooth",
+    "giver": "npc-lyra-warden",
+    "summary": "Privateers strung rusted gibbet-cages across the Split Tooth pass, rattling nerves and blocking supply wains. Cut down the cages and clear the Hollow Knights.",
+    "objectives": [
+      "Defeat 4 Hollow Knights guarding loc-split-tooth-spire",
+      "Cut down 3 Rusted Gibbet-Cages"
+    ],
+    "reward": {
+      "xp": 890,
+      "gold": 510
+    },
+    "accept_line": "I will not march recruits past swinging bones every time they haul powder to the coast.",
+    "complete_line": "The pass is clear and quiet. Let the dead rest beneath turf instead of iron bars."
   },
-  "accept_line": "I will not march recruits past swinging bones every time they haul powder to the coast.",
-  "complete_line": "The pass is clear and quiet. Let the dead rest beneath turf instead of iron bars."
- },
- {
-  "id": "sq72-chapel-linen-bales",
-  "act": 3,
-  "title": "Boiled Linen for the Nave",
-  "giver": "field-oakhaven-surgeon",
-  "summary": "Apothecary Linn's field hospital in the ruined chapel nave is out of clean bandaging cloth while Bog Dartblowers pick off stretcher-bearers in the bracken.",
-  "objectives": [
-   "Slay 8 Bog Dartblowers outside loc-chapel-triage-nave",
-   "Deliver 4 Bales of Boiled Linen to Apothecary Linn"
-  ],
-  "reward": {
-   "xp": 970,
-   "gold": 560,
-   "item": "item-surgeon-satchel"
+  {
+    "id": "sq72-chapel-linen-bales",
+    "act": 3,
+    "title": "Boiled Linen for the Nave",
+    "giver": "field-oakhaven-surgeon",
+    "summary": "Apothecary Linn's field hospital in the ruined chapel nave is out of clean bandaging cloth while Bog Dartblowers pick off stretcher-bearers in the bracken.",
+    "objectives": [
+      "Slay 8 Bog Dartblowers outside loc-chapel-triage-nave",
+      "Deliver 4 Bales of Boiled Linen to Apothecary Linn"
+    ],
+    "reward": {
+      "xp": 970,
+      "gold": 560,
+      "item": "item-surgeon-satchel"
+    },
+    "accept_line": "We're tearing up altar-cloths to bind stump-wounds; bring clean linen before fever sets in.",
+    "complete_line": "Dry, sealed bales—you just bought thirty wounded marines another week of life."
   },
-  "accept_line": "We're tearing up altar-cloths to bind stump-wounds; bring clean linen before fever sets in.",
-  "complete_line": "Dry, sealed bales—you just bought thirty wounded marines another week of life."
- },
- {
-  "id": "sq73-lighthouse-fresnel-lens",
-  "act": 3,
-  "title": "The Drowned Prism",
-  "giver": "field-harbor-pilot",
-  "summary": "Before the sea-fortress flooded, the Drowned Lighthouse housed a brass-mounted crystal prism capable of piercing coastal fog. Recover it from the Lantern Eels.",
-  "objectives": [
-   "Kill 6 Lantern Eels inside loc-citadel-lighthouse",
-   "Retrieve the Brass-Mounted Lighthouse Prism"
-  ],
-  "reward": {
-   "xp": 1060,
-   "gold": 610
+  {
+    "id": "sq73-lighthouse-fresnel-lens",
+    "act": 3,
+    "title": "The Drowned Prism",
+    "giver": "field-harbor-pilot",
+    "summary": "Before the sea-fortress flooded, the Drowned Lighthouse housed a brass-mounted crystal prism capable of piercing coastal fog. Recover it from the Lantern Eels.",
+    "objectives": [
+      "Kill 6 Lantern Eels inside loc-citadel-lighthouse",
+      "Retrieve the Brass-Mounted Lighthouse Prism"
+    ],
+    "reward": {
+      "xp": 1060,
+      "gold": 610
+    },
+    "accept_line": "With that lens mounted on Oakhaven's tower, Kael's fire-ships can't sneak in under fog.",
+    "complete_line": "Not a scratch on the crystal! Pilot Maren will have it bolted in by midnight."
   },
-  "accept_line": "With that lens mounted on Oakhaven's tower, Kael's fire-ships can't sneak in under fog.",
-  "complete_line": "Not a scratch on the crystal! Pilot Maren will have it bolted in by midnight."
- },
- {
-  "id": "sq74-shingle-spit-beacons",
-  "act": 3,
-  "title": "Tide-Stakes on the Spit",
-  "giver": "field-salt-corporal",
-  "summary": "Storm surges washed away the depth-markers along Hourglass Shingle Spit, trapping heavily armored pickets when the tide turns. Hammer new iron tide-gauges at low water.",
-  "objectives": [
-   "Reach loc-shingle-spit and drive in 4 Iron Tide-Gauges",
-   "Defeat 3 Frost Bells haunting the surf"
-  ],
-  "reward": {
-   "xp": 1150,
-   "gold": 660
+  {
+    "id": "sq74-shingle-spit-beacons",
+    "act": 3,
+    "title": "Tide-Stakes on the Spit",
+    "giver": "field-salt-corporal",
+    "summary": "Storm surges washed away the depth-markers along Hourglass Shingle Spit, trapping heavily armored pickets when the tide turns. Hammer new iron tide-gauges at low water.",
+    "objectives": [
+      "Reach loc-shingle-spit and drive in 4 Iron Tide-Gauges",
+      "Defeat 3 Frost Bells haunting the surf"
+    ],
+    "reward": {
+      "xp": 1150,
+      "gold": 660
+    },
+    "accept_line": "Thirty pounds of breastplate turns knee-deep surf into a grave if you misjudge the spit.",
+    "complete_line": "White paint shows clear above the foam—no marine will drown blind on that gravel bar now."
   },
-  "accept_line": "Thirty pounds of breastplate turns knee-deep surf into a grave if you misjudge the spit.",
-  "complete_line": "White paint shows clear above the foam—no marine will drown blind on that gravel bar now."
- },
- {
-  "id": "sq75-orchard-gallows-axes",
-  "act": 3,
-  "title": "Felling the Night Orchard",
-  "giver": "npc-pip-mudlark",
-  "summary": "Animated gallows-trees on the High-Orchard Terraces bombard Oakhaven's timber crews with screaming skull-fruit. Burn the blighted trunks down to ash.",
-  "objectives": [
-   "Destroy 4 Night Orchards in loc-cider-orchard",
-   "Collect 3 Charred Heartwood Cores"
-  ],
-  "reward": {
-   "xp": 1220,
-   "gold": 700
+  {
+    "id": "sq75-orchard-gallows-axes",
+    "act": 3,
+    "title": "Felling the Night Orchard",
+    "giver": "npc-pip-mudlark",
+    "summary": "Animated gallows-trees on the High-Orchard Terraces bombard Oakhaven's timber crews with screaming skull-fruit. Burn the blighted trunks down to ash.",
+    "objectives": [
+      "Destroy 4 Night Orchards in loc-cider-orchard",
+      "Collect 3 Charred Heartwood Cores"
+    ],
+    "reward": {
+      "xp": 1220,
+      "gold": 700
+    },
+    "accept_line": "Woodcutters won't go near the ridge while those black branches keep throwing shrieking skulls.",
+    "complete_line": "Nothing left but smoking stumps. The apple terraces belong to the living again."
   },
-  "accept_line": "Woodcutters won't go near the ridge while those black branches keep throwing shrieking skulls.",
-  "complete_line": "Nothing left but smoking stumps. The apple terraces belong to the living again."
- },
- {
-  "id": "sq76-capstan-grease-drums",
-  "act": 3,
-  "title": "Bronze Gears of Twin-Lock",
-  "giver": "field-riverlock-keeper",
-  "summary": "Lock-Keeper Orin needs heavy graphite grease-drums packed into the capstan pits before salt corrosion seizes the eastern floodgate ratchets.",
-  "objectives": [
-   "Slay 5 Spore Matrons near loc-twin-lock-island",
-   "Apply 3 Graphite Grease-Drums to the capstan gears"
-  ],
-  "reward": {
-   "xp": 1280,
-   "gold": 730
+  {
+    "id": "sq76-capstan-grease-drums",
+    "act": 3,
+    "title": "Bronze Gears of Twin-Lock",
+    "giver": "field-riverlock-keeper",
+    "summary": "Lock-Keeper Orin needs heavy graphite grease-drums packed into the capstan pits before salt corrosion seizes the eastern floodgate ratchets.",
+    "objectives": [
+      "Slay 5 Spore Matrons near loc-twin-lock-island",
+      "Apply 3 Graphite Grease-Drums to the capstan gears"
+    ],
+    "reward": {
+      "xp": 1280,
+      "gold": 730
+    },
+    "accept_line": "If those ratchets rust solid, spring runoff floods every drydock in Oakhaven.",
+    "complete_line": "Turned sweet as clockwork on the test crank. Those gates will hold through winter."
   },
-  "accept_line": "If those ratchets rust solid, spring runoff floods every drydock in Oakhaven.",
-  "complete_line": "Turned sweet as clockwork on the test crank. Those gates will hold through winter."
- },
- {
-  "id": "sq77-vane-ledger-strongbox",
-  "act": 3,
-  "title": "The Baron's Smuggler Ledgers",
-  "giver": "npc-lyra-warden",
-  "summary": "Baron Vane kept coded harbor-pilot bribes locked in an iron strongbox at the base of his catacomb lift. Recover the ledgers before Hollow Kings scatter the vault.",
-  "objectives": [
-   "Defeat 2 Hollow Kings in loc-vane-catacomb-lift",
-   "Recover Baron Vane's Iron Strongbox"
-  ],
-  "reward": {
-   "xp": 1340,
-   "gold": 765,
-   "item": "item-warden-signet"
+  {
+    "id": "sq77-vane-ledger-strongbox",
+    "act": 3,
+    "title": "The Baron's Smuggler Ledgers",
+    "giver": "npc-lyra-warden",
+    "summary": "Baron Vane kept coded harbor-pilot bribes locked in an iron strongbox at the base of his catacomb lift. Recover the ledgers before Hollow Kings scatter the vault.",
+    "objectives": [
+      "Defeat 2 Hollow Kings in loc-vane-catacomb-lift",
+      "Recover Baron Vane's Iron Strongbox"
+    ],
+    "reward": {
+      "xp": 1340,
+      "gold": 765,
+      "item": "item-warden-signet"
+    },
+    "accept_line": "Every traitor opening sea-gates for Kael's privateers has a signature inside that box.",
+    "complete_line": "Half the harbor guild is named here—we'll have the gallows busy before dawn."
   },
-  "accept_line": "Every traitor opening sea-gates for Kael's privateers has a signature inside that box.",
-  "complete_line": "Half the harbor guild is named here—we'll have the gallows busy before dawn."
- },
- {
-  "id": "sq78-culverin-sponge-rods",
-  "act": 3,
-  "title": "Ramrods for the Culverin Wall",
-  "giver": "field-harbor-firewarden",
-  "summary": "Harborwatch's bronze coastal guns are fouling with black powder residue while Frosthorn Bruisers batter the seawall stairs. Deliver wet sheepskin sponge-rods to the gunners.",
-  "objectives": [
-   "Slay 4 Frosthorn Bruisers on loc-harborwatch-seawall",
-   "Deliver 5 Sheepskin Culverin Sponge-Rods"
-  ],
-  "reward": {
-   "xp": 1400,
-   "gold": 800
+  {
+    "id": "sq78-culverin-sponge-rods",
+    "act": 3,
+    "title": "Ramrods for the Culverin Wall",
+    "giver": "field-harbor-firewarden",
+    "summary": "Harborwatch's bronze coastal guns are fouling with black powder residue while Frosthorn Bruisers batter the seawall stairs. Deliver wet sheepskin sponge-rods to the gunners.",
+    "objectives": [
+      "Slay 4 Frosthorn Bruisers on loc-harborwatch-seawall",
+      "Deliver 5 Sheepskin Culverin Sponge-Rods"
+    ],
+    "reward": {
+      "xp": 1400,
+      "gold": 800
+    },
+    "accept_line": "One glowing ember left in a barrel blows the whole gun-crew straight over the parapet!",
+    "complete_line": "Barrels swabbed and cooled—every culverin on the wall is barking again."
   },
-  "accept_line": "One glowing ember left in a barrel blows the whole gun-crew straight over the parapet!",
-  "complete_line": "Barrels swabbed and cooled—every culverin on the wall is barking again."
- },
- {
-  "id": "sq79-obsidian-glass-blades",
-  "act": 4,
-  "title": "Razor-Glass of the Coves",
-  "giver": "field-ash-scout",
-  "summary": "Redglass Drakes shedding wing-shards along the Obsidian Landing Coves leave razor-sharp volcanic glass capable of slicing demonic hide. Harvest intact wing-plates.",
-  "objectives": [
-   "Slay 4 Redglass Drakes above loc-black-glass-coves",
-   "Collect 5 Intact Red-Obsidian Wing-Shards"
-  ],
-  "reward": {
-   "xp": 1500,
-   "gold": 860
+  {
+    "id": "sq79-obsidian-glass-blades",
+    "act": 4,
+    "title": "Razor-Glass of the Coves",
+    "giver": "field-ash-scout",
+    "summary": "Redglass Drakes shedding wing-shards along the Obsidian Landing Coves leave razor-sharp volcanic glass capable of slicing demonic hide. Harvest intact wing-plates.",
+    "objectives": [
+      "Slay 4 Redglass Drakes above loc-black-glass-coves",
+      "Collect 5 Intact Red-Obsidian Wing-Shards"
+    ],
+    "reward": {
+      "xp": 1500,
+      "gold": 860
+    },
+    "accept_line": "Ordinary steel dulls after three chops on caldera plate; red volcanic glass holds an edge.",
+    "complete_line": "Keen enough to split hair—Vok's apprentices can bind these straight onto spear-shafts."
   },
-  "accept_line": "Ordinary steel dulls after three chops on caldera plate; red volcanic glass holds an edge.",
-  "complete_line": "Keen enough to split hair—Vok's apprentices can bind these straight onto spear-shafts."
- },
- {
-  "id": "sq80-highcrest-trench-stakes",
-  "act": 4,
-  "title": "Iron Chevaux-de-Frise",
-  "giver": "npc-rowan-commander",
-  "summary": "Crowned Maws keep bounding over Highcrest Redoubt's shallow ash-trenches to maul wounded pickets. Anchor heavy iron-spiked barricades along the northern lip.",
-  "objectives": [
-   "Eliminate 6 Crowned Maws around loc-highcrest-bluff",
-   "Anchor 4 Iron-Spiked Chevaux-de-Frise"
-  ],
-  "reward": {
-   "xp": 1620,
-   "gold": 920
+  {
+    "id": "sq80-highcrest-trench-stakes",
+    "act": 4,
+    "title": "Iron Chevaux-de-Frise",
+    "giver": "npc-rowan-commander",
+    "summary": "Crowned Maws keep bounding over Highcrest Redoubt's shallow ash-trenches to maul wounded pickets. Anchor heavy iron-spiked barricades along the northern lip.",
+    "objectives": [
+      "Eliminate 6 Crowned Maws around loc-highcrest-bluff",
+      "Anchor 4 Iron-Spiked Chevaux-de-Frise"
+    ],
+    "reward": {
+      "xp": 1620,
+      "gold": 920
+    },
+    "accept_line": "Those bone-crowned beasts leap six paces from a crouch—give them iron spikes to land on.",
+    "complete_line": "Spikes are bolted into basalt. Let them jump now and impale themselves."
   },
-  "accept_line": "Those bone-crowned beasts leap six paces from a crouch—give them iron spikes to land on.",
-  "complete_line": "Spikes are bolted into basalt. Let them jump now and impale themselves."
- },
- {
-  "id": "sq81-capacitor-ground-wires",
-  "act": 4,
-  "title": "Grounding the West Spire",
-  "giver": "field-siege-sapper",
-  "summary": "Residual lightning from the shattered West Focusing Crag arcs fatally into marching infantry. Bolt heavy copper grounding cables from the spire base into the ash.",
-  "objectives": [
-   "Destroy 3 Stormtrees near loc-west-beacon-crag",
-   "Bolt 3 Heavy Copper Grounding Cables"
-  ],
-  "reward": {
-   "xp": 1750,
-   "gold": 1000
+  {
+    "id": "sq81-capacitor-ground-wires",
+    "act": 4,
+    "title": "Grounding the West Spire",
+    "giver": "field-siege-sapper",
+    "summary": "Residual lightning from the shattered West Focusing Crag arcs fatally into marching infantry. Bolt heavy copper grounding cables from the spire base into the ash.",
+    "objectives": [
+      "Destroy 3 Stormtrees near loc-west-beacon-crag",
+      "Bolt 3 Heavy Copper Grounding Cables"
+    ],
+    "reward": {
+      "xp": 1750,
+      "gold": 1000
+    },
+    "accept_line": "One flash off that violet crystal welded three pikemen inside their own breastplates.",
+    "complete_line": "Static's bleeding harmlessly into the ash—troops can march past without hair standing on end."
   },
-  "accept_line": "One flash off that violet crystal welded three pikemen inside their own breastplates.",
-  "complete_line": "Static's bleeding harmlessly into the ash—troops can march past without hair standing on end."
- },
- {
-  "id": "sq82-sallyport-slag-craters",
-  "act": 4,
-  "title": "Filling the Glacis Craters",
-  "giver": "field-greystone-sentry",
-  "summary": "Molten catapult craters outside Greystone's east sally-port block cavalry sorties and hide burrowing Basalt Brutes. Clear the brutes and collapse the crater rims.",
-  "objectives": [
-   "Defeat 3 Basalt Brutes outside loc-greystone-sallyport",
-   "Collapse 4 Slag-Crater Rims with sapper charges"
-  ],
-  "reward": {
-   "xp": 1880,
-   "gold": 1070
+  {
+    "id": "sq82-sallyport-slag-craters",
+    "act": 4,
+    "title": "Filling the Glacis Craters",
+    "giver": "field-greystone-sentry",
+    "summary": "Molten catapult craters outside Greystone's east sally-port block cavalry sorties and hide burrowing Basalt Brutes. Clear the brutes and collapse the crater rims.",
+    "objectives": [
+      "Defeat 3 Basalt Brutes outside loc-greystone-sallyport",
+      "Collapse 4 Slag-Crater Rims with sapper charges"
+    ],
+    "reward": {
+      "xp": 1880,
+      "gold": 1070
+    },
+    "accept_line": "Until that glacis is graded flat, our heavy riders can't charge out to break their siege lines.",
+    "complete_line": "Ground's packed level and cool—Greystone's lancers have room to gallop again."
   },
-  "accept_line": "Until that glacis is graded flat, our heavy riders can't charge out to break their siege lines.",
-  "complete_line": "Ground's packed level and cool—Greystone's lancers have room to gallop again."
- },
- {
-  "id": "sq83-ashveil-charred-grimoires",
-  "act": 4,
-  "title": "Grimoires of the Summit Stair",
-  "giver": "npc-elias-penitent",
-  "summary": "Malrik's fleeing acolytes dropped three iron-clasped summoning grimoires on the Ashveil switchbacks. Recover the books before Rift Moths drain their wards.",
-  "objectives": [
-   "Slay 6 Rift Moths along loc-ashveil-portal-stair",
-   "Recover 3 Iron-Clasped Ashveil Grimoires"
-  ],
-  "reward": {
-   "xp": 2000,
-   "gold": 1150,
-   "item": "item-ashveil-codex"
+  {
+    "id": "sq83-ashveil-charred-grimoires",
+    "act": 4,
+    "title": "Grimoires of the Summit Stair",
+    "giver": "npc-elias-penitent",
+    "summary": "Malrik's fleeing acolytes dropped three iron-clasped summoning grimoires on the Ashveil switchbacks. Recover the books before Rift Moths drain their wards.",
+    "objectives": [
+      "Slay 6 Rift Moths along loc-ashveil-portal-stair",
+      "Recover 3 Iron-Clasped Ashveil Grimoires"
+    ],
+    "reward": {
+      "xp": 2000,
+      "gold": 1150,
+      "item": "item-ashveil-codex"
+    },
+    "accept_line": "Unbound portal-lexicons left open in caldera wind can tear new rifts behind our camp.",
+    "complete_line": "Clasps locked and warded—Elias will seal these inside lead caskets tonight."
   },
-  "accept_line": "Unbound portal-lexicons left open in caldera wind can tear new rifts behind our camp.",
-  "complete_line": "Clasps locked and warded—Elias will seal these inside lead caskets tonight."
- },
- {
-  "id": "sq84-unquenched-slag-billets",
-  "act": 4,
-  "title": "Billets from the Unquenched Jaw",
-  "giver": "field-foundry-stoker",
-  "summary": "Stoker Brann needs raw meteoric slag-billets cooled along the edges of the Unquenched Jaw fissure so Vok can re-forge shattered vanguard shields.",
-  "objectives": [
-   "Defeat 2 Anvilmaw Smiths guarding loc-unquenched-jaw-trench",
-   "Collect 5 Meteoric Slag-Billets"
-  ],
-  "reward": {
-   "xp": 2120,
-   "gold": 1210
+  {
+    "id": "sq84-unquenched-slag-billets",
+    "act": 4,
+    "title": "Billets from the Unquenched Jaw",
+    "giver": "field-foundry-stoker",
+    "summary": "Stoker Brann needs raw meteoric slag-billets cooled along the edges of the Unquenched Jaw fissure so Vok can re-forge shattered vanguard shields.",
+    "objectives": [
+      "Defeat 2 Anvilmaw Smiths guarding loc-unquenched-jaw-trench",
+      "Collect 5 Meteoric Slag-Billets"
+    ],
+    "reward": {
+      "xp": 2120,
+      "gold": 1210
+    },
+    "accept_line": "Ordinary bog-iron turns soft as tallow inside the caldera; only fissure-slag holds temper.",
+    "complete_line": "Dense, ringing metal—Vok's hammers are already singing over these billets."
   },
-  "accept_line": "Ordinary bog-iron turns soft as tallow inside the caldera; only fissure-slag holds temper.",
-  "complete_line": "Dense, ringing metal—Vok's hammers are already singing over these billets."
- },
- {
-  "id": "sq85-portcullis-counterweights",
-  "act": 4,
-  "title": "Jamming the Magnetic Narrows",
-  "giver": "npc-rowan-commander",
-  "summary": "Dread Knights hold the twin portcullis winches above Magnetic Iron Narrows, threatening to trap the vanguard mid-defile. Seize the gatehouses and wedge the chains.",
-  "objectives": [
-   "Slay 4 Dread Knights in loc-magnetic-canyon",
-   "Wedge both Portcullis Winch-Chains"
-  ],
-  "reward": {
-   "xp": 2240,
-   "gold": 1280
+  {
+    "id": "sq85-portcullis-counterweights",
+    "act": 4,
+    "title": "Jamming the Magnetic Narrows",
+    "giver": "npc-rowan-commander",
+    "summary": "Dread Knights hold the twin portcullis winches above Magnetic Iron Narrows, threatening to trap the vanguard mid-defile. Seize the gatehouses and wedge the chains.",
+    "objectives": [
+      "Slay 4 Dread Knights in loc-magnetic-canyon",
+      "Wedge both Portcullis Winch-Chains"
+    ],
+    "reward": {
+      "xp": 2240,
+      "gold": 1280
+    },
+    "accept_line": "If those iron grates drop while our baggage train is inside, the canyon becomes a slaughter-pen.",
+    "complete_line": "Both winches jammed with oak beams—neither grate will drop on our column."
   },
-  "accept_line": "If those iron grates drop while our baggage train is inside, the canyon becomes a slaughter-pen.",
-  "complete_line": "Both winches jammed with oak beams—neither grate will drop on our column."
- },
- {
-  "id": "sq86-drawbridge-chain-oil",
-  "act": 4,
-  "title": "Chains Over the Magma Moat",
-  "giver": "field-siege-sapper",
-  "summary": "Intense heat from the molten basalt river warped the six-inch iron links of the Citadel Drawbridge, while Cinderhorns guard the gatehouse murder-holes.",
-  "objectives": [
-   "Defeat 3 Cinderhorns at loc-magma-moat-bridge",
-   "Cool and brace the 2 Main Drawbridge Windlasses"
-  ],
-  "reward": {
-   "xp": 2360,
-   "gold": 1340
+  {
+    "id": "sq86-drawbridge-chain-oil",
+    "act": 4,
+    "title": "Chains Over the Magma Moat",
+    "giver": "field-siege-sapper",
+    "summary": "Intense heat from the molten basalt river warped the six-inch iron links of the Citadel Drawbridge, while Cinderhorns guard the gatehouse murder-holes.",
+    "objectives": [
+      "Defeat 3 Cinderhorns at loc-magma-moat-bridge",
+      "Cool and brace the 2 Main Drawbridge Windlasses"
+    ],
+    "reward": {
+      "xp": 2360,
+      "gold": 1340
+    },
+    "accept_line": "One snapped link drops forty tons of iron span straight into liquid rock.",
+    "complete_line": "Windlasses braced and pinned—our heavy siege engines can roll across safely."
   },
-  "accept_line": "One snapped link drops forty tons of iron span straight into liquid rock.",
-  "complete_line": "Windlasses braced and pinned—our heavy siege engines can roll across safely."
- },
- {
-  "id": "sq87-three-roads-signal-horns",
-  "act": 4,
-  "title": "Horns of Three-Roads Watch",
-  "giver": "npc-rowan-commander",
-  "summary": "Ash Weavers spun incandescent fire-webs across the signal towers of Three-Roads Watch, cutting off communication with the flanking relief columns.",
-  "objectives": [
-   "Eliminate 5 Ash Weavers at loc-three-roads-watch",
-   "Sound the 3 Brass Relay-Horns"
-  ],
-  "reward": {
-   "xp": 2480,
-   "gold": 1410
+  {
+    "id": "sq87-three-roads-signal-horns",
+    "act": 4,
+    "title": "Horns of Three-Roads Watch",
+    "giver": "npc-rowan-commander",
+    "summary": "Ash Weavers spun incandescent fire-webs across the signal towers of Three-Roads Watch, cutting off communication with the flanking relief columns.",
+    "objectives": [
+      "Eliminate 5 Ash Weavers at loc-three-roads-watch",
+      "Sound the 3 Brass Relay-Horns"
+    ],
+    "reward": {
+      "xp": 2480,
+      "gold": 1410
+    },
+    "accept_line": "Without horn-relays across the ash plain, our three divisions march blind into counter-attacks.",
+    "complete_line": "Heard all three brass notes carry across the soot—the flanks are coordinated."
   },
-  "accept_line": "Without horn-relays across the ash plain, our three divisions march blind into counter-attacks.",
-  "complete_line": "Heard all three brass notes carry across the soot—the flanks are coordinated."
- },
- {
-  "id": "sq88-anchor-seal-censers",
-  "act": 4,
-  "title": "Ash for the Anchor Seals",
-  "giver": "field-threshold-penitent",
-  "summary": "Penitent Sola needs consecrated First-Watch ash scattered around the cooling Anchor Seals inside the Threshold Nave before final assault begins.",
-  "objectives": [
-   "Clear 4 Silt Colossi guarding loc-threshold-nave",
-   "Anoint the 4 Cooling Anchor Seals"
-  ],
-  "reward": {
-   "xp": 2600,
-   "gold": 1500,
-   "item": "item-first-watch-relic"
-  },
-  "accept_line": "Let the seals hear the old oaths one final time before we force the threshold doors.",
-  "complete_line": "The ash holds steady on the obsidian—whatever awaits behind those doors knows we are here."
- }
+  {
+    "id": "sq88-anchor-seal-censers",
+    "act": 4,
+    "title": "Ash for the Anchor Seals",
+    "giver": "field-threshold-penitent",
+    "summary": "Penitent Sola needs consecrated First-Watch ash scattered around the cooling Anchor Seals inside the Threshold Nave before final assault begins.",
+    "objectives": [
+      "Clear 4 Silt Colossi guarding loc-threshold-nave",
+      "Anoint the 4 Cooling Anchor Seals"
+    ],
+    "reward": {
+      "xp": 2600,
+      "gold": 1500,
+      "item": "item-first-watch-relic"
+    },
+    "accept_line": "Let the seals hear the old oaths one final time before we force the threshold doors.",
+    "complete_line": "The ash holds steady on the obsidian—whatever awaits behind those doors knows we are here."
+  }
 ]
