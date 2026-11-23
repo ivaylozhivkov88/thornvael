@@ -3181,6 +3181,20 @@ export function buildWikiData() {
     }
   }
 
+  // Gemini-written summaries and flavour (see tools/merge-gemini-wiki.mjs); overrides auto-generated text.
+  const ovPath = P('.planning', 'gemini', 'wiki-overrides.json');
+  if (existsSync(ovPath)) {
+    const ov = JSON.parse(readFileSync(ovPath, 'utf8'));
+    for (const c of ['bestiary', 'items', 'uniques', 'sets', 'affixes', 'gems', 'skills', 'lore']) {
+      for (const e of out[c] ?? []) {
+        const o = ov[e.id];
+        if (!o) continue;
+        e.summary = o.summary;
+        e.sections = [...(e.sections ?? []).filter((x) => x.h !== 'Field Notes'), { h: 'Field Notes', p: [o.flavor] }];
+      }
+    }
+  }
+
   const index = [];
   const counts = {};
   for (const c of cats) {
