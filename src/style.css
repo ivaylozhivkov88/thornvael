@@ -209,6 +209,8 @@ body.town-open :is(#objectives, .gothic-hud-tracker, #minimap, #btn-minimap-togg
 #shell h1 { text-align: center; font-size: clamp(22px, 3.5vh, 32px); margin: 2px 0 clamp(4px, 1vh, 8px); color: #d8b24a; }
 #shell h2 { margin: 4px 0; color: #d8b24a; }
 #shell .sh-btn { min-height: clamp(32px, 4.3vh, 44px); min-width: 44px; padding: clamp(4px, 0.7vh, 8px) 12px; font-size: clamp(12px, 1.5vh, 14px); background: #3a2c1c; border: 1px solid #8a6b3a; border-radius: 8px; color: #f0e2bd; font: inherit; white-space: pre-line; cursor: pointer; touch-action: manipulation; }
+@media (pointer: coarse) { #shell .sh-btn { min-height: 44px; } }
+#sheet [data-k^="inv"], #sheet [data-k^="eq"], .hero-figure { touch-action: none; user-select: none; }
 #shell .sh-btn:disabled { opacity: .45; cursor: default; }
 #shell .sh-btn.sh-on { background: #6b4e1f; border-color: #d8b24a; }
 #shell .sh-btn.sh-quiet { background: transparent; border-color: #5a4727; }

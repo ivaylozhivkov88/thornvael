@@ -696,14 +696,15 @@
     margin: 0 2px;
   }
   .belt-slot, .skill-slot {
-    width: 38px;
-    height: 38px;
-    min-width: 38px;
-    min-height: 38px;
+    width: 44px;
+    height: 44px;
+    min-width: 44px;
+    min-height: 44px;
   }
   .hud-btn {
-    min-width: 38px;
-    padding: 2px 4px;
+    min-width: 44px;
+    min-height: 44px;
+    padding: 4px 6px;
   }
   .btn-name {
     font-size: 10px;
