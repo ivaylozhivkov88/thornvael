@@ -1,5 +1,5 @@
 {
-  "step": "C3.1",
-  "done": ["C0", "C1.1", "C1.2", "C1.3", "C1.4", "C1.5", "C2.1", "C2.2", "C2.3", "C2.4"],
-  "notes": "C2 complete: extended Region with light/weather in src/mapdoc.ts, region.zone bias in src/terrain.ts, regionAtTile/resolveRegionAtmosphere/border crossfade in src/atmosphere.ts, pure music/ambience crossfade in src/region-audio.ts, and documented src/main.ts hookup in WORLD-NEEDS-CLAUDE.md."
+  "step": "C4.1",
+  "done": ["C0", "C1.1", "C1.2", "C1.3", "C1.4", "C1.5", "C2.1", "C2.2", "C2.3", "C2.4", "C3"],
+  "notes": "C3 complete: tools/build-thornwick.mjs builds Thornwick (9 buildings, 102 props, 46 units, wp-thornwick, healing shrine, dusk/drizzle metadata, music_town_thornwick / amb_town_thornwick). Rebuilt act1-world.map.json; before/after screenshots in .planning/world-visuals/C3/; tests/thornwick-town.test.ts green."
 }
