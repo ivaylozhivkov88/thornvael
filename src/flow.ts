@@ -38,7 +38,9 @@ export function parseRecord(raw: unknown): CampaignRecord | null {
 }
 
 /** The page address that starts a node: the engine reads `mission` for the map and `campaign` for the node. */
-export const nodeUrl = (n: CampaignNode): string => `./?mission=${encodeURIComponent(n.map)}&campaign=${encodeURIComponent(n.id)}`;
+/** Act I is one connected world: its start and its town both open that map. */
+const worldMapOf = (n: CampaignNode): string => (n.id === 'town-thornwick' || n.id === 'm01-blood-at-the-ford' ? 'act1-world' : n.map);
+export const nodeUrl = (n: CampaignNode): string => `./?mission=${encodeURIComponent(worldMapOf(n))}&campaign=${encodeURIComponent(n.id)}`;
 
 /** A node can be entered when it is unlocked and its map ships with the game. */
 export function canEnter(rec: CampaignRecord, id: string, maps: ReadonlySet<string>, c: Campaign): boolean {

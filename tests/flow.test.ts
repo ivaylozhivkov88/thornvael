@@ -16,7 +16,7 @@ describe('campaign screen flow', () => {
     expect(rec.progress.difficulty).toBe(2);
     expect(canEnter(rec, camp.start, maps, camp)).toBe(true);
     expect(canEnter(rec, 'town-thornwick', maps, camp)).toBe(false);
-    expect(nodeUrl(camp.nodes[0])).toBe('./?mission=ford&campaign=m01-blood-at-the-ford');
+    expect(nodeUrl(camp.nodes[0])).toBe('./?mission=act1-world&campaign=m01-blood-at-the-ford');
   });
 
   it('a win opens the next nodes and keeps the hero; a node without a shipped map stays closed', () => {
