@@ -64,7 +64,7 @@ export function loadTerrainArt(): Promise<HTMLImageElement> {
 }
 
 /** Biome skin: a 128x32 strip (4 tiles) that replaces the Dirt ground tiles. Set before the renderer bakes chunks. */
-export const BIOME_SKINS: Record<string, string> = { desert: 'sand', crypt: 'crypt', highlands: 'highland' };
+export const BIOME_SKINS: Record<string, string> = { desert: 'sand', crypt: 'crypt', highlands: 'highland', volcanic: 'ash' };
 /** Feature zones: soft-edged patches of another ground (graveyard, ruined paving, snow...) that the map walks into. */
 export const BIOME_ZONES: Record<string, string[]> = {
   forest: ['crypt', 'highland'],

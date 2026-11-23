@@ -1,5 +1,5 @@
 {
-  "step": "C1.1",
-  "done": ["C0"],
-  "notes": "C0 complete: TOOLS.md written and committed on gemini/world-visuals."
+  "step": "C1.3",
+  "done": ["C0", "C1.1", "C1.2"],
+  "notes": "C1.1 generated public/terrain/skin-ash.png via tools/make-skin-ash.py and wired volcanic:'ash' in BIOME_SKINS + assets.json. C1.2 verified all 42 biome props from 00-BIBLE.md §5.1 exist in public/objects/objects.json."
 }

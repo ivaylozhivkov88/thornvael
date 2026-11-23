@@ -14,4 +14,5 @@
 - **C8** (`C8.1`..`C8.4`): Polish, Empty-Areas Audit, Mobile, Offline & `FINAL.md`
 
 ## Completed Steps
-- **C0:** Researched free, licence-clean tools & PixiJS 8 patterns; recorded verdicts in `.planning/world-visuals/TOOLS.md`.
+- **C0 (`50fbf18`):** Researched free, licence-clean tools & PixiJS 8 patterns; recorded verdicts in `.planning/world-visuals/TOOLS.md`.
+- **C1.1–C1.2:** Generated `public/terrain/skin-ash.png` via `tools/make-skin-ash.py`, registered in `assets.json` & `BIOME_SKINS` (`src/terrain.ts`), and verified all 42 `00-BIBLE.md §5.1` props exist in `public/objects/objects.json`.

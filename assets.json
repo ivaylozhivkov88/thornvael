@@ -4296,6 +4296,12 @@
       "note": "Biome ground skin: AI-generated texture swatch (Gemini, our own prompt in tools/GEMINI-TILES-BRIEF.md) cut into 4 seamless 32px tiles"
     },
     {
+      "path": "public/terrain/skin-ash.png",
+      "license": "own",
+      "source": "tools/make-skin-ash.py",
+      "note": "Procedural volcanic ash and basalt 128x32 ground skin (4 seamless 32px tiles)"
+    },
+    {
       "path": "public/audio/ui_error.m4a",
       "license": "own",
       "source": "tools/audio-gen-sfx.py",
