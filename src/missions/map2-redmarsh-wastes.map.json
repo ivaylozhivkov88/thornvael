@@ -7552,6 +7552,612 @@
       "kind": 0,
       "x": 75,
       "y": 113
+    },
+    {
+      "kind": 0,
+      "x": 59,
+      "y": 14,
+      "frame": "desert/cactus"
+    },
+    {
+      "kind": 0,
+      "x": 83,
+      "y": 13,
+      "frame": "camp/tent"
+    },
+    {
+      "kind": 0,
+      "x": 95,
+      "y": 13,
+      "frame": "rocks/cluster"
+    },
+    {
+      "kind": 0,
+      "x": 102,
+      "y": 14,
+      "frame": "camp/tent"
+    },
+    {
+      "kind": 0,
+      "x": 119,
+      "y": 14,
+      "frame": "bones/ribcage"
+    },
+    {
+      "kind": 0,
+      "x": 138,
+      "y": 12,
+      "frame": "bones/ribcage"
+    },
+    {
+      "kind": 0,
+      "x": 173,
+      "y": 14,
+      "frame": "camp/tent"
+    },
+    {
+      "kind": 0,
+      "x": 56,
+      "y": 22,
+      "frame": "desert/cactus"
+    },
+    {
+      "kind": 0,
+      "x": 67,
+      "y": 20,
+      "frame": "rocks/cluster"
+    },
+    {
+      "kind": 0,
+      "x": 82,
+      "y": 26,
+      "frame": "rocks/cluster"
+    },
+    {
+      "kind": 0,
+      "x": 96,
+      "y": 27,
+      "frame": "desert/palm-a"
+    },
+    {
+      "kind": 0,
+      "x": 102,
+      "y": 28,
+      "frame": "desert/palm-a"
+    },
+    {
+      "kind": 0,
+      "x": 116,
+      "y": 19,
+      "frame": "desert/thorn"
+    },
+    {
+      "kind": 0,
+      "x": 135,
+      "y": 24,
+      "frame": "desert/thorn"
+    },
+    {
+      "kind": 0,
+      "x": 163,
+      "y": 17,
+      "frame": "desert/cactus"
+    },
+    {
+      "kind": 0,
+      "x": 47,
+      "y": 40,
+      "frame": "camp/tent"
+    },
+    {
+      "kind": 0,
+      "x": 69,
+      "y": 33,
+      "frame": "desert/palm-a"
+    },
+    {
+      "kind": 0,
+      "x": 77,
+      "y": 31,
+      "frame": "bones/ribcage"
+    },
+    {
+      "kind": 0,
+      "x": 96,
+      "y": 32,
+      "frame": "camp/tent"
+    },
+    {
+      "kind": 0,
+      "x": 110,
+      "y": 38,
+      "frame": "camp/tent"
+    },
+    {
+      "kind": 0,
+      "x": 122,
+      "y": 36,
+      "frame": "rocks/cluster"
+    },
+    {
+      "kind": 0,
+      "x": 133,
+      "y": 32,
+      "frame": "desert/thorn"
+    },
+    {
+      "kind": 0,
+      "x": 166,
+      "y": 36,
+      "frame": "desert/palm-a"
+    },
+    {
+      "kind": 0,
+      "x": 177,
+      "y": 31,
+      "frame": "bones/ribcage"
+    },
+    {
+      "kind": 0,
+      "x": 50,
+      "y": 50,
+      "frame": "camp/tent"
+    },
+    {
+      "kind": 0,
+      "x": 62,
+      "y": 53,
+      "frame": "rocks/cluster"
+    },
+    {
+      "kind": 0,
+      "x": 79,
+      "y": 52,
+      "frame": "desert/thorn"
+    },
+    {
+      "kind": 0,
+      "x": 93,
+      "y": 48,
+      "frame": "desert/cactus"
+    },
+    {
+      "kind": 0,
+      "x": 106,
+      "y": 50,
+      "frame": "camp/tent"
+    },
+    {
+      "kind": 0,
+      "x": 123,
+      "y": 46,
+      "frame": "rocks/cluster"
+    },
+    {
+      "kind": 0,
+      "x": 133,
+      "y": 56,
+      "frame": "desert/cactus"
+    },
+    {
+      "kind": 0,
+      "x": 172,
+      "y": 52,
+      "frame": "camp/tent"
+    },
+    {
+      "kind": 0,
+      "x": 42,
+      "y": 70,
+      "frame": "desert/palm-a"
+    },
+    {
+      "kind": 0,
+      "x": 52,
+      "y": 68,
+      "frame": "rocks/cluster"
+    },
+    {
+      "kind": 0,
+      "x": 63,
+      "y": 67,
+      "frame": "bones/ribcage"
+    },
+    {
+      "kind": 0,
+      "x": 75,
+      "y": 62,
+      "frame": "desert/cactus"
+    },
+    {
+      "kind": 0,
+      "x": 93,
+      "y": 68,
+      "frame": "camp/tent"
+    },
+    {
+      "kind": 0,
+      "x": 106,
+      "y": 60,
+      "frame": "desert/cactus"
+    },
+    {
+      "kind": 0,
+      "x": 137,
+      "y": 67,
+      "frame": "desert/palm-a"
+    },
+    {
+      "kind": 0,
+      "x": 144,
+      "y": 70,
+      "frame": "bones/ribcage"
+    },
+    {
+      "kind": 0,
+      "x": 165,
+      "y": 60,
+      "frame": "desert/palm-a"
+    },
+    {
+      "kind": 0,
+      "x": 180,
+      "y": 60,
+      "frame": "desert/palm-a"
+    },
+    {
+      "kind": 0,
+      "x": 14,
+      "y": 82,
+      "frame": "desert/palm-a"
+    },
+    {
+      "kind": 0,
+      "x": 22,
+      "y": 83,
+      "frame": "desert/cactus"
+    },
+    {
+      "kind": 0,
+      "x": 32,
+      "y": 73,
+      "frame": "rocks/cluster"
+    },
+    {
+      "kind": 0,
+      "x": 46,
+      "y": 80,
+      "frame": "desert/thorn"
+    },
+    {
+      "kind": 0,
+      "x": 125,
+      "y": 76,
+      "frame": "desert/palm-a"
+    },
+    {
+      "kind": 0,
+      "x": 140,
+      "y": 77,
+      "frame": "desert/thorn"
+    },
+    {
+      "kind": 0,
+      "x": 144,
+      "y": 77,
+      "frame": "bones/ribcage"
+    },
+    {
+      "kind": 0,
+      "x": 165,
+      "y": 75,
+      "frame": "rocks/cluster"
+    },
+    {
+      "kind": 0,
+      "x": 178,
+      "y": 77,
+      "frame": "desert/palm-a"
+    },
+    {
+      "kind": 0,
+      "x": 13,
+      "y": 90,
+      "frame": "desert/cactus"
+    },
+    {
+      "kind": 0,
+      "x": 26,
+      "y": 93,
+      "frame": "rocks/cluster"
+    },
+    {
+      "kind": 0,
+      "x": 31,
+      "y": 96,
+      "frame": "camp/tent"
+    },
+    {
+      "kind": 0,
+      "x": 47,
+      "y": 96,
+      "frame": "rocks/cluster"
+    },
+    {
+      "kind": 0,
+      "x": 76,
+      "y": 94,
+      "frame": "rocks/cluster"
+    },
+    {
+      "kind": 0,
+      "x": 94,
+      "y": 92,
+      "frame": "rocks/cluster"
+    },
+    {
+      "kind": 0,
+      "x": 14,
+      "y": 108,
+      "frame": "camp/tent"
+    },
+    {
+      "kind": 0,
+      "x": 21,
+      "y": 108,
+      "frame": "desert/palm-a"
+    },
+    {
+      "kind": 0,
+      "x": 33,
+      "y": 102,
+      "frame": "desert/palm-a"
+    },
+    {
+      "kind": 0,
+      "x": 69,
+      "y": 104,
+      "frame": "desert/cactus"
+    },
+    {
+      "kind": 0,
+      "x": 75,
+      "y": 104,
+      "frame": "desert/thorn"
+    },
+    {
+      "kind": 0,
+      "x": 91,
+      "y": 108,
+      "frame": "desert/thorn"
+    },
+    {
+      "kind": 0,
+      "x": 22,
+      "y": 123,
+      "frame": "bones/ribcage"
+    },
+    {
+      "kind": 0,
+      "x": 36,
+      "y": 122,
+      "frame": "rocks/cluster"
+    },
+    {
+      "kind": 0,
+      "x": 47,
+      "y": 116,
+      "frame": "desert/thorn"
+    },
+    {
+      "kind": 0,
+      "x": 70,
+      "y": 116,
+      "frame": "desert/cactus"
+    },
+    {
+      "kind": 0,
+      "x": 79,
+      "y": 122,
+      "frame": "camp/tent"
+    },
+    {
+      "kind": 0,
+      "x": 87,
+      "y": 116,
+      "frame": "desert/cactus"
+    },
+    {
+      "kind": 0,
+      "x": 13,
+      "y": 140,
+      "frame": "desert/cactus"
+    },
+    {
+      "kind": 0,
+      "x": 25,
+      "y": 131,
+      "frame": "desert/thorn"
+    },
+    {
+      "kind": 0,
+      "x": 38,
+      "y": 133,
+      "frame": "desert/palm-a"
+    },
+    {
+      "kind": 0,
+      "x": 50,
+      "y": 136,
+      "frame": "bones/ribcage"
+    },
+    {
+      "kind": 0,
+      "x": 63,
+      "y": 135,
+      "frame": "desert/thorn"
+    },
+    {
+      "kind": 0,
+      "x": 13,
+      "y": 147,
+      "frame": "desert/thorn"
+    },
+    {
+      "kind": 0,
+      "x": 38,
+      "y": 143,
+      "frame": "bones/ribcage"
+    },
+    {
+      "kind": 0,
+      "x": 48,
+      "y": 148,
+      "frame": "desert/thorn"
+    },
+    {
+      "kind": 0,
+      "x": 82,
+      "y": 152,
+      "frame": "desert/cactus"
+    },
+    {
+      "kind": 0,
+      "x": 94,
+      "y": 153,
+      "frame": "desert/palm-a"
+    },
+    {
+      "kind": 0,
+      "x": 123,
+      "y": 145,
+      "frame": "bones/ribcage"
+    },
+    {
+      "kind": 0,
+      "x": 130,
+      "y": 146,
+      "frame": "rocks/cluster"
+    },
+    {
+      "kind": 0,
+      "x": 147,
+      "y": 148,
+      "frame": "rocks/cluster"
+    },
+    {
+      "kind": 0,
+      "x": 167,
+      "y": 146,
+      "frame": "camp/tent"
+    },
+    {
+      "kind": 0,
+      "x": 177,
+      "y": 151,
+      "frame": "bones/ribcage"
+    },
+    {
+      "kind": 0,
+      "x": 67,
+      "y": 157,
+      "frame": "rocks/cluster"
+    },
+    {
+      "kind": 0,
+      "x": 79,
+      "y": 159,
+      "frame": "desert/cactus"
+    },
+    {
+      "kind": 0,
+      "x": 91,
+      "y": 160,
+      "frame": "camp/tent"
+    },
+    {
+      "kind": 0,
+      "x": 110,
+      "y": 159,
+      "frame": "camp/tent"
+    },
+    {
+      "kind": 0,
+      "x": 117,
+      "y": 167,
+      "frame": "desert/palm-a"
+    },
+    {
+      "kind": 0,
+      "x": 147,
+      "y": 157,
+      "frame": "rocks/cluster"
+    },
+    {
+      "kind": 0,
+      "x": 166,
+      "y": 166,
+      "frame": "desert/cactus"
+    },
+    {
+      "kind": 0,
+      "x": 186,
+      "y": 165,
+      "frame": "desert/palm-a"
+    },
+    {
+      "kind": 0,
+      "x": 68,
+      "y": 178,
+      "frame": "desert/thorn"
+    },
+    {
+      "kind": 0,
+      "x": 83,
+      "y": 171,
+      "frame": "rocks/cluster"
+    },
+    {
+      "kind": 0,
+      "x": 92,
+      "y": 175,
+      "frame": "desert/palm-a"
+    },
+    {
+      "kind": 0,
+      "x": 120,
+      "y": 172,
+      "frame": "desert/thorn"
+    },
+    {
+      "kind": 0,
+      "x": 137,
+      "y": 181,
+      "frame": "rocks/cluster"
+    },
+    {
+      "kind": 0,
+      "x": 146,
+      "y": 177,
+      "frame": "desert/cactus"
+    },
+    {
+      "kind": 0,
+      "x": 180,
+      "y": 173,
+      "frame": "desert/thorn"
+    },
+    {
+      "kind": 0,
+      "x": 91,
+      "y": 186,
+      "frame": "desert/cactus"
+    },
+    {
+      "kind": 0,
+      "x": 157,
+      "y": 186,
+      "frame": "camp/tent"
     }
   ],
   "units": [
@@ -8118,7 +8724,9 @@
       "biome": "desert",
       "zone": "ruinstone",
       "music": "music_town_redmarsh",
-      "ambience": "amb_town_redmarsh"
+      "ambience": "amb_town_redmarsh",
+      "light": "haze",
+      "weather": "dust"
     },
     {
       "name": "Ochre Ditch & Corduroy Causeway",
@@ -8129,7 +8737,9 @@
       "biome": "marsh",
       "zone": "ruinstone",
       "music": "music_explore_act2_marsh",
-      "ambience": "amb_redmarsh_swamp"
+      "ambience": "amb_redmarsh_swamp",
+      "light": "haze",
+      "weather": "dust"
     },
     {
       "name": "Twin Passes & Bracken Basin",
@@ -8140,7 +8750,9 @@
       "biome": "desert",
       "zone": "highland",
       "music": "music_explore_act2_canyon",
-      "ambience": "amb_canyon_wind"
+      "ambience": "amb_canyon_wind",
+      "light": "haze",
+      "weather": "dust"
     },
     {
       "name": "Quartz Plateau & Wardstone Ring",
@@ -8151,7 +8763,9 @@
       "biome": "oasis",
       "zone": "sand",
       "music": "music_explore_act2_marsh",
-      "ambience": "amb_redmarsh_swamp"
+      "ambience": "amb_redmarsh_swamp",
+      "light": "haze",
+      "weather": "dust"
     },
     {
       "name": "Third-Dynasty Salt-Vaults",
@@ -8162,7 +8776,9 @@
       "biome": "crypt",
       "zone": "ruinstone",
       "music": "music_explore_act2_marsh",
-      "ambience": "amb_ruined_sanctum"
+      "ambience": "amb_ruined_sanctum",
+      "light": "haze",
+      "weather": "dust"
     },
     {
       "name": "Deep Quarry & Flooded Sluice",
@@ -8173,7 +8789,9 @@
       "biome": "highlands",
       "zone": "ruinstone",
       "music": "music_explore_act2_canyon",
-      "ambience": "amb_quarry"
+      "ambience": "amb_quarry",
+      "light": "haze",
+      "weather": "dust"
     },
     {
       "name": "Fork of Spears & Ironheart Bastion",
@@ -8184,7 +8802,9 @@
       "biome": "highlands",
       "zone": "snow",
       "music": "music_explore_act2_canyon",
-      "ambience": "amb_canyon_wind"
+      "ambience": "amb_canyon_wind",
+      "light": "haze",
+      "weather": "dust"
     }
   ],
   "players": [
