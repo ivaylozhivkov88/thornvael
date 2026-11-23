@@ -299,7 +299,7 @@ export const SUPER_UNIQUES: readonly SuperUniqueDef[] = [
   // ================= ACT IV: Crown and Ember =================
   {
     id: 'fallen-warden-azrael',
-    name: 'Vaelor, the Shattered Warden',
+    name: 'Valgor, the Shattered Warden',
     title: 'the Shattered Warden',
     act: 4,
     family: 'hollow-king',

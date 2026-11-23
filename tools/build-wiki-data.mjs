@@ -2460,7 +2460,7 @@ export function buildWikiData() {
     });
   }
   for (const fn of C('field-npcs')) {
-    const portId = fn.id.replace(/^field-/, 'npc-');
+    const portId = fn.portrait ?? fn.id.replace(/^field-/, 'npc-');
     lore.push({
       id: fn.id,
       type: 'lore',

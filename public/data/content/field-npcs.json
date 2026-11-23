@@ -201,7 +201,7 @@
   },
   {
     "id": "field-alder-ferryman",
-    "name": "Ferryman Hobb",
+    "name": "Ferryman Garren",
     "act": 1,
     "role": "ferryman",
     "look": "A stooped river-man in a tarred leather jerkin with rope-calloused hands and milky eyes.",
@@ -213,7 +213,7 @@
   },
   {
     "id": "field-border-peddler",
-    "name": "Peddler Bram",
+    "name": "Peddler Merrin",
     "act": 1,
     "role": "peddler",
     "look": "A wiry trader bent beneath a towering wicker pack clanking with pots, tallow, and dried herbs.",
@@ -495,7 +495,8 @@
     "look": "A frostbitten boundary-clerk in a patched sheepskin coat, squinting through cracked brass spectacles.",
     "prop": "A leather map-case and a bent plumb-line.",
     "line_first": "My apprentice bolted when the stone sentinels woke—grab that brass sighting glass before the snow hides it.",
-    "line_return": "Not a scratch on the lens! Now Thornwick can draw an honest road map."
+    "line_return": "Not a scratch on the lens! Now Thornwick can draw an honest road map.",
+    "portrait": "npc-dike-surveyor"
   },
   {
     "id": "field-foreman-durn",
@@ -505,6 +506,7 @@
     "look": "A broad-shouldered dwarven shift-boss with coal-grimed knuckles and a notched iron pick-helve.",
     "prop": "A dented brass shift-whistle and a copper-bound tally board.",
     "line_first": "Cultists locked the shift-office before we could haul out the paychest. Cut the warden down and crack that door.",
-    "line_return": "Every silver bit accounted for. The crew remembers who kept their wages out of cultist hands."
+    "line_return": "Every silver bit accounted for. The crew remembers who kept their wages out of cultist hands.",
+    "portrait": "npc-miner-tomas"
   }
 ]

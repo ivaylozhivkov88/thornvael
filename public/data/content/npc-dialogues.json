@@ -2800,7 +2800,7 @@
     "node": "quest_before",
     "quest_id": "sq01-tollhouse-audit",
     "quest_state": "before",
-    "text": "'Collector Vance kicked the tollhouse strongbox into the reeds before the ford fell. Clear the hounds and haul that silver back so I can pay the men.'",
+    "text": "'Collector Harlon kicked the tollhouse strongbox into the reeds before the ford fell. Clear the hounds and haul that silver back so I can pay the men.'",
     "choices": [
       {
         "label": "Accept the task.",
@@ -3223,7 +3223,7 @@
     "node": "quest_during",
     "quest_id": "sq01-tollhouse-audit",
     "quest_state": "during",
-    "text": "'Any news of Collector Vance's strongbox? My ledger cannot pay militia wages on promises.'",
+    "text": "'Any news of Collector Harlon's strongbox? My ledger cannot pay militia wages on promises.'",
     "choices": [
       {
         "label": "Return to the field.",
@@ -3608,7 +3608,7 @@
     "node": "quest_before",
     "quest_id": "sq28-broken-axle-on-alder-road",
     "quest_state": "before",
-    "text": "'Peddler Bram's grain cart snapped an axle out on the Greywood road. Check with Garrick and keep the scavengers off him before we lose the flour.'",
+    "text": "'Peddler Merrin's grain cart snapped an axle out on the Greywood road. Check with Garrick and keep the scavengers off him before we lose the flour.'",
     "choices": [
       {
         "label": "Accept the task.",

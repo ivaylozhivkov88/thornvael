@@ -5,7 +5,7 @@
     "town": "town-thornwick",
     "giver": "npc-garrick-captain",
     "title": "The Tollhouse Strongbox",
-    "briefing": "Before the gnolls fired the river crossing, Collector Vance locked three months of border tariffs inside a weighted iron strongbox and kicked it into the reeds. Sergeant Garrick needs that silver to pay the militia's back-wages before they desert. Clear the Briar Hound packs scavenging the shallows and drag the box out of the mud.",
+    "briefing": "Before the gnolls fired the river crossing, Collector Harlon locked three months of border tariffs inside a weighted iron strongbox and kicked it into the reeds. Sergeant Garrick needs that silver to pay the militia's back-wages before they desert. Clear the Briar Hound packs scavenging the shallows and drag the box out of the mud.",
     "objective": {
       "type": "kill",
       "target": "briar-hound",
@@ -27,7 +27,7 @@
           "type": "talk_npc",
           "ref": "npc-garrick-captain"
         },
-        "journal": "Sergeant-at-Arms Garrick asked me to recover Collector Vance's sunken tariff strongbox from the reeds below the Sunken Ford.",
+        "journal": "Sergeant-at-Arms Garrick asked me to recover Collector Harlon's sunken tariff strongbox from the reeds below the Sunken Ford.",
         "next": "step-2"
       },
       {
