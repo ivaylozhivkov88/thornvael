@@ -1800,7 +1800,7 @@ export function buildWikiData() {
     warrior: 'warrior',
     archer: 'archer',
     mage: 'mage',
-    necromancer: 'ash-weaver',
+    necromancer: 'necromancer',
   };
   const classEntries = C('class-progression').map((c) => {
     const h = heroes[c.class];
