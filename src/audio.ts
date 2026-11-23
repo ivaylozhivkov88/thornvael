@@ -86,6 +86,7 @@ let uiVol = 1.0;
 let musicVol = 1.0;
 let ambVol = 1.0;
 let muteOnBlurPref = true;
+let voiceActingPref = true;
 let windowBlurred = false;
 
 try {
@@ -99,6 +100,8 @@ try {
   if (muv !== null) musicVol = parseFloat(muv) || 0;
   const av = localStorage.getItem('thornvael.ambVol');
   if (av !== null) ambVol = parseFloat(av) || 0;
+  const vo = localStorage.getItem('thornvael.voiceActing');
+  if (vo !== null) voiceActingPref = vo !== 'false';
   const mob = localStorage.getItem('thornvael.muteOnBlur');
   if (mob !== null) muteOnBlurPref = mob !== 'false';
 } catch { /* storage denied */ }
@@ -1840,6 +1843,17 @@ export function getEffectiveMusicGain(): number {
   return 0.32 * director.getEffectiveMusicVolume();
 }
 
+/** Voice Acting on/off: spoken dialogue lines only (text and other sound stay as they are). */
+export function setVoiceActing(enabled: boolean): void {
+  voiceActingPref = Boolean(enabled);
+  try { localStorage.setItem('thornvael.voiceActing', String(voiceActingPref)); } catch { /* storage denied */ }
+  if (!voiceActingPref) stopDialogueVoice();
+}
+
+export function isVoiceActing(): boolean {
+  return voiceActingPref;
+}
+
 export function setMuteOnBlur(enabled: boolean): void {
   muteOnBlurPref = Boolean(enabled);
   try { localStorage.setItem('thornvael.muteOnBlur', String(muteOnBlurPref)); } catch { /* storage denied */ }
@@ -1937,7 +1951,7 @@ export function stopDialogueVoice(): void {
 /** Streams a neural human voiceover line from `public/audio/voices/<clipId>.m4a` on the UI/dialogue bus. */
 export function playDialogueVoice(clipId: string): void {
   stopDialogueVoice();
-  if (!clipId || !sfxOn || backgrounded || typeof Audio === 'undefined') return;
+  if (!clipId || !sfxOn || !voiceActingPref || backgrounded || typeof Audio === 'undefined') return;
   if (canAutoUnlock()) unlock();
   try {
     const url = `${base()}audio/voices/${clipId}.m4a`;

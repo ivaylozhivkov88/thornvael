@@ -6,6 +6,8 @@ import {
   getSfxVolume,
   getUiVolume,
   isMuteOnBlur,
+  isVoiceActing,
+  setVoiceActing,
   setAmbienceVolume,
   setMasterVolume,
   setMusicVolume,
@@ -983,7 +985,26 @@ export class PauseMenu {
     };
     blurRow.append(blurLabel, blurToggle);
 
-    audioBox.append(masterRow, sfxRow, musicRow, ambRow, uiRow, blurRow);
+    // Voice Acting toggle
+    const voiceRow = document.createElement('div');
+    voiceRow.className = 'pause-setting-row';
+    const voiceLabel = document.createElement('div');
+    voiceLabel.className = 'pause-setting-label';
+    voiceLabel.innerHTML =
+      '<b>Voice Acting</b><small>Spoken dialogue and story narration. Subtitles always stay on</small>';
+    const isVoiceOn = isVoiceActing();
+    const voiceToggle = document.createElement('button');
+    voiceToggle.type = 'button';
+    voiceToggle.className = `pause-ux-btn ${isVoiceOn ? 'active' : ''}`;
+    voiceToggle.textContent = isVoiceOn ? 'ON' : 'OFF';
+    voiceToggle.setAttribute('aria-pressed', String(isVoiceOn));
+    voiceToggle.onclick = () => {
+      setVoiceActing(!isVoiceOn);
+      this.render();
+    };
+    voiceRow.append(voiceLabel, voiceToggle);
+
+    audioBox.append(masterRow, sfxRow, musicRow, ambRow, uiRow, voiceRow, blurRow);
 
     // 2. Display & Graphics Section
     const displayBox = document.createElement('div');
