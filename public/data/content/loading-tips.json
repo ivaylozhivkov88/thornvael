@@ -1,702 +1,202 @@
 [
- {
-  "tip": "Assign squads to number keys so panic never leaves your archers standing in front.",
-  "category": "squad",
-  "act": 0
- },
- {
-  "tip": "Spacebar freezes time; use it to think before your front line turns into expensive meat.",
-  "category": "combat",
-  "act": 0
- },
- {
-  "tip": "Hold position keeps pikemen planted instead of chasing one dying goblin into an ambush.",
-  "category": "squad",
-  "act": 0
- },
- {
-  "tip": "Mercenaries fight for coin, not poetry—keep gold in reserve before hiring replacements.",
-  "category": "economy",
-  "act": 0
- },
- {
-  "tip": "Area spells scorch friend and foe alike; aim past your own shield-wall, not onto it.",
-  "category": "magic",
-  "act": 0
- },
- {
-  "tip": "Rotate the camera near cliffs and ruined walls; ambushers love blind angles.",
-  "category": "exploration",
-  "act": 0
- },
- {
-  "tip": "Thornvael caches your campaign locally—progress saves safely even if your connection drops.",
-  "category": "world",
-  "act": 0
- },
- {
-  "tip": "Save manually before entering unfamiliar ruins; overconfidence leaves no corpses to loot.",
-  "category": "world",
-  "act": 0
- },
- {
-  "tip": "Wedge formations punch through thin lines; box formations keep fragile mages breathing.",
-  "category": "squad",
-  "act": 0
- },
- {
-  "tip": "A dead mage casts zero spells; spend a few coins on robes and charms before glory.",
-  "category": "inventory",
-  "act": 0
- },
- {
-  "tip": "Potions belong on quick-slots, not buried at the bottom of a pack during a charge.",
-  "category": "inventory",
-  "act": 0
- },
- {
-  "tip": "Flanking strikes bypass shields; pin enemies with warriors, then circle with blades.",
-  "category": "combat",
-  "act": 0
- },
- {
-  "tip": "High ground extends bow range and accuracy—seize ridges before trading volleys.",
-  "category": "combat",
-  "act": 0
- },
- {
-  "tip": "Selling rusted scrap in town pays for bandages; leaving it in mud pays nothing.",
-  "category": "economy",
-  "act": 0
- },
- {
-  "tip": "Check merchants after every major battle; caravans bring fresh stock with new rumors.",
-  "category": "economy",
-  "act": 0
- },
- {
-  "tip": "Focus fire drops dangerous hexers fast; wounded enemies still swing at full strength.",
-  "category": "combat",
-  "act": 0
- },
- {
-  "tip": "Control groups remember your roster across missions—rebind after hiring fresh blood.",
-  "category": "squad",
-  "act": 0
- },
- {
-  "tip": "Tomes teach permanent spells; scrolls burn to ash after a single desperate reading.",
-  "category": "magic",
-  "act": 0
- },
- {
-  "tip": "Mana regenerates faster out of combat—pause advancing until your casters recover.",
-  "category": "magic",
-  "act": 0
- },
- {
-  "tip": "Heavy plate slows marching speed; don't let swift scouts outrun their own rescue.",
-  "category": "inventory",
-  "act": 0
- },
- {
-  "tip": "Click the minimap to jump across wide battlefields faster than scrolling through fog.",
-  "category": "exploration",
-  "act": 0
- },
- {
-  "tip": "Side trails hide supply caches and old graves—both worth more than an empty road.",
-  "category": "exploration",
-  "act": 0
- },
- {
-  "tip": "Heroes carry the banner; if yours falls, the company breaks no matter who survives.",
-  "category": "combat",
-  "act": 0
- },
- {
-  "tip": "Inspect rare gear carefully—some relics carry history that hints at stronger sets.",
-  "category": "inventory",
-  "act": 0
- },
- {
-  "tip": "Thornwick's bridge tolls are highway robbery, yet cheaper than swimming in chain mail.",
-  "category": "world",
-  "act": 1
- },
- {
-  "tip": "Border Fords raiders strike supply wagons first; guard your flanks on narrow roads.",
-  "category": "combat",
-  "act": 1
- },
- {
-  "tip": "Fen fog hides archers until ten paces—send a shielded scout ahead of your casters.",
-  "category": "exploration",
-  "act": 1
- },
- {
-  "tip": "Lightning spells arc violently in wet weather and shallow river fords.",
-  "category": "magic",
-  "act": 1
- },
- {
-  "tip": "In Redmarsh, standing water slows heavy boots—lure foes onto dry hummocks first.",
-  "category": "combat",
-  "act": 2
- },
- {
-  "tip": "Poison clouds linger in windless hollows; pull your squad back instead of choking.",
-  "category": "magic",
-  "act": 2
- },
- {
-  "tip": "Redmarsh apothecaries charge double for healing draughts—stock up before leaving town.",
-  "category": "economy",
-  "act": 2
- },
- {
-  "tip": "Broken wardstones distort spell ranges; watch your casters' footing near violet rifts.",
-  "category": "world",
-  "act": 2
- },
- {
-  "tip": "Oakhaven's tower guild buys rare scrolls at fair rates—if you survive the road there.",
-  "category": "economy",
-  "act": 3
- },
- {
-  "tip": "Coastal gales scatter loose formations; tighten ranks before crossing sea cliffs.",
-  "category": "squad",
-  "act": 3
- },
- {
-  "tip": "Frost magic freezes slick cobbles and tidal causeways, slowing charging cavalry.",
-  "category": "magic",
-  "act": 3
- },
- {
-  "tip": "Iron Coast raiders favor heavy arbalests—keep tower shields raised while closing.",
-  "category": "combat",
-  "act": 3
- },
- {
-  "tip": "Ironcamp smiths forge the finest plate in the realm, priced for men expecting to die.",
-  "category": "economy",
-  "act": 4
- },
- {
-  "tip": "Ember Court hexers weaken your strongest warrior first—carry Ward Charms into battle.",
-  "category": "inventory",
-  "act": 4
- },
- {
-  "tip": "Obsidian trenches punish bunched squads; split into two groups to clear crossfire.",
-  "category": "squad",
-  "act": 4
- },
- {
-  "tip": "Fire resistance saves lives in the Crownlands—swap rings before marching into ash.",
-  "category": "inventory",
-  "act": 4
- },
- {
-  "tip": "Yes, you can hoard ninety healing potions until the credits roll. No, they won't help.",
-  "category": "inventory",
-  "act": 0
- },
- {
-  "tip": "Retreating to regroup costs pride; wiping out costs your entire save file's dignity.",
-  "category": "combat",
-  "act": 0
- },
- {
-  "tip": "Every mercenary claims to be a veteran until the first fireball lands near their boots.",
-  "category": "squad",
-  "act": 0
- },
- {
-  "tip": "Offline play works seamlessly—Thornvael needs no royal courier watching every click.",
-  "category": "world",
-  "act": 0
- },
- {
-  "tip": "If a bridge looks suspiciously unguarded, congratulations: you found the ambush.",
-  "category": "exploration",
-  "act": 0
- },
- {
-  "tip": "Two-handed swords clear crowds fast, provided someone else is catching the arrows.",
-  "category": "combat",
-  "act": 0
- },
- {
-  "tip": "Stilettos and rondels shine against armored captains once their shield-arm is tied up.",
-  "category": "combat",
-  "act": 0
- },
- {
-  "tip": "Check your squad's health bars after every skirmish—bleeding out between fights is bad form.",
-  "category": "squad",
-  "act": 0
- },
- {
-  "tip": "Summoned storms don't care who paid for the tome; keep casters clear of the eye.",
-  "category": "magic",
-  "act": 0
- },
- {
-  "tip": "Repairing and upgrading equipment in towns beats praying to headless statues on the road.",
-  "category": "economy",
-  "act": 0
- },
- {
-  "tip": "Scout ahead with swift units, then pull back to your prepared kill-zone.",
-  "category": "squad",
-  "act": 0
- },
- {
-  "tip": "Rings and amulets weigh nothing—leaving slots empty is voluntary suffering.",
-  "category": "inventory",
-  "act": 0
- },
- {
-  "tip": "A single well-timed Stone Curse stops a charging berserker colder than a speech.",
-  "category": "magic",
-  "act": 0
- },
- {
-  "tip": "Archers auto-target nearby threats unless ordered to focus enemy healers.",
-  "category": "squad",
-  "act": 0
- },
- {
-  "tip": "Fog of war hides terrain hazards as well as foes—watch where your boots step.",
-  "category": "exploration",
-  "act": 0
- },
- {
-  "tip": "Gold weighs nothing in your purse until a merchant sees how much you're carrying.",
-  "category": "economy",
-  "act": 0
- },
- {
-  "tip": "Crowd control wins outnumbered fights; damage alone just trades bodies faster.",
-  "category": "combat",
-  "act": 0
- },
- {
-  "tip": "Double-click a unit type to select every matching fighter currently on screen.",
-  "category": "squad",
-  "act": 0
- },
- {
-  "tip": "The Ember Court remembers every mercy you showed—usually by trying to exploit it.",
-  "category": "world",
-  "act": 4
- },
- {
-  "tip": "When all else fails, pause, breathe, and check if your healer still has mana.",
-  "category": "magic",
-  "act": 0
- },
- {
-  "tip": "Spread your company out when facing enemy artillery or fireball casters so one blast cannot cripple everyone.",
-  "category": "squad",
-  "act": 0
- },
- {
-  "tip": "Wedge formation punches cleanly through chokepoints, while line formation prevents flanking on open ground.",
-  "category": "squad",
-  "act": 0
- },
- {
-  "tip": "Keep one fast melee fighter in reserve to peel hounds and stalkers off your backline healers.",
-  "category": "squad",
-  "act": 0
- },
- {
-  "tip": "Double-tapping a control group key centers your camera immediately on that squad's banner.",
-  "category": "squad",
-  "act": 0
- },
- {
-  "tip": "Never march your entire column down a narrow bridge without scouting the far bank first.",
-  "category": "squad",
-  "act": 1
- },
- {
-  "tip": "Boardwalks in Redmarsh force single-file columns; keep shield-bearers at both ends of your line.",
-  "category": "squad",
-  "act": 2
- },
- {
-  "tip": "Coastal cliff paths punish wide formations—group your archers on rocky ledges above the surf.",
-  "category": "squad",
-  "act": 3
- },
- {
-  "tip": "Against Cinder Citadel halberdiers, anchor your flanks against ruined walls to deny rear strikes.",
-  "category": "squad",
-  "act": 4
- },
- {
-  "tip": "Flanking an enemy from behind bypasses their shield block chance and deals bonus physical damage.",
-  "category": "combat",
-  "act": 0
- },
- {
-  "tip": "Stunning or knocking back a caster interrupts long ritual chants before the spell finishes.",
-  "category": "combat",
-  "act": 0
- },
- {
-  "tip": "High ground extends bow and spell range while penalizing the accuracy of foes shooting uphill.",
-  "category": "combat",
-  "act": 0
- },
- {
-  "tip": "Heavy armor slows movement and drains stamina faster; swap to lighter gear for long flanking marches.",
-  "category": "combat",
-  "act": 0
- },
- {
-  "tip": "Briar-hounds telegraph their lunge with a low crouch—step back or raise shields before they leap.",
-  "category": "combat",
-  "act": 1
- },
- {
-  "tip": "Plague-toads burst in a cloud of venom upon death; finish them with arrows rather than greataxes.",
-  "category": "combat",
-  "act": 2
- },
- {
-  "tip": "Barnacle-hulks shrug off glancing sword blows—bring maces, warhammers, or armor-piercing bolts.",
-  "category": "combat",
-  "act": 3
- },
- {
-  "tip": "Pyre-knights ignite nearby tiles when struck in melee; keep a water draught or frost spell handy.",
-  "category": "combat",
-  "act": 4
- },
- {
-  "tip": "Chilled targets swing slower and move sluggishly, buying precious seconds for your archers to reload.",
-  "category": "magic",
-  "act": 0
- },
- {
-  "tip": "Lightning spells arc farther across wet mud, shallow fords, and salt-soaked coastal stone.",
-  "category": "magic",
-  "act": 0
- },
- {
-  "tip": "Save single-use scrolls for boss phases or unexpected ambushes when your mage's mana runs dry.",
-  "category": "magic",
-  "act": 0
- },
- {
-  "tip": "Necromancers can detonate enemy corpses to break tightly packed enemy shield walls.",
-  "category": "magic",
-  "act": 0
- },
- {
-  "tip": "Fire spells ignite dry reeds along the Border Fords, creating brief walls of smoke and flame.",
-  "category": "magic",
-  "act": 1
- },
- {
-  "tip": "Marsh-gas pockets in Redmarsh detonate violently if struck by even the smallest spark bolt.",
-  "category": "magic",
-  "act": 2
- },
- {
-  "tip": "Storm charms and lightning wards drastically cut damage from Iron Coast tide-priests.",
-  "category": "magic",
-  "act": 3
- },
- {
-  "tip": "Frost magic cools molten slag-golems, briefly cracking their hardened obsidian shells.",
-  "category": "magic",
-  "act": 4
- },
- {
-  "tip": "Always keep enough coin for two days of mercenary wages before buying luxury unique gear.",
-  "category": "economy",
-  "act": 0
- },
- {
-  "tip": "Town blacksmiths pay better coin for intact armor than muddy, blood-stained rags.",
-  "category": "economy",
-  "act": 0
- },
- {
-  "tip": "Check tavern rumors before departing; an optional side-stash often pays for an entire expedition.",
-  "category": "economy",
-  "act": 0
- },
- {
-  "tip": "Selling unused scrolls and elixirs early funds the whetstones and healing draughts you actually need.",
-  "category": "economy",
-  "act": 0
- },
- {
-  "tip": "Thornwick merchants charge less for hemp rope and rations than quartermasters deeper in the fens.",
-  "category": "economy",
-  "act": 1
- },
- {
-  "tip": "Apothecaries in Redmarsh pay a premium for harvested toad-glands and intact wisp-lanterns.",
-  "category": "economy",
-  "act": 2
- },
- {
-  "tip": "Salvaged brass astrolabes and naval pay-boxes fetch top silver from Ironcamp harbor brokers.",
-  "category": "economy",
-  "act": 3
- },
- {
-  "tip": "Royal paper scrip loses value near the capital—insist on hard silver and bullion in Oakhaven.",
-  "category": "economy",
-  "act": 4
- },
- {
-  "tip": "Optional ruins and wayshrines often hide permanent stat charms behind simple environmental puzzles.",
-  "category": "exploration",
-  "act": 0
- },
- {
-  "tip": "Listen closely to ambient sound; creaking leather and clinking mail betray hidden ambushes.",
-  "category": "exploration",
-  "act": 0
- },
- {
-  "tip": "Inspecting landmarks unlocks regional lore entries and occasionally reveals hidden supply caches.",
-  "category": "exploration",
-  "act": 0
- },
- {
-  "tip": "Dead-end paths along riverbanks and cliff edges frequently conceal smugglers' lockboxes.",
-  "category": "exploration",
-  "act": 0
- },
- {
-  "tip": "Follow white-painted milestone posts to find safe shallow crossings across the Border Fords.",
-  "category": "exploration",
-  "act": 1
- },
- {
-  "tip": "Glowing green lanterns off the Redmarsh dikes rarely lead to shelter—keep your steel drawn.",
-  "category": "exploration",
-  "act": 2
- },
- {
-  "tip": "Low tide exposes hidden sea-caves and wrecked galley holds along the southern Iron Coast.",
-  "category": "exploration",
-  "act": 3
- },
- {
-  "tip": "Deep gray ash drifts in Crown and Ember often conceal collapsed cellar grates and lost strongboxes.",
-  "category": "exploration",
-  "act": 4
- },
- {
-  "tip": "The First Border Compact was signed in river-clay and iron, yet broken the moment silver ran scarce.",
-  "category": "lore",
-  "act": 0
- },
- {
-  "tip": "Sellswords in Thornvael rarely die of old age; most retire to a shallow ditch with unpaid wages.",
-  "category": "lore",
-  "act": 0
- },
- {
-  "tip": "Every royal tax-ledger in the capital weighs more in blood than in parchment.",
-  "category": "lore",
-  "act": 0
- },
- {
-  "tip": "Old veterans say the land itself remembers every oath sworn over cold steel.",
-  "category": "lore",
-  "act": 0
- },
- {
-  "tip": "Thornwick's granaries once fed three provinces before river-tariffs strangled the barge trade.",
-  "category": "lore",
-  "act": 1
- },
- {
-  "tip": "Redmarsh was dry farmland a century ago until the old river dikes were sabotaged during the First Rising.",
-  "category": "lore",
-  "act": 2
- },
- {
-  "tip": "Ironcamp's sea-wall was built from ballast stones dumped by merchant galleys that never returned.",
-  "category": "lore",
-  "act": 3
- },
- {
-  "tip": "The Cinder Throne earned its name when the First King burned his own siege-towers after taking the gate.",
-  "category": "lore",
-  "act": 4
- },
- {
-  "tip": "A surviving mercenary levels up and gains tougher traits; losing veterans hurts worse than losing gold.",
-  "category": "merc",
-  "act": 0
- },
- {
-  "tip": "Equip your hired shield-bearers with spare iron bucklers and greaves before marching into heavy fights.",
-  "category": "merc",
-  "act": 0
- },
- {
-  "tip": "Low morale makes wounded mercenaries waver; keep your hero close to rally faltering ranks.",
-  "category": "merc",
-  "act": 0
- },
- {
-  "tip": "Mix melee blockers with ranged crossbows so your company can adapt to both charges and kiting foes.",
-  "category": "merc",
-  "act": 0
- },
- {
-  "tip": "Thornwick tavern recruits come cheap, though most have never seen anything fiercer than a river-rat.",
-  "category": "merc",
-  "act": 1
- },
- {
-  "tip": "Fenland guides hired in Redmarsh ignore mud movement penalties and spot hidden bog-traps early.",
-  "category": "merc",
-  "act": 2
- },
- {
-  "tip": "Former galley-oarsmen recruited in Ironcamp excel at breaking shields with heavy boarding axes.",
-  "category": "merc",
-  "act": 3
- },
- {
-  "tip": "Disgraced royal deserters in Oakhaven demand steep coin, yet bring heavy plate and siege discipline.",
-  "category": "merc",
-  "act": 4
- },
- {
-  "tip": "Salvaging duplicate common weapons yields iron ingots and leather scraps for upgrading trusted gear.",
-  "category": "craft",
-  "act": 0
- },
- {
-  "tip": "Applying whetstones before a major mission grants a temporary edge bonus to all melee blades.",
-  "category": "craft",
-  "act": 0
- },
- {
-  "tip": "Combining minor resistance charms at an apothecary bench creates stronger multi-element wards.",
-  "category": "craft",
-  "act": 0
- },
- {
-  "tip": "Reinforcing leather armor with boiled hide plates boosts defense without slowing dodge recovery.",
-  "category": "craft",
-  "act": 0
- },
- {
-  "tip": "Bog-smelted ore from Redbank pits makes sturdy early arrowheads and replacement shield bosses.",
-  "category": "craft",
-  "act": 1
- },
- {
-  "tip": "Bitter-root salves brewed at Redmarsh campfires cure swamp-ague before it drains max stamina.",
-  "category": "craft",
-  "act": 2
- },
- {
-  "tip": "Whale-oil coatings crafted in Ironcamp prevent sea-spray from corroding steel armor ratings.",
-  "category": "craft",
-  "act": 3
- },
- {
-  "tip": "Mica-lined plating forged in Oakhaven insulates heavy armor against crown-fire and slag-golems.",
-  "category": "craft",
-  "act": 4
- },
- {
-  "tip": "Pause frequently during chaotic multi-front skirmishes to reassign targets and drink draughts.",
-  "category": "combat",
-  "act": 0
- },
- {
-  "tip": "Poison damage bypasses regular armor; rely on antidote vials and high poison resistance in wet regions.",
-  "category": "combat",
-  "act": 2
- },
- {
-  "tip": "Unstable rifts reward bold companies with rare set pieces, provided you clear surrounding patrols first.",
-  "category": "exploration",
-  "act": 0
- },
- {
-  "tip": "A well-timed tactical retreat preserves your veteran roster when an elite boss catches you unprepared.",
-  "category": "squad",
-  "act": 0
- },
- {
-  "tip": "Necromancer minions draw enemy aggro away from fragile mages without costing a single copper in wages.",
-  "category": "magic",
-  "act": 0
- },
- {
-  "tip": "Repairing dented armor at town smithies restores full block and mitigation values before hard marches.",
-  "category": "craft",
-  "act": 0
- },
- {
-  "tip": "Border toll-collectors always hide their real silver beneath false bottoms in overturned chests.",
-  "category": "exploration",
-  "act": 1
- },
- {
-  "tip": "Never camp beside stagnant red water without posting a sentry against night-creeping rot-hounds.",
-  "category": "merc",
-  "act": 2
- },
- {
-  "tip": "Corsair captains carry signal-horns; silence them first before they summon reinforcements from the coves.",
-  "category": "combat",
-  "act": 3
- },
- {
-  "tip": "The Sovereign's Inquisitors burned half the realm's ledgers to hide how deeply the Crown was in debt.",
-  "category": "lore",
-  "act": 4
- },
- {
-  "tip": "Stockpile Greater Healing Draughts in Oakhaven—the final approach to the throne offers few safe camps.",
-  "category": "economy",
-  "act": 4
- },
- {
-  "tip": "Completing a four-piece armor set unlocks powerful combat passives tailored to your hero's class.",
-  "category": "craft",
-  "act": 0
- },
- {
-  "tip": "Archers using heavy arbalests pierce thick plate easily, though they require protection while reloading.",
-  "category": "squad",
-  "act": 3
- },
- {
-  "tip": "Fire-ward charms sold by Oakhaven merchants are worth their weight in gold against pyre-knights.",
-  "category": "economy",
-  "act": 4
- },
- {
-  "tip": "Every fallen mercenary leaves a name on the company roll—lead wisely so the list stays short.",
-  "category": "merc",
-  "act": 0
- },
- {
-  "tip": "Smoke and ash reduce ranged accuracy in Act 4; push melee vanguards closer before loosing volleys.",
-  "category": "combat",
-  "act": 4
- }
+  {
+    "id": "tip-01",
+    "category": "controls",
+    "text": "Drag a selection box to command multiple squad members at once."
+  },
+  {
+    "id": "tip-02",
+    "category": "controls",
+    "text": "Press Ctrl+1..4 to assign control groups, and 1..4 to recall them."
+  },
+  {
+    "id": "tip-03",
+    "category": "controls",
+    "text": "Use Attack-Move (A + click) so your squad engages enemies spotted along the road."
+  },
+  {
+    "id": "tip-04",
+    "category": "controls",
+    "text": "Double-tap a control group key to center the camera on that squad."
+  },
+  {
+    "id": "tip-05",
+    "category": "mobile",
+    "text": "On touchscreens, long-press on the ground or an enemy to issue a right-click command."
+  },
+  {
+    "id": "tip-06",
+    "category": "mobile",
+    "text": "Use two fingers to pan the battlefield camera and pinch to zoom."
+  },
+  {
+    "id": "tip-07",
+    "category": "combat",
+    "text": "Keep archers and mages behind shield-bearing infantry to avoid flanking pounces."
+  },
+  {
+    "id": "tip-08",
+    "category": "combat",
+    "text": "Briar Hounds and Tollhouse Ghouls take bonus damage from fire spells and torches."
+  },
+  {
+    "id": "tip-09",
+    "category": "combat",
+    "text": "Armored beasts like Flintbacks resist arrows—use lightning magic or heavy maces."
+  },
+  {
+    "id": "tip-10",
+    "category": "combat",
+    "text": "Watch enemy telegraphs: stepping sideways before a charge saves half your squad."
+  },
+  {
+    "id": "tip-11",
+    "category": "combat",
+    "text": "Set your mage's autocast spell to keep steady pressure without micromanagement."
+  },
+  {
+    "id": "tip-12",
+    "category": "combat",
+    "text": "Focus down enemy healers and blood-chanters before grinding through frontline brutes."
+  },
+  {
+    "id": "tip-13",
+    "category": "economy",
+    "text": "Sell surplus white-tier loot in town to fund mercenary contracts and potion belts."
+  },
+  {
+    "id": "tip-14",
+    "category": "economy",
+    "text": "Check town taverns after every mission—reputation unlocks cheaper mercenary hires."
+  },
+  {
+    "id": "tip-15",
+    "category": "economy",
+    "text": "Repair worn armor at the town smithy before marching into multi-wave sieges."
+  },
+  {
+    "id": "tip-16",
+    "category": "economy",
+    "text": "Identify mysterious items in town or with scrolls to reveal hidden resistances."
+  },
+  {
+    "id": "tip-17",
+    "category": "economy",
+    "text": "Mercenaries carry their own charm slot and two auto-triggering healing potions."
+  },
+  {
+    "id": "tip-18",
+    "category": "exploration",
+    "text": "Activate roadside shrines to grant temporary blessings or restore squad stamina."
+  },
+  {
+    "id": "tip-19",
+    "category": "exploration",
+    "text": "Scouts reveal fog of war farther ahead—send one before crossing narrow bridges."
+  },
+  {
+    "id": "tip-20",
+    "category": "exploration",
+    "text": "Break crates and inspect abandoned camps for extra gold and lore notes."
+  },
+  {
+    "id": "tip-21",
+    "category": "progression",
+    "text": "Balanced attributes keep your hero alive; Body adds HP while Mind deepens mana."
+  },
+  {
+    "id": "tip-22",
+    "category": "progression",
+    "text": "Equipping matching Set pieces unlocks bonus stats shown in the Hall of Relics."
+  },
+  {
+    "id": "tip-23",
+    "category": "progression",
+    "text": "Socket runes and gems into open item slots to cover elemental weaknesses."
+  },
+  {
+    "id": "tip-24",
+    "category": "progression",
+    "text": "Side quests often offer moral choices that shift town prices or ally strength."
+  },
+  {
+    "id": "tip-25",
+    "category": "act1",
+    "text": "In Thornwick, Sergeant Garrick and Old Fenwick often disagree—listen to both."
+  },
+  {
+    "id": "tip-26",
+    "category": "act1",
+    "text": "Don't wade blindly into Sunken Ford reeds; clear hound packs from dry ground."
+  },
+  {
+    "id": "tip-27",
+    "category": "act2",
+    "text": "In Redmarsh alkali pans, shatter lime-casks to cleanse Hexer Saelen's poison stacks."
+  },
+  {
+    "id": "tip-28",
+    "category": "act2",
+    "text": "Strike all three Silver Tally-Altars in the Salt-Vaults to strip Khepri's ward."
+  },
+  {
+    "id": "tip-29",
+    "category": "act2",
+    "text": "Water and lightning spells crack Overlord Gorrathul's salt-crusted carapace."
+  },
+  {
+    "id": "tip-30",
+    "category": "tactics",
+    "text": "Use Guard stance on pikemen to hold choke points without chasing runners."
+  },
+  {
+    "id": "tip-31",
+    "category": "tactics",
+    "text": "Retreating a wounded mercenary early saves gold compared to hiring a replacement."
+  },
+  {
+    "id": "tip-32",
+    "category": "tactics",
+    "text": "Elevation matters: ranged units firing downhill gain better sightlines."
+  },
+  {
+    "id": "tip-33",
+    "category": "tactics",
+    "text": "Poison and bleed effects bypass thick armor—great against slow quarry beasts."
+  },
+  {
+    "id": "tip-34",
+    "category": "saves",
+    "text": "Use Export Save in the menu to back up your campaign file across devices."
+  },
+  {
+    "id": "tip-35",
+    "category": "saves",
+    "text": "Download chapter packs from the Storage screen to play Thornvael offline."
+  },
+  {
+    "id": "tip-36",
+    "category": "lore",
+    "text": "Not every tavern rumor is true—cross-check wild claims against your journal."
+  },
+  {
+    "id": "tip-37",
+    "category": "lore",
+    "text": "The Codex tracks every monster, unique relic, and boss you encounter."
+  },
+  {
+    "id": "tip-38",
+    "category": "audio",
+    "text": "Listen for horn blasts and spell chimes—audio cues warn of off-screen threats."
+  },
+  {
+    "id": "tip-39",
+    "category": "difficulty",
+    "text": "Higher difficulties boost enemy damage and speed, but reward richer loot."
+  },
+  {
+    "id": "tip-40",
+    "category": "controls",
+    "text": "Pause anytime with Space or the HUD button to queue orders calmly."
+  }
 ]

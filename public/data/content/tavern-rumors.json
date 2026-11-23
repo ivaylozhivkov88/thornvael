@@ -1,0 +1,422 @@
+[
+  {
+    "id": "rumor-01",
+    "act": 1,
+    "town": "town-thornwick",
+    "truthful": true,
+    "text": "Briar Hounds avoid burning pitch; toss a fire-pot at the ford reeds before sending pikemen in."
+  },
+  {
+    "id": "rumor-02",
+    "act": 1,
+    "town": "town-thornwick",
+    "truthful": false,
+    "text": "Collector Harlon buried his strongbox under the tavern cellar stairs, not in the river."
+  },
+  {
+    "id": "rumor-03",
+    "act": 1,
+    "town": "town-thornwick",
+    "truthful": true,
+    "text": "Master Kaelen keeps his best tempered steel for recruits who clear the quarry road first."
+  },
+  {
+    "id": "rumor-04",
+    "act": 1,
+    "town": "town-thornwick",
+    "truthful": true,
+    "text": "Alder-Gnoll skirmishers grease their pelts with tallow so pikemen cannot grapple them."
+  },
+  {
+    "id": "rumor-05",
+    "act": 1,
+    "town": "town-thornwick",
+    "truthful": false,
+    "text": "Tollhouse Ghouls turn to ash at noon; wait until midday and the bridge clears itself."
+  },
+  {
+    "id": "rumor-06",
+    "act": 1,
+    "town": "town-thornwick",
+    "truthful": true,
+    "text": "Old Fenwick still knows which reed-channels at the Sunken Ford hold firm gravel."
+  },
+  {
+    "id": "rumor-07",
+    "act": 1,
+    "town": "town-thornwick",
+    "truthful": true,
+    "text": "Flintbacks shrug off arrows and light swords, but lightning arcs straight through their shell."
+  },
+  {
+    "id": "rumor-08",
+    "act": 1,
+    "town": "town-thornwick",
+    "truthful": false,
+    "text": "Morvessa rides alone without escorts along the Ashbrook mileposts at dusk."
+  },
+  {
+    "id": "rumor-09",
+    "act": 1,
+    "town": "town-thornwick",
+    "truthful": true,
+    "text": "Apothecary Marta buys intact bog-glands for twice what Thornwick peddlers offer."
+  },
+  {
+    "id": "rumor-10",
+    "act": 1,
+    "town": "town-thornwick",
+    "truthful": true,
+    "text": "Reeve Marlow hides a reserve silver ledger behind the millstone at Edda's granary."
+  },
+  {
+    "id": "rumor-11",
+    "act": 1,
+    "town": "town-thornwick",
+    "truthful": false,
+    "text": "Drinking straight from the Sunken Sanctum font grants permanent fire immunity."
+  },
+  {
+    "id": "rumor-12",
+    "act": 1,
+    "town": "town-thornwick",
+    "truthful": true,
+    "text": "Peat-Leech Matrons numb the feet of anyone wading without boiled leather boots."
+  },
+  {
+    "id": "rumor-13",
+    "act": 1,
+    "town": "town-thornwick",
+    "truthful": true,
+    "text": "Garrick's militia hold the Alder Bridge parapets longer if their back-wages are paid in full."
+  },
+  {
+    "id": "rumor-14",
+    "act": 1,
+    "town": "town-thornwick",
+    "truthful": false,
+    "text": "The Ashbrook Gate garrison deserted three weeks ago and left the keep unlocked."
+  },
+  {
+    "id": "rumor-15",
+    "act": 1,
+    "town": "town-thornwick",
+    "truthful": true,
+    "text": "Weir-Pike Stalkers lurk beside wicker fish-traps; flank them from the gravel spit."
+  },
+  {
+    "id": "rumor-16",
+    "act": 1,
+    "town": "town-thornwick",
+    "truthful": true,
+    "text": "High Arcanist Vaelen sent ciphered dispatches to Thornwick warning of ash-wights in the mire."
+  },
+  {
+    "id": "rumor-17",
+    "act": 1,
+    "town": "town-thornwick",
+    "truthful": false,
+    "text": "Salt-tithe taxmen still patrol the north road and arrest any mercenary carrying iron."
+  },
+  {
+    "id": "rumor-18",
+    "act": 1,
+    "town": "town-thornwick",
+    "truthful": true,
+    "text": "Bog-Tallow Wights carry tallow lanterns that flare violently when struck with fire magic."
+  },
+  {
+    "id": "rumor-19",
+    "act": 1,
+    "town": "town-thornwick",
+    "truthful": true,
+    "text": "Innkeeper Dunstan trades dry rations for wolf pelts whenever the northern caravan is late."
+  },
+  {
+    "id": "rumor-20",
+    "act": 1,
+    "town": "town-thornwick",
+    "truthful": false,
+    "text": "Master Kaelen is secretly forging cursed needles for a Redmarsh hexer."
+  },
+  {
+    "id": "rumor-21",
+    "act": 1,
+    "town": "town-thornwick",
+    "truthful": true,
+    "text": "Lantern Passage is safer at night only if your scouts carry lit pitch-torches."
+  },
+  {
+    "id": "rumor-22",
+    "act": 1,
+    "town": "town-thornwick",
+    "truthful": true,
+    "text": "Gnoll pack-leaders blow brass horn-signals before flanking your archers."
+  },
+  {
+    "id": "rumor-23",
+    "act": 1,
+    "town": "town-thornwick",
+    "truthful": false,
+    "text": "Silver coins melt in the Sunken Ford mud unless wrapped in oiled parchment."
+  },
+  {
+    "id": "rumor-24",
+    "act": 1,
+    "town": "town-thornwick",
+    "truthful": true,
+    "text": "Edda's mill-wheels still turn on slow water, hiding scouts from riders on the high road."
+  },
+  {
+    "id": "rumor-25",
+    "act": 1,
+    "town": "town-thornwick",
+    "truthful": true,
+    "text": "Vanguard recruits who stick to formation survive twice as long against leaping hounds."
+  },
+  {
+    "id": "rumor-26",
+    "act": 1,
+    "town": "town-thornwick",
+    "truthful": false,
+    "text": "There is a hidden ferry beneath Alder Bridge that skips the entire Ashbrook battle."
+  },
+  {
+    "id": "rumor-27",
+    "act": 1,
+    "town": "town-thornwick",
+    "truthful": true,
+    "text": "Ashbrook's outer palisade has a burned postern where wounded defenders slip out for water."
+  },
+  {
+    "id": "rumor-28",
+    "act": 1,
+    "town": "town-thornwick",
+    "truthful": true,
+    "text": "Cracked shrine stones along the border road still hum when an arcanist stands near."
+  },
+  {
+    "id": "rumor-29",
+    "act": 1,
+    "town": "town-thornwick",
+    "truthful": false,
+    "text": "Selling your starting shield to Dunstan unlocks a secret royal armor rack."
+  },
+  {
+    "id": "rumor-30",
+    "act": 1,
+    "town": "town-thornwick",
+    "truthful": true,
+    "text": "Morvessa's ash-ledger names the smugglers supplying ironstone to the southern frontier."
+  },
+  {
+    "id": "rumor-31",
+    "act": 2,
+    "town": "town-redmarsh",
+    "truthful": true,
+    "text": "Alkali dust in Ochre Ditch pits un-oiled mail within two days of marching."
+  },
+  {
+    "id": "rumor-32",
+    "act": 2,
+    "town": "town-redmarsh",
+    "truthful": false,
+    "text": "The Corduroy Causeway sinks every midnight and rises again at dawn."
+  },
+  {
+    "id": "rumor-33",
+    "act": 2,
+    "town": "town-redmarsh",
+    "truthful": true,
+    "text": "Quartermaster Bram pays extra for sealed brine-flasks salvaged from wrecked wagons."
+  },
+  {
+    "id": "rumor-34",
+    "act": 2,
+    "town": "town-redmarsh",
+    "truthful": true,
+    "text": "Hexer Saelen brews verdigris bile in the Bracken Alkali Basin; shatter his lime-casks to cleanse it."
+  },
+  {
+    "id": "rumor-35",
+    "act": 2,
+    "town": "town-redmarsh",
+    "truthful": false,
+    "text": "Drinking alkali pan-water cures poison if you boil it with copper coins."
+  },
+  {
+    "id": "rumor-36",
+    "act": 2,
+    "town": "town-redmarsh",
+    "truthful": true,
+    "text": "Chronicler Zahra translates Third-Dynasty salt-vault seals for anyone bringing rubbings."
+  },
+  {
+    "id": "rumor-37",
+    "act": 2,
+    "town": "town-highgate",
+    "truthful": true,
+    "text": "Twin Passes crossfire hits hardest from the east ridge; send shielded infantry first."
+  },
+  {
+    "id": "rumor-38",
+    "act": 2,
+    "town": "town-highgate",
+    "truthful": false,
+    "text": "Highgate Watch's signal obelisks are purely decorative and cannot warn of ambushes."
+  },
+  {
+    "id": "rumor-39",
+    "act": 2,
+    "town": "town-highgate",
+    "truthful": true,
+    "text": "Carpenter Vane reinforces tower pavises with black ironstone plates from the deep quarry."
+  },
+  {
+    "id": "rumor-40",
+    "act": 2,
+    "town": "town-highgate",
+    "truthful": true,
+    "text": "Watch-Sergeant Durn hires out convoy guards who know every blind turn in the canyon."
+  },
+  {
+    "id": "rumor-41",
+    "act": 2,
+    "town": "town-brinewell",
+    "truthful": true,
+    "text": "Apothecary Sabik's lime-poultices cut Bog Leech venom damage in half."
+  },
+  {
+    "id": "rumor-42",
+    "act": 2,
+    "town": "town-brinewell",
+    "truthful": false,
+    "text": "Hexer Saelen surrenders immediately if you show him Master Kaelen's forge mark."
+  },
+  {
+    "id": "rumor-43",
+    "act": 2,
+    "town": "town-brinewell",
+    "truthful": true,
+    "text": "Surveyor Lyra charted an aquifer beneath Brine-Well Oasis that stayed sweet through the drought."
+  },
+  {
+    "id": "rumor-44",
+    "act": 2,
+    "town": "town-brinewell",
+    "truthful": true,
+    "text": "Twelve Quartz Wardstones on the plateau once kept the static dust storms grounded."
+  },
+  {
+    "id": "rumor-45",
+    "act": 2,
+    "town": "town-brinewell",
+    "truthful": false,
+    "text": "Touching a cracked Quartz Wardstone restores all spent mana with zero risk."
+  },
+  {
+    "id": "rumor-46",
+    "act": 2,
+    "town": "town-quarrycamp",
+    "truthful": true,
+    "text": "Khepri's Bitumen Ward holds until all three Silver Tally-Altars are struck in the Salt-Vaults."
+  },
+  {
+    "id": "rumor-47",
+    "act": 2,
+    "town": "town-quarrycamp",
+    "truthful": false,
+    "text": "Hollow Knights in the Salt-Vaults cannot cross thresholds marked with chalk."
+  },
+  {
+    "id": "rumor-48",
+    "act": 2,
+    "town": "town-quarrycamp",
+    "truthful": true,
+    "text": "Forgemaster Vok tempers black-ironstone picks that punch straight through salt-crusted carapaces."
+  },
+  {
+    "id": "rumor-49",
+    "act": 2,
+    "town": "town-quarrycamp",
+    "truthful": true,
+    "text": "Miner Gorin knows which flooded quarry terraces still have working bronze sluice-gates."
+  },
+  {
+    "id": "rumor-50",
+    "act": 2,
+    "town": "town-quarrycamp",
+    "truthful": false,
+    "text": "The Deep Quarry miners already flooded Ironheart Bastion and drowned Gorrathul."
+  },
+  {
+    "id": "rumor-51",
+    "act": 2,
+    "town": "town-quarrycamp",
+    "truthful": true,
+    "text": "Tomb-Notary Seti buys Third-Dynasty probate tablets recovered from bitumen altars."
+  },
+  {
+    "id": "rumor-52",
+    "act": 2,
+    "town": "town-redmarsh",
+    "truthful": true,
+    "text": "Overlord Gorrathul's glacial cisterns silted dry fifty years ago; do not count on water there."
+  },
+  {
+    "id": "rumor-53",
+    "act": 2,
+    "town": "town-redmarsh",
+    "truthful": true,
+    "text": "Cask-Master Tull hides fresh spring water behind the salt-cured beef barrels."
+  },
+  {
+    "id": "rumor-54",
+    "act": 2,
+    "town": "town-highgate",
+    "truthful": false,
+    "text": "Slingers in the Redmarsh only use clay pellets and cannot pierce plate armor."
+  },
+  {
+    "id": "rumor-55",
+    "act": 2,
+    "town": "town-brinewell",
+    "truthful": true,
+    "text": "Blood-chanters on the Quartz Plateau draw power from wounded units—focus them down fast."
+  },
+  {
+    "id": "rumor-56",
+    "act": 2,
+    "town": "town-quarrycamp",
+    "truthful": true,
+    "text": "Gorrathul's salt carapace cracks fastest under water and lightning spells."
+  },
+  {
+    "id": "rumor-57",
+    "act": 2,
+    "town": "town-redmarsh",
+    "truthful": false,
+    "text": "You can bribe Gorrathul's gate guards with Thornwick copper to skip Ironheart Bastion."
+  },
+  {
+    "id": "rumor-58",
+    "act": 2,
+    "town": "town-highgate",
+    "truthful": true,
+    "text": "Stilt granaries along Ochre Ditch double as watchtowers when fog rolls off the salt-pans."
+  },
+  {
+    "id": "rumor-59",
+    "act": 2,
+    "town": "town-brinewell",
+    "truthful": true,
+    "text": "Caravan guards carry spare axle-pins because alkali ruts snap dry ashwood."
+  },
+  {
+    "id": "rumor-60",
+    "act": 2,
+    "town": "town-quarrycamp",
+    "truthful": true,
+    "text": "Falling limestone pillars in Ironheart Bastion crush both friend and foe alike."
+  }
+]
