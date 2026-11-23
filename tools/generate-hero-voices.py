@@ -15,7 +15,8 @@ CAST = {  # voice, speed, lang
 only = set(sys.argv[1:])
 heroes = json.load(open(os.path.join(ROOT, 'public/data/content/hero-voices.json'), encoding='utf8'))
 kok = Kokoro(os.path.join(ROOT, 'tools/kokoro/kokoro-v1.0.onnx'), os.path.join(ROOT, 'tools/kokoro/voices-v1.0.bin'))
-index = {}
+ip = os.path.join(OUT, 'index.json')
+index = json.load(open(ip)) if os.path.exists(ip) else {}
 for h in heroes:
     hid = h['hero_id']
     if only and hid not in only:
@@ -37,7 +38,13 @@ for h in heroes:
             s, sr = kok.create(text, voice=voice, speed=speed, lang=lang)
             wav = m4a[:-4] + '.wav'
             sf.write(wav, np.asarray(s), sr)
-            subprocess.run(['ffmpeg', '-y', '-i', wav, '-c:a', 'aac', '-b:a', '56k', '-ac', '1', '-ar', '24000', m4a], capture_output=True, check=True)
+            for _try in range(4):
+                r = subprocess.run(['ffmpeg', '-y', '-i', wav, '-c:a', 'aac', '-b:a', '56k', '-ac', '1', '-ar', '24000', m4a], capture_output=True)
+                if r.returncode == 0:
+                    break
+                import time; time.sleep(2)
+            else:
+                raise RuntimeError('ffmpeg failed ' + m4a)
             os.remove(wav)
     print('done', hid, flush=True)
     json.dump(index, open(os.path.join(OUT, 'index.json'), 'w'), indent=1)
