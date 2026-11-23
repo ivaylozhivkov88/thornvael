@@ -307,6 +307,20 @@ for (const z of zones) {
 // town: keep its opening beats (briefing, purse, hero-dead)
 for (const t of town.triggers) if (['briefing', 'purse', 'hero-dead'].includes(t.id)) triggers.unshift(t);
 
+// victory: the last zone (m11) is cleared
+{
+  const last = zones[zones.length - 1];
+  if (last.group) {
+    triggers.push({
+      id: 'act1-cleared',
+      once: true,
+      enabled: true,
+      conds: [{ a: { k: 'groupSize', a: [last.group] }, op: 0, b: { k: 'constant', a: [0] } }],
+      acts: [{ k: 'win', a: [] }],
+    });
+  }
+}
+
 // ---- shrines / regions / towns / waypoints ---------------------------------------------------
 const shrines = [];
 const regions = [];

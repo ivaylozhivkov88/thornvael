@@ -580,7 +580,7 @@ export class MonsterAi {
         ? Math.hypot(sim.x[heroId] / FP - p.x, sim.y[heroId] / FP - p.y)
         : Infinity;
       const heroSight = heroDist <= 13;
-      const heroPursuit = heroDist <= 25;
+      const heroPursuit = heroDist <= 17; // roughly one screen: beyond it the pack gives up and goes back to sleep
 
       if (!p.hunting) {
         // Aggro sight radius ~13 tiles onto hero or active engagement
@@ -593,7 +593,7 @@ export class MonsterAi {
         continue;
       }
 
-      // Relentless pursuit: as long as hero is within 25 tiles or engaged, pack will not disengage!
+      // Pursuit ends once the hero is off screen (>17 tiles) and the pack calms down
       p.calm = (engaged !== undefined || heroPursuit) ? 0 : p.calm + 10;
 
       let cx = 0;
@@ -603,8 +603,8 @@ export class MonsterAi {
         cy += sim.y[id];
       }
       // Aggro Leash: breaks pursuit when dragged more than 14 tiles away from patrol post
-      const far = Math.hypot(cx / alive.length / FP - p.x, cy / alive.length / FP - p.y) > 14;
-      if (p.calm >= 100 || far) {
+      const far = Math.hypot(cx / alive.length / FP - p.x, cy / alive.length / FP - p.y) > 12;
+      if (p.calm >= 30 || far) {
         p.hunting = false;
         out.push({ type: 'order', order: 'guard', ids: alive, x: p.x, y: p.y });
         continue;

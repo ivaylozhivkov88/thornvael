@@ -427,7 +427,8 @@ Items, skills and levels carry over.`));
     const startNode = nodeOf(c, c.start);
     const diffStr = (['easy', 'medium', 'hard'] as const)[diff];
     const heroStr = `${pick.cls === 1 ? 'mage' : 'warrior'},${pick.female ? 'f' : 'm'},${diffStr}`;
-    const url = `${nodeUrl(startNode)}&hero=${encodeURIComponent(heroStr)}`;
+    const worldStart = startNode.id === 'm01-blood-at-the-ford' ? nodeUrl(startNode).replace(/mission=[^&]+/, 'mission=act1-world') : nodeUrl(startNode);
+    const url = `${worldStart}&hero=${encodeURIComponent(heroStr)}`;
     const seq = sequenceForNode(startNode.id);
     if (seq && seq.kind === 'intro') {
       showStory(seq.id, () => go(url, { title: startNode.title, act: actOf(startNode) }));

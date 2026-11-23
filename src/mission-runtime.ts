@@ -232,6 +232,10 @@ export async function loadMissionByName(name: string): Promise<LoadedMission> {
     const mod = await import('./missions/kids-paradise-opening.map.json');
     return loadDoc(mod.default);
   }
+  if (name === 'act1-world') {
+    const mod = await import('./worlds/act1-world.map.json');
+    return loadDoc(mod.default);
+  }
   const loader = BUILTIN_MISSION_LOADERS[name];
   if (!loader) throw new Error(`Unknown mission "${name}".`);
   const mod = await loader();
