@@ -4,9 +4,9 @@
 **Branch:** `gemini/big-pass` (never pushed to `main`)  
 
 ## Unfinished / Deferred
-- **Remaining in current pass:** Task B (pure dialogue runtime helpers in `src/dialogue.ts` + Vitest tests).
-- **Deferred runtime hookups (outside data/test scope):**
-  - Act 1 reputation-tier UI wiring in `src/townui.ts` (authored & verified in `npc-dialogues.json`; UI untouched per forbidden-file rule).
+- **None of Tasks 1–10, A, or B remain unfinished.**
+- **Deferred runtime hookups (outside current scope):**
+  - Act 1 reputation-tier UI wiring in `src/townui.ts` (pure helpers ready in `src/dialogue.ts`; `src/townui.ts` untouched per forbidden-file rule).
   - Act 2 design & data (`src/data/act2/**`, `.planning/act2/**`) are design/data-only per Task 10 (no engine code modified).
 
 ---
@@ -22,4 +22,5 @@
 8. **Task 8 — 6 Original Skirmish Maps (`872c205`):** Generated 6 `MapDoc` v2 maps (2–4 players) under `public/maps/skirmish/**` + `tests/skirmish-pack6.test.ts` (7/7 green) validating `validate()`, `loadDoc()`, and BFS start-to-start reachability.
 9. **Task 9 — Mobile UI Audit & CSS Fixes (`7c4caec`):** Audited `360x640` & `390x844` in `.planning/gemini/MOBILE-AUDIT.md`; fixed `44px` touch targets, `touch-action: none` on inventory/paperdoll drag, and Codex touch scrolling across `src/gothic-hud.css`, `src/townstyle.css`, and `src/style.css`.
 10. **Task 10 — Act 2 Design, Data & Art Prompts (`f2bdca1`):** Authored `.planning/act2/ACT2-DESIGN.md`, `src/data/act2/zones.json` (7 zones, Lv 12–24), `towns.json` (4 towns), `bosses.json` (3 bosses with multi-phase mechanics), `quests.json` (26 quests with `steps[]`), `uniques.json` (40 items), and `.planning/act2/act2_item_prompts.json` (40 `{key, prompt}` entries in `doll_prompts.json` painterly style).
-11. **Task A — Stepped Side-Quest Runtime:** Implemented headless `steps[]` state machine in `src/sidequests.ts` (`createQuestRuntimeState`, `advanceQuestStep`, `getQuestJournalText`, `serializeQuestSave`, `migrateQuestSave` v1→v2, `deserializeQuestSave`) with one-time reward claiming; added `tests/sidequests-runtime.test.ts` (4/4 green) simulating all 22 Act 1 quests start-to-finish, mid-quest save/load, and v1→v2 migration.
+11. **Task A — Stepped Side-Quest Runtime (`a9420d2`):** Implemented headless `steps[]` state machine in `src/sidequests.ts` (`createQuestRuntimeState`, `advanceQuestStep`, `getQuestJournalText`, `serializeQuestSave`, `migrateQuestSave` v1→v2, `deserializeQuestSave`) with one-time reward claiming; added `tests/sidequests-runtime.test.ts` (4/4 green) simulating all 22 Act 1 quests start-to-finish, mid-quest save/load, and v1→v2 migration.
+12. **Task B — Pure Dialogue Runtime Helpers:** Implemented pure functions in `src/dialogue.ts` (`reputationTier`, `pickGreetingNode`, `pickQuestNode`, `mulberry32`, `pickIdleBark`) with zero UI/DOM wiring; added `tests/dialogue-runtime.test.ts` (4/4 green) covering all 8 Act 1 NPCs.
