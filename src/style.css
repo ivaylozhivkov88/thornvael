@@ -1134,6 +1134,11 @@ button:disabled, #shell .sh-btn:disabled { opacity: .6; cursor: default; box-sha
   gap: 6px;
 }
 .sh-champion-badge,
+.sh-champion-badge.necromancer {
+  color: #b9f0c4;
+  background: #241638;
+  border: 1px solid #4f8c63;
+}
 .sh-champion-gender-badge {
   font-size: 9px;
   font-weight: 800;
@@ -1295,6 +1300,12 @@ button:disabled, #shell .sh-btn:disabled { opacity: .6; cursor: default; box-sha
   border-color: #7cc4ff;
   color: #eef8ff;
   box-shadow: 0 0 14px rgba(65, 155, 235, 0.55), inset 0 1px 0 rgba(200, 235, 255, 0.3);
+}
+.sh-selector-group .sh-select-cls.necromancer.sh-on {
+  background: linear-gradient(180deg, #3f2a5c 0%, #1d1230 100%);
+  border-color: #9be6a8;
+  color: #f1fff3;
+  box-shadow: 0 0 14px rgba(110, 210, 140, 0.5), inset 0 1px 0 rgba(210, 255, 220, 0.3);
 }
 .sh-selector-group .sh-select-sex.sh-on {
   background: linear-gradient(180deg, #7d5b24 0%, #3d2c10 100%);

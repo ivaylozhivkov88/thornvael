@@ -349,7 +349,8 @@ export function recalc(sim: Sim): void {
 
 /** The hero a new game starts with. Also used by the creation sheet to preview the choice. */
 export function startState(id: number, cls: number, female: boolean, diff: number): HeroState {
-  const attr = BASE_ATTR[cls === Cls.Mage ? 1 : 0].slice();
+  const caster = cls === Cls.Mage || cls === 3;
+  const attr = BASE_ATTR[caster ? 1 : 0].slice();
   const h: HeroState = {
     id,
     cls,
@@ -360,7 +361,7 @@ export function startState(id: number, cls: number, female: boolean, diff: numbe
     use: [0, 0, 0],
     inv: [],
     eq: Array<number>(SLOT_COUNT).fill(-1),
-    known: cls === Cls.Mage ? (1 << 0) | (1 << 4) | (1 << 7) : 1 << 7, // Fire Bolt, Frost Bolt, Healing; the warrior knows Healing
+    known: caster ? (1 << 0) | (1 << 4) | (1 << 7) : 1 << 7, // Fire Bolt, Frost Bolt, Healing; the warrior knows Healing
     hits: [0, 0, 0, 0],
     level: 1,
     xp: 0,
@@ -369,10 +370,10 @@ export function startState(id: number, cls: number, female: boolean, diff: numbe
     skillPoints: 0,
     skillCd: {},
   };
-  h.eq[Slot.Weapon] = itemId(cls === Cls.Mage ? 'Oak Staff' : 'Rusty Sword');
-  h.eq[Slot.Armor] = itemId(cls === Cls.Mage ? 'Cloth Robe' : 'Padded Jerkin');
+  h.eq[Slot.Weapon] = itemId(caster ? 'Oak Staff' : 'Rusty Sword');
+  h.eq[Slot.Armor] = itemId(caster ? 'Cloth Robe' : 'Padded Jerkin');
   h.inv.push({ item: itemId('Healing Draught'), n: START_DRAUGHTS[diff] });
-  if (cls === Cls.Mage) h.inv.push({ item: itemId('Mana Draught'), n: 1 });
+  if (caster) h.inv.push({ item: itemId('Mana Draught'), n: 1 });
   return h;
 }
 

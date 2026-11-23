@@ -315,7 +315,7 @@ const SKILL_ICONS: Record<HeroSkillId, { icon: string; name: string; key: string
 
 function getHeroSkills(): HeroSkillId[] {
   if (!sim.hero) return [];
-  return sim.hero.cls === Cls.Mage
+  return sim.hero.cls === Cls.Mage || sim.hero.cls === 3
     ? ['chain_lightning', 'frost_nova', 'teleport']
     : ['whirlwind', 'shield_charge', 'iron_bulwark'];
 }
@@ -994,7 +994,7 @@ function updateGothicHud(): void {
   if (sim.hero) {
     const heroImg = document.getElementById('hud-hero-img') as HTMLImageElement | null;
     if (heroImg) {
-      const clsName = sim.hero.cls ? 'mage' : 'warrior';
+      const clsName = sim.hero.cls === 3 ? 'necromancer' : sim.hero.cls ? 'mage' : 'warrior';
       const gen = sim.hero.female ? 'f' : 'm';
       const src = `${import.meta.env.BASE_URL}townart/portrait-${clsName}-${gen}.png`;
       if (!heroImg.src.endsWith(src)) heroImg.src = src;
@@ -1006,7 +1006,7 @@ function updateGothicHud(): void {
     }
     const heroName = document.getElementById('hud-hero-name');
     if (heroName) {
-      heroName.textContent = sim.hero.cls ? 'Mage' : 'Warrior';
+      heroName.textContent = sim.hero.cls === 3 ? 'Necromancer' : sim.hero.cls ? 'Mage' : 'Warrior';
     }
   }
 
@@ -3064,7 +3064,7 @@ function updateMusic(now: number): void {
     }
   }
   if (outcome) {
-    if (outcome === 'win' && !victoryBarked) { victoryBarked = true; recordAchWin(); { const [up, size] = army(); for (const q of sqFinish(true, up === size)) { const extra = Math.round((sim.cb.gold[0] ?? 0) * q.bonus / 100); sim.cb.gold[0] += extra; toast(`Side quest done: ${q.title} (+${extra} gold)`); } } if (missionName) void missionRadio(missionName, 'win').then((l) => { if (l) toast(`Radio: ${l}`); void missionRadio(missionName, 'victory_flavour').then((v) => { if (v) setTimeout(() => toast(`Radio: ${v}`), 3500); }); }); const vb = heroBark('victory', 0); if (vb) toast(`"${vb}"`); if (missionName) void bossLine(missionName, 'hero_after', ['warrior', 'archer', 'mage', 'necromancer'][activeChar?.cls ?? 0] ?? 'warrior').then((ba) => { if (ba) setTimeout(() => toast(`"${ba}"`), 6500); }); }
+    if (outcome === 'win' && !victoryBarked) { victoryBarked = true; recordAchWin(); { const [up, size] = army(); for (const q of sqFinish(true, up === size)) { const extra = Math.round((sim.cb.gold[0] ?? 0) * q.bonus / 100); sim.cb.gold[0] += extra; toast(`Side quest done: ${q.title} (+${extra} gold)`); } } if (missionName) void missionRadio(missionName, 'win').then((l) => { if (l) toast(`Radio: ${l}`); void missionRadio(missionName, 'victory_flavour').then((v) => { if (v) setTimeout(() => toast(`Radio: ${v}`), 3500); }); }); const vb = heroBark('victory', 0); if (vb) toast(`"${vb}"`); if (missionName) void bossLine(missionName, 'hero_after', ['warrior', 'mage', 'archer', 'necromancer'][activeChar?.cls ?? 0] ?? 'warrior').then((ba) => { if (ba) setTimeout(() => toast(`"${ba}"`), 6500); }); }
     setSpecialMusic(outcome === 'win' ? 'music_victory' : 'music_defeat', false);
     return;
   }
@@ -4116,7 +4116,7 @@ function startHero(): void {
     if (!savedSlots) {
       const heal = ITEM_BASE + itemId('Healing Draught');
       const mana = ITEM_BASE + itemId('Mana Draught');
-      slots = cls === 1 ? [0, 4, 7, 1, 19, 20, 11, mana, heal] : [7, 19, 11, 15, 17, -1, -1, -1, heal];
+      slots = cls === 1 || cls === 3 ? [0, 4, 7, 1, 19, 20, 11, mana, heal] : [7, 19, 11, 15, 17, -1, -1, -1, heal];
       buildQuick();
     }
     userPause = false;
@@ -4161,7 +4161,7 @@ function startHero(): void {
   if (raw !== null) {
     const p = raw.split(',').map((s) => s.trim().toLowerCase());
     const d = ['easy', 'medium', 'hard'].indexOf(p[2] ?? 'medium');
-    begin(p[0] === 'mage' ? 1 : 0, p[1] === 'f' || p[1] === 'female', d < 0 ? 1 : d);
+    begin(p[0] === 'mage' ? 1 : p[0] === 'necromancer' ? 3 : 0, p[1] === 'f' || p[1] === 'female', d < 0 ? 1 : d);
     if (activeChar?.hero) {
       // A hero that has played before keeps its level, gear and spells in every skirmish; the purse is this game's.
       const co = characterCarry(activeChar, { progress: undefined as never, shopSeed: 1 });

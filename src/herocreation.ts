@@ -18,7 +18,7 @@ function btn(label: string, run: () => void, cls = ''): HTMLButtonElement {
 }
 
 export interface Archetype {
-  cls: 0 | 1;
+  cls: 0 | 1 | 3;
   female: boolean;
   name: string;
   epithet: string;
@@ -94,9 +94,45 @@ export const ARCHETYPES: readonly Archetype[] = [
     bars: { hp: '48%', mp: '90%', atk: '25%', magic: '92%', def: '40%' },
     sound: 'cast_water',
   },
+  {
+    cls: 3,
+    female: false,
+    name: 'Malachar Gravewhisper',
+    epithet: 'Bone Lantern Warden',
+    classLabel: 'NECROMANCER',
+    portraitFile: 'portrait-necromancer-m.png',
+    bio: 'A hooded grave-warden of the Hollow Abbey, bone-clasped cloak over rune-trimmed robes, carrying a pale bone staff hung with a green soul-lantern. Raises the fallen to fight and drains the living to feed his own strength.',
+    gear: ['Bone Lantern Staff', 'Grave Warden Robes', 'Raise Skeleton', 'Mana Draught'],
+    perks: ['Summon Mastery', 'Life Drain', 'Grave Pact'],
+    hp: 90,
+    mp: 120,
+    bars: { hp: '50%', mp: '90%', atk: '35%', magic: '92%', def: '35%' },
+    sound: 'cast_fire',
+  },
+  {
+    cls: 3,
+    female: true,
+    name: 'Ysolde Ashveil',
+    epithet: 'Dirge Binder',
+    classLabel: 'NECROMANCER',
+    portraitFile: 'portrait-necromancer-f.png',
+    bio: 'A pale funeral-singer turned grave-binder, veiled in ash-grey mourning silks stitched with silver thread, holding a bone-and-iron censer on a chain. Binds restless dead to her will and curses enemy squads with creeping rot.',
+    gear: ['Mourning Censer', 'Ashveil Silks', 'Raise Skeleton', 'Mana Draught'],
+    perks: ['Curse Mastery', 'Bone Ward', 'Dirge of Binding'],
+    hp: 85,
+    mp: 125,
+    bars: { hp: '48%', mp: '92%', atk: '30%', magic: '94%', def: '32%' },
+    sound: 'cast_water',
+  },
 ];
 
-export function findArchetypeIndex(cls: 0 | 1, female: boolean): number {
+/** Class styling key: sim class ids are 0 warrior, 1 mage, 2 archer, 3 necromancer. */
+export function classKey(cls: number): 'warrior' | 'mage' | 'necromancer' {
+  return cls === 1 ? 'mage' : cls === 3 ? 'necromancer' : 'warrior';
+}
+const CLASS_ICON = { warrior: '⚔', mage: '🔮', necromancer: '💀' } as const;
+
+export function findArchetypeIndex(cls: 0 | 1 | 3, female: boolean): number {
   const idx = ARCHETYPES.findIndex((a) => a.cls === cls && a.female === female);
   return idx >= 0 ? idx : 0;
 }
@@ -190,6 +226,11 @@ export function buildHeroCreationScreen(opts: HeroCreationOptions): HTMLElement 
         () => selectArchetype(findArchetypeIndex(1, ARCHETYPES[selIdx].female)),
         `sh-select-cls mage ${arch.cls === 1 ? 'sh-on' : ''}`.trim(),
       ),
+      btn(
+        '💀 Necromancer',
+        () => selectArchetype(findArchetypeIndex(3, ARCHETYPES[selIdx].female)),
+        `sh-select-cls necromancer ${arch.cls === 3 ? 'sh-on' : ''}`.trim(),
+      ),
     );
 
     genderRow.replaceChildren(
@@ -212,7 +253,7 @@ export function buildHeroCreationScreen(opts: HeroCreationOptions): HTMLElement 
 
     // Top identity banner
     const dHdr = el('div', 'sh-dossier-header');
-    const dBadge = el('span', `sh-dossier-class-seal ${arch.cls === 1 ? 'mage' : 'warrior'}`, arch.classLabel);
+    const dBadge = el('span', `sh-dossier-class-seal ${classKey(arch.cls)}`, arch.classLabel);
     const dTitleWrap = el('div', 'sh-dossier-title-wrap');
     const dName = el('h3', 'sh-dossier-name', customName || arch.name);
     const dEpithet = el('span', 'sh-dossier-epithet', customName ? `${arch.name} · ${arch.epithet}` : arch.epithet);
@@ -260,7 +301,7 @@ export function buildHeroCreationScreen(opts: HeroCreationOptions): HTMLElement 
 
     const champ = el(
       'div',
-      `sh-campfire-champion sh-champion-showcase champion-${arch.female ? 'f' : 'm'}-${arch.cls === 1 ? 'mage' : 'warrior'} selected`,
+      `sh-campfire-champion sh-champion-showcase champion-${arch.female ? 'f' : 'm'}-${classKey(arch.cls)} selected`,
     );
 
     const groundGlow = el('div', 'sh-champion-ground-glow');
@@ -281,7 +322,7 @@ export function buildHeroCreationScreen(opts: HeroCreationOptions): HTMLElement 
 
     const nameplate = el('div', 'sh-champion-nameplate');
     const badgeRow = el('div', 'sh-champion-badge-row');
-    const badge = el('span', `sh-champion-badge ${arch.cls === 1 ? 'mage' : 'warrior'}`, arch.classLabel);
+    const badge = el('span', `sh-champion-badge ${classKey(arch.cls)}`, arch.classLabel);
     const genderBadge = el('span', `sh-champion-gender-badge ${arch.female ? 'female' : 'male'}`, arch.female ? '♀ FEMALE' : '♂ MALE');
     badgeRow.append(badge, genderBadge);
 
@@ -294,7 +335,7 @@ export function buildHeroCreationScreen(opts: HeroCreationOptions): HTMLElement 
     ARCHETYPES.forEach((item, idx) => {
       const shortName = item.name.split(' ')[0];
       const pill = btn(
-        `${item.cls === 1 ? '🔮' : '⚔'} ${shortName}`,
+        `${CLASS_ICON[classKey(item.cls)]} ${shortName}`,
         () => selectArchetype(idx),
         `sh-roster-pill ${idx === selIdx ? 'sh-on' : ''}`.trim(),
       );
