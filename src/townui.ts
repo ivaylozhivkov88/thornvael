@@ -107,6 +107,7 @@ export class TownUi {
   private bark: string | undefined;
   constructor(private readonly ctx: TownUiCtx) {
     this.root = el('div', 'sheet town');
+    this.root.dataset.testid = 'town-panel';
     this.root.setAttribute('role', 'dialog');
     this.root.setAttribute('aria-modal', 'true');
     this.root.tabIndex = -1;
@@ -454,6 +455,16 @@ export class TownUi {
       badge.append(itemIconEl(swapped ? this.tryOn : layer.item));
       badge.addEventListener('click', (e) => {
         e.stopPropagation();
+        if (this.role === Role.Shop && !swapped && h.eq[layer.slot] === layer.item && h.inv.length < INV_MAX) {
+          // Shop: clicking worn gear takes it off and puts it on the sell tray.
+          this.unequipSlot(layer.slot);
+          const idx = sim.hero!.inv.findIndex((s) => s.item === layer.item);
+          if (idx >= 0) {
+            this.addSell(idx);
+            this.render();
+          }
+          return;
+        }
         this.detailItem = layer.item;
         this.updateShopSelections(sim);
       });

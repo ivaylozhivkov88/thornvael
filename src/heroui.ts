@@ -709,6 +709,7 @@ export class HeroUi {
       render: (keepFocus) => this.render(keepFocus ?? false),
       hideCardTooltip: () => this.hideCardTooltip(),
     });
+    this.sheet.dataset.testid = 'hero-sheet';
     this.sheet.addEventListener('pointerdown', (e) => this.paperdoll.press(e));
     this.sheet.addEventListener('click', (e) => {
       if (this.suppressedPointer !== null) {

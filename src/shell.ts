@@ -244,11 +244,19 @@ export async function runShell(startWorker: () => void): Promise<never> {
         const row = el('div', 'sh-row');
         row.append(
           btn('Help & Guide', help),
-          btn('Wiki', () => window.open(new URL('wiki.html', document.baseURI).href, '_blank', 'noopener'), 'sh-small'),
+          (() => {
+            const b = btn('Wiki', () => window.open(new URL('wiki.html', document.baseURI).href, '_blank', 'noopener'), 'sh-small');
+            b.dataset.testid = 'btn-wiki';
+            return b;
+          })(),
         );
         return row;
       })(),
-      btn('🏆 Hall of Relics Codex', () => codexUi.show()),
+      (() => {
+        const b = btn('🏆 Hall of Relics Codex', () => codexUi.show());
+        b.dataset.testid = 'btn-codex';
+        return b;
+      })(),
       btn('Skirmish (23 Maps)', skirmish),
       btn(T.free, () => go('./?free=1'), 'sh-quiet'),
     );
@@ -467,7 +475,11 @@ Items, skills and levels carry over.`));
             ),
           ]
         : []),
-      btn('Single Player', charSelect),
+      (() => {
+        const b = btn('Single Player', charSelect);
+        b.dataset.testid = 'btn-single-player';
+        return b;
+      })(),
       btn(T.credits, credits, 'sh-small'),
       btn('Storage & Offline', storage, 'sh-small'),
       btn('Settings', settings, 'sh-small'),
@@ -639,7 +651,7 @@ Items, skills and levels carry over.`));
     const seqId = (`act-${currentAct}`) as StorySequence['id'];
     actTabs.append(btn('Story', () => showStory(seqId), 'sh-small'));
     musicBtn.classList.add('is-inline');
-    bar.append(el('b', '', `${T.mapTitle} · ${T.diff[r.progress.difficulty]}`), actTabs, btn('🏆 Codex', () => codexUi.show(), 'sh-small'), btn(T.holdings, holdings, 'sh-small'), ...banner(), musicBtn, btn(T.back, menu, 'sh-small'));
+    bar.append(el('b', '', `${T.mapTitle} · ${T.diff[r.progress.difficulty]}`), actTabs, (() => { const b = btn('🏆 Codex', () => codexUi.show(), 'sh-small'); b.dataset.testid = 'btn-map-codex'; return b; })(), btn(T.holdings, holdings, 'sh-small'), ...banner(), musicBtn, btn(T.back, menu, 'sh-small'));
     screen(bar, stage);
     if (r.last) result(r.last);
   }
