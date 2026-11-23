@@ -4,10 +4,11 @@
 **Branch:** `gemini/big-pass` (never pushed to `main`)  
 
 ## Unfinished / Deferred
-- **None of Tasks 1–10, A, or B remain unfinished.**
+- **None of Tasks 1–10 or A–P remain unfinished.**
 - **Deferred runtime hookups (outside current scope):**
   - Act 1 reputation-tier UI wiring in `src/townui.ts` (pure helpers ready in `src/dialogue.ts`; `src/townui.ts` untouched per forbidden-file rule).
-  - Act 2 design & data (`src/data/act2/**`, `.planning/act2/**`) are design/data-only per Task 10 (no engine code modified).
+  - Act 2 & Act 3 design & data (`src/data/act2/**`, `src/data/act3/**`, `.planning/act2/**`, `.planning/act3/**`) are design/data-only.
+  - Tutorial popup UI wiring (`src/data/tutorial.json` ready; UI untouched per Task P).
 
 ---
 
@@ -31,4 +32,5 @@
 17. **Task L — Loot Tables 100k Audit (`daa0a59`):** Simulated `100,000` drops per zone tier with seeded `Rng` in `tests/loot-audit.test.ts` (2/2 green) and recorded rarity rates, unique rates (`1.161%–1.918%`), and gold/hour (`2,329–5,536`) in `.planning/gemini/LOOT-AUDIT.md`; all `LOOT_RULES` passed integrity checks.
 18. **Task M — Difficulty Curve & Headless TTK Sim (`9ca981f`):** Proposed Easy/Normal/Hard multipliers in `src/data/difficulty-curve.json` and `.planning/gemini/DIFFICULTY.md`, verified with 20 Hz headless TTK simulation in `tests/difficulty-ttk.test.ts` (2/2 green; `2.95s–10.05s`).
 19. **Task N — Audio Cue Sheet & 80 SFX Prompts (`d434f76`):** Authored `.planning/audio/CUE-SHEET.md` (11 Act I–II music cues with tempo/length/loop points/triggers + SFX layering specs) and `.planning/audio/sfx_prompts.json` (`80` `{key, prompt}` entries).
-20. **Task O — Dev Docs:** Added `CONTRIBUTING.md` and `docs/ARCHITECTURE.md` covering sim/render/UI layers, quest/dialogue/map/item data formats, asset pipeline, and verified build/test commands (`npm run typecheck`, `npm run check:repo`, `npm run check:atlases`, `npm run build`).
+20. **Task O — Dev Docs (`e4c3b46`):** Added `CONTRIBUTING.md` and `docs/ARCHITECTURE.md` covering sim/render/UI layers, quest/dialogue/map/item data formats, asset pipeline, and verified build/test commands (`npm run typecheck`, `npm run wiki:data`, `npm run check:atlases`, `npm run build`).
+21. **Task P — First-10-Minutes Tutorial Script:** Authored `src/data/tutorial.json` (10-step onboarding script with hint popups, triggers, and English text) plus `tests/tutorial.test.ts` (schema test).

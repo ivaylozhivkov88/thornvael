@@ -1,0 +1,147 @@
+{
+  "version": 1,
+  "title": "Vanguard First-10-Minutes Field Briefing",
+  "estimatedMinutes": 10,
+  "steps": [
+    {
+      "id": "tut-01-select-hero",
+      "order": 1,
+      "minuteMark": 0.5,
+      "title": "Select Your Hero",
+      "popup": {
+        "heading": "Commanding the Vanguard",
+        "body": "Left-click your Hero (or tap on mobile) to select them. Drag a box around multiple units to command your whole squad.",
+        "position": "bottom-center",
+        "dismissable": true
+      },
+      "trigger": { "type": "selection_count", "minUnits": 1 },
+      "next": "tut-02-move-order"
+    },
+    {
+      "id": "tut-02-move-order",
+      "order": 2,
+      "minuteMark": 1.0,
+      "title": "March Toward the Ford",
+      "popup": {
+        "heading": "Movement Orders",
+        "body": "Right-click on the gravel road ahead (or long-press on touchscreens) to march your selected squad toward the Sunken Ford.",
+        "position": "bottom-center",
+        "dismissable": true
+      },
+      "trigger": { "type": "order_issued", "order": "move" },
+      "next": "tut-03-control-group"
+    },
+    {
+      "id": "tut-03-control-group",
+      "order": 3,
+      "minuteMark": 2.0,
+      "title": "Assign a Control Group",
+      "popup": {
+        "heading": "Control Groups (1-4)",
+        "body": "Press Ctrl+1 while your squad is selected to bind Group 1. Press 1 anytime to snap back to them, or double-tap 1 to center the camera.",
+        "position": "top-right",
+        "dismissable": true
+      },
+      "trigger": { "type": "group_assigned", "group": 1 },
+      "next": "tut-04-attack-move"
+    },
+    {
+      "id": "tut-04-attack-move",
+      "order": 4,
+      "minuteMark": 3.0,
+      "title": "Engage the Briar Hounds",
+      "popup": {
+        "heading": "Attack-Move & Formations",
+        "body": "Press A and click ahead to Attack-Move. Keep your pikemen in front of your archers so leaping Briar Hounds cannot flank your backline.",
+        "position": "bottom-center",
+        "dismissable": true
+      },
+      "trigger": { "type": "enemy_killed", "minCount": 1 },
+      "next": "tut-05-cast-spell"
+    },
+    {
+      "id": "tut-05-cast-spell",
+      "order": 5,
+      "minuteMark": 4.5,
+      "title": "Use Active Abilities & Autocast",
+      "popup": {
+        "heading": "Spells & Autocast",
+        "body": "Click a spell icon on the bottom bar (or right-click it to toggle Autocast). Briar Hounds and Ghouls take bonus damage from fire.",
+        "position": "bottom-center",
+        "dismissable": true
+      },
+      "trigger": { "type": "spell_cast", "minCount": 1 },
+      "next": "tut-06-pause-tactics"
+    },
+    {
+      "id": "tut-06-pause-tactics",
+      "order": 6,
+      "minuteMark": 5.5,
+      "title": "Tactical Pause",
+      "popup": {
+        "heading": "Pause & Queue Orders",
+        "body": "Press Space (or tap the Pause icon) to freeze the battlefield while issuing moves, heals, and target priorities.",
+        "position": "top-center",
+        "dismissable": true
+      },
+      "trigger": { "type": "pause_toggled", "count": 1 },
+      "next": "tut-07-loot-pickup"
+    },
+    {
+      "id": "tut-07-loot-pickup",
+      "order": 7,
+      "minuteMark": 6.5,
+      "title": "Collect Fallen Loot",
+      "popup": {
+        "heading": "Gold & Equipment",
+        "body": "Walk over dropped gold piles and gear sacks to collect them. Open your Inventory (I) to equip upgrades or check item stats.",
+        "position": "bottom-left",
+        "dismissable": true
+      },
+      "trigger": { "type": "loot_collected", "minCount": 1 },
+      "next": "tut-08-healing-potion"
+    },
+    {
+      "id": "tut-08-healing-potion",
+      "order": 8,
+      "minuteMark": 7.5,
+      "title": "Heal Wounded Units",
+      "popup": {
+        "heading": "Potions & Shrines",
+        "body": "Use a healing potion from the belt when your hero drops below half HP, or activate roadside shrines to restore stamina and receive blessings.",
+        "position": "bottom-center",
+        "dismissable": true
+      },
+      "trigger": { "type": "unit_healed", "minCount": 1 },
+      "next": "tut-09-town-visit"
+    },
+    {
+      "id": "tut-09-town-visit",
+      "order": 9,
+      "minuteMark": 9.0,
+      "title": "Visit Thornwick Town Hub",
+      "popup": {
+        "heading": "Smithy, Tavern & Contracts",
+        "body": "After clearing the ford, visit Thornwick to sell surplus loot to Master Kaelen, hire mercenaries in the tavern, and pick up side-quest contracts.",
+        "position": "top-center",
+        "dismissable": true
+      },
+      "trigger": { "type": "town_entered", "town": "town-thornwick" },
+      "next": "tut-10-save-export"
+    },
+    {
+      "id": "tut-10-save-export",
+      "order": 10,
+      "minuteMark": 10.0,
+      "title": "Save & Offline Packs",
+      "popup": {
+        "heading": "Ready for the Frontier",
+        "body": "Your campaign autosaves locally. Use Export Save in the menu to back up your progress, or download Chapter Packs for offline play.",
+        "position": "top-center",
+        "dismissable": true
+      },
+      "trigger": { "type": "tutorial_complete" },
+      "next": null
+    }
+  ]
+}
