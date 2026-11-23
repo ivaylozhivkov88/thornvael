@@ -103,8 +103,8 @@ export function enrichMissionMap(relPath, cfg) {
           const tx = Math.min(w - 3, Math.max(2, cx + Math.floor(rng() * (cell - 2))));
           const ty = Math.min(h - 3, Math.max(2, cy + Math.floor(rng() * (cell - 2))));
           const t = terrain[ty * w + tx];
-          // Avoid Water (2), Rock (3), and Dirt (1) roads so paths stay clear
-          if (t === 2 || t === 3 || t === 1) continue;
+          // Avoid Water (2), Rock (3), and Dirt (1) roads unless allowDirt is set
+          if (t === 2 || t === 3 || (t === 1 && !cfg.allowDirt)) continue;
           if (blockedTiles.has(`${tx},${ty}`)) continue;
           const frame = props[Math.floor(rng() * props.length)];
           existing.push({ kind: 0, x: tx, y: ty, frame });

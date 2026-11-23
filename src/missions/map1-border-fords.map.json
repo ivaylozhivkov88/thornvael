@@ -13206,6 +13206,1542 @@
       "x": 189,
       "y": 189,
       "frame": "rocks/boulder-m"
+    },
+    {
+      "kind": 0,
+      "x": 6,
+      "y": 5,
+      "frame": "rocks/boulder-m"
+    },
+    {
+      "kind": 0,
+      "x": 23,
+      "y": 4,
+      "frame": "camp/crates"
+    },
+    {
+      "kind": 0,
+      "x": 31,
+      "y": 12,
+      "frame": "camp/crates"
+    },
+    {
+      "kind": 0,
+      "x": 40,
+      "y": 12,
+      "frame": "rocks/boulder-m"
+    },
+    {
+      "kind": 0,
+      "x": 53,
+      "y": 4,
+      "frame": "highland/log"
+    },
+    {
+      "kind": 0,
+      "x": 65,
+      "y": 10,
+      "frame": "rocks/boulder-m"
+    },
+    {
+      "kind": 0,
+      "x": 82,
+      "y": 4,
+      "frame": "camp/fire"
+    },
+    {
+      "kind": 0,
+      "x": 93,
+      "y": 6,
+      "frame": "camp/crates"
+    },
+    {
+      "kind": 0,
+      "x": 102,
+      "y": 3,
+      "frame": "highland/log"
+    },
+    {
+      "kind": 0,
+      "x": 117,
+      "y": 3,
+      "frame": "highland/oak"
+    },
+    {
+      "kind": 0,
+      "x": 128,
+      "y": 4,
+      "frame": "highland/oak"
+    },
+    {
+      "kind": 0,
+      "x": 137,
+      "y": 11,
+      "frame": "camp/fire"
+    },
+    {
+      "kind": 0,
+      "x": 147,
+      "y": 8,
+      "frame": "highland/oak"
+    },
+    {
+      "kind": 0,
+      "x": 168,
+      "y": 7,
+      "frame": "camp/crates"
+    },
+    {
+      "kind": 0,
+      "x": 175,
+      "y": 11,
+      "frame": "camp/fire"
+    },
+    {
+      "kind": 0,
+      "x": 185,
+      "y": 8,
+      "frame": "rocks/boulder-m"
+    },
+    {
+      "kind": 0,
+      "x": 4,
+      "y": 22,
+      "frame": "highland/oak"
+    },
+    {
+      "kind": 0,
+      "x": 24,
+      "y": 16,
+      "frame": "rocks/boulder-m"
+    },
+    {
+      "kind": 0,
+      "x": 27,
+      "y": 18,
+      "frame": "camp/fire"
+    },
+    {
+      "kind": 0,
+      "x": 43,
+      "y": 21,
+      "frame": "rocks/boulder-m"
+    },
+    {
+      "kind": 0,
+      "x": 58,
+      "y": 18,
+      "frame": "rocks/boulder-m"
+    },
+    {
+      "kind": 0,
+      "x": 67,
+      "y": 23,
+      "frame": "camp/crates"
+    },
+    {
+      "kind": 0,
+      "x": 83,
+      "y": 20,
+      "frame": "rocks/boulder-m"
+    },
+    {
+      "kind": 0,
+      "x": 89,
+      "y": 21,
+      "frame": "camp/fire"
+    },
+    {
+      "kind": 0,
+      "x": 101,
+      "y": 20,
+      "frame": "rocks/boulder-m"
+    },
+    {
+      "kind": 0,
+      "x": 116,
+      "y": 24,
+      "frame": "camp/fire"
+    },
+    {
+      "kind": 0,
+      "x": 128,
+      "y": 24,
+      "frame": "highland/log"
+    },
+    {
+      "kind": 0,
+      "x": 140,
+      "y": 15,
+      "frame": "rocks/boulder-m"
+    },
+    {
+      "kind": 0,
+      "x": 156,
+      "y": 15,
+      "frame": "highland/log"
+    },
+    {
+      "kind": 0,
+      "x": 164,
+      "y": 20,
+      "frame": "camp/crates"
+    },
+    {
+      "kind": 0,
+      "x": 180,
+      "y": 20,
+      "frame": "highland/oak"
+    },
+    {
+      "kind": 0,
+      "x": 187,
+      "y": 16,
+      "frame": "highland/log"
+    },
+    {
+      "kind": 0,
+      "x": 4,
+      "y": 29,
+      "frame": "rocks/boulder-m"
+    },
+    {
+      "kind": 0,
+      "x": 23,
+      "y": 35,
+      "frame": "rocks/boulder-m"
+    },
+    {
+      "kind": 0,
+      "x": 29,
+      "y": 27,
+      "frame": "camp/crates"
+    },
+    {
+      "kind": 0,
+      "x": 47,
+      "y": 27,
+      "frame": "camp/fire"
+    },
+    {
+      "kind": 0,
+      "x": 57,
+      "y": 36,
+      "frame": "highland/log"
+    },
+    {
+      "kind": 0,
+      "x": 68,
+      "y": 32,
+      "frame": "camp/fire"
+    },
+    {
+      "kind": 0,
+      "x": 80,
+      "y": 31,
+      "frame": "highland/log"
+    },
+    {
+      "kind": 0,
+      "x": 93,
+      "y": 29,
+      "frame": "highland/log"
+    },
+    {
+      "kind": 0,
+      "x": 104,
+      "y": 33,
+      "frame": "rocks/boulder-m"
+    },
+    {
+      "kind": 0,
+      "x": 119,
+      "y": 27,
+      "frame": "camp/fire"
+    },
+    {
+      "kind": 0,
+      "x": 131,
+      "y": 31,
+      "frame": "rocks/boulder-m"
+    },
+    {
+      "kind": 0,
+      "x": 142,
+      "y": 33,
+      "frame": "camp/crates"
+    },
+    {
+      "kind": 0,
+      "x": 150,
+      "y": 28,
+      "frame": "highland/log"
+    },
+    {
+      "kind": 0,
+      "x": 162,
+      "y": 36,
+      "frame": "rocks/boulder-m"
+    },
+    {
+      "kind": 0,
+      "x": 172,
+      "y": 31,
+      "frame": "rocks/boulder-m"
+    },
+    {
+      "kind": 0,
+      "x": 184,
+      "y": 27,
+      "frame": "camp/crates"
+    },
+    {
+      "kind": 0,
+      "x": 5,
+      "y": 43,
+      "frame": "camp/crates"
+    },
+    {
+      "kind": 0,
+      "x": 19,
+      "y": 46,
+      "frame": "highland/oak"
+    },
+    {
+      "kind": 0,
+      "x": 33,
+      "y": 40,
+      "frame": "highland/log"
+    },
+    {
+      "kind": 0,
+      "x": 45,
+      "y": 41,
+      "frame": "camp/crates"
+    },
+    {
+      "kind": 0,
+      "x": 51,
+      "y": 44,
+      "frame": "rocks/boulder-m"
+    },
+    {
+      "kind": 0,
+      "x": 68,
+      "y": 39,
+      "frame": "rocks/boulder-m"
+    },
+    {
+      "kind": 0,
+      "x": 77,
+      "y": 40,
+      "frame": "highland/oak"
+    },
+    {
+      "kind": 0,
+      "x": 89,
+      "y": 41,
+      "frame": "highland/oak"
+    },
+    {
+      "kind": 0,
+      "x": 99,
+      "y": 46,
+      "frame": "rocks/boulder-m"
+    },
+    {
+      "kind": 0,
+      "x": 120,
+      "y": 48,
+      "frame": "rocks/boulder-m"
+    },
+    {
+      "kind": 0,
+      "x": 126,
+      "y": 43,
+      "frame": "rocks/boulder-m"
+    },
+    {
+      "kind": 0,
+      "x": 140,
+      "y": 41,
+      "frame": "camp/crates"
+    },
+    {
+      "kind": 0,
+      "x": 151,
+      "y": 47,
+      "frame": "highland/log"
+    },
+    {
+      "kind": 0,
+      "x": 163,
+      "y": 48,
+      "frame": "highland/oak"
+    },
+    {
+      "kind": 0,
+      "x": 172,
+      "y": 48,
+      "frame": "highland/log"
+    },
+    {
+      "kind": 0,
+      "x": 188,
+      "y": 39,
+      "frame": "rocks/boulder-m"
+    },
+    {
+      "kind": 0,
+      "x": 9,
+      "y": 52,
+      "frame": "camp/crates"
+    },
+    {
+      "kind": 0,
+      "x": 19,
+      "y": 60,
+      "frame": "highland/log"
+    },
+    {
+      "kind": 0,
+      "x": 32,
+      "y": 54,
+      "frame": "camp/fire"
+    },
+    {
+      "kind": 0,
+      "x": 47,
+      "y": 51,
+      "frame": "rocks/boulder-m"
+    },
+    {
+      "kind": 0,
+      "x": 59,
+      "y": 57,
+      "frame": "camp/crates"
+    },
+    {
+      "kind": 0,
+      "x": 66,
+      "y": 52,
+      "frame": "camp/fire"
+    },
+    {
+      "kind": 0,
+      "x": 75,
+      "y": 55,
+      "frame": "camp/fire"
+    },
+    {
+      "kind": 0,
+      "x": 90,
+      "y": 58,
+      "frame": "highland/oak"
+    },
+    {
+      "kind": 0,
+      "x": 99,
+      "y": 59,
+      "frame": "rocks/boulder-m"
+    },
+    {
+      "kind": 0,
+      "x": 120,
+      "y": 53,
+      "frame": "camp/fire"
+    },
+    {
+      "kind": 0,
+      "x": 123,
+      "y": 60,
+      "frame": "camp/crates"
+    },
+    {
+      "kind": 0,
+      "x": 135,
+      "y": 60,
+      "frame": "camp/crates"
+    },
+    {
+      "kind": 0,
+      "x": 153,
+      "y": 51,
+      "frame": "camp/fire"
+    },
+    {
+      "kind": 0,
+      "x": 168,
+      "y": 58,
+      "frame": "camp/fire"
+    },
+    {
+      "kind": 0,
+      "x": 180,
+      "y": 59,
+      "frame": "camp/fire"
+    },
+    {
+      "kind": 0,
+      "x": 184,
+      "y": 51,
+      "frame": "rocks/boulder-m"
+    },
+    {
+      "kind": 0,
+      "x": 3,
+      "y": 66,
+      "frame": "rocks/boulder-m"
+    },
+    {
+      "kind": 0,
+      "x": 17,
+      "y": 67,
+      "frame": "rocks/boulder-m"
+    },
+    {
+      "kind": 0,
+      "x": 28,
+      "y": 72,
+      "frame": "camp/crates"
+    },
+    {
+      "kind": 0,
+      "x": 47,
+      "y": 66,
+      "frame": "highland/log"
+    },
+    {
+      "kind": 0,
+      "x": 51,
+      "y": 69,
+      "frame": "highland/oak"
+    },
+    {
+      "kind": 0,
+      "x": 65,
+      "y": 72,
+      "frame": "rocks/boulder-m"
+    },
+    {
+      "kind": 0,
+      "x": 81,
+      "y": 64,
+      "frame": "highland/log"
+    },
+    {
+      "kind": 0,
+      "x": 96,
+      "y": 65,
+      "frame": "rocks/boulder-m"
+    },
+    {
+      "kind": 0,
+      "x": 108,
+      "y": 71,
+      "frame": "highland/log"
+    },
+    {
+      "kind": 0,
+      "x": 116,
+      "y": 71,
+      "frame": "camp/fire"
+    },
+    {
+      "kind": 0,
+      "x": 125,
+      "y": 63,
+      "frame": "highland/log"
+    },
+    {
+      "kind": 0,
+      "x": 143,
+      "y": 63,
+      "frame": "rocks/boulder-m"
+    },
+    {
+      "kind": 0,
+      "x": 155,
+      "y": 68,
+      "frame": "camp/fire"
+    },
+    {
+      "kind": 0,
+      "x": 162,
+      "y": 64,
+      "frame": "camp/crates"
+    },
+    {
+      "kind": 0,
+      "x": 175,
+      "y": 71,
+      "frame": "rocks/boulder-m"
+    },
+    {
+      "kind": 0,
+      "x": 189,
+      "y": 68,
+      "frame": "camp/crates"
+    },
+    {
+      "kind": 0,
+      "x": 10,
+      "y": 79,
+      "frame": "highland/log"
+    },
+    {
+      "kind": 0,
+      "x": 24,
+      "y": 77,
+      "frame": "camp/crates"
+    },
+    {
+      "kind": 0,
+      "x": 33,
+      "y": 77,
+      "frame": "camp/fire"
+    },
+    {
+      "kind": 0,
+      "x": 44,
+      "y": 77,
+      "frame": "camp/crates"
+    },
+    {
+      "kind": 0,
+      "x": 60,
+      "y": 75,
+      "frame": "highland/oak"
+    },
+    {
+      "kind": 0,
+      "x": 63,
+      "y": 81,
+      "frame": "highland/log"
+    },
+    {
+      "kind": 0,
+      "x": 83,
+      "y": 76,
+      "frame": "highland/log"
+    },
+    {
+      "kind": 0,
+      "x": 96,
+      "y": 77,
+      "frame": "camp/crates"
+    },
+    {
+      "kind": 0,
+      "x": 107,
+      "y": 83,
+      "frame": "camp/crates"
+    },
+    {
+      "kind": 0,
+      "x": 119,
+      "y": 77,
+      "frame": "rocks/boulder-m"
+    },
+    {
+      "kind": 0,
+      "x": 132,
+      "y": 82,
+      "frame": "camp/fire"
+    },
+    {
+      "kind": 0,
+      "x": 144,
+      "y": 76,
+      "frame": "highland/oak"
+    },
+    {
+      "kind": 0,
+      "x": 155,
+      "y": 76,
+      "frame": "highland/log"
+    },
+    {
+      "kind": 0,
+      "x": 162,
+      "y": 79,
+      "frame": "highland/oak"
+    },
+    {
+      "kind": 0,
+      "x": 171,
+      "y": 84,
+      "frame": "camp/crates"
+    },
+    {
+      "kind": 0,
+      "x": 186,
+      "y": 79,
+      "frame": "camp/fire"
+    },
+    {
+      "kind": 0,
+      "x": 10,
+      "y": 93,
+      "frame": "camp/crates"
+    },
+    {
+      "kind": 0,
+      "x": 20,
+      "y": 96,
+      "frame": "camp/crates"
+    },
+    {
+      "kind": 0,
+      "x": 29,
+      "y": 96,
+      "frame": "camp/crates"
+    },
+    {
+      "kind": 0,
+      "x": 47,
+      "y": 87,
+      "frame": "highland/log"
+    },
+    {
+      "kind": 0,
+      "x": 52,
+      "y": 96,
+      "frame": "rocks/boulder-m"
+    },
+    {
+      "kind": 0,
+      "x": 71,
+      "y": 89,
+      "frame": "rocks/boulder-m"
+    },
+    {
+      "kind": 0,
+      "x": 78,
+      "y": 88,
+      "frame": "camp/crates"
+    },
+    {
+      "kind": 0,
+      "x": 93,
+      "y": 91,
+      "frame": "camp/crates"
+    },
+    {
+      "kind": 0,
+      "x": 108,
+      "y": 96,
+      "frame": "highland/oak"
+    },
+    {
+      "kind": 0,
+      "x": 114,
+      "y": 93,
+      "frame": "highland/log"
+    },
+    {
+      "kind": 0,
+      "x": 128,
+      "y": 89,
+      "frame": "rocks/boulder-m"
+    },
+    {
+      "kind": 0,
+      "x": 137,
+      "y": 91,
+      "frame": "highland/oak"
+    },
+    {
+      "kind": 0,
+      "x": 156,
+      "y": 94,
+      "frame": "camp/fire"
+    },
+    {
+      "kind": 0,
+      "x": 161,
+      "y": 92,
+      "frame": "camp/crates"
+    },
+    {
+      "kind": 0,
+      "x": 175,
+      "y": 88,
+      "frame": "highland/oak"
+    },
+    {
+      "kind": 0,
+      "x": 189,
+      "y": 95,
+      "frame": "rocks/boulder-m"
+    },
+    {
+      "kind": 0,
+      "x": 9,
+      "y": 102,
+      "frame": "highland/oak"
+    },
+    {
+      "kind": 0,
+      "x": 19,
+      "y": 106,
+      "frame": "highland/log"
+    },
+    {
+      "kind": 0,
+      "x": 36,
+      "y": 105,
+      "frame": "highland/oak"
+    },
+    {
+      "kind": 0,
+      "x": 40,
+      "y": 102,
+      "frame": "highland/oak"
+    },
+    {
+      "kind": 0,
+      "x": 56,
+      "y": 106,
+      "frame": "highland/oak"
+    },
+    {
+      "kind": 0,
+      "x": 70,
+      "y": 99,
+      "frame": "rocks/boulder-m"
+    },
+    {
+      "kind": 0,
+      "x": 75,
+      "y": 104,
+      "frame": "rocks/boulder-m"
+    },
+    {
+      "kind": 0,
+      "x": 91,
+      "y": 108,
+      "frame": "camp/fire"
+    },
+    {
+      "kind": 0,
+      "x": 108,
+      "y": 104,
+      "frame": "camp/crates"
+    },
+    {
+      "kind": 0,
+      "x": 114,
+      "y": 107,
+      "frame": "highland/oak"
+    },
+    {
+      "kind": 0,
+      "x": 126,
+      "y": 105,
+      "frame": "camp/fire"
+    },
+    {
+      "kind": 0,
+      "x": 144,
+      "y": 105,
+      "frame": "camp/crates"
+    },
+    {
+      "kind": 0,
+      "x": 155,
+      "y": 107,
+      "frame": "rocks/boulder-m"
+    },
+    {
+      "kind": 0,
+      "x": 166,
+      "y": 99,
+      "frame": "highland/oak"
+    },
+    {
+      "kind": 0,
+      "x": 172,
+      "y": 101,
+      "frame": "camp/fire"
+    },
+    {
+      "kind": 0,
+      "x": 183,
+      "y": 104,
+      "frame": "rocks/boulder-m"
+    },
+    {
+      "kind": 0,
+      "x": 7,
+      "y": 115,
+      "frame": "highland/oak"
+    },
+    {
+      "kind": 0,
+      "x": 19,
+      "y": 119,
+      "frame": "camp/crates"
+    },
+    {
+      "kind": 0,
+      "x": 35,
+      "y": 114,
+      "frame": "camp/fire"
+    },
+    {
+      "kind": 0,
+      "x": 47,
+      "y": 120,
+      "frame": "camp/fire"
+    },
+    {
+      "kind": 0,
+      "x": 59,
+      "y": 117,
+      "frame": "camp/fire"
+    },
+    {
+      "kind": 0,
+      "x": 63,
+      "y": 113,
+      "frame": "highland/log"
+    },
+    {
+      "kind": 0,
+      "x": 84,
+      "y": 112,
+      "frame": "highland/log"
+    },
+    {
+      "kind": 0,
+      "x": 88,
+      "y": 113,
+      "frame": "camp/fire"
+    },
+    {
+      "kind": 0,
+      "x": 104,
+      "y": 113,
+      "frame": "highland/oak"
+    },
+    {
+      "kind": 0,
+      "x": 114,
+      "y": 118,
+      "frame": "rocks/boulder-m"
+    },
+    {
+      "kind": 0,
+      "x": 131,
+      "y": 118,
+      "frame": "highland/oak"
+    },
+    {
+      "kind": 0,
+      "x": 143,
+      "y": 112,
+      "frame": "camp/crates"
+    },
+    {
+      "kind": 0,
+      "x": 156,
+      "y": 118,
+      "frame": "rocks/boulder-m"
+    },
+    {
+      "kind": 0,
+      "x": 168,
+      "y": 111,
+      "frame": "highland/oak"
+    },
+    {
+      "kind": 0,
+      "x": 172,
+      "y": 118,
+      "frame": "highland/oak"
+    },
+    {
+      "kind": 0,
+      "x": 188,
+      "y": 115,
+      "frame": "camp/fire"
+    },
+    {
+      "kind": 0,
+      "x": 3,
+      "y": 131,
+      "frame": "highland/oak"
+    },
+    {
+      "kind": 0,
+      "x": 23,
+      "y": 126,
+      "frame": "highland/oak"
+    },
+    {
+      "kind": 0,
+      "x": 35,
+      "y": 127,
+      "frame": "highland/log"
+    },
+    {
+      "kind": 0,
+      "x": 46,
+      "y": 128,
+      "frame": "camp/crates"
+    },
+    {
+      "kind": 0,
+      "x": 57,
+      "y": 128,
+      "frame": "camp/fire"
+    },
+    {
+      "kind": 0,
+      "x": 69,
+      "y": 123,
+      "frame": "highland/log"
+    },
+    {
+      "kind": 0,
+      "x": 81,
+      "y": 123,
+      "frame": "camp/fire"
+    },
+    {
+      "kind": 0,
+      "x": 95,
+      "y": 127,
+      "frame": "rocks/boulder-m"
+    },
+    {
+      "kind": 0,
+      "x": 105,
+      "y": 123,
+      "frame": "camp/fire"
+    },
+    {
+      "kind": 0,
+      "x": 117,
+      "y": 123,
+      "frame": "highland/log"
+    },
+    {
+      "kind": 0,
+      "x": 131,
+      "y": 124,
+      "frame": "highland/log"
+    },
+    {
+      "kind": 0,
+      "x": 143,
+      "y": 127,
+      "frame": "rocks/boulder-m"
+    },
+    {
+      "kind": 0,
+      "x": 152,
+      "y": 132,
+      "frame": "rocks/boulder-m"
+    },
+    {
+      "kind": 0,
+      "x": 164,
+      "y": 123,
+      "frame": "highland/oak"
+    },
+    {
+      "kind": 0,
+      "x": 172,
+      "y": 123,
+      "frame": "rocks/boulder-m"
+    },
+    {
+      "kind": 0,
+      "x": 186,
+      "y": 125,
+      "frame": "highland/log"
+    },
+    {
+      "kind": 0,
+      "x": 8,
+      "y": 143,
+      "frame": "camp/crates"
+    },
+    {
+      "kind": 0,
+      "x": 23,
+      "y": 137,
+      "frame": "highland/oak"
+    },
+    {
+      "kind": 0,
+      "x": 31,
+      "y": 135,
+      "frame": "highland/oak"
+    },
+    {
+      "kind": 0,
+      "x": 44,
+      "y": 142,
+      "frame": "highland/log"
+    },
+    {
+      "kind": 0,
+      "x": 55,
+      "y": 142,
+      "frame": "camp/fire"
+    },
+    {
+      "kind": 0,
+      "x": 65,
+      "y": 142,
+      "frame": "highland/oak"
+    },
+    {
+      "kind": 0,
+      "x": 79,
+      "y": 144,
+      "frame": "rocks/boulder-m"
+    },
+    {
+      "kind": 0,
+      "x": 88,
+      "y": 137,
+      "frame": "camp/crates"
+    },
+    {
+      "kind": 0,
+      "x": 103,
+      "y": 138,
+      "frame": "rocks/boulder-m"
+    },
+    {
+      "kind": 0,
+      "x": 120,
+      "y": 136,
+      "frame": "highland/oak"
+    },
+    {
+      "kind": 0,
+      "x": 126,
+      "y": 137,
+      "frame": "camp/crates"
+    },
+    {
+      "kind": 0,
+      "x": 137,
+      "y": 144,
+      "frame": "highland/oak"
+    },
+    {
+      "kind": 0,
+      "x": 150,
+      "y": 142,
+      "frame": "highland/log"
+    },
+    {
+      "kind": 0,
+      "x": 168,
+      "y": 135,
+      "frame": "camp/crates"
+    },
+    {
+      "kind": 0,
+      "x": 172,
+      "y": 139,
+      "frame": "camp/crates"
+    },
+    {
+      "kind": 0,
+      "x": 189,
+      "y": 141,
+      "frame": "highland/oak"
+    },
+    {
+      "kind": 0,
+      "x": 12,
+      "y": 154,
+      "frame": "highland/log"
+    },
+    {
+      "kind": 0,
+      "x": 20,
+      "y": 148,
+      "frame": "highland/log"
+    },
+    {
+      "kind": 0,
+      "x": 31,
+      "y": 151,
+      "frame": "highland/log"
+    },
+    {
+      "kind": 0,
+      "x": 39,
+      "y": 152,
+      "frame": "highland/log"
+    },
+    {
+      "kind": 0,
+      "x": 60,
+      "y": 150,
+      "frame": "camp/fire"
+    },
+    {
+      "kind": 0,
+      "x": 72,
+      "y": 151,
+      "frame": "rocks/boulder-m"
+    },
+    {
+      "kind": 0,
+      "x": 84,
+      "y": 151,
+      "frame": "rocks/boulder-m"
+    },
+    {
+      "kind": 0,
+      "x": 93,
+      "y": 147,
+      "frame": "camp/crates"
+    },
+    {
+      "kind": 0,
+      "x": 100,
+      "y": 147,
+      "frame": "camp/crates"
+    },
+    {
+      "kind": 0,
+      "x": 115,
+      "y": 154,
+      "frame": "rocks/boulder-m"
+    },
+    {
+      "kind": 0,
+      "x": 129,
+      "y": 155,
+      "frame": "camp/crates"
+    },
+    {
+      "kind": 0,
+      "x": 142,
+      "y": 154,
+      "frame": "camp/crates"
+    },
+    {
+      "kind": 0,
+      "x": 154,
+      "y": 152,
+      "frame": "highland/oak"
+    },
+    {
+      "kind": 0,
+      "x": 165,
+      "y": 147,
+      "frame": "highland/oak"
+    },
+    {
+      "kind": 0,
+      "x": 176,
+      "y": 150,
+      "frame": "camp/crates"
+    },
+    {
+      "kind": 0,
+      "x": 185,
+      "y": 152,
+      "frame": "camp/fire"
+    },
+    {
+      "kind": 0,
+      "x": 12,
+      "y": 167,
+      "frame": "rocks/boulder-m"
+    },
+    {
+      "kind": 0,
+      "x": 15,
+      "y": 159,
+      "frame": "rocks/boulder-m"
+    },
+    {
+      "kind": 0,
+      "x": 36,
+      "y": 168,
+      "frame": "highland/oak"
+    },
+    {
+      "kind": 0,
+      "x": 47,
+      "y": 164,
+      "frame": "camp/fire"
+    },
+    {
+      "kind": 0,
+      "x": 58,
+      "y": 167,
+      "frame": "camp/fire"
+    },
+    {
+      "kind": 0,
+      "x": 67,
+      "y": 168,
+      "frame": "rocks/boulder-m"
+    },
+    {
+      "kind": 0,
+      "x": 77,
+      "y": 161,
+      "frame": "highland/oak"
+    },
+    {
+      "kind": 0,
+      "x": 91,
+      "y": 160,
+      "frame": "camp/fire"
+    },
+    {
+      "kind": 0,
+      "x": 108,
+      "y": 166,
+      "frame": "highland/log"
+    },
+    {
+      "kind": 0,
+      "x": 115,
+      "y": 159,
+      "frame": "rocks/boulder-m"
+    },
+    {
+      "kind": 0,
+      "x": 131,
+      "y": 165,
+      "frame": "rocks/boulder-m"
+    },
+    {
+      "kind": 0,
+      "x": 139,
+      "y": 165,
+      "frame": "rocks/boulder-m"
+    },
+    {
+      "kind": 0,
+      "x": 147,
+      "y": 159,
+      "frame": "camp/fire"
+    },
+    {
+      "kind": 0,
+      "x": 167,
+      "y": 160,
+      "frame": "camp/fire"
+    },
+    {
+      "kind": 0,
+      "x": 177,
+      "y": 160,
+      "frame": "camp/fire"
+    },
+    {
+      "kind": 0,
+      "x": 189,
+      "y": 165,
+      "frame": "highland/oak"
+    },
+    {
+      "kind": 0,
+      "x": 5,
+      "y": 175,
+      "frame": "camp/crates"
+    },
+    {
+      "kind": 0,
+      "x": 19,
+      "y": 172,
+      "frame": "camp/fire"
+    },
+    {
+      "kind": 0,
+      "x": 28,
+      "y": 179,
+      "frame": "camp/fire"
+    },
+    {
+      "kind": 0,
+      "x": 43,
+      "y": 178,
+      "frame": "highland/log"
+    },
+    {
+      "kind": 0,
+      "x": 58,
+      "y": 177,
+      "frame": "highland/oak"
+    },
+    {
+      "kind": 0,
+      "x": 66,
+      "y": 179,
+      "frame": "rocks/boulder-m"
+    },
+    {
+      "kind": 0,
+      "x": 79,
+      "y": 176,
+      "frame": "highland/log"
+    },
+    {
+      "kind": 0,
+      "x": 94,
+      "y": 180,
+      "frame": "highland/log"
+    },
+    {
+      "kind": 0,
+      "x": 103,
+      "y": 173,
+      "frame": "rocks/boulder-m"
+    },
+    {
+      "kind": 0,
+      "x": 113,
+      "y": 180,
+      "frame": "highland/oak"
+    },
+    {
+      "kind": 0,
+      "x": 126,
+      "y": 173,
+      "frame": "highland/oak"
+    },
+    {
+      "kind": 0,
+      "x": 141,
+      "y": 171,
+      "frame": "rocks/boulder-m"
+    },
+    {
+      "kind": 0,
+      "x": 151,
+      "y": 178,
+      "frame": "highland/log"
+    },
+    {
+      "kind": 0,
+      "x": 164,
+      "y": 172,
+      "frame": "highland/oak"
+    },
+    {
+      "kind": 0,
+      "x": 180,
+      "y": 179,
+      "frame": "highland/log"
+    },
+    {
+      "kind": 0,
+      "x": 187,
+      "y": 176,
+      "frame": "camp/crates"
+    },
+    {
+      "kind": 0,
+      "x": 12,
+      "y": 188,
+      "frame": "camp/crates"
+    },
+    {
+      "kind": 0,
+      "x": 16,
+      "y": 186,
+      "frame": "highland/oak"
+    },
+    {
+      "kind": 0,
+      "x": 36,
+      "y": 189,
+      "frame": "camp/crates"
+    },
+    {
+      "kind": 0,
+      "x": 47,
+      "y": 189,
+      "frame": "rocks/boulder-m"
+    },
+    {
+      "kind": 0,
+      "x": 57,
+      "y": 183,
+      "frame": "rocks/boulder-m"
+    },
+    {
+      "kind": 0,
+      "x": 69,
+      "y": 189,
+      "frame": "camp/fire"
+    },
+    {
+      "kind": 0,
+      "x": 77,
+      "y": 188,
+      "frame": "rocks/boulder-m"
+    },
+    {
+      "kind": 0,
+      "x": 92,
+      "y": 189,
+      "frame": "camp/crates"
+    },
+    {
+      "kind": 0,
+      "x": 99,
+      "y": 189,
+      "frame": "highland/oak"
+    },
+    {
+      "kind": 0,
+      "x": 117,
+      "y": 186,
+      "frame": "camp/crates"
+    },
+    {
+      "kind": 0,
+      "x": 124,
+      "y": 189,
+      "frame": "highland/log"
+    },
+    {
+      "kind": 0,
+      "x": 142,
+      "y": 189,
+      "frame": "highland/oak"
+    },
+    {
+      "kind": 0,
+      "x": 151,
+      "y": 186,
+      "frame": "rocks/boulder-m"
+    },
+    {
+      "kind": 0,
+      "x": 163,
+      "y": 189,
+      "frame": "highland/oak"
+    },
+    {
+      "kind": 0,
+      "x": 174,
+      "y": 189,
+      "frame": "rocks/boulder-m"
+    },
+    {
+      "kind": 0,
+      "x": 186,
+      "y": 188,
+      "frame": "camp/fire"
     }
   ],
   "units": [

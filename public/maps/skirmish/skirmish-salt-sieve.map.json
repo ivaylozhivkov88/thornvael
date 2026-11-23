@@ -624,6 +624,300 @@
       "kind": 0,
       "x": 56,
       "y": 56
+    },
+    {
+      "kind": 0,
+      "x": 5,
+      "y": 3,
+      "frame": "bones/ribcage"
+    },
+    {
+      "kind": 0,
+      "x": 19,
+      "y": 7,
+      "frame": "desert/cactus"
+    },
+    {
+      "kind": 0,
+      "x": 34,
+      "y": 11,
+      "frame": "desert/thorn"
+    },
+    {
+      "kind": 0,
+      "x": 43,
+      "y": 7,
+      "frame": "camp/tent"
+    },
+    {
+      "kind": 0,
+      "x": 57,
+      "y": 6,
+      "frame": "desert/thorn"
+    },
+    {
+      "kind": 0,
+      "x": 70,
+      "y": 6,
+      "frame": "desert/cactus"
+    },
+    {
+      "kind": 0,
+      "x": 75,
+      "y": 6,
+      "frame": "rocks/cluster"
+    },
+    {
+      "kind": 0,
+      "x": 9,
+      "y": 17,
+      "frame": "desert/cactus"
+    },
+    {
+      "kind": 0,
+      "x": 24,
+      "y": 23,
+      "frame": "rocks/cluster"
+    },
+    {
+      "kind": 0,
+      "x": 32,
+      "y": 16,
+      "frame": "desert/palm-a"
+    },
+    {
+      "kind": 0,
+      "x": 43,
+      "y": 23,
+      "frame": "bones/ribcage"
+    },
+    {
+      "kind": 0,
+      "x": 52,
+      "y": 18,
+      "frame": "rocks/cluster"
+    },
+    {
+      "kind": 0,
+      "x": 64,
+      "y": 16,
+      "frame": "bones/ribcage"
+    },
+    {
+      "kind": 0,
+      "x": 77,
+      "y": 21,
+      "frame": "desert/thorn"
+    },
+    {
+      "kind": 0,
+      "x": 8,
+      "y": 32,
+      "frame": "camp/tent"
+    },
+    {
+      "kind": 0,
+      "x": 23,
+      "y": 32,
+      "frame": "desert/cactus"
+    },
+    {
+      "kind": 0,
+      "x": 33,
+      "y": 30,
+      "frame": "camp/tent"
+    },
+    {
+      "kind": 0,
+      "x": 47,
+      "y": 31,
+      "frame": "bones/ribcage"
+    },
+    {
+      "kind": 0,
+      "x": 55,
+      "y": 34,
+      "frame": "desert/thorn"
+    },
+    {
+      "kind": 0,
+      "x": 70,
+      "y": 35,
+      "frame": "bones/ribcage"
+    },
+    {
+      "kind": 0,
+      "x": 77,
+      "y": 32,
+      "frame": "bones/ribcage"
+    },
+    {
+      "kind": 0,
+      "x": 8,
+      "y": 48,
+      "frame": "desert/palm-a"
+    },
+    {
+      "kind": 0,
+      "x": 18,
+      "y": 40,
+      "frame": "rocks/cluster"
+    },
+    {
+      "kind": 0,
+      "x": 32,
+      "y": 43,
+      "frame": "desert/thorn"
+    },
+    {
+      "kind": 0,
+      "x": 46,
+      "y": 46,
+      "frame": "bones/ribcage"
+    },
+    {
+      "kind": 0,
+      "x": 58,
+      "y": 44,
+      "frame": "desert/palm-a"
+    },
+    {
+      "kind": 0,
+      "x": 72,
+      "y": 44,
+      "frame": "desert/thorn"
+    },
+    {
+      "kind": 0,
+      "x": 77,
+      "y": 47,
+      "frame": "desert/cactus"
+    },
+    {
+      "kind": 0,
+      "x": 3,
+      "y": 57,
+      "frame": "bones/ribcage"
+    },
+    {
+      "kind": 0,
+      "x": 22,
+      "y": 51,
+      "frame": "desert/thorn"
+    },
+    {
+      "kind": 0,
+      "x": 28,
+      "y": 54,
+      "frame": "desert/palm-a"
+    },
+    {
+      "kind": 0,
+      "x": 48,
+      "y": 57,
+      "frame": "desert/cactus"
+    },
+    {
+      "kind": 0,
+      "x": 59,
+      "y": 60,
+      "frame": "desert/palm-a"
+    },
+    {
+      "kind": 0,
+      "x": 69,
+      "y": 60,
+      "frame": "desert/cactus"
+    },
+    {
+      "kind": 0,
+      "x": 77,
+      "y": 51,
+      "frame": "bones/ribcage"
+    },
+    {
+      "kind": 0,
+      "x": 9,
+      "y": 68,
+      "frame": "desert/palm-a"
+    },
+    {
+      "kind": 0,
+      "x": 17,
+      "y": 70,
+      "frame": "desert/thorn"
+    },
+    {
+      "kind": 0,
+      "x": 29,
+      "y": 70,
+      "frame": "desert/thorn"
+    },
+    {
+      "kind": 0,
+      "x": 47,
+      "y": 72,
+      "frame": "bones/ribcage"
+    },
+    {
+      "kind": 0,
+      "x": 51,
+      "y": 71,
+      "frame": "desert/palm-a"
+    },
+    {
+      "kind": 0,
+      "x": 72,
+      "y": 66,
+      "frame": "rocks/cluster"
+    },
+    {
+      "kind": 0,
+      "x": 75,
+      "y": 72,
+      "frame": "desert/thorn"
+    },
+    {
+      "kind": 0,
+      "x": 6,
+      "y": 77,
+      "frame": "desert/palm-a"
+    },
+    {
+      "kind": 0,
+      "x": 18,
+      "y": 77,
+      "frame": "desert/palm-a"
+    },
+    {
+      "kind": 0,
+      "x": 36,
+      "y": 77,
+      "frame": "desert/cactus"
+    },
+    {
+      "kind": 0,
+      "x": 46,
+      "y": 77,
+      "frame": "bones/ribcage"
+    },
+    {
+      "kind": 0,
+      "x": 52,
+      "y": 77,
+      "frame": "bones/ribcage"
+    },
+    {
+      "kind": 0,
+      "x": 68,
+      "y": 77,
+      "frame": "desert/thorn"
+    },
+    {
+      "kind": 0,
+      "x": 77,
+      "y": 77,
+      "frame": "desert/cactus"
     }
   ],
   "adventureObjects": [

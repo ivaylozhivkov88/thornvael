@@ -492,7 +492,104 @@
     2,
     147
   ],
-  "objects": [],
+  "objects": [
+    {
+      "kind": 0,
+      "x": 4,
+      "y": 9,
+      "frame": "volcanic/vent"
+    },
+    {
+      "kind": 0,
+      "x": 21,
+      "y": 10,
+      "frame": "ruins/column-broken"
+    },
+    {
+      "kind": 0,
+      "x": 35,
+      "y": 4,
+      "frame": "ruins/column-broken"
+    },
+    {
+      "kind": 0,
+      "x": 40,
+      "y": 5,
+      "frame": "volcanic/dead-b"
+    },
+    {
+      "kind": 0,
+      "x": 8,
+      "y": 20,
+      "frame": "volcanic/dead-a"
+    },
+    {
+      "kind": 0,
+      "x": 21,
+      "y": 21,
+      "frame": "volcanic/dead-b"
+    },
+    {
+      "kind": 0,
+      "x": 29,
+      "y": 20,
+      "frame": "volcanic/dead-a"
+    },
+    {
+      "kind": 0,
+      "x": 39,
+      "y": 19,
+      "frame": "volcanic/obsidian"
+    },
+    {
+      "kind": 0,
+      "x": 11,
+      "y": 29,
+      "frame": "volcanic/dead-b"
+    },
+    {
+      "kind": 0,
+      "x": 23,
+      "y": 30,
+      "frame": "volcanic/dead-a"
+    },
+    {
+      "kind": 0,
+      "x": 28,
+      "y": 30,
+      "frame": "volcanic/dead-b"
+    },
+    {
+      "kind": 0,
+      "x": 41,
+      "y": 27,
+      "frame": "volcanic/obsidian"
+    },
+    {
+      "kind": 0,
+      "x": 7,
+      "y": 39,
+      "frame": "volcanic/vent"
+    },
+    {
+      "kind": 0,
+      "x": 21,
+      "y": 40,
+      "frame": "ruins/column-broken"
+    },
+    {
+      "kind": 0,
+      "x": 28,
+      "y": 42,
+      "frame": "volcanic/dead-a"
+    },
+    {
+      "kind": 0,
+      "x": 44,
+      "y": 40,
+      "frame": "ruins/column-broken"
+    }
+  ],
   "units": [
     {
       "kind": 2,

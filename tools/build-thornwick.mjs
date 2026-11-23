@@ -196,36 +196,46 @@ doc.regions = [
   },
 ];
 
-// C3.4 Life: preserve Hero & existing units not colliding with buildings/props, add guards & townsfolk (>= 12 allied units)
+// C3.4 Life: preserve original units not colliding with buildings/props, and populate 12+ ambient town NPCs/guards
 const blocked = new Set([...houseTiles, ...seenProp]);
-const baseUnits = (doc.units || []).filter((u) => !blocked.has(`${u.x},${u.y}`));
-const existingCoords = new Set(baseUnits.map((u) => `${u.x},${u.y}`));
+doc.units = (doc.units || []).filter((u) => !blocked.has(`${u.x},${u.y}`));
 
-const townLife = [
-  // N-Gate & E-Gate guards (Kind 1 = Warrior)
-  { kind: 1, team: 0, x: 26, y: 6 },
-  { kind: 1, team: 0, x: 30, y: 6 },
-  { kind: 1, team: 0, x: 47, y: 21 },
-  { kind: 1, team: 0, x: 47, y: 23 },
-  // Market & Smithy patrols/archers (Kind 1 = Warrior, Kind 2 = Archer, Kind 3 = Mage)
-  { kind: 2, team: 0, x: 13, y: 15 },
-  { kind: 1, team: 0, x: 17, y: 15 },
-  { kind: 3, team: 0, x: 22, y: 14 },
-  { kind: 1, team: 0, x: 34, y: 14 },
-  { kind: 2, team: 0, x: 40, y: 15 },
-  { kind: 1, team: 0, x: 14, y: 24 },
-  { kind: 2, team: 0, x: 35, y: 24 },
-  { kind: 1, team: 0, x: 41, y: 31 },
+const baseNpcs = (doc.towns?.[0]?.npcs || []).slice(0, 2);
+const ambientNpcs = [
+  { name: 'North Gate Watchman', x: 26, y: 6, text: 'npc.gate_n1' },
+  { name: 'North Gate Pikeman', x: 30, y: 6, text: 'npc.gate_n2' },
+  { name: 'East Gate Watchman', x: 47, y: 21, text: 'npc.gate_e1' },
+  { name: 'East Gate Lookout', x: 47, y: 23, text: 'npc.gate_e2' },
+  { name: 'Market Tanner', x: 13, y: 15, text: 'npc.tanner' },
+  { name: 'Cooper Apprentice', x: 17, y: 15, text: 'npc.cooper' },
+  { name: 'Academy Scribe', x: 22, y: 14, text: 'npc.scribe' },
+  { name: 'Smithy Bellows-Boy', x: 34, y: 14, text: 'npc.bellows' },
+  { name: 'Granary Carter', x: 40, y: 15, text: 'npc.carter' },
+  { name: 'Orlen the Grave-Tender', x: 14, y: 24, text: 'npc.grave' },
+  { name: 'Stable Hound', x: 35, y: 24, text: 'npc.hound' },
+  { name: 'Dockside Fisher', x: 41, y: 31, text: 'npc.fisher' },
 ];
-
-for (const u of townLife) {
-  const k = `${u.x},${u.y}`;
-  if (!blocked.has(k) && !existingCoords.has(k) && terrain[u.y * w + u.x] !== WATER) {
-    baseUnits.push(u);
-    existingCoords.add(k);
-  }
+if (doc.towns?.[0]) {
+  doc.towns[0].npcs = [...baseNpcs, ...ambientNpcs];
 }
-doc.units = baseUnits;
+doc.text = doc.text || {};
+const npcLines = {
+  'npc.gate_n1': 'North Gate Watchman: Keep your steel dry on the Mint Road.',
+  'npc.gate_n2': 'North Gate Pikeman: Hound packs prowl past the third milestone.',
+  'npc.gate_e1': 'East Gate Watchman: The Sunken Ford bridge holds, barely.',
+  'npc.gate_e2': 'East Gate Lookout: Smoke rises from the alder reeds at dusk.',
+  'npc.tanner': 'Market Tanner: Boiled hides keep peat-leeches off your shins.',
+  'npc.cooper': 'Cooper Apprentice: Casks for salt pork and lantern oil, stacked fresh.',
+  'npc.scribe': 'Academy Scribe: High Arcanist Vaelen inspects every vitrified shard.',
+  'npc.bellows': 'Smithy Bellows-Boy: Master Kaelen keeps the coals white-hot till midnight.',
+  'npc.carter': 'Granary Carter: Axle grease costs less than a broken wain in the mud.',
+  'npc.grave': 'Orlen the Grave-Tender: Keep the tallow lit by the parish stones.',
+  'npc.hound': 'Stable Hound: *Low bark, ears perked toward the east palisade.*',
+  'npc.fisher': 'Dockside Fisher: Weir-pikes bite near the old pilings after rain.',
+};
+for (const [k, v] of Object.entries(npcLines)) {
+  doc.text[k] = v;
+}
 
 fs.writeFileSync(MAP_PATH, JSON.stringify(doc, null, 2) + '\n');
 console.log(`Built Thornwick: ${houses.length} houses, ${uniqueProps.length} props, ${doc.units.length} units`);

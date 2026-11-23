@@ -492,7 +492,104 @@
     2,
     147
   ],
-  "objects": [],
+  "objects": [
+    {
+      "kind": 0,
+      "x": 11,
+      "y": 12,
+      "frame": "rocks/cluster"
+    },
+    {
+      "kind": 0,
+      "x": 16,
+      "y": 12,
+      "frame": "desert/thorn"
+    },
+    {
+      "kind": 0,
+      "x": 34,
+      "y": 4,
+      "frame": "desert/thorn"
+    },
+    {
+      "kind": 0,
+      "x": 44,
+      "y": 10,
+      "frame": "camp/tent"
+    },
+    {
+      "kind": 0,
+      "x": 7,
+      "y": 17,
+      "frame": "camp/tent"
+    },
+    {
+      "kind": 0,
+      "x": 24,
+      "y": 21,
+      "frame": "camp/tent"
+    },
+    {
+      "kind": 0,
+      "x": 36,
+      "y": 20,
+      "frame": "desert/palm-a"
+    },
+    {
+      "kind": 0,
+      "x": 41,
+      "y": 23,
+      "frame": "camp/tent"
+    },
+    {
+      "kind": 0,
+      "x": 8,
+      "y": 35,
+      "frame": "desert/cactus"
+    },
+    {
+      "kind": 0,
+      "x": 22,
+      "y": 34,
+      "frame": "bones/ribcage"
+    },
+    {
+      "kind": 0,
+      "x": 33,
+      "y": 30,
+      "frame": "desert/thorn"
+    },
+    {
+      "kind": 0,
+      "x": 39,
+      "y": 27,
+      "frame": "desert/cactus"
+    },
+    {
+      "kind": 0,
+      "x": 12,
+      "y": 42,
+      "frame": "desert/cactus"
+    },
+    {
+      "kind": 0,
+      "x": 16,
+      "y": 41,
+      "frame": "desert/palm-a"
+    },
+    {
+      "kind": 0,
+      "x": 30,
+      "y": 39,
+      "frame": "bones/ribcage"
+    },
+    {
+      "kind": 0,
+      "x": 41,
+      "y": 42,
+      "frame": "desert/thorn"
+    }
+  ],
   "units": [
     {
       "kind": 2,

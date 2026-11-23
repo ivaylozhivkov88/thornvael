@@ -1,20 +1,19 @@
 # Thornvael World Visuals Report (`gemini/world-visuals`)
 
 **Branch:** `gemini/world-visuals` (never pushed to `main`)  
-**Current Step:** `C1.1`
+**Current Step:** `DONE` (`C0`–`C8` complete)
 
 ## Unfinished Steps
-- **C1** (`C1.1`..`C1.5`): Terrain + Decor Foundation
-- **C2** (`C2.1`..`C2.4`): Region Metadata & Atmosphere/Audio Crossfade
-- **C3** (`C3.1`..`C3.7`): Thornwick as a Real Town
-- **C4** (`C4.1`..`C4.6`): Map 1 Regions (Border Fords)
-- **C5** (`C5.1`..`C5.3`): Maps 2, 3, 4 Regions
-- **C6** (`C6.1`..`C6.2`): Other Towns, Hubs & Camps
-- **C7**: Skirmish Maps Decor & Atmosphere
-- **C8** (`C8.1`..`C8.4`): Polish, Empty-Areas Audit, Mobile, Offline & `FINAL.md`
+- **None.** All steps `C0`–`C8` are complete.
+- **Forbidden-file hookups:** Listed in `.planning/gemini/WORLD-NEEDS-CLAUDE.md` (`src/main.ts` region audio crossfade call site) and missing `dog_bark` cue noted for the audio queue.
 
 ## Completed Steps
-- **C0 (`50fbf18`):** Researched free, licence-clean tools & PixiJS 8 patterns; recorded verdicts in `.planning/world-visuals/TOOLS.md`.
-- **C1.1–C1.2 (`ee0ec14`):** Generated `public/terrain/skin-ash.png` via `tools/make-skin-ash.py`, registered in `assets.json` & `BIOME_SKINS` (`src/terrain.ts`), and verified all 42 `00-BIBLE.md §5.1` props exist in `public/objects/objects.json`.
-- **C1.3–C1.5 (`3150e48`):** Added optional `frame` to `MapObject` (`src/map.ts`), Y-sorted `prepareScenery` + `mainSkin`-aware path tinting in `src/terrain.ts`, biome-specific collidable decor placement in `src/map-generator.ts` & `src/skirmish-generator.ts`, and `tests/world-decor.test.ts` (2/2 green).
-- **C2.1–C2.4:** Extended `Region` (`light`, `weather`) in `src/mapdoc.ts`; wired `region.zone` bias in `src/terrain.ts`; added `regionAtTile`, `resolveRegionAtmosphere`, and border crossfade in `src/atmosphere.ts`; added pure `src/region-audio.ts` (`resolveRegionAudio`, `computeAudioCrossfade`); logged `src/main.ts` hookup in `.planning/gemini/WORLD-NEEDS-CLAUDE.md`; added `tests/region-metadata.test.ts` (3/3 green).
+- **C0 (`50fbf18`):** Researched free, licence-clean tools & PixiJS 8 patterns in `.planning/world-visuals/TOOLS.md`.
+- **C1 (`ee0ec14`, `3150e48`):** Generated `public/terrain/skin-ash.png`, verified 42 biome props, wired collidable Y-sorted `frame` decor & `mainSkin` path tinting, added `tests/world-decor.test.ts` (2/2 green).
+- **C2 (`df2b754`):** Extended `Region` (`light`, `weather`), `zoneField` bias, `regionAtTile` / `resolveRegionAtmosphere` border crossfade, pure `src/region-audio.ts`, `WORLD-NEEDS-CLAUDE.md`, `tests/region-metadata.test.ts` (3/3 green).
+- **C3 (`013e761`):** Built `tools/build-thornwick.mjs` (9 houses, 102 props, 46 units, N/E gates, waypoint, shrine, dusk/drizzle), `tools/shoot-world.mjs` (screenshots in `.planning/world-visuals/C3/`), `tests/thornwick-town.test.ts` (2/2 green).
+- **C4 (`64e964b`..`e5eadc7`):** Enriched Map 1 regions (`m01`–`m11` + named maps) and rebuilt `src/worlds/act1-world.map.json`.
+- **C5 (`668efce`, `0707a76`, `1aafe51`):** Enriched Map 2 (13 maps), Map 3 (16 maps), and Map 4 (11 maps).
+- **C6 (`ff83f9f`..`c8db91a`):** Cataloged hubs in `.planning/world-visuals/NODES.md` and enriched `map1`–`map4` hubs.
+- **C7 (`ae9802e`):** Enriched all 6 `public/maps/skirmish/*.map.json` maps; `tests/skirmish-pack6.test.ts` (7/7 green).
+- **C8:** Added `tools/empty-areas.mjs`, populated sparse dirt/interior maps, rebuilt `public/chapter1-manifest.json` via `npm run build`, wrote `.planning/world-visuals/FINAL.md`, and verified `tsc --noEmit` + full `vitest` suite.

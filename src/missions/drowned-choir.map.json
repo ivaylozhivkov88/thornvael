@@ -492,7 +492,104 @@
     2,
     147
   ],
-  "objects": [],
+  "objects": [
+    {
+      "kind": 0,
+      "x": 9,
+      "y": 5,
+      "frame": "bones/sarcophagus"
+    },
+    {
+      "kind": 0,
+      "x": 22,
+      "y": 3,
+      "frame": "bones/skullspike"
+    },
+    {
+      "kind": 0,
+      "x": 34,
+      "y": 5,
+      "frame": "ruins/arch"
+    },
+    {
+      "kind": 0,
+      "x": 40,
+      "y": 6,
+      "frame": "bones/skullspike"
+    },
+    {
+      "kind": 0,
+      "x": 5,
+      "y": 24,
+      "frame": "bones/skullspike"
+    },
+    {
+      "kind": 0,
+      "x": 19,
+      "y": 20,
+      "frame": "ruins/arch"
+    },
+    {
+      "kind": 0,
+      "x": 32,
+      "y": 16,
+      "frame": "ruins/wall"
+    },
+    {
+      "kind": 0,
+      "x": 39,
+      "y": 24,
+      "frame": "bones/tombstone"
+    },
+    {
+      "kind": 0,
+      "x": 11,
+      "y": 31,
+      "frame": "ruins/wall"
+    },
+    {
+      "kind": 0,
+      "x": 18,
+      "y": 32,
+      "frame": "bones/sarcophagus"
+    },
+    {
+      "kind": 0,
+      "x": 35,
+      "y": 27,
+      "frame": "ruins/wall"
+    },
+    {
+      "kind": 0,
+      "x": 43,
+      "y": 36,
+      "frame": "bones/sarcophagus"
+    },
+    {
+      "kind": 0,
+      "x": 11,
+      "y": 40,
+      "frame": "bones/tombstone"
+    },
+    {
+      "kind": 0,
+      "x": 23,
+      "y": 39,
+      "frame": "bones/candles"
+    },
+    {
+      "kind": 0,
+      "x": 32,
+      "y": 41,
+      "frame": "ruins/arch"
+    },
+    {
+      "kind": 0,
+      "x": 40,
+      "y": 39,
+      "frame": "bones/skullspike"
+    }
+  ],
   "units": [
     {
       "kind": 2,
