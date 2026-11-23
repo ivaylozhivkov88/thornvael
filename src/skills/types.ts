@@ -1,7 +1,9 @@
-export type SkillClass = 'warrior' | 'mage';
+export type SkillClass = 'warrior' | 'mage' | 'archer' | 'necromancer';
 export type WarriorBranch = 'Berserker' | 'Guardian' | 'Warlord';
 export type MageBranch = 'Pyromancer' | 'Cryomancer' | 'Shadowcaller';
-export type SkillBranch = WarriorBranch | MageBranch;
+export type ArcherBranch = 'Marksmanship' | 'Trapper' | 'Windrunner';
+export type NecromancerBranch = 'Ossuary' | 'Plaguecraft' | 'Threshold';
+export type SkillBranch = WarriorBranch | MageBranch | ArcherBranch | NecromancerBranch;
 export type SkillType = 'active' | 'passive';
 
 export interface SkillNodeDef {
@@ -10,7 +12,7 @@ export interface SkillNodeDef {
   readonly cls: SkillClass;
   readonly branch: SkillBranch;
   readonly type: SkillType;
-  readonly tier: 1 | 2 | 3 | 4;
+  readonly tier: 1 | 2 | 3 | 4 | 5;
   readonly maxRank: number;
   readonly requires: readonly string[];
   readonly synergies: readonly string[];
