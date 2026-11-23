@@ -253,7 +253,7 @@
   },
   {
    "id": "obj-ashbrook-slay-vaelen",
-   "label": "Sally out and defeat Commander Vaelen",
+   "label": "Sally out and defeat Commander Velen",
    "where": "the siege-ram line along the southern approach",
    "region_hint": "southeast",
    "optional": false
@@ -437,7 +437,7 @@
   },
   {
    "id": "obj-hexer-slay-kaelen",
-   "label": "Slay Hexer Kaelen at the center",
+   "label": "Slay Hexer Saelen at the center",
    "where": "the central blood-ward inside the megaliths",
    "region_hint": "centre",
    "optional": false
@@ -749,23 +749,23 @@
  "m35-burning-harbor": [
   {
    "id": "obj-harbor-retake-batteries",
-   "label": "Retake the seawall catapult batteries",
-   "where": "the smoke-choked stone seawall above the piers",
+   "label": "Clear the Burning Plaza and hold the Western Evacuation Pier",
+   "where": "the stone plaza and western gangplanks beside Marshal Veyra",
    "region_hint": "west",
    "optional": false
   },
   {
    "id": "obj-harbor-save-crew",
-   "label": "Rescue shipwrights or volcanic charts",
-   "where": "the burning cabin of Kael's sinking flagship",
+   "label": "Keep Harbor Marshal Veyra alive until the caravels sail",
+   "where": "the Western Evacuation Pier gangplanks",
    "region_hint": "northwest",
-   "optional": true
+   "optional": false
   },
   {
    "id": "obj-harbor-board-flagship",
-   "label": "Board and defeat Admiral Kael",
-   "where": "the black-sailed flagship moored at the mole",
-   "region_hint": "north",
+   "label": "Storm the Eastern War Pier and slay Lord-Captain Korvus",
+   "where": "the Eastern War Pier beside the burning seawall",
+   "region_hint": "northeast",
    "optional": false
   }
  ],

@@ -248,7 +248,7 @@ describe('Act I continuation maps (m05-m11)', () => {
     expect(st.status).toBe(1);
   });
 
-  it('m11 Ashbrook Retreat: holds gate waves, defeats Siege Commander Vaelen, and loses if courtyard falls', () => {
+  it('m11 Ashbrook Retreat: holds gate waves, defeats Siege Commander Velen, and loses if courtyard falls', () => {
     const { g } = start(m11);
     const st = g.sim.script!.st;
     run(g, 10);

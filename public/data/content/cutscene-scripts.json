@@ -71,7 +71,7 @@
    },
    {
     "speaker": "npc-garrick-captain",
-    "line": "Vaelen's outriders moved faster than expected. If they cross Alder Bridge, Thornwick's granaries burn."
+    "line": "Velen's outriders moved faster than expected. If they cross Alder Bridge, Thornwick's granaries burn."
    },
    {
     "speaker": "npc-hobb-smith",
@@ -133,7 +133,7 @@
    },
    {
     "speaker": "npc-garrick-captain",
-    "line": "Commander Vaelen calls for parley—says he'll spare the townsfolk if we surrender the Mint dies."
+    "line": "Commander Velen calls for parley—says he'll spare the townsfolk if we surrender the Mint dies."
    },
    {
     "speaker": "hero",
@@ -156,7 +156,7 @@
     "line": "War-horns split the wet night air as pitch-pots crash onto the causeway below."
    }
   ],
-  "camera_notes": "Over-the-shoulder shot from the palisade walkway looking down at Vaelen's torchlit vanguard, tilting up at the horn blast."
+  "camera_notes": "Over-the-shoulder shot from the palisade walkway looking down at Velen's torchlit vanguard, tilting up at the horn blast."
  },
  {
   "id": "cs-act1-boundary-obelisk",
@@ -234,7 +234,7 @@
    },
    {
     "speaker": "npc-zahra-scholar",
-    "line": "Kaelen's sappers drove iron wedges straight into the primary ley-vein! Look at that hairline crack!"
+    "line": "Saelen's sappers drove iron wedges straight into the primary ley-vein! Look at that hairline crack!"
    },
    {
     "speaker": "hero",

@@ -82,9 +82,9 @@
  {
   "mission": "m11",
   "start": "Brace the splintered postern! Hold the gatehouse until the evacuation wagons roll clear on the north road.",
-  "mid": "Townsfolk are clear! Now open the postern and sally out—take Commander Vaelen's head while Morvessa watches.",
+  "mid": "Townsfolk are clear! Now open the postern and sally out—take Commander Velen's head while Morvessa watches.",
   "danger": "The ram just cracked the crossbeam! Hold the breach for ten more heartbeats or the wagons are caught!",
-  "win": "Vaelen's banner is in the dirt and Ashbrook's folk are safe. Let Morvessa chew on that from her ridge.",
+  "win": "Velen's banner is in the dirt and Ashbrook's folk are safe. Let Morvessa chew on that from her ridge.",
   "lose": "The postern gave way too soon. Ashbrook burned with its people still trapped inside the walls."
  },
  {
@@ -145,10 +145,10 @@
  },
  {
   "mission": "m19",
-  "start": "Wet cloth over nose and mouth—Kaelen's marrow-rot fumes will sour your blood before you reach the stones.",
-  "mid": "Outer censers smashed and the black fog's thinning. Push into the willow hollow and cut Kaelen down!",
+  "start": "Wet cloth over nose and mouth—Saelen's marrow-rot fumes will sour your blood before you reach the stones.",
+  "mid": "Outer censers smashed and the black fog's thinning. Push into the willow hollow and cut Saelen down!",
   "danger": "Censers flaring green—men are coughing blood! Smash the nearest brazier right now!",
-  "win": "Kaelen's dead among his broken megaliths and our wounded twenty miles back can finally breathe clean.",
+  "win": "Saelen's dead among his broken megaliths and our wounded twenty miles back can finally breathe clean.",
   "lose": "Marrow-rot took the vanguard before we crossed the stone ring. The hollow claims more bones."
  },
  {
@@ -273,11 +273,11 @@
  },
  {
   "mission": "m35",
-  "start": "Retake the seawall catapults while the drydocks burn—Kael's copper flagship won't go far without a rudder!",
-  "mid": "Rudder's splinters! Grappling hooks out—board Kael's flagship through the pitch-smoke!",
-  "danger": "Pitch-pots raining onto the seawall! Keep the catapult crews covered or the deck cooks us!",
-  "win": "Flagship taken and Vesperion's mocking stopped right at the point of a blade. Harborwatch is saved.",
-  "lose": "Harborwatch burned to the waterline while Kael's flagship sailed out laughing."
+  "start": "Clear the Burning Plaza and reinforce Marshal Veyra on the Western Evacuation Pier—none of the refugee caravels burn today!",
+  "mid": "The caravels are away past the harbor chain! Pivot across the quays and bring down Lord-Captain Korvus on the Eastern War Pier!",
+  "danger": "Torch-bearers rushing the western gangplanks! Shield Marshal Veyra until the final evacuation ropes are cut!",
+  "win": "Lord-Captain Korvus sinks beneath the black surf and the fleet sails untouched beyond the Western Rim. Harborwatch's people live.",
+  "lose": "Marshal Veyra fell upon the burning pier as mutineer torches devoured the last evacuation caravels."
  },
  {
   "mission": "m36",

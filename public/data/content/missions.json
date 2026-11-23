@@ -788,7 +788,7 @@
    },
    {
     "speaker": "morvessa",
-    "line": "Look how tightly they huddle behind cracked mortar. Vaelen—break their hinges and salt the cellar."
+    "line": "Look how tightly they huddle behind cracked mortar. Velen—break their hinges and salt the cellar."
    },
    {
     "speaker": "npc-marta-alchemist",
@@ -796,7 +796,7 @@
    },
    {
     "speaker": "npc-hobb-smith",
-    "line": "The gate timbers won't survive another hour of rams. We hold the breach, then sally up the road and kill Vaelen!"
+    "line": "The gate timbers won't survive another hour of rams. We hold the breach, then sally up the road and kill Velen!"
    },
    {
     "speaker": "morvessa",
@@ -825,7 +825,7 @@
    {
     "trigger": "objective_halfway",
     "speaker": "hero",
-    "line": "The evacuees are clear. Open the sally port—we take Vaelen's head on the road."
+    "line": "The evacuees are clear. Open the sally port—we take Velen's head on the road."
    },
    {
     "trigger": "last_stand",
@@ -838,7 +838,7 @@
    "Refugees hurry through smoke-choked alleys.",
    "Hold the breach for Thornvael!",
    "Boiling pitch hisses off siege shields.",
-   "Vaelen's warhorn splits the valley.",
+   "Velen's warhorn splits the valley.",
    "Morvessa's laughter rides the cold wind.",
    "Sally out—cut down their bannermen!",
    "Ash settles thick over bloody cobbles."
@@ -846,7 +846,7 @@
   "victory_epilogue": [
    {
     "speaker": "npc-garrick-captain",
-    "line": "Vaelen's dead in the mud and the southern road is open. Ashbrook is a shell, but its people live."
+    "line": "Velen's dead in the mud and the southern road is open. Ashbrook is a shell, but its people live."
    },
    {
     "speaker": "npc-marta-alchemist",
@@ -1265,8 +1265,8 @@
    "prompt": "A captive blood-acolyte offers to stabilize the third wardstone instantly in exchange for his freedom.",
    "a": "Accept his ritual aid to spare your troops from arcane backlash.",
    "b": "Execute him and force Zahra to re-attune the monolith manually.",
-   "effect_a": "Finish battle with full unit health, but the freed acolyte warns Hexer Kaelen (+15% caster armor in m19).",
-   "effect_b": "Units suffer 15% arcane burn damage, but Kaelen's coven remains unaware of your approach."
+   "effect_a": "Finish battle with full unit health, but the freed acolyte warns Hexer Saelen (+15% caster armor in m19).",
+   "effect_b": "Units suffer 15% arcane burn damage, but Saelen's coven remains unaware of your approach."
   },
   "codex_note": "Carved from single pillars of primeval quartz, the Plateau Wardstones were raised by forgotten geomancers to anchor rain-clouds and keep the Redmarsh alkali from drifting north."
  },
@@ -1439,11 +1439,11 @@
    },
    {
     "speaker": "npc-marta-alchemist",
-    "line": "Hexer Kaelen is rotting our wounded from twenty miles away—marrow turning to grey pulp inside clean bandages."
+    "line": "Hexer Saelen is rotting our wounded from twenty miles away—marrow turning to grey pulp inside clean bandages."
    },
    {
     "speaker": "npc-zahra-scholar",
-    "line": "His perimeter wards feed on fear and breath. Step through the gaps between the stones and cut Kaelen down before the chant peaks."
+    "line": "His perimeter wards feed on fear and breath. Step through the gaps between the stones and cut Saelen down before the chant peaks."
    },
    {
     "speaker": "npc-bram-quartermaster",
@@ -1463,7 +1463,7 @@
    {
     "trigger": "low_morale",
     "speaker": "npc-zahra-scholar",
-    "line": "His curse is pulling at old scars! Focus on Kaelen—his concentration is the only thing holding this ring!"
+    "line": "His curse is pulling at old scars! Focus on Saelen—his concentration is the only thing holding this ring!"
    },
    {
     "trigger": "reinforcements",
@@ -1473,7 +1473,7 @@
    {
     "trigger": "last_stand",
     "speaker": "hero",
-    "line": "Kaelen is exposed. Break his staff and end the plague."
+    "line": "Saelen is exposed. Break his staff and end the plague."
    }
   ],
   "ambient_barks": [
@@ -1481,7 +1481,7 @@
    "Megalithic runes pulse sickly bile-green.",
    "Wet cloth muffles ragged coughing.",
    "Necrotic mist corrodes polished mail.",
-   "Kaelen's chanting rasps like dry bone.",
+   "Saelen's chanting rasps like dry bone.",
    "Smash the ritual censers!",
    "Old wounds throb inside the stone ring.",
    "Cold sweat beads under iron helms."
@@ -1489,7 +1489,7 @@
   "victory_epilogue": [
    {
     "speaker": "npc-marta-alchemist",
-    "line": "The green fog is lifting—and word from camp says the fever in the hospital tents broke the moment Kaelen fell."
+    "line": "The green fog is lifting—and word from camp says the fever in the hospital tents broke the moment Saelen fell."
    },
    {
     "speaker": "npc-zahra-scholar",

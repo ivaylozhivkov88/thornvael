@@ -50,7 +50,7 @@
  {
   "id": "book-vanguard-march-orders",
   "title": "Split Column Dispatch",
-  "author": "Captain Vaelen's Adjutant",
+  "author": "Captain Velen's Adjutant",
   "act": 1,
   "text": "By order of the Southern Bailiwick, the first column will force the limestone defile while outriders sweep the west gully to cut off Thornwick's scouts. Take no prisoners from the border levy; their magistrates forfeited crown protection when they withheld the autumn iron-tithe. Burn every granary and mill-weir along the Alder so the northern parishes must beg Redmarsh for salt and bread by midwinter.",
   "found_in": "m07-split-vanguard"
@@ -84,7 +84,7 @@
   "title": "Unsent Letter from Ashbrook",
   "author": "Stewardess Marta",
   "act": 1,
-  "text": "Dearest Sister in Oakhaven, the turnip fields are full of ash and freshly turned earth. Vaelen's rams broke the outer gatehouse before dawn, and our own levies burned the granary so the bailiffs could not take it. We are packing the silver candlesticks and the parish birth-rolls into two handcarts to follow the pikemen south into Redmarsh. Pray the wardstones still hold the dust back when we reach the plateau.",
+  "text": "Dearest Sister in Oakhaven, the turnip fields are full of ash and freshly turned earth. Velen's rams broke the outer gatehouse before dawn, and our own levies burned the granary so the bailiffs could not take it. We are packing the silver candlesticks and the parish birth-rolls into two handcarts to follow the pikemen south into Redmarsh. Pray the wardstones still hold the dust back when we reach the plateau.",
   "found_in": "m11-ashbrook-retreat"
  },
  {
@@ -185,8 +185,8 @@
  },
  {
   "id": "book-hexer-cauldron-notes",
-  "title": "Kaelen's Bog-Curse Formula",
-  "author": "Hexer Kaelen",
+  "title": "Saelen's Bog-Curse Formula",
+  "author": "Hexer Saelen",
   "act": 2,
   "text": "Steep three willow-roots in stagnant marsh-brine until the froth turns copper-green, then bind a debtor's knuckle-bone with unbleached linen. When buried beneath a garrison well, the hex sours every drop of water within forty paces and turns minor blisters into gangrene. Let the border lords drink their own unpaid taxes. Never stir the pot with bare iron. Damp soot blurs the final line. Damp soot blurs the final line.",
   "found_in": "m19-hexer-capture"

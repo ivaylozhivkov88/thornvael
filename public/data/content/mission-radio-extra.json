@@ -166,7 +166,7 @@
    "mission": "m19",
    "reinforce": "Fetish blowdart gunners are creeping through the poison willow thicket!",
    "low_hp": "The marrow-rot fumes are bypassing your wet cloth, get out of the haze!",
-   "half_cleared": "Ten black megaliths are overturned; Kaelen's circle is broken.",
+   "half_cleared": "Ten black megaliths are overturned; Saelen's circle is broken.",
    "boss_spawn": "Matriarch Voss emerges from the fetid roots, rattling bone trinkets!",
    "boss_low": "The Matriarch's hexes are breaking over her head—strike now!",
    "victory_flavour": "Hexer's hollow is cleansed of root and rot."
@@ -310,10 +310,10 @@
    "mission": "m35",
    "reinforce": "Wendigo bruisers are leaping from the burning drydocks onto the seawall!",
    "low_hp": "The pitch-pots are setting your cloak ablaze, beat out the fire!",
-   "half_cleared": "The seawall catapults are retaken and Kael's rudder is smashed.",
-   "boss_spawn": "Pyre-Marshal Kael leaps from the flagship superstructure, wreathed in white phosphorus!",
-   "boss_low": "Kael's phosphorus mantle is burning out! End the Pyre-Marshal!",
-   "victory_flavour": "Burning Harbor flagship is boarded and cleared."
+   "half_cleared": "The Western Evacuation Pier holds and the refugee caravels are clearing the bay.",
+   "boss_spawn": "Lord-Captain Korvus drags his twin iron anchors onto the Eastern War Pier, roaring defiance!",
+   "boss_low": "Korvus's heavy chains are fouling in the ash! Cast The Iron Anchor into the surf!",
+   "victory_flavour": "Burning Harbor's western quay held long enough for the fleet to sail."
   },
   {
    "mission": "m36",

@@ -1708,8 +1708,8 @@
    "args": {
     "mission": "m35"
    },
-   "name": "Copper Hull Boarded",
-   "desc": "Retake the seawall catapults, shatter Kael's rudder, and board his flagship."
+   "name": "The Last Pier Standing",
+   "desc": "Hold the Western Evacuation Pier beside Marshal Veyra and cast Lord-Captain Korvus into the surf."
   },
   {
    "id": "m35-clean",

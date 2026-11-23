@@ -276,7 +276,7 @@
    "xp": 940,
    "item": null
   },
-  "twist": "Choice A (flag_semaphore_burned: Burn the cipher tables on the cliff as npc-lyra-warden ordered): Enemy naval bombardment accuracy drops by 20% in m35-burning-harbor. Choice B (flag_semaphore_kept: Keep the cipher tables to decode enemy supply signals): You gain +220 gold from intercepted smugglers, but Kael's flagship targets your piers more accurately in m35-burning-harbor.",
+  "twist": "Choice A (flag_semaphore_burned: Burn the cipher tables on the cliff as npc-lyra-warden ordered): Enemy naval bombardment accuracy drops by 20% in m35-burning-harbor. Choice B (flag_semaphore_kept: Keep the cipher tables to decode enemy supply signals): You gain +220 gold from intercepted smugglers, but Korvus's pier batteries target your flank more accurately in m35-burning-harbor.",
   "unlocks_after": "m26-sundered-ranks"
  },
  {

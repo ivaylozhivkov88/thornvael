@@ -349,7 +349,7 @@ addUnit({ kind: K_IMP, team: 1, x: 96, y: 79, group: 3, pack: 9, tier: 3, family
 addUnit({ kind: K_IMP, team: 1, x: 100, y: 79, group: 3, pack: 9, tier: 3, family: 'dune-scarab' });
 addUnit({ kind: K_MAGE, team: 1, x: 98, y: 81, group: 3, pack: 9, tier: 3, family: 'witch-doctor' });
 
-// SQ2-03 Kaelen's Bog-Curse Cauldron (Group 9, Pack 10) + Super-Unique venomscale-ssorath
+// SQ2-03 Saelen's Bog-Curse Cauldron (Group 9, Pack 10) + Super-Unique venomscale-ssorath
 const ssorathId = addUnit({
   kind: K_GNOLL,
   team: 1,
@@ -760,7 +760,7 @@ const doc = {
     'obj.7': 'Side: Disarm the Four-Faced Obelisk ambush at the canyon crossroads',
     'obj.7.pos': '128,58',
     'obj.7.kind': 'side',
-    'obj.8': 'Side: Purify Kaelen\'s Bog-Curse Cauldron and slay Ssorath, the Venom Patriarch',
+    'obj.8': 'Side: Purify Saelen\'s Bog-Curse Cauldron and slay Ssorath, the Venom Patriarch',
     'obj.8.pos': '84,100',
     'obj.8.kind': 'side',
     'obj.9': 'Side: Redeem the Third-Dynasty Salt-Vault liens and slay Khepri, the Sunken Embalmer',
@@ -799,7 +799,7 @@ const doc = {
     'msg.13': '[WAR LOGIC - Medium: Success] *(Fresh Deep Quarry iron plates and boiling bitumen seal the salt-rotted oak palisades of Highgate Watch.)* The stockade walls are reinforced against any desert raid!',
     'msg.13.who': 'Sabik',
     'npc.bram': 'Half a pint of boiled rainwater at sunrise, a gill of vinegar-brine at dusk. Guard the Corduroy Convoy or this outpost dies of thirst before a blade is drawn.',
-    'npc.tull': 'Hexer Kaelen and the Venom Patriarch Ssorath have poisoned the central oasis well. Bring me the knuckle-bone talisman from their cauldron and I\'ll share our purest cistern reserves.',
+    'npc.tull': 'Hexer Saelen and the Venom Patriarch Ssorath have poisoned the central oasis well. Bring me the knuckle-bone talisman from their cauldron and I\'ll share our purest cistern reserves.',
     'npc.zahra': 'Someone chiseled reverse blood-wards into the twelve primeval Quartz Wardstones. Ground the three main monoliths on the plateau and redeem the Third-Dynasty Salt-Vaults!',
     'npc.sabik': 'Watch the middle sandstone spire at Twin Passes, Commander—Zara\'s raiders drop crossfire onto both canyon tracks, and the Four-Faced Obelisk has been altered to lure columns into alkali sinkholes.',
     'npc.tomas': 'Gorrathul holds three hundred ironstone miners in chains on the Deep Quarry terraces. Strike the winch-chains and pump the lower gallery to open the submerged bronze sluice!',

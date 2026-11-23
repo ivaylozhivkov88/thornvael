@@ -16,7 +16,7 @@
  {
   "id": "ach2-vaelen-broken",
   "name": "Gatehouse Stand",
-  "description": "Break Commander Vaelen's siege lines at Ashbrook.",
+  "description": "Break Commander Velen's siege lines at Ashbrook.",
   "hidden": false,
   "tier": "silver"
  },
@@ -30,7 +30,7 @@
  {
   "id": "ach2-kaelen-silenced",
   "name": "Broken Megalith",
-  "description": "Slay Hexer Kaelen and end the Redmarsh marrow-rot.",
+  "description": "Slay Hexer Saelen and end the Redmarsh marrow-rot.",
   "hidden": false,
   "tier": "silver"
  },

@@ -440,7 +440,7 @@ addUnit({ kind: K_GNOLL, team: 1, x: 134, y: 152, group: 12, pack: 16, tier: 4, 
 addUnit({ kind: K_GNOLL, team: 1, x: 136, y: 153, group: 12, pack: 16, tier: 4, family: 'pale-burrower' });
 addUnit({ kind: K_GOLEM, team: 1, x: 133, y: 154, group: 12, pack: 16, tier: 4, family: 'flintback' });
 
-// MQ1-06 Ashbrook Gatehouse Siege (Group 6, Pack 17) + Siege Commander Vaelen
+// MQ1-06 Ashbrook Gatehouse Siege (Group 6, Pack 17) + Siege Commander Velen
 const vaelenId = addUnit({
   kind: K_WARRIOR,
   team: 1,
@@ -777,7 +777,7 @@ const doc = {
     'obj.4': 'Main: Hold Alder Bridge cutwater against the eastern host',
     'obj.4.pos': '138,96',
     'obj.4.kind': 'main',
-    'obj.5': 'Main: Breach Ashbrook Southern Gatehouse and defeat Commander Vaelen',
+    'obj.5': 'Main: Breach Ashbrook Southern Gatehouse and defeat Commander Velen',
     'obj.5.pos': '172,174',
     'obj.5.kind': 'main',
     'obj.6': 'Side: Audit the Burned Border Mint ruins for Assayer Pell\'s scales',
@@ -810,7 +810,7 @@ const doc = {
     'msg.5.who': 'Orlen',
     'msg.6': '[COHORT MEMORY - Easy: Success] *(Iron-shod wagon wheels rumble across the wet granite arches while your vanguard holds the western cutwater.)* Alder Bridge stands unbroken! Three thousand river-parish refugees have safely crossed toward the southern road.',
     'msg.6.who': 'Warden Hale',
-    'msg.7': '[WAR LOGIC - Heroic: Success] *(The southern portcullis groans open, revealing the alkali dust-haze of the Redmarsh depression beyond.)* Ashbrook Gatehouse is ours and Siege Commander Vaelen has fallen! The southern road into Redmarsh Outpost lies open.',
+    'msg.7': '[WAR LOGIC - Heroic: Success] *(The southern portcullis groans open, revealing the alkali dust-haze of the Redmarsh depression beyond.)* Ashbrook Gatehouse is ours and Siege Commander Velen has fallen! The southern road into Redmarsh Outpost lies open.',
     'msg.7.who': 'Warden Hale',
     'msg.8': '[QUARTERMASTER\'S EYE - Medium: Success] *(He weighs a clipped silver groat against Assayer Pell\'s recovered brass balance.)* Pell\'s assay scales and the Clipped Coin Investigation ledger have been recovered from the burned Border Mint vaults.',
     'msg.8.who': 'Reeve Marlow',

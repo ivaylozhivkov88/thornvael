@@ -123,7 +123,7 @@
   "id": "cdx-ashbrook-manor",
   "category": "place",
   "title": "Ashbrook Gatehouse",
-  "body": "Southern hinge of the Border Fords frontier, reduced to smoldering timber and turnip-field graves when Vaelen's rams broke the outer bars.",
+  "body": "Southern hinge of the Border Fords frontier, reduced to smoldering timber and turnip-field graves when Velen's rams broke the outer bars.",
   "unlock_hint": "Survive the retreat at Ashbrook.",
   "act": 1
  },
@@ -211,7 +211,7 @@
   "id": "cdx-ash-coven",
   "category": "faction",
   "title": "The Ashen Coven",
-  "body": "Renegade hedge-mages and blood-chanters led by Mordred and Hexer Kaelen who tap subterranean ley-fissures to rot crops and animate drowned corpses.",
+  "body": "Renegade hedge-mages and blood-chanters led by Mordred and Hexer Saelen who tap subterranean ley-fissures to rot crops and animate drowned corpses.",
   "unlock_hint": "Discover Mordred's altar in m04.",
   "act": 1
  },
@@ -411,7 +411,7 @@
   "id": "cdx-ashbrook-evacuation",
   "category": "event",
   "title": "The Burning of Ashbrook",
-  "body": "Unable to hold shattered timber gates against Vaelen's rams, the vanguard sallied out to slay the commander and escort survivors south into Redmarsh.",
+  "body": "Unable to hold shattered timber gates against Velen's rams, the vanguard sallied out to slay the commander and escort survivors south into Redmarsh.",
   "unlock_hint": "Complete Act I.",
   "act": 1
  },

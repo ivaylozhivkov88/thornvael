@@ -50,7 +50,7 @@
  {
   "id": "malrik-caught",
   "name": "No Haven for Traitors",
-  "desc": "Intercept Commander Malrik before he reaches Ember lines.",
+  "desc": "Intercept Arch-Mage Malrik before he reaches Ember lines.",
   "flavor": "He stole the keys; you kept the lock.",
   "tier": "silver",
   "secret": false

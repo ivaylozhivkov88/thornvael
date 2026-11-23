@@ -241,7 +241,7 @@
  },
  {
   "id": "uniq-kaelen-marrow-needle",
-  "name": "Lancet of the Stone Circle",
+  "name": "Saelen's Marrow-Needle",
   "base": "Steel Rondel",
   "act": 2,
   "cls": "any",
@@ -260,7 +260,7 @@
    }
   ],
   "quirk": "Every critical hit steals 8 mana from the target and infects them with 4 poison damage per second for 6 s.",
-  "lore": "Hexer Kaelen maintained that bloodletting cured all frontier complaints, particularly the complaint of imperial soldiers standing upright in his desert.",
+  "lore": "Hexer Saelen maintained that bloodletting cured all frontier complaints, particularly the complaint of imperial soldiers standing upright in his desert.",
   "drop_from": "witch-doctor"
  },
  {

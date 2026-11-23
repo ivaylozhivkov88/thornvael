@@ -84,7 +84,7 @@ const ELEVATIONS = {
     body: 'Beneath the canyon ridge run three torchlit granite galleries linking Ashbrook to the outer passes. Purge the cultists and stone sentinels guarding the vaults to reopen the subterranean thoroughfare.',
   },
   'm11-ashbrook-retreat.map.json': {
-    'msg.5': 'Siege Commander Vaelen is cut down amidst the smoke of his command tent. His field desk splits open under our blades, yielding the siege war-ledger and the six hundred gold sovereigns meant to pay his vanguard.',
+    'msg.5': 'Siege Commander Velen is cut down amidst the smoke of his command tent. His field desk splits open under our blades, yielding the siege war-ledger and the six hundred gold sovereigns meant to pay his vanguard.',
   },
   'm12-redmarsh-border.map.json': {
     'obj.1': 'Sunder the Three Raider Reconnaissance Wings',

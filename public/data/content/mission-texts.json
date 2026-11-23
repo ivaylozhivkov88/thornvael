@@ -71,10 +71,10 @@
  },
  {
   "mission_id": "m11-ashbrook-retreat",
-  "briefing": "Iron-shod rams batter Ashbrook's southern gatehouse while Morvessa watches from the ridge. Hold the splintered postern until the townsfolk clear the north road, load the evacuation wagons, and sally out to take Commander Vaelen's head.",
-  "debrief_win": "Vaelen lies dead in the mud and Ashbrook's people live, yet Morvessa slipped south into the Redmarsh wastes with her ledgers intact.",
+  "briefing": "Iron-shod rams batter Ashbrook's southern gatehouse while Morvessa watches from the ridge. Hold the splintered postern until the townsfolk clear the north road, load the evacuation wagons, and sally out to take Commander Velen's head.",
+  "debrief_win": "Velen lies dead in the mud and Ashbrook's people live, yet Morvessa slipped south into the Redmarsh wastes with her ledgers intact.",
   "debrief_loss": "Ashbrook's gates collapse in a roar of splintered oak, and Morvessa's host turns the border town into smoking rubble.",
-  "mid_event_line": "Evacuees are clear of the inner ward—open the sally port and strike Vaelen's command line!"
+  "mid_event_line": "Evacuees are clear of the inner ward—open the sally port and strike Velen's command line!"
  },
  {
   "mission_id": "m12-redmarsh-border",
@@ -127,10 +127,10 @@
  },
  {
   "mission_id": "m19-hexer-capture",
-  "briefing": "Twelve black megaliths ring a fetid willow hollow where Hexer Kaelen boils marrow-rot curses that wither our wounded twenty miles away. Breathe through wet cloth, smash the perimeter censers, and cut Kaelen down at the center.",
-  "debrief_win": "The green miasma lifts, hospital fevers break across camp, and Kaelen's iron ring points straight to Gorrathul at Ironheart.",
+  "briefing": "Twelve black megaliths ring a fetid willow hollow where Hexer Saelen boils marrow-rot curses that wither our wounded twenty miles away. Breathe through wet cloth, smash the perimeter censers, and cut Saelen down at the center.",
+  "debrief_win": "The green miasma lifts, hospital fevers break across camp, and Saelen's iron ring points straight to Gorrathul at Ironheart.",
   "debrief_loss": "Choked by vile miasma and withered from within, your company collapses before the silent ring of black stones.",
-  "mid_event_line": "Hollow-eyed thralls rise from the bone-trenches behind us—push inward to break Kaelen's chant!"
+  "mid_event_line": "Hollow-eyed thralls rise from the bone-trenches behind us—push inward to break Saelen's chant!"
  },
  {
   "mission_id": "m20-deep-quarry",
@@ -242,7 +242,7 @@
   "briefing": "Ash falls like sleet over Harborwatch as raiders breach the seawall. Clear the Burning Plaza, hold the Western Evacuation Pier beside Marshal Veyra until the iron-plated caravels sail west, then slay Lord-Captain Korvus ('The Iron Anchor') on the Eastern War Pier.",
   "debrief_win": "Korvus falls into the black surf, the evacuation armada sails untouched beyond the rim, and the rearguard turns east toward the Obsidian Caldera.",
   "debrief_loss": "Marshal Veyra falls upon the burning quay as mutineer torches devour the last evacuation ships.",
-  "mid_event_line": "Seawall batteries reclaimed—smash Kael's rudder and throw grappling hooks across the rail!"
+  "mid_event_line": "The last caravel has slipped the western chain—storm the Eastern War Pier and bring down Lord-Captain Korvus!"
  },
  {
   "mission_id": "m36-heartland-march",

@@ -227,9 +227,9 @@
     "town-redmarsh",
     "m12-redmarsh-border"
    ],
-   "briefing": "The climax of the border war is at hand: a massive siege host led by Siege Commander Vaelen is battering the southern gatehouse of Ashbrook. The garrison is exhausted and out of ammunition; refugees are trapped within the inner ward. You must hold the gate against punishing assault waves, then mount a furious counter-thrust up the valley to eliminate Vaelen and cover the strategic withdrawal into Act II.",
+   "briefing": "The climax of the border war is at hand: a massive siege host led by Siege Commander Velen is battering the southern gatehouse of Ashbrook. The garrison is exhausted and out of ammunition; refugees are trapped within the inner ward. You must hold the gate against punishing assault waves, then mount a furious counter-thrust up the valley to eliminate Velen and cover the strategic withdrawal into Act II.",
    "result": {
-    "win": "Ashbrook Gate stands battered but unbroken. Siege Commander Vaelen lies dead upon the bloody road, his host fleeing in disarray. The road south into the Desiccated Marches of Act II is won.",
+    "win": "Ashbrook Gate stands battered but unbroken. Siege Commander Velen lies dead upon the bloody road, his host fleeing in disarray. The road south into the Desiccated Marches of Act II is won.",
     "lose": "The gates of Ashbrook give way with a deafening crash. The siege host floods into the town, slaughtering soldier and civilian alike and leaving the border province in smoking ruin."
    }
   },
@@ -396,10 +396,10 @@
    "unlocksOnVictory": [
     "m20-deep-quarry"
    ],
-   "briefing": "Hexer Kaelen—a fanatical arcanist versed in necrotic curses—orchestrates the desert covens from a secluded megalithic stone circle. His rituals rot the marrow of our wounded soldiers from leagues away. Advance through his enchanted perimeter wards, withstand his poisonous cloud spells, and bring Kaelen down before his ritual claims more lives.",
+   "briefing": "Hexer Saelen—a fanatical arcanist versed in necrotic curses—orchestrates the desert covens from a secluded megalithic stone circle. His rituals rot the marrow of our wounded soldiers from leagues away. Advance through his enchanted perimeter wards, withstand his poisonous cloud spells, and bring Saelen down before his ritual claims more lives.",
    "result": {
-    "win": "Hexer Kaelen is vanquished and his dark ritual circles are cleansed. The necrotic plague lifting from the troops restores strength to dozens of ailing soldiers.",
-    "lose": "Kaelen's dark magic consumes your vanguard. Choked in vile miasma and withered by decay, your company collapses before the ancient stone ring."
+    "win": "Hexer Saelen is vanquished and his dark ritual circles are cleansed. The necrotic plague lifting from the troops restores strength to dozens of ailing soldiers.",
+    "lose": "Saelen's dark magic consumes your vanguard. Choked in vile miasma and withered by decay, your company collapses before the ancient stone ring."
    }
   },
   {
