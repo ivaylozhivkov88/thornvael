@@ -1,0 +1,72 @@
+[
+  {
+    "id": "z3-oakhaven-wards",
+    "name": "Oakhaven & Cinder Wards",
+    "act": 3,
+    "minLevel": 24,
+    "maxLevel": 26,
+    "biome": "ash-keep",
+    "town": "town-oakhaven",
+    "boss": null
+  },
+  {
+    "id": "z3-sunken-citadel",
+    "name": "Sunken Citadel & Riverlock",
+    "act": 3,
+    "minLevel": 26,
+    "maxLevel": 28,
+    "biome": "flooded-ruin",
+    "town": "town-oakhaven",
+    "boss": null
+  },
+  {
+    "id": "z3-burning-harbor",
+    "name": "Burning Harbor",
+    "act": 3,
+    "minLevel": 28,
+    "maxLevel": 30,
+    "biome": "harbor",
+    "town": "town-burning-harbor",
+    "boss": "admiral-vargash"
+  },
+  {
+    "id": "z3-shattered-beacons",
+    "name": "Shattered Beacons & Heartland",
+    "act": 3,
+    "minLevel": 30,
+    "maxLevel": 32,
+    "biome": "highland-siege",
+    "town": "town-heartland",
+    "boss": null
+  },
+  {
+    "id": "z3-gauntlet-of-iron",
+    "name": "Malrik's Flight & Gauntlet of Iron",
+    "act": 3,
+    "minLevel": 32,
+    "maxLevel": 33,
+    "biome": "obsidian-road",
+    "town": "town-heartland",
+    "boss": "iron-juggernaut"
+  },
+  {
+    "id": "z3-outer-rampart",
+    "name": "Outer Rampart & Three-Roads Siege",
+    "act": 3,
+    "minLevel": 33,
+    "maxLevel": 35,
+    "biome": "siege-wall",
+    "town": "town-rampart",
+    "boss": null
+  },
+  {
+    "id": "z3-ember-threshold",
+    "name": "Ember Threshold & Caldera Crown",
+    "act": 3,
+    "minLevel": 35,
+    "maxLevel": 36,
+    "biome": "caldera",
+    "town": "town-rampart",
+    "boss": "archmage-malrik"
+  }
+]

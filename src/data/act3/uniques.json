@@ -1,0 +1,452 @@
+[
+  {
+    "id": "uniq3-oakhaven-halberd",
+    "name": "Oakhaven Bastion Halberd",
+    "slot": "weapon",
+    "tier": 4,
+    "act": 3,
+    "stats": {
+      "minDmg": 22,
+      "maxDmg": 34
+    },
+    "lore": "Forged for the Burning Coast campaign; two-handed royal-steel halberd with a crimson tassel and etched ashwood shaft."
+  },
+  {
+    "id": "uniq3-riverlock-trident",
+    "name": "Riverlock Sluice Trident",
+    "slot": "weapon",
+    "tier": 4,
+    "act": 3,
+    "stats": {
+      "minDmg": 23,
+      "maxDmg": 35
+    },
+    "lore": "Forged for the Burning Coast campaign; heavy bronze-tined trident crusted with green river-verdigris and iron rivets."
+  },
+  {
+    "id": "uniq3-korvus-cutlass",
+    "name": "Korvus Seawall Cutlass",
+    "slot": "weapon",
+    "tier": 4,
+    "act": 3,
+    "stats": {
+      "minDmg": 24,
+      "maxDmg": 36
+    },
+    "lore": "Forged for the Burning Coast campaign; broad naval cutlass with a blackened brass basket-hilt and salt-worn fuller."
+  },
+  {
+    "id": "uniq3-vargash-pitch-axe",
+    "name": "Vargash Pitch-Axe",
+    "slot": "weapon",
+    "tier": 4,
+    "act": 3,
+    "stats": {
+      "minDmg": 25,
+      "maxDmg": 37
+    },
+    "lore": "Forged for the Burning Coast campaign; notched boarding axe smeared with dried tar and bound in braided hemp."
+  },
+  {
+    "id": "uniq3-heartland-arbalest",
+    "name": "Heartland Siege Arbalest",
+    "slot": "weapon",
+    "tier": 4,
+    "act": 3,
+    "stats": {
+      "minDmg": 26,
+      "maxDmg": 38
+    },
+    "lore": "Forged for the Burning Coast campaign; double-prodded steel siege crossbow with a geared brass crank."
+  },
+  {
+    "id": "uniq3-beacon-longbow",
+    "name": "Beacon-Keeper Longbow",
+    "slot": "weapon",
+    "tier": 4,
+    "act": 3,
+    "stats": {
+      "minDmg": 27,
+      "maxDmg": 39
+    },
+    "lore": "Forged for the Burning Coast campaign; dark yew warbow tipped with copper flame-guards and linen grip."
+  },
+  {
+    "id": "uniq3-velen-artillery-mace",
+    "name": "Velen Siege-Master Mace",
+    "slot": "weapon",
+    "tier": 4,
+    "act": 3,
+    "stats": {
+      "minDmg": 28,
+      "maxDmg": 40
+    },
+    "lore": "Forged for the Burning Coast campaign; flanged royal-steel war mace with a spiked iron counterweight."
+  },
+  {
+    "id": "uniq3-vaelen-prism-staff",
+    "name": "Vaelen Twin-Prism Staff",
+    "slot": "weapon",
+    "tier": 5,
+    "act": 3,
+    "stats": {
+      "minDmg": 29,
+      "maxDmg": 41
+    },
+    "lore": "Forged for the Burning Coast campaign; ebony arcanist staff cradling two suspended amber-quartz prisms."
+  },
+  {
+    "id": "uniq3-juggernaut-piston-maul",
+    "name": "Juggernaut Piston Maul",
+    "slot": "weapon",
+    "tier": 5,
+    "act": 3,
+    "stats": {
+      "minDmg": 30,
+      "maxDmg": 42
+    },
+    "lore": "Forged for the Burning Coast campaign; massive riveted ironstone hammer with a brass pressure-collar."
+  },
+  {
+    "id": "uniq3-malrik-cinder-scepter",
+    "name": "Malrik Cinder Scepter",
+    "slot": "weapon",
+    "tier": 5,
+    "act": 3,
+    "stats": {
+      "minDmg": 31,
+      "maxDmg": 43
+    },
+    "lore": "Forged for the Burning Coast campaign; charred obsidian spell-scepter crowned with a glowing ember-glass cage."
+  },
+  {
+    "id": "uniq3-oakhaven-brigandine",
+    "name": "Oakhaven Royal Brigandine",
+    "slot": "armor",
+    "tier": 4,
+    "act": 3,
+    "stats": {
+      "ac": 22
+    },
+    "lore": "Forged for the Burning Coast campaign; riveted crimson-leather and blackened-steel brigandine coat."
+  },
+  {
+    "id": "uniq3-sluice-warden-mail",
+    "name": "Sluice-Warden Chainmail",
+    "slot": "armor",
+    "tier": 4,
+    "act": 3,
+    "stats": {
+      "ac": 22
+    },
+    "lore": "Forged for the Burning Coast campaign; oiled bronze-ringed hauberk layered over salt-cured sealskin."
+  },
+  {
+    "id": "uniq3-korvus-greatcoat",
+    "name": "Korvus Admiral Coat",
+    "slot": "armor",
+    "tier": 4,
+    "act": 3,
+    "stats": {
+      "ac": 22
+    },
+    "lore": "Forged for the Burning Coast campaign; tarred storm-cloth naval coat reinforced with brass shoulder plates."
+  },
+  {
+    "id": "uniq3-heartland-cuirass",
+    "name": "Heartland Battery Cuirass",
+    "slot": "armor",
+    "tier": 4,
+    "act": 3,
+    "stats": {
+      "ac": 22
+    },
+    "lore": "Forged for the Burning Coast campaign; thick fluted siege-plate breastplate with soot-darkened straps."
+  },
+  {
+    "id": "uniq3-obsidian-conduit-robe",
+    "name": "Obsidian Conduit Vestments",
+    "slot": "armor",
+    "tier": 5,
+    "act": 3,
+    "stats": {
+      "ac": 24
+    },
+    "lore": "Forged for the Burning Coast campaign; charcoal-dyed battle-mage robe trimmed with silver ward-sigils."
+  },
+  {
+    "id": "uniq3-rampart-plate",
+    "name": "Rampart Vanguard Plate",
+    "slot": "armor",
+    "tier": 5,
+    "act": 3,
+    "stats": {
+      "ac": 24
+    },
+    "lore": "Forged for the Burning Coast campaign; heavy basalt-forged full plate etched with Thornvael frontier crests."
+  },
+  {
+    "id": "uniq3-caldera-ashen-coat",
+    "name": "Caldera Ashen Greatcoat",
+    "slot": "armor",
+    "tier": 5,
+    "act": 3,
+    "stats": {
+      "ac": 24
+    },
+    "lore": "Forged for the Burning Coast campaign; fireproofed wyrm-hide longcoat stitched with copper wire."
+  },
+  {
+    "id": "uniq3-crown-guard-hauberk",
+    "name": "Crown-Guard Scale Hauberk",
+    "slot": "armor",
+    "tier": 5,
+    "act": 3,
+    "stats": {
+      "ac": 24
+    },
+    "lore": "Forged for the Burning Coast campaign; overlapping gilded-iron scales over quilted ash-linen padding."
+  },
+  {
+    "id": "uniq3-oakhaven-pavise",
+    "name": "Oakhaven Siege Pavise",
+    "slot": "shield",
+    "tier": 4,
+    "act": 3,
+    "stats": {
+      "ac": 22
+    },
+    "lore": "Forged for the Burning Coast campaign; tall iron-rimmed wooden tower shield scarred by crossbow bolts."
+  },
+  {
+    "id": "uniq3-harbor-copper-buckler",
+    "name": "Harbor Copper Buckler",
+    "slot": "shield",
+    "tier": 4,
+    "act": 3,
+    "stats": {
+      "ac": 22
+    },
+    "lore": "Forged for the Burning Coast campaign; dished naval copper buckler with riveted iron boss."
+  },
+  {
+    "id": "uniq3-riverlock-sluice-door",
+    "name": "Riverlock Sluice Bulwark",
+    "slot": "shield",
+    "tier": 4,
+    "act": 3,
+    "stats": {
+      "ac": 22
+    },
+    "lore": "Forged for the Burning Coast campaign; reinforced bronze floodgate-plate repurposed as a heavy kite shield."
+  },
+  {
+    "id": "uniq3-velen-bastion-heater",
+    "name": "Velen Bastion Heater",
+    "slot": "shield",
+    "tier": 4,
+    "act": 3,
+    "stats": {
+      "ac": 22
+    },
+    "lore": "Forged for the Burning Coast campaign; royal-steel heater shield bearing an embossed fortress tower."
+  },
+  {
+    "id": "uniq3-prism-ward-aegis",
+    "name": "Prism-Ward Aegis",
+    "slot": "shield",
+    "tier": 5,
+    "act": 3,
+    "stats": {
+      "ac": 24
+    },
+    "lore": "Forged for the Burning Coast campaign; hexagonal obsidian-and-brass arcane buckler with etched runes."
+  },
+  {
+    "id": "uniq3-caldera-basalt-wall",
+    "name": "Caldera Basalt Wall",
+    "slot": "shield",
+    "tier": 5,
+    "act": 3,
+    "stats": {
+      "ac": 24
+    },
+    "lore": "Forged for the Burning Coast campaign; slab-thick volcanic basalt tower shield banded in blackened iron."
+  },
+  {
+    "id": "uniq3-oakhaven-sallet",
+    "name": "Oakhaven Visored Sallet",
+    "slot": "helm",
+    "tier": 4,
+    "act": 3,
+    "stats": {
+      "bonus": 8
+    },
+    "lore": "Forged for the Burning Coast campaign; articulated steel sallet helmet with a brass nasal guard."
+  },
+  {
+    "id": "uniq3-korvus-tricorn-helm",
+    "name": "Korvus Iron-Brimmed Helm",
+    "slot": "helm",
+    "tier": 4,
+    "act": 3,
+    "stats": {
+      "bonus": 8
+    },
+    "lore": "Forged for the Burning Coast campaign; salt-darkened naval morion helmet with cheek-plates."
+  },
+  {
+    "id": "uniq3-heartland-gunner-cap",
+    "name": "Heartland Bombardier Coif",
+    "slot": "helm",
+    "tier": 4,
+    "act": 3,
+    "stats": {
+      "bonus": 8
+    },
+    "lore": "Forged for the Burning Coast campaign; padded leather-and-iron kettle helm with ear-flaps."
+  },
+  {
+    "id": "uniq3-vaelen-circlet",
+    "name": "Vaelen Arcanist Circlet",
+    "slot": "helm",
+    "tier": 5,
+    "act": 3,
+    "stats": {
+      "bonus": 9
+    },
+    "lore": "Forged for the Burning Coast campaign; slender silver-and-amber circlet set with a faceted sun-quartz."
+  },
+  {
+    "id": "uniq3-malrik-horned-crown",
+    "name": "Malrik Ember Diadem",
+    "slot": "helm",
+    "tier": 5,
+    "act": 3,
+    "stats": {
+      "bonus": 9
+    },
+    "lore": "Forged for the Burning Coast campaign; jagged blackened-iron diadem cradling a dull red caldera stone."
+  },
+  {
+    "id": "uniq3-rampart-greathelm",
+    "name": "Rampart Vanguard Greathelm",
+    "slot": "helm",
+    "tier": 5,
+    "act": 3,
+    "stats": {
+      "bonus": 9
+    },
+    "lore": "Forged for the Burning Coast campaign; flat-topped basalt-steel greathelm with narrow eye-slits."
+  },
+  {
+    "id": "uniq3-oakhaven-greaves",
+    "name": "Oakhaven Marching Greaves",
+    "slot": "boots",
+    "tier": 4,
+    "act": 3,
+    "stats": {
+      "bonus": 8
+    },
+    "lore": "Forged for the Burning Coast campaign; buckled steel-and-leather riding boots with brass spurs."
+  },
+  {
+    "id": "uniq3-korvus-deck-boots",
+    "name": "Korvus Sea-Deck Boots",
+    "slot": "boots",
+    "tier": 4,
+    "act": 3,
+    "stats": {
+      "bonus": 8
+    },
+    "lore": "Forged for the Burning Coast campaign; tall tar-waterproofed leather sea-boots with hobnailed soles."
+  },
+  {
+    "id": "uniq3-beacon-striders",
+    "name": "Beacon-Runner Striders",
+    "slot": "boots",
+    "tier": 4,
+    "act": 3,
+    "stats": {
+      "bonus": 8
+    },
+    "lore": "Forged for the Burning Coast campaign; supple ash-grey courier boots strapped to the shin."
+  },
+  {
+    "id": "uniq3-caldera-iron-sabatons",
+    "name": "Caldera Basalt Sabatons",
+    "slot": "boots",
+    "tier": 5,
+    "act": 3,
+    "stats": {
+      "bonus": 9
+    },
+    "lore": "Forged for the Burning Coast campaign; articulated heat-treated iron sabatons with copper rivets."
+  },
+  {
+    "id": "uniq3-ring-cinder-seal",
+    "name": "Cinder-Ward Signet",
+    "slot": "ring",
+    "tier": 4,
+    "act": 3,
+    "stats": {
+      "bonus": 8
+    },
+    "lore": "Forged for the Burning Coast campaign; heavy blackened-silver signet stamped with a flaming tower."
+  },
+  {
+    "id": "uniq3-ring-korvus-compass",
+    "name": "Korvus Compass Ring",
+    "slot": "ring",
+    "tier": 4,
+    "act": 3,
+    "stats": {
+      "bonus": 8
+    },
+    "lore": "Forged for the Burning Coast campaign; brass mariner ring inlaid with a tiny lodestone needle."
+  },
+  {
+    "id": "uniq3-ring-twin-sigil",
+    "name": "Twin-Arcanist Band",
+    "slot": "ring",
+    "tier": 5,
+    "act": 3,
+    "stats": {
+      "bonus": 9
+    },
+    "lore": "Forged for the Burning Coast campaign; interlocking silver and bronze band engraved with Vaelen runes."
+  },
+  {
+    "id": "uniq3-ring-ember-reckoning",
+    "name": "Ring of Ember Reckoning",
+    "slot": "ring",
+    "tier": 5,
+    "act": 3,
+    "stats": {
+      "bonus": 9
+    },
+    "lore": "Forged for the Burning Coast campaign; volcanic obsidian band veined with glowing gold."
+  },
+  {
+    "id": "uniq3-amulet-harbor-bell",
+    "name": "Harbor Fog-Bell Charm",
+    "slot": "amulet",
+    "tier": 4,
+    "act": 3,
+    "stats": {
+      "bonus": 8
+    },
+    "lore": "Forged for the Burning Coast campaign; miniature cast-bronze ship bell hung on a braided cord."
+  },
+  {
+    "id": "uniq3-amulet-crown-shard",
+    "name": "Crown of Order Shard",
+    "slot": "amulet",
+    "tier": 5,
+    "act": 3,
+    "stats": {
+      "bonus": 9
+    },
+    "lore": "Forged for the Burning Coast campaign; faceted volcanic glass pendant bound in royal-steel filigree."
+  }
+]

@@ -1,0 +1,162 @@
+[
+  {
+    "key": "weapon--oakhaven-halberd",
+    "prompt": "painterly oil dark fantasy RPG paperdoll item, soft upper-left light, centered on a plain flat white background, no text, no shadow, no hands, no body, two-handed royal-steel halberd with a crimson tassel and etched ashwood shaft"
+  },
+  {
+    "key": "weapon--riverlock-trident",
+    "prompt": "painterly oil dark fantasy RPG paperdoll item, soft upper-left light, centered on a plain flat white background, no text, no shadow, no hands, no body, heavy bronze-tined trident crusted with green river-verdigris and iron rivets"
+  },
+  {
+    "key": "weapon--korvus-cutlass",
+    "prompt": "painterly oil dark fantasy RPG paperdoll item, soft upper-left light, centered on a plain flat white background, no text, no shadow, no hands, no body, broad naval cutlass with a blackened brass basket-hilt and salt-worn fuller"
+  },
+  {
+    "key": "weapon--vargash-pitch-axe",
+    "prompt": "painterly oil dark fantasy RPG paperdoll item, soft upper-left light, centered on a plain flat white background, no text, no shadow, no hands, no body, notched boarding axe smeared with dried tar and bound in braided hemp"
+  },
+  {
+    "key": "weapon--heartland-arbalest",
+    "prompt": "painterly oil dark fantasy RPG paperdoll item, soft upper-left light, centered on a plain flat white background, no text, no shadow, no hands, no body, double-prodded steel siege crossbow with a geared brass crank"
+  },
+  {
+    "key": "weapon--beacon-longbow",
+    "prompt": "painterly oil dark fantasy RPG paperdoll item, soft upper-left light, centered on a plain flat white background, no text, no shadow, no hands, no body, dark yew warbow tipped with copper flame-guards and linen grip"
+  },
+  {
+    "key": "weapon--velen-artillery-mace",
+    "prompt": "painterly oil dark fantasy RPG paperdoll item, soft upper-left light, centered on a plain flat white background, no text, no shadow, no hands, no body, flanged royal-steel war mace with a spiked iron counterweight"
+  },
+  {
+    "key": "weapon--vaelen-prism-staff",
+    "prompt": "painterly oil dark fantasy RPG paperdoll item, soft upper-left light, centered on a plain flat white background, no text, no shadow, no hands, no body, ebony arcanist staff cradling two suspended amber-quartz prisms"
+  },
+  {
+    "key": "weapon--juggernaut-piston-maul",
+    "prompt": "painterly oil dark fantasy RPG paperdoll item, soft upper-left light, centered on a plain flat white background, no text, no shadow, no hands, no body, massive riveted ironstone hammer with a brass pressure-collar"
+  },
+  {
+    "key": "weapon--malrik-cinder-scepter",
+    "prompt": "painterly oil dark fantasy RPG paperdoll item, soft upper-left light, centered on a plain flat white background, no text, no shadow, no hands, no body, charred obsidian spell-scepter crowned with a glowing ember-glass cage"
+  },
+  {
+    "key": "armor--oakhaven-brigandine",
+    "prompt": "painterly oil dark fantasy RPG paperdoll item, soft upper-left light, centered on a plain flat white background, no text, no shadow, no hands, no body, riveted crimson-leather and blackened-steel brigandine coat"
+  },
+  {
+    "key": "armor--sluice-warden-mail",
+    "prompt": "painterly oil dark fantasy RPG paperdoll item, soft upper-left light, centered on a plain flat white background, no text, no shadow, no hands, no body, oiled bronze-ringed hauberk layered over salt-cured sealskin"
+  },
+  {
+    "key": "armor--korvus-greatcoat",
+    "prompt": "painterly oil dark fantasy RPG paperdoll item, soft upper-left light, centered on a plain flat white background, no text, no shadow, no hands, no body, tarred storm-cloth naval coat reinforced with brass shoulder plates"
+  },
+  {
+    "key": "armor--heartland-cuirass",
+    "prompt": "painterly oil dark fantasy RPG paperdoll item, soft upper-left light, centered on a plain flat white background, no text, no shadow, no hands, no body, thick fluted siege-plate breastplate with soot-darkened straps"
+  },
+  {
+    "key": "armor--obsidian-conduit-robe",
+    "prompt": "painterly oil dark fantasy RPG paperdoll item, soft upper-left light, centered on a plain flat white background, no text, no shadow, no hands, no body, charcoal-dyed battle-mage robe trimmed with silver ward-sigils"
+  },
+  {
+    "key": "armor--rampart-plate",
+    "prompt": "painterly oil dark fantasy RPG paperdoll item, soft upper-left light, centered on a plain flat white background, no text, no shadow, no hands, no body, heavy basalt-forged full plate etched with Thornvael frontier crests"
+  },
+  {
+    "key": "armor--caldera-ashen-coat",
+    "prompt": "painterly oil dark fantasy RPG paperdoll item, soft upper-left light, centered on a plain flat white background, no text, no shadow, no hands, no body, fireproofed wyrm-hide longcoat stitched with copper wire"
+  },
+  {
+    "key": "armor--crown-guard-hauberk",
+    "prompt": "painterly oil dark fantasy RPG paperdoll item, soft upper-left light, centered on a plain flat white background, no text, no shadow, no hands, no body, overlapping gilded-iron scales over quilted ash-linen padding"
+  },
+  {
+    "key": "shield--oakhaven-pavise",
+    "prompt": "painterly oil dark fantasy RPG paperdoll item, soft upper-left light, centered on a plain flat white background, no text, no shadow, no hands, no body, tall iron-rimmed wooden tower shield scarred by crossbow bolts"
+  },
+  {
+    "key": "shield--harbor-copper-buckler",
+    "prompt": "painterly oil dark fantasy RPG paperdoll item, soft upper-left light, centered on a plain flat white background, no text, no shadow, no hands, no body, dished naval copper buckler with riveted iron boss"
+  },
+  {
+    "key": "shield--riverlock-sluice-door",
+    "prompt": "painterly oil dark fantasy RPG paperdoll item, soft upper-left light, centered on a plain flat white background, no text, no shadow, no hands, no body, reinforced bronze floodgate-plate repurposed as a heavy kite shield"
+  },
+  {
+    "key": "shield--velen-bastion-heater",
+    "prompt": "painterly oil dark fantasy RPG paperdoll item, soft upper-left light, centered on a plain flat white background, no text, no shadow, no hands, no body, royal-steel heater shield bearing an embossed fortress tower"
+  },
+  {
+    "key": "shield--prism-ward-aegis",
+    "prompt": "painterly oil dark fantasy RPG paperdoll item, soft upper-left light, centered on a plain flat white background, no text, no shadow, no hands, no body, hexagonal obsidian-and-brass arcane buckler with etched runes"
+  },
+  {
+    "key": "shield--caldera-basalt-wall",
+    "prompt": "painterly oil dark fantasy RPG paperdoll item, soft upper-left light, centered on a plain flat white background, no text, no shadow, no hands, no body, slab-thick volcanic basalt tower shield banded in blackened iron"
+  },
+  {
+    "key": "helm--oakhaven-sallet",
+    "prompt": "painterly oil dark fantasy RPG paperdoll item, soft upper-left light, centered on a plain flat white background, no text, no shadow, no hands, no body, articulated steel sallet helmet with a brass nasal guard"
+  },
+  {
+    "key": "helm--korvus-tricorn-helm",
+    "prompt": "painterly oil dark fantasy RPG paperdoll item, soft upper-left light, centered on a plain flat white background, no text, no shadow, no hands, no body, salt-darkened naval morion helmet with cheek-plates"
+  },
+  {
+    "key": "helm--heartland-gunner-cap",
+    "prompt": "painterly oil dark fantasy RPG paperdoll item, soft upper-left light, centered on a plain flat white background, no text, no shadow, no hands, no body, padded leather-and-iron kettle helm with ear-flaps"
+  },
+  {
+    "key": "helm--vaelen-circlet",
+    "prompt": "painterly oil dark fantasy RPG paperdoll item, soft upper-left light, centered on a plain flat white background, no text, no shadow, no hands, no body, slender silver-and-amber circlet set with a faceted sun-quartz"
+  },
+  {
+    "key": "helm--malrik-horned-crown",
+    "prompt": "painterly oil dark fantasy RPG paperdoll item, soft upper-left light, centered on a plain flat white background, no text, no shadow, no hands, no body, jagged blackened-iron diadem cradling a dull red caldera stone"
+  },
+  {
+    "key": "helm--rampart-greathelm",
+    "prompt": "painterly oil dark fantasy RPG paperdoll item, soft upper-left light, centered on a plain flat white background, no text, no shadow, no hands, no body, flat-topped basalt-steel greathelm with narrow eye-slits"
+  },
+  {
+    "key": "boots--oakhaven-greaves",
+    "prompt": "painterly oil dark fantasy RPG paperdoll item, soft upper-left light, centered on a plain flat white background, no text, no shadow, no hands, no body, buckled steel-and-leather riding boots with brass spurs"
+  },
+  {
+    "key": "boots--korvus-deck-boots",
+    "prompt": "painterly oil dark fantasy RPG paperdoll item, soft upper-left light, centered on a plain flat white background, no text, no shadow, no hands, no body, tall tar-waterproofed leather sea-boots with hobnailed soles"
+  },
+  {
+    "key": "boots--beacon-striders",
+    "prompt": "painterly oil dark fantasy RPG paperdoll item, soft upper-left light, centered on a plain flat white background, no text, no shadow, no hands, no body, supple ash-grey courier boots strapped to the shin"
+  },
+  {
+    "key": "boots--caldera-iron-sabatons",
+    "prompt": "painterly oil dark fantasy RPG paperdoll item, soft upper-left light, centered on a plain flat white background, no text, no shadow, no hands, no body, articulated heat-treated iron sabatons with copper rivets"
+  },
+  {
+    "key": "ring--ring-cinder-seal",
+    "prompt": "painterly oil dark fantasy RPG paperdoll item, soft upper-left light, centered on a plain flat white background, no text, no shadow, no hands, no body, heavy blackened-silver signet stamped with a flaming tower"
+  },
+  {
+    "key": "ring--ring-korvus-compass",
+    "prompt": "painterly oil dark fantasy RPG paperdoll item, soft upper-left light, centered on a plain flat white background, no text, no shadow, no hands, no body, brass mariner ring inlaid with a tiny lodestone needle"
+  },
+  {
+    "key": "ring--ring-twin-sigil",
+    "prompt": "painterly oil dark fantasy RPG paperdoll item, soft upper-left light, centered on a plain flat white background, no text, no shadow, no hands, no body, interlocking silver and bronze band engraved with Vaelen runes"
+  },
+  {
+    "key": "ring--ring-ember-reckoning",
+    "prompt": "painterly oil dark fantasy RPG paperdoll item, soft upper-left light, centered on a plain flat white background, no text, no shadow, no hands, no body, volcanic obsidian band veined with glowing gold"
+  },
+  {
+    "key": "amulet--amulet-harbor-bell",
+    "prompt": "painterly oil dark fantasy RPG paperdoll item, soft upper-left light, centered on a plain flat white background, no text, no shadow, no hands, no body, miniature cast-bronze ship bell hung on a braided cord"
+  },
+  {
+    "key": "amulet--amulet-crown-shard",
+    "prompt": "painterly oil dark fantasy RPG paperdoll item, soft upper-left light, centered on a plain flat white background, no text, no shadow, no hands, no body, faceted volcanic glass pendant bound in royal-steel filigree"
+  }
+]

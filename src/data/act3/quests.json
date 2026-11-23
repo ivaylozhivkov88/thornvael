@@ -1,0 +1,1718 @@
+[
+  {
+    "id": "mq3-01-oakhaven-muster",
+    "act": 3,
+    "zone": "z3-oakhaven-wards",
+    "giver": "npc-velen-commander",
+    "title": "The Oakhaven Muster",
+    "reward": {
+      "gold": 850,
+      "xp": 1400
+    },
+    "steps": [
+      {
+        "id": "step-1",
+        "kind": "talk",
+        "target": "npc-velen-commander",
+        "trigger": {
+          "type": "talk_npc",
+          "ref": "npc-velen-commander"
+        },
+        "journal": "Spoke with npc-velen-commander regarding The Oakhaven Muster in z3-oakhaven-wards.",
+        "next": "step-2"
+      },
+      {
+        "id": "step-2",
+        "kind": "talk",
+        "target": "z3-oakhaven-wards",
+        "count": 1,
+        "trigger": {
+          "type": "talk_npc",
+          "ref": "z3-oakhaven-wards",
+          "requires_step": "step-1"
+        },
+        "journal": "Completed primary objective for The Oakhaven Muster inside z3-oakhaven-wards.",
+        "next": "step-3"
+      },
+      {
+        "id": "step-3",
+        "kind": "escort",
+        "target": "z3-oakhaven-wards",
+        "count": 1,
+        "trigger": {
+          "type": "escort_safe",
+          "ref": "z3-oakhaven-wards",
+          "requires_step": "step-2"
+        },
+        "journal": "Resolved final task for The Oakhaven Muster.",
+        "next": "step-4"
+      },
+      {
+        "id": "step-4",
+        "kind": "talk",
+        "target": "npc-velen-commander",
+        "trigger": {
+          "type": "talk_npc",
+          "ref": "npc-velen-commander",
+          "requires_step": "step-3"
+        },
+        "journal": "Reported completion of The Oakhaven Muster to npc-velen-commander.",
+        "next": null,
+        "reward": {
+          "gold": 850,
+          "xp": 1400
+        }
+      }
+    ]
+  },
+  {
+    "id": "mq3-02-riverlock-sluice",
+    "act": 3,
+    "zone": "z3-sunken-citadel",
+    "giver": "npc-brecht-armorer",
+    "title": "Sluice-Gates of Riverlock",
+    "reward": {
+      "gold": 920,
+      "xp": 1600
+    },
+    "steps": [
+      {
+        "id": "step-1",
+        "kind": "talk",
+        "target": "npc-brecht-armorer",
+        "trigger": {
+          "type": "talk_npc",
+          "ref": "npc-brecht-armorer"
+        },
+        "journal": "Spoke with npc-brecht-armorer regarding Sluice-Gates of Riverlock in z3-sunken-citadel.",
+        "next": "step-2"
+      },
+      {
+        "id": "step-2",
+        "kind": "fetch",
+        "target": "z3-sunken-citadel",
+        "count": 1,
+        "trigger": {
+          "type": "collect_item",
+          "ref": "z3-sunken-citadel",
+          "requires_step": "step-1"
+        },
+        "journal": "Completed primary objective for Sluice-Gates of Riverlock inside z3-sunken-citadel.",
+        "next": "step-3"
+      },
+      {
+        "id": "step-3",
+        "kind": "kill",
+        "target": "z3-sunken-citadel",
+        "count": 8,
+        "trigger": {
+          "type": "kill_count",
+          "ref": "z3-sunken-citadel",
+          "requires_step": "step-2"
+        },
+        "journal": "Resolved final task for Sluice-Gates of Riverlock.",
+        "next": "step-4"
+      },
+      {
+        "id": "step-4",
+        "kind": "talk",
+        "target": "npc-brecht-armorer",
+        "trigger": {
+          "type": "talk_npc",
+          "ref": "npc-brecht-armorer",
+          "requires_step": "step-3"
+        },
+        "journal": "Reported completion of Sluice-Gates of Riverlock to npc-brecht-armorer.",
+        "next": null,
+        "reward": {
+          "gold": 920,
+          "xp": 1600
+        }
+      }
+    ]
+  },
+  {
+    "id": "mq3-03-burning-harbor-seawall",
+    "act": 3,
+    "zone": "z3-burning-harbor",
+    "giver": "npc-korvus-lordcaptain",
+    "title": "Hold the Burning Harbor",
+    "reward": {
+      "gold": 1100,
+      "xp": 1900
+    },
+    "steps": [
+      {
+        "id": "step-1",
+        "kind": "talk",
+        "target": "npc-korvus-lordcaptain",
+        "trigger": {
+          "type": "talk_npc",
+          "ref": "npc-korvus-lordcaptain"
+        },
+        "journal": "Spoke with npc-korvus-lordcaptain regarding Hold the Burning Harbor in z3-burning-harbor.",
+        "next": "step-2"
+      },
+      {
+        "id": "step-2",
+        "kind": "kill",
+        "target": "z3-burning-harbor",
+        "count": 12,
+        "trigger": {
+          "type": "kill_count",
+          "ref": "z3-burning-harbor",
+          "requires_step": "step-1"
+        },
+        "journal": "Completed primary objective for Hold the Burning Harbor inside z3-burning-harbor.",
+        "next": "step-3"
+      },
+      {
+        "id": "step-3",
+        "kind": "escort",
+        "target": "z3-burning-harbor",
+        "count": 1,
+        "trigger": {
+          "type": "escort_safe",
+          "ref": "z3-burning-harbor",
+          "requires_step": "step-2"
+        },
+        "journal": "Resolved final task for Hold the Burning Harbor.",
+        "next": "step-4"
+      },
+      {
+        "id": "step-4",
+        "kind": "talk",
+        "target": "npc-korvus-lordcaptain",
+        "trigger": {
+          "type": "talk_npc",
+          "ref": "npc-korvus-lordcaptain",
+          "requires_step": "step-3"
+        },
+        "journal": "Reported completion of Hold the Burning Harbor to npc-korvus-lordcaptain.",
+        "next": null,
+        "reward": {
+          "gold": 1100,
+          "xp": 1900
+        }
+      }
+    ]
+  },
+  {
+    "id": "mq3-04-shattered-beacons",
+    "act": 3,
+    "zone": "z3-shattered-beacons",
+    "giver": "npc-velen-commander",
+    "title": "Relight the Heartland Beacons",
+    "reward": {
+      "gold": 1250,
+      "xp": 2100
+    },
+    "steps": [
+      {
+        "id": "step-1",
+        "kind": "talk",
+        "target": "npc-velen-commander",
+        "trigger": {
+          "type": "talk_npc",
+          "ref": "npc-velen-commander"
+        },
+        "journal": "Spoke with npc-velen-commander regarding Relight the Heartland Beacons in z3-shattered-beacons.",
+        "next": "step-2"
+      },
+      {
+        "id": "step-2",
+        "kind": "fetch",
+        "target": "z3-shattered-beacons",
+        "count": 1,
+        "trigger": {
+          "type": "collect_item",
+          "ref": "z3-shattered-beacons",
+          "requires_step": "step-1"
+        },
+        "journal": "Completed primary objective for Relight the Heartland Beacons inside z3-shattered-beacons.",
+        "next": "step-3"
+      },
+      {
+        "id": "step-3",
+        "kind": "escort",
+        "target": "z3-shattered-beacons",
+        "count": 1,
+        "trigger": {
+          "type": "escort_safe",
+          "ref": "z3-shattered-beacons",
+          "requires_step": "step-2"
+        },
+        "journal": "Resolved final task for Relight the Heartland Beacons.",
+        "next": "step-4"
+      },
+      {
+        "id": "step-4",
+        "kind": "talk",
+        "target": "npc-velen-commander",
+        "trigger": {
+          "type": "talk_npc",
+          "ref": "npc-velen-commander",
+          "requires_step": "step-3"
+        },
+        "journal": "Reported completion of Relight the Heartland Beacons to npc-velen-commander.",
+        "next": null,
+        "reward": {
+          "gold": 1250,
+          "xp": 2100
+        }
+      }
+    ]
+  },
+  {
+    "id": "mq3-05-flight-of-malrik",
+    "act": 3,
+    "zone": "z3-gauntlet-of-iron",
+    "giver": "npc-vaelen-arcanist",
+    "title": "The Flight of Malrik",
+    "reward": {
+      "gold": 1400,
+      "xp": 2400
+    },
+    "steps": [
+      {
+        "id": "step-1",
+        "kind": "talk",
+        "target": "npc-vaelen-arcanist",
+        "trigger": {
+          "type": "talk_npc",
+          "ref": "npc-vaelen-arcanist"
+        },
+        "journal": "Spoke with npc-vaelen-arcanist regarding The Flight of Malrik in z3-gauntlet-of-iron.",
+        "next": "step-2"
+      },
+      {
+        "id": "step-2",
+        "kind": "kill",
+        "target": "z3-gauntlet-of-iron",
+        "count": 12,
+        "trigger": {
+          "type": "kill_count",
+          "ref": "z3-gauntlet-of-iron",
+          "requires_step": "step-1"
+        },
+        "journal": "Completed primary objective for The Flight of Malrik inside z3-gauntlet-of-iron.",
+        "next": "step-3"
+      },
+      {
+        "id": "step-3",
+        "kind": "choice",
+        "target": "z3-gauntlet-of-iron",
+        "count": 1,
+        "trigger": {
+          "type": "dialogue_choice",
+          "ref": "z3-gauntlet-of-iron",
+          "requires_step": "step-2"
+        },
+        "journal": "Resolved final task for The Flight of Malrik.",
+        "next": "step-4"
+      },
+      {
+        "id": "step-4",
+        "kind": "talk",
+        "target": "npc-vaelen-arcanist",
+        "trigger": {
+          "type": "talk_npc",
+          "ref": "npc-vaelen-arcanist",
+          "requires_step": "step-3"
+        },
+        "journal": "Reported completion of The Flight of Malrik to npc-vaelen-arcanist.",
+        "next": null,
+        "reward": {
+          "gold": 1400,
+          "xp": 2400
+        }
+      }
+    ]
+  },
+  {
+    "id": "mq3-06-outer-rampart-breach",
+    "act": 3,
+    "zone": "z3-outer-rampart",
+    "giver": "npc-velen-commander",
+    "title": "Breach of the Outer Rampart",
+    "reward": {
+      "gold": 1600,
+      "xp": 2700
+    },
+    "steps": [
+      {
+        "id": "step-1",
+        "kind": "talk",
+        "target": "npc-velen-commander",
+        "trigger": {
+          "type": "talk_npc",
+          "ref": "npc-velen-commander"
+        },
+        "journal": "Spoke with npc-velen-commander regarding Breach of the Outer Rampart in z3-outer-rampart.",
+        "next": "step-2"
+      },
+      {
+        "id": "step-2",
+        "kind": "escort",
+        "target": "z3-outer-rampart",
+        "count": 1,
+        "trigger": {
+          "type": "escort_safe",
+          "ref": "z3-outer-rampart",
+          "requires_step": "step-1"
+        },
+        "journal": "Completed primary objective for Breach of the Outer Rampart inside z3-outer-rampart.",
+        "next": "step-3"
+      },
+      {
+        "id": "step-3",
+        "kind": "kill",
+        "target": "z3-outer-rampart",
+        "count": 8,
+        "trigger": {
+          "type": "kill_count",
+          "ref": "z3-outer-rampart",
+          "requires_step": "step-2"
+        },
+        "journal": "Resolved final task for Breach of the Outer Rampart.",
+        "next": "step-4"
+      },
+      {
+        "id": "step-4",
+        "kind": "talk",
+        "target": "npc-velen-commander",
+        "trigger": {
+          "type": "talk_npc",
+          "ref": "npc-velen-commander",
+          "requires_step": "step-3"
+        },
+        "journal": "Reported completion of Breach of the Outer Rampart to npc-velen-commander.",
+        "next": null,
+        "reward": {
+          "gold": 1600,
+          "xp": 2700
+        }
+      }
+    ]
+  },
+  {
+    "id": "mq3-07-crown-of-order",
+    "act": 3,
+    "zone": "z3-ember-threshold",
+    "giver": "npc-vaelen-arcanist",
+    "title": "The Crown of Order",
+    "reward": {
+      "gold": 1850,
+      "xp": 3200
+    },
+    "steps": [
+      {
+        "id": "step-1",
+        "kind": "talk",
+        "target": "npc-vaelen-arcanist",
+        "trigger": {
+          "type": "talk_npc",
+          "ref": "npc-vaelen-arcanist"
+        },
+        "journal": "Spoke with npc-vaelen-arcanist regarding The Crown of Order in z3-ember-threshold.",
+        "next": "step-2"
+      },
+      {
+        "id": "step-2",
+        "kind": "fetch",
+        "target": "z3-ember-threshold",
+        "count": 1,
+        "trigger": {
+          "type": "collect_item",
+          "ref": "z3-ember-threshold",
+          "requires_step": "step-1"
+        },
+        "journal": "Completed primary objective for The Crown of Order inside z3-ember-threshold.",
+        "next": "step-3"
+      },
+      {
+        "id": "step-3",
+        "kind": "choice",
+        "target": "z3-ember-threshold",
+        "count": 1,
+        "trigger": {
+          "type": "dialogue_choice",
+          "ref": "z3-ember-threshold",
+          "requires_step": "step-2"
+        },
+        "journal": "Resolved final task for The Crown of Order.",
+        "next": "step-4"
+      },
+      {
+        "id": "step-4",
+        "kind": "talk",
+        "target": "npc-vaelen-arcanist",
+        "trigger": {
+          "type": "talk_npc",
+          "ref": "npc-vaelen-arcanist",
+          "requires_step": "step-3"
+        },
+        "journal": "Reported completion of The Crown of Order to npc-vaelen-arcanist.",
+        "next": null,
+        "reward": {
+          "gold": 1850,
+          "xp": 3200
+        }
+      }
+    ]
+  },
+  {
+    "id": "mq3-08-ember-reckoning",
+    "act": 3,
+    "zone": "z3-ember-threshold",
+    "giver": "npc-vaelen-arcanist",
+    "title": "Ember Reckoning",
+    "reward": {
+      "gold": 2500,
+      "xp": 4500
+    },
+    "steps": [
+      {
+        "id": "step-1",
+        "kind": "talk",
+        "target": "npc-vaelen-arcanist",
+        "trigger": {
+          "type": "talk_npc",
+          "ref": "npc-vaelen-arcanist"
+        },
+        "journal": "Spoke with npc-vaelen-arcanist regarding Ember Reckoning in z3-ember-threshold.",
+        "next": "step-2"
+      },
+      {
+        "id": "step-2",
+        "kind": "kill",
+        "target": "z3-ember-threshold",
+        "count": 12,
+        "trigger": {
+          "type": "kill_count",
+          "ref": "z3-ember-threshold",
+          "requires_step": "step-1"
+        },
+        "journal": "Completed primary objective for Ember Reckoning inside z3-ember-threshold.",
+        "next": "step-3"
+      },
+      {
+        "id": "step-3",
+        "kind": "talk",
+        "target": "npc-vaelen-arcanist",
+        "count": 1,
+        "trigger": {
+          "type": "talk_npc",
+          "ref": "npc-vaelen-arcanist",
+          "requires_step": "step-2"
+        },
+        "journal": "Resolved final task for Ember Reckoning.",
+        "next": "step-4"
+      },
+      {
+        "id": "step-4",
+        "kind": "talk",
+        "target": "npc-vaelen-arcanist",
+        "trigger": {
+          "type": "talk_npc",
+          "ref": "npc-vaelen-arcanist",
+          "requires_step": "step-3"
+        },
+        "journal": "Reported completion of Ember Reckoning to npc-vaelen-arcanist.",
+        "next": null,
+        "reward": {
+          "gold": 2500,
+          "xp": 4500
+        }
+      }
+    ]
+  },
+  {
+    "id": "sq3-01-cinder-ward-ledgers",
+    "act": 3,
+    "zone": "z3-oakhaven-wards",
+    "giver": "npc-ysolde-quartermistress",
+    "title": "Ash-Stained Quartermaster Ledgers",
+    "reward": {
+      "gold": 720,
+      "xp": 1200
+    },
+    "steps": [
+      {
+        "id": "step-1",
+        "kind": "talk",
+        "target": "npc-ysolde-quartermistress",
+        "trigger": {
+          "type": "talk_npc",
+          "ref": "npc-ysolde-quartermistress"
+        },
+        "journal": "Spoke with npc-ysolde-quartermistress regarding Ash-Stained Quartermaster Ledgers in z3-oakhaven-wards.",
+        "next": "step-2"
+      },
+      {
+        "id": "step-2",
+        "kind": "fetch",
+        "target": "z3-oakhaven-wards",
+        "count": 1,
+        "trigger": {
+          "type": "collect_item",
+          "ref": "z3-oakhaven-wards",
+          "requires_step": "step-1"
+        },
+        "journal": "Completed primary objective for Ash-Stained Quartermaster Ledgers inside z3-oakhaven-wards.",
+        "next": "step-3"
+      },
+      {
+        "id": "step-3",
+        "kind": "talk",
+        "target": "npc-ysolde-quartermistress",
+        "count": 1,
+        "trigger": {
+          "type": "talk_npc",
+          "ref": "npc-ysolde-quartermistress",
+          "requires_step": "step-2"
+        },
+        "journal": "Resolved final task for Ash-Stained Quartermaster Ledgers.",
+        "next": "step-4"
+      },
+      {
+        "id": "step-4",
+        "kind": "talk",
+        "target": "npc-ysolde-quartermistress",
+        "trigger": {
+          "type": "talk_npc",
+          "ref": "npc-ysolde-quartermistress",
+          "requires_step": "step-3"
+        },
+        "journal": "Reported completion of Ash-Stained Quartermaster Ledgers to npc-ysolde-quartermistress.",
+        "next": null,
+        "reward": {
+          "gold": 720,
+          "xp": 1200
+        }
+      }
+    ]
+  },
+  {
+    "id": "sq3-02-drowned-bell",
+    "act": 3,
+    "zone": "z3-sunken-citadel",
+    "giver": "npc-brecht-armorer",
+    "title": "The Drowned Bell of Riverlock",
+    "reward": {
+      "gold": 780,
+      "xp": 1300
+    },
+    "steps": [
+      {
+        "id": "step-1",
+        "kind": "talk",
+        "target": "npc-brecht-armorer",
+        "trigger": {
+          "type": "talk_npc",
+          "ref": "npc-brecht-armorer"
+        },
+        "journal": "Spoke with npc-brecht-armorer regarding The Drowned Bell of Riverlock in z3-sunken-citadel.",
+        "next": "step-2"
+      },
+      {
+        "id": "step-2",
+        "kind": "kill",
+        "target": "z3-sunken-citadel",
+        "count": 12,
+        "trigger": {
+          "type": "kill_count",
+          "ref": "z3-sunken-citadel",
+          "requires_step": "step-1"
+        },
+        "journal": "Completed primary objective for The Drowned Bell of Riverlock inside z3-sunken-citadel.",
+        "next": "step-3"
+      },
+      {
+        "id": "step-3",
+        "kind": "fetch",
+        "target": "z3-sunken-citadel",
+        "count": 1,
+        "trigger": {
+          "type": "collect_item",
+          "ref": "z3-sunken-citadel",
+          "requires_step": "step-2"
+        },
+        "journal": "Resolved final task for The Drowned Bell of Riverlock.",
+        "next": "step-4"
+      },
+      {
+        "id": "step-4",
+        "kind": "talk",
+        "target": "npc-brecht-armorer",
+        "trigger": {
+          "type": "talk_npc",
+          "ref": "npc-brecht-armorer",
+          "requires_step": "step-3"
+        },
+        "journal": "Reported completion of The Drowned Bell of Riverlock to npc-brecht-armorer.",
+        "next": null,
+        "reward": {
+          "gold": 780,
+          "xp": 1300
+        }
+      }
+    ]
+  },
+  {
+    "id": "sq3-03-korvus-signal-flags",
+    "act": 3,
+    "zone": "z3-burning-harbor",
+    "giver": "npc-korvus-lordcaptain",
+    "title": "Korvus and the Signal Flags",
+    "reward": {
+      "gold": 880,
+      "xp": 1500
+    },
+    "steps": [
+      {
+        "id": "step-1",
+        "kind": "talk",
+        "target": "npc-korvus-lordcaptain",
+        "trigger": {
+          "type": "talk_npc",
+          "ref": "npc-korvus-lordcaptain"
+        },
+        "journal": "Spoke with npc-korvus-lordcaptain regarding Korvus and the Signal Flags in z3-burning-harbor.",
+        "next": "step-2"
+      },
+      {
+        "id": "step-2",
+        "kind": "fetch",
+        "target": "z3-burning-harbor",
+        "count": 1,
+        "trigger": {
+          "type": "collect_item",
+          "ref": "z3-burning-harbor",
+          "requires_step": "step-1"
+        },
+        "journal": "Completed primary objective for Korvus and the Signal Flags inside z3-burning-harbor.",
+        "next": "step-3"
+      },
+      {
+        "id": "step-3",
+        "kind": "escort",
+        "target": "z3-burning-harbor",
+        "count": 1,
+        "trigger": {
+          "type": "escort_safe",
+          "ref": "z3-burning-harbor",
+          "requires_step": "step-2"
+        },
+        "journal": "Resolved final task for Korvus and the Signal Flags.",
+        "next": "step-4"
+      },
+      {
+        "id": "step-4",
+        "kind": "talk",
+        "target": "npc-korvus-lordcaptain",
+        "trigger": {
+          "type": "talk_npc",
+          "ref": "npc-korvus-lordcaptain",
+          "requires_step": "step-3"
+        },
+        "journal": "Reported completion of Korvus and the Signal Flags to npc-korvus-lordcaptain.",
+        "next": null,
+        "reward": {
+          "gold": 880,
+          "xp": 1500
+        }
+      }
+    ]
+  },
+  {
+    "id": "sq3-04-twin-prisms",
+    "act": 3,
+    "zone": "z3-shattered-beacons",
+    "giver": "npc-vaelen-arcanist",
+    "title": "Twin Prisms of Vaelen and Velen",
+    "reward": {
+      "gold": 960,
+      "xp": 1650
+    },
+    "steps": [
+      {
+        "id": "step-1",
+        "kind": "talk",
+        "target": "npc-vaelen-arcanist",
+        "trigger": {
+          "type": "talk_npc",
+          "ref": "npc-vaelen-arcanist"
+        },
+        "journal": "Spoke with npc-vaelen-arcanist regarding Twin Prisms of Vaelen and Velen in z3-shattered-beacons.",
+        "next": "step-2"
+      },
+      {
+        "id": "step-2",
+        "kind": "fetch",
+        "target": "z3-shattered-beacons",
+        "count": 1,
+        "trigger": {
+          "type": "collect_item",
+          "ref": "z3-shattered-beacons",
+          "requires_step": "step-1"
+        },
+        "journal": "Completed primary objective for Twin Prisms of Vaelen and Velen inside z3-shattered-beacons.",
+        "next": "step-3"
+      },
+      {
+        "id": "step-3",
+        "kind": "choice",
+        "target": "z3-shattered-beacons",
+        "count": 1,
+        "trigger": {
+          "type": "dialogue_choice",
+          "ref": "z3-shattered-beacons",
+          "requires_step": "step-2"
+        },
+        "journal": "Resolved final task for Twin Prisms of Vaelen and Velen.",
+        "next": "step-4"
+      },
+      {
+        "id": "step-4",
+        "kind": "talk",
+        "target": "npc-vaelen-arcanist",
+        "trigger": {
+          "type": "talk_npc",
+          "ref": "npc-vaelen-arcanist",
+          "requires_step": "step-3"
+        },
+        "journal": "Reported completion of Twin Prisms of Vaelen and Velen to npc-vaelen-arcanist.",
+        "next": null,
+        "reward": {
+          "gold": 960,
+          "xp": 1650
+        }
+      }
+    ]
+  },
+  {
+    "id": "sq3-05-iron-boiler-valve",
+    "act": 3,
+    "zone": "z3-gauntlet-of-iron",
+    "giver": "npc-orin-artificer",
+    "title": "The Riverlock Boiler Valve",
+    "reward": {
+      "gold": 1080,
+      "xp": 1850
+    },
+    "steps": [
+      {
+        "id": "step-1",
+        "kind": "talk",
+        "target": "npc-orin-artificer",
+        "trigger": {
+          "type": "talk_npc",
+          "ref": "npc-orin-artificer"
+        },
+        "journal": "Spoke with npc-orin-artificer regarding The Riverlock Boiler Valve in z3-gauntlet-of-iron.",
+        "next": "step-2"
+      },
+      {
+        "id": "step-2",
+        "kind": "fetch",
+        "target": "z3-gauntlet-of-iron",
+        "count": 1,
+        "trigger": {
+          "type": "collect_item",
+          "ref": "z3-gauntlet-of-iron",
+          "requires_step": "step-1"
+        },
+        "journal": "Completed primary objective for The Riverlock Boiler Valve inside z3-gauntlet-of-iron.",
+        "next": "step-3"
+      },
+      {
+        "id": "step-3",
+        "kind": "kill",
+        "target": "z3-gauntlet-of-iron",
+        "count": 8,
+        "trigger": {
+          "type": "kill_count",
+          "ref": "z3-gauntlet-of-iron",
+          "requires_step": "step-2"
+        },
+        "journal": "Resolved final task for The Riverlock Boiler Valve.",
+        "next": "step-4"
+      },
+      {
+        "id": "step-4",
+        "kind": "talk",
+        "target": "npc-orin-artificer",
+        "trigger": {
+          "type": "talk_npc",
+          "ref": "npc-orin-artificer",
+          "requires_step": "step-3"
+        },
+        "journal": "Reported completion of The Riverlock Boiler Valve to npc-orin-artificer.",
+        "next": null,
+        "reward": {
+          "gold": 1080,
+          "xp": 1850
+        }
+      }
+    ]
+  },
+  {
+    "id": "sq3-06-valgor-shades",
+    "act": 3,
+    "zone": "z3-outer-rampart",
+    "giver": "npc-halvar-veteran",
+    "title": "Silence the Valgor-Bound Shades",
+    "reward": {
+      "gold": 1200,
+      "xp": 2100
+    },
+    "steps": [
+      {
+        "id": "step-1",
+        "kind": "talk",
+        "target": "npc-halvar-veteran",
+        "trigger": {
+          "type": "talk_npc",
+          "ref": "npc-halvar-veteran"
+        },
+        "journal": "Spoke with npc-halvar-veteran regarding Silence the Valgor-Bound Shades in z3-outer-rampart.",
+        "next": "step-2"
+      },
+      {
+        "id": "step-2",
+        "kind": "kill",
+        "target": "z3-outer-rampart",
+        "count": 12,
+        "trigger": {
+          "type": "kill_count",
+          "ref": "z3-outer-rampart",
+          "requires_step": "step-1"
+        },
+        "journal": "Completed primary objective for Silence the Valgor-Bound Shades inside z3-outer-rampart.",
+        "next": "step-3"
+      },
+      {
+        "id": "step-3",
+        "kind": "talk",
+        "target": "npc-halvar-veteran",
+        "count": 1,
+        "trigger": {
+          "type": "talk_npc",
+          "ref": "npc-halvar-veteran",
+          "requires_step": "step-2"
+        },
+        "journal": "Resolved final task for Silence the Valgor-Bound Shades.",
+        "next": "step-4"
+      },
+      {
+        "id": "step-4",
+        "kind": "talk",
+        "target": "npc-halvar-veteran",
+        "trigger": {
+          "type": "talk_npc",
+          "ref": "npc-halvar-veteran",
+          "requires_step": "step-3"
+        },
+        "journal": "Reported completion of Silence the Valgor-Bound Shades to npc-halvar-veteran.",
+        "next": null,
+        "reward": {
+          "gold": 1200,
+          "xp": 2100
+        }
+      }
+    ]
+  },
+  {
+    "id": "ct3-01-ash-scouts",
+    "act": 3,
+    "zone": "z3-oakhaven-wards",
+    "giver": "npc-ysolde-quartermistress",
+    "title": "Bounty: Ash-Keep Outriders",
+    "reward": {
+      "gold": 650,
+      "xp": 1100
+    },
+    "steps": [
+      {
+        "id": "step-1",
+        "kind": "talk",
+        "target": "npc-ysolde-quartermistress",
+        "trigger": {
+          "type": "talk_npc",
+          "ref": "npc-ysolde-quartermistress"
+        },
+        "journal": "Spoke with npc-ysolde-quartermistress regarding Bounty: Ash-Keep Outriders in z3-oakhaven-wards.",
+        "next": "step-2"
+      },
+      {
+        "id": "step-2",
+        "kind": "kill",
+        "target": "z3-oakhaven-wards",
+        "count": 12,
+        "trigger": {
+          "type": "kill_count",
+          "ref": "z3-oakhaven-wards",
+          "requires_step": "step-1"
+        },
+        "journal": "Completed primary objective for Bounty: Ash-Keep Outriders inside z3-oakhaven-wards.",
+        "next": "step-3"
+      },
+      {
+        "id": "step-3",
+        "kind": "talk",
+        "target": "npc-ysolde-quartermistress",
+        "count": 1,
+        "trigger": {
+          "type": "talk_npc",
+          "ref": "npc-ysolde-quartermistress",
+          "requires_step": "step-2"
+        },
+        "journal": "Resolved final task for Bounty: Ash-Keep Outriders.",
+        "next": "step-4"
+      },
+      {
+        "id": "step-4",
+        "kind": "talk",
+        "target": "npc-ysolde-quartermistress",
+        "trigger": {
+          "type": "talk_npc",
+          "ref": "npc-ysolde-quartermistress",
+          "requires_step": "step-3"
+        },
+        "journal": "Reported completion of Bounty: Ash-Keep Outriders to npc-ysolde-quartermistress.",
+        "next": null,
+        "reward": {
+          "gold": 650,
+          "xp": 1100
+        }
+      }
+    ]
+  },
+  {
+    "id": "ct3-02-cinder-wagons",
+    "act": 3,
+    "zone": "z3-oakhaven-wards",
+    "giver": "npc-brecht-armorer",
+    "title": "Contract: Oakhaven Munitions Cart",
+    "reward": {
+      "gold": 680,
+      "xp": 1150
+    },
+    "steps": [
+      {
+        "id": "step-1",
+        "kind": "talk",
+        "target": "npc-brecht-armorer",
+        "trigger": {
+          "type": "talk_npc",
+          "ref": "npc-brecht-armorer"
+        },
+        "journal": "Spoke with npc-brecht-armorer regarding Contract: Oakhaven Munitions Cart in z3-oakhaven-wards.",
+        "next": "step-2"
+      },
+      {
+        "id": "step-2",
+        "kind": "escort",
+        "target": "z3-oakhaven-wards",
+        "count": 1,
+        "trigger": {
+          "type": "escort_safe",
+          "ref": "z3-oakhaven-wards",
+          "requires_step": "step-1"
+        },
+        "journal": "Completed primary objective for Contract: Oakhaven Munitions Cart inside z3-oakhaven-wards.",
+        "next": "step-3"
+      },
+      {
+        "id": "step-3",
+        "kind": "talk",
+        "target": "npc-brecht-armorer",
+        "count": 1,
+        "trigger": {
+          "type": "talk_npc",
+          "ref": "npc-brecht-armorer",
+          "requires_step": "step-2"
+        },
+        "journal": "Resolved final task for Contract: Oakhaven Munitions Cart.",
+        "next": "step-4"
+      },
+      {
+        "id": "step-4",
+        "kind": "talk",
+        "target": "npc-brecht-armorer",
+        "trigger": {
+          "type": "talk_npc",
+          "ref": "npc-brecht-armorer",
+          "requires_step": "step-3"
+        },
+        "journal": "Reported completion of Contract: Oakhaven Munitions Cart to npc-brecht-armorer.",
+        "next": null,
+        "reward": {
+          "gold": 680,
+          "xp": 1150
+        }
+      }
+    ]
+  },
+  {
+    "id": "ct3-03-sluice-scavengers",
+    "act": 3,
+    "zone": "z3-sunken-citadel",
+    "giver": "npc-brecht-armorer",
+    "title": "Bounty: Drowned Wardens",
+    "reward": {
+      "gold": 740,
+      "xp": 1250
+    },
+    "steps": [
+      {
+        "id": "step-1",
+        "kind": "talk",
+        "target": "npc-brecht-armorer",
+        "trigger": {
+          "type": "talk_npc",
+          "ref": "npc-brecht-armorer"
+        },
+        "journal": "Spoke with npc-brecht-armorer regarding Bounty: Drowned Wardens in z3-sunken-citadel.",
+        "next": "step-2"
+      },
+      {
+        "id": "step-2",
+        "kind": "kill",
+        "target": "z3-sunken-citadel",
+        "count": 12,
+        "trigger": {
+          "type": "kill_count",
+          "ref": "z3-sunken-citadel",
+          "requires_step": "step-1"
+        },
+        "journal": "Completed primary objective for Bounty: Drowned Wardens inside z3-sunken-citadel.",
+        "next": "step-3"
+      },
+      {
+        "id": "step-3",
+        "kind": "talk",
+        "target": "npc-brecht-armorer",
+        "count": 1,
+        "trigger": {
+          "type": "talk_npc",
+          "ref": "npc-brecht-armorer",
+          "requires_step": "step-2"
+        },
+        "journal": "Resolved final task for Bounty: Drowned Wardens.",
+        "next": "step-4"
+      },
+      {
+        "id": "step-4",
+        "kind": "talk",
+        "target": "npc-brecht-armorer",
+        "trigger": {
+          "type": "talk_npc",
+          "ref": "npc-brecht-armorer",
+          "requires_step": "step-3"
+        },
+        "journal": "Reported completion of Bounty: Drowned Wardens to npc-brecht-armorer.",
+        "next": null,
+        "reward": {
+          "gold": 740,
+          "xp": 1250
+        }
+      }
+    ]
+  },
+  {
+    "id": "ct3-04-tar-barrels",
+    "act": 3,
+    "zone": "z3-burning-harbor",
+    "giver": "npc-rafe-bosun",
+    "title": "Contract: Salvage Tarred Pitch",
+    "reward": {
+      "gold": 820,
+      "xp": 1400
+    },
+    "steps": [
+      {
+        "id": "step-1",
+        "kind": "talk",
+        "target": "npc-rafe-bosun",
+        "trigger": {
+          "type": "talk_npc",
+          "ref": "npc-rafe-bosun"
+        },
+        "journal": "Spoke with npc-rafe-bosun regarding Contract: Salvage Tarred Pitch in z3-burning-harbor.",
+        "next": "step-2"
+      },
+      {
+        "id": "step-2",
+        "kind": "fetch",
+        "target": "z3-burning-harbor",
+        "count": 1,
+        "trigger": {
+          "type": "collect_item",
+          "ref": "z3-burning-harbor",
+          "requires_step": "step-1"
+        },
+        "journal": "Completed primary objective for Contract: Salvage Tarred Pitch inside z3-burning-harbor.",
+        "next": "step-3"
+      },
+      {
+        "id": "step-3",
+        "kind": "talk",
+        "target": "npc-rafe-bosun",
+        "count": 1,
+        "trigger": {
+          "type": "talk_npc",
+          "ref": "npc-rafe-bosun",
+          "requires_step": "step-2"
+        },
+        "journal": "Resolved final task for Contract: Salvage Tarred Pitch.",
+        "next": "step-4"
+      },
+      {
+        "id": "step-4",
+        "kind": "talk",
+        "target": "npc-rafe-bosun",
+        "trigger": {
+          "type": "talk_npc",
+          "ref": "npc-rafe-bosun",
+          "requires_step": "step-3"
+        },
+        "journal": "Reported completion of Contract: Salvage Tarred Pitch to npc-rafe-bosun.",
+        "next": null,
+        "reward": {
+          "gold": 820,
+          "xp": 1400
+        }
+      }
+    ]
+  },
+  {
+    "id": "ct3-05-corsair-raiders",
+    "act": 3,
+    "zone": "z3-burning-harbor",
+    "giver": "npc-tarek-shipwright",
+    "title": "Bounty: Ash-Flotilla Boarders",
+    "reward": {
+      "gold": 860,
+      "xp": 1450
+    },
+    "steps": [
+      {
+        "id": "step-1",
+        "kind": "talk",
+        "target": "npc-tarek-shipwright",
+        "trigger": {
+          "type": "talk_npc",
+          "ref": "npc-tarek-shipwright"
+        },
+        "journal": "Spoke with npc-tarek-shipwright regarding Bounty: Ash-Flotilla Boarders in z3-burning-harbor.",
+        "next": "step-2"
+      },
+      {
+        "id": "step-2",
+        "kind": "kill",
+        "target": "z3-burning-harbor",
+        "count": 12,
+        "trigger": {
+          "type": "kill_count",
+          "ref": "z3-burning-harbor",
+          "requires_step": "step-1"
+        },
+        "journal": "Completed primary objective for Bounty: Ash-Flotilla Boarders inside z3-burning-harbor.",
+        "next": "step-3"
+      },
+      {
+        "id": "step-3",
+        "kind": "talk",
+        "target": "npc-tarek-shipwright",
+        "count": 1,
+        "trigger": {
+          "type": "talk_npc",
+          "ref": "npc-tarek-shipwright",
+          "requires_step": "step-2"
+        },
+        "journal": "Resolved final task for Bounty: Ash-Flotilla Boarders.",
+        "next": "step-4"
+      },
+      {
+        "id": "step-4",
+        "kind": "talk",
+        "target": "npc-tarek-shipwright",
+        "trigger": {
+          "type": "talk_npc",
+          "ref": "npc-tarek-shipwright",
+          "requires_step": "step-3"
+        },
+        "journal": "Reported completion of Bounty: Ash-Flotilla Boarders to npc-tarek-shipwright.",
+        "next": null,
+        "reward": {
+          "gold": 860,
+          "xp": 1450
+        }
+      }
+    ]
+  },
+  {
+    "id": "ct3-06-beacon-oil",
+    "act": 3,
+    "zone": "z3-shattered-beacons",
+    "giver": "npc-orin-artificer",
+    "title": "Contract: Heartland Beacon Oil",
+    "reward": {
+      "gold": 920,
+      "xp": 1550
+    },
+    "steps": [
+      {
+        "id": "step-1",
+        "kind": "talk",
+        "target": "npc-orin-artificer",
+        "trigger": {
+          "type": "talk_npc",
+          "ref": "npc-orin-artificer"
+        },
+        "journal": "Spoke with npc-orin-artificer regarding Contract: Heartland Beacon Oil in z3-shattered-beacons.",
+        "next": "step-2"
+      },
+      {
+        "id": "step-2",
+        "kind": "fetch",
+        "target": "z3-shattered-beacons",
+        "count": 1,
+        "trigger": {
+          "type": "collect_item",
+          "ref": "z3-shattered-beacons",
+          "requires_step": "step-1"
+        },
+        "journal": "Completed primary objective for Contract: Heartland Beacon Oil inside z3-shattered-beacons.",
+        "next": "step-3"
+      },
+      {
+        "id": "step-3",
+        "kind": "talk",
+        "target": "npc-orin-artificer",
+        "count": 1,
+        "trigger": {
+          "type": "talk_npc",
+          "ref": "npc-orin-artificer",
+          "requires_step": "step-2"
+        },
+        "journal": "Resolved final task for Contract: Heartland Beacon Oil.",
+        "next": "step-4"
+      },
+      {
+        "id": "step-4",
+        "kind": "talk",
+        "target": "npc-orin-artificer",
+        "trigger": {
+          "type": "talk_npc",
+          "ref": "npc-orin-artificer",
+          "requires_step": "step-3"
+        },
+        "journal": "Reported completion of Contract: Heartland Beacon Oil to npc-orin-artificer.",
+        "next": null,
+        "reward": {
+          "gold": 920,
+          "xp": 1550
+        }
+      }
+    ]
+  },
+  {
+    "id": "ct3-07-artillery-escort",
+    "act": 3,
+    "zone": "z3-shattered-beacons",
+    "giver": "npc-velen-commander",
+    "title": "Contract: Siege Limber Escort",
+    "reward": {
+      "gold": 980,
+      "xp": 1650
+    },
+    "steps": [
+      {
+        "id": "step-1",
+        "kind": "talk",
+        "target": "npc-velen-commander",
+        "trigger": {
+          "type": "talk_npc",
+          "ref": "npc-velen-commander"
+        },
+        "journal": "Spoke with npc-velen-commander regarding Contract: Siege Limber Escort in z3-shattered-beacons.",
+        "next": "step-2"
+      },
+      {
+        "id": "step-2",
+        "kind": "escort",
+        "target": "z3-shattered-beacons",
+        "count": 1,
+        "trigger": {
+          "type": "escort_safe",
+          "ref": "z3-shattered-beacons",
+          "requires_step": "step-1"
+        },
+        "journal": "Completed primary objective for Contract: Siege Limber Escort inside z3-shattered-beacons.",
+        "next": "step-3"
+      },
+      {
+        "id": "step-3",
+        "kind": "talk",
+        "target": "npc-velen-commander",
+        "count": 1,
+        "trigger": {
+          "type": "talk_npc",
+          "ref": "npc-velen-commander",
+          "requires_step": "step-2"
+        },
+        "journal": "Resolved final task for Contract: Siege Limber Escort.",
+        "next": "step-4"
+      },
+      {
+        "id": "step-4",
+        "kind": "talk",
+        "target": "npc-velen-commander",
+        "trigger": {
+          "type": "talk_npc",
+          "ref": "npc-velen-commander",
+          "requires_step": "step-3"
+        },
+        "journal": "Reported completion of Contract: Siege Limber Escort to npc-velen-commander.",
+        "next": null,
+        "reward": {
+          "gold": 980,
+          "xp": 1650
+        }
+      }
+    ]
+  },
+  {
+    "id": "ct3-08-pylon-shards",
+    "act": 3,
+    "zone": "z3-gauntlet-of-iron",
+    "giver": "npc-orin-artificer",
+    "title": "Contract: Obsidian Pylon Shards",
+    "reward": {
+      "gold": 1050,
+      "xp": 1800
+    },
+    "steps": [
+      {
+        "id": "step-1",
+        "kind": "talk",
+        "target": "npc-orin-artificer",
+        "trigger": {
+          "type": "talk_npc",
+          "ref": "npc-orin-artificer"
+        },
+        "journal": "Spoke with npc-orin-artificer regarding Contract: Obsidian Pylon Shards in z3-gauntlet-of-iron.",
+        "next": "step-2"
+      },
+      {
+        "id": "step-2",
+        "kind": "fetch",
+        "target": "z3-gauntlet-of-iron",
+        "count": 1,
+        "trigger": {
+          "type": "collect_item",
+          "ref": "z3-gauntlet-of-iron",
+          "requires_step": "step-1"
+        },
+        "journal": "Completed primary objective for Contract: Obsidian Pylon Shards inside z3-gauntlet-of-iron.",
+        "next": "step-3"
+      },
+      {
+        "id": "step-3",
+        "kind": "talk",
+        "target": "npc-orin-artificer",
+        "count": 1,
+        "trigger": {
+          "type": "talk_npc",
+          "ref": "npc-orin-artificer",
+          "requires_step": "step-2"
+        },
+        "journal": "Resolved final task for Contract: Obsidian Pylon Shards.",
+        "next": "step-4"
+      },
+      {
+        "id": "step-4",
+        "kind": "talk",
+        "target": "npc-orin-artificer",
+        "trigger": {
+          "type": "talk_npc",
+          "ref": "npc-orin-artificer",
+          "requires_step": "step-3"
+        },
+        "journal": "Reported completion of Contract: Obsidian Pylon Shards to npc-orin-artificer.",
+        "next": null,
+        "reward": {
+          "gold": 1050,
+          "xp": 1800
+        }
+      }
+    ]
+  },
+  {
+    "id": "ct3-09-three-roads-patrol",
+    "act": 3,
+    "zone": "z3-outer-rampart",
+    "giver": "npc-halvar-veteran",
+    "title": "Bounty: Three-Roads Vanguard",
+    "reward": {
+      "gold": 1150,
+      "xp": 1950
+    },
+    "steps": [
+      {
+        "id": "step-1",
+        "kind": "talk",
+        "target": "npc-halvar-veteran",
+        "trigger": {
+          "type": "talk_npc",
+          "ref": "npc-halvar-veteran"
+        },
+        "journal": "Spoke with npc-halvar-veteran regarding Bounty: Three-Roads Vanguard in z3-outer-rampart.",
+        "next": "step-2"
+      },
+      {
+        "id": "step-2",
+        "kind": "kill",
+        "target": "z3-outer-rampart",
+        "count": 12,
+        "trigger": {
+          "type": "kill_count",
+          "ref": "z3-outer-rampart",
+          "requires_step": "step-1"
+        },
+        "journal": "Completed primary objective for Bounty: Three-Roads Vanguard inside z3-outer-rampart.",
+        "next": "step-3"
+      },
+      {
+        "id": "step-3",
+        "kind": "talk",
+        "target": "npc-halvar-veteran",
+        "count": 1,
+        "trigger": {
+          "type": "talk_npc",
+          "ref": "npc-halvar-veteran",
+          "requires_step": "step-2"
+        },
+        "journal": "Resolved final task for Bounty: Three-Roads Vanguard.",
+        "next": "step-4"
+      },
+      {
+        "id": "step-4",
+        "kind": "talk",
+        "target": "npc-halvar-veteran",
+        "trigger": {
+          "type": "talk_npc",
+          "ref": "npc-halvar-veteran",
+          "requires_step": "step-3"
+        },
+        "journal": "Reported completion of Bounty: Three-Roads Vanguard to npc-halvar-veteran.",
+        "next": null,
+        "reward": {
+          "gold": 1150,
+          "xp": 1950
+        }
+      }
+    ]
+  },
+  {
+    "id": "ct3-10-basalt-ingots",
+    "act": 3,
+    "zone": "z3-outer-rampart",
+    "giver": "npc-torvald-smith",
+    "title": "Contract: Basalt-Iron Ingots",
+    "reward": {
+      "gold": 1220,
+      "xp": 2050
+    },
+    "steps": [
+      {
+        "id": "step-1",
+        "kind": "talk",
+        "target": "npc-torvald-smith",
+        "trigger": {
+          "type": "talk_npc",
+          "ref": "npc-torvald-smith"
+        },
+        "journal": "Spoke with npc-torvald-smith regarding Contract: Basalt-Iron Ingots in z3-outer-rampart.",
+        "next": "step-2"
+      },
+      {
+        "id": "step-2",
+        "kind": "fetch",
+        "target": "z3-outer-rampart",
+        "count": 1,
+        "trigger": {
+          "type": "collect_item",
+          "ref": "z3-outer-rampart",
+          "requires_step": "step-1"
+        },
+        "journal": "Completed primary objective for Contract: Basalt-Iron Ingots inside z3-outer-rampart.",
+        "next": "step-3"
+      },
+      {
+        "id": "step-3",
+        "kind": "talk",
+        "target": "npc-torvald-smith",
+        "count": 1,
+        "trigger": {
+          "type": "talk_npc",
+          "ref": "npc-torvald-smith",
+          "requires_step": "step-2"
+        },
+        "journal": "Resolved final task for Contract: Basalt-Iron Ingots.",
+        "next": "step-4"
+      },
+      {
+        "id": "step-4",
+        "kind": "talk",
+        "target": "npc-torvald-smith",
+        "trigger": {
+          "type": "talk_npc",
+          "ref": "npc-torvald-smith",
+          "requires_step": "step-3"
+        },
+        "journal": "Reported completion of Contract: Basalt-Iron Ingots to npc-torvald-smith.",
+        "next": null,
+        "reward": {
+          "gold": 1220,
+          "xp": 2050
+        }
+      }
+    ]
+  },
+  {
+    "id": "ct3-11-caldera-wards",
+    "act": 3,
+    "zone": "z3-ember-threshold",
+    "giver": "npc-torvald-smith",
+    "title": "Contract: Caldera Heat-Wards",
+    "reward": {
+      "gold": 1350,
+      "xp": 2300
+    },
+    "steps": [
+      {
+        "id": "step-1",
+        "kind": "talk",
+        "target": "npc-torvald-smith",
+        "trigger": {
+          "type": "talk_npc",
+          "ref": "npc-torvald-smith"
+        },
+        "journal": "Spoke with npc-torvald-smith regarding Contract: Caldera Heat-Wards in z3-ember-threshold.",
+        "next": "step-2"
+      },
+      {
+        "id": "step-2",
+        "kind": "fetch",
+        "target": "z3-ember-threshold",
+        "count": 1,
+        "trigger": {
+          "type": "collect_item",
+          "ref": "z3-ember-threshold",
+          "requires_step": "step-1"
+        },
+        "journal": "Completed primary objective for Contract: Caldera Heat-Wards inside z3-ember-threshold.",
+        "next": "step-3"
+      },
+      {
+        "id": "step-3",
+        "kind": "talk",
+        "target": "npc-torvald-smith",
+        "count": 1,
+        "trigger": {
+          "type": "talk_npc",
+          "ref": "npc-torvald-smith",
+          "requires_step": "step-2"
+        },
+        "journal": "Resolved final task for Contract: Caldera Heat-Wards.",
+        "next": "step-4"
+      },
+      {
+        "id": "step-4",
+        "kind": "talk",
+        "target": "npc-torvald-smith",
+        "trigger": {
+          "type": "talk_npc",
+          "ref": "npc-torvald-smith",
+          "requires_step": "step-3"
+        },
+        "journal": "Reported completion of Contract: Caldera Heat-Wards to npc-torvald-smith.",
+        "next": null,
+        "reward": {
+          "gold": 1350,
+          "xp": 2300
+        }
+      }
+    ]
+  },
+  {
+    "id": "ct3-12-ember-remnants",
+    "act": 3,
+    "zone": "z3-ember-threshold",
+    "giver": "npc-halvar-veteran",
+    "title": "Bounty: Malrik Elite Guard",
+    "reward": {
+      "gold": 1500,
+      "xp": 2600
+    },
+    "steps": [
+      {
+        "id": "step-1",
+        "kind": "talk",
+        "target": "npc-halvar-veteran",
+        "trigger": {
+          "type": "talk_npc",
+          "ref": "npc-halvar-veteran"
+        },
+        "journal": "Spoke with npc-halvar-veteran regarding Bounty: Malrik Elite Guard in z3-ember-threshold.",
+        "next": "step-2"
+      },
+      {
+        "id": "step-2",
+        "kind": "kill",
+        "target": "z3-ember-threshold",
+        "count": 12,
+        "trigger": {
+          "type": "kill_count",
+          "ref": "z3-ember-threshold",
+          "requires_step": "step-1"
+        },
+        "journal": "Completed primary objective for Bounty: Malrik Elite Guard inside z3-ember-threshold.",
+        "next": "step-3"
+      },
+      {
+        "id": "step-3",
+        "kind": "talk",
+        "target": "npc-halvar-veteran",
+        "count": 1,
+        "trigger": {
+          "type": "talk_npc",
+          "ref": "npc-halvar-veteran",
+          "requires_step": "step-2"
+        },
+        "journal": "Resolved final task for Bounty: Malrik Elite Guard.",
+        "next": "step-4"
+      },
+      {
+        "id": "step-4",
+        "kind": "talk",
+        "target": "npc-halvar-veteran",
+        "trigger": {
+          "type": "talk_npc",
+          "ref": "npc-halvar-veteran",
+          "requires_step": "step-3"
+        },
+        "journal": "Reported completion of Bounty: Malrik Elite Guard to npc-halvar-veteran.",
+        "next": null,
+        "reward": {
+          "gold": 1500,
+          "xp": 2600
+        }
+      }
+    ]
+  }
+]

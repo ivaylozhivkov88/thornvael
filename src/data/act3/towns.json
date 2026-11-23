@@ -1,0 +1,66 @@
+[
+  {
+    "id": "town-oakhaven",
+    "name": "Oakhaven Keep",
+    "zone": "z3-oakhaven-wards",
+    "shop": {
+      "name": "Brecht's Royal Armory",
+      "keeper": "npc-brecht-armorer",
+      "tiers": [3, 4]
+    },
+    "tavern": {
+      "name": "The Cinder Ward",
+      "keeper": "npc-ysolde-quartermistress",
+      "mercs": ["Oakhaven Halberdier", "Siege Arbalest"]
+    },
+    "npcs": ["npc-brecht-armorer", "npc-ysolde-quartermistress", "npc-velen-commander"]
+  },
+  {
+    "id": "town-burning-harbor",
+    "name": "Burning Harbor Docks",
+    "zone": "z3-burning-harbor",
+    "shop": {
+      "name": "Tarek's Salt-Iron Quay",
+      "keeper": "npc-tarek-shipwright",
+      "tiers": [3, 4]
+    },
+    "tavern": {
+      "name": "The Tarred Lantern",
+      "keeper": "npc-rafe-bosun",
+      "mercs": ["Harbor Marine", "Fire-Ship Bombardier"]
+    },
+    "npcs": ["npc-tarek-shipwright", "npc-rafe-bosun", "npc-korvus-lordcaptain"]
+  },
+  {
+    "id": "town-heartland",
+    "name": "Heartland Battery",
+    "zone": "z3-shattered-beacons",
+    "shop": {
+      "name": "Orin's Prism Forge",
+      "keeper": "npc-orin-artificer",
+      "tiers": [4, 5]
+    },
+    "tavern": {
+      "name": "The Beacon Watch",
+      "keeper": "npc-vaelen-arcanist",
+      "mercs": ["Prism Battle-Mage", "Battery Sapper"]
+    },
+    "npcs": ["npc-orin-artificer", "npc-vaelen-arcanist", "npc-velen-commander"]
+  },
+  {
+    "id": "town-rampart",
+    "name": "Rampart Redoubt",
+    "zone": "z3-outer-rampart",
+    "shop": {
+      "name": "Torvald's Basalt Anvil",
+      "keeper": "npc-torvald-smith",
+      "tiers": [4, 5]
+    },
+    "tavern": {
+      "name": "The Crown's Edge",
+      "keeper": "npc-halvar-veteran",
+      "mercs": ["Vanguard Templar", "Caldera Marksman"]
+    },
+    "npcs": ["npc-torvald-smith", "npc-halvar-veteran", "npc-vaelen-arcanist"]
+  }
+]

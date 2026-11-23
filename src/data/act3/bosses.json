@@ -1,0 +1,88 @@
+[
+  {
+    "id": "admiral-vargash",
+    "name": "Admiral Vargash of the Ash-Flotilla",
+    "zone": "z3-burning-harbor",
+    "level": 29,
+    "hp": 1450,
+    "damage": "32-48",
+    "phases": [
+      {
+        "hpPct": 100,
+        "name": "Pitch-Barrel Volley",
+        "mechanics": [
+          "Lobs burning pitch barrels onto dockside tiles",
+          "Disembarks Corsair Marines every 14s"
+        ]
+      },
+      {
+        "hpPct": 55,
+        "name": "Tide-Fire Broadside",
+        "mechanics": [
+          "Sweeps flame lanes across the seawall",
+          "Harbor ballistae manned by Lord-Captain Korvus's crew crack his hull armor"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "iron-juggernaut",
+    "name": "The Iron Juggernaut of Riverlock",
+    "zone": "z3-gauntlet-of-iron",
+    "level": 32,
+    "hp": 1820,
+    "damage": "38-56",
+    "phases": [
+      {
+        "hpPct": 100,
+        "name": "Riveted Bulwark",
+        "mechanics": [
+          "Reflects 35% of frontal ranged projectiles",
+          "Crushes melee formations with Piston-Slam shockwaves"
+        ]
+      },
+      {
+        "hpPct": 50,
+        "name": "Boiler Overpressure",
+        "mechanics": [
+          "Vents scalding steam clouds around the chassis",
+          "Luring onto flooded sluice grates exposes the core for +50% damage"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "archmage-malrik",
+    "name": "Arch-Mage Malrik, Usurper of the Caldera",
+    "zone": "z3-ember-threshold",
+    "level": 36,
+    "hp": 2600,
+    "damage": "46-68",
+    "phases": [
+      {
+        "hpPct": 100,
+        "name": "Obsidian Conduit",
+        "mechanics": [
+          "Fires piercing Cinder Lances",
+          "Protected by 3 Obsidian Conduit Pylons until shattered"
+        ]
+      },
+      {
+        "hpPct": 65,
+        "name": "Caldera Fault",
+        "mechanics": [
+          "Splits arena with magma fissures",
+          "Summons Valgor-Bound Shades; High Arcanist Vaelen opens counter-sigils"
+        ]
+      },
+      {
+        "hpPct": 30,
+        "name": "Ember Reckoning",
+        "mechanics": [
+          "Channels the collapsing Crown of Order",
+          "Interrupting the final cast seals the Caldera and resolves the main plot"
+        ]
+      }
+    ]
+  }
+]
