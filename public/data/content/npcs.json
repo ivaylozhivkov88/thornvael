@@ -1,268 +1,300 @@
 [
- {
-  "id": "npc-hobb-smith",
-  "name": "Master Hobb",
-  "town": "town-thornwick",
-  "role": "smith",
-  "prop": "A notched ball-peen hammer and a pair of rusted horseshoe tongs.",
-  "look": "A barrel-chested man with one milky eye from a flying slag-chip and an apron stiff with dried pig's blood and coal dust.",
-  "greeting": "If it's bent, I'll hammer it flat. If the man inside it is dead, take him to the ditch first.",
-  "lines": [
-   "Grok'tar's gnolls don't forge iron; they just beat stolen plowshares until they're sharp enough to butcher a cow.",
-   "You cleared the Sunken Ford? Good. Maybe now the river won't taste like wet dog and cavalry boots.",
-   "Ravenwatch Keep had three hundred suits of good border-mail in the cellar. Shame most of 'em are still walking around.",
-   "Mordred was an academy boy once, you know. Paid me two silver to silver-plate his belt buckle. Should've broken his neck with the tongs.",
-   "Quartermaster Tarn's dead? Don't expect me to weep. The man watered the garrison ale and shorted my coal deliveries.",
-   "Heading south after Ashbrook? Take extra rivets. Redmarsh salt eats honest iron faster than a rust-mite."
-  ],
-  "secret": "If you spared the stolen Greywood iron shipment in 'The Quartermaster's Ledger', Hobb admits he was buying contraband steel from Tarn to keep Thornwick's militia armed.",
-  "shop_theme": "Tier 1-2 weapons, shields, and heavy iron armor repairs."
- },
- {
-  "id": "npc-marta-alchemist",
-  "name": "Widow Marta",
-  "town": "town-thornwick",
-  "role": "alchemist",
-  "prop": "A wicker basket of bruised willow-bark and a glass jar of fat black leeches.",
-  "look": "A stoop-shouldered woman with fingers stained permanently walnut-brown by gall-tannin and marsh-root.",
-  "greeting": "Don't touch the green bottles unless you want your teeth to come loose by supper.",
-  "lines": [
-   "Half the garrison has trench-foot, the other half has gnoll-arrow fever, and the captain wants 'heroic draughts.' I give 'em boiled turpentine and sheep fat.",
-   "Scout Bren came in coughing up fen-slime. Took three leeches and a gill of gin just to get him talking sense.",
-   "Those bone totems at Ravenwatch were greased with human tallow. You can smell it on the north wind.",
-   "If you go down into the Sunken Sanctum, plug your nose with rue. Dead water carries the grey itch.",
-   "Krag Ironhide isn't stone all the way through. Every man has a liver, even if you need a quarry-pick to reach it.",
-   "I've packed what bottles won't burst in the desert heat. Try not to drink the embalming fluid down south."
-  ],
-  "secret": "If you brought her the intact Spore-Sac in 'Bile of the Fen', she confesses she poisoned her own husband during the first border famine so her daughter would have his rations.",
-  "shop_theme": "Healing and mana draughts, tier 1-2 scrolls, and anti-venom charms."
- },
- {
-  "id": "npc-garrick-captain",
-  "name": "Sergeant-at-Arms Garrick",
-  "town": "town-thornwick",
-  "role": "captain",
-  "prop": "A splint-bound left forearm and a sheaf of mud-stained muster rolls.",
-  "look": "A lean, grey-stubbled veteran in a dented basinet who squints as if perpetually looking into driving sleet.",
-  "greeting": "Sign your mark on the roll or get off the parade ground. I'm short forty pikes and two lieutenants.",
-  "lines": [
-   "The capital sent us three wagons of ceremonial plumes instead of crossbow bolts. I told the men to throw the feathers very hard.",
-   "Holding the Ford bought us a week. Not a month, mind you—just a week to dig deeper graves.",
-   "Ravenwatch was my first posting thirty years back. We used to complain about the drafty latrines. Simpler times.",
-   "Courier Corin made it through Lantern Passage with nine arrows in his mule. Promoted the mule to corporal.",
-   "Alder Bridge is the cork in the bottle. If it pops, every farmstead from here to the coast gets washed in blood.",
-   "Ashbrook held. I won't say 'by the grace of the gods,' because I saw your boots in the mud doing the work."
-  ],
-  "secret": "If you executed the deserters in 'The Broken Picket', Garrick quietly reveals one of them was his own nephew from Oakhaven.",
-  "shop_theme": null
- },
- {
-  "id": "npc-fenwick-ferryman",
-  "name": "Old Fenwick",
-  "town": "town-thornwick",
-  "role": "ferryman",
-  "prop": "A twelve-foot ash punt-pole shod with a crooked iron hook.",
-  "look": "A stringy, barefoot river-rat wrapped in an oilskin coat made from stitched horsehides.",
-  "greeting": "Two copper to cross alive, one copper if I just have to fish your boots out of the weir.",
-  "lines": [
-   "The river's running high and thick. Caught a chandelier and two gnoll shields in my eel-traps this morning.",
-   "Don't follow the green lights in the fen. That's just dead tax-collectors trying to audit the frogs.",
-   "There's an old dwarven culvert under the canyon ridge—the Undervault. Smells like wet pennies and bad intentions.",
-   "Used to pole timber rafts down to Alder Bridge. Now the arches are so jammed with bloated horses you could walk across dry-shod.",
-   "People ask why I stay in Thornwick. Where else is a man gonna find this much free firewood floating past his dock?",
-   "Going to Redmarsh? Terrible country for a boatman. All the rivers died five hundred years ago and left their bones out."
-  ],
-  "secret": "If you paid him the double toll during 'Night Cargo', he admits he smuggled Mordred the Ashen's acolytes into the Sunken Sanctum before the war broke out.",
-  "shop_theme": "Unidentified river-salvage rings, amulets, and boots."
- },
- {
-  "id": "npc-bram-quartermaster",
-  "name": "Quartermaster Bram",
-  "town": "town-redmarsh",
-  "role": "fence",
-  "prop": "A brass balance-scale and a ledger bound in dried scale-viper skin.",
-  "look": "A sun-blistered, bald man wearing spectacles with one cracked green-tinted lens to cut the salt-glare.",
-  "greeting": "Water is four silver a gill, shade is two silver an hour, and complaints are free but ignored.",
-  "lines": [
-   "Welcome to Redmarsh Outpost. The ribcage you're standing under belonged to a marsh-whale, or a very ambitious cow.",
-   "Those desert raiders in the Twin Passes shoot recurve horn-bows. Strip the strings off the dead ones; my archers need 'em.",
-   "When the Wardstones cracked, it rained dead locusts and hot gravel for three days. Ruined forty barrels of pickled herring.",
-   "Thanks for pulling my wagons out of the Mire Convoy ambush. Another ten minutes and the beetles would've eaten the grease off the axles.",
-   "The Deep Quarry ironstone is cursed, sure, but cursed iron still stops a scimitar if you hammer it thick enough.",
-   "Ironheart Bastion's taken? Best pack the tents. If we stay here another week, the salt will pickle our kidneys."
-  ],
-  "secret": "If you returned the stolen gold chests intact in 'The Canyon Audit', Bram confesses he sold the raiders the original convoy route map to collect the imperial insurance.",
-  "shop_theme": "Tier 2-3 desert weapons, scale armor, and black-market rings."
- },
- {
-  "id": "npc-zahra-scholar",
-  "name": "Chronicler Zahra",
-  "town": "town-redmarsh",
-  "role": "scholar",
-  "prop": "A copper cylinder of rolled papyrus and a magnifying glass made from polished quartz.",
-  "look": "A tall, sharp-featured woman in indigo linen wraps whose fingertips are stained blue with lapis ink.",
-  "greeting": "Please wipe the alkali mud from your greaves before stepping on the rubbings; this inscription is older than your language.",
-  "lines": [
-   "The Empire calls this a wasteland. Four thousand years ago, it was a harbor. You're marching across the bottom of a dead sea.",
-   "The three Wardstones were never meant to control the weather. They are nails driven into the earth to keep what's underneath from turning over in its sleep.",
-   "Hexer Saelen isn't inventing new curses; he's simply reading the funerary warnings on the tomb walls backwards.",
-   "Beware the Crypt Embalmers in the salt-pits. They still believe the Third Dynasty is reigning and view living organs as an untidy clerical error.",
-   "Commander Vorn's maps of the Fork of Spears were copied from a high-king's tax survey. Even in antiquity, the roads were built for armies.",
-   "Gorrathul is dead? Fascinating. The texts claimed it could only be slain when the salt flats bloomed with roses. I suppose three feet of spilled blood sufficed."
-  ],
-  "secret": "If you gave her Saelen's intact tablet in 'Rubbings in Blood', she reveals the Crown of Order in Act IV was originally forged as a collar of servitude, not a diadem.",
-  "shop_theme": "Tier 2-3 spell scrolls, tomes, staves, and quartz focuses."
- },
- {
-  "id": "npc-tull-water-seller",
-  "name": "Cask-Master Tull",
-  "town": "town-redmarsh",
-  "role": "innkeeper",
-  "prop": "A wooden ladle chained to his belt and a ceramic jug sweating cold brine.",
-  "look": "A gaunt man with cracked lips and a brass spigot surgically tapped into the water-barrel strapped to his back.",
-  "greeting": "Don't ask where the well is. Just ask whether I boiled it before or after I fished the scorpion out.",
-  "lines": [
-   "First week in the Redmarsh, a man sweats out his beer. Second week, he sweats out his childhood memories. Third week, he's beef jerky.",
-   "The scouts we lost in Bracken Basin knew the water-holes. If they're dead, it means the Dune Beasts have claimed the springs.",
-   "At Highgate Watch, we had to put out firepot flames with our last two casks of vinegar. Smelled like a burning salad.",
-   "Never trust a desert mirage. Half the time it's just a Dune Lurker polishing its claws in the sun.",
-   "The miners from the Deep Quarry drink three gallons a day and still spit black dust. Good lads, though—rough with a pickaxe.",
-   "Going over the mountains to Oakhaven? Drink a pint of rainwater for me. I've forgotten what water tastes like when you don't have to chew it."
-  ],
-  "secret": "If you cleansed the poisoned cistern in 'The Bitter Well', Tull admits he had been diluting his healing draughts with ditch-water for a month.",
-  "shop_theme": "Potions, elixirs, and heat-resistant charms."
- },
- {
-  "id": "npc-sera-healer",
-  "name": "Chief Healer Sera",
-  "town": "town-oakhaven",
-  "role": "priest",
-  "prop": "A blood-crusted bone saw and a roll of boiled linen bandages.",
-  "look": "A severe, grey-haired woman in a butcher's oilskin apron over a faded academy cassock, smelling strongly of carbolic and vinegar.",
-  "greeting": "If you can walk into my tent, you aren't dying fast enough to skip the queue. Sit on the crate.",
-  "lines": [
-   "Oakhaven's council thinks war is all pennants and sea-shanties. I invite them to empty my slop-buckets after a coastal skirmish.",
-   "Those Cinder Wards on the cliffs give the men blistered lungs from half a league off. Keep wet rags over your mouths.",
-   "You held the woodland infirmary when the raiders came. Twenty-six men still have their heads attached because of your shield-wall. I don't forget debts.",
-   "The Sunken Citadel's tide-water is full of graveyard runoff. If a Salt Crab nips your calf, pour brandy in it before it turns green.",
-   "Warden Lyra brought her archers back with three bolts left between twelve men. Had to pull four arrowheads out of her shoulder—she didn't even spill her tea.",
-   "Harborwatch is burning. Take everything in my chest; if the fleet goes down, bandaging knees won't matter a damn."
-  ],
-  "secret": "If you saved all three wounded sergeants during 'The Triage Wagon', Sera gives you her personal amputation saw and admits she deserted the capital's royal college for refusing to heal a corrupt duke.",
-  "shop_theme": "Greater healing and mana draughts, resurrection tomes, and water/astral scrolls."
- },
- {
-  "id": "npc-kors-shipwright",
-  "name": "Iron-Wright Kors",
-  "town": "town-oakhaven",
-  "role": "smith",
-  "prop": "A heavy caulking mallet and a necklace of bronze ship-rivets.",
-  "look": "A massive, salt-cured shipbuilder with forearms tattooed in faded naval signal flags and a beard braided with tarred hemp.",
-  "greeting": "Armor's just a hull for a man's guts. Keep the seams caulked and the bilge dry, and you'll stay afloat.",
-  "lines": [
-   "Sea-raiders think slapping boiler-iron on a longboat makes 'em invincible. Wait till they meet a coastal reef at high tide.",
-   "The Sunken Citadel was built by mason-lords who thought they could argue with the ocean. The ocean's currently living in their dining hall.",
-   "Riverlock Crossing's floodgates were my grandfather's work. Good bronze gears—don't let your mages melt 'em with stray lightning.",
-   "That Elder Juggernaut on the pine ridge? We tried dragging it down for harbor ballast ten years ago. Broke six ox-chains and killed the foreman.",
-   "The Ironclad Banner and Ashen Banner mercenaries bought half their pikes from my yard last winter. Make sure you bring my steel back when you're done killing 'em.",
-   "Admiral Kael's flagship is sheeted in copper to stop fire-arrows. Board her and take an axe to the rudder-chains instead."
-  ],
-  "secret": "If you captured the Starved Bastion's iron-wagons without burning them in 'The Mountain Convoy', Kors admits he built Admiral Kael's flagship under duress when the raiders held his son hostage.",
-  "shop_theme": "Tier 3-4 weapons, tower shields, arbalests, and brigandines."
- },
- {
-  "id": "npc-lyra-warden",
-  "name": "Gate Warden Lyra",
-  "town": "town-oakhaven",
-  "role": "captain",
-  "prop": "A heavy windlass arbalest with three notches filed into the walnut stock.",
-  "look": "A wiry, hawk-nosed woman in a salt-stained brigandine with a dark purple bruise across her right cheekbone from arbalest recoil.",
-  "greeting": "Wind's twelve knots from the sou'west. Aim two fingers left of the breastplate if you want to hit the throat.",
-  "lines": [
-   "Oakhaven's walls are thick, sure, but walls don't shoot back. Men with dry bowstrings do.",
-   "Those twin camps at Sundered Ranks have interlocking fields of fire. Anyone who marches down the middle deserves the funeral he gets.",
-   "When you broke through at the North Gatehouse, my lads were down to throwing roof-slates and chamber-pots. You have my bow until this war's cold.",
-   "Starving out the valley bastion was clean work. A hungry pikeman drops his point three inches by noon.",
-   "The rogue baron in the keep spent forty thousand crowns on velvet tapestries and paid his halberdiers in clipped tin. Kick his door in.",
-   "Vesperion's choir sings in the fog before every high tide. Put beeswax in your ears or you'll walk right off the jetty."
-  ],
-  "secret": "If you rescued her surviving scouts in 'The Bell-Tower Picket', Lyra reveals the rogue baron was secretly supplying the shadow coven with Oakhaven harbor charts.",
-  "shop_theme": "Bows, arbalests, Stalker hoods, and accuracy-enhancing gloves."
- },
- {
-  "id": "npc-pip-mudlark",
-  "name": "Mudlark Pip",
-  "town": "town-oakhaven",
-  "role": "child",
-  "prop": "A bent iron crab-hook and a canvas sack dripping black harbor silt.",
-  "look": "A ten-year-old urchin in cut-down sailor's trousers held up by twine, shivering perpetually despite three wool vests.",
-  "greeting": "Found a dead knight at low tide, mister! Couldn't get his boots off 'cause his feet were still in 'em, but I got his ring!",
-  "lines": [
-   "When the tide goes out by the Sunken Citadel, you can see the roofs of the old town. And the crabs eating the mayors.",
-   "Don't go near the Night Orchards after dark. The skulls in the branches whisper names, and one of 'em sounded like my mum's.",
-   "Soldiers from the Ironclad Banner threw me a copper to polish their greaves, then kicked me in the mud for luck. Hope you bash 'em.",
-   "There's a big bronze bell floating over the jetty at midnight. When it rings, all the stray dogs freeze stiff as firewood.",
-   "Admiral Kael's ship has lanterns made of green glass. My mate Tommy swam out to steal one and never came back up.",
-   "You're sailing to the fire-mountain? Take my lucky pebble. It's just granite, so it probably won't melt right away."
-  ],
-  "secret": "If you gave him a loaf of bread and 50 gold after 'Low-Tide Salvage', Pip shows you the secret sewer grate that bypasses the rogue baron's outer halberdier guard.",
-  "shop_theme": "Randomly salvaged rings, charms, and oddities."
- },
- {
-  "id": "npc-rowan-commander",
-  "name": "Captain Rowan",
-  "town": "town-ironcamp",
-  "role": "captain",
-  "prop": "A fire-blackened kite shield and an iron neck-brace bolted to his gorget.",
-  "look": "A scarred, crooked-necked officer whose eyebrows have been completely singed off by volcanic backdrafts.",
-  "greeting": "Don't salute out here. The sniper-fiends on the obsidian ridge look for anyone stupid enough to raise an arm.",
-  "lines": [
-   "Welcome to Ironcamp. The air tastes like sulfur, the water tastes like boiled nails, and the ground wants to eat your boots.",
-   "Those three signal beacons on the ridge aren't just lights—they're focusing lenses. Step into the beam and there's not enough left to bury in a teacup.",
-   "Greystone Bastion held because we stacked our own dead in the breaches when the mortar gave out. Don't waste what they bought you.",
-   "Malrik used to lecture on elemental ethics at the high college. Funny how quickly 'ethics' turns into throwing lava at conscripts.",
-   "The Gauntlet of Iron is three hundred yards of murder-holes and basalt golems. Leave the banners behind; just bring shields and spite.",
-   "You're at the Threshold Chamber. Whatever's inside that vault—Crown or Ember—finish it. The men are too tired to fight another war next winter."
-  ],
-  "secret": "If you destroyed all three siege engines without losing a bastion tower in 'Iron on the Wall', Rowan confesses the Imperial High Command ordered him to seal the mountain pass behind you and leave your company to die in the caldera.",
-  "shop_theme": null
- },
- {
-  "id": "npc-vok-forgemaster",
-  "name": "Forgemaster Vok",
-  "town": "town-ironcamp",
-  "role": "smith",
-  "prop": "A pair of four-foot crucible tongs and a leather mask with smoked-glass eye slits.",
-  "look": "A dwarf-broad smith covered in silvery burn-keloids who uses an open volcanic fissure in the camp floor as his hearth.",
-  "greeting": "No coal needed here. Just stick the billet in the floor-crack and pull it out before the rock eats it.",
-  "lines": [
-   "Normal steel goes soft as butter in this caldera heat. Everything I forge here is quenched in brine and tempered with meteor-slag.",
-   "If you drop an Anvilmaw Smith, bring me its lower jaw. That iron was poured before human beings learned to bang rocks together.",
-   "Redglass Drake wings make fine arrowheads, provided you don't mind the splinters poisoning your own thumb while you fletch 'em.",
-   "Those mana-cannons at the Twofold Assault crags run on compressed astral crystals. Crack the housing and they'll blow their own gunners into the next parish.",
-   "The Outer Rampart drawbridge chains are six inches thick. You won't cut 'em; you'll have to kill the winch-crews inside the gatehouses.",
-   "Ashkarath's armor isn't worn—it's bolted into his collarbone. Aim for the glowing cracks where the lava leaks out."
-  ],
-  "secret": "If you brought him the intact Anvilmaw Core in 'The Unquenched Jaw', Vok admits his clan forged the original Obsidian Throne for Ashkarath a thousand years ago under blood-contract.",
-  "shop_theme": "Tier 4-5 endgame weapons, Gothic plate, dread helms, and obsidian mauls."
- },
- {
-  "id": "npc-elias-penitent",
-  "name": "Brother Elias the Scorched",
-  "town": "town-ironcamp",
-  "role": "alchemist",
-  "prop": "A brass thurible filled with grey volcanic ash and a bundle of charred vellum scrolls.",
-  "look": "A blind battle-mage with ash-caked bandages over his eyes and a voice like two pieces of pumice rubbing together.",
-  "greeting": "I cannot see your heraldry, friend, only the heat of your blood and the weight of the iron you carry.",
-  "lines": [
-   "I looked directly at the Shattered Beacons when they first ignited. Now the whole world is dark, save for the leylines burning under my soles.",
-   "Malrik was my mentor. He feared growing old and cold in a damp tower, so he sold the realm's spring to buy himself an eternal summer of ash.",
-   "The Dread Knights on the ramparts do not hate you. They scarcely remember what human beings are; you are simply an obstruction in the ash.",
-   "At Three-Roads Watch, the dead do not stay down unless you burn the sinews or freeze the marrow. Be thorough.",
-   "In the Threshold Chamber, the ancient wardens left two keys because they lacked the courage to lock the door from the inside.",
-   "Order will make the world a quiet, frozen museum. Ember will make it a roaring furnace. Choose which temperature you prefer for your grave."
-  ],
-  "secret": "If you spared Malrik's apprentice notes in 'The Burnt Syllabus', Elias reveals how to attune the Signet of the Two Paths without losing your sanity to either ending.",
-  "shop_theme": "Tier 4-5 spell tomes, elixirs of permanent stat growth, and prismatic charms."
- }
+  {
+    "id": "npc-hobb-smith",
+    "name": "Master Hobb",
+    "town": "town-thornwick",
+    "role": "smith",
+    "prop": "A notched ball-peen hammer and a pair of rusted horseshoe tongs.",
+    "look": "A barrel-chested man with one milky eye from a flying slag-chip and an apron stiff with dried pig's blood and coal dust.",
+    "greeting": "If it's bent, I'll hammer it flat. If the man inside it is dead, take him to the ditch first.",
+    "lines": [
+      "Grok'tar's gnolls don't forge iron; they just beat stolen plowshares until they're sharp enough to butcher a cow.",
+      "You cleared the Sunken Ford? Good. Maybe now the river won't taste like wet dog and cavalry boots.",
+      "Ravenwatch Keep had three hundred suits of good border-mail in the cellar. Shame most of 'em are still walking around.",
+      "Mordred was an academy boy once, you know. Paid me two silver to silver-plate his belt buckle. Should've broken his neck with the tongs.",
+      "Quartermaster Tarn's dead? Don't expect me to weep. The man watered the garrison ale and shorted my coal deliveries.",
+      "Heading south after Ashbrook? Take extra rivets. Redmarsh salt eats honest iron faster than a rust-mite."
+    ],
+    "secret": "If you spared the stolen Greywood iron shipment in 'The Quartermaster's Ledger', Hobb admits he was buying contraband steel from Tarn to keep Thornwick's militia armed.",
+    "shop_theme": "Tier 1-2 weapons, shields, and heavy iron armor repairs."
+  },
+  {
+    "id": "npc-marta-alchemist",
+    "name": "Widow Marta",
+    "town": "town-thornwick",
+    "role": "alchemist",
+    "prop": "A wicker basket of bruised willow-bark and a glass jar of fat black leeches.",
+    "look": "A stoop-shouldered woman with fingers stained permanently walnut-brown by gall-tannin and marsh-root.",
+    "greeting": "Don't touch the green bottles unless you want your teeth to come loose by supper.",
+    "lines": [
+      "Half the garrison has trench-foot, the other half has gnoll-arrow fever, and the captain wants 'heroic draughts.' I give 'em boiled turpentine and sheep fat.",
+      "Scout Bren came in coughing up fen-slime. Took three leeches and a gill of gin just to get him talking sense.",
+      "Those bone totems at Ravenwatch were greased with human tallow. You can smell it on the north wind.",
+      "If you go down into the Sunken Sanctum, plug your nose with rue. Dead water carries the grey itch.",
+      "Krag Ironhide isn't stone all the way through. Every man has a liver, even if you need a quarry-pick to reach it.",
+      "I've packed what bottles won't burst in the desert heat. Try not to drink the embalming fluid down south."
+    ],
+    "secret": "If you brought her the intact Spore-Sac in 'Bile of the Fen', she confesses she poisoned her own husband during the first border famine so her daughter would have his rations.",
+    "shop_theme": "Healing and mana draughts, tier 1-2 scrolls, and anti-venom charms."
+  },
+  {
+    "id": "npc-garrick-captain",
+    "name": "Sergeant-at-Arms Garrick",
+    "town": "town-thornwick",
+    "role": "captain",
+    "prop": "A splint-bound left forearm and a sheaf of mud-stained muster rolls.",
+    "look": "A lean, grey-stubbled veteran in a dented basinet who squints as if perpetually looking into driving sleet.",
+    "greeting": "Sign your mark on the roll or get off the parade ground. I'm short forty pikes and two lieutenants.",
+    "lines": [
+      "The capital sent us three wagons of ceremonial plumes instead of crossbow bolts. I told the men to throw the feathers very hard.",
+      "Holding the Ford bought us a week. Not a month, mind you—just a week to dig deeper graves.",
+      "Ravenwatch was my first posting thirty years back. We used to complain about the drafty latrines. Simpler times.",
+      "Courier Corin made it through Lantern Passage with nine arrows in his mule. Promoted the mule to corporal.",
+      "Alder Bridge is the cork in the bottle. If it pops, every farmstead from here to the coast gets washed in blood.",
+      "Ashbrook held. I won't say 'by the grace of the gods,' because I saw your boots in the mud doing the work."
+    ],
+    "secret": "If you executed the deserters in 'The Broken Picket', Garrick quietly reveals one of them was his own nephew from Oakhaven.",
+    "shop_theme": null
+  },
+  {
+    "id": "npc-fenwick-ferryman",
+    "name": "Old Fenwick",
+    "town": "town-thornwick",
+    "role": "ferryman",
+    "prop": "A twelve-foot ash punt-pole shod with a crooked iron hook.",
+    "look": "A stringy, barefoot river-rat wrapped in an oilskin coat made from stitched horsehides.",
+    "greeting": "Two copper to cross alive, one copper if I just have to fish your boots out of the weir.",
+    "lines": [
+      "The river's running high and thick. Caught a chandelier and two gnoll shields in my eel-traps this morning.",
+      "Don't follow the green lights in the fen. That's just dead tax-collectors trying to audit the frogs.",
+      "There's an old dwarven culvert under the canyon ridge—the Undervault. Smells like wet pennies and bad intentions.",
+      "Used to pole timber rafts down to Alder Bridge. Now the arches are so jammed with bloated horses you could walk across dry-shod.",
+      "People ask why I stay in Thornwick. Where else is a man gonna find this much free firewood floating past his dock?",
+      "Going to Redmarsh? Terrible country for a boatman. All the rivers died five hundred years ago and left their bones out."
+    ],
+    "secret": "If you paid him the double toll during 'Night Cargo', he admits he smuggled Mordred the Ashen's acolytes into the Sunken Sanctum before the war broke out.",
+    "shop_theme": "Unidentified river-salvage rings, amulets, and boots."
+  },
+  {
+    "id": "npc-bram-quartermaster",
+    "name": "Quartermaster Bram",
+    "town": "town-redmarsh",
+    "role": "fence",
+    "prop": "A brass balance-scale and a ledger bound in dried scale-viper skin.",
+    "look": "A sun-blistered, bald man wearing spectacles with one cracked green-tinted lens to cut the salt-glare.",
+    "greeting": "Water is four silver a gill, shade is two silver an hour, and complaints are free but ignored.",
+    "lines": [
+      "Welcome to Redmarsh Outpost. The ribcage you're standing under belonged to a marsh-whale, or a very ambitious cow.",
+      "Those desert raiders in the Twin Passes shoot recurve horn-bows. Strip the strings off the dead ones; my archers need 'em.",
+      "When the Wardstones cracked, it rained dead locusts and hot gravel for three days. Ruined forty barrels of pickled herring.",
+      "Thanks for pulling my wagons out of the Mire Convoy ambush. Another ten minutes and the beetles would've eaten the grease off the axles.",
+      "The Deep Quarry ironstone is cursed, sure, but cursed iron still stops a scimitar if you hammer it thick enough.",
+      "Ironheart Bastion's taken? Best pack the tents. If we stay here another week, the salt will pickle our kidneys."
+    ],
+    "secret": "If you returned the stolen gold chests intact in 'The Canyon Audit', Bram confesses he sold the raiders the original convoy route map to collect the imperial insurance.",
+    "shop_theme": "Tier 2-3 desert weapons, scale armor, and black-market rings."
+  },
+  {
+    "id": "npc-zahra-scholar",
+    "name": "Chronicler Zahra",
+    "town": "town-redmarsh",
+    "role": "scholar",
+    "prop": "A copper cylinder of rolled papyrus and a magnifying glass made from polished quartz.",
+    "look": "A tall, sharp-featured woman in indigo linen wraps whose fingertips are stained blue with lapis ink.",
+    "greeting": "Please wipe the alkali mud from your greaves before stepping on the rubbings; this inscription is older than your language.",
+    "lines": [
+      "The Empire calls this a wasteland. Four thousand years ago, it was a harbor. You're marching across the bottom of a dead sea.",
+      "The three Wardstones were never meant to control the weather. They are nails driven into the earth to keep what's underneath from turning over in its sleep.",
+      "Hexer Saelen isn't inventing new curses; he's simply reading the funerary warnings on the tomb walls backwards.",
+      "Beware the Crypt Embalmers in the salt-pits. They still believe the Third Dynasty is reigning and view living organs as an untidy clerical error.",
+      "Commander Vorn's maps of the Fork of Spears were copied from a high-king's tax survey. Even in antiquity, the roads were built for armies.",
+      "Gorrathul is dead? Fascinating. The texts claimed it could only be slain when the salt flats bloomed with roses. I suppose three feet of spilled blood sufficed."
+    ],
+    "secret": "If you gave her Saelen's intact tablet in 'Rubbings in Blood', she reveals the Crown of Order in Act IV was originally forged as a collar of servitude, not a diadem.",
+    "shop_theme": "Tier 2-3 spell scrolls, tomes, staves, and quartz focuses."
+  },
+  {
+    "id": "npc-tull-water-seller",
+    "name": "Cask-Master Tull",
+    "town": "town-redmarsh",
+    "role": "innkeeper",
+    "prop": "A wooden ladle chained to his belt and a ceramic jug sweating cold brine.",
+    "look": "A gaunt man with cracked lips and a brass spigot surgically tapped into the water-barrel strapped to his back.",
+    "greeting": "Don't ask where the well is. Just ask whether I boiled it before or after I fished the scorpion out.",
+    "lines": [
+      "First week in the Redmarsh, a man sweats out his beer. Second week, he sweats out his childhood memories. Third week, he's beef jerky.",
+      "The scouts we lost in Bracken Basin knew the water-holes. If they're dead, it means the Dune Beasts have claimed the springs.",
+      "At Highgate Watch, we had to put out firepot flames with our last two casks of vinegar. Smelled like a burning salad.",
+      "Never trust a desert mirage. Half the time it's just a Dune Lurker polishing its claws in the sun.",
+      "The miners from the Deep Quarry drink three gallons a day and still spit black dust. Good lads, though—rough with a pickaxe.",
+      "Going over the mountains to Oakhaven? Drink a pint of rainwater for me. I've forgotten what water tastes like when you don't have to chew it."
+    ],
+    "secret": "If you cleansed the poisoned cistern in 'The Bitter Well', Tull admits he had been diluting his healing draughts with ditch-water for a month.",
+    "shop_theme": "Potions, elixirs, and heat-resistant charms."
+  },
+  {
+    "id": "npc-sera-healer",
+    "name": "Chief Healer Sera",
+    "town": "town-oakhaven",
+    "role": "priest",
+    "prop": "A blood-crusted bone saw and a roll of boiled linen bandages.",
+    "look": "A severe, grey-haired woman in a butcher's oilskin apron over a faded academy cassock, smelling strongly of carbolic and vinegar.",
+    "greeting": "If you can walk into my tent, you aren't dying fast enough to skip the queue. Sit on the crate.",
+    "lines": [
+      "Oakhaven's council thinks war is all pennants and sea-shanties. I invite them to empty my slop-buckets after a coastal skirmish.",
+      "Those Cinder Wards on the cliffs give the men blistered lungs from half a league off. Keep wet rags over your mouths.",
+      "You held the woodland infirmary when the raiders came. Twenty-six men still have their heads attached because of your shield-wall. I don't forget debts.",
+      "The Sunken Citadel's tide-water is full of graveyard runoff. If a Salt Crab nips your calf, pour brandy in it before it turns green.",
+      "Warden Lyra brought her archers back with three bolts left between twelve men. Had to pull four arrowheads out of her shoulder—she didn't even spill her tea.",
+      "Harborwatch is burning. Take everything in my chest; if the fleet goes down, bandaging knees won't matter a damn."
+    ],
+    "secret": "If you saved all three wounded sergeants during 'The Triage Wagon', Sera gives you her personal amputation saw and admits she deserted the capital's royal college for refusing to heal a corrupt duke.",
+    "shop_theme": "Greater healing and mana draughts, resurrection tomes, and water/astral scrolls."
+  },
+  {
+    "id": "npc-kors-shipwright",
+    "name": "Iron-Wright Kors",
+    "town": "town-oakhaven",
+    "role": "smith",
+    "prop": "A heavy caulking mallet and a necklace of bronze ship-rivets.",
+    "look": "A massive, salt-cured shipbuilder with forearms tattooed in faded naval signal flags and a beard braided with tarred hemp.",
+    "greeting": "Armor's just a hull for a man's guts. Keep the seams caulked and the bilge dry, and you'll stay afloat.",
+    "lines": [
+      "Sea-raiders think slapping boiler-iron on a longboat makes 'em invincible. Wait till they meet a coastal reef at high tide.",
+      "The Sunken Citadel was built by mason-lords who thought they could argue with the ocean. The ocean's currently living in their dining hall.",
+      "Riverlock Crossing's floodgates were my grandfather's work. Good bronze gears—don't let your mages melt 'em with stray lightning.",
+      "That Elder Juggernaut on the pine ridge? We tried dragging it down for harbor ballast ten years ago. Broke six ox-chains and killed the foreman.",
+      "The Ironclad Banner and Ashen Banner mercenaries bought half their pikes from my yard last winter. Make sure you bring my steel back when you're done killing 'em.",
+      "Admiral Kael's flagship is sheeted in copper to stop fire-arrows. Board her and take an axe to the rudder-chains instead."
+    ],
+    "secret": "If you captured the Starved Bastion's iron-wagons without burning them in 'The Mountain Convoy', Kors admits he built Admiral Kael's flagship under duress when the raiders held his son hostage.",
+    "shop_theme": "Tier 3-4 weapons, tower shields, arbalests, and brigandines."
+  },
+  {
+    "id": "npc-lyra-warden",
+    "name": "Gate Warden Lyra",
+    "town": "town-oakhaven",
+    "role": "captain",
+    "prop": "A heavy windlass arbalest with three notches filed into the walnut stock.",
+    "look": "A wiry, hawk-nosed woman in a salt-stained brigandine with a dark purple bruise across her right cheekbone from arbalest recoil.",
+    "greeting": "Wind's twelve knots from the sou'west. Aim two fingers left of the breastplate if you want to hit the throat.",
+    "lines": [
+      "Oakhaven's walls are thick, sure, but walls don't shoot back. Men with dry bowstrings do.",
+      "Those twin camps at Sundered Ranks have interlocking fields of fire. Anyone who marches down the middle deserves the funeral he gets.",
+      "When you broke through at the North Gatehouse, my lads were down to throwing roof-slates and chamber-pots. You have my bow until this war's cold.",
+      "Starving out the valley bastion was clean work. A hungry pikeman drops his point three inches by noon.",
+      "The rogue baron in the keep spent forty thousand crowns on velvet tapestries and paid his halberdiers in clipped tin. Kick his door in.",
+      "Vesperion's choir sings in the fog before every high tide. Put beeswax in your ears or you'll walk right off the jetty."
+    ],
+    "secret": "If you rescued her surviving scouts in 'The Bell-Tower Picket', Lyra reveals the rogue baron was secretly supplying the shadow coven with Oakhaven harbor charts.",
+    "shop_theme": "Bows, arbalests, Stalker hoods, and accuracy-enhancing gloves."
+  },
+  {
+    "id": "npc-pip-mudlark",
+    "name": "Mudlark Pip",
+    "town": "town-oakhaven",
+    "role": "child",
+    "prop": "A bent iron crab-hook and a canvas sack dripping black harbor silt.",
+    "look": "A ten-year-old urchin in cut-down sailor's trousers held up by twine, shivering perpetually despite three wool vests.",
+    "greeting": "Found a dead knight at low tide, mister! Couldn't get his boots off 'cause his feet were still in 'em, but I got his ring!",
+    "lines": [
+      "When the tide goes out by the Sunken Citadel, you can see the roofs of the old town. And the crabs eating the mayors.",
+      "Don't go near the Night Orchards after dark. The skulls in the branches whisper names, and one of 'em sounded like my mum's.",
+      "Soldiers from the Ironclad Banner threw me a copper to polish their greaves, then kicked me in the mud for luck. Hope you bash 'em.",
+      "There's a big bronze bell floating over the jetty at midnight. When it rings, all the stray dogs freeze stiff as firewood.",
+      "Admiral Kael's ship has lanterns made of green glass. My mate Tommy swam out to steal one and never came back up.",
+      "You're sailing to the fire-mountain? Take my lucky pebble. It's just granite, so it probably won't melt right away."
+    ],
+    "secret": "If you gave him a loaf of bread and 50 gold after 'Low-Tide Salvage', Pip shows you the secret sewer grate that bypasses the rogue baron's outer halberdier guard.",
+    "shop_theme": "Randomly salvaged rings, charms, and oddities."
+  },
+  {
+    "id": "npc-rowan-commander",
+    "name": "Captain Rowan",
+    "town": "town-ironcamp",
+    "role": "captain",
+    "prop": "A fire-blackened kite shield and an iron neck-brace bolted to his gorget.",
+    "look": "A scarred, crooked-necked officer whose eyebrows have been completely singed off by volcanic backdrafts.",
+    "greeting": "Don't salute out here. The sniper-fiends on the obsidian ridge look for anyone stupid enough to raise an arm.",
+    "lines": [
+      "Welcome to Ironcamp. The air tastes like sulfur, the water tastes like boiled nails, and the ground wants to eat your boots.",
+      "Those three signal beacons on the ridge aren't just lights—they're focusing lenses. Step into the beam and there's not enough left to bury in a teacup.",
+      "Greystone Bastion held because we stacked our own dead in the breaches when the mortar gave out. Don't waste what they bought you.",
+      "Malrik used to lecture on elemental ethics at the high college. Funny how quickly 'ethics' turns into throwing lava at conscripts.",
+      "The Gauntlet of Iron is three hundred yards of murder-holes and basalt golems. Leave the banners behind; just bring shields and spite.",
+      "You're at the Threshold Chamber. Whatever's inside that vault—Crown or Ember—finish it. The men are too tired to fight another war next winter."
+    ],
+    "secret": "If you destroyed all three siege engines without losing a bastion tower in 'Iron on the Wall', Rowan confesses the Imperial High Command ordered him to seal the mountain pass behind you and leave your company to die in the caldera.",
+    "shop_theme": null
+  },
+  {
+    "id": "npc-vok-forgemaster",
+    "name": "Forgemaster Vok",
+    "town": "town-ironcamp",
+    "role": "smith",
+    "prop": "A pair of four-foot crucible tongs and a leather mask with smoked-glass eye slits.",
+    "look": "A dwarf-broad smith covered in silvery burn-keloids who uses an open volcanic fissure in the camp floor as his hearth.",
+    "greeting": "No coal needed here. Just stick the billet in the floor-crack and pull it out before the rock eats it.",
+    "lines": [
+      "Normal steel goes soft as butter in this caldera heat. Everything I forge here is quenched in brine and tempered with meteor-slag.",
+      "If you drop an Anvilmaw Smith, bring me its lower jaw. That iron was poured before human beings learned to bang rocks together.",
+      "Redglass Drake wings make fine arrowheads, provided you don't mind the splinters poisoning your own thumb while you fletch 'em.",
+      "Those mana-cannons at the Twofold Assault crags run on compressed astral crystals. Crack the housing and they'll blow their own gunners into the next parish.",
+      "The Outer Rampart drawbridge chains are six inches thick. You won't cut 'em; you'll have to kill the winch-crews inside the gatehouses.",
+      "Ashkarath's armor isn't worn—it's bolted into his collarbone. Aim for the glowing cracks where the lava leaks out."
+    ],
+    "secret": "If you brought him the intact Anvilmaw Core in 'The Unquenched Jaw', Vok admits his clan forged the original Obsidian Throne for Ashkarath a thousand years ago under blood-contract.",
+    "shop_theme": "Tier 4-5 endgame weapons, Gothic plate, dread helms, and obsidian mauls."
+  },
+  {
+    "id": "npc-elias-penitent",
+    "name": "Brother Elias the Scorched",
+    "town": "town-ironcamp",
+    "role": "alchemist",
+    "prop": "A brass thurible filled with grey volcanic ash and a bundle of charred vellum scrolls.",
+    "look": "A blind battle-mage with ash-caked bandages over his eyes and a voice like two pieces of pumice rubbing together.",
+    "greeting": "I cannot see your heraldry, friend, only the heat of your blood and the weight of the iron you carry.",
+    "lines": [
+      "I looked directly at the Shattered Beacons when they first ignited. Now the whole world is dark, save for the leylines burning under my soles.",
+      "Malrik was my mentor. He feared growing old and cold in a damp tower, so he sold the realm's spring to buy himself an eternal summer of ash.",
+      "The Dread Knights on the ramparts do not hate you. They scarcely remember what human beings are; you are simply an obstruction in the ash.",
+      "At Three-Roads Watch, the dead do not stay down unless you burn the sinews or freeze the marrow. Be thorough.",
+      "In the Threshold Chamber, the ancient wardens left two keys because they lacked the courage to lock the door from the inside.",
+      "Order will make the world a quiet, frozen museum. Ember will make it a roaring furnace. Choose which temperature you prefer for your grave."
+    ],
+    "secret": "If you spared Malrik's apprentice notes in 'The Burnt Syllabus', Elias reveals how to attune the Signet of the Two Paths without losing your sanity to either ending.",
+    "shop_theme": "Tier 4-5 spell tomes, elixirs of permanent stat growth, and prismatic charms."
+  },
+  {
+    "id": "npc-marlow-reeve",
+    "name": "Reeve Marlow",
+    "role": "reeve",
+    "town": "town-thornwick",
+    "look": "A hollow-cheeked town reeve in a damp wool cloak stained with candle-wax and ink.",
+    "quirk": "Counts grain tallies on his knuckles whenever someone mentions the southern tithe."
+  },
+  {
+    "id": "npc-edda-miller",
+    "name": "Edda the Miller",
+    "role": "miller",
+    "town": "town-thornwick",
+    "look": "A stout, flour-dusted woman with calloused palms and soot under her fingernails.",
+    "quirk": "Taps the rim of her belt-measure as if testing millstones for cracks."
+  },
+  {
+    "id": "npc-dunstan-innkeeper",
+    "name": "Dunstan",
+    "role": "innkeeper",
+    "town": "town-thornwick",
+    "look": "A barrel-chested tavern keeper with rolled sleeves and a perpetually damp rag over one shoulder.",
+    "quirk": "Listens to the rain on the slate roof before pouring the last finger of ale."
+  },
+  {
+    "id": "npc-vaelen-arcanist",
+    "name": "High Arcanist Vaelen",
+    "role": "mage",
+    "town": "town-thornwick",
+    "look": "A silver-bearded scholar in slate-blue robes edged with tarnished brass sigils.",
+    "quirk": "Turns an unlit iron prism in his fingers while weighing every answer."
+  }
 ]

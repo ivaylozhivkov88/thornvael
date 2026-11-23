@@ -1,2242 +1,3858 @@
 [
- {
-  "id": "dlg-hobb-entry-act-1-2",
-  "npc": "npc-hobb-smith",
-  "node": "entry_act_1_2",
-  "text": "Master Hobb spits slag-dust into the quench trough and squints with his one good eye. 'If the edge is rolled, lay it on the horn. If you came to haggle over coal prices, keep walking.'",
-  "choices": [
-   {
-    "label": "Ask why his anvil is running cold.",
-    "next": "dlg-hobb-supplies-talk"
-   },
-   {
-    "label": "Slip two silver for his private iron rack.",
-    "next": "dlg-hobb-hidden-stash",
-    "sets_flag": "flag_hobb_bribed"
-   },
-   {
-    "label": "Leave the smithy.",
-    "next": "end"
-   }
-  ]
- },
- {
-  "id": "dlg-hobb-entry-act-3",
-  "npc": "npc-hobb-smith",
-  "node": "entry_act_3",
-  "text": "Hobb wipes pig's blood and soot off a pair of tongs as salt wind rattles the shutters. 'Coastal brine pits honest steel in a fortnight. Bring your plate before the rivets seize.'",
-  "choices": [
-   {
-    "label": "Ask what steel works against sea-raiders.",
-    "next": "dlg-hobb-regional-intel"
-   },
-   {
-    "label": "Check the private rack we arranged earlier.",
-    "next": "dlg-hobb-favored-customer",
-    "requires_flag": "flag_hobb_bribed"
-   },
-   {
-    "label": "Step outside.",
-    "next": "end"
-   }
-  ]
- },
- {
-  "id": "dlg-hobb-entry-act-4",
-  "npc": "npc-hobb-smith",
-  "node": "entry_act_4",
-  "text": "Hobb tests a glowing billet with a notched ball-peen hammer. 'Four provinces of dents hammered flat, and now we're forging beside an open volcano. Speak fast before the iron cools.'",
-  "choices": [
-   {
-    "label": "Commission heavy plate for the final breach.",
-    "next": "dlg-hobb-final-reckoning",
-    "sets_flag": "flag_hobb_committed"
-   },
-   {
-    "label": "Ask who still owes him for militia pikes.",
-    "next": "dlg-hobb-old-debts"
-   },
-   {
-    "label": "Close the door.",
-    "next": "end"
-   }
-  ]
- },
- {
-  "id": "dlg-hobb-supplies-talk",
-  "npc": "npc-hobb-smith",
-  "node": "supplies_talk",
-  "text": "'The capital sent wagons of peacock plumes instead of pig-iron, and bog-water rotted my last birch charcoal. Bring salvaged blades if you want proper tempering.'",
-  "choices": [
-   {
-    "label": "Promise to clear the quarry supply road.",
-    "next": "dlg-hobb-road-pledge",
-    "sets_flag": "flag_hobb_road_pledge"
-   },
-   {
-    "label": "Head back out.",
-    "next": "end"
-   }
-  ]
- },
- {
-  "id": "dlg-hobb-hidden-stash",
-  "npc": "npc-hobb-smith",
-  "node": "hidden_stash",
-  "text": "'Keep your voice down—Garrick thinks these billets belong to the garrison. Pay coin upfront and you get spring-steel that won't snap on the first parry.'",
-  "choices": [
-   {
-    "label": "Inspect the spring-steel stock.",
-    "next": "dlg-hobb-favored-customer"
-   },
-   {
-    "label": "Leave it.",
-    "next": "end"
-   }
-  ]
- },
- {
-  "id": "dlg-hobb-regional-intel",
-  "npc": "npc-hobb-smith",
-  "node": "regional_intel",
-  "text": "'Gnolls and sand-raiders beat stolen plowshares flat; Dread Knights wear meteor-slag bolted to their collarbones. Aim for the joints, not the breastplate.'",
-  "choices": [
-   {
-    "label": "Ask where the contraband ore is coming from.",
-    "next": "dlg-hobb-old-debts"
-   },
-   {
-    "label": "Move on.",
-    "next": "end"
-   }
-  ]
- },
- {
-  "id": "dlg-hobb-favored-customer",
-  "npc": "npc-hobb-smith",
-  "node": "favored_customer",
-  "text": "'You kept your mouth shut and paid in real silver. Take the quenched blades off the back hooks—every fuller ground true by hand.'",
-  "choices": [
-   {
-    "label": "Thank him and leave.",
-    "next": "end"
-   }
-  ]
- },
- {
-  "id": "dlg-hobb-road-pledge",
-  "npc": "npc-hobb-smith",
-  "node": "road_pledge",
-  "text": "'Talk doesn't heat a bloomery, commander, but if you actually open that iron road, my best rivets go on your shields first.'",
-  "choices": [
-   {
-    "label": "Depart.",
-    "next": "end"
-   }
-  ]
- },
- {
-  "id": "dlg-hobb-old-debts",
-  "npc": "npc-hobb-smith",
-  "node": "old_debts",
-  "text": "'Quartermaster Tarn shorted my coal deliveries for two winters before he bolted. I keep his unpaid tallies nailed beside my bellows so I never forget.'",
-  "choices": [
-   {
-    "label": "Leave.",
-    "next": "end"
-   }
-  ]
- },
- {
-  "id": "dlg-hobb-final-reckoning",
-  "npc": "npc-hobb-smith",
-  "node": "final_reckoning",
-  "text": "'Then let's temper something worth burying kings in. When the ash settles, at least our steel won't be the thing that broke.'",
-  "choices": [
-   {
-    "label": "March out.",
-    "next": "end"
-   }
-  ]
- },
- {
-  "id": "dlg-marta-entry-act-1-2",
-  "npc": "npc-marta-alchemist",
-  "node": "entry_act_1_2",
-  "text": "Widow Marta stirs a jar of fat black leeches with one walnut-stained finger. 'Don't touch the green bottles unless you want your gums bleeding before supper.'",
-  "choices": [
-   {
-    "label": "Ask about the marsh-fever spreading in camp.",
-    "next": "dlg-marta-supplies-talk"
-   },
-   {
-    "label": "Pay extra for her locked apothecary chest.",
-    "next": "dlg-marta-hidden-stash",
-    "sets_flag": "flag_marta_bribed"
-   },
-   {
-    "label": "Step away from the fumes.",
-    "next": "end"
-   }
-  ]
- },
- {
-  "id": "dlg-marta-entry-act-3",
-  "npc": "npc-marta-alchemist",
-  "node": "entry_act_3",
-  "text": "Marta ties a rue-soaked rag around her nose against the harbor stench. 'Saltwater turns a clean arrow-nick into green gangrene by nightfall. Buy your poultices now.'",
-  "choices": [
-   {
-    "label": "Ask what poisons the coastal covens use.",
-    "next": "dlg-marta-regional-intel"
-   },
-   {
-    "label": "Request the private tinctures we discussed.",
-    "next": "dlg-marta-favored-customer",
-    "requires_flag": "flag_marta_bribed"
-   },
-   {
-    "label": "Leave.",
-    "next": "end"
-   }
-  ]
- },
- {
-  "id": "dlg-marta-entry-act-4",
-  "npc": "npc-marta-alchemist",
-  "node": "entry_act_4",
-  "text": "Marta grinds dried willow-bark in a stone mortar while grey ash sifts onto her apron. 'Sulfur smoke blisters lungs faster than blades. Drink bitter-root before you climb.'",
-  "choices": [
-   {
-    "label": "Stock up on draughts for the final assault.",
-    "next": "dlg-marta-final-reckoning",
-    "sets_flag": "flag_marta_committed"
-   },
-   {
-    "label": "Ask why she never returned to the capital.",
-    "next": "dlg-marta-old-debts"
-   },
-   {
-    "label": "Exit.",
-    "next": "end"
-   }
-  ]
- },
- {
-  "id": "dlg-marta-supplies-talk",
-  "npc": "npc-marta-alchemist",
-  "node": "supplies_talk",
-  "text": "'Garrick wants heroic elixirs, and I have boiled turpentine, sheep fat, and three bruised roots. Bring me intact spore-sacs or viper glands if you want real medicine.'",
-  "choices": [
-   {
-    "label": "Pledge to secure the fen herb-trails.",
-    "next": "dlg-marta-road-pledge",
-    "sets_flag": "flag_marta_road_pledge"
-   },
-   {
-    "label": "Leave.",
-    "next": "end"
-   }
-  ]
- },
- {
-  "id": "dlg-marta-hidden-stash",
-  "npc": "npc-marta-alchemist",
-  "node": "hidden_stash",
-  "text": "'Quiet—these vials aren't for the levy. Distilled nightshade and concentrated antivenom: one drop clears a fever, two drops stop a heart.'",
-  "choices": [
-   {
-    "label": "Take the sealed vials.",
-    "next": "dlg-marta-favored-customer"
-   },
-   {
-    "label": "Decline.",
-    "next": "end"
-   }
-  ]
- },
- {
-  "id": "dlg-marta-regional-intel",
-  "npc": "npc-marta-alchemist",
-  "node": "regional_intel",
-  "text": "'Hedge-hexers grease their barbs with corpse-tallow and mycotoxins. Plug your nostrils with rue before stepping into any sunken chapel or willow hollow.'",
-  "choices": [
-   {
-    "label": "Ask who taught them those recipes.",
-    "next": "dlg-marta-old-debts"
-   },
-   {
-    "label": "Move on.",
-    "next": "end"
-   }
-  ]
- },
- {
-  "id": "dlg-marta-favored-customer",
-  "npc": "npc-marta-alchemist",
-  "node": "favored_customer",
-  "text": "'You don't waste my bottles on drunken brawls. Here—freshly decanted red-cap moss draughts, corked in waxed bladder-skin.'",
-  "choices": [
-   {
-    "label": "Pocket the draughts and go.",
-    "next": "end"
-   }
-  ]
- },
- {
-  "id": "dlg-marta-road-pledge",
-  "npc": "npc-marta-alchemist",
-  "node": "road_pledge",
-  "text": "'Words won't grow willow-bark in alkaline mud, but if you clear those paths, I'll brew your vanguard's antitoxins at half coin.'",
-  "choices": [
-   {
-    "label": "Depart.",
-    "next": "end"
-   }
-  ]
- },
- {
-  "id": "dlg-marta-old-debts",
-  "npc": "npc-marta-alchemist",
-  "node": "old_debts",
-  "text": "'During the first border famine, rations were weighed in bone-dust. Everyone who survived owes a debt to someone who didn't make spring.'",
-  "choices": [
-   {
-    "label": "Leave.",
-    "next": "end"
-   }
-  ]
- },
- {
-  "id": "dlg-marta-final-reckoning",
-  "npc": "npc-marta-alchemist",
-  "node": "final_reckoning",
-  "text": "'Take every bottle on the shelf. If the world burns down tonight, I won't need laudanum tomorrow.'",
-  "choices": [
-   {
-    "label": "March out.",
-    "next": "end"
-   }
-  ]
- },
- {
-  "id": "dlg-garrick-entry-act-1-2",
-  "npc": "npc-garrick-captain",
-  "node": "entry_act_1_2",
-  "text": "Sergeant-at-Arms Garrick taps his splinted forearm against a sheaf of mud-stained muster rolls. 'Sign your mark or clear the parade ground. I'm short forty pikes.'",
-  "choices": [
-   {
-    "label": "Ask about garrison morale and desertions.",
-    "next": "dlg-garrick-supplies-talk"
-   },
-   {
-    "label": "Offer silver to inspect confiscated levy gear.",
-    "next": "dlg-garrick-hidden-stash",
-    "sets_flag": "flag_garrick_bribed"
-   },
-   {
-    "label": "Dismissed.",
-    "next": "end"
-   }
-  ]
- },
- {
-  "id": "dlg-garrick-entry-act-3",
-  "npc": "npc-garrick-captain",
-  "node": "entry_act_3",
-  "text": "Garrick squints into the sea drizzle from beneath a dented basinet. 'My border lads hate ships almost as much as they hate salt pork. Keep them in tight shield-walls.'",
-  "choices": [
-   {
-    "label": "Ask for his tactical read on the coastal forts.",
-    "next": "dlg-garrick-regional-intel"
-   },
-   {
-    "label": "Draw from the reserve armory we arranged.",
-    "next": "dlg-garrick-favored-customer",
-    "requires_flag": "flag_garrick_bribed"
-   },
-   {
-    "label": "Step off.",
-    "next": "end"
-   }
-  ]
- },
- {
-  "id": "dlg-garrick-entry-act-4",
-  "npc": "npc-garrick-captain",
-  "node": "entry_act_4",
-  "text": "Garrick wipes grey soot off his muster slate. 'Half the names on this board are crossed out in red charcoal, commander. Point us at the last gate so we can finish the roll.'",
-  "choices": [
-   {
-    "label": "Commit the surviving borderers to the breach.",
-    "next": "dlg-garrick-final-reckoning",
-    "sets_flag": "flag_garrick_committed"
-   },
-   {
-    "label": "Ask about the men lost along the border.",
-    "next": "dlg-garrick-old-debts"
-   },
-   {
-    "label": "Leave.",
-    "next": "end"
-   }
-  ]
- },
- {
-  "id": "dlg-garrick-supplies-talk",
-  "npc": "npc-garrick-captain",
-  "node": "supplies_talk",
-  "text": "'Promissory notes don't stop gnoll cleavers. Half my watchmen are marching in leaky boots because the pay-wagons vanished between here and Ashbrook.'",
-  "choices": [
-   {
-    "label": "Promise to reopen the northern supply road.",
-    "next": "dlg-garrick-road-pledge",
-    "sets_flag": "flag_garrick_road_pledge"
-   },
-   {
-    "label": "End talk.",
-    "next": "end"
-   }
-  ]
- },
- {
-  "id": "dlg-garrick-hidden-stash",
-  "npc": "npc-garrick-captain",
-  "node": "hidden_stash",
-  "text": "'Keep this off the quartermaster's slate. Deserters left behind decent ash-shaft quarrels and oiled brigandines—better in your hands than rotting in the cellar.'",
-  "choices": [
-   {
-    "label": "Claim the confiscated kit.",
-    "next": "dlg-garrick-favored-customer"
-   },
-   {
-    "label": "Leave it.",
-    "next": "end"
-   }
-  ]
- },
- {
-  "id": "dlg-garrick-regional-intel",
-  "npc": "npc-garrick-captain",
-  "node": "regional_intel",
-  "text": "'Never split a column in a narrow pass unless you hold both ridges first, and never trust an unguarded bridge at dusk. Someone inside the border opened our gates.'",
-  "choices": [
-   {
-    "label": "Ask who betrayed the border watch.",
-    "next": "dlg-garrick-old-debts"
-   },
-   {
-    "label": "Move on.",
-    "next": "end"
-   }
-  ]
- },
- {
-  "id": "dlg-garrick-favored-customer",
-  "npc": "npc-garrick-captain",
-  "node": "favored_customer",
-  "text": "'You keep my militiamen breathing when other captains use them as arrow-fodder. Take the veteran pickets from the inner barracks.'",
-  "choices": [
-   {
-    "label": "Salute and depart.",
-    "next": "end"
-   }
-  ]
- },
- {
-  "id": "dlg-garrick-road-pledge",
-  "npc": "npc-garrick-captain",
-  "node": "road_pledge",
-  "text": "'Good. Open that supply track and I'll have every able-bodied pikeman in the parish drilling before cockcrow.'",
-  "choices": [
-   {
-    "label": "Depart.",
-    "next": "end"
-   }
-  ]
- },
- {
-  "id": "dlg-garrick-old-debts",
-  "npc": "npc-garrick-captain",
-  "node": "old_debts",
-  "text": "'Thirty years on the border teaches you one ledger rule: the crown collects taxes in silver, and the frontier pays the interest in farmboys' ribs.'",
-  "choices": [
-   {
-    "label": "Leave.",
-    "next": "end"
-   }
-  ]
- },
- {
-  "id": "dlg-garrick-final-reckoning",
-  "npc": "npc-garrick-captain",
-  "node": "final_reckoning",
-  "text": "'Shields locked, pikes level. Let's clear the road so the survivors can finally go home.'",
-  "choices": [
-   {
-    "label": "March out.",
-    "next": "end"
-   }
-  ]
- },
- {
-  "id": "dlg-fenwick-entry-act-1-2",
-  "npc": "npc-fenwick-ferryman",
-  "node": "entry_act_1_2",
-  "text": "Old Fenwick leans on a twelve-foot ash punt-pole shod with a crooked iron hook. 'Two copper to cross alive, one copper if I just fish your boots out of the weir.'",
-  "choices": [
-   {
-    "label": "Ask what's floating downriver lately.",
-    "next": "dlg-fenwick-supplies-talk"
-   },
-   {
-    "label": "Pay double toll to see his river-salvage sack.",
-    "next": "dlg-fenwick-hidden-stash",
-    "sets_flag": "flag_fenwick_bribed"
-   },
-   {
-    "label": "Step off the dock.",
-    "next": "end"
-   }
-  ]
- },
- {
-  "id": "dlg-fenwick-entry-act-3",
-  "npc": "npc-fenwick-ferryman",
-  "node": "entry_act_3",
-  "text": "Fenwick spits into the grey harbor chop, wrapped in his stitched horsehide coat. 'Too much salt in this water for an honest river-rat, though drowned knights still wear shiny rings.'",
-  "choices": [
-   {
-    "label": "Ask about hidden coves and tidal channels.",
-    "next": "dlg-fenwick-regional-intel"
-   },
-   {
-    "label": "Check what your hook dredged up for me.",
-    "next": "dlg-fenwick-favored-customer",
-    "requires_flag": "flag_fenwick_bribed"
-   },
-   {
-    "label": "Walk away.",
-    "next": "end"
-   }
-  ]
- },
- {
-  "id": "dlg-fenwick-entry-act-4",
-  "npc": "npc-fenwick-ferryman",
-  "node": "entry_act_4",
-  "text": "Fenwick eyes the sluggish magma moat with professional disgust. 'Not a drop of water worth poling a punt across. Still, a ferryman knows how to read currents—even hot ones.'",
-  "choices": [
-   {
-    "label": "Ask him to guide the supply barges across.",
-    "next": "dlg-fenwick-final-reckoning",
-    "sets_flag": "flag_fenwick_committed"
-   },
-   {
-    "label": "Ask about the tolls people never paid.",
-    "next": "dlg-fenwick-old-debts"
-   },
-   {
-    "label": "Leave.",
-    "next": "end"
-   }
-  ]
- },
- {
-  "id": "dlg-fenwick-supplies-talk",
-  "npc": "npc-fenwick-ferryman",
-  "node": "supplies_talk",
-  "text": "'Eel-traps are full of bloated horses, splintered barrels, and dead tax-clerks. Nobody's shipping honest timber while raiders hold the gravel bars.'",
-  "choices": [
-   {
-    "label": "Promise to clear the river crossings.",
-    "next": "dlg-fenwick-road-pledge",
-    "sets_flag": "flag_fenwick_road_pledge"
-   },
-   {
-    "label": "End talk.",
-    "next": "end"
-   }
-  ]
- },
- {
-  "id": "dlg-fenwick-hidden-stash",
-  "npc": "npc-fenwick-ferryman",
-  "node": "hidden_stash",
-  "text": "'Keep your lantern low. Pulled these off a courier-barge before the crows found it—waterproofed cases, tarnished signets, and boots that still fit.'",
-  "choices": [
-   {
-    "label": "Sift through the river salvage.",
-    "next": "dlg-fenwick-favored-customer"
-   },
-   {
-    "label": "Leave it.",
-    "next": "end"
-   }
-  ]
- },
- {
-  "id": "dlg-fenwick-regional-intel",
-  "npc": "npc-fenwick-ferryman",
-  "node": "regional_intel",
-  "text": "'Don't follow green lights in the peat—that's dead bailiffs auditing frogs. Stick to gravel shelves where reeds grow short and stiff.'",
-  "choices": [
-   {
-    "label": "Ask what he smuggled before the war.",
-    "next": "dlg-fenwick-old-debts"
-   },
-   {
-    "label": "Move on.",
-    "next": "end"
-   }
-  ]
- },
- {
-  "id": "dlg-fenwick-favored-customer",
-  "npc": "npc-fenwick-ferryman",
-  "node": "favored_customer",
-  "text": "'You pay the ferryman upfront without whining about the mud. Here—pick first from tonight's eel-weir haul before the guards sniff around.'",
-  "choices": [
-   {
-    "label": "Take the salvage and go.",
-    "next": "end"
-   }
-  ]
- },
- {
-  "id": "dlg-fenwick-road-pledge",
-  "npc": "npc-fenwick-ferryman",
-  "node": "road_pledge",
-  "text": "'Clear the gnolls off the gravel bars and I'll pole your wounded across free of charge—dry-shod, mostly.'",
-  "choices": [
-   {
-    "label": "Depart.",
-    "next": "end"
-   }
-  ]
- },
- {
-  "id": "dlg-fenwick-old-debts",
-  "npc": "npc-fenwick-ferryman",
-  "node": "old_debts",
-  "text": "'Everyone thinks the river washes debts clean. Truth is, silt preserves everything—coins, bones, and the names of fools who shorted the boatman.'",
-  "choices": [
-   {
-    "label": "Leave.",
-    "next": "end"
-   }
-  ]
- },
- {
-  "id": "dlg-fenwick-final-reckoning",
-  "npc": "npc-fenwick-ferryman",
-  "node": "final_reckoning",
-  "text": "'One last crossing, then. Keep your balance low in the boat and don't drop your shield over the gunwale.'",
-  "choices": [
-   {
-    "label": "March out.",
-    "next": "end"
-   }
-  ]
- },
- {
-  "id": "dlg-bram-entry-act-1-2",
-  "npc": "npc-bram-quartermaster",
-  "node": "entry_act_1_2",
-  "text": "Quartermaster Bram adjusts spectacles with one cracked green lens and taps a scale-viper ledger. 'Water is four silver a gill, shade is two silver an hour, complaints are free.'",
-  "choices": [
-   {
-    "label": "Ask why caravan prices are so steep.",
-    "next": "dlg-bram-supplies-talk"
-   },
-   {
-    "label": "Grease his palm for black-market desert gear.",
-    "next": "dlg-bram-hidden-stash",
-    "sets_flag": "flag_bram_bribed"
-   },
-   {
-    "label": "Step out of the tent.",
-    "next": "end"
-   }
-  ]
- },
- {
-  "id": "dlg-bram-entry-act-3",
-  "npc": "npc-bram-quartermaster",
-  "node": "entry_act_3",
-  "text": "Bram fans his sun-blistered scalp with an invoice sheet as sea fog rolls in. 'Finally, air you don't have to chew. Now let's talk salvage margins on those sunken galleys.'",
-  "choices": [
-   {
-    "label": "Ask about coastal supply bottlenecks.",
-    "next": "dlg-bram-regional-intel"
-   },
-   {
-    "label": "Open the private account we set up.",
-    "next": "dlg-bram-favored-customer",
-    "requires_flag": "flag_bram_bribed"
-   },
-   {
-    "label": "Leave.",
-    "next": "end"
-   }
-  ]
- },
- {
-  "id": "dlg-bram-entry-act-4",
-  "npc": "npc-bram-quartermaster",
-  "node": "entry_act_4",
-  "text": "Bram weighs obsidian slag on his brass balance-scale. 'Every war ends in an audit, commander. Make sure we hold the vaults when the counting starts.'",
-  "choices": [
-   {
-    "label": "Secure full quartermaster backing for the siege.",
-    "next": "dlg-bram-final-reckoning",
-    "sets_flag": "flag_bram_committed"
-   },
-   {
-    "label": "Ask who profited from the Redmarsh ambushes.",
-    "next": "dlg-bram-old-debts"
-   },
-   {
-    "label": "Exit.",
-    "next": "end"
-   }
-  ]
- },
- {
-  "id": "dlg-bram-supplies-talk",
-  "npc": "npc-bram-quartermaster",
-  "node": "supplies_talk",
-  "text": "'Three mule-trains vanished in the Twin Passes, and salt-glare ruins leather straps in a week. Bring intact horn-bows or quarry ore if you want fair trade.'",
-  "choices": [
-   {
-    "label": "Pledge to secure the canyon caravan routes.",
-    "next": "dlg-bram-road-pledge",
-    "sets_flag": "flag_bram_road_pledge"
-   },
-   {
-    "label": "End talk.",
-    "next": "end"
-   }
-  ]
- },
- {
-  "id": "dlg-bram-hidden-stash",
-  "npc": "npc-bram-quartermaster",
-  "node": "hidden_stash",
-  "text": "'Off the imperial manifest: scale-viper bracers, curved desert steel, and rings stripped from nomad chieftains. Coin upfront, no receipts.'",
-  "choices": [
-   {
-    "label": "Browse the contraband stock.",
-    "next": "dlg-bram-favored-customer"
-   },
-   {
-    "label": "Leave it.",
-    "next": "end"
-   }
-  ]
- },
- {
-  "id": "dlg-bram-regional-intel",
-  "npc": "npc-bram-quartermaster",
-  "node": "regional_intel",
-  "text": "'Whoever armed the Sand-Clans used Deep Quarry ironstone stamped with Border Mint dies. Follow the coin, not the war-horns.'",
-  "choices": [
-   {
-    "label": "Ask who signed those mint manifests.",
-    "next": "dlg-bram-old-debts"
-   },
-   {
-    "label": "Move on.",
-    "next": "end"
-   }
-  ]
- },
- {
-  "id": "dlg-bram-favored-customer",
-  "npc": "npc-bram-quartermaster",
-  "node": "favored_customer",
-  "text": "'A commander who understands overhead is rare. Take the prime stock from the locked chest—discounted for prompt settlement.'",
-  "choices": [
-   {
-    "label": "Collect the gear and go.",
-    "next": "end"
-   }
-  ]
- },
- {
-  "id": "dlg-bram-road-pledge",
-  "npc": "npc-bram-quartermaster",
-  "node": "road_pledge",
-  "text": "'Open the pass and my wagons roll at dawn. Clean margins for me, fresh bolts for your archers.'",
-  "choices": [
-   {
-    "label": "Depart.",
-    "next": "end"
-   }
-  ]
- },
- {
-  "id": "dlg-bram-old-debts",
-  "npc": "npc-bram-quartermaster",
-  "node": "old_debts",
-  "text": "'In the Redmarsh, unpaid debts turn to salt-crust. Every merchant out here insures his wagons twice—once with guards, once with raiders.'",
-  "choices": [
-   {
-    "label": "Leave.",
-    "next": "end"
-   }
-  ]
- },
- {
-  "id": "dlg-bram-final-reckoning",
-  "npc": "npc-bram-quartermaster",
-  "node": "final_reckoning",
-  "text": "'The ledger is balanced and the war-chest is open. Take what you need to close the account.'",
-  "choices": [
-   {
-    "label": "March out.",
-    "next": "end"
-   }
-  ]
- },
- {
-  "id": "dlg-zahra-entry-act-1-2",
-  "npc": "npc-zahra-scholar",
-  "node": "entry_act_1_2",
-  "text": "Chronicler Zahra holds up a lapis-stained hand before your boots touch her papyrus rolls. 'Wipe the alkali mud off your greaves; this inscription is older than your kingdom.'",
-  "choices": [
-   {
-    "label": "Ask what the desert ruins reveal.",
-    "next": "dlg-zahra-supplies-talk"
-   },
-   {
-    "label": "Fund her private excavation with silver.",
-    "next": "dlg-zahra-hidden-stash",
-    "sets_flag": "flag_zahra_bribed"
-   },
-   {
-    "label": "Step back.",
-    "next": "end"
-   }
-  ]
- },
- {
-  "id": "dlg-zahra-entry-act-3",
-  "npc": "npc-zahra-scholar",
-  "node": "entry_act_3",
-  "text": "Zahra polishes a quartz magnifying lens against her indigo linen sleeve. 'First-Empire seawalls align with the Redmarsh wardstones. Whoever built them was measuring the caldera.'",
-  "choices": [
-   {
-    "label": "Ask how the coastal runes connect to the south.",
-    "next": "dlg-zahra-regional-intel"
-   },
-   {
-    "label": "Review the decoded tablets I funded.",
-    "next": "dlg-zahra-favored-customer",
-    "requires_flag": "flag_zahra_bribed"
-   },
-   {
-    "label": "Leave.",
-    "next": "end"
-   }
-  ]
- },
- {
-  "id": "dlg-zahra-entry-act-4",
-  "npc": "npc-zahra-scholar",
-  "node": "entry_act_4",
-  "text": "Zahra traces obsidian glyphs with trembling blue fingertips. 'We are standing inside the lock mechanism of the continent, commander. Do not break a seal you haven't read.'",
-  "choices": [
-   {
-    "label": "Commit to preserving the Threshold archives.",
-    "next": "dlg-zahra-final-reckoning",
-    "sets_flag": "flag_zahra_committed"
-   },
-   {
-    "label": "Ask about the true origin of the Crown of Order.",
-    "next": "dlg-zahra-old-debts"
-   },
-   {
-    "label": "Exit.",
-    "next": "end"
-   }
-  ]
- },
- {
-  "id": "dlg-zahra-supplies-talk",
-  "npc": "npc-zahra-scholar",
-  "node": "supplies_talk",
-  "text": "'Damp rot and blood-chanters are destroying pre-dynastic steles faster than I can press charcoal rubbings. Protect my surveyors if you want their wards deciphered.'",
-  "choices": [
-   {
-    "label": "Promise to safeguard her field rubbings.",
-    "next": "dlg-zahra-road-pledge",
-    "sets_flag": "flag_zahra_road_pledge"
-   },
-   {
-    "label": "End talk.",
-    "next": "end"
-   }
-  ]
- },
- {
-  "id": "dlg-zahra-hidden-stash",
-  "npc": "npc-zahra-scholar",
-  "node": "hidden_stash",
-  "text": "'These quartz focuses and pre-imperial scrolls were salvaged from sunken observatories. Keep them out of the quartermaster's crate—he'd melt the brass fittings.'",
-  "choices": [
-   {
-    "label": "Examine the arcane relics.",
-    "next": "dlg-zahra-favored-customer"
-   },
-   {
-    "label": "Leave them.",
-    "next": "end"
-   }
-  ]
- },
- {
-  "id": "dlg-zahra-regional-intel",
-  "npc": "npc-zahra-scholar",
-  "node": "regional_intel",
-  "text": "'The wardstones were never weather-charms—they are nails pinning subterranean pressure down. Crack enough of them and the whole basin wakes up.'",
-  "choices": [
-   {
-    "label": "Ask who forged the original seals.",
-    "next": "dlg-zahra-old-debts"
-   },
-   {
-    "label": "Move on.",
-    "next": "end"
-   }
-  ]
- },
- {
-  "id": "dlg-zahra-favored-customer",
-  "npc": "npc-zahra-scholar",
-  "node": "favored_customer",
-  "text": "'Scholarly patronage is rare in a war camp. Take these translated ward-scrolls—they'll blunt any hex the coven throws at you.'",
-  "choices": [
-   {
-    "label": "Accept the scrolls and go.",
-    "next": "end"
-   }
-  ]
- },
- {
-  "id": "dlg-zahra-road-pledge",
-  "npc": "npc-zahra-scholar",
-  "node": "road_pledge",
-  "text": "'Bring me intact boundary rubbings and I will map every blind spot in their ancient fortifications.'",
-  "choices": [
-   {
-    "label": "Depart.",
-    "next": "end"
-   }
-  ]
- },
- {
-  "id": "dlg-zahra-old-debts",
-  "npc": "npc-zahra-scholar",
-  "node": "old_debts",
-  "text": "'History in Thornvael is written on tomb-liens and tax-slates. Even the First Emperors bound their wardens in eternal servitude rather than pay a pension.'",
-  "choices": [
-   {
-    "label": "Leave.",
-    "next": "end"
-   }
-  ]
- },
- {
-  "id": "dlg-zahra-final-reckoning",
-  "npc": "npc-zahra-scholar",
-  "node": "final_reckoning",
-  "text": "'The glyphs are clear at last. Step onto the dais with open eyes, and choose what future survives.'",
-  "choices": [
-   {
-    "label": "March out.",
-    "next": "end"
-   }
-  ]
- },
- {
-  "id": "dlg-tull-entry-act-1-2",
-  "npc": "npc-tull-water-seller",
-  "node": "entry_act_1_2",
-  "text": "Cask-Master Tull taps the brass spigot strapped to his back-barrel with a wooden ladle. 'Don't ask where the well is—just ask if I boiled the scorpions out first.'",
-  "choices": [
-   {
-    "label": "Ask about water rations for the march.",
-    "next": "dlg-tull-supplies-talk"
-   },
-   {
-    "label": "Pay extra for a sealed skin of sweet-water.",
-    "next": "dlg-tull-hidden-stash",
-    "sets_flag": "flag_tull_bribed"
-   },
-   {
-    "label": "Move along.",
-    "next": "end"
-   }
-  ]
- },
- {
-  "id": "dlg-tull-entry-act-3",
-  "npc": "npc-tull-water-seller",
-  "node": "entry_act_3",
-  "text": "Tull stares at the pouring coastal rain with tears cutting tracks through desert dust on his cheeks. 'Free water falling right out of the sky... bad for business, great for kidneys.'",
-  "choices": [
-   {
-    "label": "Ask how the coastal cisterns are holding up.",
-    "next": "dlg-tull-regional-intel"
-   },
-   {
-    "label": "Tap the private reserve cask we arranged.",
-    "next": "dlg-tull-favored-customer",
-    "requires_flag": "flag_tull_bribed"
-   },
-   {
-    "label": "Leave.",
-    "next": "end"
-   }
-  ]
- },
- {
-  "id": "dlg-tull-entry-act-4",
-  "npc": "npc-tull-water-seller",
-  "node": "entry_act_4",
-  "text": "Tull wraps wet wool around his brass spigot to keep sulfur ash out of the nozzle. 'Out here a man sweats out his memories before noon. Keep your canteens capped.'",
-  "choices": [
-   {
-    "label": "Ensure clean water reaches the siege lines.",
-    "next": "dlg-tull-final-reckoning",
-    "sets_flag": "flag_tull_committed"
-   },
-   {
-    "label": "Ask about the wells poisoned during the drought.",
-    "next": "dlg-tull-old-debts"
-   },
-   {
-    "label": "Exit.",
-    "next": "end"
-   }
-  ]
- },
- {
-  "id": "dlg-tull-supplies-talk",
-  "npc": "npc-tull-water-seller",
-  "node": "supplies_talk",
-  "text": "'Alkali dust turns clear water to chalk in an hour, and Lantern Eels fouled my main cistern. Clear the wells if you want your vanguard marching upright.'",
-  "choices": [
-   {
-    "label": "Promise to cleanse the Redmarsh cisterns.",
-    "next": "dlg-tull-road-pledge",
-    "sets_flag": "flag_tull_road_pledge"
-   },
-   {
-    "label": "End talk.",
-    "next": "end"
-   }
-  ]
- },
- {
-  "id": "dlg-tull-hidden-stash",
-  "npc": "npc-tull-water-seller",
-  "node": "hidden_stash",
-  "text": "'Kept this cask buried in cool clay under my cot—unboiled mountain snowmelt, mixed with mint and iron-tonic. Worth more than crown gold.'",
-  "choices": [
-   {
-    "label": "Buy the reserve draughts.",
-    "next": "dlg-tull-favored-customer"
-   },
-   {
-    "label": "Leave it.",
-    "next": "end"
-   }
-  ]
- },
- {
-  "id": "dlg-tull-regional-intel",
-  "npc": "npc-tull-water-seller",
-  "node": "regional_intel",
-  "text": "'Follow the pack-lizards at dusk—they smell sweet-water beneath dry creek beds. And never trust a oasis guarded by silent vipers.'",
-  "choices": [
-   {
-    "label": "Ask why Gorrathul dammed the mountain aquifer.",
-    "next": "dlg-tull-old-debts"
-   },
-   {
-    "label": "Move on.",
-    "next": "end"
-   }
-  ]
- },
- {
-  "id": "dlg-tull-favored-customer",
-  "npc": "npc-tull-water-seller",
-  "node": "favored_customer",
-  "text": "'You didn't try to commandeer my barrels at sword-point. Dip your ladle deep—best heat-ward elixirs in the basin.'",
-  "choices": [
-   {
-    "label": "Fill your skins and go.",
-    "next": "end"
-   }
-  ]
- },
- {
-  "id": "dlg-tull-road-pledge",
-  "npc": "npc-tull-water-seller",
-  "node": "road_pledge",
-  "text": "'Save the sweet-water wells and I'll keep your company's canteens full at half tariff all the way to the mountains.'",
-  "choices": [
-   {
-    "label": "Depart.",
-    "next": "end"
-   }
-  ]
- },
- {
-  "id": "dlg-tull-old-debts",
-  "npc": "npc-tull-water-seller",
-  "node": "old_debts",
-  "text": "'In a drought, every cup of water carries someone else's thirst on its rim. Plenty of ghosts in Redmarsh still waiting for a drink.'",
-  "choices": [
-   {
-    "label": "Leave.",
-    "next": "end"
-   }
-  ]
- },
- {
-  "id": "dlg-tull-final-reckoning",
-  "npc": "npc-tull-water-seller",
-  "node": "final_reckoning",
-  "text": "'Last skins passed out, commander. Finish this war so we can all drink from an open river again.'",
-  "choices": [
-   {
-    "label": "March out.",
-    "next": "end"
-   }
-  ]
- },
- {
-  "id": "dlg-sera-entry-act-1-2",
-  "npc": "npc-sera-healer",
-  "node": "entry_act_1_2",
-  "text": "Chief Healer Sera wipes a blood-crusted bone saw on her oilskin apron. 'If you can walk into my tent unassisted, you aren't dying fast enough to skip the queue.'",
-  "choices": [
-   {
-    "label": "Ask about wounded overflowing the triage tents.",
-    "next": "dlg-sera-supplies-talk"
-   },
-   {
-    "label": "Offer silver for surgical-grade field kits.",
-    "next": "dlg-sera-hidden-stash",
-    "sets_flag": "flag_sera_bribed"
-   },
-   {
-    "label": "Step outside.",
-    "next": "end"
-   }
-  ]
- },
- {
-  "id": "dlg-sera-entry-act-3",
-  "npc": "npc-sera-healer",
-  "node": "entry_act_3",
-  "text": "Sera smells sharply of boiled vinegar and carbolic as coastal drizzle drums on the canvas roof. 'Saltwater festers shrapnel wounds in hours. Keep your bandages dry.'",
-  "choices": [
-   {
-    "label": "Ask what hazards await along the sea-cliffs.",
-    "next": "dlg-sera-regional-intel"
-   },
-   {
-    "label": "Request the private medical chest we discussed.",
-    "next": "dlg-sera-favored-customer",
-    "requires_flag": "flag_sera_bribed"
-   },
-   {
-    "label": "Leave.",
-    "next": "end"
-   }
-  ]
- },
- {
-  "id": "dlg-sera-entry-act-4",
-  "npc": "npc-sera-healer",
-  "node": "entry_act_4",
-  "text": "Sera bandages a scorched forearm with grim efficiency. 'I've sewn men back together across three provinces only to watch them march into a volcano. Keep your shields up.'",
-  "choices": [
-   {
-    "label": "Commit full triage support for the final push.",
-    "next": "dlg-sera-final-reckoning",
-    "sets_flag": "flag_sera_committed"
-   },
-   {
-    "label": "Ask why she left the royal medical college.",
-    "next": "dlg-sera-old-debts"
-   },
-   {
-    "label": "Exit.",
-    "next": "end"
-   }
-  ]
- },
- {
-  "id": "dlg-sera-supplies-talk",
-  "npc": "npc-sera-healer",
-  "node": "supplies_talk",
-  "text": "'I'm out of boiled linen, willow-bark laudanum, and clean sutures, while raiders harry my ambulance wagons on the shingle trails.'",
-  "choices": [
-   {
-    "label": "Promise to protect her field infirmaries.",
-    "next": "dlg-sera-road-pledge",
-    "sets_flag": "flag_sera_road_pledge"
-   },
-   {
-    "label": "End talk.",
-    "next": "end"
-   }
-  ]
- },
- {
-  "id": "dlg-sera-hidden-stash",
-  "npc": "npc-sera-healer",
-  "node": "hidden_stash",
-  "text": "'These resurrection tomes and concentrated poppy-iron draughts came from my own college trunk. Use them on veterans worth saving.'",
-  "choices": [
-   {
-    "label": "Acquire the surgical reserves.",
-    "next": "dlg-sera-favored-customer"
-   },
-   {
-    "label": "Decline.",
-    "next": "end"
-   }
-  ]
- },
- {
-  "id": "dlg-sera-regional-intel",
-  "npc": "npc-sera-healer",
-  "node": "regional_intel",
-  "text": "'Cinder Wards blister lungs from half a league off, and grave-runoff in the Sunken Citadel turns minor crab-nips lethal. Carry wet wool rags.'",
-  "choices": [
-   {
-    "label": "Ask what happens to those she cannot save.",
-    "next": "dlg-sera-old-debts"
-   },
-   {
-    "label": "Move on.",
-    "next": "end"
-   }
-  ]
- },
- {
-  "id": "dlg-sera-favored-customer",
-  "npc": "npc-sera-healer",
-  "node": "favored_customer",
-  "text": "'You held the perimeter when my surgeons couldn't even lift a spear. Take our strongest restoratives—no coin needed today.'",
-  "choices": [
-   {
-    "label": "Thank her and depart.",
-    "next": "end"
-   }
-  ]
- },
- {
-  "id": "dlg-sera-road-pledge",
-  "npc": "npc-sera-healer",
-  "node": "road_pledge",
-  "text": "'Guard the litters until we reach stone walls, and every man in my tent will live to swing a blade for you again.'",
-  "choices": [
-   {
-    "label": "Depart.",
-    "next": "end"
-   }
-  ]
- },
- {
-  "id": "dlg-sera-old-debts",
-  "npc": "npc-sera-healer",
-  "node": "old_debts",
-  "text": "'The capital's royal college wanted surgeons to patch dukes' gout while borderers bled out in ditches. I kept my saw and burned my diploma.'",
-  "choices": [
-   {
-    "label": "Leave.",
-    "next": "end"
-   }
-  ]
- },
- {
-  "id": "dlg-sera-final-reckoning",
-  "npc": "npc-sera-healer",
-  "node": "final_reckoning",
-  "text": "'My triage tables are set behind the basalt ridge. Bring your wounded back breathing, and I'll do the rest.'",
-  "choices": [
-   {
-    "label": "March out.",
-    "next": "end"
-   }
-  ]
- },
- {
-  "id": "dlg-kors-entry-act-1-2",
-  "npc": "npc-kors-shipwright",
-  "node": "entry_act_1_2",
-  "text": "Iron-Wright Kors hefts a heavy caulking mallet, tarred hemp braided into his beard. 'Armor's just a hull for a man's guts—keep the seams caulked or sink.'",
-  "choices": [
-   {
-    "label": "Ask why the drydocks are sitting idle.",
-    "next": "dlg-kors-supplies-talk"
-   },
-   {
-    "label": "Slip silver for marine-grade hull plate.",
-    "next": "dlg-kors-hidden-stash",
-    "sets_flag": "flag_kors_bribed"
-   },
-   {
-    "label": "Leave the yard.",
-    "next": "end"
-   }
-  ]
- },
- {
-  "id": "dlg-kors-entry-act-3",
-  "npc": "npc-kors-shipwright",
-  "node": "entry_act_3",
-  "text": "Kors squints out at the burning harbor channel, bronze rivets clinking around his neck. 'Six generations of shipwright craft reduced to floating charcoal. Help me clear the mole.'",
-  "choices": [
-   {
-    "label": "Ask how to breach Vesperion's blockade.",
-    "next": "dlg-kors-regional-intel"
-   },
-   {
-    "label": "Inspect the reinforced shields we arranged.",
-    "next": "dlg-kors-favored-customer",
-    "requires_flag": "flag_kors_bribed"
-   },
-   {
-    "label": "Step off.",
-    "next": "end"
-   }
-  ]
- },
- {
-  "id": "dlg-kors-entry-act-4",
-  "npc": "npc-kors-shipwright",
-  "node": "entry_act_4",
-  "text": "Kors tests a basalt parapet with his caulking mallet. 'Give me oak planks over volcanic rock any day—at least wood groans before it splits.'",
-  "choices": [
-   {
-    "label": "Order siege-ram bracing for the Citadel gates.",
-    "next": "dlg-kors-final-reckoning",
-    "sets_flag": "flag_kors_committed"
-   },
-   {
-    "label": "Ask about the flagship he built for Kael.",
-    "next": "dlg-kors-old-debts"
-   },
-   {
-    "label": "Exit.",
-    "next": "end"
-   }
-  ]
- },
- {
-  "id": "dlg-kors-supplies-talk",
-  "npc": "npc-kors-shipwright",
-  "node": "supplies_talk",
-  "text": "'No ironbark timber, no tarred oakum, and privateers blockading the channel. Until the mudflats clear, not a single troop barge touches salt water.'",
-  "choices": [
-   {
-    "label": "Promise to secure timber and oakum.",
-    "next": "dlg-kors-road-pledge",
-    "sets_flag": "flag_kors_road_pledge"
-   },
-   {
-    "label": "End talk.",
-    "next": "end"
-   }
-  ]
- },
- {
-  "id": "dlg-kors-hidden-stash",
-  "npc": "npc-kors-shipwright",
-  "node": "hidden_stash",
-  "text": "'Forged these tower shields from salvaged keel-strakes and copper sheathing—sheds fire-arrows and turns aside boarding axes.'",
-  "choices": [
-   {
-    "label": "Take the naval-grade armor.",
-    "next": "dlg-kors-favored-customer"
-   },
-   {
-    "label": "Leave it.",
-    "next": "end"
-   }
-  ]
- },
- {
-  "id": "dlg-kors-regional-intel",
-  "npc": "npc-kors-shipwright",
-  "node": "regional_intel",
-  "text": "'Kael's flagship is sheeted in copper against fire-pots. Don't waste pitch—reclaim the seawall culverins and smash her rudder-chains.'",
-  "choices": [
-   {
-    "label": "Ask how he knows her hull design so well.",
-    "next": "dlg-kors-old-debts"
-   },
-   {
-    "label": "Move on.",
-    "next": "end"
-   }
-  ]
- },
- {
-  "id": "dlg-kors-favored-customer",
-  "npc": "npc-kors-shipwright",
-  "node": "favored_customer",
-  "text": "'You saved my shipwrights from the fire-ships. My yard hammers for your vanguard free of labor charges.'",
-  "choices": [
-   {
-    "label": "Thank him and go.",
-    "next": "end"
-   }
-  ]
- },
- {
-  "id": "dlg-kors-road-pledge",
-  "npc": "npc-kors-shipwright",
-  "node": "road_pledge",
-  "text": "'Bring me dry ironbark and oakum, and I'll have twelve seaworthy carracks caulked before the spring tide turns.'",
-  "choices": [
-   {
-    "label": "Depart.",
-    "next": "end"
-   }
-  ]
- },
- {
-  "id": "dlg-kors-old-debts",
-  "npc": "npc-kors-shipwright",
-  "node": "old_debts",
-  "text": "'Every shipwright on the Iron Coast has built hulls for smugglers or tyrants to keep his apprentices fed. This crossing settles my ledger.'",
-  "choices": [
-   {
-    "label": "Leave.",
-    "next": "end"
-   }
-  ]
- },
- {
-  "id": "dlg-kors-final-reckoning",
-  "npc": "npc-kors-shipwright",
-  "node": "final_reckoning",
-  "text": "'The transport fleet is anchored and your rams are iron-shod. Break their gates so we can sail home.'",
-  "choices": [
-   {
-    "label": "March out.",
-    "next": "end"
-   }
-  ]
- },
- {
-  "id": "dlg-lyra-entry-act-1-2",
-  "npc": "npc-lyra-warden",
-  "node": "entry_act_1_2",
-  "text": "Gate Warden Lyra rests a windlass arbalest across her bruised cheekbone. 'Wind's twelve knots sou'west—aim two fingers left of the breastplate if you want the throat.'",
-  "choices": [
-   {
-    "label": "Ask about Oakhaven's wall defenses.",
-    "next": "dlg-lyra-supplies-talk"
-   },
-   {
-    "label": "Pay coin for custom-fletched steel quarrels.",
-    "next": "dlg-lyra-hidden-stash",
-    "sets_flag": "flag_lyra_bribed"
-   },
-   {
-    "label": "Leave the gatehouse.",
-    "next": "end"
-   }
-  ]
- },
- {
-  "id": "dlg-lyra-entry-act-3",
-  "npc": "npc-lyra-warden",
-  "node": "entry_act_3",
-  "text": "Lyra checks the walnut stock of her arbalest against the sea fog. 'The council bolts its doors while my pickets run out of bowstrings. Ready to clear the cliffs?'",
-  "choices": [
-   {
-    "label": "Ask about enemy sniper positions ahead.",
-    "next": "dlg-lyra-regional-intel"
-   },
-   {
-    "label": "Collect the windlass gear we arranged.",
-    "next": "dlg-lyra-favored-customer",
-    "requires_flag": "flag_lyra_bribed"
-   },
-   {
-    "label": "Step away.",
-    "next": "end"
-   }
-  ]
- },
- {
-  "id": "dlg-lyra-entry-act-4",
-  "npc": "npc-lyra-warden",
-  "node": "entry_act_4",
-  "text": "Lyra squints through volcanic ash, adjusting her arbalest sights. 'Thermal updrafts bend long shots by a hand's breadth out here. Tell your archers to aim low.'",
-  "choices": [
-   {
-    "label": "Deploy her coastal marksmen for the final siege.",
-    "next": "dlg-lyra-final-reckoning",
-    "sets_flag": "flag_lyra_committed"
-   },
-   {
-    "label": "Ask about the traitor inside Oakhaven's council.",
-    "next": "dlg-lyra-old-debts"
-   },
-   {
-    "label": "Exit.",
-    "next": "end"
-   }
-  ]
- },
- {
-  "id": "dlg-lyra-supplies-talk",
-  "npc": "npc-lyra-warden",
-  "node": "supplies_talk",
-  "text": "'Half my watchmen are down to throwing roof-slates because Baron Vane hoarded the city's crossbow strings. We need seasoned yew and steel prods.'",
-  "choices": [
-   {
-    "label": "Promise to break the coastal supply blockade.",
-    "next": "dlg-lyra-road-pledge",
-    "sets_flag": "flag_lyra_road_pledge"
-   },
-   {
-    "label": "End talk.",
-    "next": "end"
-   }
-  ]
- },
- {
-  "id": "dlg-lyra-hidden-stash",
-  "npc": "npc-lyra-warden",
-  "node": "hidden_stash",
-  "text": "'Keep these out of the council's sight—hardened steel-tipped quarrels and oiled stalker cowls from my personal watch-locker.'",
-  "choices": [
-   {
-    "label": "Claim the marksman gear.",
-    "next": "dlg-lyra-favored-customer"
-   },
-   {
-    "label": "Leave it.",
-    "next": "end"
-   }
-  ]
- },
- {
-  "id": "dlg-lyra-regional-intel",
-  "npc": "npc-lyra-warden",
-  "node": "regional_intel",
-  "text": "'Sundered Ranks has interlocking fields of fire across the middle road, and floating Frost Bells freeze bowstrings along the riverlock. Hit the flanks first.'",
-  "choices": [
-   {
-    "label": "Ask who leaked Oakhaven's harbor charts.",
-    "next": "dlg-lyra-old-debts"
-   },
-   {
-    "label": "Move on.",
-    "next": "end"
-   }
-  ]
- },
- {
-  "id": "dlg-lyra-favored-customer",
-  "npc": "npc-lyra-warden",
-  "node": "favored_customer",
-  "text": "'You pulled my pickets out of the gatehouse when we had fourteen bolts left. My archers' quiver is yours.'",
-  "choices": [
-   {
-    "label": "Nod and depart.",
-    "next": "end"
-   }
-  ]
- },
- {
-  "id": "dlg-lyra-road-pledge",
-  "npc": "npc-lyra-warden",
-  "node": "road_pledge",
-  "text": "'Open the coast road and my best scouts will range ahead of your vanguard every mile to the straits.'",
-  "choices": [
-   {
-    "label": "Depart.",
-    "next": "end"
-   }
-  ]
- },
- {
-  "id": "dlg-lyra-old-debts",
-  "npc": "npc-lyra-warden",
-  "node": "old_debts",
-  "text": "'Velvet tapestries for the baron, clipped tin wages for the men who died on the parapets. Someone always pays when cowards hold the keys.'",
-  "choices": [
-   {
-    "label": "Leave.",
-    "next": "end"
-   }
-  ]
- },
- {
-  "id": "dlg-lyra-final-reckoning",
-  "npc": "npc-lyra-warden",
-  "node": "final_reckoning",
-  "text": "'Windlass spanned, sightlines clear. Give the signal and we'll pin their gunners to the obsidian.'",
-  "choices": [
-   {
-    "label": "March out.",
-    "next": "end"
-   }
-  ]
- },
- {
-  "id": "dlg-pip-entry-act-1-2",
-  "npc": "npc-pip-mudlark",
-  "node": "entry_act_1_2",
-  "text": "Mudlark Pip hoists a canvas sack dripping black harbor silt and grins with a missing front tooth. 'Found a dead knight at low tide! Couldn't get his boots off, so I took his ring.'",
-  "choices": [
-   {
-    "label": "Ask what washes up on the mudflats.",
-    "next": "dlg-pip-supplies-talk"
-   },
-   {
-    "label": "Slip him silver for his secret curio sack.",
-    "next": "dlg-pip-hidden-stash",
-    "sets_flag": "flag_pip_bribed"
-   },
-   {
-    "label": "Shoo him away.",
-    "next": "end"
-   }
-  ]
- },
- {
-  "id": "dlg-pip-entry-act-3",
-  "npc": "npc-pip-mudlark",
-  "node": "entry_act_3",
-  "text": "Pip shivers inside three oversized wool vests, swinging a bent iron crab-hook. 'Tide's going out fast by the sunken walls, boss—good time for pockets, bad time for heavy armor.'",
-  "choices": [
-   {
-    "label": "Ask about secret grates and back alleys.",
-    "next": "dlg-pip-regional-intel"
-   },
-   {
-    "label": "See what shiny trinkets you hid for me.",
-    "next": "dlg-pip-favored-customer",
-    "requires_flag": "flag_pip_bribed"
-   },
-   {
-    "label": "Walk off.",
-    "next": "end"
-   }
-  ]
- },
- {
-  "id": "dlg-pip-entry-act-4",
-  "npc": "npc-pip-mudlark",
-  "node": "entry_act_4",
-  "text": "Pip rubs grey caldera soot onto his nose like war-paint. 'No crabs out here, boss, just hot rocks—but dead knights still drop plenty of rings!'",
-  "choices": [
-   {
-    "label": "Hire him as a scout-runner for the siege.",
-    "next": "dlg-pip-final-reckoning",
-    "sets_flag": "flag_pip_committed"
-   },
-   {
-    "label": "Ask what happened to his mate Tommy.",
-    "next": "dlg-pip-old-debts"
-   },
-   {
-    "label": "Leave.",
-    "next": "end"
-   }
-  ]
- },
- {
-  "id": "dlg-pip-supplies-talk",
-  "npc": "npc-pip-mudlark",
-  "node": "supplies_talk",
-  "text": "'Soldiers kick mudlarks for luck, then wonder why nobody tells 'em where the paymaster's strongboxes sank. Bring bread and copper if you want eyes in the silt.'",
-  "choices": [
-   {
-    "label": "Promise to split salvage fairly with him.",
-    "next": "dlg-pip-road-pledge",
-    "sets_flag": "flag_pip_road_pledge"
-   },
-   {
-    "label": "End talk.",
-    "next": "end"
-   }
-  ]
- },
- {
-  "id": "dlg-pip-hidden-stash",
-  "npc": "npc-pip-mudlark",
-  "node": "hidden_stash",
-  "text": "'Don't tell Warden Lyra where these came from—found 'em wedged under the baron's sewer grate. Genuine silver signets and a charm that hums in the dark.'",
-  "choices": [
-   {
-    "label": "Inspect Pip's hidden curios.",
-    "next": "dlg-pip-favored-customer"
-   },
-   {
-    "label": "Leave them.",
-    "next": "end"
-   }
-  ]
- },
- {
-  "id": "dlg-pip-regional-intel",
-  "npc": "npc-pip-mudlark",
-  "node": "regional_intel",
-  "text": "'Stay clear of the Night Orchards after dusk—the skulls in the branches whisper your mum's name. Stick to the low-tide shingle instead.'",
-  "choices": [
-   {
-    "label": "Ask how he survives the harbor streets.",
-    "next": "dlg-pip-old-debts"
-   },
-   {
-    "label": "Move on.",
-    "next": "end"
-   }
-  ]
- },
- {
-  "id": "dlg-pip-favored-customer",
-  "npc": "npc-pip-mudlark",
-  "node": "favored_customer",
-  "text": "'You actually paid half like you promised! Here—pick the best ring from my lucky tin before the big lads see.'",
-  "choices": [
-   {
-    "label": "Pocket the curio and go.",
-    "next": "end"
-   }
-  ]
- },
- {
-  "id": "dlg-pip-road-pledge",
-  "npc": "npc-pip-mudlark",
-  "node": "road_pledge",
-  "text": "'Fair split, no kicks? Deal! I'll show you every blind culvert between the docks and the baron's keep.'",
-  "choices": [
-   {
-    "label": "Depart.",
-    "next": "end"
-   }
-  ]
- },
- {
-  "id": "dlg-pip-old-debts",
-  "npc": "npc-pip-mudlark",
-  "node": "old_debts",
-  "text": "'Everyone in Oakhaven owes the sea something—a boat, a brother, or a boot. Best take what floats before the crabs get it.'",
-  "choices": [
-   {
-    "label": "Leave.",
-    "next": "end"
-   }
-  ]
- },
- {
-  "id": "dlg-pip-final-reckoning",
-  "npc": "npc-pip-mudlark",
-  "node": "final_reckoning",
-  "text": "'Got my crab-hook and my lucky granite pebble, boss. Point out the narrow cracks and I'll slip right through.'",
-  "choices": [
-   {
-    "label": "March out.",
-    "next": "end"
-   }
-  ]
- },
- {
-  "id": "dlg-rowan-entry-act-1-2",
-  "npc": "npc-rowan-commander",
-  "node": "entry_act_1_2",
-  "text": "Captain Rowan adjusts the iron neck-brace bolted to his gorget, his scarred brow completely hairless. 'Don't salute out here—ridge snipers shoot anyone stupid enough to raise an arm.'",
-  "choices": [
-   {
-    "label": "Ask how Greystone Bastion is holding.",
-    "next": "dlg-rowan-supplies-talk"
-   },
-   {
-    "label": "Offer coin for access to Ironcamp's reserve armory.",
-    "next": "dlg-rowan-hidden-stash",
-    "sets_flag": "flag_rowan_bribed"
-   },
-   {
-    "label": "Step away.",
-    "next": "end"
-   }
-  ]
- },
- {
-  "id": "dlg-rowan-entry-act-3",
-  "npc": "npc-rowan-commander",
-  "node": "entry_act_3",
-  "text": "Rowan studies a soot-stained tactical map weighted down with basalt pebbles. 'Every yard between here and the Threshold is wired with traps and murder-holes.'",
-  "choices": [
-   {
-    "label": "Ask for his assessment of the Gauntlet.",
-    "next": "dlg-rowan-regional-intel"
-   },
-   {
-    "label": "Draw from the elite reserve we arranged.",
-    "next": "dlg-rowan-favored-customer",
-    "requires_flag": "flag_rowan_bribed"
-   },
-   {
-    "label": "Leave.",
-    "next": "end"
-   }
-  ]
- },
- {
-  "id": "dlg-rowan-entry-act-4",
-  "npc": "npc-rowan-commander",
-  "node": "entry_act_4",
-  "text": "Rowan rests a fire-blackened kite shield against his knee. 'We stacked our own dead in the breaches to hold this pass, commander. Don't waste what they bought us.'",
-  "choices": [
-   {
-    "label": "Unite all Ironcamp veterans for the Threshold.",
-    "next": "dlg-rowan-final-reckoning",
-    "sets_flag": "flag_rowan_committed"
-   },
-   {
-    "label": "Ask what High Command ordered behind his back.",
-    "next": "dlg-rowan-old-debts"
-   },
-   {
-    "label": "Exit.",
-    "next": "end"
-   }
-  ]
- },
- {
-  "id": "dlg-rowan-supplies-talk",
-  "npc": "npc-rowan-commander",
-  "node": "supplies_talk",
-  "text": "'Water tastes like boiled nails, sulfur eats leather straps in days, and demonic catapults are pounding my east parapet to gravel.'",
-  "choices": [
-   {
-    "label": "Promise to relieve the besieged walls.",
-    "next": "dlg-rowan-road-pledge",
-    "sets_flag": "flag_rowan_road_pledge"
-   },
-   {
-    "label": "End talk.",
-    "next": "end"
-   }
-  ]
- },
- {
-  "id": "dlg-rowan-hidden-stash",
-  "npc": "npc-rowan-commander",
-  "node": "hidden_stash",
-  "text": "'These meteor-plated halberds and dread helms came off the citadel's own vanguard. My quartermaster doesn't log them—put them on your best men.'",
-  "choices": [
-   {
-    "label": "Equip the vanguard gear.",
-    "next": "dlg-rowan-favored-customer"
-   },
-   {
-    "label": "Leave it.",
-    "next": "end"
-   }
-  ]
- },
- {
-  "id": "dlg-rowan-regional-intel",
-  "npc": "npc-rowan-commander",
-  "node": "regional_intel",
-  "text": "'The Gauntlet is thirty paces wide between magnetic iron cliffs—archers miss, plate drags, and golems guard every portcullis. Bring grounding spikes and mauls.'",
-  "choices": [
-   {
-    "label": "Ask why the empire abandoned his garrison.",
-    "next": "dlg-rowan-old-debts"
-   },
-   {
-    "label": "Move on.",
-    "next": "end"
-   }
-  ]
- },
- {
-  "id": "dlg-rowan-favored-customer",
-  "npc": "npc-rowan-commander",
-  "node": "favored_customer",
-  "text": "'You held the wall when the mortars fell. My halberdiers march at your shoulder—no hiring fee.'",
-  "choices": [
-   {
-    "label": "Salute and depart.",
-    "next": "end"
-   }
-  ]
- },
- {
-  "id": "dlg-rowan-road-pledge",
-  "npc": "npc-rowan-commander",
-  "node": "road_pledge",
-  "text": "'Break their siege batteries and my veterans will hold your rear flank all the way to the Obsidian Dais.'",
-  "choices": [
-   {
-    "label": "Depart.",
-    "next": "end"
-   }
-  ]
- },
- {
-  "id": "dlg-rowan-old-debts",
-  "npc": "npc-rowan-commander",
-  "node": "old_debts",
-  "text": "'High Command wanted the pass sealed behind us—left us here as a cork in a volcano. Only debt I honor now is to the men still breathing.'",
-  "choices": [
-   {
-    "label": "Leave.",
-    "next": "end"
-   }
-  ]
- },
- {
-  "id": "dlg-rowan-final-reckoning",
-  "npc": "npc-rowan-commander",
-  "node": "final_reckoning",
-  "text": "'Banners furled, shields locked. Let's end this campaign so no soldier ever has to march into ash again.'",
-  "choices": [
-   {
-    "label": "March out.",
-    "next": "end"
-   }
-  ]
- },
- {
-  "id": "dlg-vok-entry-act-1-2",
-  "npc": "npc-vok-forgemaster",
-  "node": "entry_act_1_2",
-  "text": "Forgemaster Vok peers through smoked-glass eye slits, four-foot tongs resting beside an open floor-fissure. 'No coal needed here—stick the billet in the crack and pull it out fast.'",
-  "choices": [
-   {
-    "label": "Ask why standard steel fails in the caldera.",
-    "next": "dlg-vok-supplies-talk"
-   },
-   {
-    "label": "Pay silver for meteor-slag tempering.",
-    "next": "dlg-vok-hidden-stash",
-    "sets_flag": "flag_vok_bribed"
-   },
-   {
-    "label": "Step back from the heat.",
-    "next": "end"
-   }
-  ]
- },
- {
-  "id": "dlg-vok-entry-act-3",
-  "npc": "npc-vok-forgemaster",
-  "node": "entry_act_3",
-  "text": "Vok wipes silvery burn-keloids on his forearm with an asbestos rag. 'Normal iron turns soft as tallow near the vents. Bring me Anvilmaw jaws or prism-sand.'",
-  "choices": [
-   {
-    "label": "Ask how to crack Ashkarath's armor.",
-    "next": "dlg-vok-regional-intel"
-   },
-   {
-    "label": "Commission the masterwork pieces we arranged.",
-    "next": "dlg-vok-favored-customer",
-    "requires_flag": "flag_vok_bribed"
-   },
-   {
-    "label": "Leave.",
-    "next": "end"
-   }
-  ]
- },
- {
-  "id": "dlg-vok-entry-act-4",
-  "npc": "npc-vok-forgemaster",
-  "node": "entry_act_4",
-  "text": "Vok tests a white-hot maul-head with a spit-hiss. 'A thousand years ago my clan forged that glass throne under blood-contract. Time to see if our hammers can unmake it.'",
-  "choices": [
-   {
-    "label": "Have Vok re-temper the entire vanguard's gear.",
-    "next": "dlg-vok-final-reckoning",
-    "sets_flag": "flag_vok_committed"
-   },
-   {
-    "label": "Ask about his clan's ancient blood-contract.",
-    "next": "dlg-vok-old-debts"
-   },
-   {
-    "label": "Exit.",
-    "next": "end"
-   }
-  ]
- },
- {
-  "id": "dlg-vok-supplies-talk",
-  "npc": "npc-vok-forgemaster",
-  "node": "supplies_talk",
-  "text": "'My steam-hammer cracked its bedplate, and terrestrial ore melts like butter here. Hunt Anvilmaw Smiths if you want jaws hard enough to forge endgame plate.'",
-  "choices": [
-   {
-    "label": "Promise to harvest caldera forge-materials.",
-    "next": "dlg-vok-road-pledge",
-    "sets_flag": "flag_vok_road_pledge"
-   },
-   {
-    "label": "End talk.",
-    "next": "end"
-   }
-  ]
- },
- {
-  "id": "dlg-vok-hidden-stash",
-  "npc": "npc-vok-forgemaster",
-  "node": "hidden_stash",
-  "text": "'Quenched these in brine and meteoric slag when Rowan wasn't looking—Gothic plate and obsidian mauls that laugh at hellfire.'",
-  "choices": [
-   {
-    "label": "Inspect Vok's masterworks.",
-    "next": "dlg-vok-favored-customer"
-   },
-   {
-    "label": "Leave them.",
-    "next": "end"
-   }
-  ]
- },
- {
-  "id": "dlg-vok-regional-intel",
-  "npc": "npc-vok-forgemaster",
-  "node": "regional_intel",
-  "text": "'Ashkarath's armor isn't buckled—it's bolted straight into his collarbone. Don't waste swings on his chest; strike the glowing seams where magma leaks.'",
-  "choices": [
-   {
-    "label": "Ask who forged that armor.",
-    "next": "dlg-vok-old-debts"
-   },
-   {
-    "label": "Move on.",
-    "next": "end"
-   }
-  ]
- },
- {
-  "id": "dlg-vok-favored-customer",
-  "npc": "npc-vok-forgemaster",
-  "node": "favored_customer",
-  "text": "'Good ore deserves a proper smith. My fissure-hearth is yours—half price on every temper and reforge.'",
-  "choices": [
-   {
-    "label": "Thank him and go.",
-    "next": "end"
-   }
-  ]
- },
- {
-  "id": "dlg-vok-road-pledge",
-  "npc": "npc-vok-forgemaster",
-  "node": "road_pledge",
-  "text": "'Drag those living anvils back on chains and I'll forge your company blades that stay keen until the world cools.'",
-  "choices": [
-   {
-    "label": "Depart.",
-    "next": "end"
-   }
-  ]
- },
- {
-  "id": "dlg-vok-old-debts",
-  "npc": "npc-vok-forgemaster",
-  "node": "old_debts",
-  "text": "'My ancestors poured the iron for the Obsidian Throne to buy peace for our deep halls. Worst bargain any smith ever struck.'",
-  "choices": [
-   {
-    "label": "Leave.",
-    "next": "end"
-   }
-  ]
- },
- {
-  "id": "dlg-vok-final-reckoning",
-  "npc": "npc-vok-forgemaster",
-  "node": "final_reckoning",
-  "text": "'Edges quenched, rivets locked, shields brined. Go strike the anvil inside that throne room.'",
-  "choices": [
-   {
-    "label": "March out.",
-    "next": "end"
-   }
-  ]
- },
- {
-  "id": "dlg-elias-entry-act-1-2",
-  "npc": "npc-elias-penitent",
-  "node": "entry_act_1_2",
-  "text": "Brother Elias turns ash-caked bandages toward your footsteps, a brass thurible smoking in his hand. 'I see no heraldry, only the heat of your blood and the iron you bear.'",
-  "choices": [
-   {
-    "label": "Ask why he wears the penitent's collar.",
-    "next": "dlg-elias-supplies-talk"
-   },
-   {
-    "label": "Offer alms to study his charred scrolls.",
-    "next": "dlg-elias-hidden-stash",
-    "sets_flag": "flag_elias_bribed"
-   },
-   {
-    "label": "Leave him to his prayers.",
-    "next": "end"
-   }
-  ]
- },
- {
-  "id": "dlg-elias-entry-act-3",
-  "npc": "npc-elias-penitent",
-  "node": "entry_act_3",
-  "text": "Elias speaks in a voice like two pieces of pumice rubbing together. 'I looked directly at the Shattered Beacons when they lit. Now only the leylines burn beneath my soles.'",
-  "choices": [
-   {
-    "label": "Ask about the twin doors of the Threshold.",
-    "next": "dlg-elias-regional-intel"
-   },
-   {
-    "label": "Consult the forbidden codices we discussed.",
-    "next": "dlg-elias-favored-customer",
-    "requires_flag": "flag_elias_bribed"
-   },
-   {
-    "label": "Step away.",
-    "next": "end"
-   }
-  ]
- },
- {
-  "id": "dlg-elias-entry-act-4",
-  "npc": "npc-elias-penitent",
-  "node": "entry_act_4",
-  "text": "Elias fingers a bundle of charred vellum cylinders. 'Malrik feared growing old in a cold tower, so he sold the realm's spring. Soon you must choose which temperature remains.'",
-  "choices": [
-   {
-    "label": "Ask for his blessing before the Threshold.",
-    "next": "dlg-elias-final-reckoning",
-    "sets_flag": "flag_elias_committed"
-   },
-   {
-    "label": "Ask about his years teaching at the Ember Court.",
-    "next": "dlg-elias-old-debts"
-   },
-   {
-    "label": "Exit.",
-    "next": "end"
-   }
-  ]
- },
- {
-  "id": "dlg-elias-supplies-talk",
-  "npc": "npc-elias-penitent",
-  "node": "supplies_talk",
-  "text": "'Four cylinders of my old pyromantic syllabus still lie in the ruined scriptorium. Burn them before another fool uses my theorems to widen the breach.'",
-  "choices": [
-   {
-    "label": "Promise to recover and burn his syllabus.",
-    "next": "dlg-elias-road-pledge",
-    "sets_flag": "flag_elias_road_pledge"
-   },
-   {
-    "label": "End talk.",
-    "next": "end"
-   }
-  ]
- },
- {
-  "id": "dlg-elias-hidden-stash",
-  "npc": "npc-elias-penitent",
-  "node": "hidden_stash",
-  "text": "'These prismatic charms and astral tomes survived the beacon-fire. They steady the mind when the caldera whispers promises of power.'",
-  "choices": [
-   {
-    "label": "Receive the penitent relics.",
-    "next": "dlg-elias-favored-customer"
-   },
-   {
-    "label": "Decline.",
-    "next": "end"
-   }
-  ]
- },
- {
-  "id": "dlg-elias-regional-intel",
-  "npc": "npc-elias-penitent",
-  "node": "regional_intel",
-  "text": "'In the Threshold Chamber, the ancient wardens left two keys because they lacked courage to lock the door from inside. Order freezes; Ember consumes.'",
-  "choices": [
-   {
-    "label": "Ask how to survive the Threshold's choice.",
-    "next": "dlg-elias-old-debts"
-   },
-   {
-    "label": "Move on.",
-    "next": "end"
-   }
-  ]
- },
- {
-  "id": "dlg-elias-favored-customer",
-  "npc": "npc-elias-penitent",
-  "node": "favored_customer",
-  "text": "'Your mercy steadied a blind man's conscience. Take my blessing—may your mind stay clear when the seals fracture.'",
-  "choices": [
-   {
-    "label": "Bow and depart.",
-    "next": "end"
-   }
-  ]
- },
- {
-  "id": "dlg-elias-road-pledge",
-  "npc": "npc-elias-penitent",
-  "node": "road_pledge",
-  "text": "'Turn those lead cylinders to clean ash, and I will teach your casters how to ground the Anchor Seals without losing their sanity.'",
-  "choices": [
-   {
-    "label": "Depart.",
-    "next": "end"
-   }
-  ]
- },
- {
-  "id": "dlg-elias-old-debts",
-  "npc": "npc-elias-penitent",
-  "node": "old_debts",
-  "text": "'I wrote the equations that opened the first cinder-gates. All the ash falling across four provinces began as ink on my desk.'",
-  "choices": [
-   {
-    "label": "Leave.",
-    "next": "end"
-   }
-  ]
- },
- {
-  "id": "dlg-elias-final-reckoning",
-  "npc": "npc-elias-penitent",
-  "node": "final_reckoning",
-  "text": "'The First Watch awaits its discharge, and the seals tremble. Walk into the nave with an unclouded heart.'",
-  "choices": [
-   {
-    "label": "March out.",
-    "next": "end"
-   }
-  ]
- }
+  {
+    "id": "dlg-hobb-entry-act-1-2",
+    "npc": "npc-hobb-smith",
+    "node": "entry_act_1_2",
+    "text": "Master Hobb spits slag-dust into the quench trough and squints with his one good eye. 'If the edge is rolled, lay it on the horn. If you came to haggle over coal prices, keep walking.'",
+    "choices": [
+      {
+        "label": "Ask why his anvil is running cold.",
+        "next": "dlg-hobb-supplies-talk"
+      },
+      {
+        "label": "Slip two silver for his private iron rack.",
+        "next": "dlg-hobb-hidden-stash",
+        "sets_flag": "flag_hobb_bribed"
+      },
+      {
+        "label": "Leave the smithy.",
+        "next": "end"
+      }
+    ]
+  },
+  {
+    "id": "dlg-hobb-entry-act-3",
+    "npc": "npc-hobb-smith",
+    "node": "entry_act_3",
+    "text": "Hobb wipes pig's blood and soot off a pair of tongs as salt wind rattles the shutters. 'Coastal brine pits honest steel in a fortnight. Bring your plate before the rivets seize.'",
+    "choices": [
+      {
+        "label": "Ask what steel works against sea-raiders.",
+        "next": "dlg-hobb-regional-intel"
+      },
+      {
+        "label": "Check the private rack we arranged earlier.",
+        "next": "dlg-hobb-favored-customer",
+        "requires_flag": "flag_hobb_bribed"
+      },
+      {
+        "label": "Step outside.",
+        "next": "end"
+      }
+    ]
+  },
+  {
+    "id": "dlg-hobb-entry-act-4",
+    "npc": "npc-hobb-smith",
+    "node": "entry_act_4",
+    "text": "Hobb tests a glowing billet with a notched ball-peen hammer. 'Four provinces of dents hammered flat, and now we're forging beside an open volcano. Speak fast before the iron cools.'",
+    "choices": [
+      {
+        "label": "Commission heavy plate for the final breach.",
+        "next": "dlg-hobb-final-reckoning",
+        "sets_flag": "flag_hobb_committed"
+      },
+      {
+        "label": "Ask who still owes him for militia pikes.",
+        "next": "dlg-hobb-old-debts"
+      },
+      {
+        "label": "Close the door.",
+        "next": "end"
+      }
+    ]
+  },
+  {
+    "id": "dlg-hobb-supplies-talk",
+    "npc": "npc-hobb-smith",
+    "node": "supplies_talk",
+    "text": "'The capital sent wagons of peacock plumes instead of pig-iron, and bog-water rotted my last birch charcoal. Bring salvaged blades if you want proper tempering.'",
+    "choices": [
+      {
+        "label": "Promise to clear the quarry supply road.",
+        "next": "dlg-hobb-road-pledge",
+        "sets_flag": "flag_hobb_road_pledge"
+      },
+      {
+        "label": "Head back out.",
+        "next": "end"
+      }
+    ]
+  },
+  {
+    "id": "dlg-hobb-hidden-stash",
+    "npc": "npc-hobb-smith",
+    "node": "hidden_stash",
+    "text": "'Keep your voice down—Garrick thinks these billets belong to the garrison. Pay coin upfront and you get spring-steel that won't snap on the first parry.'",
+    "choices": [
+      {
+        "label": "Inspect the spring-steel stock.",
+        "next": "dlg-hobb-favored-customer"
+      },
+      {
+        "label": "Leave it.",
+        "next": "end"
+      }
+    ]
+  },
+  {
+    "id": "dlg-hobb-regional-intel",
+    "npc": "npc-hobb-smith",
+    "node": "regional_intel",
+    "text": "'Gnolls and sand-raiders beat stolen plowshares flat; Dread Knights wear meteor-slag bolted to their collarbones. Aim for the joints, not the breastplate.'",
+    "choices": [
+      {
+        "label": "Ask where the contraband ore is coming from.",
+        "next": "dlg-hobb-old-debts"
+      },
+      {
+        "label": "Move on.",
+        "next": "end"
+      }
+    ]
+  },
+  {
+    "id": "dlg-hobb-favored-customer",
+    "npc": "npc-hobb-smith",
+    "node": "favored_customer",
+    "text": "'You kept your mouth shut and paid in real silver. Take the quenched blades off the back hooks—every fuller ground true by hand.'",
+    "choices": [
+      {
+        "label": "Thank him and leave.",
+        "next": "end"
+      }
+    ]
+  },
+  {
+    "id": "dlg-hobb-road-pledge",
+    "npc": "npc-hobb-smith",
+    "node": "road_pledge",
+    "text": "'Talk doesn't heat a bloomery, commander, but if you actually open that iron road, my best rivets go on your shields first.'",
+    "choices": [
+      {
+        "label": "Depart.",
+        "next": "end"
+      }
+    ]
+  },
+  {
+    "id": "dlg-hobb-old-debts",
+    "npc": "npc-hobb-smith",
+    "node": "old_debts",
+    "text": "'Quartermaster Tarn shorted my coal deliveries for two winters before he bolted. I keep his unpaid tallies nailed beside my bellows so I never forget.'",
+    "choices": [
+      {
+        "label": "Leave.",
+        "next": "end"
+      }
+    ]
+  },
+  {
+    "id": "dlg-hobb-final-reckoning",
+    "npc": "npc-hobb-smith",
+    "node": "final_reckoning",
+    "text": "'Then let's temper something worth burying kings in. When the ash settles, at least our steel won't be the thing that broke.'",
+    "choices": [
+      {
+        "label": "March out.",
+        "next": "end"
+      }
+    ]
+  },
+  {
+    "id": "dlg-marta-entry-act-1-2",
+    "npc": "npc-marta-alchemist",
+    "node": "entry_act_1_2",
+    "text": "Widow Marta stirs a jar of fat black leeches with one walnut-stained finger. 'Don't touch the green bottles unless you want your gums bleeding before supper.'",
+    "choices": [
+      {
+        "label": "Ask about the marsh-fever spreading in camp.",
+        "next": "dlg-marta-supplies-talk"
+      },
+      {
+        "label": "Pay extra for her locked apothecary chest.",
+        "next": "dlg-marta-hidden-stash",
+        "sets_flag": "flag_marta_bribed"
+      },
+      {
+        "label": "Step away from the fumes.",
+        "next": "end"
+      }
+    ]
+  },
+  {
+    "id": "dlg-marta-entry-act-3",
+    "npc": "npc-marta-alchemist",
+    "node": "entry_act_3",
+    "text": "Marta ties a rue-soaked rag around her nose against the harbor stench. 'Saltwater turns a clean arrow-nick into green gangrene by nightfall. Buy your poultices now.'",
+    "choices": [
+      {
+        "label": "Ask what poisons the coastal covens use.",
+        "next": "dlg-marta-regional-intel"
+      },
+      {
+        "label": "Request the private tinctures we discussed.",
+        "next": "dlg-marta-favored-customer",
+        "requires_flag": "flag_marta_bribed"
+      },
+      {
+        "label": "Leave.",
+        "next": "end"
+      }
+    ]
+  },
+  {
+    "id": "dlg-marta-entry-act-4",
+    "npc": "npc-marta-alchemist",
+    "node": "entry_act_4",
+    "text": "Marta grinds dried willow-bark in a stone mortar while grey ash sifts onto her apron. 'Sulfur smoke blisters lungs faster than blades. Drink bitter-root before you climb.'",
+    "choices": [
+      {
+        "label": "Stock up on draughts for the final assault.",
+        "next": "dlg-marta-final-reckoning",
+        "sets_flag": "flag_marta_committed"
+      },
+      {
+        "label": "Ask why she never returned to the capital.",
+        "next": "dlg-marta-old-debts"
+      },
+      {
+        "label": "Exit.",
+        "next": "end"
+      }
+    ]
+  },
+  {
+    "id": "dlg-marta-supplies-talk",
+    "npc": "npc-marta-alchemist",
+    "node": "supplies_talk",
+    "text": "'Garrick wants heroic elixirs, and I have boiled turpentine, sheep fat, and three bruised roots. Bring me intact spore-sacs or viper glands if you want real medicine.'",
+    "choices": [
+      {
+        "label": "Pledge to secure the fen herb-trails.",
+        "next": "dlg-marta-road-pledge",
+        "sets_flag": "flag_marta_road_pledge"
+      },
+      {
+        "label": "Leave.",
+        "next": "end"
+      }
+    ]
+  },
+  {
+    "id": "dlg-marta-hidden-stash",
+    "npc": "npc-marta-alchemist",
+    "node": "hidden_stash",
+    "text": "'Quiet—these vials aren't for the levy. Distilled nightshade and concentrated antivenom: one drop clears a fever, two drops stop a heart.'",
+    "choices": [
+      {
+        "label": "Take the sealed vials.",
+        "next": "dlg-marta-favored-customer"
+      },
+      {
+        "label": "Decline.",
+        "next": "end"
+      }
+    ]
+  },
+  {
+    "id": "dlg-marta-regional-intel",
+    "npc": "npc-marta-alchemist",
+    "node": "regional_intel",
+    "text": "'Hedge-hexers grease their barbs with corpse-tallow and mycotoxins. Plug your nostrils with rue before stepping into any sunken chapel or willow hollow.'",
+    "choices": [
+      {
+        "label": "Ask who taught them those recipes.",
+        "next": "dlg-marta-old-debts"
+      },
+      {
+        "label": "Move on.",
+        "next": "end"
+      }
+    ]
+  },
+  {
+    "id": "dlg-marta-favored-customer",
+    "npc": "npc-marta-alchemist",
+    "node": "favored_customer",
+    "text": "'You don't waste my bottles on drunken brawls. Here—freshly decanted red-cap moss draughts, corked in waxed bladder-skin.'",
+    "choices": [
+      {
+        "label": "Pocket the draughts and go.",
+        "next": "end"
+      }
+    ]
+  },
+  {
+    "id": "dlg-marta-road-pledge",
+    "npc": "npc-marta-alchemist",
+    "node": "road_pledge",
+    "text": "'Words won't grow willow-bark in alkaline mud, but if you clear those paths, I'll brew your vanguard's antitoxins at half coin.'",
+    "choices": [
+      {
+        "label": "Depart.",
+        "next": "end"
+      }
+    ]
+  },
+  {
+    "id": "dlg-marta-old-debts",
+    "npc": "npc-marta-alchemist",
+    "node": "old_debts",
+    "text": "'During the first border famine, rations were weighed in bone-dust. Everyone who survived owes a debt to someone who didn't make spring.'",
+    "choices": [
+      {
+        "label": "Leave.",
+        "next": "end"
+      }
+    ]
+  },
+  {
+    "id": "dlg-marta-final-reckoning",
+    "npc": "npc-marta-alchemist",
+    "node": "final_reckoning",
+    "text": "'Take every bottle on the shelf. If the world burns down tonight, I won't need laudanum tomorrow.'",
+    "choices": [
+      {
+        "label": "March out.",
+        "next": "end"
+      }
+    ]
+  },
+  {
+    "id": "dlg-garrick-entry-act-1-2",
+    "npc": "npc-garrick-captain",
+    "node": "entry_act_1_2",
+    "text": "Sergeant-at-Arms Garrick taps his splinted forearm against a sheaf of mud-stained muster rolls. 'Sign your mark or clear the parade ground. I'm short forty pikes.'",
+    "choices": [
+      {
+        "label": "Ask about garrison morale and desertions.",
+        "next": "dlg-garrick-supplies-talk"
+      },
+      {
+        "label": "Offer silver to inspect confiscated levy gear.",
+        "next": "dlg-garrick-hidden-stash",
+        "sets_flag": "flag_garrick_bribed"
+      },
+      {
+        "label": "Dismissed.",
+        "next": "end"
+      }
+    ]
+  },
+  {
+    "id": "dlg-garrick-entry-act-3",
+    "npc": "npc-garrick-captain",
+    "node": "entry_act_3",
+    "text": "Garrick squints into the sea drizzle from beneath a dented basinet. 'My border lads hate ships almost as much as they hate salt pork. Keep them in tight shield-walls.'",
+    "choices": [
+      {
+        "label": "Ask for his tactical read on the coastal forts.",
+        "next": "dlg-garrick-regional-intel"
+      },
+      {
+        "label": "Draw from the reserve armory we arranged.",
+        "next": "dlg-garrick-favored-customer",
+        "requires_flag": "flag_garrick_bribed"
+      },
+      {
+        "label": "Step off.",
+        "next": "end"
+      }
+    ]
+  },
+  {
+    "id": "dlg-garrick-entry-act-4",
+    "npc": "npc-garrick-captain",
+    "node": "entry_act_4",
+    "text": "Garrick wipes grey soot off his muster slate. 'Half the names on this board are crossed out in red charcoal, commander. Point us at the last gate so we can finish the roll.'",
+    "choices": [
+      {
+        "label": "Commit the surviving borderers to the breach.",
+        "next": "dlg-garrick-final-reckoning",
+        "sets_flag": "flag_garrick_committed"
+      },
+      {
+        "label": "Ask about the men lost along the border.",
+        "next": "dlg-garrick-old-debts"
+      },
+      {
+        "label": "Leave.",
+        "next": "end"
+      }
+    ]
+  },
+  {
+    "id": "dlg-garrick-supplies-talk",
+    "npc": "npc-garrick-captain",
+    "node": "supplies_talk",
+    "text": "'Promissory notes don't stop gnoll cleavers. Half my watchmen are marching in leaky boots because the pay-wagons vanished between here and Ashbrook.'",
+    "choices": [
+      {
+        "label": "Promise to reopen the northern supply road.",
+        "next": "dlg-garrick-road-pledge",
+        "sets_flag": "flag_garrick_road_pledge"
+      },
+      {
+        "label": "End talk.",
+        "next": "end"
+      }
+    ]
+  },
+  {
+    "id": "dlg-garrick-hidden-stash",
+    "npc": "npc-garrick-captain",
+    "node": "hidden_stash",
+    "text": "'Keep this off the quartermaster's slate. Deserters left behind decent ash-shaft quarrels and oiled brigandines—better in your hands than rotting in the cellar.'",
+    "choices": [
+      {
+        "label": "Claim the confiscated kit.",
+        "next": "dlg-garrick-favored-customer"
+      },
+      {
+        "label": "Leave it.",
+        "next": "end"
+      }
+    ]
+  },
+  {
+    "id": "dlg-garrick-regional-intel",
+    "npc": "npc-garrick-captain",
+    "node": "regional_intel",
+    "text": "'Never split a column in a narrow pass unless you hold both ridges first, and never trust an unguarded bridge at dusk. Someone inside the border opened our gates.'",
+    "choices": [
+      {
+        "label": "Ask who betrayed the border watch.",
+        "next": "dlg-garrick-old-debts"
+      },
+      {
+        "label": "Move on.",
+        "next": "end"
+      }
+    ]
+  },
+  {
+    "id": "dlg-garrick-favored-customer",
+    "npc": "npc-garrick-captain",
+    "node": "favored_customer",
+    "text": "'You keep my militiamen breathing when other captains use them as arrow-fodder. Take the veteran pickets from the inner barracks.'",
+    "choices": [
+      {
+        "label": "Salute and depart.",
+        "next": "end"
+      }
+    ]
+  },
+  {
+    "id": "dlg-garrick-road-pledge",
+    "npc": "npc-garrick-captain",
+    "node": "road_pledge",
+    "text": "'Good. Open that supply track and I'll have every able-bodied pikeman in the parish drilling before cockcrow.'",
+    "choices": [
+      {
+        "label": "Depart.",
+        "next": "end"
+      }
+    ]
+  },
+  {
+    "id": "dlg-garrick-old-debts",
+    "npc": "npc-garrick-captain",
+    "node": "old_debts",
+    "text": "'Thirty years on the border teaches you one ledger rule: the crown collects taxes in silver, and the frontier pays the interest in farmboys' ribs.'",
+    "choices": [
+      {
+        "label": "Leave.",
+        "next": "end"
+      }
+    ]
+  },
+  {
+    "id": "dlg-garrick-final-reckoning",
+    "npc": "npc-garrick-captain",
+    "node": "final_reckoning",
+    "text": "'Shields locked, pikes level. Let's clear the road so the survivors can finally go home.'",
+    "choices": [
+      {
+        "label": "March out.",
+        "next": "end"
+      }
+    ]
+  },
+  {
+    "id": "dlg-fenwick-entry-act-1-2",
+    "npc": "npc-fenwick-ferryman",
+    "node": "entry_act_1_2",
+    "text": "Old Fenwick leans on a twelve-foot ash punt-pole shod with a crooked iron hook. 'Two copper to cross alive, one copper if I just fish your boots out of the weir.'",
+    "choices": [
+      {
+        "label": "Ask what's floating downriver lately.",
+        "next": "dlg-fenwick-supplies-talk"
+      },
+      {
+        "label": "Pay double toll to see his river-salvage sack.",
+        "next": "dlg-fenwick-hidden-stash",
+        "sets_flag": "flag_fenwick_bribed"
+      },
+      {
+        "label": "Step off the dock.",
+        "next": "end"
+      }
+    ]
+  },
+  {
+    "id": "dlg-fenwick-entry-act-3",
+    "npc": "npc-fenwick-ferryman",
+    "node": "entry_act_3",
+    "text": "Fenwick spits into the grey harbor chop, wrapped in his stitched horsehide coat. 'Too much salt in this water for an honest river-rat, though drowned knights still wear shiny rings.'",
+    "choices": [
+      {
+        "label": "Ask about hidden coves and tidal channels.",
+        "next": "dlg-fenwick-regional-intel"
+      },
+      {
+        "label": "Check what your hook dredged up for me.",
+        "next": "dlg-fenwick-favored-customer",
+        "requires_flag": "flag_fenwick_bribed"
+      },
+      {
+        "label": "Walk away.",
+        "next": "end"
+      }
+    ]
+  },
+  {
+    "id": "dlg-fenwick-entry-act-4",
+    "npc": "npc-fenwick-ferryman",
+    "node": "entry_act_4",
+    "text": "Fenwick eyes the sluggish magma moat with professional disgust. 'Not a drop of water worth poling a punt across. Still, a ferryman knows how to read currents—even hot ones.'",
+    "choices": [
+      {
+        "label": "Ask him to guide the supply barges across.",
+        "next": "dlg-fenwick-final-reckoning",
+        "sets_flag": "flag_fenwick_committed"
+      },
+      {
+        "label": "Ask about the tolls people never paid.",
+        "next": "dlg-fenwick-old-debts"
+      },
+      {
+        "label": "Leave.",
+        "next": "end"
+      }
+    ]
+  },
+  {
+    "id": "dlg-fenwick-supplies-talk",
+    "npc": "npc-fenwick-ferryman",
+    "node": "supplies_talk",
+    "text": "'Eel-traps are full of bloated horses, splintered barrels, and dead tax-clerks. Nobody's shipping honest timber while raiders hold the gravel bars.'",
+    "choices": [
+      {
+        "label": "Promise to clear the river crossings.",
+        "next": "dlg-fenwick-road-pledge",
+        "sets_flag": "flag_fenwick_road_pledge"
+      },
+      {
+        "label": "End talk.",
+        "next": "end"
+      }
+    ]
+  },
+  {
+    "id": "dlg-fenwick-hidden-stash",
+    "npc": "npc-fenwick-ferryman",
+    "node": "hidden_stash",
+    "text": "'Keep your lantern low. Pulled these off a courier-barge before the crows found it—waterproofed cases, tarnished signets, and boots that still fit.'",
+    "choices": [
+      {
+        "label": "Sift through the river salvage.",
+        "next": "dlg-fenwick-favored-customer"
+      },
+      {
+        "label": "Leave it.",
+        "next": "end"
+      }
+    ]
+  },
+  {
+    "id": "dlg-fenwick-regional-intel",
+    "npc": "npc-fenwick-ferryman",
+    "node": "regional_intel",
+    "text": "'Don't follow green lights in the peat—that's dead bailiffs auditing frogs. Stick to gravel shelves where reeds grow short and stiff.'",
+    "choices": [
+      {
+        "label": "Ask what he smuggled before the war.",
+        "next": "dlg-fenwick-old-debts"
+      },
+      {
+        "label": "Move on.",
+        "next": "end"
+      }
+    ]
+  },
+  {
+    "id": "dlg-fenwick-favored-customer",
+    "npc": "npc-fenwick-ferryman",
+    "node": "favored_customer",
+    "text": "'You pay the ferryman upfront without whining about the mud. Here—pick first from tonight's eel-weir haul before the guards sniff around.'",
+    "choices": [
+      {
+        "label": "Take the salvage and go.",
+        "next": "end"
+      }
+    ]
+  },
+  {
+    "id": "dlg-fenwick-road-pledge",
+    "npc": "npc-fenwick-ferryman",
+    "node": "road_pledge",
+    "text": "'Clear the gnolls off the gravel bars and I'll pole your wounded across free of charge—dry-shod, mostly.'",
+    "choices": [
+      {
+        "label": "Depart.",
+        "next": "end"
+      }
+    ]
+  },
+  {
+    "id": "dlg-fenwick-old-debts",
+    "npc": "npc-fenwick-ferryman",
+    "node": "old_debts",
+    "text": "'Everyone thinks the river washes debts clean. Truth is, silt preserves everything—coins, bones, and the names of fools who shorted the boatman.'",
+    "choices": [
+      {
+        "label": "Leave.",
+        "next": "end"
+      }
+    ]
+  },
+  {
+    "id": "dlg-fenwick-final-reckoning",
+    "npc": "npc-fenwick-ferryman",
+    "node": "final_reckoning",
+    "text": "'One last crossing, then. Keep your balance low in the boat and don't drop your shield over the gunwale.'",
+    "choices": [
+      {
+        "label": "March out.",
+        "next": "end"
+      }
+    ]
+  },
+  {
+    "id": "dlg-bram-entry-act-1-2",
+    "npc": "npc-bram-quartermaster",
+    "node": "entry_act_1_2",
+    "text": "Quartermaster Bram adjusts spectacles with one cracked green lens and taps a scale-viper ledger. 'Water is four silver a gill, shade is two silver an hour, complaints are free.'",
+    "choices": [
+      {
+        "label": "Ask why caravan prices are so steep.",
+        "next": "dlg-bram-supplies-talk"
+      },
+      {
+        "label": "Grease his palm for black-market desert gear.",
+        "next": "dlg-bram-hidden-stash",
+        "sets_flag": "flag_bram_bribed"
+      },
+      {
+        "label": "Step out of the tent.",
+        "next": "end"
+      }
+    ]
+  },
+  {
+    "id": "dlg-bram-entry-act-3",
+    "npc": "npc-bram-quartermaster",
+    "node": "entry_act_3",
+    "text": "Bram fans his sun-blistered scalp with an invoice sheet as sea fog rolls in. 'Finally, air you don't have to chew. Now let's talk salvage margins on those sunken galleys.'",
+    "choices": [
+      {
+        "label": "Ask about coastal supply bottlenecks.",
+        "next": "dlg-bram-regional-intel"
+      },
+      {
+        "label": "Open the private account we set up.",
+        "next": "dlg-bram-favored-customer",
+        "requires_flag": "flag_bram_bribed"
+      },
+      {
+        "label": "Leave.",
+        "next": "end"
+      }
+    ]
+  },
+  {
+    "id": "dlg-bram-entry-act-4",
+    "npc": "npc-bram-quartermaster",
+    "node": "entry_act_4",
+    "text": "Bram weighs obsidian slag on his brass balance-scale. 'Every war ends in an audit, commander. Make sure we hold the vaults when the counting starts.'",
+    "choices": [
+      {
+        "label": "Secure full quartermaster backing for the siege.",
+        "next": "dlg-bram-final-reckoning",
+        "sets_flag": "flag_bram_committed"
+      },
+      {
+        "label": "Ask who profited from the Redmarsh ambushes.",
+        "next": "dlg-bram-old-debts"
+      },
+      {
+        "label": "Exit.",
+        "next": "end"
+      }
+    ]
+  },
+  {
+    "id": "dlg-bram-supplies-talk",
+    "npc": "npc-bram-quartermaster",
+    "node": "supplies_talk",
+    "text": "'Three mule-trains vanished in the Twin Passes, and salt-glare ruins leather straps in a week. Bring intact horn-bows or quarry ore if you want fair trade.'",
+    "choices": [
+      {
+        "label": "Pledge to secure the canyon caravan routes.",
+        "next": "dlg-bram-road-pledge",
+        "sets_flag": "flag_bram_road_pledge"
+      },
+      {
+        "label": "End talk.",
+        "next": "end"
+      }
+    ]
+  },
+  {
+    "id": "dlg-bram-hidden-stash",
+    "npc": "npc-bram-quartermaster",
+    "node": "hidden_stash",
+    "text": "'Off the imperial manifest: scale-viper bracers, curved desert steel, and rings stripped from nomad chieftains. Coin upfront, no receipts.'",
+    "choices": [
+      {
+        "label": "Browse the contraband stock.",
+        "next": "dlg-bram-favored-customer"
+      },
+      {
+        "label": "Leave it.",
+        "next": "end"
+      }
+    ]
+  },
+  {
+    "id": "dlg-bram-regional-intel",
+    "npc": "npc-bram-quartermaster",
+    "node": "regional_intel",
+    "text": "'Whoever armed the Sand-Clans used Deep Quarry ironstone stamped with Border Mint dies. Follow the coin, not the war-horns.'",
+    "choices": [
+      {
+        "label": "Ask who signed those mint manifests.",
+        "next": "dlg-bram-old-debts"
+      },
+      {
+        "label": "Move on.",
+        "next": "end"
+      }
+    ]
+  },
+  {
+    "id": "dlg-bram-favored-customer",
+    "npc": "npc-bram-quartermaster",
+    "node": "favored_customer",
+    "text": "'A commander who understands overhead is rare. Take the prime stock from the locked chest—discounted for prompt settlement.'",
+    "choices": [
+      {
+        "label": "Collect the gear and go.",
+        "next": "end"
+      }
+    ]
+  },
+  {
+    "id": "dlg-bram-road-pledge",
+    "npc": "npc-bram-quartermaster",
+    "node": "road_pledge",
+    "text": "'Open the pass and my wagons roll at dawn. Clean margins for me, fresh bolts for your archers.'",
+    "choices": [
+      {
+        "label": "Depart.",
+        "next": "end"
+      }
+    ]
+  },
+  {
+    "id": "dlg-bram-old-debts",
+    "npc": "npc-bram-quartermaster",
+    "node": "old_debts",
+    "text": "'In the Redmarsh, unpaid debts turn to salt-crust. Every merchant out here insures his wagons twice—once with guards, once with raiders.'",
+    "choices": [
+      {
+        "label": "Leave.",
+        "next": "end"
+      }
+    ]
+  },
+  {
+    "id": "dlg-bram-final-reckoning",
+    "npc": "npc-bram-quartermaster",
+    "node": "final_reckoning",
+    "text": "'The ledger is balanced and the war-chest is open. Take what you need to close the account.'",
+    "choices": [
+      {
+        "label": "March out.",
+        "next": "end"
+      }
+    ]
+  },
+  {
+    "id": "dlg-zahra-entry-act-1-2",
+    "npc": "npc-zahra-scholar",
+    "node": "entry_act_1_2",
+    "text": "Chronicler Zahra holds up a lapis-stained hand before your boots touch her papyrus rolls. 'Wipe the alkali mud off your greaves; this inscription is older than your kingdom.'",
+    "choices": [
+      {
+        "label": "Ask what the desert ruins reveal.",
+        "next": "dlg-zahra-supplies-talk"
+      },
+      {
+        "label": "Fund her private excavation with silver.",
+        "next": "dlg-zahra-hidden-stash",
+        "sets_flag": "flag_zahra_bribed"
+      },
+      {
+        "label": "Step back.",
+        "next": "end"
+      }
+    ]
+  },
+  {
+    "id": "dlg-zahra-entry-act-3",
+    "npc": "npc-zahra-scholar",
+    "node": "entry_act_3",
+    "text": "Zahra polishes a quartz magnifying lens against her indigo linen sleeve. 'First-Empire seawalls align with the Redmarsh wardstones. Whoever built them was measuring the caldera.'",
+    "choices": [
+      {
+        "label": "Ask how the coastal runes connect to the south.",
+        "next": "dlg-zahra-regional-intel"
+      },
+      {
+        "label": "Review the decoded tablets I funded.",
+        "next": "dlg-zahra-favored-customer",
+        "requires_flag": "flag_zahra_bribed"
+      },
+      {
+        "label": "Leave.",
+        "next": "end"
+      }
+    ]
+  },
+  {
+    "id": "dlg-zahra-entry-act-4",
+    "npc": "npc-zahra-scholar",
+    "node": "entry_act_4",
+    "text": "Zahra traces obsidian glyphs with trembling blue fingertips. 'We are standing inside the lock mechanism of the continent, commander. Do not break a seal you haven't read.'",
+    "choices": [
+      {
+        "label": "Commit to preserving the Threshold archives.",
+        "next": "dlg-zahra-final-reckoning",
+        "sets_flag": "flag_zahra_committed"
+      },
+      {
+        "label": "Ask about the true origin of the Crown of Order.",
+        "next": "dlg-zahra-old-debts"
+      },
+      {
+        "label": "Exit.",
+        "next": "end"
+      }
+    ]
+  },
+  {
+    "id": "dlg-zahra-supplies-talk",
+    "npc": "npc-zahra-scholar",
+    "node": "supplies_talk",
+    "text": "'Damp rot and blood-chanters are destroying pre-dynastic steles faster than I can press charcoal rubbings. Protect my surveyors if you want their wards deciphered.'",
+    "choices": [
+      {
+        "label": "Promise to safeguard her field rubbings.",
+        "next": "dlg-zahra-road-pledge",
+        "sets_flag": "flag_zahra_road_pledge"
+      },
+      {
+        "label": "End talk.",
+        "next": "end"
+      }
+    ]
+  },
+  {
+    "id": "dlg-zahra-hidden-stash",
+    "npc": "npc-zahra-scholar",
+    "node": "hidden_stash",
+    "text": "'These quartz focuses and pre-imperial scrolls were salvaged from sunken observatories. Keep them out of the quartermaster's crate—he'd melt the brass fittings.'",
+    "choices": [
+      {
+        "label": "Examine the arcane relics.",
+        "next": "dlg-zahra-favored-customer"
+      },
+      {
+        "label": "Leave them.",
+        "next": "end"
+      }
+    ]
+  },
+  {
+    "id": "dlg-zahra-regional-intel",
+    "npc": "npc-zahra-scholar",
+    "node": "regional_intel",
+    "text": "'The wardstones were never weather-charms—they are nails pinning subterranean pressure down. Crack enough of them and the whole basin wakes up.'",
+    "choices": [
+      {
+        "label": "Ask who forged the original seals.",
+        "next": "dlg-zahra-old-debts"
+      },
+      {
+        "label": "Move on.",
+        "next": "end"
+      }
+    ]
+  },
+  {
+    "id": "dlg-zahra-favored-customer",
+    "npc": "npc-zahra-scholar",
+    "node": "favored_customer",
+    "text": "'Scholarly patronage is rare in a war camp. Take these translated ward-scrolls—they'll blunt any hex the coven throws at you.'",
+    "choices": [
+      {
+        "label": "Accept the scrolls and go.",
+        "next": "end"
+      }
+    ]
+  },
+  {
+    "id": "dlg-zahra-road-pledge",
+    "npc": "npc-zahra-scholar",
+    "node": "road_pledge",
+    "text": "'Bring me intact boundary rubbings and I will map every blind spot in their ancient fortifications.'",
+    "choices": [
+      {
+        "label": "Depart.",
+        "next": "end"
+      }
+    ]
+  },
+  {
+    "id": "dlg-zahra-old-debts",
+    "npc": "npc-zahra-scholar",
+    "node": "old_debts",
+    "text": "'History in Thornvael is written on tomb-liens and tax-slates. Even the First Emperors bound their wardens in eternal servitude rather than pay a pension.'",
+    "choices": [
+      {
+        "label": "Leave.",
+        "next": "end"
+      }
+    ]
+  },
+  {
+    "id": "dlg-zahra-final-reckoning",
+    "npc": "npc-zahra-scholar",
+    "node": "final_reckoning",
+    "text": "'The glyphs are clear at last. Step onto the dais with open eyes, and choose what future survives.'",
+    "choices": [
+      {
+        "label": "March out.",
+        "next": "end"
+      }
+    ]
+  },
+  {
+    "id": "dlg-tull-entry-act-1-2",
+    "npc": "npc-tull-water-seller",
+    "node": "entry_act_1_2",
+    "text": "Cask-Master Tull taps the brass spigot strapped to his back-barrel with a wooden ladle. 'Don't ask where the well is—just ask if I boiled the scorpions out first.'",
+    "choices": [
+      {
+        "label": "Ask about water rations for the march.",
+        "next": "dlg-tull-supplies-talk"
+      },
+      {
+        "label": "Pay extra for a sealed skin of sweet-water.",
+        "next": "dlg-tull-hidden-stash",
+        "sets_flag": "flag_tull_bribed"
+      },
+      {
+        "label": "Move along.",
+        "next": "end"
+      }
+    ]
+  },
+  {
+    "id": "dlg-tull-entry-act-3",
+    "npc": "npc-tull-water-seller",
+    "node": "entry_act_3",
+    "text": "Tull stares at the pouring coastal rain with tears cutting tracks through desert dust on his cheeks. 'Free water falling right out of the sky... bad for business, great for kidneys.'",
+    "choices": [
+      {
+        "label": "Ask how the coastal cisterns are holding up.",
+        "next": "dlg-tull-regional-intel"
+      },
+      {
+        "label": "Tap the private reserve cask we arranged.",
+        "next": "dlg-tull-favored-customer",
+        "requires_flag": "flag_tull_bribed"
+      },
+      {
+        "label": "Leave.",
+        "next": "end"
+      }
+    ]
+  },
+  {
+    "id": "dlg-tull-entry-act-4",
+    "npc": "npc-tull-water-seller",
+    "node": "entry_act_4",
+    "text": "Tull wraps wet wool around his brass spigot to keep sulfur ash out of the nozzle. 'Out here a man sweats out his memories before noon. Keep your canteens capped.'",
+    "choices": [
+      {
+        "label": "Ensure clean water reaches the siege lines.",
+        "next": "dlg-tull-final-reckoning",
+        "sets_flag": "flag_tull_committed"
+      },
+      {
+        "label": "Ask about the wells poisoned during the drought.",
+        "next": "dlg-tull-old-debts"
+      },
+      {
+        "label": "Exit.",
+        "next": "end"
+      }
+    ]
+  },
+  {
+    "id": "dlg-tull-supplies-talk",
+    "npc": "npc-tull-water-seller",
+    "node": "supplies_talk",
+    "text": "'Alkali dust turns clear water to chalk in an hour, and Lantern Eels fouled my main cistern. Clear the wells if you want your vanguard marching upright.'",
+    "choices": [
+      {
+        "label": "Promise to cleanse the Redmarsh cisterns.",
+        "next": "dlg-tull-road-pledge",
+        "sets_flag": "flag_tull_road_pledge"
+      },
+      {
+        "label": "End talk.",
+        "next": "end"
+      }
+    ]
+  },
+  {
+    "id": "dlg-tull-hidden-stash",
+    "npc": "npc-tull-water-seller",
+    "node": "hidden_stash",
+    "text": "'Kept this cask buried in cool clay under my cot—unboiled mountain snowmelt, mixed with mint and iron-tonic. Worth more than crown gold.'",
+    "choices": [
+      {
+        "label": "Buy the reserve draughts.",
+        "next": "dlg-tull-favored-customer"
+      },
+      {
+        "label": "Leave it.",
+        "next": "end"
+      }
+    ]
+  },
+  {
+    "id": "dlg-tull-regional-intel",
+    "npc": "npc-tull-water-seller",
+    "node": "regional_intel",
+    "text": "'Follow the pack-lizards at dusk—they smell sweet-water beneath dry creek beds. And never trust a oasis guarded by silent vipers.'",
+    "choices": [
+      {
+        "label": "Ask why Gorrathul dammed the mountain aquifer.",
+        "next": "dlg-tull-old-debts"
+      },
+      {
+        "label": "Move on.",
+        "next": "end"
+      }
+    ]
+  },
+  {
+    "id": "dlg-tull-favored-customer",
+    "npc": "npc-tull-water-seller",
+    "node": "favored_customer",
+    "text": "'You didn't try to commandeer my barrels at sword-point. Dip your ladle deep—best heat-ward elixirs in the basin.'",
+    "choices": [
+      {
+        "label": "Fill your skins and go.",
+        "next": "end"
+      }
+    ]
+  },
+  {
+    "id": "dlg-tull-road-pledge",
+    "npc": "npc-tull-water-seller",
+    "node": "road_pledge",
+    "text": "'Save the sweet-water wells and I'll keep your company's canteens full at half tariff all the way to the mountains.'",
+    "choices": [
+      {
+        "label": "Depart.",
+        "next": "end"
+      }
+    ]
+  },
+  {
+    "id": "dlg-tull-old-debts",
+    "npc": "npc-tull-water-seller",
+    "node": "old_debts",
+    "text": "'In a drought, every cup of water carries someone else's thirst on its rim. Plenty of ghosts in Redmarsh still waiting for a drink.'",
+    "choices": [
+      {
+        "label": "Leave.",
+        "next": "end"
+      }
+    ]
+  },
+  {
+    "id": "dlg-tull-final-reckoning",
+    "npc": "npc-tull-water-seller",
+    "node": "final_reckoning",
+    "text": "'Last skins passed out, commander. Finish this war so we can all drink from an open river again.'",
+    "choices": [
+      {
+        "label": "March out.",
+        "next": "end"
+      }
+    ]
+  },
+  {
+    "id": "dlg-sera-entry-act-1-2",
+    "npc": "npc-sera-healer",
+    "node": "entry_act_1_2",
+    "text": "Chief Healer Sera wipes a blood-crusted bone saw on her oilskin apron. 'If you can walk into my tent unassisted, you aren't dying fast enough to skip the queue.'",
+    "choices": [
+      {
+        "label": "Ask about wounded overflowing the triage tents.",
+        "next": "dlg-sera-supplies-talk"
+      },
+      {
+        "label": "Offer silver for surgical-grade field kits.",
+        "next": "dlg-sera-hidden-stash",
+        "sets_flag": "flag_sera_bribed"
+      },
+      {
+        "label": "Step outside.",
+        "next": "end"
+      }
+    ]
+  },
+  {
+    "id": "dlg-sera-entry-act-3",
+    "npc": "npc-sera-healer",
+    "node": "entry_act_3",
+    "text": "Sera smells sharply of boiled vinegar and carbolic as coastal drizzle drums on the canvas roof. 'Saltwater festers shrapnel wounds in hours. Keep your bandages dry.'",
+    "choices": [
+      {
+        "label": "Ask what hazards await along the sea-cliffs.",
+        "next": "dlg-sera-regional-intel"
+      },
+      {
+        "label": "Request the private medical chest we discussed.",
+        "next": "dlg-sera-favored-customer",
+        "requires_flag": "flag_sera_bribed"
+      },
+      {
+        "label": "Leave.",
+        "next": "end"
+      }
+    ]
+  },
+  {
+    "id": "dlg-sera-entry-act-4",
+    "npc": "npc-sera-healer",
+    "node": "entry_act_4",
+    "text": "Sera bandages a scorched forearm with grim efficiency. 'I've sewn men back together across three provinces only to watch them march into a volcano. Keep your shields up.'",
+    "choices": [
+      {
+        "label": "Commit full triage support for the final push.",
+        "next": "dlg-sera-final-reckoning",
+        "sets_flag": "flag_sera_committed"
+      },
+      {
+        "label": "Ask why she left the royal medical college.",
+        "next": "dlg-sera-old-debts"
+      },
+      {
+        "label": "Exit.",
+        "next": "end"
+      }
+    ]
+  },
+  {
+    "id": "dlg-sera-supplies-talk",
+    "npc": "npc-sera-healer",
+    "node": "supplies_talk",
+    "text": "'I'm out of boiled linen, willow-bark laudanum, and clean sutures, while raiders harry my ambulance wagons on the shingle trails.'",
+    "choices": [
+      {
+        "label": "Promise to protect her field infirmaries.",
+        "next": "dlg-sera-road-pledge",
+        "sets_flag": "flag_sera_road_pledge"
+      },
+      {
+        "label": "End talk.",
+        "next": "end"
+      }
+    ]
+  },
+  {
+    "id": "dlg-sera-hidden-stash",
+    "npc": "npc-sera-healer",
+    "node": "hidden_stash",
+    "text": "'These resurrection tomes and concentrated poppy-iron draughts came from my own college trunk. Use them on veterans worth saving.'",
+    "choices": [
+      {
+        "label": "Acquire the surgical reserves.",
+        "next": "dlg-sera-favored-customer"
+      },
+      {
+        "label": "Decline.",
+        "next": "end"
+      }
+    ]
+  },
+  {
+    "id": "dlg-sera-regional-intel",
+    "npc": "npc-sera-healer",
+    "node": "regional_intel",
+    "text": "'Cinder Wards blister lungs from half a league off, and grave-runoff in the Sunken Citadel turns minor crab-nips lethal. Carry wet wool rags.'",
+    "choices": [
+      {
+        "label": "Ask what happens to those she cannot save.",
+        "next": "dlg-sera-old-debts"
+      },
+      {
+        "label": "Move on.",
+        "next": "end"
+      }
+    ]
+  },
+  {
+    "id": "dlg-sera-favored-customer",
+    "npc": "npc-sera-healer",
+    "node": "favored_customer",
+    "text": "'You held the perimeter when my surgeons couldn't even lift a spear. Take our strongest restoratives—no coin needed today.'",
+    "choices": [
+      {
+        "label": "Thank her and depart.",
+        "next": "end"
+      }
+    ]
+  },
+  {
+    "id": "dlg-sera-road-pledge",
+    "npc": "npc-sera-healer",
+    "node": "road_pledge",
+    "text": "'Guard the litters until we reach stone walls, and every man in my tent will live to swing a blade for you again.'",
+    "choices": [
+      {
+        "label": "Depart.",
+        "next": "end"
+      }
+    ]
+  },
+  {
+    "id": "dlg-sera-old-debts",
+    "npc": "npc-sera-healer",
+    "node": "old_debts",
+    "text": "'The capital's royal college wanted surgeons to patch dukes' gout while borderers bled out in ditches. I kept my saw and burned my diploma.'",
+    "choices": [
+      {
+        "label": "Leave.",
+        "next": "end"
+      }
+    ]
+  },
+  {
+    "id": "dlg-sera-final-reckoning",
+    "npc": "npc-sera-healer",
+    "node": "final_reckoning",
+    "text": "'My triage tables are set behind the basalt ridge. Bring your wounded back breathing, and I'll do the rest.'",
+    "choices": [
+      {
+        "label": "March out.",
+        "next": "end"
+      }
+    ]
+  },
+  {
+    "id": "dlg-kors-entry-act-1-2",
+    "npc": "npc-kors-shipwright",
+    "node": "entry_act_1_2",
+    "text": "Iron-Wright Kors hefts a heavy caulking mallet, tarred hemp braided into his beard. 'Armor's just a hull for a man's guts—keep the seams caulked or sink.'",
+    "choices": [
+      {
+        "label": "Ask why the drydocks are sitting idle.",
+        "next": "dlg-kors-supplies-talk"
+      },
+      {
+        "label": "Slip silver for marine-grade hull plate.",
+        "next": "dlg-kors-hidden-stash",
+        "sets_flag": "flag_kors_bribed"
+      },
+      {
+        "label": "Leave the yard.",
+        "next": "end"
+      }
+    ]
+  },
+  {
+    "id": "dlg-kors-entry-act-3",
+    "npc": "npc-kors-shipwright",
+    "node": "entry_act_3",
+    "text": "Kors squints out at the burning harbor channel, bronze rivets clinking around his neck. 'Six generations of shipwright craft reduced to floating charcoal. Help me clear the mole.'",
+    "choices": [
+      {
+        "label": "Ask how to breach Vesperion's blockade.",
+        "next": "dlg-kors-regional-intel"
+      },
+      {
+        "label": "Inspect the reinforced shields we arranged.",
+        "next": "dlg-kors-favored-customer",
+        "requires_flag": "flag_kors_bribed"
+      },
+      {
+        "label": "Step off.",
+        "next": "end"
+      }
+    ]
+  },
+  {
+    "id": "dlg-kors-entry-act-4",
+    "npc": "npc-kors-shipwright",
+    "node": "entry_act_4",
+    "text": "Kors tests a basalt parapet with his caulking mallet. 'Give me oak planks over volcanic rock any day—at least wood groans before it splits.'",
+    "choices": [
+      {
+        "label": "Order siege-ram bracing for the Citadel gates.",
+        "next": "dlg-kors-final-reckoning",
+        "sets_flag": "flag_kors_committed"
+      },
+      {
+        "label": "Ask about the flagship he built for Kael.",
+        "next": "dlg-kors-old-debts"
+      },
+      {
+        "label": "Exit.",
+        "next": "end"
+      }
+    ]
+  },
+  {
+    "id": "dlg-kors-supplies-talk",
+    "npc": "npc-kors-shipwright",
+    "node": "supplies_talk",
+    "text": "'No ironbark timber, no tarred oakum, and privateers blockading the channel. Until the mudflats clear, not a single troop barge touches salt water.'",
+    "choices": [
+      {
+        "label": "Promise to secure timber and oakum.",
+        "next": "dlg-kors-road-pledge",
+        "sets_flag": "flag_kors_road_pledge"
+      },
+      {
+        "label": "End talk.",
+        "next": "end"
+      }
+    ]
+  },
+  {
+    "id": "dlg-kors-hidden-stash",
+    "npc": "npc-kors-shipwright",
+    "node": "hidden_stash",
+    "text": "'Forged these tower shields from salvaged keel-strakes and copper sheathing—sheds fire-arrows and turns aside boarding axes.'",
+    "choices": [
+      {
+        "label": "Take the naval-grade armor.",
+        "next": "dlg-kors-favored-customer"
+      },
+      {
+        "label": "Leave it.",
+        "next": "end"
+      }
+    ]
+  },
+  {
+    "id": "dlg-kors-regional-intel",
+    "npc": "npc-kors-shipwright",
+    "node": "regional_intel",
+    "text": "'Kael's flagship is sheeted in copper against fire-pots. Don't waste pitch—reclaim the seawall culverins and smash her rudder-chains.'",
+    "choices": [
+      {
+        "label": "Ask how he knows her hull design so well.",
+        "next": "dlg-kors-old-debts"
+      },
+      {
+        "label": "Move on.",
+        "next": "end"
+      }
+    ]
+  },
+  {
+    "id": "dlg-kors-favored-customer",
+    "npc": "npc-kors-shipwright",
+    "node": "favored_customer",
+    "text": "'You saved my shipwrights from the fire-ships. My yard hammers for your vanguard free of labor charges.'",
+    "choices": [
+      {
+        "label": "Thank him and go.",
+        "next": "end"
+      }
+    ]
+  },
+  {
+    "id": "dlg-kors-road-pledge",
+    "npc": "npc-kors-shipwright",
+    "node": "road_pledge",
+    "text": "'Bring me dry ironbark and oakum, and I'll have twelve seaworthy carracks caulked before the spring tide turns.'",
+    "choices": [
+      {
+        "label": "Depart.",
+        "next": "end"
+      }
+    ]
+  },
+  {
+    "id": "dlg-kors-old-debts",
+    "npc": "npc-kors-shipwright",
+    "node": "old_debts",
+    "text": "'Every shipwright on the Iron Coast has built hulls for smugglers or tyrants to keep his apprentices fed. This crossing settles my ledger.'",
+    "choices": [
+      {
+        "label": "Leave.",
+        "next": "end"
+      }
+    ]
+  },
+  {
+    "id": "dlg-kors-final-reckoning",
+    "npc": "npc-kors-shipwright",
+    "node": "final_reckoning",
+    "text": "'The transport fleet is anchored and your rams are iron-shod. Break their gates so we can sail home.'",
+    "choices": [
+      {
+        "label": "March out.",
+        "next": "end"
+      }
+    ]
+  },
+  {
+    "id": "dlg-lyra-entry-act-1-2",
+    "npc": "npc-lyra-warden",
+    "node": "entry_act_1_2",
+    "text": "Gate Warden Lyra rests a windlass arbalest across her bruised cheekbone. 'Wind's twelve knots sou'west—aim two fingers left of the breastplate if you want the throat.'",
+    "choices": [
+      {
+        "label": "Ask about Oakhaven's wall defenses.",
+        "next": "dlg-lyra-supplies-talk"
+      },
+      {
+        "label": "Pay coin for custom-fletched steel quarrels.",
+        "next": "dlg-lyra-hidden-stash",
+        "sets_flag": "flag_lyra_bribed"
+      },
+      {
+        "label": "Leave the gatehouse.",
+        "next": "end"
+      }
+    ]
+  },
+  {
+    "id": "dlg-lyra-entry-act-3",
+    "npc": "npc-lyra-warden",
+    "node": "entry_act_3",
+    "text": "Lyra checks the walnut stock of her arbalest against the sea fog. 'The council bolts its doors while my pickets run out of bowstrings. Ready to clear the cliffs?'",
+    "choices": [
+      {
+        "label": "Ask about enemy sniper positions ahead.",
+        "next": "dlg-lyra-regional-intel"
+      },
+      {
+        "label": "Collect the windlass gear we arranged.",
+        "next": "dlg-lyra-favored-customer",
+        "requires_flag": "flag_lyra_bribed"
+      },
+      {
+        "label": "Step away.",
+        "next": "end"
+      }
+    ]
+  },
+  {
+    "id": "dlg-lyra-entry-act-4",
+    "npc": "npc-lyra-warden",
+    "node": "entry_act_4",
+    "text": "Lyra squints through volcanic ash, adjusting her arbalest sights. 'Thermal updrafts bend long shots by a hand's breadth out here. Tell your archers to aim low.'",
+    "choices": [
+      {
+        "label": "Deploy her coastal marksmen for the final siege.",
+        "next": "dlg-lyra-final-reckoning",
+        "sets_flag": "flag_lyra_committed"
+      },
+      {
+        "label": "Ask about the traitor inside Oakhaven's council.",
+        "next": "dlg-lyra-old-debts"
+      },
+      {
+        "label": "Exit.",
+        "next": "end"
+      }
+    ]
+  },
+  {
+    "id": "dlg-lyra-supplies-talk",
+    "npc": "npc-lyra-warden",
+    "node": "supplies_talk",
+    "text": "'Half my watchmen are down to throwing roof-slates because Baron Vane hoarded the city's crossbow strings. We need seasoned yew and steel prods.'",
+    "choices": [
+      {
+        "label": "Promise to break the coastal supply blockade.",
+        "next": "dlg-lyra-road-pledge",
+        "sets_flag": "flag_lyra_road_pledge"
+      },
+      {
+        "label": "End talk.",
+        "next": "end"
+      }
+    ]
+  },
+  {
+    "id": "dlg-lyra-hidden-stash",
+    "npc": "npc-lyra-warden",
+    "node": "hidden_stash",
+    "text": "'Keep these out of the council's sight—hardened steel-tipped quarrels and oiled stalker cowls from my personal watch-locker.'",
+    "choices": [
+      {
+        "label": "Claim the marksman gear.",
+        "next": "dlg-lyra-favored-customer"
+      },
+      {
+        "label": "Leave it.",
+        "next": "end"
+      }
+    ]
+  },
+  {
+    "id": "dlg-lyra-regional-intel",
+    "npc": "npc-lyra-warden",
+    "node": "regional_intel",
+    "text": "'Sundered Ranks has interlocking fields of fire across the middle road, and floating Frost Bells freeze bowstrings along the riverlock. Hit the flanks first.'",
+    "choices": [
+      {
+        "label": "Ask who leaked Oakhaven's harbor charts.",
+        "next": "dlg-lyra-old-debts"
+      },
+      {
+        "label": "Move on.",
+        "next": "end"
+      }
+    ]
+  },
+  {
+    "id": "dlg-lyra-favored-customer",
+    "npc": "npc-lyra-warden",
+    "node": "favored_customer",
+    "text": "'You pulled my pickets out of the gatehouse when we had fourteen bolts left. My archers' quiver is yours.'",
+    "choices": [
+      {
+        "label": "Nod and depart.",
+        "next": "end"
+      }
+    ]
+  },
+  {
+    "id": "dlg-lyra-road-pledge",
+    "npc": "npc-lyra-warden",
+    "node": "road_pledge",
+    "text": "'Open the coast road and my best scouts will range ahead of your vanguard every mile to the straits.'",
+    "choices": [
+      {
+        "label": "Depart.",
+        "next": "end"
+      }
+    ]
+  },
+  {
+    "id": "dlg-lyra-old-debts",
+    "npc": "npc-lyra-warden",
+    "node": "old_debts",
+    "text": "'Velvet tapestries for the baron, clipped tin wages for the men who died on the parapets. Someone always pays when cowards hold the keys.'",
+    "choices": [
+      {
+        "label": "Leave.",
+        "next": "end"
+      }
+    ]
+  },
+  {
+    "id": "dlg-lyra-final-reckoning",
+    "npc": "npc-lyra-warden",
+    "node": "final_reckoning",
+    "text": "'Windlass spanned, sightlines clear. Give the signal and we'll pin their gunners to the obsidian.'",
+    "choices": [
+      {
+        "label": "March out.",
+        "next": "end"
+      }
+    ]
+  },
+  {
+    "id": "dlg-pip-entry-act-1-2",
+    "npc": "npc-pip-mudlark",
+    "node": "entry_act_1_2",
+    "text": "Mudlark Pip hoists a canvas sack dripping black harbor silt and grins with a missing front tooth. 'Found a dead knight at low tide! Couldn't get his boots off, so I took his ring.'",
+    "choices": [
+      {
+        "label": "Ask what washes up on the mudflats.",
+        "next": "dlg-pip-supplies-talk"
+      },
+      {
+        "label": "Slip him silver for his secret curio sack.",
+        "next": "dlg-pip-hidden-stash",
+        "sets_flag": "flag_pip_bribed"
+      },
+      {
+        "label": "Shoo him away.",
+        "next": "end"
+      }
+    ]
+  },
+  {
+    "id": "dlg-pip-entry-act-3",
+    "npc": "npc-pip-mudlark",
+    "node": "entry_act_3",
+    "text": "Pip shivers inside three oversized wool vests, swinging a bent iron crab-hook. 'Tide's going out fast by the sunken walls, boss—good time for pockets, bad time for heavy armor.'",
+    "choices": [
+      {
+        "label": "Ask about secret grates and back alleys.",
+        "next": "dlg-pip-regional-intel"
+      },
+      {
+        "label": "See what shiny trinkets you hid for me.",
+        "next": "dlg-pip-favored-customer",
+        "requires_flag": "flag_pip_bribed"
+      },
+      {
+        "label": "Walk off.",
+        "next": "end"
+      }
+    ]
+  },
+  {
+    "id": "dlg-pip-entry-act-4",
+    "npc": "npc-pip-mudlark",
+    "node": "entry_act_4",
+    "text": "Pip rubs grey caldera soot onto his nose like war-paint. 'No crabs out here, boss, just hot rocks—but dead knights still drop plenty of rings!'",
+    "choices": [
+      {
+        "label": "Hire him as a scout-runner for the siege.",
+        "next": "dlg-pip-final-reckoning",
+        "sets_flag": "flag_pip_committed"
+      },
+      {
+        "label": "Ask what happened to his mate Tommy.",
+        "next": "dlg-pip-old-debts"
+      },
+      {
+        "label": "Leave.",
+        "next": "end"
+      }
+    ]
+  },
+  {
+    "id": "dlg-pip-supplies-talk",
+    "npc": "npc-pip-mudlark",
+    "node": "supplies_talk",
+    "text": "'Soldiers kick mudlarks for luck, then wonder why nobody tells 'em where the paymaster's strongboxes sank. Bring bread and copper if you want eyes in the silt.'",
+    "choices": [
+      {
+        "label": "Promise to split salvage fairly with him.",
+        "next": "dlg-pip-road-pledge",
+        "sets_flag": "flag_pip_road_pledge"
+      },
+      {
+        "label": "End talk.",
+        "next": "end"
+      }
+    ]
+  },
+  {
+    "id": "dlg-pip-hidden-stash",
+    "npc": "npc-pip-mudlark",
+    "node": "hidden_stash",
+    "text": "'Don't tell Warden Lyra where these came from—found 'em wedged under the baron's sewer grate. Genuine silver signets and a charm that hums in the dark.'",
+    "choices": [
+      {
+        "label": "Inspect Pip's hidden curios.",
+        "next": "dlg-pip-favored-customer"
+      },
+      {
+        "label": "Leave them.",
+        "next": "end"
+      }
+    ]
+  },
+  {
+    "id": "dlg-pip-regional-intel",
+    "npc": "npc-pip-mudlark",
+    "node": "regional_intel",
+    "text": "'Stay clear of the Night Orchards after dusk—the skulls in the branches whisper your mum's name. Stick to the low-tide shingle instead.'",
+    "choices": [
+      {
+        "label": "Ask how he survives the harbor streets.",
+        "next": "dlg-pip-old-debts"
+      },
+      {
+        "label": "Move on.",
+        "next": "end"
+      }
+    ]
+  },
+  {
+    "id": "dlg-pip-favored-customer",
+    "npc": "npc-pip-mudlark",
+    "node": "favored_customer",
+    "text": "'You actually paid half like you promised! Here—pick the best ring from my lucky tin before the big lads see.'",
+    "choices": [
+      {
+        "label": "Pocket the curio and go.",
+        "next": "end"
+      }
+    ]
+  },
+  {
+    "id": "dlg-pip-road-pledge",
+    "npc": "npc-pip-mudlark",
+    "node": "road_pledge",
+    "text": "'Fair split, no kicks? Deal! I'll show you every blind culvert between the docks and the baron's keep.'",
+    "choices": [
+      {
+        "label": "Depart.",
+        "next": "end"
+      }
+    ]
+  },
+  {
+    "id": "dlg-pip-old-debts",
+    "npc": "npc-pip-mudlark",
+    "node": "old_debts",
+    "text": "'Everyone in Oakhaven owes the sea something—a boat, a brother, or a boot. Best take what floats before the crabs get it.'",
+    "choices": [
+      {
+        "label": "Leave.",
+        "next": "end"
+      }
+    ]
+  },
+  {
+    "id": "dlg-pip-final-reckoning",
+    "npc": "npc-pip-mudlark",
+    "node": "final_reckoning",
+    "text": "'Got my crab-hook and my lucky granite pebble, boss. Point out the narrow cracks and I'll slip right through.'",
+    "choices": [
+      {
+        "label": "March out.",
+        "next": "end"
+      }
+    ]
+  },
+  {
+    "id": "dlg-rowan-entry-act-1-2",
+    "npc": "npc-rowan-commander",
+    "node": "entry_act_1_2",
+    "text": "Captain Rowan adjusts the iron neck-brace bolted to his gorget, his scarred brow completely hairless. 'Don't salute out here—ridge snipers shoot anyone stupid enough to raise an arm.'",
+    "choices": [
+      {
+        "label": "Ask how Greystone Bastion is holding.",
+        "next": "dlg-rowan-supplies-talk"
+      },
+      {
+        "label": "Offer coin for access to Ironcamp's reserve armory.",
+        "next": "dlg-rowan-hidden-stash",
+        "sets_flag": "flag_rowan_bribed"
+      },
+      {
+        "label": "Step away.",
+        "next": "end"
+      }
+    ]
+  },
+  {
+    "id": "dlg-rowan-entry-act-3",
+    "npc": "npc-rowan-commander",
+    "node": "entry_act_3",
+    "text": "Rowan studies a soot-stained tactical map weighted down with basalt pebbles. 'Every yard between here and the Threshold is wired with traps and murder-holes.'",
+    "choices": [
+      {
+        "label": "Ask for his assessment of the Gauntlet.",
+        "next": "dlg-rowan-regional-intel"
+      },
+      {
+        "label": "Draw from the elite reserve we arranged.",
+        "next": "dlg-rowan-favored-customer",
+        "requires_flag": "flag_rowan_bribed"
+      },
+      {
+        "label": "Leave.",
+        "next": "end"
+      }
+    ]
+  },
+  {
+    "id": "dlg-rowan-entry-act-4",
+    "npc": "npc-rowan-commander",
+    "node": "entry_act_4",
+    "text": "Rowan rests a fire-blackened kite shield against his knee. 'We stacked our own dead in the breaches to hold this pass, commander. Don't waste what they bought us.'",
+    "choices": [
+      {
+        "label": "Unite all Ironcamp veterans for the Threshold.",
+        "next": "dlg-rowan-final-reckoning",
+        "sets_flag": "flag_rowan_committed"
+      },
+      {
+        "label": "Ask what High Command ordered behind his back.",
+        "next": "dlg-rowan-old-debts"
+      },
+      {
+        "label": "Exit.",
+        "next": "end"
+      }
+    ]
+  },
+  {
+    "id": "dlg-rowan-supplies-talk",
+    "npc": "npc-rowan-commander",
+    "node": "supplies_talk",
+    "text": "'Water tastes like boiled nails, sulfur eats leather straps in days, and demonic catapults are pounding my east parapet to gravel.'",
+    "choices": [
+      {
+        "label": "Promise to relieve the besieged walls.",
+        "next": "dlg-rowan-road-pledge",
+        "sets_flag": "flag_rowan_road_pledge"
+      },
+      {
+        "label": "End talk.",
+        "next": "end"
+      }
+    ]
+  },
+  {
+    "id": "dlg-rowan-hidden-stash",
+    "npc": "npc-rowan-commander",
+    "node": "hidden_stash",
+    "text": "'These meteor-plated halberds and dread helms came off the citadel's own vanguard. My quartermaster doesn't log them—put them on your best men.'",
+    "choices": [
+      {
+        "label": "Equip the vanguard gear.",
+        "next": "dlg-rowan-favored-customer"
+      },
+      {
+        "label": "Leave it.",
+        "next": "end"
+      }
+    ]
+  },
+  {
+    "id": "dlg-rowan-regional-intel",
+    "npc": "npc-rowan-commander",
+    "node": "regional_intel",
+    "text": "'The Gauntlet is thirty paces wide between magnetic iron cliffs—archers miss, plate drags, and golems guard every portcullis. Bring grounding spikes and mauls.'",
+    "choices": [
+      {
+        "label": "Ask why the empire abandoned his garrison.",
+        "next": "dlg-rowan-old-debts"
+      },
+      {
+        "label": "Move on.",
+        "next": "end"
+      }
+    ]
+  },
+  {
+    "id": "dlg-rowan-favored-customer",
+    "npc": "npc-rowan-commander",
+    "node": "favored_customer",
+    "text": "'You held the wall when the mortars fell. My halberdiers march at your shoulder—no hiring fee.'",
+    "choices": [
+      {
+        "label": "Salute and depart.",
+        "next": "end"
+      }
+    ]
+  },
+  {
+    "id": "dlg-rowan-road-pledge",
+    "npc": "npc-rowan-commander",
+    "node": "road_pledge",
+    "text": "'Break their siege batteries and my veterans will hold your rear flank all the way to the Obsidian Dais.'",
+    "choices": [
+      {
+        "label": "Depart.",
+        "next": "end"
+      }
+    ]
+  },
+  {
+    "id": "dlg-rowan-old-debts",
+    "npc": "npc-rowan-commander",
+    "node": "old_debts",
+    "text": "'High Command wanted the pass sealed behind us—left us here as a cork in a volcano. Only debt I honor now is to the men still breathing.'",
+    "choices": [
+      {
+        "label": "Leave.",
+        "next": "end"
+      }
+    ]
+  },
+  {
+    "id": "dlg-rowan-final-reckoning",
+    "npc": "npc-rowan-commander",
+    "node": "final_reckoning",
+    "text": "'Banners furled, shields locked. Let's end this campaign so no soldier ever has to march into ash again.'",
+    "choices": [
+      {
+        "label": "March out.",
+        "next": "end"
+      }
+    ]
+  },
+  {
+    "id": "dlg-vok-entry-act-1-2",
+    "npc": "npc-vok-forgemaster",
+    "node": "entry_act_1_2",
+    "text": "Forgemaster Vok peers through smoked-glass eye slits, four-foot tongs resting beside an open floor-fissure. 'No coal needed here—stick the billet in the crack and pull it out fast.'",
+    "choices": [
+      {
+        "label": "Ask why standard steel fails in the caldera.",
+        "next": "dlg-vok-supplies-talk"
+      },
+      {
+        "label": "Pay silver for meteor-slag tempering.",
+        "next": "dlg-vok-hidden-stash",
+        "sets_flag": "flag_vok_bribed"
+      },
+      {
+        "label": "Step back from the heat.",
+        "next": "end"
+      }
+    ]
+  },
+  {
+    "id": "dlg-vok-entry-act-3",
+    "npc": "npc-vok-forgemaster",
+    "node": "entry_act_3",
+    "text": "Vok wipes silvery burn-keloids on his forearm with an asbestos rag. 'Normal iron turns soft as tallow near the vents. Bring me Anvilmaw jaws or prism-sand.'",
+    "choices": [
+      {
+        "label": "Ask how to crack Ashkarath's armor.",
+        "next": "dlg-vok-regional-intel"
+      },
+      {
+        "label": "Commission the masterwork pieces we arranged.",
+        "next": "dlg-vok-favored-customer",
+        "requires_flag": "flag_vok_bribed"
+      },
+      {
+        "label": "Leave.",
+        "next": "end"
+      }
+    ]
+  },
+  {
+    "id": "dlg-vok-entry-act-4",
+    "npc": "npc-vok-forgemaster",
+    "node": "entry_act_4",
+    "text": "Vok tests a white-hot maul-head with a spit-hiss. 'A thousand years ago my clan forged that glass throne under blood-contract. Time to see if our hammers can unmake it.'",
+    "choices": [
+      {
+        "label": "Have Vok re-temper the entire vanguard's gear.",
+        "next": "dlg-vok-final-reckoning",
+        "sets_flag": "flag_vok_committed"
+      },
+      {
+        "label": "Ask about his clan's ancient blood-contract.",
+        "next": "dlg-vok-old-debts"
+      },
+      {
+        "label": "Exit.",
+        "next": "end"
+      }
+    ]
+  },
+  {
+    "id": "dlg-vok-supplies-talk",
+    "npc": "npc-vok-forgemaster",
+    "node": "supplies_talk",
+    "text": "'My steam-hammer cracked its bedplate, and terrestrial ore melts like butter here. Hunt Anvilmaw Smiths if you want jaws hard enough to forge endgame plate.'",
+    "choices": [
+      {
+        "label": "Promise to harvest caldera forge-materials.",
+        "next": "dlg-vok-road-pledge",
+        "sets_flag": "flag_vok_road_pledge"
+      },
+      {
+        "label": "End talk.",
+        "next": "end"
+      }
+    ]
+  },
+  {
+    "id": "dlg-vok-hidden-stash",
+    "npc": "npc-vok-forgemaster",
+    "node": "hidden_stash",
+    "text": "'Quenched these in brine and meteoric slag when Rowan wasn't looking—Gothic plate and obsidian mauls that laugh at hellfire.'",
+    "choices": [
+      {
+        "label": "Inspect Vok's masterworks.",
+        "next": "dlg-vok-favored-customer"
+      },
+      {
+        "label": "Leave them.",
+        "next": "end"
+      }
+    ]
+  },
+  {
+    "id": "dlg-vok-regional-intel",
+    "npc": "npc-vok-forgemaster",
+    "node": "regional_intel",
+    "text": "'Ashkarath's armor isn't buckled—it's bolted straight into his collarbone. Don't waste swings on his chest; strike the glowing seams where magma leaks.'",
+    "choices": [
+      {
+        "label": "Ask who forged that armor.",
+        "next": "dlg-vok-old-debts"
+      },
+      {
+        "label": "Move on.",
+        "next": "end"
+      }
+    ]
+  },
+  {
+    "id": "dlg-vok-favored-customer",
+    "npc": "npc-vok-forgemaster",
+    "node": "favored_customer",
+    "text": "'Good ore deserves a proper smith. My fissure-hearth is yours—half price on every temper and reforge.'",
+    "choices": [
+      {
+        "label": "Thank him and go.",
+        "next": "end"
+      }
+    ]
+  },
+  {
+    "id": "dlg-vok-road-pledge",
+    "npc": "npc-vok-forgemaster",
+    "node": "road_pledge",
+    "text": "'Drag those living anvils back on chains and I'll forge your company blades that stay keen until the world cools.'",
+    "choices": [
+      {
+        "label": "Depart.",
+        "next": "end"
+      }
+    ]
+  },
+  {
+    "id": "dlg-vok-old-debts",
+    "npc": "npc-vok-forgemaster",
+    "node": "old_debts",
+    "text": "'My ancestors poured the iron for the Obsidian Throne to buy peace for our deep halls. Worst bargain any smith ever struck.'",
+    "choices": [
+      {
+        "label": "Leave.",
+        "next": "end"
+      }
+    ]
+  },
+  {
+    "id": "dlg-vok-final-reckoning",
+    "npc": "npc-vok-forgemaster",
+    "node": "final_reckoning",
+    "text": "'Edges quenched, rivets locked, shields brined. Go strike the anvil inside that throne room.'",
+    "choices": [
+      {
+        "label": "March out.",
+        "next": "end"
+      }
+    ]
+  },
+  {
+    "id": "dlg-elias-entry-act-1-2",
+    "npc": "npc-elias-penitent",
+    "node": "entry_act_1_2",
+    "text": "Brother Elias turns ash-caked bandages toward your footsteps, a brass thurible smoking in his hand. 'I see no heraldry, only the heat of your blood and the iron you bear.'",
+    "choices": [
+      {
+        "label": "Ask why he wears the penitent's collar.",
+        "next": "dlg-elias-supplies-talk"
+      },
+      {
+        "label": "Offer alms to study his charred scrolls.",
+        "next": "dlg-elias-hidden-stash",
+        "sets_flag": "flag_elias_bribed"
+      },
+      {
+        "label": "Leave him to his prayers.",
+        "next": "end"
+      }
+    ]
+  },
+  {
+    "id": "dlg-elias-entry-act-3",
+    "npc": "npc-elias-penitent",
+    "node": "entry_act_3",
+    "text": "Elias speaks in a voice like two pieces of pumice rubbing together. 'I looked directly at the Shattered Beacons when they lit. Now only the leylines burn beneath my soles.'",
+    "choices": [
+      {
+        "label": "Ask about the twin doors of the Threshold.",
+        "next": "dlg-elias-regional-intel"
+      },
+      {
+        "label": "Consult the forbidden codices we discussed.",
+        "next": "dlg-elias-favored-customer",
+        "requires_flag": "flag_elias_bribed"
+      },
+      {
+        "label": "Step away.",
+        "next": "end"
+      }
+    ]
+  },
+  {
+    "id": "dlg-elias-entry-act-4",
+    "npc": "npc-elias-penitent",
+    "node": "entry_act_4",
+    "text": "Elias fingers a bundle of charred vellum cylinders. 'Malrik feared growing old in a cold tower, so he sold the realm's spring. Soon you must choose which temperature remains.'",
+    "choices": [
+      {
+        "label": "Ask for his blessing before the Threshold.",
+        "next": "dlg-elias-final-reckoning",
+        "sets_flag": "flag_elias_committed"
+      },
+      {
+        "label": "Ask about his years teaching at the Ember Court.",
+        "next": "dlg-elias-old-debts"
+      },
+      {
+        "label": "Exit.",
+        "next": "end"
+      }
+    ]
+  },
+  {
+    "id": "dlg-elias-supplies-talk",
+    "npc": "npc-elias-penitent",
+    "node": "supplies_talk",
+    "text": "'Four cylinders of my old pyromantic syllabus still lie in the ruined scriptorium. Burn them before another fool uses my theorems to widen the breach.'",
+    "choices": [
+      {
+        "label": "Promise to recover and burn his syllabus.",
+        "next": "dlg-elias-road-pledge",
+        "sets_flag": "flag_elias_road_pledge"
+      },
+      {
+        "label": "End talk.",
+        "next": "end"
+      }
+    ]
+  },
+  {
+    "id": "dlg-elias-hidden-stash",
+    "npc": "npc-elias-penitent",
+    "node": "hidden_stash",
+    "text": "'These prismatic charms and astral tomes survived the beacon-fire. They steady the mind when the caldera whispers promises of power.'",
+    "choices": [
+      {
+        "label": "Receive the penitent relics.",
+        "next": "dlg-elias-favored-customer"
+      },
+      {
+        "label": "Decline.",
+        "next": "end"
+      }
+    ]
+  },
+  {
+    "id": "dlg-elias-regional-intel",
+    "npc": "npc-elias-penitent",
+    "node": "regional_intel",
+    "text": "'In the Threshold Chamber, the ancient wardens left two keys because they lacked courage to lock the door from inside. Order freezes; Ember consumes.'",
+    "choices": [
+      {
+        "label": "Ask how to survive the Threshold's choice.",
+        "next": "dlg-elias-old-debts"
+      },
+      {
+        "label": "Move on.",
+        "next": "end"
+      }
+    ]
+  },
+  {
+    "id": "dlg-elias-favored-customer",
+    "npc": "npc-elias-penitent",
+    "node": "favored_customer",
+    "text": "'Your mercy steadied a blind man's conscience. Take my blessing—may your mind stay clear when the seals fracture.'",
+    "choices": [
+      {
+        "label": "Bow and depart.",
+        "next": "end"
+      }
+    ]
+  },
+  {
+    "id": "dlg-elias-road-pledge",
+    "npc": "npc-elias-penitent",
+    "node": "road_pledge",
+    "text": "'Turn those lead cylinders to clean ash, and I will teach your casters how to ground the Anchor Seals without losing their sanity.'",
+    "choices": [
+      {
+        "label": "Depart.",
+        "next": "end"
+      }
+    ]
+  },
+  {
+    "id": "dlg-elias-old-debts",
+    "npc": "npc-elias-penitent",
+    "node": "old_debts",
+    "text": "'I wrote the equations that opened the first cinder-gates. All the ash falling across four provinces began as ink on my desk.'",
+    "choices": [
+      {
+        "label": "Leave.",
+        "next": "end"
+      }
+    ]
+  },
+  {
+    "id": "dlg-elias-final-reckoning",
+    "npc": "npc-elias-penitent",
+    "node": "final_reckoning",
+    "text": "'The First Watch awaits its discharge, and the seals tremble. Walk into the nave with an unclouded heart.'",
+    "choices": [
+      {
+        "label": "March out.",
+        "next": "end"
+      }
+    ]
+  },
+  {
+    "id": "dlg-hobb-greeting-low",
+    "npc": "npc-hobb-smith",
+    "node": "greeting_low",
+    "requires_reputation": "low",
+    "text": "Master Hobb slams a cold hammer onto the horn. 'My iron is counted to the ounce, and your name is short in the ledger. State your business fast.'",
+    "choices": [
+      {
+        "label": "Ask about Thornwick iron supplies.",
+        "next": "dlg-hobb-topic_forge"
+      },
+      {
+        "label": "Ask how gnoll iron holds up.",
+        "next": "dlg-hobb-topic_gnolls"
+      },
+      {
+        "label": "Ask about current frontier work.",
+        "next": "dlg-hobb-quest-before"
+      },
+      {
+        "label": "Leave.",
+        "next": "end"
+      }
+    ]
+  },
+  {
+    "id": "dlg-hobb-greeting-neutral",
+    "npc": "npc-hobb-smith",
+    "node": "greeting_neutral",
+    "requires_reputation": "neutral",
+    "text": "Master Hobb squints through forge smoke and taps a cooled tang. 'Bring honest steel or silver, recruit. The rain rusts everything else before sundown.'",
+    "choices": [
+      {
+        "label": "Ask about Thornwick iron supplies.",
+        "next": "dlg-hobb-topic_forge"
+      },
+      {
+        "label": "Ask how gnoll iron holds up.",
+        "next": "dlg-hobb-topic_gnolls"
+      },
+      {
+        "label": "Ask how to keep plate dry in the fens.",
+        "next": "dlg-hobb-topic_armor"
+      },
+      {
+        "label": "Ask about current frontier work.",
+        "next": "dlg-hobb-quest-before"
+      },
+      {
+        "label": "Give a progress report on your assignment.",
+        "next": "dlg-hobb-quest-during",
+        "requires_quest": "sq05-the-quartermasters-ledger",
+        "quest_state": "active"
+      },
+      {
+        "label": "Discuss the outcome of your completed work.",
+        "next": "dlg-hobb-quest-after",
+        "requires_quest": "sq05-the-quartermasters-ledger",
+        "quest_state": "completed"
+      },
+      {
+        "label": "Step away.",
+        "next": "end"
+      }
+    ]
+  },
+  {
+    "id": "dlg-hobb-greeting-high",
+    "npc": "npc-hobb-smith",
+    "node": "greeting_high",
+    "requires_reputation": "high",
+    "text": "Master Hobb sets his tongs aside and nods toward the good rack. 'Your coin is sound and your blades come back notched from real work. What do you need forged?'",
+    "choices": [
+      {
+        "label": "Ask about Thornwick iron supplies.",
+        "next": "dlg-hobb-topic_forge"
+      },
+      {
+        "label": "Ask how gnoll iron holds up.",
+        "next": "dlg-hobb-topic_gnolls"
+      },
+      {
+        "label": "Ask how to keep plate dry in the fens.",
+        "next": "dlg-hobb-topic_armor"
+      },
+      {
+        "label": "Give a progress report on your assignment.",
+        "next": "dlg-hobb-quest-during",
+        "requires_quest": "sq05-the-quartermasters-ledger",
+        "quest_state": "active"
+      },
+      {
+        "label": "Discuss the outcome of your completed work.",
+        "next": "dlg-hobb-quest-after",
+        "requires_quest": "sq05-the-quartermasters-ledger",
+        "quest_state": "completed"
+      },
+      {
+        "label": "Farewell.",
+        "next": "end"
+      }
+    ]
+  },
+  {
+    "id": "dlg-hobb-topic_forge",
+    "npc": "npc-hobb-smith",
+    "node": "topic_forge",
+    "text": "'Half the bar-iron meant for our palisade vanished on the Greywood road. What is left in my coal-bin is bog-slag and salvaged pike-heads.'",
+    "choices": [
+      {
+        "label": "Ask about another matter.",
+        "next": "dlg-hobb-greeting-neutral"
+      },
+      {
+        "label": "Take your leave.",
+        "next": "end"
+      }
+    ]
+  },
+  {
+    "id": "dlg-hobb-topic_gnolls",
+    "npc": "npc-hobb-smith",
+    "node": "topic_gnolls",
+    "text": "'Crude, heavy, and notched like sawteeth. Their raiders carry southern-minted copper to buy better axes, though nobody admits who smelts it.'",
+    "choices": [
+      {
+        "label": "Ask about another matter.",
+        "next": "dlg-hobb-greeting-neutral"
+      },
+      {
+        "label": "Take your leave.",
+        "next": "end"
+      }
+    ]
+  },
+  {
+    "id": "dlg-hobb-topic_armor",
+    "npc": "npc-hobb-smith",
+    "node": "topic_armor",
+    "text": "'Boiled linseed and sheep-tallow on every rivet. Skip the grease for two days in the marshes and your buckles seize shut.'",
+    "choices": [
+      {
+        "label": "Ask about another matter.",
+        "next": "dlg-hobb-greeting-neutral"
+      },
+      {
+        "label": "Take your leave.",
+        "next": "end"
+      }
+    ]
+  },
+  {
+    "id": "dlg-hobb-quest-before",
+    "npc": "npc-hobb-smith",
+    "node": "quest_before",
+    "quest_id": "sq05-the-quartermasters-ledger",
+    "quest_state": "before",
+    "text": "'If you are heading up the Greywood trail, keep an eye out for my oilskin supply ledger. Whoever burned that cart wanted the iron tallies buried.'",
+    "choices": [
+      {
+        "label": "Accept the task.",
+        "next": "end",
+        "sets_flag": "flag_hobb_quest_accepted"
+      },
+      {
+        "label": "Ask about something else first.",
+        "next": "dlg-hobb-greeting-neutral"
+      }
+    ]
+  },
+  {
+    "id": "dlg-hobb-quest-during",
+    "npc": "npc-hobb-smith",
+    "node": "quest_during",
+    "quest_id": "sq05-the-quartermasters-ledger",
+    "quest_state": "during",
+    "text": "'Still hunting that Greywood ledger? Check beneath the wrecked wagon axles—gnolls never bother with oiled parchment.'",
+    "choices": [
+      {
+        "label": "Return to the field.",
+        "next": "end"
+      }
+    ]
+  },
+  {
+    "id": "dlg-hobb-quest-after",
+    "npc": "npc-hobb-smith",
+    "node": "quest_after",
+    "quest_id": "sq05-the-quartermasters-ledger",
+    "quest_state": "after",
+    "text": "'Every shorted iron shipment is marked in red chalk now. When the garrison asks where their spears went, I have the ink to answer.'",
+    "choices": [
+      {
+        "label": "Ask about another matter.",
+        "next": "dlg-hobb-greeting-high"
+      },
+      {
+        "label": "Farewell.",
+        "next": "end"
+      }
+    ]
+  },
+  {
+    "id": "dlg-marta-greeting-low",
+    "npc": "npc-marta-alchemist",
+    "node": "greeting_low",
+    "requires_reputation": "low",
+    "text": "Widow Marta corks a dark phial with a sharp snap. 'I have barely enough willow-bark for the wounded watchmen. Do not waste my lamp-oil.'",
+    "choices": [
+      {
+        "label": "Ask what is filling the sickhouse.",
+        "next": "dlg-marta-topic_ailments"
+      },
+      {
+        "label": "Ask about the green slag at the old kilns.",
+        "next": "dlg-marta-topic_kilns"
+      },
+      {
+        "label": "Ask about current frontier work.",
+        "next": "dlg-marta-quest-before"
+      },
+      {
+        "label": "Leave.",
+        "next": "end"
+      }
+    ]
+  },
+  {
+    "id": "dlg-marta-greeting-neutral",
+    "npc": "npc-marta-alchemist",
+    "node": "greeting_neutral",
+    "requires_reputation": "neutral",
+    "text": "Widow Marta wipes green stain from her mortar. 'Fever takes more levies than gnoll arrows in this damp. Need draughts, poultices, or an honest answer?'",
+    "choices": [
+      {
+        "label": "Ask what is filling the sickhouse.",
+        "next": "dlg-marta-topic_ailments"
+      },
+      {
+        "label": "Ask about the green slag at the old kilns.",
+        "next": "dlg-marta-topic_kilns"
+      },
+      {
+        "label": "Ask how to counter bog-venom.",
+        "next": "dlg-marta-topic_remedies"
+      },
+      {
+        "label": "Ask about current frontier work.",
+        "next": "dlg-marta-quest-before"
+      },
+      {
+        "label": "Give a progress report on your assignment.",
+        "next": "dlg-marta-quest-during",
+        "requires_quest": "sq02-bile-of-the-fen",
+        "quest_state": "active"
+      },
+      {
+        "label": "Discuss the outcome of your completed work.",
+        "next": "dlg-marta-quest-after",
+        "requires_quest": "sq02-bile-of-the-fen",
+        "quest_state": "completed"
+      },
+      {
+        "label": "Step away.",
+        "next": "end"
+      }
+    ]
+  },
+  {
+    "id": "dlg-marta-greeting-high",
+    "npc": "npc-marta-alchemist",
+    "node": "greeting_high",
+    "requires_reputation": "high",
+    "text": "Widow Marta sets a fresh clay flask on the counter. 'You keep my shelves stocked and my patients breathing. Take whatever tonic you need for the road.'",
+    "choices": [
+      {
+        "label": "Ask what is filling the sickhouse.",
+        "next": "dlg-marta-topic_ailments"
+      },
+      {
+        "label": "Ask about the green slag at the old kilns.",
+        "next": "dlg-marta-topic_kilns"
+      },
+      {
+        "label": "Ask how to counter bog-venom.",
+        "next": "dlg-marta-topic_remedies"
+      },
+      {
+        "label": "Give a progress report on your assignment.",
+        "next": "dlg-marta-quest-during",
+        "requires_quest": "sq02-bile-of-the-fen",
+        "quest_state": "active"
+      },
+      {
+        "label": "Discuss the outcome of your completed work.",
+        "next": "dlg-marta-quest-after",
+        "requires_quest": "sq02-bile-of-the-fen",
+        "quest_state": "completed"
+      },
+      {
+        "label": "Farewell.",
+        "next": "end"
+      }
+    ]
+  },
+  {
+    "id": "dlg-marta-topic_ailments",
+    "npc": "npc-marta-alchemist",
+    "node": "topic_ailments",
+    "text": "'Trench-rot in the boots and cold peat-fever from the ford. Plain boiled rue keeps a soldier standing if we catch it before the shivers set in.'",
+    "choices": [
+      {
+        "label": "Ask about another matter.",
+        "next": "dlg-marta-greeting-neutral"
+      },
+      {
+        "label": "Take your leave.",
+        "next": "end"
+      }
+    ]
+  },
+  {
+    "id": "dlg-marta-topic_kilns",
+    "npc": "npc-marta-alchemist",
+    "node": "topic_kilns",
+    "text": "'Those kilns were built to melt church bells into mortar-shot, not glass. Whatever warped the slag out there makes wolves grow stone-spurs.'",
+    "choices": [
+      {
+        "label": "Ask about another matter.",
+        "next": "dlg-marta-greeting-neutral"
+      },
+      {
+        "label": "Take your leave.",
+        "next": "end"
+      }
+    ]
+  },
+  {
+    "id": "dlg-marta-topic_remedies",
+    "npc": "npc-marta-alchemist",
+    "node": "topic_remedies",
+    "text": "'Slaked lime and bitter root-ash. Never drink standing fen-water, even after you boil it—the silt carries mire-rot.'",
+    "choices": [
+      {
+        "label": "Ask about another matter.",
+        "next": "dlg-marta-greeting-neutral"
+      },
+      {
+        "label": "Take your leave.",
+        "next": "end"
+      }
+    ]
+  },
+  {
+    "id": "dlg-marta-quest-before",
+    "npc": "npc-marta-alchemist",
+    "node": "quest_before",
+    "quest_id": "sq02-bile-of-the-fen",
+    "quest_state": "before",
+    "text": "'If you cross Fenwick's peat pools, bottle six intact wisp-galls for me. Without fresh gall, the fever wards run dry before week's end.'",
+    "choices": [
+      {
+        "label": "Accept the task.",
+        "next": "end",
+        "sets_flag": "flag_marta_quest_accepted"
+      },
+      {
+        "label": "Ask about something else first.",
+        "next": "dlg-marta-greeting-neutral"
+      }
+    ]
+  },
+  {
+    "id": "dlg-marta-quest-during",
+    "npc": "npc-marta-alchemist",
+    "node": "quest_during",
+    "quest_id": "sq02-bile-of-the-fen",
+    "quest_state": "during",
+    "text": "'Handle those wisp-galls gently—if the membrane tears in your pack, the cold burn ruins leather and wool alike.'",
+    "choices": [
+      {
+        "label": "Return to the field.",
+        "next": "end"
+      }
+    ]
+  },
+  {
+    "id": "dlg-marta-quest-after",
+    "npc": "npc-marta-alchemist",
+    "node": "quest_after",
+    "quest_id": "sq02-bile-of-the-fen",
+    "quest_state": "after",
+    "text": "'The fever cots are quiet tonight thanks to your galls. Keep a spare vial in your belt before you march south.'",
+    "choices": [
+      {
+        "label": "Ask about another matter.",
+        "next": "dlg-marta-greeting-high"
+      },
+      {
+        "label": "Farewell.",
+        "next": "end"
+      }
+    ]
+  },
+  {
+    "id": "dlg-garrick-greeting-low",
+    "npc": "npc-garrick-captain",
+    "node": "greeting_low",
+    "requires_reputation": "low",
+    "text": "Sergeant-at-Arms Garrick rests his hand on his pommel. 'Rumors travel faster than supply carts in Thornwick. Give me a reason to trust you on my wall.'",
+    "choices": [
+      {
+        "label": "Ask about the militia strength.",
+        "next": "dlg-garrick-topic_watch"
+      },
+      {
+        "label": "Ask about Ravenwatch Keep.",
+        "next": "dlg-garrick-topic_ravenwatch"
+      },
+      {
+        "label": "Ask about current frontier work.",
+        "next": "dlg-garrick-quest-before"
+      },
+      {
+        "label": "Leave.",
+        "next": "end"
+      }
+    ]
+  },
+  {
+    "id": "dlg-garrick-greeting-neutral",
+    "npc": "npc-garrick-captain",
+    "node": "greeting_neutral",
+    "requires_reputation": "neutral",
+    "text": "Sergeant-at-Arms Garrick taps the chalk map on the barracks table. 'Another wet watch, another thinned patrol. Are you here to take a contract or trade rumors?'",
+    "choices": [
+      {
+        "label": "Ask about the militia strength.",
+        "next": "dlg-garrick-topic_watch"
+      },
+      {
+        "label": "Ask about Ravenwatch Keep.",
+        "next": "dlg-garrick-topic_ravenwatch"
+      },
+      {
+        "label": "Ask about the defenses at Alder Bridge.",
+        "next": "dlg-garrick-topic_alder"
+      },
+      {
+        "label": "Ask about current frontier work.",
+        "next": "dlg-garrick-quest-before"
+      },
+      {
+        "label": "Give a progress report on your assignment.",
+        "next": "dlg-garrick-quest-during",
+        "requires_quest": "sq01-tollhouse-audit",
+        "quest_state": "active"
+      },
+      {
+        "label": "Discuss the outcome of your completed work.",
+        "next": "dlg-garrick-quest-after",
+        "requires_quest": "sq01-tollhouse-audit",
+        "quest_state": "completed"
+      },
+      {
+        "label": "Step away.",
+        "next": "end"
+      }
+    ]
+  },
+  {
+    "id": "dlg-garrick-greeting-high",
+    "npc": "npc-garrick-captain",
+    "node": "greeting_high",
+    "requires_reputation": "high",
+    "text": "Sergeant-at-Arms Garrick gives a crisp salute. 'Good to see steel that does not rust when the horn blows. Tell me how the outer roads look.'",
+    "choices": [
+      {
+        "label": "Ask about the militia strength.",
+        "next": "dlg-garrick-topic_watch"
+      },
+      {
+        "label": "Ask about Ravenwatch Keep.",
+        "next": "dlg-garrick-topic_ravenwatch"
+      },
+      {
+        "label": "Ask about the defenses at Alder Bridge.",
+        "next": "dlg-garrick-topic_alder"
+      },
+      {
+        "label": "Give a progress report on your assignment.",
+        "next": "dlg-garrick-quest-during",
+        "requires_quest": "sq01-tollhouse-audit",
+        "quest_state": "active"
+      },
+      {
+        "label": "Discuss the outcome of your completed work.",
+        "next": "dlg-garrick-quest-after",
+        "requires_quest": "sq01-tollhouse-audit",
+        "quest_state": "completed"
+      },
+      {
+        "label": "Farewell.",
+        "next": "end"
+      }
+    ]
+  },
+  {
+    "id": "dlg-garrick-topic_watch",
+    "npc": "npc-garrick-captain",
+    "node": "topic_watch",
+    "text": "'Half the levies are boys who never held anything heavier than a peat-spade. Pay arrives late, boots rot early, and the bridge watch is stretched thin.'",
+    "choices": [
+      {
+        "label": "Ask about another matter.",
+        "next": "dlg-garrick-greeting-neutral"
+      },
+      {
+        "label": "Take your leave.",
+        "next": "end"
+      }
+    ]
+  },
+  {
+    "id": "dlg-garrick-topic_ravenwatch",
+    "npc": "npc-garrick-captain",
+    "node": "topic_ravenwatch",
+    "text": "'Signal fires went dark two nights back. Either the tar cauldrons drowned in the sleet or someone inside dropped the gate-bar.'",
+    "choices": [
+      {
+        "label": "Ask about another matter.",
+        "next": "dlg-garrick-greeting-neutral"
+      },
+      {
+        "label": "Take your leave.",
+        "next": "end"
+      }
+    ]
+  },
+  {
+    "id": "dlg-garrick-topic_alder",
+    "npc": "npc-garrick-captain",
+    "node": "topic_alder",
+    "text": "'Craghorn granite holds if we keep sappers off the piers. Without coin for rations, though, half the pickets will desert before the first horn.'",
+    "choices": [
+      {
+        "label": "Ask about another matter.",
+        "next": "dlg-garrick-greeting-neutral"
+      },
+      {
+        "label": "Take your leave.",
+        "next": "end"
+      }
+    ]
+  },
+  {
+    "id": "dlg-garrick-quest-before",
+    "npc": "npc-garrick-captain",
+    "node": "quest_before",
+    "quest_id": "sq01-tollhouse-audit",
+    "quest_state": "before",
+    "text": "'Collector Vance kicked the tollhouse strongbox into the reeds before the ford fell. Clear the hounds and haul that silver back so I can pay the men.'",
+    "choices": [
+      {
+        "label": "Accept the task.",
+        "next": "end",
+        "sets_flag": "flag_garrick_quest_accepted"
+      },
+      {
+        "label": "Ask about something else first.",
+        "next": "dlg-garrick-greeting-neutral"
+      }
+    ]
+  },
+  {
+    "id": "dlg-garrick-quest-during",
+    "npc": "npc-garrick-captain",
+    "node": "quest_during",
+    "quest_id": "sq01-tollhouse-audit",
+    "quest_state": "during",
+    "text": "'The strongbox is heavy iron—check the willow roots below the burned tollhouse, and watch your flanks for Briar Hounds.'",
+    "choices": [
+      {
+        "label": "Return to the field.",
+        "next": "end"
+      }
+    ]
+  },
+  {
+    "id": "dlg-garrick-quest-after",
+    "npc": "npc-garrick-captain",
+    "node": "quest_after",
+    "quest_id": "sq01-tollhouse-audit",
+    "quest_state": "after",
+    "text": "'With the back-wages squared, the men will hold Alder Bridge when the real push comes. You earned the garrison's thanks.'",
+    "choices": [
+      {
+        "label": "Ask about another matter.",
+        "next": "dlg-garrick-greeting-high"
+      },
+      {
+        "label": "Farewell.",
+        "next": "end"
+      }
+    ]
+  },
+  {
+    "id": "dlg-fenwick-greeting-low",
+    "npc": "npc-fenwick-ferryman",
+    "node": "greeting_low",
+    "requires_reputation": "low",
+    "text": "Old Fenwick spits into the Alder eddies and pulls his oilskin tighter. 'Ferry is moored for folk who pay honest toll and keep their mouths shut.'",
+    "choices": [
+      {
+        "label": "Ask what the current has brought down.",
+        "next": "dlg-fenwick-topic_river"
+      },
+      {
+        "label": "Ask how to cross the willow fens safely.",
+        "next": "dlg-fenwick-topic_fens"
+      },
+      {
+        "label": "Ask about current frontier work.",
+        "next": "dlg-fenwick-quest-before"
+      },
+      {
+        "label": "Leave.",
+        "next": "end"
+      }
+    ]
+  },
+  {
+    "id": "dlg-fenwick-greeting-neutral",
+    "npc": "npc-fenwick-ferryman",
+    "node": "greeting_neutral",
+    "requires_reputation": "neutral",
+    "text": "Old Fenwick leans on his ash boat-hook. 'River carries everything downstream sooner or later—dead timber, spilled grain, and secrets folk tried to sink.'",
+    "choices": [
+      {
+        "label": "Ask what the current has brought down.",
+        "next": "dlg-fenwick-topic_river"
+      },
+      {
+        "label": "Ask how to cross the willow fens safely.",
+        "next": "dlg-fenwick-topic_fens"
+      },
+      {
+        "label": "Ask about river smugglers.",
+        "next": "dlg-fenwick-topic_smugglers"
+      },
+      {
+        "label": "Ask about current frontier work.",
+        "next": "dlg-fenwick-quest-before"
+      },
+      {
+        "label": "Give a progress report on your assignment.",
+        "next": "dlg-fenwick-quest-during",
+        "requires_quest": "sq04-night-cargo",
+        "quest_state": "active"
+      },
+      {
+        "label": "Discuss the outcome of your completed work.",
+        "next": "dlg-fenwick-quest-after",
+        "requires_quest": "sq04-night-cargo",
+        "quest_state": "completed"
+      },
+      {
+        "label": "Step away.",
+        "next": "end"
+      }
+    ]
+  },
+  {
+    "id": "dlg-fenwick-greeting-high",
+    "npc": "npc-fenwick-ferryman",
+    "node": "greeting_high",
+    "requires_reputation": "high",
+    "text": "Old Fenwick grins with three good teeth and beckons you onto the planks. 'You know how to keep dry powder and quiet oars. What drifts your way today?'",
+    "choices": [
+      {
+        "label": "Ask what the current has brought down.",
+        "next": "dlg-fenwick-topic_river"
+      },
+      {
+        "label": "Ask how to cross the willow fens safely.",
+        "next": "dlg-fenwick-topic_fens"
+      },
+      {
+        "label": "Ask about river smugglers.",
+        "next": "dlg-fenwick-topic_smugglers"
+      },
+      {
+        "label": "Give a progress report on your assignment.",
+        "next": "dlg-fenwick-quest-during",
+        "requires_quest": "sq04-night-cargo",
+        "quest_state": "active"
+      },
+      {
+        "label": "Discuss the outcome of your completed work.",
+        "next": "dlg-fenwick-quest-after",
+        "requires_quest": "sq04-night-cargo",
+        "quest_state": "completed"
+      },
+      {
+        "label": "Farewell.",
+        "next": "end"
+      }
+    ]
+  },
+  {
+    "id": "dlg-fenwick-topic_river",
+    "npc": "npc-fenwick-ferryman",
+    "node": "topic_river",
+    "text": "'Splintered oar-blades from the upper weir and wax-sealed tubes that do not belong to any northern clerk. Somebody is shipping coin by night.'",
+    "choices": [
+      {
+        "label": "Ask about another matter.",
+        "next": "dlg-fenwick-greeting-neutral"
+      },
+      {
+        "label": "Take your leave.",
+        "next": "end"
+      }
+    ]
+  },
+  {
+    "id": "dlg-fenwick-topic_fens",
+    "npc": "npc-fenwick-ferryman",
+    "node": "topic_fens",
+    "text": "'Step only where the sedge grows thick and dark. Bright green moss hides waist-deep peat holes that swallow mail armor whole.'",
+    "choices": [
+      {
+        "label": "Ask about another matter.",
+        "next": "dlg-fenwick-greeting-neutral"
+      },
+      {
+        "label": "Take your leave.",
+        "next": "end"
+      }
+    ]
+  },
+  {
+    "id": "dlg-fenwick-topic_smugglers",
+    "npc": "npc-fenwick-ferryman",
+    "node": "topic_smugglers",
+    "text": "'Folks call it smuggling when a starving hamlet buys salt without paying the southern tithe. I call it keeping the smoke coming out of chimneys.'",
+    "choices": [
+      {
+        "label": "Ask about another matter.",
+        "next": "dlg-fenwick-greeting-neutral"
+      },
+      {
+        "label": "Take your leave.",
+        "next": "end"
+      }
+    ]
+  },
+  {
+    "id": "dlg-fenwick-quest-before",
+    "npc": "npc-fenwick-ferryman",
+    "node": "quest_before",
+    "quest_id": "sq04-night-cargo",
+    "quest_state": "before",
+    "text": "'Black-sailed skiffs have been unloading tallow crates at the bend after dark. Drive off those shamans and bring me their cargo manifest.'",
+    "choices": [
+      {
+        "label": "Accept the task.",
+        "next": "end",
+        "sets_flag": "flag_fenwick_quest_accepted"
+      },
+      {
+        "label": "Ask about something else first.",
+        "next": "dlg-fenwick-greeting-neutral"
+      }
+    ]
+  },
+  {
+    "id": "dlg-fenwick-quest-during",
+    "npc": "npc-fenwick-ferryman",
+    "node": "quest_during",
+    "quest_id": "sq04-night-cargo",
+    "quest_state": "during",
+    "text": "'Stick to the bank shadows near the willow bend—their shamans light up the mist when they cast.'",
+    "choices": [
+      {
+        "label": "Return to the field.",
+        "next": "end"
+      }
+    ]
+  },
+  {
+    "id": "dlg-fenwick-quest-after",
+    "npc": "npc-fenwick-ferryman",
+    "node": "quest_after",
+    "quest_id": "sq04-night-cargo",
+    "quest_state": "after",
+    "text": "'Southern customs stamps on corpse-tallow crates. Whatever is brewing down-river, it has ink and silver behind it.'",
+    "choices": [
+      {
+        "label": "Ask about another matter.",
+        "next": "dlg-fenwick-greeting-high"
+      },
+      {
+        "label": "Farewell.",
+        "next": "end"
+      }
+    ]
+  },
+  {
+    "id": "dlg-marlow-greeting-low",
+    "npc": "npc-marlow-reeve",
+    "node": "greeting_low",
+    "requires_reputation": "low",
+    "text": "Reeve Marlow closes his ledger with a dry thud. 'Unless you brought flour sacks or signed tax receipts, take your boots off the hall steps.'",
+    "choices": [
+      {
+        "label": "Ask about the southern Salt Tithe.",
+        "next": "dlg-marlow-topic_tithe"
+      },
+      {
+        "label": "Ask how the town is holding the refugees.",
+        "next": "dlg-marlow-topic_refugees"
+      },
+      {
+        "label": "Ask about current frontier work.",
+        "next": "dlg-marlow-quest-before"
+      },
+      {
+        "label": "Leave.",
+        "next": "end"
+      }
+    ]
+  },
+  {
+    "id": "dlg-marlow-greeting-neutral",
+    "npc": "npc-marlow-reeve",
+    "node": "greeting_neutral",
+    "requires_reputation": "neutral",
+    "text": "Reeve Marlow rubs the ink from his thumb and looks up from his grain tallies. 'Three parishes owe tithes we cannot pay, and the granary is half-empty. Speak plainly.'",
+    "choices": [
+      {
+        "label": "Ask about the southern Salt Tithe.",
+        "next": "dlg-marlow-topic_tithe"
+      },
+      {
+        "label": "Ask how the town is holding the refugees.",
+        "next": "dlg-marlow-topic_refugees"
+      },
+      {
+        "label": "Ask about the burned Border Mint.",
+        "next": "dlg-marlow-topic_mint"
+      },
+      {
+        "label": "Ask about current frontier work.",
+        "next": "dlg-marlow-quest-before"
+      },
+      {
+        "label": "Give a progress report on your assignment.",
+        "next": "dlg-marlow-quest-during",
+        "requires_quest": "sq01-tollhouse-audit",
+        "quest_state": "active"
+      },
+      {
+        "label": "Discuss the outcome of your completed work.",
+        "next": "dlg-marlow-quest-after",
+        "requires_quest": "sq01-tollhouse-audit",
+        "quest_state": "completed"
+      },
+      {
+        "label": "Step away.",
+        "next": "end"
+      }
+    ]
+  },
+  {
+    "id": "dlg-marlow-greeting-high",
+    "npc": "npc-marlow-reeve",
+    "node": "greeting_high",
+    "requires_reputation": "high",
+    "text": "Reeve Marlow rises from the bench, relief briefly softening his pinched face. 'Thornwick still stands because you cleared the crossing. What does the company need?'",
+    "choices": [
+      {
+        "label": "Ask about the southern Salt Tithe.",
+        "next": "dlg-marlow-topic_tithe"
+      },
+      {
+        "label": "Ask how the town is holding the refugees.",
+        "next": "dlg-marlow-topic_refugees"
+      },
+      {
+        "label": "Ask about the burned Border Mint.",
+        "next": "dlg-marlow-topic_mint"
+      },
+      {
+        "label": "Give a progress report on your assignment.",
+        "next": "dlg-marlow-quest-during",
+        "requires_quest": "sq01-tollhouse-audit",
+        "quest_state": "active"
+      },
+      {
+        "label": "Discuss the outcome of your completed work.",
+        "next": "dlg-marlow-quest-after",
+        "requires_quest": "sq01-tollhouse-audit",
+        "quest_state": "completed"
+      },
+      {
+        "label": "Farewell.",
+        "next": "end"
+      }
+    ]
+  },
+  {
+    "id": "dlg-marlow-topic_tithe",
+    "npc": "npc-marlow-reeve",
+    "node": "topic_tithe",
+    "text": "'Every cart of salted pork and bar-iron leaves Thornwick under southern seal, yet none of the promised relief spears ever march north.'",
+    "choices": [
+      {
+        "label": "Ask about another matter.",
+        "next": "dlg-marlow-greeting-neutral"
+      },
+      {
+        "label": "Take your leave.",
+        "next": "end"
+      }
+    ]
+  },
+  {
+    "id": "dlg-marlow-topic_refugees",
+    "npc": "npc-marlow-reeve",
+    "node": "topic_refugees",
+    "text": "'Every barn loft from the palisade to the weir is packed two families deep. Without the Greywood mill turning, we are boiling oats into gruel.'",
+    "choices": [
+      {
+        "label": "Ask about another matter.",
+        "next": "dlg-marlow-greeting-neutral"
+      },
+      {
+        "label": "Take your leave.",
+        "next": "end"
+      }
+    ]
+  },
+  {
+    "id": "dlg-marlow-topic_mint",
+    "npc": "npc-marlow-reeve",
+    "node": "topic_mint",
+    "text": "'Assayer Pell kept honest weights until the fire. Folks whisper he struck light copper so the village could make quota without starving.'",
+    "choices": [
+      {
+        "label": "Ask about another matter.",
+        "next": "dlg-marlow-greeting-neutral"
+      },
+      {
+        "label": "Take your leave.",
+        "next": "end"
+      }
+    ]
+  },
+  {
+    "id": "dlg-marlow-quest-before",
+    "npc": "npc-marlow-reeve",
+    "node": "quest_before",
+    "quest_id": "sq01-tollhouse-audit",
+    "quest_state": "before",
+    "text": "'Garrick's men have not seen coin in six weeks. If you recover the sunken tollhouse strongbox, bring it to the garrison before desertions gut our wall.'",
+    "choices": [
+      {
+        "label": "Accept the task.",
+        "next": "end",
+        "sets_flag": "flag_marlow_quest_accepted"
+      },
+      {
+        "label": "Ask about something else first.",
+        "next": "dlg-marlow-greeting-neutral"
+      }
+    ]
+  },
+  {
+    "id": "dlg-marlow-quest-during",
+    "npc": "npc-marlow-reeve",
+    "node": "quest_during",
+    "quest_id": "sq01-tollhouse-audit",
+    "quest_state": "during",
+    "text": "'Any news of Collector Vance's strongbox? My ledger cannot pay militia wages on promises.'",
+    "choices": [
+      {
+        "label": "Return to the field.",
+        "next": "end"
+      }
+    ]
+  },
+  {
+    "id": "dlg-marlow-quest-after",
+    "npc": "npc-marlow-reeve",
+    "node": "quest_after",
+    "quest_id": "sq01-tollhouse-audit",
+    "quest_state": "after",
+    "text": "'Silver in the garrison chest buys us another fortnight of steady watches. Thornwick owes you more than my ink can record.'",
+    "choices": [
+      {
+        "label": "Ask about another matter.",
+        "next": "dlg-marlow-greeting-high"
+      },
+      {
+        "label": "Farewell.",
+        "next": "end"
+      }
+    ]
+  },
+  {
+    "id": "dlg-edda-greeting-low",
+    "npc": "npc-edda-miller",
+    "node": "greeting_low",
+    "requires_reputation": "low",
+    "text": "Edda the Miller folds flour-dusted arms across her apron. 'The stones are cold and the wheel is jammed. Unless you carry spare iron, move along.'",
+    "choices": [
+      {
+        "label": "Ask what jammed the Greywood wheel.",
+        "next": "dlg-edda-topic_mill"
+      },
+      {
+        "label": "Ask about the Greywood sawyers.",
+        "next": "dlg-edda-topic_timber"
+      },
+      {
+        "label": "Ask about current frontier work.",
+        "next": "dlg-edda-quest-before"
+      },
+      {
+        "label": "Leave.",
+        "next": "end"
+      }
+    ]
+  },
+  {
+    "id": "dlg-edda-greeting-neutral",
+    "npc": "npc-edda-miller",
+    "node": "greeting_neutral",
+    "requires_reputation": "neutral",
+    "text": "Edda the Miller wipes sweat from her brow and eyes the silent waterwheel. 'A town can live without silver for a month, soldier. It cannot live without bread for a week.'",
+    "choices": [
+      {
+        "label": "Ask what jammed the Greywood wheel.",
+        "next": "dlg-edda-topic_mill"
+      },
+      {
+        "label": "Ask about the Greywood sawyers.",
+        "next": "dlg-edda-topic_timber"
+      },
+      {
+        "label": "Ask how long the flour stores will last.",
+        "next": "dlg-edda-topic_grain"
+      },
+      {
+        "label": "Ask about current frontier work.",
+        "next": "dlg-edda-quest-before"
+      },
+      {
+        "label": "Give a progress report on your assignment.",
+        "next": "dlg-edda-quest-during",
+        "requires_quest": "sq53-crosscut-blades",
+        "quest_state": "active"
+      },
+      {
+        "label": "Discuss the outcome of your completed work.",
+        "next": "dlg-edda-quest-after",
+        "requires_quest": "sq53-crosscut-blades",
+        "quest_state": "completed"
+      },
+      {
+        "label": "Step away.",
+        "next": "end"
+      }
+    ]
+  },
+  {
+    "id": "dlg-edda-greeting-high",
+    "npc": "npc-edda-miller",
+    "node": "greeting_high",
+    "requires_reputation": "high",
+    "text": "Edda the Miller smiles warmly, dusting off a wooden bench. 'Smell that? Fresh grist on the stones again. You always have a warm loaf waiting here.'",
+    "choices": [
+      {
+        "label": "Ask what jammed the Greywood wheel.",
+        "next": "dlg-edda-topic_mill"
+      },
+      {
+        "label": "Ask about the Greywood sawyers.",
+        "next": "dlg-edda-topic_timber"
+      },
+      {
+        "label": "Ask how long the flour stores will last.",
+        "next": "dlg-edda-topic_grain"
+      },
+      {
+        "label": "Give a progress report on your assignment.",
+        "next": "dlg-edda-quest-during",
+        "requires_quest": "sq53-crosscut-blades",
+        "quest_state": "active"
+      },
+      {
+        "label": "Discuss the outcome of your completed work.",
+        "next": "dlg-edda-quest-after",
+        "requires_quest": "sq53-crosscut-blades",
+        "quest_state": "completed"
+      },
+      {
+        "label": "Farewell.",
+        "next": "end"
+      }
+    ]
+  },
+  {
+    "id": "dlg-edda-topic_mill",
+    "npc": "npc-edda-miller",
+    "node": "topic_mill",
+    "text": "'Not driftwood—ash wedges hammered right into the axle-box. Someone wanted Thornwick starving before the gnolls ever crossed the river.'",
+    "choices": [
+      {
+        "label": "Ask about another matter.",
+        "next": "dlg-edda-greeting-neutral"
+      },
+      {
+        "label": "Take your leave.",
+        "next": "end"
+      }
+    ]
+  },
+  {
+    "id": "dlg-edda-topic_timber",
+    "npc": "npc-edda-miller",
+    "node": "topic_timber",
+    "text": "'Dobb and his crew still haul oak planks when the boars let them near the race. Good timber is scarcer than clean salt.'",
+    "choices": [
+      {
+        "label": "Ask about another matter.",
+        "next": "dlg-edda-greeting-neutral"
+      },
+      {
+        "label": "Take your leave.",
+        "next": "end"
+      }
+    ]
+  },
+  {
+    "id": "dlg-edda-topic_grain",
+    "npc": "npc-edda-miller",
+    "node": "topic_grain",
+    "text": "'With the wheel turning, three weeks if we ration the barley. If the road stays cut, we will be grinding acorns by moon-dark.'",
+    "choices": [
+      {
+        "label": "Ask about another matter.",
+        "next": "dlg-edda-greeting-neutral"
+      },
+      {
+        "label": "Take your leave.",
+        "next": "end"
+      }
+    ]
+  },
+  {
+    "id": "dlg-edda-quest-before",
+    "npc": "npc-edda-miller",
+    "node": "quest_before",
+    "quest_id": "sq53-crosscut-blades",
+    "quest_state": "before",
+    "text": "'Sawyer Dobb lost three tempered crosscut blades when Thorn Boars overran the millrace. Help him clear that yard so we can cut wheel-spokes.'",
+    "choices": [
+      {
+        "label": "Accept the task.",
+        "next": "end",
+        "sets_flag": "flag_edda_quest_accepted"
+      },
+      {
+        "label": "Ask about something else first.",
+        "next": "dlg-edda-greeting-neutral"
+      }
+    ]
+  },
+  {
+    "id": "dlg-edda-quest-during",
+    "npc": "npc-edda-miller",
+    "node": "quest_during",
+    "quest_id": "sq53-crosscut-blades",
+    "quest_state": "during",
+    "text": "'Watch the brush behind the timber shed—those Thorn Boars charge straight through leather greaves.'",
+    "choices": [
+      {
+        "label": "Return to the field.",
+        "next": "end"
+      }
+    ]
+  },
+  {
+    "id": "dlg-edda-quest-after",
+    "npc": "npc-edda-miller",
+    "node": "quest_after",
+    "quest_id": "sq53-crosscut-blades",
+    "quest_state": "after",
+    "text": "'Hear the waterwheel groaning? By tonight the whole market square will smell like baked barley again.'",
+    "choices": [
+      {
+        "label": "Ask about another matter.",
+        "next": "dlg-edda-greeting-high"
+      },
+      {
+        "label": "Farewell.",
+        "next": "end"
+      }
+    ]
+  },
+  {
+    "id": "dlg-dunstan-greeting-low",
+    "npc": "npc-dunstan-innkeeper",
+    "node": "greeting_low",
+    "requires_reputation": "low",
+    "text": "Dunstan sets a cracked pewter mug down hard. 'Coin on the oak first, trouble-maker. The Three Elms has enough broken benches for one season.'",
+    "choices": [
+      {
+        "label": "Ask how supplies are reaching the tavern.",
+        "next": "dlg-dunstan-topic_ale"
+      },
+      {
+        "label": "Ask what the scouts are whispering.",
+        "next": "dlg-dunstan-topic_patrons"
+      },
+      {
+        "label": "Ask about current frontier work.",
+        "next": "dlg-dunstan-quest-before"
+      },
+      {
+        "label": "Leave.",
+        "next": "end"
+      }
+    ]
+  },
+  {
+    "id": "dlg-dunstan-greeting-neutral",
+    "npc": "npc-dunstan-innkeeper",
+    "node": "greeting_neutral",
+    "requires_reputation": "neutral",
+    "text": "Dunstan polishes a tankard with a grey cloth and nods toward the hearth. 'Rain keeps the roof leaking and the patrols thirsty. Pull up a stool and share what is on the road.'",
+    "choices": [
+      {
+        "label": "Ask how supplies are reaching the tavern.",
+        "next": "dlg-dunstan-topic_ale"
+      },
+      {
+        "label": "Ask what the scouts are whispering.",
+        "next": "dlg-dunstan-topic_patrons"
+      },
+      {
+        "label": "Ask who is looking for work.",
+        "next": "dlg-dunstan-topic_mercs"
+      },
+      {
+        "label": "Ask about current frontier work.",
+        "next": "dlg-dunstan-quest-before"
+      },
+      {
+        "label": "Give a progress report on your assignment.",
+        "next": "dlg-dunstan-quest-during",
+        "requires_quest": "sq28-broken-axle-on-alder-road",
+        "quest_state": "active"
+      },
+      {
+        "label": "Discuss the outcome of your completed work.",
+        "next": "dlg-dunstan-quest-after",
+        "requires_quest": "sq28-broken-axle-on-alder-road",
+        "quest_state": "completed"
+      },
+      {
+        "label": "Step away.",
+        "next": "end"
+      }
+    ]
+  },
+  {
+    "id": "dlg-dunstan-greeting-high",
+    "npc": "npc-dunstan-innkeeper",
+    "node": "greeting_high",
+    "requires_reputation": "high",
+    "text": "Dunstan pours two fingers of dark heather ale without asking. 'On the house for the company that keeps the roads open. What rumors are you chasing tonight?'",
+    "choices": [
+      {
+        "label": "Ask how supplies are reaching the tavern.",
+        "next": "dlg-dunstan-topic_ale"
+      },
+      {
+        "label": "Ask what the scouts are whispering.",
+        "next": "dlg-dunstan-topic_patrons"
+      },
+      {
+        "label": "Ask who is looking for work.",
+        "next": "dlg-dunstan-topic_mercs"
+      },
+      {
+        "label": "Give a progress report on your assignment.",
+        "next": "dlg-dunstan-quest-during",
+        "requires_quest": "sq28-broken-axle-on-alder-road",
+        "quest_state": "active"
+      },
+      {
+        "label": "Discuss the outcome of your completed work.",
+        "next": "dlg-dunstan-quest-after",
+        "requires_quest": "sq28-broken-axle-on-alder-road",
+        "quest_state": "completed"
+      },
+      {
+        "label": "Farewell.",
+        "next": "end"
+      }
+    ]
+  },
+  {
+    "id": "dlg-dunstan-topic_ale",
+    "npc": "npc-dunstan-innkeeper",
+    "node": "topic_ale",
+    "text": "'Watered small-beer and salt-herring until the carts get through. Half the barrels from Alder Road never made it past the last bend.'",
+    "choices": [
+      {
+        "label": "Ask about another matter.",
+        "next": "dlg-dunstan-greeting-neutral"
+      },
+      {
+        "label": "Take your leave.",
+        "next": "end"
+      }
+    ]
+  },
+  {
+    "id": "dlg-dunstan-topic_patrons",
+    "npc": "npc-dunstan-innkeeper",
+    "node": "topic_patrons",
+    "text": "'Wounded border runners say the gnolls are not just looting grain—they tear open saddlebags looking for sealed paper and dispatch tubes.'",
+    "choices": [
+      {
+        "label": "Ask about another matter.",
+        "next": "dlg-dunstan-greeting-neutral"
+      },
+      {
+        "label": "Take your leave.",
+        "next": "end"
+      }
+    ]
+  },
+  {
+    "id": "dlg-dunstan-topic_mercs",
+    "npc": "npc-dunstan-innkeeper",
+    "node": "topic_mercs",
+    "text": "'Two poachers and a half-frozen levyman by the chimney. Pay fair silver and keep them fed, and they will hold a line better than city guards.'",
+    "choices": [
+      {
+        "label": "Ask about another matter.",
+        "next": "dlg-dunstan-greeting-neutral"
+      },
+      {
+        "label": "Take your leave.",
+        "next": "end"
+      }
+    ]
+  },
+  {
+    "id": "dlg-dunstan-quest-before",
+    "npc": "npc-dunstan-innkeeper",
+    "node": "quest_before",
+    "quest_id": "sq28-broken-axle-on-alder-road",
+    "quest_state": "before",
+    "text": "'Peddler Bram's grain cart snapped an axle out on the Greywood road. Check with Garrick and keep the scavengers off him before we lose the flour.'",
+    "choices": [
+      {
+        "label": "Accept the task.",
+        "next": "end",
+        "sets_flag": "flag_dunstan_quest_accepted"
+      },
+      {
+        "label": "Ask about something else first.",
+        "next": "dlg-dunstan-greeting-neutral"
+      }
+    ]
+  },
+  {
+    "id": "dlg-dunstan-quest-during",
+    "npc": "npc-dunstan-innkeeper",
+    "node": "quest_during",
+    "quest_id": "sq28-broken-axle-on-alder-road",
+    "quest_state": "during",
+    "text": "'Bram is still stranded past the second milestone—if night falls first, the hounds will pick that wagon clean.'",
+    "choices": [
+      {
+        "label": "Return to the field.",
+        "next": "end"
+      }
+    ]
+  },
+  {
+    "id": "dlg-dunstan-quest-after",
+    "npc": "npc-dunstan-innkeeper",
+    "node": "quest_after",
+    "quest_id": "sq28-broken-axle-on-alder-road",
+    "quest_state": "after",
+    "text": "'Bram rolled his flour sacks straight through the gate! Maybe I can stop watering down the barley ale for a night or two.'",
+    "choices": [
+      {
+        "label": "Ask about another matter.",
+        "next": "dlg-dunstan-greeting-high"
+      },
+      {
+        "label": "Farewell.",
+        "next": "end"
+      }
+    ]
+  },
+  {
+    "id": "dlg-vaelen-greeting-low",
+    "npc": "npc-vaelen-arcanist",
+    "node": "greeting_low",
+    "requires_reputation": "low",
+    "text": "High Arcanist Vaelen barely glances up from his brass astrolabe. 'Ignorance and haste crack more wards than enemy hammers. Do not touch the crystal trays.'",
+    "choices": [
+      {
+        "label": "Ask why the old kilns glow green.",
+        "next": "dlg-vaelen-topic_kilns_lore"
+      },
+      {
+        "label": "Ask about the wards around Thornwick.",
+        "next": "dlg-vaelen-topic_wards"
+      },
+      {
+        "label": "Ask about current frontier work.",
+        "next": "dlg-vaelen-quest-before"
+      },
+      {
+        "label": "Leave.",
+        "next": "end"
+      }
+    ]
+  },
+  {
+    "id": "dlg-vaelen-greeting-neutral",
+    "npc": "npc-vaelen-arcanist",
+    "node": "greeting_neutral",
+    "requires_reputation": "neutral",
+    "text": "High Arcanist Vaelen lowers his spectacles and studies your aura. 'The Border's leylines are fraying like wet twine. Are you here to study, or to bring proof from the field?'",
+    "choices": [
+      {
+        "label": "Ask why the old kilns glow green.",
+        "next": "dlg-vaelen-topic_kilns_lore"
+      },
+      {
+        "label": "Ask about the wards around Thornwick.",
+        "next": "dlg-vaelen-topic_wards"
+      },
+      {
+        "label": "Ask about southern arcane emissaries.",
+        "next": "dlg-vaelen-topic_south"
+      },
+      {
+        "label": "Ask about current frontier work.",
+        "next": "dlg-vaelen-quest-before"
+      },
+      {
+        "label": "Give a progress report on your assignment.",
+        "next": "dlg-vaelen-quest-during",
+        "requires_quest": "sq56-green-slag-cullets",
+        "quest_state": "active"
+      },
+      {
+        "label": "Discuss the outcome of your completed work.",
+        "next": "dlg-vaelen-quest-after",
+        "requires_quest": "sq56-green-slag-cullets",
+        "quest_state": "completed"
+      },
+      {
+        "label": "Step away.",
+        "next": "end"
+      }
+    ]
+  },
+  {
+    "id": "dlg-vaelen-greeting-high",
+    "npc": "npc-vaelen-arcanist",
+    "node": "greeting_high",
+    "requires_reputation": "high",
+    "text": "High Arcanist Vaelen closes his folio with quiet respect. 'Rare to meet a commander who brings back empirical evidence instead of tall tales. My lectern is yours.'",
+    "choices": [
+      {
+        "label": "Ask why the old kilns glow green.",
+        "next": "dlg-vaelen-topic_kilns_lore"
+      },
+      {
+        "label": "Ask about the wards around Thornwick.",
+        "next": "dlg-vaelen-topic_wards"
+      },
+      {
+        "label": "Ask about southern arcane emissaries.",
+        "next": "dlg-vaelen-topic_south"
+      },
+      {
+        "label": "Give a progress report on your assignment.",
+        "next": "dlg-vaelen-quest-during",
+        "requires_quest": "sq56-green-slag-cullets",
+        "quest_state": "active"
+      },
+      {
+        "label": "Discuss the outcome of your completed work.",
+        "next": "dlg-vaelen-quest-after",
+        "requires_quest": "sq56-green-slag-cullets",
+        "quest_state": "completed"
+      },
+      {
+        "label": "Farewell.",
+        "next": "end"
+      }
+    ]
+  },
+  {
+    "id": "dlg-vaelen-topic_kilns_lore",
+    "npc": "npc-vaelen-arcanist",
+    "node": "topic_kilns_lore",
+    "text": "'Bell-bronze melted beside bone-ash under forced bellows vitrifies into conductive silica. Someone knew exactly what resonance those kilns would throw.'",
+    "choices": [
+      {
+        "label": "Ask about another matter.",
+        "next": "dlg-vaelen-greeting-neutral"
+      },
+      {
+        "label": "Take your leave.",
+        "next": "end"
+      }
+    ]
+  },
+  {
+    "id": "dlg-vaelen-topic_wards",
+    "npc": "npc-vaelen-arcanist",
+    "node": "topic_wards",
+    "text": "'Faint copper-salt circles, good enough to turn stray wisps, useless against organized siege magic. We need real reagents, not folk charms.'",
+    "choices": [
+      {
+        "label": "Ask about another matter.",
+        "next": "dlg-vaelen-greeting-neutral"
+      },
+      {
+        "label": "Take your leave.",
+        "next": "end"
+      }
+    ]
+  },
+  {
+    "id": "dlg-vaelen-topic_south",
+    "npc": "npc-vaelen-arcanist",
+    "node": "topic_south",
+    "text": "'Academic robes from the Caldera used to carry letters of transit. Lately they travel with ash-cultists and pay in unmarked copper.'",
+    "choices": [
+      {
+        "label": "Ask about another matter.",
+        "next": "dlg-vaelen-greeting-neutral"
+      },
+      {
+        "label": "Take your leave.",
+        "next": "end"
+      }
+    ]
+  },
+  {
+    "id": "dlg-vaelen-quest-before",
+    "npc": "npc-vaelen-arcanist",
+    "node": "quest_before",
+    "quest_id": "sq56-green-slag-cullets",
+    "quest_state": "before",
+    "text": "'If you pass the vitrified kilns, bring back six green silica slag chunks—and watch for Flintbacks drawn to the static hum.'",
+    "choices": [
+      {
+        "label": "Accept the task.",
+        "next": "end",
+        "sets_flag": "flag_vaelen_quest_accepted"
+      },
+      {
+        "label": "Ask about something else first.",
+        "next": "dlg-vaelen-greeting-neutral"
+      }
+    ]
+  },
+  {
+    "id": "dlg-vaelen-quest-during",
+    "npc": "npc-vaelen-arcanist",
+    "node": "quest_during",
+    "quest_id": "sq56-green-slag-cullets",
+    "quest_state": "during",
+    "text": "'Do not store the green slag beside iron potions; the residual charge spoils alchemical glass.'",
+    "choices": [
+      {
+        "label": "Return to the field.",
+        "next": "end"
+      }
+    ]
+  },
+  {
+    "id": "dlg-vaelen-quest-after",
+    "npc": "npc-vaelen-arcanist",
+    "node": "quest_after",
+    "quest_id": "sq56-green-slag-cullets",
+    "quest_state": "after",
+    "text": "'Look at the fracture lines inside these cullets. This was no accidental kiln fire—someone was tuning a conduit.'",
+    "choices": [
+      {
+        "label": "Ask about another matter.",
+        "next": "dlg-vaelen-greeting-high"
+      },
+      {
+        "label": "Farewell.",
+        "next": "end"
+      }
+    ]
+  }
 ]
