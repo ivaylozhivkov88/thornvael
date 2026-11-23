@@ -1,7 +1,8 @@
-import { blip, playDialogueVoice, setDialogueDucking, stopDialogueVoice } from '../audio';
+import { blip, playDialogueVoice, playEndingMusic, setDialogueDucking, setSpecialMusic, stopDialogueVoice } from '../audio';
 import { resolveDialogueVoiceClip } from '../audio-catalog';
 import { type CampaignNode } from '../campaign';
 import { type CampaignRecord } from '../flow';
+import { readPreferences } from '../preferences';
 import {
   advanceStory,
   openStory,
@@ -441,6 +442,24 @@ export function buildStoryBanner(seqId: StorySequence['id'], backdrop: string): 
       c2: '#24110d',
       img: 'art/slides/slide_ending_b_sovereign.jpg',
     },
+    cs_act2_end: {
+      key: 'dry-cisterns',
+      c1: '#4d3a2c',
+      c2: '#1f1610',
+      img: 'art/slides/slide_act2_dry_cistern.jpg',
+    },
+    cs_act4_end_order: {
+      key: 'cleansing-thornvael',
+      c1: '#2e4152',
+      c2: '#142029',
+      img: 'art/slides/slide_ending_a_purging.jpg',
+    },
+    cs_act4_end_ember: {
+      key: 'dark-sovereign',
+      c1: '#522c24',
+      c2: '#24110d',
+      img: 'art/slides/slide_ending_b_sovereign.jpg',
+    },
   };
   const t = themeMap[seqId];
   const isHex = backdrop.startsWith('#');
@@ -473,6 +492,24 @@ export function openStorySlideshowModal(
   let player = openStory(id);
   const content = el('div', 'sh-slideshow-content');
   let isTransitioning = false;
+  let customMusicStarted = false;
+
+  try {
+    if (readPreferences().music && player.sequence.music) {
+      if (player.sequence.music === 'music_ending_crown') {
+        playEndingMusic('crown');
+        customMusicStarted = true;
+      } else if (player.sequence.music === 'music_ending_ember') {
+        playEndingMusic('ember');
+        customMusicStarted = true;
+      } else {
+        setSpecialMusic(player.sequence.music, true);
+        customMusicStarted = true;
+      }
+    }
+  } catch {
+    // Safe in headless or audio-disabled runs
+  }
 
   const animateTransition = (fn: () => void): void => {
     isTransitioning = true;
@@ -497,6 +534,9 @@ export function openStorySlideshowModal(
       try {
         stopDialogueVoice();
         setDialogueDucking(false);
+        if (customMusicStarted) {
+          setSpecialMusic(null);
+        }
       } catch {
         // Safe in headless or audio-disabled runs
       }

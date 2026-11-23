@@ -16,7 +16,7 @@ import { downloadChapter, loadManifest, removeChapter, verifyChapter, type Chapt
 import { encodeSave } from './save';
 import { applyUpdate, onUpdateWaiting, updateWaiting } from './updategate';
 import { AUTO, deleteRecord, deleteSave, exportAllSaves, getSave, importSaveText, listSaves } from './savedb';
-import { actTransitionForCompletedNode, sequenceById, sequenceForNode, STORY_SEQUENCES, type StorySequence } from './story';
+import { actTransitionForCompletedNode, endingForCompletedNode, sequenceById, sequenceForNode, STORY_SEQUENCES, type StorySequence } from './story';
 import { S } from './strings';
 import { readPreferences, writePreference } from './preferences';
 import { CodexUi } from './codexui';
@@ -644,7 +644,12 @@ Items, skills and levels carry over.`));
   }
 
   function showStory(id: StorySequence['id'], onFinish?: () => void): void {
-    openStorySlideshowModal(modals, root, id, onFinish);
+    openStorySlideshowModal(modals, root, id, () => {
+      if (!onFinish) {
+        syncShellMusic(shellMusicKind);
+      }
+      onFinish?.();
+    });
   }
 
   // ---- briefing modal ----
@@ -705,12 +710,19 @@ Items, skills and levels carry over.`));
           currentAct = activeAct(rec);
         }
         map();
-        const ending = last.win ? sequenceForNode(n.id) : null;
-        if (ending && ending.kind === 'ending') {
-          showStory(ending.id);
-        } else if (last.win) {
-          const transition = actTransitionForCompletedNode(n.id);
-          if (transition) showStory(transition.id);
+        if (last.win) {
+          const completionEnding = endingForCompletedNode(n.id);
+          if (completionEnding) {
+            showStory(completionEnding.id);
+          } else {
+            const ending = sequenceForNode(n.id);
+            if (ending && ending.kind === 'ending') {
+              showStory(ending.id);
+            } else {
+              const transition = actTransitionForCompletedNode(n.id);
+              if (transition) showStory(transition.id);
+            }
+          }
         }
       },
     });
@@ -867,8 +879,13 @@ Items, skills and levels carry over.`));
     col.append(el('h2', '', S.credits), el('p', 'note', S.creditsBody), ...getCreditLines().map((c) => el('p', 'note', c.text)), el('h3', '', 'Story Replay'));
     const row = el('div', 'sh-row sh-credits-replay');
     row.style.cssText = 'flex-wrap: wrap; justify-content: center; max-width: 580px; gap: 8px;';
-    for (const seq of STORY_SEQUENCES) {
-      row.append(btn(sequenceById(seq.id).title, () => showStory(seq.id), 'sh-small'));
+    const replayable: StorySequence[] = [
+      ...STORY_SEQUENCES.slice(0, 2),
+      sequenceById('cs_act2_end'),
+      ...STORY_SEQUENCES.slice(2),
+    ];
+    for (const seq of replayable) {
+      row.append(btn(seq.title, () => showStory(seq.id), 'sh-small'));
     }
     col.append(row, back());
     screen(col);

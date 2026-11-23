@@ -153,9 +153,8 @@ export const STORY_SLIDES: StorySlide[] = [
     title: 'ACT II COMPLETE',
     subtitle: 'The Empty Mountain',
     caption:
-      'Beneath Ironheart Bastion lies no glacier—only a silent canyon of cracked red silt, dry for half a century. Through the mountain gap, fifty leagues to the southwest, a blinding strip of slate-gray water gleams: the Great Western Sea.',
-    reflection:
-      'The well is dry. Gorrathul guarded a lie to keep the world from tearing itself apart. Our road now leads to the sea.',
+      'The great iron sluice-gates groan open onto a subterranean cathedral engineered for three million barrels of glacial water. Instead, dry wind whistles across a silent canyon of cracked red silt—the glaciers died fifty years ago.',
+    reflection: 'The well is dry. The road leads to the sea.',
     voiceId: 'cs_act2_end_06_narrator',
   },
 
@@ -209,9 +208,9 @@ export const STORY_SLIDES: StorySlide[] = [
     title: 'ENDING: THE PURGING OF THORNVAEL',
     subtitle: 'Path of Order — The Reclaimed Dawn',
     caption:
-      'Arch-Warden Korrath crumbles into inert dust, and the necrotic tether snaps in a cascade of solar light. Molten fissures freeze into harmless basalt as cool mountain winds sweep the valleys; far to the west, the fleet sights a blue horizon and turns its prows homeward.',
+      'With a chime of sundered granite, the necrotic tether snaps. Molten fissures cool into harmless black basalt as clean mountain winds sweep the Caldera, and far to the west, the returning sails of the fleet turn homeward.',
     reflection:
-      'Our hands are stained with ash, and the cost was unbearable. Yet for the first time in an age, the sky above Thornwick is blue.',
+      'The nightmare is broken. Our hands are stained with ash, but the sky—for the first time in an age—is blue.',
     voiceId: 'cs_ending_order_01_narrator',
   },
   {
@@ -222,9 +221,9 @@ export const STORY_SLIDES: StorySlide[] = [
     title: 'ENDING: RISE OF THE DARK SOVEREIGN',
     subtitle: 'Path of Ember — The Iron Dominion',
     caption:
-      'Ember Overlord Vorak sinks into molten slag, yet the primeval flame hungers still. Reaching into the screaming altar, you claim the Crown of Thorns and Cinder—bending every leyline from the Border Fords to the obsidian peaks to an unbreakable sovereign will.',
+      'Vorak sinks into the magma, yet the Crown of Thorns and Cinder waits upon the obsidian altar. Lifting it, the hero bends every leyline of the continent to a single, unbreakable sovereign will.',
     reflection:
-      'Let them call it tyranny. In the peace of iron and the rule of ash, no liar, no tithe, and no fire will ever break these borders again.',
+      'Let them call it tyranny. Beneath the rule of steel and cinder, no storm, no traitor, and no god will ever break these borders again.',
     voiceId: 'cs_ending_ember_01_narrator',
   },
 ];

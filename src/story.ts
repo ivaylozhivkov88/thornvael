@@ -9,14 +9,26 @@ export interface StorySlide {
   readonly reflection?: string;
 }
 
+export type StorySequenceId =
+  | 'act-1'
+  | 'act-2'
+  | 'act-3'
+  | 'act-4'
+  | 'ending-a'
+  | 'ending-b'
+  | 'cs_act2_end'
+  | 'cs_act4_end_order'
+  | 'cs_act4_end_ember';
+
 export interface StorySequence {
-  readonly id: 'act-1' | 'act-2' | 'act-3' | 'act-4' | 'ending-a' | 'ending-b';
+  readonly id: StorySequenceId;
   readonly act: 1 | 2 | 3 | 4;
   readonly kind: 'intro' | 'ending';
   readonly title: string;
   readonly subtitle?: string;
   readonly triggerNode?: string;
   readonly completedNodeTrigger?: string;
+  readonly music?: string;
   readonly slides: readonly StorySlide[];
 }
 
@@ -135,14 +147,16 @@ export const STORY_SEQUENCES: readonly StorySequence[] = [
     title: 'Victory — The Purging of Thornvael',
     subtitle: 'Path of Order: Breaking the Petrified Law',
     triggerNode: 'm45-crown-of-order',
+    completedNodeTrigger: 'm45-crown-of-order',
+    music: 'music_ending_crown',
     slides: [
       {
         id: 'ea-1',
         heading: 'Shattering of the Necrotic Core',
-        caption: 'With a resonant chime of sundered granite, Arch-Warden Korrath dissolves into harmless gray dust inside the Crown Vault. The twin resonance anchors detonate in a silent cascade of blinding solar fire, snapping the necrotic tether that choked the Obsidian Caldera. Rivers of molten slag freeze instantly into still black basalt as cold, clean mountain air rushes through the peaks, purging centuries of volcanic rot.',
+        caption: 'With a chime of sundered granite, the necrotic tether snaps. Molten fissures cool into harmless black basalt as clean mountain winds sweep the Caldera, and far to the west, the returning sails of the fleet turn homeward.',
         backdrop: '/art/slides/slide_ending_a_purging.jpg',
         cue: 'triumph',
-        reflection: '“The nightmare is broken. Our hands are stained with ash, and we paid for this morning with friends who will never see it—but the sky, for the first time in an age, is blue.”',
+        reflection: 'The nightmare is broken. Our hands are stained with ash, but the sky—for the first time in an age—is blue.',
       },
       {
         id: 'ea-2',
@@ -161,14 +175,16 @@ export const STORY_SEQUENCES: readonly StorySequence[] = [
     title: 'Alternative Ending — Rise of the Dark Sovereign',
     subtitle: 'Path of Ember: The Crown of Thorns and Cinder',
     triggerNode: 'm46-ember-reckoning',
+    completedNodeTrigger: 'm46-ember-reckoning',
+    music: 'music_ending_ember',
     slides: [
       {
         id: 'eb-1',
         heading: 'Claiming the Crown of Thorns and Cinder',
-        caption: 'Ember Overlord Vorak sinks beneath the boiling magma of the Furnace Heart, yet the primeval flame does not die—it waits. Remembering Morvessa’s ruthless ledgers, Gorrathul’s dry cisterns, and the burning piers of Harborwatch, you step into the roaring heat of the obsidian altar and lift the Crown of Thorns and Cinder. Burning iron fuses to brow and bone as fathomless eldritch fire bends every leyline of Thornvael to one unbreakable sovereign will.',
+        caption: 'Vorak sinks into the magma, yet the Crown of Thorns and Cinder waits upon the obsidian altar. Lifting it, the hero bends every leyline of the continent to a single, unbreakable sovereign will.',
         backdrop: '/art/slides/slide_ending_b_sovereign.jpg',
         cue: 'triumph',
-        reflection: '“We watched tax collectors starve the North, watched a titan guard an empty well, and watched cities burn on the pier. Never again.”',
+        reflection: 'Let them call it tyranny. Beneath the rule of steel and cinder, no storm, no traitor, and no god will ever break these borders again.',
       },
       {
         id: 'eb-2',
@@ -182,6 +198,86 @@ export const STORY_SEQUENCES: readonly StorySequence[] = [
   },
 ];
 
+export const ENDING_SEQUENCES: readonly StorySequence[] = [
+  {
+    id: 'cs_act2_end',
+    act: 2,
+    kind: 'ending',
+    title: 'Act II Ending — The Frozen Lie',
+    subtitle: 'Ironheart Bastion & The Dry Cisterns',
+    completedNodeTrigger: 'm23-fork-of-spears',
+    music: 'music_cutscene_omen',
+    slides: [
+      {
+        id: 'cs_act2_end-1',
+        heading: 'The Dry Cisterns',
+        caption: 'The great iron sluice-gates groan open onto a subterranean cathedral engineered for three million barrels of glacial water. Instead, dry wind whistles across a silent canyon of cracked red silt—the glaciers died fifty years ago.',
+        backdrop: '/art/slides/slide_act2_dry_cistern.jpg',
+        cue: 'calm',
+        reflection: 'The well is dry. The road leads to the sea.',
+      },
+    ],
+  },
+  {
+    id: 'cs_act4_end_order',
+    act: 4,
+    kind: 'ending',
+    title: 'Act IV Ending A — Crown of Order',
+    subtitle: 'Path of Order: The Purging of Thornvael',
+    triggerNode: 'm45-crown-of-order',
+    completedNodeTrigger: 'm45-crown-of-order',
+    music: 'music_ending_crown',
+    slides: [
+      {
+        id: 'cs_act4_end_order-1',
+        heading: 'Shattering of the Necrotic Core',
+        caption: 'With a chime of sundered granite, the necrotic tether snaps. Molten fissures cool into harmless black basalt as clean mountain winds sweep the Caldera, and far to the west, the returning sails of the fleet turn homeward.',
+        backdrop: '/art/slides/slide_ending_a_purging.jpg',
+        cue: 'triumph',
+        reflection: 'The nightmare is broken. Our hands are stained with ash, but the sky—for the first time in an age—is blue.',
+      },
+      {
+        id: 'cs_act4_end_order-2',
+        heading: 'Dawn upon the Reclaimed Realm',
+        caption: 'Golden morning light spills across the emerald hills of Thornwick and the healing shallows of the Border Fords. Far to the west, the returning sails of the evacuation armada catch a clean breeze, turning homeward toward a shore that no longer burns.',
+        backdrop: '/art/slides/slide_ending_a_purging.jpg',
+        cue: 'calm',
+        reflection: 'The empire was stone and silence; the dawn is scarred, imperfect, and free. Let a living world learn how to keep it.',
+      },
+    ],
+  },
+  {
+    id: 'cs_act4_end_ember',
+    act: 4,
+    kind: 'ending',
+    title: 'Act IV Ending B — Ember Reckoning',
+    subtitle: 'Path of Ember: Rise of the Dark Sovereign',
+    triggerNode: 'm46-ember-reckoning',
+    completedNodeTrigger: 'm46-ember-reckoning',
+    music: 'music_ending_ember',
+    slides: [
+      {
+        id: 'cs_act4_end_ember-1',
+        heading: 'Claiming the Crown of Thorns and Cinder',
+        caption: 'Vorak sinks into the magma, yet the Crown of Thorns and Cinder waits upon the obsidian altar. Lifting it, the hero bends every leyline of the continent to a single, unbreakable sovereign will.',
+        backdrop: '/art/slides/slide_ending_b_sovereign.jpg',
+        cue: 'triumph',
+        reflection: 'Let them call it tyranny. Beneath the rule of steel and cinder, no storm, no traitor, and no god will ever break these borders again.',
+      },
+      {
+        id: 'cs_act4_end_ember-2',
+        heading: 'The Iron Throne of the New Age',
+        caption: 'Standards of crimson velvet and smoking steel rise over every stronghold from the Border Fords to the Obsidian Peaks. The Caldera obeys its new master, sealing its fissures into an impregnable fortress of black glass.',
+        backdrop: '/art/slides/slide_ending_b_sovereign.jpg',
+        cue: 'march',
+        reflection: 'Let them call it tyranny. Beneath the rule of steel and cinder, no storm, no traitor, and no god will ever break these borders again.',
+      },
+    ],
+  },
+];
+
+export const ALL_STORY_SEQUENCES: readonly StorySequence[] = [...STORY_SEQUENCES, ...ENDING_SEQUENCES];
+
 export interface StoryPlayer {
   readonly sequence: StorySequence;
   index: number;
@@ -190,7 +286,7 @@ export interface StoryPlayer {
 }
 
 export function sequenceById(id: StorySequence['id']): StorySequence {
-  const found = STORY_SEQUENCES.find((s) => s.id === id);
+  const found = ALL_STORY_SEQUENCES.find((s) => s.id === id);
   if (!found) throw new Error(`Unknown story sequence: ${id}`);
   return found;
 }
@@ -201,6 +297,20 @@ export function sequenceForNode(nodeId: string): StorySequence | null {
 
 export function actTransitionForCompletedNode(nodeId: string): StorySequence | null {
   return STORY_SEQUENCES.find((s) => s.completedNodeTrigger === nodeId) ?? null;
+}
+
+export function endingForCompletedNode(nodeId: string): StorySequence | null {
+  const normalized = nodeId.toLowerCase();
+  if (normalized === 'm23' || normalized === 'm23-fork-of-spears') {
+    return sequenceById('cs_act2_end');
+  }
+  if (normalized === 'm45' || normalized === 'm45-crown-of-order') {
+    return sequenceById('cs_act4_end_order');
+  }
+  if (normalized === 'm46' || normalized === 'm46-ember-reckoning') {
+    return sequenceById('cs_act4_end_ember');
+  }
+  return ENDING_SEQUENCES.find((s) => s.completedNodeTrigger === nodeId) ?? null;
 }
 
 export function getActTransition(fromAct: 1 | 2 | 3, toAct: 2 | 3 | 4): StorySequence | undefined {

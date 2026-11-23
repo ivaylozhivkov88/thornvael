@@ -78,6 +78,7 @@ import {
 } from './gamepad';
 import { VirtualStick } from './virtualstick';
 import { keybindManager } from './keybinds';
+import { endingForCompletedNode } from './story';
 import './style.css';
 import './ui/squad-bar.css';
 
@@ -3299,9 +3300,15 @@ function showVictoryScreen(winText?: string): void {
   actionsBar.className = 'victory-actions-bar';
 
   const currentNode = campaign && campaignId ? nodeOf(campaign, campaignId) : null;
+  const hasEndingCutscene = Boolean(campaignId && endingForCompletedNode(campaignId));
+  if (hasEndingCutscene && readPreferences().music) {
+    if (campaignId === 'm45-crown-of-order') playEndingMusic('crown');
+    else if (campaignId === 'm46-ember-reckoning') playEndingMusic('ember');
+  }
   const actTown = currentNode && currentNode.kind === 'mission' ? townNodeForAct(campaign!, actOf(currentNode)) : null;
   const canReturnToTown = Boolean(
-    campaign &&
+    !hasEndingCutscene &&
+      campaign &&
       crec &&
       currentNode &&
       actTown &&
@@ -3478,7 +3485,8 @@ async function endNode(win: boolean, text: string, dest: 'town' | 'map' = 'map')
   };
   crec = afterMission(campaign!, crec!, campaignId!, win, carry, lastResult);
   const currentNode = nodeOf(campaign!, campaignId!);
-  const townNode = win && dest === 'town' && currentNode.kind === 'mission'
+  const hasEndingCutscene = Boolean(win && endingForCompletedNode(campaignId!));
+  const townNode = win && dest === 'town' && !hasEndingCutscene && currentNode.kind === 'mission'
     ? townNodeForAct(campaign!, actOf(currentNode))
     : null;
   const canGoTown = Boolean(townNode && crec.progress.unlocked.includes(townNode.id));
