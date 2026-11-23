@@ -1,0 +1,562 @@
+{
+ "set-thornwick-picket": {
+  "summary": "Four-piece Warrior set found in Acts I and II, built for frontline border guards holding muddy river crossings.",
+  "flavor": "Issued to the Thornwick picket companies before the Salt Tithe stripped the armories bare. Each plate bears a stamped alder leaf and the rust of three wet winters. Veterans swear the gorget sits crooked until it takes its first gnoll axe."
+ },
+ "set-ironcamp-siegebreaker": {
+  "summary": "Endgame four-piece Warrior set from Act IV and Hard+ content, forged for breaking heavy caldera fortifications.",
+  "flavor": "Hammered in the smoky foundry sheds of Ironcamp for sappers who expected to die against basalt walls. The joints are packed with tallow and soot so volcanic grit cannot lock the elbows. Few full suits survive a single breach intact."
+ },
+ "set-greywood-poacher": {
+  "summary": "Four-piece Archer set dropping in Acts II and III, tailored for quiet stalking through dense timber and bog.",
+  "flavor": "Stitched from oil-rubbed deerhide and dyed with alder bark by hunters who refused to pay the Crown's game tax. Gamekeepers once hanged men for wearing these cuffs in Thornwick. Now the same bailiffs hire them to scout the fen."
+ },
+ "set-oakhaven-arbalest": {
+  "summary": "Act IV and Hard+ four-piece Archer set designed for heavy windlass marksmen defending coastal walls.",
+  "flavor": "Oakhaven's harbor masters outfitted their parapet crews in salt-cured leather reinforced with brass hooks for spanning heavy prods. The left sleeve is always worn smooth from resting against wet granite. Every piece smells faintly of tar."
+ },
+ "set-collegium-assayer": {
+  "summary": "Four-piece Mage set from Acts III and IV, worn by arcanists who measure heat, flux, and ley-line strain.",
+  "flavor": "Tailored for Collegium fellows dispatched to audit failing border wards and smelters. Copper thread runs through the hems to bleed off stray sparks before they catch the wool. Most owners pawned the silver clasps during the retreat."
+ },
+ "set-spire-conclave": {
+  "summary": "High-tier four-piece Mage set from Act IV and Hard+ Endgame, reserved for senior celestial arcanists.",
+  "flavor": "Once worn only in the drafty upper galleries of the Spire Conclave during winter deliberations. The indigo cloth resists soot and ash far better than ordinary linen. Finding a complete suit in the field usually means a magister never came back."
+ },
+ "set-parish-probate": {
+  "summary": "Early four-piece Necromancer set from Acts I and II, worn by clerks who audit both the living and the dead.",
+  "flavor": "Lower-parish probate officers wore these drab vestments while tallying unpaid debts at pauper graves. Ink stains the cuffs permanently, and the pockets are sized for wax seals and brass scales. Even the dead hesitate to argue with a stamped writ."
+ },
+ "set-abbey-arbiter": {
+  "summary": "Four-piece Necromancer set found in Acts III and IV, belonging to coastal oath-keepers who bind restless spirits.",
+  "flavor": "Woven in the damp scriptoriums of the coastal abbeys where monks kept watch over drowned sailors. Lead weights sewn into the hem keep the robes from whipping in sea gales. Each piece carries a quiet salt-blessing against grave-rot."
+ },
+ "set-redmarsh-caravan": {
+  "summary": "Acts III and IV four-piece Warrior set built for guards escorting salt wagons across hostile alkali flats.",
+  "flavor": "Redmarsh drovers learned early that bright steel blinds the wearer and cooks the flesh underneath. These plates are dulled with vinegar and backed with woven horsehair to keep out alkali dust. Surviving guards rarely sell their kit."
+ },
+ "set-first-watch-remnant": {
+  "summary": "Endgame four-piece Necromancer set from Act IV and Hard+, salvaged from the ancient sentinels of the Threshold.",
+  "flavor": "Recovered from cracked stone alcoves where the First Watch kept vigil long before the Southern Crown existed. The cloth feels dry as old parchment yet refuses to tear under a blade. Quartermasters refuse to log these pieces after sundown."
+ },
+ "set-alder-ferry-marksman": {
+  "summary": "Four-piece Archer set from Acts I and II, issued to bowmen stationed at the river toll-towers.",
+  "flavor": "Alder Ford toll-collectors learned that a polite clerk with a ledger gets robbed, while a clerk with a bow gets paid. These hooded jerkins shed freezing river drizzle for hours on watch. The quivers are waxed shut against morning fog."
+ },
+ "set-border-hedge-scholar": {
+  "summary": "Acts I and II four-piece Mage set stitched together by wandering arcanists who tend roadside wayshrines.",
+  "flavor": "Not every caster earned a Collegium stipend; most learned their craft copying smudged almanacs by tallow light. This kit pairs patched wool with copper-wire charms traded for mending roofs and curing cattle. It looks humble, which keeps bandits careless."
+ },
+ "set-drowned-dike-warden": {
+  "summary": "Four-piece Warrior set dropping in Acts II and III, made for sentinels patrolling flooded canals and seawalls.",
+  "flavor": "Dike wardens spend half their shift knee-deep in brackish water, so their armor is lacquered with pitch and fish oil. The joints creak like wet rope, and the boots drain through punched heel-holes. Nothing short of a tide-surge moves them."
+ },
+ "set-redmarsh-bog-sexton": {
+  "summary": "Acts II and III four-piece Necromancer set worn by parish gravediggers who seal corpses in quicklime.",
+  "flavor": "In the warm alkali bogs, bodies do not stay buried unless weighted and limed properly. Sextons wear heavy waxed aprons and bone-handled tools that double as ward-anchors. Travelers give them wide berth, mostly for the smell."
+ },
+ "set-fen-leech-apothecary": {
+  "summary": "Four-piece Mage set from Acts II and III, crafted for marsh healers who brew bitter roots and antitoxins.",
+  "flavor": "Fen-doctors carry more glass phials than coin, stitched into oiled pockets that survive a fall in the peat. Their masks are stuffed with dried rue and wormwood to dull the marsh stink. Half their remedies cure fever; the rest settle scores."
+ },
+ "set-iron-coast-marine": {
+  "summary": "Four-piece Warrior set from Acts III and IV, worn by shock troops who board hostile vessels along the Iron Coast.",
+  "flavor": "Built for narrow decks and slippery gangplanks where a fall in full plate means drowning. The pauldrons are notched to catch boarding hooks, and every buckle releases with one yank. Harborwatch veterans still swear by its balance."
+ },
+ "set-cliff-wreck-raider": {
+  "summary": "Endgame four-piece Archer set from Act IV and Hard+, favored by smugglers who work the rocky shingle reefs.",
+  "flavor": "Cliff-runners know every blind cove between Oakhaven and the reefs, moving cargo on moonless nights with muffled boots. Their gear is dark wool and oiled rawhide, with brass clips dulled in chimney soot. Customs men rarely catch them alive."
+ },
+ "set-abyssal-tide-binder": {
+  "summary": "Acts III and IV four-piece Necromancer set belonging to sea-ossuary callers who command drowned spirits.",
+  "flavor": "Where the cliffs drop straight into black water, coastal necromancers lower iron bells to summon what the currents kept. These salt-stiffened vestments are lined with bleached kelp and silver wire. The hems stay damp even in the desert."
+ },
+ "set-cinder-citadel-vanguard": {
+  "summary": "Act IV and Hard+ four-piece Warrior set worn by heavy executioners serving the Pyre-Marshal.",
+  "flavor": "Forged from slag-quenched steel that turns dull crimson when heated near volcanic vents. The vanguard troops who wore it marched into sulfur trenches without flinching. Most suits found today were pried off men who refused to yield an inch."
+ },
+ "set-ashen-conclave-pyromancer": {
+  "summary": "Endgame four-piece Mage set from Act IV and Hard+, tailored for archons who channel volcanic heat.",
+  "flavor": "Woven from asbestos thread and charred silk so the wearer's sleeves do not catch fire during long incantations. Senior hearth-archons wore these robes while calibrating the caldera furnaces. Ordinary tailors refuse to touch the scorching fabric."
+ },
+ "sim-iron-warden": {
+  "summary": "Four-piece Warrior set from Acts II and III elite packs, built as a heavy defensive bastion on the march.",
+  "flavor": "Commissioned by provincial marshals who needed officers to survive ambush volleys on open roads. The overlapping plates rattle like a wagon full of kettles, yet turn aside bodkin shafts with ease. Only broad-shouldered veterans last a day in it."
+ },
+ "sim-pyromancer": {
+  "summary": "Three-piece Mage set dropping from Acts II and III elites, focused on channeling raw flame without burning the caster.",
+  "flavor": "A compact traveling kit favored by field pyromancers who cannot haul a full trunk of vestments across the wastes. Soot darkens the collar after the first week of campaigning. Its brass clasps stay warm to the touch even in rain."
+ },
+ "sim-shadow-stalker": {
+  "summary": "Universal three-piece set for any class from Acts II and III elites, prized for quiet movement and swift strikes.",
+  "flavor": "Smugglers, scouts, and disgraced clerks all covet these slate-gray garments for the same reason: nobody hears you coming. The soles are stitched with layered felt that mutes footsteps on wet flagstones. Bailiffs confiscate it on sight."
+ },
+ "sim-alder-vanguard": {
+  "summary": "Four-piece all-class set from Acts I and II elites, representing the standard officer regalia of the Alder front.",
+  "flavor": "Before the river line broke, the Alder Vanguard marched in matched wool and polished iron paid for by northern tolls. Now the pieces turn up scattered in bandit camps and pawnshops. Wearing a full set still earns a quiet nod from old soldiers."
+ },
+ "sim-redmarsh-reaver": {
+  "summary": "Four-piece Warrior set from Acts III and IV elites, stripped from ruthless desert raiders and mercenary captains.",
+  "flavor": "Reaver captains hammer captured imperial armor into lighter, sharper shapes suited for fast canyon raids. The edges are filed deliberately rough to catch enemy blades and tear cloak hems. Quartermasters pay extra just to get it off the roads."
+ },
+ "sim-boreal-frostweaver": {
+  "summary": "Acts III and IV four-piece Mage set from elite packs, woven to hold bitter winter cold against volcanic heat.",
+  "flavor": "Brought south by northern arcanists who never trusted the dry winds of Redmarsh. Tiny beads of hoarfrost form along the cuffs whenever the wearer draws mana. In the caldera approaches, merchants would trade a horse for the cloak alone."
+ },
+ "sim-crown-forged": {
+  "summary": "Five-piece endgame Warrior set from Act IV and Hard+ elites, crafted in the royal foundries for unstoppable shock troops.",
+  "flavor": "Stamped with the Southern Crown's assay mark, these massive plates were meant to break rebel barricades in a single charge. Few smiths outside the capital knew how to temper the pauldrons without cracking them. Wearing all five pieces feels like carrying a gate."
+ },
+ "sim-astral-sovereign": {
+  "summary": "Five-piece endgame Mage set from Act IV and Hard+ elites, channeling high-order astral power for master casters.",
+  "flavor": "Designed for senior conclave envoys who mediated disputes between noble houses and the Synod. Star-silver thread traces ley-geometry across the shoulders and hem. Those who assemble all five pieces rarely answer to mortal magistrates anymore."
+ },
+ "anvilmaw-smith": {
+  "summary": "Heavy fire-element melee titan in Act IV sieges; slow to swing, but its hammer blows crush frontlines unless kited with frost.",
+  "flavor": "Born where caldera vents melted old foundry anvils into living slag, these lumbering giants still hammer anything that moves as if it were hot iron. Sappers listen for the rhythmic clang of their footsteps through the stone before opening a gate."
+ },
+ "archer": {
+  "summary": "Allied ranged marksman unit with modest health and steady speed, effective from behind shields but vulnerable to fast rushers.",
+  "flavor": "Recruited from timber camps and river parishes, frontier marksmen care little for drill formations as long as their bowstrings stay dry. They keep their arrows fletched with grey goose feathers and never waste a shaft on a target already down."
+ },
+ "ash-weaver": {
+  "summary": "Fire-element spellcaster found in Act IV sieges, hurling flame curses from range until interrupted or rushed in melee.",
+  "flavor": "Once acolytes of rural hearth-shrines, ash weavers inhaled too much caldera smoke and started hearing sermons in the embers. They drift behind heavier cohorts, muttering dry curses that blister skin through wool and leather alike."
+ },
+ "basalt-brute": {
+  "summary": "Slow, durable earth-element melee giant in Act IV assaults, weak to arcane and lightning spells that crack its stone hide.",
+  "flavor": "Carved from black quarry stone and animated by old siege-wards, basalt brutes do not feel pain or fatigue. They march straight into pike walls until either the timber snaps or a mage splits their mineral seams with lightning."
+ },
+ "briar-hound": {
+  "summary": "Fast melee pack rusher haunting Act I river fords and bridges, easily cleared by sweeping cleaves and fire.",
+  "flavor": "Lean, thorn-matted curs that breed in the tangled alder thickets along the northern border. A lone hound flees a raised boot, but a hungry pack will pull a mounted courier out of the saddle before his horn leaves his belt."
+ },
+ "cinder-shaman": {
+  "summary": "Hostile support creature that rallies nearby raiders; best sniped early with frost bolts before its chants bolster the pack.",
+  "flavor": "Carrying smoking braziers on crooked ash poles, cinder shamans whip undisciplined warbands into a reckless frenzy. Veterans always tell new archers to ignore the screaming warriors in front and put their first shaft through the man with the smoke-pot."
+ },
+ "cinderhorn": {
+  "summary": "Fast, tough fire-element spellcasting demon in Act IV endgame zones, countered by cold magic and armored choke-point holders.",
+  "flavor": "When the caldera fissures widened, these horned brutes crawled up from the slag channels breathing white-hot cinders. Even seasoned halberdiers dread the stink of scorched horn that drifts ahead of a charging cinderhorn."
+ },
+ "cinderling": {
+  "summary": "Fragile, quick fire-element harrier in Act I that pelts squads with flame bolts; countered by area frost and water wards.",
+  "flavor": "Small, spiteful sparks given legs by burnt-out kilns and careless hedge-magic. They nest in charcoal heaps and throw embers at passing wagons for sport. A bucket of ditch water ruins their day faster than a sword."
+ },
+ "claw-viper": {
+  "summary": "Swift earth-element desert lunger in Act II passes and convoys, weak to fire and ranged volleys before it closes.",
+  "flavor": "Coiled beneath sun-baked sandstone ledges, scale vipers strike fast enough to find the gap between boot and greave. Caravan drovers keep long iron hooks strapped to their wagons just to flip suspicious rocks before making camp."
+ },
+ "crowned-maw": {
+  "summary": "Durable, swift melee apex predator in Act IV highlands; requires stuns, slows, and focused ranged fire to bring down.",
+  "flavor": "Named for the jagged ridge of bone cresting its skull, the crowned maw hunts the ash-choked passes where lesser beasts starve. Scouts track them by the half-eaten iron harnesses left behind on the basalt trails."
+ },
+ "doom-knight": {
+  "summary": "Heavy armored melee vanguard in Act IV strongholds, vulnerable to armor-piercing spells and sustained lightning arcs.",
+  "flavor": "Soldiers who broke their oaths to the northern parishes and swore new ones in caldera soot. Sealed inside blackened plate that never comes off, dread knights advance in dead silence, answering war cries only with steel."
+ },
+ "dune-beast": {
+  "summary": "Agile melee prowler of Act II borders and oases, checked by earth-binding slows and disciplined spear formations.",
+  "flavor": "Broad-chested scavengers that lurk near brackish waterholes, waiting for thirsty mules to stray from the picket line. Their hides are scarred white from alkali brine, making them nearly invisible against salt-crusted mud."
+ },
+ "dune-lurker": {
+  "summary": "Quick melee ambush striker in Act II wastes; keep scouts ahead of the column and use area sweeps to flush them out.",
+  "flavor": "They bury themselves in loose red sand with only their nostrils clear, lying motionless for hours until a boot steps over them. Redmarsh guides carry long ash poles to prod the trail ahead, calling it the cheapest insurance in the desert."
+ },
+ "dune-scarab": {
+  "summary": "Air-element beetle in Act II quarries and passes that discharges static; engage from range to avoid close-quarters shocks.",
+  "flavor": "Fed on the stray charge leaking from fractured quartz wardstones, these fist-sized beetles crackle audibly when agitated. Quarry miners wear thick leather gloves and knock them off rock faces with wooden shovels rather than iron picks."
+ },
+ "fallen-shaman": {
+  "summary": "Fire-element caster in Act I ruins that hurls flame bolts and revives allies; shut down quickly with flanking or silence.",
+  "flavor": "Outcast tribal chanters who smear their tongues with cold fireplace ash before reciting burnt-out hymns. Leave one standing behind a pile of dead raiders and you will end up fighting the same bruised bastards twice."
+ },
+ "fetish-blowdart": {
+  "summary": "Very fast earth-element ranged skirmisher in bog and infirmary zones, easily swept away by wide melee arcs and fire.",
+  "flavor": "Small, reed-thin ambushers who crouch in rank marsh grass and puff thorn-darts dipped in frog bile. They scatter the instant a torch comes near, laughing like wet hinges from the next thicket over."
+ },
+ "flintback": {
+  "summary": "Slow, heavily armored melee frontliner in Act I woods and fords; use elemental magic to bypass its thick plating.",
+  "flavor": "Squat, bad-tempered beasts whose backs grow plates of grey chert hard enough to spark against a steel axe. Woodcutters in Greywood leave them alone unless they block the timber road, in which case they send for a mage."
+ },
+ "frost-bell": {
+  "summary": "Water-element astral caster in Act III citadels that chills squads, countered by fire spells and blunt shattering weapons.",
+  "flavor": "Cast from cracked abbey bronze and hung in flooded crypts, these hovering bells toll without a rope or ringer. Each chime drops the air temperature until breath turns to sleet and bowstrings snap from the cold."
+ },
+ "glasswing": {
+  "summary": "Fragile, rapid air-element ranged flyer in Act I passes, quickly downed by archers and fast lightning strikes.",
+  "flavor": "Translucent-winged predators that skim low over peat ditches, slicing exposed throats with razor-edged pinions. They hunt by silhouette against the fog, so veteran scouts never walk the crest of a ridge at dusk."
+ },
+ "gloom-stag": {
+  "summary": "Swift astral-element forest flanker in Act I woodlands, best stopped by fire and braced polearm lines.",
+  "flavor": "Once ordinary red deer of Greywood, warped by leaking shrine-wards into gaunt, pale-eyed phantoms. Hunters claim their antlers cast shadows even under overcast skies, and that their charge hits with the weight of a falling oak."
+ },
+ "gnoll": {
+  "summary": "Standard melee raider of the northern border, dangerous in packs unless met by disciplined lines that target pack leaders.",
+  "flavor": "Mangy, iron-toothed marauders who cross the Alder whenever the river drops or a southern paymaster waves fresh copper. They fight dirty, loot boots before coin, and scatter the moment their chieftain hits the mud."
+ },
+ "golem": {
+  "summary": "Durable allied melee construct with slow movement and heavy blows, vulnerable to sustained lightning and armor-piercing strikes.",
+  "flavor": "Assembled from quarried granite and bound with copper ward-wire by frontier artificers. A wardstone golem never complains about cold rations or wet billets, though it sinks straight to the waist if you march it into soft peat."
+ },
+ "greater-mummy": {
+  "summary": "Durable earth-element caster in Act II quarries and vaults that revives fallen allies; burn its pitch-soaked wrappings with fire.",
+  "flavor": "Third-Dynasty embalmers sealed themselves inside the dry salt-vaults to guard unpaid probate ledgers. They shuffle slowly through the dust, stitching fallen raiders back upright with copper wire. A single fire pot ends both their sermon and their paperwork."
+ },
+ "hollow-king": {
+  "summary": "Heavy water-element undead melee lord haunting Act III locks and gambits; kite its slow swings and melt it down with fire magic.",
+  "flavor": "Petty coastal barons who drowned with their tax-coffers chained to their waists sometimes refuse to stay under the tide. They march onto the stone quays dripping black brine, swinging corroded broadswords at anyone who dares cross their old toll-lines."
+ },
+ "hollow-knight": {
+  "summary": "Disciplined undead melee soldier found across Act III strongholds and infirmaries; shatter its rusted plate with blunt weapons or fire.",
+  "flavor": "Once garrison regulars bound by ironclad indentures, these silent husks still answer a trumpet call long after their flesh has rotted away. They hold narrow corridors with infuriating steadiness, never breaking morale and never asking for back pay."
+ },
+ "imp": {
+  "summary": "Fragile, quick allied spellcaster unit with fire-like skirmish utility, easily downed by frost bolts and fast ranged volleys.",
+  "flavor": "Conjured by desperate frontier arcanists who needed cheap ranged support without paying tavern wages. Spite imps bicker constantly, steal brass buttons from the baggage train, and hurl sparks at anything taller than a boot until someone swats them."
+ },
+ "ironbark": {
+  "summary": "Slow, high-health earth-element treant guarding Act III wards and rescues; cut it down with fire magic and sustained slashing blows.",
+  "flavor": "Ancient oaks rooted over leaking ley-lines grow bark harder than cast pig-iron. Woodcutters who sink an axe into an ironbark usually lose the blade and a week's wages. They wake only when smoke or trespassers disturb their grove."
+ },
+ "lantern-eel": {
+  "summary": "Fast air-element bog caster in Act III citadels and canals; counter its arc strikes with earth attacks and insulated ranged fire.",
+  "flavor": "Long, pale predators that coil around submerged lock-chains and discharge pale blue sparks through the brackish water. Canal keepers wear rubberized leather boots and poke every sluice grate with a dry ash pole before reaching in."
+ },
+ "mage": {
+  "summary": "Allied spellcasting unit with low health and steady speed, delivering ranged arcane damage unless ambushed by fast melee rushers.",
+  "flavor": "Dispatched from the Conclave halls with a travel stipend that barely covers dry socks and lamp oil. They grumble about mud on their hems, yet a single well-placed volley from an arcanist saves a dozen levy pikemen from a bad afternoon."
+ },
+ "maggot-swarm": {
+  "summary": "Earth-element burrowing melee swarm encountered in Act II convoys and hollows; clear the writhing mass with area fire and cleaves.",
+  "flavor": "Bred in the warm alkali mud beneath overturned supply wagons, these pale larvae boil out of the ground whenever boots vibrate the crust. Teamsters carry buckets of quicklime on the tailboard specifically to salt the ruts behind their wheels."
+ },
+ "mire-wisp": {
+  "summary": "Fragile, swift water-element caster lurking in Act I fens and sanctums; bring them down quickly with physical arrows and steel.",
+  "flavor": "Pale lanterns of marsh gas that drift just off the rotting boardwalks, mimicking the whale-oil lamps of the Fenwick passage. Travelers who follow their glow end up chest-deep in black peat while the wisp pelts them with freezing sleet."
+ },
+ "night-orchard": {
+  "summary": "Tough astral-element ward weaver prowling Act III bastions and harbors; counter its dark spells with fire and heavy axes.",
+  "flavor": "Gnarled cider trees watered for decades by grave-runoff and spilled ward-ink eventually pull their roots free of the loam. They stalk the coastal terraces at dusk, tangling unwary scouts in thorny branches that hum with cold astral static."
+ },
+ "pale-burrower": {
+  "summary": "Earth-element melee tunneler infesting Act II quarries and passes; slow its lunges with frost and finish it off with fire.",
+  "flavor": "Blind, chalk-skinned diggers that chew straight through loose sandstone and timber pit-props. Quarry overseers listen for the dry scraping behind the rock face, knowing a tunnel collapse usually follows a burrower's ambush by three heartbeats."
+ },
+ "quill-fiend": {
+  "summary": "Ranged sniper beast found across Act I bridges and keeps; absorb its rapid volleys with shielded frontliners and close into melee.",
+  "flavor": "Bristling, hound-sized nuisances that rattle their spines like dry reeds before loosing a hail of barbed quills. Border levy troops hate them more than gnolls, because a quill-fiend never stands still long enough to take a proper halberd swing."
+ },
+ "redglass-drake": {
+  "summary": "Swift, durable fire-element highland caster in Act IV marches and ramparts; ground it with frost magic and focused ranged volleys.",
+  "flavor": "Winged lizards whose scales fused with molten caldera glass during the first tremors. They roost on basalt chimneys above the highland trails, swooping down to scorch supply mules and melt iron helmets onto the heads of careless sentries."
+ },
+ "rift-moth": {
+  "summary": "Fast astral-element flyer haunting Act IV beacons and thresholds; swat it out of the ash with physical projectiles and fire.",
+  "flavor": "Drawn to leaking mana-beacons like ordinary moths to a tallow candle, these dusty-winged pests drink arcane charge straight out of a caster's veins. Arcanists keep iron-mesh veils in their packs whenever they march near broken ward-grids."
+ },
+ "rootbound": {
+  "summary": "Slow, high-health earth-element sentinel in Act I fens and bridges; break through its tangled bulk with fire and lightning.",
+  "flavor": "Dead borderers left unburied in the peat sometimes get claimed by bog-willow roots that knit their bones into a walking thicket. They plod across the bridges with terrible patience, swinging knotted limbs thick enough to stove in a buckler."
+ },
+ "ruin-mite": {
+  "summary": "Fragile swarming melee burrower infesting Act I keeps and undervaults; sweep the pack clear with area damage and fire.",
+  "flavor": "Chitinous scavengers the size of a soldier's boot that nest in damp mortar and chewed grain sacks. One mite is a nuisance you crush with a heel; a hundred pouring out of a collapsed cellar wall will strip a pack-horse to bare ribs."
+ },
+ "salt-crab": {
+  "summary": "Durable water-element melee blocker patrolling Act II borders and coastal flats; crack its wet shell with blunt weapons and lightning.",
+  "flavor": "Armored scavengers that haul themselves out of the alkali flats whenever a caravan spills brine or blood. Their pincers can shear through a leather stirrup, though cooks in Redmarsh swear the leg meat tastes decent if boiled in vinegar."
+ },
+ "sand-raider": {
+  "summary": "Rapid dual-scimitar melee fighter in Act II passes and outposts; blunt their speed with frost slows and braced armored troops.",
+  "flavor": "Desert outlaws who wrap their faces in salt-stiffened linen and strike from canyon blinds before the dust settles. They travel light, carry no banners, and sell their blades to whichever paymaster still has silver left in his chest."
+ },
+ "silt-colossus": {
+  "summary": "Massive, slow earth-element citadel guardian in Act IV assaults; kite its heavy swings and shatter its frame with lightning magic.",
+  "flavor": "Constructed from compressed river-silt and iron slag by imperial siege-wrights who needed a battering ram that could walk up a hill. Its footsteps crack cobblestones, yet its sluggish turning radius leaves its back wide open to nimble casters."
+ },
+ "spore-matron": {
+  "summary": "Earth-element poison hexer lurking in Act III wards and infirmaries; burn her out with fire and ranged bursts from upwind.",
+  "flavor": "Bloated fungal husks that drift out of damp cellars, puffing clouds of yellow spores that turn a soldier's lungs to wet rags. Field healers burn sulfur braziers around the tents specifically to keep matrons from wandering into the wards."
+ },
+ "storm-kite": {
+  "summary": "Very fast air-element ranged caster in Act II outposts and garrisons; shoot it down with archers and earth-grounded wards.",
+  "flavor": "Skin-winged scavengers that ride the thermal updrafts above Redmarsh, spitting arcs of static at anything carrying bare steel. Sentries learn to keep their pikes lowered during dry winds lest they turn themselves into lightning rods."
+ },
+ "stormtree": {
+  "summary": "High-health air-element melee colossus in Act IV beacons and vaults; burn it with fire from outside its static discharge range.",
+  "flavor": "Lightning-struck pines that drank too much stray ward-current and refused to fall. Their split trunks crackle with blue fire, and any warrior who steps too close without grounded boots ends up smoking in the ash."
+ },
+ "thorn-boar": {
+  "summary": "Fast melee charger roaming Act I woods and supply roads; stop its rush with braced spears, heavy strikes, and fire.",
+  "flavor": "Ill-tempered Greywood tusker whose hide is matted with dried mud and blackthorn spines. A charging boar hits a levy line like a runaway timber cart, though once downed it feeds a whole company for two nights."
+ },
+ "warrior": {
+  "summary": "Reliable allied melee man-at-arms with solid health and balanced speed, best holding lines against rushers while avoiding ranged kiting.",
+  "flavor": "The unglamorous spine of the Vanguard Company, trained to keep his shield up, his boots dry, and his mouth shut during long marches. He may not understand ley-geometry, but he knows exactly how to hold a muddy bridge until relief arrives."
+ },
+ "wendigo-bruiser": {
+  "summary": "Slow, durable water-element freezing brawler in Act III highlands and bastions; keep your distance and melt it with fire magic.",
+  "flavor": "Hulking alpine scavengers driven down from the frozen peaks by the caldera tremors. Their breath coats iron armor in brittle rime, and their heavy fists hit hard enough to send a shielded veteran skidding across the gravel."
+ },
+ "witch-doctor": {
+  "summary": "Earth-element marsh hexer found in Act II outposts and hollows; shut down its tribal curses quickly with focus fire and stuns.",
+  "flavor": "Bitter elders who trade bone-charms and swamp poisons along the edge of the alkali flats. They rattle dried gourds to sour a squad's stamina, preferring to watch imperial patrols collapse from fever rather than risk a fair fight."
+ },
+ "elder-juggernaut": {
+  "summary": "Act III earth-element boss guarding the Highland Cairn; shatter its glowing rune-seams with arcane fire and armor-breaking strikes.",
+  "flavor": "An ancient granite titan bound during the Age of Chains and shaken awake by the dying continent's tremors. Ordinary arrows bounce off its anthracite ribs like hail on a slate roof, and every stomp splits the mountain trail wide open."
+ },
+ "lord-captain-korvus": {
+  "summary": "Act III physical and fire boss of the Eastern War Pier; stay clear of burning pitch pools and spread out against his anchor pulls.",
+  "flavor": "Known along the coast as the Iron Anchor, Korvus traded his naval commission for blackened plate and twin hooked ship-anchors. He despises the evacuation fleet, determined that if Thornvael must burn, no coward should sail away dry."
+ },
+ "arch-mage-malrik": {
+  "summary": "Act IV astral and fire boss in Flight of Malrik; push swiftly up the switchbacks and interrupt his cipher casts before he escapes.",
+  "flavor": "Once a respected Collegium fellow who defected to the Iron Pact with stolen border ledgers and cipher-keys. Cornered in Ashveil Gorge, he relies on violet teleportation wards and scorched-earth spells to outrun the reckoning he earned."
+ },
+ "arch-warden-korrath": {
+  "summary": "Act IV water and astral boss of the Crown Vault; sunder both Resonance Anchors to strip his invulnerability and cleanse Stasis.",
+  "flavor": "Three centuries of unbroken vigil in the pale marble vault turned Korrath's flesh into petrified granite. He swings twin blades of white stone with mechanical calm, convinced that frozen law is the only mercy a chaotic realm deserves."
+ },
+ "ember-overlord-vorak": {
+  "summary": "Act IV fire boss ruling the Furnace Heart; shatter both Obsidian Conduit Pillars to halt his molten regeneration and dodge meteors.",
+  "flavor": "Vorak looks at mortal cities the way a smelter looks at impure ore. Draped in slag-forged plate that drips liquid rock, he channels the caldera's magma directly through his veins to burn the old world down to bare iron."
+ },
+ "su-pyre-chanter-malgath": {
+  "summary": "Act I tier-4 fire Super Unique shaman with magic resistance, backed by five cinderlings that overwhelm careless squads.",
+  "flavor": "Malgath preached from a burning peat-rick until his own robes fused to his ribs. He wanders the soggy northern passages surrounded by cackling sparks, turning damp timber bridges into funeral pyres for anyone carrying Crown papers."
+ },
+ "su-volt-stalker-krazak": {
+  "summary": "Act I tier-4 air Super Unique briar-hound with lightning enchantment and extra speed, leading five swift packmates.",
+  "flavor": "A lean grey hound that slept too close to a cracked smelter conduit and woke up crackling with green static. Krazak runs down couriers in the rain, leaving nothing behind but singed leather and the sharp stink of ozone."
+ },
+ "su-frostquill-skara": {
+  "summary": "Act I tier-4 water Super Unique quill-fiend with cold enchantment and extra strength, escorted by four lesser snipers.",
+  "flavor": "Nesting beneath the frozen mill-wheel of Greywood, Skara grew barbed spines coated in permanent hoarfrost. Her volleys chill a soldier's sword-arm stiff before he can even cross the clearing to reach her."
+ },
+ "su-bramblefist-oakhulk": {
+  "summary": "Act I tier-5 earth Super Unique ironbark with stone skin, curses, and extra strength, guarded by three rootbound sentinels.",
+  "flavor": "An ancient quarry-edge oak whose bark grew around rusted debtor chains tossed into the pit decades ago. Thornmaw uproots itself whenever iron boots trespass on its ridge, swinging iron-studded boughs with terrifying reach."
+ },
+ "su-arc-carapace-vekor": {
+  "summary": "Act II tier-4 air Super Unique dune-scarab with lightning enchantment and stone skin, flanked by four crackling scarabs.",
+  "flavor": "Fed directly on the ruptured quartz wardstones of the plateau, Vekor's shell hardened into conductive mineral glass. Its static discharges arc cleanly from shield to shield, forcing veterans to pick it apart from long range."
+ },
+ "su-venomscale-ssorath": {
+  "summary": "Act II tier-5 earth Super Unique viper with extra speed, lightning, and spectral hits, leading four venomous packmates.",
+  "flavor": "A bloated desert patriarch that coiled around the oasis aquifers until the water turned bitter and green. Caravan scouts claim Ssorath strikes faster than a whip-crack, leaving both venom and cold burns in the same bite."
+ },
+ "su-ash-embalmer-khepri": {
+  "summary": "Act II tier-5 earth Super Unique crypt embalmer with extra speed, curses, and mana burn, guarded by four hollow knights.",
+  "flavor": "Chief notary of the sunken Third-Dynasty vaults, Khepri still enforces posthumous debt-liens with copper wire and dry venom. Casters dread his touch, as his curses drain mana faster than a cracked cistern leaks water."
+ },
+ "su-crimson-prowler-zara": {
+  "summary": "Act II tier-4 fire Super Unique dune-lurker with extra strength, curses, and fire enchantment, backed by four sand raiders.",
+  "flavor": "A notorious canyon ambusher who dips her blades in naphtha before dropping from the sandstone ledges of Twin Passes. Zara takes imperial coin to turn back refugees, laughing as her fire-pots seal the narrow ravines."
+ },
+ "su-bog-hexer-zulmar": {
+  "summary": "Act III tier-5 fire Super Unique fen hexer with magic resistance and a blessed aura, leading six dart-blowing skirmishers.",
+  "flavor": "Exiled from the inland marshes, Zulmar set up his smoking fetishes along the wet coastal approaches. His chants harden his dart-blowers against steel and flame alike, turning simple road clearances into costly slogs."
+ },
+ "su-thunderbough-elder": {
+  "summary": "Act III tier-5 air Super Unique stormtree with lightning, extra speed, and stone skin, escorted by four rootbound brutes.",
+  "flavor": "The oldest lightning-split pine on the coastal bluffs, humming loud enough to rattle teeth a hundred paces away. Sailors use its blue crown as a storm warning; soldiers know it means grounding their spears or dying."
+ },
+ "su-cinderweb-arachna": {
+  "summary": "Act III tier-4 fire Super Unique spore-matron with extra strength, curses, and fire enchantment, trailing five maggot swarms.",
+  "flavor": "Lurking near smoldering pitch-pits, Ignisweb spins sticky threads soaked in sulfur resin that ignite at the slightest spark. Anyone caught in her cursed webs gets dragged down by her burrowing brood."
+ },
+ "su-rimewing-valkor": {
+  "summary": "Act III tier-4 water Super Unique glasswing with cold enchantment, teleporting, and extra speed, backed by four rift moths.",
+  "flavor": "A pale sea-cliff predator that blinks through the freezing spray like a flash of sleet. Valkor dives straight for exposed arcanists, chilling their fingers numb before vanishing back into the coastal fog."
+ },
+ "su-fallen-warden-azrael": {
+  "summary": "Act IV tier-5 water Super Unique hollow king with cold enchantment, stone skin, and extra strength, leading three dread knights.",
+  "flavor": "Once a senior keeper of the highland watch, Vaelor froze to death refusing to abandon a breached post. Now he patrols the ash-drifts in rime-caked granite plate, punishing anyone who dares march past his broken standard."
+ },
+ "su-hellforger-kragg": {
+  "summary": "Act IV tier-5 fire Super Unique anvilmaw with extra strength, speed, spectral hits, and magic resistance, plus three basalt brutes.",
+  "flavor": "Overseer of the caldera's deepest slag-pits, Kragg swings a glowing foundry hammer faster than a man can swing a hatchet. His soot-blackened hide shrugs off ordinary spells, forcing squads to coordinate frost and heavy steel."
+ },
+ "su-dreadlord-malakor": {
+  "summary": "Act IV tier-5 astral Super Unique dread knight with curses, blessed aura, and extra strength, commanding five dread knights.",
+  "flavor": "Sworn to guard the inner seals of the Threshold, Lord Varakh speaks no words and offers no quarter. His cursed banner saps the courage of seasoned veterans while his armored retinue advances in lockstep."
+ },
+ "su-soulblight-archon": {
+  "summary": "Act IV tier-5 fire Super Unique cinderhorn with extra speed, fire enchantment, and spectral hits, flanked by five cinderhorns.",
+  "flavor": "Gorgath harvests the dying embers of collapsed siege-walls to feed its own furnace-belly. It charges across the basalt flagstones at terrifying speed, leaving scorched bootprints and shattered shields in its wake."
+ },
+ "gem-chipped-garnet": {
+  "summary": "Tier-1 socketable gem from Act I nodes and chests, adding physical damage in weapons or extra maximum health in armor.",
+  "flavor": "Pried out of wet river gravel along the Alder Fords by soldiers looking to pad their meager pay. Flawed and dull as dried blood, a chipped garnet still gives a levy blade a little extra bite when hammered into the pommel."
+ },
+ "gem-flawed-beryl": {
+  "summary": "Tier-1 socketable gem from Act I nodes and chests, improving weapon accuracy or expanding maximum mana when set in armor.",
+  "flavor": "Cloudy green pebbles dredged from Fenwick ditches and sold by hedge-scholars for a handful of coppers. They rarely cut cleanly, yet even a milky beryl steadies a tired archer's aim or holds a spare drop of mana."
+ },
+ "gem-peat-amber": {
+  "summary": "Tier-2 socketable gem from Acts I–II, infusing weapons with lingering poison damage or granting armor poison resistance.",
+  "flavor": "Fossilized pine resin pulled from deep bog-trenches, often trapping tiny marsh midges inside its yellow glow. Apothecary apprentices grind the scraps into poultices, while mercenaries socket the whole lumps to weather fen-venom."
+ },
+ "gem-river-jade": {
+  "summary": "Tier-2 socketable gem from Acts I–II, boosting attack speed in weapons or increasing movement speed when socketed in armor.",
+  "flavor": "Smooth, cold stones tumbled for centuries along the rocky bed of the Alder River. Ferrymen keep one in their pockets for nimble footing on wet planks, and duelists pay well to have them set into sword hilts."
+ },
+ "gem-quartz-prism": {
+  "summary": "Tier-3 socketable gem from Acts II–III, adding lightning damage to weapons or granting lightning resistance inside armor.",
+  "flavor": "Chipped from the humming obelisks of the Quartz Plateau after the great storm-rupture. Even a finger-sized prism tingles against bare skin, bleeding off stray static or snapping a bright arc down a spear shaft."
+ },
+ "gem-bloodstone-cabochon": {
+  "summary": "Tier-3 socketable gem from Acts II–III, providing lifesteal in weapons or a solid boost to maximum health in armor.",
+  "flavor": "Dark green jasper flecked with iron-red veins, smuggled out of the Deep Quarry in miners' lunch tins. Pit-fighters prize it above silver because a blade set with bloodstone seems to keep its wielder upright long after he should drop."
+ },
+ "gem-rime-sapphire": {
+  "summary": "Tier-3 socketable gem from Acts II–III, adding cold damage and chill to weapons or cold resistance when fitted into armor.",
+  "flavor": "Cold as a winter well-bucket, these deep blue stones were traded down from the northern peaks before the passes closed. Set into a breastplate, a single sapphire makes the blistering heat of Redmarsh almost bearable."
+ },
+ "gem-cinder-ruby": {
+  "summary": "Tier-4 socketable gem from Acts III–IV, packing heavy fire damage into weapons or strong fire resistance into armor.",
+  "flavor": "Formed in the slag-cracks of the Obsidian Caldera where volcanic heat cooks ordinary corundum into glowing crimson. Smiths handle them with iron tongs, as a freshly cut cinder-ruby can scorch a dry leather glove."
+ },
+ "gem-astral-opal": {
+  "summary": "Tier-4 socketable gem from Acts III–IV, adding astral damage to weapons or mind resistance when set into armor.",
+  "flavor": "Milky coastal stones that flash violet whenever the tide turns or a ward-circle hums nearby. Coastal abbeys set them into iron mirrors to steady the nerves of novices keeping watch over restless crypts."
+ },
+ "gem-lodestone-heart": {
+  "summary": "Tier-4 socketable gem from Acts III–IV, granting armor penetration in weapons or substantial extra armor when socketed in gear.",
+  "flavor": "Dense black iron-ore pulled from the Magnetic Narrows, strong enough to tug nails straight out of a boot heel. Weaponsmiths wedge slivers of lodestone behind blade edges so strikes bite cleanly through riveted plate."
+ },
+ "gem-starfall-diamond": {
+  "summary": "Tier-5 endgame gem from Act IV and Hard+, boosting critical strike chance in weapons or granting all resistances in armor.",
+  "flavor": "Harder than anything forged since the First Dynasty, these clear stones were pried from pre-schism foundation markers. A jeweler can ruin three iron files trying to facet one, yet veterans kill for a single mounted stone."
+ },
+ "gem-obsidian-sun": {
+  "summary": "Tier-5 endgame gem from Act IV and Hard+, adding heavy fire and astral damage in weapons or large health and mana in armor.",
+  "flavor": "Black volcanic glass shot through with a trapped thread of golden ley-light from the Threshold anchors. Quartermasters lock them in lead boxes, claiming they make nearby compasses spin and old wounds ache."
+ },
+ "rune-tal": {
+  "summary": "Tier-1 Act I rune that increases gold dropped from kills in weapons or reduces fatigue when socketed into armor.",
+  "flavor": "Scratched onto copper slugs by Thornwick tax-clerks who believed a tidy ledger brought good fortune. Mercenaries hammer the Tally mark into their hilts, joking that if they have to bleed in the mud, the coin better add up."
+ },
+ "rune-kor": {
+  "summary": "Tier-1 Act I rune granting armor penetration in weapons or extra physical armor when fitted into defensive gear.",
+  "flavor": "The simplest smithy stamp on the border, denoting pig-iron that passed a cold hammer test without cracking. Levy soldiers press Kor-marked studs into their shields and axe-heads before marching out to the fords."
+ },
+ "rune-ven": {
+  "summary": "Tier-2 rune from Acts I–II, boosting mana regeneration in weapons or increasing healing received when set in armor.",
+  "flavor": "Carved on clay cistern-markers to bless dry wells with steady seepage. Field healers and arcanists alike trade silver for Ven stones, appreciating anything that keeps a draught flowing when supplies run thin."
+ },
+ "rune-silt": {
+  "summary": "Tier-2 rune from Acts I–II, extending slow duration in weapons or boosting evasion when socketed into armor.",
+  "flavor": "Born among the Redmarsh surveyors who learned how easily wet alkali swallows a careless boot. Bound into gear, the Silt glyph makes an enemy's stride drag like mud while helping its wearer slip clear of heavy swings."
+ },
+ "rune-gale": {
+  "summary": "Tier-3 rune from Acts II–III, accelerating cast and attack speed in weapons or improving missile block in armor.",
+  "flavor": "Etched onto bronze weathervanes along the Oakhaven cliffs to measure sea-squalls. Boarding marines love the Gale mark for turning away arbalest bolts on exposed decks, while casters prize its brisk rhythm."
+ },
+ "rune-lien": {
+  "summary": "Tier-3 rune from Acts II–III, amplifying damage-over-time and curses in weapons or extending curse duration in armor.",
+  "flavor": "The jagged notary sign of the Third Dynasty, stamped onto unpaid debt-rolls to bind a debtor's estate past the grave. Necromancers etch it onto wands so their hexes cling like compound interest."
+ },
+ "rune-ward": {
+  "summary": "Tier-3 rune from Acts II–III, increasing damage against summons in weapons or granting shadow and astral resistance in armor.",
+  "flavor": "Chiseled into abbey lintels and lighthouse doors to keep restless spirits from crossing the threshold. Veterans marching toward the sunken crypts stitch Ward-stamped discs straight into their gambesons."
+ },
+ "rune-slag": {
+  "summary": "Tier-4 rune from Acts III–IV, boosting critical damage in weapons or adding heavy physical armor when set in defensive gear.",
+  "flavor": "Cast from cooled furnace dross in Ironcamp's smoky yards, rough-edged and ugly as a broken tooth. Sappers swear a Slag rune hits harder than polished steel simply because it refuses to glance off."
+ },
+ "rune-oath": {
+  "summary": "Tier-4 rune from Acts III–IV, strengthening raised servants in weapons or boosting aura effectiveness when set in armor.",
+  "flavor": "A double-knotted sigil once sworn over crossed halberds by the Vanguard Company's founders. Whether commanding living levies or bound skeletons, officers socket Oath stones to keep their ranks steady under fire."
+ },
+ "rune-flux": {
+  "summary": "Tier-4 rune from Acts III–IV, reducing skill cooldowns in weapons or lowering spell mana costs when fitted into armor.",
+  "flavor": "Collegium thermodynamicists developed the Flux mark to vent excess pressure from overheated ward-rings. In the field, it lets exhausted casters cycle spells without burning through their last blue draught."
+ },
+ "rune-crown": {
+  "summary": "Tier-5 endgame rune from Act IV and Hard+, boosting boss damage in weapons or granting high all-resistances in armor.",
+  "flavor": "Modeled after the old First-Dynasty seal of immutable law, struck in cold pale metal that never tarnishes. Only elite vanguard commanders and threshold archivists ever see a genuine Order rune outside a vault."
+ },
+ "rune-ash": {
+  "summary": "Tier-5 endgame rune from Act IV and Hard+, granting lifesteal and weapon damage or massive health and armor in defensive gear.",
+  "flavor": "Drawn in glowing soot inside the caldera's inner redoubts, humming with the stubborn heat of a banked forge. Those who socket the Ember rune fight like they have nothing left to lose and everything to burn."
+ },
+ "gem-chipped-diamond": {
+  "summary": "Tier-1 chipped diamond from Act I shrines and elites; adds undead damage in weapons, an attribute in armor, or all resistances in shields.",
+  "flavor": "Tiny, sharp splinters knocked loose from old shrine-markers and swept up by parish sextons. Even a speck of clear diamond makes an undead horror recoil when pressed into a sword fuller or shield boss."
+ },
+ "gem-flawed-diamond": {
+  "summary": "Tier-2 flawed diamond from Acts I–II shrines and cube upgrades; boosts undead damage, armor attributes, or shield resistances.",
+  "flavor": "Clouded by hairline fractures yet hard enough to scratch glass, these stones circulate through border pawnshops after every graveyard skirmish. Shield-bearers prize them as cheap insurance against elemental hexes."
+ },
+ "gem-diamond": {
+  "summary": "Tier-3 regular diamond from Acts II–III shrines and cube upgrades; strong undead damage in weapons and balanced resistances in shields.",
+  "flavor": "Cleanly faceted by guild lapidaries in Oakhaven before the evacuation stripped the workshops bare. Set into a kite shield, a regular diamond turns aside fire, frost, and lightning with quiet reliability."
+ },
+ "gem-flawless-diamond": {
+  "summary": "Tier-4 flawless diamond from Acts III–IV shrines and cube upgrades; high undead damage, armor stats, or shield all-resistances.",
+  "flavor": "Clear as winter ice and worth a small ship's cargo in peacetime. Harborwatch officers traded entire chests of silver for flawless diamonds to fortify their shields against the caldera's elemental storms."
+ },
+ "gem-perfect-diamond": {
+  "summary": "Tier-5 endgame perfect diamond from Act IV and Hard+; massive undead damage in weapons, strong armor stats, and top shield resistances.",
+  "flavor": "Cut with mathematical precision that only First-Dynasty masters or a transmutation cube can achieve. Light passes through it without a single flaw, burning away grave-rot and grounding the fiercest elemental blasts."
+ },
+ "gem-chipped-amethyst": {
+  "summary": "Tier-1 chipped amethyst from Act I shrines and elites; improves weapon accuracy, armor strength, or shield defense.",
+  "flavor": "Pale purple shards found in rocky creek beds north of Thornwick. Recruits glue them into buckler rims or bow grips, swearing the dull violet gleam keeps their hands steady when gnolls howl in the fog."
+ },
+ "gem-flawed-amethyst": {
+  "summary": "Tier-2 flawed amethyst from Acts I–II shrines and cube upgrades; grants accuracy in weapons, body stats in armor, or shield defense.",
+  "flavor": "Slightly deeper in hue than creek-bed chips, these stones turn up in quarry tailings and smugglers' pouches. Mercenaries use them to add a little extra heft to their plate without adding weight to their packs."
+ },
+ "gem-amethyst": {
+  "summary": "Tier-3 regular amethyst from Acts II–III shrines and cube upgrades; solid weapon accuracy, armor body bonus, and shield defense.",
+  "flavor": "Cut into neat six-sided prisms by Redmarsh lapidaries who learned to polish quartz in alkali grit. A regular amethyst sits comfortably in a heavy helm or warhammer, steadying both blow and stance."
+ },
+ "gem-flawless-amethyst": {
+  "summary": "Tier-4 flawless amethyst from Acts III–IV shrines and cube upgrades; high weapon accuracy, strong armor stats, and shield defense.",
+  "flavor": "Deep violet stones once reserved for Synod signet rings before the border wars emptied the treasuries. Frontline captains socket them into steel gauntlets and tower shields to hold breaches without flinching."
+ },
+ "gem-perfect-amethyst": {
+  "summary": "Tier-5 endgame perfect amethyst from Act IV and Hard+; top weapon accuracy, heavy armor strength, and high shield defense.",
+  "flavor": "Rich as bruised plums and heavy in the palm, a perfect amethyst represents weeks of careful transmutation. Veterans who mount one in their gear rarely miss a strike and almost never yield ground."
+ },
+ "rune-rune-of-eldun": {
+  "summary": "Rank-1 low rune (Req Lv 11) from Acts I–II; adds weapon accuracy or flat defense in armor and shields.",
+  "flavor": "The first mark taught to apprentice rune-cutters, scratched onto slate tiles until their knuckles ache. Humble as it looks, an Eldun stone steadies a recruit's aim and tightens the rivets on a cheap shield."
+ },
+ "rune-rune-of-elvar": {
+  "summary": "Rank-2 low rune (Req Lv 11) from Acts I–II; adds weapon damage and accuracy, armor defense, or extra shield block chance.",
+  "flavor": "Favored by bridge-guards who spend their shifts catching arrows on tarred wooden shields. Smiths hammer Elvar chips straight into shield bosses to keep the rim from splitting under heavy axes."
+ },
+ "rune-rune-of-tyra": {
+  "summary": "Rank-3 low rune (Req Lv 13) from Acts I–II; restores mana after every kill whether socketed in a weapon, armor, or shield.",
+  "flavor": "Named for a thrifty hedge-mage who hated buying blue draughts from town apothecaries. With a Tyra rune set in his staff, every fallen gnoll paid for the next bolt."
+ },
+ "rune-rune-of-neph": {
+  "summary": "Rank-4 low rune (Req Lv 13) from Acts I–II; adds knockback to weapons or sturdy flat defense in armor and shields.",
+  "flavor": "A blunt, heavy glyph prized by pike-sergeants who want charging boars shoved back into the ditch. Even a light handaxe fitted with Neph hits with the rude jolt of a slammed door."
+ },
+ "rune-rune-of-aeth": {
+  "summary": "Rank-5 low rune (Req Lv 15) from Acts I–II; improves weapon accuracy or grants steady regeneration in armor and shields.",
+  "flavor": "Light and pale as river-chalk, the Aeth mark is stitched into travel cloaks by scouts who cannot afford to stop and bandage every scratch. It keeps the blood moving when the rain turns cold."
+ },
+ "rune-rune-of-ithos": {
+  "summary": "Rank-6 low rune (Req Lv 15) from Acts I–II; boosts maximum weapon damage or converts incoming damage to mana in armor and shields.",
+  "flavor": "Battle-mages swear by Ithos stones during messy ambushes where taking a stray hit is unavoidable. Instead of wasting a bruise, the rune turns a cracked rib into enough mana for a counter-spell."
+ },
+ "rune-rune-of-talgor": {
+  "summary": "Rank-7 low rune (Req Lv 17) from Acts I–II; adds elemental damage to weapons or high poison resistance in armor and shields.",
+  "flavor": "Steeped in bitter fen-herbs before firing, Talgor stones smell faintly of crushed wormwood. Soldiers marching into Redmarsh alkali flats trade good boots just to socket one into their shield."
+ },
+ "rune-rune-of-ralon": {
+  "summary": "Rank-8 low rune (Req Lv 19) from Acts I–II; infuses weapons with elemental damage or grants strong fire resistance in armor and shields.",
+  "flavor": "Quenched in forge-ash until the carved lines glow dull orange in the dark. Ralon runes are standard issue for sappers who expect to walk through burning pitch and cinderling volleys."
+ },
+ "rune-rune-of-orthan": {
+  "summary": "Rank-9 low rune (Req Lv 21) from Acts I–II; adds elemental damage to weapons or strong lightning resistance in armor and shields.",
+  "flavor": "Wrapped in thin copper wire during the engraving process so the stone drinks stray sparks without cracking. Quarry workers and storm-coast marines keep an Orthan rune handy whenever the sky turns green."
+ }
+}

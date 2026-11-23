@@ -61,6 +61,40 @@ PROFILES: dict[str, VoiceProfile] = {
 }
 
 
+# Kokoro-82M (local, CPU via kokoro-onnx) casting: profile key -> (voice, speed, ffmpeg filter)
+BOSS_FX = 'asetrate=24000*0.88,aresample=24000,atempo=1/0.88,aecho=0.8:0.6:70|140:0.35|0.2,lowpass=f=6500'
+KOKORO_CAST: dict[str, tuple[str, float, str]] = {
+    'narrator': ('bm_george', 0.95, ''),
+    'hale': ('bm_lewis', 0.92, ''),
+    'garrick': ('am_adam', 0.93, ''),
+    'reeve_marlow': ('am_michael', 0.95, ''),
+    'reeve_alda': ('bf_emma', 0.95, ''),
+    'kaelen': ('am_liam', 0.98, ''),
+    'morvessa': ('bf_isabella', 0.88, 'asetrate=24000*0.94,aresample=24000,atempo=1/0.94,aecho=0.8:0.5:60:0.25'),
+    'marta': ('af_nicole', 0.97, ''),
+    'female_warrior': ('af_bella', 1.02, ''),
+    'female_scholar': ('bf_lily', 0.97, ''),
+    'smith': ('am_fenrir', 0.93, ''),
+    'merrick': ('bm_daniel', 0.95, ''),
+    'bram': ('am_eric', 0.97, ''),
+    'barkeep': ('am_puck', 0.97, ''),
+    'scholar': ('bm_fable', 0.9, ''),
+    'scout': ('am_echo', 1.03, ''),
+    'sailor': ('am_santa', 0.95, ''),
+    'youth': ('af_sky', 1.05, ''),
+    'boss': ('am_onyx', 0.82, BOSS_FX),
+    'vesperion': ('bm_george', 0.82, BOSS_FX),
+    'hero': ('am_michael', 1.0, ''),
+}
+
+
+def kokoro_cast_for(profile: 'VoiceProfile') -> tuple[str, float, str]:
+    for key, prof in PROFILES.items():
+        if prof is profile:
+            return KOKORO_CAST[key]
+    return KOKORO_CAST['narrator']
+
+
 def pick_profile(speaker: str, context_hint: str = '') -> VoiceProfile:
     s = f'{speaker} {context_hint}'.lower()
     if any(w in s for w in ('morvessa', 'morwyn')):
@@ -575,16 +609,53 @@ def update_assets_json(clips: dict[str, ClipSpec]) -> None:
     print(f'Updated {ASSETS_JSON} ({len(existing_assets)} total manifest entries)')
 
 
+def generate_audio_kokoro(clips: dict[str, ClipSpec], force: bool, limit: int, out_dir: str) -> None:
+    import numpy as np  # noqa: PLC0415
+    import soundfile as sf  # noqa: PLC0415
+    from kokoro_onnx import Kokoro  # noqa: PLC0415
+
+    kdir = os.path.join(ROOT_DIR, 'tools', 'kokoro')
+    kok = Kokoro(os.path.join(kdir, 'kokoro-v1.0.onnx'), os.path.join(kdir, 'voices-v1.0.bin'))
+    os.makedirs(out_dir, exist_ok=True)
+    todo = [
+        c for c in clips.values()
+        if force or not os.path.exists(os.path.join(out_dir, f'{c.clip_id}.m4a'))
+        or os.path.getsize(os.path.join(out_dir, f'{c.clip_id}.m4a')) < 512
+    ]
+    if limit:
+        todo = todo[:limit]
+    print(f'Kokoro: {len(todo)} clips to synthesize', flush=True)
+    for i, spec in enumerate(todo, 1):
+        voice, speed, fx = kokoro_cast_for(spec.profile)
+        wav = os.path.join(out_dir, f'{spec.clip_id}.wav')
+        m4a = os.path.join(out_dir, f'{spec.clip_id}.m4a')
+        samples, sr = kok.create(spec.spoken_text, voice=voice, speed=speed, lang='en-gb' if voice[0] == 'b' else 'en-us')
+        sf.write(wav, np.asarray(samples), sr)
+        cmd = ['ffmpeg', '-y', '-i', wav]
+        if fx:
+            cmd += ['-af', fx]
+        cmd += ['-c:a', 'aac', '-b:a', '56k', '-ac', '1', '-ar', '24000', m4a]
+        subprocess.run(cmd, capture_output=True, check=True)
+        os.remove(wav)
+        if i % 25 == 0 or i == len(todo):
+            print(f'  {i}/{len(todo)}', flush=True)
+
+
 def main() -> None:
     parser = argparse.ArgumentParser(description='Generate all Thornvael dialogue & bark voice clips.')
     parser.add_argument('--force', action='store_true', help='Regenerate even if .m4a already exists')
     parser.add_argument('--concurrency', type=int, default=12, help='Parallel edge-tts tasks')
     parser.add_argument('--skip-tts', action='store_true', help='Only regenerate TS index and assets.json')
+    parser.add_argument('--engine', choices=['edge', 'kokoro'], default='edge')
+    parser.add_argument('--limit', type=int, default=0, help='Kokoro: only first N clips')
+    parser.add_argument('--out-dir', default=VOICES_DIR)
     args = parser.parse_args()
 
     clips, map_index, bark_index, text_index = collect_clips()
 
-    if not args.skip_tts:
+    if not args.skip_tts and args.engine == 'kokoro':
+        generate_audio_kokoro(clips, args.force, args.limit, args.out_dir)
+    elif not args.skip_tts:
         global edge_tts
         import edge_tts  # noqa: PLC0415
 

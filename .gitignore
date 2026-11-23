@@ -18,3 +18,5 @@ __pycache__/
 tools/.mesh-out/
 tools/.canva-sheets/
 tools/dns-proxy.py
+tools/kokoro/*.onnx
+tools/kokoro/*.bin
