@@ -2415,7 +2415,54 @@ export function buildWikiData() {
       gate: { a: 4 },
     });
   }
-  for (const sq of [...C('side-quests'), ...C('side-quests-2'), ...C('side-quests-3'), ...C('side-quests-4')]) {
+  const sideQuestsAll = [...C('side-quests'), ...C('side-quests-2'), ...C('side-quests-3'), ...C('side-quests-4')];
+  const TOWN_ACT = { 'town-thornwick': 1, 'town-redmarsh': 2, 'town-oakhaven': 3, 'town-ironcamp': 4 };
+  const TOWN_NPC_PORTRAIT = {
+    'npc-hobb-smith': 'townart/portraits/npc-foundry-stoker.jpg',
+    'npc-marta-alchemist': 'townart/portraits/npc-ford-herbalist.jpg',
+    'npc-garrick-captain': 'townart/npc-commander.jpg',
+    'npc-fenwick-ferryman': 'townart/portraits/npc-alder-ferryman.jpg',
+    'npc-marlow-reeve': 'townart/portraits/npc-ford-tollkeeper.jpg',
+    'npc-edda-miller': 'townart/portraits/npc-peat-cutter.jpg',
+    'npc-dunstan-innkeeper': 'townart/scene-tavern.jpg',
+    'npc-vaelen-arcanist': 'townart/npc-aldren.jpg',
+    'npc-bram-quartermaster': 'townart/portraits/npc-alkali-drover.jpg',
+    'npc-zahra-scholar': 'townart/portraits/npc-wardstone-surveyor.jpg',
+    'npc-tull-water-seller': 'townart/portraits/npc-salt-raker.jpg',
+    'npc-sera-healer': 'townart/portraits/npc-oakhaven-surgeon.jpg',
+    'npc-kors-shipwright': 'townart/portraits/npc-harbor-pilot.jpg',
+    'npc-lyra-warden': 'townart/portraits/npc-greystone-sentry.jpg',
+    'npc-pip-mudlark': 'townart/portraits/npc-wreck-diver.jpg',
+    'npc-rowan-commander': 'townart/portraits/npc-warden-hale.jpg',
+    'npc-vok-forgemaster': 'townart/portraits/npc-foundry-stoker.jpg',
+    'npc-elias-penitent': 'townart/portraits/npc-threshold-penitent.jpg',
+  };
+  for (const tn of C('npcs')) {
+    const act = tn.act ?? TOWN_ACT[tn.town] ?? 1;
+    const givenQuests = sideQuestsAll.filter((sq) => sq.giver === tn.id).map((sq) => `lore/${sq.id}`);
+    lore.push({
+      id: tn.id,
+      type: 'lore',
+      title: tn.name,
+      summary: `Act ${act} ${cap(tn.role)} · ${cap((tn.town ?? 'town-thornwick').replace(/^town-/, ''))}`,
+      img: pic('lore', tn.id, 'infobox/portrait', TOWN_NPC_PORTRAIT[tn.id] ?? 'townart/npc-hale.jpg'),
+      infobox: [
+        ['Kind', 'Town NPC'],
+        ['Role', cap(tn.role)],
+        ['Act', String(act)],
+      ],
+      sections: [
+        { h: 'Appearance', p: [tn.look, tn.quirk ? `Habit: ${tn.quirk}` : ''].filter(Boolean) },
+      ],
+      related: [...new Set([`map/map${act}`, ...(tn.town ? [`city/${tn.town}`] : []), ...givenQuests])],
+      tags: { act, level: act, rarity: '' },
+      gate: { a: act },
+    });
+  }
+  for (const sq of sideQuestsAll) {
+    const giverLink = sq.giver && !sq.giver.includes(' ') ? [`lore/${sq.giver}`] : [];
+    const itemLink = sq.reward?.item && String(sq.reward.item).startsWith('uniq-') ? [`unique/${sq.reward.item}`] : [];
+    const townLink = sq.town ? [`city/${sq.town}`] : [];
     lore.push({
       id: sq.id,
       type: 'lore',
@@ -2433,12 +2480,15 @@ export function buildWikiData() {
         ...(sq.objectives ? [{ h: 'Objectives', list: sq.objectives }] : []),
         ...(sq.twist ? [{ h: 'Choices & outcome', p: [sq.twist] }] : []),
       ],
-      related: [`map/map${sq.act}`],
+      related: [...new Set([`map/map${sq.act}`, ...giverLink, ...townLink, ...itemLink])],
       tags: { act: sq.act, level: sq.act, rarity: '' },
       gate: { a: sq.act },
     });
   }
   for (const loc of mapLocations) {
+    const locQuests = sideQuestsAll
+      .filter((sq) => JSON.stringify(sq).includes(loc.id))
+      .map((sq) => `lore/${sq.id}`);
     lore.push({
       id: loc.id,
       type: 'lore',
@@ -2454,13 +2504,14 @@ export function buildWikiData() {
         { h: 'Description', p: [loc.blurb] },
         ...(loc.discovered_line ? [{ h: 'Discovery note', p: [loc.discovered_line] }] : []),
       ],
-      related: [`map/map${loc.act}`],
+      related: [...new Set([`map/map${loc.act}`, ...locQuests])],
       tags: { act: loc.act, level: loc.act, rarity: '' },
       gate: { a: loc.act },
     });
   }
   for (const fn of C('field-npcs')) {
     const portId = fn.portrait ?? fn.id.replace(/^field-/, 'npc-');
+    const fnQuests = sideQuestsAll.filter((sq) => sq.giver === fn.id).map((sq) => `lore/${sq.id}`);
     lore.push({
       id: fn.id,
       type: 'lore',
@@ -2476,7 +2527,7 @@ export function buildWikiData() {
         { h: 'Appearance', p: [fn.look, fn.prop ? `Carries: ${fn.prop}` : ''].filter(Boolean) },
         { h: 'Dialogue', list: [fn.line_first, fn.line_return].filter(Boolean) },
       ],
-      related: [`map/map${fn.act}`],
+      related: [...new Set([`map/map${fn.act}`, ...fnQuests])],
       tags: { act: fn.act, level: fn.act, rarity: '' },
       gate: { a: fn.act },
     });
