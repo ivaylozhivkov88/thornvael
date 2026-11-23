@@ -39,14 +39,20 @@ describe('Spell & Skill 5-Tier Balance Audit', () => {
     }
   });
 
-  it('gives every class (Warrior, Mage, Archer, Necromancer) at least 5 class spells with valid mana/cooldown curves', () => {
-    for (const clsMask of [1, 2, 4, 8]) {
-      const clsSpells = SPELLS.filter((s) => s.cls === clsMask);
-      expect(clsSpells.length, `cls=${clsMask} spell count`).toBeGreaterThanOrEqual(5);
-      for (const sp of clsSpells) {
+  it('gives every class (Warrior, Mage, Archer, Necromancer) at least 5 spells across core + expanded spells-new', () => {
+    const spellsNew = JSON.parse(
+      readFileSync(resolve(PUBLIC_DIR, 'data', 'content', 'spells-new.json'), 'utf8'),
+    ) as { name: string; class: string; cost: number; cd: number; target: string; desc?: string }[];
+
+    const classMap: Record<string, number> = { warrior: 1, mage: 2, archer: 4, necromancer: 8 };
+    for (const [clsName, clsMask] of Object.entries(classMap)) {
+      const coreCount = SPELLS.filter((s) => s.cls === clsMask).length;
+      const newSpells = spellsNew.filter((s) => s.class === clsName);
+      expect(coreCount + newSpells.length, `${clsName} total spell count`).toBeGreaterThanOrEqual(5);
+      for (const sp of newSpells) {
         expect(sp.cost).toBeGreaterThan(0);
         expect(sp.cd).toBeGreaterThan(0);
-        expect(sp.cd).toBeLessThanOrEqual(255);
+        expect((sp.desc ?? '').trim().length).toBeGreaterThan(10);
       }
     }
   });

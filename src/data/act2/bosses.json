@@ -1,0 +1,89 @@
+[
+  {
+    "id": "hexer-saelen",
+    "name": "Hexer Saelen, the Bog-Curse Alchemist",
+    "zone": "z2-bracken-basin",
+    "level": 17,
+    "hp": 680,
+    "damage": "18-28",
+    "phases": [
+      {
+        "hpPct": 100,
+        "name": "Verdigris Cauldron",
+        "mechanics": [
+          "Spawns toxic brine pools",
+          "Summons Bog Leeches every 12s"
+        ]
+      },
+      {
+        "hpPct": 50,
+        "name": "Venom Patriarch's Bile",
+        "mechanics": [
+          "Gains +25% cast haste",
+          "Fires 3-way splitting poison bolts",
+          "Lime-casks around arena cleanse poison stacks when shattered"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "khepri-embalmer",
+    "name": "Khepri, the Sunken Embalmer",
+    "zone": "z2-salt-vaults",
+    "level": 21,
+    "hp": 920,
+    "damage": "22-34",
+    "phases": [
+      {
+        "hpPct": 100,
+        "name": "Bitumen Ward",
+        "mechanics": [
+          "Damage reduced 60% while 3 Silver Tally-Altars stand active",
+          "Raises Hollow Knights"
+        ]
+      },
+      {
+        "hpPct": 60,
+        "name": "Probate Binding",
+        "mechanics": [
+          "Casts rooting astral tether",
+          "Activating all 3 altars strips Bitumen Ward for 15s"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "gorrathul",
+    "name": "Overlord Gorrathul, the Sand Glutton",
+    "zone": "z2-ironheart-bastion",
+    "level": 24,
+    "hp": 1450,
+    "damage": "28-44",
+    "phases": [
+      {
+        "hpPct": 100,
+        "name": "Ironheart Cleave",
+        "mechanics": [
+          "120-degree heavy cleave",
+          "Alkali Sand-Vortex pulls units toward center"
+        ]
+      },
+      {
+        "hpPct": 65,
+        "name": "Salt-Crusted Carapace",
+        "mechanics": [
+          "Shatters pillars causing falling-rock AoE",
+          "Gains +40% physical armor; vulnerable to Water and Air"
+        ]
+      },
+      {
+        "hpPct": 30,
+        "name": "Dry Cistern Fury",
+        "mechanics": [
+          "Enrages on silted cistern floor",
+          "Emits radial seismic shockwaves every 8s"
+        ]
+      }
+    ]
+  }
+]

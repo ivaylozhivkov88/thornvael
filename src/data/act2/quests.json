@@ -1,0 +1,1380 @@
+[
+  {
+    "id": "mq2-01-corduroy-convoy",
+    "act": 2,
+    "zone": "z2-ochre-ditch",
+    "giver": "npc-durn-wagonmaster",
+    "title": "The Corduroy Convoy & Stilt Granary",
+    "reward": {
+      "gold": 450,
+      "xp": 750
+    },
+    "steps": [
+      {
+        "id": "step-1",
+        "kind": "talk",
+        "target": "npc-durn-wagonmaster",
+        "trigger": {
+          "type": "talk_npc",
+          "ref": "npc-durn-wagonmaster"
+        },
+        "journal": "Spoke with npc-durn-wagonmaster regarding The Corduroy Convoy & Stilt Granary in z2-ochre-ditch.",
+        "next": "step-2"
+      },
+      {
+        "id": "step-2",
+        "kind": "escort",
+        "target": "z2-ochre-ditch",
+        "count": 1,
+        "trigger": {
+          "type": "escort_safe",
+          "ref": "z2-ochre-ditch",
+          "requires_step": "step-1"
+        },
+        "journal": "Completed field objective for The Corduroy Convoy & Stilt Granary inside z2-ochre-ditch.",
+        "next": "step-3"
+      },
+      {
+        "id": "step-3",
+        "kind": "talk",
+        "target": "npc-durn-wagonmaster",
+        "trigger": {
+          "type": "talk_npc",
+          "ref": "npc-durn-wagonmaster",
+          "requires_step": "step-2"
+        },
+        "journal": "Reported back to npc-durn-wagonmaster and collected bounty for The Corduroy Convoy & Stilt Granary.",
+        "next": null,
+        "reward": {
+          "gold": 450,
+          "xp": 750
+        }
+      }
+    ]
+  },
+  {
+    "id": "mq2-02-twin-passes",
+    "act": 2,
+    "zone": "z2-twin-passes",
+    "giver": "npc-bram-quartermaster",
+    "title": "Crossfire at Twin Passes",
+    "reward": {
+      "gold": 520,
+      "xp": 900
+    },
+    "steps": [
+      {
+        "id": "step-1",
+        "kind": "talk",
+        "target": "npc-bram-quartermaster",
+        "trigger": {
+          "type": "talk_npc",
+          "ref": "npc-bram-quartermaster"
+        },
+        "journal": "Spoke with npc-bram-quartermaster regarding Crossfire at Twin Passes in z2-twin-passes.",
+        "next": "step-2"
+      },
+      {
+        "id": "step-2",
+        "kind": "kill",
+        "target": "z2-twin-passes",
+        "count": 4,
+        "trigger": {
+          "type": "kill_count",
+          "ref": "z2-twin-passes",
+          "requires_step": "step-1"
+        },
+        "journal": "Completed field objective for Crossfire at Twin Passes inside z2-twin-passes.",
+        "next": "step-3"
+      },
+      {
+        "id": "step-3",
+        "kind": "talk",
+        "target": "npc-bram-quartermaster",
+        "trigger": {
+          "type": "talk_npc",
+          "ref": "npc-bram-quartermaster",
+          "requires_step": "step-2"
+        },
+        "journal": "Reported back to npc-bram-quartermaster and collected bounty for Crossfire at Twin Passes.",
+        "next": null,
+        "reward": {
+          "gold": 520,
+          "xp": 900
+        }
+      }
+    ]
+  },
+  {
+    "id": "mq2-03-quartz-wardstones",
+    "act": 2,
+    "zone": "z2-quartz-plateau",
+    "giver": "npc-zahra-scholar",
+    "title": "Rupture of the Quartz Wardstones",
+    "reward": {
+      "gold": 600,
+      "xp": 1100
+    },
+    "steps": [
+      {
+        "id": "step-1",
+        "kind": "talk",
+        "target": "npc-zahra-scholar",
+        "trigger": {
+          "type": "talk_npc",
+          "ref": "npc-zahra-scholar"
+        },
+        "journal": "Spoke with npc-zahra-scholar regarding Rupture of the Quartz Wardstones in z2-quartz-plateau.",
+        "next": "step-2"
+      },
+      {
+        "id": "step-2",
+        "kind": "fetch",
+        "target": "z2-quartz-plateau",
+        "count": 4,
+        "trigger": {
+          "type": "collect_item",
+          "ref": "z2-quartz-plateau",
+          "requires_step": "step-1"
+        },
+        "journal": "Completed field objective for Rupture of the Quartz Wardstones inside z2-quartz-plateau.",
+        "next": "step-3"
+      },
+      {
+        "id": "step-3",
+        "kind": "talk",
+        "target": "npc-zahra-scholar",
+        "trigger": {
+          "type": "talk_npc",
+          "ref": "npc-zahra-scholar",
+          "requires_step": "step-2"
+        },
+        "journal": "Reported back to npc-zahra-scholar and collected bounty for Rupture of the Quartz Wardstones.",
+        "next": null,
+        "reward": {
+          "gold": 600,
+          "xp": 1100
+        }
+      }
+    ]
+  },
+  {
+    "id": "mq2-04-quarry-revolt",
+    "act": 2,
+    "zone": "z2-deep-quarry",
+    "giver": "npc-gorin-miner",
+    "title": "Revolt in the Deep Quarry",
+    "reward": {
+      "gold": 680,
+      "xp": 1300
+    },
+    "steps": [
+      {
+        "id": "step-1",
+        "kind": "talk",
+        "target": "npc-gorin-miner",
+        "trigger": {
+          "type": "talk_npc",
+          "ref": "npc-gorin-miner"
+        },
+        "journal": "Spoke with npc-gorin-miner regarding Revolt in the Deep Quarry in z2-deep-quarry.",
+        "next": "step-2"
+      },
+      {
+        "id": "step-2",
+        "kind": "escort",
+        "target": "z2-deep-quarry",
+        "count": 1,
+        "trigger": {
+          "type": "escort_safe",
+          "ref": "z2-deep-quarry",
+          "requires_step": "step-1"
+        },
+        "journal": "Completed field objective for Revolt in the Deep Quarry inside z2-deep-quarry.",
+        "next": "step-3"
+      },
+      {
+        "id": "step-3",
+        "kind": "talk",
+        "target": "npc-gorin-miner",
+        "trigger": {
+          "type": "talk_npc",
+          "ref": "npc-gorin-miner",
+          "requires_step": "step-2"
+        },
+        "journal": "Reported back to npc-gorin-miner and collected bounty for Revolt in the Deep Quarry.",
+        "next": null,
+        "reward": {
+          "gold": 680,
+          "xp": 1300
+        }
+      }
+    ]
+  },
+  {
+    "id": "mq2-05-fork-of-spears",
+    "act": 2,
+    "zone": "z2-ironheart-bastion",
+    "giver": "npc-bram-quartermaster",
+    "title": "The Fork of Spears",
+    "reward": {
+      "gold": 800,
+      "xp": 1500
+    },
+    "steps": [
+      {
+        "id": "step-1",
+        "kind": "talk",
+        "target": "npc-bram-quartermaster",
+        "trigger": {
+          "type": "talk_npc",
+          "ref": "npc-bram-quartermaster"
+        },
+        "journal": "Spoke with npc-bram-quartermaster regarding The Fork of Spears in z2-ironheart-bastion.",
+        "next": "step-2"
+      },
+      {
+        "id": "step-2",
+        "kind": "kill",
+        "target": "z2-ironheart-bastion",
+        "count": 4,
+        "trigger": {
+          "type": "kill_count",
+          "ref": "z2-ironheart-bastion",
+          "requires_step": "step-1"
+        },
+        "journal": "Completed field objective for The Fork of Spears inside z2-ironheart-bastion.",
+        "next": "step-3"
+      },
+      {
+        "id": "step-3",
+        "kind": "talk",
+        "target": "npc-bram-quartermaster",
+        "trigger": {
+          "type": "talk_npc",
+          "ref": "npc-bram-quartermaster",
+          "requires_step": "step-2"
+        },
+        "journal": "Reported back to npc-bram-quartermaster and collected bounty for The Fork of Spears.",
+        "next": null,
+        "reward": {
+          "gold": 800,
+          "xp": 1500
+        }
+      }
+    ]
+  },
+  {
+    "id": "mq2-06-dry-cisterns",
+    "act": 2,
+    "zone": "z2-ironheart-bastion",
+    "giver": "npc-zahra-scholar",
+    "title": "The Dry Cisterns of Gorrathul",
+    "reward": {
+      "gold": 1000,
+      "xp": 2000
+    },
+    "steps": [
+      {
+        "id": "step-1",
+        "kind": "talk",
+        "target": "npc-zahra-scholar",
+        "trigger": {
+          "type": "talk_npc",
+          "ref": "npc-zahra-scholar"
+        },
+        "journal": "Spoke with npc-zahra-scholar regarding The Dry Cisterns of Gorrathul in z2-ironheart-bastion.",
+        "next": "step-2"
+      },
+      {
+        "id": "step-2",
+        "kind": "kill",
+        "target": "z2-ironheart-bastion",
+        "count": 4,
+        "trigger": {
+          "type": "kill_count",
+          "ref": "z2-ironheart-bastion",
+          "requires_step": "step-1"
+        },
+        "journal": "Completed field objective for The Dry Cisterns of Gorrathul inside z2-ironheart-bastion.",
+        "next": "step-3"
+      },
+      {
+        "id": "step-3",
+        "kind": "talk",
+        "target": "npc-zahra-scholar",
+        "trigger": {
+          "type": "talk_npc",
+          "ref": "npc-zahra-scholar",
+          "requires_step": "step-2"
+        },
+        "journal": "Reported back to npc-zahra-scholar and collected bounty for The Dry Cisterns of Gorrathul.",
+        "next": null,
+        "reward": {
+          "gold": 1000,
+          "xp": 2000
+        }
+      }
+    ]
+  },
+  {
+    "id": "sq2-01-skulls-ochre-ditch",
+    "act": 2,
+    "zone": "z2-ochre-ditch",
+    "giver": "npc-lyra-surveyor",
+    "title": "Skulls on the Ochre Ditch",
+    "reward": {
+      "gold": 500,
+      "xp": 800
+    },
+    "steps": [
+      {
+        "id": "step-1",
+        "kind": "talk",
+        "target": "npc-lyra-surveyor",
+        "trigger": {
+          "type": "talk_npc",
+          "ref": "npc-lyra-surveyor"
+        },
+        "journal": "Spoke with npc-lyra-surveyor regarding Skulls on the Ochre Ditch in z2-ochre-ditch.",
+        "next": "step-2"
+      },
+      {
+        "id": "step-2",
+        "kind": "fetch",
+        "target": "z2-ochre-ditch",
+        "count": 4,
+        "trigger": {
+          "type": "collect_item",
+          "ref": "z2-ochre-ditch",
+          "requires_step": "step-1"
+        },
+        "journal": "Completed field objective for Skulls on the Ochre Ditch inside z2-ochre-ditch.",
+        "next": "step-3"
+      },
+      {
+        "id": "step-3",
+        "kind": "talk",
+        "target": "npc-lyra-surveyor",
+        "trigger": {
+          "type": "talk_npc",
+          "ref": "npc-lyra-surveyor",
+          "requires_step": "step-2"
+        },
+        "journal": "Reported back to npc-lyra-surveyor and collected bounty for Skulls on the Ochre Ditch.",
+        "next": null,
+        "reward": {
+          "gold": 500,
+          "xp": 800
+        }
+      }
+    ]
+  },
+  {
+    "id": "sq2-02-four-faced-milestone",
+    "act": 2,
+    "zone": "z2-twin-passes",
+    "giver": "npc-sabik-walker",
+    "title": "The Four-Faced Milestone Trap",
+    "reward": {
+      "gold": 650,
+      "xp": 1000
+    },
+    "steps": [
+      {
+        "id": "step-1",
+        "kind": "talk",
+        "target": "npc-sabik-walker",
+        "trigger": {
+          "type": "talk_npc",
+          "ref": "npc-sabik-walker"
+        },
+        "journal": "Spoke with npc-sabik-walker regarding The Four-Faced Milestone Trap in z2-twin-passes.",
+        "next": "step-2"
+      },
+      {
+        "id": "step-2",
+        "kind": "choice",
+        "target": "z2-twin-passes",
+        "count": 1,
+        "trigger": {
+          "type": "dialogue_choice",
+          "ref": "z2-twin-passes",
+          "requires_step": "step-1"
+        },
+        "journal": "Completed field objective for The Four-Faced Milestone Trap inside z2-twin-passes.",
+        "next": "step-3"
+      },
+      {
+        "id": "step-3",
+        "kind": "talk",
+        "target": "npc-sabik-walker",
+        "trigger": {
+          "type": "talk_npc",
+          "ref": "npc-sabik-walker",
+          "requires_step": "step-2"
+        },
+        "journal": "Reported back to npc-sabik-walker and collected bounty for The Four-Faced Milestone Trap.",
+        "next": null,
+        "reward": {
+          "gold": 650,
+          "xp": 1000
+        }
+      }
+    ]
+  },
+  {
+    "id": "sq2-03-saelen-cauldron",
+    "act": 2,
+    "zone": "z2-bracken-basin",
+    "giver": "npc-tull-water-seller",
+    "title": "Saelen's Bog-Curse Cauldron",
+    "reward": {
+      "gold": 700,
+      "xp": 1200
+    },
+    "steps": [
+      {
+        "id": "step-1",
+        "kind": "talk",
+        "target": "npc-tull-water-seller",
+        "trigger": {
+          "type": "talk_npc",
+          "ref": "npc-tull-water-seller"
+        },
+        "journal": "Spoke with npc-tull-water-seller regarding Saelen's Bog-Curse Cauldron in z2-bracken-basin.",
+        "next": "step-2"
+      },
+      {
+        "id": "step-2",
+        "kind": "kill",
+        "target": "z2-bracken-basin",
+        "count": 4,
+        "trigger": {
+          "type": "kill_count",
+          "ref": "z2-bracken-basin",
+          "requires_step": "step-1"
+        },
+        "journal": "Completed field objective for Saelen's Bog-Curse Cauldron inside z2-bracken-basin.",
+        "next": "step-3"
+      },
+      {
+        "id": "step-3",
+        "kind": "talk",
+        "target": "npc-tull-water-seller",
+        "trigger": {
+          "type": "talk_npc",
+          "ref": "npc-tull-water-seller",
+          "requires_step": "step-2"
+        },
+        "journal": "Reported back to npc-tull-water-seller and collected bounty for Saelen's Bog-Curse Cauldron.",
+        "next": null,
+        "reward": {
+          "gold": 700,
+          "xp": 1200
+        }
+      }
+    ]
+  },
+  {
+    "id": "sq2-04-redrock-probate",
+    "act": 2,
+    "zone": "z2-salt-vaults",
+    "giver": "npc-seti-notary",
+    "title": "The Redrock Probate Redemption",
+    "reward": {
+      "gold": 950,
+      "xp": 1500
+    },
+    "steps": [
+      {
+        "id": "step-1",
+        "kind": "talk",
+        "target": "npc-seti-notary",
+        "trigger": {
+          "type": "talk_npc",
+          "ref": "npc-seti-notary"
+        },
+        "journal": "Spoke with npc-seti-notary regarding The Redrock Probate Redemption in z2-salt-vaults.",
+        "next": "step-2"
+      },
+      {
+        "id": "step-2",
+        "kind": "choice",
+        "target": "z2-salt-vaults",
+        "count": 1,
+        "trigger": {
+          "type": "dialogue_choice",
+          "ref": "z2-salt-vaults",
+          "requires_step": "step-1"
+        },
+        "journal": "Completed field objective for The Redrock Probate Redemption inside z2-salt-vaults.",
+        "next": "step-3"
+      },
+      {
+        "id": "step-3",
+        "kind": "talk",
+        "target": "npc-seti-notary",
+        "trigger": {
+          "type": "talk_npc",
+          "ref": "npc-seti-notary",
+          "requires_step": "step-2"
+        },
+        "journal": "Reported back to npc-seti-notary and collected bounty for The Redrock Probate Redemption.",
+        "next": null,
+        "reward": {
+          "gold": 950,
+          "xp": 1500
+        }
+      }
+    ]
+  },
+  {
+    "id": "sq2-05-bronze-sluice",
+    "act": 2,
+    "zone": "z2-deep-quarry",
+    "giver": "npc-gorin-miner",
+    "title": "Behind the Bronze Sluice",
+    "reward": {
+      "gold": 1200,
+      "xp": 1800
+    },
+    "steps": [
+      {
+        "id": "step-1",
+        "kind": "talk",
+        "target": "npc-gorin-miner",
+        "trigger": {
+          "type": "talk_npc",
+          "ref": "npc-gorin-miner"
+        },
+        "journal": "Spoke with npc-gorin-miner regarding Behind the Bronze Sluice in z2-deep-quarry.",
+        "next": "step-2"
+      },
+      {
+        "id": "step-2",
+        "kind": "fetch",
+        "target": "z2-deep-quarry",
+        "count": 4,
+        "trigger": {
+          "type": "collect_item",
+          "ref": "z2-deep-quarry",
+          "requires_step": "step-1"
+        },
+        "journal": "Completed field objective for Behind the Bronze Sluice inside z2-deep-quarry.",
+        "next": "step-3"
+      },
+      {
+        "id": "step-3",
+        "kind": "talk",
+        "target": "npc-gorin-miner",
+        "trigger": {
+          "type": "talk_npc",
+          "ref": "npc-gorin-miner",
+          "requires_step": "step-2"
+        },
+        "journal": "Reported back to npc-gorin-miner and collected bounty for Behind the Bronze Sluice.",
+        "next": null,
+        "reward": {
+          "gold": 1200,
+          "xp": 1800
+        }
+      }
+    ]
+  },
+  {
+    "id": "sq2-06-stockade-pitch",
+    "act": 2,
+    "zone": "z2-twin-passes",
+    "giver": "npc-vane-carpenter",
+    "title": "Timber & Pitch for the Stockade",
+    "reward": {
+      "gold": 800,
+      "xp": 1200
+    },
+    "steps": [
+      {
+        "id": "step-1",
+        "kind": "talk",
+        "target": "npc-vane-carpenter",
+        "trigger": {
+          "type": "talk_npc",
+          "ref": "npc-vane-carpenter"
+        },
+        "journal": "Spoke with npc-vane-carpenter regarding Timber & Pitch for the Stockade in z2-twin-passes.",
+        "next": "step-2"
+      },
+      {
+        "id": "step-2",
+        "kind": "fetch",
+        "target": "z2-twin-passes",
+        "count": 4,
+        "trigger": {
+          "type": "collect_item",
+          "ref": "z2-twin-passes",
+          "requires_step": "step-1"
+        },
+        "journal": "Completed field objective for Timber & Pitch for the Stockade inside z2-twin-passes.",
+        "next": "step-3"
+      },
+      {
+        "id": "step-3",
+        "kind": "talk",
+        "target": "npc-vane-carpenter",
+        "trigger": {
+          "type": "talk_npc",
+          "ref": "npc-vane-carpenter",
+          "requires_step": "step-2"
+        },
+        "journal": "Reported back to npc-vane-carpenter and collected bounty for Timber & Pitch for the Stockade.",
+        "next": null,
+        "reward": {
+          "gold": 800,
+          "xp": 1200
+        }
+      }
+    ]
+  },
+  {
+    "id": "sq2-07-canyon-audit",
+    "act": 2,
+    "zone": "z2-twin-passes",
+    "giver": "npc-bram-quartermaster",
+    "title": "The Canyon Audit",
+    "reward": {
+      "gold": 340,
+      "xp": 560
+    },
+    "steps": [
+      {
+        "id": "step-1",
+        "kind": "talk",
+        "target": "npc-bram-quartermaster",
+        "trigger": {
+          "type": "talk_npc",
+          "ref": "npc-bram-quartermaster"
+        },
+        "journal": "Spoke with npc-bram-quartermaster regarding The Canyon Audit in z2-twin-passes.",
+        "next": "step-2"
+      },
+      {
+        "id": "step-2",
+        "kind": "fetch",
+        "target": "z2-twin-passes",
+        "count": 4,
+        "trigger": {
+          "type": "collect_item",
+          "ref": "z2-twin-passes",
+          "requires_step": "step-1"
+        },
+        "journal": "Completed field objective for The Canyon Audit inside z2-twin-passes.",
+        "next": "step-3"
+      },
+      {
+        "id": "step-3",
+        "kind": "talk",
+        "target": "npc-bram-quartermaster",
+        "trigger": {
+          "type": "talk_npc",
+          "ref": "npc-bram-quartermaster",
+          "requires_step": "step-2"
+        },
+        "journal": "Reported back to npc-bram-quartermaster and collected bounty for The Canyon Audit.",
+        "next": null,
+        "reward": {
+          "gold": 340,
+          "xp": 560
+        }
+      }
+    ]
+  },
+  {
+    "id": "sq2-08-rubbings-in-blood",
+    "act": 2,
+    "zone": "z2-salt-vaults",
+    "giver": "npc-zahra-scholar",
+    "title": "Rubbings in Blood",
+    "reward": {
+      "gold": 420,
+      "xp": 680
+    },
+    "steps": [
+      {
+        "id": "step-1",
+        "kind": "talk",
+        "target": "npc-zahra-scholar",
+        "trigger": {
+          "type": "talk_npc",
+          "ref": "npc-zahra-scholar"
+        },
+        "journal": "Spoke with npc-zahra-scholar regarding Rubbings in Blood in z2-salt-vaults.",
+        "next": "step-2"
+      },
+      {
+        "id": "step-2",
+        "kind": "fetch",
+        "target": "z2-salt-vaults",
+        "count": 4,
+        "trigger": {
+          "type": "collect_item",
+          "ref": "z2-salt-vaults",
+          "requires_step": "step-1"
+        },
+        "journal": "Completed field objective for Rubbings in Blood inside z2-salt-vaults.",
+        "next": "step-3"
+      },
+      {
+        "id": "step-3",
+        "kind": "talk",
+        "target": "npc-zahra-scholar",
+        "trigger": {
+          "type": "talk_npc",
+          "ref": "npc-zahra-scholar",
+          "requires_step": "step-2"
+        },
+        "journal": "Reported back to npc-zahra-scholar and collected bounty for Rubbings in Blood.",
+        "next": null,
+        "reward": {
+          "gold": 420,
+          "xp": 680
+        }
+      }
+    ]
+  },
+  {
+    "id": "sq2-09-bitter-well",
+    "act": 2,
+    "zone": "z2-bracken-basin",
+    "giver": "npc-tull-water-seller",
+    "title": "The Bitter Well",
+    "reward": {
+      "gold": 380,
+      "xp": 620
+    },
+    "steps": [
+      {
+        "id": "step-1",
+        "kind": "talk",
+        "target": "npc-tull-water-seller",
+        "trigger": {
+          "type": "talk_npc",
+          "ref": "npc-tull-water-seller"
+        },
+        "journal": "Spoke with npc-tull-water-seller regarding The Bitter Well in z2-bracken-basin.",
+        "next": "step-2"
+      },
+      {
+        "id": "step-2",
+        "kind": "kill",
+        "target": "z2-bracken-basin",
+        "count": 4,
+        "trigger": {
+          "type": "kill_count",
+          "ref": "z2-bracken-basin",
+          "requires_step": "step-1"
+        },
+        "journal": "Completed field objective for The Bitter Well inside z2-bracken-basin.",
+        "next": "step-3"
+      },
+      {
+        "id": "step-3",
+        "kind": "talk",
+        "target": "npc-tull-water-seller",
+        "trigger": {
+          "type": "talk_npc",
+          "ref": "npc-tull-water-seller",
+          "requires_step": "step-2"
+        },
+        "journal": "Reported back to npc-tull-water-seller and collected bounty for The Bitter Well.",
+        "next": null,
+        "reward": {
+          "gold": 380,
+          "xp": 620
+        }
+      }
+    ]
+  },
+  {
+    "id": "sq2-10-granary-smokers",
+    "act": 2,
+    "zone": "z2-ochre-ditch",
+    "giver": "npc-durn-wagonmaster",
+    "title": "Granary Smokers",
+    "reward": {
+      "gold": 360,
+      "xp": 580
+    },
+    "steps": [
+      {
+        "id": "step-1",
+        "kind": "talk",
+        "target": "npc-durn-wagonmaster",
+        "trigger": {
+          "type": "talk_npc",
+          "ref": "npc-durn-wagonmaster"
+        },
+        "journal": "Spoke with npc-durn-wagonmaster regarding Granary Smokers in z2-ochre-ditch.",
+        "next": "step-2"
+      },
+      {
+        "id": "step-2",
+        "kind": "kill",
+        "target": "z2-ochre-ditch",
+        "count": 4,
+        "trigger": {
+          "type": "kill_count",
+          "ref": "z2-ochre-ditch",
+          "requires_step": "step-1"
+        },
+        "journal": "Completed field objective for Granary Smokers inside z2-ochre-ditch.",
+        "next": "step-3"
+      },
+      {
+        "id": "step-3",
+        "kind": "talk",
+        "target": "npc-durn-wagonmaster",
+        "trigger": {
+          "type": "talk_npc",
+          "ref": "npc-durn-wagonmaster",
+          "requires_step": "step-2"
+        },
+        "journal": "Reported back to npc-durn-wagonmaster and collected bounty for Granary Smokers.",
+        "next": null,
+        "reward": {
+          "gold": 360,
+          "xp": 580
+        }
+      }
+    ]
+  },
+  {
+    "id": "sq2-11-canopic-tar",
+    "act": 2,
+    "zone": "z2-salt-vaults",
+    "giver": "npc-sabik-walker",
+    "title": "Canopic Tar",
+    "reward": {
+      "gold": 460,
+      "xp": 740
+    },
+    "steps": [
+      {
+        "id": "step-1",
+        "kind": "talk",
+        "target": "npc-sabik-walker",
+        "trigger": {
+          "type": "talk_npc",
+          "ref": "npc-sabik-walker"
+        },
+        "journal": "Spoke with npc-sabik-walker regarding Canopic Tar in z2-salt-vaults.",
+        "next": "step-2"
+      },
+      {
+        "id": "step-2",
+        "kind": "fetch",
+        "target": "z2-salt-vaults",
+        "count": 4,
+        "trigger": {
+          "type": "collect_item",
+          "ref": "z2-salt-vaults",
+          "requires_step": "step-1"
+        },
+        "journal": "Completed field objective for Canopic Tar inside z2-salt-vaults.",
+        "next": "step-3"
+      },
+      {
+        "id": "step-3",
+        "kind": "talk",
+        "target": "npc-sabik-walker",
+        "trigger": {
+          "type": "talk_npc",
+          "ref": "npc-sabik-walker",
+          "requires_step": "step-2"
+        },
+        "journal": "Reported back to npc-sabik-walker and collected bounty for Canopic Tar.",
+        "next": null,
+        "reward": {
+          "gold": 460,
+          "xp": 740
+        }
+      }
+    ]
+  },
+  {
+    "id": "sq2-12-empty-waterskins",
+    "act": 2,
+    "zone": "z2-bracken-basin",
+    "giver": "npc-tull-water-seller",
+    "title": "Empty Waterskins",
+    "reward": {
+      "gold": 390,
+      "xp": 640
+    },
+    "steps": [
+      {
+        "id": "step-1",
+        "kind": "talk",
+        "target": "npc-tull-water-seller",
+        "trigger": {
+          "type": "talk_npc",
+          "ref": "npc-tull-water-seller"
+        },
+        "journal": "Spoke with npc-tull-water-seller regarding Empty Waterskins in z2-bracken-basin.",
+        "next": "step-2"
+      },
+      {
+        "id": "step-2",
+        "kind": "fetch",
+        "target": "z2-bracken-basin",
+        "count": 4,
+        "trigger": {
+          "type": "collect_item",
+          "ref": "z2-bracken-basin",
+          "requires_step": "step-1"
+        },
+        "journal": "Completed field objective for Empty Waterskins inside z2-bracken-basin.",
+        "next": "step-3"
+      },
+      {
+        "id": "step-3",
+        "kind": "talk",
+        "target": "npc-tull-water-seller",
+        "trigger": {
+          "type": "talk_npc",
+          "ref": "npc-tull-water-seller",
+          "requires_step": "step-2"
+        },
+        "journal": "Reported back to npc-tull-water-seller and collected bounty for Empty Waterskins.",
+        "next": null,
+        "reward": {
+          "gold": 390,
+          "xp": 640
+        }
+      }
+    ]
+  },
+  {
+    "id": "sq2-13-salt-crust-beacons",
+    "act": 2,
+    "zone": "z2-quartz-plateau",
+    "giver": "npc-lyra-surveyor",
+    "title": "Salt-Crust Beacons",
+    "reward": {
+      "gold": 480,
+      "xp": 790
+    },
+    "steps": [
+      {
+        "id": "step-1",
+        "kind": "talk",
+        "target": "npc-lyra-surveyor",
+        "trigger": {
+          "type": "talk_npc",
+          "ref": "npc-lyra-surveyor"
+        },
+        "journal": "Spoke with npc-lyra-surveyor regarding Salt-Crust Beacons in z2-quartz-plateau.",
+        "next": "step-2"
+      },
+      {
+        "id": "step-2",
+        "kind": "fetch",
+        "target": "z2-quartz-plateau",
+        "count": 4,
+        "trigger": {
+          "type": "collect_item",
+          "ref": "z2-quartz-plateau",
+          "requires_step": "step-1"
+        },
+        "journal": "Completed field objective for Salt-Crust Beacons inside z2-quartz-plateau.",
+        "next": "step-3"
+      },
+      {
+        "id": "step-3",
+        "kind": "talk",
+        "target": "npc-lyra-surveyor",
+        "trigger": {
+          "type": "talk_npc",
+          "ref": "npc-lyra-surveyor",
+          "requires_step": "step-2"
+        },
+        "journal": "Reported back to npc-lyra-surveyor and collected bounty for Salt-Crust Beacons.",
+        "next": null,
+        "reward": {
+          "gold": 480,
+          "xp": 790
+        }
+      }
+    ]
+  },
+  {
+    "id": "sq2-14-jawbone-windchimes",
+    "act": 2,
+    "zone": "z2-ochre-ditch",
+    "giver": "npc-zahra-scholar",
+    "title": "Jawbone Wind-Chimes",
+    "reward": {
+      "gold": 350,
+      "xp": 590
+    },
+    "steps": [
+      {
+        "id": "step-1",
+        "kind": "talk",
+        "target": "npc-zahra-scholar",
+        "trigger": {
+          "type": "talk_npc",
+          "ref": "npc-zahra-scholar"
+        },
+        "journal": "Spoke with npc-zahra-scholar regarding Jawbone Wind-Chimes in z2-ochre-ditch.",
+        "next": "step-2"
+      },
+      {
+        "id": "step-2",
+        "kind": "kill",
+        "target": "z2-ochre-ditch",
+        "count": 4,
+        "trigger": {
+          "type": "kill_count",
+          "ref": "z2-ochre-ditch",
+          "requires_step": "step-1"
+        },
+        "journal": "Completed field objective for Jawbone Wind-Chimes inside z2-ochre-ditch.",
+        "next": "step-3"
+      },
+      {
+        "id": "step-3",
+        "kind": "talk",
+        "target": "npc-zahra-scholar",
+        "trigger": {
+          "type": "talk_npc",
+          "ref": "npc-zahra-scholar",
+          "requires_step": "step-2"
+        },
+        "journal": "Reported back to npc-zahra-scholar and collected bounty for Jawbone Wind-Chimes.",
+        "next": null,
+        "reward": {
+          "gold": 350,
+          "xp": 590
+        }
+      }
+    ]
+  },
+  {
+    "id": "sq2-15-brine-barrels",
+    "act": 2,
+    "zone": "z2-bracken-basin",
+    "giver": "npc-tull-water-seller",
+    "title": "Brine-Barrel Reckoning",
+    "reward": {
+      "gold": 410,
+      "xp": 690
+    },
+    "steps": [
+      {
+        "id": "step-1",
+        "kind": "talk",
+        "target": "npc-tull-water-seller",
+        "trigger": {
+          "type": "talk_npc",
+          "ref": "npc-tull-water-seller"
+        },
+        "journal": "Spoke with npc-tull-water-seller regarding Brine-Barrel Reckoning in z2-bracken-basin.",
+        "next": "step-2"
+      },
+      {
+        "id": "step-2",
+        "kind": "fetch",
+        "target": "z2-bracken-basin",
+        "count": 4,
+        "trigger": {
+          "type": "collect_item",
+          "ref": "z2-bracken-basin",
+          "requires_step": "step-1"
+        },
+        "journal": "Completed field objective for Brine-Barrel Reckoning inside z2-bracken-basin.",
+        "next": "step-3"
+      },
+      {
+        "id": "step-3",
+        "kind": "talk",
+        "target": "npc-tull-water-seller",
+        "trigger": {
+          "type": "talk_npc",
+          "ref": "npc-tull-water-seller",
+          "requires_step": "step-2"
+        },
+        "journal": "Reported back to npc-tull-water-seller and collected bounty for Brine-Barrel Reckoning.",
+        "next": null,
+        "reward": {
+          "gold": 410,
+          "xp": 690
+        }
+      }
+    ]
+  },
+  {
+    "id": "sq2-16-vinegar-highgate",
+    "act": 2,
+    "zone": "z2-twin-passes",
+    "giver": "npc-bram-quartermaster",
+    "title": "Vinegar for Highgate",
+    "reward": {
+      "gold": 430,
+      "xp": 710
+    },
+    "steps": [
+      {
+        "id": "step-1",
+        "kind": "talk",
+        "target": "npc-bram-quartermaster",
+        "trigger": {
+          "type": "talk_npc",
+          "ref": "npc-bram-quartermaster"
+        },
+        "journal": "Spoke with npc-bram-quartermaster regarding Vinegar for Highgate in z2-twin-passes.",
+        "next": "step-2"
+      },
+      {
+        "id": "step-2",
+        "kind": "escort",
+        "target": "z2-twin-passes",
+        "count": 1,
+        "trigger": {
+          "type": "escort_safe",
+          "ref": "z2-twin-passes",
+          "requires_step": "step-1"
+        },
+        "journal": "Completed field objective for Vinegar for Highgate inside z2-twin-passes.",
+        "next": "step-3"
+      },
+      {
+        "id": "step-3",
+        "kind": "talk",
+        "target": "npc-bram-quartermaster",
+        "trigger": {
+          "type": "talk_npc",
+          "ref": "npc-bram-quartermaster",
+          "requires_step": "step-2"
+        },
+        "journal": "Reported back to npc-bram-quartermaster and collected bounty for Vinegar for Highgate.",
+        "next": null,
+        "reward": {
+          "gold": 430,
+          "xp": 710
+        }
+      }
+    ]
+  },
+  {
+    "id": "sq2-17-quartz-splinters",
+    "act": 2,
+    "zone": "z2-quartz-plateau",
+    "giver": "npc-zahra-scholar",
+    "title": "Quartz-Splinter Harvest",
+    "reward": {
+      "gold": 510,
+      "xp": 860
+    },
+    "steps": [
+      {
+        "id": "step-1",
+        "kind": "talk",
+        "target": "npc-zahra-scholar",
+        "trigger": {
+          "type": "talk_npc",
+          "ref": "npc-zahra-scholar"
+        },
+        "journal": "Spoke with npc-zahra-scholar regarding Quartz-Splinter Harvest in z2-quartz-plateau.",
+        "next": "step-2"
+      },
+      {
+        "id": "step-2",
+        "kind": "fetch",
+        "target": "z2-quartz-plateau",
+        "count": 4,
+        "trigger": {
+          "type": "collect_item",
+          "ref": "z2-quartz-plateau",
+          "requires_step": "step-1"
+        },
+        "journal": "Completed field objective for Quartz-Splinter Harvest inside z2-quartz-plateau.",
+        "next": "step-3"
+      },
+      {
+        "id": "step-3",
+        "kind": "talk",
+        "target": "npc-zahra-scholar",
+        "trigger": {
+          "type": "talk_npc",
+          "ref": "npc-zahra-scholar",
+          "requires_step": "step-2"
+        },
+        "journal": "Reported back to npc-zahra-scholar and collected bounty for Quartz-Splinter Harvest.",
+        "next": null,
+        "reward": {
+          "gold": 510,
+          "xp": 860
+        }
+      }
+    ]
+  },
+  {
+    "id": "sq2-18-pit-prop-timbers",
+    "act": 2,
+    "zone": "z2-deep-quarry",
+    "giver": "npc-vok-forgemaster",
+    "title": "Pit-Prop Timbers",
+    "reward": {
+      "gold": 540,
+      "xp": 920
+    },
+    "steps": [
+      {
+        "id": "step-1",
+        "kind": "talk",
+        "target": "npc-vok-forgemaster",
+        "trigger": {
+          "type": "talk_npc",
+          "ref": "npc-vok-forgemaster"
+        },
+        "journal": "Spoke with npc-vok-forgemaster regarding Pit-Prop Timbers in z2-deep-quarry.",
+        "next": "step-2"
+      },
+      {
+        "id": "step-2",
+        "kind": "fetch",
+        "target": "z2-deep-quarry",
+        "count": 4,
+        "trigger": {
+          "type": "collect_item",
+          "ref": "z2-deep-quarry",
+          "requires_step": "step-1"
+        },
+        "journal": "Completed field objective for Pit-Prop Timbers inside z2-deep-quarry.",
+        "next": "step-3"
+      },
+      {
+        "id": "step-3",
+        "kind": "talk",
+        "target": "npc-vok-forgemaster",
+        "trigger": {
+          "type": "talk_npc",
+          "ref": "npc-vok-forgemaster",
+          "requires_step": "step-2"
+        },
+        "journal": "Reported back to npc-vok-forgemaster and collected bounty for Pit-Prop Timbers.",
+        "next": null,
+        "reward": {
+          "gold": 540,
+          "xp": 920
+        }
+      }
+    ]
+  },
+  {
+    "id": "sq2-19-arroyo-firepots",
+    "act": 2,
+    "zone": "z2-twin-passes",
+    "giver": "npc-vane-carpenter",
+    "title": "Unbroken Naphtha Jars",
+    "reward": {
+      "gold": 440,
+      "xp": 730
+    },
+    "steps": [
+      {
+        "id": "step-1",
+        "kind": "talk",
+        "target": "npc-vane-carpenter",
+        "trigger": {
+          "type": "talk_npc",
+          "ref": "npc-vane-carpenter"
+        },
+        "journal": "Spoke with npc-vane-carpenter regarding Unbroken Naphtha Jars in z2-twin-passes.",
+        "next": "step-2"
+      },
+      {
+        "id": "step-2",
+        "kind": "fetch",
+        "target": "z2-twin-passes",
+        "count": 4,
+        "trigger": {
+          "type": "collect_item",
+          "ref": "z2-twin-passes",
+          "requires_step": "step-1"
+        },
+        "journal": "Completed field objective for Unbroken Naphtha Jars inside z2-twin-passes.",
+        "next": "step-3"
+      },
+      {
+        "id": "step-3",
+        "kind": "talk",
+        "target": "npc-vane-carpenter",
+        "trigger": {
+          "type": "talk_npc",
+          "ref": "npc-vane-carpenter",
+          "requires_step": "step-2"
+        },
+        "journal": "Reported back to npc-vane-carpenter and collected bounty for Unbroken Naphtha Jars.",
+        "next": null,
+        "reward": {
+          "gold": 440,
+          "xp": 730
+        }
+      }
+    ]
+  },
+  {
+    "id": "sq2-20-assay-vault-balances",
+    "act": 2,
+    "zone": "z2-salt-vaults",
+    "giver": "npc-seti-notary",
+    "title": "The Assay-Vault Balances",
+    "reward": {
+      "gold": 620,
+      "xp": 1050
+    },
+    "steps": [
+      {
+        "id": "step-1",
+        "kind": "talk",
+        "target": "npc-seti-notary",
+        "trigger": {
+          "type": "talk_npc",
+          "ref": "npc-seti-notary"
+        },
+        "journal": "Spoke with npc-seti-notary regarding The Assay-Vault Balances in z2-salt-vaults.",
+        "next": "step-2"
+      },
+      {
+        "id": "step-2",
+        "kind": "fetch",
+        "target": "z2-salt-vaults",
+        "count": 4,
+        "trigger": {
+          "type": "collect_item",
+          "ref": "z2-salt-vaults",
+          "requires_step": "step-1"
+        },
+        "journal": "Completed field objective for The Assay-Vault Balances inside z2-salt-vaults.",
+        "next": "step-3"
+      },
+      {
+        "id": "step-3",
+        "kind": "talk",
+        "target": "npc-seti-notary",
+        "trigger": {
+          "type": "talk_npc",
+          "ref": "npc-seti-notary",
+          "requires_step": "step-2"
+        },
+        "journal": "Reported back to npc-seti-notary and collected bounty for The Assay-Vault Balances.",
+        "next": null,
+        "reward": {
+          "gold": 620,
+          "xp": 1050
+        }
+      }
+    ]
+  }
+]

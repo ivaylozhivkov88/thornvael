@@ -1,0 +1,104 @@
+[
+  {
+    "id": "town-redmarsh",
+    "name": "Redmarsh Outpost",
+    "zone": "z2-ochre-ditch",
+    "shop": {
+      "name": "Bram's Salt-Scale Depot",
+      "keeper": "npc-bram-quartermaster",
+      "tiers": [
+        2,
+        3
+      ]
+    },
+    "tavern": {
+      "name": "The Brine-Cask",
+      "keeper": "npc-tull-water-seller",
+      "mercs": [
+        "Dune Slinger",
+        "Salt-Caravan Guard"
+      ]
+    },
+    "npcs": [
+      "npc-bram-quartermaster",
+      "npc-tull-water-seller",
+      "npc-zahra-scholar"
+    ]
+  },
+  {
+    "id": "town-highgate",
+    "name": "Highgate Watch",
+    "zone": "z2-twin-passes",
+    "shop": {
+      "name": "Vane's Palisade Yard",
+      "keeper": "npc-vane-carpenter",
+      "tiers": [
+        2,
+        3
+      ]
+    },
+    "tavern": {
+      "name": "The Corduroy Mess",
+      "keeper": "npc-durn-wagonmaster",
+      "mercs": [
+        "Highgate Crossbowman",
+        "Outpost Pikeman"
+      ]
+    },
+    "npcs": [
+      "npc-vane-carpenter",
+      "npc-durn-wagonmaster"
+    ]
+  },
+  {
+    "id": "town-brinewell",
+    "name": "Brine-Well Oasis",
+    "zone": "z2-bracken-basin",
+    "shop": {
+      "name": "Sabik's Alkali Apothecary",
+      "keeper": "npc-sabik-walker",
+      "tiers": [
+        2,
+        3
+      ]
+    },
+    "tavern": {
+      "name": "The Limestone Wellhead",
+      "keeper": "npc-lyra-surveyor",
+      "mercs": [
+        "Oasis Houndmaster",
+        "Lime-Censer Novice"
+      ]
+    },
+    "npcs": [
+      "npc-sabik-walker",
+      "npc-lyra-surveyor"
+    ]
+  },
+  {
+    "id": "town-quarrycamp",
+    "name": "Ironheart Quarry-Camp",
+    "zone": "z2-deep-quarry",
+    "shop": {
+      "name": "Vok's Ironstone Forge",
+      "keeper": "npc-vok-forgemaster",
+      "tiers": [
+        3,
+        4
+      ]
+    },
+    "tavern": {
+      "name": "The Snapped Collar",
+      "keeper": "npc-gorin-miner",
+      "mercs": [
+        "Deep Quarry Sapper",
+        "Third-Dynasty Tomb Notary"
+      ]
+    },
+    "npcs": [
+      "npc-vok-forgemaster",
+      "npc-gorin-miner",
+      "npc-seti-notary"
+    ]
+  }
+]

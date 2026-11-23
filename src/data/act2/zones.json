@@ -1,0 +1,72 @@
+[
+  {
+    "id": "z2-ochre-ditch",
+    "name": "Ochre Ditch & Corduroy Causeway",
+    "act": 2,
+    "minLevel": 12,
+    "maxLevel": 14,
+    "biome": "alkali-marsh",
+    "town": "town-redmarsh",
+    "boss": null
+  },
+  {
+    "id": "z2-twin-passes",
+    "name": "Twin Passes & Highgate Watch",
+    "act": 2,
+    "minLevel": 14,
+    "maxLevel": 16,
+    "biome": "canyon",
+    "town": "town-highgate",
+    "boss": null
+  },
+  {
+    "id": "z2-bracken-basin",
+    "name": "Bracken Alkali Basin",
+    "act": 2,
+    "minLevel": 16,
+    "maxLevel": 18,
+    "biome": "salt-pan",
+    "town": "town-brinewell",
+    "boss": "hexer-saelen"
+  },
+  {
+    "id": "z2-quartz-plateau",
+    "name": "Quartz Wardstone Plateau",
+    "act": 2,
+    "minLevel": 18,
+    "maxLevel": 20,
+    "biome": "plateau",
+    "town": "town-redmarsh",
+    "boss": null
+  },
+  {
+    "id": "z2-salt-vaults",
+    "name": "Third-Dynasty Salt-Vaults",
+    "act": 2,
+    "minLevel": 20,
+    "maxLevel": 21,
+    "biome": "tomb",
+    "town": "town-quarrycamp",
+    "boss": "khepri-embalmer"
+  },
+  {
+    "id": "z2-deep-quarry",
+    "name": "Deep Quarry Terraces",
+    "act": 2,
+    "minLevel": 21,
+    "maxLevel": 23,
+    "biome": "quarry",
+    "town": "town-quarrycamp",
+    "boss": null
+  },
+  {
+    "id": "z2-ironheart-bastion",
+    "name": "Fork of Spears & Ironheart Bastion",
+    "act": 2,
+    "minLevel": 23,
+    "maxLevel": 24,
+    "biome": "bastion",
+    "town": "town-redmarsh",
+    "boss": "gorrathul"
+  }
+]

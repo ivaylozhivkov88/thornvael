@@ -1,0 +1,482 @@
+[
+  {
+    "id": "uniq2-alkali-breaker",
+    "name": "Alkali-Breaker's Maul",
+    "slot": "weapon",
+    "tier": 3,
+    "act": 2,
+    "stats": {
+      "minDmg": 14,
+      "maxDmg": 22
+    },
+    "lore": "Recovered in the Redmarsh frontier; two-handed ironstone maul wrapped in oiled camel-hide with salt-etched fuller."
+  },
+  {
+    "id": "uniq2-corduroy-halberd",
+    "name": "Corduroy Road Halberd",
+    "slot": "weapon",
+    "tier": 3,
+    "act": 2,
+    "stats": {
+      "minDmg": 15,
+      "maxDmg": 23
+    },
+    "lore": "Recovered in the Redmarsh frontier; long ash-shafted halberd with a blackened steel crescent blade and brass rivets."
+  },
+  {
+    "id": "uniq2-brine-falchion",
+    "name": "Salt-Tempered Falchion",
+    "slot": "weapon",
+    "tier": 3,
+    "act": 2,
+    "stats": {
+      "minDmg": 16,
+      "maxDmg": 24
+    },
+    "lore": "Recovered in the Redmarsh frontier; curved single-edged falchion with salt-pitted steel and a bronze knuckle-bow."
+  },
+  {
+    "id": "uniq2-quartz-rod",
+    "name": "Brine-Etched Spire Rod",
+    "slot": "weapon",
+    "tier": 3,
+    "act": 2,
+    "stats": {
+      "minDmg": 17,
+      "maxDmg": 25
+    },
+    "lore": "Recovered in the Redmarsh frontier; slender bronze spell-rod topped with a fractured rose-quartz resonance crystal."
+  },
+  {
+    "id": "uniq2-saelen-needle",
+    "name": "Saelen's Verdigris Staff",
+    "slot": "weapon",
+    "tier": 3,
+    "act": 2,
+    "stats": {
+      "minDmg": 18,
+      "maxDmg": 26
+    },
+    "lore": "Recovered in the Redmarsh frontier; gnarled desert tamarisk staff capped with a verdigris copper cauldron-cage."
+  },
+  {
+    "id": "uniq2-khepri-crook",
+    "name": "Khepri's Probate Crook",
+    "slot": "weapon",
+    "tier": 3,
+    "act": 2,
+    "stats": {
+      "minDmg": 19,
+      "maxDmg": 27
+    },
+    "lore": "Recovered in the Redmarsh frontier; ceremonial obsidian-inlaid bronze crook wrapped in faded linen burial strips."
+  },
+  {
+    "id": "uniq2-quarry-pick",
+    "name": "Black-Ironstone Sapper Pick",
+    "slot": "weapon",
+    "tier": 3,
+    "act": 2,
+    "stats": {
+      "minDmg": 20,
+      "maxDmg": 28
+    },
+    "lore": "Recovered in the Redmarsh frontier; heavy miner war-pick forged from matte black ironstone with a notched oak haft."
+  },
+  {
+    "id": "uniq2-gorrathul-cleaver",
+    "name": "Gorrathul's Cistern Cleaver",
+    "slot": "weapon",
+    "tier": 3,
+    "act": 2,
+    "stats": {
+      "minDmg": 21,
+      "maxDmg": 29
+    },
+    "lore": "Recovered in the Redmarsh frontier; massive notched butcher-axe of dark basalt-iron bound with cracked leather thongs."
+  },
+  {
+    "id": "uniq2-highgate-arbalest",
+    "name": "Highgate Watch Arbalest",
+    "slot": "weapon",
+    "tier": 3,
+    "act": 2,
+    "stats": {
+      "minDmg": 22,
+      "maxDmg": 30
+    },
+    "lore": "Recovered in the Redmarsh frontier; compact steel-prodded heavy crossbow with a brass windlass and sinew cord."
+  },
+  {
+    "id": "uniq2-durn-whip",
+    "name": "Wagonmaster's Ash Recurve",
+    "slot": "weapon",
+    "tier": 3,
+    "act": 2,
+    "stats": {
+      "minDmg": 23,
+      "maxDmg": 31
+    },
+    "lore": "Recovered in the Redmarsh frontier; laminated horn-and-ash recurve bow bound with rawhide along the grip."
+  },
+  {
+    "id": "uniq2-redmarsh-longbow",
+    "name": "Salt-Mirage Longbow",
+    "slot": "weapon",
+    "tier": 3,
+    "act": 2,
+    "stats": {
+      "minDmg": 14,
+      "maxDmg": 32
+    },
+    "lore": "Recovered in the Redmarsh frontier; pale bleached yew longbow wrapped in ochre desert cloth strips."
+  },
+  {
+    "id": "uniq2-wardstone-wand",
+    "name": "Monolith Resonance Wand",
+    "slot": "weapon",
+    "tier": 3,
+    "act": 2,
+    "stats": {
+      "minDmg": 15,
+      "maxDmg": 33
+    },
+    "lore": "Recovered in the Redmarsh frontier; short copper-coiled wand tipped with a humming translucent quartz shard."
+  },
+  {
+    "id": "uniq2-bitumen-blade",
+    "name": "Bitumen-Coated Misericorde",
+    "slot": "weapon",
+    "tier": 3,
+    "act": 2,
+    "stats": {
+      "minDmg": 16,
+      "maxDmg": 22
+    },
+    "lore": "Recovered in the Redmarsh frontier; slender armor-piercing dagger with a blackened tar-lacquered fuller and iron hilt."
+  },
+  {
+    "id": "uniq2-salt-trident",
+    "name": "Inland-Sea Relic Trident",
+    "slot": "weapon",
+    "tier": 3,
+    "act": 2,
+    "stats": {
+      "minDmg": 17,
+      "maxDmg": 23
+    },
+    "lore": "Recovered in the Redmarsh frontier; tarnished bronze three-pronged spear crusted with dry sea-salt crystals."
+  },
+  {
+    "id": "uniq2-foundry-hammer",
+    "name": "Vok's Quarry Anvil-Hammer",
+    "slot": "weapon",
+    "tier": 3,
+    "act": 2,
+    "stats": {
+      "minDmg": 18,
+      "maxDmg": 24
+    },
+    "lore": "Recovered in the Redmarsh frontier; short heavy smithing warhammer with heat-blued steel faces and iron collar."
+  },
+  {
+    "id": "uniq2-oasis-scythe",
+    "name": "Bog-Reed Sickle-Blade",
+    "slot": "weapon",
+    "tier": 3,
+    "act": 2,
+    "stats": {
+      "minDmg": 19,
+      "maxDmg": 25
+    },
+    "lore": "Recovered in the Redmarsh frontier; crescent harvesting war-sickle stained green with desert copper patina."
+  },
+  {
+    "id": "uniq2-caravan-pavise",
+    "name": "Stockade Defender Greatshield",
+    "slot": "shield",
+    "tier": 3,
+    "act": 2,
+    "stats": {
+      "def": 8,
+      "abs": 2
+    },
+    "lore": "Recovered in the Redmarsh frontier; tall rectangular timber tower shield reinforced with black ironstone plates."
+  },
+  {
+    "id": "uniq2-salt-buckler",
+    "name": "Brine-Crusted Targe",
+    "slot": "shield",
+    "tier": 3,
+    "act": 2,
+    "stats": {
+      "def": 9,
+      "abs": 3
+    },
+    "lore": "Recovered in the Redmarsh frontier; round bull-hide targe studded with salt-tarnished brass bosses."
+  },
+  {
+    "id": "uniq2-probate-aegis",
+    "name": "Third-Dynasty Seal Buckler",
+    "slot": "shield",
+    "tier": 3,
+    "act": 2,
+    "stats": {
+      "def": 10,
+      "abs": 4
+    },
+    "lore": "Recovered in the Redmarsh frontier; fluted bronze buckler stamped with a sunken inland-sea probate crest."
+  },
+  {
+    "id": "uniq2-cistern-bulwark",
+    "name": "Sluice-Gate Iron Kite",
+    "slot": "shield",
+    "tier": 3,
+    "act": 2,
+    "stats": {
+      "def": 11,
+      "abs": 5
+    },
+    "lore": "Recovered in the Redmarsh frontier; heavy riveted iron kite shield cut from an old cistern sluice plate."
+  },
+  {
+    "id": "uniq2-alkali-visor",
+    "name": "Alkali-Goggle Kettle Helm",
+    "slot": "helm",
+    "tier": 4,
+    "act": 2,
+    "stats": {
+      "def": 12,
+      "abs": 2
+    },
+    "lore": "Recovered in the Redmarsh frontier; weathered iron kettle helm fitted with amber mica sand-goggles."
+  },
+  {
+    "id": "uniq2-notary-cowl",
+    "name": "Tomb-Notary's Linen Cowl",
+    "slot": "helm",
+    "tier": 4,
+    "act": 2,
+    "stats": {
+      "def": 13,
+      "abs": 3
+    },
+    "lore": "Recovered in the Redmarsh frontier; ash-grey pleated linen hood clasped with a stamped silver tally-brooch."
+  },
+  {
+    "id": "uniq2-chanters-diadem",
+    "name": "Quartz-Shard Circlet",
+    "slot": "helm",
+    "tier": 4,
+    "act": 2,
+    "stats": {
+      "def": 14,
+      "abs": 4
+    },
+    "lore": "Recovered in the Redmarsh frontier; hammered copper brow-circlet set with three jagged clear quartz prisms."
+  },
+  {
+    "id": "uniq2-miner-cage",
+    "name": "Canary-Cage Miner's Cap",
+    "slot": "helm",
+    "tier": 4,
+    "act": 2,
+    "stats": {
+      "def": 15,
+      "abs": 5
+    },
+    "lore": "Recovered in the Redmarsh frontier; dented boiled-leather miner cap with a brass lamp-hook and iron chin-strap."
+  },
+  {
+    "id": "uniq2-warden-barbute",
+    "name": "Ironheart Basalt Barbute",
+    "slot": "helm",
+    "tier": 4,
+    "act": 2,
+    "stats": {
+      "def": 8,
+      "abs": 2
+    },
+    "lore": "Recovered in the Redmarsh frontier; dark matte-iron barbute helm scored by sandstorms and hammer dents."
+  },
+  {
+    "id": "uniq2-salt-turban",
+    "name": "Desert Scout Sand-Veil",
+    "slot": "helm",
+    "tier": 4,
+    "act": 2,
+    "stats": {
+      "def": 9,
+      "abs": 3
+    },
+    "lore": "Recovered in the Redmarsh frontier; sun-bleached ochre linen desert wrap reinforced with bronze cheek-scales."
+  },
+  {
+    "id": "uniq2-caravan-scale",
+    "name": "Redmarsh Scale Hauberk",
+    "slot": "armor",
+    "tier": 4,
+    "act": 2,
+    "stats": {
+      "def": 10,
+      "abs": 4
+    },
+    "lore": "Recovered in the Redmarsh frontier; overlapping bronze-and-horn scale hauberk backed by thick camel leather."
+  },
+  {
+    "id": "uniq2-quarry-brigandine",
+    "name": "Freed Miner's Brigandine",
+    "slot": "armor",
+    "tier": 4,
+    "act": 2,
+    "stats": {
+      "def": 11,
+      "abs": 5
+    },
+    "lore": "Recovered in the Redmarsh frontier; soot-dark canvas brigandine lined with stolen black-ironstone plates."
+  },
+  {
+    "id": "uniq2-zahra-vestment",
+    "name": "Chronicler's Wardstone Coat",
+    "slot": "armor",
+    "tier": 4,
+    "act": 2,
+    "stats": {
+      "def": 12,
+      "abs": 2
+    },
+    "lore": "Recovered in the Redmarsh frontier; indigo desert traveler coat sewn with copper grounding threads."
+  },
+  {
+    "id": "uniq2-embalmer-shroud",
+    "name": "Bitumen-Stained Burial Coat",
+    "slot": "armor",
+    "tier": 4,
+    "act": 2,
+    "stats": {
+      "def": 13,
+      "abs": 3
+    },
+    "lore": "Recovered in the Redmarsh frontier; heavy charcoal ritual coat trimmed with cracked wax seals and bronze clasps."
+  },
+  {
+    "id": "uniq2-highgate-cuirass",
+    "name": "Highgate Palisade Cuirass",
+    "slot": "armor",
+    "tier": 4,
+    "act": 2,
+    "stats": {
+      "def": 14,
+      "abs": 4
+    },
+    "lore": "Recovered in the Redmarsh frontier; fluted frontier steel breastplate strapped over a dusty wool gambeson."
+  },
+  {
+    "id": "uniq2-alkali-cloak",
+    "name": "Dust-Walker Mantle",
+    "slot": "armor",
+    "tier": 4,
+    "act": 2,
+    "stats": {
+      "def": 15,
+      "abs": 5
+    },
+    "lore": "Recovered in the Redmarsh frontier; weathered sandstone-colored hooded cloak weighted at the hem with lead shot."
+  },
+  {
+    "id": "uniq2-salt-greaves",
+    "name": "Salt-Flats Marching Greaves",
+    "slot": "boots",
+    "tier": 4,
+    "act": 2,
+    "stats": {
+      "def": 8,
+      "abs": 2
+    },
+    "lore": "Recovered in the Redmarsh frontier; tall calf-high oiled camel-hide boots reinforced with iron toe-caps."
+  },
+  {
+    "id": "uniq2-cistern-boots",
+    "name": "Silted-Cistern Waders",
+    "slot": "boots",
+    "tier": 4,
+    "act": 2,
+    "stats": {
+      "def": 9,
+      "abs": 3
+    },
+    "lore": "Recovered in the Redmarsh frontier; thick tar-waterproofed leather boots with heavy brass buckle straps."
+  },
+  {
+    "id": "uniq2-dune-sandals",
+    "name": "Sand-Walker Striders",
+    "slot": "boots",
+    "tier": 4,
+    "act": 2,
+    "stats": {
+      "def": 10,
+      "abs": 4
+    },
+    "lore": "Recovered in the Redmarsh frontier; layered rawhide desert boots bound with cross-laced hemp cords."
+  },
+  {
+    "id": "uniq2-ironstone-sabatons",
+    "name": "Ironstone Quarry Sabatons",
+    "slot": "boots",
+    "tier": 4,
+    "act": 2,
+    "stats": {
+      "def": 11,
+      "abs": 5
+    },
+    "lore": "Recovered in the Redmarsh frontier; articulated dark ironstone war-boots built for jagged limestone terraces."
+  },
+  {
+    "id": "uniq2-lime-gauntlets",
+    "name": "Slaked-Lime Alchemist Gloves",
+    "slot": "gloves",
+    "tier": 4,
+    "act": 2,
+    "stats": {
+      "def": 12,
+      "abs": 2
+    },
+    "lore": "Recovered in the Redmarsh frontier; elbow-length cured bull-hide gloves dusted with white quicklime."
+  },
+  {
+    "id": "uniq2-pick-grips",
+    "name": "Quarry-Breaker's Iron Grips",
+    "slot": "gloves",
+    "tier": 4,
+    "act": 2,
+    "stats": {
+      "def": 13,
+      "abs": 3
+    },
+    "lore": "Recovered in the Redmarsh frontier; ribbed iron-knuckle gauntlets wrapped in coarse mining rope."
+  },
+  {
+    "id": "uniq2-scribe-mitts",
+    "name": "Probate Clerk Fingerless Wraps",
+    "slot": "gloves",
+    "tier": 4,
+    "act": 2,
+    "stats": {
+      "def": 14,
+      "abs": 4
+    },
+    "lore": "Recovered in the Redmarsh frontier; ink-stained dark leather archer wraps with bronze wrist-guards."
+  },
+  {
+    "id": "uniq2-gorrathul-fists",
+    "name": "Sand-Glutton Crushing Gauntlets",
+    "slot": "gloves",
+    "tier": 4,
+    "act": 2,
+    "stats": {
+      "def": 15,
+      "abs": 5
+    },
+    "lore": "Recovered in the Redmarsh frontier; oversized black-iron plate gauntlets spiked across the knuckles."
+  }
+]

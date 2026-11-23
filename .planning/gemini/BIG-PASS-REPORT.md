@@ -3,16 +3,23 @@
 **Date:** 2026-11-23  
 **Branch:** `gemini/big-pass` (never pushed to `main`)  
 
-## Unfinished / Remaining
-- **Task 10:** Act 2 design, data & item art prompts (in progress)
+## Unfinished / Deferred
+- **None of Tasks 1–10 remain unfinished.**
+- **Deferred runtime hookups (outside data/test scope):**
+  - Act 1 `steps[]` runtime state machine evaluation in `src/sidequests.ts` (authored & verified in data; `src/sidequests.ts` still tracks kill/gold counters).
+  - Act 1 reputation-tier UI wiring in `src/townui.ts` (authored & verified in `npc-dialogues.json`; UI untouched per Task 2 data-only rule).
+  - Act 2 design & data (`src/data/act2/**`, `.planning/act2/**`) are design/data-only per Task 10 (no engine code modified).
 
 ---
 
-## Completed Tasks
-- **Tasks 1–5 (Act 1 Content, Dialogues, Lore Consistency, Wiki & Balance):** Completed (`f6da776`, `00db99f`, `498f567`, `e9d4634`, `84517d5`).
-- **Task 6 (Spells & Skills 5-Tier Audit, `1dc14b0`):** Completed 5-tier spell & skill trees for Warrior, Mage, Archer, and Necromancer; added `tests/spell-skill-audit.test.ts` and `.planning/gemini/SPELL-BALANCE.md`.
-- **Task 7 (Playwright E2E Suite, `0312f71`):** Added `e2e/big-pass-journey.spec.ts` (5/5 green) and `data-testid` hooks (`btn-single-player`, `btn-wiki`, `btn-codex`, `btn-map-codex`, `hero-sheet`, `town-panel`).
-- **Task 8 (6 Original Skirmish Maps, `872c205`):** Created 6 `MapDoc` v2 skirmish maps under `public/maps/skirmish/` + `tests/skirmish-pack6.test.ts` (7/7 green).
-- **Task 9 (Mobile UI Audit & CSS Fixes):**
-  - Audited `360x640` and `390x844` viewports in `.planning/gemini/MOBILE-AUDIT.md`.
-  - Fixed CSS-only layout/touch issues in `src/gothic-hud.css`, `src/townstyle.css`, and `src/style.css`: enforced `44px` minimum touch targets on `.hud-btn`, `.belt-slot`, `.skill-slot`, `.codex-close`, `.codex-tab`, and `#shell .sh-btn` (`pointer: coarse`); added `touch-action: none` on inventory/paperdoll drag controls; added `100dvh` safe-area containment and `-webkit-overflow-scrolling: touch; overscroll-behavior: contain` on Codex scroll views.
+## Completed Tasks (One Commit per Task)
+1. **Task 1 — Act 1 Quest Steps (`f6da776`):** Added 3–6 step `steps[]` chains (`talk`, `fetch`, `kill`, `escort`, `choice`) to all 22 Act 1 quests + `field-surveyor-hal` / `field-foreman-durn` + `tests/act1-quests.test.ts` (4/4 green).
+2. **Task 2 — Act 1 NPC Dialogues (`00db99f`):** Added reputation greetings (`low`/`neutral`/`high`), 2–4 topics, quest-aware (`before`/`during`/`after`) nodes, and 3 idle barks per Act 1 NPC (`8` NPCs) + `tests/act1-dialogues.test.ts` (4/4 green).
+3. **Task 3 — Lore Consistency (`498f567`):** Audited quests, dialogues, wiki, and `.planning/gemini/doll_prompts.json` (read-only; `135/135` items matched). Fixed `Collector Vance` → `Collector Harlon`, `Ferryman Hobb` → `Ferryman Garren`, `Peddler Bram` → `Peddler Merrin`, `Vaelor` → `Valgor`. Wrote `.planning/gemini/LORE-CONSISTENCY.md`.
+4. **Task 4 — Wiki & Codex Coverage (`e9d4634`):** Updated `tools/build-wiki-data.mjs` to emit town NPC lore entries and cross-links (`2,250` entries, `0` placeholders) + `tests/act1-wiki.test.ts` (2/2 green).
+5. **Task 5 — Act 1 Balance Table (`84517d5`):** Wrote `.planning/gemini/ACT1-BALANCE.md` (zone levels, monster HP/dmg, quest gold/XP, shop price bands, flagged outliers) and `.planning/gemini/ACT1-REPORT.md`.
+6. **Task 6 — Spells & Skills 5-Tier Audit (`1dc14b0`):** Filled missing Archer (`Barbed Shaft` T2, `Gale Pin` T4) and Necromancer (`Quicklime Cloud` T3, `Bone Splinter` T4, `Rite of Ash` T5) spells (`55` spells total); expanded `src/skills/trees.ts` & `src/skills/types.ts` to 4 classes × 5 tiers; added `tests/spell-skill-audit.test.ts` (3/3) and `.planning/gemini/SPELL-BALANCE.md`.
+7. **Task 7 — Playwright E2E Suite (`0312f71`):** Added `e2e/big-pass-journey.spec.ts` (5/5 green across desktop + `390x844` mobile) and `data-testid` hooks (`src/shell.ts`: `btn-single-player`, `btn-wiki`, `btn-codex`, `btn-map-codex`; `src/heroui.ts`: `hero-sheet`; `src/townui.ts`: `town-panel`).
+8. **Task 8 — 6 Original Skirmish Maps (`872c205`):** Generated 6 `MapDoc` v2 maps (2–4 players) under `public/maps/skirmish/**` + `tests/skirmish-pack6.test.ts` (7/7 green) validating `validate()`, `loadDoc()`, and BFS start-to-start reachability.
+9. **Task 9 — Mobile UI Audit & CSS Fixes (`7c4caec`):** Audited `360x640` & `390x844` in `.planning/gemini/MOBILE-AUDIT.md`; fixed `44px` touch targets, `touch-action: none` on inventory/paperdoll drag, and Codex touch scrolling across `src/gothic-hud.css`, `src/townstyle.css`, and `src/style.css`.
+10. **Task 10 — Act 2 Design, Data & Art Prompts:** Authored `.planning/act2/ACT2-DESIGN.md`, `src/data/act2/zones.json` (7 zones, Lv 12–24), `towns.json` (4 towns), `bosses.json` (3 bosses with multi-phase mechanics), `quests.json` (26 quests with `steps[]`), `uniques.json` (40 items), and `.planning/act2/act2_item_prompts.json` (40 `{key, prompt}` entries in `doll_prompts.json` painterly style).
