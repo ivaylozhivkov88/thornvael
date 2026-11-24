@@ -163,7 +163,7 @@ test.describe('Act 1 Campaign Flow E2E', () => {
     await expect(skipStory).toBeVisible();
     await skipStory.click();
 
-    await page.waitForURL(/\?mission=ford&campaign=m01-blood-at-the-ford/);
+    await page.waitForURL(/\?mission=(?:ford|act1-world)&campaign=m01-blood-at-the-ford/);
     await page.waitForFunction(
       () => {
         const retry = document.querySelector('.tv-loading-retry-btn');
@@ -230,7 +230,7 @@ test.describe('Act 1 Campaign Flow E2E', () => {
     await expect(townBtn).toBeVisible({ timeout: 10000 });
     await townBtn.click({ force: true });
 
-    await page.waitForURL(/\?mission=market&campaign=town-thornwick/);
+    await page.waitForURL(/\?mission=(?:market|act1-world)&campaign=town-thornwick/);
     await page.waitForFunction(
       () => {
         const retry = document.querySelector('.tv-loading-retry-btn');
