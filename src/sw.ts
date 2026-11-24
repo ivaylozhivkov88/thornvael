@@ -41,7 +41,10 @@ registerRoute(
 // Unit sprite atlases are loaded on demand per mission and cached lazily instead of upfront precache.
 registerRoute(
   ({ url }) => url.pathname.includes('/sprites/') && /\.(?:png|json)$/i.test(url.pathname),
-  new CacheFirst({ cacheName: 'thornvael-sprites-v1' }),
+  new CacheFirst({
+    cacheName: 'thornvael-sprites-v1',
+    plugins: [{ handlerDidError: async () => new Response(null, { status: 503, statusText: 'Offline' }) }],
+  }),
 );
 
 // Sounds are not precached: they come from the chapter cache (see offline.ts) or runtime cache, else the network.

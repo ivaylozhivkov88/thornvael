@@ -44,7 +44,7 @@ jobs:
   playwright-smoke:
     needs: validate
     runs-on: ubuntu-latest
-    timeout-minutes: 30
+    timeout-minutes: ${{ matrix.project == 'webkit' && 12 || 20 }}
     strategy:
       fail-fast: false
       matrix:
@@ -63,7 +63,7 @@ jobs:
       - name: Run PWA & biome smoke tests (${{ matrix.project }})
         run: npx playwright test -c playwright.smoke.config.ts --project=${{ matrix.project }} --reporter=list
       - uses: actions/upload-artifact@v4
-        if: failure()
+        if: always()
         with:
           name: playwright-smoke-results-${{ matrix.project }}
           path: test-results

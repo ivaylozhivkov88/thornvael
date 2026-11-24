@@ -20,10 +20,23 @@ function open(): Promise<IDBDatabase> {
   opening ??= new Promise((resolve, reject) => {
     const r = indexedDB.open(DB, 1);
     r.onupgradeneeded = () => r.result.createObjectStore(STORE);
-    r.onsuccess = () => resolve(r.result);
-    r.onerror = () => {
+    const fail = (err: unknown) => {
       opening = null;
-      reject(r.error);
+      reject(err);
+    };
+    // A blocked or stalled open (seen on WebKit after a navigation) must reject instead of hanging every caller.
+    const timer = setTimeout(() => fail(new Error('IndexedDB open timed out')), 6000);
+    r.onsuccess = () => {
+      clearTimeout(timer);
+      resolve(r.result);
+    };
+    r.onerror = () => {
+      clearTimeout(timer);
+      fail(r.error);
+    };
+    r.onblocked = () => {
+      clearTimeout(timer);
+      fail(new Error('IndexedDB blocked'));
     };
   });
   return opening;

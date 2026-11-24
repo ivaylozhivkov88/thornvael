@@ -93,7 +93,9 @@ for (const [label, descriptor] of [
 
     test('offline reload works after service worker registration', async ({ page, context }) => {
       const errors: string[] = [];
-      page.on('pageerror', (e) => errors.push(e.message));
+      // Only errors from the offline page count: leaving the warm-up page aborts its in-flight
+      // fetches, and WebKit reports those aborts as "access control checks" pageerrors.
+      const onPageError = (e: Error) => errors.push(e.message);
 
       // Register & activate Service Worker on the lightweight menu first (no WebGL contention).
       await page.goto('/thornvael/');
@@ -112,17 +114,41 @@ for (const [label, descriptor] of [
         { polling: 250, timeout: process.env.CI ? 90_000 : 45_000 },
       );
 
-      // Tear down the active WebGL loop before toggling WebKit offline mode so NetworkProcess IPC never stalls.
-      await page.goto('/thornvael/', { waitUntil: 'domcontentloaded' });
-      await page.waitForTimeout(300);
-
+      // Leave the game page without starting the menu's background fetches (they would be aborted by setOffline).
+      await page.goto('about:blank', { waitUntil: 'commit' });
       await context.setOffline(true);
+      page.on('pageerror', onPageError);
+      const diagLog: string[] = [];
+      page.on('console', (m) => diagLog.push(`[${m.type()}] ${m.text()}`.slice(0, 300)));
+      page.on('requestfailed', (r) => diagLog.push(`[reqfail] ${r.url()} ${r.failure()?.errorText}`));
       try {
         await page.goto('/thornvael/?randskirmish=7&players=2&biome=forest&hero=warrior,m,medium');
-        await page.waitForFunction(() => Boolean((window as GameWindow).__game), undefined, {
-          polling: 250,
-          timeout: process.env.CI ? 90_000 : 45_000,
-        });
+        await page
+          .waitForFunction(
+            () => {
+              if (document.querySelector('.tv-loading-retry-btn')) {
+                const msg = document.querySelector('.tv-loading-err-msg')?.textContent || 'Load failed';
+                throw new Error(`Offline loading failed: ${msg}`);
+              }
+              return Boolean((window as GameWindow).__game);
+            },
+            undefined,
+            { polling: 250, timeout: process.env.CI ? 60_000 : 45_000 },
+          )
+          .catch(async (e) => {
+            const info = await page
+              .evaluate(async () => ({
+                bootPhase: (window as unknown as { __bootPhase?: string }).__bootPhase,
+                sw: navigator.serviceWorker.controller?.state,
+                caches: await Promise.all(
+                  (await caches.keys()).map(async (k) => `${k}:${(await (await caches.open(k)).keys()).length}`),
+                ),
+                loading: document.querySelector('.tv-loading')?.textContent?.slice(0, 200),
+              }))
+              .catch((er) => ({ evalError: String(er) }));
+            console.log(`WEBKIT-DIAG offline: ${JSON.stringify(info)} ${diagLog.slice(-25).join(' | ')}`);
+            throw e;
+          });
         await expect(page.locator('#game')).toBeVisible();
         expect(await page.evaluate(() => (window as GameWindow).__game!.sim.tick)).toBeGreaterThanOrEqual(0);
         expect(errors).toEqual([]);
