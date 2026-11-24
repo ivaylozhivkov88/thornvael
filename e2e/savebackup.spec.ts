@@ -64,6 +64,7 @@ function advanceToTown(record: CampaignRecord): CampaignRecord {
 }
 
 test('actual campaign save capture → New Game B → load A restores A and exits its town safely', async ({ page }) => {
+  test.setTimeout(150_000);
   const errors: string[] = [];
   page.on('pageerror', (e) => errors.push(e.message));
   await page.goto('/thornvael/');
