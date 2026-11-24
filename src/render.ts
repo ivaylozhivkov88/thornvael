@@ -22,6 +22,7 @@ import {
 } from './sprites/units';
 import { getSuperUniqueById } from './sim/super-uniques';
 import { loadAllExtraAtlases, type ExtraAtlases } from './sprites/extra-atlases';
+import { DEFAULT_ATLAS_CONCURRENCY, DEFAULT_LOAD_TIMEOUT_MS, runWithPool } from './sprites/load-pool';
 import { ArtPreview } from './sprites/preview';
 import { AtlasOverlayPass, type RenderBossTelegraph } from './render/atlas-overlays';
 import {
@@ -587,28 +588,28 @@ export class Renderer {
     const atlases = this.loadedAtlases;
     const atlas =
       bossAtlas ??
-      (this.artStress
+      (this.artStress && atlases.length > 0
         ? atlases[i % atlases.length]
         : kind === Kind.Hero
           ? sim.hero?.cls === 1
-            ? this.atlasByArt.get('mage') ?? atlases[4]
+            ? this.atlasByArt.get('mage')
             : sim.hero?.cls === 2
-              ? this.atlasByArt.get('archer') ?? atlases[1]
+              ? this.atlasByArt.get('archer')
               : sim.hero?.cls === 3
-                ? this.atlasByArt.get('necromancer') ?? atlases[0]
-                : this.atlasByArt.get('hero') ?? atlases[0]
+                ? this.atlasByArt.get('necromancer')
+                : this.atlasByArt.get('hero')
           : kind === Kind.Archer
-            ? atlases[1]
+            ? this.atlasByArt.get('archer')
             : kind === Kind.Golem
-              ? atlases[2]
+              ? this.atlasByArt.get('golem')
               : kind === Kind.Warrior
-                ? atlases[3]
+                ? this.atlasByArt.get('warrior')
                 : kind === Kind.Mage
-                  ? atlases[4]
+                  ? this.atlasByArt.get('mage')
                   : kind === Kind.Gnoll
-                    ? atlases[5]
+                    ? this.atlasByArt.get('gnoll')
                     : kind === Kind.Imp
-                      ? atlases[6]
+                      ? this.atlasByArt.get('imp')
                       : null);
     const s = atlas ? new UnitSprite(atlas, boss) : new Sprite(this.fallbackUnitTex);
     if (s instanceof Sprite) s.anchor.set(0.5, 0.88);
@@ -798,19 +799,33 @@ export class Renderer {
     const neededExtended = new Set<string>();
     if (!this.baselineArtOnly) {
       for (let i = 0; i < sim.count; i++) {
+        if (sim.hidden[i]) continue;
         const fam = sim.cb.family[i];
         if (fam && this.resolveExtendedArtId(fam)) neededExtended.add(fam);
       }
     }
     this.releaseUnusedExtendedAtlases(neededExtended);
 
-    const [atlases, extraAtlases] = await Promise.all([
-      Promise.all(ALL_UNIT_ART.map((unit) => UnitAtlas.load(unit))),
-      loadAllExtraAtlases(),
-      ...(!this.baselineArtOnly
-        ? [...neededExtended].map((fam) => this.loadExtendedFamilyAtlas(fam))
-        : []),
-    ]);
+    const coreSettled = await runWithPool(
+      ALL_UNIT_ART.map((unit) => () => UnitAtlas.load(unit, DEFAULT_LOAD_TIMEOUT_MS)),
+      DEFAULT_ATLAS_CONCURRENCY,
+    );
+    const atlases: UnitAtlas[] = [];
+    for (let idx = 0; idx < coreSettled.length; idx++) {
+      const r = coreSettled[idx]!;
+      if (r.status === 'fulfilled') {
+        atlases.push(r.value);
+      } else {
+        console.warn(`[render] Core atlas fallback for ${ALL_UNIT_ART[idx]}:`, r.reason);
+      }
+    }
+    const extraAtlases = await loadAllExtraAtlases(DEFAULT_ATLAS_CONCURRENCY, DEFAULT_LOAD_TIMEOUT_MS);
+    if (!this.baselineArtOnly && neededExtended.size > 0) {
+      await runWithPool(
+        [...neededExtended].map((fam) => () => this.loadExtendedFamilyAtlas(fam)),
+        DEFAULT_ATLAS_CONCURRENCY,
+      );
+    }
     this.loadedAtlases = atlases;
     this.extraAtlases = extraAtlases;
     const vram = this.ensureVram();
@@ -1420,7 +1435,7 @@ export class Renderer {
 
     for (let i = 0; i < sim.count; i++) {
       let s = this.sprites[i];
-      if (!this.baselineArtOnly && this.fallbackUnitTex && this.loadedAtlases?.length) {
+      if (!sim.hidden[i] && !this.baselineArtOnly && this.fallbackUnitTex && this.loadedAtlases?.length) {
         const rawFam = cb.family[i];
         const extArtId = this.resolveExtendedArtId(rawFam);
         if (extArtId && (!(s instanceof UnitSprite) || s.atlas.unit !== extArtId)) {

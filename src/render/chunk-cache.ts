@@ -2,6 +2,58 @@ import { Container, Sprite, Texture } from 'pixi.js';
 import { TILE, type GameMap } from '../map';
 import { paintTerrainChunk, type SceneryPlacement } from '../terrain';
 
+export interface ChunkCoord {
+  cx: number;
+  cy: number;
+  key: string;
+  distSq: number;
+}
+
+export interface TileViewport {
+  readonly x0: number;
+  readonly y0: number;
+  readonly x1: number;
+  readonly y1: number;
+}
+
+export function chunkSizeForMap(mapW: number, mapH: number): number {
+  return Math.max(mapW, mapH) > 128 ? 32 : 16;
+}
+
+/**
+ * Compute the camera's visible chunk ring (+1 chunk border around `vt`),
+ * sorted closest-first and capped at `maxChunks`. Pure, deterministic, no DOM/Pixi.
+ */
+export function neededChunkCoords(
+  mapW: number,
+  mapH: number,
+  vt: TileViewport,
+  chunk = chunkSizeForMap(mapW, mapH),
+  maxChunks = 24,
+): ChunkCoord[] {
+  if (mapW <= 0 || mapH <= 0 || chunk <= 0 || maxChunks <= 0) return [];
+  const maxCxBound = Math.ceil(mapW / chunk) - 1;
+  const maxCyBound = Math.ceil(mapH / chunk) - 1;
+  const minCx = Math.max(0, Math.floor(vt.x0 / chunk) - 1);
+  const maxCx = Math.min(maxCxBound, Math.floor(vt.x1 / chunk) + 1);
+  const minCy = Math.max(0, Math.floor(vt.y0 / chunk) - 1);
+  const maxCy = Math.min(maxCyBound, Math.floor(vt.y1 / chunk) + 1);
+
+  const centerCx = (vt.x0 + vt.x1) / (2 * chunk);
+  const centerCy = (vt.y0 + vt.y1) / (2 * chunk);
+
+  const needed: ChunkCoord[] = [];
+  for (let cy = minCy; cy <= maxCy; cy++) {
+    for (let cx = minCx; cx <= maxCx; cx++) {
+      const dx = cx + 0.5 - centerCx;
+      const dy = cy + 0.5 - centerCy;
+      needed.push({ cx, cy, key: `${cx},${cy}`, distSq: dx * dx + dy * dy });
+    }
+  }
+  needed.sort((a, b) => a.distSq - b.distSq);
+  return needed.slice(0, maxChunks);
+}
+
 interface BakedChunk {
   cx: number;
   cy: number;
@@ -29,39 +81,21 @@ export class TerrainChunkCache {
   init(map: GameMap, terrainArt: HTMLImageElement, scenery: readonly SceneryPlacement[]): void {
     this.terrainArt = terrainArt;
     this.scenery = scenery;
-    this.chunk = Math.max(map.w, map.h) > 128 ? 32 : 16;
+    this.chunk = chunkSizeForMap(map.w, map.h);
     this.chunks.cullable = false;
   }
 
   update(
     map: GameMap,
-    vt: { readonly x0: number; readonly y0: number; readonly x1: number; readonly y1: number },
+    vt: TileViewport,
   ): void {
     if (!this.terrainArt) return;
     const chunk = this.chunk;
     const chunkSizePx = chunk * TILE;
-
-    const minCx = Math.max(0, Math.floor(vt.x0 / chunk) - 1);
-    const maxCx = Math.min(Math.ceil(map.w / chunk) - 1, Math.floor(vt.x1 / chunk) + 1);
-    const minCy = Math.max(0, Math.floor(vt.y0 / chunk) - 1);
-    const maxCy = Math.min(Math.ceil(map.h / chunk) - 1, Math.floor(vt.y1 / chunk) + 1);
-
     const centerCx = (vt.x0 + vt.x1) / (2 * chunk);
     const centerCy = (vt.y0 + vt.y1) / (2 * chunk);
 
-    const needed: Array<{ cx: number; cy: number; key: string; distSq: number }> = [];
-    for (let cy = minCy; cy <= maxCy; cy++) {
-      for (let cx = minCx; cx <= maxCx; cx++) {
-        const key = `${cx},${cy}`;
-        const dx = cx + 0.5 - centerCx;
-        const dy = cy + 0.5 - centerCy;
-        needed.push({ cx, cy, key, distSq: dx * dx + dy * dy });
-      }
-    }
-
-    needed.sort((a, b) => a.distSq - b.distSq);
-
-    const toBake = needed.slice(0, this.maxChunks);
+    const toBake = neededChunkCoords(map.w, map.h, vt, chunk, this.maxChunks);
     const activeKeys = new Set(toBake.map((n) => n.key));
     const seq = ++this.chunkAccessSeq;
 

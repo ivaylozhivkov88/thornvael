@@ -2,6 +2,7 @@ import { Container, Rectangle, Sprite, Texture } from 'pixi.js';
 import { checkSheet, frameName, type UnitSheet } from './contract';
 import { animationFrame, ARMOUR_COLORS, palette, sheetDirection, splitMask } from './palette';
 import type { AnimationPose } from './combat-animation';
+import { DEFAULT_LOAD_TIMEOUT_MS, fetchWithTimeout, withTimeout } from './load-pool';
 
 export const UNIT_ART = ['hero', 'archer', 'golem', 'warrior', 'mage', 'gnoll', 'imp',
   'briar-hound', 'thorn-boar', 'flintback', 'mire-wisp', 'cinder-shaman', 'quill-fiend', 'necromancer'] as const;
@@ -167,10 +168,10 @@ export function bossSpriteDef(id: string): BossSpriteDef | undefined {
   return isBossArt(id) ? BOSS_SPRITE_DEFS[id] : undefined;
 }
 
-async function pixels(url: string): Promise<ImageData> {
+async function pixels(url: string, timeoutMs = DEFAULT_LOAD_TIMEOUT_MS): Promise<ImageData> {
   const im = new Image();
   im.src = url;
-  await im.decode();
+  await withTimeout(im.decode(), timeoutMs, `image decode ${url}`);
   const cv = document.createElement('canvas');
   cv.width = im.naturalWidth; cv.height = im.naturalHeight;
   const ctx = cv.getContext('2d', { willReadFrequently: true })!;
@@ -195,15 +196,17 @@ export class UnitAtlas {
     }
   }
 
-  static async load(unit: AnyUnitArt): Promise<UnitAtlas> {
+  static async load(unit: AnyUnitArt, timeoutMs = DEFAULT_LOAD_TIMEOUT_MS): Promise<UnitAtlas> {
     const base = `${import.meta.env.BASE_URL}sprites/`;
-    const response = await fetch(`${base}${unit}.json`);
+    const response = await fetchWithTimeout(`${base}${unit}.json`, timeoutMs);
     if (!response.ok) throw new Error(`Unit atlas ${unit}: HTTP ${response.status}`);
     const sheet = await response.json() as UnitSheet;
     const errors = checkSheet(sheet);
     if (errors.length) throw new Error(`Unit atlas ${unit}: ${errors.join('; ')}`);
     if (sheet.meta.thornvael!.unit !== unit) throw new Error(`Wrong unit atlas: ${unit}`);
-    const [color, mask] = await Promise.all([pixels(base + sheet.meta.image), pixels(base + sheet.meta.thornvael!.mask)]);
+    // Sequential color -> mask decode keeps peak simultaneous Image.decode() <= pool concurrency.
+    const color = await pixels(base + sheet.meta.image, timeoutMs);
+    const mask = await pixels(base + sheet.meta.thornvael!.mask, timeoutMs);
     const { w, h } = sheet.meta.size;
     if (color.width !== w || color.height !== h || mask.width !== w || mask.height !== h)
       throw new Error(`Unit atlas ${unit}: image dimensions differ from metadata`);
