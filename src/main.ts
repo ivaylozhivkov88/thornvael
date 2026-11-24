@@ -2,6 +2,7 @@ import { registerWorker } from './updategate';
 import { resolveRegionAudio, computeAudioCrossfade } from './region-audio';
 import { SteppedQuestAdapter } from './sidequests-adapter';
 import type { SteppedQuestDef } from './sidequests';
+import tutorialData from './data/tutorial.json';
 import { LoadingScreen } from './loadingscreen';
 import { createInstallController, isInstallPrompt } from './pwa-install';
 import { attachBlurMuteListeners, audioState, blip, cancelShopEntry, isAudioRunning, isMusicPlaying, play, playBossMusic, playDialogueVoice, playEndingMusic, playMercBark, playMonsterDeathVoice, playMonsterHitVoice, playNpcBark, playSurfaceFootstep, playPickupRustle, playShopEntry, playNotEnoughMana, playInventoryFull, playLowHpHeartbeat, playUiError, resumeAudio, setAmbience, setDialogueDucking, setMusic, setMusicAct, setMusicRegion, setRegionMusicIndex, setSpecialMusic, setAmbienceAct, setSfx, setSkirmishMusic, stopDialogueVoice, suspendAudio, unlock, updateAdaptiveCombat, type MusicMode } from './audio';
@@ -3134,6 +3135,7 @@ function updateStats(): void {
   if (sim.hero && alive(0) && selected.size === 0) {
     selected.add(0);
   }
+  if (selected.size >= 1) triggerTutorial('selection_count');
   refreshGroupButtons();
   if (combatMode) {
     const heroMana = sim.cb.kind[0] === Kind.Hero ? `  ${S.hp} ${sim.cb.hp[0]}/${sim.cb.hpMax[0]}  ${S.mana} ${sim.cb.mana[0]}/${sim.cb.manaMax[0]}` : '';
@@ -3836,6 +3838,15 @@ let lastHeartbeat = 0;
 let lastRegionCheck = 0;
 let lastRegionMusicTrack = '';
 const steppedDeadUnits = new Set<number>();
+const seenTutorials = new Set<string>(JSON.parse(localStorage.getItem('thornvael:tutorialSeen') || '[]') as string[]);
+function triggerTutorial(triggerType: string): void {
+  if (localStorage.getItem('thornvael:tutorialDisabled') === '1') return;
+  const step = tutorialData.steps.find((s) => s.trigger?.type === triggerType && !seenTutorials.has(s.id));
+  if (!step) return;
+  seenTutorials.add(step.id);
+  try { localStorage.setItem('thornvael:tutorialSeen', JSON.stringify([...seenTutorials])); } catch {}
+  toast(`${step.popup.heading}: ${step.popup.body}`);
+}
 let steppedQuests = new SteppedQuestAdapter([], resumed?.save.state.steppedQuests);
 void fetch(`${import.meta.env.BASE_URL}data/content/side-quests.json`)
   .then((r) => (r.ok ? r.json() : []))
