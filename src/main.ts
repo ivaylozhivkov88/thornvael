@@ -2415,6 +2415,7 @@ const saveUi = new SaveUi({
       ai: missionAi?.snapshot() ?? [],
       aix: missionAi?.snapshotExtra(),
       steppedQuests: steppedQuests.save(),
+      reputation: townUi.getReputation(),
       ui: { cam: [renderer.camX, renderer.camY, renderer.zoom], groups: Array.from({ length: GROUP_COUNT + 1 }, (_, n) => [...groups.get(n)]), slots: [...slots], selected: [...selected] },
     };
   },
@@ -3840,6 +3841,14 @@ function advanceStep(): void {
 let lastHeartbeat = 0;
 let lastRegionCheck = 0;
 let lastRegionMusicTrack = '';
+void fetch(`${import.meta.env.BASE_URL}data/content/npc-dialogues.json`)
+  .then((r) => (r.ok ? r.json() : []))
+  .then((nodes) => {
+    if (Array.isArray(nodes)) {
+      townUi.setDialogueData(nodes, [], resumed?.save.state.reputation ?? 0);
+    }
+  })
+  .catch(() => {});
 const extraContentCache = new Map<ExtraContentKey, unknown>();
 for (const key of ['vendor-stock', 'npc-reactions', 'merc-hire-dialogues', 'ui-strings'] as ExtraContentKey[]) {
   void loadExtraContent(key, import.meta.env.BASE_URL).then((data) => {

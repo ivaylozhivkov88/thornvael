@@ -18,7 +18,7 @@ import { equipmentLayers } from './hero-presentation';
 import { buildDoll, dollSet, lookFor } from './doll';
 import { play, playNpcBark, playTraderBark, playTownAmbience, stopTownAmbience, playEquipSfx, blip, playSpeakerSwitchThrill, setDialogueDucking, playDialogueVoice, stopDialogueVoice } from './audio';
 import type { SteppedQuestAdapter } from './sidequests-adapter';
-import { dialogueFor } from './dialogue';
+import { dialogueFor, type DialogueNode, type DialogueQueryState } from './dialogue';
 import { resolveBarkVoiceClip, resolveDialogueVoiceClip } from './audio-catalog';
 import {
   getWardenHalePortraitSvg,
@@ -106,9 +106,22 @@ export class TownUi {
   private shopBuyBtn: HTMLButtonElement | null = null;
   private tavernRumors: TavernRumorEntry[] = [];
   private steppedQuests: SteppedQuestAdapter | null = null;
+  private dialogueNodes: DialogueNode[] = [];
+  private dialogueBarks: DialogueQueryState['barks'] = [];
+  private reputation = 0;
 
   public setSteppedQuests(adapter: SteppedQuestAdapter | null): void {
     this.steppedQuests = adapter;
+  }
+
+  public setDialogueData(nodes: DialogueNode[], barks: DialogueQueryState['barks'], reputation = this.reputation): void {
+    this.dialogueNodes = nodes;
+    this.dialogueBarks = barks;
+    this.reputation = reputation;
+  }
+
+  public getReputation(): number {
+    return this.reputation;
   }
 
   private bark: string | undefined;
@@ -1113,7 +1126,7 @@ export class TownUi {
 
   private openLoreDialogue(context: 'tavern' | 'school' | 'shop'): void {
     this.steppedQuests?.onTalkNpc(context);
-    const dlg = dialogueFor(context, { reputation: 0, nodes: [], barks: [] });
+    const dlg = dialogueFor(context, { reputation: this.reputation, nodes: this.dialogueNodes, barks: this.dialogueBarks });
     if (dlg.idleBark) this.bark = `${dlg.tier}: ${dlg.idleBark}`;
     if (this.loreTypingTimer !== null) {
       clearInterval(this.loreTypingTimer);

@@ -16,7 +16,7 @@ import { hasDuplicateInstance } from './sim/items';
  * Versions: 1 lacked teams/towns, 2 added both, 3 added carryover, 4 adds campaign snapshots, 5 adds procedural affix instances.
  */
 export const SAVE_FORMAT = 'thornvael-save';
-export const SAVE_VERSION = 6;
+export const SAVE_VERSION = 7;
 export const GAME_VERSION = '0.8.0';
 
 export interface SaveUi {
@@ -36,6 +36,7 @@ export interface SaveState {
   carry?: CarryoverState; // legacy carryover; alone it cannot identify a campaign
   campaign?: CampaignRecord; // versioned (v: 1), independent snapshot of the campaign at capture time
   steppedQuests?: unknown; // serialized SteppedQuestSaveV2 state
+  reputation?: number; // town/faction reputation score
 }
 export interface SaveFile {
   format: typeof SAVE_FORMAT;
@@ -166,6 +167,11 @@ export function migrateSave(raw: unknown): SaveFile {
   if (s.saveVersion < 6) {
     // Version 6 adds optional steppedQuests runtime state.
     s.saveVersion = 6;
+  }
+  if (s.saveVersion < 7) {
+    // Version 7 adds optional reputation score.
+    s.state.reputation ??= 0;
+    s.saveVersion = 7;
   }
   if (hasDuplicateInstance(s.state.snap.instances ?? []) || hasDuplicateInstance(s.state.carry?.items ?? [])) throw new Error('This save has duplicated items.');
   if (s.state.campaign !== undefined) {
