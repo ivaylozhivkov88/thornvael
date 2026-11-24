@@ -109,3 +109,31 @@ export function pickIdleBark(
   const idx = Math.floor(rng() * pool.length);
   return pool[idx] ?? pool[0];
 }
+
+export interface DialogueQueryState {
+  nodes: readonly DialogueNode[];
+  barks: readonly TownBark[];
+  reputation: number;
+  questId?: string | null;
+  questState?: QuestDialogueState;
+  seed?: number;
+}
+
+export interface DialogueBundle {
+  tier: ReputationTier;
+  greeting: DialogueNode | null;
+  questNode: DialogueNode | null;
+  idleBark: TownBark | null;
+}
+
+/** Single-call pure entry for townui.ts: resolves tier, greeting, quest node, and idle bark. */
+export function dialogueFor(npcId: string, state: DialogueQueryState): DialogueBundle {
+  return {
+    tier: reputationTier(state.reputation),
+    greeting: pickGreetingNode(state.nodes, npcId, state.reputation),
+    questNode: state.questState
+      ? pickQuestNode(state.nodes, npcId, state.questId ?? null, state.questState)
+      : null,
+    idleBark: pickIdleBark(state.barks, npcId, state.seed ?? 1),
+  };
+}

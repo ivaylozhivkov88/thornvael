@@ -2,6 +2,7 @@ import { readFileSync } from 'node:fs';
 import { resolve } from 'node:path';
 import { describe, expect, it } from 'vitest';
 import {
+  dialogueFor,
   mulberry32,
   pickGreetingNode,
   pickIdleBark,
@@ -90,5 +91,20 @@ describe('Dialogue Runtime Helpers', () => {
     const townBark = pickIdleBark(barks, 'town-thornwick', 7);
     expect(townBark).not.toBeNull();
     expect(pickIdleBark(barks, 'npc-unknown', 7)).toBeNull();
+  });
+
+  it('resolves complete dialogue bundle via dialogueFor(npcId, state)', () => {
+    const npcId = act1Npcs[0].id;
+    const bundle = dialogueFor(npcId, {
+      nodes: dialogues,
+      barks,
+      reputation: 60,
+      questState: 'during',
+      seed: 42,
+    });
+    expect(bundle.tier).toBe('high');
+    expect(bundle.greeting?.node).toBe('greeting_high');
+    expect(bundle.questNode?.node).toBe('quest_during');
+    expect(bundle.idleBark).not.toBeNull();
   });
 });

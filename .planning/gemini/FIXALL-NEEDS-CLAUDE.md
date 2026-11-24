@@ -28,3 +28,14 @@ Ready-to-apply patches for those files are collected below.
   // On choice click in townui.ts: questAdapter.onDialogueChoice(npcId, choiceIndex);
   // On save: save.steppedQuests = questAdapter.save();
   ```
+
+## 3. `src/townui.ts` & `src/main.ts` — `dialogueFor` & `tutorial.json` Hook (Task 5)
+- **Where:** `src/townui.ts` (NPC dialogue modal open) and `src/main.ts` (first-10-minutes tutorial popup).
+- **Exact Patch:**
+  ```ts
+  import { dialogueFor } from './dialogue';
+  const dlg = dialogueFor(npcId, { nodes: npcDialogues, barks: townBarks, reputation: townRep, questId, questState, seed: tick });
+  // Render dlg.greeting.text, dlg.questNode?.text, dlg.idleBark?.line
+
+  // In src/main.ts: load src/data/tutorial.json and show step.popup when step.trigger matches game state.
+  ```
