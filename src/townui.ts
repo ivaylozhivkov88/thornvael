@@ -18,6 +18,7 @@ import { equipmentLayers } from './hero-presentation';
 import { buildDoll, dollSet, lookFor } from './doll';
 import { play, playNpcBark, playTraderBark, playTownAmbience, stopTownAmbience, playEquipSfx, blip, playSpeakerSwitchThrill, setDialogueDucking, playDialogueVoice, stopDialogueVoice } from './audio';
 import type { SteppedQuestAdapter } from './sidequests-adapter';
+import { dialogueFor } from './dialogue';
 import { resolveBarkVoiceClip, resolveDialogueVoiceClip } from './audio-catalog';
 import {
   getWardenHalePortraitSvg,
@@ -1112,6 +1113,8 @@ export class TownUi {
 
   private openLoreDialogue(context: 'tavern' | 'school' | 'shop'): void {
     this.steppedQuests?.onTalkNpc(context);
+    const dlg = dialogueFor(context, { reputation: 0, nodes: [], barks: [] });
+    if (dlg.idleBark) this.bark = `${dlg.tier}: ${dlg.idleBark}`;
     if (this.loreTypingTimer !== null) {
       clearInterval(this.loreTypingTimer);
       this.loreTypingTimer = null;
