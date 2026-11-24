@@ -3,6 +3,7 @@ import { resolveRegionAudio, computeAudioCrossfade } from './region-audio';
 import { SteppedQuestAdapter } from './sidequests-adapter';
 import type { SteppedQuestDef } from './sidequests';
 import tutorialData from './data/tutorial.json';
+import { loadExtraContent, type ExtraContentKey } from './content-extras';
 import { LoadingScreen } from './loadingscreen';
 import { createInstallController, isInstallPrompt } from './pwa-install';
 import { attachBlurMuteListeners, audioState, blip, cancelShopEntry, isAudioRunning, isMusicPlaying, play, playBossMusic, playDialogueVoice, playEndingMusic, playMercBark, playMonsterDeathVoice, playMonsterHitVoice, playNpcBark, playSurfaceFootstep, playPickupRustle, playShopEntry, playNotEnoughMana, playInventoryFull, playLowHpHeartbeat, playUiError, resumeAudio, setAmbience, setDialogueDucking, setMusic, setMusicAct, setMusicRegion, setRegionMusicIndex, setSpecialMusic, setAmbienceAct, setSfx, setSkirmishMusic, stopDialogueVoice, suspendAudio, unlock, updateAdaptiveCombat, type MusicMode } from './audio';
@@ -3837,6 +3838,12 @@ function advanceStep(): void {
 let lastHeartbeat = 0;
 let lastRegionCheck = 0;
 let lastRegionMusicTrack = '';
+const extraContentCache = new Map<ExtraContentKey, unknown>();
+for (const key of ['vendor-stock', 'npc-reactions', 'merc-hire-dialogues', 'ui-strings'] as ExtraContentKey[]) {
+  void loadExtraContent(key, import.meta.env.BASE_URL).then((data) => {
+    if (data !== null) extraContentCache.set(key, data);
+  }).catch(() => {});
+}
 const steppedDeadUnits = new Set<number>();
 const seenTutorials = new Set<string>(JSON.parse(localStorage.getItem('thornvael:tutorialSeen') || '[]') as string[]);
 function triggerTutorial(triggerType: string): void {
