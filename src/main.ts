@@ -1,7 +1,7 @@
 import { registerWorker } from './updategate';
 import { LoadingScreen } from './loadingscreen';
 import { createInstallController, isInstallPrompt } from './pwa-install';
-import { attachBlurMuteListeners, audioState, blip, cancelShopEntry, isAudioRunning, isMusicPlaying, play, playBossMusic, playDialogueVoice, playEndingMusic, playMercBark, playMonsterDeathVoice, playMonsterHitVoice, playNpcBark, playSurfaceFootstep, playPickupRustle, playShopEntry, playNotEnoughMana, playInventoryFull, playLowHpHeartbeat, playUiError, resumeAudio, setAmbience, setDialogueDucking, setMusic, setMusicAct, setMusicRegion, setSpecialMusic, setAmbienceAct, setSfx, setSkirmishMusic, stopDialogueVoice, suspendAudio, unlock, updateAdaptiveCombat, type MusicMode } from './audio';
+import { attachBlurMuteListeners, audioState, blip, cancelShopEntry, isAudioRunning, isMusicPlaying, play, playBossMusic, playDialogueVoice, playEndingMusic, playMercBark, playMonsterDeathVoice, playMonsterHitVoice, playNpcBark, playSurfaceFootstep, playPickupRustle, playShopEntry, playNotEnoughMana, playInventoryFull, playLowHpHeartbeat, playUiError, resumeAudio, setAmbience, setDialogueDucking, setMusic, setMusicAct, setMusicRegion, setRegionMusicIndex, setSpecialMusic, setAmbienceAct, setSfx, setSkirmishMusic, stopDialogueVoice, suspendAudio, unlock, updateAdaptiveCombat, type MusicMode } from './audio';
 import { resolveBarkVoiceClip, resolveDialogueVoiceClip } from './audio-catalog';
 import { isBossArt } from './sprites/units';
 import { MusicDirector, classifyWeapon, cueFor, pickPotionDrink, pickTerrainStep, type CueContext } from './audiologic';
@@ -53,6 +53,7 @@ import { DebugPanel } from './debugpanel';
 import { KNOWN_HI, SPELLS, Tk, maskHas } from './sim/spelldata';
 import { validTarget } from './sim/spells';
 import { FP, Sim, TICKS_PER_SECOND, type Command, type OrderName } from './sim/sim';
+import { regionAtTile } from './atmosphere';
 import { S } from './strings';
 import { LOW_HP_TIP, Tips, getDefeatFlavor, hydrateCuratedTips } from './tips';
 import { getPlaquesByMap, loadLocationPlaques, type CampaignMapId, type LocationPlaqueEntry } from './data/text/index';
@@ -401,6 +402,10 @@ if (campaign && campaignId) {
   currentBiomeKey = detectedBiome;
   renderer.setBiome(detectedBiome);
 }
+if (loadedMission?.doc.regions?.length && !expeditionSeed && !skirmishSeed) {
+  const { setTerrainTheme } = await import('./terrain');
+  await setTerrainTheme(currentBiomeKey, missionSeed, loadedMission.doc.regions);
+}
 renderer.setRegionContext({
   biome: currentBiomeKey,
   ...(loadedMission?.doc.name ? { region: loadedMission.doc.name } : {}),
@@ -409,6 +414,7 @@ const cameraController = new CameraController({ viewW: renderer.viewW, viewH: re
 const preferences = readPreferences();
 renderer.quality = preferences.quality;
 renderer.setWeatherEnabled(preferences.weather);
+renderer.setAtmosphereRegions(loadedMission?.doc.regions);
 let autoRecenter = localStorage.getItem('thornvael.autoRecenter') === 'true';
 
 // --- helpers ---
@@ -3814,8 +3820,15 @@ function advanceStep(): void {
 }
 
 let lastHeartbeat = 0;
+let lastRegionCheck = 0;
 function frame(): void {
   const now = performance.now();
+  if (loadedMission?.doc.regions?.length && heroPresent && now - lastRegionCheck > 500) {
+    lastRegionCheck = now;
+    const regs = loadedMission.doc.regions;
+    const reg = regionAtTile(regs, Math.floor(sim.x[0] / FP), Math.floor(sim.y[0] / FP));
+    if (reg) setRegionMusicIndex(regs.indexOf(reg));
+  }
   const dt = Math.min(250, now - lastNow);
   lastNow = now;
   if (heroPresent && alive(0) && sim.cb.hp[0] > 0 && sim.cb.hp[0] < Math.floor(sim.cb.hpMax[0] * 0.25)) {
@@ -4237,6 +4250,7 @@ void renderer.init(sim).then(() => {
   // Test and debug hook: deterministic access for the Playwright smoke test and the device bench.
   (window as unknown as { __game: unknown }).__game = {
     sim,
+    queue,
     selected: () => [...selected],
     unitScreen: (i: number) => renderer.unitScreen(i),
     unitArt: (i: number) => renderer.unitArt(i),

@@ -1475,6 +1475,13 @@ export function tickAudio(nowMs = Date.now()): CrossfadeSnapshot | null {
 }
 
 /** Switch to a specific act/region exploration, battle, or town track via streaming <audio>. */
+/** Swap the explore track variant when the hero crosses into another region (no-op outside explore mode). */
+export function setRegionMusicIndex(regionIndex: number): void {
+  if (!ctx || !musicWanted || musicMode !== 'explore' || musicAct === 0) return;
+  if (regionIndex === director.getRegionIndex()) return;
+  director.setModeWithAct('explore', musicAct, regionIndex, Date.now());
+}
+
 export function setMusicRegion(act: number, mode: MusicMode = 'explore', regionIndex = 0): void {
   unlock();
   musicAct = act >= 1 && act <= 4 ? act : 0;
