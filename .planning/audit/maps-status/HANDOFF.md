@@ -46,7 +46,8 @@
 ---
 
 ## 3. Какво остава по желание / следващи стъпки
-1. **Сливане / push:** след преглед на `git diff main..gemini/maps-chunked` и локален Playwright smoke тест (или CI на клона), merge към `main` и `git push`.
-2. **Акт I свят (`act1-world.map.json`):** все още не е вързан към `campaign.json` / `src/mission.ts` (беше извън обхвата на Акт II–IV).
-3. **Вторични градове и `steps[]`:** 6-те вторични града от `ACT2-DESIGN.md`/`ACT3-DESIGN.md` нямат `.map.json` файлове, а `campaign.json` все още няма `steps[]` (данните са в `src/data/act2/quests.json` и `act3/quests.json`).
-4. **Почистване на `tools/build-act2-maps.mjs`:** може по желание да се сведе до 15-редов скрипт, ползващ `tools/lib/scale-map.mjs` като Акт III и IV.
+1. **План за слепени светове на всички актове (`1 < 2 < 3 < 4` с +10% на акт):** виж [PLAN-STITCHED-ACTS.md](file:///D:/ROM%202%20clone/game/.planning/audit/maps-status/PLAN-STITCHED-ACTS.md) (`act1-world` 844×650 -> `act2-world` ~928×715 -> `act3-world` ~1020×786 -> `act4-world` ~1122×865, `MAX_SIDE = 1280`, chunk-only `zoneField`/`zoneDecor`, `dormant` пул до 768).
+2. **Сливане / push:** след преглед на `git diff main..gemini/maps-chunked` и локален Playwright smoke тест (или CI на клона), merge към `main` и `git push`.
+3. **Акт I свят (`act1-world.map.json`):** все още не е вързан към `campaign.json` / `src/mission.ts`.
+4. **Вторични градове и `steps[]`:** 6-те вторични града от `ACT2-DESIGN.md`/`ACT3-DESIGN.md` нямат `.map.json` файлове, а `campaign.json` все още няма `steps[]` (данните са в `src/data/act2/quests.json` и `act3/quests.json`).
+5. **Почистване на `tools/build-act2-maps.mjs`:** може по желание да се сведе до 15-редов скрипт, ползващ `tools/lib/scale-map.mjs` като Акт III и IV.
