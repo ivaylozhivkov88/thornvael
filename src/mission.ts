@@ -68,6 +68,18 @@ import m20_128 from './missions/m20-deep-quarry-128.map.json';
 import m21_128 from './missions/m21-lean-garrison-128.map.json';
 import m22_128 from './missions/m22-fleeing-column-128.map.json';
 import m23_128 from './missions/m23-fork-of-spears-128.map.json';
+import m24_192 from './missions/m24-pledge-at-oakhaven-192.map.json';
+import m25_192 from './missions/m25-cinder-wards-192.map.json';
+import m26_192 from './missions/m26-sundered-ranks-192.map.json';
+import m27_192 from './missions/m27-field-infirmary-192.map.json';
+import m28_192 from './missions/m28-sunken-citadel-192.map.json';
+import m29_192 from './missions/m29-hourglass-rescue-192.map.json';
+import m30_192 from './missions/m30-starved-bastion-192.map.json';
+import m31_192 from './missions/m31-riverlock-crossing-192.map.json';
+import m32_192 from './missions/m32-elder-juggernaut-192.map.json';
+import m33_192 from './missions/m33-high-stakes-gambit-192.map.json';
+import m34_192 from './missions/m34-clashing-banners-192.map.json';
+import m35_192 from './missions/m35-burning-harbor-192.map.json';
 import m24 from './missions/m24-pledge-at-oakhaven.map.json';
 import m25 from './missions/m25-cinder-wards.map.json';
 import m26 from './missions/m26-sundered-ranks.map.json';
@@ -149,6 +161,18 @@ export const BUILT_IN: Record<string, unknown> = {
   'm22-128': m22_128,
   'm23-128': m23_128,
   m24, m25, m26, m27, m28, m29, m30, m31, m32, m33, m34, m35,
+  'm24-192': m24_192,
+  'm25-192': m25_192,
+  'm26-192': m26_192,
+  'm27-192': m27_192,
+  'm28-192': m28_192,
+  'm29-192': m29_192,
+  'm30-192': m30_192,
+  'm31-192': m31_192,
+  'm32-192': m32_192,
+  'm33-192': m33_192,
+  'm34-192': m34_192,
+  'm35-192': m35_192,
   m36, m37, m38, m39, m40, m41, m42, m43, m44, m45, m46,
   'weeping-ossuary': ossuary,
   'gullet-of-dunes': gullet,

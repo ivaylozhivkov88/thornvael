@@ -500,7 +500,7 @@
    "id": "m24-pledge-at-oakhaven",
    "act": 3,
    "kind": "mission",
-   "map": "m24",
+   "map": "m24-192",
    "title": "Pledge at Oakhaven",
    "pos": [
     38,
@@ -519,7 +519,7 @@
    "id": "m25-cinder-wards",
    "act": 3,
    "kind": "mission",
-   "map": "m25",
+   "map": "m25-192",
    "title": "Cinder Wards",
    "pos": [
     62,
@@ -538,7 +538,7 @@
    "id": "m26-sundered-ranks",
    "act": 3,
    "kind": "mission",
-   "map": "m26",
+   "map": "m26-192",
    "title": "Sundered Ranks",
    "pos": [
     85,
@@ -557,7 +557,7 @@
    "id": "m27-field-infirmary",
    "act": 3,
    "kind": "mission",
-   "map": "m27",
+   "map": "m27-192",
    "title": "Field Infirmary",
    "pos": [
     94,
@@ -576,7 +576,7 @@
    "id": "m28-sunken-citadel",
    "act": 3,
    "kind": "mission",
-   "map": "m28",
+   "map": "m28-192",
    "title": "Sunken Citadel",
    "pos": [
     72,
@@ -595,7 +595,7 @@
    "id": "m29-hourglass-rescue",
    "act": 3,
    "kind": "mission",
-   "map": "m29",
+   "map": "m29-192",
    "title": "Hourglass Rescue",
    "pos": [
     50,
@@ -614,7 +614,7 @@
    "id": "m30-starved-bastion",
    "act": 3,
    "kind": "mission",
-   "map": "m30",
+   "map": "m30-192",
    "title": "Starved Bastion",
    "pos": [
     28,
@@ -633,7 +633,7 @@
    "id": "m31-riverlock-crossing",
    "act": 3,
    "kind": "mission",
-   "map": "m31",
+   "map": "m31-192",
    "title": "Riverlock Crossing",
    "pos": [
     6,
@@ -652,7 +652,7 @@
    "id": "m32-elder-juggernaut",
    "act": 3,
    "kind": "mission",
-   "map": "m32",
+   "map": "m32-192",
    "title": "Elder Juggernaut",
    "pos": [
     15,
@@ -671,7 +671,7 @@
    "id": "m33-high-stakes-gambit",
    "act": 3,
    "kind": "mission",
-   "map": "m33",
+   "map": "m33-192",
    "title": "High-Stakes Gambit",
    "pos": [
     38,
@@ -690,7 +690,7 @@
    "id": "m34-clashing-banners",
    "act": 3,
    "kind": "mission",
-   "map": "m34",
+   "map": "m34-192",
    "title": "Clashing Banners",
    "pos": [
     62,
@@ -709,7 +709,7 @@
    "id": "m35-burning-harbor",
    "act": 3,
    "kind": "mission",
-   "map": "m35",
+   "map": "m35-192",
    "title": "Burning Harbor",
    "pos": [
     85,
