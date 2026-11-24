@@ -10,6 +10,6 @@
 - **Save System (`src/save.ts`):** `SAVE_VERSION = 7` with step-by-step `migrateSave` from v1..v7 (`steppedQuests` in v6, `reputation` in v7), IndexedDB (`src/savedb.ts`), and file export/import.
 - **Test Suite (`npm test -- --maxWorkers=1`):** `167 passed (167)` files, `1194 passed | 1 skipped (1195)` tests.
 - **CI Guard (`npm run check:repo`):**
-  - **[S2, small]** Untracked local files in `.planning/` (e.g. `GEMINI-CLEANUP-PROMPT.md` containing `"Nival"`, `.planning/e2e/*.png`, `.planning/evidence/**`, and 20 `public/itemicons/*.png` without `assets.json` entries) cause `npm run check:repo` to fail locally if not cleaned or gitignored/registered.
+  - **[S2, small]** Untracked local files in `.planning/` (e.g. `GEMINI-CLEANUP-PROMPT.md` containing original-game names, `.planning/e2e/*.png`, `.planning/evidence/**`, and 20 `public/itemicons/*.png` without `assets.json` entries) cause `npm run check:repo` to fail locally if not cleaned or gitignored/registered.
   - **[S2, small]** `chapter1-manifest.json` must be regenerated (`node tools/make-manifest.mjs`, included in `npm run build`) whenever town/mission files change (`7c1702c`).
   - **[S3, small]** `tools/build-wiki-data.mjs` and `tools/extract-ref.py` have pre-existing uncommitted local modifications in the working tree.
