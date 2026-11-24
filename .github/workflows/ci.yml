@@ -17,6 +17,7 @@ concurrency:
 jobs:
   validate:
     runs-on: ubuntu-latest
+    timeout-minutes: 20
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
@@ -43,7 +44,7 @@ jobs:
   playwright-smoke:
     needs: validate
     runs-on: ubuntu-latest
-    timeout-minutes: 45
+    timeout-minutes: 30
     strategy:
       fail-fast: false
       matrix:
@@ -60,7 +61,7 @@ jobs:
           SITE_BASE: /thornvael/
       - run: npx playwright install --with-deps ${{ matrix.project }}
       - name: Run PWA & biome smoke tests (${{ matrix.project }})
-        run: npx playwright test -c playwright.smoke.config.ts --project=${{ matrix.project }}
+        run: npx playwright test -c playwright.smoke.config.ts --project=${{ matrix.project }} --reporter=list
       - uses: actions/upload-artifact@v4
         if: failure()
         with:

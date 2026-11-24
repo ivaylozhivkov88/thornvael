@@ -2278,6 +2278,13 @@ const heroUi = new HeroUi({
 $('btn-hero').onclick = () => heroUi.toggle();
 initGothicHud();
 const heroPresent = combatMode && !battle && sim.cb.kind[0] === Kind.Hero;
+// Record GPU context loss so a CI WebKit stall can be told apart from a content stall.
+window.addEventListener('webglcontextlost', () => {
+  const w = window as unknown as { __bootPhase?: string; __glLost?: number };
+  w.__glLost = (w.__glLost ?? 0) + 1;
+  console.warn(`[boot] webglcontextlost during phase ${w.__bootPhase ?? 'unknown'}`);
+}, true);
+window.addEventListener('webglcontextrestored', () => console.warn('[boot] webglcontextrestored'), true);
 // Non-critical content loads: a stalled fetch/decode (seen on Linux WebKit) must never block `__game` creation.
 const bootStep = async <T>(phase: string, p: Promise<T>, ms = 8000): Promise<T | undefined> => {
   (window as unknown as { __bootPhase?: string }).__bootPhase = phase;

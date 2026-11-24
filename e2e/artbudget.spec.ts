@@ -15,6 +15,7 @@ interface BudgetGame {
 const FAMILIES = ALL_UNIT_ART;
 
 test('desktop budget: 300 real animated units, shared atlas sources, bounded timings', async ({ page }, testInfo) => {
+  test.skip(!!process.env.CI && !process.env.RUN_ARTSTRESS, 'art stress runs only on workflow_dispatch in CI');
   // Fits the entire 64x48 world at zoom 1: a count of 300 isn't sufficient if most are culled.
   await page.setViewportSize({ width: 2304, height: 1728 });
   const errors: string[] = [];
