@@ -178,27 +178,29 @@ test.describe('Act 1 Campaign Flow E2E', () => {
     await skipStory.click();
 
     await page.waitForURL(/\?mission=(?:ford|act1-world)&campaign=m01-blood-at-the-ford/);
-    await page.waitForFunction(
-      () => {
-        const retry = document.querySelector('.tv-loading-retry-btn');
-        if (retry) {
-          const msg = document.querySelector('.tv-loading-err-msg')?.textContent || 'Load failed';
-          throw new Error(`Mission 1 loading failed: ${msg}`);
-        }
-        const dlg = document.getElementById('gothic-dialogue');
-        for (let clicks = 0; clicks < 4 && dlg && !dlg.hidden; clicks++) {
-          dlg.querySelector<HTMLButtonElement>('.gothic-continue-btn')?.click();
-        }
-        if (dlg && !dlg.hidden) return false;
-        const g = (window as GameWindow).__game;
-        return Boolean(g && g.sim.tick >= 1);
-      },
-      undefined,
-      { polling: 200, timeout: 90_000 },
-    ).catch(async (e) => {
-      await diagnose('mission1');
-      throw e;
-    });
+    await page
+      .waitForFunction(
+        () => {
+          const retry = document.querySelector('.tv-loading-retry-btn');
+          if (retry) {
+            const msg = document.querySelector('.tv-loading-err-msg')?.textContent || 'Load failed';
+            throw new Error(`Mission 1 loading failed: ${msg}`);
+          }
+          const dlg = document.getElementById('gothic-dialogue');
+          for (let clicks = 0; clicks < 4 && dlg && !dlg.hidden; clicks++) {
+            dlg.querySelector<HTMLButtonElement>('.gothic-continue-btn')?.click();
+          }
+          if (dlg && !dlg.hidden) return false;
+          const g = (window as GameWindow).__game;
+          return Boolean(g && g.sim.tick >= 1);
+        },
+        undefined,
+        { polling: 200, timeout: 90_000 },
+      )
+      .catch(async (e) => {
+        await diagnose('mission1');
+        throw e;
+      });
     const missionState = await page.evaluate(() => {
       const g = (window as GameWindow).__game as unknown as {
         sim: { hero: { cls: number; female: boolean } | null; count: number; script?: { st: { status: number } } };
@@ -249,29 +251,31 @@ test.describe('Act 1 Campaign Flow E2E', () => {
     await townBtn.click({ force: true });
 
     await page.waitForURL(/\?mission=(?:market|act1-world)&campaign=town-thornwick/);
-    await page.waitForFunction(
-      () => {
-        const retry = document.querySelector('.tv-loading-retry-btn');
-        if (retry) {
-          const msg = document.querySelector('.tv-loading-err-msg')?.textContent || 'Load failed';
-          throw new Error(`Thornwick loading failed: ${msg}`);
-        }
-        const dlg = document.getElementById('gothic-dialogue');
-        for (let clicks = 0; clicks < 4 && dlg && !dlg.hidden; clicks++) {
-          dlg.querySelector<HTMLButtonElement>('.gothic-continue-btn')?.click();
-        }
-        if (dlg && !dlg.hidden) return false;
-        const g = (window as GameWindow).__game as unknown as
-          | { sim: { tick: number; script?: { st: { msgs: number[] } } }; paused?: () => boolean }
-          | undefined;
-        return Boolean(g && g.sim.tick >= 10 && !g.paused?.() && (g.sim.script?.st.msgs.length ?? 0) >= 2);
-      },
-      undefined,
-      { polling: 200, timeout: 90_000 },
-    ).catch(async (e) => {
-      await diagnose('town');
-      throw e;
-    });
+    await page
+      .waitForFunction(
+        () => {
+          const retry = document.querySelector('.tv-loading-retry-btn');
+          if (retry) {
+            const msg = document.querySelector('.tv-loading-err-msg')?.textContent || 'Load failed';
+            throw new Error(`Thornwick loading failed: ${msg}`);
+          }
+          const dlg = document.getElementById('gothic-dialogue');
+          for (let clicks = 0; clicks < 4 && dlg && !dlg.hidden; clicks++) {
+            dlg.querySelector<HTMLButtonElement>('.gothic-continue-btn')?.click();
+          }
+          if (dlg && !dlg.hidden) return false;
+          const g = (window as GameWindow).__game as unknown as
+            | { sim: { tick: number; script?: { st: { msgs: number[] } } }; paused?: () => boolean }
+            | undefined;
+          return Boolean(g && g.sim.tick >= 10 && !g.paused?.() && (g.sim.script?.st.msgs.length ?? 0) >= 2);
+        },
+        undefined,
+        { polling: 200, timeout: 90_000 },
+      )
+      .catch(async (e) => {
+        await diagnose('town');
+        throw e;
+      });
 
     const townState = await page.evaluate(() => {
       const g = (window as GameWindow).__game as unknown as {
