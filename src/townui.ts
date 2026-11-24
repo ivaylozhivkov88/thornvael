@@ -17,6 +17,7 @@ import { getHubEvolutionStage, isCanonicalHubId } from './data/hub-evolution';
 import { equipmentLayers } from './hero-presentation';
 import { buildDoll, dollSet, lookFor } from './doll';
 import { play, playNpcBark, playTraderBark, playTownAmbience, stopTownAmbience, playEquipSfx, blip, playSpeakerSwitchThrill, setDialogueDucking, playDialogueVoice, stopDialogueVoice } from './audio';
+import type { SteppedQuestAdapter } from './sidequests-adapter';
 import { resolveBarkVoiceClip, resolveDialogueVoiceClip } from './audio-catalog';
 import {
   getWardenHalePortraitSvg,
@@ -103,6 +104,11 @@ export class TownUi {
   private shopUndoBtn: HTMLButtonElement | null = null;
   private shopBuyBtn: HTMLButtonElement | null = null;
   private tavernRumors: TavernRumorEntry[] = [];
+  private steppedQuests: SteppedQuestAdapter | null = null;
+
+  public setSteppedQuests(adapter: SteppedQuestAdapter | null): void {
+    this.steppedQuests = adapter;
+  }
 
   private bark: string | undefined;
   constructor(private readonly ctx: TownUiCtx) {
@@ -1105,6 +1111,7 @@ export class TownUi {
   // ---- Interactive Dark Fantasy Lore & Rumors Dialogue System ----
 
   private openLoreDialogue(context: 'tavern' | 'school' | 'shop'): void {
+    this.steppedQuests?.onTalkNpc(context);
     if (this.loreTypingTimer !== null) {
       clearInterval(this.loreTypingTimer);
       this.loreTypingTimer = null;

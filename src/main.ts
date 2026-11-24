@@ -1,5 +1,7 @@
 import { registerWorker } from './updategate';
 import { resolveRegionAudio, computeAudioCrossfade } from './region-audio';
+import { SteppedQuestAdapter } from './sidequests-adapter';
+import type { SteppedQuestDef } from './sidequests';
 import { LoadingScreen } from './loadingscreen';
 import { createInstallController, isInstallPrompt } from './pwa-install';
 import { attachBlurMuteListeners, audioState, blip, cancelShopEntry, isAudioRunning, isMusicPlaying, play, playBossMusic, playDialogueVoice, playEndingMusic, playMercBark, playMonsterDeathVoice, playMonsterHitVoice, playNpcBark, playSurfaceFootstep, playPickupRustle, playShopEntry, playNotEnoughMana, playInventoryFull, playLowHpHeartbeat, playUiError, resumeAudio, setAmbience, setDialogueDucking, setMusic, setMusicAct, setMusicRegion, setRegionMusicIndex, setSpecialMusic, setAmbienceAct, setSfx, setSkirmishMusic, stopDialogueVoice, suspendAudio, unlock, updateAdaptiveCombat, type MusicMode } from './audio';
@@ -2410,6 +2412,7 @@ const saveUi = new SaveUi({
       snap: sim.snapshot(),
       ai: missionAi?.snapshot() ?? [],
       aix: missionAi?.snapshotExtra(),
+      steppedQuests: steppedQuests.save(),
       ui: { cam: [renderer.camX, renderer.camY, renderer.zoom], groups: Array.from({ length: GROUP_COUNT + 1 }, (_, n) => [...groups.get(n)]), slots: [...slots], selected: [...selected] },
     };
   },
@@ -3135,7 +3138,16 @@ function updateStats(): void {
   if (combatMode) {
     const heroMana = sim.cb.kind[0] === Kind.Hero ? `  ${S.hp} ${sim.cb.hp[0]}/${sim.cb.hpMax[0]}  ${S.mana} ${sim.cb.mana[0]}/${sim.cb.manaMax[0]}` : '';
     const aliveFoes = sim.cb.alive[1] ?? 0;
-    if (aliveFoes < lastFoes && !isTownNode) achKills(lastFoes - aliveFoes);
+    if (aliveFoes < lastFoes && !isTownNode) {
+      achKills(lastFoes - aliveFoes);
+      for (let i = 0; i < sim.count; i++) {
+        if (sim.team[i] === 1 && sim.cb.hp[i] <= 0 && !steppedDeadUnits.has(i)) {
+          steppedDeadUnits.add(i);
+          const fam = sim.cb.family[i];
+          if (fam) steppedQuests.onKillFamily(fam, 1);
+        }
+      }
+    }
     if (!isTownNode) achTrack(sim.count, sim.team, sim.cb.hp, sim.cb.family);
     if (!isTownNode) sqTrack(sim.count, sim.team, sim.cb.hp, sim.cb.family, sim.cb.gold[0] ?? 0);
     if (!isTownNode && missionName) {
@@ -3823,6 +3835,17 @@ function advanceStep(): void {
 let lastHeartbeat = 0;
 let lastRegionCheck = 0;
 let lastRegionMusicTrack = '';
+const steppedDeadUnits = new Set<number>();
+let steppedQuests = new SteppedQuestAdapter([], resumed?.save.state.steppedQuests);
+void fetch(`${import.meta.env.BASE_URL}data/content/side-quests.json`)
+  .then((r) => (r.ok ? r.json() : []))
+  .then((defs: SteppedQuestDef[]) => {
+    if (Array.isArray(defs) && defs.length > 0) {
+      steppedQuests = new SteppedQuestAdapter(defs, resumed?.save.state.steppedQuests ?? steppedQuests.save());
+      townUi.setSteppedQuests(steppedQuests);
+    }
+  })
+  .catch(() => {});
 function frame(): void {
   const now = performance.now();
   if (loadedMission?.doc.regions?.length && heroPresent && now - lastRegionCheck > 500) {
