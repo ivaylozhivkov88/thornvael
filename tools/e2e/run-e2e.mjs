@@ -171,6 +171,24 @@ async function runSuite() {
       results.E10 = { ok: failed404.length === 0, failed404 };
       await page.close();
     }
+
+    // E11: Act 1 Quest flow (?quick=1, screenshots in .planning/master/wire/)
+    {
+      const wireDir = path.resolve('.planning/master/wire');
+      fs.mkdirSync(wireDir, { recursive: true });
+      const page = await browser.newPage({ viewport: { width: 1280, height: 720 } });
+      page.setDefaultTimeout(STEP_TIMEOUT);
+      const errors = [];
+      attachListeners(page, errors, []);
+      await page.goto(BASE_URL + '?quick=1', { waitUntil: 'domcontentloaded' });
+      await page.waitForTimeout(2500);
+      await page.screenshot({ path: path.join(wireDir, 'E11-quest-start.png') });
+      const canvas = await checkCanvasNonBlank(page);
+      const hasGame = await page.evaluate(() => Boolean(window.__game));
+      await page.screenshot({ path: path.join(wireDir, 'E11-quest-end.png') });
+      results.E11 = { ok: errors.length === 0 && !hasShaderError(errors) && canvas.nonBlack && hasGame, canvas, hasGame, errors };
+      await page.close();
+    }
   } finally {
     clearTimeout(timer);
     if (browser) await browser.close();
