@@ -140,14 +140,30 @@ test.describe('Act 1 Campaign Flow E2E', () => {
     page,
     browserName,
   }) => {
-    // The stitched Act I world never finishes loading on the Linux CI WebKit build (software GL, 6 min timeout);
-    // it passes in WebKit locally (35 s) and in CI Chromium plus the deploy e2e suite.
-    test.skip(browserName === 'webkit' && !!process.env.CI, 'Act I stitched world hangs on CI WebKit only');
+    test.setTimeout(240_000);
     const errors: string[] = [];
     page.on('pageerror', (e) => errors.push(e.message));
     page.on('console', (msg) => {
       if (msg.type() === 'error') errors.push(msg.text());
     });
+    const diagLog: string[] = [];
+    page.on('console', (m) => diagLog.push(`[${m.type()}] ${m.text()}`.slice(0, 300)));
+    page.on('requestfailed', (r) => diagLog.push(`[reqfail] ${r.url()} ${r.failure()?.errorText}`));
+    const diagnose = async (label: string) => {
+      const info = await page
+        .evaluate(() => ({
+          bootPhase: (window as unknown as { __bootPhase?: string }).__bootPhase,
+          hasGame: Boolean((window as GameWindow).__game),
+          tick: (window as GameWindow).__game?.sim.tick,
+          dialogueHidden: document.getElementById('gothic-dialogue')?.hidden,
+          loadingText: document.querySelector('.tv-loading')?.textContent?.slice(0, 200),
+          url: location.href,
+        }))
+        .catch((e) => ({ evalError: String(e) }));
+      console.log(`WEBKIT-DIAG ${label}: ${JSON.stringify(info)}
+${diagLog.slice(-25).join('
+')}`);
+    };
 
     await page.goto('/thornvael/');
     await page.getByRole('button', { name: /single player/i }).click();
@@ -180,8 +196,11 @@ test.describe('Act 1 Campaign Flow E2E', () => {
         return Boolean(g && g.sim.tick >= 1);
       },
       undefined,
-      { polling: 200 },
-    );
+      { polling: 200, timeout: 90_000 },
+    ).catch(async (e) => {
+      await diagnose('mission1');
+      throw e;
+    });
     const missionState = await page.evaluate(() => {
       const g = (window as GameWindow).__game as unknown as {
         sim: { hero: { cls: number; female: boolean } | null; count: number; script?: { st: { status: number } } };
@@ -250,8 +269,11 @@ test.describe('Act 1 Campaign Flow E2E', () => {
         return Boolean(g && g.sim.tick >= 10 && !g.paused?.() && (g.sim.script?.st.msgs.length ?? 0) >= 2);
       },
       undefined,
-      { polling: 200 },
-    );
+      { polling: 200, timeout: 90_000 },
+    ).catch(async (e) => {
+      await diagnose('town');
+      throw e;
+    });
 
     const townState = await page.evaluate(() => {
       const g = (window as GameWindow).__game as unknown as {

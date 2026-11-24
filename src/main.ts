@@ -2278,19 +2278,41 @@ const heroUi = new HeroUi({
 $('btn-hero').onclick = () => heroUi.toggle();
 initGothicHud();
 const heroPresent = combatMode && !battle && sim.cb.kind[0] === Kind.Hero;
-await loadItemFlavor();
-await loadFlavorLists();
-await loadMonsterCodex();
-await loadCodexLore();
-await loadDifficultyFlavor();
-await loadAchievements((m) => toast(m));
-await loadMercLines();
-await loadBarkContent();
-await loadHeroFlavor();
-await loadTownBarks();
-await loadSpellText();
-if (activeChar) await loadHeroVoices(activeChar.cls, activeChar.female);
-const missionContent = loadedMission ? await loadMissionContent(missionName) : null;
+// Non-critical content loads: a stalled fetch/decode (seen on Linux WebKit) must never block `__game` creation.
+const bootStep = async <T>(phase: string, p: Promise<T>, ms = 8000): Promise<T | undefined> => {
+  (window as unknown as { __bootPhase?: string }).__bootPhase = phase;
+  let timer: ReturnType<typeof setTimeout> | undefined;
+  try {
+    return await Promise.race([
+      p,
+      new Promise<undefined>((res) => {
+        timer = setTimeout(() => {
+          console.warn(`[boot] ${phase} timed out after ${ms} ms, continuing`);
+          res(undefined);
+        }, ms);
+      }),
+    ]);
+  } catch (e) {
+    console.warn(`[boot] ${phase} failed, continuing`, e);
+    return undefined;
+  } finally {
+    clearTimeout(timer);
+  }
+};
+await bootStep('loadItemFlavor', loadItemFlavor());
+await bootStep('loadFlavorLists', loadFlavorLists());
+await bootStep('loadMonsterCodex', loadMonsterCodex());
+await bootStep('loadCodexLore', loadCodexLore());
+await bootStep('loadDifficultyFlavor', loadDifficultyFlavor());
+await bootStep('loadAchievements', loadAchievements((m) => toast(m)));
+await bootStep('loadMercLines', loadMercLines());
+await bootStep('loadBarkContent', loadBarkContent());
+await bootStep('loadHeroFlavor', loadHeroFlavor());
+await bootStep('loadTownBarks', loadTownBarks());
+await bootStep('loadSpellText', loadSpellText());
+if (activeChar) await bootStep('loadHeroVoices', loadHeroVoices(activeChar.cls, activeChar.female));
+const missionContent = loadedMission ? ((await bootStep('loadMissionContent', loadMissionContent(missionName))) ?? null) : null;
+(window as unknown as { __bootPhase?: string }).__bootPhase = 'content-loaded';
 let lastBossLineAt = 0, bossEnraged = false;
 let radioFoes0 = 0, radioHalf = false, radioLow = false;
 if (loadedMission && missionName && !isTownNode) { achReset(); bossEnraged = false; radioFoes0 = 0; radioHalf = false; radioLow = false; }
