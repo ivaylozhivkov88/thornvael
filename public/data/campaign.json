@@ -482,7 +482,7 @@
   {
    "id": "town-oakhaven",
    "kind": "town",
-   "map": "market",
+   "map": "oakhaven-bastion",
    "title": "Oakhaven Bastion",
    "pos": [
     15,

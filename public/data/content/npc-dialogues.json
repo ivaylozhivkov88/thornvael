@@ -3854,5 +3854,41 @@
         "next": "end"
       }
     ]
+  },
+  {
+    "id": "dlg-aldric-oakhaven-entry",
+    "npc": "npc-aldric-bailiff",
+    "node": "greeting",
+    "text": "Bailiff Aldric checks the harbor tide-ledger by a hooded storm-lantern. 'Every berth along the Iron Coast is accounted for, commander. Keep your steel clear of the seawall cranes.'",
+    "choices": [
+      {
+        "label": "Farewell.",
+        "next": "end"
+      }
+    ]
+  },
+  {
+    "id": "dlg-elowen-oakhaven-entry",
+    "npc": "npc-elowen-scholar",
+    "node": "greeting",
+    "text": "Ward-Scholar Elowen traces chalk sigils across a slate tide-chart. 'The sea-fog carries harmonic drift from the shattered beacons. Even ironwood timbers hum before a storm.'",
+    "choices": [
+      {
+        "label": "Farewell.",
+        "next": "end"
+      }
+    ]
+  },
+  {
+    "id": "dlg-toren-oakhaven-entry",
+    "npc": "npc-toren-master",
+    "node": "greeting",
+    "text": "Master-at-Arms Toren tests the edge of a halberd against his thumb. 'Oakhaven holds the coast because we drill in the dark and fight in the fog. Fall in or step aside.'",
+    "choices": [
+      {
+        "label": "Farewell.",
+        "next": "end"
+      }
+    ]
   }
 ]
