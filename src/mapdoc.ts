@@ -34,7 +34,7 @@ export { ADVENTURE_OBJECT_KINDS };
 export const MAP_FORMAT = 'thornvael-map';
 export const MAP_VERSION = 2;
 export const MIN_SIDE = 16;
-export const MAX_SIDE = 1024;
+export const MAX_SIDE = 1280;
 
 export const BOSS_MOD_IDS = [
   'fire_enchanted',
@@ -226,8 +226,8 @@ export function validate(doc: MapDoc): string[] {
   if (doc.terrain.reduce((s, v, i) => s + (i % 2 ? v : 0), 0) !== n) errs.push('Terrain does not cover the whole map.');
   if (doc.height.reduce((s, v, i) => s + (i % 2 ? v : 0), 0) !== n) errs.push('Height does not cover the whole map.');
   const activeUnits = doc.units.filter((u) => !u.dormant).length;
-  if (doc.units.length < 1 || doc.units.length > 512 || activeUnits > 300) {
-    errs.push('A map holds 1 to 300 active units (up to 512 total with dormant units).');
+  if (doc.units.length < 1 || doc.units.length > 768 || activeUnits > 300) {
+    errs.push('A map holds 1 to 300 active units (up to 768 total with dormant units).');
   }
   const taken = new Set<number>();
   const groups = new Set<number>();
