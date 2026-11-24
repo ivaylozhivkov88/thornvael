@@ -746,7 +746,7 @@
    "id": "m36-heartland-march",
    "act": 4,
    "kind": "mission",
-   "map": "m36",
+   "map": "m36-256",
    "title": "Heartland March",
    "pos": [
     38,
@@ -765,7 +765,7 @@
    "id": "m37-shattered-beacons",
    "act": 4,
    "kind": "mission",
-   "map": "m37",
+   "map": "m37-256",
    "title": "Shattered Beacons",
    "pos": [
     62,
@@ -784,7 +784,7 @@
    "id": "m38-besieged-wall",
    "act": 4,
    "kind": "mission",
-   "map": "m38",
+   "map": "m38-256",
    "title": "Besieged Wall",
    "pos": [
     86,
@@ -803,7 +803,7 @@
    "id": "m39-flight-of-malrik",
    "act": 4,
    "kind": "mission",
-   "map": "m39",
+   "map": "m39-256",
    "title": "Flight of Malrik",
    "pos": [
     86,
@@ -822,7 +822,7 @@
    "id": "m40-twofold-assault",
    "act": 4,
    "kind": "mission",
-   "map": "m40",
+   "map": "m40-256",
    "title": "Twofold Assault",
    "pos": [
     62,
@@ -841,7 +841,7 @@
    "id": "m41-gauntlet-of-iron",
    "act": 4,
    "kind": "mission",
-   "map": "m41",
+   "map": "m41-256",
    "title": "Gauntlet of Iron",
    "pos": [
     38,
@@ -860,7 +860,7 @@
    "id": "m42-outer-rampart",
    "act": 4,
    "kind": "mission",
-   "map": "m42",
+   "map": "m42-256",
    "title": "Outer Rampart",
    "pos": [
     14,
@@ -879,7 +879,7 @@
    "id": "m43-three-roads-siege",
    "act": 4,
    "kind": "mission",
-   "map": "m43",
+   "map": "m43-256",
    "title": "Three-Roads Siege",
    "pos": [
     14,
@@ -898,7 +898,7 @@
    "id": "m44-threshold-choice",
    "act": 4,
    "kind": "mission",
-   "map": "m44",
+   "map": "m44-256",
    "title": "Threshold Choice",
    "pos": [
     38,
@@ -918,7 +918,7 @@
    "id": "m45-crown-of-order",
    "act": 4,
    "kind": "mission",
-   "map": "m45",
+   "map": "m45-256",
    "title": "Crown of Order",
    "pos": [
     62,
@@ -935,7 +935,7 @@
    "id": "m46-ember-reckoning",
    "act": 4,
    "kind": "mission",
-   "map": "m46",
+   "map": "m46-256",
    "title": "Ember Reckoning",
    "pos": [
     86,

@@ -80,6 +80,17 @@ import m32_192 from './missions/m32-elder-juggernaut-192.map.json';
 import m33_192 from './missions/m33-high-stakes-gambit-192.map.json';
 import m34_192 from './missions/m34-clashing-banners-192.map.json';
 import m35_192 from './missions/m35-burning-harbor-192.map.json';
+import m36_256 from './missions/m36-heartland-march-256.map.json';
+import m37_256 from './missions/m37-shattered-beacons-256.map.json';
+import m38_256 from './missions/m38-besieged-wall-256.map.json';
+import m39_256 from './missions/m39-flight-of-malrik-256.map.json';
+import m40_256 from './missions/m40-twofold-assault-256.map.json';
+import m41_256 from './missions/m41-gauntlet-of-iron-256.map.json';
+import m42_256 from './missions/m42-outer-rampart-256.map.json';
+import m43_256 from './missions/m43-three-roads-siege-256.map.json';
+import m44_256 from './missions/m44-threshold-choice-256.map.json';
+import m45_256 from './missions/m45-crown-of-order-256.map.json';
+import m46_256 from './missions/m46-ember-reckoning-256.map.json';
 import m24 from './missions/m24-pledge-at-oakhaven.map.json';
 import m25 from './missions/m25-cinder-wards.map.json';
 import m26 from './missions/m26-sundered-ranks.map.json';
@@ -174,6 +185,17 @@ export const BUILT_IN: Record<string, unknown> = {
   'm34-192': m34_192,
   'm35-192': m35_192,
   m36, m37, m38, m39, m40, m41, m42, m43, m44, m45, m46,
+  'm36-256': m36_256,
+  'm37-256': m37_256,
+  'm38-256': m38_256,
+  'm39-256': m39_256,
+  'm40-256': m40_256,
+  'm41-256': m41_256,
+  'm42-256': m42_256,
+  'm43-256': m43_256,
+  'm44-256': m44_256,
+  'm45-256': m45_256,
+  'm46-256': m46_256,
   'weeping-ossuary': ossuary,
   'gullet-of-dunes': gullet,
   'drowned-choir': drowned,
