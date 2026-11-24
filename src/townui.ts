@@ -1475,6 +1475,7 @@ export class TownUi {
       currentTopic.choices.forEach((c, cIdx) => {
         const choiceBtn = button('', () => {
           try { blip(); } catch {}
+          this.steppedQuests?.onDialogueChoice(context, cIdx);
           choiceBtn.style.borderColor = '#ffd870';
           choiceBtn.style.color = '#fff';
         });
