@@ -46,7 +46,7 @@ import { CombatAnimation, type AnimationPose } from './sprites/combat-animation'
 import { VfxSystem } from './vfx';
 import { CombatFeelSystem } from './feel';
 import { AestheticVfxSystem, detectBiomeFromMap, type BiomeWeatherType, type BiomeAct } from './aesthetic-vfx';
-import { updateAtmosphere, isReducedMotionActive } from './atmosphere';
+import { updateAtmosphere, isReducedMotionActive, regionAtTile } from './atmosphere';
 import { FxEngine, type WeatherKind } from './fx';
 import { MAX_ZOOM, MIN_ZOOM, RenderCameraController } from './render/camera-controller';
 import { TerrainChunkCache } from './render/chunk-cache';
@@ -653,6 +653,11 @@ export class Renderer {
 
   get extraAtlasSet(): ExtraAtlases | null {
     return this.extraAtlases;
+  }
+
+  private atmoRegions: readonly import('./mapdoc').Region[] = [];
+  setAtmosphereRegions(r: readonly import('./mapdoc').Region[] | undefined): void {
+    this.atmoRegions = r ?? [];
   }
 
   setBossTelegraphs(list: readonly RenderBossTelegraph[]): void {
@@ -1378,7 +1383,8 @@ export class Renderer {
 
     this.vfx?.updateAndDraw(sim, now, dtMs, this.zoom, this.camX, this.camY, this.overlay, this.viewW, this.viewH);
     (this.aestheticVfx as AestheticVfxSystem | undefined)?.updateAndDraw(now, dtMs, this.camX, this.camY, this.zoom, this.viewW, this.viewH);
-    updateAtmosphere(this.app?.stage, this.aestheticVfx?.getBiome?.() ?? 'swamp', dtMs, this.camX, this.camY, this.zoom, this.viewW, this.viewH, this.quality);
+    const atmoRegion = this.atmoRegions?.length ? regionAtTile(this.atmoRegions, Math.floor((this.camX + this.viewW / 2) / this.zoom / 32), Math.floor((this.camY + this.viewH / 2) / this.zoom / 32)) : undefined;
+    updateAtmosphere(this.app?.stage, this.aestheticVfx?.getBiome?.() ?? 'swamp', dtMs, this.camX, this.camY, this.zoom, this.viewW, this.viewH, this.quality, atmoRegion);
 
     const cb = sim.cb;
     const z = this.zoom;
