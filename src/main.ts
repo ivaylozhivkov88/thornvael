@@ -3144,6 +3144,7 @@ function updateStats(): void {
     const aliveFoes = sim.cb.alive[1] ?? 0;
     if (aliveFoes < lastFoes && !isTownNode) {
       achKills(lastFoes - aliveFoes);
+      triggerTutorial('enemy_killed');
       for (let i = 0; i < sim.count; i++) {
         if (sim.team[i] === 1 && sim.cb.hp[i] <= 0 && !steppedDeadUnits.has(i)) {
           steppedDeadUnits.add(i);
@@ -3708,6 +3709,7 @@ function advanceStep(): void {
             playPickupRustle();
             const itemName = (d2Action.interactable as { name?: string }).name;
             if (itemName) steppedQuests.onCollectItem(itemName, 1);
+            triggerTutorial('loot_collected');
           }
         } else if (d2Action.interactable.type === 'chest' && d2Action.interactable.obj) {
           const res = interactAdventureObject(sim, d2Action.interactable.obj);
