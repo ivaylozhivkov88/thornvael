@@ -44,3 +44,8 @@ tools/build-act1-world.mjs
 .planning/gemini/GEMINI-PARALLEL-TASKS.md
 .planning/gemini/GEMINI-WORLD-RUNBOOK.md
 .planning/gemini/GEMINI-WORLD-VISUALS.md
+.planning/fixall/
+.planning/gemini-results/
+.planning/master/wire/
+.planning/world-visuals/
+.planning/evidence/necromancer-sheet-preview.png

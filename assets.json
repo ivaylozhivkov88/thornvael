@@ -14602,6 +14602,3714 @@
       "license": "own",
       "source": "tools/generate-all-voices.py",
       "note": "Story slideshow narration for ending-b (eb-2)"
+    },
+    {
+      "path": "public/audio/voices/hero/archer-female/attack-0.m4a",
+      "license": "own",
+      "source": "tools/generate-hero-voices.py",
+      "note": "Neural speech hero voice line (Kokoro TTS, Apache-2.0 model), generated locally and encoded as AAC"
+    },
+    {
+      "path": "public/audio/voices/hero/archer-female/attack-1.m4a",
+      "license": "own",
+      "source": "tools/generate-hero-voices.py",
+      "note": "Neural speech hero voice line (Kokoro TTS, Apache-2.0 model), generated locally and encoded as AAC"
+    },
+    {
+      "path": "public/audio/voices/hero/archer-female/attack-2.m4a",
+      "license": "own",
+      "source": "tools/generate-hero-voices.py",
+      "note": "Neural speech hero voice line (Kokoro TTS, Apache-2.0 model), generated locally and encoded as AAC"
+    },
+    {
+      "path": "public/audio/voices/hero/archer-female/attack-3.m4a",
+      "license": "own",
+      "source": "tools/generate-hero-voices.py",
+      "note": "Neural speech hero voice line (Kokoro TTS, Apache-2.0 model), generated locally and encoded as AAC"
+    },
+    {
+      "path": "public/audio/voices/hero/archer-female/attack-4.m4a",
+      "license": "own",
+      "source": "tools/generate-hero-voices.py",
+      "note": "Neural speech hero voice line (Kokoro TTS, Apache-2.0 model), generated locally and encoded as AAC"
+    },
+    {
+      "path": "public/audio/voices/hero/archer-female/attack-5.m4a",
+      "license": "own",
+      "source": "tools/generate-hero-voices.py",
+      "note": "Neural speech hero voice line (Kokoro TTS, Apache-2.0 model), generated locally and encoded as AAC"
+    },
+    {
+      "path": "public/audio/voices/hero/archer-female/death-0.m4a",
+      "license": "own",
+      "source": "tools/generate-hero-voices.py",
+      "note": "Neural speech hero voice line (Kokoro TTS, Apache-2.0 model), generated locally and encoded as AAC"
+    },
+    {
+      "path": "public/audio/voices/hero/archer-female/death-1.m4a",
+      "license": "own",
+      "source": "tools/generate-hero-voices.py",
+      "note": "Neural speech hero voice line (Kokoro TTS, Apache-2.0 model), generated locally and encoded as AAC"
+    },
+    {
+      "path": "public/audio/voices/hero/archer-female/death-2.m4a",
+      "license": "own",
+      "source": "tools/generate-hero-voices.py",
+      "note": "Neural speech hero voice line (Kokoro TTS, Apache-2.0 model), generated locally and encoded as AAC"
+    },
+    {
+      "path": "public/audio/voices/hero/archer-female/hurt-0.m4a",
+      "license": "own",
+      "source": "tools/generate-hero-voices.py",
+      "note": "Neural speech hero voice line (Kokoro TTS, Apache-2.0 model), generated locally and encoded as AAC"
+    },
+    {
+      "path": "public/audio/voices/hero/archer-female/hurt-1.m4a",
+      "license": "own",
+      "source": "tools/generate-hero-voices.py",
+      "note": "Neural speech hero voice line (Kokoro TTS, Apache-2.0 model), generated locally and encoded as AAC"
+    },
+    {
+      "path": "public/audio/voices/hero/archer-female/hurt-2.m4a",
+      "license": "own",
+      "source": "tools/generate-hero-voices.py",
+      "note": "Neural speech hero voice line (Kokoro TTS, Apache-2.0 model), generated locally and encoded as AAC"
+    },
+    {
+      "path": "public/audio/voices/hero/archer-female/hurt-3.m4a",
+      "license": "own",
+      "source": "tools/generate-hero-voices.py",
+      "note": "Neural speech hero voice line (Kokoro TTS, Apache-2.0 model), generated locally and encoded as AAC"
+    },
+    {
+      "path": "public/audio/voices/hero/archer-female/idle-0.m4a",
+      "license": "own",
+      "source": "tools/generate-hero-voices.py",
+      "note": "Neural speech hero voice line (Kokoro TTS, Apache-2.0 model), generated locally and encoded as AAC"
+    },
+    {
+      "path": "public/audio/voices/hero/archer-female/idle-1.m4a",
+      "license": "own",
+      "source": "tools/generate-hero-voices.py",
+      "note": "Neural speech hero voice line (Kokoro TTS, Apache-2.0 model), generated locally and encoded as AAC"
+    },
+    {
+      "path": "public/audio/voices/hero/archer-female/idle-2.m4a",
+      "license": "own",
+      "source": "tools/generate-hero-voices.py",
+      "note": "Neural speech hero voice line (Kokoro TTS, Apache-2.0 model), generated locally and encoded as AAC"
+    },
+    {
+      "path": "public/audio/voices/hero/archer-female/idle-3.m4a",
+      "license": "own",
+      "source": "tools/generate-hero-voices.py",
+      "note": "Neural speech hero voice line (Kokoro TTS, Apache-2.0 model), generated locally and encoded as AAC"
+    },
+    {
+      "path": "public/audio/voices/hero/archer-female/idle-4.m4a",
+      "license": "own",
+      "source": "tools/generate-hero-voices.py",
+      "note": "Neural speech hero voice line (Kokoro TTS, Apache-2.0 model), generated locally and encoded as AAC"
+    },
+    {
+      "path": "public/audio/voices/hero/archer-female/idle-5.m4a",
+      "license": "own",
+      "source": "tools/generate-hero-voices.py",
+      "note": "Neural speech hero voice line (Kokoro TTS, Apache-2.0 model), generated locally and encoded as AAC"
+    },
+    {
+      "path": "public/audio/voices/hero/archer-female/idle-6.m4a",
+      "license": "own",
+      "source": "tools/generate-hero-voices.py",
+      "note": "Neural speech hero voice line (Kokoro TTS, Apache-2.0 model), generated locally and encoded as AAC"
+    },
+    {
+      "path": "public/audio/voices/hero/archer-female/idle-7.m4a",
+      "license": "own",
+      "source": "tools/generate-hero-voices.py",
+      "note": "Neural speech hero voice line (Kokoro TTS, Apache-2.0 model), generated locally and encoded as AAC"
+    },
+    {
+      "path": "public/audio/voices/hero/archer-female/idle-8.m4a",
+      "license": "own",
+      "source": "tools/generate-hero-voices.py",
+      "note": "Neural speech hero voice line (Kokoro TTS, Apache-2.0 model), generated locally and encoded as AAC"
+    },
+    {
+      "path": "public/audio/voices/hero/archer-female/idle-9.m4a",
+      "license": "own",
+      "source": "tools/generate-hero-voices.py",
+      "note": "Neural speech hero voice line (Kokoro TTS, Apache-2.0 model), generated locally and encoded as AAC"
+    },
+    {
+      "path": "public/audio/voices/hero/archer-female/intro-0.m4a",
+      "license": "own",
+      "source": "tools/generate-hero-voices.py",
+      "note": "Neural speech hero voice line (Kokoro TTS, Apache-2.0 model), generated locally and encoded as AAC"
+    },
+    {
+      "path": "public/audio/voices/hero/archer-female/kill-0.m4a",
+      "license": "own",
+      "source": "tools/generate-hero-voices.py",
+      "note": "Neural speech hero voice line (Kokoro TTS, Apache-2.0 model), generated locally and encoded as AAC"
+    },
+    {
+      "path": "public/audio/voices/hero/archer-female/kill-1.m4a",
+      "license": "own",
+      "source": "tools/generate-hero-voices.py",
+      "note": "Neural speech hero voice line (Kokoro TTS, Apache-2.0 model), generated locally and encoded as AAC"
+    },
+    {
+      "path": "public/audio/voices/hero/archer-female/kill-2.m4a",
+      "license": "own",
+      "source": "tools/generate-hero-voices.py",
+      "note": "Neural speech hero voice line (Kokoro TTS, Apache-2.0 model), generated locally and encoded as AAC"
+    },
+    {
+      "path": "public/audio/voices/hero/archer-female/kill-3.m4a",
+      "license": "own",
+      "source": "tools/generate-hero-voices.py",
+      "note": "Neural speech hero voice line (Kokoro TTS, Apache-2.0 model), generated locally and encoded as AAC"
+    },
+    {
+      "path": "public/audio/voices/hero/archer-female/level_up-0.m4a",
+      "license": "own",
+      "source": "tools/generate-hero-voices.py",
+      "note": "Neural speech hero voice line (Kokoro TTS, Apache-2.0 model), generated locally and encoded as AAC"
+    },
+    {
+      "path": "public/audio/voices/hero/archer-female/level_up-1.m4a",
+      "license": "own",
+      "source": "tools/generate-hero-voices.py",
+      "note": "Neural speech hero voice line (Kokoro TTS, Apache-2.0 model), generated locally and encoded as AAC"
+    },
+    {
+      "path": "public/audio/voices/hero/archer-female/level_up-2.m4a",
+      "license": "own",
+      "source": "tools/generate-hero-voices.py",
+      "note": "Neural speech hero voice line (Kokoro TTS, Apache-2.0 model), generated locally and encoded as AAC"
+    },
+    {
+      "path": "public/audio/voices/hero/archer-female/level_up-3.m4a",
+      "license": "own",
+      "source": "tools/generate-hero-voices.py",
+      "note": "Neural speech hero voice line (Kokoro TTS, Apache-2.0 model), generated locally and encoded as AAC"
+    },
+    {
+      "path": "public/audio/voices/hero/archer-female/level_up-4.m4a",
+      "license": "own",
+      "source": "tools/generate-hero-voices.py",
+      "note": "Neural speech hero voice line (Kokoro TTS, Apache-2.0 model), generated locally and encoded as AAC"
+    },
+    {
+      "path": "public/audio/voices/hero/archer-female/level_up-5.m4a",
+      "license": "own",
+      "source": "tools/generate-hero-voices.py",
+      "note": "Neural speech hero voice line (Kokoro TTS, Apache-2.0 model), generated locally and encoded as AAC"
+    },
+    {
+      "path": "public/audio/voices/hero/archer-female/level_up-6.m4a",
+      "license": "own",
+      "source": "tools/generate-hero-voices.py",
+      "note": "Neural speech hero voice line (Kokoro TTS, Apache-2.0 model), generated locally and encoded as AAC"
+    },
+    {
+      "path": "public/audio/voices/hero/archer-female/level_up-7.m4a",
+      "license": "own",
+      "source": "tools/generate-hero-voices.py",
+      "note": "Neural speech hero voice line (Kokoro TTS, Apache-2.0 model), generated locally and encoded as AAC"
+    },
+    {
+      "path": "public/audio/voices/hero/archer-female/loot_rare-0.m4a",
+      "license": "own",
+      "source": "tools/generate-hero-voices.py",
+      "note": "Neural speech hero voice line (Kokoro TTS, Apache-2.0 model), generated locally and encoded as AAC"
+    },
+    {
+      "path": "public/audio/voices/hero/archer-female/loot_rare-1.m4a",
+      "license": "own",
+      "source": "tools/generate-hero-voices.py",
+      "note": "Neural speech hero voice line (Kokoro TTS, Apache-2.0 model), generated locally and encoded as AAC"
+    },
+    {
+      "path": "public/audio/voices/hero/archer-female/loot_rare-2.m4a",
+      "license": "own",
+      "source": "tools/generate-hero-voices.py",
+      "note": "Neural speech hero voice line (Kokoro TTS, Apache-2.0 model), generated locally and encoded as AAC"
+    },
+    {
+      "path": "public/audio/voices/hero/archer-female/loot_rare-3.m4a",
+      "license": "own",
+      "source": "tools/generate-hero-voices.py",
+      "note": "Neural speech hero voice line (Kokoro TTS, Apache-2.0 model), generated locally and encoded as AAC"
+    },
+    {
+      "path": "public/audio/voices/hero/archer-female/loot_rare-4.m4a",
+      "license": "own",
+      "source": "tools/generate-hero-voices.py",
+      "note": "Neural speech hero voice line (Kokoro TTS, Apache-2.0 model), generated locally and encoded as AAC"
+    },
+    {
+      "path": "public/audio/voices/hero/archer-female/loot_rare-5.m4a",
+      "license": "own",
+      "source": "tools/generate-hero-voices.py",
+      "note": "Neural speech hero voice line (Kokoro TTS, Apache-2.0 model), generated locally and encoded as AAC"
+    },
+    {
+      "path": "public/audio/voices/hero/archer-female/loot_rare-6.m4a",
+      "license": "own",
+      "source": "tools/generate-hero-voices.py",
+      "note": "Neural speech hero voice line (Kokoro TTS, Apache-2.0 model), generated locally and encoded as AAC"
+    },
+    {
+      "path": "public/audio/voices/hero/archer-female/low_hp-0.m4a",
+      "license": "own",
+      "source": "tools/generate-hero-voices.py",
+      "note": "Neural speech hero voice line (Kokoro TTS, Apache-2.0 model), generated locally and encoded as AAC"
+    },
+    {
+      "path": "public/audio/voices/hero/archer-female/low_hp-1.m4a",
+      "license": "own",
+      "source": "tools/generate-hero-voices.py",
+      "note": "Neural speech hero voice line (Kokoro TTS, Apache-2.0 model), generated locally and encoded as AAC"
+    },
+    {
+      "path": "public/audio/voices/hero/archer-female/low_hp-2.m4a",
+      "license": "own",
+      "source": "tools/generate-hero-voices.py",
+      "note": "Neural speech hero voice line (Kokoro TTS, Apache-2.0 model), generated locally and encoded as AAC"
+    },
+    {
+      "path": "public/audio/voices/hero/archer-female/low_hp-3.m4a",
+      "license": "own",
+      "source": "tools/generate-hero-voices.py",
+      "note": "Neural speech hero voice line (Kokoro TTS, Apache-2.0 model), generated locally and encoded as AAC"
+    },
+    {
+      "path": "public/audio/voices/hero/archer-female/low_hp-4.m4a",
+      "license": "own",
+      "source": "tools/generate-hero-voices.py",
+      "note": "Neural speech hero voice line (Kokoro TTS, Apache-2.0 model), generated locally and encoded as AAC"
+    },
+    {
+      "path": "public/audio/voices/hero/archer-female/low_hp-5.m4a",
+      "license": "own",
+      "source": "tools/generate-hero-voices.py",
+      "note": "Neural speech hero voice line (Kokoro TTS, Apache-2.0 model), generated locally and encoded as AAC"
+    },
+    {
+      "path": "public/audio/voices/hero/archer-female/low_hp-6.m4a",
+      "license": "own",
+      "source": "tools/generate-hero-voices.py",
+      "note": "Neural speech hero voice line (Kokoro TTS, Apache-2.0 model), generated locally and encoded as AAC"
+    },
+    {
+      "path": "public/audio/voices/hero/archer-female/move-0.m4a",
+      "license": "own",
+      "source": "tools/generate-hero-voices.py",
+      "note": "Neural speech hero voice line (Kokoro TTS, Apache-2.0 model), generated locally and encoded as AAC"
+    },
+    {
+      "path": "public/audio/voices/hero/archer-female/move-1.m4a",
+      "license": "own",
+      "source": "tools/generate-hero-voices.py",
+      "note": "Neural speech hero voice line (Kokoro TTS, Apache-2.0 model), generated locally and encoded as AAC"
+    },
+    {
+      "path": "public/audio/voices/hero/archer-female/move-2.m4a",
+      "license": "own",
+      "source": "tools/generate-hero-voices.py",
+      "note": "Neural speech hero voice line (Kokoro TTS, Apache-2.0 model), generated locally and encoded as AAC"
+    },
+    {
+      "path": "public/audio/voices/hero/archer-female/move-3.m4a",
+      "license": "own",
+      "source": "tools/generate-hero-voices.py",
+      "note": "Neural speech hero voice line (Kokoro TTS, Apache-2.0 model), generated locally and encoded as AAC"
+    },
+    {
+      "path": "public/audio/voices/hero/archer-female/move-4.m4a",
+      "license": "own",
+      "source": "tools/generate-hero-voices.py",
+      "note": "Neural speech hero voice line (Kokoro TTS, Apache-2.0 model), generated locally and encoded as AAC"
+    },
+    {
+      "path": "public/audio/voices/hero/archer-female/move-5.m4a",
+      "license": "own",
+      "source": "tools/generate-hero-voices.py",
+      "note": "Neural speech hero voice line (Kokoro TTS, Apache-2.0 model), generated locally and encoded as AAC"
+    },
+    {
+      "path": "public/audio/voices/hero/archer-female/refusal-0.m4a",
+      "license": "own",
+      "source": "tools/generate-hero-voices.py",
+      "note": "Neural speech hero voice line (Kokoro TTS, Apache-2.0 model), generated locally and encoded as AAC"
+    },
+    {
+      "path": "public/audio/voices/hero/archer-female/refusal-1.m4a",
+      "license": "own",
+      "source": "tools/generate-hero-voices.py",
+      "note": "Neural speech hero voice line (Kokoro TTS, Apache-2.0 model), generated locally and encoded as AAC"
+    },
+    {
+      "path": "public/audio/voices/hero/archer-female/refusal-2.m4a",
+      "license": "own",
+      "source": "tools/generate-hero-voices.py",
+      "note": "Neural speech hero voice line (Kokoro TTS, Apache-2.0 model), generated locally and encoded as AAC"
+    },
+    {
+      "path": "public/audio/voices/hero/archer-female/select-0.m4a",
+      "license": "own",
+      "source": "tools/generate-hero-voices.py",
+      "note": "Neural speech hero voice line (Kokoro TTS, Apache-2.0 model), generated locally and encoded as AAC"
+    },
+    {
+      "path": "public/audio/voices/hero/archer-female/select-1.m4a",
+      "license": "own",
+      "source": "tools/generate-hero-voices.py",
+      "note": "Neural speech hero voice line (Kokoro TTS, Apache-2.0 model), generated locally and encoded as AAC"
+    },
+    {
+      "path": "public/audio/voices/hero/archer-female/select-2.m4a",
+      "license": "own",
+      "source": "tools/generate-hero-voices.py",
+      "note": "Neural speech hero voice line (Kokoro TTS, Apache-2.0 model), generated locally and encoded as AAC"
+    },
+    {
+      "path": "public/audio/voices/hero/archer-female/select-3.m4a",
+      "license": "own",
+      "source": "tools/generate-hero-voices.py",
+      "note": "Neural speech hero voice line (Kokoro TTS, Apache-2.0 model), generated locally and encoded as AAC"
+    },
+    {
+      "path": "public/audio/voices/hero/archer-female/select-4.m4a",
+      "license": "own",
+      "source": "tools/generate-hero-voices.py",
+      "note": "Neural speech hero voice line (Kokoro TTS, Apache-2.0 model), generated locally and encoded as AAC"
+    },
+    {
+      "path": "public/audio/voices/hero/archer-female/select-5.m4a",
+      "license": "own",
+      "source": "tools/generate-hero-voices.py",
+      "note": "Neural speech hero voice line (Kokoro TTS, Apache-2.0 model), generated locally and encoded as AAC"
+    },
+    {
+      "path": "public/audio/voices/hero/archer-female/spell_cast-0.m4a",
+      "license": "own",
+      "source": "tools/generate-hero-voices.py",
+      "note": "Neural speech hero voice line (Kokoro TTS, Apache-2.0 model), generated locally and encoded as AAC"
+    },
+    {
+      "path": "public/audio/voices/hero/archer-female/spell_cast-1.m4a",
+      "license": "own",
+      "source": "tools/generate-hero-voices.py",
+      "note": "Neural speech hero voice line (Kokoro TTS, Apache-2.0 model), generated locally and encoded as AAC"
+    },
+    {
+      "path": "public/audio/voices/hero/archer-female/spell_cast-2.m4a",
+      "license": "own",
+      "source": "tools/generate-hero-voices.py",
+      "note": "Neural speech hero voice line (Kokoro TTS, Apache-2.0 model), generated locally and encoded as AAC"
+    },
+    {
+      "path": "public/audio/voices/hero/archer-female/spell_cast-3.m4a",
+      "license": "own",
+      "source": "tools/generate-hero-voices.py",
+      "note": "Neural speech hero voice line (Kokoro TTS, Apache-2.0 model), generated locally and encoded as AAC"
+    },
+    {
+      "path": "public/audio/voices/hero/archer-female/town_greeting-0.m4a",
+      "license": "own",
+      "source": "tools/generate-hero-voices.py",
+      "note": "Neural speech hero voice line (Kokoro TTS, Apache-2.0 model), generated locally and encoded as AAC"
+    },
+    {
+      "path": "public/audio/voices/hero/archer-female/town_greeting-1.m4a",
+      "license": "own",
+      "source": "tools/generate-hero-voices.py",
+      "note": "Neural speech hero voice line (Kokoro TTS, Apache-2.0 model), generated locally and encoded as AAC"
+    },
+    {
+      "path": "public/audio/voices/hero/archer-female/town_greeting-2.m4a",
+      "license": "own",
+      "source": "tools/generate-hero-voices.py",
+      "note": "Neural speech hero voice line (Kokoro TTS, Apache-2.0 model), generated locally and encoded as AAC"
+    },
+    {
+      "path": "public/audio/voices/hero/archer-female/victory-0.m4a",
+      "license": "own",
+      "source": "tools/generate-hero-voices.py",
+      "note": "Neural speech hero voice line (Kokoro TTS, Apache-2.0 model), generated locally and encoded as AAC"
+    },
+    {
+      "path": "public/audio/voices/hero/archer-female/victory-1.m4a",
+      "license": "own",
+      "source": "tools/generate-hero-voices.py",
+      "note": "Neural speech hero voice line (Kokoro TTS, Apache-2.0 model), generated locally and encoded as AAC"
+    },
+    {
+      "path": "public/audio/voices/hero/archer-female/victory-2.m4a",
+      "license": "own",
+      "source": "tools/generate-hero-voices.py",
+      "note": "Neural speech hero voice line (Kokoro TTS, Apache-2.0 model), generated locally and encoded as AAC"
+    },
+    {
+      "path": "public/audio/voices/hero/archer-female/victory-3.m4a",
+      "license": "own",
+      "source": "tools/generate-hero-voices.py",
+      "note": "Neural speech hero voice line (Kokoro TTS, Apache-2.0 model), generated locally and encoded as AAC"
+    },
+    {
+      "path": "public/audio/voices/hero/archer-male/attack-0.m4a",
+      "license": "own",
+      "source": "tools/generate-hero-voices.py",
+      "note": "Neural speech hero voice line (Kokoro TTS, Apache-2.0 model), generated locally and encoded as AAC"
+    },
+    {
+      "path": "public/audio/voices/hero/archer-male/attack-1.m4a",
+      "license": "own",
+      "source": "tools/generate-hero-voices.py",
+      "note": "Neural speech hero voice line (Kokoro TTS, Apache-2.0 model), generated locally and encoded as AAC"
+    },
+    {
+      "path": "public/audio/voices/hero/archer-male/attack-2.m4a",
+      "license": "own",
+      "source": "tools/generate-hero-voices.py",
+      "note": "Neural speech hero voice line (Kokoro TTS, Apache-2.0 model), generated locally and encoded as AAC"
+    },
+    {
+      "path": "public/audio/voices/hero/archer-male/attack-3.m4a",
+      "license": "own",
+      "source": "tools/generate-hero-voices.py",
+      "note": "Neural speech hero voice line (Kokoro TTS, Apache-2.0 model), generated locally and encoded as AAC"
+    },
+    {
+      "path": "public/audio/voices/hero/archer-male/attack-4.m4a",
+      "license": "own",
+      "source": "tools/generate-hero-voices.py",
+      "note": "Neural speech hero voice line (Kokoro TTS, Apache-2.0 model), generated locally and encoded as AAC"
+    },
+    {
+      "path": "public/audio/voices/hero/archer-male/attack-5.m4a",
+      "license": "own",
+      "source": "tools/generate-hero-voices.py",
+      "note": "Neural speech hero voice line (Kokoro TTS, Apache-2.0 model), generated locally and encoded as AAC"
+    },
+    {
+      "path": "public/audio/voices/hero/archer-male/death-0.m4a",
+      "license": "own",
+      "source": "tools/generate-hero-voices.py",
+      "note": "Neural speech hero voice line (Kokoro TTS, Apache-2.0 model), generated locally and encoded as AAC"
+    },
+    {
+      "path": "public/audio/voices/hero/archer-male/death-1.m4a",
+      "license": "own",
+      "source": "tools/generate-hero-voices.py",
+      "note": "Neural speech hero voice line (Kokoro TTS, Apache-2.0 model), generated locally and encoded as AAC"
+    },
+    {
+      "path": "public/audio/voices/hero/archer-male/death-2.m4a",
+      "license": "own",
+      "source": "tools/generate-hero-voices.py",
+      "note": "Neural speech hero voice line (Kokoro TTS, Apache-2.0 model), generated locally and encoded as AAC"
+    },
+    {
+      "path": "public/audio/voices/hero/archer-male/hurt-0.m4a",
+      "license": "own",
+      "source": "tools/generate-hero-voices.py",
+      "note": "Neural speech hero voice line (Kokoro TTS, Apache-2.0 model), generated locally and encoded as AAC"
+    },
+    {
+      "path": "public/audio/voices/hero/archer-male/hurt-1.m4a",
+      "license": "own",
+      "source": "tools/generate-hero-voices.py",
+      "note": "Neural speech hero voice line (Kokoro TTS, Apache-2.0 model), generated locally and encoded as AAC"
+    },
+    {
+      "path": "public/audio/voices/hero/archer-male/hurt-2.m4a",
+      "license": "own",
+      "source": "tools/generate-hero-voices.py",
+      "note": "Neural speech hero voice line (Kokoro TTS, Apache-2.0 model), generated locally and encoded as AAC"
+    },
+    {
+      "path": "public/audio/voices/hero/archer-male/hurt-3.m4a",
+      "license": "own",
+      "source": "tools/generate-hero-voices.py",
+      "note": "Neural speech hero voice line (Kokoro TTS, Apache-2.0 model), generated locally and encoded as AAC"
+    },
+    {
+      "path": "public/audio/voices/hero/archer-male/idle-0.m4a",
+      "license": "own",
+      "source": "tools/generate-hero-voices.py",
+      "note": "Neural speech hero voice line (Kokoro TTS, Apache-2.0 model), generated locally and encoded as AAC"
+    },
+    {
+      "path": "public/audio/voices/hero/archer-male/idle-1.m4a",
+      "license": "own",
+      "source": "tools/generate-hero-voices.py",
+      "note": "Neural speech hero voice line (Kokoro TTS, Apache-2.0 model), generated locally and encoded as AAC"
+    },
+    {
+      "path": "public/audio/voices/hero/archer-male/idle-2.m4a",
+      "license": "own",
+      "source": "tools/generate-hero-voices.py",
+      "note": "Neural speech hero voice line (Kokoro TTS, Apache-2.0 model), generated locally and encoded as AAC"
+    },
+    {
+      "path": "public/audio/voices/hero/archer-male/idle-3.m4a",
+      "license": "own",
+      "source": "tools/generate-hero-voices.py",
+      "note": "Neural speech hero voice line (Kokoro TTS, Apache-2.0 model), generated locally and encoded as AAC"
+    },
+    {
+      "path": "public/audio/voices/hero/archer-male/idle-4.m4a",
+      "license": "own",
+      "source": "tools/generate-hero-voices.py",
+      "note": "Neural speech hero voice line (Kokoro TTS, Apache-2.0 model), generated locally and encoded as AAC"
+    },
+    {
+      "path": "public/audio/voices/hero/archer-male/idle-5.m4a",
+      "license": "own",
+      "source": "tools/generate-hero-voices.py",
+      "note": "Neural speech hero voice line (Kokoro TTS, Apache-2.0 model), generated locally and encoded as AAC"
+    },
+    {
+      "path": "public/audio/voices/hero/archer-male/idle-6.m4a",
+      "license": "own",
+      "source": "tools/generate-hero-voices.py",
+      "note": "Neural speech hero voice line (Kokoro TTS, Apache-2.0 model), generated locally and encoded as AAC"
+    },
+    {
+      "path": "public/audio/voices/hero/archer-male/idle-7.m4a",
+      "license": "own",
+      "source": "tools/generate-hero-voices.py",
+      "note": "Neural speech hero voice line (Kokoro TTS, Apache-2.0 model), generated locally and encoded as AAC"
+    },
+    {
+      "path": "public/audio/voices/hero/archer-male/idle-8.m4a",
+      "license": "own",
+      "source": "tools/generate-hero-voices.py",
+      "note": "Neural speech hero voice line (Kokoro TTS, Apache-2.0 model), generated locally and encoded as AAC"
+    },
+    {
+      "path": "public/audio/voices/hero/archer-male/idle-9.m4a",
+      "license": "own",
+      "source": "tools/generate-hero-voices.py",
+      "note": "Neural speech hero voice line (Kokoro TTS, Apache-2.0 model), generated locally and encoded as AAC"
+    },
+    {
+      "path": "public/audio/voices/hero/archer-male/intro-0.m4a",
+      "license": "own",
+      "source": "tools/generate-hero-voices.py",
+      "note": "Neural speech hero voice line (Kokoro TTS, Apache-2.0 model), generated locally and encoded as AAC"
+    },
+    {
+      "path": "public/audio/voices/hero/archer-male/kill-0.m4a",
+      "license": "own",
+      "source": "tools/generate-hero-voices.py",
+      "note": "Neural speech hero voice line (Kokoro TTS, Apache-2.0 model), generated locally and encoded as AAC"
+    },
+    {
+      "path": "public/audio/voices/hero/archer-male/kill-1.m4a",
+      "license": "own",
+      "source": "tools/generate-hero-voices.py",
+      "note": "Neural speech hero voice line (Kokoro TTS, Apache-2.0 model), generated locally and encoded as AAC"
+    },
+    {
+      "path": "public/audio/voices/hero/archer-male/kill-2.m4a",
+      "license": "own",
+      "source": "tools/generate-hero-voices.py",
+      "note": "Neural speech hero voice line (Kokoro TTS, Apache-2.0 model), generated locally and encoded as AAC"
+    },
+    {
+      "path": "public/audio/voices/hero/archer-male/kill-3.m4a",
+      "license": "own",
+      "source": "tools/generate-hero-voices.py",
+      "note": "Neural speech hero voice line (Kokoro TTS, Apache-2.0 model), generated locally and encoded as AAC"
+    },
+    {
+      "path": "public/audio/voices/hero/archer-male/level_up-0.m4a",
+      "license": "own",
+      "source": "tools/generate-hero-voices.py",
+      "note": "Neural speech hero voice line (Kokoro TTS, Apache-2.0 model), generated locally and encoded as AAC"
+    },
+    {
+      "path": "public/audio/voices/hero/archer-male/level_up-1.m4a",
+      "license": "own",
+      "source": "tools/generate-hero-voices.py",
+      "note": "Neural speech hero voice line (Kokoro TTS, Apache-2.0 model), generated locally and encoded as AAC"
+    },
+    {
+      "path": "public/audio/voices/hero/archer-male/level_up-2.m4a",
+      "license": "own",
+      "source": "tools/generate-hero-voices.py",
+      "note": "Neural speech hero voice line (Kokoro TTS, Apache-2.0 model), generated locally and encoded as AAC"
+    },
+    {
+      "path": "public/audio/voices/hero/archer-male/level_up-3.m4a",
+      "license": "own",
+      "source": "tools/generate-hero-voices.py",
+      "note": "Neural speech hero voice line (Kokoro TTS, Apache-2.0 model), generated locally and encoded as AAC"
+    },
+    {
+      "path": "public/audio/voices/hero/archer-male/level_up-4.m4a",
+      "license": "own",
+      "source": "tools/generate-hero-voices.py",
+      "note": "Neural speech hero voice line (Kokoro TTS, Apache-2.0 model), generated locally and encoded as AAC"
+    },
+    {
+      "path": "public/audio/voices/hero/archer-male/level_up-5.m4a",
+      "license": "own",
+      "source": "tools/generate-hero-voices.py",
+      "note": "Neural speech hero voice line (Kokoro TTS, Apache-2.0 model), generated locally and encoded as AAC"
+    },
+    {
+      "path": "public/audio/voices/hero/archer-male/level_up-6.m4a",
+      "license": "own",
+      "source": "tools/generate-hero-voices.py",
+      "note": "Neural speech hero voice line (Kokoro TTS, Apache-2.0 model), generated locally and encoded as AAC"
+    },
+    {
+      "path": "public/audio/voices/hero/archer-male/level_up-7.m4a",
+      "license": "own",
+      "source": "tools/generate-hero-voices.py",
+      "note": "Neural speech hero voice line (Kokoro TTS, Apache-2.0 model), generated locally and encoded as AAC"
+    },
+    {
+      "path": "public/audio/voices/hero/archer-male/loot_rare-0.m4a",
+      "license": "own",
+      "source": "tools/generate-hero-voices.py",
+      "note": "Neural speech hero voice line (Kokoro TTS, Apache-2.0 model), generated locally and encoded as AAC"
+    },
+    {
+      "path": "public/audio/voices/hero/archer-male/loot_rare-1.m4a",
+      "license": "own",
+      "source": "tools/generate-hero-voices.py",
+      "note": "Neural speech hero voice line (Kokoro TTS, Apache-2.0 model), generated locally and encoded as AAC"
+    },
+    {
+      "path": "public/audio/voices/hero/archer-male/loot_rare-2.m4a",
+      "license": "own",
+      "source": "tools/generate-hero-voices.py",
+      "note": "Neural speech hero voice line (Kokoro TTS, Apache-2.0 model), generated locally and encoded as AAC"
+    },
+    {
+      "path": "public/audio/voices/hero/archer-male/loot_rare-3.m4a",
+      "license": "own",
+      "source": "tools/generate-hero-voices.py",
+      "note": "Neural speech hero voice line (Kokoro TTS, Apache-2.0 model), generated locally and encoded as AAC"
+    },
+    {
+      "path": "public/audio/voices/hero/archer-male/loot_rare-4.m4a",
+      "license": "own",
+      "source": "tools/generate-hero-voices.py",
+      "note": "Neural speech hero voice line (Kokoro TTS, Apache-2.0 model), generated locally and encoded as AAC"
+    },
+    {
+      "path": "public/audio/voices/hero/archer-male/loot_rare-5.m4a",
+      "license": "own",
+      "source": "tools/generate-hero-voices.py",
+      "note": "Neural speech hero voice line (Kokoro TTS, Apache-2.0 model), generated locally and encoded as AAC"
+    },
+    {
+      "path": "public/audio/voices/hero/archer-male/loot_rare-6.m4a",
+      "license": "own",
+      "source": "tools/generate-hero-voices.py",
+      "note": "Neural speech hero voice line (Kokoro TTS, Apache-2.0 model), generated locally and encoded as AAC"
+    },
+    {
+      "path": "public/audio/voices/hero/archer-male/low_hp-0.m4a",
+      "license": "own",
+      "source": "tools/generate-hero-voices.py",
+      "note": "Neural speech hero voice line (Kokoro TTS, Apache-2.0 model), generated locally and encoded as AAC"
+    },
+    {
+      "path": "public/audio/voices/hero/archer-male/low_hp-1.m4a",
+      "license": "own",
+      "source": "tools/generate-hero-voices.py",
+      "note": "Neural speech hero voice line (Kokoro TTS, Apache-2.0 model), generated locally and encoded as AAC"
+    },
+    {
+      "path": "public/audio/voices/hero/archer-male/low_hp-2.m4a",
+      "license": "own",
+      "source": "tools/generate-hero-voices.py",
+      "note": "Neural speech hero voice line (Kokoro TTS, Apache-2.0 model), generated locally and encoded as AAC"
+    },
+    {
+      "path": "public/audio/voices/hero/archer-male/low_hp-3.m4a",
+      "license": "own",
+      "source": "tools/generate-hero-voices.py",
+      "note": "Neural speech hero voice line (Kokoro TTS, Apache-2.0 model), generated locally and encoded as AAC"
+    },
+    {
+      "path": "public/audio/voices/hero/archer-male/low_hp-4.m4a",
+      "license": "own",
+      "source": "tools/generate-hero-voices.py",
+      "note": "Neural speech hero voice line (Kokoro TTS, Apache-2.0 model), generated locally and encoded as AAC"
+    },
+    {
+      "path": "public/audio/voices/hero/archer-male/low_hp-5.m4a",
+      "license": "own",
+      "source": "tools/generate-hero-voices.py",
+      "note": "Neural speech hero voice line (Kokoro TTS, Apache-2.0 model), generated locally and encoded as AAC"
+    },
+    {
+      "path": "public/audio/voices/hero/archer-male/low_hp-6.m4a",
+      "license": "own",
+      "source": "tools/generate-hero-voices.py",
+      "note": "Neural speech hero voice line (Kokoro TTS, Apache-2.0 model), generated locally and encoded as AAC"
+    },
+    {
+      "path": "public/audio/voices/hero/archer-male/move-0.m4a",
+      "license": "own",
+      "source": "tools/generate-hero-voices.py",
+      "note": "Neural speech hero voice line (Kokoro TTS, Apache-2.0 model), generated locally and encoded as AAC"
+    },
+    {
+      "path": "public/audio/voices/hero/archer-male/move-1.m4a",
+      "license": "own",
+      "source": "tools/generate-hero-voices.py",
+      "note": "Neural speech hero voice line (Kokoro TTS, Apache-2.0 model), generated locally and encoded as AAC"
+    },
+    {
+      "path": "public/audio/voices/hero/archer-male/move-2.m4a",
+      "license": "own",
+      "source": "tools/generate-hero-voices.py",
+      "note": "Neural speech hero voice line (Kokoro TTS, Apache-2.0 model), generated locally and encoded as AAC"
+    },
+    {
+      "path": "public/audio/voices/hero/archer-male/move-3.m4a",
+      "license": "own",
+      "source": "tools/generate-hero-voices.py",
+      "note": "Neural speech hero voice line (Kokoro TTS, Apache-2.0 model), generated locally and encoded as AAC"
+    },
+    {
+      "path": "public/audio/voices/hero/archer-male/move-4.m4a",
+      "license": "own",
+      "source": "tools/generate-hero-voices.py",
+      "note": "Neural speech hero voice line (Kokoro TTS, Apache-2.0 model), generated locally and encoded as AAC"
+    },
+    {
+      "path": "public/audio/voices/hero/archer-male/move-5.m4a",
+      "license": "own",
+      "source": "tools/generate-hero-voices.py",
+      "note": "Neural speech hero voice line (Kokoro TTS, Apache-2.0 model), generated locally and encoded as AAC"
+    },
+    {
+      "path": "public/audio/voices/hero/archer-male/refusal-0.m4a",
+      "license": "own",
+      "source": "tools/generate-hero-voices.py",
+      "note": "Neural speech hero voice line (Kokoro TTS, Apache-2.0 model), generated locally and encoded as AAC"
+    },
+    {
+      "path": "public/audio/voices/hero/archer-male/refusal-1.m4a",
+      "license": "own",
+      "source": "tools/generate-hero-voices.py",
+      "note": "Neural speech hero voice line (Kokoro TTS, Apache-2.0 model), generated locally and encoded as AAC"
+    },
+    {
+      "path": "public/audio/voices/hero/archer-male/refusal-2.m4a",
+      "license": "own",
+      "source": "tools/generate-hero-voices.py",
+      "note": "Neural speech hero voice line (Kokoro TTS, Apache-2.0 model), generated locally and encoded as AAC"
+    },
+    {
+      "path": "public/audio/voices/hero/archer-male/select-0.m4a",
+      "license": "own",
+      "source": "tools/generate-hero-voices.py",
+      "note": "Neural speech hero voice line (Kokoro TTS, Apache-2.0 model), generated locally and encoded as AAC"
+    },
+    {
+      "path": "public/audio/voices/hero/archer-male/select-1.m4a",
+      "license": "own",
+      "source": "tools/generate-hero-voices.py",
+      "note": "Neural speech hero voice line (Kokoro TTS, Apache-2.0 model), generated locally and encoded as AAC"
+    },
+    {
+      "path": "public/audio/voices/hero/archer-male/select-2.m4a",
+      "license": "own",
+      "source": "tools/generate-hero-voices.py",
+      "note": "Neural speech hero voice line (Kokoro TTS, Apache-2.0 model), generated locally and encoded as AAC"
+    },
+    {
+      "path": "public/audio/voices/hero/archer-male/select-3.m4a",
+      "license": "own",
+      "source": "tools/generate-hero-voices.py",
+      "note": "Neural speech hero voice line (Kokoro TTS, Apache-2.0 model), generated locally and encoded as AAC"
+    },
+    {
+      "path": "public/audio/voices/hero/archer-male/select-4.m4a",
+      "license": "own",
+      "source": "tools/generate-hero-voices.py",
+      "note": "Neural speech hero voice line (Kokoro TTS, Apache-2.0 model), generated locally and encoded as AAC"
+    },
+    {
+      "path": "public/audio/voices/hero/archer-male/select-5.m4a",
+      "license": "own",
+      "source": "tools/generate-hero-voices.py",
+      "note": "Neural speech hero voice line (Kokoro TTS, Apache-2.0 model), generated locally and encoded as AAC"
+    },
+    {
+      "path": "public/audio/voices/hero/archer-male/spell_cast-0.m4a",
+      "license": "own",
+      "source": "tools/generate-hero-voices.py",
+      "note": "Neural speech hero voice line (Kokoro TTS, Apache-2.0 model), generated locally and encoded as AAC"
+    },
+    {
+      "path": "public/audio/voices/hero/archer-male/spell_cast-1.m4a",
+      "license": "own",
+      "source": "tools/generate-hero-voices.py",
+      "note": "Neural speech hero voice line (Kokoro TTS, Apache-2.0 model), generated locally and encoded as AAC"
+    },
+    {
+      "path": "public/audio/voices/hero/archer-male/spell_cast-2.m4a",
+      "license": "own",
+      "source": "tools/generate-hero-voices.py",
+      "note": "Neural speech hero voice line (Kokoro TTS, Apache-2.0 model), generated locally and encoded as AAC"
+    },
+    {
+      "path": "public/audio/voices/hero/archer-male/spell_cast-3.m4a",
+      "license": "own",
+      "source": "tools/generate-hero-voices.py",
+      "note": "Neural speech hero voice line (Kokoro TTS, Apache-2.0 model), generated locally and encoded as AAC"
+    },
+    {
+      "path": "public/audio/voices/hero/archer-male/town_greeting-0.m4a",
+      "license": "own",
+      "source": "tools/generate-hero-voices.py",
+      "note": "Neural speech hero voice line (Kokoro TTS, Apache-2.0 model), generated locally and encoded as AAC"
+    },
+    {
+      "path": "public/audio/voices/hero/archer-male/town_greeting-1.m4a",
+      "license": "own",
+      "source": "tools/generate-hero-voices.py",
+      "note": "Neural speech hero voice line (Kokoro TTS, Apache-2.0 model), generated locally and encoded as AAC"
+    },
+    {
+      "path": "public/audio/voices/hero/archer-male/town_greeting-2.m4a",
+      "license": "own",
+      "source": "tools/generate-hero-voices.py",
+      "note": "Neural speech hero voice line (Kokoro TTS, Apache-2.0 model), generated locally and encoded as AAC"
+    },
+    {
+      "path": "public/audio/voices/hero/archer-male/victory-0.m4a",
+      "license": "own",
+      "source": "tools/generate-hero-voices.py",
+      "note": "Neural speech hero voice line (Kokoro TTS, Apache-2.0 model), generated locally and encoded as AAC"
+    },
+    {
+      "path": "public/audio/voices/hero/archer-male/victory-1.m4a",
+      "license": "own",
+      "source": "tools/generate-hero-voices.py",
+      "note": "Neural speech hero voice line (Kokoro TTS, Apache-2.0 model), generated locally and encoded as AAC"
+    },
+    {
+      "path": "public/audio/voices/hero/archer-male/victory-2.m4a",
+      "license": "own",
+      "source": "tools/generate-hero-voices.py",
+      "note": "Neural speech hero voice line (Kokoro TTS, Apache-2.0 model), generated locally and encoded as AAC"
+    },
+    {
+      "path": "public/audio/voices/hero/archer-male/victory-3.m4a",
+      "license": "own",
+      "source": "tools/generate-hero-voices.py",
+      "note": "Neural speech hero voice line (Kokoro TTS, Apache-2.0 model), generated locally and encoded as AAC"
+    },
+    {
+      "path": "public/audio/voices/hero/mage-female/attack-0.m4a",
+      "license": "own",
+      "source": "tools/generate-hero-voices.py",
+      "note": "Neural speech hero voice line (Kokoro TTS, Apache-2.0 model), generated locally and encoded as AAC"
+    },
+    {
+      "path": "public/audio/voices/hero/mage-female/attack-1.m4a",
+      "license": "own",
+      "source": "tools/generate-hero-voices.py",
+      "note": "Neural speech hero voice line (Kokoro TTS, Apache-2.0 model), generated locally and encoded as AAC"
+    },
+    {
+      "path": "public/audio/voices/hero/mage-female/attack-2.m4a",
+      "license": "own",
+      "source": "tools/generate-hero-voices.py",
+      "note": "Neural speech hero voice line (Kokoro TTS, Apache-2.0 model), generated locally and encoded as AAC"
+    },
+    {
+      "path": "public/audio/voices/hero/mage-female/attack-3.m4a",
+      "license": "own",
+      "source": "tools/generate-hero-voices.py",
+      "note": "Neural speech hero voice line (Kokoro TTS, Apache-2.0 model), generated locally and encoded as AAC"
+    },
+    {
+      "path": "public/audio/voices/hero/mage-female/attack-4.m4a",
+      "license": "own",
+      "source": "tools/generate-hero-voices.py",
+      "note": "Neural speech hero voice line (Kokoro TTS, Apache-2.0 model), generated locally and encoded as AAC"
+    },
+    {
+      "path": "public/audio/voices/hero/mage-female/attack-5.m4a",
+      "license": "own",
+      "source": "tools/generate-hero-voices.py",
+      "note": "Neural speech hero voice line (Kokoro TTS, Apache-2.0 model), generated locally and encoded as AAC"
+    },
+    {
+      "path": "public/audio/voices/hero/mage-female/death-0.m4a",
+      "license": "own",
+      "source": "tools/generate-hero-voices.py",
+      "note": "Neural speech hero voice line (Kokoro TTS, Apache-2.0 model), generated locally and encoded as AAC"
+    },
+    {
+      "path": "public/audio/voices/hero/mage-female/death-1.m4a",
+      "license": "own",
+      "source": "tools/generate-hero-voices.py",
+      "note": "Neural speech hero voice line (Kokoro TTS, Apache-2.0 model), generated locally and encoded as AAC"
+    },
+    {
+      "path": "public/audio/voices/hero/mage-female/death-2.m4a",
+      "license": "own",
+      "source": "tools/generate-hero-voices.py",
+      "note": "Neural speech hero voice line (Kokoro TTS, Apache-2.0 model), generated locally and encoded as AAC"
+    },
+    {
+      "path": "public/audio/voices/hero/mage-female/hurt-0.m4a",
+      "license": "own",
+      "source": "tools/generate-hero-voices.py",
+      "note": "Neural speech hero voice line (Kokoro TTS, Apache-2.0 model), generated locally and encoded as AAC"
+    },
+    {
+      "path": "public/audio/voices/hero/mage-female/hurt-1.m4a",
+      "license": "own",
+      "source": "tools/generate-hero-voices.py",
+      "note": "Neural speech hero voice line (Kokoro TTS, Apache-2.0 model), generated locally and encoded as AAC"
+    },
+    {
+      "path": "public/audio/voices/hero/mage-female/hurt-2.m4a",
+      "license": "own",
+      "source": "tools/generate-hero-voices.py",
+      "note": "Neural speech hero voice line (Kokoro TTS, Apache-2.0 model), generated locally and encoded as AAC"
+    },
+    {
+      "path": "public/audio/voices/hero/mage-female/hurt-3.m4a",
+      "license": "own",
+      "source": "tools/generate-hero-voices.py",
+      "note": "Neural speech hero voice line (Kokoro TTS, Apache-2.0 model), generated locally and encoded as AAC"
+    },
+    {
+      "path": "public/audio/voices/hero/mage-female/idle-0.m4a",
+      "license": "own",
+      "source": "tools/generate-hero-voices.py",
+      "note": "Neural speech hero voice line (Kokoro TTS, Apache-2.0 model), generated locally and encoded as AAC"
+    },
+    {
+      "path": "public/audio/voices/hero/mage-female/idle-1.m4a",
+      "license": "own",
+      "source": "tools/generate-hero-voices.py",
+      "note": "Neural speech hero voice line (Kokoro TTS, Apache-2.0 model), generated locally and encoded as AAC"
+    },
+    {
+      "path": "public/audio/voices/hero/mage-female/idle-2.m4a",
+      "license": "own",
+      "source": "tools/generate-hero-voices.py",
+      "note": "Neural speech hero voice line (Kokoro TTS, Apache-2.0 model), generated locally and encoded as AAC"
+    },
+    {
+      "path": "public/audio/voices/hero/mage-female/idle-3.m4a",
+      "license": "own",
+      "source": "tools/generate-hero-voices.py",
+      "note": "Neural speech hero voice line (Kokoro TTS, Apache-2.0 model), generated locally and encoded as AAC"
+    },
+    {
+      "path": "public/audio/voices/hero/mage-female/idle-4.m4a",
+      "license": "own",
+      "source": "tools/generate-hero-voices.py",
+      "note": "Neural speech hero voice line (Kokoro TTS, Apache-2.0 model), generated locally and encoded as AAC"
+    },
+    {
+      "path": "public/audio/voices/hero/mage-female/idle-5.m4a",
+      "license": "own",
+      "source": "tools/generate-hero-voices.py",
+      "note": "Neural speech hero voice line (Kokoro TTS, Apache-2.0 model), generated locally and encoded as AAC"
+    },
+    {
+      "path": "public/audio/voices/hero/mage-female/idle-6.m4a",
+      "license": "own",
+      "source": "tools/generate-hero-voices.py",
+      "note": "Neural speech hero voice line (Kokoro TTS, Apache-2.0 model), generated locally and encoded as AAC"
+    },
+    {
+      "path": "public/audio/voices/hero/mage-female/idle-7.m4a",
+      "license": "own",
+      "source": "tools/generate-hero-voices.py",
+      "note": "Neural speech hero voice line (Kokoro TTS, Apache-2.0 model), generated locally and encoded as AAC"
+    },
+    {
+      "path": "public/audio/voices/hero/mage-female/idle-8.m4a",
+      "license": "own",
+      "source": "tools/generate-hero-voices.py",
+      "note": "Neural speech hero voice line (Kokoro TTS, Apache-2.0 model), generated locally and encoded as AAC"
+    },
+    {
+      "path": "public/audio/voices/hero/mage-female/idle-9.m4a",
+      "license": "own",
+      "source": "tools/generate-hero-voices.py",
+      "note": "Neural speech hero voice line (Kokoro TTS, Apache-2.0 model), generated locally and encoded as AAC"
+    },
+    {
+      "path": "public/audio/voices/hero/mage-female/intro-0.m4a",
+      "license": "own",
+      "source": "tools/generate-hero-voices.py",
+      "note": "Neural speech hero voice line (Kokoro TTS, Apache-2.0 model), generated locally and encoded as AAC"
+    },
+    {
+      "path": "public/audio/voices/hero/mage-female/kill-0.m4a",
+      "license": "own",
+      "source": "tools/generate-hero-voices.py",
+      "note": "Neural speech hero voice line (Kokoro TTS, Apache-2.0 model), generated locally and encoded as AAC"
+    },
+    {
+      "path": "public/audio/voices/hero/mage-female/kill-1.m4a",
+      "license": "own",
+      "source": "tools/generate-hero-voices.py",
+      "note": "Neural speech hero voice line (Kokoro TTS, Apache-2.0 model), generated locally and encoded as AAC"
+    },
+    {
+      "path": "public/audio/voices/hero/mage-female/kill-2.m4a",
+      "license": "own",
+      "source": "tools/generate-hero-voices.py",
+      "note": "Neural speech hero voice line (Kokoro TTS, Apache-2.0 model), generated locally and encoded as AAC"
+    },
+    {
+      "path": "public/audio/voices/hero/mage-female/kill-3.m4a",
+      "license": "own",
+      "source": "tools/generate-hero-voices.py",
+      "note": "Neural speech hero voice line (Kokoro TTS, Apache-2.0 model), generated locally and encoded as AAC"
+    },
+    {
+      "path": "public/audio/voices/hero/mage-female/level_up-0.m4a",
+      "license": "own",
+      "source": "tools/generate-hero-voices.py",
+      "note": "Neural speech hero voice line (Kokoro TTS, Apache-2.0 model), generated locally and encoded as AAC"
+    },
+    {
+      "path": "public/audio/voices/hero/mage-female/level_up-1.m4a",
+      "license": "own",
+      "source": "tools/generate-hero-voices.py",
+      "note": "Neural speech hero voice line (Kokoro TTS, Apache-2.0 model), generated locally and encoded as AAC"
+    },
+    {
+      "path": "public/audio/voices/hero/mage-female/level_up-2.m4a",
+      "license": "own",
+      "source": "tools/generate-hero-voices.py",
+      "note": "Neural speech hero voice line (Kokoro TTS, Apache-2.0 model), generated locally and encoded as AAC"
+    },
+    {
+      "path": "public/audio/voices/hero/mage-female/level_up-3.m4a",
+      "license": "own",
+      "source": "tools/generate-hero-voices.py",
+      "note": "Neural speech hero voice line (Kokoro TTS, Apache-2.0 model), generated locally and encoded as AAC"
+    },
+    {
+      "path": "public/audio/voices/hero/mage-female/level_up-4.m4a",
+      "license": "own",
+      "source": "tools/generate-hero-voices.py",
+      "note": "Neural speech hero voice line (Kokoro TTS, Apache-2.0 model), generated locally and encoded as AAC"
+    },
+    {
+      "path": "public/audio/voices/hero/mage-female/level_up-5.m4a",
+      "license": "own",
+      "source": "tools/generate-hero-voices.py",
+      "note": "Neural speech hero voice line (Kokoro TTS, Apache-2.0 model), generated locally and encoded as AAC"
+    },
+    {
+      "path": "public/audio/voices/hero/mage-female/level_up-6.m4a",
+      "license": "own",
+      "source": "tools/generate-hero-voices.py",
+      "note": "Neural speech hero voice line (Kokoro TTS, Apache-2.0 model), generated locally and encoded as AAC"
+    },
+    {
+      "path": "public/audio/voices/hero/mage-female/level_up-7.m4a",
+      "license": "own",
+      "source": "tools/generate-hero-voices.py",
+      "note": "Neural speech hero voice line (Kokoro TTS, Apache-2.0 model), generated locally and encoded as AAC"
+    },
+    {
+      "path": "public/audio/voices/hero/mage-female/loot_rare-0.m4a",
+      "license": "own",
+      "source": "tools/generate-hero-voices.py",
+      "note": "Neural speech hero voice line (Kokoro TTS, Apache-2.0 model), generated locally and encoded as AAC"
+    },
+    {
+      "path": "public/audio/voices/hero/mage-female/loot_rare-1.m4a",
+      "license": "own",
+      "source": "tools/generate-hero-voices.py",
+      "note": "Neural speech hero voice line (Kokoro TTS, Apache-2.0 model), generated locally and encoded as AAC"
+    },
+    {
+      "path": "public/audio/voices/hero/mage-female/loot_rare-2.m4a",
+      "license": "own",
+      "source": "tools/generate-hero-voices.py",
+      "note": "Neural speech hero voice line (Kokoro TTS, Apache-2.0 model), generated locally and encoded as AAC"
+    },
+    {
+      "path": "public/audio/voices/hero/mage-female/loot_rare-3.m4a",
+      "license": "own",
+      "source": "tools/generate-hero-voices.py",
+      "note": "Neural speech hero voice line (Kokoro TTS, Apache-2.0 model), generated locally and encoded as AAC"
+    },
+    {
+      "path": "public/audio/voices/hero/mage-female/loot_rare-4.m4a",
+      "license": "own",
+      "source": "tools/generate-hero-voices.py",
+      "note": "Neural speech hero voice line (Kokoro TTS, Apache-2.0 model), generated locally and encoded as AAC"
+    },
+    {
+      "path": "public/audio/voices/hero/mage-female/loot_rare-5.m4a",
+      "license": "own",
+      "source": "tools/generate-hero-voices.py",
+      "note": "Neural speech hero voice line (Kokoro TTS, Apache-2.0 model), generated locally and encoded as AAC"
+    },
+    {
+      "path": "public/audio/voices/hero/mage-female/loot_rare-6.m4a",
+      "license": "own",
+      "source": "tools/generate-hero-voices.py",
+      "note": "Neural speech hero voice line (Kokoro TTS, Apache-2.0 model), generated locally and encoded as AAC"
+    },
+    {
+      "path": "public/audio/voices/hero/mage-female/low_hp-0.m4a",
+      "license": "own",
+      "source": "tools/generate-hero-voices.py",
+      "note": "Neural speech hero voice line (Kokoro TTS, Apache-2.0 model), generated locally and encoded as AAC"
+    },
+    {
+      "path": "public/audio/voices/hero/mage-female/low_hp-1.m4a",
+      "license": "own",
+      "source": "tools/generate-hero-voices.py",
+      "note": "Neural speech hero voice line (Kokoro TTS, Apache-2.0 model), generated locally and encoded as AAC"
+    },
+    {
+      "path": "public/audio/voices/hero/mage-female/low_hp-2.m4a",
+      "license": "own",
+      "source": "tools/generate-hero-voices.py",
+      "note": "Neural speech hero voice line (Kokoro TTS, Apache-2.0 model), generated locally and encoded as AAC"
+    },
+    {
+      "path": "public/audio/voices/hero/mage-female/low_hp-3.m4a",
+      "license": "own",
+      "source": "tools/generate-hero-voices.py",
+      "note": "Neural speech hero voice line (Kokoro TTS, Apache-2.0 model), generated locally and encoded as AAC"
+    },
+    {
+      "path": "public/audio/voices/hero/mage-female/low_hp-4.m4a",
+      "license": "own",
+      "source": "tools/generate-hero-voices.py",
+      "note": "Neural speech hero voice line (Kokoro TTS, Apache-2.0 model), generated locally and encoded as AAC"
+    },
+    {
+      "path": "public/audio/voices/hero/mage-female/low_hp-5.m4a",
+      "license": "own",
+      "source": "tools/generate-hero-voices.py",
+      "note": "Neural speech hero voice line (Kokoro TTS, Apache-2.0 model), generated locally and encoded as AAC"
+    },
+    {
+      "path": "public/audio/voices/hero/mage-female/low_hp-6.m4a",
+      "license": "own",
+      "source": "tools/generate-hero-voices.py",
+      "note": "Neural speech hero voice line (Kokoro TTS, Apache-2.0 model), generated locally and encoded as AAC"
+    },
+    {
+      "path": "public/audio/voices/hero/mage-female/move-0.m4a",
+      "license": "own",
+      "source": "tools/generate-hero-voices.py",
+      "note": "Neural speech hero voice line (Kokoro TTS, Apache-2.0 model), generated locally and encoded as AAC"
+    },
+    {
+      "path": "public/audio/voices/hero/mage-female/move-1.m4a",
+      "license": "own",
+      "source": "tools/generate-hero-voices.py",
+      "note": "Neural speech hero voice line (Kokoro TTS, Apache-2.0 model), generated locally and encoded as AAC"
+    },
+    {
+      "path": "public/audio/voices/hero/mage-female/move-2.m4a",
+      "license": "own",
+      "source": "tools/generate-hero-voices.py",
+      "note": "Neural speech hero voice line (Kokoro TTS, Apache-2.0 model), generated locally and encoded as AAC"
+    },
+    {
+      "path": "public/audio/voices/hero/mage-female/move-3.m4a",
+      "license": "own",
+      "source": "tools/generate-hero-voices.py",
+      "note": "Neural speech hero voice line (Kokoro TTS, Apache-2.0 model), generated locally and encoded as AAC"
+    },
+    {
+      "path": "public/audio/voices/hero/mage-female/move-4.m4a",
+      "license": "own",
+      "source": "tools/generate-hero-voices.py",
+      "note": "Neural speech hero voice line (Kokoro TTS, Apache-2.0 model), generated locally and encoded as AAC"
+    },
+    {
+      "path": "public/audio/voices/hero/mage-female/move-5.m4a",
+      "license": "own",
+      "source": "tools/generate-hero-voices.py",
+      "note": "Neural speech hero voice line (Kokoro TTS, Apache-2.0 model), generated locally and encoded as AAC"
+    },
+    {
+      "path": "public/audio/voices/hero/mage-female/refusal-0.m4a",
+      "license": "own",
+      "source": "tools/generate-hero-voices.py",
+      "note": "Neural speech hero voice line (Kokoro TTS, Apache-2.0 model), generated locally and encoded as AAC"
+    },
+    {
+      "path": "public/audio/voices/hero/mage-female/refusal-1.m4a",
+      "license": "own",
+      "source": "tools/generate-hero-voices.py",
+      "note": "Neural speech hero voice line (Kokoro TTS, Apache-2.0 model), generated locally and encoded as AAC"
+    },
+    {
+      "path": "public/audio/voices/hero/mage-female/refusal-2.m4a",
+      "license": "own",
+      "source": "tools/generate-hero-voices.py",
+      "note": "Neural speech hero voice line (Kokoro TTS, Apache-2.0 model), generated locally and encoded as AAC"
+    },
+    {
+      "path": "public/audio/voices/hero/mage-female/select-0.m4a",
+      "license": "own",
+      "source": "tools/generate-hero-voices.py",
+      "note": "Neural speech hero voice line (Kokoro TTS, Apache-2.0 model), generated locally and encoded as AAC"
+    },
+    {
+      "path": "public/audio/voices/hero/mage-female/select-1.m4a",
+      "license": "own",
+      "source": "tools/generate-hero-voices.py",
+      "note": "Neural speech hero voice line (Kokoro TTS, Apache-2.0 model), generated locally and encoded as AAC"
+    },
+    {
+      "path": "public/audio/voices/hero/mage-female/select-2.m4a",
+      "license": "own",
+      "source": "tools/generate-hero-voices.py",
+      "note": "Neural speech hero voice line (Kokoro TTS, Apache-2.0 model), generated locally and encoded as AAC"
+    },
+    {
+      "path": "public/audio/voices/hero/mage-female/select-3.m4a",
+      "license": "own",
+      "source": "tools/generate-hero-voices.py",
+      "note": "Neural speech hero voice line (Kokoro TTS, Apache-2.0 model), generated locally and encoded as AAC"
+    },
+    {
+      "path": "public/audio/voices/hero/mage-female/select-4.m4a",
+      "license": "own",
+      "source": "tools/generate-hero-voices.py",
+      "note": "Neural speech hero voice line (Kokoro TTS, Apache-2.0 model), generated locally and encoded as AAC"
+    },
+    {
+      "path": "public/audio/voices/hero/mage-female/select-5.m4a",
+      "license": "own",
+      "source": "tools/generate-hero-voices.py",
+      "note": "Neural speech hero voice line (Kokoro TTS, Apache-2.0 model), generated locally and encoded as AAC"
+    },
+    {
+      "path": "public/audio/voices/hero/mage-female/spell_cast-0.m4a",
+      "license": "own",
+      "source": "tools/generate-hero-voices.py",
+      "note": "Neural speech hero voice line (Kokoro TTS, Apache-2.0 model), generated locally and encoded as AAC"
+    },
+    {
+      "path": "public/audio/voices/hero/mage-female/spell_cast-1.m4a",
+      "license": "own",
+      "source": "tools/generate-hero-voices.py",
+      "note": "Neural speech hero voice line (Kokoro TTS, Apache-2.0 model), generated locally and encoded as AAC"
+    },
+    {
+      "path": "public/audio/voices/hero/mage-female/spell_cast-2.m4a",
+      "license": "own",
+      "source": "tools/generate-hero-voices.py",
+      "note": "Neural speech hero voice line (Kokoro TTS, Apache-2.0 model), generated locally and encoded as AAC"
+    },
+    {
+      "path": "public/audio/voices/hero/mage-female/spell_cast-3.m4a",
+      "license": "own",
+      "source": "tools/generate-hero-voices.py",
+      "note": "Neural speech hero voice line (Kokoro TTS, Apache-2.0 model), generated locally and encoded as AAC"
+    },
+    {
+      "path": "public/audio/voices/hero/mage-female/town_greeting-0.m4a",
+      "license": "own",
+      "source": "tools/generate-hero-voices.py",
+      "note": "Neural speech hero voice line (Kokoro TTS, Apache-2.0 model), generated locally and encoded as AAC"
+    },
+    {
+      "path": "public/audio/voices/hero/mage-female/town_greeting-1.m4a",
+      "license": "own",
+      "source": "tools/generate-hero-voices.py",
+      "note": "Neural speech hero voice line (Kokoro TTS, Apache-2.0 model), generated locally and encoded as AAC"
+    },
+    {
+      "path": "public/audio/voices/hero/mage-female/town_greeting-2.m4a",
+      "license": "own",
+      "source": "tools/generate-hero-voices.py",
+      "note": "Neural speech hero voice line (Kokoro TTS, Apache-2.0 model), generated locally and encoded as AAC"
+    },
+    {
+      "path": "public/audio/voices/hero/mage-female/victory-0.m4a",
+      "license": "own",
+      "source": "tools/generate-hero-voices.py",
+      "note": "Neural speech hero voice line (Kokoro TTS, Apache-2.0 model), generated locally and encoded as AAC"
+    },
+    {
+      "path": "public/audio/voices/hero/mage-female/victory-1.m4a",
+      "license": "own",
+      "source": "tools/generate-hero-voices.py",
+      "note": "Neural speech hero voice line (Kokoro TTS, Apache-2.0 model), generated locally and encoded as AAC"
+    },
+    {
+      "path": "public/audio/voices/hero/mage-female/victory-2.m4a",
+      "license": "own",
+      "source": "tools/generate-hero-voices.py",
+      "note": "Neural speech hero voice line (Kokoro TTS, Apache-2.0 model), generated locally and encoded as AAC"
+    },
+    {
+      "path": "public/audio/voices/hero/mage-female/victory-3.m4a",
+      "license": "own",
+      "source": "tools/generate-hero-voices.py",
+      "note": "Neural speech hero voice line (Kokoro TTS, Apache-2.0 model), generated locally and encoded as AAC"
+    },
+    {
+      "path": "public/audio/voices/hero/mage-male/attack-0.m4a",
+      "license": "own",
+      "source": "tools/generate-hero-voices.py",
+      "note": "Neural speech hero voice line (Kokoro TTS, Apache-2.0 model), generated locally and encoded as AAC"
+    },
+    {
+      "path": "public/audio/voices/hero/mage-male/attack-1.m4a",
+      "license": "own",
+      "source": "tools/generate-hero-voices.py",
+      "note": "Neural speech hero voice line (Kokoro TTS, Apache-2.0 model), generated locally and encoded as AAC"
+    },
+    {
+      "path": "public/audio/voices/hero/mage-male/attack-2.m4a",
+      "license": "own",
+      "source": "tools/generate-hero-voices.py",
+      "note": "Neural speech hero voice line (Kokoro TTS, Apache-2.0 model), generated locally and encoded as AAC"
+    },
+    {
+      "path": "public/audio/voices/hero/mage-male/attack-3.m4a",
+      "license": "own",
+      "source": "tools/generate-hero-voices.py",
+      "note": "Neural speech hero voice line (Kokoro TTS, Apache-2.0 model), generated locally and encoded as AAC"
+    },
+    {
+      "path": "public/audio/voices/hero/mage-male/attack-4.m4a",
+      "license": "own",
+      "source": "tools/generate-hero-voices.py",
+      "note": "Neural speech hero voice line (Kokoro TTS, Apache-2.0 model), generated locally and encoded as AAC"
+    },
+    {
+      "path": "public/audio/voices/hero/mage-male/attack-5.m4a",
+      "license": "own",
+      "source": "tools/generate-hero-voices.py",
+      "note": "Neural speech hero voice line (Kokoro TTS, Apache-2.0 model), generated locally and encoded as AAC"
+    },
+    {
+      "path": "public/audio/voices/hero/mage-male/death-0.m4a",
+      "license": "own",
+      "source": "tools/generate-hero-voices.py",
+      "note": "Neural speech hero voice line (Kokoro TTS, Apache-2.0 model), generated locally and encoded as AAC"
+    },
+    {
+      "path": "public/audio/voices/hero/mage-male/death-1.m4a",
+      "license": "own",
+      "source": "tools/generate-hero-voices.py",
+      "note": "Neural speech hero voice line (Kokoro TTS, Apache-2.0 model), generated locally and encoded as AAC"
+    },
+    {
+      "path": "public/audio/voices/hero/mage-male/death-2.m4a",
+      "license": "own",
+      "source": "tools/generate-hero-voices.py",
+      "note": "Neural speech hero voice line (Kokoro TTS, Apache-2.0 model), generated locally and encoded as AAC"
+    },
+    {
+      "path": "public/audio/voices/hero/mage-male/hurt-0.m4a",
+      "license": "own",
+      "source": "tools/generate-hero-voices.py",
+      "note": "Neural speech hero voice line (Kokoro TTS, Apache-2.0 model), generated locally and encoded as AAC"
+    },
+    {
+      "path": "public/audio/voices/hero/mage-male/hurt-1.m4a",
+      "license": "own",
+      "source": "tools/generate-hero-voices.py",
+      "note": "Neural speech hero voice line (Kokoro TTS, Apache-2.0 model), generated locally and encoded as AAC"
+    },
+    {
+      "path": "public/audio/voices/hero/mage-male/hurt-2.m4a",
+      "license": "own",
+      "source": "tools/generate-hero-voices.py",
+      "note": "Neural speech hero voice line (Kokoro TTS, Apache-2.0 model), generated locally and encoded as AAC"
+    },
+    {
+      "path": "public/audio/voices/hero/mage-male/hurt-3.m4a",
+      "license": "own",
+      "source": "tools/generate-hero-voices.py",
+      "note": "Neural speech hero voice line (Kokoro TTS, Apache-2.0 model), generated locally and encoded as AAC"
+    },
+    {
+      "path": "public/audio/voices/hero/mage-male/idle-0.m4a",
+      "license": "own",
+      "source": "tools/generate-hero-voices.py",
+      "note": "Neural speech hero voice line (Kokoro TTS, Apache-2.0 model), generated locally and encoded as AAC"
+    },
+    {
+      "path": "public/audio/voices/hero/mage-male/idle-1.m4a",
+      "license": "own",
+      "source": "tools/generate-hero-voices.py",
+      "note": "Neural speech hero voice line (Kokoro TTS, Apache-2.0 model), generated locally and encoded as AAC"
+    },
+    {
+      "path": "public/audio/voices/hero/mage-male/idle-2.m4a",
+      "license": "own",
+      "source": "tools/generate-hero-voices.py",
+      "note": "Neural speech hero voice line (Kokoro TTS, Apache-2.0 model), generated locally and encoded as AAC"
+    },
+    {
+      "path": "public/audio/voices/hero/mage-male/idle-3.m4a",
+      "license": "own",
+      "source": "tools/generate-hero-voices.py",
+      "note": "Neural speech hero voice line (Kokoro TTS, Apache-2.0 model), generated locally and encoded as AAC"
+    },
+    {
+      "path": "public/audio/voices/hero/mage-male/idle-4.m4a",
+      "license": "own",
+      "source": "tools/generate-hero-voices.py",
+      "note": "Neural speech hero voice line (Kokoro TTS, Apache-2.0 model), generated locally and encoded as AAC"
+    },
+    {
+      "path": "public/audio/voices/hero/mage-male/idle-5.m4a",
+      "license": "own",
+      "source": "tools/generate-hero-voices.py",
+      "note": "Neural speech hero voice line (Kokoro TTS, Apache-2.0 model), generated locally and encoded as AAC"
+    },
+    {
+      "path": "public/audio/voices/hero/mage-male/idle-6.m4a",
+      "license": "own",
+      "source": "tools/generate-hero-voices.py",
+      "note": "Neural speech hero voice line (Kokoro TTS, Apache-2.0 model), generated locally and encoded as AAC"
+    },
+    {
+      "path": "public/audio/voices/hero/mage-male/idle-7.m4a",
+      "license": "own",
+      "source": "tools/generate-hero-voices.py",
+      "note": "Neural speech hero voice line (Kokoro TTS, Apache-2.0 model), generated locally and encoded as AAC"
+    },
+    {
+      "path": "public/audio/voices/hero/mage-male/idle-8.m4a",
+      "license": "own",
+      "source": "tools/generate-hero-voices.py",
+      "note": "Neural speech hero voice line (Kokoro TTS, Apache-2.0 model), generated locally and encoded as AAC"
+    },
+    {
+      "path": "public/audio/voices/hero/mage-male/idle-9.m4a",
+      "license": "own",
+      "source": "tools/generate-hero-voices.py",
+      "note": "Neural speech hero voice line (Kokoro TTS, Apache-2.0 model), generated locally and encoded as AAC"
+    },
+    {
+      "path": "public/audio/voices/hero/mage-male/intro-0.m4a",
+      "license": "own",
+      "source": "tools/generate-hero-voices.py",
+      "note": "Neural speech hero voice line (Kokoro TTS, Apache-2.0 model), generated locally and encoded as AAC"
+    },
+    {
+      "path": "public/audio/voices/hero/mage-male/kill-0.m4a",
+      "license": "own",
+      "source": "tools/generate-hero-voices.py",
+      "note": "Neural speech hero voice line (Kokoro TTS, Apache-2.0 model), generated locally and encoded as AAC"
+    },
+    {
+      "path": "public/audio/voices/hero/mage-male/kill-1.m4a",
+      "license": "own",
+      "source": "tools/generate-hero-voices.py",
+      "note": "Neural speech hero voice line (Kokoro TTS, Apache-2.0 model), generated locally and encoded as AAC"
+    },
+    {
+      "path": "public/audio/voices/hero/mage-male/kill-2.m4a",
+      "license": "own",
+      "source": "tools/generate-hero-voices.py",
+      "note": "Neural speech hero voice line (Kokoro TTS, Apache-2.0 model), generated locally and encoded as AAC"
+    },
+    {
+      "path": "public/audio/voices/hero/mage-male/kill-3.m4a",
+      "license": "own",
+      "source": "tools/generate-hero-voices.py",
+      "note": "Neural speech hero voice line (Kokoro TTS, Apache-2.0 model), generated locally and encoded as AAC"
+    },
+    {
+      "path": "public/audio/voices/hero/mage-male/level_up-0.m4a",
+      "license": "own",
+      "source": "tools/generate-hero-voices.py",
+      "note": "Neural speech hero voice line (Kokoro TTS, Apache-2.0 model), generated locally and encoded as AAC"
+    },
+    {
+      "path": "public/audio/voices/hero/mage-male/level_up-1.m4a",
+      "license": "own",
+      "source": "tools/generate-hero-voices.py",
+      "note": "Neural speech hero voice line (Kokoro TTS, Apache-2.0 model), generated locally and encoded as AAC"
+    },
+    {
+      "path": "public/audio/voices/hero/mage-male/level_up-2.m4a",
+      "license": "own",
+      "source": "tools/generate-hero-voices.py",
+      "note": "Neural speech hero voice line (Kokoro TTS, Apache-2.0 model), generated locally and encoded as AAC"
+    },
+    {
+      "path": "public/audio/voices/hero/mage-male/level_up-3.m4a",
+      "license": "own",
+      "source": "tools/generate-hero-voices.py",
+      "note": "Neural speech hero voice line (Kokoro TTS, Apache-2.0 model), generated locally and encoded as AAC"
+    },
+    {
+      "path": "public/audio/voices/hero/mage-male/level_up-4.m4a",
+      "license": "own",
+      "source": "tools/generate-hero-voices.py",
+      "note": "Neural speech hero voice line (Kokoro TTS, Apache-2.0 model), generated locally and encoded as AAC"
+    },
+    {
+      "path": "public/audio/voices/hero/mage-male/level_up-5.m4a",
+      "license": "own",
+      "source": "tools/generate-hero-voices.py",
+      "note": "Neural speech hero voice line (Kokoro TTS, Apache-2.0 model), generated locally and encoded as AAC"
+    },
+    {
+      "path": "public/audio/voices/hero/mage-male/level_up-6.m4a",
+      "license": "own",
+      "source": "tools/generate-hero-voices.py",
+      "note": "Neural speech hero voice line (Kokoro TTS, Apache-2.0 model), generated locally and encoded as AAC"
+    },
+    {
+      "path": "public/audio/voices/hero/mage-male/level_up-7.m4a",
+      "license": "own",
+      "source": "tools/generate-hero-voices.py",
+      "note": "Neural speech hero voice line (Kokoro TTS, Apache-2.0 model), generated locally and encoded as AAC"
+    },
+    {
+      "path": "public/audio/voices/hero/mage-male/loot_rare-0.m4a",
+      "license": "own",
+      "source": "tools/generate-hero-voices.py",
+      "note": "Neural speech hero voice line (Kokoro TTS, Apache-2.0 model), generated locally and encoded as AAC"
+    },
+    {
+      "path": "public/audio/voices/hero/mage-male/loot_rare-1.m4a",
+      "license": "own",
+      "source": "tools/generate-hero-voices.py",
+      "note": "Neural speech hero voice line (Kokoro TTS, Apache-2.0 model), generated locally and encoded as AAC"
+    },
+    {
+      "path": "public/audio/voices/hero/mage-male/loot_rare-2.m4a",
+      "license": "own",
+      "source": "tools/generate-hero-voices.py",
+      "note": "Neural speech hero voice line (Kokoro TTS, Apache-2.0 model), generated locally and encoded as AAC"
+    },
+    {
+      "path": "public/audio/voices/hero/mage-male/loot_rare-3.m4a",
+      "license": "own",
+      "source": "tools/generate-hero-voices.py",
+      "note": "Neural speech hero voice line (Kokoro TTS, Apache-2.0 model), generated locally and encoded as AAC"
+    },
+    {
+      "path": "public/audio/voices/hero/mage-male/loot_rare-4.m4a",
+      "license": "own",
+      "source": "tools/generate-hero-voices.py",
+      "note": "Neural speech hero voice line (Kokoro TTS, Apache-2.0 model), generated locally and encoded as AAC"
+    },
+    {
+      "path": "public/audio/voices/hero/mage-male/loot_rare-5.m4a",
+      "license": "own",
+      "source": "tools/generate-hero-voices.py",
+      "note": "Neural speech hero voice line (Kokoro TTS, Apache-2.0 model), generated locally and encoded as AAC"
+    },
+    {
+      "path": "public/audio/voices/hero/mage-male/loot_rare-6.m4a",
+      "license": "own",
+      "source": "tools/generate-hero-voices.py",
+      "note": "Neural speech hero voice line (Kokoro TTS, Apache-2.0 model), generated locally and encoded as AAC"
+    },
+    {
+      "path": "public/audio/voices/hero/mage-male/low_hp-0.m4a",
+      "license": "own",
+      "source": "tools/generate-hero-voices.py",
+      "note": "Neural speech hero voice line (Kokoro TTS, Apache-2.0 model), generated locally and encoded as AAC"
+    },
+    {
+      "path": "public/audio/voices/hero/mage-male/low_hp-1.m4a",
+      "license": "own",
+      "source": "tools/generate-hero-voices.py",
+      "note": "Neural speech hero voice line (Kokoro TTS, Apache-2.0 model), generated locally and encoded as AAC"
+    },
+    {
+      "path": "public/audio/voices/hero/mage-male/low_hp-2.m4a",
+      "license": "own",
+      "source": "tools/generate-hero-voices.py",
+      "note": "Neural speech hero voice line (Kokoro TTS, Apache-2.0 model), generated locally and encoded as AAC"
+    },
+    {
+      "path": "public/audio/voices/hero/mage-male/low_hp-3.m4a",
+      "license": "own",
+      "source": "tools/generate-hero-voices.py",
+      "note": "Neural speech hero voice line (Kokoro TTS, Apache-2.0 model), generated locally and encoded as AAC"
+    },
+    {
+      "path": "public/audio/voices/hero/mage-male/low_hp-4.m4a",
+      "license": "own",
+      "source": "tools/generate-hero-voices.py",
+      "note": "Neural speech hero voice line (Kokoro TTS, Apache-2.0 model), generated locally and encoded as AAC"
+    },
+    {
+      "path": "public/audio/voices/hero/mage-male/low_hp-5.m4a",
+      "license": "own",
+      "source": "tools/generate-hero-voices.py",
+      "note": "Neural speech hero voice line (Kokoro TTS, Apache-2.0 model), generated locally and encoded as AAC"
+    },
+    {
+      "path": "public/audio/voices/hero/mage-male/low_hp-6.m4a",
+      "license": "own",
+      "source": "tools/generate-hero-voices.py",
+      "note": "Neural speech hero voice line (Kokoro TTS, Apache-2.0 model), generated locally and encoded as AAC"
+    },
+    {
+      "path": "public/audio/voices/hero/mage-male/move-0.m4a",
+      "license": "own",
+      "source": "tools/generate-hero-voices.py",
+      "note": "Neural speech hero voice line (Kokoro TTS, Apache-2.0 model), generated locally and encoded as AAC"
+    },
+    {
+      "path": "public/audio/voices/hero/mage-male/move-1.m4a",
+      "license": "own",
+      "source": "tools/generate-hero-voices.py",
+      "note": "Neural speech hero voice line (Kokoro TTS, Apache-2.0 model), generated locally and encoded as AAC"
+    },
+    {
+      "path": "public/audio/voices/hero/mage-male/move-2.m4a",
+      "license": "own",
+      "source": "tools/generate-hero-voices.py",
+      "note": "Neural speech hero voice line (Kokoro TTS, Apache-2.0 model), generated locally and encoded as AAC"
+    },
+    {
+      "path": "public/audio/voices/hero/mage-male/move-3.m4a",
+      "license": "own",
+      "source": "tools/generate-hero-voices.py",
+      "note": "Neural speech hero voice line (Kokoro TTS, Apache-2.0 model), generated locally and encoded as AAC"
+    },
+    {
+      "path": "public/audio/voices/hero/mage-male/move-4.m4a",
+      "license": "own",
+      "source": "tools/generate-hero-voices.py",
+      "note": "Neural speech hero voice line (Kokoro TTS, Apache-2.0 model), generated locally and encoded as AAC"
+    },
+    {
+      "path": "public/audio/voices/hero/mage-male/move-5.m4a",
+      "license": "own",
+      "source": "tools/generate-hero-voices.py",
+      "note": "Neural speech hero voice line (Kokoro TTS, Apache-2.0 model), generated locally and encoded as AAC"
+    },
+    {
+      "path": "public/audio/voices/hero/mage-male/refusal-0.m4a",
+      "license": "own",
+      "source": "tools/generate-hero-voices.py",
+      "note": "Neural speech hero voice line (Kokoro TTS, Apache-2.0 model), generated locally and encoded as AAC"
+    },
+    {
+      "path": "public/audio/voices/hero/mage-male/refusal-1.m4a",
+      "license": "own",
+      "source": "tools/generate-hero-voices.py",
+      "note": "Neural speech hero voice line (Kokoro TTS, Apache-2.0 model), generated locally and encoded as AAC"
+    },
+    {
+      "path": "public/audio/voices/hero/mage-male/refusal-2.m4a",
+      "license": "own",
+      "source": "tools/generate-hero-voices.py",
+      "note": "Neural speech hero voice line (Kokoro TTS, Apache-2.0 model), generated locally and encoded as AAC"
+    },
+    {
+      "path": "public/audio/voices/hero/mage-male/select-0.m4a",
+      "license": "own",
+      "source": "tools/generate-hero-voices.py",
+      "note": "Neural speech hero voice line (Kokoro TTS, Apache-2.0 model), generated locally and encoded as AAC"
+    },
+    {
+      "path": "public/audio/voices/hero/mage-male/select-1.m4a",
+      "license": "own",
+      "source": "tools/generate-hero-voices.py",
+      "note": "Neural speech hero voice line (Kokoro TTS, Apache-2.0 model), generated locally and encoded as AAC"
+    },
+    {
+      "path": "public/audio/voices/hero/mage-male/select-2.m4a",
+      "license": "own",
+      "source": "tools/generate-hero-voices.py",
+      "note": "Neural speech hero voice line (Kokoro TTS, Apache-2.0 model), generated locally and encoded as AAC"
+    },
+    {
+      "path": "public/audio/voices/hero/mage-male/select-3.m4a",
+      "license": "own",
+      "source": "tools/generate-hero-voices.py",
+      "note": "Neural speech hero voice line (Kokoro TTS, Apache-2.0 model), generated locally and encoded as AAC"
+    },
+    {
+      "path": "public/audio/voices/hero/mage-male/select-4.m4a",
+      "license": "own",
+      "source": "tools/generate-hero-voices.py",
+      "note": "Neural speech hero voice line (Kokoro TTS, Apache-2.0 model), generated locally and encoded as AAC"
+    },
+    {
+      "path": "public/audio/voices/hero/mage-male/select-5.m4a",
+      "license": "own",
+      "source": "tools/generate-hero-voices.py",
+      "note": "Neural speech hero voice line (Kokoro TTS, Apache-2.0 model), generated locally and encoded as AAC"
+    },
+    {
+      "path": "public/audio/voices/hero/mage-male/spell_cast-0.m4a",
+      "license": "own",
+      "source": "tools/generate-hero-voices.py",
+      "note": "Neural speech hero voice line (Kokoro TTS, Apache-2.0 model), generated locally and encoded as AAC"
+    },
+    {
+      "path": "public/audio/voices/hero/mage-male/spell_cast-1.m4a",
+      "license": "own",
+      "source": "tools/generate-hero-voices.py",
+      "note": "Neural speech hero voice line (Kokoro TTS, Apache-2.0 model), generated locally and encoded as AAC"
+    },
+    {
+      "path": "public/audio/voices/hero/mage-male/spell_cast-2.m4a",
+      "license": "own",
+      "source": "tools/generate-hero-voices.py",
+      "note": "Neural speech hero voice line (Kokoro TTS, Apache-2.0 model), generated locally and encoded as AAC"
+    },
+    {
+      "path": "public/audio/voices/hero/mage-male/spell_cast-3.m4a",
+      "license": "own",
+      "source": "tools/generate-hero-voices.py",
+      "note": "Neural speech hero voice line (Kokoro TTS, Apache-2.0 model), generated locally and encoded as AAC"
+    },
+    {
+      "path": "public/audio/voices/hero/mage-male/town_greeting-0.m4a",
+      "license": "own",
+      "source": "tools/generate-hero-voices.py",
+      "note": "Neural speech hero voice line (Kokoro TTS, Apache-2.0 model), generated locally and encoded as AAC"
+    },
+    {
+      "path": "public/audio/voices/hero/mage-male/town_greeting-1.m4a",
+      "license": "own",
+      "source": "tools/generate-hero-voices.py",
+      "note": "Neural speech hero voice line (Kokoro TTS, Apache-2.0 model), generated locally and encoded as AAC"
+    },
+    {
+      "path": "public/audio/voices/hero/mage-male/town_greeting-2.m4a",
+      "license": "own",
+      "source": "tools/generate-hero-voices.py",
+      "note": "Neural speech hero voice line (Kokoro TTS, Apache-2.0 model), generated locally and encoded as AAC"
+    },
+    {
+      "path": "public/audio/voices/hero/mage-male/victory-0.m4a",
+      "license": "own",
+      "source": "tools/generate-hero-voices.py",
+      "note": "Neural speech hero voice line (Kokoro TTS, Apache-2.0 model), generated locally and encoded as AAC"
+    },
+    {
+      "path": "public/audio/voices/hero/mage-male/victory-1.m4a",
+      "license": "own",
+      "source": "tools/generate-hero-voices.py",
+      "note": "Neural speech hero voice line (Kokoro TTS, Apache-2.0 model), generated locally and encoded as AAC"
+    },
+    {
+      "path": "public/audio/voices/hero/mage-male/victory-2.m4a",
+      "license": "own",
+      "source": "tools/generate-hero-voices.py",
+      "note": "Neural speech hero voice line (Kokoro TTS, Apache-2.0 model), generated locally and encoded as AAC"
+    },
+    {
+      "path": "public/audio/voices/hero/mage-male/victory-3.m4a",
+      "license": "own",
+      "source": "tools/generate-hero-voices.py",
+      "note": "Neural speech hero voice line (Kokoro TTS, Apache-2.0 model), generated locally and encoded as AAC"
+    },
+    {
+      "path": "public/audio/voices/hero/necromancer-female/attack-0.m4a",
+      "license": "own",
+      "source": "tools/generate-hero-voices.py",
+      "note": "Neural speech hero voice line (Kokoro TTS, Apache-2.0 model), generated locally and encoded as AAC"
+    },
+    {
+      "path": "public/audio/voices/hero/necromancer-female/attack-1.m4a",
+      "license": "own",
+      "source": "tools/generate-hero-voices.py",
+      "note": "Neural speech hero voice line (Kokoro TTS, Apache-2.0 model), generated locally and encoded as AAC"
+    },
+    {
+      "path": "public/audio/voices/hero/necromancer-female/attack-2.m4a",
+      "license": "own",
+      "source": "tools/generate-hero-voices.py",
+      "note": "Neural speech hero voice line (Kokoro TTS, Apache-2.0 model), generated locally and encoded as AAC"
+    },
+    {
+      "path": "public/audio/voices/hero/necromancer-female/attack-3.m4a",
+      "license": "own",
+      "source": "tools/generate-hero-voices.py",
+      "note": "Neural speech hero voice line (Kokoro TTS, Apache-2.0 model), generated locally and encoded as AAC"
+    },
+    {
+      "path": "public/audio/voices/hero/necromancer-female/attack-4.m4a",
+      "license": "own",
+      "source": "tools/generate-hero-voices.py",
+      "note": "Neural speech hero voice line (Kokoro TTS, Apache-2.0 model), generated locally and encoded as AAC"
+    },
+    {
+      "path": "public/audio/voices/hero/necromancer-female/attack-5.m4a",
+      "license": "own",
+      "source": "tools/generate-hero-voices.py",
+      "note": "Neural speech hero voice line (Kokoro TTS, Apache-2.0 model), generated locally and encoded as AAC"
+    },
+    {
+      "path": "public/audio/voices/hero/necromancer-female/death-0.m4a",
+      "license": "own",
+      "source": "tools/generate-hero-voices.py",
+      "note": "Neural speech hero voice line (Kokoro TTS, Apache-2.0 model), generated locally and encoded as AAC"
+    },
+    {
+      "path": "public/audio/voices/hero/necromancer-female/death-1.m4a",
+      "license": "own",
+      "source": "tools/generate-hero-voices.py",
+      "note": "Neural speech hero voice line (Kokoro TTS, Apache-2.0 model), generated locally and encoded as AAC"
+    },
+    {
+      "path": "public/audio/voices/hero/necromancer-female/death-2.m4a",
+      "license": "own",
+      "source": "tools/generate-hero-voices.py",
+      "note": "Neural speech hero voice line (Kokoro TTS, Apache-2.0 model), generated locally and encoded as AAC"
+    },
+    {
+      "path": "public/audio/voices/hero/necromancer-female/hurt-0.m4a",
+      "license": "own",
+      "source": "tools/generate-hero-voices.py",
+      "note": "Neural speech hero voice line (Kokoro TTS, Apache-2.0 model), generated locally and encoded as AAC"
+    },
+    {
+      "path": "public/audio/voices/hero/necromancer-female/hurt-1.m4a",
+      "license": "own",
+      "source": "tools/generate-hero-voices.py",
+      "note": "Neural speech hero voice line (Kokoro TTS, Apache-2.0 model), generated locally and encoded as AAC"
+    },
+    {
+      "path": "public/audio/voices/hero/necromancer-female/hurt-2.m4a",
+      "license": "own",
+      "source": "tools/generate-hero-voices.py",
+      "note": "Neural speech hero voice line (Kokoro TTS, Apache-2.0 model), generated locally and encoded as AAC"
+    },
+    {
+      "path": "public/audio/voices/hero/necromancer-female/hurt-3.m4a",
+      "license": "own",
+      "source": "tools/generate-hero-voices.py",
+      "note": "Neural speech hero voice line (Kokoro TTS, Apache-2.0 model), generated locally and encoded as AAC"
+    },
+    {
+      "path": "public/audio/voices/hero/necromancer-female/idle-0.m4a",
+      "license": "own",
+      "source": "tools/generate-hero-voices.py",
+      "note": "Neural speech hero voice line (Kokoro TTS, Apache-2.0 model), generated locally and encoded as AAC"
+    },
+    {
+      "path": "public/audio/voices/hero/necromancer-female/idle-1.m4a",
+      "license": "own",
+      "source": "tools/generate-hero-voices.py",
+      "note": "Neural speech hero voice line (Kokoro TTS, Apache-2.0 model), generated locally and encoded as AAC"
+    },
+    {
+      "path": "public/audio/voices/hero/necromancer-female/idle-2.m4a",
+      "license": "own",
+      "source": "tools/generate-hero-voices.py",
+      "note": "Neural speech hero voice line (Kokoro TTS, Apache-2.0 model), generated locally and encoded as AAC"
+    },
+    {
+      "path": "public/audio/voices/hero/necromancer-female/idle-3.m4a",
+      "license": "own",
+      "source": "tools/generate-hero-voices.py",
+      "note": "Neural speech hero voice line (Kokoro TTS, Apache-2.0 model), generated locally and encoded as AAC"
+    },
+    {
+      "path": "public/audio/voices/hero/necromancer-female/idle-4.m4a",
+      "license": "own",
+      "source": "tools/generate-hero-voices.py",
+      "note": "Neural speech hero voice line (Kokoro TTS, Apache-2.0 model), generated locally and encoded as AAC"
+    },
+    {
+      "path": "public/audio/voices/hero/necromancer-female/idle-5.m4a",
+      "license": "own",
+      "source": "tools/generate-hero-voices.py",
+      "note": "Neural speech hero voice line (Kokoro TTS, Apache-2.0 model), generated locally and encoded as AAC"
+    },
+    {
+      "path": "public/audio/voices/hero/necromancer-female/idle-6.m4a",
+      "license": "own",
+      "source": "tools/generate-hero-voices.py",
+      "note": "Neural speech hero voice line (Kokoro TTS, Apache-2.0 model), generated locally and encoded as AAC"
+    },
+    {
+      "path": "public/audio/voices/hero/necromancer-female/idle-7.m4a",
+      "license": "own",
+      "source": "tools/generate-hero-voices.py",
+      "note": "Neural speech hero voice line (Kokoro TTS, Apache-2.0 model), generated locally and encoded as AAC"
+    },
+    {
+      "path": "public/audio/voices/hero/necromancer-female/idle-8.m4a",
+      "license": "own",
+      "source": "tools/generate-hero-voices.py",
+      "note": "Neural speech hero voice line (Kokoro TTS, Apache-2.0 model), generated locally and encoded as AAC"
+    },
+    {
+      "path": "public/audio/voices/hero/necromancer-female/idle-9.m4a",
+      "license": "own",
+      "source": "tools/generate-hero-voices.py",
+      "note": "Neural speech hero voice line (Kokoro TTS, Apache-2.0 model), generated locally and encoded as AAC"
+    },
+    {
+      "path": "public/audio/voices/hero/necromancer-female/intro-0.m4a",
+      "license": "own",
+      "source": "tools/generate-hero-voices.py",
+      "note": "Neural speech hero voice line (Kokoro TTS, Apache-2.0 model), generated locally and encoded as AAC"
+    },
+    {
+      "path": "public/audio/voices/hero/necromancer-female/kill-0.m4a",
+      "license": "own",
+      "source": "tools/generate-hero-voices.py",
+      "note": "Neural speech hero voice line (Kokoro TTS, Apache-2.0 model), generated locally and encoded as AAC"
+    },
+    {
+      "path": "public/audio/voices/hero/necromancer-female/kill-1.m4a",
+      "license": "own",
+      "source": "tools/generate-hero-voices.py",
+      "note": "Neural speech hero voice line (Kokoro TTS, Apache-2.0 model), generated locally and encoded as AAC"
+    },
+    {
+      "path": "public/audio/voices/hero/necromancer-female/kill-2.m4a",
+      "license": "own",
+      "source": "tools/generate-hero-voices.py",
+      "note": "Neural speech hero voice line (Kokoro TTS, Apache-2.0 model), generated locally and encoded as AAC"
+    },
+    {
+      "path": "public/audio/voices/hero/necromancer-female/kill-3.m4a",
+      "license": "own",
+      "source": "tools/generate-hero-voices.py",
+      "note": "Neural speech hero voice line (Kokoro TTS, Apache-2.0 model), generated locally and encoded as AAC"
+    },
+    {
+      "path": "public/audio/voices/hero/necromancer-female/level_up-0.m4a",
+      "license": "own",
+      "source": "tools/generate-hero-voices.py",
+      "note": "Neural speech hero voice line (Kokoro TTS, Apache-2.0 model), generated locally and encoded as AAC"
+    },
+    {
+      "path": "public/audio/voices/hero/necromancer-female/level_up-1.m4a",
+      "license": "own",
+      "source": "tools/generate-hero-voices.py",
+      "note": "Neural speech hero voice line (Kokoro TTS, Apache-2.0 model), generated locally and encoded as AAC"
+    },
+    {
+      "path": "public/audio/voices/hero/necromancer-female/level_up-2.m4a",
+      "license": "own",
+      "source": "tools/generate-hero-voices.py",
+      "note": "Neural speech hero voice line (Kokoro TTS, Apache-2.0 model), generated locally and encoded as AAC"
+    },
+    {
+      "path": "public/audio/voices/hero/necromancer-female/level_up-3.m4a",
+      "license": "own",
+      "source": "tools/generate-hero-voices.py",
+      "note": "Neural speech hero voice line (Kokoro TTS, Apache-2.0 model), generated locally and encoded as AAC"
+    },
+    {
+      "path": "public/audio/voices/hero/necromancer-female/level_up-4.m4a",
+      "license": "own",
+      "source": "tools/generate-hero-voices.py",
+      "note": "Neural speech hero voice line (Kokoro TTS, Apache-2.0 model), generated locally and encoded as AAC"
+    },
+    {
+      "path": "public/audio/voices/hero/necromancer-female/level_up-5.m4a",
+      "license": "own",
+      "source": "tools/generate-hero-voices.py",
+      "note": "Neural speech hero voice line (Kokoro TTS, Apache-2.0 model), generated locally and encoded as AAC"
+    },
+    {
+      "path": "public/audio/voices/hero/necromancer-female/level_up-6.m4a",
+      "license": "own",
+      "source": "tools/generate-hero-voices.py",
+      "note": "Neural speech hero voice line (Kokoro TTS, Apache-2.0 model), generated locally and encoded as AAC"
+    },
+    {
+      "path": "public/audio/voices/hero/necromancer-female/level_up-7.m4a",
+      "license": "own",
+      "source": "tools/generate-hero-voices.py",
+      "note": "Neural speech hero voice line (Kokoro TTS, Apache-2.0 model), generated locally and encoded as AAC"
+    },
+    {
+      "path": "public/audio/voices/hero/necromancer-female/loot_rare-0.m4a",
+      "license": "own",
+      "source": "tools/generate-hero-voices.py",
+      "note": "Neural speech hero voice line (Kokoro TTS, Apache-2.0 model), generated locally and encoded as AAC"
+    },
+    {
+      "path": "public/audio/voices/hero/necromancer-female/loot_rare-1.m4a",
+      "license": "own",
+      "source": "tools/generate-hero-voices.py",
+      "note": "Neural speech hero voice line (Kokoro TTS, Apache-2.0 model), generated locally and encoded as AAC"
+    },
+    {
+      "path": "public/audio/voices/hero/necromancer-female/loot_rare-2.m4a",
+      "license": "own",
+      "source": "tools/generate-hero-voices.py",
+      "note": "Neural speech hero voice line (Kokoro TTS, Apache-2.0 model), generated locally and encoded as AAC"
+    },
+    {
+      "path": "public/audio/voices/hero/necromancer-female/loot_rare-3.m4a",
+      "license": "own",
+      "source": "tools/generate-hero-voices.py",
+      "note": "Neural speech hero voice line (Kokoro TTS, Apache-2.0 model), generated locally and encoded as AAC"
+    },
+    {
+      "path": "public/audio/voices/hero/necromancer-female/loot_rare-4.m4a",
+      "license": "own",
+      "source": "tools/generate-hero-voices.py",
+      "note": "Neural speech hero voice line (Kokoro TTS, Apache-2.0 model), generated locally and encoded as AAC"
+    },
+    {
+      "path": "public/audio/voices/hero/necromancer-female/loot_rare-5.m4a",
+      "license": "own",
+      "source": "tools/generate-hero-voices.py",
+      "note": "Neural speech hero voice line (Kokoro TTS, Apache-2.0 model), generated locally and encoded as AAC"
+    },
+    {
+      "path": "public/audio/voices/hero/necromancer-female/loot_rare-6.m4a",
+      "license": "own",
+      "source": "tools/generate-hero-voices.py",
+      "note": "Neural speech hero voice line (Kokoro TTS, Apache-2.0 model), generated locally and encoded as AAC"
+    },
+    {
+      "path": "public/audio/voices/hero/necromancer-female/low_hp-0.m4a",
+      "license": "own",
+      "source": "tools/generate-hero-voices.py",
+      "note": "Neural speech hero voice line (Kokoro TTS, Apache-2.0 model), generated locally and encoded as AAC"
+    },
+    {
+      "path": "public/audio/voices/hero/necromancer-female/low_hp-1.m4a",
+      "license": "own",
+      "source": "tools/generate-hero-voices.py",
+      "note": "Neural speech hero voice line (Kokoro TTS, Apache-2.0 model), generated locally and encoded as AAC"
+    },
+    {
+      "path": "public/audio/voices/hero/necromancer-female/low_hp-2.m4a",
+      "license": "own",
+      "source": "tools/generate-hero-voices.py",
+      "note": "Neural speech hero voice line (Kokoro TTS, Apache-2.0 model), generated locally and encoded as AAC"
+    },
+    {
+      "path": "public/audio/voices/hero/necromancer-female/low_hp-3.m4a",
+      "license": "own",
+      "source": "tools/generate-hero-voices.py",
+      "note": "Neural speech hero voice line (Kokoro TTS, Apache-2.0 model), generated locally and encoded as AAC"
+    },
+    {
+      "path": "public/audio/voices/hero/necromancer-female/low_hp-4.m4a",
+      "license": "own",
+      "source": "tools/generate-hero-voices.py",
+      "note": "Neural speech hero voice line (Kokoro TTS, Apache-2.0 model), generated locally and encoded as AAC"
+    },
+    {
+      "path": "public/audio/voices/hero/necromancer-female/low_hp-5.m4a",
+      "license": "own",
+      "source": "tools/generate-hero-voices.py",
+      "note": "Neural speech hero voice line (Kokoro TTS, Apache-2.0 model), generated locally and encoded as AAC"
+    },
+    {
+      "path": "public/audio/voices/hero/necromancer-female/low_hp-6.m4a",
+      "license": "own",
+      "source": "tools/generate-hero-voices.py",
+      "note": "Neural speech hero voice line (Kokoro TTS, Apache-2.0 model), generated locally and encoded as AAC"
+    },
+    {
+      "path": "public/audio/voices/hero/necromancer-female/move-0.m4a",
+      "license": "own",
+      "source": "tools/generate-hero-voices.py",
+      "note": "Neural speech hero voice line (Kokoro TTS, Apache-2.0 model), generated locally and encoded as AAC"
+    },
+    {
+      "path": "public/audio/voices/hero/necromancer-female/move-1.m4a",
+      "license": "own",
+      "source": "tools/generate-hero-voices.py",
+      "note": "Neural speech hero voice line (Kokoro TTS, Apache-2.0 model), generated locally and encoded as AAC"
+    },
+    {
+      "path": "public/audio/voices/hero/necromancer-female/move-2.m4a",
+      "license": "own",
+      "source": "tools/generate-hero-voices.py",
+      "note": "Neural speech hero voice line (Kokoro TTS, Apache-2.0 model), generated locally and encoded as AAC"
+    },
+    {
+      "path": "public/audio/voices/hero/necromancer-female/move-3.m4a",
+      "license": "own",
+      "source": "tools/generate-hero-voices.py",
+      "note": "Neural speech hero voice line (Kokoro TTS, Apache-2.0 model), generated locally and encoded as AAC"
+    },
+    {
+      "path": "public/audio/voices/hero/necromancer-female/move-4.m4a",
+      "license": "own",
+      "source": "tools/generate-hero-voices.py",
+      "note": "Neural speech hero voice line (Kokoro TTS, Apache-2.0 model), generated locally and encoded as AAC"
+    },
+    {
+      "path": "public/audio/voices/hero/necromancer-female/move-5.m4a",
+      "license": "own",
+      "source": "tools/generate-hero-voices.py",
+      "note": "Neural speech hero voice line (Kokoro TTS, Apache-2.0 model), generated locally and encoded as AAC"
+    },
+    {
+      "path": "public/audio/voices/hero/necromancer-female/refusal-0.m4a",
+      "license": "own",
+      "source": "tools/generate-hero-voices.py",
+      "note": "Neural speech hero voice line (Kokoro TTS, Apache-2.0 model), generated locally and encoded as AAC"
+    },
+    {
+      "path": "public/audio/voices/hero/necromancer-female/refusal-1.m4a",
+      "license": "own",
+      "source": "tools/generate-hero-voices.py",
+      "note": "Neural speech hero voice line (Kokoro TTS, Apache-2.0 model), generated locally and encoded as AAC"
+    },
+    {
+      "path": "public/audio/voices/hero/necromancer-female/refusal-2.m4a",
+      "license": "own",
+      "source": "tools/generate-hero-voices.py",
+      "note": "Neural speech hero voice line (Kokoro TTS, Apache-2.0 model), generated locally and encoded as AAC"
+    },
+    {
+      "path": "public/audio/voices/hero/necromancer-female/select-0.m4a",
+      "license": "own",
+      "source": "tools/generate-hero-voices.py",
+      "note": "Neural speech hero voice line (Kokoro TTS, Apache-2.0 model), generated locally and encoded as AAC"
+    },
+    {
+      "path": "public/audio/voices/hero/necromancer-female/select-1.m4a",
+      "license": "own",
+      "source": "tools/generate-hero-voices.py",
+      "note": "Neural speech hero voice line (Kokoro TTS, Apache-2.0 model), generated locally and encoded as AAC"
+    },
+    {
+      "path": "public/audio/voices/hero/necromancer-female/select-2.m4a",
+      "license": "own",
+      "source": "tools/generate-hero-voices.py",
+      "note": "Neural speech hero voice line (Kokoro TTS, Apache-2.0 model), generated locally and encoded as AAC"
+    },
+    {
+      "path": "public/audio/voices/hero/necromancer-female/select-3.m4a",
+      "license": "own",
+      "source": "tools/generate-hero-voices.py",
+      "note": "Neural speech hero voice line (Kokoro TTS, Apache-2.0 model), generated locally and encoded as AAC"
+    },
+    {
+      "path": "public/audio/voices/hero/necromancer-female/select-4.m4a",
+      "license": "own",
+      "source": "tools/generate-hero-voices.py",
+      "note": "Neural speech hero voice line (Kokoro TTS, Apache-2.0 model), generated locally and encoded as AAC"
+    },
+    {
+      "path": "public/audio/voices/hero/necromancer-female/select-5.m4a",
+      "license": "own",
+      "source": "tools/generate-hero-voices.py",
+      "note": "Neural speech hero voice line (Kokoro TTS, Apache-2.0 model), generated locally and encoded as AAC"
+    },
+    {
+      "path": "public/audio/voices/hero/necromancer-female/spell_cast-0.m4a",
+      "license": "own",
+      "source": "tools/generate-hero-voices.py",
+      "note": "Neural speech hero voice line (Kokoro TTS, Apache-2.0 model), generated locally and encoded as AAC"
+    },
+    {
+      "path": "public/audio/voices/hero/necromancer-female/spell_cast-1.m4a",
+      "license": "own",
+      "source": "tools/generate-hero-voices.py",
+      "note": "Neural speech hero voice line (Kokoro TTS, Apache-2.0 model), generated locally and encoded as AAC"
+    },
+    {
+      "path": "public/audio/voices/hero/necromancer-female/spell_cast-2.m4a",
+      "license": "own",
+      "source": "tools/generate-hero-voices.py",
+      "note": "Neural speech hero voice line (Kokoro TTS, Apache-2.0 model), generated locally and encoded as AAC"
+    },
+    {
+      "path": "public/audio/voices/hero/necromancer-female/spell_cast-3.m4a",
+      "license": "own",
+      "source": "tools/generate-hero-voices.py",
+      "note": "Neural speech hero voice line (Kokoro TTS, Apache-2.0 model), generated locally and encoded as AAC"
+    },
+    {
+      "path": "public/audio/voices/hero/necromancer-female/town_greeting-0.m4a",
+      "license": "own",
+      "source": "tools/generate-hero-voices.py",
+      "note": "Neural speech hero voice line (Kokoro TTS, Apache-2.0 model), generated locally and encoded as AAC"
+    },
+    {
+      "path": "public/audio/voices/hero/necromancer-female/town_greeting-1.m4a",
+      "license": "own",
+      "source": "tools/generate-hero-voices.py",
+      "note": "Neural speech hero voice line (Kokoro TTS, Apache-2.0 model), generated locally and encoded as AAC"
+    },
+    {
+      "path": "public/audio/voices/hero/necromancer-female/town_greeting-2.m4a",
+      "license": "own",
+      "source": "tools/generate-hero-voices.py",
+      "note": "Neural speech hero voice line (Kokoro TTS, Apache-2.0 model), generated locally and encoded as AAC"
+    },
+    {
+      "path": "public/audio/voices/hero/necromancer-female/victory-0.m4a",
+      "license": "own",
+      "source": "tools/generate-hero-voices.py",
+      "note": "Neural speech hero voice line (Kokoro TTS, Apache-2.0 model), generated locally and encoded as AAC"
+    },
+    {
+      "path": "public/audio/voices/hero/necromancer-female/victory-1.m4a",
+      "license": "own",
+      "source": "tools/generate-hero-voices.py",
+      "note": "Neural speech hero voice line (Kokoro TTS, Apache-2.0 model), generated locally and encoded as AAC"
+    },
+    {
+      "path": "public/audio/voices/hero/necromancer-female/victory-2.m4a",
+      "license": "own",
+      "source": "tools/generate-hero-voices.py",
+      "note": "Neural speech hero voice line (Kokoro TTS, Apache-2.0 model), generated locally and encoded as AAC"
+    },
+    {
+      "path": "public/audio/voices/hero/necromancer-female/victory-3.m4a",
+      "license": "own",
+      "source": "tools/generate-hero-voices.py",
+      "note": "Neural speech hero voice line (Kokoro TTS, Apache-2.0 model), generated locally and encoded as AAC"
+    },
+    {
+      "path": "public/audio/voices/hero/necromancer-male/attack-0.m4a",
+      "license": "own",
+      "source": "tools/generate-hero-voices.py",
+      "note": "Neural speech hero voice line (Kokoro TTS, Apache-2.0 model), generated locally and encoded as AAC"
+    },
+    {
+      "path": "public/audio/voices/hero/necromancer-male/attack-1.m4a",
+      "license": "own",
+      "source": "tools/generate-hero-voices.py",
+      "note": "Neural speech hero voice line (Kokoro TTS, Apache-2.0 model), generated locally and encoded as AAC"
+    },
+    {
+      "path": "public/audio/voices/hero/necromancer-male/attack-2.m4a",
+      "license": "own",
+      "source": "tools/generate-hero-voices.py",
+      "note": "Neural speech hero voice line (Kokoro TTS, Apache-2.0 model), generated locally and encoded as AAC"
+    },
+    {
+      "path": "public/audio/voices/hero/necromancer-male/attack-3.m4a",
+      "license": "own",
+      "source": "tools/generate-hero-voices.py",
+      "note": "Neural speech hero voice line (Kokoro TTS, Apache-2.0 model), generated locally and encoded as AAC"
+    },
+    {
+      "path": "public/audio/voices/hero/necromancer-male/attack-4.m4a",
+      "license": "own",
+      "source": "tools/generate-hero-voices.py",
+      "note": "Neural speech hero voice line (Kokoro TTS, Apache-2.0 model), generated locally and encoded as AAC"
+    },
+    {
+      "path": "public/audio/voices/hero/necromancer-male/attack-5.m4a",
+      "license": "own",
+      "source": "tools/generate-hero-voices.py",
+      "note": "Neural speech hero voice line (Kokoro TTS, Apache-2.0 model), generated locally and encoded as AAC"
+    },
+    {
+      "path": "public/audio/voices/hero/necromancer-male/death-0.m4a",
+      "license": "own",
+      "source": "tools/generate-hero-voices.py",
+      "note": "Neural speech hero voice line (Kokoro TTS, Apache-2.0 model), generated locally and encoded as AAC"
+    },
+    {
+      "path": "public/audio/voices/hero/necromancer-male/death-1.m4a",
+      "license": "own",
+      "source": "tools/generate-hero-voices.py",
+      "note": "Neural speech hero voice line (Kokoro TTS, Apache-2.0 model), generated locally and encoded as AAC"
+    },
+    {
+      "path": "public/audio/voices/hero/necromancer-male/death-2.m4a",
+      "license": "own",
+      "source": "tools/generate-hero-voices.py",
+      "note": "Neural speech hero voice line (Kokoro TTS, Apache-2.0 model), generated locally and encoded as AAC"
+    },
+    {
+      "path": "public/audio/voices/hero/necromancer-male/hurt-0.m4a",
+      "license": "own",
+      "source": "tools/generate-hero-voices.py",
+      "note": "Neural speech hero voice line (Kokoro TTS, Apache-2.0 model), generated locally and encoded as AAC"
+    },
+    {
+      "path": "public/audio/voices/hero/necromancer-male/hurt-1.m4a",
+      "license": "own",
+      "source": "tools/generate-hero-voices.py",
+      "note": "Neural speech hero voice line (Kokoro TTS, Apache-2.0 model), generated locally and encoded as AAC"
+    },
+    {
+      "path": "public/audio/voices/hero/necromancer-male/hurt-2.m4a",
+      "license": "own",
+      "source": "tools/generate-hero-voices.py",
+      "note": "Neural speech hero voice line (Kokoro TTS, Apache-2.0 model), generated locally and encoded as AAC"
+    },
+    {
+      "path": "public/audio/voices/hero/necromancer-male/hurt-3.m4a",
+      "license": "own",
+      "source": "tools/generate-hero-voices.py",
+      "note": "Neural speech hero voice line (Kokoro TTS, Apache-2.0 model), generated locally and encoded as AAC"
+    },
+    {
+      "path": "public/audio/voices/hero/necromancer-male/idle-0.m4a",
+      "license": "own",
+      "source": "tools/generate-hero-voices.py",
+      "note": "Neural speech hero voice line (Kokoro TTS, Apache-2.0 model), generated locally and encoded as AAC"
+    },
+    {
+      "path": "public/audio/voices/hero/necromancer-male/idle-1.m4a",
+      "license": "own",
+      "source": "tools/generate-hero-voices.py",
+      "note": "Neural speech hero voice line (Kokoro TTS, Apache-2.0 model), generated locally and encoded as AAC"
+    },
+    {
+      "path": "public/audio/voices/hero/necromancer-male/idle-2.m4a",
+      "license": "own",
+      "source": "tools/generate-hero-voices.py",
+      "note": "Neural speech hero voice line (Kokoro TTS, Apache-2.0 model), generated locally and encoded as AAC"
+    },
+    {
+      "path": "public/audio/voices/hero/necromancer-male/idle-3.m4a",
+      "license": "own",
+      "source": "tools/generate-hero-voices.py",
+      "note": "Neural speech hero voice line (Kokoro TTS, Apache-2.0 model), generated locally and encoded as AAC"
+    },
+    {
+      "path": "public/audio/voices/hero/necromancer-male/idle-4.m4a",
+      "license": "own",
+      "source": "tools/generate-hero-voices.py",
+      "note": "Neural speech hero voice line (Kokoro TTS, Apache-2.0 model), generated locally and encoded as AAC"
+    },
+    {
+      "path": "public/audio/voices/hero/necromancer-male/idle-5.m4a",
+      "license": "own",
+      "source": "tools/generate-hero-voices.py",
+      "note": "Neural speech hero voice line (Kokoro TTS, Apache-2.0 model), generated locally and encoded as AAC"
+    },
+    {
+      "path": "public/audio/voices/hero/necromancer-male/idle-6.m4a",
+      "license": "own",
+      "source": "tools/generate-hero-voices.py",
+      "note": "Neural speech hero voice line (Kokoro TTS, Apache-2.0 model), generated locally and encoded as AAC"
+    },
+    {
+      "path": "public/audio/voices/hero/necromancer-male/idle-7.m4a",
+      "license": "own",
+      "source": "tools/generate-hero-voices.py",
+      "note": "Neural speech hero voice line (Kokoro TTS, Apache-2.0 model), generated locally and encoded as AAC"
+    },
+    {
+      "path": "public/audio/voices/hero/necromancer-male/idle-8.m4a",
+      "license": "own",
+      "source": "tools/generate-hero-voices.py",
+      "note": "Neural speech hero voice line (Kokoro TTS, Apache-2.0 model), generated locally and encoded as AAC"
+    },
+    {
+      "path": "public/audio/voices/hero/necromancer-male/idle-9.m4a",
+      "license": "own",
+      "source": "tools/generate-hero-voices.py",
+      "note": "Neural speech hero voice line (Kokoro TTS, Apache-2.0 model), generated locally and encoded as AAC"
+    },
+    {
+      "path": "public/audio/voices/hero/necromancer-male/intro-0.m4a",
+      "license": "own",
+      "source": "tools/generate-hero-voices.py",
+      "note": "Neural speech hero voice line (Kokoro TTS, Apache-2.0 model), generated locally and encoded as AAC"
+    },
+    {
+      "path": "public/audio/voices/hero/necromancer-male/kill-0.m4a",
+      "license": "own",
+      "source": "tools/generate-hero-voices.py",
+      "note": "Neural speech hero voice line (Kokoro TTS, Apache-2.0 model), generated locally and encoded as AAC"
+    },
+    {
+      "path": "public/audio/voices/hero/necromancer-male/kill-1.m4a",
+      "license": "own",
+      "source": "tools/generate-hero-voices.py",
+      "note": "Neural speech hero voice line (Kokoro TTS, Apache-2.0 model), generated locally and encoded as AAC"
+    },
+    {
+      "path": "public/audio/voices/hero/necromancer-male/kill-2.m4a",
+      "license": "own",
+      "source": "tools/generate-hero-voices.py",
+      "note": "Neural speech hero voice line (Kokoro TTS, Apache-2.0 model), generated locally and encoded as AAC"
+    },
+    {
+      "path": "public/audio/voices/hero/necromancer-male/kill-3.m4a",
+      "license": "own",
+      "source": "tools/generate-hero-voices.py",
+      "note": "Neural speech hero voice line (Kokoro TTS, Apache-2.0 model), generated locally and encoded as AAC"
+    },
+    {
+      "path": "public/audio/voices/hero/necromancer-male/level_up-0.m4a",
+      "license": "own",
+      "source": "tools/generate-hero-voices.py",
+      "note": "Neural speech hero voice line (Kokoro TTS, Apache-2.0 model), generated locally and encoded as AAC"
+    },
+    {
+      "path": "public/audio/voices/hero/necromancer-male/level_up-1.m4a",
+      "license": "own",
+      "source": "tools/generate-hero-voices.py",
+      "note": "Neural speech hero voice line (Kokoro TTS, Apache-2.0 model), generated locally and encoded as AAC"
+    },
+    {
+      "path": "public/audio/voices/hero/necromancer-male/level_up-2.m4a",
+      "license": "own",
+      "source": "tools/generate-hero-voices.py",
+      "note": "Neural speech hero voice line (Kokoro TTS, Apache-2.0 model), generated locally and encoded as AAC"
+    },
+    {
+      "path": "public/audio/voices/hero/necromancer-male/level_up-3.m4a",
+      "license": "own",
+      "source": "tools/generate-hero-voices.py",
+      "note": "Neural speech hero voice line (Kokoro TTS, Apache-2.0 model), generated locally and encoded as AAC"
+    },
+    {
+      "path": "public/audio/voices/hero/necromancer-male/level_up-4.m4a",
+      "license": "own",
+      "source": "tools/generate-hero-voices.py",
+      "note": "Neural speech hero voice line (Kokoro TTS, Apache-2.0 model), generated locally and encoded as AAC"
+    },
+    {
+      "path": "public/audio/voices/hero/necromancer-male/level_up-5.m4a",
+      "license": "own",
+      "source": "tools/generate-hero-voices.py",
+      "note": "Neural speech hero voice line (Kokoro TTS, Apache-2.0 model), generated locally and encoded as AAC"
+    },
+    {
+      "path": "public/audio/voices/hero/necromancer-male/level_up-6.m4a",
+      "license": "own",
+      "source": "tools/generate-hero-voices.py",
+      "note": "Neural speech hero voice line (Kokoro TTS, Apache-2.0 model), generated locally and encoded as AAC"
+    },
+    {
+      "path": "public/audio/voices/hero/necromancer-male/level_up-7.m4a",
+      "license": "own",
+      "source": "tools/generate-hero-voices.py",
+      "note": "Neural speech hero voice line (Kokoro TTS, Apache-2.0 model), generated locally and encoded as AAC"
+    },
+    {
+      "path": "public/audio/voices/hero/necromancer-male/loot_rare-0.m4a",
+      "license": "own",
+      "source": "tools/generate-hero-voices.py",
+      "note": "Neural speech hero voice line (Kokoro TTS, Apache-2.0 model), generated locally and encoded as AAC"
+    },
+    {
+      "path": "public/audio/voices/hero/necromancer-male/loot_rare-1.m4a",
+      "license": "own",
+      "source": "tools/generate-hero-voices.py",
+      "note": "Neural speech hero voice line (Kokoro TTS, Apache-2.0 model), generated locally and encoded as AAC"
+    },
+    {
+      "path": "public/audio/voices/hero/necromancer-male/loot_rare-2.m4a",
+      "license": "own",
+      "source": "tools/generate-hero-voices.py",
+      "note": "Neural speech hero voice line (Kokoro TTS, Apache-2.0 model), generated locally and encoded as AAC"
+    },
+    {
+      "path": "public/audio/voices/hero/necromancer-male/loot_rare-3.m4a",
+      "license": "own",
+      "source": "tools/generate-hero-voices.py",
+      "note": "Neural speech hero voice line (Kokoro TTS, Apache-2.0 model), generated locally and encoded as AAC"
+    },
+    {
+      "path": "public/audio/voices/hero/necromancer-male/loot_rare-4.m4a",
+      "license": "own",
+      "source": "tools/generate-hero-voices.py",
+      "note": "Neural speech hero voice line (Kokoro TTS, Apache-2.0 model), generated locally and encoded as AAC"
+    },
+    {
+      "path": "public/audio/voices/hero/necromancer-male/loot_rare-5.m4a",
+      "license": "own",
+      "source": "tools/generate-hero-voices.py",
+      "note": "Neural speech hero voice line (Kokoro TTS, Apache-2.0 model), generated locally and encoded as AAC"
+    },
+    {
+      "path": "public/audio/voices/hero/necromancer-male/loot_rare-6.m4a",
+      "license": "own",
+      "source": "tools/generate-hero-voices.py",
+      "note": "Neural speech hero voice line (Kokoro TTS, Apache-2.0 model), generated locally and encoded as AAC"
+    },
+    {
+      "path": "public/audio/voices/hero/necromancer-male/low_hp-0.m4a",
+      "license": "own",
+      "source": "tools/generate-hero-voices.py",
+      "note": "Neural speech hero voice line (Kokoro TTS, Apache-2.0 model), generated locally and encoded as AAC"
+    },
+    {
+      "path": "public/audio/voices/hero/necromancer-male/low_hp-1.m4a",
+      "license": "own",
+      "source": "tools/generate-hero-voices.py",
+      "note": "Neural speech hero voice line (Kokoro TTS, Apache-2.0 model), generated locally and encoded as AAC"
+    },
+    {
+      "path": "public/audio/voices/hero/necromancer-male/low_hp-2.m4a",
+      "license": "own",
+      "source": "tools/generate-hero-voices.py",
+      "note": "Neural speech hero voice line (Kokoro TTS, Apache-2.0 model), generated locally and encoded as AAC"
+    },
+    {
+      "path": "public/audio/voices/hero/necromancer-male/low_hp-3.m4a",
+      "license": "own",
+      "source": "tools/generate-hero-voices.py",
+      "note": "Neural speech hero voice line (Kokoro TTS, Apache-2.0 model), generated locally and encoded as AAC"
+    },
+    {
+      "path": "public/audio/voices/hero/necromancer-male/low_hp-4.m4a",
+      "license": "own",
+      "source": "tools/generate-hero-voices.py",
+      "note": "Neural speech hero voice line (Kokoro TTS, Apache-2.0 model), generated locally and encoded as AAC"
+    },
+    {
+      "path": "public/audio/voices/hero/necromancer-male/low_hp-5.m4a",
+      "license": "own",
+      "source": "tools/generate-hero-voices.py",
+      "note": "Neural speech hero voice line (Kokoro TTS, Apache-2.0 model), generated locally and encoded as AAC"
+    },
+    {
+      "path": "public/audio/voices/hero/necromancer-male/low_hp-6.m4a",
+      "license": "own",
+      "source": "tools/generate-hero-voices.py",
+      "note": "Neural speech hero voice line (Kokoro TTS, Apache-2.0 model), generated locally and encoded as AAC"
+    },
+    {
+      "path": "public/audio/voices/hero/necromancer-male/move-0.m4a",
+      "license": "own",
+      "source": "tools/generate-hero-voices.py",
+      "note": "Neural speech hero voice line (Kokoro TTS, Apache-2.0 model), generated locally and encoded as AAC"
+    },
+    {
+      "path": "public/audio/voices/hero/necromancer-male/move-1.m4a",
+      "license": "own",
+      "source": "tools/generate-hero-voices.py",
+      "note": "Neural speech hero voice line (Kokoro TTS, Apache-2.0 model), generated locally and encoded as AAC"
+    },
+    {
+      "path": "public/audio/voices/hero/necromancer-male/move-2.m4a",
+      "license": "own",
+      "source": "tools/generate-hero-voices.py",
+      "note": "Neural speech hero voice line (Kokoro TTS, Apache-2.0 model), generated locally and encoded as AAC"
+    },
+    {
+      "path": "public/audio/voices/hero/necromancer-male/move-3.m4a",
+      "license": "own",
+      "source": "tools/generate-hero-voices.py",
+      "note": "Neural speech hero voice line (Kokoro TTS, Apache-2.0 model), generated locally and encoded as AAC"
+    },
+    {
+      "path": "public/audio/voices/hero/necromancer-male/move-4.m4a",
+      "license": "own",
+      "source": "tools/generate-hero-voices.py",
+      "note": "Neural speech hero voice line (Kokoro TTS, Apache-2.0 model), generated locally and encoded as AAC"
+    },
+    {
+      "path": "public/audio/voices/hero/necromancer-male/move-5.m4a",
+      "license": "own",
+      "source": "tools/generate-hero-voices.py",
+      "note": "Neural speech hero voice line (Kokoro TTS, Apache-2.0 model), generated locally and encoded as AAC"
+    },
+    {
+      "path": "public/audio/voices/hero/necromancer-male/refusal-0.m4a",
+      "license": "own",
+      "source": "tools/generate-hero-voices.py",
+      "note": "Neural speech hero voice line (Kokoro TTS, Apache-2.0 model), generated locally and encoded as AAC"
+    },
+    {
+      "path": "public/audio/voices/hero/necromancer-male/refusal-1.m4a",
+      "license": "own",
+      "source": "tools/generate-hero-voices.py",
+      "note": "Neural speech hero voice line (Kokoro TTS, Apache-2.0 model), generated locally and encoded as AAC"
+    },
+    {
+      "path": "public/audio/voices/hero/necromancer-male/refusal-2.m4a",
+      "license": "own",
+      "source": "tools/generate-hero-voices.py",
+      "note": "Neural speech hero voice line (Kokoro TTS, Apache-2.0 model), generated locally and encoded as AAC"
+    },
+    {
+      "path": "public/audio/voices/hero/necromancer-male/select-0.m4a",
+      "license": "own",
+      "source": "tools/generate-hero-voices.py",
+      "note": "Neural speech hero voice line (Kokoro TTS, Apache-2.0 model), generated locally and encoded as AAC"
+    },
+    {
+      "path": "public/audio/voices/hero/necromancer-male/select-1.m4a",
+      "license": "own",
+      "source": "tools/generate-hero-voices.py",
+      "note": "Neural speech hero voice line (Kokoro TTS, Apache-2.0 model), generated locally and encoded as AAC"
+    },
+    {
+      "path": "public/audio/voices/hero/necromancer-male/select-2.m4a",
+      "license": "own",
+      "source": "tools/generate-hero-voices.py",
+      "note": "Neural speech hero voice line (Kokoro TTS, Apache-2.0 model), generated locally and encoded as AAC"
+    },
+    {
+      "path": "public/audio/voices/hero/necromancer-male/select-3.m4a",
+      "license": "own",
+      "source": "tools/generate-hero-voices.py",
+      "note": "Neural speech hero voice line (Kokoro TTS, Apache-2.0 model), generated locally and encoded as AAC"
+    },
+    {
+      "path": "public/audio/voices/hero/necromancer-male/select-4.m4a",
+      "license": "own",
+      "source": "tools/generate-hero-voices.py",
+      "note": "Neural speech hero voice line (Kokoro TTS, Apache-2.0 model), generated locally and encoded as AAC"
+    },
+    {
+      "path": "public/audio/voices/hero/necromancer-male/select-5.m4a",
+      "license": "own",
+      "source": "tools/generate-hero-voices.py",
+      "note": "Neural speech hero voice line (Kokoro TTS, Apache-2.0 model), generated locally and encoded as AAC"
+    },
+    {
+      "path": "public/audio/voices/hero/necromancer-male/spell_cast-0.m4a",
+      "license": "own",
+      "source": "tools/generate-hero-voices.py",
+      "note": "Neural speech hero voice line (Kokoro TTS, Apache-2.0 model), generated locally and encoded as AAC"
+    },
+    {
+      "path": "public/audio/voices/hero/necromancer-male/spell_cast-1.m4a",
+      "license": "own",
+      "source": "tools/generate-hero-voices.py",
+      "note": "Neural speech hero voice line (Kokoro TTS, Apache-2.0 model), generated locally and encoded as AAC"
+    },
+    {
+      "path": "public/audio/voices/hero/necromancer-male/spell_cast-2.m4a",
+      "license": "own",
+      "source": "tools/generate-hero-voices.py",
+      "note": "Neural speech hero voice line (Kokoro TTS, Apache-2.0 model), generated locally and encoded as AAC"
+    },
+    {
+      "path": "public/audio/voices/hero/necromancer-male/spell_cast-3.m4a",
+      "license": "own",
+      "source": "tools/generate-hero-voices.py",
+      "note": "Neural speech hero voice line (Kokoro TTS, Apache-2.0 model), generated locally and encoded as AAC"
+    },
+    {
+      "path": "public/audio/voices/hero/necromancer-male/town_greeting-0.m4a",
+      "license": "own",
+      "source": "tools/generate-hero-voices.py",
+      "note": "Neural speech hero voice line (Kokoro TTS, Apache-2.0 model), generated locally and encoded as AAC"
+    },
+    {
+      "path": "public/audio/voices/hero/necromancer-male/town_greeting-1.m4a",
+      "license": "own",
+      "source": "tools/generate-hero-voices.py",
+      "note": "Neural speech hero voice line (Kokoro TTS, Apache-2.0 model), generated locally and encoded as AAC"
+    },
+    {
+      "path": "public/audio/voices/hero/necromancer-male/town_greeting-2.m4a",
+      "license": "own",
+      "source": "tools/generate-hero-voices.py",
+      "note": "Neural speech hero voice line (Kokoro TTS, Apache-2.0 model), generated locally and encoded as AAC"
+    },
+    {
+      "path": "public/audio/voices/hero/necromancer-male/victory-0.m4a",
+      "license": "own",
+      "source": "tools/generate-hero-voices.py",
+      "note": "Neural speech hero voice line (Kokoro TTS, Apache-2.0 model), generated locally and encoded as AAC"
+    },
+    {
+      "path": "public/audio/voices/hero/necromancer-male/victory-1.m4a",
+      "license": "own",
+      "source": "tools/generate-hero-voices.py",
+      "note": "Neural speech hero voice line (Kokoro TTS, Apache-2.0 model), generated locally and encoded as AAC"
+    },
+    {
+      "path": "public/audio/voices/hero/necromancer-male/victory-2.m4a",
+      "license": "own",
+      "source": "tools/generate-hero-voices.py",
+      "note": "Neural speech hero voice line (Kokoro TTS, Apache-2.0 model), generated locally and encoded as AAC"
+    },
+    {
+      "path": "public/audio/voices/hero/necromancer-male/victory-3.m4a",
+      "license": "own",
+      "source": "tools/generate-hero-voices.py",
+      "note": "Neural speech hero voice line (Kokoro TTS, Apache-2.0 model), generated locally and encoded as AAC"
+    },
+    {
+      "path": "public/audio/voices/hero/warrior-female/attack-0.m4a",
+      "license": "own",
+      "source": "tools/generate-hero-voices.py",
+      "note": "Neural speech hero voice line (Kokoro TTS, Apache-2.0 model), generated locally and encoded as AAC"
+    },
+    {
+      "path": "public/audio/voices/hero/warrior-female/attack-1.m4a",
+      "license": "own",
+      "source": "tools/generate-hero-voices.py",
+      "note": "Neural speech hero voice line (Kokoro TTS, Apache-2.0 model), generated locally and encoded as AAC"
+    },
+    {
+      "path": "public/audio/voices/hero/warrior-female/attack-2.m4a",
+      "license": "own",
+      "source": "tools/generate-hero-voices.py",
+      "note": "Neural speech hero voice line (Kokoro TTS, Apache-2.0 model), generated locally and encoded as AAC"
+    },
+    {
+      "path": "public/audio/voices/hero/warrior-female/attack-3.m4a",
+      "license": "own",
+      "source": "tools/generate-hero-voices.py",
+      "note": "Neural speech hero voice line (Kokoro TTS, Apache-2.0 model), generated locally and encoded as AAC"
+    },
+    {
+      "path": "public/audio/voices/hero/warrior-female/attack-4.m4a",
+      "license": "own",
+      "source": "tools/generate-hero-voices.py",
+      "note": "Neural speech hero voice line (Kokoro TTS, Apache-2.0 model), generated locally and encoded as AAC"
+    },
+    {
+      "path": "public/audio/voices/hero/warrior-female/attack-5.m4a",
+      "license": "own",
+      "source": "tools/generate-hero-voices.py",
+      "note": "Neural speech hero voice line (Kokoro TTS, Apache-2.0 model), generated locally and encoded as AAC"
+    },
+    {
+      "path": "public/audio/voices/hero/warrior-female/death-0.m4a",
+      "license": "own",
+      "source": "tools/generate-hero-voices.py",
+      "note": "Neural speech hero voice line (Kokoro TTS, Apache-2.0 model), generated locally and encoded as AAC"
+    },
+    {
+      "path": "public/audio/voices/hero/warrior-female/death-1.m4a",
+      "license": "own",
+      "source": "tools/generate-hero-voices.py",
+      "note": "Neural speech hero voice line (Kokoro TTS, Apache-2.0 model), generated locally and encoded as AAC"
+    },
+    {
+      "path": "public/audio/voices/hero/warrior-female/death-2.m4a",
+      "license": "own",
+      "source": "tools/generate-hero-voices.py",
+      "note": "Neural speech hero voice line (Kokoro TTS, Apache-2.0 model), generated locally and encoded as AAC"
+    },
+    {
+      "path": "public/audio/voices/hero/warrior-female/hurt-0.m4a",
+      "license": "own",
+      "source": "tools/generate-hero-voices.py",
+      "note": "Neural speech hero voice line (Kokoro TTS, Apache-2.0 model), generated locally and encoded as AAC"
+    },
+    {
+      "path": "public/audio/voices/hero/warrior-female/hurt-1.m4a",
+      "license": "own",
+      "source": "tools/generate-hero-voices.py",
+      "note": "Neural speech hero voice line (Kokoro TTS, Apache-2.0 model), generated locally and encoded as AAC"
+    },
+    {
+      "path": "public/audio/voices/hero/warrior-female/hurt-2.m4a",
+      "license": "own",
+      "source": "tools/generate-hero-voices.py",
+      "note": "Neural speech hero voice line (Kokoro TTS, Apache-2.0 model), generated locally and encoded as AAC"
+    },
+    {
+      "path": "public/audio/voices/hero/warrior-female/hurt-3.m4a",
+      "license": "own",
+      "source": "tools/generate-hero-voices.py",
+      "note": "Neural speech hero voice line (Kokoro TTS, Apache-2.0 model), generated locally and encoded as AAC"
+    },
+    {
+      "path": "public/audio/voices/hero/warrior-female/idle-0.m4a",
+      "license": "own",
+      "source": "tools/generate-hero-voices.py",
+      "note": "Neural speech hero voice line (Kokoro TTS, Apache-2.0 model), generated locally and encoded as AAC"
+    },
+    {
+      "path": "public/audio/voices/hero/warrior-female/idle-1.m4a",
+      "license": "own",
+      "source": "tools/generate-hero-voices.py",
+      "note": "Neural speech hero voice line (Kokoro TTS, Apache-2.0 model), generated locally and encoded as AAC"
+    },
+    {
+      "path": "public/audio/voices/hero/warrior-female/idle-2.m4a",
+      "license": "own",
+      "source": "tools/generate-hero-voices.py",
+      "note": "Neural speech hero voice line (Kokoro TTS, Apache-2.0 model), generated locally and encoded as AAC"
+    },
+    {
+      "path": "public/audio/voices/hero/warrior-female/idle-3.m4a",
+      "license": "own",
+      "source": "tools/generate-hero-voices.py",
+      "note": "Neural speech hero voice line (Kokoro TTS, Apache-2.0 model), generated locally and encoded as AAC"
+    },
+    {
+      "path": "public/audio/voices/hero/warrior-female/idle-4.m4a",
+      "license": "own",
+      "source": "tools/generate-hero-voices.py",
+      "note": "Neural speech hero voice line (Kokoro TTS, Apache-2.0 model), generated locally and encoded as AAC"
+    },
+    {
+      "path": "public/audio/voices/hero/warrior-female/idle-5.m4a",
+      "license": "own",
+      "source": "tools/generate-hero-voices.py",
+      "note": "Neural speech hero voice line (Kokoro TTS, Apache-2.0 model), generated locally and encoded as AAC"
+    },
+    {
+      "path": "public/audio/voices/hero/warrior-female/idle-6.m4a",
+      "license": "own",
+      "source": "tools/generate-hero-voices.py",
+      "note": "Neural speech hero voice line (Kokoro TTS, Apache-2.0 model), generated locally and encoded as AAC"
+    },
+    {
+      "path": "public/audio/voices/hero/warrior-female/idle-7.m4a",
+      "license": "own",
+      "source": "tools/generate-hero-voices.py",
+      "note": "Neural speech hero voice line (Kokoro TTS, Apache-2.0 model), generated locally and encoded as AAC"
+    },
+    {
+      "path": "public/audio/voices/hero/warrior-female/idle-8.m4a",
+      "license": "own",
+      "source": "tools/generate-hero-voices.py",
+      "note": "Neural speech hero voice line (Kokoro TTS, Apache-2.0 model), generated locally and encoded as AAC"
+    },
+    {
+      "path": "public/audio/voices/hero/warrior-female/idle-9.m4a",
+      "license": "own",
+      "source": "tools/generate-hero-voices.py",
+      "note": "Neural speech hero voice line (Kokoro TTS, Apache-2.0 model), generated locally and encoded as AAC"
+    },
+    {
+      "path": "public/audio/voices/hero/warrior-female/intro-0.m4a",
+      "license": "own",
+      "source": "tools/generate-hero-voices.py",
+      "note": "Neural speech hero voice line (Kokoro TTS, Apache-2.0 model), generated locally and encoded as AAC"
+    },
+    {
+      "path": "public/audio/voices/hero/warrior-female/kill-0.m4a",
+      "license": "own",
+      "source": "tools/generate-hero-voices.py",
+      "note": "Neural speech hero voice line (Kokoro TTS, Apache-2.0 model), generated locally and encoded as AAC"
+    },
+    {
+      "path": "public/audio/voices/hero/warrior-female/kill-1.m4a",
+      "license": "own",
+      "source": "tools/generate-hero-voices.py",
+      "note": "Neural speech hero voice line (Kokoro TTS, Apache-2.0 model), generated locally and encoded as AAC"
+    },
+    {
+      "path": "public/audio/voices/hero/warrior-female/kill-2.m4a",
+      "license": "own",
+      "source": "tools/generate-hero-voices.py",
+      "note": "Neural speech hero voice line (Kokoro TTS, Apache-2.0 model), generated locally and encoded as AAC"
+    },
+    {
+      "path": "public/audio/voices/hero/warrior-female/kill-3.m4a",
+      "license": "own",
+      "source": "tools/generate-hero-voices.py",
+      "note": "Neural speech hero voice line (Kokoro TTS, Apache-2.0 model), generated locally and encoded as AAC"
+    },
+    {
+      "path": "public/audio/voices/hero/warrior-female/level_up-0.m4a",
+      "license": "own",
+      "source": "tools/generate-hero-voices.py",
+      "note": "Neural speech hero voice line (Kokoro TTS, Apache-2.0 model), generated locally and encoded as AAC"
+    },
+    {
+      "path": "public/audio/voices/hero/warrior-female/level_up-1.m4a",
+      "license": "own",
+      "source": "tools/generate-hero-voices.py",
+      "note": "Neural speech hero voice line (Kokoro TTS, Apache-2.0 model), generated locally and encoded as AAC"
+    },
+    {
+      "path": "public/audio/voices/hero/warrior-female/level_up-2.m4a",
+      "license": "own",
+      "source": "tools/generate-hero-voices.py",
+      "note": "Neural speech hero voice line (Kokoro TTS, Apache-2.0 model), generated locally and encoded as AAC"
+    },
+    {
+      "path": "public/audio/voices/hero/warrior-female/level_up-3.m4a",
+      "license": "own",
+      "source": "tools/generate-hero-voices.py",
+      "note": "Neural speech hero voice line (Kokoro TTS, Apache-2.0 model), generated locally and encoded as AAC"
+    },
+    {
+      "path": "public/audio/voices/hero/warrior-female/level_up-4.m4a",
+      "license": "own",
+      "source": "tools/generate-hero-voices.py",
+      "note": "Neural speech hero voice line (Kokoro TTS, Apache-2.0 model), generated locally and encoded as AAC"
+    },
+    {
+      "path": "public/audio/voices/hero/warrior-female/level_up-5.m4a",
+      "license": "own",
+      "source": "tools/generate-hero-voices.py",
+      "note": "Neural speech hero voice line (Kokoro TTS, Apache-2.0 model), generated locally and encoded as AAC"
+    },
+    {
+      "path": "public/audio/voices/hero/warrior-female/level_up-6.m4a",
+      "license": "own",
+      "source": "tools/generate-hero-voices.py",
+      "note": "Neural speech hero voice line (Kokoro TTS, Apache-2.0 model), generated locally and encoded as AAC"
+    },
+    {
+      "path": "public/audio/voices/hero/warrior-female/level_up-7.m4a",
+      "license": "own",
+      "source": "tools/generate-hero-voices.py",
+      "note": "Neural speech hero voice line (Kokoro TTS, Apache-2.0 model), generated locally and encoded as AAC"
+    },
+    {
+      "path": "public/audio/voices/hero/warrior-female/loot_rare-0.m4a",
+      "license": "own",
+      "source": "tools/generate-hero-voices.py",
+      "note": "Neural speech hero voice line (Kokoro TTS, Apache-2.0 model), generated locally and encoded as AAC"
+    },
+    {
+      "path": "public/audio/voices/hero/warrior-female/loot_rare-1.m4a",
+      "license": "own",
+      "source": "tools/generate-hero-voices.py",
+      "note": "Neural speech hero voice line (Kokoro TTS, Apache-2.0 model), generated locally and encoded as AAC"
+    },
+    {
+      "path": "public/audio/voices/hero/warrior-female/loot_rare-2.m4a",
+      "license": "own",
+      "source": "tools/generate-hero-voices.py",
+      "note": "Neural speech hero voice line (Kokoro TTS, Apache-2.0 model), generated locally and encoded as AAC"
+    },
+    {
+      "path": "public/audio/voices/hero/warrior-female/loot_rare-3.m4a",
+      "license": "own",
+      "source": "tools/generate-hero-voices.py",
+      "note": "Neural speech hero voice line (Kokoro TTS, Apache-2.0 model), generated locally and encoded as AAC"
+    },
+    {
+      "path": "public/audio/voices/hero/warrior-female/loot_rare-4.m4a",
+      "license": "own",
+      "source": "tools/generate-hero-voices.py",
+      "note": "Neural speech hero voice line (Kokoro TTS, Apache-2.0 model), generated locally and encoded as AAC"
+    },
+    {
+      "path": "public/audio/voices/hero/warrior-female/loot_rare-5.m4a",
+      "license": "own",
+      "source": "tools/generate-hero-voices.py",
+      "note": "Neural speech hero voice line (Kokoro TTS, Apache-2.0 model), generated locally and encoded as AAC"
+    },
+    {
+      "path": "public/audio/voices/hero/warrior-female/loot_rare-6.m4a",
+      "license": "own",
+      "source": "tools/generate-hero-voices.py",
+      "note": "Neural speech hero voice line (Kokoro TTS, Apache-2.0 model), generated locally and encoded as AAC"
+    },
+    {
+      "path": "public/audio/voices/hero/warrior-female/low_hp-0.m4a",
+      "license": "own",
+      "source": "tools/generate-hero-voices.py",
+      "note": "Neural speech hero voice line (Kokoro TTS, Apache-2.0 model), generated locally and encoded as AAC"
+    },
+    {
+      "path": "public/audio/voices/hero/warrior-female/low_hp-1.m4a",
+      "license": "own",
+      "source": "tools/generate-hero-voices.py",
+      "note": "Neural speech hero voice line (Kokoro TTS, Apache-2.0 model), generated locally and encoded as AAC"
+    },
+    {
+      "path": "public/audio/voices/hero/warrior-female/low_hp-2.m4a",
+      "license": "own",
+      "source": "tools/generate-hero-voices.py",
+      "note": "Neural speech hero voice line (Kokoro TTS, Apache-2.0 model), generated locally and encoded as AAC"
+    },
+    {
+      "path": "public/audio/voices/hero/warrior-female/low_hp-3.m4a",
+      "license": "own",
+      "source": "tools/generate-hero-voices.py",
+      "note": "Neural speech hero voice line (Kokoro TTS, Apache-2.0 model), generated locally and encoded as AAC"
+    },
+    {
+      "path": "public/audio/voices/hero/warrior-female/low_hp-4.m4a",
+      "license": "own",
+      "source": "tools/generate-hero-voices.py",
+      "note": "Neural speech hero voice line (Kokoro TTS, Apache-2.0 model), generated locally and encoded as AAC"
+    },
+    {
+      "path": "public/audio/voices/hero/warrior-female/low_hp-5.m4a",
+      "license": "own",
+      "source": "tools/generate-hero-voices.py",
+      "note": "Neural speech hero voice line (Kokoro TTS, Apache-2.0 model), generated locally and encoded as AAC"
+    },
+    {
+      "path": "public/audio/voices/hero/warrior-female/low_hp-6.m4a",
+      "license": "own",
+      "source": "tools/generate-hero-voices.py",
+      "note": "Neural speech hero voice line (Kokoro TTS, Apache-2.0 model), generated locally and encoded as AAC"
+    },
+    {
+      "path": "public/audio/voices/hero/warrior-female/move-0.m4a",
+      "license": "own",
+      "source": "tools/generate-hero-voices.py",
+      "note": "Neural speech hero voice line (Kokoro TTS, Apache-2.0 model), generated locally and encoded as AAC"
+    },
+    {
+      "path": "public/audio/voices/hero/warrior-female/move-1.m4a",
+      "license": "own",
+      "source": "tools/generate-hero-voices.py",
+      "note": "Neural speech hero voice line (Kokoro TTS, Apache-2.0 model), generated locally and encoded as AAC"
+    },
+    {
+      "path": "public/audio/voices/hero/warrior-female/move-2.m4a",
+      "license": "own",
+      "source": "tools/generate-hero-voices.py",
+      "note": "Neural speech hero voice line (Kokoro TTS, Apache-2.0 model), generated locally and encoded as AAC"
+    },
+    {
+      "path": "public/audio/voices/hero/warrior-female/move-3.m4a",
+      "license": "own",
+      "source": "tools/generate-hero-voices.py",
+      "note": "Neural speech hero voice line (Kokoro TTS, Apache-2.0 model), generated locally and encoded as AAC"
+    },
+    {
+      "path": "public/audio/voices/hero/warrior-female/move-4.m4a",
+      "license": "own",
+      "source": "tools/generate-hero-voices.py",
+      "note": "Neural speech hero voice line (Kokoro TTS, Apache-2.0 model), generated locally and encoded as AAC"
+    },
+    {
+      "path": "public/audio/voices/hero/warrior-female/move-5.m4a",
+      "license": "own",
+      "source": "tools/generate-hero-voices.py",
+      "note": "Neural speech hero voice line (Kokoro TTS, Apache-2.0 model), generated locally and encoded as AAC"
+    },
+    {
+      "path": "public/audio/voices/hero/warrior-female/refusal-0.m4a",
+      "license": "own",
+      "source": "tools/generate-hero-voices.py",
+      "note": "Neural speech hero voice line (Kokoro TTS, Apache-2.0 model), generated locally and encoded as AAC"
+    },
+    {
+      "path": "public/audio/voices/hero/warrior-female/refusal-1.m4a",
+      "license": "own",
+      "source": "tools/generate-hero-voices.py",
+      "note": "Neural speech hero voice line (Kokoro TTS, Apache-2.0 model), generated locally and encoded as AAC"
+    },
+    {
+      "path": "public/audio/voices/hero/warrior-female/refusal-2.m4a",
+      "license": "own",
+      "source": "tools/generate-hero-voices.py",
+      "note": "Neural speech hero voice line (Kokoro TTS, Apache-2.0 model), generated locally and encoded as AAC"
+    },
+    {
+      "path": "public/audio/voices/hero/warrior-female/select-0.m4a",
+      "license": "own",
+      "source": "tools/generate-hero-voices.py",
+      "note": "Neural speech hero voice line (Kokoro TTS, Apache-2.0 model), generated locally and encoded as AAC"
+    },
+    {
+      "path": "public/audio/voices/hero/warrior-female/select-1.m4a",
+      "license": "own",
+      "source": "tools/generate-hero-voices.py",
+      "note": "Neural speech hero voice line (Kokoro TTS, Apache-2.0 model), generated locally and encoded as AAC"
+    },
+    {
+      "path": "public/audio/voices/hero/warrior-female/select-2.m4a",
+      "license": "own",
+      "source": "tools/generate-hero-voices.py",
+      "note": "Neural speech hero voice line (Kokoro TTS, Apache-2.0 model), generated locally and encoded as AAC"
+    },
+    {
+      "path": "public/audio/voices/hero/warrior-female/select-3.m4a",
+      "license": "own",
+      "source": "tools/generate-hero-voices.py",
+      "note": "Neural speech hero voice line (Kokoro TTS, Apache-2.0 model), generated locally and encoded as AAC"
+    },
+    {
+      "path": "public/audio/voices/hero/warrior-female/select-4.m4a",
+      "license": "own",
+      "source": "tools/generate-hero-voices.py",
+      "note": "Neural speech hero voice line (Kokoro TTS, Apache-2.0 model), generated locally and encoded as AAC"
+    },
+    {
+      "path": "public/audio/voices/hero/warrior-female/select-5.m4a",
+      "license": "own",
+      "source": "tools/generate-hero-voices.py",
+      "note": "Neural speech hero voice line (Kokoro TTS, Apache-2.0 model), generated locally and encoded as AAC"
+    },
+    {
+      "path": "public/audio/voices/hero/warrior-female/spell_cast-0.m4a",
+      "license": "own",
+      "source": "tools/generate-hero-voices.py",
+      "note": "Neural speech hero voice line (Kokoro TTS, Apache-2.0 model), generated locally and encoded as AAC"
+    },
+    {
+      "path": "public/audio/voices/hero/warrior-female/spell_cast-1.m4a",
+      "license": "own",
+      "source": "tools/generate-hero-voices.py",
+      "note": "Neural speech hero voice line (Kokoro TTS, Apache-2.0 model), generated locally and encoded as AAC"
+    },
+    {
+      "path": "public/audio/voices/hero/warrior-female/spell_cast-2.m4a",
+      "license": "own",
+      "source": "tools/generate-hero-voices.py",
+      "note": "Neural speech hero voice line (Kokoro TTS, Apache-2.0 model), generated locally and encoded as AAC"
+    },
+    {
+      "path": "public/audio/voices/hero/warrior-female/spell_cast-3.m4a",
+      "license": "own",
+      "source": "tools/generate-hero-voices.py",
+      "note": "Neural speech hero voice line (Kokoro TTS, Apache-2.0 model), generated locally and encoded as AAC"
+    },
+    {
+      "path": "public/audio/voices/hero/warrior-female/town_greeting-0.m4a",
+      "license": "own",
+      "source": "tools/generate-hero-voices.py",
+      "note": "Neural speech hero voice line (Kokoro TTS, Apache-2.0 model), generated locally and encoded as AAC"
+    },
+    {
+      "path": "public/audio/voices/hero/warrior-female/town_greeting-1.m4a",
+      "license": "own",
+      "source": "tools/generate-hero-voices.py",
+      "note": "Neural speech hero voice line (Kokoro TTS, Apache-2.0 model), generated locally and encoded as AAC"
+    },
+    {
+      "path": "public/audio/voices/hero/warrior-female/town_greeting-2.m4a",
+      "license": "own",
+      "source": "tools/generate-hero-voices.py",
+      "note": "Neural speech hero voice line (Kokoro TTS, Apache-2.0 model), generated locally and encoded as AAC"
+    },
+    {
+      "path": "public/audio/voices/hero/warrior-female/victory-0.m4a",
+      "license": "own",
+      "source": "tools/generate-hero-voices.py",
+      "note": "Neural speech hero voice line (Kokoro TTS, Apache-2.0 model), generated locally and encoded as AAC"
+    },
+    {
+      "path": "public/audio/voices/hero/warrior-female/victory-1.m4a",
+      "license": "own",
+      "source": "tools/generate-hero-voices.py",
+      "note": "Neural speech hero voice line (Kokoro TTS, Apache-2.0 model), generated locally and encoded as AAC"
+    },
+    {
+      "path": "public/audio/voices/hero/warrior-female/victory-2.m4a",
+      "license": "own",
+      "source": "tools/generate-hero-voices.py",
+      "note": "Neural speech hero voice line (Kokoro TTS, Apache-2.0 model), generated locally and encoded as AAC"
+    },
+    {
+      "path": "public/audio/voices/hero/warrior-female/victory-3.m4a",
+      "license": "own",
+      "source": "tools/generate-hero-voices.py",
+      "note": "Neural speech hero voice line (Kokoro TTS, Apache-2.0 model), generated locally and encoded as AAC"
+    },
+    {
+      "path": "public/audio/voices/hero/warrior-male/attack-0.m4a",
+      "license": "own",
+      "source": "tools/generate-hero-voices.py",
+      "note": "Neural speech hero voice line (Kokoro TTS, Apache-2.0 model), generated locally and encoded as AAC"
+    },
+    {
+      "path": "public/audio/voices/hero/warrior-male/attack-1.m4a",
+      "license": "own",
+      "source": "tools/generate-hero-voices.py",
+      "note": "Neural speech hero voice line (Kokoro TTS, Apache-2.0 model), generated locally and encoded as AAC"
+    },
+    {
+      "path": "public/audio/voices/hero/warrior-male/attack-2.m4a",
+      "license": "own",
+      "source": "tools/generate-hero-voices.py",
+      "note": "Neural speech hero voice line (Kokoro TTS, Apache-2.0 model), generated locally and encoded as AAC"
+    },
+    {
+      "path": "public/audio/voices/hero/warrior-male/attack-3.m4a",
+      "license": "own",
+      "source": "tools/generate-hero-voices.py",
+      "note": "Neural speech hero voice line (Kokoro TTS, Apache-2.0 model), generated locally and encoded as AAC"
+    },
+    {
+      "path": "public/audio/voices/hero/warrior-male/attack-4.m4a",
+      "license": "own",
+      "source": "tools/generate-hero-voices.py",
+      "note": "Neural speech hero voice line (Kokoro TTS, Apache-2.0 model), generated locally and encoded as AAC"
+    },
+    {
+      "path": "public/audio/voices/hero/warrior-male/attack-5.m4a",
+      "license": "own",
+      "source": "tools/generate-hero-voices.py",
+      "note": "Neural speech hero voice line (Kokoro TTS, Apache-2.0 model), generated locally and encoded as AAC"
+    },
+    {
+      "path": "public/audio/voices/hero/warrior-male/death-0.m4a",
+      "license": "own",
+      "source": "tools/generate-hero-voices.py",
+      "note": "Neural speech hero voice line (Kokoro TTS, Apache-2.0 model), generated locally and encoded as AAC"
+    },
+    {
+      "path": "public/audio/voices/hero/warrior-male/death-1.m4a",
+      "license": "own",
+      "source": "tools/generate-hero-voices.py",
+      "note": "Neural speech hero voice line (Kokoro TTS, Apache-2.0 model), generated locally and encoded as AAC"
+    },
+    {
+      "path": "public/audio/voices/hero/warrior-male/death-2.m4a",
+      "license": "own",
+      "source": "tools/generate-hero-voices.py",
+      "note": "Neural speech hero voice line (Kokoro TTS, Apache-2.0 model), generated locally and encoded as AAC"
+    },
+    {
+      "path": "public/audio/voices/hero/warrior-male/hurt-0.m4a",
+      "license": "own",
+      "source": "tools/generate-hero-voices.py",
+      "note": "Neural speech hero voice line (Kokoro TTS, Apache-2.0 model), generated locally and encoded as AAC"
+    },
+    {
+      "path": "public/audio/voices/hero/warrior-male/hurt-1.m4a",
+      "license": "own",
+      "source": "tools/generate-hero-voices.py",
+      "note": "Neural speech hero voice line (Kokoro TTS, Apache-2.0 model), generated locally and encoded as AAC"
+    },
+    {
+      "path": "public/audio/voices/hero/warrior-male/hurt-2.m4a",
+      "license": "own",
+      "source": "tools/generate-hero-voices.py",
+      "note": "Neural speech hero voice line (Kokoro TTS, Apache-2.0 model), generated locally and encoded as AAC"
+    },
+    {
+      "path": "public/audio/voices/hero/warrior-male/hurt-3.m4a",
+      "license": "own",
+      "source": "tools/generate-hero-voices.py",
+      "note": "Neural speech hero voice line (Kokoro TTS, Apache-2.0 model), generated locally and encoded as AAC"
+    },
+    {
+      "path": "public/audio/voices/hero/warrior-male/idle-0.m4a",
+      "license": "own",
+      "source": "tools/generate-hero-voices.py",
+      "note": "Neural speech hero voice line (Kokoro TTS, Apache-2.0 model), generated locally and encoded as AAC"
+    },
+    {
+      "path": "public/audio/voices/hero/warrior-male/idle-1.m4a",
+      "license": "own",
+      "source": "tools/generate-hero-voices.py",
+      "note": "Neural speech hero voice line (Kokoro TTS, Apache-2.0 model), generated locally and encoded as AAC"
+    },
+    {
+      "path": "public/audio/voices/hero/warrior-male/idle-2.m4a",
+      "license": "own",
+      "source": "tools/generate-hero-voices.py",
+      "note": "Neural speech hero voice line (Kokoro TTS, Apache-2.0 model), generated locally and encoded as AAC"
+    },
+    {
+      "path": "public/audio/voices/hero/warrior-male/idle-3.m4a",
+      "license": "own",
+      "source": "tools/generate-hero-voices.py",
+      "note": "Neural speech hero voice line (Kokoro TTS, Apache-2.0 model), generated locally and encoded as AAC"
+    },
+    {
+      "path": "public/audio/voices/hero/warrior-male/idle-4.m4a",
+      "license": "own",
+      "source": "tools/generate-hero-voices.py",
+      "note": "Neural speech hero voice line (Kokoro TTS, Apache-2.0 model), generated locally and encoded as AAC"
+    },
+    {
+      "path": "public/audio/voices/hero/warrior-male/idle-5.m4a",
+      "license": "own",
+      "source": "tools/generate-hero-voices.py",
+      "note": "Neural speech hero voice line (Kokoro TTS, Apache-2.0 model), generated locally and encoded as AAC"
+    },
+    {
+      "path": "public/audio/voices/hero/warrior-male/idle-6.m4a",
+      "license": "own",
+      "source": "tools/generate-hero-voices.py",
+      "note": "Neural speech hero voice line (Kokoro TTS, Apache-2.0 model), generated locally and encoded as AAC"
+    },
+    {
+      "path": "public/audio/voices/hero/warrior-male/idle-7.m4a",
+      "license": "own",
+      "source": "tools/generate-hero-voices.py",
+      "note": "Neural speech hero voice line (Kokoro TTS, Apache-2.0 model), generated locally and encoded as AAC"
+    },
+    {
+      "path": "public/audio/voices/hero/warrior-male/idle-8.m4a",
+      "license": "own",
+      "source": "tools/generate-hero-voices.py",
+      "note": "Neural speech hero voice line (Kokoro TTS, Apache-2.0 model), generated locally and encoded as AAC"
+    },
+    {
+      "path": "public/audio/voices/hero/warrior-male/idle-9.m4a",
+      "license": "own",
+      "source": "tools/generate-hero-voices.py",
+      "note": "Neural speech hero voice line (Kokoro TTS, Apache-2.0 model), generated locally and encoded as AAC"
+    },
+    {
+      "path": "public/audio/voices/hero/warrior-male/intro-0.m4a",
+      "license": "own",
+      "source": "tools/generate-hero-voices.py",
+      "note": "Neural speech hero voice line (Kokoro TTS, Apache-2.0 model), generated locally and encoded as AAC"
+    },
+    {
+      "path": "public/audio/voices/hero/warrior-male/kill-0.m4a",
+      "license": "own",
+      "source": "tools/generate-hero-voices.py",
+      "note": "Neural speech hero voice line (Kokoro TTS, Apache-2.0 model), generated locally and encoded as AAC"
+    },
+    {
+      "path": "public/audio/voices/hero/warrior-male/kill-1.m4a",
+      "license": "own",
+      "source": "tools/generate-hero-voices.py",
+      "note": "Neural speech hero voice line (Kokoro TTS, Apache-2.0 model), generated locally and encoded as AAC"
+    },
+    {
+      "path": "public/audio/voices/hero/warrior-male/kill-2.m4a",
+      "license": "own",
+      "source": "tools/generate-hero-voices.py",
+      "note": "Neural speech hero voice line (Kokoro TTS, Apache-2.0 model), generated locally and encoded as AAC"
+    },
+    {
+      "path": "public/audio/voices/hero/warrior-male/kill-3.m4a",
+      "license": "own",
+      "source": "tools/generate-hero-voices.py",
+      "note": "Neural speech hero voice line (Kokoro TTS, Apache-2.0 model), generated locally and encoded as AAC"
+    },
+    {
+      "path": "public/audio/voices/hero/warrior-male/level_up-0.m4a",
+      "license": "own",
+      "source": "tools/generate-hero-voices.py",
+      "note": "Neural speech hero voice line (Kokoro TTS, Apache-2.0 model), generated locally and encoded as AAC"
+    },
+    {
+      "path": "public/audio/voices/hero/warrior-male/level_up-1.m4a",
+      "license": "own",
+      "source": "tools/generate-hero-voices.py",
+      "note": "Neural speech hero voice line (Kokoro TTS, Apache-2.0 model), generated locally and encoded as AAC"
+    },
+    {
+      "path": "public/audio/voices/hero/warrior-male/level_up-2.m4a",
+      "license": "own",
+      "source": "tools/generate-hero-voices.py",
+      "note": "Neural speech hero voice line (Kokoro TTS, Apache-2.0 model), generated locally and encoded as AAC"
+    },
+    {
+      "path": "public/audio/voices/hero/warrior-male/level_up-3.m4a",
+      "license": "own",
+      "source": "tools/generate-hero-voices.py",
+      "note": "Neural speech hero voice line (Kokoro TTS, Apache-2.0 model), generated locally and encoded as AAC"
+    },
+    {
+      "path": "public/audio/voices/hero/warrior-male/level_up-4.m4a",
+      "license": "own",
+      "source": "tools/generate-hero-voices.py",
+      "note": "Neural speech hero voice line (Kokoro TTS, Apache-2.0 model), generated locally and encoded as AAC"
+    },
+    {
+      "path": "public/audio/voices/hero/warrior-male/level_up-5.m4a",
+      "license": "own",
+      "source": "tools/generate-hero-voices.py",
+      "note": "Neural speech hero voice line (Kokoro TTS, Apache-2.0 model), generated locally and encoded as AAC"
+    },
+    {
+      "path": "public/audio/voices/hero/warrior-male/level_up-6.m4a",
+      "license": "own",
+      "source": "tools/generate-hero-voices.py",
+      "note": "Neural speech hero voice line (Kokoro TTS, Apache-2.0 model), generated locally and encoded as AAC"
+    },
+    {
+      "path": "public/audio/voices/hero/warrior-male/level_up-7.m4a",
+      "license": "own",
+      "source": "tools/generate-hero-voices.py",
+      "note": "Neural speech hero voice line (Kokoro TTS, Apache-2.0 model), generated locally and encoded as AAC"
+    },
+    {
+      "path": "public/audio/voices/hero/warrior-male/loot_rare-0.m4a",
+      "license": "own",
+      "source": "tools/generate-hero-voices.py",
+      "note": "Neural speech hero voice line (Kokoro TTS, Apache-2.0 model), generated locally and encoded as AAC"
+    },
+    {
+      "path": "public/audio/voices/hero/warrior-male/loot_rare-1.m4a",
+      "license": "own",
+      "source": "tools/generate-hero-voices.py",
+      "note": "Neural speech hero voice line (Kokoro TTS, Apache-2.0 model), generated locally and encoded as AAC"
+    },
+    {
+      "path": "public/audio/voices/hero/warrior-male/loot_rare-2.m4a",
+      "license": "own",
+      "source": "tools/generate-hero-voices.py",
+      "note": "Neural speech hero voice line (Kokoro TTS, Apache-2.0 model), generated locally and encoded as AAC"
+    },
+    {
+      "path": "public/audio/voices/hero/warrior-male/loot_rare-3.m4a",
+      "license": "own",
+      "source": "tools/generate-hero-voices.py",
+      "note": "Neural speech hero voice line (Kokoro TTS, Apache-2.0 model), generated locally and encoded as AAC"
+    },
+    {
+      "path": "public/audio/voices/hero/warrior-male/loot_rare-4.m4a",
+      "license": "own",
+      "source": "tools/generate-hero-voices.py",
+      "note": "Neural speech hero voice line (Kokoro TTS, Apache-2.0 model), generated locally and encoded as AAC"
+    },
+    {
+      "path": "public/audio/voices/hero/warrior-male/loot_rare-5.m4a",
+      "license": "own",
+      "source": "tools/generate-hero-voices.py",
+      "note": "Neural speech hero voice line (Kokoro TTS, Apache-2.0 model), generated locally and encoded as AAC"
+    },
+    {
+      "path": "public/audio/voices/hero/warrior-male/loot_rare-6.m4a",
+      "license": "own",
+      "source": "tools/generate-hero-voices.py",
+      "note": "Neural speech hero voice line (Kokoro TTS, Apache-2.0 model), generated locally and encoded as AAC"
+    },
+    {
+      "path": "public/audio/voices/hero/warrior-male/low_hp-0.m4a",
+      "license": "own",
+      "source": "tools/generate-hero-voices.py",
+      "note": "Neural speech hero voice line (Kokoro TTS, Apache-2.0 model), generated locally and encoded as AAC"
+    },
+    {
+      "path": "public/audio/voices/hero/warrior-male/low_hp-1.m4a",
+      "license": "own",
+      "source": "tools/generate-hero-voices.py",
+      "note": "Neural speech hero voice line (Kokoro TTS, Apache-2.0 model), generated locally and encoded as AAC"
+    },
+    {
+      "path": "public/audio/voices/hero/warrior-male/low_hp-2.m4a",
+      "license": "own",
+      "source": "tools/generate-hero-voices.py",
+      "note": "Neural speech hero voice line (Kokoro TTS, Apache-2.0 model), generated locally and encoded as AAC"
+    },
+    {
+      "path": "public/audio/voices/hero/warrior-male/low_hp-3.m4a",
+      "license": "own",
+      "source": "tools/generate-hero-voices.py",
+      "note": "Neural speech hero voice line (Kokoro TTS, Apache-2.0 model), generated locally and encoded as AAC"
+    },
+    {
+      "path": "public/audio/voices/hero/warrior-male/low_hp-4.m4a",
+      "license": "own",
+      "source": "tools/generate-hero-voices.py",
+      "note": "Neural speech hero voice line (Kokoro TTS, Apache-2.0 model), generated locally and encoded as AAC"
+    },
+    {
+      "path": "public/audio/voices/hero/warrior-male/low_hp-5.m4a",
+      "license": "own",
+      "source": "tools/generate-hero-voices.py",
+      "note": "Neural speech hero voice line (Kokoro TTS, Apache-2.0 model), generated locally and encoded as AAC"
+    },
+    {
+      "path": "public/audio/voices/hero/warrior-male/low_hp-6.m4a",
+      "license": "own",
+      "source": "tools/generate-hero-voices.py",
+      "note": "Neural speech hero voice line (Kokoro TTS, Apache-2.0 model), generated locally and encoded as AAC"
+    },
+    {
+      "path": "public/audio/voices/hero/warrior-male/move-0.m4a",
+      "license": "own",
+      "source": "tools/generate-hero-voices.py",
+      "note": "Neural speech hero voice line (Kokoro TTS, Apache-2.0 model), generated locally and encoded as AAC"
+    },
+    {
+      "path": "public/audio/voices/hero/warrior-male/move-1.m4a",
+      "license": "own",
+      "source": "tools/generate-hero-voices.py",
+      "note": "Neural speech hero voice line (Kokoro TTS, Apache-2.0 model), generated locally and encoded as AAC"
+    },
+    {
+      "path": "public/audio/voices/hero/warrior-male/move-2.m4a",
+      "license": "own",
+      "source": "tools/generate-hero-voices.py",
+      "note": "Neural speech hero voice line (Kokoro TTS, Apache-2.0 model), generated locally and encoded as AAC"
+    },
+    {
+      "path": "public/audio/voices/hero/warrior-male/move-3.m4a",
+      "license": "own",
+      "source": "tools/generate-hero-voices.py",
+      "note": "Neural speech hero voice line (Kokoro TTS, Apache-2.0 model), generated locally and encoded as AAC"
+    },
+    {
+      "path": "public/audio/voices/hero/warrior-male/move-4.m4a",
+      "license": "own",
+      "source": "tools/generate-hero-voices.py",
+      "note": "Neural speech hero voice line (Kokoro TTS, Apache-2.0 model), generated locally and encoded as AAC"
+    },
+    {
+      "path": "public/audio/voices/hero/warrior-male/move-5.m4a",
+      "license": "own",
+      "source": "tools/generate-hero-voices.py",
+      "note": "Neural speech hero voice line (Kokoro TTS, Apache-2.0 model), generated locally and encoded as AAC"
+    },
+    {
+      "path": "public/audio/voices/hero/warrior-male/refusal-0.m4a",
+      "license": "own",
+      "source": "tools/generate-hero-voices.py",
+      "note": "Neural speech hero voice line (Kokoro TTS, Apache-2.0 model), generated locally and encoded as AAC"
+    },
+    {
+      "path": "public/audio/voices/hero/warrior-male/refusal-1.m4a",
+      "license": "own",
+      "source": "tools/generate-hero-voices.py",
+      "note": "Neural speech hero voice line (Kokoro TTS, Apache-2.0 model), generated locally and encoded as AAC"
+    },
+    {
+      "path": "public/audio/voices/hero/warrior-male/refusal-2.m4a",
+      "license": "own",
+      "source": "tools/generate-hero-voices.py",
+      "note": "Neural speech hero voice line (Kokoro TTS, Apache-2.0 model), generated locally and encoded as AAC"
+    },
+    {
+      "path": "public/audio/voices/hero/warrior-male/select-0.m4a",
+      "license": "own",
+      "source": "tools/generate-hero-voices.py",
+      "note": "Neural speech hero voice line (Kokoro TTS, Apache-2.0 model), generated locally and encoded as AAC"
+    },
+    {
+      "path": "public/audio/voices/hero/warrior-male/select-1.m4a",
+      "license": "own",
+      "source": "tools/generate-hero-voices.py",
+      "note": "Neural speech hero voice line (Kokoro TTS, Apache-2.0 model), generated locally and encoded as AAC"
+    },
+    {
+      "path": "public/audio/voices/hero/warrior-male/select-2.m4a",
+      "license": "own",
+      "source": "tools/generate-hero-voices.py",
+      "note": "Neural speech hero voice line (Kokoro TTS, Apache-2.0 model), generated locally and encoded as AAC"
+    },
+    {
+      "path": "public/audio/voices/hero/warrior-male/select-3.m4a",
+      "license": "own",
+      "source": "tools/generate-hero-voices.py",
+      "note": "Neural speech hero voice line (Kokoro TTS, Apache-2.0 model), generated locally and encoded as AAC"
+    },
+    {
+      "path": "public/audio/voices/hero/warrior-male/select-4.m4a",
+      "license": "own",
+      "source": "tools/generate-hero-voices.py",
+      "note": "Neural speech hero voice line (Kokoro TTS, Apache-2.0 model), generated locally and encoded as AAC"
+    },
+    {
+      "path": "public/audio/voices/hero/warrior-male/select-5.m4a",
+      "license": "own",
+      "source": "tools/generate-hero-voices.py",
+      "note": "Neural speech hero voice line (Kokoro TTS, Apache-2.0 model), generated locally and encoded as AAC"
+    },
+    {
+      "path": "public/audio/voices/hero/warrior-male/spell_cast-0.m4a",
+      "license": "own",
+      "source": "tools/generate-hero-voices.py",
+      "note": "Neural speech hero voice line (Kokoro TTS, Apache-2.0 model), generated locally and encoded as AAC"
+    },
+    {
+      "path": "public/audio/voices/hero/warrior-male/spell_cast-1.m4a",
+      "license": "own",
+      "source": "tools/generate-hero-voices.py",
+      "note": "Neural speech hero voice line (Kokoro TTS, Apache-2.0 model), generated locally and encoded as AAC"
+    },
+    {
+      "path": "public/audio/voices/hero/warrior-male/spell_cast-2.m4a",
+      "license": "own",
+      "source": "tools/generate-hero-voices.py",
+      "note": "Neural speech hero voice line (Kokoro TTS, Apache-2.0 model), generated locally and encoded as AAC"
+    },
+    {
+      "path": "public/audio/voices/hero/warrior-male/spell_cast-3.m4a",
+      "license": "own",
+      "source": "tools/generate-hero-voices.py",
+      "note": "Neural speech hero voice line (Kokoro TTS, Apache-2.0 model), generated locally and encoded as AAC"
+    },
+    {
+      "path": "public/audio/voices/hero/warrior-male/town_greeting-0.m4a",
+      "license": "own",
+      "source": "tools/generate-hero-voices.py",
+      "note": "Neural speech hero voice line (Kokoro TTS, Apache-2.0 model), generated locally and encoded as AAC"
+    },
+    {
+      "path": "public/audio/voices/hero/warrior-male/town_greeting-1.m4a",
+      "license": "own",
+      "source": "tools/generate-hero-voices.py",
+      "note": "Neural speech hero voice line (Kokoro TTS, Apache-2.0 model), generated locally and encoded as AAC"
+    },
+    {
+      "path": "public/audio/voices/hero/warrior-male/town_greeting-2.m4a",
+      "license": "own",
+      "source": "tools/generate-hero-voices.py",
+      "note": "Neural speech hero voice line (Kokoro TTS, Apache-2.0 model), generated locally and encoded as AAC"
+    },
+    {
+      "path": "public/audio/voices/hero/warrior-male/victory-0.m4a",
+      "license": "own",
+      "source": "tools/generate-hero-voices.py",
+      "note": "Neural speech hero voice line (Kokoro TTS, Apache-2.0 model), generated locally and encoded as AAC"
+    },
+    {
+      "path": "public/audio/voices/hero/warrior-male/victory-1.m4a",
+      "license": "own",
+      "source": "tools/generate-hero-voices.py",
+      "note": "Neural speech hero voice line (Kokoro TTS, Apache-2.0 model), generated locally and encoded as AAC"
+    },
+    {
+      "path": "public/audio/voices/hero/warrior-male/victory-2.m4a",
+      "license": "own",
+      "source": "tools/generate-hero-voices.py",
+      "note": "Neural speech hero voice line (Kokoro TTS, Apache-2.0 model), generated locally and encoded as AAC"
+    },
+    {
+      "path": "public/audio/voices/hero/warrior-male/victory-3.m4a",
+      "license": "own",
+      "source": "tools/generate-hero-voices.py",
+      "note": "Neural speech hero voice line (Kokoro TTS, Apache-2.0 model), generated locally and encoded as AAC"
+    },
+    {
+      "path": "public/itemicons/abdication.png",
+      "license": "own",
+      "source": "tools/gen-item-icons.py",
+      "note": "Item icon generated for this project (image model output, reviewed), see .planning/gemini/ITEM-IMAGES-ALL.md"
+    },
+    {
+      "path": "public/itemicons/glove-l.png",
+      "license": "own",
+      "source": "tools/gen-item-icons.py",
+      "note": "Item icon generated for this project (image model output, reviewed), see .planning/gemini/ITEM-IMAGES-ALL.md"
+    },
+    {
+      "path": "public/itemicons/healer-seras-amputation-saw.png",
+      "license": "own",
+      "source": "tools/gen-item-icons.py",
+      "note": "Item icon generated for this project (image model output, reviewed), see .planning/gemini/ITEM-IMAGES-ALL.md"
+    },
+    {
+      "path": "public/itemicons/inquisitors-ash-siphon.png",
+      "license": "own",
+      "source": "tools/gen-item-icons.py",
+      "note": "Item icon generated for this project (image model output, reviewed), see .planning/gemini/ITEM-IMAGES-ALL.md"
+    },
+    {
+      "path": "public/itemicons/kite.png",
+      "license": "own",
+      "source": "tools/gen-item-icons.py",
+      "note": "Item icon generated for this project (image model output, reviewed), see .planning/gemini/ITEM-IMAGES-ALL.md"
+    },
+    {
+      "path": "public/itemicons/orb.png",
+      "license": "own",
+      "source": "tools/gen-item-icons.py",
+      "note": "Item icon generated for this project (image model output, reviewed), see .planning/gemini/ITEM-IMAGES-ALL.md"
+    },
+    {
+      "path": "public/townart/portrait-archer-f.png",
+      "license": "own",
+      "source": "tools/render-town.py",
+      "note": "Original hero portrait cutout generated for this project"
+    },
+    {
+      "path": "public/townart/portrait-archer-m.png",
+      "license": "own",
+      "source": "tools/render-town.py",
+      "note": "Original hero portrait cutout generated for this project"
+    },
+    {
+      "path": "public/townart/portrait-necromancer-f.png",
+      "license": "own",
+      "source": "tools/render-town.py",
+      "note": "Original hero portrait cutout generated for this project"
+    },
+    {
+      "path": "public/townart/portrait-necromancer-m.png",
+      "license": "own",
+      "source": "tools/render-town.py",
+      "note": "Original hero portrait cutout generated for this project"
     }
   ],
   "townart/portrait-necromancer.png": {
