@@ -160,9 +160,7 @@ test.describe('Act 1 Campaign Flow E2E', () => {
           url: location.href,
         }))
         .catch((e) => ({ evalError: String(e) }));
-      console.log(`WEBKIT-DIAG ${label}: ${JSON.stringify(info)}
-${diagLog.slice(-25).join('
-')}`);
+      console.log(`WEBKIT-DIAG ${label}: ${JSON.stringify(info)} ${diagLog.slice(-25).join(' | ')}`);
     };
 
     await page.goto('/thornvael/');
