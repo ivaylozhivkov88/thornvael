@@ -1,0 +1,23 @@
+[
+  {
+    "id": "town-ironcamp",
+    "name": "Highcrest Citadel",
+    "zone": "z4-obsidian-caldera",
+    "shop": {
+      "name": "Elda's Obsidian Forge",
+      "keeper": "npc-elda-weaponsmith",
+      "tiers": [4, 5]
+    },
+    "tavern": {
+      "name": "The Ash-Cup Mess",
+      "keeper": "npc-vance-marshal",
+      "mercs": ["Caldera Halberdier", "Siege Bombardier"]
+    },
+    "npcs": [
+      "npc-vance-marshal",
+      "npc-veyra-marshal",
+      "npc-elda-weaponsmith",
+      "npc-orla-archivist"
+    ]
+  }
+]

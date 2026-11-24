@@ -68,6 +68,7 @@ export const BUILTIN_MISSION_LOADERS: Readonly<Record<string, MapModuleLoader>> 
   market: () => import('./missions/thornwick-market.map.json'),
   'redmarsh-outpost': () => import('./missions/redmarsh-outpost.map.json'),
   'oakhaven-bastion': () => import('./missions/oakhaven-bastion.map.json'),
+  'highcrest-citadel': () => import('./missions/highcrest-citadel.map.json'),
   fen: () => import('./missions/whispers-in-the-fen.map.json'),
   ravenwatch: () => import('./missions/nightfall-at-ravenwatch.map.json'),
   sanctum: () => import('./missions/the-sunken-sanctum.map.json'),

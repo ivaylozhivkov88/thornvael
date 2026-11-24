@@ -18,5 +18,15 @@
   - `npx vitest run --maxWorkers=1 tests/oakhaven-town.test.ts tests/redmarsh-town.test.ts tests/flow.test.ts`: `3 passed (3)`, `9 passed (9)`.
   - Chrome E2E (`?mission=oakhaven-bastion&campaign=town-oakhaven`): `{"ok":true,"hasGame":true,"errors":[]}`, screenshot saved to `.planning/evidence/towns/oakhaven.png` (untracked).
 
+## Completed: City 3 — Highcrest Citadel (`town-ironcamp`)
+- **Act 4 Data & Builder/Map:** Created `src/data/act4/towns.json` and `src/data/act4/zones.json`. Created `tools/build-highcrest.mjs` → `src/missions/highcrest-citadel.map.json` (56x44 granite citadel with walls and ash/crater ridges, 9 buildings, 87 props, 14 units, N-Gate `(28, 4)`, waypoint `wp-ironcamp`, `biome: 'caldera'`, `zone: 'obsidian-caldera'`, `light: 'dusk'`, `weather: 'ash'`, `music: 'music_town_ironcamp'`).
+- **Audio Note:** `amb_town_ironcamp` is missing from the audio assets, so Highcrest uses the nearest town ambience (`amb_town_oakhaven`).
+- **Dialogues & Campaign:** Added Act 4 entry dialogues for `npc-vance-marshal`, `npc-veyra-marshal`, `npc-elda-weaponsmith`, `npc-orla-archivist` in `public/data/content/npc-dialogues.json`. Updated `public/data/campaign.json` (`town-ironcamp.map = "highcrest-citadel"`), registered in `src/mission-runtime.ts` and `src/mission.ts`.
+- **Verification:**
+  - `npm run typecheck`: 0 errors.
+  - `npm run validate`: `validate-all: OK (112 quests, 219 dialogues, all maps/wiki/act2/act3 valid)`.
+  - `npx vitest run --maxWorkers=1 tests/highcrest-town.test.ts tests/oakhaven-town.test.ts tests/redmarsh-town.test.ts tests/flow.test.ts`: `4 passed (4)`, `11 passed (11)`.
+  - Chrome E2E (`?mission=highcrest-citadel&campaign=town-ironcamp`): hit `WebGPU not supported` / `net::ERR_INSUFFICIENT_RESOURCES` on host Chrome during this run (unverified in browser; screenshot saved to `.planning/evidence/towns/highcrest.png`).
+
 ## Remaining
-- City 3 — Highcrest Citadel (`town-ironcamp`): pending
+- None (Redmarsh, Oakhaven, Highcrest all built, wired, and Vitest-verified)

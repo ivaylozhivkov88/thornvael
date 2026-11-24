@@ -3890,5 +3890,53 @@
         "next": "end"
       }
     ]
+  },
+  {
+    "id": "dlg-vance-ironcamp-entry",
+    "npc": "npc-vance-marshal",
+    "node": "greeting",
+    "text": "Marshal Vance taps a scarred iron gauntlet against the obsidian relief map. 'Highcrest is the last stone shelf before the caldera rim. Every banner we raise here counts.'",
+    "choices": [
+      {
+        "label": "Farewell.",
+        "next": "end"
+      }
+    ]
+  },
+  {
+    "id": "dlg-veyra-ironcamp-entry",
+    "npc": "npc-veyra-marshal",
+    "node": "greeting",
+    "text": "Harbor Marshal Veyra shakes salt-stained ash from her cloak. 'The evacuation caravels cleared the western shoals. Now we break the siege at its source.'",
+    "choices": [
+      {
+        "label": "Farewell.",
+        "next": "end"
+      }
+    ]
+  },
+  {
+    "id": "dlg-elda-ironcamp-entry",
+    "npc": "npc-elda-weaponsmith",
+    "node": "greeting",
+    "text": "Weaponsmith Elda lifts a glowing blade from the quench-trough. 'Volcanic grit ruins soft iron in a single march. Bring me cinder-slag and I'll edge your steel properly.'",
+    "choices": [
+      {
+        "label": "Farewell.",
+        "next": "end"
+      }
+    ]
+  },
+  {
+    "id": "dlg-orla-ironcamp-entry",
+    "npc": "npc-orla-archivist",
+    "node": "greeting",
+    "text": "Archivist Orla presses a brass paperweight onto a scorched survey scroll. 'Three First-Empire seals anchor the caldera floor. Break them in order, or the ridge collapses.'",
+    "choices": [
+      {
+        "label": "Farewell.",
+        "next": "end"
+      }
+    ]
   }
 ]

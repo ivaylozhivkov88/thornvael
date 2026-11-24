@@ -1,0 +1,12 @@
+[
+  {
+    "id": "z4-obsidian-caldera",
+    "name": "Highcrest Citadel & Obsidian Caldera",
+    "act": 4,
+    "minLevel": 34,
+    "maxLevel": 40,
+    "biome": "caldera",
+    "town": "town-ironcamp",
+    "boss": "malakar"
+  }
+]

@@ -27,6 +27,7 @@ import inward from './missions/inward-march.map.json';
 import market from './missions/thornwick-market.map.json';
 import redmarshOutpost from './missions/redmarsh-outpost.map.json';
 import oakhavenBastion from './missions/oakhaven-bastion.map.json';
+import highcrestCitadel from './missions/highcrest-citadel.map.json';
 import muddlefen from './missions/muddlefen.map.json';
 import opening from './missions/kids-paradise-opening.map.json';
 import ravenwatch from './missions/nightfall-at-ravenwatch.map.json';
@@ -107,6 +108,7 @@ export const BUILT_IN: Record<string, unknown> = {
   fen,
   'redmarsh-outpost': redmarshOutpost,
   'oakhaven-bastion': oakhavenBastion,
+  'highcrest-citadel': highcrestCitadel,
   ravenwatch,
   sanctum,
   glade,
