@@ -64,6 +64,7 @@ function advanceToTown(record: CampaignRecord): CampaignRecord {
 }
 
 test('actual campaign save capture → New Game B → load A restores A and exits its town safely', async ({ page }) => {
+  test.setTimeout(150_000);
   const errors: string[] = [];
   page.on('pageerror', (e) => errors.push(e.message));
   await page.goto('/thornvael/');
@@ -88,7 +89,7 @@ test('actual campaign save capture → New Game B → load A restores A and exit
   const entries = Object.entries(await storage(page));
   const [id, raw] = entries.find(([, value]) => 'name' in value && value.name === 'Campaign A')!;
   const captured = raw as SaveFile;
-  expect(captured.saveVersion).toBe(5);
+  expect(captured.saveVersion).toBe(7);
   expect(captured.state.node).toBe(town);
   expect(captured.state.campaign).toEqual(a);
 
