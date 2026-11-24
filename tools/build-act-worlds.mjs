@@ -1,4 +1,4 @@
-// Reproducible stitched-world generator for Acts II, III, and IV (Diablo 2 style).
+// Reproducible stitched-world generator for Acts II, III, and IV.
 // Mirrors tools/build-act1-world.mjs: each act is one continuous world map with
 // town + mission zones linked by roads, dormant enemy groups per zone, and waypoints.
 // Progression (+10% linear per act):
