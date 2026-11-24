@@ -140,9 +140,6 @@ test.describe('Act 1 Campaign Flow E2E', () => {
     page,
     browserName,
   }) => {
-    // The stitched Act I world never finishes loading on the Linux CI WebKit build (software GL, 6 min timeout);
-    // it passes in WebKit locally (35 s) and in CI Chromium plus the deploy e2e suite.
-    test.skip(browserName === 'webkit' && !!process.env.CI, 'Act I stitched world hangs on CI WebKit only');
     const errors: string[] = [];
     page.on('pageerror', (e) => errors.push(e.message));
     page.on('console', (msg) => {
