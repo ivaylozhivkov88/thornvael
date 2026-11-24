@@ -1,4 +1,5 @@
 import { registerWorker } from './updategate';
+import { resolveRegionAudio, computeAudioCrossfade } from './region-audio';
 import { LoadingScreen } from './loadingscreen';
 import { createInstallController, isInstallPrompt } from './pwa-install';
 import { attachBlurMuteListeners, audioState, blip, cancelShopEntry, isAudioRunning, isMusicPlaying, play, playBossMusic, playDialogueVoice, playEndingMusic, playMercBark, playMonsterDeathVoice, playMonsterHitVoice, playNpcBark, playSurfaceFootstep, playPickupRustle, playShopEntry, playNotEnoughMana, playInventoryFull, playLowHpHeartbeat, playUiError, resumeAudio, setAmbience, setDialogueDucking, setMusic, setMusicAct, setMusicRegion, setRegionMusicIndex, setSpecialMusic, setAmbienceAct, setSfx, setSkirmishMusic, stopDialogueVoice, suspendAudio, unlock, updateAdaptiveCombat, type MusicMode } from './audio';
@@ -3821,13 +3822,21 @@ function advanceStep(): void {
 
 let lastHeartbeat = 0;
 let lastRegionCheck = 0;
+let lastRegionMusicTrack = '';
 function frame(): void {
   const now = performance.now();
   if (loadedMission?.doc.regions?.length && heroPresent && now - lastRegionCheck > 500) {
     lastRegionCheck = now;
     const regs = loadedMission.doc.regions;
     const reg = regionAtTile(regs, Math.floor(sim.x[0] / FP), Math.floor(sim.y[0] / FP));
-    if (reg) setRegionMusicIndex(regs.indexOf(reg));
+    if (reg) {
+      setRegionMusicIndex(regs.indexOf(reg));
+      const targetAudio = resolveRegionAudio(reg);
+      const xfade = computeAudioCrossfade(lastRegionMusicTrack || targetAudio.music, targetAudio.music, 1);
+      if (xfade.switched || !lastRegionMusicTrack) {
+        lastRegionMusicTrack = targetAudio.music;
+      }
+    }
   }
   const dt = Math.min(250, now - lastNow);
   lastNow = now;
