@@ -45,3 +45,15 @@ describe('act1 stitched world', () => {
     expect(miss).toEqual([]);
   });
 });
+
+describe('act1 world victory gate', () => {
+  it('does not win or lose on entry (act1-cleared waits for enter-m11)', async () => {
+    const { createMission } = await import('../src/mission');
+    const { loadDoc } = await import('../src/mapdoc');
+    const { createHero } = await import('../src/sim/hero');
+    const game = createMission(loadDoc(raw), 1);
+    createHero(game.sim, 0, 0, false, 1);
+    for (let t = 0; t < 40; t++) game.sim.step();
+    expect(game.sim.script!.st.status).toBe(0);
+  });
+});

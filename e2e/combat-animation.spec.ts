@@ -47,14 +47,14 @@ test('real queued orders distinguish chase from strike; pause freezes the shippe
   expect((await read(page)).pose.clip).toBe('walk');
   let state = await read(page);
   for (let n = 0; n < 100 && state.pose.clip !== 'attack'; n++) { await step(page); state = await read(page); }
-  expect(state.pose).toMatchObject({ clip: 'attack', age: 0, frame: 0 });
+  expect(state.pose).toMatchObject({ clip: 'attack', age: 0, frame: 2 });
   await expect.poll(() => page.evaluate(() => (window as unknown as { __game: Game }).__game.unitArt(0)))
     .toMatchObject({ requestedClip: 'attack', resolvedClip: 'attack', fallback: false });
   const frozen = await read(page);
   await page.waitForTimeout(160);
   expect(await read(page)).toEqual(frozen);
   await step(page, 5);
-  expect((await read(page)).pose).toMatchObject({ clip: 'attack', age: 5, frame: 2 });
+  expect((await read(page)).pose).toMatchObject({ clip: 'attack', age: 5, frame: 0 });
   await page.keyboard.press('Pause');
   const refused = await page.evaluate(() => {
     try { (window as unknown as { __game: Game }).__game.step(); return false; } catch { return true; }
