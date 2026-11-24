@@ -1164,7 +1164,7 @@ export class Renderer {
   /** Screen position of unit i using the last drawn interpolated position, or null when off-screen. */
   unitScreen(i: number): [number, number] | null {
     const s = this.sprites[i];
-    if (!s.visible) return null;
+    if (!s || !s.visible) return null;
     const x = s.x * this.zoom - this.camX;
     const y = (s.y - 6) * this.zoom - this.camY;
     return x < -40 || y < -40 || x > this.viewW + 40 || y > this.viewH + 40 ? null : [x, y];

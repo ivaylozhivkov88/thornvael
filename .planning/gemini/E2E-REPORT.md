@@ -1,9 +1,13 @@
 # E2E-REPORT (gemini/fix-all)
 
 ## Failures / Broken Items
-- `tools/e2e/run-e2e.mjs` timed out / hung during browser execution (`networkidle` timed out at 30000ms on `?quick=1`; subsequent `domcontentloaded` run was stopped by user request before completion).
+- **Fixed:** `TypeError: Cannot read properties of undefined (reading 'visible')` at `Renderer.unitScreen` ([src/render.ts](file:///d:/ROM%202%20clone/game/src/render.ts#L1166-L1167)) when `this.sprites[i]` was undefined before sprite init. Fixed with `if (!s || !s.visible) return null;`.
+- **Environment:** `chrome-headless-shell.exe` with SwiftShader crashed with Windows `Unknown Hard Error`; switched `tools/e2e/run-e2e.mjs` to `channel: 'chrome', headless: false` with real GPU WebGL.
 
-## Scenario Results
-- **E1 (Load & New Game):** Started; `01-main-menu.png` / `02-after-new-game.png` / `03-after-10s.png` capture logic written in `tools/e2e/run-e2e.mjs`.
-- **E2–E10:** Stopped by user request before full completion.
-- **Note:** Prior W6 Playwright verification (`http://localhost:5199/thornvael/` at `1280x720` and `390x844`) completed with `CONSOLE_ERRORS: []` and screenshots in `.planning/master/wire/`.
+## Scenario Results (Chrome, `1280x720` & `390x844`)
+- **E1 (Load & New Game):** `ok: true`, `errors: []`, `failed404: []`
+- **E2 (Thornwick):** `ok: true`, `canvas: { hasCanvas: true, nonBlack: true }`, `errors: []`, `brokenImgs: []`, `failed404: []`
+- **E3–E6 (`?quick=1`, `window.__game`):** `ok: true`, `canvas: { hasCanvas: true, nonBlack: true }`, `hasGame: true`, `errors: []`
+- **E7 (Offline on `vite preview`):** `ok: true`, `swReady: true`, `title: "Thornvael"` (after `npm run build`, 755 precached entries)
+- **E8 (Mobile `390x844` touch):** `ok: true`, `overflowX: false`, `errors: []`
+- **E10 (Item icons 404 check):** `ok: true`, `failed404: []`
