@@ -2746,6 +2746,222 @@
       "x": 57,
       "y": 59,
       "frame": "rocks/crystal"
+    },
+    {
+      "kind": 0,
+      "x": 5,
+      "y": 4,
+      "frame": "camp/banner"
+    },
+    {
+      "kind": 0,
+      "x": 13,
+      "y": 8,
+      "frame": "rocks/spire"
+    },
+    {
+      "kind": 0,
+      "x": 24,
+      "y": 4,
+      "frame": "rocks/spire"
+    },
+    {
+      "kind": 0,
+      "x": 37,
+      "y": 9,
+      "frame": "camp/banner"
+    },
+    {
+      "kind": 0,
+      "x": 43,
+      "y": 3,
+      "frame": "rocks/crystal"
+    },
+    {
+      "kind": 0,
+      "x": 55,
+      "y": 9,
+      "frame": "rocks/spire"
+    },
+    {
+      "kind": 0,
+      "x": 4,
+      "y": 19,
+      "frame": "highland/standing-stone"
+    },
+    {
+      "kind": 0,
+      "x": 18,
+      "y": 14,
+      "frame": "rocks/crystal"
+    },
+    {
+      "kind": 0,
+      "x": 26,
+      "y": 13,
+      "frame": "highland/standing-stone"
+    },
+    {
+      "kind": 0,
+      "x": 40,
+      "y": 17,
+      "frame": "rocks/spire"
+    },
+    {
+      "kind": 0,
+      "x": 48,
+      "y": 17,
+      "frame": "rocks/crystal"
+    },
+    {
+      "kind": 0,
+      "x": 54,
+      "y": 14,
+      "frame": "highland/pine-a"
+    },
+    {
+      "kind": 0,
+      "x": 4,
+      "y": 25,
+      "frame": "rocks/crystal"
+    },
+    {
+      "kind": 0,
+      "x": 18,
+      "y": 26,
+      "frame": "rocks/crystal"
+    },
+    {
+      "kind": 0,
+      "x": 27,
+      "y": 23,
+      "frame": "rocks/spire"
+    },
+    {
+      "kind": 0,
+      "x": 35,
+      "y": 25,
+      "frame": "rocks/spire"
+    },
+    {
+      "kind": 0,
+      "x": 43,
+      "y": 29,
+      "frame": "rocks/spire"
+    },
+    {
+      "kind": 0,
+      "x": 59,
+      "y": 28,
+      "frame": "highland/standing-stone"
+    },
+    {
+      "kind": 0,
+      "x": 4,
+      "y": 34,
+      "frame": "camp/banner"
+    },
+    {
+      "kind": 0,
+      "x": 20,
+      "y": 33,
+      "frame": "rocks/crystal"
+    },
+    {
+      "kind": 0,
+      "x": 24,
+      "y": 37,
+      "frame": "highland/standing-stone"
+    },
+    {
+      "kind": 0,
+      "x": 40,
+      "y": 35,
+      "frame": "highland/standing-stone"
+    },
+    {
+      "kind": 0,
+      "x": 44,
+      "y": 33,
+      "frame": "camp/banner"
+    },
+    {
+      "kind": 0,
+      "x": 58,
+      "y": 40,
+      "frame": "highland/pine-a"
+    },
+    {
+      "kind": 0,
+      "x": 3,
+      "y": 44,
+      "frame": "camp/banner"
+    },
+    {
+      "kind": 0,
+      "x": 20,
+      "y": 48,
+      "frame": "highland/pine-a"
+    },
+    {
+      "kind": 0,
+      "x": 26,
+      "y": 44,
+      "frame": "camp/banner"
+    },
+    {
+      "kind": 0,
+      "x": 34,
+      "y": 46,
+      "frame": "highland/pine-a"
+    },
+    {
+      "kind": 0,
+      "x": 46,
+      "y": 49,
+      "frame": "rocks/crystal"
+    },
+    {
+      "kind": 0,
+      "x": 60,
+      "y": 48,
+      "frame": "camp/banner"
+    },
+    {
+      "kind": 0,
+      "x": 9,
+      "y": 58,
+      "frame": "camp/banner"
+    },
+    {
+      "kind": 0,
+      "x": 13,
+      "y": 60,
+      "frame": "rocks/crystal"
+    },
+    {
+      "kind": 0,
+      "x": 23,
+      "y": 54,
+      "frame": "highland/pine-a"
+    },
+    {
+      "kind": 0,
+      "x": 37,
+      "y": 55,
+      "frame": "rocks/spire"
+    },
+    {
+      "kind": 0,
+      "x": 44,
+      "y": 60,
+      "frame": "highland/pine-a"
+    },
+    {
+      "kind": 0,
+      "x": 53,
+      "y": 60,
+      "frame": "highland/pine-a"
     }
   ],
   "units": [
