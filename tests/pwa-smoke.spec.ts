@@ -138,7 +138,6 @@ test.describe('Act 1 Campaign Flow E2E', () => {
 
   test('Main Menu -> Hero Creation -> Act 1 Mission 1 -> Victory -> Thornwick Town -> World Map -> Mission 2', async ({
     page,
-    browserName,
   }) => {
     const errors: string[] = [];
     page.on('pageerror', (e) => errors.push(e.message));
