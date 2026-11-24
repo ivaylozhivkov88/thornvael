@@ -3705,6 +3705,8 @@ function advanceStep(): void {
           if (lootId >= 0) {
             orderPickupLoot(lootId);
             playPickupRustle();
+            const itemName = (d2Action.interactable as { name?: string }).name;
+            if (itemName) steppedQuests.onCollectItem(itemName, 1);
           }
         } else if (d2Action.interactable.type === 'chest' && d2Action.interactable.obj) {
           const res = interactAdventureObject(sim, d2Action.interactable.obj);
