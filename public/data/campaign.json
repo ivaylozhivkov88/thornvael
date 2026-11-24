@@ -236,7 +236,7 @@
   {
    "id": "town-redmarsh",
    "kind": "town",
-   "map": "market",
+   "map": "redmarsh-outpost",
    "title": "Redmarsh Outpost",
    "pos": [
     15,

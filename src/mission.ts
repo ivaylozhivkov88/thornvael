@@ -25,6 +25,7 @@ import fen from './missions/whispers-in-the-fen.map.json';
 import glade from './missions/bracken-glade.map.json';
 import inward from './missions/inward-march.map.json';
 import market from './missions/thornwick-market.map.json';
+import redmarshOutpost from './missions/redmarsh-outpost.map.json';
 import muddlefen from './missions/muddlefen.map.json';
 import opening from './missions/kids-paradise-opening.map.json';
 import ravenwatch from './missions/nightfall-at-ravenwatch.map.json';
@@ -103,6 +104,7 @@ export const BUILT_IN: Record<string, unknown> = {
   ford: blood,
   market,
   fen,
+  'redmarsh-outpost': redmarshOutpost,
   ravenwatch,
   sanctum,
   glade,

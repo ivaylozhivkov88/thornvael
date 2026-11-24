@@ -66,6 +66,7 @@ const loadCinder: MapModuleLoader = () => import('./missions/cinder-throne.map.j
 export const BUILTIN_MISSION_LOADERS: Readonly<Record<string, MapModuleLoader>> = {
   ford: () => import('./missions/blood-at-the-ford.map.json'),
   market: () => import('./missions/thornwick-market.map.json'),
+  'redmarsh-outpost': () => import('./missions/redmarsh-outpost.map.json'),
   fen: () => import('./missions/whispers-in-the-fen.map.json'),
   ravenwatch: () => import('./missions/nightfall-at-ravenwatch.map.json'),
   sanctum: () => import('./missions/the-sunken-sanctum.map.json'),
