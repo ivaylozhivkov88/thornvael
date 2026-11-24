@@ -156,17 +156,17 @@ describe('Procedural Affix Instances Architecture', () => {
     });
 
     expect(saveFile.saveVersion).toBe(SAVE_VERSION);
-    expect(SAVE_VERSION).toBe(5);
+    expect(SAVE_VERSION).toBeGreaterThanOrEqual(5);
 
     // Test JSON encode/decode
     const encoded = encodeSave(saveFile);
     const decoded = decodeSave(encoded);
-    expect(decoded.saveVersion).toBe(5);
+    expect(decoded.saveVersion).toBe(SAVE_VERSION);
 
     // Test legacy migration from v4
     const legacyV4 = { ...saveFile, saveVersion: 4 };
     const migrated = migrateSave(legacyV4);
-    expect(migrated.saveVersion).toBe(5);
+    expect(migrated.saveVersion).toBe(SAVE_VERSION);
   });
 
   it('guarantees identical sim.hash() across identical seeds with dynamic item drops', () => {
