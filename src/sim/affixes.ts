@@ -786,5 +786,13 @@ export const JSON_UNIQUE_ARTIFACTS: readonly ItemDef[] = [
   ...(uniques3 as readonly RawJsonUniqueEntry[]),
 ].map(buildUniqueFromJson);
 
+const JSON_UNIQUE_ENTRIES = [uniques1, uniques2, uniques3].flat() as readonly (RawJsonUniqueEntry & { id: string })[];
+
+/** A JSON unique by its content id (`uniq-...`), as used by quest rewards. */
+export function jsonUnique(id: string): { def: ItemDef; base: string } | undefined {
+  const i = JSON_UNIQUE_ENTRIES.findIndex((u) => u.id === id);
+  return i < 0 ? undefined : { def: JSON_UNIQUE_ARTIFACTS[i], base: JSON_UNIQUE_ENTRIES[i].base };
+}
+
 /** Unified pool of all 180 Unique items (48 built-in + 132 JSON uniques). */
 export const ALL_UNIQUE_ARTIFACTS: readonly ItemDef[] = [...UNIQUE_ARTIFACTS, ...JSON_UNIQUE_ARTIFACTS];

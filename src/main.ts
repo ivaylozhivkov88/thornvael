@@ -40,6 +40,7 @@ import { evaluateAutoCast, computeRegroupFormation, performLootSweep, stepAutoNa
 import { DAY_TICKS, clockText } from './sim/daynight';
 import { HeroUi, tabStrip } from './heroui';
 import { staminaMax } from './sim/mechanics';
+import { jsonUnique } from './sim/affixes';
 import { SKILL_MAX, SKILL_NAMES, WHY_TEXT, createHero, heroKnowsSpell, takeItem, type HeroSkillId } from './sim/hero';
 import { Cls, getItemDef, itemId, itemText, Ik, Slot } from './sim/items';
 import {
@@ -2405,8 +2406,11 @@ function showQuestTalk(npcId: string, name: string, talk: TalkOutcome): void {
     gold += r.gold ?? 0;
     xp += r.xp ?? 0;
   }
-  if (gold > 0 || xp > 0) queue({ type: 'reward', gold, xp });
-  const paid = gold > 0 || xp > 0 ? `\n\nReward: ${gold} gold, ${xp} XP` : '';
+  const items = talk.rewards.flatMap((r) => (r.item && jsonUnique(r.item) ? [r.item] : []));
+  const due = gold > 0 || xp > 0 || items.length > 0;
+  if (due) queue({ type: 'reward', gold, xp, items });
+  const names = items.map((id) => `, ${jsonUnique(id)!.def.name}`).join('');
+  const paid = due ? `\n\nReward: ${gold} gold, ${xp} XP${names}` : '';
   openPanel(name, `${talk.title}\n\n${talk.text}${paid}`);
   (talk.options ?? []).forEach((label, i) => {
     const btn = document.createElement('button');
