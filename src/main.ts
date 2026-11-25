@@ -61,6 +61,7 @@ import { KNOWN_HI, SPELLS, Tk, maskHas } from './sim/spelldata';
 import { validTarget } from './sim/spells';
 import { FP, Sim, TICKS_PER_SECOND, type Command, type OrderName } from './sim/sim';
 import { regionAtTile } from './atmosphere';
+import { zoneAnnouncer, type ZoneArrival } from './zonebanner';
 import { S } from './strings';
 import { LOW_HP_TIP, Tips, getDefeatFlavor, hydrateCuratedTips } from './tips';
 import { getPlaquesByMap, loadLocationPlaques, type CampaignMapId, type LocationPlaqueEntry } from './data/text/index';
@@ -3920,6 +3921,27 @@ function advanceStep(): void {
 
 let lastHeartbeat = 0;
 let lastRegionCheck = 0;
+const announceZone = zoneAnnouncer(loadedMission?.doc.zones ?? [], loadedMission?.doc.text ?? {});
+let lastZoneCheck = 0;
+let zoneBannerTimer = 0;
+function showZoneBanner({ name, lore }: ZoneArrival): void {
+  let box = document.getElementById('zone-banner');
+  if (!box) {
+    box = document.createElement('div');
+    box.id = 'zone-banner';
+    box.setAttribute('role', 'status');
+    document.body.append(box);
+  }
+  const title = document.createElement('h2');
+  title.textContent = name;
+  const line = document.createElement('p');
+  line.textContent = lore ?? '';
+  line.hidden = !lore;
+  box.replaceChildren(title, line);
+  box.hidden = false;
+  clearTimeout(zoneBannerTimer);
+  zoneBannerTimer = window.setTimeout(() => (box.hidden = true), lore ? 8000 : 3000);
+}
 let lastRegionMusicTrack = '';
 void fetch(`${import.meta.env.BASE_URL}data/content/npc-dialogues.json`)
   .then((r) => (r.ok ? r.json() : []))
@@ -3994,6 +4016,11 @@ function frame(): void {
         lastRegionMusicTrack = targetAudio.music;
       }
     }
+  }
+  if (heroPresent && alive(0) && now - lastZoneCheck > 500 && !missionUi?.isDialogueOpen() && !townUi.open) {
+    lastZoneCheck = now;
+    const arrival = announceZone(Math.floor(sim.x[0] / FP), Math.floor(sim.y[0] / FP));
+    if (arrival) showZoneBanner(arrival);
   }
   const dt = Math.min(250, now - lastNow);
   lastNow = now;
