@@ -113,6 +113,8 @@ export interface MapDoc {
   waypoints?: WaypointDef[];
   /** Seamless boundary exits / gates connecting to adjacent zones. */
   exits?: ZoneExitDef[];
+  /** Stitched act maps: the areas in campaign order; `group` is the unit group living there (0 = town). */
+  zones?: { id: string; name: string; group: number; x: number; y: number; w: number; h: number; doors?: { to: string; x: number; y: number }[] }[];
   /** HoMM III style adventure objects (watermill, magic well, creature bank). */
   adventureObjects?: AdventureObjectDef[];
 }

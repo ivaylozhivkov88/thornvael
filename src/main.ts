@@ -1,3 +1,4 @@
+import { loadDoc } from './mapdoc';
 import { registerWorker } from './updategate';
 import { resolveRegionAudio, computeAudioCrossfade } from './region-audio';
 import { SteppedQuestAdapter, type TalkOutcome } from './sidequests-adapter';
@@ -15,6 +16,7 @@ import { GestureRecognizer, pickUnit, reticle, unitsInBox, type Intent } from '.
 import { TILE, generateMap, ObjectKind, PropKind, type MapObject } from './map';
 import type { LoadedMission } from './mapdoc';
 import { createMission, loadMissionByName, type MissionGame } from './mission-runtime';
+import { scatterFoes } from './scatter';
 import { actOf, nodeOf, townHubForAct, townNodeForAct, townSeed, type Campaign } from './campaign';
 import { loadCampaign, readRecord, writeRecord } from './campaignstore';
 import { applyCarryover, extractCarryover, waivePurse } from './carryover';
@@ -244,6 +246,11 @@ if (crowd || stress) {
   if (crowd) setupCrowd(sim, 300);
   else setupSquads(sim);
 } else if (loadedMission) {
+  // A fresh visit scatters the foes anew; a resumed save already carries its own map.
+  if (!resumed && loadedMission.doc.zones?.length) {
+    const seed = crec?.progress.sessionSeed ?? (Number.parseInt(params.get('session') ?? '', 10) || 1234567);
+    loadedMission = loadDoc(scatterFoes(loadedMission.doc, seed, crec?.progress.difficulty ?? 1));
+  }
   const g = resumed?.game ?? createMission(loadedMission, missionSeed, {
     sessionSeed: crec?.progress.sessionSeed ?? (params.has('session') ? Number.parseInt(params.get('session')!, 10) : undefined),
     nodeId: campaignId ?? undefined,
@@ -333,6 +340,9 @@ function updateActiveSkillUI(): void {
     const meta = SKILL_ICONS[activeRmbSkill];
     if (rmbIcon) rmbIcon.textContent = meta.icon;
     if (rmbHotkey) rmbHotkey.textContent = `${meta.name} (RMB)`;
+  } else if (activeRmbSpell !== null) {
+    if (rmbIcon) rmbIcon.textContent = '✨';
+    if (rmbHotkey) rmbHotkey.textContent = `${SPELLS[activeRmbSpell].name} (RMB)`;
   }
 }
 
@@ -342,6 +352,7 @@ function triggerHeroSkill(idx: number): void {
   if (idx < 0 || idx >= skills.length) return;
   const skill = skills[idx];
   activeRmbSkill = skill;
+  activeRmbSpell = null;
   const [wx, wy] = renderer.toTile(lastPointerPos[0], lastPointerPos[1]);
   const targetFoe = pickUnit(sim.count, posEnemy, lastPointerPos[0], lastPointerPos[1], PICK);
   queue({ type: 'hero', op: 'skill', skill, x: wx, y: wy, target: targetFoe >= 0 ? targetFoe : undefined });
@@ -521,7 +532,12 @@ function execute(kind: ArmKind, sx: number, sy: number): boolean {
   return true;
 }
 
-const casters = (sid: number): number[] => selectedIds().filter((i) => maskHas(sim.cb.known[i], sim.cb.knownHi, i * KNOWN_HI, sid));
+const casters = (sid: number): number[] => {
+  const who = selectedIds().filter((i) => maskHas(sim.cb.known[i], sim.cb.knownHi, i * KNOWN_HI, sid));
+  // WASD mode drives the hero without selecting him, so the right button casts as him.
+  if (who.length === 0 && controlMode === 'wasd' && sim.hero && alive(sim.hero.id) && heroKnows(sid)) return [sim.hero.id];
+  return who;
+};
 
 /** The unit (or body) a spell would take as its target at a screen point, or -1. */
 function spellTargetAt(sid: number, sx: number, sy: number, snap: number): number {
@@ -555,7 +571,10 @@ function castAt(sid: number, sx: number, sy: number, snap: number): boolean {
   const tk = SPELLS[sid].tk;
   const [x, y] = renderer.toTile(sx, sy);
   const target = spellTargetAt(sid, sx, sy, snap);
-  if (tk !== Tk.Ground && tk !== Tk.Self && target < 0) return false;
+  if (tk !== Tk.Ground && tk !== Tk.Self && target < 0) {
+    toast(`${SPELLS[sid].name}: point at a target`);
+    return false;
+  }
   queue({ type: 'order', order: 'cast', ids: who, spell: sid, target: target >= 0 ? target : undefined, x, y });
   notePing(sx, sy);
   return true;
@@ -1031,6 +1050,7 @@ function updateGothicHud(): void {
     if (lbl) lbl.textContent = on ? `Run ${pct}%` : pct < 100 ? `Walk ${pct}%` : 'Walk';
   }
 
+  defaultRmb();
   const pinBtn = document.getElementById('btn-pinnacle');
   if (pinBtn) pinBtn.hidden = sim.hero?.pinnacle !== true;
 
@@ -1045,6 +1065,16 @@ function toggleRun(): void {
   queue({ type: 'hero', op: 'run', on: sim.hero.running !== true });
 }
 
+/** A caster starts with a known spell on the right button; a fighter with a skill. The hero may appear after the HUD is built. */
+function defaultRmb(): void {
+  if (!sim.hero || activeRmbSkill || activeRmbSpell !== null) return;
+  const spell = DEFAULT_SLOTS.find((sid) => heroKnows(sid));
+  const caster = sim.hero.cls === Cls.Mage || sim.hero.cls === 3;
+  if (caster && spell !== undefined) activeRmbSpell = spell;
+  else activeRmbSkill = getHeroSkills()[0] ?? null;
+  updateActiveSkillUI();
+}
+
 function initGothicHud(): void {
   for (let i = 1; i <= 4; i++) {
     const slot = document.getElementById(`belt-slot-${i}`);
@@ -1053,11 +1083,6 @@ function initGothicHud(): void {
 
   const decal = document.getElementById('hero-decal');
   if (decal) decal.onclick = () => { heroUi.toggle(); blip(); };
-
-  if (sim.hero && !activeRmbSkill) {
-    activeRmbSkill = getHeroSkills()[0] ?? null;
-    updateActiveSkillUI();
-  }
 
   const slotRmb = document.getElementById('slot-rmb');
   if (slotRmb) {
@@ -1070,6 +1095,7 @@ function initGothicHud(): void {
       const curIdx = activeRmbSkill ? skills.indexOf(activeRmbSkill) : -1;
       const nextIdx = (curIdx + 1) % skills.length;
       activeRmbSkill = skills[nextIdx];
+      activeRmbSpell = null;
       updateActiveSkillUI();
       toast(`RMB Skill: ${SKILL_ICONS[activeRmbSkill].name}`);
     };
@@ -1464,7 +1490,9 @@ canvas.addEventListener('pointerdown', (e) => {
   const [x, y] = local(e);
   const [wx, wy] = renderer.toTile(x, y);
 
-  if (controlMode === 'wasd' && (e.button === 0 || e.button === 2)) {
+  // The right button casts when a spell or skill sits on it; it must not also steer the hero.
+  const rmbCasts = e.button === 2 && !e.shiftKey && (activeRmbSkill !== null || activeRmbSpell !== null);
+  if (controlMode === 'wasd' && (e.button === 0 || e.button === 2) && !rmbCasts) {
     const enemy = pickUnit(sim.count, posEnemy, x, y, PICK);
     const loot = nearestLoot(sim, Math.round(wx * FP), Math.round(wy * FP), 2.0 * FP);
     let interactable: D2Interactable | undefined;
@@ -2151,6 +2179,8 @@ spellbookUi = new SpellbookUi({
   getActiveRmb: () => activeRmbSpell,
   setActiveRmb: (spellId) => {
     activeRmbSpell = spellId;
+    activeRmbSkill = null;
+    updateActiveSkillUI();
   },
   armSpell: (spellId) => {
     armSpell(spellId);
@@ -2188,7 +2218,9 @@ if (menuSpells) {
     spellbookUi.open();
   };
 }
-const heroKnows = (sid: number): boolean => sim.hero === null || maskHas(sim.cb.known[sim.hero.id], sim.cb.knownHi, sim.hero.id * KNOWN_HI, sid);
+function heroKnows(sid: number): boolean {
+  return sim.hero === null || maskHas(sim.cb.known[sim.hero.id], sim.cb.knownHi, sim.hero.id * KNOWN_HI, sid);
+}
 function renderBook(): void {
   const body = $('book-body');
   body.replaceChildren();
@@ -2305,10 +2337,7 @@ const missionUi = loadedMission
         if (ids.length > 0) {
           queue({ type: 'move', ids, x: tx, y: ty, loose: true });
         }
-        cameraFollow = false;
-        renderer.centerOn(tx, ty);
-        cameraController.camX = renderer.camX;
-        cameraController.camY = renderer.camY;
+        cameraFollow = true; // stay with the hero; the minimap and ping show the goal
         ping = { x: tx, y: ty, t: performance.now() };
         questGoal = { x: tx, y: ty };
         minimap.setQuestGoal(tx, ty);
@@ -4406,7 +4435,11 @@ void renderer.init(sim).then(() => {
     openBook,
     spellbook: spellbookUi,
     activeRmbSpell: () => activeRmbSpell,
-    setActiveRmb: (sid: number | null) => { activeRmbSpell = sid; },
+    setActiveRmb: (sid: number | null) => {
+      activeRmbSpell = sid;
+      if (sid !== null) activeRmbSkill = null;
+      updateActiveSkillUI();
+    },
     toggleAuto,
     heroUi,
     useItemSlot,
