@@ -2,7 +2,9 @@ import { readFileSync } from 'node:fs';
 import { describe, expect, it } from 'vitest';
 import { parseCampaign } from '../src/campaign';
 import type { CarryoverState } from '../src/carryover';
-import { afterMission, afterTown, canEnter, clearLast, newRecord, nodeUrl, parseRecord } from '../src/flow';
+import { afterMission, afterTown, canEnter, clearLast, newRecord, nodeUrl, parseRecord, saveAndExitRecord } from '../src/flow';
+import type { SteppedQuestDef } from '../src/sidequests';
+import { SteppedQuestAdapter } from '../src/sidequests-adapter';
 import { startState } from '../src/sim/hero';
 
 const camp = parseCampaign(JSON.parse(readFileSync('public/data/campaign.json', 'utf8')));
@@ -54,5 +56,22 @@ describe('campaign screen flow', () => {
     expect(parseRecord(JSON.parse(JSON.stringify(rec)))?.progress.unlocked).toEqual([camp.start]);
     expect(parseRecord({ v: 2 })).toBeNull();
     expect(parseRecord(null)).toBeNull();
+  });
+});
+
+describe('quest progress', () => {
+  const defs = JSON.parse(readFileSync('public/data/content/side-quests.json', 'utf8')) as SteppedQuestDef[];
+
+  it('survives Save and Exit through the campaign record', () => {
+    const quests = new SteppedQuestAdapter(defs);
+    const quest = defs.find((d) => d.steps?.length && d.giver)!;
+    quests.talk(quest.giver!);
+    expect(quests.isTaken(quest.id)).toBe(true);
+
+    const rec = newRecord(camp, { cls: 0, female: false }, 1);
+    rec.progress.quests = quests.save();
+    const stored = parseRecord(JSON.parse(JSON.stringify(saveAndExitRecord(camp, rec, null))))!;
+
+    expect(new SteppedQuestAdapter(defs, stored.progress.quests).isTaken(quest.id)).toBe(true);
   });
 });
