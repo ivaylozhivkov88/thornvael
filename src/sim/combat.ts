@@ -1,5 +1,6 @@
 import { calculateBlockChance, combineCritChance, calculateD2HitChance, mitigateDamage } from './mechanics';
 import { FP, dir16 } from './path';
+import { isBlockedAt } from '../map';
 import type { Sim } from './sim';
 import { monsterFamilyById, monsterPaletteByTier } from './data';
 import { rulesOf } from './difficulty';
@@ -755,6 +756,7 @@ export function strike(sim: Sim, t: number, min: number, max: number, elem: numb
   cb.hp[t] -= dmg;
   if (cb.log) logHit(sim, src, t, elem, part, chance, roll, raw, cut, dmg);
   if (dmg > 0 || !(cb.stMask[t] & (1 << St.Shield))) cb.emit(0, sim.x[t], sim.y[t], dmg, elem);
+  if (dmg > 0) eliteOnHit(sim, t, dmg, src);
 
   if (src >= 0 && sim.hero !== null && src === sim.hero.id && dmg > 0) {
     const wep = sim.hero.eq[0];
@@ -802,6 +804,37 @@ export function strike(sim: Sim, t: number, min: number, max: number, elem: numb
   }
 
   if (cb.hp[t] <= 0) die(sim, t, elem, depth, src);
+}
+
+/** Elite affixes that act on a landed blow; everything they change is already hashed state. */
+function eliteOnHit(sim: Sim, t: number, dmg: number, src: number): void {
+  const cb = sim.cb;
+  if (cb.hp[t] <= 0) return;
+  const sm = src >= 0 && sim.team[src] !== sim.team[t] ? cb.bossMods[src] : undefined;
+  if (sm?.includes('cursed') && sim.rng.int(100) < 50) addStatus(sim, t, St.Weaken, 100, 0);
+  if (sm?.includes('mana_burn')) cb.mana[t] -= Math.min(cb.mana[t], 10);
+  if (!cb.bossMods[t]?.includes('teleporting')) return;
+  // Once, on falling under a third of life: heal back to just below that line and blink away.
+  const third = Math.floor(cb.hpMax[t] / 3);
+  if (cb.hp[t] >= third || cb.hp[t] + dmg < third) return;
+  cb.hp[t] = Math.max(cb.hp[t], third - 1);
+  const fx = Math.floor(sim.x[t] / FP);
+  const fy = Math.floor(sim.y[t] / FP);
+  for (let attempt = 0; attempt < 16; attempt++) {
+    const dx = sim.rng.int(13) - 6;
+    const dy = sim.rng.int(13) - 6;
+    const steps = Math.max(Math.abs(dx), Math.abs(dy));
+    if (steps < 4) continue;
+    let clear = true; // a straight open line keeps it out of walled pockets
+    for (let k = 1; clear && k <= steps; k++) {
+      clear = !isBlockedAt(sim.map, fx + Math.round((dx * k) / steps), fy + Math.round((dy * k) / steps));
+    }
+    if (!clear) continue;
+    cb.emit(9, sim.x[t], sim.y[t], 0, Elem.Astral);
+    sim.place(t, fx + dx, fy + dy);
+    sim.stop(t);
+    return;
+  }
 }
 
 function die(sim: Sim, t: number, elem = 0, depth = 0, src = -1): void {
