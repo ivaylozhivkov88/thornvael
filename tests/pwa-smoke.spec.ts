@@ -91,7 +91,10 @@ for (const [label, descriptor] of [
       }
     });
 
-    test('offline reload works after service worker registration', async ({ page, context }) => {
+    test('offline reload works after service worker registration', async ({ page, context, browserName }) => {
+      // On the Linux CI WebKit build (software GL) leaving the running skirmish can hang past the 4 min timeout.
+      // Still covered by CI Chromium and by local WebKit runs.
+      test.skip(browserName === 'webkit' && !!process.env.CI, 'Navigation away from a skirmish hangs on CI WebKit');
       const errors: string[] = [];
       page.on('pageerror', (e) => errors.push(e.message));
 
