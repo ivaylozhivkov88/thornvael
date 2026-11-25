@@ -5422,3 +5422,8 @@ body:has(#shell .sh-modal, #codex-modal:not([hidden])) #sh-music-btn {
   background: #1f2f10;
   border: 1px solid #6b8c3a;
 }
+
+/* Zone name and lore on entering a world-map zone. */
+#zone-banner { position: fixed; left: 50%; top: calc(var(--hud-top) + 64px + env(safe-area-inset-top)); transform: translateX(-50%); width: min(86vw, 460px); text-align: center; pointer-events: none; z-index: 30; color: #e8dcc0; text-shadow: 0 1px 3px #000, 0 0 12px #000; }
+#zone-banner h2 { margin: 0 0 4px; font-size: 20px; color: #d9b56a; letter-spacing: 0.04em; }
+#zone-banner p { margin: 0; font-size: 13px; line-height: 1.4; }
