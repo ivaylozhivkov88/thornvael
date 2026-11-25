@@ -701,7 +701,7 @@ async function castTownPortal(): Promise<void> {
     const carry = extractCarryover(sim, crec.progress, townSeed(1, crec.progress.townVisits + 1), slots);
     crec.progress.node = townNode.id;
     crec.carry = carry;
-    await writeRecord(crec);
+    await saveRecord();
     await deleteSave(AUTO).catch(() => undefined);
     location.assign(withCharParam(`${nodeUrl(townNode)}&tpReturn=1`));
   }
@@ -718,7 +718,7 @@ async function returnThroughTownPortal(): Promise<void> {
   const carry = sim.hero ? extractCarryover(sim, crec.progress, townSeed(1, crec.progress.townVisits + 1), slots) : null;
   crec.progress.node = targetNode.id;
   crec.carry = carry;
-  await writeRecord(crec);
+  await saveRecord();
   await deleteSave(AUTO).catch(() => undefined);
   location.assign(withCharParam(`${nodeUrl(targetNode)}&spawnX=${tp.x}&spawnY=${tp.y}&session=${crec.progress.sessionSeed ?? 1234567}`));
 }
@@ -739,7 +739,7 @@ function triggerWaypointTravel(): void {
         const carry = sim.hero ? extractCarryover(sim, crec!.progress, townSeed(1, crec!.progress.townVisits + 1), slots) : null;
         crec!.progress.node = targetNode.id;
         crec!.carry = carry;
-        await writeRecord(crec!);
+        await saveRecord();
         await deleteSave(AUTO).catch(() => undefined);
         const url = withCharParam(`${nodeUrl(targetNode)}&session=${crec!.progress.sessionSeed ?? 1234567}`);
         location.assign(url);
@@ -767,7 +767,7 @@ async function transitionToZone(exit: ZoneExitDef): Promise<void> {
       }
       crec.progress.node = targetNode.id;
       crec.carry = carry;
-      await writeRecord(crec);
+      await saveRecord();
       await deleteSave(AUTO).catch(() => undefined);
       const url = withCharParam(`${nodeUrl(targetNode)}&spawnX=${exit.targetX}&spawnY=${exit.targetY}&session=${crec.progress.sessionSeed ?? 1234567}`);
       location.assign(url);
@@ -790,7 +790,7 @@ async function saveAndExit(): Promise<void> {
   if (campaign && crec) {
     const carry = sim.hero ? extractCarryover(sim, crec.progress, townSeed(1, crec.progress.townVisits + 1), slots) : null;
     crec = saveAndExitRecord(campaign, crec, carry);
-    await writeRecord(crec);
+    await saveRecord();
     await deleteSave(AUTO).catch(() => undefined);
     location.assign('./');
   } else {
@@ -2376,6 +2376,13 @@ const heroNear = (x: number, y: number, r: number): boolean => sim.hero !== null
 const npcName = (id: string): string =>
   sim.towns.flatMap((t) => t.def.npcs ?? []).find((n) => n.id === id)?.name ?? id.replace(/^(npc|field)-/, '').replace(/-/g, ' ');
 
+/** Writes the campaign record; quest progress goes with it, so it outlives the mission autosave. */
+function saveRecord(): Promise<unknown> {
+  if (!crec) return Promise.resolve();
+  if (questsLoaded) crec.progress.quests = steppedQuests.save();
+  return writeRecord(crec);
+}
+
 function refreshMarks(): void {
   const marks: { x: number; y: number; label: string; npc: boolean; quest?: '!' | '?' | null }[] = [];
   for (const t of sim.towns) {
@@ -2386,6 +2393,8 @@ function refreshMarks(): void {
     }
   }
   if (marks.length) renderer.setMarks(marks);
+  // Every quest change refreshes the marks; keep the record in step.
+  if (questsLoaded && !outcome) void saveRecord();
 }
 
 function showQuestTalk(npcId: string, name: string, talk: TalkOutcome): void {
@@ -3603,7 +3612,7 @@ async function endNode(win: boolean, text: string, dest: 'town' | 'map' = 'map')
       last: null,
     };
   }
-  await writeRecord(crec);
+  await saveRecord();
   await deleteSave(AUTO).catch(() => undefined); // the mid-mission autosave is obsolete
   if (canGoTown && townNode) {
     location.assign(withCharParam(nodeUrl(townNode)));
@@ -3619,7 +3628,7 @@ async function toMap(): Promise<void> {
     const carry = sim.hero ? extractCarryover(sim, crec.progress, townSeed(1, crec.progress.townVisits + 1), slots) : null;
     await persistChar(false).catch(() => false);
     crec = afterTown(campaign, crec, campaignId, carry);
-    await writeRecord(crec);
+    await saveRecord();
     await deleteSave(AUTO).catch(() => undefined);
   }
   location.assign('./?menu=map');
@@ -3894,7 +3903,7 @@ function advanceStep(): void {
           if (campaignId && !wps.includes(campaignId)) wps.push(campaignId);
           if (!wps.includes(wp.id)) wps.push(wp.id);
           crec.progress.waypoints = wps;
-          void writeRecord(crec);
+          void saveRecord();
         }
         triggerWaypointTravel();
       }
@@ -3958,12 +3967,14 @@ function triggerTutorial(triggerType: string): void {
   try { localStorage.setItem('thornvael:tutorialSeen', JSON.stringify([...seenTutorials])); } catch {}
   toast(`${step.popup.heading}: ${step.popup.body}`);
 }
+let questsLoaded = false;
 let steppedQuests = new SteppedQuestAdapter([], resumed?.save.state.steppedQuests);
 void fetch(`${import.meta.env.BASE_URL}data/content/side-quests.json`)
   .then((r) => (r.ok ? r.json() : []))
   .then((defs: SteppedQuestDef[]) => {
     if (Array.isArray(defs) && defs.length > 0) {
-      steppedQuests = new SteppedQuestAdapter(defs, resumed?.save.state.steppedQuests ?? steppedQuests.save());
+      steppedQuests = new SteppedQuestAdapter(defs, resumed?.save.state.steppedQuests ?? crec?.progress.quests ?? steppedQuests.save());
+      questsLoaded = true;
       townUi.setSteppedQuests(steppedQuests);
       refreshMarks();
     }
