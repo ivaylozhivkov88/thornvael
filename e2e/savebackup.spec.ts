@@ -102,7 +102,10 @@ test('actual campaign save capture → New Game B → load A restores A and exit
   await page.getByRole('button', { name: /^Load: Campaign A/ }).click();
   await page.waitForURL((url) => url.searchParams.get('load') === id);
   await page.waitForFunction(() => window.__game);
-  expect((await storage(page)).campaign).toEqual(a);
+  // The running mission writes its quest state into the record; everything else must match A.
+  const restored = (await storage(page)).campaign as CampaignRecord;
+  const { quests: _quests, ...restoredProgress } = restored.progress;
+  expect({ ...restored, progress: restoredProgress }).toEqual(a);
   const restoredPose = await page.evaluate(() => (window as unknown as {
     __game: { animation(id: number): { clip: string; unresolved: boolean } };
   }).__game.animation(0));

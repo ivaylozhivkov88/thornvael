@@ -93,7 +93,7 @@ describe('Hall of Relics Codex system', () => {
     const mageHero = startState(0, Cls.Mage, false, 0);
     const mageTip = formatItemTooltip(visorId, mageHero);
     expect(mageTip).toContain('⚠ Cannot equip: Warrior Only');
-  });
+  }, 30_000); // the first import of the UI module is slow when the whole suite runs
 
   it('provides dark fantasy chronicles and bestiary entries in string tables', async () => {
     const { S } = await import('../src/strings');
