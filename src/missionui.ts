@@ -419,6 +419,25 @@ export function getCompletedWaxSealSvg(): string {
 /**
  * AAA Gothic Quest Journal, character portrait dialogue frames, and objective tracking.
  */
+/** On a stitched act map the task is the next zone that still has living foes, in campaign order. */
+export function zoneHunt(doc: MapDoc, alive: (unit: number) => boolean): QuestObjective | null {
+  for (const zone of doc.zones ?? []) {
+    if (!zone.group) continue;
+    const foes = doc.units.flatMap((u, i) => (u.group === zone.group && u.team !== 0 && alive(i) ? [u] : []));
+    if (foes.length === 0) continue;
+    return {
+      id: `hunt-${zone.id}`,
+      text: `Leave town and hunt the foes in ${zone.name} (${foes.length} left)`,
+      completed: false,
+      current: 0,
+      total: 1,
+      targetX: foes[0].x,
+      targetY: foes[0].y,
+    };
+  }
+  return null;
+}
+
 export class MissionUi {
   private readonly goals = document.createElement('div');
   private readonly dialogueModal = document.createElement('div');
@@ -1137,6 +1156,7 @@ export class MissionUi {
   }
 
   public isObjectivesCollapsed = true;
+  private trackerShown = '';
 
   /** Toggle on-demand quest objectives banner */
   public toggleObjectives(): void {
@@ -1152,10 +1172,15 @@ export class MissionUi {
     const quest = this.evaluateQuestDossier(sim);
     if (!quest.objectives.length) {
       this.goals.hidden = true;
+      this.trackerShown = '';
       return;
     }
 
     this.goals.hidden = false;
+    // Rebuild only on change: a rebuild every update swallows clicks on the rows.
+    const shown = JSON.stringify([this.isObjectivesCollapsed, quest.title, quest.objectives]);
+    if (shown === this.trackerShown) return;
+    this.trackerShown = shown;
     this.goals.replaceChildren();
 
     if (this.isObjectivesCollapsed) {
@@ -1164,7 +1189,13 @@ export class MissionUi {
       const header = document.createElement('div');
       header.className = 'tracker-collapsed-row';
       header.innerHTML = `<span class="tracker-icon">📜</span> <span class="tracker-title-text">Quests [Q] (${completed}/${quest.objectives.length})</span> <span class="tracker-chevron">▾</span>`;
-      header.onclick = () => this.toggleObjectives();
+      // The current task stays readable while the panel is folded.
+      const next = quest.objectives.find((o) => !o.completed);
+      if (next) header.querySelector('.tracker-title-text')!.textContent = next.text;
+      header.onclick = (e) => {
+        e.stopPropagation(); // the panel behind toggles too
+        this.toggleObjectives();
+      };
       header.ondblclick = (e) => {
         e.stopPropagation();
         this.toggleJournal(this.lastSim ?? undefined);
@@ -1209,6 +1240,7 @@ export class MissionUi {
           ${navPin}
         `;
         if (obj.targetX !== undefined && obj.targetY !== undefined) {
+          row.ondblclick = (e) => e.stopPropagation(); // a double tap on a task must not open the journal
           row.onclick = (e) => {
             e.stopPropagation();
             this.host.navigateTo?.(obj.targetX!, obj.targetY!, obj.text);
@@ -1344,7 +1376,9 @@ export class MissionUi {
 
     // Generic fallback for custom / other campaign maps
     const genericObjs: QuestObjective[] = [];
-    if (st) {
+    const hunt = sim ? zoneHunt(this.doc, (i) => sim.cb.hp[i] > 0) : null;
+    if (hunt) genericObjs.push(hunt);
+    if (st && !hunt) {
       for (let i = 0; i < 16 && this.doc.text[`obj.${i}`] !== undefined; i++) {
         const text = this.doc.text[`obj.${i}`];
         const state = st.sub[i] ?? 0;

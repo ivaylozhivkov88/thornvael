@@ -3426,6 +3426,10 @@ button:disabled, #shell .sh-btn:disabled { opacity: .6; cursor: default; box-sha
   align-items: center;
   gap: 6px;
 }
+.tracker-collapsed-row .tracker-title-text {
+  max-width: min(320px, 60vw);
+  white-space: normal;
+}
 .tracker-title {
   margin-bottom: 6px;
   border-bottom: 1px solid rgba(212, 175, 55, 0.3);
