@@ -1,6 +1,7 @@
 import { describe, it, expect } from 'vitest';
 import { readFileSync } from 'node:fs';
 import { migrate, validate, loadDoc, rleDecode } from '../src/mapdoc';
+import { createMission } from '../src/mission-runtime';
 
 const raw = JSON.parse(readFileSync(new URL('../src/worlds/act1-world.map.json', import.meta.url), 'utf8'));
 
@@ -46,14 +47,14 @@ describe('act1 stitched world', () => {
   });
 });
 
-describe('act1 world victory gate', () => {
-  it('does not win or lose on entry (act1-cleared waits for enter-m11)', async () => {
-    const { createMission } = await import('../src/mission');
-    const { loadDoc } = await import('../src/mapdoc');
-    const { createHero } = await import('../src/sim/hero');
-    const game = createMission(loadDoc(raw), 1);
-    createHero(game.sim, 0, 0, false, 1);
-    for (let t = 0; t < 40; t++) game.sim.step();
-    expect(game.sim.script!.st.status).toBe(0);
-  });
+it('stitched world does not win at start and wakes a zone when the hero enters it', () => {
+  const g = createMission(loadDoc(raw), 1);
+  const s = g.sim;
+  const asleep = () => s.hidden.slice(0, s.count).filter((h) => h).length;
+  for (let i = 0; i < 20; i++) s.step([]);
+  expect(g.sim.script?.st.status).toBe(0);
+  const before = asleep();
+  s.place(0, 140, 70); // inside m01-outskirts
+  for (let i = 0; i < 20; i++) s.step([]);
+  expect(asleep()).toBeLessThan(before);
 });
