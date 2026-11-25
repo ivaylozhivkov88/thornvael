@@ -713,15 +713,10 @@ export class Renderer {
     if (this.marksLayer && !this.marksLayer.destroyed) this.marksLayer.destroy({ children: true });
     const layer = new Container();
     this.marksLayer = layer;
-    const g = new Graphics();
-    layer.addChild(g);
+    const placed: { x: number; y: number; w: number }[] = [];
     for (const m of marks) {
       const px = m.x * TILE;
       const py = m.y * TILE;
-      if (m.npc) {
-        g.circle(px, py - 6, 7).fill(0xe8c860).stroke({ color: 0x2a1a0e, width: 2 });
-        g.rect(px - 5, py, 10, 12).fill(0x7a5a9a);
-      }
       const t = new Text({
         text: m.label,
         style: {
@@ -733,7 +728,11 @@ export class Renderer {
         },
       });
       t.anchor.set(0.5, 1);
-      t.position.set(px, py - (m.npc ? 14 : 0));
+      // Above the figure's head; neighbours with long names stack instead of overlapping.
+      let ty = py - (m.npc ? 52 : 0);
+      while (placed.some((p) => Math.abs(p.y - ty) < 14 && Math.abs(p.x - px) < (p.w + t.width) / 2)) ty -= 14;
+      placed.push({ x: px, y: ty, w: t.width });
+      t.position.set(px, ty);
       layer.addChild(t);
       if (m.quest) {
         const q = new Text({
@@ -741,7 +740,7 @@ export class Renderer {
           style: { fontFamily: 'Georgia, serif', fontSize: 30, fontWeight: 'bold', fill: 0xffd23a, stroke: { color: 0x000000, width: 5 } },
         });
         q.anchor.set(0.5, 1);
-        q.position.set(px, py - 28);
+        q.position.set(px, ty - 14);
         quests.addChild(q);
       }
     }
@@ -1714,6 +1713,7 @@ export class Renderer {
       telegraphs: this.activeTelegraphs,
       adventureObjects: this.worldAdventureObjects,
       waypoints: this.worldWaypoints,
+      unitArt: (art) => this.atlasByArt.get(art),
     });
     if (!this.contextLost && this.app?.renderer) {
       this.app.render();
