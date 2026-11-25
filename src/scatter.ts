@@ -13,6 +13,8 @@ export const FOES_PER_1000 = 3;
 const MAX_UNITS = 750; // the map format allows 768
 const ELITE_PACKS: [number, number][] = [[1, 2], [4, 5], [6, 8]]; // per zone, by difficulty
 const KEEP_OUT = 10; // tiles kept free around the town and the zone doors
+const ENTRY_REACH = 25; // the first packs of a zone next to town wait this close to its door
+const ENTRY_PACKS = 3;
 
 export function scatterFoes(doc: MapDoc, sessionSeed: number, difficulty: number): MapDoc {
   if (!doc.zones?.length) return doc;
@@ -57,7 +59,11 @@ export function scatterFoes(doc: MapDoc, sessionSeed: number, difficulty: number
       }
     }
     if (!foes.length || !tiles.length) return [];
-    return [{ z, foes, tiles, want: Math.max(0, Math.round((walkable * FOES_PER_1000) / 1000) - foes.length) }];
+    const gates = (z.doors ?? []).filter((d) => out.zones!.some((o) => o.id === d.to && !o.group));
+    const entry = tiles.filter((t) =>
+      gates.some((d) => Math.max(Math.abs((t % w) - d.x), Math.abs(Math.floor(t / w) - d.y)) <= ENTRY_REACH),
+    );
+    return [{ z, foes, tiles, entry, want: Math.max(0, Math.round((walkable * FOES_PER_1000) / 1000) - foes.length) }];
   });
 
   const total = zones.reduce((s, v) => s + v.want, 0);
@@ -89,7 +95,7 @@ export function scatterFoes(doc: MapDoc, sessionSeed: number, difficulty: number
   };
 
   let pack = Math.max(0, ...out.units.map((u) => u.pack ?? 0));
-  for (const { z, foes, tiles, want } of zones) {
+  for (const { z, foes, tiles, entry, want } of zones) {
     // Existing ordinary packs move; named units keep their post.
     const packs = new Map<number, Unit[]>();
     for (const u of foes) if (u.pack) packs.set(u.pack, [...(packs.get(u.pack) ?? []), u]);
@@ -103,12 +109,15 @@ export function scatterFoes(doc: MapDoc, sessionSeed: number, difficulty: number
     if (!kinds.length) continue;
     let left = Math.floor(want * scale);
     const added: Unit[] = [];
+    const nearTown = new Set<number>();
     while (left > 0) {
       const size = Math.min(left, int(3, 6));
-      const at = spot(tiles, size);
+      const first = entry.length > 0 && nearTown.size < ENTRY_PACKS;
+      const at = (first ? spot(entry, size) : null) ?? spot(tiles, size);
       if (!at) break;
       const base = kinds[int(0, kinds.length - 1)];
       pack++;
+      if (first) nearTown.add(pack);
       for (const [x, y] of at) {
         const u: Unit = { kind: base.kind, team: base.team, x, y, group: z.group, pack, dormant: true };
         if (base.tier !== undefined) u.tier = base.tier;
@@ -119,7 +128,7 @@ export function scatterFoes(doc: MapDoc, sessionSeed: number, difficulty: number
       left -= size;
     }
 
-    const leaders = added.filter((u, i) => i === 0 || added[i - 1].pack !== u.pack);
+    const leaders = added.filter((u, i) => (i === 0 || added[i - 1].pack !== u.pack) && !nearTown.has(u.pack!));
     const [min, max] = ELITE_PACKS[difficulty] ?? ELITE_PACKS[1];
     for (let n = Math.min(leaders.length, int(min, max)); n > 0; n--) {
       const [leader] = leaders.splice(int(0, leaders.length - 1), 1);

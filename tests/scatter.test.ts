@@ -29,6 +29,17 @@ describe('scatterFoes', () => {
     expect(elites(2)).toBeGreaterThan(elites(0));
   });
 
+  it('puts the first packs right outside the town gate, without elites there', () => {
+    const outskirts = doc.zones!.find((z) => z.group)!;
+    const gate = outskirts.doors!.find((d) => d.to === town.id)!;
+    for (const seed of [1234567, 851742018, 42]) {
+      const near = scatterFoes(doc, seed, 2).units.filter(
+        (u) => u.group === outskirts.group && Math.max(Math.abs(u.x - gate.x), Math.abs(u.y - gate.y)) <= 28,
+      );
+      expect(near.length).toBeGreaterThanOrEqual(9);
+    }
+  });
+
   it('runs identically from the same scattered map', () => {
     const run = () => {
       const g = createMission(loadDoc(a), 3);
