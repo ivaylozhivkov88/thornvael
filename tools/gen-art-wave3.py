@@ -999,199 +999,8 @@ def build_boss_telegraphs() -> Tuple[dict, List[str]]:
 
 
 # ---------------------------------------------------------------------------
-# 4. Four-City Building Silhouettes (public/art-wave3/city-buildings.{png,json})
+# 4. City buildings: see tools/gen-city-buildings.py
 # ---------------------------------------------------------------------------
-
-CITY_PALETTES = {
-    "thornwick": {
-        "wall": (132, 114, 92),
-        "wall_sh": (88, 76, 62),
-        "roof": (74, 88, 82),
-        "roof_hi": (102, 118, 108),
-        "trim": (118, 82, 48),
-        "accent": (56, 134, 78),
-        "glow": (255, 186, 72),
-    },
-    "redmarsh": {
-        "wall": (176, 158, 128),
-        "wall_sh": (124, 108, 86),
-        "roof": (154, 82, 56),
-        "roof_hi": (188, 106, 74),
-        "trim": (172, 132, 72),
-        "accent": (68, 198, 218),
-        "glow": (96, 232, 248),
-    },
-    "oakhaven": {
-        "wall": (94, 102, 116),
-        "wall_sh": (58, 64, 76),
-        "roof": (56, 112, 98),
-        "roof_hi": (82, 146, 128),
-        "trim": (124, 88, 56),
-        "accent": (72, 152, 224),
-        "glow": (124, 212, 255),
-    },
-    "ironcamp": {
-        "wall": (56, 52, 62),
-        "wall_sh": (34, 32, 40),
-        "roof": (76, 78, 88),
-        "roof_hi": (106, 108, 120),
-        "trim": (118, 64, 42),
-        "accent": (244, 98, 32),
-        "glow": (255, 144, 46),
-    },
-}
-
-
-def paint_city_building(city: str, role: str) -> Image.Image:
-    pal = CITY_PALETTES[city]
-    w, h = (128, 112) if role == "gate" else (88, 128) if role == "watchtower" else (112, 120) if role == "temple" else (112, 112)
-    im = Image.new("RGBA", (w, h), (0, 0, 0, 0))
-    d = ImageDraw.Draw(im)
-
-    wall = pal["wall"]
-    wsh = pal["wall_sh"]
-    roof = pal["roof"]
-    rhi = pal["roof_hi"]
-    trim = pal["trim"]
-    acc = pal["accent"]
-    glow = pal["glow"]
-
-    # Ground shadow apron
-    d.ellipse([10, h - 18, w - 10, h - 4], fill=(14, 12, 16, 125))
-
-    if role == "tavern":
-        # Main hall + side wing + chimney + hanging sign + warm windows
-        d.rectangle([18, 52, 94, 96], fill=(*wall, 255))
-        d.rectangle([62, 52, 94, 96], fill=(*wsh, 255))
-        if city == "thornwick":
-            # Frontier half-timber framing beams
-            d.line([(18, 58), (94, 58)], fill=(*trim, 255), width=2)
-            d.line([(40, 58), (40, 96)], fill=(*trim, 255), width=2)
-        if city == "redmarsh":
-            # Terraced flat-roof caravanserai + awning
-            d.rectangle([14, 46, 98, 56], fill=(*trim, 255))
-            d.polygon([(22, 74), (62, 74), (68, 84), (16, 84)], fill=(*roof, 255))
-        elif city == "ironcamp":
-            # Sloped iron-ribbed bunker roof
-            d.polygon([(12, 54), (26, 30), (86, 30), (100, 54)], fill=(*roof, 255))
-            for rx in (32, 56, 80):
-                d.line([(rx, 30), (rx, 54)], fill=(*trim, 255), width=3)
-        elif city == "oakhaven":
-            # Maritime gambrel hull-roof with dormer peak
-            d.polygon([(10, 56), (24, 34), (56, 22), (88, 34), (102, 56)], fill=(*roof, 255))
-            d.polygon([(10, 56), (24, 34), (56, 22), (56, 56)], fill=(*rhi, 255))
-        else:
-            # Steep pitched roof
-            d.polygon([(10, 56), (56, 20), (102, 56)], fill=(*roof, 255))
-            d.polygon([(10, 56), (56, 20), (56, 56)], fill=(*rhi, 255))
-        # Chimney + doorway + lit windows
-        d.rectangle([74, 14, 86, 44], fill=(*wsh, 255))
-        d.rectangle([48, 72, 64, 96], fill=(64, 42, 28, 255))
-        for wx in (26, 74):
-            d.rectangle([wx, 64, wx + 12, 76], fill=(*glow, 245))
-        # Tavern banner / sign post
-        d.rectangle([14, 62, 22, 94], fill=(*trim, 255))
-        d.ellipse([9, 64, 17, 72], fill=(*acc, 255))
-
-    elif role == "smithy":
-        # Heavy stone/brick forge hall + tall furnace stack + outdoor anvil
-        d.rectangle([18, 54, 92, 96], fill=(*wall, 255))
-        d.rectangle([62, 54, 92, 96], fill=(*wsh, 255))
-        d.rectangle([70, 12, 86, 58], fill=(*wsh, 255))
-        if city == "ironcamp":
-            d.rectangle([26, 16, 40, 52], fill=(*wsh, 255))
-        if city == "redmarsh":
-            d.pieslice([22, 28, 70, 84], 180, 360, fill=(*roof, 255))
-        else:
-            d.polygon([(12, 56), (48, 28), (96, 56)], fill=(*roof, 255))
-        # Open glowing forge arch + outdoor anvil
-        d.pieslice([26, 66, 56, 126], 180, 360, fill=(32, 22, 22, 255))
-        d.pieslice([31, 74, 51, 118], 180, 360, fill=(255, 118, 28, 255))
-        d.polygon([(68, 86), (84, 86), (80, 96), (72, 96)], fill=(64, 68, 76, 255))
-        d.rectangle([66, 82, 86, 86], fill=(98, 102, 112, 255))
-
-    elif role == "temple":
-        # Sanctuary nave + towering city-themed spire/dome/obelisks
-        d.rectangle([22, 56, 90, 104], fill=(*wall, 255))
-        d.rectangle([60, 56, 90, 104], fill=(*wsh, 255))
-        if city == "redmarsh":
-            d.pieslice([28, 26, 84, 88], 180, 360, fill=(*roof, 255))
-            d.rectangle([24, 52, 88, 58], fill=(*trim, 255))
-            d.polygon([(16, 104), (20, 34), (28, 104)], fill=(*trim, 255))
-            d.polygon([(84, 104), (92, 34), (96, 104)], fill=(*trim, 255))
-        elif city == "oakhaven":
-            d.pieslice([28, 22, 84, 92], 180, 360, fill=(*rhi, 255))
-            d.rectangle([24, 52, 88, 58], fill=(*trim, 255))
-            d.line([(56, 10), (56, 26)], fill=(*trim, 255), width=3)
-        elif city == "ironcamp":
-            d.polygon([(20, 62), (56, 12), (92, 62)], fill=(*roof, 255))
-            d.polygon([(18, 52), (24, 24), (32, 52)], fill=(*wsh, 255))
-            d.polygon([(80, 52), (88, 24), (94, 52)], fill=(*wsh, 255))
-        else:
-            d.polygon([(18, 60), (56, 12), (94, 60)], fill=(*roof, 255))
-            d.polygon([(18, 60), (56, 12), (56, 60)], fill=(*rhi, 255))
-        # Sacred rose window / sigil + arched doors
-        d.ellipse([48, 58, 64, 74], fill=(*acc, 240), outline=(*trim, 255), width=2)
-        d.pieslice([44, 82, 68, 126], 180, 360, fill=(*trim, 255))
-
-    elif role == "gate":
-        # Twin flanking bastions + central arched gatehouse + portcullis
-        d.rectangle([12, 36, 42, 98], fill=(*wall, 255))
-        d.rectangle([86, 36, 116, 98], fill=(*wsh, 255))
-        d.rectangle([38, 46, 90, 98], fill=(*wall, 255))
-        if city == "ironcamp":
-            d.polygon([(10, 38), (27, 14), (44, 38)], fill=(*roof, 255))
-            d.polygon([(84, 38), (101, 14), (118, 38)], fill=(*roof, 255))
-        elif city == "redmarsh":
-            for bx in range(14, 114, 12):
-                d.rectangle([bx, 28, bx + 7, 38], fill=(*trim, 255))
-        else:
-            d.polygon([(10, 38), (27, 18), (44, 38)], fill=(*rhi, 255))
-            d.polygon([(84, 38), (101, 18), (118, 38)], fill=(*roof, 255))
-        # Archway + iron portcullis bars + twin braziers
-        d.pieslice([48, 62, 80, 108], 180, 360, fill=(18, 16, 22, 255))
-        d.rectangle([48, 84, 80, 98], fill=(18, 16, 22, 255))
-        for gx in range(52, 80, 6):
-            d.line([(gx, 66), (gx, 98)], fill=(122, 128, 138, 220), width=2)
-        for fx in (34, 94):
-            d.ellipse([fx - 4, 80, fx + 4, 88], fill=(*glow, 240))
-
-    else:  # watchtower
-        d.polygon([(24, 114), (30, 38), (58, 38), (64, 114)], fill=(*wall, 255))
-        d.polygon([(44, 38), (58, 38), (64, 114), (44, 114)], fill=(*wsh, 255))
-        if city == "oakhaven":
-            # Lighthouse prism lantern cupola
-            d.rectangle([30, 22, 58, 40], fill=(*glow, 235))
-            d.pieslice([26, 8, 62, 36], 180, 360, fill=(*rhi, 255))
-        elif city == "redmarsh":
-            d.rectangle([26, 32, 62, 42], fill=(*trim, 255))
-            d.line([(44, 8), (44, 32)], fill=(*trim, 255), width=3)
-            d.ellipse([39, 12, 49, 22], fill=(*glow, 245))
-        elif city == "ironcamp":
-            d.polygon([(24, 40), (44, 12), (64, 40)], fill=(*roof, 255))
-            d.ellipse([37, 26, 51, 36], fill=(*glow, 255))
-        else:
-            d.rectangle([22, 34, 66, 46], fill=(*trim, 255))
-            d.polygon([(20, 36), (44, 10), (68, 36)], fill=(*rhi, 255))
-        d.rectangle([40, 62, 48, 74], fill=(*glow, 230))
-        d.rectangle([38, 94, 50, 114], fill=(56, 38, 26, 255))
-
-    im = add_outline(im)
-    # Subtle radial warm beacon glow near lantern/forge
-    if role in ("smithy", "watchtower", "temple"):
-        gx, gy = (w * 0.5, 28) if role == "watchtower" else (w * 0.38, 82) if role == "smithy" else (w * 0.5, 64)
-        im.alpha_composite(radial_glow((w, h), (gx, gy), 24, glow, 95))
-    return im
-
-
-def build_city_buildings() -> Tuple[dict, List[str]]:
-    frames: List[Tuple[str, Image.Image, Tuple[float, float]]] = []
-    for city in ("thornwick", "redmarsh", "oakhaven", "ironcamp"):
-        for role in ("tavern", "smithy", "temple", "gate", "watchtower"):
-            spr = paint_city_building(city, role)
-            frames.append((f"{city}/{role}", spr, (0.5, 0.90)))
-    meta = pack_pixi_atlas(frames, WAVE3_DIR, "city-buildings", max_width=1024)
-    return meta, ["public/art-wave3/city-buildings.png"]
 
 
 # ---------------------------------------------------------------------------
@@ -1227,16 +1036,14 @@ def main() -> None:
     item_paths = build_missing_itemicons()
     env_meta, env_bins = build_env_anims()
     tele_meta, tele_bins = build_boss_telegraphs()
-    city_meta, city_bins = build_city_buildings()
 
-    all_bins = item_paths + env_bins + tele_bins + city_bins
+    all_bins = item_paths + env_bins + tele_bins
     notes: Dict[str, str] = {
         p: "Wave 3 procedural 64x64 base item icon (fills missing items.json / base-items slug)"
         for p in item_paths
     }
     notes["public/art-wave3/env-anims.png"] = "Wave 3 environmental animation atlas (torches, banners, smoke, water-wheel, bonfire, cauldron)"
     notes["public/art-wave3/boss-telegraphs.png"] = "Wave 3 boss AoE telegraph decals & rune glyphs (shared + morvessa, gorrathul, vesperion, ashkarath)"
-    notes["public/art-wave3/city-buildings.png"] = "Wave 3 unified 4-city architectural building silhouettes (thornwick, redmarsh, oakhaven, ironcamp)"
 
     added = append_assets_manifest(all_bins, notes) if args.sync_assets else 0
 
@@ -1244,7 +1051,6 @@ def main() -> None:
         f"Wave 3 art generated: itemicons_added={len(item_paths)}, "
         f"env-anims={len(env_meta['frames'])} frames, "
         f"boss-telegraphs={len(tele_meta['frames'])} frames, "
-        f"city-buildings={len(city_meta['frames'])} frames, "
         f"assets.json_appended={added}"
     )
 

@@ -4550,7 +4550,7 @@
     {
       "path": "public/art-wave3/city-buildings.png",
       "license": "own",
-      "source": "tools/gen-art-wave3.py",
+      "source": "tools/gen-city-buildings.py",
       "note": "Wave 3 unified 4-city architectural building silhouettes (thornwick, redmarsh, oakhaven, ironcamp)"
     },
     {
