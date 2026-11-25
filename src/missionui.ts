@@ -3,7 +3,7 @@ import type { TakenQuest } from './sidequests-adapter';
 import { speakerName, type MissionContent } from './missioncontent';
 import { getPlaquesByAct, loadLocationPlaques, type CampaignStage, type LocationPlaqueEntry } from './data/text/index';
 import { Kind } from './sim/combat';
-import type { Sim } from './sim/sim';
+import { FP, type Sim } from './sim/sim';
 import { S } from './strings';
 import {
   blip,
@@ -420,19 +420,26 @@ export function getCompletedWaxSealSvg(): string {
  * AAA Gothic Quest Journal, character portrait dialogue frames, and objective tracking.
  */
 /** On a stitched act map the task is the next zone that still has living foes, in campaign order. */
-export function zoneHunt(doc: MapDoc, alive: (unit: number) => boolean): QuestObjective | null {
+export function zoneHunt(
+  doc: MapDoc,
+  alive: (unit: number) => boolean,
+  at: (unit: number) => [number, number] = (i) => [doc.units[i].x, doc.units[i].y],
+): QuestObjective | null {
+  const [hx, hy] = at(0); // unit 0 is the hero
+  const far = (i: number) => (at(i)[0] - hx) ** 2 + (at(i)[1] - hy) ** 2;
   for (const zone of doc.zones ?? []) {
     if (!zone.group) continue;
-    const foes = doc.units.flatMap((u, i) => (u.group === zone.group && u.team !== 0 && alive(i) ? [u] : []));
+    const foes = doc.units.flatMap((u, i) => (u.group === zone.group && u.team !== 0 && alive(i) ? [i] : []));
     if (foes.length === 0) continue;
+    const [tx, ty] = at(foes.reduce((a, b) => (far(b) < far(a) ? b : a))).map(Math.floor);
     return {
       id: `hunt-${zone.id}`,
       text: `Leave town and hunt the foes in ${zone.name} (${foes.length} left)`,
       completed: false,
       current: 0,
       total: 1,
-      targetX: foes[0].x,
-      targetY: foes[0].y,
+      targetX: tx,
+      targetY: ty,
     };
   }
   return null;
@@ -1376,7 +1383,7 @@ export class MissionUi {
 
     // Generic fallback for custom / other campaign maps
     const genericObjs: QuestObjective[] = [];
-    const hunt = sim ? zoneHunt(this.doc, (i) => sim.cb.hp[i] > 0) : null;
+    const hunt = sim ? zoneHunt(this.doc, (i) => sim.cb.hp[i] > 0, (i) => [sim.x[i] / FP, sim.y[i] / FP]) : null;
     if (hunt) genericObjs.push(hunt);
     if (st && !hunt) {
       for (let i = 0; i < 16 && this.doc.text[`obj.${i}`] !== undefined; i++) {

@@ -93,4 +93,14 @@ describe('act1 town is safe and the task is clear', () => {
     expect(task.text).toContain('hunt the foes in');
     expect(inTown(task.targetX!, task.targetY!)).toBe(false);
   });
+
+  it('points the task at the nearest living foe', () => {
+    const doc = loadDoc(raw).doc;
+    const group = doc.zones!.find((z) => z.group)!.group;
+    const foes = doc.units.flatMap((u, i) => (u.group === group && u.team !== 0 ? [i] : []));
+    const near = foes[foes.length - 1];
+    const at = (i: number): [number, number] => (i === 0 ? [50, 20] : i === near ? [52.5, 21.5] : [200, 100]);
+    const task = zoneHunt(doc, () => true, at)!;
+    expect([task.targetX, task.targetY]).toEqual([52, 21]);
+  });
 });
