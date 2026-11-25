@@ -292,6 +292,16 @@ def main():
         v = v.resize((max(1, round(v.width * kk)), max(1, round(v.height * kk))), Image.LANCZOS)
         cols.append(v)
         masks.append(make_mask(v))
+    # Per-view fixes for sheets whose art faces the wrong way: flip=1,2 mirrors those source views,
+    # use=5:6 replaces view 5 with view 6. Views 1..7 must face screen-left.
+    for a in sys.argv[3:]:
+        if a.startswith("use="):
+            dst, src = (int(v) for v in a[4:].split(":"))
+            cols[dst], masks[dst] = cols[src], masks[src]
+        elif a.startswith("flip="):
+            for v in (int(x) for x in a[5:].split(",")):
+                cols[v] = cols[v].transpose(Image.FLIP_LEFT_RIGHT)
+                masks[v] = masks[v].transpose(Image.FLIP_LEFT_RIGHT)
     out_dir = os.path.join(os.path.dirname(__file__), ".mesh-out", unit)
     os.makedirs(out_dir, exist_ok=True)
     for d in range(16):
