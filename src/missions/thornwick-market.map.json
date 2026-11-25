@@ -1417,7 +1417,11 @@
     "npc.carter": "Granary Carter: Axle grease costs less than a broken wain in the mud.",
     "npc.grave": "Orlen the Grave-Tender: Keep the tallow lit by the parish stones.",
     "npc.hound": "Stable Hound: *Low bark, ears perked toward the east palisade.*",
-    "npc.fisher": "Dockside Fisher: Weir-pikes bite near the old pilings after rain."
+    "npc.fisher": "Dockside Fisher: Weir-pikes bite near the old pilings after rain.",
+    "npc.garrick": "Sergeant-at-Arms Garrick: The militia has not been paid and the road is not held. If you want work, I have it.",
+    "npc.marta": "Widow Marta: The sickhouse is full and my shelves are empty. Fetch me what the marsh grows.",
+    "npc.hobb": "Master Hobb: Iron on credit and no tallies to show for it. Help me get what I am owed.",
+    "npc.fenwick": "Old Fenwick: The river tells me things, Commander. Some of them are worth silver."
   },
   "towns": [
     {
@@ -1540,6 +1544,34 @@
           "x": 41,
           "y": 31,
           "text": "npc.fisher"
+        },
+        {
+          "id": "npc-garrick-captain",
+          "name": "Sergeant-at-Arms Garrick",
+          "x": 15,
+          "y": 13,
+          "text": "npc.garrick"
+        },
+        {
+          "id": "npc-marta-alchemist",
+          "name": "Widow Marta",
+          "x": 24,
+          "y": 15,
+          "text": "npc.marta"
+        },
+        {
+          "id": "npc-hobb-smith",
+          "name": "Master Hobb",
+          "x": 31,
+          "y": 15,
+          "text": "npc.hobb"
+        },
+        {
+          "id": "npc-fenwick-ferryman",
+          "name": "Old Fenwick",
+          "x": 38,
+          "y": 31,
+          "text": "npc.fenwick"
         }
       ]
     }

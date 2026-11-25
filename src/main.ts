@@ -1,6 +1,6 @@
 import { registerWorker } from './updategate';
 import { resolveRegionAudio, computeAudioCrossfade } from './region-audio';
-import { SteppedQuestAdapter } from './sidequests-adapter';
+import { SteppedQuestAdapter, type TalkOutcome } from './sidequests-adapter';
 import type { SteppedQuestDef } from './sidequests';
 import tutorialData from './data/tutorial.json';
 import { loadExtraContent, type ExtraContentKey } from './content-extras';
@@ -52,8 +52,8 @@ import {
 import { loadGameData } from './loaddata';
 import { loadHeroVoices, heroBark } from './herovoice';
 import { loadAchievements, achKills, achTrack, achReset, achHired, achLevel, achGold, achWin, achCampaign } from './achievements';
-import { loadMissionContent, loadMissionHints, loadItemFlavor, loadFlavorLists, loadMonsterCodex, loadCodexLore, loadTownBarks, loadSpellText, defeatFlavor, loadDifficultyFlavor, difficultyLine, loadMercLines, mercContent, mercHireLine, regionEnterLine, loadHeroFlavor, promotionLine, classBanter, missionRadio, missionKey, loadBarkContent, mercBark, bossLine, setMercAct } from './missioncontent';
-import { startSideQuests, sqTrack, sqFinish } from './sidequests';
+import { loadMissionContent, loadMissionHints, loadItemFlavor, loadFlavorLists, loadMonsterCodex, loadCodexLore, loadTownBarks, loadSpellText, defeatFlavor, loadDifficultyFlavor, difficultyLine, loadMercLines, mercContent, mercHireLine, regionEnterLine, loadHeroFlavor, promotionLine, classBanter, missionRadio, loadBarkContent, mercBark, bossLine, setMercAct } from './missioncontent';
+import { sqTrack, sqFinish } from './sidequests';
 import { DebugPanel } from './debugpanel';
 import { KNOWN_HI, SPELLS, Tk, maskHas } from './sim/spelldata';
 import { validTarget } from './sim/spells';
@@ -2294,7 +2294,6 @@ const missionContent = loadedMission ? await loadMissionContent(missionName) : n
 let lastBossLineAt = 0, bossEnraged = false;
 let radioFoes0 = 0, radioHalf = false, radioLow = false;
 if (loadedMission && missionName && !isTownNode) { achReset(); bossEnraged = false; radioFoes0 = 0; radioHalf = false; radioLow = false; }
-  if (loadedMission && missionName && !isTownNode) void missionKey(missionName).then((k) => { if (k) void startSideQuests(k); });
 if (loadedMission && missionName) void missionRadio(missionName, 'start').then((l) => { if (l) setTimeout(() => toast(`Radio: ${l}`), 2500); });
 if (loadedMission && missionName) void loadMissionHints(missionName).then((h) => { if (h[0]) setTimeout(() => toast(h[0]), 6000); if (h[1]) setTimeout(() => toast(h[1]), 45000); });
 const missionUi = loadedMission
@@ -2318,6 +2317,7 @@ const missionUi = loadedMission
         } catch {}
         toast(`🧭 Marching to: ${label}`);
       },
+      takenQuests: () => steppedQuests.takenQuests(npcName),
     }, missionContent)
   : null;
 
@@ -2344,6 +2344,44 @@ let visit: { town: number; role: number; npc: number; until: number } | null = n
 const TALK_REACH = 3;
 const heroNear = (x: number, y: number, r: number): boolean => sim.hero !== null && alive(0) && Math.abs(sim.x[0] / FP - x) <= r && Math.abs(sim.y[0] / FP - y) <= r;
 
+const npcName = (id: string): string =>
+  sim.towns.flatMap((t) => t.def.npcs ?? []).find((n) => n.id === id)?.name ?? id.replace(/^(npc|field)-/, '').replace(/-/g, ' ');
+
+function refreshMarks(): void {
+  const marks: { x: number; y: number; label: string; npc: boolean; quest?: '!' | '?' | null }[] = [];
+  for (const t of sim.towns) {
+    t.centre.forEach((c, role) => c && marks.push({ x: c[0], y: c[1] - 1.1, label: S.town.roles[role], npc: false }));
+    for (const n of t.def.npcs ?? []) {
+      const mark = n.id ? steppedQuests.npcMark(n.id) : null;
+      marks.push({ x: n.x + 0.5, y: n.y + 0.5, label: n.name, npc: true, quest: mark });
+    }
+  }
+  if (marks.length) renderer.setMarks(marks);
+}
+
+function showQuestTalk(npcId: string, name: string, talk: TalkOutcome): void {
+  let gold = 0;
+  let xp = 0;
+  for (const r of talk.rewards) {
+    gold += r.gold ?? 0;
+    xp += r.xp ?? 0;
+  }
+  if (gold > 0 || xp > 0) queue({ type: 'reward', gold, xp });
+  const paid = gold > 0 || xp > 0 ? `\n\nReward: ${gold} gold, ${xp} XP` : '';
+  openPanel(name, `${talk.title}\n\n${talk.text}${paid}`);
+  (talk.options ?? []).forEach((label, i) => {
+    const btn = document.createElement('button');
+    btn.className = 'tv-btn';
+    btn.textContent = label;
+    btn.onclick = () => {
+      const next = steppedQuests.choose(talk.questId, npcId, i);
+      if (next) showQuestTalk(npcId, name, next);
+    };
+    $('panel-choices').append(btn);
+  });
+  refreshMarks();
+}
+
 /** Try to go in or talk now; true when the screen opened or the line was shown. */
 function arrive(town: number, role: number, npc: number): boolean {
   const t = sim.towns[town];
@@ -2351,6 +2389,11 @@ function arrive(town: number, role: number, npc: number): boolean {
     const n = t.def.npcs![npc];
     if (!heroNear(n.x + 0.5, n.y + 0.5, TALK_REACH)) return false;
     $('toast').hidden = true;
+    const quest = n.id ? steppedQuests.talk(n.id, npcName) : null;
+    if (quest) {
+      showQuestTalk(n.id!, n.name, quest);
+      return true;
+    }
     const npcText = loadedMission?.doc.text[n.text] ?? '';
     openPanel(n.name, npcText);
     const npcClip = resolveDialogueVoiceClip(n.name, npcText, loadedMission?.doc.name ?? '', n.text);
@@ -3145,14 +3188,8 @@ function updateStats(): void {
     if (aliveFoes < lastFoes && !isTownNode) {
       achKills(lastFoes - aliveFoes);
       triggerTutorial('enemy_killed');
-      for (let i = 0; i < sim.count; i++) {
-        if (sim.team[i] === 1 && sim.cb.hp[i] <= 0 && !steppedDeadUnits.has(i)) {
-          steppedDeadUnits.add(i);
-          const fam = sim.cb.family[i];
-          if (fam) steppedQuests.onKillFamily(fam, 1);
-        }
-      }
     }
+    if (!isTownNode) questKills();
     if (!isTownNode) achTrack(sim.count, sim.team, sim.cb.hp, sim.cb.family);
     if (!isTownNode) sqTrack(sim.count, sim.team, sim.cb.hp, sim.cb.family, sim.cb.gold[0] ?? 0);
     if (!isTownNode && missionName) {
@@ -3708,7 +3745,10 @@ function advanceStep(): void {
             orderPickupLoot(lootId);
             playPickupRustle();
             const itemName = (d2Action.interactable as { name?: string }).name;
-            if (itemName) steppedQuests.onCollectItem(itemName, 1);
+            if (itemName) {
+              steppedQuests.onCollectItem(itemName, 1);
+              refreshMarks();
+            }
             triggerTutorial('loot_collected');
           }
         } else if (d2Action.interactable.type === 'chest' && d2Action.interactable.obj) {
@@ -3858,6 +3898,28 @@ for (const key of ['vendor-stock', 'npc-reactions', 'merc-hire-dialogues', 'ui-s
   }).catch(() => {});
 }
 const steppedDeadUnits = new Set<number>();
+let steppedSeeded = false;
+/** Counts each foe death once; units already dead on the first look (a loaded save) don't count. */
+function questKills(): void {
+  let changed = false;
+  const families = new Map<string, boolean>(); // family -> any still alive
+  for (let i = 0; i < sim.count; i++) {
+    if (sim.team[i] !== 1) continue;
+    const family = sim.cb.family[i];
+    if (family) families.set(family, families.get(family) === true || sim.cb.hp[i] > 0);
+    if (sim.cb.hp[i] > 0) steppedDeadUnits.delete(i);
+    else if (!steppedDeadUnits.has(i)) {
+      steppedDeadUnits.add(i);
+      const fam = sim.cb.family[i];
+      if (steppedSeeded && fam && steppedQuests.onFoeKilled(fam).length > 0) changed = true;
+    }
+  }
+  steppedSeeded = true;
+  for (const [family, anyAlive] of families) {
+    if (!anyAlive && steppedQuests.onFamilyCleared(family).length > 0) changed = true;
+  }
+  if (changed) refreshMarks();
+}
 const seenTutorials = new Set<string>(JSON.parse(localStorage.getItem('thornvael:tutorialSeen') || '[]') as string[]);
 function triggerTutorial(triggerType: string): void {
   if (localStorage.getItem('thornvael:tutorialDisabled') === '1') return;
@@ -3874,6 +3936,7 @@ void fetch(`${import.meta.env.BASE_URL}data/content/side-quests.json`)
     if (Array.isArray(defs) && defs.length > 0) {
       steppedQuests = new SteppedQuestAdapter(defs, resumed?.save.state.steppedQuests ?? steppedQuests.save());
       townUi.setSteppedQuests(steppedQuests);
+      refreshMarks();
     }
   })
   .catch(() => {});
@@ -4061,6 +4124,7 @@ onDiscovery((id) => {
 function openPanel(title: string, body: string, restart = false): void {
   $('panel-title').textContent = title;
   $('panel-body').textContent = body;
+  $('panel-choices').replaceChildren();
   $('panel-restart').hidden = !restart;
   $('panel').hidden = false;
 }
@@ -4263,12 +4327,7 @@ void renderer.init(sim).then(() => {
   setQuality(renderer.quality, true);
   if (combatMode) selectAll();
   if (missionError) toast(`${S.mission.loadFailed} ${missionError}`);
-  const marks: { x: number; y: number; label: string; npc: boolean }[] = [];
-  for (const t of sim.towns) {
-    t.centre.forEach((c, role) => c && marks.push({ x: c[0], y: c[1] - 1.1, label: S.town.roles[role], npc: false }));
-    for (const n of t.def.npcs ?? []) marks.push({ x: n.x + 0.5, y: n.y + 0.5, label: n.name, npc: true });
-  }
-  if (marks.length) renderer.setMarks(marks);
+  refreshMarks();
   if (resumed) {
     // Back exactly where the save was taken: no briefing, no hero creation, the same view.
     const ui = resumed.save.state.ui;
