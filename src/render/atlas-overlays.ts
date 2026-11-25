@@ -281,8 +281,8 @@ export class AtlasOverlayPass {
           if (atlases.cityBuildings) {
             const roleKey = CITY_ROLES[role % CITY_ROLES.length]!;
             this.cityPool.acquire(atlases.cityBuildings, `${cityKey}/${roleKey}`, bx, by + 18, {
-              scaleX: 0.56,
-              scaleY: 0.56,
+              scaleX: 0.68,
+              scaleY: 0.68,
               alpha: 0.94,
               anchorX: 0.5,
               anchorY: 0.9,
@@ -310,11 +310,11 @@ export class AtlasOverlayPass {
           ...(town.def.npcs ?? []).map((npc) => ({ npc, role: resolveTownNpcKey(`${npc.name ?? ''} ${npc.text ?? ''}`) as string, offset: 0 })),
           ...(town.hubNpcs ?? []).map((npc) => ({ npc, role: npc.role as string, offset: npc.frameOffset })),
         ];
-        for (const { npc, role, offset } of folk) {
+        for (const [n, { npc, role, offset }] of folk.entries()) {
           if (!inViewTile(Math.floor(npc.x), Math.floor(npc.y))) continue;
           const x = (npc.x + 0.5) * TILE;
           const y = (npc.y + 0.5) * TILE;
-          if (p.unitArt && this.folk.draw(role, x, y, animate ? sim.tick + offset * 10 : 0, p.unitArt)) continue;
+          if (p.unitArt && this.folk.draw(role, x, y, animate ? sim.tick + offset * 10 : 0, p.unitArt, n)) continue;
           if (atlases.townnpcs) {
             const animFrame = animate ? ((sim.tick >> 2) + offset) % 4 : 0;
             this.npcPool.acquire(atlases.townnpcs, `${role}/idle/${animFrame}`, x, y, { scaleX: 0.72, scaleY: 0.72, anchorX: 0.5, anchorY: 0.88 });
