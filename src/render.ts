@@ -702,9 +702,17 @@ export class Renderer {
     return this.app?.renderer ? this.app.screen.height : typeof window !== 'undefined' ? window.innerHeight : 600;
   }
 
-  /** Static world labels: town buildings and people to talk to (x, y in tiles). Call after init. */
-  setMarks(marks: readonly { x: number; y: number; label: string; npc: boolean }[]): void {
+  private marksLayer: Container | null = null;
+  private questLayer: Container | null = null;
+
+  /** World labels: town buildings and people to talk to (x, y in tiles). Call after init. */
+  setMarks(marks: readonly { x: number; y: number; label: string; npc: boolean; quest?: '!' | '?' | null }[]): void {
+    if (this.questLayer && !this.questLayer.destroyed) this.questLayer.destroy({ children: true });
+    const quests = new Container();
+    this.questLayer = quests;
+    if (this.marksLayer && !this.marksLayer.destroyed) this.marksLayer.destroy({ children: true });
     const layer = new Container();
+    this.marksLayer = layer;
     const g = new Graphics();
     layer.addChild(g);
     for (const m of marks) {
@@ -727,8 +735,18 @@ export class Renderer {
       t.anchor.set(0.5, 1);
       t.position.set(px, py - (m.npc ? 14 : 0));
       layer.addChild(t);
+      if (m.quest) {
+        const q = new Text({
+          text: m.quest,
+          style: { fontFamily: 'Georgia, serif', fontSize: 30, fontWeight: 'bold', fill: 0xffd23a, stroke: { color: 0x000000, width: 5 } },
+        });
+        q.anchor.set(0.5, 1);
+        q.position.set(px, py - 28);
+        quests.addChild(q);
+      }
     }
     this.world.addChildAt(layer, 2);
+    this.world.addChild(quests); // above figures, so a quest giver is never hidden
   }
 
   async init(sim: Sim): Promise<void> {

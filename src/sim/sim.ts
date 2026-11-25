@@ -2,7 +2,7 @@ import { isBlockedAt, type GameMap } from '../map';
 import type { ShrineDef } from '../mapdoc';
 import { dayLight } from './daynight';
 import { CombatState, Ord, POOLS, enemyNear, lootPos, nearestLoot, think, toGuard, type CombatSnap } from './combat';
-import { cloneHero, hashHero, heroCommand, type HeroCommand, type HeroState } from './hero';
+import { addHeroXp, cloneHero, hashHero, heroCommand, type HeroCommand, type HeroState } from './hero';
 import { NST, SPELLS, St, Tk } from './spelldata';
 import { addStatus, isCorpse, knows, resolveTarget, revive } from './spells';
 import { FP, Pather, isChokepoint, lineClear, regionsOf } from './path';
@@ -49,6 +49,7 @@ export type Command =
     }
   | { type: 'autocast'; ids: number[]; spell: number } // spell id, or -1 to switch autocast off
   | { type: 'repopulate'; id: number; x: number; y: number; cost?: number }
+  | { type: 'reward'; gold: number; xp: number } // quest payment to the player
   | HeroCommand
   | TownCommand;
 export interface LoggedCommand {
@@ -497,7 +498,13 @@ export class Sim {
     else if (cmd.type === 'repopulate') this.applyRepopulate(cmd);
     else if (cmd.type === 'hero') heroCommand(this, cmd);
     else if (cmd.type === 'town') townCommand(this, cmd);
+    else if (cmd.type === 'reward') this.applyReward(cmd);
     else this.applyOrder(cmd);
+  }
+
+  private applyReward(cmd: Extract<Command, { type: 'reward' }>): void {
+    if (cmd.gold > 0) this.cb.gold[0] += Math.floor(cmd.gold);
+    if (cmd.xp > 0) addHeroXp(this, Math.floor(cmd.xp));
   }
 
   private applyRepopulate(cmd: Extract<Command, { type: 'repopulate' }>): void {
