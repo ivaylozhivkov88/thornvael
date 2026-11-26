@@ -217,7 +217,12 @@ export async function loadTownBarks(): Promise<void> {
 /** One random ambient line for the town whose display name matches (UI-only randomness). */
 export function townBark(townName: string): string | undefined {
   const key = townName.toLowerCase();
-  const list = townBarks.filter((b) => key.includes(b.town.replace('town-', '')));
+  const list = townBarks.filter((b) => {
+    const slug = b.town.replace('town-', '');
+    if (key.includes(slug)) return true;
+    if (slug === 'ironcamp' && (key.includes('highcrest') || key.includes('citadel'))) return true;
+    return false;
+  });
   return pick(list)?.line;
 }
 

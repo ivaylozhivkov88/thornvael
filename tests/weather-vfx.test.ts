@@ -5,11 +5,10 @@ import {
   biomeToAct,
   detectBiomeFromMap,
   type BiomeWeatherType,
-  type BiomeAct,
 } from '../src/aesthetic-vfx';
 import { generateMap, Terrain } from '../src/map';
 import { Sim } from '../src/sim/sim';
-import { DEFAULT_PREFERENCES, readPreferences, writePreference } from '../src/preferences';
+import { readPreferences, writePreference } from '../src/preferences';
 
 describe('Environmental VFX & Biome Weather System (AestheticVfxSystem)', () => {
   it('maps between Act numbers (1-4) and BiomeWeatherType cleanly', () => {

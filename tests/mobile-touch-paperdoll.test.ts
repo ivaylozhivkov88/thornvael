@@ -1,10 +1,10 @@
-import { beforeEach, describe, expect, it } from 'vitest';
+import { describe, expect, it } from 'vitest';
 import { readFileSync } from 'node:fs';
 import { resolve } from 'node:path';
 import { HeroUi, type HeroUiCtx } from '../src/heroui';
 import { Sim, type Command } from '../src/sim/sim';
-import { createHero, startState, type HeroState } from '../src/sim/hero';
-import { itemId, Slot } from '../src/sim/items';
+import { createHero, } from '../src/sim/hero';
+import { itemId, } from '../src/sim/items';
 import type { GameMap } from '../src/map';
 import { Kind } from '../src/sim/combat';
 

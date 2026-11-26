@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest';
 import { generateExpeditionMap, isPathReachable } from '../src/map-generator';
-import { bakeBlocked, ObjectKind, Terrain } from '../src/map';
+import { bakeBlocked, Terrain } from '../src/map';
 import { loadDoc, rleDecode, validate } from '../src/mapdoc';
 import { createMission } from '../src/mission';
 import { Kind } from '../src/sim/combat';

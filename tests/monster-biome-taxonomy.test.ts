@@ -1,12 +1,12 @@
 import { readFileSync } from 'node:fs';
 import { describe, expect, it } from 'vitest';
-import { bakeBlocked, Terrain } from '../src/map';
+import { bakeBlocked, } from '../src/map';
 import { BIOMES, generateExpeditionMap, isPathReachable } from '../src/map-generator';
 import { BOSS_MOD_IDS, loadDoc, rleDecode, validate, type BossModId } from '../src/mapdoc';
 import { createMission } from '../src/mission';
-import { BOSS_MOD_LABELS, monsterInfo, monsterInfoByFamily } from '../src/monster-info';
+import { monsterInfo, monsterInfoByFamily } from '../src/monster-info';
 import { Kind } from '../src/sim/combat';
-import { MONSTER_FAMILIES, MONSTER_PALETTES, monsterFamilyById, parseMonsters, setMonsters } from '../src/sim/data';
+import { MONSTER_FAMILIES, parseMonsters, setMonsters } from '../src/sim/data';
 import { createHero } from '../src/sim/hero';
 
 interface MonsterCatalog {

@@ -1,17 +1,34 @@
-import { calculateBlockChance, combineCritChance, calculateD2HitChance, mitigateDamage } from './mechanics';
-import { FP, dir16 } from './path';
+import {
+  calculateBlockChance,
+  calculateCrushingBlowDamage,
+  calculateDeadlyStrike,
+  calculateHitChance,
+  calculateLeechAmount,
+  calculateOpenWoundsDamage,
+  combineCritChance,
+  getFHRDurationTicks,
+  getIASAttackCooldown,
+  mitigateDamage,
+  shouldTriggerFlinch,
+} from './mechanics';
+import { getSalvationResistBonus, isUnitUnderConviction, isUnitUnderThorns } from './auras';
+import { FP, dir16, safeSlideTo } from './path';
 import type { Sim } from './sim';
 import { monsterFamilyById, monsterPaletteByTier } from './data';
 import { rulesOf } from './difficulty';
 import { calculateCalibratedResist, getDifficultyCalibration } from './balance';
 import { ALL_SPELLS, KNOWN_HI, MAGE_SPELLS, NST, SPELLS, St, Tk } from './spelldata';
 import { addStatus, autoCast, castSpell, clearAllStatuses, knows, spellHit, statusTick, validTarget } from './spells';
-import { addHeroXp, dropLoot, heroTick, heroUse, pickBag, respawnHero } from './hero';
-import { PART_COUNT, PART_DMG, PART_WEIGHT, Slot, getItemDef } from './items';
+import { addHeroXp, derive, dropLoot, heroTick, heroUse, pickBag, respawnHero } from './hero';
+import { PART_COUNT, PART_DMG, PART_WEIGHT, Slot, getItemDef, kitCls } from './items';
 import { computeHighGroundBonus } from './tactics';
 import { checkAndConsumeMercAutoPotion, createMercenaryRecord, registerMercenaryKill } from './mercs';
 import { getSuperUniqueForUnit } from './super-uniques';
-import { discoverBossTrophy } from '../codex';
+
+export function hashStr(mix: (v: number) => void, s: string): void {
+  mix(s.length);
+  for (let i = 0; i < s.length; i++) mix(s.charCodeAt(i));
+}
 
 /** Per-unit stat bonuses (hero gear, attributes, skills), MODN entries per unit. Def and Abs count on every part; PDef and PAbs are four entries, one per body part. */
 export const M = { Min: 0, Max: 1, Acc: 2, Def: 3, Abs: 4, Res: 5, Pow: 10, Regen: 11, PDef: 12, PAbs: 16 } as const;
@@ -84,7 +101,7 @@ const PSPEED = Math.round((9 * FP) / 25);
 const PROJ_SCAN = 4; // monsters and allies look for a new target every 4th tick
 
 export interface Fx {
-  /** 0 hit, 1 miss, 2 death, 3 gold, 4 no mana, 5 area ring (v = radius x10 tiles), 6 spare, 7 heal, 8 status (v = id, +16 when it ends), 9 cast (v = spell), 10 corpse event (v: 0 burst, 1 raised, 2 mana), 11 blocked */
+  /** 0 hit, 1 miss, 2 death, 3 gold, 4 no mana, 5 area ring (v = radius x10 tiles), 6 spare, 7 heal, 8 status (v = id, +16 when it ends), 9 cast (v = spell), 10 corpse event (v: 0 burst, 1 raised, 2 mana), 11 blocked, 12 melee/bow swing, 13 boss trophy (v = unit id, el = 1 if super-unique) */
   type: number;
   x: number; // fixed point
   y: number;
@@ -93,6 +110,10 @@ export interface Fx {
 }
 
 export interface CombatSnap {
+  kind?: Uint8Array;
+  tier?: Uint8Array;
+  family?: string[];
+  bossMods?: string[][];
   hp: Int16Array;
   mana: Int16Array;
   ord: Uint8Array;
@@ -290,6 +311,12 @@ export class CombatState {
 
   hashInto(mix: (v: number) => void): void {
     for (let i = 0; i < this.count; i++) {
+      mix(this.kind[i]);
+      mix(this.tier[i]);
+      hashStr(mix, this.family[i] ?? '');
+      const bmods = this.bossMods[i];
+      mix(bmods ? bmods.length : 0);
+      if (bmods) for (const bm of bmods) hashStr(mix, bm);
       mix(this.hp[i]);
       mix(this.mana[i]);
       mix(this.ord[i]);
@@ -304,6 +331,11 @@ export class CombatState {
       mix(this.manaMax[i]);
       mix(this.known[i]);
       for (let w = 0; w < KNOWN_HI; w++) if (this.knownHi[i * KNOWN_HI + w]) mix(this.knownHi[i * KNOWN_HI + w] + w * 7919); // zero keeps older hashes unchanged
+      const mo = i * MODN;
+      for (let m = 0; m < MODN; m++) {
+        const mv = this.mod[mo + m];
+        if (mv) mix(mv + m * 7907);
+      }
       const m = this.stMask[i];
       if (m) {
         mix(m);
@@ -318,15 +350,33 @@ export class CombatState {
       mix(this.pT[p]);
       mix(this.pS[p]);
       mix(this.pPow[p]);
+      mix(this.pMin[p]);
+      mix(this.pMax[p]);
+      mix(this.pEl[p]);
+      mix(this.pAcc[p]);
+      mix(this.pSrc[p]);
     }
-    for (let s = 0; s < MAXS; s++) if (this.sG[s]) mix(this.sG[s] + s * 977);
-    for (let b = 0; b < MAXB; b++) if (this.bI[b]) mix(this.bI[b] + b * 983);
+    for (let s = 0; s < MAXS; s++) {
+      if (!this.sG[s]) continue;
+      mix(this.sG[s] + s * 977);
+      mix(this.sX[s]);
+      mix(this.sY[s]);
+    }
+    for (let b = 0; b < MAXB; b++) {
+      if (!this.bI[b]) continue;
+      mix(this.bI[b] + b * 983);
+      mix(this.bX[b]);
+      mix(this.bY[b]);
+    }
     mix(this.gold[0]);
     mix(this.gold[1]);
+    mix(this.gold[2]);
+    mix(this.gold[3]);
   }
 
   snapshot(): CombatSnap {
     return {
+      kind: this.kind.slice(), tier: this.tier.slice(), family: this.family.slice(), bossMods: this.bossMods.map((m) => m.slice()),
       hp: this.hp.slice(), mana: this.mana.slice(), ord: this.ord.slice(), tgt: this.tgt.slice(), aux: this.aux.slice(),
       px: this.px.slice(), py: this.py.slice(), cd: this.cd.slice(),
       pAlive: this.pAlive.slice(), pX: this.pX.slice(), pY: this.pY.slice(), pT: this.pT.slice(),
@@ -339,6 +389,10 @@ export class CombatState {
   }
 
   restore(s: CombatSnap, team: Uint8Array): void {
+    if (s.kind) (this.kind as Uint8Array).set(s.kind);
+    if (s.tier) (this.tier as Uint8Array).set(s.tier);
+    if (s.family) (this.family as string[]).splice(0, this.family.length, ...s.family);
+    if (s.bossMods) (this.bossMods as string[][]).splice(0, this.bossMods.length, ...s.bossMods.map((m) => m.slice()));
     this.hp = s.hp.slice(); this.mana = s.mana.slice(); this.ord = s.ord.slice(); this.tgt = s.tgt.slice(); this.aux = s.aux.slice();
     this.px = s.px.slice(); this.py = s.py.slice(); this.cd = s.cd.slice();
     this.pAlive = s.pAlive.slice(); this.pX = s.pX.slice(); this.pY = s.pY.slice(); this.pT = s.pT.slice();
@@ -677,9 +731,13 @@ export function strike(sim: Sim, t: number, min: number, max: number, elem: numb
   let chance = 100;
   let roll = 0;
   let raw = dmg;
+  const isHeroSrc = src >= 0 && sim.hero !== null && src === sim.hero.id;
+  const srcHeroDeriv = isHeroSrc ? derive(sim.hero!) : null;
+  const isHeroTgt = sim.hero !== null && t === sim.hero.id;
+  const tgtHeroDeriv = isHeroTgt ? derive(sim.hero!) : null;
   if (elem === Elem.Physical) {
     part = partOf(sim.rng.int(100));
-    const dfn = partDef(sim, t, part);
+    const dfn = Math.max(0, partDef(sim, t, part) - (srcHeroDeriv?.armorPen ?? 0));
     // Reference-checked formula on an AR/Def scale (stat points x AR_SCALE); equal stats and levels give about 70%, as before.
     const aLvl = unitLevel(sim, src);
     const dLvl = unitLevel(sim, t);
@@ -690,7 +748,7 @@ export function strike(sim: Sim, t: number, min: number, max: number, elem: numb
       hgAccMult = hg.accuracyMult;
       hgCritBonus = hg.critBonusPct;
     }
-    chance = Math.max(15, Math.min(95, Math.floor(calculateD2HitChance(acc * AR_SCALE + 40, dfn * AR_SCALE, aLvl, dLvl) * 1.4)));
+    chance = Math.max(15, Math.min(95, Math.floor(calculateHitChance(acc * AR_SCALE + 40, dfn * AR_SCALE, aLvl, dLvl) * 1.4)));
     if (hgAccMult !== 1.0) {
       chance = Math.max(15, Math.min(95, Math.floor(chance * hgAccMult)));
     }
@@ -700,43 +758,55 @@ export function strike(sim: Sim, t: number, min: number, max: number, elem: numb
       cb.emit(1, sim.x[t], sim.y[t], 0, 0);
       return;
     }
-    if (sim.hero !== null && t === sim.hero.id && src >= 0 && heroBlocks(sim)) {
+    if (isHeroTgt && src >= 0 && heroBlocks(sim)) {
       if (cb.log) logHit(sim, src, t, elem, part, chance, roll, raw, raw, 0);
       cb.emit(11, sim.x[t], sim.y[t], 0, 0); // shield turns the blow aside
       return;
     }
-    const isHeroSrc = src >= 0 && sim.hero !== null && src === sim.hero.id;
+    let doubled = false;
     if (isHeroSrc || (src >= 0 && hgCritBonus > 0)) {
       const baseCrit = isHeroSrc
-        ? combineCritChance(Math.floor(sim.hero!.attr[1] / 8), (sim.hero!.eq[0] >= 0 ? getItemDef(sim.hero!.eq[0])?.crit : 0) ?? 0)
+        ? combineCritChance(Math.floor(sim.hero!.attr[1] / 8), srcHeroDeriv?.crit ?? 0)
         : 0;
       const crit = Math.min(100, Math.floor(baseCrit) + hgCritBonus);
       if (crit > 0 && sim.rng.int(100) < crit) {
         dmg *= 2; // critical strike
+        doubled = true;
         cb.emit(6, sim.x[t], sim.y[t], 1, Elem.Physical);
       }
+    }
+    if (!doubled && srcHeroDeriv && srcHeroDeriv.deadlyStrike > 0) {
+      const ds = calculateDeadlyStrike(dmg, srcHeroDeriv.deadlyStrike, sim.rng.int(100));
+      dmg = ds.dmg;
+      if (ds.isDeadly) cb.emit(6, sim.x[t], sim.y[t], 1, Elem.Physical);
+    }
+    if (srcHeroDeriv && srcHeroDeriv.crushingBlow > 0 && cb.hp[t] > 0 && sim.rng.int(100) < Math.min(100, srcHeroDeriv.crushingBlow)) {
+      const isBoss = Boolean(cb.bossMods[t]?.length || cb.tier[t] >= 3);
+      dmg += calculateCrushingBlowDamage(cb.hp[t], heroIsRanged(sim, src), isBoss, 0);
     }
     raw = Math.floor((dmg * PART_DMG[part]) / 100);
     dmg = Math.max(1, raw - partAbs(sim, t, part));
     if (cb.stMask[t] & (1 << St.Stone)) dmg = Math.max(1, dmg >> 1); // stone halves blows
-    if (sim.hero !== null && t === sim.hero.id) {
+    if (isHeroTgt) {
       heroUse(sim, 1); // Guard grows with blows taken
-      sim.hero.hits[part]++; // wear on the armour, paid as upkeep after the mission
+      sim.hero!.hits[part]++; // wear on the armour, paid as upkeep after the mission
     }
   } else {
     const isFoe = sim.team[t] !== 0;
     const isChampionOrBoss = Boolean(cb.bossMods[t]?.length || cb.tier[t] >= 3);
-    const baseRes = d.res[elem - 1] + cb.mod[mo + M.Res + elem - 1];
+    const auraResDelta = getSalvationResistBonus(sim, t) + (isUnitUnderConviction(sim, t) ? -30 : 0);
+    const baseRes = d.res[elem - 1] + cb.mod[mo + M.Res + elem - 1] + auraResDelta;
     const diff = sim.hero?.diff ?? (sim as unknown as { difficultyMode?: string | number }).difficultyMode;
     const res = calculateCalibratedResist(baseRes, elem, t, isFoe, isChampionOrBoss, diff);
-    // Reference order and caps: players top out at 75% resist, foes at 95%; 100 is true immunity; below -100 is clamped.
-    const capRes = sim.team[t] === 0 ? 75 : 95;
+    // Reference order and caps: players top out at 75% (+maxRes up to 95%) resist, foes at 95%; 100 is true immunity; below -100 is clamped.
+    const capRes = sim.team[t] === 0 ? Math.min(95, 75 + (tgtHeroDeriv?.maxRes[elem - 1] ?? 0)) : 95;
     dmg = res >= 100 ? 0 : Math.max(0, mitigateDamage(dmg, { resist: Math.min(capRes, res) }));
   }
   if (src >= 0 && sim.team[t] === 0 && sim.team[src] !== 0) {
     const diff = sim.hero?.diff ?? (sim as unknown as { difficultyMode?: string | number }).difficultyMode;
     const cal = getDifficultyCalibration(diff);
-    const pct = Math.floor(rulesOf(sim).foeHitPct * cal.monsterDmgMult);
+    const ngMult = sim.ngPlusTier > 0 ? 1 + 0.25 * sim.ngPlusTier : 1;
+    const pct = Math.floor(rulesOf(sim).foeHitPct * cal.monsterDmgMult * ngMult);
     if (pct !== 100 && dmg > 0) dmg = Math.max(1, Math.floor((dmg * pct) / 100));
   }
   const cut = raw - dmg;
@@ -756,14 +826,26 @@ export function strike(sim: Sim, t: number, min: number, max: number, elem: numb
   if (cb.log) logHit(sim, src, t, elem, part, chance, roll, raw, cut, dmg);
   if (dmg > 0 || !(cb.stMask[t] & (1 << St.Shield))) cb.emit(0, sim.x[t], sim.y[t], dmg, elem);
 
-  if (src >= 0 && sim.hero !== null && src === sim.hero.id && dmg > 0) {
-    const wep = sim.hero.eq[0];
-    const wepDef = wep >= 0 ? getItemDef(wep) : undefined;
-    const ls = wepDef?.lifesteal ?? 0;
-    if (ls > 0 && cb.hp[src] < cb.hpMax[src]) {
-      const heal = Math.max(1, Math.floor((dmg * ls) / 100));
-      cb.hp[src] = Math.min(cb.hpMax[src], cb.hp[src] + heal);
-      cb.emit(7, sim.x[src], sim.y[src], heal, 0);
+  if (dmg > 0 && tgtHeroDeriv && tgtHeroDeriv.fhr > 0 && shouldTriggerFlinch(dmg, cb.hpMax[t])) {
+    const flinchTicks = getFHRDurationTicks(kitCls(sim.hero!.cls), tgtHeroDeriv.fhr);
+    cb.cd[t] = Math.min(cb.cd[t], flinchTicks);
+  }
+
+  if (srcHeroDeriv && dmg > 0) {
+    if (srcHeroDeriv.lifesteal > 0 && cb.hp[src] < cb.hpMax[src]) {
+      const heal = calculateLeechAmount(dmg, srcHeroDeriv.lifesteal, sim.hero!.diff);
+      if (heal > 0) {
+        cb.hp[src] = Math.min(cb.hpMax[src], cb.hp[src] + heal);
+        cb.emit(7, sim.x[src], sim.y[src], heal, 0);
+      }
+    }
+    if (srcHeroDeriv.manasteal > 0 && cb.mana[src] < cb.manaMax[src]) {
+      const manaGain = calculateLeechAmount(dmg, srcHeroDeriv.manasteal, sim.hero!.diff);
+      if (manaGain > 0) cb.mana[src] = Math.min(cb.manaMax[src], cb.mana[src] + manaGain);
+    }
+    if (elem === Elem.Physical && srcHeroDeriv.openWounds > 0 && cb.hp[t] > 0 && sim.rng.int(100) < Math.min(100, srcHeroDeriv.openWounds)) {
+      const owDmg = Math.max(1, Math.round(calculateOpenWoundsDamage(sim.hero!.level ?? 1, 160) / 8));
+      addStatus(sim, t, St.Burn, 160, owDmg);
     }
   }
 
@@ -777,10 +859,7 @@ export function strike(sim: Sim, t: number, min: number, max: number, elem: numb
 
   // Thorns aura reflection: when taking melee physical damage, reflects damage back to attacker
   if (dmg > 0 && elem === Elem.Physical && src >= 0 && src !== t && sim.team[src] !== sim.team[t]) {
-    const hasThorns = Boolean(
-      cb.bossMods[t]?.includes('thorns') ||
-        (sim.hero !== null && sim.hero.id === t && sim.hero.activeAura === 'thorns')
-    );
+    const hasThorns = Boolean(cb.bossMods[t]?.includes('thorns') || isUnitUnderThorns(sim, t));
     if (hasThorns) {
       const reflectDmg = Math.max(1, Math.round(dmg * 0.75));
       strike(sim, src, reflectDmg, reflectDmg + 2, Elem.Physical, 20, t, depth + 1);
@@ -806,8 +885,15 @@ export function strike(sim: Sim, t: number, min: number, max: number, elem: numb
 
 function die(sim: Sim, t: number, elem = 0, depth = 0, src = -1): void {
   if (sim.hero !== null && t === sim.hero.id) {
-    respawnHero(sim);
-    return;
+    const hasLoseTrigger = Boolean(
+      sim.script?.def.triggers.some(
+        (tr, idx) => sim.script!.st.on[idx] !== 0 && tr.acts.some((a) => a.k === 'lose'),
+      ),
+    );
+    if (!hasLoseTrigger) {
+      respawnHero(sim);
+      return;
+    }
   }
   const cb = sim.cb;
   if (cb.bossMods[t]?.includes('fire_enchanted')) {
@@ -840,6 +926,7 @@ function die(sim: Sim, t: number, elem = 0, depth = 0, src = -1): void {
 
   clearAllStatuses(sim, t);
   sim.stop(t);
+  sim.markGridDirty();
   cb.emit(2, sim.x[t], sim.y[t], 0, 0);
   if (sim.team[t] === 0 && (sim.hero === null || t !== sim.hero.id) && sim.town) {
     sim.town.fallenVeterans = sim.town.fallenVeterans ?? [];
@@ -874,11 +961,7 @@ function die(sim: Sim, t: number, elem = 0, depth = 0, src = -1): void {
     if (isBoss) {
       const trophyId = su?.id || fam;
       if (trophyId) {
-        discoverBossTrophy(trophyId, 'normal', {
-          heroName: sim.hero?.name,
-          heroLevel: sim.hero?.level,
-          droppedBy: su?.name || fam,
-        });
+        cb.emit(13, sim.x[t], sim.y[t], t, su ? 1 : 0);
       }
       if (sim.town?.bounties) {
         let matchedSpecific = false;
@@ -906,7 +989,8 @@ function die(sim: Sim, t: number, elem = 0, depth = 0, src = -1): void {
       const tier = cb.tier[t] || 1;
       const bmods = cb.bossMods[t];
       const rankMult = bmods && bmods.length >= 2 ? 4 : bmods && bmods.length === 1 ? 2 : 1;
-      const xp = Math.round(15 * tier * rankMult);
+      const ngXpMult = sim.ngPlusTier > 0 ? 1 + 0.35 * sim.ngPlusTier : 1;
+      const xp = Math.round(15 * tier * rankMult * ngXpMult);
       addHeroXp(sim, xp);
     }
     const bossBonus = cb.bossMods[t] && cb.bossMods[t].length > 0 ? 15 * cb.bossMods[t].length : 0;
@@ -938,8 +1022,25 @@ export function launch(sim: Sim, ox: number, oy: number, t: number, min: number,
     cb.pS[p] = sid + 1;
     return;
   }
-  if (sid >= 0) spellHit(sim, t, sid, pow);
+  if (sid >= 0) spellHit(sim, t, sid, pow, src);
   else strike(sim, t, min, max, elem, acc, src); // pool full: hit at once
+}
+
+function heroIsRanged(sim: Sim, i: number): boolean {
+  if (sim.hero === null || sim.hero.id !== i) return false;
+  const wepId = sim.hero.eq[Slot.Weapon];
+  if (wepId < 0) return false;
+  const w = getItemDef(wepId);
+  if (!w) return false;
+  return /bow|arbalest|crossbow|windpiercer/i.test(w.name);
+}
+
+function unitReach(sim: Sim, i: number, d: KindDef): number {
+  return heroIsRanged(sim, i) ? Math.max(d.reach, 7 * T) : d.reach;
+}
+
+function unitIsRanged(sim: Sim, i: number, d: KindDef): boolean {
+  return d.ranged || heroIsRanged(sim, i);
 }
 
 function attack(sim: Sim, i: number, t: number): void {
@@ -951,7 +1052,11 @@ function attack(sim: Sim, i: number, t: number): void {
   let min = d.min + cb.mod[mo + M.Min];
   let max = d.max + cb.mod[mo + M.Max];
   let acc = d.acc + cb.mod[mo + M.Acc];
-  if (sim.hero !== null && i === sim.hero.id) heroUse(sim, 0); // Blade grows with blows struck
+  if (sim.hero !== null && i === sim.hero.id) {
+    heroUse(sim, 0); // Blade grows with blows struck
+    const ias = derive(sim.hero).ias;
+    if (ias > 0) cd = getIASAttackCooldown(cd, ias);
+  }
   if (m) {
     if (m & (1 << St.Haste)) cd = Math.round(cd * 0.7);
     else if (m & (1 << St.Slow)) cd = Math.round(cd * 1.4);
@@ -970,7 +1075,7 @@ function attack(sim: Sim, i: number, t: number): void {
     if (bmods.includes('extra_fast')) cd = Math.max(1, Math.round(cd * 0.7));
   }
   cb.cd[i] = cd;
-  if (d.ranged) {
+  if (unitIsRanged(sim, i, d)) {
     if (d.elem === 0) cb.emit(12, sim.x[i], sim.y[i], 0, 0);
     launch(sim, sim.x[i], sim.y[i], t, min, max, d.elem, acc, -1, 100, i);
   }
@@ -1017,7 +1122,7 @@ function stepProjectiles(sim: Sim): void {
     const d = Math.sqrt(dx * dx + dy * dy);
     if (d <= PSPEED + 40) {
       cb.pAlive[p] = 0;
-      if (cb.pS[p] > 0) spellHit(sim, t, cb.pS[p] - 1, cb.pPow[p]);
+      if (cb.pS[p] > 0) spellHit(sim, t, cb.pS[p] - 1, cb.pPow[p], cb.pSrc[p]);
       else strike(sim, t, cb.pMin[p], cb.pMax[p], cb.pEl[p], cb.pAcc[p], cb.pSrc[p]);
     } else {
       cb.pX[p] += Math.round((dx * PSPEED) / d);
@@ -1047,7 +1152,7 @@ function fight(sim: Sim, i: number, t: number): void {
   const cb = sim.cb;
   const d = DEFS[cb.kind[i]];
   const dd = dist(sim, i, sim.x[t], sim.y[t]);
-  if (dd <= effectiveReach(sim, i, t, d.reach, d.ranged)) {
+  if (dd <= effectiveReach(sim, i, t, unitReach(sim, i, d), unitIsRanged(sim, i, d))) {
     if (sim.moving[i]) sim.stop(i);
     sim.dir[i] = dir16(sim.x[t] - sim.x[i], sim.y[t] - sim.y[i]);
     if (cb.cd[i] === 0) attack(sim, i, t);
@@ -1072,7 +1177,8 @@ function unitThink(sim: Sim, i: number): void {
   const scan = ((sim.tick + i) & (PROJ_SCAN - 1)) === 0;
   let t = cb.tgt[i];
   const o = cb.ord[i];
-  if (scan && cb.auto[i] && (o === Ord.Guard || o === Ord.Hold || o === Ord.Swarm || o === Ord.Attack || o === Ord.Defend) && autoCast(sim, i)) return;
+  const heroAuto = sim.hero !== null && i === sim.hero.id && cb.cd[i] === 0;
+  if ((scan || heroAuto) && cb.auto[i] && (o === Ord.Guard || o === Ord.Hold || o === Ord.Swarm || o === Ord.Attack || o === Ord.Defend) && autoCast(sim, i)) return;
   switch (o) {
     case Ord.Still:
       return;
@@ -1095,10 +1201,12 @@ function unitThink(sim: Sim, i: number): void {
       return;
     }
     case Ord.Hold: {
-      if (!valid(sim, t) || dist(sim, i, sim.x[t], sim.y[t]) > effectiveReach(sim, i, t, d.reach, d.ranged)) {
-        const scanReach = d.ranged && sim.map?.height ? d.reach + Math.round(1.5 * FP) : d.reach;
+      const reach = unitReach(sim, i, d);
+      const ranged = unitIsRanged(sim, i, d);
+      if (!valid(sim, t) || dist(sim, i, sim.x[t], sim.y[t]) > effectiveReach(sim, i, t, reach, ranged)) {
+        const scanReach = ranged && sim.map?.height ? reach + Math.round(1.5 * FP) : reach;
         const cand = (sim.tick + i) & 1 ? -1 : enemyNear(sim, i, scanReach, 0, 0, 0);
-        t = cand >= 0 && dist(sim, i, sim.x[cand], sim.y[cand]) <= effectiveReach(sim, i, cand, d.reach, d.ranged) ? cand : -1;
+        t = cand >= 0 && dist(sim, i, sim.x[cand], sim.y[cand]) <= effectiveReach(sim, i, cand, reach, ranged) ? cand : -1;
       }
       cb.tgt[i] = t;
       if (t >= 0) {
@@ -1260,8 +1368,10 @@ function bossTick(sim: Sim, i: number): void {
         const dx = sim.x[t] - sim.x[i];
         const dy = sim.y[t] - sim.y[i];
         const distLen = Math.hypot(dx, dy) || 1;
-        sim.x[t] = Math.round(sim.x[t] + (dx / distLen) * FP);
-        sim.y[t] = Math.round(sim.y[t] + (dy / distLen) * FP);
+        const slid = safeSlideTo(sim.map, sim.x[t], sim.y[t], sim.x[t] + (dx / distLen) * FP, sim.y[t] + (dy / distLen) * FP);
+        sim.x[t] = slid.x;
+        sim.y[t] = slid.y;
+        sim.markGridDirty();
         cb.emit(2, sim.x[t], sim.y[t], 0, 0);
       }
     }
@@ -1287,8 +1397,16 @@ function bossTick(sim: Sim, i: number): void {
     if (hasTarget && sim.tick % 50 === 0) {
       const d = dist(sim, i, sim.x[t], sim.y[t]);
       if (d >= 3 * FP && d <= 8 * FP) {
-        sim.x[i] = sim.x[t] - Math.round(((sim.x[t] - sim.x[i]) / d) * Math.round(0.8 * FP));
-        sim.y[i] = sim.y[t] - Math.round(((sim.y[t] - sim.y[i]) / d) * Math.round(0.8 * FP));
+        const slid = safeSlideTo(
+          sim.map,
+          sim.x[i],
+          sim.y[i],
+          sim.x[t] - Math.round(((sim.x[t] - sim.x[i]) / d) * Math.round(0.8 * FP)),
+          sim.y[t] - Math.round(((sim.y[t] - sim.y[i]) / d) * Math.round(0.8 * FP)),
+        );
+        sim.x[i] = slid.x;
+        sim.y[i] = slid.y;
+        sim.markGridDirty();
         const crashDmg = 25 + sim.rng.int(15);
         strike(sim, t, crashDmg, crashDmg + 10, Elem.Physical, 15, i);
         addStatus(sim, t, St.Slow, 60, 0);

@@ -38,7 +38,7 @@ export const ARCHETYPES: readonly Archetype[] = [
     cls: 0,
     female: false,
     name: 'Dain Ironclad',
-    epithet: 'Vanguard Paladin',
+    epithet: 'Vanguard Bulwark',
     classLabel: 'WARRIOR',
     portraitFile: 'portrait-warrior-m.png',
     bio: 'A battle-hardened defender of Thornwick, clad in tempered gothic plate, wielding a broad kite shield and steel bastard sword. Absorbs crushing blows and holds chokepoints against overwhelming hordes.',

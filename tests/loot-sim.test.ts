@@ -1,31 +1,8 @@
 import { describe, expect, it } from 'vitest';
-import type { GameMap } from '../src/map';
-import { Kind } from '../src/sim/combat';
 import {
-  createHero,
-  dropLoot,
   evaluateQualityHierarchy,
-  getHeroMF,
-  getMonsterRank,
   calculateNoDropRate,
-  calculateEffectiveMF,
 } from '../src/sim/hero';
-import { ITEMS, Ik, Slot, itemId } from '../src/sim/items';
-import { UNIQUE_ARTIFACTS } from '../src/sim/affixes';
-import { ALL_SET_ITEMS } from '../src/sim/sets';
-import { Sim } from '../src/sim/sim';
-
-function field(w: number, h: number): GameMap {
-  return {
-    w,
-    h,
-    terrain: new Uint8Array(w * h),
-    height: new Uint8Array(w * h),
-    blocked: new Uint8Array(w * h),
-    objects: [],
-    light: new Uint8Array(w * h).fill(200),
-  };
-}
 
 describe('Monte Carlo classic ARPG Loot Drop Simulator (10,000 Kills)', () => {
   it('simulates 10,000 monster kills and validates statistical drop rates', () => {

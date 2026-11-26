@@ -1,4 +1,4 @@
-import { Slot } from './sim/items';
+import { Slot, kitCls } from './sim/items';
 import type { HeroState } from './sim/hero';
 import { equipmentLayers } from './hero-presentation';
 
@@ -96,7 +96,7 @@ export function figure(h: HeroState): SVGSVGElement {
   const defs = document.createElementNS(ns, 'defs');
   defs.innerHTML = `
     <radialGradient id="pdHalo" cx="50%" cy="40%" r="55%">
-      <stop offset="0%" stop-color="${h.cls === 1 ? '#4c1d95' : '#78350f'}" stop-opacity="0.5"/>
+      <stop offset="0%" stop-color="${kitCls(h.cls) === 1 ? '#4c1d95' : '#78350f'}" stop-opacity="0.5"/>
       <stop offset="60%" stop-color="#1c140d" stop-opacity="0.3"/>
       <stop offset="100%" stop-color="#0e0a07" stop-opacity="0"/>
     </radialGradient>
@@ -173,7 +173,7 @@ export function figure(h: HeroState): SVGSVGElement {
   const bodyGroup = document.createElementNS(ns, 'g');
   bodyGroup.setAttribute('class', 'hero-base-silhouette');
 
-  if (h.cls === 1) {
+  if (kitCls(h.cls) === 1) {
     // --- MAGE (Robed Spellcaster Silhouette) ---
     bodyGroup.innerHTML = `
       <path d="M 80 18 C 64 18, 56 32, 58 52 C 58 64, 66 70, 80 72 C 94 70, 102 64, 102 52 C 104 32, 96 18, 80 18 Z" fill="url(#pdRobe)" stroke="#160e22" stroke-width="1.5"/>

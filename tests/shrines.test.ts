@@ -1,9 +1,9 @@
 import { describe, expect, it } from 'vitest';
 import { generateMap } from '../src/map';
-import { blankDoc, loadDoc, validate } from '../src/mapdoc';
+import { blankDoc, validate } from '../src/mapdoc';
 import { Kind } from '../src/sim/combat';
 import { createHero } from '../src/sim/hero';
-import { FP, Sim } from '../src/sim/sim';
+import { Sim } from '../src/sim/sim';
 import { St } from '../src/sim/spelldata';
 
 describe('Interactive Tactical World Shrines (G2)', () => {
@@ -89,7 +89,6 @@ describe('Interactive Tactical World Shrines (G2)', () => {
 
     sim.step();
     expect(sim.shrineCd[0]).toBe(10);
-    const hpAfter1 = sim.cb.hp[0];
 
     // step 5 ticks: shrine on cd, should not re-trigger
     sim.cb.hp[0] = 30;

@@ -2,18 +2,18 @@ import { describe, expect, it } from 'vitest';
 import { applyCarryover, extractCarryover } from '../src/carryover';
 import { loadDoc, migrate, validate } from '../src/mapdoc';
 import { createMission, type MissionGame } from '../src/mission';
-import rawM12 from '../src/missions/m12-redmarsh-border.map.json';
-import rawM13 from '../src/missions/m13-twin-passes.map.json';
-import rawM14 from '../src/missions/m14-scattered-scouts.map.json';
-import rawM15 from '../src/missions/m15-outpost-palisade.map.json';
-import rawM16 from '../src/missions/m16-wardstone-rupture.map.json';
-import rawM17 from '../src/missions/m17-mire-convoy.map.json';
-import rawM18 from '../src/missions/m18-granary-raid.map.json';
-import rawM19 from '../src/missions/m19-hexer-capture.map.json';
-import rawM20 from '../src/missions/m20-deep-quarry.map.json';
-import rawM21 from '../src/missions/m21-lean-garrison.map.json';
-import rawM22 from '../src/missions/m22-fleeing-column.map.json';
-import rawM23 from '../src/missions/m23-fork-of-spears.map.json';
+import rawM12 from '../src/missions/m12-redmarsh-border-128.map.json';
+import rawM13 from '../src/missions/m13-twin-passes-128.map.json';
+import rawM14 from '../src/missions/m14-scattered-scouts-128.map.json';
+import rawM15 from '../src/missions/m15-outpost-palisade-128.map.json';
+import rawM16 from '../src/missions/m16-wardstone-rupture-128.map.json';
+import rawM17 from '../src/missions/m17-mire-convoy-128.map.json';
+import rawM18 from '../src/missions/m18-granary-raid-128.map.json';
+import rawM19 from '../src/missions/m19-hexer-capture-128.map.json';
+import rawM20 from '../src/missions/m20-deep-quarry-128.map.json';
+import rawM21 from '../src/missions/m21-lean-garrison-128.map.json';
+import rawM22 from '../src/missions/m22-fleeing-column-128.map.json';
+import rawM23 from '../src/missions/m23-fork-of-spears-128.map.json';
 import { newProgress, parseCampaign } from '../src/campaign';
 import { Kind } from '../src/sim/combat';
 import { createHero } from '../src/sim/hero';
@@ -30,18 +30,18 @@ interface MapEntry {
 }
 
 const ACT2_MAPS: MapEntry[] = [
-  { id: 'm12-redmarsh-border', raw: rawM12, w: 64, h: 64 },
-  { id: 'm13-twin-passes', raw: rawM13, w: 64, h: 64 },
-  { id: 'm14-scattered-scouts', raw: rawM14, w: 64, h: 64 },
-  { id: 'm15-outpost-palisade', raw: rawM15, w: 64, h: 64 },
-  { id: 'm16-wardstone-rupture', raw: rawM16, w: 64, h: 64 },
-  { id: 'm17-mire-convoy', raw: rawM17, w: 64, h: 64 },
-  { id: 'm18-granary-raid', raw: rawM18, w: 64, h: 64 },
-  { id: 'm19-hexer-capture', raw: rawM19, w: 64, h: 64 },
-  { id: 'm20-deep-quarry', raw: rawM20, w: 64, h: 64 },
-  { id: 'm21-lean-garrison', raw: rawM21, w: 64, h: 64 },
-  { id: 'm22-fleeing-column', raw: rawM22, w: 64, h: 64 },
-  { id: 'm23-fork-of-spears', raw: rawM23, w: 96, h: 96 },
+  { id: 'm12-redmarsh-border', raw: rawM12, w: 128, h: 128 },
+  { id: 'm13-twin-passes', raw: rawM13, w: 128, h: 128 },
+  { id: 'm14-scattered-scouts', raw: rawM14, w: 128, h: 128 },
+  { id: 'm15-outpost-palisade', raw: rawM15, w: 128, h: 128 },
+  { id: 'm16-wardstone-rupture', raw: rawM16, w: 128, h: 128 },
+  { id: 'm17-mire-convoy', raw: rawM17, w: 128, h: 128 },
+  { id: 'm18-granary-raid', raw: rawM18, w: 128, h: 128 },
+  { id: 'm19-hexer-capture', raw: rawM19, w: 128, h: 128 },
+  { id: 'm20-deep-quarry', raw: rawM20, w: 128, h: 128 },
+  { id: 'm21-lean-garrison', raw: rawM21, w: 128, h: 128 },
+  { id: 'm22-fleeing-column', raw: rawM22, w: 128, h: 128 },
+  { id: 'm23-fork-of-spears', raw: rawM23, w: 128, h: 128 },
 ];
 
 function start(raw: unknown, seed = 1): MissionGame {
@@ -159,7 +159,7 @@ describe('campaign Act II mission scripts', () => {
     expect(st.sub[1]).toBe(1);
     expect(g.loaded.def.groups[4].every((u) => g.sim.hidden[u])).toBe(true);
 
-    g.sim.place(0, 40, 16);
+    g.sim.place(0, 80, 32);
     run(g, 10);
     expect(st.sub[0]).toBe(2);
     expect(g.loaded.def.groups[4].every((u) => !g.sim.hidden[u])).toBe(true);
@@ -203,7 +203,7 @@ describe('campaign Act II mission scripts', () => {
     const st = g.sim.script!.st;
 
     killGroup(g, 1);
-    g.sim.place(0, 14, 15);
+    g.sim.place(0, 28, 30);
     run(g, 10);
     expect(st.vars[0]).toBe(1);
     for (const u of g.loaded.def.groups[10]) {
@@ -212,12 +212,12 @@ describe('campaign Act II mission scripts', () => {
     }
 
     killGroup(g, 2);
-    g.sim.place(0, 49, 17);
+    g.sim.place(0, 98, 34);
     run(g, 10);
     expect(st.vars[0]).toBe(2);
 
     killGroup(g, 3);
-    g.sim.place(0, 48, 45);
+    g.sim.place(0, 96, 90);
     run(g, 10);
     expect(st.vars[0]).toBe(3);
     expect(st.sub[0]).toBe(2);
@@ -270,15 +270,15 @@ describe('campaign Act II mission scripts', () => {
     const g = start(rawM17);
     run(g, 10);
     expect(g.loaded.def.groups[5].every((u) => g.sim.hidden[u])).toBe(true);
-    g.sim.place(0, 30, 34);
+    g.sim.place(0, 60, 68);
     run(g, 10);
     expect(g.loaded.def.groups[5].every((u) => !g.sim.hidden[u])).toBe(true);
 
-    g.sim.place(0, 52, 11);
+    g.sim.place(0, 104, 22);
     run(g, 10);
     expect(g.sim.script!.st.status).toBe(0); // convoy bearer still behind
 
-    g.sim.place(1, 53, 11);
+    g.sim.place(1, 106, 22);
     run(g, 10);
     expect(g.sim.script!.st.status).toBe(1);
 
@@ -325,7 +325,7 @@ describe('campaign Act II mission scripts', () => {
   it('m20-deep-quarry: entering middle terrace updates objective and clearing quarry guards wins', () => {
     const g = start(rawM20);
     run(g, 10);
-    g.sim.place(0, 34, 30);
+    g.sim.place(0, 68, 60);
     run(g, 10);
     expect(g.sim.script!.st.sub[0]).toBe(2);
 
@@ -363,7 +363,7 @@ describe('campaign Act II mission scripts', () => {
     const g = start(rawM22);
     const vip = g.loaded.def.vip[0];
     run(g, 10);
-    g.sim.place(0, 30, 32);
+    g.sim.place(0, 60, 64);
     run(g, 10);
     expect(g.sim.script!.st.vars[0]).toBe(1);
     expect(g.sim.script!.st.msgs).toContain(2);
@@ -374,7 +374,7 @@ describe('campaign Act II mission scripts', () => {
 
     const esc = start(rawM22);
     const escVip = esc.loaded.def.vip[0];
-    esc.sim.place(escVip, 55, 10);
+    esc.sim.place(escVip, 110, 20);
     run(esc, 10);
     expect(esc.sim.script!.st.status).toBe(2);
     expect(esc.sim.script!.st.cause).toBe(2);
@@ -391,7 +391,7 @@ describe('campaign Act II mission scripts', () => {
     run(g, 10);
     expect(g.sim.script!.st.vars[0]).toBe(1);
 
-    g.sim.place(0, 48, 24);
+    g.sim.place(0, 64, 32);
     run(g, 10);
     expect(g.sim.script!.st.sub[0]).toBe(2);
     expect(g.loaded.def.groups[6].every((u) => !g.sim.hidden[u])).toBe(true);

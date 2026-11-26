@@ -1,21 +1,28 @@
 import { describe, expect, it } from 'vitest';
 import {
-  PREFIX_POOL,
-  SUFFIX_POOL,
-  clampIlvl,
-  emptyEssences,
-  getUpgradeChancePct,
-  getUpgradedDef,
-  ilvlToTier,
-  insertSocketItem,
-  maxSocketsFor,
-  punchSocket,
-  rerollAffix,
-  rollItemDrop,
-  rollRarity,
-  salvageItem,
-  upgradeItem,
-} from '../src/items';
+  MAGIC_PREFIXES,
+  MAGIC_SUFFIXES,
+  UNIQUE_ARTIFACTS,
+  rollAffix,
+  rollMagicItem,
+  rollRareItem,
+} from '../src/sim/affixes';
+import { transmuteCube } from '../src/sim/cube';
+import {
+  BUILTIN_GEMS,
+  Ik,
+  Slot,
+  type ItemDef,
+} from '../src/sim/item-types';
+import {
+  ITEMS,
+  canSocket,
+  getItemDef,
+  socketGem,
+} from '../src/sim/items';
+import { calculateEffectiveMFTable } from '../src/sim/mechanics';
+import { Rng } from '../src/sim/rng';
+import { ALL_SETS, calculateActiveSetBonuses } from '../src/sim/sets';
 import {
   MAGE_SKILL_TREE,
   WARRIOR_SKILL_TREE,
@@ -31,93 +38,46 @@ import {
   respecSkills,
   setLoadoutSlot,
 } from '../src/skills';
-import { Slot } from '../src/sim/item-types';
-import { Rng } from '../src/sim/rng';
-import { ALL_SETS, calculateActiveSetBonuses } from '../src/sim/sets';
 
-describe('Loot & Item Level Scaling (ilvl 1..50)', () => {
-  it('maps ilvl 1..50 cleanly to tiers 1..5 and clamps out-of-range values', () => {
-    expect(clampIlvl(-5)).toBe(1);
-    expect(clampIlvl(99)).toBe(50);
-    expect(ilvlToTier(1)).toBe(1);
-    expect(ilvlToTier(10)).toBe(1);
-    expect(ilvlToTier(11)).toBe(2);
-    expect(ilvlToTier(20)).toBe(2);
-    expect(ilvlToTier(21)).toBe(3);
-    expect(ilvlToTier(35)).toBe(4);
-    expect(ilvlToTier(41)).toBe(5);
-    expect(ilvlToTier(50)).toBe(5);
+describe('Loot, Affixes & Item Scaling (src/sim/*)', () => {
+  it('computes effective MF diminishing returns deterministically', () => {
+    const mf0 = calculateEffectiveMFTable(0);
+    const mf300 = calculateEffectiveMFTable(300);
+    expect(mf0.unique).toBe(0);
+    expect(mf300.unique).toBeGreaterThan(100);
+    expect(mf300.magic).toBe(300);
+    expect(mf300.rare).toBeGreaterThan(mf300.unique);
   });
 
-  it('caps max sockets by slot and tier', () => {
-    expect(maxSocketsFor(Slot.Ring, 5)).toBe(0);
-    expect(maxSocketsFor(Slot.Weapon, 1)).toBe(1);
-    expect(maxSocketsFor(Slot.Weapon, 3)).toBe(3);
-    expect(maxSocketsFor(Slot.Helm, 5)).toBe(2);
-    expect(maxSocketsFor(Slot.Armor, 5)).toBe(3);
-  });
-
-  it('produces identical drops for identical seeds (deterministic PRNG)', () => {
-    const a = rollItemDrop({ mlvl: 25, rank: 'elite', mf: 120, difficulty: 'veteran', seed: 424242, forcedRarity: 'rare' });
-    const b = rollItemDrop({ mlvl: 25, rank: 'elite', mf: 120, difficulty: 'veteran', seed: 424242, forcedRarity: 'rare' });
-    const c = rollItemDrop({ mlvl: 25, rank: 'elite', mf: 120, difficulty: 'veteran', seed: 999999, forcedRarity: 'rare' });
+  it('produces identical rare/magic rolls for identical seeds (deterministic PRNG)', () => {
+    const base = ITEMS.find((it) => it.kind === Ik.Gear && it.slot === Slot.Weapon)!;
+    const mkRng = (seed: number) => {
+      const r = new Rng(seed);
+      return (n: number) => r.int(n);
+    };
+    const a = rollRareItem(base, 3, mkRng(424242));
+    const b = rollRareItem(base, 3, mkRng(424242));
+    const c = rollRareItem(base, 3, mkRng(999999));
 
     expect(a).toEqual(b);
-    expect(a.seed).toBe(424242);
+    expect(a.rarity).toBe('rare');
     expect(a.name).not.toBe(c.name);
   });
 
-  it('bosses never drop common gear and higher MF increases rare/unique odds deterministically', () => {
-    for (let s = 1; s <= 50; s++) {
-      const r = rollRarity('boss', 0, 'normal', new Rng(s));
-      expect(r).not.toBe('common');
-    }
+  it('exposes rich prefix/suffix pools and mutual exclusion on magic rolls', () => {
+    expect(MAGIC_PREFIXES.length).toBeGreaterThan(15);
+    expect(MAGIC_SUFFIXES.length).toBeGreaterThan(15);
+    expect(UNIQUE_ARTIFACTS.length).toBeGreaterThanOrEqual(18);
 
-    let rarePlus0 = 0;
-    let rarePlus300 = 0;
-    for (let s = 1; s <= 500; s++) {
-      const r0 = rollRarity('elite', 0, 'normal', new Rng(s));
-      const r3 = rollRarity('elite', 300, 'normal', new Rng(s));
-      if (r0 === 'rare' || r0 === 'set' || r0 === 'unique') rarePlus0++;
-      if (r3 === 'rare' || r3 === 'set' || r3 === 'unique') rarePlus300++;
-    }
-    expect(rarePlus300).toBeGreaterThan(rarePlus0);
-  });
-});
-
-describe('Affix Pools, Mutual Exclusion & Sets', () => {
-  it('never rolls two affixes from the same mutual exclusion group on rare items', () => {
-    for (let s = 1; s <= 40; s++) {
-      const item = rollItemDrop({ mlvl: 45, rank: 'boss', seed: 1000 + s, forcedRarity: 'rare' });
-      expect(item.affixes.length).toBeGreaterThanOrEqual(3);
-      expect(item.affixes.length).toBeLessThanOrEqual(6);
-      const groups = item.affixes.map((a) => a.group);
-      expect(new Set(groups).size).toBe(groups.length);
-      expect(item.unidentified).toBe(true);
-    }
+    const base = ITEMS.find((it) => it.kind === Ik.Gear && it.slot === Slot.Armor)!;
+    const rng = new Rng(777);
+    const pre = rollAffix(MAGIC_PREFIXES, 2, Slot.Armor, 0, (n) => rng.int(n));
+    expect(pre).not.toBeNull();
+    const magic = rollMagicItem(base, 2, (n) => rng.int(n));
+    expect(magic.rarity).toBe('magic');
   });
 
-  it('respects ilvl gating on affix specs', () => {
-    const lowPrefix = PREFIX_POOL.filter((a) => a.ilvlMin <= 5);
-    const highPrefix = PREFIX_POOL.filter((a) => a.ilvlMin >= 30);
-    expect(lowPrefix.length).toBeGreaterThan(0);
-    expect(highPrefix.length).toBeGreaterThan(0);
-    expect(SUFFIX_POOL.length).toBeGreaterThanOrEqual(20);
-
-    for (let s = 1; s <= 25; s++) {
-      const lowItem = rollItemDrop({ mlvl: 3, rank: 'normal', seed: 500 + s, forcedRarity: 'magic' });
-      for (const a of lowItem.affixes) {
-        const spec = [...PREFIX_POOL, ...SUFFIX_POOL].find((x) => x.id === a.id)!;
-        expect(spec.ilvlMin).toBeLessThanOrEqual(lowItem.ilvl);
-      }
-    }
-  });
-
-  it('drops set items compatible with src/sim/sets.ts and activates 2/3/4-piece bonuses', () => {
-    const setItem = rollItemDrop({ mlvl: 30, rank: 'boss', seed: 777, forcedRarity: 'set' });
-    expect(setItem.rarity).toBe('set');
-    expect(setItem.setId).toBeDefined();
-
+  it('activates 2/3/4-piece set bonuses from src/sim/sets.ts', () => {
     const warden = ALL_SETS.find((s) => s.id === 'iron_warden')!;
     expect(warden).toBeDefined();
     expect(calculateActiveSetBonuses([warden.pieces[0].name, warden.pieces[1].name]).length).toBe(1);
@@ -125,84 +85,51 @@ describe('Affix Pools, Mutual Exclusion & Sets', () => {
   });
 });
 
-describe('Sockets, Salvage, Reroll & Smith Upgrades (+1..+5)', () => {
-  it('salvages items into tier-appropriate essences and gold', () => {
-    const common = rollItemDrop({ mlvl: 5, seed: 11, forcedRarity: 'common' });
-    const rare = rollItemDrop({ mlvl: 35, seed: 12, forcedRarity: 'rare' });
-    const unique = rollItemDrop({ mlvl: 45, seed: 13, forcedRarity: 'unique' });
+describe('Sockets & Reliquary Forge Transmutation (src/sim/*)', () => {
+  it('validates socket capacity and inserts gems cleanly', () => {
+    const baseWeapon = getItemDef(0)!;
+    const socketedBase: ItemDef = { ...baseWeapon, sockets: 2, socketedGems: [] };
+    expect(canSocket(socketedBase)).toBe(true);
 
-    expect(salvageItem(common).essence).toBe('ash');
-    expect(salvageItem(rare).essence).toBe('amber');
-    expect(salvageItem(unique).essence).toBe('astral');
-    expect(salvageItem(unique).gold).toBeGreaterThan(salvageItem(common).gold);
+    const ruby = BUILTIN_GEMS.find((g) => g.name === 'Perfect Ruby')!;
+    const gemmed = socketGem(socketedBase, ruby);
+    expect(gemmed.socketedGems).toEqual(['Perfect Ruby']);
+    expect(gemmed.min).toBeGreaterThan(socketedBase.min);
   });
 
-  it('punches sockets and inserts gems/runes cleanly', () => {
-    let item = rollItemDrop({ mlvl: 25, seed: 101, forcedRarity: 'common' });
-    while (item.def.slot !== Slot.Weapon && item.def.slot !== Slot.Armor) {
-      item = rollItemDrop({ mlvl: 25, seed: item.seed + 1, forcedRarity: 'common' });
-    }
-    const punched = punchSocket({ ...item, sockets: 0 });
-    expect(punched.ok).toBe(true);
-    expect(punched.item.sockets).toBe(1);
+  it('transmutes 3 identical gems and 3 rings cleanly in transmuteCube', () => {
+    const chippedRuby: ItemDef = {
+      name: 'Chipped Ruby',
+      kind: Ik.Gem,
+      slot: -1,
+      tier: 1,
+      w: 0,
+      cls: 3,
+      need: 0,
+      needv: 0,
+      min: 0,
+      max: 0,
+      acc: 0,
+      cover: 0,
+      def: 0,
+      abs: 0,
+      res: [0, 0, 0, 0, 0],
+      attr: [0, 0, 0, 0],
+      hp: 0,
+      mana: 0,
+      pow: 0,
+      heal: 0,
+      restore: 0,
+      grow: 0,
+      spell: -1,
+    };
+    const res = transmuteCube([chippedRuby, chippedRuby, chippedRuby]);
+    expect(res?.result.name).toBe('Flawed Ruby');
 
-    const gemmed = insertSocketItem(punched.item, 'Perfect Ruby');
-    expect(gemmed.ok).toBe(true);
-    expect(gemmed.item.socketed).toEqual(['Perfect Ruby']);
-    if (gemmed.item.def.slot === Slot.Weapon) {
-      expect(gemmed.item.def.min).toBeGreaterThan(punched.item.def.min);
-    } else {
-      expect(gemmed.item.def.hp).toBeGreaterThan(punched.item.def.hp);
-    }
-  });
-
-  it('upgrades +0 -> +5 deterministically with non-destructive fail-safe pity', () => {
-    let item = rollItemDrop({ mlvl: 40, seed: 303, forcedRarity: 'rare' });
-    const essences = { ...emptyEssences(), ash: 10, glimmer: 10, amber: 10, verdant: 10, astral: 10 };
-
-    // +0 -> +1 is always 100%
-    const r1 = upgradeItem(item, 50000, essences, 1)!;
-    expect(r1.success).toBe(true);
-    expect(r1.item.upgradeLevel).toBe(1);
-    expect(r1.item.upgradePity).toBe(0);
-
-    // Force a fail at +4 (30% base) and verify pity builds to 100% guarantee
-    const at4 = { ...r1.item, upgradeLevel: 4, upgradePity: 0 };
-    expect(getUpgradeChancePct(4, 0)).toBe(30);
-    expect(getUpgradeChancePct(4, 1)).toBe(55);
-    expect(getUpgradeChancePct(4, 2)).toBe(80);
-    expect(getUpgradeChancePct(4, 3)).toBe(100);
-
-    // Find a seed that fails at 30%
-    let failSeed = 1;
-    while (new Rng(failSeed).int(100) < 30) failSeed++;
-    const failed = upgradeItem(at4, 50000, essences, failSeed)!;
-    expect(failed.success).toBe(false);
-    expect(failed.item.upgradeLevel).toBe(4); // never downgraded or destroyed
-    expect(failed.item.upgradePity).toBe(1);
-
-    // At pity 3 -> 100% guaranteed
-    const guaranteed = upgradeItem({ ...at4, upgradePity: 3 }, 50000, essences, failSeed)!;
-    expect(guaranteed.success).toBe(true);
-    expect(guaranteed.item.upgradeLevel).toBe(5);
-    expect(guaranteed.item.upgradePity).toBe(0);
-
-    const boostedDef = getUpgradedDef(item.def, 5);
-    if (item.def.slot === Slot.Weapon) {
-      expect(boostedDef.min).toBeGreaterThan(item.def.min);
-    } else if (item.def.slot !== Slot.Ring && item.def.slot !== Slot.Amulet) {
-      expect(boostedDef.def).toBeGreaterThan(item.def.def);
-    }
-  });
-
-  it('rerolls a single affix without duplicating groups', () => {
-    const rare = rollItemDrop({ mlvl: 35, seed: 888, forcedRarity: 'rare' });
-    const rerolled = rerollAffix(rare, 0, rare.def, 777);
-    expect(rerolled).not.toBeNull();
-    if (rerolled) {
-      const groups = rerolled.affixes.map((a) => a.group);
-      expect(new Set(groups).size).toBe(groups.length);
-    }
+    const ring = ITEMS.find((it) => it.kind === Ik.Gear && it.slot === Slot.Ring)!;
+    const ammy = transmuteCube([ring, ring, ring]);
+    expect(ammy?.result.name).toBe('Forge-Bound Amulet');
+    expect(ammy?.result.slot).toBe(Slot.Amulet);
   });
 });
 

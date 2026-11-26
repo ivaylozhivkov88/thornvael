@@ -235,6 +235,10 @@ export class LoadingScreen {
       clearInterval(this.statusTimer);
       this.statusTimer = null;
     }
+    if (this.hideTimer !== null) {
+      clearTimeout(this.hideTimer);
+      this.hideTimer = null;
+    }
   }
 
   /** Update progress status text and bar percentage (0..100). */

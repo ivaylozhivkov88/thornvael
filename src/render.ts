@@ -16,6 +16,7 @@ import {
   FAMILY_ART,
   EXTENDED_FAMILY_ART,
   bossSpriteDef,
+  type UnitArt,
   type ExtendedMonsterArt,
   type HeroWeaponVisual,
   HERO_ARMOUR_TINTS,
@@ -47,7 +48,7 @@ import { CombatAnimation, type AnimationPose } from './sprites/combat-animation'
 import { VfxSystem } from './vfx';
 import { CombatFeelSystem } from './feel';
 import { AestheticVfxSystem, detectBiomeFromMap, type BiomeWeatherType, type BiomeAct } from './aesthetic-vfx';
-import { updateAtmosphere, isReducedMotionActive, regionAtTile } from './atmosphere';
+import { isReducedMotionActive } from './atmosphere';
 import { FxEngine, type WeatherKind } from './fx';
 import { MAX_ZOOM, MIN_ZOOM, RenderCameraController } from './render/camera-controller';
 import { TerrainChunkCache } from './render/chunk-cache';
@@ -206,8 +207,6 @@ export const FAMILY_VISUALS: Readonly<Record<string, FamilyVisualDef>> = {
 /** Colours of the status pips drawn over a unit, indexed by status id. */
 export const STATUS_COLORS = [0xffe070, 0x70c8ff, 0xffffff, 0x6a8cff, 0x7cd14a, 0xff7a2a, 0x9a9a9a, 0xb070c0];
 export const QUALITY_NAMES = ['Low', 'Medium', 'High'] as const;
-const FLOATERS = [0, 10, 24];
-const FLOAT_MS = 900;
 const KICK_MS = 170;
 const TOPPLE_MS = 260;
 const DEAD_TINT = 0x6a5a55;
@@ -272,13 +271,6 @@ function unitTexture(): Texture {
   return Texture.from(cv);
 }
 
-interface Floater {
-  t: Text;
-  x: number;
-  y: number;
-  born: number;
-}
-
 export type View = WorldViewOverlay;
 
 export class Renderer {
@@ -298,15 +290,13 @@ export class Renderer {
   private readonly dbgGrid = new Graphics();
   private readonly dbgPath = new Graphics();
   private dbgBuilt = false;
-  private readonly floaterLayer = new Container();
-  private floaters: Floater[] = [];
+  private marksLayers: Container[] = [];
   private bursts: Burst[] = [];
   private baseTint: number[] = [];
   private kickX: number[] = [];
   private kickY: number[] = [];
   private kickAt: number[] = [];
   private deathAt: (number | undefined)[] = [];
-  private freeText: Text[] = [];
   private fogTick = 0;
   quality = 2;
   private sprites: (Sprite | UnitSprite)[] = [];
@@ -315,6 +305,10 @@ export class Renderer {
   private artPreview?: ArtPreview;
   private loadedAtlases: UnitAtlas[] = [];
   private atlasByArt = new Map<string, UnitAtlas>();
+  private coreAtlasPromises = new Map<UnitArt, Promise<UnitAtlas | null>>();
+  private failedCoreAtlases = new Set<UnitArt>();
+  private heroArtId: UnitArt = 'hero';
+  private lastSpawnTick = -1;
   private extendedAtlases = new Map<ExtendedMonsterArt, UnitAtlas>();
   private extendedAtlasPromises = new Map<ExtendedMonsterArt, Promise<UnitAtlas | null>>();
   private failedExtendedAtlases = new Set<ExtendedMonsterArt>();
@@ -437,11 +431,22 @@ export class Renderer {
     this.fogTex?.source?.update();
     this.fallbackUnitTex?.source?.update();
     for (const atlas of this.loadedAtlases) {
-      atlas.source?.source?.update();
+      const a = atlas as UnitAtlas & { reloadGpu?: () => Promise<void> };
+      if (typeof a.reloadGpu === 'function') void a.reloadGpu();
+      else a.source?.source?.update();
     }
     for (const atlas of this.extendedAtlases?.values() ?? []) {
-      atlas.source?.source?.update();
+      const a = atlas as UnitAtlas & { reloadGpu?: () => Promise<void> };
+      if (typeof a.reloadGpu === 'function') void a.reloadGpu();
+      else a.source?.source?.update();
     }
+    if (this.extraAtlases) {
+      for (const packed of Object.values(this.extraAtlases)) {
+        packed?.baseTexture?.source?.update();
+      }
+    }
+    this.vfx?.reloadTextures?.();
+    this._lightingPass?.reloadTextures?.();
     for (const child of this.ensureChunkCache().chunks.children) {
       const sprite = child as Sprite;
       sprite.texture?.source?.update();
@@ -461,9 +466,53 @@ export class Renderer {
     }
     this.sprites.length = 0;
     this.baseTint.length = 0;
+    for (const layer of this.marksLayers ?? []) {
+      this.world.removeChild(layer);
+      layer.destroy({ children: true });
+    }
+    this.marksLayers = [];
+    this.dustPuffs.length = 0;
+    this.swingTrails.length = 0;
+    this.bursts.length = 0;
     this.activeExtendedArt?.clear();
     this.releaseUnusedExtendedAtlases([]);
+    for (const atlas of this.loadedAtlases) {
+      (atlas as UnitAtlas & { source?: { destroy?: (destroySource?: boolean) => void } }).source?.destroy?.(true);
+    }
+    this.loadedAtlases = [];
+    this.atlasByArt.clear();
+    this.coreAtlasPromises?.clear();
+    this.failedCoreAtlases?.clear();
+    this.vfx?.destroy?.();
+    this.feel?.destroy?.();
+    this._lightingPass?.destroy?.();
+    this._chunkCache?.destroy?.();
+    this._atlasOverlay?.destroy?.();
+    this.rings.destroy();
+    this.overlay.destroy();
+    this.shots.destroy();
+    this.dustGraphics.destroy();
+    this.heroGearGraphics.destroy();
+    this.swingTrailGraphics.destroy();
+    this.fxGroundGfx.destroy();
+    this.fxWorldGfx.destroy();
+    this.fxAddGfx.destroy();
+    this.gradeOverlay.destroy();
+    this.dbgGrid.destroy();
+    this.dbgPath.destroy();
+    this.fog?.destroy?.();
+    this.fogTex?.destroy?.(true);
+    this.fallbackUnitTex?.destroy?.(true);
     this._vram?.clear(false);
+    this.world.destroy({ children: false });
+    const appDestroy = (this.app as unknown as { destroy?: (removeView?: boolean, options?: { children?: boolean; texture?: boolean }) => void })?.destroy;
+    if (typeof appDestroy === 'function') {
+      try {
+        appDestroy.call(this.app, false, { children: true, texture: false });
+      } catch {
+        // tolerate mock applications in tests
+      }
+    }
   }
 
   private ensureVram(): LruVramManager {
@@ -471,7 +520,87 @@ export class Renderer {
   }
 
   private isVramKeyEvictable(key: string): boolean {
-    return !key.startsWith('ext:') || !this.isExtendedArtInUse(key.slice(4) as ExtendedMonsterArt);
+    if (key.startsWith('ext:')) return !this.isExtendedArtInUse(key.slice(4) as ExtendedMonsterArt);
+    if (key.startsWith('core:')) {
+      const id = key.slice(5);
+      if (id === 'fog' || id === this.heroArtId) return false;
+      return !this.isCoreArtInUse(id as UnitArt);
+    }
+    return false;
+  }
+
+  private resolveHeroArtId(sim: Sim): UnitArt {
+    if (sim.hero?.cls === 1) return 'mage';
+    if (sim.hero?.cls === 2) return 'archer';
+    if (sim.hero?.cls === 3) return 'necromancer';
+    return 'hero';
+  }
+
+  private resolveCoreArtId(sim: Sim, i: number): UnitArt | undefined {
+    const kind = sim.cb.kind[i];
+    const rawFam = sim.cb.family[i];
+    const resolvedFam = rawFam ? (getSuperUniqueById(rawFam)?.family ?? rawFam) : '';
+    const boss = resolvedFam ? bossSpriteDef(resolvedFam) : undefined;
+    if (boss) return boss.id;
+    if (resolvedFam && FAMILY_ART[resolvedFam]) return FAMILY_ART[resolvedFam];
+    if (kind === Kind.Hero) return this.resolveHeroArtId(sim);
+    if (kind === Kind.Archer) return 'archer';
+    if (kind === Kind.Golem) return 'golem';
+    if (kind === Kind.Warrior) return 'warrior';
+    if (kind === Kind.Mage) return 'mage';
+    if (kind === Kind.Gnoll) return 'gnoll';
+    if (kind === Kind.Imp) return 'imp';
+    return undefined;
+  }
+
+  private isCoreArtInUse(artId: UnitArt): boolean {
+    if (artId === this.heroArtId) return true;
+    const atlas = this.atlasByArt.get(artId);
+    if (!atlas) return false;
+    return this.sprites.some((s) => s instanceof UnitSprite && s.atlas === atlas);
+  }
+
+  private async loadCoreAtlas(artId: UnitArt): Promise<UnitAtlas | null> {
+    const vram = this.ensureVram();
+    const cached = this.atlasByArt.get(artId);
+    if (cached) {
+      vram.touch(`core:${artId}`);
+      return cached;
+    }
+    if (this.failedCoreAtlases.has(artId)) return null;
+    const pending = this.coreAtlasPromises.get(artId);
+    if (pending) return pending;
+    const promise = UnitAtlas.load(artId, DEFAULT_LOAD_TIMEOUT_MS)
+      .then((atlas) => {
+        this.coreAtlasPromises.delete(artId);
+        this.loadedAtlases.push(atlas);
+        this.atlasByArt.set(artId, atlas);
+        vram.register(
+          {
+            key: `core:${artId}`,
+            bytes: this.textureFootprint(atlas.source),
+            pinned: artId === this.heroArtId,
+            onEvict: () => {
+              const cur = this.atlasByArt.get(artId);
+              if (cur === atlas && !this.isCoreArtInUse(artId)) {
+                atlas.source.destroy(true);
+                this.atlasByArt.delete(artId);
+                this.loadedAtlases = this.loadedAtlases.filter((a) => a !== atlas);
+              }
+            },
+          },
+          (key) => this.isVramKeyEvictable(key),
+        );
+        return atlas;
+      })
+      .catch((err) => {
+        console.warn(`[render] Core atlas fallback for ${artId}:`, err);
+        this.failedCoreAtlases.add(artId);
+        this.coreAtlasPromises.delete(artId);
+        return null;
+      });
+    this.coreAtlasPromises.set(artId, promise);
+    return promise;
   }
 
   getVramStats(): VramStats {
@@ -656,9 +785,8 @@ export class Renderer {
     return this.extraAtlases;
   }
 
-  private atmoRegions: readonly import('./mapdoc').Region[] = [];
-  setAtmosphereRegions(r: readonly import('./mapdoc').Region[] | undefined): void {
-    this.atmoRegions = r ?? [];
+  setAtmosphereRegions(_r: readonly import('./mapdoc').Region[] | undefined): void {
+    // Reserved for per-region atmospheric overrides.
   }
 
   setBossTelegraphs(list: readonly RenderBossTelegraph[]): void {
@@ -729,6 +857,7 @@ export class Renderer {
       layer.addChild(t);
     }
     this.world.addChildAt(layer, 2);
+    this.marksLayers.push(layer);
   }
 
   async init(sim: Sim): Promise<void> {
@@ -746,7 +875,7 @@ export class Renderer {
     const terrainArt = await loadTerrainArt();
     const scenery = prepareScenery(this.map);
     const chunkCache = this.ensureChunkCache();
-    chunkCache.init(this.map, terrainArt, scenery);
+    chunkCache.init(this.map, terrainArt, scenery, this.ensureVram());
 
     // Fog: one pixel per tile, stretched over the map with linear filtering for soft edges.
     this.fogCv = document.createElement('canvas');
@@ -806,8 +935,17 @@ export class Renderer {
     }
     this.releaseUnusedExtendedAtlases(neededExtended);
 
+    this.heroArtId = this.resolveHeroArtId(sim);
+    const neededCore = new Set<UnitArt>(this.baselineArtOnly ? ALL_UNIT_ART : [this.heroArtId]);
+    if (!this.baselineArtOnly) {
+      for (let i = 0; i < sim.count; i++) {
+        const coreArt = this.resolveCoreArtId(sim, i);
+        if (coreArt) neededCore.add(coreArt);
+      }
+    }
+    const coreList = [...neededCore];
     const coreSettled = await runWithPool(
-      ALL_UNIT_ART.map((unit) => () => UnitAtlas.load(unit, DEFAULT_LOAD_TIMEOUT_MS)),
+      coreList.map((unit) => () => UnitAtlas.load(unit, DEFAULT_LOAD_TIMEOUT_MS)),
       DEFAULT_ATLAS_CONCURRENCY,
     );
     const atlases: UnitAtlas[] = [];
@@ -816,7 +954,7 @@ export class Renderer {
       if (r.status === 'fulfilled') {
         atlases.push(r.value);
       } else {
-        console.warn(`[render] Core atlas fallback for ${ALL_UNIT_ART[idx]}:`, r.reason);
+        console.warn(`[render] Core atlas fallback for ${coreList[idx]}:`, r.reason);
       }
     }
     const extraAtlases = await loadAllExtraAtlases(DEFAULT_ATLAS_CONCURRENCY, DEFAULT_LOAD_TIMEOUT_MS);
@@ -830,12 +968,20 @@ export class Renderer {
     this.extraAtlases = extraAtlases;
     const vram = this.ensureVram();
     for (const atlas of atlases) {
+      const artId = atlas.unit as UnitArt;
       vram.register(
         {
-          key: `core:${atlas.unit}`,
+          key: `core:${artId}`,
           bytes: this.textureFootprint(atlas.source),
-          pinned: true,
-          onEvict: () => {},
+          pinned: artId === this.heroArtId,
+          onEvict: () => {
+            const cur = this.atlasByArt.get(artId);
+            if (cur === atlas && !this.isCoreArtInUse(artId)) {
+              atlas.source.destroy(true);
+              this.atlasByArt.delete(artId);
+              this.loadedAtlases = this.loadedAtlases.filter((a) => a !== atlas);
+            }
+          },
         },
         (key) => this.isVramKeyEvictable(key),
       );
@@ -891,11 +1037,11 @@ export class Renderer {
     );
 
     const stageItems: Container[] = [this.world];
-    stageItems.push(...this.ensureLightingPass().initStageLayers(this.feel.lightSprite));
+    stageItems.push(...this.ensureLightingPass().initStageLayers());
     stageItems.push(this.gradeOverlay);
     if (this.aestheticVfx) stageItems.push(this.aestheticVfx.weatherLayer);
     if (this.feel.floaterContainer) stageItems.push(this.feel.floaterContainer);
-    stageItems.push(this.floaterLayer, this.nameplates.container, this.overlay);
+    stageItems.push(this.nameplates.container, this.overlay);
     this.app.stage.addChild(...stageItems);
     if (new URLSearchParams(location.search).get('art') === '1') {
       this.artPreview = new ArtPreview(atlases);
@@ -925,7 +1071,7 @@ export class Renderer {
     } catch {
       // a renderer that cannot change resolution keeps the old one
     }
-    this.ensureLightingPass().syncQuality(this.quality, this.fxEngine.dynamicLighting.isEnabled(), this.feel.lightSprite);
+    this.ensureLightingPass().syncQuality(this.quality, this.fxEngine.dynamicLighting.isEnabled());
   }
 
   private burst(x: number, y: number, r: number, ms: number, color: number, fill: boolean, now: number, el = 0): void {
@@ -1095,19 +1241,6 @@ export class Renderer {
     }
     fx.length = 0;
     this.animation?.clearedFx();
-    for (let n = this.floaters.length - 1; n >= 0; n--) {
-      const f = this.floaters[n];
-      const age = (now - f.born) / FLOAT_MS;
-      if (age >= 1) {
-        this.floaterLayer.removeChild(f.t);
-        f.t.visible = false;
-        this.freeText.push(f.t);
-        this.floaters.splice(n, 1);
-        continue;
-      }
-      f.t.alpha = 1 - age * age;
-      f.t.position.set(Math.round(f.x * this.zoom - this.camX), Math.round((f.y - age * 18) * this.zoom - this.camY));
-    }
   }
 
   centerOn(tx: number, ty: number): void {
@@ -1333,6 +1466,7 @@ export class Renderer {
   }
 
   draw(sim: Sim, px: Int32Array, py: Int32Array, alpha: number, v: View): void {
+    if (this.contextLost) return;
     this.artPreview?.draw(sim.tick);
     const now = performance.now();
     const dtMs = this.lastDrawNow > 0 ? Math.min(100, now - this.lastDrawNow) : 16;
@@ -1364,15 +1498,15 @@ export class Renderer {
     );
     this.updateChunks();
     if (this.quality > 0 || (this.fogTick++ & 1) === 0) this.updateFog(sim);
-    const k = TILE / FP;
-    this.feel?.renderAuras(sim, now, k);
-
     const vt = this.viewTiles();
     const mw = this.map.w;
     const minTx = Math.max(0, Math.floor(vt.x0));
     const maxTx = Math.min(mw - 1, Math.ceil(vt.x1));
     const minTy = Math.max(0, Math.floor(vt.y0));
     const maxTy = Math.min(this.map.h - 1, Math.ceil(vt.y1));
+
+    const k = TILE / FP;
+    this.feel?.renderAuras(sim, now, k, minTx, maxTx, minTy, maxTy);
 
     this.ensureLightingPass().render({
       dl: this.fxEngine.dynamicLighting,
@@ -1398,8 +1532,6 @@ export class Renderer {
 
     this.vfx?.updateAndDraw(sim, now, dtMs, this.zoom, this.camX, this.camY, this.overlay, this.viewW, this.viewH);
     (this.aestheticVfx as AestheticVfxSystem | undefined)?.updateAndDraw(now, dtMs, this.camX, this.camY, this.zoom, this.viewW, this.viewH);
-    const atmoRegion = this.atmoRegions?.length ? regionAtTile(this.atmoRegions, Math.floor((this.camX + this.viewW / 2) / this.zoom / 32), Math.floor((this.camY + this.viewH / 2) / this.zoom / 32)) : undefined;
-    updateAtmosphere(this.app?.stage, this.aestheticVfx?.getBiome?.() ?? 'swamp', dtMs, this.camX, this.camY, this.zoom, this.viewW, this.viewH, this.quality, atmoRegion);
 
     const cb = sim.cb;
     const z = this.zoom;
@@ -1408,9 +1540,9 @@ export class Renderer {
     const frame8 = (sim.tick >> 2) & 7;
 
     renderShorelineFoam(r, sim, this.map, minTx, maxTx, minTy, maxTy, frame8);
-    renderLootAndShrines(r, sim, mw, this.fxEngine, this.activeLootKeys, this.seenLootKeys, frame8, SHRINE_COLORS);
+    renderLootAndShrines(r, sim, mw, this.fxEngine, this.activeLootKeys, this.seenLootKeys, frame8, SHRINE_COLORS, minTx, maxTx, minTy, maxTy);
     renderDestructiblePropsAndHeroTorch(r, sim, this.map, minTx, maxTx, minTy, maxTy, frame8);
-    renderCorpseMarks(r, sim, mw, this.sprites);
+    renderCorpseMarks(r, sim, mw, this.sprites, minTx, maxTx, minTy, maxTy);
 
     // Ensure angle smoothing and life-tracking arrays are sized for current unit count
     if (this.unitAngles.length < sim.count) {
@@ -1433,11 +1565,22 @@ export class Renderer {
     }
     this.heroGearGraphics.clear();
 
+    const newSimTick = sim.tick !== this.lastSpawnTick;
+    this.lastSpawnTick = sim.tick;
+
     for (let i = 0; i < sim.count; i++) {
       let s = this.sprites[i];
-      if (!sim.hidden[i] && !this.baselineArtOnly && this.fallbackUnitTex && this.loadedAtlases?.length) {
+      if (!s && this.fallbackUnitTex && this.atlasByArt.size > 0) {
+        const created = this.createUnitSprite(sim, i);
+        this.sprites[i] = created.sprite;
+        this.baseTint[i] = created.baseTint;
+        this.world.addChild(created.sprite);
+        s = created.sprite;
+      }
+      if (!sim.hidden[i] && !this.baselineArtOnly && this.fallbackUnitTex && this.atlasByArt.size > 0) {
         const rawFam = cb.family[i];
         const extArtId = this.resolveExtendedArtId(rawFam);
+        const coreArtId = extArtId ? undefined : this.resolveCoreArtId(sim, i);
         if (extArtId && (!(s instanceof UnitSprite) || s.atlas.unit !== extArtId)) {
           if (this.extendedAtlases?.has(extArtId)) {
             const { sprite: upgraded, baseTint } = this.createUnitSprite(sim, i);
@@ -1455,6 +1598,24 @@ export class Renderer {
             s = upgraded;
           } else if (rawFam) {
             void this.loadExtendedFamilyAtlas(rawFam);
+          }
+        } else if (coreArtId && (!(s instanceof UnitSprite) || s.atlas.unit !== coreArtId)) {
+          if (this.atlasByArt.has(coreArtId)) {
+            const { sprite: upgraded, baseTint } = this.createUnitSprite(sim, i);
+            if (s) {
+              const childIdx = this.world.getChildIndex(s);
+              if (childIdx >= 0) this.world.addChildAt(upgraded, childIdx);
+              else this.world.addChild(upgraded);
+              this.world.removeChild(s);
+              s.destroy({ children: true });
+            } else {
+              this.world.addChild(upgraded);
+            }
+            this.sprites[i] = upgraded;
+            this.baseTint[i] = baseTint;
+            s = upgraded;
+          } else {
+            void this.loadCoreAtlas(coreArtId);
           }
         }
       }
@@ -1542,7 +1703,7 @@ export class Renderer {
       this.unitAngles[i] = curAngle;
       const smoothDir = ((Math.round((curAngle / (Math.PI * 2)) * 16) % 16) + 16) % 16;
 
-      if (s.visible && !dead && sim.moving[i] && (sim.tick + i * 5) % 5 === 0) {
+      if (newSimTick && s.visible && !dead && sim.moving[i] && (sim.tick + i * 5) % 5 === 0 && this.dustPuffs.length < 120) {
         this.dustPuffs.push({
           x: s.x - Math.cos(curAngle) * 7 + (Math.random() - 0.5) * 4,
           y: s.y - Math.sin(curAngle) * 4 + (Math.random() - 0.5) * 3,
@@ -1585,7 +1746,7 @@ export class Renderer {
           }
         }
 
-        if (!dead && this.pose.clip === 'attack' && this.pose.frame >= 1 && this.pose.frame <= 3 && (sim.tick & 1) === 0) {
+        if (newSimTick && !dead && this.pose.clip === 'attack' && this.pose.frame >= 1 && this.pose.frame <= 3 && (sim.tick & 1) === 0 && this.swingTrails.length < 48) {
           const swingCol = isHero ? 0x93c5fd : 0xf87171;
           const swingRadius = (isHero ? 22 : 16) * s.scale.x;
           this.swingTrails.push({
@@ -1605,7 +1766,7 @@ export class Renderer {
           this.drawHeroGearOverlays(sim, i, s, curAngle, now, isAttacking, attackProgress);
         }
       }
-      if (s.visible && !dead && (sim.tick & 3) === 0) {
+      if (newSimTick && s.visible && !dead && (sim.tick & 3) === 0) {
         if (mask & (1 << St.Poison)) this.feel?.spawnPoisonBubbles(s.x, s.y - 14, 1);
         else if (mask & (1 << St.Burn)) this.feel?.spawnBurnEmbers(s.x, s.y - 12, 1);
       }
@@ -1649,7 +1810,7 @@ export class Renderer {
     const sh = this.shots;
     sh.clear();
 
-    renderTownArchitecture(r, sh, sim, this.map, frame8);
+    renderTownArchitecture(r, sh, sim, this.map, frame8, minTx, maxTx, minTy, maxTy);
     this.nameplates?.update(sim, this.sprites, this.zoom, this.camX, this.camY, this.viewW, this.viewH, v);
     renderUnitIndicators(
       r,
@@ -1667,7 +1828,7 @@ export class Renderer {
       this.vfx,
     );
     renderSelectionAndHover(r, sim, this.sprites, this.fxEngine, v);
-    renderProjectilesAndBursts(sh, sim, this.bursts, now);
+    renderProjectilesAndBursts(sh, sim, this.bursts, now, minTx, maxTx, minTy, maxTy, Boolean(this.extraAtlases?.projectiles));
     renderScreenOverlays(
       this.overlay,
       sim,
@@ -1699,6 +1860,12 @@ export class Renderer {
     });
     if (!this.contextLost && this.app?.renderer) {
       this.app.render();
+      for (const atlas of this.loadedAtlases) {
+        (atlas as UnitAtlas & { releaseCpuBacking?: () => void }).releaseCpuBacking?.();
+      }
+      for (const atlas of this.extendedAtlases?.values() ?? []) {
+        (atlas as UnitAtlas & { releaseCpuBacking?: () => void }).releaseCpuBacking?.();
+      }
     }
   }
 

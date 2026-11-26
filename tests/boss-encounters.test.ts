@@ -2,10 +2,9 @@ import { describe, expect, it } from 'vitest';
 import './setup';
 import { loadDoc, migrate, validate } from '../src/mapdoc';
 import { createMission } from '../src/mission';
-import { Elem, Kind, Ord } from '../src/sim/combat';
+import { Kind, } from '../src/sim/combat';
 import { createHero, dropLoot } from '../src/sim/hero';
-import { FP, Sim } from '../src/sim/sim';
-import { ALL_UNIT_ART, BOSS_ART, BOSS_SPRITE_DEFS, bossSpriteDef, isBossArt } from '../src/sprites/units';
+import { ALL_UNIT_ART, bossSpriteDef, isBossArt } from '../src/sprites/units';
 import { BOSS_SIGNATURE_ABILITIES } from '../src/monster-info';
 
 import ossuary from '../src/missions/weeping-ossuary.map.json';

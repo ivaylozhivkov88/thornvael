@@ -1,7 +1,7 @@
 import { describe, expect, it } from 'vitest';
 import { Texture, TextureSource } from 'pixi.js';
 import { checkSheet, frameName, type UnitSheet } from '../src/sprites/contract';
-import { UnitAtlas, UnitSprite, HERO_ARMOUR_TINTS, type HeroWeaponVisual } from '../src/sprites/units';
+import { UnitAtlas, UnitSprite, HERO_ARMOUR_TINTS, } from '../src/sprites/units';
 import { getHeroWeaponVisual, getHeroArmorVisualTier } from '../src/render';
 import { ARMOR_TIER_NAMES } from '../src/sprites/palette';
 

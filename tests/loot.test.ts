@@ -13,15 +13,13 @@ import {
   evaluateQualityHierarchy,
   getHeroMF,
   getMonsterRank,
-  rollQualitySuccess,
   QUALITY_BASE_DIVISORS,
   QUALITY_BIAS,
-  QUALITY_FACTORS,
 } from '../src/sim/hero';
-import { ITEMS, Ik, LOOT_RULES, Slot, itemId } from '../src/sim/items';
+import { ITEMS, Ik, Slot, } from '../src/sim/items';
 import { UNIQUE_ARTIFACTS } from '../src/sim/affixes';
 import { ALL_SET_ITEMS } from '../src/sim/sets';
-import { Sim, type Command } from '../src/sim/sim';
+import { Sim, } from '../src/sim/sim';
 
 function field(w: number, h: number): GameMap {
   return {

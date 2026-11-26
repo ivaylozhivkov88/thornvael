@@ -35,6 +35,9 @@ export function extractCarryover(sim: Sim, progress: CampaignProgress, shopSeed:
     if (j === h.id || sim.team[j] !== 0 || sim.hidden[j] || sim.cb.hp[j] <= 0) continue;
     mercs.push({ kind: sim.cb.kind[j], hpPct: Math.max(1, Math.floor((sim.cb.hp[j] * 100) / Math.max(1, sim.cb.hpMax[j]))) });
   }
+  for (const overflow of sim.town.reserveMercs ?? []) {
+    mercs.push({ ...overflow });
+  }
   const neededIds = new Set<number>();
   for (const s of h.inv) if (s.item >= 1000) neededIds.add(s.item);
   for (const eq of h.eq) if (eq >= 1000) neededIds.add(eq);
@@ -61,9 +64,9 @@ export function extractCarryover(sim: Sim, progress: CampaignProgress, shopSeed:
  * Reserved units that nobody fills stay hidden. Returns how many mercenaries came along.
  */
 /** The town's opening purse is a first-visit gift: from the second visit on its trigger stays off. */
-export function waivePurse(sim: Sim, townVisits: number): void {
+export function waivePurse(sim: Sim, townVisits: number, purseClaimed = false): void {
   const rt = sim.script;
-  if (townVisits <= 0 || !rt) return;
+  if ((townVisits <= 0 && !purseClaimed) || !rt) return;
   const i = rt.def.triggers.findIndex((t) => t.id === 'purse');
   if (i >= 0) rt.st.on[i] = 0;
 }
@@ -90,10 +93,14 @@ export function applyCarryover(sim: Sim, co: CarryoverState): number {
   if (off) sim.town.barracks = off;
   else delete sim.town.barracks;
   const heal = healPct(co.progress?.builds); // shrine: mercs rest between nodes
+  const reserveMercs: { kind: number; hpPct: number }[] = [];
   let placed = 0;
   for (const m of co.mercs) {
     const at = reserve.findIndex((j) => sim.cb.kind[j] === m.kind);
-    if (at < 0) continue;
+    if (at < 0) {
+      reserveMercs.push({ ...m });
+      continue;
+    }
     const [u] = reserve.splice(at, 1);
     const a = (placed * 2.4) % (Math.PI * 2);
     sim.x[u] = sim.tx[u] = sim.cb.px[u] = sim.x[id] + Math.round(Math.cos(a) * 1.2 * FP);
@@ -103,6 +110,7 @@ export function applyCarryover(sim: Sim, co: CarryoverState): number {
     sim.cb.hp[u] = Math.max(1, Math.floor((sim.cb.hpMax[u] * Math.min(100, m.hpPct + heal)) / 100));
     placed++;
   }
+  sim.town.reserveMercs = reserveMercs.length > 0 ? reserveMercs : undefined;
   sim.cb.recount(sim.team);
   recalc(sim);
   return placed;

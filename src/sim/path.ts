@@ -5,6 +5,41 @@ const CLEARANCE = 64; // 0.25 tile: side rays for line of sight, so paths keep o
 
 /** Connected walkable regions (8 neighbours, no corner cutting). Cached per map. */
 const regionCache = new WeakMap<GameMap, Int32Array>();
+export function invalidateRegions(map: GameMap): void {
+  regionCache.delete(map);
+}
+
+/** Slide from `(fromX, fromY)` toward `(toX, toY)` stopping before blocked tiles and clamping inside walkable map bounds. */
+export function safeSlideTo(map: GameMap, fromX: number, fromY: number, toX: number, toY: number): { x: number; y: number } {
+  const minX = map.w > 2 ? FP : 0;
+  const minY = map.h > 2 ? FP : 0;
+  const maxX = map.w > 2 ? (map.w - 1) * FP - 1 : map.w * FP - 1;
+  const maxY = map.h > 2 ? (map.h - 1) * FP - 1 : map.h * FP - 1;
+  const cx = Math.max(minX, Math.min(maxX, Math.round(toX)));
+  const cy = Math.max(minY, Math.min(maxY, Math.round(toY)));
+  const dx = cx - fromX;
+  const dy = cy - fromY;
+  const dist = Math.hypot(dx, dy);
+  const steps = Math.max(1, Math.ceil(dist / 64));
+  let lastX = Math.max(minX, Math.min(maxX, Math.round(fromX)));
+  let lastY = Math.max(minY, Math.min(maxY, Math.round(fromY)));
+  let prevTx = lastX >> 8;
+  let prevTy = lastY >> 8;
+  for (let s = 1; s <= steps; s++) {
+    const nx = Math.round(fromX + (dx * s) / steps);
+    const ny = Math.round(fromY + (dy * s) / steps);
+    const tx = nx >> 8;
+    const ty = ny >> 8;
+    if (isBlockedAt(map, tx, ty)) break;
+    if (tx !== prevTx && ty !== prevTy && (isBlockedAt(map, tx, prevTy) || isBlockedAt(map, prevTx, ty))) break;
+    lastX = nx;
+    lastY = ny;
+    prevTx = tx;
+    prevTy = ty;
+  }
+  return { x: lastX, y: lastY };
+}
+
 export function regionsOf(map: GameMap): Int32Array {
   const hit = regionCache.get(map);
   if (hit) return hit;
@@ -116,7 +151,9 @@ export class Pather {
   private readonly cardCost: Uint8Array;
   private readonly diagCost: Uint8Array;
   private gen = 0;
-  private heap: number[] = [];
+  private heapF = new Int32Array(1024);
+  private heapIdx = new Int32Array(1024);
+  private heapLen = 0;
 
   constructor(private readonly map: GameMap) {
     const n = map.w * map.h;
@@ -137,35 +174,55 @@ export class Pather {
     }
   }
 
-  private push(key: number): void {
-    const h = this.heap;
-    let i = h.length;
-    h.push(key);
+  private push(f: number, idx: number): void {
+    let i = this.heapLen++;
+    if (i >= this.heapF.length) {
+      const nextF = new Int32Array(this.heapF.length * 2);
+      const nextIdx = new Int32Array(this.heapIdx.length * 2);
+      nextF.set(this.heapF);
+      nextIdx.set(this.heapIdx);
+      this.heapF = nextF;
+      this.heapIdx = nextIdx;
+    }
+    const hf = this.heapF;
+    const hi = this.heapIdx;
     while (i > 0) {
       const p = (i - 1) >> 1;
-      if (h[p] <= key) break;
-      h[i] = h[p];
+      const pf = hf[p];
+      if (pf < f || (pf === f && hi[p] <= idx)) break;
+      hf[i] = pf;
+      hi[i] = hi[p];
       i = p;
     }
-    h[i] = key;
+    hf[i] = f;
+    hi[i] = idx;
   }
 
   private pop(): number {
-    const h = this.heap;
-    const top = h[0];
-    const last = h.pop()!;
-    if (h.length > 0) {
+    const hf = this.heapF;
+    const hi = this.heapIdx;
+    const top = hi[0];
+    const n = --this.heapLen;
+    if (n > 0) {
+      const lastF = hf[n];
+      const lastIdx = hi[n];
       let i = 0;
-      const n = h.length;
       for (;;) {
         let c = 2 * i + 1;
         if (c >= n) break;
-        if (c + 1 < n && h[c + 1] < h[c]) c++;
-        if (h[c] >= last) break;
-        h[i] = h[c];
+        if (c + 1 < n) {
+          const cf = hf[c];
+          const rf = hf[c + 1];
+          if (rf < cf || (rf === cf && hi[c + 1] < hi[c])) c++;
+        }
+        const cf = hf[c];
+        if (cf > lastF || (cf === lastF && hi[c] >= lastIdx)) break;
+        hf[i] = cf;
+        hi[i] = hi[c];
         i = c;
       }
-      h[i] = last;
+      hf[i] = lastF;
+      hi[i] = lastIdx;
     }
     return top;
   }
@@ -173,8 +230,9 @@ export class Pather {
   /**
    * Shortest path between two tiles as smoothed waypoints in fixed-point tile centres
    * (first = start tile, last = goal tile). Returns null when the goal cannot be reached.
+   * Caps search expansions at `maxExpanded` and returns the closest partial path if reached.
    */
-  find(sx: number, sy: number, gx: number, gy: number): Int32Array | null {
+  find(sx: number, sy: number, gx: number, gy: number, maxExpanded = 4096): Int32Array | null {
     const { map, cardCost, diagCost } = this;
     const { w, h, blocked, terrain } = map;
     if (sx < 0 || sy < 0 || sx >= w || sy >= h || blocked[sy * w + sx]) return null;
@@ -183,19 +241,28 @@ export class Pather {
     const goal = gy * w + gx;
     if (start === goal) return Int32Array.of((sx << 8) + 128, (sy << 8) + 128);
     const gen = ++this.gen;
-    const SHIFT = 262144; // heap key = f * SHIFT + tile index, so ties break by index (deterministic)
-    this.heap.length = 0;
+    this.heapLen = 0;
     this.stamp[start] = gen;
     this.g[start] = 0;
     this.parent[start] = -1;
-    this.push(this.h(sx, sy, gx, gy) * SHIFT + start);
+    const startH = this.h(sx, sy, gx, gy);
+    this.push(startH, start);
     let found = false;
-    while (this.heap.length) {
-      const cur = this.pop() % SHIFT;
+    let budgetHit = false;
+    let bestNode = start;
+    let bestH = startH;
+    let bestG = 0;
+    let expanded = 0;
+    while (this.heapLen > 0) {
+      const cur = this.pop();
       if (this.closed[cur] === gen) continue;
       this.closed[cur] = gen;
       if (cur === goal) {
         found = true;
+        break;
+      }
+      if (++expanded > maxExpanded) {
+        budgetHit = true;
         break;
       }
       const cx = cur % w;
@@ -218,13 +285,20 @@ export class Pather {
           this.stamp[n] = gen;
           this.g[n] = ng;
           this.parent[n] = cur;
-          this.push((ng + this.h(nx, ny, gx, gy)) * SHIFT + n);
+          const nh = this.h(nx, ny, gx, gy);
+          if (nh < bestH || (nh === bestH && (ng < bestG || (ng === bestG && n < bestNode)))) {
+            bestNode = n;
+            bestH = nh;
+            bestG = ng;
+          }
+          this.push(ng + nh, n);
         }
       }
     }
-    if (!found) return null;
+    const endNode = found ? goal : budgetHit && bestNode !== start ? bestNode : -1;
+    if (endNode < 0) return null;
     let count = 0;
-    for (let t = goal; t !== -1; t = this.parent[t]) this.tiles[count++] = t;
+    for (let t = endNode; t !== -1; t = this.parent[t]) this.tiles[count++] = t;
     // Reverse in-place
     for (let l = 0, r = count - 1; l < r; l++, r--) {
       const tmp = this.tiles[l];

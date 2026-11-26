@@ -272,8 +272,8 @@ function ensureSettingsStyles(): void {
       display: flex;
       flex-direction: column;
       width: min(94vw, 760px);
-      height: 100dvh;
-      max-height: 100dvh;
+      height: 100%;
+      max-height: 100%;
       margin: 0 auto;
       padding: clamp(8px, 1.5vh, 16px) 0;
       gap: clamp(6px, 1vh, 10px);

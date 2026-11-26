@@ -211,16 +211,11 @@ def _pkware_explode(src: bytes) -> bytes:
         (0b111111,8),(0b011111,8),(0b101111,8),(0b001111,8),(0b110111,8),(0b010111,8),(0b100111,8),(0b000111,8)
     ]
 
-    # Build prefix lookup dicts
+    # Build prefix lookup dicts (PKWare DCL codes are already LSB-first)
     def make_tree(spec):
         m = {}
-        for idx, (bits_msb, n) in enumerate(spec):
-            # Reverse n bits since stream is LSB-first
-            rev = 0
-            for b in range(n):
-                if (bits_msb >> b) & 1:
-                    rev |= 1 << (n - 1 - b)
-            m[(n, rev)] = idx
+        for idx, (bits_lsb, n) in enumerate(spec):
+            m[(n, bits_lsb)] = idx
         return m
 
     len_map = make_tree(LEN_CODE_BITS)

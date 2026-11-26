@@ -38,12 +38,12 @@ if (!process.env.VITEST && !globalThis.__thornvaelWikiTsHook) {
   });
 }
 
-const [combatMod, suMod, runesMod, setsMod, d2Mod, affixMod, itemsMod, diffMod, mapGenMod, storyMod] = await Promise.all([
+const [combatMod, suMod, runesMod, setsMod, d2Mod, affixMod, itemsMod, , mapGenMod, storyMod] = await Promise.all([
   import('../src/sim/combat.ts'),
   import('../src/sim/super-uniques.ts'),
   import('../src/sim/runes.ts'),
   import('../src/sim/sets.ts'),
-  import('../src/sim/d2-database.ts'),
+  import('../src/sim/item-catalog.ts'),
   import('../src/sim/affixes.ts'),
   import('../src/sim/items.ts'),
   import('../src/sim/difficulty.ts'),
@@ -789,7 +789,14 @@ export function buildWikiData() {
   // ---------- items, uniques, sets, affixes, gems/runes ----------
   const itemEntries = [];
   const iconFor = (type, id, name, where, ...extraSlugs) =>
-    pic(type, id, where, ...extraSlugs.filter(Boolean).map((s) => `itemicons/${s}.png`), `itemicons/${slug(name)}.png`);
+    pic(
+      type,
+      id,
+      where,
+      ...extraSlugs.filter(Boolean).map((s) => `itemicons/${s}.png`),
+      `itemicons/${slug(name)}.png`,
+      ...(String(name).startsWith('Scroll of ') ? ['itemicons/scroll-of-marrow-dart.png'] : []),
+    );
 
   const SIM_BASE_ICON = {
     dagger: 'flint-stiletto',
@@ -1431,7 +1438,7 @@ export function buildWikiData() {
       tags: { rarity: 'socket', level: g.tier, slot: 'socket', cls: '' },
     };
   });
-  const d2Gems = d2Mod.D2_GEMS.map((g) => {
+  const d2Gems = d2Mod.CATALOG_GEMS.map((g) => {
     const id = `gem-${slug(g.name)}`;
     const fallbackSlug = gemSlugFor(id, g.name);
     return {
@@ -1853,7 +1860,7 @@ export function buildWikiData() {
       title: 'Dain Ironclad',
       cls: 'warrior',
       spriteId: 'hero',
-      epithet: 'Vanguard Paladin',
+      epithet: 'Vanguard Bulwark',
       img: 'townart/hero-dain.png',
       portrait: 'townart/portrait-warrior-m.png',
       summary: 'A battle-hardened defender of Thornwick in tempered gothic plate.',

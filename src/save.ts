@@ -56,15 +56,16 @@ const strings = (a: unknown): a is string[] => Array.isArray(a) && a.every((x) =
 const integers = (a: unknown): a is number[] => Array.isArray(a) && a.every(Number.isSafeInteger);
 const uint = (n: unknown): boolean => Number.isSafeInteger(n) && (n as number) >= 0;
 function validProgress(p: CampaignProgress | undefined): boolean {
-  return !!p && uint(p.difficulty) && p.difficulty <= 2 && strings(p.unlocked) && strings(p.completed)
-    && typeof p.node === 'string' && p.unlocked.includes(p.node) && p.completed.every((id) => p.unlocked.includes(id)) && uint(p.townVisits);
+  return !!p && uint(p.difficulty) && p.difficulty <= 3 && strings(p.unlocked) && strings(p.completed)
+    && typeof p.node === 'string' && p.unlocked.includes(p.node) && p.completed.every((id) => p.unlocked.includes(id)) && uint(p.townVisits)
+    && (p.ngPlusTier === undefined || (uint(p.ngPlusTier) && p.ngPlusTier <= 2));
 }
 
 /** Validate at the file/storage boundary and detach every nested field from the live record. */
 export function campaignSnapshot(raw: unknown): CampaignRecord {
   const r = parseRecord(raw);
   const bad = (): never => { throw new Error('This campaign snapshot is damaged or from an unsupported version.'); };
-  if (!r || !validProgress(r.progress) || ![0, 1].includes(r.hero.cls) || typeof r.hero.female !== 'boolean') return bad();
+  if (!r || !validProgress(r.progress) || ![0, 1, 2, 3].includes(r.hero.cls) || typeof r.hero.female !== 'boolean') return bad();
   if (r.last !== null && (!r.last || typeof r.last.node !== 'string' || !r.progress.unlocked.includes(r.last.node)
     || typeof r.last.win !== 'boolean' || typeof r.last.text !== 'string' || ![r.last.up, r.last.size, r.last.gold].every(uint))) return bad();
   if (r.carry !== null) {
@@ -72,7 +73,7 @@ export function campaignSnapshot(raw: unknown): CampaignRecord {
     const h = co?.hero;
     if (!co || !h || !validProgress(co.progress) || !uint(co.gold) || !uint(co.shopSeed)
       || !Array.isArray(co.mercs) || !co.mercs.every((m) => m && uint(m.kind) && uint(m.hpPct) && m.hpPct >= 1 && m.hpPct <= 100)
-      || !uint(h.id) || ![0, 1].includes(h.cls) || typeof h.female !== 'boolean' || ![0, 1, 2].includes(h.diff)
+      || !uint(h.id) || ![0, 1, 2, 3].includes(h.cls) || typeof h.female !== 'boolean' || ![0, 1, 2, 3].includes(h.diff)
       || !integers(h.attr) || h.attr.length !== 4 || !integers(h.skill) || h.skill.length !== 3
       || !integers(h.use) || h.use.length !== 3 || !integers(h.eq) || h.eq.length !== 8 || !uint(h.known) || (h.knownHi !== undefined && !(Array.isArray(h.knownHi) && h.knownHi.length === 2 && h.knownHi.every(uint)))
       || !Array.isArray(h.inv) || !h.inv.every((s) => s && uint(s.item) && uint(s.n) && s.n > 0)

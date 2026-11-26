@@ -16,7 +16,7 @@ import { Kind, Elem, strike } from '../src/sim/combat';
 import { St } from '../src/sim/spelldata';
 import { addStatus } from '../src/sim/spells';
 import { createHero } from '../src/sim/hero';
-import { renderPaladinAura } from '../src/auras';
+import { renderVanguardAura } from '../src/auras';
 import { CombatFeelSystem } from '../src/feel';
 
 function makeMap() {
@@ -33,9 +33,9 @@ function makeMap() {
   };
 }
 
-describe('Paladin Aura Visuals & Basin Roster Engine', () => {
-  describe('Complete Aura Roster (The Amazon Basin Wiki Specification)', () => {
-    it('contains all 17 authentic Paladin auras', () => {
+describe('Vanguard Aura Visuals & Roster Engine', () => {
+  describe('Complete Aura Roster', () => {
+    it('contains all 17 Vanguard auras', () => {
       expect(ALL_AURA_IDS.length).toBe(17);
       expect(OFFENSIVE_AURAS.length).toBe(9);
       expect(DEFENSIVE_UTILITY_AURAS.length).toBe(8);
@@ -72,7 +72,7 @@ describe('Paladin Aura Visuals & Basin Roster Engine', () => {
       }
     });
 
-    it('has complete Amazon Basin specifications and visual palettes for all 17 auras', () => {
+    it('has complete visual palettes and descriptions for all 17 auras', () => {
       for (const id of ALL_AURA_IDS) {
         const def = getAuraDefinition(id);
         expect(def).toBeDefined();
@@ -356,13 +356,13 @@ describe('Paladin Aura Visuals & Basin Roster Engine', () => {
   });
 
   describe('PixiJS Decal Visual Renderer', () => {
-    it('renders all 17 Paladin auras without throwing', () => {
+    it('renders all 17 Vanguard auras without throwing', () => {
       const g = new Graphics();
       expect(g.blendMode).toBe('inherit');
 
       for (const id of ALL_AURA_IDS) {
         expect(() => {
-          renderPaladinAura(g, id, 100, 100, 12345, 1.0, 0);
+          renderVanguardAura(g, id, 100, 100, 12345, 1.0, 0);
         }).not.toThrow();
       }
     });

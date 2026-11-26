@@ -1,6 +1,7 @@
 import { describe, it, expect } from 'vitest';
 import { readFileSync } from 'node:fs';
 import { migrate, validate, loadDoc, rleDecode } from '../src/mapdoc';
+import { createMission } from '../src/mission-runtime';
 
 const raw = JSON.parse(readFileSync(new URL('../src/worlds/act1-world.map.json', import.meta.url), 'utf8'));
 
@@ -44,4 +45,16 @@ describe('act1 stitched world', () => {
     const miss = (doc.waypoints ?? []).filter((p) => !seen[p.y * w + p.x]).map((p) => p.id);
     expect(miss).toEqual([]);
   });
+});
+
+it('stitched world does not win at start and wakes a zone when the hero enters it', () => {
+  const g = createMission(loadDoc(raw), 1);
+  const s = g.sim;
+  const asleep = () => s.hidden.slice(0, s.count).filter((h) => h).length;
+  for (let i = 0; i < 20; i++) s.step([]);
+  expect(g.sim.script?.st.status).toBe(0);
+  const before = asleep();
+  s.place(0, 140, 70); // inside m01-outskirts
+  for (let i = 0; i < 20; i++) s.step([]);
+  expect(asleep()).toBeLessThan(before);
 });

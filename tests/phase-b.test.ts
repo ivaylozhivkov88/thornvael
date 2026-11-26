@@ -12,7 +12,7 @@ describe('Phase B1: dynamic mission code-splitting parity', () => {
   });
 
   it('dynamically loads representative campaign acts, bosses, skirmish maps, and produces identical sim state', async () => {
-    const samples = ['ford', 'm14', 'm25', 'm36', 'ossuary', 'skirmish-twin-fords', 'kids-paradise-opening'];
+    const samples = ['ford', 'm14-128', 'm25-192', 'm36-256', 'ossuary', 'skirmish-twin-fords', 'kids-paradise-opening'];
     for (const key of samples) {
       const loadedAsync = await loadMissionByName(key);
       const loadedSync = missionFromName(key);

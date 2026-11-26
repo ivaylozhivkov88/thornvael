@@ -1,7 +1,6 @@
 import type { Scenario } from './bot';
 import { FP, type Sim } from './sim';
 import { mulberry32 } from '../map-generator';
-import { Kind, DEFS } from './combat';
 import { getSuperUniquesForAct, spawnSuperUniqueInPack } from './super-uniques';
 
 export const D2R_BOSS_MODS = [
@@ -65,6 +64,7 @@ export function applyDynamicSessionRespawn(
   sessionSeed: number,
   nodeId = 'mission',
   act: 1 | 2 | 3 | 4 = 1,
+  ngPlusTier = 0,
 ): { championsCount: number; elitesCount: number; superUniquesCount: number; superUniques: string[] } {
   const seed = (sessionSeed ^ hashString(nodeId)) >>> 0;
   const rng = mulberry32(seed);
@@ -121,6 +121,11 @@ export function applyDynamicSessionRespawn(
     if (mod2Idx === mod1Idx) mod2Idx = (mod2Idx + 1) % D2R_BOSS_MODS.length;
 
     const eliteMods = [D2R_BOSS_MODS[mod1Idx], D2R_BOSS_MODS[mod2Idx]];
+    const extraMods = Math.min(3, Math.max(0, Math.floor(ngPlusTier)));
+    for (let em = 0; em < extraMods; em++) {
+      const cand = D2R_BOSS_MODS[randInt(0, D2R_BOSS_MODS.length - 1)];
+      if (!eliteMods.includes(cand)) eliteMods.push(cand);
+    }
     (cb.bossMods as string[][])[u] = eliteMods;
 
     const eliteFamily = biome.elites[randInt(0, biome.elites.length - 1)];
@@ -128,7 +133,7 @@ export function applyDynamicSessionRespawn(
     (cb.tier as unknown as number[])[u] = Math.min(5, biome.tierRange[1] + 1);
 
     // Buff elite HP & stats
-    cb.hpMax[u] = Math.round(cb.hpMax[u] * 1.5);
+    cb.hpMax[u] = Math.min(32000, Math.round(cb.hpMax[u] * (1.5 + 0.2 * extraMods)));
     cb.hp[u] = cb.hpMax[u];
 
     elitesCount++;

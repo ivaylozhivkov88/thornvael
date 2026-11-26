@@ -275,7 +275,7 @@ export function steerUnit(sim: Sim, i: number, ctx: SteeringContext): void {
 
   if (sim.cb.ord[i] === Ord.Retreat && sim.tick - sim.cb.aux[i] >= 45) {
     sim.cb.ord[i] = Ord.Guard;
-    sim.moving[i] = 0;
+    ctx.finish(i);
     return;
   }
 
@@ -640,6 +640,7 @@ export function separateUnits(sim: Sim, ctx: SteeringContext): void {
     }
   }
 
+  let separated = false;
   for (let i = 0; i < count; i++) {
     let sx = ax[i];
     let sy = ay[i];
@@ -651,5 +652,7 @@ export function separateUnits(sim: Sim, ctx: SteeringContext): void {
       sy = Math.round((sy * MAX_COMBINED_SEPARATION) / mag);
     }
     applySafeSlideSeparation(map, x, y, i, sx, sy);
+    separated = true;
   }
+  if (separated) sim.markGridDirty();
 }

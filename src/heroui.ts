@@ -1,12 +1,12 @@
 import { getItemFlavor } from './missioncontent';
 import { getItemLore } from './codex';
-import { allocateSkill, canAllocateSkill, computePassiveBonuses, createSkillTreeState, getTotalAllocatedPoints } from './skills/engine';
+import { canAllocateSkill, computePassiveBonuses, createSkillTreeState, getTotalAllocatedPoints } from './skills/engine';
 import { getSkillTreeForClass } from './skills/trees';
-import type { ComputedPassiveBonuses, SkillClass, SkillNodeDef, SkillTreeState } from './skills/types';
+import type { SkillClass, SkillNodeDef, SkillTreeState } from './skills/types';
 import { DEFS, Kind, M, MODN } from './sim/combat';
-import { DIFF_NAMES, INV_MAX, SKILL_NAMES, SKILL_TIP, SKILL_MAX, WHY_TEXT, blocker, derive, equipmentStamp, heroKnowsSpell, startState, totals, type EquipmentAction, type HeroState } from './sim/hero';
-import { equipmentAction, equipmentLayers, equipmentPreview, skillProgress, type EquipmentSource as Sel } from './hero-presentation';
-import { ATTR_NAMES, CLS_BOTH, CLS_MAGE, CLS_WARRIOR, Cls, ITEMS, Ik, ItemDef, PART_NAMES, SLOT_COUNT, SLOT_NAMES, Slot, getItemDef, itemText } from './sim/items';
+import { DIFF_NAMES, INV_MAX, SKILL_NAMES, SKILL_MAX, WHY_TEXT, blocker, derive, heroKnowsSpell, startState, totals, type HeroState } from './sim/hero';
+import { equipmentAction, equipmentPreview, skillProgress, type EquipmentSource as Sel } from './hero-presentation';
+import { ATTR_NAMES, CLS_BOTH, CLS_MAGE, CLS_WARRIOR, Cls, Ik, ItemDef, PART_NAMES, SLOT_COUNT, SLOT_NAMES, Slot, getItemDef, } from './sim/items';
 import { findSetByItemName, isSetItem, type SetBonus } from './sim/sets';
 import type { Command, Sim } from './sim/sim';
 import { SPELLS } from './sim/spelldata';
@@ -91,51 +91,6 @@ export function tabStrip(active: number, go: (n: number) => void): HTMLElement {
 }
 
 const SCHOOL_NAMES = ['fire', 'water', 'air', 'earth', 'astral'] as const;
-
-function applyClassSkillPassiveDelta(
-  sim: Sim,
-  heroUnitId: number,
-  prev: ComputedPassiveBonuses,
-  next: ComputedPassiveBonuses,
-): void {
-  const cb = sim.cb;
-  if (!cb?.mod) return;
-  const o = heroUnitId * MODN;
-  const dDef = next.def - prev.def;
-  if (dDef) cb.mod[o + M.Def] += dDef;
-  const dAbs = next.abs - prev.abs;
-  if (dAbs) cb.mod[o + M.Abs] += dAbs;
-  const dAcc = next.acc - prev.acc;
-  if (dAcc) cb.mod[o + M.Acc] += dAcc;
-  const dFireRes = next.fireResPct - prev.fireResPct;
-  if (dFireRes) cb.mod[o + M.Res + 0] += dFireRes;
-  const dPow = (next.firePowPct + next.waterPowPct) - (prev.firePowPct + prev.waterPowPct);
-  if (dPow) cb.mod[o + M.Pow] += dPow;
-
-  const dMelee = next.meleeDmgPct - prev.meleeDmgPct;
-  if (dMelee !== 0) {
-    const curMin = DEFS[Kind.Hero].min + cb.mod[o + M.Min];
-    const curMax = DEFS[Kind.Hero].max + cb.mod[o + M.Max];
-    cb.mod[o + M.Min] += Math.max(1, Math.round((curMin * dMelee) / 100));
-    cb.mod[o + M.Max] += Math.max(1, Math.round((curMax * dMelee) / 100));
-  }
-
-  const dHp = next.maxHp - prev.maxHp;
-  if (dHp !== 0) {
-    cb.hpMax[heroUnitId] = Math.min(32000, cb.hpMax[heroUnitId] + dHp);
-    if (cb.hp[heroUnitId] > 0) {
-      cb.hp[heroUnitId] = Math.min(cb.hpMax[heroUnitId], cb.hp[heroUnitId] + Math.max(0, dHp));
-    }
-  }
-
-  const dMana = next.maxMana - prev.maxMana;
-  if (dMana !== 0) {
-    cb.manaMax[heroUnitId] = Math.min(32000, cb.manaMax[heroUnitId] + dMana);
-    cb.mana[heroUnitId] = Math.min(cb.manaMax[heroUnitId], cb.mana[heroUnitId] + Math.max(0, dMana));
-  }
-
-  cb.emit(6, sim.x[heroUnitId], sim.y[heroUnitId], 0, 0);
-}
 
 function formatBonusStats(b: SetBonus): string {
   const parts: string[] = [];
@@ -981,20 +936,6 @@ export class HeroUi {
     else this.openInventory();
   }
 
-  private go(n: number): void {
-    this.hideMobilePopover();
-    if (n === 2) {
-      this.close();
-      this.ctx.openBook();
-      return;
-    }
-    if (n === 0) {
-      this.openStats();
-    } else {
-      this.openInventory();
-    }
-  }
-
   /** Called a few times a second: redraws only when something shown has changed. */
   refresh(force = false): void {
     if (this.isStatsOpen) this.renderStats(force);
@@ -1360,14 +1301,9 @@ export class HeroUi {
         this.ctx.tipOn(nb, `${node.name} (${node.type}, Rank ${curRank}/${node.maxRank}): ${node.desc}${check.ok ? '' : ` [${check.reason}]`}`);
         nb.onclick = (e) => {
           e.stopPropagation();
-          const nextState = allocateSkill(treeState, node.id);
-          if (!nextState) return;
-          hExt.classSkills = { ...nextState.ranks };
-          h.skillPoints = nextState.availablePoints;
-          const nextPassives = computePassiveBonuses(nextState);
-          applyClassSkillPassiveDelta(sim, i, treePassives, nextPassives);
-          this.ctx.toast(`${node.name} Rank ${nextState.ranks[node.id]}/${node.maxRank}`);
-          this.renderStats(true);
+          if (!canAllocateSkill(treeState, node.id).ok) return;
+          this.act({ type: 'hero', op: 'class_skill', skillId: node.id });
+          this.ctx.toast(`${node.name} Rank ${curRank + 1}/${node.maxRank}`);
         };
         col.append(nb);
       }
@@ -1477,54 +1413,6 @@ export class HeroUi {
       cell.dataset.equipmentTarget = `eq${s}`;
       slots.append(cell);
     }
-
-    // Waist: Belt slot (displays belt / potion belt status)
-    const beltCell = el('div', 'hero-gear-cell');
-    beltCell.dataset.equipmentTarget = 'eq8';
-    const beltBt = el('button', 'slot-btn slot-empty');
-    beltBt.type = 'button';
-    beltBt.dataset.k = 'eq8';
-    beltBt.append(slotWatermarkIcon(8));
-    const beltCount = h.inv.filter((s) => getItemDef(s.item)?.kind === Ik.Potion).reduce((sum, s) => sum + s.n, 0);
-    beltBt.title = `Waist / Belt (${beltCount > 0 ? `${beltCount} Potions` : 'Potion Belt'})`;
-    beltBt.addEventListener('pointerenter', (e) => {
-      if ((e as PointerEvent).pointerType !== 'touch') {
-        this.ctx.tipOn(beltBt, `Waist / Belt (${beltCount > 0 ? `${beltCount} Potions` : 'Potion Belt'})`);
-      }
-    });
-    beltCell.append(beltBt);
-    slots.append(beltCell);
-
-    // Finger 2 (Right Ring) slot
-    const ring2Cell = el('div', 'hero-gear-cell finger-2');
-    ring2Cell.dataset.equipmentTarget = 'eq5';
-    const ring2Bt = el('button', 'slot-btn slot-empty');
-    ring2Bt.type = 'button';
-    ring2Bt.dataset.k = 'eq5_alt';
-    ring2Bt.append(slotWatermarkIcon(Slot.Ring));
-    ring2Bt.title = `Finger 2 (Ring) (${S.hero.empty})`;
-    ring2Bt.addEventListener('pointerenter', (e) => {
-      if ((e as PointerEvent).pointerType !== 'touch') {
-        this.ctx.tipOn(ring2Bt, `Finger 2 (Ring) (${S.hero.empty})`);
-      }
-    });
-    ring2Bt.onclick = () => {
-      if (this.sel && this.sel.from === 'inv') {
-        const intent = this.intent(this.sel);
-        if (intent) {
-          const preview = this.preview(intent);
-          if (preview && preview.target === 'eq5' && !preview.why) {
-            const def = getItemDef(this.sel.item);
-            const isMetal = def ? (def.tier >= 3 || /sword|blade|iron|steel|plate|mail|shield|helm/i.test(def.name)) : true;
-            playEquipSfx(isMetal);
-            this.sel = null;
-            this.submit(intent);
-          }
-        }
-      }
-    };
-    ring2Cell.append(ring2Bt);
-    slots.append(ring2Cell);
 
     panel.append(slots);
     return panel;

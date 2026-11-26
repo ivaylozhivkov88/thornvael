@@ -210,10 +210,7 @@ export class AdaptiveAudioDirector {
   private act = 1;
   private regionIndex = 0;
   private skirmishBiome: string | null = null;
-  private bossId: string | null = null;
-  private bossPhase: 1 | 2 = 1;
   private specialTrackId: string | null = null;
-  private specialLoop = true;
   private paused = false;
   private lastEnemySeenMs = -1e9;
 
@@ -338,7 +335,6 @@ export class AdaptiveAudioDirector {
   setMenu(nowMs = 0): void {
     this.mode = 'menu';
     this.skirmishBiome = null;
-    this.bossId = null;
     this.specialTrackId = null;
     this.crossfadeTo(MUSIC_MENU.mainMenu, true, nowMs);
   }
@@ -346,7 +342,6 @@ export class AdaptiveAudioDirector {
   setCharSelect(nowMs = 0): void {
     this.mode = 'char_select';
     this.skirmishBiome = null;
-    this.bossId = null;
     this.specialTrackId = null;
     this.crossfadeTo(MUSIC_MENU.charSelect, true, nowMs);
   }
@@ -355,7 +350,6 @@ export class AdaptiveAudioDirector {
     this.act = act >= 1 && act <= 4 ? act : 0;
     this.mode = 'hub';
     this.skirmishBiome = null;
-    this.bossId = null;
     this.specialTrackId = null;
     this.crossfadeTo(getMusicForAct(this.act, 'town'), true, nowMs);
   }
@@ -365,7 +359,6 @@ export class AdaptiveAudioDirector {
     this.regionIndex = regionIndex;
     this.mode = 'explore';
     this.skirmishBiome = null;
-    this.bossId = null;
     this.specialTrackId = null;
     this.crossfadeTo(getMusicForAct(this.act, 'explore', regionIndex), true, nowMs);
   }
@@ -375,7 +368,6 @@ export class AdaptiveAudioDirector {
     this.regionIndex = regionIndex;
     this.mode = mode;
     this.skirmishBiome = null;
-    this.bossId = null;
     this.specialTrackId = null;
     this.crossfadeTo(getMusicForAct(this.act, mode === 'hub' ? 'town' : mode, regionIndex), true, nowMs);
   }
@@ -383,27 +375,22 @@ export class AdaptiveAudioDirector {
   startSkirmish(biome: string, nowMs = 0): void {
     this.skirmishBiome = biome;
     this.mode = 'skirmish';
-    this.bossId = null;
     this.specialTrackId = null;
     this.crossfadeTo(getMusicForSkirmish(biome), true, nowMs);
   }
 
   triggerBossPhase(bossId: string, phase: 1 | 2 = 1, stingerId?: string, nowMs = 0): void {
-    this.bossId = bossId;
-    this.bossPhase = phase;
     this.mode = 'boss';
     if (stingerId) {
       this.stingerHistory.push(stingerId);
     }
     const track = getBossMusic(bossId, phase);
     this.specialTrackId = track;
-    this.specialLoop = true;
     this.crossfadeTo(track, true, nowMs);
   }
 
   setSpecialTrack(trackId: string | null, loop = true, nowMs = 0): void {
     this.specialTrackId = trackId;
-    this.specialLoop = loop;
     if (trackId) {
       if (trackId.startsWith('music_boss_')) this.mode = 'boss';
       else if (trackId.startsWith('music_ending_')) this.mode = 'ending';
@@ -427,7 +414,6 @@ export class AdaptiveAudioDirector {
   playEnding(ending: 'crown' | 'ember' | 'a' | 'b', nowMs = 0): void {
     const trackId = getEndingMusic(ending);
     this.specialTrackId = trackId;
-    this.specialLoop = true;
     this.mode = 'ending';
     this.crossfadeTo(trackId, true, nowMs);
   }

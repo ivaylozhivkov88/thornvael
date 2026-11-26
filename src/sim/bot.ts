@@ -126,6 +126,10 @@ export interface MonsterAiExtra {
   res: [number, number][];
   raised: [number, number[]][];
   windup: [number, number][];
+  panic?: [number, number][];
+  kite?: [number, number][];
+  fled?: number[];
+  lowHp?: number[];
   director?: DirectorExtra;
 }
 
@@ -164,11 +168,16 @@ export class MonsterAi {
   /** Per-unit timers that must survive a save: resurrect cooldowns, raised minions and boss windups. Sorted for a stable save. */
   snapshotExtra(): MonsterAiExtra {
     const byId = <T,>(a: [number, T][]): [number, T][] => a.sort((p, q) => p[0] - q[0]);
-    return {
+    const out: MonsterAiExtra = {
       res: byId([...this.resCooldowns]),
       raised: byId([...this.raisedMinions].map(([k, v]): [number, number[]] => [k, [...v].sort((a, b) => a - b)])),
       windup: byId([...this.bossWindups]),
     };
+    if (this.panicUntil.size > 0) out.panic = byId([...this.panicUntil]);
+    if (this.kiteCooldowns.size > 0) out.kite = byId([...this.kiteCooldowns]);
+    if (this.fledForLeader.size > 0) out.fled = [...this.fledForLeader].sort((a, b) => a - b);
+    if (this.lowHpPanicked.size > 0) out.lowHp = [...this.lowHpPanicked].sort((a, b) => a - b);
+    return out;
   }
 
   /** Older saves have no extra block; then the timers start empty, as before. */
@@ -176,10 +185,10 @@ export class MonsterAi {
     this.resCooldowns = new Map(x?.res ?? []);
     this.raisedMinions = new Map((x?.raised ?? []).map(([k, v]) => [k, new Set(v)]));
     this.bossWindups = new Map(x?.windup ?? []);
-    this.panicUntil.clear();
-    this.kiteCooldowns.clear();
-    this.fledForLeader.clear();
-    this.lowHpPanicked.clear();
+    this.panicUntil = new Map(x?.panic ?? []);
+    this.kiteCooldowns = new Map(x?.kite ?? []);
+    this.fledForLeader = new Set(x?.fled ?? []);
+    this.lowHpPanicked = new Set(x?.lowHp ?? []);
   }
 
   restore(s: readonly [boolean, number][]): void {
@@ -202,14 +211,36 @@ export class MonsterAi {
         return heroId;
       }
     }
+    sim.ensureGrid();
+    const myTeam = sim.team[alive[0]];
+    const { w, h } = sim.map;
+    const cs = sim.cellStart;
+    const ce = sim.cellEnd;
+    const ci = sim.cellItems;
+    const rc = sim.spatialHash.rowCount;
+    const px = Math.floor(p.x);
+    const py = Math.floor(p.y);
+    const r = 16;
+    const gy0 = Math.max(0, py - r);
+    const gy1 = Math.min(h - 1, py + r);
+    const gx0 = Math.max(0, px - r);
+    const gx1 = Math.min(w - 1, px + r);
     let best = -1;
     let bestDist = 16;
-    for (let i = 0; i < sim.count; i++) {
-      if (cb.hp[i] > 0 && sim.team[i] !== sim.team[alive[0]] && !sim.hidden[i]) {
-        const d = Math.hypot(sim.x[i] / FP - p.x, sim.y[i] / FP - p.y);
-        if (d < bestDist) {
-          bestDist = d;
-          best = i;
+    for (let gy = gy0; gy <= gy1; gy++) {
+      if (rc[gy] === 0) continue;
+      const row = gy * w;
+      for (let gx = gx0; gx <= gx1; gx++) {
+        const c = row + gx;
+        const end = ce[c];
+        for (let q = cs[c]; q < end; q++) {
+          const i = ci[q];
+          if (sim.team[i] === myTeam) continue;
+          const d = Math.hypot(sim.x[i] / FP - p.x, sim.y[i] / FP - p.y);
+          if (d < bestDist || (d === bestDist && i < best)) {
+            bestDist = d;
+            best = i;
+          }
         }
       }
     }
@@ -217,42 +248,85 @@ export class MonsterAi {
   }
 
   protected findWeakestArmorTarget(sim: Sim, unitId: number, fallbackTargetId: number): number {
+    sim.ensureGrid();
     const cb = sim.cb;
     const myTeam = sim.team[unitId];
     const ux = sim.x[unitId] / FP;
     const uy = sim.y[unitId] / FP;
+    const { w, h } = sim.map;
+    const cs = sim.cellStart;
+    const ce = sim.cellEnd;
+    const ci = sim.cellItems;
+    const rc = sim.spatialHash.rowCount;
+    const cx = Math.floor(ux);
+    const cy = Math.floor(uy);
+    const r = 7;
+    const gy0 = Math.max(0, cy - r);
+    const gy1 = Math.min(h - 1, cy + r);
+    const gx0 = Math.max(0, cx - r);
+    const gx1 = Math.min(w - 1, cx + r);
     let bestId = fallbackTargetId;
     let bestScore = 1e9;
 
-    for (let i = 0; i < sim.count; i++) {
-      if (cb.hp[i] <= 0 || sim.team[i] === myTeam || sim.hidden[i]) continue;
-      const dist = Math.hypot(sim.x[i] / FP - ux, sim.y[i] / FP - uy);
-      if (dist > 6.5) continue;
-      const armor = partAbs(sim, i, 0) + partAbs(sim, i, 1) + partDef(sim, i, 0);
-      const roleBias = cb.kind[i] === Kind.Mage || cb.kind[i] === Kind.Archer ? -12 : cb.kind[i] === Kind.Hero ? -4 : 0;
-      const score = armor * 2 + roleBias + dist * 0.5;
-      if (score < bestScore) {
-        bestScore = score;
-        bestId = i;
+    for (let gy = gy0; gy <= gy1; gy++) {
+      if (rc[gy] === 0) continue;
+      const row = gy * w;
+      for (let gx = gx0; gx <= gx1; gx++) {
+        const c = row + gx;
+        const end = ce[c];
+        for (let q = cs[c]; q < end; q++) {
+          const i = ci[q];
+          if (sim.team[i] === myTeam) continue;
+          const dist = Math.hypot(sim.x[i] / FP - ux, sim.y[i] / FP - uy);
+          if (dist > 6.5) continue;
+          const armor = partAbs(sim, i, 0) + partAbs(sim, i, 1) + partDef(sim, i, 0);
+          const roleBias = cb.kind[i] === Kind.Mage || cb.kind[i] === Kind.Archer ? -12 : cb.kind[i] === Kind.Hero ? -4 : 0;
+          const score = armor * 2 + roleBias + dist * 0.5;
+          if (score < bestScore || (score === bestScore && i < bestId)) {
+            bestScore = score;
+            bestId = i;
+          }
+        }
       }
     }
     return bestId;
   }
 
   protected findNearestEnemy(sim: Sim, unitId: number, fallbackTargetId: number): number {
-    const cb = sim.cb;
+    sim.ensureGrid();
     const myTeam = sim.team[unitId];
     const ux = sim.x[unitId] / FP;
     const uy = sim.y[unitId] / FP;
+    const { w, h } = sim.map;
+    const cs = sim.cellStart;
+    const ce = sim.cellEnd;
+    const ci = sim.cellItems;
+    const rc = sim.spatialHash.rowCount;
+    const cx = Math.floor(ux);
+    const cy = Math.floor(uy);
+    const r = 24;
+    const gy0 = Math.max(0, cy - r);
+    const gy1 = Math.min(h - 1, cy + r);
+    const gx0 = Math.max(0, cx - r);
+    const gx1 = Math.min(w - 1, cx + r);
     let bestId = fallbackTargetId;
     let bestDist = 1e9;
 
-    for (let i = 0; i < sim.count; i++) {
-      if (cb.hp[i] <= 0 || sim.team[i] === myTeam || sim.hidden[i]) continue;
-      const d = Math.hypot(sim.x[i] / FP - ux, sim.y[i] / FP - uy);
-      if (d < bestDist) {
-        bestDist = d;
-        bestId = i;
+    for (let gy = gy0; gy <= gy1; gy++) {
+      if (rc[gy] === 0) continue;
+      const row = gy * w;
+      for (let gx = gx0; gx <= gx1; gx++) {
+        const c = row + gx;
+        const end = ce[c];
+        for (let q = cs[c]; q < end; q++) {
+          const i = ci[q];
+          if (sim.team[i] === myTeam) continue;
+          const d = Math.hypot(sim.x[i] / FP - ux, sim.y[i] / FP - uy);
+          if (d < bestDist || (d === bestDist && i < bestId)) {
+            bestDist = d;
+            bestId = i;
+          }
+        }
       }
     }
     return bestId;
@@ -368,8 +442,8 @@ export class MonsterAi {
         const awayDx = kx - targetX || 1;
         const awayDy = ky - targetY || 0;
         const awayLen = Math.hypot(awayDx, awayDy) || 1;
-        const retreatX = Math.max(1, Math.min(sim.map.w - 2, Number((kx + (awayDx / awayLen) * 2.5).toFixed(2))));
-        const retreatY = Math.max(1, Math.min(sim.map.h - 2, Number((ky + (awayDy / awayLen) * 2.5).toFixed(2))));
+        const retreatX = Math.max(1, Math.min(sim.map.w - 2, Math.round((kx + (awayDx / awayLen) * 2.5) * 100) / 100));
+        const retreatY = Math.max(1, Math.min(sim.map.h - 2, Math.round((ky + (awayDy / awayLen) * 2.5) * 100) / 100));
         out.push({ type: 'order', order: 'retreat', ids: [kId], x: retreatX, y: retreatY });
       } else if (dist <= reach) {
         out.push({ type: 'order', order: 'attack', ids: [kId], target: targetId });
@@ -392,13 +466,14 @@ export class MonsterAi {
       }
 
       let didResurrect = false;
-      if (knows(sim, sId, 24) && sim.tick >= resCd && raisedSet.size < 2 && cb.mana[sId] >= 30) {
+      if (knows(sim, sId, 21) && sim.tick >= resCd && raisedSet.size < 2 && cb.mana[sId] >= 30) {
         const sx = sim.x[sId] / FP;
         const sy = sim.y[sId] / FP;
+        const corpses = this.getTeamCorpses(sim, sim.team[sId]);
         let bestCorpse = -1;
         let bestCDist = 6.0;
-        for (let c = 0; c < sim.count; c++) {
-          if (cb.hp[c] <= 0 && cb.corp[c] > 0 && sim.team[c] === sim.team[sId] && !sim.hidden[c]) {
+        for (const c of corpses) {
+          if (cb.hp[c] <= 0 && cb.corp[c] > 0) {
             const cd = Math.hypot(sim.x[c] / FP - sx, sim.y[c] / FP - sy);
             if (cd < bestCDist) {
               bestCDist = cd;
@@ -407,7 +482,7 @@ export class MonsterAi {
           }
         }
         if (bestCorpse >= 0) {
-          out.push({ type: 'order', order: 'cast', ids: [sId], spell: 24, target: bestCorpse });
+          out.push({ type: 'order', order: 'cast', ids: [sId], spell: 21, target: bestCorpse });
           this.resCooldowns.set(sId, sim.tick + 375); // strict 15s cooldown
           raisedSet.add(bestCorpse);
           didResurrect = true;
@@ -506,8 +581,8 @@ export class MonsterAi {
         const len = Math.hypot(dx, dy) || 1;
         const stepDist = Math.min(len * 0.55, 2.5);
         const slide = slideMove(sim.map, wx, wy, (dx / len) * stepDist, (dy / len) * stepDist);
-        const interX = Math.max(1, Math.min(sim.map.w - 2, Number(slide.x.toFixed(2))));
-        const interY = Math.max(1, Math.min(sim.map.h - 2, Number(slide.y.toFixed(2))));
+        const interX = Math.max(1, Math.min(sim.map.w - 2, Math.round(slide.x * 100) / 100));
+        const interY = Math.max(1, Math.min(sim.map.h - 2, Math.round(slide.y * 100) / 100));
 
         if (Math.hypot(bx - interX, by - interY) > 0.85) {
           out.push({ type: 'move', ids: [bId], x: interX, y: interY });
@@ -550,8 +625,8 @@ export class MonsterAi {
         const perpX = (-dy / len) * side * 1.8;
         const perpY = (dx / len) * side * 1.8;
         const slide = slideMove(sim.map, wx, wy, perpX, perpY);
-        const flankX = Math.max(1, Math.min(sim.map.w - 2, Number(slide.x.toFixed(2))));
-        const flankY = Math.max(1, Math.min(sim.map.h - 2, Number(slide.y.toFixed(2))));
+        const flankX = Math.max(1, Math.min(sim.map.w - 2, Math.round(slide.x * 100) / 100));
+        const flankY = Math.max(1, Math.min(sim.map.h - 2, Math.round(slide.y * 100) / 100));
         out.push({ type: 'order', order: 'attack', ids: [fId], target: weakTarget, x: flankX, y: flankY });
       } else {
         out.push({ type: 'order', order: 'attack', ids: [fId], target: weakTarget, x: wx, y: wy });
@@ -617,6 +692,29 @@ export class MonsterAi {
     }
     return out;
   }
+
+  private cachedCorpseTick = -1;
+  private cachedCorpsesByTeam = new Map<number, number[]>();
+
+  private getTeamCorpses(sim: Sim, team: number): number[] {
+    if (this.cachedCorpseTick !== sim.tick) {
+      this.cachedCorpseTick = sim.tick;
+      this.cachedCorpsesByTeam.clear();
+      const cb = sim.cb;
+      for (let c = 0; c < sim.count; c++) {
+        if (cb.hp[c] <= 0 && cb.corp[c] > 0 && !sim.hidden[c]) {
+          const t = sim.team[c];
+          let arr = this.cachedCorpsesByTeam.get(t);
+          if (!arr) {
+            arr = [];
+            this.cachedCorpsesByTeam.set(t, arr);
+          }
+          arr.push(c);
+        }
+      }
+    }
+    return this.cachedCorpsesByTeam.get(team) ?? [];
+  }
 }
 
 export interface SkirmishDirectorOptions {
@@ -647,7 +745,6 @@ export class SkirmishDirector extends MonsterAi {
   protected deathTicks = new Map<number, number>();
   protected lastRaidTick = 0;
   protected raidCount = 0;
-  private readonly rng: Rng;
   readonly options: SkirmishDirectorOptions;
 
   constructor(packs: Pack[], options: SkirmishDirectorOptions = {}) {
@@ -666,7 +763,6 @@ export class SkirmishDirector extends MonsterAi {
       enableRepopulation: options.enableRepopulation ?? true,
       enableDefense: options.enableDefense ?? true,
     };
-    this.rng = new Rng(this.options.seed ?? 1);
   }
 
   getRaidCount(): number {
@@ -694,6 +790,10 @@ export class SkirmishDirector extends MonsterAi {
       this.deathTicks = new Map(x.director.death ?? []);
       this.lastRaidTick = x.director.lastRaid ?? 0;
       this.raidCount = x.director.raidCount ?? 0;
+    } else {
+      this.deathTicks.clear();
+      this.lastRaidTick = 0;
+      this.raidCount = 0;
     }
   }
 
@@ -745,9 +845,17 @@ export class SkirmishDirector extends MonsterAi {
   }
 
   private checkBaseDefense(sim: Sim, out: Command[]): void {
+    sim.ensureGrid();
     const cb = sim.cb;
     const team = this.options.team ?? 1;
-    const defRadiusSq = (this.options.defenseRadius ?? 14) ** 2;
+    const defRadius = this.options.defenseRadius ?? 14;
+    const defRadiusSq = defRadius ** 2;
+    const tr = Math.ceil(defRadius);
+    const { w, h } = sim.map;
+    const cs = sim.cellStart;
+    const ce = sim.cellEnd;
+    const ci = sim.cellItems;
+    const rc = sim.spatialHash.rowCount;
 
     for (const p of this.packs) {
       if (p.hunting) continue;
@@ -757,14 +865,28 @@ export class SkirmishDirector extends MonsterAi {
       let intruder = -1;
       let closestIntruderDistSq = defRadiusSq;
 
-      for (let i = 0; i < sim.count; i++) {
-        if (sim.team[i] !== team && cb.hp[i] > 0 && !sim.hidden[i]) {
-          const ix = sim.x[i] / FP;
-          const iy = sim.y[i] / FP;
-          const d2 = (ix - p.x) ** 2 + (iy - p.y) ** 2;
-          if (d2 < closestIntruderDistSq) {
-            closestIntruderDistSq = d2;
-            intruder = i;
+      const px = Math.floor(p.x);
+      const py = Math.floor(p.y);
+      const gy0 = Math.max(0, py - tr);
+      const gy1 = Math.min(h - 1, py + tr);
+      const gx0 = Math.max(0, px - tr);
+      const gx1 = Math.min(w - 1, px + tr);
+      for (let gy = gy0; gy <= gy1; gy++) {
+        if (rc[gy] === 0) continue;
+        const row = gy * w;
+        for (let gx = gx0; gx <= gx1; gx++) {
+          const c = row + gx;
+          const end = ce[c];
+          for (let q = cs[c]; q < end; q++) {
+            const i = ci[q];
+            if (sim.team[i] === team) continue;
+            const ix = sim.x[i] / FP;
+            const iy = sim.y[i] / FP;
+            const d2 = (ix - p.x) ** 2 + (iy - p.y) ** 2;
+            if (d2 < closestIntruderDistSq || (d2 === closestIntruderDistSq && i < intruder)) {
+              closestIntruderDistSq = d2;
+              intruder = i;
+            }
           }
         }
       }

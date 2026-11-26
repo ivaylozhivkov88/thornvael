@@ -36,6 +36,11 @@ export interface LightingPassRenderParams {
 export class LightingPass {
   readonly light = new Graphics();
   private lightKey = '';
+  private lastDrawMs = -1e9;
+  private lastCamX = Number.NaN;
+  private lastCamY = Number.NaN;
+  private lastZoom = Number.NaN;
+  private lastDaylight = -1;
   private dynLightMulCv?: HTMLCanvasElement;
   private dynLightMulCtx?: CanvasRenderingContext2D | null;
   private dynLightMulTex?: Texture;
@@ -175,7 +180,6 @@ export class LightingPass {
   render(params: LightingPassRenderParams): void {
     const { dl, sim, map, biomeName, vt, camX, camY, zoom, viewW, viewH, quality } = params;
     if (quality > 0 && dl.isEnabled()) {
-      this.gatherDynamicLights(dl, sim, map, biomeName, vt);
       if (
         this.dynLightMulCtx &&
         this.dynLightMulCv &&
@@ -185,20 +189,30 @@ export class LightingPass {
         this.dynLightAddTex &&
         this.dynLightAddSprite
       ) {
-        dl.renderToCanvases(
-          this.dynLightMulCtx,
-          this.dynLightAddCtx,
-          this.dynLightMulCv.width,
-          this.dynLightMulCv.height,
-          camX,
-          camY,
-          zoom,
-          viewW,
-          viewH,
-          sim.daylight,
-        );
-        this.dynLightMulTex.source.update();
-        this.dynLightAddTex.source.update();
+        const now = typeof performance !== 'undefined' ? performance.now() : Date.now();
+        const camMoved = Math.abs(camX - this.lastCamX) > 2 || Math.abs(camY - this.lastCamY) > 2 || zoom !== this.lastZoom || sim.daylight !== this.lastDaylight;
+        if (camMoved || now - this.lastDrawMs >= 40) {
+          this.lastDrawMs = now;
+          this.lastCamX = camX;
+          this.lastCamY = camY;
+          this.lastZoom = zoom;
+          this.lastDaylight = sim.daylight;
+          this.gatherDynamicLights(dl, sim, map, biomeName, vt);
+          dl.renderToCanvases(
+            this.dynLightMulCtx,
+            this.dynLightAddCtx,
+            this.dynLightMulCv.width,
+            this.dynLightMulCv.height,
+            camX,
+            camY,
+            zoom,
+            viewW,
+            viewH,
+            sim.daylight,
+          );
+          this.dynLightMulTex.source.update();
+          this.dynLightAddTex.source.update();
+        }
         this.dynLightMulSprite.width = viewW;
         this.dynLightMulSprite.height = viewH;
         this.dynLightMulSprite.visible = true;
@@ -206,8 +220,10 @@ export class LightingPass {
         this.dynLightAddSprite.height = viewH;
         this.dynLightAddSprite.visible = true;
       } else if (params.onFallbackDaylight) {
+        this.gatherDynamicLights(dl, sim, map, biomeName, vt);
         params.onFallbackDaylight(sim.daylight);
       } else {
+        this.gatherDynamicLights(dl, sim, map, biomeName, vt);
         this.renderAmbientFallback(sim.daylight, viewW, viewH);
       }
     } else {
@@ -215,5 +231,28 @@ export class LightingPass {
       if (this.dynLightAddSprite) this.dynLightAddSprite.visible = false;
       this.light.visible = false;
     }
+  }
+
+  reloadTextures(): void {
+    this.lightKey = '';
+    this.lastDrawMs = -1e9;
+    this.dynLightMulTex?.source?.update();
+    this.dynLightAddTex?.source?.update();
+  }
+
+  destroy(): void {
+    this.dynLightMulTex?.destroy(true);
+    this.dynLightAddTex?.destroy(true);
+    this.dynLightMulSprite?.destroy();
+    this.dynLightAddSprite?.destroy();
+    if (this.dynLightMulCv) {
+      this.dynLightMulCv.width = 0;
+      this.dynLightMulCv.height = 0;
+    }
+    if (this.dynLightAddCv) {
+      this.dynLightAddCv.width = 0;
+      this.dynLightAddCv.height = 0;
+    }
+    this.light.destroy();
   }
 }

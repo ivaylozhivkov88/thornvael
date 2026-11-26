@@ -26,11 +26,12 @@ jobs:
       - run: npm ci
       - run: npm run check:repo
       - run: npm run typecheck
+      - run: npm run validate
       - run: npm run check:atlases
       - name: Biome lint & QA formatting check
         run: |
-          npx --yes @biomejs/biome lint --reporter=summary
-          npx --yes @biomejs/biome check \
+          npx --yes @biomejs/biome@2.6.8 lint --reporter=summary
+          npx --yes @biomejs/biome@2.6.8 check \
             biome.json \
             playwright.smoke.config.ts \
             tests/biome-seeds-all.test.ts \
@@ -39,11 +40,14 @@ jobs:
             tools/perf-profile-300.mjs \
             tools/seed-gallery.mjs
       - run: npm test -- --maxWorkers=1
+      - run: npm run build
+        env:
+          SITE_BASE: /thornvael/
 
   playwright-smoke:
     needs: validate
     runs-on: ubuntu-latest
-    timeout-minutes: 45
+    timeout-minutes: ${{ matrix.project == 'webkit' && 8 || 15 }}
     strategy:
       fail-fast: false
       matrix:
@@ -60,9 +64,9 @@ jobs:
           SITE_BASE: /thornvael/
       - run: npx playwright install --with-deps ${{ matrix.project }}
       - name: Run PWA & biome smoke tests (${{ matrix.project }})
-        run: npx playwright test -c playwright.smoke.config.ts --project=${{ matrix.project }}
+        run: npx playwright test -c playwright.smoke.config.ts --project=${{ matrix.project }} --reporter=list
       - uses: actions/upload-artifact@v4
-        if: failure()
+        if: always()
         with:
           name: playwright-smoke-results-${{ matrix.project }}
           path: test-results

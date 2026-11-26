@@ -6,7 +6,7 @@ function deferred<T = void>() {
   const promise = new Promise<T>((yes, no) => { resolve = yes; reject = no; });
   return { promise, resolve, reject };
 }
-const settle = async () => { for (let i = 0; i < 25; i++) await Promise.resolve(); };
+const settle = async () => { for (let i = 0; i < 160; i++) await Promise.resolve(); };
 
 class NodeMock {
   gain = { value: 1, cancelScheduledValues: vi.fn(), setValueAtTime: vi.fn(), linearRampToValueAtTime: vi.fn() };
@@ -141,9 +141,9 @@ describe('audio public lifecycle recovery', () => {
     audio.unlock(); await audio.whenLoaded(); await settle();
     const current = ContextMock.all[1];
     fetchWait.resolve({ arrayBuffer: async () => new ArrayBuffer(8) }); await settle();
-    // 99 SFX per context, including weapon hits, shield blocks, armor, potions, footsteps, monster deaths. The old pending fetch never decodes.
-    expect(old.decodeAudioData).toHaveBeenCalledTimes(108);
-    expect(current.decodeAudioData).toHaveBeenCalledTimes(109);
+    // 77 core SFX per context (32 spell cast cues moved to on-demand). The old pending fetch never decodes.
+    expect(old.decodeAudioData).toHaveBeenCalledTimes(76);
+    expect(current.decodeAudioData).toHaveBeenCalledTimes(77);
     expect(audio.currentMusic()).toBe('off');
     audio.play('hit');
     expect(audio.audioStats().played).toBe(0);
@@ -200,7 +200,7 @@ describe('audio public lifecycle recovery', () => {
     for (let i = 0; i < 25; i++) audio.play('hit', i);
     expect(audio.audioStats().voices).toBeLessThanOrEqual(12);
     expect(audio.audioStats().stolen + audio.audioStats().rejected).toBeGreaterThan(0);
-    expect(ContextMock.all[1].decodeAudioData).toHaveBeenCalledTimes(110); // 109 SFX plus ambience
+    expect(ContextMock.all[1].decodeAudioData).toHaveBeenCalledTimes(78); // 77 SFX plus ambience
   });
 
   it('retries rejected media on gesture and keeps streaming music muted after late play', async () => {
@@ -216,7 +216,7 @@ describe('audio public lifecycle recovery', () => {
     silent.play.mockRejectedValueOnce(new Error('NotAllowedError'));
     audio.unlock(); await settle(); audio.unlock(); await settle();
     expect(silent.paused).toBe(false);
-    expect(ContextMock.all[0].decodeAudioData).toHaveBeenCalledTimes(110); // 109 SFX plus ambience
+    expect(ContextMock.all[0].decodeAudioData).toHaveBeenCalledTimes(78); // 77 SFX plus ambience
     expect(MediaMock.all.filter(m => m.src.includes('music_'))).toHaveLength(1);
   });
 

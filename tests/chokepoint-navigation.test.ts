@@ -62,12 +62,10 @@ describe('Pillar 2: Chokepoint & Bottleneck Navigation', () => {
     // Step simulation up to 700 ticks (~28 seconds game time)
     // 40 units in single file across a 9-tile bridge at ~3.2 tiles/sec
     let allArrived = false;
-    let ticks = 0;
     const maxTicks = 700;
 
     for (let t = 0; t < maxTicks; t++) {
       sim.step([]);
-      ticks++;
 
       // Check how many have arrived on the east side (x >= 20)
       let arrivedCount = 0;

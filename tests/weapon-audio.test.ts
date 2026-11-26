@@ -3,7 +3,6 @@ import { resolve } from 'node:path';
 import { describe, expect, it } from 'vitest';
 import {
   MAX_VOICES,
-  MIN_GAP,
   VoiceLimiter,
   classifyWeapon,
   cueFor,
@@ -15,11 +14,6 @@ import {
   pickWeaponHit,
   pickWeaponSwing,
   resetAudioLogicCounters,
-  WEAPON_HITS,
-  WEAPON_SWINGS,
-  SHIELD_BLOCKS,
-  POTION_DRINKS,
-  TERRAIN_STEPS,
 } from '../src/audiologic';
 
 const EXPECTED_SFX = [

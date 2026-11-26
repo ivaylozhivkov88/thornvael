@@ -45,7 +45,7 @@ describe('procedural terrain contract', () => {
       expect(entries[0]).toMatchObject({ license: 'own', source: 'tools/make-terrain.py' });
     }
     const config = readFileSync('vite.config.ts', 'utf8');
-    expect(config).toContain("'**/*.{js,css,html,png,svg,json}'");
+    expect(config).toContain("'terrain/*.{png,json}'");
     // Reserved art doesn't silently add a new map id or collision rule.
     expect(Object.values(Terrain)).toEqual([0, 1, 2, 3, 4]);
     expect(Object.values(ObjectKind)).toEqual([0, 1]);

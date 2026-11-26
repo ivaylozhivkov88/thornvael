@@ -1,5 +1,7 @@
 import { Elem, M, MODN, enemyNear, launch, strike } from './combat';
-import { heroUse, spellRankOf, spellSynergy, SPELL_RANK_POW } from './hero';
+import { derive, heroUse, spellRankOf, spellSynergy, SPELL_RANK_POW } from './hero';
+import { kitCls } from './items';
+import { getFCRCastCooldown } from './mechanics';
 import { FP } from './path';
 import type { Sim } from './sim';
 import { rulesOf } from './difficulty';
@@ -43,6 +45,7 @@ function clearStatus(sim: Sim, t: number, st: number): void {
 export function addStatus(sim: Sim, t: number, st: number, ticks: number, val: number): void {
   const cb = sim.cb;
   if (cb.hp[t] <= 0) return;
+  if (st === St.Slow && sim.hero !== null && t === sim.hero.id && derive(sim.hero).cannotBeFrozen) return;
   const k = t * NST + st;
   const active = (cb.stMask[t] & bit(st)) !== 0;
   if (bit(st) & CURSES && cb.stMask[t] & bit(St.Stone)) return;
@@ -122,7 +125,7 @@ export function healUnit(sim: Sim, t: number, amount: number): void {
 }
 
 /** A homing spell lands on `t` (or an area or multi spell picks `t` as one of its victims). */
-export function spellHit(sim: Sim, t: number, sid: number, pow = 100): void {
+export function spellHit(sim: Sim, t: number, sid: number, pow = 100, src = -1): void {
   const sp = SPELLS[sid];
   const cb = sim.cb;
   if (cb.hp[t] <= 0) return;
@@ -133,9 +136,27 @@ export function spellHit(sim: Sim, t: number, sid: number, pow = 100): void {
   if (sp.max > 0) {
     // val on a pure damage spell is an execute bonus: that % extra against foes below 30% HP
     const p = sp.st < 0 && sp.val > 0 && cb.hp[t] * 100 < cb.hpMax[t] * 30 ? Math.floor((pow * (100 + sp.val)) / 100) : pow;
-    strike(sim, t, Math.floor((sp.min * p) / 100), Math.floor((sp.max * p) / 100), sp.phys ? 0 : sp.school, 99);
+    strike(sim, t, Math.floor((sp.min * p) / 100), Math.floor((sp.max * p) / 100), sp.phys ? 0 : sp.school, 99, src);
   }
-  if (sp.st >= 0 && cb.hp[t] > 0) addStatus(sim, t, sp.st, sp.dur * TICKS, sp.val);
+  if (cb.hp[t] > 0) {
+    if (sid === 30 && cb.mana[t] > 0) {
+      const drained = Math.min(cb.mana[t], Math.max(10, Math.floor((20 * pow) / 100)));
+      cb.mana[t] -= drained;
+      if (drained > 0) strike(sim, t, Math.max(1, drained >> 1), Math.max(1, drained), Elem.Astral, 99, src, 1);
+    } else if (sid === 35) {
+      cb.mod[t * MODN + M.Def] -= 2;
+      cb.mod[t * MODN + M.Abs] = Math.max(-4, cb.mod[t * MODN + M.Abs] - 1);
+      addStatus(sim, t, St.Weaken, 4 * TICKS, 0);
+    } else if (sid === 46 && src >= 0 && cb.hp[src] > 0) {
+      const gain = Math.max(4, Math.floor((8 * pow) / 100));
+      cb.mana[src] = Math.min(cb.manaMax[src], cb.mana[src] + gain);
+      cb.emit(10, sim.x[src], sim.y[src], 2, 5);
+    }
+  }
+  if (sp.st >= 0 && cb.hp[t] > 0) {
+    const val = sp.st === St.Burn ? Math.max(sp.val, Math.floor((sp.val * pow) / 100)) : sp.val;
+    addStatus(sim, t, sp.st, sp.dur * TICKS, val);
+  }
 }
 
 function area(sim: Sim, caster: number, sid: number, px: number, py: number, pow: number): void {
@@ -148,10 +169,10 @@ function area(sim: Sim, caster: number, sid: number, px: number, py: number, pow
     if (sim.cb.hp[j] <= 0) continue;
     const own = sim.team[j] === team;
     if (own !== sp.heal) {
-      if (fire && own && j !== caster && !sim.hidden[j] && dist2(sim, j, px, py) <= r2) spellHit(sim, j, sid, Math.floor((pow * fire) / 100));
+      if (fire && own && j !== caster && !sim.hidden[j] && dist2(sim, j, px, py) <= r2) spellHit(sim, j, sid, Math.floor((pow * fire) / 100), caster);
       continue;
     }
-    if (dist2(sim, j, px, py) <= r2) spellHit(sim, j, sid, pow);
+    if (dist2(sim, j, px, py) <= r2) spellHit(sim, j, sid, pow, caster);
   }
 }
 
@@ -217,19 +238,21 @@ export function castSpell(sim: Sim, i: number, sid: number, t: number, px: numbe
   const cb = sim.cb;
   const sp = SPELLS[sid];
   cb.mana[i] -= sp.cost;
-  cb.cd[i] = sp.cd;
+  const heroCast = sim.hero !== null && i === sim.hero.id;
+  const fcr = heroCast ? derive(sim.hero!).fcr : 0;
+  cb.cd[i] = fcr > 0 ? getFCRCastCooldown(sp.cd, fcr, kitCls(sim.hero!.cls)) : sp.cd;
   cb.emit(9, sim.x[i], sim.y[i], sid, sp.school);
-  const rank = sim.hero !== null && i === sim.hero.id ? spellRankOf(sim.hero, sid) : 0;
-  const pow = Math.max(0, 100 + cb.mod[i * MODN + M.Pow] + rank * SPELL_RANK_POW + (sim.hero !== null && i === sim.hero.id ? spellSynergy(sim.hero, sid) : 0));
-  if (sim.hero !== null && i === sim.hero.id) heroUse(sim, 2); // Sorcery grows with casting
+  const rank = heroCast ? spellRankOf(sim.hero, sid) : 0;
+  const pow = Math.max(0, 100 + cb.mod[i * MODN + M.Pow] + rank * SPELL_RANK_POW + (heroCast ? spellSynergy(sim.hero, sid) : 0));
+  if (heroCast) heroUse(sim, 2); // Sorcery grows with casting
   switch (sp.tk) {
     case Tk.Foe:
     case Tk.Ally:
-      launch(sim, sim.x[i], sim.y[i], t, sp.min, sp.max, sp.school, 99, sid, pow);
+      launch(sim, sim.x[i], sim.y[i], t, sp.min, sp.max, sp.school, 99, sid, pow, i);
       return;
     case Tk.Multi: {
       const ids = chain(sim, t, sid, sim.team[i]);
-      ids.forEach((id, n) => launch(sim, n === 0 ? sim.x[i] : sim.x[t], n === 0 ? sim.y[i] : sim.y[t], id, sp.min, sp.max, sp.school, 99, sid, pow));
+      ids.forEach((id, n) => launch(sim, n === 0 ? sim.x[i] : sim.x[t], n === 0 ? sim.y[i] : sim.y[t], id, sp.min, sp.max, sp.school, 99, sid, pow, i));
       return;
     }
     case Tk.Ground:
@@ -238,9 +261,14 @@ export function castSpell(sim: Sim, i: number, sid: number, t: number, px: numbe
     case Tk.Self:
       if (sp.heal) healUnit(sim, i, Math.floor((roll(sim, sp.min, sp.max) * pow) / 100));
       else if (sp.radius > 0) for (let n = 0; n < Math.max(1, sp.count); n++) area(sim, i, sid, sim.x[i], sim.y[i], pow);
-      else if (sp.st >= 0) addStatus(sim, i, sp.st, sp.dur * TICKS, sp.val);
-      else {
-        cb.mana[i] = Math.min(cb.manaMax[i], cb.mana[i] + sp.val);
+      else if (sp.st >= 0) {
+        addStatus(sim, i, sp.st, sp.dur * TICKS, sp.val);
+        if (sid === 31 && heroCast && sim.hero!.skillCd) {
+          for (const k in sim.hero!.skillCd) sim.hero!.skillCd[k] = Math.floor(sim.hero!.skillCd[k] / 2);
+        }
+      } else {
+        const gain = Math.max(sp.val, Math.floor((sp.val * pow) / 100));
+        cb.mana[i] = Math.min(cb.manaMax[i], cb.mana[i] + gain);
         cb.emit(10, sim.x[i], sim.y[i], 2, 5);
       }
       return;

@@ -127,14 +127,25 @@ export function renderLootAndShrines(
   seenLootKeys: Set<string>,
   frame8: number,
   shrineColors: Readonly<Record<string, number>>,
+  minTx = 0,
+  maxTx = mw - 1,
+  minTy = 0,
+  maxTy = sim.map.h - 1,
 ): void {
   const cb = sim.cb;
   const k = TILE / FP;
+  const cx0 = minTx - 2;
+  const cx1 = maxTx + 2;
+  const cy0 = minTy - 2;
+  const cy1 = maxTy + 2;
 
-  // Loot sacks under the units, only on explored ground.
+  // Loot sacks under the units, only on explored ground within viewport.
   for (let n = 0; n < cb.sG.length; n++) {
     if (!cb.sG[n]) continue;
-    if (!sim.explored[Math.floor(cb.sY[n] / FP) * mw + Math.floor(cb.sX[n] / FP)]) continue;
+    const stx = Math.floor(cb.sX[n] / FP);
+    const sty = Math.floor(cb.sY[n] / FP);
+    if (stx < cx0 || stx > cx1 || sty < cy0 || sty > cy1) continue;
+    if (!sim.explored[sty * mw + stx]) continue;
     const sx = cb.sX[n] * k;
     const sy = cb.sY[n] * k;
     r.ellipse(sx, sy + 2, 7, 3).fill({ color: 0x000000, alpha: 0.35 });
@@ -147,7 +158,9 @@ export function renderLootAndShrines(
   activeLootKeys.clear();
   for (let n = 0; n < cb.bI.length; n++) {
     if (!cb.bI[n]) continue;
-    if (!sim.explored[Math.floor(cb.bY[n] / FP) * mw + Math.floor(cb.bX[n] / FP)]) continue;
+    const btx = Math.floor(cb.bX[n] / FP);
+    const bty = Math.floor(cb.bY[n] / FP);
+    if (!sim.explored[bty * mw + btx]) continue;
     const groundX = cb.bX[n] * k;
     const groundY = cb.bY[n] * k;
     const itemId = cb.bI[n] - 1;
@@ -159,6 +172,7 @@ export function renderLootAndShrines(
       seenLootKeys.add(lootKey);
       fxEngine.lootDrop.spawnDrop(lootKey, groundX, groundY, rarity);
     }
+    if (btx < cx0 || btx > cx1 || bty < cy0 || bty > cy1) continue;
     const arc = fxEngine.lootDrop.getDrop(lootKey);
     const bx = arc && !arc.settled ? arc.x : groundX;
     const by = arc && !arc.settled ? arc.y : groundY;
@@ -241,6 +255,7 @@ export function renderLootAndShrines(
   // Interactive world shrines.
   for (let n = 0; n < sim.shrines.length; n++) {
     const shDef = sim.shrines[n];
+    if (shDef.x < cx0 || shDef.x > cx1 || shDef.y < cy0 || shDef.y > cy1) continue;
     if (!sim.explored[shDef.y * mw + shDef.x]) continue;
     const sx = (shDef.x + 0.5) * TILE;
     const sy = (shDef.y + 0.5) * TILE;
@@ -347,14 +362,25 @@ export function renderCorpseMarks(
   sim: Sim,
   mw: number,
   sprites: readonly (Sprite | UnitSprite)[],
+  minTx = 0,
+  maxTx = mw - 1,
+  minTy = 0,
+  maxTy = sim.map.h - 1,
 ): void {
   const cb = sim.cb;
   const k = TILE / FP;
+  const cx0 = minTx - 2;
+  const cx1 = maxTx + 2;
+  const cy0 = minTy - 2;
+  const cy1 = maxTy + 2;
   for (let i = 0; i < sim.count; i++) {
     if (cb.hp[i] > 0 || cb.corp[i] <= 0) continue;
     const body = sprites[i];
     if (body instanceof UnitSprite && body.atlas.hasClip('die')) continue;
-    const tile = Math.floor(sim.y[i] / FP) * mw + Math.floor(sim.x[i] / FP);
+    const ctx = Math.floor(sim.x[i] / FP);
+    const cty = Math.floor(sim.y[i] / FP);
+    if (ctx < cx0 || ctx > cx1 || cty < cy0 || cty > cy1) continue;
+    const tile = cty * mw + ctx;
     if (!sim.explored[tile]) continue;
     const cx = sim.x[i] * k;
     const cy = sim.y[i] * k;
@@ -376,9 +402,17 @@ export function renderTownArchitecture(
   sim: Sim,
   map: GameMap,
   frame8: number,
+  minTx = 0,
+  maxTx = map.w - 1,
+  minTy = 0,
+  maxTy = map.h - 1,
 ): void {
   if (!sim.towns?.length) return;
   const mw = map.w;
+  const cx0 = minTx - 4;
+  const cx1 = maxTx + 4;
+  const cy0 = minTy - 4;
+  const cy1 = maxTy + 4;
   for (const town of sim.towns) {
     let sumX = 0;
     let sumY = 0;
@@ -386,6 +420,7 @@ export function renderTownArchitecture(
     for (let role = 0; role < town.centre.length; role++) {
       const c = town.centre[role];
       if (!c) continue;
+      if (c[0] < cx0 || c[0] > cx1 || c[1] < cy0 || c[1] > cy1) continue;
       const tileIdx = Math.min(map.h - 1, Math.max(0, Math.floor(c[1]))) * mw + Math.min(mw - 1, Math.max(0, Math.floor(c[0])));
       if (!sim.explored[tileIdx]) continue;
       const bx = c[0] * TILE;
@@ -771,11 +806,23 @@ export function renderProjectilesAndBursts(
   sim: Sim,
   bursts: Burst[],
   now: number,
+  minTx = 0,
+  maxTx = sim.map.w - 1,
+  minTy = 0,
+  maxTy = sim.map.h - 1,
+  hasProjectileAtlas = false,
 ): void {
   const cb = sim.cb;
   const k = TILE / FP;
+  const cx0 = minTx - 3;
+  const cx1 = maxTx + 3;
+  const cy0 = minTy - 3;
+  const cy1 = maxTy + 3;
   for (let p = 0; p < cb.pAlive.length; p++) {
     if (!cb.pAlive[p]) continue;
+    const ptx = cb.pX[p] / FP;
+    const pty = cb.pY[p] / FP;
+    if (ptx < cx0 || ptx > cx1 || pty < cy0 || pty > cy1) continue;
     const wx = cb.pX[p] * k;
     const wy = cb.pY[p] * k - 14;
     const el = cb.pEl[p];
@@ -791,12 +838,15 @@ export function renderProjectilesAndBursts(
         }
         continue;
       }
+      if (hasProjectileAtlas) continue;
       if (el === 1) sh.circle(wx, wy, 5).fill(ELEM_COLOR[1]).circle(wx, wy, 2.5).fill(0xfff0a0);
       else if (el === 2) sh.circle(wx, wy, 5).fill({ color: ELEM_COLOR[2], alpha: 0.8 }).stroke({ color: 0xe0f8ff, width: 1.5 });
       else if (el === 3) sh.moveTo(wx - 6, wy).lineTo(wx, wy - 3).lineTo(wx + 6, wy).lineTo(wx, wy + 3).closePath().fill(ELEM_COLOR[3]).stroke({ color: 0xffffff, width: 1 });
       else if (el === 4) sh.rect(wx - 4, wy - 4, 8, 8).fill(ELEM_COLOR[4]).stroke({ color: 0x4a3820, width: 1 });
       else if (el === 5) sh.circle(wx, wy, 5).fill(ELEM_COLOR[5]).stroke({ color: 0xffffff, width: 1, alpha: 0.85 });
       else sh.circle(wx, wy, 5).fill(ELEM_COLOR[el]).stroke({ color: 0xffffff, width: 1, alpha: 0.7 });
+    } else if (hasProjectileAtlas) {
+      continue;
     } else if (el === 0) {
       const t = cb.pT[p];
       const dx = sim.x[t] - cb.pX[p];
@@ -815,6 +865,9 @@ export function renderProjectilesAndBursts(
       bursts.splice(n, 1);
       continue;
     }
+    const btx = b.x / TILE;
+    const bty = b.y / TILE;
+    if (btx < cx0 || btx > cx1 || bty < cy0 || bty > cy1) continue;
     const rad = b.r * (0.35 + 0.65 * age);
     const fade = 1 - age;
     if (b.fill) sh.circle(b.x, b.y, rad).fill({ color: b.color, alpha: 0.28 * fade }).stroke({ color: b.color, width: 2, alpha: fade });

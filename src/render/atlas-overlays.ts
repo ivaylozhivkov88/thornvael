@@ -8,7 +8,6 @@ import { St } from '../sim/spelldata';
 import {
   getTorchFlickerFrame,
   getBonfireFrame,
-  getBannerFrame,
   getWaterWheelFrame,
   getCauldronFrame,
   getSmokeColumnFrame,
@@ -480,5 +479,10 @@ export class AtlasOverlayPass {
     this.npcPool.endFrame();
     this.projPool.endFrame();
     this.statusPool.endFrame();
+  }
+
+  destroy(): void {
+    this.groundLayer.destroy({ children: true });
+    this.overlayLayer.destroy({ children: true });
   }
 }

@@ -711,5 +711,24 @@
   }
 }
 
+@media (pointer: coarse) {
+  .hud-btn,
+  .d2r-hud-btn,
+  .belt-slot,
+  .skill-slot {
+    min-width: 44px;
+    min-height: 44px;
+  }
+  .hud-touch-only {
+    display: inline-flex;
+  }
+}
+
+@media (pointer: fine) {
+  .hud-touch-only {
+    display: none !important;
+  }
+}
+
 #btn-run.hud-btn,
 #btn-pinnacle.hud-btn { min-height: 48px; min-width: 48px; }

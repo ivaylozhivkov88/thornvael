@@ -3,24 +3,16 @@ import { SPELLS } from './spelldata';
 export * from './item-types';
 
 import {
-  Attr,
   ATTR_NAMES,
   CLS_BOTH,
   CLS_MAGE,
   CLS_WARRIOR,
-  Cls,
   GemDef,
   GemQuality,
-  GemType,
   Ik,
   ItemDef,
-  Part,
-  PART_COUNT,
-  PART_DMG,
   PART_NAMES,
-  PART_WEIGHT,
   Slot,
-  SLOT_COUNT,
   SLOT_NAMES,
   BUILTIN_GEMS,
   getGemDefByName,
@@ -368,7 +360,7 @@ export const SPECIAL_ITEMS: readonly ItemDef[] = [
     grow: 0,
     spell: -1,
     rarity: 'magic',
-    lore: `Rune #${r.id} (${r.d2Name}). Socket into weapons, armor, or shields, or combine in the Transmutation Cube.`,
+    lore: `Rune #${r.id} — ${r.name}. Socket into weapons, armor, or shields, or combine in the Reliquary Forge.`,
   })),
   ...KEY_ITEMS,
 ];

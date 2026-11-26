@@ -44,10 +44,9 @@ const SFX_NAMES = [
   'step_water_1', 'step_water_2',
   'step_stone_1', 'step_stone_2',
   'death_beast_1', 'death_skeleton_1',
-  ...SPELL_CAST_SFX,
   'ui_button_click', 'ui_trade_buy', 'ui_trade_sell', 'ui_inv_pick', 'ui_inv_equip', 'ui_inv_drop', 'sfx_quest_accept', 'sfx_quest_complete', 'sfx_level_up',
 ];
-const ON_DEMAND_SFX = new Set<string>(ALL_ON_DEMAND_SFX_IDS);
+const ON_DEMAND_SFX = new Set<string>([...ALL_ON_DEMAND_SFX_IDS, ...SPELL_CAST_SFX]);
 const CORE_SFX_SET = new Set<string>([...SFX_NAMES, 'ambience']);
 const MAX_ON_DEMAND_BUFFERS = 48;
 const base = (): string => import.meta.env.BASE_URL ?? '/thornvael/';
@@ -68,6 +67,7 @@ let busVoiceCap = new BusVoiceCap();
 let backgrounded = false;
 let generation = 0;
 let resuming: Promise<void> | null = null;
+let resumeWedged = false;
 let suspending: Promise<void> | null = null;
 let loading: Promise<void> | null = null;
 export type MusicMode = 'explore' | 'battle' | 'town';
@@ -202,6 +202,10 @@ function createLiveTrackHandle(url: string, loop: boolean): LiveTrackHandle {
     },
     dispose() {
       try { el.pause(); } catch { /* ignore */ }
+      try {
+        if (typeof el.removeAttribute === 'function') el.removeAttribute('src');
+        if (typeof el.load === 'function') el.load();
+      } catch { /* ignore */ }
       try { sourceNode?.disconnect(); } catch { /* ignore */ }
       try { gain?.disconnect(); } catch { /* ignore */ }
     },
@@ -356,10 +360,27 @@ export function isMusicPlaying(): boolean {
   return Boolean(musicWanted && ctx && ctx.state === 'running' && h && !h.paused);
 }
 
+async function runBufferPool(names: readonly string[], concurrency = 6): Promise<void> {
+  let cursor = 0;
+  const workerCount = Math.min(Math.max(1, concurrency), names.length);
+  const workers = Array.from({ length: workerCount }, async () => {
+    while (cursor < names.length) {
+      const idx = cursor++;
+      await loadBuffer(names[idx]!);
+    }
+  });
+  await Promise.all(workers);
+}
+
 /** Call from a real user gesture. Safe to call repeatedly. */
 export function unlock(): void {
   if (backgrounded) return;
-  if (ctx?.state === 'closed') {
+  const wedgedInterrupted = Boolean(ctx && (ctx.state as string) === 'interrupted' && resumeWedged);
+  if (ctx?.state === 'closed' || wedgedInterrupted) {
+    if (wedgedInterrupted && ctx) {
+      try { void ctx.close?.(); } catch { /* ignore */ }
+    }
+    resumeWedged = false;
     // MediaElementSourceNodes belong to their original context: rebuild their elements too.
     generation++;
     stopAmbience();
@@ -418,7 +439,7 @@ export function unlock(): void {
       // ignore unlock pulse error
     }
     const context = ctx;
-    loading = Promise.all(SFX_NAMES.map(loadBuffer))
+    loading = runBufferPool(SFX_NAMES, 6)
       .then(() => { if (ctx === context) startAmbience(); })
       .catch(() => undefined);
     attachDefaultBlurListeners();
@@ -512,13 +533,33 @@ function restorePlayback(): void {
 function requestResume(): void {
   const context = ctx;
   if (!context || backgrounded || context.state === 'closed' || resuming || suspending) return;
-  if (context.state === 'running') return;
+  if (context.state === 'running') {
+    resumeWedged = false;
+    return;
+  }
+  let settled = false;
+  let timer: ReturnType<typeof setTimeout> | null = null;
   const attempt = context.resume().then(() => {
+    settled = true;
+    if (timer !== null) clearTimeout(timer);
     if (ctx !== context) return;
+    if (context.state === 'running') resumeWedged = false;
     if (backgrounded) suspendAudio();
     else if (context.state === 'running') restorePlayback();
-    // Interrupted/rejected contexts remain retryable on the next gesture; never close them here.
-  }).catch(() => undefined).finally(() => { if (resuming === attempt) resuming = null; });
+    // Interrupted/rejected contexts remain retryable on the next gesture; never close them here unless wedged.
+  }).catch(() => {
+    settled = true;
+    if (timer !== null) clearTimeout(timer);
+  }).finally(() => {
+    if (timer !== null) clearTimeout(timer);
+    if (resuming === attempt) resuming = null;
+  });
+  timer = setTimeout(() => {
+    if (!settled && ctx === context && resuming === attempt) {
+      resuming = null;
+      resumeWedged = true;
+    }
+  }, 1500);
   resuming = attempt;
 }
 
@@ -721,11 +762,25 @@ export function setSfx(on: boolean): void {
   if (!on) cancelShopEntry();
 }
 
+function claimProceduralVoice(name: string, priority: number, busKind: AudioBus, durationMs: number): boolean {
+  const now = typeof performance !== 'undefined' ? performance.now() : Date.now();
+  const r = limiter.request(name, priority, now, durationMs);
+  if (r.action === 'skip') return false;
+  busVoiceCap.request(busKind, name, priority, now, durationMs);
+  if (r.action === 'steal' && r.victim) {
+    const src = running.get(r.victim);
+    try { src?.stop(); } catch { /* already ended */ }
+    running.delete(r.victim);
+  }
+  return true;
+}
+
 /** Rustle grab sound for dragging/picking up items. */
 export function playPickupRustle(): void {
   unlock();
   const bus = uiBus ?? sfxBus;
   if (!ctx || !bus || !sfxOn || backgrounded || ctx.state !== 'running') return;
+  if (!claimProceduralVoice('proc_pickup_rustle', 3, 'ui', 90)) return;
   try {
     const now = ctx.currentTime;
     const bufferSize = Math.floor(ctx.sampleRate * 0.08);
@@ -760,6 +815,7 @@ export function playEquipSfx(isMetal = true): void {
   unlock();
   const bus = uiBus ?? sfxBus;
   if (!ctx || !bus || !sfxOn || backgrounded || ctx.state !== 'running') return;
+  if (!claimProceduralVoice('proc_equip', 4, 'ui', 180)) return;
   try {
     const now = ctx.currentTime;
     if (isMetal) {
@@ -809,6 +865,7 @@ export function playNotEnoughMana(): void {
   unlock();
   const bus = uiBus ?? sfxBus;
   if (!ctx || !bus || !sfxOn || backgrounded || ctx.state !== 'running') return;
+  if (!claimProceduralVoice('proc_nomana', 5, 'ui', 160)) return;
   try {
     const now = ctx.currentTime;
     const osc = ctx.createOscillator();
@@ -837,6 +894,7 @@ export function playInventoryFull(): void {
   unlock();
   const bus = uiBus ?? sfxBus;
   if (!ctx || !bus || !sfxOn || backgrounded || ctx.state !== 'running') return;
+  if (!claimProceduralVoice('proc_inv_full', 5, 'ui', 140)) return;
   try {
     const now = ctx.currentTime;
     const osc = ctx.createOscillator();
@@ -860,6 +918,7 @@ export function playLowHpHeartbeat(): void {
   if (canAutoUnlock()) unlock();
   const bus = sfxBus ?? uiBus;
   if (!ctx || !bus || !sfxOn || backgrounded || ctx.state !== 'running') return;
+  if (!claimProceduralVoice('proc_low_hp', 4, 'sfx', 280)) return;
   try {
     const now = ctx.currentTime;
     // Lub (first pulse)
@@ -893,7 +952,7 @@ export function playLowHpHeartbeat(): void {
 }
 
 /**
- * Procedural cue: Dramatic dialogue speaker shift thrill ("тръпка").
+ * Procedural cue: Dramatic dialogue speaker shift thrill (tremor).
  * Resonant, deep cinematic audio cue: low atmospheric sub-bass shudder paired with
  * a dark resonant iron bell / bass pulse when the speaker changes or enters.
  */
@@ -901,6 +960,7 @@ export function playSpeakerSwitchThrill(): void {
   if (canAutoUnlock()) unlock();
   const bus = uiBus ?? sfxBus;
   if (!ctx || !bus || !sfxOn || backgrounded || ctx.state !== 'running') return;
+  if (!claimProceduralVoice('proc_speaker_thrill', 4, 'ui', 550)) return;
   try {
     const now = ctx.currentTime;
 
@@ -968,6 +1028,7 @@ export function playTraderBark(trader: TraderRole, event: TraderEvent): void {
   unlock();
   const bus = uiBus ?? sfxBus;
   if (!ctx || !bus || !sfxOn || backgrounded || ctx.state !== 'running') return;
+  if (!claimProceduralVoice(`proc_trader_${trader}_${event}`, 4, 'ui', 320)) return;
   if (event === 'greet') {
     playNpcBark(trader);
   }
@@ -1346,7 +1407,6 @@ let musicAct = 0;
 let specialFile: string | null = null;
 let specialLoop = true;
 let blurListenersAttached = false;
-let detachBlurListeners: (() => void) | null = null;
 
 function clearCrossfadeTimer(): void {
   if (crossfadeTimer !== null) {
@@ -1885,10 +1945,13 @@ export interface BlurEventTarget {
   removeEventListener(type: string, listener: () => void): void;
 }
 
+let globalBlurCleanup: (() => void) | null = null;
+
 export function attachBlurMuteListeners(
   doc?: BlurEventTarget & { hidden?: boolean },
   win?: BlurEventTarget,
 ): () => void {
+  if (!doc && !win && globalBlurCleanup) return globalBlurCleanup;
   const targetDoc = doc ?? (typeof document !== 'undefined' && typeof document.addEventListener === 'function' ? document : undefined);
   const targetWin = win ?? (typeof window !== 'undefined' && typeof window.addEventListener === 'function' ? window : undefined);
   const onVis = () => setWindowBlurMuted(Boolean(targetDoc?.hidden));
@@ -1900,19 +1963,25 @@ export function attachBlurMuteListeners(
   targetWin?.addEventListener('focus', onFocus);
   if (targetDoc) onVis();
 
-  return () => {
+  const cleanup = () => {
     targetDoc?.removeEventListener('visibilitychange', onVis);
     targetWin?.removeEventListener('blur', onBlur);
     targetWin?.removeEventListener('focus', onFocus);
+    if (!doc && !win && globalBlurCleanup === cleanup) {
+      globalBlurCleanup = null;
+      blurListenersAttached = false;
+    }
   };
+  if (!doc && !win) {
+    blurListenersAttached = true;
+    globalBlurCleanup = cleanup;
+  }
+  return cleanup;
 }
 
 function attachDefaultBlurListeners(): void {
   if (blurListenersAttached) return;
-  if (typeof document === 'undefined' || typeof document.addEventListener !== 'function') return;
-  blurListenersAttached = true;
-  detachBlurListeners = attachBlurMuteListeners(document, typeof window !== 'undefined' && typeof window.addEventListener === 'function' ? window : undefined);
-  void detachBlurListeners;
+  attachBlurMuteListeners();
 }
 
 export function getBusLevels(): { master: number; sfx: number; ui: number; music: number; ambience: number } {
@@ -2054,6 +2123,7 @@ export function playShieldBlock(): void {
   unlock();
   const bus = sfxBus;
   if (!ctx || !bus || !sfxOn || backgrounded || ctx.state !== 'running') return;
+  if (!claimProceduralVoice('proc_shield_block', 2, 'sfx', 380)) return;
   try {
     const now = ctx.currentTime;
     const vol = sfxVol * masterVol;
@@ -2123,6 +2193,7 @@ export function playFleshHit(): void {
   unlock();
   const bus = sfxBus;
   if (!ctx || !bus || !sfxOn || backgrounded || ctx.state !== 'running') return;
+  if (!claimProceduralVoice('proc_flesh_hit', 1, 'sfx', 140)) return;
   try {
     const now = ctx.currentTime;
     const vol = sfxVol * masterVol;
@@ -2181,6 +2252,7 @@ export function playGoldPickup(): void {
   unlock();
   const bus = uiBus ?? sfxBus;
   if (!ctx || !bus || !sfxOn || backgrounded || ctx.state !== 'running') return;
+  if (!claimProceduralVoice('proc_gold_pickup', 4, 'ui', 480)) return;
   try {
     const now = ctx.currentTime;
     const vol = uiVol * masterVol;
@@ -2234,6 +2306,7 @@ export function playMonsterDeath(): void {
   unlock();
   const bus = sfxBus;
   if (!ctx || !bus || !sfxOn || backgrounded || ctx.state !== 'running') return;
+  if (!claimProceduralVoice('proc_monster_death', 3, 'sfx', 600)) return;
   try {
     const now = ctx.currentTime;
     const vol = sfxVol * masterVol;
@@ -2282,6 +2355,7 @@ export function playPotionGulp(): void {
   unlock();
   const bus = uiBus ?? sfxBus;
   if (!ctx || !bus || !sfxOn || backgrounded || ctx.state !== 'running') return;
+  if (!claimProceduralVoice('proc_potion_gulp', 4, 'ui', 320)) return;
   try {
     const now = ctx.currentTime;
     const vol = uiVol * masterVol;
@@ -2355,6 +2429,7 @@ export function playSurfaceFootstep(surface: SurfaceType, at?: { x: number; y: n
       spatialPan = s.pan;
       if (spatialGain <= 0.02) return;
     }
+    if (!claimProceduralVoice(`proc_step_${surface}`, 1, 'sfx', 90)) return;
     const now = ctx.currentTime;
     const vol = sfxVol * masterVol * spatialGain * 0.45;
 
@@ -2517,10 +2592,10 @@ const DARK_GUITAR_NOTES = [
 
 export function startDarkFantasyAtmosphere(): void {
   if (darkFantasyActive) return;
-  darkFantasyActive = true;
   unlock();
   const bus = musicBus ?? master;
   if (!ctx || !bus || !musicWanted || backgrounded || ctx.state !== 'running') return;
+  darkFantasyActive = true;
   try {
     const now = ctx.currentTime;
     const vol = musicVol * masterVol * 0.45;

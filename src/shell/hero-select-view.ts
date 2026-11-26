@@ -78,8 +78,9 @@ export function renderHeroSelectView(opts: HeroSelectViewOptions): HTMLElement {
   const refresh = (): void => {
     list.replaceChildren();
     for (const x of chars) {
+      const ngBadge = (x.ngPlusTier ?? 0) >= 2 ? ' · NG++ Hell' : (x.ngPlusTier ?? 0) >= 1 ? ' · NG+ Nightmare' : '';
       const row = btn(
-        `${x.name}\nLevel ${x.level} ${formatCharacterClass(x)}`,
+        `${x.name}\nLevel ${x.level} ${formatCharacterClass(x)}${ngBadge}`,
         () => {
           sel = x;
           refresh();
@@ -94,8 +95,9 @@ export function renderHeroSelectView(opts: HeroSelectViewOptions): HTMLElement {
     }
     ok.disabled = !sel;
     del.disabled = !sel;
+    const ngText = sel && (sel.ngPlusTier ?? 0) >= 1 ? ` · Unlocked: ${(sel.ngPlusTier ?? 0) >= 2 ? 'Hell (NG++)' : 'Nightmare (NG+)'}` : '';
     info.textContent = sel
-      ? `${sel.name} — ${sel.played} game${sel.played === 1 ? '' : 's'} finished${sel.hero ? '' : ' · not yet played'}`
+      ? `${sel.name} — ${sel.played} game${sel.played === 1 ? '' : 's'} finished${sel.hero ? '' : ' · not yet played'}${ngText}`
       : '';
   };
 

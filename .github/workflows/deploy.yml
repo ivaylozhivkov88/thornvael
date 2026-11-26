@@ -26,6 +26,8 @@ jobs:
       - run: npm ci
       - run: npm run check:repo
       - run: npm run typecheck
+      - run: npm run check:atlases
+      - run: npm run validate
       - run: npm test -- --maxWorkers=1
       - run: npm run build
         env:
@@ -33,6 +35,11 @@ jobs:
       - uses: actions/upload-pages-artifact@v3
         with:
           path: dist
+      - uses: actions/upload-artifact@v4
+        with:
+          name: dist-build
+          path: dist
+          retention-days: 1
 
   deploy:
     if: github.ref == 'refs/heads/main' && github.event_name != 'pull_request'
@@ -58,8 +65,9 @@ jobs:
           node-version: 24
           cache: npm
       - run: npm ci
-      - run: npm run build
-        env:
-          SITE_BASE: /thornvael/
+      - uses: actions/download-artifact@v4
+        with:
+          name: dist-build
+          path: dist
       - run: npx playwright install --with-deps chromium
       - run: npm run e2e

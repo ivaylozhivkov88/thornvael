@@ -391,6 +391,8 @@ export interface ResultModalOptions {
   last: NonNullable<CampaignRecord['last']>;
   record: CampaignRecord | null;
   onAcknowledge: () => Promise<unknown> | void;
+  newGamePlusLabel?: string;
+  onStartNewGamePlus?: () => Promise<unknown> | void;
 }
 
 export function openResultModal(
@@ -436,6 +438,20 @@ export function openResultModal(
     el('p', '', text),
     el('p', 'note', lines.join('\n')),
     btn(last.win ? T.toMap : T.retry, () => void acknowledge(handle)),
+    ...(opts.onStartNewGamePlus && opts.newGamePlusLabel
+      ? [
+          btn(
+            opts.newGamePlusLabel,
+            async () => {
+              if (acknowledged) return;
+              acknowledged = true;
+              handle.close();
+              await opts.onStartNewGamePlus!();
+            },
+            'sh-on',
+          ),
+        ]
+      : []),
   );
   handle.focusFirst();
   return handle;

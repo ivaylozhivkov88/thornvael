@@ -1,5 +1,5 @@
 import { isBlockedAt, type GameMap } from '../map';
-import { DEFS, Kind, Ord } from './combat';
+import { DEFS, } from './combat';
 import { dir16 } from './path';
 import { FP, type Sim } from './sim';
 

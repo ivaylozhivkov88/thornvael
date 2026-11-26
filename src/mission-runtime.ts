@@ -7,7 +7,7 @@ import { DIFFICULTY_TIERS, SkirmishModeController } from './sim/ai/skirmish-mode
 import { MonsterAi, SkirmishDirector, placeScenario } from './sim/bot';
 import { Kind } from './sim/combat';
 import { placeCampaignGoldPiles } from './sim/loot';
-import { applyDynamicSessionRespawn } from './sim/respawn';
+import { D2R_BOSS_MODS, applyDynamicSessionRespawn } from './sim/respawn';
 import { ScriptRuntime } from './sim/script';
 import { Sim } from './sim/sim';
 
@@ -43,6 +43,7 @@ export interface MissionDirectors {
   elites: EliteDirector;
   events: WorldEventsDirector;
   bosses: BossPhaseController[];
+  bossUnitIds?: number[];
   companions: CompanionController[];
   skirmishMode: SkirmishModeController | null;
   tierName: string;
@@ -105,6 +106,7 @@ export const BUILTIN_MISSION_LOADERS: Readonly<Record<string, MapModuleLoader>> 
   'act4-world': () => import('./worlds/act4-world.map.json'),
   'act1-world': () => import('./worlds/act1-world.map.json'),
   market: () => import('./missions/thornwick-market.map.json'),
+  'thornwick-market': () => import('./missions/thornwick-market.map.json'),
   'redmarsh-outpost': () => import('./missions/redmarsh-outpost.map.json'),
   'oakhaven-bastion': () => import('./missions/oakhaven-bastion.map.json'),
   'highcrest-citadel': () => import('./missions/highcrest-citadel.map.json'),
@@ -129,41 +131,6 @@ export const BUILTIN_MISSION_LOADERS: Readonly<Record<string, MapModuleLoader>> 
   m09: () => import('./missions/m09-ironhide-hunt.map.json'),
   m10: () => import('./missions/m10-undervault-links.map.json'),
   m11: () => import('./missions/m11-ashbrook-retreat.map.json'),
-  m12: () => import('./missions/m12-redmarsh-border.map.json'),
-  m13: () => import('./missions/m13-twin-passes.map.json'),
-  m14: () => import('./missions/m14-scattered-scouts.map.json'),
-  m15: () => import('./missions/m15-outpost-palisade.map.json'),
-  m16: () => import('./missions/m16-wardstone-rupture.map.json'),
-  m17: () => import('./missions/m17-mire-convoy.map.json'),
-  m18: () => import('./missions/m18-granary-raid.map.json'),
-  m19: () => import('./missions/m19-hexer-capture.map.json'),
-  m20: () => import('./missions/m20-deep-quarry.map.json'),
-  m21: () => import('./missions/m21-lean-garrison.map.json'),
-  m22: () => import('./missions/m22-fleeing-column.map.json'),
-  m23: () => import('./missions/m23-fork-of-spears.map.json'),
-  m24: () => import('./missions/m24-pledge-at-oakhaven.map.json'),
-  m25: () => import('./missions/m25-cinder-wards.map.json'),
-  m26: () => import('./missions/m26-sundered-ranks.map.json'),
-  m27: () => import('./missions/m27-field-infirmary.map.json'),
-  m28: () => import('./missions/m28-sunken-citadel.map.json'),
-  m29: () => import('./missions/m29-hourglass-rescue.map.json'),
-  m30: () => import('./missions/m30-starved-bastion.map.json'),
-  m31: () => import('./missions/m31-riverlock-crossing.map.json'),
-  m32: () => import('./missions/m32-elder-juggernaut.map.json'),
-  m33: () => import('./missions/m33-high-stakes-gambit.map.json'),
-  m34: () => import('./missions/m34-clashing-banners.map.json'),
-  m35: () => import('./missions/m35-burning-harbor.map.json'),
-  m36: () => import('./missions/m36-heartland-march.map.json'),
-  m37: () => import('./missions/m37-shattered-beacons.map.json'),
-  m38: () => import('./missions/m38-besieged-wall.map.json'),
-  m39: () => import('./missions/m39-flight-of-malrik.map.json'),
-  m40: () => import('./missions/m40-twofold-assault.map.json'),
-  m41: () => import('./missions/m41-gauntlet-of-iron.map.json'),
-  m42: () => import('./missions/m42-outer-rampart.map.json'),
-  m43: () => import('./missions/m43-three-roads-siege.map.json'),
-  m44: () => import('./missions/m44-threshold-choice.map.json'),
-  m45: () => import('./missions/m45-crown-of-order.map.json'),
-  m46: () => import('./missions/m46-ember-reckoning.map.json'),
   'weeping-ossuary': loadOssuary,
   'gullet-of-dunes': loadGullet,
   'drowned-choir': loadDrowned,
@@ -192,10 +159,18 @@ export const BUILTIN_MISSION_LOADERS: Readonly<Record<string, MapModuleLoader>> 
 
 export const BUILT_IN_NAMES: ReadonlySet<string> = new Set(Object.keys(BUILTIN_MISSION_LOADERS));
 
-function initMissionDirectors(loaded: LoadedMission, sim: Sim, seed: number, useDirector: boolean): MissionDirectors {
+function initMissionDirectors(
+  loaded: LoadedMission,
+  sim: Sim,
+  seed: number,
+  useDirector: boolean,
+  difficulty = 1,
+  ngPlusTier = 0,
+): MissionDirectors {
   const elites = new EliteDirector(seed);
   const events = new WorldEventsDirector(seed);
   const bosses: BossPhaseController[] = [];
+  const bossUnitIds: number[] = [];
   const companions: CompanionController[] = [];
 
   for (let i = 0; i < (loaded.doc.shrines?.length ?? 0); i++) {
@@ -207,6 +182,7 @@ function initMissionDirectors(loaded: LoadedMission, sim: Sim, seed: number, use
     const fam = loaded.scenario.families?.[i] as CampaignBossId | undefined;
     if (fam && fam in BOSS_PROFILES) {
       bosses.push(new BossPhaseController(fam, sim.cb.hpMax[i], seed + i));
+      bossUnitIds.push(i);
     }
     const tier = loaded.scenario.tiers?.[i] ?? 0;
     if (sim.team[i] === 1 && tier >= 3) {
@@ -219,7 +195,10 @@ function initMissionDirectors(loaded: LoadedMission, sim: Sim, seed: number, use
   }
 
   const skirmishMode = useDirector ? new SkirmishModeController('capture_shrines') : null;
-  return { elites, events, bosses, companions, skirmishMode, tierName: DIFFICULTY_TIERS[0].name };
+  const tierIdx = Math.min(DIFFICULTY_TIERS.length - 1, Math.max(0, difficulty <= 1 ? 0 : difficulty === 2 ? 1 : 2));
+  const baseTierName = DIFFICULTY_TIERS[tierIdx].name;
+  const tierName = ngPlusTier > 0 ? `${baseTierName} (NG+${ngPlusTier})` : baseTierName;
+  return { elites, events, bosses, bossUnitIds, companions, skirmishMode, tierName };
 }
 
 /** Build the sim for a loaded mission: units placed, script attached, monsters on watch. */
@@ -231,9 +210,14 @@ export function createMission(
     sessionSeed?: number;
     nodeId?: string;
     act?: 1 | 2 | 3 | 4;
+    isTownNode?: boolean;
+    ngPlusTier?: number;
+    difficulty?: number;
   },
 ): MissionGame {
   const { scenario, map, def, doc } = loaded;
+  const ngPlusTier = Math.max(0, Math.floor(options?.ngPlusTier ?? 0));
+  const difficulty = Math.max(0, Math.min(3, Math.floor(options?.difficulty ?? 1)));
   const sim = new Sim(map, seed, scenario.teams, {
     combat: true,
     kinds: scenario.kinds,
@@ -241,25 +225,42 @@ export function createMission(
     tiers: scenario.tiers,
     families: scenario.families,
     bossMods: scenario.bossMods,
+    ngPlusTier,
   });
   placeScenario(sim, scenario);
   sim.settle();
-  sim.attachTowns(doc.towns ?? []);
+  sim.attachTowns(doc.towns ?? [], options?.act);
   if (doc.shrines?.length) sim.attachShrines(doc.shrines);
   sim.attachScript(new ScriptRuntime(structuredClone(def)));
   // Spawn interactive clickable gold piles alongside chests and monster camps (isolated PRNG)
   placeCampaignGoldPiles(sim, doc);
 
-  // If dynamic session respawn is requested for a wilderness mission, apply it
-  if (options?.sessionSeed && (!doc.towns || doc.towns.length === 0)) {
-    applyDynamicSessionRespawn(sim, scenario, options.sessionSeed, options.nodeId ?? doc.name, options.act ?? 1);
+  const townOnly = options?.isTownNode ?? Boolean(doc.towns?.length && !options?.nodeId);
+  // If dynamic session respawn is requested for a wilderness / non-town mission, apply it
+  if (options?.sessionSeed && !townOnly) {
+    applyDynamicSessionRespawn(sim, scenario, options.sessionSeed, options.nodeId ?? doc.name, options.act ?? 1, ngPlusTier);
+  }
+  if (ngPlusTier > 0 && !townOnly) {
+    const extraModBudget = Math.min(3, ngPlusTier);
+    for (let i = 0; i < sim.count; i++) {
+      if (sim.team[i] === 0 || sim.hidden[i]) continue;
+      const mods = sim.cb.bossMods[i];
+      if (!mods || mods.length === 0) continue;
+      const next = [...mods];
+      for (let m = 0; m < extraModBudget; m++) {
+        const cand = D2R_BOSS_MODS[(Math.abs(seed + i * 31 + m * 7) >>> 0) % D2R_BOSS_MODS.length];
+        if (!next.includes(cand)) next.push(cand);
+      }
+      (sim.cb.bossMods as string[][])[i] = next;
+    }
   }
 
   const useDirector = options?.director ?? SKIRMISH_MAP_NAMES.has(doc.name);
   const ai = useDirector
     ? new SkirmishDirector(structuredClone(scenario.packs), { seed, team: 1 })
     : new MonsterAi(structuredClone(scenario.packs));
-  const directors = initMissionDirectors(loaded, sim, seed, useDirector);
+  const directors = initMissionDirectors(loaded, sim, seed, useDirector, difficulty, ngPlusTier);
+  sim.attachDirectors(directors, townOnly);
   return { loaded, sim, ai, directors };
 }
 

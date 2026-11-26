@@ -11,6 +11,7 @@ export class AutomapOverlay {
   public enabled = false;
   private readonly canvas: HTMLCanvasElement;
   private readonly ctx: CanvasRenderingContext2D;
+  private readonly onResize = (): void => this.resize();
 
   constructor() {
     this.canvas = document.createElement('canvas');
@@ -20,8 +21,15 @@ export class AutomapOverlay {
     if (!c) throw new Error('2D context failed for automap');
     this.ctx = c;
     this.resize();
-    window.addEventListener('resize', () => this.resize());
+    window.addEventListener('resize', this.onResize);
     document.body.appendChild(this.canvas);
+  }
+
+  public destroy(): void {
+    window.removeEventListener('resize', this.onResize);
+    this.canvas.width = 0;
+    this.canvas.height = 0;
+    this.canvas.remove();
   }
 
   public toggle(): boolean {

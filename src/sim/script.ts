@@ -572,7 +572,7 @@ export class ScriptRuntime {
     this.st = structuredClone(s);
   }
 
-  hashInto(mix: (v: number) => void): void {
+  hashInto(mix: (v: number) => void, sim?: Sim): void {
     const st = this.st;
     mix(st.stage);
     mix(st.status);
@@ -580,14 +580,47 @@ export class ScriptRuntime {
     mix(st.music);
     mix(st.notes);
     for (const v of st.vars) mix(v);
+    for (const v of st.sv) mix(v);
     for (const v of st.sub) mix(v);
     for (const v of st.fired) mix(v);
+    for (const v of st.on) mix(v);
+    for (const v of st.form) mix(v);
     for (const v of st.bhp) mix(v);
-    for (const t of st.timers) mix(t.at);
-    for (const o of st.outposts) mix(o.wait);
+    for (const t of st.timers) {
+      mix(t.at);
+      mix(t.k.length);
+      for (let i = 0; i < t.k.length; i++) mix(t.k.charCodeAt(i));
+      for (const arg of t.a) mix(arg);
+    }
+    for (const o of st.outposts) {
+      mix(o.wait);
+      mix(o.delay);
+    }
     for (const p of st.patrols) mix(p.leg);
     mix(st.traps.length);
     mix(st.msgs.length);
+    const adv = this.def.adventureObjects;
+    if (adv && adv.length > 0) {
+      let word = 0;
+      for (let i = 0; i < adv.length; i++) {
+        if (adv[i].visited) word |= 1 << (i & 31);
+        if ((i & 31) === 31 || i === adv.length - 1) {
+          mix(word);
+          word = 0;
+        }
+      }
+    }
+    const objs = sim?.map.objects;
+    if (objs && objs.length > 0) {
+      let word = 0;
+      for (let i = 0; i < objs.length; i++) {
+        if (objs[i].destroyed) word |= 1 << (i & 31);
+        if ((i & 31) === 31 || i === objs.length - 1) {
+          mix(word);
+          word = 0;
+        }
+      }
+    }
   }
 }
 

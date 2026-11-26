@@ -26,7 +26,7 @@ export {
 } from './data/hub-evolution';
 
 import { getItemDef, type ItemDef } from './sim/items';
-import { RUNEWORDS, getRuneById, type RunewordDef } from './sim/runes';
+import { RUNEWORDS, getRuneById, runeShortName, type RunewordDef } from './sim/runes';
 
 /** Ambient pose descriptions for UI tooltips and inspector views. */
 export const TOWN_NPC_POSE_DESCRIPTIONS: Record<string, string> = {
@@ -243,14 +243,13 @@ export function computeItemComparison(
 export interface RunewordRuneRequirement {
   readonly id: number;
   readonly name: string;
-  readonly d2Name: string;
+  readonly shortName: string;
   readonly owned: boolean;
 }
 
 export interface CompatibleRuneword {
   readonly id: string;
   readonly name: string;
-  readonly d2Name: string;
   readonly clvl: number;
   readonly runes: readonly string[];
   readonly runeDetails: readonly RunewordRuneRequirement[];
@@ -301,11 +300,9 @@ export function getCompatibleRunewordsForItem(
     for (const rId of rw.runeIds) {
       const def = getRuneById(rId);
       if (!def) continue;
-      const cleanLoreName = def.name.toLowerCase().replace(/^rune of\s+/i, '').trim();
-      const cleanD2Name = def.d2Name.toLowerCase().trim();
+      const cleanLoreName = runeShortName(def).toLowerCase().trim();
       const owned =
         ownedSet.has(cleanLoreName) ||
-        ownedSet.has(cleanD2Name) ||
         ownedSet.has(def.name.toLowerCase().trim());
 
       if (!owned) {
@@ -315,7 +312,7 @@ export function getCompatibleRunewordsForItem(
       runes.push({
         id: def.id,
         name: def.name,
-        d2Name: def.d2Name,
+        shortName: runeShortName(def),
         owned,
       });
     }
@@ -346,19 +343,18 @@ export function getCompatibleRunewordsForItem(
 
     results.push({
       id: rw.id,
-      name: rw.d2Name,
-      d2Name: rw.d2Name,
+      name: rw.name,
       clvl: rw.clvl,
-      runes: runes.map((r) => r.d2Name),
+      runes: runes.map((r) => r.shortName),
       runeDetails: runes,
       canFormNow: allOwned && isBaseItem,
       canComplete: allOwned && isBaseItem,
       missingCount,
       warning,
       statSummary,
-      runeword: { ...rw, name: rw.d2Name },
-      ownedRunes: runes.filter((r) => r.owned).map((r) => r.d2Name),
-      missingRunes: runes.filter((r) => !r.owned).map((r) => r.d2Name),
+      runeword: rw,
+      ownedRunes: runes.filter((r) => r.owned).map((r) => r.shortName),
+      missingRunes: runes.filter((r) => !r.owned).map((r) => r.shortName),
     });
   }
 

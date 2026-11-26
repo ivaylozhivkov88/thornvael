@@ -1,7 +1,6 @@
 import { Graphics } from 'pixi.js';
 import type { Sim } from './sim/sim';
 import {
-  AURA_DEFINITIONS,
   AuraId,
   getAuraDefinition,
   getUnitActiveAuras,
@@ -11,9 +10,7 @@ import { getSuperUniqueForUnit } from './sim/super-uniques';
 import { FP } from './sim/sim';
 
 /**
- * AAA Classic ARPG Paladin Aura Visual Engine for Thornvael (RoM2 Web)
- * Based on The Amazon Basin Wiki specifications:
- * https://www.theamazonbasin.com/wiki/index.php?title=Aura
+ * Vanguard Aura Visual Engine for Thornvael
  *
  * Ground decal projection directly under feet with blendMode = 'add' (soft additive glow).
  * Multi-layer animation architecture:
@@ -26,7 +23,7 @@ import { FP } from './sim/sim';
 // Aspect ratio for 2D orthogonal ground plane projection: ry / rx ~= 0.47
 const ASPECT = 0.47;
 
-export function renderPaladinAura(
+export function renderVanguardAura(
   g: Graphics,
   auraId: AuraId,
   ux: number,
@@ -914,13 +911,24 @@ export function renderUnitAuras(
   sim: Sim,
   now: number,
   k: number,
-  mapW: number
+  mapW: number,
+  minTx = 0,
+  maxTx = mapW - 1,
+  minTy = 0,
+  maxTy = sim.map.h - 1,
 ): void {
   const count = sim.count;
+  const cx0 = minTx - 2;
+  const cx1 = maxTx + 2;
+  const cy0 = minTy - 2;
+  const cy1 = maxTy + 2;
 
   for (let i = 0; i < count; i++) {
     if (sim.cb.hp[i] <= 0 || sim.hidden[i]) continue;
-    const tile = Math.floor(sim.y[i] / FP) * mapW + Math.floor(sim.x[i] / FP);
+    const tx = Math.floor(sim.x[i] / FP);
+    const ty = Math.floor(sim.y[i] / FP);
+    if (tx < cx0 || tx > cx1 || ty < cy0 || ty > cy1) continue;
+    const tile = ty * mapW + tx;
     if (!sim.visible[tile]) continue;
 
     const ux = sim.x[i] * k;
@@ -929,12 +937,12 @@ export function renderUnitAuras(
     // 1. Render all primary active auras radiating from this unit
     const activeAuras = getUnitActiveAuras(sim, i);
     for (const auraId of activeAuras) {
-      renderPaladinAura(g, auraId, ux, uy, now, 1.0, i);
+      renderVanguardAura(g, auraId, ux, uy, now, 1.0, i);
     }
 
     // 2. If unit is an enemy afflicted by Conviction, render the conviction glyph decal
     if (isUnitUnderConviction(sim, i) && !activeAuras.includes('conviction')) {
-      renderPaladinAura(g, 'conviction', ux, uy, now, 0.85, i);
+      renderVanguardAura(g, 'conviction', ux, uy, now, 0.85, i);
     }
 
     // 3. Super-Unique Signature Crown & Elemental Halo

@@ -1,12 +1,8 @@
-import { BitmapText, Container, Graphics, Sprite, Texture, TextStyle } from 'pixi.js';
+import { BitmapText, Container, Graphics, TextStyle } from 'pixi.js';
 import type { Sim } from './sim/sim';
-import { TILE } from './map';
-import { FP } from './sim/sim';
-import { St } from './sim/spelldata';
-import { getSuperUniqueForUnit } from './sim/super-uniques';
-import { renderPaladinAura, renderUnitAuras } from './auras';
+import { renderVanguardAura, renderUnitAuras } from './auras';
 
-export { renderPaladinAura, renderUnitAuras };
+export { renderVanguardAura, renderUnitAuras };
 
 /**
  * AAA Combat Feel & Dynamic Torch Lighting Engine:
@@ -172,27 +168,9 @@ export class CombatFeelSystem {
   private floaters: DamageFloater[] = [];
   private textPool: BitmapText[][] = [[], [], []];
 
-  // Lighting
-  private lightCv!: HTMLCanvasElement;
-  private lightCtx!: CanvasRenderingContext2D;
-  private lightTex!: Texture;
-  readonly lightSprite!: Sprite;
-  private flickerPhase = 0;
-
   constructor(private readonly mapW: number, private readonly mapH: number) {
     this.auraGraphics.blendMode = 'add';
     this.slashGraphics.blendMode = 'add';
-
-    // Dynamic Lighting Canvas (quarter-resolution for smooth blur and high perf)
-    if (typeof document !== 'undefined') {
-      this.lightCv = document.createElement('canvas');
-      this.lightCv.width = 384;
-      this.lightCv.height = 240;
-      this.lightCtx = this.lightCv.getContext('2d')!;
-      this.lightTex = Texture.from(this.lightCv);
-      this.lightSprite = new Sprite(this.lightTex);
-      this.lightSprite.blendMode = 'multiply';
-    }
   }
 
   /** Trigger screen shake. Trauma 0.0 to 1.0 (clamped). */
@@ -569,9 +547,17 @@ export class CombatFeelSystem {
   }
 
   /** Render GPU Decal Auras under units with blendMode = 'add' */
-  renderAuras(sim: Sim, now: number, k: number): void {
+  renderAuras(
+    sim: Sim,
+    now: number,
+    k: number,
+    minTx = 0,
+    maxTx = this.mapW - 1,
+    minTy = 0,
+    maxTy = this.mapH - 1,
+  ): void {
     this.auraGraphics.clear();
-    renderUnitAuras(this.auraGraphics, sim, now, k, this.mapW);
+    renderUnitAuras(this.auraGraphics, sim, now, k, this.mapW, minTx, maxTx, minTy, maxTy);
   }
 
   /** Update particles, screen shake, slashes, bubbles, and damage numbers */
@@ -835,118 +821,22 @@ export class CombatFeelSystem {
     }
   }
 
-  /**
-   * Render dynamic torch lighting:
-   * Ambient darkness + warm radial torch circle around hero with organic flicker.
-   */
-  renderLighting(
-    viewW: number,
-    viewH: number,
-    heroWorldX: number,
-    heroWorldY: number,
-    camX: number,
-    camY: number,
-    zoom: number,
-    daylight: number,
-    now: number,
-    extraLights: Array<{ x: number; y: number; r: number; color?: string }> = []
-  ): void {
-    if (!this.lightCtx) return;
-
-    const ctx = this.lightCtx;
-    const w = this.lightCv.width;
-    const h = this.lightCv.height;
-    ctx.clearRect(0, 0, w, h);
-
-    // Compute ambient darkness level from day/night cycle
-    // daylight: 0 (midnight) to 255 (noon). In dark fantasy, even daytime has gothic atmosphere.
-    const dayFactor = Math.max(0, Math.min(1, daylight / 255));
-    const ambientR = Math.round(18 + 60 * dayFactor);
-    const ambientG = Math.round(20 + 62 * dayFactor);
-    const ambientB = Math.round(30 + 65 * dayFactor);
-
-    // Fill with ambient darkness
-    ctx.fillStyle = `rgb(${ambientR},${ambientG},${ambientB})`;
-    ctx.fillRect(0, 0, w, h);
-
-    // Scale factors from viewport to low-res light canvas
-    const scaleX = w / viewW;
-    const scaleY = h / viewH;
-
-    // Organic flame flicker calculation (subtle 3-frequency sine wave)
-    this.flickerPhase += 0.05;
-    const flicker = 1.0 + 0.04 * Math.sin(this.flickerPhase * 3.7) + 0.02 * Math.sin(this.flickerPhase * 8.1);
-
-    // Hero screen position mapped to light canvas
-    const heroScreenX = (heroWorldX * zoom - camX) * scaleX;
-    const heroScreenY = (heroWorldY * zoom - camY) * scaleY;
-    const baseTorchRadius = 180 * zoom * scaleX * flicker;
-
-    // Cut out torchlight with 'destination-out' / gradient blending
-    ctx.save();
-    ctx.globalCompositeOperation = 'destination-out';
-
-    // Primary hero torchlight aura
-    const grad = ctx.createRadialGradient(
-      heroScreenX,
-      heroScreenY,
-      8,
-      heroScreenX,
-      heroScreenY,
-      baseTorchRadius
-    );
-    // Center is fully carved out (reveals 100% terrain brightness)
-    grad.addColorStop(0, 'rgba(0, 0, 0, 1.0)');
-    grad.addColorStop(0.35, 'rgba(0, 0, 0, 0.95)');
-    grad.addColorStop(0.7, 'rgba(0, 0, 0, 0.55)');
-    grad.addColorStop(1.0, 'rgba(0, 0, 0, 0.0)');
-
-    ctx.fillStyle = grad;
-    ctx.beginPath();
-    ctx.arc(heroScreenX, heroScreenY, baseTorchRadius, 0, Math.PI * 2);
-    ctx.fill();
-
-    // Extra lights (e.g. shrines, campfires, meteor spells)
-    for (const l of extraLights) {
-      const lx = (l.x * zoom - camX) * scaleX;
-      const ly = (l.y * zoom - camY) * scaleY;
-      const lr = l.r * scaleX;
-      if (lx + lr < 0 || ly + lr < 0 || lx - lr > w || ly - lr > h) continue;
-
-      const g = ctx.createRadialGradient(lx, ly, 4, lx, ly, lr);
-      g.addColorStop(0, 'rgba(0, 0, 0, 1.0)');
-      g.addColorStop(0.5, 'rgba(0, 0, 0, 0.7)');
-      g.addColorStop(1.0, 'rgba(0, 0, 0, 0.0)');
-      ctx.fillStyle = g;
-      ctx.beginPath();
-      ctx.arc(lx, ly, lr, 0, Math.PI * 2);
-      ctx.fill();
-    }
-    ctx.restore();
-
-    // Second pass: Add warm golden rim to the torchlight edge
-    ctx.save();
-    ctx.globalCompositeOperation = 'lighter';
-    const warmGrad = ctx.createRadialGradient(
-      heroScreenX,
-      heroScreenY,
-      baseTorchRadius * 0.2,
-      heroScreenX,
-      heroScreenY,
-      baseTorchRadius * 1.05
-    );
-    warmGrad.addColorStop(0, 'rgba(255, 210, 120, 0.14)');
-    warmGrad.addColorStop(0.6, 'rgba(210, 140, 40, 0.08)');
-    warmGrad.addColorStop(1.0, 'rgba(0, 0, 0, 0.0)');
-    ctx.fillStyle = warmGrad;
-    ctx.beginPath();
-    ctx.arc(heroScreenX, heroScreenY, baseTorchRadius * 1.05, 0, Math.PI * 2);
-    ctx.fill();
-    ctx.restore();
-
-    // Update Pixi texture
-    this.lightTex.source.update();
-    this.lightSprite.width = viewW;
-    this.lightSprite.height = viewH;
+  destroy(): void {
+    this.bloodGraphics.destroy();
+    this.sparkGraphics.destroy();
+    this.slashGraphics.destroy();
+    this.auraGraphics.destroy();
+    this.bubbleGraphics.destroy();
+    this.floaterContainer.destroy({ children: true });
+    this.splatters = [];
+    this.boneFragments = [];
+    this.corpseDecals = [];
+    this.sparks = [];
+    this.etherealMotes = [];
+    this.lootPops = [];
+    this.slashes = [];
+    this.bubbles = [];
+    this.floaters = [];
+    this.textPool = [[], [], []];
   }
 }

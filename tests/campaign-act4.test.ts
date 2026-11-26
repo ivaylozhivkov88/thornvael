@@ -6,17 +6,17 @@ import { createHero } from '../src/sim/hero';
 import { FP, type Sim } from '../src/sim/sim';
 import { Role } from '../src/sim/town';
 
-import m36 from '../src/missions/m36-heartland-march.map.json';
-import m37 from '../src/missions/m37-shattered-beacons.map.json';
-import m38 from '../src/missions/m38-besieged-wall.map.json';
-import m39 from '../src/missions/m39-flight-of-malrik.map.json';
-import m40 from '../src/missions/m40-twofold-assault.map.json';
-import m41 from '../src/missions/m41-gauntlet-of-iron.map.json';
-import m42 from '../src/missions/m42-outer-rampart.map.json';
-import m43 from '../src/missions/m43-three-roads-siege.map.json';
-import m44 from '../src/missions/m44-threshold-choice.map.json';
-import m45 from '../src/missions/m45-crown-of-order.map.json';
-import m46 from '../src/missions/m46-ember-reckoning.map.json';
+import m36 from '../src/missions/m36-heartland-march-256.map.json';
+import m37 from '../src/missions/m37-shattered-beacons-256.map.json';
+import m38 from '../src/missions/m38-besieged-wall-256.map.json';
+import m39 from '../src/missions/m39-flight-of-malrik-256.map.json';
+import m40 from '../src/missions/m40-twofold-assault-256.map.json';
+import m41 from '../src/missions/m41-gauntlet-of-iron-256.map.json';
+import m42 from '../src/missions/m42-outer-rampart-256.map.json';
+import m43 from '../src/missions/m43-three-roads-siege-256.map.json';
+import m44 from '../src/missions/m44-threshold-choice-256.map.json';
+import m45 from '../src/missions/m45-crown-of-order-256.map.json';
+import m46 from '../src/missions/m46-ember-reckoning-256.map.json';
 
 interface Act4Entry {
   id: string;
@@ -26,17 +26,17 @@ interface Act4Entry {
 }
 
 const ACT4_MAPS: Act4Entry[] = [
-  { id: 'm36-heartland-march', w: 64, h: 64, raw: m36 },
-  { id: 'm37-shattered-beacons', w: 64, h: 64, raw: m37 },
-  { id: 'm38-besieged-wall', w: 64, h: 64, raw: m38 },
-  { id: 'm39-flight-of-malrik', w: 64, h: 64, raw: m39 },
-  { id: 'm40-twofold-assault', w: 64, h: 64, raw: m40 },
-  { id: 'm41-gauntlet-of-iron', w: 96, h: 96, raw: m41 },
-  { id: 'm42-outer-rampart', w: 96, h: 96, raw: m42 },
-  { id: 'm43-three-roads-siege', w: 96, h: 96, raw: m43 },
-  { id: 'm44-threshold-choice', w: 64, h: 64, raw: m44 },
-  { id: 'm45-crown-of-order', w: 96, h: 96, raw: m45 },
-  { id: 'm46-ember-reckoning', w: 96, h: 96, raw: m46 },
+  { id: 'm36-heartland-march', w: 256, h: 256, raw: m36 },
+  { id: 'm37-shattered-beacons', w: 256, h: 256, raw: m37 },
+  { id: 'm38-besieged-wall', w: 256, h: 256, raw: m38 },
+  { id: 'm39-flight-of-malrik', w: 256, h: 256, raw: m39 },
+  { id: 'm40-twofold-assault', w: 256, h: 256, raw: m40 },
+  { id: 'm41-gauntlet-of-iron', w: 256, h: 256, raw: m41 },
+  { id: 'm42-outer-rampart', w: 256, h: 256, raw: m42 },
+  { id: 'm43-three-roads-siege', w: 256, h: 256, raw: m43 },
+  { id: 'm44-threshold-choice', w: 256, h: 256, raw: m44 },
+  { id: 'm45-crown-of-order', w: 256, h: 256, raw: m45 },
+  { id: 'm46-ember-reckoning', w: 256, h: 256, raw: m46 },
 ];
 
 function start(raw: unknown, seed = 1): MissionGame {
@@ -64,7 +64,7 @@ const reservedCount = (g: MissionGame): number =>
 
 function walk(sim: Sim, x: number, y: number): void {
   sim.step([{ type: 'move', ids: [0], x: x + 0.5, y: y + 0.5 }]);
-  for (let tick = 0; tick < 800; tick++) {
+  for (let tick = 0; tick < 2400; tick++) {
     if (Math.floor(sim.x[0] / FP) === x && Math.floor(sim.y[0] / FP) === y) return;
     sim.step();
   }
@@ -137,7 +137,7 @@ describe('Campaign Act IV maps (m36-m46)', () => {
     expect(st.sub[0]).toBe(2);
     expect(g.sim.cb.sG.some((gold) => gold >= 400)).toBe(true);
 
-    g.sim.place(0, 32, 24);
+    g.sim.place(0, 128, 96);
     run(g, 10);
     expect(st.msgs).toContain(3);
 
@@ -218,7 +218,7 @@ describe('Campaign Act IV maps (m36-m46)', () => {
 
     const gEscape = start(m39);
     run(gEscape, 10);
-    gEscape.sim.place(19, 52, 10);
+    gEscape.sim.place(19, 208, 40);
     run(gEscape, 10);
     expect(gEscape.sim.script!.st.status).toBe(2);
     expect(gEscape.sim.script!.st.cause).toBe(2);
@@ -252,7 +252,7 @@ describe('Campaign Act IV maps (m36-m46)', () => {
     expect(st.sub[0]).toBe(2);
     expect(g.sim.cb.sG.some((gold) => gold >= 350)).toBe(true);
 
-    g.sim.place(0, 48, 48);
+    g.sim.place(0, 128, 128);
     run(g, 10);
     expect(st.msgs).toContain(3);
 
@@ -317,7 +317,7 @@ describe('Campaign Act IV maps (m36-m46)', () => {
     killGroup(gA, 3);
     run(gA, 10);
     expect(gA.sim.script!.st.sub[0]).toBe(2);
-    gA.sim.place(0, 16, 14);
+    gA.sim.place(0, 64, 56);
     run(gA, 10);
     expect(gA.sim.script!.st.sv[0]).toBe(1);
     expect(gA.sim.script!.st.status).toBe(1);
@@ -327,7 +327,7 @@ describe('Campaign Act IV maps (m36-m46)', () => {
     killGroup(gB, 2);
     killGroup(gB, 3);
     run(gB, 10);
-    gB.sim.place(0, 48, 14);
+    gB.sim.place(0, 192, 56);
     run(gB, 10);
     expect(gB.sim.script!.st.sv[0]).toBe(2);
     expect(gB.sim.script!.st.status).toBe(1);

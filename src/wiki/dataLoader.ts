@@ -1,11 +1,42 @@
-import indexData from './data/index.json';
+import indexUrl from './data/index.json?url';
 import { TYPE_TO_CAT } from './sections';
 import type { WikiEntry, WikiEntryType, WikiIndex, WikiIndexEntry } from './types';
 
-export const WIKI_INDEX = indexData as unknown as WikiIndex;
+export let WIKI_INDEX: WikiIndex = {
+  version: 1,
+  entries: [],
+  counts: {},
+  acts: {},
+} as unknown as WikiIndex;
 
 const ROUTE_MAP = new Map<string, WikiIndexEntry>();
-for (const entry of WIKI_INDEX.entries) ROUTE_MAP.set(entry.r, entry);
+let indexPromise: Promise<WikiIndex> | null = null;
+
+export function loadWikiIndex(): Promise<WikiIndex> {
+  if (!indexPromise) {
+    indexPromise = (async () => {
+      let idx: WikiIndex;
+      if (typeof window !== 'undefined' && typeof fetch === 'function') {
+        const res = await fetch(indexUrl);
+        if (!res.ok) throw new Error(`Failed to load wiki index: ${res.status}`);
+        idx = (await res.json()) as WikiIndex;
+      } else {
+        const [{ readFile }, { dirname, join }, { fileURLToPath }] = await Promise.all([
+          import(/* @vite-ignore */ 'node:fs/promises'),
+          import(/* @vite-ignore */ 'node:path'),
+          import(/* @vite-ignore */ 'node:url'),
+        ]);
+        const raw = await readFile(join(dirname(fileURLToPath(import.meta.url)), 'data', 'index.json'), 'utf8');
+        idx = JSON.parse(raw) as WikiIndex;
+      }
+      WIKI_INDEX = idx;
+      ROUTE_MAP.clear();
+      for (const entry of idx.entries) ROUTE_MAP.set(entry.r, entry);
+      return idx;
+    })();
+  }
+  return indexPromise;
+}
 
 export function getIndexEntry(route: string): WikiIndexEntry | undefined {
   return ROUTE_MAP.get(route);

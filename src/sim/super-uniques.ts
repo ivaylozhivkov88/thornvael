@@ -588,3 +588,16 @@ export function spawnSuperUniqueInPack(
 
   return { leaderId, retinueIds, def };
 }
+
+/** Deterministic hash helper for per-sim super-unique registry entries. */
+export function hashSuperUniques(sim: Sim, mix: (v: number) => void): void {
+  const unitMap = SIM_UNIT_SUPER_UNIQUES.get(sim);
+  if (!unitMap || unitMap.size === 0) return;
+  const entries = [...unitMap.entries()].sort((a, b) => a[0] - b[0]);
+  mix(entries.length);
+  for (const [unitId, def] of entries) {
+    mix(unitId);
+    mix(def.id.length);
+    for (let i = 0; i < def.id.length; i++) mix(def.id.charCodeAt(i));
+  }
+}

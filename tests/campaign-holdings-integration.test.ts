@@ -3,7 +3,7 @@ import { applyCarryover, extractCarryover, type CarryoverState, type Merc } from
 import { createMission, missionFromName, type MissionGame } from '../src/mission';
 import { Kind } from '../src/sim/combat';
 import { createHero } from '../src/sim/hero';
-import { getItemDef, ITEMS } from '../src/sim/items';
+import { ITEMS } from '../src/sim/items';
 import { FP } from '../src/sim/sim';
 import { mercPrice } from '../src/sim/difficulty';
 import { makeQuest, QuestType, Role, rollStock } from '../src/sim/town';
@@ -150,13 +150,13 @@ describe('Campaign Holdings & Missions Integration (Masterpiece Drive)', () => {
       const testMissions = [
         { act: 1, map: 'fen' },
         { act: 1, map: 'm05' },
-        { act: 2, map: 'm12' },
-        { act: 2, map: 'm17' },
-        { act: 3, map: 'm24' },
-        { act: 3, map: 'm31' },
-        { act: 4, map: 'm36' },
-        { act: 4, map: 'm44' },
-        { act: 4, map: 'm46' },
+        { act: 2, map: 'm12-128' },
+        { act: 2, map: 'm17-128' },
+        { act: 3, map: 'm24-192' },
+        { act: 3, map: 'm31-192' },
+        { act: 4, map: 'm36-256' },
+        { act: 4, map: 'm44-256' },
+        { act: 4, map: 'm46-256' },
       ];
 
       for (const tm of testMissions) {
@@ -312,11 +312,11 @@ describe('Campaign Holdings & Missions Integration (Masterpiece Drive)', () => {
       const redmarshMaxTier = Math.max(...redmarshStock.map((id) => ITEMS[id].tier));
       expect(redmarshMaxTier).toBeLessThanOrEqual(4); // Base 3 + 1 Forge
 
-      // 8. Carry over into Act III (m24) and Act IV (m44, m45, m46)
-      const gAct3 = initMission('m24', 50);
+      // 8. Carry over into Act III (m24-192) and Act IV (m44, m45, m46-256)
+      const gAct3 = initMission('m24-192', 50);
       expect(applyCarryover(gAct3.sim, carry)).toBe(3);
 
-      const gAct4 = initMission('m46', 60);
+      const gAct4 = initMission('m46-256', 60);
       expect(applyCarryover(gAct4.sim, carry)).toBe(3);
     });
   });

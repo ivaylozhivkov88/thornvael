@@ -1,7 +1,7 @@
 /**
- * Classic ARPG Combat Mechanics & Breakpoints Engine (Authentic Mechanics 1:1 Implementation)
+ * Combat Mechanics & Breakpoints Engine
  *
- * Implements exact D2 mathematical mechanics:
+ * Implements combat mathematical mechanics:
  * 1. Chance to Hit formula: clamp(200 * (AR / (AR + Def)) * (Alvl / (Alvl + Dlvl)), 5%, 95%)
  * 2. FHR (Faster Hit Recovery) frame breakpoints & flinch trigger (> 1/12th Max HP)
  * 3. FCR (Faster Cast Rate) & IAS (Increased Attack Speed) frame breakpoint tables
@@ -18,10 +18,10 @@ export interface HitChanceParams {
 }
 
 /**
- * Calculates exact Classic ARPG Chance to Hit percentage (5% to 95% clamped):
+ * Calculates Chance to Hit percentage (5% to 95% clamped):
  * Hit% = clamp(200 * (AR / (AR + Def)) * (Alvl / (Alvl + Dlvl)), 5, 95)
  */
-export function calculateD2HitChance(
+export function calculateHitChance(
   attackerAr: number,
   defenderDef: number,
   attackerLevel: number,
@@ -42,7 +42,7 @@ export function calculateD2HitChance(
 
 /**
  * Determines whether an incoming damage blow triggers a flinch / hit recovery.
- * In D2, a target enters hit recovery if damage > Max HP / 12 (i.e. more than 8.33% of max life in one hit).
+ * A target enters hit recovery if damage > Max HP / 12 (more than 8.33% of max life in one hit).
  */
 export function shouldTriggerFlinch(dmg: number, maxHp: number): boolean {
   if (dmg <= 0 || maxHp <= 0) return false;
@@ -51,8 +51,8 @@ export function shouldTriggerFlinch(dmg: number, maxHp: number): boolean {
 
 /**
  * Faster Hit Recovery (FHR) frame breakpoint tables (25 frames/second standard).
- * Class 0 = Warrior (Barbarian / Paladin equivalent)
- * Class 1 = Mage (Sorceress / Necromancer equivalent)
+ * Class 0 = Warrior / Vanguard
+ * Class 1 = Mage / Necromancer
  */
 export const FHR_BREAKPOINTS: Record<number, readonly { fhr: number; frames: number }[]> = {
   // Warrior: 0% -> 9f, 7% -> 8f, 15% -> 7f, 27% -> 6f, 48% -> 5f, 86% -> 4f, 200% -> 3f
@@ -105,7 +105,7 @@ export function getFHRDurationTicks(cls: number, fhrPercent: number): number {
  * Faster Cast Rate (FCR) frame breakpoint tables (25 frames/second standard).
  */
 export const FCR_BREAKPOINTS: Record<number, readonly { fcr: number; frames: number }[]> = {
-  // Mage (Sorceress): 0% -> 13f, 9% -> 12f, 20% -> 11f, 37% -> 10f, 63% -> 9f, 105% -> 8f, 200% -> 7f
+  // Mage: 0% -> 13f, 9% -> 12f, 20% -> 11f, 37% -> 10f, 63% -> 9f, 105% -> 8f, 200% -> 7f
   1: [
     { fcr: 200, frames: 7 },
     { fcr: 105, frames: 8 },
@@ -240,8 +240,8 @@ export function calculateDeadlyStrike(
 
 /**
  * Open Wounds bleeding damage over duration:
- * In D2, Open Wounds lasts 200 frames (8 seconds at 25 fps, or 160 ticks at 20 ticks/sec).
- * Clvl per-frame formulas from Maxroll D2:
+ * Open Wounds lasts 200 frames (8 seconds at 25 fps, or 160 ticks at 20 ticks/sec).
+ * Clvl per-frame formulas:
  * Clvl 1-15:  (9 * Clvl + 31) / 256 per frame
  * Clvl 16-30: (18 * Clvl - 104) / 256 per frame
  * Clvl 31-45: (27 * Clvl - 374) / 256 per frame
@@ -324,14 +324,14 @@ export function calculateKnockback(
 }
 
 /**
- * Magic Find (MF) diminishing returns formula (Maxroll D2 exact formula):
+ * Magic Find (MF) diminishing returns formula:
  * Effective MF (EMF) = (MF * Factor) / (MF + Factor)
  * - Unique: Factor 250 -> EMF_Unique = (MF * 250) / (MF + 250)
  * - Set: Factor 500 -> EMF_Set = (MF * 500) / (MF + 500)
  * - Rare: Factor 600 -> EMF_Rare = (MF * 600) / (MF + 600)
  * - Magic: Linear, no diminishing returns -> EMF_Magic = MF
  */
-export function calculateMaxrollEffectiveMF(mf: number): {
+export function calculateEffectiveMFTable(mf: number): {
   unique: number;
   set: number;
   rare: number;

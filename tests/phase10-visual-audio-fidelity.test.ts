@@ -1,4 +1,4 @@
-import { describe, expect, it, vi, beforeEach } from 'vitest';
+import { describe, expect, it, vi, } from 'vitest';
 import {
   classifyHeroWeapon,
   getHeroWeaponVisual,
@@ -12,10 +12,10 @@ import {
   playGoldPickup,
   playMonsterDeath,
   playPotionGulp,
+  setMusic,
   startDarkFantasyAtmosphere,
   stopDarkFantasyAtmosphere,
   isDarkFantasyAtmosphereActive,
-  audioState,
 } from '../src/audio';
 
 describe('Phase 10: ARPG Visual & Audio Landscape', () => {
@@ -118,11 +118,61 @@ describe('Phase 10: ARPG Visual & Audio Landscape', () => {
     });
 
     it('manages dark fantasy atmosphere synthesizer state', () => {
-      expect(isDarkFantasyAtmosphereActive()).toBe(false);
-      startDarkFantasyAtmosphere();
-      expect(isDarkFantasyAtmosphereActive()).toBe(true);
-      stopDarkFantasyAtmosphere();
-      expect(isDarkFantasyAtmosphereActive()).toBe(false);
+      const prevWin = (globalThis as { window?: unknown }).window;
+      const prevAudioCtx = (globalThis as { AudioContext?: unknown }).AudioContext;
+      const prevAudio = (globalThis as { Audio?: unknown }).Audio;
+      const node = () => ({
+        gain: { value: 1, cancelScheduledValues: vi.fn(), setValueAtTime: vi.fn(), linearRampToValueAtTime: vi.fn(), exponentialRampToValueAtTime: vi.fn() },
+        frequency: { value: 1, setValueAtTime: vi.fn(), exponentialRampToValueAtTime: vi.fn() },
+        Q: { value: 1 },
+        type: 'sine',
+        connect: vi.fn().mockReturnThis(),
+        disconnect: vi.fn(),
+        start: vi.fn(),
+        stop: vi.fn(),
+      });
+      class MockAudioContext {
+        state = 'running';
+        currentTime = 0;
+        destination = node();
+        resume = vi.fn(async () => undefined);
+        createGain = () => node();
+        createBiquadFilter = () => node();
+        createOscillator = () => node();
+        createBufferSource = () => node();
+        createBuffer = () => ({ duration: 0 });
+      }
+      class MockAudio {
+        loop = false;
+        preload = '';
+        volume = 1;
+        src = '';
+        play = vi.fn(async () => undefined);
+        pause = vi.fn();
+        addEventListener = vi.fn();
+        removeEventListener = vi.fn();
+      }
+      if (!prevWin) {
+        (globalThis as { window?: unknown }).window = { AudioContext: MockAudioContext };
+      } else {
+        (prevWin as { AudioContext?: unknown }).AudioContext = MockAudioContext;
+      }
+      (globalThis as { AudioContext?: unknown }).AudioContext = MockAudioContext;
+      (globalThis as { Audio?: unknown }).Audio = MockAudio;
+      try {
+        setMusic(true);
+        stopDarkFantasyAtmosphere();
+        expect(isDarkFantasyAtmosphereActive()).toBe(false);
+        startDarkFantasyAtmosphere();
+        expect(isDarkFantasyAtmosphereActive()).toBe(true);
+        stopDarkFantasyAtmosphere();
+        expect(isDarkFantasyAtmosphereActive()).toBe(false);
+      } finally {
+        setMusic(false);
+        (globalThis as { AudioContext?: unknown }).AudioContext = prevAudioCtx;
+        (globalThis as { Audio?: unknown }).Audio = prevAudio;
+        if (!prevWin) delete (globalThis as { window?: unknown }).window;
+      }
     });
   });
 });

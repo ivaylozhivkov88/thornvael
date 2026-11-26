@@ -1,7 +1,7 @@
 import { describe, it, expect } from 'vitest';
 import { Sim } from '../src/sim/sim';
-import { createHero, derive, totals, pickBag, addItem, heroCommand } from '../src/sim/hero';
-import { Slot, Ik, ITEMS, getItemDef, DYNAMIC_ITEM_OFFSET, type ItemInstance, type ItemDef } from '../src/sim/items';
+import { createHero, derive, pickBag, addItem, heroCommand } from '../src/sim/hero';
+import { Slot, Ik, ITEMS, getItemDef, DYNAMIC_ITEM_OFFSET, type ItemDef } from '../src/sim/items';
 import { rollMagicItem, rollRareItem } from '../src/sim/affixes';
 import { extractCarryover, applyCarryover } from '../src/carryover';
 import { makeSave, decodeSave, encodeSave, migrateSave, SAVE_VERSION } from '../src/save';

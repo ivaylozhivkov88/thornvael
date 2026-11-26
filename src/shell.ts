@@ -1,7 +1,17 @@
-import { attachBlurMuteListeners, isMusicPlaying, setCharSelectMusic, setMainMenuMusic, setMusic, unlock } from './audio';
+import { attachBlurMuteListeners, isMusicPlaying, resumeAudio, setCharSelectMusic, setMainMenuMusic, setMusic, suspendAudio, unlock } from './audio';
 import { actOf, nodeOf, type CampaignNode } from './campaign';
 import { loadCampaign, readRecord, writeRecord } from './campaignstore';
-import { canEnter, newRecord, nodeUrl, RECORD_KEY, clearLast, type CampaignRecord, type HeroPick } from './flow';
+import {
+  canEnter,
+  clearLast,
+  newRecord,
+  nextDifficultyAfterVictory,
+  nodeUrl,
+  RECORD_KEY,
+  startNewGamePlusRecord,
+  type CampaignRecord,
+  type HeroPick,
+} from './flow';
 import { BUILT_IN_NAMES } from './mission-runtime';
 import {
   addCharacter,
@@ -19,7 +29,7 @@ import { AUTO, deleteRecord, deleteSave, exportAllSaves, getSave, importSaveText
 import { actTransitionForCompletedNode, endingForCompletedNode, sequenceById, sequenceForNode, STORY_SEQUENCES, type StorySequence } from './story';
 import { S } from './strings';
 import { readPreferences, writePreference } from './preferences';
-import { CodexUi } from './codexui';
+import type { CodexUi } from './codexui';
 import { getPlaquesByAct, loadLocationPlaques, type LocationPlaqueEntry } from './data/text/index';
 import { loadMonsterCodex, loadHelpAndCredits, getHelpPages, getCreditLines } from './missioncontent';
 import { getLoadingTip, hydrateCuratedTips } from './tips';
@@ -58,6 +68,10 @@ const MAPS: ReadonlySet<string> = BUILT_IN_NAMES;
 export async function runShell(startWorker: () => void): Promise<never> {
   applyUxSettings(loadUxSettings());
   attachBlurMuteListeners();
+  document.addEventListener('visibilitychange', () => {
+    if (document.hidden) suspendAudio();
+    else resumeAudio();
+  });
   void hydrateCuratedTips();
   let locationPlaques: LocationPlaqueEntry[] = [];
   void loadLocationPlaques(import.meta.env.BASE_URL)
@@ -68,7 +82,14 @@ export async function runShell(startWorker: () => void): Promise<never> {
   void loadMonsterCodex();
   void loadHelpAndCredits();
   startWorker();
-  const codexUi = new CodexUi();
+  let codexUi: CodexUi | null = null;
+  const openCodex = async (): Promise<void> => {
+    if (!codexUi) {
+      const { CodexUi } = await import('./codexui');
+      codexUi = new CodexUi();
+    }
+    codexUi.show();
+  };
   let audioUnlocked = false;
   let shellMusicKind: 'menu' | 'charSelect' = 'menu';
   const root = el('div');
@@ -253,7 +274,7 @@ export async function runShell(startWorker: () => void): Promise<never> {
         return row;
       })(),
       (() => {
-        const b = btn('🏆 Hall of Relics Codex', () => codexUi.show());
+        const b = btn('🏆 Hall of Relics Codex', () => void openCodex());
         b.dataset.testid = 'btn-codex';
         return b;
       })(),
@@ -387,20 +408,26 @@ Items, skills and levels carry over.`));
     // Footer
     const footer = el('div', 'sh-skirmish-footer');
     const startUrl = (): string => {
-      const heroStr = `${pick.cls === 1 ? 'mage' : 'warrior'},${pick.female ? 'f' : 'm'},${(['easy', 'medium', 'hard'] as const)[diff]}`;
+      const clsStr = ['warrior', 'mage', 'archer', 'necromancer'][pick.cls] ?? 'warrior';
+      const diffStr = (['easy', 'medium', 'hard', 'hell'] as const)[diff] ?? 'medium';
+      const heroStr = `${clsStr},${pick.female ? 'f' : 'm'},${diffStr}`;
       const mKey = maps[selectedMapIdx].key;
       return `./?mission=${encodeURIComponent(mKey)}&hero=${encodeURIComponent(heroStr)}&gold=${gold}`;
     };
 
     const expeditionUrl = (): string => {
       const seed = (Math.random() * 0x7fffffff) | 0;
-      const heroStr = `${pick.cls === 1 ? 'mage' : 'warrior'},${pick.female ? 'f' : 'm'},${(['easy', 'medium', 'hard'] as const)[diff]}`;
+      const clsStr = ['warrior', 'mage', 'archer', 'necromancer'][pick.cls] ?? 'warrior';
+      const diffStr = (['easy', 'medium', 'hard', 'hell'] as const)[diff] ?? 'medium';
+      const heroStr = `${clsStr},${pick.female ? 'f' : 'm'},${diffStr}`;
       return `./?expedition=${seed}&hero=${encodeURIComponent(heroStr)}&gold=${gold}`;
     };
 
     const depthsUrl = (): string => {
       const seed = (Math.random() * 0x7fffffff) | 0;
-      const heroStr = `${pick.cls === 1 ? 'mage' : 'warrior'},${pick.female ? 'f' : 'm'},${(['easy', 'medium', 'hard'] as const)[diff]}`;
+      const clsStr = ['warrior', 'mage', 'archer', 'necromancer'][pick.cls] ?? 'warrior';
+      const diffStr = (['easy', 'medium', 'hard', 'hell'] as const)[diff] ?? 'medium';
+      const heroStr = `${clsStr},${pick.female ? 'f' : 'm'},${diffStr}`;
       return `./?depths=${seed}&hero=${encodeURIComponent(heroStr)}&gold=${gold}`;
     };
 
@@ -544,7 +571,10 @@ Items, skills and levels carry over.`));
   };
   let currentAct: 1 | 2 | 3 | 4 = activeAct(rec);
   function map(): void {
-    if (!rec) return menu();
+    if (!rec) {
+      menu();
+      return;
+    }
     mode = 'map';
     syncShellMusic('menu');
     const r = rec;
@@ -651,7 +681,7 @@ Items, skills and levels carry over.`));
     const seqId = (`act-${currentAct}`) as StorySequence['id'];
     actTabs.append(btn('Story', () => showStory(seqId), 'sh-small'));
     musicBtn.classList.add('is-inline');
-    bar.append(el('b', '', `${T.mapTitle} · ${T.diff[r.progress.difficulty]}`), actTabs, (() => { const b = btn('🏆 Codex', () => codexUi.show(), 'sh-small'); b.dataset.testid = 'btn-map-codex'; return b; })(), btn(T.holdings, holdings, 'sh-small'), ...banner(), musicBtn, btn(T.back, menu, 'sh-small'));
+    bar.append(el('b', '', `${T.mapTitle} · ${T.diff[r.progress.difficulty]}`), actTabs, (() => { const b = btn('🏆 Codex', () => void openCodex(), 'sh-small'); b.dataset.testid = 'btn-map-codex'; return b; })(), btn(T.holdings, holdings, 'sh-small'), ...banner(), musicBtn, btn(T.back, menu, 'sh-small'));
     screen(bar, stage);
     if (r.last) result(r.last);
   }
@@ -712,10 +742,34 @@ Items, skills and levels carry over.`));
   // ---- result screen: shown once after a mission or when leaving it ----
   function result(last: NonNullable<CampaignRecord['last']>): void {
     const n = nodeOf(c, last.node);
+    const isCampaignEndingWin = Boolean(last.win && endingForCompletedNode(n.id) && rec);
+    const nextDiff = rec ? nextDifficultyAfterVictory(rec.progress.difficulty) : 2;
+    const nextNgTier = (rec?.progress.ngPlusTier ?? 0) + 1;
+    const ngPlusLabel = isCampaignEndingWin && rec
+      ? rec.progress.difficulty >= 3
+        ? `Ascend to Hell (NG+${nextNgTier})`
+        : `Ascend to ${T.diff[nextDiff] ?? 'Hard'} (NG+${nextNgTier})`
+      : undefined;
     openResultModal(modals, root, {
       node: n,
       last,
       record: rec,
+      newGamePlusLabel: ngPlusLabel,
+      onStartNewGamePlus: ngPlusLabel
+        ? async () => {
+            if (!rec) return;
+            rec = startNewGamePlusRecord(c, rec, nextDiff);
+            if (active?.hero && rec.carry) {
+              rec.carry.hero = active.hero;
+              rec.carry.gold = Math.max(rec.carry.gold, active.gold);
+            }
+            currentAct = activeAct(rec);
+            await writeRecord(rec);
+            await deleteSave(AUTO).catch(() => undefined);
+            auto = null;
+            map();
+          }
+        : undefined,
       onAcknowledge: async () => {
         if (rec) {
           rec = clearLast(rec);

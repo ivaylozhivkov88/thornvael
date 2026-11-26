@@ -72,3 +72,17 @@ Detailed in [.planning/MASTER-CAMPAIGN-ACTS-HARMONIZATION-PLAN.md](file:///d:/RO
 - **Subagent Model Policy**: All subagents must run on `Model: "flash"`.
 - **UI Containment**: Strict `100dvh` containment without unwanted scrollbars on 720p/1080p and mobile landscape.
 - **Git Protocol**: Clean commits, rebase before push, no `git add -A`.
+
+## Incoming Tasks
+- [x] 2026-11-25 · Minimap showed sleeping (hidden) enemies; zones wake dynamically (tested: tsc clean, act1-world wake test). · high
+- [x] 2026-11-25 · Hero/mage/archer sprites face movement direction (verified atlas directions, check:atlases; unpublished). · high
+- [ ] 2026-11-25 · Classic ARPG quest loop: town start, quest pickup from NPC `!`, journal shows accepted quests only, return for reward, next act unlock. Act I ready in feat/act1-quests (e505d6e; merged PR #3, 73fdd3b); item rewards uniq-* published (PR #9). Remaining: quests for Acts II–IV. · high
+- [ ] 2026-11-25 · Paperdoll: front-view armor layers (.planning/gemini/BRIEF-DOLL-ARMOR-FRONT.md); weapons/gloves/helms/jewelry aligned in gemini/item-images branch. · high
+- [ ] 2026-11-24 · Paperdoll bases: unclothed/underlayer bases (warrior/mage m/f) with per-slot anchor alignment. · high
+- [ ] 2026-11-24 · In-world sprites reflecting equipped gear variants (armor tint/silhouette, helm, weapon). · high
+- [ ] 2026-11-24 · CI 45485808559 (gemini/maps-chunked): Chromium failing on pwa-smoke.spec.ts:199 (status 1 instead of 0, Act 1 E2E); WebKit incomplete. · high
+
+## Open Tasks
+- [ ] 2026-11-25 · Seamless stitched regional worlds: simulate active sectors around the squad with zone banners; caves and upper/lower vaults as separate transition levels to keep runtime light, profiled under WebKit. · high
+- [ ] 2026-11-25 · Per-act sub-level transitions (2–3 caves/crypts/vaults per Act 1–4) loaded on transition to reduce open-world footprint. · high
+- [ ] 2026-11-25 · Act I visual and gameplay polish (quiet town, quest tracker, right-click move, pack spacing, Save & Exit quest persistence, first objective proximity, zone lore banners, elite affixes wired, quest item rewards, town villagers/buildings, doll weapon/material display) recorded in docs/ACT-POLISH-PLAYBOOK.md (PRs #4–#11). Remaining: mobile verification, remaining item icons and armor layers, distinct villager appearances. · high

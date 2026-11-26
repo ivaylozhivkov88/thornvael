@@ -1,6 +1,7 @@
 import { Container, Sprite, Texture } from 'pixi.js';
 import { TILE, type GameMap } from '../map';
 import { paintTerrainChunk, type SceneryPlacement } from '../terrain';
+import { DEFAULT_MOBILE_VRAM_BUDGET, defaultVramBudgetBytes, estimateTextureBytes, type LruVramManager } from './vram-manager';
 
 export interface ChunkCoord {
   cx: number;
@@ -70,17 +71,24 @@ interface BakedChunk {
  */
 export class TerrainChunkCache {
   readonly chunks = new Container();
-  private readonly maxChunks = 24;
+  private readonly maxChunks: number;
   private chunk = 16;
   private chunkAccessSeq = 0;
   private terrainArt?: HTMLImageElement;
   private scenery: readonly SceneryPlacement[] = [];
+  private vram?: LruVramManager;
+  private nextSlotId = 0;
   private readonly chunkPool: BakedChunk[] = [];
   private readonly chunkMap = new Map<string, BakedChunk>();
 
-  init(map: GameMap, terrainArt: HTMLImageElement, scenery: readonly SceneryPlacement[]): void {
+  constructor(maxChunks?: number) {
+    this.maxChunks = maxChunks ?? (defaultVramBudgetBytes() <= DEFAULT_MOBILE_VRAM_BUDGET ? 12 : 24);
+  }
+
+  init(map: GameMap, terrainArt: HTMLImageElement, scenery: readonly SceneryPlacement[], vram?: LruVramManager): void {
     this.terrainArt = terrainArt;
     this.scenery = scenery;
+    this.vram = vram;
     this.chunk = chunkSizeForMap(map.w, map.h);
     this.chunks.cullable = false;
   }
@@ -130,6 +138,15 @@ export class TerrainChunkCache {
         };
         this.chunkPool.push(item);
         this.chunkMap.set(req.key, item);
+        if (this.vram) {
+          const slotKey = `chunk:slot-${this.nextSlotId++}`;
+          this.vram.register({
+            key: slotKey,
+            bytes: estimateTextureBytes(chunkSizePx, chunkSizePx),
+            pinned: true,
+            onEvict: () => {},
+          });
+        }
       } else {
         let victim: BakedChunk | null = null;
         let maxDist = -1;
@@ -173,6 +190,26 @@ export class TerrainChunkCache {
       if (!activeKeys.has(p.key)) {
         p.sprite.visible = false;
       }
+    }
+  }
+
+  destroy(): void {
+    for (const p of this.chunkPool) {
+      p.canvas.width = 0;
+      p.canvas.height = 0;
+      p.tex.destroy(true);
+      p.sprite.destroy();
+    }
+    this.chunkPool.length = 0;
+    this.chunkMap.clear();
+    this.terrainArt = undefined;
+    this.scenery = [];
+    const safeChildren = this.chunks.children.every((c) => typeof (c as { emit?: unknown }).emit === 'function');
+    if (safeChildren) {
+      this.chunks.destroy({ children: true });
+    } else {
+      this.chunks.children.length = 0;
+      this.chunks.destroy({ children: false });
     }
   }
 }

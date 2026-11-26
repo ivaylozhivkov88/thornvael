@@ -1,9 +1,8 @@
-import { KNOWN_HI, SPELLS, Tk, maskHas } from './sim/spelldata';
+import { KNOWN_HI, SPELLS, maskHas } from './sim/spelldata';
 import { teacherOf } from './sim/town';
 import { getItemDef } from './sim/items';
-import { scribeFee, spellPrereqMet, spellSynergy, SPELL_PREREQ, spellRankOf, MAX_SPELL_RANK, SPELL_RANK_POW } from './sim/hero';
+import { spellPrereqMet, spellSynergy, SPELL_PREREQ, spellRankOf, MAX_SPELL_RANK, SPELL_RANK_POW } from './sim/hero';
 import type { Sim, Command } from './sim/sim';
-import { S } from './strings';
 import { getSpellText } from './missioncontent';
 
 export interface SpellbookUiOptions {
@@ -52,7 +51,7 @@ export const SCHOOLS: readonly SchoolInfo[] = [
     id: 1,
     name: 'Fire',
     sphereName: 'Pyromancy',
-    icon: '🔥',
+    icon: 'FIR',
     color: '#e74c3c',
     glow: 'rgba(231, 76, 60, 0.75)',
     tagLine: 'Wrath of Cinders & Brimstone',
@@ -62,7 +61,7 @@ export const SCHOOLS: readonly SchoolInfo[] = [
     id: 2,
     name: 'Water',
     sphereName: 'Cryomancy',
-    icon: '❄️',
+    icon: 'ICE',
     color: '#3498db',
     glow: 'rgba(52, 152, 219, 0.75)',
     tagLine: 'Glacial Rime & Tides of Vitality',
@@ -72,7 +71,7 @@ export const SCHOOLS: readonly SchoolInfo[] = [
     id: 3,
     name: 'Air',
     sphereName: 'Aeromancy',
-    icon: '⚡',
+    icon: 'AIR',
     color: '#f39c12',
     glow: 'rgba(243, 156, 18, 0.75)',
     tagLine: 'Heavenly Tempest & Shocking Static',
@@ -82,7 +81,7 @@ export const SCHOOLS: readonly SchoolInfo[] = [
     id: 4,
     name: 'Earth',
     sphereName: 'Geomancy',
-    icon: '🌿',
+    icon: 'ERT',
     color: '#27ae60',
     glow: 'rgba(39, 174, 96, 0.75)',
     tagLine: 'Bedrock Transmutation & Choking Spores',
@@ -92,7 +91,7 @@ export const SCHOOLS: readonly SchoolInfo[] = [
     id: 5,
     name: 'Astral',
     sphereName: 'Mysticism',
-    icon: '✨',
+    icon: 'AST',
     color: '#9b59b6',
     glow: 'rgba(155, 89, 182, 0.75)',
     tagLine: 'Esoteric Leylines & Soul Transcendence',
@@ -741,7 +740,7 @@ export class SpellbookUi {
     const titleBox = document.createElement('div');
     titleBox.className = 'grimoire-title';
     titleBox.innerHTML = `
-      <span class="grimoire-crest">🕮</span>
+      <span class="grimoire-crest">[G]</span>
       <div class="grimoire-title-text">
         <span class="grimoire-heading">Grimoire of Thornvael</span>
         <span class="grimoire-subheading">Arcane Codex & Spell Trees of the 5 Magic Spheres</span>
@@ -750,7 +749,7 @@ export class SpellbookUi {
 
     const closeBtn = document.createElement('button');
     closeBtn.className = 'grimoire-close-btn';
-    closeBtn.textContent = '✕';
+    closeBtn.textContent = 'X';
     closeBtn.setAttribute('aria-label', 'Close Grimoire [S, Esc]');
     closeBtn.onclick = () => this.close();
 
@@ -763,7 +762,7 @@ export class SpellbookUi {
     const tabIndex = document.createElement('button');
     tabIndex.className = 'mob-tab-btn active';
     tabIndex.dataset.page = 'left';
-    tabIndex.textContent = '🕮 Spheres & Spells';
+    tabIndex.textContent = 'Spheres & Spells';
     tabIndex.onclick = () => {
       this.activePage = 'left';
       tabIndex.classList.add('active');
@@ -774,7 +773,7 @@ export class SpellbookUi {
     const tabDossier = document.createElement('button');
     tabDossier.className = 'mob-tab-btn';
     tabDossier.dataset.page = 'right';
-    tabDossier.textContent = '📜 Spell Dossier';
+    tabDossier.textContent = 'Spell Dossier';
     tabDossier.onclick = () => {
       this.activePage = 'right';
       tabDossier.classList.add('active');
@@ -939,7 +938,7 @@ export class SpellbookUi {
         card.style.setProperty('--node-school-color', currentSchool.color);
         card.style.setProperty('--node-school-glow', currentSchool.glow);
 
-        let statusBadge = isKnown ? `<span class="node-status-known">✦ Ready</span>` : `<span class="node-status-locked">🔒 Locked</span>`;
+        let statusBadge = isKnown ? `<span class="node-status-known">Ready</span>` : `<span class="node-status-locked">Locked</span>`;
 
         let keyBadges = '';
         if (activeRmb) {
@@ -1002,7 +1001,7 @@ export class SpellbookUi {
     qTitle.className = 'quickbar-strip-title';
     qTitle.innerHTML = `
       <span>Quickbar Slots [F1 - F8]:</span>
-      <small>${this.slotAssign >= 0 ? `👉 Click a known spell to bind to F${this.slotAssign + 1}` : 'Tap a slot to assign or clear'}</small>
+      <small>${this.slotAssign >= 0 ? `Click a known spell to bind to F${this.slotAssign + 1}` : 'Tap a slot to assign or clear'}</small>
     `;
     quickbarSection.append(qTitle);
 
@@ -1102,7 +1101,7 @@ export class SpellbookUi {
     specsGrid.innerHTML = `
       <div class="spec-card">
         <span class="spec-label">Mana Cost</span>
-        <span class="spec-value mana-cost">🔷 ${spell.cost} MP</span>
+        <span class="spec-value mana-cost">${spell.cost} MP</span>
       </div>
       <div class="spec-card">
         <span class="spec-label">Casting Range</span>
@@ -1110,7 +1109,7 @@ export class SpellbookUi {
       </div>
       <div class="spec-card">
         <span class="spec-label">Incantation Cooldown</span>
-        <span class="spec-value">⏳ ${cdSec}s</span>
+        <span class="spec-value">${cdSec}s</span>
       </div>
       <div class="spec-card">
         <span class="spec-label">Targeting Mode</span>
@@ -1123,7 +1122,7 @@ export class SpellbookUi {
     const effectCard = document.createElement('div');
     effectCard.className = 'dossier-effect-card';
     effectCard.innerHTML = `
-      <div class="effect-card-title">✦ Arcane Formula & Combat Manifestation</div>
+      <div class="effect-card-title">Arcane Formula & Combat Manifestation</div>
       <div class="effect-card-formula">${spell.formula}</div>
       <div class="effect-card-sub">School of ${school.sphereName} • Enhanced by Hero Mind (+3% power/pt) & Sorcery Skill</div>
     `;
@@ -1176,7 +1175,7 @@ export class SpellbookUi {
       // 1. Right Click Spell Button
       const rmbBtn = document.createElement('button');
       rmbBtn.className = `dossier-btn rmb-btn ${isActiveRmb ? 'active' : ''}`;
-      rmbBtn.innerHTML = `⚡ ${isActiveRmb ? '✓ Active Right-Click Spell (Click to Unset)' : 'Set as Active Right-Click Spell'}`;
+      rmbBtn.innerHTML = `${isActiveRmb ? 'Active Right-Click Spell (Click to Unset)' : 'Set as Active Right-Click Spell'}`;
       rmbBtn.setAttribute('aria-label', 'Allows you to cast this spell with mouse Right-Click in the world');
       rmbBtn.onclick = () => {
         if (isActiveRmb) {
@@ -1192,7 +1191,7 @@ export class SpellbookUi {
       // 2. Cast / Arm Now Button
       const castBtn = document.createElement('button');
       castBtn.className = 'dossier-btn cast-btn';
-      castBtn.innerHTML = `✨ Cast / Arm Now`;
+      castBtn.innerHTML = `Cast / Arm Now`;
       castBtn.setAttribute('aria-label', 'Close Spellbook and immediately arm this spell');
       castBtn.onclick = () => {
         this.close();
@@ -1250,7 +1249,7 @@ export class SpellbookUi {
 
       const waxSeal = document.createElement('div');
       waxSeal.className = 'wax-seal-badge';
-      waxSeal.textContent = '🔒';
+      waxSeal.textContent = 'SEALED';
 
       const lockedInfo = document.createElement('div');
       lockedInfo.className = 'locked-info-content';
@@ -1276,18 +1275,18 @@ export class SpellbookUi {
         scribeBox.className = 'dossier-scribe-box';
         scribeBox.innerHTML = `
           <div class="scribe-box-header">
-            📜 <strong>You carry "${spell.scrollName}" in your pack!</strong>
+            <strong>You carry "${spell.scrollName}" in your pack!</strong>
           </div>
           <p class="scribe-box-desc">
             You can scribe this ancient scroll into your Grimoire for ${spell.scribeFee} gold.
-            ${!canAfford ? `<span class="gold-warning">⚠️ Not enough gold! (You have ${heroGold}g)</span>` : ''}
-            ${!meetsMind ? `<span class="mind-warning">⚠️ Mind too low! (Requires ${spell.mindReq}, you have ${heroMind})</span>` : ''}
+            ${!canAfford ? `<span class="gold-warning">Not enough gold! (You have ${heroGold}g)</span>` : ''}
+            ${!meetsMind ? `<span class="mind-warning">Mind too low! (Requires ${spell.mindReq}, you have ${heroMind})</span>` : ''}
           </p>
         `;
 
         const scribeBtn = document.createElement('button');
         scribeBtn.className = 'dossier-btn scribe-btn';
-        scribeBtn.innerHTML = `📖 Scribe to Spellbook Now (${spell.scribeFee} Gold)`;
+        scribeBtn.innerHTML = `Scribe to Spellbook Now (${spell.scribeFee} Gold)`;
         scribeBtn.disabled = !canAfford || !meetsMind;
         scribeBtn.onclick = () => {
           this.opt.queue({ type: 'hero', op: 'use', item: scrollInInventory });

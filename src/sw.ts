@@ -23,11 +23,11 @@ registerRoute(
   new NavigationRoute(createHandlerBoundToURL('index.html'), { denylist: [/editor\.html$/, /wiki\.html$/] }),
 );
 
-// Cache visited portraits, townart, wiki illustrations/minimaps, and loadscreens lazily without bloating the initial precache.
+// Cache visited portraits, townart, itemicons, wiki illustrations/minimaps, and loadscreens lazily without bloating the initial precache.
 registerRoute(
   ({ url }) =>
     /\.(?:jpg|jpeg|webp)$/i.test(url.pathname) ||
-    ((url.pathname.includes('/townart/') || url.pathname.includes('/wiki/')) && /\.png$/i.test(url.pathname)),
+    ((url.pathname.includes('/townart/') || url.pathname.includes('/wiki/') || url.pathname.includes('/itemicons/')) && /\.png$/i.test(url.pathname)),
   new CacheFirst({
     cacheName: 'thornvael-media-v1',
     plugins: [
@@ -41,7 +41,14 @@ registerRoute(
 // Unit sprite atlases are loaded on demand per mission and cached lazily instead of upfront precache.
 registerRoute(
   ({ url }) => url.pathname.includes('/sprites/') && /\.(?:png|json)$/i.test(url.pathname),
-  new CacheFirst({ cacheName: 'thornvael-sprites-v1' }),
+  new CacheFirst({
+    cacheName: 'thornvael-sprites-v1',
+    plugins: [
+      {
+        handlerDidError: async () => new Response(null, { status: 503, statusText: 'Offline' }),
+      },
+    ],
+  }),
 );
 
 // Sounds are not precached: they come from the chapter cache (see offline.ts) or runtime cache, else the network.

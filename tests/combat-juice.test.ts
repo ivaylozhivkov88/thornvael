@@ -3,7 +3,6 @@ import {
   AtmosphereSystem,
   getBiomeAtmosphereConfig,
   normalizeAtmosphereBiome,
-  setAtmosphereLowSpec,
 } from '../src/atmosphere';
 import { CombatFeelSystem } from '../src/feel';
 import { VfxSystem } from '../src/vfx';

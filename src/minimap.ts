@@ -71,6 +71,7 @@ export class Minimap {
       const tx = Math.floor(sim.x[i] / FP);
       const ty = Math.floor(sim.y[i] / FP);
       const mine = sim.team[i] === 0;
+      if (sim.hidden?.[i]) continue; // dormant zone units are not on the map yet
       if (!mine && !sim.visible[ty * map.w + tx]) continue;
       g.fillStyle = i === 0 && mine ? '#ffd86a' : mine ? (selected.has(i) ? '#b8ff9a' : '#7ab8ff') : '#ff6a5a';
       const px = (sim.x[i] / FP) * s - 1;
@@ -81,7 +82,7 @@ export class Minimap {
     // Subtle enemy radar pulse & directional guidance for raider camps outside vision
     const enemyCamps: { x: number; y: number }[] = [];
     for (let i = 0; i < sim.count; i++) {
-      if (sim.team[i] !== 1 || sim.cb.hp[i] <= 0) continue;
+      if (sim.team[i] !== 1 || sim.cb.hp[i] <= 0 || sim.hidden?.[i]) continue;
       const tx = sim.x[i] / FP;
       const ty = sim.y[i] / FP;
       const itx = Math.floor(tx);

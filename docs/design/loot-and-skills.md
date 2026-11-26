@@ -42,7 +42,7 @@ Every dropped or generated gear item carries an integer `ilvl` in `1..50`, deriv
 
 ### 2.2 Base Drop Weights & Monster Rank Modifiers
 
-When a gear drop is rolled, `effectiveMF` is computed with diminishing returns (compatible with `calculateMaxrollEffectiveMF` in `src/sim/mechanics.ts`):
+When a gear drop is rolled, `effectiveMF` is computed with diminishing returns (compatible with `calculateEffectiveMFTable` in `src/sim/mechanics.ts`):
 
 ```ts
 effectiveMF(mf, factor) = Math.floor((mf * factor) / (mf + factor))

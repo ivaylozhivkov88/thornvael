@@ -6898,6 +6898,20 @@
       "dormant": true,
       "tier": 1,
       "family": "mire-wisp"
+    },
+    {
+      "kind": 3,
+      "team": 1,
+      "x": 74,
+      "y": 19,
+      "group": 4,
+      "pack": 1,
+      "tier": 5,
+      "family": "morvessa",
+      "bossMods": [
+        "fire_enchanted",
+        "magic_resistant"
+      ]
     }
   ],
   "regions": [

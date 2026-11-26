@@ -16,7 +16,8 @@
       "!src/missions",
       "!tools/.canva-sheets",
       "!tools/.mesh-out",
-      "!tools/render-unit.py"
+      "!tools/render-unit.py",
+      "!src/data/voice-clips.json"
     ]
   },
   "formatter": {
@@ -43,11 +44,11 @@
     "rules": {
       "preset": "recommended",
       "correctness": {
-        "noVoidTypeReturn": "warn",
-        "noUnusedImports": "warn",
-        "noUnusedVariables": "warn",
+        "noVoidTypeReturn": "error",
+        "noUnusedImports": "error",
+        "noUnusedVariables": "error",
         "noUnusedFunctionParameters": "warn",
-        "noUnusedPrivateClassMembers": "warn"
+        "noUnusedPrivateClassMembers": "error"
       },
       "suspicious": {
         "noAssignInExpressions": "warn",

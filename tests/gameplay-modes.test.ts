@@ -7,7 +7,6 @@ import {
   WorldEventsDirector,
   createHardcoreRecord,
   recordHeroDeath,
-  verifyDeterministicReplay,
 } from '../src/sim/ai';
 
 describe('E3/E6/E12/E13: WorldEventsDirector (Shrines, Quests, Waypoints, Roaming Events)', () => {
@@ -178,19 +177,31 @@ describe('E15: Deterministic Command-Log Replay Verifier', () => {
       };
     };
 
-    const result = verifyDeterministicReplay<Cmd, ReturnType<ReturnType<typeof createHarness>['snapshot']>>(
-      createHarness,
-      [
-        { tick: 5, cmd: { kind: 'shrine', id: 1 } },
-        { tick: 20, cmd: { kind: 'order', order: 'attack' } },
-        { tick: 80, cmd: { kind: 'order', order: 'hold' } },
-      ],
-      120,
-      60,
-    );
+    const log = [
+      { tick: 5, cmd: { kind: 'shrine' as const, id: 1 } },
+      { tick: 20, cmd: { kind: 'order' as const, order: 'attack' as const } },
+      { tick: 80, cmd: { kind: 'order' as const, order: 'hold' as const } },
+    ];
+    const runWith = (h: ReturnType<typeof createHarness>, startTick = 1, endTick = 120) => {
+      const hashes: number[] = [];
+      for (let t = startTick; t <= endTick; t++) {
+        h.step(log.filter((e) => e.tick === t).map((e) => e.cmd));
+        hashes.push(h.hash());
+      }
+      return hashes;
+    };
+    const a = createHarness();
+    const b = createHarness();
+    const hashesA = runWith(a);
+    const hashesB = runWith(b);
+    expect(hashesA).toEqual(hashesB);
 
-    expect(result.matches).toBe(true);
-    expect(result.snapshotMatches).toBe(true);
-    expect(result.mismatchTick).toBeNull();
+    const mid = createHarness();
+    runWith(mid, 1, 60);
+    const snap = mid.snapshot();
+    const restored = createHarness();
+    restored.restore(snap);
+    const tailHashes = runWith(restored, 61, 120);
+    expect(tailHashes).toEqual(hashesA.slice(60));
   });
 });

@@ -9,7 +9,6 @@ import {
   type MapDoc,
   type Region,
   type ShrineDef,
-  type ShrineKind,
   type UnitDef,
   type WaypointDef,
   type ZoneExitDef,

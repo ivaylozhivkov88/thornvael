@@ -16,10 +16,29 @@ import {
 export class SteppedQuestAdapter {
   private state: QuestRuntimeState;
   private readonly questIds: string[];
+  private onAdvance?: (results: AdvanceStepResult[]) => void;
 
   constructor(defs: readonly SteppedQuestDef[], saved?: unknown) {
     this.questIds = defs.map((d) => d.id);
     this.state = saved ? deserializeQuestSave(saved, defs) : createQuestRuntimeState(defs);
+  }
+
+  setOnAdvance(cb?: (results: AdvanceStepResult[]) => void): void {
+    this.onAdvance = cb;
+  }
+
+  getPendingEscortTargets(): string[] {
+    const refs: string[] = [];
+    for (const qid of this.questIds) {
+      const prog = this.state.quests[qid];
+      const def = this.state.defs[qid];
+      if (!prog || !def || prog.completed || !prog.currentStepId) continue;
+      const step = Array.isArray(def.steps) ? def.steps.find((s) => s.id === prog.currentStepId) : undefined;
+      if (!step || step.trigger.type !== 'escort_safe') continue;
+      if (step.trigger.requires_step && !prog.completedStepIds.includes(step.trigger.requires_step)) continue;
+      refs.push(step.trigger.ref);
+    }
+    return refs;
   }
 
   getState(): QuestRuntimeState {
@@ -69,6 +88,7 @@ export class SteppedQuestAdapter {
       const res = advanceQuestStep(this.state, qid, event);
       if (res.advanced) out.push(res);
     }
+    if (out.length > 0) this.onAdvance?.(out);
     return out;
   }
 }

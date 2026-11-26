@@ -16,7 +16,7 @@ export const NAME_MAX = 16;
 export interface Character {
   id: string;
   name: string;
-  cls: number; // 0 warrior, 1 mage (more classes follow the sim)
+  cls: number; // 0 warrior, 1 mage, 2 archer, 3 necromancer
   female: boolean;
   diff: number;
   createdAt: number;
@@ -27,6 +27,8 @@ export interface Character {
   slots: number[] | null; // quick row
   gold: number; // purse for the story campaign
   played: number; // finished games
+  clearedDifficulties?: number[]; // difficulties where the campaign was completed
+  ngPlusTier?: number; // 0 = Normal only, 1 = Nightmare unlocked, 2 = Hell unlocked
 }
 
 interface Store {
@@ -34,7 +36,7 @@ interface Store {
   list: Character[];
 }
 
-export const CLASS_NAMES = ['Warrior', 'Mage'] as const;
+export const CLASS_NAMES = ['Warrior', 'Mage', 'Archer', 'Necromancer'] as const;
 
 export function cleanName(raw: string): string {
   return raw.replace(/[^\p{L}\p{N} '-]/gu, '').replace(/\s+/g, ' ').trim().slice(0, NAME_MAX);
@@ -94,21 +96,80 @@ export async function deleteCharacter(id: string): Promise<void> {
 }
 
 /** Keep what the hero earned: replace the stored snapshot of a character. */
-export async function saveCharacter(id: string, upd: { hero: HeroState; items?: ItemInstance[]; slots?: readonly number[]; gold?: number; finished?: boolean }, now = Date.now()): Promise<boolean> {
+export async function saveCharacter(
+  id: string,
+  upd: {
+    hero: HeroState;
+    items?: ItemInstance[];
+    slots?: readonly number[];
+    gold?: number;
+    finished?: boolean;
+    clearedDifficulty?: number;
+  },
+  now = Date.now(),
+): Promise<boolean> {
   const list = await listCharacters();
   const c = list.find((x) => x.id === id);
   if (!c) return false;
-  const h = cloneHero(upd.hero);
-  if (!h) return false;
-  c.hero = h;
-  c.items = upd.items ? structuredClone(upd.items) : [];
-  if (upd.slots) c.slots = [...upd.slots];
-  if (upd.gold !== undefined) c.gold = upd.gold;
-  c.level = h.level ?? 1;
-  c.lastPlayed = now;
-  if (upd.finished) c.played += 1;
+  const updated = applyCharacterUpdate(c, upd, now);
+  if (!updated) return false;
+  Object.assign(c, updated);
   await write(list);
   return true;
+}
+
+export function applyCharacterUpdate(
+  c: Character,
+  upd: {
+    hero: HeroState;
+    items?: ItemInstance[];
+    slots?: readonly number[];
+    gold?: number;
+    finished?: boolean;
+    clearedDifficulty?: number;
+  },
+  now = Date.now(),
+): Character | null {
+  const h = cloneHero(upd.hero);
+  if (!h) return null;
+  const next: Character = {
+    ...c,
+    hero: h,
+    items: upd.items ? structuredClone(upd.items) : [],
+    slots: upd.slots ? [...upd.slots] : c.slots,
+    gold: upd.gold !== undefined ? upd.gold : c.gold,
+    level: h.level ?? 1,
+    lastPlayed: now,
+    played: c.played + (upd.finished ? 1 : 0),
+  };
+  if (upd.clearedDifficulty !== undefined) {
+    const cleared = new Set(c.clearedDifficulties ?? []);
+    cleared.add(upd.clearedDifficulty);
+    next.clearedDifficulties = [...cleared].sort((a, b) => a - b);
+    const unlockedNgPlus = upd.clearedDifficulty >= 2 ? 2 : 1;
+    next.ngPlusTier = Math.max(c.ngPlusTier ?? 0, unlockedNgPlus);
+    next.diff = Math.max(c.diff, upd.clearedDifficulty >= 2 ? 3 : 2);
+  }
+  return next;
+}
+
+/** Promote a character to New Game+ (`Normal -> Nightmare` or `Nightmare -> Hell`), keeping gear, spells, gold, and level. */
+export function ascendCharacterToNewGamePlus(c: Character, clearedDiff: number, now = Date.now()): { character: Character; nextDifficulty: number } {
+  const nextDifficulty = Math.min(3, Math.max(2, clearedDiff + 1));
+  const cleared = new Set(c.clearedDifficulties ?? []);
+  cleared.add(clearedDiff);
+  const hero = c.hero ? { ...cloneHero(c.hero)!, diff: nextDifficulty } : null;
+  return {
+    nextDifficulty,
+    character: {
+      ...c,
+      diff: nextDifficulty,
+      hero,
+      clearedDifficulties: [...cleared].sort((a, b) => a - b),
+      ngPlusTier: Math.max(c.ngPlusTier ?? 0, nextDifficulty >= 3 ? 2 : 1),
+      lastPlayed: now,
+    },
+  };
 }
 
 export function getActiveId(): string | null {

@@ -184,7 +184,7 @@ describe('complete portable backups', () => {
     const mapRecord = afterTown(camp, a, town, a.carry);
     await putRecord(RECORD_KEY, mapRecord);
     const text = (await exportAllSaves())!;
-    expect(JSON.parse(text).thornvaelBundle).toBe(2);
+    expect(JSON.parse(text).thornvaelBundle).toBe(3);
     expect(decodeBundle(text)?.campaign).toEqual(mapRecord);
     disk.clear();
     await importSaveText(text);

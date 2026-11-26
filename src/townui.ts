@@ -2,8 +2,8 @@ import { DEFS } from './sim/combat';
 import { townBark, mercContent } from './missioncontent';
 import { mercPrice } from './sim/difficulty';
 import { INV_MAX, SKILL_MAX, SKILL_NAMES, WHY_TEXT, Why, blocker, heroKnowsSpell } from './sim/hero';
-import { ITEMS, getItemDef, itemText, Ik, Slot } from './sim/items';
-import { formatItemTooltip, renderItemTooltipDom } from './heroui';
+import { getItemDef, Ik, Slot } from './sim/items';
+import { renderItemTooltipDom } from './heroui';
 import { isSetItem } from './sim/sets';
 import type { Sim } from './sim/sim';
 import { SPELLS } from './sim/spelldata';
@@ -323,8 +323,18 @@ export class TownUi {
       this.root.append(evo);
     }
     if (this.role === Role.Shop) this.renderShop(sim);
-    else if (this.role === Role.Tavern) this.renderTavern(sim);
-    else this.renderSchool(sim);
+    else if (this.role === Role.Tavern) {
+      if (this.tavernRumors.length > 0) {
+        const hubFilter = hubKey.toLowerCase().includes('highcrest') ? 'ironcamp' : hubKey.toLowerCase();
+        const actRumors = this.tavernRumors.filter((r) => hubFilter.includes(r.hub.replace('town-', '')));
+        const pool = actRumors.length > 0 ? actRumors : this.tavernRumors;
+        const entry = pool[(this.town + sim.tick) % pool.length];
+        if (entry) {
+          this.root.append(el('p', 'town-hub-ambient muted', `Tavern Rumor: "${entry.text}"`));
+        }
+      }
+      this.renderTavern(sim);
+    } else this.renderSchool(sim);
     // Rendering replaces controls after actions; keep keyboard ownership in the modal.
     if (hadFocus) this.root.focus({ preventScroll: true });
     this.root.scrollTop = scrollTop;
@@ -817,7 +827,7 @@ export class TownUi {
           rwPanel.append(el('h4', 'rw-title', `ᚱ Compatible Runewords (${rwList.length})`));
           for (const rw of rwList.slice(0, 3)) {
             const rwCard = el('div', 'rw-match-card');
-            const runesText = rw.runeDetails.map((r) => (r.owned ? `✓ ${r.d2Name}` : `○ ${r.d2Name}`)).join(' + ');
+            const runesText = rw.runeDetails.map((r) => (r.owned ? `✓ ${r.shortName}` : `○ ${r.shortName}`)).join(' + ');
             rwCard.append(
               el('strong', 'rw-name', rw.name),
               el('span', 'rw-formula', ` [${runesText}]`),
@@ -862,7 +872,6 @@ export class TownUi {
 
   private updateShopSelections(sim: Sim): void {
     const h = sim.hero!;
-    const shelf = sim.town.stock[this.town];
 
     // 1. Update shelf cell buttons
     const shelfCells = this.root.querySelectorAll<HTMLButtonElement>('.grid.shelf .cell:not(.empty)');
@@ -1125,9 +1134,36 @@ export class TownUi {
   // ---- Interactive Dark Fantasy Lore & Rumors Dialogue System ----
 
   private openLoreDialogue(context: 'tavern' | 'school' | 'shop'): void {
-    this.steppedQuests?.onTalkNpc(context);
-    const dlg = dialogueFor(context, { reputation: this.reputation, nodes: this.dialogueNodes, barks: this.dialogueBarks });
-    if (dlg.idleBark) this.bark = `${dlg.tier}: ${dlg.idleBark}`;
+    const contextNpcIds: Readonly<Record<'tavern' | 'school' | 'shop', readonly string[]>> = {
+      tavern: ['npc-garrick-captain', 'npc-dunstan-innkeeper', 'npc-fenwick-ferryman', 'npc-marlow-reeve'],
+      shop: ['npc-hobb-smith', 'npc-bram-quartermaster', 'npc-tull-water-seller'],
+      school: ['npc-marta-alchemist', 'npc-vaelen-arcanist', 'npc-zahra-scholar'],
+    };
+    const npcIds = contextNpcIds[context];
+    let questChanged = false;
+    for (const npcId of npcIds) {
+      if ((this.steppedQuests?.onTalkNpc(npcId).length ?? 0) > 0) {
+        questChanged = true;
+      }
+    }
+    if (questChanged) {
+      this.ctx.changed();
+      this.render();
+    }
+    const queryBase = { reputation: this.reputation, nodes: this.dialogueNodes, barks: this.dialogueBarks };
+    let dlg = dialogueFor(npcIds[0], queryBase);
+    for (const npcId of npcIds) {
+      const candidate = dialogueFor(npcId, queryBase);
+      if (candidate.idleBark || candidate.greeting) {
+        dlg = candidate;
+        if (candidate.idleBark && candidate.greeting) break;
+      }
+    }
+    if (!dlg.idleBark) {
+      const townFallback = dialogueFor('town-thornwick', queryBase);
+      if (townFallback.idleBark) dlg = { ...dlg, idleBark: townFallback.idleBark };
+    }
+    if (dlg.idleBark) this.bark = `${dlg.tier}: ${dlg.idleBark.line}`;
     if (this.loreTypingTimer !== null) {
       clearInterval(this.loreTypingTimer);
       this.loreTypingTimer = null;
@@ -1488,7 +1524,16 @@ export class TownUi {
       currentTopic.choices.forEach((c, cIdx) => {
         const choiceBtn = button('', () => {
           try { blip(); } catch {}
-          this.steppedQuests?.onDialogueChoice(context, cIdx);
+          let choiceChanged = false;
+          for (const npcId of npcIds) {
+            if ((this.steppedQuests?.onDialogueChoice(npcId, cIdx).length ?? 0) > 0) {
+              choiceChanged = true;
+            }
+          }
+          if (choiceChanged) {
+            this.ctx.changed();
+            this.render();
+          }
           choiceBtn.style.borderColor = '#ffd870';
           choiceBtn.style.color = '#fff';
         });

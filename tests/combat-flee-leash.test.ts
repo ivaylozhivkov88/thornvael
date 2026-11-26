@@ -2,7 +2,7 @@ import { describe, expect, it } from 'vitest';
 import type { GameMap } from '../src/map';
 import { MonsterAi } from '../src/sim/bot';
 import { Kind, Ord } from '../src/sim/combat';
-import { FP, Sim, type Command } from '../src/sim/sim';
+import { FP, Sim, } from '../src/sim/sim';
 
 function flatField(w = 50, h = 50): GameMap {
   return {

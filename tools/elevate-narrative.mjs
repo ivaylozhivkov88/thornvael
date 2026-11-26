@@ -86,123 +86,123 @@ const ELEVATIONS = {
   'm11-ashbrook-retreat.map.json': {
     'msg.5': 'Siege Commander Velen is cut down amidst the smoke of his command tent. His field desk splits open under our blades, yielding the siege war-ledger and the six hundred gold sovereigns meant to pay his vanguard.',
   },
-  'm12-redmarsh-border.map.json': {
+  'm12-redmarsh-border-128.map.json': {
     'obj.1': 'Sunder the Three Raider Reconnaissance Wings',
     'msg.3': 'All three raider reconnaissance wings are broken in the mire. Abandoned beneath the shattered toll gate lies an iron courier coffer of recovered coins.',
   },
-  'm13-twin-passes.map.json': {
+  'm13-twin-passes-128.map.json': {
     body: 'Two razor-sharp canyon passes bottleneck the road into the salt desert. Secure both defiles and destroy the basalt barricades before the desert raiders reinforce the heights.',
   },
-  'm14-scattered-scouts.map.json': {
+  'm14-scattered-scouts-128.map.json': {
     body: 'Scattered frontier outriders are pinned across the salt scrub. Relieve the isolated patrols, establish defensive perimeter lines, and push through the raider cordons.',
   },
-  'm15-outpost-palisade.map.json': {
+  'm15-outpost-palisade-128.map.json': {
     body: 'An isolated timber stockade holds the border bluff against howling raider packs. Rally the defenders, repulse the assault waves, and burn the enemy siege timber.',
   },
-  'm16-wardstone-rupture.map.json': {
+  'm16-wardstone-rupture-128.map.json': {
     body: 'A primeval elemental wardstone has cracked open, spewing wild astral discharge across the canyon floor. Eliminate the cultist cabal attempting to harness the rift and restore order.',
   },
-  'm17-mire-convoy.map.json': {
+  'm17-mire-convoy-128.map.json': {
     'msg.3': 'The ridge blockade is shattered; pry loose the iron-reinforced payroll coffer abandoned in their baggage train.',
   },
-  'm18-granary-raid.map.json': {
+  'm18-granary-raid-128.map.json': {
     body: 'Raider raiders have seized the frontier grain storehouses, threatening the garrison with starvation. Storm the depot, neutralize the guards, and reclaim the grain reserves intact.',
   },
-  'm19-hexer-capture.map.json': {
+  'm19-hexer-capture-128.map.json': {
     body: 'A rogue blood-hexer conducts foul rites deep within Hexer\'s Hollow. Breach the cavern sanctuary, cut down her bone guardians, and bring an end to her maledictions.',
   },
-  'm20-deep-quarry.map.json': {
+  'm20-deep-quarry-128.map.json': {
     'obj.1': 'Neutralize the Pit-Floor Garrison and Sunder the Quarry Watch',
   },
-  'm21-lean-garrison.map.json': {
+  'm21-lean-garrison-128.map.json': {
     'msg.1': 'Hold the north lane! Lock your shields and do not let their shock troops breach the courtyard behind our archers!',
   },
-  'm22-fleeing-column.map.json': {
+  'm22-fleeing-column-128.map.json': {
     body: 'A fleeing column of imperial deserters carries sensitive tactical ciphers across the border. Intercept the deserters before they reach sanctuary in the badlands.',
   },
-  'm23-fork-of-spears.map.json': {
+  'm23-fork-of-spears-128.map.json': {
     body: 'The Fork of Spears marks the gateway into the Sunless Deeps. Break through the entrenched enemy spearheads holding the crossroads and force the passage into the subterranean abyss.',
   },
-  'm24-pledge-at-oakhaven.map.json': {
+  'm24-pledge-at-oakhaven-192.map.json': {
     'msg.3': 'The eastern ridge redoubt is breached; our spearmen secure their plundered garrison lockbox holding five hundred silver coins!',
     'npc.bailiff': 'Take whatever forged iron you need from our armorer and enlist fresh mercenary blades at the tavern before forcing the canyon gap.',
   },
-  'm25-cinder-wards.map.json': {
+  'm25-cinder-wards-192.map.json': {
     'msg.2': 'The Western Ward collapses into dead cinder, exposing the ancient offertory coffer of four hundred star-silver florins!',
     'msg.3': 'The Northern Ward fractures into black glass, revealing four hundred ancient crowns nestled within the ward-socket.',
     'msg.4': 'The Eastern Ward\'s runic fires extinguish, yielding four hundred uncorrupted sovereigns from the altar vault.',
   },
-  'm26-sundered-ranks.map.json': {
+  'm26-sundered-ranks-192.map.json': {
     'msg.2': 'The Western flank encampment breaks in disarray; our vanguard secures the battalion payroll coffer of five hundred crowns!',
     'msg.3': 'The Eastern flank scatters into the scrub; recovered from their baggage line is five hundred coins in plundered bullion!',
   },
-  'm27-field-infirmary.map.json': {
+  'm27-field-infirmary-192.map.json': {
     body: 'Wounded veterans huddle in a vulnerable field infirmary as enemy raiders encircle the glade. Establish a protective shield wall, evacuate the wounded, and crush the attackers.',
   },
-  'm28-sunken-citadel.map.json': {
+  'm28-sunken-citadel-192.map.json': {
     'msg.2': 'The outer gate garrison breaks before our push; battered open in the breach is the siege payroll of eight hundred gold florins!',
     'npc.sapper': 'Keep mages and archers clear of the marsh moat outside the wall; greaves and chainmail will pull a man down into the peat in seconds.',
   },
-  'm29-hourglass-rescue.map.json': {
+  'm29-hourglass-rescue-192.map.json': {
     body: 'Prisoners of war are held in a flooded dungeon as the water level rises relentlessly. Race against time to breach the cell blocks and extricate the survivors.',
   },
-  'm30-starved-bastion.map.json': {
+  'm30-starved-bastion-192.map.json': {
     'msg.2': 'Both enemy supply columns lie butchered in the valley; our scouts recover the grain wagons and an iron ration coffer holding six hundred coins.',
   },
-  'm31-riverlock-crossing.map.json': {
+  'm31-riverlock-crossing-192.map.json': {
     'msg.2': 'The West Riverlock is secured; an ironbound toll vault holding four hundred and fifty silver coins is pried from the masonry.',
     'msg.3': 'The East Riverlock falls; our halberdiers breach the lockmaster\'s strongbox, securing four hundred and fifty crowns.',
   },
-  'm32-elder-juggernaut.map.json': {
+  'm32-elder-juggernaut-192.map.json': {
     'msg.3': 'The Elder Juggernaut groans and fractures into dormant granite, unsealing the primeval treasury of one thousand ancient runic coins embedded in its core!',
   },
-  'm33-high-stakes-gambit.map.json': {
+  'm33-high-stakes-gambit-192.map.json': {
     body: 'Two heavily fortified reliquary crypts flank the central bastion. Drive straight through the vanguard to strike down the Vault Keep Commander, or risk assaulting the flanking crypts to recover ancient battle relics and imperial bullion.',
     'msg.1': 'Will you divert cohorts to breach the golem-guarded reliquary vaults, or force a bloody spearhead directly into the central keep?',
     'msg.2': 'The West Reliquary crypt is unsealed—one thousand ancient sovereigns and an Elixir of Mind are reclaimed from the dust!',
     'msg.3': 'The East Reliquary crypt is broken open, yielding one thousand ancient coins and an ancestral Knight\'s Broadsword!',
   },
-  'm34-clashing-banners.map.json': {
+  'm34-clashing-banners-192.map.json': {
     'msg.3': 'The Ironclad Banner is torn down in blood; our scouts recover their vanguard strongbox of seven hundred florins!',
     'msg.4': 'The Ashen Banner shatters in retreat; seized from their burning supply tent is seven hundred gold sovereigns!',
   },
-  'm35-burning-harbor.map.json': {
+  'm35-burning-harbor-192.map.json': {
     'msg.3': 'The evacuation pier is held against all odds! The refugee ships cast off into the mist, and the harbor master entrusts us with the garrison\'s reserve treasury of one thousand gold.',
     'npc.orson': 'The sanctuary school at Harborwatch still preserves master-level wards and healing incantations. Inscribe what scrolls you need before forcing the burning plaza.',
   },
-  'm36-heartland-march.map.json': {
+  'm36-heartland-march-256.map.json': {
     'msg.2': 'The forward scout screen is shattered; abandoned along the forest trail is a plundered border coffer containing four hundred silver pieces.',
     'npc.elda': 'Highcrest maintains tier-five armaments and instructs in master wardcraft. Hire fresh mercenary steel before ascending the pass.',
   },
-  'm37-shattered-beacons.map.json': {
+  'm37-shattered-beacons-256.map.json': {
     body: 'Three towering signal beacons hold the valley in an interlocking runic grid. Sunder all three beacon garrisons to collapse the magical warding and clear the mountain approach.',
   },
-  'm38-besieged-wall.map.json': {
+  'm38-besieged-wall-256.map.json': {
     'obj.0': 'Hold the Bastion Wall and Repel the Three Siege Cohorts',
   },
-  'm39-flight-of-malrik.map.json': {
+  'm39-flight-of-malrik-256.map.json': {
     'msg.4': 'Malrik collapses upon the bloody flagstones; from his dying grip we pry the royal cipher-keys and the conspirators\' ledger.',
   },
-  'm40-twofold-assault.map.json': {
+  'm40-twofold-assault-256.map.json': {
     body: 'Twin fortresses flank the abyss, commanding the approaches to the Iron Citadel. Split your cohorts or strike with crushing speed—both bastions must be razed.',
   },
-  'm41-gauntlet-of-iron.map.json': {
+  'm41-gauntlet-of-iron-256.map.json': {
     'msg.2': 'The First Gate is splintered by our vanguard! Sifted from the garrison guardpost is a strongbox containing three hundred and fifty silver crowns.',
   },
-  'm42-outer-rampart.map.json': {
+  'm42-outer-rampart-256.map.json': {
     body: 'The cyclopean Outer Rampart bars entry to the final fortress. Breach at least two of its three fortified gatehouses to force the Inner Bailey open, then put its garrison to the sword.',
   },
-  'm43-three-roads-siege.map.json': {
+  'm43-three-roads-siege-256.map.json': {
     body: 'Enemy siege columns converge upon Three-Roads Watch from the north, west, and east. Hold the central redoubt alongside Warden Tessa\'s guard, then launch a counter-stroke against their staging camp.',
   },
-  'm44-threshold-choice.map.json': {
+  'm44-threshold-choice-256.map.json': {
     body: 'Beneath the sundered rampart lies the Threshold Chamber of the Crown Vault. Clear its sentinels, then step onto either the West Altar of Order or the East Altar of Ember to determine the fate of the realm.',
   },
-  'm45-crown-of-order.map.json': {
+  'm45-crown-of-order-256.map.json': {
     body: 'Final Chapter — Path of Order. Bind the West and East Anchor Seals of the Crown Vault, then defeat Arch-Warden Korrath to seal the realm\'s heart in eternal, immutable stasis.',
     'msg.1': 'Archivist Orla whispers in awe and dread: "Korrath stands as the eternal warden of imperial law, his flesh turned to petrified granite by three centuries of unbroken vigil. He draws life from the twin resonance anchors flanking the vault. Sunder those conduits first, or his blades will execute us in the name of a dead empire."',
   },
-  'm46-ember-reckoning.map.json': {
+  'm46-ember-reckoning-256.map.json': {
     body: 'Final Chapter — Path of Ember. Shatter the West and East Conduit Pillars feeding the Furnace Heart, then strike down Ember Overlord Vorak to consume the vault in cleansing flame.',
     'msg.1': 'Marshal Vance watches the shimmering heat waves distort the chasm: "Vorak sees the world through the eye of a volcanic kiln. To him, our flesh is only slag, and our cities are fuel for the Great Cleansing. He channels the magma chambers through the two obsidian conduit pylons. Break those anchors, or he will turn this whole caldera into an open crematorium!"',
   },

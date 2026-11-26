@@ -1,11 +1,11 @@
 import { describe, expect, it, vi } from 'vitest';
-import { parseCampaign, townHubForAct, townNodeForAct, nextSessionSeed, newProgress } from '../src/campaign';
-import { newRecord, saveAndExitRecord, type CampaignRecord } from '../src/flow';
+import { parseCampaign, townHubForAct, townNodeForAct, nextSessionSeed, } from '../src/campaign';
+import { newRecord, saveAndExitRecord, } from '../src/flow';
 import { Sim } from '../src/sim/sim';
 import { Kind } from '../src/sim/combat';
 import { createHero } from '../src/sim/hero';
-import { extractCarryover, type CarryoverState } from '../src/carryover';
-import { applyDynamicSessionRespawn, hashString, D2R_BOSS_MODS } from '../src/sim/respawn';
+import { type CarryoverState } from '../src/carryover';
+import { applyDynamicSessionRespawn, D2R_BOSS_MODS } from '../src/sim/respawn';
 import { ensureConnectedWorldExits, WaypointTravelModal } from '../src/connected-world';
 import type { GameMap } from '../src/map';
 import type { Scenario } from '../src/sim/bot';

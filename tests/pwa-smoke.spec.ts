@@ -44,7 +44,9 @@ test.describe('Expedition & debug overlay smoke', () => {
     for (let i = 0; i < 4; i++) {
       if (!(await contBtn.isVisible())) break;
       await contBtn.click();
-      await page.waitForTimeout(80);
+      await expect(contBtn)
+        .toBeHidden({ timeout: 2_000 })
+        .catch(() => {});
     }
     await page.waitForFunction(() => ((window as GameWindow).__game?.sim.tick ?? 0) >= 1);
     const dbg = page.locator('#debug');
@@ -114,7 +116,7 @@ for (const [label, descriptor] of [
 
       // Tear down the active WebGL loop before toggling WebKit offline mode so NetworkProcess IPC never stalls.
       await page.goto('/thornvael/', { waitUntil: 'domcontentloaded' });
-      await page.waitForTimeout(300);
+      await page.waitForFunction(() => Boolean(document.querySelector('#shell .sh-col, #shell .sh-btn')));
 
       await context.setOffline(true);
       try {
@@ -230,7 +232,7 @@ test.describe('Act 1 Campaign Flow E2E', () => {
     await expect(townBtn).toBeVisible({ timeout: 10000 });
     await townBtn.click({ force: true });
 
-    await page.waitForURL(/\?mission=(?:market|act1-world)&campaign=town-thornwick/);
+    await page.waitForURL(/\?mission=(?:market|thornwick-market|act1-world)&campaign=town-thornwick/);
     await page.waitForFunction(
       () => {
         const retry = document.querySelector('.tv-loading-retry-btn');

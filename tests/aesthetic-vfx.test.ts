@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { generateMap, Terrain } from '../src/map';
+import { generateMap, } from '../src/map';
 import { paintTerrainChunk, prepareScenery } from '../src/terrain';
 
 describe('HOMM III Terrain Aesthetic & Micro-animations', () => {

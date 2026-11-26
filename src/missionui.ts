@@ -1,7 +1,6 @@
 import type { MapDoc } from './mapdoc';
 import { speakerName, type MissionContent } from './missioncontent';
 import { getPlaquesByAct, loadLocationPlaques, type CampaignStage, type LocationPlaqueEntry } from './data/text/index';
-import { Kind } from './sim/combat';
 import type { Sim } from './sim/sim';
 import { S } from './strings';
 import {
@@ -20,8 +19,6 @@ export interface MissionHost {
   pause(on: boolean): void;
   navigateTo?(tx: number, ty: number, label: string): void;
 }
-
-const OBJ_MARK = ['', '◻', '✔', '✖'];
 
 import type { QuestObjective, QuestReward, QuestDossier } from './questlog';
 export type { QuestObjective, QuestReward, QuestDossier };
@@ -1093,7 +1090,10 @@ export class MissionUi {
     };
     const scene = this.content?.intro_scene ?? [];
     const play = (i: number): void => {
-      if (i >= scene.length) return go();
+      if (i >= scene.length) {
+        go();
+        return;
+      }
       this.showDialogue(speakerName(scene[i].speaker), scene[i].line, i + 1 < scene.length ? S.mission.next : S.mission.begin, () => play(i + 1));
     };
     this.showDialogue('Warden Hale', `${title}: ${body}`, scene.length ? S.mission.next : S.mission.begin, () => play(0), 'body');

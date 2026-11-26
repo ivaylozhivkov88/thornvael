@@ -1,7 +1,7 @@
 import { describe, expect, it } from 'vitest';
 import type { GameMap } from '../src/map';
 import { Kind, strike } from '../src/sim/combat';
-import { createHero, HeroSkillId, totals } from '../src/sim/hero';
+import { createHero, totals } from '../src/sim/hero';
 import { Cls } from '../src/sim/items';
 import { FP, Sim } from '../src/sim/sim';
 import { St } from '../src/sim/spelldata';

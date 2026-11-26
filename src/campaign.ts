@@ -1,5 +1,5 @@
 import type { Builds } from './townbuild';
-import type { EndingBranch, StoryFlags } from './story-complete';
+import type { StoryFlags } from './story-complete';
 import { DEFAULT_STORY_FLAGS } from './story-complete';
 
 /** Campaign data and progress: which nodes exist, which are open, which are done. Pure data, no browser access. */
@@ -26,7 +26,7 @@ export interface Campaign {
   nodes: CampaignNode[];
 }
 
-export const DIFFICULTY_NAMES = ['easy', 'normal', 'hard'] as const;
+export const DIFFICULTY_NAMES = ['easy', 'normal', 'hard', 'hell'] as const;
 export type DifficultyName = (typeof DIFFICULTY_NAMES)[number];
 
 export interface TownPortalRecord {
@@ -37,11 +37,13 @@ export interface TownPortalRecord {
 }
 
 export interface CampaignProgress {
-  difficulty: number; // index into DIFFICULTY_NAMES, same as the hero's `diff` (0 easy, 1 medium, 2 hard)
+  difficulty: number; // index into DIFFICULTY_NAMES, same as the hero's `diff` (0 easy, 1 medium, 2 hard/nightmare, 3 hell)
   unlocked: string[];
   completed: string[];
   node: string; // the node the player stands on
   townVisits: number;
+  purseClaimed?: boolean; // Thornwick opening purse paid out once across Act I / Thornwick
+  ngPlusTier?: number; // New Game+ tier active for this run (0 = standard, 1 = Nightmare, 2 = Hell)
   builds?: Builds; // town buildings raised so far (src/townbuild.ts); absent in older records
   waypoints?: string[]; // list of unlocked Waypoint node IDs (always includes towns of unlocked acts)
   sessionSeed?: number; // current session seed; rotates on every Save & Exit!
@@ -120,7 +122,7 @@ export function visitTown(p: CampaignProgress, id: string): CampaignProgress {
 /** Seed for shop stock and tavern quests on this visit: the same visit number always gives the same stock. */
 export const townSeed = (base: number, visits: number): number => (Math.imul(base ^ 0x9e3779b9, 31) + Math.imul(visits + 1, 0x85ebca6b)) >>> 0;
 
-/** Return the canonical D2R style Town Hub node ID for each Act. */
+/** Return the canonical Regional Town Hub node ID for each Act. */
 export function townHubForAct(act: 1 | 2 | 3 | 4): string {
   switch (act) {
     case 1:

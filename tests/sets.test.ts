@@ -2,13 +2,10 @@ import { describe, expect, it } from 'vitest';
 import type { GameMap } from '../src/map';
 import { Kind, M, MODN } from '../src/sim/combat';
 import { addItem, createHero, derive, totals } from '../src/sim/hero';
-import { Cls, ITEMS, Part, Slot, itemId } from '../src/sim/items';
+import { Cls, Part, Slot, itemId } from '../src/sim/items';
 import {
   ALL_SETS,
   ALL_SET_ITEMS,
-  SET_IRON_WARDEN,
-  SET_PYROMANCER,
-  SET_SHADOW_STALKER,
   calculateActiveSetBonuses,
   findSetByItemName,
   isSetItem,

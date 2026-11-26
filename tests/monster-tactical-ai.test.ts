@@ -271,10 +271,10 @@ describe('Thornvael Super-Unique Monsters & Tactical Enemy AI', () => {
       const ai = new MonsterAi([{ ids: [1, 2, 3], x: 15, y: 10, hunting: true, calm: 0 }]);
       sim.cb.tgt[1] = 0;
 
-      // 1. Tick 3: Shaman casts Resurrect (spell 24) on corpse 2, and sim.step revives unit 2!
+      // 1. Tick 3: Shaman casts Resurrect (spell 21) on corpse 2, and sim.step revives unit 2!
       sim.tick = 2;
       const resCmds = ai.commands({ ...sim, tick: 3 } as Sim);
-      const resOrder = resCmds.find((c) => c.type === 'order' && c.order === 'cast' && c.spell === 24);
+      const resOrder = resCmds.find((c) => c.type === 'order' && c.order === 'cast' && c.spell === 21);
       expect(resOrder).toBeDefined();
       sim.step(resCmds);
       expect(sim.cb.hp[2]).toBeGreaterThan(0); // Corpse 2 is alive again!
@@ -298,9 +298,15 @@ describe('Thornvael Super-Unique Monsters & Tactical Enemy AI', () => {
       const curseOrder = curseCmds.find((c) => c.type === 'order' && c.order === 'cast' && (c.spell === 20 || c.spell === 23));
       expect(curseOrder).toBeDefined();
 
-      // 4. Once Hero has Weaken, Shaman casts Frost Bolt (spell 4) for Slow
+      // 4. Once Hero has Weaken, Shaman casts Poison Cloud (spell 17), then Frost Bolt (spell 4) for Slow
       sim.cb.stMask[0] |= 1 << St.Weaken;
       sim.tick = 33;
+      const poisonCmds = ai.commands(sim);
+      const poisonOrder = poisonCmds.find((c) => c.type === 'order' && c.order === 'cast' && c.spell === 17);
+      expect(poisonOrder).toBeDefined();
+
+      sim.cb.stMask[0] |= 1 << St.Poison;
+      sim.tick = 43;
       const slowCmds = ai.commands(sim);
       const slowOrder = slowCmds.find((c) => c.type === 'order' && c.order === 'cast' && c.spell === 4);
       expect(slowOrder).toBeDefined();

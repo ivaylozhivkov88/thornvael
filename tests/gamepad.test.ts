@@ -1,12 +1,9 @@
-import { beforeEach, describe, expect, it, vi } from 'vitest';
+import { beforeEach, describe, expect, it, } from 'vitest';
 import {
-  DEFAULT_DEADZONE,
   applyDeadzone,
   cleanGamepadName,
   GamepadController,
   getBindingDisplay,
-  loadD2RBindings,
-  saveD2RBindings,
   SkillAssignmentModal,
   D2RActionBarUi,
   type ControllerSlotBinding,
@@ -27,7 +24,6 @@ import {
   BTN_DPAD_LEFT,
   BTN_DPAD_RIGHT,
   BTN_TOUCHPAD,
-  BTN_GUIDE,
 } from '../src/gamepad';
 
 // Mock DOM Element for UI tests in Node environment
@@ -435,7 +431,6 @@ describe('D2R PS5 Controller Engine & Edge-Triggering', () => {
 
   it('renders SkillAssignmentModal and D2RActionBarUi properly', () => {
     const controller = makeController();
-    let openedModalSlot = -1;
 
     const modal = new SkillAssignmentModal(controller, host);
     expect(modal.isOpen).toBe(false);
@@ -444,8 +439,8 @@ describe('D2R PS5 Controller Engine & Edge-Triggering', () => {
     modal.close();
     expect(modal.isOpen).toBe(false);
 
-    const bar = new D2RActionBarUi(controller, (slot) => {
-      openedModalSlot = slot;
+    const bar = new D2RActionBarUi(controller, (_slot) => {
+      // modal trigger callback verified via type contract
     });
 
     // Hidden by default when no physical gamepad is connected

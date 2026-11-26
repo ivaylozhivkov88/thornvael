@@ -1,5 +1,5 @@
 /**
- * Mercenary Veterancy & Squad Management System for Thornvael (RoM2 Web)
+ * Mercenary Veterancy & Squad Management System for Thornvael
  *
  * Implements:
  * 1. 4 Veterancy Ranks (Recruit, Veteran, Elite, Champion Guard) based on kills & missions survived.

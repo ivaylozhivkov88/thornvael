@@ -170,7 +170,7 @@ export interface SteppedQuestSaveV2 {
 }
 
 function makeInitialProgress(q: SteppedQuestDef): QuestStepProgress {
-  const firstStep = q.steps[0]?.id ?? null;
+  const firstStep = Array.isArray(q.steps) ? (q.steps[0]?.id ?? null) : null;
   return {
     questId: q.id,
     currentStepId: firstStep,
@@ -216,7 +216,7 @@ export function advanceQuestStep(
     };
   }
 
-  const step = def.steps.find((s) => s.id === prog.currentStepId);
+  const step = Array.isArray(def.steps) ? def.steps.find((s) => s.id === prog.currentStepId) : undefined;
   if (!step) {
     return { advanced: false, completedQuest: false, stepId: prog.currentStepId, grantedReward: null };
   }
@@ -288,7 +288,7 @@ export function getQuestJournalText(state: QuestRuntimeState, questId: string): 
   if (!def || !prog) return [];
 
   const byId = new Map<string, QuestStepDef>();
-  for (const s of def.steps) byId.set(s.id, s);
+  for (const s of def.steps ?? []) byId.set(s.id, s);
 
   const lines: string[] = [];
   for (const id of prog.completedStepIds) {

@@ -1,0 +1,108 @@
+/* --- Skirmish Preparation Modal --- */
+#shell .sh-skirmish-modal {
+  width: min(95vw, 880px);
+  max-height: calc(100dvh - 24px);
+  display: flex;
+  flex-direction: column;
+  background: linear-gradient(160deg, #1b2126 0%, #10151a 100%);
+  border: 2px solid #8f7244;
+  border-radius: 8px;
+  box-shadow: 0 16px 54px rgba(0, 0, 0, 0.95), inset 0 1px 0 rgba(255, 230, 150, 0.2);
+  overflow: hidden;
+  box-sizing: border-box;
+}
+#shell .sh-skirmish-header {
+  padding: 10px 16px;
+  background: linear-gradient(90deg, #242c33 0%, #161c22 100%);
+  border-bottom: 2px solid #735937;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+#shell .sh-skirmish-header h2 {
+  font-family: Georgia, serif;
+  font-size: 16px;
+  margin: 0;
+  color: #ffd870;
+  letter-spacing: 0.5px;
+}
+#shell .sh-skirmish-sub {
+  font-size: 11px;
+  color: #9ea8ad;
+}
+#shell .sh-skirmish-body {
+  display: flex;
+  flex: 1;
+  min-height: 0;
+  gap: 12px;
+  padding: 12px;
+  overflow: hidden;
+}
+#shell .sh-skirmish-config {
+  width: 48%;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  overflow-y: auto;
+}
+#shell .sh-skirmish-maps {
+  width: 52%;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  overflow-y: auto;
+  border-left: 1px solid rgba(143, 114, 68, 0.3);
+  padding-left: 12px;
+}
+#shell .sh-skirmish-footer {
+  padding: 10px 16px;
+  background: #14181c;
+  border-top: 1px solid #735937;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+}
+#shell .sh-skirmish-section-title {
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.8px;
+  color: #d4af37;
+  text-transform: uppercase;
+  margin-top: 2px;
+}
+#shell .sh-map-grid {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+#shell .sh-map-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 6px 10px;
+  background: rgba(31, 39, 46, 0.6);
+  border: 1px solid rgba(143, 114, 68, 0.25);
+  border-radius: 4px;
+  color: #eee5d4;
+  font-size: 12px;
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+#shell .sh-map-item:hover {
+  background: rgba(43, 54, 64, 0.85);
+  border-color: #ffd870;
+}
+#shell .sh-map-item.selected {
+  background: linear-gradient(135deg, rgba(64, 50, 28, 0.75) 0%, rgba(38, 29, 16, 0.85) 100%);
+  border-color: #ffd870;
+  box-shadow: inset 0 0 8px rgba(255, 215, 0, 0.3);
+  color: #fff;
+  font-weight: 600;
+}
+@media (max-height: 540px) {
+  #shell .sh-skirmish-header { padding: 4px 10px; }
+  #shell .sh-skirmish-body { padding: 6px 10px; gap: 8px; }
+  #shell .sh-skirmish-footer { padding: 6px 10px; }
+  #shell .sh-map-item { padding: 4px 8px; font-size: 11px; }
+}

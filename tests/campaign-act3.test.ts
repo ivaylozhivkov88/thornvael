@@ -8,32 +8,32 @@ import { regionsOf } from '../src/sim/path';
 import { FP, type Sim } from '../src/sim/sim';
 import { Role } from '../src/sim/town';
 
-import m24 from '../src/missions/m24-pledge-at-oakhaven.map.json';
-import m25 from '../src/missions/m25-cinder-wards.map.json';
-import m26 from '../src/missions/m26-sundered-ranks.map.json';
-import m27 from '../src/missions/m27-field-infirmary.map.json';
-import m28 from '../src/missions/m28-sunken-citadel.map.json';
-import m29 from '../src/missions/m29-hourglass-rescue.map.json';
-import m30 from '../src/missions/m30-starved-bastion.map.json';
-import m31 from '../src/missions/m31-riverlock-crossing.map.json';
-import m32 from '../src/missions/m32-elder-juggernaut.map.json';
-import m33 from '../src/missions/m33-high-stakes-gambit.map.json';
-import m34 from '../src/missions/m34-clashing-banners.map.json';
-import m35 from '../src/missions/m35-burning-harbor.map.json';
+import m24 from '../src/missions/m24-pledge-at-oakhaven-192.map.json';
+import m25 from '../src/missions/m25-cinder-wards-192.map.json';
+import m26 from '../src/missions/m26-sundered-ranks-192.map.json';
+import m27 from '../src/missions/m27-field-infirmary-192.map.json';
+import m28 from '../src/missions/m28-sunken-citadel-192.map.json';
+import m29 from '../src/missions/m29-hourglass-rescue-192.map.json';
+import m30 from '../src/missions/m30-starved-bastion-192.map.json';
+import m31 from '../src/missions/m31-riverlock-crossing-192.map.json';
+import m32 from '../src/missions/m32-elder-juggernaut-192.map.json';
+import m33 from '../src/missions/m33-high-stakes-gambit-192.map.json';
+import m34 from '../src/missions/m34-clashing-banners-192.map.json';
+import m35 from '../src/missions/m35-burning-harbor-192.map.json';
 
 const ACT3_MAPS: { id: string; raw: unknown; size: number }[] = [
-  { id: 'm24-pledge-at-oakhaven', raw: m24, size: 64 },
-  { id: 'm25-cinder-wards', raw: m25, size: 64 },
-  { id: 'm26-sundered-ranks', raw: m26, size: 64 },
-  { id: 'm27-field-infirmary', raw: m27, size: 64 },
-  { id: 'm28-sunken-citadel', raw: m28, size: 96 },
-  { id: 'm29-hourglass-rescue', raw: m29, size: 64 },
-  { id: 'm30-starved-bastion', raw: m30, size: 64 },
-  { id: 'm31-riverlock-crossing', raw: m31, size: 64 },
-  { id: 'm32-elder-juggernaut', raw: m32, size: 64 },
-  { id: 'm33-high-stakes-gambit', raw: m33, size: 64 },
-  { id: 'm34-clashing-banners', raw: m34, size: 64 },
-  { id: 'm35-burning-harbor', raw: m35, size: 96 },
+  { id: 'm24-pledge-at-oakhaven', raw: m24, size: 192 },
+  { id: 'm25-cinder-wards', raw: m25, size: 192 },
+  { id: 'm26-sundered-ranks', raw: m26, size: 192 },
+  { id: 'm27-field-infirmary', raw: m27, size: 192 },
+  { id: 'm28-sunken-citadel', raw: m28, size: 192 },
+  { id: 'm29-hourglass-rescue', raw: m29, size: 192 },
+  { id: 'm30-starved-bastion', raw: m30, size: 192 },
+  { id: 'm31-riverlock-crossing', raw: m31, size: 192 },
+  { id: 'm32-elder-juggernaut', raw: m32, size: 192 },
+  { id: 'm33-high-stakes-gambit', raw: m33, size: 192 },
+  { id: 'm34-clashing-banners', raw: m34, size: 192 },
+  { id: 'm35-burning-harbor', raw: m35, size: 192 },
 ];
 
 function start(raw: unknown, seed = 1): MissionGame {
@@ -136,7 +136,7 @@ describe('Campaign Act III maps (m24-m35)', () => {
         const door = town.door[role];
         if (!door) continue;
         expect(reg[door[1] * g.loaded.map.w + door[0]], `${entry.id} door ${role}`).toBe(heroReg);
-        walk(g.sim, door[0], door[1], 1000);
+        walk(g.sim, door[0], door[1], 2400);
         g.sim.now({ type: 'town', op: 'enter', town: 0, v: role });
         expect(g.sim.town.inside, `${entry.id} inside ${role}`).toBe(role);
         g.sim.now({ type: 'town', op: 'leave', town: 0 });
@@ -162,7 +162,7 @@ describe('Campaign Act III maps (m24-m35)', () => {
     expect(st.sub[0]).toBe(2);
     expect(st.msgs).toContain(4);
 
-    g.sim.place(0, 49, 17);
+    g.sim.place(0, 147, 51);
     step(g, 10);
     expect(st.sub[1]).toBe(2);
     expect(st.status).toBe(1);
@@ -248,7 +248,7 @@ describe('Campaign Act III maps (m24-m35)', () => {
     expect(st.sub[0]).toBe(2);
     expect(g.sim.cb.sG.some((x) => x >= 800)).toBe(true);
 
-    g.sim.place(0, 48, 46);
+    g.sim.place(0, 96, 92);
     step(g, 10);
     expect(st.msgs).toContain(3);
 
@@ -262,7 +262,7 @@ describe('Campaign Act III maps (m24-m35)', () => {
     const g = start(m29);
     step(g, 10);
     killGroups(g, [3]);
-    g.sim.place(0, 32, 16);
+    g.sim.place(0, 96, 48);
     step(g, 10);
     expect(g.sim.script!.st.status).toBe(1);
 
@@ -315,7 +315,7 @@ describe('Campaign Act III maps (m24-m35)', () => {
     const g = start(m32);
     step(g, 10);
     const st = g.sim.script!.st;
-    g.sim.place(0, 32, 26);
+    g.sim.place(0, 96, 78);
     step(g, 10);
     expect(st.msgs).toContain(2);
 
@@ -357,7 +357,7 @@ describe('Campaign Act III maps (m24-m35)', () => {
     step(g, 10);
     const st = g.sim.script!.st;
 
-    g.sim.place(0, 32, 38);
+    g.sim.place(0, 96, 114);
     step(g, 10);
     expect(st.msgs).toContain(2);
 
@@ -378,7 +378,7 @@ describe('Campaign Act III maps (m24-m35)', () => {
     const st = g.sim.script!.st;
     expect(g.sim.peace[0 * 4 + 3]).toBe(1);
 
-    g.sim.place(0, 48, 38);
+    g.sim.place(0, 96, 76);
     step(g, 10);
     expect(st.msgs).toContain(2);
 

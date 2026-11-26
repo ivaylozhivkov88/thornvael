@@ -69,7 +69,7 @@ export function evaluateAutoCast(
     candidateSpellIds.push(...autoCastSpells);
   } else if (mode === 'smart') {
     // Standard smart spell pool
-    candidateSpellIds.push(7, 19, 0, 4, 1); // Healing, Stone Skin, Fire Bolt, Frost Bolt, Fireball
+    candidateSpellIds.push(7, 16, 0, 4, 1); // Healing, Stone Skin, Fire Bolt, Frost Bolt, Fireball
   } else {
     // 'per-spell' default to Healing (7) if known
     candidateSpellIds.push(7);
@@ -84,8 +84,8 @@ export function evaluateAutoCast(
     const reach = def?.reach ?? 6;
     const isHealing = def ? def.heal || sid === 7 || def.name.toLowerCase().includes('heal') : sid === 7;
     const isDefensiveBuff = def
-      ? def.st >= 0 && (def.st === St.Bless || def.st === St.Shield || def.st === St.Haste || def.st === St.Stone)
-      : sid === 19;
+      ? def.st >= 0 && (def.st === St.Bless || def.st === St.Shield || def.st === St.Haste)
+      : sid === 16;
     const isOffensive = !isHealing && !isDefensiveBuff;
 
     // 1. Healing Spells: prioritized by Hero -> Melee -> Ranged with HP <= threshold
@@ -284,6 +284,27 @@ export function computeRegroupFormation(
   return result;
 }
 
+const HIGH_GROUND_HIGH: HighGroundBonus = {
+  rangeBonus: 1.5,
+  accuracyMult: 1.15,
+  critBonusPct: 10,
+  label: 'High Ground (+15% Acc, +1.5 Range)',
+};
+
+const HIGH_GROUND_LOW: HighGroundBonus = {
+  rangeBonus: 0,
+  accuracyMult: 0.85,
+  critBonusPct: 0,
+  label: 'Low Ground (-15% Acc)',
+};
+
+const HIGH_GROUND_NEUTRAL: HighGroundBonus = {
+  rangeBonus: 0,
+  accuracyMult: 1.0,
+  critBonusPct: 0,
+  label: 'Neutral Elevation',
+};
+
 /**
  * P0.3 High Ground Tactical Advantage:
  * Calculates elevation delta from map height layer and returns range & accuracy modifiers.
@@ -304,30 +325,9 @@ export function computeHighGroundBonus(
   const hTarget = map.height ? (map.height[ty * map.w + tx] ?? 0) : 0;
   const dh = hAttacker - hTarget;
 
-  if (dh >= 2) {
-    return {
-      rangeBonus: 1.5,
-      accuracyMult: 1.15,
-      critBonusPct: 10,
-      label: 'High Ground (+15% Acc, +1.5 Range)',
-    };
-  }
-
-  if (dh <= -2) {
-    return {
-      rangeBonus: 0,
-      accuracyMult: 0.85,
-      critBonusPct: 0,
-      label: 'Low Ground (-15% Acc)',
-    };
-  }
-
-  return {
-    rangeBonus: 0,
-    accuracyMult: 1.0,
-    critBonusPct: 0,
-    label: 'Neutral Elevation',
-  };
+  if (dh >= 2) return HIGH_GROUND_HIGH;
+  if (dh <= -2) return HIGH_GROUND_LOW;
+  return HIGH_GROUND_NEUTRAL;
 }
 
 /**

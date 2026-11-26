@@ -309,7 +309,7 @@ export const S = {
     createTitle: 'Create your hero',
     cls: ['Warrior', 'Mage'],
     sex: ['Male', 'Female'],
-    diff: ['Easy', 'Normal', 'Hard'],
+    diff: ['Easy', 'Normal', 'Hard', 'Hell'],
     diffInfo: [
       'Fallen bodies stay raisable 90 s, foes deal 20% less damage, you start with 50% more gold.',
       'The base rules: bodies stay raisable 60 s.',

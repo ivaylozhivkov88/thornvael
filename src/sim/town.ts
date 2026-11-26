@@ -2,11 +2,11 @@ import { isBlockedAt } from '../map';
 import { UNIQUE_ARTIFACTS } from './affixes';
 import { Did, INV_MAX, SKILL_MAX, Why, addHeroXp, addItem, blocker, heroKnowsSpell, learnSpell, recalc, spellForHero, takeItem } from './hero';
 import { mercPrice } from './difficulty';
-import { getItemDef, getUnidentifiedName, ITEMS, Ik, itemId, Slot, transmuteItems, type ItemDef } from './items';
+import { getItemDef, getUnidentifiedName, ITEMS, Ik, itemId, transmuteItems, type ItemDef } from './items';
 import { FP } from './path';
-import { ALL_RUNES } from './runes';
+import { ALL_RUNES, runeShortName } from './runes';
 import { revive } from './spells';
-import { DEFS, Ord } from './combat';
+import { DEFS, Ord, hashStr } from './combat';
 import { isSetItem, ALL_SET_ITEMS } from './sets';
 import { SUPER_UNIQUES } from './super-uniques';
 import { createMercenaryRecord, templeResurrectionCost, type MercenaryRecord } from './mercs';
@@ -106,6 +106,7 @@ export interface BountyContract {
 
 export interface TownState {
   stock: number[][]; // per town, item id per shelf slot (-1 empty)
+  stockRolled?: boolean[]; // true once stock has been rolled during the current visit
   offers: Quest[][]; // per town
   quests: Quest[];
   inside: number; // town * ROLE_COUNT + role, or -1
@@ -115,6 +116,7 @@ export interface TownState {
   bounties?: BountyContract[][]; // per town
   mercenaries?: MercenaryRecord[]; // active hired mercenary veterancy records
   fallenVeterans?: MercenaryRecord[]; // list of fallen veterans for temple resurrection
+  reserveMercs?: { kind: number; hpPct: number }[]; // overflow mercs preserved when a map lacks reserve slots
 }
 
 export type TownOp =
@@ -168,12 +170,7 @@ export function generateTownBounties(townIndex: number, act = 1): BountyContract
   const pool = actBosses.length > 0 ? actBosses : SUPER_UNIQUES;
   const count = Math.min(3, pool.length);
   const result: BountyContract[] = [];
-  const RUNES = [
-    'El', 'Eld', 'Tir', 'Nef', 'Eth', 'Ith', 'Tal', 'Ral', 'Ort', 'Thul',
-    'Amn', 'Sol', 'Shael', 'Dol', 'Hel', 'Io', 'Lum', 'Ko', 'Fal', 'Lem',
-    'Pul', 'Um', 'Mal', 'Ist', 'Gul', 'Vex', 'Ohm', 'Lo', 'Sur', 'Ber',
-    'Jah', 'Cham', 'Zod',
-  ];
+  const RUNES = ALL_RUNES.map((r) => r.name);
 
   for (let i = 0; i < count; i++) {
     const boss = pool[(townIndex * 2 + i) % pool.length];
@@ -196,14 +193,15 @@ export function generateTownBounties(townIndex: number, act = 1): BountyContract
   return result;
 }
 
-export function newTownState(towns: number): TownState {
+export function newTownState(towns: number, act = 1): TownState {
   return {
     stock: Array.from({ length: towns }, () => Array<number>(SHELF).fill(-1)),
+    stockRolled: Array<boolean>(towns).fill(false),
     offers: Array.from({ length: towns }, () => []),
     quests: [],
     inside: -1,
     paid: 0,
-    bounties: Array.from({ length: towns }, (_, i) => generateTownBounties(i, 1)),
+    bounties: Array.from({ length: towns }, (_, i) => generateTownBounties(i, act)),
     mercenaries: [],
     fallenVeterans: [],
   };
@@ -487,14 +485,26 @@ export function townCommand(sim: Sim, cmd: TownCommand): void {
   const st = sim.town;
   const rt = sim.towns[cmd.town];
   if (h === null || rt === undefined) return;
-  if (sim.cb.hp[h.id] <= 0) return refuse(sim, Why.Dead);
+  if (sim.cb.hp[h.id] <= 0) {
+    refuse(sim, Why.Dead);
+    return;
+  }
   if (cmd.op === 'enter') {
     const role = cmd.v ?? -1;
     const c = rt.centre[role];
     if (!c) return;
-    if (!near(sim, c[0] - 0.5, c[1] - 0.5, REACH)) return refuse(sim, Why.Far);
+    if (!near(sim, c[0] - 0.5, c[1] - 0.5, REACH)) {
+      refuse(sim, Why.Far);
+      return;
+    }
     st.inside = cmd.town * ROLE_COUNT + role;
-    if (role === Role.Shop) rollStock(sim, cmd.town);
+    if (role === Role.Shop) {
+      st.stockRolled = st.stockRolled ?? Array<boolean>(sim.towns.length).fill(false);
+      if (!st.stockRolled[cmd.town]) {
+        rollStock(sim, cmd.town);
+        st.stockRolled[cmd.town] = true;
+      }
+    }
     if (role === Role.Tavern) {
       handIn(sim, cmd.town);
       rollOffers(sim, cmd.town);
@@ -502,9 +512,6 @@ export function townCommand(sim: Sim, cmd: TownCommand): void {
     return;
   }
   if (cmd.op === 'leave') {
-    if (st.inside >= 0 && st.inside % ROLE_COUNT === Role.Shop) {
-      rollStock(sim, cmd.town);
-    }
     st.inside = -1;
     return;
   }
@@ -554,17 +561,29 @@ export function townCommand(sim: Sim, cmd: TownCommand): void {
   const v = cmd.v ?? -1;
   switch (cmd.op) {
     case 'transmute': {
-      if (!cmd.list || cmd.list.length !== 3) return refuse(sim, Why.None);
+      if (!cmd.list || cmd.list.length !== 3) {
+        refuse(sim, Why.None);
+        return;
+      }
       const res = transmuteItems(h.inv, cmd.list);
-      if (!res) return refuse(sim, Why.None);
+      if (!res) {
+        refuse(sim, Why.None);
+        return;
+      }
       sim.cb.emit(Tfx.Trade, sim.x[h.id], sim.y[h.id], 0, 4);
       recalc(sim);
       return;
     }
     case 'gamble': {
       const cost = gambleCost(sim);
-      if (cost > gold[0]) return refuse(sim, Why.Gold);
-      if (h.inv.length >= INV_MAX) return refuse(sim, Why.Full);
+      if (cost > gold[0]) {
+        refuse(sim, Why.Gold);
+        return;
+      }
+      if (h.inv.length >= INV_MAX) {
+        refuse(sim, Why.Full);
+        return;
+      }
 
       const targetSlot = cmd.v !== undefined && cmd.v >= 0 ? cmd.v : undefined;
 
@@ -692,7 +711,10 @@ export function townCommand(sim: Sim, cmd: TownCommand): void {
         h.inv.push({ item: finalWonId, n: 1 });
         why = 0;
       }
-      if (why) return refuse(sim, why);
+      if (why) {
+        refuse(sim, why);
+        return;
+      }
 
       gold[0] -= cost;
       if (sim.cb?.mod) recalc(sim);
@@ -746,8 +768,14 @@ export function townCommand(sim: Sim, cmd: TownCommand): void {
       const fee = mercPrice(sim, m.price);
       // At most 3 hired mercenaries, one of each kind.
       const mine = (rt.def.mercs ?? []).filter((o) => o !== m && sim.hidden[o.unit] === 0 && sim.cb.hp[o.unit] > 0);
-      if (mine.length >= 3 || mine.some((o) => sim.cb.kind[o.unit] === sim.cb.kind[m.unit])) return refuse(sim, Why.Busy);
-      if (fee > gold[0]) return refuse(sim, Why.Gold);
+      if (mine.length >= 3 || mine.some((o) => sim.cb.kind[o.unit] === sim.cb.kind[m.unit])) {
+        refuse(sim, Why.Busy);
+        return;
+      }
+      if (fee > gold[0]) {
+        refuse(sim, Why.Gold);
+        return;
+      }
       gold[0] -= fee;
       const [dx, dy] = rt.door[Role.Tavern]!;
       const u = m.unit;
@@ -768,7 +796,10 @@ export function townCommand(sim: Sim, cmd: TownCommand): void {
       const m = rt.def.mercs?.[v];
       if (!m || sim.hidden[m.unit] !== 0 || sim.cb.hp[m.unit] > 0) return;
       const fee = reviveFee(mercPrice(sim, m.price));
-      if (fee > gold[0]) return refuse(sim, Why.Gold);
+      if (fee > gold[0]) {
+        refuse(sim, Why.Gold);
+        return;
+      }
       gold[0] -= fee;
       const [dx, dy] = rt.door[Role.Tavern]!;
       const u = m.unit;
@@ -789,12 +820,24 @@ export function townCommand(sim: Sim, cmd: TownCommand): void {
     }
     case 'learn': {
       if (!(rt.def.spells ?? []).includes(v)) return;
-      if (heroKnowsSpell(h, v)) return refuse(sim, Why.Known);
-      if (!spellForHero(h, v)) return refuse(sim, Why.Class);
+      if (heroKnowsSpell(h, v)) {
+        refuse(sim, Why.Known);
+        return;
+      }
+      if (!spellForHero(h, v)) {
+        refuse(sim, Why.Class);
+        return;
+      }
       const t = teacherOf(v);
-      if (t >= 0 && blocker(h, t) === Why.Need) return refuse(sim, Why.Need);
+      if (t >= 0 && blocker(h, t) === Why.Need) {
+        refuse(sim, Why.Need);
+        return;
+      }
       const p = spellPrice(v);
-      if (p > gold[0]) return refuse(sim, Why.Gold);
+      if (p > gold[0]) {
+        refuse(sim, Why.Gold);
+        return;
+      }
       gold[0] -= p;
       learnSpell(h, v);
       recalc(sim);
@@ -804,9 +847,15 @@ export function townCommand(sim: Sim, cmd: TownCommand): void {
     }
     case 'train': {
       if (v < 0 || v > 2) return;
-      if (h.skill[v] >= SKILL_MAX) return refuse(sim, Why.NoEffect);
+      if (h.skill[v] >= SKILL_MAX) {
+        refuse(sim, Why.NoEffect);
+        return;
+      }
       const p = trainPrice(h.skill[v]);
-      if (p > gold[0]) return refuse(sim, Why.Gold);
+      if (p > gold[0]) {
+        refuse(sim, Why.Gold);
+        return;
+      }
       gold[0] -= p;
       h.skill[v]++;
       h.use[v] = 0;
@@ -818,7 +867,10 @@ export function townCommand(sim: Sim, cmd: TownCommand): void {
     case 'accept': {
       const offers = st.offers[cmd.town];
       if (v < 0 || v >= offers.length) return;
-      if (st.quests.length >= MAX_QUESTS) return refuse(sim, Why.Busy);
+      if (st.quests.length >= MAX_QUESTS) {
+        refuse(sim, Why.Busy);
+        return;
+      }
       const q = offers.splice(v, 1)[0];
       q.start = sim.tick;
       q.base = baseOf(sim, q);
@@ -826,11 +878,17 @@ export function townCommand(sim: Sim, cmd: TownCommand): void {
       return;
     }
     case 'temple_revive': {
-      if (!st.fallenVeterans || st.fallenVeterans.length === 0) return refuse(sim, Why.None);
+      if (!st.fallenVeterans || st.fallenVeterans.length === 0) {
+        refuse(sim, Why.None);
+        return;
+      }
       const vIdx = v >= 0 && v < st.fallenVeterans.length ? v : 0;
       const vet = st.fallenVeterans[vIdx];
       const tithe = templeResurrectionCost(vet.rank);
-      if (gold[0] < tithe) return refuse(sim, Why.Gold);
+      if (gold[0] < tithe) {
+        refuse(sim, Why.Gold);
+        return;
+      }
 
       gold[0] -= tithe;
       st.fallenVeterans.splice(vIdx, 1);
@@ -859,16 +917,28 @@ export function townCommand(sim: Sim, cmd: TownCommand): void {
     }
     case 'accept_bounty': {
       const townBounties = st.bounties?.[cmd.town];
-      if (!townBounties || v < 0 || v >= townBounties.length) return refuse(sim, Why.None);
+      if (!townBounties || v < 0 || v >= townBounties.length) {
+        refuse(sim, Why.None);
+        return;
+      }
       townBounties[v].accepted = true;
       return;
     }
     case 'claim_bounty': {
       const townBounties = st.bounties?.[cmd.town];
-      if (!townBounties || v < 0 || v >= townBounties.length) return refuse(sim, Why.None);
+      if (!townBounties || v < 0 || v >= townBounties.length) {
+        refuse(sim, Why.None);
+        return;
+      }
       const bounty = townBounties[v];
-      if (bounty.claimed) return refuse(sim, Why.NoEffect);
-      if (!bounty.completed && !bounty.accepted) return refuse(sim, Why.None);
+      if (bounty.claimed) {
+        refuse(sim, Why.NoEffect);
+        return;
+      }
+      if (!bounty.completed) {
+        refuse(sim, Why.None);
+        return;
+      }
       gold[0] += bounty.rewardGold;
       const xpReward = bounty.act * 150;
       if (sim.cb?.hpMax && sim.cb?.manaMax && sim.cb?.mana) {
@@ -877,7 +947,7 @@ export function townCommand(sim: Sim, cmd: TownCommand): void {
         h.xp = (h.xp ?? 0) + xpReward;
       }
       if (bounty.rewardRune) {
-        const runeDef = ALL_RUNES.find((r) => r.d2Name === bounty.rewardRune || r.name === bounty.rewardRune);
+        const runeDef = ALL_RUNES.find((r) => r.name === bounty.rewardRune || runeShortName(r) === bounty.rewardRune);
         const runeId = itemId(runeDef ? runeDef.name : bounty.rewardRune);
         if (runeId >= 0 && h.inv.length < INV_MAX) {
           addItem(h, runeId);
@@ -896,7 +966,7 @@ export function townCommand(sim: Sim, cmd: TownCommand): void {
 
 export function rollStock(sim: Sim, town: number): void {
   const [baseLo, baseHi] = sim.towns[town].def.tiers ?? [1, 2];
-  const diff = Math.max(0, Math.min(2, sim.hero ? sim.hero.diff : 1));
+  const diff = Math.max(0, Math.min(3, sim.hero ? sim.hero.diff : 1));
 
   let lo = baseLo;
   let hi = baseHi;
@@ -1071,7 +1141,7 @@ export function makeQuest(sim: Sim, town: number, type: number): Quest | null {
       });
       if (!pool.length) return null;
       q.a = pool[sim.rng.int(pool.length)];
-      q.reward = priceOf(q.a) + 30;
+      q.reward = Math.min(250, Math.max(40, priceOf(q.a) + 30));
       break;
     }
     case QuestType.Wealth:
@@ -1216,6 +1286,9 @@ export function hashTown(t: TownState, mix: (v: number) => void): void {
       mix(m.missionsSurvived);
       mix(m.rank);
       mix(m.fallen ? 1 : 0);
+      mix(m.charmItem + 1);
+      mix(m.potionBelt[0] + 1);
+      mix(m.potionBelt[1] + 1);
     }
   }
   if (t.fallenVeterans?.length) {
@@ -1223,14 +1296,16 @@ export function hashTown(t: TownState, mix: (v: number) => void): void {
       mix(m.unitId + 1);
       mix(m.kills);
       mix(m.rank);
+      mix(m.charmItem + 1);
+      mix(m.potionBelt[0] + 1);
+      mix(m.potionBelt[1] + 1);
     }
   }
   if (t.bounties?.length) {
     for (const list of t.bounties) {
       for (const b of list) {
-        if (b.accepted || b.completed || b.claimed) {
-          mix(b.act * 8 + (b.accepted ? 1 : 0) + (b.completed ? 2 : 0) + (b.claimed ? 4 : 0));
-        }
+        hashStr(mix, b.id);
+        mix(b.act * 8 + (b.accepted ? 1 : 0) + (b.completed ? 2 : 0) + (b.claimed ? 4 : 0));
       }
     }
   }

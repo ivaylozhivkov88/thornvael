@@ -1,6 +1,6 @@
 import { Container, Rectangle, Sprite, Texture } from 'pixi.js';
 import { checkSheet, frameName, type UnitSheet } from './contract';
-import { animationFrame, ARMOUR_COLORS, palette, sheetDirection, splitMask } from './palette';
+import { animationFrame, palette, sheetDirection, splitMask } from './palette';
 import type { AnimationPose } from './combat-animation';
 import { DEFAULT_LOAD_TIMEOUT_MS, fetchWithTimeout, withTimeout } from './load-pool';
 
@@ -183,17 +183,64 @@ export class UnitAtlas {
   private readonly frames = new Map<string, readonly Texture[]>();
   readonly cell: readonly [number, number];
   readonly animations: Readonly<Record<string, number>>;
-  private constructor(readonly unit: AnyUnitArt, readonly source: Texture, sheet: UnitSheet) {
+  private backingCanvas: HTMLCanvasElement | null = null;
+  private reloadMeta: { colorUrl: string; maskUrl: string; w: number; h: number } | null = null;
+
+  private constructor(
+    readonly unit: AnyUnitArt,
+    readonly source: Texture,
+    sheet: UnitSheet,
+    readonly texScale = 1,
+  ) {
     this.cell = Object.freeze([...sheet.meta.thornvael!.cell]) as readonly [number, number];
     this.animations = Object.freeze({ ...sheet.meta.thornvael!.anims });
     const { w, h } = sheet.meta.size;
+    const qw = Math.round(w * texScale);
+    const qh = Math.round(h * texScale);
     for (const [name, f] of Object.entries(sheet.frames)) {
       const r = f.frame;
+      const rw = Math.max(1, Math.round(r.w * texScale));
+      const rh = Math.max(1, Math.round(r.h * texScale));
+      const rx = Math.round(r.x * texScale);
+      const ry = Math.round(r.y * texScale);
       this.frames.set(name, Array.from({ length: 4 }, (_, layer) => new Texture({
         source: source.source,
-        frame: new Rectangle(r.x + (layer % 2) * w, r.y + Math.floor(layer / 2) * h, r.w, r.h),
+        frame: new Rectangle(rx + (layer % 2) * qw, ry + Math.floor(layer / 2) * qh, rw, rh),
       })));
     }
+  }
+
+  private static async buildCompositeCanvas(
+    colorUrl: string,
+    maskUrl: string,
+    w: number,
+    h: number,
+    texScale: number,
+    timeoutMs: number,
+  ): Promise<HTMLCanvasElement> {
+    const color = await pixels(colorUrl, timeoutMs);
+    const mask = await pixels(maskUrl, timeoutMs);
+    if (color.width !== w || color.height !== h || mask.width !== w || mask.height !== h) {
+      throw new Error(`Unit atlas dimensions differ from metadata`);
+    }
+    const qw = Math.round(w * texScale);
+    const qh = Math.round(h * texScale);
+    const cv = document.createElement('canvas');
+    cv.width = qw * 2;
+    cv.height = qh * 2;
+    const ctx = cv.getContext('2d')!;
+    ctx.imageSmoothingEnabled = false;
+    const tmp = document.createElement('canvas');
+    tmp.width = w;
+    tmp.height = h;
+    const tmpCtx = tmp.getContext('2d')!;
+    splitMask(color.data, mask.data).forEach((data, layer) => {
+      tmpCtx.putImageData(new ImageData(new Uint8ClampedArray(data), w, h), 0, 0);
+      ctx.drawImage(tmp, 0, 0, w, h, (layer % 2) * qw, Math.floor(layer / 2) * qh, qw, qh);
+    });
+    tmp.width = 0;
+    tmp.height = 0;
+    return cv;
   }
 
   static async load(unit: AnyUnitArt, timeoutMs = DEFAULT_LOAD_TIMEOUT_MS): Promise<UnitAtlas> {
@@ -204,23 +251,40 @@ export class UnitAtlas {
     const errors = checkSheet(sheet);
     if (errors.length) throw new Error(`Unit atlas ${unit}: ${errors.join('; ')}`);
     if (sheet.meta.thornvael!.unit !== unit) throw new Error(`Wrong unit atlas: ${unit}`);
-    // Sequential color -> mask decode keeps peak simultaneous Image.decode() <= pool concurrency.
-    const color = await pixels(base + sheet.meta.image, timeoutMs);
-    const mask = await pixels(base + sheet.meta.thornvael!.mask, timeoutMs);
     const { w, h } = sheet.meta.size;
-    if (color.width !== w || color.height !== h || mask.width !== w || mask.height !== h)
-      throw new Error(`Unit atlas ${unit}: image dimensions differ from metadata`);
-    // Four quadrants, ONE GPU source per family. Standard Pixi sprite batching,
-    // no filters, custom shader, offscreen render pass or per-palette texture.
-    const cv = document.createElement('canvas');
-    cv.width = w * 2; cv.height = h * 2;
-    const ctx = cv.getContext('2d')!;
-    splitMask(color.data, mask.data).forEach((data, layer) => {
-      ctx.putImageData(new ImageData(new Uint8ClampedArray(data), w, h), (layer % 2) * w, Math.floor(layer / 2) * h);
-    });
+    // Cap composite 4-quadrant GPU texture at 2048x2048 (16 MB instead of 64 MB).
+    const texScale = Math.min(1, 2048 / Math.max(1, w * 2, h * 2));
+    const colorUrl = base + sheet.meta.image;
+    const maskUrl = base + sheet.meta.thornvael!.mask;
+    const cv = await UnitAtlas.buildCompositeCanvas(colorUrl, maskUrl, w, h, texScale, timeoutMs);
     const texture = Texture.from(cv);
     texture.source.scaleMode = 'nearest';
-    return new UnitAtlas(unit, texture, sheet);
+    const atlas = new UnitAtlas(unit, texture, sheet, texScale);
+    atlas.backingCanvas = cv;
+    atlas.reloadMeta = { colorUrl, maskUrl, w, h };
+    return atlas;
+  }
+
+  /** Zero CPU canvas backing after GPU upload so atlas RAM stays near zero. */
+  releaseCpuBacking(): void {
+    if (!this.backingCanvas) return;
+    this.backingCanvas.width = 0;
+    this.backingCanvas.height = 0;
+    this.backingCanvas = null;
+  }
+
+  /** Regenerate canvas pixels from cached sprite PNGs on WebGL context restore. */
+  async reloadGpu(timeoutMs = DEFAULT_LOAD_TIMEOUT_MS): Promise<void> {
+    if (!this.reloadMeta) {
+      this.source?.source?.update();
+      return;
+    }
+    const { colorUrl, maskUrl, w, h } = this.reloadMeta;
+    const cv = await UnitAtlas.buildCompositeCanvas(colorUrl, maskUrl, w, h, this.texScale, timeoutMs);
+    const src = this.source.source as { resource?: unknown; update: () => void };
+    src.resource = cv;
+    src.update();
+    this.backingCanvas = cv;
   }
 
   get(name: string): readonly Texture[] {
@@ -246,9 +310,10 @@ export class UnitSprite extends Container {
   constructor(readonly atlas: UnitAtlas, readonly bossDef?: BossSpriteDef, readonly heroicScale = 1) {
     super();
     const scaleMul = bossDef ? bossDef.scale : heroicScale;
+    const invTexScale = atlas.texScale > 0 ? 1 / atlas.texScale : 1;
     for (const s of this.layers) {
       s.anchor.set(0.5, 0.85);
-      s.scale.set((64 / atlas.cell[0]) * scaleMul, (64 / atlas.cell[1]) * scaleMul);
+      s.scale.set((64 / atlas.cell[0]) * invTexScale * scaleMul, (64 / atlas.cell[1]) * invTexScale * scaleMul);
       this.addChild(s);
     }
   }

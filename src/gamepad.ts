@@ -34,7 +34,7 @@
  *     * Assign any known grimoire spell, hero class skill, or utility action to any of the 12 controller slots!
  */
 
-import { SPELLS, Tk } from './sim/spelldata';
+import { SPELLS, } from './sim/spelldata';
 
 export const DEFAULT_DEADZONE = 0.20;
 

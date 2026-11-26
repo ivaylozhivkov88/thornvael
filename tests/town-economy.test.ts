@@ -3,11 +3,10 @@ import { loadDoc } from '../src/mapdoc';
 import { BUILT_IN, createMission } from '../src/mission';
 import { UNIQUE_ARTIFACTS } from '../src/sim/affixes';
 import { createHero } from '../src/sim/hero';
-import { ITEMS, Ik, itemId } from '../src/sim/items';
+import { ITEMS, itemId } from '../src/sim/items';
 import { ALL_SET_ITEMS } from '../src/sim/sets';
 import { FP, Sim } from '../src/sim/sim';
 import {
-  ROLE_COUNT,
   Role,
   SHELF,
   gambleCost,

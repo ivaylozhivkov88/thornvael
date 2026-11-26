@@ -8,21 +8,56 @@ export default defineConfig({
   base,
   build: {
     target: 'safari16',
-    rollupOptions: {
+    rolldownOptions: {
       input: { main: 'index.html', editor: 'editor.html', wiki: 'wiki.html' },
       output: {
-        manualChunks(id) {
-          if (!id.includes('/src/missions/') && !id.includes('\\src\\missions\\')) return undefined;
-          if (/m(1[2-9]|2[0-3])-|gullet-of-dunes|map2-redmarsh-wastes/.test(id)) return 'missions-act2';
-          if (/m(2[4-9]|3[0-5])-|drowned-choir|map3-iron-coast/.test(id)) return 'missions-act3';
-          if (/m(3[6-9]|4[0-6])-|cinder-throne|map4-obsidian-caldera/.test(id)) return 'missions-act4';
-          if (
-            /m0[5-9]-|m1[01]-|blood-at-the-ford|thornwick-market|whispers-in-the-fen|nightfall-at-ravenwatch|the-sunken-sanctum|kids-paradise-opening|weeping-ossuary|map1-border-fords/.test(
-              id,
-            )
-          )
-            return 'missions-act1';
-          return 'missions-skirmish';
+        strictExecutionOrder: true,
+        codeSplitting: {
+          includeDependenciesRecursively: false,
+          groups: [
+            {
+              name: 'vendor-pixi',
+              test: /node_modules[\\/](pixi\.js|@pixi)[\\/]/,
+              maxSize: 900_000,
+              priority: 20,
+            },
+            {
+              name: 'vendor-preact',
+              test: /node_modules[\\/]preact[\\/]/,
+              priority: 20,
+            },
+            {
+              name: 'ui-panels',
+              test: /[\\/]src[\\/](townui|pausemenu|spellbookui|debugpanel|automap|gamepad|townicons|settings-panel|mobile-controls-help)\.ts$|[\\/]src[\\/]ui-extra[\\/]/,
+              maxSize: 350_000,
+              priority: 15,
+            },
+            {
+              name: 'missions-act2',
+              test: /[\\/]src[\\/]missions[\\/].*(m(1[2-9]|2[0-3])-|gullet-of-dunes|map2-redmarsh-wastes)/,
+              priority: 10,
+            },
+            {
+              name: 'missions-act3',
+              test: /[\\/]src[\\/]missions[\\/].*(m(2[4-9]|3[0-5])-|drowned-choir|map3-iron-coast)/,
+              priority: 10,
+            },
+            {
+              name: 'missions-act4',
+              test: /[\\/]src[\\/]missions[\\/].*(m(3[6-9]|4[0-6])-|cinder-throne|map4-obsidian-caldera)/,
+              priority: 10,
+            },
+            {
+              name: 'missions-act1',
+              test: /[\\/]src[\\/]missions[\\/].*(m0[5-9]-|m1[01]-|blood-at-the-ford|thornwick-market|whispers-in-the-fen|nightfall-at-ravenwatch|the-sunken-sanctum|kids-paradise-opening|weeping-ossuary|map1-border-fords)/,
+              priority: 10,
+            },
+            {
+              name: 'missions-skirmish',
+              test: /[\\/]src[\\/]missions[\\/]/,
+              priority: 5,
+            },
+          ],
         },
       },
     },
@@ -36,15 +71,28 @@ export default defineConfig({
       injectManifest: {
         maximumFileSizeToCacheInBytes: 3 * 1024 * 1024,
         globPatterns: [
-          '**/*.{js,css,html,png,svg,json}',
+          '**/*.{js,css,html,svg}',
+          'chapter1-manifest.json',
+          'data/*.json',
+          'terrain/*.{png,json}',
+          'icons/*.png',
+          'uiskin/*',
           'townart/portraits/npc-warden-hale.jpg',
           'townart/portraits/merc-*.jpg',
         ],
         globIgnores: [
-          'chapter1-manifest.json',
+          'editor.html',
+          'wiki.html',
+          'assets/editor*',
+          'assets/wiki*',
+          'assets/missions-act2*',
+          'assets/missions-act3*',
+          'assets/missions-act4*',
+          'assets/missions-skirmish*',
           'sprites/**',
+          'itemicons/**',
           'townart/*',
-          'townart/portrait-necromancer.png',
+          'townart/portrait-*.png',
           'townart/doll/**',
           'townart/mon/**',
           'townart/portraits/npc-!(warden-hale).jpg',

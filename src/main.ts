@@ -1,54 +1,54 @@
 import { registerWorker } from './updategate';
 import { resolveRegionAudio, computeAudioCrossfade } from './region-audio';
 import { SteppedQuestAdapter } from './sidequests-adapter';
+import { grantSteppedQuestRewards } from './sidequests-rewards';
 import type { SteppedQuestDef } from './sidequests';
 import tutorialData from './data/tutorial.json';
 import { loadExtraContent, type ExtraContentKey } from './content-extras';
 import { LoadingScreen } from './loadingscreen';
-import { createInstallController, isInstallPrompt } from './pwa-install';
-import { attachBlurMuteListeners, audioState, blip, cancelShopEntry, isAudioRunning, isMusicPlaying, play, playBossMusic, playDialogueVoice, playEndingMusic, playMercBark, playMonsterDeathVoice, playMonsterHitVoice, playNpcBark, playSurfaceFootstep, playPickupRustle, playShopEntry, playNotEnoughMana, playInventoryFull, playLowHpHeartbeat, playUiError, resumeAudio, setAmbience, setDialogueDucking, setMusic, setMusicAct, setMusicRegion, setRegionMusicIndex, setSpecialMusic, setAmbienceAct, setSfx, setSkirmishMusic, stopDialogueVoice, suspendAudio, unlock, updateAdaptiveCombat, type MusicMode } from './audio';
+import { createInstallController, isInstallPrompt, type InstallPrompt } from './pwa-install';
+import { attachBlurMuteListeners, audioState, blip, cancelShopEntry, isAudioRunning, isMusicPlaying, play, playDialogueVoice, playSurfaceFootstep, playPickupRustle, playShopEntry, playNotEnoughMana, playInventoryFull, playLowHpHeartbeat, preloadAudioCues, resumeAudio, setAmbience, setDialogueDucking, setMusic, setMusicAct, setRegionMusicIndex, setSpecialMusic, setAmbienceAct, setSfx, stopDialogueVoice, suspendAudio, unloadOnDemandAudio, unlock, type MusicMode } from './audio';
 import { resolveBarkVoiceClip, resolveDialogueVoiceClip } from './audio-catalog';
 import { isBossArt } from './sprites/units';
-import { MusicDirector, classifyWeapon, cueFor, pickPotionDrink, pickTerrainStep, type CueContext } from './audiologic';
+import { MusicDirector, SPELL_CAST_SFX, classifyWeapon, cueFor, pickPotionDrink, type CueContext } from './audiologic';
 import { ControlGroups, GROUP_COUNT } from './groups';
 import { GestureRecognizer, pickUnit, reticle, unitsInBox, type Intent } from './input';
-import { TILE, generateMap, ObjectKind, PropKind, type MapObject } from './map';
+import { TILE, generateMap, PropKind, type MapObject } from './map';
 import type { LoadedMission } from './mapdoc';
 import { createMission, loadMissionByName, type MissionGame } from './mission-runtime';
-import { actOf, nodeOf, townHubForAct, townNodeForAct, townSeed, type Campaign } from './campaign';
+import { actOf, nodeOf, townSeed, type Campaign } from './campaign';
 import { loadCampaign, readRecord, writeRecord } from './campaignstore';
 import { applyCarryover, extractCarryover, waivePurse } from './carryover';
 import { characterCarry, getCharacter, saveCharacter } from './characters';
-import { afterMission, afterTown, nodeUrl, saveAndExitRecord, type CampaignRecord } from './flow';
-import { ensureConnectedWorldExits, WaypointTravelModal } from './connected-world';
+import { type CampaignRecord } from './flow';
+import { ensureConnectedWorldExits } from './connected-world';
+import { createCampaignLifecycle } from './campaign-lifecycle';
+import { createInputController } from './input-controller';
 import { resumeSave, type SaveFile, type SaveState } from './save';
-import { AUTO, deleteSave, getSave, restoreSaveCampaign } from './savedb';
+import { getSave, restoreSaveCampaign } from './savedb';
 import { SaveUi } from './saveui';
 import { TownUi } from './townui';
-import { ROLE_COUNT, Tfx, itemRarity } from './sim/town';
+import { ROLE_COUNT, Tfx, } from './sim/town';
 import { MissionUi, showMissionMenu } from './missionui';
 import { Minimap } from './minimap';
 import { AutomapOverlay } from './automap';
 import { QUALITY_NAMES, Renderer, type View } from './render';
 import { Bot, MonsterAi, battleScenario, fightScenario, placeScenario, setupCrowd, setupSquads, type Scenario } from './sim/bot';
-import { DEFS, Kind, M, MODN, POOLS, lootPos, nearestLoot, partAbs, partDef } from './sim/combat';
+import { DEFS, Kind, lootPos, nearestLoot } from './sim/combat';
 import { dir16 } from './sim/path';
-import { D2InteractionController, type D2Interactable } from './sim/movement';
+import { D2InteractionController } from './sim/movement';
 import { evaluateAutoCast, computeRegroupFormation, performLootSweep, stepAutoNavigate, type SquadStance } from './sim/tactics';
 import { DAY_TICKS, clockText } from './sim/daynight';
-import { HeroUi, tabStrip } from './heroui';
+import { HeroUi, } from './heroui';
 import { staminaMax } from './sim/mechanics';
-import { SKILL_MAX, SKILL_NAMES, WHY_TEXT, createHero, heroKnowsSpell, takeItem, type HeroSkillId } from './sim/hero';
-import { Cls, getItemDef, itemId, itemText, Ik, Slot } from './sim/items';
+import { SKILL_MAX, SKILL_NAMES, WHY_TEXT, createHero, heroKnowsSpell, type HeroSkillId } from './sim/hero';
+import { Cls, getItemDef, itemId, itemText, Slot } from './sim/items';
 import {
-  openTownPortal,
-  useTownPortal,
   checkWaypointTouch,
   checkZoneExitTouch,
-  interactAdventureObject,
-  type TownPortalState,
-  type ZoneExitDef,
+  ADVENTURE_OBJECT_KINDS,
 } from './sim/script';
+import { getSuperUniqueForUnit } from './sim/super-uniques';
 import { loadGameData } from './loaddata';
 import { loadHeroVoices, heroBark } from './herovoice';
 import { loadAchievements, achKills, achTrack, achReset, achHired, achLevel, achGold, achWin, achCampaign } from './achievements';
@@ -57,34 +57,30 @@ import { startSideQuests, sqTrack, sqFinish } from './sidequests';
 import { DebugPanel } from './debugpanel';
 import { KNOWN_HI, SPELLS, Tk, maskHas } from './sim/spelldata';
 import { validTarget } from './sim/spells';
+import { installDebugBridge } from './debug-bridge';
+import type { VictoryScreenContext } from './victory-screen';
 import { FP, Sim, TICKS_PER_SECOND, type Command, type OrderName } from './sim/sim';
 import { regionAtTile } from './atmosphere';
 import { S } from './strings';
-import { LOW_HP_TIP, Tips, getDefeatFlavor, hydrateCuratedTips } from './tips';
-import { getPlaquesByMap, loadLocationPlaques, type CampaignMapId, type LocationPlaqueEntry } from './data/text/index';
-import { itemIconEl } from './townicons';
+import { LOW_HP_TIP, Tips, hydrateCuratedTips } from './tips';
+import { loadLocationPlaques, } from './data/text/index';
 import { applyUxSettings, loadUxSettings } from './ui-extra/settings-panel';
-import spelliconsJson from '../public/spellicons/spellicons.json';
 import { readPreferences, writePreference } from './preferences';
 import { detectBiomeFromMap } from './aesthetic-vfx';
-import { DoubleTap, RadialMenu, unitsOfKind, type RadialOrder } from './touchx';
+import { DoubleTap, unitsOfKind } from './touchx';
 import { SquadBar, extractSquadMembers } from './ui/squad-bar';
-import { monsterInfo } from './monster-info';
 import { CameraController } from './camera';
 import { LootOverlayManager } from './loot-overlay';
-import { HudController, getBeltPotions as getBeltPotionsHelper, BELT_COOLDOWN_MS } from './hud-controller';
-import { discoverItem, onDiscovery } from './codex';
+import { HudController, getBeltPotions as getBeltPotionsHelper, } from './hud-controller';
+import { discoverBossTrophy, discoverItem, onDiscovery } from './codex';
 import { SpellbookUi } from './spellbookui';
 import { PauseMenu } from './pausemenu';
 import {
   GamepadController,
   SkillAssignmentModal,
   D2RActionBarUi,
-  type ControllerSlotBinding,
 } from './gamepad';
 import { VirtualStick } from './virtualstick';
-import { keybindManager } from './keybinds';
-import { endingForCompletedNode } from './story';
 import { getHubEvolutionStage } from './data/hub-evolution';
 import './style.css';
 import './ui/squad-bar.css';
@@ -102,13 +98,25 @@ loadingScreen?.setStatus('Loading realm chronicles...', 18);
 await loadGameData(); // item and spell tables, before any sim or mission is built
 applyUxSettings(loadUxSettings());
 attachBlurMuteListeners();
+document.addEventListener('gesturestart', (e) => e.preventDefault());
+document.addEventListener('contextmenu', (e) => e.preventDefault());
+const nav = navigator as Navigator & { standalone?: boolean };
+let persisted: boolean | string = '?';
+let earlyInstallPrompt: InstallPrompt | null = null;
+let onDeferredInstall: ((ev: InstallPrompt) => void) | null = null;
+window.addEventListener('beforeinstallprompt', (e) => {
+  if (isInstallPrompt(e)) {
+    e.preventDefault();
+    earlyInstallPrompt = e;
+    onDeferredInstall?.(e);
+  }
+});
+void nav.storage?.persist?.().then(
+  (ok) => void nav.storage?.estimate?.().then((q) => (persisted = `${ok} (${Math.round((q.usage ?? 0) / 1024)} KB of ${Math.round((q.quota ?? 0) / 1048576)} MB)`)),
+  () => (persisted = 'error'),
+);
 void hydrateCuratedTips();
-let loadedLocationPlaques: LocationPlaqueEntry[] = [];
-void loadLocationPlaques(import.meta.env.BASE_URL)
-  .then((pack) => {
-    loadedLocationPlaques = pack.entries;
-  })
-  .catch(() => undefined);
+void loadLocationPlaques(import.meta.env.BASE_URL).catch(() => undefined);
 
 const $ = (id: string): HTMLElement => document.getElementById(id)!;
 let spellbookUi!: SpellbookUi;
@@ -248,6 +256,9 @@ if (crowd || stress) {
     sessionSeed: crec?.progress.sessionSeed ?? (params.has('session') ? Number.parseInt(params.get('session')!, 10) : undefined),
     nodeId: campaignId ?? undefined,
     act: campaign && campaignId ? actOf(nodeOf(campaign, campaignId)) : 1,
+    isTownNode: Boolean(campaign && campaignId && nodeOf(campaign, campaignId).kind === 'town'),
+    ngPlusTier: crec?.progress.ngPlusTier ?? 0,
+    difficulty: crec?.progress.difficulty ?? activeChar?.diff ?? 1,
   });
   sim = g.sim;
   scenario = loadedMission.scenario;
@@ -287,7 +298,7 @@ let pausedToast = false;
 let pauseMenu!: PauseMenu;
 let hidden = document.hidden;
 let acc = 0;
-let boxMode = false;
+let boxMode = typeof matchMedia === 'function' ? !matchMedia('(pointer: fine)').matches : false;
 let addMode = false;
 let setMode = false;
 let looseMode = false; // orders ignore formations
@@ -308,7 +319,6 @@ let armedSpell = 0;
 let curSpell = 0; // the spell the Cast button, C key and Auto act on
 let activeRmbSpell: number | null = null;
 let activeRmbSkill: HeroSkillId | null = null;
-let lastPointerPos: [number, number] = [0, 0];
 
 const SKILL_ICONS: Record<HeroSkillId, { icon: string; name: string; key: string }> = {
   whirlwind: { icon: '⚔️', name: 'Whirlwind', key: 'Q' },
@@ -317,13 +327,20 @@ const SKILL_ICONS: Record<HeroSkillId, { icon: string; name: string; key: string
   chain_lightning: { icon: '⚡', name: 'Chain Lightning', key: 'Q' },
   frost_nova: { icon: '❄️', name: 'Frost Nova', key: 'W' },
   teleport: { icon: '🌀', name: 'Teleport', key: 'E' },
+  barbed_volley: { icon: '🏹', name: 'Barbed Volley', key: 'Q' },
+  weir_snares: { icon: '🕸️', name: 'Weir Snares', key: 'W' },
+  gale_pin: { icon: '💨', name: 'Gale Pin', key: 'E' },
+  grave_chill: { icon: '💀', name: 'Grave Chill', key: 'Q' },
+  quicklime_cloud: { icon: '☠️', name: 'Quicklime Cloud', key: 'W' },
+  bone_splinter: { icon: '🦴', name: 'Bone Splinter', key: 'E' },
 };
 
 function getHeroSkills(): HeroSkillId[] {
   if (!sim.hero) return [];
-  return sim.hero.cls === Cls.Mage || sim.hero.cls === 3
-    ? ['chain_lightning', 'frost_nova', 'teleport']
-    : ['whirlwind', 'shield_charge', 'iron_bulwark'];
+  if (sim.hero.cls === Cls.Mage) return ['chain_lightning', 'frost_nova', 'teleport'];
+  if (sim.hero.cls === 2) return ['barbed_volley', 'weir_snares', 'gale_pin'];
+  if (sim.hero.cls === 3) return ['grave_chill', 'quicklime_cloud', 'bone_splinter'];
+  return ['whirlwind', 'shield_charge', 'iron_bulwark'];
 }
 
 function updateActiveSkillUI(): void {
@@ -342,8 +359,9 @@ function triggerHeroSkill(idx: number): void {
   if (idx < 0 || idx >= skills.length) return;
   const skill = skills[idx];
   activeRmbSkill = skill;
-  const [wx, wy] = renderer.toTile(lastPointerPos[0], lastPointerPos[1]);
-  const targetFoe = pickUnit(sim.count, posEnemy, lastPointerPos[0], lastPointerPos[1], PICK);
+  const [lpx, lpy] = inputController.getLastPointerPos();
+  const [wx, wy] = renderer.toTile(lpx, lpy);
+  const targetFoe = pickUnit(sim.count, posEnemy, lpx, lpy, PICK);
   queue({ type: 'hero', op: 'skill', skill, x: wx, y: wy, target: targetFoe >= 0 ? targetFoe : undefined });
   updateActiveSkillUI();
 }
@@ -353,7 +371,6 @@ const ITEM_BASE = 100;
 const validSlot = (v: unknown): boolean => Number.isInteger(v) && (v as number) >= -1 && ((v as number) < SPELLS.length || ((v as number) >= ITEM_BASE && getItemDef((v as number) - ITEM_BASE) !== undefined));
 let slots: number[] = [...DEFAULT_SLOTS];
 let savedSlots = false; // slots the player has already arranged (kept across games)
-let slotAssign = -1;
 let aimView: View['aim'] = null;
 try {
   const raw = JSON.parse(localStorage.getItem('thornvael.slots') ?? 'null') as unknown;
@@ -439,7 +456,7 @@ const rec = new GestureRecognizer({
   boxMode: () => boxMode,
   additive: () => addMode,
   aimMode: () => armed === 'spell',
-  dragSteer: () => controlMode === 'wasd' && !boxMode && armed === null,
+  dragSteer: () => inputController.getControlMode() === 'wasd' && !boxMode && armed === null,
 });
 const d2Controller = new D2InteractionController();
 
@@ -636,148 +653,35 @@ function drinkBelt(slot: number): void {
 }
 
 // --- classic ARPG Town Portal & Waypoint System ---
-let activeTownPortal: TownPortalState | null = null;
 const activeWaypoints = new Set<string>();
-const waypointModal = new WaypointTravelModal();
-let isTransitioning = false;
+const campaignLifecycle = createCampaignLifecycle({
+  getSim: () => sim,
+  getOutcome: () => outcome,
+  getCampaign: () => campaign,
+  getCampaignId: () => campaignId,
+  getCrec: () => crec,
+  setCrec: (next) => { crec = next; },
+  getActiveChar: () => activeChar,
+  getLoadedMission: () => loadedMission,
+  getMissionName: () => missionName,
+  getIsTownNode: () => isTownNode,
+  getSlots: () => slots,
+  alive,
+  army,
+  setUserPause: (v) => { userPause = v; },
+  toast: (msg) => toast(msg),
+  playSfx: (name, prio) => play(name, prio),
+  closeAllOverlays: () => {
+    townUi.close();
+    pauseMenu.close();
+    saveUi.close();
+    heroUi.close();
+  },
+  closeTownUi: () => townUi.close(),
+  persistChar,
+});
 
-const withCharParam = (url: string): string =>
-  activeChar && !url.includes('char=')
-    ? `${url}${url.includes('?') ? '&' : '?'}char=${encodeURIComponent(activeChar.id)}`
-    : url;
-
-async function castTownPortal(): Promise<void> {
-  if (outcome) return;
-  if (!sim.hero || !alive(sim.hero.id)) {
-    toast(S.hero.noHero);
-    return;
-  }
-  const tpScrollId = itemId('Scroll of Town Portal');
-  const hasScroll = tpScrollId >= 0 && sim.hero.inv.some((s) => s.item === tpScrollId && s.n > 0);
-  if (!hasScroll && isTownNode) {
-    if (crec?.progress.townPortal) {
-      void returnThroughTownPortal();
-      return;
-    }
-  }
-  if (!hasScroll) {
-    toast('A Scroll of Town Portal is required!');
-    return;
-  }
-  takeItem(sim.hero, tpScrollId);
-  toast('🌀 A blue Town Portal to town has opened!');
-  play('cast_water', 5);
-
-  if (campaign && crec && campaignId) {
-    const hx = Math.floor(sim.x[sim.hero.id] / FP);
-    const hy = Math.floor(sim.y[sim.hero.id] / FP);
-    crec.progress.townPortal = {
-      zoneNodeId: campaignId,
-      map: loadedMission?.doc.name || missionName || 'zone',
-      x: hx,
-      y: hy,
-    };
-    const currentAct = actOf(nodeOf(campaign, campaignId));
-    const townNode = townNodeForAct(campaign, currentAct);
-    const carry = extractCarryover(sim, crec.progress, townSeed(1, crec.progress.townVisits + 1), slots);
-    crec.progress.node = townNode.id;
-    crec.carry = carry;
-    await writeRecord(crec);
-    await deleteSave(AUTO).catch(() => undefined);
-    location.assign(withCharParam(`${nodeUrl(townNode)}&tpReturn=1`));
-  }
-}
-
-async function returnThroughTownPortal(): Promise<void> {
-  if (!campaign || !crec || !crec.progress.townPortal) return;
-  const tp = crec.progress.townPortal;
-  crec.progress.townPortal = null;
-  toast('🌀 Returning through the Town Portal to the wilderness...');
-  play('cast_water', 5);
-
-  const targetNode = nodeOf(campaign, tp.zoneNodeId);
-  const carry = sim.hero ? extractCarryover(sim, crec.progress, townSeed(1, crec.progress.townVisits + 1), slots) : null;
-  crec.progress.node = targetNode.id;
-  crec.carry = carry;
-  await writeRecord(crec);
-  await deleteSave(AUTO).catch(() => undefined);
-  location.assign(withCharParam(`${nodeUrl(targetNode)}&spawnX=${tp.x}&spawnY=${tp.y}&session=${crec.progress.sessionSeed ?? 1234567}`));
-}
-
-function triggerWaypointTravel(): void {
-  if (!campaign || !crec) return;
-  const currentAct = campaignId ? actOf(nodeOf(campaign, campaignId)) : 1;
-  userPause = true;
-  waypointModal.open({
-    campaign,
-    rec: crec,
-    currentAct,
-    currentNodeId: campaignId ?? '',
-    onTravel: (targetNode) => {
-      void (async () => {
-        toast(`⚡ Teleporting to ${targetNode.title}...`);
-        play('cast_astral', 5);
-        const carry = sim.hero ? extractCarryover(sim, crec!.progress, townSeed(1, crec!.progress.townVisits + 1), slots) : null;
-        crec!.progress.node = targetNode.id;
-        crec!.carry = carry;
-        await writeRecord(crec!);
-        await deleteSave(AUTO).catch(() => undefined);
-        const url = withCharParam(`${nodeUrl(targetNode)}&session=${crec!.progress.sessionSeed ?? 1234567}`);
-        location.assign(url);
-      })();
-    },
-    onClose: () => {
-      userPause = false;
-    },
-  });
-}
-
-async function transitionToZone(exit: ZoneExitDef): Promise<void> {
-  if (isTransitioning) return;
-  isTransitioning = true;
-  userPause = true;
-  toast(`🚪 Travelling to adjacent zone: ${exit.label || exit.targetMap}...`);
-  play('select_hero', 5);
-
-  if (campaign && crec) {
-    const carry = sim.hero ? extractCarryover(sim, crec.progress, townSeed(1, crec.progress.townVisits + 1), slots) : null;
-    const targetNode = campaign.nodes.find((n) => n.id === exit.targetMap || n.map === exit.targetMap);
-    if (targetNode) {
-      if (!crec.progress.unlocked.includes(targetNode.id)) {
-        crec.progress.unlocked.push(targetNode.id);
-      }
-      crec.progress.node = targetNode.id;
-      crec.carry = carry;
-      await writeRecord(crec);
-      await deleteSave(AUTO).catch(() => undefined);
-      const url = withCharParam(`${nodeUrl(targetNode)}&spawnX=${exit.targetX}&spawnY=${exit.targetY}&session=${crec.progress.sessionSeed ?? 1234567}`);
-      location.assign(url);
-      return;
-    }
-  }
-
-  location.assign(`./?mission=${encodeURIComponent(exit.targetMap)}&spawnX=${exit.targetX}&spawnY=${exit.targetY}`);
-}
-
-async function saveAndExit(): Promise<void> {
-  if (outcome) return;
-  userPause = true;
-  toast('💾 Saving character & exiting... Returning to Town Hub (D2R)...');
-  townUi.close();
-  pauseMenu.close();
-  saveUi.close();
-  heroUi.close();
-
-  if (campaign && crec) {
-    const carry = sim.hero ? extractCarryover(sim, crec.progress, townSeed(1, crec.progress.townVisits + 1), slots) : null;
-    crec = saveAndExitRecord(campaign, crec, carry);
-    await writeRecord(crec);
-    await deleteSave(AUTO).catch(() => undefined);
-    location.assign('./');
-  } else {
-    location.assign('./');
-  }
-}
+const { castTownPortal, triggerWaypointTravel, transitionToZone, saveAndExit, endNode, toMap } = campaignLifecycle;
 
 // --- classic ARPG Style Ground Loot Overlay ---
 const lootOverlay = new LootOverlayManager();
@@ -1136,6 +1040,7 @@ function toggleAuto(): void {
 }
 
 let pendingSmashProp: MapObject | null = null;
+const queuedAdvObjects = new WeakSet<object>();
 
 function findDestructibleProp(tx: number, ty: number): MapObject | null {
   for (const obj of map.objects) {
@@ -1147,67 +1052,6 @@ function findDestructibleProp(tx: number, ty: number): MapObject | null {
     }
   }
   return null;
-}
-
-function dropPropItemBagAt(tx: number, ty: number, finalItemId: number): void {
-  const cb = sim.cb;
-  for (let b = 0; b < cb.bI.length; b++) {
-    if (cb.bI[b]) continue;
-    cb.bX[b] = Math.round((tx + 0.5) * FP);
-    cb.bY[b] = Math.round((ty + 0.5) * FP);
-    cb.bI[b] = finalItemId + 1;
-    break;
-  }
-}
-
-function smashProp(obj: MapObject): void {
-  if (obj.destroyed) return;
-  obj.destroyed = true;
-  if (obj.x >= 0 && obj.x < map.w && obj.y >= 0 && obj.y < map.h) {
-    map.blocked[obj.y * map.w + obj.x] = 0;
-  }
-  if (obj.kind === PropKind.Barrel) {
-    try { play('hit', 5); } catch {}
-    sim.cb.emit(1, (obj.x + 0.5) * FP, (obj.y + 0.5) * FP, 0, 0);
-    const roll = sim.rng.int(100);
-    if (roll < 55) {
-      const g = 10 + sim.rng.int(20);
-      sim.cb.gold[0] = (sim.cb.gold[0] ?? 0) + g;
-      toast(`💰 Smashed Barrel: Found ${g} gold!`);
-      try { play('pickup_gold', 5); } catch {}
-    } else if (roll < 85) {
-      const potId = sim.rng.int(2) === 0 ? itemId('Healing Draught') : itemId('Mana Draught');
-      dropPropItemBagAt(obj.x, obj.y, potId >= 0 ? potId : 1);
-      toast('🏺 Smashed Barrel: Uncovered a Draught potion!');
-    } else {
-      const dropId = itemId('Iron Dagger');
-      dropPropItemBagAt(obj.x, obj.y, dropId >= 0 ? dropId : 1);
-      toast('🗡️ Smashed Barrel: Found equipment!');
-    }
-  } else if (obj.kind === PropKind.Urn) {
-    try { play('hit', 5); } catch {}
-    sim.cb.emit(1, (obj.x + 0.5) * FP, (obj.y + 0.5) * FP, 0, 0);
-    const roll = sim.rng.int(100);
-    if (roll < 70) {
-      const g = 15 + sim.rng.int(35);
-      sim.cb.gold[0] = (sim.cb.gold[0] ?? 0) + g;
-      toast(`💰 Shattered Ancient Urn: Found ${g} gold!`);
-      try { play('pickup_gold', 5); } catch {}
-    } else {
-      const potId = itemId('Healing Draught');
-      dropPropItemBagAt(obj.x, obj.y, potId >= 0 ? potId : 1);
-      toast('✨ Shattered Ancient Urn: Uncovered a Sacred Draught!');
-    }
-  } else if (obj.kind === PropKind.Sarcophagus) {
-    try { play('hit', 5); } catch {}
-    sim.cb.emit(6, (obj.x + 0.5) * FP, (obj.y + 0.5) * FP, 0, 0);
-    const g = 50 + sim.rng.int(60);
-    sim.cb.gold[0] = (sim.cb.gold[0] ?? 0) + g;
-    const relicId = itemId('Tempered Plate');
-    dropPropItemBagAt(obj.x, obj.y, relicId >= 0 ? relicId : 1);
-    toast(`⚰️ Opened Sarcophagus: Cleansed tomb and looted ${g} Gold & Relics!`);
-    try { play('pickup_gold', 5); } catch {}
-  }
 }
 
 /** The order a plain click or tap means: pickup if near loot, forced move, forced attack, attack when an enemy is under the pointer, else move. */
@@ -1231,7 +1075,7 @@ function smart(sx: number, sy: number): void {
       const heroId = sim.hero ? sim.hero.id : 0;
       const hDist = Math.hypot((sim.x[heroId] / FP) - (prop.x + 0.5), (sim.y[heroId] / FP) - (prop.y + 0.5));
       if (hDist <= 2.0) {
-        smashProp(prop);
+        queue({ type: 'smash_prop', x: prop.x, y: prop.y });
       } else {
         pendingSmashProp = prop;
         queue({ type: 'move', ids, x: prop.x + 0.5, y: prop.y + 0.5, loose: true });
@@ -1294,7 +1138,6 @@ function select(ids: number[], additive: boolean, toggleSingle = true): void {
   playMercVoiceBark(ids, 'select');
 }
 
-let holdShown = false;
 const dtap = new DoubleTap();
 
 function handle(intents: Intent[]): void {
@@ -1302,7 +1145,7 @@ function handle(intents: Intent[]): void {
     switch (it.type) {
       case 'click':
       case 'tap': {
-        if (holdShown) break; // a press-and-hold only shows info
+        if (inputController.isHoldShown()) break; // a press-and-hold only shows info
         if (armed) {
           if (execute(armed, it.x, it.y)) arm(null);
           else toast(S.invalidTarget);
@@ -1332,11 +1175,11 @@ function handle(intents: Intent[]): void {
       }
       case 'move-to':
         if (armed) arm(null);
-        else if (controlMode === 'wasd' && activeRmbSkill !== null && sim.hero && alive(sim.hero.id)) {
+        else if (inputController.getControlMode() === 'wasd' && activeRmbSkill !== null && sim.hero && alive(sim.hero.id)) {
           const [wx, wy] = renderer.toTile(it.x, it.y);
           const targetFoe = pickUnit(sim.count, posEnemy, it.x, it.y, PICK);
           queue({ type: 'hero', op: 'skill', skill: activeRmbSkill, x: wx, y: wy, target: targetFoe >= 0 ? targetFoe : undefined });
-        } else if (controlMode === 'wasd' && activeRmbSpell !== null && casters(activeRmbSpell).length > 0) {
+        } else if (inputController.getControlMode() === 'wasd' && activeRmbSpell !== null && casters(activeRmbSpell).length > 0) {
           castAt(activeRmbSpell, it.x, it.y, PICK);
         } else {
           smart(it.x, it.y);
@@ -1376,7 +1219,6 @@ function handle(intents: Intent[]): void {
 
 // --- tooltips: toolbar and skill buttons ---
 const tipEl = $('tip');
-let tipTimer = 0;
 let tipHide = 0;
 let hoveredUnit: number | null = null;
 function showTip(text: string, x: number, y: number): void {
@@ -1441,409 +1283,93 @@ function unitAt(x: number, y: number, r: number): number {
 }
 
 const canvas = $('game') as HTMLCanvasElement;
-const local = (e: PointerEvent | WheelEvent): [number, number] => {
-  const r = canvas.getBoundingClientRect();
-  return [e.clientX - r.left, e.clientY - r.top];
-};
-let downAt: [number, number] | null = null;
-let holdPoint: [number, number] = [0, 0];
-const radial = new RadialMenu(document.body, (o: RadialOrder) => {
-  if (o === 'hold' || o === 'retreat') orderButton(o);
-  else execute(o, holdPoint[0], holdPoint[1]);
-});
-canvas.addEventListener('pointerdown', (e) => {
-  if (e.button === 1) e.preventDefault();
-  unlock();
-  try {
-    canvas.setPointerCapture(e.pointerId);
-  } catch {
-    // synthetic pointer ids (tests) cannot be captured
-  }
-  mods.alt = e.altKey;
-  mods.ctrl = e.ctrlKey || e.metaKey;
-  const [x, y] = local(e);
-  const [wx, wy] = renderer.toTile(x, y);
-
-  if (controlMode === 'wasd' && (e.button === 0 || e.button === 2)) {
-    const enemy = pickUnit(sim.count, posEnemy, x, y, PICK);
-    const loot = nearestLoot(sim, Math.round(wx * FP), Math.round(wy * FP), 2.0 * FP);
-    let interactable: D2Interactable | undefined;
-    if (loot >= 0) {
-      const [lx, ly] = lootPos(sim, loot);
-      interactable = { type: 'item', x: lx / FP, y: ly / FP, id: loot };
-    } else if (loadedMission?.doc?.adventureObjects) {
-      const advObj = loadedMission.doc.adventureObjects.find((o) => !o.visited && Math.hypot(o.x + 0.5 - wx, o.y + 0.5 - wy) <= 2.0);
-      if (advObj) interactable = { type: 'chest', x: advObj.x + 0.5, y: advObj.y + 0.5, obj: advObj };
-    }
-    if (!interactable && sim.shrines) {
-      const sh = sim.shrines.find((s) => Math.hypot(s.x + 0.5 - wx, s.y + 0.5 - wy) <= 2.0);
-      if (sh) interactable = { type: 'shrine', x: sh.x + 0.5, y: sh.y + 0.5, obj: sh };
-    }
-    d2Controller.onPointerDown(wx, wy, e.button, e.shiftKey, enemy >= 0 ? enemy : undefined, interactable);
-  }
-
-  holdShown = false;
-  hideTip();
-  if (e.pointerType !== 'mouse') {
-    downAt = [x, y];
-    clearTimeout(tipTimer);
-    tipTimer = window.setTimeout(() => {
-      if (!downAt) return;
-      const i = unitAt(downAt[0], downAt[1], 28);
-      if (i < 0) {
-        // Hold on open ground with a squad selected: the radial order menu
-        if (selectedIds().length === 0 || armed || outcome) return;
-        holdShown = true;
-        holdPoint = [downAt[0], downAt[1]];
-        radial.show(downAt[0], downAt[1], canvas.clientWidth, canvas.clientHeight, S.touch.radial);
-        return;
-      }
-      holdShown = true;
-      hoveredUnit = i;
-    }, 450);
-  }
-  handle(rec.down(e.pointerId, x, y, e.pointerType !== 'mouse', e.button, e.shiftKey));
-});
-canvas.addEventListener('pointermove', (e) => {
-  const [x, y] = local(e);
-  lastPointerPos = [x, y];
-  const [wx, wy] = renderer.toTile(x, y);
-  mods.alt = e.altKey;
-  mods.ctrl = e.ctrlKey || e.metaKey;
-  if (controlMode === 'wasd' && d2Controller.isHolding) {
-    d2Controller.onPointerMove(wx, wy, e.shiftKey);
-  }
-  if (downAt && Math.hypot(x - downAt[0], y - downAt[1]) > 10) {
-    downAt = null;
-    clearTimeout(tipTimer);
-  }
-  if (e.pointerType === 'mouse') updateHover(x, y);
-  handle(rec.move(e.pointerId, x, y));
-});
-canvas.addEventListener('pointerup', (e) => {
-  if (controlMode === 'wasd') d2Controller.onPointerUp(e.button);
-  mods.alt = e.altKey;
-  mods.ctrl = e.ctrlKey || e.metaKey;
-  updateAltButtonStates(mods.alt || altMobileToggle);
-  downAt = null;
-  clearTimeout(tipTimer);
-  handle(rec.up(e.pointerId));
-  if (holdShown) {
+const inputController = createInputController({
+  canvas,
+  pickRadius: PICK,
+  getSim: () => sim,
+  getLoadedMission: () => loadedMission,
+  toTile: (sx, sy) => renderer.toTile(sx, sy),
+  centerOnTile: (tx, ty) => renderer.centerOn(tx, ty),
+  posEnemy,
+  posMine,
+  unitAt,
+  alive,
+  px: (id) => px(sim, id),
+  py: (id) => py(sim, id),
+  selectedIds,
+  d2Controller,
+  recognizer: rec,
+  handleIntent: handle,
+  mods,
+  getAltMobileToggle: () => altMobileToggle,
+  updateAltButtonStates,
+  getArmed: () => armed,
+  arm,
+  getArmedSpell: () => armedSpell,
+  aimInfo,
+  setAimView: (aim) => { aimView = aim; },
+  forced,
+  setHover: (h) => { hover = h; },
+  setHoveredUnit: (u) => { hoveredUnit = u; },
+  setBoxDrag: (b) => { boxDrag = b; },
+  getOutcome: () => outcome,
+  hideTip,
+  scheduleHoldTipHide: () => {
     clearTimeout(tipHide);
     tipHide = window.setTimeout(() => {
       hoveredUnit = null;
       hideTip();
     }, 1500);
-  }
-});
-canvas.addEventListener('pointercancel', () => {
-  d2Controller.reset();
-  mods.alt = false;
-  updateAltButtonStates(altMobileToggle);
-  handle(rec.cancel());
-  boxDrag = null;
-  downAt = null;
-  hoveredUnit = null;
-  clearTimeout(tipTimer);
-});
-canvas.addEventListener('pointerleave', (e) => {
-  if (e.pointerType === 'mouse') {
-    pointerAt = null;
-    hover = null;
-    hoveredUnit = null;
-    hideTip();
-  }
-});
-canvas.addEventListener('auxclick', (e) => {
-  if (e.button === 1) e.preventDefault();
-});
-canvas.addEventListener(
-  'wheel',
-  (e) => {
-    e.preventDefault();
-    const [x, y] = local(e);
-    handle(rec.wheel(e.deltaY, x, y));
   },
-  { passive: false },
-);
-document.addEventListener('gesturestart', (e) => e.preventDefault());
-document.addEventListener('contextmenu', (e) => e.preventDefault());
-
-/** Mouse hover: show the cursor for the order that a click would give, and the unit info. */
-let pointerAt: [number, number] | null = null; // last mouse position, for the F3 tile readout
-function updateHover(x: number, y: number): void {
-  pointerAt = [x, y];
-  const enemy = pickUnit(sim.count, posEnemy, x, y, PICK);
-  const mine = pickUnit(sim.count, posMine, x, y, PICK);
-  const haveSel = selectedIds().length > 0;
-  let ok = false;
-  let cursor = '';
-  if (armed === 'spell') {
-    aimView = aimInfo(armedSpell, x, y);
-    ok = aimView!.ok;
-    cursor = ok ? 'crosshair' : 'not-allowed';
-  } else if (armed) {
-    if (armed === 'defend') ok = mine >= 0;
-    else if (armed === 'pickup') {
-      const [tx, ty] = renderer.toTile(x, y);
-      ok = nearestLoot(sim, Math.round(tx * FP), Math.round(ty * FP), 2 * FP) >= 0;
-    } else ok = true;
-    cursor = ok ? 'crosshair' : 'not-allowed';
-  } else if (enemy >= 0 && haveSel && forced() !== 1) {
-    ok = true;
-    cursor = 'crosshair';
-  } else if (mine >= 0) cursor = 'pointer';
-  canvas.style.cursor = cursor;
-  const shown = enemy >= 0 ? enemy : mine;
-  hover = enemy >= 0 && (armed === null || armed === 'attack') ? { id: enemy, ok } : null;
-  hoveredUnit = shown >= 0 ? shown : null;
-  hideTip();
-}
-
-type ControlMode = 'wasd' | 'mouse';
-let controlMode: ControlMode = (localStorage.getItem('thornvael.controls') as ControlMode) || 'wasd';
-
-const CLASSIC_ORDER_KEYS: Record<string, string> = { m: 'move', a: 'attack', g: 'guard', d: 'defend', c: 'cast', w: 'swarm', h: 'hold', r: 'retreat', s: 'still', p: 'pickup' };
-const WASD_ORDER_KEYS: Record<string, string> = { m: 'move', g: 'guard', c: 'cast', h: 'hold', r: 'retreat', p: 'pickup' };
-
-const keys = new Set<string>();
-const heldMoveKeys = new Set<string>();
-
-function resetDesktopInput(): void {
-  d2Controller.reset();
-  heldMoveKeys.clear();
-  keys.clear();
-  mods.alt = false;
-  mods.ctrl = false;
-  updateAltButtonStates(altMobileToggle);
-  pointerAt = null;
-  hoveredUnit = null;
-  handle(rec.cancel());
-  boxDrag = null;
-  downAt = null;
-  clearTimeout(tipTimer);
-  hideTip();
-  radial.hide();
-}
-window.addEventListener('blur', resetDesktopInput);
-document.addEventListener('visibilitychange', () => {
-  if (document.hidden) resetDesktopInput();
-});
-window.addEventListener('keydown', (e) => {
-  // Block all other UI/game shortcuts while gothic character dialogue is open so sheets cannot open behind it
-  if (missionUi?.isDialogueOpen()) {
-    if (e.key === ' ' || e.key === 'Enter') {
-      missionUi.advanceDialogue();
-    } else if (e.key === '1' || e.key === '2' || e.key === '3') {
-      missionUi.selectStance(Number(e.key));
-    }
-    e.preventDefault();
-    return;
-  }
-  // Editors own all their keys, including sheet shortcuts such as I and Escape.
-  if (e.target instanceof Element && (e.target.closest('input, textarea, select') || (e.target instanceof HTMLElement && e.target.isContentEditable))) return;
-  if (e.target instanceof HTMLButtonElement && e.key === ' ') return;
-  // Inside a visible sheet the keys belong to the sheet (Tab, Enter, arrows), except Esc, Pause and sheet toggles.
-  const inSheet = e.target instanceof Element && e.target.closest('.sheet:not([hidden]), .spellbook-modal:not([hidden])') !== null;
-  if (inSheet && e.key !== 'Escape' && e.key !== 'Pause' && e.code !== 'Pause' && e.key.toLowerCase() !== 'i' && e.key.toLowerCase() !== 's' && e.key.toLowerCase() !== 'b') return;
-  if (heroUi.creating) return;
-  if (e.key === 'Tab') {
-    e.preventDefault();
-    automap.toggle();
-    return;
-  }
-  if (e.key === 'Shift') d2Controller.setShift(true);
-  if (e.key === 'Alt') {
-    mods.alt = true;
-    e.preventDefault();
-  } else {
-    mods.alt = e.altKey;
-  }
-  mods.ctrl = e.ctrlKey || e.metaKey;
-  updateAltButtonStates(mods.alt || altMobileToggle);
-
-  const code = e.code;
-  const keyLower = e.key.toLowerCase();
-  if (code === 'KeyR' && !e.repeat && !e.ctrlKey && !e.metaKey) {
-    if (e.shiftKey) {
-      regroupSquad();
-    } else {
-      toggleRun();
-    }
-    return;
-  }
-  const isMoveKey =
-    code === 'KeyW' || code === 'KeyA' || code === 'KeyS' || code === 'KeyD' ||
-    code === 'ArrowUp' || code === 'ArrowLeft' || code === 'ArrowDown' || code === 'ArrowRight' ||
-    keyLower === 'w' || keyLower === 'a' || keyLower === 's' || keyLower === 'd' ||
-    keyLower === 'arrowup' || keyLower === 'arrowleft' || keyLower === 'arrowdown' || keyLower === 'arrowright';
-
-  if (controlMode === 'wasd' && isMoveKey) {
-    e.preventDefault();
-    heldMoveKeys.add(code);
-    heldMoveKeys.add(keyLower);
-    cameraFollow = true;
-    if (e.repeat) return;
-  }
-
-  // Movement is sampled each frame; all other shortcuts are one action per press.
-  if (e.repeat && !/^Arrow(?:Left|Right|Up|Down)$/.test(e.key)) {
-    e.preventDefault();
-    return;
-  }
-  unlock();
-  const noMod = !e.ctrlKey && !e.altKey && !e.shiftKey && !e.metaKey;
-  const matchesPotion = (id: string): boolean =>
-    noMod &&
-    keybindManager.matches(id, e.code, e.key) &&
-    (controlMode === 'wasd' || !/^(?:Digit|Numpad)[1-4]$/.test(e.code));
-  if (matchesPotion('potion1')) {
-    e.preventDefault();
-    drinkBelt(1);
-    return;
-  }
-  if (matchesPotion('potion2')) {
-    e.preventDefault();
-    drinkBelt(2);
-    return;
-  }
-  if (matchesPotion('potion3')) {
-    e.preventDefault();
-    drinkBelt(3);
-    return;
-  }
-  if (matchesPotion('potion4')) {
-    e.preventDefault();
-    drinkBelt(4);
-    return;
-  }
-  const digit = /^(?:Digit|Numpad)([1-9])$/.exec(e.code);
-  if (digit) {
-    const d = Number(digit[1]);
-    if (controlMode === 'wasd' && noMod && d >= 1 && d <= 4) {
-      e.preventDefault();
-      drinkBelt(d);
-      return;
-    }
-    e.preventDefault();
-    groupKey(d, e.ctrlKey || e.altKey ? 'set' : e.shiftKey ? 'add' : 'recall');
-  } else if (e.key === 'F3' && (e.shiftKey || e.ctrlKey || slots[2] < 0)) {
-    e.preventDefault();
-    renderer.setDebug(f3.toggle(sim));
-  } else if (e.ctrlKey && e.key.toLowerCase() === 'a') {
-    e.preventDefault();
-    toggleAuto();
-  } else if (/^F([1-8])$/.test(e.key)) {
-    e.preventDefault();
-    castSlot(Number(e.key.slice(1)) - 1);
-  } else if (/^F(?:9|1[0-2])$/.test(e.key)) {
-    e.preventDefault();
-    castSlot(Number(e.key.slice(1)) - 4);
-  } else if (e.key === 'Escape' || keybindManager.matches('pause', e.code, e.key)) {
-    if (missionUi?.isJournalOpen()) {
-      missionUi.closeJournal();
-      return;
-    }
-    const qm = document.getElementById('quest-modal');
-    if (pauseMenu && pauseMenu.isOpen) {
-      if (!pauseMenu.handleEscape()) {
-        pauseMenu.close();
-        userPause = false;
-        $('btn-pause').classList.remove('on');
-      }
-    } else if (townUi.open) townUi.close();
-    else if (saveUi.open) saveUi.close();
-    else if (!$('book').hidden) closeBook();
-    else if (heroUi.isOpen) heroUi.close();
-    else if (qm && !qm.hidden) qm.hidden = true;
-    else if (armed) arm(null);
-    else togglePauseMenu();
-  } else if (e.key === ' ' || e.code === 'Space' || keybindManager.matches('recenter', e.code, e.key)) {
-    e.preventDefault();
-    if (pauseMenu && pauseMenu.isOpen) {
-      pauseMenu.close();
-      userPause = false;
-      $('btn-pause').classList.remove('on');
-    } else {
-      cameraFollow = true;
-      if (sim.count > 0 && alive(0)) {
-        renderer.centerOn(px(sim, 0), py(sim, 0));
-      }
-    }
-  } else if (e.key === 'Pause' || e.code === 'Pause') {
-    e.preventDefault();
-    togglePause();
-  } else if ((keybindManager.matches('quests', e.code, e.key) || e.key.toLowerCase() === 'q' || e.key.toLowerCase() === 'o') && !e.ctrlKey && !e.altKey && !e.metaKey) {
-    e.preventDefault();
+  orderButton,
+  executeOrder: execute,
+  isDialogueOpen: () => Boolean(missionUi?.isDialogueOpen()),
+  advanceDialogue: () => missionUi?.advanceDialogue(),
+  selectStance: (n) => missionUi?.selectStance(n),
+  isJournalOpen: () => Boolean(missionUi?.isJournalOpen()),
+  closeJournal: () => missionUi?.closeJournal(),
+  isHeroCreating: () => heroUi.creating,
+  toggleAutomap: () => automap.toggle(),
+  regroupSquad,
+  toggleRun,
+  setCameraFollow: (v) => { cameraFollow = v; },
+  drinkBelt,
+  groupKey,
+  canToggleDebugF3: () => slots[2] < 0,
+  toggleDebugF3: () => renderer.setDebug(f3.toggle(sim)),
+  toggleAuto,
+  castSlot,
+  isPauseMenuOpen: () => Boolean(pauseMenu && pauseMenu.isOpen),
+  handlePauseMenuEscape: () => pauseMenu.handleEscape(),
+  closePauseMenu: () => {
+    pauseMenu.close();
+    userPause = false;
+    $('btn-pause').classList.remove('on');
+  },
+  togglePauseMenu,
+  togglePause,
+  isTownOpen: () => townUi.open,
+  closeTownUi: () => townUi.close(),
+  isSaveOpen: () => saveUi.open,
+  closeSaveUi: () => saveUi.close(),
+  isBookOpen: () => !$('book').hidden,
+  closeBook,
+  openBook,
+  isHeroUiOpen: () => heroUi.isOpen,
+  closeHeroUi: () => heroUi.close(),
+  toggleHeroStats: () => heroUi.toggleStats(),
+  toggleHeroInventory: () => heroUi.toggleInventory(),
+  toggleObjectivesOrQuests: () => {
     if (missionUi) missionUi.toggleObjectives();
     else toggleQuestLog();
-  } else if (
-    noMod &&
-    !(controlMode === 'mouse' && keyLower === 'm' && keybindManager.getBinding('minimap').code === 'KeyM') &&
-    (keybindManager.matches('minimap', e.code, e.key) || keyLower === 'm')
-  ) {
-    e.preventDefault();
-    toggleMinimap();
-  } else if (e.key.toLowerCase() === 'w' && !e.ctrlKey && !e.altKey && controlMode !== 'wasd') {
-    e.preventDefault();
-    if (sim.hero) triggerHeroSkill(1);
-  } else if (e.key.toLowerCase() === 'e' && !e.ctrlKey && !e.altKey) {
-    e.preventDefault();
-    if (sim.hero) triggerHeroSkill(2);
-  } else if (e.key.toLowerCase() === 'j' && !e.ctrlKey && !e.altKey) {
-    e.preventDefault();
-    toggleQuestLog();
-  } else if (e.key.toLowerCase() === 't' && !e.ctrlKey && !e.altKey) {
-    e.preventDefault();
-    openBook(-1);
-  } else if ((keybindManager.matches('character', e.code, e.key) || e.key.toLowerCase() === 'c') && !e.ctrlKey && !e.altKey) {
-    e.preventDefault();
-    heroUi.toggleStats();
-  } else if (
-    noMod &&
-    controlMode !== 'wasd' &&
-    !(controlMode === 'mouse' && keyLower === 's' && keybindManager.getBinding('spellbook').code === 'KeyS') &&
-    (keybindManager.matches('spellbook', e.code, e.key) || keyLower === 's')
-  ) {
-    e.preventDefault();
-    openBook(-1);
-  } else if ((keybindManager.matches('inventory', e.code, e.key) || e.key.toLowerCase() === 'i' || e.key.toLowerCase() === 'b') && !e.ctrlKey && !e.altKey) {
-    e.preventDefault();
-    heroUi.toggleInventory();
-  }
-  else if (e.key.toLowerCase() === 'i' && !e.ctrlKey && !e.altKey && !e.metaKey) {
-    e.preventDefault();
-    heroUi.toggleInventory();
-  } else if (e.key.toLowerCase() === 'f' && !e.ctrlKey && !e.altKey) {
-    toggleLoose();
-    if (sim.hero && alive(sim.hero.id)) {
-      const sweep = performLootSweep(sim, sim.hero.id, 8);
-      if (sweep.canLoot && sweep.targets.length > 0) {
-        const lid = nearestLoot(sim, sim.x[sim.hero.id], sim.y[sim.hero.id], 8 * FP);
-        if (lid >= 0) orderPickupLoot(lid);
-      }
-    }
-  }
-  else if (!e.ctrlKey && !e.altKey && !e.metaKey && (controlMode === 'wasd' ? WASD_ORDER_KEYS : CLASSIC_ORDER_KEYS)[keyLower]) {
-    orderButton((controlMode === 'wasd' ? WASD_ORDER_KEYS : CLASSIC_ORDER_KEYS)[keyLower]);
-  } else {
-    keys.add(keyLower);
-  }
+  },
+  toggleQuestLog,
+  toggleMinimap,
+  triggerHeroSkill,
+  toggleLoose,
+  orderPickupLoot,
 });
-window.addEventListener('keyup', (e) => {
-  if (e.key === 'Shift') d2Controller.setShift(false);
-  if (e.key === 'Alt') {
-    mods.alt = false;
-    e.preventDefault();
-  } else {
-    mods.alt = e.altKey;
-  }
-  mods.ctrl = e.ctrlKey || e.metaKey;
-  updateAltButtonStates(mods.alt || altMobileToggle);
-  heldMoveKeys.delete(e.code);
-  heldMoveKeys.delete(e.key.toLowerCase());
-  keys.delete(e.key.toLowerCase());
-});
+const { heldMoveKeys, keys } = inputController;
 
 // --- command bar ---
 const INSTANT = new Set(['swarm', 'hold', 'retreat', 'still']);
@@ -2174,7 +1700,6 @@ function openBook(slot = -1): void {
 function closeBook(): void {
   spellbookUi.close();
   bookEl.hidden = true;
-  slotAssign = -1;
 }
 
 $('btn-spells').onclick = () => spellbookUi.toggle();
@@ -2187,73 +1712,6 @@ if (menuSpells) {
     if (mm) { mm.hidden = true; userPause = false; }
     spellbookUi.open();
   };
-}
-const heroKnows = (sid: number): boolean => sim.hero === null || maskHas(sim.cb.known[sim.hero.id], sim.cb.knownHi, sim.hero.id * KNOWN_HI, sid);
-function renderBook(): void {
-  const body = $('book-body');
-  body.replaceChildren();
-  const head = bookEl.querySelector('.book-head')!;
-  head.querySelector('.tabs')?.remove();
-  if (sim.hero !== null) {
-    head.insertBefore(
-      tabStrip(2, (n) => {
-        if (n === 2) return;
-        closeBook();
-        heroUi.open(n === 0 ? 'hero' : 'pack');
-      }),
-      $('book-close'),
-    );
-  }
-  const row = document.createElement('div');
-  row.className = 'book-slots';
-  for (let n = 0; n < 9; n++) {
-    const b = document.createElement('button');
-    b.textContent = `F${n + 4}`;
-    const small = document.createElement('small');
-    small.textContent = slots[n] >= ITEM_BASE ? (getItemDef(slots[n] - ITEM_BASE)?.name ?? '') : slots[n] >= 0 ? SPELLS[slots[n]].name : '-';
-    b.append(small);
-    b.classList.toggle('on', slotAssign === n);
-    b.onclick = () => {
-      slotAssign = slotAssign === n ? -1 : n;
-      renderBook();
-    };
-    row.append(b);
-  }
-  body.append(row);
-  for (let school = 1; school <= 5; school++) {
-    const h = document.createElement('h3');
-    h.textContent = S.schools[school];
-    h.style.color = SCHOOL_BORDER[school];
-    const grid = document.createElement('div');
-    grid.className = 'book-grid';
-    SPELLS.forEach((sp, sid) => {
-      if (sp.school !== school) return;
-      const b = document.createElement('button');
-      b.textContent = sp.name;
-      const small = document.createElement('small');
-      small.textContent = heroKnows(sid) ? `${S.cost} ${sp.cost} \u00b7 ${S.targeting[sp.tk]}` : S.notLearned;
-      b.append(small);
-      b.style.borderColor = SCHOOL_BORDER[school];
-      b.classList.toggle('dim', !heroKnows(sid) || (selectedIds().length > 0 && casters(sid).length === 0));
-      b.dataset.spell = String(sid);
-      tipOn(b, spellTip(sid));
-      b.onclick = () => {
-        if (slotAssign >= 0) {
-          slots[slotAssign] = sid;
-          saveSlots();
-          buildQuick();
-          slotAssign = -1;
-          toast(S.slotSet);
-          renderBook();
-        } else {
-          closeBook();
-          armSpell(sid);
-        }
-      };
-      grid.append(b);
-    });
-    body.append(h, grid);
-  }
 }
 $('book-close').onclick = closeBook;
 $('book-help').textContent = S.bookHelp;
@@ -2392,7 +1850,7 @@ function checkVisit(): void {
       pendingSmashProp = null;
     } else if (alive(0)) {
       if (heroNear(pendingSmashProp.x + 0.5, pendingSmashProp.y + 0.5, 2.0)) {
-        smashProp(pendingSmashProp);
+        queue({ type: 'smash_prop', x: pendingSmashProp.x, y: pendingSmashProp.y });
         pendingSmashProp = null;
       }
     }
@@ -2788,7 +2246,24 @@ function autosave(): void {
 setInterval(() => {
   if (!hidden && !userPause && sim.tick - lastAutosave >= 60 * TICKS_PER_SECOND) autosave();
 }, 5000);
-window.addEventListener('pagehide', autosave);
+function preloadKnownSpellAudio(): void {
+  const hero = sim.hero;
+  if (!hero) return;
+  const cues: string[] = [];
+  for (let s = 0; s < SPELL_CAST_SFX.length; s++) {
+    if (heroKnowsSpell(hero, s) && SPELL_CAST_SFX[s]) cues.push(SPELL_CAST_SFX[s]);
+  }
+  if (cues.length > 0) void preloadAudioCues(cues);
+}
+
+window.addEventListener('pagehide', () => {
+  autosave();
+  unloadOnDemandAudio();
+});
+window.addEventListener('beforeunload', () => {
+  unloadOnDemandAudio();
+  renderer.destroy();
+});
 
 let fxTickConsumed = -1;
 let fxIdxConsumed = 0;
@@ -2806,7 +2281,10 @@ function heroEvents(startIdx: number): void {
       toast(`${verbs[e.el]}: ${e.el === 3 && d.spell >= 0 ? SPELLS[d.spell].name : d.name}`);
       if (e.el === 0 && d.rarity !== 'normal' && d.rarity !== 'magic') { const rb = heroBark('loot_rare', 8000); if (rb) setTimeout(() => toast(`"${rb}"`), 1200); }
       if (e.el === 0 && tips.once('firstLoot')) setTimeout(() => toast(S.firstTips.firstLoot), 2200);
-      else if (e.el === 3 && tips.once('firstSpell')) setTimeout(() => toast(S.firstTips.firstSpell), 2200);
+      else if (e.el === 3) {
+        preloadKnownSpellAudio();
+        if (tips.once('firstSpell')) setTimeout(() => toast(S.firstTips.firstSpell), 2200);
+      }
       touched = true;
     } else if (e.type === 15) {
       if (e.v === 4 || e.v === 5) {
@@ -2827,6 +2305,50 @@ function heroEvents(startIdx: number): void {
         toast(`${S.hero.skillUp}: ${SKILL_NAMES[e.v]} ${e.el}`);
         touched = true;
       }
+    } else if (e.type === 13) {
+      const t = e.v;
+      const fam = sim.cb.family[t] ?? '';
+      const su = e.el === 1 ? getSuperUniqueForUnit(sim, t) : undefined;
+      const trophyId = su?.id || fam;
+      if (trophyId) {
+        discoverBossTrophy(trophyId, 'normal', {
+          heroName: sim.hero?.name,
+          heroLevel: sim.hero?.level,
+          droppedBy: su?.name || fam,
+        });
+      }
+    } else if (e.type === 16) {
+      try { play('hit', 5); } catch {}
+      if (e.v === PropKind.Barrel) {
+        if (e.el > 0) {
+          toast(`💰 Smashed Barrel: Found ${e.el} gold!`);
+          try { play('pickup_gold', 5); } catch {}
+        } else if (Math.abs(e.el) - 1 === itemId('Iron Dagger')) {
+          toast('🗡️ Smashed Barrel: Found equipment!');
+        } else {
+          toast('🏺 Smashed Barrel: Uncovered a Draught potion!');
+        }
+      } else if (e.v === PropKind.Urn) {
+        if (e.el > 0) {
+          toast(`💰 Shattered Ancient Urn: Found ${e.el} gold!`);
+          try { play('pickup_gold', 5); } catch {}
+        } else {
+          toast('✨ Shattered Ancient Urn: Uncovered a Sacred Draught!');
+        }
+      } else if (e.v === PropKind.Sarcophagus) {
+        toast(`⚰️ Opened Sarcophagus: Cleansed tomb and looted ${e.el} Gold & Relics!`);
+        try { play('pickup_gold', 5); } catch {}
+      }
+    } else if (e.type === 17) {
+      const kind = ADVENTURE_OBJECT_KINDS[e.v];
+      if (kind === 'watermill' || kind === 'windmill') {
+        toast(`💰 Plundered mill stores: +${e.el} gold!`);
+      } else if (kind === 'magic_well' || kind === 'fountain_of_youth') {
+        toast('✨ The sacred well restored vitality and bestowed a Blessing!');
+      } else if (kind === 'creature_bank') {
+        toast(`🏆 Monster den cleansed: looted +${e.el} gold and trophies!`);
+      }
+      try { play('pickup_gold', 5); } catch {}
     }
   }
   if (touched) {
@@ -2893,11 +2415,24 @@ for (let n = 1; n <= GROUP_COUNT; n++) {
 }
 refreshGroupButtons();
 function toggle(id: string, on: boolean): void {
-  $(id).classList.toggle('on', on);
-  $(id).setAttribute('aria-pressed', String(on));
+  const node = document.getElementById(id);
+  if (!node) return;
+  node.classList.toggle('on', on);
+  node.setAttribute('aria-pressed', String(on));
 }
-$('btn-box').onclick = () => toggle('btn-box', (boxMode = !boxMode));
-$('btn-add').onclick = () => toggle('btn-add', (addMode = !addMode));
+function syncBoxAddUi(): void {
+  toggle('btn-box', boxMode);
+  toggle('btn-hud-box', boxMode);
+  toggle('btn-add', addMode);
+  toggle('btn-hud-add', addMode);
+}
+syncBoxAddUi();
+$('btn-box').onclick = () => { boxMode = !boxMode; syncBoxAddUi(); };
+$('btn-add').onclick = () => { addMode = !addMode; syncBoxAddUi(); };
+const hudBoxBtn = document.getElementById('btn-hud-box');
+if (hudBoxBtn) hudBoxBtn.onclick = () => { boxMode = !boxMode; syncBoxAddUi(); };
+const hudAddBtn = document.getElementById('btn-hud-add');
+if (hudAddBtn) hudAddBtn.onclick = () => { addMode = !addMode; syncBoxAddUi(); };
 $('btn-set').onclick = () => toggle('btn-set', (setMode = !setMode));
 $('btn-all').onclick = selectAll;
 $('btn-pause').onclick = () => {
@@ -3128,7 +2663,6 @@ let emaDt = 16; // smoothed frame time in ms; quality drops when it stays above 
 const dbg = $('debug');
 dbg.hidden = !debug;
 const f3 = new DebugPanel(document.body); // F3: tiles, paths, hit log
-let persisted: boolean | string = '?';
 let live = { fps: 0, drawMs: 0, stepMs: 0, worstMs: 0 };
 if (diag) void import('./diag').then((m) => m.startDiag(document.body, () => live));
 
@@ -3155,6 +2689,26 @@ function updateStats(): void {
     }
     if (!isTownNode) achTrack(sim.count, sim.team, sim.cb.hp, sim.cb.family);
     if (!isTownNode) sqTrack(sim.count, sim.team, sim.cb.hp, sim.cb.family, sim.cb.gold[0] ?? 0);
+    if (sim.hero) {
+      const currentCounts = new Map<string, number>();
+      for (const slot of sim.hero.inv) {
+        if (slot.item < 0 || slot.n <= 0) continue;
+        const itemDef = getItemDef(slot.item);
+        const itemName = itemDef?.trueName ?? itemDef?.name;
+        if (itemName) currentCounts.set(itemName, (currentCounts.get(itemName) ?? 0) + slot.n);
+      }
+      if (!steppedInvInit) {
+        steppedInvInit = true;
+        for (const [k, v] of currentCounts) steppedInvCounts.set(k, v);
+      } else {
+        for (const [itemName, count] of currentCounts) {
+          const prev = steppedInvCounts.get(itemName) ?? 0;
+          if (count > prev) steppedQuests.onCollectItem(itemName, count - prev);
+        }
+        steppedInvCounts.clear();
+        for (const [k, v] of currentCounts) steppedInvCounts.set(k, v);
+      }
+    }
     if (!isTownNode && missionName) {
       radioFoes0 = Math.max(radioFoes0, aliveFoes);
       if (!radioHalf && radioFoes0 >= 6 && aliveFoes <= radioFoes0 / 2) { radioHalf = true; void missionRadio(missionName, 'half_cleared').then((l) => { if (l) toast(`Radio: ${l}`); }); }
@@ -3180,316 +2734,36 @@ function updateStats(): void {
   }
 }
 
-let freeRoamActive = false;
-let victoryFinalized = false;
-let victoryModalEl: HTMLElement | null = null;
-
-function getVictoryModal(): HTMLElement {
-  if (victoryModalEl) return victoryModalEl;
-  let el = document.getElementById('victory-modal');
-  if (!el) {
-    el = document.createElement('div');
-    el.id = 'victory-modal';
-    el.className = 'gothic-victory-overlay';
-    document.body.append(el);
-  }
-  victoryModalEl = el;
-  return el;
+function victoryCtx(): VictoryScreenContext {
+  return {
+    sim,
+    campaign,
+    campaignId,
+    crec,
+    army,
+    onClearOutcomeForFreeRoam: () => {
+      userPause = false;
+      outcome = null;
+      victoryBarked = false;
+    },
+    onFinalize: (win, narrative, dest) => endNode(win, narrative, dest),
+    toast,
+  };
 }
 
 function showVictoryScreen(winText?: string): void {
-  const modal = getVictoryModal();
-  modal.replaceChildren();
-  modal.className = 'gothic-victory-overlay';
-
-  try {
-    play('loot_unique', 5);
-    play('loot_set', 4);
-    setMusic(true, 'town');
-  } catch {}
-
-  const frame = document.createElement('div');
-  frame.className = 'gothic-victory-frame';
-
-  const laurelSvg = `<svg viewBox="0 0 160 80" xmlns="http://www.w3.org/2000/svg" class="victory-laurel-svg">
-    <defs>
-      <linearGradient id="v-gold" x1="0%" y1="0%" x2="100%" y2="100%">
-        <stop offset="0%" stop-color="#fff2a8"/>
-        <stop offset="50%" stop-color="#d4af37"/>
-        <stop offset="100%" stop-color="#8c6d17"/>
-      </linearGradient>
-    </defs>
-    <path d="M 80 70 C 50 70 25 50 20 25 C 25 28 35 32 40 40 C 45 48 55 58 75 62 Z" fill="url(#v-gold)"/>
-    <path d="M 80 70 C 110 70 135 50 140 25 C 135 28 125 32 120 40 C 115 48 105 58 85 62 Z" fill="url(#v-gold)"/>
-    <polygon points="80,15 84,27 96,27 86,35 90,47 80,39 70,47 74,35 64,27 76,27" fill="url(#v-gold)" stroke="#57420b" stroke-width="1"/>
-  </svg>`;
-
-  const header = document.createElement('div');
-  header.className = 'victory-header-banner';
-  header.innerHTML = `
-    <div class="laurel-crest">${laurelSvg}</div>
-    <h1 class="victory-title">VICTORY OVER THORNVAEL</h1>
-    <div class="victory-subtitle">✦ Act I · Chapter 1: The Scourge of Thornvael ✦</div>
-  `;
-
-  const narrative = winText && winText !== S.victoryBody
-    ? winText
-    : "With Chieftain Grok'tar slain, the remaining gnoll packs shatter into the high crags. The river crossing is secured, and Thornwick's border lanterns burn steadily through the mist.";
-
-  const aftermathBox = document.createElement('div');
-  aftermathBox.className = 'victory-aftermath-box';
-  aftermathBox.innerHTML = `
-    <div class="aftermath-label">✦ NARRATIVE AFTERMATH ✦</div>
-    <p class="aftermath-text" style="white-space:pre-line">${narrative}</p>
-  `;
-
-  const gold = sim.cb.gold[0];
-
-  let hunters = 0;
-  let brutes = 0;
-  let shamans = 0;
-  let warlords = 0;
-  let totalEnemies = 0;
-  let killedEnemies = 0;
-
-  for (let i = 0; i < sim.count; i++) {
-    if (sim.team[i] === 1) {
-      totalEnemies++;
-      if (sim.cb.hp[i] <= 0) {
-        killedEnemies++;
-        const k = sim.cb.kind[i];
-        if (k === Kind.Golem) warlords++;
-        else if (k === Kind.Imp) shamans++;
-        else if (k === Kind.Gnoll) {
-          if (i % 2 === 0) brutes++;
-          else hunters++;
-        } else {
-          hunters++;
-        }
-      }
-    }
-  }
-
-  if (totalEnemies === 0) {
-    totalEnemies = 12;
-    killedEnemies = 12;
-    hunters = 4;
-    brutes = 5;
-    shamans = 2;
-    warlords = 1;
-  }
-  if (killedEnemies === 0) killedEnemies = totalEnemies;
-  if (warlords === 0) warlords = 1;
-
-  const relics: string[] = [];
-  if (sim.hero) {
-    for (const stack of sim.hero.inv) {
-      if (stack && stack.item) {
-        const def = getItemDef(stack.item);
-        if (def?.name) relics.push(def.name);
-      }
-    }
-  }
-  if (relics.length === 0) {
-    relics.push('Frontier Broadsword', 'Elixir of Healing', 'Wardstone Shard');
-  }
-  const relicsDisplay = relics.slice(0, 3).join(', ');
-
-  const totalSecs = Math.floor(sim.tick / TICKS_PER_SECOND);
-  const mins = Math.floor(totalSecs / 60);
-  const secs = totalSecs % 60;
-  const timeStr = `${mins.toString().padStart(2, '0')}:${secs.toString().padStart(2, '0')}`;
-
-  let exploredTiles = 0;
-  for (let i = 0; i < sim.explored.length; i++) {
-    if (sim.explored[i]) exploredTiles++;
-  }
-  const mapPct = Math.round((exploredTiles / Math.max(1, sim.explored.length)) * 100);
-
-  const [up, size] = army();
-  const casualtiesStr = `${up}/${size} Survived (${size - up} Fallen)`;
-
-  const spoilsGrid = document.createElement('div');
-  spoilsGrid.className = 'victory-spoils-grid';
-  spoilsGrid.innerHTML = `
-    <div class="spoil-card">
-      <div class="spoil-card-header"><span class="spoil-emoji">💰</span> <span class="spoil-name">GOLD PLUNDERED</span></div>
-      <div class="spoil-main-stat">+${gold} Gold</div>
-      <div class="spoil-sub-stat">Treasury Coffer: ${gold}</div>
-    </div>
-    <div class="spoil-card">
-      <div class="spoil-card-header"><span class="spoil-emoji">⚔️</span> <span class="spoil-name">FOES DEFEATED</span></div>
-      <div class="spoil-main-stat">${killedEnemies} / ${totalEnemies} Vanquished</div>
-      <div class="spoil-sub-stat">${hunters} Hunters · ${brutes} Brutes · ${shamans} Shamans · ${warlords} Warlord</div>
-    </div>
-    <div class="spoil-card">
-      <div class="spoil-card-header"><span class="spoil-emoji">🎁</span> <span class="spoil-name">DISCOVERED RELICS</span></div>
-      <div class="spoil-main-stat">${relics.length} Relics Recovered</div>
-      <div class="spoil-sub-stat">${relicsDisplay}</div>
-    </div>
-    <div class="spoil-card">
-      <div class="spoil-card-header"><span class="spoil-emoji">⏱️</span> <span class="spoil-name">EXPLORATION & TIME</span></div>
-      <div class="spoil-main-stat">${timeStr} · ${mapPct}% Mapped</div>
-      <div class="spoil-sub-stat">${casualtiesStr}</div>
-    </div>
-  `;
-
-  const actionsBar = document.createElement('div');
-  actionsBar.className = 'victory-actions-bar';
-
-  const currentNode = campaign && campaignId ? nodeOf(campaign, campaignId) : null;
-  const hasEndingCutscene = Boolean(campaignId && endingForCompletedNode(campaignId));
-  if (hasEndingCutscene && readPreferences().music) {
-    if (campaignId === 'm45-crown-of-order') playEndingMusic('crown');
-    else if (campaignId === 'm46-ember-reckoning') playEndingMusic('ember');
-  }
-  const actTown = currentNode && currentNode.kind === 'mission' ? townNodeForAct(campaign!, actOf(currentNode)) : null;
-  const canReturnToTown = Boolean(
-    !hasEndingCutscene &&
-      campaign &&
-      crec &&
-      currentNode &&
-      actTown &&
-      (crec.progress.unlocked.includes(actTown.id) || currentNode.unlocksOnVictory.includes(actTown.id)),
-  );
-
-  const leaveBtn = document.createElement('button');
-  leaveBtn.className = 'btn-gothic btn-victory-primary';
-  leaveBtn.textContent = canReturnToTown && actTown
-    ? `Return to ${actTown.title} 🏰`
-    : campaign && crec && campaignId
-      ? 'Return to World Map ❯'
-      : 'Return to Menu ❯';
-
-  const mapBtn = canReturnToTown ? document.createElement('button') : null;
-  if (mapBtn) {
-    mapBtn.className = 'btn-gothic btn-victory-secondary';
-    mapBtn.textContent = 'World Map 🗺️';
-  }
-
-  const freeRoamBtn = document.createElement('button');
-  freeRoamBtn.className = 'btn-gothic btn-victory-secondary';
-  freeRoamBtn.textContent = 'Explore Map (Free Roam) 🔍';
-
-  const finalizeVictory = (dest: 'town' | 'map'): void => {
-    leaveBtn.disabled = true;
-    if (mapBtn) mapBtn.disabled = true;
-    freeRoamBtn.disabled = true;
-    modal.hidden = true;
-    if (campaign && crec && campaignId && !victoryFinalized) {
-      victoryFinalized = true;
-      void endNode(true, narrative, dest);
-    } else {
-      location.assign('./');
-    }
-  };
-
-  leaveBtn.onclick = () => finalizeVictory(canReturnToTown ? 'town' : 'map');
-  if (mapBtn) mapBtn.onclick = () => finalizeVictory('map');
-
-  freeRoamBtn.onclick = () => {
-    modal.hidden = true;
-    userPause = false;
-    freeRoamActive = true;
-    outcome = null; victoryBarked = false;
-    const leaveHudBtn = document.getElementById('btn-leave-mission');
-    if (leaveHudBtn) {
-      leaveHudBtn.hidden = false;
-      if (canReturnToTown && actTown) leaveHudBtn.textContent = `Return to ${actTown.title} 🏰`;
-      leaveHudBtn.onclick = () => {
-        if (campaign && crec && campaignId && !victoryFinalized) {
-          victoryFinalized = true;
-          void endNode(true, narrative, canReturnToTown ? 'town' : 'map');
-        } else {
-          location.assign('./');
-        }
-      };
-    }
-    toast('Free Roam Active: Explore the map, gather loot, and return when ready.');
-  };
-
-  actionsBar.append(leaveBtn, ...(mapBtn ? [mapBtn] : []), freeRoamBtn);
-  frame.append(header, aftermathBox, spoilsGrid, actionsBar);
-  modal.append(frame);
-  modal.hidden = false;
+  void import('./victory-screen').then((m) => m.showVictoryScreen(victoryCtx(), winText));
 }
 
 function showDefeatScreen(defeatText?: string): void {
-  const modal = getVictoryModal();
-  modal.replaceChildren();
-  modal.className = 'gothic-victory-overlay defeat-mode';
-
-  const frame = document.createElement('div');
-  frame.className = 'gothic-victory-frame defeat-frame';
-
-  const header = document.createElement('div');
-  header.className = 'victory-header-banner defeat-banner';
-  header.innerHTML = `
-    <div class="laurel-crest">⚔️</div>
-    <h1 class="victory-title defeat-title">DEFEAT — HERO FALLEN</h1>
-    <div class="victory-subtitle">The Frontier Company Has Broken</div>
-  `;
-
-  const aftermathBox = document.createElement('div');
-  aftermathBox.className = 'victory-aftermath-box defeat-aftermath';
-  aftermathBox.innerHTML = `
-    <div class="aftermath-label">✦ CASUALTY REPORT ✦</div>
-    <p class="aftermath-text" style="white-space:pre-line">${defeatText ?? 'Your hero has fallen in the treacherous waters of the ford. Without command, the company scatters before the gnoll onslaught.'}</p>
-  `;
-
-  const [up, size] = army();
-  const totalSecs = Math.floor(sim.tick / TICKS_PER_SECOND);
-  const mins = Math.floor(totalSecs / 60);
-  const secs = totalSecs % 60;
-  const timeStr = `${mins.toString().padStart(2, '0')}:${secs.toString().padStart(2, '0')}`;
-
-  const spoilsGrid = document.createElement('div');
-  spoilsGrid.className = 'victory-spoils-grid defeat-spoils';
-  spoilsGrid.innerHTML = `
-    <div class="spoil-card">
-      <div class="spoil-card-header"><span class="spoil-emoji">⚰️</span> <span class="spoil-name">CASUALTIES</span></div>
-      <div class="spoil-main-stat">${size - up} Fallen</div>
-      <div class="spoil-sub-stat">${up} Soldiers Standing</div>
-    </div>
-    <div class="spoil-card">
-      <div class="spoil-card-header"><span class="spoil-emoji">⏱️</span> <span class="spoil-name">SURVIVAL TIME</span></div>
-      <div class="spoil-main-stat">${timeStr}</div>
-      <div class="spoil-sub-stat">Overwhelmed at the riverbank</div>
-    </div>
-  `;
-
-  const actionsBar = document.createElement('div');
-  actionsBar.className = 'victory-actions-bar';
-
-  const retryBtn = document.createElement('button');
-  retryBtn.className = 'btn-gothic btn-victory-primary';
-  retryBtn.textContent = 'Retry Mission ⚔️';
-  retryBtn.onclick = () => location.reload();
-
-  const leaveBtn = document.createElement('button');
-  leaveBtn.className = 'btn-gothic btn-victory-secondary';
-  leaveBtn.textContent = 'Return to World Map ❯';
-  leaveBtn.onclick = () => {
-    retryBtn.disabled = true;
-    leaveBtn.disabled = true;
-    if (campaign && crec && campaignId) {
-      void endNode(false, defeatText ?? '', 'map');
-    } else {
-      location.assign('./');
-    }
-  };
-
-  actionsBar.append(retryBtn, leaveBtn);
-  frame.append(header, aftermathBox, spoilsGrid, actionsBar);
-  modal.append(frame);
-  modal.hidden = false;
+  void import('./victory-screen').then((m) => m.showDefeatScreen(victoryCtx(), defeatText));
 }
 
 /** Keep what the persistent hero earned: level, skills, gear, spells and the quick row. */
-function persistChar(finished: boolean): Promise<boolean> {
+function persistChar(finished: boolean, clearedDifficulty?: number): Promise<boolean> {
   if (!activeChar || !sim.hero) return Promise.resolve(false);
   const co = extractCarryover(sim, crec?.progress ?? ({} as Parameters<typeof extractCarryover>[1]), 0, slots);
-  return saveCharacter(activeChar.id, { hero: co.hero, items: co.items, slots: co.slots, gold: crec ? co.gold : undefined, finished });
+  return saveCharacter(activeChar.id, { hero: co.hero, items: co.items, slots: co.slots, gold: crec ? co.gold : undefined, finished, clearedDifficulty });
 }
 
 function finish(kind: 'win' | 'lose', text?: string): void {
@@ -3505,58 +2779,6 @@ function finish(kind: 'win' | 'lose', text?: string): void {
     if (missionName) void missionRadio(missionName, 'lose').then((l) => { if (l) toast(`Radio: ${l}`); });
     showDefeatScreen(fx ? [text, fx].filter(Boolean).join('\n\n') : text);
   }
-}
-
-/** Campaign: a mission is over. Record the result (a win also keeps the hero's new state) and send the player to town or the map. */
-async function endNode(win: boolean, text: string, dest: 'town' | 'map' = 'map'): Promise<void> {
-  const [up, size] = army();
-  const carry = win && sim.hero ? extractCarryover(sim, crec!.progress, townSeed(1, crec!.progress.townVisits), slots) : null;
-  if (carry?.upkeep) toast(`${S.touch.upkeep}: -${carry.upkeep} ${S.gold}`);
-  if (win) await persistChar(true).catch(() => false);
-  const branch = sim.script?.st.sv[0] ?? 0;
-  const lastResult: { text: string; up: number; size: number; gold: number; branch?: number } = {
-    text,
-    up,
-    size,
-    gold: sim.cb.gold[0],
-    ...(branch ? { branch } : {}),
-  };
-  crec = afterMission(campaign!, crec!, campaignId!, win, carry, lastResult);
-  const currentNode = nodeOf(campaign!, campaignId!);
-  const hasEndingCutscene = Boolean(win && endingForCompletedNode(campaignId!));
-  const townNode = win && dest === 'town' && !hasEndingCutscene && currentNode.kind === 'mission'
-    ? townNodeForAct(campaign!, actOf(currentNode))
-    : null;
-  const canGoTown = Boolean(townNode && crec.progress.unlocked.includes(townNode.id));
-  if (canGoTown && townNode) {
-    const nextProgress = { ...crec.progress, node: townNode.id };
-    crec = {
-      ...crec,
-      progress: nextProgress,
-      carry: crec.carry ? { ...crec.carry, progress: nextProgress } : crec.carry,
-      last: null,
-    };
-  }
-  await writeRecord(crec);
-  await deleteSave(AUTO).catch(() => undefined); // the mid-mission autosave is obsolete
-  if (canGoTown && townNode) {
-    location.assign(withCharParam(nodeUrl(townNode)));
-  } else {
-    location.assign('./?menu=map');
-  }
-}
-
-/** Campaign: the Map button. In a town it keeps what was bought, learned or hired; in a mission it just walks away (the autosave stays). */
-async function toMap(): Promise<void> {
-  if (campaign && crec && campaignId && nodeOf(campaign, campaignId).kind === 'town' && !outcome) {
-    townUi.close();
-    const carry = sim.hero ? extractCarryover(sim, crec.progress, townSeed(1, crec.progress.townVisits + 1), slots) : null;
-    await persistChar(false).catch(() => false);
-    crec = afterTown(campaign, crec, campaignId, carry);
-    await writeRecord(crec);
-    await deleteSave(AUTO).catch(() => undefined);
-  }
-  location.assign('./?menu=map');
 }
 
 let modalFrameDirty = true;
@@ -3593,7 +2815,7 @@ function advanceStep(): void {
   commands.push(...pending.splice(0));
 
   // WASD Hero Movement (fixed-tick simulation loop)
-  if (controlMode === 'wasd' && sim.count > 0 && alive(0)) {
+  if (inputController.getControlMode() === 'wasd' && sim.count > 0 && alive(0)) {
     const isTyping = document.activeElement && (
       document.activeElement.matches('input, textarea, select') ||
       (document.activeElement as HTMLElement).isContentEditable
@@ -3661,7 +2883,7 @@ function advanceStep(): void {
 
   // Classic ARPG Mouse-Hold Steering, Target Locking & Stand-Ground Attack
   const heroLeadId = sim.hero ? sim.hero.id : (alive(0) ? 0 : -1);
-  if (controlMode === 'wasd' && heroLeadId >= 0 && alive(heroLeadId) && d2Controller.isHolding) {
+  if (inputController.getControlMode() === 'wasd' && heroLeadId >= 0 && alive(heroLeadId) && d2Controller.isHolding) {
     const isTyping = document.activeElement && (
       document.activeElement.matches('input, textarea, select') ||
       (document.activeElement as HTMLElement).isContentEditable
@@ -3670,30 +2892,33 @@ function advanceStep(): void {
     if (!isTyping && !inModal && !outcome) {
       const d2Action = d2Controller.step(sim, heroLeadId);
       if (d2Action.type === 'hold_ground') {
-        sim.stop(heroLeadId);
+        commands.push({ type: 'face', id: heroLeadId, stop: true });
       } else if (d2Action.type === 'stand_attack') {
-        sim.stop(heroLeadId);
-        sim.dir[heroLeadId] = d2Action.facing;
         if (d2Action.button === 0) {
           if (sim.cb.cd[heroLeadId] === 0) {
             const enemyInReach = findEnemyNearFacing(sim, heroLeadId, d2Action.facing);
             if (enemyInReach >= 0) {
+              commands.push({ type: 'face', id: heroLeadId, dir: d2Action.facing, stop: true });
               commands.push({ type: 'order', order: 'attack', ids: [heroLeadId], target: enemyInReach });
             } else {
-              sim.cb.cd[heroLeadId] = DEFS[sim.cb.kind[heroLeadId]].cd;
-              sim.cb.emit(12, sim.x[heroLeadId], sim.y[heroLeadId], 0, 0);
+              commands.push({ type: 'face', id: heroLeadId, dir: d2Action.facing, stop: true, swing: true });
             }
+          } else {
+            commands.push({ type: 'face', id: heroLeadId, dir: d2Action.facing, stop: true });
           }
         } else if (d2Action.button === 2) {
+          commands.push({ type: 'face', id: heroLeadId, dir: d2Action.facing, stop: true });
           if (activeRmbSkill !== null) {
             queue({ type: 'hero', op: 'skill', skill: activeRmbSkill, x: d2Action.x, y: d2Action.y });
           } else if (activeRmbSpell !== null && casters(activeRmbSpell).length > 0) {
-            castAt(activeRmbSpell, lastPointerPos[0], lastPointerPos[1], PICK);
+            const [lpx, lpy] = inputController.getLastPointerPos();
+            castAt(activeRmbSpell, lpx, lpy, PICK);
           }
+        } else {
+          commands.push({ type: 'face', id: heroLeadId, dir: d2Action.facing, stop: true });
         }
       } else if (d2Action.type === 'attack_target') {
-        sim.stop(heroLeadId);
-        sim.dir[heroLeadId] = d2Action.facing;
+        commands.push({ type: 'face', id: heroLeadId, dir: d2Action.facing, stop: true });
         if (sim.cb.cd[heroLeadId] === 0) {
           commands.push({ type: 'order', order: 'attack', ids: [heroLeadId], target: d2Action.targetId });
         }
@@ -3701,7 +2926,7 @@ function advanceStep(): void {
         cameraFollow = true;
         commands.push({ type: 'order', order: 'attack', ids: [heroLeadId], target: d2Action.targetId, x: d2Action.targetX, y: d2Action.targetY });
       } else if (d2Action.type === 'interact') {
-        sim.stop(heroLeadId);
+        commands.push({ type: 'face', id: heroLeadId, stop: true });
         if (d2Action.interactable.type === 'item') {
           const lootId = d2Action.interactable.id ?? nearestLoot(sim, Math.round(d2Action.interactable.x * FP), Math.round(d2Action.interactable.y * FP), 2.0 * FP);
           if (lootId >= 0) {
@@ -3712,10 +2937,10 @@ function advanceStep(): void {
             triggerTutorial('loot_collected');
           }
         } else if (d2Action.interactable.type === 'chest' && d2Action.interactable.obj) {
-          const res = interactAdventureObject(sim, d2Action.interactable.obj);
-          if (res.triggered) {
-            if (res.effect === 'gold') toast(`💰 Plundered chest: +${res.goldReward} gold!`);
-            play('pickup_gold', 5);
+          const adv = d2Action.interactable.obj;
+          if (!adv.visited && !queuedAdvObjects.has(adv)) {
+            queuedAdvObjects.add(adv);
+            commands.push({ type: 'interact_object', x: adv.x, y: adv.y });
           }
         } else if (d2Action.interactable.type === 'shrine') {
           toast('✨ Ancient shrine activated!');
@@ -3726,12 +2951,11 @@ function advanceStep(): void {
         commands.push({ type: 'move', ids: [heroLeadId], x: d2Action.x, y: d2Action.y, loose: true });
       } else if (d2Action.type === 'steer') {
         if (d2Action.inDeadzone) {
-          sim.stop(heroLeadId);
-          sim.dir[heroLeadId] = d2Action.facing;
+          commands.push({ type: 'face', id: heroLeadId, dir: d2Action.facing, stop: true });
         } else {
           cameraFollow = true;
-          sim.dir[heroLeadId] = d2Action.facing;
           commands.push({ type: 'move', ids: [heroLeadId], x: d2Action.nextX, y: d2Action.nextY, loose: true });
+          commands.push({ type: 'face', id: heroLeadId, dir: d2Action.facing });
         }
       }
     }
@@ -3802,15 +3026,13 @@ function advanceStep(): void {
   // Interactive Adventure Objects, Waypoints, and Zone Exits
   if (sim.hero && loadedMission?.doc) {
     if (loadedMission.doc.adventureObjects) {
+      const h = sim.hero.id;
+      const hx = Math.floor(sim.x[h] / FP);
+      const hy = Math.floor(sim.y[h] / FP);
       for (const obj of loadedMission.doc.adventureObjects) {
-        if (!obj.visited) {
-          const res = interactAdventureObject(sim, obj);
-          if (res.triggered) {
-            if (res.effect === 'gold') toast(`💰 Plundered mill stores: +${res.goldReward} gold!`);
-            else if (res.effect === 'well_blessing') toast('✨ The sacred well restored vitality and bestowed a Blessing!');
-            else if (res.effect === 'bank_cleared') toast(`🏆 Monster den cleansed: looted +${res.goldReward} gold and trophies!`);
-            play('pickup_gold', 5);
-          }
+        if (!obj.visited && !queuedAdvObjects.has(obj) && Math.hypot(hx - obj.x, hy - obj.y) <= 2.0) {
+          queuedAdvObjects.add(obj);
+          queue({ type: 'interact_object', x: obj.x, y: obj.y });
         }
       }
     }
@@ -3843,11 +3065,17 @@ function advanceStep(): void {
 let lastHeartbeat = 0;
 let lastRegionCheck = 0;
 let lastRegionMusicTrack = '';
-void fetch(`${import.meta.env.BASE_URL}data/content/npc-dialogues.json`)
-  .then((r) => (r.ok ? r.json() : []))
-  .then((nodes) => {
+void Promise.all([
+  fetch(`${import.meta.env.BASE_URL}data/content/npc-dialogues.json`)
+    .then((r) => (r.ok ? r.json() : []))
+    .catch(() => []),
+  fetch(`${import.meta.env.BASE_URL}data/content/town-barks.json`)
+    .then((r) => (r.ok ? r.json() : []))
+    .catch(() => []),
+])
+  .then(([nodes, barks]) => {
     if (Array.isArray(nodes)) {
-      townUi.setDialogueData(nodes, [], resumed?.save.state.reputation ?? 0);
+      townUi.setDialogueData(nodes, Array.isArray(barks) ? barks : [], resumed?.save.state.reputation ?? 0);
     }
   })
   .catch(() => {});
@@ -3858,6 +3086,8 @@ for (const key of ['vendor-stock', 'npc-reactions', 'merc-hire-dialogues', 'ui-s
   }).catch(() => {});
 }
 const steppedDeadUnits = new Set<number>();
+const steppedInvCounts = new Map<string, number>();
+let steppedInvInit = false;
 const seenTutorials = new Set<string>(JSON.parse(localStorage.getItem('thornvael:tutorialSeen') || '[]') as string[]);
 function triggerTutorial(triggerType: string): void {
   if (localStorage.getItem('thornvael:tutorialDisabled') === '1') return;
@@ -3868,15 +3098,44 @@ function triggerTutorial(triggerType: string): void {
   toast(`${step.popup.heading}: ${step.popup.body}`);
 }
 let steppedQuests = new SteppedQuestAdapter([], resumed?.save.state.steppedQuests);
-void fetch(`${import.meta.env.BASE_URL}data/content/side-quests.json`)
-  .then((r) => (r.ok ? r.json() : []))
-  .then((defs: SteppedQuestDef[]) => {
-    if (Array.isArray(defs) && defs.length > 0) {
+steppedQuests.setOnAdvance((res) => {
+  grantSteppedQuestRewards(sim, res, toast);
+});
+void Promise.all(
+  ['side-quests.json', 'side-quests-2.json', 'side-quests-3.json', 'side-quests-4.json'].map((file) =>
+    fetch(`${import.meta.env.BASE_URL}data/content/${file}`)
+      .then((r) => (r.ok ? (r.json() as Promise<SteppedQuestDef[]>) : []))
+      .catch(() => [] as SteppedQuestDef[]),
+  ),
+)
+  .then((chunks) => {
+    const defs = chunks.flat().filter((d) => d && typeof d.id === 'string' && Array.isArray(d.steps));
+    if (defs.length > 0) {
       steppedQuests = new SteppedQuestAdapter(defs, resumed?.save.state.steppedQuests ?? steppedQuests.save());
+      steppedQuests.setOnAdvance((res) => {
+        grantSteppedQuestRewards(sim, res, toast);
+      });
       townUi.setSteppedQuests(steppedQuests);
     }
   })
   .catch(() => {});
+function checkEscortSafety(): void {
+  if (!heroPresent || !alive(0)) return;
+  const pendingEscorts = steppedQuests.getPendingEscortTargets();
+  if (pendingEscorts.length === 0) return;
+  const hx = Math.floor(sim.x[0] / FP);
+  const hy = Math.floor(sim.y[0] / FP);
+  const regs = loadedMission?.doc.regions ?? [];
+  const reg = regs.length > 0 ? regionAtTile(regs, hx, hy) : undefined;
+  const inSafeRegion =
+    isTownNode ||
+    Boolean(reg && (reg.zone === 'town' || reg.zone?.startsWith('town') || reg.name === 'post')) ||
+    Boolean(loadedMission?.doc.waypoints?.some((w) => Math.hypot(hx - w.x, hy - w.y) <= 3.5));
+  if (!inSafeRegion) return;
+  for (const ref of pendingEscorts) {
+    steppedQuests.onEscortSafe(ref);
+  }
+}
 function frame(): void {
   const now = performance.now();
   if (loadedMission?.doc.regions?.length && heroPresent && now - lastRegionCheck > 500) {
@@ -3891,6 +3150,10 @@ function frame(): void {
         lastRegionMusicTrack = targetAudio.music;
       }
     }
+    checkEscortSafety();
+  } else if (isTownNode && heroPresent && now - lastRegionCheck > 500) {
+    lastRegionCheck = now;
+    checkEscortSafety();
   }
   const dt = Math.min(250, now - lastNow);
   lastNow = now;
@@ -3919,12 +3182,13 @@ function frame(): void {
   }
 
   // Edge pan: gently shift camera when mouse is within 15px of screen border in desktop mode
-  if (pointerAt && !hidden && !userPause) {
+  const ptr = inputController.getPointerAt();
+  if (ptr && !hidden && !userPause) {
     cameraController.viewW = renderer.viewW;
     cameraController.viewH = renderer.viewH;
     cameraController.camX = renderer.camX;
     cameraController.camY = renderer.camY;
-    if (cameraController.edgePan(pointerAt[0], pointerAt[1])) {
+    if (cameraController.edgePan(ptr[0], ptr[1])) {
       cameraFollow = false;
       renderer.camX = cameraController.camX;
       renderer.camY = cameraController.camY;
@@ -3933,7 +3197,7 @@ function frame(): void {
   }
 
   // In classic mouse mode, arrow keys pan the camera
-  if (controlMode === 'mouse') {
+  if (inputController.getControlMode() === 'mouse') {
     cameraController.camX = renderer.camX;
     cameraController.camY = renderer.camY;
     if (cameraController.keyPan(keys)) {
@@ -4023,7 +3287,7 @@ function frame(): void {
   if (f3.on) {
     const sel = selectedIds();
     renderer.drawDebugPaths(sim, sel);
-    f3.update(sim, map, pointerAt ? renderer.toTile(pointerAt[0], pointerAt[1]) : null, sel, now);
+    f3.update(sim, map, ptr ? renderer.toTile(ptr[0], ptr[1]) : null, sel, now);
   }
   if (debug) {
     dbg.textContent = `${fpsText}\nunits ${sim.count} (alive ${sim.cb.alive[0]}+${sim.cb.alive[1]}), tick ${sim.tick}, hash ${sim.hash().toString(16)}\nzoom ${renderer.zoom}, quality ${QUALITY_NAMES[renderer.quality]}, light ${sim.daylight}, moving ${sim.moving.reduce((a, b) => a + b, 0)}, audio ${audioState()}, persisted ${persisted}`;
@@ -4072,7 +3336,6 @@ $('panel-close').onclick = () => {
 $('panel-restart').onclick = () => location.reload();
 $('btn-credits').onclick = () => openPanel(S.credits, S.creditsBody);
 
-const nav = navigator as Navigator & { standalone?: boolean };
 const isIos = /iphone|ipad|ipod/i.test(nav.userAgent) || (nav.platform === 'MacIntel' && nav.maxTouchPoints > 1);
 const installMode = window.matchMedia('(display-mode: standalone)');
 const installButton = $('btn-install') as HTMLButtonElement;
@@ -4085,9 +3348,8 @@ const install = createInstallController({
   },
   instructions: () => openPanel(S.installTitle, isIos ? S.installIos : S.installOther),
 });
-window.addEventListener('beforeinstallprompt', (e) => {
-  if (isInstallPrompt(e)) install.defer(e);
-});
+onDeferredInstall = (e) => install.defer(e);
+if (earlyInstallPrompt) install.defer(earlyInstallPrompt);
 window.addEventListener('appinstalled', () => install.installed());
 installMode.addEventListener('change', install.refresh);
 window.addEventListener('pageshow', install.refresh);
@@ -4096,10 +3358,6 @@ installButton.onclick = () => void install.activate();
 
 // Inside a mission an update is never offered or applied: the new worker waits until the menu or map banner is pressed.
 registerWorker();
-void nav.storage?.persist?.().then(
-  (ok) => void nav.storage?.estimate?.().then((q) => (persisted = `${ok} (${Math.round((q.usage ?? 0) / 1024)} KB of ${Math.round((q.quota ?? 0) / 1048576)} MB)`)),
-  () => (persisted = 'error'),
-);
 
 document.title = S.title;
 const WASD_HINT_COMBAT = 'WASD moves hero; click or hold LMB to attack or interact; RMB casts skill. Space recenter; I opens Hero.';
@@ -4109,7 +3367,7 @@ function syncHintText(): void {
     $('hint').textContent = combatMode ? S.hintCombat : S.hint;
     return;
   }
-  if (controlMode === 'wasd') {
+  if (inputController.getControlMode() === 'wasd') {
     $('hint').textContent = combatMode ? WASD_HINT_COMBAT : WASD_HINT;
   } else {
     $('hint').textContent = combatMode ? S.desktopHintCombat : S.desktopHint;
@@ -4147,25 +3405,27 @@ $('btn-saves').onclick = () => {
 };
 const btnControls = document.getElementById('btn-controls') as HTMLButtonElement | null;
 function updateControlModeUI(): void {
+  const mode = inputController.getControlMode();
   syncHintText();
   if (btnControls) {
-    btnControls.textContent = controlMode === 'wasd' ? 'WASD' : 'Mouse';
+    btnControls.textContent = mode === 'wasd' ? 'WASD' : 'Mouse';
     tipOn(
       btnControls,
-      controlMode === 'wasd'
+      mode === 'wasd'
         ? 'Controls: WASD (move hero) + Mouse. Click for Mouse mode.'
         : 'Controls: Mouse (classic RTS) + Arrows. Click for WASD mode.',
     );
-    btnControls.classList.toggle('on', controlMode === 'wasd');
+    btnControls.classList.toggle('on', mode === 'wasd');
   }
 }
 if (btnControls) {
   btnControls.onclick = () => {
-    controlMode = controlMode === 'wasd' ? 'mouse' : 'wasd';
+    const next = inputController.getControlMode() === 'wasd' ? 'mouse' : 'wasd';
+    inputController.setControlMode(next);
     d2Controller.reset();
-    try { localStorage.setItem('thornvael.controls', controlMode); } catch {}
+    try { localStorage.setItem('thornvael.controls', next); } catch {}
     updateControlModeUI();
-    toast(controlMode === 'wasd' ? 'Controls: WASD & Mouse' : 'Controls: Mouse (Classic)');
+    toast(next === 'wasd' ? 'Controls: WASD & Mouse' : 'Controls: Mouse (Classic)');
   };
   updateControlModeUI();
 }
@@ -4201,7 +3461,7 @@ function startHero(): void {
   if (campaign && crec) {
     // The hero was picked on the shell; later nodes bring the hero along (applied before the first tick).
     begin(crec.hero.cls, crec.hero.female, crec.progress.difficulty);
-    waivePurse(sim, crec.progress.townVisits);
+    waivePurse(sim, crec.progress.townVisits, Boolean(crec.progress.purseClaimed));
     if (crec.carry && applyCarryover(sim, crec.carry) >= 0) {
       const kept = crec.carry.slots;
       if (kept && kept.length === slots.length && kept.every(validSlot)) slots = kept.slice(); // the quick row follows the hero from node to node
@@ -4236,7 +3496,7 @@ function startHero(): void {
   const raw = params.get('hero');
   if (raw !== null) {
     const p = raw.split(',').map((s) => s.trim().toLowerCase());
-    const d = ['easy', 'medium', 'hard'].indexOf(p[2] ?? 'medium');
+    const d = ['easy', 'medium', 'hard', 'hell'].indexOf(p[2] ?? 'medium');
     begin(p[0] === 'mage' ? 1 : p[0] === 'necromancer' ? 3 : p[0] === 'archer' ? 2 : 0, p[1] === 'f' || p[1] === 'female', d < 0 ? 1 : d);
     if (activeChar?.hero) {
       // A hero that has played before keeps its level, gear and spells in every skirmish; the purse is this game's.
@@ -4274,6 +3534,7 @@ void renderer.init(sim).then(() => {
     const ui = resumed.save.state.ui;
     if (sim.town.inside >= 0) sim.now({ type: 'town', op: 'leave', town: Math.floor(sim.town.inside / ROLE_COUNT) });
     missionUi?.resync(sim);
+    preloadKnownSpellAudio();
     renderer.zoom = ui.cam[2];
     renderer.camX = ui.cam[0];
     renderer.camY = ui.cam[1];
@@ -4289,6 +3550,7 @@ void renderer.init(sim).then(() => {
     userPause = true;
     missionUi.briefing(() => (heroPresent ? startHero() : (userPause = false)));
   } else if (heroPresent) startHero();
+  preloadKnownSpellAudio();
   void saveUi.greet(resumed !== null);
   if (battle) {
     const a = [...Array(150).keys()];
@@ -4311,7 +3573,7 @@ void renderer.init(sim).then(() => {
   loadingScreen?.hide();
   requestAnimationFrame(frame);
   // Test and debug hook: deterministic access for the Playwright smoke test and the device bench.
-  (window as unknown as { __game: unknown }).__game = {
+  installDebugBridge({
     sim,
     queue,
     selected: () => [...selected],
@@ -4356,11 +3618,11 @@ void renderer.init(sim).then(() => {
     saveUi,
     pauseMenu: () => pauseMenu,
     townTap,
-    controls: () => controlMode,
+    controls: () => inputController.getControlMode(),
     setControls: (mode: 'wasd' | 'mouse') => {
-      controlMode = mode;
+      inputController.setControlMode(mode);
       d2Controller.reset();
-      try { localStorage.setItem('thornvael.controls', controlMode); } catch {}
+      try { localStorage.setItem('thornvael.controls', mode); } catch {}
       updateControlModeUI();
     },
     cameraFollow: () => cameraFollow,
@@ -4368,7 +3630,7 @@ void renderer.init(sim).then(() => {
     gamepad: () => gamepadController,
     skillAssignment: () => skillAssignmentModal,
     d2rActionBar: () => d2rActionBarUi,
-  };
+  });
 }).catch((e) => {
   console.error('renderer init failed', e);
   const msg = e instanceof Error ? e.message : String(e);

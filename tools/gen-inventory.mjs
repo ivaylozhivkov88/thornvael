@@ -1,7 +1,7 @@
 // Generates tools/INVENTORY.md from the live contents of game/public/ and game/src/.
 // Safe, read-only scanner: outputs factual counts, existing modules, and missing-vs-needed gaps.
 import { existsSync, readdirSync, readFileSync, statSync, writeFileSync } from 'node:fs';
-import { dirname, extname, join } from 'node:path';
+import { dirname, join } from 'node:path';
 import { fileURLToPath } from 'node:url';
 
 const ROOT = dirname(dirname(fileURLToPath(import.meta.url)));
@@ -156,7 +156,7 @@ lines.push('## 4. Existing Systems in `src/` & `src/sim/`');
 lines.push('');
 lines.push(`- **FX / Feel already present:** \`src/feel.ts\`, \`src/vfx.ts\`, \`src/aesthetic-vfx.ts\`, \`src/auras.ts\`, \`src/loot-overlay.ts\`, \`src/nameplate.ts\`. **Gaps (WISHLIST A):** No modular \`src/fx/\` pool/config system with reduced-motion + low-end particle caps, per-family corpse decals/bone burst, ground footstep particle emitters, cursor/hover rarity outline controller, or parabolic loot beam arcs.`);
 lines.push(`- **Audio engine already present:** \`src/audio.ts\` (1,869 LOC), \`src/audiologic.ts\`. **Gaps (WISHLIST D2/D5/D6):** Dedicated adaptive crossfade/ducking controller for streaming \`<audio>\` music layers + separate bus mix controls and spatial pan helpers.`);
-lines.push(`- **Loot / Skills / Text already present:** \`src/sim/affixes.ts\`, \`src/sim/sets.ts\`, \`src/sim/runes.ts\`, \`src/sim/cube.ts\`, \`src/sim/d2-database.ts\`, \`src/sim/items.ts\`, \`src/achievements.ts\`, \`src/codex.ts\`, \`src/tips.ts\`, \`public/data/content/*\` (${contentFiles.length} JSON files). **Gaps (WISHLIST E1/E2/E8, G2/G4):** Unified \`docs/design/loot-and-skills.md\` specification + deterministic \`src/items/\` & \`src/skills/\` (3-branch skill trees for Warrior & Mage with synergies and gold respec), plus clean i18n-keyed unified text schemas validating all 52 unit bestiary entries, 60 achievements, 50 loading tips, 30 death quotes, 40 staged tavern rumors.`);
+lines.push(`- **Loot / Skills / Text already present:** \`src/sim/affixes.ts\`, \`src/sim/sets.ts\`, \`src/sim/runes.ts\`, \`src/sim/cube.ts\`, \`src/sim/item-catalog.ts\`, \`src/sim/items.ts\`, \`src/achievements.ts\`, \`src/codex.ts\`, \`src/tips.ts\`, \`public/data/content/*\` (${contentFiles.length} JSON files). **Gaps (WISHLIST E1/E2/E8, G2/G4):** Unified \`docs/design/loot-and-skills.md\` specification + deterministic \`src/items/\` & \`src/skills/\` (3-branch skill trees for Warrior & Mage with synergies and gold respec), plus clean i18n-keyed unified text schemas validating all 52 unit bestiary entries, 60 achievements, 50 loading tips, 30 death quotes, 40 staged tavern rumors.`);
 lines.push(`- **Tooling & QA already present:** \`tools/check-repo.mjs\`, \`tools/check-atlases.mjs\`, \`tools/benchmark-active300.mjs\`, \`tests/pwa-install.test.ts\`, \`.github/workflows/deploy.yml\`. **Gaps (WISHLIST H1-H4, F8-F9):** Unified \`tools/rebuild-and-check.mjs\`, \`tools/seed-gallery.mjs\`, \`docs/perf.md\` with measured 300-unit & chunk/atlas RAM metrics, Playwright WebKit+Chromium offline smoke suite (\`tests/pwa-smoke.spec.ts\`), and dedicated CI validation workflow.`);
 lines.push('');
 lines.push('## 5. Parallel Agent Area Locks (DO NOT MODIFY)');

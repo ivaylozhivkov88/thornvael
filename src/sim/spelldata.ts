@@ -46,6 +46,6 @@ export function maskHas(lo: number, hi: ArrayLike<number> | undefined, o: number
 export const ALL_SPELLS = 0xffffffff;
 /** Spells a Mage/Shaman knows: Fire Bolt, Fireball, Frost Bolt, Healing, Stone Skin, Poison Cloud, Weaken, Resurrect. */
 export const MAGE_SPELLS =
-  (1 << 0) | (1 << 1) | (1 << 4) | (1 << 7) | (1 << 19) | (1 << 20) | (1 << 23) | (1 << 24);
+  (1 << 0) | (1 << 1) | (1 << 4) | (1 << 7) | (1 << 16) | (1 << 17) | (1 << 20) | (1 << 21);
 export const CORPSE_TICKS = 1500; // a body can be raised or burst for 60 seconds
 export const POISON_STACKS = 3;

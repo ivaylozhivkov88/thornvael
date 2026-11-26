@@ -10,7 +10,7 @@ Rather than facing monotonous enemies or solitary necromancers, players encounte
 
 ## 2. Monster Archetypes & Behavioral Roles
 
-Every creature family in RoM2 Web is mapped to a core simulation archetype (`Kind`) while exhibiting distinct tactical behaviors:
+Every creature family in Thornvael is mapped to a core simulation archetype (`Kind`) while exhibiting distinct tactical behaviors:
 
 | Archetype | Sim Kind | Genre Parallels | Behavioral Role & Combat Profile |
 |-----------|----------|--------------|-----------------------------------|
@@ -28,7 +28,7 @@ Every creature family in RoM2 Web is mapped to a core simulation archetype (`Kin
 
 ## 3. Elemental Schools & Damage Affinities
 
-Creatures and spells align with RoM2's 6 damage schools:
+Creatures and spells align with Thornvael's 6 damage schools:
 
 - **0: Physical**: Standard slashing, piercing, and crushing damage. Resisted by natural body armour (`pdef`) and absorption (`pabs`).
 - **1: Fire**: Explosive offensive heat (Firebolt, Fire Wall). Deals intense burst; resisted by Fire resistance.
@@ -41,7 +41,7 @@ Creatures and spells align with RoM2's 6 damage schools:
 
 ## 4. Elite Affixes & Modifier System
 
-Champion and unique mobs roll procedural prefixes and suffixes that dramatically alter battle tactics. RoM2 Web implements composable boss modifiers (`bossMods`):
+Champion and unique mobs roll procedural prefixes and suffixes that dramatically alter battle tactics. Thornvael implements composable boss modifiers (`bossMods`):
 
 ### Supported In-Sim Modifiers (`BOSS_MOD_IDS`)
 
@@ -69,7 +69,7 @@ Champion and unique mobs roll procedural prefixes and suffixes that dramatically
 
 ## 5. Expedition & Campaign Biomes
 
-RoM2 Web features 7 distinct visual and ecological biomes:
+Thornvael features 7 distinct visual and ecological biomes:
 
 ### 1. Forest Wilds (`'forest'`)
 - **Theme**: Verdant groves, dirt paths, ancient woodland canopies, river streams.
@@ -181,7 +181,7 @@ All 41 families are codified in `game/public/data/monsters.json` (and `game/dist
 
 ## 7. Determinism & Seeded PRNG Execution
 
-In accordance with RoM2's simulation architecture:
+In accordance with Thornvael's simulation architecture:
 1. All procedural map generation uses the Mulberry32 PRNG initialized solely with the caller's seed (`opts.seed >>> 0`).
 2. Native `Math.random()` is strictly prohibited across the simulation and map generator.
 3. Every generated `MapDoc` is validated against `MAP_FORMAT = 'thornvael-map'` and `MAP_VERSION = 2`.

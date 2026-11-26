@@ -374,30 +374,6 @@
       "note": "Generated frame bounds, anchors and SHA-256 hashes for our original terrain atlas. Snow and ruins are unused art variants, without new map semantics."
     },
     {
-      "path": "public/townart/shop.png",
-      "license": "own",
-      "source": "tools/render-town.py",
-      "note": "Original procedural shop interior; Blender 5.2.3 Cycles, 640x480. No external pixels or models. Reproduce: docs/TOWN-ART.md"
-    },
-    {
-      "path": "public/townart/tavern.png",
-      "license": "own",
-      "source": "tools/render-town.py",
-      "note": "Original procedural tavern interior; Blender 5.2.3 Cycles, 640x480. No external pixels or models. Reproduce: docs/TOWN-ART.md"
-    },
-    {
-      "path": "public/townart/merchant-shop.png",
-      "license": "own",
-      "source": "tools/render-town.py",
-      "note": "Original merchant RGBA overlay, 640x480, same shop camera and foreground holdout occlusion. Neutral pose; parent animates layer."
-    },
-    {
-      "path": "public/townart/merchant-tavern.png",
-      "license": "own",
-      "source": "tools/render-town.py",
-      "note": "Original innkeeper RGBA overlay, 640x480, same tavern camera and foreground holdout occlusion. Neutral pose; parent animates layer."
-    },
-    {
       "path": "public/townart/portrait-warrior-m.png",
       "license": "own",
       "source": "tools/render-town.py",
@@ -786,19 +762,7 @@
       "note": "AI-generated painted art, 2026-11-13; style-only inspiration, no reference image used"
     },
     {
-      "path": "public/townart/npc-groktar.jpg",
-      "license": "own",
-      "source": "Gemini image generation (user subscription), original text prompt, resized with Pillow",
-      "note": "AI-generated painted art, 2026-11-13; style-only inspiration, no reference image used"
-    },
-    {
       "path": "public/townart/npc-commander.jpg",
-      "license": "own",
-      "source": "Gemini image generation (user subscription), original text prompt, resized with Pillow",
-      "note": "AI-generated painted art, 2026-11-13; style-only inspiration, no reference image used"
-    },
-    {
-      "path": "public/townart/scene-shop.jpg",
       "license": "own",
       "source": "Gemini image generation (user subscription), original text prompt, resized with Pillow",
       "note": "AI-generated painted art, 2026-11-13; style-only inspiration, no reference image used"
@@ -1050,31 +1014,7 @@
       "note": "AI-generated painted monster portrait, 2026-11-13; original design, style-only inspiration"
     },
     {
-      "path": "public/townart/npc-orlen.jpg",
-      "license": "own",
-      "source": "Gemini image generation (user subscription), original text prompt, resized with Pillow",
-      "note": "AI-generated painted NPC portrait, 2026-11-14; original design"
-    },
-    {
-      "path": "public/townart/npc-sabik.jpg",
-      "license": "own",
-      "source": "Gemini image generation (user subscription), original text prompt, resized with Pillow",
-      "note": "AI-generated painted NPC portrait, 2026-11-14; original design"
-    },
-    {
-      "path": "public/townart/npc-quillon.jpg",
-      "license": "own",
-      "source": "Gemini image generation (user subscription), original text prompt, resized with Pillow",
-      "note": "AI-generated painted NPC portrait, 2026-11-14; original design"
-    },
-    {
       "path": "public/townart/npc-aldren.jpg",
-      "license": "own",
-      "source": "Gemini image generation (user subscription), original text prompt, resized with Pillow",
-      "note": "AI-generated painted NPC portrait, 2026-11-14; original design"
-    },
-    {
-      "path": "public/townart/npc-scout.jpg",
       "license": "own",
       "source": "Gemini image generation (user subscription), original text prompt, resized with Pillow",
       "note": "AI-generated painted NPC portrait, 2026-11-14; original design"
@@ -1134,30 +1074,6 @@
       "note": "AI-generated painted monster portrait, 2026-11-16; original design"
     },
     {
-      "path": "public/townart/mon/azgalor.jpg",
-      "license": "own",
-      "source": "Gemini image generation (user subscription), original text prompt, resized with Pillow",
-      "note": "AI-generated painted boss portrait for Azgalor Maggot Colossus (Gorrathul), 2026-11-16; original design"
-    },
-    {
-      "path": "public/townart/mon/ignis-khor.jpg",
-      "license": "own",
-      "source": "Gemini image generation (user subscription), original text prompt, resized with Pillow",
-      "note": "AI-generated painted boss portrait for Ignis Khor Lord of Terror (Ashkarath), 2026-11-16; original design"
-    },
-    {
-      "path": "public/townart/mon/lilithia.jpg",
-      "license": "own",
-      "source": "Gemini image generation (user subscription), original text prompt, resized with Pillow",
-      "note": "AI-generated painted boss portrait for Lilithia Queen of Agony (Morvessa), 2026-11-16; original design"
-    },
-    {
-      "path": "public/townart/mon/malakar.jpg",
-      "license": "own",
-      "source": "Gemini image generation (user subscription), original text prompt, resized with Pillow",
-      "note": "AI-generated painted boss portrait for Malakar Arch-Lich (Vesperion), 2026-11-16; original design"
-    },
-    {
       "path": "public/townart/mon/gnoll.jpg",
       "license": "own",
       "source": "Gemini image generation (user subscription), original text prompt, formatted with Pillow",
@@ -1200,18 +1116,6 @@
       "note": "Procedurally synthesized from Gemini pack 6a recipe"
     },
     {
-      "path": "public/audio/sfx_crit_hit.m4a",
-      "license": "own",
-      "source": "tools/synth-pack6a.py",
-      "note": "Procedurally synthesized from Gemini pack 6a recipe"
-    },
-    {
-      "path": "public/audio/sfx_dodge.m4a",
-      "license": "own",
-      "source": "tools/synth-pack6a.py",
-      "note": "Procedurally synthesized from Gemini pack 6a recipe"
-    },
-    {
       "path": "public/audio/sfx_door_heavy.m4a",
       "license": "own",
       "source": "tools/synth-pack6a.py",
@@ -1219,18 +1123,6 @@
     },
     {
       "path": "public/audio/sfx_game_save.m4a",
-      "license": "own",
-      "source": "tools/synth-pack6a.py",
-      "note": "Procedurally synthesized from Gemini pack 6a recipe"
-    },
-    {
-      "path": "public/audio/sfx_hero_death.m4a",
-      "license": "own",
-      "source": "tools/synth-pack6a.py",
-      "note": "Procedurally synthesized from Gemini pack 6a recipe"
-    },
-    {
-      "path": "public/audio/sfx_hero_revive.m4a",
       "license": "own",
       "source": "tools/synth-pack6a.py",
       "note": "Procedurally synthesized from Gemini pack 6a recipe"
@@ -1273,12 +1165,6 @@
     },
     {
       "path": "public/audio/sfx_secret_reveal.m4a",
-      "license": "own",
-      "source": "tools/synth-pack6a.py",
-      "note": "Procedurally synthesized from Gemini pack 6a recipe"
-    },
-    {
-      "path": "public/audio/sfx_shield_block_heavy.m4a",
       "license": "own",
       "source": "tools/synth-pack6a.py",
       "note": "Procedurally synthesized from Gemini pack 6a recipe"
@@ -1800,18 +1686,6 @@
       "note": "Procedurally synthesized from Gemini pack 6a recipe"
     },
     {
-      "path": "public/audio/amb_canyon_wind.m4a",
-      "license": "own",
-      "source": "tools/synth-pack6a-music.py",
-      "note": "Procedurally synthesized from Gemini pack 6a recipe"
-    },
-    {
-      "path": "public/audio/amb_canyon_wind_ev0.m4a",
-      "license": "own",
-      "source": "tools/synth-pack6a-music.py",
-      "note": "Procedurally synthesized from Gemini pack 6a recipe"
-    },
-    {
       "path": "public/audio/amb_fen.m4a",
       "license": "own",
       "source": "tools/synth-pack6a-music.py",
@@ -1836,18 +1710,6 @@
       "note": "Procedurally synthesized from Gemini pack 6a recipe"
     },
     {
-      "path": "public/audio/amb_greywood.m4a",
-      "license": "own",
-      "source": "tools/synth-pack6a-music.py",
-      "note": "Procedurally synthesized from Gemini pack 6a recipe"
-    },
-    {
-      "path": "public/audio/amb_greywood_ev0.m4a",
-      "license": "own",
-      "source": "tools/synth-pack6a-music.py",
-      "note": "Procedurally synthesized from Gemini pack 6a recipe"
-    },
-    {
       "path": "public/audio/amb_harbor.m4a",
       "license": "own",
       "source": "tools/synth-pack6a-music.py",
@@ -1855,18 +1717,6 @@
     },
     {
       "path": "public/audio/amb_harbor_ev0.m4a",
-      "license": "own",
-      "source": "tools/synth-pack6a-music.py",
-      "note": "Procedurally synthesized from Gemini pack 6a recipe"
-    },
-    {
-      "path": "public/audio/amb_quarry.m4a",
-      "license": "own",
-      "source": "tools/synth-pack6a-music.py",
-      "note": "Procedurally synthesized from Gemini pack 6a recipe"
-    },
-    {
-      "path": "public/audio/amb_quarry_ev0.m4a",
       "license": "own",
       "source": "tools/synth-pack6a-music.py",
       "note": "Procedurally synthesized from Gemini pack 6a recipe"
@@ -1891,42 +1741,6 @@
     },
     {
       "path": "public/audio/amb_river_ford_ev0.m4a",
-      "license": "own",
-      "source": "tools/synth-pack6a-music.py",
-      "note": "Procedurally synthesized from Gemini pack 6a recipe"
-    },
-    {
-      "path": "public/audio/amb_ruined_sanctum.m4a",
-      "license": "own",
-      "source": "tools/synth-pack6a-music.py",
-      "note": "Procedurally synthesized from Gemini pack 6a recipe"
-    },
-    {
-      "path": "public/audio/amb_ruined_sanctum_ev0.m4a",
-      "license": "own",
-      "source": "tools/synth-pack6a-music.py",
-      "note": "Procedurally synthesized from Gemini pack 6a recipe"
-    },
-    {
-      "path": "public/audio/amb_sunken_citadel.m4a",
-      "license": "own",
-      "source": "tools/synth-pack6a-music.py",
-      "note": "Procedurally synthesized from Gemini pack 6a recipe"
-    },
-    {
-      "path": "public/audio/amb_sunken_citadel_ev0.m4a",
-      "license": "own",
-      "source": "tools/synth-pack6a-music.py",
-      "note": "Procedurally synthesized from Gemini pack 6a recipe"
-    },
-    {
-      "path": "public/audio/amb_throne_hall.m4a",
-      "license": "own",
-      "source": "tools/synth-pack6a-music.py",
-      "note": "Procedurally synthesized from Gemini pack 6a recipe"
-    },
-    {
-      "path": "public/audio/amb_throne_hall_ev0.m4a",
       "license": "own",
       "source": "tools/synth-pack6a-music.py",
       "note": "Procedurally synthesized from Gemini pack 6a recipe"
@@ -18310,6 +18124,1338 @@
       "license": "own",
       "source": "tools/render-town.py",
       "note": "Original hero portrait cutout generated for this project"
+    },
+    {
+      "path": "public/itemicons/abbey-witness-staff.png",
+      "license": "own",
+      "source": "tools/ingest-item-image.mjs",
+      "note": "Original Thornvael item icon"
+    },
+    {
+      "path": "public/itemicons/aegis-of-the-sunken-citadel.png",
+      "license": "own",
+      "source": "tools/ingest-item-image.mjs",
+      "note": "Original Thornvael item icon"
+    },
+    {
+      "path": "public/itemicons/alder-bridge-watchmans-edge.png",
+      "license": "own",
+      "source": "tools/ingest-item-image.mjs",
+      "note": "Original Thornvael item icon"
+    },
+    {
+      "path": "public/itemicons/alder-gate-cleaver.png",
+      "license": "own",
+      "source": "tools/ingest-item-image.mjs",
+      "note": "Original Thornvael item icon"
+    },
+    {
+      "path": "public/itemicons/alkali-tempered-sabre.png",
+      "license": "own",
+      "source": "tools/ingest-item-image.mjs",
+      "note": "Original Thornvael item icon"
+    },
+    {
+      "path": "public/itemicons/amulet-of-the-blood-altar.png",
+      "license": "own",
+      "source": "tools/ingest-item-image.mjs",
+      "note": "Original Thornvael item icon"
+    },
+    {
+      "path": "public/itemicons/anchor-seal-cosmos-eye.png",
+      "license": "own",
+      "source": "tools/ingest-item-image.mjs",
+      "note": "Original Thornvael item icon"
+    },
+    {
+      "path": "public/itemicons/apothecary-brass-scale-focus.png",
+      "license": "own",
+      "source": "tools/ingest-item-image.mjs",
+      "note": "Original Thornvael item icon"
+    },
+    {
+      "path": "public/itemicons/apothecarys-oilcloth.png",
+      "license": "own",
+      "source": "tools/ingest-item-image.mjs",
+      "note": "Original Thornvael item icon"
+    },
+    {
+      "path": "public/itemicons/arbiters-velvet-mantle.png",
+      "license": "own",
+      "source": "tools/ingest-item-image.mjs",
+      "note": "Original Thornvael item icon"
+    },
+    {
+      "path": "public/itemicons/ash-draft-greatbow.png",
+      "license": "own",
+      "source": "tools/ingest-item-image.mjs",
+      "note": "Original Thornvael item icon"
+    },
+    {
+      "path": "public/itemicons/ash-linen-witness-wimple.png",
+      "license": "own",
+      "source": "tools/ingest-item-image.mjs",
+      "note": "Original Thornvael item icon"
+    },
+    {
+      "path": "public/itemicons/ash-runner-grips.png",
+      "license": "own",
+      "source": "tools/ingest-item-image.mjs",
+      "note": "Original Thornvael item icon"
+    },
+    {
+      "path": "public/itemicons/ashen-citadel-cuirass.png",
+      "license": "own",
+      "source": "tools/ingest-item-image.mjs",
+      "note": "Original Thornvael item icon"
+    },
+    {
+      "path": "public/itemicons/assayers-sight-mask.png",
+      "license": "own",
+      "source": "tools/ingest-item-image.mjs",
+      "note": "Original Thornvael item icon"
+    },
+    {
+      "path": "public/itemicons/bailiffs-knuckle-seal.png",
+      "license": "own",
+      "source": "tools/ingest-item-image.mjs",
+      "note": "Original Thornvael item icon"
+    },
+    {
+      "path": "public/itemicons/band-of-the-bloodbound-berserker.png",
+      "license": "own",
+      "source": "tools/ingest-item-image.mjs",
+      "note": "Original Thornvael item icon"
+    },
+    {
+      "path": "public/itemicons/band-of-the-frugal-hermit.png",
+      "license": "own",
+      "source": "tools/ingest-item-image.mjs",
+      "note": "Original Thornvael item icon"
+    },
+    {
+      "path": "public/itemicons/basalt-splitter-maul.png",
+      "license": "own",
+      "source": "tools/ingest-item-image.mjs",
+      "note": "Original Thornvael item icon"
+    },
+    {
+      "path": "public/itemicons/bastion-of-the-sunlit-oath.png",
+      "license": "own",
+      "source": "tools/ingest-item-image.mjs",
+      "note": "Original Thornvael item icon"
+    },
+    {
+      "path": "public/itemicons/bezoar-of-the-sand-glutton.png",
+      "license": "own",
+      "source": "tools/ingest-item-image.mjs",
+      "note": "Original Thornvael item icon"
+    },
+    {
+      "path": "public/itemicons/bitumen-sealed-habit.png",
+      "license": "own",
+      "source": "tools/ingest-item-image.mjs",
+      "note": "Original Thornvael item icon"
+    },
+    {
+      "path": "public/itemicons/black-blockade-astrolabe.png",
+      "license": "own",
+      "source": "tools/ingest-item-image.mjs",
+      "note": "Original Thornvael item icon"
+    },
+    {
+      "path": "public/itemicons/blind-beacon-rune-staff.png",
+      "license": "own",
+      "source": "tools/ingest-item-image.mjs",
+      "note": "Original Thornvael item icon"
+    },
+    {
+      "path": "public/itemicons/blood-drinkers-crescent.png",
+      "license": "own",
+      "source": "tools/ingest-item-image.mjs",
+      "note": "Original Thornvael item icon"
+    },
+    {
+      "path": "public/itemicons/boardwalk-pavise.png",
+      "license": "own",
+      "source": "tools/ingest-item-image.mjs",
+      "note": "Original Thornvael item icon"
+    },
+    {
+      "path": "public/itemicons/bog-crystal-lens.png",
+      "license": "own",
+      "source": "tools/ingest-item-image.mjs",
+      "note": "Original Thornvael item icon"
+    },
+    {
+      "path": "public/itemicons/bog-quartz-distiller-lens.png",
+      "license": "own",
+      "source": "tools/ingest-item-image.mjs",
+      "note": "Original Thornvael item icon"
+    },
+    {
+      "path": "public/itemicons/boots-of-the-shadow-dancer.png",
+      "license": "own",
+      "source": "tools/ingest-item-image.mjs",
+      "note": "Original Thornvael item icon"
+    },
+    {
+      "path": "public/itemicons/border-assessors-oak.png",
+      "license": "own",
+      "source": "tools/ingest-item-image.mjs",
+      "note": "Original Thornvael item icon"
+    },
+    {
+      "path": "public/itemicons/bowyers-horn-bracer.png",
+      "license": "own",
+      "source": "tools/ingest-item-image.mjs",
+      "note": "Original Thornvael item icon"
+    },
+    {
+      "path": "public/itemicons/bracken-wind-reader.png",
+      "license": "own",
+      "source": "tools/ingest-item-image.mjs",
+      "note": "Original Thornvael item icon"
+    },
+    {
+      "path": "public/itemicons/brass-probate-scales.png",
+      "license": "own",
+      "source": "tools/ingest-item-image.mjs",
+      "note": "Original Thornvael item icon"
+    },
+    {
+      "path": "public/itemicons/brawlers-ironknuckles.png",
+      "license": "own",
+      "source": "tools/ingest-item-image.mjs",
+      "note": "Original Thornvael item icon"
+    },
+    {
+      "path": "public/itemicons/breakwater-kite-shield.png",
+      "license": "own",
+      "source": "tools/ingest-item-image.mjs",
+      "note": "Original Thornvael item icon"
+    },
+    {
+      "path": "public/itemicons/brens-only-dry-boot.png",
+      "license": "own",
+      "source": "tools/ingest-item-image.mjs",
+      "note": "Original Thornvael item icon"
+    },
+    {
+      "path": "public/itemicons/brine-sealed-brigandine.png",
+      "license": "own",
+      "source": "tools/ingest-item-image.mjs",
+      "note": "Original Thornvael item icon"
+    },
+    {
+      "path": "public/itemicons/bulwark-of-the-unbroken-realm.png",
+      "license": "own",
+      "source": "tools/ingest-item-image.mjs",
+      "note": "Original Thornvael item icon"
+    },
+    {
+      "path": "public/itemicons/caduceus-of-the-dawn-bearer.png",
+      "license": "own",
+      "source": "tools/ingest-item-image.mjs",
+      "note": "Original Thornvael item icon"
+    },
+    {
+      "path": "public/itemicons/caldera-glass-greatbow.png",
+      "license": "own",
+      "source": "tools/ingest-item-image.mjs",
+      "note": "Original Thornvael item icon"
+    },
+    {
+      "path": "public/itemicons/caldera-scored-probate-staff.png",
+      "license": "own",
+      "source": "tools/ingest-item-image.mjs",
+      "note": "Original Thornvael item icon"
+    },
+    {
+      "path": "public/itemicons/caldera-trench-flamberge.png",
+      "license": "own",
+      "source": "tools/ingest-item-image.mjs",
+      "note": "Original Thornvael item icon"
+    },
+    {
+      "path": "public/itemicons/candle-of-the-sunken-sanctum.png",
+      "license": "own",
+      "source": "tools/ingest-item-image.mjs",
+      "note": "Original Thornvael item icon"
+    },
+    {
+      "path": "public/itemicons/canteen-keepers-locket.png",
+      "license": "own",
+      "source": "tools/ingest-item-image.mjs",
+      "note": "Original Thornvael item icon"
+    },
+    {
+      "path": "public/itemicons/charred-plate-velvet-shroud.png",
+      "license": "own",
+      "source": "tools/ingest-item-image.mjs",
+      "note": "Original Thornvael item icon"
+    },
+    {
+      "path": "public/itemicons/cinder-crown-bulwark.png",
+      "license": "own",
+      "source": "tools/ingest-item-image.mjs",
+      "note": "Original Thornvael item icon"
+    },
+    {
+      "path": "public/itemicons/cinder-kings-halberd-horn.png",
+      "license": "own",
+      "source": "tools/ingest-item-image.mjs",
+      "note": "Original Thornvael item icon"
+    },
+    {
+      "path": "public/itemicons/cinder-weavers-wraps.png",
+      "license": "own",
+      "source": "tools/ingest-item-image.mjs",
+      "note": "Original Thornvael item icon"
+    },
+    {
+      "path": "public/itemicons/cinder-wing-mantle.png",
+      "license": "own",
+      "source": "tools/ingest-item-image.mjs",
+      "note": "Original Thornvael item icon"
+    },
+    {
+      "path": "public/itemicons/clapper-of-the-submerged-nave.png",
+      "license": "own",
+      "source": "tools/ingest-item-image.mjs",
+      "note": "Original Thornvael item icon"
+    },
+    {
+      "path": "public/itemicons/clay-baked-amber-charm.png",
+      "license": "own",
+      "source": "tools/ingest-item-image.mjs",
+      "note": "Original Thornvael item icon"
+    },
+    {
+      "path": "public/itemicons/cleaver-of-the-bog-troll.png",
+      "license": "own",
+      "source": "tools/ingest-item-image.mjs",
+      "note": "Original Thornvael item icon"
+    },
+    {
+      "path": "public/itemicons/cliff-runner-striders.png",
+      "license": "own",
+      "source": "tools/ingest-item-image.mjs",
+      "note": "Original Thornvael item icon"
+    },
+    {
+      "path": "public/itemicons/coal-walkers-sabatons.png",
+      "license": "own",
+      "source": "tools/ingest-item-image.mjs",
+      "note": "Original Thornvael item icon"
+    },
+    {
+      "path": "public/itemicons/colossus-of-the-fallen-dynasty.png",
+      "license": "own",
+      "source": "tools/ingest-item-image.mjs",
+      "note": "Original Thornvael item icon"
+    },
+    {
+      "path": "public/itemicons/conclave-grounding-hat.png",
+      "license": "own",
+      "source": "tools/ingest-item-image.mjs",
+      "note": "Original Thornvael item icon"
+    },
+    {
+      "path": "public/itemicons/coronet-of-cold-clinkers.png",
+      "license": "own",
+      "source": "tools/ingest-item-image.mjs",
+      "note": "Original Thornvael item icon"
+    },
+    {
+      "path": "public/itemicons/corroded-galley-master-signet.png",
+      "license": "own",
+      "source": "tools/ingest-item-image.mjs",
+      "note": "Original Thornvael item icon"
+    },
+    {
+      "path": "public/itemicons/cowl-of-the-pale-stalker.png",
+      "license": "own",
+      "source": "tools/ingest-item-image.mjs",
+      "note": "Original Thornvael item icon"
+    },
+    {
+      "path": "public/itemicons/crown-of-the-primordial-ages.png",
+      "license": "own",
+      "source": "tools/ingest-item-image.mjs",
+      "note": "Original Thornvael item icon"
+    },
+    {
+      "path": "public/itemicons/deep-current-mantle.png",
+      "license": "own",
+      "source": "tools/ingest-item-image.mjs",
+      "note": "Original Thornvael item icon"
+    },
+    {
+      "path": "public/itemicons/dent-of-greystone-wall.png",
+      "license": "own",
+      "source": "tools/ingest-item-image.mjs",
+      "note": "Original Thornvael item icon"
+    },
+    {
+      "path": "public/itemicons/deserters-tin-canteen.png",
+      "license": "own",
+      "source": "tools/ingest-item-image.mjs",
+      "note": "Original Thornvael item icon"
+    },
+    {
+      "path": "public/itemicons/diadem-of-the-tempest-eye.png",
+      "license": "own",
+      "source": "tools/ingest-item-image.mjs",
+      "note": "Original Thornvael item icon"
+    },
+    {
+      "path": "public/itemicons/dike-breakers-broadaxe.png",
+      "license": "own",
+      "source": "tools/ingest-item-image.mjs",
+      "note": "Original Thornvael item icon"
+    },
+    {
+      "path": "public/itemicons/ditch-chapel-prism.png",
+      "license": "own",
+      "source": "tools/ingest-item-image.mjs",
+      "note": "Original Thornvael item icon"
+    },
+    {
+      "path": "public/itemicons/drowned-bell-yew.png",
+      "license": "own",
+      "source": "tools/ingest-item-image.mjs",
+      "note": "Original Thornvael item icon"
+    },
+    {
+      "path": "public/itemicons/dune-striders-treads.png",
+      "license": "own",
+      "source": "tools/ingest-item-image.mjs",
+      "note": "Original Thornvael item icon"
+    },
+    {
+      "path": "public/itemicons/ember-glass-windpiercer.png",
+      "license": "own",
+      "source": "tools/ingest-item-image.mjs",
+      "note": "Original Thornvael item icon"
+    },
+    {
+      "path": "public/itemicons/expelled-fellows-staff.png",
+      "license": "own",
+      "source": "tools/ingest-item-image.mjs",
+      "note": "Original Thornvael item icon"
+    },
+    {
+      "path": "public/itemicons/eye-of-the-obsidian-wyrm.png",
+      "license": "own",
+      "source": "tools/ingest-item-image.mjs",
+      "note": "Original Thornvael item icon"
+    },
+    {
+      "path": "public/itemicons/false-light-crozier.png",
+      "license": "own",
+      "source": "tools/ingest-item-image.mjs",
+      "note": "Original Thornvael item icon"
+    },
+    {
+      "path": "public/itemicons/fen-poachers-yew.png",
+      "license": "own",
+      "source": "tools/ingest-item-image.mjs",
+      "note": "Original Thornvael item icon"
+    },
+    {
+      "path": "public/itemicons/fen-wader-striders.png",
+      "license": "own",
+      "source": "tools/ingest-item-image.mjs",
+      "note": "Original Thornvael item icon"
+    },
+    {
+      "path": "public/itemicons/ferrymans-tarred-jerkin.png",
+      "license": "own",
+      "source": "tools/ingest-item-image.mjs",
+      "note": "Original Thornvael item icon"
+    },
+    {
+      "path": "public/itemicons/first-king-brazier-staff.png",
+      "license": "own",
+      "source": "tools/ingest-item-image.mjs",
+      "note": "Original Thornvael item icon"
+    },
+    {
+      "path": "public/itemicons/first-watch-brass-medallion.png",
+      "license": "own",
+      "source": "tools/ingest-item-image.mjs",
+      "note": "Original Thornvael item icon"
+    },
+    {
+      "path": "public/itemicons/fossilized-lien-wand.png",
+      "license": "own",
+      "source": "tools/ingest-item-image.mjs",
+      "note": "Original Thornvael item icon"
+    },
+    {
+      "path": "public/itemicons/frog-bone-locket.png",
+      "license": "own",
+      "source": "tools/ingest-item-image.mjs",
+      "note": "Original Thornvael item icon"
+    },
+    {
+      "path": "public/itemicons/gale-hooded-stalker-mask.png",
+      "license": "own",
+      "source": "tools/ingest-item-image.mjs",
+      "note": "Original Thornvael item icon"
+    },
+    {
+      "path": "public/itemicons/gale-rigging-composite.png",
+      "license": "own",
+      "source": "tools/ingest-item-image.mjs",
+      "note": "Original Thornvael item icon"
+    },
+    {
+      "path": "public/itemicons/galley-masters-seal.png",
+      "license": "own",
+      "source": "tools/ingest-item-image.mjs",
+      "note": "Original Thornvael item icon"
+    },
+    {
+      "path": "public/itemicons/gallows-root-band.png",
+      "license": "own",
+      "source": "tools/ingest-item-image.mjs",
+      "note": "Original Thornvael item icon"
+    },
+    {
+      "path": "public/itemicons/gallows-root-crozier.png",
+      "license": "own",
+      "source": "tools/ingest-item-image.mjs",
+      "note": "Original Thornvael item icon"
+    },
+    {
+      "path": "public/itemicons/garricks-sluice-lid.png",
+      "license": "own",
+      "source": "tools/ingest-item-image.mjs",
+      "note": "Original Thornvael item icon"
+    },
+    {
+      "path": "public/itemicons/gauntlets-of-the-stone-colossus.png",
+      "license": "own",
+      "source": "tools/ingest-item-image.mjs",
+      "note": "Original Thornvael item icon"
+    },
+    {
+      "path": "public/itemicons/ghost-striders-treads.png",
+      "license": "own",
+      "source": "tools/ingest-item-image.mjs",
+      "note": "Original Thornvael item icon"
+    },
+    {
+      "path": "public/itemicons/girdle-of-giants.png",
+      "license": "own",
+      "source": "tools/ingest-item-image.mjs",
+      "note": "Original Thornvael item icon"
+    },
+    {
+      "path": "public/itemicons/glacial-shard-of-the-first-frost.png",
+      "license": "own",
+      "source": "tools/ingest-item-image.mjs",
+      "note": "Original Thornvael item icon"
+    },
+    {
+      "path": "public/itemicons/gorrathuls-cistern-blade.png",
+      "license": "own",
+      "source": "tools/ingest-item-image.mjs",
+      "note": "Original Thornvael item icon"
+    },
+    {
+      "path": "public/itemicons/gorse-thorn-brigandine.png",
+      "license": "own",
+      "source": "tools/ingest-item-image.mjs",
+      "note": "Original Thornvael item icon"
+    },
+    {
+      "path": "public/itemicons/gravel-bar-waders.png",
+      "license": "own",
+      "source": "tools/ingest-item-image.mjs",
+      "note": "Original Thornvael item icon"
+    },
+    {
+      "path": "public/itemicons/greaves-of-the-mountain-ram.png",
+      "license": "own",
+      "source": "tools/ingest-item-image.mjs",
+      "note": "Original Thornvael item icon"
+    },
+    {
+      "path": "public/itemicons/greystone-parapet-helm.png",
+      "license": "own",
+      "source": "tools/ingest-item-image.mjs",
+      "note": "Original Thornvael item icon"
+    },
+    {
+      "path": "public/itemicons/grips-of-the-zephyr-archer.png",
+      "license": "own",
+      "source": "tools/ingest-item-image.mjs",
+      "note": "Original Thornvael item icon"
+    },
+    {
+      "path": "public/itemicons/grounded-clerks-habit.png",
+      "license": "own",
+      "source": "tools/ingest-item-image.mjs",
+      "note": "Original Thornvael item icon"
+    },
+    {
+      "path": "public/itemicons/hammer-of-the-earth-breaker.png",
+      "license": "own",
+      "source": "tools/ingest-item-image.mjs",
+      "note": "Original Thornvael item icon"
+    },
+    {
+      "path": "public/itemicons/harbor-boom-morningstar.png",
+      "license": "own",
+      "source": "tools/ingest-item-image.mjs",
+      "note": "Original Thornvael item icon"
+    },
+    {
+      "path": "public/itemicons/harbor-burners-astrolabe.png",
+      "license": "own",
+      "source": "tools/ingest-item-image.mjs",
+      "note": "Original Thornvael item icon"
+    },
+    {
+      "path": "public/itemicons/harbor-chain-morning-star.png",
+      "license": "own",
+      "source": "tools/ingest-item-image.mjs",
+      "note": "Original Thornvael item icon"
+    },
+    {
+      "path": "public/itemicons/harborwall-winch-arbalest.png",
+      "license": "own",
+      "source": "tools/ingest-item-image.mjs",
+      "note": "Original Thornvael item icon"
+    },
+    {
+      "path": "public/itemicons/heart-of-the-cinder-throne.png",
+      "license": "own",
+      "source": "tools/ingest-item-image.mjs",
+      "note": "Original Thornvael item icon"
+    },
+    {
+      "path": "public/itemicons/heart-of-the-ironhide-warlord.png",
+      "license": "own",
+      "source": "tools/ingest-item-image.mjs",
+      "note": "Original Thornvael item icon"
+    },
+    {
+      "path": "public/itemicons/hedge-tutors-hat.png",
+      "license": "own",
+      "source": "tools/ingest-item-image.mjs",
+      "note": "Original Thornvael item icon"
+    },
+    {
+      "path": "public/itemicons/high-assayers-diadem.png",
+      "license": "own",
+      "source": "tools/ingest-item-image.mjs",
+      "note": "Original Thornvael item icon"
+    },
+    {
+      "path": "public/itemicons/hollow-reed-of-vesperion.png",
+      "license": "own",
+      "source": "tools/ingest-item-image.mjs",
+      "note": "Original Thornvael item icon"
+    },
+    {
+      "path": "public/itemicons/homespun-hedge-cassock.png",
+      "license": "own",
+      "source": "tools/ingest-item-image.mjs",
+      "note": "Original Thornvael item icon"
+    },
+    {
+      "path": "public/itemicons/hood-of-the-raven-scout.png",
+      "license": "own",
+      "source": "tools/ingest-item-image.mjs",
+      "note": "Original Thornvael item icon"
+    },
+    {
+      "path": "public/itemicons/indenture-breaker.png",
+      "license": "own",
+      "source": "tools/ingest-item-image.mjs",
+      "note": "Original Thornvael item icon"
+    },
+    {
+      "path": "public/itemicons/inquisition-sight-veil.png",
+      "license": "own",
+      "source": "tools/ingest-item-image.mjs",
+      "note": "Original Thornvael item icon"
+    },
+    {
+      "path": "public/itemicons/insulated-assay-gloves.png",
+      "license": "own",
+      "source": "tools/ingest-item-image.mjs",
+      "note": "Original Thornvael item icon"
+    },
+    {
+      "path": "public/itemicons/ivory-testament-ritual-rod.png",
+      "license": "own",
+      "source": "tools/ingest-item-image.mjs",
+      "note": "Original Thornvael item icon"
+    },
+    {
+      "path": "public/itemicons/jerkin-of-the-weeping-willow.png",
+      "license": "own",
+      "source": "tools/ingest-item-image.mjs",
+      "note": "Original Thornvael item icon"
+    },
+    {
+      "path": "public/itemicons/juggernauts-ribcage.png",
+      "license": "own",
+      "source": "tools/ingest-item-image.mjs",
+      "note": "Original Thornvael item icon"
+    },
+    {
+      "path": "public/itemicons/kelp-grip-reef-striders.png",
+      "license": "own",
+      "source": "tools/ingest-item-image.mjs",
+      "note": "Original Thornvael item icon"
+    },
+    {
+      "path": "public/itemicons/leech-jar-bronze-locket.png",
+      "license": "own",
+      "source": "tools/ingest-item-image.mjs",
+      "note": "Original Thornvael item icon"
+    },
+    {
+      "path": "public/itemicons/leviathan-rib-focus.png",
+      "license": "own",
+      "source": "tools/ingest-item-image.mjs",
+      "note": "Original Thornvael item icon"
+    },
+    {
+      "path": "public/itemicons/leviathan-tooth-focus-wand.png",
+      "license": "own",
+      "source": "tools/ingest-item-image.mjs",
+      "note": "Original Thornvael item icon"
+    },
+    {
+      "path": "public/itemicons/lightning-split-bough.png",
+      "license": "own",
+      "source": "tools/ingest-item-image.mjs",
+      "note": "Original Thornvael item icon"
+    },
+    {
+      "path": "public/itemicons/lime-ditch-cassock.png",
+      "license": "own",
+      "source": "tools/ingest-item-image.mjs",
+      "note": "Original Thornvael item icon"
+    },
+    {
+      "path": "public/itemicons/loop-of-the-prismatic-spiral.png",
+      "license": "own",
+      "source": "tools/ingest-item-image.mjs",
+      "note": "Original Thornvael item icon"
+    },
+    {
+      "path": "public/itemicons/malriks-margin-notes.png",
+      "license": "own",
+      "source": "tools/ingest-item-image.mjs",
+      "note": "Original Thornvael item icon"
+    },
+    {
+      "path": "public/itemicons/mantle-of-the-storm-caller.png",
+      "license": "own",
+      "source": "tools/ingest-item-image.mjs",
+      "note": "Original Thornvael item icon"
+    },
+    {
+      "path": "public/itemicons/midge-veil-hood.png",
+      "license": "own",
+      "source": "tools/ingest-item-image.mjs",
+      "note": "Original Thornvael item icon"
+    },
+    {
+      "path": "public/itemicons/milestone-survey-oak.png",
+      "license": "own",
+      "source": "tools/ingest-item-image.mjs",
+      "note": "Original Thornvael item icon"
+    },
+    {
+      "path": "public/itemicons/mire-watch-ring-mail.png",
+      "license": "own",
+      "source": "tools/ingest-item-image.mjs",
+      "note": "Original Thornvael item icon"
+    },
+    {
+      "path": "public/itemicons/mirror-of-the-astral-veil.png",
+      "license": "own",
+      "source": "tools/ingest-item-image.mjs",
+      "note": "Original Thornvael item icon"
+    },
+    {
+      "path": "public/itemicons/molten-bell-astrolabe.png",
+      "license": "own",
+      "source": "tools/ingest-item-image.mjs",
+      "note": "Original Thornvael item icon"
+    },
+    {
+      "path": "public/itemicons/molten-bronze-bell-sphere.png",
+      "license": "own",
+      "source": "tools/ingest-item-image.mjs",
+      "note": "Original Thornvael item icon"
+    },
+    {
+      "path": "public/itemicons/net-sinker-channeler-wraps.png",
+      "license": "own",
+      "source": "tools/ingest-item-image.mjs",
+      "note": "Original Thornvael item icon"
+    },
+    {
+      "path": "public/itemicons/notarized-bone-awl-wand.png",
+      "license": "own",
+      "source": "tools/ingest-item-image.mjs",
+      "note": "Original Thornvael item icon"
+    },
+    {
+      "path": "public/itemicons/oath-bound-velvet-habit.png",
+      "license": "own",
+      "source": "tools/ingest-item-image.mjs",
+      "note": "Original Thornvael item icon"
+    },
+    {
+      "path": "public/itemicons/obsidian-dais-zweihander.png",
+      "license": "own",
+      "source": "tools/ingest-item-image.mjs",
+      "note": "Original Thornvael item icon"
+    },
+    {
+      "path": "public/itemicons/obsidian-doom-maul.png",
+      "license": "own",
+      "source": "tools/ingest-item-image.mjs",
+      "note": "Original Thornvael item icon"
+    },
+    {
+      "path": "public/itemicons/oiled-otter-pelt-cap.png",
+      "license": "own",
+      "source": "tools/ingest-item-image.mjs",
+      "note": "Original Thornvael item icon"
+    },
+    {
+      "path": "public/itemicons/ossuary-keepers-cowl.png",
+      "license": "own",
+      "source": "tools/ingest-item-image.mjs",
+      "note": "Original Thornvael item icon"
+    },
+    {
+      "path": "public/itemicons/ossuary-siphon-rod.png",
+      "license": "own",
+      "source": "tools/ingest-item-image.mjs",
+      "note": "Original Thornvael item icon"
+    },
+    {
+      "path": "public/itemicons/parish-probate-wand.png",
+      "license": "own",
+      "source": "tools/ingest-item-image.mjs",
+      "note": "Original Thornvael item icon"
+    },
+    {
+      "path": "public/itemicons/pauper-roll-cassock.png",
+      "license": "own",
+      "source": "tools/ingest-item-image.mjs",
+      "note": "Original Thornvael item icon"
+    },
+    {
+      "path": "public/itemicons/peat-ash-silk-gloves.png",
+      "license": "own",
+      "source": "tools/ingest-item-image.mjs",
+      "note": "Original Thornvael item icon"
+    },
+    {
+      "path": "public/itemicons/peat-sinkers-cowl.png",
+      "license": "own",
+      "source": "tools/ingest-item-image.mjs",
+      "note": "Original Thornvael item icon"
+    },
+    {
+      "path": "public/itemicons/peat-trench-war-axe.png",
+      "license": "own",
+      "source": "tools/ingest-item-image.mjs",
+      "note": "Original Thornvael item icon"
+    },
+    {
+      "path": "public/itemicons/pitch-boiled-ring-mail.png",
+      "license": "own",
+      "source": "tools/ingest-item-image.mjs",
+      "note": "Original Thornvael item icon"
+    },
+    {
+      "path": "public/itemicons/pitch-steeped-winding-sheet.png",
+      "license": "own",
+      "source": "tools/ingest-item-image.mjs",
+      "note": "Original Thornvael item icon"
+    },
+    {
+      "path": "public/itemicons/portcullis-of-the-first-checkpoint.png",
+      "license": "own",
+      "source": "tools/ingest-item-image.mjs",
+      "note": "Original Thornvael item icon"
+    },
+    {
+      "path": "public/itemicons/punt-pole-grips.png",
+      "license": "own",
+      "source": "tools/ingest-item-image.mjs",
+      "note": "Original Thornvael item icon"
+    },
+    {
+      "path": "public/itemicons/pyre-branch-of-the-ash-witch.png",
+      "license": "own",
+      "source": "tools/ingest-item-image.mjs",
+      "note": "Original Thornvael item icon"
+    },
+    {
+      "path": "public/itemicons/pyre-marshals-flamberge.png",
+      "license": "own",
+      "source": "tools/ingest-item-image.mjs",
+      "note": "Original Thornvael item icon"
+    },
+    {
+      "path": "public/itemicons/quarrymans-grievance.png",
+      "license": "own",
+      "source": "tools/ingest-item-image.mjs",
+      "note": "Original Thornvael item icon"
+    },
+    {
+      "path": "public/itemicons/ravenwatch-bailey-pavise.png",
+      "license": "own",
+      "source": "tools/ingest-item-image.mjs",
+      "note": "Original Thornvael item icon"
+    },
+    {
+      "path": "public/itemicons/redrock-misericorde.png",
+      "license": "own",
+      "source": "tools/ingest-item-image.mjs",
+      "note": "Original Thornvael item icon"
+    },
+    {
+      "path": "public/itemicons/reef-walker-boots.png",
+      "license": "own",
+      "source": "tools/ingest-item-image.mjs",
+      "note": "Original Thornvael item icon"
+    },
+    {
+      "path": "public/itemicons/ruptured-spire-lens.png",
+      "license": "own",
+      "source": "tools/ingest-item-image.mjs",
+      "note": "Original Thornvael item icon"
+    },
+    {
+      "path": "public/itemicons/saelens-marrow-needle.png",
+      "license": "own",
+      "source": "tools/ingest-item-image.mjs",
+      "note": "Original Thornvael item icon"
+    },
+    {
+      "path": "public/itemicons/salt-mirage-longbow.png",
+      "license": "own",
+      "source": "tools/ingest-item-image.mjs",
+      "note": "Original Thornvael item icon"
+    },
+    {
+      "path": "public/itemicons/salt-oath-yew-rod.png",
+      "license": "own",
+      "source": "tools/ingest-item-image.mjs",
+      "note": "Original Thornvael item icon"
+    },
+    {
+      "path": "public/itemicons/salt-pitted-war-greaves.png",
+      "license": "own",
+      "source": "tools/ingest-item-image.mjs",
+      "note": "Original Thornvael item icon"
+    },
+    {
+      "path": "public/itemicons/salt-scoured-brigandine.png",
+      "license": "own",
+      "source": "tools/ingest-item-image.mjs",
+      "note": "Original Thornvael item icon"
+    },
+    {
+      "path": "public/itemicons/salt-viper-jerkin.png",
+      "license": "own",
+      "source": "tools/ingest-item-image.mjs",
+      "note": "Original Thornvael item icon"
+    },
+    {
+      "path": "public/itemicons/salt-weighted-velvet-mantle.png",
+      "license": "own",
+      "source": "tools/ingest-item-image.mjs",
+      "note": "Original Thornvael item icon"
+    },
+    {
+      "path": "public/itemicons/scepter-of-the-howling-void.png",
+      "license": "own",
+      "source": "tools/ingest-item-image.mjs",
+      "note": "Original Thornvael item icon"
+    },
+    {
+      "path": "public/itemicons/scriptorium-veil-cowl.png",
+      "license": "own",
+      "source": "tools/ingest-item-image.mjs",
+      "note": "Original Thornvael item icon"
+    },
+    {
+      "path": "public/itemicons/sea-wall-kite-shield.png",
+      "license": "own",
+      "source": "tools/ingest-item-image.mjs",
+      "note": "Original Thornvael item icon"
+    },
+    {
+      "path": "public/itemicons/seal-hide-studded-jerkin.png",
+      "license": "own",
+      "source": "tools/ingest-item-image.mjs",
+      "note": "Original Thornvael item icon"
+    },
+    {
+      "path": "public/itemicons/seal-of-unread-dispatches.png",
+      "license": "own",
+      "source": "tools/ingest-item-image.mjs",
+      "note": "Original Thornvael item icon"
+    },
+    {
+      "path": "public/itemicons/seawall-grip-bracers.png",
+      "license": "own",
+      "source": "tools/ingest-item-image.mjs",
+      "note": "Original Thornvael item icon"
+    },
+    {
+      "path": "public/itemicons/sedge-bank-recurve.png",
+      "license": "own",
+      "source": "tools/ingest-item-image.mjs",
+      "note": "Original Thornvael item icon"
+    },
+    {
+      "path": "public/itemicons/sedge-walker-treads.png",
+      "license": "own",
+      "source": "tools/ingest-item-image.mjs",
+      "note": "Original Thornvael item icon"
+    },
+    {
+      "path": "public/itemicons/shark-skin-composite-bow.png",
+      "license": "own",
+      "source": "tools/ingest-item-image.mjs",
+      "note": "Original Thornvael item icon"
+    },
+    {
+      "path": "public/itemicons/shroud-of-the-glacial-hermit.png",
+      "license": "own",
+      "source": "tools/ingest-item-image.mjs",
+      "note": "Original Thornvael item icon"
+    },
+    {
+      "path": "public/itemicons/shroud-of-unpaid-vows.png",
+      "license": "own",
+      "source": "tools/ingest-item-image.mjs",
+      "note": "Original Thornvael item icon"
+    },
+    {
+      "path": "public/itemicons/signal-spotter-shadow-mask.png",
+      "license": "own",
+      "source": "tools/ingest-item-image.mjs",
+      "note": "Original Thornvael item icon"
+    },
+    {
+      "path": "public/itemicons/signet-of-the-astral-singularity.png",
+      "license": "own",
+      "source": "tools/ingest-item-image.mjs",
+      "note": "Original Thornvael item icon"
+    },
+    {
+      "path": "public/itemicons/signet-of-the-astral-well.png",
+      "license": "own",
+      "source": "tools/ingest-item-image.mjs",
+      "note": "Original Thornvael item icon"
+    },
+    {
+      "path": "public/itemicons/signet-of-the-two-paths.png",
+      "license": "own",
+      "source": "tools/ingest-item-image.mjs",
+      "note": "Original Thornvael item icon"
+    },
+    {
+      "path": "public/itemicons/silt-pickers-willow.png",
+      "license": "own",
+      "source": "tools/ingest-item-image.mjs",
+      "note": "Original Thornvael item icon"
+    },
+    {
+      "path": "public/itemicons/silt-plodder-boots.png",
+      "license": "own",
+      "source": "tools/ingest-item-image.mjs",
+      "note": "Original Thornvael item icon"
+    },
+    {
+      "path": "public/itemicons/slippers-of-the-spring-rain.png",
+      "license": "own",
+      "source": "tools/ingest-item-image.mjs",
+      "note": "Original Thornvael item icon"
+    },
+    {
+      "path": "public/itemicons/sludge-drained-basinet.png",
+      "license": "own",
+      "source": "tools/ingest-item-image.mjs",
+      "note": "Original Thornvael item icon"
+    },
+    {
+      "path": "public/itemicons/sluice-masters-wrench.png",
+      "license": "own",
+      "source": "tools/ingest-item-image.mjs",
+      "note": "Original Thornvael item icon"
+    },
+    {
+      "path": "public/itemicons/smoked-brass-censer-focus.png",
+      "license": "own",
+      "source": "tools/ingest-item-image.mjs",
+      "note": "Original Thornvael item icon"
+    },
+    {
+      "path": "public/itemicons/sovereign-wyrmscale.png",
+      "license": "own",
+      "source": "tools/ingest-item-image.mjs",
+      "note": "Original Thornvael item icon"
+    },
+    {
+      "path": "public/itemicons/sovereigns-brazier-staff.png",
+      "license": "own",
+      "source": "tools/ingest-item-image.mjs",
+      "note": "Original Thornvael item icon"
+    },
+    {
+      "path": "public/itemicons/sovereigns-gilded-crest.png",
+      "license": "own",
+      "source": "tools/ingest-item-image.mjs",
+      "note": "Original Thornvael item icon"
+    },
+    {
+      "path": "public/itemicons/spark-catchers-pendant.png",
+      "license": "own",
+      "source": "tools/ingest-item-image.mjs",
+      "note": "Original Thornvael item icon"
+    },
+    {
+      "path": "public/itemicons/spellslingers-silk-cuffs.png",
+      "license": "own",
+      "source": "tools/ingest-item-image.mjs",
+      "note": "Original Thornvael item icon"
+    },
+    {
+      "path": "public/itemicons/spiked-targe-of-redmarsh.png",
+      "license": "own",
+      "source": "tools/ingest-item-image.mjs",
+      "note": "Original Thornvael item icon"
+    },
+    {
+      "path": "public/itemicons/spurs-of-tactical-withdrawal.png",
+      "license": "own",
+      "source": "tools/ingest-item-image.mjs",
+      "note": "Original Thornvael item icon"
+    },
+    {
+      "path": "public/itemicons/sun-visored-steel-helm.png",
+      "license": "own",
+      "source": "tools/ingest-item-image.mjs",
+      "note": "Original Thornvael item icon"
+    },
+    {
+      "path": "public/itemicons/talisman-of-the-prismatic-loom.png",
+      "license": "own",
+      "source": "tools/ingest-item-image.mjs",
+      "note": "Original Thornvael item icon"
+    },
+    {
+      "path": "public/itemicons/tallow-sealed-mortuary-cassock.png",
+      "license": "own",
+      "source": "tools/ingest-item-image.mjs",
+      "note": "Original Thornvael item icon"
+    },
+    {
+      "path": "public/itemicons/tallow-stained-felt-hat.png",
+      "license": "own",
+      "source": "tools/ingest-item-image.mjs",
+      "note": "Original Thornvael item icon"
+    },
+    {
+      "path": "public/itemicons/tannin-stained-wraps.png",
+      "license": "own",
+      "source": "tools/ingest-item-image.mjs",
+      "note": "Original Thornvael item icon"
+    },
+    {
+      "path": "public/itemicons/tarred-plank-pavise.png",
+      "license": "own",
+      "source": "tools/ingest-item-image.mjs",
+      "note": "Original Thornvael item icon"
+    },
+    {
+      "path": "public/itemicons/tax-collectors-recurve.png",
+      "license": "own",
+      "source": "tools/ingest-item-image.mjs",
+      "note": "Original Thornvael item icon"
+    },
+    {
+      "path": "public/itemicons/the-barons-cooking-ledger-ring.png",
+      "license": "own",
+      "source": "tools/ingest-item-image.mjs",
+      "note": "Original Thornvael item icon"
+    },
+    {
+      "path": "public/itemicons/thorn-thicket-cap.png",
+      "license": "own",
+      "source": "tools/ingest-item-image.mjs",
+      "note": "Original Thornvael item icon"
+    },
+    {
+      "path": "public/itemicons/thornwick-mint-focus.png",
+      "license": "own",
+      "source": "tools/ingest-item-image.mjs",
+      "note": "Original Thornvael item icon"
+    },
+    {
+      "path": "public/itemicons/threshold-keystone-eye.png",
+      "license": "own",
+      "source": "tools/ingest-item-image.mjs",
+      "note": "Original Thornvael item icon"
+    },
+    {
+      "path": "public/itemicons/tide-scryers-sphere.png",
+      "license": "own",
+      "source": "tools/ingest-item-image.mjs",
+      "note": "Original Thornvael item icon"
+    },
+    {
+      "path": "public/itemicons/tide-witness-mirror.png",
+      "license": "own",
+      "source": "tools/ingest-item-image.mjs",
+      "note": "Original Thornvael item icon"
+    },
+    {
+      "path": "public/itemicons/toll-post-ash-shortbow.png",
+      "license": "own",
+      "source": "tools/ingest-item-image.mjs",
+      "note": "Original Thornvael item icon"
+    },
+    {
+      "path": "public/itemicons/toll-tower-prod.png",
+      "license": "own",
+      "source": "tools/ingest-item-image.mjs",
+      "note": "Original Thornvael item icon"
+    },
+    {
+      "path": "public/itemicons/tollkeepers-receipt.png",
+      "license": "own",
+      "source": "tools/ingest-item-image.mjs",
+      "note": "Original Thornvael item icon"
+    },
+    {
+      "path": "public/itemicons/tongs-of-the-cinderforge.png",
+      "license": "own",
+      "source": "tools/ingest-item-image.mjs",
+      "note": "Original Thornvael item icon"
+    },
+    {
+      "path": "public/itemicons/tower-of-the-iron-line.png",
+      "license": "own",
+      "source": "tools/ingest-item-image.mjs",
+      "note": "Original Thornvael item icon"
+    },
+    {
+      "path": "public/itemicons/turnkey-of-the-north-gate.png",
+      "license": "own",
+      "source": "tools/ingest-item-image.mjs",
+      "note": "Original Thornvael item icon"
+    },
+    {
+      "path": "public/itemicons/unpaid-lien-knuckle-band.png",
+      "license": "own",
+      "source": "tools/ingest-item-image.mjs",
+      "note": "Original Thornvael item icon"
+    },
+    {
+      "path": "public/itemicons/unscorched-ash-silk-robe.png",
+      "license": "own",
+      "source": "tools/ingest-item-image.mjs",
+      "note": "Original Thornvael item icon"
+    },
+    {
+      "path": "public/itemicons/vanes-whisper-grips.png",
+      "license": "own",
+      "source": "tools/ingest-item-image.mjs",
+      "note": "Original Thornvael item icon"
+    },
+    {
+      "path": "public/itemicons/vestments-of-the-last-pyre.png",
+      "license": "own",
+      "source": "tools/ingest-item-image.mjs",
+      "note": "Original Thornvael item icon"
+    },
+    {
+      "path": "public/itemicons/visor-of-the-ashen-vanguard.png",
+      "license": "own",
+      "source": "tools/ingest-item-image.mjs",
+      "note": "Original Thornvael item icon"
+    },
+    {
+      "path": "public/itemicons/vitrified-hearth-diadem.png",
+      "license": "own",
+      "source": "tools/ingest-item-image.mjs",
+      "note": "Original Thornvael item icon"
+    },
+    {
+      "path": "public/itemicons/voks-fissure-plate.png",
+      "license": "own",
+      "source": "tools/ingest-item-image.mjs",
+      "note": "Original Thornvael item icon"
+    },
+    {
+      "path": "public/itemicons/wardens-seal-wand.png",
+      "license": "own",
+      "source": "tools/ingest-item-image.mjs",
+      "note": "Original Thornvael item icon"
+    },
+    {
+      "path": "public/itemicons/waxed-oilcloth-mantle.png",
+      "license": "own",
+      "source": "tools/ingest-item-image.mjs",
+      "note": "Original Thornvael item icon"
+    },
+    {
+      "path": "public/itemicons/whale-oiled-brigandine.png",
+      "license": "own",
+      "source": "tools/ingest-item-image.mjs",
+      "note": "Original Thornvael item icon"
+    },
+    {
+      "path": "public/itemicons/whispering-dirk-of-the-fen-strider.png",
+      "license": "own",
+      "source": "tools/ingest-item-image.mjs",
+      "note": "Original Thornvael item icon"
+    },
+    {
+      "path": "public/itemicons/widows-loom-weight.png",
+      "license": "own",
+      "source": "tools/ingest-item-image.mjs",
+      "note": "Original Thornvael item icon"
+    },
+    {
+      "path": "public/itemicons/willow-creek-string.png",
+      "license": "own",
+      "source": "tools/ingest-item-image.mjs",
+      "note": "Original Thornvael item icon"
+    },
+    {
+      "path": "public/itemicons/wreck-divers-bracers.png",
+      "license": "own",
+      "source": "tools/ingest-item-image.mjs",
+      "note": "Original Thornvael item icon"
+    },
+    {
+      "path": "public/itemicons/zephyr-bough-of-the-tempest.png",
+      "license": "own",
+      "source": "tools/ingest-item-image.mjs",
+      "note": "Original Thornvael item icon"
     }
   ],
   "townart/portrait-necromancer.png": {
@@ -20315,5 +21461,2992 @@
   "wiki\\minimaps\\volcanic.png": {
     "license": "own",
     "source": "tools/gen-wiki-art.py"
+  },
+  "provenance": {
+    "abbey-witness-staff.png": {
+      "license": "own",
+      "generator": "script",
+      "notes": "generated icon"
+    },
+    "abdication.png": {
+      "license": "own",
+      "generator": "script",
+      "notes": "generated icon"
+    },
+    "adamantium-needle.png": {
+      "license": "own",
+      "generator": "script",
+      "notes": "generated icon"
+    },
+    "aegis-of-the-citadel.png": {
+      "license": "own",
+      "generator": "script",
+      "notes": "generated icon"
+    },
+    "aegis-of-the-sunken-citadel.png": {
+      "license": "own",
+      "generator": "script",
+      "notes": "generated icon"
+    },
+    "alder-bridge-watchmans-edge.png": {
+      "license": "own",
+      "generator": "script",
+      "notes": "generated icon"
+    },
+    "alder-gate-cleaver.png": {
+      "license": "own",
+      "generator": "script",
+      "notes": "generated icon"
+    },
+    "alder-limb-flatbow.png": {
+      "license": "own",
+      "generator": "script",
+      "notes": "generated icon"
+    },
+    "alkali-blood-restorative.png": {
+      "license": "own",
+      "generator": "script",
+      "notes": "generated icon"
+    },
+    "alkali-etched-band.png": {
+      "license": "own",
+      "generator": "script",
+      "notes": "generated icon"
+    },
+    "alkali-proof-gauntlets.png": {
+      "license": "own",
+      "generator": "script",
+      "notes": "generated icon"
+    },
+    "alkali-tempered-sabre.png": {
+      "license": "own",
+      "generator": "script",
+      "notes": "generated icon"
+    },
+    "amber-fen-beetle-charm.png": {
+      "license": "own",
+      "generator": "script",
+      "notes": "generated icon"
+    },
+    "amber-focus-wand.png": {
+      "license": "own",
+      "generator": "script",
+      "notes": "generated icon"
+    },
+    "amulet-of-the-blood-altar.png": {
+      "license": "own",
+      "generator": "script",
+      "notes": "generated icon"
+    },
+    "anchor-seal-cosmos-eye.png": {
+      "license": "own",
+      "generator": "script",
+      "notes": "generated icon"
+    },
+    "apothecary-brass-scale-focus.png": {
+      "license": "own",
+      "generator": "script",
+      "notes": "generated icon"
+    },
+    "apothecarys-oilcloth.png": {
+      "license": "own",
+      "generator": "script",
+      "notes": "generated icon"
+    },
+    "apprentice-circlet.png": {
+      "license": "own",
+      "generator": "script",
+      "notes": "generated icon"
+    },
+    "arbiters-velvet-mantle.png": {
+      "license": "own",
+      "generator": "script",
+      "notes": "generated icon"
+    },
+    "archmage-diadem.png": {
+      "license": "own",
+      "generator": "script",
+      "notes": "generated icon"
+    },
+    "archon-handwraps.png": {
+      "license": "own",
+      "generator": "script",
+      "notes": "generated icon"
+    },
+    "ash-draft-greatbow.png": {
+      "license": "own",
+      "generator": "script",
+      "notes": "generated icon"
+    },
+    "ash-knobbed-bludgeon.png": {
+      "license": "own",
+      "generator": "script",
+      "notes": "generated icon"
+    },
+    "ash-linen-witness-wimple.png": {
+      "license": "own",
+      "generator": "script",
+      "notes": "generated icon"
+    },
+    "ash-runner-grips.png": {
+      "license": "own",
+      "generator": "script",
+      "notes": "generated icon"
+    },
+    "ash-shortbow.png": {
+      "license": "own",
+      "generator": "script",
+      "notes": "generated icon"
+    },
+    "ash-spire-warbow.png": {
+      "license": "own",
+      "generator": "script",
+      "notes": "generated icon"
+    },
+    "ash-staff.png": {
+      "license": "own",
+      "generator": "script",
+      "notes": "generated icon"
+    },
+    "ash-urn-reliquary.png": {
+      "license": "own",
+      "generator": "script",
+      "notes": "generated icon"
+    },
+    "ashen-citadel-cuirass.png": {
+      "license": "own",
+      "generator": "script",
+      "notes": "generated icon"
+    },
+    "assayers-copper-circlet.png": {
+      "license": "own",
+      "generator": "script",
+      "notes": "generated icon"
+    },
+    "assayers-scale-girdle.png": {
+      "license": "own",
+      "generator": "script",
+      "notes": "generated icon"
+    },
+    "assayers-sight-mask.png": {
+      "license": "own",
+      "generator": "script",
+      "notes": "generated icon"
+    },
+    "astral-archon-wand.png": {
+      "license": "own",
+      "generator": "script",
+      "notes": "generated icon"
+    },
+    "astral-medallion.png": {
+      "license": "own",
+      "generator": "script",
+      "notes": "generated icon"
+    },
+    "astral-prism-medallion.png": {
+      "license": "own",
+      "generator": "script",
+      "notes": "generated icon"
+    },
+    "astral-sphere.png": {
+      "license": "own",
+      "generator": "script",
+      "notes": "generated icon"
+    },
+    "astral-walkers.png": {
+      "license": "own",
+      "generator": "script",
+      "notes": "generated icon"
+    },
+    "bailiffs-iron-truncheon.png": {
+      "license": "own",
+      "generator": "script",
+      "notes": "generated icon"
+    },
+    "bailiffs-knuckle-seal.png": {
+      "license": "own",
+      "generator": "script",
+      "notes": "generated icon"
+    },
+    "band-of-the-bloodbound-berserker.png": {
+      "license": "own",
+      "generator": "script",
+      "notes": "generated icon"
+    },
+    "band-of-the-frugal-hermit.png": {
+      "license": "own",
+      "generator": "script",
+      "notes": "generated icon"
+    },
+    "basalt-splitter-maul.png": {
+      "license": "own",
+      "generator": "script",
+      "notes": "generated icon"
+    },
+    "bastard-greatsword.png": {
+      "license": "own",
+      "generator": "script",
+      "notes": "generated icon"
+    },
+    "bastion-of-the-sunlit-oath.png": {
+      "license": "own",
+      "generator": "script",
+      "notes": "generated icon"
+    },
+    "beacon-lens-signet.png": {
+      "license": "own",
+      "generator": "script",
+      "notes": "generated icon"
+    },
+    "bearded-battleaxe.png": {
+      "license": "own",
+      "generator": "script",
+      "notes": "generated icon"
+    },
+    "berserker-decapitator.png": {
+      "license": "own",
+      "generator": "script",
+      "notes": "generated icon"
+    },
+    "bezoar-of-the-sand-glutton.png": {
+      "license": "own",
+      "generator": "script",
+      "notes": "generated icon"
+    },
+    "bitter-gall-draught.png": {
+      "license": "own",
+      "generator": "script",
+      "notes": "generated icon"
+    },
+    "bitumen-sealant-jar.png": {
+      "license": "own",
+      "generator": "script",
+      "notes": "generated icon"
+    },
+    "bitumen-sealed-habit.png": {
+      "license": "own",
+      "generator": "script",
+      "notes": "generated icon"
+    },
+    "black-blockade-astrolabe.png": {
+      "license": "own",
+      "generator": "script",
+      "notes": "generated icon"
+    },
+    "blind-beacon-rune-staff.png": {
+      "license": "own",
+      "generator": "script",
+      "notes": "generated icon"
+    },
+    "blood-drinkers-crescent.png": {
+      "license": "own",
+      "generator": "script",
+      "notes": "generated icon"
+    },
+    "bloodstone-pendant.png": {
+      "license": "own",
+      "generator": "script",
+      "notes": "generated icon"
+    },
+    "boardwalk-pavise.png": {
+      "license": "own",
+      "generator": "script",
+      "notes": "generated icon"
+    },
+    "bog-clogged-clogs.png": {
+      "license": "own",
+      "generator": "script",
+      "notes": "generated icon"
+    },
+    "bog-crystal-lens.png": {
+      "license": "own",
+      "generator": "script",
+      "notes": "generated icon"
+    },
+    "bog-iron-spatha.png": {
+      "license": "own",
+      "generator": "script",
+      "notes": "generated icon"
+    },
+    "bog-moss-poultice.png": {
+      "license": "own",
+      "generator": "script",
+      "notes": "generated icon"
+    },
+    "bog-quartz-distiller-lens.png": {
+      "license": "own",
+      "generator": "script",
+      "notes": "generated icon"
+    },
+    "boiled-hide-coif.png": {
+      "license": "own",
+      "generator": "script",
+      "notes": "generated icon"
+    },
+    "bone-knuckle-grips.png": {
+      "license": "own",
+      "generator": "script",
+      "notes": "generated icon"
+    },
+    "bone-ring.png": {
+      "license": "own",
+      "generator": "script",
+      "notes": "generated icon"
+    },
+    "boots-of-the-shadow-dancer.png": {
+      "license": "own",
+      "generator": "script",
+      "notes": "generated icon"
+    },
+    "border-assessors-oak.png": {
+      "license": "own",
+      "generator": "script",
+      "notes": "generated icon"
+    },
+    "bowyers-horn-bracer.png": {
+      "license": "own",
+      "generator": "script",
+      "notes": "generated icon"
+    },
+    "bracken-wind-reader.png": {
+      "license": "own",
+      "generator": "script",
+      "notes": "generated icon"
+    },
+    "braided-rush-charm.png": {
+      "license": "own",
+      "generator": "script",
+      "notes": "generated icon"
+    },
+    "brass-probate-scales.png": {
+      "license": "own",
+      "generator": "script",
+      "notes": "generated icon"
+    },
+    "brawlers-ironknuckles.png": {
+      "license": "own",
+      "generator": "script",
+      "notes": "generated icon"
+    },
+    "breakwater-kite-shield.png": {
+      "license": "own",
+      "generator": "script",
+      "notes": "generated icon"
+    },
+    "brens-only-dry-boot.png": {
+      "license": "own",
+      "generator": "script",
+      "notes": "generated icon"
+    },
+    "bridge-watch-latchet.png": {
+      "license": "own",
+      "generator": "script",
+      "notes": "generated icon"
+    },
+    "brimstone-chapel-de-fer.png": {
+      "license": "own",
+      "generator": "script",
+      "notes": "generated icon"
+    },
+    "brine-etched-spire-rod.png": {
+      "license": "own",
+      "generator": "script",
+      "notes": "generated icon"
+    },
+    "brine-sealed-brigandine.png": {
+      "license": "own",
+      "generator": "script",
+      "notes": "generated icon"
+    },
+    "brine-vial-pendant.png": {
+      "license": "own",
+      "generator": "script",
+      "notes": "generated icon"
+    },
+    "bronze-locket.png": {
+      "license": "own",
+      "generator": "script",
+      "notes": "generated icon"
+    },
+    "bulwark-of-the-unbroken-realm.png": {
+      "license": "own",
+      "generator": "script",
+      "notes": "generated icon"
+    },
+    "caduceus-of-the-dawn-bearer.png": {
+      "license": "own",
+      "generator": "script",
+      "notes": "generated icon"
+    },
+    "caldera-ember-core.png": {
+      "license": "own",
+      "generator": "script",
+      "notes": "generated icon"
+    },
+    "caldera-forged-armet.png": {
+      "license": "own",
+      "generator": "script",
+      "notes": "generated icon"
+    },
+    "caldera-glass-greatbow.png": {
+      "license": "own",
+      "generator": "script",
+      "notes": "generated icon"
+    },
+    "caldera-jaw-greataxe.png": {
+      "license": "own",
+      "generator": "script",
+      "notes": "generated icon"
+    },
+    "caldera-plate-girdle.png": {
+      "license": "own",
+      "generator": "script",
+      "notes": "generated icon"
+    },
+    "caldera-scored-probate-staff.png": {
+      "license": "own",
+      "generator": "script",
+      "notes": "generated icon"
+    },
+    "caldera-slag-signet.png": {
+      "license": "own",
+      "generator": "script",
+      "notes": "generated icon"
+    },
+    "caldera-trench-flamberge.png": {
+      "license": "own",
+      "generator": "script",
+      "notes": "generated icon"
+    },
+    "candle-of-the-sunken-sanctum.png": {
+      "license": "own",
+      "generator": "script",
+      "notes": "generated icon"
+    },
+    "canteen-keepers-locket.png": {
+      "license": "own",
+      "generator": "script",
+      "notes": "generated icon"
+    },
+    "celestial-spire-distillate.png": {
+      "license": "own",
+      "generator": "script",
+      "notes": "generated icon"
+    },
+    "chain-mail.png": {
+      "license": "own",
+      "generator": "script",
+      "notes": "generated icon"
+    },
+    "charred-birch-twig.png": {
+      "license": "own",
+      "generator": "script",
+      "notes": "generated icon"
+    },
+    "charred-plate-velvet-shroud.png": {
+      "license": "own",
+      "generator": "script",
+      "notes": "generated icon"
+    },
+    "chipped-flint-gorget.png": {
+      "license": "own",
+      "generator": "script",
+      "notes": "generated icon"
+    },
+    "chiseled-quartz-focus.png": {
+      "license": "own",
+      "generator": "script",
+      "notes": "generated icon"
+    },
+    "cinder-crown-bulwark.png": {
+      "license": "own",
+      "generator": "script",
+      "notes": "generated icon"
+    },
+    "cinder-glass-kriss.png": {
+      "license": "own",
+      "generator": "script",
+      "notes": "generated icon"
+    },
+    "cinder-heart-talisman.png": {
+      "license": "own",
+      "generator": "script",
+      "notes": "generated icon"
+    },
+    "cinder-kings-halberd-horn.png": {
+      "license": "own",
+      "generator": "script",
+      "notes": "generated icon"
+    },
+    "cinder-vein-greatsword.png": {
+      "license": "own",
+      "generator": "script",
+      "notes": "generated icon"
+    },
+    "cinder-weavers-wraps.png": {
+      "license": "own",
+      "generator": "script",
+      "notes": "generated icon"
+    },
+    "cinder-wing-mantle.png": {
+      "license": "own",
+      "generator": "script",
+      "notes": "generated icon"
+    },
+    "clapper-of-the-submerged-nave.png": {
+      "license": "own",
+      "generator": "script",
+      "notes": "generated icon"
+    },
+    "clay-baked-amber-charm.png": {
+      "license": "own",
+      "generator": "script",
+      "notes": "generated icon"
+    },
+    "clay-talisman.png": {
+      "license": "own",
+      "generator": "script",
+      "notes": "generated icon"
+    },
+    "cleaver-of-the-bog-troll.png": {
+      "license": "own",
+      "generator": "script",
+      "notes": "generated icon"
+    },
+    "cliff-gale-selfbow.png": {
+      "license": "own",
+      "generator": "script",
+      "notes": "generated icon"
+    },
+    "cliff-grip-greaves.png": {
+      "license": "own",
+      "generator": "script",
+      "notes": "generated icon"
+    },
+    "cliff-runner-striders.png": {
+      "license": "own",
+      "generator": "script",
+      "notes": "generated icon"
+    },
+    "cloth-robe.png": {
+      "license": "own",
+      "generator": "script",
+      "notes": "generated icon"
+    },
+    "coal-walkers-sabatons.png": {
+      "license": "own",
+      "generator": "script",
+      "notes": "generated icon"
+    },
+    "cobblers-awl-blade.png": {
+      "license": "own",
+      "generator": "script",
+      "notes": "generated icon"
+    },
+    "colossus-of-the-fallen-dynasty.png": {
+      "license": "own",
+      "generator": "script",
+      "notes": "generated icon"
+    },
+    "composite-war-bow.png": {
+      "license": "own",
+      "generator": "script",
+      "notes": "generated icon"
+    },
+    "conclave-grounding-hat.png": {
+      "license": "own",
+      "generator": "script",
+      "notes": "generated icon"
+    },
+    "conclave-tuning-fork.png": {
+      "license": "own",
+      "generator": "script",
+      "notes": "generated icon"
+    },
+    "copper-band.png": {
+      "license": "own",
+      "generator": "script",
+      "notes": "generated icon"
+    },
+    "copper-coil-ring.png": {
+      "license": "own",
+      "generator": "script",
+      "notes": "generated icon"
+    },
+    "copper-filings-phial.png": {
+      "license": "own",
+      "generator": "script",
+      "notes": "generated icon"
+    },
+    "copper-plumb-amulet.png": {
+      "license": "own",
+      "generator": "script",
+      "notes": "generated icon"
+    },
+    "copper-sewn-conduit-gloves.png": {
+      "license": "own",
+      "generator": "script",
+      "notes": "generated icon"
+    },
+    "copper-sewn-gloves.png": {
+      "license": "own",
+      "generator": "script",
+      "notes": "generated icon"
+    },
+    "coronet-of-cold-clinkers.png": {
+      "license": "own",
+      "generator": "script",
+      "notes": "generated icon"
+    },
+    "corroded-galley-master-signet.png": {
+      "license": "own",
+      "generator": "script",
+      "notes": "generated icon"
+    },
+    "cowl-of-the-pale-stalker.png": {
+      "license": "own",
+      "generator": "script",
+      "notes": "generated icon"
+    },
+    "cracked-horn-buckler.png": {
+      "license": "own",
+      "generator": "script",
+      "notes": "generated icon"
+    },
+    "cranequin-sea-arbalest.png": {
+      "license": "own",
+      "generator": "script",
+      "notes": "generated icon"
+    },
+    "crescent-broadaxe.png": {
+      "license": "own",
+      "generator": "script",
+      "notes": "generated icon"
+    },
+    "crown-ember-coronet.png": {
+      "license": "own",
+      "generator": "script",
+      "notes": "generated icon"
+    },
+    "crown-of-the-primordial-ages.png": {
+      "license": "own",
+      "generator": "script",
+      "notes": "generated icon"
+    },
+    "crude-whetstone-block.png": {
+      "license": "own",
+      "generator": "script",
+      "notes": "generated icon"
+    },
+    "crypt-dust-slippers.png": {
+      "license": "own",
+      "generator": "script",
+      "notes": "generated icon"
+    },
+    "crystal-siphon-wand.png": {
+      "license": "own",
+      "generator": "script",
+      "notes": "generated icon"
+    },
+    "cured-fen-hide-bundle.png": {
+      "license": "own",
+      "generator": "script",
+      "notes": "generated icon"
+    },
+    "deep-current-mantle.png": {
+      "license": "own",
+      "generator": "script",
+      "notes": "generated icon"
+    },
+    "dent-of-greystone-wall.png": {
+      "license": "own",
+      "generator": "script",
+      "notes": "generated icon"
+    },
+    "deserters-tin-canteen.png": {
+      "license": "own",
+      "generator": "script",
+      "notes": "generated icon"
+    },
+    "diadem-of-the-tempest-eye.png": {
+      "license": "own",
+      "generator": "script",
+      "notes": "generated icon"
+    },
+    "dike-breakers-broadaxe.png": {
+      "license": "own",
+      "generator": "script",
+      "notes": "generated icon"
+    },
+    "ditch-chapel-prism.png": {
+      "license": "own",
+      "generator": "script",
+      "notes": "generated icon"
+    },
+    "dragon-leather-mantle.png": {
+      "license": "own",
+      "generator": "script",
+      "notes": "generated icon"
+    },
+    "dread-crest-helm.png": {
+      "license": "own",
+      "generator": "script",
+      "notes": "generated icon"
+    },
+    "dreadnought-zweihander.png": {
+      "license": "own",
+      "generator": "script",
+      "notes": "generated icon"
+    },
+    "driftwood-crook-staff.png": {
+      "license": "own",
+      "generator": "script",
+      "notes": "generated icon"
+    },
+    "drowned-bell-yew.png": {
+      "license": "own",
+      "generator": "script",
+      "notes": "generated icon"
+    },
+    "duelist-poignard.png": {
+      "license": "own",
+      "generator": "script",
+      "notes": "generated icon"
+    },
+    "dune-striders-treads.png": {
+      "license": "own",
+      "generator": "script",
+      "notes": "generated icon"
+    },
+    "elixir-of-agility.png": {
+      "license": "own",
+      "generator": "script",
+      "notes": "generated icon"
+    },
+    "elixir-of-body.png": {
+      "license": "own",
+      "generator": "script",
+      "notes": "generated icon"
+    },
+    "elixir-of-mind.png": {
+      "license": "own",
+      "generator": "script",
+      "notes": "generated icon"
+    },
+    "elixir-of-spirit.png": {
+      "license": "own",
+      "generator": "script",
+      "notes": "generated icon"
+    },
+    "ember-charm.png": {
+      "license": "own",
+      "generator": "script",
+      "notes": "generated icon"
+    },
+    "ember-core-cincture.png": {
+      "license": "own",
+      "generator": "script",
+      "notes": "generated icon"
+    },
+    "ember-crown-bec.png": {
+      "license": "own",
+      "generator": "script",
+      "notes": "generated icon"
+    },
+    "ember-glass-windpiercer.png": {
+      "license": "own",
+      "generator": "script",
+      "notes": "generated icon"
+    },
+    "ember-weave-handwraps.png": {
+      "license": "own",
+      "generator": "script",
+      "notes": "generated icon"
+    },
+    "executioner-blade.png": {
+      "license": "own",
+      "generator": "script",
+      "notes": "generated icon"
+    },
+    "expelled-fellows-staff.png": {
+      "license": "own",
+      "generator": "script",
+      "notes": "generated icon"
+    },
+    "eye-of-the-cosmos.png": {
+      "license": "own",
+      "generator": "script",
+      "notes": "generated icon"
+    },
+    "eye-of-the-obsidian-wyrm.png": {
+      "license": "own",
+      "generator": "script",
+      "notes": "generated icon"
+    },
+    "false-light-crozier.png": {
+      "license": "own",
+      "generator": "script",
+      "notes": "generated icon"
+    },
+    "fen-abbey-crosier.png": {
+      "license": "own",
+      "generator": "script",
+      "notes": "generated icon"
+    },
+    "fen-poachers-yew.png": {
+      "license": "own",
+      "generator": "script",
+      "notes": "generated icon"
+    },
+    "fen-reed-longbow.png": {
+      "license": "own",
+      "generator": "script",
+      "notes": "generated icon"
+    },
+    "fen-scale-hauberk.png": {
+      "license": "own",
+      "generator": "script",
+      "notes": "generated icon"
+    },
+    "fen-stalker-moccasins.png": {
+      "license": "own",
+      "generator": "script",
+      "notes": "generated icon"
+    },
+    "fen-wader-striders.png": {
+      "license": "own",
+      "generator": "script",
+      "notes": "generated icon"
+    },
+    "ferrymans-tarred-jerkin.png": {
+      "license": "own",
+      "generator": "script",
+      "notes": "generated icon"
+    },
+    "first-king-brazier-staff.png": {
+      "license": "own",
+      "generator": "script",
+      "notes": "generated icon"
+    },
+    "first-watch-brass-medallion.png": {
+      "license": "own",
+      "generator": "script",
+      "notes": "generated icon"
+    },
+    "first-watch-edict-scroll.png": {
+      "license": "own",
+      "generator": "script",
+      "notes": "generated icon"
+    },
+    "first-watch-oath-ring.png": {
+      "license": "own",
+      "generator": "script",
+      "notes": "generated icon"
+    },
+    "flamberge.png": {
+      "license": "own",
+      "generator": "script",
+      "notes": "generated icon"
+    },
+    "flanged-mace.png": {
+      "license": "own",
+      "generator": "script",
+      "notes": "generated icon"
+    },
+    "flint-stiletto.png": {
+      "license": "own",
+      "generator": "script",
+      "notes": "generated icon"
+    },
+    "ford-picket-francisca.png": {
+      "license": "own",
+      "generator": "script",
+      "notes": "generated icon"
+    },
+    "fossilized-lien-wand.png": {
+      "license": "own",
+      "generator": "script",
+      "notes": "generated icon"
+    },
+    "foundry-sledge-mace.png": {
+      "license": "own",
+      "generator": "script",
+      "notes": "generated icon"
+    },
+    "frog-bone-locket.png": {
+      "license": "own",
+      "generator": "script",
+      "notes": "generated icon"
+    },
+    "frost-charm.png": {
+      "license": "own",
+      "generator": "script",
+      "notes": "generated icon"
+    },
+    "gale-hooded-stalker-mask.png": {
+      "license": "own",
+      "generator": "script",
+      "notes": "generated icon"
+    },
+    "gale-rigging-composite.png": {
+      "license": "own",
+      "generator": "script",
+      "notes": "generated icon"
+    },
+    "galley-masters-seal.png": {
+      "license": "own",
+      "generator": "script",
+      "notes": "generated icon"
+    },
+    "gallows-root-band.png": {
+      "license": "own",
+      "generator": "script",
+      "notes": "generated icon"
+    },
+    "gallows-root-crozier.png": {
+      "license": "own",
+      "generator": "script",
+      "notes": "generated icon"
+    },
+    "galvanic-arc-band.png": {
+      "license": "own",
+      "generator": "script",
+      "notes": "generated icon"
+    },
+    "galvanic-coil-stave.png": {
+      "license": "own",
+      "generator": "script",
+      "notes": "generated icon"
+    },
+    "galvanic-copper-aegis.png": {
+      "license": "own",
+      "generator": "script",
+      "notes": "generated icon"
+    },
+    "galvanic-ether-ampoule.png": {
+      "license": "own",
+      "generator": "script",
+      "notes": "generated icon"
+    },
+    "garricks-sluice-lid.png": {
+      "license": "own",
+      "generator": "script",
+      "notes": "generated icon"
+    },
+    "gauntlets-of-the-stone-colossus.png": {
+      "license": "own",
+      "generator": "script",
+      "notes": "generated icon"
+    },
+    "ghost-striders-treads.png": {
+      "license": "own",
+      "generator": "script",
+      "notes": "generated icon"
+    },
+    "girdle-of-giants.png": {
+      "license": "own",
+      "generator": "script",
+      "notes": "generated icon"
+    },
+    "glacial-shard-of-the-first-frost.png": {
+      "license": "own",
+      "generator": "script",
+      "notes": "generated icon"
+    },
+    "glove-l.png": {
+      "license": "own",
+      "generator": "script",
+      "notes": "generated icon"
+    },
+    "gorrathuls-cistern-blade.png": {
+      "license": "own",
+      "generator": "script",
+      "notes": "generated icon"
+    },
+    "gorse-thorn-brigandine.png": {
+      "license": "own",
+      "generator": "script",
+      "notes": "generated icon"
+    },
+    "gothic-full-plate.png": {
+      "license": "own",
+      "generator": "script",
+      "notes": "generated icon"
+    },
+    "gravel-bar-waders.png": {
+      "license": "own",
+      "generator": "script",
+      "notes": "generated icon"
+    },
+    "gravetide-ash-baton.png": {
+      "license": "own",
+      "generator": "script",
+      "notes": "generated icon"
+    },
+    "greased-archers-gloves.png": {
+      "license": "own",
+      "generator": "script",
+      "notes": "generated icon"
+    },
+    "greased-archers-tab-gloves.png": {
+      "license": "own",
+      "generator": "script",
+      "notes": "generated icon"
+    },
+    "great-ring-of-calm.png": {
+      "license": "own",
+      "generator": "script",
+      "notes": "generated icon"
+    },
+    "great-ring-of-grace.png": {
+      "license": "own",
+      "generator": "script",
+      "notes": "generated icon"
+    },
+    "great-ring-of-insight.png": {
+      "license": "own",
+      "generator": "script",
+      "notes": "generated icon"
+    },
+    "great-ring-of-might.png": {
+      "license": "own",
+      "generator": "script",
+      "notes": "generated icon"
+    },
+    "greater-healing-draught.png": {
+      "license": "own",
+      "generator": "script",
+      "notes": "generated icon"
+    },
+    "greater-mana-draught.png": {
+      "license": "own",
+      "generator": "script",
+      "notes": "generated icon"
+    },
+    "greaves-of-the-mountain-ram.png": {
+      "license": "own",
+      "generator": "script",
+      "notes": "generated icon"
+    },
+    "greystone-parapet-helm.png": {
+      "license": "own",
+      "generator": "script",
+      "notes": "generated icon"
+    },
+    "grips-of-the-zephyr-archer.png": {
+      "license": "own",
+      "generator": "script",
+      "notes": "generated icon"
+    },
+    "grounded-clerks-habit.png": {
+      "license": "own",
+      "generator": "script",
+      "notes": "generated icon"
+    },
+    "hammer-of-the-earth-breaker.png": {
+      "license": "own",
+      "generator": "script",
+      "notes": "generated icon"
+    },
+    "harbor-boom-morningstar.png": {
+      "license": "own",
+      "generator": "script",
+      "notes": "generated icon"
+    },
+    "harbor-burners-astrolabe.png": {
+      "license": "own",
+      "generator": "script",
+      "notes": "generated icon"
+    },
+    "harbor-chain-morning-star.png": {
+      "license": "own",
+      "generator": "script",
+      "notes": "generated icon"
+    },
+    "harbor-chain-ring.png": {
+      "license": "own",
+      "generator": "script",
+      "notes": "generated icon"
+    },
+    "harbor-guard-estoc.png": {
+      "license": "own",
+      "generator": "script",
+      "notes": "generated icon"
+    },
+    "harbor-masters-cinch.png": {
+      "license": "own",
+      "generator": "script",
+      "notes": "generated icon"
+    },
+    "harbor-pilots-dirk.png": {
+      "license": "own",
+      "generator": "script",
+      "notes": "generated icon"
+    },
+    "harbor-riggers-grips.png": {
+      "license": "own",
+      "generator": "script",
+      "notes": "generated icon"
+    },
+    "harborwall-winch-arbalest.png": {
+      "license": "own",
+      "generator": "script",
+      "notes": "generated icon"
+    },
+    "hardened-brigandine.png": {
+      "license": "own",
+      "generator": "script",
+      "notes": "generated icon"
+    },
+    "healer-seras-amputation-saw.png": {
+      "license": "own",
+      "generator": "script",
+      "notes": "generated icon"
+    },
+    "healing-draught.png": {
+      "license": "own",
+      "generator": "script",
+      "notes": "generated icon"
+    },
+    "heart-of-the-cinder-throne.png": {
+      "license": "own",
+      "generator": "script",
+      "notes": "generated icon"
+    },
+    "heart-of-the-colossus.png": {
+      "license": "own",
+      "generator": "script",
+      "notes": "generated icon"
+    },
+    "heart-of-the-ironhide-warlord.png": {
+      "license": "own",
+      "generator": "script",
+      "notes": "generated icon"
+    },
+    "heavy-arbalest.png": {
+      "license": "own",
+      "generator": "script",
+      "notes": "generated icon"
+    },
+    "heavy-morningstar.png": {
+      "license": "own",
+      "generator": "script",
+      "notes": "generated icon"
+    },
+    "hedge-tutors-hat.png": {
+      "license": "own",
+      "generator": "script",
+      "notes": "generated icon"
+    },
+    "hemp-padded-arming-cap.png": {
+      "license": "own",
+      "generator": "script",
+      "notes": "generated icon"
+    },
+    "hemp-rope-girdle.png": {
+      "license": "own",
+      "generator": "script",
+      "notes": "generated icon"
+    },
+    "high-assayers-diadem.png": {
+      "license": "own",
+      "generator": "script",
+      "notes": "generated icon"
+    },
+    "hobnailed-ford-boots.png": {
+      "license": "own",
+      "generator": "script",
+      "notes": "generated icon"
+    },
+    "hollow-reed-of-vesperion.png": {
+      "license": "own",
+      "generator": "script",
+      "notes": "generated icon"
+    },
+    "homespun-hedge-cassock.png": {
+      "license": "own",
+      "generator": "script",
+      "notes": "generated icon"
+    },
+    "hood-of-the-raven-scout.png": {
+      "license": "own",
+      "generator": "script",
+      "notes": "generated icon"
+    },
+    "indenture-breaker.png": {
+      "license": "own",
+      "generator": "script",
+      "notes": "generated icon"
+    },
+    "ink-stained-fingerless.png": {
+      "license": "own",
+      "generator": "script",
+      "notes": "generated icon"
+    },
+    "inquisition-sight-veil.png": {
+      "license": "own",
+      "generator": "script",
+      "notes": "generated icon"
+    },
+    "inquisitors-ash-siphon.png": {
+      "license": "own",
+      "generator": "script",
+      "notes": "generated icon"
+    },
+    "insulated-assay-gloves.png": {
+      "license": "own",
+      "generator": "script",
+      "notes": "generated icon"
+    },
+    "interlocking-ring-mail.png": {
+      "license": "own",
+      "generator": "script",
+      "notes": "generated icon"
+    },
+    "iron-boots.png": {
+      "license": "own",
+      "generator": "script",
+      "notes": "generated icon"
+    },
+    "iron-gauntlets.png": {
+      "license": "own",
+      "generator": "script",
+      "notes": "generated icon"
+    },
+    "iron-helm.png": {
+      "license": "own",
+      "generator": "script",
+      "notes": "generated icon"
+    },
+    "iron-ration-tag.png": {
+      "license": "own",
+      "generator": "script",
+      "notes": "generated icon"
+    },
+    "iron-rimmed-heater.png": {
+      "license": "own",
+      "generator": "script",
+      "notes": "generated icon"
+    },
+    "iron-shield.png": {
+      "license": "own",
+      "generator": "script",
+      "notes": "generated icon"
+    },
+    "iron-studded-war-sash.png": {
+      "license": "own",
+      "generator": "script",
+      "notes": "generated icon"
+    },
+    "iron-sword.png": {
+      "license": "own",
+      "generator": "script",
+      "notes": "generated icon"
+    },
+    "ivory-testament-ritual-rod.png": {
+      "license": "own",
+      "generator": "script",
+      "notes": "generated icon"
+    },
+    "jerkin-of-the-weeping-willow.png": {
+      "license": "own",
+      "generator": "script",
+      "notes": "generated icon"
+    },
+    "juggernaut-war-greaves.png": {
+      "license": "own",
+      "generator": "script",
+      "notes": "generated icon"
+    },
+    "juggernauts-ribcage.png": {
+      "license": "own",
+      "generator": "script",
+      "notes": "generated icon"
+    },
+    "kelp-grip-reef-striders.png": {
+      "license": "own",
+      "generator": "script",
+      "notes": "generated icon"
+    },
+    "kite.png": {
+      "license": "own",
+      "generator": "script",
+      "notes": "generated icon"
+    },
+    "knight-shield.png": {
+      "license": "own",
+      "generator": "script",
+      "notes": "generated icon"
+    },
+    "knight-sword.png": {
+      "license": "own",
+      "generator": "script",
+      "notes": "generated icon"
+    },
+    "latched-poacher-prod.png": {
+      "license": "own",
+      "generator": "script",
+      "notes": "generated icon"
+    },
+    "leaden-parish-token.png": {
+      "license": "own",
+      "generator": "script",
+      "notes": "generated icon"
+    },
+    "leather-boots.png": {
+      "license": "own",
+      "generator": "script",
+      "notes": "generated icon"
+    },
+    "leather-cap.png": {
+      "license": "own",
+      "generator": "script",
+      "notes": "generated icon"
+    },
+    "leather-gloves.png": {
+      "license": "own",
+      "generator": "script",
+      "notes": "generated icon"
+    },
+    "leech-jar-bronze-locket.png": {
+      "license": "own",
+      "generator": "script",
+      "notes": "generated icon"
+    },
+    "leviathan-rib-focus.png": {
+      "license": "own",
+      "generator": "script",
+      "notes": "generated icon"
+    },
+    "leviathan-tooth-focus-wand.png": {
+      "license": "own",
+      "generator": "script",
+      "notes": "generated icon"
+    },
+    "leyline-conduit-vestment.png": {
+      "license": "own",
+      "generator": "script",
+      "notes": "generated icon"
+    },
+    "leyline-spark-elixir.png": {
+      "license": "own",
+      "generator": "script",
+      "notes": "generated icon"
+    },
+    "life-charm.png": {
+      "license": "own",
+      "generator": "script",
+      "notes": "generated icon"
+    },
+    "lightning-split-bough.png": {
+      "license": "own",
+      "generator": "script",
+      "notes": "generated icon"
+    },
+    "lime-ditch-cassock.png": {
+      "license": "own",
+      "generator": "script",
+      "notes": "generated icon"
+    },
+    "loop-of-the-prismatic-spiral.png": {
+      "license": "own",
+      "generator": "script",
+      "notes": "generated icon"
+    },
+    "mage-robe.png": {
+      "license": "own",
+      "generator": "script",
+      "notes": "generated icon"
+    },
+    "main-gauche.png": {
+      "license": "own",
+      "generator": "script",
+      "notes": "generated icon"
+    },
+    "malriks-margin-notes.png": {
+      "license": "own",
+      "generator": "script",
+      "notes": "generated icon"
+    },
+    "mana-draught.png": {
+      "license": "own",
+      "generator": "script",
+      "notes": "generated icon"
+    },
+    "mantle-of-the-storm-caller.png": {
+      "license": "own",
+      "generator": "script",
+      "notes": "generated icon"
+    },
+    "medallion-of-the-celestial-spire.png": {
+      "license": "own",
+      "generator": "script",
+      "notes": "generated icon"
+    },
+    "meteoric-slag-chunk.png": {
+      "license": "own",
+      "generator": "script",
+      "notes": "generated icon"
+    },
+    "midge-veil-hood.png": {
+      "license": "own",
+      "generator": "script",
+      "notes": "generated icon"
+    },
+    "milestone-survey-oak.png": {
+      "license": "own",
+      "generator": "script",
+      "notes": "generated icon"
+    },
+    "mind-charm.png": {
+      "license": "own",
+      "generator": "script",
+      "notes": "generated icon"
+    },
+    "mire-watch-ring-mail.png": {
+      "license": "own",
+      "generator": "script",
+      "notes": "generated icon"
+    },
+    "mirror-of-the-astral-veil.png": {
+      "license": "own",
+      "generator": "script",
+      "notes": "generated icon"
+    },
+    "mithril-gale-buckler.png": {
+      "license": "own",
+      "generator": "script",
+      "notes": "generated icon"
+    },
+    "molten-bell-astrolabe.png": {
+      "license": "own",
+      "generator": "script",
+      "notes": "generated icon"
+    },
+    "molten-bronze-bell-sphere.png": {
+      "license": "own",
+      "generator": "script",
+      "notes": "generated icon"
+    },
+    "molten-tread-sabatons.png": {
+      "license": "own",
+      "generator": "script",
+      "notes": "generated icon"
+    },
+    "mortuary-linen-tunic.png": {
+      "license": "own",
+      "generator": "script",
+      "notes": "generated icon"
+    },
+    "mystic-velvet-mantle.png": {
+      "license": "own",
+      "generator": "script",
+      "notes": "generated icon"
+    },
+    "net-sinker-channeler-wraps.png": {
+      "license": "own",
+      "generator": "script",
+      "notes": "generated icon"
+    },
+    "notarized-bone-awl-wand.png": {
+      "license": "own",
+      "generator": "script",
+      "notes": "generated icon"
+    },
+    "notarized-hex-vellum.png": {
+      "license": "own",
+      "generator": "script",
+      "notes": "generated icon"
+    },
+    "novice-glass-focus.png": {
+      "license": "own",
+      "generator": "script",
+      "notes": "generated icon"
+    },
+    "novice-wraps.png": {
+      "license": "own",
+      "generator": "script",
+      "notes": "generated icon"
+    },
+    "oak-staff.png": {
+      "license": "own",
+      "generator": "script",
+      "notes": "generated icon"
+    },
+    "oakhaven-aqua-vitae.png": {
+      "license": "own",
+      "generator": "script",
+      "notes": "generated icon"
+    },
+    "oakhaven-galley-shield.png": {
+      "license": "own",
+      "generator": "script",
+      "notes": "generated icon"
+    },
+    "oakhaven-plate-cuirass.png": {
+      "license": "own",
+      "generator": "script",
+      "notes": "generated icon"
+    },
+    "oath-bound-velvet-habit.png": {
+      "license": "own",
+      "generator": "script",
+      "notes": "generated icon"
+    },
+    "obsidian-bastion-plate.png": {
+      "license": "own",
+      "generator": "script",
+      "notes": "generated icon"
+    },
+    "obsidian-bulwark.png": {
+      "license": "own",
+      "generator": "script",
+      "notes": "generated icon"
+    },
+    "obsidian-dais-zweihander.png": {
+      "license": "own",
+      "generator": "script",
+      "notes": "generated icon"
+    },
+    "obsidian-doom-maul.png": {
+      "license": "own",
+      "generator": "script",
+      "notes": "generated icon"
+    },
+    "obsidian-greatmaul.png": {
+      "license": "own",
+      "generator": "script",
+      "notes": "generated icon"
+    },
+    "oiled-otter-pelt-cap.png": {
+      "license": "own",
+      "generator": "script",
+      "notes": "generated icon"
+    },
+    "orb.png": {
+      "license": "own",
+      "generator": "script",
+      "notes": "generated icon"
+    },
+    "ossuary-ash-incense.png": {
+      "license": "own",
+      "generator": "script",
+      "notes": "generated icon"
+    },
+    "ossuary-bone-ward.png": {
+      "license": "own",
+      "generator": "script",
+      "notes": "generated icon"
+    },
+    "ossuary-keepers-cowl.png": {
+      "license": "own",
+      "generator": "script",
+      "notes": "generated icon"
+    },
+    "ossuary-scribe-miter.png": {
+      "license": "own",
+      "generator": "script",
+      "notes": "generated icon"
+    },
+    "ossuary-seal-ring.png": {
+      "license": "own",
+      "generator": "script",
+      "notes": "generated icon"
+    },
+    "ossuary-siphon-rod.png": {
+      "license": "own",
+      "generator": "script",
+      "notes": "generated icon"
+    },
+    "padded-jerkin.png": {
+      "license": "own",
+      "generator": "script",
+      "notes": "generated icon"
+    },
+    "parish-probate-wand.png": {
+      "license": "own",
+      "generator": "script",
+      "notes": "generated icon"
+    },
+    "parish-ward-scroll.png": {
+      "license": "own",
+      "generator": "script",
+      "notes": "generated icon"
+    },
+    "patched-canvas-doublet.png": {
+      "license": "own",
+      "generator": "script",
+      "notes": "generated icon"
+    },
+    "pauper-roll-cassock.png": {
+      "license": "own",
+      "generator": "script",
+      "notes": "generated icon"
+    },
+    "peat-ash-silk-gloves.png": {
+      "license": "own",
+      "generator": "script",
+      "notes": "generated icon"
+    },
+    "peat-cleaver-hatchet.png": {
+      "license": "own",
+      "generator": "script",
+      "notes": "generated icon"
+    },
+    "peat-dyed-trapper-hood.png": {
+      "license": "own",
+      "generator": "script",
+      "notes": "generated icon"
+    },
+    "peat-sinkers-cowl.png": {
+      "license": "own",
+      "generator": "script",
+      "notes": "generated icon"
+    },
+    "peat-trench-war-axe.png": {
+      "license": "own",
+      "generator": "script",
+      "notes": "generated icon"
+    },
+    "pitch-boiled-ring-mail.png": {
+      "license": "own",
+      "generator": "script",
+      "notes": "generated icon"
+    },
+    "pitch-steeped-winding-sheet.png": {
+      "license": "own",
+      "generator": "script",
+      "notes": "generated icon"
+    },
+    "plate-armor.png": {
+      "license": "own",
+      "generator": "script",
+      "notes": "generated icon"
+    },
+    "plated-sabaton-boots.png": {
+      "license": "own",
+      "generator": "script",
+      "notes": "generated icon"
+    },
+    "portcullis-of-the-first-checkpoint.png": {
+      "license": "own",
+      "generator": "script",
+      "notes": "generated icon"
+    },
+    "prismatic-choker.png": {
+      "license": "own",
+      "generator": "script",
+      "notes": "generated icon"
+    },
+    "probate-bailiffs-band.png": {
+      "license": "own",
+      "generator": "script",
+      "notes": "generated icon"
+    },
+    "probate-seal-sash.png": {
+      "license": "own",
+      "generator": "script",
+      "notes": "generated icon"
+    },
+    "punt-pole-grips.png": {
+      "license": "own",
+      "generator": "script",
+      "notes": "generated icon"
+    },
+    "pyre-branch-of-the-ash-witch.png": {
+      "license": "own",
+      "generator": "script",
+      "notes": "generated icon"
+    },
+    "pyre-marshals-flamberge.png": {
+      "license": "own",
+      "generator": "script",
+      "notes": "generated icon"
+    },
+    "pyre-warden-pillar.png": {
+      "license": "own",
+      "generator": "script",
+      "notes": "generated icon"
+    },
+    "quarry-splitting-axe.png": {
+      "license": "own",
+      "generator": "script",
+      "notes": "generated icon"
+    },
+    "quarrymans-grievance.png": {
+      "license": "own",
+      "generator": "script",
+      "notes": "generated icon"
+    },
+    "radiant-spell-mirror.png": {
+      "license": "own",
+      "generator": "script",
+      "notes": "generated icon"
+    },
+    "ravenwatch-bailey-pavise.png": {
+      "license": "own",
+      "generator": "script",
+      "notes": "generated icon"
+    },
+    "reaver-lochaber-axe.png": {
+      "license": "own",
+      "generator": "script",
+      "notes": "generated icon"
+    },
+    "recurve-bow.png": {
+      "license": "own",
+      "generator": "script",
+      "notes": "generated icon"
+    },
+    "redmarsh-lamellar-coat.png": {
+      "license": "own",
+      "generator": "script",
+      "notes": "generated icon"
+    },
+    "redmarsh-saline-tonic.png": {
+      "license": "own",
+      "generator": "script",
+      "notes": "generated icon"
+    },
+    "redrock-misericorde.png": {
+      "license": "own",
+      "generator": "script",
+      "notes": "generated icon"
+    },
+    "reef-walker-boots.png": {
+      "license": "own",
+      "generator": "script",
+      "notes": "generated icon"
+    },
+    "refined-harbor-steel-bar.png": {
+      "license": "own",
+      "generator": "script",
+      "notes": "generated icon"
+    },
+    "reinforced-vambraces.png": {
+      "license": "own",
+      "generator": "script",
+      "notes": "generated icon"
+    },
+    "ring-of-calm.png": {
+      "license": "own",
+      "generator": "script",
+      "notes": "generated icon"
+    },
+    "ring-of-grace.png": {
+      "license": "own",
+      "generator": "script",
+      "notes": "generated icon"
+    },
+    "ring-of-insight.png": {
+      "license": "own",
+      "generator": "script",
+      "notes": "generated icon"
+    },
+    "ring-of-might.png": {
+      "license": "own",
+      "generator": "script",
+      "notes": "generated icon"
+    },
+    "ring-of-the-champions.png": {
+      "license": "own",
+      "generator": "script",
+      "notes": "generated icon"
+    },
+    "ring-of-the-high-archon.png": {
+      "license": "own",
+      "generator": "script",
+      "notes": "generated icon"
+    },
+    "ring-of-the-scribe.png": {
+      "license": "own",
+      "generator": "script",
+      "notes": "generated icon"
+    },
+    "ring-of-valor.png": {
+      "license": "own",
+      "generator": "script",
+      "notes": "generated icon"
+    },
+    "river-pebble-band.png": {
+      "license": "own",
+      "generator": "script",
+      "notes": "generated icon"
+    },
+    "riveted-nasal-spangen.png": {
+      "license": "own",
+      "generator": "script",
+      "notes": "generated icon"
+    },
+    "riveted-scale-cuffs.png": {
+      "license": "own",
+      "generator": "script",
+      "notes": "generated icon"
+    },
+    "rune-staff.png": {
+      "license": "own",
+      "generator": "script",
+      "notes": "generated icon"
+    },
+    "ruptured-spire-lens.png": {
+      "license": "own",
+      "generator": "script",
+      "notes": "generated icon"
+    },
+    "rust-pitted-seax.png": {
+      "license": "own",
+      "generator": "script",
+      "notes": "generated icon"
+    },
+    "rusty-sword.png": {
+      "license": "own",
+      "generator": "script",
+      "notes": "generated icon"
+    },
+    "saelens-marrow-needle.png": {
+      "license": "own",
+      "generator": "script",
+      "notes": "generated icon"
+    },
+    "sage-cowl.png": {
+      "license": "own",
+      "generator": "script",
+      "notes": "generated icon"
+    },
+    "salt-backed-horn-bow.png": {
+      "license": "own",
+      "generator": "script",
+      "notes": "generated icon"
+    },
+    "salt-bed-gastraphetes.png": {
+      "license": "own",
+      "generator": "script",
+      "notes": "generated icon"
+    },
+    "salt-caravan-bandolier.png": {
+      "license": "own",
+      "generator": "script",
+      "notes": "generated icon"
+    },
+    "salt-crust-waders.png": {
+      "license": "own",
+      "generator": "script",
+      "notes": "generated icon"
+    },
+    "salt-crusted-pernach.png": {
+      "license": "own",
+      "generator": "script",
+      "notes": "generated icon"
+    },
+    "salt-crystal-pendulum.png": {
+      "license": "own",
+      "generator": "script",
+      "notes": "generated icon"
+    },
+    "salt-cured-jerkin.png": {
+      "license": "own",
+      "generator": "script",
+      "notes": "generated icon"
+    },
+    "salt-cured-sinew-coil.png": {
+      "license": "own",
+      "generator": "script",
+      "notes": "generated icon"
+    },
+    "salt-flat-stiletto.png": {
+      "license": "own",
+      "generator": "script",
+      "notes": "generated icon"
+    },
+    "salt-glass-ring.png": {
+      "license": "own",
+      "generator": "script",
+      "notes": "generated icon"
+    },
+    "salt-mirage-longbow.png": {
+      "license": "own",
+      "generator": "script",
+      "notes": "generated icon"
+    },
+    "salt-oak-pavise.png": {
+      "license": "own",
+      "generator": "script",
+      "notes": "generated icon"
+    },
+    "salt-oath-yew-rod.png": {
+      "license": "own",
+      "generator": "script",
+      "notes": "generated icon"
+    },
+    "salt-pitted-war-greaves.png": {
+      "license": "own",
+      "generator": "script",
+      "notes": "generated icon"
+    },
+    "salt-scoured-brigandine.png": {
+      "license": "own",
+      "generator": "script",
+      "notes": "generated icon"
+    },
+    "salt-tempered-falchion.png": {
+      "license": "own",
+      "generator": "script",
+      "notes": "generated icon"
+    },
+    "salt-viper-jerkin.png": {
+      "license": "own",
+      "generator": "script",
+      "notes": "generated icon"
+    },
+    "salt-weighted-velvet-mantle.png": {
+      "license": "own",
+      "generator": "script",
+      "notes": "generated icon"
+    },
+    "sandals.png": {
+      "license": "own",
+      "generator": "script",
+      "notes": "generated icon"
+    },
+    "scepter-of-the-howling-void.png": {
+      "license": "own",
+      "generator": "script",
+      "notes": "generated icon"
+    },
+    "scholar-hat.png": {
+      "license": "own",
+      "generator": "script",
+      "notes": "generated icon"
+    },
+    "scholar-slippers.png": {
+      "license": "own",
+      "generator": "script",
+      "notes": "generated icon"
+    },
+    "scrap-bog-iron-ingot.png": {
+      "license": "own",
+      "generator": "script",
+      "notes": "generated icon"
+    },
+    "scriptorium-funeral-pall.png": {
+      "license": "own",
+      "generator": "script",
+      "notes": "generated icon"
+    },
+    "scriptorium-veil-cowl.png": {
+      "license": "own",
+      "generator": "script",
+      "notes": "generated icon"
+    },
+    "scroll-of-acid-rain.png": {
+      "license": "own",
+      "generator": "script",
+      "notes": "generated icon"
+    },
+    "scroll-of-blessing.png": {
+      "license": "own",
+      "generator": "script",
+      "notes": "generated icon"
+    },
+    "scroll-of-bodkin-shot.png": {
+      "license": "own",
+      "generator": "script",
+      "notes": "generated icon"
+    },
+    "scroll-of-brine-frost.png": {
+      "license": "own",
+      "generator": "script",
+      "notes": "generated icon"
+    },
+    "scroll-of-chain-frost.png": {
+      "license": "own",
+      "generator": "script",
+      "notes": "generated icon"
+    },
+    "scroll-of-cinder-lance.png": {
+      "license": "own",
+      "generator": "script",
+      "notes": "generated icon"
+    },
+    "scroll-of-cleave-arc.png": {
+      "license": "own",
+      "generator": "script",
+      "notes": "generated icon"
+    },
+    "scroll-of-corpse-burst.png": {
+      "license": "own",
+      "generator": "script",
+      "notes": "generated icon"
+    },
+    "scroll-of-executioners-blow.png": {
+      "license": "own",
+      "generator": "script",
+      "notes": "generated icon"
+    },
+    "scroll-of-fire-bolt.png": {
+      "license": "own",
+      "generator": "script",
+      "notes": "generated icon"
+    },
+    "scroll-of-fireball.png": {
+      "license": "own",
+      "generator": "script",
+      "notes": "generated icon"
+    },
+    "scroll-of-fissure-ward.png": {
+      "license": "own",
+      "generator": "script",
+      "notes": "generated icon"
+    },
+    "scroll-of-flame-burst.png": {
+      "license": "own",
+      "generator": "script",
+      "notes": "generated icon"
+    },
+    "scroll-of-frost-bolt.png": {
+      "license": "own",
+      "generator": "script",
+      "notes": "generated icon"
+    },
+    "scroll-of-gale.png": {
+      "license": "own",
+      "generator": "script",
+      "notes": "generated icon"
+    },
+    "scroll-of-grave-chill.png": {
+      "license": "own",
+      "generator": "script",
+      "notes": "generated icon"
+    },
+    "scroll-of-grit-through-pain.png": {
+      "license": "own",
+      "generator": "script",
+      "notes": "generated icon"
+    },
+    "scroll-of-hamstring-cut.png": {
+      "license": "own",
+      "generator": "script",
+      "notes": "generated icon"
+    },
+    "scroll-of-haste.png": {
+      "license": "own",
+      "generator": "script",
+      "notes": "generated icon"
+    },
+    "scroll-of-healing.png": {
+      "license": "own",
+      "generator": "script",
+      "notes": "generated icon"
+    },
+    "scroll-of-heartseeker.png": {
+      "license": "own",
+      "generator": "script",
+      "notes": "generated icon"
+    },
+    "scroll-of-ignite.png": {
+      "license": "own",
+      "generator": "script",
+      "notes": "generated icon"
+    },
+    "scroll-of-inferno.png": {
+      "license": "own",
+      "generator": "script",
+      "notes": "generated icon"
+    },
+    "scroll-of-iron-skin.png": {
+      "license": "own",
+      "generator": "script",
+      "notes": "generated icon"
+    },
+    "scroll-of-lightning.png": {
+      "license": "own",
+      "generator": "script",
+      "notes": "generated icon"
+    },
+    "scroll-of-mana-burn.png": {
+      "license": "own",
+      "generator": "script",
+      "notes": "generated icon"
+    },
+    "scroll-of-marrow-dart.png": {
+      "license": "own",
+      "generator": "script",
+      "notes": "generated icon"
+    },
+    "scroll-of-meditation.png": {
+      "license": "own",
+      "generator": "script",
+      "notes": "generated icon"
+    },
+    "scroll-of-peat-gas-blast.png": {
+      "license": "own",
+      "generator": "script",
+      "notes": "generated icon"
+    },
+    "scroll-of-poison-cloud.png": {
+      "license": "own",
+      "generator": "script",
+      "notes": "generated icon"
+    },
+    "scroll-of-rock-throw.png": {
+      "license": "own",
+      "generator": "script",
+      "notes": "generated icon"
+    },
+    "scroll-of-shield-bash.png": {
+      "license": "own",
+      "generator": "script",
+      "notes": "generated icon"
+    },
+    "scroll-of-siphon-ley.png": {
+      "license": "own",
+      "generator": "script",
+      "notes": "generated icon"
+    },
+    "scroll-of-static-arc.png": {
+      "license": "own",
+      "generator": "script",
+      "notes": "generated icon"
+    },
+    "scroll-of-stone-skin.png": {
+      "license": "own",
+      "generator": "script",
+      "notes": "generated icon"
+    },
+    "scroll-of-sunder-plate.png": {
+      "license": "own",
+      "generator": "script",
+      "notes": "generated icon"
+    },
+    "scroll-of-vitrify.png": {
+      "license": "own",
+      "generator": "script",
+      "notes": "generated icon"
+    },
+    "scroll-of-volley-of-reeds.png": {
+      "license": "own",
+      "generator": "script",
+      "notes": "generated icon"
+    },
+    "scroll-of-weaken.png": {
+      "license": "own",
+      "generator": "script",
+      "notes": "generated icon"
+    },
+    "scroll-of-whirlwind-maul.png": {
+      "license": "own",
+      "generator": "script",
+      "notes": "generated icon"
+    },
+    "scroll-of-wind-ward.png": {
+      "license": "own",
+      "generator": "script",
+      "notes": "generated icon"
+    },
+    "sea-wall-anchor-charm.png": {
+      "license": "own",
+      "generator": "script",
+      "notes": "generated icon"
+    },
+    "sea-wall-kite-shield.png": {
+      "license": "own",
+      "generator": "script",
+      "notes": "generated icon"
+    },
+    "sea-wall-sallet.png": {
+      "license": "own",
+      "generator": "script",
+      "notes": "generated icon"
+    },
+    "seal-hide-studded-jerkin.png": {
+      "license": "own",
+      "generator": "script",
+      "notes": "generated icon"
+    },
+    "seal-of-unread-dispatches.png": {
+      "license": "own",
+      "generator": "script",
+      "notes": "generated icon"
+    },
+    "seawall-grip-bracers.png": {
+      "license": "own",
+      "generator": "script",
+      "notes": "generated icon"
+    },
+    "sedge-bank-recurve.png": {
+      "license": "own",
+      "generator": "script",
+      "notes": "generated icon"
+    },
+    "sedge-walker-treads.png": {
+      "license": "own",
+      "generator": "script",
+      "notes": "generated icon"
+    },
+    "shadow-dirk.png": {
+      "license": "own",
+      "generator": "script",
+      "notes": "generated icon"
+    },
+    "shadow-mask.png": {
+      "license": "own",
+      "generator": "script",
+      "notes": "generated icon"
+    },
+    "shadowstrike-grips.png": {
+      "license": "own",
+      "generator": "script",
+      "notes": "generated icon"
+    },
+    "shark-skin-composite-bow.png": {
+      "license": "own",
+      "generator": "script",
+      "notes": "generated icon"
+    },
+    "shroud-of-the-glacial-hermit.png": {
+      "license": "own",
+      "generator": "script",
+      "notes": "generated icon"
+    },
+    "shroud-of-unpaid-vows.png": {
+      "license": "own",
+      "generator": "script",
+      "notes": "generated icon"
+    },
+    "signal-spotter-shadow-mask.png": {
+      "license": "own",
+      "generator": "script",
+      "notes": "generated icon"
+    },
+    "signet-of-the-astral-singularity.png": {
+      "license": "own",
+      "generator": "script",
+      "notes": "generated icon"
+    },
+    "signet-of-the-astral-well.png": {
+      "license": "own",
+      "generator": "script",
+      "notes": "generated icon"
+    },
+    "signet-of-the-two-paths.png": {
+      "license": "own",
+      "generator": "script",
+      "notes": "generated icon"
+    },
+    "signet-of-unbroken-vigor.png": {
+      "license": "own",
+      "generator": "script",
+      "notes": "generated icon"
+    },
+    "silk-gloves.png": {
+      "license": "own",
+      "generator": "script",
+      "notes": "generated icon"
+    },
+    "silt-pickers-willow.png": {
+      "license": "own",
+      "generator": "script",
+      "notes": "generated icon"
+    },
+    "silt-plodder-boots.png": {
+      "license": "own",
+      "generator": "script",
+      "notes": "generated icon"
+    },
+    "slag-forged-crushers.png": {
+      "license": "own",
+      "generator": "script",
+      "notes": "generated icon"
+    },
+    "slag-spring-repeater.png": {
+      "license": "own",
+      "generator": "script",
+      "notes": "generated icon"
+    },
+    "slippers-of-the-spring-rain.png": {
+      "license": "own",
+      "generator": "script",
+      "notes": "generated icon"
+    },
+    "sludge-drained-basinet.png": {
+      "license": "own",
+      "generator": "script",
+      "notes": "generated icon"
+    },
+    "sluice-masters-wrench.png": {
+      "license": "own",
+      "generator": "script",
+      "notes": "generated icon"
+    },
+    "smoked-brass-censer-focus.png": {
+      "license": "own",
+      "generator": "script",
+      "notes": "generated icon"
+    },
+    "smoked-quartz-monocle.png": {
+      "license": "own",
+      "generator": "script",
+      "notes": "generated icon"
+    },
+    "sovereign-wyrmscale.png": {
+      "license": "own",
+      "generator": "script",
+      "notes": "generated icon"
+    },
+    "sovereigns-brazier-staff.png": {
+      "license": "own",
+      "generator": "script",
+      "notes": "generated icon"
+    },
+    "sovereigns-gilded-crest.png": {
+      "license": "own",
+      "generator": "script",
+      "notes": "generated icon"
+    },
+    "spark-catchers-pendant.png": {
+      "license": "own",
+      "generator": "script",
+      "notes": "generated icon"
+    },
+    "spellslingers-silk-cuffs.png": {
+      "license": "own",
+      "generator": "script",
+      "notes": "generated icon"
+    },
+    "spiked-cudgel.png": {
+      "license": "own",
+      "generator": "script",
+      "notes": "generated icon"
+    },
+    "spiked-targe-of-redmarsh.png": {
+      "license": "own",
+      "generator": "script",
+      "notes": "generated icon"
+    },
+    "spire-keystone-band.png": {
+      "license": "own",
+      "generator": "script",
+      "notes": "generated icon"
+    },
+    "split-rawhide-mitts.png": {
+      "license": "own",
+      "generator": "script",
+      "notes": "generated icon"
+    },
+    "spurs-of-tactical-withdrawal.png": {
+      "license": "own",
+      "generator": "script",
+      "notes": "generated icon"
+    },
+    "stalker-hood.png": {
+      "license": "own",
+      "generator": "script",
+      "notes": "generated icon"
+    },
+    "star-iron-ingot.png": {
+      "license": "own",
+      "generator": "script",
+      "notes": "generated icon"
+    },
+    "star-robe.png": {
+      "license": "own",
+      "generator": "script",
+      "notes": "generated icon"
+    },
+    "star-staff.png": {
+      "license": "own",
+      "generator": "script",
+      "notes": "generated icon"
+    },
+    "steel-basinet.png": {
+      "license": "own",
+      "generator": "script",
+      "notes": "generated icon"
+    },
+    "steel-gauntlets.png": {
+      "license": "own",
+      "generator": "script",
+      "notes": "generated icon"
+    },
+    "steel-greaves.png": {
+      "license": "own",
+      "generator": "script",
+      "notes": "generated icon"
+    },
+    "steel-helm.png": {
+      "license": "own",
+      "generator": "script",
+      "notes": "generated icon"
+    },
+    "steel-kite-shield.png": {
+      "license": "own",
+      "generator": "script",
+      "notes": "generated icon"
+    },
+    "steel-rondel.png": {
+      "license": "own",
+      "generator": "script",
+      "notes": "generated icon"
+    },
+    "steel-sword.png": {
+      "license": "own",
+      "generator": "script",
+      "notes": "generated icon"
+    },
+    "steel-warhammer.png": {
+      "license": "own",
+      "generator": "script",
+      "notes": "generated icon"
+    },
+    "stone-charm.png": {
+      "license": "own",
+      "generator": "script",
+      "notes": "generated icon"
+    },
+    "storm-charm.png": {
+      "license": "own",
+      "generator": "script",
+      "notes": "generated icon"
+    },
+    "studded-bracers.png": {
+      "license": "own",
+      "generator": "script",
+      "notes": "generated icon"
+    },
+    "studded-leather-armor.png": {
+      "license": "own",
+      "generator": "script",
+      "notes": "generated icon"
+    },
+    "sun-visored-steel-helm.png": {
+      "license": "own",
+      "generator": "script",
+      "notes": "generated icon"
+    },
+    "surveyors-brass-mirror.png": {
+      "license": "own",
+      "generator": "script",
+      "notes": "generated icon"
+    },
+    "surveyors-plumb-staff.png": {
+      "license": "own",
+      "generator": "script",
+      "notes": "generated icon"
+    },
+    "swift-boots.png": {
+      "license": "own",
+      "generator": "script",
+      "notes": "generated icon"
+    },
+    "talisman-of-the-prismatic-loom.png": {
+      "license": "own",
+      "generator": "script",
+      "notes": "generated icon"
+    },
+    "tallied-bone-pointer.png": {
+      "license": "own",
+      "generator": "script",
+      "notes": "generated icon"
+    },
+    "tallow-ration-hardbread.png": {
+      "license": "own",
+      "generator": "script",
+      "notes": "generated icon"
+    },
+    "tallow-rubbed-buskins.png": {
+      "license": "own",
+      "generator": "script",
+      "notes": "generated icon"
+    },
+    "tallow-sealed-mortuary-cassock.png": {
+      "license": "own",
+      "generator": "script",
+      "notes": "generated icon"
+    },
+    "tallow-stained-felt-hat.png": {
+      "license": "own",
+      "generator": "script",
+      "notes": "generated icon"
+    },
+    "tallow-wax-signet.png": {
+      "license": "own",
+      "generator": "script",
+      "notes": "generated icon"
+    },
+    "tanned-oxhide-strap.png": {
+      "license": "own",
+      "generator": "script",
+      "notes": "generated icon"
+    },
+    "tannin-stained-wraps.png": {
+      "license": "own",
+      "generator": "script",
+      "notes": "generated icon"
+    },
+    "tarred-plank-pavise.png": {
+      "license": "own",
+      "generator": "script",
+      "notes": "generated icon"
+    },
+    "tarred-plank-targe.png": {
+      "license": "own",
+      "generator": "script",
+      "notes": "generated icon"
+    },
+    "tax-collectors-recurve.png": {
+      "license": "own",
+      "generator": "script",
+      "notes": "generated icon"
+    },
+    "tempered-flux-powder.png": {
+      "license": "own",
+      "generator": "script",
+      "notes": "generated icon"
+    },
+    "tempered-war-axe.png": {
+      "license": "own",
+      "generator": "script",
+      "notes": "generated icon"
+    },
+    "the-barons-cooking-ledger-ring.png": {
+      "license": "own",
+      "generator": "script",
+      "notes": "generated icon"
+    },
+    "thorn-blade.png": {
+      "license": "own",
+      "generator": "script",
+      "notes": "generated icon"
+    },
+    "thorn-staff.png": {
+      "license": "own",
+      "generator": "script",
+      "notes": "generated icon"
+    },
+    "thorn-thicket-cap.png": {
+      "license": "own",
+      "generator": "script",
+      "notes": "generated icon"
+    },
+    "thornwick-mint-focus.png": {
+      "license": "own",
+      "generator": "script",
+      "notes": "generated icon"
+    },
+    "threshold-ichor-phial.png": {
+      "license": "own",
+      "generator": "script",
+      "notes": "generated icon"
+    },
+    "threshold-key-scepter.png": {
+      "license": "own",
+      "generator": "script",
+      "notes": "generated icon"
+    },
+    "threshold-keystone-eye.png": {
+      "license": "own",
+      "generator": "script",
+      "notes": "generated icon"
+    },
+    "threshold-seal-gorget.png": {
+      "license": "own",
+      "generator": "script",
+      "notes": "generated icon"
+    },
+    "threshold-step-boots.png": {
+      "license": "own",
+      "generator": "script",
+      "notes": "generated icon"
+    },
+    "threshold-ward-mirror.png": {
+      "license": "own",
+      "generator": "script",
+      "notes": "generated icon"
+    },
+    "tide-scryers-sphere.png": {
+      "license": "own",
+      "generator": "script",
+      "notes": "generated icon"
+    },
+    "tide-witness-mirror.png": {
+      "license": "own",
+      "generator": "script",
+      "notes": "generated icon"
+    },
+    "titan-war-gauntlets.png": {
+      "license": "own",
+      "generator": "script",
+      "notes": "generated icon"
+    },
+    "toll-collectors-belt.png": {
+      "license": "own",
+      "generator": "script",
+      "notes": "generated icon"
+    },
+    "toll-collectors-pouch-belt.png": {
+      "license": "own",
+      "generator": "script",
+      "notes": "generated icon"
+    },
+    "toll-post-ash-shortbow.png": {
+      "license": "own",
+      "generator": "script",
+      "notes": "generated icon"
+    },
+    "toll-tower-prod.png": {
+      "license": "own",
+      "generator": "script",
+      "notes": "generated icon"
+    },
+    "toll-wardens-signet.png": {
+      "license": "own",
+      "generator": "script",
+      "notes": "generated icon"
+    },
+    "tollkeepers-receipt.png": {
+      "license": "own",
+      "generator": "script",
+      "notes": "generated icon"
+    },
+    "tome-of-blizzard.png": {
+      "license": "own",
+      "generator": "script",
+      "notes": "generated icon"
+    },
+    "tome-of-chain-lightning.png": {
+      "license": "own",
+      "generator": "script",
+      "notes": "generated icon"
+    },
+    "tome-of-healing-rain.png": {
+      "license": "own",
+      "generator": "script",
+      "notes": "generated icon"
+    },
+    "tome-of-ice-storm.png": {
+      "license": "own",
+      "generator": "script",
+      "notes": "generated icon"
+    },
+    "tome-of-meteor.png": {
+      "license": "own",
+      "generator": "script",
+      "notes": "generated icon"
+    },
+    "tome-of-quake.png": {
+      "license": "own",
+      "generator": "script",
+      "notes": "generated icon"
+    },
+    "tome-of-resurrect.png": {
+      "license": "own",
+      "generator": "script",
+      "notes": "generated icon"
+    },
+    "tome-of-stone-curse.png": {
+      "license": "own",
+      "generator": "script",
+      "notes": "generated icon"
+    },
+    "tome-of-thunderstorm.png": {
+      "license": "own",
+      "generator": "script",
+      "notes": "generated icon"
+    },
+    "tome-of-time-warp.png": {
+      "license": "own",
+      "generator": "script",
+      "notes": "generated icon"
+    },
+    "tongs-of-the-cinderforge.png": {
+      "license": "own",
+      "generator": "script",
+      "notes": "generated icon"
+    },
+    "tower-of-the-iron-line.png": {
+      "license": "own",
+      "generator": "script",
+      "notes": "generated icon"
+    },
+    "tower-shield.png": {
+      "license": "own",
+      "generator": "script",
+      "notes": "generated icon"
+    },
+    "tracker-treads.png": {
+      "license": "own",
+      "generator": "script",
+      "notes": "generated icon"
+    },
+    "turnkey-of-the-north-gate.png": {
+      "license": "own",
+      "generator": "script",
+      "notes": "generated icon"
+    },
+    "twisted-bog-wire-ring.png": {
+      "license": "own",
+      "generator": "script",
+      "notes": "generated icon"
+    },
+    "two-handed-claymore.png": {
+      "license": "own",
+      "generator": "script",
+      "notes": "generated icon"
+    },
+    "uniq-anvilmaw-slag-maul.png": {
+      "license": "own",
+      "generator": "script",
+      "notes": "generated icon"
+    },
+    "uniq-ashkarath-crown-shard.png": {
+      "license": "own",
+      "generator": "script",
+      "notes": "generated icon"
+    },
+    "uniq-bram-axle-shield.png": {
+      "license": "own",
+      "generator": "script",
+      "notes": "generated icon"
+    },
+    "uniq-drowned-choir-bell.png": {
+      "license": "own",
+      "generator": "script",
+      "notes": "generated icon"
+    },
+    "uniq-greywood-poacher-bow.png": {
+      "license": "own",
+      "generator": "script",
+      "notes": "generated icon"
+    },
+    "uniq-hollow-monarch-blade.png": {
+      "license": "own",
+      "generator": "script",
+      "notes": "generated icon"
+    },
+    "uniq-krag-jawbone.png": {
+      "license": "own",
+      "generator": "script",
+      "notes": "generated icon"
+    },
+    "uniq-lyra-last-arbalest.png": {
+      "license": "own",
+      "generator": "script",
+      "notes": "generated icon"
+    },
+    "uniq-mordred-tallow-wand.png": {
+      "license": "own",
+      "generator": "script",
+      "notes": "generated icon"
+    },
+    "uniq-morvessa-spindle.png": {
+      "license": "own",
+      "generator": "script",
+      "notes": "generated icon"
+    },
+    "uniq-quarry-overseer-maul.png": {
+      "license": "own",
+      "generator": "script",
+      "notes": "generated icon"
+    },
+    "uniq-ravenwatch-gate-door.png": {
+      "license": "own",
+      "generator": "script",
+      "notes": "generated icon"
+    },
+    "uniq-redglass-fletched-bow.png": {
+      "license": "own",
+      "generator": "script",
+      "notes": "generated icon"
+    },
+    "uniq-sera-bone-saw.png": {
+      "license": "own",
+      "generator": "script",
+      "notes": "generated icon"
+    },
+    "uniq-stormtree-amber-staff.png": {
+      "license": "own",
+      "generator": "script",
+      "notes": "generated icon"
+    },
+    "uniq-sunken-castellan-plate.png": {
+      "license": "own",
+      "generator": "script",
+      "notes": "generated icon"
+    },
+    "uniq-tollkeeper-bill.png": {
+      "license": "own",
+      "generator": "script",
+      "notes": "generated icon"
+    },
+    "uniq-undervault-lantern-helm.png": {
+      "license": "own",
+      "generator": "script",
+      "notes": "generated icon"
+    },
+    "uniq-vesperion-organ-pipe.png": {
+      "license": "own",
+      "generator": "script",
+      "notes": "generated icon"
+    },
+    "uniq-wardstone-shard-focus.png": {
+      "license": "own",
+      "generator": "script",
+      "notes": "generated icon"
+    },
+    "unpaid-lien-knuckle-band.png": {
+      "license": "own",
+      "generator": "script",
+      "notes": "generated icon"
+    },
+    "unscorched-ash-silk-robe.png": {
+      "license": "own",
+      "generator": "script",
+      "notes": "generated icon"
+    },
+    "vanes-whisper-grips.png": {
+      "license": "own",
+      "generator": "script",
+      "notes": "generated icon"
+    },
+    "velvet-channelers.png": {
+      "license": "own",
+      "generator": "script",
+      "notes": "generated icon"
+    },
+    "vestments-of-the-last-pyre.png": {
+      "license": "own",
+      "generator": "script",
+      "notes": "generated icon"
+    },
+    "viper-antivenom-phial.png": {
+      "license": "own",
+      "generator": "script",
+      "notes": "generated icon"
+    },
+    "visor-of-the-ashen-vanguard.png": {
+      "license": "own",
+      "generator": "script",
+      "notes": "generated icon"
+    },
+    "vitrified-hearth-diadem.png": {
+      "license": "own",
+      "generator": "script",
+      "notes": "generated icon"
+    },
+    "void-glass-shard.png": {
+      "license": "own",
+      "generator": "script",
+      "notes": "generated icon"
+    },
+    "voks-fissure-plate.png": {
+      "license": "own",
+      "generator": "script",
+      "notes": "generated icon"
+    },
+    "ward-charm.png": {
+      "license": "own",
+      "generator": "script",
+      "notes": "generated icon"
+    },
+    "wardens-arming-blade.png": {
+      "license": "own",
+      "generator": "script",
+      "notes": "generated icon"
+    },
+    "wardens-seal-wand.png": {
+      "license": "own",
+      "generator": "script",
+      "notes": "generated icon"
+    },
+    "wardstone-scholar-coat.png": {
+      "license": "own",
+      "generator": "script",
+      "notes": "generated icon"
+    },
+    "waxed-oilcloth-mantle.png": {
+      "license": "own",
+      "generator": "script",
+      "notes": "generated icon"
+    },
+    "weaver-robe.png": {
+      "license": "own",
+      "generator": "script",
+      "notes": "generated icon"
+    },
+    "whale-oiled-brigandine.png": {
+      "license": "own",
+      "generator": "script",
+      "notes": "generated icon"
+    },
+    "whispering-dirk-of-the-fen-strider.png": {
+      "license": "own",
+      "generator": "script",
+      "notes": "generated icon"
+    },
+    "widows-loom-weight.png": {
+      "license": "own",
+      "generator": "script",
+      "notes": "generated icon"
+    },
+    "willow-creek-string.png": {
+      "license": "own",
+      "generator": "script",
+      "notes": "generated icon"
+    },
+    "willow-wand.png": {
+      "license": "own",
+      "generator": "script",
+      "notes": "generated icon"
+    },
+    "windpiercer-greatbow.png": {
+      "license": "own",
+      "generator": "script",
+      "notes": "generated icon"
+    },
+    "windrunner-striders.png": {
+      "license": "own",
+      "generator": "script",
+      "notes": "generated icon"
+    },
+    "wizard-hat.png": {
+      "license": "own",
+      "generator": "script",
+      "notes": "generated icon"
+    },
+    "woodcutter-handaxe.png": {
+      "license": "own",
+      "generator": "script",
+      "notes": "generated icon"
+    },
+    "wooden-buckler.png": {
+      "license": "own",
+      "generator": "script",
+      "notes": "generated icon"
+    },
+    "wreck-divers-bracers.png": {
+      "license": "own",
+      "generator": "script",
+      "notes": "generated icon"
+    },
+    "wyrm-scale-bundle.png": {
+      "license": "own",
+      "generator": "script",
+      "notes": "generated icon"
+    },
+    "wyrmscale-cuirass.png": {
+      "license": "own",
+      "generator": "script",
+      "notes": "generated icon"
+    },
+    "yew-wand.png": {
+      "license": "own",
+      "generator": "script",
+      "notes": "generated icon"
+    },
+    "zephyr-bough-of-the-tempest.png": {
+      "license": "own",
+      "generator": "script",
+      "notes": "generated icon"
+    }
   }
 }

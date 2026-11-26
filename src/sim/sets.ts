@@ -21,6 +21,13 @@ export interface SetBonus {
   readonly pow?: number; // Spell power %
   readonly res?: readonly [number, number, number, number, number];
   readonly attr?: readonly [number, number, number, number];
+  readonly ias?: number;
+  readonly fcr?: number;
+  readonly crit?: number;
+  readonly lifesteal?: number;
+  readonly armorPen?: number;
+  readonly regen?: number;
+  readonly mf?: number;
 }
 
 export interface ItemSetDef {
@@ -1164,36 +1171,65 @@ interface RawJsonSetDef {
   readonly lore?: string;
 }
 
-function parseJsonSetBonus(piecesCount: number, text: string): SetBonus {
+export function parseJsonSetBonus(piecesCount: number, text: string): SetBonus {
   const hpMatch = text.match(/\+(\d+)\s*Max\s*HP/i);
   const manaMatch = text.match(/\+(\d+)\s*Max\s*Mana/i);
   const armorMatch = text.match(/\+(\d+)\s*Armor(?!\s*Penetration)/i);
+  const blockDodgeMatch = text.match(/\+(\d+)%\s*(?:Block|Evasion|Dodge)(?:\s*Chance)?/i);
   const dmgMatch = text.match(/\+(\d+)\s*(?:Melee|Physical|Ranged)?\s*Damage/i);
-  const spellMatch = text.match(/\+(\d+)\s*Spell\s*Damage/i);
+  const spellMatch = text.match(
+    /\+(\d+)%?\s*(?:(?:Fire\s*(?:and|\/|&)\s*Lightning|Astral)\s+)?Spell\s*Damage|\+(\d+)%\s*(?:Astral\s*Damage|Healing\s*&\s*Shield\s*Power|Curse\s*&\s*DoT\s*Damage|Minion\s*Damage)/i,
+  );
   const accMatch = text.match(/\+(\d+)\s*Accuracy/i);
-  const resAllMatch = text.match(/\+(\d+)%\s*All\s*Resist/i);
-  const fireRes = text.match(/\+(\d+)%\s*Fire/i);
-  const coldRes = text.match(/\+(\d+)%\s*Cold/i);
-  const lightRes = text.match(/\+(\d+)%\s*Lightning/i);
-  const poisonRes = text.match(/\+(\d+)%\s*Poison/i);
-  const resArr: [number, number, number, number, number] = [
-    Number(resAllMatch?.[1] ?? fireRes?.[1] ?? 0),
-    Number(resAllMatch?.[1] ?? coldRes?.[1] ?? 0),
-    Number(resAllMatch?.[1] ?? lightRes?.[1] ?? 0),
-    Number(resAllMatch?.[1] ?? poisonRes?.[1] ?? 0),
-    Number(resAllMatch?.[1] ?? 0),
-  ];
+  const intMatch = text.match(/\+(\d+)\s*(?:Intelligence|Mind)\b/i);
+  const regenMatch = text.match(/\+(\d+(?:\.\d+)?)\s*Mana\s*Regen(?:eration|\/s)?/i);
+  const iasMatch = text.match(/\+(\d+)%\s*(?:Ranged\s+)?Attack\s*Speed/i);
+  const fcrMatch = text.match(/\+(\d+)%\s*Cast\s*Speed/i);
+  const critMatch = text.match(/\+(\d+)%\s*(?:Spell\s*)?Critical(?:\s*Strike)?\s*Chance/i);
+  const lifestealMatch = text.match(/\+(\d+)%\s*Lifesteal/i);
+  const armorPenMatch = text.match(/\+(\d+)%?\s*Armor\s*Penetration/i);
+  const mfMatch = text.match(/\+(\d+)%\s*(?:Gold\s*Found|Magic\s*Find)/i);
+
+  const resArr: [number, number, number, number, number] = [0, 0, 0, 0, 0];
+  const resAllMatch = text.match(/\+(\d+)%\s*All\s*(?:Elemental\s*)?Resist/i);
+  if (resAllMatch) {
+    const val = Number(resAllMatch[1]);
+    for (let k = 0; k < 5; k++) resArr[k] += val;
+  }
+  for (const seg of text.split(/\s+and\s+|,\s*/i)) {
+    const rMatch = seg.match(/\+(\d+)%\s*([A-Za-z\s/&]+?)\s*Resist/i);
+    if (!rMatch || /All/i.test(rMatch[2])) continue;
+    const val = Number(rMatch[1]);
+    const label = rMatch[2].toLowerCase();
+    if (label.includes('fire')) resArr[0] += val;
+    if (label.includes('cold')) resArr[1] += val;
+    if (label.includes('lightning')) resArr[2] += val;
+    if (label.includes('poison')) resArr[3] += val;
+    if (label.includes('mind') || label.includes('astral')) resArr[4] += val;
+  }
   const hasRes = resArr.some((v) => v > 0);
   const armorVal = armorMatch ? Number(armorMatch[1]) : 0;
+  const dodgeDef = blockDodgeMatch ? Math.max(1, Math.round(Number(blockDodgeMatch[1]) / 3)) : 0;
+  const defTotal = (armorVal > 0 ? Math.max(1, Math.round(armorVal / 4)) : 0) + dodgeDef;
   const dmgVal = dmgMatch ? Number(dmgMatch[1]) : 0;
+  const powVal = spellMatch ? Number(spellMatch[1] ?? spellMatch[2]) : 0;
   return {
     pieces: piecesCount,
     ...(hpMatch ? { hp: Number(hpMatch[1]) } : {}),
     ...(manaMatch ? { mana: Number(manaMatch[1]) } : {}),
-    ...(armorVal > 0 ? { def: Math.max(1, Math.round(armorVal / 4)), abs: Math.max(1, Math.floor(armorVal / 6)) } : {}),
+    ...(defTotal > 0 ? { def: defTotal } : {}),
+    ...(armorVal > 0 ? { abs: Math.max(1, Math.floor(armorVal / 6)) } : {}),
     ...(dmgVal > 0 ? { min: Math.max(1, Math.floor(dmgVal / 4)), max: Math.max(2, Math.round(dmgVal / 3)) } : {}),
-    ...(spellMatch ? { pow: Number(spellMatch[1]) } : {}),
+    ...(powVal > 0 ? { pow: powVal } : {}),
     ...(accMatch ? { acc: Number(accMatch[1]) } : {}),
+    ...(intMatch ? { attr: [0, 0, Number(intMatch[1]), 0] as const } : {}),
+    ...(regenMatch ? { regen: Math.max(1, Math.round(Number(regenMatch[1]))) } : {}),
+    ...(iasMatch ? { ias: Number(iasMatch[1]) } : {}),
+    ...(fcrMatch ? { fcr: Number(fcrMatch[1]) } : {}),
+    ...(critMatch ? { crit: Number(critMatch[1]) } : {}),
+    ...(lifestealMatch ? { lifesteal: Number(lifestealMatch[1]) } : {}),
+    ...(armorPenMatch ? { armorPen: Number(armorPenMatch[1]) } : {}),
+    ...(mfMatch ? { mf: Number(mfMatch[1]) } : {}),
     ...(hasRes ? { res: resArr } : {}),
   };
 }

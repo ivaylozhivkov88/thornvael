@@ -1,8 +1,12 @@
-import { describe, expect, it } from 'vitest';
+import { beforeAll, describe, expect, it } from 'vitest';
 import { computeSpoilerProgress, isGateSpoiled } from '../src/wiki/spoilers';
 import { parseHash } from '../src/wiki/router';
 import { searchEntries } from '../src/wiki/SearchBar';
-import { WIKI_INDEX } from '../src/wiki/dataLoader';
+import { loadWikiIndex, WIKI_INDEX } from '../src/wiki/dataLoader';
+
+beforeAll(async () => {
+  await loadWikiIndex();
+});
 
 describe('wiki spoiler protection', () => {
   const acts = { m01: 1, m05: 1, m12: 2, m24: 3, m36: 4 };

@@ -193,8 +193,8 @@ export class HudController {
     const rmbHotkey = document.getElementById('skill-hotkey-label');
     const slotRmb = document.getElementById('slot-rmb');
     if (rmbIcon && sp) {
-      const schoolIcons = ['✨', '🔥', '💧', '⚡', '🌿', '💀'];
-      rmbIcon.textContent = schoolIcons[sp.school] ?? '✨';
+      const schoolIcons = ['AST', 'FIR', 'WTR', 'AIR', 'ERT', 'ARC'];
+      rmbIcon.textContent = schoolIcons[sp.school] ?? 'AST';
       const slots = this.host.getQuickSlots();
       const slotIdx = slots.indexOf(curSpell);
       if (rmbHotkey) rmbHotkey.textContent = slotIdx >= 0 ? `F${slotIdx + 4}` : `${sp.cost}M`;

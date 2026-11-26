@@ -49,6 +49,7 @@ export class GestureRecognizer {
   private readonly ptr = new Map<number, P>();
   private pinchBase = 0;
   private pinched = false;
+  private prevMid: { x: number; y: number } | null = null;
 
   constructor(private readonly opt: GestureOptions) {}
 
@@ -59,14 +60,13 @@ export class GestureRecognizer {
     if (aiming) return [{ type: 'aim', phase: 'start', x, y }];
     if (touch && this.ptr.size === 2) {
       const first = [...this.ptr.values()][0];
+      this.pinchBase = this.dist();
+      this.prevMid = this.mid();
+      this.pinched = true;
       if (first.aim) {
         first.aim = false;
-        this.pinchBase = this.dist();
-        this.pinched = true;
         return [{ type: 'aim', phase: 'cancel', x: first.x, y: first.y }, ...this.endDrag()];
       }
-      this.pinchBase = this.dist();
-      this.pinched = true;
       return this.endDrag();
     }
     if (!touch && button === 0 && (this.opt.dragSteer?.() ?? false)) {
@@ -99,6 +99,7 @@ export class GestureRecognizer {
   up(id: number): Intent[] {
     const p = this.ptr.get(id);
     this.ptr.delete(id);
+    if (this.ptr.size < 2) this.prevMid = null;
     if (p?.aim) return [{ type: 'aim', phase: 'end', x: p.x, y: p.y }];
     if (this.ptr.size === 0) {
       const wasPinch = this.pinched;
@@ -129,6 +130,7 @@ export class GestureRecognizer {
     const wasSteering = [...this.ptr.values()].some((p) => !p.touch && p.button === 0 && (this.opt.dragSteer?.() ?? false));
     this.ptr.clear();
     this.pinched = false;
+    this.prevMid = null;
     if (aiming) return [{ type: 'aim', phase: 'cancel', x: aiming.x, y: aiming.y }];
     if (wasSteering) return [{ type: 'steer-end', x: 0, y: 0, shift: false }];
     return [];
@@ -152,6 +154,9 @@ export class GestureRecognizer {
     if (this.ptr.size !== 2 || this.pinchBase === 0) return [];
     const r = this.dist() / this.pinchBase;
     const m = this.mid();
+    const dx = this.prevMid ? m.x - this.prevMid.x : 0;
+    const dy = this.prevMid ? m.y - this.prevMid.y : 0;
+    this.prevMid = m;
     if (r >= PINCH_STEP) {
       this.pinchBase = this.dist();
       return [{ type: 'zoom', dir: 1, ...m }];
@@ -159,6 +164,9 @@ export class GestureRecognizer {
     if (r <= 1 / PINCH_STEP) {
       this.pinchBase = this.dist();
       return [{ type: 'zoom', dir: -1, ...m }];
+    }
+    if (dx !== 0 || dy !== 0) {
+      return [{ type: 'pan', dx, dy }];
     }
     return [];
   }

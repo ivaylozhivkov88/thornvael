@@ -38,8 +38,10 @@ export function parseRecord(raw: unknown): CampaignRecord | null {
 }
 
 /** The page address that starts a node: the engine reads `mission` for the map and `campaign` for the node. */
-/** Act I is one connected world: its start and its town both open that map. */
-const worldMapOf = (n: CampaignNode): string => (n.id === 'town-thornwick' || n.id === 'm01-blood-at-the-ford' ? 'act1-world' : n.map);
+/** Act I opens `act1-world` at the start node, while `town-thornwick` routes to the safe Thornwick Market hub. */
+const worldMapOf = (n: CampaignNode): string => (
+  n.id === 'town-thornwick' ? 'thornwick-market' : n.id === 'm01-blood-at-the-ford' ? 'act1-world' : n.map
+);
 export const nodeUrl = (n: CampaignNode): string => `./?mission=${encodeURIComponent(worldMapOf(n))}&campaign=${encodeURIComponent(n.id)}`;
 
 /** A node can be entered when it is unlocked and its map ships with the game. */
@@ -52,11 +54,8 @@ export function afterMission(c: Campaign, rec: CampaignRecord, id: string, win: 
   const result: LastResult = { node: id, win, ...last };
   if (!win) return { ...rec, last: result };
   let progress = completeNode(c, rec.progress, id, last.branch);
-  // Act I is one connected world entered as m01: clearing it opens what m11 would have opened.
-  const m11 = c.nodes.find((n) => n.id === 'm11-ashbrook-retreat');
-  if (id === 'm01-blood-at-the-ford' && m11) {
-    const unlocked = [...new Set([...progress.unlocked, ...m11.unlocksOnVictory])];
-    progress = { ...progress, unlocked };
+  if (id === 'm01-blood-at-the-ford' || id === 'town-thornwick') {
+    progress = { ...progress, purseClaimed: true };
   }
   return { ...rec, progress, carry: carry ? { ...carry, progress } : rec.carry, last: result };
 }
@@ -64,8 +63,36 @@ export function afterMission(c: Campaign, rec: CampaignRecord, id: string, win: 
 /** Leaving a town: count the visit and keep what was bought, learned or hired. */
 export function afterTown(c: Campaign, rec: CampaignRecord, id: string, carry: CarryoverState | null): CampaignRecord {
   nodeOf(c, id);
-  const progress = visitTown(rec.progress, id);
+  let progress = visitTown(rec.progress, id);
+  if (id === 'town-thornwick') progress = { ...progress, purseClaimed: true };
   return { ...rec, progress, carry: carry ? { ...carry, progress } : rec.carry, last: null };
+}
+
+export const nextDifficultyAfterVictory = (diff: number): number => Math.max(0, Math.min(3, Math.floor(diff) + 1));
+
+/** Reset map progression into a New Game+ cycle at `nextDiff` while preserving the hero's level, stats, spells, items, and gold. */
+export function startNewGamePlusRecord(c: Campaign, rec: CampaignRecord, nextDiff: number): CampaignRecord {
+  const clampedDiff = Math.max(0, Math.min(3, nextDiff));
+  const nextNgTier = (rec.progress.ngPlusTier ?? 0) + 1;
+  const baseProgress: CampaignProgress = {
+    ...newProgress(c, clampedDiff),
+    ngPlusTier: nextNgTier,
+    purseClaimed: rec.progress.purseClaimed,
+  };
+  const carry = rec.carry
+    ? {
+        ...structuredClone(rec.carry),
+        hero: { ...rec.carry.hero, diff: clampedDiff },
+        progress: baseProgress,
+      }
+    : null;
+  return {
+    v: 1,
+    progress: baseProgress,
+    hero: { ...rec.hero },
+    carry,
+    last: null,
+  };
 }
 
 /** The result screen has been shown. */

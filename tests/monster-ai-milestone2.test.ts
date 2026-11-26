@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest';
-import { Kind, Ord } from '../src/sim/combat';
-import { FP, Sim } from '../src/sim/sim';
+import { Kind, } from '../src/sim/combat';
+import { Sim } from '../src/sim/sim';
 import { MonsterAi } from '../src/sim/bot';
 
 function testMap() {
@@ -88,7 +88,7 @@ describe('Tactical Monster AI (Milestone 2)', () => {
 
     sim.tick = 3;
     const cmds1 = ai.commands(sim);
-    const res1 = cmds1.find((c) => c.type === 'order' && c.order === 'cast' && c.spell === 24);
+    const res1 = cmds1.find((c) => c.type === 'order' && c.order === 'cast' && c.spell === 21);
     expect(res1).toBeDefined();
 
     // Execute the cast order in sim
@@ -97,14 +97,14 @@ describe('Tactical Monster AI (Milestone 2)', () => {
     // On next thinking tick (tick 13), Shaman is on 15s cooldown (375 ticks)
     sim.tick = 13;
     const cmds2 = ai.commands(sim);
-    const res2 = cmds2.find((c) => c.type === 'order' && c.order === 'cast' && c.spell === 24);
+    const res2 = cmds2.find((c) => c.type === 'order' && c.order === 'cast' && c.spell === 21);
     // Cooldown prevents infinite resurrection spam!
     expect(res2).toBeUndefined();
 
     // Fast forward past cooldown: 375 ticks later
     sim.tick = 378 + 5;
     const cmds3 = ai.commands(sim);
-    const res3 = cmds3.find((c) => c.type === 'order' && c.order === 'cast' && c.spell === 24);
+    const res3 = cmds3.find((c) => c.type === 'order' && c.order === 'cast' && c.spell === 21);
     expect(res3).toBeDefined(); // second resurrection succeeds
   });
 

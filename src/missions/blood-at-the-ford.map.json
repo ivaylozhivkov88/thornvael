@@ -55422,10 +55422,9 @@
       "group": 60,
       "pack": 60,
       "vip": true,
-      "tier": 2,
+      "tier": 1,
       "family": "dune-lurker",
       "bossMods": [
-        "extra_fast",
         "fire_enchanted"
       ]
     },

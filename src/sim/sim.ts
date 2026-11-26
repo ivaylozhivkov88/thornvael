@@ -1,18 +1,23 @@
-import { isBlockedAt, type GameMap } from '../map';
+import { PropKind, isBlockedAt, type GameMap } from '../map';
 import type { ShrineDef } from '../mapdoc';
 import { dayLight } from './daynight';
-import { CombatState, Ord, POOLS, enemyNear, lootPos, nearestLoot, think, toGuard, type CombatSnap } from './combat';
+import type { BossPhaseController, BossTickEvent } from './ai/boss-phases';
+import type { EliteDirector, EliteTickEvent } from './ai/elite-director';
+import type { WorldEventsDirector } from './ai/shrines-events';
+import type { SkirmishModeController } from './ai/skirmish-modes';
+import { CombatState, DEFS, Elem, Ord, POOLS, enemyNear, lootPos, nearestLoot, strike, think, toGuard, type CombatSnap } from './combat';
 import { cloneHero, hashHero, heroCommand, type HeroCommand, type HeroState } from './hero';
 import { NST, SPELLS, St, Tk } from './spelldata';
-import { addStatus, isCorpse, knows, resolveTarget, revive } from './spells';
-import { FP, Pather, isChokepoint, lineClear, regionsOf } from './path';
+import { isCorpse, knows, resolveTarget, revive } from './spells';
+import { FP, Pather, invalidateRegions, isChokepoint, lineClear, regionsOf } from './path';
 import { Rng } from './rng';
-import type { ScriptRuntime, ScriptState } from './script';
+import { ADVENTURE_OBJECT_KINDS, interactAdventureObject, type ScriptRuntime, type ScriptState } from './script';
 import { buildTowns, checkQuests, cloneTown, hashTown, newTownState, townCommand, type TownCommand, type TownDef, type TownRt, type TownState } from './town';
-import { DYNAMIC_ITEM_OFFSET, getItemDef, registerDynamicItem, unregisterDynamicItem, type ItemDef, type ItemInstance } from './items';
+import { DYNAMIC_ITEM_OFFSET, getItemDef, itemId, registerDynamicItem, unregisterDynamicItem, type ItemDef, type ItemInstance } from './items';
 import { stepAuraSystem } from './auras';
 import { applyGroupFormation, type FormationScratch } from './formation';
 import { FlatSpatialHash } from './spatial-hash';
+import { hashSuperUniques } from './super-uniques';
 import {
   UNIT_BODY_RADIUS,
   computeUnitMasses,
@@ -49,6 +54,9 @@ export type Command =
     }
   | { type: 'autocast'; ids: number[]; spell: number } // spell id, or -1 to switch autocast off
   | { type: 'repopulate'; id: number; x: number; y: number; cost?: number }
+  | { type: 'smash_prop'; x: number; y: number }
+  | { type: 'interact_object'; x: number; y: number }
+  | { type: 'face'; id: number; dir?: number; stop?: boolean; swing?: boolean }
   | HeroCommand
   | TownCommand;
 export interface LoggedCommand {
@@ -90,6 +98,16 @@ export interface Snapshot {
   shrineCd?: Uint16Array;
   instances?: ItemInstance[];
   nextInstanceId?: number;
+  destroyedProps?: number[];
+  visitedAdv?: number[];
+  ngPlusTier?: number;
+  directors?: {
+    elites: ReturnType<EliteDirector['snapshot']>;
+    events: ReturnType<WorldEventsDirector['snapshot']>;
+    bosses: ReturnType<BossPhaseController['snapshot']>[];
+    skirmishMode: ReturnType<SkirmishModeController['snapshot']> | null;
+    townOnly?: boolean;
+  };
 }
 
 export interface SimOptions {
@@ -107,6 +125,8 @@ export interface SimOptions {
   families?: string[];
   /** Composable boss modifiers per unit. Default: none. */
   bossMods?: readonly (readonly string[])[];
+  /** Active New Game+ tier (0 = standard, 1+ = NG+ scaling). */
+  ngPlusTier?: number;
 }
 
 // Tile offsets around a point, nearest first, used to find the closest valid tile.
@@ -146,6 +166,7 @@ export class Sim {
   readonly log: LoggedCommand[] = [];
   readonly dayOffset: number;
   readonly combat: boolean;
+  ngPlusTier: number;
   readonly cb: CombatState;
   /** The player's hero (attributes, pack, gear), or null in games without one. Set up with createHero before the first tick. */
   hero: HeroState | null = null;
@@ -161,6 +182,16 @@ export class Sim {
   /** Interactive world shrines and their recharge countdowns in ticks. */
   shrines: ShrineDef[] = [];
   shrineCd: Uint16Array = new Uint16Array(0);
+  /** Optional deterministic simulation directors (elites, shrines/roaming events, boss phases, skirmish modes). */
+  directors: {
+    elites: EliteDirector;
+    events: WorldEventsDirector;
+    bosses: BossPhaseController[];
+    bossUnitIds?: number[];
+    skirmishMode: SkirmishModeController | null;
+    townOnly?: boolean;
+  } | null = null;
+  private bossPrevHp: number[] = [];
   private nextInstanceId = DYNAMIC_ITEM_OFFSET;
   readonly instances = new Map<number, ItemInstance>();
   private readonly usedSerials = new Set<number>();
@@ -209,7 +240,8 @@ export class Sim {
   private budget = 0;
   private dispatchBudget = 0;
   private readonly pather: Pather;
-  private readonly region: Int32Array;
+  private region: Int32Array;
+  private gridDirty = true;
   private readonly ox: Int32Array;
   private readonly oy: Int32Array;
   private readonly ax: Int32Array;
@@ -282,7 +314,7 @@ export class Sim {
       dirX: new Int32Array(n),
       dirY: new Int32Array(n),
       unitSpeed: UNIT_SPEED,
-      buildGrid: () => this.buildGrid(),
+      buildGrid: () => this.ensureGrid(),
       getPath: (pid) => this.paths.get(pid),
       repath: (i) => this.repath(i),
       finish: (i) => this.finish(i),
@@ -290,19 +322,50 @@ export class Sim {
     };
     this.seenStamp = new Uint32Array(n);
     this.combat = opts.combat ?? false;
+    this.ngPlusTier = Math.max(0, Math.floor(opts.ngPlusTier ?? 0));
     this.cb = new CombatState(n, opts.kinds ?? Array(n).fill(0), this.team, opts.hpMul ?? 1, opts.tiers, opts.families, opts.bossMods);
+    if (this.ngPlusTier > 0) {
+      const hpScale = 1 + 0.35 * this.ngPlusTier;
+      for (let i = 0; i < n; i++) {
+        if (this.team[i] === 0) continue;
+        this.cb.hpMax[i] = Math.min(32000, Math.round(this.cb.hpMax[i] * hpScale));
+        this.cb.hp[i] = this.cb.hpMax[i];
+      }
+    }
   }
 
   /** Set up the map's towns. Before the first tick. */
-  attachTowns(defs: readonly TownDef[]): void {
+  attachTowns(defs: readonly TownDef[], act?: number): void {
     this.towns = buildTowns(this, defs);
-    this.town = newTownState(defs.length);
+    let resolvedAct = act ?? 1;
+    if (act === undefined && defs.length > 0) {
+      const name = defs[0].name.toLowerCase();
+      if (name.includes('redmarsh')) resolvedAct = 2;
+      else if (name.includes('oakhaven')) resolvedAct = 3;
+      else if (name.includes('highcrest')) resolvedAct = 4;
+    }
+    this.town = newTownState(defs.length, resolvedAct);
   }
 
   /** Set up interactive world shrines before the first tick. */
   attachShrines(defs: readonly ShrineDef[]): void {
     this.shrines = defs.map((d) => ({ ...d }));
     this.shrineCd = new Uint16Array(defs.length);
+  }
+
+  /** Attach deterministic AI directors so they step, hash, and snapshot inside the sim. */
+  attachDirectors(
+    directors: {
+      elites: EliteDirector;
+      events: WorldEventsDirector;
+      bosses: BossPhaseController[];
+      bossUnitIds?: number[];
+      skirmishMode: SkirmishModeController | null;
+    },
+    townOnly = false,
+  ): void {
+    this.directors = { ...directors, townOnly };
+    this.bossPrevHp = (directors.bossUnitIds ?? []).map((u) => (u >= 0 && u < this.count ? this.cb.hp[u] : 0));
   }
 
   /**
@@ -326,6 +389,23 @@ export class Sim {
   place(id: number, tileX: number, tileY: number): void {
     this.x[id] = this.tx[id] = this.cb.px[id] = Math.round((tileX + 0.5) * FP);
     this.y[id] = this.ty[id] = this.cb.py[id] = Math.round((tileY + 0.5) * FP);
+    this.gridDirty = true;
+  }
+
+  /** Recompute walkable region connectivity after map obstacles change (e.g. smashing a prop). */
+  refreshRegions(): void {
+    invalidateRegions(this.map);
+    this.region = regionsOf(this.map);
+  }
+
+  /** Mark the unit spatial hash dirty so the next query rebuilds it. */
+  markGridDirty(): void {
+    this.gridDirty = true;
+  }
+
+  /** Rebuild the spatial hash only if unit positions or living states changed. */
+  ensureGrid(): void {
+    if (this.gridDirty) this.buildGrid();
   }
 
   /** Set the guard post of every unit to where it stands. Call after custom placement. */
@@ -347,6 +427,22 @@ export class Sim {
 
   /** Send one unit towards a fixed-point position on its own path. Time-sliced like every other search. */
   goTo(i: number, gx: number, gy: number): void {
+    const stx = Math.floor(this.x[i] / FP);
+    const sty = Math.floor(this.y[i] / FP);
+    const gtx = Math.floor(gx / FP);
+    const gty = Math.floor(gy / FP);
+    const w = this.map.w;
+    const h = this.map.h;
+    if (stx < 0 || sty < 0 || stx >= w || sty >= h || gtx < 0 || gty < 0 || gtx >= w || gty >= h) {
+      this.finish(i);
+      return;
+    }
+    const sr = this.region[sty * w + stx];
+    const gr = this.region[gty * w + gtx];
+    if (sr < 0 || sr !== gr) {
+      this.finish(i);
+      return;
+    }
     this.release(i);
     this.tx[i] = gx;
     this.ty[i] = gy;
@@ -356,7 +452,7 @@ export class Sim {
     this.wp[i] = 0;
     if (!lineClear(this.map, this.x[i], this.y[i], gx, gy) && this.budget > 0) {
       this.budget--;
-      const pts = this.pather.find(Math.floor(this.x[i] / FP), Math.floor(this.y[i] / FP), Math.floor(gx / FP), Math.floor(gy / FP));
+      const pts = this.pather.find(stx, sty, gtx, gty);
       if (pts) this.pathId[i] = this.addPath(pts, 1);
     }
   }
@@ -370,15 +466,17 @@ export class Sim {
   step(cmds: readonly Command[] = []): void {
     this.tick++;
     for (const cmd of cmds) {
-      if (cmd.type !== 'town') continue;
+      if (cmd.type !== 'town' && cmd.type !== 'hero') continue;
       this.log.push({ tick: this.tick, cmd });
-      townCommand(this, cmd);
+      if (cmd.type === 'town') townCommand(this, cmd);
+      else heroCommand(this, cmd);
+      this.gridDirty = true;
     }
     this.budget = PATHS_PER_TICK;
     this.dispatchBudget = 3;
-    if (this.combat) this.buildGrid();
+    if (this.combat) this.ensureGrid();
     for (const cmd of cmds) {
-      if (cmd.type === 'town') continue;
+      if (cmd.type === 'town' || cmd.type === 'hero') continue;
       this.log.push({ tick: this.tick, cmd });
       this.dispatch(cmd);
     }
@@ -389,15 +487,77 @@ export class Sim {
     this.oy.set(this.y);
     this.ensureUnitMasses();
     if (this.combat) think(this);
-    this.buildGrid();
+    this.ensureGrid();
     prepareSteeringDirections(this, this.steerCtx);
-    for (let i = 0; i < this.count; i++) if (this.moving[i]) steerUnit(this, i, this.steerCtx);
+    for (let i = 0; i < this.count; i++) {
+      if (this.moving[i]) {
+        steerUnit(this, i, this.steerCtx);
+        if (this.x[i] !== this.ox[i] || this.y[i] !== this.oy[i]) this.gridDirty = true;
+      }
+    }
     separateUnits(this, this.steerCtx);
     for (let i = 0; i < this.count; i++) if (this.moving[i]) this.progress(i);
     if (this.tick === 1 || this.tick % 5 === 0) this.updateFog();
     if (this.towns.length) checkQuests(this);
     if (this.shrines.length) this.stepShrines();
     if (this.combat && this.tick % 25 === 0) this.stepBossAuras();
+    if (this.combat && this.directors && !this.directors.townOnly) this.stepDirectors();
+  }
+
+  private stepDirectors(): void {
+    const dir = this.directors;
+    if (!dir) return;
+    const hId = this.hero?.id ?? 0;
+    const hx = hId >= 0 && hId < this.count ? this.x[hId] : 0;
+    const hy = hId >= 0 && hId < this.count ? this.y[hId] : 0;
+    dir.events.step(hx, hy, this.daylight < 100);
+
+    const eliteEvents: EliteTickEvent[] = [];
+    dir.elites.step(hx, hy, eliteEvents);
+    for (const ev of eliteEvents) {
+      if (ev.kind === 'fire_aura') {
+        this.cb.emit(6, ev.x, ev.y, 3, Elem.Fire);
+        if (hId >= 0 && this.cb.hp[hId] > 0) strike(this, hId, 2, Math.max(2, ev.amount), Elem.Fire, 12, ev.actorId);
+      } else if (ev.kind === 'teleport') {
+        this.cb.emit(9, ev.x, ev.y, 0, Elem.Astral);
+      } else if (ev.kind === 'shield_regen') {
+        this.cb.emit(8, ev.x, ev.y, 1, 0);
+      }
+    }
+
+    const bossIds = dir.bossUnitIds ?? [];
+    for (let k = 0; k < dir.bosses.length; k++) {
+      const uid = bossIds[k] ?? -1;
+      const ctrl = dir.bosses[k];
+      if (uid < 0 || uid >= this.count || this.hidden[uid]) continue;
+      const curHp = Math.max(0, this.cb.hp[uid]);
+      const prevHp = this.bossPrevHp[k] ?? curHp;
+      if (curHp < prevHp) ctrl.damageBoss(prevHp - curHp);
+      this.bossPrevHp[k] = curHp;
+      if (curHp <= 0) continue;
+      // Engage boss phase machine once hero is within 14 tiles or boss has taken damage
+      const dx = this.x[uid] - hx;
+      const dy = this.y[uid] - hy;
+      if (dx * dx + dy * dy > (14 * FP) ** 2 && curHp === this.cb.hpMax[uid]) continue;
+      const bossEvents: BossTickEvent[] = [];
+      ctrl.step(hx, hy, bossEvents);
+      for (const bev of bossEvents) {
+        if (bev.kind === 'telegraph_spawn') {
+          this.cb.emit(5, bev.x ?? hx, bev.y ?? hy, 20, Elem.Fire);
+        } else if (bev.kind === 'hazard_detonate' && hId >= 0 && this.cb.hp[hId] > 0) {
+          const tx = bev.x ?? hx;
+          const ty = bev.y ?? hy;
+          const dist2 = (this.x[hId] - tx) ** 2 + (this.y[hId] - ty) ** 2;
+          if (dist2 <= (2.5 * FP) ** 2) {
+            const d = Math.max(4, Math.floor(bev.value * 0.4));
+            strike(this, hId, d, Math.max(d, Math.floor(bev.value * 0.65)), Elem.Fire, 14, uid);
+          }
+          this.cb.emit(5, tx, ty, 25, Elem.Fire);
+        } else if (bev.kind === 'phase_change' || bev.kind === 'enrage') {
+          this.cb.emit(6, this.x[uid], this.y[uid], bev.value, Elem.Astral);
+        }
+      }
+    }
   }
 
   private stepBossAuras(): void {
@@ -494,10 +654,106 @@ export class Sim {
   private dispatch(cmd: Command): void {
     if (cmd.type === 'move') this.apply(cmd);
     else if (cmd.type === 'autocast') this.applyAutocast(cmd);
-    else if (cmd.type === 'repopulate') this.applyRepopulate(cmd);
-    else if (cmd.type === 'hero') heroCommand(this, cmd);
-    else if (cmd.type === 'town') townCommand(this, cmd);
-    else this.applyOrder(cmd);
+    else if (cmd.type === 'repopulate') {
+      this.applyRepopulate(cmd);
+      this.gridDirty = true;
+    } else if (cmd.type === 'smash_prop') this.applySmashProp(cmd);
+    else if (cmd.type === 'interact_object') this.applyInteractObject(cmd);
+    else if (cmd.type === 'face') this.applyFace(cmd);
+    else if (cmd.type === 'hero') {
+      heroCommand(this, cmd);
+      this.gridDirty = true;
+    } else if (cmd.type === 'town') {
+      townCommand(this, cmd);
+      this.gridDirty = true;
+    } else this.applyOrder(cmd);
+  }
+
+  private dropPropBagAt(tx: number, ty: number, finalItemId: number): void {
+    const cb = this.cb;
+    for (let b = 0; b < cb.bI.length; b++) {
+      if (cb.bI[b]) continue;
+      cb.bX[b] = Math.round((tx + 0.5) * FP);
+      cb.bY[b] = Math.round((ty + 0.5) * FP);
+      cb.bI[b] = finalItemId + 1;
+      break;
+    }
+  }
+
+  private applySmashProp(cmd: Extract<Command, { type: 'smash_prop' }>): void {
+    const obj = this.map.objects.find(
+      (o) => !o.destroyed && o.x === cmd.x && o.y === cmd.y && (o.kind === PropKind.Barrel || o.kind === PropKind.Urn || o.kind === PropKind.Sarcophagus),
+    );
+    if (!obj) return;
+    obj.destroyed = true;
+    if (obj.x >= 0 && obj.x < this.map.w && obj.y >= 0 && obj.y < this.map.h) {
+      this.map.blocked[obj.y * this.map.w + obj.x] = 0;
+      this.refreshRegions();
+    }
+    const px = (obj.x + 0.5) * FP;
+    const py = (obj.y + 0.5) * FP;
+    if (obj.kind === PropKind.Barrel) {
+      this.cb.emit(1, px, py, 0, 0);
+      const roll = this.rng.int(100);
+      if (roll < 55) {
+        const g = 10 + this.rng.int(20);
+        this.cb.gold[0] = (this.cb.gold[0] ?? 0) + g;
+        this.cb.emit(16, px, py, PropKind.Barrel, g);
+      } else if (roll < 85) {
+        const potId = this.rng.int(2) === 0 ? itemId('Healing Draught') : itemId('Mana Draught');
+        const finalId = potId >= 0 ? potId : 1;
+        this.dropPropBagAt(obj.x, obj.y, finalId);
+        this.cb.emit(16, px, py, PropKind.Barrel, -(finalId + 1));
+      } else {
+        const dropId = itemId('Iron Dagger');
+        const finalId = dropId >= 0 ? dropId : 1;
+        this.dropPropBagAt(obj.x, obj.y, finalId);
+        this.cb.emit(16, px, py, PropKind.Barrel, -(finalId + 1));
+      }
+    } else if (obj.kind === PropKind.Urn) {
+      this.cb.emit(1, px, py, 0, 0);
+      const roll = this.rng.int(100);
+      if (roll < 70) {
+        const g = 15 + this.rng.int(35);
+        this.cb.gold[0] = (this.cb.gold[0] ?? 0) + g;
+        this.cb.emit(16, px, py, PropKind.Urn, g);
+      } else {
+        const potId = itemId('Healing Draught');
+        const finalId = potId >= 0 ? potId : 1;
+        this.dropPropBagAt(obj.x, obj.y, finalId);
+        this.cb.emit(16, px, py, PropKind.Urn, -(finalId + 1));
+      }
+    } else if (obj.kind === PropKind.Sarcophagus) {
+      this.cb.emit(6, px, py, 0, 0);
+      const g = 50 + this.rng.int(60);
+      this.cb.gold[0] = (this.cb.gold[0] ?? 0) + g;
+      const relicId = itemId('Tempered Plate');
+      const finalId = relicId >= 0 ? relicId : 1;
+      this.dropPropBagAt(obj.x, obj.y, finalId);
+      this.cb.emit(16, px, py, PropKind.Sarcophagus, g);
+    }
+  }
+
+  private applyInteractObject(cmd: Extract<Command, { type: 'interact_object' }>): void {
+    const list = this.script?.def.adventureObjects;
+    if (!list) return;
+    const obj = list.find((o) => !o.visited && o.x === cmd.x && o.y === cmd.y);
+    if (!obj) return;
+    const res = interactAdventureObject(this, obj);
+    if (res.triggered) {
+      this.cb.emit(17, (obj.x + 0.5) * FP, (obj.y + 0.5) * FP, ADVENTURE_OBJECT_KINDS.indexOf(obj.kind), res.goldReward ?? 0);
+    }
+  }
+
+  private applyFace(cmd: Extract<Command, { type: 'face' }>): void {
+    const id = cmd.id;
+    if (id < 0 || id >= this.count || this.cb.hp[id] <= 0) return;
+    if (cmd.stop) this.stop(id);
+    if (cmd.dir !== undefined) this.dir[id] = cmd.dir & 15;
+    if (cmd.swing && this.cb.cd[id] === 0) {
+      this.cb.cd[id] = DEFS[this.cb.kind[id]].cd;
+      this.cb.emit(12, this.x[id], this.y[id], 0, 0);
+    }
   }
 
   private applyRepopulate(cmd: Extract<Command, { type: 'repopulate' }>): void {
@@ -850,14 +1106,24 @@ export class Sim {
   /** New individual path from the unit's tile to its slot tile. Time-sliced by a per-tick budget. */
   private repath(i: number): boolean {
     if (this.budget <= 0 || this.repaths[i] >= 4) return false;
+    const stx = Math.floor(this.x[i] / FP);
+    const sty = Math.floor(this.y[i] / FP);
+    const gtx = Math.floor(this.tx[i] / FP);
+    const gty = Math.floor(this.ty[i] / FP);
+    const { w, h } = this.map;
+    if (stx < 0 || sty < 0 || stx >= w || sty >= h || gtx < 0 || gty < 0 || gtx >= w || gty >= h) {
+      this.finish(i);
+      return false;
+    }
+    const sr = this.region[sty * w + stx];
+    const gr = this.region[gty * w + gtx];
+    if (sr < 0 || sr !== gr) {
+      this.finish(i);
+      return false;
+    }
     this.budget--;
     this.repaths[i]++;
-    const pts = this.pather.find(
-      Math.floor(this.x[i] / FP),
-      Math.floor(this.y[i] / FP),
-      Math.floor(this.tx[i] / FP),
-      Math.floor(this.ty[i] / FP),
-    );
+    const pts = this.pather.find(stx, sty, gtx, gty);
     if (!pts) {
       this.finish(i);
       return false;
@@ -875,6 +1141,7 @@ export class Sim {
    */
   private buildGrid(): void {
     this.spatialHash.rebuild(this.count, this.x, this.y, this.cb.hp, this.hidden);
+    this.gridDirty = false;
   }
 
   /** Stuck handling: ask for a new path, accept a crowded arrival, or give up. */
@@ -969,16 +1236,62 @@ export class Sim {
     for (let t = 0; t < this.explored.length; t++) if (this.explored[t]) mix(t);
     this.cb.hashInto(mix);
     hashHero(this.hero, mix);
+    hashSuperUniques(this, mix);
+    mix(this.nextPath);
+    if (this.paths.size > 0) {
+      const pids = [...this.paths.keys()].sort((a, b) => a - b);
+      for (const pid of pids) {
+        const rec = this.paths.get(pid)!;
+        mix(pid);
+        mix(rec.refs);
+        mix(rec.pts.length);
+        for (let k = 0; k < rec.pts.length; k++) mix(rec.pts[k]);
+      }
+    }
+    mix(this.nextInstanceId);
+    if (this.instances.size > 0) {
+      const iids = [...this.instances.keys()].sort((a, b) => a - b);
+      for (const iid of iids) {
+        const inst = this.instances.get(iid)!;
+        mix(inst.id);
+        mix(inst.serial ?? 0);
+        mix(inst.baseId);
+        mix(inst.def.unidentified ? 1 : 0);
+      }
+    }
     for (let i = 0; i < this.count; i++) if (this.hidden[i]) mix(i + 1);
     for (let i = 0; i < 16; i++) if (this.peace[i]) mix(100 + i);
-    this.script?.hashInto(mix);
+    this.script?.hashInto(mix, this);
+    if (!this.script && this.map.objects.length > 0) {
+      let word = 0;
+      for (let i = 0; i < this.map.objects.length; i++) {
+        if (this.map.objects[i].destroyed) word |= 1 << (i & 31);
+        if ((i & 31) === 31 || i === this.map.objects.length - 1) {
+          mix(word);
+          word = 0;
+        }
+      }
+    }
     for (let i = 0; i < this.count; i++) mix(this.team[i]);
     hashTown(this.town, mix);
     if (this.shrines.length) for (let s = 0; s < this.shrineCd.length; s++) mix(this.shrineCd[s]);
+    if (this.directors) {
+      mix(this.directors.townOnly ? 1 : 0);
+      this.directors.elites.hashInto(mix);
+      this.directors.events.hashInto(mix);
+      for (const b of this.directors.bosses) b.hashInto(mix);
+      this.directors.skirmishMode?.hashInto(mix);
+    }
+    if (this.ngPlusTier > 0) mix(0x4e470000 + this.ngPlusTier);
     return h >>> 0;
   }
 
   snapshot(): Snapshot {
+    const destroyedProps: number[] = [];
+    for (let i = 0; i < this.map.objects.length; i++) if (this.map.objects[i].destroyed) destroyedProps.push(i);
+    const visitedAdv: number[] = [];
+    const adv = this.script?.def.adventureObjects;
+    if (adv) for (let i = 0; i < adv.length; i++) if (adv[i].visited) visitedAdv.push(i);
     return {
       tick: this.tick,
       rng: this.rng.state,
@@ -1007,12 +1320,27 @@ export class Sim {
       town: cloneTown(this.town),
       instances: [...this.instances.values()],
       nextInstanceId: this.nextInstanceId,
+      ...(destroyedProps.length ? { destroyedProps } : {}),
+      ...(visitedAdv.length ? { visitedAdv } : {}),
+      ...(this.ngPlusTier > 0 ? { ngPlusTier: this.ngPlusTier } : {}),
       ...(this.shrines.length ? { shrineCd: this.shrineCd.slice() } : {}),
+      ...(this.directors
+        ? {
+            directors: {
+              elites: this.directors.elites.snapshot(),
+              events: this.directors.events.snapshot(),
+              bosses: this.directors.bosses.map((b) => b.snapshot()),
+              skirmishMode: this.directors.skirmishMode ? this.directors.skirmishMode.snapshot() : null,
+              townOnly: this.directors.townOnly,
+            },
+          }
+        : {}),
     };
   }
 
   restore(s: Snapshot): void {
     this.tick = s.tick;
+    this.ngPlusTier = Math.max(0, Math.floor(s.ngPlusTier ?? 0));
     this.rng.state = s.rng;
     this.lootRng.state = (s.lootRng ?? (s.rng ^ LOOT_RNG_SALT)) >>> 0 || 1;
     this.cosmeticRng.state = (s.cosmeticRng ?? (s.rng ^ COSMETIC_RNG_SALT)) >>> 0 || 1;
@@ -1035,6 +1363,26 @@ export class Sim {
     this.hidden = s.hidden.slice();
     this.peace = s.peace.slice();
     if (this.script && s.script) this.script.restore(s.script);
+    if (s.destroyedProps) {
+      const dset = new Set(s.destroyedProps);
+      let blockedChanged = false;
+      for (let i = 0; i < this.map.objects.length; i++) {
+        const obj = this.map.objects[i];
+        if (dset.has(i) && !obj.destroyed) {
+          obj.destroyed = true;
+          if (obj.x >= 0 && obj.x < this.map.w && obj.y >= 0 && obj.y < this.map.h) {
+            this.map.blocked[obj.y * this.map.w + obj.x] = 0;
+            blockedChanged = true;
+          }
+        }
+      }
+      if (blockedChanged) this.refreshRegions();
+    }
+    if (s.visitedAdv && this.script?.def.adventureObjects) {
+      const vset = new Set(s.visitedAdv);
+      const adv = this.script.def.adventureObjects;
+      for (let i = 0; i < adv.length; i++) if (vset.has(i)) adv[i].visited = true;
+    }
     if (s.team) this.team.set(s.team);
     this.town = s.town ? cloneTown(s.town) : newTownState(this.towns.length);
     if (s.shrineCd && this.shrines.length) this.shrineCd = s.shrineCd.slice();
@@ -1049,8 +1397,21 @@ export class Sim {
       }
     }
     if (s.nextInstanceId) this.nextInstanceId = s.nextInstanceId;
+    if (this.directors && s.directors) {
+      this.directors.townOnly = s.directors.townOnly;
+      this.directors.elites.restore(s.directors.elites);
+      this.directors.events.restore(s.directors.events);
+      for (let i = 0; i < this.directors.bosses.length && i < s.directors.bosses.length; i++) {
+        this.directors.bosses[i].restore(s.directors.bosses[i]);
+      }
+      if (this.directors.skirmishMode && s.directors.skirmishMode) {
+        this.directors.skirmishMode.restore(s.directors.skirmishMode);
+      }
+      this.bossPrevHp = (this.directors.bossUnitIds ?? []).map((u) => (u >= 0 && u < this.count ? this.cb.hp[u] : 0));
+    }
     this.cb.recount(this.team);
     this.massesHeroCls = -2;
+    this.gridDirty = true;
     this.fogVersion++;
   }
 }

@@ -1,9 +1,8 @@
 import { describe, expect, it } from 'vitest';
-import { generateMap } from '../src/map';
-import { blankDoc, loadDoc, validate } from '../src/mapdoc';
+import { blankDoc, validate } from '../src/mapdoc';
 import { generateExpeditionMap } from '../src/map-generator';
-import { Elem, Kind, Ord, strike, think } from '../src/sim/combat';
-import { createHero, recalc } from '../src/sim/hero';
+import { Elem, Kind, strike, think } from '../src/sim/combat';
+import { createHero, } from '../src/sim/hero';
 import {
   BUILTIN_GEMS,
   canSocket,
@@ -14,7 +13,6 @@ import {
   itemId,
   Slot,
   socketGem,
-  SPECIAL_ITEMS,
   transmuteItems,
 } from '../src/sim/items';
 import { FP, Sim } from '../src/sim/sim';
@@ -494,39 +492,8 @@ describe('classic ARPG Connected Acts & Core ARPG Systems', () => {
       sim.place(0, 10, 10);
       sim.place(1, 11, 10);
 
-      // Create a weapon with 20% life steal
-      const lsAxe: ItemDef = {
-        name: 'Vampiric Axe',
-        kind: Ik.Gear,
-        slot: Slot.Weapon,
-        tier: 3,
-        w: 5,
-        cls: 1,
-        need: 0,
-        needv: 10,
-        min: 10,
-        max: 20,
-        acc: 0,
-        cover: 0,
-        def: 0,
-        abs: 0,
-        res: [0, 0, 0, 0, 0],
-        attr: [0, 0, 0, 0],
-        hp: 0,
-        mana: 0,
-        pow: 0,
-        heal: 0,
-        restore: 0,
-        grow: 0,
-        spell: -1,
-        lifesteal: 20,
-      };
-
-      const wepId = 1555;
-      sim.hero!.eq[0] = wepId;
       // Register dynamic item
       sim.cb.hp[0] = 50; // Hero hurt, max is > 100
-      const initialHp = sim.cb.hp[0];
 
       // Hero strikes gnoll for 50 damage
       strike(sim, 1, 50, 50, Elem.Physical, 100, 0);

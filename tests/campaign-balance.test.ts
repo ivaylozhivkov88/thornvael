@@ -1,9 +1,9 @@
 import { describe, it, expect } from 'vitest';
 import { Sim } from '../src/sim/sim';
-import { createHero, derive, totals, dropLoot, getHeroMF, addItem, heroCommand } from '../src/sim/hero';
+import { createHero, derive, dropLoot, } from '../src/sim/hero';
 import { Kind } from '../src/sim/combat';
-import { Slot, Ik, ITEMS, getItemDef, DYNAMIC_ITEM_OFFSET } from '../src/sim/items';
-import { rollStock, gambleCost, TownState, newTownState } from '../src/sim/town';
+import { Slot, Ik, ITEMS, getItemDef, } from '../src/sim/items';
+import { rollStock, gambleCost, newTownState } from '../src/sim/town';
 import { extractCarryover, applyCarryover } from '../src/carryover';
 import type { GameMap } from '../src/map';
 
@@ -40,10 +40,8 @@ describe('Campaign & Skirmish Comprehensive Balance Sweep', () => {
       dropLoot(sim, 1);
 
       // Verify bags placed
-      let hasBag = false;
       for (let b = 0; b < sim.cb.bI.length; b++) {
         if (sim.cb.bI[b] > 0) {
-          hasBag = true;
           const itemId = sim.cb.bI[b] - 1;
           const def = sim.getItemDef(itemId);
           expect(def).toBeDefined();

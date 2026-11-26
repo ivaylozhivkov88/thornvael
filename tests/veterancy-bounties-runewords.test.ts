@@ -5,9 +5,9 @@ import { Slot, Ik, itemId, getItemDef, type ItemDef } from '../src/sim/items';
 import { ALL_RUNES } from '../src/sim/runes';
 import { Sim } from '../src/sim/sim';
 import { createHero } from '../src/sim/hero';
-import { isGrailDiscovered } from '../src/codex';
+import { discoverBossTrophy, isGrailDiscovered } from '../src/codex';
+import { getSuperUniqueForUnit } from '../src/sim/super-uniques';
 import {
-  VETERAN_RANKS,
   MERCENARY_PERKS,
   calculateVeteranRank,
   getMercenaryPerk,
@@ -18,7 +18,6 @@ import {
   checkAndConsumeMercAutoPotion,
   templeResurrectionCost,
   getMercenaryStatMultipliers,
-  type MercenaryRecord,
 } from '../src/sim/mercs';
 import {
   computeItemComparison,
@@ -29,7 +28,6 @@ import {
   newTownState,
   townCommand,
   Role,
-  type TownState,
 } from '../src/sim/town';
 import type { HeroState } from '../src/sim/hero';
 
@@ -294,17 +292,17 @@ describe('Smart Item Comparison', () => {
 
 describe('Interactive Runeword Assistant', () => {
   it('returns matching runewords for slot and socket capacity, checking owned runes', () => {
-    // 2-socket Weapon with 'Tir' and 'El' (Steel)
-    const ownedRunes = ['Tir', 'El', 'Ral'];
+    // 2-socket Weapon with 'Tyra' and 'Eldun' (Iron Blade)
+    const ownedRunes = ['Tyra', 'Eldun', 'Ralon'];
     const matches = getCompatibleRunewordsForItem(Slot.Weapon, 2, ownedRunes);
     expect(matches.length).toBeGreaterThan(0);
 
-    const steelMatch = matches.find((m) => m.runeword.name === 'Steel');
-    expect(steelMatch).toBeDefined();
-    expect(steelMatch?.runes).toEqual(['Tir', 'El']);
-    expect(steelMatch?.ownedRunes).toEqual(['Tir', 'El']);
-    expect(steelMatch?.missingRunes).toEqual([]);
-    expect(steelMatch?.canComplete).toBe(true);
+    const ironBladeMatch = matches.find((m) => m.runeword.name === 'Iron Blade');
+    expect(ironBladeMatch).toBeDefined();
+    expect(ironBladeMatch?.runes).toEqual(['Tyra', 'Eldun']);
+    expect(ironBladeMatch?.ownedRunes).toEqual(['Tyra', 'Eldun']);
+    expect(ironBladeMatch?.missingRunes).toEqual([]);
+    expect(ironBladeMatch?.canComplete).toBe(true);
   });
 
   it('warns if runeword is queried on non-base items', () => {
@@ -335,7 +333,7 @@ describe('Interactive Runeword Assistant', () => {
       spell: -1,
     };
 
-    const matches = getCompatibleRunewordsForItem(magicItem, 2, ['Tir', 'El']);
+    const matches = getCompatibleRunewordsForItem(magicItem, 2, ['Tyra', 'Eldun']);
     expect(matches.length).toBeGreaterThan(0);
     expect(matches[0].warning).toContain('Requires normal/grey base item');
   });
@@ -380,13 +378,20 @@ describe('Tavern Bounty Contracts & Board', () => {
     townCommand(mockSim, { type: 'town', op: 'accept_bounty', town: 0, v: 0 });
     expect(b.accepted).toBe(true);
 
-    // Claim bounty
+    // Refuses to claim an uncompleted bounty before boss kill
     const goldBefore = mockSim.cb.gold[0];
     townCommand(mockSim, { type: 'town', op: 'claim_bounty', town: 0, v: 0 });
+    expect(b.claimed).toBeFalsy();
+    expect(mockSim.cb.gold[0]).toBe(goldBefore);
+
+    // Mark completed (as kill attribution does) and claim bounty
+    b.completed = true;
+    townCommand(mockSim, { type: 'town', op: 'claim_bounty', town: 0, v: 0 });
     expect(b.completed).toBe(true);
+    expect(b.claimed).toBe(true);
     expect(mockSim.cb.gold[0]).toBe(goldBefore + b.rewardGold);
     expect(mockSim.hero!.xp).toBeGreaterThan(0);
-    const expectedRune = ALL_RUNES.find((r) => r.d2Name === b.rewardRune || r.name === b.rewardRune);
+    const expectedRune = ALL_RUNES.find((r) => r.name === b.rewardRune);
     expect(expectedRune).toBeDefined();
     expect(mockSim.hero!.inv.some((s) => s.item === itemId(expectedRune!.name))).toBe(true);
   });
@@ -451,10 +456,23 @@ describe('Combat Integration: Fallen Veterans, Boss Bounties & High Ground', () 
     expect(bounty.accepted).toBe(true);
     expect(bounty.completed).toBe(false);
 
-    // Kill the boss
+    // Kill the boss and assert deterministic trophy Fx event drives Grail discovery outside the sim
+    sim.cb.recordFx = true;
     strike(sim, 1, 5000, 5000, Elem.Fire, 100, 0);
     expect(sim.cb.hp[1]).toBe(0);
     expect(bounty.completed).toBe(true);
+    const trophyFx = sim.cb.fx.find((e) => e.type === 13);
+    expect(trophyFx).toBeDefined();
+    expect(trophyFx!.v).toBe(1);
+    const su = trophyFx!.el === 1 ? getSuperUniqueForUnit(sim, trophyFx!.v) : undefined;
+    const trophyId = su?.id || sim.cb.family[trophyFx!.v];
+    if (trophyId) {
+      discoverBossTrophy(trophyId, 'normal', {
+        heroName: sim.hero?.name,
+        heroLevel: sim.hero?.level,
+        droppedBy: su?.name || sim.cb.family[trophyFx!.v],
+      });
+    }
     expect(isGrailDiscovered('trophy:morvessa')).toBe(true);
 
     const goldBefore = sim.cb.gold[0];
@@ -463,7 +481,7 @@ describe('Combat Integration: Fallen Veterans, Boss Bounties & High Ground', () 
 
     expect(sim.cb.gold[0]).toBe(goldBefore + bounty.rewardGold);
     expect((sim.hero!.xp ?? 0) + (sim.hero!.level! > 1 ? 100 : 0)).toBeGreaterThan(xpBefore);
-    const runeDef = ALL_RUNES.find((r) => r.d2Name === bounty.rewardRune || r.name === bounty.rewardRune);
+    const runeDef = ALL_RUNES.find((r) => r.name === bounty.rewardRune);
     expect(runeDef).toBeDefined();
     const expectedItemId = itemId(runeDef!.name);
     expect(expectedItemId).toBeGreaterThanOrEqual(0);

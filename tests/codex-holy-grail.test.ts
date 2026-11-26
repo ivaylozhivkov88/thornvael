@@ -145,21 +145,21 @@ describe('Phase 4: The Holy Grail & Imperial Reliquary System', () => {
     });
 
     it('discovers runes and runewords', () => {
-      const rRes = discoverRune('Jah', { heroName: 'Aria' });
+      const rRes = discoverRune('Rune of Jahkar', { heroName: 'Aria' });
       expect(rRes.isNew).toBe(true);
       expect(rRes.entry.tome).toBe('runewords');
-      expect(isGrailDiscovered('rune:jah')).toBe(true);
+      expect(isGrailDiscovered('rune:rune-of-jahkar')).toBe(true);
 
-      const rwRes = discoverRuneword('Enigma', { heroName: 'Aria' });
+      const rwRes = discoverRuneword('Arcane Weave', { heroName: 'Aria' });
       expect(rwRes.isNew).toBe(true);
       expect(rwRes.entry.tome).toBe('runewords');
-      expect(isGrailDiscovered('runeword:enigma')).toBe(true);
+      expect(isGrailDiscovered('runeword:arcane-weave')).toBe(true);
     });
 
     it('discovers boss trophies', () => {
       const tRes = discoverBossTrophy('ashkarath', 'Inferno', {
         heroName: 'Soran',
-        heroClass: 'Paladin',
+        heroClass: 'Vanguard',
         heroLevel: 60,
       });
 
@@ -197,19 +197,19 @@ describe('Phase 4: The Holy Grail & Imperial Reliquary System', () => {
 
     it('upgrades existing Grail record when finding a higher roll perfection', () => {
       // First discovery with lower roll
-      const first = discoverUnique('the-stone-of-jordan', {
+      const first = discoverUnique('signet-of-the-astral-well', {
         heroName: 'Alden',
         heroLevel: 30,
         rollPerfectionPct: 75,
       });
       expect(first.isNew).toBe(true);
 
-      const initialEntry = getGrailEntry('unique:the-stone-of-jordan');
+      const initialEntry = getGrailEntry('unique:signet-of-the-astral-well');
       expect(initialEntry?.rollPerfectionPct).toBe(75);
       expect(initialEntry?.isPrimalPerfect).toBe(false);
 
       // Second discovery with higher roll -> upgrade!
-      const upgrade = discoverUnique('the-stone-of-jordan', {
+      const upgrade = discoverUnique('signet-of-the-astral-well', {
         heroName: 'Alden',
         heroLevel: 45,
         rollPerfectionPct: 99,
@@ -220,7 +220,7 @@ describe('Phase 4: The Holy Grail & Imperial Reliquary System', () => {
       expect(upgrade.prevPct).toBe(75);
       expect(upgrade.newPct).toBe(99);
 
-      const upgradedEntry = getGrailEntry('unique:the-stone-of-jordan');
+      const upgradedEntry = getGrailEntry('unique:signet-of-the-astral-well');
       expect(upgradedEntry?.rollPerfectionPct).toBe(99);
       expect(upgradedEntry?.isPrimalPerfect).toBe(true);
     });
@@ -230,11 +230,11 @@ describe('Phase 4: The Holy Grail & Imperial Reliquary System', () => {
     it('allows pinning up to 3 target items in the Grail', () => {
       expect(getPinnedGrailTargets()).toEqual([]);
 
-      expect(togglePinGrailTarget('unique:the-grandfather')).toBe(true);
-      expect(isGrailTargetPinned('unique:the-grandfather')).toBe(true);
+      expect(togglePinGrailTarget('unique:colossus-of-the-fallen-dynasty')).toBe(true);
+      expect(isGrailTargetPinned('unique:colossus-of-the-fallen-dynasty')).toBe(true);
 
-      expect(togglePinGrailTarget('runeword:enigma')).toBe(true);
-      expect(togglePinGrailTarget('set:tal-rashas-guardianship')).toBe(true);
+      expect(togglePinGrailTarget('runeword:arcane-weave')).toBe(true);
+      expect(togglePinGrailTarget('set:iron_warden:iron-warden-helm')).toBe(true);
 
       expect(getPinnedGrailTargets().length).toBe(3);
 
@@ -243,8 +243,8 @@ describe('Phase 4: The Holy Grail & Imperial Reliquary System', () => {
       expect(isGrailTargetPinned('trophy:ashkarath')).toBe(false);
 
       // Unpinning an item succeeds (returns false indicating unpinned)
-      expect(togglePinGrailTarget('unique:the-grandfather')).toBe(false);
-      expect(isGrailTargetPinned('unique:the-grandfather')).toBe(false);
+      expect(togglePinGrailTarget('unique:colossus-of-the-fallen-dynasty')).toBe(false);
+      expect(isGrailTargetPinned('unique:colossus-of-the-fallen-dynasty')).toBe(false);
       expect(getPinnedGrailTargets().length).toBe(2);
 
       // Now the 4th item can be pinned
@@ -284,7 +284,7 @@ describe('Phase 4: The Holy Grail & Imperial Reliquary System', () => {
 
   describe('Export & Import State', () => {
     it('exports and re-imports full Holy Grail state faithfully', () => {
-      discoverUnique('windforce', {
+      discoverUnique('zephyr-bough-of-the-tempest', {
         heroName: 'Lyra',
         heroClass: 'Ranger',
         heroLevel: 58,
@@ -293,26 +293,26 @@ describe('Phase 4: The Holy Grail & Imperial Reliquary System', () => {
         rollPerfectionPct: 98,
       });
 
-      togglePinGrailTarget('unique:windforce');
+      togglePinGrailTarget('unique:zephyr-bough-of-the-tempest');
 
       const json = exportGrailState();
       expect(json).toBeDefined();
-      expect(json).toContain('windforce');
+      expect(json).toContain('zephyr-bough-of-the-tempest');
       expect(json).toContain('Lyra');
 
       // Clear memory
       resetGrail();
-      expect(isGrailDiscovered('unique:windforce')).toBe(false);
-      expect(isGrailTargetPinned('unique:windforce')).toBe(false);
+      expect(isGrailDiscovered('unique:zephyr-bough-of-the-tempest')).toBe(false);
+      expect(isGrailTargetPinned('unique:zephyr-bough-of-the-tempest')).toBe(false);
 
       // Import back
       const success = importGrailState(json);
       expect(success).toBe(true);
 
-      expect(isGrailDiscovered('unique:windforce')).toBe(true);
-      expect(isGrailTargetPinned('unique:windforce')).toBe(true);
+      expect(isGrailDiscovered('unique:zephyr-bough-of-the-tempest')).toBe(true);
+      expect(isGrailTargetPinned('unique:zephyr-bough-of-the-tempest')).toBe(true);
 
-      const entry = getGrailEntry('unique:windforce');
+      const entry = getGrailEntry('unique:zephyr-bough-of-the-tempest');
       expect(entry?.heroName).toBe('Lyra');
       expect(entry?.isPrimalPerfect).toBe(true);
       expect(entry?.rollPerfectionPct).toBe(98);
@@ -393,18 +393,18 @@ describe('Phase 4: The Holy Grail & Imperial Reliquary System', () => {
       expect(eldunId).toBeGreaterThanOrEqual(500);
 
       expect(discoverItem(eldunId)).toBe(true);
-      expect(isGrailDiscovered('rune:el')).toBe(true);
+      expect(isGrailDiscovered('rune:rune-of-eldun')).toBe(true);
       expect(isGrailDiscovered(eldunId)).toBe(true);
 
-      // Calling discoverRune with either d2Name or Thornvael name maps to the same Tome III key
+      // Calling discoverRune with either short name or full Thornvael name maps to the same Tome III key
       const dupByName = discoverRune('Rune of Eldun');
       expect(dupByName.isNew).toBe(false);
-      expect(dupByName.entry.key).toBe('rune:el');
+      expect(dupByName.entry.key).toBe('rune:rune-of-eldun');
 
-      const tirRes = discoverRune('Tir');
-      expect(tirRes.isNew).toBe(true);
-      expect(tirRes.entry.key).toBe('rune:tir');
-      expect(isGrailDiscovered('rune:tir')).toBe(true);
+      const tyraRes = discoverRune('Tyra');
+      expect(tyraRes.isNew).toBe(true);
+      expect(tyraRes.entry.key).toBe('rune:rune-of-tyra');
+      expect(isGrailDiscovered('rune:rune-of-tyra')).toBe(true);
 
       // Runeword crafted onto a base item via applyRunewordToItem
       const stealthRw = RUNEWORDS.find((rw) => rw.id === 'stealth')!;
@@ -421,11 +421,11 @@ describe('Phase 4: The Holy Grail & Imperial Reliquary System', () => {
         instances: new Map<number, ItemInstance>([[dynRwId, rwInst]]),
       };
       expect(discoverItem(dynRwId, mockSim)).toBe(true);
-      expect(isGrailDiscovered('runeword:stealth')).toBe(true);
+      expect(isGrailDiscovered('runeword:shadow-veil')).toBe(true);
 
       const dupRw = discoverRuneword('Shadow Veil');
       expect(dupRw.isNew).toBe(false);
-      expect(dupRw.entry.key).toBe('runeword:stealth');
+      expect(dupRw.entry.key).toBe('runeword:shadow-veil');
     });
 
     it('aligns all Tome I uniques and Tome II set items with simulation drop pools', () => {

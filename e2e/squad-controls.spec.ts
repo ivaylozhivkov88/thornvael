@@ -62,11 +62,6 @@ async function clickUnit(page: Page, id: number, shift = false) {
   await page.mouse.click(...p!);
   if (shift) await page.keyboard.up('Shift');
 }
-async function button(page: Page, selector: string) {
-  const b = await page.locator(selector).boundingBox();
-  expect(b).not.toBeNull();
-  await page.mouse.click(b!.x + b!.width / 2, b!.y + b!.height / 2);
-}
 async function emptyPoint(page: Page): Promise<[number, number]> {
   return page.evaluate(() => {
     const g = (window as unknown as { __game: ControlsGame }).__game;

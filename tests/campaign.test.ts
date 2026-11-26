@@ -168,10 +168,11 @@ describe('carryover', () => {
 });
 
 describe('difficulty rules', () => {
-  it('uses corpse lifetimes of 90, 60 and 30 seconds at 25 ticks per second', () => {
-    expect(RULES.map((r) => r.corpse / 25)).toEqual([90, 60, 30]);
+  it('uses corpse lifetimes of 90, 60, 30 and 24 seconds at 25 ticks per second', () => {
+    expect(RULES.map((r) => r.corpse / 25)).toEqual([90, 60, 30, 24]);
     expect(rulesOf(world(0)).corpse).toBe(2250);
     expect(rulesOf(world(2)).corpse).toBe(750);
+    expect(rulesOf(world(3)).corpse).toBe(600);
   });
 
   it('changes prices and starting gold', () => {

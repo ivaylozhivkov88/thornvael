@@ -1,14 +1,17 @@
-import { STAMINA_DRAIN, STAMINA_REGEN_IDLE, STAMINA_REGEN_WALK, calculateMaxrollEffectiveMF, staminaMax, staminaResumeAt } from './mechanics';
-import { DEFS, Elem, M, MODN, Ord, MAXS, strike } from './combat';
+import { isBlockedAt } from '../map';
+import { allocateSkill, computePassiveBonuses, createSkillTreeState } from '../skills/engine';
+import type { SkillClass } from '../skills/types';
+import { STAMINA_DRAIN, STAMINA_REGEN_IDLE, STAMINA_REGEN_WALK, calculateEffectiveMFTable, staminaMax, staminaResumeAt } from './mechanics';
+import { DEFS, Elem, M, MODN, Ord, MAXS, hashStr, strike } from './combat';
 import { rulesOf } from './difficulty';
 import { getDifficultyCalibration } from './balance';
-import { ATTR_NAMES, BUILTIN_GEMS, CLS_MAGE, CLS_WARRIOR, Cls, kitCls, ITEMS, Ik, LOOT_RULES, PART_COUNT, SIGIL_NAMES, SLOT_COUNT, Slot, WRIT_NAME, getItemDef, getUnidentifiedName, itemId, rollLoot, type ItemDef } from './items';
+import { ATTR_NAMES, BUILTIN_GEMS, CLS_MAGE, CLS_WARRIOR, Cls, kitCls, Ik, LOOT_RULES, PART_COUNT, SIGIL_NAMES, SLOT_COUNT, Slot, WRIT_NAME, getItemDef, getUnidentifiedName, itemId, rollLoot, type ItemDef } from './items';
 import { calculateActiveSetBonuses, ALL_SET_ITEMS, COMBINED_SET_ITEMS } from './sets';
 import { ALL_UNIQUE_ARTIFACTS, UNIQUE_ARTIFACTS, rollMagicItem, rollRareItem } from './affixes';
 import { ALL_RUNES } from './runes';
 import { KNOWN_HI, MAX_SPELLS, SPELLS, St, maskHas } from './spelldata';
 import { addStatus, clearAllStatuses } from './spells';
-import { FP } from './path';
+import { FP, dir16, safeSlideTo } from './path';
 import type { Sim } from './sim';
 
 /** The hero: attributes, skills that grow with use, pack and equipment. All integer, all inside the sim, all changed through commands. */
@@ -19,7 +22,7 @@ export const SKILL_MAX = 10;
 export const SKILL_TIP = ['+5% blow damage per level. Grows with blows struck.', '+1 absorb per 3 levels. Grows with blows taken.', '+4% spell power per level. Grows with spells cast.'] as const;
 export const DIFF_NAMES = ['Easy', 'Medium', 'Hard', 'Hell'] as const;
 export const FOE_PCT = [75, 100, 150, 220] as const;
-const START_DRAUGHTS = [3, 2, 1] as const;
+const START_DRAUGHTS = [3, 2, 1, 1] as const;
 const BASE_ATTR: readonly (readonly number[])[] = [
   [8, 6, 3, 4], // Warrior: Body, Agility, Mind, Spirit
   [4, 5, 9, 6], // Mage
@@ -30,7 +33,19 @@ export interface Stack {
   n: number;
 }
 
-export type HeroSkillId = 'whirlwind' | 'shield_charge' | 'iron_bulwark' | 'chain_lightning' | 'frost_nova' | 'teleport';
+export type HeroSkillId =
+  | 'whirlwind'
+  | 'shield_charge'
+  | 'iron_bulwark'
+  | 'chain_lightning'
+  | 'frost_nova'
+  | 'teleport'
+  | 'barbed_volley'
+  | 'weir_snares'
+  | 'gale_pin'
+  | 'grave_chill'
+  | 'quicklime_cloud'
+  | 'bone_splinter';
 
 export interface HeroState {
   id: number;
@@ -54,6 +69,7 @@ export interface HeroState {
   /** Rank per spell id (0..MAX_SPELL_RANK); each rank adds SPELL_RANK_POW % power. Spends skill points. */
   spellRank?: number[];
   skillCd?: Record<string, number>;
+  classSkills?: Record<string, number>;
   name?: string;
   activeAura?: string;
   /** Run toggle (absent = walking, old saves). */
@@ -81,10 +97,10 @@ export function learnSpell(h: HeroState, sid: number): void {
   }
 }
 
-/** Class mask of a spell: 0 for any hero, else bit 1<<cls. Hero Cls 0 warrior, 1 mage. */
+/** Class mask of a spell: 0 for any hero, else bit 1<<cls (0 warrior, 1 mage, 2 archer, 3 necromancer). */
 export function spellForHero(h: HeroState, sid: number): boolean {
   const m = SPELLS[sid]?.cls ?? 0;
-  return m === 0 || (m & (1 << kitCls(h.cls))) !== 0;
+  return m === 0 || (m & ((1 << h.cls) | (1 << kitCls(h.cls)))) !== 0;
 }
 
 export function spellRankOf(h: HeroState | null, sid: number): number {
@@ -125,7 +141,8 @@ export type HeroCommand =
   | { type: 'hero'; op: 'rank'; spell: number }
   | { type: 'hero'; op: 'run'; on: boolean }
   | { type: 'hero'; op: 'skill'; skill: HeroSkillId; x?: number; y?: number; target?: number }
-  | { type: 'hero'; op: 'aura'; aura?: string };
+  | { type: 'hero'; op: 'aura'; aura?: string }
+  | { type: 'hero'; op: 'class_skill'; skillId: string };
 
 export type EquipmentAction = { op: 'equip'; item: number } | { op: 'unequip'; slot: number };
 
@@ -222,6 +239,25 @@ export interface Derived {
   regen: number;
   capacity: number;
   weight: number;
+  ias: number;
+  fcr: number;
+  fhr: number;
+  manasteal: number;
+  lifesteal: number;
+  crushingBlow: number;
+  deadlyStrike: number;
+  openWounds: number;
+  cannotBeFrozen: boolean;
+  maxRes: readonly [number, number, number, number, number];
+  crit: number;
+  armorPen: number;
+}
+
+function skillClassOf(cls: number): SkillClass {
+  if (cls === 1) return 'mage';
+  if (cls === 2) return 'archer';
+  if (cls === 3) return 'necromancer';
+  return 'warrior';
 }
 
 /** Everything the gear, attributes and skills add up to. The sim copies these into the per-unit arrays. */
@@ -234,6 +270,21 @@ export function derive(h: HeroState): Derived {
   let pow = 0;
   let hp = 0;
   let mana = 0;
+  let extraDef = 0;
+  let extraAbs = 0;
+  let extraRegen = 0;
+  let ias = 0;
+  let fcr = 0;
+  let fhr = 0;
+  let manasteal = 0;
+  let lifesteal = 0;
+  let crushingBlow = 0;
+  let deadlyStrike = 0;
+  let openWounds = 0;
+  let cannotBeFrozen = false;
+  const maxRes: [number, number, number, number, number] = [0, 0, 0, 0, 0];
+  let crit = 0;
+  let armorPen = 0;
   const res = [0, 0, 0, 0, 0];
   const pdef = [0, 0, 0, 0];
   const pabs = [0, 0, 0, 0];
@@ -244,14 +295,30 @@ export function derive(h: HeroState): Derived {
     min += d.min;
     max += d.max;
     acc += d.acc;
-    for (let k = 0; k < PART_COUNT; k++) {
-      if (((d.cover >> k) & 1) === 0) continue;
-      pdef[k] += d.def;
-      pabs[k] += d.abs;
+    if (d.cover === 0) {
+      extraDef += d.def;
+      extraAbs += d.abs;
+    } else {
+      for (let k = 0; k < PART_COUNT; k++) {
+        if (((d.cover >> k) & 1) === 0) continue;
+        pdef[k] += d.def;
+        pabs[k] += d.abs;
+      }
     }
     pow += d.pow;
     hp += d.hp;
     mana += d.mana;
+    ias += d.ias ?? 0;
+    fcr += d.fcr ?? 0;
+    fhr += d.fhr ?? 0;
+    manasteal += d.manasteal ?? 0;
+    lifesteal += d.lifesteal ?? 0;
+    crushingBlow += d.crushingBlow ?? 0;
+    deadlyStrike += d.deadlyStrike ?? 0;
+    openWounds += d.openWounds ?? 0;
+    if (d.cannotBeFrozen) cannotBeFrozen = true;
+    if (d.maxRes) for (let k = 0; k < 5; k++) maxRes[k] += d.maxRes[k];
+    crit += d.crit ?? 0;
     for (let k = 0; k < 5; k++) res[k] += d.res[k];
   }
   const bonuses = calculateActiveSetBonuses(equippedNames(h));
@@ -277,6 +344,12 @@ export function derive(h: HeroState): Derived {
     if (b.res) {
       for (let k = 0; k < 5; k++) res[k] += b.res[k];
     }
+    if (b.ias) ias += b.ias;
+    if (b.fcr) fcr += b.fcr;
+    if (b.crit) crit += b.crit;
+    if (b.lifesteal) lifesteal += b.lifesteal;
+    if (b.armorPen) armorPen += b.armorPen;
+    if (b.regen) extraRegen += b.regen;
   }
   // Charms carried in inventory passively grant combat bonuses (D2 system)
   for (const s of h.inv) {
@@ -290,30 +363,72 @@ export function derive(h: HeroState): Derived {
       hp += d.hp;
       mana += d.mana;
       pow += d.pow;
+      ias += d.ias ?? 0;
+      fcr += d.fcr ?? 0;
+      fhr += d.fhr ?? 0;
+      manasteal += d.manasteal ?? 0;
+      lifesteal += d.lifesteal ?? 0;
+      crushingBlow += d.crushingBlow ?? 0;
+      deadlyStrike += d.deadlyStrike ?? 0;
+      openWounds += d.openWounds ?? 0;
+      if (d.cannotBeFrozen) cannotBeFrozen = true;
+      if (d.maxRes) for (let k = 0; k < 5; k++) maxRes[k] += d.maxRes[k];
+      crit += d.crit ?? 0;
       for (let k = 0; k < 5; k++) res[k] += d.res[k];
       for (let k = 0; k < PART_COUNT; k++) pdef[k] += d.def;
     }
   }
   const [blade, guard, sorc] = h.skill;
   const mage = kitCls(h.cls) === Cls.Mage;
-  const dmgMin = min + (t[0] >> 1) + Math.floor((base.min * blade * 5) / 100) - (mage ? 4 : 0);
-  const dmgMax = max + (t[0] >> 1) + Math.floor((base.max * blade * 5) / 100) - (mage ? 6 : 0);
+  let dmgMin = min + (t[0] >> 1) + Math.floor((base.min * blade * 5) / 100) - (mage ? 4 : 0);
+  let dmgMax = max + (t[0] >> 1) + Math.floor((base.max * blade * 5) / 100) - (mage ? 6 : 0);
+  let extraAcc = 0;
+  if (h.classSkills) {
+    const passives = computePassiveBonuses(createSkillTreeState(skillClassOf(h.cls), h.level ?? 1, h.classSkills));
+    extraDef += passives.def;
+    extraAbs += passives.abs;
+    extraAcc = passives.acc;
+    res[0] += passives.fireResPct;
+    pow += passives.firePowPct + passives.waterPowPct;
+    hp += passives.maxHp;
+    mana += passives.maxMana;
+    ias += passives.iasPct ?? 0;
+    fcr += passives.fcrPct ?? 0;
+    crit += passives.critPct ?? 0;
+    lifesteal += passives.lifestealPct ?? 0;
+    if (passives.meleeDmgPct > 0) {
+      dmgMin += Math.max(1, Math.round(((base.min + dmgMin) * passives.meleeDmgPct) / 100));
+      dmgMax += Math.max(1, Math.round(((base.max + dmgMax) * passives.meleeDmgPct) / 100));
+    }
+  }
   return {
     attr: t,
     hpMax: Math.min(32000, 40 + 10 * t[0] + hp),
     manaMax: 10 + 7 * t[2] + mana,
     min: Math.max(1 - base.min, dmgMin),
     max: Math.max(1 - base.max, dmgMax),
-    acc: acc + (t[1] >> 1),
-    def: t[1] >> 1,
-    abs: Math.floor(guard / 3),
+    acc: acc + (t[1] >> 1) + extraAcc,
+    def: (t[1] >> 1) + extraDef,
+    abs: Math.floor(guard / 3) + extraAbs,
     pdef,
     pabs,
-    res: res.map((v) => Math.min(80, v + (t[3] >> 1))),
+    res: res.map((v, k) => Math.min(95, 80 + Math.max(0, maxRes[k]), v + (t[3] >> 1))),
     pow: Math.max(0, (t[2] - 3) * 3 + sorc * 4 + pow),
-    regen: t[3] >> 2,
+    regen: (t[3] >> 2) + extraRegen,
     capacity: capacityOf(t[0]),
     weight: weightOf(h),
+    ias,
+    fcr,
+    fhr,
+    manasteal,
+    lifesteal,
+    crushingBlow,
+    deadlyStrike,
+    openWounds,
+    cannotBeFrozen,
+    maxRes,
+    crit,
+    armorPen,
   };
 }
 
@@ -455,14 +570,28 @@ export function blocker(h: HeroState, item: number): number {
 function equip(sim: Sim, item: number): void {
   const h = sim.hero!;
   const d = getItemDef(item);
-  if (!d) return refuse(sim, Why.None);
-  if (!h.inv.some((x) => x.item === item)) return refuse(sim, Why.None);
+  if (!d || d.slot < 0 || d.slot >= SLOT_COUNT) {
+    refuse(sim, Why.None);
+    return;
+  }
+  if (!h.inv.some((x) => x.item === item)) {
+    refuse(sim, Why.None);
+    return;
+  }
   const why = blocker(h, item);
-  if (why) return refuse(sim, why);
+  if (why) {
+    refuse(sim, why);
+    return;
+  }
   takeItem(h, item);
   const old = h.eq[d.slot];
   h.eq[d.slot] = item;
   if (old >= 0) h.inv.push({ item: old, n: 1 });
+  else {
+    for (const q of sim.town.quests) {
+      if (q.type === 10) q.base = Math.max(0, q.base - 1);
+    }
+  }
   recalc(sim);
   done(sim, item, Did.Equip);
 }
@@ -470,25 +599,59 @@ function equip(sim: Sim, item: number): void {
 function useItem(sim: Sim, item: number): void {
   const h = sim.hero!;
   const d = getItemDef(item);
-  if (!d) return refuse(sim, Why.None);
+  if (!d) {
+    refuse(sim, Why.None);
+    return;
+  }
   const cb = sim.cb;
   const i = h.id;
-  if (!h.inv.some((x) => x.item === item)) return refuse(sim, Why.None);
-  if (d.kind === Ik.Gear) return equip(sim, item);
+  if (!h.inv.some((x) => x.item === item)) {
+    refuse(sim, Why.None);
+    return;
+  }
+  if (d.kind === Ik.Gear) {
+    equip(sim, item);
+    return;
+  }
   const why = blocker(h, item);
-  if (why) return refuse(sim, why);
-  if (d.heal > 0) {
-    if (cb.hp[i] >= cb.hpMax[i]) return refuse(sim, Why.NoEffect);
+  if (why) {
+    refuse(sim, why);
+    return;
+  }
+  if (d.heal > 0 && d.restore > 0) {
+    if (cb.hp[i] >= cb.hpMax[i] && cb.mana[i] >= cb.manaMax[i]) {
+      refuse(sim, Why.NoEffect);
+      return;
+    }
+    if (cb.hp[i] < cb.hpMax[i]) {
+      const gained = Math.min(d.heal, cb.hpMax[i] - cb.hp[i]);
+      cb.hp[i] += gained;
+      cb.emit(7, sim.x[i], sim.y[i], gained, 0);
+    }
+    if (cb.mana[i] < cb.manaMax[i]) {
+      cb.mana[i] = Math.min(cb.manaMax[i], cb.mana[i] + d.restore);
+    }
+  } else if (d.heal > 0) {
+    if (cb.hp[i] >= cb.hpMax[i]) {
+      refuse(sim, Why.NoEffect);
+      return;
+    }
     cb.hp[i] = Math.min(cb.hpMax[i], cb.hp[i] + d.heal);
     cb.emit(7, sim.x[i], sim.y[i], d.heal, 0);
   } else if (d.restore > 0) {
-    if (cb.mana[i] >= cb.manaMax[i]) return refuse(sim, Why.NoEffect);
+    if (cb.mana[i] >= cb.manaMax[i]) {
+      refuse(sim, Why.NoEffect);
+      return;
+    }
     cb.mana[i] = Math.min(cb.manaMax[i], cb.mana[i] + d.restore);
   } else if (d.grow > 0) {
     h.attr[d.grow - 1]++;
     recalc(sim);
   } else if (d.kind === Ik.Key) {
-    if (d.name !== WRIT_NAME) return refuse(sim, Why.NoEffect);
+    if (d.name !== WRIT_NAME) {
+      refuse(sim, Why.NoEffect);
+      return;
+    }
     h.pinnacle = true;
     cb.emit(9, sim.x[i], sim.y[i], 98, 0);
   } else if (d.kind === Ik.Portal) {
@@ -502,7 +665,10 @@ function useItem(sim: Sim, item: number): void {
         break;
       }
     }
-    if (unIdItem < 0) return refuse(sim, Why.NoEffect);
+    if (unIdItem < 0) {
+      refuse(sim, Why.NoEffect);
+      return;
+    }
     const targetDef = sim.getItemDef(unIdItem);
     if (targetDef) {
       targetDef.unidentified = false;
@@ -511,7 +677,10 @@ function useItem(sim: Sim, item: number): void {
     cb.emit(7, sim.x[i], sim.y[i], 0, 0);
   } else if (d.spell >= 0) {
     const fee = scribeFee(d.tier);
-    if (cb.gold[0] < fee) return refuse(sim, Why.Gold);
+    if (cb.gold[0] < fee) {
+      refuse(sim, Why.Gold);
+      return;
+    }
     cb.gold[0] -= fee;
     learnSpell(h, d.spell);
     recalc(sim);
@@ -598,18 +767,20 @@ export function respawnHero(sim: Sim): boolean {
   const cb = sim.cb;
   const id = h.id;
 
-  // 15% gold penalty
+  // 15% gold penalty (skip dropping empty sacks when broke)
   const currentGold = cb.gold[0];
-  const penalty = Math.max(1, Math.floor(currentGold * 0.15));
-  cb.gold[0] = Math.max(0, currentGold - penalty);
+  if (currentGold > 0) {
+    const penalty = Math.max(1, Math.floor(currentGold * 0.15));
+    cb.gold[0] = Math.max(0, currentGold - penalty);
 
-  // Drop corpse sack with penalty gold where hero died
-  for (let s = 0; s < MAXS; s++) {
-    if (cb.sG[s]) continue;
-    cb.sX[s] = sim.x[id];
-    cb.sY[s] = sim.y[id];
-    cb.sG[s] = penalty;
-    break;
+    // Drop corpse sack with penalty gold where hero died
+    for (let s = 0; s < MAXS; s++) {
+      if (cb.sG[s]) continue;
+      cb.sX[s] = sim.x[id];
+      cb.sY[s] = sim.y[id];
+      cb.sG[s] = penalty;
+      break;
+    }
   }
   cb.emit(10, sim.x[id], sim.y[id], 0, 0);
 
@@ -654,6 +825,27 @@ export function respawnHero(sim: Sim): boolean {
 
   cb.emit(7, rx, ry, cb.hpMax[id], 5);
   return true;
+}
+
+function findSkillFoe(sim: Sim, maxRangeTiles: number, x?: number, y?: number, target?: number): number {
+  const cb = sim.cb;
+  if (target !== undefined && target >= 0 && target < sim.count && cb.hp[target] > 0 && sim.team[target] !== 0 && !sim.hidden[target]) {
+    return target;
+  }
+  const h = sim.hero!;
+  const gx = x !== undefined ? Math.round(x * FP) : sim.x[h.id];
+  const gy = y !== undefined ? Math.round(y * FP) : sim.y[h.id];
+  let bestFoe = -1;
+  let bestD2 = (maxRangeTiles * FP) ** 2;
+  for (let u = 0; u < sim.count; u++) {
+    if (sim.team[u] === 0 || cb.hp[u] <= 0 || sim.hidden[u]) continue;
+    const d2 = (sim.x[u] - gx) ** 2 + (sim.y[u] - gy) ** 2;
+    if (d2 < bestD2) {
+      bestD2 = d2;
+      bestFoe = u;
+    }
+  }
+  return bestFoe;
 }
 
 export function executeHeroSkill(
@@ -711,8 +903,9 @@ export function executeHeroSkill(
       const stopDist = foe >= 0 ? 0.8 * FP : 0;
       const moveDist = Math.max(0, dist - stopDist);
       const ratio = dist > 0 ? moveDist / dist : 0;
-      const nx = Math.round(sim.x[id] + dx * ratio);
-      const ny = Math.round(sim.y[id] + dy * ratio);
+      const slid = safeSlideTo(sim.map, sim.x[id], sim.y[id], sim.x[id] + dx * ratio, sim.y[id] + dy * ratio);
+      const nx = slid.x;
+      const ny = slid.y;
 
       sim.x[id] = nx;
       sim.y[id] = ny;
@@ -721,6 +914,7 @@ export function executeHeroSkill(
       cb.px[id] = nx;
       cb.py[id] = ny;
       sim.stop(id);
+      sim.markGridDirty();
 
       if (foe >= 0) {
         const bluntMin = Math.round(20 + totals(h)[0] * 1.5);
@@ -841,6 +1035,33 @@ export function executeHeroSkill(
       h.skillCd[skill] = 100; // 4.0s cooldown
       cb.emit(9, sim.x[id], sim.y[id], 0, Elem.Astral);
 
+      const minX = sim.map.w > 2 ? FP : 0;
+      const minY = sim.map.h > 2 ? FP : 0;
+      const maxX = sim.map.w > 2 ? (sim.map.w - 1) * FP - 1 : sim.map.w * FP - 1;
+      const maxY = sim.map.h > 2 ? (sim.map.h - 1) * FP - 1 : sim.map.h * FP - 1;
+      tx = Math.max(minX, Math.min(maxX, tx));
+      ty = Math.max(minY, Math.min(maxY, ty));
+      if (isBlockedAt(sim.map, tx >> 8, ty >> 8)) {
+        const bdx = sim.x[id] - tx;
+        const bdy = sim.y[id] - ty;
+        const steps = Math.max(1, Math.ceil(Math.hypot(bdx, bdy) / 64));
+        let landed = false;
+        for (let s = 1; s <= steps; s++) {
+          const cx = Math.max(minX, Math.min(maxX, Math.round(tx + (bdx * s) / steps)));
+          const cy = Math.max(minY, Math.min(maxY, Math.round(ty + (bdy * s) / steps)));
+          if (!isBlockedAt(sim.map, cx >> 8, cy >> 8)) {
+            tx = cx;
+            ty = cy;
+            landed = true;
+            break;
+          }
+        }
+        if (!landed) {
+          tx = sim.x[id];
+          ty = sim.y[id];
+        }
+      }
+
       sim.x[id] = tx;
       sim.y[id] = ty;
       sim.tx[id] = tx;
@@ -848,6 +1069,7 @@ export function executeHeroSkill(
       cb.px[id] = tx;
       cb.py[id] = ty;
       sim.stop(id);
+      sim.markGridDirty();
 
       cb.emit(9, tx, ty, 0, Elem.Astral);
 
@@ -865,19 +1087,164 @@ export function executeHeroSkill(
       heroUse(sim, 2); // Sorcery skill grows
       return true;
     }
+    case 'barbed_volley': {
+      if (h.cls !== 2 || cb.mana[id] < 13) return false;
+      const primary = findSkillFoe(sim, 8.5, x, y, target);
+      if (primary < 0) return false;
+      cb.mana[id] -= 13;
+      h.skillCd[skill] = 75;
+      const minDmg = d.min + 8;
+      const maxDmg = d.max + 14;
+      const hit = [primary];
+      const spreadR2 = (2.8 * FP) ** 2;
+      for (let u = 0; u < sim.count && hit.length < 3; u++) {
+        if (u === primary || sim.team[u] === 0 || cb.hp[u] <= 0 || sim.hidden[u]) continue;
+        const dx = sim.x[u] - sim.x[primary];
+        const dy = sim.y[u] - sim.y[primary];
+        if (dx * dx + dy * dy <= spreadR2) hit.push(u);
+      }
+      for (const foe of hit) {
+        strike(sim, foe, minDmg, maxDmg, Elem.Physical, d.acc + 12, id);
+        if (cb.hp[foe] > 0) addStatus(sim, foe, St.Burn, 100, 4);
+      }
+      cb.emit(12, sim.x[id], sim.y[id], dir16(sim.x[primary] - sim.x[id], sim.y[primary] - sim.y[id]), 1);
+      heroUse(sim, 0);
+      return true;
+    }
+    case 'weir_snares': {
+      if (h.cls !== 2 || cb.mana[id] < 16) return false;
+      const gx = x !== undefined ? Math.round(x * FP) : sim.x[id];
+      const gy = y !== undefined ? Math.round(y * FP) : sim.y[id];
+      if (Math.hypot(gx - sim.x[id], gy - sim.y[id]) > 8.0 * FP) return false;
+      cb.mana[id] -= 16;
+      h.skillCd[skill] = 100;
+      const r2 = (2.5 * FP) ** 2;
+      for (let u = 0; u < sim.count; u++) {
+        if (sim.team[u] === 0 || cb.hp[u] <= 0 || sim.hidden[u]) continue;
+        const dx = sim.x[u] - gx;
+        const dy = sim.y[u] - gy;
+        if (dx * dx + dy * dy <= r2) {
+          strike(sim, u, d.min + 6, d.max + 12, Elem.Physical, d.acc + 10, id);
+          if (cb.hp[u] > 0) addStatus(sim, u, St.Slow, 125, 0);
+        }
+      }
+      cb.emit(5, gx, gy, 25, Elem.Earth);
+      heroUse(sim, 1);
+      return true;
+    }
+    case 'gale_pin': {
+      if (h.cls !== 2 || cb.mana[id] < 20) return false;
+      const primary = findSkillFoe(sim, 9.0, x, y, target);
+      if (primary < 0) return false;
+      cb.mana[id] -= 20;
+      h.skillCd[skill] = 125;
+      strike(sim, primary, d.min + 18, d.max + 28, Elem.Air, d.acc + 16, id);
+      if (cb.hp[primary] > 0) {
+        addStatus(sim, primary, St.Stone, 75, 0);
+        addStatus(sim, primary, St.Slow, 125, 0);
+      }
+      cb.emit(0, sim.x[primary], sim.y[primary], d.min + 18, Elem.Air);
+      heroUse(sim, 0);
+      return true;
+    }
+    case 'grave_chill': {
+      if (h.cls !== 3 || cb.mana[id] < 14) return false;
+      cb.mana[id] -= 14;
+      h.skillCd[skill] = 80;
+      const r2 = (3.0 * FP) ** 2;
+      const minDmg = 16 + Math.round(d.pow * 0.35);
+      const maxDmg = 24 + Math.round(d.pow * 0.45);
+      for (let u = 0; u < sim.count; u++) {
+        if (sim.team[u] === 0 || cb.hp[u] <= 0 || sim.hidden[u]) continue;
+        const dx = sim.x[u] - sim.x[id];
+        const dy = sim.y[u] - sim.y[id];
+        if (dx * dx + dy * dy <= r2) {
+          strike(sim, u, minDmg, maxDmg, Elem.Water, d.acc + 15, id);
+          if (cb.hp[u] > 0) addStatus(sim, u, St.Slow, 125, 0);
+        }
+      }
+      cb.emit(5, sim.x[id], sim.y[id], 30, Elem.Water);
+      heroUse(sim, 2);
+      return true;
+    }
+    case 'quicklime_cloud': {
+      if (h.cls !== 3 || cb.mana[id] < 18) return false;
+      const gx = x !== undefined ? Math.round(x * FP) : sim.x[id];
+      const gy = y !== undefined ? Math.round(y * FP) : sim.y[id];
+      if (Math.hypot(gx - sim.x[id], gy - sim.y[id]) > 8.0 * FP) return false;
+      cb.mana[id] -= 18;
+      h.skillCd[skill] = 110;
+      const r2 = (2.8 * FP) ** 2;
+      const minDmg = 14 + Math.round(d.pow * 0.3);
+      const maxDmg = 22 + Math.round(d.pow * 0.4);
+      for (let u = 0; u < sim.count; u++) {
+        if (sim.team[u] === 0 || cb.hp[u] <= 0 || sim.hidden[u]) continue;
+        const dx = sim.x[u] - gx;
+        const dy = sim.y[u] - gy;
+        if (dx * dx + dy * dy <= r2) {
+          strike(sim, u, minDmg, maxDmg, Elem.Earth, d.acc + 12, id);
+          if (cb.hp[u] > 0) {
+            addStatus(sim, u, St.Weaken, 150, 0);
+            addStatus(sim, u, St.Poison, 150, 3);
+          }
+        }
+      }
+      cb.emit(5, gx, gy, 28, Elem.Earth);
+      heroUse(sim, 2);
+      return true;
+    }
+    case 'bone_splinter': {
+      if (h.cls !== 3 || cb.mana[id] < 22) return false;
+      const primary = findSkillFoe(sim, 8.0, x, y, target);
+      if (primary < 0) return false;
+      cb.mana[id] -= 22;
+      h.skillCd[skill] = 100;
+      const minDmg = 24 + Math.round(d.pow * 0.45);
+      const maxDmg = 34 + Math.round(d.pow * 0.55);
+      const hits = new Set<number>([primary]);
+      strike(sim, primary, minDmg, maxDmg, Elem.Astral, d.acc + 15, id);
+      cb.emit(0, sim.x[primary], sim.y[primary], minDmg, Elem.Astral);
+      const arcR2 = (4.0 * FP) ** 2;
+      let cur = primary;
+      for (let hop = 0; hop < 3; hop++) {
+        let next = -1;
+        let bestD2 = arcR2 + 1;
+        for (let u = 0; u < sim.count; u++) {
+          if (sim.team[u] === 0 || cb.hp[u] <= 0 || sim.hidden[u] || hits.has(u)) continue;
+          const d2 = (sim.x[u] - sim.x[cur]) ** 2 + (sim.y[u] - sim.y[cur]) ** 2;
+          if (d2 < bestD2) {
+            bestD2 = d2;
+            next = u;
+          }
+        }
+        if (next < 0) break;
+        cur = next;
+        hits.add(cur);
+        strike(sim, cur, minDmg, maxDmg, Elem.Astral, d.acc + 15, id);
+        cb.emit(0, sim.x[cur], sim.y[cur], minDmg, Elem.Astral);
+      }
+      heroUse(sim, 2);
+      return true;
+    }
   }
 }
 
 export function heroCommand(sim: Sim, cmd: HeroCommand): void {
   const h = sim.hero;
   if (h === null) return;
-  if (sim.cb.hp[h.id] <= 0) return refuse(sim, Why.Dead);
+  if (sim.cb.hp[h.id] <= 0) {
+    refuse(sim, Why.Dead);
+    return;
+  }
   switch (cmd.op) {
     case 'equip':
       if (cmd.item !== undefined && cmd.item >= 0) {
         const d = getItemDef(cmd.item);
         if (d && d.kind === Ik.Gear) {
-          if (cmd.expectedEquipment !== undefined && cmd.expectedEquipment !== equipmentStamp(h, { op: 'equip', item: cmd.item })) return refuse(sim, Why.None);
+          if (cmd.expectedEquipment !== undefined && cmd.expectedEquipment !== equipmentStamp(h, { op: 'equip', item: cmd.item })) {
+            refuse(sim, Why.None);
+            return;
+          }
           equip(sim, cmd.item);
         }
       }
@@ -888,22 +1255,36 @@ export function heroCommand(sim: Sim, cmd: HeroCommand): void {
     case 'unequip': {
       const s = cmd.slot ?? -1;
       if (s < 0 || s >= SLOT_COUNT) return;
-      if (cmd.expectedEquipment !== undefined && cmd.expectedEquipment !== equipmentStamp(h, { op: 'unequip', slot: s })) return refuse(sim, Why.None);
+      if (cmd.expectedEquipment !== undefined && cmd.expectedEquipment !== equipmentStamp(h, { op: 'unequip', slot: s })) {
+        refuse(sim, Why.None);
+        return;
+      }
       if (h.eq[s] < 0) return;
-      if (h.inv.length >= INV_MAX) return refuse(sim, Why.Full);
+      if (h.inv.length >= INV_MAX) {
+        refuse(sim, Why.Full);
+        return;
+      }
       const item = h.eq[s];
       h.eq[s] = -1;
       h.inv.push({ item, n: 1 });
+      for (const q of sim.town.quests) {
+        if (q.type === 10) q.base += 1; // moving worn gear to pack does not count as gathering loot
+      }
       recalc(sim);
       done(sim, item, Did.Unequip);
       return;
     }
     case 'drop': {
-      if (cmd.item === undefined || !takeItem(h, cmd.item)) return refuse(sim, Why.None);
+      if (cmd.item === undefined || !takeItem(h, cmd.item)) {
+        refuse(sim, Why.None);
+        return;
+      }
       if (!dropBag(sim, cmd.item)) {
         addItem(h, cmd.item);
-        return refuse(sim, Why.Full);
+        refuse(sim, Why.Full);
+        return;
       }
+      if (getItemDef(cmd.item)?.charmSize) recalc(sim);
       done(sim, cmd.item, Did.Drop);
       return;
     }
@@ -935,13 +1316,27 @@ export function heroCommand(sim: Sim, cmd: HeroCommand): void {
     case 'run': {
       if (cmd.on) {
         const max = staminaMax(h.attr[0]);
-        if ((h.stamina ?? max) < staminaResumeAt(max)) return refuse(sim, Why.Tired);
+        if ((h.stamina ?? max) < staminaResumeAt(max)) {
+          refuse(sim, Why.Tired);
+          return;
+        }
       }
       h.running = cmd.on ? true : undefined;
       return;
     }
     case 'aura': {
       h.activeAura = cmd.aura;
+      return;
+    }
+    case 'class_skill': {
+      const baseState = createSkillTreeState(skillClassOf(h.cls), h.level ?? 1, h.classSkills ?? {});
+      const treeState = h.skillPoints !== undefined ? { ...baseState, availablePoints: h.skillPoints } : baseState;
+      const nextState = allocateSkill(treeState, cmd.skillId);
+      if (!nextState) return;
+      h.classSkills = { ...nextState.ranks };
+      h.skillPoints = nextState.availablePoints;
+      recalc(sim);
+      sim.cb.emit(6, sim.x[h.id], sim.y[h.id], 0, 0);
       return;
     }
   }
@@ -959,6 +1354,7 @@ export function pickBag(sim: Sim, b: number): void {
     return;
   }
   cb.bI[b] = 0;
+  if (getItemDef(item)?.charmSize) recalc(sim);
   done(sim, item, Did.Pick);
 }
 
@@ -995,7 +1391,7 @@ export const QUALITY_BIAS: Record<MonsterRank, Record<'unique' | 'set' | 'rare' 
  * - Unique: effectiveMF = Math.floor((MF * 250) / (MF + 250))
  */
 export function calculateEffectiveMF(mf: number, quality: 'unique' | 'set' | 'rare' | 'magic'): number {
-  return calculateMaxrollEffectiveMF(mf)[quality];
+  return calculateEffectiveMFTable(mf)[quality];
 }
 
 /**
@@ -1040,6 +1436,7 @@ export function calculateNoDropRate(baseDropChance: number, diff: number): numbe
   if (baseDropChance <= 0) return 100;
   const baseNoDrop = 100 - baseDropChance;
   if (diff === 0) return Math.min(100, Math.round(baseNoDrop * 1.2));
+  if (diff >= 3) return Math.max(0, Math.round(baseNoDrop * 0.55));
   if (diff === 2) return Math.max(0, Math.round(baseNoDrop * 0.7));
   return baseNoDrop;
 }
@@ -1054,7 +1451,7 @@ export function getMonsterRank(sim: Sim, t: number): MonsterRank {
 export function getHeroMF(sim: Sim): number {
   const h = sim.hero;
   if (!h) return 0;
-  let mf = h.mf ?? 0;
+  let mf = (h.mf ?? 0) + (sim.ngPlusTier > 0 ? sim.ngPlusTier * 25 : 0);
   for (const id of h.eq) {
     if (id >= 0) {
       const d = getItemDef(id);
@@ -1239,9 +1636,9 @@ export function dropLoot(sim: Sim, t: number): void {
     if (diff === 0) {
       lo = Math.min(5, Math.max(1, monsterTier));
       hi = Math.min(5, Math.max(lo, monsterTier));
-    } else if (diff === 2) {
-      const boosted = Math.min(5, monsterTier + 1);
-      lo = Math.min(5, Math.max(boosted, 3));
+    } else if (diff >= 2) {
+      const boosted = Math.min(5, monsterTier + (diff >= 3 ? 2 : 1));
+      lo = Math.min(5, Math.max(boosted, diff >= 3 ? 4 : 3));
       hi = 5;
     } else {
       lo = Math.min(5, Math.max(monsterTier, 3));
@@ -1324,8 +1721,8 @@ export function dropLoot(sim: Sim, t: number): void {
       break;
     }
   }
-  // Hard elites carry sigils for the endgame cube recipe.
-  if (diff === 2 && rank !== 'normal' && !isPinnacle && lootRng.int(100) < (rank === 'boss' ? 60 : 20)) {
+  // Hard & Hell elites carry sigils for the endgame cube recipe.
+  if (diff >= 2 && rank !== 'normal' && !isPinnacle && lootRng.int(100) < (rank === 'boss' ? 60 : 20)) {
     const kid = itemId(SIGIL_NAMES[lootRng.int(SIGIL_NAMES.length)]);
     for (let b = 0; b < cb.bI.length; b++) {
       if (cb.bI[b]) continue;
@@ -1352,6 +1749,7 @@ export function cloneHero(h: HeroState | null): HeroState | null {
     statPoints: h.statPoints ?? 0,
     skillPoints: h.skillPoints ?? 0,
     skillCd: h.skillCd ? { ...h.skillCd } : {},
+    ...(h.classSkills ? { classSkills: { ...h.classSkills } } : {}),
     ...(h.spellRank ? { spellRank: h.spellRank.slice() } : {}),
     ...(h.knownHi ? { knownHi: h.knownHi.slice() } : {}),
   };
@@ -1359,6 +1757,7 @@ export function cloneHero(h: HeroState | null): HeroState | null {
 
 export function hashHero(h: HeroState | null, mix: (v: number) => void): void {
   if (h === null) return;
+  mix(h.diff);
   for (const v of h.attr) mix(v);
   for (const v of h.skill) mix(v);
   for (const v of h.use) mix(v);
@@ -1378,10 +1777,23 @@ export function hashHero(h: HeroState | null, mix: (v: number) => void): void {
   if (h.pinnacle) mix(0x91ac);
   if (h.running) mix(0x5a17);
   if (h.stamina !== undefined) mix(0x57a0 + h.stamina);
+  if (h.activeAura) hashStr(mix, h.activeAura);
   if (h.spellRank) h.spellRank.forEach((r, i) => { if (r > 0) mix(i * 16 + r); }); // zero keeps older hashes unchanged
   if (h.skillCd) {
     for (const k of Object.keys(h.skillCd).sort()) {
-      if (h.skillCd[k] > 0) mix(h.skillCd[k]);
+      if (h.skillCd[k] > 0) {
+        hashStr(mix, k);
+        mix(h.skillCd[k]);
+      }
+    }
+  }
+  if (h.classSkills) {
+    for (const k of Object.keys(h.classSkills).sort()) {
+      const rank = h.classSkills[k];
+      if (rank > 0) {
+        hashStr(mix, k);
+        mix(rank);
+      }
     }
   }
 }

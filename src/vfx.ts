@@ -1,6 +1,6 @@
 import { Container, Graphics, Particle, ParticleContainer, Rectangle, Texture } from 'pixi.js';
 import type { Sim } from './sim/sim';
-import { SPELLS, St, Tk } from './sim/spelldata';
+import { St, } from './sim/spelldata';
 import { FP } from './sim/sim';
 import { TILE } from './map';
 
@@ -205,12 +205,9 @@ interface ActiveIronSkin {
 const TEX_GLOW = 0;
 const TEX_SHARD = 1;
 const TEX_SPARK = 2;
-const TEX_RING = 3;
-const TEX_ROCK = 4;
 const TEX_DROPLET = 5;
 const TEX_BUBBLE = 6;
 const TEX_SMOKE = 7;
-const TEX_COUNT = 8;
 
 export class VfxSystem {
   readonly groundLayer = new Container();
@@ -245,7 +242,6 @@ export class VfxSystem {
   private screenFlashDecay = 0;
   private screenFlashColor = 0xe0f2fe;
   private cameraRumble = 0;
-  private lastTime = 0;
   private quality = 2; // 0 Low, 1 Medium, 2 High
 
   // Previous projectile alive state to detect projectile hit transitions
@@ -254,10 +250,6 @@ export class VfxSystem {
   private prevProjT = new Int32Array(256);
   private prevProjX = new Int32Array(256);
   private prevProjY = new Int32Array(256);
-
-  // Scratch memory for midpoint displacement lightning
-  private readonly scratchPtsX = new Float32Array(64);
-  private readonly scratchPtsY = new Float32Array(64);
 
   constructor() {
     this.groundLayer.addChild(this.groundGfx);
@@ -1162,14 +1154,13 @@ export class VfxSystem {
     viewH: number,
   ): void {
     const dt = Math.min(0.1, dtMs / 1000);
-    this.lastTime = now;
+
+    // Clear graphics frames before arrival bursts draw
+    this.groundGfx.clear();
+    this.airGfx.clear();
 
     // Detect projectile arrival transitions
     this.detectProjectileArrivals(sim);
-
-    // Clear graphics frames
-    this.groundGfx.clear();
-    this.airGfx.clear();
 
     // 1. Meteors
     this.updateMeteors(dt);
@@ -1757,7 +1748,6 @@ export class VfxSystem {
   // --- 7. IRON SKIN ---
   private updateIronSkins(sim: Sim, dt: number): void {
     const ag = this.airGfx;
-    const gg = this.groundGfx;
     const k = TILE / FP;
 
     for (const [uid, skin] of this.ironSkins.entries()) {
@@ -2141,5 +2131,26 @@ export class VfxSystem {
 
   isApexCast(sid: number): boolean {
     return (sid >= 24 && sid <= 31) || sid === 1 || sid === 5 || sid === 6 || sid === 9 || sid === 10;
+  }
+
+  reloadTextures(): void {
+    this.atlasTexture?.source?.update();
+  }
+
+  destroy(): void {
+    for (const sub of this.subTextures) sub.destroy(false);
+    this.subTextures = [];
+    this.atlasTexture?.destroy(true);
+    this.atlasTexture = null;
+    this.groundParticles?.destroy();
+    this.airParticles?.destroy();
+    this.groundParticles = null;
+    this.airParticles = null;
+    this.groundGfx.destroy();
+    this.airGfx.destroy();
+    this.groundLayer.destroy({ children: true });
+    this.airLayer.destroy({ children: true });
+    this.ironSkins.clear();
+    this.timeWarpUnits.clear();
   }
 }
