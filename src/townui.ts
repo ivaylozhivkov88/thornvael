@@ -15,7 +15,7 @@ import { createRarityBadgeEl, itemIconEl } from './townicons';
 import { getRumorsByStage, loadTavernRumors, type CampaignStage, type TavernRumorEntry } from './data/text/index';
 import { getHubEvolutionStage, isCanonicalHubId } from './data/hub-evolution';
 import { equipmentLayers } from './hero-presentation';
-import { buildDoll, dollSet, lookFor } from './doll';
+import { dollSet, wornDoll } from './doll';
 import { play, playNpcBark, playTraderBark, playTownAmbience, stopTownAmbience, playEquipSfx, blip, playSpeakerSwitchThrill, setDialogueDucking, playDialogueVoice, stopDialogueVoice } from './audio';
 import type { SteppedQuestAdapter } from './sidequests-adapter';
 import { dialogueFor, type DialogueNode, type DialogueQueryState } from './dialogue';
@@ -509,15 +509,10 @@ export class TownUi {
     const set = dollSet(h.cls, h.female);
     let art: HTMLElement = image;
     if (set) {
-      const keys: Array<{ key: string; tier: number }> = [];
-      const layerSlots = [Slot.Armor, Slot.Boots, Slot.Gloves, Slot.Weapon, Slot.Shield, Slot.Helm];
-      for (const slot of layerSlots) {
+      art = wornDoll(set, (slot) => {
         const item = slot === trySlot ? this.tryOn : h.eq[slot];
-        const def = item >= 0 ? getItemDef(item) : undefined;
-        const k = def ? lookFor(set, slot, def.tier ?? 1, def.name) : null;
-        if (k) keys.push({ key: k, tier: def?.tier ?? 1 });
-      }
-      art = buildDoll(set, keys, import.meta.env.BASE_URL);
+        return item >= 0 ? (getItemDef(item) ?? undefined) : undefined;
+      }, import.meta.env.BASE_URL);
     }
     const captionText = this.tryOn >= 0 ? `[Preview] ${getItemDef(this.tryOn)?.name ?? ''}` : S.hero.classes[sim.hero!.cls];
     figure.append(art, doll, el('figcaption', '', captionText));

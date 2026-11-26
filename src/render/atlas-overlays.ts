@@ -2,7 +2,8 @@ import { Container, Sprite, type Texture } from 'pixi.js';
 import { PropKind, TILE, type GameMap } from '../map';
 import type { AdventureObjectDef, WaypointDef } from '../mapdoc';
 import type { ExtraAtlases, PackedAtlas } from '../sprites/extra-atlases';
-import { bossSpriteDef, UnitSprite } from '../sprites/units';
+import { bossSpriteDef, UnitSprite, type UnitAtlas } from '../sprites/units';
+import { TownFolkPool } from './town-folk';
 import { FP, type Sim } from '../sim/sim';
 import { St } from '../sim/spelldata';
 import {
@@ -70,9 +71,9 @@ export function resolveTownNpcKey(roleOrName: string): 'smith' | 'innkeeper' | '
   const s = roleOrName.toLowerCase();
   if (s.includes('smith') || s.includes('forge') || s.includes('blacksmith')) return 'smith';
   if (s.includes('inn') || s.includes('tavern') || s.includes('keeper') || s.includes('merchant')) return 'innkeeper';
-  if (s.includes('mage') || s.includes('wizard') || s.includes('arcane') || s.includes('scholar')) return 'mage';
-  if (s.includes('priest') || s.includes('cleric') || s.includes('temple') || s.includes('healer')) return 'priest';
-  if (s.includes('guard') || s.includes('captain') || s.includes('warden') || s.includes('watch')) return 'guard';
+  if (s.includes('mage') || s.includes('wizard') || s.includes('arcane') || s.includes('scholar') || s.includes('scribe')) return 'mage';
+  if (s.includes('priest') || s.includes('cleric') || s.includes('temple') || s.includes('healer') || s.includes('grave')) return 'priest';
+  if (s.includes('guard') || s.includes('captain') || s.includes('warden') || s.includes('watch') || s.includes('sergeant') || s.includes('pikeman') || s.includes('lookout')) return 'guard';
   return 'villager';
 }
 
@@ -151,6 +152,8 @@ export interface AtlasOverlayRenderParams {
   telegraphs?: readonly RenderBossTelegraph[];
   adventureObjects?: readonly AdventureObjectDef[];
   waypoints?: readonly WaypointDef[];
+  /** Loaded unit atlas by art id, for town people. */
+  unitArt?: (art: string) => UnitAtlas | undefined;
 }
 
 export class AtlasOverlayPass {
@@ -162,6 +165,7 @@ export class AtlasOverlayPass {
   private readonly cityPool = new SpritePool(16);
   private readonly envPool = new SpritePool(64);
   private readonly npcPool = new SpritePool(32);
+  private readonly folk = new TownFolkPool();
   private readonly projPool = new SpritePool(24);
   private readonly statusPool = new SpritePool(24);
 
@@ -173,6 +177,7 @@ export class AtlasOverlayPass {
       this.propPool.container,
       this.envPool.container,
       this.npcPool.container,
+      this.folk.container,
       this.projPool.container,
       this.statusPool.container,
     );
@@ -184,6 +189,7 @@ export class AtlasOverlayPass {
     this.propPool.beginFrame();
     this.envPool.beginFrame();
     this.npcPool.beginFrame();
+    this.folk.beginFrame();
     this.projPool.beginFrame();
     this.statusPool.beginFrame();
 
@@ -274,8 +280,8 @@ export class AtlasOverlayPass {
           if (atlases.cityBuildings) {
             const roleKey = CITY_ROLES[role % CITY_ROLES.length]!;
             this.cityPool.acquire(atlases.cityBuildings, `${cityKey}/${roleKey}`, bx, by + 18, {
-              scaleX: 0.56,
-              scaleY: 0.56,
+              scaleX: 0.68,
+              scaleY: 0.68,
               alpha: 0.94,
               anchorX: 0.5,
               anchorY: 0.9,
@@ -298,33 +304,19 @@ export class AtlasOverlayPass {
           }
         }
 
-        // 3. Town NPCs idle animations
-        if (atlases.townnpcs) {
-          if (town.def.npcs?.length) {
-            for (const npc of town.def.npcs) {
-              if (!inViewTile(Math.floor(npc.x), Math.floor(npc.y))) continue;
-              const roleKey = resolveTownNpcKey(`${npc.name ?? ''} ${npc.text ?? ''}`);
-              this.npcPool.acquire(
-                atlases.townnpcs,
-                `${roleKey}/idle/${frame4}`,
-                (npc.x + 0.5) * TILE,
-                (npc.y + 0.5) * TILE,
-                { scaleX: 0.72, scaleY: 0.72, anchorX: 0.5, anchorY: 0.88 },
-              );
-            }
-          }
-          if (town.hubNpcs?.length) {
-            for (const npc of town.hubNpcs) {
-              if (!inViewTile(Math.floor(npc.x), Math.floor(npc.y))) continue;
-              const animFrame = animate ? ((sim.tick >> 2) + npc.frameOffset) % 4 : 0;
-              this.npcPool.acquire(
-                atlases.townnpcs,
-                `${npc.role}/idle/${animFrame}`,
-                (npc.x + 0.5) * TILE,
-                (npc.y + 0.5) * TILE,
-                { scaleX: 0.72, scaleY: 0.72, anchorX: 0.5, anchorY: 0.88 },
-              );
-            }
+        // 3. Town NPCs: unit sprites, with the small town atlas as a fallback
+        const folk = [
+          ...(town.def.npcs ?? []).map((npc) => ({ npc, role: resolveTownNpcKey(`${npc.name ?? ''} ${npc.text ?? ''}`) as string, offset: 0 })),
+          ...(town.hubNpcs ?? []).map((npc) => ({ npc, role: npc.role as string, offset: npc.frameOffset })),
+        ];
+        for (const [n, { npc, role, offset }] of folk.entries()) {
+          if (!inViewTile(Math.floor(npc.x), Math.floor(npc.y))) continue;
+          const x = (npc.x + 0.5) * TILE;
+          const y = (npc.y + 0.5) * TILE;
+          if (p.unitArt && this.folk.draw(role, x, y, animate ? sim.tick + offset * 10 : 0, p.unitArt, n)) continue;
+          if (atlases.townnpcs) {
+            const animFrame = animate ? ((sim.tick >> 2) + offset) % 4 : 0;
+            this.npcPool.acquire(atlases.townnpcs, `${role}/idle/${animFrame}`, x, y, { scaleX: 0.72, scaleY: 0.72, anchorX: 0.5, anchorY: 0.88 });
           }
         }
       }
@@ -477,6 +469,7 @@ export class AtlasOverlayPass {
     this.propPool.endFrame();
     this.envPool.endFrame();
     this.npcPool.endFrame();
+    this.folk.endFrame();
     this.projPool.endFrame();
     this.statusPool.endFrame();
   }

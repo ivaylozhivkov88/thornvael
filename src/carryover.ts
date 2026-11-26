@@ -2,7 +2,7 @@ import type { CampaignProgress } from './campaign';
 import { FP, type Sim } from './sim/sim';
 import { cloneHero, recalc, type HeroState } from './sim/hero';
 import { upkeepFee } from './sim/town';
-import { registerDynamicItem, type ItemInstance } from './sim/items';
+import { type ItemInstance } from './sim/items';
 import { healPct, hireDiscountPct, tierBonus } from './townbuild';
 
 /**
@@ -74,8 +74,7 @@ export function waivePurse(sim: Sim, townVisits: number, purseClaimed = false): 
 export function applyCarryover(sim: Sim, co: CarryoverState): number {
   if (co.items) {
     for (const inst of co.items) {
-      sim.instances.set(inst.id, inst);
-      registerDynamicItem(inst.id, inst.def);
+      sim.adoptInstance(inst);
     }
   }
   const hero = cloneHero(co.hero)!;

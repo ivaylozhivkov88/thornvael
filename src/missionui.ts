@@ -1,7 +1,8 @@
 import type { MapDoc } from './mapdoc';
+import type { TakenQuest } from './sidequests-adapter';
 import { speakerName, type MissionContent } from './missioncontent';
 import { getPlaquesByAct, loadLocationPlaques, type CampaignStage, type LocationPlaqueEntry } from './data/text/index';
-import type { Sim } from './sim/sim';
+import { FP, type Sim } from './sim/sim';
 import { S } from './strings';
 import {
   blip,
@@ -18,6 +19,8 @@ import { resolveDialogueVoiceClip } from './audio-catalog';
 export interface MissionHost {
   pause(on: boolean): void;
   navigateTo?(tx: number, ty: number, label: string): void;
+  /** Side quests the hero has accepted by talking to their givers. */
+  takenQuests?(): TakenQuest[];
 }
 
 import type { QuestObjective, QuestReward, QuestDossier } from './questlog';
@@ -413,6 +416,32 @@ export function getCompletedWaxSealSvg(): string {
 /**
  * AAA Gothic Quest Journal, character portrait dialogue frames, and objective tracking.
  */
+/** On a stitched act map the task is the next zone that still has living foes, in campaign order. */
+export function zoneHunt(
+  doc: MapDoc,
+  alive: (unit: number) => boolean,
+  at: (unit: number) => [number, number] = (i) => [doc.units[i].x, doc.units[i].y],
+): QuestObjective | null {
+  const [hx, hy] = at(0); // unit 0 is the hero
+  const far = (i: number) => (at(i)[0] - hx) ** 2 + (at(i)[1] - hy) ** 2;
+  for (const zone of doc.zones ?? []) {
+    if (!zone.group) continue;
+    const foes = doc.units.flatMap((u, i) => (u.group === zone.group && u.team !== 0 && alive(i) ? [i] : []));
+    if (foes.length === 0) continue;
+    const [tx, ty] = at(foes.reduce((a, b) => (far(b) < far(a) ? b : a))).map(Math.floor);
+    return {
+      id: `hunt-${zone.id}`,
+      text: `Leave town and hunt the foes in ${zone.name} (${foes.length} left)`,
+      completed: false,
+      current: 0,
+      total: 1,
+      targetX: tx,
+      targetY: ty,
+    };
+  }
+  return null;
+}
+
 export class MissionUi {
   private readonly goals = document.createElement('div');
   private readonly dialogueModal = document.createElement('div');
@@ -1134,6 +1163,7 @@ export class MissionUi {
   }
 
   public isObjectivesCollapsed = true;
+  private trackerShown = '';
 
   /** Toggle on-demand quest objectives banner */
   public toggleObjectives(): void {
@@ -1149,10 +1179,15 @@ export class MissionUi {
     const quest = this.evaluateQuestDossier(sim);
     if (!quest.objectives.length) {
       this.goals.hidden = true;
+      this.trackerShown = '';
       return;
     }
 
     this.goals.hidden = false;
+    // Rebuild only on change: a rebuild every update swallows clicks on the rows.
+    const shown = JSON.stringify([this.isObjectivesCollapsed, quest.title, quest.objectives]);
+    if (shown === this.trackerShown) return;
+    this.trackerShown = shown;
     this.goals.replaceChildren();
 
     if (this.isObjectivesCollapsed) {
@@ -1161,7 +1196,13 @@ export class MissionUi {
       const header = document.createElement('div');
       header.className = 'tracker-collapsed-row';
       header.innerHTML = `<span class="tracker-icon">📜</span> <span class="tracker-title-text">Quests [Q] (${completed}/${quest.objectives.length})</span> <span class="tracker-chevron">▾</span>`;
-      header.onclick = () => this.toggleObjectives();
+      // The current task stays readable while the panel is folded.
+      const next = quest.objectives.find((o) => !o.completed);
+      if (next) header.querySelector('.tracker-title-text')!.textContent = next.text;
+      header.onclick = (e) => {
+        e.stopPropagation(); // the panel behind toggles too
+        this.toggleObjectives();
+      };
       header.ondblclick = (e) => {
         e.stopPropagation();
         this.toggleJournal(this.lastSim ?? undefined);
@@ -1206,6 +1247,7 @@ export class MissionUi {
           ${navPin}
         `;
         if (obj.targetX !== undefined && obj.targetY !== undefined) {
+          row.ondblclick = (e) => e.stopPropagation(); // a double tap on a task must not open the journal
           row.onclick = (e) => {
             e.stopPropagation();
             this.host.navigateTo?.(obj.targetX!, obj.targetY!, obj.text);
@@ -1341,7 +1383,9 @@ export class MissionUi {
 
     // Generic fallback for custom / other campaign maps
     const genericObjs: QuestObjective[] = [];
-    if (st) {
+    const hunt = sim ? zoneHunt(this.doc, (i) => sim.cb.hp[i] > 0, (i) => [sim.x[i] / FP, sim.y[i] / FP]) : null;
+    if (hunt) genericObjs.push(hunt);
+    if (st && !hunt) {
       for (let i = 0; i < 16 && this.doc.text[`obj.${i}`] !== undefined; i++) {
         const text = this.doc.text[`obj.${i}`];
         const state = st.sub[i] ?? 0;
@@ -1512,53 +1556,26 @@ export class MissionUi {
       this.renderQuestJournal();
     };
 
-    // Quest Item 2: Side Quest 1 (Granary)
-    const sideItem = document.createElement('div');
-    sideItem.className = `journal-quest-card ${this.activeQuestId === 'side-granary' ? 'selected' : ''}`;
-    sideItem.innerHTML = `
-      <div class="quest-seal-icon">${getSilverWaxSealSvg()}</div>
-      <div class="quest-card-meta">
-        <div class="quest-card-title">Granary Supply Cache</div>
-        <div class="quest-card-chapter">Act I · Frontier Recovery</div>
-        <div class="quest-card-status">${(this.lastSim?.cb.gold[0] ?? 0) >= 40 ? 'Secured' : 'In Progress'}</div>
-      </div>
-    `;
-    sideItem.onclick = () => {
-      this.activeQuestId = 'side-granary';
-      this.renderQuestJournal();
-    };
-
-    // Quest Item 3: Side Quest 2 (Ancestral Relic)
-    const relicItem = document.createElement('div');
-    relicItem.className = `journal-quest-card ${this.activeQuestId === 'side-relic' ? 'selected' : ''}`;
-    relicItem.innerHTML = `
-      <div class="quest-seal-icon">${getSilverWaxSealSvg()}</div>
-      <div class="quest-card-meta">
-        <div class="quest-card-title">Ancestral Astral Relic</div>
-        <div class="quest-card-chapter">Act I · Ancient Crypt</div>
-        <div class="quest-card-status">Active Directive</div>
-      </div>
-    `;
-    relicItem.onclick = () => {
-      this.activeQuestId = 'side-relic';
-      this.renderQuestJournal();
-    };
-
-    // Quest Item 4: Side Quest 3 (Elite Lieutenant)
-    const lieutenantItem = document.createElement('div');
-    lieutenantItem.className = `journal-quest-card ${this.activeQuestId === 'side-lieutenant' ? 'selected' : ''}`;
-    lieutenantItem.innerHTML = `
-      <div class="quest-seal-icon">${getSilverWaxSealSvg()}</div>
-      <div class="quest-card-meta">
-        <div class="quest-card-title">Slay Shaman Mor'drak</div>
-        <div class="quest-card-chapter">Act I · Elite Bounty</div>
-        <div class="quest-card-status">Active Directive</div>
-      </div>
-    `;
-    lieutenantItem.onclick = () => {
-      this.activeQuestId = 'side-lieutenant';
-      this.renderQuestJournal();
-    };
+    // Accepted side quests only
+    const taken = this.host.takenQuests?.() ?? [];
+    const sideItems = taken.map((quest) => {
+      const id = `sq:${quest.id}`;
+      const card = document.createElement('div');
+      card.className = `journal-quest-card ${this.activeQuestId === id ? 'selected' : ''}`;
+      card.innerHTML = `
+        <div class="quest-seal-icon">${getSilverWaxSealSvg()}</div>
+        <div class="quest-card-meta">
+          <div class="quest-card-title">${quest.title}</div>
+          <div class="quest-card-chapter">Side Quest</div>
+          <div class="quest-card-status">${quest.completed ? 'Completed' : 'In Progress'}</div>
+        </div>
+      `;
+      card.onclick = () => {
+        this.activeQuestId = id;
+        this.renderQuestJournal();
+      };
+      return card;
+    });
 
     // Quest Item 5: Act II Strategic Briefing
     const act2Item = document.createElement('div');
@@ -1640,7 +1657,7 @@ export class MissionUi {
       this.renderQuestJournal();
     };
 
-    questList.append(mainItem, sideItem, relicItem, lieutenantItem, act2Item, act3Item, act4Item, completedItem, plaquesItem);
+    questList.append(mainItem, ...sideItems, act2Item, act3Item, act4Item, completedItem, plaquesItem);
     leftPane.append(mainQuestsLabel, questList);
 
     // Right Pane: Detailed Quest Dossier
@@ -1707,128 +1724,23 @@ export class MissionUi {
           objContainer.append(item);
         }
       }
-    } else if (this.activeQuestId === 'side-granary') {
-      const granaryDone = (this.lastSim?.cb.gold[0] ?? 0) >= 40;
-      rightPane.innerHTML = `
-        <div class="dossier-header">
-          <div class="dossier-act">Side Mission · Frontier Recovery & Supply Security</div>
-          <h1 class="dossier-title">Granary Supply Cache</h1>
-          <div class="dossier-location">📍 Sunken Ford · Burned River Mill & Charred Granary Cellars</div>
-        </div>
-        <div class="dossier-divider">✦ ─── ❖ ─── ✦</div>
-        <div class="dossier-section-heading">HISTORICAL INTELLIGENCE & MILITARY RECORD</div>
-        <p class="dossier-narrative">Erected a century ago during the First Northern Truce, the Thornwick River Granary once stored winter rations for three frontier garrisons. During their sudden assault across the shallows, Chieftain Grok'tar's warbands put the timber mill to the torch, pillaging flour and salt pork into ironbound caches along the riverbank. Recovering these supplies is vital to preserve the garrison from midwinter famine.</p>
-        <div class="dossier-section-heading">TACTICAL RECONNAISSANCE & HAZARD WARNINGS</div>
-        <p class="dossier-narrative">⚠️ <strong>Field Hazard:</strong> Gnoll war-raiders use the dense river smoke as concealment. Feral brutes armed with barbed cleavers lurk in the flooded root hollows. Approach behind raised pavises and deploy area spells to flush out ambushers.</p>
-        <div class="dossier-section-heading">PRIMARY DIRECTIVE</div>
-        <div class="dossier-objectives-list" id="side-dossier-objectives">
-          <div class="dossier-obj-row ${granaryDone ? 'completed' : ''}">
-            <span class="obj-checkbox">${granaryDone ? '✔' : '◻'}</span>
-            <span class="obj-text">Recover Provisions & Recover Gold Cache from the Camp (Current: ${this.lastSim?.cb.gold[0] ?? 0} Gold)</span>
-            <span class="obj-badge ${granaryDone ? 'done' : 'active'}">${granaryDone ? 'COMPLETED' : 'IN PROGRESS'}</span>
-            ${!granaryDone ? '<button type="button" class="dossier-nav-btn"><span class="nav-compass">🧭</span> Navigate</button>' : ''}
+    } else if (this.activeQuestId.startsWith('sq:')) {
+      const quest = taken.find((t) => `sq:${t.id}` === this.activeQuestId);
+      if (quest) {
+        const row = (mark: string, text: string) =>
+          `<div class="dossier-obj-row"><span class="obj-checkbox">${mark}</span><span class="obj-text">${text}</span></div>`;
+        rightPane.innerHTML = `
+          <div class="dossier-header">
+            <div class="dossier-act">Side Quest</div>
+            <h1 class="dossier-title">${quest.title}</h1>
           </div>
-        </div>
-        <div class="dossier-rewards-grid">
-          <div class="reward-pill gold-reward">💰 <strong>+100 Bonus Gold</strong> Sovereigns</div>
-          <div class="reward-pill xp-reward">⚡ <strong>+150 XP</strong> Veteran Drill</div>
-          <div class="reward-pill renown-reward">🛡️ <strong>+10 Thornwick Favor</strong></div>
-          <div class="reward-pill item-reward">🎁 <strong>Highland Rations & Silver Coin</strong></div>
-        </div>
-        <div class="dossier-signature">
-          <div class="signature-stamp">${getSilverWaxSealSvg()}</div>
-          <div class="signature-text">COMMISSIONED BY BORDER QUARTERMASTER</div>
-        </div>
-      `;
-      if (!granaryDone) {
-        const btn = rightPane.querySelector('.dossier-nav-btn') as HTMLButtonElement | null;
-        if (btn) {
-          btn.onclick = (e) => {
-            e.stopPropagation();
-            this.closeJournal();
-            this.host.navigateTo?.(8, 28, 'Granary Supply Cache');
-          };
-        }
-      }
-    } else if (this.activeQuestId === 'side-relic') {
-      rightPane.innerHTML = `
-        <div class="dossier-header">
-          <div class="dossier-act">Act I · Sacred Archeology & Relic Recovery</div>
-          <h1 class="dossier-title">Ancestral Astral Relic</h1>
-          <div class="dossier-location">📍 Sunken Riverbed Crypt · Sarcophagus of the First Warden</div>
-        </div>
-        <div class="dossier-divider">✦ ─── ❖ ─── ✦</div>
-        <div class="dossier-section-heading">HISTORICAL INTELLIGENCE & LORE CHRONICLE</div>
-        <p class="dossier-narrative">High Arcanist Vaelen recounts that three centuries ago, during the Sundering of the First Shrines, an astral-infused talisman of celestial electrum was sealed within a submerged granite tomb beneath the riverbed. The gnoll shamans now excavate the shallows, seeking to desecrate the relic for their necrotic blood-pyres. You must breach the submerged crypt, eliminate the excavation guard, and reclaim the ancestral talisman.</p>
-        <div class="dossier-section-heading">TACTICAL RECONNAISSANCE & HAZARD WARNINGS</div>
-        <p class="dossier-narrative">⚠️ <strong>Field Hazard:</strong> The sunken tomb is saturated with lingering astral radiation and guarded by entombed Hollow Knights who feel no pain. Their ancient runic blades bypass normal armor absorption; maintain distance and concentrate holy or frost magic.</p>
-        <div class="dossier-section-heading">OPERATIONAL DIRECTIVES</div>
-        <div class="dossier-objectives-list">
-          <div class="dossier-obj-row">
-            <span class="obj-checkbox">◻</span>
-            <span class="obj-text">Infiltrate the Submerged Riverbed Crypt & Slay Tomb Wardens</span>
-            <span class="obj-badge active">IN PROGRESS</span>
-            <button type="button" class="dossier-nav-btn"><span class="nav-compass">🧭</span> Navigate</button>
+          <p class="dossier-narrative">${quest.briefing}</p>
+          <div class="dossier-section-heading">OBJECTIVES</div>
+          <div class="dossier-objectives-list">
+            ${quest.done.map((text) => row('✔', text)).join('')}
+            ${quest.task ? row('◻', quest.task) : ''}
           </div>
-        </div>
-        <div class="dossier-rewards-grid">
-          <div class="reward-pill gold-reward">💰 <strong>+220 Gold</strong> Sovereigns</div>
-          <div class="reward-pill xp-reward">⚡ <strong>+350 XP</strong> Grimoire Lore</div>
-          <div class="reward-pill renown-reward">🛡️ <strong>+25 Astral Coven Favor</strong></div>
-          <div class="reward-pill item-reward">🎁 <strong>Guaranteed Unique Astral Ring or Amulet</strong></div>
-        </div>
-        <div class="dossier-signature">
-          <div class="signature-stamp">${getSilverWaxSealSvg()}</div>
-          <div class="signature-text">SANCTIONED BY HIGH ARCANIST VAELEN</div>
-        </div>
-      `;
-      const btn = rightPane.querySelector('.dossier-nav-btn') as HTMLButtonElement | null;
-      if (btn) {
-        btn.onclick = (e) => {
-          e.stopPropagation();
-          this.closeJournal();
-          this.host.navigateTo?.(30, 10, 'Submerged Riverbed Crypt');
-        };
-      }
-    } else if (this.activeQuestId === 'side-lieutenant') {
-      rightPane.innerHTML = `
-        <div class="dossier-header">
-          <div class="dossier-act">Act I · Elite Bounty Contract & Decapitation Strike</div>
-          <h1 class="dossier-title">Assassinate Blood-Shaman Mor'drak</h1>
-          <div class="dossier-location">📍 Northern Ridge Bluff · Corrupted Blood Altar</div>
-        </div>
-        <div class="dossier-divider">✦ ─── ❖ ─── ✦</div>
-        <div class="dossier-section-heading">TACTICAL BRIEFING & MILITARY DOSSIER</div>
-        <p class="dossier-narrative">Ford-Scout Bren has confirmed that Chieftain Grok'tar's dark vizier, Shaman Mor'drak, has erected a blasphemous sacrificial altar upon the high northern bluffs. From this shrine of carved beast-bones, Mor'drak channels necrotic warding rituals that shield the river gnolls from mortal wounds. Slaying Mor'drak will shatter the enemy's supernatural resolve and throw their ranks into confusion.</p>
-        <div class="dossier-section-heading">TACTICAL RECONNAISSANCE & HAZARD WARNINGS</div>
-        <p class="dossier-narrative">⚠️ <strong>Field Hazard:</strong> Mor'drak commands a fanatical cabal of blood-witches who cast lingering decay hexes and summon rabid fen-hounds. Keep formations dispersed to avoid chain hexes and focus missile fire upon the ritualists first.</p>
-        <div class="dossier-section-heading">OPERATIONAL DIRECTIVES</div>
-        <div class="dossier-objectives-list">
-          <div class="dossier-obj-row">
-            <span class="obj-checkbox">◻</span>
-            <span class="obj-text">Assassinate Shaman Mor'drak & Sunder the Corrupted Blood Altar</span>
-            <span class="obj-badge active">IN PROGRESS</span>
-            <button type="button" class="dossier-nav-btn"><span class="nav-compass">🧭</span> Navigate</button>
-          </div>
-        </div>
-        <div class="dossier-rewards-grid">
-          <div class="reward-pill gold-reward">💰 <strong>+350 Gold</strong> Royal Bounty</div>
-          <div class="reward-pill xp-reward">⚡ <strong>+450 XP</strong> Tactical Renown</div>
-          <div class="reward-pill renown-reward">🛡️ <strong>+30 Thornwick Honor</strong></div>
-          <div class="reward-pill item-reward">🎁 <strong>Guaranteed Rare Tier II Blade or Staff</strong></div>
-        </div>
-        <div class="dossier-signature">
-          <div class="signature-stamp">${getGoldWaxSealSvg()}</div>
-          <div class="signature-text">ISSUED BY CAPTAIN MERRICK · HIGH KEEP</div>
-        </div>
-      `;
-      const btn = rightPane.querySelector('.dossier-nav-btn') as HTMLButtonElement | null;
-      if (btn) {
-        btn.onclick = (e) => {
-          e.stopPropagation();
-          this.closeJournal();
-          this.host.navigateTo?.(55, 18, "Shaman Mor'drak's Altar");
-        };
+        `;
       }
     } else if (this.activeQuestId === 'act-2-dossier') {
       rightPane.innerHTML = `

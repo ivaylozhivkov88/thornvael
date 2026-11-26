@@ -1,5 +1,6 @@
 import { getItemFlavor } from './missioncontent';
 import { getItemLore } from './codex';
+import { dollSet, wornDoll } from './doll';
 import { canAllocateSkill, computePassiveBonuses, createSkillTreeState, getTotalAllocatedPoints } from './skills/engine';
 import { getSkillTreeForClass } from './skills/trees';
 import type { SkillClass, SkillNodeDef, SkillTreeState } from './skills/types';
@@ -1331,7 +1332,14 @@ export class HeroUi {
     const panel = el('section', 'hero-gear-panel');
     panel.append(el('h3', '', S.hero.equipment));
     const slots = el('div', 'hero-gear-board');
-    slots.append(figure(h));
+    // painted figure wearing the equipped items; the drawn silhouette is the fallback
+    const set = dollSet(h.cls, h.female);
+    if (set) {
+      slots.classList.add('with-doll');
+      const art = el('div', 'hero-figure hero-doll');
+      art.append(wornDoll(set, (slot) => (h.eq[slot] >= 0 ? (getItemDef(h.eq[slot]) ?? undefined) : undefined), import.meta.env.BASE_URL));
+      slots.append(art);
+    } else slots.append(figure(h));
     for (let s = 0; s < SLOT_COUNT; s++) {
       const id = h.eq[s];
       const d = id >= 0 ? getItemDef(id) : null;

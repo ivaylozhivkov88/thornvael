@@ -100,6 +100,8 @@ export interface QuestStepDef {
   trigger: QuestStepTrigger;
   journal: string;
   next: string | string[] | null;
+  /** Button labels for a choice step, one per `next` entry. */
+  options?: string[];
   reward?: QuestStepReward;
 }
 
@@ -110,6 +112,8 @@ export interface SteppedQuestDef {
   act?: number;
   town?: string;
   unlocks_after?: string;
+  briefing?: string;
+  objective?: string;
   steps: QuestStepDef[];
 }
 

@@ -830,18 +830,21 @@ export class Renderer {
     return this.app?.renderer ? this.app.screen.height : typeof window !== 'undefined' ? window.innerHeight : 600;
   }
 
-  /** Static world labels: town buildings and people to talk to (x, y in tiles). Call after init. */
-  setMarks(marks: readonly { x: number; y: number; label: string; npc: boolean }[]): void {
+  private marksLayer: Container | null = null;
+  private questLayer: Container | null = null;
+
+  /** World labels: town buildings and people to talk to (x, y in tiles). Call after init. */
+  setMarks(marks: readonly { x: number; y: number; label: string; npc: boolean; quest?: '!' | '?' | null }[]): void {
+    if (this.questLayer && !this.questLayer.destroyed) this.questLayer.destroy({ children: true });
+    const quests = new Container();
+    this.questLayer = quests;
+    if (this.marksLayer && !this.marksLayer.destroyed) this.marksLayer.destroy({ children: true });
     const layer = new Container();
-    const g = new Graphics();
-    layer.addChild(g);
+    this.marksLayer = layer;
+    const placed: { x: number; y: number; w: number }[] = [];
     for (const m of marks) {
       const px = m.x * TILE;
       const py = m.y * TILE;
-      if (m.npc) {
-        g.circle(px, py - 6, 7).fill(0xe8c860).stroke({ color: 0x2a1a0e, width: 2 });
-        g.rect(px - 5, py, 10, 12).fill(0x7a5a9a);
-      }
       const t = new Text({
         text: m.label,
         style: {
@@ -853,11 +856,25 @@ export class Renderer {
         },
       });
       t.anchor.set(0.5, 1);
-      t.position.set(px, py - (m.npc ? 14 : 0));
+      // Above the figure's head; neighbours with long names stack instead of overlapping.
+      let ty = py - (m.npc ? 52 : 0);
+      while (placed.some((p) => Math.abs(p.y - ty) < 14 && Math.abs(p.x - px) < (p.w + t.width) / 2)) ty -= 14;
+      placed.push({ x: px, y: ty, w: t.width });
+      t.position.set(px, ty);
       layer.addChild(t);
+      if (m.quest) {
+        const q = new Text({
+          text: m.quest,
+          style: { fontFamily: 'Georgia, serif', fontSize: 30, fontWeight: 'bold', fill: 0xffd23a, stroke: { color: 0x000000, width: 5 } },
+        });
+        q.anchor.set(0.5, 1);
+        q.position.set(px, ty - 14);
+        quests.addChild(q);
+      }
     }
     this.world.addChildAt(layer, 2);
-    this.marksLayers.push(layer);
+    this.marksLayers.push(layer, quests);
+    this.world.addChild(quests); // above figures, so a quest giver is never hidden
   }
 
   async init(sim: Sim): Promise<void> {
@@ -1857,6 +1874,7 @@ export class Renderer {
       telegraphs: this.activeTelegraphs,
       adventureObjects: this.worldAdventureObjects,
       waypoints: this.worldWaypoints,
+      unitArt: (art) => this.atlasByArt.get(art),
     });
     if (!this.contextLost && this.app?.renderer) {
       this.app.render();

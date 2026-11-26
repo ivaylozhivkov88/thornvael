@@ -134,7 +134,7 @@ describe('Act 1 SteppedQuestAdapter integration', () => {
     // Escort hook progresses sq03-broken-picket and sq28-broken-axle-on-alder-road
     expect(adapter.getPendingEscortTargets()).toContain('field-border-peddler');
     adapter.onEscortSafe('field-border-peddler');
-    adapter.onKillFamily('quill-fiend', 10);
+    adapter.onKillFamily('thorn-boar', 10);
     expect(adapter.getPendingEscortTargets()).toContain('field-ravenwatch-runner');
     adapter.onEscortSafe('field-ravenwatch-runner');
     adapter.onTalkNpc('npc-garrick-captain');

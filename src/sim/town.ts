@@ -34,6 +34,8 @@ export interface MercDef {
   price: number;
 }
 export interface NpcDef {
+  /** Content id (npcs.json) for quest givers. */
+  id?: string;
   name: string;
   x: number;
   y: number;

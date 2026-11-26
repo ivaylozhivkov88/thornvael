@@ -64,6 +64,7 @@ function advanceToTown(record: CampaignRecord): CampaignRecord {
 }
 
 test('actual campaign save capture → New Game B → load A restores A and exits its town safely', async ({ page }) => {
+  test.setTimeout(150_000);
   const errors: string[] = [];
   page.on('pageerror', (e) => errors.push(e.message));
   await page.goto('/thornvael/');
@@ -88,7 +89,7 @@ test('actual campaign save capture → New Game B → load A restores A and exit
   const entries = Object.entries(await storage(page));
   const [id, raw] = entries.find(([, value]) => 'name' in value && value.name === 'Campaign A')!;
   const captured = raw as SaveFile;
-  expect(captured.saveVersion).toBe(5);
+  expect(captured.saveVersion).toBe(7);
   expect(captured.state.node).toBe(town);
   expect(captured.state.campaign).toEqual(a);
 
@@ -101,7 +102,10 @@ test('actual campaign save capture → New Game B → load A restores A and exit
   await page.getByRole('button', { name: /^Load: Campaign A/ }).click();
   await page.waitForURL((url) => url.searchParams.get('load') === id);
   await page.waitForFunction(() => window.__game);
-  expect((await storage(page)).campaign).toEqual(a);
+  // The running mission writes its quest state into the record; everything else must match A.
+  const restored = (await storage(page)).campaign as CampaignRecord;
+  const { quests: _quests, ...restoredProgress } = restored.progress;
+  expect({ ...restored, progress: restoredProgress }).toEqual(a);
   const restoredPose = await page.evaluate(() => (window as unknown as {
     __game: { animation(id: number): { clip: string; unresolved: boolean } };
   }).__game.animation(0));

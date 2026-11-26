@@ -117,5 +117,23 @@
 - **Fix (`vite.config.ts`):** Added `strictExecutionOrder: true` on `rolldownOptions.output` and `includeDependenciesRecursively: false` on `codeSplitting` so `ui-panels` stays a single `143.24 kB` UI chunk and all sim/item chunks evaluate in source dependency order (`game-B67o3pRe.js 465.23 kB`, `items-BurbfkAV.js 460.63 kB`, `precache 211 entries / 8129.74 KiB`, zero >500 kB chunks).
 - **Playwright Smoke (`npx playwright test -c playwright.smoke.config.ts --project=chromium --reporter=list`):** `12 passed` (all 7 biomes, `?debug=1` telemetry, Pixel 5 & iPhone 13 shell + offline SW reload, 0 `pageerror`s); 1 failed (`tests/pwa-smoke.spec.ts:220` — `Act 1 Campaign Flow E2E` booted `m01` cleanly without errors and timed out waiting for victory because `pwa-smoke.spec.ts:212` kills unit index `12` from legacy `ford` instead of clearing `act1-world`'s `act1-cleared` trigger).
 
+## Merge with `origin/main` (`bf04811`, PRs #7-#11)
+- **Merged `origin/main` cleanly into local `main` (`2e1c8ab`), preserving both feature sets:**
+  - `src/doll.ts`, `src/heroui.ts`: Preserved `origin/main` weapon family sprites & material `e.filter` alongside dedicated `archer-*`/`necromancer-*` paperdoll sets, `layerFilter`, and `l.full` / `inset:0` containment.
+  - `src/render.ts`, `src/missionui.ts`, `src/worlds/act1-world.map.json`: Preserved `origin/main` town folk sprites (`town-folk.ts`), quest `!`/`?` overlay layer (`marksLayers`), `zoneHunt`, `scatterFoes`, `zonebanner`, and `towns[0].npcs` while keeping `HEAD`'s 0 Thornwick `team: 1` units and `morvessa` (`bossMods`) in `m11`/Act 1 world.
+  - `src/sim/combat.ts`, `src/sim/sim.ts`: Preserved `origin/main` elite mods, `isBlockedAt`, `applyReward`/`grantUnique` alongside `HEAD`'s deterministic mechanics, `safeSlideTo`, prop/adventure interaction commands, and `gridDirty` tracking.
+  - `src/main.ts`, `src/input-controller.ts`, `src/campaign-lifecycle.ts`: Preserved `campaignLifecycle` and `inputController` modules, added `hasActiveRmb` right-click guard, wired `saveRecord()` into `campaignLifecycle` for `crec.progress.quests` persistence, combined `questKills()`/`refreshMarks()` with all 4 `side-quests*.json` files, `grantSteppedQuestRewards`, `onCollectItem`, and `checkEscortSafety`.
+  - `tests/act1-world.test.ts`, `tests/spells.test.ts`, `tests/act1-quests-integration.test.ts`: Merged `zoneHunt` & town safety tests, gated 90th-percentile perf check under `PERF_TEST=1`, and updated `sq03-broken-picket` test target to `thorn-boar` matching `origin/main`'s updated `public/data/content/side-quests.json`.
+- **Verification (Post-Merge & Final Edit):**
+  - `npx tsc --noEmit` & `npm run typecheck`: Passed (exit code 0).
+  - `npx --yes @biomejs/biome@2.6.8 lint --reporter=summary`: Passed (`Checked 502 files`, `0 errors`).
+  - `npx --yes @biomejs/biome@2.6.8 check ...` (7 CI targets): Passed (`Checked 7 files`, `0 errors`).
+  - `node tools/check-repo.mjs`: Passed (`Repo check passed (4136 files).`).
+  - `npm run check:atlases`: Passed (`Atlas contract, PNG pixels and provenance passed.`).
+  - `npm run validate`: Passed (`validate-all: OK (112 quests, 219 dialogues, all maps/wiki/act2/act3 valid)`).
+  - `npm run build`: Passed (`211 entries (8140.27 KiB)`, `dist/sw.mjs 17.49 kB`).
+  - `npx vitest run --maxWorkers=1`: Passed (`Test Files 178 passed (178)`, `Tests 1270 passed | 1 skipped (1271)`).
+  - `npx playwright test -c playwright.smoke.config.ts --project=chromium --reporter=list`: `12 passed` (0 `pageerror`s); `1 failed` (`tests/pwa-smoke.spec.ts:288` Shop modal still visible after `.sheet.town button` `/exit/i` click).
+
 ## Next Step
-- Ready for parent coordinator review and commit/push handling.
+- Merge committed and pushed to `origin/main`; ready for coordinator review.

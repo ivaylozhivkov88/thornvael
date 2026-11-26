@@ -1,7 +1,7 @@
 {
  "id": "ch1",
  "cache": "thornvael-ch1-v1",
- "total": 226949810,
+ "total": 227010423,
  "files": [
   {
    "path": "audio/amb_fen_ev0.m4a",
@@ -8257,7 +8257,7 @@
   },
   {
    "path": "data/content/side-quests.json",
-   "size": 41239
+   "size": 41361
   },
   {
    "path": "data/content/skill-trees.json",
@@ -11702,6 +11702,26 @@
   {
    "path": "townart/doll/warrior-m-sword-long.png",
    "size": 39490
+  },
+  {
+   "path": "townart/doll/warrior-weapon-axe.png",
+   "size": 10861
+  },
+  {
+   "path": "townart/doll/warrior-weapon-bow.png",
+   "size": 12603
+  },
+  {
+   "path": "townart/doll/warrior-weapon-dagger.png",
+   "size": 6442
+  },
+  {
+   "path": "townart/doll/warrior-weapon-mace.png",
+   "size": 7340
+  },
+  {
+   "path": "townart/doll/warrior-weapon-spear.png",
+   "size": 23245
   },
   {
    "path": "townart/frame-ashkarath.jpg",

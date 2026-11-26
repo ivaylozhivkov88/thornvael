@@ -69,6 +69,7 @@ button.on { background: #6a5a22; border-color: #d8b24a; }
 #armed { position: fixed; left: 50%; top: calc(56px + env(safe-area-inset-top)); transform: translateX(-50%); background: #6a5a22ee; border: 1px solid #d8b24a; border-radius: 6px; padding: 6px 12px; font-size: 14px; pointer-events: none; max-width: 60vw; text-align: center; }
 #tip { position: fixed; z-index: 20; max-width: 260px; background: #231a10f2; border: 1px solid #8a6b3a; border-radius: 6px; padding: 6px 8px; font-size: 12px; line-height: 1.35; white-space: pre-line; pointer-events: none; }
 #panel-body { white-space: pre-line; }
+#panel-choices:not(:empty) { display: flex; flex-direction: column; gap: 8px; margin-bottom: 12px; }
 #debug { position: fixed; left: calc(180px + env(safe-area-inset-left)); top: 64px; margin: 0; padding: 4px 8px; font: 12px/1.3 monospace; background: #000a; color: #9dff7a; pointer-events: none; }
 #f3 { position: fixed; z-index: 14; right: calc(8px + env(safe-area-inset-right)); top: 200px; max-width: min(46vw, 520px); margin: 0; padding: 4px 8px; font: 11px/1.3 monospace; background: #000c; color: #7affff; pointer-events: none; white-space: pre-wrap; }
 
@@ -3377,6 +3378,10 @@ button:disabled, #shell .sh-btn:disabled { opacity: .6; cursor: default; box-sha
   align-items: center;
   gap: 6px;
 }
+.tracker-collapsed-row .tracker-title-text {
+  max-width: min(320px, 60vw);
+  white-space: normal;
+}
 .tracker-title {
   margin-bottom: 6px;
   border-bottom: 1px solid rgba(212, 175, 55, 0.3);
@@ -5205,3 +5210,8 @@ body:has(#shell .sh-modal, #codex-modal:not([hidden])) #sh-music-btn {
   background: #1f2f10;
   border: 1px solid #6b8c3a;
 }
+
+/* Zone name and lore on entering a world-map zone. */
+#zone-banner { position: fixed; left: 50%; top: calc(var(--hud-top) + 64px + env(safe-area-inset-top)); transform: translateX(-50%); width: min(86vw, 460px); text-align: center; pointer-events: none; z-index: 30; color: #e8dcc0; text-shadow: 0 1px 3px #000, 0 0 12px #000; }
+#zone-banner h2 { margin: 0 0 4px; font-size: 20px; color: #d9b56a; letter-spacing: 0.04em; }
+#zone-banner p { margin: 0; font-size: 13px; line-height: 1.4; }

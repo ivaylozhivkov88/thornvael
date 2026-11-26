@@ -49,6 +49,7 @@ export interface CampaignProgress {
   sessionSeed?: number; // current session seed; rotates on every Save & Exit!
   townPortal?: TownPortalRecord | null;
   storyFlags?: StoryFlags;
+  quests?: unknown; // stepped quest save (src/sidequests.ts); a new visit to a map restores it
 }
 
 export function parseCampaign(raw: unknown): Campaign {

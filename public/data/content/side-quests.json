@@ -66,6 +66,7 @@
           "requires_step": "step-3"
         },
         "journal": "Decide whether to hand the sealed strongbox to Garrick for militia back-wages or split the silver with Old Fenwick.",
+        "options": ["Hand it to Garrick for the militia", "Split the silver with Old Fenwick"],
         "next": [
           "step-5a",
           "step-5b"
@@ -178,6 +179,7 @@
           "requires_step": "step-3"
         },
         "journal": "Choose whether to give Marta the galls for militia healing draughts or distill them into weapon poison.",
+        "options": ["Brew healing draughts", "Distill blade poison"],
         "next": [
           "step-5a",
           "step-5b"
@@ -229,10 +231,10 @@
     "town": "town-thornwick",
     "giver": "npc-garrick-captain",
     "title": "The Broken Picket",
-    "briefing": "Four border watchmen abandoned the outer watchtower during the Ravenwatch siege, leaving their comrades to be butchered by Quill Fiends. They are currently hiding in a hunter's blind near the pine line, guarded by feral packs. Hunt down the Quill Fiends around the blind and deal with the deserters according to martial law.",
+    "briefing": "Four border watchmen abandoned the outer watchtower during the Ravenwatch siege, leaving their comrades to be butchered by Thorn Boars. They are currently hiding in a hunter's blind near the pine line, guarded by feral packs. Hunt down the Thorn Boars around the blind and deal with the deserters according to martial law.",
     "objective": {
       "type": "kill",
-      "target": "quill-fiend",
+      "target": "thorn-boar",
       "count": 10
     },
     "reward": {
@@ -251,20 +253,20 @@
           "type": "talk_npc",
           "ref": "npc-garrick-captain"
         },
-        "journal": "Garrick lost contact with the eastern watchtower after Quill Fiends swarmed the approaches to Ravenwatch.",
+        "journal": "Garrick lost contact with the eastern watchtower after Thorn Boars swarmed the approaches to Ravenwatch.",
         "next": "step-2"
       },
       {
         "id": "step-2",
         "kind": "kill",
-        "target": "quill-fiend",
+        "target": "thorn-boar",
         "count": 10,
         "trigger": {
           "type": "kill_count",
-          "ref": "quill-fiend",
+          "ref": "thorn-boar",
           "requires_step": "step-1"
         },
-        "journal": "Culled the Quill Fiend pack nesting around the broken timber picket.",
+        "journal": "Culled the Thorn Boar pack nesting around the broken timber picket.",
         "next": "step-3"
       },
       {
@@ -304,10 +306,10 @@
     "town": "town-thornwick",
     "giver": "npc-fenwick-ferryman",
     "title": "Night Cargo",
-    "briefing": "A flat-bottomed sulfur barge grounded on the gravel shoals north of the ford three nights ago. Cinder Shamans have already set up fire-chanting braziers on the deck, drying the casks to cook river-salt into blasting powder. Clear the ritualists off the hull before the whole bend goes up in orange smoke.",
+    "briefing": "A flat-bottomed sulfur barge grounded on the gravel shoals north of the ford three nights ago. Flintbacks have already nested on the deck, cracking the casks of river-salt open with their stone hides. Clear the beasts off the hull before the whole bend goes up in orange smoke.",
     "objective": {
       "type": "kill",
-      "target": "fallen-shaman",
+      "target": "flintback",
       "count": 4
     },
     "reward": {
@@ -332,14 +334,14 @@
       {
         "id": "step-2",
         "kind": "kill",
-        "target": "fallen-shaman",
+        "target": "flintback",
         "count": 4,
         "trigger": {
           "type": "kill_count",
-          "ref": "fallen-shaman",
+          "ref": "flintback",
           "requires_step": "step-1"
         },
-        "journal": "Slain the four Fallen Shamans overseeing the night landing.",
+        "journal": "Slain the four Flintbacks nesting on the stranded barge.",
         "next": "step-3"
       },
       {
@@ -380,7 +382,7 @@
     "town": "town-thornwick",
     "giver": "npc-hobb-smith",
     "title": "The Quartermaster's Ledger",
-    "briefing": "Hobb forged forty iron axle-pins and twelve billhooks on militia credit, and the clerk who carried the tallow-skin ledger bolted into the Greywood when the vanguard split. Without those tallies, the garrison captain refuses to pay a single copper. Pull the oilskin ledger out of the wrecked supply cart before the root-beasts pulp it.",
+    "briefing": "Hobb forged forty iron axle-pins and twelve billhooks on militia credit, and the clerk who carried the tallow-skin ledger bolted into the Greywood when the vanguard split. Without those tallies, the garrison captain refuses to pay a single copper. Pull the oilskin ledger out of the wrecked supply cart before the mites chew it to pulp.",
     "objective": {
       "type": "collect",
       "target": "Oilskin Supply Ledger",
@@ -408,14 +410,14 @@
       {
         "id": "step-2",
         "kind": "kill",
-        "target": "gnoll-raider",
+        "target": "ruin-mite",
         "count": 8,
         "trigger": {
           "type": "kill_count",
-          "ref": "gnoll-raider",
+          "ref": "ruin-mite",
           "requires_step": "step-1"
         },
-        "journal": "Drove the gnoll looters out of the ruined Greywood waystation.",
+        "journal": "Drove the Ruin Mites out of the ruined Greywood waystation.",
         "next": "step-3"
       },
       {
@@ -456,18 +458,18 @@
     "town": "town-thornwick",
     "giver": "npc-marta-alchemist",
     "title": "Glass in the Thicket",
-    "briefing": "Marta's apprentice went out to tap birch-tar near the oldwatch cairns and came back with three translucent crystal shards wedged in his collarbone. A flock of Glasswings has nested in the dead ash trees above the road, blinding scouts with refracted glare. Bring down the brood-leaders so their wing-slivers can be ground into sight-salve.",
+    "briefing": "Marta's apprentice went out to tap birch-tar near the oldwatch cairns and came back with three translucent crystal shards wedged in his collarbone. A swarm of Cinderlings has nested in the dead ash trees above the road, blinding scouts with refracted glare. Bring down the brood-leaders so their glass cores can be ground into sight-salve.",
     "objective": {
       "type": "kill",
-      "target": "glasswing",
-      "count": 6
+      "target": "cinderling",
+      "count": 5
     },
     "reward": {
       "gold": 95,
       "xp": 175,
       "item": null
     },
-    "twist": "Choice A (Let npc-marta-alchemist distill the wings into militia eye-drops): Ranged mercenaries gain +5 accuracy during m11-ashbrook-retreat, and Marta greets you as 'the one who kept our eyes open'. Choice B (Grind the crystal dust into trade-poison for yourself): Marta's apprentice loses sight in one eye and she refuses to brew cold-resistance draughts for the rest of Act 1, though your party gains +120 gold from contraband buyers.",
+    "twist": "Choice A (Let npc-marta-alchemist distill the cores into militia eye-drops): Ranged mercenaries gain +5 accuracy during m11-ashbrook-retreat, and Marta greets you as 'the one who kept our eyes open'. Choice B (Grind the crystal dust into trade-poison for yourself): Marta's apprentice loses sight in one eye and she refuses to brew cold-resistance draughts for the rest of Act 1, though your party gains +120 gold from contraband buyers.",
     "unlocks_after": "m09-ironhide-hunt",
     "steps": [
       {
@@ -478,33 +480,33 @@
           "type": "talk_npc",
           "ref": "npc-marta-alchemist"
         },
-        "journal": "Widow Marta needs iridescent Glasswing carapaces from the kiln thicket to grind lenses and burn-salves.",
+        "journal": "Widow Marta needs iridescent Cinderling carapaces from the kiln thicket to grind lenses and burn-salves.",
         "next": "step-2"
       },
       {
         "id": "step-2",
         "kind": "kill",
-        "target": "glasswing",
-        "count": 6,
+        "target": "cinderling",
+        "count": 3,
         "trigger": {
           "type": "kill_count",
-          "ref": "glasswing",
+          "ref": "cinderling",
           "requires_step": "step-1"
         },
-        "journal": "Brought down six Glasswings swarming around the vitrified ash mounds.",
+        "journal": "Brought down three Cinderlings swarming around the vitrified ash mounds.",
         "next": "step-3"
       },
       {
         "id": "step-3",
         "kind": "fetch",
-        "target": "Intact Glasswing Shard",
-        "count": 6,
+        "target": "Intact Cinderling Shard",
+        "count": 5,
         "trigger": {
           "type": "collect_item",
-          "ref": "Intact Glasswing Shard",
+          "ref": "Intact Cinderling Shard",
           "requires_step": "step-2"
         },
-        "journal": "Wrapped six razor-sharp wing shards in oiled leather.",
+        "journal": "Wrapped five razor-sharp glass shards in oiled leather.",
         "next": "step-4"
       },
       {
@@ -516,7 +518,7 @@
           "ref": "npc-marta-alchemist",
           "requires_step": "step-3"
         },
-        "journal": "Delivered the Glasswing shards to Widow Marta's apothecary.",
+        "journal": "Delivered the Cinderling shards to Widow Marta's apothecary.",
         "next": null,
         "reward": {
           "gold": 95,

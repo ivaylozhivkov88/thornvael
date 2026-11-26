@@ -6,13 +6,14 @@ import type { EliteDirector, EliteTickEvent } from './ai/elite-director';
 import type { WorldEventsDirector } from './ai/shrines-events';
 import type { SkirmishModeController } from './ai/skirmish-modes';
 import { CombatState, DEFS, Elem, Ord, POOLS, enemyNear, lootPos, nearestLoot, strike, think, toGuard, type CombatSnap } from './combat';
-import { cloneHero, hashHero, heroCommand, type HeroCommand, type HeroState } from './hero';
+import { Did, INV_MAX, addHeroXp, addItem, cloneHero, dropBag, hashHero, heroCommand, type HeroCommand, type HeroState } from './hero';
 import { NST, SPELLS, St, Tk } from './spelldata';
 import { isCorpse, knows, resolveTarget, revive } from './spells';
 import { FP, Pather, invalidateRegions, isChokepoint, lineClear, regionsOf } from './path';
 import { Rng } from './rng';
 import { ADVENTURE_OBJECT_KINDS, interactAdventureObject, type ScriptRuntime, type ScriptState } from './script';
 import { buildTowns, checkQuests, cloneTown, hashTown, newTownState, townCommand, type TownCommand, type TownDef, type TownRt, type TownState } from './town';
+import { jsonUnique } from './affixes';
 import { DYNAMIC_ITEM_OFFSET, getItemDef, itemId, registerDynamicItem, unregisterDynamicItem, type ItemDef, type ItemInstance } from './items';
 import { stepAuraSystem } from './auras';
 import { applyGroupFormation, type FormationScratch } from './formation';
@@ -57,6 +58,7 @@ export type Command =
   | { type: 'smash_prop'; x: number; y: number }
   | { type: 'interact_object'; x: number; y: number }
   | { type: 'face'; id: number; dir?: number; stop?: boolean; swing?: boolean }
+  | { type: 'reward'; gold: number; xp: number; items?: string[] } // quest payment to the player
   | HeroCommand
   | TownCommand;
 export interface LoggedCommand {
@@ -195,6 +197,14 @@ export class Sim {
   private nextInstanceId = DYNAMIC_ITEM_OFFSET;
   readonly instances = new Map<number, ItemInstance>();
   private readonly usedSerials = new Set<number>();
+
+  /** An instance carried over from an earlier map: keep its id and serial from being issued again. */
+  adoptInstance(inst: ItemInstance): void {
+    this.instances.set(inst.id, inst);
+    registerDynamicItem(inst.id, inst.def);
+    if (inst.serial !== undefined) this.usedSerials.add(inst.serial);
+    this.nextInstanceId = Math.max(this.nextInstanceId, inst.id + 1);
+  }
 
   createItemInstance(baseId: number, quality: 'magic' | 'rare' | string, def: ItemDef): ItemInstance {
     const id = this.nextInstanceId++;
@@ -666,7 +676,8 @@ export class Sim {
     } else if (cmd.type === 'town') {
       townCommand(this, cmd);
       this.gridDirty = true;
-    } else this.applyOrder(cmd);
+    } else if (cmd.type === 'reward') this.applyReward(cmd);
+    else this.applyOrder(cmd);
   }
 
   private dropPropBagAt(tx: number, ty: number, finalItemId: number): void {
@@ -754,6 +765,26 @@ export class Sim {
       this.cb.cd[id] = DEFS[this.cb.kind[id]].cd;
       this.cb.emit(12, this.x[id], this.y[id], 0, 0);
     }
+  }
+
+  private applyReward(cmd: Extract<Command, { type: 'reward' }>): void {
+    if (cmd.gold > 0) this.cb.gold[0] += Math.floor(cmd.gold);
+    if (cmd.xp > 0) addHeroXp(this, Math.floor(cmd.xp));
+    for (const id of cmd.items ?? []) this.grantUnique(id);
+  }
+
+  /** A quest unique goes to the pack even when too heavy; with a full pack it lies at the hero's feet. */
+  private grantUnique(uniqueId: string): void {
+    const h = this.hero;
+    const u = jsonUnique(uniqueId);
+    if (!h || !u) return;
+    const inst = this.createItemInstance(Math.max(0, itemId(u.base)), 'unique', u.def);
+    let did: number = Did.Pick;
+    if (addItem(h, inst.id) !== 0) {
+      if (h.inv.length >= INV_MAX && dropBag(this, inst.id)) did = Did.Drop;
+      else h.inv.push({ item: inst.id, n: 1 });
+    }
+    this.cb.emit(14, this.x[h.id], this.y[h.id], inst.id, did);
   }
 
   private applyRepopulate(cmd: Extract<Command, { type: 'repopulate' }>): void {

@@ -689,7 +689,7 @@ function useItem(sim: Sim, item: number): void {
   done(sim, item, d.spell >= 0 ? Did.Learn : Did.Use);
 }
 
-function dropBag(sim: Sim, item: number): boolean {
+export function dropBag(sim: Sim, item: number): boolean {
   const cb = sim.cb;
   const h = sim.hero!;
   for (let b = 0; b < cb.bI.length; b++) {

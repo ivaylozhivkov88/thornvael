@@ -2573,3 +2573,24 @@
 .sheet.town--shop .tray-tiles .town-item-icon { width: 30px; height: 30px; pointer-events: none; }
 .sheet.town--shop .tray-n { position: absolute; left: 2px; top: 1px; font-size: 11px; color: var(--town-gold); text-shadow: 0 1px 2px #000; }
 .sheet.town--shop .tray-price { position: absolute; right: 2px; bottom: 1px; font-size: 10px; line-height: 1.1; padding: 0 2px; border-radius: 2px; background: #17120be8; color: var(--town-gold); }
+
+/* painted figure inside the gear board (inventory): slots in two side columns, figure between them */
+#sheet .hero-gear-board.with-doll { grid-template-columns: 52px minmax(0, 170px) 52px; grid-template-rows: repeat(5, 52px); }
+#sheet .hero-figure.hero-doll { grid-area: 1 / 2 / 6 / 3; min-height: 0; opacity: 1; filter: none; display: flex; align-items: center; justify-content: center; overflow: hidden; }
+#sheet .hero-doll .doll-stack { position: relative; width: 100%; aspect-ratio: 597 / 800; }
+#sheet .hero-doll .doll-stack > img:first-child { display: block; width: 100%; height: 100%; border-radius: 4px; }
+#sheet .hero-doll .doll-layer { position: absolute; }
+#sheet .hero-gear-board.with-doll [data-equipment-target="eq2"] { grid-area: 1 / 1; }
+#sheet .hero-gear-board.with-doll [data-equipment-target="eq0"] { grid-area: 2 / 1; }
+#sheet .hero-gear-board.with-doll [data-equipment-target="eq7"] { grid-area: 3 / 1; }
+#sheet .hero-gear-board.with-doll [data-equipment-target="eq8"] { grid-area: 4 / 1; }
+#sheet .hero-gear-board.with-doll [data-equipment-target="eq5"]:not(.finger-2) { grid-area: 5 / 1; }
+#sheet .hero-gear-board.with-doll [data-equipment-target="eq6"] { grid-area: 1 / 3; }
+#sheet .hero-gear-board.with-doll [data-equipment-target="eq1"] { grid-area: 2 / 3; }
+#sheet .hero-gear-board.with-doll [data-equipment-target="eq3"] { grid-area: 3 / 3; }
+#sheet .hero-gear-board.with-doll [data-equipment-target="eq4"] { grid-area: 4 / 3; }
+#sheet .hero-gear-board.with-doll .finger-2[data-equipment-target="eq5"] { grid-area: 5 / 3; }
+#sheet .hero-gear-board.with-doll [data-equipment-target="eq5_alt"] { grid-area: 5 / 3; }
+@media (max-height: 500px) {
+  #sheet .hero-gear-board.with-doll { grid-template-columns: 48px minmax(0, 150px) 48px; grid-template-rows: repeat(5, 48px); }
+}

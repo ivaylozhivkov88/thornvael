@@ -33,6 +33,7 @@ export interface CampaignLifecycleContext {
   closeAllOverlays: () => void;
   closeTownUi: () => void;
   persistChar: (finished: boolean, clearedDifficulty?: number) => Promise<boolean>;
+  saveRecord?: (rec: CampaignRecord) => Promise<unknown>;
 }
 
 export interface CampaignLifecycleController {
@@ -49,6 +50,7 @@ export interface CampaignLifecycleController {
 export function createCampaignLifecycle(ctx: CampaignLifecycleContext): CampaignLifecycleController {
   const waypointModal = new WaypointTravelModal();
   let isTransitioning = false;
+  const persistRecord = (r: CampaignRecord): Promise<unknown> => (ctx.saveRecord ? ctx.saveRecord(r) : writeRecord(r));
 
   const withCharParam = (url: string): string => {
     const activeChar = ctx.getActiveChar();
@@ -73,7 +75,7 @@ export function createCampaignLifecycle(ctx: CampaignLifecycleContext): Campaign
       : null;
     crec.progress.node = targetNode.id;
     crec.carry = carry;
-    await writeRecord(crec);
+    await persistRecord(crec);
     await deleteSave(AUTO).catch(() => undefined);
     location.assign(withCharParam(`${nodeUrl(targetNode)}&spawnX=${tp.x}&spawnY=${tp.y}&session=${crec.progress.sessionSeed ?? 1234567}`));
   }
@@ -119,7 +121,7 @@ export function createCampaignLifecycle(ctx: CampaignLifecycleContext): Campaign
       const carry = extractCarryover(sim, crec.progress, townSeed(1, crec.progress.townVisits + 1), ctx.getSlots());
       crec.progress.node = townNode.id;
       crec.carry = carry;
-      await writeRecord(crec);
+      await persistRecord(crec);
       await deleteSave(AUTO).catch(() => undefined);
       location.assign(withCharParam(`${nodeUrl(townNode)}&tpReturn=1`));
     }
@@ -147,7 +149,7 @@ export function createCampaignLifecycle(ctx: CampaignLifecycleContext): Campaign
             : null;
           crec.progress.node = targetNode.id;
           crec.carry = carry;
-          await writeRecord(crec);
+          await persistRecord(crec);
           await deleteSave(AUTO).catch(() => undefined);
           const url = withCharParam(`${nodeUrl(targetNode)}&session=${crec.progress.sessionSeed ?? 1234567}`);
           location.assign(url);
@@ -189,7 +191,7 @@ export function createCampaignLifecycle(ctx: CampaignLifecycleContext): Campaign
         }
         crec.progress.node = targetNode.id;
         crec.carry = carry;
-        await writeRecord(crec);
+        await persistRecord(crec);
         await deleteSave(AUTO).catch(() => undefined);
         const url = withCharParam(`${nodeUrl(targetNode)}&spawnX=${exit.targetX}&spawnY=${exit.targetY}&session=${crec.progress.sessionSeed ?? 1234567}`);
         location.assign(url);
@@ -215,7 +217,7 @@ export function createCampaignLifecycle(ctx: CampaignLifecycleContext): Campaign
         : null;
       const updated = saveAndExitRecord(campaign, crec, carry);
       ctx.setCrec(updated);
-      await writeRecord(updated);
+      await persistRecord(updated);
       await deleteSave(AUTO).catch(() => undefined);
     }
     location.assign('./');
@@ -260,7 +262,7 @@ export function createCampaignLifecycle(ctx: CampaignLifecycleContext): Campaign
       };
     }
     ctx.setCrec(crec);
-    await writeRecord(crec);
+    await persistRecord(crec);
     await deleteSave(AUTO).catch(() => undefined);
     if (canGoTown && townNode) {
       location.assign(withCharParam(nodeUrl(townNode)));
@@ -282,7 +284,7 @@ export function createCampaignLifecycle(ctx: CampaignLifecycleContext): Campaign
       await ctx.persistChar(false).catch(() => false);
       const crec = afterTown(campaign, crec0, campaignId, carry);
       ctx.setCrec(crec);
-      await writeRecord(crec);
+      await persistRecord(crec);
       await deleteSave(AUTO).catch(() => undefined);
     }
     location.assign('./?menu=map');

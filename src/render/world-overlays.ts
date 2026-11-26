@@ -429,54 +429,10 @@ export function renderTownArchitecture(
       sumY += by + TILE;
       countB++;
 
-      r.roundRect(bx - 42, by - 26, 84, 72, 8)
-        .fill({ color: 0x585248, alpha: 0.42 })
-        .stroke({ color: 0x8e8474, width: 1.5, alpha: 0.55 });
-      r.roundRect(bx - 36, by - 20, 72, 60, 6).stroke({ color: 0x38322a, width: 1, alpha: 0.45 });
-
       const flicker = 0.85 + 0.15 * Math.sin(sim.tick * 0.18 + role * 2.1);
       const glowCol = role === 0 ? 0xffaa38 : role === 1 ? 0xff6820 : 0x58c8ff;
       r.ellipse(bx, by + 28, 26 * flicker, 12 * flicker).fill({ color: glowCol, alpha: 0.22 * flicker });
       r.ellipse(bx, by + 26, 15 * flicker, 7 * flicker).fill({ color: 0xffe898, alpha: 0.28 * flicker });
-
-      for (const side of [-1, 1]) {
-        const tx = bx + side * 28;
-        const ty = by + 22;
-        sh.rect(tx - 1.5, ty - 10, 3, 10).fill(0x3a2818);
-        const fh = 4.5 + ((frame8 + (side > 0 ? 2 : 0)) % 3) * 0.9;
-        sh.ellipse(tx, ty - 12, 3, fh * 0.6).fill({ color: role === 2 ? 0x48d8ff : 0xff7818, alpha: 0.9 });
-        sh.circle(tx, ty - 12, 1.6).fill({ color: 0xfff4a8, alpha: 0.95 });
-      }
-
-      const bannerX = bx - 34;
-      const bannerY = by + 8;
-      const wave = Math.sin(sim.tick * 0.14 + role) * 2;
-      const bannerCol = role === 0 ? 0xc82838 : role === 1 ? 0x2858a8 : 0x7838b8;
-      const trimCol = 0xf0c850;
-      sh.rect(bannerX - 1, bannerY - 22, 2, 24).fill(0x4a3828);
-      sh.moveTo(bannerX + 1, bannerY - 20)
-        .lineTo(bannerX + 11 + wave, bannerY - 17)
-        .lineTo(bannerX + 8 + wave * 0.8, bannerY - 6)
-        .lineTo(bannerX + 1, bannerY - 9)
-        .closePath()
-        .fill(bannerCol)
-        .stroke({ color: trimCol, width: 1 });
-
-      if (role === 0) {
-        sh.circle(bx + 32, by + 16, 4.5).fill(0x784c28).stroke({ color: 0x2c1a0c, width: 1 });
-        sh.circle(bx + 37, by + 21, 4.5).fill(0x684020).stroke({ color: 0x2c1a0c, width: 1 });
-      } else if (role === 1) {
-        sh.circle(bx + 33, by + 18, 5.5).fill(0x383840).stroke({ color: 0x18181c, width: 1.5 });
-        sh.circle(bx + 33, by + 18, 3.5 * flicker).fill({ color: 0xff5818, alpha: 0.9 });
-        sh.circle(bx + 33, by + 18, 1.8).fill(0xffe068);
-      } else if (role === 2) {
-        const rot = sim.tick * 0.03;
-        r.ellipse(bx, by + 26, 20, 10).stroke({ color: 0x58d0ff, width: 1.2, alpha: 0.55 });
-        for (let p = 0; p < 4; p++) {
-          const a = rot + p * (Math.PI / 2);
-          r.circle(bx + Math.cos(a) * 20, by + 26 + Math.sin(a) * 10, 2).fill({ color: 0xb8f4ff, alpha: 0.8 });
-        }
-      }
     }
     if (countB >= 2) {
       const px = sumX / countB;

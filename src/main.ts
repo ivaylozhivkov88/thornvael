@@ -1,6 +1,7 @@
+import { loadDoc } from './mapdoc';
 import { registerWorker } from './updategate';
 import { resolveRegionAudio, computeAudioCrossfade } from './region-audio';
-import { SteppedQuestAdapter } from './sidequests-adapter';
+import { SteppedQuestAdapter, type TalkOutcome } from './sidequests-adapter';
 import { grantSteppedQuestRewards } from './sidequests-rewards';
 import type { SteppedQuestDef } from './sidequests';
 import tutorialData from './data/tutorial.json';
@@ -16,6 +17,7 @@ import { GestureRecognizer, pickUnit, reticle, unitsInBox, type Intent } from '.
 import { TILE, generateMap, PropKind, type MapObject } from './map';
 import type { LoadedMission } from './mapdoc';
 import { createMission, loadMissionByName, type MissionGame } from './mission-runtime';
+import { scatterFoes } from './scatter';
 import { actOf, nodeOf, townSeed, type Campaign } from './campaign';
 import { loadCampaign, readRecord, writeRecord } from './campaignstore';
 import { applyCarryover, extractCarryover, waivePurse } from './carryover';
@@ -41,6 +43,7 @@ import { evaluateAutoCast, computeRegroupFormation, performLootSweep, stepAutoNa
 import { DAY_TICKS, clockText } from './sim/daynight';
 import { HeroUi, } from './heroui';
 import { staminaMax } from './sim/mechanics';
+import { jsonUnique } from './sim/affixes';
 import { SKILL_MAX, SKILL_NAMES, WHY_TEXT, createHero, heroKnowsSpell, type HeroSkillId } from './sim/hero';
 import { Cls, getItemDef, itemId, itemText, Slot } from './sim/items';
 import {
@@ -52,8 +55,8 @@ import { getSuperUniqueForUnit } from './sim/super-uniques';
 import { loadGameData } from './loaddata';
 import { loadHeroVoices, heroBark } from './herovoice';
 import { loadAchievements, achKills, achTrack, achReset, achHired, achLevel, achGold, achWin, achCampaign } from './achievements';
-import { loadMissionContent, loadMissionHints, loadItemFlavor, loadFlavorLists, loadMonsterCodex, loadCodexLore, loadTownBarks, loadSpellText, defeatFlavor, loadDifficultyFlavor, difficultyLine, loadMercLines, mercContent, mercHireLine, regionEnterLine, loadHeroFlavor, promotionLine, classBanter, missionRadio, missionKey, loadBarkContent, mercBark, bossLine, setMercAct } from './missioncontent';
-import { startSideQuests, sqTrack, sqFinish } from './sidequests';
+import { loadMissionContent, loadMissionHints, loadItemFlavor, loadFlavorLists, loadMonsterCodex, loadCodexLore, loadTownBarks, loadSpellText, defeatFlavor, loadDifficultyFlavor, difficultyLine, loadMercLines, mercContent, mercHireLine, regionEnterLine, loadHeroFlavor, promotionLine, classBanter, missionRadio, loadBarkContent, mercBark, bossLine, setMercAct } from './missioncontent';
+import { sqTrack, sqFinish } from './sidequests';
 import { DebugPanel } from './debugpanel';
 import { KNOWN_HI, SPELLS, Tk, maskHas } from './sim/spelldata';
 import { validTarget } from './sim/spells';
@@ -61,6 +64,7 @@ import { installDebugBridge } from './debug-bridge';
 import type { VictoryScreenContext } from './victory-screen';
 import { FP, Sim, TICKS_PER_SECOND, type Command, type OrderName } from './sim/sim';
 import { regionAtTile } from './atmosphere';
+import { zoneAnnouncer, type ZoneArrival } from './zonebanner';
 import { S } from './strings';
 import { LOW_HP_TIP, Tips, hydrateCuratedTips } from './tips';
 import { loadLocationPlaques, } from './data/text/index';
@@ -252,6 +256,11 @@ if (crowd || stress) {
   if (crowd) setupCrowd(sim, 300);
   else setupSquads(sim);
 } else if (loadedMission) {
+  // A fresh visit scatters the foes anew; a resumed save already carries its own map.
+  if (!resumed && loadedMission.doc.zones?.length) {
+    const seed = crec?.progress.sessionSeed ?? (Number.parseInt(params.get('session') ?? '', 10) || 1234567);
+    loadedMission = loadDoc(scatterFoes(loadedMission.doc, seed, crec?.progress.difficulty ?? 1));
+  }
   const g = resumed?.game ?? createMission(loadedMission, missionSeed, {
     sessionSeed: crec?.progress.sessionSeed ?? (params.has('session') ? Number.parseInt(params.get('session')!, 10) : undefined),
     nodeId: campaignId ?? undefined,
@@ -350,6 +359,9 @@ function updateActiveSkillUI(): void {
     const meta = SKILL_ICONS[activeRmbSkill];
     if (rmbIcon) rmbIcon.textContent = meta.icon;
     if (rmbHotkey) rmbHotkey.textContent = `${meta.name} (RMB)`;
+  } else if (activeRmbSpell !== null) {
+    if (rmbIcon) rmbIcon.textContent = '✨';
+    if (rmbHotkey) rmbHotkey.textContent = `${SPELLS[activeRmbSpell].name} (RMB)`;
   }
 }
 
@@ -359,6 +371,7 @@ function triggerHeroSkill(idx: number): void {
   if (idx < 0 || idx >= skills.length) return;
   const skill = skills[idx];
   activeRmbSkill = skill;
+  activeRmbSpell = null;
   const [lpx, lpy] = inputController.getLastPointerPos();
   const [wx, wy] = renderer.toTile(lpx, lpy);
   const targetFoe = pickUnit(sim.count, posEnemy, lpx, lpy, PICK);
@@ -538,7 +551,12 @@ function execute(kind: ArmKind, sx: number, sy: number): boolean {
   return true;
 }
 
-const casters = (sid: number): number[] => selectedIds().filter((i) => maskHas(sim.cb.known[i], sim.cb.knownHi, i * KNOWN_HI, sid));
+const casters = (sid: number): number[] => {
+  const who = selectedIds().filter((i) => maskHas(sim.cb.known[i], sim.cb.knownHi, i * KNOWN_HI, sid));
+  // WASD mode drives the hero without selecting him, so the right button casts as him.
+  if (who.length === 0 && inputController.getControlMode() === 'wasd' && sim.hero && alive(sim.hero.id) && heroKnows(sid)) return [sim.hero.id];
+  return who;
+};
 
 /** The unit (or body) a spell would take as its target at a screen point, or -1. */
 function spellTargetAt(sid: number, sx: number, sy: number, snap: number): number {
@@ -572,7 +590,10 @@ function castAt(sid: number, sx: number, sy: number, snap: number): boolean {
   const tk = SPELLS[sid].tk;
   const [x, y] = renderer.toTile(sx, sy);
   const target = spellTargetAt(sid, sx, sy, snap);
-  if (tk !== Tk.Ground && tk !== Tk.Self && target < 0) return false;
+  if (tk !== Tk.Ground && tk !== Tk.Self && target < 0) {
+    toast(`${SPELLS[sid].name}: point at a target`);
+    return false;
+  }
   queue({ type: 'order', order: 'cast', ids: who, spell: sid, target: target >= 0 ? target : undefined, x, y });
   notePing(sx, sy);
   return true;
@@ -679,6 +700,7 @@ const campaignLifecycle = createCampaignLifecycle({
   },
   closeTownUi: () => townUi.close(),
   persistChar,
+  saveRecord: () => saveRecord(),
 });
 
 const { castTownPortal, triggerWaypointTravel, transitionToZone, saveAndExit, endNode, toMap } = campaignLifecycle;
@@ -935,6 +957,7 @@ function updateGothicHud(): void {
     if (lbl) lbl.textContent = on ? `Run ${pct}%` : pct < 100 ? `Walk ${pct}%` : 'Walk';
   }
 
+  defaultRmb();
   const pinBtn = document.getElementById('btn-pinnacle');
   if (pinBtn) pinBtn.hidden = sim.hero?.pinnacle !== true;
 
@@ -949,6 +972,16 @@ function toggleRun(): void {
   queue({ type: 'hero', op: 'run', on: sim.hero.running !== true });
 }
 
+/** A caster starts with a known spell on the right button; a fighter with a skill. The hero may appear after the HUD is built. */
+function defaultRmb(): void {
+  if (!sim.hero || activeRmbSkill || activeRmbSpell !== null) return;
+  const spell = DEFAULT_SLOTS.find((sid) => heroKnows(sid));
+  const caster = sim.hero.cls === Cls.Mage || sim.hero.cls === 3;
+  if (caster && spell !== undefined) activeRmbSpell = spell;
+  else activeRmbSkill = getHeroSkills()[0] ?? null;
+  updateActiveSkillUI();
+}
+
 function initGothicHud(): void {
   for (let i = 1; i <= 4; i++) {
     const slot = document.getElementById(`belt-slot-${i}`);
@@ -957,11 +990,6 @@ function initGothicHud(): void {
 
   const decal = document.getElementById('hero-decal');
   if (decal) decal.onclick = () => { heroUi.toggle(); blip(); };
-
-  if (sim.hero && !activeRmbSkill) {
-    activeRmbSkill = getHeroSkills()[0] ?? null;
-    updateActiveSkillUI();
-  }
 
   const slotRmb = document.getElementById('slot-rmb');
   if (slotRmb) {
@@ -974,6 +1002,7 @@ function initGothicHud(): void {
       const curIdx = activeRmbSkill ? skills.indexOf(activeRmbSkill) : -1;
       const nextIdx = (curIdx + 1) % skills.length;
       activeRmbSkill = skills[nextIdx];
+      activeRmbSpell = null;
       updateActiveSkillUI();
       toast(`RMB Skill: ${SKILL_ICONS[activeRmbSkill].name}`);
     };
@@ -1314,6 +1343,7 @@ const inputController = createInputController({
   setBoxDrag: (b) => { boxDrag = b; },
   getOutcome: () => outcome,
   hideTip,
+  hasActiveRmb: () => activeRmbSkill !== null || activeRmbSpell !== null,
   scheduleHoldTipHide: () => {
     clearTimeout(tipHide);
     tipHide = window.setTimeout(() => {
@@ -1677,6 +1707,8 @@ spellbookUi = new SpellbookUi({
   getActiveRmb: () => activeRmbSpell,
   setActiveRmb: (spellId) => {
     activeRmbSpell = spellId;
+    activeRmbSkill = null;
+    updateActiveSkillUI();
   },
   armSpell: (spellId) => {
     armSpell(spellId);
@@ -1712,6 +1744,9 @@ if (menuSpells) {
     if (mm) { mm.hidden = true; userPause = false; }
     spellbookUi.open();
   };
+}
+function heroKnows(sid: number): boolean {
+  return sim.hero === null || maskHas(sim.cb.known[sim.hero.id], sim.cb.knownHi, sim.hero.id * KNOWN_HI, sid);
 }
 $('book-close').onclick = closeBook;
 $('book-help').textContent = S.bookHelp;
@@ -1752,7 +1787,6 @@ const missionContent = loadedMission ? await loadMissionContent(missionName) : n
 let lastBossLineAt = 0, bossEnraged = false;
 let radioFoes0 = 0, radioHalf = false, radioLow = false;
 if (loadedMission && missionName && !isTownNode) { achReset(); bossEnraged = false; radioFoes0 = 0; radioHalf = false; radioLow = false; }
-  if (loadedMission && missionName && !isTownNode) void missionKey(missionName).then((k) => { if (k) void startSideQuests(k); });
 if (loadedMission && missionName) void missionRadio(missionName, 'start').then((l) => { if (l) setTimeout(() => toast(`Radio: ${l}`), 2500); });
 if (loadedMission && missionName) void loadMissionHints(missionName).then((h) => { if (h[0]) setTimeout(() => toast(h[0]), 6000); if (h[1]) setTimeout(() => toast(h[1]), 45000); });
 const missionUi = loadedMission
@@ -1764,10 +1798,7 @@ const missionUi = loadedMission
         if (ids.length > 0) {
           queue({ type: 'move', ids, x: tx, y: ty, loose: true });
         }
-        cameraFollow = false;
-        renderer.centerOn(tx, ty);
-        cameraController.camX = renderer.camX;
-        cameraController.camY = renderer.camY;
+        cameraFollow = true; // stay with the hero; the minimap and ping show the goal
         ping = { x: tx, y: ty, t: performance.now() };
         questGoal = { x: tx, y: ty };
         minimap.setQuestGoal(tx, ty);
@@ -1776,6 +1807,7 @@ const missionUi = loadedMission
         } catch {}
         toast(`🧭 Marching to: ${label}`);
       },
+      takenQuests: () => steppedQuests.takenQuests(npcName),
     }, missionContent)
   : null;
 
@@ -1802,6 +1834,56 @@ let visit: { town: number; role: number; npc: number; until: number } | null = n
 const TALK_REACH = 3;
 const heroNear = (x: number, y: number, r: number): boolean => sim.hero !== null && alive(0) && Math.abs(sim.x[0] / FP - x) <= r && Math.abs(sim.y[0] / FP - y) <= r;
 
+const npcName = (id: string): string =>
+  sim.towns.flatMap((t) => t.def.npcs ?? []).find((n) => n.id === id)?.name ?? id.replace(/^(npc|field)-/, '').replace(/-/g, ' ');
+
+/** Writes the campaign record; quest progress goes with it, so it outlives the mission autosave. */
+function saveRecord(): Promise<unknown> {
+  if (!crec) return Promise.resolve();
+  if (questsLoaded) crec.progress.quests = steppedQuests.save();
+  return writeRecord(crec);
+}
+
+function refreshMarks(): void {
+  const marks: { x: number; y: number; label: string; npc: boolean; quest?: '!' | '?' | null }[] = [];
+  for (const t of sim.towns) {
+    t.centre.forEach((c, role) => c && marks.push({ x: c[0], y: c[1] - 1.1, label: S.town.roles[role], npc: false }));
+    for (const n of t.def.npcs ?? []) {
+      const mark = n.id ? steppedQuests.npcMark(n.id) : null;
+      marks.push({ x: n.x + 0.5, y: n.y + 0.5, label: n.name, npc: true, quest: mark });
+    }
+  }
+  if (marks.length) renderer.setMarks(marks);
+  // Every quest change refreshes the marks; keep the record in step.
+  if (questsLoaded && !outcome) void saveRecord();
+}
+
+function showQuestTalk(npcId: string, name: string, talk: TalkOutcome): void {
+  let gold = 0;
+  let xp = 0;
+  for (const r of talk.rewards) {
+    gold += r.gold ?? 0;
+    xp += r.xp ?? 0;
+  }
+  const items = talk.rewards.flatMap((r) => (r.item && jsonUnique(r.item) ? [r.item] : []));
+  const due = gold > 0 || xp > 0 || items.length > 0;
+  if (due) queue({ type: 'reward', gold, xp, items });
+  const names = items.map((id) => `, ${jsonUnique(id)!.def.name}`).join('');
+  const paid = due ? `\n\nReward: ${gold} gold, ${xp} XP${names}` : '';
+  openPanel(name, `${talk.title}\n\n${talk.text}${paid}`);
+  (talk.options ?? []).forEach((label, i) => {
+    const btn = document.createElement('button');
+    btn.className = 'tv-btn';
+    btn.textContent = label;
+    btn.onclick = () => {
+      const next = steppedQuests.choose(talk.questId, npcId, i);
+      if (next) showQuestTalk(npcId, name, next);
+    };
+    $('panel-choices').append(btn);
+  });
+  refreshMarks();
+}
+
 /** Try to go in or talk now; true when the screen opened or the line was shown. */
 function arrive(town: number, role: number, npc: number): boolean {
   const t = sim.towns[town];
@@ -1809,6 +1891,11 @@ function arrive(town: number, role: number, npc: number): boolean {
     const n = t.def.npcs![npc];
     if (!heroNear(n.x + 0.5, n.y + 0.5, TALK_REACH)) return false;
     $('toast').hidden = true;
+    const quest = n.id ? steppedQuests.talk(n.id, npcName) : null;
+    if (quest) {
+      showQuestTalk(n.id!, n.name, quest);
+      return true;
+    }
     const npcText = loadedMission?.doc.text[n.text] ?? '';
     openPanel(n.name, npcText);
     const npcClip = resolveDialogueVoiceClip(n.name, npcText, loadedMission?.doc.name ?? '', n.text);
@@ -2679,14 +2766,8 @@ function updateStats(): void {
     if (aliveFoes < lastFoes && !isTownNode) {
       achKills(lastFoes - aliveFoes);
       triggerTutorial('enemy_killed');
-      for (let i = 0; i < sim.count; i++) {
-        if (sim.team[i] === 1 && sim.cb.hp[i] <= 0 && !steppedDeadUnits.has(i)) {
-          steppedDeadUnits.add(i);
-          const fam = sim.cb.family[i];
-          if (fam) steppedQuests.onKillFamily(fam, 1);
-        }
-      }
     }
+    if (!isTownNode) questKills();
     if (!isTownNode) achTrack(sim.count, sim.team, sim.cb.hp, sim.cb.family);
     if (!isTownNode) sqTrack(sim.count, sim.team, sim.cb.hp, sim.cb.family, sim.cb.gold[0] ?? 0);
     if (sim.hero) {
@@ -2780,6 +2861,7 @@ function finish(kind: 'win' | 'lose', text?: string): void {
     showDefeatScreen(fx ? [text, fx].filter(Boolean).join('\n\n') : text);
   }
 }
+
 
 let modalFrameDirty = true;
 let lastPauseSig = '';
@@ -2933,7 +3015,10 @@ function advanceStep(): void {
             orderPickupLoot(lootId);
             playPickupRustle();
             const itemName = (d2Action.interactable as { name?: string }).name;
-            if (itemName) steppedQuests.onCollectItem(itemName, 1);
+            if (itemName) {
+              steppedQuests.onCollectItem(itemName, 1);
+              refreshMarks();
+            }
             triggerTutorial('loot_collected');
           }
         } else if (d2Action.interactable.type === 'chest' && d2Action.interactable.obj) {
@@ -3047,7 +3132,7 @@ function advanceStep(): void {
           if (campaignId && !wps.includes(campaignId)) wps.push(campaignId);
           if (!wps.includes(wp.id)) wps.push(wp.id);
           crec.progress.waypoints = wps;
-          void writeRecord(crec);
+          void saveRecord();
         }
         triggerWaypointTravel();
       }
@@ -3064,6 +3149,27 @@ function advanceStep(): void {
 
 let lastHeartbeat = 0;
 let lastRegionCheck = 0;
+const announceZone = zoneAnnouncer(loadedMission?.doc.zones ?? [], loadedMission?.doc.text ?? {});
+let lastZoneCheck = 0;
+let zoneBannerTimer = 0;
+function showZoneBanner({ name, lore }: ZoneArrival): void {
+  let box = document.getElementById('zone-banner');
+  if (!box) {
+    box = document.createElement('div');
+    box.id = 'zone-banner';
+    box.setAttribute('role', 'status');
+    document.body.append(box);
+  }
+  const title = document.createElement('h2');
+  title.textContent = name;
+  const line = document.createElement('p');
+  line.textContent = lore ?? '';
+  line.hidden = !lore;
+  box.replaceChildren(title, line);
+  box.hidden = false;
+  clearTimeout(zoneBannerTimer);
+  zoneBannerTimer = window.setTimeout(() => (box.hidden = true), lore ? 8000 : 3000);
+}
 let lastRegionMusicTrack = '';
 void Promise.all([
   fetch(`${import.meta.env.BASE_URL}data/content/npc-dialogues.json`)
@@ -3088,6 +3194,42 @@ for (const key of ['vendor-stock', 'npc-reactions', 'merc-hire-dialogues', 'ui-s
 const steppedDeadUnits = new Set<number>();
 const steppedInvCounts = new Map<string, number>();
 let steppedInvInit = false;
+let steppedSeeded = false;
+/** Counts each foe death once; units already dead on the first look (a loaded save) don't count. */
+function questKills(): void {
+  let changed = false;
+  const stepResults = [];
+  const families = new Map<string, boolean>(); // family -> any still alive
+  for (let i = 0; i < sim.count; i++) {
+    if (sim.team[i] !== 1) continue;
+    const family = sim.cb.family[i];
+    if (family) families.set(family, families.get(family) === true || sim.cb.hp[i] > 0);
+    if (sim.cb.hp[i] > 0) steppedDeadUnits.delete(i);
+    else if (!steppedDeadUnits.has(i)) {
+      steppedDeadUnits.add(i);
+      const fam = sim.cb.family[i];
+      if (steppedSeeded && fam) {
+        const res = steppedQuests.onFoeKilled(fam);
+        if (res.length > 0) {
+          stepResults.push(...res);
+          changed = true;
+        }
+      }
+    }
+  }
+  steppedSeeded = true;
+  for (const [family, anyAlive] of families) {
+    if (!anyAlive) {
+      const res = steppedQuests.onFamilyCleared(family);
+      if (res.length > 0) {
+        stepResults.push(...res);
+        changed = true;
+      }
+    }
+  }
+  if (stepResults.length > 0) grantSteppedQuestRewards(sim, stepResults, toast);
+  if (changed) refreshMarks();
+}
 const seenTutorials = new Set<string>(JSON.parse(localStorage.getItem('thornvael:tutorialSeen') || '[]') as string[]);
 function triggerTutorial(triggerType: string): void {
   if (localStorage.getItem('thornvael:tutorialDisabled') === '1') return;
@@ -3097,9 +3239,11 @@ function triggerTutorial(triggerType: string): void {
   try { localStorage.setItem('thornvael:tutorialSeen', JSON.stringify([...seenTutorials])); } catch {}
   toast(`${step.popup.heading}: ${step.popup.body}`);
 }
+let questsLoaded = false;
 let steppedQuests = new SteppedQuestAdapter([], resumed?.save.state.steppedQuests);
 steppedQuests.setOnAdvance((res) => {
   grantSteppedQuestRewards(sim, res, toast);
+  refreshMarks();
 });
 void Promise.all(
   ['side-quests.json', 'side-quests-2.json', 'side-quests-3.json', 'side-quests-4.json'].map((file) =>
@@ -3111,11 +3255,14 @@ void Promise.all(
   .then((chunks) => {
     const defs = chunks.flat().filter((d) => d && typeof d.id === 'string' && Array.isArray(d.steps));
     if (defs.length > 0) {
-      steppedQuests = new SteppedQuestAdapter(defs, resumed?.save.state.steppedQuests ?? steppedQuests.save());
+      steppedQuests = new SteppedQuestAdapter(defs, resumed?.save.state.steppedQuests ?? crec?.progress.quests ?? steppedQuests.save());
+      questsLoaded = true;
       steppedQuests.setOnAdvance((res) => {
         grantSteppedQuestRewards(sim, res, toast);
+        refreshMarks();
       });
       townUi.setSteppedQuests(steppedQuests);
+      refreshMarks();
     }
   })
   .catch(() => {});
@@ -3154,6 +3301,11 @@ function frame(): void {
   } else if (isTownNode && heroPresent && now - lastRegionCheck > 500) {
     lastRegionCheck = now;
     checkEscortSafety();
+  }
+  if (heroPresent && alive(0) && now - lastZoneCheck > 500 && !missionUi?.isDialogueOpen() && !townUi.open) {
+    lastZoneCheck = now;
+    const arrival = announceZone(Math.floor(sim.x[0] / FP), Math.floor(sim.y[0] / FP));
+    if (arrival) showZoneBanner(arrival);
   }
   const dt = Math.min(250, now - lastNow);
   lastNow = now;
@@ -3325,6 +3477,7 @@ onDiscovery((id) => {
 function openPanel(title: string, body: string, restart = false): void {
   $('panel-title').textContent = title;
   $('panel-body').textContent = body;
+  $('panel-choices').replaceChildren();
   $('panel-restart').hidden = !restart;
   $('panel').hidden = false;
 }
@@ -3523,12 +3676,7 @@ void renderer.init(sim).then(() => {
   setQuality(renderer.quality, true);
   if (combatMode) selectAll();
   if (missionError) toast(`${S.mission.loadFailed} ${missionError}`);
-  const marks: { x: number; y: number; label: string; npc: boolean }[] = [];
-  for (const t of sim.towns) {
-    t.centre.forEach((c, role) => c && marks.push({ x: c[0], y: c[1] - 1.1, label: S.town.roles[role], npc: false }));
-    for (const n of t.def.npcs ?? []) marks.push({ x: n.x + 0.5, y: n.y + 0.5, label: n.name, npc: true });
-  }
-  if (marks.length) renderer.setMarks(marks);
+  refreshMarks();
   if (resumed) {
     // Back exactly where the save was taken: no briefing, no hero creation, the same view.
     const ui = resumed.save.state.ui;
@@ -3609,7 +3757,11 @@ void renderer.init(sim).then(() => {
     openBook,
     spellbook: spellbookUi,
     activeRmbSpell: () => activeRmbSpell,
-    setActiveRmb: (sid: number | null) => { activeRmbSpell = sid; },
+    setActiveRmb: (sid: number | null) => {
+      activeRmbSpell = sid;
+      if (sid !== null) activeRmbSkill = null;
+      updateActiveSkillUI();
+    },
     toggleAuto,
     heroUi,
     useItemSlot,

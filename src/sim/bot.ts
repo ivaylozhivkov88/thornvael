@@ -157,6 +157,10 @@ export class MonsterAi {
   protected kiteCooldowns = new Map<number, number>();
   protected fledForLeader = new Set<number>();
   protected lowHpPanicked = new Set<number>();
+  /** Campaign packs wait to be found: they notice a hero this close to their post (tiles)... */
+  protected heroSight = 7;
+  /** ...and give up once the hero is further than this. */
+  protected heroPursuit = 12;
 
   constructor(protected readonly packs: Pack[]) {}
 
@@ -649,16 +653,15 @@ export class MonsterAi {
       const packTeam = sim.team[alive[0]];
       const engaged = alive.find((id) => cb.tgt[id] >= 0 && cb.hp[cb.tgt[id]] > 0);
 
-      // Hero proximity: aggro sight radius ~13 tiles and relentless pursuit within 25 tiles
       const heroId = sim.hero ? (sim.hero.id ?? 0) : -1;
       const heroDist = heroId >= 0 && cb.hp[heroId] > 0 && sim.team[heroId] !== packTeam
         ? Math.hypot(sim.x[heroId] / FP - p.x, sim.y[heroId] / FP - p.y)
         : Infinity;
-      const heroSight = heroDist <= 13;
-      const heroPursuit = heroDist <= 17; // roughly one screen: beyond it the pack gives up and goes back to sleep
+      const heroSight = heroDist <= this.heroSight;
+      const heroPursuit = heroDist <= this.heroPursuit;
 
       if (!p.hunting) {
-        // Aggro sight radius ~13 tiles onto hero or active engagement
+        // Wake on a close hero or an engagement already under way
         const canAggro = engaged !== undefined || heroSight;
         if (!canAggro) continue;
         const t = engaged !== undefined ? cb.tgt[engaged] : heroId;
@@ -668,7 +671,7 @@ export class MonsterAi {
         continue;
       }
 
-      // Pursuit ends once the hero is off screen (>17 tiles) and the pack calms down
+      // Pursuit ends once the hero gets away and the pack calms down
       p.calm = (engaged !== undefined || heroPursuit) ? 0 : p.calm + 10;
 
       let cx = 0;
@@ -677,7 +680,7 @@ export class MonsterAi {
         cx += sim.x[id];
         cy += sim.y[id];
       }
-      // Aggro Leash: breaks pursuit when dragged more than 14 tiles away from patrol post
+      // Aggro Leash: breaks pursuit when dragged more than 12 tiles away from patrol post
       const far = Math.hypot(cx / alive.length / FP - p.x, cy / alive.length / FP - p.y) > 12;
       if (p.calm >= 30 || far) {
         p.hunting = false;
@@ -742,6 +745,9 @@ export interface SkirmishDirectorOptions {
  * - Sim Determinism: 100% deterministic command log replay without Math.random.
  */
 export class SkirmishDirector extends MonsterAi {
+  // Skirmish enemies keep their long reach: there the other side is meant to come for you.
+  protected override heroSight = 13;
+  protected override heroPursuit = 17;
   protected deathTicks = new Map<number, number>();
   protected lastRaidTick = 0;
   protected raidCount = 0;

@@ -106,6 +106,7 @@ export interface InputControllerContext {
   triggerHeroSkill: (idx: number) => void;
   toggleLoose: () => void;
   orderPickupLoot: (lootId: number) => void;
+  hasActiveRmb?: () => boolean;
 }
 
 export interface InputControllerHandle {
@@ -205,7 +206,9 @@ export function createInputController(ctx: InputControllerContext): InputControl
     const sim = ctx.getSim();
     const loadedMission = ctx.getLoadedMission();
 
-    if (controlMode === 'wasd' && e.pointerType === 'mouse' && (e.button === 0 || e.button === 2)) {
+    // The right button casts when a spell or skill sits on it; it must not also steer the hero.
+    const rmbCasts = e.button === 2 && !e.shiftKey && Boolean(ctx.hasActiveRmb?.());
+    if (controlMode === 'wasd' && e.pointerType === 'mouse' && (e.button === 0 || e.button === 2) && !rmbCasts) {
       const enemy = pickUnit(sim.count, ctx.posEnemy, x, y, ctx.pickRadius);
       const loot = nearestLoot(sim, Math.round(wx * FP), Math.round(wy * FP), 2.0 * FP);
       let interactable: D2Interactable | undefined;

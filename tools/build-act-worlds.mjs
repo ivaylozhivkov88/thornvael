@@ -533,6 +533,8 @@ function buildWorld(cfg) {
     ...town.text,
     title: cfg.title,
     body: cfg.body,
+    // Zone lore shown when the hero walks in (src/zonebanner.ts).
+    ...Object.fromEntries(Object.entries(cfg.lore ?? {}).map(([id, line]) => [`zone.${id}`, line])),
   };
 
   const world = {
