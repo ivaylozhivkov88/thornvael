@@ -3351,8 +3351,9 @@ button:disabled, #shell .sh-btn:disabled { opacity: .6; cursor: default; box-sha
   box-shadow: 0 4px 16px rgba(0, 0, 0, 0.85), 0 0 10px rgba(212, 175, 55, 0.35);
 }
 #objectives.expanded, .gothic-hud-tracker.expanded {
+  left: calc(196px + env(safe-area-inset-left));
   width: auto;
-  max-width: min(340px, calc(100vw - 20px - env(safe-area-inset-left) - env(safe-area-inset-right)));
+  max-width: min(340px, calc(100vw - 196px - clamp(140px, 18vw, 200px) - 24px - env(safe-area-inset-left) - env(safe-area-inset-right)));
   max-height: calc(100dvh - var(--hud-top, 56px) - 160px);
   overflow-y: auto;
   overscroll-behavior: contain;
@@ -3369,6 +3370,19 @@ button:disabled, #shell .sh-btn:disabled { opacity: .6; cursor: default; box-sha
   color: #e8dcc4;
   white-space: pre-line;
 }
+@media (max-width: 900px), (max-height: 540px) {
+  #objectives.collapsed, .gothic-hud-tracker.collapsed {
+    padding: 2px 8px;
+    font-size: 10px;
+    line-height: 1.2;
+  }
+  #objectives.expanded, .gothic-hud-tracker.expanded {
+    left: auto;
+    right: calc(clamp(140px, 18vw, 200px) + 20px + env(safe-area-inset-right)) !important;
+    max-width: min(280px, calc(100vw - clamp(140px, 18vw, 200px) - 200px - env(safe-area-inset-left) - env(safe-area-inset-right)));
+    max-height: calc(100dvh - var(--hud-top, 56px) - 116px);
+  }
+}
 #objectives.expanded:hover, .gothic-hud-tracker.expanded:hover {
   background: linear-gradient(135deg, rgba(34, 28, 20, 0.99) 0%, rgba(18, 15, 11, 1) 100%);
   border-color: #ffd770;
@@ -3379,8 +3393,10 @@ button:disabled, #shell .sh-btn:disabled { opacity: .6; cursor: default; box-sha
   gap: 6px;
 }
 .tracker-collapsed-row .tracker-title-text {
-  max-width: min(320px, 60vw);
-  white-space: normal;
+  max-width: min(320px, calc(100vw - clamp(140px, 18vw, 200px) - 80px));
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 .tracker-title {
   margin-bottom: 6px;

@@ -3,7 +3,7 @@ import { expect, test, type Page } from '@playwright/test';
 async function checkHud(page: Page): Promise<void> {
   const issues = await page.evaluate(() => {
     const issues: string[] = [];
-    const selectors = '.bar button, #minimap, #btn-alt, .squad-bar button, #gothic-hud .belt-slot, #gothic-hud .skill-slot, #gothic-hud .utility-buttons button, #hint, #stats';
+    const selectors = '.bar button, #minimap, #btn-alt, #objectives, .squad-bar button, #gothic-hud .belt-slot, #gothic-hud .skill-slot, #gothic-hud .utility-buttons button, #hint, #stats';
     const elements = [...document.querySelectorAll<HTMLElement>(selectors)].filter((el) => {
       const r = el.getBoundingClientRect();
       return r.width > 0 && r.height > 0 && getComputedStyle(el).visibility !== 'hidden';
@@ -67,6 +67,16 @@ for (const viewport of [{ width: 1366, height: 768 }, { width: 900, height: 450 
       await page.locator('#btn-alt').click();
       await page.locator('#btn-alt').click();
       await checkHud(page);
+
+      // Expand the HUD Quest Tracker (#objectives) if present and verify it does not cover squad bar, minimap, or other HUD controls.
+      const tracker = page.locator('#objectives');
+      if (await tracker.isVisible()) {
+        await tracker.click();
+        await expect(tracker).toHaveClass(/expanded/);
+        await checkHud(page);
+        await tracker.click();
+        await expect(tracker).toHaveClass(/collapsed/);
+      }
 
       // Squad member buttons must remain accessible >= 44px targets.
       const members = page.locator('.squad-bar .squad-member');

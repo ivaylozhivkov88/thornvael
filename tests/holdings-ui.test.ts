@@ -37,7 +37,8 @@ describe('UI & Visual Ergonomics: Holdings Modal, HUD Quest Tracker & Minimap', 
       expect(styleCss).toMatch(/#objectives,\s*\.gothic-hud-tracker\s*\{[^}]*top:\s*var\(--hud-top/);
     });
 
-    it('bounds expanded quest tracker height to prevent covering the bottom globes and action dock', () => {
+    it('bounds expanded quest tracker height and repositions it off the squad bar', () => {
+      expect(styleCss).toMatch(/#objectives\.expanded,\s*\.gothic-hud-tracker\.expanded\s*\{[^}]*left:\s*calc\(196px\s*\+\s*env\(safe-area-inset-left\)\);/);
       expect(styleCss).toMatch(/#objectives\.expanded,\s*\.gothic-hud-tracker\.expanded\s*\{[^}]*max-height:\s*calc\(100dvh\s*-\s*var\(--hud-top[^}]*-\s*160px\);/);
       expect(styleCss).toMatch(/#objectives\.expanded,\s*\.gothic-hud-tracker\.expanded\s*\{[^}]*overflow-y:\s*auto;/);
     });
