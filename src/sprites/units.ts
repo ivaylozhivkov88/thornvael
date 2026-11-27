@@ -185,6 +185,8 @@ export class UnitAtlas {
   readonly animations: Readonly<Record<string, number>>;
   private backingCanvas: HTMLCanvasElement | null = null;
   private reloadMeta: { colorUrl: string; maskUrl: string; w: number; h: number } | null = null;
+  /** Set once at least one visible UnitSprite using this atlas has been drawn in a render pass. */
+  gpuUploaded = false;
 
   private constructor(
     readonly unit: AnyUnitArt,
@@ -229,7 +231,8 @@ export class UnitAtlas {
     cv.width = qw * 2;
     cv.height = qh * 2;
     const ctx = cv.getContext('2d')!;
-    ctx.imageSmoothingEnabled = false;
+    ctx.imageSmoothingEnabled = texScale < 1;
+    if (texScale < 1) ctx.imageSmoothingQuality = 'high';
     const tmp = document.createElement('canvas');
     tmp.width = w;
     tmp.height = h;
@@ -258,7 +261,7 @@ export class UnitAtlas {
     const maskUrl = base + sheet.meta.thornvael!.mask;
     const cv = await UnitAtlas.buildCompositeCanvas(colorUrl, maskUrl, w, h, texScale, timeoutMs);
     const texture = Texture.from(cv);
-    texture.source.scaleMode = 'nearest';
+    texture.source.scaleMode = 'linear';
     const atlas = new UnitAtlas(unit, texture, sheet, texScale);
     atlas.backingCanvas = cv;
     atlas.reloadMeta = { colorUrl, maskUrl, w, h };

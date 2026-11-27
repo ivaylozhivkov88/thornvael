@@ -1735,6 +1735,7 @@ export class Renderer {
       }
 
       if (s.visible && s instanceof UnitSprite) {
+        s.atlas.gpuUploaded = true;
         const isHero = sim.hero?.id === i || sim.cb.kind[i] === Kind.Hero;
         const weaponId = isHero && sim.hero ? sim.hero.eq[Slot.Weapon] : -1;
         const armorId = isHero && sim.hero ? sim.hero.eq[Slot.Armor] : -1;
@@ -1879,10 +1880,14 @@ export class Renderer {
     if (!this.contextLost && this.app?.renderer) {
       this.app.render();
       for (const atlas of this.loadedAtlases) {
-        (atlas as UnitAtlas & { releaseCpuBacking?: () => void }).releaseCpuBacking?.();
+        if (atlas.gpuUploaded) {
+          (atlas as UnitAtlas & { releaseCpuBacking?: () => void }).releaseCpuBacking?.();
+        }
       }
       for (const atlas of this.extendedAtlases?.values() ?? []) {
-        (atlas as UnitAtlas & { releaseCpuBacking?: () => void }).releaseCpuBacking?.();
+        if (atlas.gpuUploaded) {
+          (atlas as UnitAtlas & { releaseCpuBacking?: () => void }).releaseCpuBacking?.();
+        }
       }
     }
   }

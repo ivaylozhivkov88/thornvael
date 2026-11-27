@@ -66,6 +66,7 @@ export class TownFolkPool {
     s.position.set(x, y);
     s.scale.set(look.scale);
     s.visible = true;
+    atlas.gpuUploaded = true;
     return true;
   }
 
