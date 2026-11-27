@@ -1582,6 +1582,9 @@ function applySquadStance(stance: SquadStance): void {
   } else if (stance === 'aggressive') {
     queue({ type: 'order', order: 'swarm', ids: targets });
     toast('⚔ Squad Stance: Aggressive Pursuit');
+  } else if (heroId >= 0 && alive(heroId) && allies.length > 0) {
+    queue({ type: 'order', order: 'defend', ids: targets, target: heroId });
+    toast('⚖ Squad Stance: Escort Hero');
   } else {
     const anchorId = heroId >= 0 && alive(heroId) ? heroId : targets[0];
     queue({ type: 'order', order: 'guard', ids: targets, x: sim.x[anchorId] / FP, y: sim.y[anchorId] / FP });
@@ -3335,7 +3338,7 @@ function frame(): void {
 
   // Edge pan: gently shift camera when mouse is within 15px of screen border in desktop mode
   const ptr = inputController.getPointerAt();
-  if (ptr && !hidden && !userPause) {
+  if (ptr && !hidden && !userPause && !isAnyModalOpen()) {
     cameraController.viewW = renderer.viewW;
     cameraController.viewH = renderer.viewH;
     cameraController.camX = renderer.camX;

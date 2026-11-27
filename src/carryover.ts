@@ -1,4 +1,5 @@
 import type { CampaignProgress } from './campaign';
+import { Ord } from './sim/combat';
 import { FP, type Sim } from './sim/sim';
 import { cloneHero, recalc, type HeroState } from './sim/hero';
 import { upkeepFee } from './sim/town';
@@ -106,6 +107,9 @@ export function applyCarryover(sim: Sim, co: CarryoverState): number {
     sim.y[u] = sim.ty[u] = sim.cb.py[u] = sim.y[id] + Math.round(Math.sin(a) * 1.2 * FP);
     sim.stop(u);
     sim.hidden[u] = 0;
+    sim.cb.ord[u] = Ord.Defend;
+    sim.cb.aux[u] = id;
+    sim.cb.tgt[u] = -1;
     sim.cb.hp[u] = Math.max(1, Math.floor((sim.cb.hpMax[u] * Math.min(100, m.hpPct + heal)) / 100));
     placed++;
   }

@@ -5,7 +5,7 @@ import { EliteDirector } from './sim/ai/elite-director';
 import { WORLD_SHRINE_KINDS, WorldEventsDirector } from './sim/ai/shrines-events';
 import { DIFFICULTY_TIERS, SkirmishModeController } from './sim/ai/skirmish-modes';
 import { MonsterAi, SkirmishDirector, placeScenario } from './sim/bot';
-import { Kind } from './sim/combat';
+import { Kind, Ord } from './sim/combat';
 import { placeCampaignGoldPiles } from './sim/loot';
 import { D2R_BOSS_MODS, applyDynamicSessionRespawn } from './sim/respawn';
 import { ScriptRuntime } from './sim/script';
@@ -261,6 +261,24 @@ export function createMission(
     : new MonsterAi(structuredClone(scenario.packs));
   const directors = initMissionDirectors(loaded, sim, seed, useDirector, difficulty, ngPlusTier);
   sim.attachDirectors(directors, townOnly);
+  const heroId = sim.hero?.id ?? 0;
+  if (heroId >= 0 && heroId < sim.count && sim.team[heroId] === 0 && !sim.hidden[heroId] && sim.cb.hp[heroId] > 0) {
+    for (let i = 0; i < sim.count; i++) {
+      if (
+        i !== heroId &&
+        sim.team[i] === 0 &&
+        !sim.hidden[i] &&
+        sim.cb.hp[i] > 0 &&
+        sim.cb.ord[i] === Ord.Guard &&
+        sim.cb.aux[i] === 0 &&
+        sim.cb.tgt[i] === -1
+      ) {
+        sim.cb.ord[i] = Ord.Defend;
+        sim.cb.aux[i] = heroId;
+        sim.cb.tgt[i] = -1;
+      }
+    }
+  }
   return { loaded, sim, ai, directors };
 }
 

@@ -2,6 +2,7 @@ import { describe, expect, it } from 'vitest';
 import { Minimap } from '../src/minimap';
 import { TILE } from '../src/map';
 import { CameraController } from '../src/camera';
+import { RenderCameraController } from '../src/render/camera-controller';
 
 describe('Camera & WASD Controls', () => {
   it('calculates target camera coordinates centered on hero', () => {
@@ -190,5 +191,54 @@ describe('Camera & WASD Controls', () => {
     expect(pannedInterior).toBe(false);
     expect(cam.camX).toBe(500);
     expect(cam.camY).toBe(500);
+
+    // 6. Diagonal edges (top-left, top-right, bottom-left, bottom-right)
+    cam.camX = 500;
+    cam.camY = 500;
+    expect(cam.edgePan(5, 5, 8, 15)).toBe(true);
+    expect([cam.camX, cam.camY]).toEqual([492, 492]);
+
+    cam.camX = 500;
+    cam.camY = 500;
+    expect(cam.edgePan(1275, 5, 8, 15)).toBe(true);
+    expect([cam.camX, cam.camY]).toEqual([508, 492]);
+
+    cam.camX = 500;
+    cam.camY = 500;
+    expect(cam.edgePan(5, 715, 8, 15)).toBe(true);
+    expect([cam.camX, cam.camY]).toEqual([492, 508]);
+
+    cam.camX = 500;
+    cam.camY = 500;
+    expect(cam.edgePan(1275, 715, 8, 15)).toBe(true);
+    expect([cam.camX, cam.camY]).toEqual([508, 508]);
+  });
+
+  it('RenderCameraController.pan moves and clamps in all 4 directions (left, right, up, down)', () => {
+    const rcam = new RenderCameraController(
+      {
+        getMap: () => ({ w: 128, h: 128 }),
+        getViewport: () => ({ w: 1280, h: 720 }),
+      },
+      { camX: 500, camY: 500, zoom: 1 },
+    );
+
+    // Drag right/left (pan subtracts pointer delta)
+    rcam.pan(40, 0);
+    expect([rcam.camX, rcam.camY]).toEqual([460, 500]);
+    rcam.pan(-80, 0);
+    expect([rcam.camX, rcam.camY]).toEqual([540, 500]);
+
+    // Drag up/down
+    rcam.pan(0, 60);
+    expect([rcam.camX, rcam.camY]).toEqual([540, 440]);
+    rcam.pan(0, -120);
+    expect([rcam.camX, rcam.camY]).toEqual([540, 560]);
+
+    // Clamps to [0, world - view]
+    rcam.pan(10000, 10000);
+    expect([rcam.camX, rcam.camY]).toEqual([0, 0]);
+    rcam.pan(-100000, -100000);
+    expect([rcam.camX, rcam.camY]).toEqual([128 * TILE - 1280, 128 * TILE - 720]);
   });
 });

@@ -296,11 +296,23 @@ export function createInputController(ctx: InputControllerContext): InputControl
 
   canvas.addEventListener('pointerleave', (e) => {
     if (e.pointerType === 'mouse') {
-      pointerAt = null;
       ctx.setHover(null);
       ctx.setHoveredUnit(null);
       ctx.hideTip();
     }
+  });
+
+  window.addEventListener('pointermove', (e) => {
+    if (e.pointerType !== 'mouse') return;
+    pointerAt = local(e);
+  });
+
+  document.addEventListener('mouseleave', () => {
+    pointerAt = null;
+  });
+
+  window.addEventListener('blur', () => {
+    pointerAt = null;
   });
 
   canvas.addEventListener('auxclick', (e) => {
