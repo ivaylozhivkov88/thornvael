@@ -38,11 +38,29 @@ export function parseRecord(raw: unknown): CampaignRecord | null {
 }
 
 /** The page address that starts a node: the engine reads `mission` for the map and `campaign` for the node. */
-/** Act I opens `act1-world` at the start node, while `town-thornwick` routes to the safe Thornwick Market hub. */
+/** Act I plays on the continuous `act1-world` map; `town-thornwick` routes to Thornwick Market when entered standalone. */
 const worldMapOf = (n: CampaignNode): string => (
-  n.id === 'town-thornwick' ? 'thornwick-market' : n.id === 'm01-blood-at-the-ford' ? 'act1-world' : n.map
+  n.id === 'town-thornwick' ? 'thornwick-market' : actOf(n) === 1 && n.kind === 'mission' ? 'act1-world' : n.map
 );
 export const nodeUrl = (n: CampaignNode): string => `./?mission=${encodeURIComponent(worldMapOf(n))}&campaign=${encodeURIComponent(n.id)}`;
+
+/**
+ * Direct launch URL for resuming a campaign without passing through a disconnected node-grid screen.
+ * For Act I, always launches into the continuous `act1-world` (spawning at Thornwick if the record is in town).
+ */
+export function resumeCampaignUrl(c: Campaign, rec: CampaignRecord): string {
+  const current = nodeOf(c, rec.progress.node);
+  if (actOf(current) === 1) {
+    if (current.kind === 'town') {
+      const activeMission =
+        c.nodes.find((n) => actOf(n) === 1 && n.kind === 'mission' && rec.progress.unlocked.includes(n.id) && !rec.progress.completed.includes(n.id)) ??
+        nodeOf(c, c.start);
+      return `${nodeUrl(activeMission)}&spawnX=14&spawnY=14`;
+    }
+    return nodeUrl(current);
+  }
+  return nodeUrl(current);
+}
 
 /** A node can be entered when it is unlocked and its map ships with the game. */
 export function canEnter(rec: CampaignRecord, id: string, maps: ReadonlySet<string>, c: Campaign): boolean {

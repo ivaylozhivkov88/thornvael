@@ -2,7 +2,7 @@ import { readFileSync } from 'node:fs';
 import { describe, expect, it } from 'vitest';
 import { parseCampaign } from '../src/campaign';
 import type { CarryoverState } from '../src/carryover';
-import { afterMission, afterTown, canEnter, clearLast, newRecord, nodeUrl, parseRecord, saveAndExitRecord } from '../src/flow';
+import { afterMission, afterTown, canEnter, clearLast, newRecord, nodeUrl, parseRecord, resumeCampaignUrl, saveAndExitRecord } from '../src/flow';
 import type { SteppedQuestDef } from '../src/sidequests';
 import { SteppedQuestAdapter } from '../src/sidequests-adapter';
 import { startState } from '../src/sim/hero';
@@ -56,6 +56,14 @@ describe('campaign screen flow', () => {
     expect(parseRecord(JSON.parse(JSON.stringify(rec)))?.progress.unlocked).toEqual([camp.start]);
     expect(parseRecord({ v: 2 })).toBeNull();
     expect(parseRecord(null)).toBeNull();
+  });
+  it('resumes Act 1 directly in the connected act1-world without a node-grid detour', () => {
+    let rec = newRecord(camp, { cls: 0, female: false }, 1);
+    expect(resumeCampaignUrl(camp, rec)).toBe('./?mission=act1-world&campaign=m01-blood-at-the-ford');
+    rec = afterMission(camp, rec, camp.start, true, carryFor(rec, 100), last);
+    rec = saveAndExitRecord(camp, rec, rec.carry);
+    expect(rec.progress.node).toBe('town-thornwick');
+    expect(resumeCampaignUrl(camp, rec)).toBe('./?mission=act1-world&campaign=m02-whispers-in-the-fen&spawnX=14&spawnY=14');
   });
 });
 

@@ -65,6 +65,8 @@ import type { VictoryScreenContext } from './victory-screen';
 import { FP, Sim, TICKS_PER_SECOND, type Command, type OrderName } from './sim/sim';
 import { regionAtTile } from './atmosphere';
 import { zoneAnnouncer, type ZoneArrival } from './zonebanner';
+import { zoneHunt } from './missionui';
+import { globalQuestNavigator } from './questlog';
 import { S } from './strings';
 import { LOW_HP_TIP, Tips, hydrateCuratedTips } from './tips';
 import { loadLocationPlaques, } from './data/text/index';
@@ -316,8 +318,9 @@ let armed: ArmKind | null = null;
 let outcome: 'win' | 'lose' | null = null;
 let boxDrag: View['box'] = null;
 let ping: { x: number; y: number; t: number } | null = null;
-/** Quest goal set by the journal's Navigate button; stays marked until the hero arrives. */
+/** Quest goal set by the journal's Navigate button or auto-guidance; stays marked until the hero arrives. */
 let questGoal: { x: number; y: number } | null = null;
+let manualQuestGoal = false;
 let hover: View['hover'] = null;
 const mods = { alt: false, ctrl: false };
 
@@ -690,6 +693,10 @@ const campaignLifecycle = createCampaignLifecycle({
   alive,
   army,
   setUserPause: (v) => { userPause = v; },
+  centerCamera: (tx: number, ty: number) => {
+    cameraFollow = true;
+    renderer.centerOn(tx, ty);
+  },
   toast: (msg) => toast(msg),
   playSfx: (name, prio) => play(name, prio),
   closeAllOverlays: () => {
@@ -1037,11 +1044,13 @@ function initGothicHud(): void {
   if (questClose) questClose.onclick = () => { const q = document.getElementById('quest-modal'); if (q) q.hidden = true; };
   const questAll = document.getElementById('quest-all-missions');
   if (questAll) {
-    if (campaign) questAll.textContent = S.shell.toMap;
+    const isConnectedWorld = Boolean(loadedMission?.doc.zones && loadedMission.doc.zones.length > 1 && loadedMission.doc.waypoints?.length);
+    if (campaign) questAll.textContent = isConnectedWorld ? 'Waypoints' : S.shell.toMap;
     questAll.onclick = () => {
       const q = document.getElementById('quest-modal');
       if (q) q.hidden = true;
-      if (campaign) void toMap();
+      if (isConnectedWorld) triggerWaypointTravel();
+      else if (campaign) void toMap();
       else showMissionMenu();
     };
   }
@@ -1803,8 +1812,10 @@ const missionUi = loadedMission
         }
         cameraFollow = true; // stay with the hero; the minimap and ping show the goal
         ping = { x: tx, y: ty, t: performance.now() };
+        manualQuestGoal = true;
         questGoal = { x: tx, y: ty };
         minimap.setQuestGoal(tx, ty);
+        globalQuestNavigator.setTarget(tx, ty, label);
         try {
           blip();
         } catch {}
@@ -3128,7 +3139,8 @@ function advanceStep(): void {
     if (allWaypoints.length > 0) {
       const wp = checkWaypointTouch(sim, allWaypoints, activeWaypoints);
       if (wp) {
-        toast(`🗿 Ancient Waypoint activated: ${wp.name}!`);
+        const isConnectedWorld = Boolean(loadedMission.doc.zones && loadedMission.doc.zones.length > 1);
+        toast(isConnectedWorld ? `🗿 Waypoint discovered: ${wp.name}! Click [Waypoints] to fast-travel.` : `🗿 Ancient Waypoint activated: ${wp.name}!`);
         play('select_hero', 5);
         if (crec) {
           const wps = crec.progress.waypoints ? [...crec.progress.waypoints] : [];
@@ -3137,7 +3149,7 @@ function advanceStep(): void {
           crec.progress.waypoints = wps;
           void saveRecord();
         }
-        triggerWaypointTravel();
+        if (!isConnectedWorld) triggerWaypointTravel();
       }
     }
     const allExits = loadedMission.doc.exits ?? ensureConnectedWorldExits(loadedMission.doc, campaign, campaignId);
@@ -3309,6 +3321,22 @@ function frame(): void {
     lastZoneCheck = now;
     const arrival = announceZone(Math.floor(sim.x[0] / FP), Math.floor(sim.y[0] / FP));
     if (arrival) showZoneBanner(arrival);
+    if (!manualQuestGoal && loadedMission?.doc.zones && loadedMission.doc.zones.length > 1) {
+      const hunt = zoneHunt(
+        loadedMission.doc,
+        (i) => i < sim.count && sim.cb.hp[i] > 0,
+        (i) => [sim.x[i] / FP, sim.y[i] / FP],
+      );
+      if (hunt && hunt.targetX !== undefined && hunt.targetY !== undefined) {
+        questGoal = { x: hunt.targetX, y: hunt.targetY };
+        minimap.setQuestGoal(hunt.targetX, hunt.targetY);
+        globalQuestNavigator.setTarget(hunt.targetX, hunt.targetY, hunt.text, now);
+      } else {
+        questGoal = null;
+        minimap.setQuestGoal(null, null);
+        globalQuestNavigator.clearTarget();
+      }
+    }
   }
   const dt = Math.min(250, now - lastNow);
   lastNow = now;
@@ -3378,9 +3406,55 @@ function frame(): void {
     renderer.clamp();
   }
   if (questGoal && sim.hero !== null && alive(0) && Math.hypot(sim.x[0] / FP - questGoal.x, sim.y[0] / FP - questGoal.y) < 2.5) {
-    toast('🧭 You have arrived');
+    if (manualQuestGoal) toast('🧭 You have arrived');
+    manualQuestGoal = false;
     questGoal = null;
     minimap.setQuestGoal(null, null);
+    globalQuestNavigator.clearTarget();
+  }
+  {
+    let compassEl = document.getElementById('quest-compass');
+    const target = globalQuestNavigator.getTarget();
+    const arrow =
+      target && heroPresent && alive(0) && !isAnyModalOpen() && !hidden
+        ? globalQuestNavigator.computeScreenEdgeArrow(renderer.camX, renderer.camY, renderer.viewW, renderer.viewH, renderer.zoom, 32, 64)
+        : null;
+    if (arrow && arrow.isOutside && target) {
+      if (!compassEl) {
+        const btn = document.createElement('button');
+        btn.id = 'quest-compass';
+        btn.type = 'button';
+        btn.title = 'Click to march toward active objective';
+        btn.innerHTML = '<span class="qc-arrow">➤</span><span class="qc-label"></span>';
+        btn.onclick = () => {
+          const t = globalQuestNavigator.getTarget();
+          if (!t) return;
+          const sel = selectedIds();
+          const ids = sel.length > 0 ? sel : alive(0) ? [0] : [];
+          if (ids.length > 0) queue({ type: 'move', ids, x: t.x, y: t.y, loose: true });
+          cameraFollow = true;
+          ping = { x: t.x, y: t.y, t: performance.now() };
+          toast(`🧭 Marching to: ${t.label}`);
+        };
+        document.body.append(btn);
+        compassEl = btn;
+      }
+      const distTiles = Math.max(1, Math.round(arrow.distancePx / (32 * renderer.zoom)));
+      const clampedX = Math.max(110, Math.min(renderer.viewW - 110, arrow.screenX));
+      const clampedY = Math.max(78, Math.min(renderer.viewH - 125, arrow.screenY));
+      compassEl.style.left = `${Math.round(clampedX)}px`;
+      compassEl.style.top = `${Math.round(clampedY)}px`;
+      const arrowSpan = compassEl.querySelector('.qc-arrow') as HTMLElement | null;
+      if (arrowSpan) arrowSpan.style.transform = `rotate(${arrow.angle}rad)`;
+      const labelSpan = compassEl.querySelector('.qc-label') as HTMLElement | null;
+      if (labelSpan) {
+        const shortName = target.label.replace(/^Leave town and hunt the foes in\s+/i, '').replace(/\s*\(\d+\s*left\)$/i, '');
+        labelSpan.textContent = `${shortName} · ${distTiles}m`;
+      }
+      compassEl.hidden = false;
+    } else if (compassEl) {
+      compassEl.hidden = true;
+    }
   }
   const age = ping ? (now - ping.t) / 600 : 2;
   if (age >= 1) ping = null;
@@ -3542,8 +3616,9 @@ $('btn-music').textContent = musicOn ? S.musicOn : S.musicOff;
 toggle('btn-music', musicOn);
 $('btn-force').textContent = S.force[0];
 if (!combatMode) for (const id of ['btn-loose', 'btn-force']) $(id).hidden = true;
-$('btn-missions').textContent = campaign ? S.shell.toMap : S.mission.open;
-$('btn-missions').onclick = campaign ? () => void toMap() : showMissionMenu;
+const isConnectedWorldMap = Boolean(loadedMission?.doc.zones && loadedMission.doc.zones.length > 1 && loadedMission.doc.waypoints?.length);
+$('btn-missions').textContent = campaign ? (isConnectedWorldMap ? 'Waypoints' : S.shell.toMap) : S.mission.open;
+$('btn-missions').onclick = campaign ? (isConnectedWorldMap ? () => triggerWaypointTravel() : () => void toMap()) : showMissionMenu;
 const btnSaveExit = document.getElementById('btn-save-exit');
 if (btnSaveExit) {
   btnSaveExit.onclick = () => void saveAndExit();

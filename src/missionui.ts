@@ -466,9 +466,10 @@ export class MissionUi {
     private readonly host: MissionHost,
     private readonly content: MissionContent | null = null,
   ) {
-    // HUD Objectives Tracker
+    // HUD Objectives Tracker (expanded by default on multi-zone connected world maps for clear guidance)
+    this.isObjectivesCollapsed = !(doc.zones && doc.zones.length > 1);
     this.goals.id = 'objectives';
-    this.goals.className = 'gothic-hud-tracker collapsed';
+    this.goals.className = this.isObjectivesCollapsed ? 'gothic-hud-tracker collapsed' : 'gothic-hud-tracker expanded';
     this.goals.hidden = true;
     this.goals.onclick = () => this.toggleObjectives();
     this.goals.ondblclick = (e) => {

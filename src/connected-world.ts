@@ -78,11 +78,21 @@ export function ensureConnectedWorldExits(
   return exits;
 }
 
+export interface WorldWaypointOption {
+  id: string;
+  name: string;
+  x: number;
+  y: number;
+  activated?: boolean;
+}
+
 export interface WaypointTravelCtx {
   campaign: Campaign;
   rec: CampaignRecord;
   currentAct: 1 | 2 | 3 | 4;
   currentNodeId: string;
+  worldWaypoints?: readonly WorldWaypointOption[];
+  onTeleport?: (wp: WorldWaypointOption) => void;
   onTravel: (targetNode: CampaignNode) => void;
   onClose: () => void;
 }
@@ -146,6 +156,44 @@ export class WaypointTravelModal {
     list.className = 'waypoint-list';
 
     const unlockedWpSet = new Set(ctx.rec.progress.waypoints ?? []);
+
+    if (ctx.worldWaypoints && ctx.worldWaypoints.length > 0 && ctx.onTeleport) {
+      for (const wp of ctx.worldWaypoints) {
+        const isTown = wp.id === 'wp-town' || wp.name.toLowerCase().includes('thornwick');
+        const isUnlocked = isTown || Boolean(wp.activated) || unlockedWpSet.has(wp.id);
+        if (!isUnlocked) continue;
+
+        const btn = document.createElement('button');
+        btn.type = 'button';
+        btn.className = `waypoint-btn ${isTown ? 'town' : ''}`;
+
+        const icon = document.createElement('span');
+        icon.className = 'waypoint-btn-icon';
+        icon.textContent = isTown ? '🏰' : '🗿';
+
+        const labelBox = document.createElement('div');
+        labelBox.className = 'waypoint-btn-info';
+
+        const name = document.createElement('strong');
+        name.textContent = `${wp.name}${isTown ? ' (Town Hub)' : ''}`;
+
+        const status = document.createElement('small');
+        status.textContent = `⚡ Fast-Travel (${wp.x}, ${wp.y})`;
+
+        labelBox.append(name, status);
+        btn.append(icon, labelBox);
+
+        btn.onclick = () => {
+          this.close();
+          ctx.onTeleport!(wp);
+        };
+        list.append(btn);
+      }
+      modal.append(head, desc, list);
+      this.root.append(modal);
+      return;
+    }
+
     // Always include the Town Hub of current Act
     const townNode = townNodeForAct(ctx.campaign, ctx.currentAct);
     unlockedWpSet.add(townNode.id);

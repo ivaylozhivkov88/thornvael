@@ -28,6 +28,7 @@ export interface CampaignLifecycleContext {
   alive: (id: number) => boolean;
   army: () => [number, number];
   setUserPause: (paused: boolean) => void;
+  centerCamera?: (tx: number, ty: number) => void;
   toast: (msg: string) => void;
   playSfx: (name: string, priority: number) => void;
   closeAllOverlays: () => void;
@@ -133,12 +134,34 @@ export function createCampaignLifecycle(ctx: CampaignLifecycleContext): Campaign
     if (!campaign || !crec) return;
     const campaignId = ctx.getCampaignId();
     const currentAct = campaignId ? actOf(nodeOf(campaign, campaignId)) : 1;
+    const loadedDoc = ctx.getLoadedMission()?.doc;
+    const worldWaypoints = loadedDoc?.zones && loadedDoc.zones.length > 1 ? loadedDoc.waypoints : undefined;
     ctx.setUserPause(true);
     waypointModal.open({
       campaign,
       rec: crec,
       currentAct,
       currentNodeId: campaignId ?? '',
+      worldWaypoints,
+      onTeleport: (wp) => {
+        const sim = ctx.getSim();
+        if (sim.hero && ctx.alive(sim.hero.id)) {
+          const hid = sim.hero.id;
+          sim.place(hid, wp.x, wp.y);
+          let placed = 0;
+          for (let u = 0; u < sim.count; u++) {
+            if (u === hid || sim.team[u] !== 0 || sim.hidden[u] || sim.cb.hp[u] <= 0) continue;
+            const a = (placed * 2.4) % (Math.PI * 2);
+            sim.place(u, wp.x + Math.cos(a) * 1.4, wp.y + Math.sin(a) * 1.4);
+            placed++;
+          }
+          sim.updateFog();
+          ctx.centerCamera?.(wp.x, wp.y);
+        }
+        ctx.toast(`⚡ Warped to ${wp.name}`);
+        ctx.playSfx('cast_astral', 5);
+        ctx.setUserPause(false);
+      },
       onTravel: (targetNode) => {
         void (async () => {
           const sim = ctx.getSim();
@@ -287,7 +310,8 @@ export function createCampaignLifecycle(ctx: CampaignLifecycleContext): Campaign
       await persistRecord(crec);
       await deleteSave(AUTO).catch(() => undefined);
     }
-    location.assign('./?menu=map');
+    const isAct1 = campaign && campaignId ? actOf(nodeOf(campaign, campaignId)) === 1 : false;
+    location.assign(isAct1 ? './?menu=hub' : './?menu=map');
   }
 
   return {

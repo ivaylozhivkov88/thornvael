@@ -8,6 +8,7 @@ import {
   nextDifficultyAfterVictory,
   nodeUrl,
   RECORD_KEY,
+  resumeCampaignUrl,
   startNewGamePlusRecord,
   type CampaignRecord,
   type HeroPick,
@@ -246,6 +247,7 @@ export async function runShell(startWorker: () => void): Promise<never> {
     const canContinue = rec !== null || auto !== null;
     const cont = btn(T.continue, () => {
       if (auto && (!rec || auto.state.node)) go(`./?load=${AUTO}`);
+      else if (rec && activeAct(rec) === 1 && !rec.last) go(resumeCampaignUrl(c, rec), { title: 'Act I — The Border', act: 1 });
       else map();
     });
     cont.disabled = !canContinue;
@@ -496,6 +498,7 @@ Items, skills and levels carry over.`));
               'Continue Campaign',
               () => {
                 if (auto && (!rec || auto.state.node)) go(`./?load=${AUTO}`);
+                else if (rec && activeAct(rec) === 1 && !rec.last) go(resumeCampaignUrl(c, rec), { title: 'Act I — The Border', act: 1 });
                 else map();
               },
               'sh-on',
@@ -682,6 +685,29 @@ Items, skills and levels carry over.`));
     actTabs.append(btn('Story', () => showStory(seqId), 'sh-small'));
     musicBtn.classList.add('is-inline');
     bar.append(el('b', '', `${T.mapTitle} · ${T.diff[r.progress.difficulty]}`), actTabs, (() => { const b = btn('🏆 Codex', () => void openCodex(), 'sh-small'); b.dataset.testid = 'btn-map-codex'; return b; })(), btn(T.holdings, holdings, 'sh-small'), ...banner(), musicBtn, btn(T.back, menu, 'sh-small'));
+
+    if (currentAct === 1) {
+      stage.replaceChildren(
+        el('div', 'homm-corner homm-corner-tl'),
+        el('div', 'homm-corner homm-corner-tr'),
+        el('div', 'homm-corner homm-corner-bl'),
+        el('div', 'homm-corner homm-corner-br'),
+      );
+      const act1Card = el('div', 'sh-act1-atlas');
+      const currentTitle = nodeOf(c, r.progress.node).title;
+      const doneCount = visibleNodes.filter((n) => n.kind === 'mission' && r.progress.completed.includes(n.id)).length;
+      const totalCount = visibleNodes.filter((n) => n.kind === 'mission').length;
+      act1Card.append(
+        el('h2', '', 'Act I — The Border (Connected World)'),
+        el('p', 'note', `Thornwick, the Border Fords, Ravenwatch, Greywood, and Ashbrook form one continuous world.\nProgress: ${doneCount} / ${totalCount} zones cleared · Current: ${currentTitle}`),
+        btn('⚔️ Enter Connected World', () => go(resumeCampaignUrl(c, r), { title: 'Act I — The Border', act: 1 }), 'sh-on'),
+      );
+      stage.append(act1Card);
+      screen(bar, stage);
+      if (r.last) result(r.last);
+      return;
+    }
+
     screen(bar, stage);
     if (r.last) result(r.last);
   }
