@@ -1,0 +1,3790 @@
+{
+  "warrior-m": {
+    "armor:Apothecary's Oilcloth": {
+      "file": "armor--apothecarys-oilcloth--warrior-m.png",
+      "x": 29.0,
+      "y": 16.5,
+      "w": 45.0,
+      "h": 43.53
+    },
+    "armor:Arbiter's Velvet Mantle": {
+      "file": "armor--arbiters-velvet-mantle--warrior-m.png",
+      "x": 29.0,
+      "y": 16.5,
+      "w": 45.0,
+      "h": 45.73
+    },
+    "armor:Ashen Citadel Cuirass": {
+      "file": "armor--ashen-citadel-cuirass--warrior-m.png",
+      "x": 29.0,
+      "y": 16.5,
+      "w": 45.0,
+      "h": 45.01
+    },
+    "armor:Barnacle-Crusted Brigandine": {
+      "file": "armor--barnacle-crusted-brigandine--warrior-m.png",
+      "x": 29.0,
+      "y": 16.5,
+      "w": 45.0,
+      "h": 33.58
+    },
+    "armor:Bitumen-Sealed Habit": {
+      "file": "armor--bitumen-sealed-habit--warrior-m.png",
+      "x": 29.0,
+      "y": 16.5,
+      "w": 45.0,
+      "h": 48.16
+    },
+    "armor:Cinder-Wing Mantle": {
+      "file": "armor--cinder-wing-mantle--warrior-m.png",
+      "x": 29.0,
+      "y": 16.5,
+      "w": 45.0,
+      "h": 29.38
+    },
+    "armor:Deep-Current Mantle": {
+      "file": "armor--deep-current-mantle--warrior-m.png",
+      "x": 29.0,
+      "y": 16.5,
+      "w": 45.0,
+      "h": 43.53
+    },
+    "armor:Gorse-Thorn Brigandine": {
+      "file": "armor--gorse-thorn-brigandine--warrior-m.png",
+      "x": 29.0,
+      "y": 16.5,
+      "w": 45.0,
+      "h": 33.58
+    },
+    "armor:Grounded Clerk's Habit": {
+      "file": "armor--grounded-clerks-habit--warrior-m.png",
+      "x": 29.0,
+      "y": 16.5,
+      "w": 45.0,
+      "h": 43.31
+    },
+    "armor:Lime-Ditch Cassock": {
+      "file": "armor--lime-ditch-cassock--warrior-m.png",
+      "x": 29.0,
+      "y": 16.5,
+      "w": 45.0,
+      "h": 43.75
+    },
+    "armor:Pauper-Roll Cassock": {
+      "file": "armor--pauper-roll-cassock--warrior-m.png",
+      "x": 29.0,
+      "y": 16.5,
+      "w": 45.0,
+      "h": 44.77
+    },
+    "armor:pitch-steeped Winding Sheet": {
+      "file": "armor--pitch-steeped-winding-sheet--warrior-m.png",
+      "x": 29.0,
+      "y": 16.5,
+      "w": 45.0,
+      "h": 33.58
+    },
+    "armor:Salt-Scoured Brigandine": {
+      "file": "armor--salt-scoured-brigandine--warrior-m.png",
+      "x": 29.0,
+      "y": 16.5,
+      "w": 45.0,
+      "h": 38.21
+    },
+    "armor:Salt-Viper Jerkin": {
+      "file": "armor--salt-viper-jerkin--warrior-m.png",
+      "x": 29.0,
+      "y": 16.5,
+      "w": 45.0,
+      "h": 34.88
+    },
+    "armor:Shroud of Unpaid Vows": {
+      "file": "armor--shroud-of-unpaid-vows--warrior-m.png",
+      "x": 29.0,
+      "y": 16.5,
+      "w": 45.0,
+      "h": 45.97
+    },
+    "armor:Sovereign Wyrmscale": {
+      "file": "armor--sovereign-wyrmscale--warrior-m.png",
+      "x": 29.0,
+      "y": 16.5,
+      "w": 45.0,
+      "h": 36.66
+    },
+    "armor:Vestments of the Last Pyre": {
+      "file": "armor--vestments-of-the-last-pyre--warrior-m.png",
+      "x": 29.0,
+      "y": 16.5,
+      "w": 45.0,
+      "h": 43.97
+    },
+    "armor:Vok's Fissure-Plate": {
+      "file": "armor--voks-fissure-plate--warrior-m.png",
+      "x": 29.0,
+      "y": 16.5,
+      "w": 45.0,
+      "h": 40.36
+    },
+    "boots:Bren's Only Dry Boot": {
+      "file": "boots--brens-only-dry-boot--warrior-m.png",
+      "x": 33.5,
+      "y": 71.5,
+      "w": 36.0,
+      "h": 16.06
+    },
+    "boots:Cliff-Runner Striders": {
+      "file": "boots--cliff-runner-striders--warrior-m.png",
+      "x": 33.5,
+      "y": 71.5,
+      "w": 36.0,
+      "h": 21.57
+    },
+    "boots:Coal-Walker's Sabatons": {
+      "file": "boots--coal-walkers-sabatons--warrior-m.png",
+      "x": 33.5,
+      "y": 71.5,
+      "w": 36.0,
+      "h": 21.62
+    },
+    "boots:Fen-Wader Striders": {
+      "file": "boots--fen-wader-striders--warrior-m.png",
+      "x": 33.5,
+      "y": 71.5,
+      "w": 36.0,
+      "h": 15.01
+    },
+    "boots:Reef-Walker Boots": {
+      "file": "boots--reef-walker-boots--warrior-m.png",
+      "x": 33.5,
+      "y": 71.5,
+      "w": 36.0,
+      "h": 15.01
+    },
+    "boots:Sedge-Walker Treads": {
+      "file": "boots--sedge-walker-treads--warrior-m.png",
+      "x": 33.5,
+      "y": 71.5,
+      "w": 36.0,
+      "h": 21.67
+    },
+    "boots:Silt-Plodder Boots": {
+      "file": "boots--silt-plodder-boots--warrior-m.png",
+      "x": 33.5,
+      "y": 71.5,
+      "w": 36.0,
+      "h": 15.01
+    },
+    "boots:Spurs of Tactical Withdrawal": {
+      "file": "boots--spurs-of-tactical-withdrawal--warrior-m.png",
+      "x": 33.5,
+      "y": 71.5,
+      "w": 36.0,
+      "h": 13.43
+    },
+    "gloves-l:Ash-Runner Grips": {
+      "file": "gloves--ash-runner-grips-l--warrior-m.png",
+      "x": 26.75,
+      "y": 42.5,
+      "w": 11.5,
+      "h": 12.17
+    },
+    "gloves-r:Ash-Runner Grips": {
+      "file": "gloves--ash-runner-grips-r--warrior-m.png",
+      "x": 57.25,
+      "y": 42.5,
+      "w": 11.5,
+      "h": 12.21
+    },
+    "gloves-l:Bowyers' Horn Bracer": {
+      "file": "gloves--bowyers-horn-bracer-l--warrior-m.png",
+      "x": 27.62,
+      "y": 42.5,
+      "w": 9.75,
+      "h": 14.5
+    },
+    "gloves-r:Bowyers' Horn Bracer": {
+      "file": "gloves--bowyers-horn-bracer-r--warrior-m.png",
+      "x": 58.12,
+      "y": 42.5,
+      "w": 9.75,
+      "h": 14.5
+    },
+    "gloves-l": {
+      "file": "gloves--glove-l--warrior-m.png",
+      "x": 26.75,
+      "y": 42.5,
+      "w": 11.5,
+      "h": 14.31
+    },
+    "gloves-r": {
+      "file": "gloves--glove-r--warrior-m.png",
+      "x": 57.25,
+      "y": 42.5,
+      "w": 11.5,
+      "h": 8.58
+    },
+    "gloves-l:Insulated Assay Gloves": {
+      "file": "gloves--insulated-assay-gloves-l--warrior-m.png",
+      "x": 27.59,
+      "y": 42.5,
+      "w": 9.83,
+      "h": 14.5
+    },
+    "gloves-r:Insulated Assay Gloves": {
+      "file": "gloves--insulated-assay-gloves-r--warrior-m.png",
+      "x": 58.33,
+      "y": 42.5,
+      "w": 9.34,
+      "h": 14.5
+    },
+    "gloves-l:Punt-Pole Grips": {
+      "file": "gloves--punt-pole-grips-l--warrior-m.png",
+      "x": 26.75,
+      "y": 42.5,
+      "w": 11.5,
+      "h": 14.45
+    },
+    "gloves-r:Punt-Pole Grips": {
+      "file": "gloves--punt-pole-grips-r--warrior-m.png",
+      "x": 57.25,
+      "y": 42.5,
+      "w": 11.5,
+      "h": 12.21
+    },
+    "gloves-l:Tannin-Stained Wraps": {
+      "file": "gloves--tannin-stained-wraps-l--warrior-m.png",
+      "x": 26.75,
+      "y": 42.5,
+      "w": 11.5,
+      "h": 14.45
+    },
+    "gloves-r:Tannin-Stained Wraps": {
+      "file": "gloves--tannin-stained-wraps-r--warrior-m.png",
+      "x": 57.25,
+      "y": 42.5,
+      "w": 11.5,
+      "h": 11.44
+    },
+    "gloves-l:Vane's Whisper Grips": {
+      "file": "gloves--vanes-whisper-grips-l--warrior-m.png",
+      "x": 27.19,
+      "y": 42.5,
+      "w": 10.63,
+      "h": 14.5
+    },
+    "gloves-r:Vane's Whisper Grips": {
+      "file": "gloves--vanes-whisper-grips-r--warrior-m.png",
+      "x": 57.71,
+      "y": 42.5,
+      "w": 10.59,
+      "h": 14.5
+    },
+    "gloves-l:Wreck-Diver's Bracers": {
+      "file": "gloves--wreck-divers-bracers-l--warrior-m.png",
+      "x": 28.67,
+      "y": 42.5,
+      "w": 7.67,
+      "h": 14.5
+    },
+    "gloves-r:Wreck-Diver's Bracers": {
+      "file": "gloves--wreck-divers-bracers-r--warrior-m.png",
+      "x": 58.52,
+      "y": 42.5,
+      "w": 8.96,
+      "h": 14.5
+    },
+    "helm:Assayer's Sight-Mask": {
+      "file": "helm--assayers-sight-mask.png",
+      "x": 40.5,
+      "y": 1.8,
+      "w": 23.0,
+      "h": 17.16
+    },
+    "helm:Conclave Grounding Hat": {
+      "file": "helm--conclave-grounding-hat.png",
+      "x": 40.5,
+      "y": 1.8,
+      "w": 23.0,
+      "h": 17.16
+    },
+    "helm:Coronet of Cold Clinkers": {
+      "file": "helm--coronet-of-cold-clinkers.png",
+      "x": 40.5,
+      "y": 1.8,
+      "w": 23.0,
+      "h": 17.16
+    },
+    "helm:Dent of Greystone Wall": {
+      "file": "helm--dent-of-greystone-wall.png",
+      "x": 40.5,
+      "y": 1.8,
+      "w": 23.0,
+      "h": 17.16
+    },
+    "helm:Greystone Parapet Helm": {
+      "file": "helm--greystone-parapet-helm.png",
+      "x": 40.5,
+      "y": 1.8,
+      "w": 23.0,
+      "h": 17.16
+    },
+    "helm:Hedge-Tutor's Hat": {
+      "file": "helm--hedge-tutors-hat.png",
+      "x": 40.5,
+      "y": 1.8,
+      "w": 23.0,
+      "h": 17.16
+    },
+    "helm:High Assayer's Diadem": {
+      "file": "helm--high-assayers-diadem.png",
+      "x": 40.5,
+      "y": 1.8,
+      "w": 23.0,
+      "h": 17.16
+    },
+    "helm:Inquisition Sight-Veil": {
+      "file": "helm--inquisition-sight-veil.png",
+      "x": 40.5,
+      "y": 1.8,
+      "w": 23.0,
+      "h": 17.16
+    },
+    "helm:Midge-Veil Hood": {
+      "file": "helm--midge-veil-hood.png",
+      "x": 40.5,
+      "y": 1.8,
+      "w": 23.0,
+      "h": 17.16
+    },
+    "helm:Miner's Canary Cage": {
+      "file": "helm--miners-canary-cage.png",
+      "x": 40.5,
+      "y": 1.8,
+      "w": 23.0,
+      "h": 17.16
+    },
+    "helm:Ossuary-Keeper's Cowl": {
+      "file": "helm--ossuary-keepers-cowl.png",
+      "x": 40.5,
+      "y": 1.8,
+      "w": 23.0,
+      "h": 17.16
+    },
+    "helm:Peat-Sinker's Cowl": {
+      "file": "helm--peat-sinkers-cowl.png",
+      "x": 40.5,
+      "y": 1.8,
+      "w": 23.0,
+      "h": 17.16
+    },
+    "helm:Scriptorium Veil-Cowl": {
+      "file": "helm--scriptorium-veil-cowl.png",
+      "x": 40.5,
+      "y": 1.8,
+      "w": 23.0,
+      "h": 17.16
+    },
+    "helm:Thorn-Thicket Cap": {
+      "file": "helm--thorn-thicket-cap.png",
+      "x": 40.5,
+      "y": 1.8,
+      "w": 23.0,
+      "h": 17.16
+    },
+    "offhand-mage:Black-Blockade Astrolabe": {
+      "file": "offhand-mage--black-blockade-astrolabe.png",
+      "x": 58.0,
+      "y": 38.0,
+      "w": 18.0,
+      "h": 13.43
+    },
+    "offhand-mage:Bog-Crystal Lens": {
+      "file": "offhand-mage--bog-crystal-lens.png",
+      "x": 58.0,
+      "y": 38.0,
+      "w": 18.0,
+      "h": 13.43
+    },
+    "offhand-mage:Brass Probate Scales": {
+      "file": "offhand-mage--brass-probate-scales.png",
+      "x": 58.0,
+      "y": 38.0,
+      "w": 18.0,
+      "h": 13.43
+    },
+    "offhand-mage:Ditch-Chapel Prism": {
+      "file": "offhand-mage--ditch-chapel-prism.png",
+      "x": 58.0,
+      "y": 38.0,
+      "w": 18.0,
+      "h": 13.43
+    },
+    "offhand-mage-focus": {
+      "file": "offhand-mage--focus.png",
+      "x": 58.0,
+      "y": 38.0,
+      "w": 18.0,
+      "h": 13.43
+    },
+    "offhand-mage:Fossilized Lien Wand": {
+      "file": "offhand-mage--fossilized-lien-wand.png",
+      "x": 58.0,
+      "y": 38.0,
+      "w": 18.0,
+      "h": 13.43
+    },
+    "offhand-mage:Harbor-Burner's Astrolabe": {
+      "file": "offhand-mage--harbor-burners-astrolabe.png",
+      "x": 58.0,
+      "y": 38.0,
+      "w": 18.0,
+      "h": 13.43
+    },
+    "offhand-mage:Leviathan-Rib Focus": {
+      "file": "offhand-mage--leviathan-rib-focus.png",
+      "x": 58.0,
+      "y": 38.0,
+      "w": 18.0,
+      "h": 13.43
+    },
+    "offhand-mage:Malrik's Margin-Notes": {
+      "file": "offhand-mage--malriks-margin-notes.png",
+      "x": 58.0,
+      "y": 38.0,
+      "w": 18.0,
+      "h": 13.43
+    },
+    "offhand-mage-mirror": {
+      "file": "offhand-mage--mirror.png",
+      "x": 58.0,
+      "y": 38.0,
+      "w": 18.0,
+      "h": 13.43
+    },
+    "offhand-mage:Molten-Bell Astrolabe": {
+      "file": "offhand-mage--molten-bell-astrolabe.png",
+      "x": 58.0,
+      "y": 38.0,
+      "w": 18.0,
+      "h": 13.43
+    },
+    "offhand-mage-orb": {
+      "file": "offhand-mage--orb.png",
+      "x": 58.0,
+      "y": 38.0,
+      "w": 18.0,
+      "h": 13.67
+    },
+    "offhand-mage:Ruptured Spire Lens": {
+      "file": "offhand-mage--ruptured-spire-lens.png",
+      "x": 58.0,
+      "y": 38.0,
+      "w": 18.0,
+      "h": 13.43
+    },
+    "offhand-mage:Splinter of the Third Monolith": {
+      "file": "offhand-mage--splinter-of-the-third-monolith.png",
+      "x": 58.0,
+      "y": 38.0,
+      "w": 18.0,
+      "h": 13.43
+    },
+    "offhand-mage:Threshold Keystone Eye": {
+      "file": "offhand-mage--threshold-keystone-eye.png",
+      "x": 58.0,
+      "y": 38.0,
+      "w": 18.0,
+      "h": 13.43
+    },
+    "offhand-mage:Tide-Scryer's Sphere": {
+      "file": "offhand-mage--tide-scryers-sphere.png",
+      "x": 58.0,
+      "y": 38.0,
+      "w": 18.0,
+      "h": 13.43
+    },
+    "offhand-mage:Tide-Witness Mirror": {
+      "file": "offhand-mage--tide-witness-mirror.png",
+      "x": 58.0,
+      "y": 38.0,
+      "w": 18.0,
+      "h": 13.43
+    },
+    "offhand-mage-tome": {
+      "file": "offhand-mage--tome.png",
+      "x": 58.0,
+      "y": 38.0,
+      "w": 18.0,
+      "h": 13.43
+    },
+    "shield:Boardwalk Pavise": {
+      "file": "shield--boardwalk-pavise.png",
+      "x": 55.0,
+      "y": 35.0,
+      "w": 24.0,
+      "h": 17.91
+    },
+    "shield:Breakwater Kite Shield": {
+      "file": "shield--breakwater-kite-shield.png",
+      "x": 55.0,
+      "y": 35.0,
+      "w": 24.0,
+      "h": 17.91
+    },
+    "shield-buckler": {
+      "file": "shield--buckler.png",
+      "x": 55.0,
+      "y": 35.0,
+      "w": 24.0,
+      "h": 17.91
+    },
+    "shield:Cinder-Crown Bulwark": {
+      "file": "shield--cinder-crown-bulwark.png",
+      "x": 55.0,
+      "y": 35.0,
+      "w": 24.0,
+      "h": 17.91
+    },
+    "shield:Garrick's Sluice-Lid": {
+      "file": "shield--garricks-sluice-lid.png",
+      "x": 55.0,
+      "y": 35.0,
+      "w": 24.0,
+      "h": 17.91
+    },
+    "shield:Iron Wheel of Wagon Four": {
+      "file": "shield--iron-wheel-of-wagon-four.png",
+      "x": 55.0,
+      "y": 35.0,
+      "w": 24.0,
+      "h": 17.91
+    },
+    "shield-kite": {
+      "file": "shield--kite.png",
+      "x": 55.0,
+      "y": 35.0,
+      "w": 24.0,
+      "h": 23.88
+    },
+    "shield:Portcullis of the First Checkpoint": {
+      "file": "shield--portcullis-of-the-first-checkpoint.png",
+      "x": 55.0,
+      "y": 35.0,
+      "w": 24.0,
+      "h": 17.91
+    },
+    "shield:Ravenwatch Bailey Pavise": {
+      "file": "shield--ravenwatch-bailey-pavise.png",
+      "x": 55.0,
+      "y": 35.0,
+      "w": 24.0,
+      "h": 17.91
+    },
+    "shield:Splinter of the Bailey": {
+      "file": "shield--splinter-of-the-bailey.png",
+      "x": 55.0,
+      "y": 35.0,
+      "w": 24.0,
+      "h": 17.91
+    },
+    "shield-targe": {
+      "file": "shield--targe.png",
+      "x": 55.0,
+      "y": 35.0,
+      "w": 24.0,
+      "h": 17.91
+    },
+    "shield-tower": {
+      "file": "shield--tower.png",
+      "x": 55.0,
+      "y": 35.0,
+      "w": 24.0,
+      "h": 17.91
+    },
+    "weapon:Abbey Witness Staff": {
+      "file": "weapon--abbey-witness-staff.png",
+      "x": 8.0,
+      "y": 38.0,
+      "w": 28.0,
+      "h": 20.89
+    },
+    "weapon:Abdication": {
+      "file": "weapon--abdication.png",
+      "x": 13.08,
+      "y": 38.0,
+      "w": 17.85,
+      "h": 44.0
+    },
+    "weapon:Alder-Bridge Watchman's Edge": {
+      "file": "weapon--alder-bridge-watchmans-edge.png",
+      "x": 8.0,
+      "y": 38.0,
+      "w": 28.0,
+      "h": 20.89
+    },
+    "weapon:Alder-Gate Cleaver": {
+      "file": "weapon--alder-gate-cleaver.png",
+      "x": 8.0,
+      "y": 38.0,
+      "w": 28.0,
+      "h": 20.89
+    },
+    "weapon:Ash-Draft Greatbow": {
+      "file": "weapon--ash-draft-greatbow.png",
+      "x": 16.67,
+      "y": 38.0,
+      "w": 10.67,
+      "h": 44.0
+    },
+    "weapon:Basalt-Splitter Maul": {
+      "file": "weapon--basalt-splitter-maul.png",
+      "x": 8.0,
+      "y": 38.0,
+      "w": 28.0,
+      "h": 20.89
+    },
+    "weapon:Blind-Beacon Rune Staff": {
+      "file": "weapon--blind-beacon-rune-staff.png",
+      "x": 8.0,
+      "y": 38.0,
+      "w": 28.0,
+      "h": 20.89
+    },
+    "weapon:Border-Assessor's Oak": {
+      "file": "weapon--border-assessors-oak.png",
+      "x": 8.0,
+      "y": 38.0,
+      "w": 28.0,
+      "h": 20.89
+    },
+    "weapon:Bracken Wind-Reader": {
+      "file": "weapon--bracken-wind-reader.png",
+      "x": 15.89,
+      "y": 38.0,
+      "w": 12.22,
+      "h": 44.0
+    },
+    "weapon:Caldera Glass Greatbow": {
+      "file": "weapon--caldera-glass-greatbow.png",
+      "x": 14.71,
+      "y": 38.0,
+      "w": 14.59,
+      "h": 44.0
+    },
+    "weapon:Caldera Trench-Flamberge": {
+      "file": "weapon--caldera-trench-flamberge.png",
+      "x": 8.0,
+      "y": 38.0,
+      "w": 28.0,
+      "h": 20.89
+    },
+    "weapon:Candle of the Sunken Sanctum": {
+      "file": "weapon--candle-of-the-sunken-sanctum.png",
+      "x": 16.2,
+      "y": 38.0,
+      "w": 11.61,
+      "h": 44.0
+    },
+    "weapon:Dike-Breaker's Broadaxe": {
+      "file": "weapon--dike-breakers-broadaxe.png",
+      "x": 8.0,
+      "y": 38.0,
+      "w": 28.0,
+      "h": 20.89
+    },
+    "weapon:Drowned-Bell Yew": {
+      "file": "weapon--drowned-bell-yew.png",
+      "x": 8.0,
+      "y": 38.0,
+      "w": 28.0,
+      "h": 20.89
+    },
+    "weapon:Ember-Glass Windpiercer": {
+      "file": "weapon--ember-glass-windpiercer.png",
+      "x": 8.0,
+      "y": 38.0,
+      "w": 28.0,
+      "h": 20.89
+    },
+    "weapon:Expelled Fellow's Staff": {
+      "file": "weapon--expelled-fellows-staff.png",
+      "x": 8.0,
+      "y": 38.0,
+      "w": 28.0,
+      "h": 20.89
+    },
+    "weapon:False-Light Crozier": {
+      "file": "weapon--false-light-crozier.png",
+      "x": 8.0,
+      "y": 38.0,
+      "w": 28.0,
+      "h": 20.89
+    },
+    "weapon:Fen-Poacher's Yew": {
+      "file": "weapon--fen-poachers-yew.png",
+      "x": 16.71,
+      "y": 38.0,
+      "w": 10.58,
+      "h": 44.0
+    },
+    "weapon:Gale-Rigging Composite": {
+      "file": "weapon--gale-rigging-composite.png",
+      "x": 8.0,
+      "y": 38.0,
+      "w": 28.0,
+      "h": 20.89
+    },
+    "weapon:Gallows-Root Crozier": {
+      "file": "weapon--gallows-root-crozier.png",
+      "x": 8.0,
+      "y": 38.0,
+      "w": 28.0,
+      "h": 20.89
+    },
+    "weapon:Gorrathul's Cistern-Blade": {
+      "file": "weapon--gorrathuls-cistern-blade.png",
+      "x": 8.0,
+      "y": 38.0,
+      "w": 28.0,
+      "h": 20.89
+    },
+    "weapon:Harbor-Chain Morning Star": {
+      "file": "weapon--harbor-chain-morning-star.png",
+      "x": 8.0,
+      "y": 38.0,
+      "w": 28.0,
+      "h": 20.89
+    },
+    "weapon:Harborwall Winch-Arbalest": {
+      "file": "weapon--harborwall-winch-arbalest.png",
+      "x": 8.0,
+      "y": 38.0,
+      "w": 28.0,
+      "h": 18.23
+    },
+    "weapon:Healer Sera's Amputation Saw": {
+      "file": "weapon--healer-seras-amputation-saw.png",
+      "x": 12.84,
+      "y": 38.0,
+      "w": 18.31,
+      "h": 44.0
+    },
+    "weapon:Hollow Reed of Vesperion": {
+      "file": "weapon--hollow-reed-of-vesperion.png",
+      "x": 8.0,
+      "y": 38.0,
+      "w": 28.0,
+      "h": 21.01
+    },
+    "weapon:Indenture Breaker": {
+      "file": "weapon--indenture-breaker.png",
+      "x": 8.0,
+      "y": 38.0,
+      "w": 28.0,
+      "h": 26.25
+    },
+    "weapon:Inquisitor's Ash-Siphon": {
+      "file": "weapon--inquisitors-ash-siphon.png",
+      "x": 15.38,
+      "y": 38.0,
+      "w": 13.24,
+      "h": 44.0
+    },
+    "weapon:Lightning-Split Bough": {
+      "file": "weapon--lightning-split-bough.png",
+      "x": 17.04,
+      "y": 38.0,
+      "w": 9.93,
+      "h": 44.0
+    },
+    "weapon:Obsidian Dais Zweihander": {
+      "file": "weapon--obsidian-dais-zweihander.png",
+      "x": 8.0,
+      "y": 38.0,
+      "w": 28.0,
+      "h": 20.89
+    },
+    "weapon:Ossuary Siphon Rod": {
+      "file": "weapon--ossuary-siphon-rod.png",
+      "x": 8.0,
+      "y": 38.0,
+      "w": 28.0,
+      "h": 20.89
+    },
+    "weapon:Parish Probate Wand": {
+      "file": "weapon--parish-probate-wand.png",
+      "x": 8.0,
+      "y": 38.0,
+      "w": 28.0,
+      "h": 19.14
+    },
+    "weapon:Pyre-Marshal's Flamberge": {
+      "file": "weapon--pyre-marshals-flamberge.png",
+      "x": 8.0,
+      "y": 38.0,
+      "w": 28.0,
+      "h": 20.89
+    },
+    "weapon:Quarryman's Grievance": {
+      "file": "weapon--quarrymans-grievance.png",
+      "x": 8.0,
+      "y": 38.0,
+      "w": 28.0,
+      "h": 21.46
+    },
+    "weapon:Redrock Misericorde": {
+      "file": "weapon--redrock-misericorde.png",
+      "x": 8.0,
+      "y": 38.0,
+      "w": 28.0,
+      "h": 20.89
+    },
+    "weapon:Saelen's Marrow-Needle": {
+      "file": "weapon--saelens-marrow-needle.png",
+      "x": 17.03,
+      "y": 38.0,
+      "w": 9.93,
+      "h": 44.0
+    },
+    "weapon:Salt-Mirage Longbow": {
+      "file": "weapon--salt-mirage-longbow.png",
+      "x": 16.83,
+      "y": 38.0,
+      "w": 10.33,
+      "h": 44.0
+    },
+    "weapon:Salt-Oath Yew Rod": {
+      "file": "weapon--salt-oath-yew-rod.png",
+      "x": 8.0,
+      "y": 38.0,
+      "w": 28.0,
+      "h": 20.89
+    },
+    "weapon:Sedge-Bank Recurve": {
+      "file": "weapon--sedge-bank-recurve.png",
+      "x": 8.0,
+      "y": 38.0,
+      "w": 28.0,
+      "h": 20.89
+    },
+    "weapon:Silt-Picker's Willow": {
+      "file": "weapon--silt-pickers-willow.png",
+      "x": 8.0,
+      "y": 38.0,
+      "w": 28.0,
+      "h": 20.89
+    },
+    "weapon:Sluice-Master's Wrench": {
+      "file": "weapon--sluice-masters-wrench.png",
+      "x": 8.0,
+      "y": 38.0,
+      "w": 28.0,
+      "h": 20.68
+    },
+    "weapon:Sovereign's Brazier Staff": {
+      "file": "weapon--sovereigns-brazier-staff.png",
+      "x": 8.0,
+      "y": 38.0,
+      "w": 28.0,
+      "h": 20.89
+    },
+    "weapon:Tax-Collector's Recurve": {
+      "file": "weapon--tax-collectors-recurve.png",
+      "x": 15.31,
+      "y": 38.0,
+      "w": 13.37,
+      "h": 44.0
+    },
+    "weapon:Thornwick Mint Focus": {
+      "file": "weapon--thornwick-mint-focus.png",
+      "x": 8.0,
+      "y": 38.0,
+      "w": 28.0,
+      "h": 20.89
+    },
+    "weapon:Toll-Tower Prod": {
+      "file": "weapon--toll-tower-prod.png",
+      "x": 16.2,
+      "y": 38.0,
+      "w": 11.61,
+      "h": 44.0
+    },
+    "weapon:Tollkeeper's Receipt": {
+      "file": "weapon--tollkeepers-receipt.png",
+      "x": 8.0,
+      "y": 38.0,
+      "w": 28.0,
+      "h": 33.86
+    },
+    "weapon:Tongs of the Cinderforge": {
+      "file": "weapon--tongs-of-the-cinderforge.png",
+      "x": 8.98,
+      "y": 38.0,
+      "w": 26.04,
+      "h": 44.0
+    },
+    "weapon:Turnkey of the North Gate": {
+      "file": "weapon--turnkey-of-the-north-gate.png",
+      "x": 8.0,
+      "y": 38.0,
+      "w": 28.0,
+      "h": 12.49
+    },
+    "weapon:Warden's Seal-Wand": {
+      "file": "weapon--wardens-seal-wand.png",
+      "x": 8.0,
+      "y": 38.0,
+      "w": 28.0,
+      "h": 20.89
+    },
+    "weapon:Willow-Creek String": {
+      "file": "weapon--willow-creek-string.png",
+      "x": 8.0,
+      "y": 38.0,
+      "w": 28.0,
+      "h": 20.89
+    }
+  },
+  "warrior-f": {
+    "armor:Apothecary's Oilcloth": {
+      "file": "armor--apothecarys-oilcloth--warrior-f.png",
+      "x": 29.5,
+      "y": 16.0,
+      "w": 43.0,
+      "h": 41.7
+    },
+    "armor:Arbiter's Velvet Mantle": {
+      "file": "armor--arbiters-velvet-mantle--warrior-f.png",
+      "x": 29.5,
+      "y": 16.0,
+      "w": 43.0,
+      "h": 43.7
+    },
+    "armor:Ashen Citadel Cuirass": {
+      "file": "armor--ashen-citadel-cuirass--warrior-f.png",
+      "x": 29.5,
+      "y": 16.0,
+      "w": 43.0,
+      "h": 43.01
+    },
+    "armor:Barnacle-Crusted Brigandine": {
+      "file": "armor--barnacle-crusted-brigandine--warrior-f.png",
+      "x": 29.5,
+      "y": 16.0,
+      "w": 43.0,
+      "h": 32.09
+    },
+    "armor:Bitumen-Sealed Habit": {
+      "file": "armor--bitumen-sealed-habit--warrior-f.png",
+      "x": 29.5,
+      "y": 16.0,
+      "w": 43.0,
+      "h": 44.52
+    },
+    "armor:Cinder-Wing Mantle": {
+      "file": "armor--cinder-wing-mantle--warrior-f.png",
+      "x": 29.5,
+      "y": 16.0,
+      "w": 43.0,
+      "h": 28.08
+    },
+    "armor:Deep-Current Mantle": {
+      "file": "armor--deep-current-mantle--warrior-f.png",
+      "x": 29.5,
+      "y": 16.0,
+      "w": 43.0,
+      "h": 41.59
+    },
+    "armor:Gorse-Thorn Brigandine": {
+      "file": "armor--gorse-thorn-brigandine--warrior-f.png",
+      "x": 29.5,
+      "y": 16.0,
+      "w": 43.0,
+      "h": 32.09
+    },
+    "armor:Grounded Clerk's Habit": {
+      "file": "armor--grounded-clerks-habit--warrior-f.png",
+      "x": 29.5,
+      "y": 16.0,
+      "w": 43.0,
+      "h": 43.35
+    },
+    "armor:Lime-Ditch Cassock": {
+      "file": "armor--lime-ditch-cassock--warrior-f.png",
+      "x": 29.5,
+      "y": 16.0,
+      "w": 43.0,
+      "h": 41.7
+    },
+    "armor:Pauper-Roll Cassock": {
+      "file": "armor--pauper-roll-cassock--warrior-f.png",
+      "x": 29.5,
+      "y": 16.0,
+      "w": 43.0,
+      "h": 42.78
+    },
+    "armor:pitch-steeped Winding Sheet": {
+      "file": "armor--pitch-steeped-winding-sheet--warrior-f.png",
+      "x": 29.5,
+      "y": 16.0,
+      "w": 43.0,
+      "h": 32.09
+    },
+    "armor:Salt-Scoured Brigandine": {
+      "file": "armor--salt-scoured-brigandine--warrior-f.png",
+      "x": 29.5,
+      "y": 16.0,
+      "w": 43.0,
+      "h": 34.65
+    },
+    "armor:Salt-Viper Jerkin": {
+      "file": "armor--salt-viper-jerkin--warrior-f.png",
+      "x": 29.5,
+      "y": 16.0,
+      "w": 43.0,
+      "h": 43.81
+    },
+    "armor:Shroud of Unpaid Vows": {
+      "file": "armor--shroud-of-unpaid-vows--warrior-f.png",
+      "x": 29.5,
+      "y": 16.0,
+      "w": 43.0,
+      "h": 43.93
+    },
+    "armor:Sovereign Wyrmscale": {
+      "file": "armor--sovereign-wyrmscale--warrior-f.png",
+      "x": 29.5,
+      "y": 16.0,
+      "w": 43.0,
+      "h": 37.68
+    },
+    "armor:Vestments of the Last Pyre": {
+      "file": "armor--vestments-of-the-last-pyre--warrior-f.png",
+      "x": 29.5,
+      "y": 16.0,
+      "w": 43.0,
+      "h": 41.91
+    },
+    "armor:Vok's Fissure-Plate": {
+      "file": "armor--voks-fissure-plate--warrior-f.png",
+      "x": 29.5,
+      "y": 16.0,
+      "w": 43.0,
+      "h": 39.02
+    },
+    "boots:Bren's Only Dry Boot": {
+      "file": "boots--brens-only-dry-boot--warrior-f.png",
+      "x": 33.5,
+      "y": 71.0,
+      "w": 35.0,
+      "h": 14.95
+    },
+    "boots:Cliff-Runner Striders": {
+      "file": "boots--cliff-runner-striders--warrior-f.png",
+      "x": 33.5,
+      "y": 71.0,
+      "w": 35.0,
+      "h": 20.97
+    },
+    "boots:Coal-Walker's Sabatons": {
+      "file": "boots--coal-walkers-sabatons--warrior-f.png",
+      "x": 33.5,
+      "y": 71.0,
+      "w": 35.0,
+      "h": 21.02
+    },
+    "boots:Fen-Wader Striders": {
+      "file": "boots--fen-wader-striders--warrior-f.png",
+      "x": 33.5,
+      "y": 71.0,
+      "w": 35.0,
+      "h": 14.59
+    },
+    "boots:Reef-Walker Boots": {
+      "file": "boots--reef-walker-boots--warrior-f.png",
+      "x": 33.5,
+      "y": 71.0,
+      "w": 35.0,
+      "h": 14.59
+    },
+    "boots:Sedge-Walker Treads": {
+      "file": "boots--sedge-walker-treads--warrior-f.png",
+      "x": 33.5,
+      "y": 71.0,
+      "w": 35.0,
+      "h": 21.07
+    },
+    "boots:Silt-Plodder Boots": {
+      "file": "boots--silt-plodder-boots--warrior-f.png",
+      "x": 33.5,
+      "y": 71.0,
+      "w": 35.0,
+      "h": 14.59
+    },
+    "boots:Spurs of Tactical Withdrawal": {
+      "file": "boots--spurs-of-tactical-withdrawal--warrior-f.png",
+      "x": 33.5,
+      "y": 71.0,
+      "w": 35.0,
+      "h": 13.06
+    },
+    "gloves-l:Ash-Runner Grips": {
+      "file": "gloves--ash-runner-grips-l--warrior-f.png",
+      "x": 27.5,
+      "y": 40.0,
+      "w": 11.0,
+      "h": 13.56
+    },
+    "gloves-r:Ash-Runner Grips": {
+      "file": "gloves--ash-runner-grips-r--warrior-f.png",
+      "x": 59.5,
+      "y": 40.0,
+      "w": 11.0,
+      "h": 12.01
+    },
+    "gloves-l:Bowyers' Horn Bracer": {
+      "file": "gloves--bowyers-horn-bracer-l--warrior-f.png",
+      "x": 27.96,
+      "y": 40.0,
+      "w": 10.09,
+      "h": 15.0
+    },
+    "gloves-r:Bowyers' Horn Bracer": {
+      "file": "gloves--bowyers-horn-bracer-r--warrior-f.png",
+      "x": 59.96,
+      "y": 40.0,
+      "w": 10.09,
+      "h": 15.0
+    },
+    "gloves-l": {
+      "file": "gloves--glove-l--warrior-f.png",
+      "x": 27.5,
+      "y": 40.0,
+      "w": 11.0,
+      "h": 8.21
+    },
+    "gloves-r": {
+      "file": "gloves--glove-r--warrior-f.png",
+      "x": 59.5,
+      "y": 40.0,
+      "w": 11.0,
+      "h": 8.21
+    },
+    "gloves-l:Insulated Assay Gloves": {
+      "file": "gloves--insulated-assay-gloves-l--warrior-f.png",
+      "x": 28.25,
+      "y": 40.0,
+      "w": 9.5,
+      "h": 15.0
+    },
+    "gloves-r:Insulated Assay Gloves": {
+      "file": "gloves--insulated-assay-gloves-r--warrior-f.png",
+      "x": 59.56,
+      "y": 40.0,
+      "w": 10.87,
+      "h": 15.0
+    },
+    "gloves-l:Punt-Pole Grips": {
+      "file": "gloves--punt-pole-grips-l--warrior-f.png",
+      "x": 27.5,
+      "y": 40.0,
+      "w": 11.0,
+      "h": 13.56
+    },
+    "gloves-r:Punt-Pole Grips": {
+      "file": "gloves--punt-pole-grips-r--warrior-f.png",
+      "x": 59.68,
+      "y": 40.0,
+      "w": 10.64,
+      "h": 15.0
+    },
+    "gloves-l:Tannin-Stained Wraps": {
+      "file": "gloves--tannin-stained-wraps-l--warrior-f.png",
+      "x": 27.5,
+      "y": 40.0,
+      "w": 11.0,
+      "h": 14.64
+    },
+    "gloves-r:Tannin-Stained Wraps": {
+      "file": "gloves--tannin-stained-wraps-r--warrior-f.png",
+      "x": 59.5,
+      "y": 40.0,
+      "w": 11.0,
+      "h": 13.92
+    },
+    "gloves-l:Vane's Whisper Grips": {
+      "file": "gloves--vanes-whisper-grips-l--warrior-f.png",
+      "x": 27.5,
+      "y": 40.0,
+      "w": 10.99,
+      "h": 15.0
+    },
+    "gloves-r:Vane's Whisper Grips": {
+      "file": "gloves--vanes-whisper-grips-r--warrior-f.png",
+      "x": 59.5,
+      "y": 40.0,
+      "w": 10.99,
+      "h": 15.0
+    },
+    "gloves-l:Wreck-Diver's Bracers": {
+      "file": "gloves--wreck-divers-bracers-l--warrior-f.png",
+      "x": 28.82,
+      "y": 40.0,
+      "w": 8.36,
+      "h": 15.0
+    },
+    "gloves-r:Wreck-Diver's Bracers": {
+      "file": "gloves--wreck-divers-bracers-r--warrior-f.png",
+      "x": 61.03,
+      "y": 40.0,
+      "w": 7.93,
+      "h": 15.0
+    },
+    "helm:Assayer's Sight-Mask": {
+      "file": "helm--assayers-sight-mask.png",
+      "x": 41.5,
+      "y": 1.6,
+      "w": 20.0,
+      "h": 14.92
+    },
+    "helm:Conclave Grounding Hat": {
+      "file": "helm--conclave-grounding-hat.png",
+      "x": 41.5,
+      "y": 1.6,
+      "w": 20.0,
+      "h": 14.92
+    },
+    "helm:Coronet of Cold Clinkers": {
+      "file": "helm--coronet-of-cold-clinkers.png",
+      "x": 41.5,
+      "y": 1.6,
+      "w": 20.0,
+      "h": 14.92
+    },
+    "helm:Dent of Greystone Wall": {
+      "file": "helm--dent-of-greystone-wall.png",
+      "x": 41.5,
+      "y": 1.6,
+      "w": 20.0,
+      "h": 14.92
+    },
+    "helm:Greystone Parapet Helm": {
+      "file": "helm--greystone-parapet-helm.png",
+      "x": 41.5,
+      "y": 1.6,
+      "w": 20.0,
+      "h": 14.92
+    },
+    "helm:Hedge-Tutor's Hat": {
+      "file": "helm--hedge-tutors-hat.png",
+      "x": 41.5,
+      "y": 1.6,
+      "w": 20.0,
+      "h": 14.92
+    },
+    "helm:High Assayer's Diadem": {
+      "file": "helm--high-assayers-diadem.png",
+      "x": 41.5,
+      "y": 1.6,
+      "w": 20.0,
+      "h": 14.92
+    },
+    "helm:Inquisition Sight-Veil": {
+      "file": "helm--inquisition-sight-veil.png",
+      "x": 41.5,
+      "y": 1.6,
+      "w": 20.0,
+      "h": 14.92
+    },
+    "helm:Midge-Veil Hood": {
+      "file": "helm--midge-veil-hood.png",
+      "x": 41.5,
+      "y": 1.6,
+      "w": 20.0,
+      "h": 14.92
+    },
+    "helm:Miner's Canary Cage": {
+      "file": "helm--miners-canary-cage.png",
+      "x": 41.5,
+      "y": 1.6,
+      "w": 20.0,
+      "h": 14.92
+    },
+    "helm:Ossuary-Keeper's Cowl": {
+      "file": "helm--ossuary-keepers-cowl.png",
+      "x": 41.5,
+      "y": 1.6,
+      "w": 20.0,
+      "h": 14.92
+    },
+    "helm:Peat-Sinker's Cowl": {
+      "file": "helm--peat-sinkers-cowl.png",
+      "x": 41.5,
+      "y": 1.6,
+      "w": 20.0,
+      "h": 14.92
+    },
+    "helm:Scriptorium Veil-Cowl": {
+      "file": "helm--scriptorium-veil-cowl.png",
+      "x": 41.5,
+      "y": 1.6,
+      "w": 20.0,
+      "h": 14.92
+    },
+    "helm:Thorn-Thicket Cap": {
+      "file": "helm--thorn-thicket-cap.png",
+      "x": 41.5,
+      "y": 1.6,
+      "w": 20.0,
+      "h": 14.92
+    },
+    "offhand-mage:Black-Blockade Astrolabe": {
+      "file": "offhand-mage--black-blockade-astrolabe.png",
+      "x": 59.5,
+      "y": 38.0,
+      "w": 18.0,
+      "h": 13.43
+    },
+    "offhand-mage:Bog-Crystal Lens": {
+      "file": "offhand-mage--bog-crystal-lens.png",
+      "x": 59.5,
+      "y": 38.0,
+      "w": 18.0,
+      "h": 13.43
+    },
+    "offhand-mage:Brass Probate Scales": {
+      "file": "offhand-mage--brass-probate-scales.png",
+      "x": 59.5,
+      "y": 38.0,
+      "w": 18.0,
+      "h": 13.43
+    },
+    "offhand-mage:Ditch-Chapel Prism": {
+      "file": "offhand-mage--ditch-chapel-prism.png",
+      "x": 59.5,
+      "y": 38.0,
+      "w": 18.0,
+      "h": 13.43
+    },
+    "offhand-mage-focus": {
+      "file": "offhand-mage--focus.png",
+      "x": 59.5,
+      "y": 38.0,
+      "w": 18.0,
+      "h": 13.43
+    },
+    "offhand-mage:Fossilized Lien Wand": {
+      "file": "offhand-mage--fossilized-lien-wand.png",
+      "x": 59.5,
+      "y": 38.0,
+      "w": 18.0,
+      "h": 13.43
+    },
+    "offhand-mage:Harbor-Burner's Astrolabe": {
+      "file": "offhand-mage--harbor-burners-astrolabe.png",
+      "x": 59.5,
+      "y": 38.0,
+      "w": 18.0,
+      "h": 13.43
+    },
+    "offhand-mage:Leviathan-Rib Focus": {
+      "file": "offhand-mage--leviathan-rib-focus.png",
+      "x": 59.5,
+      "y": 38.0,
+      "w": 18.0,
+      "h": 13.43
+    },
+    "offhand-mage:Malrik's Margin-Notes": {
+      "file": "offhand-mage--malriks-margin-notes.png",
+      "x": 59.5,
+      "y": 38.0,
+      "w": 18.0,
+      "h": 13.43
+    },
+    "offhand-mage-mirror": {
+      "file": "offhand-mage--mirror.png",
+      "x": 59.5,
+      "y": 38.0,
+      "w": 18.0,
+      "h": 13.43
+    },
+    "offhand-mage:Molten-Bell Astrolabe": {
+      "file": "offhand-mage--molten-bell-astrolabe.png",
+      "x": 59.5,
+      "y": 38.0,
+      "w": 18.0,
+      "h": 13.43
+    },
+    "offhand-mage-orb": {
+      "file": "offhand-mage--orb.png",
+      "x": 59.5,
+      "y": 38.0,
+      "w": 18.0,
+      "h": 13.67
+    },
+    "offhand-mage:Ruptured Spire Lens": {
+      "file": "offhand-mage--ruptured-spire-lens.png",
+      "x": 59.5,
+      "y": 38.0,
+      "w": 18.0,
+      "h": 13.43
+    },
+    "offhand-mage:Splinter of the Third Monolith": {
+      "file": "offhand-mage--splinter-of-the-third-monolith.png",
+      "x": 59.5,
+      "y": 38.0,
+      "w": 18.0,
+      "h": 13.43
+    },
+    "offhand-mage:Threshold Keystone Eye": {
+      "file": "offhand-mage--threshold-keystone-eye.png",
+      "x": 59.5,
+      "y": 38.0,
+      "w": 18.0,
+      "h": 13.43
+    },
+    "offhand-mage:Tide-Scryer's Sphere": {
+      "file": "offhand-mage--tide-scryers-sphere.png",
+      "x": 59.5,
+      "y": 38.0,
+      "w": 18.0,
+      "h": 13.43
+    },
+    "offhand-mage:Tide-Witness Mirror": {
+      "file": "offhand-mage--tide-witness-mirror.png",
+      "x": 59.5,
+      "y": 38.0,
+      "w": 18.0,
+      "h": 13.43
+    },
+    "offhand-mage-tome": {
+      "file": "offhand-mage--tome.png",
+      "x": 59.5,
+      "y": 38.0,
+      "w": 18.0,
+      "h": 13.43
+    },
+    "shield:Boardwalk Pavise": {
+      "file": "shield--boardwalk-pavise.png",
+      "x": 56.5,
+      "y": 34.5,
+      "w": 24.0,
+      "h": 17.91
+    },
+    "shield:Breakwater Kite Shield": {
+      "file": "shield--breakwater-kite-shield.png",
+      "x": 56.5,
+      "y": 34.5,
+      "w": 24.0,
+      "h": 17.91
+    },
+    "shield-buckler": {
+      "file": "shield--buckler.png",
+      "x": 56.5,
+      "y": 34.5,
+      "w": 24.0,
+      "h": 17.91
+    },
+    "shield:Cinder-Crown Bulwark": {
+      "file": "shield--cinder-crown-bulwark.png",
+      "x": 56.5,
+      "y": 34.5,
+      "w": 24.0,
+      "h": 17.91
+    },
+    "shield:Garrick's Sluice-Lid": {
+      "file": "shield--garricks-sluice-lid.png",
+      "x": 56.5,
+      "y": 34.5,
+      "w": 24.0,
+      "h": 17.91
+    },
+    "shield:Iron Wheel of Wagon Four": {
+      "file": "shield--iron-wheel-of-wagon-four.png",
+      "x": 56.5,
+      "y": 34.5,
+      "w": 24.0,
+      "h": 17.91
+    },
+    "shield-kite": {
+      "file": "shield--kite.png",
+      "x": 56.5,
+      "y": 34.5,
+      "w": 24.0,
+      "h": 23.88
+    },
+    "shield:Portcullis of the First Checkpoint": {
+      "file": "shield--portcullis-of-the-first-checkpoint.png",
+      "x": 56.5,
+      "y": 34.5,
+      "w": 24.0,
+      "h": 17.91
+    },
+    "shield:Ravenwatch Bailey Pavise": {
+      "file": "shield--ravenwatch-bailey-pavise.png",
+      "x": 56.5,
+      "y": 34.5,
+      "w": 24.0,
+      "h": 17.91
+    },
+    "shield:Splinter of the Bailey": {
+      "file": "shield--splinter-of-the-bailey.png",
+      "x": 56.5,
+      "y": 34.5,
+      "w": 24.0,
+      "h": 17.91
+    },
+    "shield-targe": {
+      "file": "shield--targe.png",
+      "x": 56.5,
+      "y": 34.5,
+      "w": 24.0,
+      "h": 17.91
+    },
+    "shield-tower": {
+      "file": "shield--tower.png",
+      "x": 56.5,
+      "y": 34.5,
+      "w": 24.0,
+      "h": 17.91
+    },
+    "weapon:Abbey Witness Staff": {
+      "file": "weapon--abbey-witness-staff.png",
+      "x": 14.5,
+      "y": 38.0,
+      "w": 23.0,
+      "h": 17.16
+    },
+    "weapon:Abdication": {
+      "file": "weapon--abdication.png",
+      "x": 17.08,
+      "y": 38.0,
+      "w": 17.85,
+      "h": 44.0
+    },
+    "weapon:Alder-Bridge Watchman's Edge": {
+      "file": "weapon--alder-bridge-watchmans-edge.png",
+      "x": 14.5,
+      "y": 38.0,
+      "w": 23.0,
+      "h": 17.16
+    },
+    "weapon:Alder-Gate Cleaver": {
+      "file": "weapon--alder-gate-cleaver.png",
+      "x": 14.5,
+      "y": 38.0,
+      "w": 23.0,
+      "h": 17.16
+    },
+    "weapon:Ash-Draft Greatbow": {
+      "file": "weapon--ash-draft-greatbow.png",
+      "x": 20.67,
+      "y": 38.0,
+      "w": 10.67,
+      "h": 44.0
+    },
+    "weapon:Basalt-Splitter Maul": {
+      "file": "weapon--basalt-splitter-maul.png",
+      "x": 14.5,
+      "y": 38.0,
+      "w": 23.0,
+      "h": 17.16
+    },
+    "weapon:Blind-Beacon Rune Staff": {
+      "file": "weapon--blind-beacon-rune-staff.png",
+      "x": 14.5,
+      "y": 38.0,
+      "w": 23.0,
+      "h": 17.16
+    },
+    "weapon:Border-Assessor's Oak": {
+      "file": "weapon--border-assessors-oak.png",
+      "x": 14.5,
+      "y": 38.0,
+      "w": 23.0,
+      "h": 17.16
+    },
+    "weapon:Bracken Wind-Reader": {
+      "file": "weapon--bracken-wind-reader.png",
+      "x": 19.89,
+      "y": 38.0,
+      "w": 12.22,
+      "h": 44.0
+    },
+    "weapon:Caldera Glass Greatbow": {
+      "file": "weapon--caldera-glass-greatbow.png",
+      "x": 18.71,
+      "y": 38.0,
+      "w": 14.59,
+      "h": 44.0
+    },
+    "weapon:Caldera Trench-Flamberge": {
+      "file": "weapon--caldera-trench-flamberge.png",
+      "x": 14.5,
+      "y": 38.0,
+      "w": 23.0,
+      "h": 17.16
+    },
+    "weapon:Candle of the Sunken Sanctum": {
+      "file": "weapon--candle-of-the-sunken-sanctum.png",
+      "x": 20.2,
+      "y": 38.0,
+      "w": 11.61,
+      "h": 44.0
+    },
+    "weapon:Dike-Breaker's Broadaxe": {
+      "file": "weapon--dike-breakers-broadaxe.png",
+      "x": 14.5,
+      "y": 38.0,
+      "w": 23.0,
+      "h": 17.16
+    },
+    "weapon:Drowned-Bell Yew": {
+      "file": "weapon--drowned-bell-yew.png",
+      "x": 14.5,
+      "y": 38.0,
+      "w": 23.0,
+      "h": 17.16
+    },
+    "weapon:Ember-Glass Windpiercer": {
+      "file": "weapon--ember-glass-windpiercer.png",
+      "x": 14.5,
+      "y": 38.0,
+      "w": 23.0,
+      "h": 17.16
+    },
+    "weapon:Expelled Fellow's Staff": {
+      "file": "weapon--expelled-fellows-staff.png",
+      "x": 14.5,
+      "y": 38.0,
+      "w": 23.0,
+      "h": 17.16
+    },
+    "weapon:False-Light Crozier": {
+      "file": "weapon--false-light-crozier.png",
+      "x": 14.5,
+      "y": 38.0,
+      "w": 23.0,
+      "h": 17.16
+    },
+    "weapon:Fen-Poacher's Yew": {
+      "file": "weapon--fen-poachers-yew.png",
+      "x": 20.71,
+      "y": 38.0,
+      "w": 10.58,
+      "h": 44.0
+    },
+    "weapon:Gale-Rigging Composite": {
+      "file": "weapon--gale-rigging-composite.png",
+      "x": 14.5,
+      "y": 38.0,
+      "w": 23.0,
+      "h": 17.16
+    },
+    "weapon:Gallows-Root Crozier": {
+      "file": "weapon--gallows-root-crozier.png",
+      "x": 14.5,
+      "y": 38.0,
+      "w": 23.0,
+      "h": 17.16
+    },
+    "weapon:Gorrathul's Cistern-Blade": {
+      "file": "weapon--gorrathuls-cistern-blade.png",
+      "x": 14.5,
+      "y": 38.0,
+      "w": 23.0,
+      "h": 17.16
+    },
+    "weapon:Harbor-Chain Morning Star": {
+      "file": "weapon--harbor-chain-morning-star.png",
+      "x": 14.5,
+      "y": 38.0,
+      "w": 23.0,
+      "h": 17.16
+    },
+    "weapon:Harborwall Winch-Arbalest": {
+      "file": "weapon--harborwall-winch-arbalest.png",
+      "x": 14.5,
+      "y": 38.0,
+      "w": 23.0,
+      "h": 14.97
+    },
+    "weapon:Healer Sera's Amputation Saw": {
+      "file": "weapon--healer-seras-amputation-saw.png",
+      "x": 16.84,
+      "y": 38.0,
+      "w": 18.31,
+      "h": 44.0
+    },
+    "weapon:Hollow Reed of Vesperion": {
+      "file": "weapon--hollow-reed-of-vesperion.png",
+      "x": 14.5,
+      "y": 38.0,
+      "w": 23.0,
+      "h": 17.26
+    },
+    "weapon:Indenture Breaker": {
+      "file": "weapon--indenture-breaker.png",
+      "x": 14.5,
+      "y": 38.0,
+      "w": 23.0,
+      "h": 21.56
+    },
+    "weapon:Inquisitor's Ash-Siphon": {
+      "file": "weapon--inquisitors-ash-siphon.png",
+      "x": 19.38,
+      "y": 38.0,
+      "w": 13.24,
+      "h": 44.0
+    },
+    "weapon:Lightning-Split Bough": {
+      "file": "weapon--lightning-split-bough.png",
+      "x": 21.04,
+      "y": 38.0,
+      "w": 9.93,
+      "h": 44.0
+    },
+    "weapon:Obsidian Dais Zweihander": {
+      "file": "weapon--obsidian-dais-zweihander.png",
+      "x": 14.5,
+      "y": 38.0,
+      "w": 23.0,
+      "h": 17.16
+    },
+    "weapon:Ossuary Siphon Rod": {
+      "file": "weapon--ossuary-siphon-rod.png",
+      "x": 14.5,
+      "y": 38.0,
+      "w": 23.0,
+      "h": 17.16
+    },
+    "weapon:Parish Probate Wand": {
+      "file": "weapon--parish-probate-wand.png",
+      "x": 14.5,
+      "y": 38.0,
+      "w": 23.0,
+      "h": 15.73
+    },
+    "weapon:Pyre-Marshal's Flamberge": {
+      "file": "weapon--pyre-marshals-flamberge.png",
+      "x": 14.5,
+      "y": 38.0,
+      "w": 23.0,
+      "h": 17.16
+    },
+    "weapon:Quarryman's Grievance": {
+      "file": "weapon--quarrymans-grievance.png",
+      "x": 14.5,
+      "y": 38.0,
+      "w": 23.0,
+      "h": 17.63
+    },
+    "weapon:Redrock Misericorde": {
+      "file": "weapon--redrock-misericorde.png",
+      "x": 14.5,
+      "y": 38.0,
+      "w": 23.0,
+      "h": 17.16
+    },
+    "weapon:Saelen's Marrow-Needle": {
+      "file": "weapon--saelens-marrow-needle.png",
+      "x": 21.03,
+      "y": 38.0,
+      "w": 9.93,
+      "h": 44.0
+    },
+    "weapon:Salt-Mirage Longbow": {
+      "file": "weapon--salt-mirage-longbow.png",
+      "x": 20.83,
+      "y": 38.0,
+      "w": 10.33,
+      "h": 44.0
+    },
+    "weapon:Salt-Oath Yew Rod": {
+      "file": "weapon--salt-oath-yew-rod.png",
+      "x": 14.5,
+      "y": 38.0,
+      "w": 23.0,
+      "h": 17.16
+    },
+    "weapon:Sedge-Bank Recurve": {
+      "file": "weapon--sedge-bank-recurve.png",
+      "x": 14.5,
+      "y": 38.0,
+      "w": 23.0,
+      "h": 17.16
+    },
+    "weapon:Silt-Picker's Willow": {
+      "file": "weapon--silt-pickers-willow.png",
+      "x": 14.5,
+      "y": 38.0,
+      "w": 23.0,
+      "h": 17.16
+    },
+    "weapon:Sluice-Master's Wrench": {
+      "file": "weapon--sluice-masters-wrench.png",
+      "x": 14.5,
+      "y": 38.0,
+      "w": 23.0,
+      "h": 16.98
+    },
+    "weapon:Sovereign's Brazier Staff": {
+      "file": "weapon--sovereigns-brazier-staff.png",
+      "x": 14.5,
+      "y": 38.0,
+      "w": 23.0,
+      "h": 17.16
+    },
+    "weapon:Tax-Collector's Recurve": {
+      "file": "weapon--tax-collectors-recurve.png",
+      "x": 19.31,
+      "y": 38.0,
+      "w": 13.37,
+      "h": 44.0
+    },
+    "weapon:Thornwick Mint Focus": {
+      "file": "weapon--thornwick-mint-focus.png",
+      "x": 14.5,
+      "y": 38.0,
+      "w": 23.0,
+      "h": 17.16
+    },
+    "weapon:Toll-Tower Prod": {
+      "file": "weapon--toll-tower-prod.png",
+      "x": 20.2,
+      "y": 38.0,
+      "w": 11.61,
+      "h": 44.0
+    },
+    "weapon:Tollkeeper's Receipt": {
+      "file": "weapon--tollkeepers-receipt.png",
+      "x": 14.5,
+      "y": 38.0,
+      "w": 23.0,
+      "h": 27.82
+    },
+    "weapon:Tongs of the Cinderforge": {
+      "file": "weapon--tongs-of-the-cinderforge.png",
+      "x": 14.5,
+      "y": 38.0,
+      "w": 23.0,
+      "h": 38.87
+    },
+    "weapon:Turnkey of the North Gate": {
+      "file": "weapon--turnkey-of-the-north-gate.png",
+      "x": 14.5,
+      "y": 38.0,
+      "w": 23.0,
+      "h": 10.26
+    },
+    "weapon:Warden's Seal-Wand": {
+      "file": "weapon--wardens-seal-wand.png",
+      "x": 14.5,
+      "y": 38.0,
+      "w": 23.0,
+      "h": 17.16
+    },
+    "weapon:Willow-Creek String": {
+      "file": "weapon--willow-creek-string.png",
+      "x": 14.5,
+      "y": 38.0,
+      "w": 23.0,
+      "h": 17.16
+    }
+  },
+  "mage-m": {
+    "armor:Apothecary's Oilcloth": {
+      "file": "armor--apothecarys-oilcloth--mage-m.png",
+      "x": 27.75,
+      "y": 17.0,
+      "w": 46.5,
+      "h": 45.09
+    },
+    "armor:Arbiter's Velvet Mantle": {
+      "file": "armor--arbiters-velvet-mantle--mage-m.png",
+      "x": 27.75,
+      "y": 17.0,
+      "w": 46.5,
+      "h": 47.25
+    },
+    "armor:Ashen Citadel Cuirass": {
+      "file": "armor--ashen-citadel-cuirass--mage-m.png",
+      "x": 27.75,
+      "y": 17.0,
+      "w": 46.5,
+      "h": 46.51
+    },
+    "armor:Barnacle-Crusted Brigandine": {
+      "file": "armor--barnacle-crusted-brigandine--mage-m.png",
+      "x": 27.75,
+      "y": 17.0,
+      "w": 46.5,
+      "h": 34.7
+    },
+    "armor:Bitumen-Sealed Habit": {
+      "file": "armor--bitumen-sealed-habit--mage-m.png",
+      "x": 27.75,
+      "y": 17.0,
+      "w": 46.5,
+      "h": 48.15
+    },
+    "armor:Cinder-Wing Mantle": {
+      "file": "armor--cinder-wing-mantle--mage-m.png",
+      "x": 27.75,
+      "y": 17.0,
+      "w": 46.5,
+      "h": 30.36
+    },
+    "armor:Deep-Current Mantle": {
+      "file": "armor--deep-current-mantle--mage-m.png",
+      "x": 27.75,
+      "y": 17.0,
+      "w": 46.5,
+      "h": 44.98
+    },
+    "armor:Gorse-Thorn Brigandine": {
+      "file": "armor--gorse-thorn-brigandine--mage-m.png",
+      "x": 27.75,
+      "y": 17.0,
+      "w": 46.5,
+      "h": 34.7
+    },
+    "armor:Grounded Clerk's Habit": {
+      "file": "armor--grounded-clerks-habit--mage-m.png",
+      "x": 27.75,
+      "y": 17.0,
+      "w": 46.5,
+      "h": 47.0
+    },
+    "armor:Lime-Ditch Cassock": {
+      "file": "armor--lime-ditch-cassock--mage-m.png",
+      "x": 27.75,
+      "y": 17.0,
+      "w": 46.5,
+      "h": 45.21
+    },
+    "armor:Pauper-Roll Cassock": {
+      "file": "armor--pauper-roll-cassock--mage-m.png",
+      "x": 27.75,
+      "y": 17.0,
+      "w": 46.5,
+      "h": 46.27
+    },
+    "armor:pitch-steeped Winding Sheet": {
+      "file": "armor--pitch-steeped-winding-sheet--mage-m.png",
+      "x": 27.75,
+      "y": 17.0,
+      "w": 46.5,
+      "h": 34.7
+    },
+    "armor:Salt-Scoured Brigandine": {
+      "file": "armor--salt-scoured-brigandine--mage-m.png",
+      "x": 27.75,
+      "y": 17.0,
+      "w": 46.5,
+      "h": 41.29
+    },
+    "armor:Salt-Viper Jerkin": {
+      "file": "armor--salt-viper-jerkin--mage-m.png",
+      "x": 27.75,
+      "y": 17.0,
+      "w": 46.5,
+      "h": 53.03
+    },
+    "armor:Shroud of Unpaid Vows": {
+      "file": "armor--shroud-of-unpaid-vows--mage-m.png",
+      "x": 27.75,
+      "y": 17.0,
+      "w": 46.5,
+      "h": 47.5
+    },
+    "armor:Sovereign Wyrmscale": {
+      "file": "armor--sovereign-wyrmscale--mage-m.png",
+      "x": 27.75,
+      "y": 17.0,
+      "w": 46.5,
+      "h": 46.27
+    },
+    "armor:Vestments of the Last Pyre": {
+      "file": "armor--vestments-of-the-last-pyre--mage-m.png",
+      "x": 27.75,
+      "y": 17.0,
+      "w": 46.5,
+      "h": 45.32
+    },
+    "armor:Vok's Fissure-Plate": {
+      "file": "armor--voks-fissure-plate--mage-m.png",
+      "x": 27.75,
+      "y": 17.0,
+      "w": 46.5,
+      "h": 46.27
+    },
+    "boots:Bren's Only Dry Boot": {
+      "file": "boots--brens-only-dry-boot--mage-m.png",
+      "x": 34.0,
+      "y": 80.5,
+      "w": 33.0,
+      "h": 14.09
+    },
+    "boots:Cliff-Runner Striders": {
+      "file": "boots--cliff-runner-striders--mage-m.png",
+      "x": 36.31,
+      "y": 80.5,
+      "w": 28.38,
+      "h": 17.0
+    },
+    "boots:Coal-Walker's Sabatons": {
+      "file": "boots--coal-walkers-sabatons--mage-m.png",
+      "x": 34.0,
+      "y": 80.5,
+      "w": 33.0,
+      "h": 12.79
+    },
+    "boots:Fen-Wader Striders": {
+      "file": "boots--fen-wader-striders--mage-m.png",
+      "x": 34.0,
+      "y": 80.5,
+      "w": 33.0,
+      "h": 13.76
+    },
+    "boots:Reef-Walker Boots": {
+      "file": "boots--reef-walker-boots--mage-m.png",
+      "x": 34.0,
+      "y": 80.5,
+      "w": 33.0,
+      "h": 13.76
+    },
+    "boots:Sedge-Walker Treads": {
+      "file": "boots--sedge-walker-treads--mage-m.png",
+      "x": 36.38,
+      "y": 80.5,
+      "w": 28.24,
+      "h": 17.0
+    },
+    "boots:Silt-Plodder Boots": {
+      "file": "boots--silt-plodder-boots--mage-m.png",
+      "x": 34.0,
+      "y": 80.5,
+      "w": 33.0,
+      "h": 13.76
+    },
+    "boots:Spurs of Tactical Withdrawal": {
+      "file": "boots--spurs-of-tactical-withdrawal--mage-m.png",
+      "x": 34.0,
+      "y": 80.5,
+      "w": 33.0,
+      "h": 12.31
+    },
+    "gloves-l:Ash-Runner Grips": {
+      "file": "gloves--ash-runner-grips-l--mage-m.png",
+      "x": 29.46,
+      "y": 46.5,
+      "w": 10.07,
+      "h": 13.0
+    },
+    "gloves-r:Ash-Runner Grips": {
+      "file": "gloves--ash-runner-grips-r--mage-m.png",
+      "x": 58.96,
+      "y": 46.5,
+      "w": 9.08,
+      "h": 13.0
+    },
+    "gloves-l:Bowyers' Horn Bracer": {
+      "file": "gloves--bowyers-horn-bracer-l--mage-m.png",
+      "x": 30.11,
+      "y": 46.5,
+      "w": 8.78,
+      "h": 13.0
+    },
+    "gloves-r:Bowyers' Horn Bracer": {
+      "file": "gloves--bowyers-horn-bracer-r--mage-m.png",
+      "x": 59.3,
+      "y": 46.5,
+      "w": 8.4,
+      "h": 13.0
+    },
+    "gloves-l": {
+      "file": "gloves--glove-l--mage-m.png",
+      "x": 29.0,
+      "y": 46.5,
+      "w": 11.0,
+      "h": 8.21
+    },
+    "gloves-r": {
+      "file": "gloves--glove-r--mage-m.png",
+      "x": 58.0,
+      "y": 46.5,
+      "w": 11.0,
+      "h": 8.21
+    },
+    "gloves-l:Insulated Assay Gloves": {
+      "file": "gloves--insulated-assay-gloves-l--mage-m.png",
+      "x": 30.64,
+      "y": 46.5,
+      "w": 7.72,
+      "h": 13.0
+    },
+    "gloves-r:Insulated Assay Gloves": {
+      "file": "gloves--insulated-assay-gloves-r--mage-m.png",
+      "x": 59.74,
+      "y": 46.5,
+      "w": 7.52,
+      "h": 13.0
+    },
+    "gloves-l:Punt-Pole Grips": {
+      "file": "gloves--punt-pole-grips-l--mage-m.png",
+      "x": 29.92,
+      "y": 46.5,
+      "w": 9.15,
+      "h": 13.0
+    },
+    "gloves-r:Punt-Pole Grips": {
+      "file": "gloves--punt-pole-grips-r--mage-m.png",
+      "x": 59.13,
+      "y": 46.5,
+      "w": 8.74,
+      "h": 13.0
+    },
+    "gloves-l:Tannin-Stained Wraps": {
+      "file": "gloves--tannin-stained-wraps-l--mage-m.png",
+      "x": 29.0,
+      "y": 46.5,
+      "w": 11.0,
+      "h": 12.93
+    },
+    "gloves-r:Tannin-Stained Wraps": {
+      "file": "gloves--tannin-stained-wraps-r--mage-m.png",
+      "x": 59.13,
+      "y": 46.5,
+      "w": 8.74,
+      "h": 13.0
+    },
+    "gloves-l:Vane's Whisper Grips": {
+      "file": "gloves--vanes-whisper-grips-l--mage-m.png",
+      "x": 29.74,
+      "y": 46.5,
+      "w": 9.53,
+      "h": 13.0
+    },
+    "gloves-r:Vane's Whisper Grips": {
+      "file": "gloves--vanes-whisper-grips-r--mage-m.png",
+      "x": 58.74,
+      "y": 46.5,
+      "w": 9.53,
+      "h": 13.0
+    },
+    "gloves-l:Wreck-Diver's Bracers": {
+      "file": "gloves--wreck-divers-bracers-l--mage-m.png",
+      "x": 30.91,
+      "y": 46.5,
+      "w": 7.18,
+      "h": 13.0
+    },
+    "gloves-r:Wreck-Diver's Bracers": {
+      "file": "gloves--wreck-divers-bracers-r--mage-m.png",
+      "x": 60.37,
+      "y": 46.5,
+      "w": 6.26,
+      "h": 13.0
+    },
+    "helm:Assayer's Sight-Mask": {
+      "file": "helm--assayers-sight-mask.png",
+      "x": 38.77,
+      "y": 1.0,
+      "w": 23.45,
+      "h": 17.5
+    },
+    "helm:Conclave Grounding Hat": {
+      "file": "helm--conclave-grounding-hat.png",
+      "x": 38.77,
+      "y": 1.0,
+      "w": 23.45,
+      "h": 17.5
+    },
+    "helm:Coronet of Cold Clinkers": {
+      "file": "helm--coronet-of-cold-clinkers.png",
+      "x": 38.77,
+      "y": 1.0,
+      "w": 23.45,
+      "h": 17.5
+    },
+    "helm:Dent of Greystone Wall": {
+      "file": "helm--dent-of-greystone-wall.png",
+      "x": 38.77,
+      "y": 1.0,
+      "w": 23.45,
+      "h": 17.5
+    },
+    "helm:Greystone Parapet Helm": {
+      "file": "helm--greystone-parapet-helm.png",
+      "x": 38.77,
+      "y": 1.0,
+      "w": 23.45,
+      "h": 17.5
+    },
+    "helm:Hedge-Tutor's Hat": {
+      "file": "helm--hedge-tutors-hat.png",
+      "x": 38.77,
+      "y": 1.0,
+      "w": 23.45,
+      "h": 17.5
+    },
+    "helm:High Assayer's Diadem": {
+      "file": "helm--high-assayers-diadem.png",
+      "x": 38.77,
+      "y": 1.0,
+      "w": 23.45,
+      "h": 17.5
+    },
+    "helm:Inquisition Sight-Veil": {
+      "file": "helm--inquisition-sight-veil.png",
+      "x": 38.77,
+      "y": 1.0,
+      "w": 23.45,
+      "h": 17.5
+    },
+    "helm:Midge-Veil Hood": {
+      "file": "helm--midge-veil-hood.png",
+      "x": 38.77,
+      "y": 1.0,
+      "w": 23.45,
+      "h": 17.5
+    },
+    "helm:Miner's Canary Cage": {
+      "file": "helm--miners-canary-cage.png",
+      "x": 38.77,
+      "y": 1.0,
+      "w": 23.45,
+      "h": 17.5
+    },
+    "helm:Ossuary-Keeper's Cowl": {
+      "file": "helm--ossuary-keepers-cowl.png",
+      "x": 38.77,
+      "y": 1.0,
+      "w": 23.45,
+      "h": 17.5
+    },
+    "helm:Peat-Sinker's Cowl": {
+      "file": "helm--peat-sinkers-cowl.png",
+      "x": 38.77,
+      "y": 1.0,
+      "w": 23.45,
+      "h": 17.5
+    },
+    "helm:Scriptorium Veil-Cowl": {
+      "file": "helm--scriptorium-veil-cowl.png",
+      "x": 38.77,
+      "y": 1.0,
+      "w": 23.45,
+      "h": 17.5
+    },
+    "helm:Thorn-Thicket Cap": {
+      "file": "helm--thorn-thicket-cap.png",
+      "x": 38.77,
+      "y": 1.0,
+      "w": 23.45,
+      "h": 17.5
+    },
+    "offhand-mage:Black-Blockade Astrolabe": {
+      "file": "offhand-mage--black-blockade-astrolabe.png",
+      "x": 58.0,
+      "y": 42.0,
+      "w": 18.0,
+      "h": 13.43
+    },
+    "offhand-mage:Bog-Crystal Lens": {
+      "file": "offhand-mage--bog-crystal-lens.png",
+      "x": 58.0,
+      "y": 42.0,
+      "w": 18.0,
+      "h": 13.43
+    },
+    "offhand-mage:Brass Probate Scales": {
+      "file": "offhand-mage--brass-probate-scales.png",
+      "x": 58.0,
+      "y": 42.0,
+      "w": 18.0,
+      "h": 13.43
+    },
+    "offhand-mage:Ditch-Chapel Prism": {
+      "file": "offhand-mage--ditch-chapel-prism.png",
+      "x": 58.0,
+      "y": 42.0,
+      "w": 18.0,
+      "h": 13.43
+    },
+    "offhand-mage-focus": {
+      "file": "offhand-mage--focus.png",
+      "x": 58.0,
+      "y": 42.0,
+      "w": 18.0,
+      "h": 13.43
+    },
+    "offhand-mage:Fossilized Lien Wand": {
+      "file": "offhand-mage--fossilized-lien-wand.png",
+      "x": 58.0,
+      "y": 42.0,
+      "w": 18.0,
+      "h": 13.43
+    },
+    "offhand-mage:Harbor-Burner's Astrolabe": {
+      "file": "offhand-mage--harbor-burners-astrolabe.png",
+      "x": 58.0,
+      "y": 42.0,
+      "w": 18.0,
+      "h": 13.43
+    },
+    "offhand-mage:Leviathan-Rib Focus": {
+      "file": "offhand-mage--leviathan-rib-focus.png",
+      "x": 58.0,
+      "y": 42.0,
+      "w": 18.0,
+      "h": 13.43
+    },
+    "offhand-mage:Malrik's Margin-Notes": {
+      "file": "offhand-mage--malriks-margin-notes.png",
+      "x": 58.0,
+      "y": 42.0,
+      "w": 18.0,
+      "h": 13.43
+    },
+    "offhand-mage-mirror": {
+      "file": "offhand-mage--mirror.png",
+      "x": 58.0,
+      "y": 42.0,
+      "w": 18.0,
+      "h": 13.43
+    },
+    "offhand-mage:Molten-Bell Astrolabe": {
+      "file": "offhand-mage--molten-bell-astrolabe.png",
+      "x": 58.0,
+      "y": 42.0,
+      "w": 18.0,
+      "h": 13.43
+    },
+    "offhand-mage-orb": {
+      "file": "offhand-mage--orb.png",
+      "x": 58.0,
+      "y": 42.0,
+      "w": 18.0,
+      "h": 13.67
+    },
+    "offhand-mage:Ruptured Spire Lens": {
+      "file": "offhand-mage--ruptured-spire-lens.png",
+      "x": 58.0,
+      "y": 42.0,
+      "w": 18.0,
+      "h": 13.43
+    },
+    "offhand-mage:Splinter of the Third Monolith": {
+      "file": "offhand-mage--splinter-of-the-third-monolith.png",
+      "x": 58.0,
+      "y": 42.0,
+      "w": 18.0,
+      "h": 13.43
+    },
+    "offhand-mage:Threshold Keystone Eye": {
+      "file": "offhand-mage--threshold-keystone-eye.png",
+      "x": 58.0,
+      "y": 42.0,
+      "w": 18.0,
+      "h": 13.43
+    },
+    "offhand-mage:Tide-Scryer's Sphere": {
+      "file": "offhand-mage--tide-scryers-sphere.png",
+      "x": 58.0,
+      "y": 42.0,
+      "w": 18.0,
+      "h": 13.43
+    },
+    "offhand-mage:Tide-Witness Mirror": {
+      "file": "offhand-mage--tide-witness-mirror.png",
+      "x": 58.0,
+      "y": 42.0,
+      "w": 18.0,
+      "h": 13.43
+    },
+    "offhand-mage-tome": {
+      "file": "offhand-mage--tome.png",
+      "x": 58.0,
+      "y": 42.0,
+      "w": 18.0,
+      "h": 13.43
+    },
+    "shield:Boardwalk Pavise": {
+      "file": "shield--boardwalk-pavise.png",
+      "x": 58.0,
+      "y": 42.0,
+      "w": 18.0,
+      "h": 13.43
+    },
+    "shield:Breakwater Kite Shield": {
+      "file": "shield--breakwater-kite-shield.png",
+      "x": 58.0,
+      "y": 42.0,
+      "w": 18.0,
+      "h": 13.43
+    },
+    "shield-buckler": {
+      "file": "shield--buckler.png",
+      "x": 58.0,
+      "y": 42.0,
+      "w": 18.0,
+      "h": 13.43
+    },
+    "shield:Cinder-Crown Bulwark": {
+      "file": "shield--cinder-crown-bulwark.png",
+      "x": 58.0,
+      "y": 42.0,
+      "w": 18.0,
+      "h": 13.43
+    },
+    "shield:Garrick's Sluice-Lid": {
+      "file": "shield--garricks-sluice-lid.png",
+      "x": 58.0,
+      "y": 42.0,
+      "w": 18.0,
+      "h": 13.43
+    },
+    "shield:Iron Wheel of Wagon Four": {
+      "file": "shield--iron-wheel-of-wagon-four.png",
+      "x": 58.0,
+      "y": 42.0,
+      "w": 18.0,
+      "h": 13.43
+    },
+    "shield-kite": {
+      "file": "shield--kite.png",
+      "x": 58.0,
+      "y": 42.0,
+      "w": 18.0,
+      "h": 17.91
+    },
+    "shield:Portcullis of the First Checkpoint": {
+      "file": "shield--portcullis-of-the-first-checkpoint.png",
+      "x": 58.0,
+      "y": 42.0,
+      "w": 18.0,
+      "h": 13.43
+    },
+    "shield:Ravenwatch Bailey Pavise": {
+      "file": "shield--ravenwatch-bailey-pavise.png",
+      "x": 58.0,
+      "y": 42.0,
+      "w": 18.0,
+      "h": 13.43
+    },
+    "shield:Splinter of the Bailey": {
+      "file": "shield--splinter-of-the-bailey.png",
+      "x": 58.0,
+      "y": 42.0,
+      "w": 18.0,
+      "h": 13.43
+    },
+    "shield-targe": {
+      "file": "shield--targe.png",
+      "x": 58.0,
+      "y": 42.0,
+      "w": 18.0,
+      "h": 13.43
+    },
+    "shield-tower": {
+      "file": "shield--tower.png",
+      "x": 58.0,
+      "y": 42.0,
+      "w": 18.0,
+      "h": 13.43
+    },
+    "weapon:Abbey Witness Staff": {
+      "file": "weapon--abbey-witness-staff.png",
+      "x": 13.0,
+      "y": 10.0,
+      "w": 22.0,
+      "h": 16.42
+    },
+    "weapon:Abdication": {
+      "file": "weapon--abdication.png",
+      "x": 13.0,
+      "y": 10.0,
+      "w": 22.0,
+      "h": 54.23
+    },
+    "weapon:Alder-Bridge Watchman's Edge": {
+      "file": "weapon--alder-bridge-watchmans-edge.png",
+      "x": 13.0,
+      "y": 10.0,
+      "w": 22.0,
+      "h": 16.42
+    },
+    "weapon:Alder-Gate Cleaver": {
+      "file": "weapon--alder-gate-cleaver.png",
+      "x": 13.0,
+      "y": 10.0,
+      "w": 22.0,
+      "h": 16.42
+    },
+    "weapon:Ash-Draft Greatbow": {
+      "file": "weapon--ash-draft-greatbow.png",
+      "x": 14.06,
+      "y": 10.0,
+      "w": 19.88,
+      "h": 82.0
+    },
+    "weapon:Basalt-Splitter Maul": {
+      "file": "weapon--basalt-splitter-maul.png",
+      "x": 13.0,
+      "y": 10.0,
+      "w": 22.0,
+      "h": 16.42
+    },
+    "weapon:Blind-Beacon Rune Staff": {
+      "file": "weapon--blind-beacon-rune-staff.png",
+      "x": 13.0,
+      "y": 10.0,
+      "w": 22.0,
+      "h": 16.42
+    },
+    "weapon:Border-Assessor's Oak": {
+      "file": "weapon--border-assessors-oak.png",
+      "x": 13.0,
+      "y": 10.0,
+      "w": 22.0,
+      "h": 16.42
+    },
+    "weapon:Bracken Wind-Reader": {
+      "file": "weapon--bracken-wind-reader.png",
+      "x": 13.0,
+      "y": 10.0,
+      "w": 22.0,
+      "h": 79.21
+    },
+    "weapon:Caldera Glass Greatbow": {
+      "file": "weapon--caldera-glass-greatbow.png",
+      "x": 13.0,
+      "y": 10.0,
+      "w": 22.0,
+      "h": 66.35
+    },
+    "weapon:Caldera Trench-Flamberge": {
+      "file": "weapon--caldera-trench-flamberge.png",
+      "x": 13.0,
+      "y": 10.0,
+      "w": 22.0,
+      "h": 16.42
+    },
+    "weapon:Candle of the Sunken Sanctum": {
+      "file": "weapon--candle-of-the-sunken-sanctum.png",
+      "x": 13.18,
+      "y": 10.0,
+      "w": 21.63,
+      "h": 82.0
+    },
+    "weapon:Dike-Breaker's Broadaxe": {
+      "file": "weapon--dike-breakers-broadaxe.png",
+      "x": 13.0,
+      "y": 10.0,
+      "w": 22.0,
+      "h": 16.42
+    },
+    "weapon:Drowned-Bell Yew": {
+      "file": "weapon--drowned-bell-yew.png",
+      "x": 13.0,
+      "y": 10.0,
+      "w": 22.0,
+      "h": 16.42
+    },
+    "weapon:Ember-Glass Windpiercer": {
+      "file": "weapon--ember-glass-windpiercer.png",
+      "x": 13.0,
+      "y": 10.0,
+      "w": 22.0,
+      "h": 16.42
+    },
+    "weapon:Expelled Fellow's Staff": {
+      "file": "weapon--expelled-fellows-staff.png",
+      "x": 13.0,
+      "y": 10.0,
+      "w": 22.0,
+      "h": 16.42
+    },
+    "weapon:False-Light Crozier": {
+      "file": "weapon--false-light-crozier.png",
+      "x": 13.0,
+      "y": 10.0,
+      "w": 22.0,
+      "h": 16.42
+    },
+    "weapon:Fen-Poacher's Yew": {
+      "file": "weapon--fen-poachers-yew.png",
+      "x": 14.14,
+      "y": 10.0,
+      "w": 19.72,
+      "h": 82.0
+    },
+    "weapon:Gale-Rigging Composite": {
+      "file": "weapon--gale-rigging-composite.png",
+      "x": 13.0,
+      "y": 10.0,
+      "w": 22.0,
+      "h": 16.42
+    },
+    "weapon:Gallows-Root Crozier": {
+      "file": "weapon--gallows-root-crozier.png",
+      "x": 13.0,
+      "y": 10.0,
+      "w": 22.0,
+      "h": 16.42
+    },
+    "weapon:Gorrathul's Cistern-Blade": {
+      "file": "weapon--gorrathuls-cistern-blade.png",
+      "x": 13.0,
+      "y": 10.0,
+      "w": 22.0,
+      "h": 16.42
+    },
+    "weapon:Harbor-Chain Morning Star": {
+      "file": "weapon--harbor-chain-morning-star.png",
+      "x": 13.0,
+      "y": 10.0,
+      "w": 22.0,
+      "h": 16.42
+    },
+    "weapon:Harborwall Winch-Arbalest": {
+      "file": "weapon--harborwall-winch-arbalest.png",
+      "x": 13.0,
+      "y": 10.0,
+      "w": 22.0,
+      "h": 14.32
+    },
+    "weapon:Healer Sera's Amputation Saw": {
+      "file": "weapon--healer-seras-amputation-saw.png",
+      "x": 13.0,
+      "y": 10.0,
+      "w": 22.0,
+      "h": 52.87
+    },
+    "weapon:Hollow Reed of Vesperion": {
+      "file": "weapon--hollow-reed-of-vesperion.png",
+      "x": 13.0,
+      "y": 10.0,
+      "w": 22.0,
+      "h": 16.51
+    },
+    "weapon:Indenture Breaker": {
+      "file": "weapon--indenture-breaker.png",
+      "x": 13.0,
+      "y": 10.0,
+      "w": 22.0,
+      "h": 20.63
+    },
+    "weapon:Inquisitor's Ash-Siphon": {
+      "file": "weapon--inquisitors-ash-siphon.png",
+      "x": 13.0,
+      "y": 10.0,
+      "w": 22.0,
+      "h": 73.09
+    },
+    "weapon:Lightning-Split Bough": {
+      "file": "weapon--lightning-split-bough.png",
+      "x": 14.75,
+      "y": 10.0,
+      "w": 18.5,
+      "h": 82.0
+    },
+    "weapon:Obsidian Dais Zweihander": {
+      "file": "weapon--obsidian-dais-zweihander.png",
+      "x": 13.0,
+      "y": 10.0,
+      "w": 22.0,
+      "h": 16.42
+    },
+    "weapon:Ossuary Siphon Rod": {
+      "file": "weapon--ossuary-siphon-rod.png",
+      "x": 13.0,
+      "y": 10.0,
+      "w": 22.0,
+      "h": 16.42
+    },
+    "weapon:Parish Probate Wand": {
+      "file": "weapon--parish-probate-wand.png",
+      "x": 13.0,
+      "y": 10.0,
+      "w": 22.0,
+      "h": 15.04
+    },
+    "weapon:Pyre-Marshal's Flamberge": {
+      "file": "weapon--pyre-marshals-flamberge.png",
+      "x": 13.0,
+      "y": 10.0,
+      "w": 22.0,
+      "h": 16.42
+    },
+    "weapon:Quarryman's Grievance": {
+      "file": "weapon--quarrymans-grievance.png",
+      "x": 13.0,
+      "y": 10.0,
+      "w": 22.0,
+      "h": 16.86
+    },
+    "weapon:Redrock Misericorde": {
+      "file": "weapon--redrock-misericorde.png",
+      "x": 13.0,
+      "y": 10.0,
+      "w": 22.0,
+      "h": 16.42
+    },
+    "weapon:Saelen's Marrow-Needle": {
+      "file": "weapon--saelens-marrow-needle.png",
+      "x": 14.75,
+      "y": 10.0,
+      "w": 18.51,
+      "h": 82.0
+    },
+    "weapon:Salt-Mirage Longbow": {
+      "file": "weapon--salt-mirage-longbow.png",
+      "x": 14.37,
+      "y": 10.0,
+      "w": 19.26,
+      "h": 82.0
+    },
+    "weapon:Salt-Oath Yew Rod": {
+      "file": "weapon--salt-oath-yew-rod.png",
+      "x": 13.0,
+      "y": 10.0,
+      "w": 22.0,
+      "h": 16.42
+    },
+    "weapon:Sedge-Bank Recurve": {
+      "file": "weapon--sedge-bank-recurve.png",
+      "x": 13.0,
+      "y": 10.0,
+      "w": 22.0,
+      "h": 16.42
+    },
+    "weapon:Silt-Picker's Willow": {
+      "file": "weapon--silt-pickers-willow.png",
+      "x": 13.0,
+      "y": 10.0,
+      "w": 22.0,
+      "h": 16.42
+    },
+    "weapon:Sluice-Master's Wrench": {
+      "file": "weapon--sluice-masters-wrench.png",
+      "x": 13.0,
+      "y": 10.0,
+      "w": 22.0,
+      "h": 16.25
+    },
+    "weapon:Sovereign's Brazier Staff": {
+      "file": "weapon--sovereigns-brazier-staff.png",
+      "x": 13.0,
+      "y": 10.0,
+      "w": 22.0,
+      "h": 16.42
+    },
+    "weapon:Tax-Collector's Recurve": {
+      "file": "weapon--tax-collectors-recurve.png",
+      "x": 13.0,
+      "y": 10.0,
+      "w": 22.0,
+      "h": 72.39
+    },
+    "weapon:Thornwick Mint Focus": {
+      "file": "weapon--thornwick-mint-focus.png",
+      "x": 13.0,
+      "y": 10.0,
+      "w": 22.0,
+      "h": 16.42
+    },
+    "weapon:Toll-Tower Prod": {
+      "file": "weapon--toll-tower-prod.png",
+      "x": 13.18,
+      "y": 10.0,
+      "w": 21.63,
+      "h": 82.0
+    },
+    "weapon:Tollkeeper's Receipt": {
+      "file": "weapon--tollkeepers-receipt.png",
+      "x": 13.0,
+      "y": 10.0,
+      "w": 22.0,
+      "h": 26.61
+    },
+    "weapon:Tongs of the Cinderforge": {
+      "file": "weapon--tongs-of-the-cinderforge.png",
+      "x": 13.0,
+      "y": 10.0,
+      "w": 22.0,
+      "h": 37.18
+    },
+    "weapon:Turnkey of the North Gate": {
+      "file": "weapon--turnkey-of-the-north-gate.png",
+      "x": 13.0,
+      "y": 10.0,
+      "w": 22.0,
+      "h": 9.82
+    },
+    "weapon:Warden's Seal-Wand": {
+      "file": "weapon--wardens-seal-wand.png",
+      "x": 13.0,
+      "y": 10.0,
+      "w": 22.0,
+      "h": 16.42
+    },
+    "weapon:Willow-Creek String": {
+      "file": "weapon--willow-creek-string.png",
+      "x": 13.0,
+      "y": 10.0,
+      "w": 22.0,
+      "h": 16.42
+    }
+  },
+  "mage-f": {
+    "armor:Apothecary's Oilcloth": {
+      "file": "armor--apothecarys-oilcloth--mage-f.png",
+      "x": 29.0,
+      "y": 16.0,
+      "w": 43.0,
+      "h": 41.59
+    },
+    "armor:Arbiter's Velvet Mantle": {
+      "file": "armor--arbiters-velvet-mantle--mage-f.png",
+      "x": 29.0,
+      "y": 16.0,
+      "w": 43.0,
+      "h": 43.7
+    },
+    "armor:Ashen Citadel Cuirass": {
+      "file": "armor--ashen-citadel-cuirass--mage-f.png",
+      "x": 29.0,
+      "y": 16.0,
+      "w": 43.0,
+      "h": 43.01
+    },
+    "armor:Barnacle-Crusted Brigandine": {
+      "file": "armor--barnacle-crusted-brigandine--mage-f.png",
+      "x": 29.0,
+      "y": 16.0,
+      "w": 43.0,
+      "h": 32.09
+    },
+    "armor:Bitumen-Sealed Habit": {
+      "file": "armor--bitumen-sealed-habit--mage-f.png",
+      "x": 29.0,
+      "y": 16.0,
+      "w": 43.0,
+      "h": 45.14
+    },
+    "armor:Cinder-Wing Mantle": {
+      "file": "armor--cinder-wing-mantle--mage-f.png",
+      "x": 29.0,
+      "y": 16.0,
+      "w": 43.0,
+      "h": 28.08
+    },
+    "armor:Deep-Current Mantle": {
+      "file": "armor--deep-current-mantle--mage-f.png",
+      "x": 29.0,
+      "y": 16.0,
+      "w": 43.0,
+      "h": 41.59
+    },
+    "armor:Gorse-Thorn Brigandine": {
+      "file": "armor--gorse-thorn-brigandine--mage-f.png",
+      "x": 29.0,
+      "y": 16.0,
+      "w": 43.0,
+      "h": 32.09
+    },
+    "armor:Grounded Clerk's Habit": {
+      "file": "armor--grounded-clerks-habit--mage-f.png",
+      "x": 29.0,
+      "y": 16.0,
+      "w": 43.0,
+      "h": 43.46
+    },
+    "armor:Lime-Ditch Cassock": {
+      "file": "armor--lime-ditch-cassock--mage-f.png",
+      "x": 29.0,
+      "y": 16.0,
+      "w": 43.0,
+      "h": 41.7
+    },
+    "armor:Pauper-Roll Cassock": {
+      "file": "armor--pauper-roll-cassock--mage-f.png",
+      "x": 29.0,
+      "y": 16.0,
+      "w": 43.0,
+      "h": 42.78
+    },
+    "armor:pitch-steeped Winding Sheet": {
+      "file": "armor--pitch-steeped-winding-sheet--mage-f.png",
+      "x": 29.0,
+      "y": 16.0,
+      "w": 43.0,
+      "h": 32.09
+    },
+    "armor:Salt-Scoured Brigandine": {
+      "file": "armor--salt-scoured-brigandine--mage-f.png",
+      "x": 29.0,
+      "y": 16.0,
+      "w": 43.0,
+      "h": 37.49
+    },
+    "armor:Salt-Viper Jerkin": {
+      "file": "armor--salt-viper-jerkin--mage-f.png",
+      "x": 29.0,
+      "y": 16.0,
+      "w": 43.0,
+      "h": 40.07
+    },
+    "armor:Shroud of Unpaid Vows": {
+      "file": "armor--shroud-of-unpaid-vows--mage-f.png",
+      "x": 29.0,
+      "y": 16.0,
+      "w": 43.0,
+      "h": 43.93
+    },
+    "armor:Sovereign Wyrmscale": {
+      "file": "armor--sovereign-wyrmscale--mage-f.png",
+      "x": 29.0,
+      "y": 16.0,
+      "w": 43.0,
+      "h": 43.12
+    },
+    "armor:Vestments of the Last Pyre": {
+      "file": "armor--vestments-of-the-last-pyre--mage-f.png",
+      "x": 29.0,
+      "y": 16.0,
+      "w": 43.0,
+      "h": 41.91
+    },
+    "armor:Vok's Fissure-Plate": {
+      "file": "armor--voks-fissure-plate--mage-f.png",
+      "x": 29.0,
+      "y": 16.0,
+      "w": 43.0,
+      "h": 44.4
+    },
+    "boots:Bren's Only Dry Boot": {
+      "file": "boots--brens-only-dry-boot--mage-f.png",
+      "x": 35.0,
+      "y": 82.0,
+      "w": 32.0,
+      "h": 13.67
+    },
+    "boots:Cliff-Runner Striders": {
+      "file": "boots--cliff-runner-striders--mage-f.png",
+      "x": 38.09,
+      "y": 82.0,
+      "w": 25.81,
+      "h": 15.5
+    },
+    "boots:Coal-Walker's Sabatons": {
+      "file": "boots--coal-walkers-sabatons--mage-f.png",
+      "x": 38.13,
+      "y": 82.0,
+      "w": 25.75,
+      "h": 15.5
+    },
+    "boots:Fen-Wader Striders": {
+      "file": "boots--fen-wader-striders--mage-f.png",
+      "x": 35.0,
+      "y": 82.0,
+      "w": 32.0,
+      "h": 13.34
+    },
+    "boots:Reef-Walker Boots": {
+      "file": "boots--reef-walker-boots--mage-f.png",
+      "x": 35.0,
+      "y": 82.0,
+      "w": 32.0,
+      "h": 13.34
+    },
+    "boots:Sedge-Walker Treads": {
+      "file": "boots--sedge-walker-treads--mage-f.png",
+      "x": 38.13,
+      "y": 82.0,
+      "w": 25.75,
+      "h": 15.5
+    },
+    "boots:Silt-Plodder Boots": {
+      "file": "boots--silt-plodder-boots--mage-f.png",
+      "x": 35.0,
+      "y": 82.0,
+      "w": 32.0,
+      "h": 13.34
+    },
+    "boots:Spurs of Tactical Withdrawal": {
+      "file": "boots--spurs-of-tactical-withdrawal--mage-f.png",
+      "x": 35.0,
+      "y": 82.0,
+      "w": 32.0,
+      "h": 11.94
+    },
+    "gloves-l:Ash-Runner Grips": {
+      "file": "gloves--ash-runner-grips-l--mage-f.png",
+      "x": 32.16,
+      "y": 46.0,
+      "w": 9.68,
+      "h": 12.5
+    },
+    "gloves-r:Ash-Runner Grips": {
+      "file": "gloves--ash-runner-grips-r--mage-f.png",
+      "x": 59.21,
+      "y": 46.0,
+      "w": 9.59,
+      "h": 12.5
+    },
+    "gloves-l:Bowyers' Horn Bracer": {
+      "file": "gloves--bowyers-horn-bracer-l--mage-f.png",
+      "x": 32.96,
+      "y": 46.0,
+      "w": 8.08,
+      "h": 12.5
+    },
+    "gloves-r:Bowyers' Horn Bracer": {
+      "file": "gloves--bowyers-horn-bracer-r--mage-f.png",
+      "x": 59.96,
+      "y": 46.0,
+      "w": 8.08,
+      "h": 12.5
+    },
+    "gloves-l": {
+      "file": "gloves--glove-l--mage-f.png",
+      "x": 31.75,
+      "y": 46.0,
+      "w": 10.5,
+      "h": 7.84
+    },
+    "gloves-r": {
+      "file": "gloves--glove-r--mage-f.png",
+      "x": 58.75,
+      "y": 46.0,
+      "w": 10.5,
+      "h": 7.84
+    },
+    "gloves-l:Insulated Assay Gloves": {
+      "file": "gloves--insulated-assay-gloves-l--mage-f.png",
+      "x": 32.34,
+      "y": 46.0,
+      "w": 9.32,
+      "h": 12.5
+    },
+    "gloves-r:Insulated Assay Gloves": {
+      "file": "gloves--insulated-assay-gloves-r--mage-f.png",
+      "x": 59.34,
+      "y": 46.0,
+      "w": 9.32,
+      "h": 12.5
+    },
+    "gloves-l:Punt-Pole Grips": {
+      "file": "gloves--punt-pole-grips-l--mage-f.png",
+      "x": 33.25,
+      "y": 46.0,
+      "w": 7.49,
+      "h": 12.5
+    },
+    "gloves-r:Punt-Pole Grips": {
+      "file": "gloves--punt-pole-grips-r--mage-f.png",
+      "x": 60.38,
+      "y": 46.0,
+      "w": 7.23,
+      "h": 12.5
+    },
+    "gloves-l:Tannin-Stained Wraps": {
+      "file": "gloves--tannin-stained-wraps-l--mage-f.png",
+      "x": 33.6,
+      "y": 46.0,
+      "w": 6.8,
+      "h": 12.5
+    },
+    "gloves-r:Tannin-Stained Wraps": {
+      "file": "gloves--tannin-stained-wraps-r--mage-f.png",
+      "x": 59.8,
+      "y": 46.0,
+      "w": 8.41,
+      "h": 12.5
+    },
+    "gloves-l:Vane's Whisper Grips": {
+      "file": "gloves--vanes-whisper-grips-l--mage-f.png",
+      "x": 32.42,
+      "y": 46.0,
+      "w": 9.16,
+      "h": 12.5
+    },
+    "gloves-r:Vane's Whisper Grips": {
+      "file": "gloves--vanes-whisper-grips-r--mage-f.png",
+      "x": 59.42,
+      "y": 46.0,
+      "w": 9.16,
+      "h": 12.5
+    },
+    "gloves-l:Wreck-Diver's Bracers": {
+      "file": "gloves--wreck-divers-bracers-l--mage-f.png",
+      "x": 33.52,
+      "y": 46.0,
+      "w": 6.97,
+      "h": 12.5
+    },
+    "gloves-r:Wreck-Diver's Bracers": {
+      "file": "gloves--wreck-divers-bracers-r--mage-f.png",
+      "x": 61.14,
+      "y": 46.0,
+      "w": 5.73,
+      "h": 12.5
+    },
+    "helm:Assayer's Sight-Mask": {
+      "file": "helm--assayers-sight-mask.png",
+      "x": 38.61,
+      "y": 1.4,
+      "w": 22.78,
+      "h": 17.0
+    },
+    "helm:Conclave Grounding Hat": {
+      "file": "helm--conclave-grounding-hat.png",
+      "x": 38.61,
+      "y": 1.4,
+      "w": 22.78,
+      "h": 17.0
+    },
+    "helm:Coronet of Cold Clinkers": {
+      "file": "helm--coronet-of-cold-clinkers.png",
+      "x": 38.61,
+      "y": 1.4,
+      "w": 22.78,
+      "h": 17.0
+    },
+    "helm:Dent of Greystone Wall": {
+      "file": "helm--dent-of-greystone-wall.png",
+      "x": 38.61,
+      "y": 1.4,
+      "w": 22.78,
+      "h": 17.0
+    },
+    "helm:Greystone Parapet Helm": {
+      "file": "helm--greystone-parapet-helm.png",
+      "x": 38.61,
+      "y": 1.4,
+      "w": 22.78,
+      "h": 17.0
+    },
+    "helm:Hedge-Tutor's Hat": {
+      "file": "helm--hedge-tutors-hat.png",
+      "x": 38.61,
+      "y": 1.4,
+      "w": 22.78,
+      "h": 17.0
+    },
+    "helm:High Assayer's Diadem": {
+      "file": "helm--high-assayers-diadem.png",
+      "x": 38.61,
+      "y": 1.4,
+      "w": 22.78,
+      "h": 17.0
+    },
+    "helm:Inquisition Sight-Veil": {
+      "file": "helm--inquisition-sight-veil.png",
+      "x": 38.61,
+      "y": 1.4,
+      "w": 22.78,
+      "h": 17.0
+    },
+    "helm:Midge-Veil Hood": {
+      "file": "helm--midge-veil-hood.png",
+      "x": 38.61,
+      "y": 1.4,
+      "w": 22.78,
+      "h": 17.0
+    },
+    "helm:Miner's Canary Cage": {
+      "file": "helm--miners-canary-cage.png",
+      "x": 38.61,
+      "y": 1.4,
+      "w": 22.78,
+      "h": 17.0
+    },
+    "helm:Ossuary-Keeper's Cowl": {
+      "file": "helm--ossuary-keepers-cowl.png",
+      "x": 38.61,
+      "y": 1.4,
+      "w": 22.78,
+      "h": 17.0
+    },
+    "helm:Peat-Sinker's Cowl": {
+      "file": "helm--peat-sinkers-cowl.png",
+      "x": 38.61,
+      "y": 1.4,
+      "w": 22.78,
+      "h": 17.0
+    },
+    "helm:Scriptorium Veil-Cowl": {
+      "file": "helm--scriptorium-veil-cowl.png",
+      "x": 38.61,
+      "y": 1.4,
+      "w": 22.78,
+      "h": 17.0
+    },
+    "helm:Thorn-Thicket Cap": {
+      "file": "helm--thorn-thicket-cap.png",
+      "x": 38.61,
+      "y": 1.4,
+      "w": 22.78,
+      "h": 17.0
+    },
+    "offhand-mage:Black-Blockade Astrolabe": {
+      "file": "offhand-mage--black-blockade-astrolabe.png",
+      "x": 56.0,
+      "y": 42.0,
+      "w": 18.0,
+      "h": 13.43
+    },
+    "offhand-mage:Bog-Crystal Lens": {
+      "file": "offhand-mage--bog-crystal-lens.png",
+      "x": 56.0,
+      "y": 42.0,
+      "w": 18.0,
+      "h": 13.43
+    },
+    "offhand-mage:Brass Probate Scales": {
+      "file": "offhand-mage--brass-probate-scales.png",
+      "x": 56.0,
+      "y": 42.0,
+      "w": 18.0,
+      "h": 13.43
+    },
+    "offhand-mage:Ditch-Chapel Prism": {
+      "file": "offhand-mage--ditch-chapel-prism.png",
+      "x": 56.0,
+      "y": 42.0,
+      "w": 18.0,
+      "h": 13.43
+    },
+    "offhand-mage-focus": {
+      "file": "offhand-mage--focus.png",
+      "x": 56.0,
+      "y": 42.0,
+      "w": 18.0,
+      "h": 13.43
+    },
+    "offhand-mage:Fossilized Lien Wand": {
+      "file": "offhand-mage--fossilized-lien-wand.png",
+      "x": 56.0,
+      "y": 42.0,
+      "w": 18.0,
+      "h": 13.43
+    },
+    "offhand-mage:Harbor-Burner's Astrolabe": {
+      "file": "offhand-mage--harbor-burners-astrolabe.png",
+      "x": 56.0,
+      "y": 42.0,
+      "w": 18.0,
+      "h": 13.43
+    },
+    "offhand-mage:Leviathan-Rib Focus": {
+      "file": "offhand-mage--leviathan-rib-focus.png",
+      "x": 56.0,
+      "y": 42.0,
+      "w": 18.0,
+      "h": 13.43
+    },
+    "offhand-mage:Malrik's Margin-Notes": {
+      "file": "offhand-mage--malriks-margin-notes.png",
+      "x": 56.0,
+      "y": 42.0,
+      "w": 18.0,
+      "h": 13.43
+    },
+    "offhand-mage-mirror": {
+      "file": "offhand-mage--mirror.png",
+      "x": 56.0,
+      "y": 42.0,
+      "w": 18.0,
+      "h": 13.43
+    },
+    "offhand-mage:Molten-Bell Astrolabe": {
+      "file": "offhand-mage--molten-bell-astrolabe.png",
+      "x": 56.0,
+      "y": 42.0,
+      "w": 18.0,
+      "h": 13.43
+    },
+    "offhand-mage-orb": {
+      "file": "offhand-mage--orb.png",
+      "x": 56.0,
+      "y": 42.0,
+      "w": 18.0,
+      "h": 13.67
+    },
+    "offhand-mage:Ruptured Spire Lens": {
+      "file": "offhand-mage--ruptured-spire-lens.png",
+      "x": 56.0,
+      "y": 42.0,
+      "w": 18.0,
+      "h": 13.43
+    },
+    "offhand-mage:Splinter of the Third Monolith": {
+      "file": "offhand-mage--splinter-of-the-third-monolith.png",
+      "x": 56.0,
+      "y": 42.0,
+      "w": 18.0,
+      "h": 13.43
+    },
+    "offhand-mage:Threshold Keystone Eye": {
+      "file": "offhand-mage--threshold-keystone-eye.png",
+      "x": 56.0,
+      "y": 42.0,
+      "w": 18.0,
+      "h": 13.43
+    },
+    "offhand-mage:Tide-Scryer's Sphere": {
+      "file": "offhand-mage--tide-scryers-sphere.png",
+      "x": 56.0,
+      "y": 42.0,
+      "w": 18.0,
+      "h": 13.43
+    },
+    "offhand-mage:Tide-Witness Mirror": {
+      "file": "offhand-mage--tide-witness-mirror.png",
+      "x": 56.0,
+      "y": 42.0,
+      "w": 18.0,
+      "h": 13.43
+    },
+    "offhand-mage-tome": {
+      "file": "offhand-mage--tome.png",
+      "x": 56.0,
+      "y": 42.0,
+      "w": 18.0,
+      "h": 13.43
+    },
+    "shield:Boardwalk Pavise": {
+      "file": "shield--boardwalk-pavise.png",
+      "x": 56.0,
+      "y": 42.0,
+      "w": 18.0,
+      "h": 13.43
+    },
+    "shield:Breakwater Kite Shield": {
+      "file": "shield--breakwater-kite-shield.png",
+      "x": 56.0,
+      "y": 42.0,
+      "w": 18.0,
+      "h": 13.43
+    },
+    "shield-buckler": {
+      "file": "shield--buckler.png",
+      "x": 56.0,
+      "y": 42.0,
+      "w": 18.0,
+      "h": 13.43
+    },
+    "shield:Cinder-Crown Bulwark": {
+      "file": "shield--cinder-crown-bulwark.png",
+      "x": 56.0,
+      "y": 42.0,
+      "w": 18.0,
+      "h": 13.43
+    },
+    "shield:Garrick's Sluice-Lid": {
+      "file": "shield--garricks-sluice-lid.png",
+      "x": 56.0,
+      "y": 42.0,
+      "w": 18.0,
+      "h": 13.43
+    },
+    "shield:Iron Wheel of Wagon Four": {
+      "file": "shield--iron-wheel-of-wagon-four.png",
+      "x": 56.0,
+      "y": 42.0,
+      "w": 18.0,
+      "h": 13.43
+    },
+    "shield-kite": {
+      "file": "shield--kite.png",
+      "x": 56.0,
+      "y": 42.0,
+      "w": 18.0,
+      "h": 17.91
+    },
+    "shield:Portcullis of the First Checkpoint": {
+      "file": "shield--portcullis-of-the-first-checkpoint.png",
+      "x": 56.0,
+      "y": 42.0,
+      "w": 18.0,
+      "h": 13.43
+    },
+    "shield:Ravenwatch Bailey Pavise": {
+      "file": "shield--ravenwatch-bailey-pavise.png",
+      "x": 56.0,
+      "y": 42.0,
+      "w": 18.0,
+      "h": 13.43
+    },
+    "shield:Splinter of the Bailey": {
+      "file": "shield--splinter-of-the-bailey.png",
+      "x": 56.0,
+      "y": 42.0,
+      "w": 18.0,
+      "h": 13.43
+    },
+    "shield-targe": {
+      "file": "shield--targe.png",
+      "x": 56.0,
+      "y": 42.0,
+      "w": 18.0,
+      "h": 13.43
+    },
+    "shield-tower": {
+      "file": "shield--tower.png",
+      "x": 56.0,
+      "y": 42.0,
+      "w": 18.0,
+      "h": 13.43
+    },
+    "weapon:Abbey Witness Staff": {
+      "file": "weapon--abbey-witness-staff.png",
+      "x": 68.0,
+      "y": 8.0,
+      "w": 18.0,
+      "h": 13.43
+    },
+    "weapon:Abdication": {
+      "file": "weapon--abdication.png",
+      "x": 68.0,
+      "y": 8.0,
+      "w": 18.0,
+      "h": 44.37
+    },
+    "weapon:Alder-Bridge Watchman's Edge": {
+      "file": "weapon--alder-bridge-watchmans-edge.png",
+      "x": 68.0,
+      "y": 8.0,
+      "w": 18.0,
+      "h": 13.43
+    },
+    "weapon:Alder-Gate Cleaver": {
+      "file": "weapon--alder-gate-cleaver.png",
+      "x": 68.0,
+      "y": 8.0,
+      "w": 18.0,
+      "h": 13.43
+    },
+    "weapon:Ash-Draft Greatbow": {
+      "file": "weapon--ash-draft-greatbow.png",
+      "x": 68.0,
+      "y": 8.0,
+      "w": 18.0,
+      "h": 74.25
+    },
+    "weapon:Basalt-Splitter Maul": {
+      "file": "weapon--basalt-splitter-maul.png",
+      "x": 68.0,
+      "y": 8.0,
+      "w": 18.0,
+      "h": 13.43
+    },
+    "weapon:Blind-Beacon Rune Staff": {
+      "file": "weapon--blind-beacon-rune-staff.png",
+      "x": 68.0,
+      "y": 8.0,
+      "w": 18.0,
+      "h": 13.43
+    },
+    "weapon:Border-Assessor's Oak": {
+      "file": "weapon--border-assessors-oak.png",
+      "x": 68.0,
+      "y": 8.0,
+      "w": 18.0,
+      "h": 13.43
+    },
+    "weapon:Bracken Wind-Reader": {
+      "file": "weapon--bracken-wind-reader.png",
+      "x": 68.0,
+      "y": 8.0,
+      "w": 18.0,
+      "h": 64.81
+    },
+    "weapon:Caldera Glass Greatbow": {
+      "file": "weapon--caldera-glass-greatbow.png",
+      "x": 68.0,
+      "y": 8.0,
+      "w": 18.0,
+      "h": 54.29
+    },
+    "weapon:Caldera Trench-Flamberge": {
+      "file": "weapon--caldera-trench-flamberge.png",
+      "x": 68.0,
+      "y": 8.0,
+      "w": 18.0,
+      "h": 13.43
+    },
+    "weapon:Candle of the Sunken Sanctum": {
+      "file": "weapon--candle-of-the-sunken-sanctum.png",
+      "x": 68.0,
+      "y": 8.0,
+      "w": 18.0,
+      "h": 68.22
+    },
+    "weapon:Dike-Breaker's Broadaxe": {
+      "file": "weapon--dike-breakers-broadaxe.png",
+      "x": 68.0,
+      "y": 8.0,
+      "w": 18.0,
+      "h": 13.43
+    },
+    "weapon:Drowned-Bell Yew": {
+      "file": "weapon--drowned-bell-yew.png",
+      "x": 68.0,
+      "y": 8.0,
+      "w": 18.0,
+      "h": 13.43
+    },
+    "weapon:Ember-Glass Windpiercer": {
+      "file": "weapon--ember-glass-windpiercer.png",
+      "x": 68.0,
+      "y": 8.0,
+      "w": 18.0,
+      "h": 13.43
+    },
+    "weapon:Expelled Fellow's Staff": {
+      "file": "weapon--expelled-fellows-staff.png",
+      "x": 68.0,
+      "y": 8.0,
+      "w": 18.0,
+      "h": 13.43
+    },
+    "weapon:False-Light Crozier": {
+      "file": "weapon--false-light-crozier.png",
+      "x": 68.0,
+      "y": 8.0,
+      "w": 18.0,
+      "h": 13.43
+    },
+    "weapon:Fen-Poacher's Yew": {
+      "file": "weapon--fen-poachers-yew.png",
+      "x": 68.0,
+      "y": 8.0,
+      "w": 18.0,
+      "h": 74.84
+    },
+    "weapon:Gale-Rigging Composite": {
+      "file": "weapon--gale-rigging-composite.png",
+      "x": 68.0,
+      "y": 8.0,
+      "w": 18.0,
+      "h": 13.43
+    },
+    "weapon:Gallows-Root Crozier": {
+      "file": "weapon--gallows-root-crozier.png",
+      "x": 68.0,
+      "y": 8.0,
+      "w": 18.0,
+      "h": 13.43
+    },
+    "weapon:Gorrathul's Cistern-Blade": {
+      "file": "weapon--gorrathuls-cistern-blade.png",
+      "x": 68.0,
+      "y": 8.0,
+      "w": 18.0,
+      "h": 13.43
+    },
+    "weapon:Harbor-Chain Morning Star": {
+      "file": "weapon--harbor-chain-morning-star.png",
+      "x": 68.0,
+      "y": 8.0,
+      "w": 18.0,
+      "h": 13.43
+    },
+    "weapon:Harborwall Winch-Arbalest": {
+      "file": "weapon--harborwall-winch-arbalest.png",
+      "x": 68.0,
+      "y": 8.0,
+      "w": 18.0,
+      "h": 11.72
+    },
+    "weapon:Healer Sera's Amputation Saw": {
+      "file": "weapon--healer-seras-amputation-saw.png",
+      "x": 68.0,
+      "y": 8.0,
+      "w": 18.0,
+      "h": 43.25
+    },
+    "weapon:Hollow Reed of Vesperion": {
+      "file": "weapon--hollow-reed-of-vesperion.png",
+      "x": 68.0,
+      "y": 8.0,
+      "w": 18.0,
+      "h": 13.5
+    },
+    "weapon:Indenture Breaker": {
+      "file": "weapon--indenture-breaker.png",
+      "x": 68.0,
+      "y": 8.0,
+      "w": 18.0,
+      "h": 16.88
+    },
+    "weapon:Inquisitor's Ash-Siphon": {
+      "file": "weapon--inquisitors-ash-siphon.png",
+      "x": 68.0,
+      "y": 8.0,
+      "w": 18.0,
+      "h": 59.8
+    },
+    "weapon:Lightning-Split Bough": {
+      "file": "weapon--lightning-split-bough.png",
+      "x": 68.0,
+      "y": 8.0,
+      "w": 18.0,
+      "h": 79.78
+    },
+    "weapon:Obsidian Dais Zweihander": {
+      "file": "weapon--obsidian-dais-zweihander.png",
+      "x": 68.0,
+      "y": 8.0,
+      "w": 18.0,
+      "h": 13.43
+    },
+    "weapon:Ossuary Siphon Rod": {
+      "file": "weapon--ossuary-siphon-rod.png",
+      "x": 68.0,
+      "y": 8.0,
+      "w": 18.0,
+      "h": 13.43
+    },
+    "weapon:Parish Probate Wand": {
+      "file": "weapon--parish-probate-wand.png",
+      "x": 68.0,
+      "y": 8.0,
+      "w": 18.0,
+      "h": 12.31
+    },
+    "weapon:Pyre-Marshal's Flamberge": {
+      "file": "weapon--pyre-marshals-flamberge.png",
+      "x": 68.0,
+      "y": 8.0,
+      "w": 18.0,
+      "h": 13.43
+    },
+    "weapon:Quarryman's Grievance": {
+      "file": "weapon--quarrymans-grievance.png",
+      "x": 68.0,
+      "y": 8.0,
+      "w": 18.0,
+      "h": 13.79
+    },
+    "weapon:Redrock Misericorde": {
+      "file": "weapon--redrock-misericorde.png",
+      "x": 68.0,
+      "y": 8.0,
+      "w": 18.0,
+      "h": 13.43
+    },
+    "weapon:Saelen's Marrow-Needle": {
+      "file": "weapon--saelens-marrow-needle.png",
+      "x": 68.0,
+      "y": 8.0,
+      "w": 18.0,
+      "h": 79.76
+    },
+    "weapon:Salt-Mirage Longbow": {
+      "file": "weapon--salt-mirage-longbow.png",
+      "x": 68.0,
+      "y": 8.0,
+      "w": 18.0,
+      "h": 76.64
+    },
+    "weapon:Salt-Oath Yew Rod": {
+      "file": "weapon--salt-oath-yew-rod.png",
+      "x": 68.0,
+      "y": 8.0,
+      "w": 18.0,
+      "h": 13.43
+    },
+    "weapon:Sedge-Bank Recurve": {
+      "file": "weapon--sedge-bank-recurve.png",
+      "x": 68.0,
+      "y": 8.0,
+      "w": 18.0,
+      "h": 13.43
+    },
+    "weapon:Silt-Picker's Willow": {
+      "file": "weapon--silt-pickers-willow.png",
+      "x": 68.0,
+      "y": 8.0,
+      "w": 18.0,
+      "h": 13.43
+    },
+    "weapon:Sluice-Master's Wrench": {
+      "file": "weapon--sluice-masters-wrench.png",
+      "x": 68.0,
+      "y": 8.0,
+      "w": 18.0,
+      "h": 13.29
+    },
+    "weapon:Sovereign's Brazier Staff": {
+      "file": "weapon--sovereigns-brazier-staff.png",
+      "x": 68.0,
+      "y": 8.0,
+      "w": 18.0,
+      "h": 13.43
+    },
+    "weapon:Tax-Collector's Recurve": {
+      "file": "weapon--tax-collectors-recurve.png",
+      "x": 68.0,
+      "y": 8.0,
+      "w": 18.0,
+      "h": 59.23
+    },
+    "weapon:Thornwick Mint Focus": {
+      "file": "weapon--thornwick-mint-focus.png",
+      "x": 68.0,
+      "y": 8.0,
+      "w": 18.0,
+      "h": 13.43
+    },
+    "weapon:Toll-Tower Prod": {
+      "file": "weapon--toll-tower-prod.png",
+      "x": 68.0,
+      "y": 8.0,
+      "w": 18.0,
+      "h": 68.22
+    },
+    "weapon:Tollkeeper's Receipt": {
+      "file": "weapon--tollkeepers-receipt.png",
+      "x": 68.0,
+      "y": 8.0,
+      "w": 18.0,
+      "h": 21.77
+    },
+    "weapon:Tongs of the Cinderforge": {
+      "file": "weapon--tongs-of-the-cinderforge.png",
+      "x": 68.0,
+      "y": 8.0,
+      "w": 18.0,
+      "h": 30.42
+    },
+    "weapon:Turnkey of the North Gate": {
+      "file": "weapon--turnkey-of-the-north-gate.png",
+      "x": 68.0,
+      "y": 8.0,
+      "w": 18.0,
+      "h": 8.03
+    },
+    "weapon:Warden's Seal-Wand": {
+      "file": "weapon--wardens-seal-wand.png",
+      "x": 68.0,
+      "y": 8.0,
+      "w": 18.0,
+      "h": 13.43
+    },
+    "weapon:Willow-Creek String": {
+      "file": "weapon--willow-creek-string.png",
+      "x": 68.0,
+      "y": 8.0,
+      "w": 18.0,
+      "h": 13.43
+    }
+  }
+}

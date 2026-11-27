@@ -19481,6 +19481,1572 @@
       "license": "own",
       "source": "tools/ingest-item-image.mjs",
       "note": "Original Thornvael item icon"
+    },
+    {
+      "path": "public/townart/doll/armor--apothecarys-oilcloth--mage-f.png",
+      "license": "own",
+      "source": "Gemini / .planning/gemini-results/doll-layers/",
+      "note": "Paperdoll equipment layer"
+    },
+    {
+      "path": "public/townart/doll/armor--apothecarys-oilcloth--mage-m.png",
+      "license": "own",
+      "source": "Gemini / .planning/gemini-results/doll-layers/",
+      "note": "Paperdoll equipment layer"
+    },
+    {
+      "path": "public/townart/doll/armor--apothecarys-oilcloth--warrior-f.png",
+      "license": "own",
+      "source": "Gemini / .planning/gemini-results/doll-layers/",
+      "note": "Paperdoll equipment layer"
+    },
+    {
+      "path": "public/townart/doll/armor--apothecarys-oilcloth--warrior-m.png",
+      "license": "own",
+      "source": "Gemini / .planning/gemini-results/doll-layers/",
+      "note": "Paperdoll equipment layer"
+    },
+    {
+      "path": "public/townart/doll/armor--arbiters-velvet-mantle--mage-f.png",
+      "license": "own",
+      "source": "Gemini / .planning/gemini-results/doll-layers/",
+      "note": "Paperdoll equipment layer"
+    },
+    {
+      "path": "public/townart/doll/armor--arbiters-velvet-mantle--mage-m.png",
+      "license": "own",
+      "source": "Gemini / .planning/gemini-results/doll-layers/",
+      "note": "Paperdoll equipment layer"
+    },
+    {
+      "path": "public/townart/doll/armor--arbiters-velvet-mantle--warrior-f.png",
+      "license": "own",
+      "source": "Gemini / .planning/gemini-results/doll-layers/",
+      "note": "Paperdoll equipment layer"
+    },
+    {
+      "path": "public/townart/doll/armor--arbiters-velvet-mantle--warrior-m.png",
+      "license": "own",
+      "source": "Gemini / .planning/gemini-results/doll-layers/",
+      "note": "Paperdoll equipment layer"
+    },
+    {
+      "path": "public/townart/doll/armor--ashen-citadel-cuirass--mage-f.png",
+      "license": "own",
+      "source": "Gemini / .planning/gemini-results/doll-layers/",
+      "note": "Paperdoll equipment layer"
+    },
+    {
+      "path": "public/townart/doll/armor--ashen-citadel-cuirass--mage-m.png",
+      "license": "own",
+      "source": "Gemini / .planning/gemini-results/doll-layers/",
+      "note": "Paperdoll equipment layer"
+    },
+    {
+      "path": "public/townart/doll/armor--ashen-citadel-cuirass--warrior-f.png",
+      "license": "own",
+      "source": "Gemini / .planning/gemini-results/doll-layers/",
+      "note": "Paperdoll equipment layer"
+    },
+    {
+      "path": "public/townart/doll/armor--ashen-citadel-cuirass--warrior-m.png",
+      "license": "own",
+      "source": "Gemini / .planning/gemini-results/doll-layers/",
+      "note": "Paperdoll equipment layer"
+    },
+    {
+      "path": "public/townart/doll/armor--barnacle-crusted-brigandine--mage-f.png",
+      "license": "own",
+      "source": "Gemini / .planning/gemini-results/doll-layers/",
+      "note": "Paperdoll equipment layer"
+    },
+    {
+      "path": "public/townart/doll/armor--barnacle-crusted-brigandine--mage-m.png",
+      "license": "own",
+      "source": "Gemini / .planning/gemini-results/doll-layers/",
+      "note": "Paperdoll equipment layer"
+    },
+    {
+      "path": "public/townart/doll/armor--barnacle-crusted-brigandine--warrior-f.png",
+      "license": "own",
+      "source": "Gemini / .planning/gemini-results/doll-layers/",
+      "note": "Paperdoll equipment layer"
+    },
+    {
+      "path": "public/townart/doll/armor--barnacle-crusted-brigandine--warrior-m.png",
+      "license": "own",
+      "source": "Gemini / .planning/gemini-results/doll-layers/",
+      "note": "Paperdoll equipment layer"
+    },
+    {
+      "path": "public/townart/doll/armor--bitumen-sealed-habit--mage-f.png",
+      "license": "own",
+      "source": "Gemini / .planning/gemini-results/doll-layers/",
+      "note": "Paperdoll equipment layer"
+    },
+    {
+      "path": "public/townart/doll/armor--bitumen-sealed-habit--mage-m.png",
+      "license": "own",
+      "source": "Gemini / .planning/gemini-results/doll-layers/",
+      "note": "Paperdoll equipment layer"
+    },
+    {
+      "path": "public/townart/doll/armor--bitumen-sealed-habit--warrior-f.png",
+      "license": "own",
+      "source": "Gemini / .planning/gemini-results/doll-layers/",
+      "note": "Paperdoll equipment layer"
+    },
+    {
+      "path": "public/townart/doll/armor--bitumen-sealed-habit--warrior-m.png",
+      "license": "own",
+      "source": "Gemini / .planning/gemini-results/doll-layers/",
+      "note": "Paperdoll equipment layer"
+    },
+    {
+      "path": "public/townart/doll/armor--cinder-wing-mantle--mage-f.png",
+      "license": "own",
+      "source": "Gemini / .planning/gemini-results/doll-layers/",
+      "note": "Paperdoll equipment layer"
+    },
+    {
+      "path": "public/townart/doll/armor--cinder-wing-mantle--mage-m.png",
+      "license": "own",
+      "source": "Gemini / .planning/gemini-results/doll-layers/",
+      "note": "Paperdoll equipment layer"
+    },
+    {
+      "path": "public/townart/doll/armor--cinder-wing-mantle--warrior-f.png",
+      "license": "own",
+      "source": "Gemini / .planning/gemini-results/doll-layers/",
+      "note": "Paperdoll equipment layer"
+    },
+    {
+      "path": "public/townart/doll/armor--cinder-wing-mantle--warrior-m.png",
+      "license": "own",
+      "source": "Gemini / .planning/gemini-results/doll-layers/",
+      "note": "Paperdoll equipment layer"
+    },
+    {
+      "path": "public/townart/doll/armor--deep-current-mantle--mage-f.png",
+      "license": "own",
+      "source": "Gemini / .planning/gemini-results/doll-layers/",
+      "note": "Paperdoll equipment layer"
+    },
+    {
+      "path": "public/townart/doll/armor--deep-current-mantle--mage-m.png",
+      "license": "own",
+      "source": "Gemini / .planning/gemini-results/doll-layers/",
+      "note": "Paperdoll equipment layer"
+    },
+    {
+      "path": "public/townart/doll/armor--deep-current-mantle--warrior-f.png",
+      "license": "own",
+      "source": "Gemini / .planning/gemini-results/doll-layers/",
+      "note": "Paperdoll equipment layer"
+    },
+    {
+      "path": "public/townart/doll/armor--deep-current-mantle--warrior-m.png",
+      "license": "own",
+      "source": "Gemini / .planning/gemini-results/doll-layers/",
+      "note": "Paperdoll equipment layer"
+    },
+    {
+      "path": "public/townart/doll/armor--gorse-thorn-brigandine--mage-f.png",
+      "license": "own",
+      "source": "Gemini / .planning/gemini-results/doll-layers/",
+      "note": "Paperdoll equipment layer"
+    },
+    {
+      "path": "public/townart/doll/armor--gorse-thorn-brigandine--mage-m.png",
+      "license": "own",
+      "source": "Gemini / .planning/gemini-results/doll-layers/",
+      "note": "Paperdoll equipment layer"
+    },
+    {
+      "path": "public/townart/doll/armor--gorse-thorn-brigandine--warrior-f.png",
+      "license": "own",
+      "source": "Gemini / .planning/gemini-results/doll-layers/",
+      "note": "Paperdoll equipment layer"
+    },
+    {
+      "path": "public/townart/doll/armor--gorse-thorn-brigandine--warrior-m.png",
+      "license": "own",
+      "source": "Gemini / .planning/gemini-results/doll-layers/",
+      "note": "Paperdoll equipment layer"
+    },
+    {
+      "path": "public/townart/doll/armor--grounded-clerks-habit--mage-f.png",
+      "license": "own",
+      "source": "Gemini / .planning/gemini-results/doll-layers/",
+      "note": "Paperdoll equipment layer"
+    },
+    {
+      "path": "public/townart/doll/armor--grounded-clerks-habit--mage-m.png",
+      "license": "own",
+      "source": "Gemini / .planning/gemini-results/doll-layers/",
+      "note": "Paperdoll equipment layer"
+    },
+    {
+      "path": "public/townart/doll/armor--grounded-clerks-habit--warrior-f.png",
+      "license": "own",
+      "source": "Gemini / .planning/gemini-results/doll-layers/",
+      "note": "Paperdoll equipment layer"
+    },
+    {
+      "path": "public/townart/doll/armor--grounded-clerks-habit--warrior-m.png",
+      "license": "own",
+      "source": "Gemini / .planning/gemini-results/doll-layers/",
+      "note": "Paperdoll equipment layer"
+    },
+    {
+      "path": "public/townart/doll/armor--lime-ditch-cassock--mage-f.png",
+      "license": "own",
+      "source": "Gemini / .planning/gemini-results/doll-layers/",
+      "note": "Paperdoll equipment layer"
+    },
+    {
+      "path": "public/townart/doll/armor--lime-ditch-cassock--mage-m.png",
+      "license": "own",
+      "source": "Gemini / .planning/gemini-results/doll-layers/",
+      "note": "Paperdoll equipment layer"
+    },
+    {
+      "path": "public/townart/doll/armor--lime-ditch-cassock--warrior-f.png",
+      "license": "own",
+      "source": "Gemini / .planning/gemini-results/doll-layers/",
+      "note": "Paperdoll equipment layer"
+    },
+    {
+      "path": "public/townart/doll/armor--lime-ditch-cassock--warrior-m.png",
+      "license": "own",
+      "source": "Gemini / .planning/gemini-results/doll-layers/",
+      "note": "Paperdoll equipment layer"
+    },
+    {
+      "path": "public/townart/doll/armor--pauper-roll-cassock--mage-f.png",
+      "license": "own",
+      "source": "Gemini / .planning/gemini-results/doll-layers/",
+      "note": "Paperdoll equipment layer"
+    },
+    {
+      "path": "public/townart/doll/armor--pauper-roll-cassock--mage-m.png",
+      "license": "own",
+      "source": "Gemini / .planning/gemini-results/doll-layers/",
+      "note": "Paperdoll equipment layer"
+    },
+    {
+      "path": "public/townart/doll/armor--pauper-roll-cassock--warrior-f.png",
+      "license": "own",
+      "source": "Gemini / .planning/gemini-results/doll-layers/",
+      "note": "Paperdoll equipment layer"
+    },
+    {
+      "path": "public/townart/doll/armor--pauper-roll-cassock--warrior-m.png",
+      "license": "own",
+      "source": "Gemini / .planning/gemini-results/doll-layers/",
+      "note": "Paperdoll equipment layer"
+    },
+    {
+      "path": "public/townart/doll/armor--pitch-steeped-winding-sheet--mage-f.png",
+      "license": "own",
+      "source": "Gemini / .planning/gemini-results/doll-layers/",
+      "note": "Paperdoll equipment layer"
+    },
+    {
+      "path": "public/townart/doll/armor--pitch-steeped-winding-sheet--mage-m.png",
+      "license": "own",
+      "source": "Gemini / .planning/gemini-results/doll-layers/",
+      "note": "Paperdoll equipment layer"
+    },
+    {
+      "path": "public/townart/doll/armor--pitch-steeped-winding-sheet--warrior-f.png",
+      "license": "own",
+      "source": "Gemini / .planning/gemini-results/doll-layers/",
+      "note": "Paperdoll equipment layer"
+    },
+    {
+      "path": "public/townart/doll/armor--pitch-steeped-winding-sheet--warrior-m.png",
+      "license": "own",
+      "source": "Gemini / .planning/gemini-results/doll-layers/",
+      "note": "Paperdoll equipment layer"
+    },
+    {
+      "path": "public/townart/doll/armor--salt-scoured-brigandine--mage-f.png",
+      "license": "own",
+      "source": "Gemini / .planning/gemini-results/doll-layers/",
+      "note": "Paperdoll equipment layer"
+    },
+    {
+      "path": "public/townart/doll/armor--salt-scoured-brigandine--mage-m.png",
+      "license": "own",
+      "source": "Gemini / .planning/gemini-results/doll-layers/",
+      "note": "Paperdoll equipment layer"
+    },
+    {
+      "path": "public/townart/doll/armor--salt-scoured-brigandine--warrior-f.png",
+      "license": "own",
+      "source": "Gemini / .planning/gemini-results/doll-layers/",
+      "note": "Paperdoll equipment layer"
+    },
+    {
+      "path": "public/townart/doll/armor--salt-scoured-brigandine--warrior-m.png",
+      "license": "own",
+      "source": "Gemini / .planning/gemini-results/doll-layers/",
+      "note": "Paperdoll equipment layer"
+    },
+    {
+      "path": "public/townart/doll/armor--salt-viper-jerkin--mage-f.png",
+      "license": "own",
+      "source": "Gemini / .planning/gemini-results/doll-layers/",
+      "note": "Paperdoll equipment layer"
+    },
+    {
+      "path": "public/townart/doll/armor--salt-viper-jerkin--mage-m.png",
+      "license": "own",
+      "source": "Gemini / .planning/gemini-results/doll-layers/",
+      "note": "Paperdoll equipment layer"
+    },
+    {
+      "path": "public/townart/doll/armor--salt-viper-jerkin--warrior-f.png",
+      "license": "own",
+      "source": "Gemini / .planning/gemini-results/doll-layers/",
+      "note": "Paperdoll equipment layer"
+    },
+    {
+      "path": "public/townart/doll/armor--salt-viper-jerkin--warrior-m.png",
+      "license": "own",
+      "source": "Gemini / .planning/gemini-results/doll-layers/",
+      "note": "Paperdoll equipment layer"
+    },
+    {
+      "path": "public/townart/doll/armor--shroud-of-unpaid-vows--mage-f.png",
+      "license": "own",
+      "source": "Gemini / .planning/gemini-results/doll-layers/",
+      "note": "Paperdoll equipment layer"
+    },
+    {
+      "path": "public/townart/doll/armor--shroud-of-unpaid-vows--mage-m.png",
+      "license": "own",
+      "source": "Gemini / .planning/gemini-results/doll-layers/",
+      "note": "Paperdoll equipment layer"
+    },
+    {
+      "path": "public/townart/doll/armor--shroud-of-unpaid-vows--warrior-f.png",
+      "license": "own",
+      "source": "Gemini / .planning/gemini-results/doll-layers/",
+      "note": "Paperdoll equipment layer"
+    },
+    {
+      "path": "public/townart/doll/armor--shroud-of-unpaid-vows--warrior-m.png",
+      "license": "own",
+      "source": "Gemini / .planning/gemini-results/doll-layers/",
+      "note": "Paperdoll equipment layer"
+    },
+    {
+      "path": "public/townart/doll/armor--sovereign-wyrmscale--mage-f.png",
+      "license": "own",
+      "source": "Gemini / .planning/gemini-results/doll-layers/",
+      "note": "Paperdoll equipment layer"
+    },
+    {
+      "path": "public/townart/doll/armor--sovereign-wyrmscale--mage-m.png",
+      "license": "own",
+      "source": "Gemini / .planning/gemini-results/doll-layers/",
+      "note": "Paperdoll equipment layer"
+    },
+    {
+      "path": "public/townart/doll/armor--sovereign-wyrmscale--warrior-f.png",
+      "license": "own",
+      "source": "Gemini / .planning/gemini-results/doll-layers/",
+      "note": "Paperdoll equipment layer"
+    },
+    {
+      "path": "public/townart/doll/armor--sovereign-wyrmscale--warrior-m.png",
+      "license": "own",
+      "source": "Gemini / .planning/gemini-results/doll-layers/",
+      "note": "Paperdoll equipment layer"
+    },
+    {
+      "path": "public/townart/doll/armor--vestments-of-the-last-pyre--mage-f.png",
+      "license": "own",
+      "source": "Gemini / .planning/gemini-results/doll-layers/",
+      "note": "Paperdoll equipment layer"
+    },
+    {
+      "path": "public/townart/doll/armor--vestments-of-the-last-pyre--mage-m.png",
+      "license": "own",
+      "source": "Gemini / .planning/gemini-results/doll-layers/",
+      "note": "Paperdoll equipment layer"
+    },
+    {
+      "path": "public/townart/doll/armor--vestments-of-the-last-pyre--warrior-f.png",
+      "license": "own",
+      "source": "Gemini / .planning/gemini-results/doll-layers/",
+      "note": "Paperdoll equipment layer"
+    },
+    {
+      "path": "public/townart/doll/armor--vestments-of-the-last-pyre--warrior-m.png",
+      "license": "own",
+      "source": "Gemini / .planning/gemini-results/doll-layers/",
+      "note": "Paperdoll equipment layer"
+    },
+    {
+      "path": "public/townart/doll/armor--voks-fissure-plate--mage-f.png",
+      "license": "own",
+      "source": "Gemini / .planning/gemini-results/doll-layers/",
+      "note": "Paperdoll equipment layer"
+    },
+    {
+      "path": "public/townart/doll/armor--voks-fissure-plate--mage-m.png",
+      "license": "own",
+      "source": "Gemini / .planning/gemini-results/doll-layers/",
+      "note": "Paperdoll equipment layer"
+    },
+    {
+      "path": "public/townart/doll/armor--voks-fissure-plate--warrior-f.png",
+      "license": "own",
+      "source": "Gemini / .planning/gemini-results/doll-layers/",
+      "note": "Paperdoll equipment layer"
+    },
+    {
+      "path": "public/townart/doll/armor--voks-fissure-plate--warrior-m.png",
+      "license": "own",
+      "source": "Gemini / .planning/gemini-results/doll-layers/",
+      "note": "Paperdoll equipment layer"
+    },
+    {
+      "path": "public/townart/doll/boots--brens-only-dry-boot--mage-f.png",
+      "license": "own",
+      "source": "Gemini / .planning/gemini-results/doll-layers/",
+      "note": "Paperdoll equipment layer"
+    },
+    {
+      "path": "public/townart/doll/boots--brens-only-dry-boot--mage-m.png",
+      "license": "own",
+      "source": "Gemini / .planning/gemini-results/doll-layers/",
+      "note": "Paperdoll equipment layer"
+    },
+    {
+      "path": "public/townart/doll/boots--brens-only-dry-boot--warrior-f.png",
+      "license": "own",
+      "source": "Gemini / .planning/gemini-results/doll-layers/",
+      "note": "Paperdoll equipment layer"
+    },
+    {
+      "path": "public/townart/doll/boots--brens-only-dry-boot--warrior-m.png",
+      "license": "own",
+      "source": "Gemini / .planning/gemini-results/doll-layers/",
+      "note": "Paperdoll equipment layer"
+    },
+    {
+      "path": "public/townart/doll/boots--cliff-runner-striders--mage-f.png",
+      "license": "own",
+      "source": "Gemini / .planning/gemini-results/doll-layers/",
+      "note": "Paperdoll equipment layer"
+    },
+    {
+      "path": "public/townart/doll/boots--cliff-runner-striders--mage-m.png",
+      "license": "own",
+      "source": "Gemini / .planning/gemini-results/doll-layers/",
+      "note": "Paperdoll equipment layer"
+    },
+    {
+      "path": "public/townart/doll/boots--cliff-runner-striders--warrior-f.png",
+      "license": "own",
+      "source": "Gemini / .planning/gemini-results/doll-layers/",
+      "note": "Paperdoll equipment layer"
+    },
+    {
+      "path": "public/townart/doll/boots--cliff-runner-striders--warrior-m.png",
+      "license": "own",
+      "source": "Gemini / .planning/gemini-results/doll-layers/",
+      "note": "Paperdoll equipment layer"
+    },
+    {
+      "path": "public/townart/doll/boots--coal-walkers-sabatons--mage-f.png",
+      "license": "own",
+      "source": "Gemini / .planning/gemini-results/doll-layers/",
+      "note": "Paperdoll equipment layer"
+    },
+    {
+      "path": "public/townart/doll/boots--coal-walkers-sabatons--mage-m.png",
+      "license": "own",
+      "source": "Gemini / .planning/gemini-results/doll-layers/",
+      "note": "Paperdoll equipment layer"
+    },
+    {
+      "path": "public/townart/doll/boots--coal-walkers-sabatons--warrior-f.png",
+      "license": "own",
+      "source": "Gemini / .planning/gemini-results/doll-layers/",
+      "note": "Paperdoll equipment layer"
+    },
+    {
+      "path": "public/townart/doll/boots--coal-walkers-sabatons--warrior-m.png",
+      "license": "own",
+      "source": "Gemini / .planning/gemini-results/doll-layers/",
+      "note": "Paperdoll equipment layer"
+    },
+    {
+      "path": "public/townart/doll/boots--fen-wader-striders--mage-f.png",
+      "license": "own",
+      "source": "Gemini / .planning/gemini-results/doll-layers/",
+      "note": "Paperdoll equipment layer"
+    },
+    {
+      "path": "public/townart/doll/boots--fen-wader-striders--mage-m.png",
+      "license": "own",
+      "source": "Gemini / .planning/gemini-results/doll-layers/",
+      "note": "Paperdoll equipment layer"
+    },
+    {
+      "path": "public/townart/doll/boots--fen-wader-striders--warrior-f.png",
+      "license": "own",
+      "source": "Gemini / .planning/gemini-results/doll-layers/",
+      "note": "Paperdoll equipment layer"
+    },
+    {
+      "path": "public/townart/doll/boots--fen-wader-striders--warrior-m.png",
+      "license": "own",
+      "source": "Gemini / .planning/gemini-results/doll-layers/",
+      "note": "Paperdoll equipment layer"
+    },
+    {
+      "path": "public/townart/doll/boots--reef-walker-boots--mage-f.png",
+      "license": "own",
+      "source": "Gemini / .planning/gemini-results/doll-layers/",
+      "note": "Paperdoll equipment layer"
+    },
+    {
+      "path": "public/townart/doll/boots--reef-walker-boots--mage-m.png",
+      "license": "own",
+      "source": "Gemini / .planning/gemini-results/doll-layers/",
+      "note": "Paperdoll equipment layer"
+    },
+    {
+      "path": "public/townart/doll/boots--reef-walker-boots--warrior-f.png",
+      "license": "own",
+      "source": "Gemini / .planning/gemini-results/doll-layers/",
+      "note": "Paperdoll equipment layer"
+    },
+    {
+      "path": "public/townart/doll/boots--reef-walker-boots--warrior-m.png",
+      "license": "own",
+      "source": "Gemini / .planning/gemini-results/doll-layers/",
+      "note": "Paperdoll equipment layer"
+    },
+    {
+      "path": "public/townart/doll/boots--sedge-walker-treads--mage-f.png",
+      "license": "own",
+      "source": "Gemini / .planning/gemini-results/doll-layers/",
+      "note": "Paperdoll equipment layer"
+    },
+    {
+      "path": "public/townart/doll/boots--sedge-walker-treads--mage-m.png",
+      "license": "own",
+      "source": "Gemini / .planning/gemini-results/doll-layers/",
+      "note": "Paperdoll equipment layer"
+    },
+    {
+      "path": "public/townart/doll/boots--sedge-walker-treads--warrior-f.png",
+      "license": "own",
+      "source": "Gemini / .planning/gemini-results/doll-layers/",
+      "note": "Paperdoll equipment layer"
+    },
+    {
+      "path": "public/townart/doll/boots--sedge-walker-treads--warrior-m.png",
+      "license": "own",
+      "source": "Gemini / .planning/gemini-results/doll-layers/",
+      "note": "Paperdoll equipment layer"
+    },
+    {
+      "path": "public/townart/doll/boots--silt-plodder-boots--mage-f.png",
+      "license": "own",
+      "source": "Gemini / .planning/gemini-results/doll-layers/",
+      "note": "Paperdoll equipment layer"
+    },
+    {
+      "path": "public/townart/doll/boots--silt-plodder-boots--mage-m.png",
+      "license": "own",
+      "source": "Gemini / .planning/gemini-results/doll-layers/",
+      "note": "Paperdoll equipment layer"
+    },
+    {
+      "path": "public/townart/doll/boots--silt-plodder-boots--warrior-f.png",
+      "license": "own",
+      "source": "Gemini / .planning/gemini-results/doll-layers/",
+      "note": "Paperdoll equipment layer"
+    },
+    {
+      "path": "public/townart/doll/boots--silt-plodder-boots--warrior-m.png",
+      "license": "own",
+      "source": "Gemini / .planning/gemini-results/doll-layers/",
+      "note": "Paperdoll equipment layer"
+    },
+    {
+      "path": "public/townart/doll/boots--spurs-of-tactical-withdrawal--mage-f.png",
+      "license": "own",
+      "source": "Gemini / .planning/gemini-results/doll-layers/",
+      "note": "Paperdoll equipment layer"
+    },
+    {
+      "path": "public/townart/doll/boots--spurs-of-tactical-withdrawal--mage-m.png",
+      "license": "own",
+      "source": "Gemini / .planning/gemini-results/doll-layers/",
+      "note": "Paperdoll equipment layer"
+    },
+    {
+      "path": "public/townart/doll/boots--spurs-of-tactical-withdrawal--warrior-f.png",
+      "license": "own",
+      "source": "Gemini / .planning/gemini-results/doll-layers/",
+      "note": "Paperdoll equipment layer"
+    },
+    {
+      "path": "public/townart/doll/boots--spurs-of-tactical-withdrawal--warrior-m.png",
+      "license": "own",
+      "source": "Gemini / .planning/gemini-results/doll-layers/",
+      "note": "Paperdoll equipment layer"
+    },
+    {
+      "path": "public/townart/doll/gloves--ash-runner-grips-l--mage-f.png",
+      "license": "own",
+      "source": "Gemini / .planning/gemini-results/doll-layers/",
+      "note": "Paperdoll equipment layer"
+    },
+    {
+      "path": "public/townart/doll/gloves--ash-runner-grips-l--mage-m.png",
+      "license": "own",
+      "source": "Gemini / .planning/gemini-results/doll-layers/",
+      "note": "Paperdoll equipment layer"
+    },
+    {
+      "path": "public/townart/doll/gloves--ash-runner-grips-l--warrior-f.png",
+      "license": "own",
+      "source": "Gemini / .planning/gemini-results/doll-layers/",
+      "note": "Paperdoll equipment layer"
+    },
+    {
+      "path": "public/townart/doll/gloves--ash-runner-grips-l--warrior-m.png",
+      "license": "own",
+      "source": "Gemini / .planning/gemini-results/doll-layers/",
+      "note": "Paperdoll equipment layer"
+    },
+    {
+      "path": "public/townart/doll/gloves--ash-runner-grips-r--mage-f.png",
+      "license": "own",
+      "source": "Gemini / .planning/gemini-results/doll-layers/",
+      "note": "Paperdoll equipment layer"
+    },
+    {
+      "path": "public/townart/doll/gloves--ash-runner-grips-r--mage-m.png",
+      "license": "own",
+      "source": "Gemini / .planning/gemini-results/doll-layers/",
+      "note": "Paperdoll equipment layer"
+    },
+    {
+      "path": "public/townart/doll/gloves--ash-runner-grips-r--warrior-f.png",
+      "license": "own",
+      "source": "Gemini / .planning/gemini-results/doll-layers/",
+      "note": "Paperdoll equipment layer"
+    },
+    {
+      "path": "public/townart/doll/gloves--ash-runner-grips-r--warrior-m.png",
+      "license": "own",
+      "source": "Gemini / .planning/gemini-results/doll-layers/",
+      "note": "Paperdoll equipment layer"
+    },
+    {
+      "path": "public/townart/doll/gloves--bowyers-horn-bracer-l--mage-f.png",
+      "license": "own",
+      "source": "Gemini / .planning/gemini-results/doll-layers/",
+      "note": "Paperdoll equipment layer"
+    },
+    {
+      "path": "public/townart/doll/gloves--bowyers-horn-bracer-l--mage-m.png",
+      "license": "own",
+      "source": "Gemini / .planning/gemini-results/doll-layers/",
+      "note": "Paperdoll equipment layer"
+    },
+    {
+      "path": "public/townart/doll/gloves--bowyers-horn-bracer-l--warrior-f.png",
+      "license": "own",
+      "source": "Gemini / .planning/gemini-results/doll-layers/",
+      "note": "Paperdoll equipment layer"
+    },
+    {
+      "path": "public/townart/doll/gloves--bowyers-horn-bracer-l--warrior-m.png",
+      "license": "own",
+      "source": "Gemini / .planning/gemini-results/doll-layers/",
+      "note": "Paperdoll equipment layer"
+    },
+    {
+      "path": "public/townart/doll/gloves--bowyers-horn-bracer-r--mage-f.png",
+      "license": "own",
+      "source": "Gemini / .planning/gemini-results/doll-layers/",
+      "note": "Paperdoll equipment layer"
+    },
+    {
+      "path": "public/townart/doll/gloves--bowyers-horn-bracer-r--mage-m.png",
+      "license": "own",
+      "source": "Gemini / .planning/gemini-results/doll-layers/",
+      "note": "Paperdoll equipment layer"
+    },
+    {
+      "path": "public/townart/doll/gloves--bowyers-horn-bracer-r--warrior-f.png",
+      "license": "own",
+      "source": "Gemini / .planning/gemini-results/doll-layers/",
+      "note": "Paperdoll equipment layer"
+    },
+    {
+      "path": "public/townart/doll/gloves--bowyers-horn-bracer-r--warrior-m.png",
+      "license": "own",
+      "source": "Gemini / .planning/gemini-results/doll-layers/",
+      "note": "Paperdoll equipment layer"
+    },
+    {
+      "path": "public/townart/doll/gloves--glove-l--mage-f.png",
+      "license": "own",
+      "source": "Gemini / .planning/gemini-results/doll-layers/",
+      "note": "Paperdoll equipment layer"
+    },
+    {
+      "path": "public/townart/doll/gloves--glove-l--mage-m.png",
+      "license": "own",
+      "source": "Gemini / .planning/gemini-results/doll-layers/",
+      "note": "Paperdoll equipment layer"
+    },
+    {
+      "path": "public/townart/doll/gloves--glove-l--warrior-f.png",
+      "license": "own",
+      "source": "Gemini / .planning/gemini-results/doll-layers/",
+      "note": "Paperdoll equipment layer"
+    },
+    {
+      "path": "public/townart/doll/gloves--glove-l--warrior-m.png",
+      "license": "own",
+      "source": "Gemini / .planning/gemini-results/doll-layers/",
+      "note": "Paperdoll equipment layer"
+    },
+    {
+      "path": "public/townart/doll/gloves--glove-r--mage-f.png",
+      "license": "own",
+      "source": "Gemini / .planning/gemini-results/doll-layers/",
+      "note": "Paperdoll equipment layer"
+    },
+    {
+      "path": "public/townart/doll/gloves--glove-r--mage-m.png",
+      "license": "own",
+      "source": "Gemini / .planning/gemini-results/doll-layers/",
+      "note": "Paperdoll equipment layer"
+    },
+    {
+      "path": "public/townart/doll/gloves--glove-r--warrior-f.png",
+      "license": "own",
+      "source": "Gemini / .planning/gemini-results/doll-layers/",
+      "note": "Paperdoll equipment layer"
+    },
+    {
+      "path": "public/townart/doll/gloves--glove-r--warrior-m.png",
+      "license": "own",
+      "source": "Gemini / .planning/gemini-results/doll-layers/",
+      "note": "Paperdoll equipment layer"
+    },
+    {
+      "path": "public/townart/doll/gloves--insulated-assay-gloves-l--mage-f.png",
+      "license": "own",
+      "source": "Gemini / .planning/gemini-results/doll-layers/",
+      "note": "Paperdoll equipment layer"
+    },
+    {
+      "path": "public/townart/doll/gloves--insulated-assay-gloves-l--mage-m.png",
+      "license": "own",
+      "source": "Gemini / .planning/gemini-results/doll-layers/",
+      "note": "Paperdoll equipment layer"
+    },
+    {
+      "path": "public/townart/doll/gloves--insulated-assay-gloves-l--warrior-f.png",
+      "license": "own",
+      "source": "Gemini / .planning/gemini-results/doll-layers/",
+      "note": "Paperdoll equipment layer"
+    },
+    {
+      "path": "public/townart/doll/gloves--insulated-assay-gloves-l--warrior-m.png",
+      "license": "own",
+      "source": "Gemini / .planning/gemini-results/doll-layers/",
+      "note": "Paperdoll equipment layer"
+    },
+    {
+      "path": "public/townart/doll/gloves--insulated-assay-gloves-r--mage-f.png",
+      "license": "own",
+      "source": "Gemini / .planning/gemini-results/doll-layers/",
+      "note": "Paperdoll equipment layer"
+    },
+    {
+      "path": "public/townart/doll/gloves--insulated-assay-gloves-r--mage-m.png",
+      "license": "own",
+      "source": "Gemini / .planning/gemini-results/doll-layers/",
+      "note": "Paperdoll equipment layer"
+    },
+    {
+      "path": "public/townart/doll/gloves--insulated-assay-gloves-r--warrior-f.png",
+      "license": "own",
+      "source": "Gemini / .planning/gemini-results/doll-layers/",
+      "note": "Paperdoll equipment layer"
+    },
+    {
+      "path": "public/townart/doll/gloves--insulated-assay-gloves-r--warrior-m.png",
+      "license": "own",
+      "source": "Gemini / .planning/gemini-results/doll-layers/",
+      "note": "Paperdoll equipment layer"
+    },
+    {
+      "path": "public/townart/doll/gloves--punt-pole-grips-l--mage-f.png",
+      "license": "own",
+      "source": "Gemini / .planning/gemini-results/doll-layers/",
+      "note": "Paperdoll equipment layer"
+    },
+    {
+      "path": "public/townart/doll/gloves--punt-pole-grips-l--mage-m.png",
+      "license": "own",
+      "source": "Gemini / .planning/gemini-results/doll-layers/",
+      "note": "Paperdoll equipment layer"
+    },
+    {
+      "path": "public/townart/doll/gloves--punt-pole-grips-l--warrior-f.png",
+      "license": "own",
+      "source": "Gemini / .planning/gemini-results/doll-layers/",
+      "note": "Paperdoll equipment layer"
+    },
+    {
+      "path": "public/townart/doll/gloves--punt-pole-grips-l--warrior-m.png",
+      "license": "own",
+      "source": "Gemini / .planning/gemini-results/doll-layers/",
+      "note": "Paperdoll equipment layer"
+    },
+    {
+      "path": "public/townart/doll/gloves--punt-pole-grips-r--mage-f.png",
+      "license": "own",
+      "source": "Gemini / .planning/gemini-results/doll-layers/",
+      "note": "Paperdoll equipment layer"
+    },
+    {
+      "path": "public/townart/doll/gloves--punt-pole-grips-r--mage-m.png",
+      "license": "own",
+      "source": "Gemini / .planning/gemini-results/doll-layers/",
+      "note": "Paperdoll equipment layer"
+    },
+    {
+      "path": "public/townart/doll/gloves--punt-pole-grips-r--warrior-f.png",
+      "license": "own",
+      "source": "Gemini / .planning/gemini-results/doll-layers/",
+      "note": "Paperdoll equipment layer"
+    },
+    {
+      "path": "public/townart/doll/gloves--punt-pole-grips-r--warrior-m.png",
+      "license": "own",
+      "source": "Gemini / .planning/gemini-results/doll-layers/",
+      "note": "Paperdoll equipment layer"
+    },
+    {
+      "path": "public/townart/doll/gloves--tannin-stained-wraps-l--mage-f.png",
+      "license": "own",
+      "source": "Gemini / .planning/gemini-results/doll-layers/",
+      "note": "Paperdoll equipment layer"
+    },
+    {
+      "path": "public/townart/doll/gloves--tannin-stained-wraps-l--mage-m.png",
+      "license": "own",
+      "source": "Gemini / .planning/gemini-results/doll-layers/",
+      "note": "Paperdoll equipment layer"
+    },
+    {
+      "path": "public/townart/doll/gloves--tannin-stained-wraps-l--warrior-f.png",
+      "license": "own",
+      "source": "Gemini / .planning/gemini-results/doll-layers/",
+      "note": "Paperdoll equipment layer"
+    },
+    {
+      "path": "public/townart/doll/gloves--tannin-stained-wraps-l--warrior-m.png",
+      "license": "own",
+      "source": "Gemini / .planning/gemini-results/doll-layers/",
+      "note": "Paperdoll equipment layer"
+    },
+    {
+      "path": "public/townart/doll/gloves--tannin-stained-wraps-r--mage-f.png",
+      "license": "own",
+      "source": "Gemini / .planning/gemini-results/doll-layers/",
+      "note": "Paperdoll equipment layer"
+    },
+    {
+      "path": "public/townart/doll/gloves--tannin-stained-wraps-r--mage-m.png",
+      "license": "own",
+      "source": "Gemini / .planning/gemini-results/doll-layers/",
+      "note": "Paperdoll equipment layer"
+    },
+    {
+      "path": "public/townart/doll/gloves--tannin-stained-wraps-r--warrior-f.png",
+      "license": "own",
+      "source": "Gemini / .planning/gemini-results/doll-layers/",
+      "note": "Paperdoll equipment layer"
+    },
+    {
+      "path": "public/townart/doll/gloves--tannin-stained-wraps-r--warrior-m.png",
+      "license": "own",
+      "source": "Gemini / .planning/gemini-results/doll-layers/",
+      "note": "Paperdoll equipment layer"
+    },
+    {
+      "path": "public/townart/doll/gloves--vanes-whisper-grips-l--mage-f.png",
+      "license": "own",
+      "source": "Gemini / .planning/gemini-results/doll-layers/",
+      "note": "Paperdoll equipment layer"
+    },
+    {
+      "path": "public/townart/doll/gloves--vanes-whisper-grips-l--mage-m.png",
+      "license": "own",
+      "source": "Gemini / .planning/gemini-results/doll-layers/",
+      "note": "Paperdoll equipment layer"
+    },
+    {
+      "path": "public/townart/doll/gloves--vanes-whisper-grips-l--warrior-f.png",
+      "license": "own",
+      "source": "Gemini / .planning/gemini-results/doll-layers/",
+      "note": "Paperdoll equipment layer"
+    },
+    {
+      "path": "public/townart/doll/gloves--vanes-whisper-grips-l--warrior-m.png",
+      "license": "own",
+      "source": "Gemini / .planning/gemini-results/doll-layers/",
+      "note": "Paperdoll equipment layer"
+    },
+    {
+      "path": "public/townart/doll/gloves--vanes-whisper-grips-r--mage-f.png",
+      "license": "own",
+      "source": "Gemini / .planning/gemini-results/doll-layers/",
+      "note": "Paperdoll equipment layer"
+    },
+    {
+      "path": "public/townart/doll/gloves--vanes-whisper-grips-r--mage-m.png",
+      "license": "own",
+      "source": "Gemini / .planning/gemini-results/doll-layers/",
+      "note": "Paperdoll equipment layer"
+    },
+    {
+      "path": "public/townart/doll/gloves--vanes-whisper-grips-r--warrior-f.png",
+      "license": "own",
+      "source": "Gemini / .planning/gemini-results/doll-layers/",
+      "note": "Paperdoll equipment layer"
+    },
+    {
+      "path": "public/townart/doll/gloves--vanes-whisper-grips-r--warrior-m.png",
+      "license": "own",
+      "source": "Gemini / .planning/gemini-results/doll-layers/",
+      "note": "Paperdoll equipment layer"
+    },
+    {
+      "path": "public/townart/doll/gloves--wreck-divers-bracers-l--mage-f.png",
+      "license": "own",
+      "source": "Gemini / .planning/gemini-results/doll-layers/",
+      "note": "Paperdoll equipment layer"
+    },
+    {
+      "path": "public/townart/doll/gloves--wreck-divers-bracers-l--mage-m.png",
+      "license": "own",
+      "source": "Gemini / .planning/gemini-results/doll-layers/",
+      "note": "Paperdoll equipment layer"
+    },
+    {
+      "path": "public/townart/doll/gloves--wreck-divers-bracers-l--warrior-f.png",
+      "license": "own",
+      "source": "Gemini / .planning/gemini-results/doll-layers/",
+      "note": "Paperdoll equipment layer"
+    },
+    {
+      "path": "public/townart/doll/gloves--wreck-divers-bracers-l--warrior-m.png",
+      "license": "own",
+      "source": "Gemini / .planning/gemini-results/doll-layers/",
+      "note": "Paperdoll equipment layer"
+    },
+    {
+      "path": "public/townart/doll/gloves--wreck-divers-bracers-r--mage-f.png",
+      "license": "own",
+      "source": "Gemini / .planning/gemini-results/doll-layers/",
+      "note": "Paperdoll equipment layer"
+    },
+    {
+      "path": "public/townart/doll/gloves--wreck-divers-bracers-r--mage-m.png",
+      "license": "own",
+      "source": "Gemini / .planning/gemini-results/doll-layers/",
+      "note": "Paperdoll equipment layer"
+    },
+    {
+      "path": "public/townart/doll/gloves--wreck-divers-bracers-r--warrior-f.png",
+      "license": "own",
+      "source": "Gemini / .planning/gemini-results/doll-layers/",
+      "note": "Paperdoll equipment layer"
+    },
+    {
+      "path": "public/townart/doll/gloves--wreck-divers-bracers-r--warrior-m.png",
+      "license": "own",
+      "source": "Gemini / .planning/gemini-results/doll-layers/",
+      "note": "Paperdoll equipment layer"
+    },
+    {
+      "path": "public/townart/doll/helm--assayers-sight-mask.png",
+      "license": "own",
+      "source": "Gemini / .planning/gemini-results/doll-layers/",
+      "note": "Paperdoll equipment layer"
+    },
+    {
+      "path": "public/townart/doll/helm--conclave-grounding-hat.png",
+      "license": "own",
+      "source": "Gemini / .planning/gemini-results/doll-layers/",
+      "note": "Paperdoll equipment layer"
+    },
+    {
+      "path": "public/townart/doll/helm--coronet-of-cold-clinkers.png",
+      "license": "own",
+      "source": "Gemini / .planning/gemini-results/doll-layers/",
+      "note": "Paperdoll equipment layer"
+    },
+    {
+      "path": "public/townart/doll/helm--dent-of-greystone-wall.png",
+      "license": "own",
+      "source": "Gemini / .planning/gemini-results/doll-layers/",
+      "note": "Paperdoll equipment layer"
+    },
+    {
+      "path": "public/townart/doll/helm--greystone-parapet-helm.png",
+      "license": "own",
+      "source": "Gemini / .planning/gemini-results/doll-layers/",
+      "note": "Paperdoll equipment layer"
+    },
+    {
+      "path": "public/townart/doll/helm--hedge-tutors-hat.png",
+      "license": "own",
+      "source": "Gemini / .planning/gemini-results/doll-layers/",
+      "note": "Paperdoll equipment layer"
+    },
+    {
+      "path": "public/townart/doll/helm--high-assayers-diadem.png",
+      "license": "own",
+      "source": "Gemini / .planning/gemini-results/doll-layers/",
+      "note": "Paperdoll equipment layer"
+    },
+    {
+      "path": "public/townart/doll/helm--inquisition-sight-veil.png",
+      "license": "own",
+      "source": "Gemini / .planning/gemini-results/doll-layers/",
+      "note": "Paperdoll equipment layer"
+    },
+    {
+      "path": "public/townart/doll/helm--midge-veil-hood.png",
+      "license": "own",
+      "source": "Gemini / .planning/gemini-results/doll-layers/",
+      "note": "Paperdoll equipment layer"
+    },
+    {
+      "path": "public/townart/doll/helm--miners-canary-cage.png",
+      "license": "own",
+      "source": "Gemini / .planning/gemini-results/doll-layers/",
+      "note": "Paperdoll equipment layer"
+    },
+    {
+      "path": "public/townart/doll/helm--ossuary-keepers-cowl.png",
+      "license": "own",
+      "source": "Gemini / .planning/gemini-results/doll-layers/",
+      "note": "Paperdoll equipment layer"
+    },
+    {
+      "path": "public/townart/doll/helm--peat-sinkers-cowl.png",
+      "license": "own",
+      "source": "Gemini / .planning/gemini-results/doll-layers/",
+      "note": "Paperdoll equipment layer"
+    },
+    {
+      "path": "public/townart/doll/helm--scriptorium-veil-cowl.png",
+      "license": "own",
+      "source": "Gemini / .planning/gemini-results/doll-layers/",
+      "note": "Paperdoll equipment layer"
+    },
+    {
+      "path": "public/townart/doll/helm--thorn-thicket-cap.png",
+      "license": "own",
+      "source": "Gemini / .planning/gemini-results/doll-layers/",
+      "note": "Paperdoll equipment layer"
+    },
+    {
+      "path": "public/townart/doll/offhand-mage--black-blockade-astrolabe.png",
+      "license": "own",
+      "source": "Gemini / .planning/gemini-results/doll-layers/",
+      "note": "Paperdoll equipment layer"
+    },
+    {
+      "path": "public/townart/doll/offhand-mage--bog-crystal-lens.png",
+      "license": "own",
+      "source": "Gemini / .planning/gemini-results/doll-layers/",
+      "note": "Paperdoll equipment layer"
+    },
+    {
+      "path": "public/townart/doll/offhand-mage--brass-probate-scales.png",
+      "license": "own",
+      "source": "Gemini / .planning/gemini-results/doll-layers/",
+      "note": "Paperdoll equipment layer"
+    },
+    {
+      "path": "public/townart/doll/offhand-mage--ditch-chapel-prism.png",
+      "license": "own",
+      "source": "Gemini / .planning/gemini-results/doll-layers/",
+      "note": "Paperdoll equipment layer"
+    },
+    {
+      "path": "public/townart/doll/offhand-mage--focus.png",
+      "license": "own",
+      "source": "Gemini / .planning/gemini-results/doll-layers/",
+      "note": "Paperdoll equipment layer"
+    },
+    {
+      "path": "public/townart/doll/offhand-mage--fossilized-lien-wand.png",
+      "license": "own",
+      "source": "Gemini / .planning/gemini-results/doll-layers/",
+      "note": "Paperdoll equipment layer"
+    },
+    {
+      "path": "public/townart/doll/offhand-mage--harbor-burners-astrolabe.png",
+      "license": "own",
+      "source": "Gemini / .planning/gemini-results/doll-layers/",
+      "note": "Paperdoll equipment layer"
+    },
+    {
+      "path": "public/townart/doll/offhand-mage--leviathan-rib-focus.png",
+      "license": "own",
+      "source": "Gemini / .planning/gemini-results/doll-layers/",
+      "note": "Paperdoll equipment layer"
+    },
+    {
+      "path": "public/townart/doll/offhand-mage--malriks-margin-notes.png",
+      "license": "own",
+      "source": "Gemini / .planning/gemini-results/doll-layers/",
+      "note": "Paperdoll equipment layer"
+    },
+    {
+      "path": "public/townart/doll/offhand-mage--mirror.png",
+      "license": "own",
+      "source": "Gemini / .planning/gemini-results/doll-layers/",
+      "note": "Paperdoll equipment layer"
+    },
+    {
+      "path": "public/townart/doll/offhand-mage--molten-bell-astrolabe.png",
+      "license": "own",
+      "source": "Gemini / .planning/gemini-results/doll-layers/",
+      "note": "Paperdoll equipment layer"
+    },
+    {
+      "path": "public/townart/doll/offhand-mage--orb.png",
+      "license": "own",
+      "source": "Gemini / .planning/gemini-results/doll-layers/",
+      "note": "Paperdoll equipment layer"
+    },
+    {
+      "path": "public/townart/doll/offhand-mage--ruptured-spire-lens.png",
+      "license": "own",
+      "source": "Gemini / .planning/gemini-results/doll-layers/",
+      "note": "Paperdoll equipment layer"
+    },
+    {
+      "path": "public/townart/doll/offhand-mage--splinter-of-the-third-monolith.png",
+      "license": "own",
+      "source": "Gemini / .planning/gemini-results/doll-layers/",
+      "note": "Paperdoll equipment layer"
+    },
+    {
+      "path": "public/townart/doll/offhand-mage--threshold-keystone-eye.png",
+      "license": "own",
+      "source": "Gemini / .planning/gemini-results/doll-layers/",
+      "note": "Paperdoll equipment layer"
+    },
+    {
+      "path": "public/townart/doll/offhand-mage--tide-scryers-sphere.png",
+      "license": "own",
+      "source": "Gemini / .planning/gemini-results/doll-layers/",
+      "note": "Paperdoll equipment layer"
+    },
+    {
+      "path": "public/townart/doll/offhand-mage--tide-witness-mirror.png",
+      "license": "own",
+      "source": "Gemini / .planning/gemini-results/doll-layers/",
+      "note": "Paperdoll equipment layer"
+    },
+    {
+      "path": "public/townart/doll/offhand-mage--tome.png",
+      "license": "own",
+      "source": "Gemini / .planning/gemini-results/doll-layers/",
+      "note": "Paperdoll equipment layer"
+    },
+    {
+      "path": "public/townart/doll/shield--boardwalk-pavise.png",
+      "license": "own",
+      "source": "Gemini / .planning/gemini-results/doll-layers/",
+      "note": "Paperdoll equipment layer"
+    },
+    {
+      "path": "public/townart/doll/shield--breakwater-kite-shield.png",
+      "license": "own",
+      "source": "Gemini / .planning/gemini-results/doll-layers/",
+      "note": "Paperdoll equipment layer"
+    },
+    {
+      "path": "public/townart/doll/shield--buckler.png",
+      "license": "own",
+      "source": "Gemini / .planning/gemini-results/doll-layers/",
+      "note": "Paperdoll equipment layer"
+    },
+    {
+      "path": "public/townart/doll/shield--cinder-crown-bulwark.png",
+      "license": "own",
+      "source": "Gemini / .planning/gemini-results/doll-layers/",
+      "note": "Paperdoll equipment layer"
+    },
+    {
+      "path": "public/townart/doll/shield--garricks-sluice-lid.png",
+      "license": "own",
+      "source": "Gemini / .planning/gemini-results/doll-layers/",
+      "note": "Paperdoll equipment layer"
+    },
+    {
+      "path": "public/townart/doll/shield--iron-wheel-of-wagon-four.png",
+      "license": "own",
+      "source": "Gemini / .planning/gemini-results/doll-layers/",
+      "note": "Paperdoll equipment layer"
+    },
+    {
+      "path": "public/townart/doll/shield--kite.png",
+      "license": "own",
+      "source": "Gemini / .planning/gemini-results/doll-layers/",
+      "note": "Paperdoll equipment layer"
+    },
+    {
+      "path": "public/townart/doll/shield--portcullis-of-the-first-checkpoint.png",
+      "license": "own",
+      "source": "Gemini / .planning/gemini-results/doll-layers/",
+      "note": "Paperdoll equipment layer"
+    },
+    {
+      "path": "public/townart/doll/shield--ravenwatch-bailey-pavise.png",
+      "license": "own",
+      "source": "Gemini / .planning/gemini-results/doll-layers/",
+      "note": "Paperdoll equipment layer"
+    },
+    {
+      "path": "public/townart/doll/shield--splinter-of-the-bailey.png",
+      "license": "own",
+      "source": "Gemini / .planning/gemini-results/doll-layers/",
+      "note": "Paperdoll equipment layer"
+    },
+    {
+      "path": "public/townart/doll/shield--targe.png",
+      "license": "own",
+      "source": "Gemini / .planning/gemini-results/doll-layers/",
+      "note": "Paperdoll equipment layer"
+    },
+    {
+      "path": "public/townart/doll/shield--tower.png",
+      "license": "own",
+      "source": "Gemini / .planning/gemini-results/doll-layers/",
+      "note": "Paperdoll equipment layer"
+    },
+    {
+      "path": "public/townart/doll/weapon--abbey-witness-staff.png",
+      "license": "own",
+      "source": "Gemini / .planning/gemini-results/doll-layers/",
+      "note": "Paperdoll equipment layer"
+    },
+    {
+      "path": "public/townart/doll/weapon--abdication.png",
+      "license": "own",
+      "source": "Gemini / .planning/gemini-results/doll-layers/",
+      "note": "Paperdoll equipment layer"
+    },
+    {
+      "path": "public/townart/doll/weapon--alder-bridge-watchmans-edge.png",
+      "license": "own",
+      "source": "Gemini / .planning/gemini-results/doll-layers/",
+      "note": "Paperdoll equipment layer"
+    },
+    {
+      "path": "public/townart/doll/weapon--alder-gate-cleaver.png",
+      "license": "own",
+      "source": "Gemini / .planning/gemini-results/doll-layers/",
+      "note": "Paperdoll equipment layer"
+    },
+    {
+      "path": "public/townart/doll/weapon--ash-draft-greatbow.png",
+      "license": "own",
+      "source": "Gemini / .planning/gemini-results/doll-layers/",
+      "note": "Paperdoll equipment layer"
+    },
+    {
+      "path": "public/townart/doll/weapon--basalt-splitter-maul.png",
+      "license": "own",
+      "source": "Gemini / .planning/gemini-results/doll-layers/",
+      "note": "Paperdoll equipment layer"
+    },
+    {
+      "path": "public/townart/doll/weapon--blind-beacon-rune-staff.png",
+      "license": "own",
+      "source": "Gemini / .planning/gemini-results/doll-layers/",
+      "note": "Paperdoll equipment layer"
+    },
+    {
+      "path": "public/townart/doll/weapon--border-assessors-oak.png",
+      "license": "own",
+      "source": "Gemini / .planning/gemini-results/doll-layers/",
+      "note": "Paperdoll equipment layer"
+    },
+    {
+      "path": "public/townart/doll/weapon--bracken-wind-reader.png",
+      "license": "own",
+      "source": "Gemini / .planning/gemini-results/doll-layers/",
+      "note": "Paperdoll equipment layer"
+    },
+    {
+      "path": "public/townart/doll/weapon--caldera-glass-greatbow.png",
+      "license": "own",
+      "source": "Gemini / .planning/gemini-results/doll-layers/",
+      "note": "Paperdoll equipment layer"
+    },
+    {
+      "path": "public/townart/doll/weapon--caldera-trench-flamberge.png",
+      "license": "own",
+      "source": "Gemini / .planning/gemini-results/doll-layers/",
+      "note": "Paperdoll equipment layer"
+    },
+    {
+      "path": "public/townart/doll/weapon--candle-of-the-sunken-sanctum.png",
+      "license": "own",
+      "source": "Gemini / .planning/gemini-results/doll-layers/",
+      "note": "Paperdoll equipment layer"
+    },
+    {
+      "path": "public/townart/doll/weapon--dike-breakers-broadaxe.png",
+      "license": "own",
+      "source": "Gemini / .planning/gemini-results/doll-layers/",
+      "note": "Paperdoll equipment layer"
+    },
+    {
+      "path": "public/townart/doll/weapon--drowned-bell-yew.png",
+      "license": "own",
+      "source": "Gemini / .planning/gemini-results/doll-layers/",
+      "note": "Paperdoll equipment layer"
+    },
+    {
+      "path": "public/townart/doll/weapon--ember-glass-windpiercer.png",
+      "license": "own",
+      "source": "Gemini / .planning/gemini-results/doll-layers/",
+      "note": "Paperdoll equipment layer"
+    },
+    {
+      "path": "public/townart/doll/weapon--expelled-fellows-staff.png",
+      "license": "own",
+      "source": "Gemini / .planning/gemini-results/doll-layers/",
+      "note": "Paperdoll equipment layer"
+    },
+    {
+      "path": "public/townart/doll/weapon--false-light-crozier.png",
+      "license": "own",
+      "source": "Gemini / .planning/gemini-results/doll-layers/",
+      "note": "Paperdoll equipment layer"
+    },
+    {
+      "path": "public/townart/doll/weapon--fen-poachers-yew.png",
+      "license": "own",
+      "source": "Gemini / .planning/gemini-results/doll-layers/",
+      "note": "Paperdoll equipment layer"
+    },
+    {
+      "path": "public/townart/doll/weapon--gale-rigging-composite.png",
+      "license": "own",
+      "source": "Gemini / .planning/gemini-results/doll-layers/",
+      "note": "Paperdoll equipment layer"
+    },
+    {
+      "path": "public/townart/doll/weapon--gallows-root-crozier.png",
+      "license": "own",
+      "source": "Gemini / .planning/gemini-results/doll-layers/",
+      "note": "Paperdoll equipment layer"
+    },
+    {
+      "path": "public/townart/doll/weapon--gorrathuls-cistern-blade.png",
+      "license": "own",
+      "source": "Gemini / .planning/gemini-results/doll-layers/",
+      "note": "Paperdoll equipment layer"
+    },
+    {
+      "path": "public/townart/doll/weapon--harbor-chain-morning-star.png",
+      "license": "own",
+      "source": "Gemini / .planning/gemini-results/doll-layers/",
+      "note": "Paperdoll equipment layer"
+    },
+    {
+      "path": "public/townart/doll/weapon--harborwall-winch-arbalest.png",
+      "license": "own",
+      "source": "Gemini / .planning/gemini-results/doll-layers/",
+      "note": "Paperdoll equipment layer"
+    },
+    {
+      "path": "public/townart/doll/weapon--healer-seras-amputation-saw.png",
+      "license": "own",
+      "source": "Gemini / .planning/gemini-results/doll-layers/",
+      "note": "Paperdoll equipment layer"
+    },
+    {
+      "path": "public/townart/doll/weapon--hollow-reed-of-vesperion.png",
+      "license": "own",
+      "source": "Gemini / .planning/gemini-results/doll-layers/",
+      "note": "Paperdoll equipment layer"
+    },
+    {
+      "path": "public/townart/doll/weapon--indenture-breaker.png",
+      "license": "own",
+      "source": "Gemini / .planning/gemini-results/doll-layers/",
+      "note": "Paperdoll equipment layer"
+    },
+    {
+      "path": "public/townart/doll/weapon--inquisitors-ash-siphon.png",
+      "license": "own",
+      "source": "Gemini / .planning/gemini-results/doll-layers/",
+      "note": "Paperdoll equipment layer"
+    },
+    {
+      "path": "public/townart/doll/weapon--lightning-split-bough.png",
+      "license": "own",
+      "source": "Gemini / .planning/gemini-results/doll-layers/",
+      "note": "Paperdoll equipment layer"
+    },
+    {
+      "path": "public/townart/doll/weapon--obsidian-dais-zweihander.png",
+      "license": "own",
+      "source": "Gemini / .planning/gemini-results/doll-layers/",
+      "note": "Paperdoll equipment layer"
+    },
+    {
+      "path": "public/townart/doll/weapon--ossuary-siphon-rod.png",
+      "license": "own",
+      "source": "Gemini / .planning/gemini-results/doll-layers/",
+      "note": "Paperdoll equipment layer"
+    },
+    {
+      "path": "public/townart/doll/weapon--parish-probate-wand.png",
+      "license": "own",
+      "source": "Gemini / .planning/gemini-results/doll-layers/",
+      "note": "Paperdoll equipment layer"
+    },
+    {
+      "path": "public/townart/doll/weapon--pyre-marshals-flamberge.png",
+      "license": "own",
+      "source": "Gemini / .planning/gemini-results/doll-layers/",
+      "note": "Paperdoll equipment layer"
+    },
+    {
+      "path": "public/townart/doll/weapon--quarrymans-grievance.png",
+      "license": "own",
+      "source": "Gemini / .planning/gemini-results/doll-layers/",
+      "note": "Paperdoll equipment layer"
+    },
+    {
+      "path": "public/townart/doll/weapon--redrock-misericorde.png",
+      "license": "own",
+      "source": "Gemini / .planning/gemini-results/doll-layers/",
+      "note": "Paperdoll equipment layer"
+    },
+    {
+      "path": "public/townart/doll/weapon--saelens-marrow-needle.png",
+      "license": "own",
+      "source": "Gemini / .planning/gemini-results/doll-layers/",
+      "note": "Paperdoll equipment layer"
+    },
+    {
+      "path": "public/townart/doll/weapon--salt-mirage-longbow.png",
+      "license": "own",
+      "source": "Gemini / .planning/gemini-results/doll-layers/",
+      "note": "Paperdoll equipment layer"
+    },
+    {
+      "path": "public/townart/doll/weapon--salt-oath-yew-rod.png",
+      "license": "own",
+      "source": "Gemini / .planning/gemini-results/doll-layers/",
+      "note": "Paperdoll equipment layer"
+    },
+    {
+      "path": "public/townart/doll/weapon--sedge-bank-recurve.png",
+      "license": "own",
+      "source": "Gemini / .planning/gemini-results/doll-layers/",
+      "note": "Paperdoll equipment layer"
+    },
+    {
+      "path": "public/townart/doll/weapon--silt-pickers-willow.png",
+      "license": "own",
+      "source": "Gemini / .planning/gemini-results/doll-layers/",
+      "note": "Paperdoll equipment layer"
+    },
+    {
+      "path": "public/townart/doll/weapon--sluice-masters-wrench.png",
+      "license": "own",
+      "source": "Gemini / .planning/gemini-results/doll-layers/",
+      "note": "Paperdoll equipment layer"
+    },
+    {
+      "path": "public/townart/doll/weapon--sovereigns-brazier-staff.png",
+      "license": "own",
+      "source": "Gemini / .planning/gemini-results/doll-layers/",
+      "note": "Paperdoll equipment layer"
+    },
+    {
+      "path": "public/townart/doll/weapon--tax-collectors-recurve.png",
+      "license": "own",
+      "source": "Gemini / .planning/gemini-results/doll-layers/",
+      "note": "Paperdoll equipment layer"
+    },
+    {
+      "path": "public/townart/doll/weapon--thornwick-mint-focus.png",
+      "license": "own",
+      "source": "Gemini / .planning/gemini-results/doll-layers/",
+      "note": "Paperdoll equipment layer"
+    },
+    {
+      "path": "public/townart/doll/weapon--toll-tower-prod.png",
+      "license": "own",
+      "source": "Gemini / .planning/gemini-results/doll-layers/",
+      "note": "Paperdoll equipment layer"
+    },
+    {
+      "path": "public/townart/doll/weapon--tollkeepers-receipt.png",
+      "license": "own",
+      "source": "Gemini / .planning/gemini-results/doll-layers/",
+      "note": "Paperdoll equipment layer"
+    },
+    {
+      "path": "public/townart/doll/weapon--tongs-of-the-cinderforge.png",
+      "license": "own",
+      "source": "Gemini / .planning/gemini-results/doll-layers/",
+      "note": "Paperdoll equipment layer"
+    },
+    {
+      "path": "public/townart/doll/weapon--turnkey-of-the-north-gate.png",
+      "license": "own",
+      "source": "Gemini / .planning/gemini-results/doll-layers/",
+      "note": "Paperdoll equipment layer"
+    },
+    {
+      "path": "public/townart/doll/weapon--wardens-seal-wand.png",
+      "license": "own",
+      "source": "Gemini / .planning/gemini-results/doll-layers/",
+      "note": "Paperdoll equipment layer"
+    },
+    {
+      "path": "public/townart/doll/weapon--willow-creek-string.png",
+      "license": "own",
+      "source": "Gemini / .planning/gemini-results/doll-layers/",
+      "note": "Paperdoll equipment layer"
     }
   ],
   "townart/portrait-necromancer.png": {

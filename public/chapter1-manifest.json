@@ -1,7 +1,7 @@
 {
  "id": "ch1",
  "cache": "thornvael-ch1-v1",
- "total": 227010423,
+ "total": 270932467,
  "files": [
   {
    "path": "audio/amb_fen_ev0.m4a",
@@ -11600,6 +11600,734 @@
    "size": 221590
   },
   {
+   "path": "townart/doll/armor--apothecarys-oilcloth--mage-f.png",
+   "size": 206194
+  },
+  {
+   "path": "townart/doll/armor--apothecarys-oilcloth--mage-m.png",
+   "size": 202854
+  },
+  {
+   "path": "townart/doll/armor--apothecarys-oilcloth--warrior-f.png",
+   "size": 200668
+  },
+  {
+   "path": "townart/doll/armor--apothecarys-oilcloth--warrior-m.png",
+   "size": 202226
+  },
+  {
+   "path": "townart/doll/armor--arbiters-velvet-mantle--mage-f.png",
+   "size": 223047
+  },
+  {
+   "path": "townart/doll/armor--arbiters-velvet-mantle--mage-m.png",
+   "size": 221856
+  },
+  {
+   "path": "townart/doll/armor--arbiters-velvet-mantle--warrior-f.png",
+   "size": 222355
+  },
+  {
+   "path": "townart/doll/armor--arbiters-velvet-mantle--warrior-m.png",
+   "size": 222636
+  },
+  {
+   "path": "townart/doll/armor--ashen-citadel-cuirass--mage-f.png",
+   "size": 228389
+  },
+  {
+   "path": "townart/doll/armor--ashen-citadel-cuirass--mage-m.png",
+   "size": 224520
+  },
+  {
+   "path": "townart/doll/armor--ashen-citadel-cuirass--warrior-f.png",
+   "size": 226560
+  },
+  {
+   "path": "townart/doll/armor--ashen-citadel-cuirass--warrior-m.png",
+   "size": 226325
+  },
+  {
+   "path": "townart/doll/armor--barnacle-crusted-brigandine--mage-f.png",
+   "size": 216319
+  },
+  {
+   "path": "townart/doll/armor--barnacle-crusted-brigandine--mage-m.png",
+   "size": 184322
+  },
+  {
+   "path": "townart/doll/armor--barnacle-crusted-brigandine--warrior-f.png",
+   "size": 221358
+  },
+  {
+   "path": "townart/doll/armor--barnacle-crusted-brigandine--warrior-m.png",
+   "size": 199941
+  },
+  {
+   "path": "townart/doll/armor--bitumen-sealed-habit--mage-f.png",
+   "size": 173768
+  },
+  {
+   "path": "townart/doll/armor--bitumen-sealed-habit--mage-m.png",
+   "size": 178977
+  },
+  {
+   "path": "townart/doll/armor--bitumen-sealed-habit--warrior-f.png",
+   "size": 177932
+  },
+  {
+   "path": "townart/doll/armor--bitumen-sealed-habit--warrior-m.png",
+   "size": 175273
+  },
+  {
+   "path": "townart/doll/armor--cinder-wing-mantle--mage-f.png",
+   "size": 260266
+  },
+  {
+   "path": "townart/doll/armor--cinder-wing-mantle--mage-m.png",
+   "size": 257285
+  },
+  {
+   "path": "townart/doll/armor--cinder-wing-mantle--warrior-f.png",
+   "size": 257434
+  },
+  {
+   "path": "townart/doll/armor--cinder-wing-mantle--warrior-m.png",
+   "size": 260500
+  },
+  {
+   "path": "townart/doll/armor--deep-current-mantle--mage-f.png",
+   "size": 218747
+  },
+  {
+   "path": "townart/doll/armor--deep-current-mantle--mage-m.png",
+   "size": 220407
+  },
+  {
+   "path": "townart/doll/armor--deep-current-mantle--warrior-f.png",
+   "size": 220412
+  },
+  {
+   "path": "townart/doll/armor--deep-current-mantle--warrior-m.png",
+   "size": 221967
+  },
+  {
+   "path": "townart/doll/armor--gorse-thorn-brigandine--mage-f.png",
+   "size": 181846
+  },
+  {
+   "path": "townart/doll/armor--gorse-thorn-brigandine--mage-m.png",
+   "size": 202637
+  },
+  {
+   "path": "townart/doll/armor--gorse-thorn-brigandine--warrior-f.png",
+   "size": 203018
+  },
+  {
+   "path": "townart/doll/armor--gorse-thorn-brigandine--warrior-m.png",
+   "size": 219450
+  },
+  {
+   "path": "townart/doll/armor--grounded-clerks-habit--mage-f.png",
+   "size": 193851
+  },
+  {
+   "path": "townart/doll/armor--grounded-clerks-habit--mage-m.png",
+   "size": 196635
+  },
+  {
+   "path": "townart/doll/armor--grounded-clerks-habit--warrior-f.png",
+   "size": 201738
+  },
+  {
+   "path": "townart/doll/armor--grounded-clerks-habit--warrior-m.png",
+   "size": 211219
+  },
+  {
+   "path": "townart/doll/armor--lime-ditch-cassock--mage-f.png",
+   "size": 198700
+  },
+  {
+   "path": "townart/doll/armor--lime-ditch-cassock--mage-m.png",
+   "size": 197250
+  },
+  {
+   "path": "townart/doll/armor--lime-ditch-cassock--warrior-f.png",
+   "size": 194348
+  },
+  {
+   "path": "townart/doll/armor--lime-ditch-cassock--warrior-m.png",
+   "size": 193925
+  },
+  {
+   "path": "townart/doll/armor--pauper-roll-cassock--mage-f.png",
+   "size": 220531
+  },
+  {
+   "path": "townart/doll/armor--pauper-roll-cassock--mage-m.png",
+   "size": 220681
+  },
+  {
+   "path": "townart/doll/armor--pauper-roll-cassock--warrior-f.png",
+   "size": 219887
+  },
+  {
+   "path": "townart/doll/armor--pauper-roll-cassock--warrior-m.png",
+   "size": 226325
+  },
+  {
+   "path": "townart/doll/armor--pitch-steeped-winding-sheet--mage-f.png",
+   "size": 134988
+  },
+  {
+   "path": "townart/doll/armor--pitch-steeped-winding-sheet--mage-m.png",
+   "size": 138913
+  },
+  {
+   "path": "townart/doll/armor--pitch-steeped-winding-sheet--warrior-f.png",
+   "size": 138297
+  },
+  {
+   "path": "townart/doll/armor--pitch-steeped-winding-sheet--warrior-m.png",
+   "size": 134983
+  },
+  {
+   "path": "townart/doll/armor--salt-scoured-brigandine--mage-f.png",
+   "size": 96041
+  },
+  {
+   "path": "townart/doll/armor--salt-scoured-brigandine--mage-m.png",
+   "size": 130775
+  },
+  {
+   "path": "townart/doll/armor--salt-scoured-brigandine--warrior-f.png",
+   "size": 151223
+  },
+  {
+   "path": "townart/doll/armor--salt-scoured-brigandine--warrior-m.png",
+   "size": 139450
+  },
+  {
+   "path": "townart/doll/armor--salt-viper-jerkin--mage-f.png",
+   "size": 224769
+  },
+  {
+   "path": "townart/doll/armor--salt-viper-jerkin--mage-m.png",
+   "size": 196331
+  },
+  {
+   "path": "townart/doll/armor--salt-viper-jerkin--warrior-f.png",
+   "size": 228409
+  },
+  {
+   "path": "townart/doll/armor--salt-viper-jerkin--warrior-m.png",
+   "size": 278572
+  },
+  {
+   "path": "townart/doll/armor--shroud-of-unpaid-vows--mage-f.png",
+   "size": 201207
+  },
+  {
+   "path": "townart/doll/armor--shroud-of-unpaid-vows--mage-m.png",
+   "size": 200441
+  },
+  {
+   "path": "townart/doll/armor--shroud-of-unpaid-vows--warrior-f.png",
+   "size": 198333
+  },
+  {
+   "path": "townart/doll/armor--shroud-of-unpaid-vows--warrior-m.png",
+   "size": 200077
+  },
+  {
+   "path": "townart/doll/armor--sovereign-wyrmscale--mage-f.png",
+   "size": 234240
+  },
+  {
+   "path": "townart/doll/armor--sovereign-wyrmscale--mage-m.png",
+   "size": 231599
+  },
+  {
+   "path": "townart/doll/armor--sovereign-wyrmscale--warrior-f.png",
+   "size": 267699
+  },
+  {
+   "path": "townart/doll/armor--sovereign-wyrmscale--warrior-m.png",
+   "size": 292322
+  },
+  {
+   "path": "townart/doll/armor--vestments-of-the-last-pyre--mage-f.png",
+   "size": 209366
+  },
+  {
+   "path": "townart/doll/armor--vestments-of-the-last-pyre--mage-m.png",
+   "size": 209864
+  },
+  {
+   "path": "townart/doll/armor--vestments-of-the-last-pyre--warrior-f.png",
+   "size": 208775
+  },
+  {
+   "path": "townart/doll/armor--vestments-of-the-last-pyre--warrior-m.png",
+   "size": 209739
+  },
+  {
+   "path": "townart/doll/armor--voks-fissure-plate--mage-f.png",
+   "size": 208136
+  },
+  {
+   "path": "townart/doll/armor--voks-fissure-plate--mage-m.png",
+   "size": 222555
+  },
+  {
+   "path": "townart/doll/armor--voks-fissure-plate--warrior-f.png",
+   "size": 241212
+  },
+  {
+   "path": "townart/doll/armor--voks-fissure-plate--warrior-m.png",
+   "size": 243770
+  },
+  {
+   "path": "townart/doll/boots--brens-only-dry-boot--mage-f.png",
+   "size": 174338
+  },
+  {
+   "path": "townart/doll/boots--brens-only-dry-boot--mage-m.png",
+   "size": 175533
+  },
+  {
+   "path": "townart/doll/boots--brens-only-dry-boot--warrior-f.png",
+   "size": 174666
+  },
+  {
+   "path": "townart/doll/boots--brens-only-dry-boot--warrior-m.png",
+   "size": 177957
+  },
+  {
+   "path": "townart/doll/boots--cliff-runner-striders--mage-f.png",
+   "size": 226984
+  },
+  {
+   "path": "townart/doll/boots--cliff-runner-striders--mage-m.png",
+   "size": 224358
+  },
+  {
+   "path": "townart/doll/boots--cliff-runner-striders--warrior-f.png",
+   "size": 224402
+  },
+  {
+   "path": "townart/doll/boots--cliff-runner-striders--warrior-m.png",
+   "size": 222768
+  },
+  {
+   "path": "townart/doll/boots--coal-walkers-sabatons--mage-f.png",
+   "size": 215868
+  },
+  {
+   "path": "townart/doll/boots--coal-walkers-sabatons--mage-m.png",
+   "size": 106088
+  },
+  {
+   "path": "townart/doll/boots--coal-walkers-sabatons--warrior-f.png",
+   "size": 211080
+  },
+  {
+   "path": "townart/doll/boots--coal-walkers-sabatons--warrior-m.png",
+   "size": 210533
+  },
+  {
+   "path": "townart/doll/boots--fen-wader-striders--mage-f.png",
+   "size": 172067
+  },
+  {
+   "path": "townart/doll/boots--fen-wader-striders--mage-m.png",
+   "size": 170307
+  },
+  {
+   "path": "townart/doll/boots--fen-wader-striders--warrior-f.png",
+   "size": 169628
+  },
+  {
+   "path": "townart/doll/boots--fen-wader-striders--warrior-m.png",
+   "size": 177303
+  },
+  {
+   "path": "townart/doll/boots--reef-walker-boots--mage-f.png",
+   "size": 200548
+  },
+  {
+   "path": "townart/doll/boots--reef-walker-boots--mage-m.png",
+   "size": 198323
+  },
+  {
+   "path": "townart/doll/boots--reef-walker-boots--warrior-f.png",
+   "size": 196928
+  },
+  {
+   "path": "townart/doll/boots--reef-walker-boots--warrior-m.png",
+   "size": 197589
+  },
+  {
+   "path": "townart/doll/boots--sedge-walker-treads--mage-f.png",
+   "size": 254412
+  },
+  {
+   "path": "townart/doll/boots--sedge-walker-treads--mage-m.png",
+   "size": 253845
+  },
+  {
+   "path": "townart/doll/boots--sedge-walker-treads--warrior-f.png",
+   "size": 253959
+  },
+  {
+   "path": "townart/doll/boots--sedge-walker-treads--warrior-m.png",
+   "size": 254973
+  },
+  {
+   "path": "townart/doll/boots--silt-plodder-boots--mage-f.png",
+   "size": 174239
+  },
+  {
+   "path": "townart/doll/boots--silt-plodder-boots--mage-m.png",
+   "size": 171301
+  },
+  {
+   "path": "townart/doll/boots--silt-plodder-boots--warrior-f.png",
+   "size": 168393
+  },
+  {
+   "path": "townart/doll/boots--silt-plodder-boots--warrior-m.png",
+   "size": 167203
+  },
+  {
+   "path": "townart/doll/boots--spurs-of-tactical-withdrawal--mage-f.png",
+   "size": 134932
+  },
+  {
+   "path": "townart/doll/boots--spurs-of-tactical-withdrawal--mage-m.png",
+   "size": 133652
+  },
+  {
+   "path": "townart/doll/boots--spurs-of-tactical-withdrawal--warrior-f.png",
+   "size": 132399
+  },
+  {
+   "path": "townart/doll/boots--spurs-of-tactical-withdrawal--warrior-m.png",
+   "size": 132071
+  },
+  {
+   "path": "townart/doll/gloves--ash-runner-grips-l--mage-f.png",
+   "size": 200359
+  },
+  {
+   "path": "townart/doll/gloves--ash-runner-grips-l--mage-m.png",
+   "size": 225731
+  },
+  {
+   "path": "townart/doll/gloves--ash-runner-grips-l--warrior-f.png",
+   "size": 246114
+  },
+  {
+   "path": "townart/doll/gloves--ash-runner-grips-l--warrior-m.png",
+   "size": 251909
+  },
+  {
+   "path": "townart/doll/gloves--ash-runner-grips-r--mage-f.png",
+   "size": 194810
+  },
+  {
+   "path": "townart/doll/gloves--ash-runner-grips-r--mage-m.png",
+   "size": 191471
+  },
+  {
+   "path": "townart/doll/gloves--ash-runner-grips-r--warrior-f.png",
+   "size": 253834
+  },
+  {
+   "path": "townart/doll/gloves--ash-runner-grips-r--warrior-m.png",
+   "size": 284293
+  },
+  {
+   "path": "townart/doll/gloves--bowyers-horn-bracer-l--mage-f.png",
+   "size": 175272
+  },
+  {
+   "path": "townart/doll/gloves--bowyers-horn-bracer-l--mage-m.png",
+   "size": 179137
+  },
+  {
+   "path": "townart/doll/gloves--bowyers-horn-bracer-l--warrior-f.png",
+   "size": 177131
+  },
+  {
+   "path": "townart/doll/gloves--bowyers-horn-bracer-l--warrior-m.png",
+   "size": 176303
+  },
+  {
+   "path": "townart/doll/gloves--bowyers-horn-bracer-r--mage-f.png",
+   "size": 176232
+  },
+  {
+   "path": "townart/doll/gloves--bowyers-horn-bracer-r--mage-m.png",
+   "size": 174262
+  },
+  {
+   "path": "townart/doll/gloves--bowyers-horn-bracer-r--warrior-f.png",
+   "size": 178185
+  },
+  {
+   "path": "townart/doll/gloves--bowyers-horn-bracer-r--warrior-m.png",
+   "size": 175486
+  },
+  {
+   "path": "townart/doll/gloves--glove-l--mage-f.png",
+   "size": 111128
+  },
+  {
+   "path": "townart/doll/gloves--glove-l--mage-m.png",
+   "size": 120766
+  },
+  {
+   "path": "townart/doll/gloves--glove-l--warrior-f.png",
+   "size": 95652
+  },
+  {
+   "path": "townart/doll/gloves--glove-l--warrior-m.png",
+   "size": 276675
+  },
+  {
+   "path": "townart/doll/gloves--glove-r--mage-f.png",
+   "size": 110014
+  },
+  {
+   "path": "townart/doll/gloves--glove-r--mage-m.png",
+   "size": 112187
+  },
+  {
+   "path": "townart/doll/gloves--glove-r--warrior-f.png",
+   "size": 95652
+  },
+  {
+   "path": "townart/doll/gloves--glove-r--warrior-m.png",
+   "size": 123535
+  },
+  {
+   "path": "townart/doll/gloves--insulated-assay-gloves-l--mage-f.png",
+   "size": 223576
+  },
+  {
+   "path": "townart/doll/gloves--insulated-assay-gloves-l--mage-m.png",
+   "size": 156512
+  },
+  {
+   "path": "townart/doll/gloves--insulated-assay-gloves-l--warrior-f.png",
+   "size": 159837
+  },
+  {
+   "path": "townart/doll/gloves--insulated-assay-gloves-l--warrior-m.png",
+   "size": 186718
+  },
+  {
+   "path": "townart/doll/gloves--insulated-assay-gloves-r--mage-f.png",
+   "size": 218538
+  },
+  {
+   "path": "townart/doll/gloves--insulated-assay-gloves-r--mage-m.png",
+   "size": 163149
+  },
+  {
+   "path": "townart/doll/gloves--insulated-assay-gloves-r--warrior-f.png",
+   "size": 220847
+  },
+  {
+   "path": "townart/doll/gloves--insulated-assay-gloves-r--warrior-m.png",
+   "size": 194796
+  },
+  {
+   "path": "townart/doll/gloves--punt-pole-grips-l--mage-f.png",
+   "size": 191314
+  },
+  {
+   "path": "townart/doll/gloves--punt-pole-grips-l--mage-m.png",
+   "size": 183013
+  },
+  {
+   "path": "townart/doll/gloves--punt-pole-grips-l--warrior-f.png",
+   "size": 242258
+  },
+  {
+   "path": "townart/doll/gloves--punt-pole-grips-l--warrior-m.png",
+   "size": 234967
+  },
+  {
+   "path": "townart/doll/gloves--punt-pole-grips-r--mage-f.png",
+   "size": 188512
+  },
+  {
+   "path": "townart/doll/gloves--punt-pole-grips-r--mage-m.png",
+   "size": 205479
+  },
+  {
+   "path": "townart/doll/gloves--punt-pole-grips-r--warrior-f.png",
+   "size": 207495
+  },
+  {
+   "path": "townart/doll/gloves--punt-pole-grips-r--warrior-m.png",
+   "size": 275776
+  },
+  {
+   "path": "townart/doll/gloves--tannin-stained-wraps-l--mage-f.png",
+   "size": 164182
+  },
+  {
+   "path": "townart/doll/gloves--tannin-stained-wraps-l--mage-m.png",
+   "size": 234577
+  },
+  {
+   "path": "townart/doll/gloves--tannin-stained-wraps-l--warrior-f.png",
+   "size": 212740
+  },
+  {
+   "path": "townart/doll/gloves--tannin-stained-wraps-l--warrior-m.png",
+   "size": 250385
+  },
+  {
+   "path": "townart/doll/gloves--tannin-stained-wraps-r--mage-f.png",
+   "size": 209375
+  },
+  {
+   "path": "townart/doll/gloves--tannin-stained-wraps-r--mage-m.png",
+   "size": 193396
+  },
+  {
+   "path": "townart/doll/gloves--tannin-stained-wraps-r--warrior-f.png",
+   "size": 252896
+  },
+  {
+   "path": "townart/doll/gloves--tannin-stained-wraps-r--warrior-m.png",
+   "size": 296087
+  },
+  {
+   "path": "townart/doll/gloves--vanes-whisper-grips-l--mage-f.png",
+   "size": 203771
+  },
+  {
+   "path": "townart/doll/gloves--vanes-whisper-grips-l--mage-m.png",
+   "size": 202437
+  },
+  {
+   "path": "townart/doll/gloves--vanes-whisper-grips-l--warrior-f.png",
+   "size": 198531
+  },
+  {
+   "path": "townart/doll/gloves--vanes-whisper-grips-l--warrior-m.png",
+   "size": 196570
+  },
+  {
+   "path": "townart/doll/gloves--vanes-whisper-grips-r--mage-f.png",
+   "size": 206421
+  },
+  {
+   "path": "townart/doll/gloves--vanes-whisper-grips-r--mage-m.png",
+   "size": 205070
+  },
+  {
+   "path": "townart/doll/gloves--vanes-whisper-grips-r--warrior-f.png",
+   "size": 201883
+  },
+  {
+   "path": "townart/doll/gloves--vanes-whisper-grips-r--warrior-m.png",
+   "size": 192307
+  },
+  {
+   "path": "townart/doll/gloves--wreck-divers-bracers-l--mage-f.png",
+   "size": 180241
+  },
+  {
+   "path": "townart/doll/gloves--wreck-divers-bracers-l--mage-m.png",
+   "size": 160090
+  },
+  {
+   "path": "townart/doll/gloves--wreck-divers-bracers-l--warrior-f.png",
+   "size": 176111
+  },
+  {
+   "path": "townart/doll/gloves--wreck-divers-bracers-l--warrior-m.png",
+   "size": 163712
+  },
+  {
+   "path": "townart/doll/gloves--wreck-divers-bracers-r--mage-f.png",
+   "size": 156745
+  },
+  {
+   "path": "townart/doll/gloves--wreck-divers-bracers-r--mage-m.png",
+   "size": 154008
+  },
+  {
+   "path": "townart/doll/gloves--wreck-divers-bracers-r--warrior-f.png",
+   "size": 176006
+  },
+  {
+   "path": "townart/doll/gloves--wreck-divers-bracers-r--warrior-m.png",
+   "size": 209290
+  },
+  {
+   "path": "townart/doll/helm--assayers-sight-mask.png",
+   "size": 198429
+  },
+  {
+   "path": "townart/doll/helm--conclave-grounding-hat.png",
+   "size": 127154
+  },
+  {
+   "path": "townart/doll/helm--coronet-of-cold-clinkers.png",
+   "size": 162461
+  },
+  {
+   "path": "townart/doll/helm--dent-of-greystone-wall.png",
+   "size": 149891
+  },
+  {
+   "path": "townart/doll/helm--greystone-parapet-helm.png",
+   "size": 163718
+  },
+  {
+   "path": "townart/doll/helm--hedge-tutors-hat.png",
+   "size": 118285
+  },
+  {
+   "path": "townart/doll/helm--high-assayers-diadem.png",
+   "size": 152325
+  },
+  {
+   "path": "townart/doll/helm--inquisition-sight-veil.png",
+   "size": 151251
+  },
+  {
+   "path": "townart/doll/helm--midge-veil-hood.png",
+   "size": 189165
+  },
+  {
+   "path": "townart/doll/helm--miners-canary-cage.png",
+   "size": 172994
+  },
+  {
+   "path": "townart/doll/helm--ossuary-keepers-cowl.png",
+   "size": 186751
+  },
+  {
+   "path": "townart/doll/helm--peat-sinkers-cowl.png",
+   "size": 172900
+  },
+  {
+   "path": "townart/doll/helm--scriptorium-veil-cowl.png",
+   "size": 175813
+  },
+  {
+   "path": "townart/doll/helm--thorn-thicket-cap.png",
+   "size": 204267
+  },
+  {
    "path": "townart/doll/mage-f-armor.png",
    "size": 162383
   },
@@ -11646,6 +12374,126 @@
   {
    "path": "townart/doll/mage-m-staff-crystal.png",
    "size": 41167
+  },
+  {
+   "path": "townart/doll/offhand-mage--black-blockade-astrolabe.png",
+   "size": 183690
+  },
+  {
+   "path": "townart/doll/offhand-mage--bog-crystal-lens.png",
+   "size": 138078
+  },
+  {
+   "path": "townart/doll/offhand-mage--brass-probate-scales.png",
+   "size": 114495
+  },
+  {
+   "path": "townart/doll/offhand-mage--ditch-chapel-prism.png",
+   "size": 160484
+  },
+  {
+   "path": "townart/doll/offhand-mage--focus.png",
+   "size": 147350
+  },
+  {
+   "path": "townart/doll/offhand-mage--fossilized-lien-wand.png",
+   "size": 74670
+  },
+  {
+   "path": "townart/doll/offhand-mage--harbor-burners-astrolabe.png",
+   "size": 194747
+  },
+  {
+   "path": "townart/doll/offhand-mage--leviathan-rib-focus.png",
+   "size": 135755
+  },
+  {
+   "path": "townart/doll/offhand-mage--malriks-margin-notes.png",
+   "size": 191277
+  },
+  {
+   "path": "townart/doll/offhand-mage--mirror.png",
+   "size": 156065
+  },
+  {
+   "path": "townart/doll/offhand-mage--molten-bell-astrolabe.png",
+   "size": 235846
+  },
+  {
+   "path": "townart/doll/offhand-mage--orb.png",
+   "size": 467096
+  },
+  {
+   "path": "townart/doll/offhand-mage--ruptured-spire-lens.png",
+   "size": 195941
+  },
+  {
+   "path": "townart/doll/offhand-mage--splinter-of-the-third-monolith.png",
+   "size": 112354
+  },
+  {
+   "path": "townart/doll/offhand-mage--threshold-keystone-eye.png",
+   "size": 224303
+  },
+  {
+   "path": "townart/doll/offhand-mage--tide-scryers-sphere.png",
+   "size": 157503
+  },
+  {
+   "path": "townart/doll/offhand-mage--tide-witness-mirror.png",
+   "size": 132063
+  },
+  {
+   "path": "townart/doll/offhand-mage--tome.png",
+   "size": 196506
+  },
+  {
+   "path": "townart/doll/shield--boardwalk-pavise.png",
+   "size": 257184
+  },
+  {
+   "path": "townart/doll/shield--breakwater-kite-shield.png",
+   "size": 181827
+  },
+  {
+   "path": "townart/doll/shield--buckler.png",
+   "size": 169023
+  },
+  {
+   "path": "townart/doll/shield--cinder-crown-bulwark.png",
+   "size": 144210
+  },
+  {
+   "path": "townart/doll/shield--garricks-sluice-lid.png",
+   "size": 202303
+  },
+  {
+   "path": "townart/doll/shield--iron-wheel-of-wagon-four.png",
+   "size": 280551
+  },
+  {
+   "path": "townart/doll/shield--kite.png",
+   "size": 343013
+  },
+  {
+   "path": "townart/doll/shield--portcullis-of-the-first-checkpoint.png",
+   "size": 179513
+  },
+  {
+   "path": "townart/doll/shield--ravenwatch-bailey-pavise.png",
+   "size": 155886
+  },
+  {
+   "path": "townart/doll/shield--splinter-of-the-bailey.png",
+   "size": 178136
+  },
+  {
+   "path": "townart/doll/shield--targe.png",
+   "size": 210409
+  },
+  {
+   "path": "townart/doll/shield--tower.png",
+   "size": 152515
   },
   {
    "path": "townart/doll/warrior-f-armor-plate.png",
@@ -11722,6 +12570,202 @@
   {
    "path": "townart/doll/warrior-weapon-spear.png",
    "size": 23245
+  },
+  {
+   "path": "townart/doll/weapon--abbey-witness-staff.png",
+   "size": 65912
+  },
+  {
+   "path": "townart/doll/weapon--abdication.png",
+   "size": 71937
+  },
+  {
+   "path": "townart/doll/weapon--alder-bridge-watchmans-edge.png",
+   "size": 83413
+  },
+  {
+   "path": "townart/doll/weapon--alder-gate-cleaver.png",
+   "size": 111985
+  },
+  {
+   "path": "townart/doll/weapon--ash-draft-greatbow.png",
+   "size": 12551
+  },
+  {
+   "path": "townart/doll/weapon--basalt-splitter-maul.png",
+   "size": 92903
+  },
+  {
+   "path": "townart/doll/weapon--blind-beacon-rune-staff.png",
+   "size": 75882
+  },
+  {
+   "path": "townart/doll/weapon--border-assessors-oak.png",
+   "size": 66146
+  },
+  {
+   "path": "townart/doll/weapon--bracken-wind-reader.png",
+   "size": 10786
+  },
+  {
+   "path": "townart/doll/weapon--caldera-glass-greatbow.png",
+   "size": 12880
+  },
+  {
+   "path": "townart/doll/weapon--caldera-trench-flamberge.png",
+   "size": 76026
+  },
+  {
+   "path": "townart/doll/weapon--candle-of-the-sunken-sanctum.png",
+   "size": 11397
+  },
+  {
+   "path": "townart/doll/weapon--dike-breakers-broadaxe.png",
+   "size": 85880
+  },
+  {
+   "path": "townart/doll/weapon--drowned-bell-yew.png",
+   "size": 64884
+  },
+  {
+   "path": "townart/doll/weapon--ember-glass-windpiercer.png",
+   "size": 83745
+  },
+  {
+   "path": "townart/doll/weapon--expelled-fellows-staff.png",
+   "size": 78941
+  },
+  {
+   "path": "townart/doll/weapon--false-light-crozier.png",
+   "size": 71348
+  },
+  {
+   "path": "townart/doll/weapon--fen-poachers-yew.png",
+   "size": 13162
+  },
+  {
+   "path": "townart/doll/weapon--gale-rigging-composite.png",
+   "size": 69558
+  },
+  {
+   "path": "townart/doll/weapon--gallows-root-crozier.png",
+   "size": 61160
+  },
+  {
+   "path": "townart/doll/weapon--gorrathuls-cistern-blade.png",
+   "size": 111195
+  },
+  {
+   "path": "townart/doll/weapon--harbor-chain-morning-star.png",
+   "size": 89220
+  },
+  {
+   "path": "townart/doll/weapon--harborwall-winch-arbalest.png",
+   "size": 41501
+  },
+  {
+   "path": "townart/doll/weapon--healer-seras-amputation-saw.png",
+   "size": 58934
+  },
+  {
+   "path": "townart/doll/weapon--hollow-reed-of-vesperion.png",
+   "size": 13986
+  },
+  {
+   "path": "townart/doll/weapon--indenture-breaker.png",
+   "size": 23085
+  },
+  {
+   "path": "townart/doll/weapon--inquisitors-ash-siphon.png",
+   "size": 80830
+  },
+  {
+   "path": "townart/doll/weapon--lightning-split-bough.png",
+   "size": 10156
+  },
+  {
+   "path": "townart/doll/weapon--obsidian-dais-zweihander.png",
+   "size": 82432
+  },
+  {
+   "path": "townart/doll/weapon--ossuary-siphon-rod.png",
+   "size": 56356
+  },
+  {
+   "path": "townart/doll/weapon--parish-probate-wand.png",
+   "size": 16628
+  },
+  {
+   "path": "townart/doll/weapon--pyre-marshals-flamberge.png",
+   "size": 79295
+  },
+  {
+   "path": "townart/doll/weapon--quarrymans-grievance.png",
+   "size": 32635
+  },
+  {
+   "path": "townart/doll/weapon--redrock-misericorde.png",
+   "size": 16517
+  },
+  {
+   "path": "townart/doll/weapon--saelens-marrow-needle.png",
+   "size": 7010
+  },
+  {
+   "path": "townart/doll/weapon--salt-mirage-longbow.png",
+   "size": 10960
+  },
+  {
+   "path": "townart/doll/weapon--salt-oath-yew-rod.png",
+   "size": 75312
+  },
+  {
+   "path": "townart/doll/weapon--sedge-bank-recurve.png",
+   "size": 67725
+  },
+  {
+   "path": "townart/doll/weapon--silt-pickers-willow.png",
+   "size": 77655
+  },
+  {
+   "path": "townart/doll/weapon--sluice-masters-wrench.png",
+   "size": 25266
+  },
+  {
+   "path": "townart/doll/weapon--sovereigns-brazier-staff.png",
+   "size": 80002
+  },
+  {
+   "path": "townart/doll/weapon--tax-collectors-recurve.png",
+   "size": 12699
+  },
+  {
+   "path": "townart/doll/weapon--thornwick-mint-focus.png",
+   "size": 104259
+  },
+  {
+   "path": "townart/doll/weapon--toll-tower-prod.png",
+   "size": 9974
+  },
+  {
+   "path": "townart/doll/weapon--tollkeepers-receipt.png",
+   "size": 19593
+  },
+  {
+   "path": "townart/doll/weapon--tongs-of-the-cinderforge.png",
+   "size": 29153
+  },
+  {
+   "path": "townart/doll/weapon--turnkey-of-the-north-gate.png",
+   "size": 28571
+  },
+  {
+   "path": "townart/doll/weapon--wardens-seal-wand.png",
+   "size": 61450
+  },
+  {
+   "path": "townart/doll/weapon--willow-creek-string.png",
+   "size": 59884
   },
   {
    "path": "townart/frame-ashkarath.jpg",

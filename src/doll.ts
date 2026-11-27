@@ -1,16 +1,22 @@
 import { Cls, kitCls } from './sim/item-types';
+import extraLayersJson from './doll-layers.json';
 
 /** Paperdoll: painted overlay layers on a painted base body. Layers are cut from our own
  * generated renders (tools/make-doll-layers.py or tools/extract-layer.py). Percent boxes are relative to the base image, or full-canvas (inset: 0). */
 export interface DollLayer { file: string; x: number; y: number; w: number; h: number; full?: boolean }
 interface DollSet { base: string; baseFilter?: string; layerFilter?: string; layers: Record<string, DollLayer> }
 
+const EXTRA_LAYERS = extraLayersJson as Record<'warrior-m' | 'warrior-f' | 'mage-m' | 'mage-f', Record<string, DollLayer>>;
+
 const LAYER_ORDER: Readonly<Record<string, number>> = {
   back: 0,
   boots: 1,
   armor: 2,
   gloves: 3,
+  'gloves-l': 3,
+  'gloves-r': 3,
   shield: 4,
+  'offhand-mage': 4,
   helm: 5,
   weapon: 6,
   front: 7,
@@ -34,6 +40,7 @@ const SETS: Record<string, DollSet> = {
   'warrior-m': {
     base: 'warrior-m-base.jpg',
     layers: {
+      ...EXTRA_LAYERS['warrior-m'],
       'armor': { file: 'warrior-m-armor-plate.png', x: 33.54, y: 17.5, w: 36.1, h: 28.17 },
       'shield': { file: 'warrior-m-shield-round.png', x: 54.52, y: 35.46, w: 24.33, h: 25.58 },
       'boots': { file: 'warrior-m-boots-riveted.png', x: 30.86, y: 71.49, w: 35.21, h: 26.06 },
@@ -46,6 +53,7 @@ const SETS: Record<string, DollSet> = {
   'warrior-f': {
     base: 'warrior-f-base.jpg',
     layers: {
+      ...EXTRA_LAYERS['warrior-f'],
       'armor': { file: 'warrior-f-armor-plate.png', x: 33.81, y: 16.44, w: 36.07, h: 39.96 },
       'shield': { file: 'warrior-f-shield-round.png', x: 57.18, y: 34.57, w: 23.99, h: 26.08 },
       'boots': { file: 'warrior-f-boots-riveted.png', x: 32.62, y: 71.32, w: 35.15, h: 25.79 },
@@ -58,6 +66,7 @@ const SETS: Record<string, DollSet> = {
   'mage-m': {
     base: 'mage-m-base.jpg',
     layers: {
+      ...EXTRA_LAYERS['mage-m'],
       'armor': { file: 'mage-m-armor.png', x: 29.72, y: 17.65, w: 43.84, h: 66.14 },
       'boots': { file: 'mage-m-boots-tall.png', x: 33.17, y: 81.1, w: 31.96, h: 16.51 },
       'gloves': { file: 'mage-m-gloves-rune.png', x: 31.65, y: 48.29, w: 36.58, h: 12.35 },
@@ -68,6 +77,7 @@ const SETS: Record<string, DollSet> = {
   'mage-f': {
     base: 'mage-f-base.jpg',
     layers: {
+      ...EXTRA_LAYERS['mage-f'],
       'armor': { file: 'mage-f-armor.png', x: 30, y: 6.11, w: 39.88, h: 90.86 },
       'helm': { file: 'mage-f-hat.png', x: 31.67, y: 2.19, w: 36.89, h: 16.63 },
       'boots': { file: 'mage-f-boots.png', x: 35.8, y: 82.94, w: 31.78, h: 14.34 },
@@ -80,11 +90,13 @@ const SETS: Record<string, DollSet> = {
     baseFilter: 'hue-rotate(85deg) saturate(0.85) brightness(0.95)',
     layerFilter: 'hue-rotate(70deg) saturate(0.8) brightness(0.95)',
     layers: {
+      ...EXTRA_LAYERS['warrior-m'],
       'armor': { file: 'warrior-m-armor-plate.png', x: 33.54, y: 17.5, w: 36.1, h: 28.17 },
       'boots': { file: 'warrior-m-boots-riveted.png', x: 30.86, y: 71.49, w: 35.21, h: 26.06 },
       'weapon': { file: 'warrior-m-sword-long.png', x: 9.26, y: 46.81, w: 29.78, h: 37.45 },
       'gloves': { file: 'warrior-m-gloves-gauntlet.png', x: 29.07, y: 44.19, w: 33.45, h: 14.07 },
       'helm': { file: 'warrior-m-helm-plume.png', x: 40.96, y: 2.33, w: 26.06, h: 21.46 },
+      ...WARRIOR_WEAPONS,
     },
   },
   'archer-f': {
@@ -92,11 +104,13 @@ const SETS: Record<string, DollSet> = {
     baseFilter: 'hue-rotate(85deg) saturate(0.85) brightness(0.95)',
     layerFilter: 'hue-rotate(70deg) saturate(0.8) brightness(0.95)',
     layers: {
+      ...EXTRA_LAYERS['warrior-f'],
       'armor': { file: 'warrior-f-armor-plate.png', x: 33.81, y: 16.44, w: 36.07, h: 39.96 },
       'boots': { file: 'warrior-f-boots-riveted.png', x: 32.62, y: 71.32, w: 35.15, h: 25.79 },
       'gloves': { file: 'warrior-f-gloves-gauntlet.png', x: 29.3, y: 40.5, w: 41.67, h: 19.54 },
       'weapon': { file: 'warrior-f-sword-long.png', x: 18.82, y: 44.04, w: 19.76, h: 44.12 },
       'helm': { file: 'warrior-f-helm-crest.png', x: 43.26, y: 1.91, w: 18.31, h: 19.06 },
+      ...WARRIOR_WEAPONS,
     },
   },
   'necromancer-m': {
@@ -104,6 +118,7 @@ const SETS: Record<string, DollSet> = {
     baseFilter: 'saturate(0.45) contrast(1.12) brightness(0.85)',
     layerFilter: 'saturate(0.4) contrast(1.1) brightness(0.85)',
     layers: {
+      ...EXTRA_LAYERS['mage-m'],
       'armor': { file: 'mage-m-armor.png', x: 29.72, y: 17.65, w: 43.84, h: 66.14 },
       'boots': { file: 'mage-m-boots-tall.png', x: 33.17, y: 81.1, w: 31.96, h: 16.51 },
       'gloves': { file: 'mage-m-gloves-rune.png', x: 31.65, y: 48.29, w: 36.58, h: 12.35 },
@@ -116,6 +131,7 @@ const SETS: Record<string, DollSet> = {
     baseFilter: 'saturate(0.45) contrast(1.12) brightness(0.85)',
     layerFilter: 'saturate(0.4) contrast(1.1) brightness(0.85)',
     layers: {
+      ...EXTRA_LAYERS['mage-f'],
       'armor': { file: 'mage-f-armor.png', x: 30, y: 6.11, w: 39.88, h: 90.86 },
       'helm': { file: 'mage-f-hat.png', x: 31.67, y: 2.19, w: 36.89, h: 16.63 },
       'boots': { file: 'mage-f-boots.png', x: 35.8, y: 82.94, w: 31.78, h: 14.34 },
@@ -156,11 +172,33 @@ export function materialFilter(name: string): string {
   return '';
 }
 
+const SHIELD_KINDS: Array<[string, RegExp]> = [
+  ['buckler', /buckler/],
+  ['kite', /kite/],
+  ['targe', /targe/],
+  ['tower', /tower|pavise/],
+];
+
+const OFFHAND_KINDS: Array<[string, RegExp]> = [
+  ['orb', /orb|sphere/],
+  ['tome', /tome|notes|codex|grimoire/],
+  ['mirror', /mirror|astrolabe/],
+  ['focus', /focus|prism|lens|eye|scales/],
+];
+
 /** Layer key for a slot: a unique item with its own painted look ('slot:Item Name') wins over the generic slot look. */
 export function lookFor(set: DollSet, slot: number, _tier: number, name?: string): string | null {
   const k = SLOT_KEY[slot];
   if (!k) return null;
   if (name && set.layers[`${k}:${name}`]) return `${k}:${name}`;
+  if (k === 'shield' && name) {
+    if (set.layers[`offhand-mage:${name}`]) return `offhand-mage:${name}`;
+    const n = name.toLowerCase();
+    const sk = SHIELD_KINDS.find(([, re]) => re.test(n))?.[0];
+    if (sk && set.layers[`shield-${sk}`]) return `shield-${sk}`;
+    const ok = OFFHAND_KINDS.find(([, re]) => re.test(n))?.[0];
+    if (ok && set.layers[`offhand-mage-${ok}`]) return `offhand-mage-${ok}`;
+  }
   const kind = k === 'weapon' && name ? weaponKind(name) : null;
   if (kind && set.layers[`weapon-${kind}`]) return `weapon-${kind}`;
   return set.layers[k] ? k : null;
@@ -183,8 +221,16 @@ export function wornDoll(set: DollSet, defAt: (slot: number) => { name: string; 
   // draw order: armor, boots, gloves, weapon, shield, helm
   for (const slot of [3, 4, 7, 0, 1, 2]) {
     const def = defAt(slot);
-    const key = def ? lookFor(set, slot, def.tier ?? 1, def.name) : null;
-    if (def && key) keys.push({ key, tier: def.tier ?? 1, filter: slot > 1 ? materialFilter(def.name) : '' });
+    if (!def) continue;
+    if (slot === 7 && set.layers[`gloves-l:${def.name}`] && set.layers[`gloves-r:${def.name}`]) {
+      const t = def.tier ?? 1;
+      const f = materialFilter(def.name);
+      keys.push({ key: `gloves-l:${def.name}`, tier: t, filter: f });
+      keys.push({ key: `gloves-r:${def.name}`, tier: t, filter: f });
+      continue;
+    }
+    const key = lookFor(set, slot, def.tier ?? 1, def.name);
+    if (key) keys.push({ key, tier: def.tier ?? 1, filter: slot > 1 ? materialFilter(def.name) : '' });
   }
   return buildDoll(set, keys, base);
 }
